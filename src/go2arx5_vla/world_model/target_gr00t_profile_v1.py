@@ -6,7 +6,7 @@ KIND = 'TARGET_GR00T_ACTION_SIDE_FT_V1'
 PARENT = '94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38'
 UPSTREAM = '51d4c89f72fda44cbf77285c6a8114b52676b8a1'
 VARIANTS = ('FULL_ACTION_SIDE','INTERFACES_LAST6_DIT','INTERFACES_LAST2_DIT')
-MODES = ('CAPACITY','FIT4','FORMAL')
+MODES = ('CAPACITY','RESTORE4','FIT4','FORMAL')
 
 
 def need(ok,reason):
@@ -20,14 +20,14 @@ def recipe(dataset_sha256, statistics_sha256, *, mode, variant, endpoint, microb
     need(mode in MODES and variant in VARIANTS and type(microbatch)is int
          and microbatch in (1,2,4,8), 'DECLARED_CAPACITY_VARIANT')
     need(type(endpoint)is int and endpoint in (
-        (2,)if mode=='CAPACITY'else(200,500)if mode=='FIT4'else(2000,4000,8000)), 'FINITE_PREDECLARED_ENDPOINT')
+        (2,)if mode=='CAPACITY'else(2,4)if mode=='RESTORE4'else(200,500)if mode=='FIT4'else(2000,4000,8000)), 'FINITE_PREDECLARED_ENDPOINT')
     need(memory_policy in('CUDA_RESIDENT','CORE_LOSSLESS_CPU_ACTIVATIONS_2G_V1',
-        'CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2'),'DECLARED_MEMORY_EXECUTION')
+        'CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2','CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4','CORE_FROZEN_BACKBONE_SWAP_NO_WEIGHT_CACHE_V5'),'DECLARED_MEMORY_EXECUTION')
     return dict(schema='WM02_TARGET_GR00T_ACTION_SIDE_RECIPE_V1',profile=PROFILE,kind=KIND,
         mode=mode,variant=variant,endpoint=endpoint,dataset_sha256=dataset_sha256,
         statistics_sha256=statistics_sha256,parent_manifest_sha256=PARENT,upstream_sha=UPSTREAM,
         trainable_scope=variant,visual_and_language_backbone_frozen=True,
-        initial_optimizer='FRESH_FROM_ORIGINAL_CORR2048' if endpoint in (1,2,200,2000) else 'SAME_GENERATION_COMPLETE_STATE_REQUIRED',
+        initial_optimizer='FRESH_FROM_ORIGINAL_CORR2048' if endpoint in (1,2,4,200,2000) else 'SAME_GENERATION_COMPLETE_STATE_REQUIRED',
         effective_batch=32,microbatch=microbatch,accumulation=32//microbatch,
         learning_rate=1e-4,weight_decay=1e-5,seed=20261108,
         scheduler='COSINE_FIXED_8000_WARMUP200'if mode=='FORMAL'else'INDEPENDENT_DIAGNOSTIC_COSINE500_WARMUP8',
@@ -43,13 +43,37 @@ def recipe(dataset_sha256, statistics_sha256, *, mode, variant, endpoint, microb
 
 
 def validate(spec):
+    if spec.get('profile')=='TASK_LEARNING_VANDA_FULL_ACTION_RESTORE_V3':
+        from .task_learning_vanda_restore_v3 import validate as vanda
+        return vanda(spec)
+    if spec.get('profile')=='TASK_LEARNING_GR00T_V1':
+        from .task_learning_training_profile_v1 import validate as continuous
+        return continuous(spec)
+    return validate_original(spec)
+
+
+def expected_recipe(p):
+    if p.get('profile')=='TASK_LEARNING_VANDA_FULL_ACTION_RESTORE_V3':
+        from .task_learning_vanda_restore_v3 import recipe as vanda
+        return vanda(p.get('dataset_sha256'),p.get('statistics_sha256'),endpoint=p.get('endpoint'))
+    if p.get('profile')=='TASK_LEARNING_GR00T_V1':
+        from .task_learning_training_profile_v1 import recipe as continuous
+        return continuous(p.get('dataset_sha256'),p.get('statistics_sha256'),
+            endpoint=p.get('endpoint'),microbatch=p.get('microbatch'),seed=p.get('seed'))
+    need(p.get('profile')==PROFILE,'EXPLICIT_ORIGINAL_OR_CONTINUOUS_RECIPE')
+    return recipe(p.get('dataset_sha256'),p.get('statistics_sha256'),mode=p.get('mode'),
+        variant=p.get('variant'),endpoint=p.get('endpoint'),microbatch=p.get('microbatch'),
+        memory_policy=p.get('memory_policy','CUDA_RESIDENT'))
+
+
+def validate_original(spec):
     p=spec.get('recipe')or{}
     expected=recipe(p.get('dataset_sha256'),p.get('statistics_sha256'),
         mode=p.get('mode'),variant=p.get('variant'),endpoint=p.get('endpoint'),microbatch=p.get('microbatch'),
         memory_policy=p.get('memory_policy','CUDA_RESIDENT'))
     start=spec.get('start_step')
     need(p==expected and spec.get('profile')==PROFILE and spec.get('kind')==KIND
-         and spec.get('execution_site')in('VANDA_A40','CORELAB_4080S')
+         and spec.get('execution_site')in('VANDA_A40','CORELAB_4080S','HOPPER_SINGLE_GPU')
          and spec.get('physics')is False and spec.get('WBC_changes')is False
          and type(start)is int and 0<=start<p['endpoint']
          and spec.get('GR00T_updates')==p['endpoint']-start
@@ -59,9 +83,20 @@ def validate(spec):
          and all(not spec.get(k)for k in ('fusion_binding','pilot1_binding','next1_binding','next2_binding','night1_binding')),
          'INDEPENDENT_NONZERO_INTERNAL_GR00T_NOT_ZERO_UPDATE_LEASE')
     if spec['execution_site']=='CORELAB_4080S':
-        need(p['mode']in('CAPACITY','FIT4')and p['variant']=='INTERFACES_LAST2_DIT'
-             and p['microbatch']==1,'CORE_FIRST_INTERNAL_LAST2_CAPACITY_AND_FIT4_ONLY')
-    else:need(p['memory_policy']=='CUDA_RESIDENT','A40_ORIGINAL_RESIDENT_EXECUTION')
+        if spec.get('core_native_operation')=='FULL_ACTION_RESTORE_ONLY':
+            need(p['mode']=='RESTORE4'and p['variant']=='FULL_ACTION_SIDE'
+                and p['microbatch']==1
+                and p['memory_policy']in('CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2','CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4','CORE_FROZEN_BACKBONE_SWAP_NO_WEIGHT_CACHE_V5')
+                and (start,p['endpoint'])in((0,2),(0,4),(2,4)),
+                'CORE_FULL_ACTION_ORIGINAL_TRAINER_RESTORE_ONLY')
+        else:
+            need(spec.get('core_native_operation')is None and p['memory_policy']not in('CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4','CORE_FROZEN_BACKBONE_SWAP_NO_WEIGHT_CACHE_V5')
+                and p['mode']in('CAPACITY','FIT4')and p['variant']=='INTERFACES_LAST2_DIT'
+                and p['microbatch']==1,'CORE_FIRST_INTERNAL_LAST2_CAPACITY_AND_FIT4_ONLY')
+    else:need(p['memory_policy']=='CUDA_RESIDENT','ORIGINAL_RESIDENT_EXECUTION')
+    if spec['execution_site']=='HOPPER_SINGLE_GPU':
+        need(p['mode']in('RESTORE4','FIT4') and p['variant']=='FULL_ACTION_SIDE',
+             'HOPPER_FIRST_FULL_ACTION_CANARY_AND_FIT4_ONLY')
     if start:
         need(isinstance(spec.get('resume'),dict) and set(spec['resume'])=={'path','sha256'},
              'COMPLETE_SAME_GENERATION_RESUME')

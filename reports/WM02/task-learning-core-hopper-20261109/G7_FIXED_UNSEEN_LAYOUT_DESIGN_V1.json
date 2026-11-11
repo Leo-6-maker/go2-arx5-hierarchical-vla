@@ -1,0 +1,196 @@
+{
+  "schema": "TASK_LEARNING_FIXED_UNSEEN_TEST_LAYOUT_DESIGN_V1",
+  "status": "PREREGISTERED_NOT_COMPILED_OR_RUN",
+  "declared_UTC": "2026-11-09T01:06:00.428945+00:00",
+  "task": "GRASP_RED_LIFT20MM_HOLD1S",
+  "layout_family": "SAME_UNDER_HAND_TABLE_OBJECT_AND_FROZEN_ROBOT_DYNAMICS",
+  "only_varied_parameters": "OBJECT_INITIAL_WORLD_XY_RELATIVE_TO_UNDER_HAND_CENTER",
+  "base_object_initial_xyz_m": [
+    0.26,
+    -0.014,
+    0.62
+  ],
+  "layouts": [
+    {
+      "layout": "TEST01",
+      "offset_xy_m": [
+        -0.0032,
+        -0.0032
+      ],
+      "split": "TEST"
+    },
+    {
+      "layout": "TEST02",
+      "offset_xy_m": [
+        -0.0032,
+        -0.0017
+      ],
+      "split": "TEST"
+    },
+    {
+      "layout": "TEST03",
+      "offset_xy_m": [
+        -0.0032,
+        0.0007
+      ],
+      "split": "TEST"
+    },
+    {
+      "layout": "TEST04",
+      "offset_xy_m": [
+        -0.0032,
+        0.0017
+      ],
+      "split": "TEST"
+    },
+    {
+      "layout": "TEST05",
+      "offset_xy_m": [
+        -0.0032,
+        0.0032
+      ],
+      "split": "TEST"
+    },
+    {
+      "layout": "TEST06",
+      "offset_xy_m": [
+        -0.0012,
+        -0.0032
+      ],
+      "split": "TEST"
+    },
+    {
+      "layout": "TEST07",
+      "offset_xy_m": [
+        -0.0012,
+        -0.0017
+      ],
+      "split": "TEST"
+    },
+    {
+      "layout": "TEST08",
+      "offset_xy_m": [
+        -0.0012,
+        0.0007
+      ],
+      "split": "TEST"
+    },
+    {
+      "layout": "TEST09",
+      "offset_xy_m": [
+        -0.0012,
+        0.0017
+      ],
+      "split": "TEST"
+    },
+    {
+      "layout": "TEST10",
+      "offset_xy_m": [
+        -0.0012,
+        0.0032
+      ],
+      "split": "TEST"
+    },
+    {
+      "layout": "TEST11",
+      "offset_xy_m": [
+        0.0012,
+        -0.0032
+      ],
+      "split": "TEST"
+    },
+    {
+      "layout": "TEST12",
+      "offset_xy_m": [
+        0.0012,
+        -0.0017
+      ],
+      "split": "TEST"
+    },
+    {
+      "layout": "TEST13",
+      "offset_xy_m": [
+        0.0012,
+        0.0007
+      ],
+      "split": "TEST"
+    },
+    {
+      "layout": "TEST14",
+      "offset_xy_m": [
+        0.0012,
+        0.0017
+      ],
+      "split": "TEST"
+    },
+    {
+      "layout": "TEST15",
+      "offset_xy_m": [
+        0.0012,
+        0.0032
+      ],
+      "split": "TEST"
+    },
+    {
+      "layout": "TEST16",
+      "offset_xy_m": [
+        0.0032,
+        -0.0032
+      ],
+      "split": "TEST"
+    },
+    {
+      "layout": "TEST17",
+      "offset_xy_m": [
+        0.0032,
+        -0.0017
+      ],
+      "split": "TEST"
+    },
+    {
+      "layout": "TEST18",
+      "offset_xy_m": [
+        0.0032,
+        0.0007
+      ],
+      "split": "TEST"
+    },
+    {
+      "layout": "TEST19",
+      "offset_xy_m": [
+        0.0032,
+        0.0017
+      ],
+      "split": "TEST"
+    },
+    {
+      "layout": "TEST20",
+      "offset_xy_m": [
+        0.0032,
+        0.0032
+      ],
+      "split": "TEST"
+    }
+  ],
+  "planned_independent_restarts": [
+    1,
+    2,
+    3
+  ],
+  "planned_conditions_per_frozen_method_and_training_seed": 60,
+  "training_seeds": [
+    20261109,
+    20261110,
+    20261111
+  ],
+  "later_training_seeds": "ONLY_AFTER_FIRST_SEED_ACTUAL_LEARNING_AND_NATIVE_GAINS_PER_FIXED_GOAL",
+  "methods": "COMMON_FROZEN_B0_AND_ELIGIBLE_FROZEN_SFT_OR_POSTTRAINING_CONDITIONS; DECLARE_WEIGHTS_BEFORE_TEST",
+  "disjoint_from_TRAIN_DEV_QUALIFICATION_RECOVERY_layouts": true,
+  "layout_selection_uses_model_results": false,
+  "old_T06_C01_or_old_DEV_relabelled": false,
+  "TEST_results_read": false,
+  "TEST_optimizer_visits": 0,
+  "new_native_integrations": 0,
+  "new_model_updates": 0,
+  "interpretation": "Local held-out object positions only; no claim of broad object, scene, robot or real-world generalization."
+}

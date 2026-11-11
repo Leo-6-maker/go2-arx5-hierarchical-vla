@@ -1,0 +1,87 @@
+{
+  "schema": "TASK_LEARNING_G2_CONSTRUCTION_ACTUAL_V1",
+  "run_id": "task-learning-grasp-construction-20261109-07",
+  "source_sha": "8586cfe3d79987420e941440791fd0a07f8e4921",
+  "scene_sha256": "13eb01d2715ac6b53d0ad938ecab47befb6149b4d9e8d430985d93d8417253c8",
+  "status": "CLOSED_ORIGINAL_REFERENCE_FLANGE_COLLISION_REJECT_DURING_DESCEND",
+  "actual_native_integrations": 10703,
+  "Teacher_decisions": 6,
+  "complete_Teacher_H40_chunks": 5,
+  "complete_chunk_confirmed_50ms_commands": 200,
+  "rejected_reference_submitted_or_executed": false,
+  "reference_contact_details": {
+    "geom_ids": [
+      73,
+      78
+    ],
+    "geom_names": [
+      null,
+      "task_cube_geom"
+    ],
+    "body_names": [
+      "x5_link6",
+      "task_cube"
+    ],
+    "distance_m": -1.3768923394393007e-06,
+    "planned_native_tick": 595,
+    "planned_TCP": [
+      [
+        0.9931025794852834,
+        0.011469899919985996,
+        0.11668636602235048,
+        0.2706618019726565
+      ],
+      [
+        -0.00951598167472422,
+        0.999805259734142,
+        -0.017288397864207192,
+        -0.013781971701263131
+      ],
+      [
+        -0.11686193868168863,
+        0.01605876719335318,
+        0.9930183297823797,
+        0.6549085148552847
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "planned_arm_qpos": [
+      0.013874667180887708,
+      0.7679419188360926,
+      0.4074117845278888,
+      0.2834251414246703,
+      0.024762547522756303,
+      -0.03185060963180735
+    ]
+  },
+  "standing_through_last_completed_chunk": {
+    "max_base_m": 0.0013270100106746333,
+    "max_foot_planar_m": 0.0012903664770217657,
+    "minimum_support": 4,
+    "passes": true
+  },
+  "task_success": false,
+  "expert_training_eligible": false,
+  "qualified_full_demonstrations": 0,
+  "formal_Teacher_qualification_attempts": 0,
+  "worker_exit_code": 1,
+  "lease_status": "CLOSED",
+  "shutdown_clean": true,
+  "all_owned_child_exit_codes": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "physics_stops": [],
+  "wall_s": 149.77962568495423,
+  "CPU_s": 321.782287505,
+  "cgroup_peak_bytes": 3446247424,
+  "WBC_startup_native_safety_dynamics_or_2ms_changed": false,
+  "next_action": "TEACHER_TOOL_X_GRASP_OFFSET_WITH_SAME_OBJECTIVE_SCENE_AND_UNCHANGED_ORIGINAL_CERTIFICATE"
+}

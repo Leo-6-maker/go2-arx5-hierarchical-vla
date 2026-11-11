@@ -1,0 +1,88 @@
+{
+  "schema": "TASK_LEARNING_FULL100_CORE_PROCESSOR_TRANSFER_HOPPER_ADMISSION_ACTUAL_V2",
+  "EVIDENCE_ASOF_UTC": "2026-11-09T12:31:02.630646+00:00",
+  "EVIDENCE_ASOF_SGT": "2026-11-09T20:31:02.630646+08:00",
+  "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
+  "QUESTION": "Did all native data pass the actual original Core Processor and private handoff, and can Hopper admit the next finite job?",
+  "CHANGED": [
+    "Corrected two SSH shell quoting boundaries; qualified with three focused tests and an actual Core read before private transfer02.",
+    "Separated continuous-data transfer Journal identity from historical FIT4 TRANSFER.",
+    "Used user-supplied Hopper2 route with its official login shell; project query, balance, quota and queues passed; no credential or system configuration edits."
+  ],
+  "ACTUAL": {
+    "Core_export": {
+      "status": "CORE_CONTINUOUS_DATA_AND_ALL_UNIQUE_DECISIONS_PROCESSOR_SEALED",
+      "manifest_sha256": "ff94fc77c5a8309dc1460032b308c2f213c96c088449ee1821b3e46e045107b0",
+      "statistics_sha256": "0faba237b8922ed9bbd53bd6732a9f449f46dcb6fc19017eae8f3cffa3afd9f2",
+      "transfer_inventory_sha256": "4ee01b79f770d2aa21efd76686fff5113bf9c65d871f106c1562b0c144530a04",
+      "transfer_bytes": 155878772,
+      "CUDA_initialized": false,
+      "exit_code": 0,
+      "failure": null,
+      "source_sha": "c4b8453715b702cc479844e15afbfacc88f582a3",
+      "child_CPU_s": 42.973043000000004,
+      "wall_s": 445.8392683882266,
+      "CPU_s": 115.06395796,
+      "new_native_integrations": 0,
+      "new_policy_models": 0,
+      "new_optimizer_updates": 0,
+      "PBS_submissions": 0
+    },
+    "Core_export_lease_status": "CLOSED",
+    "Core_export_closed_epoch": 1794225457.9641774,
+    "Core_Processor": {
+      "status": "PASS_ACTUAL_OFFICIAL_PROCESSOR_ROUNDTRIP",
+      "manifest_sha256": "ff94fc77c5a8309dc1460032b308c2f213c96c088449ee1821b3e46e045107b0",
+      "statistics_sha256": "0faba237b8922ed9bbd53bd6732a9f449f46dcb6fc19017eae8f3cffa3afd9f2",
+      "processed_TRAIN_windows": 1450,
+      "maximum_abs_error": 4.3481549250046214e-08,
+      "fixed_component_tolerance": 1e-06,
+      "TRAIN_only_statistics": true,
+      "CUDA_initialized": false,
+      "wall_s": 35.93353327503428,
+      "CPU_s": 41.391963537
+    },
+    "private_transfer": {
+      "epoch": 1794226458.236035,
+      "status": "PASS_PRIVATE_TASK_LEARNING_DATA_TRANSFER",
+      "result_sha256": "8f10c4070e1af8ed13ae7faf229db6a16b940b83f0a7e000bf5e72114915a5b2",
+      "lease_sha256": "00008aae827f71ea2d03cb53268e0f27da898c6dec57186c074d4f402bbb05a9",
+      "manifest_sha256": "ff94fc77c5a8309dc1460032b308c2f213c96c088449ee1821b3e46e045107b0",
+      "statistics_sha256": "0faba237b8922ed9bbd53bd6732a9f449f46dcb6fc19017eae8f3cffa3afd9f2",
+      "bytes": 155878772,
+      "worker_exit": 0,
+      "TRAIN_episodes": 100,
+      "DEV_reference_episodes": 4,
+      "TRAIN_unique_windows": 1450,
+      "TRAIN_only_statistics": true,
+      "DEV_references_are_BC": false
+    },
+    "Hopper_Processor_job": {
+      "job_id": "708392.hopper-m-02",
+      "GPUs": 1,
+      "requested_GPU": "H200",
+      "wall_limit_s": 1800,
+      "held_resources_independently_checked": true,
+      "release_exit_code": 0,
+      "actual_snapshot_epoch": 1794227356.3157432,
+      "PBS_job_state": "Q",
+      "comment": "Insufficient amount of resource: ngpus",
+      "model_loads": 0,
+      "optimizer_updates": 0
+    },
+    "original_batchscan": {
+      "job_id": "707720.hopper-m-02",
+      "actual_snapshot_epoch": 1794227356.3157432,
+      "PBS_job_state": "Q",
+      "comment": "Insufficient amount of resource: ngpus",
+      "duplicate_submissions": 0
+    }
+  },
+  "NEGATIVE": [
+    "Transfer01 failed at the read command before archive/remote effects; failure retained.",
+    "Hopper1 project token path failed; first Hopper2 non-login queue query lacked site PBS environment. Both preparations stopped before registration/submission; subsequent official login environment passed.",
+    "Hopper Processor is queued, not a completed qualification. Formal SFT2000, Core task-policy package, student DEV and TEST are still NOT_RUN."
+  ],
+  "DECISION": "Keep the actual complete data and the two unique queued jobs. Continue independent remaining performance work; use only actual Processor terminal qualification before formal SFT.",
+  "NEXT_GATE": "Hopper Processor CLOSED0/PBS F0; then original CORR2048 full-action SFT2000 with full actual admission; scan waiting may use the independently qualified microbatch1 successor under V2 section6.1."
+}

@@ -327,14 +327,25 @@ def build(panel_path, runs_root, output, *, bundle_kind='FORMAL', fit4_selection
 
 class TargetNativeDataset(OriginalDataset):
     """Use the original Processor/collator; select only real H40 anchor rows."""
+    MANIFEST_SCHEMA=SCHEMA
+    MANIFEST_DOMAIN=DOMAIN
+    MANIFEST_PROFILE='TARGET_GR00T_V1'
+
+    def validate_manifest(self):
+        need(self.manifest.get('schema')==self.MANIFEST_SCHEMA
+             and self.manifest.get('domain')==self.MANIFEST_DOMAIN
+             and self.manifest.get('profile')==self.MANIFEST_PROFILE,'TARGET_PROFILE_NOT_OLD_SOURCE')
+
+    def select_rows(self):
+        return [(r,a)for r in self.manifest['episodes']if r['split']==self.split for a in range(r['windows'])]
+
     def __init__(self,root,source,cosmos,split='TRAIN',*,for_optimization=False,trace_root=None,
                  optimization_site='VANDA_A40'):
         need(split in ('TRAIN','DEV') and (not for_optimization or split=='TRAIN'),'NO_DEV_OPTIMIZATION')
         self.root=Path(root);self.source=str(source);self.cosmos=str(cosmos);self.split=split
         self.for_optimization=for_optimization
         self.manifest=json.loads((self.root/'DATASET_MANIFEST.json').read_bytes())
-        need(self.manifest.get('schema')==SCHEMA and self.manifest.get('domain')==DOMAIN
-             and self.manifest.get('profile')=='TARGET_GR00T_V1','TARGET_PROFILE_NOT_OLD_SOURCE')
+        self.validate_manifest()
         self.statistics_sha=self.manifest['statistics_sha256'];self.statistics=self.get_dataset_statistics()
         self.manifest_sha=digest(self.root/'DATASET_MANIFEST.json')
         if for_optimization:
@@ -344,21 +355,23 @@ class TargetNativeDataset(OriginalDataset):
                  and admission.get('manifest_sha256')==self.manifest_sha
                  and admission.get('statistics_sha256')==self.statistics_sha
                  and admission.get('TRAIN_only_statistics')is True,'ACTUAL_TARGET_PROCESSOR_QUALIFICATION_REQUIRED')
-            need(optimization_site in('VANDA_A40','CORELAB_4080S'),'DECLARED_OPTIMIZATION_SITE')
+            need(optimization_site in('VANDA_A40','CORELAB_4080S','HOPPER_SINGLE_GPU'),'DECLARED_OPTIMIZATION_SITE')
             if optimization_site=='CORELAB_4080S':
                 checked=admission;directory=self.root/'target-processor-v1'
             else:
-                checked=json.loads((self.root/'PROCESSOR_VANDA_RECONSTRUCTION.json').read_bytes())
+                transferred='hopper'if optimization_site=='HOPPER_SINGLE_GPU'else'vanda'
+                checked=json.loads((self.root/('PROCESSOR_'+transferred.upper()+'_RECONSTRUCTION.json')).read_bytes())
                 need(checked.get('status')=='PASS_ACTUAL_CROSS_SITE_TARGET_PROCESSOR_RECONSTRUCTION'
                      and checked.get('manifest_sha256')==self.manifest_sha
                      and checked.get('statistics_sha256')==self.statistics_sha
                      and checked.get('original_Core_admission_sha256')==digest(self.root/'PROCESSOR_TRAINING_ADMISSION.json')
                      and checked.get('actual_cross_site_processed_batch_identity')is True,
-                     'ACTUAL_VANDA_PROCESSOR_RECONSTRUCTION_BEFORE_TRAINING')
-                directory=self.root/'target-processor-vanda-v1'
+                     'ACTUAL_'+transferred.upper()+'_PROCESSOR_RECONSTRUCTION_BEFORE_TRAINING')
+                if transferred=='hopper':need(checked.get('transfer_site')=='HOPPER_SINGLE_GPU','REAL_HOPPER_PROCESSOR_SITE')
+                directory=self.root/('target-processor-'+transferred+'-v1')
             need(bool(checked['processor_files'])and all(digest(directory/name)==pin
                 for name,pin in checked['processor_files'].items()),'SAVED_QUALIFIED_TARGET_PROCESSOR_FILES')
-        self.rows=[(r,a)for r in self.manifest['episodes']if r['split']==split for a in range(r['windows'])]
+        self.rows=self.select_rows()
         need(bool(self.rows),'NONEMPTY_SPLIT')
         self.processor=None;self.cached_id=None;self.cached=None;self.raw_bindings={};self.seed=20261108
         self.trace_root=Path(trace_root)if trace_root is not None else None

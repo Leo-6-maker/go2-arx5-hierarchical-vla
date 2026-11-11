@@ -45,7 +45,7 @@ def _verify_actual_fk(adapter, packet, measured, *, expected_step=recipe.DECISIO
     state = getattr(adapter, 'actual_state', None)
     need(type(state) is ActualState, 'ORIGINAL_ACTUALSTATE_READER_REQUIRED')
     expected_scene=recipe.SCENE
-    if adapter.spec.get('phase')in('collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1'):
+    if adapter.spec.get('phase')in('collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1','collect-target-task-learning-grasp-v1'):
         from .stable_task_scene_v1 import scene
         expected_scene=scene(adapter.spec)['compiled']['scene_sha256']
     if adapter.spec.get('task_condition')in ('SOURCE_PHASE_C01_QUERY_ONLY_AT34303_V1','SOURCE_PHASE_C01_CPU_HOLD_OR_5MM_TEACHER_V1'):
@@ -108,7 +108,7 @@ def run_initialization_program(adapter, episode, source, *, recipe_module=recipe
                  ('collect-target-stable-task-eval-v1','STABLE_TASK_EVAL_V1'),
                  ('collect-target-stable-task-closed-loop-v1','STABLE_TASK_CLOSED_LOOP_V1'),
                  ('collect-target-gr00t-prefix-loop-v1','TARGET_GR00T_PREFIX_LOOP_V1'),
-                 ('collect-target-teacher-prefix-diagnostic-v1','TARGET_TEACHER_PREFIX_DIAGNOSTIC_V1'))
+                 ('collect-target-teacher-prefix-diagnostic-v1','TARGET_TEACHER_PREFIX_DIAGNOSTIC_V1'),('collect-target-task-learning-grasp-v1','TASK_LEARNING_GRASP_LIFT_HOLD_V1'))
         and adapter.spec.get('live_skill_start_step') == boundary
         and type(registered_end) is int and (boundary < registered_end <= 66503 or
             (adapter.spec.get('task_condition')=='SOURCE_PHASE_C01_QUERY_ONLY_AT34303_V1'and registered_end==boundary==34303))
@@ -118,7 +118,7 @@ def run_initialization_program(adapter, episode, source, *, recipe_module=recipe
          'ACTUAL_NEW_PHASE_AND_STATIC_ENDPOINT')
     c01=adapter.spec.get('task_condition')in ('SOURCE_PHASE_C01_QUERY_ONLY_AT34303_V1','SOURCE_PHASE_C01_CPU_HOLD_OR_5MM_TEACHER_V1')
     expected_source={'source_observation_bytes', 'T_source_from_target', 'scene_sha256'}|({'nominal_calibration_reference'}if c01 else set())
-    if actual_phase in('collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1'):expected_source|={'stable_task_scene_reference'}
+    if actual_phase in('collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1','collect-target-task-learning-grasp-v1'):expected_source|={'stable_task_scene_reference'}
     need(set(source) == expected_source,
          'EXACT_FROZEN_SOURCE_CONFIGURATION')
     paths = {name: adapter.output / name for name in (

@@ -4,6 +4,7 @@ Caller supplies the original registry/Journal/PBS owner. This module cannot
 submit PBS, schedule another worker, run physics or train an external adapter.
 """
 import json,os,time
+from contextlib import nullcontext
 from pathlib import Path
 
 from . import target_gr00t_profile_v1 as profile
@@ -25,6 +26,9 @@ def site(spec):
     if spec.get('execution_site')=='CORELAB_4080S':
         from .target_gr00t_core_v1 import site as core_site
         return core_site(spec)
+    if spec.get('execution_site')=='HOPPER_SINGLE_GPU':
+        from .task_learning_hopper_v1 import site as hopper_site
+        return hopper_site(spec)
     import subprocess
     from scripts.pi0294.multitask.shared_site import validate_vanda,project_quota,mount_type,PROJECT_SCRATCH
     p=profile.validate(spec);now=time.time();root=Path(spec['registered_root'])
@@ -54,7 +58,7 @@ def site(spec):
          and lease.get('job_id')==jid,'NEW_NONZERO_PROFILE_ACTIVE_LEASE')
     registry=json.loads(Path(spec['registry']).read_bytes())
     need(any(r.get('path')==str(root)and r.get('role')==spec['role']
-             and r.get('scope')=='TARGET_GR00T_V1'for r in registry['entries']),'ORIGINAL_REGISTERED_TARGET_OWNER')
+             and r.get('scope')==spec['profile']for r in registry['entries']),'ORIGINAL_REGISTERED_TARGET_OWNER')
     for name,pin in spec['source_files'].items():
         path=Path(spec['source_root'])/name
         need(path.resolve().is_relative_to(Path(spec['source_root']))and digest(path)==pin,
@@ -64,7 +68,10 @@ def site(spec):
     return p
 
 
-def action_contract(model,variant):
+def action_contract(model,variant,*,profile_name=profile.PROFILE):
+    """Select the original action tensors; the profile names their provenance."""
+    profile.need(profile_name in(profile.PROFILE,'TASK_LEARNING_GR00T_V1','TASK_LEARNING_VANDA_FULL_ACTION_RESTORE_V3'),
+        'EXPLICIT_ORIGINAL_OR_CONTINUOUS_ACTION_PARAMETER_IDENTITY')
     from scripts.pi0294.generalization.minimal_adapter import ParameterContract,LEAVES
     base=ParameterContract(model,'E1_ADAPTER_ONLY',10)
     names=profile.whitelist(tuple(dict(model.named_parameters())),base.trainable_names,variant)
@@ -82,7 +89,7 @@ def action_contract(model,variant):
             self.validate()
             rows=[dict(name=n,shape=list(model.get_parameter(n).shape),numel=model.get_parameter(n).numel(),
                 dtype=str(model.get_parameter(n).dtype))for n in names]
-            return dict(profile=profile.PROFILE,variant=variant,target_category=10,
+            return dict(profile=profile_name,variant=variant,target_category=10,
                 trainable=rows,trainable_numel=sum(r['numel']for r in rows),
                 visual_and_language_backbone_frozen=True,external_adapter_trainables=0)
     return Contract()
@@ -92,13 +99,27 @@ def semantic_recipe(p):
     return {k:v for k,v in p.items()if k not in ('endpoint','initial_optimizer')}
 
 
+def dataset_type(recipe):
+    if recipe.get('profile')in('TASK_LEARNING_GR00T_V1','TASK_LEARNING_VANDA_FULL_ACTION_RESTORE_V3'):
+        from .task_learning_native_dataset_v1 import TaskLearningNativeDataset
+        return TaskLearningNativeDataset
+    profile.need(recipe.get('profile')==profile.PROFILE,'EXPLICIT_TARGET_DATASET_PROFILE')
+    from .target_gr00t_dataset_v1 import TargetNativeDataset
+    return TargetNativeDataset
+
+
 def gpu_identity(torch,spec):
     from .runtime import cuda_uuid
     core=spec.get('execution_site')=='CORELAB_4080S'
-    name='NVIDIA GeForce RTX 4080 SUPER'if core else'NVIDIA A40'
+    hopper=spec.get('execution_site')=='HOPPER_SINGLE_GPU'
+    name=spec['GPU_name']if hopper else'NVIDIA GeForce RTX 4080 SUPER'if core else'NVIDIA A40'
     profile.need(torch.cuda.device_count()==1 and torch.cuda.get_device_name(0)==name,
         'ACTUAL_SINGLE_DECLARED_GPU')
     properties=torch.cuda.get_device_properties(0)
+    if hopper:
+        from .task_learning_hopper_v1 import actual_gpu,allocation_model
+        actual_gpu(dict(count=torch.cuda.device_count(),name=name,major=properties.major,
+            total_memory=properties.total_memory),allocation_model(spec))
     actual=cuda_uuid(properties.uuid)
     profile.need(actual==cuda_uuid(spec['GPU_uuid']),'ALLOCATED_EXACT_GPU_UUID')
     if core:torch.cuda.set_per_process_memory_fraction(spec['allocator_limit_bytes']/properties.total_memory)
@@ -194,7 +215,7 @@ def load_checkpoint(path,pin,*,model,contract,trainer,spec,guard):
 
 def run(spec):
     p=site(spec)
-    from .target_gr00t_dataset_v1 import TargetNativeDataset
+    Dataset=dataset_type(p)
     from scripts.pi0294.native_dataset import official_import,ProcessedCollator
     from scripts.pi0294.numerics import prepare_environment,configure_torch,MODE
     from scripts.pi0292.durable import write
@@ -209,11 +230,13 @@ def run(spec):
     for name,pin in spec['parent']['files'].items():
         path=parent/name
         profile.need(path.resolve().is_relative_to(parent)and digest(path)==pin,'ACTUAL_ORIGINAL_CORR_PARENT:'+name)
-    data=TargetNativeDataset(bindings['dataset'],bindings['source'],bindings['cosmos'],
+    data=Dataset(bindings['dataset'],bindings['source'],bindings['cosmos'],
         for_optimization=True,trace_root=root/'sample-trace',optimization_site=spec['execution_site'])
     profile.need(data.manifest_sha==p['dataset_sha256']and data.statistics_sha==p['statistics_sha256'],
                  'SEALED_REAL_TARGET_TRAIN_AND_PROCESSOR')
-    profile.need(data.manifest.get('bundle_kind')==('FORMAL'if p['mode']=='FORMAL'else'FIT4_DIAGNOSTIC'),
+    bundle=('FORMAL_TASK_LEARNING_V1'if p['profile']in('TASK_LEARNING_GR00T_V1','TASK_LEARNING_VANDA_FULL_ACTION_RESTORE_V3')else
+        'FORMAL'if p['mode']=='FORMAL'else'FIT4_DIAGNOSTIC')
+    profile.need(data.manifest.get('bundle_kind')==bundle,
                  'FIT4_QUALIFICATION_NOT_FORMAL_MODEL')
     prepare_environment(MODE);official_import(bindings['source'])
     import torch
@@ -226,22 +249,39 @@ def run(spec):
     from scripts.pi0294.generalization.minimal_adapter import frozen_fingerprint
     from scripts.pi0294.e1.trainer import learning_rate_multiplier
     configure_torch(torch,MODE);torch.set_num_threads(4);set_seed(p['seed'])
+    if spec.get('core_native_operation')=='FULL_ACTION_RESTORE_ONLY':
+        # Parent verification can take minutes on shared storage. Recheck the
+        # same declared envelope immediately before initializing CUDA/model.
+        from .target_gr00t_core_v1 import allocator
+        allocator(spec,full=True,root=root,name='BEFORE_MODEL',stop=stop_requested)
     actual_uuid=gpu_identity(torch,spec)
     torch.cuda.reset_peak_memory_stats()
     model=_load_original_parent(spec,root,'MODEL_LOAD')
-    if p.get('memory_policy')=='CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2':
+    if p['profile']=='TASK_LEARNING_VANDA_FULL_ACTION_RESTORE_V3':
+        from .target_gr00t_delivery_v1 import install
+        init=spec['initial_package']
+        install(model,init['path'],init['sha256'],spec['parent']['files'])
+        write(root/'SFT2000_INITIAL_WEIGHTS_ACTUAL.json',dict(package_sha256=init['sha256'],
+            fresh_adaptation_optimizer=True,original_SFT_step=2000,adaptation_start_step=spec['start_step']))
+    if p.get('memory_policy')=='CORE_FROZEN_BACKBONE_SWAP_NO_WEIGHT_CACHE_V5':torch.set_autocast_cache_enabled(False)
+    if p.get('memory_policy')in('CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2','CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4','CORE_FROZEN_BACKBONE_SWAP_NO_WEIGHT_CACHE_V5'):
         from .target_gr00t_core_v1 import trim_unused_logits
         trim_unused_logits(model)
-    contract=action_contract(model,p['variant']);model.to('cuda').eval();data.initialize()
+    contract=action_contract(model,p['variant'],profile_name=p['profile']);model.to('cuda').eval();data.initialize()
     activation_storage=None
-    if p.get('memory_policy')in('CORE_LOSSLESS_CPU_ACTIVATIONS_2G_V1','CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2'):
+    if p.get('memory_policy')in('CORE_LOSSLESS_CPU_ACTIVATIONS_2G_V1','CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2','CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4','CORE_FROZEN_BACKBONE_SWAP_NO_WEIGHT_CACHE_V5'):
         from .target_gr00t_core_v1 import activation_policy
         from scripts.pi0294.multitask.activation_offload import SavedActivationOffload
-        activation_storage=SavedActivationOffload(model,policy=activation_policy())
+        activation_storage=SavedActivationOffload(model,policy=activation_policy(
+            4*1024**3 if p.get('memory_policy')in('CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4','CORE_FROZEN_BACKBONE_SWAP_NO_WEIGHT_CACHE_V5')else 2*1024**3))
+    backbone_swap=None
+    if p.get('memory_policy')in('CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4','CORE_FROZEN_BACKBONE_SWAP_NO_WEIGHT_CACHE_V5'):
+        from .target_gr00t_backbone_swap_v1 import BackboneOptimizerSwap
+        backbone_swap=BackboneOptimizerSwap(model,activation_storage)
     write(root/'PARAMETER_WHITELIST.json',contract.describe())
     frozen=frozen_fingerprint(model);names=contract.trainable_names
     before={n:tensor_identity(model.get_parameter(n))for n in names}
-    memory=[]
+    memory=[];weight_cache_runtime=None
     def measured(label):
         torch.cuda.synchronize();free,total=torch.cuda.mem_get_info()
         memory.append(dict(label=label,free_bytes=free,total_bytes=total,
@@ -249,6 +289,8 @@ def run(spec):
             peak_allocated_bytes=torch.cuda.max_memory_allocated(),peak_reserved_bytes=torch.cuda.max_memory_reserved()))
         write(root/'GPU_MEMORY.json',dict(GPU_uuid=actual_uuid,measurements=memory))
         if activation_storage is not None:write(root/'ACTIVATION_STORAGE_ACTUAL.json',activation_storage.audit())
+        if backbone_swap is not None:write(root/'BACKBONE_OPTIMIZER_SWAP_ACTUAL.json',backbone_swap.audit())
+        if weight_cache_runtime is not None:write(root/'WEIGHT_CACHE_RUNTIME_ACTUAL.json',weight_cache_runtime)
         profile.need(free>=2*1024**3,'ORIGINAL_TWO_GIB_MEMORY_MARGIN')
     if spec.get('resume'):
         restored=load_checkpoint(spec['resume']['path'],spec['resume']['sha256'],model=model,
@@ -259,19 +301,23 @@ def run(spec):
     from .target_gr00t_probes_v1 import measure as probe
     instance=E1ResidentModel.__new__(E1ResidentModel)
     instance.root,instance.bindings,instance.model,instance.processor=root,bindings,model,data.processor
-    instance.identity=dict(kind=profile.KIND,parent_manifest_sha256=profile.PARENT,
+    instance.identity=dict(kind=p['kind'],parent_manifest_sha256=profile.PARENT,
         statistics_sha256=data.statistics_sha,dataset_sha256=data.manifest_sha,
         source_sha=spec['source_sha'],generation_id=spec['generation_id'],mode=p['mode'],variant=p['variant'],
-        source_checkpoint_sha256=spec['resume']['sha256'] if spec.get('resume') else profile.PARENT,
+        source_checkpoint_sha256=spec['resume']['sha256'] if spec.get('resume') else spec.get('initial_package',{}).get('sha256',profile.PARENT),
         global_step=spec['start_step'])
     before_probes=probe(root,'before',instance,data)
-    if p.get('memory_policy')=='CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2'and spec['start_step']==0:
+    if p.get('memory_policy')in('CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2','CORE_FROZEN_BACKBONE_OPTIMIZER_SWAP_V3','CORE_FROZEN_BACKBONE_SWAP_ACTIVATIONS_4G_V4','CORE_FROZEN_BACKBONE_SWAP_NO_WEIGHT_CACHE_V5')and spec['start_step']==0:
         from .target_gr00t_core_v1 import verify_memory_predictions
         write(root/'MEMORY_EXECUTION_QUALIFICATION_ACTUAL.json',
             verify_memory_predictions(spec['memory_reference'],root/'before'))
+    if p.get('memory_policy')=='CORE_FROZEN_BACKBONE_SWAP_NO_WEIGHT_CACHE_V5':
+        from .target_gr00t_weight_cache_v1 import qualify,enforce
+        qualify(model,contract,data,root,guard)
+        weight_cache_runtime=enforce(model)
     dev=None
     if p['mode']=='FORMAL':
-        dev=TargetNativeDataset(bindings['dataset'],bindings['source'],bindings['cosmos'],'DEV')
+        dev=Dataset(bindings['dataset'],bindings['source'],bindings['cosmos'],'DEV')
         dev.processor=data.processor
         probe(root,'before-DEV',instance,dev)
     set_seed(p['seed'])
@@ -319,8 +365,8 @@ def run(spec):
             self.state.save_to_json(str(cp/'trainer_state.json'))
             data.processor.save_pretrained(cp/'processor')
             import shutil
-            for file in ('statistics.json','DATASET_MANIFEST.json','PROCESSOR_TRAINING_ADMISSION.json','PROCESSOR_VANDA_RECONSTRUCTION.json'):
-                if file!='PROCESSOR_VANDA_RECONSTRUCTION.json'or(data.root/file).exists():
+            for file in ('statistics.json','DATASET_MANIFEST.json','PROCESSOR_TRAINING_ADMISSION.json','PROCESSOR_VANDA_RECONSTRUCTION.json','PROCESSOR_HOPPER_RECONSTRUCTION.json'):
+                if 'RECONSTRUCTION'not in file or(data.root/file).exists():
                     shutil.copyfile(data.root/file,cp/file)
             write(cp/'PARAMETER_CONTRACT.json',contract.describe());write(cp/'FROZEN_PARENT_TENSORS.json',frozen)
             write(cp/'SAMPLER_STATE.json',dict(cursor=self.consumed,sampler=self.sampler.state_dict(self.consumed),
@@ -362,7 +408,7 @@ def run(spec):
                 handle.write(json.dumps(timing,sort_keys=True)+'\n');handle.flush();os.fsync(handle.fileno())
             if step in (1,2,10,p['endpoint']) or step%250==0:measured('UPDATE_'+str(step))
             stopping=bool(stop_requested)or time.time()+spec['closeout_reserve_s']>=spec['deadline_epoch']
-            control.should_save=step%250==0 or step==p['endpoint'] or p['mode']=='CAPACITY' or stopping
+            control.should_save=step%250==0 or step==p['endpoint'] or p['mode']=='CAPACITY' or (p['mode']=='RESTORE4'and step==2) or stopping
             control.should_training_stop=stopping
     args=TrainingArguments(output_dir=str(root/'training'),max_steps=p['endpoint'],
         per_device_train_batch_size=p['microbatch'],gradient_accumulation_steps=p['accumulation'],
@@ -371,9 +417,14 @@ def run(spec):
         eval_strategy='no',save_strategy='no',save_only_model=False,save_total_limit=None,
         gradient_checkpointing=False,report_to=[],disable_tqdm=True,ignore_data_skip=True,
         logging_strategy='steps',logging_steps=1)
+    callbacks=[Audit()]
+    if p['profile']=='TASK_LEARNING_VANDA_FULL_ACTION_RESTORE_V3':
+        from .task_learning_vanda_restore_v3 import gradient_callback
+        callbacks.append(gradient_callback(root,contract))
     trainer=TargetTrainer(model=model,args=args,train_dataset=data,data_collator=ProcessedCollator(data.processor),
-        callbacks=[Audit()],evidence_dir=root/'evidence',recipe=p,smoke=p['mode']=='CAPACITY')
+        callbacks=callbacks,evidence_dir=root/'evidence',recipe=p,smoke=p['mode']in('CAPACITY','RESTORE4'))
     holder['trainer']=trainer
+    if backbone_swap is not None:trainer.add_callback(backbone_swap.callback())
     trainer.train(resume_from_checkpoint=spec['resume']['path']if spec.get('resume')else None)
     step=trainer.state.global_step
     instance.identity['global_step']=step
@@ -387,16 +438,20 @@ def run(spec):
     after_probes=(json.loads((root/after_folder/'RESULT.json').read_bytes())['records']
                   if after_folder!='after'else probe(root,'after',instance,data))
     # Reconstruct every learned tensor and complete optimizer/scheduler/RNG/cursor.
-    load_checkpoint(cp,digest(cp/'CHECKPOINT_COMPLETE.json'),model=model,contract=contract,
-                    trainer=trainer,spec=spec,guard=guard)
+    with backbone_swap.optimizer_restore_storage()if backbone_swap is not None else nullcontext():
+        load_checkpoint(cp,digest(cp/'CHECKPOINT_COMPLETE.json'),model=model,contract=contract,
+                        trainer=trainer,spec=spec,guard=guard)
     profile.need({n:tensor_identity(model.get_parameter(n))for n in names}==after
         and tree_identity(trainer.optimizer.state_dict())==saved_opt
         and trainer.lr_scheduler.state_dict()==saved_sched and rng_identity()==saved_rng,
         'ACTUAL_COMPLETE_STATE_RESTORE')
     restored_probes=probe(root,'restored',instance,data)
+    from .task_learning_probes_v1 import artifact,matched_count
+    matched_count(json.loads((root/after_folder/'RESULT.json').read_bytes()),
+        json.loads((root/'restored/RESULT.json').read_bytes()))
     for a,b in zip(after_probes,restored_probes):
-        with np.load(root/after_folder/(a['episode']+'.npz'),allow_pickle=False)as first, np.load(root/'restored'/(b['episode']+'.npz'),allow_pickle=False)as second:
-            profile.need(a['episode']==b['episode'] and a['noise']==b['noise']
+        with np.load(artifact(root/after_folder,a),allow_pickle=False)as first, np.load(artifact(root/'restored',b),allow_pickle=False)as second:
+            profile.need(a['episode']==b['episode']and a['anchor']==b['anchor']and a['noise']==b['noise']
                 and np.array_equal(first['physical_H40'],second['physical_H40']),
                 'FIXED_INPUT_NOISE_ACTUAL_RELOAD_GENERATION')
     if dev is not None:probe(root,'restored-DEV',instance,dev)
@@ -409,7 +464,7 @@ def run(spec):
     if p['mode']=='FORMAL'and step==p['endpoint']:
         package=_package_and_reconstruct(root,cp,spec,proof,model,trainer,instance,data,guard)
         measured('AFTER_PACKAGE_INDEPENDENT_RECONSTRUCTION')
-    return dict(status='CHECKPOINT_SEALED',profile=profile.PROFILE,source_sha=spec['source_sha'],
+    return dict(status='CHECKPOINT_SEALED',profile=p['profile'],source_sha=spec['source_sha'],
         generation_id=spec['generation_id'],global_step=step,GR00T_updates=step-spec['start_step'],
         sample_visits=(step-spec['start_step'])*32,WM_updates=0,Actor_updates=0,external_adapter_updates=0,
         actual_VLA_queries=len(list(root.glob('*/journal/Q*.json'))),

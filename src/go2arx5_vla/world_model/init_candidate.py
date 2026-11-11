@@ -94,6 +94,17 @@ def build(spec,output):
         if spec['native_clock_key_delivery']!='SERIALIZED_ROS_KEY_WITH_NATIVE_CONSUMER_V1':raise ValueError('Unknown native key delivery version')
         from .native_clock_key import patch as key_patch
         cpp=key_patch(cpp)
+    if spec.get('robot_state_handoff'):
+        from .native_state_snapshot import VERSION,patch as sensor_patch
+        predecessor=Path(spec['robot_state_handoff_predecessor_cpp'])
+        predecessor_sdk=Path(spec['robot_state_handoff_predecessor_sdk'])
+        if (spec['robot_state_handoff']!=VERSION
+                or digest(predecessor)!=spec['robot_state_handoff_predecessor_cpp_sha256']
+                or digest(predecessor_sdk)!=spec['robot_state_handoff_predecessor_sdk_sha256']
+                or cpp!=predecessor.read_text()or sdk_after!=predecessor_sdk.read_text()):
+            raise ValueError('EXACT_QUALIFIED_PREDECESSOR_MATH_BEFORE_SENSOR_HANDOFF_REQUIRED')
+        cpp=sensor_patch(cpp)
+        shutil.copyfile(code/'src/go2arx5_vla/target_mujoco/state_snapshot.hpp',output/'state_snapshot.hpp')
     for n,s in zip(names,(cpp,patched[1],patched[2])):(output/n).write_text(s)
     (output/'rl_sdk.cpp').write_text(sdk_after)
     for name in('native_home.hpp','native_startup.hpp'):shutil.copyfile(clock/name,output/name)
@@ -119,10 +130,24 @@ def build(spec,output):
     if subprocess.check_output(['ar','t',str(archive)],text=True).splitlines()!=original_members:raise ValueError('SDK archive member set changed')
     for n,h in preserved_members.items():
         if hashlib.sha256(subprocess.check_output(['ar','p',str(archive),n])).hexdigest()!=h:raise ValueError('Unrelated SDK archive member changed')
+    # The qualified enlarged trace declares the original absolute DT_NEEDED
+    # name. Keep that name for a sensor-only executable successor, otherwise
+    # two constructor-bearing recorders can open the same trace at startup.
+    runtime_trace=trace
+    if spec.get('robot_state_handoff'):
+        runtime_trace=Path(spec['sensor_handoff_frozen_trace_dependency'])
+        if (runtime_trace!=Path(spec['robot_state_handoff_predecessor_cpp']).parent/'libwm02_init_trace.so'
+                or spec['frozen_files'].get(str(runtime_trace))!=digest(runtime_trace)):
+            raise ValueError('ORIGINAL_FROZEN_TRACE_DEPENDENCY_REQUIRED_FOR_SENSOR_ONLY_SUCCESSOR')
     directory=native/'build/mujoco';link=shlex.split(Path(spec['link_flags']).read_text());link[link.index('CMakeFiles/rl_sim_mujoco.dir/src/rl_sim_mujoco.cpp.o')]=str(output/'rl_sim_mujoco.cpp.o')
     link[link.index('CMakeFiles/rl_sim_mujoco.dir/library/thirdparty/mujoco_simulate/simulate.cc.o')]=str(startup/'startup-v2/simulate.cc.o');link[link.index('librl_sdk.a')]=str(archive)
-    link[link.index('-o')+1]=str(output/'rl_sim_mujoco');link+=['/opt/ros/jazzy/lib/librosgraph_msgs__rosidl_typesupport_cpp.so',str(trace),'-Wl,-rpath,'+str(output)]
+    link[link.index('-o')+1]=str(output/'rl_sim_mujoco');link+=['/opt/ros/jazzy/lib/librosgraph_msgs__rosidl_typesupport_cpp.so',str(runtime_trace),'-Wl,-rpath,'+str(output)]
     execute(link,'native_link',directory);execute(['ldd',str(output/'rl_sim_mujoco')],'native_ldd')
+    if spec.get('robot_state_handoff'):
+        needed=execute(['readelf','-d',str(output/'rl_sim_mujoco')],'native_needed').stdout
+        needed_libraries=re.findall(r'Shared library: \[([^\]]+)\]',needed)
+        if [n for n in needed_libraries if Path(n).name=='libwm02_init_trace.so']!=[str(runtime_trace)]:
+            raise RuntimeError('SINGLE_ORIGINAL_TRACE_NEEDED_IDENTITY_REQUIRED')
     if'not found'in(output/'native_ldd.log').read_text():raise RuntimeError('Candidate native dependencies unresolved')
     # Compile both alternatives. Exactly one outer wrapper belongs in a chain.
     dep=Path(spec['mujoco_library']);include=Path(spec['mujoco_include']);common=['g++','-std=c++17','-O2','-shared','-fPIC','-I'+str(include),'-I'+str(code/'scripts/pi0294'),'-I'+str(output),'-ldl']
@@ -152,7 +177,7 @@ def build(spec,output):
     if digest(lease)!=lease_before:raise RuntimeError('Historical target lease changed')
     result=dict(status='INIT_CANDIDATE_COMPILED_AND_LOADER_VERIFIED_NOT_NATIVE_QUALIFIED',source_sha=spec['source_sha'],
         binary_sha256=digest(output/'rl_sim_mujoco'),candidate_sources={n:digest(output/n)for n in(*names,'rl_sdk.cpp','init_trace.hpp','init_trace.cpp')},
-        original_SDK_sha256=digest(spec['sdk_source']),controller_nontrace_text_identical=not bool(spec.get('cold_history_init')or spec.get('command_pair_coherence')or spec.get('physical_callback_clock')),cold_history_init=spec.get('cold_history_init'),command_pair_coherence=spec.get('command_pair_coherence'),command_pair_header_sha256=digest(output/'command_pair.hpp')if spec.get('command_pair_coherence')else None,physical_callback_clock=spec.get('physical_callback_clock'),control_clock_header_sha256=digest(output/'control_clock.hpp')if spec.get('physical_callback_clock')else None,ongoing_control_math_unchanged=True,SDK_archive_member_names=original_members,preserved_SDK_members=preserved_members,original_R1_math_assertions_pass=True,
+        original_SDK_sha256=digest(spec['sdk_source']),controller_nontrace_text_identical=not bool(spec.get('cold_history_init')or spec.get('command_pair_coherence')or spec.get('physical_callback_clock')or spec.get('robot_state_handoff')),cold_history_init=spec.get('cold_history_init'),command_pair_coherence=spec.get('command_pair_coherence'),command_pair_header_sha256=digest(output/'command_pair.hpp')if spec.get('command_pair_coherence')else None,physical_callback_clock=spec.get('physical_callback_clock'),control_clock_header_sha256=digest(output/'control_clock.hpp')if spec.get('physical_callback_clock')else None,ongoing_control_math_unchanged=True,SDK_archive_member_names=original_members,preserved_SDK_members=preserved_members,original_R1_math_assertions_pass=True,
         actual_preload_chains=chains,runtime_environment={'LD_LIBRARY_PATH':build_env['LD_LIBRARY_PATH']},target_lease_sha256=lease_before,target_lease_status='CLOSED',native_dynamics_permission='NOT_GRANTED',
         actual_target_integrations=0,leg_policy_queries=0,WM_updates=0,Actor_updates=0,loader_only_checks=2,
         trace_contract='65536 bounded records; async writer10ms; first inputs plus recent28 payload slots; exact pos/vel consumed versions; no emit-path IO/wait or command math change',
@@ -161,4 +186,12 @@ def build(spec,output):
         result['applied_control_clock_header_sha256']=digest(output/'applied_control_clock.hpp')
     if spec.get('native_clock_key_delivery'):
         result.update(native_clock_key_delivery=spec['native_clock_key_delivery'],key_event_trace_kinds=[17,18])
+    if spec.get('robot_state_handoff'):
+        result.update(robot_state_handoff=spec['robot_state_handoff'],
+            state_snapshot_header_sha256=digest(output/'state_snapshot.hpp'),
+            robot_state_handoff_predecessor_cpp_sha256=spec['robot_state_handoff_predecessor_cpp_sha256'],
+            robot_state_handoff_predecessor_sdk_sha256=spec['robot_state_handoff_predecessor_sdk_sha256'],
+            robot_state_handoff_inverse_text_identical=True,
+            robot_state_handoff_PD_waits=False,robot_state_handoff_sensor_filters=False,
+            sensor_handoff_frozen_trace_dependency_sha256=digest(runtime_trace))
     write_json(output/'CANDIDATE.private.json',result);return result

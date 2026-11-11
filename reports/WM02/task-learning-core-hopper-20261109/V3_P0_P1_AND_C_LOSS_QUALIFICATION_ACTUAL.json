@@ -1,0 +1,4992 @@
+{
+  "schema": "GR00T_WBC_V3_P0_P1_AND_C_QUALIFICATION_ACTUAL_V1",
+  "observed_UTC": "2026-11-10T13:00:48.648413+00:00",
+  "observed_SGT": "2026-11-10T21:00:48.648413+08:00",
+  "runtime_source_sha": "d95c3c27e26cb1109e168359c418040e4364e541",
+  "QUESTION": "Why do sealed H40 predictions fail the original native envelope, and can a new differentiable physical loss be qualified without changing the original FM execution?",
+  "CHANGED": {
+    "plan_PR": 373,
+    "plan_commit": "f1c92aff97c05d5e92882ca49e22b301fb9e2bb5",
+    "plan_SHA256": "479a2891189faf9d9e6f1fe4b4101d703bc3fc49d8b28c8e1a80dc3b6340d2fc",
+    "loss": "INTERNAL_TRANSLATION_ACCELERATION_MATCH_PLUS_ORIGINAL_LIMIT_EXCESS",
+    "clean_estimate": "x_t+(1-t)*v_hat",
+    "action_dt_s": 0.05,
+    "auxiliary_coefficient": 0.00019150437475961646,
+    "calibration_TRAIN_windows": 16,
+    "training_parameter_count": 77847684,
+    "training_activation_storage": "CUDA_RESIDENT_V1",
+    "A_B_not_retrained": true
+  },
+  "ACTUAL": {
+    "local_native_four": {
+      "summary": {
+        "schema": "TASK_LEARNING_CORE_LOCAL_SUMMARY_V1",
+        "requested": 4,
+        "completed": 4,
+        "complete": true,
+        "methods": {
+          "B0": {
+            "requested": 2,
+            "attempted": 2,
+            "task_successes": 0,
+            "valid_task_failures": 2,
+            "technical_failures": 0,
+            "hard_safety_stop_conditions": 0,
+            "actual_GR00T_queries": 2
+          },
+          "B1": {
+            "requested": 2,
+            "attempted": 2,
+            "task_successes": 0,
+            "valid_task_failures": 2,
+            "technical_failures": 0,
+            "hard_safety_stop_conditions": 0,
+            "actual_GR00T_queries": 2
+          }
+        },
+        "original_DEV_conditions": 0,
+        "TEST_conditions": 0,
+        "qualified_training_demonstrations": 0,
+        "model_updates": 0,
+        "generalization_claim": false,
+        "original_cross_hardware_REJECT_replaced": false
+      },
+      "source_sha": "b186c9169b70da79b0e4e3f6365fe336ed24ecc6",
+      "completed_UTC": "2026-11-10T11:13:58.320423+00:00",
+      "actual_GR00T_queries": 4,
+      "actual_integrations": 22812,
+      "student_proposals_executed": 0,
+      "wall_s": 918.2733551631682,
+      "native_CPU_s": 1130.185958398,
+      "GPU_worker_wall_s": 840.0283920168877,
+      "first_failure_for_all": "FIRST_FULL_H40_ORIGINAL_RATE_ACCELERATION_GATE_REJECTED",
+      "conditions": [
+        {
+          "native_run": "tl-core-local-20261110-v04-00-b0",
+          "method": "B0",
+          "layout": "TRAIN01",
+          "restart": 1,
+          "task_success": false,
+          "technical_valid": true,
+          "hard_safety_stop": false,
+          "actual_native_integrations": 5703,
+          "actual_GR00T_queries": 1,
+          "first_failure": "go2arx5_vla.world_model.task_learning_student_v1.StudentProposalRejected: TASK_LEARNING_STUDENT_FULL_PROPOSAL_REJECTED: TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS"
+        },
+        {
+          "native_run": "tl-core-local-20261110-v04-01-b1",
+          "method": "B1",
+          "layout": "TRAIN01",
+          "restart": 1,
+          "task_success": false,
+          "technical_valid": true,
+          "hard_safety_stop": false,
+          "actual_native_integrations": 5703,
+          "actual_GR00T_queries": 1,
+          "first_failure": "go2arx5_vla.world_model.task_learning_student_v1.StudentProposalRejected: TASK_LEARNING_STUDENT_FULL_PROPOSAL_REJECTED: TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS"
+        },
+        {
+          "native_run": "tl-core-local-20261110-v04-02-b1",
+          "method": "B1",
+          "layout": "TRAIN13",
+          "restart": 1,
+          "task_success": false,
+          "technical_valid": true,
+          "hard_safety_stop": false,
+          "actual_native_integrations": 5703,
+          "actual_GR00T_queries": 1,
+          "first_failure": "go2arx5_vla.world_model.task_learning_student_v1.StudentProposalRejected: TASK_LEARNING_STUDENT_FULL_PROPOSAL_REJECTED: TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS"
+        },
+        {
+          "native_run": "tl-core-local-20261110-v04-03-b0",
+          "method": "B0",
+          "layout": "TRAIN13",
+          "restart": 1,
+          "task_success": false,
+          "technical_valid": true,
+          "hard_safety_stop": false,
+          "actual_native_integrations": 5703,
+          "actual_GR00T_queries": 1,
+          "first_failure": "go2arx5_vla.world_model.task_learning_student_v1.StudentProposalRejected: TASK_LEARNING_STUDENT_FULL_PROPOSAL_REJECTED: TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS"
+        }
+      ]
+    },
+    "sealed_kinematics": {
+      "source_sha": "163f44142b3e98d4229c2cec85d738c8a96cdbdf",
+      "result_sha256": "1ca4350c0495a0c4101aaad4e1f85fed122cc175f5c61b06b62504b0b0cffdb0",
+      "candidate_summaries": {
+        "SFT2000": {
+          "requested": 40,
+          "audited": 40,
+          "envelope_pass": 0,
+          "acceleration_windows_exceeding_by_part": {
+            "first": 0,
+            "interior": 40,
+            "last": 0
+          },
+          "acceleration_peak_location_windows": {
+            "interior": 40
+          },
+          "phases": {
+            "CLOSE": {
+              "windows": 8,
+              "envelope_pass": 0,
+              "failures": {
+                "maximum_finger_speed_m_s": 6,
+                "maximum_discrete_translation_acceleration_m_s2": 8
+              },
+              "sequence_distributions": {
+                "linear_velocity": {
+                  "count": 312,
+                  "p50": 0.004127381294251031,
+                  "p95": 0.010663781390803335,
+                  "maximum": 0.01821014524136919
+                },
+                "linear_acceleration": {
+                  "count": 320,
+                  "p50": 0.13817609811132536,
+                  "p95": 0.3192383814491948,
+                  "maximum": 0.6399933603073613
+                },
+                "angular_velocity": {
+                  "count": 312,
+                  "p50": 0.0028026018690358763,
+                  "p95": 0.007479443187169078,
+                  "maximum": 0.010371758074928576
+                },
+                "angular_acceleration": {
+                  "count": 320,
+                  "p50": 0.06936095964965827,
+                  "p95": 0.22909344552946945,
+                  "maximum": 0.3351680681674877
+                },
+                "finger_velocity": {
+                  "count": 312,
+                  "p50": 0.014008677005767842,
+                  "p95": 0.04555024027824402,
+                  "maximum": 0.07199618816375729
+                }
+              },
+              "acceleration_windows_exceeding_by_part": {
+                "first": 0,
+                "interior": 8,
+                "last": 0
+              }
+            },
+            "DESCEND": {
+              "windows": 8,
+              "envelope_pass": 0,
+              "failures": {
+                "maximum_discrete_translation_acceleration_m_s2": 8
+              },
+              "sequence_distributions": {
+                "linear_velocity": {
+                  "count": 312,
+                  "p50": 0.008063268838871266,
+                  "p95": 0.022008622225071564,
+                  "maximum": 0.027462781170301192
+                },
+                "linear_acceleration": {
+                  "count": 320,
+                  "p50": 0.12456963385551131,
+                  "p95": 0.3662731792191179,
+                  "maximum": 0.5236512226683453
+                },
+                "angular_velocity": {
+                  "count": 312,
+                  "p50": 0.003050464183367772,
+                  "p95": 0.008287928753764436,
+                  "maximum": 0.012470272592878246
+                },
+                "angular_acceleration": {
+                  "count": 320,
+                  "p50": 0.08433171822145313,
+                  "p95": 0.22917394505909297,
+                  "maximum": 0.44378550601442096
+                },
+                "finger_velocity": {
+                  "count": 312,
+                  "p50": 0.0,
+                  "p95": 0.007238643169403099,
+                  "maximum": 0.015336990356445285
+                }
+              },
+              "acceleration_windows_exceeding_by_part": {
+                "first": 0,
+                "interior": 8,
+                "last": 0
+              }
+            },
+            "HOLD": {
+              "windows": 8,
+              "envelope_pass": 0,
+              "failures": {
+                "maximum_discrete_translation_acceleration_m_s2": 8
+              },
+              "sequence_distributions": {
+                "linear_velocity": {
+                  "count": 312,
+                  "p50": 0.004211850287220317,
+                  "p95": 0.01001541853488852,
+                  "maximum": 0.01874669687396519
+                },
+                "linear_acceleration": {
+                  "count": 320,
+                  "p50": 0.13180757337666532,
+                  "p95": 0.33202796053384037,
+                  "maximum": 0.49836029896977335
+                },
+                "angular_velocity": {
+                  "count": 312,
+                  "p50": 0.0029159013791621967,
+                  "p95": 0.008461406315272804,
+                  "maximum": 0.012761487260318395
+                },
+                "angular_acceleration": {
+                  "count": 320,
+                  "p50": 0.07856408703310233,
+                  "p95": 0.21280940650811084,
+                  "maximum": 0.2981252699388746
+                },
+                "finger_velocity": {
+                  "count": 312,
+                  "p50": 0.002922213077545168,
+                  "p95": 0.013243379592895501,
+                  "maximum": 0.029692792892456066
+                }
+              },
+              "acceleration_windows_exceeding_by_part": {
+                "first": 0,
+                "interior": 8,
+                "last": 0
+              }
+            },
+            "LIFT": {
+              "windows": 8,
+              "envelope_pass": 0,
+              "failures": {
+                "maximum_discrete_translation_acceleration_m_s2": 8
+              },
+              "sequence_distributions": {
+                "linear_velocity": {
+                  "count": 312,
+                  "p50": 0.007670150020404473,
+                  "p95": 0.020158485732436317,
+                  "maximum": 0.029501961879999518
+                },
+                "linear_acceleration": {
+                  "count": 320,
+                  "p50": 0.12273779901892223,
+                  "p95": 0.37338192082449606,
+                  "maximum": 0.5572497871633914
+                },
+                "angular_velocity": {
+                  "count": 312,
+                  "p50": 0.002303991136479197,
+                  "p95": 0.006612648470890681,
+                  "maximum": 0.01050952840733813
+                },
+                "angular_acceleration": {
+                  "count": 320,
+                  "p50": 0.07549137998373236,
+                  "p95": 0.21895519364008365,
+                  "maximum": 0.35059383613407896
+                },
+                "finger_velocity": {
+                  "count": 312,
+                  "p50": 0.003872179985046388,
+                  "p95": 0.013920371532440166,
+                  "maximum": 0.01925311088562011
+                }
+              },
+              "acceleration_windows_exceeding_by_part": {
+                "first": 0,
+                "interior": 8,
+                "last": 0
+              }
+            },
+            "PREGRASP": {
+              "windows": 8,
+              "envelope_pass": 0,
+              "failures": {
+                "maximum_discrete_translation_acceleration_m_s2": 8
+              },
+              "sequence_distributions": {
+                "linear_velocity": {
+                  "count": 312,
+                  "p50": 0.006278437314454153,
+                  "p95": 0.014986333770948167,
+                  "maximum": 0.023918239534200407
+                },
+                "linear_acceleration": {
+                  "count": 320,
+                  "p50": 0.16187800453766693,
+                  "p95": 0.38146491093514906,
+                  "maximum": 0.6288916060084387
+                },
+                "angular_velocity": {
+                  "count": 312,
+                  "p50": 0.002417022355717188,
+                  "p95": 0.005980589565654904,
+                  "maximum": 0.009828713678845136
+                },
+                "angular_acceleration": {
+                  "count": 320,
+                  "p50": 0.07401617374079726,
+                  "p95": 0.20974108847222273,
+                  "maximum": 0.30576898135772357
+                },
+                "finger_velocity": {
+                  "count": 312,
+                  "p50": 0.0,
+                  "p95": 0.007805035114288261,
+                  "maximum": 0.03218903541564941
+                }
+              },
+              "acceleration_windows_exceeding_by_part": {
+                "first": 0,
+                "interior": 8,
+                "last": 0
+              }
+            }
+          }
+        },
+        "ORIGINAL_LAST2_500": {
+          "requested": 40,
+          "audited": 40,
+          "envelope_pass": 0,
+          "acceleration_windows_exceeding_by_part": {
+            "first": 0,
+            "interior": 40,
+            "last": 0
+          },
+          "acceleration_peak_location_windows": {
+            "interior": 40
+          },
+          "phases": {
+            "CLOSE": {
+              "windows": 8,
+              "envelope_pass": 0,
+              "failures": {
+                "maximum_finger_speed_m_s": 4,
+                "maximum_discrete_translation_acceleration_m_s2": 8
+              },
+              "sequence_distributions": {
+                "linear_velocity": {
+                  "count": 312,
+                  "p50": 0.0037065457390410895,
+                  "p95": 0.009694951124077452,
+                  "maximum": 0.015175355105524976
+                },
+                "linear_acceleration": {
+                  "count": 320,
+                  "p50": 0.12005823121799059,
+                  "p95": 0.3202576349264768,
+                  "maximum": 0.5412939958105423
+                },
+                "angular_velocity": {
+                  "count": 312,
+                  "p50": 0.0024080999336211317,
+                  "p95": 0.0065284371636057425,
+                  "maximum": 0.01174858653343219
+                },
+                "angular_acceleration": {
+                  "count": 320,
+                  "p50": 0.06186744194278755,
+                  "p95": 0.17445100514706824,
+                  "maximum": 0.2708300070330589
+                },
+                "finger_velocity": {
+                  "count": 312,
+                  "p50": 0.013613176345825175,
+                  "p95": 0.04403069496154781,
+                  "maximum": 0.07156307697296138
+                }
+              },
+              "acceleration_windows_exceeding_by_part": {
+                "first": 0,
+                "interior": 8,
+                "last": 0
+              }
+            },
+            "DESCEND": {
+              "windows": 8,
+              "envelope_pass": 0,
+              "failures": {
+                "maximum_discrete_translation_acceleration_m_s2": 8
+              },
+              "sequence_distributions": {
+                "linear_velocity": {
+                  "count": 312,
+                  "p50": 0.007583139088461478,
+                  "p95": 0.019699802572296782,
+                  "maximum": 0.02704653086801955
+                },
+                "linear_acceleration": {
+                  "count": 320,
+                  "p50": 0.11501453368476082,
+                  "p95": 0.32686894069509037,
+                  "maximum": 0.47593202796823425
+                },
+                "angular_velocity": {
+                  "count": 312,
+                  "p50": 0.002707694436463871,
+                  "p95": 0.007002813205308301,
+                  "maximum": 0.010328303037649297
+                },
+                "angular_acceleration": {
+                  "count": 320,
+                  "p50": 0.06423642873826467,
+                  "p95": 0.18749725210596074,
+                  "maximum": 0.3147602830816632
+                },
+                "finger_velocity": {
+                  "count": 312,
+                  "p50": 0.0012127399444579468,
+                  "p95": 0.012350070476531928,
+                  "maximum": 0.019858264923095642
+                }
+              },
+              "acceleration_windows_exceeding_by_part": {
+                "first": 0,
+                "interior": 8,
+                "last": 0
+              }
+            },
+            "HOLD": {
+              "windows": 8,
+              "envelope_pass": 0,
+              "failures": {
+                "maximum_discrete_translation_acceleration_m_s2": 8
+              },
+              "sequence_distributions": {
+                "linear_velocity": {
+                  "count": 312,
+                  "p50": 0.0034822648160531917,
+                  "p95": 0.009504350235602874,
+                  "maximum": 0.016958523665815035
+                },
+                "linear_acceleration": {
+                  "count": 320,
+                  "p50": 0.11068815311913954,
+                  "p95": 0.2960450312710024,
+                  "maximum": 0.4200172730401077
+                },
+                "angular_velocity": {
+                  "count": 312,
+                  "p50": 0.002893905518335873,
+                  "p95": 0.00820352942188348,
+                  "maximum": 0.01262204758015958
+                },
+                "angular_acceleration": {
+                  "count": 320,
+                  "p50": 0.06915243421931236,
+                  "p95": 0.16187132368397905,
+                  "maximum": 0.2627093159544906
+                },
+                "finger_velocity": {
+                  "count": 312,
+                  "p50": 0.005473959445953373,
+                  "p95": 0.015226789712905886,
+                  "maximum": 0.029692935943603522
+                }
+              },
+              "acceleration_windows_exceeding_by_part": {
+                "first": 0,
+                "interior": 8,
+                "last": 0
+              }
+            },
+            "LIFT": {
+              "windows": 8,
+              "envelope_pass": 0,
+              "failures": {
+                "maximum_discrete_translation_acceleration_m_s2": 8
+              },
+              "sequence_distributions": {
+                "linear_velocity": {
+                  "count": 312,
+                  "p50": 0.008021030229213017,
+                  "p95": 0.018613433871785018,
+                  "maximum": 0.024304427453955554
+                },
+                "linear_acceleration": {
+                  "count": 320,
+                  "p50": 0.12057536302529513,
+                  "p95": 0.340847422365353,
+                  "maximum": 0.6744535181687791
+                },
+                "angular_velocity": {
+                  "count": 312,
+                  "p50": 0.002275443458267409,
+                  "p95": 0.006164393050416265,
+                  "maximum": 0.010144769069799612
+                },
+                "angular_acceleration": {
+                  "count": 320,
+                  "p50": 0.07008777784916823,
+                  "p95": 0.2156701069458297,
+                  "maximum": 0.3532432578314603
+                },
+                "finger_velocity": {
+                  "count": 312,
+                  "p50": 0.004151713848114013,
+                  "p95": 0.013585643768310547,
+                  "maximum": 0.021153330802917477
+                }
+              },
+              "acceleration_windows_exceeding_by_part": {
+                "first": 0,
+                "interior": 8,
+                "last": 0
+              }
+            },
+            "PREGRASP": {
+              "windows": 8,
+              "envelope_pass": 0,
+              "failures": {
+                "maximum_discrete_translation_acceleration_m_s2": 8
+              },
+              "sequence_distributions": {
+                "linear_velocity": {
+                  "count": 312,
+                  "p50": 0.006011360777206534,
+                  "p95": 0.013987312322260814,
+                  "maximum": 0.01996055341388914
+                },
+                "linear_acceleration": {
+                  "count": 320,
+                  "p50": 0.1340142407187129,
+                  "p95": 0.3233215413809393,
+                  "maximum": 0.6218992191682305
+                },
+                "angular_velocity": {
+                  "count": 312,
+                  "p50": 0.002067975670159805,
+                  "p95": 0.00605068050856501,
+                  "maximum": 0.009813882744399044
+                },
+                "angular_acceleration": {
+                  "count": 320,
+                  "p50": 0.07133631460701277,
+                  "p95": 0.21485163067053914,
+                  "maximum": 0.3143198149498505
+                },
+                "finger_velocity": {
+                  "count": 312,
+                  "p50": 0.001189780235290594,
+                  "p95": 0.013646073341369613,
+                  "maximum": 0.03425822257995606
+                }
+              },
+              "acceleration_windows_exceeding_by_part": {
+                "first": 0,
+                "interior": 8,
+                "last": 0
+              }
+            }
+          }
+        },
+        "EVENT_LAST2_500": {
+          "requested": 40,
+          "audited": 40,
+          "envelope_pass": 2,
+          "acceleration_windows_exceeding_by_part": {
+            "first": 0,
+            "interior": 37,
+            "last": 0
+          },
+          "acceleration_peak_location_windows": {
+            "interior": 40
+          },
+          "phases": {
+            "CLOSE": {
+              "windows": 8,
+              "envelope_pass": 0,
+              "failures": {
+                "maximum_finger_speed_m_s": 4,
+                "maximum_discrete_translation_acceleration_m_s2": 7
+              },
+              "sequence_distributions": {
+                "linear_velocity": {
+                  "count": 312,
+                  "p50": 0.003366146575913675,
+                  "p95": 0.00790669493549797,
+                  "maximum": 0.011964308069699102
+                },
+                "linear_acceleration": {
+                  "count": 320,
+                  "p50": 0.1133186580803053,
+                  "p95": 0.2622511111491596,
+                  "maximum": 0.4375109046953921
+                },
+                "angular_velocity": {
+                  "count": 312,
+                  "p50": 0.002265107508630765,
+                  "p95": 0.006044027859958578,
+                  "maximum": 0.009830015381242146
+                },
+                "angular_acceleration": {
+                  "count": 320,
+                  "p50": 0.05808721384595354,
+                  "p95": 0.15350120583599544,
+                  "maximum": 0.27603725523369205
+                },
+                "finger_velocity": {
+                  "count": 312,
+                  "p50": 0.013702857494354289,
+                  "p95": 0.04341135263442985,
+                  "maximum": 0.05984437465667736
+                }
+              },
+              "acceleration_windows_exceeding_by_part": {
+                "first": 0,
+                "interior": 7,
+                "last": 0
+              }
+            },
+            "DESCEND": {
+              "windows": 8,
+              "envelope_pass": 0,
+              "failures": {
+                "maximum_discrete_translation_acceleration_m_s2": 8
+              },
+              "sequence_distributions": {
+                "linear_velocity": {
+                  "count": 312,
+                  "p50": 0.007880416905465697,
+                  "p95": 0.018022002392543934,
+                  "maximum": 0.025806035698153686
+                },
+                "linear_acceleration": {
+                  "count": 320,
+                  "p50": 0.10661819800517802,
+                  "p95": 0.3070300359725915,
+                  "maximum": 0.5629603548858175
+                },
+                "angular_velocity": {
+                  "count": 312,
+                  "p50": 0.0025326416565058596,
+                  "p95": 0.006857665188499155,
+                  "maximum": 0.011770531016410932
+                },
+                "angular_acceleration": {
+                  "count": 320,
+                  "p50": 0.0650671049676639,
+                  "p95": 0.17830813065456455,
+                  "maximum": 0.2564704266396142
+                },
+                "finger_velocity": {
+                  "count": 312,
+                  "p50": 0.0002825498580932839,
+                  "p95": 0.010377340316772548,
+                  "maximum": 0.017323589324951122
+                }
+              },
+              "acceleration_windows_exceeding_by_part": {
+                "first": 0,
+                "interior": 8,
+                "last": 0
+              }
+            },
+            "HOLD": {
+              "windows": 8,
+              "envelope_pass": 2,
+              "failures": {
+                "maximum_discrete_translation_acceleration_m_s2": 6
+              },
+              "sequence_distributions": {
+                "linear_velocity": {
+                  "count": 312,
+                  "p50": 0.0035479030549628865,
+                  "p95": 0.008945579333796876,
+                  "maximum": 0.01581282646784533
+                },
+                "linear_acceleration": {
+                  "count": 320,
+                  "p50": 0.10416108386424895,
+                  "p95": 0.24965424998891242,
+                  "maximum": 0.45805219370394007
+                },
+                "angular_velocity": {
+                  "count": 312,
+                  "p50": 0.002441184398694789,
+                  "p95": 0.007453909377172312,
+                  "maximum": 0.011023467068006903
+                },
+                "angular_acceleration": {
+                  "count": 320,
+                  "p50": 0.05935485409540002,
+                  "p95": 0.1564062836243376,
+                  "maximum": 0.24279519077534473
+                },
+                "finger_velocity": {
+                  "count": 312,
+                  "p50": 0.0,
+                  "p95": 0.011689163446426386,
+                  "maximum": 0.025005221366882317
+                }
+              },
+              "acceleration_windows_exceeding_by_part": {
+                "first": 0,
+                "interior": 6,
+                "last": 0
+              }
+            },
+            "LIFT": {
+              "windows": 8,
+              "envelope_pass": 0,
+              "failures": {
+                "maximum_discrete_translation_acceleration_m_s2": 8
+              },
+              "sequence_distributions": {
+                "linear_velocity": {
+                  "count": 312,
+                  "p50": 0.007797304107364346,
+                  "p95": 0.017488678853624547,
+                  "maximum": 0.025130294870518793
+                },
+                "linear_acceleration": {
+                  "count": 320,
+                  "p50": 0.1066156876090926,
+                  "p95": 0.29168483041112675,
+                  "maximum": 0.48159174068204724
+                },
+                "angular_velocity": {
+                  "count": 312,
+                  "p50": 0.0019237320341650996,
+                  "p95": 0.004538098605172849,
+                  "maximum": 0.008186692424841118
+                },
+                "angular_acceleration": {
+                  "count": 320,
+                  "p50": 0.06836655785534163,
+                  "p95": 0.1546773371281977,
+                  "maximum": 0.24728290176081996
+                },
+                "finger_velocity": {
+                  "count": 312,
+                  "p50": 0.002187323570251457,
+                  "p95": 0.012731192111968988,
+                  "maximum": 0.020163178443908688
+                }
+              },
+              "acceleration_windows_exceeding_by_part": {
+                "first": 0,
+                "interior": 8,
+                "last": 0
+              }
+            },
+            "PREGRASP": {
+              "windows": 8,
+              "envelope_pass": 0,
+              "failures": {
+                "maximum_discrete_translation_acceleration_m_s2": 8
+              },
+              "sequence_distributions": {
+                "linear_velocity": {
+                  "count": 312,
+                  "p50": 0.005979899647823842,
+                  "p95": 0.01299809664264271,
+                  "maximum": 0.021615457118107428
+                },
+                "linear_acceleration": {
+                  "count": 320,
+                  "p50": 0.1167533133194614,
+                  "p95": 0.31427879149490956,
+                  "maximum": 0.4231181958075407
+                },
+                "angular_velocity": {
+                  "count": 312,
+                  "p50": 0.0018744755041548433,
+                  "p95": 0.0045769379435572095,
+                  "maximum": 0.007810785943767998
+                },
+                "angular_acceleration": {
+                  "count": 320,
+                  "p50": 0.06041677650848029,
+                  "p95": 0.16426574391089643,
+                  "maximum": 0.29860307813177567
+                },
+                "finger_velocity": {
+                  "count": 312,
+                  "p50": 0.0,
+                  "p95": 0.005362095832824683,
+                  "maximum": 0.029354619979858332
+                }
+              },
+              "acceleration_windows_exceeding_by_part": {
+                "first": 0,
+                "interior": 8,
+                "last": 0
+              }
+            }
+          }
+        }
+      },
+      "expert_summary": {
+        "requested": 40,
+        "audited": 40,
+        "envelope_pass": 40,
+        "acceleration_windows_exceeding_by_part": {
+          "first": 0,
+          "interior": 0,
+          "last": 0
+        },
+        "acceleration_peak_location_windows": {
+          "interior": 40
+        },
+        "phases": {
+          "CLOSE": {
+            "windows": 8,
+            "envelope_pass": 8,
+            "failures": {},
+            "sequence_distributions": {
+              "linear_velocity": {
+                "count": 312,
+                "p50": 0.0005521720351757222,
+                "p95": 0.0022093149816480415,
+                "maximum": 0.0024076195369109026
+              },
+              "linear_acceleration": {
+                "count": 320,
+                "p50": 0.0010401434238533648,
+                "p95": 0.0035136348593033545,
+                "maximum": 0.0037931743308307316
+              },
+              "angular_velocity": {
+                "count": 312,
+                "p50": 0.0012779784636125897,
+                "p95": 0.004471329448969293,
+                "maximum": 0.0048967605878098616
+              },
+              "angular_acceleration": {
+                "count": 320,
+                "p50": 0.00255815242032004,
+                "p95": 0.0071617385475216695,
+                "maximum": 0.007714780052975719
+              },
+              "finger_velocity": {
+                "count": 312,
+                "p50": 0.014849062832910254,
+                "p95": 0.03764028761286101,
+                "maximum": 0.0384446837815651
+              }
+            },
+            "acceleration_windows_exceeding_by_part": {
+              "first": 0,
+              "interior": 0,
+              "last": 0
+            }
+          },
+          "DESCEND": {
+            "windows": 8,
+            "envelope_pass": 8,
+            "failures": {},
+            "sequence_distributions": {
+              "linear_velocity": {
+                "count": 312,
+                "p50": 0.007833156823038773,
+                "p95": 0.014341045022743141,
+                "maximum": 0.014416756418089618
+              },
+              "linear_acceleration": {
+                "count": 320,
+                "p50": 0.016297401542994555,
+                "p95": 0.022588330210692207,
+                "maximum": 0.022713418603026867
+              },
+              "angular_velocity": {
+                "count": 312,
+                "p50": 0.0018578368848488809,
+                "p95": 0.004327642688777204,
+                "maximum": 0.004561776239748289
+              },
+              "angular_acceleration": {
+                "count": 320,
+                "p50": 0.003462110053683261,
+                "p95": 0.006848581662409338,
+                "maximum": 0.007187017327127439
+              },
+              "finger_velocity": {
+                "count": 312,
+                "p50": 0.0,
+                "p95": 0.0,
+                "maximum": 0.0
+              }
+            },
+            "acceleration_windows_exceeding_by_part": {
+              "first": 0,
+              "interior": 0,
+              "last": 0
+            }
+          },
+          "HOLD": {
+            "windows": 8,
+            "envelope_pass": 8,
+            "failures": {},
+            "sequence_distributions": {
+              "linear_velocity": {
+                "count": 312,
+                "p50": 0.001550942598809282,
+                "p95": 0.005140734876845552,
+                "maximum": 0.005695844168880598
+              },
+              "linear_acceleration": {
+                "count": 320,
+                "p50": 0.002974279298144136,
+                "p95": 0.008406498525153686,
+                "maximum": 0.008973730924871385
+              },
+              "angular_velocity": {
+                "count": 312,
+                "p50": 0.002167973646891274,
+                "p95": 0.006378906097550991,
+                "maximum": 0.007454897338222187
+              },
+              "angular_acceleration": {
+                "count": 320,
+                "p50": 0.004189928189544286,
+                "p95": 0.010230318538624956,
+                "maximum": 0.011745080403217822
+              },
+              "finger_velocity": {
+                "count": 312,
+                "p50": 0.0,
+                "p95": 0.0,
+                "maximum": 0.0
+              }
+            },
+            "acceleration_windows_exceeding_by_part": {
+              "first": 0,
+              "interior": 0,
+              "last": 0
+            }
+          },
+          "LIFT": {
+            "windows": 8,
+            "envelope_pass": 8,
+            "failures": {},
+            "sequence_distributions": {
+              "linear_velocity": {
+                "count": 312,
+                "p50": 0.00783315682303981,
+                "p95": 0.014341045022744827,
+                "maximum": 0.01441675641809021
+              },
+              "linear_acceleration": {
+                "count": 320,
+                "p50": 0.016297401542981888,
+                "p95": 0.022588330210701085,
+                "maximum": 0.022713418603077205
+              },
+              "angular_velocity": {
+                "count": 312,
+                "p50": 0.0004760828161715112,
+                "p95": 0.001011556003928818,
+                "maximum": 0.0011138170517979923
+              },
+              "angular_acceleration": {
+                "count": 320,
+                "p50": 0.0009670481277289677,
+                "p95": 0.0016187429110632672,
+                "maximum": 0.0017548047153285976
+              },
+              "finger_velocity": {
+                "count": 312,
+                "p50": 0.0,
+                "p95": 0.0,
+                "maximum": 0.0
+              }
+            },
+            "acceleration_windows_exceeding_by_part": {
+              "first": 0,
+              "interior": 0,
+              "last": 0
+            }
+          },
+          "PREGRASP": {
+            "windows": 8,
+            "envelope_pass": 8,
+            "failures": {},
+            "sequence_distributions": {
+              "linear_velocity": {
+                "count": 312,
+                "p50": 0.005100313487092678,
+                "p95": 0.009331962027024647,
+                "maximum": 0.010256620873058796
+              },
+              "linear_acceleration": {
+                "count": 320,
+                "p50": 0.010254518099306584,
+                "p95": 0.015149052454483886,
+                "maximum": 0.01615917732022356
+              },
+              "angular_velocity": {
+                "count": 312,
+                "p50": 0.0,
+                "p95": 5.664745114091966e-16,
+                "maximum": 1.120509176283658e-15
+              },
+              "angular_acceleration": {
+                "count": 320,
+                "p50": 0.0,
+                "p95": 2.2439678702188014e-14,
+                "maximum": 4.446614354553279e-14
+              },
+              "finger_velocity": {
+                "count": 312,
+                "p50": 0.0,
+                "p95": 0.0,
+                "maximum": 0.0
+              }
+            },
+            "acceleration_windows_exceeding_by_part": {
+              "first": 0,
+              "interior": 0,
+              "last": 0
+            }
+          }
+        }
+      },
+      "per_window": {
+        "SFT2000": [
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r1",
+            "anchor": 0,
+            "phase": "PREGRASP",
+            "seed": 2026110900,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 36,
+              "peak_part": "interior",
+              "peak_value": 0.42609824476867986,
+              "exceedance_count": 9,
+              "exceedance_indices": [
+                4,
+                7,
+                17,
+                26,
+                29,
+                32,
+                35,
+                36,
+                37
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 9,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.03218903541564941,
+            "first_position_gap_m": 0.0005097363575370725,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.99715175489446
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r1",
+            "anchor": 2,
+            "phase": "DESCEND",
+            "seed": 2026110901,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 27,
+              "peak_part": "interior",
+              "peak_value": 0.5182006615541332,
+              "exceedance_count": 8,
+              "exceedance_indices": [
+                13,
+                17,
+                18,
+                19,
+                20,
+                26,
+                27,
+                29
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 8,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.004167890548706088,
+            "first_position_gap_m": 0.00017325059985785724,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999478819146181
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r1",
+            "anchor": 9,
+            "phase": "CLOSE",
+            "seed": 2026110902,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_finger_speed_m_s",
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 24,
+              "peak_part": "interior",
+              "peak_value": 0.3825436126560824,
+              "exceedance_count": 8,
+              "exceedance_indices": [
+                4,
+                8,
+                18,
+                19,
+                22,
+                23,
+                24,
+                38
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 8,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.06976518630981449,
+            "first_position_gap_m": 0.000447213568969371,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9979895318584728
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r1",
+            "anchor": 10,
+            "phase": "LIFT",
+            "seed": 2026110903,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 20,
+              "peak_part": "interior",
+              "peak_value": 0.4530936150250481,
+              "exceedance_count": 5,
+              "exceedance_indices": [
+                14,
+                15,
+                20,
+                21,
+                24
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 5,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.01925311088562011,
+            "first_position_gap_m": 0.0001291557711860347,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999306639224356
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r1",
+            "anchor": 13,
+            "phase": "HOLD",
+            "seed": 2026110904,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 8,
+              "peak_part": "interior",
+              "peak_value": 0.449010449388372,
+              "exceedance_count": 8,
+              "exceedance_indices": [
+                4,
+                7,
+                8,
+                9,
+                12,
+                13,
+                32,
+                33
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 8,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.012706065177917475,
+            "first_position_gap_m": 0.0006847021579524973,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9996969817141701
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r1",
+            "anchor": 0,
+            "phase": "PREGRASP",
+            "seed": 2026110905,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 16,
+              "peak_part": "interior",
+              "peak_value": 0.4229646014909545,
+              "exceedance_count": 6,
+              "exceedance_indices": [
+                15,
+                16,
+                17,
+                19,
+                20,
+                21
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 6,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.0,
+            "first_position_gap_m": 0.00010690117942221863,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9989338113478009
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r1",
+            "anchor": 1,
+            "phase": "DESCEND",
+            "seed": 2026110906,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 2,
+              "peak_part": "interior",
+              "peak_value": 0.46658206272596475,
+              "exceedance_count": 6,
+              "exceedance_indices": [
+                2,
+                19,
+                21,
+                22,
+                27,
+                28
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 6,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.0004065513610840288,
+            "first_position_gap_m": 0.00015172090700975847,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9997462041533322
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r1",
+            "anchor": 8,
+            "phase": "CLOSE",
+            "seed": 2026110907,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_finger_speed_m_s",
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 33,
+              "peak_part": "interior",
+              "peak_value": 0.5741700464739894,
+              "exceedance_count": 11,
+              "exceedance_indices": [
+                5,
+                8,
+                9,
+                15,
+                19,
+                20,
+                32,
+                33,
+                34,
+                36,
+                37
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 11,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.059622168540954604,
+            "first_position_gap_m": 0.0007554396624263898,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9982710113411195
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r1",
+            "anchor": 9,
+            "phase": "LIFT",
+            "seed": 2026110908,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 26,
+              "peak_part": "interior",
+              "peak_value": 0.5572497871633914,
+              "exceedance_count": 7,
+              "exceedance_indices": [
+                1,
+                9,
+                10,
+                16,
+                17,
+                26,
+                27
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 7,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.018032670021057122,
+            "first_position_gap_m": 0.00037934651778665223,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999292043059619
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r1",
+            "anchor": 12,
+            "phase": "HOLD",
+            "seed": 2026110909,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 13,
+              "peak_part": "interior",
+              "peak_value": 0.3996929038381117,
+              "exceedance_count": 7,
+              "exceedance_indices": [
+                3,
+                4,
+                5,
+                13,
+                14,
+                15,
+                24
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 7,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.029692792892456066,
+            "first_position_gap_m": 0.00020352900447863942,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9986104052315629
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r1",
+            "anchor": 0,
+            "phase": "PREGRASP",
+            "seed": 2026110910,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 35,
+              "peak_part": "interior",
+              "peak_value": 0.36909115869026715,
+              "exceedance_count": 8,
+              "exceedance_indices": [
+                6,
+                11,
+                13,
+                14,
+                16,
+                35,
+                36,
+                38
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 8,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.0,
+            "first_position_gap_m": 0.000837239356695598,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9993932447913069
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r1",
+            "anchor": 1,
+            "phase": "DESCEND",
+            "seed": 2026110911,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 13,
+              "peak_part": "interior",
+              "peak_value": 0.5100789440300199,
+              "exceedance_count": 14,
+              "exceedance_indices": [
+                9,
+                10,
+                12,
+                13,
+                14,
+                15,
+                16,
+                20,
+                23,
+                24,
+                28,
+                29,
+                32,
+                33
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 14,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.01246752738952639,
+            "first_position_gap_m": 0.00021195834132273396,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.999971983109391
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r1",
+            "anchor": 8,
+            "phase": "CLOSE",
+            "seed": 2026110912,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_finger_speed_m_s",
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 13,
+              "peak_part": "interior",
+              "peak_value": 0.34620099505576896,
+              "exceedance_count": 2,
+              "exceedance_indices": [
+                13,
+                22
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 2,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.07199618816375729,
+            "first_position_gap_m": 0.0002548077625211558,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9951815844059482
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r1",
+            "anchor": 9,
+            "phase": "LIFT",
+            "seed": 2026110913,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 29,
+              "peak_part": "interior",
+              "peak_value": 0.36095021753140555,
+              "exceedance_count": 7,
+              "exceedance_indices": [
+                5,
+                9,
+                10,
+                18,
+                28,
+                29,
+                30
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 7,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.017910337448120116,
+            "first_position_gap_m": 0.0001918411863819518,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999883664129515
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r1",
+            "anchor": 12,
+            "phase": "HOLD",
+            "seed": 2026110914,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 36,
+              "peak_part": "interior",
+              "peak_value": 0.3328116170519206,
+              "exceedance_count": 2,
+              "exceedance_indices": [
+                22,
+                36
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 2,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.0059083461761474595,
+            "first_position_gap_m": 0.00022367104852487744,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9994941912778557
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r1",
+            "anchor": 0,
+            "phase": "PREGRASP",
+            "seed": 2026110915,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 35,
+              "peak_part": "interior",
+              "peak_value": 0.47268801978388897,
+              "exceedance_count": 3,
+              "exceedance_indices": [
+                35,
+                37,
+                38
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 3,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.007058286666870167,
+            "first_position_gap_m": 0.00019114158805272292,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.998444798289938
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r1",
+            "anchor": 1,
+            "phase": "DESCEND",
+            "seed": 2026110916,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 3,
+              "peak_part": "interior",
+              "peak_value": 0.35285421943175865,
+              "exceedance_count": 5,
+              "exceedance_indices": [
+                2,
+                3,
+                4,
+                16,
+                22
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 5,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.015336990356445285,
+            "first_position_gap_m": 0.00028649899215564735,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999389981382257
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r1",
+            "anchor": 8,
+            "phase": "CLOSE",
+            "seed": 2026110917,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_finger_speed_m_s",
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 30,
+              "peak_part": "interior",
+              "peak_value": 0.31903426703735394,
+              "exceedance_count": 5,
+              "exceedance_indices": [
+                24,
+                27,
+                29,
+                30,
+                31
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 5,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.05359435081481942,
+            "first_position_gap_m": 0.00015104061266859301,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999195583050279
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r1",
+            "anchor": 9,
+            "phase": "LIFT",
+            "seed": 2026110918,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 12,
+              "peak_part": "interior",
+              "peak_value": 0.38665641680551877,
+              "exceedance_count": 10,
+              "exceedance_indices": [
+                12,
+                13,
+                16,
+                17,
+                18,
+                32,
+                33,
+                34,
+                35,
+                36
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 10,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.017303681373596187,
+            "first_position_gap_m": 0.000324898459414668,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999554507528529
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r1",
+            "anchor": 12,
+            "phase": "HOLD",
+            "seed": 2026110919,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 15,
+              "peak_part": "interior",
+              "peak_value": 0.29810695393978864,
+              "exceedance_count": 1,
+              "exceedance_indices": [
+                15
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 1,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.021346521377563477,
+            "first_position_gap_m": 0.00023631663725725313,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9998435300030555
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r3",
+            "anchor": 0,
+            "phase": "PREGRASP",
+            "seed": 2026110920,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 29,
+              "peak_part": "interior",
+              "peak_value": 0.4018497094888509,
+              "exceedance_count": 8,
+              "exceedance_indices": [
+                6,
+                7,
+                17,
+                18,
+                26,
+                29,
+                33,
+                36
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 8,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.00690021514892572,
+            "first_position_gap_m": 0.0002093088834437862,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9954361653218684
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r3",
+            "anchor": 2,
+            "phase": "DESCEND",
+            "seed": 2026110921,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 5,
+              "peak_part": "interior",
+              "peak_value": 0.5012660775610692,
+              "exceedance_count": 8,
+              "exceedance_indices": [
+                3,
+                5,
+                6,
+                18,
+                22,
+                24,
+                29,
+                32
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 8,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.0072565555572509655,
+            "first_position_gap_m": 0.00016640477005827912,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9998942561670738
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r3",
+            "anchor": 10,
+            "phase": "CLOSE",
+            "seed": 2026110922,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_finger_speed_m_s",
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 7,
+              "peak_part": "interior",
+              "peak_value": 0.4952478992283718,
+              "exceedance_count": 9,
+              "exceedance_indices": [
+                2,
+                3,
+                6,
+                7,
+                8,
+                14,
+                15,
+                18,
+                24
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 9,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.043172216415405265,
+            "first_position_gap_m": 0.00036666862831435845,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9349335509508716
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r3",
+            "anchor": 11,
+            "phase": "LIFT",
+            "seed": 2026110923,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 7,
+              "peak_part": "interior",
+              "peak_value": 0.5257342229110189,
+              "exceedance_count": 8,
+              "exceedance_indices": [
+                3,
+                6,
+                7,
+                8,
+                16,
+                17,
+                20,
+                21
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 8,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.005421400070190433,
+            "first_position_gap_m": 0.000312962736556793,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999362412049464
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r3",
+            "anchor": 14,
+            "phase": "HOLD",
+            "seed": 2026110924,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 21,
+              "peak_part": "interior",
+              "peak_value": 0.49836029896977335,
+              "exceedance_count": 7,
+              "exceedance_indices": [
+                21,
+                22,
+                31,
+                32,
+                34,
+                35,
+                36
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 7,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.01914725303649902,
+            "first_position_gap_m": 0.0002714140766092795,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9979747225071367
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r3",
+            "anchor": 0,
+            "phase": "PREGRASP",
+            "seed": 2026110925,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 30,
+              "peak_part": "interior",
+              "peak_value": 0.30627416030214044,
+              "exceedance_count": 5,
+              "exceedance_indices": [
+                6,
+                7,
+                22,
+                26,
+                30
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 5,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.00981645584106447,
+            "first_position_gap_m": 0.00024186905238715172,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9986314152248565
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r3",
+            "anchor": 1,
+            "phase": "DESCEND",
+            "seed": 2026110926,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 21,
+              "peak_part": "interior",
+              "peak_value": 0.33901152273544216,
+              "exceedance_count": 3,
+              "exceedance_indices": [
+                3,
+                18,
+                21
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 3,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.0,
+            "first_position_gap_m": 0.0009949703648085995,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9992216183478094
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r3",
+            "anchor": 9,
+            "phase": "CLOSE",
+            "seed": 2026110927,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 17,
+              "peak_part": "interior",
+              "peak_value": 0.41050411890923655,
+              "exceedance_count": 2,
+              "exceedance_indices": [
+                17,
+                18
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 2,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.03818864822387694,
+            "first_position_gap_m": 0.00014188655623070416,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9786029682179309
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r3",
+            "anchor": 10,
+            "phase": "LIFT",
+            "seed": 2026110928,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 2,
+              "peak_part": "interior",
+              "peak_value": 0.48968377774235367,
+              "exceedance_count": 8,
+              "exceedance_indices": [
+                1,
+                2,
+                3,
+                6,
+                7,
+                11,
+                22,
+                26
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 8,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.01262001991271973,
+            "first_position_gap_m": 0.000312790429394671,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999881516213828
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r3",
+            "anchor": 13,
+            "phase": "HOLD",
+            "seed": 2026110929,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 1,
+              "peak_part": "interior",
+              "peak_value": 0.33198671545394143,
+              "exceedance_count": 4,
+              "exceedance_indices": [
+                1,
+                18,
+                29,
+                30
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 4,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.014666604995727537,
+            "first_position_gap_m": 0.00014278920474424133,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9997492812725998
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r3",
+            "anchor": 0,
+            "phase": "PREGRASP",
+            "seed": 2026110930,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 37,
+              "peak_part": "interior",
+              "peak_value": 0.6288916060084387,
+              "exceedance_count": 11,
+              "exceedance_indices": [
+                2,
+                3,
+                4,
+                7,
+                17,
+                18,
+                20,
+                32,
+                36,
+                37,
+                38
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 11,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.01376686096191404,
+            "first_position_gap_m": 0.00024123298372448376,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9983185940665291
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r3",
+            "anchor": 1,
+            "phase": "DESCEND",
+            "seed": 2026110931,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 18,
+              "peak_part": "interior",
+              "peak_value": 0.3680160690752884,
+              "exceedance_count": 5,
+              "exceedance_indices": [
+                2,
+                3,
+                17,
+                18,
+                24
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 5,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.0,
+            "first_position_gap_m": 0.00035075178725906014,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999862260900435
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r3",
+            "anchor": 9,
+            "phase": "CLOSE",
+            "seed": 2026110932,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_finger_speed_m_s",
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 26,
+              "peak_part": "interior",
+              "peak_value": 0.6399933603073613,
+              "exceedance_count": 12,
+              "exceedance_indices": [
+                2,
+                8,
+                9,
+                13,
+                17,
+                18,
+                25,
+                26,
+                27,
+                29,
+                30,
+                33
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 12,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.04342508316040036,
+            "first_position_gap_m": 0.0004733070184906328,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.821798148020487
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r3",
+            "anchor": 10,
+            "phase": "LIFT",
+            "seed": 2026110933,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 14,
+              "peak_part": "interior",
+              "peak_value": 0.4747683887306835,
+              "exceedance_count": 7,
+              "exceedance_indices": [
+                1,
+                2,
+                14,
+                15,
+                19,
+                20,
+                21
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 7,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.01750626564025878,
+            "first_position_gap_m": 8.019776469798642e-05,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999688365108294
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r3",
+            "anchor": 12,
+            "phase": "HOLD",
+            "seed": 2026110934,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 17,
+              "peak_part": "interior",
+              "peak_value": 0.3664194870586028,
+              "exceedance_count": 11,
+              "exceedance_indices": [
+                5,
+                10,
+                11,
+                16,
+                17,
+                18,
+                22,
+                23,
+                27,
+                37,
+                38
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 11,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.01734142303466796,
+            "first_position_gap_m": 0.0006532177131184935,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9989705870277381
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r3",
+            "anchor": 0,
+            "phase": "PREGRASP",
+            "seed": 2026110935,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 35,
+              "peak_part": "interior",
+              "peak_value": 0.6051071412713585,
+              "exceedance_count": 11,
+              "exceedance_indices": [
+                2,
+                5,
+                19,
+                20,
+                21,
+                22,
+                24,
+                25,
+                28,
+                35,
+                36
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 11,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 8.678436279330182e-06,
+            "first_position_gap_m": 0.0007438182657776993,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9971480579211077
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r3",
+            "anchor": 1,
+            "phase": "DESCEND",
+            "seed": 2026110936,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 12,
+              "peak_part": "interior",
+              "peak_value": 0.5236512226683453,
+              "exceedance_count": 14,
+              "exceedance_indices": [
+                4,
+                5,
+                10,
+                11,
+                12,
+                13,
+                18,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33,
+                34
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 14,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.0,
+            "first_position_gap_m": 0.0004297672136505097,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999955006850214
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r3",
+            "anchor": 9,
+            "phase": "CLOSE",
+            "seed": 2026110937,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 14,
+              "peak_part": "interior",
+              "peak_value": 0.33216656994558086,
+              "exceedance_count": 5,
+              "exceedance_indices": [
+                5,
+                14,
+                26,
+                34,
+                35
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 5,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.03710701465606689,
+            "first_position_gap_m": 0.0008306212774112998,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.564461040974759
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r3",
+            "anchor": 10,
+            "phase": "LIFT",
+            "seed": 2026110938,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 24,
+              "peak_part": "interior",
+              "peak_value": 0.38903604813210463,
+              "exceedance_count": 5,
+              "exceedance_indices": [
+                6,
+                7,
+                16,
+                24,
+                25
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 5,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.015452933311462394,
+            "first_position_gap_m": 0.00015337558243723882,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999957379146064
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r3",
+            "anchor": 12,
+            "phase": "HOLD",
+            "seed": 2026110939,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 27,
+              "peak_part": "interior",
+              "peak_value": 0.4925027645137221,
+              "exceedance_count": 7,
+              "exceedance_indices": [
+                2,
+                9,
+                23,
+                26,
+                27,
+                28,
+                34
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 7,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.022863817214965818,
+            "first_position_gap_m": 0.00019181687107365576,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.999892665203237
+          }
+        ],
+        "ORIGINAL_LAST2_500": [
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r1",
+            "anchor": 0,
+            "phase": "PREGRASP",
+            "seed": 2026110900,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 4,
+              "peak_part": "interior",
+              "peak_value": 0.43455041410216094,
+              "exceedance_count": 9,
+              "exceedance_indices": [
+                3,
+                4,
+                14,
+                20,
+                21,
+                23,
+                31,
+                32,
+                36
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 9,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.03425822257995606,
+            "first_position_gap_m": 0.00019351783076307718,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9991478837008855
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r1",
+            "anchor": 2,
+            "phase": "DESCEND",
+            "seed": 2026110901,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 27,
+              "peak_part": "interior",
+              "peak_value": 0.4128527671639833,
+              "exceedance_count": 10,
+              "exceedance_indices": [
+                10,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                25,
+                27,
+                31
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 10,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.011949348449706992,
+            "first_position_gap_m": 0.0006407808536412954,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999493953388509
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r1",
+            "anchor": 9,
+            "phase": "CLOSE",
+            "seed": 2026110902,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_finger_speed_m_s",
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 6,
+              "peak_part": "interior",
+              "peak_value": 0.4197440952751807,
+              "exceedance_count": 5,
+              "exceedance_indices": [
+                5,
+                6,
+                18,
+                19,
+                37
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 5,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.05478034019470213,
+            "first_position_gap_m": 0.0003263628169226916,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9960989705508922
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r1",
+            "anchor": 10,
+            "phase": "LIFT",
+            "seed": 2026110903,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 21,
+              "peak_part": "interior",
+              "peak_value": 0.29570492084978517,
+              "exceedance_count": 4,
+              "exceedance_indices": [
+                21,
+                22,
+                29,
+                30
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 4,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.016867232322692872,
+            "first_position_gap_m": 0.00047670778018612804,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999759913286679
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r1",
+            "anchor": 13,
+            "phase": "HOLD",
+            "seed": 2026110904,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 31,
+              "peak_part": "interior",
+              "peak_value": 0.26977918045348864,
+              "exceedance_count": 1,
+              "exceedance_indices": [
+                31
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 1,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.019854640960693348,
+            "first_position_gap_m": 0.00019561293074462255,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9989795469760337
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r1",
+            "anchor": 0,
+            "phase": "PREGRASP",
+            "seed": 2026110905,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 36,
+              "peak_part": "interior",
+              "peak_value": 0.25518350477220836,
+              "exceedance_count": 1,
+              "exceedance_indices": [
+                36
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 1,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.013918304443359397,
+            "first_position_gap_m": 0.0005293404081426501,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9995306654071818
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r1",
+            "anchor": 1,
+            "phase": "DESCEND",
+            "seed": 2026110906,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 17,
+              "peak_part": "interior",
+              "peak_value": 0.4180652312151741,
+              "exceedance_count": 12,
+              "exceedance_indices": [
+                2,
+                12,
+                13,
+                15,
+                16,
+                17,
+                18,
+                20,
+                23,
+                25,
+                33,
+                34
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 12,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.006608486175537082,
+            "first_position_gap_m": 0.0003273409929256801,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999149351550931
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r1",
+            "anchor": 8,
+            "phase": "CLOSE",
+            "seed": 2026110907,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_finger_speed_m_s",
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 33,
+              "peak_part": "interior",
+              "peak_value": 0.3982228200309244,
+              "exceedance_count": 5,
+              "exceedance_indices": [
+                14,
+                21,
+                22,
+                32,
+                33
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 5,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.06323542594909672,
+            "first_position_gap_m": 0.0008562162289777171,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9994973077456276
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r1",
+            "anchor": 9,
+            "phase": "LIFT",
+            "seed": 2026110908,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 27,
+              "peak_part": "interior",
+              "peak_value": 0.45119008085421713,
+              "exceedance_count": 5,
+              "exceedance_indices": [
+                4,
+                13,
+                18,
+                26,
+                27
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 5,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.016178655624389648,
+            "first_position_gap_m": 0.00017714478719132155,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999794438128627
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r1",
+            "anchor": 12,
+            "phase": "HOLD",
+            "seed": 2026110909,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 34,
+              "peak_part": "interior",
+              "peak_value": 0.30421146655542736,
+              "exceedance_count": 2,
+              "exceedance_indices": [
+                3,
+                34
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 2,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.029692935943603522,
+            "first_position_gap_m": 0.0005458857505059834,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9994985992527811
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r1",
+            "anchor": 0,
+            "phase": "PREGRASP",
+            "seed": 2026110910,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 19,
+              "peak_part": "interior",
+              "peak_value": 0.47161343560463587,
+              "exceedance_count": 7,
+              "exceedance_indices": [
+                2,
+                6,
+                12,
+                18,
+                19,
+                20,
+                33
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 7,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.0,
+            "first_position_gap_m": 0.0010166905465415139,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999173403075747
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r1",
+            "anchor": 1,
+            "phase": "DESCEND",
+            "seed": 2026110911,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 30,
+              "peak_part": "interior",
+              "peak_value": 0.35040282393387245,
+              "exceedance_count": 4,
+              "exceedance_indices": [
+                4,
+                15,
+                29,
+                30
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 4,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.019858264923095642,
+            "first_position_gap_m": 8.007878389701317e-05,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999931590586782
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r1",
+            "anchor": 8,
+            "phase": "CLOSE",
+            "seed": 2026110912,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_finger_speed_m_s",
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 17,
+              "peak_part": "interior",
+              "peak_value": 0.3267017955854185,
+              "exceedance_count": 2,
+              "exceedance_indices": [
+                16,
+                17
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 2,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.05785653591156001,
+            "first_position_gap_m": 0.00047793987637031316,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9988876535587157
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r1",
+            "anchor": 9,
+            "phase": "LIFT",
+            "seed": 2026110913,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 29,
+              "peak_part": "interior",
+              "peak_value": 0.5817795749124088,
+              "exceedance_count": 6,
+              "exceedance_indices": [
+                27,
+                28,
+                29,
+                30,
+                31,
+                36
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 6,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.016282701492309558,
+            "first_position_gap_m": 0.0002603307376204522,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999905434388379
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r1",
+            "anchor": 12,
+            "phase": "HOLD",
+            "seed": 2026110914,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 5,
+              "peak_part": "interior",
+              "peak_value": 0.32130496794993774,
+              "exceedance_count": 5,
+              "exceedance_indices": [
+                4,
+                5,
+                21,
+                26,
+                27
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 5,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.016354465484619135,
+            "first_position_gap_m": 0.000444524581898612,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.999700276869526
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r1",
+            "anchor": 0,
+            "phase": "PREGRASP",
+            "seed": 2026110915,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 35,
+              "peak_part": "interior",
+              "peak_value": 0.3011209193354597,
+              "exceedance_count": 2,
+              "exceedance_indices": [
+                35,
+                36
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 2,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.010633325576782232,
+            "first_position_gap_m": 0.0004992967342527158,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999232279874852
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r1",
+            "anchor": 1,
+            "phase": "DESCEND",
+            "seed": 2026110916,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 2,
+              "peak_part": "interior",
+              "peak_value": 0.3745783831300771,
+              "exceedance_count": 7,
+              "exceedance_indices": [
+                2,
+                3,
+                4,
+                10,
+                11,
+                33,
+                34
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 7,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.01750302314758298,
+            "first_position_gap_m": 0.0003450794490601316,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999862435003753
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r1",
+            "anchor": 8,
+            "phase": "CLOSE",
+            "seed": 2026110917,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_finger_speed_m_s",
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 18,
+              "peak_part": "interior",
+              "peak_value": 0.4043427573403388,
+              "exceedance_count": 5,
+              "exceedance_indices": [
+                9,
+                10,
+                18,
+                27,
+                28
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 5,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.07156307697296138,
+            "first_position_gap_m": 0.000492976843453762,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9989098431322698
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r1",
+            "anchor": 9,
+            "phase": "LIFT",
+            "seed": 2026110918,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 11,
+              "peak_part": "interior",
+              "peak_value": 0.28414381108868864,
+              "exceedance_count": 2,
+              "exceedance_indices": [
+                11,
+                27
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 2,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.014959955215454101,
+            "first_position_gap_m": 0.0005578773847782571,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999631807699978
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r1",
+            "anchor": 12,
+            "phase": "HOLD",
+            "seed": 2026110919,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 37,
+              "peak_part": "interior",
+              "peak_value": 0.29878786853088746,
+              "exceedance_count": 1,
+              "exceedance_indices": [
+                37
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 1,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.01803126335144043,
+            "first_position_gap_m": 0.0002204598052522135,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9990899963147322
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r3",
+            "anchor": 0,
+            "phase": "PREGRASP",
+            "seed": 2026110920,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 21,
+              "peak_part": "interior",
+              "peak_value": 0.2914925704715309,
+              "exceedance_count": 5,
+              "exceedance_indices": [
+                5,
+                21,
+                30,
+                34,
+                38
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 5,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.018292236328125017,
+            "first_position_gap_m": 0.0003225317044816002,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9990832718049721
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r3",
+            "anchor": 2,
+            "phase": "DESCEND",
+            "seed": 2026110921,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 32,
+              "peak_part": "interior",
+              "peak_value": 0.4457484936130404,
+              "exceedance_count": 6,
+              "exceedance_indices": [
+                13,
+                14,
+                19,
+                31,
+                32,
+                33
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 6,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.01898188591003422,
+            "first_position_gap_m": 0.00026845580079483313,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999980881269934
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r3",
+            "anchor": 10,
+            "phase": "CLOSE",
+            "seed": 2026110922,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 2,
+              "peak_part": "interior",
+              "peak_value": 0.37842274778990626,
+              "exceedance_count": 8,
+              "exceedance_indices": [
+                1,
+                2,
+                9,
+                24,
+                25,
+                30,
+                31,
+                36
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 8,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.038094139099121065,
+            "first_position_gap_m": 0.0003471576804004621,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999514440053359
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r3",
+            "anchor": 11,
+            "phase": "LIFT",
+            "seed": 2026110923,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 25,
+              "peak_part": "interior",
+              "peak_value": 0.3643869576293966,
+              "exceedance_count": 2,
+              "exceedance_indices": [
+                24,
+                25
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 2,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.008279371261596677,
+            "first_position_gap_m": 0.00019044364526195524,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999815646434902
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r3",
+            "anchor": 14,
+            "phase": "HOLD",
+            "seed": 2026110924,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 29,
+              "peak_part": "interior",
+              "peak_value": 0.31981730966021704,
+              "exceedance_count": 2,
+              "exceedance_indices": [
+                15,
+                29
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 2,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.01742310523986816,
+            "first_position_gap_m": 0.00021225626639051392,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9991691628039462
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r3",
+            "anchor": 0,
+            "phase": "PREGRASP",
+            "seed": 2026110925,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 9,
+              "peak_part": "interior",
+              "peak_value": 0.396019374290452,
+              "exceedance_count": 5,
+              "exceedance_indices": [
+                9,
+                10,
+                19,
+                20,
+                31
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 5,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.022329521179199202,
+            "first_position_gap_m": 0.0007691594519819917,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9988846194668445
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r3",
+            "anchor": 1,
+            "phase": "DESCEND",
+            "seed": 2026110926,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 9,
+              "peak_part": "interior",
+              "peak_value": 0.4024349939812754,
+              "exceedance_count": 3,
+              "exceedance_indices": [
+                8,
+                9,
+                19
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 3,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.009836959838867149,
+            "first_position_gap_m": 0.000780827195991183,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.999809985167536
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r3",
+            "anchor": 9,
+            "phase": "CLOSE",
+            "seed": 2026110927,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 17,
+              "peak_part": "interior",
+              "peak_value": 0.3684952293332143,
+              "exceedance_count": 4,
+              "exceedance_indices": [
+                17,
+                18,
+                25,
+                38
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 4,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.03261058330535891,
+            "first_position_gap_m": 9.373153284260865e-05,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9917753067919648
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r3",
+            "anchor": 10,
+            "phase": "LIFT",
+            "seed": 2026110928,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 13,
+              "peak_part": "interior",
+              "peak_value": 0.4430319374448017,
+              "exceedance_count": 8,
+              "exceedance_indices": [
+                2,
+                3,
+                9,
+                10,
+                13,
+                14,
+                26,
+                27
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 8,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.019227504730224606,
+            "first_position_gap_m": 6.555565023754125e-05,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999931144014942
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r3",
+            "anchor": 13,
+            "phase": "HOLD",
+            "seed": 2026110929,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 11,
+              "peak_part": "interior",
+              "peak_value": 0.26537361810417626,
+              "exceedance_count": 2,
+              "exceedance_indices": [
+                11,
+                28
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 2,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.018085241317749013,
+            "first_position_gap_m": 0.00011888549801610264,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.998647727823406
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r3",
+            "anchor": 0,
+            "phase": "PREGRASP",
+            "seed": 2026110930,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 37,
+              "peak_part": "interior",
+              "peak_value": 0.6218992191682305,
+              "exceedance_count": 7,
+              "exceedance_indices": [
+                15,
+                16,
+                19,
+                30,
+                36,
+                37,
+                38
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 7,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.01587791442871092,
+            "first_position_gap_m": 6.0193972225792194e-05,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999964903389711
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r3",
+            "anchor": 1,
+            "phase": "DESCEND",
+            "seed": 2026110931,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 20,
+              "peak_part": "interior",
+              "peak_value": 0.47593202796823425,
+              "exceedance_count": 4,
+              "exceedance_indices": [
+                6,
+                7,
+                20,
+                21
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 4,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.008001232147216847,
+            "first_position_gap_m": 0.0005311161680778848,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999673362425024
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r3",
+            "anchor": 9,
+            "phase": "CLOSE",
+            "seed": 2026110932,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 26,
+              "peak_part": "interior",
+              "peak_value": 0.5412939958105423,
+              "exceedance_count": 7,
+              "exceedance_indices": [
+                7,
+                8,
+                17,
+                25,
+                26,
+                32,
+                36
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 7,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.03471665382385254,
+            "first_position_gap_m": 0.0005776275205065919,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9979235651230298
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r3",
+            "anchor": 10,
+            "phase": "LIFT",
+            "seed": 2026110933,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 34,
+              "peak_part": "interior",
+              "peak_value": 0.6744535181687791,
+              "exceedance_count": 6,
+              "exceedance_indices": [
+                7,
+                8,
+                9,
+                33,
+                34,
+                35
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 6,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.021153330802917477,
+            "first_position_gap_m": 0.00020148062506427608,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999958213306579
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r3",
+            "anchor": 12,
+            "phase": "HOLD",
+            "seed": 2026110934,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 28,
+              "peak_part": "interior",
+              "peak_value": 0.4200172730401077,
+              "exceedance_count": 11,
+              "exceedance_indices": [
+                3,
+                4,
+                15,
+                16,
+                18,
+                21,
+                27,
+                28,
+                29,
+                32,
+                33
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 11,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.02225852012634276,
+            "first_position_gap_m": 0.0007801249963617081,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9996992891934444
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r3",
+            "anchor": 0,
+            "phase": "PREGRASP",
+            "seed": 2026110935,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 2,
+              "peak_part": "interior",
+              "peak_value": 0.6036527072563564,
+              "exceedance_count": 7,
+              "exceedance_indices": [
+                1,
+                2,
+                3,
+                23,
+                24,
+                27,
+                28
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 7,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.0019359588623046875,
+            "first_position_gap_m": 0.0008765421460803188,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9996043964177793
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r3",
+            "anchor": 1,
+            "phase": "DESCEND",
+            "seed": 2026110936,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 15,
+              "peak_part": "interior",
+              "peak_value": 0.32742780570500263,
+              "exceedance_count": 7,
+              "exceedance_indices": [
+                2,
+                14,
+                15,
+                18,
+                19,
+                27,
+                28
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 7,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.0,
+            "first_position_gap_m": 0.0006199064618266865,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999736553042944
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r3",
+            "anchor": 9,
+            "phase": "CLOSE",
+            "seed": 2026110937,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 26,
+              "peak_part": "interior",
+              "peak_value": 0.32731824905133033,
+              "exceedance_count": 5,
+              "exceedance_indices": [
+                21,
+                22,
+                25,
+                26,
+                35
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 5,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.03393850326538085,
+            "first_position_gap_m": 0.0005700704412670771,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9923362843830684
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r3",
+            "anchor": 10,
+            "phase": "LIFT",
+            "seed": 2026110938,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 9,
+              "peak_part": "interior",
+              "peak_value": 0.4105933571288285,
+              "exceedance_count": 3,
+              "exceedance_indices": [
+                9,
+                10,
+                31
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 3,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.014624977111816406,
+            "first_position_gap_m": 0.0005657030490912935,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999885549106695
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r3",
+            "anchor": 12,
+            "phase": "HOLD",
+            "seed": 2026110939,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 9,
+              "peak_part": "interior",
+              "peak_value": 0.3744698151813524,
+              "exceedance_count": 6,
+              "exceedance_indices": [
+                1,
+                9,
+                14,
+                27,
+                28,
+                34
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 6,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.011765694618225096,
+            "first_position_gap_m": 0.000536925365065469,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999594326618529
+          }
+        ],
+        "EVENT_LAST2_500": [
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r1",
+            "anchor": 0,
+            "phase": "PREGRASP",
+            "seed": 2026110900,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 23,
+              "peak_part": "interior",
+              "peak_value": 0.3501937578612981,
+              "exceedance_count": 3,
+              "exceedance_indices": [
+                20,
+                22,
+                23
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 3,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.029354619979858332,
+            "first_position_gap_m": 0.00027614409800792055,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999379311164832
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r1",
+            "anchor": 2,
+            "phase": "DESCEND",
+            "seed": 2026110901,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 19,
+              "peak_part": "interior",
+              "peak_value": 0.42448198387710895,
+              "exceedance_count": 4,
+              "exceedance_indices": [
+                18,
+                19,
+                20,
+                27
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 4,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.00811300277709967,
+            "first_position_gap_m": 0.00030728141493210984,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999212031160318
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r1",
+            "anchor": 9,
+            "phase": "CLOSE",
+            "seed": 2026110902,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_finger_speed_m_s",
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 18,
+              "peak_part": "interior",
+              "peak_value": 0.33923264367785483,
+              "exceedance_count": 4,
+              "exceedance_indices": [
+                6,
+                18,
+                19,
+                32
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 4,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.0502026796340942,
+            "first_position_gap_m": 0.0003005429446054516,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.99881106185304
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r1",
+            "anchor": 10,
+            "phase": "LIFT",
+            "seed": 2026110903,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 22,
+              "peak_part": "interior",
+              "peak_value": 0.41345735949694573,
+              "exceedance_count": 4,
+              "exceedance_indices": [
+                21,
+                22,
+                23,
+                32
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 4,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.014328217506408688,
+            "first_position_gap_m": 0.0006491549452432021,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999973395189021
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r1",
+            "anchor": 13,
+            "phase": "HOLD",
+            "seed": 2026110904,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 26,
+              "peak_part": "interior",
+              "peak_value": 0.2513822470353068,
+              "exceedance_count": 1,
+              "exceedance_indices": [
+                26
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 1,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.0052563190460205075,
+            "first_position_gap_m": 0.00015864525028923726,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9962040639254923
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r1",
+            "anchor": 0,
+            "phase": "PREGRASP",
+            "seed": 2026110905,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 14,
+              "peak_part": "interior",
+              "peak_value": 0.3226422558058402,
+              "exceedance_count": 5,
+              "exceedance_indices": [
+                13,
+                14,
+                23,
+                24,
+                36
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 5,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.0,
+            "first_position_gap_m": 0.0002116145993435278,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9996669117184613
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r1",
+            "anchor": 1,
+            "phase": "DESCEND",
+            "seed": 2026110906,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 2,
+              "peak_part": "interior",
+              "peak_value": 0.45250689121034277,
+              "exceedance_count": 10,
+              "exceedance_indices": [
+                1,
+                2,
+                8,
+                9,
+                15,
+                16,
+                17,
+                28,
+                31,
+                32
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 10,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.0070318222045898104,
+            "first_position_gap_m": 0.0001478960987095995,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9998474383608063
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r1",
+            "anchor": 8,
+            "phase": "CLOSE",
+            "seed": 2026110907,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_finger_speed_m_s"
+            ],
+            "linear_acceleration": {
+              "peak_index": 33,
+              "peak_part": "interior",
+              "peak_value": 0.23423999414466265,
+              "exceedance_count": 0,
+              "exceedance_indices": [],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 0,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.05639958381652835,
+            "first_position_gap_m": 0.0006167850411512966,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9982130470371802
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r1",
+            "anchor": 9,
+            "phase": "LIFT",
+            "seed": 2026110908,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 30,
+              "peak_part": "interior",
+              "peak_value": 0.35535860305692496,
+              "exceedance_count": 1,
+              "exceedance_indices": [
+                30
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 1,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.018293952941894533,
+            "first_position_gap_m": 0.00024630817452616786,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999951622706539
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r1",
+            "anchor": 12,
+            "phase": "HOLD",
+            "seed": 2026110909,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 24,
+              "peak_part": "interior",
+              "peak_value": 0.28131420100584664,
+              "exceedance_count": 3,
+              "exceedance_indices": [
+                8,
+                9,
+                24
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 3,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.025005221366882317,
+            "first_position_gap_m": 0.0007096520119692902,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.99865166030754
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r1",
+            "anchor": 0,
+            "phase": "PREGRASP",
+            "seed": 2026110910,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 26,
+              "peak_part": "interior",
+              "peak_value": 0.40800061187346287,
+              "exceedance_count": 4,
+              "exceedance_indices": [
+                6,
+                19,
+                26,
+                33
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 4,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.0,
+            "first_position_gap_m": 0.0006890700094883758,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9998889371323436
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r1",
+            "anchor": 1,
+            "phase": "DESCEND",
+            "seed": 2026110911,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 30,
+              "peak_part": "interior",
+              "peak_value": 0.35295069441919696,
+              "exceedance_count": 2,
+              "exceedance_indices": [
+                29,
+                30
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 2,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.017323589324951122,
+            "first_position_gap_m": 0.00041457573847531663,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999635572878368
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r1",
+            "anchor": 8,
+            "phase": "CLOSE",
+            "seed": 2026110912,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_finger_speed_m_s",
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 38,
+              "peak_part": "interior",
+              "peak_value": 0.25257704451539253,
+              "exceedance_count": 2,
+              "exceedance_indices": [
+                37,
+                38
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 2,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.05949623584747321,
+            "first_position_gap_m": 0.0002571418443581017,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999055833319458
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r1",
+            "anchor": 9,
+            "phase": "LIFT",
+            "seed": 2026110913,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 30,
+              "peak_part": "interior",
+              "peak_value": 0.2625275113173227,
+              "exceedance_count": 3,
+              "exceedance_indices": [
+                28,
+                29,
+                30
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 3,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.015429282188415524,
+            "first_position_gap_m": 0.00045327802437887955,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999930277723381
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r1",
+            "anchor": 12,
+            "phase": "HOLD",
+            "seed": 2026110914,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 26,
+              "peak_part": "interior",
+              "peak_value": 0.40750334315513265,
+              "exceedance_count": 3,
+              "exceedance_indices": [
+                17,
+                26,
+                27
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 3,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.0,
+            "first_position_gap_m": 0.0004029958632426306,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9987359386643421
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r1",
+            "anchor": 0,
+            "phase": "PREGRASP",
+            "seed": 2026110915,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 36,
+              "peak_part": "interior",
+              "peak_value": 0.3788243472544084,
+              "exceedance_count": 2,
+              "exceedance_indices": [
+                35,
+                36
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 2,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.004435729980468706,
+            "first_position_gap_m": 0.00029716546063162253,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999742543588577
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r1",
+            "anchor": 1,
+            "phase": "DESCEND",
+            "seed": 2026110916,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 10,
+              "peak_part": "interior",
+              "peak_value": 0.2501124881147428,
+              "exceedance_count": 1,
+              "exceedance_indices": [
+                10
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 1,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.013661479949951122,
+            "first_position_gap_m": 0.00028750525725937333,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999997531852101
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r1",
+            "anchor": 8,
+            "phase": "CLOSE",
+            "seed": 2026110917,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_finger_speed_m_s",
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 27,
+              "peak_part": "interior",
+              "peak_value": 0.2925494555969292,
+              "exceedance_count": 3,
+              "exceedance_indices": [
+                27,
+                28,
+                34
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 3,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.05984437465667736,
+            "first_position_gap_m": 0.000325981824784816,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9987834785189219
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r1",
+            "anchor": 9,
+            "phase": "LIFT",
+            "seed": 2026110918,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 31,
+              "peak_part": "interior",
+              "peak_value": 0.3734102646054525,
+              "exceedance_count": 3,
+              "exceedance_indices": [
+                4,
+                24,
+                31
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 3,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.017484307289123528,
+            "first_position_gap_m": 0.0005048393493465047,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999625057842353
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r1",
+            "anchor": 12,
+            "phase": "HOLD",
+            "seed": 2026110919,
+            "original_envelope_pass": true,
+            "failed_components": [],
+            "linear_acceleration": {
+              "peak_index": 37,
+              "peak_part": "interior",
+              "peak_value": 0.22994512072808182,
+              "exceedance_count": 0,
+              "exceedance_indices": [],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 0,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.01550610065460205,
+            "first_position_gap_m": 0.0004187725448125369,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9989396977723605
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r3",
+            "anchor": 0,
+            "phase": "PREGRASP",
+            "seed": 2026110920,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 6,
+              "peak_part": "interior",
+              "peak_value": 0.4231181958075407,
+              "exceedance_count": 3,
+              "exceedance_indices": [
+                6,
+                7,
+                35
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 3,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.0,
+            "first_position_gap_m": 0.00030500411419659315,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9996498594450595
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r3",
+            "anchor": 2,
+            "phase": "DESCEND",
+            "seed": 2026110921,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 32,
+              "peak_part": "interior",
+              "peak_value": 0.5629603548858175,
+              "exceedance_count": 5,
+              "exceedance_indices": [
+                1,
+                23,
+                24,
+                32,
+                33
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 5,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.011938953399658198,
+            "first_position_gap_m": 0.0003880016837100321,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999569696611673
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r3",
+            "anchor": 10,
+            "phase": "CLOSE",
+            "seed": 2026110922,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 36,
+              "peak_part": "interior",
+              "peak_value": 0.3906855081095759,
+              "exceedance_count": 2,
+              "exceedance_indices": [
+                31,
+                36
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 2,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.030358219146728524,
+            "first_position_gap_m": 0.00021809835646015822,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9935310360746773
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r3",
+            "anchor": 11,
+            "phase": "LIFT",
+            "seed": 2026110923,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 37,
+              "peak_part": "interior",
+              "peak_value": 0.30653368110472107,
+              "exceedance_count": 4,
+              "exceedance_indices": [
+                12,
+                31,
+                36,
+                37
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 4,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.0,
+            "first_position_gap_m": 0.0004730635707799119,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999722941621627
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r3",
+            "anchor": 14,
+            "phase": "HOLD",
+            "seed": 2026110924,
+            "original_envelope_pass": true,
+            "failed_components": [],
+            "linear_acceleration": {
+              "peak_index": 18,
+              "peak_part": "interior",
+              "peak_value": 0.2216992586639506,
+              "exceedance_count": 0,
+              "exceedance_indices": [],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 0,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.010186886787414548,
+            "first_position_gap_m": 0.0001489206469584101,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9995549216775796
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r3",
+            "anchor": 0,
+            "phase": "PREGRASP",
+            "seed": 2026110925,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 19,
+              "peak_part": "interior",
+              "peak_value": 0.3714679294960275,
+              "exceedance_count": 3,
+              "exceedance_indices": [
+                18,
+                19,
+                20
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 3,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.009307193756103449,
+            "first_position_gap_m": 0.0003565715727770282,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9998281503147082
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r3",
+            "anchor": 1,
+            "phase": "DESCEND",
+            "seed": 2026110926,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 19,
+              "peak_part": "interior",
+              "peak_value": 0.33273284074506493,
+              "exceedance_count": 4,
+              "exceedance_indices": [
+                9,
+                11,
+                18,
+                19
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 4,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.011977338790893494,
+            "first_position_gap_m": 0.0004610761658582848,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9998355049992317
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r3",
+            "anchor": 9,
+            "phase": "CLOSE",
+            "seed": 2026110927,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 1,
+              "peak_part": "interior",
+              "peak_value": 0.35202157056909944,
+              "exceedance_count": 4,
+              "exceedance_indices": [
+                1,
+                2,
+                17,
+                30
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 4,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.0317701816558838,
+            "first_position_gap_m": 0.0001115756917477467,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9906728342839151
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r3",
+            "anchor": 10,
+            "phase": "LIFT",
+            "seed": 2026110928,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 26,
+              "peak_part": "interior",
+              "peak_value": 0.48159174068204724,
+              "exceedance_count": 5,
+              "exceedance_indices": [
+                9,
+                10,
+                25,
+                26,
+                31
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 5,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.008237671852111819,
+            "first_position_gap_m": 0.00035750897965794454,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999800648596998
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r3",
+            "anchor": 13,
+            "phase": "HOLD",
+            "seed": 2026110929,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 23,
+              "peak_part": "interior",
+              "peak_value": 0.45805219370394007,
+              "exceedance_count": 3,
+              "exceedance_indices": [
+                22,
+                23,
+                28
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 3,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.008255887031555177,
+            "first_position_gap_m": 0.00023062376565025278,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9995393499085699
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r3",
+            "anchor": 0,
+            "phase": "PREGRASP",
+            "seed": 2026110930,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 37,
+              "peak_part": "interior",
+              "peak_value": 0.4127580358775739,
+              "exceedance_count": 2,
+              "exceedance_indices": [
+                36,
+                37
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 2,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.006953334808349615,
+            "first_position_gap_m": 0.00012532961286496007,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999080241527013
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r3",
+            "anchor": 1,
+            "phase": "DESCEND",
+            "seed": 2026110931,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 29,
+              "peak_part": "interior",
+              "peak_value": 0.31849192735801807,
+              "exceedance_count": 3,
+              "exceedance_indices": [
+                20,
+                29,
+                31
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 3,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.004251241683959905,
+            "first_position_gap_m": 0.0002691719013946427,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999980092847214
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r3",
+            "anchor": 9,
+            "phase": "CLOSE",
+            "seed": 2026110932,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 26,
+              "peak_part": "interior",
+              "peak_value": 0.4375109046953921,
+              "exceedance_count": 4,
+              "exceedance_indices": [
+                25,
+                26,
+                27,
+                36
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 4,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.03959946632385254,
+            "first_position_gap_m": 0.00045108814575347525,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9988222661165015
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r3",
+            "anchor": 10,
+            "phase": "LIFT",
+            "seed": 2026110933,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 35,
+              "peak_part": "interior",
+              "peak_value": 0.3527186907602238,
+              "exceedance_count": 4,
+              "exceedance_indices": [
+                8,
+                9,
+                34,
+                35
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 4,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.020163178443908688,
+            "first_position_gap_m": 0.00038766198901132724,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999697711548875
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r3",
+            "anchor": 12,
+            "phase": "HOLD",
+            "seed": 2026110934,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 27,
+              "peak_part": "interior",
+              "peak_value": 0.3365855952917136,
+              "exceedance_count": 2,
+              "exceedance_indices": [
+                27,
+                28
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 2,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.015215897560119625,
+            "first_position_gap_m": 0.0005870419637861536,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9996574268867205
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r3",
+            "anchor": 0,
+            "phase": "PREGRASP",
+            "seed": 2026110935,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 2,
+              "peak_part": "interior",
+              "peak_value": 0.39500535550123217,
+              "exceedance_count": 7,
+              "exceedance_indices": [
+                2,
+                7,
+                8,
+                22,
+                23,
+                28,
+                36
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 7,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.0,
+            "first_position_gap_m": 0.0005586486427788992,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9996038257473752
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r3",
+            "anchor": 1,
+            "phase": "DESCEND",
+            "seed": 2026110936,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 2,
+              "peak_part": "interior",
+              "peak_value": 0.34952868910728213,
+              "exceedance_count": 4,
+              "exceedance_indices": [
+                2,
+                3,
+                14,
+                32
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 4,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.0,
+            "first_position_gap_m": 0.00041156987362676005,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999881779265289
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r3",
+            "anchor": 9,
+            "phase": "CLOSE",
+            "seed": 2026110937,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 25,
+              "peak_part": "interior",
+              "peak_value": 0.4066469514110145,
+              "exceedance_count": 3,
+              "exceedance_indices": [
+                25,
+                26,
+                36
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 3,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.030408477783203068,
+            "first_position_gap_m": 0.0005110309517250746,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9990694836585012
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r3",
+            "anchor": 10,
+            "phase": "LIFT",
+            "seed": 2026110938,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 9,
+              "peak_part": "interior",
+              "peak_value": 0.32455211807539874,
+              "exceedance_count": 1,
+              "exceedance_indices": [
+                9
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 1,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.009373784065246577,
+            "first_position_gap_m": 0.0005980459074037436,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999956561266264
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r3",
+            "anchor": 12,
+            "phase": "HOLD",
+            "seed": 2026110939,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "linear_acceleration": {
+              "peak_index": 34,
+              "peak_part": "interior",
+              "peak_value": 0.3628341465117783,
+              "exceedance_count": 4,
+              "exceedance_indices": [
+                11,
+                12,
+                28,
+                34
+              ],
+              "exceedances_by_part": {
+                "first": 0,
+                "interior": 4,
+                "last": 0
+              }
+            },
+            "finger_speed_peak_m_s": 0.014163517951965333,
+            "first_position_gap_m": 0.0004277782172030901,
+            "native_first_reference_join_rate_pass": true,
+            "direction_cosine": 0.9999569083319853
+          }
+        ]
+      },
+      "model_calls": 0,
+      "optimizer_updates": 0,
+      "physics_integrations": 0,
+      "wall_s": 16.285069416742772,
+      "CPU_s": 4.762639667
+    },
+    "new_C_loss_qualification": {
+      "run": "task-learning-v3-execution-aware-c-20261110-02",
+      "result_sha256": "0aa9f7508a944a7698f5da73286477ea6c9062efa936c96601a42c89a1e411fa",
+      "status": "PASS_ACTUAL_DECODE_GRADIENT_LAMBDA0_AND_TRAIN_ONLY_CALIBRATION",
+      "actual_model_loads": 1,
+      "actual_head_training_forward_calls": 80,
+      "noncandidate_optimizer_calls": 2,
+      "candidate_optimizer_calls": 0,
+      "calibration_optimizer_calls": 0,
+      "lambda_zero_complete_update_exact": true,
+      "matched_update_window_visits": 64,
+      "calibration_unique_TRAIN_windows": 16,
+      "balanced_normal_recovery": [
+        8,
+        8
+      ],
+      "decoded_physical10_comparisons": 32,
+      "decoder_max_absolute_error": 5.551115123125783e-16,
+      "finite_difference": {
+        "autograd": 7.182189624389648,
+        "finite_difference": 7.182189617149781,
+        "epsilon": 1e-06,
+        "physical_XYZ_gradient_nonzero": true,
+        "padded_and_non_XYZ_gradient_zero": true
+      },
+      "auxiliary_coefficient": 0.00019150437475961646,
+      "native_gradient_L2_range": [
+        0.19411114130624835,
+        0.8970123053298326
+      ],
+      "auxiliary_gradient_L2_range": [
+        0.7784887296896869,
+        791.7879026262816
+      ],
+      "wall_s": 86.19409719109535,
+      "CPU_s": 87.379341028,
+      "peak_allocated_bytes": 8409170432,
+      "original_Processor_saturation_preserved": true,
+      "new_physical_action_clipping": false
+    }
+  },
+  "NEGATIVE": {
+    "local_task_successes": "B0 0/2; SFT2000 0/2",
+    "acceleration_violations": "Interior, not padded first/last, in all failing acceleration windows",
+    "original_sampling500_envelope": "0/40",
+    "event_sampling500_envelope": "2/40",
+    "original_cross_hardware_REJECT_retained": true,
+    "C500_not_yet_complete": true,
+    "original_DEV80_TEST_conditions": 0,
+    "engineering_failure": {
+      "run": "task-learning-v3-execution-aware-c-20261110-01",
+      "source_sha": "4ff180d074090ebd7b5057d5058ef3e9fbfdef3e",
+      "model_loads": 1,
+      "head_forwards": 0,
+      "updates": 0,
+      "reason": "CONFIG_ENUM_NAME_VS_VALUE_CHECK",
+      "wall_s": 20.11451626336202,
+      "child_CPU_s": 30.204502323,
+      "closed_no_reopen": true
+    }
+  },
+  "DECISION": "Enable only interior translational acceleration auxiliary for C; retain original FM labels, mask, task displacement, gripper events, Processor, frozen WBC and all safety gates.",
+  "NEXT": "Registered finite C250->fresh restore C500->fresh restore500->ordinary full inference reconstruction is running on Core GPU1; then compare fixed TRAIN40x3 and DEV-reference20x3 under preregistered noises. No policy capability claimed.",
+  "identities": {
+    "SFT2000_package_SHA256": "7feffa8dd11b5c9ce963f2e0f2f2613196c1a3ae8e5039056377bd5e25e02250",
+    "dataset_SHA256": "ff94fc77c5a8309dc1460032b308c2f213c96c088449ee1821b3e46e045107b0",
+    "statistics_SHA256": "0faba237b8922ed9bbd53bd6732a9f449f46dcb6fc19017eae8f3cffa3afd9f2",
+    "physical_inputs_manifest_SHA256": "a1526c669971c892130872cbc29b52a22ba251071f604c7455d00bc0b54a6278"
+  },
+  "scientific_progress_not_policy_success": true
+}

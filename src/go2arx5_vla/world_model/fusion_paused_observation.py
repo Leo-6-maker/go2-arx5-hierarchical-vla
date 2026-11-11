@@ -23,6 +23,7 @@ from scripts.pi0294.task_state import ActualState, parse_state
 from scripts.wm02.capture_fusion_observation import software_renderer_identity
 from .fusion_observation import TargetShadowBinding, shadow_inference_payload
 from .storage import digest, write_json
+from .native_collection_performance_v1 import configuration, measure, profiled
 
 SCHEMA = "WM02_FUSION_LIVE_PAUSED_OBSERVATION_V2"
 TASK_SCHEMA = "WM02_FUSION_PAUSED_TARGET_TASK_V2"
@@ -149,6 +150,7 @@ def _runtime(adapter, binding):
                 simulator_pid=simulator["pid"], quota_binding_sha256=_sha(quota_binding))
 
 
+@profiled('camera.capture_total')
 def capture_paused_observation(adapter, *, binding, task, task_sha256, query_uuid, capture_index=0,
                                camera_recipe=None):
     """Retain a current dual-RGB input; never query a model or advance physics.
@@ -167,8 +169,10 @@ def capture_paused_observation(adapter, *, binding, task, task_sha256, query_uui
               and np.array_equal(camera_recipe.T_source_from_target, binding.T_source_from_target),
               'EXPLICIT_TYPED_SOURCE_CAMERA_RECIPE_AND_SAME_FRAME_MAP')
     declared_task = _task(task, task_sha256, binding.scene_sha256)
-    first = _pause(adapter)
-    world = _runtime(adapter, binding)
+    with measure(adapter,'camera.pause_before'):
+        first = _pause(adapter)
+    with measure(adapter,'camera.runtime_identity'):
+        world = _runtime(adapter, binding)
     parent = Path(adapter.output) / "PAUSED_OBSERVATIONS"
     parent.mkdir(exist_ok=True)
     output = parent / query_uuid
@@ -182,8 +186,20 @@ def capture_paused_observation(adapter, *, binding, task, task_sha256, query_uui
     started = time.monotonic()
     recorder = None
     try:
-        recorder = (FrameRecorder(Path(adapter.spec["model_path"]), output) if camera_recipe is None
-                    else camera_recipe.recorder(Path(adapter.spec["model_path"]), output))
+        config = configuration(adapter.spec)
+        if camera_recipe is not None and config is not None:
+            from .fusion_source_camera_capture import SourceCameraRecorder, SourceCameraSession
+            session = None
+            if config['mode'] in ('camera_cache','events_camera_cache'):
+                if not hasattr(adapter,'_source_camera_session'):
+                    adapter._source_camera_session = SourceCameraSession(adapter.spec['model_path'],camera_recipe)
+                session = adapter._source_camera_session
+            recorder = SourceCameraRecorder(adapter.spec['model_path'],output,camera_recipe,
+                session=session,performance=adapter.performance)
+        else:
+            recorder = (FrameRecorder(Path(adapter.spec["model_path"]), output) if camera_recipe is None
+                        else camera_recipe.recorder(Path(adapter.spec["model_path"]), output))
+            recorder.performance = getattr(adapter,'performance',None)
         capture = recorder.save(capture_index, first["packet"])
         _need(capture == dict(index=capture_index, native_step=first["packet"]["step"],
                              time_s=first["packet"]["time_s"]), "ORIGINAL_RECORDER_SAME_PACKET")
@@ -201,19 +217,21 @@ def capture_paused_observation(adapter, *, binding, task, task_sha256, query_uui
         images = {camera: output / "images" / f"{capture_index:06d}-{camera}.png"
                   for camera in ("body_rgb", "wrist_rgb")}
         camera_kwargs = {} if camera_recipe is None else dict(camera_adapter=recorder.camera_adapter)
-        shadow = binding.bind(actual_state=adapter.actual_state,
-            native_state_bytes=state_path.read_bytes(), expected_state_sha256=_sha(first["raw"]),
-            capture=capture, calibration_bytes=calibration.read_bytes(),
-            expected_calibration_sha256=digest(calibration),
-            image_bytes={k: p.read_bytes() for k, p in images.items()},
-            expected_image_sha256={k: digest(p) for k, p in images.items()},
-            language=declared_task["language"], snapshot_uuid=query_uuid, **camera_kwargs)
+        with measure(adapter,'camera.bind_original_ABI'):
+            shadow = binding.bind(actual_state=adapter.actual_state,
+                native_state_bytes=state_path.read_bytes(), expected_state_sha256=_sha(first["raw"]),
+                capture=capture, calibration_bytes=calibration.read_bytes(),
+                expected_calibration_sha256=digest(calibration),
+                image_bytes={k: p.read_bytes() for k, p in images.items()},
+                expected_image_sha256={k: digest(p) for k, p in images.items()},
+                language=declared_task["language"], snapshot_uuid=query_uuid, **camera_kwargs)
         shadow_inference_payload(shadow)  # Require an explicit mapped policy view.
         write_json(output / "BOUND_SHADOW_ABI.private.json", shadow)
         extra_files = [] if camera_recipe is None else recorder.retained_files(capture_index)
         recorder.close()
         recorder = None
-        last = _after_pause(adapter, first)
+        with measure(adapter,'camera.pause_after_ACK'):
+            last = _after_pause(adapter, first)
         _need(digest(adapter.spec["model_path"]) == world["scene_sha256"]
               and digest(Path(adapter.spec["registered_root"]) / "EXECUTION_SPEC.json") == world["execution_spec_sha256"]
               and _sha((Path(adapter.output) / "quota.binding").read_bytes()) == world["quota_binding_sha256"],

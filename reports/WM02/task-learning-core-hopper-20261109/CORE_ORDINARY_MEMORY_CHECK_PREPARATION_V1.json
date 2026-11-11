@@ -1,0 +1,23 @@
+{
+  "schema": "CORE_ORDINARY_MEMORY_CHECK_PREPARATION_V1",
+  "status": "PREPARED_NOT_REGISTERED_WAIT_HEALTHY_FIRST50_COLD_BOUNDARY",
+  "reason": "Core05 retained full frozen category tables on CPU; future inference loads ordinary full tables on GPU",
+  "actual_parent_header_additional_GPU_bytes": 1262411760,
+  "estimated_peak_from_Core05_bytes": 13302261232,
+  "allocator_limit_bytes": 13958643712,
+  "actual_new_GPU_workers": 0,
+  "preallocation_checks": [
+    {
+      "result": "HEADROOM_CHECK_REJECTED_BEFORE_ANY_REGISTRATION_OR_MODEL",
+      "old_training_reserve_bytes": 2147483648,
+      "existing_inference_reserve_bytes": 1073741824,
+      "fresh_free_GPU_MiB": 14719
+    },
+    {
+      "result": "EXISTING_CAMPAIGN_OWNER_LOCK_HELD_BY_HEALTHY_NATIVE_COLLECTION; NO_REGISTRATION_NO_MODEL"
+    }
+  ],
+  "decision": "DEFER_TO_COLD_BOUNDARY_WITH_EXISTING_INFERENCE_HEADROOM; TRAINING_RESERVE_UNCHANGED",
+  "new_native_integrations": 0,
+  "new_model_updates": 0
+}

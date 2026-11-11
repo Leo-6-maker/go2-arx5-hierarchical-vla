@@ -1,0 +1,26 @@
+{
+  "schema": "TASK_LEARNING_SENSOR_HANDOFF_NATIVE_STARTUP_FAILURE_ACTUAL_V1",
+  "run_id": "task-learning-grasp-construction-20261109-10",
+  "source_sha": "576a68444a761292b8c87efe8f7a503012750706",
+  "candidate_binary_sha256": "89d38891a627280625649064c3959c629feff99b4b46fad5bb7494782fcbd0d2",
+  "status": "CLOSED_FAILED_BEFORE_FIRST_INTEGRATION",
+  "native_integrations": 0,
+  "Teacher_decisions": 0,
+  "GR00T_queries": 0,
+  "optimizer_updates": 0,
+  "hard_safety_stops": 0,
+  "shutdown_clean": false,
+  "process_exits": {
+    "planner": 0,
+    "controller": 0,
+    "solver": 0,
+    "sim": 134
+  },
+  "worker_exit_code": 1,
+  "wall_s": 5.632547786924988,
+  "CPU_s": 2.433581872,
+  "child_CPU_s": 1.302454,
+  "diagnosis": "The new executable DT_NEEDED names its newly built trace library, while the unchanged enlarged runtime trace SONAME names the original frozen trace library. The trace header records the unintended 65536-capacity recorder; duplicate constructor-bearing libraries contend for O_EXCL trace files before main. A relink with the original frozen trace dependency is required. No physical or task failure is measured.",
+  "safety_WBC_startup_dynamics_or_dt_changed": false,
+  "EVIDENCE_ASOF": "2026-11-08T23:12:48.075721+00:00"
+}

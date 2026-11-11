@@ -1,0 +1,206 @@
+{
+  "schema": "TASK_LEARNING_TEACHER_QUALIFICATION_PANEL_V1",
+  "status": "PREREGISTERED_NOT_DISPATCHED",
+  "prototype_source_sha": "11d6d39cb6b639c0ff012462f1aba037d7f06752",
+  "Teacher_implementation_source_sections_sha256": "1bc18176e3c97d33058309c7ff341398c50d097bbe7e42b91b52ab2db9984081",
+  "Teacher_code_or_physical_protocol_changed": false,
+  "protocol": {
+    "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_V1",
+    "task_revision": "V7_TOOL_X_GRASP_OFFSET_WITH_ORIGINAL_REFERENCE_FLANGE_CLEARANCE",
+    "reset_revision": "V4_ORIGINAL_STARTUP_AND_STEADY_HOLD_THEN_FOUR_SECOND_REFERENCE_HOLD",
+    "stage": "TEACHER_QUALIFICATION_NOT_BC_V1",
+    "calibration_boundary": 4703,
+    "start_step": 5703,
+    "preaction_hold_atoms": 40,
+    "preparation": {
+      "original_startup_to_step": 2503,
+      "original_steady_prefix_to_step": 3703,
+      "unchanged_initial_TCP_reference_hold_to_step": 4703,
+      "source_pose_alignment": false,
+      "total_extra_hold_ticks_after_steady_prefix": 2000,
+      "native_clock_rebased": false
+    },
+    "prefix_atoms": 40,
+    "policy_queries": 15,
+    "final_hold_atoms": 20,
+    "task_command": "GRASP_RED_LIFT20MM_HOLD1S",
+    "language": "Grasp the red cube, lift it at least 20 millimeters, and hold it steady for one second.",
+    "action_period_s": 0.05,
+    "physics_dt_s": 0.002,
+    "expert_commands": "ACTUAL_50MS_TEACHER_INTENT_WITH_EXACT_CONFIRMED_REFERENCE_TRANSPORT",
+    "H40_labels": "ROLLING40_CONFIRMED_INTERVALS_NEVER_UNEXECUTED_SUFFIX_OR_FUTURE_ACHIEVED_STATE",
+    "observation": "CURRENT_DUAL_RGB_AND_ACTUAL_EEF9_GRIP1",
+    "privileged_student_inputs": false,
+    "full_H40_preview": true,
+    "time_retiming": false,
+    "reference_transport": "CURRENT_REFERENCE_PLUS_DESIRED_WORLD_DISPLACEMENT",
+    "teacher_max_chunk_translation_m": 0.015,
+    "pregrasp_above_cube_m": 0.08,
+    "grasp_above_cube_center_m": 0.012,
+    "grasp_TCP_offset_tool_m": [
+      -0.012,
+      0.0,
+      0.0
+    ],
+    "grasp_TCP_world_y_offset_m": -0.0017,
+    "scene_family": "SEPARATE_UNDER_HAND_TRAIN_PILOT01_NOT_OLD_WORKSPACE_TASKS",
+    "commanded_lift_m": 0.026,
+    "required_object_lift_m": 0.02,
+    "required_hold_s": 1.0,
+    "position_stage_tolerance_m": 0.004,
+    "close_increment_per_decision": 1.0,
+    "standing": {
+      "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+      "maximum_base_displacement_m": 0.02,
+      "maximum_base_rotation_rad": 0.08726646259971647,
+      "maximum_foot_planar_displacement_m": 0.005,
+      "minimum_supported_feet": 3,
+      "minimum_actual_floor_normal_force_N": 0.05,
+      "old_short_task_pose_diagnostic": {
+        "maximum_base_displacement_m": 0.002,
+        "maximum_base_rotation_rad": 0.008726646259971648
+      },
+      "original_native_safety_changed": false,
+      "task_score_bounds_are_native_safety": false,
+      "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+    },
+    "WBC_changes": false,
+    "expert_training_eligible": false,
+    "automatic_formal_training": false
+  },
+  "requests": 20,
+  "layouts": [
+    {
+      "layout": "QUAL01",
+      "offset_xy_m": [
+        -0.004,
+        -0.004
+      ],
+      "object_xyz_m": [
+        0.256,
+        -0.018000000000000002,
+        0.62
+      ]
+    },
+    {
+      "layout": "QUAL02",
+      "offset_xy_m": [
+        -0.004,
+        0.0
+      ],
+      "object_xyz_m": [
+        0.256,
+        -0.014,
+        0.62
+      ]
+    },
+    {
+      "layout": "QUAL03",
+      "offset_xy_m": [
+        -0.004,
+        0.004
+      ],
+      "object_xyz_m": [
+        0.256,
+        -0.01,
+        0.62
+      ]
+    },
+    {
+      "layout": "QUAL04",
+      "offset_xy_m": [
+        0.0,
+        -0.004
+      ],
+      "object_xyz_m": [
+        0.26,
+        -0.018000000000000002,
+        0.62
+      ]
+    },
+    {
+      "layout": "QUAL05",
+      "offset_xy_m": [
+        0.0,
+        0.004
+      ],
+      "object_xyz_m": [
+        0.26,
+        -0.01,
+        0.62
+      ]
+    },
+    {
+      "layout": "QUAL06",
+      "offset_xy_m": [
+        0.004,
+        -0.004
+      ],
+      "object_xyz_m": [
+        0.264,
+        -0.018000000000000002,
+        0.62
+      ]
+    },
+    {
+      "layout": "QUAL07",
+      "offset_xy_m": [
+        0.004,
+        0.0
+      ],
+      "object_xyz_m": [
+        0.264,
+        -0.014,
+        0.62
+      ]
+    },
+    {
+      "layout": "QUAL08",
+      "offset_xy_m": [
+        0.004,
+        0.004
+      ],
+      "object_xyz_m": [
+        0.264,
+        -0.01,
+        0.62
+      ]
+    },
+    {
+      "layout": "QUAL09",
+      "offset_xy_m": [
+        -0.002,
+        0.002
+      ],
+      "object_xyz_m": [
+        0.258,
+        -0.012,
+        0.62
+      ]
+    },
+    {
+      "layout": "QUAL10",
+      "offset_xy_m": [
+        0.002,
+        -0.002
+      ],
+      "object_xyz_m": [
+        0.262,
+        -0.016,
+        0.62
+      ]
+    }
+  ],
+  "independent_restarts_per_layout": 2,
+  "order": "ALL_TEN_FIRST_RESTARTS_THEN_ALL_TEN_SECOND_RESTARTS",
+  "thresholds": {
+    "reset_ready_minimum": 18,
+    "minimum_success_given_reset_ready": 0.9,
+    "hard_safety_stops": 0
+  },
+  "failed_conditions_retried": false,
+  "initialization_and_requested_denominators_separate": true,
+  "qualified_training_demonstrations": 0,
+  "source_TEST_or_DEV_used": false,
+  "neural_or_GPU_physics_jobs": 0
+}

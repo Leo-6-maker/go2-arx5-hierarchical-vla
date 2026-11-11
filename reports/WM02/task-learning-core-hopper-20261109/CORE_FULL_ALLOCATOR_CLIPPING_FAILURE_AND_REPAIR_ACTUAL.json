@@ -1,0 +1,171 @@
+{
+  "schema": "CORE_FULL_ALLOCATOR_CLIPPING_FAILURE_AND_REPAIR_ACTUAL_V1",
+  "EVIDENCE_ASOF": "2026-11-09T21:25:43.641126+00:00",
+  "SGT": "2026-11-10T05:25:43.641126+08:00",
+  "goal_status": "ACTIVE",
+  "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
+  "source_sha": "1740208e8ae1a0db49103b937d6d2212a7c235ab",
+  "question": "Why did fresh split2 fail before its first completed update when continuous4 previously ran at the declared 28GiB limit?",
+  "previous_role09": {
+    "source_sha": "8f89da4eb4b26463986c1e6e746a862c96dccec2",
+    "status": "CLOSED",
+    "worker_exit_code": 1,
+    "result_sha256": "c259342638d9264d7017f12007d9efb4446bd2d05b1e832197cd3a84ea5e55d0",
+    "child_result_sha256": "76435754847dfbc137e2fe164e90e33206b0af61b41141d4130b76a0a6e223d3",
+    "actual_model_loads": 1,
+    "completed_optimizer_calls": 0,
+    "first_AdamW_step_attempted_but_not_completed": true,
+    "master_allocator_limit_bytes": 30064771072,
+    "actual_child_allocator_limit_bytes": 26250051584,
+    "actual_child_allocator_limit_GiB": 24.447265625,
+    "legacy_limit_expression": "min(c['allocator_limit_bytes'], actual['free_bytes'] - 2*1024**3)",
+    "failure_stage": "FIRST_ORIGINAL_ADAMW_FOREACH_SQRT",
+    "OOM_requested_bytes": 67108864,
+    "physical_GPU_free_GiB_at_failure": 6.47,
+    "master_and_child_actual_processes_absent": true,
+    "actual_unit_MainPID": 0,
+    "actual_unit_ExecMainStatus": 1,
+    "completed_new_checkpoints": 0,
+    "independent_resume4": "NOT_RUN",
+    "old_deadline_or_CLOSED_changed": false
+  },
+  "repeated_original_numerical_evidence09": {
+    "original_parent_four_full_H40": "PASS_BIT_EXACT",
+    "original_BF16_loss": 0.42967453598976135,
+    "gradient_tensors": 537,
+    "all_gradients_noise_RNG_exact": true,
+    "source_receipt": "CORE_NATIVE_FULL_ROLE09_CURRENT_1794258696872930779.private.json",
+    "comparison_optimizer_calls": 0,
+    "no_task_success_inferred": true
+  },
+  "source_repair": {
+    "full_action_allocator_bytes": 30064771072,
+    "required_free_GPU_bytes": 32212254720,
+    "required_host_available_bytes": 40802189312,
+    "wait_before_child_registration": true,
+    "recheck_after_parent_verification_before_CUDA_model": true,
+    "full_action_downscaling_rejected": true,
+    "legacy_last2_adaptive_limit_preserved": true,
+    "original_stop_and_deadline_respected": true,
+    "software_checks_passed": 99,
+    "software_checks_are_native_qualification": false,
+    "native_Sampler_Trainer_Audit_load_checkpoint_AST_unchanged": true,
+    "parameter_dtypes_loss_optimizer_or_schedule_changed": false
+  },
+  "successor10": {
+    "status": "REFERENCE_VERIFIED_ACTUAL_SPLIT2_RUNNING_WITH_DECLARED_28GIB",
+    "source_sha": "1740208e8ae1a0db49103b937d6d2212a7c235ab",
+    "config_sha256": "c8c831b89c40424ad7b95cc872b7443f4049919367adee48b6bb860460d53017",
+    "canonical_registry_entries": 1,
+    "original_owner_REGISTER_journal_status": "COMPLETE",
+    "CPU_admission_exit_code": 0,
+    "CPU_CUDA_initialized": false,
+    "CPU_preparation": "Original positioned Processor boundary and metadata/source-math checks; unchanged complete-reference validator was proven in role09 and runs again before any new GPU child",
+    "pid": 4019902,
+    "process_start_ticks": "402840903",
+    "InvocationID": "62f68c2a670d47f5981749b3838a9cb4",
+    "allocator_limit_bytes": 30064771072,
+    "deadline_epoch": 1794280751.280268,
+    "deadline_SGT": "2026-11-10T11:19:11.280268+08:00",
+    "actual_new_GPU_model_loads": 0,
+    "actual_new_optimizer_calls": 0,
+    "requested_new_optimizer_calls": 4,
+    "continuous4_reference": {
+      "role": "07",
+      "complete_optimizer_calls": 4,
+      "cursor": 128,
+      "complete_checkpoint4": true,
+      "old_role_kept_CLOSED_failure": true,
+      "repeated_continuous4": false,
+      "weights_as_formal_parent": false
+    },
+    "comparison_total_optimizer_calls": 8,
+    "formal_training": false,
+    "physics_integrations": 0,
+    "capacity_follower": {
+      "pid": 3936187,
+      "status": "COMPLETED_AFTER_ONE_DISPATCH_AND_INDEPENDENT_UNIT_READBACK",
+      "helper_sha256": "67fd08212c284eff997b6808408f98e12d9c7b65e4954ab9bec884095c6e899e"
+    },
+    "actual_child": {
+      "name": "split2",
+      "pid": 4024840,
+      "declared_allocator_limit_bytes": 30064771072,
+      "spec_sha256": "133fb214ace18b2f36cc353c0b011d48157037a00fe9827fa8288655eab4f2c6",
+      "lease_status": "ACTIVE",
+      "model_load_constructed": false
+    },
+    "complete_reference_revalidated_before_GPU_child": true
+  },
+  "historical_original_Trainer_Core_totals": {
+    "GPU_roles_closed_failure": 7,
+    "completed_optimizer_calls": 7,
+    "nonzero_learning_rate_calls": 3,
+    "pre_registry_CPU_failures": 2,
+    "additional_running_successor_masters": 1,
+    "cached_feature_diagnostics_counted_here": false
+  },
+  "Hopper": {
+    "H100": {
+      "job": "708946.hopper-m-02",
+      "state": "Q",
+      "project": "CFP04-CF-007",
+      "queue": "small",
+      "hold": "n",
+      "reason": "Insufficient amount of resource: ngpus"
+    },
+    "H200_Processor": {
+      "job": "708392.hopper-m-02",
+      "state": "Q",
+      "reason": "Insufficient amount of resource: ngpus"
+    },
+    "H200_scan": {
+      "job": "707720.hopper-m-02",
+      "state": "Q",
+      "reason": "Insufficient amount of resource: ngpus"
+    },
+    "new_PBS_submissions": 0,
+    "observed_epoch": 1794259432.4046817
+  },
+  "original_continuations": {
+    "formal_first_writer": {
+      "pid": 3842363,
+      "state": "WAIT_FIRST_ACTUAL_PROCESSOR_OR_H100_RESTORE"
+    },
+    "Core40_fullDEV80": {
+      "pid": 3665222,
+      "state": "WAIT_ACTUAL_PACKAGE_AND_SHARED_CAPACITY"
+    },
+    "post_DEV": {
+      "pid": 3846655,
+      "state": "WAIT_ACTUAL_FIRST_COMPLETE_DEV_DECISION"
+    },
+    "actual_PID_start_identities_and_fresh_heartbeats_verified": true,
+    "no_second_formal_writer": true,
+    "observed_epoch": 1794259431.9327912
+  },
+  "scientific_endpoints": {
+    "complete_Core_original_Trainer_full_restore_qualification": "NOT_YET_PASSED",
+    "formal_TRAIN100_SFT2000": "NOT_RUN",
+    "deployable_student_package": "NOT_DELIVERED",
+    "Core40": "NOT_RUN",
+    "student_DEV80": "NOT_RUN",
+    "TEST": "NOT_RUN"
+  },
+  "next_gate": "Actual fixed-28GiB split2/resume4 CLOSED0, exact complete checkpoint4 state and restored H40 comparison with original07; then qualify a distinct Core formal route or consume first actual Hopper qualification without a second formal writer",
+  "invariants": {
+    "WBC_leg_solver_control_dynamics_safety_2ms_changed": false,
+    "other_users_jobs_or_system_changed": false,
+    "old_CLOSED_reopened": false,
+    "formal_parent_from_diagnostic": false,
+    "multi_GPU_or_GPU_physics": false
+  },
+  "private_evidence": {
+    "CORE_NATIVE_FULL09_TERMINAL_FAILURE_ACTUAL.private.json": "36b53b5bbc9e8b4fd9f86504df0e10324f0a08c0343b3ba31dc2443ab0367e14",
+    "CORE_NATIVE_FULL09_ALLOCATOR_REDUCTION_ROOT_CAUSE_ACTUAL.private.json": "a427aec3a39cb9589751cbd069a60c5536e3b32e5bc66bb4617490555b19badf",
+    "CORE_NATIVE_FULL10_READY_INDEPENDENT_ACTUAL.private.json": "9495e32c8aac5de5a6e20c0299fc4218d5b41f19696b8d25ce7f65f82ea525de",
+    "CORE_NATIVE_FULL_ROLE10_CURRENT_1794259384896655831.private.json": "ce193a8df6a1fe984caef2c95241035c771bd6bc902e4f427c0eb936e15dbdad",
+    "ORIGINAL_MAINLINES_LIVE_1794259431932791266.private.json": "83abb56903f5706264541359cb8bfd23bb7c05aa90f3ca4eb5cea309df6c6dc7",
+    "CORE_NATIVE_FULL_ROLE10_CURRENT_1794259543877379090.private.json": "ab4a0c0db3bfb9f473b321a5123d7287e71cea5bb63453b6d43a03d6fea81b13"
+  }
+}

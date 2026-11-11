@@ -1,0 +1,15 @@
+{
+  "schema": "H40_CORE_MATCHED_ABC540_FIT_DIAGNOSTIC_V3",
+  "dependency": "Original A/B/C three-noise comparison CLOSED0 with no qualified C mechanism benefit; D not admitted",
+  "method": "H40_ENDPOINT_FIXED_TRANSLATION_GRIP_CONSTRAINED_L2_DIAGNOSTIC_V3",
+  "population": "All540 sealed Core predictions: each A/B/C TRAIN40x3 and DEV-reference20x3, no new model calls and no noise selection",
+  "unchanged_method": "Same source, objective, constraints, solver settings, fixed endpoints and rotations as the preceding separate archived H10040 diagnosis",
+  "full_denominator": "Solver failure remains failure even if its returned iterate passes the rate gate; no per-window retries",
+  "outputs": "Per method/split/phase/noise original and explicit-fit pass, trajectory changes, gripper crossings, endpoint direction, native certificate NOT_MEASURED",
+  "expert_use": "Post-fit diagnosis only; no object truth or expert enters fitting",
+  "model_updates": 0,
+  "new_model_queries": 0,
+  "new_physics_integrations": 0,
+  "physical_execution_admission": false,
+  "original_DEV80_and_TEST": "NOT_USED"
+}

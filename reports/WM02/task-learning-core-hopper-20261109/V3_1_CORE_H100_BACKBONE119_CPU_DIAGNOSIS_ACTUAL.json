@@ -1,0 +1,5566 @@
+{
+  "schema": "V3_1_CLOSED_CORE_H100_BACKBONE119_CPU_COMPARISON_ACTUAL_V1",
+  "timestamps": {
+    "UTC": "2026-11-11T04:54:49.564714+00:00",
+    "SGT": "2026-11-11T12:54:49.564714+08:00"
+  },
+  "goal_status": "ACTIVE",
+  "QUESTION": "Where is the earliest observed frozen-backbone difference between the already completed Core and Hopper40-probe BF16 producers, without new model calls or changing physical policy admission?",
+  "CHANGED": "Reconcile both old private archives; keep the partial Core archive, reuse its29 complete hashed members and all161 H100 members. Read only the132 missing existing Core members through the original route. Complete pinned archives and use the existing119-boundary CPU comparator; no model or remote job is started.",
+  "identities": {
+    "reference_manifest_sha256": "fcafbd8a0fdff4dc3e48977baaa5c62f4572186925f55e10543aa0bfbeff8cbd",
+    "candidate_manifest_sha256": "8f39f864182a97db6fdef01c8004533ab05268446a1680373e638f952f2d56ef",
+    "Hopper_job": "709621.hopper-m-02",
+    "Hopper_closed_result_sha256": "df297594f6d94fcfdb9dd3ddb2450fd7586e92bd37a08d3daa3ff12805ef0794",
+    "Hopper_probes_sha256": "98d0e07854f8495bb436a8e3038683642a90ce892e1ac40b477eec9d39f61166",
+    "SFT2000_package_sha256": "7feffa8dd11b5c9ce963f2e0f2f2613196c1a3ae8e5039056377bd5e25e02250",
+    "comparison_implementation_sha256": "91cf073109c37849668585ad25ddb574217d4554cbfc0b10179b9eb04c5c430d",
+    "data": "SAME_SEALED_TRAIN40_OBSERVATION_NOISE_STATE_MASK_MODEL_DATA_STATISTICS_IDENTITIES; FIRST_QUERY_INTERNAL119_ONLY_NOT_DEV_TEST",
+    "diagnostic_only": true
+  },
+  "ACTUAL": {
+    "archive_reconciliation": {
+      "old_Core_bytes": 70039552,
+      "old_Core_expected_payload_bytes": 228673410,
+      "old_Core_verified_members": 29,
+      "old_Core_truncated_member": "deep/visual_blocks_4-output-00.npz",
+      "old_Core_error": "ReadError: unexpected end of data",
+      "old_H100_verified_members": 161,
+      "old_H100_archive_complete": true,
+      "old_partial_preserved": true
+    },
+    "missing_only_delivery": {
+      "new_members": 132,
+      "new_archive_bytes": 160624640,
+      "wall_s": 52.31454063699948,
+      "local_CPU_s": 0.13009468300000002,
+      "remote_mutations": 0,
+      "new_model_queries": 0,
+      "old_Hopper_archive_downloads": 0
+    },
+    "comparison": {
+      "status": "ACTUAL_COMPLETE_CORE_H100_DEEP119_PRIVATE_CPU_COMPARISON_NO_NEW_INFERENCE",
+      "verified_files_per_side": 161,
+      "matched_query_identities": 40,
+      "traced_query_count": 1,
+      "compared_boundaries": 119,
+      "bit_exact_boundaries": 9,
+      "first_non_bit_exact_boundary": {
+        "query_index": 0,
+        "module": "visual.patch_embed.proj",
+        "stage": "output",
+        "call": 0,
+        "all_bit_exact": false,
+        "tensors": [
+          {
+            "path": [],
+            "source_dtype": "torch.bfloat16",
+            "bit_exact": false,
+            "numeric_equal": false,
+            "nonfinite_patterns_equal": true,
+            "finite_pairs": 524288,
+            "elements": 524288,
+            "changed_elements": 158,
+            "maximum_absolute_finite_difference": 0.0078125,
+            "finite_RMSE": 3.116100387928026e-05
+          }
+        ]
+      },
+      "original_constants_and_patch_weight_bit_exact": {
+        "query_index": 0,
+        "module": "constants",
+        "stage": "load",
+        "call": 0,
+        "all_bit_exact": true,
+        "tensors": [
+          {
+            "path": [
+              "buffers",
+              "model.model.language_model.rotary_emb.inv_freq"
+            ],
+            "source_dtype": "torch.float32",
+            "bit_exact": true,
+            "numeric_equal": true,
+            "nonfinite_patterns_equal": true,
+            "finite_pairs": 64,
+            "elements": 64,
+            "changed_elements": 0,
+            "maximum_absolute_finite_difference": 0.0,
+            "finite_RMSE": 0.0
+          },
+          {
+            "path": [
+              "buffers",
+              "model.model.visual.rotary_pos_emb.inv_freq"
+            ],
+            "source_dtype": "torch.float32",
+            "bit_exact": true,
+            "numeric_equal": true,
+            "nonfinite_patterns_equal": true,
+            "finite_pairs": 16,
+            "elements": 16,
+            "changed_elements": 0,
+            "maximum_absolute_finite_difference": 0.0,
+            "finite_RMSE": 0.0
+          },
+          {
+            "path": [
+              "text_original_inv_freq"
+            ],
+            "source_dtype": "torch.float32",
+            "bit_exact": true,
+            "numeric_equal": true,
+            "nonfinite_patterns_equal": true,
+            "finite_pairs": 64,
+            "elements": 64,
+            "changed_elements": 0,
+            "maximum_absolute_finite_difference": 0.0,
+            "finite_RMSE": 0.0
+          },
+          {
+            "path": [
+              "vision_patch_weight"
+            ],
+            "source_dtype": "torch.float32",
+            "bit_exact": true,
+            "numeric_equal": true,
+            "nonfinite_patterns_equal": true,
+            "finite_pairs": 1572864,
+            "elements": 1572864,
+            "changed_elements": 0,
+            "maximum_absolute_finite_difference": 0.0,
+            "finite_RMSE": 0.0
+          },
+          {
+            "path": [
+              "vision_position_weight"
+            ],
+            "source_dtype": "torch.float32",
+            "bit_exact": true,
+            "numeric_equal": true,
+            "nonfinite_patterns_equal": true,
+            "finite_pairs": 2359296,
+            "elements": 2359296,
+            "changed_elements": 0,
+            "maximum_absolute_finite_difference": 0.0,
+            "finite_RMSE": 0.0
+          }
+        ]
+      },
+      "complete_input_before_first_difference": [
+        {
+          "query_index": 0,
+          "module": "backbone",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": true,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0",
+                "attention_mask"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "args",
+                "0",
+                "embodiment_id"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 1,
+              "elements": 1,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "args",
+                "0",
+                "image_grid_thw"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 6,
+              "elements": 6,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "args",
+                "0",
+                "input_ids"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "args",
+                "0",
+                "pixel_values"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 786432,
+              "elements": 786432,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "args",
+                "0",
+                "state"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 132,
+              "elements": 132,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.patch_embed",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": true,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 786432,
+              "elements": 786432,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.patch_embed.proj",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": true,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 786432,
+              "elements": 786432,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        }
+      ],
+      "selected_later_outputs": [
+        {
+          "query_index": 0,
+          "module": "visual.merger",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.bfloat16",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 262144,
+              "elements": 262144,
+              "changed_elements": 234426,
+              "maximum_absolute_finite_difference": 0.25,
+              "finite_RMSE": 0.0108467953499654
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.norm",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 323583,
+              "maximum_absolute_finite_difference": 2.811708450317383,
+              "finite_RMSE": 0.08091199180561254
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "backbone",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "backbone_attention_mask"
+              ],
+              "source_dtype": "torch.bool",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "backbone_features"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 323432,
+              "maximum_absolute_finite_difference": 4.833251953125,
+              "finite_RMSE": 0.13350147494262413
+            },
+            {
+              "path": [
+                "image_mask"
+              ],
+              "source_dtype": "torch.bool",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        }
+      ],
+      "all_boundary_comparisons": [
+        {
+          "query_index": 0,
+          "module": "constants",
+          "stage": "load",
+          "call": 0,
+          "all_bit_exact": true,
+          "tensors": [
+            {
+              "path": [
+                "buffers",
+                "model.model.language_model.rotary_emb.inv_freq"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 64,
+              "elements": 64,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "buffers",
+                "model.model.visual.rotary_pos_emb.inv_freq"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 16,
+              "elements": 16,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "text_original_inv_freq"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 64,
+              "elements": 64,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "vision_patch_weight"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 1572864,
+              "elements": 1572864,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "vision_position_weight"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 2359296,
+              "elements": 2359296,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "backbone",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": true,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0",
+                "attention_mask"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "args",
+                "0",
+                "embodiment_id"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 1,
+              "elements": 1,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "args",
+                "0",
+                "image_grid_thw"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 6,
+              "elements": 6,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "args",
+                "0",
+                "input_ids"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "args",
+                "0",
+                "pixel_values"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 786432,
+              "elements": 786432,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "args",
+                "0",
+                "state"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 132,
+              "elements": 132,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.embed_tokens",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": true,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.embed_tokens",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": true,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.patch_embed",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": true,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 786432,
+              "elements": 786432,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.patch_embed.proj",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": true,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 786432,
+              "elements": 786432,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.patch_embed.proj",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.bfloat16",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 158,
+              "maximum_absolute_finite_difference": 0.0078125,
+              "finite_RMSE": 3.116100387928026e-05
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.patch_embed",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.bfloat16",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 158,
+              "maximum_absolute_finite_difference": 0.0078125,
+              "finite_RMSE": 3.116100387928026e-05
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.rotary_pos_emb",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": true,
+          "tensors": []
+        },
+        {
+          "query_index": 0,
+          "module": "visual.rotary_pos_emb",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": true,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 256,
+              "elements": 256,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.0",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 158,
+              "maximum_absolute_finite_difference": 0.0078125,
+              "finite_RMSE": 3.116100387928026e-05
+            },
+            {
+              "path": [
+                "kwargs",
+                "cu_seqlens"
+              ],
+              "source_dtype": "torch.int32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 3,
+              "elements": 3,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.0.norm1",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 158,
+              "maximum_absolute_finite_difference": 0.0078125,
+              "finite_RMSE": 3.116100387928026e-05
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.0.norm1",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 133171,
+              "maximum_absolute_finite_difference": 0.007625102996826172,
+              "finite_RMSE": 2.1154356415095006e-05
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.0.attn",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 133171,
+              "maximum_absolute_finite_difference": 0.007625102996826172,
+              "finite_RMSE": 2.1154356415095006e-05
+            },
+            {
+              "path": [
+                "kwargs",
+                "cu_seqlens"
+              ],
+              "source_dtype": "torch.int32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 3,
+              "elements": 3,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.0.attn",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.bfloat16",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 22756,
+              "maximum_absolute_finite_difference": 0.015625,
+              "finite_RMSE": 0.00019076942126385524
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.0.norm2",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 22898,
+              "maximum_absolute_finite_difference": 0.015625,
+              "finite_RMSE": 0.00019327779592186617
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.0.norm2",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 515816,
+              "maximum_absolute_finite_difference": 0.03600931167602539,
+              "finite_RMSE": 0.00036043867161893395
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.0.mlp",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 515816,
+              "maximum_absolute_finite_difference": 0.03600931167602539,
+              "finite_RMSE": 0.00036043867161893395
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.0.mlp",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.bfloat16",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 171073,
+              "maximum_absolute_finite_difference": 0.0625,
+              "finite_RMSE": 0.0011259143753237855
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.0",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 185023,
+              "maximum_absolute_finite_difference": 0.0625,
+              "finite_RMSE": 0.0011403733399354618
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.1",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 185023,
+              "maximum_absolute_finite_difference": 0.0625,
+              "finite_RMSE": 0.0011403733399354618
+            },
+            {
+              "path": [
+                "kwargs",
+                "cu_seqlens"
+              ],
+              "source_dtype": "torch.int32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 3,
+              "elements": 3,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.1",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 405548,
+              "maximum_absolute_finite_difference": 0.0625,
+              "finite_RMSE": 0.001830800631896001
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.2",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 405548,
+              "maximum_absolute_finite_difference": 0.0625,
+              "finite_RMSE": 0.001830800631896001
+            },
+            {
+              "path": [
+                "kwargs",
+                "cu_seqlens"
+              ],
+              "source_dtype": "torch.int32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 3,
+              "elements": 3,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.2",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 479073,
+              "maximum_absolute_finite_difference": 0.063232421875,
+              "finite_RMSE": 0.002141959750266976
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.3",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 479073,
+              "maximum_absolute_finite_difference": 0.063232421875,
+              "finite_RMSE": 0.002141959750266976
+            },
+            {
+              "path": [
+                "kwargs",
+                "cu_seqlens"
+              ],
+              "source_dtype": "torch.int32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 3,
+              "elements": 3,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.3",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 501558,
+              "maximum_absolute_finite_difference": 0.069091796875,
+              "finite_RMSE": 0.0023947086258285233
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.4",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 501558,
+              "maximum_absolute_finite_difference": 0.069091796875,
+              "finite_RMSE": 0.0023947086258285233
+            },
+            {
+              "path": [
+                "kwargs",
+                "cu_seqlens"
+              ],
+              "source_dtype": "torch.int32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 3,
+              "elements": 3,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.4",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 509725,
+              "maximum_absolute_finite_difference": 0.06883907318115234,
+              "finite_RMSE": 0.0025756150930629517
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.5",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 509725,
+              "maximum_absolute_finite_difference": 0.06883907318115234,
+              "finite_RMSE": 0.0025756150930629517
+            },
+            {
+              "path": [
+                "kwargs",
+                "cu_seqlens"
+              ],
+              "source_dtype": "torch.int32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 3,
+              "elements": 3,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.5",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 513634,
+              "maximum_absolute_finite_difference": 0.06493282318115234,
+              "finite_RMSE": 0.0027612014922275426
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.deepstack_merger_list.0",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 513634,
+              "maximum_absolute_finite_difference": 0.06493282318115234,
+              "finite_RMSE": 0.0027612014922275426
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.deepstack_merger_list.0",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.bfloat16",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 262144,
+              "elements": 262144,
+              "changed_elements": 184029,
+              "maximum_absolute_finite_difference": 0.0625,
+              "finite_RMSE": 0.0024566218671453533
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.6",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 513634,
+              "maximum_absolute_finite_difference": 0.06493282318115234,
+              "finite_RMSE": 0.0027612014922275426
+            },
+            {
+              "path": [
+                "kwargs",
+                "cu_seqlens"
+              ],
+              "source_dtype": "torch.int32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 3,
+              "elements": 3,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.6",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 515963,
+              "maximum_absolute_finite_difference": 0.057120323181152344,
+              "finite_RMSE": 0.002830196470318418
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.7",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 515963,
+              "maximum_absolute_finite_difference": 0.057120323181152344,
+              "finite_RMSE": 0.002830196470318418
+            },
+            {
+              "path": [
+                "kwargs",
+                "cu_seqlens"
+              ],
+              "source_dtype": "torch.int32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 3,
+              "elements": 3,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.7",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 517158,
+              "maximum_absolute_finite_difference": 0.050040245056152344,
+              "finite_RMSE": 0.00291396030189247
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.8",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 517158,
+              "maximum_absolute_finite_difference": 0.050040245056152344,
+              "finite_RMSE": 0.00291396030189247
+            },
+            {
+              "path": [
+                "kwargs",
+                "cu_seqlens"
+              ],
+              "source_dtype": "torch.int32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 3,
+              "elements": 3,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.8",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 518123,
+              "maximum_absolute_finite_difference": 0.0927734375,
+              "finite_RMSE": 0.0029854979778813208
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.9",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 518123,
+              "maximum_absolute_finite_difference": 0.0927734375,
+              "finite_RMSE": 0.0029854979778813208
+            },
+            {
+              "path": [
+                "kwargs",
+                "cu_seqlens"
+              ],
+              "source_dtype": "torch.int32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 3,
+              "elements": 3,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.9",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 518905,
+              "maximum_absolute_finite_difference": 0.124267578125,
+              "finite_RMSE": 0.0032313360485373083
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.10",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 518905,
+              "maximum_absolute_finite_difference": 0.124267578125,
+              "finite_RMSE": 0.0032313360485373083
+            },
+            {
+              "path": [
+                "kwargs",
+                "cu_seqlens"
+              ],
+              "source_dtype": "torch.int32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 3,
+              "elements": 3,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.10",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 519775,
+              "maximum_absolute_finite_difference": 5.06951904296875,
+              "finite_RMSE": 0.009290490477052257
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.11",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 519775,
+              "maximum_absolute_finite_difference": 5.06951904296875,
+              "finite_RMSE": 0.009290490477052257
+            },
+            {
+              "path": [
+                "kwargs",
+                "cu_seqlens"
+              ],
+              "source_dtype": "torch.int32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 3,
+              "elements": 3,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.11",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 520515,
+              "maximum_absolute_finite_difference": 5.57733154296875,
+              "finite_RMSE": 0.010242674354151441
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.deepstack_merger_list.1",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 520515,
+              "maximum_absolute_finite_difference": 5.57733154296875,
+              "finite_RMSE": 0.010242674354151441
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.deepstack_merger_list.1",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.bfloat16",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 262144,
+              "elements": 262144,
+              "changed_elements": 225298,
+              "maximum_absolute_finite_difference": 0.0537109375,
+              "finite_RMSE": 0.003767838481306571
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.12",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 520515,
+              "maximum_absolute_finite_difference": 5.57733154296875,
+              "finite_RMSE": 0.010242674354151441
+            },
+            {
+              "path": [
+                "kwargs",
+                "cu_seqlens"
+              ],
+              "source_dtype": "torch.int32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 3,
+              "elements": 3,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.12",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 521496,
+              "maximum_absolute_finite_difference": 5.56365966796875,
+              "finite_RMSE": 0.01226146804960417
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.13",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 521496,
+              "maximum_absolute_finite_difference": 5.56365966796875,
+              "finite_RMSE": 0.01226146804960417
+            },
+            {
+              "path": [
+                "kwargs",
+                "cu_seqlens"
+              ],
+              "source_dtype": "torch.int32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 3,
+              "elements": 3,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.13",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 522048,
+              "maximum_absolute_finite_difference": 5.56756591796875,
+              "finite_RMSE": 0.01759712740907379
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.14",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 522048,
+              "maximum_absolute_finite_difference": 5.56756591796875,
+              "finite_RMSE": 0.01759712740907379
+            },
+            {
+              "path": [
+                "kwargs",
+                "cu_seqlens"
+              ],
+              "source_dtype": "torch.int32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 3,
+              "elements": 3,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.14",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 522659,
+              "maximum_absolute_finite_difference": 5.55194091796875,
+              "finite_RMSE": 0.018805885859117605
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.15",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 522659,
+              "maximum_absolute_finite_difference": 5.55194091796875,
+              "finite_RMSE": 0.018805885859117605
+            },
+            {
+              "path": [
+                "kwargs",
+                "cu_seqlens"
+              ],
+              "source_dtype": "torch.int32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 3,
+              "elements": 3,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.15",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 523077,
+              "maximum_absolute_finite_difference": 8.877288818359375,
+              "finite_RMSE": 0.023187755052647356
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.16",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 523077,
+              "maximum_absolute_finite_difference": 8.877288818359375,
+              "finite_RMSE": 0.023187755052647356
+            },
+            {
+              "path": [
+                "kwargs",
+                "cu_seqlens"
+              ],
+              "source_dtype": "torch.int32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 3,
+              "elements": 3,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.16",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 523282,
+              "maximum_absolute_finite_difference": 9.012054443359375,
+              "finite_RMSE": 0.02417106667529114
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.17",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 523282,
+              "maximum_absolute_finite_difference": 9.012054443359375,
+              "finite_RMSE": 0.02417106667529114
+            },
+            {
+              "path": [
+                "kwargs",
+                "cu_seqlens"
+              ],
+              "source_dtype": "torch.int32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 3,
+              "elements": 3,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.17",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 523462,
+              "maximum_absolute_finite_difference": 9.021820068359375,
+              "finite_RMSE": 0.025216339965837047
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.deepstack_merger_list.2",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 523462,
+              "maximum_absolute_finite_difference": 9.021820068359375,
+              "finite_RMSE": 0.025216339965837047
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.deepstack_merger_list.2",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.bfloat16",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 262144,
+              "elements": 262144,
+              "changed_elements": 224467,
+              "maximum_absolute_finite_difference": 0.3125,
+              "finite_RMSE": 0.009289900610463218
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.18",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 523462,
+              "maximum_absolute_finite_difference": 9.021820068359375,
+              "finite_RMSE": 0.025216339965837047
+            },
+            {
+              "path": [
+                "kwargs",
+                "cu_seqlens"
+              ],
+              "source_dtype": "torch.int32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 3,
+              "elements": 3,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.18",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 523617,
+              "maximum_absolute_finite_difference": 9.800140380859375,
+              "finite_RMSE": 0.027493151653996486
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.19",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 523617,
+              "maximum_absolute_finite_difference": 9.800140380859375,
+              "finite_RMSE": 0.027493151653996486
+            },
+            {
+              "path": [
+                "kwargs",
+                "cu_seqlens"
+              ],
+              "source_dtype": "torch.int32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 3,
+              "elements": 3,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.19",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 523714,
+              "maximum_absolute_finite_difference": 9.886077880859375,
+              "finite_RMSE": 0.029354890209182815
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.20",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 523714,
+              "maximum_absolute_finite_difference": 9.886077880859375,
+              "finite_RMSE": 0.029354890209182815
+            },
+            {
+              "path": [
+                "kwargs",
+                "cu_seqlens"
+              ],
+              "source_dtype": "torch.int32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 3,
+              "elements": 3,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.20",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 523765,
+              "maximum_absolute_finite_difference": 11.356781005859375,
+              "finite_RMSE": 0.03326954543440868
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.21",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 523765,
+              "maximum_absolute_finite_difference": 11.356781005859375,
+              "finite_RMSE": 0.03326954543440868
+            },
+            {
+              "path": [
+                "kwargs",
+                "cu_seqlens"
+              ],
+              "source_dtype": "torch.int32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 3,
+              "elements": 3,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.21",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 523896,
+              "maximum_absolute_finite_difference": 11.364593505859375,
+              "finite_RMSE": 0.03883604696302328
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.22",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 523896,
+              "maximum_absolute_finite_difference": 11.364593505859375,
+              "finite_RMSE": 0.03883604696302328
+            },
+            {
+              "path": [
+                "kwargs",
+                "cu_seqlens"
+              ],
+              "source_dtype": "torch.int32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 3,
+              "elements": 3,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.22",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 524023,
+              "maximum_absolute_finite_difference": 11.364593505859375,
+              "finite_RMSE": 0.05097645243879885
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.23",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 524023,
+              "maximum_absolute_finite_difference": 11.364593505859375,
+              "finite_RMSE": 0.05097645243879885
+            },
+            {
+              "path": [
+                "kwargs",
+                "cu_seqlens"
+              ],
+              "source_dtype": "torch.int32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 3,
+              "elements": 3,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 32768,
+              "elements": 32768,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.blocks.23",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 524166,
+              "maximum_absolute_finite_difference": 514.4055786132812,
+              "finite_RMSE": 1.4651784827624852
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.merger",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 524288,
+              "elements": 524288,
+              "changed_elements": 524166,
+              "maximum_absolute_finite_difference": 514.4055786132812,
+              "finite_RMSE": 1.4651784827624852
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "visual.merger",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.bfloat16",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 262144,
+              "elements": 262144,
+              "changed_elements": 234426,
+              "maximum_absolute_finite_difference": 0.25,
+              "finite_RMSE": 0.0108467953499654
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.rotary_emb",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 234426,
+              "maximum_absolute_finite_difference": 0.25,
+              "finite_RMSE": 0.009762878569653383
+            },
+            {
+              "path": [
+                "args",
+                "1"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 474,
+              "elements": 474,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.rotary_emb",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": true,
+          "tensors": [
+            {
+              "path": [
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.0",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 234426,
+              "maximum_absolute_finite_difference": 0.25,
+              "finite_RMSE": 0.009762878569653383
+            },
+            {
+              "path": [
+                "kwargs",
+                "cache_position"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_ids"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.0.input_layernorm",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 234426,
+              "maximum_absolute_finite_difference": 0.25,
+              "finite_RMSE": 0.009762878569653383
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.0.input_layernorm",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 262137,
+              "maximum_absolute_finite_difference": 0.11849808692932129,
+              "finite_RMSE": 0.0018204032912452607
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.0.self_attn",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "kwargs",
+                "cache_position"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "hidden_states"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 262137,
+              "maximum_absolute_finite_difference": 0.11849808692932129,
+              "finite_RMSE": 0.0018204032912452607
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_ids"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.0.self_attn",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "0"
+              ],
+              "source_dtype": "torch.bfloat16",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 240256,
+              "maximum_absolute_finite_difference": 0.078125,
+              "finite_RMSE": 0.001997040578704971
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.0.post_attention_layernorm",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 275234,
+              "maximum_absolute_finite_difference": 0.255859375,
+              "finite_RMSE": 0.010107044671767785
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.0.post_attention_layernorm",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 317281,
+              "maximum_absolute_finite_difference": 0.23137760162353516,
+              "finite_RMSE": 0.005278015073416872
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.0.mlp",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 317281,
+              "maximum_absolute_finite_difference": 0.23137760162353516,
+              "finite_RMSE": 0.005278015073416872
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.0.mlp",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.bfloat16",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 272725,
+              "maximum_absolute_finite_difference": 0.75,
+              "finite_RMSE": 0.021677418662374836
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.0",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 302925,
+              "maximum_absolute_finite_difference": 0.85791015625,
+              "finite_RMSE": 0.026882789656516037
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.1",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 303613,
+              "maximum_absolute_finite_difference": 0.84228515625,
+              "finite_RMSE": 0.026966819716598638
+            },
+            {
+              "path": [
+                "kwargs",
+                "cache_position"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_ids"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.1",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 318835,
+              "maximum_absolute_finite_difference": 1.52978515625,
+              "finite_RMSE": 0.027915496226538637
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.2",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 318984,
+              "maximum_absolute_finite_difference": 1.52197265625,
+              "finite_RMSE": 0.028137819655275998
+            },
+            {
+              "path": [
+                "kwargs",
+                "cache_position"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_ids"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.2",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 321191,
+              "maximum_absolute_finite_difference": 2.12353515625,
+              "finite_RMSE": 0.028545112456184636
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.3",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 321281,
+              "maximum_absolute_finite_difference": 2.09228515625,
+              "finite_RMSE": 0.029788631019602958
+            },
+            {
+              "path": [
+                "kwargs",
+                "cache_position"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_ids"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.3",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 322147,
+              "maximum_absolute_finite_difference": 2.19970703125,
+              "finite_RMSE": 0.029122175675252174
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.4",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 322147,
+              "maximum_absolute_finite_difference": 2.19970703125,
+              "finite_RMSE": 0.029122175675252174
+            },
+            {
+              "path": [
+                "kwargs",
+                "cache_position"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_ids"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.4",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 322542,
+              "maximum_absolute_finite_difference": 1.824462890625,
+              "finite_RMSE": 0.027699662113376638
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.5",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 322542,
+              "maximum_absolute_finite_difference": 1.824462890625,
+              "finite_RMSE": 0.027699662113376638
+            },
+            {
+              "path": [
+                "kwargs",
+                "cache_position"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_ids"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.5",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 322742,
+              "maximum_absolute_finite_difference": 2.152587890625,
+              "finite_RMSE": 0.027618725810260886
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.6",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 322742,
+              "maximum_absolute_finite_difference": 2.152587890625,
+              "finite_RMSE": 0.027618725810260886
+            },
+            {
+              "path": [
+                "kwargs",
+                "cache_position"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_ids"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.6",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 322899,
+              "maximum_absolute_finite_difference": 2.246337890625,
+              "finite_RMSE": 0.028412453716104298
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.7",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 322899,
+              "maximum_absolute_finite_difference": 2.246337890625,
+              "finite_RMSE": 0.028412453716104298
+            },
+            {
+              "path": [
+                "kwargs",
+                "cache_position"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_ids"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.7",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 322920,
+              "maximum_absolute_finite_difference": 2.357666015625,
+              "finite_RMSE": 0.029733587656999915
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.8",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 322920,
+              "maximum_absolute_finite_difference": 2.357666015625,
+              "finite_RMSE": 0.029733587656999915
+            },
+            {
+              "path": [
+                "kwargs",
+                "cache_position"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_ids"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.8",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 323083,
+              "maximum_absolute_finite_difference": 1.324462890625,
+              "finite_RMSE": 0.03198428497356587
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.9",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 323083,
+              "maximum_absolute_finite_difference": 1.324462890625,
+              "finite_RMSE": 0.03198428497356587
+            },
+            {
+              "path": [
+                "kwargs",
+                "cache_position"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_ids"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.9",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 323145,
+              "maximum_absolute_finite_difference": 1.4716796875,
+              "finite_RMSE": 0.03944224437556579
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.10",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 323145,
+              "maximum_absolute_finite_difference": 1.4716796875,
+              "finite_RMSE": 0.03944224437556579
+            },
+            {
+              "path": [
+                "kwargs",
+                "cache_position"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_ids"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.10",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 323213,
+              "maximum_absolute_finite_difference": 1.445556640625,
+              "finite_RMSE": 0.04816791282219091
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.11",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 323213,
+              "maximum_absolute_finite_difference": 1.445556640625,
+              "finite_RMSE": 0.04816791282219091
+            },
+            {
+              "path": [
+                "kwargs",
+                "cache_position"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_ids"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.11",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 323271,
+              "maximum_absolute_finite_difference": 2.234619140625,
+              "finite_RMSE": 0.06241126835373285
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.12",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 323271,
+              "maximum_absolute_finite_difference": 2.234619140625,
+              "finite_RMSE": 0.06241126835373285
+            },
+            {
+              "path": [
+                "kwargs",
+                "cache_position"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_ids"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.12",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 323329,
+              "maximum_absolute_finite_difference": 2.172119140625,
+              "finite_RMSE": 0.07358236478738343
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.13",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 323329,
+              "maximum_absolute_finite_difference": 2.172119140625,
+              "finite_RMSE": 0.07358236478738343
+            },
+            {
+              "path": [
+                "kwargs",
+                "cache_position"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_ids"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.13",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 323401,
+              "maximum_absolute_finite_difference": 2.110809326171875,
+              "finite_RMSE": 0.08796846966109632
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.14",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 323401,
+              "maximum_absolute_finite_difference": 2.110809326171875,
+              "finite_RMSE": 0.08796846966109632
+            },
+            {
+              "path": [
+                "kwargs",
+                "cache_position"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_ids"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.14",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 323423,
+              "maximum_absolute_finite_difference": 2.5474395751953125,
+              "finite_RMSE": 0.10625250187466562
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.15",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 323423,
+              "maximum_absolute_finite_difference": 2.5474395751953125,
+              "finite_RMSE": 0.10625250187466562
+            },
+            {
+              "path": [
+                "kwargs",
+                "cache_position"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_embeddings",
+                "1"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 20224,
+              "elements": 20224,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "kwargs",
+                "position_ids"
+              ],
+              "source_dtype": "torch.int64",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.layers.15",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 323432,
+              "maximum_absolute_finite_difference": 4.833251953125,
+              "finite_RMSE": 0.13350147494262413
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.norm",
+          "stage": "input",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "args",
+                "0"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 323432,
+              "maximum_absolute_finite_difference": 4.833251953125,
+              "finite_RMSE": 0.13350147494262413
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "language.norm",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 323583,
+              "maximum_absolute_finite_difference": 2.811708450317383,
+              "finite_RMSE": 0.08091199180561254
+            }
+          ]
+        },
+        {
+          "query_index": 0,
+          "module": "backbone",
+          "stage": "output",
+          "call": 0,
+          "all_bit_exact": false,
+          "tensors": [
+            {
+              "path": [
+                "backbone_attention_mask"
+              ],
+              "source_dtype": "torch.bool",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            },
+            {
+              "path": [
+                "backbone_features"
+              ],
+              "source_dtype": "torch.float32",
+              "bit_exact": false,
+              "numeric_equal": false,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 323584,
+              "elements": 323584,
+              "changed_elements": 323432,
+              "maximum_absolute_finite_difference": 4.833251953125,
+              "finite_RMSE": 0.13350147494262413
+            },
+            {
+              "path": [
+                "image_mask"
+              ],
+              "source_dtype": "torch.bool",
+              "bit_exact": true,
+              "numeric_equal": true,
+              "nonfinite_patterns_equal": true,
+              "finite_pairs": 158,
+              "elements": 158,
+              "changed_elements": 0,
+              "maximum_absolute_finite_difference": 0.0,
+              "finite_RMSE": 0.0
+            }
+          ]
+        }
+      ],
+      "runtime": {
+        "Core": {
+          "torch_version": "2.9.0+cu128",
+          "transformers_version": "4.57.3",
+          "CUDA_version": "12.8",
+          "cuDNN_version": 91002,
+          "HF_Qwen_source_sha256": "685b10cbc48556343df4e159199c5884d02db9ad227640f0f4fbe75ddf0b2a99",
+          "trainable_visual_parameters": 0,
+          "trainable_language_parameters": 0,
+          "trainable_backbone_parameters": 0
+        },
+        "Hopper": {
+          "torch_version": "2.9.0+cu128",
+          "transformers_version": "4.57.3",
+          "CUDA_version": "12.8",
+          "cuDNN_version": 91002,
+          "HF_Qwen_source_sha256": "685b10cbc48556343df4e159199c5884d02db9ad227640f0f4fbe75ddf0b2a99",
+          "trainable_visual_parameters": 0,
+          "trainable_language_parameters": 0,
+          "trainable_backbone_parameters": 0
+        }
+      },
+      "actual_flags": {
+        "Core": [
+          {
+            "matmul_allow_tf32": false,
+            "cuDNN_allow_tf32": true,
+            "bf16_reduced_precision_reduction": true
+          }
+        ],
+        "Hopper": [
+          {
+            "matmul_allow_tf32": false,
+            "cuDNN_allow_tf32": true,
+            "bf16_reduced_precision_reduction": true
+          }
+        ]
+      },
+      "new_model_loads": 0,
+      "new_GR00T_queries": 0,
+      "optimizer_updates": 0,
+      "physics_integrations": 0,
+      "CPU_s": 3.0536150579999997,
+      "wall_s": 3.0989151250005307,
+      "execution_site": "PRIVATE_LOCAL_CPU; Core physical owner continues; completed local H100 archive reused, no Core artifact writes"
+    }
+  },
+  "NEGATIVE": [
+    "The first differing saved output is visual.patch_embed.proj:158 of524288 BF16 values differ, maximum absolute difference0.0078125 and finite RMSE3.116100387928026e-05. This locates an observed boundary, not a unique internal kernel cause.",
+    "Projection weight, position weight and original input were recorded bit exact. Internal autocast steps, specific cuDNN algorithm/reduction ordering and cache KV tensors were not captured; do not claim they are individually identified or all operator internals were observed.",
+    "Actual matmul TF32=false, cuDNN TF32=true and BF16 reduced-precision reduction=true are equal on both sides. Do not describe all TF32 settings as disabled. Runtime versions and pinned Qwen source hash match; this does not imply identical numerical kernels across GPUs.",
+    "The final saved backbone features also differ (maximum4.833251953125, finite RMSE0.13350147494262413); corresponding attention/image masks remain bit exact. A single traced query does not localize every one of the40 outputs or prove a unique causal propagation path.",
+    "This diagnostic is not same-card reproducibility, cross-hardware qualification, action safety or robot task success. It supplies no commands or training labels. Original BF16 REJECT, original gate and formal DEV80/TEST remain unchanged.",
+    "The original owner-lock rejection and partial-transfer failure remain preserved; no old completed operation was blindly replayed and no new H100/H200 inference job was requested."
+  ],
+  "DECISION": "The existing frozen-backbone evidence now supports an early observed vision-projection numerical divergence, before the action head, with matched recorded weights/input and runtime settings. Keep Core-local policy results separate from cross-hardware numeric diagnosis; do not promote the original rejected candidate.",
+  "NEXT": [
+    "Reuse this complete119-boundary comparison; never repeat the original40-query producers or completed transfer.",
+    "If a specific operator-kernel hypothesis becomes necessary, design a separate explicitly numerical controlled experiment using these saved inputs; it has no physical execution authority.",
+    "Reconcile the remaining existing709533 tensor-trace artifacts independently, without new H100/H200 ordinary inference. Continue actual Teacher full24 on its one physical owner."
+  ],
+  "preserved": {
+    "original_cross_hardware_REJECT": true,
+    "original_admission_thresholds": true,
+    "Core_local_version_separate": true,
+    "original_DEV80_TEST": true,
+    "TRAIN100_statistics": true,
+    "WBC_legs_solver_dynamics_2ms_safety": true,
+    "new_H100_H200_jobs": 0,
+    "new_BC_DAgger": 0
+  }
+}

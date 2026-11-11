@@ -1,0 +1,485 @@
+{
+  "schema": "FORMAL_SFT500_FIXED_PHASE_PROBES_ACTUAL_V1",
+  "EVIDENCE_ASOF": "2026-11-09T23:14:10.209192+00:00",
+  "SGT": "2026-11-10T07:14:10.209192+08:00",
+  "goal_status": "ACTIVE",
+  "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
+  "question": "Does the new TRAIN100 supervision reduce the predeclared paired phase errors under the unchanged target Processor before the first native student endpoint?",
+  "producer": {
+    "job_id": "709342.hopper-m-02",
+    "project": "CFP04-CF-007",
+    "source_sha": "c4b8453715b702cc479844e15afbfacc88f582a3",
+    "GPU": "NVIDIA H200",
+    "GPUs": 1,
+    "variant": "FULL_ACTION_SIDE",
+    "trainable_numel": 1304913028,
+    "backbone_frozen": true,
+    "original_CORR_parent": true,
+    "FIT4_or_scan_weights_as_parent": false
+  },
+  "dataset": {
+    "manifest_sha256": "ff94fc77c5a8309dc1460032b308c2f213c96c088449ee1821b3e46e045107b0",
+    "statistics_sha256": "0faba237b8922ed9bbd53bd6732a9f449f46dcb6fc19017eae8f3cffa3afd9f2",
+    "different_expert_supervision_windows": 1450,
+    "TRAIN_layouts": 25,
+    "nominal_TRAIN_XY_support_mm": [
+      7,
+      7
+    ],
+    "fixed_object": "40mm50g_RED_CUBE",
+    "optimizer_visits_are_not_new_data": true
+  },
+  "metric": {
+    "implementation_sha256": "450dcc4f7e2c5d63381e484936ef3b2f1e00de2b75a9898d69d82b69f8f6d0b5",
+    "key_phases": [
+      "CLOSE",
+      "LIFT",
+      "HOLD"
+    ],
+    "aggregation": "Equal mean per actual row within each phase, then equal mean across the three declared key phases",
+    "XYZ_unit": "metres",
+    "SO3_unit": "radians",
+    "gripper_unit": "original policy gripper scale",
+    "same_target_Processor_statistics_observations_and_noise": true,
+    "baseline": "SAME_FORMAL_GENERATION_STEP0; not native B0 with source statistics",
+    "native_B0_B1_interpretation": "Later common native panel measures whole target adaptation",
+    "training_queries": 40,
+    "DEV_reference_queries": 20,
+    "DEV_distinct_reference_episodes_and_layouts": 4,
+    "DEV_phase_rows_are_correlated": true
+  },
+  "paired": {
+    "TRAIN": {
+      "observation_noise_pairs_exact": true,
+      "actual_unique_phase_rows": 40,
+      "matched_observation_noise_sha256": "771edc4a8c271e11dbf73c83a6dc72d6e06afe2cde5cfda3335b9bb72467c829",
+      "key_H40_before": {
+        "XYZ_m": 0.00616333799407317,
+        "SO3_rad": 0.0016451560807450455,
+        "gripper": 0.10306548384734397
+      },
+      "key_H40_after": {
+        "XYZ_m": 0.0012006945119847293,
+        "SO3_rad": 0.0002936728353667291,
+        "gripper": 0.00886257784071466
+      },
+      "key_first_before": {
+        "XYZ_m": 0.004736846050536276,
+        "SO3_rad": 0.001653134985665096,
+        "gripper": 0.1688168711960316
+      },
+      "key_first_after": {
+        "XYZ_m": 0.0012554691449008124,
+        "SO3_rad": 0.00030503905369113797,
+        "gripper": 0.0038909499843915265
+      },
+      "XYZ_H40_relative_reduction": 0.8051876250922229
+    },
+    "DEV": {
+      "observation_noise_pairs_exact": true,
+      "actual_unique_phase_rows": 20,
+      "matched_observation_noise_sha256": "40769ddd66d2fde41a677fd1fd7165941387ff2529226703b6a795c8e641d43a",
+      "key_H40_before": {
+        "XYZ_m": 0.006103392363379497,
+        "SO3_rad": 0.0015658443936844072,
+        "gripper": 0.10491542913762021
+      },
+      "key_H40_after": {
+        "XYZ_m": 0.0013194407255024728,
+        "SO3_rad": 0.00030869319572009564,
+        "gripper": 0.01195929115252311
+      },
+      "key_first_before": {
+        "XYZ_m": 0.004711880639310756,
+        "SO3_rad": 0.001305626929430704,
+        "gripper": 0.0892014851172765
+      },
+      "key_first_after": {
+        "XYZ_m": 0.0014393994856962274,
+        "SO3_rad": 0.00036010111602643075,
+        "gripper": 0.0018714020649592082
+      },
+      "XYZ_H40_relative_reduction": 0.7838184657078333
+    }
+  },
+  "all_phases": {
+    "TRAIN_step0": {
+      "global_step": 0,
+      "actual_unique_probes": 40,
+      "phases": {
+        "PREGRASP": {
+          "H40": {
+            "XYZ_m": 0.004442523451460043,
+            "SO3_rad": 0.0015824013081005364,
+            "gripper": 0.003664736449718475
+          },
+          "first": {
+            "XYZ_m": 0.004607227523829208,
+            "SO3_rad": 0.001602752463989663,
+            "gripper": 0.0
+          }
+        },
+        "DESCEND": {
+          "H40": {
+            "XYZ_m": 0.007163178718139788,
+            "SO3_rad": 0.0020633130394579063,
+            "gripper": 0.00788280852138996
+          },
+          "first": {
+            "XYZ_m": 0.004537903294859492,
+            "SO3_rad": 0.001004034904253903,
+            "gripper": 0.0
+          }
+        },
+        "CLOSE": {
+          "H40": {
+            "XYZ_m": 0.0038033947347721818,
+            "SO3_rad": 0.0013703020119358532,
+            "gripper": 0.2488827707740189
+          },
+          "first": {
+            "XYZ_m": 0.004468304403786807,
+            "SO3_rad": 0.0009486711184497189,
+            "gripper": 0.27643302232027056
+          }
+        },
+        "LIFT": {
+          "H40": {
+            "XYZ_m": 0.010040233472761976,
+            "SO3_rad": 0.0012747068084055838,
+            "gripper": 0.027885404322296376
+          },
+          "first": {
+            "XYZ_m": 0.004650260331518961,
+            "SO3_rad": 0.0012267796641223063,
+            "gripper": 0.10936390608549118
+          }
+        },
+        "HOLD": {
+          "H40": {
+            "XYZ_m": 0.004646385774685352,
+            "SO3_rad": 0.0022904594218936996,
+            "gripper": 0.032428276445716615
+          },
+          "first": {
+            "XYZ_m": 0.005091973416303059,
+            "SO3_rad": 0.002783954174423263,
+            "gripper": 0.12065368518233299
+          }
+        }
+      },
+      "key": {
+        "H40": {
+          "XYZ_m": 0.00616333799407317,
+          "SO3_rad": 0.0016451560807450455,
+          "gripper": 0.10306548384734397
+        },
+        "first": {
+          "XYZ_m": 0.004736846050536276,
+          "SO3_rad": 0.001653134985665096,
+          "gripper": 0.1688168711960316
+        }
+      },
+      "result_sha256": "13f9aa1b1c04b9ef92ce8d38e63158b78ab71cdbce940f07533ba2866448c6d0"
+    },
+    "TRAIN_step500": {
+      "global_step": 500,
+      "actual_unique_probes": 40,
+      "phases": {
+        "PREGRASP": {
+          "H40": {
+            "XYZ_m": 0.0014414401698632524,
+            "SO3_rad": 0.0003135112408588366,
+            "gripper": 0.014379797317087651
+          },
+          "first": {
+            "XYZ_m": 0.0015242023324421614,
+            "SO3_rad": 0.0004392063914391092,
+            "gripper": 0.008905403316020966
+          }
+        },
+        "DESCEND": {
+          "H40": {
+            "XYZ_m": 0.0010086705722834096,
+            "SO3_rad": 0.0002839881673119838,
+            "gripper": 0.020313170738518238
+          },
+          "first": {
+            "XYZ_m": 0.0011463240973877645,
+            "SO3_rad": 0.0003571534918764769,
+            "gripper": 0.02103789895772934
+          }
+        },
+        "CLOSE": {
+          "H40": {
+            "XYZ_m": 0.001369841803940714,
+            "SO3_rad": 0.0003520147966952424,
+            "gripper": 0.02102982149281802
+          },
+          "first": {
+            "XYZ_m": 0.001526791578303619,
+            "SO3_rad": 0.0004486429470423963,
+            "gripper": 0.009922760725021351
+          }
+        },
+        "LIFT": {
+          "H40": {
+            "XYZ_m": 0.0009537445350434792,
+            "SO3_rad": 0.0002497686418482791,
+            "gripper": 0.0028037174604833128
+          },
+          "first": {
+            "XYZ_m": 0.0009147587979622398,
+            "SO3_rad": 0.00016487183358800133,
+            "gripper": 0.0
+          }
+        },
+        "HOLD": {
+          "H40": {
+            "XYZ_m": 0.0012784971969699948,
+            "SO3_rad": 0.00027923506755666585,
+            "gripper": 0.002754194568842649
+          },
+          "first": {
+            "XYZ_m": 0.001324857058436579,
+            "SO3_rad": 0.0003016023804430163,
+            "gripper": 0.0017500892281532288
+          }
+        }
+      },
+      "key": {
+        "H40": {
+          "XYZ_m": 0.0012006945119847293,
+          "SO3_rad": 0.0002936728353667291,
+          "gripper": 0.00886257784071466
+        },
+        "first": {
+          "XYZ_m": 0.0012554691449008124,
+          "SO3_rad": 0.00030503905369113797,
+          "gripper": 0.0038909499843915265
+        }
+      },
+      "result_sha256": "4ceee9149fc0b19ed64151810469f48111e91919b331bf1cdb2c6c088924ccd6"
+    },
+    "DEV_step0": {
+      "global_step": 0,
+      "actual_unique_probes": 20,
+      "phases": {
+        "PREGRASP": {
+          "H40": {
+            "XYZ_m": 0.004686060214264027,
+            "SO3_rad": 0.0014987868987888185,
+            "gripper": 0.004624617099761964
+          },
+          "first": {
+            "XYZ_m": 0.004649509584123586,
+            "SO3_rad": 0.001487180032070204,
+            "gripper": 0.0
+          }
+        },
+        "DESCEND": {
+          "H40": {
+            "XYZ_m": 0.0072257052747073044,
+            "SO3_rad": 0.0018197752019227698,
+            "gripper": 0.0298563364893198
+          },
+          "first": {
+            "XYZ_m": 0.004536738876050388,
+            "SO3_rad": 0.0010091310238921438,
+            "gripper": 0.0001429915428161621
+          }
+        },
+        "CLOSE": {
+          "H40": {
+            "XYZ_m": 0.004155460953544946,
+            "SO3_rad": 0.0015289341085951993,
+            "gripper": 0.24373318212471273
+          },
+          "first": {
+            "XYZ_m": 0.004618991757861602,
+            "SO3_rad": 0.0009325653359423057,
+            "gripper": 0.006664082407951355
+          }
+        },
+        "LIFT": {
+          "H40": {
+            "XYZ_m": 0.009818398027650577,
+            "SO3_rad": 0.001088676268440233,
+            "gripper": 0.05322402566671371
+          },
+          "first": {
+            "XYZ_m": 0.0045944633157711835,
+            "SO3_rad": 0.0009104266361264185,
+            "gripper": 0.25065842270851135
+          }
+        },
+        "HOLD": {
+          "H40": {
+            "XYZ_m": 0.00433631810894297,
+            "SO3_rad": 0.0020799228040177887,
+            "gripper": 0.017789079621434212
+          },
+          "first": {
+            "XYZ_m": 0.004922186844299483,
+            "SO3_rad": 0.002073888816223388,
+            "gripper": 0.010281950235366821
+          }
+        }
+      },
+      "key": {
+        "H40": {
+          "XYZ_m": 0.006103392363379497,
+          "SO3_rad": 0.0015658443936844072,
+          "gripper": 0.10491542913762021
+        },
+        "first": {
+          "XYZ_m": 0.004711880639310756,
+          "SO3_rad": 0.001305626929430704,
+          "gripper": 0.0892014851172765
+        }
+      },
+      "result_sha256": "6e3752c6a31205c2491e68782195aa629ebcce6c922b26d16cd3551c6b2b9ba5"
+    },
+    "DEV_step500": {
+      "global_step": 500,
+      "actual_unique_probes": 20,
+      "phases": {
+        "PREGRASP": {
+          "H40": {
+            "XYZ_m": 0.0017573376169873873,
+            "SO3_rad": 0.0004475845404328404,
+            "gripper": 0.014252009242773056
+          },
+          "first": {
+            "XYZ_m": 0.0017077466937815242,
+            "SO3_rad": 0.0006216336816418751,
+            "gripper": 0.00750461220741272
+          }
+        },
+        "DESCEND": {
+          "H40": {
+            "XYZ_m": 0.0017820530653392956,
+            "SO3_rad": 0.000421623807049018,
+            "gripper": 0.02593751363456249
+          },
+          "first": {
+            "XYZ_m": 0.0008142595871893563,
+            "SO3_rad": 0.0006032872849549597,
+            "gripper": 0.023500695824623108
+          }
+        },
+        "CLOSE": {
+          "H40": {
+            "XYZ_m": 0.0013099490607638817,
+            "SO3_rad": 0.00041433219413362205,
+            "gripper": 0.024028038501340603
+          },
+          "first": {
+            "XYZ_m": 0.001751768624925726,
+            "SO3_rad": 0.0005204287757797866,
+            "gripper": 0.002688854932785034
+          }
+        },
+        "LIFT": {
+          "H40": {
+            "XYZ_m": 0.0009642300862838918,
+            "SO3_rad": 0.00022613979801524328,
+            "gripper": 0.00756474882364273
+          },
+          "first": {
+            "XYZ_m": 0.0010045617056255451,
+            "SO3_rad": 0.0002287009795356363,
+            "gripper": 0.0009172707796096802
+          }
+        },
+        "HOLD": {
+          "H40": {
+            "XYZ_m": 0.0016841430294596452,
+            "SO3_rad": 0.0002856075950114216,
+            "gripper": 0.0042850861325860025
+          },
+          "first": {
+            "XYZ_m": 0.0015618681265374113,
+            "SO3_rad": 0.0003311735927638694,
+            "gripper": 0.00200808048248291
+          }
+        }
+      },
+      "key": {
+        "H40": {
+          "XYZ_m": 0.0013194407255024728,
+          "SO3_rad": 0.00030869319572009564,
+          "gripper": 0.01195929115252311
+        },
+        "first": {
+          "XYZ_m": 0.0014393994856962274,
+          "SO3_rad": 0.00036010111602643075,
+          "gripper": 0.0018714020649592082
+        }
+      },
+      "result_sha256": "0f893cfbc9dffe4192534f8e2edd63fdf86d0a416ca428ac751decd11e52aa79"
+    }
+  },
+  "current_formal": {
+    "EVIDENCE_ASOF": "2026-11-09T23:15:12.954023+00:00",
+    "PBS_state": "R",
+    "global_step": 560,
+    "sample_visits": 17920,
+    "checkpoint500": {
+      "step": 500,
+      "cursor": 16000,
+      "header_sha256": "a2d9cfcd9d04ea7507f355d46c090f4c4b78410a417b5ac2fefe54cde552d5e0",
+      "member_count": 15,
+      "bytes": 15668195600,
+      "files_metadata": {
+        "rng_state.pth": 14645,
+        "trainer_state.json": 68013,
+        "PROCESSOR_TRAINING_ADMISSION.json": 3247159,
+        "PROCESSOR_HOPPER_RECONSTRUCTION.json": 3247245,
+        "DATASET_MANIFEST.json": 1774809,
+        "PARAMETER_CONTRACT.json": 100858,
+        "target_parameters.pt": 5219838915,
+        "statistics.json": 6515,
+        "SAMPLER_STATE.json": 2284,
+        "optimizer.pt": 10439770966,
+        "scheduler.pt": 1465,
+        "FROZEN_PARENT_TENSORS.json": 112424,
+        "processor/processor_config.json": 3173,
+        "processor/embodiment_id.json": 615,
+        "processor/statistics.json": 6514
+      },
+      "all_declared_members_present": true,
+      "full_member_hashes_recomputed_on_login": false,
+      "independent_full_restore": "NOT_RUN"
+    },
+    "all_prefix_cursors_and_continuous_schedule_verified_through": 560
+  },
+  "actual_readonly_recomputation": {
+    "retained_arrays_all_SHA_verified": true,
+    "physical_H40_expert_H40_and_state_shapes_and_finiteness_verified": true,
+    "original_error_metrics_used": true,
+    "new_models": 0,
+    "new_optimizer_updates": 0,
+    "new_PBS_submissions": 0
+  },
+  "negative": {
+    "complete2000_endpoint": false,
+    "checkpoint500_independent_full_restore": "NOT_RUN",
+    "private_student_package": "NOT_DELIVERED",
+    "Core40": "NOT_RUN",
+    "student_closed_loop_DEV80": "NOT_RUN",
+    "TEST": "NOT_RUN",
+    "native_success_rate_inferred": false,
+    "broad_generalization_established": false,
+    "scientific_promotion_or_recipe_change": false
+  },
+  "decision": "KEEP_ORIGINAL2000_JOB_RUNNING; early fixed probes establish supervised fit improvement only, no method selection or4000/8000 admission",
+  "next_gate": "Complete first2000 and full-state restore/private package; original Core40 then all80 native DEV; only the predeclared full-evidence decision can promote or choose a new data/observation branch",
+  "private_evidence": {
+    "HOPPER_FORMAL_FIXED_PHASE_SUMMARIES_1794266050840960992.private.json": "ce6df76e416dbde20cb836e143386a357ce14a279d4c867c4701f62117b3c296",
+    "HOPPER_FORMAL_PREFIX_AND_CP_METADATA_1794266112455103299.private.json": "47ff95a8f70ca3c7b0927b4ac9b82809b55b65cd8452bdc85b112ec9a499c8d4",
+    "HOPPER_FORMAL_SFT2000_RUNNING_1794266113102669004.private.json": "e5fac06763daced0ae4edf937439b414f61595b8041297b9315494fde2005cff",
+    "FORMAL500_ORIGINAL_CONTROLLERS_INDEPENDENT_ACTUAL.private.json": "d28cf81831af6ab0cb5ecc0b41fa1e95b90a1a2ddff75d8b12860a4335c61622",
+    "read_formal_fixed_phase_summaries01.remote.private.py": "bfe1e068ff8e76a447468c9a0954592289326ed682f6e83602c4af17e64c51b7"
+  }
+}

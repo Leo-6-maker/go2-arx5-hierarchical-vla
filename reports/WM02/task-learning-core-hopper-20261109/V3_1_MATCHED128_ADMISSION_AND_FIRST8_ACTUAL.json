@@ -1,0 +1,142 @@
+{
+  "schema": "GR00T_WBC_V3_1_MATCHED128_ADMISSION_AND_FIRST8_ACTUAL",
+  "UTC": "2026-11-10T20:32:18.083032+00:00",
+  "SGT": "2026-11-11T04:32:18.083032+08:00",
+  "QUESTION": "At fixed task, seeds and native gates, separate Processor normalization, trained weights and identical current-state/predicted-goal smooth representation effects on complete safe grasp/lift/hold.",
+  "CHANGED": {
+    "runtime_source": "aa1d12176816c136ee5609cf967e63dc4e3a82f0",
+    "role": "CORE_MATCHED_WEIGHTS_PROCESSOR_SMOOTH_TRAIN_NOT_DEV_TEST_V3_1",
+    "preregistration_sha256": "f91a57f07c18373e8dc9addd16028e76af538fd7cdee6aeb273deca54b892e62",
+    "existing_serial_worker_owner_journal_and_registry_reused": true,
+    "new_scheduler": false,
+    "new_training": false,
+    "checkpoint_immutable_validation_cached_once_per_process": true
+  },
+  "scientific_inputs": {
+    "TRAIN100": "ff94fc77c5a8309dc1460032b308c2f213c96c088449ee1821b3e46e045107b0",
+    "statistics": "0faba237b8922ed9bbd53bd6732a9f449f46dcb6fc19017eae8f3cffa3afd9f2",
+    "CORR2048": "94ad4d0eaaa5bf7df0c55a7b0c9c06701b4039fa2a32a98a29453a1974399c38",
+    "SFT2000": "7feffa8dd11b5c9ce963f2e0f2f2613196c1a3ae8e5039056377bd5e25e02250",
+    "C500": "0b248af6ffe503c778c43e5f68c03eb9be6266b4c493ff82a9e1668dead8a8d3"
+  },
+  "ACTUAL": {
+    "metadata_admission": {
+      "status": "CLOSED",
+      "exit_code": 0,
+      "spec_sha256": "38f56f098cf29fd5fc1df4adfc5eb747adaba6a1d830a8cb9be299c1f9d437b4",
+      "panel_sha256": "6bff850e3d768b3f5b5aaa921726a1ea9434f59faac730acf9dd60ff349c79d9",
+      "static_native_recipes": {
+        "n": 128,
+        "all_pass": true,
+        "model_calls": 0,
+        "physics": 0
+      },
+      "model_loads": 0,
+      "model_queries": 0,
+      "optimizer_updates": 0,
+      "physics_integrations": 0,
+      "wall_s": 242.19781950907782,
+      "CPU_s": null,
+      "CPU_s_note": "Not separately measured for this metadata-only preparation."
+    },
+    "prerequisite_reuse": {
+      "original_Core_local_admission": "REUSED_NOT_RERUN",
+      "B0_target_Processor_actual_same_card_queries": 80,
+      "B0_target_Processor_complete40_twice_bit_exact": true,
+      "C500_ordinary_full_inference40": "REUSED_NOT_RERUN",
+      "C500_endpoint_native_pilot": "CLOSED0_2_OF2_TRUE_SUCCESSES_REUSED_NOT_RERUN",
+      "original_cross_hardware_REJECT": "PRESERVED"
+    },
+    "first_group": {
+      "run_id": "task-learning-core-matched128-panel-20261111-01-group-000-008",
+      "assignment_slice": [
+        0,
+        8
+      ],
+      "input_sha256": "ef64133ca7abbf35eacbef41b8712248b35873d265dcc55b91096444b0347246",
+      "dispatch_exit_code": 0,
+      "deadline_UTC": "2026-11-10T23:29:22.630580+00:00",
+      "finite_max_wall_s": 10800,
+      "per_condition_max_wall_s": 1200,
+      "snapshot_UTC": "2026-11-10T20:30:52.964929+00:00",
+      "unit_active": true,
+      "current_run": "tl-core-matched-20261111-v01-00-b0_raw",
+      "complete_terminal_conditions": 0,
+      "requested_in_group": 8,
+      "requested_in_population": 128,
+      "saved_query_result_files": 0,
+      "completed_model_load_markers": 0,
+      "optimizer_updates": 0,
+      "actual_native_integrations": null,
+      "native_note": "Partners are running; no terminal integration total or task score yet. Zero saved query files at this snapshot is not an asserted zero-call terminal.",
+      "full_population_summary": null
+    },
+    "software": {
+      "targeted_method_route_population_continuation_semantics_checks_passed": 13,
+      "software_checks_are_not_native_success": true
+    }
+  },
+  "population": {
+    "layouts": [
+      "TRAIN02",
+      "TRAIN05",
+      "TRAIN08",
+      "TRAIN11",
+      "TRAIN15",
+      "TRAIN18",
+      "TRAIN21",
+      "TRAIN24"
+    ],
+    "restarts_per_layout": 2,
+    "methods": [
+      "B0_RAW",
+      "B0_PLUS_ENDPOINT_BASIS",
+      "B0_TARGET_PROCESSOR_RAW",
+      "B0_TARGET_PROCESSOR_PLUS_ENDPOINT_BASIS",
+      "SFT2000_RAW",
+      "SFT2000_PLUS_ENDPOINT_BASIS",
+      "C500_RAW",
+      "C500_PLUS_ENDPOINT_BASIS"
+    ],
+    "requested": 128,
+    "requested_per_method": 16,
+    "first_group_layout": "TRAIN02",
+    "first_group_restart": 1,
+    "first_group_query_seeds": [
+      202611110100,
+      202611110101,
+      202611110102,
+      202611110103,
+      202611110104,
+      202611110105,
+      202611110106,
+      202611110107,
+      202611110108,
+      202611110109,
+      202611110110,
+      202611110111,
+      202611110112,
+      202611110113,
+      202611110114
+    ],
+    "counterbalanced_fixed_order": true,
+    "original_DEV80_TEST_conditions": 0,
+    "split": "TRAIN_DEVELOPMENT_NOT_GENERALIZATION",
+    "unrun_are_not_failures": true
+  },
+  "NEGATIVE": [
+    "No new complete policy result from matched128 at the reported snapshot. Static admission and dispatch are software/operational evidence only.",
+    "Original raw/conic failures, old BF16 REJECT and original DEV80/TEST remain unchanged.",
+    "The earlier C500+smooth2/2 is local composed-policy success, not raw-GR00T, generalization or demonstrated recovery.",
+    "Teacher E1 small4 geometry candidates are prepared only; no new E1/E2/E3 qualification, BC or DAgger."
+  ],
+  "DECISION": "Run the preregistered matched comparison rather than add same-distribution optimizer steps. All eight methods use original full H40, original 2ms native integration, IK/contact/joint/standing/consumption safety. Preserve each raw rejection as a valid outcome; no clipping, retries, noise selection or Teacher fallback.",
+  "NEXT": "Observe the current serial first8. At actual cold group closure, independently aggregate original result hashes and full fixed denominators; continue only the never-executed contiguous suffix if no unresolved technical or hard-safety condition. Keep the long-horizon goal ACTIVE.",
+  "resource_routing": {
+    "Core": "Existing single GPU and single physical owner; one model at a time.",
+    "new_H100_H200_jobs": 0,
+    "new_Vanda_jobs": 0,
+    "existing_cluster_terminals": "UNCHANGED"
+  },
+  "goal_status": "ACTIVE_NOT_COMPLETE"
+}

@@ -1,0 +1,1156 @@
+{
+  "schema": "GR00T_TASK_LEARNING_CORE_HOPPER_STATE_V1",
+  "goal": "GR00T_TASK_LEARNING_CORE_HOPPER_V1",
+  "status": "ACTIVE",
+  "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
+  "execution_parent_sha": "cad80fbc2a9e3f70288b56967f196731612c452d",
+  "EVIDENCE_ASOF": "2026-11-10T05:47:02.003227+00:00",
+  "G0": {
+    "Core_previous_training": "CLOSED_FAILURE_ONE_WARMUP_OPTIMIZER_CALL",
+    "canonical_owner_neural_and_physics_locks_observed_free": false,
+    "old_physics_scopes": "EXPIRED; no reuse or CLOSED reopening",
+    "other_users_GPU_jobs": "PRESERVED",
+    "Hopper_SSH": "AVAILABLE",
+    "Hopper_PBS_queries": "PASS_OFFICIAL_LOGIN_ENVIRONMENT_AND_EXISTING_SERVER",
+    "Hopper_project_login": "AMGR_QUERY_TOKEN_EXPIRED; OFFICIAL_PBS_PROJECT_SUBMISSION_ACCEPTED_WITH_ACCOUNTING",
+    "PBS_submissions": 17,
+    "rejected_queue_submission_attempts": 2,
+    "accepted_PBS_jobs": 15,
+    "completed_PBS_jobs": 12,
+    "successful_PBS_exit0_jobs": 8,
+    "failed_PBS_exit1_jobs": 2,
+    "Core_current_native_owner": "NONE; NEXT_TRAIN_FEASIBILITY_FIRST2_CLOSED0; NO_MORE_DATA_COLLECTION_DISPATCHED",
+    "network": "CORE_AND_HOPPER_READBACK_RECOVERED",
+    "current_Hopper_scan": "707720 F0_CLOSED0_SELECTED_MICROBATCH8_FULL_RESTORE_PASS",
+    "current_Hopper_Processor": "708392 F0_CLOSED0_FULL1450_PROCESSOR_PASS",
+    "Hopper_current_control": "DELIVERY07_COMPLETE_EXITED; ORIGINAL_CORE40_CONSUMER_EXITED_AFTER_NUMERICAL_REJECTION; POSTDEV02_WAITING",
+    "current_H100_restore": "709560 F0_CLOSED0_ALL_SEVEN_STATES_EXACT_ORIGINAL_FULL_ACTION_TRAINER",
+    "failed_PBS_pre_worker_negative_exit_jobs": 2,
+    "H100_unsubmitted_Processor": "01_CLOSED_NEVER_SUBMITTED_WORKER_EXIT_NULL; 02_READY_WITH_NATIVE_RESUME_VISIT_FIX_NO_QSUB",
+    "Core_native_neural_diagnostic": "10_CLOSED1_TWO_UPDATES_COMPLETE_CP2; ZERO_UPDATE_MEMORY01_CLOSED_NOT_RUN_CAPACITY",
+    "current_formal_SFT": "709342 F0_CLOSED0; ACTUAL2000_UPDATES64000_VISITS; EIGHT_COMPLETE_CHECKPOINTS_AND_ENDPOINT_FULL_RESTORE_PASS",
+    "current_neural_work": "CORE_INTERNAL_TRACE_AND_FP32_DIAGNOSTIC_CLOSED0; ORIGINAL_NUMERICAL_GATE_UNPASSED; HOPPER709533_709621_709670_Q",
+    "current_Hopper_paired_trace": "709533 Q_GPU; 709621 Q_GPU_INTERNAL_BF16; 709670 Q_HOST_SAME_PRECISION_FP32; ALL_ACCEPTED_RELEASED_AND_PRESERVED"
+  },
+  "G1": {
+    "question": "Does exact frozen-feature reuse permit real action-side updates and complete 4-vs-2+2 recovery on the actual Core GPU?",
+    "implementation": "Explicit cached-feature diagnostic retaining original GR00T head, masked loss, inputs, dtypes, masks and native noise audit",
+    "required_qualification": "Original H40 outputs, native loss, action gradients and RNG must match exactly before optimization",
+    "new_native_updates": 8,
+    "new_full_restore": "PASS_MODEL_OPTIMIZER_SCHEDULER_RNG_CURSOR_EXACT",
+    "status": "PASS_REAL_NONZERO_FOUR_VS_FRESH_TWO_PLUS_TWO_EXACT",
+    "qualification": "CORE_QUALIFICATION_ACTUAL.json",
+    "finite_FIT4_200": {
+      "run_id": "task-learning-core-20261109-04",
+      "source_sha": "8a9db7728884c47f5e344c1b38b3e7ad80c2b680",
+      "status": "CLOSED_PASS_4_OF_4_FINITE_200",
+      "endpoint": 200,
+      "formal_model": false,
+      "last_observed_step": 200,
+      "matched_probe_step": 200,
+      "matched_probe_XYZ_mean_before_m": 0.0021974035091902283,
+      "matched_probe_XYZ_mean_after_m": 0.00016475744054590663,
+      "constant_rotation_and_gripper_diagnostics_not_new_capabilities": true,
+      "actual": "CORE_FIT4_200_ACTUAL.json",
+      "fresh_original_reconstruction": "CORE_FRESH_RECONSTRUCTION_ACTUAL.json",
+      "all132_H40_and_physical_outputs_bit_exact": true
+    },
+    "FULL_ACTION_SIDE_Core_diagnostic": {
+      "status": "ACTUAL_CORE_FULL_ACTION_CACHE_QUALIFICATION_CLOSED0_NOT_FORMAL_SFT",
+      "actual": "CORE_FULL_ACTION_RESTORE_CLOSED_ACTUAL.json",
+      "trainable_numel": 1304913028,
+      "optimizer_calls": 8,
+      "formal_training": false
+    },
+    "original_Trainer_Core_FULL_ACTION_SIDE": {
+      "status": "SPLIT2_COMPLETED2_THEN_RESTORE_BACKBONE_RETURN_OOM_CLOSED1",
+      "report": "CORE_RESTORE_MEMORY_CAPACITY_CLOSED_AND_FORMAL_CP750_ACTUAL.json",
+      "historical_failed_GPU_roles": 8,
+      "actual_completed_optimizer_calls": 9,
+      "actual_nonzero_learning_rate_calls": 4,
+      "continuous4_complete_checkpoints": 2,
+      "complete_original_Trainer_restore_qualification": false,
+      "recovery_successor_role": "ZERO_UPDATE_MEMORY01_CLOSED_UNSTARTED_CAPACITY",
+      "recovery_master_pid": null,
+      "diagnostic_training_only": true,
+      "formal_TRAIN100_updates": 0,
+      "latest_failure": "10_ADAMW_LOAD_RETURNED_BACKBONE_GPU_RETURN_OOM48MIB_AFTER_COMPLETE_CP2",
+      "recovery_child_pid": null,
+      "actual_child_declared_allocator_bytes": 30064771072
+    }
+  },
+  "G1H": {
+    "job_id": "707196.hopper-m-02",
+    "state": "CLOSED_PBS_F_EXIT0_ORIGINAL_TRAINER_FULL_RESTORE_PASS",
+    "GPUs": 1,
+    "requested_GPU": "H200",
+    "ncpus": 12,
+    "mem": "225GB",
+    "wall_s": 21600,
+    "source_sha": "13c3176c958101a85006dfd63c6cf332438deb06",
+    "qsub_attempts": 1,
+    "original_Trainer_updates": 8,
+    "Processor_reconstruction": {
+      "windows": 4,
+      "all_processed_batches_exact": true,
+      "max_roundtrip_error": 2.337110505123974e-10
+    },
+    "full_restore": "HOPPER_ORIGINAL_TRAINER_RESTORE_ACTUAL.json",
+    "FIT4_200": {
+      "job_id": "707481.hopper-m-02",
+      "status": "CLOSED_PASS_ORIGINAL_TRAINER_FULL_ACTION_FIT4_200",
+      "actual": "HOPPER_FIT4_ONLY03_ACTUAL.json",
+      "original_Trainer_updates": 200,
+      "preserved_failed_successor": "HOPPER_FIT4_ONLY02_PREMODEL_FAILURE_ACTUAL.json",
+      "fit4_gate_passes": true
+    },
+    "status": "PASS_FULL_ORIGINAL_TRAINER_RESTORE_AND_FIT4_200"
+  },
+  "G2": {
+    "status": "PASS_REPAIRED_TEACHER20_AND_FOUR_REAL_RECOVERIES",
+    "task": "GRASP_RED_LIFT20MM_HOLD1S",
+    "static_fixed_base_IK": "REACHABLE_WITH_MEASURED_START_TCP_ROTATION; not dynamic WBC qualification",
+    "startup_or_WBC_or_scene_dynamics_changed": false,
+    "teacher_qualification_attempts": 10,
+    "qualified_full_demos": 0,
+    "run_id": "task-learning-grasp-construction-20261109-08",
+    "source_sha": "11d6d39cb6b639c0ff012462f1aba037d7f06752",
+    "original_first_full40_certificate": {
+      "points": 1051,
+      "max_joint_speed_rad_s": 0.13163758799794414,
+      "max_joint_acceleration_rad_s2": 0.21030573239267936,
+      "integrations": 0,
+      "source_saved_clock": 3703,
+      "new_reset_not_yet_qualified": true
+    },
+    "expert_training_eligible": false,
+    "construction_attempts": 8,
+    "preserved_failure": "G2_CONSTRUCTION_04_ACTUAL.json",
+    "next_action": "COMPLETE_FRESH_TWENTY_REQUEST_TEACHER_PANEL_WITH_ORIGINAL_SAFETY",
+    "construction_physics_attempts": 7,
+    "preflight_only_attempts": 1,
+    "post_initialization_hold_ticks": 2000,
+    "teacher_start_native_step": 5703,
+    "original_maximum_BASE_linear_speed_m_s": 0.001,
+    "post_hold_BASE_speed_m_s": 0.000386248896252402,
+    "confirmed_Teacher_50ms_commands": 600,
+    "Teacher_decisions": 15,
+    "preserved_failures": [
+      "G2_CONSTRUCTION_01_ACTUAL.json",
+      "G2_CONSTRUCTION_02_PREFLIGHT_ACTUAL.json",
+      "G2_CONSTRUCTION_03_ACTUAL.json",
+      "G2_CONSTRUCTION_04_ACTUAL.json",
+      "G2_CONSTRUCTION_05_ACTUAL.json",
+      "G2_CONSTRUCTION_06_ACTUAL.json",
+      "G2_CONSTRUCTION_07_ACTUAL.json"
+    ],
+    "task_contract": "G2_TASK_CONTRACT_V7.json",
+    "scene_sha256": "13eb01d2715ac6b53d0ad938ecab47befb6149b4d9e8d430985d93d8417253c8",
+    "hold_control": {
+      "run_id": "task-learning-grasp-hold-control-20261109-01",
+      "source_sha": "eedc7a6c75b0c2ac32bdd81760b9f4072bf206fd",
+      "status": "CLOSED_PREREGISTERED_FOOT_DISPLACEMENT_SCORE_FAILURE_AFTER_38P1S_HOLD",
+      "Teacher_decisions": 0,
+      "GR00T_queries": 0,
+      "endpoint": 46203,
+      "independent_restart_not_exact_fork": true,
+      "actual": "G2_HOLD_CONTROL_ACTUAL.json",
+      "actual_post_readiness_hold_s": 38.1
+    },
+    "post_readiness_horizon_s": 31.0,
+    "construction_successes": 1,
+    "formal_Teacher_qualification_attempts": 10,
+    "teacher_implementation_AST_sha256": "8e1199bc13a1d37a3d4d02251ffea9a241d8c47ff6a3ab6b4fd3dbef6a1503db",
+    "actual": "G2_CONSTRUCTION_08_ACTUAL.json",
+    "qualification": {
+      "status": "CLOSED_FAILED_HARD_STOP;10_UNRUN",
+      "actual": "G2_TEACHER_QUALIFICATION_ACTUAL.json",
+      "summary": {
+        "schema": "TASK_LEARNING_TEACHER_QUALIFICATION_SUMMARY_V1",
+        "requested": 20,
+        "attempted": 10,
+        "reset_ready": 10,
+        "task_successes": 9,
+        "hard_safety_stop_conditions": 1,
+        "technical_failure_conditions": 0,
+        "P_reset_ready": 0.5,
+        "P_success_given_reset_ready": 0.9,
+        "P_success_per_requested_episode": 0.45,
+        "complete": false,
+        "thresholds": {
+          "minimum_reset_ready": 18,
+          "minimum_conditional_Teacher_success": 0.9,
+          "maximum_hard_safety_stops": 0
+        },
+        "passes": false,
+        "qualified_training_demonstrations": 0,
+        "GR00T_queries": 0,
+        "model_updates": 0,
+        "independent_restarts_not_bit_exact_forks": true
+      },
+      "diagnosis": "G2_TEACHER_HARD_STOP_DIAGNOSIS_ACTUAL.json",
+      "CPU_replay": "G2_FROZEN_LEG_INPUT_REPLAY_ACTUAL.json"
+    },
+    "construction_status": "PASS_COMPLETE_NEW_UNDER_HAND_GRASP_LIFT20MM_HOLD1S_CONSTRUCTION",
+    "construction_task_success": true,
+    "current_Teacher_qualification_passes": true,
+    "sensor_handoff_repair": {
+      "CPU_build": "G2_SENSOR_SNAPSHOT_BUILD_ACTUAL.json",
+      "new_native_check": "G2_CONSTRUCTION_10_STARTUP_FAILURE_ACTUAL.json",
+      "status": "REPAIRED_NATIVE_CONSTRUCTION_PASS_NEW_POPULATION_PENDING",
+      "latest_build": "G2_SENSOR_SNAPSHOT_BUILD03_ACTUAL.json",
+      "latest_native_check": "G2_CONSTRUCTION_11_ACTUAL.json"
+    },
+    "repaired_construction": "G2_CONSTRUCTION_11_ACTUAL.json",
+    "fresh_qualification": "G2_TEACHER_QUALIFICATION02_ACTUAL.json",
+    "fresh_qualification_summary": {
+      "schema": "TASK_LEARNING_TEACHER_QUALIFICATION_SUMMARY_V1",
+      "requested": 20,
+      "attempted": 20,
+      "reset_ready": 20,
+      "task_successes": 20,
+      "hard_safety_stop_conditions": 0,
+      "technical_failure_conditions": 0,
+      "P_reset_ready": 1.0,
+      "P_success_given_reset_ready": 1.0,
+      "P_success_per_requested_episode": 1.0,
+      "complete": true,
+      "thresholds": {
+        "minimum_reset_ready": 18,
+        "minimum_conditional_Teacher_success": 0.9,
+        "maximum_hard_safety_stops": 0
+      },
+      "passes": true,
+      "qualified_training_demonstrations": 0,
+      "GR00T_queries": 0,
+      "model_updates": 0,
+      "independent_restarts_not_bit_exact_forks": true
+    },
+    "image_information_probe": "G2_CURRENT_RGB_INFORMATION_PROBE02_ACTUAL.json",
+    "recorded_velocity_audit": "G2_RECORDED_VELOCITY_INPUT20_ACTUAL.json"
+  },
+  "G3": "TRAIN100_CLOSED_SUCCESS100_OF100; DUAL_SITE_PROCESSOR1450_PASS; FORMAL_SFT2000_709342_F0_CLOSED0_RESTORED",
+  "G4_G7": "FIRST2000_RESTORED_DELIVERED; CORE40_WORKER_CLOSED0_BUT_CROSS_SITE_NUMERICAL_GATE_REJECTED; DEV80_TEST_NOT_RUN",
+  "next_gate": "Consume actual709670 matchedFP32 result through the already live private Core-CPU comparison, and709621/709533 original-precision counterparts. Separately qualify an ordinary runtime before original fullDEV80 and its frozen scientific decision; use student failures to choose any new training batch.",
+  "invariants": {
+    "WBC_startup_safety_dynamics_or_2ms_changed": false,
+    "GPU_physics_multiworld": false,
+    "multi_GPU_or_distributed": false,
+    "visual_language_backbone_unfrozen": false,
+    "real_hardware": false,
+    "old21_automatic8000": false
+  },
+  "execution_sha": "0b0c97120f306a6997c434f8f9ec9124db2dff8b",
+  "G3_preparation": {
+    "status": "DUAL_SITE_PROCESSOR_QUALIFIED_FORMAL_FIRST2000_CLOSED0",
+    "contract": "G3_CONTINUOUS_TEACHER_COLLECTION_CONTRACT_V1.json",
+    "normal_training_attempts": 50,
+    "recovery_training_attempts": 50,
+    "qualified_training_demonstrations": 0,
+    "exporter": "ACTUAL_COMPLETE_POPULATION_AUDIT_EXPORT_CLOSED0",
+    "typed_original_Processor_dataset": "CORE_AND_HOPPER_ORIGINAL_PROCESSOR_ALL1450_PASS",
+    "actual_recovery_qualification": "G3_RECOVERY_QUALIFICATION01_ACTUAL.json",
+    "actual_collection": "G3_CONTINUOUS_TEACHER_FIRST50_ACTUAL.json",
+    "current_full_task_successes": 100,
+    "actual_second_group": "G3_CONTINUOUS_TEACHER_SECOND50_ACTUAL.json"
+  },
+  "user_parallel_steering": {
+    "EVIDENCE_ASOF": "2026-11-09T05:10:37.033720+00:00",
+    "request": "Use single-H200 memory for parallel environments/workers; target example4096",
+    "authorization": "USER_REQUESTED_SINGLE_H200_PARALLEL_SCALE_ASSESSMENT_AND_EXECUTION",
+    "WBC_safety_startup_dynamics_2ms": "FROZEN",
+    "current_healthy_TRAIN100": "PRESERVED_AT_DC418; PARALLEL_SUCCESSORS_USE_NEW_IDENTITIES",
+    "first_concrete_action": "FRESH_SINGLE_H200_MICROBATCH1_2_4_8_THROUGHPUT_AND_SELECTED_COMPLETE_RESTORE",
+    "GPU_physics_environments_launched": 0,
+    "actual": "HOPPER_PARALLEL_SCALE_ACTUAL.json",
+    "single_H200_batch_scan_job": "707720.hopper-m-02",
+    "larger_formal_microbatch_admission": "ACTUAL_SELECTED8_FULL_SEVEN_STATE_RESTORE_PASS_ADOPTED_FOR_NEW_FORMAL_SFT",
+    "headless": "FIXED_PERFORMANCE8_OF8_CLOSED0; NOT_ADOPTED_FOR_SEALED_TRAIN100",
+    "native_execution_profile": "NATIVE_EXECUTION_TIMING_ACTUAL.json",
+    "GPU_physics_upstream_recheck": "GPU_PHYSICS_UPSTREAM_VERSION_RECHECK_ACTUAL.json",
+    "GPU_physics_actual_model_admission": "MJX327_FROZEN_TASK_MODEL_INCOMPATIBILITY_ACTUAL.json",
+    "GPU_physics_current_status": "MJX3P2P7_ACTUAL_FROZEN_MODEL_REJECTED_CYLINDER_BOX_PAIRS; ZERO_GPU_OR_INTEGRATIONS; NO_QUALIFIED_BRIDGE"
+  },
+  "G1_ordinary_GPU_inference": "CORE_ORDINARY_FULL_CATEGORY_GPU_ACTUAL.json",
+  "headless_actual": "HEADLESS_NATIVE_AND_DUAL_RGB_ACTUAL.json",
+  "G3_DEV_references": "G3_FIXED_DEV_REFERENCES_ACTUAL.json",
+  "finite_continuation": "DELIVERY07_COMPLETE_EXITED; ORIGINAL_CORE40_CONSUMER_STOPPED_NUMERICAL_GATE; POST_DEV02_PID3989284_WAIT_ACTUAL_COMPLETE_DEV_DECISION",
+  "original_task_plan_sha": "36ef61d24e646d2247ac673b77f927416d0ba85a",
+  "LONG_HORIZON_V2": {
+    "status": "ACTIVE",
+    "actual_handoff_report": "V2_ENDPOINT_HANDOFF_IMPLEMENTED_NOT_RUN.json",
+    "formal_SFT_and_full_DEV_incomplete": true,
+    "healthy_existing_controllers_preserved": false,
+    "controller_transition": "06 failed before registration on redundant AMGR query gate; independently reconciled zero effects; actual formal709342 submitted once; cold wait-and-delivery07 preserves original deadline",
+    "Core40_fullDEV_continuation_actual": "CORE40_FULLDEV80_CONTINUATION_READY_ACTUAL.json",
+    "Core40_fullDEV_continuation_pid": null,
+    "Core_model_package": "PRIVATE_DELIVERY_CLOSED0_ALL_MEMBER_SHA_PASS",
+    "Core_current_resource": "ALL_CURRENT_CORE_DIAGNOSTICS_CLOSED0; NO_MODEL_OR_NATIVE_WORKER_RUNNING",
+    "scan_route_cold_handoff_actual": "HOPPER_SCAN_ROUTE_COLD_SUCCESSOR_ACTUAL.json",
+    "latest_pipeline_repair_actual": "HOPPER_SCAN_PROCESSOR_PASS_AND_FORMAL_SFT_SUBMITTED_ACTUAL.json",
+    "post_DEV_decision_successor_actual": "POST_DEV_QUERY_LOGIN_GATE_COLD_SUCCESSOR_ACTUAL.json",
+    "post_DEV_decision_successor_pid": 3989284,
+    "post_DEV_current_status": "COLD_SUCCESSOR02_WAIT_ACTUAL_FIRST_COMPLETE_DEV_DECISION; SAME_ORIGINAL_DEADLINE",
+    "latest_Core_runtime_recovery_actual": "CORE_RESTORE_MEMORY_CAPACITY_CLOSED_AND_FORMAL_CP750_ACTUAL.json",
+    "Core_independent_GPU0_diagnostic": "MEMORY01_CLOSED_NOT_RUN_NO_DISPATCH; ORIGINAL_GPU1_CORE40_CONSUMER_PRESERVED",
+    "latest_formal_runtime_actual": "FORMAL_SFT2000_RESTORE_PACKAGE_ACTUAL.json",
+    "formal_SFT2000_complete": true,
+    "historical_Core40_fullDEV_continuation_pid": 3665222,
+    "Core40_fullDEV_continuation_status": "STOPPED_AFTER_PRESERVED_CORE40_NUMERICAL_REJECTION"
+  },
+  "G3_full100_native": {
+    "report": "G3_TRAIN100_NATIVE_CLOSED_AND_EXPORT_STARTED_ACTUAL.json",
+    "source_sha": "dc418f48243bd1939d631d3b82e67213fd747e82",
+    "panel_sha256": "fc50e2e207c95cdf4a766d4f86f7be35d45643bc5fba1821a62ca95fab798485",
+    "population_complete": true,
+    "actual_successes": 100,
+    "qualified_training_demonstrations": 0,
+    "Processor_admitted": false,
+    "Core_Processor_qualified_episodes": 100,
+    "Core_Processor_qualified_windows": 1450,
+    "Hopper_Processor_status": "PASS_CLOSED0",
+    "latest_report": "HOPPER_SCAN_PROCESSOR_PASS_AND_FORMAL_SFT_SUBMITTED_ACTUAL.json",
+    "current_dual_site_Processor_admitted": true
+  },
+  "collection_performance": {
+    "status": "ORIGINAL_FIXED8_COMPLETE_8_FULL_TASK_SUCCESS_0_HARD_STOPS_ALL_CLOSED0",
+    "completed_slots": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "remaining_slots": [],
+    "profile_mean_wall_s": 317.6696378486231,
+    "events_mean_wall_s": 228.9315017880872,
+    "camera_cache_mean_wall_s": 314.72436699224636,
+    "combined_mean_wall_s": 224.26407097326592,
+    "events_mean_wall_reduction_fraction": 0.2793409425638017,
+    "combined_mean_wall_reduction_fraction": 0.2940336618505137,
+    "actual_speedup_proven": "FINITE_SAME_TASK_TWO_RESTARTS_PER_MODE_ONLY",
+    "production_data_adoption": false,
+    "actual": "COLLECTION_PERFORMANCE_FIXED8_COMPLETE_ACTUAL.json",
+    "reference_CPU_ACK_actual": "COLLECTION_REFERENCE_CPU_ACK_SUBSPAN_ACTUAL.json"
+  },
+  "NEXT_TRAIN_PREPARATION": {
+    "status": "ALL_STATIC_ELIGIBLE_X_REQUESTS_TERMINAL_3_SUCCESS_1_REFERENCE_VETO_2_STATIC_UNRUN",
+    "static_requested": 12,
+    "static_passed": 10,
+    "static_rejected": 2,
+    "native_requested": 6,
+    "native_attempted": 4,
+    "native_successes": 3,
+    "native_unrun": 2,
+    "new_training_demonstrations": 0,
+    "student_DEV_required_before_large_collection": true,
+    "actual": "CORE_CPU_CM_FEASIBILITY_POSITIVE_AND_CONTACT_VETO_ACTUAL.json",
+    "data_audit": "NEXT_TRAIN_CPU_STATIC_AND_DATA_AUDIT_ACTUAL.json",
+    "native_task_failures": 1,
+    "static_rejected_native_unrun": 2,
+    "all_static_eligible_X_requests_terminal": true,
+    "original_six_native_attempt_population_complete": false
+  },
+  "ALTERNATIVE_TRAINING_SITE_RECHECK": {
+    "status": "CORE_MEMORY_PROFILE01_CLOSED_UNSTARTED_CAPACITY; HOPPER_FORMAL_FIRST2000_CLOSED0_RESTORED",
+    "actual": "VANDA_CORE_ALTERNATIVE_RECHECK_ACTUAL.json",
+    "new_full_action_GPU_jobs": 8,
+    "Core_capacity_wait_controller": null,
+    "Core_current_status": "FULL_ORIGINAL_TRAINER_RESTORE_UNPASSED; LAST_DIAGNOSTIC_NOT_RUN_CAPACITY",
+    "prestart_actual": "CORE_FULL_ACTION_PRESTART_RECONCILIATION_ACTUAL.json",
+    "latest_Core_actual": "CORE_RESTORE_MEMORY_CAPACITY_CLOSED_AND_FORMAL_CP750_ACTUAL.json",
+    "new_full_action_GPU_jobs_definition": "8 original native Core GPU master failures; zero-update memory profile registered but not dispatched"
+  },
+  "H100_mainline_successor": "H100_H200_COLD_MAINLINE_SUCCESSOR_ACTUAL.json",
+  "H100_latest_admission_repair": "H100_REGISTRY_NAMESPACE_FAILURE_AND_SUCCESSOR_ACTUAL.json",
+  "FORMAL_FIRST_SFT": {
+    "job_id": "709342.hopper-m-02",
+    "state": "F",
+    "project": "CFP04-CF-007",
+    "source_sha": "c4b8453715b702cc479844e15afbfacc88f582a3",
+    "microbatch": 8,
+    "effective_batch": 32,
+    "endpoint": 2000,
+    "schedule_horizon": 8000,
+    "warmup_updates": 200,
+    "report": "FORMAL_SFT2000_RESTORE_PACKAGE_ACTUAL.json",
+    "actual_optimizer_calls": 2000,
+    "actual_sample_visits": 64000,
+    "actual_model_loads": 2,
+    "last_complete_checkpoint_step": 2000,
+    "last_complete_checkpoint_sha256": "e9f3385b1080312551ee6ebdf430fd98453a9e1b2c48232de4f349cde4b422b4",
+    "independent_full_restore": "PASS_MODEL_OPTIMIZER_SCHEDULER_RNG_CURSOR_AND_FIXED_BATCH_GENERATION",
+    "fixed500_open_loop_actual": "FORMAL_SFT500_FIXED_PHASE_PROBES_ACTUAL.json",
+    "fixed1000_open_loop_actual": "FORMAL_SFT1000_FIXED_PHASE_PROBES_ACTUAL.json",
+    "fixed1500_open_loop_actual": "FORMAL_SFT1500_FIXED_PHASE_PROBES_ACTUAL.json",
+    "PBS_exit_status": 0,
+    "lease": "CLOSED",
+    "worker_exit_code": 0,
+    "formal_next_update_comparison": "NOT_RUN",
+    "package_sha256": "7feffa8dd11b5c9ce963f2e0f2f2613196c1a3ae8e5039056377bd5e25e02250",
+    "Hopper_package_reconstruction_queries": 40,
+    "Hopper_package_max_abs_error": {
+      "physical_H40": 0.0,
+      "normalized": 0.0
+    },
+    "private_delivery": "PASS_CLOSED0_CANONICAL_TRANSFER_JOURNAL_COMPLETE",
+    "Core40": "ACTUAL40_CLOSED0; NUMERICAL_QUALIFICATION_REJECTED",
+    "fixed2000_open_loop_actual": "FORMAL_SFT2000_FIXED_PHASE_PROBES_ACTUAL.json",
+    "restore_process_scope": "STATE_LOAD_AND_FIXED_GENERATION_WITHIN_ORIGINAL_TRAINING_WORKER; INDEPENDENT_PACKAGE_MODEL_RECONSTRUCTED_SEPARATELY"
+  },
+  "EARLY_FIXED500_DIAGNOSTIC": {
+    "report": "FORMAL_SFT500_FIXED_PHASE_PROBES_ACTUAL.json",
+    "TRAIN_key_H40_XYZ_before_m": 0.00616333799407317,
+    "TRAIN_key_H40_XYZ_after_m": 0.0012006945119847293,
+    "DEV_key_H40_XYZ_before_m": 0.006103392363379497,
+    "DEV_key_H40_XYZ_after_m": 0.0013194407255024728,
+    "closed_loop_capability_established": false,
+    "scientific_promotion": false
+  },
+  "EARLY_FIXED1000_DIAGNOSTIC": {
+    "report": "FORMAL_SFT1000_FIXED_PHASE_PROBES_ACTUAL.json",
+    "TRAIN_key_H40_XYZ_m": 0.0009415450672414319,
+    "DEV_key_H40_XYZ_m": 0.0010032583377739184,
+    "SO3_and_first_gripper_aggregate_increases_since500_retained": true,
+    "closed_loop_capability_established": false,
+    "scientific_promotion": false
+  },
+  "PRE_DELIVERY_READINESS": {
+    "actual": "HOPPER_FORMAL_SFT2000_RUNNING_ACTUAL.json",
+    "read_only_storage_and_original_cold_window_preflight_pass": true,
+    "actual_package_or_new_scope_or_Core40_admission": false
+  },
+  "EARLY_FIXED1500_DIAGNOSTIC": {
+    "report": "FORMAL_SFT1500_FIXED_PHASE_PROBES_ACTUAL.json",
+    "TRAIN_key_H40_XYZ_m": 0.000565433460743291,
+    "DEV_key_H40_XYZ_m": 0.0005732528049721422,
+    "H40_and_first_gripper_error_increases_since1000": true,
+    "necessary_scalar_range_violations": 0,
+    "complete_native_admission": "NOT_RUN",
+    "scientific_promotion": false
+  },
+  "FINAL_FIXED2000_DIAGNOSTIC": {
+    "report": "FORMAL_SFT2000_FIXED_PHASE_PROBES_ACTUAL.json",
+    "matched_TRAIN_queries": 40,
+    "matched_DEV_reference_queries": 20,
+    "DEV_distinct_reference_layouts": 4,
+    "TRAIN_key_H40_XYZ_m": 0.00043296282956426587,
+    "DEV_key_H40_XYZ_m": 0.00048626591518281646,
+    "TRAIN_key_H40_gripper": 0.013718069466350812,
+    "DEV_key_H40_gripper": 0.018208286104518648,
+    "gripper_error_above_step1000": true,
+    "native_task_success_inferred": false
+  },
+  "SGT": "2026-11-10T13:47:02.003227+08:00",
+  "CORE40_NUMERICAL_REJECTION": "FORMAL_CORE40_NUMERICAL_REJECTION_ACTUAL.json",
+  "CORE_REDUCTION_DIAGNOSTIC01": {
+    "EVIDENCE_ASOF": "2026-11-10T01:08:18.356853+00:00",
+    "SGT": "2026-11-10T09:08:18.356853+08:00",
+    "status": "CLOSED0_ACTUAL40; NUMERICAL_GATE_STILL_REJECTED",
+    "source_sha": "47b082808c8839d881cd6e31414f4f523f94b485",
+    "published_native_guard_source_sha": "0b0c97120f306a6997c434f8f9ec9124db2dff8b",
+    "spec_sha256": "1b3ca200e5e6efff205ca705c479b4db2fe7695ebb00297f96d09e5532c17d9c",
+    "unit_MainPID": 0,
+    "lease": "CLOSED",
+    "deadline_epoch": 1794274753.9457572,
+    "worker_wall_limit_s": 1800,
+    "GPUs": 1,
+    "canonical_registry_count": 1,
+    "register_and_launch_Journal_COMPLETE": true,
+    "only_changed_backend_flag": "allow_bf16_reduced_precision_reduction",
+    "original_flag": true,
+    "diagnostic_flag": false,
+    "actual_flag_application_observed": true,
+    "requested_matched_queries": 40,
+    "reference_Core40_result_sha256": "b1787d0a9b040fa2a29006cd37804573e8cc7ff9e82b9d3a8a46c5c7198516c8",
+    "candidate_package_sha256": "7feffa8dd11b5c9ce963f2e0f2f2613196c1a3ae8e5039056377bd5e25e02250",
+    "native_integrations": 0,
+    "optimizer_updates": 0,
+    "diagnostic_only": true,
+    "qualification_issued": false,
+    "software_checks_passed": 18,
+    "worker_exit_code": 0,
+    "worker_wall_s": 356.12873007683083,
+    "child_CPU_s": 57.578703000000004,
+    "actual_model_loads": 1,
+    "actual_VLA_queries": 40,
+    "actual_Processor_decode_calls": 40,
+    "result_sha256": "b8b86fc4c11e3b70cf89208cc439d908afcb4547152b0c719c51c0eacac4c0ce",
+    "original_backend_flag_restored": true,
+    "original_gate_would_pass": false,
+    "comparisons": {
+      "Core_default_vs_Core_full_reduction": {
+        "matched_queries": 40,
+        "maximum": {
+          "XYZ_m": 0.00029173307087471123,
+          "rot6d_component": 6.85582016448083e-05,
+          "gripper": 0.00408935546875,
+          "normalized_component": 0.0264892578125
+        },
+        "failed_query_counts": {
+          "XYZ_m": 4,
+          "rot6d_component": 0,
+          "gripper": 29,
+          "normalized_component": 7
+        },
+        "bit_exact_query_counts": {
+          "physical_H40": 0,
+          "normalized": 0,
+          "actual_state10": 40,
+          "expert_policy_H40": 40
+        },
+        "original_numerical_gate_would_pass": false
+      },
+      "Hopper_vs_Core_full_reduction": {
+        "matched_queries": 40,
+        "maximum": {
+          "XYZ_m": 9.272996872278227e-05,
+          "rot6d_component": 5.142928597828833e-05,
+          "gripper": 0.00439453125,
+          "normalized_component": 0.017578125
+        },
+        "failed_query_counts": {
+          "XYZ_m": 0,
+          "rot6d_component": 0,
+          "gripper": 26,
+          "normalized_component": 7
+        },
+        "bit_exact_query_counts": {
+          "physical_H40": 0,
+          "normalized": 0,
+          "actual_state10": 40,
+          "expert_policy_H40": 40
+        },
+        "original_numerical_gate_would_pass": false
+      }
+    },
+    "unchanged_inference_AST_functions_and_classes": 12
+  },
+  "MATCHED_TENSOR_TRACE": {
+    "report": "MATCHED_TENSOR_TRACE_CORE_COMPLETE_HOPPER_QUEUED_ACTUAL.json",
+    "Core": {
+      "run": "task-learning-core-package-seed20261109-step2000-tensor-trace-01",
+      "spec_sha256": "27d3a4830e6d33af3671dd37f031741f3ff3c16b54ad403ce1f3a7b0e016ca42",
+      "lease": "CLOSED",
+      "worker_exit_code": 0,
+      "unit_MainPID": 0,
+      "unit_ExecMainStatus": 0,
+      "canonical_registry_count": 1,
+      "register_and_launch_Journal": {
+        "GR00T-TASK-LEARNING-CORE-PACKAGE-SEED20261109-STEP2000-TENSOR-TRACE-01-REGISTER": {
+          "status": "COMPLETE",
+          "completed_epoch": 1794274204.0497968,
+          "result_digest_matches": true
+        },
+        "TASK-LEARNING-CORE-PACKAGE-SEED20261109-STEP2000-TENSOR-TRACE-01-LAUNCH": {
+          "status": "COMPLETE",
+          "completed_epoch": 1794274416.9049594,
+          "result_digest_matches": true
+        }
+      },
+      "closed_epoch": 1794274712.370392,
+      "result_sha256": "2ec7eef688a999af33beabd35ee9b853262bbad0cdc4983f8854cab067dfbd71",
+      "trace_manifest_sha256": "141d663de92e9c78d61dc84ad235a95fecafc6bc7bc6eb52ebc398691210486a",
+      "all_trace_member_hashes_verified": true,
+      "boundary_artifacts": 128,
+      "tensor_bytes": 73245872,
+      "actual_model_loads": 1,
+      "actual_VLA_queries": 40,
+      "actual_Processor_decode_calls": 40,
+      "optimizer_updates": 0,
+      "native_integrations": 0,
+      "worker_wall_s": 295.189917312935,
+      "child_CPU_s": 57.168940000000006,
+      "inference_wall_s": 266.23960918560624,
+      "peak_allocated_bytes": 13297537024,
+      "trace_transparency": {
+        "reference_result_sha256": "b1787d0a9b040fa2a29006cd37804573e8cc7ff9e82b9d3a8a46c5c7198516c8",
+        "matched_queries": 40,
+        "bit_exact_queries": {
+          "physical_H40": 40,
+          "normalized": 40,
+          "actual_state10": 40,
+          "expert_policy_H40": 40
+        },
+        "maximum_absolute_difference": {
+          "physical_H40": 0.0,
+          "normalized": 0.0
+        },
+        "all128_tf32_disabled": true,
+        "all128_bf16_reduction_original_True": true
+      },
+      "qualification_issued": false
+    },
+    "Hopper": {
+      "run": "task-learning-sft2000-paired-tensor-trace-hopper-02",
+      "job_id": "709533.hopper-m-02",
+      "project": "CFP04-CF-007",
+      "PBS_state": "Q",
+      "scheduler_comment": "Not Running: Insufficient amount of resource: ngpus ",
+      "submission_queue": "auto",
+      "execution_queue": "small",
+      "GPU": "H200",
+      "GPUs": 1,
+      "ncpus": 12,
+      "mem": "225GB",
+      "wall_s": 3600,
+      "config_sha256": "fa11f60888bf23486b4419b8d9dd36dd8bbc68a0a3cd849f5df97064c62b95ed",
+      "deadline_epoch": 1794450723.2470634,
+      "canonical_registry_count": 1,
+      "Journal": {
+        "SUBMIT_ONCE": {
+          "status": "COMPLETE",
+          "completed_epoch": 1794278037.7483768,
+          "result_digest_matches": true
+        },
+        "RELEASE_ONCE": {
+          "status": "COMPLETE",
+          "completed_epoch": 1794278275.6393552,
+          "result_digest_matches": true
+        }
+      },
+      "submit_and_release_verified": true,
+      "model_load_observed": false,
+      "trace_capture_observed": false,
+      "source_trace_helper_matches_Core": true
+    }
+  },
+  "H100_runtime_successor": {
+    "report": "H100_ORIGINAL_TRAINER_RESTORE_PASS_AND_TRACE_RUNNING_ACTUAL.json",
+    "job_id": "709560.hopper-m-02",
+    "project": "CFP04-CF-007",
+    "PBS_state": "F",
+    "PBS_exit_status": 0,
+    "lease": "CLOSED",
+    "worker_exit_code": 0,
+    "config_sha256": "6020d2d202cd1e5eec409086f07dcb0d3e7c2bb3c8ee3984f091e0ab3086d397",
+    "result_sha256": "188bb8d77f3c167fe1e06268e87a1b99c6f1969b71d239e1884ecd079572cce8",
+    "started_SGT": "2026-11-10T11:08:42+08:00",
+    "closed_epoch": 1794280816.5889246,
+    "worker_wall_s": 691.891397013911,
+    "PBS_wall_s": 694,
+    "PBS_CPU_s": 797,
+    "GPU": "NVIDIA H100 80GB HBM3",
+    "GPUs": 1,
+    "actual_GPU_memory_bytes": 85019590656,
+    "variant": "FULL_ACTION_SIDE",
+    "trainable_parameters": 1304913028,
+    "backbone_frozen": true,
+    "effective_batch": 32,
+    "microbatch": 1,
+    "accumulation": 32,
+    "actual_model_loads": 3,
+    "actual_optimizer_calls": 8,
+    "actual_sample_visits": 256,
+    "data": "Existing four-window runtime qualification; not TRAIN100",
+    "formal_new_task_SFT_updates": 0,
+    "physics_integrations": 0,
+    "next_update_comparison": {
+      "status": "PASS_ACTUAL_UNINTERRUPTED_VERSUS_RESUMED_NEXT_UPDATE",
+      "checks": {
+        "target_parameters.pt": true,
+        "optimizer.pt": true,
+        "scheduler.pt": true,
+        "rng_state.pth": true,
+        "SAMPLER_STATE.json": true,
+        "PARAMETER_CONTRACT.json": true,
+        "FROZEN_PARENT_TENSORS.json": true
+      },
+      "next_update_parameters_optimizer_scheduler_RNG_sampler_exact": true,
+      "qualification_weights_used_for_fit4": false,
+      "comparison": "CONTINUOUS4_VS_FRESH_PROCESS_2_PLUS_2"
+    },
+    "branches": [
+      {
+        "name": "continuous4",
+        "actual_updates": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "lease": "CLOSED",
+        "worker_exit_code": 0,
+        "model_loads": 1,
+        "sample_visits": 128,
+        "restored_cursor": 128,
+        "complete_checkpoint_sha256": "6af6861db9e07f90591ef0fc93a75212565a81c07bb3439c941927799935b580",
+        "wall_s": 242.20862576703075
+      },
+      {
+        "name": "split2",
+        "actual_updates": [
+          1,
+          2
+        ],
+        "lease": "CLOSED",
+        "worker_exit_code": 0,
+        "model_loads": 1,
+        "sample_visits": 64,
+        "restored_cursor": 64,
+        "complete_checkpoint_sha256": "c991d20e14d3d7e9bd3821e6ddc1dabc26b9684ba0e747416854a209c1f997ae",
+        "wall_s": 161.58210431900807
+      },
+      {
+        "name": "resume4",
+        "actual_updates": [
+          3,
+          4
+        ],
+        "lease": "CLOSED",
+        "worker_exit_code": 0,
+        "model_loads": 1,
+        "sample_visits": 64,
+        "restored_cursor": 128,
+        "complete_checkpoint_sha256": "56cec2685cfdfe61c44b66b1904c68703b9e87c422a03577b8c4e2a79b557324",
+        "wall_s": 222.6729218090186
+      }
+    ],
+    "actual_training_call_timing": {
+      "calls": 8,
+      "minimum_s": 6.89788848394528,
+      "maximum_s": 7.18172798899468,
+      "total_s": 55.94821224862244,
+      "scope": "Original four-window micro1 qualification calls only; excludes load/save/restore and is not a matched formal-SFT throughput benchmark."
+    },
+    "qualification": "PASS_ACTUAL_H100_ORIGINAL_TRAINER_AND_FULL_RESTORE",
+    "qualification_weights_used_as_formal_parent": false
+  },
+  "H100_original_Trainer_restore": {
+    "report": "H100_ORIGINAL_TRAINER_RESTORE_PASS_AND_TRACE_RUNNING_ACTUAL.json",
+    "job_id": "709560.hopper-m-02",
+    "project": "CFP04-CF-007",
+    "PBS_state": "F",
+    "PBS_exit_status": 0,
+    "lease": "CLOSED",
+    "worker_exit_code": 0,
+    "config_sha256": "6020d2d202cd1e5eec409086f07dcb0d3e7c2bb3c8ee3984f091e0ab3086d397",
+    "result_sha256": "188bb8d77f3c167fe1e06268e87a1b99c6f1969b71d239e1884ecd079572cce8",
+    "started_SGT": "2026-11-10T11:08:42+08:00",
+    "closed_epoch": 1794280816.5889246,
+    "worker_wall_s": 691.891397013911,
+    "PBS_wall_s": 694,
+    "PBS_CPU_s": 797,
+    "GPU": "NVIDIA H100 80GB HBM3",
+    "GPUs": 1,
+    "actual_GPU_memory_bytes": 85019590656,
+    "variant": "FULL_ACTION_SIDE",
+    "trainable_parameters": 1304913028,
+    "backbone_frozen": true,
+    "effective_batch": 32,
+    "microbatch": 1,
+    "accumulation": 32,
+    "actual_model_loads": 3,
+    "actual_optimizer_calls": 8,
+    "actual_sample_visits": 256,
+    "data": "Existing four-window runtime qualification; not TRAIN100",
+    "formal_new_task_SFT_updates": 0,
+    "physics_integrations": 0,
+    "next_update_comparison": {
+      "status": "PASS_ACTUAL_UNINTERRUPTED_VERSUS_RESUMED_NEXT_UPDATE",
+      "checks": {
+        "target_parameters.pt": true,
+        "optimizer.pt": true,
+        "scheduler.pt": true,
+        "rng_state.pth": true,
+        "SAMPLER_STATE.json": true,
+        "PARAMETER_CONTRACT.json": true,
+        "FROZEN_PARENT_TENSORS.json": true
+      },
+      "next_update_parameters_optimizer_scheduler_RNG_sampler_exact": true,
+      "qualification_weights_used_for_fit4": false,
+      "comparison": "CONTINUOUS4_VS_FRESH_PROCESS_2_PLUS_2"
+    },
+    "branches": [
+      {
+        "name": "continuous4",
+        "actual_updates": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "lease": "CLOSED",
+        "worker_exit_code": 0,
+        "model_loads": 1,
+        "sample_visits": 128,
+        "restored_cursor": 128,
+        "complete_checkpoint_sha256": "6af6861db9e07f90591ef0fc93a75212565a81c07bb3439c941927799935b580",
+        "wall_s": 242.20862576703075
+      },
+      {
+        "name": "split2",
+        "actual_updates": [
+          1,
+          2
+        ],
+        "lease": "CLOSED",
+        "worker_exit_code": 0,
+        "model_loads": 1,
+        "sample_visits": 64,
+        "restored_cursor": 64,
+        "complete_checkpoint_sha256": "c991d20e14d3d7e9bd3821e6ddc1dabc26b9684ba0e747416854a209c1f997ae",
+        "wall_s": 161.58210431900807
+      },
+      {
+        "name": "resume4",
+        "actual_updates": [
+          3,
+          4
+        ],
+        "lease": "CLOSED",
+        "worker_exit_code": 0,
+        "model_loads": 1,
+        "sample_visits": 64,
+        "restored_cursor": 128,
+        "complete_checkpoint_sha256": "56cec2685cfdfe61c44b66b1904c68703b9e87c422a03577b8c4e2a79b557324",
+        "wall_s": 222.6729218090186
+      }
+    ],
+    "actual_training_call_timing": {
+      "calls": 8,
+      "minimum_s": 6.89788848394528,
+      "maximum_s": 7.18172798899468,
+      "total_s": 55.94821224862244,
+      "scope": "Original four-window micro1 qualification calls only; excludes load/save/restore and is not a matched formal-SFT throughput benchmark."
+    },
+    "qualification": "PASS_ACTUAL_H100_ORIGINAL_TRAINER_AND_FULL_RESTORE",
+    "qualification_weights_used_as_formal_parent": false
+  },
+  "H100_paired_trace": {
+    "job_id": "709576.hopper-m-02",
+    "run": "task-learning-sft2000-paired-tensor-trace-h100-01",
+    "project": "CFP04-CF-007",
+    "PBS_state": "F",
+    "started_SGT": "2026-11-10T11:22:59+08:00",
+    "source_sha": "c55ba28a1a48ecf7e88b92bcf89031007504e95f",
+    "config_sha256": "dcbe55580e4710261574d6d026b04b11af5bd25bc2187bc943da92688ab54b2c",
+    "spec_sha256": "1026533f6e012590ef2ff0f9fb3e4ed0f303c6abaab34059460e86af9d6e6665",
+    "actual_GPU": "NVIDIA H100 80GB HBM3",
+    "GPUs": 1,
+    "ncpus": 12,
+    "mem": "225GB",
+    "wall_s": 3600,
+    "absolute_deadline_epoch": 1794453715.8500724,
+    "canonical_registry_count": 1,
+    "Journal": {
+      "SUBMIT_ONCE": {
+        "status": "COMPLETE",
+        "completed_epoch": 1794280936.7670562,
+        "result_digest_matches": true
+      },
+      "RELEASE_ONCE": {
+        "status": "COMPLETE",
+        "completed_epoch": 1794280978.189991,
+        "result_digest_matches": true
+      },
+      "ACTUAL_TRACE_ALLOCATION_ACTIVATE": {
+        "status": "COMPLETE",
+        "completed_epoch": 1794280998.231106,
+        "result_digest_matches": true
+      }
+    },
+    "actual_H100_restore_proof_sha256": "188bb8d77f3c167fe1e06268e87a1b99c6f1969b71d239e1884ecd079572cce8",
+    "candidate_package_sha256": "7feffa8dd11b5c9ce963f2e0f2f2613196c1a3ae8e5039056377bd5e25e02250",
+    "candidate_global_step": 2000,
+    "same_original_H200_formal_package": true,
+    "shared_capture_helper_sha256": "5758ccb68efe9c8360960c9246046cb172b14a02b6a2660b2151a3f600eac4e3",
+    "planned_original_queries": 40,
+    "planned_traced_queries": 4,
+    "optimizer_updates": 0,
+    "physics_integrations": 0,
+    "diagnostic_only": true,
+    "numerical_qualification_issued": false,
+    "independent_read_observer_pid": 4141294,
+    "worker_exit_code": 0,
+    "report": "H100_CORE_FIRST_BACKBONE_DIFFERENCE_AND_CAPTURE_CONTROLS_ACTUAL.json"
+  },
+  "H100_untraced_control": {
+    "report": "H100_CORE_FIRST_BACKBONE_DIFFERENCE_AND_CAPTURE_CONTROLS_ACTUAL.json",
+    "epoch": 1794282264.0099227,
+    "status": "ACTUAL_SAME_H100_TRACED_VS_UNTRACED_COMPLETE40_BYTE_AUDIT",
+    "job_id": "709597.hopper-m-02",
+    "source_sha": "3d00d41bac91c0d8607b802e2fab864e27242832",
+    "config_sha256": "200b686f997b994f76ddc262fa8c41811c9073660cce54db4539f315538c09f3",
+    "result_sha256": "52a3c09cca02407b064044bda4e3e444f8fbb7df7191a74cd2c5b9269fc1a50a",
+    "spec_sha256": "e75a449f04b5265b1b70fc749f5adea54c676571185df86193cc28391fe3cb46",
+    "PBS_state": "F",
+    "PBS_exit_status": 0,
+    "lease": "CLOSED",
+    "worker_exit_code": 0,
+    "canonical_registry_count": 1,
+    "Journal": {
+      "SUBMIT_ONCE": "COMPLETE_DIGEST_MATCHES",
+      "RELEASE_ONCE": "COMPLETE_DIGEST_MATCHES",
+      "ACTUAL_TRACE_ALLOCATION_ACTIVATE": "COMPLETE_DIGEST_MATCHES"
+    },
+    "same_GPU_uuid": true,
+    "matched_query_identities": 40,
+    "bit_exact_queries": {
+      "physical_H40": 40,
+      "normalized": 40,
+      "actual_state10": 40,
+      "expert_policy_H40": 40
+    },
+    "maximum_absolute_difference": {
+      "physical_H40": 0.0,
+      "normalized": 0.0,
+      "actual_state10": 0.0,
+      "expert_policy_H40": 0.0
+    },
+    "all40_predictions_bit_exact": true,
+    "actual_model_loads": 1,
+    "actual_VLA_queries": 40,
+    "Processor_decode_calls": 40,
+    "optimizer_updates": 0,
+    "physics_integrations": 0,
+    "intermediate_hooks_enabled": false,
+    "wall_s": 46.4349824039964,
+    "CPU_s": 43.27795991,
+    "peak_allocated_bytes": 13346110464,
+    "qualification_issued": false
+  },
+  "Core_H100_first_difference": {
+    "report": "H100_CORE_FIRST_BACKBONE_DIFFERENCE_AND_CAPTURE_CONTROLS_ACTUAL.json",
+    "first_boundary": {
+      "query_index": 0,
+      "module": "backbone",
+      "stage": "output",
+      "call": 0,
+      "differing_paths": [
+        [
+          "backbone_features"
+        ]
+      ]
+    },
+    "all4_backbone_inputs_bit_exact": true,
+    "Core_and_H100_same_site_all40_capture_controls_byte_exact": true,
+    "native_qualification_issued": false
+  },
+  "CORE_INTERNAL_TRACE": {
+    "report": "CORE_INTERNAL_TRACE_FP32_NEGATIVE_AND_PAIRED_QUEUE_ACTUAL.json",
+    "run": "task-learning-core-package-seed20261109-step2000-backbone-trace-01",
+    "spec_sha256": "1aa92d78526a8c176ff2c7e819930b81e6745dbd9d25108df76fa0292f0f8d42",
+    "lease": "CLOSED",
+    "worker_exit_code": 0,
+    "unit_MainPID": 0,
+    "canonical_registry_count": 1,
+    "register_and_launch_Journal": {
+      "GR00T-TASK-LEARNING-CORE-PACKAGE-SEED20261109-STEP2000-BACKBONE-TRACE-01-REGISTER": {
+        "status": "COMPLETE",
+        "completed_epoch": 1794283498.1180785,
+        "result_digest_matches": true
+      },
+      "TASK-LEARNING-CORE-PACKAGE-SEED20261109-STEP2000-BACKBONE-TRACE-01-LAUNCH": {
+        "status": "COMPLETE",
+        "completed_epoch": 1794283531.8450463,
+        "result_digest_matches": true
+      }
+    },
+    "trace_manifest_sha256": "fcafbd8a0fdff4dc3e48977baaa5c62f4572186925f55e10543aa0bfbeff8cbd",
+    "all_internal_member_SHA_verified": true,
+    "internal_boundaries": 119,
+    "internal_tensor_bytes": 227147888,
+    "original_queries": 40,
+    "traced_queries": 1,
+    "actual_model_loads": 1,
+    "actual_Processor_decode_calls": 40,
+    "optimizer_updates": 0,
+    "physics_integrations": 0,
+    "bit_exact_queries_vs_prior_Core_capture": {
+      "physical_H40": 40,
+      "normalized": 40,
+      "actual_state10": 40,
+      "expert_policy_H40": 40
+    },
+    "result_sha256": "c74e7b38119c43ad3722fe83af9ba24bb3d9ec253aa7e5ddb078d3be6510b7fa",
+    "worker_wall_s": 419.78858164604753,
+    "child_CPU_s": 60.491769,
+    "feature_stack_requires_grad_parameters": {
+      "visual": 0,
+      "language": 0
+    },
+    "numeric_qualification_issued": false
+  },
+  "CORE_FP32_DIAGNOSTIC": {
+    "report": "CORE_INTERNAL_TRACE_FP32_NEGATIVE_AND_PAIRED_QUEUE_ACTUAL.json",
+    "run": "task-learning-core-package-seed20261109-step2000-fp32-diagnostic-01",
+    "spec_sha256": "135a8220f2f17a22fbed871e4cc2f9088d762d71ee62561bd0cfd722690aba0d",
+    "lease": "CLOSED",
+    "worker_exit_code": 0,
+    "unit_MainPID": 0,
+    "canonical_registry_count": 1,
+    "register_and_launch_Journal": {
+      "GR00T-TASK-LEARNING-CORE-PACKAGE-SEED20261109-STEP2000-FP32-DIAGNOSTIC-01-REGISTER": {
+        "status": "COMPLETE",
+        "completed_epoch": 1794284613.6050866,
+        "result_digest_matches": true
+      },
+      "TASK-LEARNING-CORE-PACKAGE-SEED20261109-STEP2000-FP32-DIAGNOSTIC-01-LAUNCH": {
+        "status": "COMPLETE",
+        "completed_epoch": 1794284656.9668696,
+        "result_digest_matches": true
+      }
+    },
+    "result_sha256": "47c54aa6e28fca8f6094aa94a4461b4f15bd58f8c062f871d17d9421c0ec2edc",
+    "precision_receipt_sha256": "964df9992eee01881f8f05a7bbc7787db35d43160cba41801a268c51d414eb19",
+    "actual_model_loads": 1,
+    "actual_VLA_queries": 40,
+    "Processor_decode_calls": 40,
+    "optimizer_updates": 0,
+    "physics_integrations": 0,
+    "precision_changed": true,
+    "weights_changed": false,
+    "all40_actual_autocast_disabled": true,
+    "all40_actual_matmul_and_cudnn_TF32_disabled": true,
+    "captured_module_output_dtypes": [
+      "torch.bool",
+      "torch.float32"
+    ],
+    "original_flags_restored": true,
+    "original_get_action_method_restored": true,
+    "peak_allocated_bytes": 12691058176,
+    "peak_reserved_bytes": 12855541760,
+    "worker_wall_s": 611.9027034579776,
+    "child_CPU_s": 59.20504,
+    "inference_wall_s": 366.627473491244,
+    "original_Hopper_BF16_comparison": {
+      "matched_queries": 40,
+      "same_states_experts_noise": true,
+      "maximum_absolute_error": {
+        "XYZ_m": 0.00012282030114119102,
+        "rot6d_component": 5.234079539317982e-05,
+        "gripper": 0.002843022346496582,
+        "normalized_component": 0.020331889390945435
+      },
+      "queries_over_original_tolerances": {
+        "XYZ_m": 2,
+        "rot6d_component": 0,
+        "gripper": 32,
+        "normalized_component": 11
+      },
+      "original_tolerances": {
+        "XYZ_m": 0.0001,
+        "rot6d_component": 0.001,
+        "gripper": 0.001,
+        "normalized_component": 0.01
+      },
+      "original_gate_would_pass": false
+    },
+    "qualification_issued": false
+  },
+  "HOPPER_PAIRED_NUMERICAL_WORK": {
+    "same_precision_FP32": {
+      "job_id": "709670.hopper-m-02",
+      "project": "CFP04-CF-007",
+      "PBS_state": "Q",
+      "reason": "Not Running: Insufficient amount of resource: host ",
+      "config_sha256": "3f3bf6e76bee45312d8e4fd1645390e3ecaf8a4047c536be2ad5acb8cfe337ac",
+      "absolute_deadline_epoch": 1794458491.680552,
+      "canonical_registry_count": 1,
+      "Journal": {
+        "SUBMIT_ONCE": {
+          "status": "COMPLETE",
+          "completed_epoch": 1794285833.7556565,
+          "result_digest_matches": true
+        },
+        "RELEASE_ONCE": {
+          "status": "COMPLETE",
+          "completed_epoch": 1794285938.3497386,
+          "result_digest_matches": true
+        }
+      },
+      "independent_standard_H100_node_requested": true,
+      "GPUs": 1,
+      "ncpus": 12,
+      "mem": "225GB",
+      "wall_s": 3600,
+      "source_sha": "fc8719fed4e5930afaffccf944ed55e597f78b27",
+      "mode": "FP32_NO_TF32_FIXED40_DIAGNOSTIC_V1",
+      "observer_pid": 4191100
+    },
+    "original_precision_internal_trace": {
+      "job_id": "709621.hopper-m-02",
+      "PBS_state": "Q",
+      "reason": "Not Running: Insufficient amount of resource: ngpus ",
+      "config_sha256": "859c1de8f7d921b306a1927075155558c9441a287109866f7826e23cc6561abb",
+      "source_sha": "db708fe2317c5af43f0813b0424c6947c7ec9345",
+      "GPUs": 1,
+      "wall_s": 3600,
+      "original_capsule_preserved": true,
+      "observer_pid": 4191099
+    },
+    "original_H200_trace": {
+      "job_id": "709533.hopper-m-02",
+      "PBS_state": "Q",
+      "reason": "Not Running: Insufficient amount of resource: ngpus ",
+      "source_sha": "07211234804264da6757eb0391adb072f1efbc51",
+      "original_capsule_preserved": true,
+      "observer_pid": 4133235
+    }
+  },
+  "USER_RESOURCE_ROUTING_20261110": {
+    "received": "2026-11-10",
+    "H100_H200": "Primarily training; no CPU data collection or CPU-only data preparation GPU allocations.",
+    "Corelab": "Data production, CPU artifact comparison, small-scale fine-tuning/inference under actual admission.",
+    "existing_queued_GPU_diagnostics": "Preserve finite original endpoints; no further ordinary inference submissions to H100/H200.",
+    "new_PBS_submissions_this_turn": 0
+  },
+  "FP32_PAIRED_CPU_COMPARISON": {
+    "report": "FP32_PAIRED_CPU_COMPARISON_CONSUMER_ACTUAL.json",
+    "analysis_source_sha": "e3991dcc884b468db77c7442299f3da604f30af1",
+    "consumer": {
+      "pid": 18067,
+      "same_process_independently_verified": true,
+      "process_start_ticks": "42850322",
+      "finite_deadline_epoch": 1794458491.680552,
+      "helper_sha256": {
+        "transfer_compare_h100_fp32_01.private.py": "a0fb41ebd3aa4778c5d08dd754dccc038df28775955f45439f9df53f6f1fa2c7",
+        "FP32_PAIR_COMPARISON_CODE_e3991dcc.private.json": "a2cb86f838a8056fd27995c678d2e2aecfde3e380682d2cfe9a5199f55ec4e5b",
+        "renew_task_policy_scope_v2.remote.private.py": "b0eb47cbfa86aae61d7c17b00de5a74f6042280ce1c66d5474f712cb387bd184"
+      },
+      "stage": "WAIT_KNOWN_LIVE_H100_OBSERVER",
+      "observer_pid": 4191100,
+      "observer_status_epoch": 1794288126.1253667,
+      "remote_effects": 0,
+      "endpoint": "One private Hopper\u2192PC\u2192Core artifact delivery and CPU comparison after709670 F0.",
+      "payload": "Only bounded diagnostic tensors/forty saved predictions/metadata; no model or optimizer transfer.",
+      "Core_owner": "Existing owner, Journal, canonical registry, new finite CPU analysis root.",
+      "scope": "Existing legal cold scope renewal helper if required; no CLOSED reopen.",
+      "automatic_retry_after_uncertain_effect": false,
+      "qualifications_issued": 0
+    },
+    "software_tests_passed": 29,
+    "matched_hardware_result": "PENDING",
+    "qualification_issued": false
+  },
+  "CORE_CURRENT_SCOPE": {
+    "number": 7,
+    "scope": {
+      "pilot06": {
+        "status": "CLOSED",
+        "deadline_epoch": 1794292771.1784315,
+        "binding_sha256": "8fd58a1ac9271be823e44d90d1fd1b0f878b7dc33fa5808d379a884923b35dcd"
+      },
+      "fusion06": {
+        "status": "CLOSED",
+        "deadline_epoch": 1794291571.1784315,
+        "binding_sha256": "b133d377d2cbb8911c0ea5635aa97cc5ea9b7874fe13840b9738576bb3aab04d"
+      },
+      "pilot07": {
+        "status": "ACTIVE",
+        "deadline_epoch": 1794310018.4788651,
+        "binding_sha256": "0162ead23128cb328b3a961596438d96e8c4523bb4de331baaaa41ba013aead4"
+      },
+      "fusion07": {
+        "status": "ACTIVE",
+        "deadline_epoch": 1794308818.4788651,
+        "binding_sha256": "1048b8704b003e9db657067d325a3a345575d7ca3235969d3616ce8ed3d9cbfd"
+      }
+    },
+    "old_CLOSED_reopened": false
+  }
+}

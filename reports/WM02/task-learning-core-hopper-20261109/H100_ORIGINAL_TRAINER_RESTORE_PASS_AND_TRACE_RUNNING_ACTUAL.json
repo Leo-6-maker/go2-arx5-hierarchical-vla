@@ -1,0 +1,190 @@
+{
+  "schema": "WM02_H100_FULL_ORIGINAL_TRAINER_RESTORE_AND_PAIRED_TRACE_ACTUAL_V1",
+  "EVIDENCE_ASOF": "2026-11-10T03:23:20.886364+00:00",
+  "SGT": "2026-11-10T11:23:20.886364+08:00",
+  "goal_status": "ACTIVE",
+  "QUESTION": "Can an actual single H100 run the original full action-side Trainer and restore exactly, then accelerate the pending numerical diagnosis?",
+  "CHANGED": {
+    "restore_source_sha": "2593818efea32d1f63fd4e48eec9c25f209a6f6e",
+    "inference_source_sha": "c55ba28a1a48ecf7e88b92bcf89031007504e95f",
+    "inference_route": "Optional restore-qualified H100 with original H200 trace path retained; explicit actual allocation model and same fixed40/first4 protocol; no optimizer.",
+    "training_math_unchanged": true,
+    "original_H200_trace_hotpatched": false,
+    "formal_SFT2000_package_or_weights_replaced": false
+  },
+  "ACTUAL": {
+    "H100_restore": {
+      "job_id": "709560.hopper-m-02",
+      "project": "CFP04-CF-007",
+      "PBS_state": "F",
+      "PBS_exit_status": 0,
+      "lease": "CLOSED",
+      "worker_exit_code": 0,
+      "config_sha256": "6020d2d202cd1e5eec409086f07dcb0d3e7c2bb3c8ee3984f091e0ab3086d397",
+      "result_sha256": "188bb8d77f3c167fe1e06268e87a1b99c6f1969b71d239e1884ecd079572cce8",
+      "started_SGT": "2026-11-10T11:08:42+08:00",
+      "closed_epoch": 1794280816.5889246,
+      "worker_wall_s": 691.891397013911,
+      "PBS_wall_s": 694,
+      "PBS_CPU_s": 797,
+      "GPU": "NVIDIA H100 80GB HBM3",
+      "GPUs": 1,
+      "actual_GPU_memory_bytes": 85019590656,
+      "variant": "FULL_ACTION_SIDE",
+      "trainable_parameters": 1304913028,
+      "backbone_frozen": true,
+      "effective_batch": 32,
+      "microbatch": 1,
+      "accumulation": 32,
+      "actual_model_loads": 3,
+      "actual_optimizer_calls": 8,
+      "actual_sample_visits": 256,
+      "data": "Existing four-window runtime qualification; not TRAIN100",
+      "formal_new_task_SFT_updates": 0,
+      "physics_integrations": 0,
+      "next_update_comparison": {
+        "status": "PASS_ACTUAL_UNINTERRUPTED_VERSUS_RESUMED_NEXT_UPDATE",
+        "checks": {
+          "target_parameters.pt": true,
+          "optimizer.pt": true,
+          "scheduler.pt": true,
+          "rng_state.pth": true,
+          "SAMPLER_STATE.json": true,
+          "PARAMETER_CONTRACT.json": true,
+          "FROZEN_PARENT_TENSORS.json": true
+        },
+        "next_update_parameters_optimizer_scheduler_RNG_sampler_exact": true,
+        "qualification_weights_used_for_fit4": false,
+        "comparison": "CONTINUOUS4_VS_FRESH_PROCESS_2_PLUS_2"
+      },
+      "branches": [
+        {
+          "name": "continuous4",
+          "actual_updates": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "lease": "CLOSED",
+          "worker_exit_code": 0,
+          "model_loads": 1,
+          "sample_visits": 128,
+          "restored_cursor": 128,
+          "complete_checkpoint_sha256": "6af6861db9e07f90591ef0fc93a75212565a81c07bb3439c941927799935b580",
+          "wall_s": 242.20862576703075
+        },
+        {
+          "name": "split2",
+          "actual_updates": [
+            1,
+            2
+          ],
+          "lease": "CLOSED",
+          "worker_exit_code": 0,
+          "model_loads": 1,
+          "sample_visits": 64,
+          "restored_cursor": 64,
+          "complete_checkpoint_sha256": "c991d20e14d3d7e9bd3821e6ddc1dabc26b9684ba0e747416854a209c1f997ae",
+          "wall_s": 161.58210431900807
+        },
+        {
+          "name": "resume4",
+          "actual_updates": [
+            3,
+            4
+          ],
+          "lease": "CLOSED",
+          "worker_exit_code": 0,
+          "model_loads": 1,
+          "sample_visits": 64,
+          "restored_cursor": 128,
+          "complete_checkpoint_sha256": "56cec2685cfdfe61c44b66b1904c68703b9e87c422a03577b8c4e2a79b557324",
+          "wall_s": 222.6729218090186
+        }
+      ],
+      "actual_training_call_timing": {
+        "calls": 8,
+        "minimum_s": 6.89788848394528,
+        "maximum_s": 7.18172798899468,
+        "total_s": 55.94821224862244,
+        "scope": "Original four-window micro1 qualification calls only; excludes load/save/restore and is not a matched formal-SFT throughput benchmark."
+      },
+      "qualification": "PASS_ACTUAL_H100_ORIGINAL_TRAINER_AND_FULL_RESTORE",
+      "qualification_weights_used_as_formal_parent": false
+    },
+    "H100_inference_trace": {
+      "job_id": "709576.hopper-m-02",
+      "run": "task-learning-sft2000-paired-tensor-trace-h100-01",
+      "project": "CFP04-CF-007",
+      "PBS_state": "R",
+      "started_SGT": "2026-11-10T11:22:59+08:00",
+      "source_sha": "c55ba28a1a48ecf7e88b92bcf89031007504e95f",
+      "config_sha256": "dcbe55580e4710261574d6d026b04b11af5bd25bc2187bc943da92688ab54b2c",
+      "spec_sha256": "1026533f6e012590ef2ff0f9fb3e4ed0f303c6abaab34059460e86af9d6e6665",
+      "actual_GPU": "NVIDIA H100 80GB HBM3",
+      "GPUs": 1,
+      "ncpus": 12,
+      "mem": "225GB",
+      "wall_s": 3600,
+      "absolute_deadline_epoch": 1794453715.8500724,
+      "canonical_registry_count": 1,
+      "Journal": {
+        "SUBMIT_ONCE": {
+          "status": "COMPLETE",
+          "completed_epoch": 1794280936.7670562,
+          "result_digest_matches": true
+        },
+        "RELEASE_ONCE": {
+          "status": "COMPLETE",
+          "completed_epoch": 1794280978.189991,
+          "result_digest_matches": true
+        },
+        "ACTUAL_TRACE_ALLOCATION_ACTIVATE": {
+          "status": "COMPLETE",
+          "completed_epoch": 1794280998.231106,
+          "result_digest_matches": true
+        }
+      },
+      "actual_H100_restore_proof_sha256": "188bb8d77f3c167fe1e06268e87a1b99c6f1969b71d239e1884ecd079572cce8",
+      "candidate_package_sha256": "7feffa8dd11b5c9ce963f2e0f2f2613196c1a3ae8e5039056377bd5e25e02250",
+      "candidate_global_step": 2000,
+      "same_original_H200_formal_package": true,
+      "shared_capture_helper_sha256": "5758ccb68efe9c8360960c9246046cb172b14a02b6a2660b2151a3f600eac4e3",
+      "planned_original_queries": 40,
+      "planned_traced_queries": 4,
+      "optimizer_updates": 0,
+      "physics_integrations": 0,
+      "diagnostic_only": true,
+      "numerical_qualification_issued": false,
+      "independent_read_observer_pid": 4141294
+    },
+    "original_H200_trace": {
+      "job_id": "709533.hopper-m-02",
+      "state": "Q",
+      "reason": "Not Running: Insufficient amount of resource: ngpus ",
+      "preserved": true
+    },
+    "software_checks": {
+      "passed": 71,
+      "scope": "H100 restoration admission, Hopper resources/namespaces, optional qualified H100 trace route, and private tensor comparator. Tests are not native policy qualification."
+    }
+  },
+  "NEGATIVE": {
+    "prior_H100_two_preworker_failures_and_one_application_registry_failure_retained": true,
+    "H100_restore_is_not_formal_TRAIN100_training_or_native_task_success": true,
+    "H100_vs_original_H200_package_transparency_not_yet_measured": true,
+    "Core_cross_hardware_numeric_gate_unpassed": true,
+    "native_DEV_conditions": 0,
+    "TEST_conditions": 0
+  },
+  "DECISION": "H100 is an actually demonstrated original full action-side training/recovery resource. Use an independent zero-update fixed40 trace of the existing SFT2000 package while the original H200 trace remains queued; no replacement training, tolerance relaxation or native policy qualification.",
+  "NEXT_GATE": "Actual709576 terminal, complete128 trace audit and same-input/noise transparency against original H200 package-reconstructed40; privately compare first4 intermediate tensors against transparent Core trace. Preserve any mismatch and the healthy original709533 job. Only qualified reconstruction can lead to full originalDEV80 and the frozen scientific decision.",
+  "invariants": {
+    "WBC_leg_weights_control_gains_solver_startup_safety_dynamics_2ms_changed": false,
+    "backbone_unfrozen": false,
+    "multi_GPU_or_distributed": false,
+    "new_large_collection": false,
+    "goal_complete": false
+  }
+}

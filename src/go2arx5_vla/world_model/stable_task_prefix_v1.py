@@ -36,6 +36,9 @@ def protocol():
 
 
 def declared(spec):
+    if spec.get('kind')=='TASK_LEARNING_GRASP_LIFT_HOLD_V1':
+        from .task_learning_grasp_v1 import declared as grasp_declared
+        return grasp_declared(spec)
     if spec.get('kind')=='TARGET_TEACHER_PREFIX_DIAGNOSTIC_V1':
         from .target_teacher_prefix_diagnostic_v1 import declared as teacher_declared
         return teacher_declared(spec)
@@ -51,6 +54,7 @@ def declared(spec):
 
 def _configuration(spec):
     declared(spec)
+    if spec.get('kind')=='TASK_LEARNING_GRASP_LIFT_HOLD_V1':return spec['task_learning_grasp']
     if spec.get('kind')=='TARGET_TEACHER_PREFIX_DIAGNOSTIC_V1':
         return spec['target_teacher_prefix_diagnostic']
     if spec.get('kind')=='TARGET_GR00T_PREFIX_LOOP_V1':
@@ -60,13 +64,17 @@ def _configuration(spec):
 
 def observation_steps(spec):
     c=_configuration(spec)
-    return tuple(B+25*c['prefix_atoms']*i for i in range(c['policy_queries']))
+    begin=c.get('start_step',B)
+    return tuple(begin+25*c['prefix_atoms']*i for i in range(c['policy_queries']))
 
 
 def cycle(spec,index):
     c=_configuration(spec);queries=c['policy_queries']
+    if index==-1 and spec.get('kind')=='TASK_LEARNING_GRASP_LIFT_HOLD_V1':
+        return dict(index=-1,kind='PREACTION_REFERENCE_HOLD_NOT_TEACHER_DATA',start_step=c['calibration_boundary'],
+            end_step=c['start_step'],atoms=c['preaction_hold_atoms'])
     need(type(index)is int and 0<=index<=queries,'FINITE_CYCLE_INDEX')
-    start=B+25*c['prefix_atoms']*index
+    start=c.get('start_step',B)+25*c['prefix_atoms']*index
     atoms=c['prefix_atoms']if index<queries else c['final_hold_atoms']
     return dict(index=index,kind='POLICY_PREFIX'if index<queries else'DETERMINISTIC_TERMINATION_HOLD',
         start_step=start,end_step=start+25*atoms,atoms=atoms)
@@ -76,8 +84,9 @@ def run_prefix(adapter,program,*,index,past_samples,past_windows,sample_observer
     from scripts.pi0292.eval_contract import matrix10
     c=cycle(adapter.spec,index);start,end,atoms=c['start_step'],c['end_step'],c['atoms']
     samples,windows=list(past_samples),list(past_windows)
-    need(type(program)is TrajectoryAdaptation and program.geometry_scale==1.
-         and program.time_stretch_factor==2 and np.array_equal(program.base_pose_hold,adapter.base_pose_hold)
+    from .task_learning_grasp_v1 import FiftyMsProgram,KIND as GRASP_KIND
+    program_ok=(type(program)is FiftyMsProgram and program.time_stretch_factor==1)if adapter.spec.get('kind')==GRASP_KIND else(type(program)is TrajectoryAdaptation and program.time_stretch_factor==2)
+    need(program_ok and program.geometry_scale==1. and np.array_equal(program.base_pose_hold,adapter.base_pose_hold)
          and np.array_equal(adapter.base_pose_hold,adapter.trajectory_initial_base),
          'ORIGINAL_FULL_REFERENCE_PROGRAM_AND_FIXED_BASE')
     need(adapter.trace_sealed is False and not(adapter.output/'trace_seal_request').exists()
@@ -143,7 +152,9 @@ def run_prefix(adapter,program,*,index,past_samples,past_windows,sample_observer
             attempt.update(gripper_submitted=submitted,stage='SUBMITTED_BEFORE_EFFECT')
             adapter.command_event(dict(phase='live-skill-before-atom',protocol=adapter.spec['phase'],**attempt))
             event_start=len(adapter.ros_evidence)
-            after=adapter.advance_to(step+25);adapter.spin(.15)
+            from .native_collection_performance_v1 import settle_atom, measure
+            after=adapter.advance_to(step+25)
+            settle_atom(adapter,event_start=event_start,before=before,after=after,clock=clock,submitted=submitted)
             actual=adapter.measured_task_state();samples.append(actual)
             attempt.update(actual_TCP=np.asarray(actual['tcp']).tolist(),
                 actual_state_vector=np.asarray(state_vector(actual)).tolist(),
@@ -154,8 +165,10 @@ def run_prefix(adapter,program,*,index,past_samples,past_windows,sample_observer
                  and adapter.latest['mode'].data=='WBC'
                  and not any(v.get('reason')=='PREFIX_TTL_EXPIRED'for v in adapter.reference_events()),
                  'ORIGINAL_SAFE_WBC_TTL_AND_PAUSE')
-            grip=native.confirm_gripper(adapter,submitted,actual)
-            consumed=native.consumed_window(adapter,event_start,before,after,clock)
+            with measure(adapter,'atom.final_gripper_consumption'):
+                grip=native.confirm_gripper(adapter,submitted,actual)
+            with measure(adapter,'atom.final_solver_consumption_join'):
+                consumed=native.consumed_window(adapter,event_start,before,after,clock)
             need(consumed['native_start_step']==step and consumed['native_end_step']==step+25
                  and consumed['actual_ticks']==25 and consumed['reference_sha256']==adapter.active_reference['wire_sha256']
                  and bool(consumed['solver_policies_with_exact_installed_target']),

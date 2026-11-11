@@ -1,0 +1,72 @@
+{
+  "schema": "GR00T_SINGLE_H200_PARALLEL_SCALE_ACTUAL_V1",
+  "evidence_asof": "2026-11-09T05:24:10Z",
+  "user_request": "Parallel environments or workers on Hopper H200, with 4096 as an example target",
+  "authorization": "Explicit user request supersedes the earlier internal scale-review stop for this single-H200 assessment and qualification; frozen WBC, safety, startup, dynamics and 2ms remain",
+  "training_throughput_scan": {
+    "job_id": "707720.hopper-m-02",
+    "source_sha": "5e4e7d14cf79fc7884ae2d226337962359f26ec6",
+    "PBS_state": "Q",
+    "scheduler_reason": "Not Running: Insufficient amount of resource: ngpus",
+    "held_resources_verified_before_release": true,
+    "release_exit_code": 0,
+    "queue": "small, routed through auto",
+    "allocation": {"H200": 1, "ncpus": 12, "memory_GB": 225, "wall_s": 7200},
+    "microbatches": [1, 2, 4, 8],
+    "effective_batch": 32,
+    "optimizer_calls_if_completed": 20,
+    "selection": "Fastest median of actual updates2-4, smaller microbatch on exact tie",
+    "selected_fresh_process_full_restore": "Required continuous4 versus fresh2+2, including seven saved state components",
+    "larger_microbatch_bit_exact_to_micro1_claimed": false,
+    "actual_new_model_loads_observed": 0,
+    "actual_optimizer_calls_observed": 0,
+    "physics_environments": 0,
+    "formal_training": false
+  },
+  "actual_current_task_backend": {
+    "collector_source_sha": "dc418f48243bd1939d631d3b82e67213fd747e82",
+    "native_binary_sha256": "82c135c1bf5bb093cac832554b953d0017ec33e35e584865d08ca14327f3aa29",
+    "MuJoCo": "3.2.7",
+    "nq": 34, "nv": 32, "nu": 20, "bodies": 28, "geoms": 79, "cameras": 2,
+    "timestep_s": 0.002,
+    "integrator": "Euler",
+    "solver": "Newton",
+    "friction_cone": "Elliptic",
+    "impratio": 100,
+    "solver_iterations": 100,
+    "linesearch_iterations": 50,
+    "tolerance": 1e-8,
+    "native_simulator_controller_and_MPC_dynamic_dependencies_resolve_in_actual_Core_environment": true,
+    "WbcBridgeCore_is_ROS_free": true,
+    "WbcBridgeCore_CPP_sha256": "bc21fd6d32754d3713479205a035e5377e5557c061d009770a28c7b5cf2b1f0e",
+    "GPU_batched_native_WBC_qualified": false,
+    "current_healthy_fixed_TRAIN100_is_preserved": true
+  },
+  "actual_Hopper_qualified_neural_environment": {
+    "Python": "3.12.3",
+    "Torch": "2.9.0+cu128",
+    "missing_distributions_in_this_environment": ["mujoco", "mujoco-warp", "warp-lang", "isaaclab", "rclpy", "pinocchio"],
+    "host_OS": "RHEL9.8",
+    "host_glibc": "2.34",
+    "site_wide_absence_claimed": false,
+    "qualified_neural_environment_modified": false
+  },
+  "official_backend_review": [
+    {
+      "source": "https://github.com/mujocolab/mjlab/blob/936f7a12537556416addff31babbb1512dd24d70/README.md",
+      "finding": "4096 environments is an official G1 velocity-tracking example; this does not qualify the current Go2-ARX5 task or its OCS2/WBC"
+    },
+    {
+      "source": "https://github.com/google-deepmind/mujoco_warp/blob/4d1c64bc077d725247e9bf5e2ac3f357749ff804/pyproject.toml",
+      "finding": "Current MuJoCo Warp4.0 requires MuJoCo>=3.13.0, distinct from the frozen native3.2.7 backend"
+    },
+    {
+      "source": "https://github.com/google-deepmind/mujoco_warp/blob/37b32aad39cb696d9f40d4daa732b2549e792253/README.md",
+      "finding": "Initial3.2.7-compatible release supports pyramidal cones only, incompatible with this task's elliptic cone; no cone change is authorized or performed"
+    }
+  ],
+  "next_physics_work": "Qualify a compatible backend and unchanged controller on one task environment, then benchmark complete physics/controller/dual-camera/policy throughput and reset isolation at2,8,32,128,512,1024,4096 as supported by actual results",
+  "new_GPU_physics_integrations": 0,
+  "4096_environment_capability_claimed": false,
+  "multi_GPU_or_distributed": false
+}

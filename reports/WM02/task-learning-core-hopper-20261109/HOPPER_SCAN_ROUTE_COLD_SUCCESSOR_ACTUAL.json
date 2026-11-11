@@ -1,0 +1,143 @@
+{
+  "schema": "TASK_LEARNING_SCAN_ROUTING_COLD_SUCCESSOR_ACTUAL_V2",
+  "EVIDENCE_ASOF_UTC": "2026-11-09T14:08:52.759754+00:00",
+  "EVIDENCE_ASOF_SGT": "2026-11-09T22:08:52.759754+08:00",
+  "QUESTION": "Does a healthy running scan retain its actual selected-microbatch path while a genuinely queued scan may use the qualified microbatch1 successor?",
+  "CHANGED": [
+    "A running scan now waits for its actual CLOSED0/PBS F0 and original selected-full-restore preparer. Only a provably unstartedQ/H scan selects the independent qualified microbatch1 preparation path.",
+    "Unchanged original CORR2048 parent, effective32, FULL_ACTION_SIDE, masked loss,8000 schedule/warmup200 and first endpoint2000. The scan route alone changed.",
+    "Retired only the local read-only Hopper continuation at the independently verified pre-SFT cold boundary; new continuation loads its code/helpers once and preserves the predecessor finite controller deadline. No PBS job/capsule/resource request was altered."
+  ],
+  "ACTUAL": {
+    "route_code_commit": "002d06b8a68182772173992e13c1d239d0f15a6d",
+    "route_code_sha256": "5ecc7e614c87abd3efb36508c9a25eab0061ece7c940a2e8f5d7730afa0f9c44",
+    "focused_tests_passed": 7,
+    "original_controller_retired": {
+      "pid": 3641706,
+      "process_absent": true,
+      "read_only_phase_verified": true,
+      "epoch": 1794232847.5795407
+    },
+    "independent_remote_pre_handoff": {
+      "epoch": 1794232771.1599135,
+      "formal_roots_existed": {
+        "01": false,
+        "02": false
+      },
+      "formal_prepare_intents_existed": {
+        "01": false,
+        "02": false
+      },
+      "Processor_PBS": {
+        "708392.hopper-m-02": {
+          "job_state": "Q",
+          "Exit_status": null,
+          "comment": "Not Running: Insufficient amount of resource: ngpus "
+        }
+      },
+      "Processor_worker_started": false
+    },
+    "live_successor": {
+      "pid": 3689510,
+      "process_start_ticks": "37323241",
+      "started_epoch": 1794232847.6157298,
+      "actual_snapshot_epoch": 1794233323.0613735,
+      "stage": "WAIT_ACTUAL_TERMINAL",
+      "PBS": {
+        "job_state": "Q",
+        "Exit_status": null,
+        "job_id": "708392.hopper-m-02"
+      },
+      "finite_deadline_epoch": 1794299867.697804,
+      "predecessor_deadline_preserved": true,
+      "helper_sha256": {
+        "prepare_hopper_sft2000_04.remote.private.py": "83fd56c689d3b225ebf2dfb6e0d4ee3e94b2d98c94fc1b868228f6ffd18dbe6b",
+        "submit_hopper_sft2000_04.remote.private.py": "4172349a48dbbc12d873b1ec0e3f8788e0641f91504c96c72d67288b35578d8f",
+        "release_hopper_sft2000_04.remote.private.py": "d4107a692d78c3ee563b4b4b323619bab52908083dd6c521b71a74a5735ba76c",
+        "prepare_hopper_sft2000_03.remote.private.py": "4347da6d27d75d2af9d34fd23033657126e1bad7a2d55aa3ec35f998cf19537e",
+        "submit_hopper_sft2000_03.remote.private.py": "dc85476a3abb33dca938c9ec367e7ca97607fbb9a20b0f0bb5422700459b10c4",
+        "release_hopper_sft2000_03.remote.private.py": "0b94813878f29acfa093c9b3a3b6a85e7f13f176e151eba0d0205823b0aaf37e",
+        "transfer_task_policy_v2_hopper2.private.py": "c5fe7a73dc42feac0a672e78a2040fb0aa84555167d22de0b03e7e5c4df59373"
+      }
+    },
+    "real_scan_readback": {
+      "epoch": 1794232919.2505405,
+      "actual_PBS": {
+        "job_state": "Q",
+        "Exit_status": null,
+        "job_id": "707720.hopper-m-02"
+      },
+      "conditional_route_only_after_Processor_closed0": "USE_QUEUE_BLOCKED_MICRO1_SUCCESSOR",
+      "actual_SFT_prepared_or_submitted": false
+    },
+    "official_queue_readback": {
+      "epoch": 1794231838.8743987,
+      "small_queue_user_concurrent_running_limit": "[u:PBS_GENERIC=2]",
+      "state_count": "Transit:0 Queued:243 Held:204 Waiting:0 Running:71 Exiting:0 Begun:3 ",
+      "total_jobs": 521,
+      "own_active_jobs_snapshot_epoch": 1794232025.5434847,
+      "own_active_jobs_count": 3,
+      "own_running_jobs": 0,
+      "own_queued_jobs": 3,
+      "task_jobs": {
+        "707720.hopper-m-02": {
+          "job_state": "Q",
+          "queue": "small",
+          "comment": "Not Running: Insufficient amount of resource: ngpus ",
+          "estimated": null,
+          "Resource_List": {
+            "ncpus": 12,
+            "ngpus": 1,
+            "mem": "225gb",
+            "walltime": "02:00:00"
+          }
+        },
+        "708392.hopper-m-02": {
+          "job_state": "Q",
+          "queue": "small",
+          "comment": "Not Running: Insufficient amount of resource: ngpus ",
+          "estimated": null,
+          "Resource_List": {
+            "ncpus": 12,
+            "ngpus": 1,
+            "mem": "225gb",
+            "walltime": "00:30:00"
+          }
+        }
+      }
+    },
+    "actual_preparation_deadlines": {
+      "task-learning-continuous-processor-20261109-01": {
+        "wall_s": 1800,
+        "absolute_deadline_epoch": 1794313372.0134447,
+        "config_deadline_remaining_s": 81532.2144806385
+      },
+      "task-learning-hopper-batchscan-20261109-01": {
+        "wall_s": 7200,
+        "absolute_deadline_epoch": 1794287532.9269607,
+        "config_deadline_remaining_s": 55693.12445497513
+      }
+    },
+    "Core_waiter": {
+      "pid": 3665222,
+      "snapshot_epoch": 1794233327.4433382,
+      "stage": "WAIT_ACTUAL_PACKAGE_AND_SHARED_CAPACITY",
+      "package_ready": false,
+      "free_GPU_bytes": 2310012928,
+      "capacity": false
+    },
+    "new_PBS_submissions": 0,
+    "PBS_jobs_cancelled_or_altered": 0,
+    "new_formal_models": 0,
+    "new_optimizer_updates": 0,
+    "new_native_integrations": 0
+  },
+  "NEGATIVE": [
+    "No actual running-scan/selected-batch transition or formal SFT has occurred in this successor. The seven tests are routing/interface fixtures, not GPU or restore qualification.",
+    "The latest official task-job comments report ngpus unavailable; no start-time estimate was supplied. Observed own running jobs0 does not show that the small-queue per-user running limit2 is exhausted.",
+    "The complete-data Hopper Processor remains queued and is still required before formal model admission. No queued job was counted as a pass and no root/job was duplicated.",
+    "Core remains occupied by other-user GPU work and has no candidate package; Core40,full DEV80 and TEST have not run."
+  ],
+  "DECISION": "Keep both unique existing PBS jobs and both sole-owner continuations. Actual Processor qualification still precedes SFT. A live scan finishes its selected-batch qualification; only a queue-blocked unstarted scan may use the independently qualified microbatch1 route.",
+  "NEXT_GATE": "Actual Processor708392 terminal, then actual scan state and original full admission -> formal2000/full restore/private package -> existing Core40/fullDEV80/frozen-decision continuation."
+}

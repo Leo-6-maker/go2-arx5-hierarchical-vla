@@ -1,0 +1,495 @@
+{
+  "schema": "NEXT_TRAIN_FIRST_TWO_NATIVE_FEASIBILITY_ACTUAL_V1",
+  "observed_UTC": "2026-11-09T15:59:33.243932+00:00",
+  "observed_SGT": "2026-11-09T23:59:33.243932+08:00",
+  "QUESTION": "Do the first two centimetre-scale positions retain complete Teacher task success under the original native guards?",
+  "CHANGED": "Two new independent headless feasibility requests, original fixed waits and fresh camera resources; no changes to sealed TRAIN100 or SFT inputs",
+  "ACTUAL": {
+    "unchanged_TRAIN100_optimization_stage_visits_per_pass": {
+      "CLOSE": 300,
+      "LIFT": 662,
+      "HOLD": 508,
+      "PREGRASP": 288,
+      "DESCEND": 1442
+    },
+    "status": "NEXT_TRAIN_FIRST_TWO_INDEPENDENT_CLOSED_AND_CAPTURE_AUDIT_COMPLETE",
+    "epoch": 1794239973.2439315,
+    "source_sha": "536b25f5d9c52f1e848116886d5c5d2efb7dfe3e",
+    "input_sha256": "0c81496e1982b712628c052abfbbf6965c33e380da0790375a7577feca36cf42",
+    "panel_sha256": "ec9b91ebff5b48963044510ee09a961d12f73159864838f379bc9e6ec9aeaa92",
+    "summary": {
+      "schema": "TASK_LEARNING_NEXT_TRAIN_FEASIBILITY_SUMMARY_V1",
+      "requested": 6,
+      "attempted": 2,
+      "complete": false,
+      "by_absolute_X_offset_cm": {
+        "1": {
+          "requested": 2,
+          "attempted": 2,
+          "reset_ready": 2,
+          "task_successes": 2,
+          "hard_safety_stops": 0,
+          "technical_failures": 0,
+          "success_per_attempted": 1.0,
+          "success_given_ready": 1.0
+        },
+        "2": {
+          "requested": 2,
+          "attempted": 0,
+          "reset_ready": 0,
+          "task_successes": 0,
+          "hard_safety_stops": 0,
+          "technical_failures": 0,
+          "success_per_attempted": null,
+          "success_given_ready": null
+        },
+        "3": {
+          "requested": 2,
+          "attempted": 0,
+          "reset_ready": 0,
+          "task_successes": 0,
+          "hard_safety_stops": 0,
+          "technical_failures": 0,
+          "success_per_attempted": null,
+          "success_given_ready": null
+        }
+      },
+      "outcomes": [
+        {
+          "native_run": "tl-next-train-feasibility-20261109-02-nexttrain_xm01",
+          "layout": "NEXTTRAIN_XM01",
+          "restart": 1,
+          "parent": "TASK_LEARNING_UNDER_HAND_NEXTTRAIN_XM01",
+          "split": "TRAIN",
+          "command": "GRASP_RED_LIFT20MM_HOLD1S",
+          "purpose": "NEXT_TRAIN_TEACHER_FEASIBILITY_NOT_BC",
+          "Teacher_mode": "NORMAL_TEACHER_V7",
+          "model_sha256": "bc8b5d6a808cec16d9589c9402b5ac6e1a70f645a4a4fcaf47d8ef027f2a725d",
+          "static_status": "PASSED",
+          "attempted": true,
+          "reset_ready": true,
+          "task_success": true,
+          "technical_valid": true,
+          "hard_safety_stop": false,
+          "native_status": "NATIVE_STAGE_PASSED",
+          "actual_native_integrations": 21203,
+          "worker_exit_code": 0,
+          "first_failure": null,
+          "wall_s": 313.6262314519845,
+          "CPU_s": 235.036900975,
+          "score": {
+            "contract": {
+              "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+              "minimum_lift_m": 0.02,
+              "continuous_hold_s": 1.0,
+              "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+              "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+              "maximum_object_linear_speed_m_s": 0.02,
+              "standing": {
+                "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+                "maximum_base_displacement_m": 0.02,
+                "maximum_base_rotation_rad": 0.08726646259971647,
+                "maximum_foot_planar_displacement_m": 0.005,
+                "minimum_supported_feet": 3,
+                "minimum_actual_floor_normal_force_N": 0.05,
+                "old_short_task_pose_diagnostic": {
+                  "maximum_base_displacement_m": 0.002,
+                  "maximum_base_rotation_rad": 0.008726646259971648
+                },
+                "original_native_safety_changed": false,
+                "task_score_bounds_are_native_safety": false,
+                "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+              },
+              "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+              "success_requires_all": true
+            },
+            "samples": 621,
+            "maximum_object_lift_m": 0.025755989197639773,
+            "longest_contiguous_grasp_lift_hold_s": 6.8,
+            "unsafe_samples": 0,
+            "standing_passes": true,
+            "maximum_base_displacement_m": 0.008406297371104385,
+            "maximum_base_rotation_rad": 0.01408750905142408,
+            "maximum_foot_planar_displacement_m": 0.003924853297969917,
+            "minimum_supported_feet": 4,
+            "old_short_task_pose_bound_all_samples_pass": false,
+            "task_success": true
+          },
+          "result_sha256": "74af3f08acb19d38912506ac12910c4b87c9b2032f97fcfec2390d9feb729d56"
+        },
+        {
+          "native_run": "tl-next-train-feasibility-20261109-02-nexttrain_xp01",
+          "layout": "NEXTTRAIN_XP01",
+          "restart": 1,
+          "parent": "TASK_LEARNING_UNDER_HAND_NEXTTRAIN_XP01",
+          "split": "TRAIN",
+          "command": "GRASP_RED_LIFT20MM_HOLD1S",
+          "purpose": "NEXT_TRAIN_TEACHER_FEASIBILITY_NOT_BC",
+          "Teacher_mode": "NORMAL_TEACHER_V7",
+          "model_sha256": "29ded2c3a563b76d0b476aa0f40a9493dbaa49d7169999025fef24dd7946f867",
+          "static_status": "PASSED",
+          "attempted": true,
+          "reset_ready": true,
+          "task_success": true,
+          "technical_valid": true,
+          "hard_safety_stop": false,
+          "native_status": "NATIVE_STAGE_PASSED",
+          "actual_native_integrations": 21203,
+          "worker_exit_code": 0,
+          "first_failure": null,
+          "wall_s": 307.3564073839225,
+          "CPU_s": 233.417122079,
+          "score": {
+            "contract": {
+              "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+              "minimum_lift_m": 0.02,
+              "continuous_hold_s": 1.0,
+              "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+              "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+              "maximum_object_linear_speed_m_s": 0.02,
+              "standing": {
+                "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+                "maximum_base_displacement_m": 0.02,
+                "maximum_base_rotation_rad": 0.08726646259971647,
+                "maximum_foot_planar_displacement_m": 0.005,
+                "minimum_supported_feet": 3,
+                "minimum_actual_floor_normal_force_N": 0.05,
+                "old_short_task_pose_diagnostic": {
+                  "maximum_base_displacement_m": 0.002,
+                  "maximum_base_rotation_rad": 0.008726646259971648
+                },
+                "original_native_safety_changed": false,
+                "task_score_bounds_are_native_safety": false,
+                "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+              },
+              "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+              "success_requires_all": true
+            },
+            "samples": 621,
+            "maximum_object_lift_m": 0.02560832304339633,
+            "longest_contiguous_grasp_lift_hold_s": 6.55,
+            "unsafe_samples": 0,
+            "standing_passes": true,
+            "maximum_base_displacement_m": 0.004361409506107658,
+            "maximum_base_rotation_rad": 0.013931337953412297,
+            "maximum_foot_planar_displacement_m": 0.0040096330404028446,
+            "minimum_supported_feet": 4,
+            "old_short_task_pose_bound_all_samples_pass": false,
+            "task_success": true
+          },
+          "result_sha256": "a8b2fc54357050d1a2a17f13899e1a6641ddaf3e383f848e7a8974520f3d0ae6"
+        }
+      ],
+      "qualified_training_demonstrations": 0,
+      "Processor_admitted": false,
+      "GR00T_queries": 0,
+      "model_updates": 0,
+      "large_collection_authorized": false,
+      "reliability_established": false,
+      "Y_native_qualification": "NOT_RUN",
+      "next_gate": "FIRST_STUDENT_FULL_DEV_FAILURE_ANALYSIS_BEFORE_DATA_PRODUCTION"
+    },
+    "selected_group_complete": true,
+    "full_six_request_population_complete": false,
+    "rows": [
+      {
+        "layout": "NEXTTRAIN_XM01",
+        "native_run": "tl-next-train-feasibility-20261109-02-nexttrain_xm01",
+        "native_result_sha256": "74af3f08acb19d38912506ac12910c4b87c9b2032f97fcfec2390d9feb729d56",
+        "score": {
+          "contract": {
+            "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+            "minimum_lift_m": 0.02,
+            "continuous_hold_s": 1.0,
+            "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+            "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+            "maximum_object_linear_speed_m_s": 0.02,
+            "standing": {
+              "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+              "maximum_base_displacement_m": 0.02,
+              "maximum_base_rotation_rad": 0.08726646259971647,
+              "maximum_foot_planar_displacement_m": 0.005,
+              "minimum_supported_feet": 3,
+              "minimum_actual_floor_normal_force_N": 0.05,
+              "old_short_task_pose_diagnostic": {
+                "maximum_base_displacement_m": 0.002,
+                "maximum_base_rotation_rad": 0.008726646259971648
+              },
+              "original_native_safety_changed": false,
+              "task_score_bounds_are_native_safety": false,
+              "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+            },
+            "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+            "success_requires_all": true
+          },
+          "samples": 621,
+          "maximum_object_lift_m": 0.025755989197639773,
+          "longest_contiguous_grasp_lift_hold_s": 6.8,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_base_displacement_m": 0.008406297371104385,
+          "maximum_base_rotation_rad": 0.01408750905142408,
+          "maximum_foot_planar_displacement_m": 0.003924853297969917,
+          "minimum_supported_feet": 4,
+          "old_short_task_pose_bound_all_samples_pass": false,
+          "task_success": true
+        },
+        "wall_s": 313.6262314519845,
+        "CPU_s": 235.036900975,
+        "native_integrations": 21203,
+        "teacher_decisions": 15,
+        "confirmed_50ms_commands": 600,
+        "verified_policy_RGB_images": 30,
+        "all_current_capture_files_hashes_verified": true,
+        "original_trace_safety_checks": "PASS",
+        "child_exits": [
+          {
+            "name": "planner",
+            "exit_code": 0
+          },
+          {
+            "name": "controller",
+            "exit_code": 0
+          },
+          {
+            "name": "solver",
+            "exit_code": 0
+          },
+          {
+            "name": "sim",
+            "exit_code": 0
+          }
+        ],
+        "role_rejected_by_original_BC_exporter": true
+      },
+      {
+        "layout": "NEXTTRAIN_XP01",
+        "native_run": "tl-next-train-feasibility-20261109-02-nexttrain_xp01",
+        "native_result_sha256": "a8b2fc54357050d1a2a17f13899e1a6641ddaf3e383f848e7a8974520f3d0ae6",
+        "score": {
+          "contract": {
+            "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+            "minimum_lift_m": 0.02,
+            "continuous_hold_s": 1.0,
+            "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+            "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+            "maximum_object_linear_speed_m_s": 0.02,
+            "standing": {
+              "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+              "maximum_base_displacement_m": 0.02,
+              "maximum_base_rotation_rad": 0.08726646259971647,
+              "maximum_foot_planar_displacement_m": 0.005,
+              "minimum_supported_feet": 3,
+              "minimum_actual_floor_normal_force_N": 0.05,
+              "old_short_task_pose_diagnostic": {
+                "maximum_base_displacement_m": 0.002,
+                "maximum_base_rotation_rad": 0.008726646259971648
+              },
+              "original_native_safety_changed": false,
+              "task_score_bounds_are_native_safety": false,
+              "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+            },
+            "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+            "success_requires_all": true
+          },
+          "samples": 621,
+          "maximum_object_lift_m": 0.02560832304339633,
+          "longest_contiguous_grasp_lift_hold_s": 6.55,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_base_displacement_m": 0.004361409506107658,
+          "maximum_base_rotation_rad": 0.013931337953412297,
+          "maximum_foot_planar_displacement_m": 0.0040096330404028446,
+          "minimum_supported_feet": 4,
+          "old_short_task_pose_bound_all_samples_pass": false,
+          "task_success": true
+        },
+        "wall_s": 307.3564073839225,
+        "CPU_s": 233.417122079,
+        "native_integrations": 21203,
+        "teacher_decisions": 15,
+        "confirmed_50ms_commands": 600,
+        "verified_policy_RGB_images": 30,
+        "all_current_capture_files_hashes_verified": true,
+        "original_trace_safety_checks": "PASS",
+        "child_exits": [
+          {
+            "name": "planner",
+            "exit_code": 0
+          },
+          {
+            "name": "controller",
+            "exit_code": 0
+          },
+          {
+            "name": "solver",
+            "exit_code": 0
+          },
+          {
+            "name": "sim",
+            "exit_code": 0
+          }
+        ],
+        "role_rejected_by_original_BC_exporter": true
+      }
+    ],
+    "static_saved_camera_red_pixel_diagnostic": [
+      {
+        "layout": "NEXTTRAIN_XM01",
+        "camera": "body_rgb",
+        "red_pixel_count": 115,
+        "PNG_sha256": "afc8c80561304e00c226ba1ab5b6e05254619413501420081bdddd1cb48f5d13"
+      },
+      {
+        "layout": "NEXTTRAIN_XM01",
+        "camera": "wrist_rgb",
+        "red_pixel_count": 1063,
+        "PNG_sha256": "0485db3ea1c33e15dd4087a76cb95a149f09a0564f748f676fbdcfe74d434cc5"
+      },
+      {
+        "layout": "NEXTTRAIN_XP01",
+        "camera": "body_rgb",
+        "red_pixel_count": 120,
+        "PNG_sha256": "c8d1b3cb71a6685f3cbfdc81a0cb76eba54a16876e1ecef28f51ed77f7e123a9"
+      },
+      {
+        "layout": "NEXTTRAIN_XP01",
+        "camera": "wrist_rgb",
+        "red_pixel_count": 1352,
+        "PNG_sha256": "a0102b2517a3f93048026bde2c5fd7ee0adf2c3d4a58fb5a84d2276f7993a0ad"
+      },
+      {
+        "layout": "NEXTTRAIN_XP02",
+        "camera": "body_rgb",
+        "red_pixel_count": 115,
+        "PNG_sha256": "8239a9cbe54ef27e451e0434c74461d269ff6ac4fc8db5e25c997635b27d785b"
+      },
+      {
+        "layout": "NEXTTRAIN_XP02",
+        "camera": "wrist_rgb",
+        "red_pixel_count": 1541,
+        "PNG_sha256": "5e7b85c32623a26b4fab34907c75030cba5a50be4abeda18d77e6416b52cdfac"
+      },
+      {
+        "layout": "NEXTTRAIN_XP03",
+        "camera": "body_rgb",
+        "red_pixel_count": 119,
+        "PNG_sha256": "dde0134a826967703d77864bdab58ce2bc891fc06eef7d3d44780d9830ff2db2"
+      },
+      {
+        "layout": "NEXTTRAIN_XP03",
+        "camera": "wrist_rgb",
+        "red_pixel_count": 1780,
+        "PNG_sha256": "80220d6167e87d2e6bc992012def2bbf8170158050bb26c9245b58ee82d7607f"
+      },
+      {
+        "layout": "NEXTTRAIN_YM01",
+        "camera": "body_rgb",
+        "red_pixel_count": 119,
+        "PNG_sha256": "f0e1d841ca3afc19ab327bb9d45573847d992d440b4111be36eec7e8304be507"
+      },
+      {
+        "layout": "NEXTTRAIN_YM01",
+        "camera": "wrist_rgb",
+        "red_pixel_count": 726,
+        "PNG_sha256": "51cc9894d33d4fb7f3b7e6401c2d59962a513f424c49d0cb10e530049c479213"
+      },
+      {
+        "layout": "NEXTTRAIN_YP01",
+        "camera": "body_rgb",
+        "red_pixel_count": 114,
+        "PNG_sha256": "9b92cb6f1a895e84c783505dba453a1ee06014e96e67791ae32d0810786484a0"
+      },
+      {
+        "layout": "NEXTTRAIN_YP01",
+        "camera": "wrist_rgb",
+        "red_pixel_count": 1867,
+        "PNG_sha256": "ba6c07a1f13cdb3fd3c258c9c080400e1228d0db90e976406c2d34887d49f30d"
+      },
+      {
+        "layout": "NEXTTRAIN_YM02",
+        "camera": "body_rgb",
+        "red_pixel_count": 119,
+        "PNG_sha256": "b417e007fbb433fa0f128b7adc037a7294dc023da32f7e0c573f4f83d4faea57"
+      },
+      {
+        "layout": "NEXTTRAIN_YM02",
+        "camera": "wrist_rgb",
+        "red_pixel_count": 528,
+        "PNG_sha256": "560dc0436a6eba11f3cba94e965775c2ae214d1b57a9e5ccdaabe013ef443901"
+      },
+      {
+        "layout": "NEXTTRAIN_YP02",
+        "camera": "body_rgb",
+        "red_pixel_count": 112,
+        "PNG_sha256": "c1fa1e85f0481cf2ee1677ec75a2f483d8161bca61a596398df7e896b27c64c0"
+      },
+      {
+        "layout": "NEXTTRAIN_YP02",
+        "camera": "wrist_rgb",
+        "red_pixel_count": 2371,
+        "PNG_sha256": "4d45335d26eb10027357f93e36dd19298053e94fc7b6c19a4279dbf4b248b090"
+      },
+      {
+        "layout": "NEXTTRAIN_YM03",
+        "camera": "body_rgb",
+        "red_pixel_count": 122,
+        "PNG_sha256": "18fb1978e89eefaf1248adca16418a474fb38d5d6dff77ef2dfef18adb66482e"
+      },
+      {
+        "layout": "NEXTTRAIN_YM03",
+        "camera": "wrist_rgb",
+        "red_pixel_count": 582,
+        "PNG_sha256": "b414d9e403973fec92f64051a21e8ebf9b4c1b1b017a1b3c91beb9a09660c3b6"
+      },
+      {
+        "layout": "NEXTTRAIN_YP03",
+        "camera": "body_rgb",
+        "red_pixel_count": 108,
+        "PNG_sha256": "d5b5427c84f6496393e4c512375df3844cff91d4cfe786ac89cd0b9b03069bbc"
+      },
+      {
+        "layout": "NEXTTRAIN_YP03",
+        "camera": "wrist_rgb",
+        "red_pixel_count": 2598,
+        "PNG_sha256": "9a5a1fef09defbd168b7f54dfbfddcbf38e233505250af98879739a11df33262"
+      }
+    ],
+    "static_red_pixel_diagnostic_method": "R>100 and G<80 and B<80; no pass threshold or selection rule",
+    "visibility_diagnostic_is_not_unoccluded_or_dynamic_visibility_qualification": true,
+    "new_training_demonstrations": 0,
+    "new_GR00T_updates": 0,
+    "TEST_opened": false
+  },
+  "NEGATIVE": {
+    "requested_native_population": 6,
+    "attempted": 2,
+    "not_run": 4,
+    "static_rejected_not_run": [
+      "NEXTTRAIN_XM02",
+      "NEXTTRAIN_XM03"
+    ],
+    "static_passed_deferred_not_run": [
+      "NEXTTRAIN_XP02",
+      "NEXTTRAIN_XP03"
+    ],
+    "Y_native_requests_run": 0,
+    "reliability_established": false,
+    "student_DEV": "NOT_RUN",
+    "new_training_demonstrations": 0,
+    "registration_import_failure": {
+      "attempts": 1,
+      "native_started": false,
+      "registry_or_lease_created": false,
+      "original_INTENT_preserved": true,
+      "independent_reconciliation_completed_before_successor": true
+    }
+  },
+  "DECISION": "Stop after the predeclared first contiguous group [0,2]; retain all static failures and unrun requests. No automatic data production.",
+  "NEXT_GATE": "First student full DEV failure analysis selects any later training-data coverage; no changes to current SFT2000 dataset.",
+  "validation": {
+    "focused_tests_passed": 61,
+    "native_audit": "ACTUAL_CLOSED0_CURRENT_CAPTURE_AND_COMMAND_HASHES_VERIFIED",
+    "old_BC_exporter_rejects_feasibility_role": true
+  }
+}

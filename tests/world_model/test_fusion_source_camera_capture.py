@@ -116,6 +116,79 @@ def test_actual_copy_world_reparent_fk_preserves_native_arrays_packet_and_wrist(
         c.apply_source_rig_to_render_copy(model, model, data, packet, rig)
 
 
+def test_episode_cache_matches_fresh_capture_across_packets_and_closes_contexts(tmp_path, monkeypatch):
+    """Actual MuJoCo FK, deterministic renderer double; not pixel qualification."""
+    import mujoco
+    path,model,data,first,_=scene(tmp_path)
+    r=recipe(monkeypatch)
+    renderers=[]
+    class Renderer:
+        def __init__(self,model,*,height,width):
+            self.model=model;self.closed=False;renderers.append(self)
+            self._scene=mujoco.MjvScene(model,maxgeom=10000)
+        @property
+        def scene(self):return self._scene
+        def update_scene(self,data,*,camera):
+            self.data,self.camera=data,camera
+        def render(self):
+            cid=int(self.model.camera(self.camera).id)
+            value=int(self.model.cam_fovy[cid]+self.data.qpos[7]*100+self.data.time)%256
+            return np.full((256,256,3),value,dtype=np.uint8)
+        def close(self):self.closed=True
+    monkeypatch.setattr(mujoco,'Renderer',Renderer)
+    forbid_step(monkeypatch)
+    session=c.SourceCameraSession(path,r)
+    retained={}
+    packets=[first,dict(first,step=4703,time_s=9.406,qpos=first['qpos'].copy())]
+    packets[1]['qpos'][7]=.3
+    for i,packet in enumerate(packets):
+        files=[]
+        for cached in (False,True):
+            folder=tmp_path/f'{i}-{cached}';(folder/'images').mkdir(parents=True)
+            recorder=c.SourceCameraRecorder(path,folder,r,session=session if cached else None)
+            recorder.save(0,packet)
+            if cached:
+                with pytest.raises(ValueError,match='EXCLUSIVE_CAMERA_SESSION'):
+                    session.acquire(path,folder,r)
+            c._packet_data(recorder.camera_adapter.camera_state.data,packet)
+            files.append({p.relative_to(folder).as_posix():p.read_bytes()for p in folder.rglob('*')if p.is_file()})
+            recorder.close()
+            assert not session.busy
+        assert files[0]==files[1]
+        retained[i]=files[1]
+    assert retained[0]['images/000000-wrist_rgb.png']!=retained[1]['images/000000-wrist_rgb.png']
+    assert (tmp_path/'0-True/images/000000-wrist_rgb.png').read_bytes()==retained[0]['images/000000-wrist_rgb.png']
+    assert len(renderers)==6 and sum(not x.closed for x in renderers)==2
+    session.close();session.close()
+    assert all(x.closed for x in renderers)
+    with pytest.raises(ValueError,match='EXCLUSIVE_CAMERA_SESSION'):session.acquire(path,tmp_path,r)
+
+
+def test_camera_cache_still_rejects_changed_non_camera_model_array(tmp_path,monkeypatch):
+    import mujoco
+    path,model,data,packet,_=scene(tmp_path);r=recipe(monkeypatch)
+    class Renderer:
+        def __init__(self,model,**kwargs):self._scene=mujoco.MjvScene(model,maxgeom=10000)
+        @property
+        def scene(self):return self._scene
+        def update_scene(self,*args,**kwargs):pass
+        def render(self):return np.zeros((256,256,3),dtype=np.uint8)
+        def close(self):pass
+    monkeypatch.setattr(mujoco,'Renderer',Renderer)
+    session=c.SourceCameraSession(path,r)
+    try:
+        folder=tmp_path/'one';(folder/'images').mkdir(parents=True)
+        recorder=c.SourceCameraRecorder(path,folder,r,session=session);recorder.save(0,packet);recorder.close()
+        session.model.body_mass[1]+=1
+        folder=tmp_path/'two';(folder/'images').mkdir(parents=True)
+        recorder=c.SourceCameraRecorder(path,folder,r,session=session)
+        try:
+            with pytest.raises(ValueError,match='FRESH_NATIVE_BINARY_RENDER_COPY_body_mass'):
+                recorder.save(0,packet)
+        finally:recorder.close()
+    finally:session.close()
+
+
 def adapter_fixture(tmp_path, monkeypatch):
     import mujoco
     cpu_environment(monkeypatch)
@@ -123,6 +196,9 @@ def adapter_fixture(tmp_path, monkeypatch):
         def __init__(self, model, *, height, width):
             assert (height, width) == (256, 256)
             self.model = model
+            self._scene=mujoco.MjvScene(model,maxgeom=10000)
+        @property
+        def scene(self):return self._scene
         def update_scene(self, data, *, camera): self.camera = camera
         def render(self):
             cid = int(self.model.camera(self.camera).id)
@@ -159,6 +235,48 @@ def adapter_fixture(tmp_path, monkeypatch):
         language='Move the open gripper a little toward the red cube, then hold without touching it.',
         score_contract_sha256='b'*64, language_provenance='NEW_TARGET_SHORT_SKILL_PROMPT')
     return adapter, binding, task, raw
+
+
+def test_opt_in_paused_capture_reuses_contexts_and_closes_after_binding_failure(tmp_path, monkeypatch):
+    """Exercise the real capture/session/finally wiring, with a renderer double."""
+    import mujoco
+    from go2arx5_vla.world_model import native_collection_performance_v1 as performance
+    from go2arx5_vla.world_model.task_learning_grasp_v1 import CONSTRUCTION_ROLE
+    adapter,binding,task,_=adapter_fixture(tmp_path,monkeypatch)
+    adapter.spec.update(phase='collect-target-task-learning-grasp-v1',task_learning_role=CONSTRUCTION_ROLE,
+        source_sha='c'*40,collection_performance=dict(version=performance.VERSION,mode='camera_cache'))
+    spec_path=Path(adapter.spec['registered_root'])/'EXECUTION_SPEC.json'
+    spec_path.write_text(json.dumps(adapter.spec))
+    binding=TargetShadowBinding('ACTUAL_TARGET_WORLD',digest(adapter.spec['model_path']),digest(spec_path),FRAME,rig_module.FRAME_MAP_SHA256)
+    adapter.performance=performance.PerformanceTrace()
+    original=mujoco.Renderer;renderers=[]
+    class Renderer(original):
+        def __init__(self,*args,**kwargs):
+            super().__init__(*args,**kwargs);self.closed=False;renderers.append(self)
+        def close(self):self.closed=True
+    monkeypatch.setattr(mujoco,'Renderer',Renderer)
+    r=recipe(monkeypatch);forbid_step(monkeypatch)
+    first=paused.capture_paused_observation(adapter,binding=binding,task=task,
+        task_sha256=document_hash(task),query_uuid=QUERY,camera_recipe=r)
+    second=paused.capture_paused_observation(adapter,binding=binding,task=task,
+        task_sha256=document_hash(task),query_uuid='22345678-1234-4234-8234-123456789abc',camera_recipe=r)
+    assert len(renderers)==2 and not any(x.closed for x in renderers)
+    a,b=unseal(first),unseal(second)
+    assert a['query_uuid']!=b['query_uuid']
+    assert {k:v for k,v in a['files'].items()if k!='BOUND_SHADOW_ABI.private.json'}=={
+        k:v for k,v in b['files'].items()if k!='BOUND_SHADOW_ABI.private.json'}
+    adapter._source_camera_session.model.body_mass[1]+=1
+    with pytest.raises(ValueError,match='FRESH_NATIVE_BINARY_RENDER_COPY_body_mass'):
+        paused.capture_paused_observation(adapter,binding=binding,task=task,
+            task_sha256=document_hash(task),query_uuid='32345678-1234-4234-8234-123456789abc',camera_recipe=r)
+    assert not adapter._source_camera_session.busy
+    failed=adapter.output/'PAUSED_OBSERVATIONS/32345678-1234-4234-8234-123456789abc/CAPTURE_FAILED.private.json'
+    assert failed.exists()
+    performance.close_resources(adapter)
+    assert all(x.closed for x in renderers)
+    report=json.loads((adapter.output/'COLLECTION_PERFORMANCE.private.json').read_text())
+    assert report['spans']['camera.capture_total']['count']==3
+    assert report['spans']['camera.capture_total']['failures']==1 and report['active_spans']==0
 
 
 def test_cpu_capture_retains_original_views_and_explicit_new_sensor_same_packet(tmp_path, monkeypatch):

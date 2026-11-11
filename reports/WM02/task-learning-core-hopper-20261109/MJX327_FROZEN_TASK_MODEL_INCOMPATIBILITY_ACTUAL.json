@@ -1,0 +1,186 @@
+{
+  "schema": "WM02_FROZEN_MJX327_REAL_MODEL_ADMISSION_ACTUAL_V1",
+  "observed_at_sgt": "2026-11-10T03:11:10.652422+08:00",
+  "observed_at_utc": "2026-11-09T19:11:10.652422+00:00",
+  "preflight_epoch": 1794251281.4314806,
+  "execution_public_source_sha": "0bce61a9a6f3231e2aa5f5026392c03f60cdc5c8",
+  "QUESTION": "Does version-matched MJX3.2.7 accept the actual frozen Go2+ARX5 task model before a GPU/full-chain qualification?",
+  "CHANGED": "Completed one read-only CPU model-admission call in a new isolated local runtime, using a hash-verified private copy of the original TRAIN14 model. No active capsule or runtime was edited.",
+  "ACTUAL": {
+    "status": "UNSUPPORTED_UNMODIFIED_FROZEN_MODEL",
+    "worker_exit_code": 78,
+    "worker_process_absent": true,
+    "total_worker_wall_s": 0.6494557857513428,
+    "model_copy_call_wall_s": 0.14962458610534668,
+    "backend": "CPU",
+    "x64_enabled": true,
+    "versions": {
+      "mujoco": "3.2.7",
+      "mujoco-mjx": "3.2.7",
+      "jax": "0.4.35",
+      "jaxlib": "0.4.35",
+      "numpy": "1.26.4",
+      "scipy": "1.15.3",
+      "trimesh": "4.5.3"
+    },
+    "upstream_commit": "61973a33c967c2dd2dd3a074bca29f153c09b39a",
+    "original_model": {
+      "scene_id": "TASK_LEARNING_UNDER_HAND_TRAIN14",
+      "split": "TRAIN",
+      "sha256": "21c060b2c9bc3461f9ccf25930d8ed963994482942d1f90bfaccc47981ceda79",
+      "bytes": 74468695,
+      "original_allowlist_sha256": "be5b605e9702805a4264ecaffd890195ab94575d82a83313fe20a55b97302a42",
+      "original_native_binary_sha256": "82c135c1bf5bb093cac832554b953d0017ec33e35e584865d08ca14327f3aa29",
+      "exact_allowlist_member": true,
+      "counts": {
+        "nq": 34,
+        "nv": 32,
+        "nu": 20,
+        "nbody": 28,
+        "ngeom": 79,
+        "ncam": 2,
+        "nsensor": 59,
+        "neq": 0,
+        "ntendon": 0,
+        "nplugin": 0,
+        "nmesh": 25
+      },
+      "options": {
+        "timestep": 0.002,
+        "integrator": 0,
+        "solver": 2,
+        "iterations": 100,
+        "ls_iterations": 50,
+        "cone": 1,
+        "jacobian": 2,
+        "impratio": 100.0,
+        "tolerance": 1e-08,
+        "disableflags": 0,
+        "enableflags": 0
+      }
+    },
+    "admission_call": "Original mjx.put_model with the unmodified MjModel, CPU device and default _full_compat=False.",
+    "exception_type": "NotImplementedError",
+    "exception": "(mjtGeom.mjGEOM_CYLINDER, mjtGeom.mjGEOM_BOX) collisions not implemented.",
+    "considered_collision_pairs": 469,
+    "unsupported_candidate_pairs": 108,
+    "unsupported_pair_types": [
+      {
+        "types": [
+          "mjtGeom.mjGEOM_CYLINDER",
+          "mjtGeom.mjGEOM_BOX"
+        ],
+        "count": 108
+      }
+    ],
+    "candidate_mesh_margin_pairs": 0,
+    "pair_count_interpretation": "Static candidate collision pairs considered by the original MJX collision driver, not observed contacts or failed episodes.",
+    "make_data_reached": false,
+    "numerical_integration_or_control_comparison": "NOT_RUN",
+    "package_source_sha256": {
+      "io": "6657d2d5234d427cd4bd5576d61b4f0a5902f926e9ac927e69472033d8e3eb92",
+      "collision_driver": "7111093745dfabd652d6fab9eb19be14b86ee0872276b8a67ccc515271193baf"
+    },
+    "physics_integrations": 0,
+    "GPU_allocations": 0,
+    "new_PBS_submissions": 0,
+    "ROS_WBC_or_leg_policy_processes": 0,
+    "new_training_demonstrations": 0,
+    "installed_io_and_collision_driver_match_pinned_official_commit": true
+  },
+  "NEGATIVE": [
+    "Version-matched MJX supports the declared Euler/Newton/elliptic categories, but that does not imply support for every actual model collision pair. This actual model admission fails on cylinder-box pairs.",
+    "The model has nonzero margins on visual meshes, but none of the actual candidate mesh-margin pairs triggered this check. Do not misattribute the observed rejection to the raw mesh-margin count.",
+    "No GPU, integration, sensor dynamics, camera, WBC, numerical fidelity, complete task or parallel-world qualification was performed.",
+    "No geometry, contact masks, sensor set, margins, solver, dynamics or 2ms timestep was changed to bypass the rejection.",
+    "This rejects the examined unmodified MJX3.2.7 route, not every possible future compatible backend. The earlier bounded MJWarp package-version result remains separate."
+  ],
+  "DECISION": "Do not submit this backend to Hopper or scale it. Preserve the actual incompatibility and existing original-MuJoCo mainline. A version-matched package alone is not the missing full-chain bridge.",
+  "NEXT_GATE": "A concrete implementation covering original collision pairs without changing their geometry/control semantics, then preregistered single-world numerical, controller, camera and full-task qualification; only after that consider2to4096 worlds.",
+  "mainline_current": {
+    "PBS_jobs": {
+      "708392.hopper-m-02": {
+        "job_state": "Q",
+        "project": "CFP04-CF-007",
+        "comment": "Not Running: Insufficient amount of resource: ngpus ",
+        "Exit_status": null
+      },
+      "707720.hopper-m-02": {
+        "job_state": "Q",
+        "project": "CFP04-CF-007",
+        "comment": "Not Running: Insufficient amount of resource: ngpus ",
+        "Exit_status": null
+      },
+      "708946.hopper-m-02": {
+        "job_state": "Q",
+        "project": "CFP04-CF-007",
+        "comment": "Not Running: Insufficient amount of resource: ngpus ",
+        "Exit_status": null
+      }
+    },
+    "controller_handles": [
+      {
+        "name": "FULL100_HOPPER2_CONTINUATION06",
+        "pid": 3842363,
+        "actual_process_identity_verified": true,
+        "stage": "WAIT_FIRST_ACTUAL_PROCESSOR_OR_H100_RESTORE"
+      },
+      {
+        "name": "ENDPOINT_SUCCESSORS_V2",
+        "pid": 3846655,
+        "actual_process_identity_verified": true,
+        "stage": "WAIT_ACTUAL_FIRST_COMPLETE_DEV_DECISION"
+      },
+      {
+        "name": "CORE_TASK_POLICY_V2",
+        "pid": 3665222,
+        "actual_process_identity_verified": true,
+        "stage": "WAIT_ACTUAL_PACKAGE_AND_SHARED_CAPACITY"
+      }
+    ],
+    "formal_SFT_started": false,
+    "private_candidate_delivered": false,
+    "student_DEV_conditions": 0,
+    "TEST_opened": false,
+    "goal_status": "ACTIVE"
+  },
+  "primary_upstream_sources": [
+    "https://mujoco.readthedocs.io/en/3.2.7/mjx.html#feature-parity",
+    "https://github.com/google-deepmind/mujoco/blob/61973a33c967c2dd2dd3a074bca29f153c09b39a/mjx/pyproject.toml",
+    "https://github.com/google-deepmind/mujoco/blob/61973a33c967c2dd2dd3a074bca29f153c09b39a/mjx/mujoco/mjx/_src/io.py"
+  ],
+  "private_evidence": [
+    {
+      "kind": "PROTOCOL",
+      "sha256": "cb1f6c7fb3c8180d18209126ad6124649dd64592559ea46391d606b3a3973cd9"
+    },
+    {
+      "kind": "preflight.private.py",
+      "sha256": "508693e1a5ee869ea935a5337fd193fef7dc339f436f7020e2d60ffe024ff7d1"
+    },
+    {
+      "kind": "PRIVATE_MODEL_TRANSFER_ACTUAL",
+      "sha256": "9f17e6f85bae44e91331539337117611915c4208a4fb6f42c82ea994e4aed581"
+    },
+    {
+      "kind": "ORIGINAL_ALLOWLIST_MEMBER_ACTUAL",
+      "sha256": "938c6f0061df31c844cda0bfd6fd1c93514c745b558ebd3a44c1a5cf773c446b"
+    },
+    {
+      "kind": "RESULT",
+      "sha256": "6f39b3437e9c18a22c906ca4fdc6ce19b730cf07a59bbd624ad7acfeb02201db"
+    },
+    {
+      "kind": "WORKER_EXIT_ACTUAL",
+      "sha256": "77a0c2368c99c3633d7cc0ea90777065ce06a74e2a857b36fc904007ee35e217"
+    },
+    {
+      "kind": "MJX327_AND_MAINLINE_CURRENT_1794251470",
+      "sha256": "a773d352d6f6ff6abd624e12ccaa5457f6a74b2ceb6b07bc6593efe74748abbe"
+    },
+    {
+      "kind": "OFFICIAL_PINNED_SOURCE_MATCH_ACTUAL",
+      "sha256": "3328b25bb61d77d95528e977920927adb7877e9e225703f9366af3c53f145400"
+    }
+  ]
+}

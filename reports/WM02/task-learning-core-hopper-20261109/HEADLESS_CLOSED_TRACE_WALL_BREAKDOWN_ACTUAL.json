@@ -1,0 +1,83 @@
+{
+  "schema": "TASK_LEARNING_HEADLESS_CLOSED_TRACE_WALL_BREAKDOWN_READONLY_V1",
+  "epoch": 1794207091.548509,
+  "native_run": "task-learning-grasp-headless-qualification-20261109-03",
+  "source_sha": "25e05213860a1e580090e13f1b9b68f08d5e9aab",
+  "trace_records": 160500,
+  "trace_dropped": 0,
+  "all_physics_steps": {
+    "count": 21203,
+    "sum_wall_s": 1.252738429,
+    "median_ms": 0.052875000000000005,
+    "p95_ms": 0.11099880000000001,
+    "maximum_ms": 1.4057410000000001,
+    "span_first_begin_to_last_end_s": 300.545697571
+  },
+  "post_readiness_physics_steps": {
+    "count": 15500,
+    "sum_wall_s": 0.896254607,
+    "median_ms": 0.049870000000000005,
+    "p95_ms": 0.11012944999999999,
+    "maximum_ms": 1.4057410000000001,
+    "span_first_begin_to_last_end_s": 241.196348195
+  },
+  "all_leg_policy_inferences": {
+    "count": 2121,
+    "sum_wall_s": 1.145447008,
+    "median_ms": 0.49726000000000004,
+    "p95_ms": 0.788047,
+    "maximum_ms": 18.52288,
+    "span_first_begin_to_last_end_s": 300.532139576
+  },
+  "post_readiness_leg_policy_inferences": {
+    "count": 1550,
+    "sum_wall_s": 0.8318729060000001,
+    "median_ms": 0.499099,
+    "p95_ms": 0.8030667999999999,
+    "maximum_ms": 2.0278880000000004,
+    "span_first_begin_to_last_end_s": 241.131223951
+  },
+  "between_step_gaps": {
+    "between_quota_boundaries": {
+      "count": 20354,
+      "sum_wall_s": 85.727736238,
+      "median_ms": 1.3592155000000001,
+      "p95_ms": 21.939232450000002,
+      "maximum_ms": 42.124421000000005
+    },
+    "at_quota_boundaries": {
+      "count": 833,
+      "sum_wall_s": 169.021406813,
+      "median_ms": 166.53924800000001,
+      "p95_ms": 558.572197,
+      "maximum_ms": 1730.437148
+    },
+    "at_Teacher_query_boundaries": {
+      "count": 15,
+      "sum_wall_s": 44.543816091,
+      "median_ms": 3010.733525,
+      "p95_ms": 3564.431109699999,
+      "maximum_ms": 4121.709922
+    }
+  },
+  "worker": {
+    "exit_code": 0,
+    "failure": null,
+    "wall_s": 318.8019313099794,
+    "CPU_s": 143.39467051,
+    "child_CPU_s": 93.99548200000001
+  },
+  "baseline_worker": {
+    "exit_code": 0,
+    "failure": null,
+    "wall_s": 318.34978761198,
+    "CPU_s": 143.82760341699998,
+    "child_CPU_s": 559.864296
+  },
+  "physical_step_sum_and_nonoverlapping_gaps_reconstruct_first_to_last_span": true,
+  "boundary_gaps_include_multiple_causes_not_instrumented_function_self_times": true,
+  "new_integrations": 0,
+  "new_model_updates": 0,
+  "baseline_native_run": "task-learning-grasp-construction-20261109-11",
+  "interpretation": "Physical-step self-times and nonoverlapping inter-step gaps exactly reconstruct first-to-last step span. Query boundary gaps include actual camera, Teacher, pause and command work, not isolated camera self-time. Headless reduces child CPU but does not demonstrate wall acceleration."
+}

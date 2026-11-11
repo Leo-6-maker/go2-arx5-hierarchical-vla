@@ -1,0 +1,63 @@
+{
+  "schema": "TASK_LEARNING_G2_CONSTRUCTION_ACTUAL_V1",
+  "run_id": "task-learning-grasp-construction-20261109-03",
+  "source_sha": "fa78def97b7dc45d47f2fe3bfd3302470b7c1510",
+  "status": "CLOSED_ENGINEERING_PROGRESS_INDEX_FAILURE_AFTER_ONE_REAL_TEACHER_CHUNK",
+  "failure": "EXCLUSIVE_CREATE_WRITER_USED_FOR_REPEATED_CAPTURE_PROGRESS_INDEX",
+  "actual_physics_integrations": 36303,
+  "post_initialization_hold_integrations": 1000,
+  "real_Teacher_chunk_integrations": 1000,
+  "Teacher_decisions": 1,
+  "confirmed_Teacher_50ms_commands": 40,
+  "all40_first_Teacher_knots_consumed": true,
+  "qualified_full_demonstrations": 0,
+  "formal_Teacher_qualification_attempts": 0,
+  "post_hold_readiness": {
+    "contract": {
+      "schema": "WM02_TARGET_GR00T_START_VELOCITY_READINESS_V1",
+      "decision_step": 35303,
+      "maximum_BASE_linear_speed_m_s": 0.001,
+      "maximum_BASE_angular_speed_rad_s": 0.005,
+      "physics_dt_s": 0.002,
+      "initial_state_reset": false,
+      "extra_settling_integrations": 1000,
+      "WBC_or_startup_changed": false,
+      "original_standing_limits_changed": false,
+      "rejected_condition_retried": false,
+      "old_outcomes_relabelled": false,
+      "reset_revision": "V2_EXPLICIT_TWO_SECOND_REFERENCE_HOLD",
+      "native_clock_rebased": false
+    },
+    "native_step": 35303,
+    "BASE_qvel6": [
+      -5.575528708635066e-06,
+      2.6950896324854425e-06,
+      -7.626438994200413e-05,
+      -5.187958429272157e-05,
+      -0.0008364214968632181,
+      0.00014188752584369963
+    ],
+    "BASE_linear_speed_m_s": 7.651540499620978e-05,
+    "BASE_angular_speed_rad_s": 0.0008499555762928662,
+    "passes": true,
+    "new_task_teacher_proposals_before_check": 0,
+    "original_thresholds_changed": false,
+    "native_clock_rebased": false
+  },
+  "shutdown_clean": true,
+  "all_child_exit_codes": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "physics_stops": [],
+  "worker_exit_code": 1,
+  "wall_s": 530.6177767780609,
+  "CPU_s": 1103.394650543,
+  "cgroup_peak_bytes": 5370007552,
+  "task_success": false,
+  "expert_training_eligible": false,
+  "WBC_startup_native_safety_dynamics_or_2ms_changed": false,
+  "next_action": "USE_EXISTING_ATOMIC_DURABLE_WRITER_FOR_MUTABLE_PROGRESS; IMMUTABLE_DECISIONS_REMAIN_EXCLUSIVE; FRESH_SUCCESSOR_ONLY"
+}

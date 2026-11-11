@@ -85,7 +85,7 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
          ('collect-target-stable-task-eval-v1', 'STABLE_TASK_EVAL_V1'),
          ('collect-target-stable-task-closed-loop-v1', 'STABLE_TASK_CLOSED_LOOP_V1'),
                  ('collect-target-gr00t-prefix-loop-v1','TARGET_GR00T_PREFIX_LOOP_V1'),
-         ('collect-target-teacher-prefix-diagnostic-v1','TARGET_TEACHER_PREFIX_DIAGNOSTIC_V1'))
+         ('collect-target-teacher-prefix-diagnostic-v1','TARGET_TEACHER_PREFIX_DIAGNOSTIC_V1'),('collect-target-task-learning-grasp-v1','TASK_LEARNING_GRASP_LIFT_HOLD_V1'))
          and isinstance(source_members, tuple) and set(SOURCE_MEMBERS) <= set(source_members),
          'EXPLICIT_KNOWN_RECIPE_CALLER_RETAINS_ALL_SHARED_SOURCE_CHECKS')
     need(spec.get('phase') == actual_phase and spec.get('kind') == actual_kind
@@ -97,13 +97,15 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
     live_skill = actual_phase in ('collect-target-fusion-task-phase-live-skill-v8',
                                  'collect-target-fusion-task-phase-live-skill-v9',
                                  'collect-target-stable-start-short-v1',
-                                 'collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1')
+                                 'collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1','collect-target-task-learning-grasp-v1')
     need(not any(spec.get(k) for k in ('fusion_binding', 'night1_binding', 'next1_binding', 'next2_binding',
         'parallel_batch_spec', 'standby_shutdown_diagnostic', 'reference_readiness_probe', 'diagnostic_debugger')),
          'SINGLE_WORLD_WITHOUT_ALTERNATIVE_BINDING_OR_DEBUGGER')
-    new_data = actual_phase in ('collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1')
+    new_data = actual_phase in ('collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1','collect-target-task-learning-grasp-v1')
     if new_data:
-        if actual_phase=='collect-target-teacher-prefix-diagnostic-v1':
+        if actual_phase=='collect-target-task-learning-grasp-v1':
+            from .task_learning_grasp_native_v1 import validate
+        elif actual_phase=='collect-target-teacher-prefix-diagnostic-v1':
             from .target_teacher_prefix_diagnostic_v1 import validate
         elif actual_phase=='collect-target-gr00t-prefix-loop-v1':
             from .target_gr00t_native_loop_v1 import validate
@@ -154,8 +156,10 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
              'ACTUAL_VERSIONED_ON_DISK_EPISODE_NOT_A_RELABELLED_VIEW')
     if actual_phase == 'collect-target-fusion-task-phase-bias-fade-v8':
         from .fusion_task_phase_bias_fade_v8 import endpoint as actual_endpoint
+    elif actual_phase == 'collect-target-task-learning-grasp-v1':
+        from .task_learning_preparation_v1 import endpoint as actual_endpoint
     elif actual_phase in ('collect-target-fusion-task-phase-live-skill-v9',
-                          'collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1'):
+                          'collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1','collect-target-task-learning-grasp-v1'):
         from .fusion_task_phase_pose_slow_feedback_v9 import endpoint as actual_endpoint
     elif actual_phase in ('collect-target-fusion-task-phase-pose-continuation-v7',
                           'collect-target-fusion-task-phase-live-skill-v8'):
@@ -169,18 +173,24 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
     else:
         actual_endpoint = recipe.endpoint
     live_end = 66503
-    if actual_phase in ('collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1'): live_end = 38703
+    if actual_phase in ('collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1','collect-target-task-learning-grasp-v1'): live_end = 38703
     if actual_phase=='collect-target-stable-task-closed-loop-v1':live_end=43503
-    if actual_phase in('collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1'):live_end=40503
+    if actual_phase in('collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1','collect-target-task-learning-grasp-v1'):live_end=40503
+    if actual_phase=='collect-target-task-learning-grasp-v1':
+        from .task_learning_grasp_v1 import E as live_end
     if c01:live_end=38703 if spec.get('task_condition')==CPU_CONDITION else 34303
     if actual_phase == 'collect-target-fusion-task-phase-live-skill-v9':
         from .fusion_task_reference_diagnostic_v1 import SHORT_TASK_CONDITION, endpoint, validate_registration
         if spec.get('task_condition') == SHORT_TASK_CONDITION:
             validate_registration(spec)
             live_end = endpoint(SHORT_TASK_CONDITION)
-    clock = (actual_endpoint(episode) == spec.get('live_skill_start_step') == 34303
-             and episode['geometry_scale'] == .5 and spec.get('max_ticks') == live_end) if live_skill else (
-             spec.get('max_ticks') == actual_endpoint(episode))
+    if actual_phase=='collect-target-task-learning-grasp-v1':
+        from .task_learning_grasp_v1 import CALIBRATION_B
+        clock=actual_endpoint(episode)==spec.get('live_skill_start_step')==CALIBRATION_B and spec.get('max_ticks')==live_end
+    else:
+        clock = (actual_endpoint(episode) == spec.get('live_skill_start_step') == 34303
+                 and episode['geometry_scale'] == .5 and spec.get('max_ticks') == live_end) if live_skill else (
+                 spec.get('max_ticks') == actual_endpoint(episode))
     need(episode['run'] == spec['registered_root'] and type(spec.get('max_ticks')) is int and clock
          and spec.get('reference_binding_version') == 'MEASURED_EEF_AND_BASE_POSE_HOLD_V2',
          'PREDECLARED_STATIC_EPISODE_RUN_AND_EXACT_ENDPOINT')
@@ -210,14 +220,15 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
     else:geometry.validate_trace_capacity_failure(spec)
     path = Path(spec['trajectory_trace_capacity_build'])
     build = _json(path, TRACE_BUILD)
+    from .auto1_native import native_prefix_predecessor
     need(build.get('status') == 'TRACE_ONLY_524288_CAPACITY_COMPILED_LOADER_VERIFIED_NOT_NATIVE_QUALIFIED'
          and build.get('trace_capacity') == 524288 and build.get('new_target_integrations') == 0
          and build.get('trace_library_sha256') == digest(spec['trace_library'])
-         and build.get('native_binary_sha256') == digest(spec['native_binary'])
+         and build.get('native_binary_sha256') == native_prefix_predecessor(spec)
          and build.get('observer_sha256') == digest(spec['observer_library'])
          and all(build.get('source_files', {}).get(name) == files[name] for name in (
              'src/go2arx5_vla/target_mujoco/init_trace.cpp', 'src/go2arx5_vla/target_mujoco/init_trace.hpp')),
-         'ACTUAL_TRACE_ONLY_BUILD03_UNCHANGED_NATIVE_BYTES')
+         'ACTUAL_TRACE_ONLY_BUILD03_BOUND_NATIVE_LINEAGE')
     common._closed(path.parent.parent)
     return episode, _source(spec)
 

@@ -1,0 +1,67 @@
+{
+  "schema": "GR00T_WBC_LONG_HORIZON_V2_TAKEOVER_ACTUAL_V1",
+  "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
+  "previous_goal_turn": "PROGRESS_SOURCE_IMPLEMENTATION_AND_VERIFIED_WAIT",
+  "QUESTION": "Which real successors are ready, without duplicating healthy producers?",
+  "CHANGED": "Adopted immutable V2 by Git object reads; execution checkout retained; concrete scientific endpoint contract implemented before formal SFT results.",
+  "ACTUAL": {
+    "Teacher_group": {
+      "observed": {
+        "UTC": "2026-11-09T10:16:32.775868+00:00",
+        "SGT": "2026-11-09T18:16:32.775868+08:00"
+      },
+      "completed_recovery": 33,
+      "successes": 33,
+      "first50_completed": 50,
+      "full100_complete": false,
+      "hard_stops": 0,
+      "source_sha": "dc418f48243bd1939d631d3b82e67213fd747e82",
+      "input_sha256": "9b5fbcb94ca8e34ec896317e5225832ba9f5e71cd1cbd73d17b22cf1d9712128",
+      "panel_sha256": "fc50e2e207c95cdf4a766d4f86f7be35d45643bc5fba1821a62ca95fab798485"
+    },
+    "identity_audit": {
+      "observed": {
+        "UTC": "2026-11-09T10:21:23.535777+00:00",
+        "SGT": "2026-11-09T18:21:23.535777+08:00"
+      },
+      "all_checks_pass": true,
+      "physical_and_campaign_locks_held_by_actual_owned_native_worker": true,
+      "neural_lock_observed_free": true
+    },
+    "Hopper_scan": {
+      "observed": {
+        "UTC": "2026-11-09T10:16:58.274985+00:00",
+        "SGT": "2026-11-09T18:16:58.274985+08:00"
+      },
+      "job_id": "707720.hopper-m-02",
+      "state": "Q",
+      "reason": "Not Running: Insufficient amount of resource: ngpus ",
+      "allocation": {
+        "ngpus": 1,
+        "ncpus": 12,
+        "mem": "225GB",
+        "walltime": "02:00:00"
+      },
+      "config_sha256": "f3f5c604b7d03e553db4ed4c30f0b5318b9d7abad6fd5f81f70fbe87aeaa11ca",
+      "scan_results_available": false
+    },
+    "existing_continuations": {
+      "data_to_first2000": "ORIGINAL_PROCESS_VERIFIED_PID_START_ID_ALIVE_WAITING_TRAIN_SECOND50",
+      "performance8": "ORIGINAL_PROCESS_VERIFIED_PID_START_ID_ALIVE_WAITING_CORE_EXPORT",
+      "duplicates_started": 0
+    }
+  },
+  "NEGATIVE": {
+    "formal_task_SFT": "NOT_RUN",
+    "student_native_DEV": "NOT_RUN",
+    "native_performance": "NOT_RUN_PENDING_ORIGINAL_COLD_GATE",
+    "GPU_physics": "NO_QUALIFIED_COMPATIBLE_BACKEND_YET"
+  },
+  "DECISION": "Preserve running collector, queued707720 and both existing finite continuations. Freeze exact scientific rule and implement missing delivery/DEV continuation while dependencies run.",
+  "NEXT_GATE": {
+    "data": "ACTUAL_FULL100_AND_CORE_PROCESSOR; existing worker owns next action",
+    "formal_SFT": "ACTUAL_HOPPER_PROCESSOR_AND_RUNTIME_ADMISSION; use measured scan or explicitly superseded microbatch1 successor per V2 section6.1",
+    "policy": "ACTUAL_PACKAGE_TRANSFER_CORE40_FULL80DEV_AND_RECOMPUTED_DECISION",
+    "performance": "EXISTING_EIGHT_CONDITIONS_ONLY"
+  }
+}

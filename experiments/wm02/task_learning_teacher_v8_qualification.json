@@ -1,0 +1,21 @@
+{
+  "schema": "TEACHER_V8_RECOVERY24_QUALIFICATION_V1",
+  "role": "TEACHER_V8_RECOVERY24_QUALIFICATION_NOT_BC_V1",
+  "Teacher": "TEACHER_V8_CURRENT_STATE_MARGIN_RECOVERY_V1",
+  "population": "Three recovery conditions x four sealed TRAIN qualification layouts x two independent restarts =24 new requests",
+  "conditions": ["UNDER_CLOSE", "SUPPORTED_SIDE_OFFSET", "SUPPORTED_SINGLE_PAD"],
+  "known_static_scene_proofs_and_old_Teacher_qualification": "Reused for custody; old native results never relabelled as new V8 qualification",
+  "current_state_inputs": ["actual object pose", "actual native grasp and left/right pad contact", "actual table support", "measured TCP", "last solver-and-gripper-confirmed nominal command"],
+  "gripper": "At most0.7 nominal travel per original1.95s H40, designed peak <=0.03m/s; measured opening is not command history",
+  "supported_release": "Hold actual full TCP pose before lateral/orientation alignment; never open unsupported or actually grasped object",
+  "geometry": "Candidate grasp Z offset0.0135m; saved isolated link6/cube clearance study is not full robot/reference qualification",
+  "clock": "Original15 H40 decisions,50ms action and2ms physics, original5703..21203 horizon and unchanged score",
+  "qualification": ">=22/24 genuine complete recoveries and>=7/8 each type, zero hard stops; report technical failures separately",
+  "genuine_recovery": "Exactly one labelled intervention, newly observed declared non-grasp recovery state, later actual native grasp, and original complete task success",
+  "condition_not_established": "Retain failed request in full denominator; never manufacture a dynamic recovery claim",
+  "BC_demonstrations": 0,
+  "student_rollin_states": 0,
+  "DAgger_labels": 0,
+  "WBC_legs_dynamics_dt_safety": "UNCHANGED",
+  "execution": "Existing serial native worker, Journal, registry and single physical owner; fresh finite scope only"
+}

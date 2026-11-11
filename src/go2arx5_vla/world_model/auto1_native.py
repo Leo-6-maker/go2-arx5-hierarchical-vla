@@ -15,6 +15,9 @@ def validate_parent_loader(expected,actual):
     if not expected or actual!=expected:raise PermissionError('AUTO1_NATIVE_PARENT_LOADER_ENV_NOT_BOUND_AT_EXEC')
 
 def phase_limit(phase,previous,spec=None):
+    if phase=='collect-target-task-learning-grasp-v1':
+        from .task_learning_grasp_native_v1 import episode_limit
+        return episode_limit(spec,previous)
     if phase=='collect-target-teacher-prefix-diagnostic-v1':
         from .target_teacher_prefix_diagnostic_v1 import episode_limit
         return episode_limit(spec,previous)
@@ -130,7 +133,7 @@ def validate_scope(spec,lease,registry,*,host,uid,now):
     root=Path(spec['campaign_root']);binding=Path(spec['campaign_binding'])
     from .storage import digest
     if spec.get('diagnostic_debugger')and(spec.get('standby_shutdown_diagnostic')is not True or spec['phase']!='cold-1'):raise PermissionError('DEBUGGER_ONLY_FOR_ZERO_TICK_STANDBY_DIAGNOSIS')
-    wall_bound=1200 if spec.get('phase')in('collect-target-fusion-c02-source-state-feedback-v2','collect-target-fusion-c02-source-state-initialization-v1','collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1','collect-target-fusion-paused-query-v2','collect-target-fusion-live-proposal-qualification-v3','collect-target-fusion-source-posture-qualification-v1','collect-target-fusion-source-posture-query-v3','collect-target-fusion-task-phase-initialization-v1','collect-target-fusion-task-phase-bias-calibration-v2','collect-target-fusion-task-phase-bias-continuation-v3','collect-target-fusion-task-phase-xyz-feedback-v4','collect-target-fusion-task-phase-xyz-feedback-continuation-v5','collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1')else 600
+    wall_bound=1200 if spec.get('phase')in('collect-target-fusion-c02-source-state-feedback-v2','collect-target-fusion-c02-source-state-initialization-v1','collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1','collect-target-fusion-paused-query-v2','collect-target-fusion-live-proposal-qualification-v3','collect-target-fusion-source-posture-qualification-v1','collect-target-fusion-source-posture-query-v3','collect-target-fusion-task-phase-initialization-v1','collect-target-fusion-task-phase-bias-calibration-v2','collect-target-fusion-task-phase-bias-continuation-v3','collect-target-fusion-task-phase-xyz-feedback-v4','collect-target-fusion-task-phase-xyz-feedback-continuation-v5','collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1','collect-target-task-learning-grasp-v1')else 600
     if (spec['domain']!='WM02_AUTO1_TARGET_COMMISSION_V1'or spec['physics']is not True
             or spec['site_profile']!='4080-simulation'or spec['owner']!='EXISTING_LOCAL_PC'
             or host!='corelab-4080s'or uid!=2009 or spec['host']!=host or spec['uid']!=uid
@@ -149,7 +152,7 @@ def admitted_target(spec_path,run_id,output):
     previous=json.loads(Path(spec['previous_stage']).read_text())if spec.get('previous_stage')else None
     if previous is not None:
         if (digest(spec['previous_stage'])!=spec['previous_stage_sha256']or previous.get('campaign_uuid')!=campaign.name
-                or previous.get('native_binary_sha256')!=digest(spec['native_binary'])or previous.get('observer_sha256')!=digest(spec['observer_library'])):raise PermissionError('PREVIOUS_STAGE_NOT_BOUND_TO_THIS_CANDIDATE')
+                or previous.get('native_binary_sha256')!=native_prefix_predecessor(spec)or previous.get('observer_sha256')!=digest(spec['observer_library'])):raise PermissionError('PREVIOUS_STAGE_NOT_BOUND_TO_THIS_CANDIDATE')
     if type(spec['candidate_index'])is not int or spec['candidate_index']<1 or(not(spec.get('night1_binding')or spec.get('next1_binding')or spec.get('next2_binding')or spec.get('pilot1_binding'))and spec['candidate_index']>6):raise PermissionError('ACTUAL_CANDIDATE_IDENTITY_REQUIRED')
     limit=phase_limit(spec['phase'],previous,spec)
     if spec['max_ticks']!=limit:raise PermissionError('AUTO1_EXACT_PHASE_TICK_LIMIT_REQUIRED')
@@ -201,15 +204,73 @@ def admitted_target(spec_path,run_id,output):
         finally:native_lock.close()
     finally:campaign_lock.close()
 
+def native_prefix_predecessor(spec):
+    """Retain a historical prefix's real identity after the exact sensor repair.
+
+    The observer, outer wrapper and enlarged trace remain the previously bound
+    runtime libraries. This only admits a new construction/qualification run;
+    no historical result is rewritten as a pass for the repaired executable.
+    """
+    from .storage import digest
+    if spec.get('native_ui_build')or spec.get('native_ui_rate'):
+        from .native_ui_rate_v1 import baseline_spec
+        spec=baseline_spec(spec)
+    actual=digest(spec['native_binary'])
+    if not spec.get('sensor_handoff_previous_candidate_receipt'):return actual
+    from .native_state_snapshot import VERSION
+    if spec.get('phase')!='collect-target-task-learning-grasp-v1':
+        raise PermissionError('SENSOR_SUCCESSOR_ONLY_FOR_FRESH_TASK_LEARNING_NATIVE_RUNS')
+    standing_repair_ancestor(spec)
+    build=json.loads(Path(spec['cold_history_build_spec']).read_text())
+    path=Path(spec['sensor_handoff_previous_candidate_receipt'])
+    prior=json.loads(path.read_text());root=path.parent
+    if (build.get('robot_state_handoff')!=VERSION
+            or digest(path)!=spec.get('sensor_handoff_previous_candidate_receipt_sha256')
+            or root/'rl_sim_mujoco.cpp'!=Path(build['robot_state_handoff_predecessor_cpp'])
+            or prior.get('status')!='INIT_CANDIDATE_COMPILED_AND_LOADER_VERIFIED_NOT_NATIVE_QUALIFIED'
+            or prior.get('candidate_sources',{}).get('rl_sim_mujoco.cpp')!=digest(root/'rl_sim_mujoco.cpp')
+            or prior.get('candidate_sources',{}).get('rl_sdk.cpp')!=digest(root/'rl_sdk.cpp')
+            or prior.get('binary_sha256')!=digest(root/'rl_sim_mujoco')
+            or digest(root/'observer.so')!=digest(spec['observer_library'])
+            or digest(root/'task_actuation_r1.so')!=digest(spec['outer_library'])):
+        raise PermissionError('EXACT_OLD_PREFIX_BINARY_AND_UNCHANGED_RUNTIME_LIBRARIES_REQUIRED')
+    return prior['binary_sha256']
+
+
 def standing_repair_ancestor(spec):
     """Bind the preserved reference failure to a math-preserving runtime successor."""
     from .storage import digest
+    if spec.get('native_ui_build')or spec.get('native_ui_rate'):
+        from .native_ui_rate_v1 import baseline_spec
+        spec=baseline_spec(spec)
     actual=digest(spec['native_binary'])
     if not spec.get('cold_history_build_receipt'):return actual
     for key in('cold_history_build_receipt','cold_history_build_spec'):
         if digest(spec[key])!=spec[key+'_sha256']:raise PermissionError('COLD_HISTORY_BUILD_PROOF_CHANGED')
     receipt=json.loads(Path(spec['cold_history_build_receipt']).read_text());build=json.loads(Path(spec['cold_history_build_spec']).read_text())
     pair=build.get('command_pair_coherence')
+    handoff=build.get('robot_state_handoff')
+    if handoff is not None:
+        from .native_state_snapshot import VERSION,patch as sensor_patch
+        root=Path(spec['cold_history_build_receipt']).parent
+        old=Path(build['robot_state_handoff_predecessor_cpp'])
+        old_sdk=Path(build['robot_state_handoff_predecessor_sdk'])
+        header=Path(spec['source_root'])/'src/go2arx5_vla/target_mujoco/state_snapshot.hpp'
+        runtime_trace=old.parent/'libwm02_init_trace.so'
+        if (handoff!=VERSION or receipt.get('robot_state_handoff')!=VERSION
+                or digest(old)!=build.get('robot_state_handoff_predecessor_cpp_sha256')
+                or digest(old_sdk)!=build.get('robot_state_handoff_predecessor_sdk_sha256')
+                or digest(root/'state_snapshot.hpp')!=digest(header)
+                or digest(header)!=receipt.get('state_snapshot_header_sha256')
+                or (root/'rl_sim_mujoco.cpp').read_text()!=sensor_patch(old.read_text())
+                or (root/'rl_sdk.cpp').read_text()!=old_sdk.read_text()
+                or receipt.get('robot_state_handoff_inverse_text_identical')is not True
+                or receipt.get('robot_state_handoff_PD_waits')is not False
+                or receipt.get('robot_state_handoff_sensor_filters')is not False
+                or build.get('sensor_handoff_frozen_trace_dependency')!=str(runtime_trace)
+                or build.get('frozen_files',{}).get(str(runtime_trace))!=digest(runtime_trace)
+                or receipt.get('sensor_handoff_frozen_trace_dependency_sha256')!=digest(runtime_trace)):
+            raise PermissionError('EXACT_LOCKFREE_SENSOR_SNAPSHOT_MATH_PRESERVING_PROOF_REQUIRED')
     clock=build.get('physical_callback_clock')
     if clock is not None:
         header=Path(spec['cold_history_build_receipt']).parent/'control_clock.hpp'

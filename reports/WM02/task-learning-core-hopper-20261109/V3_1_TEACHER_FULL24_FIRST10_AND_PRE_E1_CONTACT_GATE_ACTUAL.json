@@ -1,0 +1,3874 @@
+{
+  "schema": "V3_1_TEACHER_FULL24_FIRST10_ACTUAL_AND_ORIGINAL_CONTACT_GATE_AUDIT_V1",
+  "generated_UTC": "2026-11-11T05:37:12.901264+00:00",
+  "observation_UTC": "2026-11-11T05:35:02.319321+00:00",
+  "observation_SGT": "2026-11-11T13:35:02.319321+08:00",
+  "QUESTION": "Can unchanged recovery delegates pass the independently registered24; what exactly failed before E1 in SINGLE02?",
+  "CHANGED": "Only read-only saved-state audits; live source, intervention, panel, original native gates and scoring unchanged.",
+  "ACTUAL": {
+    "runtime_source": "1c0eb4c9fbf7452252b28c6382f82f8866036356",
+    "panel_sha256": "55349d75f86efafbbc37e6d289d599ac2e26e39f1168a075a8e729dfbb7e9f09",
+    "preregistration_sha256": "767bd29c27782c1bf0599a768c007be84a4b4fb4c425851a9383ffa2e44003e8",
+    "input_sha256": "0affd42c984217804928d530e54574408da73ced237c2ffba495a781163d7e71",
+    "summary": {
+      "schema": "TEACHER_V9_REPAIRED_E1_FULL24_SUMMARY_V1",
+      "requested": 24,
+      "completed": 10,
+      "complete": false,
+      "per_type": {
+        "UNDER_CLOSE": {
+          "requested": 8,
+          "completed": 4,
+          "E1_established": 4,
+          "E2_evaluable": 4,
+          "E2_recovered": 4,
+          "P_E2_given_E1": 1.0,
+          "E3_original_task_successes": 4,
+          "genuine_recovery_successes": 4
+        },
+        "SUPPORTED_SIDE_OFFSET": {
+          "requested": 8,
+          "completed": 3,
+          "E1_established": 3,
+          "E2_evaluable": 3,
+          "E2_recovered": 3,
+          "P_E2_given_E1": 1.0,
+          "E3_original_task_successes": 3,
+          "genuine_recovery_successes": 3
+        },
+        "SUPPORTED_SINGLE_PAD": {
+          "requested": 8,
+          "completed": 3,
+          "E1_established": 2,
+          "E2_evaluable": 2,
+          "E2_recovered": 2,
+          "P_E2_given_E1": 1.0,
+          "E3_original_task_successes": 2,
+          "genuine_recovery_successes": 2
+        }
+      },
+      "genuine_recovery_successes": 9,
+      "technical_failure_conditions": 0,
+      "hard_safety_stop_conditions": 0,
+      "passes": false,
+      "thresholds": {
+        "minimum_total": 22,
+        "minimum_per_condition": 7,
+        "maximum_hard_safety_stops": 0,
+        "maximum_technical_failures": 0
+      },
+      "qualified_training_demonstrations": 0,
+      "GR00T_queries": 0,
+      "model_updates": 0,
+      "DAgger_labels": 0,
+      "original_V8_and_small4_populations_unchanged": true
+    },
+    "completed_conditions": [
+      {
+        "native_run": "tl-v9-full24-20261111-01-recovery01-r1-under_close",
+        "layout": "RECOVERY01",
+        "restart": 1,
+        "recovery_condition": "UNDER_CLOSE",
+        "offset_sign": 1,
+        "attempted": true,
+        "reset_ready": true,
+        "task_success": true,
+        "technical_valid": true,
+        "hard_safety_stop": false,
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_native_integrations": 21203,
+        "worker_exit_code": 0,
+        "first_failure": null,
+        "wall_s": 419.1894150339067,
+        "CPU_s": 744.886615409,
+        "score": {
+          "contract": {
+            "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+            "minimum_lift_m": 0.02,
+            "continuous_hold_s": 1.0,
+            "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+            "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+            "maximum_object_linear_speed_m_s": 0.02,
+            "standing": {
+              "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+              "maximum_base_displacement_m": 0.02,
+              "maximum_base_rotation_rad": 0.08726646259971647,
+              "maximum_foot_planar_displacement_m": 0.005,
+              "minimum_supported_feet": 3,
+              "minimum_actual_floor_normal_force_N": 0.05,
+              "old_short_task_pose_diagnostic": {
+                "maximum_base_displacement_m": 0.002,
+                "maximum_base_rotation_rad": 0.008726646259971648
+              },
+              "original_native_safety_changed": false,
+              "task_score_bounds_are_native_safety": false,
+              "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+            },
+            "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+            "success_requires_all": true
+          },
+          "samples": 621,
+          "maximum_object_lift_m": 0.026434900815133444,
+          "longest_contiguous_grasp_lift_hold_s": 7.3,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_base_displacement_m": 0.0073212985316736786,
+          "maximum_base_rotation_rad": 0.011828768001159277,
+          "maximum_foot_planar_displacement_m": 0.0038624678140087724,
+          "minimum_supported_feet": 4,
+          "old_short_task_pose_bound_all_samples_pass": false,
+          "task_success": true
+        },
+        "original_task_success": true,
+        "E1_condition_established": true,
+        "E2_recovery_evaluable": true,
+        "E2_actual_recovered": true,
+        "E3_original_task_success": true,
+        "genuine_recovery_success": true,
+        "entry_witness": {
+          "native_step": 14703,
+          "time_s": 29.40599999999458,
+          "contact_time_s": 29.403999999994582,
+          "supported": true,
+          "table_normal_force_N": 0.12262500000000014,
+          "native_grasp": false,
+          "left_object_contact": false,
+          "right_object_contact": false,
+          "opposing_contact": false,
+          "relative_motion_valid": true,
+          "actual_goal_tool_Y_offset_m": -2.4012097065851887e-05,
+          "pad_normal_force_N": {
+            "left": 0.0,
+            "right": 0.0
+          },
+          "signed_pad_cube_gap_m": {
+            "left": 0.004291784217873921,
+            "right": 0.003998087971946205
+          },
+          "actual_cube_contacts": [
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.12262499999999993,
+              "distance_m": -5.337200565001289e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.12262500000000005,
+              "distance_m": -5.3372005650012843e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.12262499999999993,
+              "distance_m": -5.337200565001166e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.12262500000000014,
+              "distance_m": -5.337200565001161e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            }
+          ],
+          "actual_TCP_position_m": [
+            0.24543243767698714,
+            -0.016678746932571518,
+            0.6361153403972446
+          ],
+          "actual_cube_position_m": [
+            0.257,
+            -0.015,
+            0.6198932559886999
+          ],
+          "object_linear_velocity_m_s": [
+            -2.1305292598465144e-18,
+            2.0633387576305162e-17,
+            2.2144803181268426e-14
+          ],
+          "actual_mechanical_grip_fraction": 0.5454472243138975,
+          "actual_finger_q_m": [
+            0.02394735953110519,
+            0.024051996208517785
+          ],
+          "previous_consumed_nominal_grip": 0.55,
+          "previous_complete_H40_solver_gripper_consumption": true,
+          "geometry_overlap_is_contact_qualification": false,
+          "Teacher_version": "TEACHER_V9_REPAIRED_E1_RECOVERY24_UNCHANGED_ORACLE_V1",
+          "recovery_condition": "UNDER_CLOSE",
+          "E1_condition_established": true
+        },
+        "recovered_witness": {
+          "native_step": 15703,
+          "time_s": 31.405999999993472,
+          "contact_time_s": 31.403999999993474,
+          "supported": true,
+          "table_normal_force_N": 0.25157071675985454,
+          "native_grasp": true,
+          "left_object_contact": true,
+          "right_object_contact": true,
+          "opposing_contact": true,
+          "relative_motion_valid": true,
+          "actual_goal_tool_Y_offset_m": -0.00012181322966756736,
+          "pad_normal_force_N": {
+            "left": 4.427965438144656,
+            "right": 3.5696727234361005
+          },
+          "signed_pad_cube_gap_m": {
+            "left": -0.0005227735856455043,
+            "right": -0.0004615175277836163
+          },
+          "actual_cube_contacts": [
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.25157071675985454,
+              "distance_m": -0.00011336905020482672,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.16872546126573895,
+              "distance_m": -7.82354883025554e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.007915421474255054,
+              "distance_m": -1.3516174941192294e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_left_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 4.427965438144656,
+              "distance_m": -0.000522865287142257,
+              "normal": [
+                -0.003420349306694268,
+                -0.9996757632841932,
+                -0.025232310888744256
+              ]
+            },
+            {
+              "geoms": [
+                "task_left_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.2469539933447157,
+              "distance_m": -3.905849490684732e-05,
+              "normal": [
+                -0.003420349306694268,
+                -0.9996757632841932,
+                -0.025232310888744256
+              ]
+            },
+            {
+              "geoms": [
+                "task_left_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 2.1738104343706537,
+              "distance_m": -0.00032592042040092625,
+              "normal": [
+                -0.003420349306694268,
+                -0.9996757632841932,
+                -0.025232310888744256
+              ]
+            },
+            {
+              "geoms": [
+                "task_right_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 3.5696727234361005,
+              "distance_m": -0.0004616002912990883,
+              "normal": [
+                0.0062921766710972655,
+                0.9999677157107919,
+                0.004997604314149934
+              ]
+            },
+            {
+              "geoms": [
+                "task_right_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 2.7875988229060606,
+              "distance_m": -0.00039213216917615996,
+              "normal": [
+                0.0062921766710972655,
+                0.9999677157107919,
+                0.004997604314149934
+              ]
+            },
+            {
+              "geoms": [
+                "task_right_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.5365555526934492,
+              "distance_m": -8.931211938593488e-05,
+              "normal": [
+                0.0062921766710972655,
+                0.9999677157107919,
+                0.004997604314149934
+              ]
+            }
+          ],
+          "actual_TCP_position_m": [
+            0.24529794436504898,
+            -0.016824419360407485,
+            0.6361945195411265
+          ],
+          "actual_cube_position_m": [
+            0.256945534470178,
+            -0.015072885286082008,
+            0.619908482790717
+          ],
+          "object_linear_velocity_m_s": [
+            -4.0405287445575965e-05,
+            -4.843582278792664e-05,
+            0.0002572900096229568
+          ],
+          "actual_mechanical_grip_fraction": 0.4378248344499505,
+          "actual_finger_q_m": [
+            0.019083880534220454,
+            0.01944470489737519
+          ],
+          "previous_consumed_nominal_grip": 0.0,
+          "previous_complete_H40_solver_gripper_consumption": true,
+          "geometry_overlap_is_contact_qualification": false,
+          "Teacher_version": "TEACHER_V9_REPAIRED_E1_RECOVERY24_UNCHANGED_ORACLE_V1",
+          "recovery_condition": "UNDER_CLOSE",
+          "E1_entry_native_step": 14703,
+          "E2_actual_recovered": true
+        },
+        "recovery_exit": {},
+        "qualification_condition_not_established": false,
+        "new_BC_demonstrations": 0,
+        "new_student_rollin_states": 0,
+        "new_DAgger_labels": 0,
+        "result_sha256": "1fe2b2fac9c7686f7536e7a40dfac0e97894b608ae8418bbf581580b442420b6"
+      },
+      {
+        "native_run": "tl-v9-full24-20261111-01-recovery01-r1-supported_side_offset",
+        "layout": "RECOVERY01",
+        "restart": 1,
+        "recovery_condition": "SUPPORTED_SIDE_OFFSET",
+        "offset_sign": 1,
+        "attempted": true,
+        "reset_ready": true,
+        "task_success": true,
+        "technical_valid": true,
+        "hard_safety_stop": false,
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_native_integrations": 21203,
+        "worker_exit_code": 0,
+        "first_failure": null,
+        "wall_s": 337.1694851089269,
+        "CPU_s": 743.940366303,
+        "score": {
+          "contract": {
+            "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+            "minimum_lift_m": 0.02,
+            "continuous_hold_s": 1.0,
+            "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+            "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+            "maximum_object_linear_speed_m_s": 0.02,
+            "standing": {
+              "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+              "maximum_base_displacement_m": 0.02,
+              "maximum_base_rotation_rad": 0.08726646259971647,
+              "maximum_foot_planar_displacement_m": 0.005,
+              "minimum_supported_feet": 3,
+              "minimum_actual_floor_normal_force_N": 0.05,
+              "old_short_task_pose_diagnostic": {
+                "maximum_base_displacement_m": 0.002,
+                "maximum_base_rotation_rad": 0.008726646259971648
+              },
+              "original_native_safety_changed": false,
+              "task_score_bounds_are_native_safety": false,
+              "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+            },
+            "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+            "success_requires_all": true
+          },
+          "samples": 621,
+          "maximum_object_lift_m": 0.02611392363533005,
+          "longest_contiguous_grasp_lift_hold_s": 5.3500000000000005,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_base_displacement_m": 0.007282894113067547,
+          "maximum_base_rotation_rad": 0.010718220758492363,
+          "maximum_foot_planar_displacement_m": 0.003933452812266532,
+          "minimum_supported_feet": 4,
+          "old_short_task_pose_bound_all_samples_pass": false,
+          "task_success": true
+        },
+        "original_task_success": true,
+        "E1_condition_established": true,
+        "E2_recovery_evaluable": true,
+        "E2_actual_recovered": true,
+        "E3_original_task_success": true,
+        "genuine_recovery_success": true,
+        "entry_witness": {
+          "native_step": 14703,
+          "time_s": 29.40599999999458,
+          "contact_time_s": 29.403999999994582,
+          "supported": true,
+          "table_normal_force_N": 0.12262500000000011,
+          "native_grasp": false,
+          "left_object_contact": false,
+          "right_object_contact": false,
+          "opposing_contact": false,
+          "relative_motion_valid": true,
+          "actual_goal_tool_Y_offset_m": 0.0023847267544973,
+          "pad_normal_force_N": {
+            "left": 0.0,
+            "right": 0.0
+          },
+          "signed_pad_cube_gap_m": {
+            "left": 0.01676805397105503,
+            "right": 0.011682479677671703
+          },
+          "actual_cube_contacts": [
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.1226249999999999,
+              "distance_m": -5.337200565001289e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.12262500000000004,
+              "distance_m": -5.337200565001286e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.12262499999999993,
+              "distance_m": -5.33720056500116e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.12262500000000011,
+              "distance_m": -5.337200565001157e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            }
+          ],
+          "actual_TCP_position_m": [
+            0.2455387295698019,
+            -0.014308176838264016,
+            0.6364910892581098
+          ],
+          "actual_cube_position_m": [
+            0.257,
+            -0.015,
+            0.6198932559886999
+          ],
+          "object_linear_velocity_m_s": [
+            -1.827763869841505e-18,
+            2.192689202623288e-17,
+            2.214031603156538e-14
+          ],
+          "actual_mechanical_grip_fraction": 0.7727273665480952,
+          "actual_finger_q_m": [
+            0.03394950569137508,
+            0.034050502564857296
+          ],
+          "previous_consumed_nominal_grip": 0.8,
+          "previous_complete_H40_solver_gripper_consumption": true,
+          "geometry_overlap_is_contact_qualification": false,
+          "Teacher_version": "TEACHER_V9_REPAIRED_E1_RECOVERY24_UNCHANGED_ORACLE_V1",
+          "recovery_condition": "SUPPORTED_SIDE_OFFSET",
+          "E1_condition_established": true
+        },
+        "recovered_witness": {
+          "native_step": 16703,
+          "time_s": 33.40599999999486,
+          "contact_time_s": 33.40399999999486,
+          "supported": true,
+          "table_normal_force_N": 0.17385254819838655,
+          "native_grasp": true,
+          "left_object_contact": true,
+          "right_object_contact": true,
+          "opposing_contact": true,
+          "relative_motion_valid": true,
+          "actual_goal_tool_Y_offset_m": 1.8277658500810315e-05,
+          "pad_normal_force_N": {
+            "left": 3.512462208376762,
+            "right": 2.9179613323200932
+          },
+          "signed_pad_cube_gap_m": {
+            "left": -0.00045689053085763996,
+            "right": -0.0004048687462603941
+          },
+          "actual_cube_contacts": [
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.17385254819838655,
+              "distance_m": -7.08608832853206e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.12609020008809604,
+              "distance_m": -5.1368885902782726e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.08801409875314835,
+              "distance_m": -3.8327410789602984e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.040280498675319416,
+              "distance_m": -1.883541340706511e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_left_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 3.512462208376762,
+              "distance_m": -0.0004569383565671374,
+              "normal": [
+                -0.002443184213569464,
+                -0.9997046358150079,
+                -0.02417999133335492
+              ]
+            },
+            {
+              "geoms": [
+                "task_left_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 1.737573010599068,
+              "distance_m": -0.00027154378488479617,
+              "normal": [
+                -0.002443184213569464,
+                -0.9997046358150079,
+                -0.02417999133335492
+              ]
+            },
+            {
+              "geoms": [
+                "task_right_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 2.9179613323200932,
+              "distance_m": -0.00040490435652555787,
+              "normal": [
+                0.004446614589957495,
+                0.9999887875760942,
+                0.0016286008662426148
+              ]
+            },
+            {
+              "geoms": [
+                "task_right_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 2.4443889127959357,
+              "distance_m": -0.0003565191987325646,
+              "normal": [
+                0.004446614589957495,
+                0.9999887875760942,
+                0.0016286008662426148
+              ]
+            }
+          ],
+          "actual_TCP_position_m": [
+            0.2451278773732451,
+            -0.01650522105595512,
+            0.6357866885040618
+          ],
+          "actual_cube_position_m": [
+            0.25685295160361776,
+            -0.014873232821421467,
+            0.6199102088509881
+          ],
+          "object_linear_velocity_m_s": [
+            -7.588532250511746e-05,
+            -4.8842605608546876e-05,
+            -2.944658361787292e-05
+          ],
+          "actual_mechanical_grip_fraction": 0.43971999681007323,
+          "actual_finger_q_m": [
+            0.019083461217323905,
+            0.019611898501962537
+          ],
+          "previous_consumed_nominal_grip": 0.10000000000000009,
+          "previous_complete_H40_solver_gripper_consumption": true,
+          "geometry_overlap_is_contact_qualification": false,
+          "Teacher_version": "TEACHER_V9_REPAIRED_E1_RECOVERY24_UNCHANGED_ORACLE_V1",
+          "recovery_condition": "SUPPORTED_SIDE_OFFSET",
+          "E1_entry_native_step": 14703,
+          "E2_actual_recovered": true
+        },
+        "recovery_exit": {},
+        "qualification_condition_not_established": false,
+        "new_BC_demonstrations": 0,
+        "new_student_rollin_states": 0,
+        "new_DAgger_labels": 0,
+        "result_sha256": "d0770de770fd97264f633100a2031ce10e22996a5232b0da82ebd695d056d666"
+      },
+      {
+        "native_run": "tl-v9-full24-20261111-01-recovery01-r1-supported_single_pad",
+        "layout": "RECOVERY01",
+        "restart": 1,
+        "recovery_condition": "SUPPORTED_SINGLE_PAD",
+        "offset_sign": 1,
+        "attempted": true,
+        "reset_ready": true,
+        "task_success": true,
+        "technical_valid": true,
+        "hard_safety_stop": false,
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_native_integrations": 21203,
+        "worker_exit_code": 0,
+        "first_failure": null,
+        "wall_s": 360.39588376460597,
+        "CPU_s": 732.474811634,
+        "score": {
+          "contract": {
+            "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+            "minimum_lift_m": 0.02,
+            "continuous_hold_s": 1.0,
+            "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+            "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+            "maximum_object_linear_speed_m_s": 0.02,
+            "standing": {
+              "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+              "maximum_base_displacement_m": 0.02,
+              "maximum_base_rotation_rad": 0.08726646259971647,
+              "maximum_foot_planar_displacement_m": 0.005,
+              "minimum_supported_feet": 3,
+              "minimum_actual_floor_normal_force_N": 0.05,
+              "old_short_task_pose_diagnostic": {
+                "maximum_base_displacement_m": 0.002,
+                "maximum_base_rotation_rad": 0.008726646259971648
+              },
+              "original_native_safety_changed": false,
+              "task_score_bounds_are_native_safety": false,
+              "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+            },
+            "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+            "success_requires_all": true
+          },
+          "samples": 621,
+          "maximum_object_lift_m": 0.024702667993647398,
+          "longest_contiguous_grasp_lift_hold_s": 3.4,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_base_displacement_m": 0.007302470436395372,
+          "maximum_base_rotation_rad": 0.010675894498230953,
+          "maximum_foot_planar_displacement_m": 0.0039302457688237405,
+          "minimum_supported_feet": 4,
+          "old_short_task_pose_bound_all_samples_pass": false,
+          "task_success": true
+        },
+        "original_task_success": true,
+        "E1_condition_established": true,
+        "E2_recovery_evaluable": true,
+        "E2_actual_recovered": true,
+        "E3_original_task_success": true,
+        "genuine_recovery_success": true,
+        "entry_witness": {
+          "native_step": 14703,
+          "time_s": 29.40599999999458,
+          "contact_time_s": 29.403999999994582,
+          "supported": true,
+          "table_normal_force_N": 0.14152126608339854,
+          "native_grasp": false,
+          "left_object_contact": false,
+          "right_object_contact": true,
+          "opposing_contact": false,
+          "relative_motion_valid": true,
+          "actual_goal_tool_Y_offset_m": 0.0022079412139428558,
+          "pad_normal_force_N": {
+            "left": 0.0,
+            "right": 0.05518438324165367
+          },
+          "signed_pad_cube_gap_m": {
+            "left": 0.004565485965081466,
+            "right": -1.5171412103184177e-06
+          },
+          "actual_cube_contacts": [
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.14152126608339854,
+              "distance_m": -5.99360381881367e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.1323588460071206,
+              "distance_m": -5.8074203497686374e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.08377987463807444,
+              "distance_m": -4.111668762323076e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.07465941389746417,
+              "distance_m": -3.9254852932780435e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_right_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.05518438324165367,
+              "distance_m": -1.6239728138769938e-06,
+              "normal": [
+                0.000950004404576195,
+                0.9999991059531512,
+                -0.0009410550087895829
+              ]
+            }
+          ],
+          "actual_TCP_position_m": [
+            0.24556789130419174,
+            -0.014463540398872361,
+            0.6365594617597388
+          ],
+          "actual_cube_position_m": [
+            0.2570019649928426,
+            -0.014980614624421226,
+            0.619901015344899
+          ],
+          "object_linear_velocity_m_s": [
+            8.64739176937728e-05,
+            0.00013175990567085264,
+            0.00010758844084552998
+          ],
+          "actual_mechanical_grip_fraction": 0.5015828970633978,
+          "actual_finger_q_m": [
+            0.021949675957116714,
+            0.022189618984462284
+          ],
+          "previous_consumed_nominal_grip": 0.5,
+          "previous_complete_H40_solver_gripper_consumption": true,
+          "geometry_overlap_is_contact_qualification": false,
+          "Teacher_version": "TEACHER_V9_REPAIRED_E1_RECOVERY24_UNCHANGED_ORACLE_V1",
+          "recovery_condition": "SUPPORTED_SINGLE_PAD",
+          "E1_condition_established": true
+        },
+        "recovered_witness": {
+          "native_step": 17703,
+          "time_s": 35.405999999997306,
+          "contact_time_s": 35.4039999999973,
+          "supported": true,
+          "table_normal_force_N": 0.16938226232844308,
+          "native_grasp": true,
+          "left_object_contact": true,
+          "right_object_contact": true,
+          "opposing_contact": true,
+          "relative_motion_valid": true,
+          "actual_goal_tool_Y_offset_m": -3.061912443975535e-05,
+          "pad_normal_force_N": {
+            "left": 3.4982648323396726,
+            "right": 2.901733524709058
+          },
+          "signed_pad_cube_gap_m": {
+            "left": -0.0004557405086213434,
+            "right": -0.000403252127059887
+          },
+          "actual_cube_contacts": [
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.16938226232844308,
+              "distance_m": -6.728528203476733e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.1319741187113824,
+              "distance_m": -5.391831061450623e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.06858072493234604,
+              "distance_m": -2.989440210749067e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.03154811276177036,
+              "distance_m": -1.6527430687229573e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_left_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 3.4982648323396726,
+              "distance_m": -0.00045582757467946765,
+              "normal": [
+                -0.0021497115457559395,
+                -0.9997077909602204,
+                -0.024077197380643012
+              ]
+            },
+            {
+              "geoms": [
+                "task_left_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 1.766144382960042,
+              "distance_m": -0.00027542331421681187,
+              "normal": [
+                -0.0021497115457559395,
+                -0.9997077909602204,
+                -0.024077197380643012
+              ]
+            },
+            {
+              "geoms": [
+                "task_right_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 2.901733524709058,
+              "distance_m": -0.000403231695818801,
+              "normal": [
+                0.00410454357025711,
+                0.9999898262943863,
+                0.00187083665863077
+              ]
+            },
+            {
+              "geoms": [
+                "task_right_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 2.4424441998572046,
+              "distance_m": -0.00035623458061106707,
+              "normal": [
+                0.00410454357025711,
+                0.9999898262943863,
+                0.00187083665863077
+              ]
+            }
+          ],
+          "actual_TCP_position_m": [
+            0.24496327468590104,
+            -0.01660152441644103,
+            0.6359399712637285
+          ],
+          "actual_cube_position_m": [
+            0.2568922539812274,
+            -0.01491532627904114,
+            0.6199164670589151
+          ],
+          "object_linear_velocity_m_s": [
+            -0.00012904679859154062,
+            -3.8854146135125056e-05,
+            0.00015959526084097724
+          ],
+          "actual_mechanical_grip_fraction": 0.4395998673381243,
+          "actual_finger_q_m": [
+            0.019124690212016838,
+            0.019560098113738097
+          ],
+          "previous_consumed_nominal_grip": 0.10000000000000009,
+          "previous_complete_H40_solver_gripper_consumption": true,
+          "geometry_overlap_is_contact_qualification": false,
+          "Teacher_version": "TEACHER_V9_REPAIRED_E1_RECOVERY24_UNCHANGED_ORACLE_V1",
+          "recovery_condition": "SUPPORTED_SINGLE_PAD",
+          "E1_entry_native_step": 14703,
+          "E2_actual_recovered": true
+        },
+        "recovery_exit": {},
+        "qualification_condition_not_established": false,
+        "new_BC_demonstrations": 0,
+        "new_student_rollin_states": 0,
+        "new_DAgger_labels": 0,
+        "result_sha256": "50dcf053cc36abf3d90a3c948d750a4134f4153f704635ff96392434298b0498"
+      },
+      {
+        "native_run": "tl-v9-full24-20261111-01-recovery02-r1-under_close",
+        "layout": "RECOVERY02",
+        "restart": 1,
+        "recovery_condition": "UNDER_CLOSE",
+        "offset_sign": 1,
+        "attempted": true,
+        "reset_ready": true,
+        "task_success": true,
+        "technical_valid": true,
+        "hard_safety_stop": false,
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_native_integrations": 21203,
+        "worker_exit_code": 0,
+        "first_failure": null,
+        "wall_s": 349.2296356689185,
+        "CPU_s": 747.31132751,
+        "score": {
+          "contract": {
+            "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+            "minimum_lift_m": 0.02,
+            "continuous_hold_s": 1.0,
+            "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+            "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+            "maximum_object_linear_speed_m_s": 0.02,
+            "standing": {
+              "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+              "maximum_base_displacement_m": 0.02,
+              "maximum_base_rotation_rad": 0.08726646259971647,
+              "maximum_foot_planar_displacement_m": 0.005,
+              "minimum_supported_feet": 3,
+              "minimum_actual_floor_normal_force_N": 0.05,
+              "old_short_task_pose_diagnostic": {
+                "maximum_base_displacement_m": 0.002,
+                "maximum_base_rotation_rad": 0.008726646259971648
+              },
+              "original_native_safety_changed": false,
+              "task_score_bounds_are_native_safety": false,
+              "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+            },
+            "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+            "success_requires_all": true
+          },
+          "samples": 621,
+          "maximum_object_lift_m": 0.026438383549245215,
+          "longest_contiguous_grasp_lift_hold_s": 7.3,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_base_displacement_m": 0.007314092884335713,
+          "maximum_base_rotation_rad": 0.009661086263289332,
+          "maximum_foot_planar_displacement_m": 0.0038703701844823427,
+          "minimum_supported_feet": 4,
+          "old_short_task_pose_bound_all_samples_pass": false,
+          "task_success": true
+        },
+        "original_task_success": true,
+        "E1_condition_established": true,
+        "E2_recovery_evaluable": true,
+        "E2_actual_recovered": true,
+        "E3_original_task_success": true,
+        "genuine_recovery_success": true,
+        "entry_witness": {
+          "native_step": 14703,
+          "time_s": 29.40599999999458,
+          "contact_time_s": 29.403999999994582,
+          "supported": true,
+          "table_normal_force_N": 0.12262500000000011,
+          "native_grasp": false,
+          "left_object_contact": false,
+          "right_object_contact": false,
+          "opposing_contact": false,
+          "relative_motion_valid": true,
+          "actual_goal_tool_Y_offset_m": -2.01444723717002e-05,
+          "pad_normal_force_N": {
+            "left": 0.0,
+            "right": 0.0
+          },
+          "signed_pad_cube_gap_m": {
+            "left": 0.004303282934630853,
+            "right": 0.004016830562743799
+          },
+          "actual_cube_contacts": [
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.12262499999999993,
+              "distance_m": -5.337200565001289e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.12262500000000011,
+              "distance_m": -5.3372005650012816e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.12262499999999993,
+              "distance_m": -5.3372005650011576e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.12262500000000011,
+              "distance_m": -5.33720056500115e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            }
+          ],
+          "actual_TCP_position_m": [
+            0.24542873480227645,
+            -0.014685532067566287,
+            0.6362340503941117
+          ],
+          "actual_cube_position_m": [
+            0.257,
+            -0.013000000000000001,
+            0.6198932559886999
+          ],
+          "object_linear_velocity_m_s": [
+            -2.6033291969341275e-18,
+            2.1915180558890858e-17,
+            2.2144657653105714e-14
+          ],
+          "actual_mechanical_grip_fraction": 0.545453106074172,
+          "actual_finger_q_m": [
+            0.02394659321754209,
+            0.024053280116985036
+          ],
+          "previous_consumed_nominal_grip": 0.55,
+          "previous_complete_H40_solver_gripper_consumption": true,
+          "geometry_overlap_is_contact_qualification": false,
+          "Teacher_version": "TEACHER_V9_REPAIRED_E1_RECOVERY24_UNCHANGED_ORACLE_V1",
+          "recovery_condition": "UNDER_CLOSE",
+          "E1_condition_established": true
+        },
+        "recovered_witness": {
+          "native_step": 15703,
+          "time_s": 31.405999999993472,
+          "contact_time_s": 31.403999999993474,
+          "supported": true,
+          "table_normal_force_N": 0.27824005723058554,
+          "native_grasp": true,
+          "left_object_contact": true,
+          "right_object_contact": true,
+          "opposing_contact": true,
+          "relative_motion_valid": true,
+          "actual_goal_tool_Y_offset_m": -0.00010902364003488474,
+          "pad_normal_force_N": {
+            "left": 4.3517220923089575,
+            "right": 3.5199660700877953
+          },
+          "signed_pad_cube_gap_m": {
+            "left": -0.00051772028154378,
+            "right": -0.00045745981671861425
+          },
+          "actual_cube_contacts": [
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.27824005723058554,
+              "distance_m": -0.00012367358977034663,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.18816370461633444,
+              "distance_m": -8.60631168972527e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.03573222746726144,
+              "distance_m": -2.535226872611082e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_left_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 4.3517220923089575,
+              "distance_m": -0.000517816900952813,
+              "normal": [
+                -0.003092155428310293,
+                -0.9996855494711454,
+                -0.024884548486591183
+              ]
+            },
+            {
+              "geoms": [
+                "task_left_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.26101690572991565,
+              "distance_m": -4.163579121508805e-05,
+              "normal": [
+                -0.003092155428310293,
+                -0.9996855494711454,
+                -0.024884548486591183
+              ]
+            },
+            {
+              "geoms": [
+                "task_left_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 2.232250075739464,
+              "distance_m": -0.0003327973399159376,
+              "normal": [
+                -0.003092155428310293,
+                -0.9996855494711454,
+                -0.024884548486591183
+              ]
+            },
+            {
+              "geoms": [
+                "task_right_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 3.5199660700877953,
+              "distance_m": -0.00045751043395803043,
+              "normal": [
+                0.005606730501831467,
+                0.9999721752188911,
+                0.004920707375880345
+              ]
+            },
+            {
+              "geoms": [
+                "task_right_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 2.836254008096618,
+              "distance_m": -0.00039681222926546747,
+              "normal": [
+                0.005606730501831467,
+                0.9999721752188911,
+                0.004920707375880345
+              ]
+            },
+            {
+              "geoms": [
+                "task_right_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.5419896087418778,
+              "distance_m": -9.018263088390519e-05,
+              "normal": [
+                0.005606730501831467,
+                0.9999721752188911,
+                0.004920707375880345
+              ]
+            }
+          ],
+          "actual_TCP_position_m": [
+            0.24532313436372233,
+            -0.014821114005852613,
+            0.6362334435012633
+          ],
+          "actual_cube_position_m": [
+            0.25696949661526003,
+            -0.013069156900825786,
+            0.6198887011884386
+          ],
+          "object_linear_velocity_m_s": [
+            -5.2366967406021325e-05,
+            -7.161780609967668e-05,
+            0.00019680836342744033
+          ],
+          "actual_mechanical_grip_fraction": 0.43773949355296476,
+          "actual_finger_q_m": [
+            0.019076200259853036,
+            0.019444875172807862
+          ],
+          "previous_consumed_nominal_grip": 0.0,
+          "previous_complete_H40_solver_gripper_consumption": true,
+          "geometry_overlap_is_contact_qualification": false,
+          "Teacher_version": "TEACHER_V9_REPAIRED_E1_RECOVERY24_UNCHANGED_ORACLE_V1",
+          "recovery_condition": "UNDER_CLOSE",
+          "E1_entry_native_step": 14703,
+          "E2_actual_recovered": true
+        },
+        "recovery_exit": {},
+        "qualification_condition_not_established": false,
+        "new_BC_demonstrations": 0,
+        "new_student_rollin_states": 0,
+        "new_DAgger_labels": 0,
+        "result_sha256": "15052535b024bdf5efc87f2e03a3b8bc3c8c6aa52e027b8a736b56bbc65bae9b"
+      },
+      {
+        "native_run": "tl-v9-full24-20261111-01-recovery02-r1-supported_side_offset",
+        "layout": "RECOVERY02",
+        "restart": 1,
+        "recovery_condition": "SUPPORTED_SIDE_OFFSET",
+        "offset_sign": 1,
+        "attempted": true,
+        "reset_ready": true,
+        "task_success": true,
+        "technical_valid": true,
+        "hard_safety_stop": false,
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_native_integrations": 21203,
+        "worker_exit_code": 0,
+        "first_failure": null,
+        "wall_s": 329.2827351009473,
+        "CPU_s": 746.435867794,
+        "score": {
+          "contract": {
+            "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+            "minimum_lift_m": 0.02,
+            "continuous_hold_s": 1.0,
+            "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+            "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+            "maximum_object_linear_speed_m_s": 0.02,
+            "standing": {
+              "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+              "maximum_base_displacement_m": 0.02,
+              "maximum_base_rotation_rad": 0.08726646259971647,
+              "maximum_foot_planar_displacement_m": 0.005,
+              "minimum_supported_feet": 3,
+              "minimum_actual_floor_normal_force_N": 0.05,
+              "old_short_task_pose_diagnostic": {
+                "maximum_base_displacement_m": 0.002,
+                "maximum_base_rotation_rad": 0.008726646259971648
+              },
+              "original_native_safety_changed": false,
+              "task_score_bounds_are_native_safety": false,
+              "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+            },
+            "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+            "success_requires_all": true
+          },
+          "samples": 621,
+          "maximum_object_lift_m": 0.02598512313577961,
+          "longest_contiguous_grasp_lift_hold_s": 5.3,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_base_displacement_m": 0.007318849574269254,
+          "maximum_base_rotation_rad": 0.008590251487689897,
+          "maximum_foot_planar_displacement_m": 0.0039072996553954345,
+          "minimum_supported_feet": 4,
+          "old_short_task_pose_bound_all_samples_pass": false,
+          "task_success": true
+        },
+        "original_task_success": true,
+        "E1_condition_established": true,
+        "E2_recovery_evaluable": true,
+        "E2_actual_recovered": true,
+        "E3_original_task_success": true,
+        "genuine_recovery_success": true,
+        "entry_witness": {
+          "native_step": 14703,
+          "time_s": 29.40599999999458,
+          "contact_time_s": 29.403999999994582,
+          "supported": true,
+          "table_normal_force_N": 0.12262500000000011,
+          "native_grasp": false,
+          "left_object_contact": false,
+          "right_object_contact": false,
+          "opposing_contact": false,
+          "relative_motion_valid": true,
+          "actual_goal_tool_Y_offset_m": 0.002374199146937196,
+          "pad_normal_force_N": {
+            "left": 0.0,
+            "right": 0.0
+          },
+          "signed_pad_cube_gap_m": {
+            "left": 0.01674687396394306,
+            "right": 0.011673685118417222
+          },
+          "actual_cube_contacts": [
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.12262499999999996,
+              "distance_m": -5.337200565001289e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.12262500000000011,
+              "distance_m": -5.337200565001283e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.12262499999999993,
+              "distance_m": -5.33720056500118e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.12262500000000008,
+              "distance_m": -5.337200565001174e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            }
+          ],
+          "actual_TCP_position_m": [
+            0.24557039819398963,
+            -0.012309522319161655,
+            0.6364864644978524
+          ],
+          "actual_cube_position_m": [
+            0.257,
+            -0.013000000000000001,
+            0.6198932559886999
+          ],
+          "object_linear_velocity_m_s": [
+            -2.30989446424286e-18,
+            1.744397201186874e-17,
+            2.2149079024775108e-14
+          ],
+          "actual_mechanical_grip_fraction": 0.7727315048125827,
+          "actual_finger_q_m": [
+            0.033949021208550256,
+            0.03405135121495702
+          ],
+          "previous_consumed_nominal_grip": 0.8,
+          "previous_complete_H40_solver_gripper_consumption": true,
+          "geometry_overlap_is_contact_qualification": false,
+          "Teacher_version": "TEACHER_V9_REPAIRED_E1_RECOVERY24_UNCHANGED_ORACLE_V1",
+          "recovery_condition": "SUPPORTED_SIDE_OFFSET",
+          "E1_condition_established": true
+        },
+        "recovered_witness": {
+          "native_step": 16703,
+          "time_s": 33.40599999999486,
+          "contact_time_s": 33.40399999999486,
+          "supported": true,
+          "table_normal_force_N": 0.18483523179787048,
+          "native_grasp": true,
+          "left_object_contact": true,
+          "right_object_contact": true,
+          "opposing_contact": true,
+          "relative_motion_valid": true,
+          "actual_goal_tool_Y_offset_m": 2.0371163229047187e-05,
+          "pad_normal_force_N": {
+            "left": 3.5683961248659957,
+            "right": 2.957682632697891
+          },
+          "signed_pad_cube_gap_m": {
+            "left": -0.00046128349771164625,
+            "right": -0.0004088204664738756
+          },
+          "actual_cube_contacts": [
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.18483523179787048,
+              "distance_m": -7.887740820539113e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.1357743387942857,
+              "distance_m": -5.907386345904495e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.09947299997132986,
+              "distance_m": -4.992074914122232e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.049474108572349094,
+              "distance_m": -3.0117204394876136e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_left_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 3.5683961248659957,
+              "distance_m": -0.0004612877065401887,
+              "normal": [
+                -0.0028174913552822156,
+                -0.9996965415515195,
+                -0.024472158719532025
+              ]
+            },
+            {
+              "geoms": [
+                "task_left_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 1.6844287509695612,
+              "distance_m": -0.0002642456554110252,
+              "normal": [
+                -0.0028174913552822156,
+                -0.9996965415515195,
+                -0.024472158719532025
+              ]
+            },
+            {
+              "geoms": [
+                "task_right_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 2.957682632697891,
+              "distance_m": -0.0004089172162830709,
+              "normal": [
+                0.00516308873552991,
+                0.999985619718044,
+                0.0014501282111637882
+              ]
+            },
+            {
+              "geoms": [
+                "task_right_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 2.403720912733186,
+              "distance_m": -0.0003522998285448813,
+              "normal": [
+                0.00516308873552991,
+                0.999985619718044,
+                0.0014501282111637882
+              ]
+            }
+          ],
+          "actual_TCP_position_m": [
+            0.2451012400251595,
+            -0.01446410446030241,
+            0.635948457148637
+          ],
+          "actual_cube_position_m": [
+            0.2568719639683742,
+            -0.012844728668864824,
+            0.6198910917189657
+          ],
+          "object_linear_velocity_m_s": [
+            -0.00014701340019889262,
+            -1.0629278685592828e-05,
+            5.854915096692163e-05
+          ],
+          "actual_mechanical_grip_fraction": 0.4398024280659008,
+          "actual_finger_q_m": [
+            0.019079545388715587,
+            0.019623068281083685
+          ],
+          "previous_consumed_nominal_grip": 0.10000000000000009,
+          "previous_complete_H40_solver_gripper_consumption": true,
+          "geometry_overlap_is_contact_qualification": false,
+          "Teacher_version": "TEACHER_V9_REPAIRED_E1_RECOVERY24_UNCHANGED_ORACLE_V1",
+          "recovery_condition": "SUPPORTED_SIDE_OFFSET",
+          "E1_entry_native_step": 14703,
+          "E2_actual_recovered": true
+        },
+        "recovery_exit": {},
+        "qualification_condition_not_established": false,
+        "new_BC_demonstrations": 0,
+        "new_student_rollin_states": 0,
+        "new_DAgger_labels": 0,
+        "result_sha256": "78080f649941f900c9e49d6a1b8aaedad633a1aa3c7fef50691ad73ded848484"
+      },
+      {
+        "native_run": "tl-v9-full24-20261111-01-recovery02-r1-supported_single_pad",
+        "layout": "RECOVERY02",
+        "restart": 1,
+        "recovery_condition": "SUPPORTED_SINGLE_PAD",
+        "offset_sign": 1,
+        "attempted": true,
+        "reset_ready": true,
+        "task_success": false,
+        "technical_valid": true,
+        "hard_safety_stop": false,
+        "native_status": "NATIVE_STAGE_FAILED_PRESERVED",
+        "actual_native_integrations": 14578,
+        "worker_exit_code": 1,
+        "first_failure": "ValueError: ORIGINAL_FULL_NATIVE_CONTACT_REJECT:['task_right_pad', 'task_cube_geom']",
+        "wall_s": 214.73325059004128,
+        "CPU_s": 484.358029343,
+        "score": {},
+        "original_task_success": false,
+        "E1_condition_established": false,
+        "E2_recovery_evaluable": false,
+        "E2_actual_recovered": null,
+        "E3_original_task_success": false,
+        "genuine_recovery_success": false,
+        "entry_witness": {},
+        "recovered_witness": {},
+        "recovery_exit": {},
+        "qualification_condition_not_established": false,
+        "new_BC_demonstrations": 0,
+        "new_student_rollin_states": 0,
+        "new_DAgger_labels": 0,
+        "result_sha256": "c4fd34b9f90c76161d1583941a1efb213869aeadc0c6d50a94cb23167fc6e072"
+      },
+      {
+        "native_run": "tl-v9-full24-20261111-01-recovery03-r1-under_close",
+        "layout": "RECOVERY03",
+        "restart": 1,
+        "recovery_condition": "UNDER_CLOSE",
+        "offset_sign": 1,
+        "attempted": true,
+        "reset_ready": true,
+        "task_success": true,
+        "technical_valid": true,
+        "hard_safety_stop": false,
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_native_integrations": 21203,
+        "worker_exit_code": 0,
+        "first_failure": null,
+        "wall_s": 336.7540717856027,
+        "CPU_s": 738.9479280979999,
+        "score": {
+          "contract": {
+            "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+            "minimum_lift_m": 0.02,
+            "continuous_hold_s": 1.0,
+            "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+            "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+            "maximum_object_linear_speed_m_s": 0.02,
+            "standing": {
+              "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+              "maximum_base_displacement_m": 0.02,
+              "maximum_base_rotation_rad": 0.08726646259971647,
+              "maximum_foot_planar_displacement_m": 0.005,
+              "minimum_supported_feet": 3,
+              "minimum_actual_floor_normal_force_N": 0.05,
+              "old_short_task_pose_diagnostic": {
+                "maximum_base_displacement_m": 0.002,
+                "maximum_base_rotation_rad": 0.008726646259971648
+              },
+              "original_native_safety_changed": false,
+              "task_score_bounds_are_native_safety": false,
+              "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+            },
+            "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+            "success_requires_all": true
+          },
+          "samples": 621,
+          "maximum_object_lift_m": 0.02603883687855235,
+          "longest_contiguous_grasp_lift_hold_s": 7.2,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_base_displacement_m": 0.005877279451262606,
+          "maximum_base_rotation_rad": 0.010683994237563312,
+          "maximum_foot_planar_displacement_m": 0.003961792659749895,
+          "minimum_supported_feet": 4,
+          "old_short_task_pose_bound_all_samples_pass": false,
+          "task_success": true
+        },
+        "original_task_success": true,
+        "E1_condition_established": true,
+        "E2_recovery_evaluable": true,
+        "E2_actual_recovered": true,
+        "E3_original_task_success": true,
+        "genuine_recovery_success": true,
+        "entry_witness": {
+          "native_step": 14703,
+          "time_s": 29.40599999999458,
+          "contact_time_s": 29.403999999994582,
+          "supported": true,
+          "table_normal_force_N": 0.12262500000000014,
+          "native_grasp": false,
+          "left_object_contact": false,
+          "right_object_contact": false,
+          "opposing_contact": false,
+          "relative_motion_valid": true,
+          "actual_goal_tool_Y_offset_m": -5.762684077272165e-05,
+          "pad_normal_force_N": {
+            "left": 0.0,
+            "right": 0.0
+          },
+          "signed_pad_cube_gap_m": {
+            "left": 0.004293086824759291,
+            "right": 0.004108517318655209
+          },
+          "actual_cube_contacts": [
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.12262499999999993,
+              "distance_m": -5.337200565001289e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.12262500000000011,
+              "distance_m": -5.33720056500128e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.12262499999999993,
+              "distance_m": -5.337200565001161e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.12262500000000014,
+              "distance_m": -5.337200565001152e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            }
+          ],
+          "actual_TCP_position_m": [
+            0.2514374875223062,
+            -0.016745852325489655,
+            0.6363116536610787
+          ],
+          "actual_cube_position_m": [
+            0.263,
+            -0.015,
+            0.6198932559886999
+          ],
+          "object_linear_velocity_m_s": [
+            -2.8069038309521162e-18,
+            2.1740375680780148e-17,
+            2.2142648125176282e-14
+          ],
+          "actual_mechanical_grip_fraction": 0.5454500599952361,
+          "actual_finger_q_m": [
+            0.02394826629198209,
+            0.024051338987598685
+          ],
+          "previous_consumed_nominal_grip": 0.55,
+          "previous_complete_H40_solver_gripper_consumption": true,
+          "geometry_overlap_is_contact_qualification": false,
+          "Teacher_version": "TEACHER_V9_REPAIRED_E1_RECOVERY24_UNCHANGED_ORACLE_V1",
+          "recovery_condition": "UNDER_CLOSE",
+          "E1_condition_established": true
+        },
+        "recovered_witness": {
+          "native_step": 15703,
+          "time_s": 31.405999999993472,
+          "contact_time_s": 31.403999999993474,
+          "supported": true,
+          "table_normal_force_N": 0.26771493463434975,
+          "native_grasp": true,
+          "left_object_contact": true,
+          "right_object_contact": true,
+          "opposing_contact": true,
+          "relative_motion_valid": true,
+          "actual_goal_tool_Y_offset_m": -9.477342401586315e-05,
+          "pad_normal_force_N": {
+            "left": 4.0400554449103,
+            "right": 3.3465311940349554
+          },
+          "signed_pad_cube_gap_m": {
+            "left": -0.0004966071682732787,
+            "right": -0.0004432512877847537
+          },
+          "actual_cube_contacts": [
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.26771493463434975,
+              "distance_m": -0.00012460376754503365,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.19291990032600506,
+              "distance_m": -9.229918300786255e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.03314489386870236,
+              "distance_m": -2.7980038865641757e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_left_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 4.0400554449103,
+              "distance_m": -0.0004967086170565595,
+              "normal": [
+                -0.002294031581811634,
+                -0.9997162616060438,
+                -0.023709358901876747
+              ]
+            },
+            {
+              "geoms": [
+                "task_left_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.1117604733683213,
+              "distance_m": -1.5971262443616173e-05,
+              "normal": [
+                -0.002294031581811634,
+                -0.9997162616060438,
+                -0.023709358901876747
+              ]
+            },
+            {
+              "geoms": [
+                "task_left_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.29625628397595427,
+              "distance_m": -4.8330751078774505e-05,
+              "normal": [
+                -0.002294031581811634,
+                -0.9997162616060438,
+                -0.023709358901876747
+              ]
+            },
+            {
+              "geoms": [
+                "task_left_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 2.3996334668846924,
+              "distance_m": -0.0003519040517838495,
+              "normal": [
+                -0.002294031581811634,
+                -0.9997162616060438,
+                -0.023709358901876747
+              ]
+            },
+            {
+              "geoms": [
+                "task_right_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 3.3465311940349554,
+              "distance_m": -0.00044331436919254664,
+              "normal": [
+                0.003633719062681281,
+                0.9999817175009211,
+                0.0048332959439399735
+              ]
+            },
+            {
+              "geoms": [
+                "task_right_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 2.9857005274226673,
+              "distance_m": -0.00041121541915133353,
+              "normal": [
+                0.003633719062681281,
+                0.9999817175009211,
+                0.0048332959439399735
+              ]
+            },
+            {
+              "geoms": [
+                "task_right_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.5621428877068011,
+              "distance_m": -9.395962463340834e-05,
+              "normal": [
+                0.003633719062681281,
+                0.9999817175009211,
+                0.0048332959439399735
+              ]
+            }
+          ],
+          "actual_TCP_position_m": [
+            0.25128709527821247,
+            -0.016851645895214172,
+            0.6363279108946064
+          ],
+          "actual_cube_position_m": [
+            0.2629530023957634,
+            -0.015081090848270773,
+            0.6198801852467317
+          ],
+          "object_linear_velocity_m_s": [
+            -9.632622301427511e-06,
+            -5.5742902827434756e-05,
+            0.0003619817834626618
+          ],
+          "actual_mechanical_grip_fraction": 0.43749041250812826,
+          "actual_finger_q_m": [
+            0.01907449286718241,
+            0.019424663433532875
+          ],
+          "previous_consumed_nominal_grip": 0.0,
+          "previous_complete_H40_solver_gripper_consumption": true,
+          "geometry_overlap_is_contact_qualification": false,
+          "Teacher_version": "TEACHER_V9_REPAIRED_E1_RECOVERY24_UNCHANGED_ORACLE_V1",
+          "recovery_condition": "UNDER_CLOSE",
+          "E1_entry_native_step": 14703,
+          "E2_actual_recovered": true
+        },
+        "recovery_exit": {},
+        "qualification_condition_not_established": false,
+        "new_BC_demonstrations": 0,
+        "new_student_rollin_states": 0,
+        "new_DAgger_labels": 0,
+        "result_sha256": "98a71653622c172dc0332e5bc64872b3662bccfb88c1a899505dec9798d74760"
+      },
+      {
+        "native_run": "tl-v9-full24-20261111-01-recovery03-r1-supported_side_offset",
+        "layout": "RECOVERY03",
+        "restart": 1,
+        "recovery_condition": "SUPPORTED_SIDE_OFFSET",
+        "offset_sign": 1,
+        "attempted": true,
+        "reset_ready": true,
+        "task_success": true,
+        "technical_valid": true,
+        "hard_safety_stop": false,
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_native_integrations": 21203,
+        "worker_exit_code": 0,
+        "first_failure": null,
+        "wall_s": 337.12830097973347,
+        "CPU_s": 744.598273689,
+        "score": {
+          "contract": {
+            "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+            "minimum_lift_m": 0.02,
+            "continuous_hold_s": 1.0,
+            "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+            "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+            "maximum_object_linear_speed_m_s": 0.02,
+            "standing": {
+              "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+              "maximum_base_displacement_m": 0.02,
+              "maximum_base_rotation_rad": 0.08726646259971647,
+              "maximum_foot_planar_displacement_m": 0.005,
+              "minimum_supported_feet": 3,
+              "minimum_actual_floor_normal_force_N": 0.05,
+              "old_short_task_pose_diagnostic": {
+                "maximum_base_displacement_m": 0.002,
+                "maximum_base_rotation_rad": 0.008726646259971648
+              },
+              "original_native_safety_changed": false,
+              "task_score_bounds_are_native_safety": false,
+              "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+            },
+            "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+            "success_requires_all": true
+          },
+          "samples": 621,
+          "maximum_object_lift_m": 0.025765915974442666,
+          "longest_contiguous_grasp_lift_hold_s": 5.3500000000000005,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_base_displacement_m": 0.006091832624643925,
+          "maximum_base_rotation_rad": 0.010411975485168765,
+          "maximum_foot_planar_displacement_m": 0.003960785180471723,
+          "minimum_supported_feet": 4,
+          "old_short_task_pose_bound_all_samples_pass": false,
+          "task_success": true
+        },
+        "original_task_success": true,
+        "E1_condition_established": true,
+        "E2_recovery_evaluable": true,
+        "E2_actual_recovered": true,
+        "E3_original_task_success": true,
+        "genuine_recovery_success": true,
+        "entry_witness": {
+          "native_step": 14703,
+          "time_s": 29.40599999999458,
+          "contact_time_s": 29.403999999994582,
+          "supported": true,
+          "table_normal_force_N": 0.12262500000000008,
+          "native_grasp": false,
+          "left_object_contact": false,
+          "right_object_contact": false,
+          "opposing_contact": false,
+          "relative_motion_valid": true,
+          "actual_goal_tool_Y_offset_m": 0.0023830855762895843,
+          "pad_normal_force_N": {
+            "left": 0.0,
+            "right": 0.0
+          },
+          "signed_pad_cube_gap_m": {
+            "left": 0.0167665485948782,
+            "right": 0.011683974918598943
+          },
+          "actual_cube_contacts": [
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.1226249999999999,
+              "distance_m": -5.337200565001289e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.12262500000000005,
+              "distance_m": -5.337200565001282e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.12262499999999993,
+              "distance_m": -5.337200565001152e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.12262500000000008,
+              "distance_m": -5.3372005650011454e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            }
+          ],
+          "actual_TCP_position_m": [
+            0.25154446927813234,
+            -0.014309774482902457,
+            0.6364955447288115
+          ],
+          "actual_cube_position_m": [
+            0.263,
+            -0.015,
+            0.6198932559886999
+          ],
+          "object_linear_velocity_m_s": [
+            -2.2520822821502958e-18,
+            2.2117294509021184e-17,
+            2.2140358037830477e-14
+          ],
+          "actual_mechanical_grip_fraction": 0.7727270573543397,
+          "actual_finger_q_m": [
+            0.033950102131641256,
+            0.034049878915540635
+          ],
+          "previous_consumed_nominal_grip": 0.8,
+          "previous_complete_H40_solver_gripper_consumption": true,
+          "geometry_overlap_is_contact_qualification": false,
+          "Teacher_version": "TEACHER_V9_REPAIRED_E1_RECOVERY24_UNCHANGED_ORACLE_V1",
+          "recovery_condition": "SUPPORTED_SIDE_OFFSET",
+          "E1_condition_established": true
+        },
+        "recovered_witness": {
+          "native_step": 16703,
+          "time_s": 33.40599999999486,
+          "contact_time_s": 33.40399999999486,
+          "supported": true,
+          "table_normal_force_N": 0.17367250371241946,
+          "native_grasp": true,
+          "left_object_contact": true,
+          "right_object_contact": true,
+          "opposing_contact": true,
+          "relative_motion_valid": true,
+          "actual_goal_tool_Y_offset_m": 1.2509833926848117e-05,
+          "pad_normal_force_N": {
+            "left": 3.5181415081446437,
+            "right": 2.927311983186128
+          },
+          "signed_pad_cube_gap_m": {
+            "left": -0.00045728596367430787,
+            "right": -0.00040593397418342623
+          },
+          "actual_cube_contacts": [
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.17367250371241946,
+              "distance_m": -7.141528377504688e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.13505895364001055,
+              "distance_m": -5.5692642571708775e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.07395561600342296,
+              "distance_m": -3.577402939297399e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.035206154565091054,
+              "distance_m": -2.005138818963588e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_left_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 3.5181415081446437,
+              "distance_m": -0.0004573079386047349,
+              "normal": [
+                -0.0024028688012479944,
+                -0.9997065271924009,
+                -0.024105719454801753
+              ]
+            },
+            {
+              "geoms": [
+                "task_left_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 1.736028251406624,
+              "distance_m": -0.00027112716680251393,
+              "normal": [
+                -0.0024028688012479944,
+                -0.9997065271924009,
+                -0.024105719454801753
+              ]
+            },
+            {
+              "geoms": [
+                "task_right_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 2.927311983186128,
+              "distance_m": -0.0004060121469067236,
+              "normal": [
+                0.0045162329622718015,
+                0.9999882109471372,
+                0.0017837058542701952
+              ]
+            },
+            {
+              "geoms": [
+                "task_right_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 2.4273883744322826,
+              "distance_m": -0.00035483798780081374,
+              "normal": [
+                0.0045162329622718015,
+                0.9999882109471372,
+                0.0017837058542701952
+              ]
+            }
+          ],
+          "actual_TCP_position_m": [
+            0.25108097542194807,
+            -0.016522946185965805,
+            0.6360355703664811
+          ],
+          "actual_cube_position_m": [
+            0.26282742295935424,
+            -0.014878481116965549,
+            0.6199085619681479
+          ],
+          "object_linear_velocity_m_s": [
+            -0.00021932162249482253,
+            3.595738812192064e-05,
+            3.32888300554054e-05
+          ],
+          "actual_mechanical_grip_fraction": 0.4396032461255618,
+          "actual_finger_q_m": [
+            0.01908662990818672,
+            0.019598455750862716
+          ],
+          "previous_consumed_nominal_grip": 0.10000000000000009,
+          "previous_complete_H40_solver_gripper_consumption": true,
+          "geometry_overlap_is_contact_qualification": false,
+          "Teacher_version": "TEACHER_V9_REPAIRED_E1_RECOVERY24_UNCHANGED_ORACLE_V1",
+          "recovery_condition": "SUPPORTED_SIDE_OFFSET",
+          "E1_entry_native_step": 14703,
+          "E2_actual_recovered": true
+        },
+        "recovery_exit": {},
+        "qualification_condition_not_established": false,
+        "new_BC_demonstrations": 0,
+        "new_student_rollin_states": 0,
+        "new_DAgger_labels": 0,
+        "result_sha256": "ff7f30620255ed888cec6d7611cc51931047a41fa15e96e10c059cb96ccff52a"
+      },
+      {
+        "native_run": "tl-v9-full24-20261111-01-recovery03-r1-supported_single_pad",
+        "layout": "RECOVERY03",
+        "restart": 1,
+        "recovery_condition": "SUPPORTED_SINGLE_PAD",
+        "offset_sign": 1,
+        "attempted": true,
+        "reset_ready": true,
+        "task_success": true,
+        "technical_valid": true,
+        "hard_safety_stop": false,
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_native_integrations": 21203,
+        "worker_exit_code": 0,
+        "first_failure": null,
+        "wall_s": 337.02267531398684,
+        "CPU_s": 738.325847823,
+        "score": {
+          "contract": {
+            "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+            "minimum_lift_m": 0.02,
+            "continuous_hold_s": 1.0,
+            "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+            "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+            "maximum_object_linear_speed_m_s": 0.02,
+            "standing": {
+              "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+              "maximum_base_displacement_m": 0.02,
+              "maximum_base_rotation_rad": 0.08726646259971647,
+              "maximum_foot_planar_displacement_m": 0.005,
+              "minimum_supported_feet": 3,
+              "minimum_actual_floor_normal_force_N": 0.05,
+              "old_short_task_pose_diagnostic": {
+                "maximum_base_displacement_m": 0.002,
+                "maximum_base_rotation_rad": 0.008726646259971648
+              },
+              "original_native_safety_changed": false,
+              "task_score_bounds_are_native_safety": false,
+              "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+            },
+            "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+            "success_requires_all": true
+          },
+          "samples": 621,
+          "maximum_object_lift_m": 0.02493882128590552,
+          "longest_contiguous_grasp_lift_hold_s": 3.35,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_base_displacement_m": 0.006145476380288288,
+          "maximum_base_rotation_rad": 0.010670649683920104,
+          "maximum_foot_planar_displacement_m": 0.003958620325783176,
+          "minimum_supported_feet": 4,
+          "old_short_task_pose_bound_all_samples_pass": false,
+          "task_success": true
+        },
+        "original_task_success": true,
+        "E1_condition_established": true,
+        "E2_recovery_evaluable": true,
+        "E2_actual_recovered": true,
+        "E3_original_task_success": true,
+        "genuine_recovery_success": true,
+        "entry_witness": {
+          "native_step": 14703,
+          "time_s": 29.40599999999458,
+          "contact_time_s": 29.403999999994582,
+          "supported": true,
+          "table_normal_force_N": 0.16125301229224787,
+          "native_grasp": false,
+          "left_object_contact": false,
+          "right_object_contact": true,
+          "opposing_contact": false,
+          "relative_motion_valid": true,
+          "actual_goal_tool_Y_offset_m": 0.0022204828013744305,
+          "pad_normal_force_N": {
+            "left": 0.0,
+            "right": 0.07109210099920385
+          },
+          "signed_pad_cube_gap_m": {
+            "left": 0.00457762347361467,
+            "right": -1.5052686501477145e-06
+          },
+          "actual_cube_contacts": [
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.16125301229224787,
+              "distance_m": -6.0462495556154114e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.11947280779064162,
+              "distance_m": -5.885648063581723e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.09710437431457597,
+              "distance_m": -4.461177133602409e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.05542041780524379,
+              "distance_m": -4.3005756415687206e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_right_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.07109210099920385,
+              "distance_m": -1.1686791814489166e-06,
+              "normal": [
+                0.000964899747899996,
+                0.9999992203664085,
+                -0.0007926128005727567
+              ]
+            }
+          ],
+          "actual_TCP_position_m": [
+            0.2515312412148224,
+            -0.014449200063417784,
+            0.6362995786718845
+          ],
+          "actual_cube_position_m": [
+            0.26300167331889635,
+            -0.014983636149449817,
+            0.6198966532637851
+          ],
+          "object_linear_velocity_m_s": [
+            5.3563019312216555e-05,
+            7.586106760821277e-05,
+            6.393068824890132e-05
+          ],
+          "actual_mechanical_grip_fraction": 0.5017971629703677,
+          "actual_finger_q_m": [
+            0.02194864762011537,
+            0.022209502721276978
+          ],
+          "previous_consumed_nominal_grip": 0.5,
+          "previous_complete_H40_solver_gripper_consumption": true,
+          "geometry_overlap_is_contact_qualification": false,
+          "Teacher_version": "TEACHER_V9_REPAIRED_E1_RECOVERY24_UNCHANGED_ORACLE_V1",
+          "recovery_condition": "SUPPORTED_SINGLE_PAD",
+          "E1_condition_established": true
+        },
+        "recovered_witness": {
+          "native_step": 17703,
+          "time_s": 35.405999999997306,
+          "contact_time_s": 35.4039999999973,
+          "supported": true,
+          "table_normal_force_N": 0.16742598191823765,
+          "native_grasp": true,
+          "left_object_contact": true,
+          "right_object_contact": true,
+          "opposing_contact": true,
+          "relative_motion_valid": true,
+          "actual_goal_tool_Y_offset_m": -1.235619817314767e-05,
+          "pad_normal_force_N": {
+            "left": 3.5075024446271748,
+            "right": 2.908631034877175
+          },
+          "signed_pad_cube_gap_m": {
+            "left": -0.00045646150891068347,
+            "right": -0.0004039710537742458
+          },
+          "actual_cube_contacts": [
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.16742598191823765,
+              "distance_m": -7.013160249108238e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.13560007406911986,
+              "distance_m": -5.711154427941283e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.07657292502332963,
+              "distance_m": -3.5976639118765265e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.044940982463946025,
+              "distance_m": -2.295658090709571e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_left_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 3.5075024446271748,
+              "distance_m": -0.0004565158807296026,
+              "normal": [
+                -0.0020793102227984568,
+                -0.9997043310556788,
+                -0.024226575026509885
+              ]
+            },
+            {
+              "geoms": [
+                "task_left_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 1.7529037374635013,
+              "distance_m": -0.00027361286895368663,
+              "normal": [
+                -0.0020793102227984568,
+                -0.9997043310556788,
+                -0.024226575026509885
+              ]
+            },
+            {
+              "geoms": [
+                "task_right_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 2.908631034877175,
+              "distance_m": -0.00040398987687207283,
+              "normal": [
+                0.004062084205460298,
+                0.9999902893043519,
+                0.0017090257185276177
+              ]
+            },
+            {
+              "geoms": [
+                "task_right_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 2.4424508586359317,
+              "distance_m": -0.00035634022375597856,
+              "normal": [
+                0.004062084205460298,
+                0.9999902893043519,
+                0.0017090257185276177
+              ]
+            }
+          ],
+          "actual_TCP_position_m": [
+            0.25099044136885984,
+            -0.016617376291166802,
+            0.6359396098139182
+          ],
+          "actual_cube_position_m": [
+            0.26293124088008346,
+            -0.014948234265463949,
+            0.6199069437571623
+          ],
+          "object_linear_velocity_m_s": [
+            -4.678111673118e-05,
+            -7.788675192318739e-05,
+            3.267133718412714e-05
+          ],
+          "actual_mechanical_grip_fraction": 0.4396757018664222,
+          "actual_finger_q_m": [
+            0.0191113712615154,
+            0.01958009050272975
+          ],
+          "previous_consumed_nominal_grip": 0.10000000000000009,
+          "previous_complete_H40_solver_gripper_consumption": true,
+          "geometry_overlap_is_contact_qualification": false,
+          "Teacher_version": "TEACHER_V9_REPAIRED_E1_RECOVERY24_UNCHANGED_ORACLE_V1",
+          "recovery_condition": "SUPPORTED_SINGLE_PAD",
+          "E1_entry_native_step": 14703,
+          "E2_actual_recovered": true
+        },
+        "recovery_exit": {},
+        "qualification_condition_not_established": false,
+        "new_BC_demonstrations": 0,
+        "new_student_rollin_states": 0,
+        "new_DAgger_labels": 0,
+        "result_sha256": "7cc037c5e0f4d8bb5d6b4fcb98f81b2010c94fe1fc8f39ff5a4321961c8b090e"
+      },
+      {
+        "native_run": "tl-v9-full24-20261111-01-recovery04-r1-under_close",
+        "layout": "RECOVERY04",
+        "restart": 1,
+        "recovery_condition": "UNDER_CLOSE",
+        "offset_sign": 1,
+        "attempted": true,
+        "reset_ready": true,
+        "task_success": true,
+        "technical_valid": true,
+        "hard_safety_stop": false,
+        "native_status": "NATIVE_STAGE_PASSED",
+        "actual_native_integrations": 21203,
+        "worker_exit_code": 0,
+        "first_failure": null,
+        "wall_s": 334.47930009523407,
+        "CPU_s": 746.3961786779998,
+        "score": {
+          "contract": {
+            "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+            "minimum_lift_m": 0.02,
+            "continuous_hold_s": 1.0,
+            "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+            "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+            "maximum_object_linear_speed_m_s": 0.02,
+            "standing": {
+              "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+              "maximum_base_displacement_m": 0.02,
+              "maximum_base_rotation_rad": 0.08726646259971647,
+              "maximum_foot_planar_displacement_m": 0.005,
+              "minimum_supported_feet": 3,
+              "minimum_actual_floor_normal_force_N": 0.05,
+              "old_short_task_pose_diagnostic": {
+                "maximum_base_displacement_m": 0.002,
+                "maximum_base_rotation_rad": 0.008726646259971648
+              },
+              "original_native_safety_changed": false,
+              "task_score_bounds_are_native_safety": false,
+              "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+            },
+            "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+            "success_requires_all": true
+          },
+          "samples": 621,
+          "maximum_object_lift_m": 0.025947915720717307,
+          "longest_contiguous_grasp_lift_hold_s": 7.2,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_base_displacement_m": 0.005999584723850842,
+          "maximum_base_rotation_rad": 0.010510737420098358,
+          "maximum_foot_planar_displacement_m": 0.0039040396697164184,
+          "minimum_supported_feet": 4,
+          "old_short_task_pose_bound_all_samples_pass": false,
+          "task_success": true
+        },
+        "original_task_success": true,
+        "E1_condition_established": true,
+        "E2_recovery_evaluable": true,
+        "E2_actual_recovered": true,
+        "E3_original_task_success": true,
+        "genuine_recovery_success": true,
+        "entry_witness": {
+          "native_step": 14703,
+          "time_s": 29.40599999999458,
+          "contact_time_s": 29.403999999994582,
+          "supported": true,
+          "table_normal_force_N": 0.12262500000000011,
+          "native_grasp": false,
+          "left_object_contact": false,
+          "right_object_contact": false,
+          "opposing_contact": false,
+          "relative_motion_valid": true,
+          "actual_goal_tool_Y_offset_m": -4.389555755358419e-05,
+          "pad_normal_force_N": {
+            "left": 0.0,
+            "right": 0.0
+          },
+          "signed_pad_cube_gap_m": {
+            "left": 0.004282022397314077,
+            "right": 0.00405124151217468
+          },
+          "actual_cube_contacts": [
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.1226249999999999,
+              "distance_m": -5.337200565001289e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.12262500000000011,
+              "distance_m": -5.3372005650012776e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.12262499999999996,
+              "distance_m": -5.337200565001177e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.12262500000000008,
+              "distance_m": -5.337200565001166e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            }
+          ],
+          "actual_TCP_position_m": [
+            0.251415126445376,
+            -0.01471556985206712,
+            0.6364035816216326
+          ],
+          "actual_cube_position_m": [
+            0.263,
+            -0.013000000000000001,
+            0.6198932559886999
+          ],
+          "object_linear_velocity_m_s": [
+            -3.0938846884133987e-18,
+            1.8873464559655002e-17,
+            2.214911602687934e-14
+          ],
+          "actual_mechanical_grip_fraction": 0.5454508722896859,
+          "actual_finger_q_m": [
+            0.023946200200205544,
+            0.024053476561286813
+          ],
+          "previous_consumed_nominal_grip": 0.55,
+          "previous_complete_H40_solver_gripper_consumption": true,
+          "geometry_overlap_is_contact_qualification": false,
+          "Teacher_version": "TEACHER_V9_REPAIRED_E1_RECOVERY24_UNCHANGED_ORACLE_V1",
+          "recovery_condition": "UNDER_CLOSE",
+          "E1_condition_established": true
+        },
+        "recovered_witness": {
+          "native_step": 15703,
+          "time_s": 31.405999999993472,
+          "contact_time_s": 31.403999999993474,
+          "supported": true,
+          "table_normal_force_N": 0.30218949293086383,
+          "native_grasp": true,
+          "left_object_contact": true,
+          "right_object_contact": true,
+          "opposing_contact": true,
+          "relative_motion_valid": true,
+          "actual_goal_tool_Y_offset_m": -0.00010618263531230379,
+          "pad_normal_force_N": {
+            "left": 4.323924218903589,
+            "right": 3.495280883864274
+          },
+          "signed_pad_cube_gap_m": {
+            "left": -0.0005158374822905054,
+            "right": -0.00045550872947864034
+          },
+          "actual_cube_contacts": [
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.30218949293086383,
+              "distance_m": -0.00012772305929677728,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.214026960341025,
+              "distance_m": -9.19696853914324e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_table",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.07157909039154357,
+              "distance_m": -3.300923122428262e-05,
+              "normal": [
+                0.0,
+                0.0,
+                1.0
+              ]
+            },
+            {
+              "geoms": [
+                "task_left_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 4.323924218903589,
+              "distance_m": -0.000515925688411303,
+              "normal": [
+                -0.0030569070611802408,
+                -0.999688945721882,
+                -0.024752113459079676
+              ]
+            },
+            {
+              "geoms": [
+                "task_left_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.23016105371911938,
+              "distance_m": -3.62253839844064e-05,
+              "normal": [
+                -0.0030569070611802408,
+                -0.999688945721882,
+                -0.024752113459079676
+              ]
+            },
+            {
+              "geoms": [
+                "task_left_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 2.2911382128734563,
+              "distance_m": -0.0003395832879510337,
+              "normal": [
+                -0.0030569070611802408,
+                -0.999688945721882,
+                -0.024752113459079676
+              ]
+            },
+            {
+              "geoms": [
+                "task_right_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 3.495280883864274,
+              "distance_m": -0.0004555681929823505,
+              "normal": [
+                0.005242327584211768,
+                0.9999750271558996,
+                0.004739521711952605
+              ]
+            },
+            {
+              "geoms": [
+                "task_right_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 2.8980943143863063,
+              "distance_m": -0.00040291431328242966,
+              "normal": [
+                0.005242327584211768,
+                0.9999750271558996,
+                0.004739521711952605
+              ]
+            },
+            {
+              "geoms": [
+                "task_right_pad",
+                "task_cube_geom"
+              ],
+              "normal_force_N": 0.5055789850032745,
+              "distance_m": -8.40761808368974e-05,
+              "normal": [
+                0.005242327584211768,
+                0.9999750271558996,
+                0.004739521711952605
+              ]
+            }
+          ],
+          "actual_TCP_position_m": [
+            0.25128923902747174,
+            -0.014819076223778458,
+            0.6361080168089495
+          ],
+          "actual_cube_position_m": [
+            0.26293803881604233,
+            -0.013070964914062937,
+            0.6198747665863391
+          ],
+          "object_linear_velocity_m_s": [
+            -4.145163555101126e-07,
+            -6.895593594276755e-05,
+            8.649602932582155e-07
+          ],
+          "actual_mechanical_grip_fraction": 0.43773184488197303,
+          "actual_finger_q_m": [
+            0.01907365777879338,
+            0.01944674457082024
+          ],
+          "previous_consumed_nominal_grip": 0.0,
+          "previous_complete_H40_solver_gripper_consumption": true,
+          "geometry_overlap_is_contact_qualification": false,
+          "Teacher_version": "TEACHER_V9_REPAIRED_E1_RECOVERY24_UNCHANGED_ORACLE_V1",
+          "recovery_condition": "UNDER_CLOSE",
+          "E1_entry_native_step": 14703,
+          "E2_actual_recovered": true
+        },
+        "recovery_exit": {},
+        "qualification_condition_not_established": false,
+        "new_BC_demonstrations": 0,
+        "new_student_rollin_states": 0,
+        "new_DAgger_labels": 0,
+        "result_sha256": "c01b98da48d80630efc81bbe6e829eca9fb7aa506324cb4e29637a9d1189d72d"
+      }
+    ],
+    "completed_conditions_actual_Teacher_proposals": 144,
+    "completed_conditions_actual_native_integrations": 205405,
+    "completed_conditions_actual_GR00T_queries": 0,
+    "optimizer_updates": 0,
+    "completed_conditions_summed_child_wall_s": 3355.3847534419037,
+    "completed_conditions_summed_child_CPU_s": 7167.675246281,
+    "supervisor_MainPID": 1981823,
+    "current_native_PID": 2049737,
+    "current_native_run": "tl-v9-full24-20261111-01-recovery04-r1-supported_side_offset",
+    "finite_deadline_epoch": 1794382291.479737,
+    "independent_success_audits": [
+      {
+        "status": "PASS_INDEPENDENT_FULL24_FIRST_UNDER_CLOSE_CONDITION_E1_E2_E3_FORCE_CONSUMPTION_AND_ORIGINAL_SCORE_AUDIT",
+        "native_run": "tl-v9-full24-20261111-01-recovery01-r1-under_close",
+        "source_sha": "1c0eb4c9fbf7452252b28c6382f82f8866036356",
+        "native_result_sha256": "1fe2b2fac9c7686f7536e7a40dfac0e97894b608ae8418bbf581580b442420b6",
+        "journal_sha256": "925a3b42e236a6b864f509c38e322eca8bea2d9b195aa232249ef5cb0d0c3838",
+        "original_native_integrations_audited": 21203,
+        "actual_complete_H40": 15,
+        "confirmed_commands": 600,
+        "interventions_excluded": 1,
+        "executed_Teacher_policy_decisions": 14,
+        "real_current_RGB": 30,
+        "E1_E2_exact_saved_packet_checks": [
+          {
+            "native_step": 14703,
+            "all_current_force_gap_support_motion_and_consumed_fields_exact": true
+          },
+          {
+            "native_step": 15703,
+            "all_current_force_gap_support_motion_and_consumed_fields_exact": true
+          }
+        ],
+        "score_exactly_recomputed_621": true,
+        "score": {
+          "contract": {
+            "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+            "minimum_lift_m": 0.02,
+            "continuous_hold_s": 1.0,
+            "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+            "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+            "maximum_object_linear_speed_m_s": 0.02,
+            "standing": {
+              "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+              "maximum_base_displacement_m": 0.02,
+              "maximum_base_rotation_rad": 0.08726646259971647,
+              "maximum_foot_planar_displacement_m": 0.005,
+              "minimum_supported_feet": 3,
+              "minimum_actual_floor_normal_force_N": 0.05,
+              "old_short_task_pose_diagnostic": {
+                "maximum_base_displacement_m": 0.002,
+                "maximum_base_rotation_rad": 0.008726646259971648
+              },
+              "original_native_safety_changed": false,
+              "task_score_bounds_are_native_safety": false,
+              "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+            },
+            "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+            "success_requires_all": true
+          },
+          "samples": 621,
+          "maximum_object_lift_m": 0.026434900815133444,
+          "longest_contiguous_grasp_lift_hold_s": 7.3,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_base_displacement_m": 0.0073212985316736786,
+          "maximum_base_rotation_rad": 0.011828768001159277,
+          "maximum_foot_planar_displacement_m": 0.0038624678140087724,
+          "minimum_supported_feet": 4,
+          "old_short_task_pose_bound_all_samples_pass": false,
+          "task_success": true
+        },
+        "trace_events": 160091,
+        "trace_dropped": 0,
+        "new_GR00T_model_calls": 0,
+        "optimizer_updates": 0,
+        "physics_integrations": 0,
+        "new_BC_DAgger": 0,
+        "CPU_s": 1.739445628,
+        "wall_s": 1.8733432269655168
+      },
+      {
+        "status": "PASS_INDEPENDENT_FULL24_FIRST_SIDE_CONDITION_E1_E2_E3_FORCE_CONSUMPTION_AND_ORIGINAL_SCORE_AUDIT",
+        "native_run": "tl-v9-full24-20261111-01-recovery01-r1-supported_side_offset",
+        "source_sha": "1c0eb4c9fbf7452252b28c6382f82f8866036356",
+        "native_result_sha256": "d0770de770fd97264f633100a2031ce10e22996a5232b0da82ebd695d056d666",
+        "journal_sha256": "da96171f3f7d93ea9cd349738cdff19d3b59fc2ba859176ca79cafabd6385a78",
+        "original_native_integrations_audited": 21203,
+        "actual_complete_H40": 15,
+        "confirmed_commands": 600,
+        "interventions_excluded": 1,
+        "executed_Teacher_policy_decisions": 14,
+        "real_current_RGB": 30,
+        "E1_E2_exact_saved_packet_checks": [
+          {
+            "native_step": 14703,
+            "all_current_force_gap_support_motion_and_consumed_fields_exact": true
+          },
+          {
+            "native_step": 16703,
+            "all_current_force_gap_support_motion_and_consumed_fields_exact": true
+          }
+        ],
+        "score_exactly_recomputed_621": true,
+        "score": {
+          "contract": {
+            "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+            "minimum_lift_m": 0.02,
+            "continuous_hold_s": 1.0,
+            "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+            "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+            "maximum_object_linear_speed_m_s": 0.02,
+            "standing": {
+              "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+              "maximum_base_displacement_m": 0.02,
+              "maximum_base_rotation_rad": 0.08726646259971647,
+              "maximum_foot_planar_displacement_m": 0.005,
+              "minimum_supported_feet": 3,
+              "minimum_actual_floor_normal_force_N": 0.05,
+              "old_short_task_pose_diagnostic": {
+                "maximum_base_displacement_m": 0.002,
+                "maximum_base_rotation_rad": 0.008726646259971648
+              },
+              "original_native_safety_changed": false,
+              "task_score_bounds_are_native_safety": false,
+              "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+            },
+            "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+            "success_requires_all": true
+          },
+          "samples": 621,
+          "maximum_object_lift_m": 0.02611392363533005,
+          "longest_contiguous_grasp_lift_hold_s": 5.3500000000000005,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_base_displacement_m": 0.007282894113067547,
+          "maximum_base_rotation_rad": 0.010718220758492363,
+          "maximum_foot_planar_displacement_m": 0.003933452812266532,
+          "minimum_supported_feet": 4,
+          "old_short_task_pose_bound_all_samples_pass": false,
+          "task_success": true
+        },
+        "trace_events": 161307,
+        "trace_dropped": 0,
+        "new_GR00T_model_calls": 0,
+        "optimizer_updates": 0,
+        "physics_integrations": 0,
+        "new_BC_DAgger": 0,
+        "CPU_s": 1.724442749,
+        "wall_s": 1.8049103571102023
+      },
+      {
+        "status": "PASS_INDEPENDENT_FULL24_FIRST_SINGLE_CONDITION_E1_E2_E3_FORCE_CONSUMPTION_AND_ORIGINAL_SCORE_AUDIT",
+        "native_run": "tl-v9-full24-20261111-01-recovery01-r1-supported_single_pad",
+        "source_sha": "1c0eb4c9fbf7452252b28c6382f82f8866036356",
+        "native_result_sha256": "50dcf053cc36abf3d90a3c948d750a4134f4153f704635ff96392434298b0498",
+        "journal_sha256": "ec704c4315191c026dd0b4d41f1f89b205acd8760ca50a05ec607a49f5b286a9",
+        "original_native_integrations_audited": 21203,
+        "actual_complete_H40": 15,
+        "confirmed_commands": 600,
+        "interventions_excluded": 1,
+        "executed_Teacher_policy_decisions": 14,
+        "real_current_RGB": 30,
+        "E1_E2_exact_saved_packet_checks": [
+          {
+            "native_step": 14703,
+            "all_current_force_gap_support_motion_and_consumed_fields_exact": true
+          },
+          {
+            "native_step": 17703,
+            "all_current_force_gap_support_motion_and_consumed_fields_exact": true
+          }
+        ],
+        "score_exactly_recomputed_621": true,
+        "score": {
+          "contract": {
+            "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+            "minimum_lift_m": 0.02,
+            "continuous_hold_s": 1.0,
+            "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+            "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+            "maximum_object_linear_speed_m_s": 0.02,
+            "standing": {
+              "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+              "maximum_base_displacement_m": 0.02,
+              "maximum_base_rotation_rad": 0.08726646259971647,
+              "maximum_foot_planar_displacement_m": 0.005,
+              "minimum_supported_feet": 3,
+              "minimum_actual_floor_normal_force_N": 0.05,
+              "old_short_task_pose_diagnostic": {
+                "maximum_base_displacement_m": 0.002,
+                "maximum_base_rotation_rad": 0.008726646259971648
+              },
+              "original_native_safety_changed": false,
+              "task_score_bounds_are_native_safety": false,
+              "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+            },
+            "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+            "success_requires_all": true
+          },
+          "samples": 621,
+          "maximum_object_lift_m": 0.024702667993647398,
+          "longest_contiguous_grasp_lift_hold_s": 3.4,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_base_displacement_m": 0.007302470436395372,
+          "maximum_base_rotation_rad": 0.010675894498230953,
+          "maximum_foot_planar_displacement_m": 0.0039302457688237405,
+          "minimum_supported_feet": 4,
+          "old_short_task_pose_bound_all_samples_pass": false,
+          "task_success": true
+        },
+        "trace_events": 159714,
+        "trace_dropped": 0,
+        "new_GR00T_model_calls": 0,
+        "optimizer_updates": 0,
+        "physics_integrations": 0,
+        "new_BC_DAgger": 0,
+        "CPU_s": 1.720617147,
+        "wall_s": 1.7894997103139758
+      },
+      {
+        "status": "PASS_INDEPENDENT_FULL24_SECOND_UNDER_CLOSE_CONDITION_E1_E2_E3_FORCE_CONSUMPTION_AND_ORIGINAL_SCORE_AUDIT",
+        "native_run": "tl-v9-full24-20261111-01-recovery02-r1-under_close",
+        "source_sha": "1c0eb4c9fbf7452252b28c6382f82f8866036356",
+        "native_result_sha256": "15052535b024bdf5efc87f2e03a3b8bc3c8c6aa52e027b8a736b56bbc65bae9b",
+        "journal_sha256": "6aa94ef81223e51ea40f51dc03e3df1bf05ad99a817c96bfbfa563f105587111",
+        "original_native_integrations_audited": 21203,
+        "actual_complete_H40": 15,
+        "confirmed_commands": 600,
+        "interventions_excluded": 1,
+        "executed_Teacher_policy_decisions": 14,
+        "real_current_RGB": 30,
+        "E1_E2_exact_saved_packet_checks": [
+          {
+            "native_step": 14703,
+            "all_current_force_gap_support_motion_and_consumed_fields_exact": true
+          },
+          {
+            "native_step": 15703,
+            "all_current_force_gap_support_motion_and_consumed_fields_exact": true
+          }
+        ],
+        "score_exactly_recomputed_621": true,
+        "score": {
+          "contract": {
+            "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+            "minimum_lift_m": 0.02,
+            "continuous_hold_s": 1.0,
+            "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+            "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+            "maximum_object_linear_speed_m_s": 0.02,
+            "standing": {
+              "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+              "maximum_base_displacement_m": 0.02,
+              "maximum_base_rotation_rad": 0.08726646259971647,
+              "maximum_foot_planar_displacement_m": 0.005,
+              "minimum_supported_feet": 3,
+              "minimum_actual_floor_normal_force_N": 0.05,
+              "old_short_task_pose_diagnostic": {
+                "maximum_base_displacement_m": 0.002,
+                "maximum_base_rotation_rad": 0.008726646259971648
+              },
+              "original_native_safety_changed": false,
+              "task_score_bounds_are_native_safety": false,
+              "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+            },
+            "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+            "success_requires_all": true
+          },
+          "samples": 621,
+          "maximum_object_lift_m": 0.026438383549245215,
+          "longest_contiguous_grasp_lift_hold_s": 7.3,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_base_displacement_m": 0.007314092884335713,
+          "maximum_base_rotation_rad": 0.009661086263289332,
+          "maximum_foot_planar_displacement_m": 0.0038703701844823427,
+          "minimum_supported_feet": 4,
+          "old_short_task_pose_bound_all_samples_pass": false,
+          "task_success": true
+        },
+        "trace_events": 159080,
+        "trace_dropped": 0,
+        "new_GR00T_model_calls": 0,
+        "optimizer_updates": 0,
+        "physics_integrations": 0,
+        "new_BC_DAgger": 0,
+        "CPU_s": 1.7429301640000001,
+        "wall_s": 1.80216959817335
+      },
+      {
+        "status": "PASS_INDEPENDENT_FULL24_SECOND_SIDE_CONDITION_E1_E2_E3_FORCE_CONSUMPTION_AND_ORIGINAL_SCORE_AUDIT",
+        "native_run": "tl-v9-full24-20261111-01-recovery02-r1-supported_side_offset",
+        "source_sha": "1c0eb4c9fbf7452252b28c6382f82f8866036356",
+        "native_result_sha256": "78080f649941f900c9e49d6a1b8aaedad633a1aa3c7fef50691ad73ded848484",
+        "journal_sha256": "4f27dfa57345938ed98053297b1bd6a926b77afa9ef73062849713195e4f6d7d",
+        "original_native_integrations_audited": 21203,
+        "actual_complete_H40": 15,
+        "confirmed_commands": 600,
+        "interventions_excluded": 1,
+        "executed_Teacher_policy_decisions": 14,
+        "real_current_RGB": 30,
+        "E1_E2_exact_saved_packet_checks": [
+          {
+            "native_step": 14703,
+            "all_current_force_gap_support_motion_and_consumed_fields_exact": true
+          },
+          {
+            "native_step": 16703,
+            "all_current_force_gap_support_motion_and_consumed_fields_exact": true
+          }
+        ],
+        "score_exactly_recomputed_621": true,
+        "score": {
+          "contract": {
+            "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+            "minimum_lift_m": 0.02,
+            "continuous_hold_s": 1.0,
+            "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+            "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+            "maximum_object_linear_speed_m_s": 0.02,
+            "standing": {
+              "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+              "maximum_base_displacement_m": 0.02,
+              "maximum_base_rotation_rad": 0.08726646259971647,
+              "maximum_foot_planar_displacement_m": 0.005,
+              "minimum_supported_feet": 3,
+              "minimum_actual_floor_normal_force_N": 0.05,
+              "old_short_task_pose_diagnostic": {
+                "maximum_base_displacement_m": 0.002,
+                "maximum_base_rotation_rad": 0.008726646259971648
+              },
+              "original_native_safety_changed": false,
+              "task_score_bounds_are_native_safety": false,
+              "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+            },
+            "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+            "success_requires_all": true
+          },
+          "samples": 621,
+          "maximum_object_lift_m": 0.02598512313577961,
+          "longest_contiguous_grasp_lift_hold_s": 5.3,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_base_displacement_m": 0.007318849574269254,
+          "maximum_base_rotation_rad": 0.008590251487689897,
+          "maximum_foot_planar_displacement_m": 0.0039072996553954345,
+          "minimum_supported_feet": 4,
+          "old_short_task_pose_bound_all_samples_pass": false,
+          "task_success": true
+        },
+        "trace_events": 159570,
+        "trace_dropped": 0,
+        "new_GR00T_model_calls": 0,
+        "optimizer_updates": 0,
+        "physics_integrations": 0,
+        "new_BC_DAgger": 0,
+        "CPU_s": 1.729124361,
+        "wall_s": 1.8387534199282527
+      },
+      {
+        "status": "PASS_INDEPENDENT_FULL24_THIRD_UNDER_CLOSE_CONDITION_E1_E2_E3_FORCE_CONSUMPTION_AND_ORIGINAL_SCORE_AUDIT",
+        "native_run": "tl-v9-full24-20261111-01-recovery03-r1-under_close",
+        "source_sha": "1c0eb4c9fbf7452252b28c6382f82f8866036356",
+        "native_result_sha256": "98a71653622c172dc0332e5bc64872b3662bccfb88c1a899505dec9798d74760",
+        "journal_sha256": "2d77bb824366353923b5cef7e9269801bb4404167d883a5b6f34335cdf9a1a01",
+        "original_native_integrations_audited": 21203,
+        "actual_complete_H40": 15,
+        "confirmed_commands": 600,
+        "interventions_excluded": 1,
+        "executed_Teacher_policy_decisions": 14,
+        "real_current_RGB": 30,
+        "E1_E2_exact_saved_packet_checks": [
+          {
+            "native_step": 14703,
+            "all_current_force_gap_support_motion_and_consumed_fields_exact": true
+          },
+          {
+            "native_step": 15703,
+            "all_current_force_gap_support_motion_and_consumed_fields_exact": true
+          }
+        ],
+        "score_exactly_recomputed_621": true,
+        "score": {
+          "contract": {
+            "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+            "minimum_lift_m": 0.02,
+            "continuous_hold_s": 1.0,
+            "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+            "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+            "maximum_object_linear_speed_m_s": 0.02,
+            "standing": {
+              "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+              "maximum_base_displacement_m": 0.02,
+              "maximum_base_rotation_rad": 0.08726646259971647,
+              "maximum_foot_planar_displacement_m": 0.005,
+              "minimum_supported_feet": 3,
+              "minimum_actual_floor_normal_force_N": 0.05,
+              "old_short_task_pose_diagnostic": {
+                "maximum_base_displacement_m": 0.002,
+                "maximum_base_rotation_rad": 0.008726646259971648
+              },
+              "original_native_safety_changed": false,
+              "task_score_bounds_are_native_safety": false,
+              "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+            },
+            "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+            "success_requires_all": true
+          },
+          "samples": 621,
+          "maximum_object_lift_m": 0.02603883687855235,
+          "longest_contiguous_grasp_lift_hold_s": 7.2,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_base_displacement_m": 0.005877279451262606,
+          "maximum_base_rotation_rad": 0.010683994237563312,
+          "maximum_foot_planar_displacement_m": 0.003961792659749895,
+          "minimum_supported_feet": 4,
+          "old_short_task_pose_bound_all_samples_pass": false,
+          "task_success": true
+        },
+        "trace_events": 161568,
+        "trace_dropped": 0,
+        "new_GR00T_model_calls": 0,
+        "optimizer_updates": 0,
+        "physics_integrations": 0,
+        "new_BC_DAgger": 0,
+        "CPU_s": 1.7345184439999999,
+        "wall_s": 5.071464826818556
+      },
+      {
+        "status": "PASS_INDEPENDENT_FULL24_THIRD_SIDE_CONDITION_E1_E2_E3_FORCE_CONSUMPTION_AND_ORIGINAL_SCORE_AUDIT",
+        "native_run": "tl-v9-full24-20261111-01-recovery03-r1-supported_side_offset",
+        "source_sha": "1c0eb4c9fbf7452252b28c6382f82f8866036356",
+        "native_result_sha256": "ff7f30620255ed888cec6d7611cc51931047a41fa15e96e10c059cb96ccff52a",
+        "journal_sha256": "075d2469ef439ba345c2eb85a39e2b282ac8b9ad3907cda85e39881c89a4548d",
+        "original_native_integrations_audited": 21203,
+        "actual_complete_H40": 15,
+        "confirmed_commands": 600,
+        "interventions_excluded": 1,
+        "executed_Teacher_policy_decisions": 14,
+        "real_current_RGB": 30,
+        "E1_E2_exact_saved_packet_checks": [
+          {
+            "native_step": 14703,
+            "all_current_force_gap_support_motion_and_consumed_fields_exact": true
+          },
+          {
+            "native_step": 16703,
+            "all_current_force_gap_support_motion_and_consumed_fields_exact": true
+          }
+        ],
+        "score_exactly_recomputed_621": true,
+        "score": {
+          "contract": {
+            "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+            "minimum_lift_m": 0.02,
+            "continuous_hold_s": 1.0,
+            "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+            "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+            "maximum_object_linear_speed_m_s": 0.02,
+            "standing": {
+              "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+              "maximum_base_displacement_m": 0.02,
+              "maximum_base_rotation_rad": 0.08726646259971647,
+              "maximum_foot_planar_displacement_m": 0.005,
+              "minimum_supported_feet": 3,
+              "minimum_actual_floor_normal_force_N": 0.05,
+              "old_short_task_pose_diagnostic": {
+                "maximum_base_displacement_m": 0.002,
+                "maximum_base_rotation_rad": 0.008726646259971648
+              },
+              "original_native_safety_changed": false,
+              "task_score_bounds_are_native_safety": false,
+              "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+            },
+            "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+            "success_requires_all": true
+          },
+          "samples": 621,
+          "maximum_object_lift_m": 0.025765915974442666,
+          "longest_contiguous_grasp_lift_hold_s": 5.3500000000000005,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_base_displacement_m": 0.006091832624643925,
+          "maximum_base_rotation_rad": 0.010411975485168765,
+          "maximum_foot_planar_displacement_m": 0.003960785180471723,
+          "minimum_supported_feet": 4,
+          "old_short_task_pose_bound_all_samples_pass": false,
+          "task_success": true
+        },
+        "trace_events": 163139,
+        "trace_dropped": 0,
+        "new_GR00T_model_calls": 0,
+        "optimizer_updates": 0,
+        "physics_integrations": 0,
+        "new_BC_DAgger": 0,
+        "CPU_s": 1.744667168,
+        "wall_s": 4.556874581146985
+      },
+      {
+        "status": "PASS_INDEPENDENT_FULL24_THIRD_SINGLE_CONDITION_E1_E2_E3_FORCE_CONSUMPTION_AND_ORIGINAL_SCORE_AUDIT",
+        "native_run": "tl-v9-full24-20261111-01-recovery03-r1-supported_single_pad",
+        "source_sha": "1c0eb4c9fbf7452252b28c6382f82f8866036356",
+        "native_result_sha256": "7cc037c5e0f4d8bb5d6b4fcb98f81b2010c94fe1fc8f39ff5a4321961c8b090e",
+        "journal_sha256": "2e21f216fd49ec07d818715ede2c315c69155632333f53b9b530df4febdd32a5",
+        "original_native_integrations_audited": 21203,
+        "actual_complete_H40": 15,
+        "confirmed_commands": 600,
+        "interventions_excluded": 1,
+        "executed_Teacher_policy_decisions": 14,
+        "real_current_RGB": 30,
+        "E1_E2_exact_saved_packet_checks": [
+          {
+            "native_step": 14703,
+            "all_current_force_gap_support_motion_and_consumed_fields_exact": true
+          },
+          {
+            "native_step": 17703,
+            "all_current_force_gap_support_motion_and_consumed_fields_exact": true
+          }
+        ],
+        "score_exactly_recomputed_621": true,
+        "score": {
+          "contract": {
+            "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+            "minimum_lift_m": 0.02,
+            "continuous_hold_s": 1.0,
+            "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+            "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+            "maximum_object_linear_speed_m_s": 0.02,
+            "standing": {
+              "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+              "maximum_base_displacement_m": 0.02,
+              "maximum_base_rotation_rad": 0.08726646259971647,
+              "maximum_foot_planar_displacement_m": 0.005,
+              "minimum_supported_feet": 3,
+              "minimum_actual_floor_normal_force_N": 0.05,
+              "old_short_task_pose_diagnostic": {
+                "maximum_base_displacement_m": 0.002,
+                "maximum_base_rotation_rad": 0.008726646259971648
+              },
+              "original_native_safety_changed": false,
+              "task_score_bounds_are_native_safety": false,
+              "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+            },
+            "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+            "success_requires_all": true
+          },
+          "samples": 621,
+          "maximum_object_lift_m": 0.02493882128590552,
+          "longest_contiguous_grasp_lift_hold_s": 3.35,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_base_displacement_m": 0.006145476380288288,
+          "maximum_base_rotation_rad": 0.010670649683920104,
+          "maximum_foot_planar_displacement_m": 0.003958620325783176,
+          "minimum_supported_feet": 4,
+          "old_short_task_pose_bound_all_samples_pass": false,
+          "task_success": true
+        },
+        "trace_events": 160283,
+        "trace_dropped": 0,
+        "new_GR00T_model_calls": 0,
+        "optimizer_updates": 0,
+        "physics_integrations": 0,
+        "new_BC_DAgger": 0,
+        "CPU_s": 1.725806162,
+        "wall_s": 4.643083756323904
+      },
+      {
+        "status": "PASS_INDEPENDENT_FULL24_FOURTH_UNDER_CLOSE_CONDITION_E1_E2_E3_FORCE_CONSUMPTION_AND_ORIGINAL_SCORE_AUDIT",
+        "native_run": "tl-v9-full24-20261111-01-recovery04-r1-under_close",
+        "source_sha": "1c0eb4c9fbf7452252b28c6382f82f8866036356",
+        "native_result_sha256": "c01b98da48d80630efc81bbe6e829eca9fb7aa506324cb4e29637a9d1189d72d",
+        "journal_sha256": "f906a10b034b50a7ad6655a22cf93066310be1bf0b9143c26047ba59f8349045",
+        "original_native_integrations_audited": 21203,
+        "actual_complete_H40": 15,
+        "confirmed_commands": 600,
+        "interventions_excluded": 1,
+        "executed_Teacher_policy_decisions": 14,
+        "real_current_RGB": 30,
+        "E1_E2_exact_saved_packet_checks": [
+          {
+            "native_step": 14703,
+            "all_current_force_gap_support_motion_and_consumed_fields_exact": true
+          },
+          {
+            "native_step": 15703,
+            "all_current_force_gap_support_motion_and_consumed_fields_exact": true
+          }
+        ],
+        "score_exactly_recomputed_621": true,
+        "score": {
+          "contract": {
+            "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+            "minimum_lift_m": 0.02,
+            "continuous_hold_s": 1.0,
+            "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+            "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+            "maximum_object_linear_speed_m_s": 0.02,
+            "standing": {
+              "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+              "maximum_base_displacement_m": 0.02,
+              "maximum_base_rotation_rad": 0.08726646259971647,
+              "maximum_foot_planar_displacement_m": 0.005,
+              "minimum_supported_feet": 3,
+              "minimum_actual_floor_normal_force_N": 0.05,
+              "old_short_task_pose_diagnostic": {
+                "maximum_base_displacement_m": 0.002,
+                "maximum_base_rotation_rad": 0.008726646259971648
+              },
+              "original_native_safety_changed": false,
+              "task_score_bounds_are_native_safety": false,
+              "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+            },
+            "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+            "success_requires_all": true
+          },
+          "samples": 621,
+          "maximum_object_lift_m": 0.025947915720717307,
+          "longest_contiguous_grasp_lift_hold_s": 7.2,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_base_displacement_m": 0.005999584723850842,
+          "maximum_base_rotation_rad": 0.010510737420098358,
+          "maximum_foot_planar_displacement_m": 0.0039040396697164184,
+          "minimum_supported_feet": 4,
+          "old_short_task_pose_bound_all_samples_pass": false,
+          "task_success": true
+        },
+        "trace_events": 162092,
+        "trace_dropped": 0,
+        "new_GR00T_model_calls": 0,
+        "optimizer_updates": 0,
+        "physics_integrations": 0,
+        "new_BC_DAgger": 0,
+        "CPU_s": 1.7581380309999999,
+        "wall_s": 2.1903314129449427
+      }
+    ],
+    "independent_pre_E1_failed_prefix_audit": {
+      "status": "PASS_INDEPENDENT_FULL24_SINGLE02_PRE_E1_CONTACT_GATE_PREFIX_AND_CLONED_GEOMETRY_AUDIT",
+      "native_run": "tl-v9-full24-20261111-01-recovery02-r1-supported_single_pad",
+      "source_sha": "1c0eb4c9fbf7452252b28c6382f82f8866036356",
+      "native_result_sha256": "c4fd34b9f90c76161d1583941a1efb213869aeadc0c6d50a94cb23167fc6e072",
+      "journal_sha256": "3228f0e1872a663c9524821859060595c024dd64f1b09a2d995f5260460ebfee",
+      "actual_native_integrations": 14578,
+      "preparation_integrations": 5703,
+      "complete_policy_H40": 8,
+      "partial_intervention_integrations": 875,
+      "Teacher_proposals": 9,
+      "actual_capture_boundaries": 9,
+      "real_RGB": 18,
+      "solver_gripper_confirmed_commands": 355,
+      "export_file_complete_policy_commands": 320,
+      "excluded_intervention_commands_actually_consumed": 35,
+      "unexecuted_intervention_suffix_atoms": 5,
+      "unconfirmed_actual_effects": 0,
+      "E1_query_step": 14703,
+      "E1_query_reached": false,
+      "E2_recovery_evaluable": false,
+      "E3_original_complete_score_exists": false,
+      "prefix_diagnostic_only_score": {
+        "contract": {
+          "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+          "minimum_lift_m": 0.02,
+          "continuous_hold_s": 1.0,
+          "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+          "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+          "maximum_object_linear_speed_m_s": 0.02,
+          "standing": {
+            "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+            "maximum_base_displacement_m": 0.02,
+            "maximum_base_rotation_rad": 0.08726646259971647,
+            "maximum_foot_planar_displacement_m": 0.005,
+            "minimum_supported_feet": 3,
+            "minimum_actual_floor_normal_force_N": 0.05,
+            "old_short_task_pose_diagnostic": {
+              "maximum_base_displacement_m": 0.002,
+              "maximum_base_rotation_rad": 0.008726646259971648
+            },
+            "original_native_safety_changed": false,
+            "task_score_bounds_are_native_safety": false,
+            "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+          },
+          "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+          "success_requires_all": true
+        },
+        "samples": 356,
+        "maximum_object_lift_m": 0.0,
+        "longest_contiguous_grasp_lift_hold_s": 0.0,
+        "unsafe_samples": 0,
+        "standing_passes": true,
+        "maximum_base_displacement_m": 0.006206100616279583,
+        "maximum_base_rotation_rad": 0.008417942615631524,
+        "maximum_foot_planar_displacement_m": 0.0022575205611119363,
+        "minimum_supported_feet": 4,
+        "old_short_task_pose_bound_all_samples_pass": false,
+        "task_success": false
+      },
+      "original_standing_checkpoint_samples": 321,
+      "independently_recomputed_prefix_samples": 356,
+      "uncheckpointed_atomic_prefix_samples": 35,
+      "original_saved_standing_prefix_exact": true,
+      "recorded_contact_rejection": {
+        "native_step": 14578,
+        "stage": "close",
+        "submitted_or_executed": false,
+        "planned_relative_tick": 50,
+        "geoms": [
+          "task_right_pad",
+          "task_cube_geom"
+        ],
+        "planned_distance_m": -0.004463628481598665,
+        "original_minimum_permitted_distance_m": -0.004,
+        "rejection_margin_m": 0.00046362848159866524,
+        "planned_TCP_position_error_m": 1.0793242304897282e-11
+      },
+      "current_actual_prefix_observation": {
+        "native_step": 14578,
+        "native_grasp": false,
+        "left_contact": false,
+        "right_contact": false,
+        "pad_normal_force_N": {
+          "left": 0.0,
+          "right": 0.0
+        },
+        "actual_mechanical_grip_fraction": 0.5071669801241454,
+        "qualification_E1_witness": false
+      },
+      "original_contact_predicate_reject_exact": true,
+      "full_original_IK_search_replayed": false,
+      "saved_arm_q_geometry_witness_only": true,
+      "original_classification_exactly_recomputed": true,
+      "trace_events": 108876,
+      "trace_dropped": 0,
+      "new_GR00T_queries": 0,
+      "optimizer_updates": 0,
+      "physics_integrations": 0,
+      "geometry_model_loads": 1,
+      "CPU_s": 0.9767262090000001,
+      "wall_s": 1.9721997356973588
+    },
+    "saved_audit_totals": {
+      "complete_original_621_sample_scores": 9,
+      "confirmed_atomic_commands": 5755,
+      "real_RGB": 288,
+      "actual_intervention_commands_excluded": 395,
+      "executed_policy_atomic_commands": 5360,
+      "unexecuted_intervention_atoms": 5,
+      "new_model_queries": 0,
+      "new_optimizer_updates": 0,
+      "new_physics_integrations": 0
+    },
+    "newly_executed_saved_audits_this_endpoint": 6,
+    "previous_first4_audits_reused": true
+  },
+  "NEGATIVE": [
+    "10/24 completed:9 successes and1 original reference gate rejection;14 unrun are not failures.",
+    "SINGLE02 rejects during intervention before E1, not a measured E1-low-force or RecoveryOracle failure. E2 is not evaluable.",
+    "The cloned planned right-pad/cube depth4.463628mm exceeds the original4mm rule by0.463628mm; no physical hard stop occurred.",
+    "355 consumed atoms include35 excluded intervention atoms; remaining5 were never submitted/executed. Original saved complete-cycle label export has320 policy atoms.",
+    "Saved standing checkpoint has321 samples; independent356-prefix reconstruction agrees exactly on those321. Extra35 are prefix diagnostics, not a completed E3 score.",
+    "Geometry witness uses saved arm_q plus forward kinematics; the full original IK search was not replayed.",
+    "The first audit reader failed by comparing356 prefix samples with321 checkpoint samples; failure preserved and corrected audit02 explicitly models that checkpoint boundary.",
+    "Teacher results are not student recovery capability; no BC/DAgger promotion or new same-distribution training."
+  ],
+  "DECISION": "Continue original24 order and gates:>=22 total and>=7/8 each, zero technical/hard failures. Keep the original pre-E1 rejection in the denominator; no hot changes or success-selected retry.",
+  "NEXT": "Observe same supervisor to terminal, audit only newly closed conditions; then decide recovery successor/BC from complete evidence. Continue matched128 only from original[16,24] at a cold physical-owner boundary.",
+  "original_DEV80_TEST_unchanged": true,
+  "original_TRAIN100_statistics_unchanged": true,
+  "frozen_WBC_legs_dynamics_2ms_safety_unchanged": true,
+  "goal_status": "ACTIVE"
+}

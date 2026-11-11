@@ -1,0 +1,102 @@
+{
+  "schema": "WM02_CORE_FULL_ACTION_SIDE_RESTORE_ACTUAL_V1",
+  "terminal_at_sgt": "2026-11-10T01:03:59.813257+08:00",
+  "independently_observed_at_sgt": "2026-11-10T01:52:51.480541+08:00",
+  "source_sha": "0beb80a9061668abb5c913a625dc17202ad5623d",
+  "status": "ACTUAL_CORE_FULL_ACTION_CACHE_QUALIFICATION_CLOSED0_NOT_FORMAL_SFT",
+  "worker_exit": {
+    "exit_code": 0,
+    "wall_s": 2089.2649055379443,
+    "failure": null
+  },
+  "unit_MainPID": 0,
+  "unit_ExecMainStatus": 0,
+  "original_worker_process_absent": true,
+  "parameter_scope": {
+    "variant": "FULL_ACTION_SIDE",
+    "trainable_numel": 1304913028,
+    "gradient_tensors": 537,
+    "visual_and_language_backbone_frozen": true,
+    "external_adapter_trainables": 0
+  },
+  "recipe_kind": "EXISTING_FOUR_WINDOW_FROZEN_BACKBONE_FEATURE_DIAGNOSTIC",
+  "dataset_sha256": "0411eacd619a2958b37070dcfe1ec953f680882026101f5f41b6d8b47bba1a51",
+  "statistics_sha256": "ddc54fe79682813257fb285b736985fbda16ddace3e914c004e54a24e55c4b4b",
+  "all_four_generations_exact": true,
+  "loss_gradient_and_noise_checks": {
+    "status": "PASS_REAL_GR00T_FROZEN_FEATURE_OUTPUT_LOSS_GRADIENT_EQUIVALENCE",
+    "original_loss": 0.42967453598976135,
+    "gradient_exact": true,
+    "noise_and_RNG_exact": true,
+    "training_generation_hook_scoped": true,
+    "precision_changed": false,
+    "reference_memory_route": "CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2"
+  },
+  "full_restore": {
+    "status": "PASS_REAL_FOUR_VERSUS_TWO_PLUS_TWO_EXACT",
+    "model": true,
+    "optimizer": true,
+    "scheduler": true,
+    "RNG": true,
+    "sampler_cursor": 128,
+    "precision_relaxed": false
+  },
+  "optimizer_calls": 8,
+  "nonzero_learning_rate_calls": 6,
+  "minimum_update_wall_s": 17.89634534297511,
+  "maximum_update_wall_s": 22.886235669720918,
+  "maximum_peak_allocated_GPU_bytes": 26170323968,
+  "maximum_peak_reserved_GPU_bytes": 27629977600,
+  "maximum_child_peak_RSS_KiB": 27318792,
+  "child_phases": [
+    {
+      "phase": "prepare",
+      "exit_code": 0,
+      "wall_s": 154.84070848021656,
+      "CPU_s": 44.03638,
+      "peak_RSS_KiB": 21009288
+    },
+    {
+      "phase": "continuous4",
+      "exit_code": 0,
+      "wall_s": 949.003453811165,
+      "CPU_s": 446.608988,
+      "peak_RSS_KiB": 23933028
+    },
+    {
+      "phase": "split2",
+      "exit_code": 0,
+      "wall_s": 343.43239891482517,
+      "CPU_s": 239.761333,
+      "peak_RSS_KiB": 18948924
+    },
+    {
+      "phase": "resume4",
+      "exit_code": 0,
+      "wall_s": 609.7675626301207,
+      "CPU_s": 229.49047,
+      "peak_RSS_KiB": 27318792
+    }
+  ],
+  "limits": [
+    "All original action-side parameters were used, but this is not the original Trainer execution entry.",
+    "Four-window data and diagnostic schedule are not TRAIN100/SFT2000.",
+    "The cached route is not a standalone deployable policy and creates no student DEV/TEST result.",
+    "No frozen WBC, safety or physics changes and no new native integration.",
+    "Do not substitute these eight calls or their weights for the formal new-task pipeline."
+  ],
+  "formal_new_task_SFT_updates": 0,
+  "student_DEV_conditions": 0,
+  "TEST_opened": false,
+  "prior_pre_registry_pytest_failure_preserved": true,
+  "private_evidence": [
+    {
+      "kind": "ACTUAL_CHILD_RESULTS",
+      "sha256": "f9bb9e3f93b08034bfa5dc3126dcb452a08a46fb4a4a20f2b42bc23d557906df"
+    },
+    {
+      "kind": "INDEPENDENT_TERMINAL_READ",
+      "sha256": "799a33e963946c2a1cdf06d77bbb2c29bb86d9a1010cbb9aa359f169008e98c0"
+    }
+  ]
+}

@@ -1,0 +1,310 @@
+{
+  "schema": "WM02_CORE_INTERNAL_TRACE_FP32_NEGATIVE_AND_PAIRED_QUEUE_ACTUAL_V1",
+  "EVIDENCE_ASOF": "2026-11-10T04:46:56.947230+00:00",
+  "SGT": "2026-11-10T12:46:56.947230+08:00",
+  "goal_status": "ACTIVE",
+  "previous_goal_turn_classification": "PROGRESS: actual H100 restoration, same-site byte controls and first Core/H100 backbone divergence; this turn completed new internal trace and independent FP32 intervention.",
+  "QUESTION": "Does the remaining divergence begin in frozen constants or visual/language operators, and does explicit FP32 change cross-hardware numerical agreement?",
+  "CHANGED": {
+    "internal_trace_source_sha": "db708fe2317c5af43f0813b0424c6947c7ec9345",
+    "internal_capture_helper_sha256": "d2ab8dd4a0c10742e24dbbd3bf1b6654977dd3fe4770ad4e080367f4cdf36ddf",
+    "internal_trace_mode": "FIXED40_FIRST1_FROZEN_BACKBONE_BOUNDARIES_V1",
+    "Core_FP32_source_sha": "471e695baea979fa6711aceb6e7d1a5506061f34",
+    "Hopper_FP32_source_sha": "fc8719fed4e5930afaffccf944ed55e597f78b27",
+    "precision_mode": "FP32_NO_TF32_FIXED40_DIAGNOSTIC_V1",
+    "precision_intervention": "Only inside original get_action: disable CUDA autocast and matmul/cuDNN TF32; preserve original inputs, seed, four-step algorithm, weights, original decode and output horizon. Restore method and flags after diagnostic.",
+    "ordinary_native_policy_rejects_all_new_diagnostics": true,
+    "CPU_preflight": "Reuse same immutable package/data trust from previous CLOSED0 Core worker; validate new precision spec and memory storage metadata. Full validation remains at actual compute entry."
+  },
+  "ACTUAL": {
+    "runtime_and_source_audit": {
+      "Core_packages": {
+        "torch": "2.9.0+cu128",
+        "transformers": "4.57.3",
+        "flash-attn": null,
+        "safetensors": "0.8.0",
+        "numpy": "1.26.4"
+      },
+      "Hopper_packages": {
+        "torch": "2.9.0+cu128",
+        "transformers": "4.57.3",
+        "flash-attn": null,
+        "safetensors": "0.7.0",
+        "numpy": "1.26.4"
+      },
+      "Core_CUDA_dependencies": {
+        "nvidia-cudnn-cu12": "9.10.2.21",
+        "nvidia-cublas-cu12": "12.8.4.1",
+        "nvidia-cuda-runtime-cu12": "12.8.90"
+      },
+      "Hopper_CUDA_dependencies": {
+        "nvidia-cudnn-cu12": "9.10.2.21",
+        "nvidia-cublas-cu12": "12.8.4.1",
+        "nvidia-cuda-runtime-cu12": "12.8.90"
+      },
+      "Qwen_HF_source_sha256": "685b10cbc48556343df4e159199c5884d02db9ad227640f0f4fbe75ddf0b2a99",
+      "Qwen_HF_sources_equal": true,
+      "GR00T_backbone_sources_equal": true,
+      "GR00T_backbone_source_sha256": "e3902c8385d586fb9f079abf58d37795cbcefc55f2f506f761c4b78a5afbaf52",
+      "safetensors_version_difference_retained_not_attributed_as_cause": true
+    },
+    "Core_internal_trace": {
+      "run": "task-learning-core-package-seed20261109-step2000-backbone-trace-01",
+      "spec_sha256": "1aa92d78526a8c176ff2c7e819930b81e6745dbd9d25108df76fa0292f0f8d42",
+      "lease": "CLOSED",
+      "worker_exit_code": 0,
+      "unit_MainPID": 0,
+      "canonical_registry_count": 1,
+      "register_and_launch_Journal": {
+        "GR00T-TASK-LEARNING-CORE-PACKAGE-SEED20261109-STEP2000-BACKBONE-TRACE-01-REGISTER": {
+          "status": "COMPLETE",
+          "completed_epoch": 1794283498.1180785,
+          "result_digest_matches": true
+        },
+        "TASK-LEARNING-CORE-PACKAGE-SEED20261109-STEP2000-BACKBONE-TRACE-01-LAUNCH": {
+          "status": "COMPLETE",
+          "completed_epoch": 1794283531.8450463,
+          "result_digest_matches": true
+        }
+      },
+      "trace_manifest_sha256": "fcafbd8a0fdff4dc3e48977baaa5c62f4572186925f55e10543aa0bfbeff8cbd",
+      "all_internal_member_SHA_verified": true,
+      "internal_boundaries": 119,
+      "internal_tensor_bytes": 227147888,
+      "original_queries": 40,
+      "traced_queries": 1,
+      "actual_model_loads": 1,
+      "actual_Processor_decode_calls": 40,
+      "optimizer_updates": 0,
+      "physics_integrations": 0,
+      "bit_exact_queries_vs_prior_Core_capture": {
+        "physical_H40": 40,
+        "normalized": 40,
+        "actual_state10": 40,
+        "expert_policy_H40": 40
+      },
+      "result_sha256": "c74e7b38119c43ad3722fe83af9ba24bb3d9ec253aa7e5ddb078d3be6510b7fa",
+      "worker_wall_s": 419.78858164604753,
+      "child_CPU_s": 60.491769,
+      "feature_stack_requires_grad_parameters": {
+        "visual": 0,
+        "language": 0
+      },
+      "numeric_qualification_issued": false
+    },
+    "CPU_first_vision_convolution_reference": {
+      "epoch": 1794284773.792505,
+      "status": "ACTUAL_CORE_FIRST_VISION_CONV_OPERAND_CPU_REFERENCE",
+      "manifest_sha256": "fcafbd8a0fdff4dc3e48977baaa5c62f4572186925f55e10543aa0bfbeff8cbd",
+      "input_shape": [
+        512,
+        3,
+        2,
+        16,
+        16
+      ],
+      "weight_shape": [
+        1024,
+        3,
+        2,
+        16,
+        16
+      ],
+      "bias_shape": [
+        1024
+      ],
+      "output_shape": [
+        512,
+        1024,
+        1,
+        1,
+        1
+      ],
+      "input_dtype": "torch.float32",
+      "weight_dtype": "torch.float32",
+      "output_dtype": "torch.bfloat16",
+      "bias_sha256": "b1a2a638929c34ed03d53dd1f938768a75556546161530e6e409227849bee826",
+      "outputs": 524288,
+      "GPU_output_vs_FP64_accumulation_of_BF16_operands": {
+        "changed_outputs": 159116,
+        "max_abs_difference": 0.03125,
+        "RMSE": 0.000952001077399692
+      },
+      "GPU_BF16_output_vs_FP64_original_FP32_operands": {
+        "max_abs_difference": 0.02288200354662706,
+        "RMSE": 0.0009727037209614648
+      },
+      "interpretation": "CPU FP64 operand reference, including bias. BF16 reference rounds FP32 to BF16 and uses FP64 accumulation then FP32/BF16 rounding; it is not a claim of bit-identical vendor accumulation or a cross-device root cause.",
+      "new_models": 0,
+      "CUDA_dispatches": 0,
+      "optimizer_updates": 0,
+      "native_integrations": 0,
+      "wall_s": 1.8707541446201503,
+      "CPU_s": 0.253866982,
+      "program_sha256": "0752f858a9507a0c844051d57c1cff20fe2a3fe2e5e647c74c10c1a7fa842a39"
+    },
+    "Core_FP32_diagnostic": {
+      "run": "task-learning-core-package-seed20261109-step2000-fp32-diagnostic-01",
+      "spec_sha256": "135a8220f2f17a22fbed871e4cc2f9088d762d71ee62561bd0cfd722690aba0d",
+      "lease": "CLOSED",
+      "worker_exit_code": 0,
+      "unit_MainPID": 0,
+      "canonical_registry_count": 1,
+      "register_and_launch_Journal": {
+        "GR00T-TASK-LEARNING-CORE-PACKAGE-SEED20261109-STEP2000-FP32-DIAGNOSTIC-01-REGISTER": {
+          "status": "COMPLETE",
+          "completed_epoch": 1794284613.6050866,
+          "result_digest_matches": true
+        },
+        "TASK-LEARNING-CORE-PACKAGE-SEED20261109-STEP2000-FP32-DIAGNOSTIC-01-LAUNCH": {
+          "status": "COMPLETE",
+          "completed_epoch": 1794284656.9668696,
+          "result_digest_matches": true
+        }
+      },
+      "result_sha256": "47c54aa6e28fca8f6094aa94a4461b4f15bd58f8c062f871d17d9421c0ec2edc",
+      "precision_receipt_sha256": "964df9992eee01881f8f05a7bbc7787db35d43160cba41801a268c51d414eb19",
+      "actual_model_loads": 1,
+      "actual_VLA_queries": 40,
+      "Processor_decode_calls": 40,
+      "optimizer_updates": 0,
+      "physics_integrations": 0,
+      "precision_changed": true,
+      "weights_changed": false,
+      "all40_actual_autocast_disabled": true,
+      "all40_actual_matmul_and_cudnn_TF32_disabled": true,
+      "captured_module_output_dtypes": [
+        "torch.bool",
+        "torch.float32"
+      ],
+      "original_flags_restored": true,
+      "original_get_action_method_restored": true,
+      "peak_allocated_bytes": 12691058176,
+      "peak_reserved_bytes": 12855541760,
+      "worker_wall_s": 611.9027034579776,
+      "child_CPU_s": 59.20504,
+      "inference_wall_s": 366.627473491244,
+      "original_Hopper_BF16_comparison": {
+        "matched_queries": 40,
+        "same_states_experts_noise": true,
+        "maximum_absolute_error": {
+          "XYZ_m": 0.00012282030114119102,
+          "rot6d_component": 5.234079539317982e-05,
+          "gripper": 0.002843022346496582,
+          "normalized_component": 0.020331889390945435
+        },
+        "queries_over_original_tolerances": {
+          "XYZ_m": 2,
+          "rot6d_component": 0,
+          "gripper": 32,
+          "normalized_component": 11
+        },
+        "original_tolerances": {
+          "XYZ_m": 0.0001,
+          "rot6d_component": 0.001,
+          "gripper": 0.001,
+          "normalized_component": 0.01
+        },
+        "original_gate_would_pass": false
+      },
+      "qualification_issued": false
+    },
+    "Hopper_paired_work": {
+      "same_precision_FP32": {
+        "job_id": "709670.hopper-m-02",
+        "project": "CFP04-CF-007",
+        "PBS_state": "Q",
+        "reason": "Not Running: Insufficient amount of resource: host ",
+        "config_sha256": "3f3bf6e76bee45312d8e4fd1645390e3ecaf8a4047c536be2ad5acb8cfe337ac",
+        "absolute_deadline_epoch": 1794458491.680552,
+        "canonical_registry_count": 1,
+        "Journal": {
+          "SUBMIT_ONCE": {
+            "status": "COMPLETE",
+            "completed_epoch": 1794285833.7556565,
+            "result_digest_matches": true
+          },
+          "RELEASE_ONCE": {
+            "status": "COMPLETE",
+            "completed_epoch": 1794285938.3497386,
+            "result_digest_matches": true
+          }
+        },
+        "independent_standard_H100_node_requested": true,
+        "GPUs": 1,
+        "ncpus": 12,
+        "mem": "225GB",
+        "wall_s": 3600,
+        "source_sha": "fc8719fed4e5930afaffccf944ed55e597f78b27",
+        "mode": "FP32_NO_TF32_FIXED40_DIAGNOSTIC_V1",
+        "observer_pid": 4191100
+      },
+      "original_precision_internal_trace": {
+        "job_id": "709621.hopper-m-02",
+        "PBS_state": "Q",
+        "reason": "Not Running: Insufficient amount of resource: ngpus ",
+        "config_sha256": "859c1de8f7d921b306a1927075155558c9441a287109866f7826e23cc6561abb",
+        "source_sha": "db708fe2317c5af43f0813b0424c6947c7ec9345",
+        "GPUs": 1,
+        "wall_s": 3600,
+        "original_capsule_preserved": true,
+        "observer_pid": 4191099
+      },
+      "original_H200_trace": {
+        "job_id": "709533.hopper-m-02",
+        "PBS_state": "Q",
+        "reason": "Not Running: Insufficient amount of resource: ngpus ",
+        "source_sha": "07211234804264da6757eb0391adb072f1efbc51",
+        "original_capsule_preserved": true,
+        "observer_pid": 4133235
+      }
+    },
+    "H100_capacity_observation": {
+      "epoch": 1794284175.979224,
+      "assigned_on_those_nodes": 16,
+      "offline_GPUs": 8,
+      "known_preworker_HOME_failure_node_idle_GPUs_not_retried": 8,
+      "no_other_job_or_system_change": true,
+      "online_H100_nodes_excluding_offline_and_known_preworker_failure_capacity": 16
+    },
+    "Vanda_current_readonly_recheck": {
+      "epoch": 1794285119.2253792,
+      "SSH_exit_code": 255,
+      "official_banner": "The System is closed for an Urgent Maintenance.",
+      "authentication_result": "Permission denied",
+      "new_jobs_or_models": 0,
+      "credentials_or_network_changed": false
+    },
+    "software_checks": {
+      "internal_capture_related": 44,
+      "internal_comparator": 4,
+      "FP32_related": 43,
+      "FP32_and_native_contract_guard": 15,
+      "latest_Hopper_FP32_forwarding_and_native_guards": 31,
+      "counts_are_non_disjoint": true,
+      "software_tests_are_not_native_policy_qualification": true
+    }
+  },
+  "NEGATIVE": {
+    "original_Core40_BF16_and_reduction_ablation_rejections_preserved": true,
+    "Core_FP32_does_not_repair_original_Hopper_BF16_gate": true,
+    "matching_Hopper_FP32_result_not_yet_available": true,
+    "first_internal_cross_device_divergence_not_yet_measured": true,
+    "CPU_FP64_reference_is_not_a_vendor_kernel_or_cross_device_causality_proof": true,
+    "native_DEV_conditions": 0,
+    "TEST_conditions": 0,
+    "extra_SFT_or_large_collection": false,
+    "diagnostic_policy_qualified_for_native": false
+  },
+  "DECISION": "Keep the original BF16 results and frozen tolerances. The completed Core FP32 experiment proves capacity and exposes a changed numerical regime, not a validated repair. Await the separately registered H100 same-precision counterpart and original-precision internal capture; retain healthy queued work.",
+  "NEXT_GATE": "Read actual709670 and709621 terminals through the finite observers, privately deliver the bounded traces, and compare matching modes. Only evidence supporting a separately versioned ordinary-runtime qualification may lead to the original fullDEV80 and frozen scientific decision; no direct promotion of diagnostic outputs.",
+  "invariants": {
+    "WBC_leg_weights_gains_solver_startup_safety_dynamics_2ms_changed": false,
+    "backbone_weights_unfrozen": false,
+    "dataset_or_statistics_changed": false,
+    "SFT2000_package_changed": false,
+    "multi_GPU_or_distributed": false,
+    "private_tensors_or_host_configuration_published": false,
+    "goal_complete": false
+  }
+}

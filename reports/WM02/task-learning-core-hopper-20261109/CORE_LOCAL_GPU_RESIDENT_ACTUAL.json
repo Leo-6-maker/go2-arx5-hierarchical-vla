@@ -1,0 +1,171 @@
+{
+  "schema": "CORE_LOCAL_GPU_RESIDENT_TRAINING_ACTUAL_V1",
+  "actual_observed_SGT": "2026-11-10T17:43:12.300449+08:00",
+  "actual_observed_UTC": "2026-11-10T09:43:12.300449+00:00",
+  "QUESTION": "Replace CPU activation offload with CUDA-resident training on the available16GB RTX4080 SUPER.",
+  "CHANGED": {
+    "runtime_source": "c426f3002c07a36729bfd7da6124de0236b9e894",
+    "public_default_guard_source": "f13bdbb6",
+    "execution_policy": "CUDA_RESIDENT_V1",
+    "training_parameters_gradients_and_Adam_moments": "CUDA",
+    "saved_training_activations": "CUDA",
+    "CPU_role": "Data loading, audit/control, scalar optimizer bookkeeping and checkpoint I/O; no candidate activation offload.",
+    "scientific_recipe_changed": false,
+    "matched_update_proof_independently_compared": true,
+    "microbatch": 1,
+    "effective_batch": 32,
+    "backbone_recomputed_during_cached_training": false,
+    "fresh_successor_registered_existing_owner_Journal_registry": true
+  },
+  "scientific_identity": {
+    "variant": "INTERFACES_LAST2_DIT",
+    "trainable_numel": 77847684,
+    "trainable_tensors": 42,
+    "parent_global_step": 2000,
+    "parent_package_sha256": "7feffa8dd11b5c9ce963f2e0f2f2613196c1a3ae8e5039056377bd5e25e02250",
+    "dataset_sha256": "ff94fc77c5a8309dc1460032b308c2f213c96c088449ee1821b3e46e045107b0",
+    "statistics_sha256": "0faba237b8922ed9bbd53bd6732a9f449f46dcb6fc19017eae8f3cffa3afd9f2",
+    "feature_cache_manifest_sha256": "14cd75b6483ec0c485ab164949f3061ac7687fc6bcd471d715ebc55362eaa4cc",
+    "unique_supervised_windows": 1450,
+    "arms": [
+      "ORIGINAL",
+      "CONTACT_EVENTS"
+    ],
+    "endpoint_updates_per_arm": 500,
+    "visits_per_arm": 16000,
+    "seed": 20261109,
+    "precision": "FP32_PARAMETERS_ORIGINAL_BF16_AUTOCAST",
+    "learning_rate": 0.0001,
+    "weight_decay": 1e-05,
+    "scheduler_warmup": 200,
+    "scheduler_horizon": 8000,
+    "old_FIT4_identity_reused": false,
+    "formal_FULL_ACTION_SIDE_continuation": false
+  },
+  "ACTUAL": {
+    "cold_transition": {
+      "preserved_complete_original_updates": 250,
+      "preserved_committed_window_visits": 8000,
+      "checkpoint_complete_sha256": "82c7e7b2e42661e19f1b498f8e527d3765f4478b90ea1b015745dc8d84947e3b",
+      "old_second_phase_new_updates": 0,
+      "old_second_phase_restored_all_states_exact": true,
+      "predecessor_and_all_children_terminal": true,
+      "active_capsule_hot_edited": false,
+      "completed_candidate_updates_discarded": 0
+    },
+    "matched_storage_qualification": {
+      "checkpoint_local_step": 250,
+      "matched_window_count": 32,
+      "actual_model_loads": 1,
+      "actual_optimizer_calls": 2,
+      "candidate_optimizer_calls": 0,
+      "actual_loss_backward_window_visits": 64,
+      "GR00T_generation_calls": 0,
+      "all_per_sample_losses_gradients_parameters_optimizer_scheduler_RNG_and_noise_exact": true,
+      "loss_both": 0.0025581374611647334,
+      "CPU_offload_update_s": 25.605394035112113,
+      "CUDA_resident_update_s": 1.7049701400101185,
+      "single_matched_update_speed_ratio": 15.018089428217289,
+      "CPU_offload_activation_bytes_copied_to_host": 57148760064,
+      "CPU_offload_saved_tensors": 13280,
+      "CUDA_resident_activation_bytes_copied_to_host": 0,
+      "CPU_offload_peak_allocated_bytes": 6538728448,
+      "CUDA_resident_peak_allocated_bytes": 8093500928,
+      "CUDA_resident_peak_reserved_bytes": 8396996608,
+      "CUDA_resident_training_tensor_devices": {
+        "trainable_tensors": 42,
+        "gradient_tensors": 42,
+        "Adam_moment_tensors": 84,
+        "training_tensor_device": "cuda"
+      },
+      "proof_sha256": "206df4d55c8a6ede267ff48747597175cd8f953fae72104cccd087bb9ae6fb22",
+      "timing_scope": "One matched update per path excluding diagnostic gradient hash time; not a complete training or end-to-end speed estimate."
+    },
+    "resumed_candidate": {
+      "ORIGINAL_local_step": 288,
+      "ORIGINAL_new_GPU_resident_optimizer_calls": 38,
+      "CONTACT_EVENTS_local_step": 0,
+      "latest_progress": {
+        "adaptation_step": 288,
+        "parent_global_step": 2000,
+        "cursor": 9216,
+        "actual_optimizer_calls": 38,
+        "nonzero_LR": true,
+        "learning_rate_used": 9.99723759643927e-05,
+        "native_loss": 0.0030012494935363065,
+        "wall_s": 3.492804316803813,
+        "peak_allocated_bytes": 8093500928,
+        "peak_reserved_bytes": 8396996608,
+        "training_activation_storage": "CUDA_RESIDENT_V1",
+        "activation_storage_audit": {
+          "policy": {
+            "schema": "CORE_LOCAL_CUDA_RESIDENT_ACTIVATIONS_V1",
+            "minimum_tensor_bytes": 65536,
+            "quantization": false,
+            "gradient_checkpointing": false,
+            "same_policy_on_both_devices_and_matched_arms": true,
+            "parameter_storage_offload": false,
+            "buffer_storage_policy": "RETAIN_ALL_FROZEN_CATEGORY_TABLES_ON_CPU",
+            "target_category_dispatch_only": 10,
+            "per_microbatch_activation_offload_bytes": 0,
+            "activation_storage": "CUDA_RESIDENT"
+          },
+          "copied_tensors": 0,
+          "copied_bytes": 0,
+          "restored_tensors": 0,
+          "parameter_and_buffer_storages_excluded": 1046,
+          "retained_frozen_category_bytes_on_CPU": 0
+        },
+        "training_tensor_residency": {
+          "trainable_tensors": 42,
+          "gradient_tensors": 42,
+          "Adam_moment_tensors": 84,
+          "training_tensor_device": "cuda"
+        }
+      },
+      "timing": {
+        "updates_recorded": 38,
+        "mean_last32_s": 3.4744562744162977,
+        "median_last32_s": 3.389357269741595,
+        "min_last32_s": 2.917734509333968,
+        "max_last32_s": 4.374496238771826
+      },
+      "finite_parent_running": true,
+      "current_phase": "original-500"
+    },
+    "software_checks": {
+      "relevant_tests_passed": 22,
+      "correct_existing_environment": "ci-venv",
+      "system_python_initial_failures": 4,
+      "initial_failures_reason": "No torch installed in system Python; corrected environment passed all22.",
+      "tests_are_native_or_scientific_success": false
+    },
+    "resumed_throughput_comparison": {
+      "previous_observed_last32_mean_s": 23.163087693057605,
+      "GPU_resident_last32_mean_s": 3.4744562744162977,
+      "observed_update_rate_ratio": 6.666679866894846,
+      "GPU_resident_500_updates_compute_minutes": 28.953802286802482,
+      "scope": "Operational timing at different update/sample ranges; excludes phase setup, checkpoint validation, saves, restores, inference reconstruction and native evaluation."
+    },
+    "new_actual_model_loads": 2,
+    "new_actual_GR00T_generation_calls": 0,
+    "new_actual_optimizer_calls": 40,
+    "new_H100_H200_jobs": 0,
+    "new_native_integrations": 0,
+    "original_DEV80_TEST_conditions": 0
+  },
+  "NEGATIVE": [
+    "Original cross-hardware REJECT and its numerical thresholds remain unchanged.",
+    "The old offload parent exited1 through its existing requested STOP guard. This is an authorized storage migration, not a native task failure or an erased negative.",
+    "A single matched update timing is not an end-to-end speed estimate; use the separately reported resumed candidate timings.",
+    "Both500 endpoints, fresh final restores, ordinary full-inference rebuilds and native local4 outcomes were not yet established at this snapshot."
+  ],
+  "DECISION": "Continue the same logical two-arm500-update experiment using GPU-resident candidate execution after exact matched-update qualification.",
+  "NEXT_GATE": [
+    "Finish ORIGINAL500; fresh full-state restore500; rebuild ordinary full original inference and evaluate all40 sealed phase probes.",
+    "Train CONTACT_EVENTS from the same SFT2000 start to250/500 on GPU; identical save, fresh restore and ordinary40-probe rebuild.",
+    "Existing finite cold successor waits this new parent and all children truly terminal, then dispatches the same preregistered local4 B0/SFT2000 panel via the original serial native/neural executor.",
+    "Keep original DEV80/TEST, frozen WBC/legs/dynamics/2ms/safety, native action and reference-consumption audits, and existing H100/H200 jobs unchanged."
+  ],
+  "goal_complete": false
+}

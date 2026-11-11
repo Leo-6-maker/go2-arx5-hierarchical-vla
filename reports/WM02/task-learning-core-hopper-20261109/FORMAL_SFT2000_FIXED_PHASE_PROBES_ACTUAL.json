@@ -1,0 +1,407 @@
+{
+  "schema": "FORMAL_SFT2000_RESTORED_FIXED_PHASE_PROBES_ACTUAL_V1",
+  "EVIDENCE_ASOF": "2026-11-10T00:27:18.987185+00:00",
+  "SGT": "2026-11-10T08:27:18.987185+08:00",
+  "goal_status": "ACTIVE",
+  "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
+  "question": "How does the fully restored first2000 endpoint compare with its own step0 on matched Teacher observations?",
+  "producer": {
+    "job_id": "709342.hopper-m-02",
+    "project": "CFP04-CF-007",
+    "source_sha": "c4b8453715b702cc479844e15afbfacc88f582a3",
+    "GPU": "NVIDIA H200",
+    "GPUs": 1,
+    "variant": "FULL_ACTION_SIDE",
+    "trainable_numel": 1304913028,
+    "backbone_frozen": true,
+    "original_CORR_parent": true,
+    "FIT4_or_scan_weights_as_parent": false
+  },
+  "dataset": {
+    "manifest_sha256": "ff94fc77c5a8309dc1460032b308c2f213c96c088449ee1821b3e46e045107b0",
+    "statistics_sha256": "0faba237b8922ed9bbd53bd6732a9f449f46dcb6fc19017eae8f3cffa3afd9f2",
+    "different_expert_supervision_windows": 1450,
+    "TRAIN_layouts": 25,
+    "nominal_TRAIN_XY_support_mm": [
+      7,
+      7
+    ],
+    "fixed_object": "40mm50g_RED_CUBE",
+    "optimizer_visits_are_not_new_data": true
+  },
+  "metric": {
+    "implementation_sha256": "450dcc4f7e2c5d63381e484936ef3b2f1e00de2b75a9898d69d82b69f8f6d0b5",
+    "key_phases": [
+      "CLOSE",
+      "LIFT",
+      "HOLD"
+    ],
+    "aggregation": "Equal mean per actual row within each phase, then equal mean across the three declared key phases",
+    "XYZ_unit": "metres",
+    "SO3_unit": "radians",
+    "gripper_unit": "original policy gripper scale",
+    "same_target_Processor_statistics_observations_and_noise": true,
+    "baseline": "SAME_FORMAL_GENERATION_STEP0; not native B0 with source statistics",
+    "native_B0_B1_interpretation": "Later common native panel measures whole target adaptation",
+    "training_queries": 40,
+    "DEV_reference_queries": 20,
+    "DEV_distinct_reference_episodes_and_layouts": 4,
+    "DEV_phase_rows_are_correlated": true
+  },
+  "trajectory": [
+    {
+      "step": 0,
+      "split": "TRAIN",
+      "actual_unique_probes": 40,
+      "key": {
+        "H40": {
+          "XYZ_m": 0.00616333799407317,
+          "SO3_rad": 0.0016451560807450455,
+          "gripper": 0.10306548384734397
+        },
+        "first": {
+          "XYZ_m": 0.004736846050536276,
+          "SO3_rad": 0.001653134985665096,
+          "gripper": 0.1688168711960316
+        }
+      }
+    },
+    {
+      "step": 0,
+      "split": "DEV",
+      "actual_unique_probes": 20,
+      "key": {
+        "H40": {
+          "XYZ_m": 0.006103392363379497,
+          "SO3_rad": 0.0015658443936844072,
+          "gripper": 0.10491542913762021
+        },
+        "first": {
+          "XYZ_m": 0.004711880639310756,
+          "SO3_rad": 0.001305626929430704,
+          "gripper": 0.0892014851172765
+        }
+      }
+    },
+    {
+      "step": 500,
+      "split": "TRAIN",
+      "actual_unique_probes": 40,
+      "key": {
+        "H40": {
+          "XYZ_m": 0.0012006945119847293,
+          "SO3_rad": 0.0002936728353667291,
+          "gripper": 0.00886257784071466
+        },
+        "first": {
+          "XYZ_m": 0.0012554691449008124,
+          "SO3_rad": 0.00030503905369113797,
+          "gripper": 0.0038909499843915265
+        }
+      }
+    },
+    {
+      "step": 500,
+      "split": "DEV",
+      "actual_unique_probes": 20,
+      "key": {
+        "H40": {
+          "XYZ_m": 0.0013194407255024728,
+          "SO3_rad": 0.00030869319572009564,
+          "gripper": 0.01195929115252311
+        },
+        "first": {
+          "XYZ_m": 0.0014393994856962274,
+          "SO3_rad": 0.00036010111602643075,
+          "gripper": 0.0018714020649592082
+        }
+      }
+    },
+    {
+      "step": 1000,
+      "split": "TRAIN",
+      "actual_unique_probes": 40,
+      "key": {
+        "H40": {
+          "XYZ_m": 0.0009415450672414319,
+          "SO3_rad": 0.00038704526198960935,
+          "gripper": 0.008061627017708687
+        },
+        "first": {
+          "XYZ_m": 0.0011292212976685516,
+          "SO3_rad": 0.00034406062802128383,
+          "gripper": 0.005232582986354835
+        }
+      }
+    },
+    {
+      "step": 1000,
+      "split": "DEV",
+      "actual_unique_probes": 20,
+      "key": {
+        "H40": {
+          "XYZ_m": 0.0010032583377739184,
+          "SO3_rad": 0.0003738375885952074,
+          "gripper": 0.009754459562634784
+        },
+        "first": {
+          "XYZ_m": 0.001176151486841784,
+          "SO3_rad": 0.00040005587623886686,
+          "gripper": 0.0028519382079442344
+        }
+      }
+    },
+    {
+      "step": 1500,
+      "split": "TRAIN",
+      "actual_unique_probes": 40,
+      "key": {
+        "H40": {
+          "XYZ_m": 0.000565433460743291,
+          "SO3_rad": 0.0003877048173795648,
+          "gripper": 0.0354009955710694
+        },
+        "first": {
+          "XYZ_m": 0.0003989580928837661,
+          "SO3_rad": 0.000380641456824369,
+          "gripper": 0.032216632862885786
+        }
+      }
+    },
+    {
+      "step": 1500,
+      "split": "DEV",
+      "actual_unique_probes": 20,
+      "key": {
+        "H40": {
+          "XYZ_m": 0.0005732528049721422,
+          "SO3_rad": 0.0003440865385542597,
+          "gripper": 0.038486312879817484
+        },
+        "first": {
+          "XYZ_m": 0.000429911449172216,
+          "SO3_rad": 0.00036366932610546056,
+          "gripper": 0.028868926068147022
+        }
+      }
+    },
+    {
+      "step": 2000,
+      "split": "TRAIN",
+      "actual_unique_probes": 40,
+      "key": {
+        "H40": {
+          "XYZ_m": 0.00043296282956426587,
+          "SO3_rad": 0.00018834584065958592,
+          "gripper": 0.013718069466350812
+        },
+        "first": {
+          "XYZ_m": 0.0003293467538367333,
+          "SO3_rad": 0.00014796936355621865,
+          "gripper": 0.01465580761432648
+        }
+      }
+    },
+    {
+      "step": 2000,
+      "split": "DEV",
+      "actual_unique_probes": 20,
+      "key": {
+        "H40": {
+          "XYZ_m": 0.00048626591518281646,
+          "SO3_rad": 0.0002172633324114185,
+          "gripper": 0.018208286104518648
+        },
+        "first": {
+          "XYZ_m": 0.00035438478693694677,
+          "SO3_rad": 0.0001332886948184163,
+          "gripper": 0.012599301834901174
+        }
+      }
+    }
+  ],
+  "all_step2000_phases": {
+    "TRAIN": {
+      "actual_unique_probes": 40,
+      "result_sha256": "36768cbf0c25cd589b831bab80d0d47852d8f020f36311519680ff9d7f818f75",
+      "matched_observation_noise_sha256": "771edc4a8c271e11dbf73c83a6dc72d6e06afe2cde5cfda3335b9bb72467c829",
+      "phases": {
+        "PREGRASP": {
+          "H40": {
+            "XYZ_m": 0.0005348672956882138,
+            "SO3_rad": 0.0002184390064388624,
+            "gripper": 0.0021589193493127823
+          },
+          "first": {
+            "XYZ_m": 0.000386474873309293,
+            "SO3_rad": 0.00014001153766833122,
+            "gripper": 0.0036208778619766235
+          }
+        },
+        "DESCEND": {
+          "H40": {
+            "XYZ_m": 0.0004545278843289703,
+            "SO3_rad": 0.000287259633029584,
+            "gripper": 0.001662231795489788
+          },
+          "first": {
+            "XYZ_m": 0.0003538157074007224,
+            "SO3_rad": 0.0002290054909813182,
+            "gripper": 0.0038234293460845947
+          }
+        },
+        "CLOSE": {
+          "H40": {
+            "XYZ_m": 0.00038933808037287755,
+            "SO3_rad": 0.00018364411069585396,
+            "gripper": 0.016242819364811003
+          },
+          "first": {
+            "XYZ_m": 0.0004268657650831807,
+            "SO3_rad": 0.0001306929064236475,
+            "gripper": 0.011437346041202556
+          }
+        },
+        "LIFT": {
+          "H40": {
+            "XYZ_m": 0.0005150916062630733,
+            "SO3_rad": 0.00017464563983692928,
+            "gripper": 0.015244329720735549
+          },
+          "first": {
+            "XYZ_m": 0.00023664978942946886,
+            "SO3_rad": 0.00019018149322043453,
+            "gripper": 0.021045740693807602
+          }
+        },
+        "HOLD": {
+          "H40": {
+            "XYZ_m": 0.0003944588020568467,
+            "SO3_rad": 0.00020674777144597456,
+            "gripper": 0.009667059313505888
+          },
+          "first": {
+            "XYZ_m": 0.00032452470699755043,
+            "SO3_rad": 0.00012303369102457395,
+            "gripper": 0.011484336107969284
+          }
+        }
+      },
+      "key": {
+        "H40": {
+          "XYZ_m": 0.00043296282956426587,
+          "SO3_rad": 0.00018834584065958592,
+          "gripper": 0.013718069466350812
+        },
+        "first": {
+          "XYZ_m": 0.0003293467538367333,
+          "SO3_rad": 0.00014796936355621865,
+          "gripper": 0.01465580761432648
+        }
+      }
+    },
+    "DEV": {
+      "actual_unique_probes": 20,
+      "result_sha256": "00ba30ff233c588d6ce1353df04006af07f5a0df1dbe675fe9bf3df3b62aeef6",
+      "matched_observation_noise_sha256": "40769ddd66d2fde41a677fd1fd7165941387ff2529226703b6a795c8e641d43a",
+      "phases": {
+        "PREGRASP": {
+          "H40": {
+            "XYZ_m": 0.0005958568955043703,
+            "SO3_rad": 0.0003206516402543627,
+            "gripper": 0.004481606185436249
+          },
+          "first": {
+            "XYZ_m": 0.00041003522710609944,
+            "SO3_rad": 0.00016326040286105005,
+            "gripper": 0.0041796863079071045
+          }
+        },
+        "DESCEND": {
+          "H40": {
+            "XYZ_m": 0.0014843602551488147,
+            "SO3_rad": 0.0003312241981074908,
+            "gripper": 0.008628034591674806
+          },
+          "first": {
+            "XYZ_m": 0.00021617907302204944,
+            "SO3_rad": 0.0003045789789790115,
+            "gripper": 0.010548368096351624
+          }
+        },
+        "CLOSE": {
+          "H40": {
+            "XYZ_m": 0.0004591433111499925,
+            "SO3_rad": 0.00024691392343359595,
+            "gripper": 0.021883785725887055
+          },
+          "first": {
+            "XYZ_m": 0.00041160411086716634,
+            "SO3_rad": 0.00011948427627415939,
+            "gripper": 0.0
+          }
+        },
+        "LIFT": {
+          "H40": {
+            "XYZ_m": 0.0005058169156366771,
+            "SO3_rad": 0.0001856187664521141,
+            "gripper": 0.019738532789051532
+          },
+          "first": {
+            "XYZ_m": 0.00027840274562563434,
+            "SO3_rad": 0.00017710834553538997,
+            "gripper": 0.025484494864940643
+          }
+        },
+        "HOLD": {
+          "H40": {
+            "XYZ_m": 0.0004938375187617796,
+            "SO3_rad": 0.00021925730734854548,
+            "gripper": 0.013002539798617364
+          },
+          "first": {
+            "XYZ_m": 0.00037314750431803964,
+            "SO3_rad": 0.00010327346264569954,
+            "gripper": 0.012313410639762878
+          }
+        }
+      },
+      "key": {
+        "H40": {
+          "XYZ_m": 0.00048626591518281646,
+          "SO3_rad": 0.0002172633324114185,
+          "gripper": 0.018208286104518648
+        },
+        "first": {
+          "XYZ_m": 0.00035438478693694677,
+          "SO3_rad": 0.0001332886948184163,
+          "gripper": 0.012599301834901174
+        }
+      }
+    }
+  },
+  "validation": {
+    "metric_implementation_sha256": "450dcc4f7e2c5d63381e484936ef3b2f1e00de2b75a9898d69d82b69f8f6d0b5",
+    "retained_array_SHA_and_identity_checks_passed": true,
+    "all_observation_and_noise_pairs_exact": true,
+    "new_models": 0,
+    "new_optimizer_updates": 0,
+    "new_PBS_submissions": 0,
+    "actual_endpoint_model_optimizer_scheduler_RNG_cursor_restore": true,
+    "prior_curve_summaries_reused_from_pinned_readonly_evidence": true
+  },
+  "interpretation": "Both position and gripper key aggregate errors improve against step0. Gripper errors recover from the1500 rise but remain above1000, so the curve is not monotone. These are fixed Teacher-state queries, not student rollouts or task success.",
+  "negative": {
+    "student_closed_loop_DEV80": "NOT_RUN",
+    "TEST": "NOT_RUN",
+    "native_success_rate_inferred": false,
+    "broad_generalization_established": false,
+    "method_selected_from_open_loop": false
+  },
+  "decision": "RETAIN_PREREGISTERED2000_ENDPOINT; require Core40 and complete native80 before the frozen scientific decision",
+  "previous_fixed1500_actual": "FORMAL_SFT1500_FIXED_PHASE_PROBES_ACTUAL.json",
+  "private_evidence": {
+    "HOPPER_FORMAL_FIXED_PHASE_SUMMARIES_1794270439524600384.private.json": "91b6906a575095b1461e9b67e93a0cd78b3d29b325e266ca86de771f9a3c6d2e",
+    "read_formal_fixed_phase_summaries04.remote.private.py": "869f75e7b11840c4de12deb3cdd1551df5a38beefc3a941f9046bcbc9faeccb8"
+  }
+}

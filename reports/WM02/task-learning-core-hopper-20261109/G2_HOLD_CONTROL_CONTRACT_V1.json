@@ -1,0 +1,34 @@
+{
+  "schema": "TASK_LEARNING_MATCHED_HOLD_CONTROL_V1",
+  "status": "PREREGISTERED_NOT_DISPATCHED",
+  "reason": "TWO_WORKSPACES_FAILED_STANDING_BEFORE_CONTACT; DISTINGUISH_ENVIRONMENT_DRIFT_FROM_TASK_MOTION",
+  "scene_sha256": "9c17cd0ca01006158c6e9852650340db32625030327b4292f904c42ec149b3e7",
+  "reference": "KEEP_LAST_CONSUMED_REFERENCE_WITH_ZERO_TASK_DISPLACEMENT_AND_OPEN_GRIPPER",
+  "preparation": "SAME_V5_ORIGINAL_STARTUP_STEADY_CHECK_AND_HOLD",
+  "start_step": 5703,
+  "end_step": 46203,
+  "action_period_s": 0.05,
+  "physics_dt_s": 0.002,
+  "score": {
+    "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+    "maximum_base_displacement_m": 0.02,
+    "maximum_base_rotation_rad": 0.08726646259971647,
+    "maximum_foot_planar_displacement_m": 0.005,
+    "minimum_supported_feet": 3,
+    "minimum_actual_floor_normal_force_N": 0.05,
+    "old_short_task_pose_diagnostic": {
+      "maximum_base_displacement_m": 0.002,
+      "maximum_base_rotation_rad": 0.008726646259971648
+    },
+    "original_native_safety_changed": false,
+    "task_score_bounds_are_native_safety": false,
+    "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+  },
+  "independent_restart": true,
+  "bit_exact_physical_counterfactual": false,
+  "Teacher_decisions": 0,
+  "GR00T_queries": 0,
+  "expert_training_eligible": false,
+  "old_results_retried": false,
+  "WBC_or_safety_changes": false
+}

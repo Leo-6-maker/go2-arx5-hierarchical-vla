@@ -26,6 +26,44 @@ def test_core_first_qualification_cannot_silently_start_formal_or_larger_scope(a
     with pytest.raises(PermissionError,match='CORE_FIRST'):profile.validate(spec(**args))
 
 
+@pytest.mark.parametrize('start,endpoint',[(0,4),(0,2),(2,4)])
+def test_explicit_full_action_core_native_restore_is_finite_and_original(start,endpoint):
+    s=spec('RESTORE4','FULL_ACTION_SIDE',endpoint)
+    s.update(core_native_operation='FULL_ACTION_RESTORE_ONLY',start_step=start,
+        GR00T_updates=endpoint-start,resume=dict(path='/checkpoint-2',sha256='c'*64)if start else None)
+    s['recipe']=profile.recipe('a'*64,'b'*64,mode='RESTORE4',variant='FULL_ACTION_SIDE',
+        endpoint=endpoint,memory_policy='CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2')
+    p=profile.validate(s)
+    assert p['effective_batch']==32 and p['scheduler_horizon']==500 and p['warmup_updates']==8
+
+
+@pytest.mark.parametrize('mode,variant,micro,endpoint,memory',[
+    ('FORMAL','FULL_ACTION_SIDE',1,2000,'CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2'),
+    ('FIT4','FULL_ACTION_SIDE',1,200,'CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2'),
+    ('RESTORE4','INTERFACES_LAST2_DIT',1,4,'CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2'),
+    ('RESTORE4','FULL_ACTION_SIDE',2,4,'CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2'),
+    ('RESTORE4','FULL_ACTION_SIDE',1,4,'CUDA_RESIDENT')])
+def test_full_core_native_restore_cannot_expand_or_change_memory_execution(mode,variant,micro,endpoint,memory):
+    s=spec(mode,variant,endpoint,micro)
+    s['recipe']=profile.recipe('a'*64,'b'*64,mode=mode,variant=variant,
+        endpoint=endpoint,microbatch=micro,memory_policy=memory)
+    s['core_native_operation']='FULL_ACTION_RESTORE_ONLY'
+    with pytest.raises(PermissionError,match='CORE_FULL_ACTION'):profile.validate(s)
+
+
+def test_native_full_restore_scope_rejects_cached_training_and_formal_relabel():
+    c=dict(operation='FULL_ACTION_RESTORE_ONLY',original_Trainer_execution=True,
+        formal_training=False,memory_policy='CORE_UNUSED_LOGITS1_CPU_ACTIVATIONS_2G_V2',
+        memory_reference=dict(path='/actual/original/RESULT.json',sha256='a'*64))
+    assert core.full_restore_only(c)
+    assert core.spec_operation(c)==core.spec_operation(dict(core_native_operation=c['operation']))
+    for changed in [dict(original_Trainer_execution=False),dict(formal_training=True),
+                    dict(memory_reference={}),dict(memory_policy='FROZEN_BACKBONE_FEATURES_CORE_DIAGNOSTIC_V1')]:
+        with pytest.raises(PermissionError,match='NOT_CACHE_OR_FORMAL'):
+            core.full_restore_only(dict(c,**changed))
+    assert core.full_restore_only({})is False
+
+
 def test_core_failure_preserves_actual_updates_and_closes_without_fake_pbs(tmp_path,monkeypatch):
     from scripts.wm02 import train_target_gr00t_v1 as entry
     from go2arx5_vla.world_model import target_gr00t_training_v1 as training
@@ -64,6 +102,37 @@ def test_gpu_requires_original_uuid_mask_and_preserves_two_gib_margin(monkeypatc
     actual=core.gpu(dict(GPU_uuid=uuid));assert actual['free_bytes']==14719*1024**2
     monkeypatch.setenv('CUDA_VISIBLE_DEVICES','0,1')
     with pytest.raises(PermissionError,match='SINGLE_SHARED'):core.gpu(dict(GPU_uuid=uuid))
+
+
+def test_full_action_capacity_wait_keeps_28_gib_instead_of_shrinking_to_24_gib(tmp_path,monkeypatch):
+    from scripts.pi0292 import durable
+    free=iter([int(26.45*1024**3),31*1024**3]);waits=[];records=[]
+    monkeypatch.setattr(core,'gpu',lambda c:dict(free_bytes=next(free)))
+    original=Path.read_text
+    monkeypatch.setattr(Path,'read_text',lambda p,*a,**k:'MemAvailable: 50331648 kB\n'
+        if str(p)=='/proc/meminfo'else original(p,*a,**k))
+    monkeypatch.setattr(core.time,'sleep',waits.append)
+    monkeypatch.setattr(durable,'write',lambda p,v:records.append(v))
+    c=dict(allocator_limit_bytes=28*1024**3,deadline_epoch=time.time()+3600)
+    assert core.allocator(c,full=True,root=tmp_path,name='split2',stop=[])==28*1024**3
+    assert waits==[10]and len(records)==1
+    assert records[0]['required_allocator_bytes']==28*1024**3
+    assert records[0]['status']=='WAIT_ORIGINAL_FULL_ACTION_CAPACITY_NO_MODEL_START'
+
+
+def test_full_capacity_wait_respects_stop_and_refuses_a_smaller_declared_limit(tmp_path,monkeypatch):
+    monkeypatch.setattr(core,'gpu',lambda c:dict(free_bytes=31*1024**3))
+    c=dict(allocator_limit_bytes=28*1024**3,deadline_epoch=time.time()+3600)
+    with pytest.raises(PermissionError,match='CAPACITY_WAIT_OR_STOP'):
+        core.allocator(c,full=True,root=tmp_path,name='split2',stop=[15])
+    with pytest.raises(PermissionError,match='NOT_ADAPTIVELY_REDUCED'):
+        core.allocator(dict(c,allocator_limit_bytes=24*1024**3),full=True,root=tmp_path,name='split2',stop=[])
+
+
+def test_legacy_last2_capacity_keeps_its_existing_adaptive_limit(tmp_path,monkeypatch):
+    monkeypatch.setattr(core,'gpu',lambda c:dict(free_bytes=13*1024**3))
+    assert core.allocator(dict(allocator_limit_bytes=12*1024**3),full=False,
+        root=tmp_path,name='capacity2',stop=[])==11*1024**3
 
 
 def test_repaired_successors_use_distinct_global_registration_requests(tmp_path,monkeypatch):
@@ -106,7 +175,7 @@ def test_cpu_activation_execution_is_explicit_preserving_recipe_and_core_only():
     r=profile.validate(s);assert r['effective_batch']==32 and r['forward_precision']=='ORIGINAL_BF16_AUTOCAST'
     assert core.activation_policy()['per_microbatch_activation_offload_bytes']==2*1024**3
     assert core.activation_policy()['quantization']is False
-    with pytest.raises(PermissionError,match='A40_ORIGINAL'):
+    with pytest.raises(PermissionError,match='ORIGINAL_RESIDENT_EXECUTION'):
         profile.validate(dict(s,execution_site='VANDA_A40'))
 
 

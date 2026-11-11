@@ -1,0 +1,64 @@
+{
+  "schema": "VANDA_AND_CORE_ALTERNATIVE_RECHECK_ACTUAL_V2",
+  "observed_UTC": "2026-11-09T16:17:34.981943+00:00",
+  "observed_SGT": "2026-11-10T00:17:34.981943+08:00",
+  "QUESTION": "Can a real full-action training result start on Vanda while Hopper remains queued?",
+  "CHANGED": {
+    "user_requested_Vanda_retry": true,
+    "Core_independent_full_action_restore_entry_implemented": true,
+    "parameter_count_required": 1304913028,
+    "focused_tests_passed": 32
+  },
+  "ACTUAL": {
+    "Vanda": {
+      "local_SSH": "CONNECTION_TIMED_OUT_BEFORE_AUTHENTICATION",
+      "via_Hopper2_SSH": "BANNER_TIMEOUT",
+      "Hopper2_to_Vanda_TCP": "timeout: timed out",
+      "Core_to_Vanda_TCP": "TimeoutError: timed out",
+      "local_HTTPS": "TimeoutError: timed out",
+      "new_PBS_submissions": 0,
+      "new_model_loads": 0,
+      "new_optimizer_updates": 0
+    },
+    "Core": {
+      "current_host_available_bytes": 34840502272,
+      "current_GPU0_free_bytes": 1254096896,
+      "new_remote_root_exists": false,
+      "new_model_loads": 0,
+      "new_optimizer_updates": 0,
+      "finite_capacity_wait_controller": {
+        "pid": 3764271,
+        "proc_start": "38140853",
+        "deadline_epoch": 1794244623.7248468,
+        "stage": "WAIT_ACTUAL_HOST_AND_GPU_CAPACITY",
+        "remote_mutation_attempts": 0,
+        "maximum_mutation_attempts": 1
+      },
+      "planned_execution": {
+        "operation": "FULL_ACTION_RESTORE_ONLY",
+        "variant": "FULL_ACTION_SIDE",
+        "trainable_numel": 1304913028,
+        "original_backbone_frozen": true,
+        "original_loss_and_action_head": true,
+        "reference_output_loss_gradient_and_RNG_equality_required_before_optimization": true,
+        "uninterrupted4_equals_fresh2_plus2_all_state_required": true,
+        "effective_batch": 32,
+        "allocator_limit_bytes": 30064771072,
+        "GPU_headroom_bytes": 2147483648,
+        "host_limit_bytes": 32212254720,
+        "host_shared_headroom_bytes": 4294967296,
+        "wall_limit_s": 21600,
+        "formal_training": false
+      }
+    }
+  },
+  "NEGATIVE": {
+    "Vanda_not_submitted": true,
+    "Core_full_action_not_started": true,
+    "no_new_SFT2000_or_student_DEV": true,
+    "Core_GPU0_capacity_was_transient_and_is_now_occupied_by_other_work": true,
+    "Teacher_successes_are_not_student_results": true
+  },
+  "DECISION": "Keep healthy Hopper jobs and their sole continuation. Do not start under insufficient shared capacity. One finite read-only Core capacity wait may launch the original owner/Journal/registry qualification once; Vanda needs a reachable authorized login route.",
+  "NEXT_GATE": "Actual site/capacity admission, then full-action original-path/cache equality and all-state restore; only then consider a separately qualified formal task-data site successor."
+}

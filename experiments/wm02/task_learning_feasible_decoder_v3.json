@@ -1,0 +1,15 @@
+{
+  "schema": "H40_MINIMUM_CHANGE_FIT_DIAGNOSTIC_V3",
+  "purpose": "P3 offline representation diagnosis from sealed predictions; no physical execution or scientific candidate promotion",
+  "population": "All40 archived H100 paired-diagnostic SFT2000 TRAIN outputs, eight per original audit phase; original crosshardware REJECT preserved",
+  "objective": "Separate minimum squared translation and nominal gripper changes",
+  "constraints": "Original50ms speed and discrete acceleration with zero padded boundary velocities; grip0..1 and original working finger speed; fix exact first and last full knots",
+  "rotation": "Original unchanged; original angular gate remains independent",
+  "inputs_used_by_fit": ["raw physical_H40", "original mechanical limits"],
+  "expert_use": "Post-fit reporting only",
+  "report": ["full40 denominator", "per-window solver and original envelope", "mean/max change", "endpoint drift", "direction", "grip crossing changes", "native certificate NOT_MEASURED"],
+  "new_model_queries": 0,
+  "candidate_updates": 0,
+  "new_physics_integrations": 0,
+  "future_physical_system_requires": "Complete Core matched evidence and independent version admission; raw B0/B0+decoder/SFT+decoder baselines, original native certificate, no Teacher fallback"
+}

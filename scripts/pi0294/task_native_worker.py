@@ -30,17 +30,26 @@ class FrameRecorder:
     def save(self,index,packet):
         import mujoco
         from PIL import Image
+        from go2arx5_vla.world_model.native_collection_performance_v1 import measure,reset_render_scene
+        reused=self.renderer is not None
         if self.model is None:
-            self.model=mujoco.MjModel.from_binary_path(str(self.model_path))
-            self.data=mujoco.MjData(self.model)
-            self.renderer=mujoco.Renderer(self.model,height=256,width=256)
+            with measure(self,'camera.native_model_load'):
+                self.model=mujoco.MjModel.from_binary_path(str(self.model_path))
+                self.data=mujoco.MjData(self.model)
+            with measure(self,'camera.native_renderer_create'):
+                self.renderer=mujoco.Renderer(self.model,height=256,width=256)
         m,d,r=self.model,self.data,self.renderer
+        if reused and getattr(self,'reset_each_packet',False):
+            with measure(self,'camera.native_scene_reset'):reset_render_scene(r,m)
+        if getattr(self,'reset_each_packet',False):mujoco.mj_resetData(m,d)
         d.qpos[:]=packet['qpos'];d.qvel[:]=packet['qvel'];d.ctrl[:]=packet['ctrl'];d.time=packet['time_s']
-        mujoco.mj_forward(m,d)
+        with measure(self,'camera.native_FK'):mujoco.mj_forward(m,d)
         calibration={}
         for camera in ('body_rgb','wrist_rgb'):
-            r.update_scene(d,camera=camera);image=r.render().copy()
-            Image.fromarray(image).save(self.folder/'images'/f'{index:06d}-{camera}.png')
+            with measure(self,'camera.native_render.'+camera):
+                r.update_scene(d,camera=camera);image=r.render().copy()
+            with measure(self,'camera.native_PNG.'+camera):
+                Image.fromarray(image).save(self.folder/'images'/f'{index:06d}-{camera}.png')
             c=mujoco.mj_name2id(m,mujoco.mjtObj.mjOBJ_CAMERA,camera)
             transform=np.eye(4);transform[:3,:3]=d.cam_xmat[c].reshape(3,3)@np.diag([1,-1,-1]);transform[:3,3]=d.cam_xpos[c]
             focal=128/np.tan(np.deg2rad(m.cam_fovy[c])/2)

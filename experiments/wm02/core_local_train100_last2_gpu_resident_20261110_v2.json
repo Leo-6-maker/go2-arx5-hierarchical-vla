@@ -1,0 +1,118 @@
+{
+  "schema": "TASK_LEARNING_CORE_LOCAL_GPU_RESIDENT_SUCCESSOR_V2",
+  "original_cross_hardware_REJECT_preserved": true,
+  "original_DEV80_and_TEST_modified": false,
+  "H100_H200_new_jobs": 0,
+  "parent_package_sha256": "7feffa8dd11b5c9ce963f2e0f2f2613196c1a3ae8e5039056377bd5e25e02250",
+  "parent_global_step": 2000,
+  "dataset_sha256": "ff94fc77c5a8309dc1460032b308c2f213c96c088449ee1821b3e46e045107b0",
+  "statistics_sha256": "0faba237b8922ed9bbd53bd6732a9f449f46dcb6fc19017eae8f3cffa3afd9f2",
+  "distinct_TRAIN_supervised_windows": 1450,
+  "adaptation": {
+    "version": "TRAIN100_SFT2000_FROZEN_FEATURE_LAST2_V1",
+    "variant": "INTERFACES_LAST2_DIT",
+    "trainable_parameters": 77847684,
+    "arms": [
+      "ORIGINAL",
+      "CONTACT_EVENTS"
+    ],
+    "updates_per_arm": 500,
+    "visits_per_arm": 16000,
+    "seed": 20261109,
+    "effective_batch": 32,
+    "microbatch": 1,
+    "optimizer": "FRESH_ADAMW_PER_ARM_NOT_FULL_ACTION_OPTIMIZER_CONTINUATION",
+    "learning_rate": 0.0001,
+    "weight_decay": 1e-05,
+    "warmup_local_updates": 200,
+    "scheduler_horizon_local_updates": 8000,
+    "precision": "FP32_PARAMETERS_ORIGINAL_BF16_AUTOCAST",
+    "checkpoint_and_fresh_process_restore_at": 250,
+    "final_complete_checkpoint": 500,
+    "contact_sampling": "24_OF32_ORIGINAL_EXPOSURE_DRAWS_PLUS8_OF32_UNIFORM_RECORDED_CONTACT_ONSET_WINDOWS",
+    "contact_event_definition": "TASK_CUBE_PAIR_RECORDED_NORMAL_FORCE_AT_LEAST0.05N_AT6MS_TRACE_RESOLUTION",
+    "event_metadata_in_model_inputs": false,
+    "comparison": "SAME_INITIAL_PACKAGE_DATA_STATISTICS_VISITS_OPTIMIZER_SCHEDULE_NOISE_SEED_PARAMETER_SCOPE",
+    "evaluation": "SEALED_TRAIN40_PHASES_AND_FRESH_ORIGINAL_FULL_MODEL_RECONSTRUCTION",
+    "original_FIT4_identity_reused": false,
+    "FULL_ACTION_SIDE_continuation": false
+  },
+  "feature_exchange": {
+    "windows": 4,
+    "feature_sources": [
+      "DELIVERED_H100",
+      "DELIVERED_CORE"
+    ],
+    "head": "SAME_CORE_SFT2000_ACTION_HEAD",
+    "repeats_per_source": 2,
+    "state_noise_masks_steps_fixed": true,
+    "physical_execution_authorized": false
+  },
+  "Core_local_native": {
+    "version": "CORE_LOCAL_POLICY_DIAGNOSTIC_NOT_DEV_TEST_V1",
+    "requested_conditions": 4,
+    "order": [
+      {
+        "scene": "TASK_LEARNING_UNDER_HAND_TRAIN01",
+        "method": "B0",
+        "restart": 1,
+        "noise_seed_base": 20261110100
+      },
+      {
+        "scene": "TASK_LEARNING_UNDER_HAND_TRAIN01",
+        "method": "B1_SFT2000",
+        "restart": 1,
+        "noise_seed_base": 20261110100
+      },
+      {
+        "scene": "TASK_LEARNING_UNDER_HAND_TRAIN13",
+        "method": "B1_SFT2000",
+        "restart": 1,
+        "noise_seed_base": 20261110200
+      },
+      {
+        "scene": "TASK_LEARNING_UNDER_HAND_TRAIN13",
+        "method": "B0",
+        "restart": 1,
+        "noise_seed_base": 20261110200
+      }
+    ],
+    "interpretation": "TRAIN_SCENE_LOCAL_DIAGNOSTIC_NEW_RESTARTS_NOT_GENERALIZATION_OR_ORIGINAL_DEV",
+    "admission": "SEPARATE_ORDINARY_CORE_REPLAY_WITH_PINNED_WEIGHTS_PROCESSOR_PRECISION_AND_SAME_CARD_REPRODUCIBILITY",
+    "unsafe_proposal": "REJECT_BEFORE_EXECUTION_PRESERVE_VALID_TASK_FAILURE_NO_RETRY",
+    "full_H40": true,
+    "action_clipping": false,
+    "Teacher_fallback": false,
+    "one_physical_owner": true,
+    "WBC_leg_dynamics_2ms_native_safety_changed": false
+  },
+  "RecoveryOracle": "PREPARATION_ONLY_NEW_TRAIN_POPULATION_AFTER_ACTUAL_STUDENT_STATES_NO_DAGGER_LABELS_YET",
+  "execution_transition": {
+    "authorization": "USER_20261110_GPU_RESIDENT_NO_CPU_ACTIVATION_OFFLOAD",
+    "predecessor_identity": "task-learning-core-local-last2-pair-20261110-01",
+    "predecessor_completed_ORIGINAL_updates": 250,
+    "predecessor_complete_checkpoint_sha256": "82c7e7b2e42661e19f1b498f8e527d3765f4478b90ea1b015745dc8d84947e3b",
+    "predecessor_ORIGINAL_500_phase_new_updates": 0,
+    "predecessor_CONTACT_EVENTS_updates": 0,
+    "training_activation_storage": "CUDA_RESIDENT_V1",
+    "CPU_activation_copied_bytes_required": 0,
+    "microbatch_unchanged": 1,
+    "same_scientific_recipe": true,
+    "original_resume_local_update": 250,
+    "contact_start_local_update": 0,
+    "diagnostic_matched_updates": 2,
+    "diagnostic_updates_enter_candidates": false,
+    "required_exact_comparison": [
+      "per_sample_loss",
+      "all_clipped_gradients",
+      "all_trainable_parameters",
+      "optimizer",
+      "scheduler",
+      "RNG",
+      "input_and_native_noise_traces"
+    ],
+    "CPU_role": "DATA_INPUT_AND_AUDIT_CHECKPOINT_IO_ONLY_NO_TRAINING_ACTIVATION_OFFLOAD",
+    "preserve_existing_local_native4_panel_after_successor_terminal": true,
+    "preserve_original_DEV_TEST_and_cross_hardware_REJECT": true
+  }
+}

@@ -1,0 +1,3746 @@
+{
+  "schema": "CORE_LOCAL_LAST2_BOTH500_AND_NATIVE_SUCCESSOR_ACTUAL_V1",
+  "training_terminal_SGT": "2026-11-10T18:28:56.304590+08:00",
+  "training_terminal_UTC": "2026-11-10T10:28:56.304590+00:00",
+  "training_observation_UTC": "2026-11-10T10:40:37.589828+00:00",
+  "QUESTION": "Complete both TRAIN100 last2 adaptation arms and inspect execution readiness without changing the frozen control or original DEV/TEST.",
+  "CHANGED": {
+    "candidate_training_execution": "CUDA_RESIDENT_NO_CPU_ACTIVATION_OFFLOAD",
+    "native_registration_repair_source": "28a412b2e75f20c49811c3f07bdb0a8667595edf",
+    "scene_builder_provenance": "Bind static scene to its pinned successful TRAIN producer and archived builder, rather than equating archived builder with a newer runtime file. Original archived file and model hashes remain mandatory; archived code is not executed.",
+    "same_unrun_four_methods_scenes_restarts_and_noise": true,
+    "same_card_qualification_repeated": false
+  },
+  "ACTUAL": {
+    "new_GPU_resident_successor_model_loads": 8,
+    "new_successor_candidate_optimizer_calls": 750,
+    "separate_non_candidate_diagnostic_optimizer_calls": 2,
+    "previous_ORIGINAL_optimizer_calls_retained": 250,
+    "logical_candidate_optimizer_calls_total": 1000,
+    "distinct_TRAIN_windows": 1450,
+    "actual_supervised_visits_per_arm": 16000,
+    "cached_action_generations": 160,
+    "ordinary_full_original_generations": 80,
+    "generation_calls_total": 240,
+    "GPU_resident_successor_pipeline_wall_minutes": 54.807249242734784,
+    "pipeline_wall_excludes_previous250_updates": true,
+    "arms": {
+      "original": {
+        "local_updates": 500,
+        "committed_visits": 16000,
+        "last32_mean_s": 1.96594860033656,
+        "peak_training_GB": 8.093500928,
+        "activation_CPU_copied_bytes": 0,
+        "restore_full_exact": true,
+        "ordinary_full40_exact": true,
+        "package_manifest_sha256": "9205afbb45328ee40255738e40ba193eee4760cb1de75422e7d1967d15598fe6",
+        "windows": 40,
+        "envelope_pass": 0,
+        "reasons": {
+          "maximum_discrete_translation_acceleration_m_s2": 40,
+          "maximum_finger_speed_m_s": 4
+        },
+        "by_phase": {
+          "CLOSE": {
+            "windows": 8,
+            "envelope_pass": 0,
+            "XYZ_mean_mm": 0.3887809959855239,
+            "gripper_MAE": 0.011476451994226203,
+            "reasons": {
+              "maximum_finger_speed_m_s": 4,
+              "maximum_discrete_translation_acceleration_m_s2": 8
+            }
+          },
+          "DESCEND": {
+            "windows": 8,
+            "envelope_pass": 0,
+            "XYZ_mean_mm": 0.37576129196658115,
+            "gripper_MAE": 0.006106356345117092,
+            "reasons": {
+              "maximum_discrete_translation_acceleration_m_s2": 8
+            }
+          },
+          "HOLD": {
+            "windows": 8,
+            "envelope_pass": 0,
+            "XYZ_mean_mm": 0.38342156132291194,
+            "gripper_MAE": 0.020117804035544397,
+            "reasons": {
+              "maximum_discrete_translation_acceleration_m_s2": 8
+            }
+          },
+          "LIFT": {
+            "windows": 8,
+            "envelope_pass": 0,
+            "XYZ_mean_mm": 0.3071666641328696,
+            "gripper_MAE": 0.012796263676136732,
+            "reasons": {
+              "maximum_discrete_translation_acceleration_m_s2": 8
+            }
+          },
+          "PREGRASP": {
+            "windows": 8,
+            "envelope_pass": 0,
+            "XYZ_mean_mm": 0.40434899018178333,
+            "gripper_MAE": 0.006414379738271236,
+            "reasons": {
+              "maximum_discrete_translation_acceleration_m_s2": 8
+            }
+          }
+        },
+        "restore_all40_exact": true,
+        "per_window": [
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r1",
+            "anchor": 0,
+            "seed": 2026110900,
+            "phase": "PREGRASP",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00032444028559815716,
+                "p95": 0.0005973458136340943,
+                "mean": 0.000353317081304101
+              },
+              "SO3_rad": {
+                "median": 0.0001648601685038435,
+                "p95": 0.00029217800440237363,
+                "mean": 0.00016917144907674272
+              },
+              "gripper_MAE": 0.01627659350633621
+            },
+            "first_position_jump_m": 0.00019351783076307718,
+            "first_gripper_jump": 0.04545333300660137,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.43455041410216094,
+            "maximum_finger_speed_m_s": 0.03425822257995597,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r1",
+            "anchor": 2,
+            "seed": 2026110901,
+            "phase": "DESCEND",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0004347664057228694,
+                "p95": 0.0009353088239199687,
+                "mean": 0.0004472304104668992
+              },
+              "SO3_rad": {
+                "median": 0.00021262193182603942,
+                "p95": 0.0003692321379061229,
+                "mean": 0.0002350675779640041
+              },
+              "gripper_MAE": 0.0016264200210571289
+            },
+            "first_position_jump_m": 0.0006407808536412954,
+            "first_gripper_jump": 0.034990742913025286,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.4128527671639833,
+            "maximum_finger_speed_m_s": 0.011949348449707003,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r1",
+            "anchor": 9,
+            "seed": 2026110902,
+            "phase": "CLOSE",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0004743339070896006,
+                "p95": 0.0007316132103845968,
+                "mean": 0.0004772605794250706
+              },
+              "SO3_rad": {
+                "median": 7.958729806094394e-05,
+                "p95": 0.00013160633958178594,
+                "mean": 8.507842634043237e-05
+              },
+              "gripper_MAE": 0.022433645278215366
+            },
+            "first_position_jump_m": 0.0003263628169226916,
+            "first_gripper_jump": 0.045456527596075436,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_finger_speed_m_s",
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.4197440952751807,
+            "maximum_finger_speed_m_s": 0.05478034019470213,
+            "close_events": {
+              "expert_indices": [
+                20
+              ],
+              "predicted_indices": [
+                21
+              ],
+              "first_timing_error_s": 0.05,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r1",
+            "anchor": 10,
+            "seed": 2026110903,
+            "phase": "LIFT",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0002177546322800447,
+                "p95": 0.00037420233540743996,
+                "mean": 0.00023598657875412862
+              },
+              "SO3_rad": {
+                "median": 0.0002783042695671118,
+                "p95": 0.0004771460048950342,
+                "mean": 0.00026146188880579155
+              },
+              "gripper_MAE": 0.01529126986861229
+            },
+            "first_position_jump_m": 0.00047670778018612804,
+            "first_gripper_jump": -0.42376929573636585,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.29570492084978517,
+            "maximum_finger_speed_m_s": 0.016867232322692865,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r1",
+            "anchor": 13,
+            "seed": 2026110904,
+            "phase": "HOLD",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00015904543125203242,
+                "p95": 0.0003544431675757061,
+                "mean": 0.00016716047827902746
+              },
+              "SO3_rad": {
+                "median": 0.00021898979011069448,
+                "p95": 0.0003429264258785513,
+                "mean": 0.00022047648082355404
+              },
+              "gripper_MAE": 0.018364928662776947
+            },
+            "first_position_jump_m": 0.00019561293074462255,
+            "first_gripper_jump": -0.40963661928465284,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.26977918045348864,
+            "maximum_finger_speed_m_s": 0.019854640960693348,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r1",
+            "anchor": 0,
+            "seed": 2026110905,
+            "phase": "PREGRASP",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00031156728496309496,
+                "p95": 0.0006267238680016093,
+                "mean": 0.0003464585813740102
+              },
+              "SO3_rad": {
+                "median": 0.00014072606317839655,
+                "p95": 0.0002853715163258557,
+                "mean": 0.00014681289826851926
+              },
+              "gripper_MAE": 0.0030610859394073486
+            },
+            "first_position_jump_m": 0.0005293404081426501,
+            "first_gripper_jump": 0.04232769755594157,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.25518350477220836,
+            "maximum_finger_speed_m_s": 0.013918304443359435,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r1",
+            "anchor": 1,
+            "seed": 2026110906,
+            "phase": "DESCEND",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00024712705652182984,
+                "p95": 0.0005954063727670111,
+                "mean": 0.0002796927682494424
+              },
+              "SO3_rad": {
+                "median": 0.00016070524499125572,
+                "p95": 0.00029612454400810087,
+                "mean": 0.0001644917483973376
+              },
+              "gripper_MAE": 0.0004910469055175781
+            },
+            "first_position_jump_m": 0.0003273409929256801,
+            "first_gripper_jump": 0.04543566723110248,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.4180652312151741,
+            "maximum_finger_speed_m_s": 0.006608486175537161,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r1",
+            "anchor": 8,
+            "seed": 2026110907,
+            "phase": "CLOSE",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0006312297177789644,
+                "p95": 0.0008739690646192538,
+                "mean": 0.0006549988001105873
+              },
+              "SO3_rad": {
+                "median": 0.00010548833697656676,
+                "p95": 0.00017788046652449595,
+                "mean": 0.00011486239032803727
+              },
+              "gripper_MAE": 0.010908529762604837
+            },
+            "first_position_jump_m": 0.0008562162289777171,
+            "first_gripper_jump": 0.04544265915026058,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_finger_speed_m_s",
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.3982228200309244,
+            "maximum_finger_speed_m_s": 0.06323542594909669,
+            "close_events": {
+              "expert_indices": [
+                20
+              ],
+              "predicted_indices": [
+                20
+              ],
+              "first_timing_error_s": 0.0,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r1",
+            "anchor": 9,
+            "seed": 2026110908,
+            "phase": "LIFT",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0001778441868576312,
+                "p95": 0.0005066759792223115,
+                "mean": 0.0002293353492854642
+              },
+              "SO3_rad": {
+                "median": 8.805641884256988e-05,
+                "p95": 0.0002555417092751421,
+                "mean": 0.00011629378753717591
+              },
+              "gripper_MAE": 0.010854405909776687
+            },
+            "first_position_jump_m": 0.00017714478719132155,
+            "first_gripper_jump": -0.4156921998651202,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.45119008085421713,
+            "maximum_finger_speed_m_s": 0.016178655624389648,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r1",
+            "anchor": 12,
+            "seed": 2026110909,
+            "phase": "HOLD",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0005722387687558902,
+                "p95": 0.0008675027711432927,
+                "mean": 0.0005907203824923385
+              },
+              "SO3_rad": {
+                "median": 0.00023899553909272178,
+                "p95": 0.0004885137477120885,
+                "mean": 0.0002626272172277624
+              },
+              "gripper_MAE": 0.034343451261520386
+            },
+            "first_position_jump_m": 0.0005458857505059834,
+            "first_gripper_jump": -0.3941334205095325,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.30421146655542736,
+            "maximum_finger_speed_m_s": 0.029692935943603522,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r1",
+            "anchor": 0,
+            "seed": 2026110910,
+            "phase": "PREGRASP",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0005443384505784028,
+                "p95": 0.0009641294068235497,
+                "mean": 0.0005624623719651606
+              },
+              "SO3_rad": {
+                "median": 0.0003723586645799784,
+                "p95": 0.000520090618677552,
+                "mean": 0.00036894066663038344
+              },
+              "gripper_MAE": 0.0
+            },
+            "first_position_jump_m": 0.0010166905465415139,
+            "first_gripper_jump": 0.04545041202239686,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.47161343560463587,
+            "maximum_finger_speed_m_s": 0.0,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r1",
+            "anchor": 1,
+            "seed": 2026110911,
+            "phase": "DESCEND",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00016524124835598871,
+                "p95": 0.0003666254708526169,
+                "mean": 0.00019560853383597177
+              },
+              "SO3_rad": {
+                "median": 0.0001676550599867436,
+                "p95": 0.00032596034368345385,
+                "mean": 0.00018929643838421986
+              },
+              "gripper_MAE": 0.018371669948101042
+            },
+            "first_position_jump_m": 8.007878389701317e-05,
+            "first_gripper_jump": 0.029098862437318962,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.35040282393387245,
+            "maximum_finger_speed_m_s": 0.019858264923095593,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r1",
+            "anchor": 8,
+            "seed": 2026110912,
+            "phase": "CLOSE",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00016793553209692148,
+                "p95": 0.0004782483012111493,
+                "mean": 0.00022146707821664628
+              },
+              "SO3_rad": {
+                "median": 0.00010603334436039317,
+                "p95": 0.00024568407920715145,
+                "mean": 0.0001277044987916829
+              },
+              "gripper_MAE": 0.015219808101163166
+            },
+            "first_position_jump_m": 0.00047793987637031316,
+            "first_gripper_jump": 0.04545748537928984,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_finger_speed_m_s",
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.3267017955854185,
+            "maximum_finger_speed_m_s": 0.05785653591156001,
+            "close_events": {
+              "expert_indices": [
+                20
+              ],
+              "predicted_indices": [
+                20
+              ],
+              "first_timing_error_s": 0.0,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r1",
+            "anchor": 9,
+            "seed": 2026110913,
+            "phase": "LIFT",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00019981456586310175,
+                "p95": 0.00040562351384338156,
+                "mean": 0.00022557960242012288
+              },
+              "SO3_rad": {
+                "median": 0.00010909073008806731,
+                "p95": 0.00020150957191226817,
+                "mean": 0.00011525157465111097
+              },
+              "gripper_MAE": 0.022144993394613267
+            },
+            "first_position_jump_m": 0.0002603307376204522,
+            "first_gripper_jump": -0.4026470711766764,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.5817795749124088,
+            "maximum_finger_speed_m_s": 0.016282701492309558,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r1",
+            "anchor": 12,
+            "seed": 2026110914,
+            "phase": "HOLD",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0005013321508676386,
+                "p95": 0.000732397120551816,
+                "mean": 0.0005067151222765331
+              },
+              "SO3_rad": {
+                "median": 0.00016709185893934388,
+                "p95": 0.00034577968886992925,
+                "mean": 0.00019148428412808278
+              },
+              "gripper_MAE": 0.005475278198719025
+            },
+            "first_position_jump_m": 0.000444524581898612,
+            "first_gripper_jump": -0.4305765560569934,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.32130496794993774,
+            "maximum_finger_speed_m_s": 0.016354465484619128,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r1",
+            "anchor": 0,
+            "seed": 2026110915,
+            "phase": "PREGRASP",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0006025302662636221,
+                "p95": 0.0008424534812228761,
+                "mean": 0.0005951068584374292
+              },
+              "SO3_rad": {
+                "median": 0.00019035370560676853,
+                "p95": 0.00029824154771025137,
+                "mean": 0.00019541886604374368
+              },
+              "gripper_MAE": 0.0008819550275802612
+            },
+            "first_position_jump_m": 0.0004992967342527158,
+            "first_gripper_jump": 0.04449335353456907,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.3011209193354597,
+            "maximum_finger_speed_m_s": 0.0106333255767822,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r1",
+            "anchor": 1,
+            "seed": 2026110916,
+            "phase": "DESCEND",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00023044279157062226,
+                "p95": 0.00043263700059907335,
+                "mean": 0.00024946390698280766
+              },
+              "SO3_rad": {
+                "median": 0.00023251094372602518,
+                "p95": 0.0003916589651847562,
+                "mean": 0.00023443641769707113
+              },
+              "gripper_MAE": 0.01436523199081421
+            },
+            "first_position_jump_m": 0.0003450794490601316,
+            "first_gripper_jump": 0.031102399961549287,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.3745783831300771,
+            "maximum_finger_speed_m_s": 0.017503023147583032,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r1",
+            "anchor": 8,
+            "seed": 2026110917,
+            "phase": "CLOSE",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00042858082006100285,
+                "p95": 0.0006460409844124557,
+                "mean": 0.0004322866279863562
+              },
+              "SO3_rad": {
+                "median": 0.0003401577877224487,
+                "p95": 0.0005259943759461937,
+                "mean": 0.0003584451176129721
+              },
+              "gripper_MAE": 0.009095986375142615
+            },
+            "first_position_jump_m": 0.000492976843453762,
+            "first_gripper_jump": 0.04545443098380708,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_finger_speed_m_s",
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.4043427573403388,
+            "maximum_finger_speed_m_s": 0.07156307697296135,
+            "close_events": {
+              "expert_indices": [
+                20
+              ],
+              "predicted_indices": [
+                20
+              ],
+              "first_timing_error_s": 0.0,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r1",
+            "anchor": 9,
+            "seed": 2026110918,
+            "phase": "LIFT",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0005460287401876688,
+                "p95": 0.0008395105038543337,
+                "mean": 0.0005468781568154816
+              },
+              "SO3_rad": {
+                "median": 0.00014271861514003452,
+                "p95": 0.00025462495011536,
+                "mean": 0.00014680301406609514
+              },
+              "gripper_MAE": 0.01198083907365799
+            },
+            "first_position_jump_m": 0.0005578773847782571,
+            "first_gripper_jump": -0.41730745082316933,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.28414381108868864,
+            "maximum_finger_speed_m_s": 0.014959955215454096,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r1",
+            "anchor": 12,
+            "seed": 2026110919,
+            "phase": "HOLD",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0004114894414035908,
+                "p95": 0.0006550300903323719,
+                "mean": 0.0004453152138069747
+              },
+              "SO3_rad": {
+                "median": 0.00016476957310979876,
+                "p95": 0.000429059301122165,
+                "mean": 0.00019429120697733593
+              },
+              "gripper_MAE": 0.0186540849506855
+            },
+            "first_position_jump_m": 0.0002204598052522135,
+            "first_gripper_jump": -0.40704887011755947,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.29878786853088746,
+            "maximum_finger_speed_m_s": 0.018031263351440435,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r3",
+            "anchor": 0,
+            "seed": 2026110920,
+            "phase": "PREGRASP",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.000358605550318256,
+                "p95": 0.0006142819971660596,
+                "mean": 0.0003872573177139421
+              },
+              "SO3_rad": {
+                "median": 0.00011630603647547152,
+                "p95": 0.0002518189715290729,
+                "mean": 0.00012995768410851402
+              },
+              "gripper_MAE": 0.006748409569263458
+            },
+            "first_position_jump_m": 0.0003225317044816002,
+            "first_gripper_jump": 0.045450139069713624,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.2914925704715309,
+            "maximum_finger_speed_m_s": 0.018292236328125006,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r3",
+            "anchor": 2,
+            "seed": 2026110921,
+            "phase": "DESCEND",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0003311787402637803,
+                "p95": 0.0007849890673281356,
+                "mean": 0.0003848850107596986
+              },
+              "SO3_rad": {
+                "median": 0.00013295216916167285,
+                "p95": 0.00024367828259028683,
+                "mean": 0.00014452362334507098
+              },
+              "gripper_MAE": 0.011603833734989166
+            },
+            "first_position_jump_m": 0.00026845580079483313,
+            "first_gripper_jump": 0.04031055010079332,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.4457484936130404,
+            "maximum_finger_speed_m_s": 0.018981885910034177,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r3",
+            "anchor": 10,
+            "seed": 2026110922,
+            "phase": "CLOSE",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0002645720980988345,
+                "p95": 0.0005147453990886925,
+                "mean": 0.00028608878267367575
+              },
+              "SO3_rad": {
+                "median": 0.00018784977917381008,
+                "p95": 0.0004190921722025335,
+                "mean": 0.00020300957985589334
+              },
+              "gripper_MAE": 0.006613803573239737
+            },
+            "first_position_jump_m": 0.0003471576804004621,
+            "first_gripper_jump": -0.0025494523980270634,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.37842274778990626,
+            "maximum_finger_speed_m_s": 0.038094139099121044,
+            "close_events": {
+              "expert_indices": [
+                10
+              ],
+              "predicted_indices": [
+                9
+              ],
+              "first_timing_error_s": -0.05,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r3",
+            "anchor": 11,
+            "seed": 2026110923,
+            "phase": "LIFT",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00019395116374103908,
+                "p95": 0.0003787395920633029,
+                "mean": 0.00020128531440887176
+              },
+              "SO3_rad": {
+                "median": 0.00018696600187121515,
+                "p95": 0.0004392914445685984,
+                "mean": 0.00020671767329649384
+              },
+              "gripper_MAE": 0.0010793469846248627
+            },
+            "first_position_jump_m": 0.00019044364526195524,
+            "first_gripper_jump": -0.4377781948647433,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.3643869576293966,
+            "maximum_finger_speed_m_s": 0.008279371261596679,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r3",
+            "anchor": 14,
+            "seed": 2026110924,
+            "phase": "HOLD",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00020310847131137688,
+                "p95": 0.0003997711680357966,
+                "mean": 0.00021684590912115194
+              },
+              "SO3_rad": {
+                "median": 0.00014959346551241036,
+                "p95": 0.0002623707445942732,
+                "mean": 0.00015730543290751718
+              },
+              "gripper_MAE": 0.018581417202949525
+            },
+            "first_position_jump_m": 0.00021225626639051392,
+            "first_gripper_jump": -0.4075807971440803,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.31981730966021704,
+            "maximum_finger_speed_m_s": 0.017423105239868165,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r3",
+            "anchor": 0,
+            "seed": 2026110925,
+            "phase": "PREGRASP",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00023112818195995588,
+                "p95": 0.0005269091143827754,
+                "mean": 0.00027418320251623165
+              },
+              "SO3_rad": {
+                "median": 8.59010745835311e-05,
+                "p95": 0.00021074658398654488,
+                "mean": 9.803819582596761e-05
+              },
+              "gripper_MAE": 0.012027917802333832
+            },
+            "first_position_jump_m": 0.0007691594519819917,
+            "first_gripper_jump": 0.03960447227848174,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.396019374290452,
+            "maximum_finger_speed_m_s": 0.022329521179199178,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r3",
+            "anchor": 1,
+            "seed": 2026110926,
+            "phase": "DESCEND",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00067279965244444,
+                "p95": 0.00089750128469962,
+                "mean": 0.0006475093056842188
+              },
+              "SO3_rad": {
+                "median": 0.00014046372940415856,
+                "p95": 0.00034975541310750436,
+                "mean": 0.00015297198985738156
+              },
+              "gripper_MAE": 0.001751956343650818
+            },
+            "first_position_jump_m": 0.000780827195991183,
+            "first_gripper_jump": 0.04303535454633911,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.4024349939812754,
+            "maximum_finger_speed_m_s": 0.009836959838867098,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r3",
+            "anchor": 9,
+            "seed": 2026110927,
+            "phase": "CLOSE",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0001615821347112573,
+                "p95": 0.0003791061773935319,
+                "mean": 0.00018763711112010183
+              },
+              "SO3_rad": {
+                "median": 8.287002101705e-05,
+                "p95": 0.00015956613281137974,
+                "mean": 8.552261863483483e-05
+              },
+              "gripper_MAE": 0.01006050846082588
+            },
+            "first_position_jump_m": 9.373153284260865e-05,
+            "first_gripper_jump": -0.010340950056325404,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.3684952293332143,
+            "maximum_finger_speed_m_s": 0.03261058330535891,
+            "close_events": {
+              "expert_indices": [
+                10
+              ],
+              "predicted_indices": [
+                9
+              ],
+              "first_timing_error_s": -0.05,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r3",
+            "anchor": 10,
+            "seed": 2026110928,
+            "phase": "LIFT",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0004165675974672221,
+                "p95": 0.0007320827174738398,
+                "mean": 0.00043371798575396556
+              },
+              "SO3_rad": {
+                "median": 0.0001469126541822797,
+                "p95": 0.00033755833396131884,
+                "mean": 0.00018117264303276945
+              },
+              "gripper_MAE": 0.007425963133573532
+            },
+            "first_position_jump_m": 6.555565023754125e-05,
+            "first_gripper_jump": -0.4324469303165027,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.4430319374448017,
+            "maximum_finger_speed_m_s": 0.01922750473022461,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r3",
+            "anchor": 13,
+            "seed": 2026110929,
+            "phase": "HOLD",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0002095717774812142,
+                "p95": 0.00039936270607512166,
+                "mean": 0.00022129685370047528
+              },
+              "SO3_rad": {
+                "median": 0.00019276784854332842,
+                "p95": 0.00036404913869448507,
+                "mean": 0.00021850558762735606
+              },
+              "gripper_MAE": 0.020435713231563568
+            },
+            "first_position_jump_m": 0.00011888549801610264,
+            "first_gripper_jump": -0.4182789148122596,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.26537361810417626,
+            "maximum_finger_speed_m_s": 0.018085241317749013,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r3",
+            "anchor": 0,
+            "seed": 2026110930,
+            "phase": "PREGRASP",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0002665604560312722,
+                "p95": 0.0005226619197009623,
+                "mean": 0.00027792179532482925
+              },
+              "SO3_rad": {
+                "median": 0.0001305805108700322,
+                "p95": 0.0002753046187133763,
+                "mean": 0.00014565226456831728
+              },
+              "gripper_MAE": 0.012258577346801757
+            },
+            "first_position_jump_m": 6.0193972225792194e-05,
+            "first_gripper_jump": 0.04081355613264992,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.6218992191682305,
+            "maximum_finger_speed_m_s": 0.0158779144287109,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r3",
+            "anchor": 1,
+            "seed": 2026110931,
+            "phase": "DESCEND",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00046100766075717417,
+                "p95": 0.0007442308018208117,
+                "mean": 0.000457382206404362
+              },
+              "SO3_rad": {
+                "median": 0.00018822809370387108,
+                "p95": 0.00042424775787291784,
+                "mean": 0.00021614950955732752
+              },
+              "gripper_MAE": 0.0006406918168067932
+            },
+            "first_position_jump_m": 0.0005311161680778848,
+            "first_gripper_jump": 0.04545332151130044,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.47593202796823425,
+            "maximum_finger_speed_m_s": 0.008001232147216814,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r3",
+            "anchor": 9,
+            "seed": 2026110932,
+            "phase": "CLOSE",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00028622284724758165,
+                "p95": 0.0005967175978933452,
+                "mean": 0.00029451514389659887
+              },
+              "SO3_rad": {
+                "median": 0.00019177141840553963,
+                "p95": 0.0003750051745065538,
+                "mean": 0.00021757293138451706
+              },
+              "gripper_MAE": 0.010259666487728287
+            },
+            "first_position_jump_m": 0.0005776275205065919,
+            "first_gripper_jump": 0.026692174604394325,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.5412939958105423,
+            "maximum_finger_speed_m_s": 0.034716653823852556,
+            "close_events": {
+              "expert_indices": [
+                10
+              ],
+              "predicted_indices": [
+                11
+              ],
+              "first_timing_error_s": 0.05,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r3",
+            "anchor": 10,
+            "seed": 2026110933,
+            "phase": "LIFT",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0002947790086352309,
+                "p95": 0.0005749282601647756,
+                "mean": 0.0003430554579945041
+              },
+              "SO3_rad": {
+                "median": 8.991638093433629e-05,
+                "p95": 0.00021333774901637764,
+                "mean": 0.00010465246157389189
+              },
+              "gripper_MAE": 0.01893809363245964
+            },
+            "first_position_jump_m": 0.00020148062506427608,
+            "first_gripper_jump": -0.39930078557726334,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.6744535181687791,
+            "maximum_finger_speed_m_s": 0.02115333080291747,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r3",
+            "anchor": 12,
+            "seed": 2026110934,
+            "phase": "HOLD",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0005463494043836971,
+                "p95": 0.0008581415151160784,
+                "mean": 0.000532569501835596
+              },
+              "SO3_rad": {
+                "median": 0.00033358291856837806,
+                "p95": 0.0005209893693508587,
+                "mean": 0.0003195797535004341
+              },
+              "gripper_MAE": 0.02992485389113426
+            },
+            "first_position_jump_m": 0.0007801249963617081,
+            "first_gripper_jump": -0.40414633482210915,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.4200172730401077,
+            "maximum_finger_speed_m_s": 0.02225852012634276,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r3",
+            "anchor": 0,
+            "seed": 2026110935,
+            "phase": "PREGRASP",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0004022287582338409,
+                "p95": 0.0007895273956475174,
+                "mean": 0.00043808471281856236
+              },
+              "SO3_rad": {
+                "median": 0.0001323264096380573,
+                "p95": 0.0002214659997000557,
+                "mean": 0.00014130230655597605
+              },
+              "gripper_MAE": 6.0498714447021484e-05
+            },
+            "first_position_jump_m": 0.0008765421460803188,
+            "first_gripper_jump": 0.045451052692766836,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.6036527072563564,
+            "maximum_finger_speed_m_s": 0.001935958862304634,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r3",
+            "anchor": 1,
+            "seed": 2026110936,
+            "phase": "DESCEND",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0003094909768074529,
+                "p95": 0.0005792778490112273,
+                "mean": 0.00034431819334924854
+              },
+              "SO3_rad": {
+                "median": 0.00019766660917580554,
+                "p95": 0.00036884437285960556,
+                "mean": 0.0002143309409567769
+              },
+              "gripper_MAE": 0.0
+            },
+            "first_position_jump_m": 0.0006199064618266865,
+            "first_gripper_jump": 0.045456231776218714,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.32742780570500263,
+            "maximum_finger_speed_m_s": 0.0,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r3",
+            "anchor": 9,
+            "seed": 2026110937,
+            "phase": "CLOSE",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0005523453275779229,
+                "p95": 0.0008642018899468119,
+                "mean": 0.0005559938444551543
+              },
+              "SO3_rad": {
+                "median": 0.00010292988761248814,
+                "p95": 0.00026370015604229493,
+                "mean": 0.00012942672002712397
+              },
+              "gripper_MAE": 0.007219667914889742
+            },
+            "first_position_jump_m": 0.0005700704412670771,
+            "first_gripper_jump": -0.006639016261730801,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.32731824905133033,
+            "maximum_finger_speed_m_s": 0.033938503265380844,
+            "close_events": {
+              "expert_indices": [
+                10
+              ],
+              "predicted_indices": [
+                9
+              ],
+              "first_timing_error_s": -0.05,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r3",
+            "anchor": 10,
+            "seed": 2026110938,
+            "phase": "LIFT",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00023547274934503527,
+                "p95": 0.00048563326659977976,
+                "mean": 0.00024149486763041784
+              },
+              "SO3_rad": {
+                "median": 0.00013383718892620437,
+                "p95": 0.00021036662063132481,
+                "mean": 0.0001379431880690571
+              },
+              "gripper_MAE": 0.01465519741177559
+            },
+            "first_position_jump_m": 0.0005657030490912935,
+            "first_gripper_jump": -0.42091292429115945,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.4105933571288285,
+            "maximum_finger_speed_m_s": 0.014624977111816408,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r3",
+            "anchor": 12,
+            "seed": 2026110939,
+            "phase": "HOLD",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0003691799535596548,
+                "p95": 0.0006626202881353842,
+                "mean": 0.0003867490290711986
+              },
+              "SO3_rad": {
+                "median": 0.00016518128671381342,
+                "p95": 0.00040537601553271513,
+                "mean": 0.000192169223801026
+              },
+              "gripper_MAE": 0.015162704885005951
+            },
+            "first_position_jump_m": 0.000536925365065469,
+            "first_gripper_jump": -0.41286436459815556,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.3744698151813524,
+            "maximum_finger_speed_m_s": 0.011765694618225093,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          }
+        ]
+      },
+      "contact_events": {
+        "local_updates": 500,
+        "committed_visits": 16000,
+        "last32_mean_s": 1.928145525904256,
+        "peak_training_GB": 8.093500928,
+        "activation_CPU_copied_bytes": 0,
+        "restore_full_exact": true,
+        "ordinary_full40_exact": true,
+        "package_manifest_sha256": "aa9e1517d432a0569fd3e7e7dcaff12c9aef197fc40a407c94dfb694d2ef5ff7",
+        "windows": 40,
+        "envelope_pass": 2,
+        "reasons": {
+          "maximum_discrete_translation_acceleration_m_s2": 37,
+          "maximum_finger_speed_m_s": 4
+        },
+        "by_phase": {
+          "CLOSE": {
+            "windows": 8,
+            "envelope_pass": 0,
+            "XYZ_mean_mm": 0.43700936453229416,
+            "gripper_MAE": 0.014938200070086706,
+            "reasons": {
+              "maximum_finger_speed_m_s": 4,
+              "maximum_discrete_translation_acceleration_m_s2": 7
+            }
+          },
+          "DESCEND": {
+            "windows": 8,
+            "envelope_pass": 0,
+            "XYZ_mean_mm": 0.30344392676843424,
+            "gripper_MAE": 0.004829436354339123,
+            "reasons": {
+              "maximum_discrete_translation_acceleration_m_s2": 8
+            }
+          },
+          "HOLD": {
+            "windows": 8,
+            "envelope_pass": 2,
+            "XYZ_mean_mm": 0.3885276977550313,
+            "gripper_MAE": 0.002703073620796204,
+            "reasons": {
+              "maximum_discrete_translation_acceleration_m_s2": 6
+            }
+          },
+          "LIFT": {
+            "windows": 8,
+            "envelope_pass": 0,
+            "XYZ_mean_mm": 0.6064633684214019,
+            "gripper_MAE": 0.0059792823158204556,
+            "reasons": {
+              "maximum_discrete_translation_acceleration_m_s2": 8
+            }
+          },
+          "PREGRASP": {
+            "windows": 8,
+            "envelope_pass": 0,
+            "XYZ_mean_mm": 0.3384026693430727,
+            "gripper_MAE": 0.0006530329585075379,
+            "reasons": {
+              "maximum_discrete_translation_acceleration_m_s2": 8
+            }
+          }
+        },
+        "restore_all40_exact": true,
+        "per_window": [
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r1",
+            "anchor": 0,
+            "seed": 2026110900,
+            "phase": "PREGRASP",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00028050306435329036,
+                "p95": 0.00057048673399687,
+                "mean": 0.00031166448423598965
+              },
+              "SO3_rad": {
+                "median": 0.000122944878484457,
+                "p95": 0.0002815900217662456,
+                "mean": 0.00013374507438921254
+              },
+              "gripper_MAE": 0.0026782453060150146
+            },
+            "first_position_jump_m": 0.00027614409800792055,
+            "first_gripper_jump": 0.04545333300660137,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.3501937578612981,
+            "maximum_finger_speed_m_s": 0.02935461997985828,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r1",
+            "anchor": 2,
+            "seed": 2026110901,
+            "phase": "DESCEND",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00022391867078262853,
+                "p95": 0.0004184587226891896,
+                "mean": 0.0002390085612452348
+              },
+              "SO3_rad": {
+                "median": 0.00029585939992549847,
+                "p95": 0.00043053202236391147,
+                "mean": 0.0003022454245195399
+              },
+              "gripper_MAE": 0.0011112049221992492
+            },
+            "first_position_jump_m": 0.00030728141493210984,
+            "first_gripper_jump": 0.045452967396515276,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.42448198387710895,
+            "maximum_finger_speed_m_s": 0.008113002777099679,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r1",
+            "anchor": 9,
+            "seed": 2026110902,
+            "phase": "CLOSE",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0005563929685453189,
+                "p95": 0.00094420904976803,
+                "mean": 0.0005335671241257739
+              },
+              "SO3_rad": {
+                "median": 0.0001433334599408017,
+                "p95": 0.00027253630735507263,
+                "mean": 0.00014680117322673578
+              },
+              "gripper_MAE": 0.03089736476540561
+            },
+            "first_position_jump_m": 0.0003005429446054516,
+            "first_gripper_jump": 0.045456527596075436,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_finger_speed_m_s",
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.33923264367785483,
+            "maximum_finger_speed_m_s": 0.050202679634094236,
+            "close_events": {
+              "expert_indices": [
+                20
+              ],
+              "predicted_indices": [
+                21
+              ],
+              "first_timing_error_s": 0.05,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r1",
+            "anchor": 10,
+            "seed": 2026110903,
+            "phase": "LIFT",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0004960824727102532,
+                "p95": 0.0007074158484015461,
+                "mean": 0.0005190786251294656
+              },
+              "SO3_rad": {
+                "median": 0.0004511767128553873,
+                "p95": 0.0007964162633531048,
+                "mean": 0.0004869687098824107
+              },
+              "gripper_MAE": 0.008407172560691834
+            },
+            "first_position_jump_m": 0.0006491549452432021,
+            "first_gripper_jump": -0.4375067060432964,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.41345735949694573,
+            "maximum_finger_speed_m_s": 0.014328217506408692,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r1",
+            "anchor": 13,
+            "seed": 2026110904,
+            "phase": "HOLD",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0001623837791688776,
+                "p95": 0.0002924911995883059,
+                "mean": 0.000176290240566673
+              },
+              "SO3_rad": {
+                "median": 0.000560411786295453,
+                "p95": 0.0008609847450728903,
+                "mean": 0.0005350928745998597
+              },
+              "gripper_MAE": 0.00047014281153678894
+            },
+            "first_position_jump_m": 0.00015864525028923726,
+            "first_gripper_jump": -0.4311864401846162,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.2513822470353068,
+            "maximum_finger_speed_m_s": 0.00525631904602051,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r1",
+            "anchor": 0,
+            "seed": 2026110905,
+            "phase": "PREGRASP",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00020821532368924661,
+                "p95": 0.0004201715412891316,
+                "mean": 0.00023782461091161026
+              },
+              "SO3_rad": {
+                "median": 0.00011714381648634913,
+                "p95": 0.00021450593668924,
+                "mean": 0.00012040166013282654
+              },
+              "gripper_MAE": 0.0
+            },
+            "first_position_jump_m": 0.0002116145993435278,
+            "first_gripper_jump": 0.04545390156976603,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.3226422558058402,
+            "maximum_finger_speed_m_s": 0.0,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r1",
+            "anchor": 1,
+            "seed": 2026110906,
+            "phase": "DESCEND",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00023767520102787356,
+                "p95": 0.0005638659666021429,
+                "mean": 0.00025930509551749424
+              },
+              "SO3_rad": {
+                "median": 0.00010655102828767109,
+                "p95": 0.00021632471489231884,
+                "mean": 0.00011443772925158347
+              },
+              "gripper_MAE": 0.000970795750617981
+            },
+            "first_position_jump_m": 0.0001478960987095995,
+            "first_gripper_jump": 0.04545688648464252,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.45250689121034277,
+            "maximum_finger_speed_m_s": 0.007031822204589754,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r1",
+            "anchor": 8,
+            "seed": 2026110907,
+            "phase": "CLOSE",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00068052892551371,
+                "p95": 0.0010071360715536244,
+                "mean": 0.000695640913580107
+              },
+              "SO3_rad": {
+                "median": 0.00011322979801604147,
+                "p95": 0.00022605044878018382,
+                "mean": 0.00012269923452423023
+              },
+              "gripper_MAE": 0.01619913747920925
+            },
+            "first_position_jump_m": 0.0006167850411512966,
+            "first_gripper_jump": 0.04544265915026058,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_finger_speed_m_s"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.23423999414466265,
+            "maximum_finger_speed_m_s": 0.05639958381652836,
+            "close_events": {
+              "expert_indices": [
+                20
+              ],
+              "predicted_indices": [
+                21
+              ],
+              "first_timing_error_s": 0.05,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r1",
+            "anchor": 9,
+            "seed": 2026110908,
+            "phase": "LIFT",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00029700610785970874,
+                "p95": 0.0005439781360972183,
+                "mean": 0.00031913688566423317
+              },
+              "SO3_rad": {
+                "median": 0.00015385982728611543,
+                "p95": 0.00036966321232162594,
+                "mean": 0.0001929692290624608
+              },
+              "gripper_MAE": 0.0046527057886123655
+            },
+            "first_position_jump_m": 0.00024630817452616786,
+            "first_gripper_jump": -0.42747639576508356,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.35535860305692496,
+            "maximum_finger_speed_m_s": 0.01829395294189454,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r1",
+            "anchor": 12,
+            "seed": 2026110909,
+            "phase": "HOLD",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0005756177468743149,
+                "p95": 0.0008336408998346015,
+                "mean": 0.0006091661155199216
+              },
+              "SO3_rad": {
+                "median": 0.0005043521499329552,
+                "p95": 0.0006864446154773476,
+                "mean": 0.0004901985479373213
+              },
+              "gripper_MAE": 0.01038413792848587
+            },
+            "first_position_jump_m": 0.0007096520119692902,
+            "first_gripper_jump": -0.42740199140949586,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.28131420100584664,
+            "maximum_finger_speed_m_s": 0.025005221366882317,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r1",
+            "anchor": 0,
+            "seed": 2026110910,
+            "phase": "PREGRASP",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0004777348658819061,
+                "p95": 0.00069123420107508,
+                "mean": 0.000496225938962044
+              },
+              "SO3_rad": {
+                "median": 0.00036121204275755544,
+                "p95": 0.0005144712167146197,
+                "mean": 0.0003549332876046819
+              },
+              "gripper_MAE": 0.0
+            },
+            "first_position_jump_m": 0.0006890700094883758,
+            "first_gripper_jump": 0.04545041202239686,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.40800061187346287,
+            "maximum_finger_speed_m_s": 0.0,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r1",
+            "anchor": 1,
+            "seed": 2026110911,
+            "phase": "DESCEND",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00023180064261814435,
+                "p95": 0.000567808269218602,
+                "mean": 0.0002834471934445301
+              },
+              "SO3_rad": {
+                "median": 0.00011458485411902912,
+                "p95": 0.00022694800320762688,
+                "mean": 0.00013038732243330348
+              },
+              "gripper_MAE": 0.015889520943164825
+            },
+            "first_position_jump_m": 0.00041457573847531663,
+            "first_gripper_jump": 0.03928726318271081,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.35295069441919696,
+            "maximum_finger_speed_m_s": 0.017323589324951143,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r1",
+            "anchor": 8,
+            "seed": 2026110912,
+            "phase": "CLOSE",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00026542957313311006,
+                "p95": 0.0004644729766942629,
+                "mean": 0.0002864936845113657
+              },
+              "SO3_rad": {
+                "median": 0.0001139357541418905,
+                "p95": 0.00022276001600897837,
+                "mean": 0.00012921327878365223
+              },
+              "gripper_MAE": 0.015647809219218288
+            },
+            "first_position_jump_m": 0.0002571418443581017,
+            "first_gripper_jump": 0.04545748537928984,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_finger_speed_m_s",
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.25257704451539253,
+            "maximum_finger_speed_m_s": 0.059496235847473246,
+            "close_events": {
+              "expert_indices": [
+                20
+              ],
+              "predicted_indices": [
+                20
+              ],
+              "first_timing_error_s": 0.0,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r1",
+            "anchor": 9,
+            "seed": 2026110913,
+            "phase": "LIFT",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0004772875029662244,
+                "p95": 0.0006544381347922739,
+                "mean": 0.00047088867683837184
+              },
+              "SO3_rad": {
+                "median": 0.0001804103077572513,
+                "p95": 0.0003529438244246052,
+                "mean": 0.00019960355290728798
+              },
+              "gripper_MAE": 0.01600327342748642
+            },
+            "first_position_jump_m": 0.00045327802437887955,
+            "first_gripper_jump": -0.4261500170766398,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.2625275113173227,
+            "maximum_finger_speed_m_s": 0.015429282188415518,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r1",
+            "anchor": 12,
+            "seed": 2026110914,
+            "phase": "HOLD",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00041734242811267554,
+                "p95": 0.0007118099493068751,
+                "mean": 0.00045932746017581015
+              },
+              "SO3_rad": {
+                "median": 0.0001535389544877752,
+                "p95": 0.0003032525775629104,
+                "mean": 0.00017714653837287597
+              },
+              "gripper_MAE": 0.0
+            },
+            "first_position_jump_m": 0.0004029958632426306,
+            "first_gripper_jump": -0.4335609606208972,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.40750334315513265,
+            "maximum_finger_speed_m_s": 0.0,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r1",
+            "anchor": 0,
+            "seed": 2026110915,
+            "phase": "PREGRASP",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00047854207587711393,
+                "p95": 0.0007255438240773338,
+                "mean": 0.0004948112088167815
+              },
+              "SO3_rad": {
+                "median": 0.0001623853448777394,
+                "p95": 0.00034351552416483715,
+                "mean": 0.00017769425667963422
+              },
+              "gripper_MAE": 0.00013861656188964843
+            },
+            "first_position_jump_m": 0.00029716546063162253,
+            "first_gripper_jump": 0.04545114057146482,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.3788243472544084,
+            "maximum_finger_speed_m_s": 0.004435729980468687,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r1",
+            "anchor": 1,
+            "seed": 2026110916,
+            "phase": "DESCEND",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00035997099680180693,
+                "p95": 0.0005644038875505418,
+                "mean": 0.0003806709895653391
+              },
+              "SO3_rad": {
+                "median": 0.00020031033436462657,
+                "p95": 0.00035861741947039054,
+                "mean": 0.00021444595753077365
+              },
+              "gripper_MAE": 0.013962770998477935
+            },
+            "first_position_jump_m": 0.00028750525725937333,
+            "first_gripper_jump": 0.02456722749908591,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.2501124881147428,
+            "maximum_finger_speed_m_s": 0.013661479949951054,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r1",
+            "anchor": 8,
+            "seed": 2026110917,
+            "phase": "CLOSE",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00044942006780472154,
+                "p95": 0.0008554142665560319,
+                "mean": 0.00046605508025946134
+              },
+              "SO3_rad": {
+                "median": 0.0003029266780477743,
+                "p95": 0.00043502117837659356,
+                "mean": 0.00030817991928991915
+              },
+              "gripper_MAE": 0.011334885886546995
+            },
+            "first_position_jump_m": 0.000325981824784816,
+            "first_gripper_jump": 0.04545443098380708,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_finger_speed_m_s",
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.2925494555969292,
+            "maximum_finger_speed_m_s": 0.059844374656677336,
+            "close_events": {
+              "expert_indices": [
+                20
+              ],
+              "predicted_indices": [
+                20
+              ],
+              "first_timing_error_s": 0.0,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r1",
+            "anchor": 9,
+            "seed": 2026110918,
+            "phase": "LIFT",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.001069223956754761,
+                "p95": 0.0013975415610585368,
+                "mean": 0.0010040190390910788
+              },
+              "SO3_rad": {
+                "median": 0.00033142488015541706,
+                "p95": 0.0005244925383173472,
+                "mean": 0.0002984363621299609
+              },
+              "gripper_MAE": 0.006653504818677903
+            },
+            "first_position_jump_m": 0.0005048393493465047,
+            "first_gripper_jump": -0.4381386781257206,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.3734102646054525,
+            "maximum_finger_speed_m_s": 0.017484307289123528,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r1",
+            "anchor": 12,
+            "seed": 2026110919,
+            "phase": "HOLD",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0004546214164666531,
+                "p95": 0.000663350908506003,
+                "mean": 0.00047552483638663254
+              },
+              "SO3_rad": {
+                "median": 0.0004318916929808113,
+                "p95": 0.0008717086702620302,
+                "mean": 0.00044849335114868305
+              },
+              "gripper_MAE": 0.0016497239470481873
+            },
+            "first_position_jump_m": 0.0004187725448125369,
+            "first_gripper_jump": -0.42469244101752285,
+            "original_envelope_pass": true,
+            "failed_components": [],
+            "maximum_translation_acceleration_m_s2": 0.22994512072808182,
+            "maximum_finger_speed_m_s": 0.015506100654602058,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r3",
+            "anchor": 0,
+            "seed": 2026110920,
+            "phase": "PREGRASP",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0003419247860074412,
+                "p95": 0.0005110988484392987,
+                "mean": 0.00035183471966865207
+              },
+              "SO3_rad": {
+                "median": 9.23852208961112e-05,
+                "p95": 0.0002008899463713245,
+                "mean": 0.00010334544545331849
+              },
+              "gripper_MAE": 0.0
+            },
+            "first_position_jump_m": 0.00030500411419659315,
+            "first_gripper_jump": 0.045450139069713624,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.4231181958075407,
+            "maximum_finger_speed_m_s": 0.0,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r3",
+            "anchor": 2,
+            "seed": 2026110921,
+            "phase": "DESCEND",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00019021214633919373,
+                "p95": 0.0004550227884508736,
+                "mean": 0.00023299038537412387
+              },
+              "SO3_rad": {
+                "median": 0.00015338890198038078,
+                "p95": 0.0002563826340747826,
+                "mean": 0.00015432684081015123
+              },
+              "gripper_MAE": 0.0048156633973121645
+            },
+            "first_position_jump_m": 0.0003880016837100321,
+            "first_gripper_jump": 0.035362232096185164,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.5629603548858175,
+            "maximum_finger_speed_m_s": 0.011938953399658184,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r3",
+            "anchor": 10,
+            "seed": 2026110922,
+            "phase": "CLOSE",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00028633872957235763,
+                "p95": 0.0005612902563743722,
+                "mean": 0.0003087946801265459
+              },
+              "SO3_rad": {
+                "median": 0.00023767509758400624,
+                "p95": 0.00040203616114756647,
+                "mean": 0.00022926531669246775
+              },
+              "gripper_MAE": 0.008450269256493127
+            },
+            "first_position_jump_m": 0.00021809835646015822,
+            "first_gripper_jump": -0.006521088693345667,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.3906855081095759,
+            "maximum_finger_speed_m_s": 0.030358219146728514,
+            "close_events": {
+              "expert_indices": [
+                10
+              ],
+              "predicted_indices": [
+                9
+              ],
+              "first_timing_error_s": -0.05,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r3",
+            "anchor": 11,
+            "seed": 2026110923,
+            "phase": "LIFT",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0005696255643473794,
+                "p95": 0.0008027717226317876,
+                "mean": 0.0005827431839205731
+              },
+              "SO3_rad": {
+                "median": 0.0001419347830796504,
+                "p95": 0.00030098679216861873,
+                "mean": 0.00017135398528803788
+              },
+              "gripper_MAE": 0.0
+            },
+            "first_position_jump_m": 0.0004730635707799119,
+            "first_gripper_jump": -0.4377781948647433,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.30653368110472107,
+            "maximum_finger_speed_m_s": 0.0,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train01-r3",
+            "anchor": 14,
+            "seed": 2026110924,
+            "phase": "HOLD",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00019697301790299433,
+                "p95": 0.00037452153583393934,
+                "mean": 0.00021306109075102446
+              },
+              "SO3_rad": {
+                "median": 0.0003266013983366849,
+                "p95": 0.0005955369609653069,
+                "mean": 0.00034932728693053415
+              },
+              "gripper_MAE": 0.001157291978597641
+            },
+            "first_position_jump_m": 0.0001489206469584101,
+            "first_gripper_jump": -0.4271774930440437,
+            "original_envelope_pass": true,
+            "failed_components": [],
+            "maximum_translation_acceleration_m_s2": 0.2216992586639506,
+            "maximum_finger_speed_m_s": 0.010186886787414548,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r3",
+            "anchor": 0,
+            "seed": 2026110925,
+            "phase": "PREGRASP",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00026810752542632036,
+                "p95": 0.0004573121632034373,
+                "mean": 0.00029541444186807303
+              },
+              "SO3_rad": {
+                "median": 6.333603341191963e-05,
+                "p95": 0.00019636337774303083,
+                "mean": 7.975583905200177e-05
+              },
+              "gripper_MAE": 0.0014651238918304444
+            },
+            "first_position_jump_m": 0.0003565715727770282,
+            "first_gripper_jump": 0.04545299923313262,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.3714679294960275,
+            "maximum_finger_speed_m_s": 0.009307193756103426,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r3",
+            "anchor": 1,
+            "seed": 2026110926,
+            "phase": "DESCEND",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00042534433154870117,
+                "p95": 0.0006755314924532156,
+                "mean": 0.0004358400108950184
+              },
+              "SO3_rad": {
+                "median": 9.337955990579332e-05,
+                "p95": 0.0002555396094229407,
+                "mean": 0.00012221931505768975
+              },
+              "gripper_MAE": 0.0017059683799743653
+            },
+            "first_position_jump_m": 0.0004610761658582848,
+            "first_gripper_jump": 0.04545405142667969,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.33273284074506493,
+            "maximum_finger_speed_m_s": 0.011977338790893447,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r3",
+            "anchor": 9,
+            "seed": 2026110927,
+            "phase": "CLOSE",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00023734132360490236,
+                "p95": 0.0004219474311843109,
+                "mean": 0.00025067623006034206
+              },
+              "SO3_rad": {
+                "median": 7.227317513921596e-05,
+                "p95": 0.00016839099054813454,
+                "mean": 8.579278740605423e-05
+              },
+              "gripper_MAE": 0.014437167676806844
+            },
+            "first_position_jump_m": 0.0001115756917477467,
+            "first_gripper_jump": -0.003570458456288783,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.35202157056909944,
+            "maximum_finger_speed_m_s": 0.03177018165588378,
+            "close_events": {
+              "expert_indices": [
+                10
+              ],
+              "predicted_indices": [
+                9
+              ],
+              "first_timing_error_s": -0.05,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r3",
+            "anchor": 10,
+            "seed": 2026110928,
+            "phase": "LIFT",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0008187226141786231,
+                "p95": 0.001086325303974597,
+                "mean": 0.0007675270553629564
+              },
+              "SO3_rad": {
+                "median": 0.00016038317348357223,
+                "p95": 0.0002953530837461948,
+                "mean": 0.0001806639679704359
+              },
+              "gripper_MAE": 0.0010052412748336793
+            },
+            "first_position_jump_m": 0.00035750897965794454,
+            "first_gripper_jump": -0.43754884949069706,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.48159174068204724,
+            "maximum_finger_speed_m_s": 0.008237671852111822,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train02-r3",
+            "anchor": 13,
+            "seed": 2026110929,
+            "phase": "HOLD",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0002525137907993224,
+                "p95": 0.0004828362943214642,
+                "mean": 0.0002873577241069876
+              },
+              "SO3_rad": {
+                "median": 0.0002465845872840574,
+                "p95": 0.000387030862833139,
+                "mean": 0.0002496669000031858
+              },
+              "gripper_MAE": 0.0010569483041763307
+            },
+            "first_position_jump_m": 0.00023062376565025278,
+            "first_gripper_jump": -0.43354390275781624,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.45805219370394007,
+            "maximum_finger_speed_m_s": 0.00825588703155518,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r3",
+            "anchor": 0,
+            "seed": 2026110930,
+            "phase": "PREGRASP",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00020770929197570212,
+                "p95": 0.0003744388936694461,
+                "mean": 0.00021199975967098984
+              },
+              "SO3_rad": {
+                "median": 9.590484248936815e-05,
+                "p95": 0.00016551997916005294,
+                "mean": 9.881116161207888e-05
+              },
+              "gripper_MAE": 0.0009422779083251953
+            },
+            "first_position_jump_m": 0.00012532961286496007,
+            "first_gripper_jump": 0.043189456878041765,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.4127580358775739,
+            "maximum_finger_speed_m_s": 0.006953334808349635,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r3",
+            "anchor": 1,
+            "seed": 2026110931,
+            "phase": "DESCEND",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0002717558893423073,
+                "p95": 0.0004626261380180778,
+                "mean": 0.0002989517262179412
+              },
+              "SO3_rad": {
+                "median": 0.00020396007128201815,
+                "p95": 0.00040824046678841866,
+                "mean": 0.00022686711089258175
+              },
+              "gripper_MAE": 0.00017956644296646118
+            },
+            "first_position_jump_m": 0.0002691719013946427,
+            "first_gripper_jump": 0.04545332151130044,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.31849192735801807,
+            "maximum_finger_speed_m_s": 0.004251241683959863,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r3",
+            "anchor": 9,
+            "seed": 2026110932,
+            "phase": "CLOSE",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00034162395575166855,
+                "p95": 0.000619927128978558,
+                "mean": 0.00035380455843566483
+              },
+              "SO3_rad": {
+                "median": 0.00021805638702601822,
+                "p95": 0.0003206669395854238,
+                "mean": 0.0002152942891877421
+              },
+              "gripper_MAE": 0.008591347208192664
+            },
+            "first_position_jump_m": 0.00045108814575347525,
+            "first_gripper_jump": 0.02445616596029032,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.4375109046953921,
+            "maximum_finger_speed_m_s": 0.03959946632385251,
+            "close_events": {
+              "expert_indices": [
+                10
+              ],
+              "predicted_indices": [
+                10
+              ],
+              "first_timing_error_s": 0.0,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r3",
+            "anchor": 10,
+            "seed": 2026110933,
+            "phase": "LIFT",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0007604844722920482,
+                "p95": 0.0011232360573752097,
+                "mean": 0.0007131830691596121
+              },
+              "SO3_rad": {
+                "median": 0.00021238922773137762,
+                "p95": 0.00038585333509887884,
+                "mean": 0.00022549039651868175
+              },
+              "gripper_MAE": 0.007726231962442398
+            },
+            "first_position_jump_m": 0.00038766198901132724,
+            "first_gripper_jump": -0.4169443564772267,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.3527186907602238,
+            "maximum_finger_speed_m_s": 0.0201631784439087,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train03-r3",
+            "anchor": 12,
+            "seed": 2026110934,
+            "phase": "HOLD",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0004965173240328712,
+                "p95": 0.0006909414089304778,
+                "mean": 0.0004905391076585552
+              },
+              "SO3_rad": {
+                "median": 0.0005012017314095082,
+                "p95": 0.0007196103982378702,
+                "mean": 0.0004483335100631902
+              },
+              "gripper_MAE": 0.005753900110721588
+            },
+            "first_position_jump_m": 0.0005870419637861536,
+            "first_gripper_jump": -0.43643834322207253,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.3365855952917136,
+            "maximum_finger_speed_m_s": 0.015215897560119622,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r3",
+            "anchor": 0,
+            "seed": 2026110935,
+            "phase": "PREGRASP",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0002887233605984645,
+                "p95": 0.00044859655557553604,
+                "mean": 0.0003074461906104415
+              },
+              "SO3_rad": {
+                "median": 9.570018633615811e-05,
+                "p95": 0.00017490125595801028,
+                "mean": 0.00010429469418082455
+              },
+              "gripper_MAE": 0.0
+            },
+            "first_position_jump_m": 0.0005586486427788992,
+            "first_gripper_jump": 0.045451052692766836,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.39500535550123217,
+            "maximum_finger_speed_m_s": 0.0,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r3",
+            "anchor": 1,
+            "seed": 2026110936,
+            "phase": "DESCEND",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00028893855275586824,
+                "p95": 0.0004109414770764923,
+                "mean": 0.00029733745188779216
+              },
+              "SO3_rad": {
+                "median": 0.00013961168069580982,
+                "p95": 0.00032344773718744437,
+                "mean": 0.00016774036016216478
+              },
+              "gripper_MAE": 0.0
+            },
+            "first_position_jump_m": 0.00041156987362676005,
+            "first_gripper_jump": 0.045456231776218714,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.34952868910728213,
+            "maximum_finger_speed_m_s": 0.0,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r3",
+            "anchor": 9,
+            "seed": 2026110937,
+            "phase": "CLOSE",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.0005796848365998552,
+                "p95": 0.0009258438888032216,
+                "mean": 0.0006010426451590927
+              },
+              "SO3_rad": {
+                "median": 0.00015472579956771733,
+                "p95": 0.00036895195167836476,
+                "mean": 0.00018827562133529846
+              },
+              "gripper_MAE": 0.013947619068820865
+            },
+            "first_position_jump_m": 0.0005110309517250746,
+            "first_gripper_jump": -0.00621618091169418,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.4066469514110145,
+            "maximum_finger_speed_m_s": 0.03040847778320306,
+            "close_events": {
+              "expert_indices": [
+                10
+              ],
+              "predicted_indices": [
+                8
+              ],
+              "first_timing_error_s": -0.1,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r3",
+            "anchor": 10,
+            "seed": 2026110938,
+            "phase": "LIFT",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00048356172992434446,
+                "p95": 0.0006938919805494788,
+                "mean": 0.0004751304122049238
+              },
+              "SO3_rad": {
+                "median": 0.00017326678003550916,
+                "p95": 0.0003421035769371795,
+                "mean": 0.00019740959508782503
+              },
+              "gripper_MAE": 0.003386128693819046
+            },
+            "first_position_jump_m": 0.0005980459074037436,
+            "first_gripper_jump": -0.42488462019112283,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.32455211807539874,
+            "maximum_finger_speed_m_s": 0.009373784065246575,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          },
+          {
+            "episode": "tl-teacher-data-20261109-01-train04-r3",
+            "anchor": 12,
+            "seed": 2026110939,
+            "phase": "HOLD",
+            "H40_errors": {
+              "XYZ_euclidean_m": {
+                "median": 0.00039500557383073974,
+                "p95": 0.0006432599275136441,
+                "mean": 0.0003969550068746462
+              },
+              "SO3_rad": {
+                "median": 0.00013620388084870083,
+                "p95": 0.00030537586604251123,
+                "mean": 0.00016440875986860744
+              },
+              "gripper_MAE": 0.0011524438858032226
+            },
+            "first_position_jump_m": 0.0004277782172030901,
+            "first_gripper_jump": -0.43360007545745427,
+            "original_envelope_pass": false,
+            "failed_components": [
+              "maximum_discrete_translation_acceleration_m_s2"
+            ],
+            "maximum_translation_acceleration_m_s2": 0.3628341465117783,
+            "maximum_finger_speed_m_s": 0.014163517951965337,
+            "close_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            },
+            "open_events": {
+              "expert_indices": [],
+              "predicted_indices": [],
+              "first_timing_error_s": null,
+              "missing": false,
+              "spurious": false,
+              "threshold": 0.5
+            }
+          }
+        ]
+      }
+    },
+    "native_local4": {
+      "prior_source": "c670942815e6ee86ac39fe70dc70cc1f58c87290",
+      "prior_group_closed_exit": 1,
+      "prior_completed_conditions": 0,
+      "prior_GR00T_queries": 0,
+      "prior_failure": "UNCHANGED_STATIC_TRAIN_SCENE_FOR_LOCAL_DIAGNOSTIC_ONLY: archived builder/runtime file hash mismatch; geometry/model/other22 predicates matched.",
+      "failed_registration_intent_and_unrun4_preserved": true,
+      "source_rollback": false,
+      "new_metadata_closed_exit": 0,
+      "static_admission_checks_passed": 4,
+      "same_original_panel_native_dispatch_SGT": "2026-11-10T18:52:14.780400+08:00",
+      "dispatch_exit": 0,
+      "actual_closed_loop_outcome_at_dispatch": "No outcome was observed at dispatch; subsequent readback confirmed another registration failure before any native/neural worker dispatch.",
+      "models": "Original B0 versus delivered original SFT2000; these are not the two newly adapted heads.",
+      "native_actions_clipped": false,
+      "Teacher_fallback": false,
+      "original_DEV_TEST_conditions": 0,
+      "generalization_claim": false,
+      "post_dispatch_observation_UTC": "2026-11-10T10:54:17.948015+00:00",
+      "post_dispatch_group_closed_exit": 1,
+      "completed_conditions": 0,
+      "actual_GR00T_queries": 0,
+      "second_failure": "TASK_PHASE_INITIALIZATION_NATIVE_EXACT_NEW_AND_ORIGINAL_SHARED_SOURCE_BYTES",
+      "second_failure_diagnosis": {
+        "required_members": 126,
+        "missing": [
+          "src/go2arx5_vla/world_model/task_learning_expansion_v1.py"
+        ],
+        "changed_members": 0
+      },
+      "cold_successor_repair": "Fresh source closure explicitly seals all126 required native/neural members; same-unrun4 successor includes the full native recipe entry static check before worker dispatch.",
+      "same_unrun4_successor_state": "ACTIVE: original serial coordinator and first B0 native/neural pair independently observed running;0/4 complete, no closed-loop score yet.",
+      "successor_actual_observation_UTC": "2026-11-10T11:00:10.857500+00:00",
+      "successor_runtime_source": "b186c9169b70da79b0e4e3f6365fe336ed24ecc6",
+      "source_closure_required_members": 126,
+      "full_native_recipe_entry_static_checks_passed": 4,
+      "successor_metadata_closed_exit": 0,
+      "original_scientific_population_unchanged": true
+    },
+    "Hopper": {
+      "observation_UTC": "2026-11-10T10:40:49.735148+00:00",
+      "jobs": {
+        "709670.hopper-m-02": {
+          "job_state": "Q",
+          "project": "CFP04-CF-007",
+          "comment": "Not Running: Insufficient amount of resource: host "
+        },
+        "709533.hopper-m-02": {
+          "job_state": "Q",
+          "project": "CFP04-CF-007",
+          "comment": "Not Running: Insufficient amount of resource: ngpus "
+        },
+        "709621.hopper-m-02": {
+          "job_state": "Q",
+          "project": "CFP04-CF-007",
+          "comment": "Not Running: Insufficient amount of resource: ngpus "
+        }
+      },
+      "new_jobs": 0
+    },
+    "software_checks_passed": 24
+  },
+  "NEGATIVE": [
+    "Open-loop probes use40 sealed TRAIN states, eight per phase, not independent DEV or native task successes.",
+    "ORIGINAL still fails the unchanged action envelope in40/40 windows; CONTACT_EVENTS fails38/40. Most failures are discrete translation acceleration, with four gripper-speed violations in each arm.",
+    "Event sampling is not uniformly better: LIFT XYZ error is larger despite better HOLD/PREGRASP gripper errors. No policy promotion or further same-data training is authorized by these partial metrics alone.",
+    "Original cross-hardware REJECT, original DEV80/TEST populations and results remain unchanged.",
+    "The second native registration also closed1 before any model query or physics worker. The missing source member is retained as a technical initialization failure, not counted as a task failure or erased by a new run identity."
+  ],
+  "DECISION": "Keep both complete reloadable500 packages and all per-window negatives; execute the preregistered independent original B0/SFT2000 local4 panel after the versioned provenance repair.",
+  "NEXT_GATE": [
+    "Read both exits, actual command consumption and full task/safety outcomes for all four local native conditions.",
+    "Use actual student-executed roll-in states for any new TRAIN DAgger; rejected, unexecuted proposals and offline predicted suffixes are not labels.",
+    "Preserve WBC, legs, robot dynamics, original startup, native safety,2ms, one physical owner, fullH40 and no Teacher fallback."
+  ],
+  "goal_complete": false
+}

@@ -1,0 +1,136 @@
+{
+  "schema": "TASK_LEARNING_TASK_CONTRACT_V5",
+  "status": "PREREGISTERED_CONSTRUCTION_ONLY_NOT_DYNAMIC_QUALIFICATION",
+  "new_task_scene_family": "TASK_LEARNING_NEAR_WORKSPACE_TRAIN_PILOT01",
+  "reason": "OLD_WORKSPACE_PREGRASP_EXCEEDED_PREREGISTERED_FOOT_SLIP_AND_SUPPORT_SCORE_BEFORE_CONTACT",
+  "geometry": {
+    "table_center_xyz_m": [
+      0.43,
+      0.0,
+      0.575
+    ],
+    "table_half_size_m": [
+      0.17,
+      0.24,
+      0.025
+    ],
+    "object_initial_xyz_m": [
+      0.3,
+      -0.04,
+      0.62
+    ],
+    "cube_edge_m": 0.04,
+    "cube_mass_kg": 0.05,
+    "role": "CONSTRUCTION_ONLY_NOT_TRAINING_OR_EVALUATION_POPULATION",
+    "robot_startup_native_safety_or_dynamics_changed": false
+  },
+  "protocol": {
+    "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_V1",
+    "task_revision": "V5_SEPARATE_NEAR_WORKSPACE_CURRICULUM_WITH_15MM_TEACHER_CHUNKS",
+    "reset_revision": "V4_ORIGINAL_STARTUP_AND_STEADY_HOLD_THEN_FOUR_SECOND_REFERENCE_HOLD",
+    "stage": "TASK_CONSTRUCTION_PILOT_NOT_TEACHER_QUALIFICATION",
+    "calibration_boundary": 4703,
+    "start_step": 5703,
+    "preaction_hold_atoms": 40,
+    "preparation": {
+      "original_startup_to_step": 2503,
+      "original_steady_prefix_to_step": 3703,
+      "unchanged_initial_TCP_reference_hold_to_step": 4703,
+      "source_pose_alignment": false,
+      "total_extra_hold_ticks_after_steady_prefix": 2000,
+      "native_clock_rebased": false
+    },
+    "prefix_atoms": 40,
+    "policy_queries": 40,
+    "final_hold_atoms": 20,
+    "task_command": "GRASP_RED_LIFT20MM_HOLD1S",
+    "language": "Grasp the red cube, lift it at least 20 millimeters, and hold it steady for one second.",
+    "action_period_s": 0.05,
+    "physics_dt_s": 0.002,
+    "expert_commands": "ACTUAL_50MS_TEACHER_INTENT_WITH_EXACT_CONFIRMED_REFERENCE_TRANSPORT",
+    "H40_labels": "ROLLING40_CONFIRMED_INTERVALS_NEVER_UNEXECUTED_SUFFIX_OR_FUTURE_ACHIEVED_STATE",
+    "observation": "CURRENT_DUAL_RGB_AND_ACTUAL_EEF9_GRIP1",
+    "privileged_student_inputs": false,
+    "full_H40_preview": true,
+    "time_retiming": false,
+    "reference_transport": "CURRENT_REFERENCE_PLUS_DESIRED_WORLD_DISPLACEMENT",
+    "teacher_max_chunk_translation_m": 0.015,
+    "pregrasp_above_cube_m": 0.08,
+    "grasp_above_cube_center_m": 0.012,
+    "scene_family": "SEPARATE_NEAR_WORKSPACE_TRAIN_PILOT01_NOT_OLD_TABLE_TASK",
+    "commanded_lift_m": 0.026,
+    "required_object_lift_m": 0.02,
+    "required_hold_s": 1.0,
+    "position_stage_tolerance_m": 0.004,
+    "close_increment_per_decision": 0.15,
+    "standing": {
+      "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+      "maximum_base_displacement_m": 0.02,
+      "maximum_base_rotation_rad": 0.08726646259971647,
+      "maximum_foot_planar_displacement_m": 0.005,
+      "minimum_supported_feet": 3,
+      "minimum_actual_floor_normal_force_N": 0.05,
+      "old_short_task_pose_diagnostic": {
+        "maximum_base_displacement_m": 0.002,
+        "maximum_base_rotation_rad": 0.008726646259971648
+      },
+      "original_native_safety_changed": false,
+      "task_score_bounds_are_native_safety": false,
+      "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+    },
+    "WBC_changes": false,
+    "expert_training_eligible": false,
+    "automatic_formal_training": false
+  },
+  "score": {
+    "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+    "minimum_lift_m": 0.02,
+    "continuous_hold_s": 1.0,
+    "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+    "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+    "maximum_object_linear_speed_m_s": 0.02,
+    "standing": {
+      "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+      "maximum_base_displacement_m": 0.02,
+      "maximum_base_rotation_rad": 0.08726646259971647,
+      "maximum_foot_planar_displacement_m": 0.005,
+      "minimum_supported_feet": 3,
+      "minimum_actual_floor_normal_force_N": 0.05,
+      "old_short_task_pose_diagnostic": {
+        "maximum_base_displacement_m": 0.002,
+        "maximum_base_rotation_rad": 0.008726646259971648
+      },
+      "original_native_safety_changed": false,
+      "task_score_bounds_are_native_safety": false,
+      "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+    },
+    "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+    "success_requires_all": true
+  },
+  "readiness": {
+    "schema": "WM02_TARGET_GR00T_START_VELOCITY_READINESS_V1",
+    "decision_step": 5703,
+    "maximum_BASE_linear_speed_m_s": 0.001,
+    "maximum_BASE_angular_speed_rad_s": 0.005,
+    "physics_dt_s": 0.002,
+    "initial_state_reset": false,
+    "extra_settling_integrations": 1000,
+    "WBC_or_startup_changed": false,
+    "original_standing_limits_changed": false,
+    "rejected_condition_retried": false,
+    "old_outcomes_relabelled": false,
+    "reset_revision": "V4_TASK_LOCAL_FOUR_SECOND_REFERENCE_HOLD",
+    "native_clock_rebased": false
+  },
+  "old_task_outcomes_relabelled": false,
+  "student_results_seen": 0,
+  "robot_WBC_startup_native_safety_dynamics_or_2ms_changed": false,
+  "original_static_mutation_hypothesis_superseded_by_fresh_XML_compilation": true,
+  "static_hypothesis": {
+    "recompiled_saved_startup_checks": 5703,
+    "illegal_contacts": 0,
+    "IK_endpoints": 4,
+    "physics_integrations": 0
+  },
+  "model_edit_reference": "https://mujoco.readthedocs.io/en/stable/programming/modeledit.html"
+}

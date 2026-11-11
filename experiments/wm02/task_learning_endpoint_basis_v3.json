@@ -1,0 +1,36 @@
+{
+  "version": "H40_CURRENT_STATE_PREDICTED_GOAL_QUINTIC_REPRESENTATION_V3_01",
+  "state": "PREREGISTERED_OFFLINE_AND_CLONED_CERTIFICATE_STUDY_NOT_NATIVE_ADMISSION",
+  "question": "Can a current-state anchored smooth predicted-goal representation remove both actual reference-join and interior joint-acceleration violations without changing the model or native gates?",
+  "evidence": "The completed C500+endpoint-fixed conic proposals pass Cartesian gates but actual TRAIN03/TRAIN14 native certificates reject joint acceleration:1.2231 and1.3861rad/s2 against1.0. TRAIN03 has join and interior violations; TRAIN14 has interior violations. Original failures stay unchanged.",
+  "model": "FIXED_C500_PACKAGE_0b248af6ffe503c778c43e5f68c03eb9be6266b4c493ff82a9e1668dead8a8d3",
+  "representation": {
+    "start_pose": "CURRENT_POLICY_OBSERVATION_EEF9",
+    "start_grip": "LAST_ACTUALLY_CONSUMED_NOMINAL_COMMAND_NOT_MEASURED_MECHANICAL_FRACTION",
+    "goal": "RAW_ORIGINAL_PROCESSOR_H40_LAST_EEF9_GRIP1",
+    "basis": "u^3*(10-15*u+6*u^2),SO3_SHORTEST_SLERP",
+    "knots": 40,
+    "period_s": 0.05,
+    "native_physics_dt_s": 0.002,
+    "model_updates": 0,
+    "pointwise_clipping": false,
+    "Teacher_fallback": false,
+    "retiming": false,
+    "object_truth_inputs": false,
+    "identity": "NEW_COMPOSED_POLICY_NOT_RAW_C500_PROMOTION"
+  },
+  "offline_study": {
+    "sealed_A_B_C_predictions": 540,
+    "population": "EXACT_PREVIOUS_MATCHED_TRAIN40_DEV_REFERENCE20_THREE_NOISES_NO_NEW_MODEL_CALLS",
+    "offline_grip_anchor": "RAW_FIRST_NOMINAL_KNOT_COUNTERFACTUAL_NOT_A_CONSUMPTION_WITNESS",
+    "report": "All540 requested, original Cartesian gates, full stage/method/noise denominators and all changes. Offline recorded-state fitting does not confer execution authority."
+  },
+  "original_native_clone_study": {
+    "requests": 2,
+    "source_conditions": ["tl-core-conic-20261111-v03-01-c500_plus_conic", "tl-core-conic-20261111-v03-03-c500_plus_conic"],
+    "inputs": "EXACT_CLOSED_NATIVE_CURRENT_STATE_LAST_TWO_ACTUALLY_CONSUMED_REFERENCES_AND_SAME_CAPTURED_RAW_PREDICTION",
+    "criterion": "Exact unchanged original Cartesian/fullH40 and five-update IK/contact/joint-speed/joint-acceleration certificate; no integration or admission",
+    "must_distinguish": "Hypothetical cloned-reference feasibility from actual native command execution or task success"
+  },
+  "next_if_pass": "Independently admit a finite two-condition TRAIN03/TRAIN14 composed-policy native panel at the original fixed seeds, retaining previous four valid failures as separate controls. Do not repeat completed raw or conic conditions, change safety thresholds, resample noise or touch DEV80/TEST. No execution is authorized by this preregistration alone."
+}

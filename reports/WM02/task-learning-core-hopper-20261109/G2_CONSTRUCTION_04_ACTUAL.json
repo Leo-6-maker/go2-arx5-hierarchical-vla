@@ -1,0 +1,98 @@
+{
+  "schema": "TASK_LEARNING_G2_CONSTRUCTION_ACTUAL_V1",
+  "run_id": "task-learning-grasp-construction-20261109-04",
+  "source_sha": "de8c34376b907f6ea784dd5fbf756b6f0a296863",
+  "status": "CLOSED_ORIGINAL_CALIBRATION_REFERENCE_JOINT_LIMIT_REJECTION_BEFORE_TEACHER",
+  "failure": "ORIGINAL_NATIVE_JOINT_LIMIT_REJECT_NO_CLIP",
+  "actual_physics_integrations": 33003,
+  "Teacher_decisions": 0,
+  "confirmed_Teacher_50ms_commands": 0,
+  "qualified_full_demonstrations": 0,
+  "formal_Teacher_qualification_attempts": 0,
+  "task_success": false,
+  "expert_training_eligible": false,
+  "shutdown_clean": true,
+  "physics_stops": [],
+  "all_child_exit_codes": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "worker_exit_code": 1,
+  "wall_s": 476.4972808547318,
+  "CPU_s": 1027.042261629,
+  "cgroup_peak_bytes": 4958019584,
+  "readonly_rejection_replay": {
+    "reproduced": "ORIGINAL_NATIVE_JOINT_LIMIT_REJECT_NO_CLIP",
+    "planned_native_tick": 287,
+    "violating_joints": [
+      4
+    ],
+    "joint4_rad": -1.6710365283767912,
+    "joint4_lower_limit_rad": -1.671,
+    "physics_integrations": 0,
+    "clipped": false
+  },
+  "independent_restart_diagnostic": {
+    "first_physical_divergence": {
+      "native_step": 17,
+      "max_qpos_difference": 3.111150550583197e-05,
+      "max_qvel_difference": 0.015555752752927088,
+      "max_ctrl_difference": 0.2281977250875924
+    },
+    "matched_native_clocks": [
+      {
+        "native_step": 1,
+        "base_position_difference_m": 0.0,
+        "maximum_qpos_difference": 0.0,
+        "maximum_qvel_difference": 0.0
+      },
+      {
+        "native_step": 100,
+        "base_position_difference_m": 3.8025817150690784e-05,
+        "maximum_qpos_difference": 0.0005285286017997493,
+        "maximum_qvel_difference": 0.0019333524304554484
+      },
+      {
+        "native_step": 1000,
+        "base_position_difference_m": 8.850742365053837e-05,
+        "maximum_qpos_difference": 0.00038562047134071964,
+        "maximum_qvel_difference": 8.306606123310509e-05
+      },
+      {
+        "native_step": 2503,
+        "base_position_difference_m": 8.780646522227003e-05,
+        "maximum_qpos_difference": 0.00036474111084483507,
+        "maximum_qvel_difference": 2.5381248880336146e-05
+      },
+      {
+        "native_step": 3703,
+        "base_position_difference_m": 0.0023811419506103815,
+        "maximum_qpos_difference": 0.017377779453572217,
+        "maximum_qvel_difference": 0.014301429000847826
+      },
+      {
+        "native_step": 23103,
+        "base_position_difference_m": 0.006515281502624361,
+        "maximum_qpos_difference": 0.07414923762659187,
+        "maximum_qvel_difference": 0.0013445659055161688
+      },
+      {
+        "native_step": 32103,
+        "base_position_difference_m": 0.02393428582913468,
+        "maximum_qpos_difference": 0.19664418259074679,
+        "maximum_qvel_difference": 5.021413225502144
+      },
+      {
+        "native_step": 33003,
+        "base_position_difference_m": 0.04156488170474303,
+        "maximum_qpos_difference": 0.3168402946583244,
+        "maximum_qvel_difference": 3.235496272027896
+      }
+    ],
+    "full_MPC_hidden_state_restored": false
+  },
+  "WBC_startup_native_safety_dynamics_or_2ms_changed": false,
+  "next_action": "NEW_TASK_LOCAL_POST_STARTUP_HOLD_WITHOUT_SOURCE_POSE_CALIBRATION; PRESERVE_OLD_RESULT; NOT_A_VLA_FAILURE"
+}

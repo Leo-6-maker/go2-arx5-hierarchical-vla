@@ -1,0 +1,17 @@
+{
+  "version": "H40_ENDPOINT_FIXED_CONIC_L2_OFFLINE_V3_01",
+  "question": "Do the58 SLSQP status8 failures on the complete sealed540 prediction population arise from solver termination rather than infeasible endpoint-constrained trajectories?",
+  "dependency": "Core C negative; complete prior SLSQP540 endpoint retained unchanged",
+  "population": "All A/B/C TRAIN40x3 and DEV-reference20x3; private archive5cb0e12e8535cb8c7082a618ca37680a4e1b72bd596bf7970cea319a402e1ab8",
+  "changed": "Only solver representation: explicit convex SOCP for XYZ and convex QP for nominal gripper, Clarabel0.11.1",
+  "unchanged": "Same separable minimum squared change objective, mm XYZ coordinates, original50ms speed acceleration including zero-boundary velocities, nominal grip bounds and finger speed, first/last knots and all rotations fixed,1e-7 inner mechanical margin",
+  "solver": {"maximum_iterations": 200, "time_limit_s_per_subproblem": 2, "tol_gap_abs": 1e-11, "tol_gap_rel": 1e-11, "tol_feas": 1e-11, "admissible_terminal_status": "Solved", "independent_original_mechanical_check": true, "fallback": false, "per_window_retries": 0},
+  "maximum_solver_calls": 1080,
+  "expert_use": "Post-fit diagnostic only",
+  "queries": 0,
+  "learning_updates": 0,
+  "physics_integrations": 0,
+  "original_policy_outputs": "PRESERVED_PRIVATE",
+  "physical_execution_admission": false,
+  "original_DEV80_TEST": "UNTOUCHED"
+}

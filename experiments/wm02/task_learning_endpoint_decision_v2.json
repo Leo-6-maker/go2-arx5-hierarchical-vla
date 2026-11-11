@@ -1,0 +1,79 @@
+{
+  "schema": "TASK_LEARNING_ENDPOINT_SCIENTIFIC_CONTRACT_V2",
+  "plan_sha": "7dbf07edb8104696a6c9974f9c18f4313cab0fcc",
+  "endpoints": [
+    2000,
+    4000,
+    8000
+  ],
+  "probe_selection": {
+    "schema": "TASK_LEARNING_FIXED_REAL_PHASE_PROBES_V1",
+    "phases": [
+      "PREGRASP",
+      "DESCEND",
+      "CLOSE",
+      "LIFT",
+      "HOLD"
+    ],
+    "first_real_supervised_anchor_in_each_phase": true,
+    "TRAIN": "FIRST_FOUR_NORMAL_AND_FIRST_FOUR_GENUINE_RECOVERY_EPISODES_ON_DISTINCT_LAYOUTS_PER_GROUP",
+    "DEV": "FOUR_FIXED_REFERENCE_EPISODES_ON_DISTINCT_LAYOUTS_NOT_BC",
+    "diagnostic_noise_seed_base": 2026110900,
+    "metadata_in_student_inputs": false,
+    "repeated_optimizer_visits_are_not_new_queries": true
+  },
+  "key_phases": [
+    "CLOSE",
+    "LIFT",
+    "HOLD"
+  ],
+  "aggregation": "EQUAL_WEIGHT_REAL_PROBE_ROWS_WITHIN_EACH_PHASE_THEN_EQUAL_WEIGHT_KEY_PHASES",
+  "channels": [
+    "XYZ_m",
+    "SO3_rad",
+    "gripper"
+  ],
+  "horizons": [
+    "H40",
+    "first"
+  ],
+  "first2000_open_loop_baseline": "SAME_GENERATION_STEP0_TARGET_PROCESSOR_BEFORE_AND_BEFORE_DEV",
+  "first2000_native_baseline": "COMMON_FULL_PANEL_ORIGINAL_B0_ALL40",
+  "later_baseline": "PREVIOUS_FULLY_EVALUATED_SAME_GENERATION_B1",
+  "current_complete_common_DEV_required": 80,
+  "per_method_requested": 40,
+  "missing_or_nonfinite_metric": "TECHNICAL_DIAGNOSIS_NO_SCIENTIFIC_PROMOTION",
+  "maximum_absolute_channel_degradation": {
+    "XYZ_m": 0.0001,
+    "SO3_rad": 0.001,
+    "gripper": 0.001
+  },
+  "XYZ_relative_improvement": 0.1,
+  "XYZ_absolute_improvement_floor_m": 0.0001,
+  "TRAIN_XYZ_fit_ceiling_m": 0.001,
+  "allowed_progress_OR": [
+    "COMPLETE_NATIVE_SUCCESS_COUNT_GAIN_AT_LEAST4_OF40",
+    "KEY_DEV_H40_XYZ_IMPROVES10PERCENT_WITH_0P1MM_FLOOR_AND_LEGAL_HOLD_COUNT_GAIN_AT_LEAST4_OF40"
+  ],
+  "legal_hold_progress": {
+    "source": "ORIGINAL_TASK_SCORE",
+    "minimum_contiguous_grasp_lift_hold_s": 0.1,
+    "minimum_lift_m": 0.02,
+    "standing_passes": true,
+    "unsafe_samples": 0
+  },
+  "shared_guards": [
+    "COMPLETE_COMMON_DEV",
+    "HARD_SAFETY0",
+    "TECHNICAL_FAILURE0",
+    "TRAIN_KEY_XYZ_FITS_OR_IMPROVES",
+    "NO_KEY_PHASE_CHANNEL_DEGRADATION_H40_OR_FIRST",
+    "NATIVE_SUCCESS_COUNT_NOT_LOWER"
+  ],
+  "later_B0_success_count_absolute_drift_allowance": 4,
+  "local_confirmation_threshold_successes": 32,
+  "endpoints_after8000": [],
+  "partial_action": "CONTINUE_UNEXECUTED_OR_REPAIR_ONLY",
+  "overlapping_future_preview_consistency": "NOT_APPLICABLE_FULL_H40_EXECUTED_WITHOUT_OVERLAP",
+  "statistical_significance_claim": false
+}

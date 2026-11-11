@@ -1,0 +1,26 @@
+{
+  "version": "TEACHER_E1_CONDITION_ESTABLISHMENT_REPAIR_CANDIDATES_V9_01",
+  "state": "PREPARED_FROM_ACTUAL_V8_SAVED_FAILURES_NOT_IMPLEMENTED_OR_NATIVE_QUALIFIED",
+  "question": "Can a separately versioned intervention actually establish supported lateral error or single-pad contact before recovery is evaluated?",
+  "evidence": "All16 original V8 non-underclose E1 failures have zero actual pad contacts. Single-pad nominal grip0.55 leaves1.60–1.87mm nearest-pad gap. A bounded original-MuJoCo saved-state finger sweep of8 single-pad failures shows nominal0.525 still leaves0.599–0.869mm gap;0.50 yields one geometric intersection in8/8 at0.131–0.401mm overlap;0.475 also intersects but at1.131–1.400mm. This is geometric counterfactual evidence, not physical contact force or recovery.",
+  "candidate_interventions": {
+    "SUPPORTED_SIDE_OFFSET": {"tool_Y_offset_m": 0.0045, "ending_nominal_grip": 0.8, "rationale": "Original3mm intervention produces only1.569–1.642mm actual error; existing4.5mm cases produce2.375–2.470mm, a hypothesis for establishing the unchanged2mm entry condition with supported open fingers."},
+    "SUPPORTED_SINGLE_PAD": {"tool_Y_offset_m": 0.0045, "ending_nominal_grip": 0.5, "rationale": "Largest tested opening with one geometric intersection in all8 stored states; require true actual one-pad contact and original safety in new physical trials."}
+  },
+  "planned_small_E1_population": [
+    {"layout": "RECOVERY01", "condition": "SUPPORTED_SIDE_OFFSET", "offset_sign": 1, "restart": 1},
+    {"layout": "RECOVERY01", "condition": "SUPPORTED_SINGLE_PAD", "offset_sign": 1, "restart": 1},
+    {"layout": "RECOVERY04", "condition": "SUPPORTED_SIDE_OFFSET", "offset_sign": -1, "restart": 2},
+    {"layout": "RECOVERY04", "condition": "SUPPORTED_SINGLE_PAD", "offset_sign": -1, "restart": 2}
+  ],
+  "requested": 4,
+  "E1": "Original supported=true and native_grasp=false; side absolute lateral error>=2mm or exactly one actual original pad/object contact>=0.05N. Geometry intersection alone never passes.",
+  "E2": "Only if E1 is truly established, allow the independent current-state recovery Oracle and require actual subsequent bilateral opposing-force grasp and valid relative motion; preserve unavailable exits.",
+  "E3": "Original complete grasp/lift20mm/hold1s, original standing/native safety and full solver/gripper consumption; no score or threshold changes.",
+  "execution": "New explicit identity and independently sealed source/capsule; original owner/Journal/registry and one physical owner at a cold boundary. Do not hotpatch or repeat the original V8 population.",
+  "report": "All4 requested and actual E1 entry contact/force/gap/support/motion, E2 conditional recovery, E3 complete task/safety, failures, model/update/integration counts and resource costs.",
+  "next": "Only after this separate condition-establishment study qualifies, preregister and rebuild a new complete24 recovery population. Do not replace original V8 failures, lower its gates or automatically collect96BC/32DAgger.",
+  "new_model_calls": 0,
+  "new_BC_DAgger": 0,
+  "frozen_WBC_legs_dynamics_solver_2ms_safety_changes": false
+}

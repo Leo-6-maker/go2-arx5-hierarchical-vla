@@ -1,0 +1,134 @@
+{
+  "schema": "V3_CORE_GPU_EFFICIENCY_AND_CONTACT_STRATA_ACTUAL_V1",
+  "observed_UTC": "2026-11-10T13:14:32.121046+00:00",
+  "observed_SGT": "2026-11-10T21:14:32.121046+08:00",
+  "QUESTION": "Can Core GPU1 train efficiently while preserving the current scientific comparison and native audit, and what contact subtypes exist in the original TRAIN population?",
+  "CHANGED": {
+    "active_C_capsule_modified": false,
+    "independent_row_bank_source": "7d44a51f413f9a41103ba752f9ee7d9cee6d098e",
+    "new_GPU_bank_qualification": "Registered finite exact two-update comparison only after current C500+restores+ordinary rebuild closes0",
+    "new_contact_stratification": "Reuse sealed 6ms transitions; left-only/right-only/bilateral/support contact absent"
+  },
+  "ACTUAL": {
+    "C_training": {
+      "run": "task-learning-v3-execution-aware-c-20261110-02",
+      "runtime_source": "d95c3c27e26cb1109e168359c418040e4364e541",
+      "completed_adaptation_updates": 250,
+      "complete_endpoint_goal": 500,
+      "actual_TRAIN_window_visits": 8000,
+      "actual_head_training_forward_calls_at250": 8000,
+      "actual_model_loads_in_250_child": 1,
+      "new500_child_status": "Started; fresh restore not yet observed at this snapshot",
+      "last32_mean_update_wall_s": 2.0206762249872554,
+      "last_update_wall_s": 1.9817360020242631,
+      "phase_wall_s": 883.2439578748308,
+      "phase_CPU_s": 662.1103684220001,
+      "peak_allocated_bytes": 8094633984,
+      "peak_reserved_bytes": 8336179200,
+      "training_tensor_residency": {
+        "trainable_tensors": 42,
+        "gradient_tensors": 42,
+        "Adam_moment_tensors": 84,
+        "training_tensor_device": "cuda"
+      },
+      "activation_CPU_copied_bytes": 0,
+      "complete250_header_SHA256": "874943f16e36a4138d02f25b7f96208ced1a8e7afa2846583df5bd52232a5a01",
+      "model_package_SHA256": "7feffa8dd11b5c9ce963f2e0f2f2613196c1a3ae8e5039056377bd5e25e02250",
+      "data_SHA256": "ff94fc77c5a8309dc1460032b308c2f213c96c088449ee1821b3e46e045107b0",
+      "statistics_SHA256": "0faba237b8922ed9bbd53bd6732a9f449f46dcb6fc19017eae8f3cffa3afd9f2",
+      "microbatch": 1,
+      "effective_batch": 32,
+      "physics_integrations": 0
+    },
+    "cache_capacity_inspection": {
+      "original_rows": 1450,
+      "original_serialized_bytes": 6542594300,
+      "sample_shape_based_retained_tensor_bytes": 1969894600,
+      "capacity_estimate_not_measured_resident_bank": true,
+      "unused_images_preserved_in_original_dataset_and_full_inference": true,
+      "original_action_head_source_reviewed": true
+    },
+    "row_bank_qualification": {
+      "run": "task-learning-v3-gpu-row-bank-20261110-01",
+      "status": "WAIT_ORIGINAL_C500_COLD_TERMINAL",
+      "actual_model_loads": 0,
+      "actual_optimizer_updates": 0,
+      "actual_training_head_calls": 0,
+      "planned_noncandidate_updates": 2,
+      "planned_candidate_updates": 0
+    },
+    "contact_strata": {
+      "source_sha": "9486845039bcf6f3532e220480f50510aebbf626",
+      "run": "task-learning-v3-contact-strata-20261110-01",
+      "status": "CLOSED0",
+      "result_SHA256": "6fcbccb43ac8a4bf0b2393c5619e8d84167d3388eebb798fdf7d1a2718b8e06b",
+      "audited_episodes": 100,
+      "audited_TRAIN_windows": 1450,
+      "summary": {
+        "episodes_with_both_pad_onsets": 100,
+        "episodes_with_recorded_bilateral_no_support_at_least1s": 100,
+        "windows_by_event": {
+          "left_onsets": 100,
+          "right_onsets": 100,
+          "bilateral_onsets": 100,
+          "support_contact_disappearances": 100
+        },
+        "phase_event_windows": {
+          "CLOSE": {
+            "left_onsets": 100,
+            "right_onsets": 100,
+            "bilateral_onsets": 100,
+            "support_contact_disappearances": 0
+          },
+          "DESCEND": {
+            "left_onsets": 0,
+            "right_onsets": 0,
+            "bilateral_onsets": 0,
+            "support_contact_disappearances": 0
+          },
+          "HOLD": {
+            "left_onsets": 0,
+            "right_onsets": 0,
+            "bilateral_onsets": 0,
+            "support_contact_disappearances": 0
+          },
+          "LIFT": {
+            "left_onsets": 0,
+            "right_onsets": 0,
+            "bilateral_onsets": 0,
+            "support_contact_disappearances": 100
+          },
+          "PREGRASP": {
+            "left_onsets": 0,
+            "right_onsets": 0,
+            "bilateral_onsets": 0,
+            "support_contact_disappearances": 0
+          }
+        }
+      },
+      "maximum_first_pad_asymmetry_s": 0.012,
+      "recorded_contact_period_s": 0.006,
+      "wall_s": 0.06421482469886541,
+      "CPU_s": 0.030072578000000003,
+      "model_calls": 0,
+      "optimizer_updates": 0,
+      "physics_integrations": 0
+    }
+  },
+  "NEGATIVE": {
+    "C500_not_complete": true,
+    "new_row_bank_software_checks_not_GPU_qualification": true,
+    "no_measured_row_bank_speedup_yet": true,
+    "microbatch2_not_tested": true,
+    "contact_strata_not_TeacherV8_or_Oracle_qualification": true,
+    "TeacherV8_qualification_requests": 0,
+    "new_RecoveryOracle_calls": 0,
+    "DAgger_labels": 0,
+    "contact_state_bins_not_native_grasp_or_hold_certificate": true
+  },
+  "DECISION": "Keep one candidate GPU training process; first test all frozen features and actual head inputs resident on GPU with exact native update equivalence. Parallel CPU evidence work remains independent of GPU math.",
+  "NEXT": "Finish current C500 and original complete restores/reconstruction; queued row-bank qualification then compares identical C500-starting complete updates. Measure sustained speed separately after numerical admission; microbatch2/accumulation16 requires independent runtime comparison.",
+  "original_crosshardware_REJECT_retained": true,
+  "original_DEV80_TEST_untouched": true,
+  "WBC_legs_dynamics_2ms_safety_changes": false
+}

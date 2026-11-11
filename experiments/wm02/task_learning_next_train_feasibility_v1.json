@@ -1,0 +1,110 @@
+{
+  "schema": "TASK_LEARNING_NEXT_TRAIN_PREPARATION_PREREG_V1",
+  "purpose": "NEXT_TRAIN_TEACHER_FEASIBILITY_NOT_BC",
+  "source_parent": "1b0900c7aa28bce9e50e2ce83a9a07be3a6343c5",
+  "frozen_TRAIN100_manifest_sha256": "ff94fc77c5a8309dc1460032b308c2f213c96c088449ee1821b3e46e045107b0",
+  "frozen_TRAIN100_statistics_sha256": "0faba237b8922ed9bbd53bd6732a9f449f46dcb6fc19017eae8f3cffa3afd9f2",
+  "factor": "OBJECT_XY_POSITION_ONLY",
+  "static_offsets_m": {
+    "NEXTTRAIN_XM01": [
+      -0.01,
+      0.0
+    ],
+    "NEXTTRAIN_XP01": [
+      0.01,
+      0.0
+    ],
+    "NEXTTRAIN_XM02": [
+      -0.02,
+      0.0
+    ],
+    "NEXTTRAIN_XP02": [
+      0.02,
+      0.0
+    ],
+    "NEXTTRAIN_XM03": [
+      -0.03,
+      0.0
+    ],
+    "NEXTTRAIN_XP03": [
+      0.03,
+      0.0
+    ],
+    "NEXTTRAIN_YM01": [
+      0.0,
+      -0.01
+    ],
+    "NEXTTRAIN_YP01": [
+      0.0,
+      0.01
+    ],
+    "NEXTTRAIN_YM02": [
+      0.0,
+      -0.02
+    ],
+    "NEXTTRAIN_YP02": [
+      0.0,
+      0.02
+    ],
+    "NEXTTRAIN_YM03": [
+      0.0,
+      -0.03
+    ],
+    "NEXTTRAIN_YP03": [
+      0.0,
+      0.03
+    ]
+  },
+  "static_checks": [
+    "FRESH_MUJOCO_3_2_7_XML_COMPILATION",
+    "EXACT_ORIGINAL_ROBOT_CONTRACT",
+    "ALL_5703_SAVED_STARTUP_POSES_COLLISION_CHECKED_WITH_HYPOTHETICAL_OBJECT_POSITION",
+    "NO_PHYSICS_INTEGRATION",
+    "ORIGINAL_FIRST_H40_IK_COLLISION_CERTIFICATE",
+    "DUAL_RGB_CAMERA_INTRINSICS_AND_GEOMETRY_CHECK"
+  ],
+  "native_layout_order": [
+    "NEXTTRAIN_XM01",
+    "NEXTTRAIN_XP01",
+    "NEXTTRAIN_XM02",
+    "NEXTTRAIN_XP02",
+    "NEXTTRAIN_XM03",
+    "NEXTTRAIN_XP03"
+  ],
+  "native_restarts_per_position": 1,
+  "static_Y_does_not_imply_dynamic_Y_qualification": true,
+  "native_role": "NEXT_TRAIN_LAYOUT_TEACHER_FEASIBILITY_NOT_BC_V1",
+  "native_runtime": "EXISTING_HEADLESS_BINARY_ORIGINAL_FIXED_WAIT_FRESH_CAMERA_NO_PERFORMANCE_OPT_IN",
+  "native_checks": [
+    "ORIGINAL_START_READINESS",
+    "ORIGINAL_FULL_H40_500HZ_CERTIFICATION",
+    "ORIGINAL_NATIVE_CONTACT_JOINT_AND_STANDING_GUARDS",
+    "COMPLETE_GRASP_LIFT20MM_HOLD1S",
+    "ACTUAL_DUAL_RGB_CAPTURE_AND_CONFIRMED_COMMAND_RECORDS",
+    "CLEAN_CHILD_EXITS_AND_CLOSED_LEASE"
+  ],
+  "native_worker_wall_limit_s": 1200,
+  "panel_finite_wall_limit_s": 5400,
+  "no_restart_or_threshold_adaptation_after_observing_results": true,
+  "hard_safety_stop_aborts_remaining_requests": true,
+  "unresolved_technical_failure_aborts_remaining_requests": true,
+  "report_denominators": [
+    "REQUESTED",
+    "ATTEMPTED",
+    "RESET_READY",
+    "COMPLETE_SUCCESS",
+    "NOT_RUN"
+  ],
+  "safety_rejection_is_retained_negative_not_retried": true,
+  "automatic_large_collection": false,
+  "automatic_BC_export": false,
+  "new_model_or_optimizer_updates": 0,
+  "TRAIN100_changed": false,
+  "existing_SFT2000_data_changed": false,
+  "DEV_TEST_consumed": false,
+  "subsequent_factors": {
+    "object_size_pose_appearance": "DESIGN_ONLY_SEPARATE_VERSION_AND_QUALIFICATION",
+    "lighting_camera": "DESIGN_ONLY_SEPARATE_VERSION_AND_QUALIFICATION"
+  },
+  "next_gate": "COMPLETE_FIRST_STUDENT_DEV_FAILURE_ANALYSIS_BEFORE_SELECTING_PRODUCTION_DATA"
+}

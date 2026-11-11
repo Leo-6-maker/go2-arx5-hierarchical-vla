@@ -1,0 +1,3152 @@
+{
+  "schema": "V3_1_FIRST_COMPOSED_POLICY_NATIVE2_SUCCESS_INDEPENDENT_AUDIT_AND_TEACHER_E1_ACTUAL",
+  "UTC": "2026-11-10T19:48:28.002399+00:00",
+  "SGT": "2026-11-11T03:48:28.002399+08:00",
+  "QUESTION": "Does the new C500/current-state predicted-goal smooth composition actually grasp/lift20mm/hold1s with unchanged native WBC, and what prevented original TeacherV8 perturbation establishment?",
+  "CHANGED": {
+    "runtime_source": "38f394c7462941c9a642cc10ebfaea51fb7def41",
+    "representation": "H40_CURRENT_STATE_PREDICTED_GOAL_QUINTIC_REPRESENTATION_V3_01",
+    "C500_package": "0b248af6ffe503c778c43e5f68c03eb9be6266b4c493ff82a9e1668dead8a8d3",
+    "SFT2000_package": "7feffa8dd11b5c9ce963f2e0f2f2613196c1a3ae8e5039056377bd5e25e02250",
+    "TRAIN100": "ff94fc77c5a8309dc1460032b308c2f213c96c088449ee1821b3e46e045107b0",
+    "statistics": "0faba237b8922ed9bbd53bd6732a9f449f46dcb6fc19017eae8f3cffa3afd9f2",
+    "new_candidate_updates": 0,
+    "WBC_legs_solver_dynamics_2ms_safety_changes": false
+  },
+  "ACTUAL": {
+    "native2": {
+      "status": "CLOSED0_COMPLETE_TWO_TRUE_TASK_SUCCESSES",
+      "MainPID": 0,
+      "requested": 2,
+      "completed": 2,
+      "task_successes": 2,
+      "technical_failures": 0,
+      "hard_safety_stops": 0,
+      "source_sha": "38f394c7462941c9a642cc10ebfaea51fb7def41",
+      "panel_sha256": "e896b82f40e45c0b515330787b1d44f0bb78db7c40756cab5e961b7fad1bce36",
+      "input_sha256": "00642c314fc69e052e1ec3a3c704a88b442251c37a38ead97728cbbe1b59e88a",
+      "closed_epoch": 1794339547.7860618,
+      "models_loaded": 2,
+      "actual_model_queries": 30,
+      "Processor_decodes": 30,
+      "optimizer_updates": 0,
+      "complete_student_H40": 30,
+      "student_commands": 1200,
+      "native_integrations": 42406,
+      "integration_breakdown": {
+        "pre_student_preparation": 11406,
+        "student_commands": 30000,
+        "termination_hold": 1000
+      },
+      "rows": [
+        {
+          "native_run": "tl-core-endpoint-20261111-v01-00-c500_plus_endpoint_basis",
+          "method": "C500_PLUS_ENDPOINT_BASIS",
+          "layout": "TRAIN03",
+          "restart": 1,
+          "split": "TRAIN",
+          "purpose": "NEW_TRAIN_C500_ENDPOINT_BASIS_DIAGNOSTIC_NOT_BC_DEV_TEST",
+          "query_seeds": [
+            2026111100,
+            2026111101,
+            2026111102,
+            2026111103,
+            2026111104,
+            2026111105,
+            2026111106,
+            2026111107,
+            2026111108,
+            2026111109,
+            2026111110,
+            2026111111,
+            2026111112,
+            2026111113,
+            2026111114
+          ],
+          "attempted": true,
+          "reset_ready": true,
+          "task_success": true,
+          "technical_valid": true,
+          "hard_safety_stop": false,
+          "native_status": "NATIVE_STAGE_PASSED",
+          "actual_native_integrations": 21203,
+          "worker_exit_code": 0,
+          "first_failure": null,
+          "wall_s": 664.4825385329314,
+          "CPU_s": 1095.308516841,
+          "score": {
+            "contract": {
+              "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+              "minimum_lift_m": 0.02,
+              "continuous_hold_s": 1.0,
+              "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+              "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+              "maximum_object_linear_speed_m_s": 0.02,
+              "standing": {
+                "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+                "maximum_base_displacement_m": 0.02,
+                "maximum_base_rotation_rad": 0.08726646259971647,
+                "maximum_foot_planar_displacement_m": 0.005,
+                "minimum_supported_feet": 3,
+                "minimum_actual_floor_normal_force_N": 0.05,
+                "old_short_task_pose_diagnostic": {
+                  "maximum_base_displacement_m": 0.002,
+                  "maximum_base_rotation_rad": 0.008726646259971648
+                },
+                "original_native_safety_changed": false,
+                "task_score_bounds_are_native_safety": false,
+                "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+              },
+              "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+              "success_requires_all": true
+            },
+            "samples": 621,
+            "maximum_object_lift_m": 0.025880821338365,
+            "longest_contiguous_grasp_lift_hold_s": 8.15,
+            "unsafe_samples": 0,
+            "standing_passes": true,
+            "maximum_base_displacement_m": 0.007048354927341068,
+            "maximum_base_rotation_rad": 0.008376668598031295,
+            "maximum_foot_planar_displacement_m": 0.003950863434799292,
+            "minimum_supported_feet": 4,
+            "old_short_task_pose_bound_all_samples_pass": false,
+            "task_success": true
+          },
+          "native_world_attempted": true,
+          "neural_worker_attempted": true,
+          "actual_GR00T_queries": 15,
+          "policy_proposal_rejected": false,
+          "actual_GR00T_query_attempts": 15,
+          "query_completion_unknown_after_intent": false,
+          "GPU_worker_wall_s": 628.1990973120555,
+          "GPU_child_CPU_s": 91.831714,
+          "result_sha256": "0e38e2238eb515a3b76cbc0e851a819869e5617b68f26075e76fa05e760df214",
+          "GPU_result_sha256": "a949fd82668681be3f0be6076b2a6d5688993942dfd8b33a7ea6ab59691ba8ad"
+        },
+        {
+          "native_run": "tl-core-endpoint-20261111-v01-01-c500_plus_endpoint_basis",
+          "method": "C500_PLUS_ENDPOINT_BASIS",
+          "layout": "TRAIN14",
+          "restart": 1,
+          "split": "TRAIN",
+          "purpose": "NEW_TRAIN_C500_ENDPOINT_BASIS_DIAGNOSTIC_NOT_BC_DEV_TEST",
+          "query_seeds": [
+            2026111200,
+            2026111201,
+            2026111202,
+            2026111203,
+            2026111204,
+            2026111205,
+            2026111206,
+            2026111207,
+            2026111208,
+            2026111209,
+            2026111210,
+            2026111211,
+            2026111212,
+            2026111213,
+            2026111214
+          ],
+          "attempted": true,
+          "reset_ready": true,
+          "task_success": true,
+          "technical_valid": true,
+          "hard_safety_stop": false,
+          "native_status": "NATIVE_STAGE_PASSED",
+          "actual_native_integrations": 21203,
+          "worker_exit_code": 0,
+          "first_failure": null,
+          "wall_s": 381.53727653296664,
+          "CPU_s": 877.119519958,
+          "score": {
+            "contract": {
+              "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+              "minimum_lift_m": 0.02,
+              "continuous_hold_s": 1.0,
+              "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+              "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+              "maximum_object_linear_speed_m_s": 0.02,
+              "standing": {
+                "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+                "maximum_base_displacement_m": 0.02,
+                "maximum_base_rotation_rad": 0.08726646259971647,
+                "maximum_foot_planar_displacement_m": 0.005,
+                "minimum_supported_feet": 3,
+                "minimum_actual_floor_normal_force_N": 0.05,
+                "old_short_task_pose_diagnostic": {
+                  "maximum_base_displacement_m": 0.002,
+                  "maximum_base_rotation_rad": 0.008726646259971648
+                },
+                "original_native_safety_changed": false,
+                "task_score_bounds_are_native_safety": false,
+                "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+              },
+              "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+              "success_requires_all": true
+            },
+            "samples": 621,
+            "maximum_object_lift_m": 0.025562757185537244,
+            "longest_contiguous_grasp_lift_hold_s": 8.35,
+            "unsafe_samples": 0,
+            "standing_passes": true,
+            "maximum_base_displacement_m": 0.006434359890774811,
+            "maximum_base_rotation_rad": 0.008896302176118991,
+            "maximum_foot_planar_displacement_m": 0.003911246983783798,
+            "minimum_supported_feet": 4,
+            "old_short_task_pose_bound_all_samples_pass": false,
+            "task_success": true
+          },
+          "native_world_attempted": true,
+          "neural_worker_attempted": true,
+          "actual_GR00T_queries": 15,
+          "policy_proposal_rejected": false,
+          "actual_GR00T_query_attempts": 15,
+          "query_completion_unknown_after_intent": false,
+          "GPU_worker_wall_s": 345.3895016997121,
+          "GPU_child_CPU_s": 86.008796,
+          "result_sha256": "725b3586e9071181cff489a0bf1734f24a5f937aa25e003b792fa2baad9a24eb",
+          "GPU_result_sha256": "88254dbf9152bf0b5243c9e580bd0803e100b9fdca28439118a5158be64dae59"
+        }
+      ],
+      "wall_s": 1062.011773983948,
+      "CPU_s": 1972.428036799,
+      "GPU_worker_wall_s": 973.5885990117677
+    },
+    "independent_saved_native_audit": {
+      "status": "PASS_INDEPENDENT_NATIVE2_SAVED_SCORE_CAPTURE_AND_COMMAND_AUDIT",
+      "requested": 2,
+      "completed": 2,
+      "rows": [
+        {
+          "layout": "TRAIN03",
+          "run": "tl-core-endpoint-20261111-v01-00-c500_plus_endpoint_basis",
+          "native_result_sha256": "0e38e2238eb515a3b76cbc0e851a819869e5617b68f26075e76fa05e760df214",
+          "journal_sha256": "29acbddd786db3621bdc76f542e3956405419cf4da472b026de85ceafcf19cf5",
+          "score_exactly_recomputed_from_original_621_saved_native_packets": true,
+          "score": {
+            "contract": {
+              "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+              "minimum_lift_m": 0.02,
+              "continuous_hold_s": 1.0,
+              "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+              "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+              "maximum_object_linear_speed_m_s": 0.02,
+              "standing": {
+                "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+                "maximum_base_displacement_m": 0.02,
+                "maximum_base_rotation_rad": 0.08726646259971647,
+                "maximum_foot_planar_displacement_m": 0.005,
+                "minimum_supported_feet": 3,
+                "minimum_actual_floor_normal_force_N": 0.05,
+                "old_short_task_pose_diagnostic": {
+                  "maximum_base_displacement_m": 0.002,
+                  "maximum_base_rotation_rad": 0.008726646259971648
+                },
+                "original_native_safety_changed": false,
+                "task_score_bounds_are_native_safety": false,
+                "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+              },
+              "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+              "success_requires_all": true
+            },
+            "samples": 621,
+            "maximum_object_lift_m": 0.025880821338365,
+            "longest_contiguous_grasp_lift_hold_s": 8.15,
+            "unsafe_samples": 0,
+            "standing_passes": true,
+            "maximum_base_displacement_m": 0.007048354927341068,
+            "maximum_base_rotation_rad": 0.008376668598031295,
+            "maximum_foot_planar_displacement_m": 0.003950863434799292,
+            "minimum_supported_feet": 4,
+            "old_short_task_pose_bound_all_samples_pass": false,
+            "task_success": true
+          },
+          "original_native_integrations_audited": 21203,
+          "original_trace_status": "RECORDED_TRACE_CHECKS_PASS",
+          "original_trace_events": 181572,
+          "original_trace_dropped": 0,
+          "actual_full_H40": 15,
+          "actual_commands": 600,
+          "real_current_RGB": 30,
+          "model_calls_reused": 15,
+          "new_model_calls": 0,
+          "optimizer_updates": 0,
+          "queries": [
+            {
+              "index": 0,
+              "native_step": 5703,
+              "raw_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.3528455770850577,
+                    0.0006214982308687372,
+                    0.7710016618698297
+                  ],
+                  "xyz_max_m": [
+                    0.3547316669139517,
+                    0.0020588155552561088,
+                    0.7802788137274921
+                  ],
+                  "max_anchor_distance_m": 0.010001086166968065,
+                  "path_length_m": 0.011336507492699882,
+                  "max_anchor_rotation_rad": 0.00034228924022540875,
+                  "gripper_mechanical_fraction_min": 0.9452888532118364,
+                  "gripper_mechanical_fraction_max": 0.9545454545454545,
+                  "maximum_translation_speed_m_s": 0.019028880699859068,
+                  "maximum_angular_speed_rad_s": 0.005229868165285479,
+                  "maximum_finger_speed_m_s": 0.008145809173583885,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.36334334058100376,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.2073912480845438
+                },
+                "failed_components": [
+                  "maximum_discrete_translation_acceleration_m_s2"
+                ],
+                "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+                "original_envelope_pass": false,
+                "first_position_jump_m": 0.0005928378552942411,
+                "first_gripper_jump": 0.045453811973532154,
+                "decoded_gripper_min": 0.98981773853302,
+                "decoded_gripper_max": 1.0,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 38,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "represented_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.35290394411435466,
+                    0.0007288090371291222,
+                    0.7710866760477332
+                  ],
+                  "xyz_max_m": [
+                    0.35483996926741473,
+                    0.001979695593978998,
+                    0.7807073006568912
+                  ],
+                  "max_anchor_distance_m": 0.009892892824736656,
+                  "path_length_m": 0.009892892824736656,
+                  "max_anchor_rotation_rad": 0.0001261123119256614,
+                  "gripper_mechanical_fraction_min": 0.9545454545454545,
+                  "gripper_mechanical_fraction_max": 0.9545454545454545,
+                  "maximum_translation_speed_m_s": 0.009508228408298257,
+                  "maximum_angular_speed_rad_s": 0.00012120791739942048,
+                  "maximum_finger_speed_m_s": 0.0,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.014980094394812304,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.00019096278526241936
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0,
+                "first_gripper_jump": 0.045453811973532154,
+                "decoded_gripper_min": 1.0,
+                "decoded_gripper_max": 1.0,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 40,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "all40_command_mapping_exact": true,
+              "images": 2,
+              "stage": "PREGRASP"
+            },
+            {
+              "index": 1,
+              "native_step": 6703,
+              "raw_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.35121820106962715,
+                    0.0009654623327762224,
+                    0.7590747886704624
+                  ],
+                  "xyz_max_m": [
+                    0.3535998449305641,
+                    0.00199412806472453,
+                    0.7733341886096258
+                  ],
+                  "max_anchor_distance_m": 0.015013751134413627,
+                  "path_length_m": 0.01622321083334414,
+                  "max_anchor_rotation_rad": 0.004838314419118271,
+                  "gripper_mechanical_fraction_min": 0.9545454545454545,
+                  "gripper_mechanical_fraction_max": 0.9545454545454545,
+                  "maximum_translation_speed_m_s": 0.025902827645131223,
+                  "maximum_angular_speed_rad_s": 0.012330851738566502,
+                  "maximum_finger_speed_m_s": 0.0,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.3881354933162809,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.31057608275967286
+                },
+                "failed_components": [
+                  "maximum_discrete_translation_acceleration_m_s2"
+                ],
+                "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+                "original_envelope_pass": false,
+                "first_position_jump_m": 0.0006265454317118095,
+                "first_gripper_jump": 0.04545095185617298,
+                "decoded_gripper_min": 1.0,
+                "decoded_gripper_max": 1.0,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 40,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "represented_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.35150240920936454,
+                    0.0009654623327762224,
+                    0.7590747886704624
+                  ],
+                  "xyz_max_m": [
+                    0.353765337043462,
+                    0.0019480085279307002,
+                    0.7738844640118789
+                  ],
+                  "max_anchor_distance_m": 0.015013751134413627,
+                  "path_length_m": 0.015013751134413625,
+                  "max_anchor_rotation_rad": 0.004761800341009783,
+                  "gripper_mechanical_fraction_min": 0.9545454545454545,
+                  "gripper_mechanical_fraction_max": 0.9545454545454545,
+                  "maximum_translation_speed_m_s": 0.014429972868442139,
+                  "maximum_angular_speed_rad_s": 0.00457664984728296,
+                  "maximum_finger_speed_m_s": 0.0,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.022734240954430704,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.007210450500269318
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0,
+                "first_gripper_jump": 0.04545095185617298,
+                "decoded_gripper_min": 1.0,
+                "decoded_gripper_max": 1.0,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 40,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "all40_command_mapping_exact": true,
+              "images": 2,
+              "stage": "PREGRASP"
+            },
+            {
+              "index": 2,
+              "native_step": 7703,
+              "raw_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.3503495413937381,
+                    0.0006334700177399497,
+                    0.7485904077063419
+                  ],
+                  "xyz_max_m": [
+                    0.35270702029795786,
+                    0.0016888015125713837,
+                    0.7632204680585616
+                  ],
+                  "max_anchor_distance_m": 0.015014833232650175,
+                  "path_length_m": 0.016105537738346512,
+                  "max_anchor_rotation_rad": 0.008207934241393716,
+                  "gripper_mechanical_fraction_min": 0.9241463271054355,
+                  "gripper_mechanical_fraction_max": 0.9489033872430975,
+                  "maximum_translation_speed_m_s": 0.02387060864009394,
+                  "maximum_angular_speed_rad_s": 0.0127084414405239,
+                  "maximum_finger_speed_m_s": 0.019722795486450315,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.3411325861342968,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.24809505797644715
+                },
+                "failed_components": [
+                  "maximum_discrete_translation_acceleration_m_s2"
+                ],
+                "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+                "original_envelope_pass": false,
+                "first_position_jump_m": 0.00020874932176755405,
+                "first_gripper_jump": 0.02671736535316238,
+                "decoded_gripper_min": 0.966560959815979,
+                "decoded_gripper_max": 0.9937937259674072,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "represented_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.35048467607070694,
+                    0.0006334700177399497,
+                    0.7485971361227334
+                  ],
+                  "xyz_max_m": [
+                    0.3527002700662611,
+                    0.0015885348706349486,
+                    0.7634168598508575
+                  ],
+                  "max_anchor_distance_m": 0.015014833232650175,
+                  "path_length_m": 0.015014833232650173,
+                  "max_anchor_rotation_rad": 0.008138675452289247,
+                  "gripper_mechanical_fraction_min": 0.9413151741027831,
+                  "gripper_mechanical_fraction_max": 0.9545454545454545,
+                  "maximum_translation_speed_m_s": 0.01443101289155448,
+                  "maximum_angular_speed_rad_s": 0.007822230861795725,
+                  "maximum_finger_speed_m_s": 0.000559497342756039,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.022735879497782767,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.012323807182316142
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0,
+                "first_gripper_jump": 0.04545402583366165,
+                "decoded_gripper_min": 0.9854466915130615,
+                "decoded_gripper_max": 1.0,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 1,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "all40_command_mapping_exact": true,
+              "images": 2,
+              "stage": "PREGRASP"
+            },
+            {
+              "index": 3,
+              "native_step": 8703,
+              "raw_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.3492301684300215,
+                    -1.536597078065252e-05,
+                    0.7384641727050609
+                  ],
+                  "xyz_max_m": [
+                    0.3517203778056507,
+                    0.0009603284251399086,
+                    0.7529236445351949
+                  ],
+                  "max_anchor_distance_m": 0.015012303859529287,
+                  "path_length_m": 0.01619254220471722,
+                  "max_anchor_rotation_rad": 0.00839166175433158,
+                  "gripper_mechanical_fraction_min": 0.9452669620513916,
+                  "gripper_mechanical_fraction_max": 0.9545454545454545,
+                  "maximum_translation_speed_m_s": 0.020476889932820295,
+                  "maximum_angular_speed_rad_s": 0.011416993827135341,
+                  "maximum_finger_speed_m_s": 0.008165073394775327,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.33731960260152916,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.20752100818754235
+                },
+                "failed_components": [
+                  "maximum_discrete_translation_acceleration_m_s2"
+                ],
+                "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+                "original_envelope_pass": false,
+                "first_position_jump_m": 0.000349695553375316,
+                "first_gripper_jump": 0.053089201829628174,
+                "decoded_gripper_min": 0.9897936582565308,
+                "decoded_gripper_max": 1.0,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 27,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "represented_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.34930156251163125,
+                    4.724758809065131e-05,
+                    0.7384713976421186
+                  ],
+                  "xyz_max_m": [
+                    0.35178771099122136,
+                    0.0009918443266420558,
+                    0.7532435347855027
+                  ],
+                  "max_anchor_distance_m": 0.015009638005095204,
+                  "path_length_m": 0.015009638005095204,
+                  "max_anchor_rotation_rad": 0.008105588599880977,
+                  "gripper_mechanical_fraction_min": 0.9413151741027831,
+                  "gripper_mechanical_fraction_max": 0.950509569861672,
+                  "maximum_translation_speed_m_s": 0.014426019669540283,
+                  "maximum_angular_speed_rad_s": 0.007790430402744328,
+                  "maximum_finger_speed_m_s": 0.0003888232012642767,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.02272801273916068,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.01227370617517081
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0,
+                "first_gripper_jump": 0.04413193502207202,
+                "decoded_gripper_min": 0.9854466915130615,
+                "decoded_gripper_max": 0.9955605268478394,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "all40_command_mapping_exact": true,
+              "images": 2,
+              "stage": "PREGRASP"
+            },
+            {
+              "index": 4,
+              "native_step": 9703,
+              "raw_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.3477075438011034,
+                    -0.0005176347840652046,
+                    0.7280237994271996
+                  ],
+                  "xyz_max_m": [
+                    0.35057822722155685,
+                    0.00033481392779509503,
+                    0.7423384209623352
+                  ],
+                  "max_anchor_distance_m": 0.01500815072448925,
+                  "path_length_m": 0.01574691172413619,
+                  "max_anchor_rotation_rad": 0.009532527031844066,
+                  "gripper_mechanical_fraction_min": 0.940802357413552,
+                  "gripper_mechanical_fraction_max": 0.9545454545454545,
+                  "maximum_translation_speed_m_s": 0.017767316316716946,
+                  "maximum_angular_speed_rad_s": 0.012457916265856149,
+                  "maximum_finger_speed_m_s": 0.011509275436401437,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.24145201934744026,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.24272746059854522
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0005600636145186951,
+                "first_gripper_jump": 0.046195780603454195,
+                "decoded_gripper_min": 0.9848825931549072,
+                "decoded_gripper_max": 1.0,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 17,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "represented_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.34771034324388883,
+                    -0.0004989669265619536,
+                    0.7280436234150459
+                  ],
+                  "xyz_max_m": [
+                    0.35069609417356373,
+                    0.00030172718970927423,
+                    0.7427299697437657
+                  ],
+                  "max_anchor_distance_m": 0.01500815072448925,
+                  "path_length_m": 0.01500815072448925,
+                  "max_anchor_rotation_rad": 0.009431864688987867,
+                  "gripper_mechanical_fraction_min": 0.9482468691739169,
+                  "gripper_mechanical_fraction_max": 0.950509569861672,
+                  "maximum_translation_speed_m_s": 0.014424590218725218,
+                  "maximum_angular_speed_rad_s": 0.009065143151462137,
+                  "maximum_finger_speed_m_s": 9.568769367623629e-05,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.02272576065744021,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.014281989126665583
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0,
+                "first_gripper_jump": 0.04504910644726523,
+                "decoded_gripper_min": 0.9930715560913086,
+                "decoded_gripper_max": 0.9955605268478394,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "all40_command_mapping_exact": true,
+              "images": 2,
+              "stage": "PREGRASP"
+            },
+            {
+              "index": 5,
+              "native_step": 10703,
+              "raw_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.34595730722766926,
+                    -0.0011501159252480155,
+                    0.7180384925471902
+                  ],
+                  "xyz_max_m": [
+                    0.34920582924484417,
+                    -0.0003110691145676899,
+                    0.7326570726580522
+                  ],
+                  "max_anchor_distance_m": 0.015018356772407853,
+                  "path_length_m": 0.015996856170907944,
+                  "max_anchor_rotation_rad": 0.0084438177205215,
+                  "gripper_mechanical_fraction_min": 0.9473859071731566,
+                  "gripper_mechanical_fraction_max": 0.9545454545454545,
+                  "maximum_translation_speed_m_s": 0.020654791229962926,
+                  "maximum_angular_speed_rad_s": 0.010948634690980596,
+                  "maximum_finger_speed_m_s": 0.006300401687622106,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.3013355918346065,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.1982507242025784
+                },
+                "failed_components": [
+                  "maximum_discrete_translation_acceleration_m_s2"
+                ],
+                "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+                "original_envelope_pass": false,
+                "first_position_jump_m": 6.457607395570059e-05,
+                "first_gripper_jump": 0.051753717315382586,
+                "decoded_gripper_min": 0.9921244978904724,
+                "decoded_gripper_max": 1.0,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 30,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "represented_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.34595730722766926,
+                    -0.0011377446088784628,
+                    0.7180590773768006
+                  ],
+                  "xyz_max_m": [
+                    0.3492240772101228,
+                    -0.00034912513810679037,
+                    0.7326966090456097
+                  ],
+                  "max_anchor_distance_m": 0.015018356772407853,
+                  "path_length_m": 0.015018356772407853,
+                  "max_anchor_rotation_rad": 0.008356522729342356,
+                  "gripper_mechanical_fraction_min": 0.9482468691739169,
+                  "gripper_mechanical_fraction_max": 0.9545454545454545,
+                  "maximum_translation_speed_m_s": 0.014434399425847714,
+                  "maximum_angular_speed_rad_s": 0.008031608496643828,
+                  "maximum_finger_speed_m_s": 0.00026636183516799857,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.022741214939987667,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.012653677417962115
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0,
+                "first_gripper_jump": 0.04482527340669118,
+                "decoded_gripper_min": 0.9930715560913086,
+                "decoded_gripper_max": 1.0,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 1,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "all40_command_mapping_exact": true,
+              "images": 2,
+              "stage": "PREGRASP"
+            },
+            {
+              "index": 6,
+              "native_step": 11703,
+              "raw_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.3440143850570426,
+                    -0.0017163259403383817,
+                    0.7079034410128645
+                  ],
+                  "xyz_max_m": [
+                    0.3474288173593191,
+                    -0.0009924246852509944,
+                    0.7221381087297399
+                  ],
+                  "max_anchor_distance_m": 0.015021010699842487,
+                  "path_length_m": 0.01603522666315235,
+                  "max_anchor_rotation_rad": 0.008142805540780975,
+                  "gripper_mechanical_fraction_min": 0.9311216961253773,
+                  "gripper_mechanical_fraction_max": 0.9545454545454545,
+                  "maximum_translation_speed_m_s": 0.01948532028553994,
+                  "maximum_angular_speed_rad_s": 0.010422937808056455,
+                  "maximum_finger_speed_m_s": 0.020612907409667893,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.3139652271921101,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.26697462152900187
+                },
+                "failed_components": [
+                  "maximum_discrete_translation_acceleration_m_s2"
+                ],
+                "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+                "original_envelope_pass": false,
+                "first_position_jump_m": 0.00046527404215051263,
+                "first_gripper_jump": 0.044870917366222174,
+                "decoded_gripper_min": 0.974233865737915,
+                "decoded_gripper_max": 1.0,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 17,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "represented_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.3440491860673198,
+                    -0.0016795083294860725,
+                    0.7079121604561367
+                  ],
+                  "xyz_max_m": [
+                    0.3474077600493133,
+                    -0.0009989279228079934,
+                    0.7225355767011501
+                  ],
+                  "max_anchor_distance_m": 0.015019570951175645,
+                  "path_length_m": 0.015019570951175645,
+                  "max_anchor_rotation_rad": 0.00810120585464271,
+                  "gripper_mechanical_fraction_min": 0.951044277711348,
+                  "gripper_mechanical_fraction_max": 0.9545454545454545,
+                  "maximum_translation_speed_m_s": 0.01443556639381869,
+                  "maximum_angular_speed_rad_s": 0.007786218048574916,
+                  "maximum_finger_speed_m_s": 0.00014806179987574274,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.022743053483387884,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.01226706970376148
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0,
+                "first_gripper_jump": 0.045456056163982184,
+                "decoded_gripper_min": 0.9961487054824829,
+                "decoded_gripper_max": 1.0,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 1,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "all40_command_mapping_exact": true,
+              "images": 2,
+              "stage": "PREGRASP"
+            },
+            {
+              "index": 7,
+              "native_step": 12703,
+              "raw_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.34349110627317836,
+                    -0.0017373844045127083,
+                    0.7053602118287852
+                  ],
+                  "xyz_max_m": [
+                    0.34549012066536877,
+                    -0.0014926009201532376,
+                    0.7121535332202519
+                  ],
+                  "max_anchor_distance_m": 0.007376136771875623,
+                  "path_length_m": 0.009714655546893223,
+                  "max_anchor_rotation_rad": 0.008305521201363644,
+                  "gripper_mechanical_fraction_min": 0.9502952640706842,
+                  "gripper_mechanical_fraction_max": 0.9545454545454545,
+                  "maximum_translation_speed_m_s": 0.016938180468593814,
+                  "maximum_angular_speed_rad_s": 0.010238806280472641,
+                  "maximum_finger_speed_m_s": 0.0037401676177978337,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.530998829575534,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.17390763095241962
+                },
+                "failed_components": [
+                  "maximum_discrete_translation_acceleration_m_s2"
+                ],
+                "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+                "original_envelope_pass": false,
+                "first_position_jump_m": 0.00042056870005066003,
+                "first_gripper_jump": 0.04894980757317835,
+                "decoded_gripper_min": 0.9953247904777527,
+                "decoded_gripper_max": 1.0,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 33,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "represented_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.3434935006829607,
+                    -0.001680932544689073,
+                    0.7053602118287852
+                  ],
+                  "xyz_max_m": [
+                    0.3454293394049058,
+                    -0.0015352478975406668,
+                    0.7124762991036588
+                  ],
+                  "max_anchor_distance_m": 0.007376136771875623,
+                  "path_length_m": 0.007376136771875624,
+                  "max_anchor_rotation_rad": 0.008305521201363644,
+                  "gripper_mechanical_fraction_min": 0.951044277711348,
+                  "gripper_mechanical_fraction_max": 0.9520818320187655,
+                  "maximum_translation_speed_m_s": 0.007089331143107049,
+                  "maximum_angular_speed_rad_s": 0.007982589839955678,
+                  "maximum_finger_speed_m_s": 4.387729198030321e-05,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.011169152144777162,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.012576449526510308
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0,
+                "first_gripper_jump": 0.04509851305566126,
+                "decoded_gripper_min": 0.9961487054824829,
+                "decoded_gripper_max": 0.9972900152206421,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "all40_command_mapping_exact": true,
+              "images": 2,
+              "stage": "PREGRASP"
+            },
+            {
+              "index": 8,
+              "native_step": 13703,
+              "raw_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.3434099735067467,
+                    -0.0017693906381374353,
+                    0.7050785040038082
+                  ],
+                  "xyz_max_m": [
+                    0.3442333987591843,
+                    -0.0016203199650660788,
+                    0.7077267973201512
+                  ],
+                  "max_anchor_distance_m": 0.0028805970064707063,
+                  "path_length_m": 0.007130240840724878,
+                  "max_anchor_rotation_rad": 0.0047856173575277095,
+                  "gripper_mechanical_fraction_min": 0.061171098188920456,
+                  "gripper_mechanical_fraction_max": 0.9516617818312212,
+                  "maximum_translation_speed_m_s": 0.011329273060093214,
+                  "maximum_angular_speed_rad_s": 0.009040392437623784,
+                  "maximum_finger_speed_m_s": 0.0587697505950928,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.27564279680368736,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.1789501460046713
+                },
+                "failed_components": [
+                  "maximum_finger_speed_m_s",
+                  "maximum_discrete_translation_acceleration_m_s2"
+                ],
+                "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+                "original_envelope_pass": false,
+                "first_position_jump_m": 0.0007221960945685256,
+                "first_gripper_jump": 0.04446057081571464,
+                "decoded_gripper_min": 0.0172882080078125,
+                "decoded_gripper_max": 0.9968279600143433,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "represented_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.34353891975908796,
+                    -0.0017445073947190224,
+                    0.7052978587139741
+                  ],
+                  "xyz_max_m": [
+                    0.34426111845620766,
+                    -0.0017342944769657438,
+                    0.7078302597429984
+                  ],
+                  "max_anchor_distance_m": 0.0026333875965405787,
+                  "path_length_m": 0.0026333875965405783,
+                  "max_anchor_rotation_rad": 0.004472515316239135,
+                  "gripper_mechanical_fraction_min": 0.07597309892827815,
+                  "gripper_mechanical_fraction_max": 0.9520818320187655,
+                  "maximum_translation_speed_m_s": 0.0025309938355848015,
+                  "maximum_angular_speed_rad_s": 0.004298612710305248,
+                  "maximum_finger_speed_m_s": 0.037049895522124426,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.003987548988254639,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.006772407122012745
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0,
+                "first_gripper_jump": 0.04520860910764579,
+                "decoded_gripper_min": 0.03357040882110596,
+                "decoded_gripper_max": 0.9972900152206421,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "all40_command_mapping_exact": true,
+              "images": 2,
+              "stage": "CLOSE"
+            },
+            {
+              "index": 9,
+              "native_step": 14703,
+              "raw_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.34336214832416767,
+                    -0.0023561758640978626,
+                    0.7066505135934658
+                  ],
+                  "xyz_max_m": [
+                    0.3439980152012208,
+                    -0.0015372226484064206,
+                    0.7218460695132376
+                  ],
+                  "max_anchor_distance_m": 0.015026985213313672,
+                  "path_length_m": 0.016822258627731214,
+                  "max_anchor_rotation_rad": 0.0016018211978694598,
+                  "gripper_mechanical_fraction_min": 0.05441762100566517,
+                  "gripper_mechanical_fraction_max": 0.07838296890258789,
+                  "maximum_translation_speed_m_s": 0.024902686549544892,
+                  "maximum_angular_speed_rad_s": 0.00989038631712576,
+                  "maximum_finger_speed_m_s": 0.019372606277465818,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.5018875656771601,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.304373420769673
+                },
+                "failed_components": [
+                  "maximum_discrete_translation_acceleration_m_s2"
+                ],
+                "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+                "original_envelope_pass": false,
+                "first_position_jump_m": 8.962207949457914e-05,
+                "first_gripper_jump": -0.4106088633887342,
+                "decoded_gripper_min": 0.00985938310623169,
+                "decoded_gripper_max": 0.03622126579284668,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "represented_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.34337805663936366,
+                    -0.00232641742485562,
+                    0.7068429990618035
+                  ],
+                  "xyz_max_m": [
+                    0.34389166891026146,
+                    -0.0015858875617801188,
+                    0.7215820722075041
+                  ],
+                  "max_anchor_distance_m": 0.014766599447308034,
+                  "path_length_m": 0.014766599447308036,
+                  "max_anchor_rotation_rad": 0.0014636321570224715,
+                  "gripper_mechanical_fraction_min": 0.06692879850214178,
+                  "gripper_mechanical_fraction_max": 0.07597309892827815,
+                  "maximum_translation_speed_m_s": 0.014192431157017935,
+                  "maximum_angular_speed_rad_s": 0.001406721896362904,
+                  "maximum_finger_speed_m_s": 0.00038247579689912325,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.022359996972533634,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.0022162726444471836
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0,
+                "first_gripper_jump": -0.4049900527350477,
+                "decoded_gripper_min": 0.023621678352355957,
+                "decoded_gripper_max": 0.03357040882110596,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "all40_command_mapping_exact": true,
+              "images": 2,
+              "stage": "HOLD"
+            },
+            {
+              "index": 10,
+              "native_step": 15703,
+              "raw_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.34291519525666575,
+                    -0.0014810680040379658,
+                    0.7147713442104239
+                  ],
+                  "xyz_max_m": [
+                    0.34312219784407916,
+                    -0.0006952287647616325,
+                    0.729630822915899
+                  ],
+                  "max_anchor_distance_m": 0.014511942276511645,
+                  "path_length_m": 0.015984370965302065,
+                  "max_anchor_rotation_rad": 0.0009942761021940695,
+                  "gripper_mechanical_fraction_min": 0.056695439598777084,
+                  "gripper_mechanical_fraction_max": 0.08613948388533159,
+                  "maximum_translation_speed_m_s": 0.022428737506338305,
+                  "maximum_angular_speed_rad_s": 0.004653593172395975,
+                  "maximum_finger_speed_m_s": 0.020548439025878898,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.389109187327025,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.1830569784824375
+                },
+                "failed_components": [
+                  "maximum_discrete_translation_acceleration_m_s2"
+                ],
+                "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+                "original_envelope_pass": false,
+                "first_position_jump_m": 0.0002532194284144896,
+                "first_gripper_jump": -0.4101986898953382,
+                "decoded_gripper_min": 0.012364983558654785,
+                "decoded_gripper_max": 0.044753432273864746,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "represented_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.34292491945882597,
+                    -0.0014624446008837406,
+                    0.7151364114227015
+                  ],
+                  "xyz_max_m": [
+                    0.34306109155579023,
+                    -0.0007967444978044592,
+                    0.7292379768441808
+                  ],
+                  "max_anchor_distance_m": 0.014117926434271183,
+                  "path_length_m": 0.014117926434271183,
+                  "max_anchor_rotation_rad": 0.0009942761021940695,
+                  "gripper_mechanical_fraction_min": 0.06692879850214178,
+                  "gripper_mechanical_fraction_max": 0.07393949682062323,
+                  "maximum_translation_speed_m_s": 0.013568980435423119,
+                  "maximum_angular_speed_rad_s": 0.0009556158241673929,
+                  "maximum_finger_speed_m_s": 0.0002964764879361714,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.021377758193785467,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.001505560616991391
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0,
+                "first_gripper_jump": -0.4135420932347242,
+                "decoded_gripper_min": 0.023621678352355957,
+                "decoded_gripper_max": 0.03133344650268555,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "all40_command_mapping_exact": true,
+              "images": 2,
+              "stage": "HOLD"
+            },
+            {
+              "index": 11,
+              "native_step": 16703,
+              "raw_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.34222063297433564,
+                    -0.0010344270717708942,
+                    0.7252324557230512
+                  ],
+                  "xyz_max_m": [
+                    0.3429588773711555,
+                    -0.0006186645597205277,
+                    0.7316143281471637
+                  ],
+                  "max_anchor_distance_m": 0.0061474281851731805,
+                  "path_length_m": 0.008756308000967203,
+                  "max_anchor_rotation_rad": 0.007101962420054566,
+                  "gripper_mechanical_fraction_min": 0.0632977919145064,
+                  "gripper_mechanical_fraction_max": 0.08985783837058327,
+                  "maximum_translation_speed_m_s": 0.010559167197194564,
+                  "maximum_angular_speed_rad_s": 0.010360285364577625,
+                  "maximum_finger_speed_m_s": 0.018602228164672847,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.25792120141066305,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.27605801752980696
+                },
+                "failed_components": [
+                  "maximum_discrete_translation_acceleration_m_s2"
+                ],
+                "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+                "original_envelope_pass": false,
+                "first_position_jump_m": 0.00011404471406707902,
+                "first_gripper_jump": -0.38861630510886397,
+                "decoded_gripper_min": 0.01962757110595703,
+                "decoded_gripper_max": 0.0488436222076416,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "represented_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.34232826813420963,
+                    -0.0009960096372994519,
+                    0.72550699907674
+                  ],
+                  "xyz_max_m": [
+                    0.3429114326691069,
+                    -0.0006186645597205277,
+                    0.7314816687576315
+                  ],
+                  "max_anchor_distance_m": 0.0060149104713287105,
+                  "path_length_m": 0.00601491047132871,
+                  "max_anchor_rotation_rad": 0.00707638528192568,
+                  "gripper_mechanical_fraction_min": 0.07163209264928644,
+                  "gripper_mechanical_fraction_max": 0.07393949682062323,
+                  "maximum_translation_speed_m_s": 0.005781033276115642,
+                  "maximum_angular_speed_rad_s": 0.006801241939419747,
+                  "maximum_finger_speed_m_s": 9.757816609562985e-05,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.009107945292972755,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.010715258553688572
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0,
+                "first_gripper_jump": -0.402848106141884,
+                "decoded_gripper_min": 0.028795301914215088,
+                "decoded_gripper_max": 0.03133344650268555,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "all40_command_mapping_exact": true,
+              "images": 2,
+              "stage": "HOLD"
+            },
+            {
+              "index": 12,
+              "native_step": 17703,
+              "raw_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.34215484876757973,
+                    -0.0007176281997957972,
+                    0.7287346370687161
+                  ],
+                  "xyz_max_m": [
+                    0.3428311429952297,
+                    -0.0004896723487350558,
+                    0.7318725527397767
+                  ],
+                  "max_anchor_distance_m": 0.002838531343276668,
+                  "path_length_m": 0.007152243967794398,
+                  "max_anchor_rotation_rad": 0.0024269507982250913,
+                  "gripper_mechanical_fraction_min": 0.052635658871043815,
+                  "gripper_mechanical_fraction_max": 0.07890564745122736,
+                  "maximum_translation_speed_m_s": 0.009238396853748252,
+                  "maximum_angular_speed_rad_s": 0.0077234262178451606,
+                  "maximum_finger_speed_m_s": 0.01408705711364746,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.2891043290677231,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.22897930753485407
+                },
+                "failed_components": [
+                  "maximum_discrete_translation_acceleration_m_s2"
+                ],
+                "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+                "original_envelope_pass": false,
+                "first_position_jump_m": 0.0003669902035656793,
+                "first_gripper_jump": -0.41584235096078626,
+                "decoded_gripper_min": 0.007899224758148193,
+                "decoded_gripper_max": 0.0367962121963501,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "represented_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.3422431393784965,
+                    -0.0007176281997957972,
+                    0.7290980793109283
+                  ],
+                  "xyz_max_m": [
+                    0.34275043394630766,
+                    -0.00048668575565866297,
+                    0.7314793765003937
+                  ],
+                  "max_anchor_distance_m": 0.002445661157149699,
+                  "path_length_m": 0.002445661157149699,
+                  "max_anchor_rotation_rad": 0.0023029354218179867,
+                  "gripper_mechanical_fraction_min": 0.052635658871043815,
+                  "gripper_mechanical_fraction_max": 0.07163209264928644,
+                  "maximum_translation_speed_m_s": 0.0023505667455845695,
+                  "maximum_angular_speed_rad_s": 0.002213390857252227,
+                  "maximum_finger_speed_m_s": 0.0008033430785401845,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.003703288374878727,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.0034871690311049
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0,
+                "first_gripper_jump": -0.4052756991396498,
+                "decoded_gripper_min": 0.007899224758148193,
+                "decoded_gripper_max": 0.028795301914215088,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "all40_command_mapping_exact": true,
+              "images": 2,
+              "stage": "HOLD"
+            },
+            {
+              "index": 13,
+              "native_step": 18703,
+              "raw_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.3423947138358716,
+                    -0.0006982444411612054,
+                    0.730387401419782
+                  ],
+                  "xyz_max_m": [
+                    0.34305327069469704,
+                    -0.0003291584006569264,
+                    0.7321079585669102
+                  ],
+                  "max_anchor_distance_m": 0.0013583319764631516,
+                  "path_length_m": 0.005657575254093065,
+                  "max_anchor_rotation_rad": 0.0022211210921212195,
+                  "gripper_mechanical_fraction_min": 0.06353713165629994,
+                  "gripper_mechanical_fraction_max": 0.09205887534401634,
+                  "maximum_translation_speed_m_s": 0.007458582198375333,
+                  "maximum_angular_speed_rad_s": 0.006098480995985465,
+                  "maximum_finger_speed_m_s": 0.01913309097290039,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.20680096414759488,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.18689116945627485
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0003541981520835774,
+                "first_gripper_jump": -0.3964237451350357,
+                "decoded_gripper_min": 0.01989084482192993,
+                "decoded_gripper_max": 0.05126476287841797,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "represented_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.34239449167435043,
+                    -0.0006590714495632608,
+                    0.7309278458076687
+                  ],
+                  "xyz_max_m": [
+                    0.34305327069469704,
+                    -0.000390311878455913,
+                    0.7318908133232152
+                  ],
+                  "max_anchor_distance_m": 0.0011973002717398833,
+                  "path_length_m": 0.0011973002717398837,
+                  "max_anchor_rotation_rad": 0.0020683698653282826,
+                  "gripper_mechanical_fraction_min": 0.052635658871043815,
+                  "gripper_mechanical_fraction_max": 0.07404664971611716,
+                  "maximum_translation_speed_m_s": 0.0011507457584659137,
+                  "maximum_angular_speed_rad_s": 0.0019879458155159383,
+                  "maximum_finger_speed_m_s": 0.0009054526497377124,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.0018129854843738124,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.003131983334066777
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0,
+                "first_gripper_jump": -0.4257646977698471,
+                "decoded_gripper_min": 0.007899224758148193,
+                "decoded_gripper_max": 0.03145131468772888,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "all40_command_mapping_exact": true,
+              "images": 2,
+              "stage": "HOLD"
+            },
+            {
+              "index": 14,
+              "native_step": 19703,
+              "raw_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.34273137284546834,
+                    -0.0008478982673341782,
+                    0.7306909416035889
+                  ],
+                  "xyz_max_m": [
+                    0.34325126920734733,
+                    -0.00044911946902629024,
+                    0.7327407019708548
+                  ],
+                  "max_anchor_distance_m": 0.0014995252205092645,
+                  "path_length_m": 0.006871714347068286,
+                  "max_anchor_rotation_rad": 0.0007423429082665321,
+                  "gripper_mechanical_fraction_min": 0.04880839044397528,
+                  "gripper_mechanical_fraction_max": 0.07339514385570178,
+                  "maximum_translation_speed_m_s": 0.010243981499408108,
+                  "maximum_angular_speed_rad_s": 0.005405394528607574,
+                  "maximum_finger_speed_m_s": 0.01513426303863524,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.3098693008024511,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.17142138290158282
+                },
+                "failed_components": [
+                  "maximum_discrete_translation_acceleration_m_s2"
+                ],
+                "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+                "original_envelope_pass": false,
+                "first_position_jump_m": 0.0004883456154574984,
+                "first_gripper_jump": -0.40516159434770227,
+                "decoded_gripper_min": 0.0036892294883728027,
+                "decoded_gripper_max": 0.030734658241271973,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "represented_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.3428036877269114,
+                    -0.0008478982673341782,
+                    0.7313497464825538
+                  ],
+                  "xyz_max_m": [
+                    0.34324482034756626,
+                    -0.00047892036941387175,
+                    0.732729977543526
+                  ],
+                  "max_anchor_distance_m": 0.001495252640804194,
+                  "path_length_m": 0.0014952526408041939,
+                  "max_anchor_rotation_rad": 0.0007423429082665321,
+                  "gripper_mechanical_fraction_min": 0.06179326230829412,
+                  "gripper_mechanical_fraction_max": 0.07404664971611716,
+                  "maximum_translation_speed_m_s": 0.0014371128737296443,
+                  "maximum_angular_speed_rad_s": 0.0007134783038492842,
+                  "maximum_finger_speed_m_s": 0.0005181853645614275,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.0022641532764687317,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.0011240763469531252
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0,
+                "first_gripper_jump": -0.40262067814324976,
+                "decoded_gripper_min": 0.017972588539123535,
+                "decoded_gripper_max": 0.03145131468772888,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "all40_command_mapping_exact": true,
+              "images": 2,
+              "stage": "HOLD"
+            }
+          ],
+          "original_native_reference_certificates": 93,
+          "maximum_certificate_joint_acceleration_rad_s2": 0.13330145482357558,
+          "original_reference_rejections": 0,
+          "Teacher_fallback": 0,
+          "clipping": 0,
+          "expert_training_eligible": false
+        },
+        {
+          "layout": "TRAIN14",
+          "run": "tl-core-endpoint-20261111-v01-01-c500_plus_endpoint_basis",
+          "native_result_sha256": "725b3586e9071181cff489a0bf1734f24a5f937aa25e003b792fa2baad9a24eb",
+          "journal_sha256": "cfaa01f8bb8a84efb6dcd55b65ad6b51a33974ba73ccb9e9171e4ab0d16a59f4",
+          "score_exactly_recomputed_from_original_621_saved_native_packets": true,
+          "score": {
+            "contract": {
+              "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+              "minimum_lift_m": 0.02,
+              "continuous_hold_s": 1.0,
+              "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+              "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+              "maximum_object_linear_speed_m_s": 0.02,
+              "standing": {
+                "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+                "maximum_base_displacement_m": 0.02,
+                "maximum_base_rotation_rad": 0.08726646259971647,
+                "maximum_foot_planar_displacement_m": 0.005,
+                "minimum_supported_feet": 3,
+                "minimum_actual_floor_normal_force_N": 0.05,
+                "old_short_task_pose_diagnostic": {
+                  "maximum_base_displacement_m": 0.002,
+                  "maximum_base_rotation_rad": 0.008726646259971648
+                },
+                "original_native_safety_changed": false,
+                "task_score_bounds_are_native_safety": false,
+                "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+              },
+              "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+              "success_requires_all": true
+            },
+            "samples": 621,
+            "maximum_object_lift_m": 0.025562757185537244,
+            "longest_contiguous_grasp_lift_hold_s": 8.35,
+            "unsafe_samples": 0,
+            "standing_passes": true,
+            "maximum_base_displacement_m": 0.006434359890774811,
+            "maximum_base_rotation_rad": 0.008896302176118991,
+            "maximum_foot_planar_displacement_m": 0.003911246983783798,
+            "minimum_supported_feet": 4,
+            "old_short_task_pose_bound_all_samples_pass": false,
+            "task_success": true
+          },
+          "original_native_integrations_audited": 21203,
+          "original_trace_status": "RECORDED_TRACE_CHECKS_PASS",
+          "original_trace_events": 165168,
+          "original_trace_dropped": 0,
+          "actual_full_H40": 15,
+          "actual_commands": 600,
+          "real_current_RGB": 30,
+          "model_calls_reused": 15,
+          "new_model_calls": 0,
+          "optimizer_updates": 0,
+          "queries": [
+            {
+              "index": 0,
+              "native_step": 5703,
+              "raw_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.35444162672025853,
+                    0.0016393189434239978,
+                    0.7716787381409004
+                  ],
+                  "xyz_max_m": [
+                    0.35657348030331254,
+                    0.0030570364054409963,
+                    0.7800046469139893
+                  ],
+                  "max_anchor_distance_m": 0.009133775085713445,
+                  "path_length_m": 0.011406813309556183,
+                  "max_anchor_rotation_rad": 0.0004820285264590498,
+                  "gripper_mechanical_fraction_min": 0.9355186223983764,
+                  "gripper_mechanical_fraction_max": 0.9545454545454545,
+                  "maximum_translation_speed_m_s": 0.015123237182777468,
+                  "maximum_angular_speed_rad_s": 0.008111236661443814,
+                  "maximum_finger_speed_m_s": 0.012405729293823269,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.3410850147541371,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.26006496083438246
+                },
+                "failed_components": [
+                  "maximum_discrete_translation_acceleration_m_s2"
+                ],
+                "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+                "original_envelope_pass": false,
+                "first_position_jump_m": 0.0005570528108539175,
+                "first_gripper_jump": 0.045449275232851805,
+                "decoded_gripper_min": 0.9790704846382141,
+                "decoded_gripper_max": 1.0,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 12,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "represented_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.3545747528095596,
+                    0.0016493286170564572,
+                    0.7716787381409004
+                  ],
+                  "xyz_max_m": [
+                    0.3564996360905026,
+                    0.0030228728559448872,
+                    0.7805010988167604
+                  ],
+                  "max_anchor_distance_m": 0.009133775085713445,
+                  "path_length_m": 0.009133775085713447,
+                  "max_anchor_rotation_rad": 0.00044278674202977505,
+                  "gripper_mechanical_fraction_min": 0.9365501620552756,
+                  "gripper_mechanical_fraction_max": 0.9545454545454545,
+                  "maximum_translation_speed_m_s": 0.00877862737255583,
+                  "maximum_angular_speed_rad_s": 0.00042556985915084914,
+                  "maximum_finger_speed_m_s": 0.000761005662275993,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.013830617129760553,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.0006704800410750229
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0,
+                "first_gripper_jump": 0.045449275232851805,
+                "decoded_gripper_min": 0.9802051782608032,
+                "decoded_gripper_max": 1.0,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 1,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "all40_command_mapping_exact": true,
+              "images": 2,
+              "stage": "PREGRASP"
+            },
+            {
+              "index": 1,
+              "native_step": 6703,
+              "raw_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.35410801909835504,
+                    0.002269241478599377,
+                    0.7591489806849505
+                  ],
+                  "xyz_max_m": [
+                    0.3560885188463596,
+                    0.0031485819868134375,
+                    0.7736315800409035
+                  ],
+                  "max_anchor_distance_m": 0.015018531857829899,
+                  "path_length_m": 0.0163011857166226,
+                  "max_anchor_rotation_rad": 0.004093526845029961,
+                  "gripper_mechanical_fraction_min": 0.9404652118682861,
+                  "gripper_mechanical_fraction_max": 0.9545454545454545,
+                  "maximum_translation_speed_m_s": 0.02243425489830623,
+                  "maximum_angular_speed_rad_s": 0.006126998534918529,
+                  "maximum_finger_speed_m_s": 0.012312507629394521,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.28987097318343485,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.14865272880908065
+                },
+                "failed_components": [
+                  "maximum_discrete_translation_acceleration_m_s2"
+                ],
+                "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+                "original_envelope_pass": false,
+                "first_position_jump_m": 0.0006000600726375067,
+                "first_gripper_jump": 0.059058510173652046,
+                "decoded_gripper_min": 0.9845117330551147,
+                "decoded_gripper_max": 1.0,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 14,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "represented_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.35431610643179134,
+                    0.002313766225101428,
+                    0.7594898699556188
+                  ],
+                  "xyz_max_m": [
+                    0.3560819141067999,
+                    0.0031034411489635517,
+                    0.7740272937990071
+                  ],
+                  "max_anchor_distance_m": 0.014665549946483778,
+                  "path_length_m": 0.014665549946483777,
+                  "max_anchor_rotation_rad": 0.003934335092208817,
+                  "gripper_mechanical_fraction_min": 0.9365501620552756,
+                  "gripper_mechanical_fraction_max": 0.9404652118682861,
+                  "maximum_translation_speed_m_s": 0.014095310754384463,
+                  "maximum_angular_speed_rad_s": 0.003781357919412299,
+                  "maximum_finger_speed_m_s": 0.0001655641372552807,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.02220698499839646,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.005957479730406956
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0,
+                "first_gripper_jump": 0.04365059028992402,
+                "decoded_gripper_min": 0.9802051782608032,
+                "decoded_gripper_max": 0.9845117330551147,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "all40_command_mapping_exact": true,
+              "images": 2,
+              "stage": "PREGRASP"
+            },
+            {
+              "index": 2,
+              "native_step": 7703,
+              "raw_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.353431277563125,
+                    0.001983137328971607,
+                    0.748821431583586
+                  ],
+                  "xyz_max_m": [
+                    0.3555957911383154,
+                    0.0028953072799263652,
+                    0.7631858032066694
+                  ],
+                  "max_anchor_distance_m": 0.015016363150674299,
+                  "path_length_m": 0.016733743484922785,
+                  "max_anchor_rotation_rad": 0.008125351271473322,
+                  "gripper_mechanical_fraction_min": 0.9376267303120006,
+                  "gripper_mechanical_fraction_max": 0.9545454545454545,
+                  "maximum_translation_speed_m_s": 0.027789109791650803,
+                  "maximum_angular_speed_rad_s": 0.014458584578774851,
+                  "maximum_finger_speed_m_s": 0.010862922668457039,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.4453314092422345,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.22573833024619655
+                },
+                "failed_components": [
+                  "maximum_discrete_translation_acceleration_m_s2"
+                ],
+                "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+                "original_envelope_pass": false,
+                "first_position_jump_m": 0.0004799643608132237,
+                "first_gripper_jump": 0.045670826769200756,
+                "decoded_gripper_min": 0.9813894033432007,
+                "decoded_gripper_max": 1.0,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 17,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "represented_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.3534737871002459,
+                    0.001998395968064227,
+                    0.7488335342788589
+                  ],
+                  "xyz_max_m": [
+                    0.35564667330890726,
+                    0.0028833347515671015,
+                    0.7636628970990245
+                  ],
+                  "max_anchor_distance_m": 0.01501381206684188,
+                  "path_length_m": 0.01501381206684188,
+                  "max_anchor_rotation_rad": 0.008125351271473322,
+                  "gripper_mechanical_fraction_min": 0.9404652118682861,
+                  "gripper_mechanical_fraction_max": 0.9495693336833607,
+                  "maximum_translation_speed_m_s": 0.014430031431637581,
+                  "maximum_angular_speed_rad_s": 0.00780942471922155,
+                  "maximum_finger_speed_m_s": 0.00038500559271835926,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.02273433321994583,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.012303631347259827
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0,
+                "first_gripper_jump": 0.04404713664087434,
+                "decoded_gripper_min": 0.9845117330551147,
+                "decoded_gripper_max": 0.9945262670516968,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "all40_command_mapping_exact": true,
+              "images": 2,
+              "stage": "PREGRASP"
+            },
+            {
+              "index": 3,
+              "native_step": 8703,
+              "raw_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.3524760095292022,
+                    0.0012854771031518967,
+                    0.7384032134714398
+                  ],
+                  "xyz_max_m": [
+                    0.3547962142431581,
+                    0.002363202102323712,
+                    0.7527103060063326
+                  ],
+                  "max_anchor_distance_m": 0.015017518519327925,
+                  "path_length_m": 0.015807060390483678,
+                  "max_anchor_rotation_rad": 0.008432826229983587,
+                  "gripper_mechanical_fraction_min": 0.9529534686695446,
+                  "gripper_mechanical_fraction_max": 0.9545454545454545,
+                  "maximum_translation_speed_m_s": 0.018925100174495012,
+                  "maximum_angular_speed_rad_s": 0.009809915697264181,
+                  "maximum_finger_speed_m_s": 0.001400947570800728,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.26305687567000974,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.17895966828307786
+                },
+                "failed_components": [
+                  "maximum_discrete_translation_acceleration_m_s2"
+                ],
+                "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+                "original_envelope_pass": false,
+                "first_position_jump_m": 0.0006352040067472193,
+                "first_gripper_jump": 0.050427044079638494,
+                "decoded_gripper_min": 0.998248815536499,
+                "decoded_gripper_max": 1.0,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 38,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "represented_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.35254481771474216,
+                    0.0013234463583929525,
+                    0.7384035128774625
+                  ],
+                  "xyz_max_m": [
+                    0.354816684098274,
+                    0.002301820641784528,
+                    0.7532141763185802
+                  ],
+                  "max_anchor_distance_m": 0.015015803164302746,
+                  "path_length_m": 0.015015803164302743,
+                  "max_anchor_rotation_rad": 0.008432826229983587,
+                  "gripper_mechanical_fraction_min": 0.9495693336833607,
+                  "gripper_mechanical_fraction_max": 0.9545454545454545,
+                  "maximum_translation_speed_m_s": 0.014431945109445824,
+                  "maximum_angular_speed_rad_s": 0.00810494543159639,
+                  "maximum_finger_speed_m_s": 0.00021043593230235302,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.02273734819534209,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.012769218238887582
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0,
+                "first_gripper_jump": 0.04495331113133527,
+                "decoded_gripper_min": 0.9945262670516968,
+                "decoded_gripper_max": 1.0,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 1,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "all40_command_mapping_exact": true,
+              "images": 2,
+              "stage": "PREGRASP"
+            },
+            {
+              "index": 4,
+              "native_step": 9703,
+              "raw_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.35110278615751445,
+                    0.0006022655481614924,
+                    0.7279327961900179
+                  ],
+                  "xyz_max_m": [
+                    0.35363137613935697,
+                    0.0016387943918778041,
+                    0.741867934237549
+                  ],
+                  "max_anchor_distance_m": 0.0150122495075529,
+                  "path_length_m": 0.015402933592753673,
+                  "max_anchor_rotation_rad": 0.009222220042128552,
+                  "gripper_mechanical_fraction_min": 0.9367740587754682,
+                  "gripper_mechanical_fraction_max": 0.9545454545454545,
+                  "maximum_translation_speed_m_s": 0.01782941313793052,
+                  "maximum_angular_speed_rad_s": 0.01171707675003208,
+                  "maximum_finger_speed_m_s": 0.01563882827758796,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.33301834898570815,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.21834160645793402
+                },
+                "failed_components": [
+                  "maximum_discrete_translation_acceleration_m_s2"
+                ],
+                "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+                "original_envelope_pass": false,
+                "first_position_jump_m": 0.0009108529630435672,
+                "first_gripper_jump": 0.0454525148528,
+                "decoded_gripper_min": 0.9804514646530151,
+                "decoded_gripper_max": 1.0,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 15,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "represented_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.35112662147908874,
+                    0.0006434353767531499,
+                    0.7279493597160509
+                  ],
+                  "xyz_max_m": [
+                    0.35379384922143514,
+                    0.0015871032166940684,
+                    0.7426906798969342
+                  ],
+                  "max_anchor_distance_m": 0.015010367533708059,
+                  "path_length_m": 0.01501036753370806,
+                  "max_anchor_rotation_rad": 0.00905214863527977,
+                  "gripper_mechanical_fraction_min": 0.9443553361025724,
+                  "gripper_mechanical_fraction_max": 0.9545454545454545,
+                  "maximum_translation_speed_m_s": 0.01442672083196176,
+                  "maximum_angular_speed_rad_s": 0.00870018960845788,
+                  "maximum_finger_speed_m_s": 0.00043093146935660795,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.02272911741179758,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.013707012898872288
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0,
+                "first_gripper_jump": 0.0454525148528,
+                "decoded_gripper_min": 0.9887908697128296,
+                "decoded_gripper_max": 1.0,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 1,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "all40_command_mapping_exact": true,
+              "images": 2,
+              "stage": "PREGRASP"
+            },
+            {
+              "index": 5,
+              "native_step": 10703,
+              "raw_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.3496079067539299,
+                    -8.915991538411714e-05,
+                    0.7181497107591134
+                  ],
+                  "xyz_max_m": [
+                    0.3526426364793501,
+                    0.0009038350688831776,
+                    0.7327093723435685
+                  ],
+                  "max_anchor_distance_m": 0.015014821420026324,
+                  "path_length_m": 0.017695496694660313,
+                  "max_anchor_rotation_rad": 0.007529914429740942,
+                  "gripper_mechanical_fraction_min": 0.9340546781366521,
+                  "gripper_mechanical_fraction_max": 0.9545454545454545,
+                  "maximum_translation_speed_m_s": 0.021276551607269684,
+                  "maximum_angular_speed_rad_s": 0.015326041084551503,
+                  "maximum_finger_speed_m_s": 0.013255071640014639,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.4246508721296391,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.4019414267524421
+                },
+                "failed_components": [
+                  "maximum_discrete_translation_acceleration_m_s2"
+                ],
+                "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+                "original_envelope_pass": false,
+                "first_position_jump_m": 0.00043632372266729316,
+                "first_gripper_jump": 0.05297658438063524,
+                "decoded_gripper_min": 0.9774601459503174,
+                "decoded_gripper_max": 1.0,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 13,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "represented_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.3497379253738822,
+                    -1.2618708769828683e-05,
+                    0.7181983669594328
+                  ],
+                  "xyz_max_m": [
+                    0.3525247185295761,
+                    0.000901057144817044,
+                    0.7328571294201971
+                  ],
+                  "max_anchor_distance_m": 0.014949258728751783,
+                  "path_length_m": 0.014949258728751783,
+                  "max_anchor_rotation_rad": 0.007383734949669124,
+                  "gripper_mechanical_fraction_min": 0.9410315643657337,
+                  "gripper_mechanical_fraction_max": 0.9443553361025724,
+                  "maximum_translation_speed_m_s": 0.014367988114893536,
+                  "maximum_angular_speed_rad_s": 0.007096641909636087,
+                  "maximum_finger_speed_m_s": 0.0001405594887232109,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.02263658475401232,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.01118065579099822
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0,
+                "first_gripper_jump": 0.044434285110005356,
+                "decoded_gripper_min": 0.9851347208023071,
+                "decoded_gripper_max": 0.9887908697128296,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "all40_command_mapping_exact": true,
+              "images": 2,
+              "stage": "PREGRASP"
+            },
+            {
+              "index": 6,
+              "native_step": 11703,
+              "raw_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.3476881372156162,
+                    -0.0006876217510202508,
+                    0.7079720304171638
+                  ],
+                  "xyz_max_m": [
+                    0.35082680889715284,
+                    0.00016954412833622206,
+                    0.7220247782245499
+                  ],
+                  "max_anchor_distance_m": 0.01502254609748123,
+                  "path_length_m": 0.01602765256185707,
+                  "max_anchor_rotation_rad": 0.008110711337879991,
+                  "gripper_mechanical_fraction_min": 0.9443816705183549,
+                  "gripper_mechanical_fraction_max": 0.9545454545454545,
+                  "maximum_translation_speed_m_s": 0.019033310411419927,
+                  "maximum_angular_speed_rad_s": 0.013988443843398672,
+                  "maximum_finger_speed_m_s": 0.008944129943847655,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.2827371720699758,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.1777136811327981
+                },
+                "failed_components": [
+                  "maximum_discrete_translation_acceleration_m_s2"
+                ],
+                "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+                "original_envelope_pass": false,
+                "first_position_jump_m": 0.0008720541370122712,
+                "first_gripper_jump": 0.05897091248341335,
+                "decoded_gripper_min": 0.9888198375701904,
+                "decoded_gripper_max": 1.0,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 27,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "represented_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.34769394914872737,
+                    -0.0006804395163357,
+                    0.7079814395246671
+                  ],
+                  "xyz_max_m": [
+                    0.3509534693053277,
+                    0.0002075036176361622,
+                    0.7226191981164221
+                  ],
+                  "max_anchor_distance_m": 0.01502254609748123,
+                  "path_length_m": 0.01502254609748123,
+                  "max_anchor_rotation_rad": 0.008110711337879991,
+                  "gripper_mechanical_fraction_min": 0.9410315643657337,
+                  "gripper_mechanical_fraction_max": 0.9545454545454545,
+                  "maximum_translation_speed_m_s": 0.014438425857790848,
+                  "maximum_angular_speed_rad_s": 0.007795353974594648,
+                  "maximum_finger_speed_m_s": 0.0005714909580799165,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.02274755853287477,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.012281463163635629
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0,
+                "first_gripper_jump": 0.04410563328572048,
+                "decoded_gripper_min": 0.9851347208023071,
+                "decoded_gripper_max": 1.0,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 1,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "all40_command_mapping_exact": true,
+              "images": 2,
+              "stage": "PREGRASP"
+            },
+            {
+              "index": 7,
+              "native_step": 12703,
+              "raw_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.3474204305898038,
+                    -0.0007606450735045509,
+                    0.705965882560791
+                  ],
+                  "xyz_max_m": [
+                    0.34904780373539407,
+                    -0.0003417094516269772,
+                    0.7123009260230201
+                  ],
+                  "max_anchor_distance_m": 0.006717645958939264,
+                  "path_length_m": 0.009889045433032234,
+                  "max_anchor_rotation_rad": 0.008183495335948128,
+                  "gripper_mechanical_fraction_min": 0.9412529143420132,
+                  "gripper_mechanical_fraction_max": 0.9545454545454545,
+                  "maximum_translation_speed_m_s": 0.013117374772869114,
+                  "maximum_angular_speed_rad_s": 0.010123554566333544,
+                  "maximum_finger_speed_m_s": 0.01003370285034176,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.32719602280766474,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.20660299172111227
+                },
+                "failed_components": [
+                  "maximum_discrete_translation_acceleration_m_s2"
+                ],
+                "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+                "original_envelope_pass": false,
+                "first_position_jump_m": 0.00036496210640855794,
+                "first_gripper_jump": 0.04178196534549039,
+                "decoded_gripper_min": 0.9853782057762146,
+                "decoded_gripper_max": 1.0,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 19,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "represented_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.3474204305898038,
+                    -0.0007462811099032777,
+                    0.7060270759763612
+                  ],
+                  "xyz_max_m": [
+                    0.3490484661064949,
+                    -0.00043793777300320767,
+                    0.7124843346865615
+                  ],
+                  "max_anchor_distance_m": 0.006666465728365826,
+                  "path_length_m": 0.006666465728365827,
+                  "max_anchor_rotation_rad": 0.00817202989638791,
+                  "gripper_mechanical_fraction_min": 0.9525504870848222,
+                  "gripper_mechanical_fraction_max": 0.9545454545454545,
+                  "maximum_translation_speed_m_s": 0.006407254171691482,
+                  "maximum_angular_speed_rad_s": 0.007854288531384809,
+                  "maximum_finger_speed_m_s": 8.436548249636465e-05,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.010094548446071541,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.0123743133838977
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0,
+                "first_gripper_jump": 0.045452300161469394,
+                "decoded_gripper_min": 0.9978055357933044,
+                "decoded_gripper_max": 1.0,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 1,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "all40_command_mapping_exact": true,
+              "images": 2,
+              "stage": "PREGRASP"
+            },
+            {
+              "index": 8,
+              "native_step": 13703,
+              "raw_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.34730921282761007,
+                    -0.0007703608799230396,
+                    0.7059554248501596
+                  ],
+                  "xyz_max_m": [
+                    0.3480768129393038,
+                    -0.0006144045397874888,
+                    0.7079235947462839
+                  ],
+                  "max_anchor_distance_m": 0.002502870106608806,
+                  "path_length_m": 0.006329069566369087,
+                  "max_anchor_rotation_rad": 0.0043964840713049125,
+                  "gripper_mechanical_fraction_min": 0.045454545454545456,
+                  "gripper_mechanical_fraction_max": 0.9545454545454545,
+                  "maximum_translation_speed_m_s": 0.008087551431187768,
+                  "maximum_angular_speed_rad_s": 0.008714125953978236,
+                  "maximum_finger_speed_m_s": 0.048429059982299946,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.23211256416611376,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.23980298115479334
+                },
+                "failed_components": [
+                  "maximum_finger_speed_m_s"
+                ],
+                "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+                "original_envelope_pass": false,
+                "first_position_jump_m": 0.0005660920250279723,
+                "first_gripper_jump": 0.04744751323851204,
+                "decoded_gripper_min": 0.0,
+                "decoded_gripper_max": 1.0,
+                "exact_closed_knots": 2,
+                "exact_open_knots": 7,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "represented_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.3473782913928938,
+                    -0.000742310093318415,
+                    0.7059554248501596
+                  ],
+                  "xyz_max_m": [
+                    0.34806724444015547,
+                    -0.0007047178567979399,
+                    0.708361311234214
+                  ],
+                  "max_anchor_distance_m": 0.002502870106608806,
+                  "path_length_m": 0.0025028701066088063,
+                  "max_anchor_rotation_rad": 0.0042925859214089325,
+                  "gripper_mechanical_fraction_min": 0.04754157499833541,
+                  "gripper_mechanical_fraction_max": 0.9525504870848222,
+                  "maximum_translation_speed_m_s": 0.002405551244872942,
+                  "maximum_angular_speed_rad_s": 0.004125679294579097,
+                  "maximum_finger_speed_m_s": 0.03827205958912954,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.0037899157626696592,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.0064999530556239075
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0,
+                "first_gripper_jump": 0.045253049031816484,
+                "decoded_gripper_min": 0.0022957324981689453,
+                "decoded_gripper_max": 0.9978055357933044,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "all40_command_mapping_exact": true,
+              "images": 2,
+              "stage": "CLOSE"
+            },
+            {
+              "index": 9,
+              "native_step": 14703,
+              "raw_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.34715259343179405,
+                    -0.0007833489622858864,
+                    0.7069094842223161
+                  ],
+                  "xyz_max_m": [
+                    0.34772511104981535,
+                    -1.04714190848898e-05,
+                    0.7221680289977548
+                  ],
+                  "max_anchor_distance_m": 0.014747584660171408,
+                  "path_length_m": 0.017179251136179834,
+                  "max_anchor_rotation_rad": 0.0011447991477056688,
+                  "gripper_mechanical_fraction_min": 0.04627248373898594,
+                  "gripper_mechanical_fraction_max": 0.07246514883908359,
+                  "maximum_translation_speed_m_s": 0.0197079296419607,
+                  "maximum_angular_speed_rad_s": 0.005109409788075263,
+                  "maximum_finger_speed_m_s": 0.013445353507995608,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.3935692671739761,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.19748563747000683
+                },
+                "failed_components": [
+                  "maximum_discrete_translation_acceleration_m_s2"
+                ],
+                "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+                "original_envelope_pass": false,
+                "first_position_jump_m": 0.0004455848214739178,
+                "first_gripper_jump": -0.42597511969445917,
+                "decoded_gripper_min": 0.0008997321128845215,
+                "decoded_gripper_max": 0.029711663722991943,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "represented_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.3471747152891312,
+                    -0.0008328720941004775,
+                    0.7074447802431967
+                  ],
+                  "xyz_max_m": [
+                    0.34774583992662145,
+                    -0.0001448350296236314,
+                    0.7219767685554535
+                  ],
+                  "max_anchor_distance_m": 0.01455947329614673,
+                  "path_length_m": 0.014559473296146729,
+                  "max_anchor_rotation_rad": 0.0011447991477056688,
+                  "gripper_mechanical_fraction_min": 0.04754157499833541,
+                  "gripper_mechanical_fraction_max": 0.0637562329118902,
+                  "maximum_translation_speed_m_s": 0.013993358672413199,
+                  "maximum_angular_speed_rad_s": 0.0011002859211941315,
+                  "maximum_finger_speed_m_s": 0.0006857041357241538,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.02204636077418865,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.0017334868108695445
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0,
+                "first_gripper_jump": -0.4358639474952099,
+                "decoded_gripper_min": 0.0022957324981689453,
+                "decoded_gripper_max": 0.020131856203079224,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "all40_command_mapping_exact": true,
+              "images": 2,
+              "stage": "HOLD"
+            },
+            {
+              "index": 10,
+              "native_step": 15703,
+              "raw_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.3468412538607411,
+                    -0.0005867097798100622,
+                    0.7151625012352181
+                  ],
+                  "xyz_max_m": [
+                    0.3470043608169629,
+                    0.00022407889632990586,
+                    0.7306696234329835
+                  ],
+                  "max_anchor_distance_m": 0.015018016545444265,
+                  "path_length_m": 0.01689459318533202,
+                  "max_anchor_rotation_rad": 0.0008092353680679983,
+                  "gripper_mechanical_fraction_min": 0.045454545454545456,
+                  "gripper_mechanical_fraction_max": 0.058260440826416016,
+                  "maximum_translation_speed_m_s": 0.017475017091465588,
+                  "maximum_angular_speed_rad_s": 0.0080641006994291,
+                  "maximum_finger_speed_m_s": 0.011269187927246092,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.39763080487865476,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.29195710268683933
+                },
+                "failed_components": [
+                  "maximum_discrete_translation_acceleration_m_s2"
+                ],
+                "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+                "original_envelope_pass": false,
+                "first_position_jump_m": 0.0004509705652544311,
+                "first_gripper_jump": -0.4329938168486205,
+                "decoded_gripper_min": 0.0,
+                "decoded_gripper_max": 0.014086484909057617,
+                "exact_closed_knots": 18,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "represented_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.34687625502888797,
+                    -0.0005234729188917618,
+                    0.7156702260090873
+                  ],
+                  "xyz_max_m": [
+                    0.3468842651981668,
+                    0.00022407889632990586,
+                    0.7306696234329835
+                  ],
+                  "max_anchor_distance_m": 0.015018016545444265,
+                  "path_length_m": 0.015018016545444265,
+                  "max_anchor_rotation_rad": 0.0005762261114044852,
+                  "gripper_mechanical_fraction_min": 0.04913887110623447,
+                  "gripper_mechanical_fraction_max": 0.0637562329118902,
+                  "maximum_translation_speed_m_s": 0.014434072427897165,
+                  "maximum_angular_speed_rad_s": 0.0005538206552936631,
+                  "maximum_finger_speed_m_s": 0.0006181558375730771,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.022740699758816985,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.0008725376581796342
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0,
+                "first_gripper_jump": -0.4170067484339324,
+                "decoded_gripper_min": 0.00405275821685791,
+                "decoded_gripper_max": 0.020131856203079224,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "all40_command_mapping_exact": true,
+              "images": 2,
+              "stage": "HOLD"
+            },
+            {
+              "index": 11,
+              "native_step": 16703,
+              "raw_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.3461312320101843,
+                    -2.6759138801591452e-06,
+                    0.7257232464809376
+                  ],
+                  "xyz_max_m": [
+                    0.34681729493458796,
+                    0.00039382197658148927,
+                    0.7324697691232831
+                  ],
+                  "max_anchor_distance_m": 0.005916086278497134,
+                  "path_length_m": 0.010548518358601931,
+                  "max_anchor_rotation_rad": 0.006605066169466937,
+                  "gripper_mechanical_fraction_min": 0.045454545454545456,
+                  "gripper_mechanical_fraction_max": 0.07046682184392757,
+                  "maximum_translation_speed_m_s": 0.01291237186181959,
+                  "maximum_angular_speed_rad_s": 0.011935203937042664,
+                  "maximum_finger_speed_m_s": 0.011355185508728022,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.36275471540256665,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.20166446565607316
+                },
+                "failed_components": [
+                  "maximum_discrete_translation_acceleration_m_s2"
+                ],
+                "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+                "original_envelope_pass": false,
+                "first_position_jump_m": 0.0008679922885299731,
+                "first_gripper_jump": -0.42469732645004643,
+                "decoded_gripper_min": 0.0,
+                "decoded_gripper_max": 0.027513504028320312,
+                "exact_closed_knots": 1,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "represented_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.34624725741685625,
+                    -8.3944789401897e-06,
+                    0.7265832456901231
+                  ],
+                  "xyz_max_m": [
+                    0.34669442037533443,
+                    0.0002920702818947175,
+                    0.7322725838358576
+                  ],
+                  "max_anchor_distance_m": 0.005714788038103239,
+                  "path_length_m": 0.005714788038103238,
+                  "max_anchor_rotation_rad": 0.006553632664773821,
+                  "gripper_mechanical_fraction_min": 0.04913887110623447,
+                  "gripper_mechanical_fraction_max": 0.05521973696621982,
+                  "maximum_translation_speed_m_s": 0.005492580475089484,
+                  "maximum_angular_speed_rad_s": 0.006298814005697048,
+                  "maximum_finger_speed_m_s": 0.0002571546616157788,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.008653491529088621,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.009923692264928452
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0,
+                "first_gripper_jump": -0.43265943410843266,
+                "decoded_gripper_min": 0.00405275821685791,
+                "decoded_gripper_max": 0.010741710662841797,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "all40_command_mapping_exact": true,
+              "images": 2,
+              "stage": "HOLD"
+            },
+            {
+              "index": 12,
+              "native_step": 17703,
+              "raw_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.3459694873764288,
+                    0.00022335477478384672,
+                    0.7298649157331747
+                  ],
+                  "xyz_max_m": [
+                    0.34677428019621004,
+                    0.0004861215995397881,
+                    0.7327455926835972
+                  ],
+                  "max_anchor_distance_m": 0.002529947906593545,
+                  "path_length_m": 0.0065845890241977715,
+                  "max_anchor_rotation_rad": 0.0034050778581612108,
+                  "gripper_mechanical_fraction_min": 0.045454545454545456,
+                  "gripper_mechanical_fraction_max": 0.07294274460185658,
+                  "maximum_translation_speed_m_s": 0.012548429100597138,
+                  "maximum_angular_speed_rad_s": 0.009571399154161782,
+                  "maximum_finger_speed_m_s": 0.014060831069946293,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.37543211017652706,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.31975884635109886
+                },
+                "failed_components": [
+                  "maximum_discrete_translation_acceleration_m_s2"
+                ],
+                "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+                "original_envelope_pass": false,
+                "first_position_jump_m": 0.00040925668440640995,
+                "first_gripper_jump": -0.40350310606265405,
+                "decoded_gripper_min": 0.0,
+                "decoded_gripper_max": 0.030237019062042236,
+                "exact_closed_knots": 1,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "represented_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.3460075949046751,
+                    0.0002802232927547308,
+                    0.7303263807635385
+                  ],
+                  "xyz_max_m": [
+                    0.34668974495291904,
+                    0.00046872196687403056,
+                    0.7323393311160186
+                  ],
+                  "max_anchor_distance_m": 0.0021337360567824596,
+                  "path_length_m": 0.002133736056782459,
+                  "max_anchor_rotation_rad": 0.003321420836876072,
+                  "gripper_mechanical_fraction_min": 0.053635228763927116,
+                  "gripper_mechanical_fraction_max": 0.05521973696621982,
+                  "maximum_translation_speed_m_s": 0.0020507701994100687,
+                  "maximum_angular_speed_rad_s": 0.0031922750390776266,
+                  "maximum_finger_speed_m_s": 6.700750846508562e-05,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.003230962683014315,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.0050293879645350705
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0,
+                "first_gripper_jump": -0.4229984144618545,
+                "decoded_gripper_min": 0.008998751640319824,
+                "decoded_gripper_max": 0.010741710662841797,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "all40_command_mapping_exact": true,
+              "images": 2,
+              "stage": "HOLD"
+            },
+            {
+              "index": 13,
+              "native_step": 18703,
+              "raw_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.34620275577823895,
+                    0.00034969532881250757,
+                    0.7306043883681967
+                  ],
+                  "xyz_max_m": [
+                    0.34675538045830423,
+                    0.0006593508586470374,
+                    0.7328396075992587
+                  ],
+                  "max_anchor_distance_m": 0.0016422668160705543,
+                  "path_length_m": 0.006505474018099077,
+                  "max_anchor_rotation_rad": 0.0013109486192357655,
+                  "gripper_mechanical_fraction_min": 0.045454545454545456,
+                  "gripper_mechanical_fraction_max": 0.07378918474370784,
+                  "maximum_translation_speed_m_s": 0.007538541827156579,
+                  "maximum_angular_speed_rad_s": 0.007888375846295422,
+                  "maximum_finger_speed_m_s": 0.02252941131591797,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.22336863212499494,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.27572641115123425
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0004879426357206437,
+                "first_gripper_jump": -0.41941141065337123,
+                "decoded_gripper_min": 0.0,
+                "decoded_gripper_max": 0.031168103218078613,
+                "exact_closed_knots": 1,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "represented_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.3463378667614093,
+                    0.00034969532881250757,
+                    0.7312552841494571
+                  ],
+                  "xyz_max_m": [
+                    0.34672739959953397,
+                    0.0006579014660976039,
+                    0.7325422201669792
+                  ],
+                  "max_anchor_distance_m": 0.0013794677119213265,
+                  "path_length_m": 0.0013794677119213265,
+                  "max_anchor_rotation_rad": 0.0012222513763908713,
+                  "gripper_mechanical_fraction_min": 0.0514231649312106,
+                  "gripper_mechanical_fraction_max": 0.053635228763927116,
+                  "maximum_translation_speed_m_s": 0.0013258299992937976,
+                  "maximum_angular_speed_rad_s": 0.0011747267273358132,
+                  "maximum_finger_speed_m_s": 9.354630400877084e-05,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.0020888285060238505,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.0018507671357229371
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0,
+                "first_gripper_jump": -0.4246817725537008,
+                "decoded_gripper_min": 0.006565481424331665,
+                "decoded_gripper_max": 0.008998751640319824,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "all40_command_mapping_exact": true,
+              "images": 2,
+              "stage": "HOLD"
+            },
+            {
+              "index": 14,
+              "native_step": 19703,
+              "raw_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.34656247122312744,
+                    0.00016849209581399282,
+                    0.7317901130718926
+                  ],
+                  "xyz_max_m": [
+                    0.34714149312494313,
+                    0.0005736810667517733,
+                    0.7332558958331105
+                  ],
+                  "max_anchor_distance_m": 0.0011703578902943724,
+                  "path_length_m": 0.007166782131854692,
+                  "max_anchor_rotation_rad": 0.001023538285018719,
+                  "gripper_mechanical_fraction_min": 0.059252803975885567,
+                  "gripper_mechanical_fraction_max": 0.08351606672460384,
+                  "maximum_translation_speed_m_s": 0.008739070849734805,
+                  "maximum_angular_speed_rad_s": 0.006867663422461454,
+                  "maximum_finger_speed_m_s": 0.01466610431671141,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.26017620235608485,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.22115476924131067
+                },
+                "failed_components": [
+                  "maximum_discrete_translation_acceleration_m_s2"
+                ],
+                "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+                "original_envelope_pass": false,
+                "first_position_jump_m": 0.0003969714342524858,
+                "first_gripper_jump": -0.3988288633393308,
+                "decoded_gripper_min": 0.015178084373474121,
+                "decoded_gripper_max": 0.04186767339706421,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "represented_envelope": {
+                "metrics": {
+                  "xyz_min_m": [
+                    0.34658422362524477,
+                    0.0002636292111722544,
+                    0.7322878843440532
+                  ],
+                  "xyz_max_m": [
+                    0.34703600784480354,
+                    0.0005588437710342502,
+                    0.7329997612536786
+                  ],
+                  "max_anchor_distance_m": 0.0008933248859483396,
+                  "path_length_m": 0.0008933248859483396,
+                  "max_anchor_rotation_rad": 0.0007709821110194247,
+                  "gripper_mechanical_fraction_min": 0.0514231649312106,
+                  "gripper_mechanical_fraction_max": 0.06686794757843018,
+                  "maximum_translation_speed_m_s": 0.0008585898188626747,
+                  "maximum_angular_speed_rad_s": 0.0007410040473267093,
+                  "maximum_finger_speed_m_s": 0.0006531467634421044,
+                  "maximum_discrete_translation_acceleration_m_s2": 0.0013526974721882854,
+                  "maximum_discrete_angular_acceleration_rad_s2": 0.0011674426270204133
+                },
+                "failed_components": [],
+                "original_envelope_exception": null,
+                "original_envelope_pass": true,
+                "first_position_jump_m": 0.0,
+                "first_gripper_jump": -0.4270574740933439,
+                "decoded_gripper_min": 0.006565481424331665,
+                "decoded_gripper_max": 0.023554742336273193,
+                "exact_closed_knots": 0,
+                "exact_open_knots": 0,
+                "first_point_not_included_in_original_discrete_rate_gate": true
+              },
+              "all40_command_mapping_exact": true,
+              "images": 2,
+              "stage": "HOLD"
+            }
+          ],
+          "original_native_reference_certificates": 93,
+          "maximum_certificate_joint_acceleration_rad_s2": 0.1318490636933456,
+          "original_reference_rejections": 0,
+          "Teacher_fallback": 0,
+          "clipping": 0,
+          "expert_training_eligible": false
+        }
+      ],
+      "original_model_calls_reused": 30,
+      "new_model_calls": 0,
+      "optimizer_updates": 0,
+      "physics_integrations": 0,
+      "CPU_s": 4.185406022,
+      "wall_s": 9.125658897217363
+    },
+    "TeacherV8_E1_saved16": {
+      "status": "COMPLETE_ORIGINAL_TEACHER_V8_E1_SAVED16_CONTACT_GEOMETRY_FORENSICS",
+      "requested": 16,
+      "completed": 16,
+      "per_type": {
+        "SUPPORTED_SIDE_OFFSET": {
+          "requested": 8,
+          "completed": 8,
+          "no_pad_contact": 8,
+          "one_pad_contact": 0,
+          "bilateral_contact": 0,
+          "minimum_absolute_actual_offset_m": 0.001569041289092845,
+          "maximum_absolute_actual_offset_m": 0.0016422508136907344,
+          "nearest_pad_surface_distance_m_min": 0.012404208503209238,
+          "nearest_pad_surface_distance_m_max": 0.012665951970065877
+        },
+        "SUPPORTED_SINGLE_PAD": {
+          "requested": 8,
+          "completed": 8,
+          "no_pad_contact": 8,
+          "one_pad_contact": 0,
+          "bilateral_contact": 0,
+          "minimum_absolute_actual_offset_m": 0.0023748129094076503,
+          "maximum_absolute_actual_offset_m": 0.002469755432980715,
+          "nearest_pad_surface_distance_m_min": 0.0015988399970218493,
+          "nearest_pad_surface_distance_m_max": 0.0018687624202970681
+        }
+      },
+      "rows": [
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery01-r1-supported_side_offset",
+          "condition": "SUPPORTED_SIDE_OFFSET",
+          "offset_sign": 1,
+          "source_sha": "84970a1c1fc0831b12c959fe6e0135762d7c39a2",
+          "final_state_sha256": "949b95764183bd48753872ac28b994ab1ee26ca59833fc7e4b0e2a79066e9a9e",
+          "commanded_nominal_grip_end": 0.8,
+          "commanded_mechanical_grip_end": 0.7727272727272727,
+          "commanded_tool_Y_offset_m": 0.003,
+          "actual_goal_tool_Y_offset_m": 0.001569041289092845,
+          "desired_minus_actual_tool_Y_m": 0.0014309587109071588,
+          "actual_left_contact": false,
+          "actual_right_contact": false,
+          "pad_normal_force_N": {
+            "left": 0.0,
+            "right": 0.0
+          },
+          "nearest_pad_surface_distance_m": 0.012496125013024911,
+          "full40_intervention_consumed": true
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery01-r1-supported_single_pad",
+          "condition": "SUPPORTED_SINGLE_PAD",
+          "offset_sign": 1,
+          "source_sha": "84970a1c1fc0831b12c959fe6e0135762d7c39a2",
+          "final_state_sha256": "e4c79ca4510e30ab8fcb5edbd20c1d67c2f9c5deb25c56c611ae1ce8c5c5a4dd",
+          "commanded_nominal_grip_end": 0.55,
+          "commanded_mechanical_grip_end": 0.5454545454545455,
+          "commanded_tool_Y_offset_m": 0.0045,
+          "actual_goal_tool_Y_offset_m": 0.0023748129094076503,
+          "desired_minus_actual_tool_Y_m": 0.002125187090592353,
+          "actual_left_contact": false,
+          "actual_right_contact": false,
+          "pad_normal_force_N": {
+            "left": 0.0,
+            "right": 0.0
+          },
+          "nearest_pad_surface_distance_m": 0.0016894529760758876,
+          "full40_intervention_consumed": true
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery01-r2-supported_side_offset",
+          "condition": "SUPPORTED_SIDE_OFFSET",
+          "offset_sign": -1,
+          "source_sha": "84970a1c1fc0831b12c959fe6e0135762d7c39a2",
+          "final_state_sha256": "09b202c4e4801542e1bd3a9260ef82f8014d5f9fecff326c949892536e6c6b6a",
+          "commanded_nominal_grip_end": 0.8,
+          "commanded_mechanical_grip_end": 0.7727272727272727,
+          "commanded_tool_Y_offset_m": -0.003,
+          "actual_goal_tool_Y_offset_m": -0.0016386393332531999,
+          "desired_minus_actual_tool_Y_m": -0.0013613606667468021,
+          "actual_left_contact": false,
+          "actual_right_contact": false,
+          "pad_normal_force_N": {
+            "left": 0.0,
+            "right": 0.0
+          },
+          "nearest_pad_surface_distance_m": 0.012665951970065877,
+          "full40_intervention_consumed": true
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery01-r2-supported_single_pad",
+          "condition": "SUPPORTED_SINGLE_PAD",
+          "offset_sign": -1,
+          "source_sha": "84970a1c1fc0831b12c959fe6e0135762d7c39a2",
+          "final_state_sha256": "fadc378b42fc02aaa5c8bad1e9c09e5f7729f86230f756f729e9a42f9cb84d91",
+          "commanded_nominal_grip_end": 0.55,
+          "commanded_mechanical_grip_end": 0.5454545454545455,
+          "commanded_tool_Y_offset_m": -0.0045,
+          "actual_goal_tool_Y_offset_m": -0.002447576927837701,
+          "desired_minus_actual_tool_Y_m": -0.002052423072162293,
+          "actual_left_contact": false,
+          "actual_right_contact": false,
+          "pad_normal_force_N": {
+            "left": 0.0,
+            "right": 0.0
+          },
+          "nearest_pad_surface_distance_m": 0.0018630446475130379,
+          "full40_intervention_consumed": true
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery02-r1-supported_side_offset",
+          "condition": "SUPPORTED_SIDE_OFFSET",
+          "offset_sign": 1,
+          "source_sha": "84970a1c1fc0831b12c959fe6e0135762d7c39a2",
+          "final_state_sha256": "bd485543a4d8b336af38771b8b945303700b5d76fc75046c0b230e4990918d25",
+          "commanded_nominal_grip_end": 0.8,
+          "commanded_mechanical_grip_end": 0.7727272727272727,
+          "commanded_tool_Y_offset_m": 0.003,
+          "actual_goal_tool_Y_offset_m": 0.0015857559402411776,
+          "desired_minus_actual_tool_Y_m": 0.0014142440597588275,
+          "actual_left_contact": false,
+          "actual_right_contact": false,
+          "pad_normal_force_N": {
+            "left": 0.0,
+            "right": 0.0
+          },
+          "nearest_pad_surface_distance_m": 0.012404208503209238,
+          "full40_intervention_consumed": true
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery02-r1-supported_single_pad",
+          "condition": "SUPPORTED_SINGLE_PAD",
+          "offset_sign": 1,
+          "source_sha": "84970a1c1fc0831b12c959fe6e0135762d7c39a2",
+          "final_state_sha256": "c3db6903b64b3dbf6110526df906c5d499f0ed07229317a76dcbd7deec20040d",
+          "commanded_nominal_grip_end": 0.55,
+          "commanded_mechanical_grip_end": 0.5454545454545455,
+          "commanded_tool_Y_offset_m": 0.0045,
+          "actual_goal_tool_Y_offset_m": 0.0023987075283211437,
+          "desired_minus_actual_tool_Y_m": 0.002101292471678849,
+          "actual_left_contact": false,
+          "actual_right_contact": false,
+          "pad_normal_force_N": {
+            "left": 0.0,
+            "right": 0.0
+          },
+          "nearest_pad_surface_distance_m": 0.0015988399970218493,
+          "full40_intervention_consumed": true
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery02-r2-supported_side_offset",
+          "condition": "SUPPORTED_SIDE_OFFSET",
+          "offset_sign": -1,
+          "source_sha": "84970a1c1fc0831b12c959fe6e0135762d7c39a2",
+          "final_state_sha256": "ea29f04fc8fd7bf3549c9d67c46f6cd1adad3fe3d57d60c5b02daaac4f1ea2c3",
+          "commanded_nominal_grip_end": 0.8,
+          "commanded_mechanical_grip_end": 0.7727272727272727,
+          "commanded_tool_Y_offset_m": -0.003,
+          "actual_goal_tool_Y_offset_m": -0.0016422508136907344,
+          "desired_minus_actual_tool_Y_m": -0.00135774918630927,
+          "actual_left_contact": false,
+          "actual_right_contact": false,
+          "pad_normal_force_N": {
+            "left": 0.0,
+            "right": 0.0
+          },
+          "nearest_pad_surface_distance_m": 0.012656408103198024,
+          "full40_intervention_consumed": true
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery02-r2-supported_single_pad",
+          "condition": "SUPPORTED_SINGLE_PAD",
+          "offset_sign": -1,
+          "source_sha": "84970a1c1fc0831b12c959fe6e0135762d7c39a2",
+          "final_state_sha256": "a146121a2220aefab87d3622afa150cf2a47284e7a3800b4cca15f267a0a1337",
+          "commanded_nominal_grip_end": 0.55,
+          "commanded_mechanical_grip_end": 0.5454545454545455,
+          "commanded_tool_Y_offset_m": -0.0045,
+          "actual_goal_tool_Y_offset_m": -0.0024311353671855706,
+          "desired_minus_actual_tool_Y_m": -0.0020688646328144347,
+          "actual_left_contact": false,
+          "actual_right_contact": false,
+          "pad_normal_force_N": {
+            "left": 0.0,
+            "right": 0.0
+          },
+          "nearest_pad_surface_distance_m": 0.0018626352768123173,
+          "full40_intervention_consumed": true
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery03-r1-supported_side_offset",
+          "condition": "SUPPORTED_SIDE_OFFSET",
+          "offset_sign": 1,
+          "source_sha": "84970a1c1fc0831b12c959fe6e0135762d7c39a2",
+          "final_state_sha256": "598bb9f35e01a0e7792b96733eb8f27f905be44df75a8e73f6f00b2977a412e9",
+          "commanded_nominal_grip_end": 0.8,
+          "commanded_mechanical_grip_end": 0.7727272727272727,
+          "commanded_tool_Y_offset_m": 0.003,
+          "actual_goal_tool_Y_offset_m": 0.0015728225403163047,
+          "desired_minus_actual_tool_Y_m": 0.0014271774596836962,
+          "actual_left_contact": false,
+          "actual_right_contact": false,
+          "pad_normal_force_N": {
+            "left": 0.0,
+            "right": 0.0
+          },
+          "nearest_pad_surface_distance_m": 0.01243013009848515,
+          "full40_intervention_consumed": true
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery03-r1-supported_single_pad",
+          "condition": "SUPPORTED_SINGLE_PAD",
+          "offset_sign": 1,
+          "source_sha": "84970a1c1fc0831b12c959fe6e0135762d7c39a2",
+          "final_state_sha256": "40c5ad54bc63a8a3868460ef1b2042dff0997ce75b4d4486075d302cf22c8306",
+          "commanded_nominal_grip_end": 0.55,
+          "commanded_mechanical_grip_end": 0.5454545454545455,
+          "commanded_tool_Y_offset_m": 0.0045,
+          "actual_goal_tool_Y_offset_m": 0.0023888849737725925,
+          "desired_minus_actual_tool_Y_m": 0.0021111150262274076,
+          "actual_left_contact": false,
+          "actual_right_contact": false,
+          "pad_normal_force_N": {
+            "left": 0.0,
+            "right": 0.0
+          },
+          "nearest_pad_surface_distance_m": 0.001678149366059392,
+          "full40_intervention_consumed": true
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery03-r2-supported_side_offset",
+          "condition": "SUPPORTED_SIDE_OFFSET",
+          "offset_sign": -1,
+          "source_sha": "84970a1c1fc0831b12c959fe6e0135762d7c39a2",
+          "final_state_sha256": "602fccae3bdb81abebf3140f9533c11e729e9963afc21446fe0b9b59013239ce",
+          "commanded_nominal_grip_end": 0.8,
+          "commanded_mechanical_grip_end": 0.7727272727272727,
+          "commanded_tool_Y_offset_m": -0.003,
+          "actual_goal_tool_Y_offset_m": -0.0016358723259149298,
+          "desired_minus_actual_tool_Y_m": -0.001364127674085073,
+          "actual_left_contact": false,
+          "actual_right_contact": false,
+          "pad_normal_force_N": {
+            "left": 0.0,
+            "right": 0.0
+          },
+          "nearest_pad_surface_distance_m": 0.012656479860418627,
+          "full40_intervention_consumed": true
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery03-r2-supported_single_pad",
+          "condition": "SUPPORTED_SINGLE_PAD",
+          "offset_sign": -1,
+          "source_sha": "84970a1c1fc0831b12c959fe6e0135762d7c39a2",
+          "final_state_sha256": "e6e83a6d5dbb7a5ed42cbc662b86750c0a96ce07ea22b7c370e98126d3a81943",
+          "commanded_nominal_grip_end": 0.55,
+          "commanded_mechanical_grip_end": 0.5454545454545455,
+          "commanded_tool_Y_offset_m": -0.0045,
+          "actual_goal_tool_Y_offset_m": -0.002469755432980715,
+          "desired_minus_actual_tool_Y_m": -0.0020302445670192892,
+          "actual_left_contact": false,
+          "actual_right_contact": false,
+          "pad_normal_force_N": {
+            "left": 0.0,
+            "right": 0.0
+          },
+          "nearest_pad_surface_distance_m": 0.001850081043076214,
+          "full40_intervention_consumed": true
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery04-r1-supported_side_offset",
+          "condition": "SUPPORTED_SIDE_OFFSET",
+          "offset_sign": 1,
+          "source_sha": "84970a1c1fc0831b12c959fe6e0135762d7c39a2",
+          "final_state_sha256": "f1b0ed2bf5785bb496381bd6b25bb0621000808b102cb8c44849cc19361470cd",
+          "commanded_nominal_grip_end": 0.8,
+          "commanded_mechanical_grip_end": 0.7727272727272727,
+          "commanded_tool_Y_offset_m": 0.003,
+          "actual_goal_tool_Y_offset_m": 0.0015819586398088663,
+          "desired_minus_actual_tool_Y_m": 0.0014180413601911277,
+          "actual_left_contact": false,
+          "actual_right_contact": false,
+          "pad_normal_force_N": {
+            "left": 0.0,
+            "right": 0.0
+          },
+          "nearest_pad_surface_distance_m": 0.012479615603948743,
+          "full40_intervention_consumed": true
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery04-r1-supported_single_pad",
+          "condition": "SUPPORTED_SINGLE_PAD",
+          "offset_sign": 1,
+          "source_sha": "84970a1c1fc0831b12c959fe6e0135762d7c39a2",
+          "final_state_sha256": "f51e9b65817d8064c25f3fd9426176fccda105e7faa2d78997b7f3876a048bd9",
+          "commanded_nominal_grip_end": 0.55,
+          "commanded_mechanical_grip_end": 0.5454545454545455,
+          "commanded_tool_Y_offset_m": 0.0045,
+          "actual_goal_tool_Y_offset_m": 0.0023891587469953663,
+          "desired_minus_actual_tool_Y_m": 0.0021108412530046155,
+          "actual_left_contact": false,
+          "actual_right_contact": false,
+          "pad_normal_force_N": {
+            "left": 0.0,
+            "right": 0.0
+          },
+          "nearest_pad_surface_distance_m": 0.0016775563235316298,
+          "full40_intervention_consumed": true
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery04-r2-supported_side_offset",
+          "condition": "SUPPORTED_SIDE_OFFSET",
+          "offset_sign": -1,
+          "source_sha": "84970a1c1fc0831b12c959fe6e0135762d7c39a2",
+          "final_state_sha256": "079c918257f06a683bcd84d337b3b9cafd31de4a58f2630fadd30464bc729c26",
+          "commanded_nominal_grip_end": 0.8,
+          "commanded_mechanical_grip_end": 0.7727272727272727,
+          "commanded_tool_Y_offset_m": -0.003,
+          "actual_goal_tool_Y_offset_m": -0.0016291323236921934,
+          "desired_minus_actual_tool_Y_m": -0.0013708676763077995,
+          "actual_left_contact": false,
+          "actual_right_contact": false,
+          "pad_normal_force_N": {
+            "left": 0.0,
+            "right": 0.0
+          },
+          "nearest_pad_surface_distance_m": 0.012663100044061928,
+          "full40_intervention_consumed": true
+        },
+        {
+          "run": "tl-v8-recovery24-20261110-02-recovery04-r2-supported_single_pad",
+          "condition": "SUPPORTED_SINGLE_PAD",
+          "offset_sign": -1,
+          "source_sha": "84970a1c1fc0831b12c959fe6e0135762d7c39a2",
+          "final_state_sha256": "38b6e0bb1b08799a8d01f7d5a280a410f9852b9d8cc49af91ba6a0cbe867fa19",
+          "commanded_nominal_grip_end": 0.55,
+          "commanded_mechanical_grip_end": 0.5454545454545455,
+          "commanded_tool_Y_offset_m": -0.0045,
+          "actual_goal_tool_Y_offset_m": -0.00245119470930052,
+          "desired_minus_actual_tool_Y_m": -0.0020488052906994835,
+          "actual_left_contact": false,
+          "actual_right_contact": false,
+          "pad_normal_force_N": {
+            "left": 0.0,
+            "right": 0.0
+          },
+          "nearest_pad_surface_distance_m": 0.0018687624202970681,
+          "full40_intervention_consumed": true
+        }
+      ],
+      "new_model_calls": 0,
+      "optimizer_updates": 0,
+      "physics_integrations": 0,
+      "CPU_s": 1.047408764,
+      "wall_s": 16.815052608028054
+    },
+    "Processor_identity": {
+      "B0": {
+        "embodiment_id.json": "3ccbf5ade2c95c92b76571e4f7ffd4fa2734e615ffe4dde8c0c63fc087b7c044",
+        "processor_config.json": "f01d9c54a50ae457f98b6c87d3c0950d5f95eb3d8206433ddf8b0d9ad4a4fd14",
+        "statistics.json": "9160be2f9acc2bdb2a2f120c439b4a3bfa537dda1c7c90e6a9524eb7ef16bdbf"
+      },
+      "SFT2000": {
+        "embodiment_id.json": "55a05ee287403b760182814c0a36e555f50a8b34fcfedf6442a78d093f8dfe34",
+        "processor_config.json": "c12317f7a26a19a162295b8f7540fdfb0a29b15f4149f99d1ffb09d112fc4f16",
+        "statistics.json": "c91a489cba36cf47269b59bce951369109885481127fd07714176cffd91c4759"
+      },
+      "same_files": false,
+      "SFT2000_manifest_sha256": "7feffa8dd11b5c9ce963f2e0f2f2613196c1a3ae8e5039056377bd5e25e02250"
+    },
+    "Processor_semantic_differences": {
+      "embodiment_id.json": {
+        "top_keys": [
+          [
+            "simpler_env_google",
+            "simpler_env_widowx",
+            "libero_sim",
+            "new_embodiment",
+            "robocasa_gr1_tabletop",
+            "robocasa_panda_omron",
+            "unitree_g1_sonic",
+            "oxe_droid_relative_eef_relative_joint",
+            "unitree_g1_full_body_with_waist_height_nav_cmd",
+            "real_g1_relative_eef_relative_joints",
+            "real_r1_pro_sharpa_relative_eef_maxinsights",
+            "real_r1_pro_sharpa_relative_eef_mecka",
+            "real_r1_pro_sharpa_relative_eef",
+            "real_r1_pro_sharpa_relative_eef_human",
+            "xdof_relative_eef_relative_joint",
+            "xdof_relative_eef_relative_joint_subtask"
+          ],
+          [
+            "simpler_env_google",
+            "simpler_env_widowx",
+            "libero_sim",
+            "new_embodiment",
+            "robocasa_gr1_tabletop",
+            "robocasa_panda_omron",
+            "unitree_g1_sonic",
+            "oxe_droid_relative_eef_relative_joint",
+            "real_g1_relative_eef_relative_joints",
+            "unitree_g1_full_body_with_waist_height_nav_cmd",
+            "real_r1_pro_sharpa_relative_eef_maxinsights",
+            "real_r1_pro_sharpa_relative_eef",
+            "real_r1_pro_sharpa_relative_eef_mecka",
+            "real_r1_pro_sharpa_relative_eef_human",
+            "xdof_relative_eef_relative_joint_subtask",
+            "xdof_relative_eef_relative_joint"
+          ]
+        ],
+        "changed_paths": [],
+        "changed_path_count": 0
+      },
+      "processor_config.json": {
+        "top_keys": [
+          [
+            "processor_class",
+            "processor_kwargs"
+          ],
+          [
+            "processor_class",
+            "processor_kwargs"
+          ]
+        ],
+        "changed_paths": [
+          "/processor_kwargs/model_name"
+        ],
+        "changed_path_count": 1
+      },
+      "statistics.json": {
+        "top_keys": [
+          [
+            "new_embodiment"
+          ],
+          [
+            "new_embodiment"
+          ]
+        ],
+        "changed_paths": [
+          "/new_embodiment/action/eef_9d/max",
+          "/new_embodiment/action/eef_9d/mean",
+          "/new_embodiment/action/eef_9d/min",
+          "/new_embodiment/action/eef_9d/q01",
+          "/new_embodiment/action/eef_9d/q99",
+          "/new_embodiment/action/eef_9d/std",
+          "/new_embodiment/action/gripper_position/mean",
+          "/new_embodiment/action/gripper_position/std",
+          "/new_embodiment/relative_action/eef_9d/max",
+          "/new_embodiment/relative_action/eef_9d/mean",
+          "/new_embodiment/relative_action/eef_9d/min",
+          "/new_embodiment/relative_action/eef_9d/q01",
+          "/new_embodiment/relative_action/eef_9d/q99",
+          "/new_embodiment/relative_action/eef_9d/std",
+          "/new_embodiment/state/eef_9d/max",
+          "/new_embodiment/state/eef_9d/mean",
+          "/new_embodiment/state/eef_9d/min",
+          "/new_embodiment/state/eef_9d/q01",
+          "/new_embodiment/state/eef_9d/q99",
+          "/new_embodiment/state/eef_9d/std",
+          "/new_embodiment/state/gripper_position/max",
+          "/new_embodiment/state/gripper_position/mean",
+          "/new_embodiment/state/gripper_position/min",
+          "/new_embodiment/state/gripper_position/q01",
+          "/new_embodiment/state/gripper_position/q99",
+          "/new_embodiment/state/gripper_position/std"
+        ],
+        "changed_path_count": 26
+      }
+    }
+  },
+  "NEGATIVE": {
+    "raw_GR00T_success_claim": false,
+    "previous_C500_raw": "0/2 pre-command valid failures",
+    "previous_C500_endpoint_fixed_conic": "0/2 pre-command valid failures",
+    "two_TRAIN_layouts_not_generalization": true,
+    "old_short_task_2mm_base_pose_diagnostic_all_samples_pass": false,
+    "standing_task_score": "ORIGINAL_PREREGISTERED_GRASP_TASK_STANDING_SCORE_NOT_OLD_SHORT_TASK_DIAGNOSTIC",
+    "new_composition_changes_interior_trajectory_and_gripper_timing": true,
+    "Teacher_E1_16_failures_are_no_pad_contact_not_failed_one_pad_recovery": true,
+    "original_B0_vs_SFT2000_Processor_normalization_is_a_weight_effect_confound": true,
+    "full_goal_complete": false,
+    "new_BC": 0,
+    "new_DAgger": 0,
+    "original_DEV80_TEST": 0,
+    "original_BF16_REJECT_preserved": true
+  },
+  "DECISION": "Two genuine complete native successes establish a local composed-policy mechanism. Independently audited exact raw journals,600 commands and30 current RGB per condition; do not promote raw GR00T or infer generalization. Follow V3.1 with a fixed multi-layout comparison, adding an explicit same-target-Processor B0 weight control to distinguish normalization from learned weights.",
+  "NEXT": {
+    "Core_GPU": "Original native2 is terminal. A separate finite B0+fixed-target-Processor same-card TRAIN40x2 numerical control was dispatched; no physical commands or updates. Verify real model calls and endpoint before admitting this new control.",
+    "comparison": "Preregistered8 TRAIN layouts x2 restarts x8 methods=128 conditions including original B0, same-target-Processor B0, SFT2000 and C500, each raw versus the same smooth representation. Not implemented/admitted/run yet; no0/128 failure claim.",
+    "Teacher": "Design new E1 interventions from measured zero-contact gaps and lateral motion, independently establish actual conditions, then evaluate E2 recovery and E3 task success. Preserve original24 and do not expand96BC/DAgger yet."
+  },
+  "goal_status": "ACTIVE_LOCAL_SUCCESS_MILESTONE_NOT_FULL_OBJECTIVE_COMPLETION"
+}

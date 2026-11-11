@@ -1,0 +1,144 @@
+{
+  "schema": "WM02_H100_CHILD_REGISTRY_NAMESPACE_FIX_ACTUAL_V1",
+  "EVIDENCE_ASOF": "2026-11-10T03:10:25.403028+00:00",
+  "SGT": "2026-11-10T11:10:25.403028+08:00",
+  "goal_status": "ACTIVE",
+  "QUESTION": "Did the requested H100 trial run, why did it stop, and can a separately registered successor pass the actual failing seam?",
+  "CHANGED": {
+    "source_sha": "2593818efea32d1f63fd4e48eec9c25f209a6f6e",
+    "fix": "Global registry intent keys include allocation name plus child name, instead of a shared child basename such as continuous4-REGISTER. Existing valid historical intents/receipts remain untouched.",
+    "training_math": "Remote unchanged_original_training_math preflight PASS; original parent, four-window dataset, full action side, original loss, effective32, micro1, frozen backbone and continuous4 versus independent2+2 unchanged.",
+    "diagnostic_comparator": "Pinned private manifests, all40 observation/noise/model/data identities, full128 call boundaries, scalar/tensor structure, SHA256 and finite/nonfinite differences; no model or policy qualification."
+  },
+  "ACTUAL": {
+    "failed_H100_03": {
+      "job_id": "708946.hopper-m-02",
+      "PBS_state": "F",
+      "PBS_exit_status": 1,
+      "project": "CFP04-CF-007",
+      "started_SGT": "2026-11-10T10:59:21+08:00",
+      "lease": "CLOSED",
+      "worker_exit_code": 1,
+      "worker_wall_s": 25.910268474020995,
+      "PBS_wall_s": 29,
+      "PBS_CPU_s": 11,
+      "actual_GPU": "NVIDIA H100 80GB HBM3",
+      "GPUs": 1,
+      "failure": "SOURCE_ONCE_INTENT_EXISTS_NO_AUTOMATIC_RETRY",
+      "failed_global_key": "continuous4-REGISTER",
+      "collision_original_allocation": "task-learning-hopper-20261109-01",
+      "historical_intent_and_matching_confirmed_receipt_present": true,
+      "new_child_lease_or_registry_entry_or_process": false,
+      "original_model_loads": 0,
+      "optimizer_updates": 0,
+      "restore_qualification": false,
+      "result_sha256": "5ba33d67d4dbc7b20dea40f74815121f6bd7cd23778aefeb29caa8d7f638c95a"
+    },
+    "new_H100_05": {
+      "job_id": "709560.hopper-m-02",
+      "run": "task-learning-hopper-h100-restore-20261110-05",
+      "source_sha": "2593818efea32d1f63fd4e48eec9c25f209a6f6e",
+      "config_sha256": "6020d2d202cd1e5eec409086f07dcb0d3e7c2bb3c8ee3984f091e0ab3086d397",
+      "project": "CFP04-CF-007",
+      "PBS_state": "R",
+      "started_SGT": "2026-11-10T11:08:42+08:00",
+      "submitted_epoch": 1794280097.2734196,
+      "absolute_deadline_epoch": 1794366464.0882025,
+      "submission_queue": "auto",
+      "execution_queue": "small",
+      "GPU_model": "H100",
+      "GPUs": 1,
+      "ncpus": 12,
+      "mem": "225GB",
+      "wall_s": 3600,
+      "canonical_registry_counts": {
+        ".": 1,
+        "continuous4": 1
+      },
+      "Journal": {
+        "QSUB": {
+          "status": "COMPLETE",
+          "digest_matches": true
+        },
+        "RELEASE": {
+          "status": "COMPLETE",
+          "digest_matches": true
+        },
+        "continuous4-REGISTER": {
+          "status": "COMPLETE",
+          "digest_matches": true
+        },
+        "continuous4-EXECUTE": {
+          "status": "INTENT"
+        }
+      },
+      "new_allocation_namespaced_child_intent_and_receipt_verified": true,
+      "first_child_lease": "ACTIVE",
+      "first_child_spec_sha256": "bc51a70cedf8dc2c034069d7568e632db4abe20c22ac0472434e43e3b4414e23",
+      "checkpoint_loading_log_completed_3_of3_shards": true,
+      "optimizer_steps_recorded_asof": 0,
+      "planned_optimizer_calls": 8,
+      "formal_TRAIN100_updates": 0,
+      "restore_qualification_issued": false,
+      "independent_status_observer_pid": 4133234
+    },
+    "H200_paired_trace": {
+      "job_id": "709533.hopper-m-02",
+      "latest_observed_PBS_state": "Q",
+      "reason": "Insufficient amount of resource: ngpus",
+      "state_observation_UTC": "2026-11-10T03:07:36.604628+00:00",
+      "independent_status_observer_pid": 4133235
+    },
+    "private_Core_trace_export": {
+      "epoch": 1794279955.090166,
+      "exit_code": 0,
+      "files": 130,
+      "bytes": 73719545,
+      "all_member_hashes_verified": true,
+      "manifest_sha256": "141d663de92e9c78d61dc84ad235a95fecafc6bc7bc6eb52ebc398691210486a",
+      "probes_sha256": "2ec7eef688a999af33beabd35ee9b853262bbad0cdc4983f8854cab067dfbd71",
+      "GPU_models": 0,
+      "optimizer_updates": 0,
+      "physics": 0
+    },
+    "comparator_real_Core_artifact_self_check": {
+      "compared_boundaries": 128,
+      "bit_exact_boundaries": 128,
+      "matched_query_identities": 40,
+      "first_non_bit_exact_boundary": null,
+      "model_loads": 0,
+      "optimizer_updates": 0,
+      "native_integrations": 0,
+      "package_qualified": false
+    },
+    "software_checks": {
+      "passed": 55,
+      "scope": "Hopper registration/resource and paired trace/comparator suites; includes actual two-allocation writes to one fixture registry and original complete private128-boundary self-read. Fixtures are not H100 restore or numerical policy qualification."
+    }
+  },
+  "NEGATIVE": {
+    "two_earlier_H100_preworker_negative_exits_retained": true,
+    "failed_03_not_reopened": true,
+    "root04_AMS_prestart_failure": {
+      "code": 15006,
+      "message": "The token has expired. Please login",
+      "remote_root_exists": false,
+      "remote_preparation_Journal_exists": false,
+      "qsub_or_GPU_effects": 0
+    },
+    "new_05_project_admission": "Preserved official project membership plus fresh same-project PBS accounting and actual accepted qsub; current AMS balance not claimed, no credential modification.",
+    "R_not_restore_pass": true,
+    "H200_to_Core_numerical_gate_still_unpassed": true,
+    "native_DEV_conditions": 0,
+    "TEST_conditions": 0
+  },
+  "DECISION": "Preserve original failures, let the accepted H100 successor finish its finite eight-call recovery qualification, and retain the accepted H200 paired trace. First formal SFT2000 already completed; H100 weights cannot replace its parent or become a formal endpoint.",
+  "NEXT_GATE": "Actual H100 complete uninterrupted4 versus independent2+2 states or typed failure; actual H200 paired trace terminal and same-Hopper transparency, then first cross-hardware tensor divergence. Qualified Core reconstruction before original DEV80 and scientific decision.",
+  "invariants": {
+    "WBC_startup_safety_dynamics_or_2ms_changed": false,
+    "new_formal_SFT_started": false,
+    "old_failed_intent_or_receipt_deleted": false,
+    "private_weights_or_tensors_or_host_configuration_published": false,
+    "goal_complete": false
+  }
+}

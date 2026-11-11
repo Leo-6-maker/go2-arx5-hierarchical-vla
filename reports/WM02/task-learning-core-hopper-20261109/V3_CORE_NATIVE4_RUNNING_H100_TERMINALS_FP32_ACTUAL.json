@@ -1,0 +1,121 @@
+{
+  "schema": "V3_CORE_CONIC_NATIVE4_DISPATCH_H100_TERMINALS_AND_FP32_PAIR_ACTUAL",
+  "observed_UTC": "2026-11-10T18:07:09.724948+00:00",
+  "observed_SGT": "2026-11-11T02:07:09.724948+08:00",
+  "QUESTION": "Have new independently admitted Core native4 attempts actually started, and what did preserved Hopper jobs produce?",
+  "CHANGED": "Consume the real records schema in the new metadata-only consumer. Reuse completed CPU540/live2; dispatch original registered serial workers once. Reconcile existing finite observers and completed FP32 CPU comparison, with no repeated qualification.",
+  "ACTUAL": {
+    "Core_native4": {
+      "source_sha": "c7f097b0a177e602000cfbd97f09470bf2d96386",
+      "panel_sha256": "94dfad757c383ce9ccbac7cb1077d6f1add33767662623aaaabc55c070f957b7",
+      "input_sha256": "bdbaebbb2549db320f015706e8706e31730319c011733af8f21803d818190882",
+      "dispatch_epoch": 1794333780.4951615,
+      "static_native_recipe_requests_passed": 4,
+      "current_completed_conditions": 0,
+      "state": "RUNNING_FIRST_CONDITION_NO_TASK_TERMINAL_YET",
+      "requested_conditions": 4,
+      "maximum_model_queries": 60,
+      "learning_updates": 0,
+      "original_DEV80_TEST": 0,
+      "single_physical_owner": true
+    },
+    "Hopper": {
+      "task-learning-sft2000-backbone-trace-h100-01": {
+        "result": {
+          "status": "ACTUAL_HOPPER_COMPLETE40_FIRST4_TENSOR_TRACE",
+          "intermediate_capture_enabled": true,
+          "actual_VLA_queries": 40,
+          "Processor_decode_calls": 40,
+          "actual_model_loads": 1,
+          "source_sha": "db708fe2317c5af43f0813b0424c6947c7ec9345",
+          "GR00T_updates": 0,
+          "WM_updates": 0,
+          "Actor_updates": 0,
+          "native_integrations": 0,
+          "diagnostic_only": true,
+          "package_qualified": false,
+          "precision_changed": false,
+          "parameter_bytes": 12576064000,
+          "peak_allocated_bytes": 13346110464,
+          "peak_reserved_bytes": 13560184832,
+          "exit_code": 0,
+          "failure": null,
+          "job_id": "709621.hopper-m-02",
+          "wall_s": 67.28321304998826,
+          "CPU_s": 47.340043991
+        },
+        "closed_epoch": 1794331535.0274985,
+        "result_sha256": "df297594f6d94fcfdb9dd3ddb2450fd7586e92bd37a08d3daa3ff12805ef0794"
+      },
+      "task-learning-sft2000-fp32-diagnostic-h100-01": {
+        "result": {
+          "status": "ACTUAL_HOPPER_COMPLETE40_FIRST4_TENSOR_TRACE",
+          "intermediate_capture_enabled": true,
+          "actual_VLA_queries": 40,
+          "Processor_decode_calls": 40,
+          "actual_model_loads": 1,
+          "source_sha": "fc8719fed4e5930afaffccf944ed55e597f78b27",
+          "GR00T_updates": 0,
+          "WM_updates": 0,
+          "Actor_updates": 0,
+          "native_integrations": 0,
+          "diagnostic_only": true,
+          "package_qualified": false,
+          "precision_changed": true,
+          "parameter_bytes": 12576064000,
+          "peak_allocated_bytes": 12770843648,
+          "peak_reserved_bytes": 12952010752,
+          "exit_code": 0,
+          "failure": null,
+          "job_id": "709670.hopper-m-02",
+          "wall_s": 99.24472527601756,
+          "CPU_s": 47.89171187
+        },
+        "closed_epoch": 1794331356.5748112,
+        "result_sha256": "c039a5c81adfe26a150c6fe6d630bc6547012a707f5f95d37e6e7c7cfb27d1f3"
+      }
+    },
+    "FP32_existing_actual_comparison": {
+      "value": {
+        "status": "ACTUAL_PRIVATE_FP32_PAIR_COMPARISON_COMPLETE",
+        "producer_job": "709670.hopper-m-02",
+        "payload_bytes": 75100160,
+        "delivered_files": 171,
+        "all_member_hashes_verified": true,
+        "matched_query_identities": 40,
+        "mode": "FP32_NO_TF32_FIXED40_DIAGNOSTIC_V1",
+        "maximum_absolute_error": {
+          "XYZ_m": 1.1166436630904997e-07,
+          "rot6d_component": 2.300454365888882e-08,
+          "gripper": 5.364418029785156e-07,
+          "normalized_component": 1.1146068572998047e-05
+        },
+        "queries_over_original_tolerances": {
+          "XYZ_m": 0,
+          "rot6d_component": 0,
+          "gripper": 0,
+          "normalized_component": 0
+        },
+        "within_original_component_tolerances": true,
+        "original_BF16_gate_replaced": false,
+        "numeric_qualification_issued": false,
+        "model_loads": 0,
+        "optimizer_updates": 0,
+        "native_integrations": 0,
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 58.916384106036276,
+        "CPU_s": 0.6405180779999999
+      },
+      "sha256": "36b529c68ca20ef83a7551b3060fd947019ea5a62846faee0cea6df57d83bb1f"
+    }
+  },
+  "NEGATIVE": [
+    "New metadata preparation01 CLOSED1 before any model/query/physics: new consumer expected rows instead of actual records. No panel or native case registered in01. Corrected successor02 CLOSED0 and original4 static recipes passed, using the same preregistered population and seeds.",
+    "PBS F0 is execution success, not scientific numerical qualification.709621 internal backbone comparison remains pending; FP32 paired40 passes as a diagnostic only. Original BF16 cross-deviceREJECT and DEV80/TEST unchanged.",
+    "New conic native4 is running;0completed cannot be counted as0/4 failures or success. Explicit composed output is not rawC500 promotion."
+  ],
+  "DECISION": "Preserve all actual endpoints and immutable active workers. Do not rerun completed full40 or CPU540, resubmit known Hopper jobs or launch automaticVanda500. Continue the running4 panel and single VandaV1.",
+  "NEXT": "Read native4 full terminal outcomes and first failures with actual queries/integrations/consumption; read same Vanda1537681 restore proof. Continue outstanding bounded backbone comparison on CoreCPU, reusing existing private artifacts and onceIO custody.",
+  "goal": "ACTIVE_NOT_COMPLETE"
+}
