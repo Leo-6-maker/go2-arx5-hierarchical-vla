@@ -1,0 +1,287 @@
+{
+  "schema": "V3_1_TEACHER_FULL24_FIRST1_E1_E2_E3_AND_INDEPENDENT_AUDIT_V1",
+  "timestamps": {
+    "UTC": "2026-11-11T04:42:32.760152+00:00",
+    "SGT": "2026-11-11T12:42:32.760152+08:00",
+    "native_snapshot_epoch": 1794371968.2611532
+  },
+  "goal_status": "ACTIVE",
+  "QUESTION": "Does the separately admitted full24 candidate preserve real entry, actual recovery and the original complete task when invoked through the new typed wrapper?",
+  "CHANGED": "No hot changes. Observe the original first UNDER_CLOSE request, then independently read its CLOSED0 saved original packets, captures, decisions, consumption and scores. The next declared SIDE condition continues on the same serial parent.",
+  "identities": {
+    "source_sha": "1c0eb4c9fbf7452252b28c6382f82f8866036356",
+    "preregistration_sha256": "767bd29c27782c1bf0599a768c007be84a4b4fb4c425851a9383ffa2e44003e8",
+    "panel_sha256": "55349d75f86efafbbc37e6d289d599ac2e26e39f1168a075a8e729dfbb7e9f09",
+    "input_sha256": "0affd42c984217804928d530e54574408da73ced237c2ffba495a781163d7e71",
+    "native_run": "tl-v9-full24-20261111-01-recovery01-r1-under_close",
+    "native_result_sha256": "1fe2b2fac9c7686f7536e7a40dfac0e97894b608ae8418bbf581580b442420b6",
+    "journal_sha256": "925a3b42e236a6b864f509c38e322eca8bea2d9b195aa232249ef5cb0d0c3838",
+    "compiled_scene_sha256": "a158b76c0429079ffe5b1a8ab79fb95a3d1b821d23a73f6f2c4c0a875a8de1cb",
+    "role": "INDEPENDENT_RECOVERY_TRAIN_QUALIFICATION_NOT_BC_NOT_DAGGER_NOT_ORIGINAL_DEV_TEST"
+  },
+  "ACTUAL": {
+    "requested": 24,
+    "completed": 1,
+    "per_type_requested": 8,
+    "summary": {
+      "schema": "TEACHER_V9_REPAIRED_E1_FULL24_SUMMARY_V1",
+      "requested": 24,
+      "completed": 1,
+      "complete": false,
+      "per_type": {
+        "UNDER_CLOSE": {
+          "requested": 8,
+          "completed": 1,
+          "E1_established": 1,
+          "E2_evaluable": 1,
+          "E2_recovered": 1,
+          "P_E2_given_E1": 1.0,
+          "E3_original_task_successes": 1,
+          "genuine_recovery_successes": 1
+        },
+        "SUPPORTED_SIDE_OFFSET": {
+          "requested": 8,
+          "completed": 0,
+          "E1_established": 0,
+          "E2_evaluable": 0,
+          "E2_recovered": 0,
+          "P_E2_given_E1": null,
+          "E3_original_task_successes": 0,
+          "genuine_recovery_successes": 0
+        },
+        "SUPPORTED_SINGLE_PAD": {
+          "requested": 8,
+          "completed": 0,
+          "E1_established": 0,
+          "E2_evaluable": 0,
+          "E2_recovered": 0,
+          "P_E2_given_E1": null,
+          "E3_original_task_successes": 0,
+          "genuine_recovery_successes": 0
+        }
+      },
+      "genuine_recovery_successes": 1,
+      "technical_failure_conditions": 0,
+      "hard_safety_stop_conditions": 0,
+      "passes": false,
+      "thresholds": {
+        "minimum_total": 22,
+        "minimum_per_condition": 7,
+        "maximum_hard_safety_stops": 0,
+        "maximum_technical_failures": 0
+      },
+      "qualified_training_demonstrations": 0,
+      "GR00T_queries": 0,
+      "model_updates": 0,
+      "DAgger_labels": 0,
+      "original_V8_and_small4_populations_unchanged": true
+    },
+    "first_condition": {
+      "layout": "RECOVERY01",
+      "restart": 1,
+      "condition": "UNDER_CLOSE",
+      "native_lease": "CLOSED",
+      "worker_exit_code": 0,
+      "technical_valid": true,
+      "hard_safety_stop": false,
+      "first_failure": null,
+      "E1": {
+        "native_step": 14703,
+        "time_s": 29.40599999999458,
+        "supported": true,
+        "native_grasp": false,
+        "actual_mechanical_grip_fraction": 0.5454472243138975,
+        "previous_consumed_nominal_grip": 0.55,
+        "previous_complete_H40_solver_gripper_consumption": true,
+        "pad_normal_force_N": {
+          "left": 0.0,
+          "right": 0.0
+        },
+        "signed_pad_cube_gap_m": {
+          "left": 0.004291784217873921,
+          "right": 0.003998087971946205
+        },
+        "left_object_contact": false,
+        "right_object_contact": false,
+        "opposing_contact": false,
+        "relative_motion_valid": true,
+        "E1_condition_established": true
+      },
+      "E2": {
+        "native_step": 15703,
+        "time_s": 31.405999999993472,
+        "supported": true,
+        "native_grasp": true,
+        "actual_mechanical_grip_fraction": 0.4378248344499505,
+        "previous_consumed_nominal_grip": 0.0,
+        "previous_complete_H40_solver_gripper_consumption": true,
+        "pad_normal_force_N": {
+          "left": 4.427965438144656,
+          "right": 3.5696727234361005
+        },
+        "signed_pad_cube_gap_m": {
+          "left": -0.0005227735856455043,
+          "right": -0.0004615175277836163
+        },
+        "left_object_contact": true,
+        "right_object_contact": true,
+        "opposing_contact": true,
+        "relative_motion_valid": true,
+        "E1_entry_native_step": 14703,
+        "E2_actual_recovered": true
+      },
+      "E3_original_score": {
+        "contract": {
+          "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+          "minimum_lift_m": 0.02,
+          "continuous_hold_s": 1.0,
+          "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+          "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+          "maximum_object_linear_speed_m_s": 0.02,
+          "standing": {
+            "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+            "maximum_base_displacement_m": 0.02,
+            "maximum_base_rotation_rad": 0.08726646259971647,
+            "maximum_foot_planar_displacement_m": 0.005,
+            "minimum_supported_feet": 3,
+            "minimum_actual_floor_normal_force_N": 0.05,
+            "old_short_task_pose_diagnostic": {
+              "maximum_base_displacement_m": 0.002,
+              "maximum_base_rotation_rad": 0.008726646259971648
+            },
+            "original_native_safety_changed": false,
+            "task_score_bounds_are_native_safety": false,
+            "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+          },
+          "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+          "success_requires_all": true
+        },
+        "samples": 621,
+        "maximum_object_lift_m": 0.026434900815133444,
+        "longest_contiguous_grasp_lift_hold_s": 7.3,
+        "unsafe_samples": 0,
+        "standing_passes": true,
+        "maximum_base_displacement_m": 0.0073212985316736786,
+        "maximum_base_rotation_rad": 0.011828768001159277,
+        "maximum_foot_planar_displacement_m": 0.0038624678140087724,
+        "minimum_supported_feet": 4,
+        "old_short_task_pose_bound_all_samples_pass": false,
+        "task_success": true
+      },
+      "genuine_recovery_success": true,
+      "actual_Teacher_proposals": 15,
+      "intervention_excluded": 1,
+      "executed_Teacher_policy_decisions": 14,
+      "policy_decisions_before_intervention": 8,
+      "policy_decisions_after_E1": 6,
+      "new_DAgger_labels": 0,
+      "actual_GR00T_model_calls": 0,
+      "optimizer_updates": 0,
+      "native_integrations": {
+        "total": 21203,
+        "preparation": 5703,
+        "Teacher_H40_intervals": 15000,
+        "deterministic_tail": 500
+      },
+      "wall_s": 419.1894150339067,
+      "CPU_s": 744.886615409
+    },
+    "independent_saved_audit": {
+      "status": "PASS_INDEPENDENT_FULL24_FIRST_UNDER_CLOSE_CONDITION_E1_E2_E3_FORCE_CONSUMPTION_AND_ORIGINAL_SCORE_AUDIT",
+      "native_run": "tl-v9-full24-20261111-01-recovery01-r1-under_close",
+      "source_sha": "1c0eb4c9fbf7452252b28c6382f82f8866036356",
+      "native_result_sha256": "1fe2b2fac9c7686f7536e7a40dfac0e97894b608ae8418bbf581580b442420b6",
+      "journal_sha256": "925a3b42e236a6b864f509c38e322eca8bea2d9b195aa232249ef5cb0d0c3838",
+      "original_native_integrations_audited": 21203,
+      "actual_complete_H40": 15,
+      "confirmed_commands": 600,
+      "interventions_excluded": 1,
+      "executed_Teacher_policy_decisions": 14,
+      "real_current_RGB": 30,
+      "E1_E2_exact_saved_packet_checks": [
+        {
+          "native_step": 14703,
+          "all_current_force_gap_support_motion_and_consumed_fields_exact": true
+        },
+        {
+          "native_step": 15703,
+          "all_current_force_gap_support_motion_and_consumed_fields_exact": true
+        }
+      ],
+      "score_exactly_recomputed_621": true,
+      "score": {
+        "contract": {
+          "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+          "minimum_lift_m": 0.02,
+          "continuous_hold_s": 1.0,
+          "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+          "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+          "maximum_object_linear_speed_m_s": 0.02,
+          "standing": {
+            "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+            "maximum_base_displacement_m": 0.02,
+            "maximum_base_rotation_rad": 0.08726646259971647,
+            "maximum_foot_planar_displacement_m": 0.005,
+            "minimum_supported_feet": 3,
+            "minimum_actual_floor_normal_force_N": 0.05,
+            "old_short_task_pose_diagnostic": {
+              "maximum_base_displacement_m": 0.002,
+              "maximum_base_rotation_rad": 0.008726646259971648
+            },
+            "original_native_safety_changed": false,
+            "task_score_bounds_are_native_safety": false,
+            "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+          },
+          "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+          "success_requires_all": true
+        },
+        "samples": 621,
+        "maximum_object_lift_m": 0.026434900815133444,
+        "longest_contiguous_grasp_lift_hold_s": 7.3,
+        "unsafe_samples": 0,
+        "standing_passes": true,
+        "maximum_base_displacement_m": 0.0073212985316736786,
+        "maximum_base_rotation_rad": 0.011828768001159277,
+        "maximum_foot_planar_displacement_m": 0.0038624678140087724,
+        "minimum_supported_feet": 4,
+        "old_short_task_pose_bound_all_samples_pass": false,
+        "task_success": true
+      },
+      "trace_events": 160091,
+      "trace_dropped": 0,
+      "new_GR00T_model_calls": 0,
+      "optimizer_updates": 0,
+      "physics_integrations": 0,
+      "new_BC_DAgger": 0,
+      "CPU_s": 1.739445628,
+      "wall_s": 1.8733432269655168
+    },
+    "parent_current": {
+      "MainPID": 1981823,
+      "lease": "ACTIVE",
+      "current_native_run": "tl-v9-full24-20261111-01-recovery01-r1-supported_side_offset",
+      "current_native_PID": 1990362,
+      "deadline_epoch": 1794382291.479737
+    }
+  },
+  "NEGATIVE": [
+    "1/24 is not a completed24-request qualification, a reliability estimate or student recovery success. SIDE/SINGLE23 remaining outcomes have not completed at this snapshot.",
+    "UNDER_CLOSE delegates the unchanged V8 controller. Its actual new result does not relabel original V8 or small4 cohorts.",
+    "14 executed Teacher policy decisions include8 before intervention and6 after E1; do not call all14 corrective labels, and export no BC/DAgger from qualification.",
+    "The small4 SINGLE force-margin concern remains; keep original command and0.05N predicate unchanged in the independent cohort."
+  ],
+  "DECISION": "The first full24 native endpoint and exact original saved audit pass. Continue the original fixed sequence with the same qualified source and one physical owner; retain the original>=22total/>=7pertype/0hard/0technical gate.",
+  "NEXT": [
+    "Read the same parent1981823/current SIDE worker without duplicate dispatch or hot changes.",
+    "Reuse this completed independent audit. At closure independently audit every remaining new condition, including controlled unavailable/entry failures with their correct partial denominators.",
+    "No new96 BC or student-rollin DAgger until actual full24 reliability evidence; matched128 resumes only its untouched canonical suffix after the physical owner is cold."
+  ],
+  "preserved": {
+    "WBC_legs_solver_gains_dynamics_2ms_original_safety": true,
+    "TRAIN100_statistics": true,
+    "original_DEV80_TEST": true,
+    "original_BF16_REJECT": true,
+    "new_BC_DAgger": 0,
+    "new_H100_H200_jobs": 0
+  }
+}
