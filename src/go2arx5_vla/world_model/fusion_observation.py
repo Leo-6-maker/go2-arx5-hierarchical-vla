@@ -180,7 +180,8 @@ class TargetShadowBinding:
             cameras = camera_records(actual_state, calibration, stamp)
         else:
             from .fusion_source_camera_capture import CapturedSourceCameraAdapter
-            require(isinstance(camera_adapter, CapturedSourceCameraAdapter),
+            from .native_body_camera_capture_v1 import CapturedBodyBaseCameraAdapter
+            require(isinstance(camera_adapter, (CapturedSourceCameraAdapter, CapturedBodyBaseCameraAdapter)),
                     'EXPLICIT_TYPED_SOURCE_CAMERA_ADAPTER')
             require(camera_adapter.original_model_sha256 == self.scene_sha256,
                     'SOURCE_SENSOR_COPY_FROM_EXACT_NATIVE_SCENE')
@@ -231,6 +232,8 @@ class TargetShadowBinding:
                 sensor_adapter['policy_camera_role_mapping'])
             result['provenance']['source_camera_domain_shift'] = (
                 'EXPLICIT_SOURCE_WORLD_RIG_RENDERED_ON_ACTUAL_TARGET_SCENE_UNQUALIFIED_IMAGE_DOMAIN')
+            if sensor_adapter['schema'] == 'NATIVE_BODY_CAMERA_CAPTURE_V1':
+                result['provenance']['source_camera_domain_shift'] = 'FIXED_BASE_BODY_WRIST_TARGET_OBSERVATION_NEW_DOMAIN'
         return sealed(result)
 
 
@@ -253,6 +256,8 @@ def shadow_inference_payload(bound):
     target, payload = body['target_observation'], view['payload']
     if 'sensor_adapter' in target:
         from .fusion_source_camera_capture import validate_sensor_sidecar
+        if target['sensor_adapter'].get('schema') == 'NATIVE_BODY_CAMERA_CAPTURE_V1':
+            from .native_body_camera_capture_v1 import validate_sensor_sidecar
         validate_sensor_sidecar(target['sensor_adapter'], target=target,
             native_step=body['native_step'], native_time_s=body['native_time_s'],
             transform_sha256=view['transform_sha256'])

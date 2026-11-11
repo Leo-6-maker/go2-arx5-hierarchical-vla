@@ -98,7 +98,7 @@ class FixedBodyRenderer:
         if m.geom_type[self.cube] != mujoco.mjtGeom.mjGEOM_BOX:
             raise ValueError('AMODAL_AUDIT_REQUIRES_DECLARED_BOX_GEOMETRY')
 
-    def render(self, packet):
+    def render(self, packet, *, audit_masks=True):
         import mujoco
         from .native_replay import apply_frame, forbid_integration
         from .fusion_source_camera_capture import _calibration
@@ -118,15 +118,16 @@ class FixedBodyRenderer:
             renderer.update_scene(d, camera='body_rgb')
             rgb = renderer.render().copy()
             masks = {}
-            try:
-                renderer.enable_segmentation_rendering()
-                for camera in ('body_rgb', 'wrist_rgb'):
-                    renderer.update_scene(d, camera=camera)
-                    segmentation = renderer.render().copy()
-                    masks[camera] = ((segmentation[:, :, 0] == self.cube) &
-                                     (segmentation[:, :, 1] == int(mujoco.mjtObj.mjOBJ_GEOM)))
-            finally:
-                renderer.disable_segmentation_rendering()
+            if audit_masks:
+                try:
+                    renderer.enable_segmentation_rendering()
+                    for camera in ('body_rgb', 'wrist_rgb'):
+                        renderer.update_scene(d, camera=camera)
+                        segmentation = renderer.render().copy()
+                        masks[camera] = ((segmentation[:, :, 0] == self.cube) &
+                                         (segmentation[:, :, 1] == int(mujoco.mjtObj.mjOBJ_GEOM)))
+                finally:
+                    renderer.disable_segmentation_rendering()
             cal = calibration['body_rgb']
             box = project_box(d.geom_xpos[self.cube], d.geom_xmat[self.cube].reshape(3, 3),
                               m.geom_size[self.cube], np.array(cal['T_world_optical']), cal['K'])
