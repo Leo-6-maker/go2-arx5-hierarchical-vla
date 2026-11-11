@@ -42,6 +42,7 @@ class NativeCameraTransferDataset:
                     or a.get('statistics_sha256') != self.statistics_sha):
                 raise PermissionError('NATIVE_CAMERA_TRAINING_QUALIFICATION_NOT_PASSED')
         self.processor = processor
+        self.for_optimization = for_optimization
         episodes = self.manifest['episodes']
         if len(episodes) != 100 or any(e['split'] != 'TRAIN' for e in episodes):
             raise ValueError('EXACT_TRAIN100_WITHOUT_DEV_TEST')
