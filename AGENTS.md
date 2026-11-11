@@ -1,4 +1,18 @@
-# GR00T + WBC agent entry · Goal V7
+# GR00T + WBC agent entry · native camera / public ARX5 pilot
+
+## Latest bounded first-round mandate · 2026-11-11
+
+Read `START_HERE.md`, `CURRENT_SCIENCE_STATUS.md`, and the [native-camera/public-ARX5 V1 protocol](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/research/native-camera-arx5-transfer-v1-20261111/docs/protocols/NATIVE_CAMERA_PUBLIC_ARX5_TRANSFER_V1_20261111.md) first. For this newly requested first round, the user's latest plan takes precedence over older future-work priorities below: Core 4080S, official GR00T-N1.7 pinned parent, body+wrist RGB, seven target-category interfaces plus last two DiT blocks, frozen vision/language/WBC/legs/dynamics/2 ms safety, standing whole-body simulation. No WM, new large-GPU jobs, vision unfreezing, automatic extra same-distribution training or public replay are included.
+
+The current request publishes a detailed experimental plan and organizes repository entry points. Publication is not proof that a camera, dataset, runtime, training endpoint or evaluation has passed. Do not start a server job merely because this file changed. Inspect current site state and actual existing authorization before any later execution; do not disturb healthy already-authorized jobs or active capsules.
+
+Public Table30 source labels are explicitly permitted as **source-only future-achieved EEF / measured-width references**, with their own Processor/statistics and declared clock/frame/units. They must never be relabeled as submitted/executed expert commands. Target TRAIN100 retains its original consumption-proven Teacher nominal H40 labels and intervention masks. This narrow source-label definition supersedes the generic no-future-achieved rule below only for the new declared source stage, not for historical or target datasets.
+
+Main is the publication/integration entry. Current reusable execution code is pinned separately at `f0e19c8812896f98053e74b165d6c52e85327b69`; see `docs/CODE_MAP.md`. No force update, history rewrite, blind merge of the active execution stack, branch deletion or hotpatch follows from entry cleanup. Preserve old BF16 REJECT, DEV/TEST, CORR2048/SFT2000/C500 and user-reported Teacher24 final 19/24 with its receipt status.
+
+## Retained Goal V7 instructions
+
+The historical V7 instructions below remain effective where compatible with the latest bounded first round. Their old queue descriptions and future priorities are not live machine state.
 
 ## Current user mandate
 

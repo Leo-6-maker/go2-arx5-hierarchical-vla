@@ -1,40 +1,32 @@
-# Code map · current route and retained history
+# 代码地图 · 2026-11-11
 
-Updated 2026-10-28. `main` is the integration entry. Repository presence does not imply native qualification. Reuse existing implementations; do not rename historical run paths just to make the tree smaller.
+## 先区分两个版本
 
-## Current reusable layers
+`main` 当前承担整合／发布入口。当前本轮参考实现固定在 `f0e19c8812896f98053e74b165d6c52e85327b69`；以下执行模块多为 feature-only。固定链接明确指向该 SHA，不能把文档存在当作 main 已可直接运行。
 
-| Location | Responsibility | Boundary |
-|---|---|---|
-| `src/go2arx5_vla/contracts/` and `trajectory/` | Task-space trajectory, frame, TCP, time and preview semantics | Scientific numerical behavior is versioned; no silent substitutions |
-| `src/go2arx5_vla/adapters/` | GR00T-to-controller reference conversion and execution-progress interfaces | An offline adapter is not a real WBC task PASS |
-| `src/go2arx5_vla/target_mujoco/` | Current frozen target MuJoCo/WBC reference and recording interfaces | Do not confuse with a different historical executor ABI |
-| `src/go2arx5_vla/workspace/`, `scripts/workspace/`, `infrastructure/` | Existing profiles, source/manifest checks, host-aware paths | No new scheduler or private environment copy |
-| `scripts/pi0292/train_adapter.py` | Reused official GR00T modality/Processor and actual submitted-command dataset bridge | Keep R0 and existing label semantics for current arms |
-| `scripts/pi0294/generalization/` | GEN1 scene/data preparation and minimal-adaptation model/dataset/training/resume | CPU fixtures are not full GR00T qualification |
-| `scripts/pi0294/multitask/` | 柜门/放书物体关系参考、共享四任务事件/恢复采样、原读器绑定、固定LIBERO任务静态检查与候选后训练参数 | 未执行源域接触/示范/训练；特权几何只用于源Teacher，不进入学生输入 |
-| `scripts/pi0294/pv1/` | Source data, trained candidate delivery, C/D and original panel evaluation/runtime | CoreLab 4080S owns closed-loop evaluation |
-| `scripts/pi0294/dec1/` | Original native training entry and frozen-executor comparison support | Preserve exact scopes; do not mix target training into DEC1 |
-| `scripts/pi0294/replay_viewer/` | 官方Rerun薄适配器：PC离线读取原Teacher／Eval记录与双RGB、状态、参考、审计 | 三条真实稀疏RRD已核；不推进物理／策略／重评分，旧HTML仅历史兼容 |
-| `tests/`, `scripts/pi0292/test_*.py`, `scripts/pi0294/test_*.py` | CPU contracts and implementation regressions | Model/physics execution needs its own valid runtime scope |
-| `scripts/maintenance/` | Bounded repository administration | No scientific imports, remote job mutations or data cleanup |
+| 能力 | 固定源码 |
+|---|---|
+| 原始官方七文件身份 | [raw_parent_delivery.py（整理前 main）](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/0a27753bbda8ed75ab6b74aeb64755e0427362c7/scripts/pi0294/multitask/raw_parent_delivery.py) |
+| 七类接口的目标类别切片 | [minimal_adapter.py](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/f0e19c8812896f98053e74b165d6c52e85327b69/scripts/pi0294/generalization/minimal_adapter.py) |
+| Core 训练 | [task_learning_core_local_v1.py](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/f0e19c8812896f98053e74b165d6c52e85327b69/src/go2arx5_vla/world_model/task_learning_core_local_v1.py) |
+| 原生 TRAIN100 数据 | [task_learning_native_dataset_v1.py](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/f0e19c8812896f98053e74b165d6c52e85327b69/src/go2arx5_vla/world_model/task_learning_native_dataset_v1.py) |
+| 冻结骨干特征 seam | [task_learning_features_v1.py](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/f0e19c8812896f98053e74b165d6c52e85327b69/src/go2arx5_vla/world_model/task_learning_features_v1.py) |
+| GPU 输入缓存 | [task_learning_gpu_rows_v3.py](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/f0e19c8812896f98053e74b165d6c52e85327b69/src/go2arx5_vla/world_model/task_learning_gpu_rows_v3.py) |
+| 原生暂停观测 | [fusion_paused_observation.py](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/f0e19c8812896f98053e74b165d6c52e85327b69/src/go2arx5_vla/world_model/fusion_paused_observation.py) |
+| 模型与原生循环 | [target_gr00t_native_loop_v1.py](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/f0e19c8812896f98053e74b165d6c52e85327b69/src/go2arx5_vla/world_model/target_gr00t_native_loop_v1.py) |
+| 匹配整机评价 | [task_learning_matched_native_v3_1.py](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/f0e19c8812896f98053e74b165d6c52e85327b69/src/go2arx5_vla/world_model/task_learning_matched_native_v3_1.py) |
+| 本轮基准解码表示 | [task_learning_endpoint_basis_v3.py](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/f0e19c8812896f98053e74b165d6c52e85327b69/src/go2arx5_vla/world_model/task_learning_endpoint_basis_v3.py) |
+| 表示到原生消费 | [task_learning_endpoint_policy_v3.py](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/f0e19c8812896f98053e74b165d6c52e85327b69/src/go2arx5_vla/world_model/task_learning_endpoint_policy_v3.py) |
+| 50 ms／40 区间程序 | [task_learning_grasp_v1.py](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/f0e19c8812896f98053e74b165d6c52e85327b69/src/go2arx5_vla/world_model/task_learning_grasp_v1.py) |
+| GPU 常驻历史配方 | [core_local_train100_last2_gpu_resident_20261110_v2.json](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/f0e19c8812896f98053e74b165d6c52e85327b69/experiments/wm02/core_local_train100_last2_gpu_resident_20261110_v2.json) |
 
-`scripts/pi0294/generalization/minimal_inference_transfer.py` is the cold first512 ordinary-model subset/restoration adapter. It requires the original closed GLOBAL/audit, own lease and natural owner OS0; it performs no network or admission. The existing restoration entry selects E1/E2 explicitly. Actual source/destination role binding, fixed HF revision and Core admission remain separate.
+历史配方中的 SFT2000 父身份、旧日程、旧种子、固定1,450行假设等不是本轮新起点／源数据的执行配置。新协议需要适配入口与窄范围验证；不得修改旧 recipe 让旧审计结果看似自动适用。
 
-`minimal_delivery_control.py` carves finite source-only upload control from the original first512 Eval escrow, preserving historical package bytes and both Core panels. Its effective remaining projection is distinct from historical retry identities. The original uploader/anonymous-pipe launcher accept explicit E1/E2 manifests; no native adoption/upload is established by this cold code.
+`world_model/` 是历史目录名。可以复用其中训练／观测／消费代码而不启用 WM 预测或校正路径；本轮不为目录名称做整体重构。
 
-## Document hierarchy
+## 导航
 
-`START_HERE.md` is the short entry, `CURRENT_SCIENCE_STATUS.md` is a dated evidence snapshot, and `docs/EXPERIMENT_ROADMAP.md` is the consolidated research route. Detailed protocols remain under `docs/protocols/`; execution handoffs under `docs/handover/`; actual sanitized receipts under `reports/`.
-
-Do not prepend every full runtime log to the root entry. Publish a dated receipt and link it from current status. Keep fixed-SHA citations for historical claims. When evidence contradicts an older snapshot, update the current summary, not the original receipt.
-
-## Retained but not default execution routes
-
-Old Vanda cohost Eval, 5080 migration, Hopper runs, stageNN tools, and former plan versions remain because historical capsules/tests refer to them. They are not active alternatives to Vanda-training/CoreLab-Eval. Their presence does not authorize dispatch. No runtime Python module is deleted or moved in this consolidation.
-
-Legacy exact branches are integrated through normal merge commits. The October28 maintenance manifest records which heads may be retired; same-name tags are created only by the explicit guarded retirement command, not assumed to exist. The active former pi0267 ref remains during publisher transition.
-
-## Validation
-
-Existing CPU workflow includes root, PI0292 and PI0294 checks; its richer experimental version is restored unchanged. This consolidation did not execute those suites and did not obtain a new CI run. Run existing CPU tests in an appropriate management/CI environment before deploying a new source capsule. Never use a source merge as a model, simulator, WBC or production release certificate.
+- [本轮协议](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/research/native-camera-arx5-transfer-v1-20261111/docs/protocols/NATIVE_CAMERA_PUBLIC_ARX5_TRANSFER_V1_20261111.md)
+- [main／执行分支整合状态](maintenance/2026-11-11/REPOSITORY_INTEGRATION_STATUS.md)
+- [整理前代码地图](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/0a27753bbda8ed75ab6b74aeb64755e0427362c7/docs/CODE_MAP.md)
+- [仓库工作流](REPOSITORY_WORKFLOW.md)

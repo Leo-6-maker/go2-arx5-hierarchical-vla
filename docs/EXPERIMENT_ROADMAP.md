@@ -1,42 +1,25 @@
-# 实验路线 · Goal V7（2026-10-31）
+# 实验路线图 · 原生相机与公开 ARX5 迁移
 
-当前以[Goal V7](protocols/GR00T_WBC_SCIENCE_GOAL_V7_20261031.md)为执行计划，以[六项任务卡](../reports/PI0294/design/science-goal-v7-20261031/TASKS.json)为交付索引。用户要求减少防御性编程、允许工程自主修复、直接推进科学主线；预算清理不是主线成果。
+更新：2026-11-11。具体数值、准入与停止规则以 [首轮 V1 协议](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/research/native-camera-arx5-transfer-v1-20261111/docs/protocols/NATIVE_CAMERA_PUBLIC_ARX5_TRANSFER_V1_20261111.md) 为准。
 
-## 主线与非阻塞对照
-
-```text
-已有端点 → 最小真实模型闭环 ───────────→ 新技能/共享策略闭环评价
-                                             ↑
-开源任务 → 安全可行源Teacher → 完整示范 → 后训练 → 恢复监督
-                                             ↓
-                                冻结同权重 → 冻结WBC目标评价
-
-E1/E2固定适配对照：独立完成，不作为新技能数据/后训练门槛。
-```
-
-| 任务 | 下一成果 | 责任位置 |
+| 阶段 | 工作 | 产物／继续条件 |
 |---|---|---|
-| V7-01 | 模型真实加载/生成、首个有效条件，再就绪模型原面板 | Core |
-| V7-02 | 核清孤立排队E2，完成原512端点与恢复状态 | Vanda |
-| V7-03 | 书/门各首条完整示范，再各5–10种子 | 源ARX5 |
-| V7-04 | 新技能checkpoint与10个固定DEV完整结果 | Vanda→Core |
-| V7-05 | 一份共享四任务权重与冻结测试 | Vanda→Core |
-| V7-06 | 同权重冻结WBC整机结果，独立安全资格 | 目标Go2＋ARX5 |
+| P0 | 固定官方起点、执行代码来源与新观测／标签合同 | 文件身份、依赖清单、未决事实清单 |
+| P1 | TRAIN100 全阶段相机覆盖；实际状态重渲染 | 覆盖报告；100 回合／1,450 监督窗口及非视觉数据不变 |
+| P2（可并行） | Table30 ARX5 元数据／归档预算、episode split、时间与坐标转换 | 源 manifest、≤3,200 TRAIN／≤400 保留窗口；真实数量与全部排除原因 |
+| P3 | SFT2000 四 TRAIN 布局诊断；新起点与缓存训练资格 | 原生诊断、参数白名单、GPU 显存／吞吐、完整恢复与普通推理验证 |
+| P4 | A：官方→目标500；B：官方→源500→目标500 | 三个有限训练阶段；目标配对随机输入；250／500 完整端点 |
+| P5 | 新 DEV 四布局×两重启／方法 | 16 请求完整分母；同一 endpoint-basis，原始 H40 指标另列 |
+| P6（有条件） | B 比 A 多≥2/8 成功且无新增硬安全／技术问题，接续其余布局 | 新增64请求；最终40／方法；首筛8直接计入；分阶段报告 |
+| P7 | 失败谱系、成本与决策 | QUESTION / CHANGED / ACTUAL / NEGATIVE / DECISION / NEXT |
 
-不再强制所有Core任务等待D25或E2；已有健康面板不抢占。源码/参数/统计/原24条件不因为改优先级而改写。源域不等S1；目标S1/T2隔离单独处理。当前控制简化尚未实现，本路线不是新运行已启动的证明。
+目标阶段保持纯目标数据；本轮不加 WM、视觉解冻、公开回放、更多同分布更新或新大卡。后继实验必须由失败机制与本轮证据决定。
 
-## 工程推进方式
+## 历史路线
 
-优先复用现有`generalization/`、`pv1/`、`multitask/`和原物理驱动。一次修复只做受影响回归，再做最小真实验证；大规模全历史账本/权重重读不作为每次小修前置。先完成必要授权再占计算设备，运行本地持久记录，远端汇总不成为实时控制依赖。未知写不得重放，安全/身份/真实容量继续检查。
+- [旧 Goal V7](protocols/GR00T_WBC_SCIENCE_GOAL_V7_20261031.md)
+- [整理前路线图](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/0a27753bbda8ed75ab6b74aeb64755e0427362c7/docs/EXPERIMENT_ROADMAP.md)
+- [V2 PR #372](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/pull/372)
+- [V3/V3.1 PR #373](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/pull/373)
 
-源域书本：修复link6顶书的抓取/完整路径，不仅抬高一点。柜门：先核接触、铰链、相对速度与参考跟踪，禁止无新证据继续减速。V7允许经验证修复的新源域仿真版本，不解除旧STOP或目标自由机身安全隔离。
-
-## 量化交付设计
-
-首条完整示范后做少量不同条件种子并尽早实训，不等累计300条。共享配方、嵌套300→1300数据起点沿用[多任务方法](protocols/SHARED_MULTITASK_SOURCE_POLICY_20261029.md)和[开源任务协议](protocols/OPEN_SOURCE_TASK_REUSE_20261030.md)，以真实学习曲线决定扩量。E1/E2的原12示范/R0/512-of1024保持独立。
-
-V7提出共享源policy工程pilot：同一权重，每技能20个冻结留出条件，至少16/20，硬安全违规0，全失败保留；这是验收设计，不是效果承诺或总体可靠性保证，不覆盖已有更大封存TEST。源域与目标域各自报告，源成功不等于整机Goal完成。完整细则以V7为准。
-
-## 历史与证据
-
-实际状态见[CURRENT_SCIENCE_STATUS](../CURRENT_SCIENCE_STATUS.md)，不要把计划值写成实测。旧[V6](protocols/GR00T_WBC_LONG_HORIZON_GOAL_V6_20261029.md)、[TD10](protocols/TEN_DAY_CLOSED_LOOP_POLICY_PLAN_V1_20261029.md)、[旧路线快照](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/fad5d0296084a656fb970b02b025c7b13af849af/docs/EXPERIMENT_ROADMAP.md)保留。未来调度/普通工程逐项审批与V7冲突时由V7覆盖，旧封存作业的期限、数值、费用与负结果不回写。
+历史协议及已运行实验的原始定义保持有效；旧路线不自动成为本轮追加作业。
