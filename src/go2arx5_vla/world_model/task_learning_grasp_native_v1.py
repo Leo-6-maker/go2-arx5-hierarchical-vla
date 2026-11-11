@@ -36,6 +36,9 @@ SOURCE_MEMBERS=tuple(dict.fromkeys(previous.SOURCE_MEMBERS+(
 
 def scene_admission(spec):
     task.declared(spec)
+    if spec.get('task_learning_role')==task.NATIVE_BODY_ROLE:
+        from .native_arx5_diagnostic_v1 import native_scene_admission
+        return native_scene_admission(spec)
     if spec.get('task_learning_role')=='TEACHER_V9_FULL_RECOVERY24_QUALIFICATION_NOT_BC_V1':
         from .task_learning_teacher_v9_full24_qualification import native_scene_admission
         return native_scene_admission(spec)
@@ -129,6 +132,8 @@ def validate(spec):
     role=spec.get('task_learning_role',task.CONSTRUCTION_ROLE)
     if task.student_role(role):
         from .task_learning_student_v1 import EXPERIMENT
+        if role==task.NATIVE_BODY_ROLE:
+            from .native_arx5_diagnostic_v1 import EXPERIMENT
         if role==task.CORE_LOCAL_ROLE:
             from .task_learning_local_policy_v1 import EXPERIMENT
         if role==task.CONIC_ROLE:
@@ -358,7 +363,7 @@ def continue_native(adapter,report,samples,windows):
         initialization_all40_knots_consumed=True,all_40_knots_consumed=False,raw_knot_consumed=[False]*40,
         GR00T_raw_H40_consumed=student and adapter.spec.get('target_gr00t_policy',{}).get('arm')!='C500_PLUS_CONIC' and not str(adapter.spec.get('target_gr00t_policy',{}).get('arm')).endswith('_PLUS_ENDPOINT_BASIS'),
         matched_smooth_H40_consumed=student and adapter.spec.get('task_learning_role')==task.MATCHED_ROLE and str(adapter.spec['target_gr00t_policy']['arm']).endswith('_PLUS_ENDPOINT_BASIS'),
-        explicit_endpoint_basis_H40_consumed=student and adapter.spec.get('task_learning_role')==task.ENDPOINT_ROLE,
+        explicit_endpoint_basis_H40_consumed=student and adapter.spec.get('task_learning_role')in(task.ENDPOINT_ROLE,task.NATIVE_BODY_ROLE),
         explicit_conic_H40_consumed=student and adapter.spec.get('target_gr00t_policy',{}).get('arm')=='C500_PLUS_CONIC',complete_task_atoms=len(windows),task_native_ticks=task.E-2503,
         solver_target_confirmed_atoms=len(windows),gripper_confirmed_atoms=len(windows),
         new_task_score=scored,task_condition_success=scored['task_success'],
@@ -381,6 +386,9 @@ def continue_native(adapter,report,samples,windows):
 
 def native_result_schema(spec):
     role=spec.get('task_learning_role',task.CONSTRUCTION_ROLE)
+    if role==task.NATIVE_BODY_ROLE:
+        from .native_arx5_diagnostic_v1 import NATIVE_SCHEMA
+        return NATIVE_SCHEMA
     if role=='TEACHER_V9_FULL_RECOVERY24_QUALIFICATION_NOT_BC_V1':
         from .task_learning_teacher_v9_full24_qualification import NATIVE_SCHEMA
         return NATIVE_SCHEMA

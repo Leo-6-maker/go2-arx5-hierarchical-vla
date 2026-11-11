@@ -18,6 +18,11 @@ KIND='TASK_LEARNING_LIVE_QUERY_V1'
 SCHEMA='TASK_LEARNING_CONTINUOUS_LIVE_QUERY_V1'
 need=profile.need
 SOURCE_MEMBERS=tuple(dict.fromkeys(ORIGINAL_SOURCE_MEMBERS+(
+    'src/go2arx5_vla/world_model/native_arx5_diagnostic_v1.py',
+    'src/go2arx5_vla/world_model/native_body_camera_capture_v1.py',
+    'src/go2arx5_vla/world_model/native_camera_transfer_v1.py',
+    'scripts/wm02/native_body_train4_diagnostic_v1.py',
+    'experiments/native_arx5_transfer/sft2000_native_body_diagnostic_v1.json',
     'src/go2arx5_vla/world_model/target_gr00t_live_pair_v1.py',
     'src/go2arx5_vla/world_model/task_learning_live_pair_v1.py',
     'src/go2arx5_vla/world_model/task_learning_student_v1.py',
@@ -113,6 +118,9 @@ def policy_contract(value,checkpoint_files,*,verify_package=True,expected_global
 
 
 def validate_spec(s,*,verify_model=True):
+    if s.get('core_local_protocol')==task.NATIVE_BODY_ROLE:
+        from .native_arx5_diagnostic_v1 import validate_live
+        return validate_live(s,verify_model=verify_model)
     if s.get('core_local_protocol')==task.MATCHED_ROLE:
         from .task_learning_matched_native_v3_1 import validate_live
         return validate_live(s,verify_model=verify_model)
@@ -298,6 +306,9 @@ def query_from_native(adapter,observation,index):
 
 
 def _load(s,root):
+    if s.get('core_local_protocol')==task.NATIVE_BODY_ROLE:
+        from .native_arx5_diagnostic_v1 import load
+        return load(s,root)
     if s.get('core_local_protocol')==task.MATCHED_ROLE:
         from .task_learning_matched_native_v3_1 import load
         return load(s,root)

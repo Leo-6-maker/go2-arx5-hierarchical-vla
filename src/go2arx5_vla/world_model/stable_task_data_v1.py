@@ -102,11 +102,19 @@ def capture_input(adapter, *, language=None, task_score=None):
     task = dict(schema='WM02_FUSION_PAUSED_TARGET_TASK_V2',task_id='STABLE_TASK_'+spec['task_command'],
         language=language,scene_sha256=digest(spec['model_path']),
         score_contract_sha256=document_hash(task_score if task_score is not None else task_score_contract(spec['task_command'])),language_provenance='NEW_TARGET_SHORT_SKILL_PROMPT')
-    identity = Path(spec['source_camera_identity']).read_bytes()
-    need(digest(spec['source_camera_identity']) == spec['source_camera_identity_sha256'] == SOURCE_IDENTITY_SHA256,
-         'UNCHANGED_CAMERA_CALIBRATION_IDENTITY')
     frame = spec['task_phase_source_from_target']
-    camera = SourceCameraCapture(identity,frame)
+    if spec.get('task_learning_role')=='NATIVE_BODY_SFT2000_TRAIN4_DIAGNOSTIC_V1':
+        from .native_body_camera_capture_v1 import BodyBaseCameraCapture
+        from .native_camera_transfer_v1 import CAMERA_ID
+        from .native_arx5_diagnostic_v1 import native_scene_admission
+        need(spec.get('observation_camera_profile')==CAMERA_ID,'EXPLICIT_NATIVE_BODY_OBSERVATION_PROFILE')
+        native_scene_admission(spec)
+        camera = BodyBaseCameraCapture(frame)
+    else:
+        identity = Path(spec['source_camera_identity']).read_bytes()
+        need(digest(spec['source_camera_identity']) == spec['source_camera_identity_sha256'] == SOURCE_IDENTITY_SHA256,
+             'UNCHANGED_CAMERA_CALIBRATION_IDENTITY')
+        camera = SourceCameraCapture(identity,frame)
     binding = TargetShadowBinding('MUJOCO_GO2_ARX5_WORLD',digest(spec['model_path']),
         digest(Path(spec['registered_root'])/'EXECUTION_SPEC.json'),frame,spec['task_phase_frame_map_sha256'])
     query = str(uuid.uuid4())

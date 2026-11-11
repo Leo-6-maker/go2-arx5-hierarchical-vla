@@ -28,7 +28,8 @@ def _load_frozen(spec, output, *, cpu_model_initializer=None):
         need(callable(cpu_model_initializer)and(spec.get('profile')=='CORE_C500_NEW_LIVE_LOADER_PARITY_V3'
             or spec.get('core_local_protocol')in('CORE_LOCAL_C500_EXPLICIT_CONIC_DIAGNOSTIC_NOT_DEV_TEST_V3',
                 'CORE_LOCAL_C500_ENDPOINT_BASIS_DIAGNOSTIC_NOT_DEV_TEST_V3',
-                'CORE_MATCHED_WEIGHTS_PROCESSOR_SMOOTH_TRAIN_NOT_DEV_TEST_V3_1')),
+                'CORE_MATCHED_WEIGHTS_PROCESSOR_SMOOTH_TRAIN_NOT_DEV_TEST_V3_1',
+                'NATIVE_BODY_SFT2000_TRAIN4_DIAGNOSTIC_V1')),
             'EXPLICIT_NEW_C500_CPU_INITIALIZATION_NOT_ORIGINAL_BASELINE')
     from scripts.pi0292.train_adapter import official_import
     bindings = spec['neural_bindings']
