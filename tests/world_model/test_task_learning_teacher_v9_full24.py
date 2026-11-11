@@ -83,6 +83,42 @@ def test_underclose_uses_original_mechanical_opening_and_side_single_keep_origin
     assert full.entry_condition('SUPPORTED_SINGLE_PAD',w)
 
 
+@pytest.mark.parametrize('kind',full.TYPES)
+def test_full24_has_no_action_when_actual_object_is_unsupported_and_not_grasped(monkeypatch,tmp_path,kind):
+    import json
+    s=sample()
+    monkeypatch.setattr(v8,'command_context',lambda sample,*args:consumed(sample,1.))
+    monkeypatch.setattr(v8,'native_support',lambda *args:False)
+    monkeypatch.setattr(small,'current_witness',lambda adapter,sample,*args:dict(witness(sample),supported=False))
+    spec={prefix+'_recovery_condition':kind for prefix in('teacher_full24','teacher_v8','teacher_v9')}
+    spec.update({prefix+'_offset_sign':1 for prefix in('teacher_full24','teacher_v8','teacher_v9')})
+    teacher=full.NativeQualificationTeacher(SimpleNamespace(spec=spec,output=tmp_path),s,lambda:(None,None))
+    with pytest.raises(full.RecoveryUnavailable,match='UNSUPPORTED_NOT_GRASPED_NO_AIR_OPENING'):
+        teacher.decide(s,s['tcp'],BASE)
+    event=json.loads((tmp_path/'TEACHER_FULL24_RECOVERY_EXIT.private.json').read_bytes())
+    assert event['Teacher_version']==full.VERSION and event['recovery_condition']==kind
+    assert not event['intervention_issued']and event['E1']is None and event['E2']is None
+    assert not(tmp_path/'TEACHER_FULL24_E2_RECOVERED.private.json').exists()
+
+
+def test_typed_unavailable_preserves_failure_and_cannot_admit_another_source_role_or_phase():
+    row=dict(recovery_condition='UNDER_CLOSE')
+    native=dict(status='NATIVE_STAGE_FAILED_PRESERVED',shutdown_clean=True,
+        owned_process_exits=[dict(name=n,exit_code=0)for n in('sim','solver','controller','planner')],
+        failure='ValueError: TEACHER_V9_FULL24_RECOVERY_UNAVAILABLE:UNSUPPORTED_NOT_GRASPED_NO_AIR_OPENING')
+    args=dict(native=native,worker=dict(exit_code=1),lease=dict(status='CLOSED'),
+        readiness=dict(passes=True,native_step=task.B),score={},
+        spec=dict(task_learning_role=full.ROLE,phase=task.PHASE,source_sha='candidate'),
+        expected_source='candidate',attempted=True,recovery_exit=dict(Teacher_version=full.VERSION,
+            recovery_condition='UNDER_CLOSE',reason='UNSUPPORTED_NOT_GRASPED_NO_AIR_OPENING'))
+    result=q.classify(row,**args)
+    assert result['technical_valid']and not result['task_success']
+    assert not result['E1_condition_established']and result['E2_actual_recovered']is None
+    for field,value in(('task_learning_role',v8.ROLE),('phase','unrelated'),('source_sha','old')):
+        changed=copy.deepcopy(args);changed['spec'][field]=value
+        assert not q.classify(row,**changed)['technical_valid']
+
+
 def panel(monkeypatch):
     from go2arx5_vla.world_model import task_learning_collection_v1 as collection
     monkeypatch.setattr(collection,'qualified_base',lambda v:None)
