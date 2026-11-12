@@ -4,6 +4,7 @@ import json,os,signal,subprocess,time
 from .native_collection_performance_v1 import configuration, PerformanceTrace, measure, profiled
 C02_PHASE='collect-target-fusion-c02-source-state-initialization-v1'
 C02_FEEDBACK_PHASE='collect-target-fusion-c02-source-state-feedback-v2'
+NATIVE_STARTUP_READ_WAIT_S=180
 
 def native_task_bucket(phase,dynamic):
     """Select only existing quota ABI buckets for the exact finite phase."""
@@ -23,6 +24,16 @@ def native_startup_readiness(output,reference):
         if not all(marker in text for marker in markers):return None
         evidence[name]=list(markers)
     return evidence
+
+
+def await_native_startup(adapter):
+    # Cold CppAD library builds exceeded the former30s read allowance in the
+    # retained TRAIN25 failure. Physics stays at zero/HOLD until these original
+    # markers and both feedback streams are ready; no ENTER is published here.
+    ready=lambda:(native_startup_readiness(adapter.output,adapter.reference_phase())
+                  and adapter.counts.get('odom',0)>10 and adapter.counts.get('arm',0)>10)
+    if not adapter.spin(NATIVE_STARTUP_READ_WAIT_S,ready):
+        raise RuntimeError('PAUSED_NATIVE_EXECUTOR_OR_FEEDBACK_UNAVAILABLE')
 
 
 def supported_object_hypothesis(phase,stage,sample):
@@ -179,7 +190,7 @@ class TargetSequentialAdapter:
         # OCS2 construction/codegen sets start_time_=now(). Starting physics
         # before it completes gives that process a nonzero clock origin and
         # permanently stale reference times at the next exact native pause.
-        if not self.spin(30,lambda:native_startup_readiness(out,self.reference_phase())and self.counts.get('odom',0)>10 and self.counts.get('arm',0)>10):raise RuntimeError('PAUSED_NATIVE_EXECUTOR_OR_FEEDBACK_UNAVAILABLE')
+        await_native_startup(self)
         self.publish(self.modes,'HOLD')
         if not self.spin(5,lambda:self.control().get('arm_mode')=='HOLD'and self.control().get('fsm')=='RLFSMStateRLLocomotion'):raise RuntimeError('ORIGINAL_PAUSED_STANDBY_REQUIRED')
         c=self.control()
