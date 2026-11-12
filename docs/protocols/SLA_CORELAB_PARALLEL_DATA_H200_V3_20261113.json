@@ -1,0 +1,541 @@
+{
+  "schema": "SLA_CORELAB_PARALLEL_DATA_H200_PLAN_V3",
+  "date_SGT": "2026-11-13",
+  "status": "PLANNED_NOT_EXECUTED",
+  "execution_ready": false,
+  "purpose": "Corelab parallel expert data production, GPU-resident training/inference, and closed-loop-guided post-training",
+  "authorization": {
+    "source": "User message in this conversation, 2026-11-13 SGT",
+    "exact_request": "给出继续推进的详细计划，允许corelab上并行多环境采集数据，注意采集效率，不要CPUGPU来回搬运，推送到github",
+    "corelab_parallel_collection": true,
+    "repeated_per_actor_user_approval_required": false,
+    "ownership": "One control owner per independent world; one writer per shared checkout",
+    "scope": "Project-owned user-space collection and necessary implementation/validation on actually available resources",
+    "h200": "Use existing valid authorization and actual site allocation; Corelab authorization is not a fabricated cluster allocation",
+    "publication_is_execution": false
+  },
+  "sources": {
+    "repository": "Leo-6-maker/go2-arx5-hierarchical-vla",
+    "publication_base": "6843163d641eb24a29c3b1557f868765346ba66c",
+    "inherited_plan_pr": 379,
+    "inherited_plan_sha": "b07936899b10f196653f617f95c5cd8b124e5e99",
+    "implementation_pr": 380,
+    "implementation_sha": "aaf80b4eda7ecb2816c0c251d3535a4e54ea62c9",
+    "latest_receipt_as_of_SGT": "2026-11-13T00:02:56.207155+08:00",
+    "current_stage_path": "reports/WM02/sla-scaleup-v2-20261112/CURRENT_STAGE_ACTUAL.json",
+    "live_site_state": "MUST_READ_BEFORE_EXECUTION",
+    "old_queue_deadlines_SGT": {
+      "admission": "2026-11-13T09:39:00+08:00",
+      "total": "2026-11-13T18:39:00+08:00"
+    },
+    "old_queue_handling": "Retain terminal/expired result; reconcile unit and groups before any continuation; never duplicate unknown or completed work"
+  },
+  "fixed_invariants": {
+    "frozen": [
+      "WBC weights",
+      "gains",
+      "costs",
+      "solver",
+      "leg policy",
+      "dynamics"
+    ],
+    "physics_dt_s": 0.002,
+    "command_period_s": 0.05,
+    "action_horizon": 40,
+    "reference_ttl_s": 0.4,
+    "max_reference_renewal_interval_s": 0.35,
+    "historical_capsules_immutable": true,
+    "historical_S1_S2_G_population_and_order_retained": true,
+    "source_only_achieved_EEF_exception_not_applied_to_target": true,
+    "no_real_robot_scope_expansion": true
+  },
+  "data_residency": {
+    "principle": "Zero unnecessary CPU-GPU round trips; disclose and measure necessary boundaries",
+    "native_control_default": "CPU resident per actor; verify actual build",
+    "expert_only_loads_SLA": false,
+    "default_renderer": "Qualified persistent CPU renderer, in-memory uint8",
+    "student_observation": "Shared host snapshot -> bounded pinned staging -> one H2D per distinct uncached input",
+    "student_output": "One compact action plus required raw/decoded audit payload D2H per query",
+    "rgb224_two_camera_bytes": 301056,
+    "active7_H40_FP32_bytes": 1120,
+    "EEF10_H40_FP32_bytes": 1600,
+    "raw32_H40_FP32_bytes": 5120,
+    "action_and_audit_payload_target_bytes": 16384,
+    "model_gradient_optimizer_hotpath_D2H_bytes_target": 0,
+    "image_or_feature_host_roundtrip_target": 0,
+    "checkpoint_and_qualification_transfers": "Account separately; permitted for their declared purposes",
+    "classic_EGL": "Framebuffer readback is real; EGL is not proof of GPU tensor output",
+    "GPU_render_student_acceptance": "Device image directly to policy, or explicitly diagnosed unqualified readback loop",
+    "GPU_render_archive_branch": "Single archival readback may be necessary and is separately counted",
+    "teacher_exchange": "Same-device supported DLPack without NumPy; verify device/layout/stream/lifetime",
+    "no_DLPack_capsule_process_queue": true,
+    "no_trainable_VLM_embedding_cache": true,
+    "actor_slots_initial": 4,
+    "policy_inflight_per_actor": 1,
+    "GPU_batch_slots_initial": 2,
+    "writer_initial_pending_bytes_cap": 1073741824,
+    "writer_frame_cap": "Bind finite cap from actual frame size and site RAM",
+    "writer_overflow": "Stop dispatch and safe-boundary backpressure; incomplete episodes excluded; never silently overwrite",
+    "GPU_service_process_start": "spawn/forkserver when required by the installed stack; no fork after CUDA initialization",
+    "context_ownership": "One resident policy service per GPU for this actor pool; no claim of exclusive device or single framework context",
+    "observation_slot_reuse": "Generation ID; policy input transfer and writer read both complete, or bounded immutable writer copy owns the snapshot",
+    "capacity_before_publish": true,
+    "repeated_visits": "Preserve repeated window visits/noise/time/dropout/weights; upload counted per visit and actual cache residency"
+  },
+  "collection_implementation": {
+    "extend_existing_modules": [
+      "src/go2arx5_vla/world_model/fusion_paused_observation.py",
+      "src/go2arx5_vla/world_model/native_body_camera_capture_v1.py",
+      "src/go2arx5_vla/world_model/native_camera_transfer_v1.py",
+      "src/go2arx5_vla/world_model/native_collection_performance_v1.py",
+      "src/go2arx5_vla/world_model/stable_task_prefix_v1.py",
+      "src/go2arx5_vla/world_model/task_learning_student_batch_v1.py"
+    ],
+    "proposed_body_session": "Implement and connect a persistent BodyBase session; this is not an existing CLI",
+    "critical_path_no_PNG_write_read": true,
+    "model_hash_verification": "At trusted load/version/transfer boundaries; no repeated per-sample full immutable-asset hashing",
+    "atom_wait": "Use existing ACK/native-step/solver/gripper readiness; do not remove consumption verification",
+    "camera_saved_state_checks": 32,
+    "camera_native_checks": 4,
+    "process_model": "Independent MuJoCo/solver/controller/ROS/time/RNG/renderer/tmp/output per actor",
+    "thread_budget": "Bind to actual assigned CPUs, including native/BLAS/renderer/writer threads",
+    "first_lifecycle": "Persistent resources within episode; fresh native episode process until full reset is validated",
+    "cross_episode_reset": [
+      "MPC warm start",
+      "WBC state",
+      "leg history",
+      "qpos/qvel",
+      "RNG",
+      "clock",
+      "ROS queues",
+      "reference",
+      "camera scene"
+    ],
+    "student_service": {
+      "static_batch_buckets": [
+        1,
+        2,
+        4
+      ],
+      "initial_batch_wait_ms": 5,
+      "fixed_input_checks": 16,
+      "native_checks": {
+        "actor1": 2,
+        "actor2": 2
+      },
+      "policy_fixed_within_episode": true
+    },
+    "no_cross_site_per_query_RPC_by_default": true,
+    "shard_target_bytes": 268435456,
+    "shard_max_bytes": 1073741824,
+    "shard_format": "Lossless uint8 chunks plus numeric command/state tables and atomic episode manifests",
+    "write_states": [
+      "writing",
+      "committed",
+      "incomplete"
+    ],
+    "learner_reads_only": "committed immutable snapshot",
+    "replication": "Incremental immutable shards via existing authorized routes; stage on actual training node; verify transfer once",
+    "commit_visibility": "All referenced shards sealed, flushed, indexed and checksummed before atomic committed episode manifest"
+  },
+  "training_implementation": {
+    "extend_existing_modules": [
+      "src/go2arx5_vla/sla_adapter/batch_v2.py",
+      "src/go2arx5_vla/sla_adapter/runtime_v2.py",
+      "src/go2arx5_vla/sla_adapter/spatial_assets_v1.py",
+      "src/go2arx5_vla/sla_adapter/spatial_runtime_v1.py"
+    ],
+    "required_generalization": [
+      "step/LR schedule",
+      "visit map/cursor",
+      "dataset size",
+      "checkpoint/resume"
+    ],
+    "retain_fixed32_random_producer_bank": true,
+    "qualification_microbatches": [
+      1,
+      8,
+      16
+    ],
+    "effective_batch": 32,
+    "paired_loss_tolerance": {
+      "rtol": 0.001,
+      "atol": 0.00001
+    },
+    "paired_gradient_cosine_min": 0.999,
+    "paired_gradient_relative_L2_max": 0.02,
+    "max_qualification_updates_per_adopted_device": 40,
+    "max_qualification_visits_per_adopted_device": 1280,
+    "max_qualification_RGB_generations_per_adopted_device": 32,
+    "metric_log_interval_updates": 50,
+    "mandatory_finite_status_per_update": true,
+    "skip_update_and_cursor_commit_on_nonfinite": true,
+    "persistent_bounded_loader": true,
+    "no_per_microbatch_scalar_fences": true,
+    "no_CPU_activation_offload": true,
+    "resume_check": "Continuous4 versus independent2+2 with full optimizer/RNG/sampler state",
+    "deployment_check": "Fresh ordinary RGB reconstruction with adapters, no teacher or training cache",
+    "transfer_trace": [
+      "H2D bytes/calls",
+      "D2H bytes/calls",
+      "D2D bytes/calls",
+      "synchronization wait",
+      "purpose"
+    ],
+    "jax_profile_guard": "log_explicit; ensure global/worker-thread configuration",
+    "jax_hotpath_guard": "No implicit transfers; audit explicit transfers separately",
+    "teacher": {
+      "modes": [
+        "same-device online",
+        "offline immutable feature shards"
+      ],
+      "valid_tokens": 512,
+      "channels": 2048,
+      "bytes_per_element": 2,
+      "valid_feature_bytes_per_anchor": 2097152,
+      "compute_only_actual_training_anchors": true,
+      "padding": "On GPU after effective-token upload",
+      "whole_dataset_GPU_cache_default": false,
+      "cache_key": [
+        "image bytes/preprocess",
+        "teacher hash",
+        "camera/mask",
+        "layer/feature recipe"
+      ],
+      "augmentation_identity_required": true
+    }
+  },
+  "action_contract": {
+    "version": "GRIP_LOGIT_V2 plus qualified consumer",
+    "logit_epsilon": 0.0001,
+    "logit_decode_order": [
+      "inverse latent normalization",
+      "stable sigmoid",
+      "original nominal-to-physical mapping"
+    ],
+    "native_expert_epsilon_check_required": true,
+    "state_gripper_is_actual": true,
+    "nominal_gripper_is_command": true,
+    "EEF_STREAM_V2": "NOT_IMPLEMENTED_AT_BASELINE",
+    "prefix_candidates_s": [
+      2,
+      0.5
+    ],
+    "conditional_prefix_s": 0.2,
+    "max_expert_cadence_conditions": 24,
+    "keep_intermediate_path": true,
+    "cross_query_labels": "Restore issuing frame, then express all consumed expert knots in current anchor frame",
+    "reject_nominal_window_if_any_knot_unverified": true,
+    "success_tail_record_s": 2,
+    "success_tail_must_be_physically_executed": true,
+    "capture_rates": {
+      "RGB_state_Hz": 10,
+      "training_anchor_Hz": 2,
+      "command_Hz": 20,
+      "physics_Hz": 500
+    }
+  },
+  "datasets": {
+    "tasks": [
+      "PICK_HOLD",
+      "PICK_PLACE"
+    ],
+    "single_task_fallback": "Version and name separately if PLACE expert is not ready",
+    "strata": {
+      "pose_bins": 10,
+      "training_objects": 5,
+      "tasks": 2,
+      "total": 100
+    },
+    "waves": [
+      {
+        "id": "D100_new",
+        "total_valid_episodes": 100,
+        "new_valid_episodes": 100,
+        "new_attempt_cap": 200,
+        "per_stratum": 1
+      },
+      {
+        "id": "D300_new",
+        "total_valid_episodes": 300,
+        "new_valid_episodes": 200,
+        "new_attempt_cap": 400,
+        "per_stratum": 3
+      },
+      {
+        "id": "D1000_new",
+        "total_valid_episodes": 1000,
+        "new_valid_episodes": 700,
+        "new_attempt_cap": 1400,
+        "per_stratum": 10,
+        "conditional": true
+      }
+    ],
+    "default_task_timeout_sim_s": 60,
+    "additional_terminal_record_s_max": 2,
+    "start_D100_pilot_immediately": true,
+    "D100_pilot": {
+      "updates": 500,
+      "batch": 32,
+      "visits": 16000,
+      "formal_matrix": false,
+      "TRAIN_diagnostic_conditions": 10
+    },
+    "D1000_condition": "DEV48 improvement >=4 successes or identified collectable coverage gap; check optimization insufficiency separately",
+    "do_not_equate_old_TRAIN100_with_D100_new": true,
+    "split_by": [
+      "episode",
+      "layout identity",
+      "object identity",
+      "seed lineage"
+    ],
+    "no_DEV_TEST_training_feedback": true,
+    "success_and_usable_counts_separate": true,
+    "intervention_and_failed_trajectories_retained": true,
+    "correction": {
+      "student_rollout_cap": 400,
+      "successful_expert_segment_target_max": 200,
+      "source": "TRAIN-only policy deviations",
+      "wrong_student_actions_are_BC_labels": false
+    }
+  },
+  "experiments": {
+    "inherited_core_matrix": [
+      {
+        "id": "C00",
+        "dataset": "D300_new",
+        "trainable": "VLM LoRA + action LoRA + interfaces",
+        "spatial": false,
+        "updates": 3000,
+        "batch": 32,
+        "visits": 96000
+      },
+      {
+        "id": "C01",
+        "dataset": "D300_new",
+        "trainable": "C00 + projector",
+        "spatial": true,
+        "updates": 3000,
+        "batch": 32,
+        "visits": 96000
+      },
+      {
+        "id": "C10",
+        "dataset": "D300_new",
+        "trainable": "VLM LoRA + full action expert + interfaces",
+        "spatial": false,
+        "updates": 3000,
+        "batch": 32,
+        "visits": 96000
+      },
+      {
+        "id": "C11",
+        "dataset": "D300_new",
+        "trainable": "C10 + projector",
+        "spatial": true,
+        "updates": 3000,
+        "batch": 32,
+        "visits": 96000
+      },
+      {
+        "id": "L100",
+        "dataset": "D100_new",
+        "recipe": "selected",
+        "updates": 3000,
+        "batch": 32,
+        "visits": 96000
+      },
+      {
+        "id": "L1000",
+        "dataset": "D1000_new",
+        "recipe": "selected",
+        "updates": 3000,
+        "batch": 32,
+        "visits": 96000,
+        "conditional": true
+      }
+    ],
+    "optional_optimization_curve": {
+      "applies_to": "One selected recipe and immutable dataset",
+      "total_update_endpoints": [
+        3000,
+        6000,
+        12000,
+        20000
+      ],
+      "effective_batch": 32,
+      "preserve_optimizer_RNG_sampler_stats": true,
+      "continuation_tail": {
+        "start_after_update": 3000,
+        "end_update": 20000,
+        "start_LR": "Last LR used at update3000 per parameter group",
+        "end_LR_fraction": 0.2,
+        "schedule": "cosine",
+        "warmup": false,
+        "fixed_for_all_checkpoints": true
+      },
+      "evaluation_per_new_endpoint": {
+        "TRAIN": 8,
+        "DEV": 48
+      },
+      "max_additional_conditions": 168,
+      "tie_within_successes_of_48": 2,
+      "early_end": "Two consecutive new checkpoints without DEV improvement and without TRAIN improvement",
+      "chosen_U_applies_to_all_confirmation_seeds": true,
+      "confirmation_seeds": [
+        20261113,
+        20261114
+      ],
+      "candidate_seed": 20261112,
+      "confirmation_LR": "Same fixed 3k prefix and 20k continuation schedule truncated at U_selected; do not rescale cosine horizon",
+      "confirmation_intermediate_panel_evaluations": 0
+    },
+    "correction_continuations": [
+      {
+        "id": "R_NOMINAL",
+        "nominal_fraction": 1,
+        "correction_fraction": 0,
+        "updates": 1000,
+        "batch": 32
+      },
+      {
+        "id": "R_CORRECT",
+        "nominal_fraction": 0.8,
+        "correction_fraction": 0.2,
+        "updates": 1000,
+        "batch": 32
+      }
+    ],
+    "matched_correction_parent": "Same selected U endpoint; same optimizer initialization, frozen stats and schedule",
+    "independent_final_TEST_per_seed": 80,
+    "final_seed_count": 3,
+    "inherited_main_update_cap": 29000,
+    "main_update_cap_formula": "29000 + (U_probe - 3000) + 2 * (U_selected - 3000)",
+    "main_visit_cap_at_U20000": 2560000,
+    "original_completed_S1_repeated": false,
+    "inherited_student_evaluation_cap": 934,
+    "student_evaluation_cap_with_optimization_curve": 1102,
+    "not_auto_submit_all_branches": true,
+    "matched_probe_and_selection_update_caps": {
+      "3000": 29000,
+      "6000": 38000,
+      "12000": 56000,
+      "20000": 80000
+    },
+    "budget_runtime_fields": [
+      "U_probe",
+      "U_selected",
+      "actual_completed_updates"
+    ],
+    "budget_examples": [
+      {
+        "U_probe": 20000,
+        "U_selected": 6000,
+        "updates": 52000,
+        "visits": 1664000
+      },
+      {
+        "U_probe": 20000,
+        "U_selected": 3000,
+        "updates": 46000,
+        "visits": 1472000
+      }
+    ],
+    "final_test_targets": {
+      "per_task_regular_population": 24,
+      "per_task_challenge_population": 16,
+      "regular_success_target": 20,
+      "challenge_success_target": 10,
+      "policy_safety_stops_are_policy_failures": true
+    }
+  },
+  "performance": {
+    "conditions": 8,
+    "restarts_per_condition": 2,
+    "episodes_per_configuration": 16,
+    "configs": [
+      {
+        "id": "legacy_serial",
+        "actors": 1
+      },
+      {
+        "id": "optimized_1",
+        "actors": 1
+      },
+      {
+        "id": "optimized_2",
+        "actors": 2
+      },
+      {
+        "id": "optimized_4",
+        "actors": 4
+      },
+      {
+        "id": "optimized_8",
+        "actors": 8,
+        "conditional": true
+      },
+      {
+        "id": "optimized_16",
+        "actors": 16,
+        "conditional": true
+      }
+    ],
+    "max_performance_episodes": 96,
+    "same_task_camera_recording_consumer_required_for_speedup_claim": true,
+    "targets_relative_to_optimized_1": {
+      "2": 1.5,
+      "4": 2.5
+    },
+    "stop_increasing_actors_if_gain_below_fraction": 0.15,
+    "joint_collection_and_learner_check_max_episodes": 32,
+    "joint_check_reuses_authorized_learner_updates": true,
+    "joint_interference_fraction": 0.15,
+    "primary_metric": "Usable complete demonstrations per end-to-end wall hour plus coverage",
+    "report_not_just_GPU_utilization": true
+  },
+  "new_skills": {
+    "independent_of_D1000": true,
+    "tasks": [
+      "OPEN_UNLATCHED_CABINET",
+      "PUSH_TO_REGION",
+      "BOOK_SLOT_SUBSKILL",
+      "BOOK_SLOT_FULL"
+    ],
+    "seed_episodes_range": [
+      10,
+      30
+    ],
+    "seed_attempt_cap_per_task": 60,
+    "first_student_updates": 500,
+    "first_student_batch": 32,
+    "full_and_partial_success_not_conflated": true,
+    "shared_four_skill_stage": "Separate successor after real individual learned-policy successes",
+    "first_student_TRAIN_diagnostic_conditions": 10
+  },
+  "future_GPU_physics": {
+    "automatic_migration": false,
+    "condition": "Profile shows bottleneck and expected campaign saving justifies migration",
+    "keep_native_reference_evaluator": true,
+    "CPU_WBC_per_step_transfer_must_be_measured": true,
+    "rendering_context_and_reset_must_be_validated": true,
+    "online_RL": "Separate protocol, not required for this plan"
+  },
+  "site_bindings_required_before_run": [
+    "actual source SHA",
+    "actual own resources/allocation",
+    "CPU/thread limits",
+    "RAM/VRAM budgets",
+    "real storage paths",
+    "finite walltime and RPC limits",
+    "writer frame/byte limits",
+    "dataset/codec/camera/consumer/checkpoint versions"
+  ],
+  "publication_scope": [
+    "plan Markdown",
+    "machine-readable plan JSON",
+    "execution handover",
+    "AGENTS/START_HERE/CURRENT_SCIENCE_STATUS/README"
+  ],
+  "remote_jobs_started_by_this_publication": false
+}

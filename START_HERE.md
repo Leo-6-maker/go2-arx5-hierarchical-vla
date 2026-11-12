@@ -1,28 +1,34 @@
-# 当前入口 · 2026-11-11
+# 当前入口 · 2026-11-13
 
 ## 先读什么
 
-1. [原生机身＋腕部／公开 ARX5 迁移 V1](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/research/native-camera-arx5-transfer-v1-20261111/docs/protocols/NATIVE_CAMERA_PUBLIC_ARX5_TRANSFER_V1_20261111.md)：本轮具体设计与实现交接。
-2. [CURRENT_SCIENCE_STATUS.md](CURRENT_SCIENCE_STATUS.md)：已核验事实、用户提供的最新结果、待补回执。
-3. [AGENTS.md](AGENTS.md)：最新首轮范围与持续有效的工程／数据约束。
-4. [docs/CODE_MAP.md](docs/CODE_MAP.md)：已有实现在哪一个固定版本。
-5. [整合状态](docs/maintenance/2026-11-11/REPOSITORY_INTEGRATION_STATUS.md)：main 与执行分支的关系。
+1. [Corelab并行数据生产＋H200后训练 V3](docs/protocols/SLA_CORELAB_PARALLEL_DATA_H200_V3_20261113.md)：本轮主计划、传输合同、实现顺序、数据与训练预算。
+2. [机读矩阵](docs/protocols/SLA_CORELAB_PARALLEL_DATA_H200_V3_20261113.json)：设计，不是已就绪的运行配置。
+3. [Codex执行交接](docs/handover/2026-11-13/SLA_CORELAB_PARALLEL_V3_CODEX_START.md)：第一批实际工作与回报。
+4. [CURRENT_SCIENCE_STATUS.md](CURRENT_SCIENCE_STATUS.md)与[AGENTS.md](AGENTS.md)：事实快照、用户授权和保持的科学约束。
 
-## 本轮下一步
+## 本轮优先顺序
 
-先建立新相机版本并检查 TRAIN100 全阶段覆盖；用封存实际状态重渲染机身图，复用原腕图与原标签。公开 Table30 ARX5 的 episode 清单、时钟转换和分层划分可并行准备。相机通过后做四个 TRAIN 布局的 SFT2000 整机诊断，完成新官方起点／新缓存／GPU 常驻训练资格，再执行预注册 A/B。
+用户已授权Corelab多环境采集。先核查现役unit／终态与实际资源，再并行推进：
 
-不得把计划 JSON 当作已经满足准入的运行胶囊。现场路径、文件、GPU 所有权、完整端点、源数据时间约定和新 DEV 身份需要执行端提供实际回执。
+- Corelab：body/wrist持久相机→内存snapshot与异步writer→事件就绪→独立2／4 actors→D100／D300。
+- H200或实际可用训练设备：完成V2真实microbatch梯度与恢复→常驻learner／teacher→普通RGB包。
+- 动作接口：logit夹爪的原生意义、保留中间路径的consumer与独立reference续期。
+- 数据一版就训练一版，依据学生失败采恢复数据；更长训练只给选中配方，三seed匹配同一日程。
 
-## 固定代码与历史
+不再为每档actor数询问相同许可；每world独立owner。expert采集不需要SLA推理。避免PNG落盘再读回、重复创建renderer、逐microbatch同步和GPU特征经NumPy中转。
 
-当前参考执行 SHA：`f0e19c8812896f98053e74b165d6c52e85327b69`，来自 [PR #371](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/pull/371)。它的 base 是另一执行分支，并非 main；main 整理不等于合并这条执行栈。新工作采用独立 checkout／worktree 与明确代码来源，不改变运行中的胶囊。
+## 固定来源与现役衔接
 
-本轮不承接旧文档中的自动 Vanda/Hopper、WM 或扩大 Teacher 作业优先级；也不干预此前已授权且仍健康运行的作业。开工前只读核对实际状态。
+- [最新核验执行 #380，aaf80b4](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/tree/aaf80b4eda7ecb2816c0c251d3535a4e54ea62c9)。
+- [最新实际快照，11/13 00:02:56 SGT](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/aaf80b4eda7ecb2816c0c251d3535a4e54ea62c9/reports/WM02/sla-scaleup-v2-20261112/CURRENT_STAGE_ACTUAL.json)。
+- [继承V2 #379，b079368](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/b07936899b10f196653f617f95c5cd8b124e5e99/docs/protocols/SLA_GO2_ARX5_SCALEUP_V2_20261112.md)。
+- [原S1/S2/G执行 #378](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/pull/378)：先读当前实际unit／终态，旧WAIT和有限期限不是实时状态。
 
-- [整理前 START_HERE 全文](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/0a27753bbda8ed75ab6b74aeb64755e0427362c7/START_HERE.md)
-- [整理前 CURRENT_SCIENCE_STATUS 全文](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/0a27753bbda8ed75ab6b74aeb64755e0427362c7/CURRENT_SCIENCE_STATUS.md)
-- [固定执行快照的状态记录](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/f0e19c8812896f98053e74b165d6c52e85327b69/CURRENT_SCIENCE_STATUS.md)
-- [V2 文档 PR #372](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/pull/372)；[V3/V3.1 文档 PR #373](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/pull/373)
+main尚未包含整条执行栈。实现用独立worktree和明确source SHA，不把文档中的拟议组件当已有命令。无健康作业热改、无未知状态重投。
 
-上述历史用于追溯，不应被当作当前机器状态或本轮已取得的实验结果。
+## 历史保留
+
+[11/11入口](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/6843163d641eb24a29c3b1557f868765346ba66c/START_HERE.md) · [11/11科学状态](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/6843163d641eb24a29c3b1557f868765346ba66c/CURRENT_SCIENCE_STATUS.md) · [代码地图](docs/CODE_MAP.md) · [仓库工作流](docs/REPOSITORY_WORKFLOW.md)。
+
+既有原生相机／公开ARX5、GR00T、Teacher24及旧DEV/TEST保留各自来源和结论。V3发布只表示计划与授权已记录。

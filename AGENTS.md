@@ -1,6 +1,24 @@
-# GR00T + WBC agent entry · native camera / public ARX5 pilot
+# GR00T + WBC agent entry · Corelab parallel data / SLA
 
-## Latest bounded first-round mandate · 2026-11-11
+## Latest user mandate · 2026-11-13
+
+The user explicitly requests a detailed continuation plan and GitHub publication, authorizes **parallel multi-environment collection on Corelab**, and requires collection efficiency without unnecessary CPU/GPU round trips.
+
+Read [the V3 plan](docs/protocols/SLA_CORELAB_PARALLEL_DATA_H200_V3_20261113.md), [its machine-readable matrix](docs/protocols/SLA_CORELAB_PARALLEL_DATA_H200_V3_20261113.json), [execution handover](docs/handover/2026-11-13/SLA_CORELAB_PARALLEL_V3_CODEX_START.md), START_HERE.md and CURRENT_SCIENCE_STATUS.md first. The latest inspected implementation is [PR #380 at aaf80b4eda7ecb2816c0c251d3535a4e54ea62c9](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/pull/380), not code already fully merged to main.
+
+Corelab independent simulation worlds and the necessary project-owned collection implementation/validation are authorized within actually available resources. Do not ask again for each actor count. For this work, older "One physical owner on Core" wording means **one control owner per independent world**, not a global ban on parallel worlds. Preserve per-world WBC/solver/controller/ROS/clock/RNG/reference/renderer isolation and one writer per shared checkout; never remove a safety lock to share one live world.
+
+Keep native CPU control resident where it currently runs. Expert-only collection does not load SLA. Student observations cross a declared input boundary once, GPU model intermediates remain on GPU, and only small actions/required audit data return to CPU. Use persistent body/wrist rendering, memory observations, bounded asynchronous writing and existing event readiness. EGL with NumPy framebuffer readback is not GPU zero-copy. Preserve buffer lifetime for both policy and writer; commit datasets only after referenced shards are sealed and flushed.
+
+H200 learner/teacher work uses existing valid authorization and an actual site allocation; Corelab permission is not evidence that a cluster allocation exists. Do not invent per-stage approval gates. Independent ready work may proceed while another resource is unavailable. New skills with qualified full expert seeds need not wait for D1000 or the legacy S1/S2/G comparison.
+
+Treat the 2026-11-13 00:02:56 SGT receipt and old queue deadlines as snapshots. Read live unit/group/terminal state before continuing; retain expired/completed results, never duplicate unknown work. Preserve healthy jobs and historical S1/S2/G populations, order and identities. Do not hotpatch running capsules.
+
+The main train-budget ceiling is a planned full-branch maximum, not an automatic queue: 29k inherited updates plus seed0 actually explored extension plus two matched selected-seed extensions, at most80k/B32. Track U_probe, U_selected and actual updates separately; unused/failed exploration still costs compute. Same selected method requires the same fixed LR schedule prefix for all three seeds.
+
+This publication records a plan and authorization; it does not establish new collection, GPU training or task success. Real WBC/legs/dynamics/safety, labels, splits and original negative results remain unchanged. New work takes precedence over conflicting old first-round future-work restrictions below; those old bounds still describe their own historical experiments.
+
+## Retained native-camera first-round mandate · 2026-11-11
 
 Read `START_HERE.md`, `CURRENT_SCIENCE_STATUS.md`, and the [native-camera/public-ARX5 V1 protocol](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/research/native-camera-arx5-transfer-v1-20261111/docs/protocols/NATIVE_CAMERA_PUBLIC_ARX5_TRANSFER_V1_20261111.md) first. For this newly requested first round, the user's latest plan takes precedence over older future-work priorities below: Core 4080S, official GR00T-N1.7 pinned parent, body+wrist RGB, seven target-category interfaces plus last two DiT blocks, frozen vision/language/WBC/legs/dynamics/2 ms safety, standing whole-body simulation. No WM, new large-GPU jobs, vision unfreezing, automatic extra same-distribution training or public replay are included.
 
