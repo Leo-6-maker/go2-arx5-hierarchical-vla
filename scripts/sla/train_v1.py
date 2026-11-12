@@ -54,6 +54,8 @@ def qualification_seams(engine):
     baseline = baseline_fn(nnx.state(base), obs, noise)
     adapted = engine.infer(engine.active, engine.frozen, obs, noise)
     jax.block_until_ready(adapted)
+    np.savez(engine.output/'INITIAL_FUNCTION.private.npz', dense=np.asarray(baseline), lora=np.asarray(adapted))
+    engine.counts['diagnostic_free_generations'] = 2
     function = exact_trees(baseline, adapted)
     if not function['bit_exact']:
         raise ValueError('INITIAL_LORA_FUNCTION_NOT_BIT_EXACT:'+str(function))
