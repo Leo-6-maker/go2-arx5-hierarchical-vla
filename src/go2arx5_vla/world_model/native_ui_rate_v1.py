@@ -65,8 +65,13 @@ def baseline_spec(spec):
     for name,pin in c['frozen_files'].items():need(digest(name)==pin,'UI_SUCCESSOR_FROZEN_CONTROL_INPUTS')
     original=Path(c['original_ui_source'])
     same_validator=c['source_files'][MEMBER]==spec['source_files'][MEMBER]
-    if not same_validator and spec.get('task_learning_role')==EXPANSION_QUALIFICATION_ROLE:
+    body_session=False
+    if not same_validator and spec.get('task_learning_role')==CONSTRUCTION_ROLE:
+        from .native_body_camera_capture_v1 import session_configuration
+        body_session=session_configuration(spec) is not None
+    if not same_validator and (spec.get('task_learning_role')==EXPANSION_QUALIFICATION_ROLE or body_session):
         # The completed build predates admission of the new geometry role.
+        # The explicit V3 body-session construction also reuses this build.
         # Its actual viewer transformation must remain identical; only this
         # Python admission routine may evolve without rebuilding the binary.
         import ast

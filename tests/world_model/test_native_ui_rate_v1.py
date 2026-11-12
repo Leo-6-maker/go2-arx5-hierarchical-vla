@@ -85,9 +85,10 @@ def test_pending_build_wrong_binary_or_collection_cannot_use_ancestry_bridge(tmp
 
 
 @pytest.mark.parametrize('changed_patch',[False,True])
-def test_new_layout_role_can_reuse_only_the_identical_viewer_transformation(tmp_path,monkeypatch,changed_patch):
+@pytest.mark.parametrize('role',['layout','body_session','old_construction'])
+def test_new_layout_role_can_reuse_only_the_identical_viewer_transformation(tmp_path,monkeypatch,changed_patch,role):
     from go2arx5_vla.world_model.storage import digest
-    from go2arx5_vla.world_model.task_learning_grasp_v1 import EXPANSION_QUALIFICATION_ROLE
+    from go2arx5_vla.world_model.task_learning_grasp_v1 import EXPANSION_QUALIFICATION_ROLE,CONSTRUCTION_ROLE
     spec,root,base=native_fixture(tmp_path,monkeypatch)
     prior=tmp_path/'prior-source'/ui.MEMBER;prior.parent.mkdir(parents=True)
     raw=Path(ui.__file__).read_text()+'\n# earlier admission version fixture\n'
@@ -97,8 +98,11 @@ def test_new_layout_role_can_reuse_only_the_identical_viewer_transformation(tmp_
     c.update(source_root=str(tmp_path/'prior-source'),source_files={ui.MEMBER:digest(prior)})
     config.write_text(json.dumps(c))
     lease=root/'control/LEASE.json';l=json.loads(lease.read_text());l['spec_sha256']=digest(config);lease.write_text(json.dumps(l))
-    spec['task_learning_role']=EXPANSION_QUALIFICATION_ROLE
-    if changed_patch:
+    spec['task_learning_role']=EXPANSION_QUALIFICATION_ROLE if role=='layout' else CONSTRUCTION_ROLE
+    if role=='body_session':
+        spec.update(observation_camera_profile='BODY_BASE_FIXED_V1_20261111',
+            body_camera_session_v3=dict(version='BODY_BASE_EPISODE_SESSION_V3',mode='PERSISTENT_COMPATIBILITY'))
+    if changed_patch or role=='old_construction':
         with pytest.raises(PermissionError,match='EXACT_VIEWER_ONLY'):ui.baseline_spec(spec)
     else:
         assert ui.baseline_spec(spec)['native_binary']==str(base/'rl_sim_mujoco')
