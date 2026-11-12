@@ -1,0 +1,16 @@
+{
+  "schema": "SLA_FIXED_OPERATIONAL_ORDER_EXPLANATION_V1",
+  "status": "NO_NEW_DEV_OUTPUTS_YET",
+  "user_instruction": "S1_TARGET500_THEN_COMPLETE_TRAIN4_AND_INDEPENDENT_DEV_THEN_MATCHED_S2",
+  "input_declaration_sha256": "41bfcaf33cfc4d4e0deda69d02849730f7e49097abbe773c6ac5e31b08a2299c",
+  "declaration_sealed_before_S1_candidate_outputs": true,
+  "actual_method_order": "S1_THEN_S2_THEN_EXISTING_G_ENGINEERING_REFERENCE",
+  "protocol_preference": "INTERLEAVE_METHODS_AND_REVERSE_SECOND_RESTART",
+  "operational_choice_reason": "EXPLICIT_USER_ORDER_REQUIRES_S1_DELIVERY_BEFORE_S2_AND_NO_TEACHER_DELAY_TO_S1",
+  "limitation": "METHOD_EXECUTION_ORDER_IS_NOT_INTERLEAVED_OR_RANDOMIZED; RETAIN_ORDER_AS_COMPARISON_LIMITATION",
+  "new_checkpoint_selection": false,
+  "new_retries": false,
+  "method_or_population_chosen_from_DEV_outputs": false,
+  "model_calls": 0,
+  "physical_requests": 0
+}
