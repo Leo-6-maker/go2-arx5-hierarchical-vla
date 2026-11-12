@@ -241,6 +241,12 @@ def request_body(s,observation,index):
         f=pinned(extra['sla_task_frame'])
         need(f['native_spec_sha256']==s['producer_native_spec']['sha256'] and f['native_step']==task.B
              and f['fixed_for_episode'] and not f['object_truth_used'],'SLA_EPISODE_FIXED_MEASURED_FRAME')
+        if index>0:
+            first_path=request_path(producer,0)
+            first=json.loads(first_path.read_bytes())
+            completed=json.loads((Path(s['registered_root'])/'fit-01/queries/00/RESULT.json').read_bytes())
+            need(first['sla_task_frame']==extra['sla_task_frame']
+                 and completed['request_sha256']==digest(first_path),'SLA_SAME_FIRST_CAPTURE_FRAME_ALL_CYCLES')
     return dict(schema=SCHEMA+'_REQUEST',pair_id=s['target_gr00t_pair_id'],index=index,**extra,
         producer_native_spec_sha256=s['producer_native_spec']['sha256'],
         seed=s['target_gr00t_query_seeds'][index],observation=observation,
@@ -298,6 +304,16 @@ def query_from_native(adapter,observation,index):
     need(producer==adapter.spec,'SAME_ACTUAL_NATIVE_OWNER')
     _registered(s,s_path);_live(s,producer)
     request=request_body(s,observation,index);path=request_path(producer,index)
+    if producer.get('task_learning_role')==task.SLA_ROLE and index==0:
+        from scripts.pi0294.task_state import read_state
+        from .stable_task_scene_v1 import pinned
+        import hashlib
+        capture=Path(observation['path'])
+        packet=read_state(capture.parent/'STATE.private.bin')
+        frame=pinned(request['sla_task_frame'])
+        need(packet['step']==task.B and np.array_equal(packet['qpos'],adapter.observe()['qpos'])
+             and hashlib.sha256(np.asarray(packet['qpos'],dtype='<f8').tobytes()).hexdigest()==frame['initial_qpos_sha256'],
+             'SLA_FIXED_FRAME_BOUND_TO_FIRST_ACTUAL_CAPTURE_PACKET')
     need(not path.exists(),'QUERY_ATTEMPT_NEVER_REPLAYED')
     path.parent.mkdir(exist_ok=True)
     write_json(path.with_suffix('.intent.json'),dict(request=request,retry_authorized=False))

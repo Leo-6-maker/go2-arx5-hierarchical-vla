@@ -58,3 +58,19 @@ def test_fixed_dev_population_is_separate_and_not_an_old_role():
     assert all(geometry(k)['role']=='SLA_INDEPENDENT_DEV_LAYOUT_NOT_TRAIN'for k in DEV_OFFSETS)
     assert task.student_role(task.SLA_ROLE) and task.native_body_profile(task.SLA_ROLE).PROTOCOL==task.SLA_ROLE
     assert task.protocol(task.SLA_ROLE)['normalized_container_dimensions']==32
+
+
+def test_sla_inference_spec_uses_qualified_gpu_and_its_own_environment(tmp_path):
+    from go2arx5_vla.world_model.sla_live_v1 import apply_inference_spec,inference_environment
+    rule=tmp_path/'rule.json';rule.write_text(json.dumps({'XLA_FLAGS':'--xla_gpu_autotune_level=0'}))
+    runtime=dict(python='/own/sla/python',upstream_root='/own/upstream/SLA',
+                 JAX_memory_fraction=.8,initial_function_rule=dict(path=str(rule),sha256=digest(rule)))
+    spec=dict(GPU_uuid='LEGACY_OTHER_CARD',source_root='/own/sealed/source')
+    q=dict(runtime=runtime,GPU_uuid='ACTUALLY_QUALIFIED_CARD',parent_params='/own/parent/params',
+           parent_manifest=dict(sha256='parent'),ordinary_parameter_bytes=6911149664,
+           allocator_limit_bytes=13367404333,ordinary_RGB_reconstruction=dict(sha256='proof'))
+    apply_inference_spec(spec,q);env=inference_environment(spec)
+    assert spec['GPU_uuid']=='ACTUALLY_QUALIFIED_CARD' and spec['python']=='/own/sla/python'
+    assert spec['checkpoint_files']=={} and spec['checkpoint']=='/own/parent/params'
+    assert env['XLA_PYTHON_CLIENT_MEM_FRACTION']=='0.8'
+    assert '/own/upstream/SLA/src' in env['PYTHONPATH'] and env['JAX_PLATFORMS']=='cuda'

@@ -14,7 +14,7 @@ from .storage import digest, write_json
 def apply_inference_spec(spec, qualification):
     q = qualification
     runtime = q['runtime']
-    spec.update(python=runtime['python'], SLA_runtime=runtime,
+    spec.update(python=runtime['python'], SLA_runtime=runtime, GPU_uuid=q['GPU_uuid'],
         checkpoint=q['parent_params'], checkpoint_files={},
         checkpoint_manifest_sha256=q['parent_manifest']['sha256'],
         checkpoint_parameter_bytes=q['ordinary_parameter_bytes'],

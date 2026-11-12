@@ -1,5 +1,6 @@
 """SLA 32-wide response through the existing endpoint basis and native H40 gate."""
 from pathlib import Path
+import hashlib
 import numpy as np
 from . import task_learning_grasp_v1 as task
 from .storage import digest, write_json
@@ -25,6 +26,7 @@ def capture_task_frame(adapter, initial):
     write_json(path, dict(schema='SLA_EPISODE_FIXED_NATIVE_TASK_FRAME_V1',
         T_policy_from_mount=rigid(policy_from_world@transform).tolist(),
         native_step=task.B, native_time_s=initial['time_s'],
+        initial_qpos_sha256=hashlib.sha256(np.asarray(initial['qpos'],dtype='<f8').tobytes()).hexdigest(),
         native_spec_sha256=digest(Path(adapter.spec['registered_root'])/'EXECUTION_SPEC.json'),
         scene_sha256=digest(adapter.spec['model_path']), mount_body='x5_base_link',
         fixed_for_episode=True, object_truth_used=False, additional_TCP_offset_m=0., native_integrations=0))
