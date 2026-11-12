@@ -1,0 +1,55 @@
+{
+  "schema": "SLA_CUDA_TRAIN_RESTORE_RGB_ADMISSION_ACTUAL_V1",
+  "QUESTION": "Is pinned SLA qualified for the clean-parent fixed500 experiment on the existing single GPU?",
+  "CHANGED": "Completed independent full-state restore and cold ordinary RGB package reconstruction; preregistered both evaluation populations before candidate outputs.",
+  "ACTUAL": {
+    "status": "PASS_REAL_SINGLE_GPU_GRADIENT_FULL_RESTORE_ORDINARY_RGB",
+    "UTC": "2026-11-12T09:59:12.376213+00:00",
+    "SGT": "2026-11-12T17:59:12.376213+08:00",
+    "runtime_source_sha": "e02198d487fcb29e4ffa28aaf59da517ff212c8b",
+    "training_admission_sha256": "8469d6679dc8b54e30a8a840268a57688053daaeea1132ffc493e4020c95e0a8",
+    "qualification_result_hashes": [
+      "df8131d8926d69979e6e39ccf68e21c66af2710d220ca1f981d91090014dbfec",
+      "61b8378ded84c20689226823fc00e30d6b19884c86049008805cfca1110b0fb7",
+      "742d42f92af79e7666add37691e57cdb0772d4fff524f347b1318b77d27e8c4d"
+    ],
+    "ordinary_RGB_result_sha256": "b14df8266dfb840ea07e0ae2a952a01a124bee962de8761586ceb198eb098d9e",
+    "complete_state_comparison_sha256": "fed1a4660b5f895f3d8e55d7ae002a8554265fef32efb2b86104424e38b0a980",
+    "noncandidate_optimizer_updates": 8,
+    "optimization_visits": 256,
+    "complete_state_arrays_compared_each_endpoint": 87,
+    "complete_state_comparison_steps": [
+      2,
+      4
+    ],
+    "all_state_bit_exact": true,
+    "all_training_state_GPU_resident": true,
+    "peak_training_GPU_bytes": 11139553792,
+    "ordinary_RGB_generations": 48,
+    "separate_diagnostic_free_generations": 33,
+    "separate_diagnostic_backward_calls": 1,
+    "physical_requests": 0,
+    "frozen_fingerprint": "507aa0a700c2e8cacfb398c76e2147da4a82cbf05bc2e7b4ec85d1562c091b06",
+    "CPU_training_activation_offload": false,
+    "inference_requires_optimizer": false,
+    "inference_requires_training_cache": false,
+    "inference_requires_teacher": false,
+    "deployed_adapter_arrays": 28,
+    "input_preregistration_sha256": "6e421468214703f5a8d21d36480fc62fe0cfe127315056549ec81f46f9cb939b",
+    "input_source_sha": "e33e031f61befd2cd9909ca5516cd6a674526d64",
+    "TRAIN4_declaration_sha256": "02467287506549711e74de58ef0d7a9c5cf521943c826d8fe79aaa16be0c400b",
+    "DEV16_declaration_sha256": "41bfcaf33cfc4d4e0deda69d02849730f7e49097abbe773c6ac5e31b08a2299c",
+    "candidate_updates_before_input_registration": 0,
+    "candidate_predictions_before_input_registration": 0
+  },
+  "NEGATIVE": {
+    "original_numeric_failure_preserved": true,
+    "host_OOM_preserved": true,
+    "old_TEST_scores_read": false,
+    "SLA_native_conditions_completed": 0,
+    "ordinary_RGB_qualification_is_task_success": false,
+    "actual_new_DEV_geometry_catalog_check": "PENDING_NO_POPULATION_CHANGES"
+  },
+  "DECISION": "Admit clean-parent S1. No qualification state is a candidate initialization.",
+  "NEXT": "S1 fixed500/16000 (registered separately), immediate complete TRAIN4 and independentDEV16. S2 same parent/common start/data/update budget after S1 delivery."
+}
