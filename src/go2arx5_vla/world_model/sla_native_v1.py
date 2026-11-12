@@ -62,6 +62,24 @@ def qualification(q, *, verify_package=True):
         and m['parent_manifest'] == q['parent_manifest']
         and not m['teacher_required'] and not m['training_cache_required'] and not m['optimizer_required'],
         'SLA_EXACT_DEPLOYMENT_PARENT_AND_ALL_ADAPTERS')
+    expected_recipe=('S1_FM32_MICRO1_ACCUM32_DROPOUT_TOKEN_ONLY_V1' if q['method']==METHODS[0]
+                     else 'S2_NATIVE_FM32_PLUS_FIXED_SPATIAL_ALPHA_HALF_V1')
+    task.need(m['bindings']['recipe']==expected_recipe,'SLA_METHOD_MATCHES_ACTUAL_TRAINING_OBJECTIVE')
+    rgb_root=Path(q['ordinary_RGB_reconstruction']['path']).parent
+    rgb_spec=json.loads((rgb_root/'EXECUTION_SPEC.json').read_bytes())
+    task.need(rgb_spec['GPU_uuid']==q['GPU_uuid'] and rgb_spec['parent_params']==q['parent_params']
+        and rgb_spec['python']==q['runtime']['python'] and rgb_spec['upstream_root']==q['runtime']['upstream_root']
+        and rgb_spec['JAX_memory_fraction']==q['runtime']['JAX_memory_fraction'],
+        'SLA_OWN_ACTUAL_RECONSTRUCTION_DEVICE_ENVIRONMENT_AND_PARENT')
+    if q['method']==METHODS[1]:
+        spatial=pinned(q['spatial_admission'])
+        task.need(spatial['schema']=='SLA_SPATIAL_GRADIENT_CONTROL_ADMISSION_V1' and spatial['passes']
+            and spatial['alpha0_all_common_gradients_and_updates_bit_exact']
+            and spatial['positive_spatial_gradient_reaches_deployed_VLM_LoRA']
+            and spatial['positive_noncandidate_updates']==8 and m['bindings']['alpha']==.5
+            and candidate['actual']['spatial_backwards_completed']==16000
+            and candidate['actual']['spatial_cache_reads']==16000
+            and candidate['actual']['teacher_model_loads']==0,'S2_REAL_MATCHED_SPATIAL_GRADIENT_AND_BUDGET_PROOF')
     if verify_package:
         package = Path(q['package']['path'])
         for row in m['adapter_arrays']:
@@ -184,6 +202,10 @@ def validate_live(s, *, verify_model=True):
         'SLA_SAME_REGISTERED_NATIVE_NEURAL_PAIR')
     native_scene_admission(producer)
     q = policy_contract(s['target_gr00t_policy'], verify_package=verify_model)
+    manifest=pinned(dict(path=str(Path(q['package']['path'])/'MANIFEST.private.json'),sha256=q['package']['sha256']))
+    for name,pin in manifest['bindings']['adapter_source'].items():
+        task.need(name in s['source_files'] and s['source_files'][name]==pin
+            and digest(Path(s['source_root'])/name)==pin,'SLA_DEPLOYMENT_USES_ACTUAL_TRAINED_AND_QUALIFIED_ADAPTER_CODE')
     task.need(s['GPU_uuid'] == q['GPU_uuid'] and s['allocator_limit_bytes'] == q['allocator_limit_bytes'],
               'SLA_ACTUALLY_QUALIFIED_GPU_AND_MEMORY_LIMIT')
     memory_contract(s)

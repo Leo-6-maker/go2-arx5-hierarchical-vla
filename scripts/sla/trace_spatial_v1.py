@@ -27,14 +27,18 @@ def run(spec):
     pgraph,projector=nnx.split(projector)
     def shape(size,dtype=jnp.float32):return jax.ShapeDtypeStruct(size,dtype)
     cameras=['base_0_rgb','left_wrist_0_rgb','right_wrist_0_rgb']
-    obs=Observation(images={k:shape((1,224,224,3))for k in cameras},
-        image_masks={k:shape((1,),jnp.bool_)for k in cameras},
-        image_padding_mask={k:shape((1,224,224),jnp.bool_)for k in cameras},
-        state=shape((1,32)),tokenized_prompt=shape((1,200),jnp.int32),
-        tokenized_prompt_mask=shape((1,200),jnp.bool_))
-    loss,gradients=jax.eval_shape(jax.value_and_grad(spatial_objective(graph,pgraph),argnums=(0,2)),
-        active,frozen,projector,shape((2,),jnp.uint32),obs,shape((1,40,32)),
-        shape((1,768,2048),jnp.bfloat16),shape((1,768),jnp.bool_))
+    objective=spatial_objective(graph,pgraph)
+    def traced(active,frozen,projector,key,images,image_masks,padding,state,tokens,token_mask,actions,targets,mask):
+        obs=Observation(images=images,image_masks=image_masks,image_padding_mask=padding,
+            state=state,tokenized_prompt=tokens,tokenized_prompt_mask=token_mask)
+        return objective(active,frozen,projector,key,obs,actions,targets,mask)
+    loss,gradients=jax.eval_shape(jax.value_and_grad(traced,argnums=(0,2)),
+        active,frozen,projector,shape((2,),jnp.uint32),
+        {k:shape((1,224,224,3))for k in cameras},
+        {k:shape((1,),jnp.bool_)for k in cameras},
+        {k:shape((1,224,224),jnp.bool_)for k in cameras},
+        shape((1,32)),shape((1,200),jnp.int32),shape((1,200),jnp.bool_),
+        shape((1,40,32)),shape((1,768,2048),jnp.bfloat16),shape((1,768),jnp.bool_))
     if loss.shape!=() or [len(jax.tree.leaves(g))for g in gradients]!=[28,6]:
         raise ValueError('EXPECTED_COMMON_AND_PROJECTOR_GRADIENT_SHAPES_REQUIRED')
     return dict(schema='SLA_SPATIAL_ABSTRACT_TRACE_SOFTWARE_ONLY_V1',passes=True,
