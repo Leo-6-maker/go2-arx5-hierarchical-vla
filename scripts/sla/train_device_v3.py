@@ -93,6 +93,10 @@ def run(spec):
         local['gradient_capture_steps'] = [0]
     elif spec['operation'] == 'QUALIFY_CONTINUOUS_BATCH_V2':
         local['gradient_capture_steps'] = [0, 1]
+    elif spec['operation'] == 'PROFILE_BATCH_V2' and spec['microbatch'] == 1:
+        # A same-allocation baseline for the two finite comparison updates.
+        # Its export is in warmup; the eight timed updates stay unchanged.
+        local['gradient_capture_steps'] = [0]
     else:
         local['gradient_capture_steps'] = []
     engine = ACTIVE_ENGINE = BatchedEngine.__new__(BatchedEngine)
