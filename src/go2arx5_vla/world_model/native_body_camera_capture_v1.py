@@ -145,7 +145,7 @@ def session_configuration(spec):
         return None
     from .task_learning_grasp_v1 import CONSTRUCTION_ROLE
     need(value == dict(version='BODY_BASE_EPISODE_SESSION_V3', mode='PERSISTENT_COMPATIBILITY')
-         and spec.get('task_learning_role') == CONSTRUCTION_ROLE
+         and spec.get('task_learning_role') in (CONSTRUCTION_ROLE, 'CORELAB_EXPERT_TRAIN4_SEMANTICS_NOT_BC_V3')
          and spec.get('phase') == 'collect-target-task-learning-grasp-v1'
          and spec.get('observation_camera_profile') == CAMERA_ID,
          'NEW_BODY_SESSION_CONSTRUCTION_ONLY_OLD_CAPSULES_UNCHANGED')

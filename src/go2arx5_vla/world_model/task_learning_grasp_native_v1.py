@@ -30,12 +30,16 @@ SOURCE_MEMBERS=tuple(dict.fromkeys(previous.SOURCE_MEMBERS+(
     'scripts/wm02/task_learning_teacher_qualification_v1.py',
     'src/go2arx5_vla/world_model/native_collection_performance_v1.py',
     'src/go2arx5_vla/world_model/native_state_snapshot.py',
+    'src/go2arx5_vla/world_model/corelab_expert_semantics_v3.py',
     'src/go2arx5_vla/target_mujoco/state_snapshot.hpp',
     'src/go2arx5_vla/world_model/task_learning_grasp_native_v1.py')))
 
 
 def scene_admission(spec):
     task.declared(spec)
+    if spec.get('task_learning_role')=='CORELAB_EXPERT_TRAIN4_SEMANTICS_NOT_BC_V3':
+        from .corelab_expert_semantics_v3 import native_scene_admission
+        return native_scene_admission(spec)
     if task.native_body_role(spec.get('task_learning_role')):
         return task.native_body_profile(spec['task_learning_role']).native_scene_admission(spec)
     if spec.get('task_learning_role')=='TEACHER_V9_FULL_RECOVERY24_QUALIFICATION_NOT_BC_V1':
@@ -385,6 +389,9 @@ def continue_native(adapter,report,samples,windows):
 
 def native_result_schema(spec):
     role=spec.get('task_learning_role',task.CONSTRUCTION_ROLE)
+    if role=='CORELAB_EXPERT_TRAIN4_SEMANTICS_NOT_BC_V3':
+        from .corelab_expert_semantics_v3 import NATIVE_SCHEMA
+        return NATIVE_SCHEMA
     if task.native_body_role(role):
         return task.native_body_profile(role).NATIVE_SCHEMA
     if role=='TEACHER_V9_FULL_RECOVERY24_QUALIFICATION_NOT_BC_V1':

@@ -62,6 +62,9 @@ def need(ok,why):
 
 
 def protocol(role=CONSTRUCTION_ROLE):
+    if role=='CORELAB_EXPERT_TRAIN4_SEMANTICS_NOT_BC_V3':
+        from .corelab_expert_semantics_v3 import protocol as expert_protocol
+        return expert_protocol()
     if native_body_role(role):
         return native_body_profile(role).protocol()
     if role=='TEACHER_V9_FULL_RECOVERY24_QUALIFICATION_NOT_BC_V1':

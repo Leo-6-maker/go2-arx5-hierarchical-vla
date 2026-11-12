@@ -19,10 +19,16 @@ def configuration(spec):
     if config is None:
         return None
     from .task_learning_grasp_v1 import CONSTRUCTION_ROLE
+    role=spec.get('task_learning_role')
+    expert=role=='CORELAB_EXPERT_TRAIN4_SEMANTICS_NOT_BC_V3'
+    if expert:
+        from .native_body_camera_capture_v1 import session_configuration
+        if session_configuration(spec) is None:
+            raise ValueError('V3_EXPERT_PERFORMANCE_REQUIRES_BODY_SESSION')
     if not (isinstance(config, dict) and set(config) == {'version', 'mode'}
             and config['version'] == VERSION and config['mode'] in MODES
             and spec.get('phase') == 'collect-target-task-learning-grasp-v1'
-            and spec.get('task_learning_role') == CONSTRUCTION_ROLE):
+            and (role == CONSTRUCTION_ROLE or expert)):
         raise ValueError('PERFORMANCE_FRESH_TASK_CONSTRUCTION_ONLY')
     return config
 

@@ -44,9 +44,13 @@ def baseline_spec(spec):
     """Bind historical control ancestry without relabeling the new executable."""
     if not spec.get('native_ui_build')and not spec.get('native_ui_rate'):return spec
     from .task_learning_grasp_v1 import CONSTRUCTION_ROLE,EXPANSION_QUALIFICATION_ROLE
+    expert=spec.get('task_learning_role')=='CORELAB_EXPERT_TRAIN4_SEMANTICS_NOT_BC_V3'
+    if expert:
+        from .native_body_camera_capture_v1 import session_configuration
+        need(session_configuration(spec) is not None,'V3_EXPERT_REQUIRES_BODY_SESSION')
     need(spec.get('native_ui_rate')==VERSION
         and spec.get('phase')=='collect-target-task-learning-grasp-v1'
-        and spec.get('task_learning_role')in(None,CONSTRUCTION_ROLE,EXPANSION_QUALIFICATION_ROLE),
+        and (spec.get('task_learning_role')in(None,CONSTRUCTION_ROLE,EXPANSION_QUALIFICATION_ROLE) or expert),
         'UI_SUCCESSOR_INITIAL_NATIVE_CONSTRUCTION_ONLY_NOT_EXISTING_COLLECTION')
     result=pinned(spec['native_ui_build']);candidate=Path(spec['native_ui_build']['path']).parent
     root=candidate.parent;config=root/'EXECUTION_SPEC.json'
@@ -66,7 +70,7 @@ def baseline_spec(spec):
     original=Path(c['original_ui_source'])
     same_validator=c['source_files'][MEMBER]==spec['source_files'][MEMBER]
     body_session=False
-    if not same_validator and spec.get('task_learning_role')==CONSTRUCTION_ROLE:
+    if not same_validator and (spec.get('task_learning_role')==CONSTRUCTION_ROLE or expert):
         from .native_body_camera_capture_v1 import session_configuration
         body_session=session_configuration(spec) is not None
     if not same_validator and (spec.get('task_learning_role')==EXPANSION_QUALIFICATION_ROLE or body_session):
