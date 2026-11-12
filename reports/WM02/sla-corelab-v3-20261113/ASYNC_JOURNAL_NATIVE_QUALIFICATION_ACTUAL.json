@@ -1,0 +1,177 @@
+{
+  "schema": "CORELAB_ASYNC_JOURNAL_NATIVE_QUALIFICATION_ACTUAL_V3",
+  "as_of_SGT": "2026-11-13T07:10:30.077258+08:00",
+  "source_sha": "80a48010b28f4549587cdbca10b74e8c7277b54c",
+  "spec_sha256": "51f184956dffcba5433d85302f57deb2eceaefa79e76d410b37c819f80f96d33",
+  "result_sha256": "053b0ca083e78fc3a60d32d490146951ad57133798486f5359f0e501f5ffe3bd",
+  "status": "NATIVE_STAGE_PASSED",
+  "actual_physical_requests": 1,
+  "actual_native_integrations": 21203,
+  "model_calls": 0,
+  "optimizer_updates": 0,
+  "optimization_visits": 0,
+  "worker_exit_code": 0,
+  "worker_wall_s": 228.31181056890637,
+  "native_wall_s": 221.67571601644158,
+  "task_success": true,
+  "score": {
+    "samples": 621,
+    "maximum_object_lift_m": 0.02578459088648566,
+    "longest_contiguous_grasp_lift_hold_s": 8.65,
+    "unsafe_samples": 0,
+    "standing_passes": true,
+    "maximum_base_displacement_m": 0.0062965431219513856,
+    "maximum_base_rotation_rad": 0.009133830118837505,
+    "maximum_foot_planar_displacement_m": 0.003970421069244623,
+    "minimum_supported_feet": 4,
+    "old_short_task_pose_bound_all_samples_pass": false,
+    "task_success": true
+  },
+  "full_atoms": 748,
+  "solver_confirmed_atoms": 748,
+  "gripper_confirmed_atoms": 748,
+  "captures": 15,
+  "confirmed_nominal_commands": 600,
+  "all_child_exit_codes": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "shutdown_clean": true,
+  "original_joint_warning_samples": 0,
+  "journal": {
+    "schema": "CORELAB_BOUNDED_ASYNC_ROS_JOURNAL_V3",
+    "committed": true,
+    "accepted_records": 55601,
+    "written_records": 55601,
+    "written_bytes": 364885457,
+    "pending_records": 0,
+    "pending_bytes": 0,
+    "peak_records": 26,
+    "peak_payload_bytes": 232502,
+    "max_records": 1024,
+    "max_payload_bytes": 33554432,
+    "includes_inflight_payload": true,
+    "sha256": "63cbe27fba76652cb66316987339c9246d85f0ab7ec352ec0ec59b8827e54513",
+    "write_wall_s": 11.016165758483112,
+    "maximum_write_wall_s": 0.06754502933472395,
+    "failure": null,
+    "observed_callback_records": 55601
+  },
+  "journal_independent_disk_audit": {
+    "epoch": 1794524972.2928555,
+    "passes": true,
+    "source_sha": "80a48010b28f4549587cdbca10b74e8c7277b54c",
+    "disk_sha256": "63cbe27fba76652cb66316987339c9246d85f0ab7ec352ec0ec59b8827e54513",
+    "disk_rows": 55601,
+    "disk_bytes": 364885457,
+    "committed": true,
+    "pending_records": 0,
+    "peak_records": 26,
+    "peak_payload_bytes": 232502,
+    "spans": {
+      "ros.journal_append.mode": {
+        "count": 4,
+        "wall_ns": 78186,
+        "maximum_wall_ns": 32348,
+        "p95_sample_wall_ns": 32348
+      },
+      "ros.journal_append.arm_target": {
+        "count": 15851,
+        "wall_ns": 415884380,
+        "maximum_wall_ns": 1892527,
+        "p95_sample_wall_ns": 36410
+      },
+      "ros.journal_append.ee": {
+        "count": 8856,
+        "wall_ns": 208433160,
+        "maximum_wall_ns": 3153994,
+        "p95_sample_wall_ns": 30768
+      },
+      "ros.journal_append.observation": {
+        "count": 7725,
+        "wall_ns": 166115838,
+        "maximum_wall_ns": 1325167,
+        "p95_sample_wall_ns": 25881
+      },
+      "ros.journal_append.policy": {
+        "count": 7723,
+        "wall_ns": 3891232373,
+        "maximum_wall_ns": 3141245,
+        "p95_sample_wall_ns": 544014
+      },
+      "ros.journal_append.arm_request": {
+        "count": 7721,
+        "wall_ns": 176388846,
+        "maximum_wall_ns": 1256337,
+        "p95_sample_wall_ns": 27786
+      },
+      "ros.journal_append.base_command": {
+        "count": 7721,
+        "wall_ns": 123224649,
+        "maximum_wall_ns": 500597,
+        "p95_sample_wall_ns": 20327
+      }
+    },
+    "physical_requests": 0,
+    "physics_integrations": 0,
+    "model_calls": 0
+  },
+  "performance": {
+    "sha256": "538749deb133349c6d77e564858bb6ce4ec8114a7989d29cb029cd3e6d45e1bd",
+    "spans": {
+      "native.advance_to": {
+        "count": 849,
+        "failures": 0,
+        "wall_s": 100.400756676
+      },
+      "reference.original_full40_certificate": {
+        "count": 113,
+        "failures": 0,
+        "wall_s": 36.989336301
+      },
+      "atom.fixed_spin_150ms": {
+        "count": 128,
+        "failures": 0,
+        "wall_s": 19.364395991
+      },
+      "camera.native_model_load": {
+        "count": 1,
+        "failures": 0,
+        "wall_s": 0.084715823
+      },
+      "camera.native_renderer_create": {
+        "count": 1,
+        "failures": 0,
+        "wall_s": 0.191088872
+      },
+      "camera.body_scene_reset": {
+        "count": 15,
+        "failures": 0,
+        "wall_s": 0.143193014
+      },
+      "camera.capture_total": {
+        "count": 15,
+        "failures": 0,
+        "wall_s": 13.958275529
+      },
+      "atom.event_wait": {
+        "count": 620,
+        "failures": 0,
+        "wall_s": 3.882329423
+      },
+      "camera.native_scene_reset": {
+        "count": 14,
+        "failures": 0,
+        "wall_s": 0.136655115
+      }
+    },
+    "mode": "events_camera_cache"
+  },
+  "BC_eligible": false,
+  "dense_training_demonstrations": 0,
+  "TRAIN07_repair_causality": "NOT_ESTABLISHED_BY_THIS_SINGLE_CONSTRUCTION",
+  "RGB_memory_snapshot_and_async_image_writer": "NOT_IMPLEMENTED",
+  "matched_actor_throughput": "NOT_RUN"
+}
