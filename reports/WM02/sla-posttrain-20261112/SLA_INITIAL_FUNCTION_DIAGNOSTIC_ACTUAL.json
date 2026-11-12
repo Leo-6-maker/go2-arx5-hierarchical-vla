@@ -1,0 +1,120 @@
+{
+  "schema": "SLA_INITIAL_FUNCTION_DIAGNOSTIC_PUBLIC_ACTUAL_V1",
+  "UTC": "2026-11-12T09:32:35.221208+00:00",
+  "SGT": "2026-11-12T17:32:35.221208+08:00",
+  "QUESTION": "Is the initial cross-graph difference a reset/parameter error or observed finite-precision behavior?",
+  "ACTUAL": {
+    "schema": "SLA_ZERO_LORA_INITIAL_FUNCTION_DIAGNOSTIC_V1",
+    "index": 0,
+    "shared_dense_parameters_bit_exact": true,
+    "zero_B_leaves": {
+      "PaliGemma/llm/layers/attn/attn_vec_einsum/lora_b": true,
+      "PaliGemma/llm/layers/attn/attn_vec_einsum_1/lora_b": true,
+      "PaliGemma/llm/layers/attn/kv_einsum/lora_b": true,
+      "PaliGemma/llm/layers/attn/kv_einsum_1/lora_b": true,
+      "PaliGemma/llm/layers/attn/q_einsum/lora_b": true,
+      "PaliGemma/llm/layers/attn/q_einsum_1/lora_b": true,
+      "PaliGemma/llm/layers/mlp/gating_einsum_lora_b": true,
+      "PaliGemma/llm/layers/mlp/linear_lora_b": true,
+      "PaliGemma/llm/layers/mlp_1/gating_einsum_lora_b": true,
+      "PaliGemma/llm/layers/mlp_1/linear_lora_b": true
+    },
+    "dense_repeat": {
+      "bit_exact": true,
+      "max_abs": 0.0,
+      "leaves": 1
+    },
+    "lora_repeat": {
+      "bit_exact": true,
+      "max_abs": 0.0,
+      "leaves": 1
+    },
+    "dense_vs_lora": {
+      "bit_exact": false,
+      "max_abs": 0.003939412534236908,
+      "leaves": 1
+    },
+    "active7_max_normalized_abs": 0.003939412534236908,
+    "padding25_max_normalized_abs": 0.0012843906879425049,
+    "physical_difference": {
+      "xyz_m": 2.6360937213643076e-05,
+      "so3_rad": 2.2653955761915207e-05,
+      "gripper": 0.0007226474359035562
+    },
+    "independent_prefill_comparison": {
+      "prefix_input": {
+        "bit_exact": true,
+        "max_abs": 0.0,
+        "leaves": 1
+      },
+      "mask": {
+        "bit_exact": true,
+        "max_abs": 0.0,
+        "leaves": 1
+      },
+      "VLM_output": {
+        "bit_exact": false,
+        "max_abs": 3.0,
+        "leaves": 1
+      },
+      "KV_cache": {
+        "bit_exact": false,
+        "max_abs": 0.8125,
+        "leaves": 2
+      }
+    },
+    "causal_internal_kernel_identified": false,
+    "numerical_tolerance_changed": false,
+    "actual_parent_loads": 1,
+    "actual_free_generations": 4,
+    "diagnostic_prefill_calls": 2,
+    "actual_optimizer_updates": 0,
+    "optimization_visits": 0,
+    "physical_requests": 0,
+    "frozen_unchanged": "507aa0a700c2e8cacfb398c76e2147da4a82cbf05bc2e7b4ec85d1562c091b06",
+    "GPU_memory": {
+      "num_allocs": 5720,
+      "bytes_in_use": 7569219584,
+      "peak_bytes_in_use": 7750103552,
+      "largest_alloc_size": 2415919104,
+      "bytes_limit": 12531941376,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 12531941376,
+      "peak_pool_bytes": 12531941376
+    },
+    "qualified_for_training": false,
+    "epoch": 1794473762.1037202
+  },
+  "result_sha256": "65734c39f7993e10d78c16f45c6a5b1586a9e37855c8382218e243fae33b2204",
+  "worker": "CLOSED0_MAINPID0",
+  "NEGATIVE": {
+    "first_strict_failure_retained": true,
+    "cross_graph_bit_exact": false,
+    "internal_causal_kernel_not_identified": true,
+    "algorithm_or_task_outcome": false
+  },
+  "DECISION": "Keep both original strict failures/differences. Register an explicit pre-DEV BF16 cross-graph bound at all fixed8 TRAIN windows/two noises, with deterministic XLA; retain bit-exact same-graph repetition and complete4vs2+2 restore requirements.",
+  "NEXT": "Fresh real upstream FM gradient/effective batch32 qualification; no S1 candidate or native request admitted.",
+  "requested": {
+    "loads": 1,
+    "free_generations": 4,
+    "prefill_calls": 2,
+    "updates": 0,
+    "physical_requests": 0
+  },
+  "terminal": {
+    "loads": 1,
+    "free_generations": 4,
+    "prefill_calls": 2,
+    "updates": 0,
+    "physical_requests": 0
+  },
+  "unread": 0,
+  "not_run": 0,
+  "costs": {
+    "wall_s": 410.6224720478058,
+    "GPU_peak_bytes": 7750103552
+  }
+}

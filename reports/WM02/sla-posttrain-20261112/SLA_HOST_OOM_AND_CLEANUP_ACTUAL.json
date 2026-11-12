@@ -1,0 +1,67 @@
+{
+  "schema": "SLA_HOST_OOM_AND_USER_AUTHORIZED_CLEANUP_PUBLIC_V1",
+  "UTC": "2026-11-12T09:32:35.221208+00:00",
+  "SGT": "2026-11-12T17:32:35.221208+08:00",
+  "QUESTION": "Reconcile the killed own load, reclaim failed-install space and bound host audit memory.",
+  "CHANGED": "User explicitly authorized useless failed-model cleanup. Removed two known failed isolated installations; stream frozen hashes in8MiB slices, synchronize each parent transfer and compare shared weights on GPU.",
+  "ACTUAL": {
+    "host_OOM": {
+      "schema": "SLA_HOST_OOM_COLD_RECONCILIATION_V1",
+      "unit": "MainPID=0\nResult=oom-kill\nExecMainStatus=9\nControlGroup=\nKillMode=control-group\n",
+      "prior_lease_sha256": "8dc082f7f41d98cc1872e5be59286c3639e3a5fa65753de8c4917bbf109b959a",
+      "source_sha": "bd469332099ad4c736beb5ea904340262dda9e32",
+      "completed_parent_loads": 0,
+      "partial_parent_load_attempts": 1,
+      "free_generations": 0,
+      "forward_backward_calls": 0,
+      "optimizer_updates": 0,
+      "optimization_visits": 0,
+      "physical_requests": 0,
+      "GPU_capacity_failure_proven": false,
+      "host_vs_cgroup_OOM_trigger_not_uniquely_localized": true,
+      "epoch": 1794475191.9580963
+    },
+    "cleanup": {
+      "failed_environment_directories_removed": 2,
+      "removed_allocated_bytes": 1206517760,
+      "before_available_bytes": 2124226560,
+      "after_available_bytes": 3330707456,
+      "failed_run_evidence_retained": true,
+      "valid_environment_retained": true,
+      "training_checkpoints_deleted": 0,
+      "WBC_or_datasets_deleted": 0
+    },
+    "stream_hash_CPU_check": {
+      "passes": true,
+      "values": 5000055,
+      "SLA_model_loads": 0,
+      "SLA_updates": 0
+    },
+    "completed_cumulative_SLA_parent_loads_before_current_retry": 2,
+    "cumulative_partial_load_attempts": 1,
+    "cumulative_SLA_free_generations_before_current_retry": 6,
+    "cumulative_diagnostic_prefill_calls": 2,
+    "cumulative_SLA_optimizer_updates": 0,
+    "cumulative_SLA_optimization_visits": 0,
+    "cumulative_SLA_physical_requests": 0
+  },
+  "NEGATIVE": {
+    "host_OOM_scope": "Before completed inventory/generation/backward; no step0 checkpoint or update rows.",
+    "GPU_capacity_failure_proven": false,
+    "host_limit_vs_global_OOM_trigger_unknown": true,
+    "initial_failure_model_arrays_not_saved": true,
+    "shared_pip_cache_not_modified": true
+  },
+  "DECISION": "OOM worker independently reconciled CLOSED137/MainPID0 with no owned residual process; no historical scope reopened. Keep other-user tasks. New actual-admission retry uses the corrected host-copy lifecycle,32GiB host limit and records memory chronology.",
+  "NEXT": "Read continuous4 qualification, then independent2+2 and a fresh teacher-free ordinary-RGB inference package. S1_500/TRAIN4/DEV16 and S2 remain not admitted.",
+  "active_retry": {
+    "name": "sla-cuda-qualify-continuous-20261112-03",
+    "source_sha": "e02198d487fcb29e4ffa28aaf59da517ff212c8b",
+    "registered_and_dispatched": true,
+    "updates_not_inferred_from_dispatch": true
+  },
+  "requested_candidate_updates": 500,
+  "actual_candidate_updates": 0,
+  "planned_SLA_TRAIN4": 4,
+  "actual_SLA_physical_requests": 0
+}
