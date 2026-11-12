@@ -186,6 +186,7 @@ def register_panel(request):
     task.need(all(digest(source/name) == pin for name, pin in request['source_files'].items()),
               'SLA_SEALED_NEW_SOURCE_CAPSULE')
     admission=pinned(request['Native_body_qualification'])
+    package_manifest=pinned(dict(path=str(Path(admission['package']['path'])/'MANIFEST.private.json'),sha256=admission['package']['sha256']))
     method,population=METHODS[0],request['population']
     task.need(population=='DEV16','G_ONLY_NEW_DEV16_NO_TRAIN4_REDO')
     policy=dict(arm=method,parent_files_identity=PARENT_ID,package=admission['package'],Native_body_qualification=request['Native_body_qualification'],G_DEV_preregistration=request['G_DEV_preregistration'])
@@ -205,7 +206,7 @@ def register_panel(request):
             layout=layout, restart=restart, query_seeds=seeds, parent=scene_id(layout), method=method,
             model_sha256=digest(model), split=proof['split'], purpose=EXPERIMENT, command=task.COMMAND))
     panel = dict(schema=SCHEMA, task_learning_role=PROTOCOL, protocol=protocol(),
-        source_sha=request['source_sha'], B1_global_step=500, training_seed=20261112,
+        source_sha=request['source_sha'], B1_global_step=500, training_seed=package_manifest['recipe']['seed'], evaluation_seed=20261112,
         method=method, population=population, policies={method:policy}, assignments=rows,
         preregistration=request['preregistration'], G_DEV_preregistration=request['G_DEV_preregistration'], scene_disjointness=request['scene_disjointness'],
         registration={k:request[k] for k in ('source_root','source_files','native_base','gpu_base','scenes',
