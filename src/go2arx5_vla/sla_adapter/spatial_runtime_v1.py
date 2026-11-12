@@ -73,7 +73,7 @@ class SpatialEngine(Engine):
         self.reference_active=self.reference_opt=None
         if self.alpha==0:
             self.reference_active=jax.tree.map(lambda a:jnp.array(a,copy=True),self.active)
-            self.reference_opt=self.opt_state
+            self.reference_opt=jax.tree.map(lambda a:jnp.array(a,copy=True),self.opt_state)
         self.opt_state=self.tx.init((self.active,self.projector))
         graph,pgraph=self.graph,self.projector_graph
         self.spatial_grad=jax.jit(jax.value_and_grad(spatial_objective(graph,pgraph),argnums=(0,2)))
