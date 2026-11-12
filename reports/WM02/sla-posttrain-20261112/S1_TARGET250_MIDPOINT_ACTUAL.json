@@ -1,0 +1,141 @@
+{
+  "schema": "SLA_S1_TARGET250_MIDPOINT_ACTUAL_PUBLIC_V1",
+  "QUESTION": "Has the fixed500 S1 run reached its preregistered recovery midpoint with complete saved state?",
+  "CHANGED": "No runtime or recipe change. Read immutable step250 state while preserving the healthy original process.",
+  "UTC": "2026-11-12T10:49:51.391236+00:00",
+  "SGT": "2026-11-12T18:49:51.391236+08:00",
+  "ACTUAL": {
+    "schema": "SLA_S1_MIDPOINT_ACTUAL_V1",
+    "epoch": 1794480591.3912358,
+    "source_sha": "e02198d487fcb29e4ffa28aaf59da517ff212c8b",
+    "spec_sha256": "21ebe7b6e0059e95a22c448638a68863795096bc2cbcd6bc6f63f14547cb5ace",
+    "worker_status": "ACTIVE",
+    "checkpoint_sha256": "420adc69075954b77e80dcf1c4cd056496dba5a206381af12cd590945e1a18da",
+    "saved_complete_arrays": 87,
+    "all_saved_arrays_verified": true,
+    "global_step": 250,
+    "cursor": 8000,
+    "latest_completed_update_rows": 260,
+    "initial_model_matches_qualification_RGB_16of16": true,
+    "initial_complete_state_matches_qualification": true,
+    "ordinary_RGB_generations_through_midpoint": 32,
+    "midpoint_RGB_output_hashes": [
+      {
+        "index": 0,
+        "noise": 0,
+        "normalized_sha256": "b895456ca17cad7a1c1806d09c836e3220c9fbf3b83d887a558b1fadad0a99be",
+        "physical_sha256": "7acc8d34cc693aa351e5a8434f988be36e7c1ddca8a174e28de1642ecac8ad8b"
+      },
+      {
+        "index": 0,
+        "noise": 1,
+        "normalized_sha256": "b3c369882335a420b87569fc47a9125a65d586fd40d26c9fb2dddf01bbd2427f",
+        "physical_sha256": "ad2d2e03c7b5f1ce350975887287845922dbea3ef3e9ee0d28f90f4adc7fe228"
+      },
+      {
+        "index": 2,
+        "noise": 0,
+        "normalized_sha256": "2b85e684f0ae1114292104e08fced2a907ab2ce36d297d25997f519535bdcdd2",
+        "physical_sha256": "23abb8d98e387ea5248a60744658af9b66414a7d65acb0c081d4d63d6cef6b3d"
+      },
+      {
+        "index": 2,
+        "noise": 1,
+        "normalized_sha256": "605d31d26d9c5d2e2c48b18a9fcd640723c789242eeecd0b27fefb0063c91f02",
+        "physical_sha256": "57c34c65dd40916b85480dd1f33093983d6dd0d6d720a0b6da5acda6fb28b10f"
+      },
+      {
+        "index": 9,
+        "noise": 0,
+        "normalized_sha256": "57f85f7df67ec0afaff2db6b8c9924655a892d11e4f4187663f3f9e62b83c76d",
+        "physical_sha256": "4c3914c385b08c8906c58dc752abbf0531ef73353677aacff716bab4584b4595"
+      },
+      {
+        "index": 9,
+        "noise": 1,
+        "normalized_sha256": "4dd977c5e4a38dc72b52477ac2c37e6164bba09f66b26a78b975a76ca1f183e8",
+        "physical_sha256": "fec4463bc5c203ac733dc77b07407b790895106533dadc41dae204e7e1ebec47"
+      },
+      {
+        "index": 10,
+        "noise": 0,
+        "normalized_sha256": "15fee4b30746ec979dac5eaf9dc3d434189c7394b5d5e75717c7e5c4cc3de8cc",
+        "physical_sha256": "51079a314577a6a79e8515f0d68862f5aa87ff7436b952fd6a9a96f5e37b500f"
+      },
+      {
+        "index": 10,
+        "noise": 1,
+        "normalized_sha256": "f8fb5010c60290086993040ccabfb8cc7fedd803093eb02b28e8defacb0c2387",
+        "physical_sha256": "5ad1d58674d90bbe6aaa2393588fdc9b69ec7d19bcfd319ca04906c60a32c94f"
+      },
+      {
+        "index": 13,
+        "noise": 0,
+        "normalized_sha256": "51c06c0c7f3fb3b1102b720de2cde322fd3c55235167182a2b17226ef7987a9e",
+        "physical_sha256": "94791a752b92c0f015765ed10b064965e0b12c780a0fd9ec3c5311ec41767b1a"
+      },
+      {
+        "index": 13,
+        "noise": 1,
+        "normalized_sha256": "b4881ba8fa2b0fe2be6b0e2b6dadfd8a87c92fbd3d6c2d5340983c201854078e",
+        "physical_sha256": "58b08a22048f51ad20a504cf25cb6ddca464e696bf810d8e1570a62b8cc9e23c"
+      },
+      {
+        "index": 1,
+        "noise": 0,
+        "normalized_sha256": "3bb58b09155d17be961f0445a2348800431ca848977d8f29ac2749762a21ff81",
+        "physical_sha256": "214ee98d6accf2dea84376918051188170f6d4cd70b0812682fbf0446d232ddf"
+      },
+      {
+        "index": 1,
+        "noise": 1,
+        "normalized_sha256": "ead773d2f8c766d7c159f70665eb1589ab128b24d7e82be5c70a72876eb67093",
+        "physical_sha256": "eea43f7032be3e8d3c4a53b3b7c955b0a52568d1f0e7804f18d033c26c5bf47c"
+      },
+      {
+        "index": 3,
+        "noise": 0,
+        "normalized_sha256": "698d1aca1fe6e8d11f4827406ffc161f41e3363df1fc450e989621b401c72905",
+        "physical_sha256": "f5022c95426b737eac6ba71d3bbafd8a540b045aab1fd1ab40bcd0b21a442fc6"
+      },
+      {
+        "index": 3,
+        "noise": 1,
+        "normalized_sha256": "9ff584826e41ab43db17b4c24c3d4f7088cc64b54c6f17cbb4ff9d89fb244acf",
+        "physical_sha256": "67eae9981cb3277900b3e642f56cdc0e23a8dedd1c42f9b577b73660635fe346"
+      },
+      {
+        "index": 23,
+        "noise": 0,
+        "normalized_sha256": "ccfc4ffdced3279724f4858edd751499f8a3dea6af2b8a9609a55e5d2de3834e",
+        "physical_sha256": "9c18fcdc870ce798a53dd5d038470c9415f0983d8423dfb45fe3755b8fd1505a"
+      },
+      {
+        "index": 23,
+        "noise": 1,
+        "normalized_sha256": "af7c2f524fa38412d77fa300cc62457a804e3e4a878397430e5c2bb7f3ca856e",
+        "physical_sha256": "91056e5d4e56da6d5c9d0845b3bb9fb8665dfc8868c0985d08ebf53ffc19d6ac"
+      }
+    ],
+    "mean_FM_loss_at250": 0.004448169285751646,
+    "grad_norm_at250": 0.04248660430312157,
+    "used_lr_at250": 3.165158690944665e-05,
+    "training_step_wall_s_sum250": 2579.877812385559,
+    "GPU_peak_bytes": 10691915520,
+    "requested_final_updates": 500,
+    "final_endpoint_complete": false,
+    "physical_requests": 0,
+    "TRAIN4_completed": 0,
+    "DEV16_completed": 0,
+    "teacher_calls": 0
+  },
+  "NEGATIVE": {
+    "fixed500_complete": false,
+    "native_task_success_measured": false,
+    "checkpoint_selected_by_DEV": false,
+    "S2_updates": 0,
+    "old_DEV_TEST_requests": 0
+  },
+  "DECISION": "Complete step250 state and its fixed RGB records verified. Continue the same run to the fixed500 primary endpoint.",
+  "NEXT": "At500: cold ordinaryRGB export/reconstruction, completeTRAIN4 and independentDEV16. Preserve midpoint only as recovery state; no checkpoint selection by outcomes."
+}

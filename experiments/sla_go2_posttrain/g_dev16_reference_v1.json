@@ -1,0 +1,33 @@
+{
+  "schema": "SLA_DEV16_OFFICIAL_GR00T_A500_ENGINEERING_REFERENCE_PREREGISTRATION_V1",
+  "status": "DECLARED_BEFORE_ANY_SLA_DEV16_OUTPUT",
+  "plan_commit": "5ff216ce5399d1bfb78bd7bbf968951d1e4b23f8",
+  "method": "G_OFFICIAL_GR00T_A500_ENGINEERING_REFERENCE",
+  "population_declaration_sha256": "41bfcaf33cfc4d4e0deda69d02849730f7e49097abbe773c6ac5e31b08a2299c",
+  "population": "SAME_FROZEN_SLADEV01_TO_08_TWO_RESTARTS_EACH",
+  "requested_conditions": 16,
+  "maximum_queries_per_condition": 15,
+  "method_order": "S1_THEN_S2_THEN_G",
+  "reference": {
+    "package": {
+      "path": "/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/native-arx5-a500-ordinary-rgb-20261112-01/inference-package",
+      "sha256": "ef9790ad98a5cf04006e11ed0ba651abe022838846b01648c0880f9b09bd8a5c"
+    },
+    "native_admission_sha256": "61cd2848cf4560028347ce3a5d6b711cb7c9b8a28f7323c78e174887331dd913",
+    "ordinary_RGB_reconstruction_sha256": "df859f534e1168e7b679ee69af6f9ada30d7f275070016dbf870d13b84d4c09f",
+    "fixed_global_step": 500
+  },
+  "new_training_updates": 0,
+  "new_training_visits": 0,
+  "new_training_qualification": false,
+  "new_TRAIN4": false,
+  "old_DEV_TEST_requests": 0,
+  "checkpoint_selection": false,
+  "retries": false,
+  "score_contract": "UNCHANGED_SLA_FIXED_DEV16_INPUTS_V1",
+  "native_safety": "UNCHANGED_FROZEN_WBC_AND_NATIVE_2MS",
+  "comparison": "ENGINEERING_REFERENCE_ONLY_DIFFERENT_PARENT_AND_MODEL_NOT_SPATIAL_CAUSAL_CONTROL",
+  "same_seeds_do_not_imply_cross_model_same_noise": true,
+  "physical_requests": 0,
+  "model_calls": 0
+}

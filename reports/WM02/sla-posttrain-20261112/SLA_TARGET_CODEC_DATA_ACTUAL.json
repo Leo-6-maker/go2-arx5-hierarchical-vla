@@ -1,0 +1,111 @@
+{
+  "schema": "SLA_TARGET_CODEC_DATA_PUBLIC_ACTUAL_V1",
+  "UTC": "2026-11-12T08:37:18.103812+00:00",
+  "SGT": "2026-11-12T16:37:18.103812+08:00",
+  "QUESTION": "Do all real TRAIN100 labels, task frames, RGB224 and clocks survive the SLA conversion?",
+  "CHANGED": "Recover episode-fixed x5_base_link frames from original post-hold packets/MJB and use pinned OpenPI client image preprocessing, new TRAIN-only quantiles and existing exposure anchors.",
+  "ACTUAL": {
+    "schema": "SLA_TARGET_CODEC_DATA_ACTUAL_V1",
+    "passes": true,
+    "source_dataset_sha256": "11ac2104e72ddb091045bb2ae0f8cba56bd4002022fc44825e983173565efbe1",
+    "actual_episodes": 100,
+    "captures_retained": 1500,
+    "expert_windows": 1450,
+    "excluded_interventions": 50,
+    "roundtrips": 1450,
+    "FP64_max_error": {
+      "xyz_m": 2.220446049250313e-16,
+      "so3_rad": 1.3884562417838567e-16,
+      "gripper": 2.7755575615628914e-17
+    },
+    "FP32_normalized_max_error": {
+      "xyz_m": 2.6518269802267014e-09,
+      "so3_rad": 1.378024577154758e-09,
+      "gripper": 3.845552032366584e-08
+    },
+    "preregistered_tolerances": {
+      "xyz_m": 1e-06,
+      "so3_rad": 1e-05,
+      "gripper": 1e-06
+    },
+    "phases": {
+      "PREGRASP": {
+        "n": 115,
+        "passed": 115,
+        "required": 104,
+        "passes": true
+      },
+      "DESCEND": {
+        "n": 700,
+        "passed": 700,
+        "required": 630,
+        "passes": true
+      },
+      "CLOSE": {
+        "n": 100,
+        "passed": 100,
+        "required": 90,
+        "passes": true
+      },
+      "LIFT": {
+        "n": 281,
+        "passed": 281,
+        "required": 253,
+        "passes": true
+      },
+      "HOLD": {
+        "n": 254,
+        "passed": 254,
+        "required": 229,
+        "passes": true
+      }
+    },
+    "exposure_visits": 16000,
+    "unique_exposed_windows": 1450,
+    "source_images_unchanged": true,
+    "active_dimensions": 7,
+    "padding_dimensions": 25,
+    "no_implicit_clip": true,
+    "statistics_sha256": "452ce034c20510d258ee65e1d81db871b4fd61c7113f271a1ef1827129ca42b5",
+    "frames_sha256": "e0cdbac38318de673b879fccb48bc84d8f43a238139a21473a29b2d8c9cbfaa5",
+    "visits_sha256": "26199d8f9689c63c441691c0fa5c964c7b13ddc8e68be7a84fe3b06f833a9669",
+    "used_lr_sha256": "a186ce4867510e821d96a1a6931b77b0493176830ae7bc61dbe215978ae7284f",
+    "original_consumer_changed": false,
+    "new_native_replay_required": false,
+    "actual_model_loads": 0,
+    "actual_optimizer_updates": 0,
+    "optimization_visits": 0,
+    "physical_requests": 0,
+    "native_integrations": 0,
+    "FK_episode_calibrations": 100,
+    "wall_s": 104.63322377204895
+  },
+  "source_sha": "2329caaea90016f18d38e31759b1f013df27c65a",
+  "result_sha256": "438bb3a8ace0eb7d1b1aa196af1da2baaf9b7a08eeb81bbb25c4151a2cef34ec",
+  "worker": "CLOSED0_MAINPID0",
+  "NEGATIVE": {
+    "SLA_model_qualification_proven": false,
+    "training_success_proven": false,
+    "new_control_or_consumer": false,
+    "old_DEV_TEST_read": false
+  },
+  "DECISION": "Data/codec/image/clock boundary passes; proceed to actual single-GPU PEFT qualification.",
+  "NEXT": "Continuous4 versus independent2+2, frozen fingerprint and ordinary RGB reconstruction; only then clean-parent S1_500.",
+  "requested": 1450,
+  "attempted": 1450,
+  "terminal": 1450,
+  "unread": 0,
+  "not_run": 0,
+  "physical_requests": {
+    "requested": 0,
+    "attempted": 0,
+    "terminal": 0
+  },
+  "costs": {
+    "wall_s": 104.63322377204895,
+    "native_FK": 100,
+    "native_integrations": 0,
+    "model_calls": 0,
+    "optimizer_updates": 0
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "schema": "SLA_DEV_INPUT_STATIC_ACTUAL_V1",
+  "QUESTION": "Are all fixed new DEV inputs physically distinct from old TRAIN/DEV/TEST initial scenes and statically supported by unchanged startup?",
+  "CHANGED": "Fixed an exclusive-create progress write in a new cold source; retained the failed partial CPU job. No layout/seed/data/control change.",
+  "ACTUAL": {
+    "source_sha": "b5891d458e79edc1ff59e016b02185e15ddbfdcb",
+    "result_sha256": "fd94c2332a61c943a12e2e15b912460fef8b3eb00b90b9d6e3fb4ed4ef6896c3",
+    "spec_sha256": "ce9099adf50514f8b3831a8790a4a1949ec21d7423437597e73ac80a12f49633",
+    "scene_disjointness_sha256": "6a0d49724370b2826196dfa8530ec83b2619757a6c27356177086114e3481ef8",
+    "old_initial_unique_models": 81,
+    "old_TEST_initial_models": 2,
+    "old_split_counts": {
+      "DEV": 32,
+      "TEST": 2,
+      "TRAIN": 47
+    },
+    "old_catalog_rows": 83,
+    "new_inputs": [
+      {
+        "layout": "SLADEV01",
+        "initial_geometry_sha256": "affbdcd43587a7ea0d5d14a784dd5eb7c501dea0ad730d4a98e0656e8035bca2",
+        "model_sha256": "128654ec7c2153c6dd12affd04ab6a1cb0222086fbf4c1c7601a546bde958bb7"
+      },
+      {
+        "layout": "SLADEV02",
+        "initial_geometry_sha256": "651f2a86dc8bae9262b19326e4298a8c5a258218f4b6d47a38f7adecd05d49c9",
+        "model_sha256": "94d708cef66544dd037916d622a9638a5500203c6d31a20f22ee931a52431fd6"
+      },
+      {
+        "layout": "SLADEV03",
+        "initial_geometry_sha256": "9366514386b2b995b170332db738dbeed0f73f4f86f178269abe07b394827a6c",
+        "model_sha256": "fab9c4bc85186abbb980eca37aec754a2880c067a2a5a8234a03829223b6341f"
+      },
+      {
+        "layout": "SLADEV04",
+        "initial_geometry_sha256": "7ee66567af88a2bece1f03090fe2469952652650f6719fce9b5eba385835b1b6",
+        "model_sha256": "ba1d8af9a0d71a21334462a8f7c1292bedee22ec1d58368a2e2c086b7ba59ca3"
+      },
+      {
+        "layout": "SLADEV05",
+        "initial_geometry_sha256": "40ff7a47c724fa7107c2a7daee36ebe58a141d29894bfb09b53efd45c1f721d0",
+        "model_sha256": "c2f5c5dafe055361736a2ee9755925f4debca6aedfe5393b340a8115630b547d"
+      },
+      {
+        "layout": "SLADEV06",
+        "initial_geometry_sha256": "4f6355cb498bbc562b6883d64cb7a513619ca3c04360692c6e75d3fdca4e8f9c",
+        "model_sha256": "91bf337ff83fe515cabe21f5afb0a03ca493d3d1afd69438c6fddbe86d103faa"
+      },
+      {
+        "layout": "SLADEV07",
+        "initial_geometry_sha256": "badaae8c1ba8a566381f23100b88753fbd5735b74ac7a1b9b214578027764287",
+        "model_sha256": "c84973e324c84e225c2e211b5d9c72b89229df611c94331218fa4f97a69fee9c"
+      },
+      {
+        "layout": "SLADEV08",
+        "initial_geometry_sha256": "7ff5fb4b8694fb3f787728c59bd8a551394c5fde37b7441ed87d5f48270410fb",
+        "model_sha256": "d83bf1d1c2d04369b8cee471f7c3b7a59fbf812dbcdc531a7142b4ede53c37ad"
+      }
+    ],
+    "new_compiled": [
+      {
+        "layout": "SLADEV01",
+        "scene_sha256": "128654ec7c2153c6dd12affd04ab6a1cb0222086fbf4c1c7601a546bde958bb7",
+        "static_result_sha256": "4e883491ea96a0c21fa1965583942e41b4f1e433b350fcedb35947d697a571ce",
+        "robot_contract_sha256": "1cdaf83146d8a9961d5d8de200098338b41010eb9492a6b69fe37c02662723ed",
+        "saved_startup_checks": 5703
+      },
+      {
+        "layout": "SLADEV02",
+        "scene_sha256": "94d708cef66544dd037916d622a9638a5500203c6d31a20f22ee931a52431fd6",
+        "static_result_sha256": "0013b8528a28d6513caafe0bb5062977435705b4532096252bfd7d305d57d78c",
+        "robot_contract_sha256": "1cdaf83146d8a9961d5d8de200098338b41010eb9492a6b69fe37c02662723ed",
+        "saved_startup_checks": 5703
+      },
+      {
+        "layout": "SLADEV03",
+        "scene_sha256": "fab9c4bc85186abbb980eca37aec754a2880c067a2a5a8234a03829223b6341f",
+        "static_result_sha256": "7772fc736386a382c01cd2f1da32b483044656e16a36724f297f138c4f8dac1c",
+        "robot_contract_sha256": "1cdaf83146d8a9961d5d8de200098338b41010eb9492a6b69fe37c02662723ed",
+        "saved_startup_checks": 5703
+      },
+      {
+        "layout": "SLADEV04",
+        "scene_sha256": "ba1d8af9a0d71a21334462a8f7c1292bedee22ec1d58368a2e2c086b7ba59ca3",
+        "static_result_sha256": "6e8a98da976ec40e9a52ea05289913d648687619d6beda57a6b8ab094d3d7923",
+        "robot_contract_sha256": "1cdaf83146d8a9961d5d8de200098338b41010eb9492a6b69fe37c02662723ed",
+        "saved_startup_checks": 5703
+      },
+      {
+        "layout": "SLADEV05",
+        "scene_sha256": "c2f5c5dafe055361736a2ee9755925f4debca6aedfe5393b340a8115630b547d",
+        "static_result_sha256": "a50751d8d7846d07b9383eba73b31ef8b8b85467786d8ef5384fb9ae412fa061",
+        "robot_contract_sha256": "1cdaf83146d8a9961d5d8de200098338b41010eb9492a6b69fe37c02662723ed",
+        "saved_startup_checks": 5703
+      },
+      {
+        "layout": "SLADEV06",
+        "scene_sha256": "91bf337ff83fe515cabe21f5afb0a03ca493d3d1afd69438c6fddbe86d103faa",
+        "static_result_sha256": "4648f55b3c2d4d54bf955d45fd481d796b2d972d76c3c37b984740a4b3ca5daf",
+        "robot_contract_sha256": "1cdaf83146d8a9961d5d8de200098338b41010eb9492a6b69fe37c02662723ed",
+        "saved_startup_checks": 5703
+      },
+      {
+        "layout": "SLADEV07",
+        "scene_sha256": "c84973e324c84e225c2e211b5d9c72b89229df611c94331218fa4f97a69fee9c",
+        "static_result_sha256": "040766ae6a6fbbde0eff70e62d48c9e630c3634b8fd6e2ec7e305b5566245ff8",
+        "robot_contract_sha256": "1cdaf83146d8a9961d5d8de200098338b41010eb9492a6b69fe37c02662723ed",
+        "saved_startup_checks": 5703
+      },
+      {
+        "layout": "SLADEV08",
+        "scene_sha256": "d83bf1d1c2d04369b8cee471f7c3b7a59fbf812dbcdc531a7142b4ede53c37ad",
+        "static_result_sha256": "300d92f26f03bf26018d71f2224fa91a825b5ef57bdb4ea3f7842907e7051fde",
+        "robot_contract_sha256": "1cdaf83146d8a9961d5d8de200098338b41010eb9492a6b69fe37c02662723ed",
+        "saved_startup_checks": 5703
+      }
+    ],
+    "wall_s": 27.221332550048828,
+    "physics_integrations": 0,
+    "optimizer_updates": 0,
+    "model_calls": 0,
+    "old_TEST_scores_read": false
+  },
+  "NEGATIVE": {
+    "first_static_worker": "CLOSED1_PROGRESS_FILE_EXISTS_AFTER_TWO_STATIC_LAYOUTS",
+    "old_TEST_scores_read": false,
+    "static_preparation_is_native_task_success": false,
+    "SLA_TRAIN4_attempts": 0,
+    "SLA_DEV16_attempts": 0
+  },
+  "DECISION": "All8 new layouts pass original5703 saved startup FK/contact checks, compiled full-robot contract unchanged. Physical evaluation requires separately registered finite native workers.",
+  "NEXT": "Keep S1 healthy through500, export/reconstruct ordinaryRGB, execute complete fixedTRAIN4 thenDEV16."
+}

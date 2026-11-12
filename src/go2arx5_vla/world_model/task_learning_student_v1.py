@@ -162,6 +162,10 @@ def classify_actual(row,root,expected_source,*,core_local=False,conic=False,endp
         GPU_worker_wall_s=gw.get('wall_s'),GPU_child_CPU_s=gw.get('child_CPU_s',0),
         result_sha256=digest(native/'RESULT.json')if(native/'RESULT.json').exists()else None,
         GPU_result_sha256=digest(gpu/'fit-01/RESULT.private.json')if(gpu/'fit-01/RESULT.private.json').exists()else None)
+    if role==task.SLA_ROLE:
+        out['actual_SLA_queries']=out.pop('actual_GR00T_queries')
+        out['actual_SLA_query_attempts']=out.pop('actual_GR00T_query_attempts')
+        out['actual_GR00T_queries']=0
     return out
 
 
@@ -203,6 +207,9 @@ class StudentPolicy:
         self.index = 0
         self.observation = None
         self.consumed_reference=consumed_reference
+        if adapter.spec.get('task_learning_role')==task.SLA_ROLE:
+            from .sla_native_policy_v1 import capture_task_frame
+            capture_task_frame(adapter,initial)
 
     def decide(self, sample, reference, base):
         from scripts.pi0292.relay_protocol import unseal
@@ -218,13 +225,16 @@ class StudentPolicy:
         try:
             compiler=compile_proposal
             consumption=None
-            if self.adapter.spec.get('task_learning_role')in(task.ENDPOINT_ROLE,task.MATCHED_ROLE,task.NATIVE_BODY_ROLE,task.NATIVE_A500_ROLE):
+            if self.adapter.spec.get('task_learning_role')in(task.ENDPOINT_ROLE,task.MATCHED_ROLE,task.NATIVE_BODY_ROLE,task.NATIVE_A500_ROLE,task.SLA_ROLE,task.SLA_G_ROLE):
                 from functools import partial
                 from .task_learning_endpoint_policy_v3 import compile_proposal as endpoint_compile,consumed_grip
                 task.need(callable(self.consumed_reference),'ENDPOINT_ACTUAL_CONSUMPTION_CALLBACK')
                 cycle,previous_program=self.consumed_reference()
                 grip,consumption=consumed_grip(cycle,previous_program,sample,reference)
                 compiler=partial(endpoint_compile,consumed_nominal_grip=grip)
+                if self.adapter.spec['task_learning_role']==task.SLA_ROLE:
+                    from .sla_native_policy_v1 import compile_proposal as sla_compile
+                    compiler=partial(sla_compile,consumed_nominal_grip=grip)
                 if self.adapter.spec['task_learning_role']==task.MATCHED_ROLE:
                     from .task_learning_matched_policy_v3_1 import compile_proposal as matched_compile
                     compiler=partial(matched_compile,method=self.adapter.spec['target_gr00t_policy']['arm'],consumed_nominal_grip=grip)
@@ -245,7 +255,7 @@ class StudentPolicy:
             raise
         proposal.update(actual_model_query=actual, label_role='STUDENT_NOT_EXPERT', index=self.index)
         if consumption is not None:proposal['previous_consumed_grip_witness']=consumption
-        if self.adapter.spec.get('task_learning_role')in(task.CORE_LOCAL_ROLE,task.CONIC_ROLE,task.ENDPOINT_ROLE,task.MATCHED_ROLE,task.NATIVE_BODY_ROLE,task.NATIVE_A500_ROLE):
+        if self.adapter.spec.get('task_learning_role')in(task.CORE_LOCAL_ROLE,task.CONIC_ROLE,task.ENDPOINT_ROLE,task.MATCHED_ROLE,task.NATIVE_BODY_ROLE,task.NATIVE_A500_ROLE,task.SLA_ROLE,task.SLA_G_ROLE):
             from .task_learning_local_policy_v1 import execution_stage,EXECUTION_STAGE_REVISION
             self.stage=execution_stage(program.decoded_H40,sample)
             proposal.update(execution_stage=self.stage,execution_stage_revision=EXECUTION_STAGE_REVISION,

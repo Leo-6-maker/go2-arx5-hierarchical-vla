@@ -1,0 +1,22 @@
+{
+  "schema": "SLA_FIXED_TRAIN4_INPUTS_V1",
+  "status": "DECLARED_BEFORE_CANDIDATE_OUTPUTS",
+  "conditions": [
+    {"layout": "TRAIN01", "restart": 1, "query_seed_base": 202611121100},
+    {"layout": "TRAIN07", "restart": 1, "query_seed_base": 202611121700},
+    {"layout": "TRAIN13", "restart": 1, "query_seed_base": 202611122300},
+    {"layout": "TRAIN25", "restart": 1, "query_seed_base": 202611123500}
+  ],
+  "methods": ["S1_TARGET500_PLUS_ENDPOINT_BASIS", "S2_TARGET500_PLUS_ENDPOINT_BASIS"],
+  "requested_per_method": 4,
+  "maximum_queries_per_condition": 15,
+  "same_seeds_do_not_imply_cross_model_same_noise": true,
+  "clipping": false,
+  "Teacher_fallback": false,
+  "retries": false,
+  "WBC_changes": false,
+  "physics_dt_s": 0.002,
+  "old_DEV_TEST_requests": 0,
+  "model_updates": 0,
+  "physical_requests": 0
+}

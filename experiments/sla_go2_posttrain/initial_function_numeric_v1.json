@@ -1,0 +1,20 @@
+{
+  "schema": "SLA_INITIAL_FUNCTION_NUMERIC_RULE_V1",
+  "scope": "DENSE_VERSUS_ZERO_LORA_GRAPH_ONLY_BEFORE_ANY_CANDIDATE_UPDATE",
+  "registered_after": "SLA_ZERO_LORA_INITIAL_FUNCTION_DIAGNOSTIC_V1",
+  "previous_strict_failure_preserved": true,
+  "no_DEV_TEST_or_task_scores_seen": true,
+  "required_shared_dense_parameter_equality": "BIT_EXACT",
+  "required_LoRA_B_values": "EXACT_ZERO",
+  "same_graph_repeated_inference": "BIT_EXACT",
+  "continuous4_vs_independent2plus2_restore": "BIT_EXACT",
+  "cross_graph_normalized_max_abs": 0.0078125,
+  "cross_graph_relative_tolerance": 0.0,
+  "basis": "One BF16 spacing at unit scale (2^-7), a numerical bound rather than a task-success threshold. All32 output dimensions are checked at the fixed8 TRAIN windows and2 noises. Physical differences are reported separately through TRAIN-only quantiles.",
+  "diagnostic_forward_decomposition_max_loss_abs": 0.0078125,
+  "actual_training_gradient": "PINNED_UPSTREAM_COMPUTE_LOSS_TRAIN_FALSE_MEAN32",
+  "XLA_FLAGS": "--xla_gpu_autotune_level=0 --xla_gpu_deterministic_ops=true --xla_gpu_exclude_nondeterministic_ops=true",
+  "specific_old_kernel_cause_proven": false,
+  "documentation": ["https://openxla.org/xla/determinism", "https://docs.jax.dev/en/latest/persistent_compilation_cache.html"],
+  "physical_safety_task_score_codec_tolerances_changed": false
+}

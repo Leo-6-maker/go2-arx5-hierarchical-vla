@@ -1,0 +1,26 @@
+{
+  "schema": "SLA_EXISTING_G_DEV16_PANEL_PREPARATION_ACTUAL_V1",
+  "QUESTION": "Can the existing official GR00T A500 engineering reference join the unchanged independent DEV16 after S1 and S2?",
+  "CHANGED": "Sealed a separate GR00T132 engineering-reference panel; reused the existing official-parent package and admission.",
+  "ACTUAL": {
+    "source_sha": "802fbdbae66c55bf0c50a82e1ecb9f0bc143d20f",
+    "panel_sha256": "35e2bbbce963adb93cb4882e76297a1e4f8c50658da8f593bdf5aa8d9af8ac21",
+    "fixed_DEV16_declaration_sha256": "41bfcaf33cfc4d4e0deda69d02849730f7e49097abbe773c6ac5e31b08a2299c",
+    "preregistration_sha256": "067322ddf06be8fe9ce426c0e348e6e1daa03f2cb59361f406fdf77384524d47",
+    "existing_package_sha256": "ef9790ad98a5cf04006e11ed0ba651abe022838846b01648c0880f9b09bd8a5c",
+    "existing_model_training_seed": 20261111,
+    "evaluation_seed": 20261112,
+    "requested_future_conditions": 16,
+    "conditions_attempted": 0,
+    "new_model_constructions": 0,
+    "new_model_queries": 0,
+    "new_optimizer_updates": 0,
+    "new_optimization_visits": 0,
+    "new_physical_requests": 0,
+    "new_native_integrations": 0,
+    "worker_started": false
+  },
+  "NEGATIVE": "Panel registration is CPU metadata preparation, not a model inference or native task result. No G DEV16 result exists yet.",
+  "DECISION": "Keep execution order S1 then S2 then G. Preserve the distinct original GR00T Processor, output basis, model identity and training seed; do not repeat GR00T training or qualification.",
+  "NEXT": "After completed S1 and S2 delivery, run the existing G package once on the same sealed new DEV16 and report real queries, integrations, terminal outcomes and failures."
+}

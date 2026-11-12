@@ -199,6 +199,9 @@ def validate_gpu(s,actual):
     from .pilot1_scope import GPU_UUIDS
     from .pilot1_storage import local_path
     validate_spec(s)
+    if s.get('core_local_protocol')==task.SLA_ROLE:
+        from .sla_live_v1 import source_custody
+        source_custody(s)
     need(s.get('GPU_uuid')in GPU_UUIDS and actual['uuid']==s['GPU_uuid']
         and os.environ.get('CUDA_VISIBLE_DEVICES')==s['GPU_uuid']
         and type(s.get('checkpoint_parameter_bytes'))is int and s['checkpoint_parameter_bytes']>0
@@ -230,7 +233,21 @@ def request_body(s,observation,index):
     need(observation.get('native_step')==step
         and abs(observation['native_time_s']-step*.002)<=1e-8,
         'FRESH_OBSERVATION_AT_EXACT_CURRENT_CYCLE')
-    return dict(schema=SCHEMA+'_REQUEST',pair_id=s['target_gr00t_pair_id'],index=index,
+    extra={}
+    if producer.get('task_learning_role')==task.SLA_ROLE:
+        frame=Path(producer['registered_root'])/'native-01/SLA_TASK_FRAME.private.json'
+        from .stable_task_scene_v1 import pinned
+        extra['sla_task_frame']=dict(path=str(frame),sha256=digest(frame))
+        f=pinned(extra['sla_task_frame'])
+        need(f['native_spec_sha256']==s['producer_native_spec']['sha256'] and f['native_step']==task.B
+             and f['fixed_for_episode'] and not f['object_truth_used'],'SLA_EPISODE_FIXED_MEASURED_FRAME')
+        if index>0:
+            first_path=request_path(producer,0)
+            first=json.loads(first_path.read_bytes())
+            completed=json.loads((Path(s['registered_root'])/'fit-01/queries/00/RESULT.json').read_bytes())
+            need(first['sla_task_frame']==extra['sla_task_frame']
+                 and completed['request_sha256']==digest(first_path),'SLA_SAME_FIRST_CAPTURE_FRAME_ALL_CYCLES')
+    return dict(schema=SCHEMA+'_REQUEST',pair_id=s['target_gr00t_pair_id'],index=index,**extra,
         producer_native_spec_sha256=s['producer_native_spec']['sha256'],
         seed=s['target_gr00t_query_seeds'][index],observation=observation,
         expected_native_step=step,model_policy=s['target_gr00t_policy'])
@@ -287,6 +304,16 @@ def query_from_native(adapter,observation,index):
     need(producer==adapter.spec,'SAME_ACTUAL_NATIVE_OWNER')
     _registered(s,s_path);_live(s,producer)
     request=request_body(s,observation,index);path=request_path(producer,index)
+    if producer.get('task_learning_role')==task.SLA_ROLE and index==0:
+        from scripts.pi0294.task_state import read_state
+        from .stable_task_scene_v1 import pinned
+        import hashlib
+        capture=Path(observation['path'])
+        packet=read_state(capture.parent/'STATE.private.bin')
+        frame=pinned(request['sla_task_frame'])
+        need(packet['step']==task.B and np.array_equal(packet['qpos'],adapter.observe()['qpos'])
+             and hashlib.sha256(np.asarray(packet['qpos'],dtype='<f8').tobytes()).hexdigest()==frame['initial_qpos_sha256'],
+             'SLA_FIXED_FRAME_BOUND_TO_FIRST_ACTUAL_CAPTURE_PACKET')
     need(not path.exists(),'QUERY_ATTEMPT_NEVER_REPLAYED')
     path.parent.mkdir(exist_ok=True)
     write_json(path.with_suffix('.intent.json'),dict(request=request,retry_authorized=False))
@@ -385,6 +412,9 @@ def wait_request(s,producer,index):
 
 
 def infer(s,output):
+    if s.get('core_local_protocol')==task.SLA_ROLE:
+        from .sla_live_v1 import infer as infer_sla
+        return infer_sla(s,output)
     from scripts.pi0294.numerics import prepare_environment,configure_torch
     from scripts.wm02.infer_fusion_paused_vla import _generate_once
     from scripts.pi0294.e1.artifacts import atomic_npz
@@ -396,7 +426,7 @@ def infer(s,output):
     records=[];loads=0;attempted=0;terminal=None
     try:
         _registered(producer,s['producer_native_spec']['path']);_live(s,producer)
-        if s.get('core_local_protocol')==task.NATIVE_A500_ROLE:
+        if s.get('core_local_protocol')in(task.NATIVE_A500_ROLE,task.SLA_G_ROLE):
             from .native_arx5_training_runtime_v1 import checked_parent
             from .stable_task_scene_v1 import pinned
             checked_parent(s['checkpoint'],pinned(s['official_parent_audit']))

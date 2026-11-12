@@ -1,0 +1,61 @@
+{
+  "schema": "SLA_ASSET_AND_LOAD_ACTUAL_V1",
+  "UTC": "2026-11-12T08:33:37.829318+00:00",
+  "SGT": "2026-11-12T16:33:37.829318+08:00",
+  "QUESTION": "Can the requested base and tokenizer be pinned and delivered privately on Core?",
+  "CHANGED": "Independent implementation worktree from reviewed PR376 HEAD; isolated registered asset workers reuse the existing owner/Journal/registry.",
+  "ACTUAL": {
+    "base_revision": "5bbdf3012ab643554aa2eb83ddeae9ace3dce476",
+    "verified_files": 201,
+    "verified_bytes": 12471050953,
+    "byte_manifest_sha256": "232442c8a8c934118cbcdb890c6f307d7fc857819d7e45c2286ed8e8e5d5f3a3",
+    "base_worker_terminal": "CLOSED0_MAINPID0",
+    "tokenizer_revision": "4a0917605798f1e8a645153ab8cdfb12aa453354",
+    "tokenizer_sha256": "8986bb4f423f07f8c7f70d0dbe3526fb2316056c17bae71b1ea975e77a168fc6",
+    "tokenizer_worker_terminal": "CLOSED0_MAINPID0",
+    "SLA_model_loads": 0,
+    "SLA_optimizer_updates": 0,
+    "SLA_optimization_visits": 0,
+    "SLA_physical_requests": 0,
+    "old_DEV_TEST_requests": 0
+  },
+  "NEGATIVE": {
+    "base_weight_terms_not_explicitly_declared": true,
+    "software_tests_are_not_model_qualification": true,
+    "environment01": "ensurepip unavailable before model load",
+    "environment02": "user-space SSD installation failed ENOSPC before model load",
+    "environment03": "fresh node-local HDD environment preparation dispatched; no deletion of existing files",
+    "old_results_and_REJECT_preserved": true
+  },
+  "DECISION": "Continue under the user direct-download supplement with private assets and retained terms uncertainty; no weights/data redistributed, no new large-GPU jobs.",
+  "NEXT": "Finish isolated environment, all1450 codec/RGB224/native clock audit, then single-card real PEFT/full-state restore/ordinary-RGB qualification before S1_500.",
+  "requested": 1,
+  "attempted": 1,
+  "terminal": 1,
+  "unread": 0,
+  "not_run": {
+    "SLA_load_qualification": 1,
+    "SLA_CUDA_qualification": 1,
+    "S1_updates": 500,
+    "S1_TRAIN4": 4,
+    "S1_DEV16": 16,
+    "S2_updates": 500,
+    "S2_TRAIN4": 4,
+    "S2_DEV16": 16
+  },
+  "costs": {
+    "base_download_and_hash_wall_s": 661.7465407848358,
+    "tokenizer_download_and_hash_wall_s": 2.112516164779663,
+    "GPU_training_calls": 0,
+    "physical_integrations": 0
+  },
+  "reference_baseline": {
+    "readback": "A_TARGET500_TRAIN4_GROUP_COMPLETE / MainPID0 / exit0",
+    "GR00T_TRAIN4_requested": 4,
+    "terminal": 4,
+    "success": 4,
+    "queries": 60,
+    "native_integrations": 84812,
+    "SLA_result": false
+  }
+}
