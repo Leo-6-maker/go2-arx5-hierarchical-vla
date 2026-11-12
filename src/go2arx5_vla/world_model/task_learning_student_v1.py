@@ -89,12 +89,15 @@ def summarize(panel,outcomes):
         WBC_changes=False,TEST_results_read=False)
 
 
-def classify_actual(row,root,expected_source,*,core_local=False,conic=False,endpoint=False,matched=False):
+def classify_actual(row,root,expected_source,*,core_local=False,conic=False,endpoint=False,matched=False,native_body=False):
     """Read both actual terminal workers; valid policy rejection remains a failure."""
     import json
     from .task_learning_teacher_panel_v1 import classify as original
     role=task.CORE_LOCAL_ROLE if core_local else task.STUDENT_DEV_ROLE
     schema=NATIVE_SCHEMA
+    if native_body:
+        body=task.native_body_profile(native_body if isinstance(native_body,str)else task.NATIVE_BODY_ROLE)
+        schema,role=body.NATIVE_SCHEMA,body.PROTOCOL
     if core_local:
         from .task_learning_local_policy_v1 import NATIVE_SCHEMA as schema
     if conic:
@@ -215,7 +218,7 @@ class StudentPolicy:
         try:
             compiler=compile_proposal
             consumption=None
-            if self.adapter.spec.get('task_learning_role')in(task.ENDPOINT_ROLE,task.MATCHED_ROLE):
+            if self.adapter.spec.get('task_learning_role')in(task.ENDPOINT_ROLE,task.MATCHED_ROLE,task.NATIVE_BODY_ROLE,task.NATIVE_A500_ROLE):
                 from functools import partial
                 from .task_learning_endpoint_policy_v3 import compile_proposal as endpoint_compile,consumed_grip
                 task.need(callable(self.consumed_reference),'ENDPOINT_ACTUAL_CONSUMPTION_CALLBACK')
@@ -242,7 +245,7 @@ class StudentPolicy:
             raise
         proposal.update(actual_model_query=actual, label_role='STUDENT_NOT_EXPERT', index=self.index)
         if consumption is not None:proposal['previous_consumed_grip_witness']=consumption
-        if self.adapter.spec.get('task_learning_role')in(task.CORE_LOCAL_ROLE,task.CONIC_ROLE,task.ENDPOINT_ROLE,task.MATCHED_ROLE):
+        if self.adapter.spec.get('task_learning_role')in(task.CORE_LOCAL_ROLE,task.CONIC_ROLE,task.ENDPOINT_ROLE,task.MATCHED_ROLE,task.NATIVE_BODY_ROLE,task.NATIVE_A500_ROLE):
             from .task_learning_local_policy_v1 import execution_stage,EXECUTION_STAGE_REVISION
             self.stage=execution_stage(program.decoded_H40,sample)
             proposal.update(execution_stage=self.stage,execution_stage_revision=EXECUTION_STAGE_REVISION,

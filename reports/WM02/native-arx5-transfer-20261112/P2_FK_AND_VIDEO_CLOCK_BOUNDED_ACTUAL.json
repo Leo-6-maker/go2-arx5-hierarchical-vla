@@ -1,0 +1,237 @@
+{
+  "schema": "TABLE30_BOUNDED_FK_AND_REAL_VIDEO_CLOCK_PUBLIC_ACTUAL_V1",
+  "revision": "1eda76b8935b5c7a59cd635ca9e3fab882943e11",
+  "metadata_tasks": 30,
+  "ARX5_tasks": [
+    "arrange_flowers",
+    "arrange_paper_cups",
+    "fold_dishcloth",
+    "open_the_drawer",
+    "place_shoes_on_rack",
+    "put_cup_on_coaster",
+    "search_green_boxes",
+    "sort_electronic_products",
+    "turn_on_light_switch",
+    "water_potted_plant",
+    "wipe_the_table"
+  ],
+  "full_task_inventory_new_range_requests": 27,
+  "full_task_inventory_new_bytes": 3538944,
+  "FK": {
+    "SDK_commit": "c160db7834530a3d80fec524547c74e1d4fa8035",
+    "SDK_model": "models/X5.urdf",
+    "TCP": {
+      "xyz": "0.145 0.0 0.0",
+      "rpy": "0 0 0"
+    },
+    "actual_ARX5_state_rows": 5837,
+    "results": [
+      {
+        "file": "open_the_drawer-6-states.jsonl",
+        "n": 1240,
+        "max_xyz_error_m": 0.00016806255773498972,
+        "convention_xyz": {
+          "max_orientation_error_rad": 0.00038146972656275327,
+          "median_orientation_error_rad": 2.36495677007978e-16,
+          "mean_local_TCP_offset_m": [
+            -1.8545062011770236e-07,
+            2.434549916760855e-08,
+            -8.1344476886767e-08
+          ],
+          "max_offset_variation_m": 0.00016788188505715198
+        }
+      },
+      {
+        "file": "open_the_drawer-15-states.jsonl",
+        "n": 685,
+        "max_xyz_error_m": 0.00031229290054723556,
+        "convention_xyz": {
+          "max_orientation_error_rad": 0.0027997769469273676,
+          "median_orientation_error_rad": 2.4298516386318987e-16,
+          "mean_local_TCP_offset_m": [
+            1.5461587953210517e-07,
+            4.080112813577143e-07,
+            -2.714854570782418e-07
+          ],
+          "max_offset_variation_m": 0.0003118967206244799
+        }
+      },
+      {
+        "file": "open_the_drawer-24-states.jsonl",
+        "n": 878,
+        "max_xyz_error_m": 0.0002071263116866494,
+        "convention_xyz": {
+          "max_orientation_error_rad": 0.0005394796593039991,
+          "median_orientation_error_rad": 2.3024165939129847e-16,
+          "mean_local_TCP_offset_m": [
+            -1.3358303883990436e-07,
+            1.7831095947743266e-07,
+            -9.084670444438241e-08
+          ],
+          "max_offset_variation_m": 0.00020732082059637228
+        }
+      },
+      {
+        "file": "open_the_drawer-33-states.jsonl",
+        "n": 876,
+        "max_xyz_error_m": 0.00031356314510615934,
+        "convention_xyz": {
+          "max_orientation_error_rad": 0.0009241706237070693,
+          "median_orientation_error_rad": 2.4830166570326664e-16,
+          "mean_local_TCP_offset_m": [
+            1.269323415303633e-08,
+            -8.848866185771891e-08,
+            -4.050466641245735e-08
+          ],
+          "max_offset_variation_m": 0.00031350826627701915
+        }
+      },
+      {
+        "file": "put_cup_on_coaster-6-states.jsonl",
+        "n": 437,
+        "max_xyz_error_m": 0.00019444750901806093,
+        "convention_xyz": {
+          "max_orientation_error_rad": 0.0007629394531196717,
+          "median_orientation_error_rad": 1.9054358221000892e-16,
+          "mean_local_TCP_offset_m": [
+            2.0763565946123535e-07,
+            6.588475121853823e-08,
+            -3.879897056808618e-07
+          ],
+          "max_offset_variation_m": 0.00019400254904321988
+        }
+      },
+      {
+        "file": "put_cup_on_coaster-15-states.jsonl",
+        "n": 535,
+        "max_xyz_error_m": 4.579669976578771e-16,
+        "convention_xyz": {
+          "max_orientation_error_rad": 6.69339075772102e-16,
+          "median_orientation_error_rad": 2.3750512102221984e-16,
+          "mean_local_TCP_offset_m": [
+            1.997785374305776e-16,
+            5.832146405872376e-19,
+            1.1257868988021447e-16
+          ],
+          "max_offset_variation_m": 3.269865752734787e-16
+        }
+      },
+      {
+        "file": "put_cup_on_coaster-24-states.jsonl",
+        "n": 719,
+        "max_xyz_error_m": 0.0006467900246076332,
+        "convention_xyz": {
+          "max_orientation_error_rad": 0.0015728392084737033,
+          "median_orientation_error_rad": 2.083695545488253e-16,
+          "mean_local_TCP_offset_m": [
+            -8.986086808073945e-07,
+            -3.5047910470890255e-07,
+            1.9485996706158543e-07
+          ],
+          "max_offset_variation_m": 0.0006459262221828739
+        }
+      },
+      {
+        "file": "put_cup_on_coaster-33-states.jsonl",
+        "n": 467,
+        "max_xyz_error_m": 0.00039237984150232625,
+        "convention_xyz": {
+          "max_orientation_error_rad": 0.0007361948024989978,
+          "median_orientation_error_rad": 1.8520143989313614e-16,
+          "mean_local_TCP_offset_m": [
+            -1.0020198751792003e-06,
+            -4.5069000665657117e-07,
+            2.3745462241502223e-08
+          ],
+          "max_offset_variation_m": 0.00039141565862812295
+        }
+      }
+    ],
+    "RPY_interpretation": "Rz(yaw) @ Ry(pitch) @ Rx(roll), radians; scipy extrinsic xyz",
+    "feedback_producer_provenance": "NOT_ESTABLISHED_BY_NUMERICAL_FK_MATCH_ALONE",
+    "native_TCP_equivalence": "PENDING_NATIVE_MODEL_FRAME_AUDIT"
+  },
+  "video": {
+    "task": "put_cup_on_coaster",
+    "episode": "episode_000000",
+    "actual_unique_video_download_bytes": 3678219,
+    "reused_first_download_bytes": 1409889,
+    "new_download_bytes": 2268330,
+    "original_OpenCV_PTS_attempt_failed": true,
+    "actual_successor_decoder": "PyAV 16.1.0",
+    "streams": [
+      {
+        "file": "arm_realsense_rgb.mp4",
+        "sha256": "46fff869f742b24872dd599b57b176e57d9fc52048b7a55e754de377f87e888a",
+        "bytes": 1409889,
+        "actual_decoded_frames": 437,
+        "dimensions": [
+          [
+            640,
+            480
+          ]
+        ],
+        "time_base": "1/15360",
+        "average_rate": "30"
+      },
+      {
+        "file": "global_realsense_rgb.mp4",
+        "sha256": "b889333c3de8cc8a55db2092460d37c56fb83af1f9e6f3ba9011e4d86e708d8f",
+        "bytes": 2268330,
+        "actual_decoded_frames": 437,
+        "dimensions": [
+          [
+            640,
+            480
+          ]
+        ],
+        "time_base": "1/15360",
+        "average_rate": "30"
+      }
+    ],
+    "checks": [
+      {
+        "video": "arm_realsense_rgb.mp4",
+        "frame_count_matches_state_and_metadata": true,
+        "first_PTS_s": 0.0,
+        "last_PTS_s": 14.533333333333333,
+        "PTS_step_min_max_s": [
+          0.033333333333333215,
+          0.03333333333333499
+        ],
+        "state_minus_metadata_start_minus_PTS_s": [
+          0.00523204803466798,
+          0.01681062380472831
+        ]
+      },
+      {
+        "video": "global_realsense_rgb.mp4",
+        "frame_count_matches_state_and_metadata": true,
+        "first_PTS_s": 0.0,
+        "last_PTS_s": 14.533333333333333,
+        "PTS_step_min_max_s": [
+          0.033333333333333215,
+          0.03333333333333499
+        ],
+        "state_minus_metadata_start_minus_PTS_s": [
+          0.00523204803466798,
+          0.01681062380472831
+        ]
+      }
+    ],
+    "max_pair_container_PTS_skew_s": 0.0,
+    "physical_shutter_clock_supplied": false,
+    "collector_frame_to_state_provenance": "PENDING",
+    "maximum_image_age_measured": false
+  },
+  "source_qualified_training_windows": 0,
+  "source_optimizer_updates": 0,
+  "source_training_admitted": false,
+  "unresolved": [
+    "Feedback producer provenance despite primary proprioceptive README and matching SDK FK",
+    "Recorded-video/state clock mapping and image-age proof",
+    "Native TCP frame correspondence"
+  ],
+  "model_calls": 0,
+  "physics_integrations": 0
+}

@@ -32,10 +32,23 @@ CORE_LOCAL_ROLE='CORE_LOCAL_POLICY_DIAGNOSTIC_NOT_DEV_TEST_V1'
 CONIC_ROLE='CORE_LOCAL_C500_EXPLICIT_CONIC_DIAGNOSTIC_NOT_DEV_TEST_V3'
 ENDPOINT_ROLE='CORE_LOCAL_C500_ENDPOINT_BASIS_DIAGNOSTIC_NOT_DEV_TEST_V3'
 MATCHED_ROLE='CORE_MATCHED_WEIGHTS_PROCESSOR_SMOOTH_TRAIN_NOT_DEV_TEST_V3_1'
+NATIVE_BODY_ROLE='NATIVE_BODY_SFT2000_TRAIN4_DIAGNOSTIC_V1'
+NATIVE_A500_ROLE='A_TARGET500_TRAIN4_DELIVERY_DIAGNOSTIC_V1'
+
+def native_body_role(role):
+    return role in(NATIVE_BODY_ROLE,NATIVE_A500_ROLE)
+
+def native_body_profile(role):
+    if role==NATIVE_BODY_ROLE:
+        from . import native_arx5_diagnostic_v1 as profile
+    elif role==NATIVE_A500_ROLE:
+        from . import native_a500_diagnostic_v1 as profile
+    else:raise ValueError('EXPLICIT_NATIVE_BODY_DIAGNOSTIC_ROLE')
+    return profile
 
 
 def student_role(role):
-    return role in(STUDENT_DEV_ROLE,CORE_LOCAL_ROLE,CONIC_ROLE,ENDPOINT_ROLE,MATCHED_ROLE)
+    return role in(STUDENT_DEV_ROLE,CORE_LOCAL_ROLE,CONIC_ROLE,ENDPOINT_ROLE,MATCHED_ROLE,NATIVE_BODY_ROLE,NATIVE_A500_ROLE)
 
 
 def need(ok,why):
@@ -43,6 +56,8 @@ def need(ok,why):
 
 
 def protocol(role=CONSTRUCTION_ROLE):
+    if native_body_role(role):
+        return native_body_profile(role).protocol()
     if role=='TEACHER_V9_FULL_RECOVERY24_QUALIFICATION_NOT_BC_V1':
         from .task_learning_teacher_v9_full24 import contract
         return contract()

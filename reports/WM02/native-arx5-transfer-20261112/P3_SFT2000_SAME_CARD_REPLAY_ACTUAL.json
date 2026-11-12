@@ -1,0 +1,353 @@
+{
+  "schema": "NATIVE_BODY_SFT2000_REPLAY_PUBLIC_ACTUAL_V1",
+  "dataset_sha256": "11ac2104e72ddb091045bb2ae0f8cba56bd4002022fc44825e983173565efbe1",
+  "statistics_sha256": "0faba237b8922ed9bbd53bd6732a9f449f46dcb6fc19017eae8f3cffa3afd9f2",
+  "SFT2000_package_sha256": "7feffa8dd11b5c9ce963f2e0f2f2613196c1a3ae8e5039056377bd5e25e02250",
+  "source_sha": "22b6c8f63a3b0e14fe1816fab0890b65a305ff31",
+  "saved_packet_binding_qualification": {
+    "schema": "NATIVE_BODY_SAVED_PACKET_BINDING_QUALIFICATION_V1",
+    "passes": true,
+    "records": [
+      {
+        "layout": "TRAIN01",
+        "body_equals_offline": true,
+        "wrist_equals_retained_native": true,
+        "bound_shadow_roundtrip": true,
+        "state_sha256": "8d3fffead00b586d8cb1175dd28c0d4fb3916391075745373e95b15da728eefc",
+        "renderer": {
+          "GL_VENDOR": "Mesa",
+          "GL_RENDERER": "llvmpipe (LLVM 20.1.2, 256 bits)",
+          "backend": "egl_mesa_cpu"
+        }
+      },
+      {
+        "layout": "TRAIN07",
+        "body_equals_offline": true,
+        "wrist_equals_retained_native": true,
+        "bound_shadow_roundtrip": true,
+        "state_sha256": "ae13dbe17ce2b81ebd9da4a91f638ea4759871a385a1b310817ab022bb8163cd",
+        "renderer": {
+          "GL_VENDOR": "Mesa",
+          "GL_RENDERER": "llvmpipe (LLVM 20.1.2, 256 bits)",
+          "backend": "egl_mesa_cpu"
+        }
+      },
+      {
+        "layout": "TRAIN13",
+        "body_equals_offline": true,
+        "wrist_equals_retained_native": true,
+        "bound_shadow_roundtrip": true,
+        "state_sha256": "46fa82c16884a89398230083f404245ba838edc8934abe81ef64be3072cd35e3",
+        "renderer": {
+          "GL_VENDOR": "Mesa",
+          "GL_RENDERER": "llvmpipe (LLVM 20.1.2, 256 bits)",
+          "backend": "egl_mesa_cpu"
+        }
+      },
+      {
+        "layout": "TRAIN25",
+        "body_equals_offline": true,
+        "wrist_equals_retained_native": true,
+        "bound_shadow_roundtrip": true,
+        "state_sha256": "35e04dc392e58593a99918dfa656b1418f03a610e1814f2225e6e3d38070562b",
+        "renderer": {
+          "GL_VENDOR": "Mesa",
+          "GL_RENDERER": "llvmpipe (LLVM 20.1.2, 256 bits)",
+          "backend": "egl_mesa_cpu"
+        }
+      }
+    ],
+    "model_calls": 0,
+    "physics_integrations": 0,
+    "live_native_episodes": 0,
+    "exit_code": 0
+  },
+  "failed_resource_attempt": {
+    "allocator_GiB": 12,
+    "actual_model_loads": 1,
+    "actual_generation_attempts": 1,
+    "actual_completed_generations": 0,
+    "actual_optimizer_updates": 0,
+    "failure": "CUDA_OOM_FIRST_LM_HEAD_FORWARD",
+    "remaining_card_free_GiB_at_failure": 3.19
+  },
+  "successor": {
+    "allocator_GiB": 13,
+    "actual_model_loads": 1,
+    "actual_generation_attempts": 16,
+    "actual_completed_generations": 16,
+    "actual_Processor_decodes": 16,
+    "same_card_bit_exact": true,
+    "unique_windows": 8,
+    "raw_H40_original_envelope_passed": 0,
+    "raw_H40_original_envelope_denominator": 8,
+    "optimizer_updates": 0,
+    "physics_integrations": 0,
+    "wall_s": 226.5670842062682,
+    "max_allocated_bytes": 13301736448,
+    "max_reserved_bytes": 13511950336
+  },
+  "records": [
+    {
+      "layout": "TRAIN01",
+      "anchor": 0,
+      "seed": 2026111100,
+      "normalized_and_physical_repeats_bit_exact": true,
+      "raw_envelope": {
+        "metrics": {
+          "max_anchor_distance_m": 0.011048684379881274,
+          "path_length_m": 0.013614758052213035,
+          "max_anchor_rotation_rad": 0.0008328058558389072,
+          "gripper_mechanical_fraction_min": 0.948806340044195,
+          "gripper_mechanical_fraction_max": 0.9545454545454545,
+          "maximum_translation_speed_m_s": 0.016136036555530333,
+          "maximum_angular_speed_rad_s": 0.006638993615107316,
+          "maximum_finger_speed_m_s": 0.00505042076110838,
+          "maximum_discrete_translation_acceleration_m_s2": 0.3121788241880585,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.19868072827163
+        },
+        "failed_components": [
+          "maximum_discrete_translation_acceleration_m_s2"
+        ],
+        "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+        "original_envelope_pass": false,
+        "first_position_jump_m": 0.00023495067247945127,
+        "first_gripper_jump": 0.04545333300660137,
+        "decoded_gripper_min": 0.9936869740486145,
+        "decoded_gripper_max": 1.0,
+        "exact_closed_knots": 0,
+        "exact_open_knots": 38,
+        "first_point_not_included_in_original_discrete_rate_gate": true
+      }
+    },
+    {
+      "layout": "TRAIN01",
+      "anchor": 9,
+      "seed": 2026111109,
+      "normalized_and_physical_repeats_bit_exact": true,
+      "raw_envelope": {
+        "metrics": {
+          "max_anchor_distance_m": 0.0028120848156571975,
+          "path_length_m": 0.010738865568930145,
+          "max_anchor_rotation_rad": 0.0040276344713927525,
+          "gripper_mechanical_fraction_min": 0.07454386082562534,
+          "gripper_mechanical_fraction_max": 0.950181635943326,
+          "maximum_translation_speed_m_s": 0.014041197214530432,
+          "maximum_angular_speed_rad_s": 0.00954114223623683,
+          "maximum_finger_speed_m_s": 0.06197209358215326,
+          "maximum_discrete_translation_acceleration_m_s2": 0.5222173207513241,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.3311142801542016
+        },
+        "failed_components": [
+          "maximum_finger_speed_m_s",
+          "maximum_discrete_translation_acceleration_m_s2"
+        ],
+        "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+        "original_envelope_pass": false,
+        "first_position_jump_m": 0.0003393388170274752,
+        "first_gripper_jump": 0.04065632713373413,
+        "decoded_gripper_min": 0.031998246908187866,
+        "decoded_gripper_max": 0.9951997995376587,
+        "exact_closed_knots": 0,
+        "exact_open_knots": 0,
+        "first_point_not_included_in_original_discrete_rate_gate": true
+      }
+    },
+    {
+      "layout": "TRAIN07",
+      "anchor": 0,
+      "seed": 2026111200,
+      "normalized_and_physical_repeats_bit_exact": true,
+      "raw_envelope": {
+        "metrics": {
+          "max_anchor_distance_m": 0.009471175742513566,
+          "path_length_m": 0.012166505951894002,
+          "max_anchor_rotation_rad": 0.0009397554495950558,
+          "gripper_mechanical_fraction_min": 0.9499021985314109,
+          "gripper_mechanical_fraction_max": 0.9545454545454545,
+          "maximum_translation_speed_m_s": 0.02164649247904149,
+          "maximum_angular_speed_rad_s": 0.010535301112265284,
+          "maximum_finger_speed_m_s": 0.0040860652923583535,
+          "maximum_discrete_translation_acceleration_m_s2": 0.4486198694869039,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.3568005553821482
+        },
+        "failed_components": [
+          "maximum_discrete_translation_acceleration_m_s2"
+        ],
+        "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+        "original_envelope_pass": false,
+        "first_position_jump_m": 0.00035913623062842627,
+        "first_gripper_jump": 0.045453275476643906,
+        "decoded_gripper_min": 0.994892418384552,
+        "decoded_gripper_max": 1.0,
+        "exact_closed_knots": 0,
+        "exact_open_knots": 38,
+        "first_point_not_included_in_original_discrete_rate_gate": true
+      }
+    },
+    {
+      "layout": "TRAIN07",
+      "anchor": 9,
+      "seed": 2026111209,
+      "normalized_and_physical_repeats_bit_exact": true,
+      "raw_envelope": {
+        "metrics": {
+          "max_anchor_distance_m": 0.013956221165662874,
+          "path_length_m": 0.016873173704589878,
+          "max_anchor_rotation_rad": 0.0009203400304125594,
+          "gripper_mechanical_fraction_min": 0.05641781741922552,
+          "gripper_mechanical_fraction_max": 0.09178371862931684,
+          "maximum_translation_speed_m_s": 0.02212737153108371,
+          "maximum_angular_speed_rad_s": 0.010956618270986897,
+          "maximum_finger_speed_m_s": 0.019437456130981433,
+          "maximum_discrete_translation_acceleration_m_s2": 0.3682619954529405,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.3276199291708207
+        },
+        "failed_components": [
+          "maximum_discrete_translation_acceleration_m_s2"
+        ],
+        "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+        "original_envelope_pass": false,
+        "first_position_jump_m": 0.00023036166317527397,
+        "first_gripper_jump": -0.402245402302698,
+        "decoded_gripper_min": 0.012059599161148071,
+        "decoded_gripper_max": 0.050962090492248535,
+        "exact_closed_knots": 0,
+        "exact_open_knots": 0,
+        "first_point_not_included_in_original_discrete_rate_gate": true
+      }
+    },
+    {
+      "layout": "TRAIN13",
+      "anchor": 0,
+      "seed": 2026111300,
+      "normalized_and_physical_repeats_bit_exact": true,
+      "raw_envelope": {
+        "metrics": {
+          "max_anchor_distance_m": 0.009081109376434882,
+          "path_length_m": 0.012237187190779365,
+          "max_anchor_rotation_rad": 0.00024824789721517157,
+          "gripper_mechanical_fraction_min": 0.930509177121249,
+          "gripper_mechanical_fraction_max": 0.9545454545454545,
+          "maximum_translation_speed_m_s": 0.013153540034041058,
+          "maximum_angular_speed_rad_s": 0.006175796936303612,
+          "maximum_finger_speed_m_s": 0.012850093841552768,
+          "maximum_discrete_translation_acceleration_m_s2": 0.30654934642646986,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.1929423063840992
+        },
+        "failed_components": [
+          "maximum_discrete_translation_acceleration_m_s2"
+        ],
+        "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+        "original_envelope_pass": false,
+        "first_position_jump_m": 0.0005094593130171925,
+        "first_gripper_jump": 0.03869120431048778,
+        "decoded_gripper_min": 0.973560094833374,
+        "decoded_gripper_max": 1.0,
+        "exact_closed_knots": 0,
+        "exact_open_knots": 8,
+        "first_point_not_included_in_original_discrete_rate_gate": true
+      }
+    },
+    {
+      "layout": "TRAIN13",
+      "anchor": 9,
+      "seed": 2026111309,
+      "normalized_and_physical_repeats_bit_exact": true,
+      "raw_envelope": {
+        "metrics": {
+          "max_anchor_distance_m": 0.015098339013783863,
+          "path_length_m": 0.017638370605213897,
+          "max_anchor_rotation_rad": 0.0010085607732423247,
+          "gripper_mechanical_fraction_min": 0.045454545454545456,
+          "gripper_mechanical_fraction_max": 0.052534656091169876,
+          "maximum_translation_speed_m_s": 0.021336070432719973,
+          "maximum_angular_speed_rad_s": 0.007274072841338027,
+          "maximum_finger_speed_m_s": 0.006230497360229489,
+          "maximum_discrete_translation_acceleration_m_s2": 0.3971457798199172,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.2750867772582916
+        },
+        "failed_components": [
+          "maximum_discrete_translation_acceleration_m_s2"
+        ],
+        "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+        "original_envelope_pass": false,
+        "first_position_jump_m": 0.0006407510375663306,
+        "first_gripper_jump": -0.43774026578211944,
+        "decoded_gripper_min": 0.0,
+        "decoded_gripper_max": 0.007788121700286865,
+        "exact_closed_knots": 36,
+        "exact_open_knots": 0,
+        "first_point_not_included_in_original_discrete_rate_gate": true
+      }
+    },
+    {
+      "layout": "TRAIN25",
+      "anchor": 0,
+      "seed": 2026111400,
+      "normalized_and_physical_repeats_bit_exact": true,
+      "raw_envelope": {
+        "metrics": {
+          "max_anchor_distance_m": 0.009807421299194487,
+          "path_length_m": 0.015195589683284761,
+          "max_anchor_rotation_rad": 0.0003326902075352325,
+          "gripper_mechanical_fraction_min": 0.9545454545454545,
+          "gripper_mechanical_fraction_max": 0.9545454545454545,
+          "maximum_translation_speed_m_s": 0.01989200971974035,
+          "maximum_angular_speed_rad_s": 0.009519128304815824,
+          "maximum_finger_speed_m_s": 0.0,
+          "maximum_discrete_translation_acceleration_m_s2": 0.45222054866108924,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.33039642808026926
+        },
+        "failed_components": [
+          "maximum_discrete_translation_acceleration_m_s2"
+        ],
+        "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+        "original_envelope_pass": false,
+        "first_position_jump_m": 0.0005696049507397839,
+        "first_gripper_jump": 0.045452104442406216,
+        "decoded_gripper_min": 1.0,
+        "decoded_gripper_max": 1.0,
+        "exact_closed_knots": 0,
+        "exact_open_knots": 40,
+        "first_point_not_included_in_original_discrete_rate_gate": true
+      }
+    },
+    {
+      "layout": "TRAIN25",
+      "anchor": 9,
+      "seed": 2026111409,
+      "normalized_and_physical_repeats_bit_exact": true,
+      "raw_envelope": {
+        "metrics": {
+          "max_anchor_distance_m": 0.014560255763161898,
+          "path_length_m": 0.01625450286884943,
+          "max_anchor_rotation_rad": 0.0009233816054327707,
+          "gripper_mechanical_fraction_min": 0.045454545454545456,
+          "gripper_mechanical_fraction_max": 0.06237933852455833,
+          "maximum_translation_speed_m_s": 0.020183453918813387,
+          "maximum_angular_speed_rad_s": 0.0077211416750193294,
+          "maximum_finger_speed_m_s": 0.01229417324066162,
+          "maximum_discrete_translation_acceleration_m_s2": 0.287050593389825,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.2395943158299977
+        },
+        "failed_components": [
+          "maximum_discrete_translation_acceleration_m_s2"
+        ],
+        "original_envelope_exception": "TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+        "original_envelope_pass": false,
+        "first_position_jump_m": 0.00021013735783348628,
+        "first_gripper_jump": -0.4377258215153213,
+        "decoded_gripper_min": 0.0,
+        "decoded_gripper_max": 0.01861727237701416,
+        "exact_closed_knots": 13,
+        "exact_open_knots": 0,
+        "first_point_not_included_in_original_discrete_rate_gate": true
+      }
+    }
+  ],
+  "replay_result_sha256": "6abc99ad3e41ca078557f90de1d9cbd6aa518bb8d16e45c8b383c5be1c356162",
+  "original_cross_hardware_REJECT_preserved": true,
+  "original_DEV_TEST_admission": false,
+  "new_official_parent_candidate_updates": 0
+}

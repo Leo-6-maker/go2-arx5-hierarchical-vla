@@ -165,7 +165,8 @@ def capture_paused_observation(adapter, *, binding, task, task_sha256, query_uui
     _cpu_renderer_environment()
     if camera_recipe is not None:
         from .fusion_source_camera_capture import SourceCameraCapture
-        _need(isinstance(camera_recipe, SourceCameraCapture)
+        from .native_body_camera_capture_v1 import BodyBaseCameraCapture
+        _need(isinstance(camera_recipe, (SourceCameraCapture, BodyBaseCameraCapture))
               and np.array_equal(camera_recipe.T_source_from_target, binding.T_source_from_target),
               'EXPLICIT_TYPED_SOURCE_CAMERA_RECIPE_AND_SAME_FRAME_MAP')
     declared_task = _task(task, task_sha256, binding.scene_sha256)
@@ -187,7 +188,7 @@ def capture_paused_observation(adapter, *, binding, task, task_sha256, query_uui
     recorder = None
     try:
         config = configuration(adapter.spec)
-        if camera_recipe is not None and config is not None:
+        if camera_recipe is not None and config is not None and isinstance(camera_recipe, SourceCameraCapture):
             from .fusion_source_camera_capture import SourceCameraRecorder, SourceCameraSession
             session = None
             if config['mode'] in ('camera_cache','events_camera_cache'):

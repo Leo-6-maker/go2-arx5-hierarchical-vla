@@ -18,6 +18,17 @@ KIND='TASK_LEARNING_LIVE_QUERY_V1'
 SCHEMA='TASK_LEARNING_CONTINUOUS_LIVE_QUERY_V1'
 need=profile.need
 SOURCE_MEMBERS=tuple(dict.fromkeys(ORIGINAL_SOURCE_MEMBERS+(
+    'src/go2arx5_vla/world_model/native_arx5_diagnostic_v1.py',
+    'src/go2arx5_vla/world_model/native_a500_diagnostic_v1.py',
+    'src/go2arx5_vla/world_model/native_arx5_endpoint_v1.py',
+    'src/go2arx5_vla/world_model/native_arx5_training_profile_v1.py',
+    'src/go2arx5_vla/world_model/native_arx5_training_runtime_v1.py',
+    'scripts/wm02/native_a500_train4_delivery_v1.py',
+    'experiments/native_arx5_transfer/a_target500_train4_delivery_v1.json',
+    'src/go2arx5_vla/world_model/native_body_camera_capture_v1.py',
+    'src/go2arx5_vla/world_model/native_camera_transfer_v1.py',
+    'scripts/wm02/native_body_train4_diagnostic_v1.py',
+    'experiments/native_arx5_transfer/sft2000_native_body_diagnostic_v1.json',
     'src/go2arx5_vla/world_model/target_gr00t_live_pair_v1.py',
     'src/go2arx5_vla/world_model/task_learning_live_pair_v1.py',
     'src/go2arx5_vla/world_model/task_learning_student_v1.py',
@@ -113,6 +124,8 @@ def policy_contract(value,checkpoint_files,*,verify_package=True,expected_global
 
 
 def validate_spec(s,*,verify_model=True):
+    if task.native_body_role(s.get('core_local_protocol')):
+        return task.native_body_profile(s['core_local_protocol']).validate_live(s,verify_model=verify_model)
     if s.get('core_local_protocol')==task.MATCHED_ROLE:
         from .task_learning_matched_native_v3_1 import validate_live
         return validate_live(s,verify_model=verify_model)
@@ -298,6 +311,8 @@ def query_from_native(adapter,observation,index):
 
 
 def _load(s,root):
+    if task.native_body_role(s.get('core_local_protocol')):
+        return task.native_body_profile(s['core_local_protocol']).load(s,root)
     if s.get('core_local_protocol')==task.MATCHED_ROLE:
         from .task_learning_matched_native_v3_1 import load
         return load(s,root)
@@ -381,8 +396,13 @@ def infer(s,output):
     records=[];loads=0;attempted=0;terminal=None
     try:
         _registered(producer,s['producer_native_spec']['path']);_live(s,producer)
-        for n,pin in s['checkpoint_files'].items():
-            need(digest(Path(s['checkpoint'])/n)==pin,'FROZEN_PARENT_FILE:'+n)
+        if s.get('core_local_protocol')==task.NATIVE_A500_ROLE:
+            from .native_arx5_training_runtime_v1 import checked_parent
+            from .stable_task_scene_v1 import pinned
+            checked_parent(s['checkpoint'],pinned(s['official_parent_audit']))
+        else:
+            for n,pin in s['checkpoint_files'].items():
+                need(digest(Path(s['checkpoint'])/n)==pin,'FROZEN_PARENT_FILE:'+n)
         prepare_environment(s['numeric_mode'])
         import torch
         configure_torch(torch,s['numeric_mode']);torch.set_num_threads(4)

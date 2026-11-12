@@ -1,0 +1,28 @@
+{
+  "schema": "NATIVE_BODY_SFT2000_TRAIN4_PREREGISTRATION_V1",
+  "status": "PREREGISTERED_NOT_EXECUTED",
+  "protocol_commit": "ade5ab354af0622741aea92995e5643b4d8106d0",
+  "camera_id": "BODY_BASE_FIXED_V1_20261111",
+  "method": "SFT2000_PLUS_ENDPOINT_BASIS",
+  "package_sha256": "7feffa8dd11b5c9ce963f2e0f2f2613196c1a3ae8e5039056377bd5e25e02250",
+  "Processor": "ORIGINAL_SFT2000_PACKAGE_PROCESSOR_UNCHANGED",
+  "decoder": "H40_CURRENT_STATE_PREDICTED_GOAL_QUINTIC_REPRESENTATION_V3_01",
+  "conditions": [
+    {"layout": "TRAIN01", "restart": 1, "query_seed_base": 202611110100},
+    {"layout": "TRAIN07", "restart": 1, "query_seed_base": 202611110700},
+    {"layout": "TRAIN13", "restart": 1, "query_seed_base": 202611111300},
+    {"layout": "TRAIN25", "restart": 1, "query_seed_base": 202611112500}
+  ],
+  "requested": 4,
+  "maximum_queries_per_condition": 15,
+  "optimizer_updates": 0,
+  "original_DEV_TEST_conditions": 0,
+  "score": "ORIGINAL_TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+  "clipping": false,
+  "Teacher_fallback": false,
+  "WBC_changes": false,
+  "physics_dt_s": 0.002,
+  "outcome_selection_or_retry": false,
+  "technical_failure": "PRESERVE_AND_STOP_GROUP_FOR_DIAGNOSIS",
+  "policy_rejection": "VALID_TASK_FAILURE_CONTINUE_FIXED_UNEXECUTED_CONDITIONS"
+}

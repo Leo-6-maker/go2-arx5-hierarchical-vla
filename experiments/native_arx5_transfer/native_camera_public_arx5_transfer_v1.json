@@ -1,0 +1,568 @@
+{
+  "schema": "NATIVE_CAMERA_PUBLIC_ARX5_TRANSFER_DESIGN_V1",
+  "protocol_id": "NATIVE_CAMERA_PUBLIC_ARX5_TRANSFER_V1",
+  "date": "2026-11-11",
+  "status": "DESIGN_READY_RUNTIME_NOT_ADMITTED",
+  "executable_launcher_config": false,
+  "authorization_scope": "PUBLISH_PLAN_AND_ORGANIZE_MAIN_NO_REMOTE_JOB_STARTED_BY_THIS_CHANGE",
+  "question": "Additional public ARX5 preadaptation at fixed target data and target optimization budget",
+  "code": {
+    "repository": "Leo-6-maker/go2-arx5-hierarchical-vla",
+    "organized_main_sha": "6843163d641eb24a29c3b1557f868765346ba66c",
+    "runtime_reference_sha": "f0e19c8812896f98053e74b165d6c52e85327b69",
+    "actual_implementation_sha": null,
+    "runtime_stack_merged_to_main": false,
+    "upstream_reference_sha": "51d4c89f72fda44cbf77285c6a8114b52676b8a1",
+    "actual_dependency_manifest": null
+  },
+  "scope": {
+    "site": "CORE_4080S",
+    "task": "STANDING_GO2_ARX5_WHOLE_BODY_SIMULATION",
+    "physics_dt_s": 0.002,
+    "action_dt_s": 0.05,
+    "horizon_knots": 40,
+    "knot_offsets_ms": [
+      0,
+      50,
+      100,
+      150,
+      200,
+      250,
+      300,
+      350,
+      400,
+      450,
+      500,
+      550,
+      600,
+      650,
+      700,
+      750,
+      800,
+      850,
+      900,
+      950,
+      1000,
+      1050,
+      1100,
+      1150,
+      1200,
+      1250,
+      1300,
+      1350,
+      1400,
+      1450,
+      1500,
+      1550,
+      1600,
+      1650,
+      1700,
+      1750,
+      1800,
+      1850,
+      1900,
+      1950
+    ],
+    "native_tick_offsets": [
+      0,
+      25,
+      50,
+      75,
+      100,
+      125,
+      150,
+      175,
+      200,
+      225,
+      250,
+      275,
+      300,
+      325,
+      350,
+      375,
+      400,
+      425,
+      450,
+      475,
+      500,
+      525,
+      550,
+      575,
+      600,
+      625,
+      650,
+      675,
+      700,
+      725,
+      750,
+      775,
+      800,
+      825,
+      850,
+      875,
+      900,
+      925,
+      950,
+      975
+    ],
+    "full_consumption_intervals": 40,
+    "consumption_duration_s": 2,
+    "observation_inference_pauses_simulation": true,
+    "full_wbc_leg_dynamics_safety_frozen": true,
+    "physical_robot_execution": false,
+    "wm_enabled": false,
+    "vision_language_unfrozen": false,
+    "public_replay_in_target": false,
+    "new_large_gpu_jobs": false
+  },
+  "parent": {
+    "repository": "nvidia/GR00T-N1.7-3B",
+    "revision": "2fc962b973bccdd5d8ce4f67cc63b264d6886495",
+    "registered_files_identity": "0e493187af087d156f6352d46ce14e049ff18e7c1cb1eabc8671357ab4b96e71",
+    "registered_identity_source": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/0a27753bbda8ed75ab6b74aeb64755e0427362c7/scripts/pi0294/multitask/raw_parent_delivery.py",
+    "identity_status": "REGISTERED_IN_REPOSITORY_PAYLOAD_NOT_REDOWNLOADED_IN_THIS_PLANNING_CHANGE",
+    "total_file_bytes": 6914922850,
+    "files": {
+      "model-00001-of-00002.safetensors": {
+        "sha256": "8a1a1d8a33c99103c7c80c136073c5bb8bfe9ca8f7a970c93c033ea89742906d",
+        "bytes": 4990519232
+      },
+      "model-00002-of-00002.safetensors": {
+        "sha256": "c3f61940deb2007ba1ad7743013b57f0f8462356151db9655175d7aca2d40661",
+        "bytes": 1919980184
+      },
+      "config.json": {
+        "sha256": "54c0367060cd310d0b3343fe72a589860a8b6e8173810164a4ffd6253f52e689",
+        "bytes": 2071
+      },
+      "processor_config.json": {
+        "sha256": "85c1b4690ae090559e79a45193e598b65d6146eedf14750884da65e6d31032be",
+        "bytes": 21137
+      },
+      "embodiment_id.json": {
+        "sha256": "abc4a749389837416a102d9455a8c089336f2e417afb18565703b9944974bc35",
+        "bytes": 2145
+      },
+      "model.safetensors.index.json": {
+        "sha256": "407804ea5a62f4f8823f48811ae0edbb82fac101e9cf4d7273e6e2f692bb4d59",
+        "bytes": 104985
+      },
+      "statistics.json": {
+        "sha256": "c97b1b07a82a8a8858771d56d278732d97dd8eae506032c146c77eb53828afc9",
+        "bytes": 4293096
+      }
+    },
+    "actual_trusted_local_audit": null
+  },
+  "parameter_scope": {
+    "variant": "INTERFACES_LAST2_DIT",
+    "project_embodiment_tag": "new_embodiment",
+    "target_category": 10,
+    "category_is_official_arx5_named_slot": false,
+    "source_and_target_share_category": true,
+    "interfaces": [
+      "action_head.state_encoder.layer1",
+      "action_head.state_encoder.layer2",
+      "action_head.action_encoder.W1",
+      "action_head.action_encoder.W2",
+      "action_head.action_encoder.W3",
+      "action_head.action_decoder.layer1",
+      "action_head.action_decoder.layer2"
+    ],
+    "per_interface_trainable_leaves": [
+      "target_W",
+      "target_b"
+    ],
+    "dit_trainable_regex": "^action_head\\.model\\.transformer_blocks\\.(30|31)\\.",
+    "legacy_numel_crosscheck_only": 77847684,
+    "actual_names_shapes_numel_hash_manifest": null,
+    "other_category_slices_frozen": true,
+    "backbone_and_first_30_dit_weights_frozen": true,
+    "frozen_dit_forward_retains_autograd_to_interfaces": true
+  },
+  "observation": {
+    "physical_roles": [
+      "BODY",
+      "WRIST"
+    ],
+    "processor_video_keys": [
+      "external_rgb",
+      "wrist_rgb"
+    ],
+    "physical_state": "eef_9d_plus_measured_gripper_position",
+    "language": true,
+    "privileged_metadata_in_student_inputs": false,
+    "body_camera": {
+      "version": "BODY_BASE_FIXED_V1_20261111",
+      "parent_link": "base_link",
+      "position_base_m": [
+        0.25,
+        -0.24,
+        0.45
+      ],
+      "look_at_base_m": [
+        0.38,
+        0,
+        0.34
+      ],
+      "up_base": [
+        0,
+        0,
+        1
+      ],
+      "vertical_fovy_deg": 75,
+      "raw_rgb_shape": [
+        256,
+        256,
+        3
+      ],
+      "object_tracking": false,
+      "follows_full_base_se3": true,
+      "preview_parameter_convention_reconciled": null
+    },
+    "wrist_camera": "UNCHANGED_ORIGINAL_CALIBRATION_AND_IMAGE_BYTES",
+    "camera_gate": {
+      "supervised_windows": 1450,
+      "body_amodal_bbox_margin_px": 8,
+      "body_margin_fraction_min": 0.95,
+      "body_margin_count_min": 1378,
+      "visible_target_pixels_min": 64,
+      "any_camera_visible_fraction_min_per_phase": 0.9,
+      "visible_metric": "OCCLUSION_AWARE_INSTANCE_MASK",
+      "processor_transformed_mask_audit": true,
+      "raw_and_postprocessor_phase_visibility_gates": true,
+      "all_original_captures_separately_audited": true,
+      "failed_visibility_windows_removed": false,
+      "actual_report": null
+    }
+  },
+  "target_data": {
+    "expected_episodes": 100,
+    "expected_supervised_windows": 1450,
+    "original_expected_captures_crosscheck": 1500,
+    "intervention_windows_supervised": false,
+    "label_semantics": "TARGET_TEACHER_NOMINAL_H40_CONSUMPTION_PROVEN",
+    "rendering_semantics": "NEW_BODY_CAMERA_RERENDER_FROM_SEALED_ACTUAL_STATES_NO_NEW_DEMONSTRATIONS",
+    "wrist_bytes_reused": true,
+    "unchanged": [
+      "episode_ids",
+      "window_ids_and_order",
+      "state_arrays",
+      "action_arrays",
+      "intervention_masks",
+      "language",
+      "statistics"
+    ],
+    "original_manifest": null,
+    "new_manifest": null,
+    "target_statistics": null,
+    "processor": null,
+    "target_sample_trace": null
+  },
+  "source_data": {
+    "repository": "RoboChallenge/Table30",
+    "revision": "1eda76b8935b5c7a59cd635ca9e3fab882943e11",
+    "robot_filter": "METADATA_VERIFIED_ARX5",
+    "pose_field": "end_effector_pose",
+    "pose_shape": 6,
+    "pose_raw_semantics": "XYZ_ROLL_PITCH_YAW_RELATIVE_TO_ARM_BASE",
+    "rpy_unit_order_and_tcp_evidence": null,
+    "raw_gripper_field": "gripper_width",
+    "gripper_unit": "m",
+    "gripper_semantics": "MEASURED_WIDTH_NOT_TARGET_NOMINAL_COMMAND",
+    "gripper_transform": "KEEP_RAW_WIDTH_M_APPLY_SOURCE_ONLY_PROCESSOR_STATISTICS",
+    "timestamp_field": "timestamp",
+    "documented_timestamp_unit": "ms",
+    "actual_clock_mapping_evidence": null,
+    "global_video": "global_realsense_rgb.mp4",
+    "wrist_video": "arm_realsense_rgb.mp4",
+    "unused_side_video": "right_realsense_rgb.mp4",
+    "observation_alignment": {
+      "causal_latest_frame_at_or_before_anchor": true,
+      "max_camera_age_ms": 50,
+      "max_camera_pair_skew_ms": 25,
+      "max_state_interpolation_gap_ms": 100,
+      "video_pts_clock_mapping_required": true,
+      "frame_index_over_fps_without_evidence": false,
+      "verified_capture_frame_to_state_mapping_allowed": true
+    },
+    "label_semantics": "SOURCE_ACHIEVED_H40_T0_INCLUSIVE",
+    "label_resampling": {
+      "knots": 40,
+      "dt_ms": 50,
+      "first_offset_ms": 0,
+      "last_offset_ms": 1950,
+      "translation": "LINEAR",
+      "rotation": "VERIFIED_RPY_TO_SO3_SHORTEST_ARC_SLERP_TO_ROW_ROT6D",
+      "gripper": "LINEAR_MEASURED_WIDTH_M",
+      "cross_episode": false,
+      "extrapolate_or_duplicate_tail": false
+    },
+    "acquisition": {
+      "whole_repository_download": false,
+      "archive_task_episode_manifest": null,
+      "expected_selected_archive_bytes": null,
+      "actual_transferred_bytes": null,
+      "archive_and_member_hashes": null,
+      "license_or_terms_reference": null
+    },
+    "split": {
+      "seed": 20261111,
+      "unit": "DEDUPLICATED_EPISODE_OR_SAME_COLLECTION_GROUP",
+      "stratification": "TASK",
+      "holdout_group_count_rule": "min(n-1,max(1,ceil(0.10*n))) for n>=2; n=1 train_only",
+      "source_holdout_fraction_of_groups": 0.1,
+      "window_selection": "TASK_ROUND_ROBIN_EPISODE_ROUND_ROBIN_STABLE_HASH_ANCHORS",
+      "max_train_windows": 3200,
+      "max_holdout_windows": 400,
+      "split_before_window_sampling": true,
+      "repeat_windows_to_reach_cap": false,
+      "no_eligible_holdout_group_reassignment": true,
+      "actual_counts": null,
+      "split_manifest": null,
+      "window_manifest": null
+    },
+    "statistics_computed_from": "FROZEN_SOURCE_TRAIN_ONLY",
+    "statistics": null,
+    "processor": null,
+    "admission": null,
+    "pose_feedback_or_setpoint_evidence": null,
+    "achieved_pose_admission": "VERIFIED_ACTUAL_FEEDBACK_OR_VERIFIED_ACTUAL_JOINT_FEEDBACK_WITH_PINNED_FK_TCP_NOT_SETPOINT",
+    "statistics_scope": "EACH_SELECTED_UNIQUE_TRAIN_WINDOW_ONCE_ANCHOR_STATE_AND_40_H40_VALUES_NO_16000_VISIT_WEIGHTING"
+  },
+  "cache": {
+    "allowed_feature_keys": [
+      "backbone_features",
+      "backbone_attention_mask",
+      "image_mask"
+    ],
+    "retained_action_keys": [
+      "state",
+      "embodiment_id",
+      "action",
+      "action_mask"
+    ],
+    "trainable_interface_or_dit_output_cache": false,
+    "no_grad_through_frozen_dit": false,
+    "distinct_source_target_old_view_identities": true,
+    "no_new_random_visual_augmentation": true,
+    "identity_fields": [
+      "parent_weights",
+      "code",
+      "processor_and_tokenizer",
+      "camera_roles_keys_order",
+      "camera_version_and_calibration",
+      "image_sha256",
+      "language_sha256",
+      "transforms",
+      "dtype_and_numerics"
+    ],
+    "new_cache_manifest": null
+  },
+  "training": {
+    "microbatch": 1,
+    "gradient_accumulation": 32,
+    "effective_batch": 32,
+    "optimizer": "AdamW",
+    "learning_rate": 0.0001,
+    "weight_decay": 1e-05,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "max_grad_norm": 1,
+    "decay_grouping": "ORIGINAL_TRAINER",
+    "loss": "ORIGINAL_MASKED_FM_ONLY",
+    "auxiliary_execution_loss": false,
+    "precision": "FP32_TRAINABLE_PARAMETERS_ORIGINAL_BF16_AUTOCAST_SUBJECT_TO_NEW_CORE_ADMISSION",
+    "trainable_parameters_gradients_optimizer_activations_on_gpu": true,
+    "cpu_training_activation_offload": false,
+    "scheduler": {
+      "kind": "COSINE",
+      "updates": 500,
+      "warmup_updates": 25,
+      "min_lr_after_final_update": 0,
+      "used_multiplier_zero_based_u": "(u+1)/25 if u<25 else 0.5*(1+cos(pi*(u-25)/475))",
+      "use_old_8000_200_or_0p1_floor": false,
+      "expected_positive_lr_calls": 500,
+      "sealed_used_lr_sequence_sha256": "0d044913097f94796624a672d1aa3f5de17804fad80376e9dd05635776ebc31a",
+      "lr_sequence_hash_format": "500 CPython float.hex values in update order, LF-separated with trailing LF, UTF-8/ASCII; actual run must also record used and next LR",
+      "first_used_lr": 4.000000000000001e-06,
+      "last_used_lr": 1.0935809887702154e-09
+    },
+    "target_pairing": {
+      "seed": 20261111,
+      "sampling": "EXISTING_ORIGINAL_EXPOSURE_RULE",
+      "contact_event_resampling": false,
+      "source_replay": false,
+      "reset_optimizer_scheduler_rng_and_cursor": true,
+      "same_window_mask_fm_time_noise_per_update_and_microbatch": true,
+      "source_to_target_transfer": "WHITELIST_WEIGHTS_ONLY",
+      "target_stats_processor_identical": true,
+      "reset_learned_category10_at_transition": false
+    },
+    "source_seed": 20261111,
+    "source_rng_namespace": "B_SOURCE",
+    "checkpoints": [
+      250,
+      500
+    ],
+    "primary_endpoint": 500,
+    "phases": [
+      {
+        "id": "A_TARGET",
+        "parent": "OFFICIAL",
+        "domain": "TARGET",
+        "optimizer_calls": 500,
+        "sample_visits": 16000
+      },
+      {
+        "id": "B_SOURCE",
+        "parent": "OFFICIAL",
+        "domain": "SOURCE",
+        "optimizer_calls": 500,
+        "sample_visits": 16000
+      },
+      {
+        "id": "B_TARGET",
+        "parent": "B_SOURCE_500_WHITELIST_WEIGHTS",
+        "domain": "TARGET",
+        "optimizer_calls": 500,
+        "sample_visits": 16000
+      }
+    ],
+    "total_optimizer_calls": 1500,
+    "total_sample_visits": 48000,
+    "qualification_updates_enter_candidates": false,
+    "automatic_extra_same_distribution_training": false,
+    "source_sampling": {
+      "kind": "NUMPY_PCG64_EPOCH_PERMUTATION",
+      "seed": 20261111,
+      "cycle_first": 0,
+      "epoch_seed": "seed+cycle",
+      "fixed_manifest_order": true,
+      "total_cursor_visits": 16000,
+      "task_reweighting": false,
+      "sampler_rng_independent_of_fm_rng": true
+    }
+  },
+  "early_diagnostic": {
+    "checkpoint": "EXISTING_SFT2000_OWN_PROCESSOR",
+    "layouts": [
+      "TRAIN01",
+      "TRAIN07",
+      "TRAIN13",
+      "TRAIN25"
+    ],
+    "layout_identity_mapping_verified": null,
+    "requests": 4,
+    "stage": "AFTER_CAMERA_GATE_BEFORE_PRIMARY_TRAINING",
+    "native_decoder": "ENDPOINT_BASIS_V3",
+    "replaces_official_parent_admission": false,
+    "counts_as_ab_dev": false
+  },
+  "decoder": {
+    "version": "H40_CURRENT_STATE_PREDICTED_GOAL_QUINTIC_REPRESENTATION_V3_01",
+    "code_reference_sha": "f0e19c8812896f98053e74b165d6c52e85327b69",
+    "raw_goal_used": "LAST_KNOT",
+    "anchor_pose": "ACTUAL_CURRENT_EEF",
+    "anchor_gripper": "LAST_ACTUALLY_CONSUMED_NOMINAL_GRIP",
+    "execute": "RECONSTRUCTED_40_KNOT_40_INTERVAL_TRAJECTORY",
+    "raw_h40_preserved_and_separately_audited": true,
+    "claim_all_raw_knots_control_geometry": false,
+    "clipping": false,
+    "retiming": false,
+    "teacher_fallback": false,
+    "object_truth": false,
+    "original_native_safety_and_rejection": true
+  },
+  "evaluation": {
+    "panel_path": "experiments/native_arx5_transfer/dev_panel_v1.json",
+    "panel_status": "PROPOSED_NOT_REGISTERED",
+    "old_population_overlap_inputs_only_audit": null,
+    "old_test_results_read": false,
+    "scene_origin_and_initial_state_manifest": null,
+    "inherited_timeout_query_limits_and_scoring_hash": null,
+    "endpoints": [
+      "A_TARGET_500",
+      "B_TARGET_500"
+    ],
+    "stage1_requests_per_method": 8,
+    "stage2_additional_requests_per_method": 32,
+    "maximum_requests_per_method": 40,
+    "extend_if": {
+      "delta_success_B_minus_A_at_least": 2,
+      "all_stage1_pairs_complete_and_auditable": true,
+      "new_B_hard_safety_or_technical_issues": 0,
+      "unresolved_technical_issues_either_method": 0
+    },
+    "reuse_stage1_without_rerun": true,
+    "success": "ORIGINAL_TRUE_GRASP_AND_LIFT_GE_20MM_AND_HOLD_GE_1S_AND_STANDING_SAFETY",
+    "first_failure_and_all_rejections_retained": true,
+    "initial_state_differences_reported": true,
+    "denominators": [
+      "planned",
+      "requested",
+      "attempted",
+      "reset_ready",
+      "technical_valid",
+      "success",
+      "not_started"
+    ],
+    "report_stages_separately_and_combined": true,
+    "matched_pair_counts": [
+      "both_success",
+      "both_failure",
+      "A_only",
+      "B_only"
+    ],
+    "inference_unit": "LAYOUT_WITH_TWO_RESTARTS_SINGLE_TRAINING_SEED_PILOT",
+    "expansion_gate_is_significance_test": false,
+    "combined_selected_40_is_unselected_confirmatory_test": false,
+    "requested_definition": "ACTIVATED_FORMAL_BATCH_ONLY_CONDITIONAL_STAGE2_IS_NOT_REQUESTED_UNLESS_GATE_PASSES"
+  },
+  "evidence_pending": [
+    "camera_preview_convention_and_full_coverage",
+    "original_target_payload_and_new_rerender_identity",
+    "selected_source_archive_and_member_manifest",
+    "source_RPY_TCP_width_clock_mapping",
+    "source_episode_split_and_actual_window_counts",
+    "actual_new_implementation_and_dependency_hashes",
+    "new_official_parent_parameter_and_cache_qualification",
+    "GPU_memory_throughput_and_full_restore",
+    "old_population_input_only_overlap_audit",
+    "actual_new_DEV_scene_and_timeout_scoring_identity",
+    "Teacher24_user_reported_19_of_24_complete_final_receipt"
+  ],
+  "preserve": {
+    "historical_baselines": [
+      "CORR2048",
+      "SFT2000",
+      "C500"
+    ],
+    "old_bf16_cross_hardware_reject": true,
+    "old_dev_test": true,
+    "teacher24": {
+      "success": 19,
+      "requested": 24,
+      "status": "USER_REPORTED_FINAL_NEGATIVE_FULL_GITHUB_RECEIPT_PENDING"
+    },
+    "active_jobs_and_runtime_capsules": true,
+    "branch_and_artifact_deletion": false
+  },
+  "report_sections": [
+    "QUESTION",
+    "CHANGED",
+    "ACTUAL",
+    "NEGATIVE",
+    "DECISION",
+    "NEXT"
+  ],
+  "actual_execution": {
+    "remote_jobs_started": 0,
+    "training_updates": 0,
+    "native_evaluation_requests": 0,
+    "large_payload_downloads": 0
+  }
+}
