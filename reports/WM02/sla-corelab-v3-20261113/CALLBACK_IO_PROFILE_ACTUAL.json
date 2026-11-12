@@ -1,0 +1,917 @@
+{
+  "schema": "CORELAB_CALLBACK_IO_PROFILE_ACTUAL_V3",
+  "as_of_SGT": "2026-11-13T06:41:42.253053+08:00",
+  "profiles": [
+    {
+      "case": "sla-v3-body-native-20261113-04",
+      "source_sha": "2f544d0d702978e38e45cf2f2ff08e0e92cce514",
+      "journal_bytes": 354478010,
+      "spans": {
+        "ros.spin": {
+          "count": 3458,
+          "wall_ns": 121501948505,
+          "thread_cpu_ns": 48133884318,
+          "self_wall_ns": 97027687219,
+          "maximum_wall_ns": 1958670599,
+          "median_sample_wall_ns": 2339508,
+          "p95_sample_wall_ns": 150235611
+        },
+        "ros.message_conversion.mode": {
+          "count": 4,
+          "wall_ns": 27345,
+          "thread_cpu_ns": 27585,
+          "self_wall_ns": 27345,
+          "maximum_wall_ns": 10192,
+          "median_sample_wall_ns": 7452,
+          "p95_sample_wall_ns": 10192
+        },
+        "ros.journal_append.mode": {
+          "count": 4,
+          "wall_ns": 660665,
+          "thread_cpu_ns": 204184,
+          "self_wall_ns": 660665,
+          "maximum_wall_ns": 460058,
+          "median_sample_wall_ns": 69286,
+          "p95_sample_wall_ns": 460058
+        },
+        "ros.callback.mode": {
+          "count": 4,
+          "wall_ns": 738596,
+          "thread_cpu_ns": 280629,
+          "self_wall_ns": 50586,
+          "maximum_wall_ns": 487786,
+          "median_sample_wall_ns": 85537,
+          "p95_sample_wall_ns": 487786
+        },
+        "ros.message_conversion.arm_target": {
+          "count": 15413,
+          "wall_ns": 329285628,
+          "thread_cpu_ns": 319460097,
+          "self_wall_ns": 329285628,
+          "maximum_wall_ns": 2009663,
+          "median_sample_wall_ns": 20006,
+          "p95_sample_wall_ns": 28441
+        },
+        "ros.journal_append.arm_target": {
+          "count": 15413,
+          "wall_ns": 2567486890,
+          "thread_cpu_ns": 828137459,
+          "self_wall_ns": 2567486890,
+          "maximum_wall_ns": 6795587,
+          "median_sample_wall_ns": 78262,
+          "p95_sample_wall_ns": 205963
+        },
+        "ros.callback.arm_target": {
+          "count": 15413,
+          "wall_ns": 3102750165,
+          "thread_cpu_ns": 1325248678,
+          "self_wall_ns": 205977647,
+          "maximum_wall_ns": 6853586,
+          "median_sample_wall_ns": 111356,
+          "p95_sample_wall_ns": 244655
+        },
+        "ros.message_conversion.ee": {
+          "count": 8659,
+          "wall_ns": 141550761,
+          "thread_cpu_ns": 138214555,
+          "self_wall_ns": 141550761,
+          "maximum_wall_ns": 1498739,
+          "median_sample_wall_ns": 15130,
+          "p95_sample_wall_ns": 20617
+        },
+        "ros.journal_append.ee": {
+          "count": 8659,
+          "wall_ns": 1578383189,
+          "thread_cpu_ns": 482318976,
+          "self_wall_ns": 1578383189,
+          "maximum_wall_ns": 98183678,
+          "median_sample_wall_ns": 80805,
+          "p95_sample_wall_ns": 364461
+        },
+        "ros.callback.ee": {
+          "count": 8659,
+          "wall_ns": 1848125676,
+          "thread_cpu_ns": 725497981,
+          "self_wall_ns": 128191726,
+          "maximum_wall_ns": 98222045,
+          "median_sample_wall_ns": 110269,
+          "p95_sample_wall_ns": 399256
+        },
+        "ros.message_conversion.observation": {
+          "count": 7644,
+          "wall_ns": 119553167,
+          "thread_cpu_ns": 116034514,
+          "self_wall_ns": 119553167,
+          "maximum_wall_ns": 990015,
+          "median_sample_wall_ns": 14123,
+          "p95_sample_wall_ns": 21059
+        },
+        "ros.journal_append.observation": {
+          "count": 7644,
+          "wall_ns": 979063598,
+          "thread_cpu_ns": 374906305,
+          "self_wall_ns": 979063598,
+          "maximum_wall_ns": 5880250,
+          "median_sample_wall_ns": 73072,
+          "p95_sample_wall_ns": 340276
+        },
+        "ros.callback.observation": {
+          "count": 7644,
+          "wall_ns": 1195629462,
+          "thread_cpu_ns": 572968952,
+          "self_wall_ns": 97012697,
+          "maximum_wall_ns": 5916782,
+          "median_sample_wall_ns": 98600,
+          "p95_sample_wall_ns": 371183
+        },
+        "ros.message_conversion.policy": {
+          "count": 7644,
+          "wall_ns": 6029805654,
+          "thread_cpu_ns": 5867806518,
+          "self_wall_ns": 6029805654,
+          "maximum_wall_ns": 3690793,
+          "median_sample_wall_ns": 812145,
+          "p95_sample_wall_ns": 868676
+        },
+        "ros.journal_append.policy": {
+          "count": 7644,
+          "wall_ns": 6807002122,
+          "thread_cpu_ns": 4183046403,
+          "self_wall_ns": 6807002122,
+          "maximum_wall_ns": 27702148,
+          "median_sample_wall_ns": 718134,
+          "p95_sample_wall_ns": 1704699
+        },
+        "ros.callback.policy": {
+          "count": 7644,
+          "wall_ns": 12959666164,
+          "thread_cpu_ns": 10161976347,
+          "self_wall_ns": 122858388,
+          "maximum_wall_ns": 28601555,
+          "median_sample_wall_ns": 1554652,
+          "p95_sample_wall_ns": 2669108
+        },
+        "ros.wait_source": {
+          "count": 862,
+          "wall_ns": 516717649,
+          "thread_cpu_ns": 323502683,
+          "self_wall_ns": 14108125,
+          "maximum_wall_ns": 15786994,
+          "median_sample_wall_ns": 360590,
+          "p95_sample_wall_ns": 1917309
+        },
+        "ros.message_conversion.arm_request": {
+          "count": 7643,
+          "wall_ns": 160835317,
+          "thread_cpu_ns": 157559523,
+          "self_wall_ns": 160835317,
+          "maximum_wall_ns": 1687459,
+          "median_sample_wall_ns": 19109,
+          "p95_sample_wall_ns": 27888
+        },
+        "ros.journal_append.arm_request": {
+          "count": 7643,
+          "wall_ns": 949332379,
+          "thread_cpu_ns": 396277779,
+          "self_wall_ns": 949332379,
+          "maximum_wall_ns": 6384724,
+          "median_sample_wall_ns": 76069,
+          "p95_sample_wall_ns": 210549
+        },
+        "ros.callback.arm_request": {
+          "count": 7643,
+          "wall_ns": 1204620182,
+          "thread_cpu_ns": 637236913,
+          "self_wall_ns": 94452486,
+          "maximum_wall_ns": 6436742,
+          "median_sample_wall_ns": 107073,
+          "p95_sample_wall_ns": 262269
+        },
+        "ros.message_conversion.base_command": {
+          "count": 7643,
+          "wall_ns": 79176082,
+          "thread_cpu_ns": 77175991,
+          "self_wall_ns": 79176082,
+          "maximum_wall_ns": 1097949,
+          "median_sample_wall_ns": 9540,
+          "p95_sample_wall_ns": 13618
+        },
+        "ros.journal_append.base_command": {
+          "count": 7643,
+          "wall_ns": 799328554,
+          "thread_cpu_ns": 323723470,
+          "self_wall_ns": 799328554,
+          "maximum_wall_ns": 5862030,
+          "median_sample_wall_ns": 65548,
+          "p95_sample_wall_ns": 141752
+        },
+        "ros.callback.base_command": {
+          "count": 7643,
+          "wall_ns": 962996091,
+          "thread_cpu_ns": 477483990,
+          "self_wall_ns": 84491455,
+          "maximum_wall_ns": 5899859,
+          "median_sample_wall_ns": 85082,
+          "p95_sample_wall_ns": 177730
+        },
+        "atom.event_wait": {
+          "count": 620,
+          "wall_ns": 3571733847,
+          "thread_cpu_ns": 3104641746,
+          "self_wall_ns": 5175695,
+          "maximum_wall_ns": 34449559,
+          "median_sample_wall_ns": 5539465,
+          "p95_sample_wall_ns": 8047768
+        }
+      },
+      "failed_event_waits": []
+    },
+    {
+      "case": "sla-v3-body-native-20261113-05",
+      "source_sha": "2f544d0d702978e38e45cf2f2ff08e0e92cce514",
+      "journal_bytes": 360323319,
+      "spans": {
+        "ros.spin": {
+          "count": 3458,
+          "wall_ns": 127100411700,
+          "thread_cpu_ns": 48226493041,
+          "self_wall_ns": 98069386642,
+          "maximum_wall_ns": 2099491612,
+          "median_sample_wall_ns": 2443138,
+          "p95_sample_wall_ns": 150413011
+        },
+        "ros.message_conversion.arm_target": {
+          "count": 15651,
+          "wall_ns": 337265320,
+          "thread_cpu_ns": 325528152,
+          "self_wall_ns": 337265320,
+          "maximum_wall_ns": 1815743,
+          "median_sample_wall_ns": 19861,
+          "p95_sample_wall_ns": 31632
+        },
+        "ros.journal_append.arm_target": {
+          "count": 15651,
+          "wall_ns": 2962173291,
+          "thread_cpu_ns": 834644805,
+          "self_wall_ns": 2962173291,
+          "maximum_wall_ns": 46178831,
+          "median_sample_wall_ns": 80044,
+          "p95_sample_wall_ns": 1170495
+        },
+        "ros.callback.arm_target": {
+          "count": 15651,
+          "wall_ns": 3522956947,
+          "thread_cpu_ns": 1344682958,
+          "self_wall_ns": 223518336,
+          "maximum_wall_ns": 46221191,
+          "median_sample_wall_ns": 113437,
+          "p95_sample_wall_ns": 1217142
+        },
+        "ros.message_conversion.mode": {
+          "count": 4,
+          "wall_ns": 25378,
+          "thread_cpu_ns": 25488,
+          "self_wall_ns": 25378,
+          "maximum_wall_ns": 7852,
+          "median_sample_wall_ns": 6330,
+          "p95_sample_wall_ns": 7852
+        },
+        "ros.journal_append.mode": {
+          "count": 4,
+          "wall_ns": 3032838,
+          "thread_cpu_ns": 222596,
+          "self_wall_ns": 3032838,
+          "maximum_wall_ns": 2720011,
+          "median_sample_wall_ns": 161611,
+          "p95_sample_wall_ns": 2720011
+        },
+        "ros.callback.mode": {
+          "count": 4,
+          "wall_ns": 3128036,
+          "thread_cpu_ns": 300468,
+          "self_wall_ns": 69820,
+          "maximum_wall_ns": 2759982,
+          "median_sample_wall_ns": 181304,
+          "p95_sample_wall_ns": 2759982
+        },
+        "ros.message_conversion.ee": {
+          "count": 8745,
+          "wall_ns": 148730474,
+          "thread_cpu_ns": 144919695,
+          "self_wall_ns": 148730474,
+          "maximum_wall_ns": 1090173,
+          "median_sample_wall_ns": 15784,
+          "p95_sample_wall_ns": 23076
+        },
+        "ros.journal_append.ee": {
+          "count": 8745,
+          "wall_ns": 1913881409,
+          "thread_cpu_ns": 493864845,
+          "self_wall_ns": 1913881409,
+          "maximum_wall_ns": 80988168,
+          "median_sample_wall_ns": 81936,
+          "p95_sample_wall_ns": 602059
+        },
+        "ros.callback.ee": {
+          "count": 8745,
+          "wall_ns": 2197515754,
+          "thread_cpu_ns": 745541904,
+          "self_wall_ns": 134903871,
+          "maximum_wall_ns": 81022195,
+          "median_sample_wall_ns": 111377,
+          "p95_sample_wall_ns": 664506
+        },
+        "ros.message_conversion.observation": {
+          "count": 7732,
+          "wall_ns": 122228605,
+          "thread_cpu_ns": 119321545,
+          "self_wall_ns": 122228605,
+          "maximum_wall_ns": 1305758,
+          "median_sample_wall_ns": 14375,
+          "p95_sample_wall_ns": 21167
+        },
+        "ros.journal_append.observation": {
+          "count": 7732,
+          "wall_ns": 1246806861,
+          "thread_cpu_ns": 385230320,
+          "self_wall_ns": 1246806861,
+          "maximum_wall_ns": 52801164,
+          "median_sample_wall_ns": 73693,
+          "p95_sample_wall_ns": 260935
+        },
+        "ros.callback.observation": {
+          "count": 7732,
+          "wall_ns": 1467725932,
+          "thread_cpu_ns": 589569801,
+          "self_wall_ns": 98690466,
+          "maximum_wall_ns": 53024905,
+          "median_sample_wall_ns": 99787,
+          "p95_sample_wall_ns": 305524
+        },
+        "ros.wait_source": {
+          "count": 862,
+          "wall_ns": 572547320,
+          "thread_cpu_ns": 330145444,
+          "self_wall_ns": 14598948,
+          "maximum_wall_ns": 12019117,
+          "median_sample_wall_ns": 368798,
+          "p95_sample_wall_ns": 2183948
+        },
+        "ros.message_conversion.policy": {
+          "count": 7732,
+          "wall_ns": 6224124269,
+          "thread_cpu_ns": 5997336752,
+          "self_wall_ns": 6224124269,
+          "maximum_wall_ns": 4158023,
+          "median_sample_wall_ns": 814771,
+          "p95_sample_wall_ns": 880398
+        },
+        "ros.journal_append.policy": {
+          "count": 7732,
+          "wall_ns": 9649692643,
+          "thread_cpu_ns": 4266478528,
+          "self_wall_ns": 9649692643,
+          "maximum_wall_ns": 1902931437,
+          "median_sample_wall_ns": 718302,
+          "p95_sample_wall_ns": 1728336
+        },
+        "ros.callback.policy": {
+          "count": 7732,
+          "wall_ns": 16005528275,
+          "thread_cpu_ns": 10375627868,
+          "self_wall_ns": 131711363,
+          "maximum_wall_ns": 1903850436,
+          "median_sample_wall_ns": 1557974,
+          "p95_sample_wall_ns": 2722937
+        },
+        "ros.message_conversion.arm_request": {
+          "count": 7730,
+          "wall_ns": 167977713,
+          "thread_cpu_ns": 161700436,
+          "self_wall_ns": 167977713,
+          "maximum_wall_ns": 1831081,
+          "median_sample_wall_ns": 19258,
+          "p95_sample_wall_ns": 27585
+        },
+        "ros.journal_append.arm_request": {
+          "count": 7730,
+          "wall_ns": 1196445562,
+          "thread_cpu_ns": 397390478,
+          "self_wall_ns": 1196445562,
+          "maximum_wall_ns": 68758977,
+          "median_sample_wall_ns": 75354,
+          "p95_sample_wall_ns": 227410
+        },
+        "ros.callback.arm_request": {
+          "count": 7730,
+          "wall_ns": 1462445769,
+          "thread_cpu_ns": 644835505,
+          "self_wall_ns": 98022494,
+          "maximum_wall_ns": 68835322,
+          "median_sample_wall_ns": 106446,
+          "p95_sample_wall_ns": 282216
+        },
+        "ros.message_conversion.base_command": {
+          "count": 7730,
+          "wall_ns": 78469338,
+          "thread_cpu_ns": 78214504,
+          "self_wall_ns": 78469338,
+          "maximum_wall_ns": 285122,
+          "median_sample_wall_ns": 9570,
+          "p95_sample_wall_ns": 13481
+        },
+        "ros.journal_append.base_command": {
+          "count": 7730,
+          "wall_ns": 958725710,
+          "thread_cpu_ns": 332671721,
+          "self_wall_ns": 958725710,
+          "maximum_wall_ns": 8394985,
+          "median_sample_wall_ns": 66026,
+          "p95_sample_wall_ns": 174386
+        },
+        "ros.callback.base_command": {
+          "count": 7730,
+          "wall_ns": 1126868603,
+          "thread_cpu_ns": 488973505,
+          "self_wall_ns": 89673555,
+          "maximum_wall_ns": 8430898,
+          "median_sample_wall_ns": 85639,
+          "p95_sample_wall_ns": 203923
+        },
+        "atom.event_wait": {
+          "count": 620,
+          "wall_ns": 3643200396,
+          "thread_cpu_ns": 3102938091,
+          "self_wall_ns": 4065742,
+          "maximum_wall_ns": 54304358,
+          "median_sample_wall_ns": 5447982,
+          "p95_sample_wall_ns": 8170534
+        }
+      },
+      "failed_event_waits": []
+    },
+    {
+      "case": "sla-v3-expert-train4-semantics-20261113-01-train01",
+      "source_sha": "89c8d6db8fe34b5314c2557b436fd2f5f963a28e",
+      "journal_bytes": 360748968,
+      "spans": {
+        "ros.spin": {
+          "count": 3458,
+          "wall_ns": 126384124465,
+          "thread_cpu_ns": 48706765353,
+          "self_wall_ns": 97931359287,
+          "maximum_wall_ns": 1975756408,
+          "median_sample_wall_ns": 2374581,
+          "p95_sample_wall_ns": 150647452
+        },
+        "ros.message_conversion.mode": {
+          "count": 4,
+          "wall_ns": 31446,
+          "thread_cpu_ns": 31769,
+          "self_wall_ns": 31446,
+          "maximum_wall_ns": 11765,
+          "median_sample_wall_ns": 8001,
+          "p95_sample_wall_ns": 11765
+        },
+        "ros.journal_append.mode": {
+          "count": 4,
+          "wall_ns": 444680,
+          "thread_cpu_ns": 244960,
+          "self_wall_ns": 444680,
+          "maximum_wall_ns": 216653,
+          "median_sample_wall_ns": 99110,
+          "p95_sample_wall_ns": 216653
+        },
+        "ros.callback.mode": {
+          "count": 4,
+          "wall_ns": 535062,
+          "thread_cpu_ns": 332662,
+          "self_wall_ns": 58936,
+          "maximum_wall_ns": 246862,
+          "median_sample_wall_ns": 124942,
+          "p95_sample_wall_ns": 246862
+        },
+        "ros.message_conversion.arm_target": {
+          "count": 15743,
+          "wall_ns": 341322845,
+          "thread_cpu_ns": 330421341,
+          "self_wall_ns": 341322845,
+          "maximum_wall_ns": 1682517,
+          "median_sample_wall_ns": 20674,
+          "p95_sample_wall_ns": 32444
+        },
+        "ros.journal_append.arm_target": {
+          "count": 15743,
+          "wall_ns": 3447098091,
+          "thread_cpu_ns": 858087417,
+          "self_wall_ns": 3447098091,
+          "maximum_wall_ns": 20798815,
+          "median_sample_wall_ns": 83384,
+          "p95_sample_wall_ns": 2037768
+        },
+        "ros.callback.arm_target": {
+          "count": 15743,
+          "wall_ns": 4015581131,
+          "thread_cpu_ns": 1375290131,
+          "self_wall_ns": 227160195,
+          "maximum_wall_ns": 20840593,
+          "median_sample_wall_ns": 118350,
+          "p95_sample_wall_ns": 2086464
+        },
+        "ros.message_conversion.ee": {
+          "count": 8815,
+          "wall_ns": 151184304,
+          "thread_cpu_ns": 148124556,
+          "self_wall_ns": 151184304,
+          "maximum_wall_ns": 1069860,
+          "median_sample_wall_ns": 16360,
+          "p95_sample_wall_ns": 23566
+        },
+        "ros.journal_append.ee": {
+          "count": 8815,
+          "wall_ns": 2841877770,
+          "thread_cpu_ns": 507111977,
+          "self_wall_ns": 2841877770,
+          "maximum_wall_ns": 450554906,
+          "median_sample_wall_ns": 84758,
+          "p95_sample_wall_ns": 1145368
+        },
+        "ros.callback.ee": {
+          "count": 8815,
+          "wall_ns": 3140492604,
+          "thread_cpu_ns": 766873713,
+          "self_wall_ns": 147430530,
+          "maximum_wall_ns": 450600275,
+          "median_sample_wall_ns": 115987,
+          "p95_sample_wall_ns": 1176558
+        },
+        "ros.message_conversion.observation": {
+          "count": 7709,
+          "wall_ns": 120808858,
+          "thread_cpu_ns": 119044312,
+          "self_wall_ns": 120808858,
+          "maximum_wall_ns": 840195,
+          "median_sample_wall_ns": 14348,
+          "p95_sample_wall_ns": 20404
+        },
+        "ros.journal_append.observation": {
+          "count": 7709,
+          "wall_ns": 1163249730,
+          "thread_cpu_ns": 384495083,
+          "self_wall_ns": 1163249730,
+          "maximum_wall_ns": 6766751,
+          "median_sample_wall_ns": 73651,
+          "p95_sample_wall_ns": 240899
+        },
+        "ros.callback.observation": {
+          "count": 7709,
+          "wall_ns": 1383481750,
+          "thread_cpu_ns": 588557133,
+          "self_wall_ns": 99423162,
+          "maximum_wall_ns": 6806738,
+          "median_sample_wall_ns": 99589,
+          "p95_sample_wall_ns": 271641
+        },
+        "ros.wait_source": {
+          "count": 862,
+          "wall_ns": 555499781,
+          "thread_cpu_ns": 327744980,
+          "self_wall_ns": 15914633,
+          "maximum_wall_ns": 14703694,
+          "median_sample_wall_ns": 370871,
+          "p95_sample_wall_ns": 2025856
+        },
+        "ros.message_conversion.policy": {
+          "count": 7708,
+          "wall_ns": 6717951637,
+          "thread_cpu_ns": 6515427183,
+          "self_wall_ns": 6717951637,
+          "maximum_wall_ns": 550112333,
+          "median_sample_wall_ns": 813976,
+          "p95_sample_wall_ns": 863937
+        },
+        "ros.journal_append.policy": {
+          "count": 7708,
+          "wall_ns": 7179467354,
+          "thread_cpu_ns": 4262525373,
+          "self_wall_ns": 7179467354,
+          "maximum_wall_ns": 44159818,
+          "median_sample_wall_ns": 719422,
+          "p95_sample_wall_ns": 1621953
+        },
+        "ros.callback.policy": {
+          "count": 7708,
+          "wall_ns": 14026991361,
+          "thread_cpu_ns": 10889724804,
+          "self_wall_ns": 129572370,
+          "maximum_wall_ns": 550977325,
+          "median_sample_wall_ns": 1557712,
+          "p95_sample_wall_ns": 2597764
+        },
+        "ros.message_conversion.arm_request": {
+          "count": 7706,
+          "wall_ns": 163639758,
+          "thread_cpu_ns": 160263174,
+          "self_wall_ns": 163639758,
+          "maximum_wall_ns": 1073520,
+          "median_sample_wall_ns": 18906,
+          "p95_sample_wall_ns": 26535
+        },
+        "ros.journal_append.arm_request": {
+          "count": 7706,
+          "wall_ns": 1095619486,
+          "thread_cpu_ns": 397652019,
+          "self_wall_ns": 1095619486,
+          "maximum_wall_ns": 43458959,
+          "median_sample_wall_ns": 75219,
+          "p95_sample_wall_ns": 191636
+        },
+        "ros.callback.arm_request": {
+          "count": 7706,
+          "wall_ns": 1356232606,
+          "thread_cpu_ns": 641917761,
+          "self_wall_ns": 96973362,
+          "maximum_wall_ns": 43506258,
+          "median_sample_wall_ns": 105865,
+          "p95_sample_wall_ns": 240512
+        },
+        "ros.message_conversion.base_command": {
+          "count": 7706,
+          "wall_ns": 83526864,
+          "thread_cpu_ns": 79504521,
+          "self_wall_ns": 83526864,
+          "maximum_wall_ns": 2013193,
+          "median_sample_wall_ns": 9548,
+          "p95_sample_wall_ns": 13539
+        },
+        "ros.journal_append.base_command": {
+          "count": 7706,
+          "wall_ns": 942852960,
+          "thread_cpu_ns": 331011004,
+          "self_wall_ns": 942852960,
+          "maximum_wall_ns": 6854666,
+          "median_sample_wall_ns": 66181,
+          "p95_sample_wall_ns": 177037
+        },
+        "ros.callback.base_command": {
+          "count": 7706,
+          "wall_ns": 1117467469,
+          "thread_cpu_ns": 487820343,
+          "self_wall_ns": 91087645,
+          "maximum_wall_ns": 6891496,
+          "median_sample_wall_ns": 85696,
+          "p95_sample_wall_ns": 209311
+        },
+        "atom.event_wait": {
+          "count": 620,
+          "wall_ns": 3728125821,
+          "thread_cpu_ns": 3092869993,
+          "self_wall_ns": 3925317,
+          "maximum_wall_ns": 146312273,
+          "median_sample_wall_ns": 5549031,
+          "p95_sample_wall_ns": 8025881
+        }
+      },
+      "failed_event_waits": []
+    },
+    {
+      "case": "sla-v3-expert-train4-semantics-20261113-01-train07",
+      "source_sha": "89c8d6db8fe34b5314c2557b436fd2f5f963a28e",
+      "journal_bytes": 193830412,
+      "spans": {
+        "ros.spin": {
+          "count": 1991,
+          "wall_ns": 83248268835,
+          "thread_cpu_ns": 29178490342,
+          "self_wall_ns": 69036202657,
+          "maximum_wall_ns": 2052769357,
+          "median_sample_wall_ns": 2076312,
+          "p95_sample_wall_ns": 151223535
+        },
+        "ros.message_conversion.mode": {
+          "count": 3,
+          "wall_ns": 24317,
+          "thread_cpu_ns": 24602,
+          "self_wall_ns": 24317,
+          "maximum_wall_ns": 12071,
+          "median_sample_wall_ns": 7225,
+          "p95_sample_wall_ns": 12071
+        },
+        "ros.journal_append.mode": {
+          "count": 3,
+          "wall_ns": 365976,
+          "thread_cpu_ns": 185116,
+          "self_wall_ns": 365976,
+          "maximum_wall_ns": 216915,
+          "median_sample_wall_ns": 80053,
+          "p95_sample_wall_ns": 216915
+        },
+        "ros.callback.mode": {
+          "count": 3,
+          "wall_ns": 429763,
+          "thread_cpu_ns": 247309,
+          "self_wall_ns": 39470,
+          "maximum_wall_ns": 246877,
+          "median_sample_wall_ns": 98899,
+          "p95_sample_wall_ns": 246877
+        },
+        "ros.message_conversion.arm_target": {
+          "count": 9311,
+          "wall_ns": 200675974,
+          "thread_cpu_ns": 198237636,
+          "self_wall_ns": 200675974,
+          "maximum_wall_ns": 1284334,
+          "median_sample_wall_ns": 20513,
+          "p95_sample_wall_ns": 31417
+        },
+        "ros.journal_append.arm_target": {
+          "count": 9311,
+          "wall_ns": 2330726544,
+          "thread_cpu_ns": 506497062,
+          "self_wall_ns": 2330726544,
+          "maximum_wall_ns": 339947291,
+          "median_sample_wall_ns": 81475,
+          "p95_sample_wall_ns": 1521221
+        },
+        "ros.callback.arm_target": {
+          "count": 9311,
+          "wall_ns": 2656946854,
+          "thread_cpu_ns": 813015185,
+          "self_wall_ns": 125544336,
+          "maximum_wall_ns": 339991226,
+          "median_sample_wall_ns": 115918,
+          "p95_sample_wall_ns": 1592792
+        },
+        "ros.message_conversion.ee": {
+          "count": 5244,
+          "wall_ns": 86837360,
+          "thread_cpu_ns": 84718169,
+          "self_wall_ns": 86837360,
+          "maximum_wall_ns": 1100413,
+          "median_sample_wall_ns": 15646,
+          "p95_sample_wall_ns": 22117
+        },
+        "ros.journal_append.ee": {
+          "count": 5244,
+          "wall_ns": 1255030595,
+          "thread_cpu_ns": 300271063,
+          "self_wall_ns": 1255030595,
+          "maximum_wall_ns": 75809829,
+          "median_sample_wall_ns": 82666,
+          "p95_sample_wall_ns": 912074
+        },
+        "ros.callback.ee": {
+          "count": 5244,
+          "wall_ns": 1421532472,
+          "thread_cpu_ns": 447513724,
+          "self_wall_ns": 79664517,
+          "maximum_wall_ns": 75864249,
+          "median_sample_wall_ns": 113058,
+          "p95_sample_wall_ns": 959186
+        },
+        "ros.message_conversion.observation": {
+          "count": 4106,
+          "wall_ns": 61893873,
+          "thread_cpu_ns": 61978465,
+          "self_wall_ns": 61893873,
+          "maximum_wall_ns": 532889,
+          "median_sample_wall_ns": 14106,
+          "p95_sample_wall_ns": 19212
+        },
+        "ros.journal_append.observation": {
+          "count": 4106,
+          "wall_ns": 459674374,
+          "thread_cpu_ns": 202952745,
+          "self_wall_ns": 459674374,
+          "maximum_wall_ns": 13168294,
+          "median_sample_wall_ns": 73274,
+          "p95_sample_wall_ns": 222666
+        },
+        "ros.callback.observation": {
+          "count": 4106,
+          "wall_ns": 567670583,
+          "thread_cpu_ns": 308601892,
+          "self_wall_ns": 46102336,
+          "maximum_wall_ns": 13217922,
+          "median_sample_wall_ns": 98640,
+          "p95_sample_wall_ns": 253755
+        },
+        "ros.message_conversion.policy": {
+          "count": 4106,
+          "wall_ns": 3267692247,
+          "thread_cpu_ns": 3201170784,
+          "self_wall_ns": 3267692247,
+          "maximum_wall_ns": 2947795,
+          "median_sample_wall_ns": 816559,
+          "p95_sample_wall_ns": 864086
+        },
+        "ros.journal_append.policy": {
+          "count": 4106,
+          "wall_ns": 3408462376,
+          "thread_cpu_ns": 2274908694,
+          "self_wall_ns": 3408462376,
+          "maximum_wall_ns": 32692135,
+          "median_sample_wall_ns": 717557,
+          "p95_sample_wall_ns": 1479764
+        },
+        "ros.callback.policy": {
+          "count": 4106,
+          "wall_ns": 6740340305,
+          "thread_cpu_ns": 5534742338,
+          "self_wall_ns": 64185682,
+          "maximum_wall_ns": 33551059,
+          "median_sample_wall_ns": 1556476,
+          "p95_sample_wall_ns": 2429105
+        },
+        "ros.wait_source": {
+          "count": 474,
+          "wall_ns": 245464195,
+          "thread_cpu_ns": 168574985,
+          "self_wall_ns": 7476140,
+          "maximum_wall_ns": 29995212,
+          "median_sample_wall_ns": 358938,
+          "p95_sample_wall_ns": 881231
+        },
+        "ros.message_conversion.arm_request": {
+          "count": 4103,
+          "wall_ns": 87374275,
+          "thread_cpu_ns": 82482858,
+          "self_wall_ns": 87374275,
+          "maximum_wall_ns": 1866219,
+          "median_sample_wall_ns": 18919,
+          "p95_sample_wall_ns": 25651
+        },
+        "ros.journal_append.arm_request": {
+          "count": 4103,
+          "wall_ns": 513056309,
+          "thread_cpu_ns": 208349836,
+          "self_wall_ns": 513056309,
+          "maximum_wall_ns": 21931848,
+          "median_sample_wall_ns": 74131,
+          "p95_sample_wall_ns": 180523
+        },
+        "ros.callback.arm_request": {
+          "count": 4103,
+          "wall_ns": 647214835,
+          "thread_cpu_ns": 334188261,
+          "self_wall_ns": 46784251,
+          "maximum_wall_ns": 21997391,
+          "median_sample_wall_ns": 104297,
+          "p95_sample_wall_ns": 232928
+        },
+        "ros.message_conversion.base_command": {
+          "count": 4103,
+          "wall_ns": 40400586,
+          "thread_cpu_ns": 40307857,
+          "self_wall_ns": 40400586,
+          "maximum_wall_ns": 212683,
+          "median_sample_wall_ns": 9353,
+          "p95_sample_wall_ns": 13157
+        },
+        "ros.journal_append.base_command": {
+          "count": 4103,
+          "wall_ns": 395693178,
+          "thread_cpu_ns": 173756048,
+          "self_wall_ns": 395693178,
+          "maximum_wall_ns": 16596159,
+          "median_sample_wall_ns": 65433,
+          "p95_sample_wall_ns": 124990
+        },
+        "ros.callback.base_command": {
+          "count": 4103,
+          "wall_ns": 478897529,
+          "thread_cpu_ns": 254280056,
+          "self_wall_ns": 42803765,
+          "maximum_wall_ns": 16638931,
+          "median_sample_wall_ns": 84287,
+          "p95_sample_wall_ns": 149788
+        },
+        "atom.event_wait": {
+          "count": 282,
+          "wall_ns": 2020105793,
+          "thread_cpu_ns": 1634206145,
+          "self_wall_ns": 1707384,
+          "maximum_wall_ns": 224597817,
+          "median_sample_wall_ns": 5278981,
+          "p95_sample_wall_ns": 7734080
+        }
+      },
+      "failed_event_waits": [
+        {
+          "native_step": 12728,
+          "wall_s": 0.18868192
+        }
+      ]
+    }
+  ],
+  "physical_requests": 0,
+  "model_calls": 0,
+  "optimizer_updates": 0,
+  "interpretation": "Synchronous journal append has actual large outliers; TRAIN07 arm-target append maximum339.95ms exceeds150ms event allowance. These aggregate maxima do not establish the exact causal event. Async sink is an engineering repair requiring saved-file and fresh-native qualification.",
+  "software_regression_passed": 109,
+  "async_sink": "IMPLEMENTED_NOT_DEPLOYED_OR_NATIVE_QUALIFIED",
+  "memory_RGB_snapshot_and_image_writer": "NOT_IMPLEMENTED",
+  "original_freshness_s": 0.025,
+  "original_event_wait_s": 0.15,
+  "old_failures_retained": true
+}

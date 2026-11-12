@@ -74,11 +74,15 @@ class TargetSequentialAdapter:
     def __init__(self,spec,output):
         self.spec=spec;self.output=Path(output);self.processes=[];self.handles=[];self.node=None;self.counts={};self.latest={};self.started=time.monotonic();self.commands=[];self.exit_records=[];self.reference_qualification=None;self.ros_evidence=[];self.trace_sealed=False
         self.performance=PerformanceTrace() if configuration(spec) is not None else None
+        from .native_async_journal_v3 import configuration as async_configuration
+        self.async_journal_config=async_configuration(spec);self.ros_journal=None
     def reference_phase(self):
         return self.spec['phase'].startswith(('g2-','collect-target-'))
     def dynamic_phase(self):
         return self.reference_phase()and self.spec['phase']!='g2-reference-qualification'
     def guard(self):
+        writer=getattr(self,'ros_journal',None)
+        if writer is not None:writer.check()
         if time.monotonic()-self.started>=self.spec['wall_limit_s']or time.time()>=self.spec['deadline_epoch']or any((p/'STOP.json').exists()for p in(self.output,Path(self.spec['registered_root']),Path(self.spec['campaign_root']))):raise TimeoutError('AUTO1_FINITE_ENDPOINT_OR_OPERATOR_STOP')
     def control(self):
         p=self.output/'control.jsonl'
@@ -115,6 +119,9 @@ class TargetSequentialAdapter:
         from sensor_msgs.msg import JointState
         from rclpy.qos import qos_profile_sensor_data,QoSProfile,DurabilityPolicy
         self.rclpy=rclpy;self.String=String;rclpy.init();self.node=rclpy.create_node('wm02_auto1_'+self.spec['phase'].replace('-','_'))
+        if self.async_journal_config is not None:
+            from .native_async_journal_v3 import BoundedJournal
+            self.ros_journal=BoundedJournal(self.output/'ROS_CONSUMPTION.private.jsonl')
         def record(key,msg):
             self.counts[key]=self.counts.get(key,0)+1;self.latest[key]=msg
             if self.dynamic_phase()and key in('policy','arm_request','arm_target','base_command','mode','observation','ee'):
@@ -124,7 +131,10 @@ class TargetSequentialAdapter:
                         row=dict(topic_key=key,received_monotonic_s=time.monotonic(),message=message_to_ordereddict(msg))
                     self.ros_evidence.append(row)
                     with measure(self,'ros.journal_append.'+key):
-                        with(self.output/'ROS_CONSUMPTION.private.jsonl').open('a')as f:f.write(json.dumps(row,allow_nan=False)+'\n')
+                        payload=json.dumps(row,allow_nan=False)+'\n'
+                        if self.ros_journal is not None:self.ros_journal.append(payload.encode('utf-8'))
+                        else:
+                            with(self.output/'ROS_CONSUMPTION.private.jsonl').open('a')as f:f.write(payload)
         self.subs=[self.node.create_subscription(cls,topic,lambda msg,k=key:record(k,msg),qos_profile_sensor_data)for key,topic,cls in(('odom','/go2_x5/slam/odom_mocap',Odometry),('arm','/go2_x5/arm/state',JointState))]
         if self.reference_phase():
             from ocs2_msgs.msg import MpcObservation
@@ -212,6 +222,8 @@ class TargetSequentialAdapter:
         # TTL restricts task-phase pauses, not the registered cold-init windows.
         if self.spec.get('startup_pause_stride_ticks')==25:allowed.update(range(25,min(2500,self.spec['max_ticks'])+1,25))
         if ticks not in allowed or ticks>self.spec['max_ticks']:raise PermissionError('EXACT_REGISTERED_NATIVE_PAUSE_REQUIRED')
+        from .native_async_journal_v3 import before_clock_grant
+        before_clock_grant(self)
         if self.dynamic_phase()and ticks>2503 and not ttl:
             from .target_reference import require_live_window
             packet=self.observe();require_live_window(self.active_reference['source_mpc_s'],packet['time_s'],ticks-packet['step'])
@@ -776,7 +788,9 @@ class TargetSequentialAdapter:
             with measure(self,'native.close'):
                 self._close_native()
         finally:
-            close_resources(self)
+            from .native_async_journal_v3 import close_journal
+            try:close_journal(self)
+            finally:close_resources(self)
     def _close_native(self):
         # Signal only the Popen-owned process groups; retain all actual exits.
         for name,p in reversed(self.processes):

@@ -29,6 +29,7 @@ SOURCE_MEMBERS=tuple(dict.fromkeys(previous.SOURCE_MEMBERS+(
     'experiments/wm02/task_learning_teacher_v9_recovery24_v1.json',
     'scripts/wm02/task_learning_teacher_qualification_v1.py',
     'src/go2arx5_vla/world_model/native_collection_performance_v1.py',
+    'src/go2arx5_vla/world_model/native_async_journal_v3.py',
     'src/go2arx5_vla/world_model/native_state_snapshot.py',
     'src/go2arx5_vla/world_model/corelab_expert_semantics_v3.py',
     'src/go2arx5_vla/target_mujoco/state_snapshot.hpp',
@@ -187,6 +188,8 @@ def validate(spec):
 def episode_config(spec):
     from .native_collection_performance_v1 import configuration
     configuration(spec)
+    from .native_async_journal_v3 import configuration as async_configuration
+    async_configuration(spec)
     validate(spec)
     document=scenes.pinned(dict(path=spec['episode_manifest'],sha256=spec['episode_manifest_sha256']))
     episode=scenes.prefix_episode(document,spec)
