@@ -148,10 +148,11 @@ def training_admission(s,contract):
         and a.get('feature_cache')==s['feature_cache']
         and a.get('parameter_contract')==contract.describe(), 'NEW_PARENT_AND_IMAGE_TRAINING_QUALIFICATION')
     proofs={}
-    for kind in ('complete_batch32_cache_update','fresh_process_restore4'):
+    for kind in ('complete_batch32_cache_update','fresh_process_restore4','ordinary_RGB_reconstruction'):
         q=a[kind];file=Path(q['path']);rt.require(digest(file)==q['sha256'],'QUALIFICATION_PROOF_'+kind)
         proofs[kind]=json.loads(file.read_bytes())
     cache=proofs['complete_batch32_cache_update'];restore=proofs['fresh_process_restore4']
+    ordinary=proofs['ordinary_RGB_reconstruction']
     rt.require(cache.get('schema')=='NATIVE_ARX5_COMPLETE_BATCH32_CACHE_UPDATE_QUALIFICATION_V1'
         and cache.get('passes') is True and cache.get('complete_32_microbatch_update_exact') is True
         and cache.get('actual_non_candidate_optimizer_updates')==2
@@ -161,7 +162,12 @@ def training_admission(s,contract):
         and restore.get('passes') is True and restore.get('actual_non_candidate_optimizer_updates')==8
         and restore.get('complete_next_update_and_final_state_exact') is True
         and restore.get('feature_cache')==s['feature_cache']
-        and restore.get('independent_process_model_loads')==3,
+        and restore.get('independent_process_model_loads')==3
+        and ordinary.get('schema')=='NATIVE_ARX5_ORDINARY_RGB_ENDPOINT_RECONSTRUCTION_ACTUAL_V1'
+        and ordinary.get('passes') is True and ordinary.get('global_step')==4
+        and ordinary.get('normalized_and_physical_H40_bit_exact') is True
+        and ordinary.get('original_graph_without_wrappers') is True
+        and ordinary.get('training_feature_cache_used') is False,
         'ACTUAL_COMPLETE_BATCH32_AND_FRESH_PROCESS_RESTORE_NOT_LEGACY_FIT4')
     return a
 
