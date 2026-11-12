@@ -1,6 +1,7 @@
 """One frozen OmniVGGT cache pass; no SLA model, optimization or physics."""
 import hashlib
 import json
+import os
 from pathlib import Path
 import sys
 import time
@@ -22,6 +23,50 @@ def fingerprint(model):
         h.update((name+':'+str(a.shape)+':'+str(a.dtype)+'\n').encode());h.update(a.tobytes())
         del a
     return h.hexdigest()
+
+
+def offline_constructor(spec, counts, factory):
+    """Use only the teacher's own extracted patch state before full restore."""
+    import torch
+    from unittest.mock import patch
+    asset = pinned(spec['teacher_preinit'])
+    root = Path(spec['teacher_preinit']['path']).parent
+    path = root/asset['file']
+    if (asset['schema'] != 'SLA_TEACHER_OWN_PATCH_EMBED_PREINIT_ASSET_V1' or not asset['passes']
+            or asset['source_teacher_weight_sha256'] != 'c9c3772b9bbfc648fa95ebffb3d9ff856f21e9b9712685eb0f98add53897969d'
+            or asset['external_DINO_weights_used'] or not asset['asset_roundtrip_bit_exact']
+            or sha(path) != asset['file_sha256']):
+        raise ValueError('EXACT_TEACHER_OWN_OFFLINE_CONSTRUCTOR_ASSET_REQUIRED')
+    folder = Path(spec['registered_root'])/'checkpoints/dinov2'
+    folder.mkdir(parents=True, exist_ok=False)
+    alias = folder/'dinov2_vitl14_reg4_pretrain.pth'
+    alias.symlink_to(path)
+    original_load = torch.load
+    def load(selected, *args, **kwargs):
+        if Path(selected).resolve() != path.resolve():
+            raise ValueError('UNDECLARED_CONSTRUCTOR_WEIGHT_READ')
+        counts['constructor_preinit_load_attempts'] += 1
+        kwargs['weights_only'] = True
+        value = original_load(selected, *args, **kwargs)
+        if set(value) != {r['key'] for r in asset['arrays']}:
+            raise ValueError('ALL_TEACHER_PATCH_EMBED_LEAVES_REQUIRED')
+        counts['constructor_preinit_loads'] += 1
+        return value
+    def reject_hub(*args, **kwargs):
+        counts['constructor_hub_load_attempts'] += 1
+        raise RuntimeError('PINNED_TEACHER_REQUIRES_NO_HUB_DOWNLOAD')
+    previous = Path.cwd()
+    try:
+        os.chdir(spec['registered_root'])
+        with patch.object(torch, 'load', load), patch.object(torch.hub, 'load',
+                side_effect=reject_hub) as hub:
+            model = factory()
+            if hub.call_count != 0 or counts['constructor_preinit_loads'] != 1:
+                raise ValueError('ONE_OFFLINE_PATCH_LOAD_NO_HUB_CALL_REQUIRED')
+    finally:
+        os.chdir(previous)
+        alias.unlink()
+    return model
 
 
 def run(spec,counts):
@@ -53,7 +98,9 @@ def run(spec,counts):
         raise ValueError('ALL_TRAIN_ONLY_CURRENT_STUDENT_PIXELS_REQUIRED')
     counts['teacher_model_load_attempts']+=1
     write(Path(spec['registered_root'])/'TEACHER_LOAD_INTENT.private.json',dict(teacher_weight_sha256=weight_sha,teacher_model_load_attempts=counts['teacher_model_load_attempts']))
-    model=OmniVGGT(enable_camera=False,enable_point=False,enable_depth=False)
+    model=offline_constructor(spec,counts,
+        lambda:OmniVGGT(enable_camera=False,enable_point=False,enable_depth=False))
+    counts['teacher_model_constructions'] += 1
     incompatible=model.load_state_dict(load_file(str(weight),device='cpu'),strict=False)
     if incompatible.missing_keys or any(not k.startswith(('camera_head.','point_head.','depth_head.')) for k in incompatible.unexpected_keys):
         raise ValueError('TEACHER_AGGREGATOR_NOT_FULLY_RESTORED:'+str(incompatible))
@@ -118,6 +165,8 @@ def run(spec,counts):
     value=dict(schema='SLA_FROZEN_OMNIVGGT_TARGET_CACHE_V1',passes=True,rows=rows,
         source_dataset_sha256=view['source_dataset_sha256'],target_audit=view['target_audit'],
         source_pixel_view=spec['pixel_view'],teacher_manifest=spec['teacher_manifest'],
+        source_teacher_preinit=spec['teacher_preinit'],
+        constructor_initialization='OWN_CHECKPOINT_PATCH_PREINIT_THEN_COMPLETE_TEACHER_RESTORE',
         teacher_weight_sha256=weight_sha,source_camera_count=2,teacher_last_layer=-1,
         teacher_gradient=False,privileged_inputs_used=False,missing_third_camera_fed_to_teacher=False,
         pooling='bilinear',use_vggt_pe=False,target_storage='EXACT_BFLOAT16_BITS_AS_UINT16',
@@ -134,7 +183,9 @@ def run(spec,counts):
 
 if __name__=='__main__':
     spec=json.loads(Path(sys.argv[1]).read_bytes())
-    counts=dict(teacher_model_load_attempts=0,teacher_model_loads=0,teacher_forward_attempts=0,teacher_forwards_completed=0,complete_cached_TRAIN_windows=0)
+    counts=dict(teacher_model_load_attempts=0,teacher_model_constructions=0,teacher_model_loads=0,
+        constructor_preinit_load_attempts=0,constructor_preinit_loads=0,constructor_hub_load_attempts=0,
+        teacher_forward_attempts=0,teacher_forwards_completed=0,complete_cached_TRAIN_windows=0)
     try:
         result=run(spec,counts)
     except BaseException as e:
