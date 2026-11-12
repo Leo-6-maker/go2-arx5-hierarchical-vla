@@ -1,0 +1,71 @@
+{
+  "schema": "A_TARGET500_TRAIN4_DELIVERY_PREREGISTRATION_V1",
+  "status": "PREREGISTERED_NOT_EXECUTED",
+  "protocol_commit": "a21d8ece1748ed4dc1dcbc305a70bbf08c77c12f",
+  "protocol": "A_TARGET500_TRAIN4_DELIVERY_DIAGNOSTIC_V1",
+  "camera_id": "BODY_BASE_FIXED_V1_20261111",
+  "method": "A_TARGET500_PLUS_ENDPOINT_BASIS",
+  "global_step": 500,
+  "Processor": "SAVED_A_TARGET500_PROCESSOR_AND_UNCHANGED_TARGET_STATISTICS",
+  "decoder": "H40_CURRENT_STATE_PREDICTED_GOAL_QUINTIC_REPRESENTATION_V3_01",
+  "conditions": [
+    {
+      "layout": "TRAIN01",
+      "restart": 1,
+      "query_seed_base": 202611110100
+    },
+    {
+      "layout": "TRAIN07",
+      "restart": 1,
+      "query_seed_base": 202611110700
+    },
+    {
+      "layout": "TRAIN13",
+      "restart": 1,
+      "query_seed_base": 202611111300
+    },
+    {
+      "layout": "TRAIN25",
+      "restart": 1,
+      "query_seed_base": 202611112500
+    }
+  ],
+  "requested": 4,
+  "maximum_queries_per_condition": 15,
+  "maximum_queries": 60,
+  "optimizer_updates": 0,
+  "original_DEV_TEST_conditions": 0,
+  "score_contract": {
+    "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+    "minimum_lift_m": 0.02,
+    "continuous_hold_s": 1.0,
+    "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+    "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+    "maximum_object_linear_speed_m_s": 0.02,
+    "standing": {
+      "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+      "maximum_base_displacement_m": 0.02,
+      "maximum_base_rotation_rad": 0.08726646259971647,
+      "maximum_foot_planar_displacement_m": 0.005,
+      "minimum_supported_feet": 3,
+      "minimum_actual_floor_normal_force_N": 0.05,
+      "old_short_task_pose_diagnostic": {
+        "maximum_base_displacement_m": 0.002,
+        "maximum_base_rotation_rad": 0.008726646259971648
+      },
+      "original_native_safety_changed": false,
+      "task_score_bounds_are_native_safety": false,
+      "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+    },
+    "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+    "success_requires_all": true
+  },
+  "score_contract_sha256": "4f8fa8e0c5c472990440ed08a0e75c7a42c5ae101ca87c008534a020ab66f6cd",
+  "clipping": false,
+  "Teacher_fallback": false,
+  "WBC_changes": false,
+  "physics_dt_s": 0.002,
+  "outcome_selection_or_retry": false,
+  "technical_failure": "PRESERVE_AND_STOP_GROUP_FOR_DIAGNOSIS",
+  "policy_rejection": "VALID_TASK_FAILURE_CONTINUE_FIXED_UNEXECUTED_CONDITIONS"
+}

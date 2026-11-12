@@ -103,12 +103,12 @@ def capture_input(adapter, *, language=None, task_score=None):
         language=language,scene_sha256=digest(spec['model_path']),
         score_contract_sha256=document_hash(task_score if task_score is not None else task_score_contract(spec['task_command'])),language_provenance='NEW_TARGET_SHORT_SKILL_PROMPT')
     frame = spec['task_phase_source_from_target']
-    if spec.get('task_learning_role')=='NATIVE_BODY_SFT2000_TRAIN4_DIAGNOSTIC_V1':
+    if spec.get('task_learning_role')in('NATIVE_BODY_SFT2000_TRAIN4_DIAGNOSTIC_V1','A_TARGET500_TRAIN4_DELIVERY_DIAGNOSTIC_V1'):
         from .native_body_camera_capture_v1 import BodyBaseCameraCapture
         from .native_camera_transfer_v1 import CAMERA_ID
-        from .native_arx5_diagnostic_v1 import native_scene_admission
+        from .task_learning_grasp_v1 import native_body_profile
         need(spec.get('observation_camera_profile')==CAMERA_ID,'EXPLICIT_NATIVE_BODY_OBSERVATION_PROFILE')
-        native_scene_admission(spec)
+        native_body_profile(spec['task_learning_role']).native_scene_admission(spec)
         camera = BodyBaseCameraCapture(frame)
     else:
         identity = Path(spec['source_camera_identity']).read_bytes()

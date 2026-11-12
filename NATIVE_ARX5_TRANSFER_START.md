@@ -2,6 +2,13 @@
 
 本分支交付实验协议、声明性规格、预注册条件顺序与实现交接。文档发布不启动远程作业；JSON不是旧launcher可直接接受的运行配置。
 
+## 执行接续实际进度 · 2026-11-12
+
+- [原SFT2000 TRAIN4完整终态](reports/WM02/native-arx5-transfer-20261112/T0_SFT2000_NATIVE_TRAIN4_FINAL_ACTUAL.json)：4/4成功、60查询；全部八个原生／GPU子进程已退出，原条件没有重跑。它是TRAIN组合策略诊断，不是独立DEV。
+- [官方父模型目标资格](reports/WM02/native-arx5-transfer-20261112/T1_OFFICIAL_PARENT_CUDA_CACHE_RESTORE_RGB_ACTUAL.json)：1,450新图像骨干编码、10次非候选更新／320访问、完整batch32对照、新进程4对2＋2恢复及普通RGB重建均通过；不继承资格权重为候选。
+- A_TARGET250已完成250更新／8,000访问，完整保存和普通RGB重建通过；按原完整状态继续固定500终点。A500四TRAIN交付诊断使用独立声明，未使用锁定DEV／TEST。后继实际计数以新ACTUAL回执为准。
+- [native／source TCP链审计](reports/WM02/native-arx5-transfer-20261112/SOURCE_NATIVE_TCP_CHAIN_AUDIT_ACTUAL.json)只比较12个封存状态，没有新积分；source采集来源／时钟仍未准入，只阻塞B。
+
 ## 2026-11-12 进度与下一步
 
 - [最新进度与 Table30 采集来源审查](docs/reviews/2026-11-12_NATIVE_ARX5_PROGRESS_AND_SOURCE_PROVENANCE.md)

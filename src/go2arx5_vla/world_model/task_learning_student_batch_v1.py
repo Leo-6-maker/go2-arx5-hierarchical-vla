@@ -16,6 +16,9 @@ CONTINUATION_SCHEMA='TASK_LEARNING_STUDENT_DEV_GROUP_INPUT_V2'
 
 
 def selection(inp,panel):
+    if inp.get('schema')=='A_TARGET500_TRAIN4_DELIVERY_GROUP_INPUT_V1':
+        from .native_a500_diagnostic_v1 import selection
+        return selection(inp,panel)
     if inp.get('schema')=='NATIVE_BODY_SFT2000_TRAIN4_GROUP_INPUT_V1':
         from .native_arx5_diagnostic_v1 import selection as body_selection
         return body_selection(inp,panel)
@@ -71,8 +74,8 @@ def specs(inp,panel,row,nbase,gbase,nroot,groot,deadline):
     conic=panel.get('task_learning_role')==task.CONIC_ROLE
     endpoint=panel.get('task_learning_role')==task.ENDPOINT_ROLE
     matched=panel.get('task_learning_role')==task.MATCHED_ROLE
-    native_body=panel.get('task_learning_role')==task.NATIVE_BODY_ROLE
-    role=task.NATIVE_BODY_ROLE if native_body else task.MATCHED_ROLE if matched else task.ENDPOINT_ROLE if endpoint else task.CONIC_ROLE if conic else task.CORE_LOCAL_ROLE if local else task.STUDENT_DEV_ROLE
+    native_body=task.native_body_role(panel.get('task_learning_role'))
+    role=panel['task_learning_role'] if native_body else task.MATCHED_ROLE if matched else task.ENDPOINT_ROLE if endpoint else task.CONIC_ROLE if conic else task.CORE_LOCAL_ROLE if local else task.STUDENT_DEV_ROLE
     common=dict(source_root=str(source),source_sha=inp['source_sha'],source_files=inp['source_files'],
         deadline_epoch=deadline,wall_limit_s=1200,pilot1_binding=inp['pilot1_binding'],
         pilot1_binding_sha256=inp['pilot1_binding_sha256'],task_learning_grasp=task.protocol(role),
@@ -89,7 +92,7 @@ def specs(inp,panel,row,nbase,gbase,nroot,groot,deadline):
         native.pop(key,None)
     native.update(common,registered_root=str(nroot),role=nroot.name.upper(),lease=str(nroot/'control/LEASE.json'),
         registry_snapshot=str(nroot/'control/REGISTRY_SNAPSHOT.private.json'),task_learning_role=role,
-        experiment_role=('NATIVE_BODY_SFT2000_TRAIN4_NOT_AB_DEV_TEST_V1'if native_body else 'CORE_MATCHED128_SMOOTH_TRAIN_DIAGNOSTIC_V3'if matched else 'CORE_C500_ENDPOINT_BASIS_TRAIN_DIAGNOSTIC_V3'if endpoint else 'CORE_C500_RAW_VERSUS_EXPLICIT_CONIC_TRAIN_DIAGNOSTIC_V3'if conic else 'CORE_LOCAL_B0_SFT2000_DIAGNOSTIC_NOT_DEV_TEST'if local else student.EXPERIMENT),task_condition=role,
+        experiment_role=(task.native_body_profile(role).EXPERIMENT if native_body else 'CORE_MATCHED128_SMOOTH_TRAIN_DIAGNOSTIC_V3'if matched else 'CORE_C500_ENDPOINT_BASIS_TRAIN_DIAGNOSTIC_V3'if endpoint else 'CORE_C500_RAW_VERSUS_EXPLICIT_CONIC_TRAIN_DIAGNOSTIC_V3'if conic else 'CORE_LOCAL_B0_SFT2000_DIAGNOSTIC_NOT_DEV_TEST'if local else student.EXPERIMENT),task_condition=role,
         task_learning_scene_reference=descriptor,scene_id=row['parent'],data_parent=row['parent'],data_role='TRAIN'if local or conic or endpoint or matched or native_body else'DEV',
         model_path=str(Path(descriptor['path']).parent/'SCENE.private.mjb'),stable_task_panel=inp['panel'],
         stable_task_panel_sha256=inp['panel_sha256'],scene_allowlist=inp['scene_allowlist'],
@@ -111,6 +114,16 @@ def specs(inp,panel,row,nbase,gbase,nroot,groot,deadline):
     if native_body:
         q=pinned(panel['policies'][row['method']]['Native_body_qualification'])
         gpu['allocator_limit_bytes']=q['allocator_limit_bytes']
+        if role==task.NATIVE_A500_ROLE:
+            from .native_a500_diagnostic_v1 import official_files
+            from .native_arx5_training_profile_v1 import PARENT_ID
+            audit=pinned(q['official_parent_audit'])
+            gpu.update(checkpoint=audit['official_parent'],checkpoint_files=official_files(),
+                checkpoint_manifest_sha256=PARENT_ID,checkpoint_parameter_bytes=q['ordinary_parameter_bytes'],
+                official_parent_audit=q['official_parent_audit'],
+                neural_bindings=dict(gpu['neural_bindings'],dataset=q['native_camera_dataset']),
+                memory_execution='NATIVE_ARX5_OFFICIAL_ORDINARY_RGB_CORE_V1',
+                memory_execution_reference=q['ordinary_RGB_reconstruction'])
     if conic:
         gpu['conic_solver_dependency']=panel['registration']['conic_solver_dependency']
     for s,root in((native,nroot),(gpu,groot)):
@@ -232,11 +245,12 @@ def run(input_path):
     conic=panel.get('task_learning_role')==task.CONIC_ROLE
     endpoint=panel.get('task_learning_role')==task.ENDPOINT_ROLE
     matched=panel.get('task_learning_role')==task.MATCHED_ROLE
-    native_body=panel.get('task_learning_role')==task.NATIVE_BODY_ROLE
+    native_body=task.native_body_role(panel.get('task_learning_role'))
     validate_policy=pair.policy_contract;summarize=student.summarize
     methods=('B0','B1')
     if native_body:
-        from .native_arx5_diagnostic_v1 import policy_contract as validate_policy,summarize,METHODS as methods
+        body=task.native_body_profile(panel['task_learning_role'])
+        validate_policy,summarize,methods=body.policy_contract,body.summarize,body.METHODS
     if conic:
         from .task_learning_conic_native_v3 import policy_contract as validate_policy,summarize
         from .task_learning_conic_policy_v3 import METHODS as methods
@@ -293,7 +307,7 @@ def run(input_path):
             task.need(time.time()+1200<inp['deadline_epoch']and not(stage/'STOP.json').exists(),'NO_LATE_NEW_DEV_CONDITION')
             current_row=row;current_pair=None;registered=register(row);current_pair=registered
             execute_pair(registered,journal,stage,len(outcomes))
-            result=student.classify_actual(row,stage/'runs'/row['native_run'],inp['source_sha'],core_local=local,conic=conic,endpoint=endpoint,matched=matched,native_body=native_body)
+            result=student.classify_actual(row,stage/'runs'/row['native_run'],inp['source_sha'],core_local=local,conic=conic,endpoint=endpoint,matched=matched,native_body=panel['task_learning_role'] if native_body else False)
             outcomes.append(result);write(stage/'OUTCOMES.private.json',outcomes)
             write(stage/'SUMMARY.private.json',summarize(panel,outcomes))
             task.need(not result['hard_safety_stop'],'ORIGINAL_HARD_SAFETY_DEV_FAMILY_PAUSED')
@@ -303,7 +317,7 @@ def run(input_path):
         failure=type(error).__name__+': '+str(error)
         if current_pair and not any(v['native_run']==current_row['native_run']for v in outcomes):
             try:
-                outcomes.append(student.classify_actual(current_row,stage/'runs'/current_row['native_run'],inp['source_sha'],core_local=local,conic=conic,endpoint=endpoint,matched=matched,native_body=native_body))
+                outcomes.append(student.classify_actual(current_row,stage/'runs'/current_row['native_run'],inp['source_sha'],core_local=local,conic=conic,endpoint=endpoint,matched=matched,native_body=panel['task_learning_role'] if native_body else False))
                 write(stage/'OUTCOMES.private.json',outcomes)
             except BaseException as audit_error:
                 unresolved=dict(pair=current_pair,observation_error=type(audit_error).__name__+': '+str(audit_error))
@@ -323,7 +337,7 @@ def run(input_path):
                         terminal_reason='NEVER_DISPATCHED_PERMISSION_REVOKED')
                     write(root/'control/LEASE.json',permission)
         summary=summarize(panel,outcomes);write(stage/'SUMMARY.private.json',summary)
-        write(stage/'RESULT.private.json',dict(status=('NATIVE_BODY_TRAIN4_GROUP_COMPLETE'if code==0 else'NATIVE_BODY_TRAIN4_GROUP_INCOMPLETE_PRESERVED')if native_body else('CORE_MATCHED128_NATIVE_GROUP_COMPLETE'if code==0 else'CORE_MATCHED128_NATIVE_GROUP_INCOMPLETE_PRESERVED')if matched else('CORE_C500_ENDPOINT_BASIS_NATIVE_GROUP_COMPLETE'if code==0 else'CORE_C500_ENDPOINT_BASIS_NATIVE_GROUP_INCOMPLETE_PRESERVED')if endpoint else('CORE_C500_CONIC_NATIVE_GROUP_COMPLETE'if code==0 else'CORE_C500_CONIC_NATIVE_GROUP_INCOMPLETE_PRESERVED')if conic else('TASK_LEARNING_CORE_LOCAL_GROUP_COMPLETE'if code==0 else'TASK_LEARNING_CORE_LOCAL_GROUP_INCOMPLETE_PRESERVED')if local else('TASK_LEARNING_STUDENT_DEV_GROUP_COMPLETE'if code==0 else'TASK_LEARNING_STUDENT_DEV_GROUP_INCOMPLETE_PRESERVED'),
+        write(stage/'RESULT.private.json',dict(status=(('A_TARGET500_TRAIN4_GROUP_COMPLETE'if code==0 else'A_TARGET500_TRAIN4_GROUP_INCOMPLETE_PRESERVED')if panel['task_learning_role']==task.NATIVE_A500_ROLE else('NATIVE_BODY_TRAIN4_GROUP_COMPLETE'if code==0 else'NATIVE_BODY_TRAIN4_GROUP_INCOMPLETE_PRESERVED'))if native_body else('CORE_MATCHED128_NATIVE_GROUP_COMPLETE'if code==0 else'CORE_MATCHED128_NATIVE_GROUP_INCOMPLETE_PRESERVED')if matched else('CORE_C500_ENDPOINT_BASIS_NATIVE_GROUP_COMPLETE'if code==0 else'CORE_C500_ENDPOINT_BASIS_NATIVE_GROUP_INCOMPLETE_PRESERVED')if endpoint else('CORE_C500_CONIC_NATIVE_GROUP_COMPLETE'if code==0 else'CORE_C500_CONIC_NATIVE_GROUP_INCOMPLETE_PRESERVED')if conic else('TASK_LEARNING_CORE_LOCAL_GROUP_COMPLETE'if code==0 else'TASK_LEARNING_CORE_LOCAL_GROUP_INCOMPLETE_PRESERVED')if local else('TASK_LEARNING_STUDENT_DEV_GROUP_COMPLETE'if code==0 else'TASK_LEARNING_STUDENT_DEV_GROUP_INCOMPLETE_PRESERVED'),
             exit_code=code,failure=failure,summary=summary,assignment_slice=inp['assignment_slice'],
             selected_requests=len(rows),completed_in_group=len(outcomes),source_sha=inp['source_sha'],panel_sha256=inp['panel_sha256'],
             wall_s=time.monotonic()-start,CPU_s=sum(v['CPU_s']for v in outcomes),
