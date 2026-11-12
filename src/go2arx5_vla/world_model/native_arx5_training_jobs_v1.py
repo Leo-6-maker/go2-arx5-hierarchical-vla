@@ -77,8 +77,8 @@ def full_cache_update_qualification(s,model,contract,data,frozen,root,guard):
     from scripts.pi0294.generalization.minimal_adapter import frozen_fingerprint
     rows=disk_rows(s['feature_cache']);visits=profile.target_visit_indices(data.manifest)
     probes=[next(i for i,(ep,anchor)in enumerate(data.rows)
-                 if ep['parent']=='TASK_LEARNING_UNDER_HAND_'+layout and anchor==0)
-            for layout in ('TRAIN01','TRAIN07','TRAIN13','TRAIN25')]
+                 if ep['parent']=='TASK_LEARNING_UNDER_HAND_'+layout and anchor==chosen)
+            for layout in ('TRAIN01','TRAIN07','TRAIN13','TRAIN25')for chosen in(0,9)]
     predictions=generation_equivalence(model,data,rows,probes,root,guard)
     initial={n:model.get_parameter(n).detach().cpu().clone()for n in contract.trainable_names}
     results={};bank=None
@@ -269,7 +269,7 @@ def run(s,root,guard):
     import os
     rt.require(os.uname().nodename=='corelab-4080s'and os.getuid()==2009 and not os.getenv('PBS_JOBID')
         and s['science_role']==profile.SCOPE,'EXISTING_REGISTERED_CORE_OPERATION_ONLY')
-    rt.require(s['operation'] in('BUILD_CACHE','QUALIFY_FULL_CACHE','QUALIFY_RESTORE','CANDIDATE')
+    rt.require(s['operation'] in('BUILD_CACHE','QUALIFY_FULL_CACHE','QUALIFY_RESTORE','CANDIDATE','RECONSTRUCT')
         and s['recipe']==profile.recipe(s['recipe']['stage'],s['dataset_sha256'],s['statistics_sha256']),
         'EXPLICIT_NEW_OPERATION_AND_STAGE_BEFORE_MODEL_LOAD')
     guard()
@@ -287,6 +287,9 @@ def run(s,root,guard):
             actual_optimizer_updates=0,physics_integrations=0)
     elif s['operation']=='QUALIFY_FULL_CACHE':
         result=full_cache_update_qualification(s,model,contract,data,frozen,root,guard)
+    elif s['operation']=='RECONSTRUCT':
+        from .native_arx5_endpoint_v1 import run as reconstruct
+        result=reconstruct(s,model,contract,data,frozen,root,guard)
     else:
         result=cached_updates(s,model,contract,data,frozen,root,guard)
     result['actual_model_loads']=1

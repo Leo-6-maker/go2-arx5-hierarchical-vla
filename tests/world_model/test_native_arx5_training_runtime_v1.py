@@ -66,3 +66,31 @@ def test_corrupted_optimizer_cannot_be_restored(tmp_path):
 def test_rejects_legacy_parent_audit_before_file_access():
     with pytest.raises(ValueError,match='ACTUAL_OFFICIAL_PARENT_AUDIT'):
         runtime.checked_parent('/unread',dict(schema='ARX5_RAW_PARENT_ZERO_STEP_IDENTITY_V1',passes=True))
+
+
+def test_processor_save_preserves_training_rng_and_checkpoint_endpoint_identity(tmp_path):
+    from go2arx5_vla.world_model import native_arx5_endpoint_v1 as endpoint
+    import hashlib
+    statistics=tmp_path/'statistics.json';statistics.write_text('{}\n')
+    stats_sha=hashlib.sha256(statistics.read_bytes()).hexdigest()
+    class Processor:
+        def save_pretrained(self,path):
+            path.mkdir();(path/'processor_config.json').write_text('{}\n')
+            random.random();np.random.random();torch.randn(3)
+    model,contract,opt,sch,_=session()
+    recipe=profile.recipe('A_TARGET','a'*64,stats_sha)
+    for _ in range(4):next_update(model,opt,sch)
+    before=rng_identity();cp=tmp_path/'step4'
+    runtime.save_checkpoint(cp,model,contract,opt,sch,4,recipe,{}, {},'d'*64,
+                            processor=Processor(),statistics_file=statistics)
+    assert rng_identity()==before
+    pin=dict(path=str(cp),sha256=hashlib.sha256((cp/'COMPLETE.json').read_bytes()).hexdigest())
+    spec=dict(recipe=recipe,dataset_sha256='a'*64,statistics_sha256=stats_sha,qualification_only=True)
+    path,value=endpoint.read_checkpoint(pin,contract,spec)
+    assert path==cp and value['global_step']==4 and value['Processor_saved']
+    values=torch.load(cp/'trainable.pt',weights_only=True)
+    rebuilt=torch.nn.Linear(3,2);c2=Contract(rebuilt)
+    endpoint.install(values,rebuilt,c2)
+    assert tree_identity(rebuilt.state_dict())==tree_identity(model.state_dict())
+    with pytest.raises(ValueError,match='COMPLETE_OWN'):
+        endpoint.read_checkpoint(pin,contract,dict(spec,qualification_only=False))
