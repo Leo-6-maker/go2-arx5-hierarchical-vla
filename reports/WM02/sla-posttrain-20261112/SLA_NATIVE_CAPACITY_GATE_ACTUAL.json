@@ -1,0 +1,29 @@
+{
+  "schema": "SLA_NATIVE_UNDISPATCHED_CAPACITY_GATE_ACTUAL_V1",
+  "QUESTION": "Can the registered cold suffix launch without disturbing other owners?",
+  "CHANGED": "No worker launched; no changes to capacity thresholds or other owners.",
+  "ACTUAL": {
+    "readback_epoch": 1794486045.5587156,
+    "GPU_free_MiB": 3167,
+    "host_available_bytes": 32242118656,
+    "required_host_available_bytes_exclusive": 34359738368,
+    "registered_cold_suffix_conditions": 2,
+    "new_native_workers": 0,
+    "new_SLA_parent_loads": 0,
+    "new_SLA_queries": 0,
+    "new_optimizer_updates": 0,
+    "new_physical_requests": 0,
+    "source_sha": "b558a3d9813cfd9a0a973bcd1cccb7de7622db81",
+    "registered_input_sha256": "84064315d96a37fae9d5a0a7eac2c70b4f41f318d02239986469187b9bd02826",
+    "lease_deadline_epoch": 1794493115.9483328,
+    "MainPID": 0,
+    "unit_exists": false,
+    "launch_intent_exists": false,
+    "supervisor_exists": false,
+    "qualified_GPU_has_other_owner_allocation": true,
+    "actions_on_other_owner_processes": 0
+  },
+  "NEGATIVE": "First dispatch attempt stopped at the read-only capacity guard. GPU1 is occupied by a different UID; available host RAM is also below the registered32GiB requirement. This is not an attempted SLA inference or physical task.",
+  "DECISION": "Retain the registered, never-dispatched input and all original outcomes; preserve other owners.",
+  "NEXT": "Poll capacity. If ready while lease valid, call dispatch_group on the existing input once; never re-register it. Continue CPU-only preparation meanwhile."
+}
