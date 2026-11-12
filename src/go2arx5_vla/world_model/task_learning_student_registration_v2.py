@@ -132,6 +132,8 @@ def group_input(request,panel):
         from .task_learning_conic_native_v3 import INPUT_SCHEMA
         inp['schema']=INPUT_SCHEMA
         inp['conic_solver_dependency']=reg['conic_solver_dependency']
+    if reg.get('capacity_wait_before_pair_v3') is not None:
+        inp['capacity_wait_before_pair_v3']=reg['capacity_wait_before_pair_v3']
     batch.selection(inp,panel)
     for label in('pilot1','fusion'):
         descriptor_=request[label+'_binding'];binding=pinned(descriptor_)

@@ -76,6 +76,9 @@ def prefix(panel):
                 'SLA_EVERY_OLD_PARTNER_CLOSED_WITH_ACTUAL_EXIT')
     wait_seconds(dict(task_learning_role=task.SLA_ROLE,
                       native_pause_read_wait=panel['registration']['native_pause_read_wait']))
+    if panel.get('resource_continuation') is not None:
+        from .sla_native_resource_continuation_v3 import extend_prefix
+        return extend_prefix(panel, rows)
     return rows
 
 
@@ -88,7 +91,8 @@ def register_panel(request):
     from scripts.pi0294.night10.native_relay import snapshot, once
     from .task_learning_student_registration_v2 import closed_base, actual_site, descriptor
     from .sla_native_v1 import validate_panel, policy_contract
-    old = pinned(request['cold_continuation']['panel'])
+    resource = request.get('resource_continuation')
+    old = pinned(resource['panel'] if resource is not None else request['cold_continuation']['panel'])
     n = closed_base(old['registration']['native_base'])
     campaign, root, source = Path(n['campaign_root']), Path(request['root']), Path(request['source_root'])
     actual_site(campaign)
@@ -98,10 +102,14 @@ def register_panel(request):
     panel = dict(old, source_sha=request['source_sha'], cold_continuation=request['cold_continuation'],
         registration=dict(old['registration'], source_root=str(source), source_files=request['source_files'],
                           native_pause_read_wait=request['native_pause_read_wait']))
+    if resource is not None:
+        panel['resource_continuation'] = resource
+    if request.get('capacity_wait_before_pair_v3') is not None:
+        panel['registration']['capacity_wait_before_pair_v3'] = request['capacity_wait_before_pair_v3']
     for policy in panel['policies'].values():
         policy_contract(policy)
     validate_panel(panel)
-    prefix(panel)
+    retained = prefix(panel)
     key = root.name.upper()+'-PANEL'
     journal = Journal(campaign/'control/journal', campaign.name)
     with closing(OwnerLock(campaign/'OWNER.lock')):
@@ -111,7 +119,7 @@ def register_panel(request):
             (root/'control').mkdir()
             write(root/'PANEL.private.json', panel)
             write(root/'control/LEASE.json', dict(status='SEALED_NONCOMPUTE_PANEL', planned_conditions=4,
-                retained_terminal_prefix=2, new_physical_requests=2, created_epoch=time.time(),
+                retained_terminal_prefix=len(retained), new_physical_requests=4-len(retained), created_epoch=time.time(),
                 panel_sha256=digest(root/'PANEL.private.json')))
             registry, before = snapshot(n['registry'])
             task.need(not any(r.get('path') == str(root) for r in registry['entries']), 'SLA_FRESH_CONTINUATION_REGISTRY')
@@ -119,4 +127,6 @@ def register_panel(request):
                 source_sha=request['source_sha'],local_lease=str(root/'control/LEASE.json'),executor_node=n['host']))
             once(n['registry'],registry,key+'-REGISTRY',expected_before_sha256=before)
             return dict(status='SLA_COLD_UNEXECUTED_SUFFIX_PANEL_SEALED',panel=descriptor(root/'PANEL.private.json'))
-        return journal.once(key,dict(prefix=request['cold_continuation'],source_sha=request['source_sha']),effect)
+        payload=dict(prefix=request['cold_continuation'],source_sha=request['source_sha'])
+        if resource is not None:payload['resource_prefix']=resource
+        return journal.once(key,payload,effect)

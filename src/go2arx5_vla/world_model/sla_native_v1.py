@@ -142,6 +142,8 @@ def validate_panel(panel):
             and row['split'] == ('TRAIN' if split == 'TRAIN4' else 'SLA_DEV')
             and row['command'] == task.COMMAND and row['purpose'] == EXPERIMENT
             and Path(row['native_run']).name == row['native_run'], 'SLA_NO_POPULATION_RETRY_OR_SEED_CHANGE')
+    from .sla_native_resource_continuation_v3 import configuration
+    configuration(panel)
     return rows
 
 
@@ -150,9 +152,10 @@ def selection(inp, panel):
     from .sla_native_continuation_v2 import INPUT_SCHEMA as COLD_SCHEMA, prefix
     if inp.get('schema') == COLD_SCHEMA:
         retained = prefix(panel)
-        task.need(len(retained) == 2 and inp['source_sha'] == panel['source_sha']
+        expected = panel.get('resource_continuation') or panel['cold_continuation']
+        task.need(len(retained) == (3 if panel.get('resource_continuation') else 2) and inp['source_sha'] == panel['source_sha']
             and inp['assignment_slice'] == [len(retained),len(rows)]
-            and inp['population_predecessor'] == panel['cold_continuation']['result'],
+            and inp['population_predecessor'] == expected['result'],
             'SLA_ONLY_NEVER_STARTED_SUFFIX_WITH_IMMUTABLE_FAILURE_PREFIX')
         return rows[len(retained):]
     task.need(inp.get('schema') == INPUT_SCHEMA and inp['source_sha'] == panel['source_sha']
@@ -305,6 +308,8 @@ def register_panel(request):
             'scene_producers','scene_allowlist','scene_allowlist_sha256','memory_execution','memory_execution_reference')})
     if request.get('native_pause_read_wait') is not None:
         panel['registration']['native_pause_read_wait'] = request['native_pause_read_wait']
+    if request.get('capacity_wait_before_pair_v3') is not None:
+        panel['registration']['capacity_wait_before_pair_v3'] = request['capacity_wait_before_pair_v3']
     validate_panel(panel)
     key = root.name.upper()+'-PANEL'
     journal = Journal(campaign/'control/journal', campaign.name)

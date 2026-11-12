@@ -16,6 +16,10 @@ CONTINUATION_SCHEMA='TASK_LEARNING_STUDENT_DEV_GROUP_INPUT_V2'
 
 
 def selection(inp,panel):
+    if inp.get('capacity_wait_before_pair_v3') is not None:
+        from .sla_native_resource_continuation_v3 import configuration
+        task.need(configuration(panel)==inp['capacity_wait_before_pair_v3'],
+            'EXACT_DECLARED_SLA_PAIR_CAPACITY_WAIT')
     if inp.get('schema')=='SLA_DEV16_OFFICIAL_GR00T_A500_ENGINEERING_V1_GROUP_INPUT':
         from .sla_g_native_v1 import selection
         return selection(inp,panel)
@@ -324,7 +328,22 @@ def run(input_path):
     try:
         for row in rows:
             task.need(time.time()+1200<inp['deadline_epoch']and not(stage/'STOP.json').exists(),'NO_LATE_NEW_DEV_CONDITION')
-            current_row=row;current_pair=None;registered=register(row);current_pair=registered
+            current_row=row;current_pair=None
+            if inp.get('capacity_wait_before_pair_v3') is None:
+                registered=register(row)
+            else:
+                from .sla_native_resource_continuation_v3 import wait_for_pair
+                nr=stage/'runs'/row['native_run'];gr=stage/'runs'/(row['native_run']+'-gpu')
+                def untouched():
+                    return (not nr.exists() and not gr.exists()
+                        and not any(journal.path(k).exists()for k in(
+                            nr.name.upper()+'-REGISTER',nr.name.upper()+'-PAIR-REGISTRY',
+                            nr.name.upper()+'-RUN',gr.name.upper()+'-RUN')))
+                registered=wait_for_pair(lambda:register(row),untouched,
+                    lambda value:write(stage/'PROGRESS.private.json',dict(value,current_run=row['native_run'],completed=len(outcomes))),
+                    inp['deadline_epoch']-1201,
+                    stopped=lambda:(stage/'STOP.json').exists()or(campaign/'STOP.json').exists())
+            current_pair=registered
             execute_pair(registered,journal,stage,len(outcomes))
             result=student.classify_actual(row,stage/'runs'/row['native_run'],inp['source_sha'],core_local=local,conic=conic,endpoint=endpoint,matched=matched,native_body=panel['task_learning_role'] if native_body else False)
             outcomes.append(result);write(stage/'OUTCOMES.private.json',outcomes)
