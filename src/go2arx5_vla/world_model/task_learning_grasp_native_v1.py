@@ -30,6 +30,8 @@ SOURCE_MEMBERS=tuple(dict.fromkeys(previous.SOURCE_MEMBERS+(
     'scripts/wm02/task_learning_teacher_qualification_v1.py',
     'src/go2arx5_vla/world_model/native_collection_performance_v1.py',
     'src/go2arx5_vla/world_model/native_async_journal_v3.py',
+    'src/go2arx5_vla/world_model/native_body_memory_v3.py',
+    'src/go2arx5_vla/world_model/native_frame_writer_v3.py',
     'src/go2arx5_vla/world_model/native_state_snapshot.py',
     'src/go2arx5_vla/world_model/corelab_expert_semantics_v3.py',
     'src/go2arx5_vla/target_mujoco/state_snapshot.hpp',
@@ -190,6 +192,8 @@ def episode_config(spec):
     configuration(spec)
     from .native_async_journal_v3 import configuration as async_configuration
     async_configuration(spec)
+    from .native_body_memory_v3 import configuration as memory_configuration
+    memory_configuration(spec)
     validate(spec)
     document=scenes.pinned(dict(path=spec['episode_manifest'],sha256=spec['episode_manifest_sha256']))
     episode=scenes.prefix_episode(document,spec)
@@ -307,6 +311,8 @@ def continue_native(adapter,report,samples,windows):
             and not any(s.get(k)for k in ('native_abort','illegal_contact','joint_limit_penetration','reset','takeover')),
             'UNCHANGED_NATIVE_CONTACT_AND_STANDING_SAFETY')
         if s['native_step']>task_samples[-1]['native_step']:task_samples.append(copy.deepcopy(s))
+        from .native_body_memory_v3 import observe_dense
+        observe_dense(adapter,s,lambda:capture_input(adapter,language=task.LANGUAGE,task_score=task.score_contract()))
     for index,step in enumerate(consumer.observation_steps(adapter.spec)):
         task.need(adapter.observe()['step']==samples[-1]['native_step']==step,'REAL_CONTINUOUS_TEACHER_CLOCK')
         observe(samples[-1])
@@ -353,6 +359,10 @@ def continue_native(adapter,report,samples,windows):
         past_samples=samples,past_windows=windows,sample_observer=observe)
     _link_replacement(adapter,cycles[-1],current);cycles.append(current)
     scored=task.score(task_samples,teacher.cube[2,3],standing=standing)
+    memory_archive=None
+    if hasattr(adapter,'_body_memory_capture'):
+        captures,memory_archive=adapter._body_memory_capture.finish(captures,
+            observed_task_success=scored['task_success'],confirmed=confirmed)
     write_progress(adapter.output/'TASK_LEARNING_STANDING_ACTUAL.private.json',dict(records=standing,complete=True))
     write_json(adapter.output/'TASK_LEARNING_SCORE.private.json',scored)
     write_progress(adapter.output/'TASK_LEARNING_CAPTURES.private.json',dict(records=captures,complete=True,task_success=scored['task_success']))
@@ -374,6 +384,7 @@ def continue_native(adapter,report,samples,windows):
         solver_target_confirmed_atoms=len(windows),gripper_confirmed_atoms=len(windows),
         new_task_score=scored,task_condition_success=scored['task_success'],
         decision_start_readiness=start_ready,expert_training_eligible=False,
+        memory_frame_archive=memory_archive,
         data_role=('TEACHER_QUALIFICATION_NOT_BC'if adapter.spec.get('task_learning_role')==task.QUALIFICATION_ROLE else
             'TASK_CONSTRUCTION_NOT_BC'if adapter.spec.get('task_learning_role',task.CONSTRUCTION_ROLE)==task.CONSTRUCTION_ROLE else
             adapter.spec['task_learning_role']),

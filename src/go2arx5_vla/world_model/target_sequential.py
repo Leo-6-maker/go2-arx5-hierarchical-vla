@@ -87,6 +87,8 @@ class TargetSequentialAdapter:
         self.performance=PerformanceTrace() if configuration(spec) is not None else None
         from .native_async_journal_v3 import configuration as async_configuration
         self.async_journal_config=async_configuration(spec);self.ros_journal=None
+        from .native_body_memory_v3 import configuration as memory_configuration
+        memory_configuration(spec)
     def reference_phase(self):
         return self.spec['phase'].startswith(('g2-','collect-target-'))
     def dynamic_phase(self):
@@ -94,6 +96,8 @@ class TargetSequentialAdapter:
     def guard(self):
         writer=getattr(self,'ros_journal',None)
         if writer is not None:writer.check()
+        memory=getattr(self,'_body_memory_capture',None)
+        if memory is not None:memory.check()
         if time.monotonic()-self.started>=self.spec['wall_limit_s']or time.time()>=self.spec['deadline_epoch']or any((p/'STOP.json').exists()for p in(self.output,Path(self.spec['registered_root']),Path(self.spec['campaign_root']))):raise TimeoutError('AUTO1_FINITE_ENDPOINT_OR_OPERATOR_STOP')
     def control(self):
         p=self.output/'control.jsonl'

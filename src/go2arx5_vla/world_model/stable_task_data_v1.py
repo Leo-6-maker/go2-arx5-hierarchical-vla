@@ -121,6 +121,10 @@ def capture_input(adapter, *, language=None, task_score=None):
         camera = SourceCameraCapture(identity,frame)
     binding = TargetShadowBinding('MUJOCO_GO2_ARX5_WORLD',digest(spec['model_path']),
         digest(Path(spec['registered_root'])/'EXECUTION_SPEC.json'),frame,spec['task_phase_frame_map_sha256'])
+    from .native_body_memory_v3 import configuration as memory_configuration
+    if memory_configuration(spec):
+        from .native_body_memory_v3 import capture_input as capture_memory
+        return capture_memory(adapter,binding=binding,task=task,task_sha256=document_hash(task))
     query = str(uuid.uuid4())
     record = capture_paused_observation(adapter,binding=binding,task=task,
         task_sha256=document_hash(task),query_uuid=query,capture_index=0,camera_recipe=camera)

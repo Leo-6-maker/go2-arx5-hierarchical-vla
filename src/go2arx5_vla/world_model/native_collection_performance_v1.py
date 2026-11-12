@@ -169,14 +169,18 @@ def settle_atom(adapter, *, event_start, before, after, clock, submitted):
 
 def close_resources(adapter):
     try:
-        body = getattr(adapter, '_body_camera_session', None)
-        if body is not None:
-            with measure(adapter, 'camera.body_session_close'):
-                body.close()
-        session = getattr(adapter, '_source_camera_session', None)
-        if session is not None:
-            with measure(adapter, 'camera.session_close'):
-                session.close()
+        try:
+            memory = getattr(adapter, '_body_memory_capture', None)
+            if memory is not None:memory.close()
+        finally:
+            body = getattr(adapter, '_body_camera_session', None)
+            if body is not None:
+                with measure(adapter, 'camera.body_session_close'):
+                    body.close()
+            session = getattr(adapter, '_source_camera_session', None)
+            if session is not None:
+                with measure(adapter, 'camera.session_close'):
+                    session.close()
     finally:
         trace = getattr(adapter, 'performance', None)
         if trace is not None:

@@ -126,6 +126,21 @@ class BodyBaseCameraSession:
         need(self.busy and not self.closed, 'LIVE_BODY_CAMERA_CAPTURE_LEASE')
         self.busy = False
 
+    def render_memory(self, packet, *, performance=None):
+        """Return owned pixel copies without encoding or filesystem work."""
+        native, body = self.acquire(self.model_path, None)
+        native.performance = performance
+        try:
+            images, native_calibration = native.render_packet(packet)
+            with measure(SimpleNamespace(performance=performance), 'camera.body_scene_reset'):
+                reset_render_scene(body.renderer, body.model)
+            rgb, _, calibration, _ = body.render(packet, audit_masks=False)
+            need(calibration['wrist_rgb'] == native_calibration['wrist_rgb'],
+                 'MEMORY_CAPTURE_ORIGINAL_WRIST_CALIBRATION')
+            return images, rgb, native_calibration, calibration
+        finally:
+            self.release()
+
     def close(self):
         if self.closed:
             return
