@@ -7,7 +7,7 @@ from .config_v1 import SEED
 from .dataset_v1 import CAMERAS
 
 EFFECTIVE_BATCH = 32
-RNG_VERSION = 'SLA_ABSOLUTE_VISIT_FOLD_IN_SINGLE_SAMPLE_SHAPES_V2'
+RNG_VERSION = 'SLA_FIXED_EFFECTIVE32_DRAW_BANK_ABSOLUTE_VISIT_V2_1'
 
 
 def accumulation_steps(microbatch):
@@ -32,6 +32,18 @@ def draws(rng, cursors):
     noise = jax.vmap(lambda key: jax.random.normal(key, (1, 40, 32)))(parts[:, 1])[:, 0]
     flow_time = jax.vmap(lambda key: jax.random.beta(key, 1.5, 1, (1,)))(parts[:, 2])[:, 0]
     return noise, flow_time * .999 + .001
+
+
+def draw_bank(rng, cursors):
+    """One fixed-shape GPU input bank, produced outside the model gradient.
+
+    The CPU diagnosis found a1-ULP beta/time difference under differently
+    shaped compilations. All V2 microbatch variants now slice the same32-row
+    producer graph. This does not assert bit identity to V1's scalar graph.
+    """
+    if cursors.shape != (EFFECTIVE_BATCH,):
+        raise ValueError('FIXED_EFFECTIVE32_RANDOM_INPUT_BANK_REQUIRED')
+    return draws(rng, cursors)
 
 
 def host_batch(dataset, tokenizer, visit_map, start, microbatch, *, on_read=None):

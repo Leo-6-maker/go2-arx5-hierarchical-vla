@@ -10,7 +10,7 @@ import numpy as np
 
 from .runtime_v1 import Engine as OriginalEngine, read_pin
 from .config_v1 import learning_rates
-from .batch_v2 import RNG_VERSION, accumulation_steps, prepared_batches, device_batch, draws, error32
+from .batch_v2 import RNG_VERSION, accumulation_steps, prepared_batches, device_batch, draw_bank, error32
 
 
 class BatchedEngine(OriginalEngine):
@@ -36,13 +36,13 @@ class BatchedEngine(OriginalEngine):
                              prefetch='ONE_NEXT_CPU_INPUT_MICROBATCH_NO_FEATURE_CACHE')
         graph = self.graph
 
-        def objective(active, frozen, observation, actions, rng, cursors):
-            noise, flow_time = draws(rng, cursors)
+        def objective(active, frozen, observation, actions, noise, flow_time):
             error = error32(nnx.merge(graph, active, frozen), observation, actions, noise, flow_time)
             value = jnp.mean(jnp.mean(error, axis=-1))
             return value, (jnp.mean(error[..., :7]), jnp.mean(error[..., 7:]))
 
         self.grad = jax.jit(jax.value_and_grad(objective, has_aux=True))
+        self.draw_bank = jax.jit(draw_bank)
         divisor = self.accumulation_steps
         self.accumulate = jax.jit(lambda acc, grad: jax.tree.map(lambda a, g: a + g / divisor, acc, grad),
                                  donate_argnums=(0,))
@@ -53,6 +53,10 @@ class BatchedEngine(OriginalEngine):
         start = time.perf_counter()
         accumulator = jax.tree.map(jnp.zeros_like, self.active)
         logs = []
+        self.counts['rng_bank_generation_attempts'] = self.counts.get('rng_bank_generation_attempts', 0) + 1
+        noise, flow_time = self.draw_bank(self.rng, np.arange(self.cursor, self.cursor + 32, dtype=np.uint32))
+        jax.block_until_ready(noise)
+        self.counts['rng_banks_generated'] = self.counts.get('rng_banks_generated', 0) + 1
         def read_count(key):
             self.counts[key] = self.counts.get(key, 0) + 1
         batches = prepared_batches(self.dataset, self.tokenizer, self.visit_map, self.cursor,
@@ -64,8 +68,10 @@ class BatchedEngine(OriginalEngine):
                 observation, actions = device_batch(host)
                 self.counts['forward_backward_attempts'] += 1
                 self.counts['attempted_training_visits'] += self.microbatch
+                offset = int(host['cursors'][0]) - self.cursor
                 (value, (active7, padding25)), gradient = self.grad(
-                    self.active, self.frozen, observation, actions, self.rng, host['cursors'])
+                    self.active, self.frozen, observation, actions,
+                    noise[offset:offset + self.microbatch], flow_time[offset:offset + self.microbatch])
                 jax.block_until_ready(gradient)
                 self.counts['completed_forward_backward'] += 1
                 self.counts['completed_training_visits'] += self.microbatch

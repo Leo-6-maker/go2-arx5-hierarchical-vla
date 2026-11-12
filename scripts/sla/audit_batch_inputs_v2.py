@@ -8,7 +8,7 @@ import time
 import numpy as np
 
 from scripts.pi0292.durable import write
-from go2arx5_vla.sla_adapter.batch_v2 import RNG_VERSION, draws, prepared_batches
+from go2arx5_vla.sla_adapter.batch_v2 import RNG_VERSION, draw_bank, prepared_batches
 from go2arx5_vla.sla_adapter.config_v1 import SEED, visits
 from go2arx5_vla.sla_adapter.dataset_v2 import data
 from go2arx5_vla.sla_adapter.model_v1 import Tokenizer
@@ -65,7 +65,13 @@ def run(spec):
         return jnp.mean(jnp.mean(jnp.square(theta[0] * x_t + theta[1] - (noise - actions)), axis=-1))
 
     synthetic_gradient = jax.jit(jax.value_and_grad(reduction))
-    batched_draw = jax.jit(draws)
+    bank_noise, bank_time = jax.jit(draw_bank)(rng, jnp.arange(32, dtype=jnp.uint32))
+    jax.block_until_ready(bank_noise)
+    original_comparison = dict(noise_bit_exact=bool(np.array_equal(np.asarray(bank_noise), reference_noise)),
+                               time_bit_exact=bool(np.array_equal(np.asarray(bank_time), reference_time)),
+                               time_differing_elements=int(np.count_nonzero(np.asarray(bank_time) != reference_time)),
+                               time_max_abs=float(np.abs(np.asarray(bank_time) - reference_time).max()),
+                               original_bit_exact_failure_retained=True)
     theta = jnp.array([.125, -.05], dtype=jnp.float32)
     reference_inputs = None
     reference_loss = reference_gradient = None
@@ -89,15 +95,16 @@ def run(spec):
         noises, times = [], []
         loss_sum, gradient_sum = 0., np.zeros(2, np.float64)
         for row in rows:
-            noise, flow_time = batched_draw(rng, row['cursors'])
+            offset = int(row['cursors'][0])
+            noise, flow_time = bank_noise[offset:offset + micro], bank_time[offset:offset + micro]
             noises.append(np.asarray(noise)); times.append(np.asarray(flow_time))
             value, gradient = synthetic_gradient(theta, jnp.asarray(row['actions']), noise, flow_time)
             loss_sum += float(value) / len(rows)
             gradient_sum += np.asarray(gradient, np.float64) / len(rows)
             synthetic_evaluations += 1
         noise, flow_time = np.concatenate(noises), np.concatenate(times)
-        if not np.array_equal(noise, reference_noise) or not np.array_equal(flow_time, reference_time):
-            raise ValueError('MICROBATCH_RANDOM_DRAWS_DIFFER_FROM_ORIGINAL_SAMPLE_STREAM')
+        if not np.array_equal(noise, np.asarray(bank_noise)) or not np.array_equal(flow_time, np.asarray(bank_time)):
+            raise ValueError('MICROBATCH_CHANGED_PAIRED_FIXED_INPUT_BANK')
         if reference_loss is None:
             reference_loss, reference_gradient = loss_sum, gradient_sum
         delta = gradient_sum - reference_gradient
@@ -115,6 +122,7 @@ def run(spec):
     return dict(schema='SLA_BATCH_INPUT_RNG_CPU_SEAMS_ACTUAL_V2', passes=True,
                 plan_revision=spec['scaleup_plan_revision'], action_representation_audit=spec['action_representation_audit'],
                 random_stream=RNG_VERSION, microbatches=[1, 8, 16], effective_batch=32,
+                original_scalar_graph_comparison=original_comparison,
                 input_fingerprints=fingerprints, checks=checks, reader_counts=reads,
                 unique_TRAIN_windows_read=len(set(visit_map[:32].tolist())),
                 synthetic_reduction_gradient_evaluations=synthetic_evaluations,

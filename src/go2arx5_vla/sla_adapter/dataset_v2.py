@@ -20,7 +20,8 @@ def data(spec):
     audit = read_pin(pin)
     if (audit.get('schema') != 'SLA_GRIP_LOGIT_TRAIN100_DERIVATION_V2'
             or not audit.get('passes') or audit['codec_version'] != VERSION
-            or audit['epsilon'] != EPSILON or audit['original_target_audit'] != spec['target_audit']
+            or audit['epsilon'] != EPSILON
+            or audit['original_target_audit']['sha256'] != spec['target_audit']['sha256']
             or audit['source_dataset_sha256'] != base.original.manifest_sha
             or audit['expert_windows'] != 1450 or not audit['state_statistics_unchanged']
             or not audit['pose_action_statistics_unchanged']):

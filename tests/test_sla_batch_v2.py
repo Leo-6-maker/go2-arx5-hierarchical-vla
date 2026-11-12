@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from go2arx5_vla.sla_adapter.batch_v2 import accumulation_steps, drop_state, prepared_batches
+from go2arx5_vla.sla_adapter.batch_v2 import accumulation_steps, drop_state, prepared_batches, draw_bank
 from go2arx5_vla.sla_adapter.dataset_v1 import CAMERAS
 
 
@@ -50,3 +50,9 @@ def test_partial_update_boundary_rejected():
         list(prepared_batches(Dataset(), tokenize, np.arange(64), 1, 4))
     with pytest.raises(ValueError):
         list(prepared_batches(Dataset(), tokenize, np.arange(48), 32, 4))
+
+
+@pytest.mark.parametrize('micro', [1, 8, 16])
+def test_random_input_producer_cannot_change_shape_with_microbatch(micro):
+    with pytest.raises(ValueError, match='FIXED_EFFECTIVE32'):
+        draw_bank(None, np.arange(micro, dtype=np.uint32))
