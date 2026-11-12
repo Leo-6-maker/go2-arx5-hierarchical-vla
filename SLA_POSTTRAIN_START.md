@@ -6,8 +6,9 @@
 
 1. [详细科学与执行协议](docs/protocols/SLA_GO2_ARX5_POSTTRAIN_V1_20261112.md)
 2. [机器可读设计规格](experiments/sla_go2_posttrain/v1_design.json)
-3. [完整Codex启动prompt与实现工作包](docs/handover/2026-11-12/SLA_POSTTRAIN_CODEX_START.md)
-4. `AGENTS.md`的操作安全与仓库工作流、现役[#376](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/pull/376)最新ACTUAL和站点owner。
+3. [准备状态与实现细节](docs/reviews/2026-11-12_SLA_PLAN_READINESS.md)：明确LoRA零初始化的合法零梯度、500项日程及已做/未做验证，作为主协议相应术语的精确解释。
+4. [完整Codex启动prompt与实现工作包](docs/handover/2026-11-12/SLA_POSTTRAIN_CODEX_START.md)
+5. `AGENTS.md`的操作安全与仓库工作流、现役[#376](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/pull/376)最新ACTUAL和站点owner。
 
 ## 当前已经知道什么
 
