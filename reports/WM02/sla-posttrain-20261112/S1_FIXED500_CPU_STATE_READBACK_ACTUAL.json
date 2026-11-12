@@ -1,0 +1,37 @@
+{
+  "schema": "SLA_S1_FIXED500_COMPLETE_STATE_CPU_READBACK_ACTUAL_V1",
+  "QUESTION": "Can all87 fixed500 saved state arrays be reconstructed and reserialized exactly?",
+  "CHANGED": "CPU readback of the existing complete state; no new optimization or policy inference.",
+  "ACTUAL": {
+    "source_sha": "c99bc9702f75a92a21135f0d4eea58a80d4eb005",
+    "spec_sha256": "b3b6cdbb68e966eccd34aceff162a3ce5d925fa1525b81b4ba466aa0d9a2fc4d",
+    "worker_exit_code": 0,
+    "MainPID": 0,
+    "original_checkpoint_sha256": "d20f8b3c0a7299b819d0e40b4e10311f610f03c70752fb4dbe3ba590e815cba6",
+    "restored_checkpoint_sha256": "d20f8b3c0a7299b819d0e40b4e10311f610f03c70752fb4dbe3ba590e815cba6",
+    "comparison": {
+      "bit_exact": true,
+      "arrays": 87,
+      "step": 500,
+      "cursor": 16000,
+      "differences": []
+    },
+    "restored_parameter_arrays": 28,
+    "restored_optimizer_and_RNG_arrays": 59,
+    "actual_CPU_state_arrays": 87,
+    "abstract_graph_traces": 1,
+    "dense_parent_loads": 0,
+    "inference_calls": 0,
+    "forward_backward_calls": 0,
+    "optimizer_updates": 0,
+    "training_optimization_visits": 0,
+    "physical_requests": 0,
+    "CUDA_initialized": false,
+    "finite_CPU_wall_s": 108.02996277809143,
+    "CPU_job_cgroup_memory_peak_bytes": 2230075392,
+    "OOM_events": 0
+  },
+  "NEGATIVE": "This is CPU endpoint state integrity evidence. Real CUDA4vs2+2 training continuation remains the separate earlier8-update qualification; no500-step CUDA resume update is claimed.",
+  "DECISION": "Preserve the fixed500 endpoint and identical complete-state SHA; no added training updates.",
+  "NEXT": "Qualified-capacity first dispatch of registered unexecuted TRAIN13/25, then fixed newDEV16, then matched S2."
+}
