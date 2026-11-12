@@ -1,0 +1,27 @@
+接续 Leo-6-maker/go2-arx5-hierarchical-vla 的 GR00T＋WBC V3。用户新增授权：2026-11-10 21:20 SGT报告Vanda恢复可用，要求Vanda／Core／Hopper同步科研推进。
+
+首先读取 GitHub PR #373：
+docs/handover/2026-11-10/GR00T_WBC_LONG_HORIZON_V3.md
+docs/handover/2026-11-10/VANDA_CORE_HOPPER_PARALLEL_EXECUTION_V3.md
+原V3计划SHA256=479a2891189faf9d9e6f1fe4b4101d703bc3fc49d8b28c8e1a80dc3b6340d2fc，原计划身份不变。
+
+以执行PR #371的**最新现场运行源码、owner/Journal/registry、实际SSH/PBS/配额/模型数据身份**为准，不按文档提交SHA回退或热改。当前最近回执已经证明：Core B0/SFT2000四条件4/4首H40包络拒绝；加速度问题定位在段内，原V3 C臂λ=0及辅助梯度资格通过，在Core GPU1训练中。不要再把这四条件列为未运行，也不要抢停C。Hopper709533/709621/709670独立保留。
+
+本次在站点间并行派发下列科学任务，不是仅生成另一份研究计划：
+
+【VANDA：立即独立接管并核实际资源】
+V0 只读确认Vanda登录、项目CFP04-CF-007权限、PBS队列、实际A40显存/剩余容量、项目quota、scratch、用户UID、现有自己名下R/Q/F/UNKNOWN作业；历史Vanda1532527已CLOSED失败，禁止重新启用旧租约；SSH可用不代表有新PBS allocation。
+V1 一旦V0实证合法，在**独立新源SHA/登记身份/有限单A40 PBS**下复用原GR00T全动作侧模型、TRAIN100/1450窗、正式SFT2000父及目标Processor。先完成模型/数据/统计逐文件SHA；执行FULL_ACTION_SIDE原Trainer连续4对新进程2+2的非零更新、全状态下一步精确恢复、输出/梯度/noise检查。历史后训练生成审计失败须保留并根据具体原因修复，不改训练数学。A40容量不足则报告负结果，不偷换LAST2称FULL成功。
+V2 V1成功后独立完成V3执行感知加速度损失在FULL_ACTION_SIDE上的λ=0精确等价、λ>0真实可微梯度/有限差分、内存资格。可以与Core C当前训练并行做CPU/资格；不要等待H100/H200数值回执。
+V3 Core C500完整端点若显示明确可执行性机制增益，才从**同一SFT2000权重初始化**在Vanda完成两条相同FULL训练范围、同数据/统计/有效batch32/预算/seed的原FM控制与执行感知C-full，首端点各500更新；单A40上按资源串行，保存250/500全态、fresh恢复和完整普通推理重建。若Core C无机制改善，不盲目开两个500，而是做小规模full-vs-last2容量假说及结构化轨迹研究。模型经既有私有路线交Core匹配评价；所有原DEV80/TEST与原跨硬件REJECT保留。
+
+【CORE：保留当前在途任务，独立推进】
+Core GPU1 C臂500自然完成并封存训练/恢复/普通推理/固定TRAIN40×3与DEV参考20×3。当前四条件4/4有效任务失败不重跑。随后按V3门决定独立本地闭环或结构化轨迹，不因Vanda并行改变该臂seed、数据或阈值。
+Core CPU只读核接触、加速度、+3cm拒绝以及RecoveryOracle新版本；独立原生安全资格允许时做24请求资格，数据量产96及DAgger32等待合法学生roll-in。
+
+【HOPPER：保留合法既有工作】
+709533、709621、709670已有Q身份不重复qsub、不取消，保持其实际消费者。后续较大显存训练按独立科学依赖进入；不要为CPU准备占用GPU队列。
+
+共享不变量：冻结WBC/腿策略/增益/solver/动力学/2ms/原安全，单物理owner、不同站点独立writer，保存所有失败/UNKNOWN，私有权重和数据不发布。不放宽原H40证书、不裁剪学生提案、不使用Teacher fallback、不动原DEV/TEST。不得创建与现役Core C重复的无归因模型。项目内部不设新的GPU小时/作业数量门，实际站点quota、有限walltime/容量和完整审计不变。禁止改他人作业、系统服务/凭据/挂载或使用未获许可的分布式/实机。
+
+**交付真实效果，而不是空计划**：每个任务返回 QUESTION/CHANGED/ACTUAL/NEGATIVE/DECISION/NEXT，明确R/Q/F与PBS job、GPU型号和内存、实验模型参数范围、更新/访问、全态恢复、40H40包络、实际物理成功、完整请求人口、失败原因/资源成本、下一动作。没有远端SSH/PBS运行证据时如实说没有启动。立即执行V0，合法则一次性启动独立V1，Core原C同时继续。
