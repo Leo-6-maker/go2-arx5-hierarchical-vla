@@ -40,6 +40,17 @@
     }
   },
   "NEGATIVE": "First dispatch attempt stopped at the read-only capacity guard. GPU1 is occupied by a different UID; available host RAM is also below the registered32GiB requirement. This is not an attempted SLA inference or physical task.",
-  "DECISION": "Retain the registered, never-dispatched input and all original outcomes; preserve other owners.",
-  "NEXT": "While capacity is unavailable preserve other owners. Dispatch the already-registered input exactly once only with sufficient live lease time and the unchanged capacity guard. If unused authority expires, reconcile absence of launch/unit/supervisor before cold-revoking only that unused permission and creating fresh finite authority; never replay completed conditions."
+  "DECISION": "Explicit user request now authorizes a finite live background capacity wait. Preserve old capacity-refusal evidence and all original terminal outcomes; the old unused cold02 permission is closed without fabricating a worker exit.",
+  "NEXT": "Observe the existing live queue; it alone will register/dispatch new cold03 TRAIN13/25 and fixed DEV16 at original capacity. Do not call old cold02 dispatch helpers or submit a second queue.",
+  "CURRENT": {
+    "readback_epoch": 1794490880.5306277,
+    "queue_status": "WAIT_ORIGINAL_GPU_HOST_CAPACITY",
+    "queue_process_verified_live": true,
+    "old_cold02_unused_permission": "CLOSED_NEVER_DISPATCHED_SUPERSEDED_BY_EXPLICIT_USER_QUEUE",
+    "new_cold03_panel_sealed": true,
+    "new_native_groups_registered": 0,
+    "new_model_calls": 0,
+    "new_physical_requests": 0,
+    "queue_evidence": "SLA_NATIVE_BACKGROUND_QUEUE_ACTUAL.json"
+  }
 }
