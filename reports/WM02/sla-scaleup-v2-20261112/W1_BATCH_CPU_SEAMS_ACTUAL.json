@@ -1,0 +1,262 @@
+{
+  "schema": "SLA_SCALEUP_BATCH_CPU_SEAMS_ACTUAL_REPORT_V2",
+  "QUESTION": "Can true microbatch partitions use identical prepared inputs and stochastic draws at effective batch32?",
+  "CHANGED": "Model forward/backward receives a separately produced fixed32 GPU random-input bank; each microbatch slices it. One-next CPU input prefetch joins at update boundaries. Actual GPU model execution remains unqualified.",
+  "ACTUAL": {
+    "schema": "SLA_BATCH_INPUT_RNG_CPU_SEAMS_ACTUAL_V2",
+    "passes": true,
+    "plan_revision": "b07936899b10f196653f617f95c5cd8b124e5e99",
+    "random_stream": "SLA_FIXED_EFFECTIVE32_DRAW_BANK_ABSOLUTE_VISIT_V2_1",
+    "microbatches": [
+      1,
+      8,
+      16
+    ],
+    "effective_batch": 32,
+    "original_scalar_graph_comparison": {
+      "noise_bit_exact": true,
+      "time_bit_exact": false,
+      "time_differing_elements": 4,
+      "time_max_abs": 5.960464477539063e-08,
+      "original_bit_exact_failure_retained": true
+    },
+    "checks": [
+      {
+        "microbatch": 1,
+        "accumulation_steps": 32,
+        "model_inputs_bit_exact": true,
+        "random_noise_bit_exact": true,
+        "random_time_bit_exact": true,
+        "synthetic_loss": 0.9492201022803783,
+        "synthetic_gradient_cosine": 1.0000000000000002,
+        "synthetic_gradient_relative_L2": 0.0
+      },
+      {
+        "microbatch": 8,
+        "accumulation_steps": 4,
+        "model_inputs_bit_exact": true,
+        "random_noise_bit_exact": true,
+        "random_time_bit_exact": true,
+        "synthetic_loss": 0.9492200613021851,
+        "synthetic_gradient_cosine": 1.0,
+        "synthetic_gradient_relative_L2": 4.0648812170758644e-07
+      },
+      {
+        "microbatch": 16,
+        "accumulation_steps": 2,
+        "model_inputs_bit_exact": true,
+        "random_noise_bit_exact": true,
+        "random_time_bit_exact": true,
+        "synthetic_loss": 0.9492202401161194,
+        "synthetic_gradient_cosine": 0.9999999999999963,
+        "synthetic_gradient_relative_L2": 7.029239161450608e-07
+      }
+    ],
+    "reader_counts": {
+      "host_window_read_attempts": 96,
+      "host_window_reads": 96
+    },
+    "unique_TRAIN_windows_read": 32,
+    "synthetic_reduction_gradient_evaluations": 38,
+    "SLA_model_constructions": 0,
+    "SLA_forwards": 0,
+    "SLA_backwards": 0,
+    "optimizer_updates": 0,
+    "optimization_visits": 0,
+    "ordinary_RGB_policy_generations": 0,
+    "teacher_calls": 0,
+    "physical_requests": 0,
+    "native_integrations": 0,
+    "DEV_TEST_reads": 0,
+    "devices": [
+      "TFRT_CPU_0"
+    ],
+    "hardware_qualification_pass": false,
+    "limitation": "CPU_INPUT_RNG_AND_TWO_PARAMETER_REDUCTION_ONLY_NOT_SLA_MODEL_GRADIENTS_OR_GPU_THROUGHPUT",
+    "action_representation_audit_sha256": "44b5aac19ceb30e407603078675b685120474335096348068e16da33997a7482",
+    "source_sha": "d1149b2dd4ea3cf9f361145f42aa2ad4def7c416",
+    "spec_sha256": "188c71a6af329ef24819d2c068ddf7409bef45421b2457b684656837d1c4c4ee",
+    "result_sha256": "5fa879e0094217358bff25f5f1378aa348ac58eb10cd27a5e9563d6de32824f1",
+    "usage": {
+      "MainPID": 0,
+      "worker_exit_code": 0,
+      "wall_s": 5.923955678939819,
+      "unit_CPU_s": 6.025121,
+      "closed_SGT": "2026-11-12T23:57:55.647360+08:00",
+      "GPU_s": 0,
+      "host_peak_memory": "NOT_RETAINED_BY_TERMINAL_UNIT"
+    },
+    "comparison_reference": "SAME_FIXED32_INPUT_BANK_WITHIN_V2_1_ON_CPU"
+  },
+  "NEGATIVE": {
+    "original_failed_CPU_job": {
+      "status": "CLOSED1_FIRST_CPU_INPUT_CHECK_RETAINED",
+      "source_sha": "b8dee1c59e1ea402e6c45c18e01241a55a7a0f97",
+      "spec_sha256": "f720538babd897fa08bb4856c3eb02e8230965ae7d9b4b3fd45de2174e56a6e9",
+      "failure": "MICROBATCH_RANDOM_DRAWS_DIFFER_FROM_ORIGINAL_SAMPLE_STREAM",
+      "usage": {
+        "MainPID": 0,
+        "worker_exit_code": 1,
+        "wall_s": 77.25314807891846,
+        "unit_CPU_s": 7.444102,
+        "closed_SGT": "2026-11-12T23:47:37.537711+08:00",
+        "GPU_s": 0,
+        "host_peak_memory": "NOT_RETAINED_BY_TERMINAL_UNIT"
+      },
+      "SLA_model_constructions": 0,
+      "SLA_backwards": 0,
+      "optimizer_updates": 0,
+      "optimization_visits": 0,
+      "physical_requests": 0,
+      "exact_input_read_count": "NOT_RETAINED",
+      "source_bounded_input_reads": [
+        32,
+        96
+      ],
+      "source_bounded_synthetic_two_parameter_gradient_calls": [
+        32,
+        38
+      ]
+    },
+    "read_only_failure_diagnosis": {
+      "source_sha": "2a9e2dbc19f2a9b9a2f549652f74dff99093ebd0",
+      "spec_sha256": "d238eb73fccddc2020eb5df94a3961a46d2ed2ab0bdaf3cde46f722d6b51a9bc",
+      "result_sha256": "50803d770fa93aa27be5b3c1b8b8787112765529adc052ec2bbb170701d39d52",
+      "usage": {
+        "MainPID": 0,
+        "worker_exit_code": 0,
+        "wall_s": 7.57002592086792,
+        "unit_CPU_s": 9.160057,
+        "closed_SGT": "2026-11-12T23:51:06.100983+08:00",
+        "GPU_s": 0,
+        "host_peak_memory": "NOT_RETAINED_BY_TERMINAL_UNIT"
+      },
+      "results": [
+        {
+          "variant": "CURRENT_VMAP",
+          "microbatch": 1,
+          "keys": {
+            "bit_exact": true,
+            "differing_elements": 0,
+            "max_abs": 0.0
+          },
+          "noise": {
+            "bit_exact": true,
+            "differing_elements": 0,
+            "max_abs": 0.0
+          },
+          "time": {
+            "bit_exact": true,
+            "differing_elements": 0,
+            "max_abs": 0.0
+          }
+        },
+        {
+          "variant": "CURRENT_VMAP",
+          "microbatch": 8,
+          "keys": {
+            "bit_exact": true,
+            "differing_elements": 0,
+            "max_abs": 0.0
+          },
+          "noise": {
+            "bit_exact": true,
+            "differing_elements": 0,
+            "max_abs": 0.0
+          },
+          "time": {
+            "bit_exact": false,
+            "differing_elements": 4,
+            "max_abs": 5.960464477539063e-08
+          }
+        },
+        {
+          "variant": "CURRENT_VMAP",
+          "microbatch": 16,
+          "keys": {
+            "bit_exact": true,
+            "differing_elements": 0,
+            "max_abs": 0.0
+          },
+          "noise": {
+            "bit_exact": true,
+            "differing_elements": 0,
+            "max_abs": 0.0
+          },
+          "time": {
+            "bit_exact": false,
+            "differing_elements": 4,
+            "max_abs": 5.960464477539063e-08
+          }
+        },
+        {
+          "variant": "POINTWISE_LAX_MAP",
+          "microbatch": 1,
+          "keys": {
+            "bit_exact": true,
+            "differing_elements": 0,
+            "max_abs": 0.0
+          },
+          "noise": {
+            "bit_exact": true,
+            "differing_elements": 0,
+            "max_abs": 0.0
+          },
+          "time": {
+            "bit_exact": true,
+            "differing_elements": 0,
+            "max_abs": 0.0
+          }
+        },
+        {
+          "variant": "POINTWISE_LAX_MAP",
+          "microbatch": 8,
+          "keys": {
+            "bit_exact": true,
+            "differing_elements": 0,
+            "max_abs": 0.0
+          },
+          "noise": {
+            "bit_exact": true,
+            "differing_elements": 0,
+            "max_abs": 0.0
+          },
+          "time": {
+            "bit_exact": false,
+            "differing_elements": 4,
+            "max_abs": 5.960464477539063e-08
+          }
+        },
+        {
+          "variant": "POINTWISE_LAX_MAP",
+          "microbatch": 16,
+          "keys": {
+            "bit_exact": true,
+            "differing_elements": 0,
+            "max_abs": 0.0
+          },
+          "noise": {
+            "bit_exact": true,
+            "differing_elements": 0,
+            "max_abs": 0.0
+          },
+          "time": {
+            "bit_exact": false,
+            "differing_elements": 4,
+            "max_abs": 5.960464477539063e-08
+          }
+        }
+      ]
+    },
+    "original_V1_scalar_time_bit_exact": false,
+    "original_V1_scalar_time_differing_values": 4,
+    "original_V1_scalar_time_max_abs": 5.960464477539063e-08,
+    "diagnosis": "Same keys and noise; time differs by one FP32 ULP under different CPU compilation shapes. Both VMAP and LAX_MAP show this. Original failure is not relabeled PASS.",
+    "real_SLA_model_gradient_equivalence": "NOT_RUN",
+    "GPU_throughput": "NOT_RUN",
+    "GPU_state_restore": "NOT_RUN",
+    "ordinary_RGB_reconstruction": "NOT_RUN"
+  },
+  "DECISION": "All new V2 serial/batched comparisons share the same fixed32 producer boundary. Keep original W1 real-model gates: loss rtol1e-3/atol1e-5, nonzero gradient cosine>=0.999 and relative L2<=0.02. CPU two-parameter reduction is not SLA gradient qualification.",
+  "NEXT": "Add site/allocation binding and bounded real-model operation entry, capture actual merged gradients, compare serial/batched model updates, complete4vs2+2 and fresh RGB within the planned per-card40-update/1280-visit/32-generation envelope. Use the separate V2 ordinary-RGB package/provider; no new package has yet been produced."
+}
