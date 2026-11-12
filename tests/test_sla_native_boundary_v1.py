@@ -104,3 +104,13 @@ def test_g_reference_full_new_dev16_cannot_select_a_suffix_or_change_seed(tmp_pa
     altered=copy.deepcopy(panel);altered['assignments'][0]['split']='DEV'
     with pytest.raises(ValueError,match='NO_LAYOUT_RESTART_OR_SEED_CHANGE'):
         g.selection(inp,altered)
+
+
+def test_full_h40_middle_gripper_outlier_cannot_be_erased_by_valid_endpoint(tmp_path):
+    path,args,raw=inputs(tmp_path,grip=.99747)
+    raw[11,9]=1.0006380550804137
+    np.savez(path,physical_H40=raw,normalized=np.zeros((1,40,32)))
+    before=path.read_bytes()
+    with pytest.raises(StudentProposalRejected,match='Original nominal gripper range'):
+        compile_proposal(path,digest(path),**args)
+    assert path.read_bytes()==before
