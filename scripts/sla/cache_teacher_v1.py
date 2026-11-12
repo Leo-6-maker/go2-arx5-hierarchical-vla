@@ -42,7 +42,8 @@ def run(spec,counts):
     if assets['revision']!='4a0917605798f1e8a645153ab8cdfb12aa453354' or not assets['all_files_verified']:
         raise ValueError('PINNED_OMNIVGGT_COMPONENT_REQUIRED')
     weight=Path(spec['teacher_weight'])
-    if sha(weight)!='c9c3772b9bbfc648fa95ebffb3d9ff856f21e9b9712685eb0f98add53897969d':
+    weight_sha=sha(weight)
+    if weight_sha!='c9c3772b9bbfc648fa95ebffb3d9ff856f21e9b9712685eb0f98add53897969d':
         raise ValueError('EXACT_TEACHER_WEIGHT_BYTES_REQUIRED')
     pixel_root=Path(spec['pixel_view']['path'])
     if sha(pixel_root/'MANIFEST.private.json')!=spec['pixel_view']['sha256']:
@@ -50,6 +51,8 @@ def run(spec,counts):
     view=json.loads((pixel_root/'MANIFEST.private.json').read_bytes())
     if view['schema']!='SLA_EXACT_TRAIN_RGB224_TEACHER_VIEW_V1' or not view['passes'] or len(view['rows'])!=1450 or view['privileged_inputs_saved']:
         raise ValueError('ALL_TRAIN_ONLY_CURRENT_STUDENT_PIXELS_REQUIRED')
+    counts['teacher_model_load_attempts']+=1
+    write(Path(spec['registered_root'])/'TEACHER_LOAD_INTENT.private.json',dict(teacher_weight_sha256=weight_sha,teacher_model_load_attempts=counts['teacher_model_load_attempts']))
     model=OmniVGGT(enable_camera=False,enable_point=False,enable_depth=False)
     incompatible=model.load_state_dict(load_file(str(weight),device='cpu'),strict=False)
     if incompatible.missing_keys or any(not k.startswith(('camera_head.','point_head.','depth_head.')) for k in incompatible.unexpected_keys):
@@ -110,10 +113,12 @@ def run(spec,counts):
     after=fingerprint(model)
     if initial!=after or any(p.requires_grad for p in model.parameters()):
         raise ValueError('FROZEN_TEACHER_PARAMETERS_CHANGED')
+    if sha(weight)!=weight_sha:
+        raise ValueError('SEALED_TEACHER_WEIGHT_FILE_CHANGED_DURING_CACHE')
     value=dict(schema='SLA_FROZEN_OMNIVGGT_TARGET_CACHE_V1',passes=True,rows=rows,
         source_dataset_sha256=view['source_dataset_sha256'],target_audit=view['target_audit'],
         source_pixel_view=spec['pixel_view'],teacher_manifest=spec['teacher_manifest'],
-        teacher_weight_sha256=sha(weight),source_camera_count=2,teacher_last_layer=-1,
+        teacher_weight_sha256=weight_sha,source_camera_count=2,teacher_last_layer=-1,
         teacher_gradient=False,privileged_inputs_used=False,missing_third_camera_fed_to_teacher=False,
         pooling='bilinear',use_vggt_pe=False,target_storage='EXACT_BFLOAT16_BITS_AS_UINT16',
         teacher_frozen_fingerprint=initial,teacher_repeat_bit_exact=repeat_exact,
@@ -129,7 +134,7 @@ def run(spec,counts):
 
 if __name__=='__main__':
     spec=json.loads(Path(sys.argv[1]).read_bytes())
-    counts=dict(teacher_model_loads=0,teacher_forward_attempts=0,teacher_forwards_completed=0,complete_cached_TRAIN_windows=0)
+    counts=dict(teacher_model_load_attempts=0,teacher_model_loads=0,teacher_forward_attempts=0,teacher_forwards_completed=0,complete_cached_TRAIN_windows=0)
     try:
         result=run(spec,counts)
     except BaseException as e:

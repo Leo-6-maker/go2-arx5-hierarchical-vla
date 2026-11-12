@@ -191,7 +191,7 @@ def dispatch_group(input_path):
     actual=batch.resources(g);write(root/'ACTUAL_CAPACITY_BEFORE_DISPATCH.private.json',actual)
     argv=['systemd-run','--user','--unit=wm02-'+root.name,'--property=Type=exec','--property=RemainAfterExit=yes',
         '--property=Restart=no','--property=RuntimeMaxSec='+str(remaining+90),'--property=TimeoutStopSec=90',
-        '--property=AllowedCPUs=0-3,8-11','--property=CPUQuota=800%','--property=MemoryMax=40G',
+        '--property=AllowedCPUs=0-3,8-11','--property=CPUQuota=800%','--property=MemoryMax='+('32G'if inp.get('schema')=='SLA_TARGET500_NATIVE_GROUP_INPUT_V1'else'40G'),
         '--property=MemorySwapMax=0','--property=StandardOutput=append:'+str(root/'logs/out.log'),
         '--property=StandardError=append:'+str(root/'logs/err.log'),'--working-directory='+inp['source_root'],
         '/usr/bin/env','-u','LD_PRELOAD','CUDA_VISIBLE_DEVICES=','PYTHONDONTWRITEBYTECODE=1',

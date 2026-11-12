@@ -63,7 +63,7 @@ class SpatialEngine(Engine):
                            diagnostic_reference_FM_backward_calls=0,diagnostic_reference_optimizer_updates=0,
                            diagnostic_reference_training_visits=0,alpha0_gradient_pairs_compared=0,
                            alpha0_update_pairs_compared=0)
-        self.bindings.update(recipe='S2_NATIVE_FM32_PLUS_FIXED_SPATIAL_ALPHA_HALF_V1',
+        self.bindings.update(recipe=('S2_ALPHA0_COMMON_CONTROL_V1' if self.alpha==0 else 'S2_NATIVE_FM32_PLUS_FIXED_SPATIAL_ALPHA_HALF_V1'),
             spatial_recipe=spec['spatial_recipe'],teacher_cache=spec['teacher_cache'],projector_initialization=spec['projector'],
             alpha=self.alpha,gradient_execution='SEQUENTIAL_GPU_BACKWARDS_LINEARITY_SUM_GLOBAL_CLIP_ADAMW')
         (self.output/'SPATIAL_PARAMETERS.private.json').write_text(json.dumps(dict(
