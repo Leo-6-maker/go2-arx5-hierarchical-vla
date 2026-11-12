@@ -96,6 +96,9 @@ def cache_backbone(model, data, output, guard):
     from scripts.pi0294.native_train import tree_identity
     from .task_learning_gpu_rows_v3 import compact_row,row_bytes,FEATURE_KEYS
     output = Path(output); output.mkdir()
+    data.processor.save_pretrained(output/'processor')
+    processor_files={p.relative_to(output/'processor').as_posix():digest(p)
+                     for p in(output/'processor').rglob('*')if p.is_file()}
     require(not any(p.requires_grad for p in model.backbone.parameters()), 'FROZEN_BACKBONE_ONLY')
     rows=[];started=time.monotonic();total=0
     for index in range(len(data)):
@@ -108,6 +111,7 @@ def cache_backbone(model, data, output, guard):
         row=compact_row(dict(identity=data.identity(index),inputs=inputs,features=encoded),device='cpu')
         file=output/f'row-{index:05d}.pt';features.atomic_torch(file,row);size=row_bytes(row);total+=size
         rows.append(dict(index=index,identity=data.identity(index),file=file.name,sha256=digest(file),
+                         observation_identity=data.observation_identity(index),
                          full_input_identity=tree_identity(inputs),tensor_bytes=size))
         if index%25==0 or index+1==len(data):
             write(output/'PROGRESS.private.json',dict(actual_backbone_calls=index+1,rows=index+1,
@@ -116,6 +120,7 @@ def cache_backbone(model, data, output, guard):
         dataset_sha256=data.manifest_sha,statistics_sha256=data.statistics_sha,
         row_count=len(rows),rows=rows,input_dtype=str(model.dtype),tensor_bytes=total,
         cached_keys=list(FEATURE_KEYS),DiT_prefix_cached=False,training_admitted=False,
+        Processor_files=processor_files,camera_profile=data.manifest['profile'],
         actual_backbone_calls=len(rows),optimizer_updates=0,wall_s=time.monotonic()-started)
     write(output/'MANIFEST.private.json',manifest)
     return dict(path=str(output/'MANIFEST.private.json'),sha256=digest(output/'MANIFEST.private.json'))

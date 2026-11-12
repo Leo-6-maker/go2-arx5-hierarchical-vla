@@ -58,6 +58,15 @@ class NativeCameraTransferDataset:
         e, i = self.rows[index]
         return dict(episode_id=e['id'], split='TRAIN', anchor=i)
 
+    def observation_identity(self,index):
+        import hashlib
+        e,i=self.rows[index]
+        if self._cached is None or self._cached[0]!=e['id']:
+            self.raw(index)
+        packet=self._cached[1]
+        return dict(camera_profile=self.manifest['profile'],RGB_sha256=packet['rgb_sha256'][i].tolist(),
+            language_sha256=hashlib.sha256(packet['instruction'].item().encode()).hexdigest())
+
     def raw(self, index):
         e, i = self.rows[index]
         if self._cached is None or self._cached[0] != e['id']:

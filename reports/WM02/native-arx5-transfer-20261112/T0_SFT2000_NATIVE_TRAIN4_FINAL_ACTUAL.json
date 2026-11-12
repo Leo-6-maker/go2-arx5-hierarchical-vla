@@ -1,0 +1,481 @@
+{
+  "schema": "NATIVE_BODY_SFT2000_TRAIN4_VERIFIED_FINAL_PUBLIC_V1",
+  "observed_epoch": 1794461453.675353,
+  "registered": 4,
+  "requested": 4,
+  "attempted": 4,
+  "verified_terminal": 4,
+  "success": 4,
+  "technical_failure": 0,
+  "hard_safety_stop": 0,
+  "unread": 0,
+  "original_conditions_rerun": false,
+  "new_requests_from_readback": 0,
+  "conditions": [
+    {
+      "native_run": "native-body-sft2000-train01-r1",
+      "layout": "TRAIN01",
+      "method": "SFT2000_PLUS_ENDPOINT_BASIS",
+      "parent": "TASK_LEARNING_UNDER_HAND_TRAIN01",
+      "restart": 1,
+      "split": "TRAIN",
+      "purpose": "NEW_CAMERA_TRAIN_DIAGNOSTIC_NOT_BC_DEV_TEST",
+      "command": "GRASP_RED_LIFT20MM_HOLD1S",
+      "model_sha256": "b5b066ea788ff8763f0757747ede61890281213c2637e9f54f757b245d111959",
+      "query_seeds": [
+        202611110100,
+        202611110101,
+        202611110102,
+        202611110103,
+        202611110104,
+        202611110105,
+        202611110106,
+        202611110107,
+        202611110108,
+        202611110109,
+        202611110110,
+        202611110111,
+        202611110112,
+        202611110113,
+        202611110114
+      ],
+      "attempted": true,
+      "reset_ready": true,
+      "task_success": true,
+      "technical_valid": true,
+      "hard_safety_stop": false,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "actual_native_integrations": 21203,
+      "worker_exit_code": 0,
+      "first_failure": null,
+      "wall_s": 859.460099152755,
+      "CPU_s": 1200.711129766,
+      "score": {
+        "contract": {
+          "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+          "minimum_lift_m": 0.02,
+          "continuous_hold_s": 1.0,
+          "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+          "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+          "maximum_object_linear_speed_m_s": 0.02,
+          "standing": {
+            "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+            "maximum_base_displacement_m": 0.02,
+            "maximum_base_rotation_rad": 0.08726646259971647,
+            "maximum_foot_planar_displacement_m": 0.005,
+            "minimum_supported_feet": 3,
+            "minimum_actual_floor_normal_force_N": 0.05,
+            "old_short_task_pose_diagnostic": {
+              "maximum_base_displacement_m": 0.002,
+              "maximum_base_rotation_rad": 0.008726646259971648
+            },
+            "original_native_safety_changed": false,
+            "task_score_bounds_are_native_safety": false,
+            "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+          },
+          "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+          "success_requires_all": true
+        },
+        "samples": 621,
+        "maximum_object_lift_m": 0.026195065846893684,
+        "longest_contiguous_grasp_lift_hold_s": 5.95,
+        "unsafe_samples": 0,
+        "standing_passes": true,
+        "maximum_base_displacement_m": 0.006693634056121172,
+        "maximum_base_rotation_rad": 0.014848350646785056,
+        "maximum_foot_planar_displacement_m": 0.0039193082658563125,
+        "minimum_supported_feet": 4,
+        "old_short_task_pose_bound_all_samples_pass": false,
+        "task_success": true
+      },
+      "native_world_attempted": true,
+      "neural_worker_attempted": true,
+      "actual_GR00T_queries": 15,
+      "policy_proposal_rejected": false,
+      "actual_GR00T_query_attempts": 15,
+      "query_completion_unknown_after_intent": false,
+      "GPU_worker_wall_s": 826.8199551771395,
+      "GPU_child_CPU_s": 87.634006,
+      "result_sha256": "2684b7583460137e91f23125d01e5e04cb9212b113df9fcf9766736b60be90f8",
+      "GPU_result_sha256": "59a29895ad5302de165840e8408c4f8cd1a4138af7b22efe43ddef3d6d34d0c4"
+    },
+    {
+      "native_run": "native-body-sft2000-train07-r1",
+      "layout": "TRAIN07",
+      "method": "SFT2000_PLUS_ENDPOINT_BASIS",
+      "parent": "TASK_LEARNING_UNDER_HAND_TRAIN07",
+      "restart": 1,
+      "split": "TRAIN",
+      "purpose": "NEW_CAMERA_TRAIN_DIAGNOSTIC_NOT_BC_DEV_TEST",
+      "command": "GRASP_RED_LIFT20MM_HOLD1S",
+      "model_sha256": "caa1d4b8ef0f9ddbcaa22ad335e1dfaa13900c53526195ce9a6be048c674f54d",
+      "query_seeds": [
+        202611110700,
+        202611110701,
+        202611110702,
+        202611110703,
+        202611110704,
+        202611110705,
+        202611110706,
+        202611110707,
+        202611110708,
+        202611110709,
+        202611110710,
+        202611110711,
+        202611110712,
+        202611110713,
+        202611110714
+      ],
+      "attempted": true,
+      "reset_ready": true,
+      "task_success": true,
+      "technical_valid": true,
+      "hard_safety_stop": false,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "actual_native_integrations": 21203,
+      "worker_exit_code": 0,
+      "first_failure": null,
+      "wall_s": 1009.6493006707169,
+      "CPU_s": 1252.254075843,
+      "score": {
+        "contract": {
+          "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+          "minimum_lift_m": 0.02,
+          "continuous_hold_s": 1.0,
+          "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+          "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+          "maximum_object_linear_speed_m_s": 0.02,
+          "standing": {
+            "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+            "maximum_base_displacement_m": 0.02,
+            "maximum_base_rotation_rad": 0.08726646259971647,
+            "maximum_foot_planar_displacement_m": 0.005,
+            "minimum_supported_feet": 3,
+            "minimum_actual_floor_normal_force_N": 0.05,
+            "old_short_task_pose_diagnostic": {
+              "maximum_base_displacement_m": 0.002,
+              "maximum_base_rotation_rad": 0.008726646259971648
+            },
+            "original_native_safety_changed": false,
+            "task_score_bounds_are_native_safety": false,
+            "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+          },
+          "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+          "success_requires_all": true
+        },
+        "samples": 621,
+        "maximum_object_lift_m": 0.026447213295742955,
+        "longest_contiguous_grasp_lift_hold_s": 7.95,
+        "unsafe_samples": 0,
+        "standing_passes": true,
+        "maximum_base_displacement_m": 0.006567982657613801,
+        "maximum_base_rotation_rad": 0.011659178296703895,
+        "maximum_foot_planar_displacement_m": 0.003911427177361445,
+        "minimum_supported_feet": 4,
+        "old_short_task_pose_bound_all_samples_pass": false,
+        "task_success": true
+      },
+      "native_world_attempted": true,
+      "neural_worker_attempted": true,
+      "actual_GR00T_queries": 15,
+      "policy_proposal_rejected": false,
+      "actual_GR00T_query_attempts": 15,
+      "query_completion_unknown_after_intent": false,
+      "GPU_worker_wall_s": 972.4908272707835,
+      "GPU_child_CPU_s": 90.405619,
+      "result_sha256": "158415f63b819bddd300c7457b04fe7f3de3a8eebe54c5725c7a550381e6656d",
+      "GPU_result_sha256": "3ae0ee840778b119b235e2fcd48a738a9271c321e2f494ec703251b8d005a3de"
+    },
+    {
+      "native_run": "native-body-sft2000-train13-r1",
+      "layout": "TRAIN13",
+      "method": "SFT2000_PLUS_ENDPOINT_BASIS",
+      "parent": "TASK_LEARNING_UNDER_HAND_TRAIN13",
+      "restart": 1,
+      "split": "TRAIN",
+      "purpose": "NEW_CAMERA_TRAIN_DIAGNOSTIC_NOT_BC_DEV_TEST",
+      "command": "GRASP_RED_LIFT20MM_HOLD1S",
+      "model_sha256": "bef9bc6fc8e0486558b337a52ad476a3d628b77e955219faec03608285ba74ab",
+      "query_seeds": [
+        202611111300,
+        202611111301,
+        202611111302,
+        202611111303,
+        202611111304,
+        202611111305,
+        202611111306,
+        202611111307,
+        202611111308,
+        202611111309,
+        202611111310,
+        202611111311,
+        202611111312,
+        202611111313,
+        202611111314
+      ],
+      "attempted": true,
+      "reset_ready": true,
+      "task_success": true,
+      "technical_valid": true,
+      "hard_safety_stop": false,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "actual_native_integrations": 21203,
+      "worker_exit_code": 0,
+      "first_failure": null,
+      "wall_s": 689.8937436612323,
+      "CPU_s": 1003.2038102399999,
+      "score": {
+        "contract": {
+          "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+          "minimum_lift_m": 0.02,
+          "continuous_hold_s": 1.0,
+          "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+          "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+          "maximum_object_linear_speed_m_s": 0.02,
+          "standing": {
+            "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+            "maximum_base_displacement_m": 0.02,
+            "maximum_base_rotation_rad": 0.08726646259971647,
+            "maximum_foot_planar_displacement_m": 0.005,
+            "minimum_supported_feet": 3,
+            "minimum_actual_floor_normal_force_N": 0.05,
+            "old_short_task_pose_diagnostic": {
+              "maximum_base_displacement_m": 0.002,
+              "maximum_base_rotation_rad": 0.008726646259971648
+            },
+            "original_native_safety_changed": false,
+            "task_score_bounds_are_native_safety": false,
+            "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+          },
+          "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+          "success_requires_all": true
+        },
+        "samples": 621,
+        "maximum_object_lift_m": 0.027313721496097787,
+        "longest_contiguous_grasp_lift_hold_s": 8.0,
+        "unsafe_samples": 0,
+        "standing_passes": true,
+        "maximum_base_displacement_m": 0.005951814597767928,
+        "maximum_base_rotation_rad": 0.008989064896132642,
+        "maximum_foot_planar_displacement_m": 0.003972676863516058,
+        "minimum_supported_feet": 4,
+        "old_short_task_pose_bound_all_samples_pass": false,
+        "task_success": true
+      },
+      "native_world_attempted": true,
+      "neural_worker_attempted": true,
+      "actual_GR00T_queries": 15,
+      "policy_proposal_rejected": false,
+      "actual_GR00T_query_attempts": 15,
+      "query_completion_unknown_after_intent": false,
+      "GPU_worker_wall_s": 657.5010394337587,
+      "GPU_child_CPU_s": 83.934325,
+      "result_sha256": "2d9aeb4d022361dd344c27b56fdcd526128ab7de79fe456a461fbc55b452e8c4",
+      "GPU_result_sha256": "ce6857afbf851e671d1952c8054e0a6a9b0a76c480eb529a4d7b17f5941ca8c9"
+    },
+    {
+      "native_run": "native-body-sft2000-train25-r1",
+      "layout": "TRAIN25",
+      "method": "SFT2000_PLUS_ENDPOINT_BASIS",
+      "parent": "TASK_LEARNING_UNDER_HAND_TRAIN25",
+      "restart": 1,
+      "split": "TRAIN",
+      "purpose": "NEW_CAMERA_TRAIN_DIAGNOSTIC_NOT_BC_DEV_TEST",
+      "command": "GRASP_RED_LIFT20MM_HOLD1S",
+      "model_sha256": "43867d6f0b7df07b63c7b7dac5795742e2bdbd0de202c5149aba0a87cbc876c0",
+      "query_seeds": [
+        202611112500,
+        202611112501,
+        202611112502,
+        202611112503,
+        202611112504,
+        202611112505,
+        202611112506,
+        202611112507,
+        202611112508,
+        202611112509,
+        202611112510,
+        202611112511,
+        202611112512,
+        202611112513,
+        202611112514
+      ],
+      "attempted": true,
+      "reset_ready": true,
+      "task_success": true,
+      "technical_valid": true,
+      "hard_safety_stop": false,
+      "native_status": "NATIVE_STAGE_PASSED",
+      "actual_native_integrations": 21203,
+      "worker_exit_code": 0,
+      "first_failure": null,
+      "wall_s": 1115.0282171703875,
+      "CPU_s": 1304.4414913949997,
+      "score": {
+        "contract": {
+          "schema": "TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1",
+          "minimum_lift_m": 0.02,
+          "continuous_hold_s": 1.0,
+          "clock": "NATIVE_2MS_WITH_CONTIGUOUS_50MS_SAMPLES",
+          "grasp": "ORIGINAL_ACTUALSTATE_BILATERAL_FORCE_OPPOSING_NORMALS_RELATIVE_MOTION",
+          "maximum_object_linear_speed_m_s": 0.02,
+          "standing": {
+            "schema": "TASK_LEARNING_GRASP_STANDING_SCORE_V3",
+            "maximum_base_displacement_m": 0.02,
+            "maximum_base_rotation_rad": 0.08726646259971647,
+            "maximum_foot_planar_displacement_m": 0.005,
+            "minimum_supported_feet": 3,
+            "minimum_actual_floor_normal_force_N": 0.05,
+            "old_short_task_pose_diagnostic": {
+              "maximum_base_displacement_m": 0.002,
+              "maximum_base_rotation_rad": 0.008726646259971648
+            },
+            "original_native_safety_changed": false,
+            "task_score_bounds_are_native_safety": false,
+            "scoring_reference": "ACTUAL_POST_HOLD_BASE_AND_FOUR_FOOT_GEOMETRY"
+          },
+          "hard_safety": "ORIGINAL_UNCHANGED_NATIVE_OBSERVER",
+          "success_requires_all": true
+        },
+        "samples": 621,
+        "maximum_object_lift_m": 0.024859222815168946,
+        "longest_contiguous_grasp_lift_hold_s": 7.8500000000000005,
+        "unsafe_samples": 0,
+        "standing_passes": true,
+        "maximum_base_displacement_m": 0.005952214044725355,
+        "maximum_base_rotation_rad": 0.009110607263108379,
+        "maximum_foot_planar_displacement_m": 0.003899210377090387,
+        "minimum_supported_feet": 4,
+        "old_short_task_pose_bound_all_samples_pass": false,
+        "task_success": true
+      },
+      "native_world_attempted": true,
+      "neural_worker_attempted": true,
+      "actual_GR00T_queries": 15,
+      "policy_proposal_rejected": false,
+      "actual_GR00T_query_attempts": 15,
+      "query_completion_unknown_after_intent": false,
+      "GPU_worker_wall_s": 1082.3263402660377,
+      "GPU_child_CPU_s": 88.452789,
+      "result_sha256": "e04f658dd1c9a92199441ed70575c4636f62913ac5354def064a2a88bf421425",
+      "GPU_result_sha256": "70ec5d1c43c65ded0ab84e2d6b61f6396df42ebcee45eb6fc50ba7cba17aabce"
+    }
+  ],
+  "result": {
+    "status": "NATIVE_BODY_TRAIN4_GROUP_COMPLETE",
+    "exit_code": 0,
+    "failure": null,
+    "summary": {
+      "schema": "NATIVE_BODY_SFT2000_TRAIN4_SUMMARY_V1",
+      "requested": 4,
+      "completed": 4,
+      "complete": true,
+      "methods": {
+        "SFT2000_PLUS_ENDPOINT_BASIS": {
+          "requested": 4,
+          "attempted": 4,
+          "task_successes": 4,
+          "valid_task_failures": 0,
+          "technical_failures": 0,
+          "hard_safety_stop_conditions": 0,
+          "actual_GR00T_queries": 60,
+          "actual_native_integrations": 84812
+        }
+      },
+      "original_DEV_conditions": 0,
+      "TEST_conditions": 0,
+      "qualified_training_demonstrations": 0,
+      "model_updates": 0,
+      "generalization_claim": false,
+      "original_cross_hardware_REJECT_replaced": false
+    },
+    "assignment_slice": [
+      0,
+      4
+    ],
+    "selected_requests": 4,
+    "completed_in_group": 4,
+    "source_sha": "0df567220e61d8b5b1e56bd1180889e6a5d126d1",
+    "panel_sha256": "8642769569beadae482131b04d3a6fc83e27c67eb9afa07480408a0ac44937de",
+    "wall_s": 3708.202181742061,
+    "CPU_s": 4760.610507244,
+    "GPU_worker_wall_s": 3539.1381621477194,
+    "unresolved_pair": null,
+    "GR00T_updates": 0,
+    "qualified_training_demonstrations": 0
+  },
+  "terminal_identity_verification": [
+    {
+      "layout": "TRAIN01",
+      "checks": {
+        "native": {
+          "result_sha256": "2684b7583460137e91f23125d01e5e04cb9212b113df9fcf9766736b60be90f8",
+          "MainPID": 0,
+          "lease_status": "CLOSED"
+        },
+        "-gpu": {
+          "result_sha256": "59a29895ad5302de165840e8408c4f8cd1a4138af7b22efe43ddef3d6d34d0c4",
+          "MainPID": 0,
+          "lease_status": "CLOSED"
+        }
+      }
+    },
+    {
+      "layout": "TRAIN07",
+      "checks": {
+        "native": {
+          "result_sha256": "158415f63b819bddd300c7457b04fe7f3de3a8eebe54c5725c7a550381e6656d",
+          "MainPID": 0,
+          "lease_status": "CLOSED"
+        },
+        "-gpu": {
+          "result_sha256": "3ae0ee840778b119b235e2fcd48a738a9271c321e2f494ec703251b8d005a3de",
+          "MainPID": 0,
+          "lease_status": "CLOSED"
+        }
+      }
+    },
+    {
+      "layout": "TRAIN13",
+      "checks": {
+        "native": {
+          "result_sha256": "2d9aeb4d022361dd344c27b56fdcd526128ab7de79fe456a461fbc55b452e8c4",
+          "MainPID": 0,
+          "lease_status": "CLOSED"
+        },
+        "-gpu": {
+          "result_sha256": "ce6857afbf851e671d1952c8054e0a6a9b0a76c480eb529a4d7b17f5941ca8c9",
+          "MainPID": 0,
+          "lease_status": "CLOSED"
+        }
+      }
+    },
+    {
+      "layout": "TRAIN25",
+      "checks": {
+        "native": {
+          "result_sha256": "e04f658dd1c9a92199441ed70575c4636f62913ac5354def064a2a88bf421425",
+          "MainPID": 0,
+          "lease_status": "CLOSED"
+        },
+        "-gpu": {
+          "result_sha256": "70ec5d1c43c65ded0ab84e2d6b61f6396df42ebcee45eb6fc50ba7cba17aabce",
+          "MainPID": 0,
+          "lease_status": "CLOSED"
+        }
+      }
+    }
+  ],
+  "group_result_sha256": {
+    "RESULT.private.json": "86498cff1fb41fe1965cbaea8ccab10f9bc0f97a7e470a765558757b3d897237",
+    "SUMMARY.private.json": "02c6522652e82e21bf053bd093066776b1c641b06366c91ce23d30581c016878",
+    "OUTCOMES.private.json": "7e4e0d0df5a6c34b815357ff4328a7142b8496dc365e9a48ced5d98b1604dbfb"
+  },
+  "MainPID": 0,
+  "neural_owner_free_at_read": true,
+  "old_2mm_05deg_pose_diagnostic_passes": 0,
+  "V3_standing_passes": 4,
+  "combination": "SFT2000 + fixed endpoint basis + unchanged native consumer + body/wrist",
+  "generalization_claim": false,
+  "new_official_parent_training_updates": 0
+}
