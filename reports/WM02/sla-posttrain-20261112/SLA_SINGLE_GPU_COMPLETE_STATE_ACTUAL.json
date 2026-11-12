@@ -1,0 +1,173 @@
+{
+  "schema": "SLA_SINGLE_GPU_COMPLETE_STATE_ACTUAL_V1",
+  "status": "PASS_REAL_GRADIENT_AND_COMPLETE_RESTORE_WAITING_FRESH_RGB_PACKAGE",
+  "QUESTION": "Can native SLA gradients and full PEFT/Adam/RNG state run and resume on one existing Core GPU?",
+  "CHANGED": "Streamed frozen hashing and synchronized parent transfers; deterministic pinned XLA mode. No math/batch/horizon/resolution/whitelist reduction.",
+  "ACTUAL": {
+    "source_sha": "e02198d487fcb29e4ffa28aaf59da517ff212c8b",
+    "runs": [
+      {
+        "name": "sla-cuda-qualify-continuous-20261112-03",
+        "result_sha256": "df8131d8926d69979e6e39ccf68e21c66af2710d220ca1f981d91090014dbfec",
+        "spec_sha256": "1cb53d70d927921752d19471c9664c98b116ac1240a706998e147f3d38ba3e19",
+        "actual": {
+          "actual_parent_loads": 1,
+          "forward_backward_attempts": 128,
+          "completed_forward_backward": 128,
+          "optimizer_updates": 4,
+          "attempted_training_visits": 128,
+          "completed_training_visits": 128,
+          "ordinary_RGB_generation_attempts": 32,
+          "ordinary_RGB_generations": 32,
+          "physical_requests": 0,
+          "diagnostic_generation_attempts": 33,
+          "diagnostic_free_generations": 33,
+          "diagnostic_backward_attempts": 1,
+          "diagnostic_backward_calls": 1,
+          "diagnostic_forward_calls": 3,
+          "diagnostic_TRAIN_visits": 4,
+          "diagnostic_forward_attempts": 2
+        },
+        "wall_s": 387.17696833610535
+      },
+      {
+        "name": "sla-cuda-qualify-split-20261112-01",
+        "result_sha256": "61b8378ded84c20689226823fc00e30d6b19884c86049008805cfca1110b0fb7",
+        "spec_sha256": "d749c773c24d61c7a7e984e409d88e7bb3bb84012336a65f4b9a10a0598c9037",
+        "actual": {
+          "actual_parent_loads": 1,
+          "forward_backward_attempts": 64,
+          "completed_forward_backward": 64,
+          "optimizer_updates": 2,
+          "attempted_training_visits": 64,
+          "completed_training_visits": 64,
+          "ordinary_RGB_generation_attempts": 0,
+          "ordinary_RGB_generations": 0,
+          "physical_requests": 0,
+          "diagnostic_forward_attempts": 2,
+          "diagnostic_forward_calls": 2,
+          "diagnostic_TRAIN_visits": 2
+        },
+        "wall_s": 344.98361897468567
+      },
+      {
+        "name": "sla-cuda-qualify-resume-20261112-01",
+        "result_sha256": "742d42f92af79e7666add37691e57cdb0772d4fff524f347b1318b77d27e8c4d",
+        "spec_sha256": "4a13e5483f4ed12979d4b16d3d0447970d225bcce1498611af47f7b3e88211a0",
+        "actual": {
+          "actual_parent_loads": 1,
+          "forward_backward_attempts": 64,
+          "completed_forward_backward": 64,
+          "optimizer_updates": 2,
+          "attempted_training_visits": 64,
+          "completed_training_visits": 64,
+          "ordinary_RGB_generation_attempts": 0,
+          "ordinary_RGB_generations": 0,
+          "physical_requests": 0
+        },
+        "wall_s": 411.88129234313965
+      }
+    ],
+    "comparisons": {
+      "at2": {
+        "bit_exact": true,
+        "arrays": 87,
+        "step": 2,
+        "cursor": 64,
+        "differences": []
+      },
+      "at4": {
+        "bit_exact": true,
+        "arrays": 87,
+        "step": 4,
+        "cursor": 128,
+        "differences": []
+      }
+    },
+    "noncandidate_optimizer_updates": 8,
+    "training_visits": 256,
+    "physical_requests": 0,
+    "full_state_arrays": 87,
+    "first_micro_gradient_norms": {
+      "1": {
+        "PaliGemma/llm/layers/attn/attn_vec_einsum/lora_a": 0.0,
+        "PaliGemma/llm/layers/attn/attn_vec_einsum/lora_b": 0.03793097659945488,
+        "PaliGemma/llm/layers/attn/attn_vec_einsum_1/lora_a": 0.0,
+        "PaliGemma/llm/layers/attn/attn_vec_einsum_1/lora_b": 0.01891830749809742,
+        "PaliGemma/llm/layers/attn/kv_einsum/lora_a": 0.0,
+        "PaliGemma/llm/layers/attn/kv_einsum/lora_b": 0.02666708268225193,
+        "PaliGemma/llm/layers/attn/kv_einsum_1/lora_a": 0.0,
+        "PaliGemma/llm/layers/attn/kv_einsum_1/lora_b": 0.012200349010527134,
+        "PaliGemma/llm/layers/attn/q_einsum/lora_a": 0.0,
+        "PaliGemma/llm/layers/attn/q_einsum/lora_b": 0.004893324337899685,
+        "PaliGemma/llm/layers/attn/q_einsum_1/lora_a": 0.0,
+        "PaliGemma/llm/layers/attn/q_einsum_1/lora_b": 0.005866184830665588,
+        "PaliGemma/llm/layers/mlp/gating_einsum_lora_a": 0.0,
+        "PaliGemma/llm/layers/mlp/gating_einsum_lora_b": 0.02053234353661537,
+        "PaliGemma/llm/layers/mlp/linear_lora_a": 0.0,
+        "PaliGemma/llm/layers/mlp/linear_lora_b": 0.020260896533727646,
+        "PaliGemma/llm/layers/mlp_1/gating_einsum_lora_a": 0.0,
+        "PaliGemma/llm/layers/mlp_1/gating_einsum_lora_b": 0.008338388986885548,
+        "PaliGemma/llm/layers/mlp_1/linear_lora_a": 0.0,
+        "PaliGemma/llm/layers/mlp_1/linear_lora_b": 0.00690471101552248,
+        "action_in_proj/bias": 0.02273605205118656,
+        "action_in_proj/kernel": 0.02238680236041546,
+        "action_out_proj/bias": 0.0861666277050972,
+        "action_out_proj/kernel": 0.2561599016189575,
+        "time_mlp_in/bias": 0.0037163984961807728,
+        "time_mlp_in/kernel": 0.08409249037504196,
+        "time_mlp_out/bias": 0.018064279109239578,
+        "time_mlp_out/kernel": 0.0789380669593811
+      },
+      "2": {
+        "PaliGemma/llm/layers/attn/attn_vec_einsum/lora_a": 0.00016965082613751292,
+        "PaliGemma/llm/layers/attn/attn_vec_einsum/lora_b": 0.0630599707365036,
+        "PaliGemma/llm/layers/attn/attn_vec_einsum_1/lora_a": 4.352230826043524e-05,
+        "PaliGemma/llm/layers/attn/attn_vec_einsum_1/lora_b": 0.016570288687944412,
+        "PaliGemma/llm/layers/attn/kv_einsum/lora_a": 1.4325868505693506e-05,
+        "PaliGemma/llm/layers/attn/kv_einsum/lora_b": 0.035828329622745514,
+        "PaliGemma/llm/layers/attn/kv_einsum_1/lora_a": 2.999647676915629e-06,
+        "PaliGemma/llm/layers/attn/kv_einsum_1/lora_b": 0.0030371651519089937,
+        "PaliGemma/llm/layers/attn/q_einsum/lora_a": 7.101324627001304e-06,
+        "PaliGemma/llm/layers/attn/q_einsum/lora_b": 0.008957392536103725,
+        "PaliGemma/llm/layers/attn/q_einsum_1/lora_a": 4.596907729137456e-06,
+        "PaliGemma/llm/layers/attn/q_einsum_1/lora_b": 0.005053845699876547,
+        "PaliGemma/llm/layers/mlp/gating_einsum_lora_a": 5.3495019528781995e-05,
+        "PaliGemma/llm/layers/mlp/gating_einsum_lora_b": 0.03840871527791023,
+        "PaliGemma/llm/layers/mlp/linear_lora_a": 1.8702796296565793e-05,
+        "PaliGemma/llm/layers/mlp/linear_lora_b": 0.03128225728869438,
+        "PaliGemma/llm/layers/mlp_1/gating_einsum_lora_a": 8.809905011730734e-06,
+        "PaliGemma/llm/layers/mlp_1/gating_einsum_lora_b": 0.006345489528030157,
+        "PaliGemma/llm/layers/mlp_1/linear_lora_a": 4.650453320209635e-06,
+        "PaliGemma/llm/layers/mlp_1/linear_lora_b": 0.0050105443224310875,
+        "action_in_proj/bias": 0.013103886507451534,
+        "action_in_proj/kernel": 0.013781996443867683,
+        "action_out_proj/bias": 0.06453395634889603,
+        "action_out_proj/kernel": 0.18904155492782593,
+        "time_mlp_in/bias": 0.0017782459035515785,
+        "time_mlp_in/kernel": 0.04023711010813713,
+        "time_mlp_out/bias": 0.006397690623998642,
+        "time_mlp_out/kernel": 0.0534190908074379
+      }
+    },
+    "all_28_deployed_parameter_leaves_changed": true,
+    "frozen_fingerprint_unchanged": "507aa0a700c2e8cacfb398c76e2147da4a82cbf05bc2e7b4ec85d1562c091b06",
+    "all_training_state_GPU_resident": true,
+    "CPU_training_activation_offload": false,
+    "peak_GPU_bytes": 11139553792,
+    "total_worker_wall_s": 1144.0418796539307,
+    "private_complete_comparison_sha256": "fed1a4660b5f895f3d8e55d7ae002a8554265fef32efb2b86104424e38b0a980",
+    "epoch": 1794477202.4514062
+  },
+  "NEGATIVE": {
+    "original_strict_numeric_failure_preserved": true,
+    "host_OOM_failure_preserved": true,
+    "S1_updates": 0,
+    "SLA_TRAIN4_requests": 0,
+    "SLA_DEV16_requests": 0,
+    "S2_updates": 0,
+    "fresh_ordinary_RGB_package_qualification": "IN_PROGRESS_NOT_ADMITTED"
+  },
+  "DECISION": "Real gradient/save/restore component passed; no policy or task-success claim.",
+  "NEXT": "Finish fresh ordinary-RGB inference package 16/16 exact, admit S1 from clean parent, run fixed500 and immediately complete TRAIN4 then independent DEV16."
+}

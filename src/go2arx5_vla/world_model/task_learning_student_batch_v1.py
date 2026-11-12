@@ -16,6 +16,9 @@ CONTINUATION_SCHEMA='TASK_LEARNING_STUDENT_DEV_GROUP_INPUT_V2'
 
 
 def selection(inp,panel):
+    if inp.get('schema')=='SLA_TARGET500_NATIVE_GROUP_INPUT_V1':
+        from .sla_native_v1 import selection
+        return selection(inp,panel)
     if inp.get('schema')=='A_TARGET500_TRAIN4_DELIVERY_GROUP_INPUT_V1':
         from .native_a500_diagnostic_v1 import selection
         return selection(inp,panel)
@@ -93,7 +96,7 @@ def specs(inp,panel,row,nbase,gbase,nroot,groot,deadline):
     native.update(common,registered_root=str(nroot),role=nroot.name.upper(),lease=str(nroot/'control/LEASE.json'),
         registry_snapshot=str(nroot/'control/REGISTRY_SNAPSHOT.private.json'),task_learning_role=role,
         experiment_role=(task.native_body_profile(role).EXPERIMENT if native_body else 'CORE_MATCHED128_SMOOTH_TRAIN_DIAGNOSTIC_V3'if matched else 'CORE_C500_ENDPOINT_BASIS_TRAIN_DIAGNOSTIC_V3'if endpoint else 'CORE_C500_RAW_VERSUS_EXPLICIT_CONIC_TRAIN_DIAGNOSTIC_V3'if conic else 'CORE_LOCAL_B0_SFT2000_DIAGNOSTIC_NOT_DEV_TEST'if local else student.EXPERIMENT),task_condition=role,
-        task_learning_scene_reference=descriptor,scene_id=row['parent'],data_parent=row['parent'],data_role='TRAIN'if local or conic or endpoint or matched or native_body else'DEV',
+        task_learning_scene_reference=descriptor,scene_id=row['parent'],data_parent=row['parent'],data_role=row['split']if role==task.SLA_ROLE else'TRAIN'if local or conic or endpoint or matched or native_body else'DEV',
         model_path=str(Path(descriptor['path']).parent/'SCENE.private.mjb'),stable_task_panel=inp['panel'],
         stable_task_panel_sha256=inp['panel_sha256'],scene_allowlist=inp['scene_allowlist'],
         scene_allowlist_sha256=inp['scene_allowlist_sha256'],cpus=[0,1,2,3],ROS_DOMAIN_ID=220,
@@ -114,6 +117,9 @@ def specs(inp,panel,row,nbase,gbase,nroot,groot,deadline):
     if native_body:
         q=pinned(panel['policies'][row['method']]['Native_body_qualification'])
         gpu['allocator_limit_bytes']=q['allocator_limit_bytes']
+        if role==task.SLA_ROLE:
+            from .sla_live_v1 import apply_inference_spec
+            apply_inference_spec(gpu,q)
         if role==task.NATIVE_A500_ROLE:
             from .native_a500_diagnostic_v1 import official_files
             from .native_arx5_training_profile_v1 import PARENT_ID
@@ -141,6 +147,9 @@ def environment(s,*,gpu):
         CUDA_VISIBLE_DEVICES=s['GPU_uuid']if gpu else'',PYTHONDONTWRITEBYTECODE='1',
         OMP_NUM_THREADS='4'if gpu else'1',MKL_NUM_THREADS='4'if gpu else'1',OPENBLAS_NUM_THREADS='1',
         TMPDIR=str(root/'tmp'),XDG_CACHE_HOME=str(root/'cache'),XDG_CONFIG_HOME=str(root/'cache/config'))
+    if gpu and s.get('core_local_protocol')==task.SLA_ROLE:
+        from .sla_live_v1 import inference_environment
+        env.update(inference_environment(s))
     if gpu and s.get('core_local_protocol')==task.CONIC_ROLE:
         dependency=s['conic_solver_dependency'];dep=Path(dependency['path'])
         for name,pin in dependency['files'].items():
@@ -251,6 +260,7 @@ def run(input_path):
     if native_body:
         body=task.native_body_profile(panel['task_learning_role'])
         validate_policy,summarize,methods=body.policy_contract,body.summarize,body.METHODS
+        if panel['task_learning_role']==task.SLA_ROLE:methods=tuple(panel['policies'])
     if conic:
         from .task_learning_conic_native_v3 import policy_contract as validate_policy,summarize
         from .task_learning_conic_policy_v3 import METHODS as methods
@@ -337,7 +347,7 @@ def run(input_path):
                         terminal_reason='NEVER_DISPATCHED_PERMISSION_REVOKED')
                     write(root/'control/LEASE.json',permission)
         summary=summarize(panel,outcomes);write(stage/'SUMMARY.private.json',summary)
-        write(stage/'RESULT.private.json',dict(status=(('A_TARGET500_TRAIN4_GROUP_COMPLETE'if code==0 else'A_TARGET500_TRAIN4_GROUP_INCOMPLETE_PRESERVED')if panel['task_learning_role']==task.NATIVE_A500_ROLE else('NATIVE_BODY_TRAIN4_GROUP_COMPLETE'if code==0 else'NATIVE_BODY_TRAIN4_GROUP_INCOMPLETE_PRESERVED'))if native_body else('CORE_MATCHED128_NATIVE_GROUP_COMPLETE'if code==0 else'CORE_MATCHED128_NATIVE_GROUP_INCOMPLETE_PRESERVED')if matched else('CORE_C500_ENDPOINT_BASIS_NATIVE_GROUP_COMPLETE'if code==0 else'CORE_C500_ENDPOINT_BASIS_NATIVE_GROUP_INCOMPLETE_PRESERVED')if endpoint else('CORE_C500_CONIC_NATIVE_GROUP_COMPLETE'if code==0 else'CORE_C500_CONIC_NATIVE_GROUP_INCOMPLETE_PRESERVED')if conic else('TASK_LEARNING_CORE_LOCAL_GROUP_COMPLETE'if code==0 else'TASK_LEARNING_CORE_LOCAL_GROUP_INCOMPLETE_PRESERVED')if local else('TASK_LEARNING_STUDENT_DEV_GROUP_COMPLETE'if code==0 else'TASK_LEARNING_STUDENT_DEV_GROUP_INCOMPLETE_PRESERVED'),
+        write(stage/'RESULT.private.json',dict(status=('SLA_NATIVE_GROUP_COMPLETE'if code==0 else'SLA_NATIVE_GROUP_INCOMPLETE_PRESERVED')if panel['task_learning_role']==task.SLA_ROLE else(('A_TARGET500_TRAIN4_GROUP_COMPLETE'if code==0 else'A_TARGET500_TRAIN4_GROUP_INCOMPLETE_PRESERVED')if panel['task_learning_role']==task.NATIVE_A500_ROLE else('NATIVE_BODY_TRAIN4_GROUP_COMPLETE'if code==0 else'NATIVE_BODY_TRAIN4_GROUP_INCOMPLETE_PRESERVED'))if native_body else('CORE_MATCHED128_NATIVE_GROUP_COMPLETE'if code==0 else'CORE_MATCHED128_NATIVE_GROUP_INCOMPLETE_PRESERVED')if matched else('CORE_C500_ENDPOINT_BASIS_NATIVE_GROUP_COMPLETE'if code==0 else'CORE_C500_ENDPOINT_BASIS_NATIVE_GROUP_INCOMPLETE_PRESERVED')if endpoint else('CORE_C500_CONIC_NATIVE_GROUP_COMPLETE'if code==0 else'CORE_C500_CONIC_NATIVE_GROUP_INCOMPLETE_PRESERVED')if conic else('TASK_LEARNING_CORE_LOCAL_GROUP_COMPLETE'if code==0 else'TASK_LEARNING_CORE_LOCAL_GROUP_INCOMPLETE_PRESERVED')if local else('TASK_LEARNING_STUDENT_DEV_GROUP_COMPLETE'if code==0 else'TASK_LEARNING_STUDENT_DEV_GROUP_INCOMPLETE_PRESERVED'),
             exit_code=code,failure=failure,summary=summary,assignment_slice=inp['assignment_slice'],
             selected_requests=len(rows),completed_in_group=len(outcomes),source_sha=inp['source_sha'],panel_sha256=inp['panel_sha256'],
             wall_s=time.monotonic()-start,CPU_s=sum(v['CPU_s']for v in outcomes),
