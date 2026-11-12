@@ -2,6 +2,8 @@
 import gc
 import hashlib
 import math
+import json
+import resource
 from pathlib import Path
 import numpy as np
 
@@ -49,11 +51,18 @@ def load_parent(params_path):
     from flax.traverse_util import unflatten_dict
     from openpi.models.model import restore_params
 
+    def phase(name):
+        print(json.dumps(dict(event='SLA_PARENT_LOAD_PHASE', phase=name,
+                              host_peak_RSS_KiB=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)), flush=True)
+
+    phase('ABSTRACT_MODEL')
     config = configuration()
     abstract = nnx.eval_shape(config.create, jax.random.PRNGKey(SEED))
     graph, reference = nnx.split(abstract)
     expected = flat(reference.to_pure_dict())
+    phase('ORBAX_HOST_RESTORE_BEGIN')
     loaded = flat(restore_params(Path(params_path), restore_type=np.ndarray))
+    phase('ORBAX_HOST_RESTORE_COMPLETE')
     missing = sorted(set(expected)-set(loaded))
     extra = sorted(set(loaded)-set(expected))
     if any('lora' not in '/'.join(p) for p in missing):
@@ -79,14 +88,21 @@ def load_parent(params_path):
             key = jax.random.fold_in(jax.random.PRNGKey(SEED), key_id)
             value = (jnp.zeros(shape.shape, jnp.float32) if path[-1].endswith('lora_b') else
                      jax.random.normal(key, shape.shape, dtype=jnp.float32)*.01)
+        # Finish each transfer before dropping its host source, bounding
+        # pending host staging copies without offloading training activations.
+        jax.block_until_ready(value)
         parameters[path] = value
         inventory.append(dict(path='/'.join(path), shape=list(value.shape), numel=math.prod(value.shape),
                               dtype=str(value.dtype), trainable=selected, devices=sorted(str(d) for d in value.devices())))
     del loaded
     gc.collect()
+    phase('GPU_PARAMETERS_COMPLETE')
     reference.replace_by_pure_dict(unflatten_dict(parameters))
     model = nnx.merge(graph, reference)
     graph, active, frozen = nnx.split(model, nnx.All(nnx.Param, lambda path, _: trainable(path)), ...)
+    phase('STREAMED_FROZEN_FINGERPRINT_BEGIN')
+    fingerprint = frozen_fingerprint(frozen)
+    phase('STREAMED_FROZEN_FINGERPRINT_COMPLETE')
     report = dict(missing_keys=['/'.join(p) for p in missing],
                   unexpected_keys=['/'.join(p) for p in extra],
                   removed_training_only_keys=['/'.join(p) for p in extra],
@@ -94,7 +110,7 @@ def load_parent(params_path):
                   pretrained_interfaces_randomly_reset=False, parameters=inventory,
                   total_numel=sum(v['numel'] for v in inventory),
                   trainable_numel=sum(v['numel'] for v in inventory if v['trainable']),
-                  frozen_fingerprint=frozen_fingerprint(frozen))
+                  frozen_fingerprint=fingerprint)
     return graph, active, frozen, report
 
 
