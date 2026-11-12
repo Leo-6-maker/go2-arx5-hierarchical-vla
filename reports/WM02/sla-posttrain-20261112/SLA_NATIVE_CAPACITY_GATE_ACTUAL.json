@@ -21,9 +21,25 @@
     "launch_intent_exists": false,
     "supervisor_exists": false,
     "qualified_GPU_has_other_owner_allocation": true,
-    "actions_on_other_owner_processes": 0
+    "actions_on_other_owner_processes": 0,
+    "latest_readback": {
+      "readback_epoch": 1794489218.1705883,
+      "GPU_free_bytes": 3320840192,
+      "host_available_bytes": 33452998656,
+      "GPU_requirement_bytes_exclusive": 15032385536,
+      "host_requirement_bytes_exclusive": 34359738368,
+      "resource_ready": false,
+      "remaining_window_s": 3897.777743577957,
+      "MainPID": 0,
+      "unit_exists": false,
+      "launch_intent_exists": false,
+      "supervisor_exists": false,
+      "new_optimizer_updates": 0,
+      "new_SLA_queries": 0,
+      "new_physical_requests": 0
+    }
   },
   "NEGATIVE": "First dispatch attempt stopped at the read-only capacity guard. GPU1 is occupied by a different UID; available host RAM is also below the registered32GiB requirement. This is not an attempted SLA inference or physical task.",
   "DECISION": "Retain the registered, never-dispatched input and all original outcomes; preserve other owners.",
-  "NEXT": "Poll capacity. If ready while lease valid, call dispatch_group on the existing input once; never re-register it. Continue CPU-only preparation meanwhile."
+  "NEXT": "While capacity is unavailable preserve other owners. Dispatch the already-registered input exactly once only with sufficient live lease time and the unchanged capacity guard. If unused authority expires, reconcile absence of launch/unit/supervisor before cold-revoking only that unused permission and creating fresh finite authority; never replay completed conditions."
 }
