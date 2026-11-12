@@ -105,7 +105,12 @@ class Tokenizer:
         self.delegate._tokenizer = sentencepiece.SentencePieceProcessor(model_file=str(path))
 
     def __call__(self, prompt, normalized_state32, *, drop_state=False):
-        return self.delegate.tokenize(prompt, None if drop_state else normalized_state32,
+        # Pinned ModelTransformFactory tokenizes BEFORE PadStatesAndActions.
+        # Padding25 is a tensor container, not 25 extra physical state tokens.
+        state = np.asarray(normalized_state32)
+        if state.shape != (32,):
+            raise ValueError('PADDED_32_STATE_CONTAINER_REQUIRED')
+        return self.delegate.tokenize(prompt, None if drop_state else state[:7],
                                       use_discrete_state_format=True)
 
 

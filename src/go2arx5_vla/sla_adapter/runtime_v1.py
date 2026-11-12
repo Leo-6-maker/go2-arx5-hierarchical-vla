@@ -80,10 +80,13 @@ class Engine:
         self.load_wall_s = time.time()-started
         (self.output/'PARAMETERS.private.json').write_text(json.dumps(self.inventory, indent=2))
         self.initial_frozen = self.inventory['frozen_fingerprint']
+        source = Path(spec['source_root'])
+        adapter_source = {str(p.relative_to(source)): sha(p) for p in sorted((source/'src/go2arx5_vla/sla_adapter').glob('*.py'))}
         self.bindings = dict(parent_manifest=spec['parent_manifest'], tokenizer=spec['tokenizer']['sha256'],
                              target_audit=spec['target_audit']['sha256'], visit_map_sha256=hashlib.sha256(self.visit_map.tobytes()).hexdigest(),
                              lr_sha256=lr_sha256(), seed=SEED, frozen_fingerprint=self.initial_frozen,
                              upstream_sha=spec['upstream_sha'], codec_version='SLA_NATIVE_TASK_EEF7_H40_V1',
+                             adapter_source=adapter_source,
                              recipe='S1_FM32_MICRO1_ACCUM32_DROPOUT_TOKEN_ONLY_V1',
                              optimizer=dict(b1=.9, b2=.95, eps=1e-8, weight_decay=1e-5, clip_norm=1.))
         rate = jnp.asarray(learning_rates(), dtype=jnp.float32)
