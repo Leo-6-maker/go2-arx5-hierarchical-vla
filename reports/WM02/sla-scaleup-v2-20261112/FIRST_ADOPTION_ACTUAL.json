@@ -1,0 +1,78 @@
+{
+  "schema": "SLA_SCALEUP_V2_FIRST_EXECUTION_ADOPTION_ACTUAL_V1",
+  "plan_revision": "b07936899b10f196653f617f95c5cd8b124e5e99",
+  "fixed_plan_files": {
+    "docs/protocols/SLA_GO2_ARX5_SCALEUP_V2_20261112.md": "8892509d1874d91f48b135832b3e9230d24168f4b4fb4cc1a5c99bb0dab6bf16",
+    "docs/protocols/SLA_GO2_ARX5_SCALEUP_V2_20261112.json": "a25dea9487f800b11cfcc6de002128fed1ecf36fecae440512b218efa807d276",
+    "docs/handover/2026-11-12/SLA_SCALEUP_V2_CODEX_START.md": "4afdc1076573d262b4a1f4fcd51b21ead173b142f3ce5dea3ceae78d32c5f13a"
+  },
+  "execution_base": "353bcdd1774d5f9fcbbc6d9a581d628428245bc0",
+  "independent_implementation_source": "b2c444d85c7af3632b926ce87e729b6297d58cb2",
+  "W0": {
+    "readback_epoch": 1794497002.969491,
+    "same_queue_process_verified_live": true,
+    "status": "WAIT_ORIGINAL_GPU_HOST_CAPACITY",
+    "config_sha256": "600bab633d1b68f0909a8183670ad5bd44b12efb35f74117e6f578d550c116e5",
+    "native_group_registrations": 0,
+    "new_model_calls": 0,
+    "new_physical_requests": 0,
+    "current_GPU_free_bytes": 3318743040,
+    "current_host_available_bytes": 47702556672,
+    "S1_updates": 500,
+    "S1_visits": 16000,
+    "S1_TRAIN4_requested": 4,
+    "S1_TRAIN4_terminal": 2,
+    "S1_TRAIN4_valid_policy_failures": 1,
+    "S1_TRAIN4_technical_failures": 1,
+    "S1_TRAIN4_unexecuted": 2,
+    "S1_candidate_H40_consumed": 0,
+    "S1_DEV16_attempted": 0,
+    "S2_updates": 0,
+    "G_DEV16_attempted": 0,
+    "queue_duplicated": false,
+    "active_capsule_changed": false
+  },
+  "W1": {
+    "Hopper_readback_epoch": 1794496390.0089335,
+    "Hopper_current_own_running_allocations": 0,
+    "Vanda_readback_epoch": 1794496654.3389037,
+    "Vanda_other_project_running_jobs": 3,
+    "Vanda_other_project_reserved_GPU_slots": 5,
+    "Vanda_nodes_scheduler_label": "A40",
+    "SLA_eligible_large_GPU_allocation_verified": false,
+    "physical_GPU_models_and_software_inside_these_unrelated_jobs": "NOT_INSPECTED",
+    "new_scheduler_submissions": 0,
+    "actions_on_existing_jobs": 0,
+    "new_GPU_qualification_updates": 0,
+    "blocker": "No current GPU allocation assigned to SLA was verified. Existing other-project allocations remain untouched; plan publication does not authorize commandeering them."
+  },
+  "W2": {
+    "saved_prediction_diagnostic": "W2_SAVED_GRIPPER_DOMAIN_ACTUAL.json",
+    "saved_predictions_read": 48,
+    "new_model_calls": 0,
+    "new_optimizer_updates": 0,
+    "new_physical_requests": 0,
+    "logit_codec": "IMPLEMENTED_CPU_TESTED_NOT_TRAINING_OR_NATIVE_ADMITTED",
+    "new_R1_updates": 0,
+    "new_R1_consumed_H40": 0,
+    "affected_CPU_tests_passed": 14,
+    "EEF_STREAM_V2": "NOT_YET_IMPLEMENTED"
+  },
+  "W7": {
+    "legacy_sources_inspected": [
+      "reports/PI0294/design/science-goal-v7-20261031/FIRST_COMPLETE_BOOK_SOURCE_DEMO_ACTUAL_20261031.json",
+      "reports/PI0294/design/science-goal-v7-20261031/THREE_DISTINCT_BOOK_SEEDS_OFFICIAL_EXPORT_AND_V7_FORECAST_NATIVE_PASS_20261031.json",
+      "reports/PI0294/design/science-goal-v7-20261031/ISSUE299_PHASE_RECONCILED_GPU1_NATIVE10_SOURCE_DATA_READY_ACTUAL_20261102.json"
+    ],
+    "historical_complete_fixed_base_book_seed_lower_bound": 3,
+    "historical_complete_custom_cabinet_seed_lower_bound": 2,
+    "old_source_and_negative_evidence_retained": true,
+    "new_target_whole_body_V2_expert_readiness": "NOT_YET_VERIFIED",
+    "new_expert_generation_attempts": 0,
+    "new_complete_expert_demos": 0,
+    "new_learned_policy_successes": 0,
+    "limitation": "Historical fixed-base/custom-source demonstrations are reusable evidence/assets, not proof of the V2 target whole-body task criteria. Audit exact geometry, task scoring and consumer before new target sampling."
+  },
+  "scientific_goal_complete": false,
+  "next": "Continue the real-batch/RNG/data-prefetch and separate GRIP_LOGIT learner/provider work. Preserve the one live W0 queue. Run large-card qualification only inside an actually assigned authorized allocation; verify legacy task assets against current target contracts before new expert rollouts."
+}
