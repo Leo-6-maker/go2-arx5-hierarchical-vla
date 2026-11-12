@@ -1,0 +1,49 @@
+{
+  "schema": "SLA_NATIVE_COLD_SUFFIX_REPAIR_PREPARATION_ACTUAL_V2",
+  "QUESTION": "Can the exact native pause wait failure be repaired without replaying completed conditions or changing physical/control semantics?",
+  "CHANGED": {
+    "SLA_wall_read_wait_s": {
+      "before": 35,
+      "after": 90
+    },
+    "exact_step_and_snapshot_required": true,
+    "ENTER_publications_per_request": 1,
+    "ENTER_retries": 0,
+    "new_physics_quota": false,
+    "WBC_changed": false,
+    "native_safety_changed": false,
+    "training_or_inference_code_changed": false,
+    "all10_sealed_base_adapter_files_byte_identical": true
+  },
+  "ACTUAL": {
+    "source_sha": "b558a3d9813cfd9a0a973bcd1cccb7de7622db81",
+    "original_group_result_sha256": "2e102f5b7ddc845ea0282e43ca3c1c818a47bdffd4f146e104a5bd06800000bd",
+    "cold_suffix_panel_sha256": "0cef9eda77f6e6f293c8e3e12b5eb9a32f6dd2f202b594ade696098d169d9918",
+    "old_prefix_terminal_conditions": 2,
+    "old_prefix_policy_failures": 1,
+    "old_prefix_technical_failures": 1,
+    "remaining_unique_conditions": [
+      "TRAIN13",
+      "TRAIN25"
+    ],
+    "requested_new_physical_worlds": 2,
+    "prior_conditions_replayed": 0,
+    "finite_scope15_registered": true,
+    "new_campaign": false,
+    "old_closed_leases_reopened": false,
+    "software_checks_passed": 38,
+    "model_calls_during_preparation": 0,
+    "native_integrations_during_preparation": 0,
+    "new_native_workers_started": 0
+  },
+  "NEGATIVE": {
+    "TRAIN07_pause_did_not_arrive_within35s": true,
+    "final_exact_native_state_and_ack_both2075": true,
+    "original_missing_trace_footer_and_SIGTERM143_preserved": true,
+    "native_repair_runtime_pass": "NOT_YET_ESTABLISHED",
+    "training_success_does_not_establish_task_success": true
+  },
+  "DECISION": "Keep both original outcomes; cold continuation selects exactly rows2:4 from unchanged fullTRAIN4 declaration.",
+  "NEXT": "Complete two never-started TRAIN4 rows, then full newDEV16. S2 remains unrun until S1 delivery.",
+  "comparison_limitations": "S1 TRAIN4 retains one initialization technical failure under the old35s wall wait; do not relabel it as a policy result or a spatial-supervision effect. New independentDEV16 for S1 and S2 uses the same90s read wait."
+}
