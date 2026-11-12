@@ -18,6 +18,8 @@ def exact_trees(left, right):
     b, tb = jax.tree.flatten(right)
     if ta != tb or len(a) != len(b):
         raise ValueError('QUALIFICATION_TREE_STRUCTURE_MISMATCH')
+    if not all(np.isfinite(np.asarray(v)).all() for v in a+b):
+        raise ValueError('NONFINITE_QUALIFICATION_OUTPUT')
     errors = [float(np.max(np.abs(np.asarray(x).astype(np.float64)-np.asarray(y).astype(np.float64)))) for x, y in zip(a, b)]
     return dict(bit_exact=all(np.array_equal(np.asarray(x), np.asarray(y)) for x, y in zip(a, b)),
                 max_abs=max(errors, default=0.), leaves=len(a))
@@ -43,35 +45,67 @@ def qualification_seams(engine):
     import flax.nnx as nnx
     import jax
     import jax.numpy as jnp
-    index = probe_indices(engine.dataset)[0]
-    item = engine.dataset[index]
-    obs, action = observation(item, engine.tokenizer)
-    key = jax.random.PRNGKey(2026111200)
-    # Share dense buffers; this does not allocate another pretrained model.
+    import optax
+    from go2arx5_vla.sla_adapter.model_v1 import flat
+    rule = read_pin(engine.spec['initial_function_rule'])
     base = dense_model(engine.active, engine.frozen)
-    noise = jax.random.normal(key, (1, 40, 32))
-    baseline_fn = jax.jit(lambda p, x, n: nnx.merge(nnx.graphdef(base), p).sample_actions(key, x, noise=n, num_steps=10))
-    baseline = baseline_fn(nnx.state(base), obs, noise)
-    adapted = engine.infer(engine.active, engine.frozen, obs, noise)
-    jax.block_until_ready(adapted)
-    np.savez(engine.output/'INITIAL_FUNCTION.private.npz', dense=np.asarray(baseline), lora=np.asarray(adapted))
-    engine.counts['diagnostic_free_generations'] = 2
-    function = exact_trees(baseline, adapted)
-    if not function['bit_exact']:
-        raise ValueError('INITIAL_LORA_FUNCTION_NOT_BIT_EXACT:'+str(function))
+    original = flat(nnx.state(base).to_pure_dict())
+    parent = flat(engine.active.to_pure_dict()) | flat(engine.frozen.to_pure_dict())
+    if not all(np.array_equal(np.asarray(v), np.asarray(parent[p])) for p, v in original.items()):
+        raise ValueError('INITIAL_DENSE_PARENT_NOT_IDENTICAL')
+    if not all(np.all(np.asarray(v) == 0) for p, v in flat(engine.active.to_pure_dict()).items() if p[-1].endswith('lora_b')):
+        raise ValueError('INITIAL_LORA_B_NOT_ZERO')
+    graph = nnx.graphdef(base)
+    baseline_fn = jax.jit(lambda p, x, n: nnx.merge(graph, p).sample_actions(jax.random.PRNGKey(0), x, noise=n, num_steps=10))
+    root = engine.output/'initial-function';root.mkdir()
+    comparisons = []
+    for ordinal, index in enumerate(probe_indices(engine.dataset)):
+        obs, _ = observation(engine.dataset[index], engine.tokenizer)
+        for noise_id in range(2):
+            noise = jax.random.normal(jax.random.PRNGKey(2026111200+noise_id), (1, 40, 32))
+            engine.counts['diagnostic_generation_attempts'] = engine.counts.get('diagnostic_generation_attempts', 0)+1
+            baseline = baseline_fn(nnx.state(base), obs, noise)
+            jax.block_until_ready(baseline)
+            engine.counts['diagnostic_free_generations'] = engine.counts.get('diagnostic_free_generations', 0)+1
+            engine.counts['diagnostic_generation_attempts'] += 1
+            adapted = engine.infer(engine.active, engine.frozen, obs, noise)
+            jax.block_until_ready(adapted)
+            engine.counts['diagnostic_free_generations'] += 1
+            check = exact_trees(baseline, adapted)
+            np.savez(root/f'{ordinal:02d}-{noise_id}.npz', dense=np.asarray(baseline), lora=np.asarray(adapted))
+            if check['max_abs'] > rule['cross_graph_normalized_max_abs']:
+                raise ValueError('INITIAL_LORA_REGISTERED_NUMERIC_BOUND_FAILED:'+str(check))
+            comparisons.append(dict(index=index, noise=noise_id, **check))
+    engine.counts['diagnostic_generation_attempts'] += 1
+    repeated = engine.infer(engine.active, engine.frozen, obs, noise)
+    if not exact_trees(adapted, repeated)['bit_exact']:
+        raise ValueError('SAME_GRAPH_INITIAL_INFERENCE_NOT_BIT_EXACT')
+    engine.counts['diagnostic_free_generations'] += 1
     baseline_fn.clear_cache()
-    del baseline, adapted, base, baseline_fn
-    (with_aux, gradient) = engine.grad(engine.active, engine.frozen, key, obs, action)
-    original_loss, original_gradient = engine.upstream_grad(engine.active, engine.frozen, key, obs, action)
-    jax.block_until_ready(original_gradient)
-    equivalence = exact_trees((with_aux[0], gradient), (original_loss, original_gradient))
-    if not equivalence['bit_exact']:
-        raise ValueError('FM_DIAGNOSTIC_WRAPPER_DIFFERS_FROM_UPSTREAM:'+str(equivalence))
-    engine.upstream_grad.clear_cache()
-    # These are explicit non-update diagnostic calls, distinct from the 8
-    # full effective-batch qualification updates and their 256 visits.
-    return dict(initial_function=function, original_FM_loss_and_gradient=equivalence,
-                extra_generation_calls=2, extra_forward_backward_calls=2, extra_TRAIN_window_visits=4)
+    del original, parent, baseline, adapted, base, baseline_fn
+    index = probe_indices(engine.dataset)[0]
+    obs, action = observation(engine.dataset[index], engine.tokenizer)
+    key = jax.random.PRNGKey(2026111200)
+    engine.counts['diagnostic_backward_attempts'] = 1
+    native_loss, gradient = engine.grad(engine.active, engine.frozen, key, obs, action)
+    jax.block_until_ready(gradient)
+    engine.counts['diagnostic_backward_calls'] = 1
+    diagnostic_loss, dimensional = engine.diagnostics(engine.active, engine.frozen, key, obs, action)
+    jax.block_until_ready(diagnostic_loss)
+    engine.counts['diagnostic_forward_calls'] = 1
+    engine.counts['diagnostic_TRAIN_visits'] = 2
+    delta = abs(float(native_loss)-float(diagnostic_loss))
+    grad_norm = float(optax.global_norm(gradient))
+    if not np.isfinite(grad_norm) or grad_norm <= 0:
+        raise ValueError('NATIVE_UPSTREAM_SLA_GRADIENT_NOT_FINITE_NONZERO')
+    if delta > rule['diagnostic_forward_decomposition_max_loss_abs']:
+        raise ValueError('DIMENSIONAL_DIAGNOSTIC_DIFFERS_FROM_NATIVE_FM')
+    return dict(initial_function_comparisons=comparisons,
+                numeric_rule_sha256=engine.spec['initial_function_rule']['sha256'],
+                same_graph_repeat_bit_exact=True, shared_dense_parameters_bit_exact=True,
+                all_B_exact_zero=True, training_gradient_implementation='UPSTREAM_COMPUTE_LOSS_TRAIN_FALSE_MEAN32',
+                native_gradient_norm=grad_norm, dimensional_forward_loss_difference=delta,
+                active7=float(dimensional[0]), padding25=float(dimensional[1]))
 
 
 def run(spec):

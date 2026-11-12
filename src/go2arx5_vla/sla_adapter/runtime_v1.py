@@ -3,6 +3,7 @@ import hashlib
 import json
 from pathlib import Path
 import time
+import os
 import numpy as np
 
 from .checkpoint_v1 import save, restore, sha
@@ -59,6 +60,10 @@ class Engine:
 
         if len(jax.devices()) != 1 or jax.devices()[0].platform != 'gpu':
             raise ValueError('ONE_ACTUAL_CUDA_DEVICE_REQUIRED_NO_CPU_TRAINING')
+        rule = read_pin(spec['initial_function_rule'])
+        if os.environ.get('XLA_FLAGS') != rule['XLA_FLAGS']:
+            raise ValueError('REGISTERED_SLA_DETERMINISTIC_COMPUTE_MODE_REQUIRED')
+        jax.config.update('jax_compilation_cache_dir', spec['compilation_cache_dir'])
         self.spec, self.output = spec, Path(output)
         self.output.mkdir(parents=True, exist_ok=False)
         self.counts = dict(actual_parent_loads=0, forward_backward_attempts=0, completed_forward_backward=0,
@@ -87,6 +92,7 @@ class Engine:
                              lr_sha256=lr_sha256(), seed=SEED, frozen_fingerprint=self.initial_frozen,
                              upstream_sha=spec['upstream_sha'], codec_version='SLA_NATIVE_TASK_EEF7_H40_V1',
                              adapter_source=adapter_source,
+                             initial_function_rule=spec['initial_function_rule']['sha256'], XLA_FLAGS=rule['XLA_FLAGS'],
                              recipe='S1_FM32_MICRO1_ACCUM32_DROPOUT_TOKEN_ONLY_V1',
                              optimizer=dict(b1=.9, b2=.95, eps=1e-8, weight_decay=1e-5, clip_norm=1.))
         rate = jnp.asarray(learning_rates(), dtype=jnp.float32)
@@ -95,11 +101,14 @@ class Engine:
         graph = self.graph
 
         def objective(active, frozen, rng, obs, actions):
-            return loss(nnx.merge(graph, active, frozen), rng, obs, actions)
+            model = nnx.merge(graph, active, frozen)
+            # Differentiate the upstream implementation itself. The separate
+            # dimensional diagnostic never supplies optimizer gradients.
+            return jnp.mean(model.compute_loss(rng, obs, actions, train=False))
 
-        self.grad = jax.jit(jax.value_and_grad(objective, has_aux=True))
-        self.upstream_grad = jax.jit(jax.value_and_grad(
-            lambda active, frozen, rng, obs, actions: jnp.mean(nnx.merge(graph, active, frozen).compute_loss(rng, obs, actions, train=False))))
+        self.grad = jax.jit(jax.value_and_grad(objective))
+        self.diagnostics = jax.jit(lambda active, frozen, rng, obs, actions:
+                                   loss(nnx.merge(graph, active, frozen), rng, obs, actions))
         self.accumulate = jax.jit(lambda acc, grad: jax.tree.map(lambda a, g: a+g/32, acc, grad), donate_argnums=(0,))
 
         def apply(active, optimizer, gradients):
@@ -128,6 +137,8 @@ class Engine:
         result = self.infer(self.active, self.frozen, obs, noise)
         jax.block_until_ready(result)
         normalized = np.asarray(result)
+        if normalized.shape != (1, 40, 32) or not np.isfinite(normalized).all():
+            raise ValueError('ORDINARY_SLA_FULL_FINITE_H40_32_REQUIRED')
         active7 = self.dataset.statistics['actions'].unnormalize(normalized[0, :, :7])
         state, *_ = self.dataset.original.raw(index)
         identity = self.dataset.original.identity(index)
@@ -151,18 +162,28 @@ class Engine:
             key = train_rng(self.rng, self.step, micro, 32)
             self.counts['forward_backward_attempts'] += 1
             self.counts['attempted_training_visits'] += 1
-            ((loss, (active_loss, padding_loss)), gradient) = self.grad(self.active, self.frozen, key, obs, action)
+            loss, gradient = self.grad(self.active, self.frozen, key, obs, action)
             jax.block_until_ready(gradient)
             self.counts['completed_forward_backward'] += 1
             self.counts['completed_training_visits'] += 1
-            if not np.isfinite([float(loss), float(active_loss), float(padding_loss)]).all():
+            if not np.isfinite(float(loss)):
                 raise ValueError('NONFINITE_SLA_FM_LOSS')
+            active_loss = padding_loss = None
+            if micro == 0 and (self.step < 2 or (self.step+1) % 50 == 0):
+                self.counts['diagnostic_forward_attempts'] = self.counts.get('diagnostic_forward_attempts', 0)+1
+                diagnostic_loss, (active, padding) = self.diagnostics(self.active, self.frozen, key, obs, action)
+                jax.block_until_ready(diagnostic_loss)
+                self.counts['diagnostic_forward_calls'] = self.counts.get('diagnostic_forward_calls', 0)+1
+                self.counts['diagnostic_TRAIN_visits'] = self.counts.get('diagnostic_TRAIN_visits', 0)+1
+                if abs(float(diagnostic_loss)-float(loss)) > read_pin(self.spec['initial_function_rule'])['diagnostic_forward_decomposition_max_loss_abs']:
+                    raise ValueError('FM_DIMENSION_DIAGNOSTIC_NOT_NUMERICALLY_EQUIVALENT')
+                active_loss, padding_loss = float(active), float(padding)
             if micro == 0 and self.step < 2:
                 norm = jax.tree.map(lambda v: jnp.linalg.norm(v), gradient).to_pure_dict()
                 from .model_v1 import flat
                 logs.append(dict(first_micro_gradient_norms={('/'.join(p)): float(v) for p, v in flat(norm).items()}))
             accumulator = self.accumulate(accumulator, gradient)
-            logs.append(dict(loss=float(loss), active7=float(active_loss), padding25=float(padding_loss), drop_state=drop))
+            logs.append(dict(loss=float(loss), active7=active_loss, padding25=padding_loss, drop_state=drop))
         self.active, self.opt_state, norm = self.apply(self.active, self.opt_state, accumulator)
         jax.block_until_ready(self.active)
         self.counts['optimizer_updates'] += 1
