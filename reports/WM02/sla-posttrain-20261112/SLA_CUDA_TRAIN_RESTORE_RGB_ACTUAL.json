@@ -1,0 +1,56 @@
+{
+  "schema": "SLA_CUDA_TRAIN_RESTORE_RGB_PUBLIC_ACTUAL_V1",
+  "status": "NOT_ADMITTED_INITIAL_FUNCTION_NUMERICAL_DIAGNOSTIC_PENDING",
+  "UTC": "2026-11-12T08:48:40.237630+00:00",
+  "SGT": "2026-11-12T16:48:40.237630+08:00",
+  "QUESTION": "Does zero-increment target LoRA preserve the loaded dense parent before any training?",
+  "CHANGED": "Strict real JAX H40 load and dense-versus-zero-LoRA free generation on the qualified TRAIN view.",
+  "ACTUAL": {
+    "completed_parent_loads": 1,
+    "diagnostic_free_generations": 2,
+    "forward_backward_calls": 0,
+    "optimizer_updates": 0,
+    "optimization_visits": 0,
+    "physical_requests": 0,
+    "total_parameters": 3403421456,
+    "trainable_parameters": 52153376,
+    "initial_frozen_fingerprint": "507aa0a700c2e8cacfb398c76e2147da4a82cbf05bc2e7b4ec85d1562c091b06",
+    "only_missing_parameters": "20 explicitly new LoRA leaves",
+    "removed_training_only_parameters": [
+      "align_projector/fc1/bias",
+      "align_projector/fc1/kernel",
+      "align_projector/fc2/bias",
+      "align_projector/fc2/kernel",
+      "align_projector/vlm_norm/bias",
+      "align_projector/vlm_norm/scale"
+    ],
+    "random_dense_reinitialization": false,
+    "worker": "CLOSED1_MAINPID0"
+  },
+  "NEGATIVE": {
+    "first_strict_initial_function_gate": "NOT_BIT_EXACT",
+    "maximum_normalized_abs_difference": 0.0015201568603515625,
+    "technical_failure": true,
+    "policy_outcome": false,
+    "raw_arrays_from_first_failure": "NOT_SAVED; retained scalar failure and inventory only; fixed diagnostic now preserves arrays",
+    "first_worker_diagnostic_counts_omitted_from_generic_ordinary_RGB_counter": true
+  },
+  "DECISION": "Keep the failed strict gate. Diagnose shared parameter identity, zero B, same-graph repeats and prefill boundaries; no candidate update or physical request is admitted.",
+  "NEXT": "Finish the finite numerical diagnosis, then record any justified pre-DEV numerical rule before fresh qualification. Full effective batch,4-versus2+2 and deployed ordinary RGB remain unproven.",
+  "requested_updates": 4,
+  "attempted_updates": 0,
+  "terminal_updates": 0,
+  "not_run_updates": 4,
+  "unread": 0,
+  "physical_requests": {
+    "requested": 0,
+    "attempted": 0,
+    "terminal": 0
+  },
+  "costs": {
+    "first_worker_wall_s": 348.10226225852966,
+    "actual_CUDA_parent_loads": 1,
+    "actual_free_generations": 2,
+    "actual_native_integrations": 0
+  }
+}
