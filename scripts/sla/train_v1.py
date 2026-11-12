@@ -134,6 +134,8 @@ def run(spec):
         if operation == 'QUALIFY_CONTINUOUS':
             result['seams'] = qualification_seams(engine)
             result['initial_RGB_probes'] = probes(engine, 'step0-RGB')
+        elif operation == 'CANDIDATE' and engine.step == 0:
+            result['initial_RGB_probes'] = probes(engine, 'step0-RGB')
         if engine.step == 0:
             engine.checkpoint('step000')
         while engine.step < stop:
@@ -147,6 +149,8 @@ def run(spec):
             save_steps = (250, 500) if operation == 'CANDIDATE' else (2, 4)
             if engine.step in save_steps:
                 result['last_checkpoint'] = engine.checkpoint(f'step{engine.step:03d}')
+                if operation == 'CANDIDATE' and engine.step == 250:
+                    result['midpoint_RGB_probes'] = probes(engine, 'step250-RGB')
         if operation in ('QUALIFY_CONTINUOUS', 'CANDIDATE'):
             result['endpoint_RGB_probes'] = probes(engine, f'step{engine.step}-RGB')
     result.update(status='COMPLETED_FINITE_SLA_OPERATION', step=engine.step, cursor=engine.cursor,
