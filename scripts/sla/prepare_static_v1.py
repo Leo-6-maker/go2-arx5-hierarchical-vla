@@ -5,6 +5,7 @@ import sys
 import time
 import numpy as np
 from go2arx5_vla.world_model.storage import digest, write_json
+from scripts.pi0292.durable import write as write_progress
 from go2arx5_vla.world_model.stable_task_scene_v1 import pinned
 from go2arx5_vla.world_model.task_learning_scene_v1 import compile_and_check, geometry, scene_id
 from go2arx5_vla.world_model.sla_population_v1 import DEV_OFFSETS, geometry_sha, initial_geometry
@@ -80,7 +81,7 @@ def run(spec):
         scenes[layout] = dict(path=str(target/'STATIC_RESULT.private.json'), sha256=digest(target/'STATIC_RESULT.private.json'))
         identities.append(dict(layout=layout, initial_geometry_sha256=geometry_sha(result['geometry']),
                                model_sha256=result['compiled']['scene_sha256'], actual=actual))
-        write_json(R/'PROGRESS.private.json', dict(completed_static_layouts=len(scenes), requested=8,
+        write_progress(R/'PROGRESS.private.json', dict(completed_static_layouts=len(scenes), requested=8,
             model_calls=0, optimizer_updates=0, physics_integrations=0))
     proof = dict(schema='SLA_DEV_ACTUAL_SCENE_DISJOINTNESS_V1', passes=True,
         preregistration=spec['preregistration'], old_catalogs=catalogs,
