@@ -220,7 +220,11 @@ class TargetSequentialAdapter:
         def paused():
             try:return json.loads((self.output/'pause_ack.json').read_text())['step']==ticks and self.observe()['step']==ticks
             except(FileNotFoundError,ValueError,KeyError):return False
-        if not self.spin(35,paused):
+        pause_wait = 35
+        if self.spec.get('native_pause_read_wait') is not None:
+            from .sla_native_continuation_v2 import wait_seconds
+            pause_wait = wait_seconds(self.spec)
+        if not self.spin(pause_wait,paused):
             from .storage import write_json
             ack=self.output/'pause_ack.json'
             try:pause=json.loads(ack.read_text())

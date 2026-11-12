@@ -123,6 +123,11 @@ def group_input(request,panel):
         inp['schema']=INPUT_SCHEMA
     if task.native_body_role(panel.get('task_learning_role')):
         inp['schema']=task.native_body_profile(panel['task_learning_role']).INPUT_SCHEMA
+        if panel['task_learning_role']==task.SLA_ROLE:
+            if reg.get('native_pause_read_wait') is not None:inp['native_pause_read_wait']=reg['native_pause_read_wait']
+            if panel.get('cold_continuation') is not None:
+                from .sla_native_continuation_v2 import INPUT_SCHEMA as COLD_SCHEMA
+                inp['schema']=COLD_SCHEMA
     if panel.get('task_learning_role')==task.CONIC_ROLE:
         from .task_learning_conic_native_v3 import INPUT_SCHEMA
         inp['schema']=INPUT_SCHEMA
@@ -191,13 +196,13 @@ def dispatch_group(input_path):
     actual=batch.resources(g);write(root/'ACTUAL_CAPACITY_BEFORE_DISPATCH.private.json',actual)
     argv=['systemd-run','--user','--unit=wm02-'+root.name,'--property=Type=exec','--property=RemainAfterExit=yes',
         '--property=Restart=no','--property=RuntimeMaxSec='+str(remaining+90),'--property=TimeoutStopSec=90',
-        '--property=AllowedCPUs=0-3,8-11','--property=CPUQuota=800%','--property=MemoryMax='+('32G'if inp.get('schema')=='SLA_TARGET500_NATIVE_GROUP_INPUT_V1'else'40G'),
+        '--property=AllowedCPUs=0-3,8-11','--property=CPUQuota=800%','--property=MemoryMax='+('32G'if inp.get('schema') in('SLA_TARGET500_NATIVE_GROUP_INPUT_V1','SLA_NATIVE_COLD_UNEXECUTED_SUFFIX_INPUT_V2')else'40G'),
         '--property=MemorySwapMax=0','--property=StandardOutput=append:'+str(root/'logs/out.log'),
         '--property=StandardError=append:'+str(root/'logs/err.log'),'--working-directory='+inp['source_root'],
         '/usr/bin/env','-u','LD_PRELOAD','CUDA_VISIBLE_DEVICES=','PYTHONDONTWRITEBYTECODE=1',
         'PYTHONPATH='+inp['source_root']+'/src:'+inp['source_root'],n['python'],'-B','-m',
         ('scripts.wm02.sla_g_dev16_v1'if inp.get('schema')=='SLA_DEV16_OFFICIAL_GR00T_A500_ENGINEERING_V1_GROUP_INPUT'else
-         'scripts.wm02.sla_native_population_v1'if inp.get('schema')=='SLA_TARGET500_NATIVE_GROUP_INPUT_V1'else
+         'scripts.wm02.sla_native_population_v1'if inp.get('schema') in('SLA_TARGET500_NATIVE_GROUP_INPUT_V1','SLA_NATIVE_COLD_UNEXECUTED_SUFFIX_INPUT_V2')else
          'scripts.wm02.native_a500_train4_delivery_v1'if inp.get('schema')=='A_TARGET500_TRAIN4_DELIVERY_GROUP_INPUT_V1'else
          'scripts.wm02.native_body_train4_diagnostic_v1'if inp.get('schema')=='NATIVE_BODY_SFT2000_TRAIN4_GROUP_INPUT_V1'else
          'scripts.wm02.task_learning_core_matched_panel_v3_1'if inp.get('schema')=='CORE_MATCHED128_SMOOTH_GROUP_INPUT_V3'else

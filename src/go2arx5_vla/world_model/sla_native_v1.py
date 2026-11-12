@@ -114,6 +114,9 @@ def validate_panel(panel):
     from .task_learning_scene_v1 import scene_id
     declaration = pinned(panel['preregistration'])
     task.need(panel['preregistration']['sha256'] == (TRAIN_DECLARATION_SHA if panel['population'] == 'TRAIN4' else DEV_DECLARATION_SHA), 'SLA_UNCHANGED_INPUT_DECLARATION')
+    if panel.get('registration',{}).get('native_pause_read_wait') is not None:
+        from .sla_native_continuation_v2 import wait_seconds
+        wait_seconds(dict(task_learning_role=PROTOCOL,native_pause_read_wait=panel['registration']['native_pause_read_wait']))
     rows = panel.get('assignments') or []
     method = panel.get('method')
     split = panel.get('population')
@@ -144,9 +147,17 @@ def validate_panel(panel):
 
 def selection(inp, panel):
     rows = validate_panel(panel)
+    from .sla_native_continuation_v2 import INPUT_SCHEMA as COLD_SCHEMA, prefix
+    if inp.get('schema') == COLD_SCHEMA:
+        retained = prefix(panel)
+        task.need(len(retained) == 2 and inp['source_sha'] == panel['source_sha']
+            and inp['assignment_slice'] == [len(retained),len(rows)]
+            and inp['population_predecessor'] == panel['cold_continuation']['result'],
+            'SLA_ONLY_NEVER_STARTED_SUFFIX_WITH_IMMUTABLE_FAILURE_PREFIX')
+        return rows[len(retained):]
     task.need(inp.get('schema') == INPUT_SCHEMA and inp['source_sha'] == panel['source_sha']
-        and inp['assignment_slice'] == [0, len(rows)] and inp.get('population_predecessor') is None,
-        'SLA_FULL_FIXED_PANEL_NOT_SELECTED_PREFIX')
+        and inp['assignment_slice'] == [0, len(rows)] and inp.get('population_predecessor') is None
+        and panel.get('cold_continuation') is None, 'SLA_FULL_FIXED_PANEL_NOT_SELECTED_PREFIX')
     return rows
 
 
@@ -292,6 +303,8 @@ def register_panel(request):
         preregistration=request['preregistration'], scene_disjointness=request.get('scene_disjointness'),
         registration={k:request[k] for k in ('source_root','source_files','native_base','gpu_base','scenes',
             'scene_producers','scene_allowlist','scene_allowlist_sha256','memory_execution','memory_execution_reference')})
+    if request.get('native_pause_read_wait') is not None:
+        panel['registration']['native_pause_read_wait'] = request['native_pause_read_wait']
     validate_panel(panel)
     key = root.name.upper()+'-PANEL'
     journal = Journal(campaign/'control/journal', campaign.name)
