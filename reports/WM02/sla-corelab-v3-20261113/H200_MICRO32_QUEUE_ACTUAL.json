@@ -1,0 +1,33 @@
+{
+  "schema": "SLA_H200_MICRO32_QUEUE_ACTUAL_V3",
+  "as_of_SGT": "2026-11-13T06:38:40.126736+08:00",
+  "job_id": "715002.hopper-m-02",
+  "job_state": "Q",
+  "GPU_allocation": false,
+  "actual_optimizer_updates": 0,
+  "actual_optimization_visits": 0,
+  "actual_RGB_generations": 0,
+  "physical_requests": 0,
+  "source_sha": "3378adc84355eac77a9f0577b8ab4c0765d9d83c",
+  "script_sha256": "7075b3206e13ed36bd80aaf1b56c58e3abffab93f0bfec3b5a08e1adf536786f",
+  "bootstrap_sha256": "cca0e82e59515db790fb4aaf6fd6c3730f38bfcfc94819cf048554ad451a4b20",
+  "source_archive_sha256": "9b067848908639628c9e3c7846fc36147c991f9dffa8e1a1a0dd3db27dc3d3cb",
+  "microbatch_points": [
+    1,
+    8,
+    16
+  ],
+  "effective_batch": 32,
+  "planned_optimizer_updates": 32,
+  "planned_optimization_visits": 1024,
+  "planned_RGB_generations": 0,
+  "prior_qualification_updates": 8,
+  "max_cohort_qualification_updates": 40,
+  "prior_qualification_result_sha256": "abb4c1ba627ddce90b451d1721503dd53c6117217abbfc340dca41bbdd49da3d",
+  "scheduler_comment": "Not Running: Insufficient amount of resource: ngpus (R: 1 A: 0 T: 216)",
+  "single_GPU": true,
+  "wall_limit_s": 7200,
+  "automatic_retry": false,
+  "candidate500_admitted": false,
+  "scientific_goal_complete": false
+}
