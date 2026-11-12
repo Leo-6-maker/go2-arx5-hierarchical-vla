@@ -74,6 +74,10 @@ def audit(dataset, camera_audit, output, *, deadline):
     for row in rows:
         if time.time() >= deadline:
             raise TimeoutError('FINITE_SLA_VISIBILITY_AUDIT_DEADLINE')
+        first = frames[row['episode']]
+        if (row['native_step'] != first['native_step']+1000*row['anchor']
+                or abs(row['timestamp_s']-(first['native_time_s']+2*row['anchor'])) > 1e-8):
+            raise ValueError('ALL_CAPTURE_NATIVE_CLOCK_AND_H40_ANCHORS_REQUIRED')
         file = dataset/'audit'/row['masks_file']
         if not file.resolve().is_relative_to((dataset/'audit').resolve()):
             raise ValueError('AUDIT_MASK_PATH_ESCAPE')
