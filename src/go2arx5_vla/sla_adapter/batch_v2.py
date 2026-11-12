@@ -1,5 +1,6 @@
 """Bounded CPU input prefetch and partition-independent sample randomness."""
 from concurrent.futures import ThreadPoolExecutor
+from contextlib import nullcontext
 import time
 import numpy as np
 
@@ -79,7 +80,7 @@ def host_batch(dataset, tokenizer, visit_map, start, microbatch, *, on_read=None
                 state_token_dropped=drops, prepare_wall_s=time.perf_counter() - started)
 
 
-def prepared_batches(dataset, tokenizer, visit_map, cursor, microbatch, *, prefetch=True, on_read=None):
+def prepared_batches(dataset, tokenizer, visit_map, cursor, microbatch, *, prefetch=True, on_read=None, executor=None):
     count = accumulation_steps(microbatch)
     if cursor % EFFECTIVE_BATCH or cursor + EFFECTIVE_BATCH > len(visit_map):
         raise ValueError('COMPLETE_EFFECTIVE_BATCH_BOUNDARY_REQUIRED')
@@ -92,7 +93,7 @@ def prepared_batches(dataset, tokenizer, visit_map, cursor, microbatch, *, prefe
         return
     # Only the next microbatch is prepared. Joining at this update boundary
     # prevents the mutable source-reader cache racing with endpoint probes.
-    with ThreadPoolExecutor(max_workers=1) as pool:
+    with (ThreadPoolExecutor(max_workers=1) if executor is None else nullcontext(executor)) as pool:
         future = pool.submit(host_batch, dataset, tokenizer, visit_map, starts[0], microbatch, on_read=on_read)
         for index in range(count):
             began = time.perf_counter()
