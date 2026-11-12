@@ -25,8 +25,8 @@ def hashes(path):
 
 def fetch(root, metadata, *, workers=2):
     repo, revision = metadata['id'], metadata['sha']
-    if repo != 'haofuly/SLA_base' or len(revision) != 40 or workers not in (1, 2):
-        raise ValueError('FIXED_SLA_BASE_METADATA_AND_BOUNDED_DOWNLOAD_REQUIRED')
+    if repo not in ('haofuly/SLA_base', 'haofuly/SLA_training_component') or len(revision) != 40 or workers not in (1, 2):
+        raise ValueError('FIXED_SLA_ASSET_METADATA_AND_BOUNDED_DOWNLOAD_REQUIRED')
     root = Path(root)
     root.mkdir(parents=True, exist_ok=True)
     start = time.time()
@@ -63,8 +63,9 @@ def fetch(root, metadata, *, workers=2):
 
     with ThreadPoolExecutor(max_workers=workers) as pool:
         files = list(pool.map(one, metadata['siblings']))
-    return dict(schema='SLA_BASE_BYTE_MANIFEST_V1', repo=repo, revision=revision,
+    return dict(schema='SLA_HUB_BYTE_MANIFEST_V1', repo=repo, revision=revision,
                 files=files, bytes=sum(f['bytes'] for f in files), all_files_verified=True,
+                selected_paths=[f['file'] for f in files],
                 actual_model_loads=0, optimizer_updates=0, physical_requests=0, wall_s=time.time()-start)
 
 
