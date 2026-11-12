@@ -22,12 +22,23 @@ def flat(tree):
 
 
 def frozen_fingerprint(state):
-    """Call at qualification boundaries, outside the update critical path."""
+    """Stream audit copies without caching a full CPU mirror on each JAX array.
+
+    In JAX0.5.3 np.asarray(GPU_array) retains the transferred NumPy value on
+    the original array. Hash only temporary slices, so the training parent
+    does not retain ~6.7GB of additional host audit mirrors for its lifetime.
+    This changes neither parameter storage on GPU nor the fingerprint bytes.
+    """
     h = hashlib.sha256()
     for path, value in sorted(flat(state.to_pure_dict()).items()):
-        a = np.asarray(value)
-        h.update(('/'.join(path)+':'+str(a.shape)+':'+str(a.dtype)+'\n').encode())
-        h.update(a.tobytes())
+        h.update(('/'.join(path)+':'+str(value.shape)+':'+str(value.dtype)+'\n').encode())
+        flattened = value.reshape(-1)
+        count = max(1, 8*1024**2//np.dtype(value.dtype).itemsize)
+        for start in range(0, value.size, count):
+            temporary = flattened[start:start+count]
+            a = np.asarray(temporary)
+            h.update(a.tobytes())
+            del a, temporary
     return h.hexdigest()
 
 

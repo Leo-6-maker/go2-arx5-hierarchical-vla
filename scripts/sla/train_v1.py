@@ -51,7 +51,7 @@ def qualification_seams(engine):
     base = dense_model(engine.active, engine.frozen)
     original = flat(nnx.state(base).to_pure_dict())
     parent = flat(engine.active.to_pure_dict()) | flat(engine.frozen.to_pure_dict())
-    if not all(np.array_equal(np.asarray(v), np.asarray(parent[p])) for p, v in original.items()):
+    if not all(bool(jax.jit(jnp.array_equal)(v, parent[p])) for p, v in original.items()):
         raise ValueError('INITIAL_DENSE_PARENT_NOT_IDENTICAL')
     if not all(np.all(np.asarray(v) == 0) for p, v in flat(engine.active.to_pure_dict()).items() if p[-1].endswith('lora_b')):
         raise ValueError('INITIAL_LORA_B_NOT_ZERO')
