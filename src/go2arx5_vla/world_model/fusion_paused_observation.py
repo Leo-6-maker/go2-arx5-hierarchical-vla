@@ -188,7 +188,14 @@ def capture_paused_observation(adapter, *, binding, task, task_sha256, query_uui
     recorder = None
     try:
         config = configuration(adapter.spec)
-        if camera_recipe is not None and config is not None and isinstance(camera_recipe, SourceCameraCapture):
+        from .native_body_camera_capture_v1 import session_configuration, BodyBaseCameraCapture
+        if isinstance(camera_recipe, BodyBaseCameraCapture) and session_configuration(adapter.spec):
+            from .native_body_camera_capture_v1 import BodyBaseCameraRecorder, BodyBaseCameraSession
+            if not hasattr(adapter, '_body_camera_session'):
+                adapter._body_camera_session = BodyBaseCameraSession(adapter.spec['model_path'])
+            recorder = BodyBaseCameraRecorder(adapter.spec['model_path'], output,
+                session=adapter._body_camera_session, performance=getattr(adapter, 'performance', None))
+        elif camera_recipe is not None and config is not None and isinstance(camera_recipe, SourceCameraCapture):
             from .fusion_source_camera_capture import SourceCameraRecorder, SourceCameraSession
             session = None
             if config['mode'] in ('camera_cache','events_camera_cache'):

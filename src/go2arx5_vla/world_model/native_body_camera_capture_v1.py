@@ -15,6 +15,7 @@ from .native_camera_transfer_v1 import CAMERA_ID, POSITION, LOOK_AT, FOVY, camer
 from .fusion_source_camera_capture import sha, need, _packet_data, _same_model_except_external
 from .fusion_source_camera_rig import FRAME_MAP_SHA256
 from scripts.pi0294.task_native_worker import FrameRecorder
+from .native_collection_performance_v1 import reset_render_scene, measure
 
 SCHEMA = 'NATIVE_BODY_CAMERA_CAPTURE_V1'
 
@@ -35,12 +36,18 @@ class BodyBaseCameraCapture:
 
 
 class BodyBaseCameraRecorder:
-    def __init__(self, model_path, folder):
+    def __init__(self, model_path, folder, *, session=None, performance=None):
         self.model_path, self.folder = Path(model_path), Path(folder)
         self.native_folder = self.folder/'native-camera'
         (self.native_folder/'images').mkdir(parents=True, exist_ok=False)
-        self.native = FrameRecorder(self.model_path, self.native_folder)
-        self.render_copy = None
+        self.session, self.performance = session, performance
+        self.closed = False
+        if session is None:
+            self.native = FrameRecorder(self.model_path, self.native_folder)
+            self.render_copy = None
+        else:
+            self.native, self.render_copy = session.acquire(self.model_path, self.native_folder)
+        self.native.performance = performance
         self.camera_adapter = None
 
     def save(self, index, packet):
@@ -48,7 +55,12 @@ class BodyBaseCameraRecorder:
         need(self.camera_adapter is None, 'ONE_FRESH_BODY_CAPTURE_PER_RECORDER')
         model_sha = sha(self.model_path.read_bytes())
         result = self.native.save(index, packet)
-        self.render_copy = FixedBodyRenderer(self.model_path)
+        if self.render_copy is None:
+            with measure(self, 'camera.body_renderer_create'):
+                self.render_copy = FixedBodyRenderer(self.model_path)
+        elif self.session is not None:
+            with measure(self, 'camera.body_scene_reset'):
+                reset_render_scene(self.render_copy.renderer, self.render_copy.model)
         rgb, _, calibration, _ = self.render_copy.render(packet, audit_masks=False)
         prefix = f'{index:06d}-'
         native_cal = (self.native_folder/'images'/(prefix+'calibration.json')).read_bytes()
@@ -71,11 +83,73 @@ class BodyBaseCameraRecorder:
                 ('body_rgb.png', 'wrist_rgb.png', 'calibration.json')]
 
     def close(self):
+        if self.closed:
+            return
+        self.closed = True
+        if self.session is not None:
+            self.session.release()
+            return
         try:
             if self.render_copy is not None:
                 self.render_copy.close()
         finally:
             self.native.close()
+
+
+class BodyBaseCameraSession:
+    """Episode-local contexts, with exclusive capture leases and fresh scenes.
+
+    This compatibility stage retains original PNG/ABI custody. Memory/writer
+    transport is separately versioned; a cached renderer alone is not that
+    optimization and grants no new physical execution authority.
+    """
+    def __init__(self, model_path):
+        self.model_path = Path(model_path)
+        self.model_sha = sha(self.model_path.read_bytes())
+        self.native = self.render_copy = None
+        self.busy = self.closed = False
+
+    def acquire(self, model_path, folder):
+        need(not self.busy and not self.closed and Path(model_path) == self.model_path,
+             'SAME_EXCLUSIVE_BODY_CAMERA_SESSION')
+        need(sha(self.model_path.read_bytes()) == self.model_sha, 'BODY_SESSION_MODEL_UNCHANGED')
+        if self.native is None:
+            self.native = FrameRecorder(self.model_path, folder)
+            self.native.reset_each_packet = True
+            self.render_copy = FixedBodyRenderer(self.model_path)
+        else:
+            self.native.folder = folder
+        self.busy = True
+        return self.native, self.render_copy
+
+    def release(self):
+        need(self.busy and not self.closed, 'LIVE_BODY_CAMERA_CAPTURE_LEASE')
+        self.busy = False
+
+    def close(self):
+        if self.closed:
+            return
+        need(not self.busy, 'BODY_CAMERA_CAPTURE_MUST_RELEASE_BEFORE_CLOSE')
+        self.closed = True
+        try:
+            if self.render_copy is not None:
+                self.render_copy.close()
+        finally:
+            if self.native is not None:
+                self.native.close()
+
+
+def session_configuration(spec):
+    value = spec.get('body_camera_session_v3')
+    if value is None:
+        return None
+    from .task_learning_grasp_v1 import CONSTRUCTION_ROLE
+    need(value == dict(version='BODY_BASE_EPISODE_SESSION_V3', mode='PERSISTENT_COMPATIBILITY')
+         and spec.get('task_learning_role') == CONSTRUCTION_ROLE
+         and spec.get('phase') == 'collect-target-task-learning-grasp-v1'
+         and spec.get('observation_camera_profile') == CAMERA_ID,
+         'NEW_BODY_SESSION_CONSTRUCTION_ONLY_OLD_CAPSULES_UNCHANGED')
+    return value
 
 
 @dataclass(frozen=True)
