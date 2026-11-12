@@ -225,7 +225,7 @@ class StudentPolicy:
         try:
             compiler=compile_proposal
             consumption=None
-            if self.adapter.spec.get('task_learning_role')in(task.ENDPOINT_ROLE,task.MATCHED_ROLE,task.NATIVE_BODY_ROLE,task.NATIVE_A500_ROLE,task.SLA_ROLE):
+            if self.adapter.spec.get('task_learning_role')in(task.ENDPOINT_ROLE,task.MATCHED_ROLE,task.NATIVE_BODY_ROLE,task.NATIVE_A500_ROLE,task.SLA_ROLE,task.SLA_G_ROLE):
                 from functools import partial
                 from .task_learning_endpoint_policy_v3 import compile_proposal as endpoint_compile,consumed_grip
                 task.need(callable(self.consumed_reference),'ENDPOINT_ACTUAL_CONSUMPTION_CALLBACK')
@@ -255,7 +255,7 @@ class StudentPolicy:
             raise
         proposal.update(actual_model_query=actual, label_role='STUDENT_NOT_EXPERT', index=self.index)
         if consumption is not None:proposal['previous_consumed_grip_witness']=consumption
-        if self.adapter.spec.get('task_learning_role')in(task.CORE_LOCAL_ROLE,task.CONIC_ROLE,task.ENDPOINT_ROLE,task.MATCHED_ROLE,task.NATIVE_BODY_ROLE,task.NATIVE_A500_ROLE,task.SLA_ROLE):
+        if self.adapter.spec.get('task_learning_role')in(task.CORE_LOCAL_ROLE,task.CONIC_ROLE,task.ENDPOINT_ROLE,task.MATCHED_ROLE,task.NATIVE_BODY_ROLE,task.NATIVE_A500_ROLE,task.SLA_ROLE,task.SLA_G_ROLE):
             from .task_learning_local_policy_v1 import execution_stage,EXECUTION_STAGE_REVISION
             self.stage=execution_stage(program.decoded_H40,sample)
             proposal.update(execution_stage=self.stage,execution_stage_revision=EXECUTION_STAGE_REVISION,

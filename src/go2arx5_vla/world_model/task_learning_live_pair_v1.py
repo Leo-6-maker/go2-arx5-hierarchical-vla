@@ -426,7 +426,7 @@ def infer(s,output):
     records=[];loads=0;attempted=0;terminal=None
     try:
         _registered(producer,s['producer_native_spec']['path']);_live(s,producer)
-        if s.get('core_local_protocol')==task.NATIVE_A500_ROLE:
+        if s.get('core_local_protocol')in(task.NATIVE_A500_ROLE,task.SLA_G_ROLE):
             from .native_arx5_training_runtime_v1 import checked_parent
             from .stable_task_scene_v1 import pinned
             checked_parent(s['checkpoint'],pinned(s['official_parent_audit']))

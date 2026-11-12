@@ -196,7 +196,8 @@ def dispatch_group(input_path):
         '--property=StandardError=append:'+str(root/'logs/err.log'),'--working-directory='+inp['source_root'],
         '/usr/bin/env','-u','LD_PRELOAD','CUDA_VISIBLE_DEVICES=','PYTHONDONTWRITEBYTECODE=1',
         'PYTHONPATH='+inp['source_root']+'/src:'+inp['source_root'],n['python'],'-B','-m',
-        ('scripts.wm02.sla_native_population_v1'if inp.get('schema')=='SLA_TARGET500_NATIVE_GROUP_INPUT_V1'else
+        ('scripts.wm02.sla_g_dev16_v1'if inp.get('schema')=='SLA_DEV16_OFFICIAL_GR00T_A500_ENGINEERING_V1_GROUP_INPUT'else
+         'scripts.wm02.sla_native_population_v1'if inp.get('schema')=='SLA_TARGET500_NATIVE_GROUP_INPUT_V1'else
          'scripts.wm02.native_a500_train4_delivery_v1'if inp.get('schema')=='A_TARGET500_TRAIN4_DELIVERY_GROUP_INPUT_V1'else
          'scripts.wm02.native_body_train4_diagnostic_v1'if inp.get('schema')=='NATIVE_BODY_SFT2000_TRAIN4_GROUP_INPUT_V1'else
          'scripts.wm02.task_learning_core_matched_panel_v3_1'if inp.get('schema')=='CORE_MATCHED128_SMOOTH_GROUP_INPUT_V3'else

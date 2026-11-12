@@ -74,3 +74,33 @@ def test_sla_inference_spec_uses_qualified_gpu_and_its_own_environment(tmp_path)
     assert spec['checkpoint_files']=={} and spec['checkpoint']=='/own/parent/params'
     assert env['XLA_PYTHON_CLIENT_MEM_FRACTION']=='0.8'
     assert '/own/upstream/SLA/src' in env['PYTHONPATH'] and env['JAX_PLATFORMS']=='cuda'
+
+
+def test_g_reference_full_new_dev16_cannot_select_a_suffix_or_change_seed(tmp_path):
+    from pathlib import Path
+    import copy
+    from go2arx5_vla.world_model import sla_g_native_v1 as g
+    from scripts.pi0292.durable import write
+    source=Path(__file__).resolve().parents[1]/'experiments/sla_go2_posttrain'
+    declaration=source/'dev16_inputs_v1.json'
+    reference=source/'g_dev16_reference_v1.json'
+    proof=tmp_path/'disjoint.json';write(proof,dict(passes=True,old_TEST_scores_read=False))
+    rows=[dict(v,native_run=f"sla-g-{v['layout'].lower()}-r{v['restart']}",
+               method=g.METHODS[0],purpose=g.EXPERIMENT,command=task.COMMAND)
+          for v in json.loads(declaration.read_bytes())['population']]
+    pin=lambda p:dict(path=str(p),sha256=digest(p))
+    panel=dict(schema=g.SCHEMA,task_learning_role=g.PROTOCOL,protocol=g.protocol(),population='DEV16',
+        B1_global_step=500,source_sha='sealed',policies={g.METHODS[0]:{}},assignments=rows,
+        preregistration=pin(declaration),G_DEV_preregistration=pin(reference),scene_disjointness=pin(proof))
+    inp=dict(schema=g.INPUT_SCHEMA,source_sha='sealed',assignment_slice=[0,16],population_predecessor=None)
+    assert len(g.selection(inp,panel))==16
+    assert task.native_body_profile(task.SLA_G_ROLE) is g
+    assert task.native_body_profile(task.SLA_ROLE) is not g
+    with pytest.raises(ValueError,match='FULL_PREREGISTERED_DEV16'):
+        g.selection(dict(inp,assignment_slice=[1,16]),panel)
+    altered=copy.deepcopy(panel);altered['assignments'][4]['query_seeds'][0]+=1
+    with pytest.raises(ValueError,match='NO_LAYOUT_RESTART_OR_SEED_CHANGE'):
+        g.selection(inp,altered)
+    altered=copy.deepcopy(panel);altered['assignments'][0]['split']='DEV'
+    with pytest.raises(ValueError,match='NO_LAYOUT_RESTART_OR_SEED_CHANGE'):
+        g.selection(inp,altered)
