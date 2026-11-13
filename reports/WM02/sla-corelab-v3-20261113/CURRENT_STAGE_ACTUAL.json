@@ -1,7 +1,7 @@
 {
   "schema": "SLA_CORELAB_V3_CURRENT_ENDPOINTS_ACTUAL",
-  "generated_SGT": "2026-11-13T12:56:26.322986+08:00",
-  "implementation_source": "ce7afc4f7faa34e89e6fd5b0d64c77eb48b90aa2",
+  "generated_SGT": "2026-11-13T20:59:56.110706+08:00",
+  "implementation_source": "4205f2b1d2c366a8d8bb283e777d215e7024630e",
   "plan_revisions": {
     "V1": "5ff216ce5399d1bfb78bd7bbf968951d1e4b23f8",
     "V2": "b07936899b10f196653f617f95c5cd8b124e5e99",
@@ -19,47 +19,71 @@
       "technical_failures": 2
     },
     "DEV16": {
-      "observed_SGT": "2026-11-13T12:54:21.396091+08:00",
+      "observed_SGT": "2026-11-13T20:58:42.370198+08:00",
       "requested": 16,
-      "physical_requests_started": 10,
-      "terminal": 9,
+      "physical_requests_started": 15,
+      "terminal": 15,
       "successes": 0,
-      "valid_policy_failures": 7,
-      "technical_failures": 2,
-      "terminal_native_integrations": 49827,
-      "terminal_committed_SLA_generations": 8,
-      "original_group_query_counter": 7,
+      "valid_policy_failures": 12,
+      "technical_failures": 3,
+      "terminal_native_integrations": 80995,
+      "terminal_committed_SLA_generations": 13,
+      "original_group_query_counter": 12,
       "counter_difference": "Original SLADEV01 restart2 has a separately audited complete generation; its retained group terminal records0.",
       "consumed_candidate_H40": 0,
       "optimizer_updates": 0,
       "optimization_visits": 0,
-      "current_run": "sla-s1-sladev05-r2",
-      "active_native_step": 2903,
-      "remaining_unstarted": 6,
-      "group_live": true,
-      "all_original_terminal_rows_retained": true
+      "current_run": null,
+      "active_native_step": null,
+      "remaining_unstarted": 1,
+      "group_live": false,
+      "all_original_terminal_rows_retained": true,
+      "current_status": "CLOSED1_TECHNICAL_STOP_PRESERVED",
+      "first_failure": "RAW_ORIGINAL_NOMINAL_GRIPPER_OUT_OF_RANGE; TWO_ORIGINAL_TECHNICAL_FAILURES_RETAINED",
+      "next": "Diagnose the new actual dynamic-source initialization failure; retain all15 outcomes and reconcile both partners before a cold continuation of the one never-started row.",
+      "latest_technical_failure": "RuntimeError: ACTUAL_DYNAMIC_SOURCE_NOT_READY",
+      "latest_technical_native_step": 2653
     }
   },
   "R1": {
-    "observed_SGT": "2026-11-13T12:54:20.464430+08:00",
+    "schema": "SLA_H200_R1_LOGIT500_TERMINAL_ACTUAL_V3",
+    "observed_SGT": "2026-11-13T13:20:01.483557+08:00",
     "job_id": "715369.hopper-m-02",
     "source_sha": "21760b71c2dbf827df1f1e9bb9476a87ec818639",
-    "scheduler_state": "Q",
-    "planned_updates": 500,
-    "planned_optimization_visits": 16000,
-    "actual_optimizer_updates": 0,
-    "actual_optimization_visits": 0,
+    "scheduler_state": "F",
+    "worker_exit_code": 0,
+    "status": "COMPLETE_R1_LOGIT500_AND_FRESH_RGB_RECONSTRUCTION",
+    "actual_optimizer_updates": 500,
+    "optimization_visits": 16000,
+    "completed_forward_backwards": 2000,
+    "ordinary_RGB_generations": 64,
+    "fresh_process_RGB_generations": 16,
+    "fresh_process_bit_exact": true,
     "physical_requests": 0,
+    "checkpoint_sha256": "7159a7685951c13abd49509e040bd28d8fe044ad9f6a98d5cb26d95652d1279e",
+    "package_sha256": "e3cab34efcb2d970acbdc474fbca00deee4f9e7a156a3f19777c2fb760f4b587",
+    "dataset": "ORIGINAL_NATIVE_BODY_WRIST_TRAIN100_LOGIT_DERIVATION",
+    "D100_new": false,
     "learner": "SINGLE_H200",
     "microbatch": 8,
     "effective_batch": 32,
     "training_matmul_precision": "highest",
-    "dataset": "ORIGINAL_NATIVE_BODY_WRIST_TRAIN100_LOGIT_DERIVATION",
-    "D100_new": false,
-    "training_admission_sha256": "eed71d6ae58584bb8d11e96eb2d6720207b4da7797c5d4f7a18910fbea762335",
-    "native_epsilon_admission_sha256": "e9f74658fea4ecf12f78b12ee04295d8a991bacd0b3d8363ab821140b2a67e39",
+    "candidate_lineage": {
+      "schema": "SLA_R1_LOGIT_GRIP500_V2",
+      "baseline": "ORIGINAL_S1_FIXED500_PRESERVED",
+      "dataset": "ORIGINAL_BODY_WRIST_TRAIN100",
+      "data_scale_curve_dataset": false,
+      "training_matmul_precision": "highest",
+      "microbatch": 8,
+      "effective_batch": 32,
+      "teacher_used": false,
+      "reset_to_common_parent_and_initial_adapters": true
+    },
+    "worker_wall_s": 1093.1956808567047,
+    "allocated_GPU_wall_hours_upper": 0.3036654672357771,
     "first_failure": null,
-    "next": "Read committed updates, endpoint save, ordinary RGB reconstruction and native fixed diagnostic; a queue entry is not a completed learner."
+    "native_policy_evaluation": "NOT_YET_RUN",
+    "next": "Complete Core site RGB reconstruction, then preregister and execute fixed new R0/R1 TRAIN8 per method; preserve original TRAIN4/DEV negatives."
   },
   "H200_qualification": {
     "optimizer_updates": 35,
@@ -119,24 +143,41 @@
     "next": "Complete the original S1 DEV population, then same-start/data/budget S2 and common GR00T evaluation."
   },
   "Corelab_new_dense_expert": {
-    "source_sha": "ce7afc4f7faa34e89e6fd5b0d64c77eb48b90aa2",
-    "worlds_requested": 1,
-    "physical_requests_started": 1,
-    "native_endpoint_ticks": 21703,
-    "wall_limit_s": 3600,
-    "ordinary_student_calls": 0,
+    "schema": "SLA_CORELAB_DENSE_TAIL08_TERMINAL_ACTUAL_V3",
+    "observed_SGT": "2026-11-13T13:41:11.833590+08:00",
+    "source_sha": "77d6e1764033ae6eba0f28862ec27f740c51de0b",
+    "physical_requests": 1,
+    "terminal": 1,
+    "expert_task_successes": 1,
+    "native_integrations": 21703,
+    "worker_exit_code": 0,
+    "worker_wall_s": 404.7819730862975,
+    "shutdown_clean": true,
+    "all_owned_children_exit0": true,
+    "native_hard_safety_stops": 0,
+    "actual_frames": 321,
+    "actually_consumed_nominal_commands": 640,
+    "complete_H40_windows": 61,
+    "actual_two_second_tail": {
+      "passes": true,
+      "start_step": 20703,
+      "end_step": 21703,
+      "consumed_commands": 40
+    },
+    "raw_trace_bytes": 146400256,
+    "raw_trace_sha256": "4367dce537f14627b1e4e15d42b0d73de876142deecc982a52f4bdbfd57a39ae",
+    "all_nine_RAM_control_and_trace_files_archived_raw": true,
+    "durable_original_state_journal_retained": true,
+    "lossless_shard_bytes": 20598811,
+    "lossless_frame_chunks": 3,
+    "shard_manifest_sha256": "038917a17d2a7c4b3aa84920ec30b189b7e6bc8b83049144ae0e37091a002364",
+    "training_demonstrations_admitted": 0,
+    "training_dataset_admitted": false,
     "optimizer_updates": 0,
     "optimization_visits": 0,
-    "qualified_complete_demonstrations": 0,
-    "readback": {
-      "observed_SGT": "2026-11-13T12:54:20.550622+08:00",
-      "lease": "ACTIVE",
-      "worker_live": true,
-      "native_step": 3678,
-      "committed_frames": 0,
-      "tmpfs_control_initialized": true,
-      "fresh_WBC_mode_ack_passed": true
-    }
+    "student_model_calls": 0,
+    "first_failure": null,
+    "next": "Complete fixed16 matched execution-contract panel and production task/coverage admission; do not relabel this engineering episode as D100_new."
   },
   "retained_new_expert_failures": {
     "tail03": {
@@ -202,6 +243,25 @@
       "physical_requests": 0,
       "reason": "Second recipe admission still enforced the old1200-second wall bound; no registry, lease or launch committed.",
       "repaired_in": "ce7afc4f7faa34e89e6fd5b0d64c77eb48b90aa2"
+    },
+    "tmpfs06": {
+      "schema": "SLA_CORELAB_TMPFS06_TERMINAL_FAILURE_ACTUAL_V3",
+      "source_sha": "ce7afc4f7faa34e89e6fd5b0d64c77eb48b90aa2",
+      "physical_requests": 1,
+      "terminal": 1,
+      "expert_task_successes": 0,
+      "technical_failures": 1,
+      "native_integrations": 3703,
+      "frames": 0,
+      "optimizer_updates": 0,
+      "optimization_visits": 0,
+      "training_demonstrations_admitted": 0,
+      "first_failure": "PREFIX_HISTORY_MISSING_EXACT_INSTALLED_TARGET_CONSUMPTION",
+      "shutdown_clean": false,
+      "simulator_wrapper_exit_code": 143,
+      "trace_seal_acknowledgement": false,
+      "original_control_snapshots_archived": true,
+      "next": "Addressed in cold source82d907b3 and77d6e176; successor08 succeeded with all original safety gates retained."
     }
   },
   "new_data": {
@@ -217,7 +277,7 @@
     "D100_new": "Train matched action-only/spatial arms when100 complete demonstrations pass admission; continue D300 production concurrently.",
     "D300_new": "Four matched3000-update recipes, executable policy and independent evaluation.",
     "corrections": "After executable normal scenes, up to200 trusted expert corrections from at most400 TRAIN rollouts;80/20 versus nominal-only,1000 matched updates each.",
-    "conditional": "Evidence decides D1000 or more fitting budget. RL follows a specific contact problem with reliable reward/reset. Cabinet/bookshelf can each start with10–30 complete seeds."
+    "conditional": "Evidence decides D1000 or more fitting budget. RL follows a specific contact problem with reliable reward/reset. Cabinet/bookshelf can each start with10\u201330 complete seeds."
   },
   "software_validation": {
     "lifecycle_pause_and_data_tests": 100,
@@ -232,5 +292,139 @@
     "old_DEV_TEST_preserved": true,
     "historical_negatives_preserved": true
   },
-  "scientific_goal_complete": false
+  "scientific_goal_complete": false,
+  "R1_Core_RGB": {
+    "schema": "SLA_R1_CORE_RGB32_TERMINAL_ACTUAL_V3",
+    "observed_SGT": "2026-11-13T20:58:03.131587+08:00",
+    "source_sha": "4205f2b1d2c366a8d8bb283e777d215e7024630e",
+    "worker_exit_code": 0,
+    "ordinary_RGB_generations": 32,
+    "parent_loads": 2,
+    "optimizer_updates": 0,
+    "optimization_visits": 0,
+    "physical_requests": 0,
+    "teacher_calls": 0,
+    "step": 500,
+    "cursor": 16000,
+    "all_fresh_process_bit_exact": true,
+    "package_sha256": "e3cab34efcb2d970acbdc474fbca00deee4f9e7a156a3f19777c2fb760f4b587",
+    "GPU_memory": {
+      "peak_bytes_in_use": 7475250688,
+      "bytes_limit": 13033218552
+    },
+    "JAX_memory_fraction": 0.78,
+    "worker_wall_s": 923.3693008422852,
+    "reference_result_sha256": "c3a2a4c3f7aceb502692a5ffc7bfdc7d3f597c91f54782b441e9145736625d9b",
+    "replay_result_sha256": "3d693036452dbd53c1792ec133079299fb62957c2ad09e11d5a0ca664631ee25",
+    "first_failure": null,
+    "native_task_success": "NOT_ESTABLISHED_BY_RGB",
+    "next": "Implement distinct R1 native admission/provider bridge and execute preregistered matched R0/R1 diagnostic, with original full H40 gate and endpoint basis.",
+    "retained_predecessors": [
+      {
+        "version": "01",
+        "status": "CANCELLED_WHILE_PROVEN_UNSTARTED",
+        "ordinary_RGB_generations": 0,
+        "model_loads": 0,
+        "physical_requests": 0,
+        "optimizer_updates": 0,
+        "reason": "Replace conservative wait with actual shared-pool qualification"
+      },
+      {
+        "version": "02",
+        "status": "CLOSED1_BEFORE_MODEL_CONSTRUCTION",
+        "ordinary_RGB_generations": 0,
+        "model_loads": 0,
+        "physical_requests": 0,
+        "optimizer_updates": 0,
+        "reason": "Allocator floor was less than configured fractional limit by less than one byte;03 uses ceiling, without weakening headroom"
+      }
+    ]
+  },
+  "expert_execution_contract_comparison": {
+    "fixed_panel_requested": 16,
+    "source_sha": "77d6e1764033ae6eba0f28862ec27f740c51de0b",
+    "panel_sha256": "fc1c7dd18c11eb779320656ca85c29a950c24ae2475bff7039720285bd975d9c",
+    "physical_requests_started": 2,
+    "terminal": 2,
+    "optimizer_updates": 0,
+    "optimization_visits": 0,
+    "training_demonstrations_admitted": 0,
+    "first_pair": [
+      {
+        "prefix_atoms": 40,
+        "physical_requests": 1,
+        "terminal": 1,
+        "expert_task_success": true,
+        "native_integrations": 21703,
+        "frames": 321,
+        "complete_H40_windows": 61,
+        "consumed_commands": 640,
+        "shard_manifest_sha256": "39f90338238d9935419f253ce14740da3cd70d41680687450728f04ec6cf38a4",
+        "training_demonstrations_admitted": 0,
+        "worker_wall_s": 453.45314316637814,
+        "longest_contiguous_grasp_lift_hold_s": 8.0,
+        "maximum_lift_m": 0.025945193834457925,
+        "native_hard_safety_stops": 0,
+        "shutdown_clean": true,
+        "actual_two_second_tail": {
+          "passes": true,
+          "start_step": 20703,
+          "end_step": 21703,
+          "consumed_commands": 40
+        },
+        "first_failure": null
+      },
+      {
+        "prefix_atoms": 10,
+        "physical_requests": 1,
+        "terminal": 1,
+        "expert_task_success": true,
+        "native_integrations": 21703,
+        "frames": 321,
+        "complete_H40_windows": 61,
+        "consumed_commands": 640,
+        "shard_manifest_sha256": "b072de2c5a18ea49c4ec4884be558d4c4108df17326a3a52a61b7f511eced9b0",
+        "training_demonstrations_admitted": 0,
+        "worker_wall_s": 453.8587688487023,
+        "longest_contiguous_grasp_lift_hold_s": 15.950000000000001,
+        "maximum_lift_m": 0.02639261086159561,
+        "native_hard_safety_stops": 0,
+        "shutdown_clean": true,
+        "actual_two_second_tail": {
+          "passes": true,
+          "start_step": 20703,
+          "end_step": 21703,
+          "consumed_commands": 40
+        },
+        "first_failure": null
+      }
+    ],
+    "first_failure": null,
+    "next": "Continue the remaining14 fixed conditions under the same engineering contract. This single matched layout/restart does not establish a preferred production consumer.",
+    "causal_scope": "P10 includes the preregistered EEF_STREAM_V2 bounded segmented path; do not claim this isolates feedback cadence alone.",
+    "expert_task_successes": 2
+  },
+  "D100_new": {
+    "qualified_complete_demonstrations": 0,
+    "PICK_PLACE_complete_demonstrations": 0,
+    "optimizer_updates": 0,
+    "optimization_visits": 0,
+    "first_failure": "PRODUCTION_COMPLETE_TASK_AND_COVERAGE_ADMISSION_NOT_YET_AVAILABLE",
+    "next": "At D100_new completion immediately train matched action-only and action+spatial arms while CPU continues D300_new."
+  },
+  "D300_new": {
+    "qualified_complete_demonstrations": 0,
+    "optimizer_updates": 0,
+    "optimization_visits": 0,
+    "next": "Expand nested production coverage after D100; do not wait to train the first D100 candidates."
+  },
+  "correction_stage": {
+    "trustworthy_expert_correction_segments": 0,
+    "student_TRAIN_rollouts": 0,
+    "planned_maximum_rollouts": 400,
+    "planned_correction_segments": 200,
+    "actual_optimizer_updates": 0,
+    "optimization_visits": 0,
+    "next": "After normal-scene student execution, collect successful student-state corrections, then matched1000-update80/20 versus nominal-only continuation."
+  }
 }
