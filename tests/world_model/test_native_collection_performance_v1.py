@@ -151,3 +151,42 @@ def test_profile_camera_and_startup_preserve_original_fixed_wait(tmp_path,monkey
     adapter.spec=spec(mode);kwargs['before']['step']=step
     p.settle_atom(adapter,**kwargs)
     assert adapter.calls==[(.15,False)] and adapter.gripper_checks==0
+
+
+def new_live_expert(adapter):
+    from go2arx5_vla.world_model import corelab_expert_semantics_v3 as expert
+    from go2arx5_vla.world_model.native_live_control_v3 import VERSION
+    from go2arx5_vla.world_model.native_body_memory_v3 import DENSE_VERSION
+    memory_read_wait(adapter)
+    adapter.spec.update(task_learning_role=expert.ROLE,
+        native_live_control_v3=dict(version=VERSION),
+        expert_recorded_success_tail_v3=expert.RECORDED_TAIL,
+        expert_dense_observation_v3=dict(version=DENSE_VERSION,frame_period_ticks=50,anchor_period_ticks=250))
+
+
+def test_new_expert_prefix_waits_for_delayed_same_clock_consumption(tmp_path,monkeypatch):
+    adapter,kwargs,_=adapter_fixture(tmp_path,monkeypatch);new_live_expert(adapter)
+    # The measured failure was before5703: legacy fixed-spin drained no new
+    # policy for one atom, then a later decision found unconfirmed history.
+    kwargs['before'].update(step=3503,time_s=7.006)
+    kwargs['after'].update(step=3528,time_s=7.056)
+    (tmp_path/'pause_ack.json').write_text(json.dumps(dict(kwargs['after'],running=False,clock_paused=True)))
+    adapter.observe=lambda:dict(kwargs['after'])
+    def delayed(seconds,predicate):
+        adapter.calls.append((seconds,True))
+        if seconds>=18:feedback(adapter,kwargs['after']['time_s']-.010)
+        return predicate()
+    adapter.spin=delayed
+    p.settle_atom(adapter,**kwargs)
+    assert adapter.calls==[(90,True)]and adapter.observe()['step']==3528
+
+
+@pytest.mark.parametrize('fault',['policy','arm_request','26ms'])
+def test_new_expert_extended_prefix_wait_never_certifies_missing_or_stale_data(tmp_path,monkeypatch,fault):
+    adapter,kwargs,_=adapter_fixture(tmp_path,monkeypatch);new_live_expert(adapter)
+    kwargs['before']['step']=3503
+    feedback(adapter,kwargs['after']['time_s']-(.026 if fault=='26ms'else 0))
+    if fault=='policy':adapter.join['solver_policies_with_exact_installed_target']=[]
+    if fault=='arm_request':adapter.join['arm_request_count']=0
+    with pytest.raises(RuntimeError,match='TIMEOUT_NO_RETRY'):p.settle_atom(adapter,**kwargs)
+    assert adapter.calls==[(90,True)]

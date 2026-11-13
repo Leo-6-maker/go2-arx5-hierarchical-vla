@@ -294,7 +294,13 @@ def run_program(adapter, episode, inputs, *, program_factory=None,
         event_start = len(adapter.ros_evidence)
         from .native_collection_performance_v1 import measure
         after = adapter.advance_to(step+25)
-        with measure(adapter,'atom.fixed_spin_150ms',native_step=step):adapter.spin(.15)
+        from .native_live_control_v3 import configuration as live_configuration
+        if live_configuration(adapter.spec) is not None:
+            from .native_collection_performance_v1 import settle_atom
+            settle_atom(adapter,event_start=event_start,before=before,after=after,
+                        clock=clock,submitted=submitted)
+        else:
+            with measure(adapter,'atom.fixed_spin_150ms',native_step=step):adapter.spin(.15)
         actual = adapter.measured_task_state(); samples.append(actual)
         need(actual['native_step'] == after['step'] == step+25
              and actual['safety_valid'] is True and actual['native_abort'] is False,

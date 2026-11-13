@@ -132,14 +132,18 @@ def reset_render_scene(renderer, model):
 def settle_atom(adapter, *, event_start, before, after, clock, submitted):
     """Wait for the original evidence, with no additional ENTER or tick grant.
 
-    Startup and preaction settling keep their original 150ms wait. The new
-    readiness condition is deliberately stronger than a bare callback drain.
+    Legacy startup keeps its original150ms wait. Explicit new tmpfs experts
+    also join the stationary-prefix receipts before another atom is granted.
     Original consumption, gripper and standing checks still run afterwards.
     """
     config = configuration(adapter.spec)
     read_wait = event_read_seconds(adapter.spec)
+    from .native_live_control_v3 import configuration as live_configuration, acknowledgement_wait
+    live_control = live_configuration(adapter.spec) is not None
+    if live_control:
+        read_wait = acknowledgement_wait(adapter.spec,read_wait)
     if (config is None or config['mode'] not in ('events', 'events_camera_cache')
-            or before['step'] < adapter.spec['task_learning_grasp']['start_step']):
+            or (before['step'] < adapter.spec['task_learning_grasp']['start_step'] and not live_control)):
         with measure(adapter, 'atom.fixed_spin_150ms', native_step=before['step']):
             return adapter.spin(.15)
     from scripts.pi0294.task_clock import actual_source_age
