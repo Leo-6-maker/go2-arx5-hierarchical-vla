@@ -1,7 +1,7 @@
 """Run the frozen expert with the new gripper representation in native simulation."""
 import numpy as np
 
-from ..sla_adapter.gripper_v2 import EPSILON, VERSION, decode_latent, label_latent
+from ..sla_adapter.gripper_latent_v2 import EPSILON, VERSION, decode_latent, label_latent
 
 SCHEMA = 'SLA_LOGIT_EPSILON_NATIVE_EXPERT_VALIDATION_V2'
 

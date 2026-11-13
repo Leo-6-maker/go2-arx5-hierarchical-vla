@@ -205,8 +205,7 @@ def episode_config(spec):
         members += ('src/go2arx5_vla/world_model/corelab_world_owner_v3.py',)
     if epsilon_enabled:
         members += ('src/go2arx5_vla/world_model/sla_expert_epsilon_v3.py',
-                    'src/go2arx5_vla/sla_adapter/codec_v1.py',
-                    'src/go2arx5_vla/sla_adapter/gripper_v2.py')
+                    'src/go2arx5_vla/sla_adapter/gripper_latent_v2.py')
     if task.student_role(spec.get('task_learning_role')):
         from .task_learning_live_pair_v1 import SOURCE_MEMBERS as model_members
         members=tuple(dict.fromkeys(members+model_members))
