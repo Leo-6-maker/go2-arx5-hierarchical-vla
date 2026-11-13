@@ -118,8 +118,9 @@ def native_scene_admission(spec):
               'V3_FRESH_EXPERT_BODY_SESSION_ONLY')
     proof = pinned(spec['task_learning_scene_reference'])
     panel = pinned(dict(path=spec['stable_task_panel'], sha256=spec['stable_task_panel_sha256']))
-    from .sla_named_expert_v5 import SCHEMA as NAMED, PRODUCTION_SCHEMA, LAYOUTS as NAMED_LAYOUTS, validate as named_rows
-    named = panel.get('schema') in (NAMED,PRODUCTION_SCHEMA)
+    from .sla_named_expert_v5 import (SCHEMA as NAMED, PRODUCTION_SCHEMA, REPAIRED_BENCHMARK_SCHEMA,
+                                      LAYOUTS as NAMED_LAYOUTS, validate as named_rows)
+    named = panel.get('schema') in (NAMED,PRODUCTION_SCHEMA,REPAIRED_BENCHMARK_SCHEMA)
     task.need(proof.get('layout') in (NAMED_LAYOUTS if named else LAYOUTS), 'V3_TRAIN_ONLY_NEVER_DEV_TEST')
     validate_static_provenance(spec, proof, expected_role=ROLE)
     cadence = panel.get('schema') == CADENCE_PANEL
