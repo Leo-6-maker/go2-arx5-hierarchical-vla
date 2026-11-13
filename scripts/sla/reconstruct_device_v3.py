@@ -57,13 +57,19 @@ def run(spec, mode):
         return dict(schema='SLA_SITE_ORDINARY_RGB_REFERENCE_ACTUAL_V3',
             ordinary_RGB_generations=16,records=rows,reference_records=dict(path=str(records),sha256=sha(records)),
             requires_independent_fresh_process_replay=True,teacher_calls=0,optimizer_updates=0,
-            model_loads=1,physical_requests=0,wall_s=time.time()-started)
+            model_loads=1,physical_requests=0,wall_s=time.time()-started,
+            package=spec['package'],step=provider.manifest['step'],cursor=provider.manifest['cursor'],
+            deployed_LoRA_retained=True,optimizer_loaded=False,teacher_loaded=False,
+            GPU_memory=__import__('jax').devices()[0].memory_stats())
     reference=json.loads(Path(spec['reference_probes']).read_bytes())
     exact=all(all(a[k]==b[k]for k in ('index','noise','normalized_sha256','physical_sha256'))for a,b in zip(rows,reference))
     if not len(rows)==len(reference)==16:raise ValueError('EXACT_SIXTEEN_ORDINARY_RGB_REQUESTS_REQUIRED')
     if not exact:raise ValueError('FRESH_PACKAGE_RGB_DIFFERS_FROM_TRAIN_ENDPOINT')
     return dict(passes=True,ordinary_RGB_generations=len(rows),records=rows,all_bit_exact=True,
-                teacher_calls=0,optimizer_updates=0,model_loads=1,physical_requests=0,wall_s=time.time()-started)
+                teacher_calls=0,optimizer_updates=0,model_loads=1,physical_requests=0,wall_s=time.time()-started,
+                package=spec['package'],step=provider.manifest['step'],cursor=provider.manifest['cursor'],
+                deployed_LoRA_retained=True,optimizer_loaded=False,teacher_loaded=False,
+                GPU_memory=__import__('jax').devices()[0].memory_stats())
 
 
 if __name__=='__main__':
