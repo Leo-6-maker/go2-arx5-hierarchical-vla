@@ -12,18 +12,44 @@ SCHEMA = 'SLA_DEV16_COLD_SUFFIX_INPUT_V3'
 def retained_prefix(panel):
     from scripts.pi0294.e1.journal import Journal
     from .task_learning_grasp_v1 import need
+
+    rows, completed_groups, inp = _closed_prefix(panel)
+    native_base = pinned(inp['native_base'])
+    campaign = Path(native_base['campaign_root'])
+    journal = Journal(campaign / 'control/journal', campaign.name)
+    registry = json.loads(Path(native_base['registry']).read_bytes())
+    names = {row['native_run'] for row in panel['assignments'][len(rows):]}
+    for name in names:
+        key = name.upper()
+        need(not any(journal.path(key + suffix).exists() for suffix in
+                     ('-REGISTER', '-PAIR-REGISTRY', '-RUN', '-GPU-RUN'))
+             and not any(entry.get('run_uuid') in (name, name + '-gpu') for entry in registry['entries'])
+             and not any((group / 'runs' / child).exists() for group in completed_groups
+                         for child in (name, name + '-gpu')),
+             'ONLY_ORIGINAL_UNSTARTED_DEV_ROWS_MAY_CONTINUE')
+    return rows
+
+
+def _closed_prefix(panel, seen=frozenset()):
+    from .task_learning_grasp_v1 import need
     from .sla_native_v1 import summarize
 
     proof = panel['dev16_predecessor']
     prior, inp, result, lease, rows = [pinned(proof[key]) for key in ('panel', 'input', 'result', 'lease', 'outcomes')]
     group = Path(proof['input']['path']).parent
+    need(group not in seen and len(seen) < 16, 'FINITE_DEV_PREFIX_CHAIN')
     need(panel['population'] == prior['population'] == 'DEV16'
          and {k: v for k, v in panel.items() if k not in ('source_sha', 'registration', 'dev16_predecessor')}
-         == {k: v for k, v in prior.items() if k not in ('source_sha', 'registration')}
+         == {k: v for k, v in prior.items() if k not in ('source_sha', 'registration', 'dev16_predecessor')}
          and {k: v for k, v in panel['registration'].items() if k not in ('source_root', 'source_files')}
          == {k: v for k, v in prior['registration'].items() if k not in ('source_root', 'source_files')},
          'SAME_ORIGINAL_DEV16_CONDITIONS_POLICY_AND_RUNTIME_INPUTS_REQUIRED')
-    need(all(proof[key]['path'] == str(group / name) for key, name in (
+    earlier, groups, earlier_input = (
+        _closed_prefix(prior, seen | {group}) if 'dev16_predecessor' in prior else ([], (), inp))
+    start = len(earlier)
+    need(group not in groups and inp['native_base'] == earlier_input['native_base']
+        and inp['gpu_base'] == earlier_input['gpu_base']
+        and all(proof[key]['path'] == str(group / name) for key, name in (
         ('input', 'INPUT.private.json'), ('result', 'RESULT.private.json'),
         ('lease', 'control/LEASE.json'), ('outcomes', 'OUTCOMES.private.json')))
         and inp['panel'] == proof['panel']['path'] and inp['panel_sha256'] == proof['panel']['sha256']
@@ -31,15 +57,16 @@ def retained_prefix(panel):
         and lease['status'] == 'CLOSED' and lease['worker_exit_code'] == result['exit_code'] == 1
         and lease['input_sha256'] == proof['input']['sha256']
         and result['panel_sha256'] == proof['panel']['sha256']
-        and result['unresolved_pair'] is None and result['completed_in_group'] == len(rows)
-        and 0 < len(rows) < 16 and inp['assignment_slice'] == result['assignment_slice'] == [0, 16]
+        and result['unresolved_pair'] is None and result['completed_in_group'] == len(rows) - start
+        and result['retained_prefix_conditions'] == start and rows[:start] == earlier
+        and start < len(rows) < 16 and inp['assignment_slice'] == result['assignment_slice'] == [start, 16]
         and result['summary'] == summarize(prior, rows)
         and not any(row['hard_safety_stop'] or row.get('query_completion_unknown_after_intent') for row in rows),
         'ACTUAL_CLOSED_DEV_PREFIX_WITH_NO_UNRESOLVED_EFFECT_REQUIRED')
     main_pid = subprocess.check_output(['systemctl', '--user', 'show', 'wm02-' + group.name,
                                        '--property=MainPID', '--value'], text=True).strip()
     need(main_pid == '0', 'DEV_PREFIX_GROUP_MUST_BE_TERMINAL')
-    for row in rows:
+    for row in rows[start:]:
         for name in (row['native_run'], row['native_run'] + '-gpu'):
             root = group / 'runs' / name
             spec = root / 'EXECUTION_SPEC.json'
@@ -48,18 +75,7 @@ def retained_prefix(panel):
             need(child['status'] == 'CLOSED' and child['spec_sha256'] == digest(spec)
                  and type(worker['exit_code']) is int and child['worker_exit_code'] == worker['exit_code'],
                  'REAL_EXIT_OF_EACH_PRIOR_NATIVE_AND_GPU_WORKER_REQUIRED')
-    native_base = pinned(inp['native_base'])
-    campaign = Path(native_base['campaign_root'])
-    journal = Journal(campaign / 'control/journal', campaign.name)
-    registry = json.loads(Path(native_base['registry']).read_bytes())
-    names = {row['native_run'] for row in panel['assignments'][len(rows):]}
-    for name in names:
-        key = name.upper()
-        need(not any(journal.path(key + suffix).exists() for suffix in ('-REGISTER', '-PAIR-REGISTRY', '-RUN', '-GPU-RUN'))
-             and not any(entry.get('run_uuid') in (name, name + '-gpu') for entry in registry['entries'])
-             and not any((group / 'runs' / child).exists() for child in (name, name + '-gpu')),
-             'ONLY_ORIGINAL_UNSTARTED_DEV_ROWS_MAY_CONTINUE')
-    return rows
+    return rows, (*groups, group), inp
 
 
 def select(inp, panel, rows):

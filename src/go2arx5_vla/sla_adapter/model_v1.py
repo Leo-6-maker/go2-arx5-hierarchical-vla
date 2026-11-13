@@ -34,14 +34,31 @@ def frozen_fingerprint(state):
     h = hashlib.sha256()
     for path, value in sorted(flat(state.to_pure_dict()).items()):
         h.update(('/'.join(path)+':'+str(value.shape)+':'+str(value.dtype)+'\n').encode())
-        flattened = value.reshape(-1)
-        count = max(1, 8*1024**2//np.dtype(value.dtype).itemsize)
-        for start in range(0, value.size, count):
-            temporary = flattened[start:start+count]
-            a = np.asarray(temporary)
-            h.update(a.tobytes())
-            del a, temporary
+        _hash_parameter(h, value)
     return h.hexdigest()
+
+
+def _hash_parameter(digest, value, *, max_bytes=8 * 1024**2):
+    if value.size == 0:
+        return
+    if value.ndim == 0:
+        digest.update(np.asarray(value).tobytes())
+        return
+    item_bytes = np.dtype(value.dtype).itemsize
+    trailing_bytes = value.size * item_bytes
+    for axis, length in enumerate(value.shape):
+        trailing_bytes //= length
+        if trailing_bytes <= max_bytes:
+            break
+    count = max(1, max_bytes // trailing_bytes)
+    # Slice before materializing. Flattening a transposed/tiled JAX parameter
+    # can allocate a second full GPU buffer even when only a small slice is read.
+    # Retain C-order bytes so every existing frozen fingerprint stays valid.
+    for prefix in np.ndindex(value.shape[:axis]):
+        for start in range(0, length, count):
+            chunk = value[prefix + (slice(start, start + count),)]
+            digest.update(np.asarray(chunk).tobytes())
+            del chunk
 
 
 def load_parent(params_path):
