@@ -194,6 +194,17 @@ def register_group(request):
         return j.once(key,dict(panel=request['panel'],assignment_slice=inp['assignment_slice']),effect)
 
 
+def execution_gpu_base(panel,base):
+    """Use the complete endpoint's actual reconstructed card before capacity."""
+    if panel.get('task_learning_role')!=task.SLA_DENSE_ROLE:return base
+    from .sla_dense_native_v5 import policy_contract
+    from .sla_live_v1 import apply_inference_spec
+    task.need(len(panel['policies'])==1,'ONE_COMPLETE_RAW3K_POLICY_PER_GROUP')
+    q=policy_contract(panel['policies'][panel['method']],verify_package=False,
+        expected_global_step=panel['B1_global_step'])
+    result=dict(base);apply_inference_spec(result,q);return result
+
+
 def dispatch_group(input_path):
     from scripts.pi0292.durable import write
     from scripts.pi0294.e1.journal import Journal
@@ -209,6 +220,7 @@ def dispatch_group(input_path):
         capture_output=True,text=True,timeout=10,check=True)
     task.need('LoadState=not-found'in q.stdout and 'MainPID=0'in q.stdout,'NO_EXISTING_DEV_GROUP_UNIT')
     remaining=int(inp['deadline_epoch']-time.time());task.need(remaining>1800,'TIME_FOR_FINITE_DEV_GROUP')
+    g=execution_gpu_base(panel,g)
     actual=batch.resources(g);write(root/'ACTUAL_CAPACITY_BEFORE_DISPATCH.private.json',actual)
     sla_inputs = ('SLA_TARGET500_NATIVE_GROUP_INPUT_V1', 'SLA_NATIVE_COLD_UNEXECUTED_SUFFIX_INPUT_V2', DEV_SUFFIX,'SLA_R1_COLD_UNSTARTED_TRAIN8_SUFFIX_INPUT_V5')
     argv=['systemd-run','--user','--unit=wm02-'+root.name,'--property=Type=exec','--property=RemainAfterExit=yes',

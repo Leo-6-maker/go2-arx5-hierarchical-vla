@@ -59,6 +59,19 @@ def test_readonly_capacity_wait_is_available_for_new_raw3k_without_new_physics_g
     with pytest.raises(ValueError):configuration(p)
 
 
+def test_dispatch_capacity_uses_the_reconstructed_endpoint_card_not_old_base(tmp_path,monkeypatch):
+    from go2arx5_vla.world_model.task_learning_student_registration_v2 import execution_gpu_base
+    p=panel(tmp_path);q=dict(runtime=dict(python='/qualified',upstream_root='/upstream',JAX_memory_fraction=.8),
+        GPU_uuid='qualified-card',parent_params='/base/model/params',parent_manifest=dict(path='/base/MANIFEST',sha256='c'*64),
+        ordinary_parameter_bytes=10,allocator_limit_bytes=30,ordinary_RGB_reconstruction=dict(path='/actual/RGB',sha256='d'*64),
+        schema=dense.NAMED_ADMISSION,neural_owner_lock='/qualified-card.lock')
+    monkeypatch.setattr(dense,'policy_contract',lambda *a,**k:q)
+    base=dict(GPU_uuid='old-card',neural_owner_lock='/old-card.lock')
+    actual=execution_gpu_base(p,base)
+    assert actual['GPU_uuid']=='qualified-card'and actual['neural_owner_lock']=='/qualified-card.lock'
+    assert base['GPU_uuid']=='old-card'and actual['checkpoint_parameter_bytes']==10
+
+
 @pytest.mark.parametrize('mutation',['split','seed','order','model','step500','old_input','proof_geometry'])
 def test_dev_inputs_cannot_relabel_training_or_weaken_actual_geometry(tmp_path,mutation):
     p=panel(tmp_path)
