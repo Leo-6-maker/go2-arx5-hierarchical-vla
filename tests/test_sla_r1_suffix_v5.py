@@ -63,6 +63,17 @@ def test_selection_runs_only_never_started_suffix(monkeypatch):
     with pytest.raises(ValueError):suffix.selection(inp,p,p['assignments'])
 
 
+def test_second_zero_tick_failure_stays_in_denominator_and_only_last_two_run(monkeypatch):
+    p,_,rows,*_=population();p['r1_cold_suffix_v5']['result']={'path':'closed','sha256':'a'*64}
+    rows.append(dict(p['assignments'][13],technical_valid=False,actual_native_integrations=0))
+    monkeypatch.setattr(suffix,'prefix',lambda panel:rows)
+    inp=dict(schema=suffix.SCHEMA,source_sha='cold',assignment_slice=[14,16],
+        population_predecessor=p['r1_cold_suffix_v5']['result'])
+    assert suffix.selection(inp,p,p['assignments'])==p['assignments'][14:]
+    inp['assignment_slice']=[13,16]
+    with pytest.raises(ValueError):suffix.selection(inp,p,p['assignments'])
+
+
 def test_native_entry_accepts_only_declared_suffix_wall_repair(tmp_path,monkeypatch):
     import json
     from go2arx5_vla.world_model.storage import digest
@@ -80,3 +91,21 @@ def test_native_entry_accepts_only_declared_suffix_wall_repair(tmp_path,monkeypa
     assert maximum_wall_seconds({},1200)==1200
     spec['registered_root']=str(tmp_path/'fixed-12')
     with pytest.raises(ValueError):maximum_wall_seconds(spec,1200)
+
+
+def test_campaign_wall_allowance_is_independent_of_tmpfs_transport(tmp_path,monkeypatch):
+    from go2arx5_vla.world_model import auto1_native,native_live_control_v3 as live
+    from go2arx5_vla.world_model.storage import digest
+    binding=tmp_path/'binding.json';binding.write_text('{}')
+    spec=dict(campaign_root=str(tmp_path),campaign_binding=str(binding),
+        phase='collect-target-task-learning-grasp-v1',domain='WM02_AUTO1_TARGET_COMMISSION_V1',
+        physics=True,site_profile='4080-simulation',owner='EXISTING_LOCAL_PC',
+        host='corelab-4080s',uid=2009,wall_limit_s=3600,r1_condition_wall_repair_v5={'typed':'proof'})
+    lease=dict(status='ACTIVE',scope='WM02_AUTO1_SIM_ONLY',owner=spec['owner'],run_uuid=tmp_path.name,
+               binding_sha256=digest(binding),deadline_epoch=100)
+    registry=dict(entries=[dict(scope=lease['scope'],owner=spec['owner'],path=str(tmp_path),
+                              local_lease=str(tmp_path/'control/LEASE.json'))])
+    calls=[]
+    monkeypatch.setattr(live,'maximum_wall_seconds',lambda s,old:calls.append((s,old))or 3600)
+    auto1_native.validate_scope(spec,lease,registry,host='corelab-4080s',uid=2009,now=50)
+    assert calls==[(spec,1200)] and 'native_live_control_v3'not in spec

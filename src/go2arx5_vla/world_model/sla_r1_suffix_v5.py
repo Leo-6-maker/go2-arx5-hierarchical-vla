@@ -1,4 +1,4 @@
-"""Retain all thirteen R0/R1 outcomes; execute only the three unstarted rows."""
+"""Retain the actual R0/R1 prefix and execute only its never-started suffix."""
 import json
 from pathlib import Path
 import subprocess
@@ -31,6 +31,39 @@ def joined(panel,result,rows,lease,inp,old):
     return rows
 
 
+def scope_failure_prefix(panel,retained):
+    proof=panel.get('r1_wall_scope_predecessor_v5')
+    if proof is None:return retained
+    result,rows,lease,inp,old=[pinned(proof[k])for k in('result','outcomes','lease','input','panel')]
+    group=Path(proof['result']['path']).parent
+    task.need(all(panel[k]==old[k]for k in('schema','task_learning_role','protocol','population',
+        'B1_global_step','policies','preregistration','assignments'))
+        and inp['panel']==proof['panel']['path']and inp['panel_sha256']==proof['panel']['sha256']
+        and lease['input_sha256']==proof['input']['sha256']==digest(group/'INPUT.private.json')
+        and lease['status']=='CLOSED'and lease['worker_exit_code']==result['exit_code']==1
+        and result['completed_in_group']==1 and result['retained_prefix_conditions']==13
+        and result['unresolved_pair']is None and len(rows)==14 and rows[:13]==retained
+        and inp['assignment_slice']==[13,16]
+        and rows[-1]['native_run']==old['assignments'][13]['native_run']
+        and not rows[-1]['technical_valid']and not rows[-1]['native_world_attempted']
+        and rows[-1]['actual_native_integrations']==rows[-1]['actual_SLA_queries']==0
+        and not any(r['hard_safety_stop']for r in rows),
+        'R1_ZERO_INTEGRATION_SCOPE_FAILURE_RETAINED_NOT_RETRIED')
+    task.need(subprocess.check_output(['systemctl','--user','show','wm02-'+group.name,
+        '--property=MainPID','--value'],text=True,timeout=10).strip()=='0','R1_SCOPE_FAILURE_ACTUALLY_COLD')
+    for suffix in('','-gpu'):
+        root=group/'runs'/(rows[-1]['native_run']+suffix)
+        terminal=json.loads((root/'control/LEASE.json').read_bytes());worker=json.loads((root/'WORKER_EXIT.private.json').read_bytes())
+        task.need(terminal['status']=='CLOSED'and terminal['worker_exit_code']==worker['exit_code']==1
+            and terminal['spec_sha256']==digest(root/'EXECUTION_SPEC.json'),'R1_ZERO_TICK_PARTNER_TERMINALS_REQUIRED')
+        if not suffix:
+            task.need(worker['failure']=='PermissionError: AUTO1_REGISTERED_SCOPE_HOST_LEASE_OR_TIME_INVALID',
+                'R1_ACTUAL_SECOND_WALL_ENTRY_GUARD_FAILURE_REQUIRED')
+    task.need(all(not(group/'runs'/(r['native_run']+tail)).exists()
+        for r in old['assignments'][14:]for tail in('','-gpu')),'R1_LAST_TWO_ROWS_NEVER_STARTED')
+    return rows
+
+
 def prefix(panel):
     proof=panel['r1_cold_suffix_v5'];result,rows,lease,inp,old=[pinned(proof[k])for k in ('result','outcomes','lease','input','panel')]
     group=Path(proof['result']['path']).parent
@@ -57,7 +90,7 @@ def prefix(panel):
     for row in old['assignments'][13:]:
         task.need(not (group/'runs'/row['native_run']).exists()
             and not(group/'runs'/(row['native_run']+'-gpu')).exists(),'R1_SUFFIX_WAS_NEVER_STARTED')
-    return rows
+    return scope_failure_prefix(panel,rows)
 
 
 def window(panel):
@@ -72,8 +105,8 @@ def window(panel):
 def selection(inp,panel,rows):
     retained=prefix(panel)
     task.need(inp['schema']==SCHEMA and inp['source_sha']==panel['source_sha']
-        and inp['assignment_slice']==[13,16]
+        and inp['assignment_slice']==[len(retained),16]
         and inp['population_predecessor']==panel['r1_cold_suffix_v5']['result'],
-        'R1_ONLY_THREE_NEVER_STARTED_CONDITIONS_NO_FAILED_CASE_REPLAY')
+        'R1_ONLY_NEVER_STARTED_CONDITIONS_NO_FAILED_CASE_REPLAY')
     window(panel)
     return rows[len(retained):]
