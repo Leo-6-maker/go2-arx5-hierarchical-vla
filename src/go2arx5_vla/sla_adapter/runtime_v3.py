@@ -4,6 +4,7 @@ Large diagnostic gradient exports and checkpoints remain explicit boundaries.
 No per-microbatch scalar or gradient is copied to the host in normal updates.
 """
 from concurrent.futures import ThreadPoolExecutor
+from contextlib import nullcontext
 import hashlib
 import json
 import time
@@ -12,6 +13,13 @@ import numpy as np
 from .runtime_v2 import BatchedEngine
 from .batch_v2 import prepared_batches, device_batch
 from .config_v1 import learning_rates
+
+
+def training_matmul_precision(spec):
+    precision = spec.get('training_matmul_precision', 'default')
+    if precision not in ('default', 'highest'):
+        raise ValueError('UNSUPPORTED_SLA_TRAINING_MATMUL_PRECISION')
+    return precision
 
 
 class DeviceResidentEngine(BatchedEngine):
@@ -23,6 +31,9 @@ class DeviceResidentEngine(BatchedEngine):
         self.loader = ThreadPoolExecutor(max_workers=1)
         self.bindings.update(recipe='SLA_EFFECTIVE32_DEVICE_REDUCTION_V3',
                              prefetch='PERSISTENT_ONE_CURRENT_ONE_NEXT_CPU_MICROBATCH')
+        self.training_precision = training_matmul_precision(spec)
+        if self.training_precision != 'default':
+            self.bindings['training_matmul_precision'] = self.training_precision
         divisor = self.accumulation_steps
         self.add_metrics = jax.jit(lambda acc, values: acc + jnp.stack(values) / divisor,
                                   donate_argnums=(0,))
@@ -54,9 +65,11 @@ class DeviceResidentEngine(BatchedEngine):
                 self.counts['forward_backward_attempts'] += 1
                 self.counts['attempted_training_visits'] += self.microbatch
                 offset = int(host['cursors'][0]) - self.cursor
-                (loss, (active7, padding25)), gradient = self.grad(
-                    self.active, self.frozen, observation, actions,
-                    noise[offset:offset+self.microbatch], flow_time[offset:offset+self.microbatch])
+                context = (jax.default_matmul_precision('highest')
+                           if self.training_precision == 'highest' else nullcontext())
+                with context:
+                    (loss, (active7, padding25)), gradient = self.grad(self.active, self.frozen, observation, actions,
+                        noise[offset:offset+self.microbatch], flow_time[offset:offset+self.microbatch])
                 accumulator = self.accumulate(accumulator, gradient)
                 metrics = self.add_metrics(metrics, (loss, active7, padding25))
                 logs.append(dict(indices=host['indices'], first_absolute_cursor=int(host['cursors'][0]),

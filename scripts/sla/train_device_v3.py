@@ -19,6 +19,7 @@ OPERATIONS = {'PROFILE_BATCH_V2': 10, 'QUALIFY_CONTINUOUS_BATCH_V2': 4,
 
 
 def operation_contract(spec):
+    from go2arx5_vla.sla_adapter.runtime_v3 import training_matmul_precision
     operation = spec['operation']
     if operation not in OPERATIONS:
         raise ValueError('FINITE_W1_OR_R1_OPERATION_REQUIRED')
@@ -35,6 +36,7 @@ def operation_contract(spec):
         raise ValueError('REAL_STEP2_CHECKPOINT_REQUIRED')
     if operation != 'QUALIFY_RESUME_BATCH_V2' and operation != 'R1_CANDIDATE500_V2' and spec.get('resume'):
         raise ValueError('QUALIFICATION_OR_PROFILE_MUST_START_CLEAN')
+    training_matmul_precision(spec)
     return OPERATIONS[operation]
 
 
@@ -93,9 +95,10 @@ def run(spec):
         local['gradient_capture_steps'] = [0]
     elif spec['operation'] == 'QUALIFY_CONTINUOUS_BATCH_V2':
         local['gradient_capture_steps'] = [0, 1]
-    elif spec['operation'] == 'PROFILE_BATCH_V2' and spec['microbatch'] == 1:
-        # A same-allocation baseline for the two finite comparison updates.
-        # Its export is in warmup; the eight timed updates stay unchanged.
+    elif spec['operation'] == 'PROFILE_BATCH_V2' and (
+            spec['microbatch'] == 1 or spec.get('training_matmul_precision') == 'highest'):
+        # Export the initial gradient during warmup for same-allocation
+        # comparisons. The eight timed updates exclude that export.
         local['gradient_capture_steps'] = [0]
     else:
         local['gradient_capture_steps'] = []
@@ -130,6 +133,8 @@ def run(spec):
             saves = (2, 4) if result['noncandidate'] else (250, 500)
             if engine.step in saves:
                 result['last_checkpoint'] = engine.checkpoint(f'step{engine.step:03d}')
+                if engine.step == 4 and spec['operation'] == 'PROFILE_BATCH_V2':
+                    result['profile_step4_checkpoint'] = result['last_checkpoint']
             if not result['noncandidate'] and engine.step == 250:
                 result['midpoint_RGB'] = probes(engine, 'step250-RGB')
     except TimeoutError:
@@ -146,11 +151,12 @@ def run(spec):
     if spec['operation'] == 'PROFILE_BATCH_V2' and len(rows) == 10:
         timed = rows[2:]
         seconds = sum(row['wall_s'] for row in timed)
-        result['throughput'] = dict(warmup_updates=2, timed_updates=8, samples_per_s=256 / seconds,
-                                    updates_per_s=8 / seconds, timed_wall_s=seconds,
+        result['throughput'] = dict(warmup_updates=2, timed_updates=len(timed), samples_per_s=32*len(timed) / seconds,
+                                    updates_per_s=len(timed) / seconds, timed_wall_s=seconds,
                                     warmup_wall_s=sum(row['wall_s'] for row in rows[:2]),
                                     host_wait_s=sum(row['host_wait_s'] for row in timed))
     result.update(step=engine.step, cursor=engine.cursor, actual=engine.counts,
+                  training_matmul_precision=engine.training_precision,
                   frozen_fingerprint_unchanged=engine.verify_frozen(), residency=engine.residency(),
                   load_wall_s=engine.load_wall_s, wall_s=time.time() - began, site=actual_site,
                   GPU_allocated_wall_hours_upper=(time.time() - began) / 3600,

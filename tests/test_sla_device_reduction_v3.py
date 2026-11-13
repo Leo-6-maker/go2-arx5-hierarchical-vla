@@ -10,6 +10,7 @@ def toy(tmp_path, monkeypatch, micro, bad=False):
  e=module.DeviceResidentEngine.__new__(module.DeviceResidentEngine)
  e.active={'w':jnp.asarray(1.)};e.frozen={};e.opt_state={'m':jnp.asarray(0.)}
  e.microbatch=micro;e.accumulation_steps=32//micro;e.rng=jax.random.PRNGKey(1)
+ e.training_precision='default'
  e.dataset=e.tokenizer=e.visit_map=e.loader=None;e.step=e.cursor=0
  e.output=tmp_path;e.spec={'deadline_epoch':time.time()+60}
  e.counts=dict(forward_backward_attempts=0,attempted_training_visits=0,completed_forward_backward=0,completed_training_visits=0,optimizer_updates=0)
