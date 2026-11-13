@@ -57,7 +57,9 @@ def qualification(q, *, verify_package=True):
     task.need(m['step'] == 500 and m['cursor'] == 16000 and not m['qualification_only']
               and m['original_complete_sha256'] == candidate['last_checkpoint']['sha256']
               and m['bindings']['recipe'] == 'SLA_EFFECTIVE32_DEVICE_REDUCTION_V3'
-              and m['parent_manifest'] == q['parent_manifest'], 'R1_SAME_ACTUAL_TRAINED_PACKAGE')
+              and m['parent_manifest']['sha256'] == q['parent_manifest']['sha256']
+              and digest(q['parent_manifest']['path']) == m['parent_manifest']['sha256'],
+              'R1_SAME_ACTUAL_TRAINED_PACKAGE')
     task.need(spec['GPU_uuid'] == q['GPU_uuid'] and spec['parent_params'] == q['parent_params']
               and spec['python'] == q['runtime']['python'] and spec['upstream_root'] == q['runtime']['upstream_root']
               and spec['JAX_memory_fraction'] == q['runtime']['JAX_memory_fraction']

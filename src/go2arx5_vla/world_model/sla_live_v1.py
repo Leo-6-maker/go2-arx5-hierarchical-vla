@@ -17,6 +17,7 @@ def apply_inference_spec(spec, qualification):
     spec.update(python=runtime['python'], SLA_runtime=runtime, GPU_uuid=q['GPU_uuid'],
         checkpoint=q['parent_params'], checkpoint_files={},
         checkpoint_manifest_sha256=q['parent_manifest']['sha256'],
+        checkpoint_manifest_path=q['parent_manifest']['path'],
         checkpoint_parameter_bytes=q['ordinary_parameter_bytes'],
         allocator_limit_bytes=q['allocator_limit_bytes'],
         numeric_mode='SLA_PINNED_JAX_BF16_DETERMINISTIC_V1',
@@ -75,9 +76,11 @@ def infer(spec, output):
         manifest = pinned(dict(path=str(Path(package['path'])/'MANIFEST.private.json'),sha256=package['sha256']))
         if manifest['schema'] == 'SLA_GRIP_LOGIT_ORDINARY_RGB_INFERENCE_PACKAGE_V3':
             from ..sla_adapter.provider_v3 import Provider
+            provider = Provider(package['path'], manifest_sha256=package['sha256'],
+                parent_params=spec['checkpoint'], parent_manifest_path=spec['checkpoint_manifest_path'])
         else:
             from ..sla_adapter.provider_v1 import Provider
-        provider = Provider(package['path'], manifest_sha256=package['sha256'], parent_params=spec['checkpoint'])
+            provider = Provider(package['path'], manifest_sha256=package['sha256'], parent_params=spec['checkpoint'])
         loads = 1
         write(root/'MODEL_LOADED.private.json', dict(actual_SLA_parent_loads=1, optimizer_loaded=False,
             teacher_loaded=False, training_cache_used=False, deployed_LoRA_retained=True))
