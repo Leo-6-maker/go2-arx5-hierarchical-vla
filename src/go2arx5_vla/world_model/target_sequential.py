@@ -251,6 +251,12 @@ class TargetSequentialAdapter:
         if self.spec.get('native_pause_read_wait') is not None:
             from .sla_native_continuation_v2 import wait_seconds
             pause_wait = wait_seconds(self.spec)
+        elif self.spec.get('expert_recorded_success_tail_v3'):
+            from .corelab_expert_semantics_v3 import recorded_tail
+            if recorded_tail(self.spec):
+                # Concurrent archive I/O delayed the original ACK until after
+                # the 35s observer deadline. Wait for the same single grant.
+                pause_wait = 90
         if not self.spin(pause_wait,paused):
             from .storage import write_json
             ack=self.output/'pause_ack.json'
