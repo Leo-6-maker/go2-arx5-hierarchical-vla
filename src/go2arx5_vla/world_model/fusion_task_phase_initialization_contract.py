@@ -133,8 +133,10 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
     else:
         need(not any(spec.get(k) for k in ('paused_query_gpu_spec', 'paused_query_pair', 'snapshot_binding_mode')),
              'SINGLE_WORLD_INITIALIZATION_WITHOUT_NEW_GPU_OR_QUERY')
+    from .native_live_control_v3 import maximum_wall_seconds
     need(spec.get('WBC_changes') is False and spec.get('physics_dt_s') == .002
-         and type(spec.get('wall_limit_s')) in (int, float) and 0 < spec['wall_limit_s'] <= 1200,
+         and type(spec.get('wall_limit_s')) in (int, float)
+         and 0 < spec['wall_limit_s'] <= maximum_wall_seconds(spec,1200),
          'FROZEN_WBC_2MS_FINITE_NATIVE_WALL')
     source, files = Path(spec['source_root']), spec.get('source_files', {})
     need(all(name in files and digest(source / name) == files[name] for name in source_members),

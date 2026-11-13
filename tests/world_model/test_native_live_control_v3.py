@@ -27,6 +27,8 @@ def test_original_capsules_keep_original_paths_and_reject_wrong_opt_in(tmp_path)
     a=SimpleNamespace(spec={},output=tmp_path)
     live.initialize(a)
     assert live.configuration({}) is None and live.live_path(a,'state.bin')==tmp_path/'state.bin'
+    assert live.maximum_wall_seconds({},1200)==1200
+    assert live.maximum_wall_seconds(spec(),1200)==3600
     assert not list(tmp_path.iterdir())
     for changed in (dict(task_learning_role='OLD'),dict(expert_recorded_success_tail_v3=None),
                     dict(native_live_control_v3=dict(version='OTHER'))):

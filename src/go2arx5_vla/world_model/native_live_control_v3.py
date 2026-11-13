@@ -35,6 +35,10 @@ def acknowledgement_wait(spec, original_seconds):
     return 90 if configuration(spec) is not None else original_seconds
 
 
+def maximum_wall_seconds(spec, original_seconds):
+    return 3600 if configuration(spec) is not None else original_seconds
+
+
 def initialize(adapter):
     if configuration(adapter.spec) is None:
         return
