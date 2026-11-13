@@ -15,7 +15,13 @@ def main(argv=None):
     spec=json.loads(args.spec.read_text());root=Path(spec['registered_root']);lease_path=Path(spec['lease']);lease=json.loads(lease_path.read_text())
     if lease.get('status')!='ACTIVE'or lease.get('run_uuid')!=root.name or lease.get('spec_sha256')!=digest(args.spec):raise PermissionError('EXACT_FRESH_PILOT1_NATIVE_WORKER_REQUIRED')
     if(root/'SUPERVISOR.private.json').exists():raise FileExistsError('EXISTING_OR_UNKNOWN_NATIVE_WORKER_MUST_BE_RECONCILED')
-    write(root/'SUPERVISOR.private.json',dict(pid=os.getpid(),source_sha=spec['source_sha'],started_epoch=time.time()))
+    if spec.get('corelab_world_binding_v3'):
+        # Apply the registered CPU slot to this process and its native children;
+        # a user service's cgroup CPU property alone may not be delegated.
+        cpus=set(spec['cpus'])
+        if not cpus or not cpus<=os.sched_getaffinity(0):raise PermissionError('REGISTERED_WORLD_CPU_SLOT_REQUIRED')
+        os.sched_setaffinity(0,cpus)
+    write(root/'SUPERVISOR.private.json',dict(pid=os.getpid(),source_sha=spec['source_sha'],started_epoch=time.time(),actual_cpu_affinity=sorted(os.sched_getaffinity(0))))
     def interrupted(signum,frame):raise KeyboardInterrupt('OWNED_NATIVE_WORKER_SIGNAL_'+str(signum))
     signal.signal(signal.SIGTERM,interrupted);signal.signal(signal.SIGINT,interrupted)
     start=time.monotonic();cpu=time.process_time();before=resource.getrusage(resource.RUSAGE_CHILDREN);code=1;failure=None

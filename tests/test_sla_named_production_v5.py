@@ -18,7 +18,7 @@ def panel():
             prefix_atoms=10, parent=scene_id(layout), split='TRAIN', command=task.COMMAND,
             purpose=named.PRODUCTION_PURPOSE, Teacher_mode='NORMAL_TEACHER_V7',
             model_sha256='a'*64, native_run=f'fresh-{layout}-r{restart}')
-            for layout in named.LAYOUTS for restart in named.PRODUCTION_RESTARTS])
+            for restart in named.PRODUCTION_RESTARTS for layout in named.LAYOUTS])
 
 
 def test_new_restarts_reuse_teacher_without_adopting_engineering_data(monkeypatch):

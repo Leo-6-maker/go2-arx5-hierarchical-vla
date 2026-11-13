@@ -25,7 +25,7 @@ def validate(panel):
     from .task_learning_collection_v1 import qualified_base
     production = panel.get('schema') == PRODUCTION_SCHEMA
     rows = panel['assignments']
-    expected = ([(PRODUCTION_ACTORS,l,r) for l in LAYOUTS for r in PRODUCTION_RESTARTS]
+    expected = ([(PRODUCTION_ACTORS,l,r) for r in PRODUCTION_RESTARTS for l in LAYOUTS]
                 if production else [(a,l,r) for a in ACTORS for l in LAYOUTS for r in RESTARTS])
     task.need(panel.get('schema') in (SCHEMA,PRODUCTION_SCHEMA) and panel.get('task_learning_role') == ROLE
               and panel['Teacher_implementation_source_sections_sha256'] == teacher_fingerprint() == FROZEN_TEACHER
