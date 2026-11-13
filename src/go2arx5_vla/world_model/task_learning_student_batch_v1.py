@@ -27,7 +27,7 @@ def selection(inp,panel):
     if inp.get('schema')=='SLA_DENSE3K_RAW_P10_TRAIN8_GROUP_INPUT_V5':
         from .sla_dense_native_v5 import selection
         return selection(inp,panel)
-    if inp.get('schema') in('SLA_TARGET500_NATIVE_GROUP_INPUT_V1','SLA_NATIVE_COLD_UNEXECUTED_SUFFIX_INPUT_V2',SLA_DEV_SUFFIX):
+    if inp.get('schema') in('SLA_TARGET500_NATIVE_GROUP_INPUT_V1','SLA_NATIVE_COLD_UNEXECUTED_SUFFIX_INPUT_V2',SLA_DEV_SUFFIX,'SLA_R1_COLD_UNSTARTED_TRAIN8_SUFFIX_INPUT_V5'):
         from .sla_native_v1 import selection
         return selection(inp,panel)
     if inp.get('schema')=='A_TARGET500_TRAIN4_DELIVERY_GROUP_INPUT_V1':
@@ -79,6 +79,9 @@ def selection(inp,panel):
 
 
 def condition_window(panel):
+    if panel.get('r1_cold_suffix_v5') is not None:
+        from .sla_r1_suffix_v5 import window
+        return window(panel)
     return 3600 if panel.get('task_learning_role')==task.SLA_DENSE_ROLE else 1200
 
 
@@ -100,6 +103,8 @@ def specs(inp,panel,row,nbase,gbase,nroot,groot,deadline):
         target_gr00t_policy=panel['policies'][row['method']],target_gr00t_query_seeds=row['query_seeds'],
         target_gr00t_pair_id=row['native_run'],target_gr00t_B1_global_step=panel['B1_global_step'])
     if local or conic or endpoint or matched or native_body:common['core_local_protocol']=role
+    if role==task.SLA_DENSE_ROLE or panel.get('r1_cold_suffix_v5') is not None:
+        common['enforce_cpu_slot_v5']=True
     if role==task.SLA_ROLE and inp.get('native_pause_read_wait') is not None:
         common['native_pause_read_wait']=inp['native_pause_read_wait']
     if native_body:
@@ -310,6 +315,9 @@ def run(input_path):
     if inp.get('schema')=='SLA_NATIVE_COLD_UNEXECUTED_SUFFIX_INPUT_V2':
         from .sla_native_continuation_v2 import prefix
         outcomes=prefix(panel);retained_prefix=len(outcomes)
+    if inp.get('schema')=='SLA_R1_COLD_UNSTARTED_TRAIN8_SUFFIX_INPUT_V5':
+        from .sla_r1_suffix_v5 import prefix
+        outcomes=prefix(panel);retained_prefix=len(outcomes)
     from .sla_dev_continuation_v3 import SCHEMA as SLA_DEV_SUFFIX, retained_prefix as retained_dev_prefix
     if inp.get('schema') == SLA_DEV_SUFFIX:
         outcomes = retained_dev_prefix(panel)
@@ -376,7 +384,7 @@ def run(input_path):
                             nr.name.upper()+'-RUN',gr.name.upper()+'-RUN')))
                 registered=wait_for_pair(lambda:register(row),untouched,
                     lambda value:write(stage/'PROGRESS.private.json',dict(value,current_run=row['native_run'],completed=len(outcomes))),
-                    inp['deadline_epoch']-1201,
+                    inp['deadline_epoch']-condition_window(panel)-1,
                     stopped=lambda:(stage/'STOP.json').exists()or(campaign/'STOP.json').exists())
             current_pair=registered
             execute_pair(registered,journal,stage,len(outcomes))

@@ -15,7 +15,7 @@ def main(argv=None):
     spec=json.loads(args.spec.read_text());root=Path(spec['registered_root']);lease_path=Path(spec['lease']);lease=json.loads(lease_path.read_text())
     if lease.get('status')!='ACTIVE'or lease.get('run_uuid')!=root.name or lease.get('spec_sha256')!=digest(args.spec):raise PermissionError('EXACT_FRESH_PILOT1_NATIVE_WORKER_REQUIRED')
     if(root/'SUPERVISOR.private.json').exists():raise FileExistsError('EXISTING_OR_UNKNOWN_NATIVE_WORKER_MUST_BE_RECONCILED')
-    if spec.get('corelab_world_binding_v3'):
+    if spec.get('corelab_world_binding_v3') or spec.get('enforce_cpu_slot_v5') is True:
         # Apply the registered CPU slot to this process and its native children;
         # a user service's cgroup CPU property alone may not be delegated.
         cpus=set(spec['cpus'])

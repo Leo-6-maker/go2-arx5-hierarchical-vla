@@ -131,6 +131,10 @@ def group_input(request,panel):
             if panel.get('dev16_predecessor') is not None:
                 from .sla_dev_continuation_v3 import SCHEMA as DEV_SUFFIX
                 inp['schema'] = DEV_SUFFIX
+            if panel.get('r1_cold_suffix_v5') is not None:
+                from .sla_r1_suffix_v5 import SCHEMA as R1_SUFFIX
+                inp['schema']=R1_SUFFIX
+                inp['population_predecessor']=panel['r1_cold_suffix_v5']['result']
     if panel.get('task_learning_role')==task.CONIC_ROLE:
         from .task_learning_conic_native_v3 import INPUT_SCHEMA
         inp['schema']=INPUT_SCHEMA
@@ -200,7 +204,7 @@ def dispatch_group(input_path):
     task.need('LoadState=not-found'in q.stdout and 'MainPID=0'in q.stdout,'NO_EXISTING_DEV_GROUP_UNIT')
     remaining=int(inp['deadline_epoch']-time.time());task.need(remaining>1800,'TIME_FOR_FINITE_DEV_GROUP')
     actual=batch.resources(g);write(root/'ACTUAL_CAPACITY_BEFORE_DISPATCH.private.json',actual)
-    sla_inputs = ('SLA_TARGET500_NATIVE_GROUP_INPUT_V1', 'SLA_NATIVE_COLD_UNEXECUTED_SUFFIX_INPUT_V2', DEV_SUFFIX)
+    sla_inputs = ('SLA_TARGET500_NATIVE_GROUP_INPUT_V1', 'SLA_NATIVE_COLD_UNEXECUTED_SUFFIX_INPUT_V2', DEV_SUFFIX,'SLA_R1_COLD_UNSTARTED_TRAIN8_SUFFIX_INPUT_V5')
     argv=['systemd-run','--user','--unit=wm02-'+root.name,'--property=Type=exec','--property=RemainAfterExit=yes',
         '--property=Restart=no','--property=RuntimeMaxSec='+str(remaining+90),'--property=TimeoutStopSec=90',
         '--property=AllowedCPUs=0-3,8-11','--property=CPUQuota=800%','--property=MemoryMax='+('32G'if inp.get('schema') in sla_inputs else'40G'),
