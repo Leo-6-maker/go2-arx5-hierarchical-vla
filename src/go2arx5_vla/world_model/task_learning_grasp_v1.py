@@ -116,6 +116,9 @@ def protocol(role=CONSTRUCTION_ROLE):
 
 
 def declared(spec):
+    if spec.get('sla_pick_place_v5')is not None:
+        from .sla_pick_place_v5 import declared as place_declared
+        return place_declared(spec)
     from .corelab_expert_semantics_v3 import native_protocol, native_endpoint
     need(spec.get('phase')==PHASE and spec.get('kind')==KIND and spec.get('task_learning_grasp')==native_protocol(spec)
         and spec.get('task_command')==COMMAND and spec.get('live_skill_start_step')==CALIBRATION_B

@@ -79,10 +79,14 @@ def encode_episode(root, *, expected_result_sha256, expected_archive_sha256):
     decisions = {row['sha256']: (row['native_step'], prefix_atoms) for row in q['teacher_decisions']}
     tail = q.get('recorded_expert_success_tail')
     if tail:
+        from ..world_model.sla_pick_place_v5 import configuration as place_configuration,score_contract as place_score
+        is_place=place_configuration(spec)
         tail_record, tail_pin = load(native_root / 'TASK_LEARNING_TERMINATION_HOLD.private.json', tail['command_sha256'])
+        metric='longest_contiguous_terminal_success_s'if is_place else'longest_contiguous_grasp_lift_hold_s'
+        if is_place:need(tail['score']['contract']==place_score(),'NEW_PLACE_SUCCESS_TAIL_SCORE_IDENTITY')
         need(tail_record['passes'] is tail['passes'] is True and tail['consumed_commands'] == 40
              and tail['end_step'] - tail['start_step'] == 1000
-             and tail_record['score'] == tail['score'] and tail['score']['longest_contiguous_grasp_lift_hold_s'] >= 2.,
+             and tail_record['score'] == tail['score'] and tail['score'][metric] >= 2.,
              'ACTUALLY_RECORDED_CONTINUOUS_TWO_SECOND_SUCCESS_TAIL')
         decisions[tail_pin['sha256']] = (tail['start_step'], tail['consumed_commands'])
     policy_from_world = rigid(spec['task_phase_source_from_target'])

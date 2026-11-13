@@ -38,6 +38,10 @@ def recorded_tail(spec):
 
 
 def native_protocol(spec):
+    if spec.get('sla_pick_place_v5')is not None:
+        from .sla_pick_place_v5 import configuration,protocol
+        configuration(spec)
+        return protocol()
     from . import task_learning_grasp_v1 as task
     from .eef_stream_v2 import PREFIX_ATOMS, VERSION, configuration
     original = task.protocol(spec.get('task_learning_role', task.CONSTRUCTION_ROLE))
@@ -52,6 +56,10 @@ def native_protocol(spec):
 
 
 def native_endpoint(spec):
+    if spec.get('sla_pick_place_v5')is not None:
+        from .sla_pick_place_v5 import configuration,ENDPOINT
+        configuration(spec)
+        return ENDPOINT
     from . import task_learning_grasp_v1 as task
     if spec.get('task_learning_role') == task.SLA_DENSE_ROLE:
         from .sla_dense_native_v5 import ENDPOINT
@@ -109,6 +117,9 @@ def validate_cadence_panel(panel):
 
 
 def native_scene_admission(spec):
+    if spec.get('sla_pick_place_v5')is not None:
+        from .sla_pick_place_v5 import native_scene_admission as place_admission
+        return place_admission(spec)
     from . import task_learning_grasp_v1 as task
     from .task_learning_scene_v1 import validate_static_provenance
     from .native_body_camera_capture_v1 import session_configuration

@@ -548,6 +548,11 @@ class TargetSequentialAdapter:
                 stage={'CLOSE':'close','SUPPORTED_HOLD':'hold','RELEASE':'release','EARLY_RELEASE':'release','OPEN_HOLD':'release'}.get(getattr(self,'pilot1_supported_stage',None),'approach')
             if self.spec['phase']=='collect-target-task-learning-grasp-v1':
                 stage={'CLOSE':'close','LIFT':'lift','HOLD':'hold'}.get(getattr(self,'task_learning_stage',None),'approach')
+                if self.spec.get('sla_pick_place_v5')is not None:
+                    from .sla_pick_place_v5 import configuration
+                    configuration(self.spec)
+                    stage={'TRANSFER':'lift','LOWER':'release','RELEASE':'release','WITHDRAW':'detach','PLACED':'release'}.get(
+                        getattr(self,'task_learning_stage',None),stage)
             try:
                 with measure(self,'reference.original_full40_certificate'):
                     with forbid_integration(mujoco):
