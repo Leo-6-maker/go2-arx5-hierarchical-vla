@@ -1,6 +1,6 @@
 {
   "schema": "SLA_CORELAB_CPU_GPU1_ACTUAL_V3",
-  "as_of_SGT": "2026-11-13T11:21:00.818500+08:00",
+  "as_of_SGT": "2026-11-13T11:22:15.165717+08:00",
   "implementation_source": "fc014b6534f848689d561462aac7d083fd56c840",
   "S1_DEV16": {
     "physical_requests": 3,
@@ -22,14 +22,14 @@
     "last_condition_failure": "XlaRuntimeError: RESOURCE_EXHAUSTED: Out of memory while trying to allocate 2415919104 bytes.",
     "retained_original_worker_stop_reason": "PAIRED_GPU_FAILURE_OR_FINITE_DEV_ENDPOINT",
     "queue_readback": {
-      "observed_SGT": "2026-11-13T11:21:00.818500+08:00",
-      "state": "WAIT_EXISTING_OWNER",
+      "observed_SGT": "2026-11-13T11:22:15.165717+08:00",
+      "state": "NATIVE_GROUP_LIVE",
       "active_process": true,
-      "group_registered": false,
+      "group_registered": true,
       "latest_admission_SGT": "2026-11-13T12:34:50.882498+08:00",
       "deadline_SGT": "2026-11-13T18:39:50.882498+08:00",
       "gpu_free_bytes": 16607346688,
-      "host_available_bytes": 30668410880
+      "host_available_bytes": 38065971200
     },
     "remaining_original_conditions": 13,
     "processed_conditions_immutable": true
@@ -57,7 +57,7 @@
     "wall_s": 518.7570598125458
   },
   "CPU": {
-    "observed_SGT": "2026-11-13T11:20:50.429008+08:00",
+    "observed_SGT": "2026-11-13T11:22:15.159509+08:00",
     "physical_requests": 2,
     "qualified_production_episodes": 0,
     "optimizer_updates": 0,
@@ -71,8 +71,8 @@
         "task_success": null,
         "first_failure": null,
         "live": true,
-        "native_step": 6053,
-        "frames_committed": 7,
+        "native_step": 9003,
+        "frames_committed": 67,
         "lease": "ACTIVE",
         "worker_exit_code": null,
         "recorded_success_tail": null
@@ -85,8 +85,8 @@
         "task_success": null,
         "first_failure": null,
         "live": true,
-        "native_step": 6053,
-        "frames_committed": 7,
+        "native_step": 9003,
+        "frames_committed": 67,
         "lease": "ACTIVE",
         "worker_exit_code": null,
         "recorded_success_tail": null
