@@ -89,3 +89,32 @@ def test_unknown_live_members_and_oversized_snapshots_are_rejected(tmp_path,monk
             m.setattr(live,'MAX_BYTES',4)
             with pytest.raises(MemoryError,match='BOUNDED'):live.check(a)
     finally:live.archive(a)
+
+
+@pytest.mark.parametrize('fresh,mode,passes',[(True,'WBC',True),(False,'WBC',False),(True,'HOLD',False)])
+def test_delayed_mode_notification_never_republishes_or_accepts_old_receipt(fresh,mode,passes):
+    from go2arx5_vla.world_model.target_sequential import TargetSequentialAdapter
+    calls=[]
+    a=SimpleNamespace(spec=dict(spec(),phase='collect-target-probe'),counts={'mode':1},
+        latest={'mode':SimpleNamespace(data='HOLD')},modes=object(),
+        dynamic_phase=lambda:True,advance_initialization=lambda step:calls.append(('initial',step)),
+        publish=lambda pub,text:calls.append(('publish',text)),
+        advance_to=lambda step:calls.append(('advance',step)),
+        wait_source=lambda:None,capture_loaded_identity=lambda:None)
+    # Keep the production phase for its configuration; use a phase proxy only
+    # after the mode wait to omit unrelated geometry setup from this seam.
+    a.spec=spec()
+    def spin(seconds,predicate):
+        calls.append(('wait',seconds))
+        if seconds>=18:
+            a.counts['mode']+=int(fresh);a.latest['mode']=SimpleNamespace(data=mode)
+        result=predicate()
+        if result:a.spec=dict(a.spec,phase='probe')
+        return result
+    a.spin=spin
+    if passes:TargetSequentialAdapter.prepare_dynamic(a)
+    else:
+        with pytest.raises(RuntimeError,match='MODE_ACK_MISSING'):TargetSequentialAdapter.prepare_dynamic(a)
+    assert calls.count(('publish','WBC'))==1 and ('wait',90)in calls
+    assert (('advance',2503)in calls)==passes
+    assert live.acknowledgement_wait({},3)==3 and live.acknowledgement_wait({},10)==10

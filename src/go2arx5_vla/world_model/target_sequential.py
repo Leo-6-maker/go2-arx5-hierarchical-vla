@@ -294,6 +294,8 @@ class TargetSequentialAdapter:
         # Preserve exact evidence even when the native GUI shutdown blocks on
         # an input thread. This only closes trace admission, never physics or
         # safety. The native quota remains responsible for the actual pause.
+        from .native_live_control_v3 import acknowledgement_wait
+        wait=acknowledgement_wait(self.spec,3)
         snapshot={}
         def confirmed_pause():
             # The measured local block filesystem can briefly hide a replaced
@@ -305,13 +307,13 @@ class TargetSequentialAdapter:
                     or abs(ack.get('time_s',float('inf'))-packet['time_s'])>1e-8):
                 raise RuntimeError('NATIVE_PAUSE_NOT_CONFIRMED_FOR_TRACE_SEAL')
             snapshot.update(packet);return True
-        if not self.spin(3,confirmed_pause):raise RuntimeError('NATIVE_PAUSE_SNAPSHOT_NOT_READABLE_FOR_TRACE_SEAL')
+        if not self.spin(wait,confirmed_pause):raise RuntimeError('NATIVE_PAUSE_SNAPSHOT_NOT_READABLE_FOR_TRACE_SEAL')
         request=self.output/'trace_seal_request';pending=request.with_suffix('.pending')
         pending.write_text(json.dumps(dict(step=ticks,sim_time_s=snapshot['time_s'])));os.replace(pending,request)
         def sealed():
             try:return json.loads((self.output/'init.trace.summary').read_text()).get('sealed_at_explicit_pause')is True
             except(FileNotFoundError,ValueError):return False
-        if not self.spin(3,sealed):raise RuntimeError('NATIVE_PAUSE_TRACE_SEAL_NOT_ACKNOWLEDGED')
+        if not self.spin(wait,sealed):raise RuntimeError('NATIVE_PAUSE_TRACE_SEAL_NOT_ACKNOWLEDGED')
         self.trace_sealed=True
     def qualify_reference(self):
         """Original install/cancel/HOLD transaction at the native paused boundary.
@@ -377,9 +379,10 @@ class TargetSequentialAdapter:
         if raw and not raw.endswith(b'\n'):raw=raw[:raw.rfind(b'\n')+1]
         return[json.loads(line)for line in raw.splitlines()if line.strip()]
     def prepare_dynamic(self):
+        from .native_live_control_v3 import acknowledgement_wait
         if not self.dynamic_phase():raise PermissionError('FINITE_DYNAMIC_PHASE_REQUIRED')
         self.advance_initialization(2500);before=self.counts.get('mode',0);self.publish(self.modes,'WBC')
-        if not self.spin(3,lambda:self.counts.get('mode',0)>before and self.latest['mode'].data=='WBC'):raise RuntimeError('NATIVE_WBC_MODE_ACK_MISSING')
+        if not self.spin(acknowledgement_wait(self.spec,3),lambda:self.counts.get('mode',0)>before and self.latest['mode'].data=='WBC'):raise RuntimeError('NATIVE_WBC_MODE_ACK_MISSING')
         self.advance_to(2503)
         self.wait_source();self.reference_sequence=-1;self.reference_history=[]
         if self.spec['phase'].startswith(('g2-standing-','collect-target-')):
@@ -389,8 +392,9 @@ class TargetSequentialAdapter:
     @profiled('ros.wait_source')
     def wait_source(self):
         from scripts.pi0294.task_clock import actual_source_age
+        from .native_live_control_v3 import acknowledgement_wait
         t=self.observe()['time_s']
-        if not self.spin(10,lambda:all(k in self.latest and 0<=actual_source_age(t,float(self.latest[k].time))<=.025 for k in('ee','observation'))):
+        if not self.spin(acknowledgement_wait(self.spec,10),lambda:all(k in self.latest and 0<=actual_source_age(t,float(self.latest[k].time))<=.025 for k in('ee','observation'))):
             self.save_feedback_diagnostic('ACTUAL_DYNAMIC_SOURCE_NOT_READY');raise RuntimeError('ACTUAL_DYNAMIC_SOURCE_NOT_READY')
         if self.latest['mode'].data!='WBC':raise RuntimeError('DYNAMIC_WBC_MODE_LOST')
     @profiled('native.measured_task_state_FK')

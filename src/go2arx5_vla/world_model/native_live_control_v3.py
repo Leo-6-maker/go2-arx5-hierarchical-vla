@@ -28,6 +28,13 @@ def live_path(adapter, name):
     return Path(getattr(adapter, 'live_control_output', None) or adapter.output) / name
 
 
+def acknowledgement_wait(spec, original_seconds):
+    # A measured WBC mode notification arrived ~18 wall seconds after the
+    # paused request on the shared FUSE disk. Wait for the original receipt;
+    # never repeat a command or substitute a previous mode/source packet.
+    return 90 if configuration(spec) is not None else original_seconds
+
+
 def initialize(adapter):
     if configuration(adapter.spec) is None:
         return
