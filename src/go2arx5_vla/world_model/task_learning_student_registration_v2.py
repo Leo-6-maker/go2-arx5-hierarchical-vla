@@ -128,6 +128,9 @@ def group_input(request,panel):
             if panel.get('cold_continuation') is not None:
                 from .sla_native_continuation_v2 import INPUT_SCHEMA as COLD_SCHEMA
                 inp['schema']=COLD_SCHEMA
+            if panel.get('dev16_predecessor') is not None:
+                from .sla_dev_continuation_v3 import SCHEMA as DEV_SUFFIX
+                inp['schema'] = DEV_SUFFIX
     if panel.get('task_learning_role')==task.CONIC_ROLE:
         from .task_learning_conic_native_v3 import INPUT_SCHEMA
         inp['schema']=INPUT_SCHEMA

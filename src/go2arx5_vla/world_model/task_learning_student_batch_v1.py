@@ -16,6 +16,7 @@ CONTINUATION_SCHEMA='TASK_LEARNING_STUDENT_DEV_GROUP_INPUT_V2'
 
 
 def selection(inp,panel):
+    from .sla_dev_continuation_v3 import SCHEMA as SLA_DEV_SUFFIX
     if inp.get('capacity_wait_before_pair_v3') is not None:
         from .sla_native_resource_continuation_v3 import configuration
         task.need(configuration(panel)==inp['capacity_wait_before_pair_v3'],
@@ -23,7 +24,7 @@ def selection(inp,panel):
     if inp.get('schema')=='SLA_DEV16_OFFICIAL_GR00T_A500_ENGINEERING_V1_GROUP_INPUT':
         from .sla_g_native_v1 import selection
         return selection(inp,panel)
-    if inp.get('schema') in('SLA_TARGET500_NATIVE_GROUP_INPUT_V1','SLA_NATIVE_COLD_UNEXECUTED_SUFFIX_INPUT_V2'):
+    if inp.get('schema') in('SLA_TARGET500_NATIVE_GROUP_INPUT_V1','SLA_NATIVE_COLD_UNEXECUTED_SUFFIX_INPUT_V2',SLA_DEV_SUFFIX):
         from .sla_native_v1 import selection
         return selection(inp,panel)
     if inp.get('schema')=='A_TARGET500_TRAIN4_DELIVERY_GROUP_INPUT_V1':
@@ -288,6 +289,10 @@ def run(input_path):
     if inp.get('schema')=='SLA_NATIVE_COLD_UNEXECUTED_SUFFIX_INPUT_V2':
         from .sla_native_continuation_v2 import prefix
         outcomes=prefix(panel);retained_prefix=len(outcomes)
+    from .sla_dev_continuation_v3 import SCHEMA as SLA_DEV_SUFFIX, retained_prefix as retained_dev_prefix
+    if inp.get('schema') == SLA_DEV_SUFFIX:
+        outcomes = retained_dev_prefix(panel)
+        retained_prefix = len(outcomes)
     current_row=None;current_pair=None;unresolved=None
     write(stage/'SUPERVISOR.private.json',dict(pid=os.getpid(),source_sha=inp['source_sha'],started_epoch=time.time()))
     def interrupted(sig,frame):raise KeyboardInterrupt('OWNED_STUDENT_DEV_SIGNAL_'+str(sig))

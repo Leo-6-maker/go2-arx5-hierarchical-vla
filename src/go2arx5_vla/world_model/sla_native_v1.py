@@ -149,6 +149,9 @@ def validate_panel(panel):
 
 def selection(inp, panel):
     rows = validate_panel(panel)
+    from .sla_dev_continuation_v3 import SCHEMA as DEV_SUFFIX, select as select_dev_suffix
+    if inp.get('schema') == DEV_SUFFIX:
+        return select_dev_suffix(inp, panel, rows)
     from .sla_native_continuation_v2 import INPUT_SCHEMA as COLD_SCHEMA, prefix
     if inp.get('schema') == COLD_SCHEMA:
         retained = prefix(panel)

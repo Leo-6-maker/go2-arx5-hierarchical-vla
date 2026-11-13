@@ -172,3 +172,34 @@ def test_closed_native_rejection_ends_unused_slots_without_requiring_success(con
     assert terminal['worker_exit_code']==1
     path,actual=pair.wait_request(s,p,2)
     assert path is None and actual==terminal
+
+
+def test_wait_rechecks_transiently_missing_lease_before_accepting_a_request(configuration, monkeypatch):
+    from go2arx5_vla.world_model import fusion_paused_query_bridge as bridge
+    spec, producer = configuration
+    root = Path(producer['registered_root'])
+    lease = root / 'control/LEASE.json'
+    lease.parent.mkdir()
+    path = pair.request_path(producer, 1)
+    path.parent.mkdir(exist_ok=True)
+    path.touch()
+    live_checks = []
+    monkeypatch.setattr(bridge, '_live', lambda *args: live_checks.append(True))
+    def read_registration(*args):
+        lease.read_bytes()
+    monkeypatch.setattr(bridge, '_registered', read_registration)
+    def replace_lease(seconds):
+        assert seconds == .15
+        write_json(root / 'WORKER_EXIT.private.json', dict(exit_code=1))
+        write_json(root / 'native-01/RESULT.json', dict(status='NATIVE_STAGE_FAILED'))
+        write_json(lease, dict(status='CLOSED', run_uuid=root.name, worker_exit_code=1,
+                               spec_sha256=digest(root / 'EXECUTION_SPEC.json')))
+    monkeypatch.setattr(pair.time, 'sleep', replace_lease)
+    request, terminal = pair.wait_request(spec, producer, 1)
+    assert request is None and terminal['worker_exit_code'] == 1 and live_checks == [True]
+    lease.unlink()
+    def read_wrong_file(*args):
+        (root / 'MISSING_OTHER_FILE').read_bytes()
+    monkeypatch.setattr(bridge, '_registered', read_wrong_file)
+    with pytest.raises(FileNotFoundError, match='MISSING_OTHER_FILE'):
+        pair.wait_request(spec, producer, 1)

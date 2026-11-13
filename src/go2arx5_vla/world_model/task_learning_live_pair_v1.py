@@ -378,8 +378,10 @@ def _load(s,root):
 def native_terminal(producer):
     """An early native rejection is retained; do not wait for unused query slots."""
     root=Path(producer['registered_root']);lease_path=root/'control/LEASE.json'
-    if not lease_path.exists():return None
-    lease=json.loads(lease_path.read_bytes())
+    try:
+        lease = json.loads(lease_path.read_bytes())
+    except FileNotFoundError:
+        return None
     if lease.get('status')!='CLOSED':return None
     # CLOSED0 is intentionally not required: a rejected student proposal can
     # terminate the native worker nonzero without a model-serving failure.
@@ -398,13 +400,22 @@ def native_terminal(producer):
 def wait_request(s,producer,index):
     from .fusion_paused_query_bridge import _registered,_live
     p=request_path(producer,index)
+    lease_path = Path(producer['registered_root']) / 'control/LEASE.json'
     while True:
-        terminal=native_terminal(producer)
+        terminal = native_terminal(producer)
         if terminal is not None:return None,terminal
         _live(s,producer)
         try:_registered(producer,s['producer_native_spec']['path'])
+        except FileNotFoundError as error:
+            if error.filename != str(lease_path):
+                raise
+            # The local filesystem can briefly hide the atomically replaced
+            # lease. Read again under the original deadline before accepting
+            # a request or marking the producer terminal.
+            time.sleep(.15)
+            continue
         except (ValueError,PermissionError):
-            terminal=native_terminal(producer)
+            terminal = native_terminal(producer)
             if terminal is not None:return None,terminal
             raise
         if p.exists():return p,None
