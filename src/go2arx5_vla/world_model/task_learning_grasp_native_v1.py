@@ -219,7 +219,8 @@ def episode_limit(spec,prior):
     if task.student_role(spec.get('task_learning_role')):
         from .task_learning_live_pair_v1 import preflight
         preflight(spec)
-    return task.E
+    from .corelab_expert_semantics_v3 import native_endpoint
+    return native_endpoint(spec)
 
 
 def validate_adapter_install(adapter,action):
@@ -262,7 +263,10 @@ def continue_native(adapter,report,samples,windows):
     from .stable_task_closed_loop_v1 import _link_replacement
     from .stable_task_data_v1 import capture_input
     from .sla_expert_epsilon_v3 import configuration as epsilon_configuration, transform as epsilon_transform
+    from .corelab_expert_semantics_v3 import native_endpoint, native_protocol, recorded_tail
     epsilon_enabled = epsilon_configuration(adapter.spec)
+    tail_enabled = recorded_tail(adapter.spec)
+    endpoint = native_endpoint(adapter.spec)
     validate(adapter.spec);ready=report['task_local_preparation']
     task.need(adapter.observe()['step']==task.CALIBRATION_B and not adapter.trace_sealed
         and ready['original_steady_prefix_qualified']is True and ready['source_pose_alignment']is False
@@ -371,10 +375,32 @@ def continue_native(adapter,report,samples,windows):
     raw[:,:3]=np.asarray(samples[-1]['tcp'])[:3,3]
     raw[:,3:9]=task.rotation_matrix_to_rot6d_rows(np.asarray(samples[-1]['tcp'])[:3,:3])
     hold=task.FiftyMsProgram(raw,samples[-1]['tcp'],adapter.reference_history[-1]['pose'],adapter.base_pose_hold)
+    tail_start = len(task_samples) - 1
     current,samples,windows=consumer.run_prefix(adapter,hold,index=task.QUERIES,
         past_samples=samples,past_windows=windows,sample_observer=observe)
     _link_replacement(adapter,cycles[-1],current);cycles.append(current)
     scored=task.score(task_samples,teacher.cube[2,3],standing=standing)
+    tail = None
+    if tail_enabled:
+        tail_score = task.score(task_samples[tail_start:], teacher.cube[2, 3], standing=standing[tail_start:])
+        # The hold is separately identified and must be successful over the
+        # whole interval, including both endpoint observations.
+        passed = tail_score['task_success'] and tail_score['longest_contiguous_grasp_lift_hold_s'] >= 2.
+        tail = dict(passes=passed, start_step=current['cycle']['start_step'], end_step=endpoint,
+                    consumed_commands=len(current['windows']), score=tail_score)
+        tail_file = adapter.output / 'TASK_LEARNING_TERMINATION_HOLD.private.json'
+        write_json(tail_file, dict(tail, nominal_H40=hold.decoded_H40.tolist()))
+        tail['command_sha256'] = digest(tail_file)
+        if passed:
+            for offset, window in enumerate(current['windows']):
+                task.need(np.array_equal(np.asarray(window['actual_installed_consumed_EEF10_BASE7'])[:10],
+                                         hold.reference_path[offset]), 'ACTUALLY_CONSUMED_SUCCESS_TAIL')
+                confirmed.append(dict(native_start_step=window['native_start_step'],
+                    native_end_step=window['native_end_step'], policy_EEF10=hold.decoded_H40[offset].tolist(),
+                    installed_consumed_EEF10=hold.reference_path[offset].tolist(),
+                    Teacher_decision_sha256=tail['command_sha256'], solver_gripper_confirmed=True,
+                    source='DETERMINISTIC_CONSUMED_EXPERT_SUCCESS_TAIL'))
+        scored['task_success'] = scored['task_success'] and passed
     memory_archive=None
     if hasattr(adapter,'_body_memory_capture'):
         captures,memory_archive=adapter._body_memory_capture.finish(captures,
@@ -390,8 +416,8 @@ def continue_native(adapter,report,samples,windows):
             c['complete_suffix_atoms'] == 40 and c['solver_target_confirmed_atoms'] == 40
             and c['gripper_confirmed_atoms'] == 40 for c in cycles[1:-1]))) if epsilon_enabled else {}
     return jsonable(dict(copy.deepcopy(report),schema=native_result_schema(adapter.spec),
-        actual_spec_phase=task.PHASE,native_endpoint_step=task.E,
-        task_learning_grasp=task.protocol(adapter.spec.get('task_learning_role',task.CONSTRUCTION_ROLE)),
+        actual_spec_phase=task.PHASE,native_endpoint_step=endpoint,
+        task_learning_grasp=native_protocol(adapter.spec),
         teacher_decisions=[]if control or student else decisions,control_decisions=decisions if control else[],
         **(dict(student_decisions=decisions,all_fifteen_generated_H40_consumed=True,
             student_commands_are_expert_labels=False)if student else{}),
@@ -400,11 +426,12 @@ def continue_native(adapter,report,samples,windows):
         GR00T_raw_H40_consumed=student and adapter.spec.get('target_gr00t_policy',{}).get('arm')!='C500_PLUS_CONIC' and not str(adapter.spec.get('target_gr00t_policy',{}).get('arm')).endswith('_PLUS_ENDPOINT_BASIS'),
         matched_smooth_H40_consumed=student and adapter.spec.get('task_learning_role')==task.MATCHED_ROLE and str(adapter.spec['target_gr00t_policy']['arm']).endswith('_PLUS_ENDPOINT_BASIS'),
         explicit_endpoint_basis_H40_consumed=student and adapter.spec.get('task_learning_role')in(task.ENDPOINT_ROLE,task.NATIVE_BODY_ROLE,task.NATIVE_A500_ROLE,task.SLA_ROLE,task.SLA_G_ROLE),
-        explicit_conic_H40_consumed=student and adapter.spec.get('target_gr00t_policy',{}).get('arm')=='C500_PLUS_CONIC',complete_task_atoms=len(windows),task_native_ticks=task.E-2503,
+        explicit_conic_H40_consumed=student and adapter.spec.get('target_gr00t_policy',{}).get('arm')=='C500_PLUS_CONIC',complete_task_atoms=len(windows),task_native_ticks=endpoint-2503,
         solver_target_confirmed_atoms=len(windows),gripper_confirmed_atoms=len(windows),
         new_task_score=scored,task_condition_success=scored['task_success'],
         decision_start_readiness=start_ready,expert_training_eligible=False,
         memory_frame_archive=memory_archive,
+        **(dict(recorded_expert_success_tail=tail) if tail_enabled else {}),
         **epsilon_result,
         data_role=('TEACHER_QUALIFICATION_NOT_BC'if adapter.spec.get('task_learning_role')==task.QUALIFICATION_ROLE else
             'TASK_CONSTRUCTION_NOT_BC'if adapter.spec.get('task_learning_role',task.CONSTRUCTION_ROLE)==task.CONSTRUCTION_ROLE else

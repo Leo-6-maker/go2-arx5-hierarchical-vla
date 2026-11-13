@@ -13,6 +13,7 @@ SCHEMA = 'CORELAB_EXPERT_TRAIN4_SEMANTICS_PANEL_V3'
 NATIVE_SCHEMA = 'CORELAB_EXPERT_TRAIN4_SEMANTICS_NATIVE_V3'
 LAYOUTS = ('TRAIN01', 'TRAIN07', 'TRAIN13', 'TRAIN25')
 PURPOSE = 'EXPERT_CAMERA_EVENT_SEMANTICS_NOT_BC_OR_STUDENT_EVALUATION'
+RECORDED_TAIL = 'CORELAB_ACTUAL_TWO_SECOND_EXPERT_SUCCESS_TAIL_V3'
 
 
 def protocol():
@@ -20,6 +21,30 @@ def protocol():
     return dict(task.protocol(task.CONSTRUCTION_ROLE), stage=ROLE,
                 scene_family='FOUR_PREREGISTERED_TRAIN_LAYOUTS_ENGINEERING_ONLY',
                 observation='BODY_BASE_FIXED_V1_20261111_PLUS_ORIGINAL_NATIVE_WRIST')
+
+
+def recorded_tail(spec):
+    from .task_learning_grasp_v1 import need
+    value = spec.get('expert_recorded_success_tail_v3')
+    if value is None:
+        return False
+    need(value == RECORDED_TAIL and spec.get('task_learning_role') == ROLE
+         and spec.get('expert_dense_observation_v3') is not None and spec.get('sla_expert_epsilon_v3') is None,
+         'TWO_SECOND_TAIL_REQUIRES_FRESH_DENSE_TRAIN_EXPERT')
+    return True
+
+
+def native_protocol(spec):
+    from . import task_learning_grasp_v1 as task
+    original = task.protocol(spec.get('task_learning_role', task.CONSTRUCTION_ROLE))
+    if not recorded_tail(spec):
+        return original
+    return dict(original, final_hold_atoms=40, expert_recorded_success_tail=RECORDED_TAIL)
+
+
+def native_endpoint(spec):
+    from . import task_learning_grasp_v1 as task
+    return task.E + 500 if recorded_tail(spec) else task.E
 
 
 def validate_panel(panel):

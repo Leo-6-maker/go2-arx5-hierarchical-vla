@@ -228,8 +228,9 @@ class MemoryCapture:
         records = sorted(self.writer.committed.values(),key=lambda r:r['native_step'])
         dense = self.adapter.spec.get('expert_dense_observation_v3') is not None
         if dense:
-            from .task_learning_grasp_v1 import B,E
-            if [r['native_step']for r in records] != list(range(B,E+1,50)):
+            from .corelab_expert_semantics_v3 import native_endpoint
+            from .task_learning_grasp_v1 import B
+            if [r['native_step']for r in records] != list(range(B,native_endpoint(self.adapter.spec)+1,50)):
                 raise ValueError('NO_MISSING_DENSE10HZ_FRAME_OR_CHANGED_TASK_DURATION')
         labels = nominal_windows(records,confirmed) if dense else []
         manifest = dict(schema=VERSION,frames_committed=True,recording_complete=True,records=records,
@@ -263,9 +264,10 @@ def capture_input(adapter, *, binding, task, task_sha256):
 
 def observe_dense(adapter, sample, capture):
     if not adapter.spec.get('expert_dense_observation_v3'):return
-    from .task_learning_grasp_v1 import B,E
+    from .corelab_expert_semantics_v3 import native_endpoint
+    from .task_learning_grasp_v1 import B
     step = sample['native_step']
-    if B <= step <= E and (step-B)%50 == 0:
+    if B <= step <= native_endpoint(adapter.spec) and (step-B)%50 == 0:
         capture()
 
 

@@ -67,6 +67,14 @@ def encode_episode(root, *, expected_result_sha256, expected_archive_sha256):
     windows = nominal_windows(records, confirmed['records'])
     need(windows == archive['nominal_windows'], 'EVERY_ARCHIVED_WINDOW_JOINS_ORIGINAL_CONSUMED_COMMANDS')
     decisions = {row['sha256']: row['native_step'] for row in q['teacher_decisions']}
+    tail = q.get('recorded_expert_success_tail')
+    if tail:
+        tail_record, tail_pin = load(native_root / 'TASK_LEARNING_TERMINATION_HOLD.private.json', tail['command_sha256'])
+        need(tail_record['passes'] is tail['passes'] is True and tail['consumed_commands'] == 40
+             and tail['end_step'] - tail['start_step'] == 1000
+             and tail_record['score'] == tail['score'] and tail['score']['longest_contiguous_grasp_lift_hold_s'] >= 2.,
+             'ACTUALLY_RECORDED_CONTINUOUS_TWO_SECOND_SUCCESS_TAIL')
+        decisions[tail_pin['sha256']] = tail['start_step']
     policy_from_world = rigid(spec['task_phase_source_from_target'])
     first = records[0]
     first_state, first_pin = _anchor(native_root, first, spec_pin, policy_from_world)
@@ -109,5 +117,6 @@ def encode_episode(root, *, expected_result_sha256, expected_archive_sha256):
                         spec=spec_pin, result=result_pin, archive=archive_pin, commands=command_pin,
                         mount=mount, encoded_windows=len(indices), cross_replan_windows=cross_replan,
                         excluded_incomplete_windows=len(windows) - len(indices), max_roundtrip_error=errors,
+                        actual_two_second_success_tail=bool(tail),
                         additional_physical_requests=0, additional_native_integrations=0,
                         optimizer_updates=0, optimization_visits=0, model_calls=0, BC_examples_admitted=0)

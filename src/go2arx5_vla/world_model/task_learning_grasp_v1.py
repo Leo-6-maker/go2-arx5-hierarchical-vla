@@ -110,9 +110,10 @@ def protocol(role=CONSTRUCTION_ROLE):
 
 
 def declared(spec):
-    need(spec.get('phase')==PHASE and spec.get('kind')==KIND and spec.get('task_learning_grasp')==protocol(spec.get('task_learning_role',CONSTRUCTION_ROLE))
+    from .corelab_expert_semantics_v3 import native_protocol, native_endpoint
+    need(spec.get('phase')==PHASE and spec.get('kind')==KIND and spec.get('task_learning_grasp')==native_protocol(spec)
         and spec.get('task_command')==COMMAND and spec.get('live_skill_start_step')==CALIBRATION_B
-        and spec.get('max_ticks')==E and spec.get('physics_dt_s')==.002 and spec.get('WBC_changes')is False,
+        and spec.get('max_ticks')==native_endpoint(spec) and spec.get('physics_dt_s')==.002 and spec.get('WBC_changes')is False,
         'EXACT_NEW_TASK_AND_NATIVE_CLOCK')
 
 
