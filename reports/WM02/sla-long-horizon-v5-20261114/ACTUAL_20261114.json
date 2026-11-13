@@ -1,15 +1,15 @@
 {
   "schema": "SLA_V5_DATED_ACTUAL_ENDPOINTS_20261114",
-  "snapshot_SGT": "2026-11-14T03:03:14+08:00",
+  "snapshot_SGT": "2026-11-14T04:01:39+08:00",
   "plan_sha": "f61305f9c1f847e460851fd067892160f71ca432",
   "native": {
     "requested": 16,
-    "started": 12,
-    "terminal": 11,
+    "started": 15,
+    "terminal": 14,
     "summary": {
       "schema": "SLA_R0_R1_FIXED_TRAIN8_PANEL_V5_ACTUAL",
       "requested": 16,
-      "completed": 11,
+      "completed": 14,
       "complete": false,
       "methods": {
         "R0_ORIGINAL_S1_500": {
@@ -25,14 +25,14 @@
         },
         "R1_LOGIT_GRIP500": {
           "requested": 8,
-          "completed": 3,
-          "attempted": 3,
+          "completed": 6,
+          "attempted": 6,
           "task_successes": 3,
-          "valid_task_failures": 0,
-          "technical_failures": 0,
+          "valid_task_failures": 1,
+          "technical_failures": 2,
           "hard_safety_stop_conditions": 0,
-          "actual_SLA_queries": 45,
-          "actual_native_integrations": 63609
+          "actual_SLA_queries": 69,
+          "actual_native_integrations": 97965
         }
       },
       "original_DEV_conditions": 0,
@@ -218,11 +218,59 @@
         "wall_s": 1112.9580427734181,
         "CPU_s": 1246.999542642,
         "GPU_worker_wall_s": 1074.1331147393212
+      },
+      {
+        "method": "R1_LOGIT_GRIP500",
+        "layout": "TRAIN07",
+        "restart": 4,
+        "actual_native_integrations": 14228,
+        "task_success": false,
+        "technical_valid": true,
+        "hard_safety_stop": false,
+        "actual_SLA_queries": 9,
+        "first_failure": "ValueError: ORIGINAL_FULL_NATIVE_CONTACT_REJECT:['task_right_pad', 'task_cube_geom']",
+        "result_sha256": "9fa4df25899b6152b0ef50d1fe917b45ef62a0845193aa28db0ecd489fe66fac",
+        "GPU_result_sha256": "2738a4b5297394c4616b0eb543f550fa93eef69460fc9a8cd4f04838ec757057",
+        "wall_s": 749.2750412225723,
+        "CPU_s": 828.918813024,
+        "GPU_worker_wall_s": 781.8836222691461
+      },
+      {
+        "method": "R1_LOGIT_GRIP500",
+        "layout": "TRAIN13",
+        "restart": 3,
+        "actual_native_integrations": 20128,
+        "task_success": false,
+        "technical_valid": false,
+        "hard_safety_stop": false,
+        "actual_SLA_queries": 15,
+        "first_failure": "TimeoutError: AUTO1_FINITE_ENDPOINT_OR_OPERATOR_STOP",
+        "result_sha256": "b170684968c3d4d0b154c1b7b4fdc87b3e41aa7ce7781ad17f590548a89e16cb",
+        "GPU_result_sha256": "7ea7002d7d8394b65852c14a2b15f9b3839deb4a098ba19ac295d652818976d9",
+        "wall_s": 1198.28249871172,
+        "CPU_s": 1257.372048923,
+        "GPU_worker_wall_s": 1173.743901164271
+      },
+      {
+        "method": "R1_LOGIT_GRIP500",
+        "layout": "TRAIN13",
+        "restart": 4,
+        "actual_native_integrations": 0,
+        "task_success": false,
+        "technical_valid": false,
+        "hard_safety_stop": false,
+        "actual_SLA_queries": 0,
+        "first_failure": "ValueError: FUSION_PAUSED_QUERY_BRIDGE_EXACT_REGISTERED_SCOPE_LEASE_STATE",
+        "result_sha256": null,
+        "GPU_result_sha256": null,
+        "wall_s": 9.360401212237775,
+        "CPU_s": 3.627725704,
+        "GPU_worker_wall_s": 13.202848750166595
       }
     ],
-    "raw_H40": 53,
-    "installed_candidate_H40": 45,
-    "consumed_candidate_H40": 45,
+    "raw_H40": 77,
+    "installed_candidate_H40": 69,
+    "consumed_candidate_H40": 67,
     "R1_first_condition": {
       "condition": "TRAIN01_restart3",
       "state": "CLOSED0_NATIVE_STAGE_PASSED",
@@ -282,6 +330,55 @@
       "raw_curve_direct_consumption": false,
       "model_updates": 0,
       "expert_demonstrations": 0
+    },
+    "confirmed_student_commands_from_complete_prefixes": 2680,
+    "native_world_attempts_terminal": 13,
+    "worker_only_zero_integration_conditions": 1,
+    "physical_integrations_terminal": 143589,
+    "delivery_counts_scope": "TERMINAL_CONDITIONS_ONLY_EXCLUDES_INITIALIZATION_CYCLE_MINUS1_AND_LIVE_QUERIES",
+    "partial_cycles": [
+      {
+        "condition": "TRAIN07_restart4",
+        "raw_queries": 9,
+        "installed_H40": 9,
+        "fully_consumed_H40": 8,
+        "recorded_partial_atoms": 21,
+        "confirmed_commands_from_complete_prefixes": 320
+      },
+      {
+        "condition": "TRAIN13_restart3",
+        "raw_queries": 15,
+        "installed_H40": 15,
+        "fully_consumed_H40": 14,
+        "recorded_partial_atoms": 16,
+        "confirmed_commands_from_complete_prefixes": 560
+      }
+    ],
+    "live_conditions": [
+      {
+        "run": "sla-v5-1-train25-r3",
+        "native_step": 1325,
+        "actual_cpu_affinity": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    ],
+    "unstarted": 1,
+    "cold_wall_repair": {
+      "original_s": 1200,
+      "new_s": 3600,
+      "physical_clock_changed": false,
+      "score_changed": false,
+      "WBC_changed": false,
+      "original_timeout_retried": false,
+      "zero_tick_scope_failure_retained": true,
+      "new_group_source_sha": "090690d67542e5dcc733a91f9642814e81f39d67",
+      "new_group_live": true,
+      "prelaunch_registration_failure_integrations": 0,
+      "prelaunch_registration_failure_wall_s": 0.6348238214850426
     }
   },
   "spatial_seam": {
@@ -345,15 +442,15 @@
     "source_sha": "a00497eefd343f4f393b6b144ad2a7598b873dca",
     "planned_updates": 3000,
     "planned_target_visits": 96000,
-    "confirmed_candidate_updates": 286,
+    "confirmed_candidate_updates": 547,
     "source_visits": 0,
     "state": "ACTUAL_MICRO8_SPATIAL_OPTIMIZATION_RUNNING",
     "physical_requests": 0,
-    "target_visits": 9152,
+    "target_visits": 17504,
     "common_initial_arrays_bit_exact": 87,
     "common_initial_complete_sha256": "de63b72c3df92021d4c89c83860390bb42a5239fdd8db7e4c5bbedbcedbf9585",
     "peak_allocator_bytes": 12018348288,
-    "last_confirmed_complete_candidate_state_step": 0,
+    "last_confirmed_complete_candidate_state_step": 500,
     "ordinary_RGB_endpoint_reconstruction_completed": false,
     "cold_continuation_queue": {
       "state": "WAIT_ACTUAL_PREDECESSOR_TERMINAL_NO_GPU_OWNER_HELD",
@@ -366,7 +463,30 @@
       "source_sha": "47add1915449277b961e9028a473b52fbbdf13d8",
       "follower_process_verified_live": true,
       "predecessor_process_verified_live": true
-    }
+    },
+    "saved_step500_readback": {
+      "schema": "SLA_SF_STEP500_ALL105_SAVED_ARRAYS_READBACK_V5",
+      "passes": true,
+      "complete_sha256": "2aba39fb3aefbda36129eb2e8227cd64bfab0b4fef21e2d62d2d40d87de87b28",
+      "step": 500,
+      "cursor": 16000,
+      "arrays_read": 105,
+      "saved_array_file_bytes": 726615568,
+      "changed_arrays": 104,
+      "frozen_fingerprint": "507aa0a700c2e8cacfb398c76e2147da4a82cbf05bc2e7b4ec85d1562c091b06",
+      "parent_manifest_sha256": "232442c8a8c934118cbcdb890c6f307d7fc857819d7e45c2286ed8e8e5d5f3a3",
+      "dense_manifest_sha256": "a5e1643d4e7b1736f3a86befdc5b7430bcaa806e2a6ae97a23cdb75d9b4c8b0c",
+      "recipe": "SLA_NAMED_DENSE_PICK_HOLD_SF32_3K_ALPHA_HALF_V5",
+      "all_initial_bindings_retained": true,
+      "additional_optimizer_updates": 0,
+      "additional_training_visits": 0,
+      "model_loads": 0,
+      "physical_requests": 0,
+      "wall_s": 0.6144390106201172,
+      "CPU_s": 0.512562845
+    },
+    "step500_ordinary_RGB_generations": 16,
+    "step500_fresh_process_reconstruction": false
   },
   "H200": {
     "job": "716146.hopper-m-02",
@@ -407,17 +527,17 @@
     "first_preparation_physical_requests": 0,
     "repair": "RESTORE3600_TOTAL_WALL_AND600_PAUSED_STARTUP_WAIT",
     "matched_actor_benchmark": false,
-    "confirmed_starts": 9,
-    "state": "SIX_SEALED_THIRD_WAVE_RUNNING",
-    "terminal": 6,
-    "qualified_complete_demos": 6,
+    "confirmed_starts": 18,
+    "state": "SEALED_PREFIX_AND_THREE_ACTIVE_WORLDS",
+    "terminal": 15,
+    "qualified_complete_demos": 15,
     "source_sha": "25ba570b52673de66c9b7df13b64b0a46fef5af8",
     "terminal_poll_s": 60,
-    "unstarted": 15,
-    "sealed_commands": 3840,
-    "sealed_dual_camera_frames": 1926,
-    "sealed_H40_windows": 366,
-    "native_terminal_integrations": 130218,
+    "unstarted": 6,
+    "sealed_commands": 9600,
+    "sealed_dual_camera_frames": 4815,
+    "sealed_H40_windows": 915,
+    "native_terminal_integrations": 325545,
     "conditions": [
       {
         "run": "sla-pt-named-pick-hold24-parallel-v5-20261114-02-a3-train01-r5-p10",
@@ -496,12 +616,129 @@
         "commands": 640,
         "complete_H40": 61,
         "shard_manifest_sha256": "74eb680f8a96030dfbf93875fd6cc11f21c52a1e144c1c3d3ecfebf91dd0ae28"
+      },
+      {
+        "run": "sla-pt-named-pick-hold24-parallel-v5-20261114-02-a3-train21-r5-p10",
+        "actor_count": 3,
+        "worker_exit_code": 0,
+        "native_integrations": 21703,
+        "task_success": true,
+        "wall_s": 1407.9748944183812,
+        "CPU_s": 596.6209867580001,
+        "frames": 321,
+        "commands": 640,
+        "complete_H40": 61,
+        "shard_manifest_sha256": "48a9bc903c03bc79e96fabc988447efcbd58b8923b562487e6e1d936c0962584"
+      },
+      {
+        "run": "sla-pt-named-pick-hold24-parallel-v5-20261114-02-a3-train25-r5-p10",
+        "actor_count": 3,
+        "worker_exit_code": 0,
+        "native_integrations": 21703,
+        "task_success": true,
+        "wall_s": 1470.0613008886576,
+        "CPU_s": 719.398593107,
+        "frames": 321,
+        "commands": 640,
+        "complete_H40": 61,
+        "shard_manifest_sha256": "b7be045fc2618f23166249cc2896b290f01f912eee9236fc70447ea662ee903d"
+      },
+      {
+        "run": "sla-pt-named-pick-hold24-parallel-v5-20261114-02-a3-train01-r6-p10",
+        "actor_count": 3,
+        "worker_exit_code": 0,
+        "native_integrations": 21703,
+        "task_success": true,
+        "wall_s": 1450.211923699826,
+        "CPU_s": 717.005497414,
+        "frames": 321,
+        "commands": 640,
+        "complete_H40": 61,
+        "shard_manifest_sha256": "132e872e9e2e1ba8bb2c320ad3dcca35fe456d97270486c1e31c41a3752df38f"
+      },
+      {
+        "run": "sla-pt-named-pick-hold24-parallel-v5-20261114-02-a3-train04-r6-p10",
+        "actor_count": 3,
+        "worker_exit_code": 0,
+        "native_integrations": 21703,
+        "task_success": true,
+        "wall_s": 718.5432263687253,
+        "CPU_s": 465.790941708,
+        "frames": 321,
+        "commands": 640,
+        "complete_H40": 61,
+        "shard_manifest_sha256": "a6d3e1d6860b9694b21a60b2eda93919bc2f04bc24df112998c18d0bcd8f63d7"
+      },
+      {
+        "run": "sla-pt-named-pick-hold24-parallel-v5-20261114-02-a3-train07-r6-p10",
+        "actor_count": 3,
+        "worker_exit_code": 0,
+        "native_integrations": 21703,
+        "task_success": true,
+        "wall_s": 778.733095575124,
+        "CPU_s": 597.719833573,
+        "frames": 321,
+        "commands": 640,
+        "complete_H40": 61,
+        "shard_manifest_sha256": "d47a02983c455e22d555690ab9ed023e4c85bb98b683b6450d236201b6b4a0cd"
+      },
+      {
+        "run": "sla-pt-named-pick-hold24-parallel-v5-20261114-02-a3-train10-r6-p10",
+        "actor_count": 3,
+        "worker_exit_code": 0,
+        "native_integrations": 21703,
+        "task_success": true,
+        "wall_s": 715.4502613861114,
+        "CPU_s": 595.5773331150001,
+        "frames": 321,
+        "commands": 640,
+        "complete_H40": 61,
+        "shard_manifest_sha256": "5a76bc83278fd02a55342c4be1e4b386bef0742f010894ae010458cf6ee6a837"
+      },
+      {
+        "run": "sla-pt-named-pick-hold24-parallel-v5-20261114-02-a3-train13-r6-p10",
+        "actor_count": 3,
+        "worker_exit_code": 0,
+        "native_integrations": 21703,
+        "task_success": true,
+        "wall_s": 516.5681682871655,
+        "CPU_s": 456.91022784800003,
+        "frames": 321,
+        "commands": 640,
+        "complete_H40": 61,
+        "shard_manifest_sha256": "c87a4a3a80d2cdd71ec6ca9e539707568113a4516955da161ea80b58f6476c29"
+      },
+      {
+        "run": "sla-pt-named-pick-hold24-parallel-v5-20261114-02-a3-train16-r6-p10",
+        "actor_count": 3,
+        "worker_exit_code": 0,
+        "native_integrations": 21703,
+        "task_success": true,
+        "wall_s": 622.5311293760315,
+        "CPU_s": 592.812643827,
+        "frames": 321,
+        "commands": 640,
+        "complete_H40": 61,
+        "shard_manifest_sha256": "d1e63f09254b630bac59ab46f4359da9a879c3041cfda73ec001621c29fc9f63"
+      },
+      {
+        "run": "sla-pt-named-pick-hold24-parallel-v5-20261114-02-a3-train21-r6-p10",
+        "actor_count": 3,
+        "worker_exit_code": 0,
+        "native_integrations": 21703,
+        "task_success": true,
+        "wall_s": 622.7472461406142,
+        "CPU_s": 594.392907943,
+        "frames": 321,
+        "commands": 640,
+        "complete_H40": 61,
+        "shard_manifest_sha256": "d71c07a6919eb067b5bd2107937829af655191b1004fab43b1dc739012fc45a3"
       }
     ],
     "active_conditions": [
-      "TRAIN21_restart5",
-      "TRAIN25_restart5",
-      "TRAIN01_restart6"
+      "train25-r6-p10",
+      "train01-r7-p10",
+      "train04-r7-p10"
     ],
     "actual_cpu_slots": [
       [
@@ -519,29 +756,31 @@
     ]
   },
   "all_new_production": {
-    "qualified_complete_demos": 7,
+    "qualified_complete_demos": 16,
     "distinct_complete_layouts": [
       "TRAIN01",
       "TRAIN04",
       "TRAIN07",
       "TRAIN10",
       "TRAIN13",
-      "TRAIN16"
+      "TRAIN16",
+      "TRAIN21",
+      "TRAIN25"
     ],
     "tasks": [
       "PICK_HOLD"
     ],
     "objects": 1,
-    "physical_starts_including_retained_zero_tick_predecessor": 12,
-    "terminal": 9,
-    "successes": 7,
+    "physical_starts_including_retained_zero_tick_predecessor": 21,
+    "terminal": 18,
+    "successes": 16,
     "zero_tick_technical_failures": 2,
     "live": 3,
     "prephysics_preparation_failures": 2,
-    "native_terminal_integrations": 151921,
-    "sealed_commands": 4480,
-    "sealed_dual_camera_frames": 2247,
-    "sealed_H40_windows": 427,
+    "native_terminal_integrations": 347248,
+    "sealed_commands": 10240,
+    "sealed_dual_camera_frames": 5136,
+    "sealed_H40_windows": 976,
     "training_dataset_admitted": false,
     "old_engineering16_relabelled": 0,
     "old_2EP_relabelled": 0,
@@ -559,5 +798,38 @@
     "prefix_atoms": 10,
     "full_preview_atoms": 40,
     "endpoint_integrations": 21703
+  },
+  "fresh_N20_first_fit": {
+    "dataset_id": "T_PICK_HOLD_TRAIN8_P10_N20_V5",
+    "state": "WAIT_FIXED_FIRST20_SEALED_NO_GPU_OWNER_HELD",
+    "process_verified_live": true,
+    "source_sha": "cdc6ec75400ec1d2b508b4349166cda4a395da4c",
+    "selected_complete": 15,
+    "selected_required": 20,
+    "planned_total_updates": 3000,
+    "planned_T_visits": 96000,
+    "planned_S_visits": 0,
+    "actual_model_loads": 0,
+    "actual_optimizer_updates": 0,
+    "physical_requests": 0,
+    "GPU_owner_held_while_waiting": false,
+    "poll_s": 60,
+    "environment_name": "sla-pt",
+    "derivation_preflight": {
+      "passes": true,
+      "derived_windows": 61,
+      "latent_shape": [
+        61,
+        40,
+        7
+      ],
+      "wall_s": 5.31213116645813,
+      "CPU_s": 0.7783078400000001,
+      "training_dataset_admitted": false
+    },
+    "training_dataset_admitted": false,
+    "D100_new": false,
+    "D300_new": false,
+    "PICK_PLACE_admitted": false
   }
 }
