@@ -51,6 +51,14 @@ def test_first_group_cannot_skip_or_select_the_population(tmp_path):
     assert len(old['conditions'])==8
 
 
+def test_readonly_capacity_wait_is_available_for_new_raw3k_without_new_physics_grant(tmp_path):
+    from go2arx5_vla.world_model.sla_native_resource_continuation_v3 import configuration,WAIT_VERSION
+    p=panel(tmp_path);p['registration']=dict(capacity_wait_before_pair_v3=dict(version=WAIT_VERSION,poll_s=60))
+    assert configuration(p)==dict(version=WAIT_VERSION,poll_s=60)
+    p['task_learning_role']=task.COLLECTION_ROLE
+    with pytest.raises(ValueError):configuration(p)
+
+
 @pytest.mark.parametrize('mutation',['split','seed','order','model','step500','old_input','proof_geometry'])
 def test_dev_inputs_cannot_relabel_training_or_weaken_actual_geometry(tmp_path,mutation):
     p=panel(tmp_path)
