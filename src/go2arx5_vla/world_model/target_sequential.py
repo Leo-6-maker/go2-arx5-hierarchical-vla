@@ -33,7 +33,16 @@ def await_native_startup(adapter):
     # markers and both feedback streams are ready; no ENTER is published here.
     ready=lambda:(native_startup_readiness(adapter.output,adapter.reference_phase())
                   and adapter.counts.get('odom',0)>10 and adapter.counts.get('arm',0)>10)
-    if not adapter.spin(NATIVE_STARTUP_READ_WAIT_S,ready):
+    wait=NATIVE_STARTUP_READ_WAIT_S
+    spec=getattr(adapter,'spec',{})
+    if spec.get('native_startup_read_wait_s') is not None:
+        if (type(spec['native_startup_read_wait_s']) is not int or spec['native_startup_read_wait_s'] != 600
+                or spec.get('phase') != 'collect-target-task-learning-grasp-v1'
+                or spec.get('task_learning_role') != 'CORELAB_EXPERT_TRAIN4_SEMANTICS_NOT_BC_V3'
+                or not spec.get('corelab_world_binding_v3') or spec.get('wall_limit_s') != 3600):
+            raise PermissionError('FINITE_INDEPENDENT_EXPERT_STARTUP_READ_WAIT_REQUIRED')
+        wait=spec['native_startup_read_wait_s']
+    if not adapter.spin(wait,ready):
         raise RuntimeError('PAUSED_NATIVE_EXECUTOR_OR_FEEDBACK_UNAVAILABLE')
 
 
