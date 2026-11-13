@@ -51,6 +51,15 @@ def native_display_command(spec,output,environment,*,live_output=None):
     env=dict(environment)
     for key in('LD_PRELOAD','WM02_INIT_TRACE','WM02_INIT_SEAL_REQUEST'):env.pop(key,None)
     prefix=[spec['xvfb_run'],'-a']
+    if spec.get('native_display_wait_v5') is not None:
+        from scripts.wm02.await_native_display_v5 import VERSION
+        if (spec['native_display_wait_v5'] != VERSION
+                or spec.get('phase') != 'collect-target-task-learning-grasp-v1'
+                or spec.get('task_learning_role') != 'CORELAB_EXPERT_TRAIN4_SEMANTICS_NOT_BC_V3'
+                or not spec.get('corelab_world_binding_v3')):
+            raise PermissionError('FRESH_INDEPENDENT_EXPERT_DISPLAY_WAIT_ONLY')
+        prefix += ['-e',str(Path(output)/'XSERVER.private.log'),spec['python'],'-B','-m',
+                   'scripts.wm02.await_native_display_v5','--log',str(Path(output)/'DISPLAY_READY.private.json'),'--']
     if spec.get('native_signal_trace'):
         from .storage import digest
         path=spec['native_signal_trace']
