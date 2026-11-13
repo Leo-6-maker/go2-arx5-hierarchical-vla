@@ -12,6 +12,7 @@ import time
 
 VERSION = 'TASK_COLLECTION_PERFORMANCE_CONSTRUCTION_V1'
 MODES = ('profile', 'events', 'camera_cache', 'events_camera_cache')
+EVENT_READ_WAIT_VERSION = 'PAUSED_EVENT_WALL_READ_WAIT_V3'
 
 
 def configuration(spec):
@@ -31,6 +32,18 @@ def configuration(spec):
             and (role == CONSTRUCTION_ROLE or expert)):
         raise ValueError('PERFORMANCE_FRESH_TASK_CONSTRUCTION_ONLY')
     return config
+
+
+def event_read_seconds(spec):
+    value = spec.get('collection_event_read_wait_v3')
+    if value is None:return .15
+    from .native_body_memory_v3 import configuration as memory_configuration
+    config = configuration(spec)
+    if (value != dict(version=EVENT_READ_WAIT_VERSION,max_wall_s=2.)
+            or config is None or config['mode'] not in ('events','events_camera_cache')
+            or memory_configuration(spec) is None):
+        raise ValueError('FRESH_CPU_MEMORY_EVENT_WALL_READ_ONLY')
+    return 2.
 
 
 class PerformanceTrace:
@@ -124,6 +137,7 @@ def settle_atom(adapter, *, event_start, before, after, clock, submitted):
     Original consumption, gripper and standing checks still run afterwards.
     """
     config = configuration(adapter.spec)
+    read_wait = event_read_seconds(adapter.spec)
     if (config is None or config['mode'] not in ('events', 'events_camera_cache')
             or before['step'] < adapter.spec['task_learning_grasp']['start_step']):
         with measure(adapter, 'atom.fixed_spin_150ms', native_step=before['step']):
@@ -161,9 +175,11 @@ def settle_atom(adapter, *, event_start, before, after, clock, submitted):
             result = consumed_window(adapter, event_start, before, after, clock)
         return bool(result['solver_policies_with_exact_installed_target'] and result['arm_request_count'])
 
-    # Keep the old allowance as a timeout; success may now return earlier.
+    # Read only while the exact native quota remains paused. A fresh memory
+    # run may allow delayed callbacks longer, with the identical 25ms source
+    # age, installed-policy/gripper, WBC and TTL predicates; no new clock key.
     with measure(adapter, 'atom.event_wait', native_step=before['step']):
-        if not adapter.spin(.15, ready):
+        if not adapter.spin(read_wait, ready):
             raise RuntimeError('PERFORMANCE_REQUIRED_ATOM_FEEDBACK_TIMEOUT_NO_RETRY')
 
 

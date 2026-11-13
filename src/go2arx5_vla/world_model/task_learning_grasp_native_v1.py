@@ -188,8 +188,9 @@ def validate(spec):
 
 
 def episode_config(spec):
-    from .native_collection_performance_v1 import configuration
+    from .native_collection_performance_v1 import configuration,event_read_seconds
     configuration(spec)
+    event_read_seconds(spec)
     from .native_async_journal_v3 import configuration as async_configuration
     async_configuration(spec)
     from .native_body_memory_v3 import configuration as memory_configuration

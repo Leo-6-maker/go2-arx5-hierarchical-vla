@@ -79,6 +79,44 @@ def test_complete_current_evidence_returns_early_without_extra_clock_write(tmp_p
     assert adapter.performance.report()['spans']['atom.event_wait']['failures']==0
 
 
+def memory_read_wait(adapter):
+    from go2arx5_vla.world_model.native_body_memory_v3 import VERSION
+    from go2arx5_vla.world_model.native_camera_transfer_v1 import CAMERA_ID
+    adapter.spec.update(body_camera_session_v3=dict(version='BODY_BASE_EPISODE_SESSION_V3',mode='PERSISTENT_COMPATIBILITY'),
+        observation_camera_profile=CAMERA_ID,body_camera_transport_v3=dict(version=VERSION),
+        collection_event_read_wait_v3=dict(version=p.EVENT_READ_WAIT_VERSION,max_wall_s=2.))
+
+
+def test_delayed_current_feedback_can_arrive_at_same_pause_without_new_clock(tmp_path,monkeypatch):
+    adapter,kwargs,_=adapter_fixture(tmp_path,monkeypatch)
+    def delayed(seconds,predicate):
+        adapter.calls.append((seconds,True))
+        if seconds>=.374:feedback(adapter,kwargs['after']['time_s']-.010)
+        return predicate()
+    adapter.spin=delayed
+    with pytest.raises(RuntimeError,match='TIMEOUT_NO_RETRY'):p.settle_atom(adapter,**kwargs)
+    memory_read_wait(adapter);p.settle_atom(adapter,**kwargs)
+    assert adapter.calls==[(.15,True),(2.,True)]
+    assert adapter.observe()['step']==kwargs['after']['step']
+
+
+def test_longer_read_does_not_admit26ms_source_or_missing_consumption(tmp_path,monkeypatch):
+    adapter,kwargs,_=adapter_fixture(tmp_path,monkeypatch);memory_read_wait(adapter)
+    feedback(adapter,kwargs['after']['time_s']-.026)
+    with pytest.raises(RuntimeError,match='TIMEOUT_NO_RETRY'):p.settle_atom(adapter,**kwargs)
+    feedback(adapter);adapter.join['solver_policies_with_exact_installed_target']=[]
+    with pytest.raises(RuntimeError,match='TIMEOUT_NO_RETRY'):p.settle_atom(adapter,**kwargs)
+    assert adapter.calls==[(2.,True),(2.,True)]
+
+
+def test_extra_wall_read_is_not_a_foreign_role_or_arbitrary_timeout_grant(tmp_path,monkeypatch):
+    adapter,_,_=adapter_fixture(tmp_path,monkeypatch);memory_read_wait(adapter)
+    assert p.event_read_seconds(adapter.spec)==2.
+    for changed in (dict(task_learning_role='SLA_TARGET500_NATIVE_EVALUATION_V1'),
+                    dict(collection_event_read_wait_v3=dict(version=p.EVENT_READ_WAIT_VERSION,max_wall_s=10.))):
+        with pytest.raises(ValueError):p.event_read_seconds(dict(adapter.spec,**changed))
+
+
 @pytest.mark.parametrize('fault',['missing','stale','old_query','policy','arm_request'])
 def test_missing_actual_evidence_times_out_without_retry(tmp_path,monkeypatch,fault):
     adapter,kwargs,_=adapter_fixture(tmp_path,monkeypatch)
