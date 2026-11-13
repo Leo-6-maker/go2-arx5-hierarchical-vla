@@ -6,8 +6,15 @@ from .config_v1 import SEED
 from .mixed_visits_v4 import Catalog, MixedVisits
 
 RECIPE = 'SLA_NAMED_DENSE_PICK_HOLD_FM32_3K_V4_1'
+CORE_QUALIFICATION_RECIPE = 'SLA_NAMED_DENSE_PICK_HOLD_CORE_MICRO1_QUAL4_V4_1'
 UPDATES = 3000
 WARMUP = 150
+
+
+def microbatch_contract(spec):
+    expected = 1 if spec.get('operation') == 'DENSE_CORE_MICRO1_QUAL4' else 8
+    if spec.get('microbatch') != expected or spec.get('training_matmul_precision') != 'highest':
+        raise ValueError('ONLY_DISTINCT_CORE_QUAL4_MAY_USE_MICRO1_MAIN_RECIPE_REMAINS_MICRO8')
 
 
 def learning_rates():

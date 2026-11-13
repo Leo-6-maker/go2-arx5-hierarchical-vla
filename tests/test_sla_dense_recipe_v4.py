@@ -1,8 +1,9 @@
 import hashlib
 import numpy as np
+import pytest
 
 from go2arx5_vla.sla_adapter.config_v1 import learning_rates as old_rates, lr_sha256
-from go2arx5_vla.sla_adapter.dense_recipe_v4 import learning_rates, visit_map
+from go2arx5_vla.sla_adapter.dense_recipe_v4 import learning_rates, visit_map, microbatch_contract
 from go2arx5_vla.sla_adapter.runtime_v1 import Engine
 
 
@@ -34,3 +35,10 @@ def test_phase_balanced_pilot_bank_is_fixed_and_uses_both_independent_resets():
     assert all(18000 < n < 20500 for n in phases.values())
     assert 46000 < sum(rows[i]['episode'] == 'r1' for i in visits) < 50000
     assert not binding['student_phase_input'] and not binding['formal_D300_comparison_arm']
+
+
+def test_core_qualification_cannot_change_the_h200_candidate_microbatch():
+    microbatch_contract(dict(operation='DENSE_CORE_MICRO1_QUAL4', microbatch=1, training_matmul_precision='highest'))
+    microbatch_contract(dict(operation='DENSE_PICK_HOLD_3K', microbatch=8, training_matmul_precision='highest'))
+    with pytest.raises(ValueError, match='MAIN_RECIPE_REMAINS_MICRO8'):
+        microbatch_contract(dict(operation='DENSE_PICK_HOLD_3K', microbatch=1, training_matmul_precision='highest'))

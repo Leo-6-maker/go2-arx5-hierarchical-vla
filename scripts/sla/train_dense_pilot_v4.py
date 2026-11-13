@@ -8,7 +8,7 @@ import time
 from go2arx5_vla.sla_adapter.runtime_v1 import read_pin
 
 ENDPOINTS = {'DENSE_CONTINUOUS4': 4, 'DENSE_SPLIT2': 2,
-             'DENSE_RESUME4': 4, 'DENSE_PICK_HOLD_3K': 3000}
+             'DENSE_RESUME4': 4, 'DENSE_PICK_HOLD_3K': 3000, 'DENSE_CORE_MICRO1_QUAL4': 4}
 ACTIVE_ENGINE = None
 STOP_REQUESTED = False
 
@@ -16,6 +16,24 @@ STOP_REQUESTED = False
 def admission(spec):
     if spec['operation'] not in ENDPOINTS or spec['closeout_reserve_s'] < 120:
         raise ValueError('FINITE_DENSE_PILOT_OPERATION_AND_CLOSEOUT_REQUIRED')
+    if spec['operation'] == 'DENSE_CORE_MICRO1_QUAL4':
+        # This is an attempt to qualify the new-data gradient seam, never an
+        # alternative candidate or a claim of H200 micro8 restore qualification.
+        proof = read_pin(spec['prior_core_RGB_qualification'])
+        prior = Path(spec['prior_core_RGB_qualification']['path']).parent
+        lease = json.loads((prior/'control/LEASE.json').read_bytes())
+        worker = json.loads((prior/'WORKER_EXIT.private.json').read_bytes())
+        oldspec = json.loads((prior/'EXECUTION_SPEC.json').read_bytes())
+        from go2arx5_vla.sla_adapter.checkpoint_v1 import sha
+        if (proof.get('schema') != 'SLA_R1_CORE_SITE_RGB32_ACTUAL_V3' or not proof.get('passes')
+                or not proof['all_fresh_process_bit_exact'] or proof['ordinary_RGB_generations'] != 32
+                or lease['status'] != 'CLOSED' or lease['worker_exit_code'] != worker['exit_code'] or worker['exit_code'] != 0
+                or lease['spec_sha256'] != sha(prior/'EXECUTION_SPEC.json')
+                or spec.get('resume') or spec['microbatch'] != 1
+                or any(spec[k] != oldspec[k] for k in ('GPU_uuid', 'parent_manifest', 'parent_params',
+                                                       'tokenizer', 'python', 'upstream_root', 'upstream_sha'))):
+            raise ValueError('EXACT_EXISTING_CORE_RGB_ENVIRONMENT_FOR_NONCANDIDATE_GRADIENT_ATTEMPT')
+        return
     legacy = read_pin(spec['upstream_qualification_spec'])
     from scripts.sla.train_device_v3 import candidate_admission
     candidate_admission(legacy)  # Reuse actual closed CUDA/native proofs.
@@ -45,6 +63,8 @@ def run(spec):
     admission(spec)
     from go2arx5_vla.sla_adapter.site_v2 import validate
     site = validate(spec)
+    if spec['operation'] == 'DENSE_CORE_MICRO1_QUAL4' and (site['host'] != 'corelab-4080s' or site['uid'] != 2009):
+        raise ValueError('DISTINCT_CORE_QUALIFICATION_REQUIRES_ACTUAL_CORE_SITE')
     from go2arx5_vla.sla_adapter.runtime_v4 import DensePilotEngine
     from scripts.sla.train_v1 import probes
     import jax, flax, optax
@@ -77,6 +97,8 @@ def run(spec):
             if STOP_REQUESTED or time.time() >= local['deadline_epoch']:
                 raise TimeoutError('FINITE_DENSE_PILOT_CLOSEOUT')
             row = engine.update()
+            if row['grad_norm_before_clip'] <= 0:
+                raise ValueError('REAL_DENSE_PILOT_GRADIENT_MUST_BE_NONZERO')
             print(json.dumps(dict(event='ACTUAL_DENSE_PILOT_UPDATE', step=engine.step, cursor=engine.cursor,
                                   FM32=row['mean_FM32_loss'], used_lr=row['used_lr'], wall_s=row['wall_s'])), flush=True)
             if engine.step in ((500, 1500, 3000) if candidate else (2, 4)):
