@@ -73,3 +73,12 @@ def test_old_protocol_and_place_declared_clocks_are_separate():
              task_learning_teacher_mode='NORMAL_TEACHER_V7')
     assert native_protocol(new)==place.protocol()and native_endpoint(new)==36703
     assert place.protocol()['policy_queries']==120 and old['policy_queries']==15
+
+
+def test_postgrasp_reference_is_bounded_without_shortening_the_task_goal():
+    s,_=trajectory();initial=s[0];teacher=place.Teacher(initial)
+    teacher.stage='TRANSFER';teacher.grip=0.;teacher.lift_TCP_z=float(initial['tcp'][2,3])
+    program,_=teacher.decide(initial,initial['tcp'],np.array([0,0,0,1,0,0,0.]))
+    assert np.linalg.norm(program.decoded_H40[-1,:3]-initial['tcp'][:3,3])<=.004+1e-12
+    np.testing.assert_allclose(teacher.goal_center-initial['object_pose'][:3,3],[0,.15,0],rtol=0,atol=1e-15)
+    assert place.score_contract()['minimum_carried_xy_m']==.1

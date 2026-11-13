@@ -10,8 +10,8 @@ import numpy as np
 from . import task_learning_grasp_v1 as grasp
 from .storage import digest
 
-VERSION='SLA_TARGET_PICK_PLACE_CONSTRUCTION_V5'
-PANEL='SLA_TARGET_PICK_PLACE_FIXED_PILOT1_V5'
+VERSION='SLA_TARGET_PICK_PLACE_CONSTRUCTION_V5_1'
+PANEL='SLA_TARGET_PICK_PLACE_FIXED_PILOT1_V5_1'
 COMMAND='GRASP_RED_TRANSFER150MM_PLACE_RELEASE_WITHDRAW_V5'
 LANGUAGE='Pick up the red cube, place it on the left side of the table, release it, and withdraw the gripper.'
 QUERIES=120
@@ -45,7 +45,7 @@ def protocol():
     p.update(schema=VERSION,stage=ROLE,task_revision=VERSION,task_command=COMMAND,language=LANGUAGE,
         prefix_atoms=10,policy_queries=QUERIES,final_hold_atoms=40,expert_consumer='EEF_STREAM_V2',
         reference_TTL_s=.4,reference_renewal_max_s=.35,goal_offset_world_m=TRANSFER.tolist(),
-        task_score=score_contract(),construction_only_not_D100=True)
+        task_score=score_contract(),construction_only_not_D100=True,postgrasp_step_limit_m=.004)
     return p
 
 
@@ -188,7 +188,10 @@ class Teacher:
         if self.stage in('WITHDRAW','PLACED'):
             self.grip=1.;goal=self.withdraw_goal.copy()
             if np.linalg.norm(actual[:3,3]-obj)>=.08:self.stage='PLACED'
-        delta=goal-actual[:3,3];distance=np.linalg.norm(delta);step=delta*min(1.,.015/distance)if distance else delta
+        # New transfer/lower/withdraw design only: the actual held TRAIN pose
+        # reached1.02032rad/s² at5mm/prefix.4mm gives.81651 under the unchanged
+        # original1rad/s² certificate. The qualified grasp Teacher is intact.
+        delta=goal-actual[:3,3];distance=np.linalg.norm(delta);step=delta*min(1.,.004/distance)if distance else delta
         u=np.linspace(0.,1.,40);w=u**3*(10+u*(-15+6*u));raw=np.empty((40,10))
         raw[:,:3]=actual[:3,3]+w[:,None]*step
         raw[:,3:9]=grasp.rotation_matrix_to_rot6d_rows(grasp.quat_to_matrix(grasp.quat_slerp(
