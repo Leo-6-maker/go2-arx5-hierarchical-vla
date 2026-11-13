@@ -92,7 +92,8 @@ def inference_identity(source, qualified_source, *, logit=True):
     """
     source, qualified_source = Path(source), Path(qualified_source)
     prefix = 'src/go2arx5_vla/sla_adapter/'
-    names = ('model_v1.py','config_v1.py','codec_v1.py','gripper_v2.py','dataset_v1.py','provider_v1.py','checkpoint_v1.py')
+    names = ('model_v1.py','config_v1.py','codec_v1.py','gripper_v2.py','gripper_latent_v2.py',
+             'dataset_v1.py','provider_v1.py','checkpoint_v1.py')
     for name in names:
         task.need(digest(source/(prefix+name)) == digest(qualified_source/(prefix+name)),
                   'R1_INFERENCE_DEPENDENCY_CHANGED_'+name)
