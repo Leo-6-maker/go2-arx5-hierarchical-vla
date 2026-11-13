@@ -1,8 +1,8 @@
 {
   "schema": "SLA_CORELAB_V3_CURRENT_STAGE_ACTUAL",
-  "as_of_SGT": "2026-11-13T11:22:15.165717+08:00",
+  "as_of_SGT": "2026-11-13T11:36:59.841305+08:00",
   "plan_revision": "f672fb1aa574a2dbac3c91e047346eaa441bc9f5",
-  "latest_implementation_source": "fc014b6534f848689d561462aac7d083fd56c840",
+  "latest_implementation_source": "a86e7efaa01abe3001607931e13ab474bc9ebed9",
   "native_source": "197b956629f5b8b03b5a06f37d6051de31836e6b",
   "saved32_passed": 32,
   "total_new_physical_requests": 13,
@@ -1715,5 +1715,102 @@
     "fixed_mount_from_original_post_hold_packet": true,
     "action_frame": "ORIGINAL_TARGET_WORLD_TO_POLICY_TO_ANCHOR",
     "state_gripper_unchanged": true
+  },
+  "corelab_shared_GPU1_continuation": {
+    "schema": "SLA_CORELAB_GPU1_SHARED_CONTINUATION_ACTUAL_V3",
+    "observed_SGT": "2026-11-13T11:36:59.841305+08:00",
+    "shared_GPU1_reconstruction": {
+      "package_sha256": "b88ce285027da1417fa7eb70b403cb8183019920f0a8cbdc3e06d78625e5329e",
+      "actual_parent_loads": 1,
+      "bit_exact_ordinary_RGB_generations": 16,
+      "optimizer_updates": 0,
+      "optimization_visits": 0,
+      "physical_requests": 0,
+      "actual_peak_GPU_bytes": 7475250688,
+      "actual_allocator_limit_bytes": 13367404333,
+      "exit_code": 0,
+      "worker_wall_s": 435.72594928741455,
+      "source_sha": "93d7979f9c9cf57441750b05f4292e6f5425548a"
+    },
+    "prelaunch_failure_reconciled": {
+      "source_sha": "a8dcfef41a35a457b9373b7a8c508f83cbb2ae76",
+      "cause": "Strict trained adapter source fingerprint rejected the loader change",
+      "result_sha256": "f8f275c22fb280351296a79b787539d8d7cd8a78fe1137375549c7251073d23f",
+      "physical_requests": 0,
+      "model_calls": 0
+    },
+    "original_DEV16": {
+      "terminal": 3,
+      "requested": 16,
+      "successes": 0,
+      "actual_committed_generations": 2,
+      "terminal_native_integrations": 15609,
+      "technical_failures": 2,
+      "policy_failures": 1,
+      "first_untouched_condition": "SLADEV02 restart 2",
+      "live_group": true,
+      "live_GPU_and_native_pair": true,
+      "new_pair_native_pause_step": 600,
+      "queue_state": "NATIVE_GROUP_LIVE"
+    },
+    "earlier_two_second_tail_cohort": {
+      "physical_requests": 2,
+      "successes": 0,
+      "technical_failures": 2,
+      "total_native_integrations": 36956,
+      "rows": [
+        {
+          "layout": "TRAIN01",
+          "worker_exit_code": 1,
+          "native_integrations": 19303,
+          "frames": 272,
+          "result_sha256": "6608bfa834e6ff2766642a118df2de9ac4d0cf065dcd727cf819a536349951ca",
+          "failure": "EXACT_NATIVE_PAUSE_NOT_REACHED; exact original ACK arrived after observer deadline",
+          "complete_success_tail": false,
+          "supervised_examples_admitted": 0
+        },
+        {
+          "layout": "TRAIN07",
+          "worker_exit_code": 1,
+          "native_integrations": 17653,
+          "frames": 239,
+          "result_sha256": "ab4be869998c7578d89ccb9c1f1276e70c3397c22b7a4c6fdb0840fa8411ddfa",
+          "failure": "Live pause_ack.json read expired",
+          "complete_success_tail": false,
+          "supervised_examples_admitted": 0
+        }
+      ],
+      "optimizer_updates": 0,
+      "optimization_visits": 0,
+      "supervised_windows_admitted": 0
+    },
+    "new_two_second_tail_cohort": {
+      "requested": 2,
+      "optimizer_updates": 0,
+      "optimization_visits": 0,
+      "physical_requests": 0,
+      "rows": [
+        {
+          "layout": "TRAIN01",
+          "registered": false,
+          "live": false,
+          "native_step": 0,
+          "frames": 0
+        },
+        {
+          "layout": "TRAIN07",
+          "registered": false,
+          "live": false,
+          "native_step": 0,
+          "frames": 0
+        }
+      ],
+      "training_windows_admitted": 0,
+      "registration": {
+        "active_verified": true,
+        "waiting_for_registry_owner": true,
+        "dispatched_physical_worlds": 0
+      }
+    }
   }
 }
