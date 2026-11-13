@@ -11,9 +11,11 @@ from .runtime_v1 import read_pin
 from .spatial_runtime_v1 import spatial_objective, common_optimizer, vlm_lora
 from .spatial_assets_v1 import load_projector, FeatureBank
 from .batch_v2 import prepared_batches, device_batch
-from .checkpoint_v1 import save, sha
+from .checkpoint_v1 import save, restore, sha
 from .model_v1 import flat
 
+RECIPE = 'SLA_NAMED_DENSE_PICK_HOLD_SF32_3K_ALPHA_HALF_V5'
+OPERATION = 'DENSE_SPATIAL_PICK_HOLD_3K_V5'
 
 class DenseFeatureBank(FeatureBank):
     def __init__(self, pin, dataset, audit):
@@ -82,16 +84,29 @@ class DenseSpatialEngine(DensePilotEngine):
         self.spatial_norm = jax.jit(lambda gradients:jnp.stack([jnp.linalg.norm(a)
             for p,a in flat(gradients.to_pure_dict()).items() if vlm_lora(p) and p[-1].endswith('lora_b')]))
         self.norm = jax.jit(optax.global_norm)
-        self.bindings.update(recipe='SLA_NAMED_DENSE_SPATIAL_SEAM_V5',alpha=self.alpha,
+        self.bindings.update(recipe=RECIPE if spec['operation'] == OPERATION else 'SLA_NAMED_DENSE_SPATIAL_SEAM_V5',alpha=self.alpha,
             spatial_recipe=spec['spatial_recipe'],teacher_cache=spec['teacher_cache'],projector_initialization=spec['projector'])
         self.counts.update(teacher_model_loads=0,projector_asset_loads=1,spatial_cache_staging_reads=122,
             spatial_cache_staging_H2D_bytes=self.bank.feature_bytes,spatial_cache_training_visits=0,
             spatial_backwards_completed=0,reference_FM_visits=0,alpha0_gradient_pairs_compared=0,
             alpha0_update_pairs_compared=0,reference_optimizer_updates=0)
+        self.counts.update(input_H2D_batches=0,input_H2D_bytes=0,index_H2D_bytes=0,
+            rng_cursor_H2D_bytes=0,small_metric_D2H_calls=0,small_metric_D2H_bytes=0)
 
     def checkpoint(self,name):
         return save(self.output/name,(self.active,self.opt_state,self.rng,self.projector),
             step=self.step,cursor=self.cursor,bindings=self.bindings)
+
+    def resume(self,pin):
+        if sha(Path(pin['path'])/'COMPLETE.json') != pin['sha256']:
+            raise ValueError('SPATIAL_COMPLETE_STATE_PIN_CHANGED')
+        state,self.step,self.cursor = restore(pin['path'],
+            (self.active,self.opt_state,self.rng,self.projector),bindings=self.bindings)
+        self.active,self.opt_state,self.rng,self.projector = state
+        if self.alpha == 0:
+            import jax
+            self.reference_active = jax.tree.map(lambda a:jax.numpy.array(a,copy=True),self.active)
+            self.reference_opt = jax.tree.map(lambda a:jax.numpy.array(a,copy=True),common_optimizer(self.opt_state))
 
     def residency(self):
         import jax
@@ -111,6 +126,7 @@ class DenseSpatialEngine(DensePilotEngine):
         reference = jax.tree.map(jnp.zeros_like,self.reference_active) if self.alpha == 0 else None
         metrics = jnp.zeros((3,),dtype=jnp.float32)
         noise,flow = self.draw_bank(self.rng,np.arange(self.cursor,self.cursor+32,dtype=np.uint32))
+        self.counts['rng_cursor_H2D_bytes'] += 32*4
         logs = []
         batches = prepared_batches(self.dataset,self.tokenizer,self.visit_map,self.cursor,self.microbatch,
             prefetch=True,executor=self.loader,on_read=lambda k:None)
@@ -118,6 +134,10 @@ class DenseSpatialEngine(DensePilotEngine):
             for host in batches:
                 if time.time() >= self.spec['deadline_epoch']:raise TimeoutError('FINITE_SPATIAL_SEAM_BEFORE_UPDATE')
                 obs,actions = device_batch(host)
+                self.counts['input_H2D_batches'] += 1
+                self.counts['input_H2D_bytes'] += sum(a.nbytes for a in
+                    jax.tree.leaves((host['observation'],host['actions'])))
+                self.counts['index_H2D_bytes'] += 4*len(host['indices'])
                 offset = int(host['cursors'][0])-self.cursor
                 targets,mask = self.bank.batch(host['indices'])
                 self.counts['attempted_training_visits'] += self.microbatch
@@ -137,6 +157,8 @@ class DenseSpatialEngine(DensePilotEngine):
                         jax.random.fold_in(self.rng,self.cursor+offset),obs,actions,targets,mask)
                 if offset == 0:
                     norms = np.asarray(self.spatial_norm(common))
+                    self.counts['small_metric_D2H_calls'] += 1
+                    self.counts['small_metric_D2H_bytes'] += norms.nbytes
                     if norms.shape != (5,) or not np.isfinite(norms).all() or not (norms>0).all():
                         raise ValueError('SPATIAL_GRADIENT_MUST_REACH_ALL_FIVE_DEPLOYED_VLM_LORA_B_LEAVES')
                     logs.append(dict(VLM_LoRA_B_spatial_gradient_norms=norms.tolist()))
@@ -149,6 +171,8 @@ class DenseSpatialEngine(DensePilotEngine):
                 self.counts['spatial_cache_training_visits'] += self.microbatch
         finally:batches.close()
         summary = np.asarray(self.summarize(metrics,(accumulator,projection)))
+        self.counts['small_metric_D2H_calls'] += 1
+        self.counts['small_metric_D2H_bytes'] += summary.nbytes
         if not np.isfinite(summary).all():raise ValueError('NONFINITE_DENSE_SPATIAL_LOSS_OR_GRADIENT_NO_UPDATE')
         self.active,self.projector,self.opt_state = self.apply_spatial(self.active,self.projector,
             self.opt_state,(accumulator,projection))
