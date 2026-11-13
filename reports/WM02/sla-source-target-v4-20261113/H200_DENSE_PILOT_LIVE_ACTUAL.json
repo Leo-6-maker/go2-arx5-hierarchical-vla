@@ -1,0 +1,56 @@
+{
+  "schema": "SLA_V4_1_H200_DENSE_PILOT_LIVE_ACTUAL",
+  "observed_epoch": 1794584045.802047,
+  "job_id": "716146.hopper-m-02",
+  "source_sha": "d20597a91cea544a2333b1adb9bbf3ba0ff51155",
+  "job_state": "R",
+  "requested_candidate_updates": 3000,
+  "committed_candidate_updates": 513,
+  "committed_candidate_visits": 16416,
+  "physical_requests": 0,
+  "qualification": {
+    "passes": true,
+    "noncandidate_updates": 8,
+    "optimization_visits": 256,
+    "full_state4_vs2plus2_bit_exact": true,
+    "initial_state_bit_exact": true,
+    "full_state_arrays": 87,
+    "fresh_RGB16_bit_exact": true,
+    "ordinary_RGB_generations": 48,
+    "manifest_sha256": "a5e1643d4e7b1736f3a86befdc5b7430bcaa806e2a6ae97a23cdb75d9b4c8b0c",
+    "proof_sha256": "4bc4c7f93c0eee617f5dcb2970b23a1e5c7d3504eb4b84010c64889abc30f751"
+  },
+  "candidate_initial_state_matches_qualification": true,
+  "candidate_metrics": {
+    "step": 513,
+    "cursor": 16416,
+    "used_lr": 4.842013169756982e-05,
+    "mean_FM32_loss": 0.00649701151996851,
+    "active7": 0.02896980755031109,
+    "padding25": 0.00020462824613787234,
+    "grad_norm_before_clip": 0.05343140289187431,
+    "wall_s": 1.312316948082298
+  },
+  "candidate_checkpoints": [
+    {
+      "step": 0,
+      "cursor": 0,
+      "arrays": 87,
+      "complete_sha256": "2d1154d6280a94857e1b48a8552a5fa19049c42a452780c41563db11251f684e"
+    },
+    {
+      "step": 500,
+      "cursor": 16000,
+      "arrays": 87,
+      "complete_sha256": "ba52032ec238ad2cb53f9bef7b4af3a840f862fcbee477e597bffefeb19e5d45"
+    }
+  ],
+  "sealed_candidate_RGB_records": {
+    "0": 16,
+    "500": 16
+  },
+  "candidate_endpoint_complete": false,
+  "policy_evaluation_conditions": 0,
+  "first_failure": null,
+  "next": "Continue the same finite job to step1500/3000, export the endpoint and replay ordinary RGB in a fresh process; then qualify native policy execution. The current fitting pilot is not D100/D300/PICK_PLACE."
+}

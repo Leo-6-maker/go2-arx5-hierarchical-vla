@@ -1,11 +1,11 @@
 {
   "schema": "SLA_V4_1_FIXED16_EXPERT_BACKGROUND_ACTUAL",
-  "observed_epoch": 1794582232.0437303,
+  "observed_epoch": 1794583789.1417127,
   "source_sha": "77d6e1764033ae6eba0f28862ec27f740c51de0b",
   "fixed_requested_conditions": 16,
-  "physical_requests_started": 12,
-  "sealed_expert_successes": 12,
-  "actual_integrations": 260436,
+  "physical_requests_started": 16,
+  "sealed_expert_successes": 16,
+  "actual_integrations": 347248,
   "conditions": [
     {
       "layout": "TRAIN01",
@@ -264,35 +264,87 @@
       "restart": 1,
       "prefix_atoms": 40,
       "registered": true,
-      "physical_request_started": false,
-      "native_step": 0
+      "physical_request_started": true,
+      "native_step": 21703,
+      "worker": {
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 742.7234609704465,
+        "CPU_s": 315.463846955,
+        "child_CPU_s": 143.344952
+      },
+      "manifest_sha256": "2ff419d60024e758f23594e83a15c862c0f7ac14847ad32fa8f8db1168170673",
+      "frames": 321,
+      "commands": 640,
+      "windows": 61,
+      "training_dataset_admitted": false,
+      "actual_success_tail": true
     },
     {
       "layout": "TRAIN25",
       "restart": 1,
       "prefix_atoms": 10,
       "registered": true,
-      "physical_request_started": false,
-      "native_step": 0
+      "physical_request_started": true,
+      "native_step": 21703,
+      "worker": {
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 758.146267093718,
+        "CPU_s": 336.877520859,
+        "child_CPU_s": 145.325298
+      },
+      "manifest_sha256": "b720f62b0d92e46c427659a5d74e02be754885644315ef45986c7ea17c735b64",
+      "frames": 321,
+      "commands": 640,
+      "windows": 61,
+      "training_dataset_admitted": false,
+      "actual_success_tail": true
     },
     {
       "layout": "TRAIN25",
       "restart": 2,
       "prefix_atoms": 40,
-      "registered": false,
-      "physical_request_started": false,
-      "native_step": 0
+      "registered": true,
+      "physical_request_started": true,
+      "native_step": 21703,
+      "worker": {
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 642.9139445032924,
+        "CPU_s": 308.801648974,
+        "child_CPU_s": 124.228505
+      },
+      "manifest_sha256": "a550d875a0cd8b1e2053d9e397c49d8472d91593952cdb550970698a91476dc7",
+      "frames": 321,
+      "commands": 640,
+      "windows": 61,
+      "training_dataset_admitted": false,
+      "actual_success_tail": true
     },
     {
       "layout": "TRAIN25",
       "restart": 2,
       "prefix_atoms": 10,
-      "registered": false,
-      "physical_request_started": false,
-      "native_step": 0
+      "registered": true,
+      "physical_request_started": true,
+      "native_step": 21703,
+      "worker": {
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 624.9911179561168,
+        "CPU_s": 331.295270948,
+        "child_CPU_s": 130.737932
+      },
+      "manifest_sha256": "507b179f1ba591563fbd13fd49e78caeae788299da3ff5cb742f5afd591bf78b",
+      "frames": 321,
+      "commands": 640,
+      "windows": 61,
+      "training_dataset_admitted": false,
+      "actual_success_tail": true
     }
   ],
-  "manager_live": true,
+  "manager_live": false,
   "manager_version": 3,
   "manager_spec_sha256": "10cabc29c3889c38c7f156bea4ff938e172b670dbecfe33423d3d40329a8453d",
   "retained_before_manager3": 6,
@@ -306,5 +358,10 @@
   "optimizer_updates": 0,
   "original_safety_and_WBC_unchanged": true,
   "note": "Prefix10 also uses a bounded segmented expert stream; the P40/P10 panel does not isolate cadence alone.",
-  "next": "Finish and independently seal all original 16; retain every native terminal."
+  "next": "Preserve the closed fixed panel. Admit new production tasks/coverage separately; the named two-episode fitting pilot remains a separate snapshot.",
+  "manager_terminal": "CLOSED0",
+  "reconciliation_sha256": "700e0bc76c2a333847b59413b2dae696f6e930f5bc3cd48abbf7a9629f00eb00",
+  "completed_frames": 5136,
+  "completed_consumed_commands": 10240,
+  "completed_H40_windows": 976
 }

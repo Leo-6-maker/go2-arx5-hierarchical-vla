@@ -1,6 +1,6 @@
 {
   "schema": "SLA_V4_FIRST_EXECUTION_INCREMENT_ACTUAL",
-  "generated_SGT": "2026-11-13T23:18:52.384538+08:00",
+  "generated_SGT": "2026-11-13T23:35:31.098134+08:00",
   "plan_revision": "080bf9fa3361f493c2012540ad18d7ae0102d6d5",
   "execution_base": "3195f0eb664ed98db7f76ad0643ed1d742472a7b",
   "R1": {
@@ -83,13 +83,14 @@
   "scientific_work_complete": false,
   "collector_background": {
     "fixed_requested": 16,
-    "physical_started": 12,
-    "sealed_successes": 12,
-    "actual_native_integrations": 260436,
-    "manager_live": true,
+    "physical_started": 16,
+    "sealed_successes": 16,
+    "actual_native_integrations": 347248,
+    "manager_live": false,
     "model_updates": 0,
     "production_D100_admitted": 0,
-    "next": "Finish and independently seal all original 16; retain every native terminal."
+    "next": "Preserve the closed fixed panel. Admit new production tasks/coverage separately; the named two-episode fitting pilot remains a separate snapshot.",
+    "manager_terminal": "CLOSED0"
   },
   "original_V4_plan_revision": "fd46f53cabcb00a30320b63607379e95a5bfdce1",
   "latest_remote_main": "6843163d641eb24a29c3b1557f868765346ba66c",
@@ -111,18 +112,24 @@
     "source_sha": "d20597a91cea544a2333b1adb9bbf3ba0ff51155",
     "actual_queue_state": "R",
     "GPU_allocation": true,
-    "qualification_updates": 0,
-    "candidate_updates": 0,
-    "optimization_visits": 0,
+    "qualification_updates": 8,
+    "candidate_updates": 513,
+    "optimization_visits": 16416,
     "physical_requests": 0,
     "planned_noncandidate_updates": 8,
     "planned_candidate_updates": 3000,
     "planned_candidate_visits": 96000,
     "max_allocated_GPU_hours": 4,
     "first_failure_or_wait": null,
-    "next": "Inside the allocation: new-data continuous4 vs2+2 and fresh RGB, then a separate clean-parent 3K candidate.",
-    "stage": "ENVIRONMENT_SETUP_NO_NEW_H200_UPDATE_YET",
-    "initial_wait_preserved": "NO_AVAILABLE_H200_GPU"
+    "next": "Continue the same finite job to step1500/3000, export the endpoint and replay ordinary RGB in a fresh process; then qualify native policy execution. The current fitting pilot is not D100/D300/PICK_PLACE.",
+    "stage": "TRAINING_SAME_CLEAN_PARENT_DENSE_PICK_HOLD_3K",
+    "initial_wait_preserved": "NO_AVAILABLE_H200_GPU",
+    "qualification_optimization_visits": 256,
+    "qualification_RGB_generations": 48,
+    "full_state_restore_bit_exact": true,
+    "fresh_RGB16_bit_exact": true,
+    "complete_step500_checkpoint": true,
+    "step500_complete_sha256": "ba52032ec238ad2cb53f9bef7b4af3a840f862fcbee477e597bffefeb19e5d45"
   },
   "Core_named_pilot_qualification": {
     "source_sha": "89c72e86350215d8f3294d4ee3a4e850bf159034",
@@ -140,5 +147,17 @@
     "checkpoint_arrays": 87,
     "actual_restores": 0,
     "GPU_peak_bytes": 8543467776
+  },
+  "dense_spatial_cache": {
+    "source_sha": "e52be7f2adbcf8de5431dd007ddfccd90a40d602",
+    "teacher_forwards": 123,
+    "cached_windows": 122,
+    "CPU_all_row_readback": true,
+    "cache_manifest_sha256": "9de1a45c2084078f2036c8595f586c548ee790f1979f09fc502ddb4b917b954d",
+    "teacher_updates": 0,
+    "SLA_updates": 0,
+    "physical_requests": 0,
+    "spatial_gradient_qualified": false,
+    "next": "Wire this distinct dense cache into matched spatial gradients; qualify alpha0 common updates and positive spatial gradients before the same-parent/data/budget spatial arm."
   }
 }
