@@ -1,0 +1,101 @@
+{
+  "schema": "SLA_CORELAB_CPU_GPU1_ACTUAL_V3",
+  "as_of_SGT": "2026-11-13T11:20:22.650224+08:00",
+  "implementation_source": "fc014b6534f848689d561462aac7d083fd56c840",
+  "S1_DEV16": {
+    "physical_requests": 3,
+    "requested": 16,
+    "terminal": 3,
+    "successes": 0,
+    "technical_failures": 2,
+    "policy_failures": 1,
+    "native_integrations": 15609,
+    "actual_committed_SLA_generations": 2,
+    "group_summary_SLA_queries": 1,
+    "consumed_candidate_H40": 0,
+    "optimizer_updates": 0,
+    "optimization_visits": 0,
+    "hard_safety_stops": 0,
+    "last_condition": "SLADEV02 restart 1",
+    "last_condition_native_integrations": 4203,
+    "last_condition_SLA_generations": 0,
+    "last_condition_failure": "XlaRuntimeError: RESOURCE_EXHAUSTED: Out of memory while trying to allocate 2415919104 bytes.",
+    "retained_original_worker_stop_reason": "PAIRED_GPU_FAILURE_OR_FINITE_DEV_ENDPOINT",
+    "queue_readback": {
+      "observed_SGT": "2026-11-13T11:20:22.650224+08:00",
+      "state": "WAIT_EXISTING_OWNER",
+      "active_process": true,
+      "group_registered": false,
+      "latest_admission_SGT": "2026-11-13T12:34:50.882498+08:00",
+      "deadline_SGT": "2026-11-13T18:39:50.882498+08:00"
+    },
+    "remaining_original_conditions": 13,
+    "processed_conditions_immutable": true
+  },
+  "S2_teacher_GPU1": {
+    "observed_SGT": "2026-11-13T11:20:22.622611+08:00",
+    "GPU_index": 1,
+    "unit": "wm02-sla-s2-teacher-cache-20261113-01",
+    "spec_sha256": "9692f2f197d1dbec09a4e9e7364bed8974b35ae3b0dbc8bcc0032e31b385d6fd",
+    "active": true,
+    "lease": "ACTIVE",
+    "exit_code": null,
+    "teacher_model_loads": 1,
+    "teacher_forwards": 1451,
+    "cached_TRAIN_windows": 1450,
+    "requested_TRAIN_windows": 1450,
+    "published_feature_files": 1450,
+    "optimizer_updates": 0,
+    "optimization_visits": 0,
+    "physical_requests": 0,
+    "cache_manifest_sha256": null,
+    "first_failure": null,
+    "ordinary_student_inference_calls": 0
+  },
+  "CPU": {
+    "observed_SGT": "2026-11-13T11:19:08.128351+08:00",
+    "physical_requests": 2,
+    "qualified_production_episodes": 0,
+    "optimizer_updates": 0,
+    "optimization_visits": 0,
+    "worlds": [
+      {
+        "layout": "TRAIN01",
+        "source_sha": "fc014b6534f848689d561462aac7d083fd56c840",
+        "spec_sha256": "90ea201da93ee2eb3518e1a43692724259fac13c5f8ee599aa56e2441f566ec8",
+        "live": true,
+        "native_step": 300,
+        "frames_committed": 0,
+        "lease": "ACTIVE",
+        "worker_exit_code": null,
+        "recorded_success_tail": null
+      },
+      {
+        "layout": "TRAIN07",
+        "source_sha": "fc014b6534f848689d561462aac7d083fd56c840",
+        "spec_sha256": "b94a7ae15205c9bc9edbc259e0a22eb8986f389e3fe2d5a7cb0b919c01414ffa",
+        "live": true,
+        "native_step": 525,
+        "frames_committed": 0,
+        "lease": "ACTIVE",
+        "worker_exit_code": null,
+        "recorded_success_tail": null
+      }
+    ],
+    "prestart_failures": [
+      {
+        "cause": "Old task admission still required 21203 ticks; no worker or native effects",
+        "physical_requests": 0
+      }
+    ],
+    "expected_native_endpoint": 21703,
+    "requested_tail_s": 2,
+    "actual_tail_pass_required": true
+  },
+  "native_epsilon": {
+    "proof_sha256": "0ec81876f15de74adf58a5e3e2f746d7766672b48c384a78dd0fa2e2c7a0fbba",
+    "conditions": 2,
+    "confirmed_commands": 1200,
+    "fully_consumed_H40": 30
+  }
+}

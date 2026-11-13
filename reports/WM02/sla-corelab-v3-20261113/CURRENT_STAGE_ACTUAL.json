@@ -1,8 +1,8 @@
 {
   "schema": "SLA_CORELAB_V3_CURRENT_STAGE_ACTUAL",
-  "as_of_SGT": "2026-11-13T09:29:36.268512+08:00",
+  "as_of_SGT": "2026-11-13T11:20:22.650224+08:00",
   "plan_revision": "f672fb1aa574a2dbac3c91e047346eaa441bc9f5",
-  "latest_implementation_source": "0a6044e02fd9b5ee36f30ba50e411c485f63b34c",
+  "latest_implementation_source": "fc014b6534f848689d561462aac7d083fd56c840",
   "native_source": "197b956629f5b8b03b5a06f37d6051de31836e6b",
   "saved32_passed": 32,
   "total_new_physical_requests": 13,
@@ -164,7 +164,7 @@
     "DEV16_pair_read_and_continuation_regressions": 63
   },
   "remaining": [
-    "Complete the untouched DEV16 suffix in its existing queue, retain two original terminal results, then run matched S2 and common GR00T DEV.",
+    "Complete 13 untouched DEV16 conditions; keep three original terminal rows and run same-data, same-budget S2 then common GR00T DEV.",
     "Bind the selected H200 precision, ordinary RGB endpoint and native admission before the R1 candidate.",
     "Audit the two closed epsilon worlds, run the fixed matched actor throughput matrix and qualify dense data codec and production admission.",
     "EEF_STREAM, D100/D300, four recipes, long budget curve, correction, three-seed independent TEST and skills remain required."
@@ -1473,5 +1473,237 @@
         "physical_requests": 0
       }
     ]
+  },
+  "corelab_CPU_GPU1_pipeline": {
+    "schema": "SLA_CORELAB_CPU_GPU1_ACTUAL_V3",
+    "as_of_SGT": "2026-11-13T11:20:22.650224+08:00",
+    "implementation_source": "fc014b6534f848689d561462aac7d083fd56c840",
+    "S1_DEV16": {
+      "physical_requests": 3,
+      "requested": 16,
+      "terminal": 3,
+      "successes": 0,
+      "technical_failures": 2,
+      "policy_failures": 1,
+      "native_integrations": 15609,
+      "actual_committed_SLA_generations": 2,
+      "group_summary_SLA_queries": 1,
+      "consumed_candidate_H40": 0,
+      "optimizer_updates": 0,
+      "optimization_visits": 0,
+      "hard_safety_stops": 0,
+      "last_condition": "SLADEV02 restart 1",
+      "last_condition_native_integrations": 4203,
+      "last_condition_SLA_generations": 0,
+      "last_condition_failure": "XlaRuntimeError: RESOURCE_EXHAUSTED: Out of memory while trying to allocate 2415919104 bytes.",
+      "retained_original_worker_stop_reason": "PAIRED_GPU_FAILURE_OR_FINITE_DEV_ENDPOINT",
+      "queue_readback": {
+        "observed_SGT": "2026-11-13T11:20:22.650224+08:00",
+        "state": "WAIT_EXISTING_OWNER",
+        "active_process": true,
+        "group_registered": false,
+        "latest_admission_SGT": "2026-11-13T12:34:50.882498+08:00",
+        "deadline_SGT": "2026-11-13T18:39:50.882498+08:00"
+      },
+      "remaining_original_conditions": 13,
+      "processed_conditions_immutable": true
+    },
+    "S2_teacher_GPU1": {
+      "observed_SGT": "2026-11-13T11:20:22.622611+08:00",
+      "GPU_index": 1,
+      "unit": "wm02-sla-s2-teacher-cache-20261113-01",
+      "spec_sha256": "9692f2f197d1dbec09a4e9e7364bed8974b35ae3b0dbc8bcc0032e31b385d6fd",
+      "active": true,
+      "lease": "ACTIVE",
+      "exit_code": null,
+      "teacher_model_loads": 1,
+      "teacher_forwards": 1451,
+      "cached_TRAIN_windows": 1450,
+      "requested_TRAIN_windows": 1450,
+      "published_feature_files": 1450,
+      "optimizer_updates": 0,
+      "optimization_visits": 0,
+      "physical_requests": 0,
+      "cache_manifest_sha256": null,
+      "first_failure": null,
+      "ordinary_student_inference_calls": 0
+    },
+    "CPU": {
+      "observed_SGT": "2026-11-13T11:19:08.128351+08:00",
+      "physical_requests": 2,
+      "qualified_production_episodes": 0,
+      "optimizer_updates": 0,
+      "optimization_visits": 0,
+      "worlds": [
+        {
+          "layout": "TRAIN01",
+          "source_sha": "fc014b6534f848689d561462aac7d083fd56c840",
+          "spec_sha256": "90ea201da93ee2eb3518e1a43692724259fac13c5f8ee599aa56e2441f566ec8",
+          "live": true,
+          "native_step": 300,
+          "frames_committed": 0,
+          "lease": "ACTIVE",
+          "worker_exit_code": null,
+          "recorded_success_tail": null
+        },
+        {
+          "layout": "TRAIN07",
+          "source_sha": "fc014b6534f848689d561462aac7d083fd56c840",
+          "spec_sha256": "b94a7ae15205c9bc9edbc259e0a22eb8986f389e3fe2d5a7cb0b919c01414ffa",
+          "live": true,
+          "native_step": 525,
+          "frames_committed": 0,
+          "lease": "ACTIVE",
+          "worker_exit_code": null,
+          "recorded_success_tail": null
+        }
+      ],
+      "prestart_failures": [
+        {
+          "cause": "Old task admission still required 21203 ticks; no worker or native effects",
+          "physical_requests": 0
+        }
+      ],
+      "expected_native_endpoint": 21703,
+      "requested_tail_s": 2,
+      "actual_tail_pass_required": true
+    },
+    "native_epsilon": {
+      "proof_sha256": "0ec81876f15de74adf58a5e3e2f746d7766672b48c384a78dd0fa2e2c7a0fbba",
+      "conditions": 2,
+      "confirmed_commands": 1200,
+      "fully_consumed_H40": 30
+    }
+  },
+  "expert_memory_codec": {
+    "schema": "SLA_DENSE_NATIVE_TRAIN4_CODEC_ACTUAL_V3",
+    "passes": true,
+    "training_episode_sources": 4,
+    "encoded_windows": 228,
+    "cross_replan_windows": 168,
+    "excluded_incomplete_windows": 24,
+    "additional_native_integrations": 0,
+    "additional_physical_requests": 0,
+    "optimizer_updates": 0,
+    "optimization_visits": 0,
+    "model_calls": 0,
+    "BC_examples_admitted": 0,
+    "rows": [
+      {
+        "layout": "TRAIN01",
+        "result_sha256": "5ce43a66d6ca7f54f3a7559d1656ab90b105624b562706813f0caf58f6f6788c",
+        "archive_sha256": "99379df65fda9b4fdba1c1af518b6c12bb973d8970686a22913866cf983f2acc",
+        "mount_native_step": 5703,
+        "encoded_windows": 57,
+        "cross_replan_windows": 42,
+        "excluded_incomplete_windows": 6,
+        "max_roundtrip_error": {
+          "xyz_m": 1.6653345369377348e-16,
+          "so3_rad": 1.1107840422060909e-16,
+          "gripper": 0.00010000000000000017
+        },
+        "shapes": {
+          "state7": [
+            57,
+            7
+          ],
+          "nominal_latent7": [
+            57,
+            40,
+            7
+          ],
+          "native_step": [
+            57
+          ]
+        }
+      },
+      {
+        "layout": "TRAIN07",
+        "result_sha256": "269bf7f8bb5688bf31a2a85f4a71b64f47f27acae98d5e0a19488f4adfa62f51",
+        "archive_sha256": "354afa27323a2b79eb194845515271c77b642e70579fea2323d0fee02fd84069",
+        "mount_native_step": 5703,
+        "encoded_windows": 57,
+        "cross_replan_windows": 42,
+        "excluded_incomplete_windows": 6,
+        "max_roundtrip_error": {
+          "xyz_m": 2.220446049250313e-16,
+          "so3_rad": 1.1103775973776988e-16,
+          "gripper": 0.00010000000000000017
+        },
+        "shapes": {
+          "state7": [
+            57,
+            7
+          ],
+          "nominal_latent7": [
+            57,
+            40,
+            7
+          ],
+          "native_step": [
+            57
+          ]
+        }
+      },
+      {
+        "layout": "TRAIN13",
+        "result_sha256": "54fd009053e52603017dc59032de7dcf312cbd35ceaeca99c149accb49e2f2b4",
+        "archive_sha256": "dc38c973a1e69f1452c3e2a3b0e5274a10da628da85e6f8916066f076fe779e2",
+        "mount_native_step": 5703,
+        "encoded_windows": 57,
+        "cross_replan_windows": 42,
+        "excluded_incomplete_windows": 6,
+        "max_roundtrip_error": {
+          "xyz_m": 1.1102230246251565e-16,
+          "so3_rad": 1.1124928701621238e-16,
+          "gripper": 0.00010000000000000017
+        },
+        "shapes": {
+          "state7": [
+            57,
+            7
+          ],
+          "nominal_latent7": [
+            57,
+            40,
+            7
+          ],
+          "native_step": [
+            57
+          ]
+        }
+      },
+      {
+        "layout": "TRAIN25",
+        "result_sha256": "a02eba23ba396b62d069e756c7221397e33e8d2fee5e87ad6bf108e3f8587aab",
+        "archive_sha256": "6d257581ef17bd4879e23e735881593f6d298986f7a34a609d497c43dd92e1e7",
+        "mount_native_step": 5703,
+        "encoded_windows": 57,
+        "cross_replan_windows": 42,
+        "excluded_incomplete_windows": 6,
+        "max_roundtrip_error": {
+          "xyz_m": 1.1102230246251565e-16,
+          "so3_rad": 1.112408336477855e-16,
+          "gripper": 0.00010000000000000017
+        },
+        "shapes": {
+          "state7": [
+            57,
+            7
+          ],
+          "nominal_latent7": [
+            57,
+            40,
+            7
+          ],
+          "native_step": [
+            57
+          ]
+        }
+      }
+    ],
+    "fixed_mount_from_original_post_hold_packet": true,
+    "action_frame": "ORIGINAL_TARGET_WORLD_TO_POLICY_TO_ANCHOR",
+    "state_gripper_unchanged": true
   }
 }
