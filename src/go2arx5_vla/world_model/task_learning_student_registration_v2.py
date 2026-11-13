@@ -187,6 +187,7 @@ def register_group(request):
 def dispatch_group(input_path):
     from scripts.pi0292.durable import write
     from scripts.pi0294.e1.journal import Journal
+    from .sla_dev_continuation_v3 import SCHEMA as DEV_SUFFIX
     inp=json.loads(Path(input_path).read_bytes());root=Path(input_path).parent;panel=pinned(dict(path=inp['panel'],sha256=inp['panel_sha256']))
     batch.selection(inp,panel);n=pinned(inp['native_base']);g=pinned(inp['gpu_base']);actual_site(n['campaign_root'])
     lease=json.loads((root/'control/LEASE.json').read_bytes());j=Journal(Path(n['campaign_root'])/'control/journal',Path(n['campaign_root']).name)
@@ -199,15 +200,16 @@ def dispatch_group(input_path):
     task.need('LoadState=not-found'in q.stdout and 'MainPID=0'in q.stdout,'NO_EXISTING_DEV_GROUP_UNIT')
     remaining=int(inp['deadline_epoch']-time.time());task.need(remaining>1800,'TIME_FOR_FINITE_DEV_GROUP')
     actual=batch.resources(g);write(root/'ACTUAL_CAPACITY_BEFORE_DISPATCH.private.json',actual)
+    sla_inputs = ('SLA_TARGET500_NATIVE_GROUP_INPUT_V1', 'SLA_NATIVE_COLD_UNEXECUTED_SUFFIX_INPUT_V2', DEV_SUFFIX)
     argv=['systemd-run','--user','--unit=wm02-'+root.name,'--property=Type=exec','--property=RemainAfterExit=yes',
         '--property=Restart=no','--property=RuntimeMaxSec='+str(remaining+90),'--property=TimeoutStopSec=90',
-        '--property=AllowedCPUs=0-3,8-11','--property=CPUQuota=800%','--property=MemoryMax='+('32G'if inp.get('schema') in('SLA_TARGET500_NATIVE_GROUP_INPUT_V1','SLA_NATIVE_COLD_UNEXECUTED_SUFFIX_INPUT_V2')else'40G'),
+        '--property=AllowedCPUs=0-3,8-11','--property=CPUQuota=800%','--property=MemoryMax='+('32G'if inp.get('schema') in sla_inputs else'40G'),
         '--property=MemorySwapMax=0','--property=StandardOutput=append:'+str(root/'logs/out.log'),
         '--property=StandardError=append:'+str(root/'logs/err.log'),'--working-directory='+inp['source_root'],
         '/usr/bin/env','-u','LD_PRELOAD','CUDA_VISIBLE_DEVICES=','PYTHONDONTWRITEBYTECODE=1',
         'PYTHONPATH='+inp['source_root']+'/src:'+inp['source_root'],n['python'],'-B','-m',
         ('scripts.wm02.sla_g_dev16_v1'if inp.get('schema')=='SLA_DEV16_OFFICIAL_GR00T_A500_ENGINEERING_V1_GROUP_INPUT'else
-         'scripts.wm02.sla_native_population_v1'if inp.get('schema') in('SLA_TARGET500_NATIVE_GROUP_INPUT_V1','SLA_NATIVE_COLD_UNEXECUTED_SUFFIX_INPUT_V2')else
+         'scripts.wm02.sla_native_population_v1'if inp.get('schema') in sla_inputs else
          'scripts.wm02.native_a500_train4_delivery_v1'if inp.get('schema')=='A_TARGET500_TRAIN4_DELIVERY_GROUP_INPUT_V1'else
          'scripts.wm02.native_body_train4_diagnostic_v1'if inp.get('schema')=='NATIVE_BODY_SFT2000_TRAIN4_GROUP_INPUT_V1'else
          'scripts.wm02.task_learning_core_matched_panel_v3_1'if inp.get('schema')=='CORE_MATCHED128_SMOOTH_GROUP_INPUT_V3'else
