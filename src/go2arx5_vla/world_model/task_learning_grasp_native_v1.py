@@ -197,6 +197,8 @@ def episode_config(spec):
     memory_configuration(spec)
     from .sla_expert_epsilon_v3 import configuration as epsilon_configuration
     epsilon_enabled = epsilon_configuration(spec)
+    from .eef_stream_v2 import configuration as stream_configuration
+    stream_enabled = stream_configuration(spec)
     validate(spec)
     document=scenes.pinned(dict(path=spec['episode_manifest'],sha256=spec['episode_manifest_sha256']))
     episode=scenes.prefix_episode(document,spec)
@@ -206,6 +208,8 @@ def episode_config(spec):
     if epsilon_enabled:
         members += ('src/go2arx5_vla/world_model/sla_expert_epsilon_v3.py',
                     'src/go2arx5_vla/sla_adapter/gripper_latent_v2.py')
+    if stream_enabled:
+        members += ('src/go2arx5_vla/world_model/eef_stream_v2.py',)
     if task.student_role(spec.get('task_learning_role')):
         from .task_learning_live_pair_v1 import SOURCE_MEMBERS as model_members
         members=tuple(dict.fromkeys(members+model_members))
@@ -264,9 +268,13 @@ def continue_native(adapter,report,samples,windows):
     from .stable_task_data_v1 import capture_input
     from .sla_expert_epsilon_v3 import configuration as epsilon_configuration, transform as epsilon_transform
     from .corelab_expert_semantics_v3 import native_endpoint, native_protocol, recorded_tail
+    from .eef_stream_v2 import configuration as stream_configuration, expert_program
     epsilon_enabled = epsilon_configuration(adapter.spec)
     tail_enabled = recorded_tail(adapter.spec)
+    stream_enabled = stream_configuration(adapter.spec)
     endpoint = native_endpoint(adapter.spec)
+    protocol = native_protocol(adapter.spec)
+    queries = protocol['policy_queries']
     validate(adapter.spec);ready=report['task_local_preparation']
     task.need(adapter.observe()['step']==task.CALIBRATION_B and not adapter.trace_sealed
         and ready['original_steady_prefix_qualified']is True and ready['source_pose_alignment']is False
@@ -313,6 +321,7 @@ def continue_native(adapter,report,samples,windows):
         teacher=(task.HoldControl if control else UnderCloseRecoveryTeacher if mode==UNDER_CLOSE else task.Teacher)(samples[-1])
     intervention_decisions=0
     epsilon_decisions = []
+    previous_nominal_grip = 1.
     cycles=[reset_cycle];decisions=[];captures=[];confirmed=[]
     task_samples=[samples[-1]];standing=[]
     def observe(s):
@@ -338,6 +347,11 @@ def continue_native(adapter,report,samples,windows):
         from .native_collection_performance_v1 import measure
         with measure(adapter,'policy.student_inference' if student else 'policy.Teacher_decision', native_step=step):
             program,proposal=teacher.decide(samples[-1],adapter.reference_history[-1]['pose'],adapter.base_pose_hold)
+            if stream_enabled:
+                program = expert_program(program, previous_nominal_grip)
+                proposal = dict(proposal, original_teacher_policy_H40=proposal['submitted_policy_H40'],
+                                submitted_policy_H40=program.decoded_H40.tolist(),
+                                expert_consumer=protocol['expert_consumer'])
             if epsilon_enabled:
                 program, audit = epsilon_transform(program)
                 proposal = dict(proposal, original_teacher_policy_H40=proposal['submitted_policy_H40'],
@@ -359,6 +373,7 @@ def continue_native(adapter,report,samples,windows):
             past_samples=samples,past_windows=windows,sample_observer=observe)
         if cycles:_link_replacement(adapter,cycles[-1],current)
         cycles.append(current)
+        previous_nominal_grip = program.decoded_H40[len(current['windows'])-1, 9]
         for offset,w in enumerate(current['windows']):
             task.need(np.array_equal(np.asarray(w['actual_installed_consumed_EEF10_BASE7'])[:10],
                 program.reference_path[offset]),'EVERY_TRAINABLE_COMMAND_ACTUALLY_INSTALLED_AND_CONSUMED')
@@ -372,11 +387,12 @@ def continue_native(adapter,report,samples,windows):
         write_progress(adapter.output/'TASK_LEARNING_STANDING_ACTUAL.private.json',dict(records=standing,complete=False))
     # Termination continues the last explicit Teacher grasp/hold command.
     raw=np.repeat(program.decoded_H40[-1:,:],40,axis=0)
+    raw[:,9] = previous_nominal_grip
     raw[:,:3]=np.asarray(samples[-1]['tcp'])[:3,3]
     raw[:,3:9]=task.rotation_matrix_to_rot6d_rows(np.asarray(samples[-1]['tcp'])[:3,:3])
     hold=task.FiftyMsProgram(raw,samples[-1]['tcp'],adapter.reference_history[-1]['pose'],adapter.base_pose_hold)
     tail_start = len(task_samples) - 1
-    current,samples,windows=consumer.run_prefix(adapter,hold,index=task.QUERIES,
+    current,samples,windows=consumer.run_prefix(adapter,hold,index=queries,
         past_samples=samples,past_windows=windows,sample_observer=observe)
     _link_replacement(adapter,cycles[-1],current);cycles.append(current)
     scored=task.score(task_samples,teacher.cube[2,3],standing=standing)
@@ -417,7 +433,7 @@ def continue_native(adapter,report,samples,windows):
             and c['gripper_confirmed_atoms'] == 40 for c in cycles[1:-1]))) if epsilon_enabled else {}
     return jsonable(dict(copy.deepcopy(report),schema=native_result_schema(adapter.spec),
         actual_spec_phase=task.PHASE,native_endpoint_step=endpoint,
-        task_learning_grasp=native_protocol(adapter.spec),
+        task_learning_grasp=protocol,
         teacher_decisions=[]if control or student else decisions,control_decisions=decisions if control else[],
         **(dict(student_decisions=decisions,all_fifteen_generated_H40_consumed=True,
             student_commands_are_expert_labels=False)if student else{}),
@@ -437,7 +453,7 @@ def continue_native(adapter,report,samples,windows):
             'TASK_CONSTRUCTION_NOT_BC'if adapter.spec.get('task_learning_role',task.CONSTRUCTION_ROLE)==task.CONSTRUCTION_ROLE else
             adapter.spec['task_learning_role']),
         excluded_intervention_decisions=intervention_decisions,
-        expert_policy_decisions=0 if control or student else task.QUERIES-intervention_decisions,
+        expert_policy_decisions=0 if control or student else queries-intervention_decisions,
         recovery_evidence=dict(mode=mode,intervention_issued=getattr(teacher,'intervention_issued',False),
             actual_under_close_failed=getattr(teacher,'actual_under_close_failed',False),
             native_grasp_after_correction=getattr(teacher,'native_grasp_after_correction',False)),
@@ -494,6 +510,7 @@ def native_result_schema(spec):
 
 def complete_consumption(spec,result):
     task.declared(spec);cycles=result.get('generated_cycles')or[]
+    queries = spec.get('task_learning_grasp', {}).get('policy_queries', task.QUERIES)
     control=spec.get('task_learning_control')==task.HOLD_CONTROL
     student=task.student_role(spec.get('task_learning_role'))
     decisions=result.get('student_decisions'if student else'control_decisions'if control else'teacher_decisions',[])
@@ -504,7 +521,7 @@ def complete_consumption(spec,result):
         and (not student or(result.get('GR00T_queries')==task.QUERIES
             and result.get('student_commands_are_expert_labels')is False
             and result.get('all_fifteen_generated_H40_consumed')is True))
-        and len(cycles)==task.QUERIES+2 and len(decisions)==task.QUERIES
+        and len(cycles)==queries+2 and len(decisions)==queries
         and result.get('expert_training_eligible')is False):return False
     for position,row in enumerate(cycles):
         index=position-1
@@ -516,7 +533,7 @@ def complete_consumption(spec,result):
             if not(w['native_start_step']==c['start_step']+25*j and w['native_end_step']==c['start_step']+25*(j+1)
                 and w['actual_ticks']==25 and w.get('solver_policies_with_exact_installed_target')
                 and w['gripper']['command_consumed']is True):return False
-        if index<task.QUERIES and row.get('cancellation_status')!='SUPERSEDED_BY_ORIGINAL_NEW_REFERENCE_ACK':return False
+        if index<queries and row.get('cancellation_status')!='SUPERSEDED_BY_ORIGINAL_NEW_REFERENCE_ACK':return False
     return True
 
 

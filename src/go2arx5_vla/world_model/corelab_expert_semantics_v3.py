@@ -36,10 +36,16 @@ def recorded_tail(spec):
 
 def native_protocol(spec):
     from . import task_learning_grasp_v1 as task
+    from .eef_stream_v2 import PREFIX_ATOMS, VERSION, configuration
     original = task.protocol(spec.get('task_learning_role', task.CONSTRUCTION_ROLE))
+    stream = configuration(spec)
     if not recorded_tail(spec):
         return original
-    return dict(original, final_hold_atoms=40, expert_recorded_success_tail=RECORDED_TAIL)
+    updated = dict(original, final_hold_atoms=40, expert_recorded_success_tail=RECORDED_TAIL)
+    if stream:
+        updated.update(prefix_atoms=PREFIX_ATOMS, policy_queries=task.QUERIES * task.PREFIX_ATOMS // PREFIX_ATOMS,
+                       expert_consumer=VERSION, reference_TTL_s=.4, reference_renewal_max_s=.35)
+    return updated
 
 
 def native_endpoint(spec):
