@@ -201,6 +201,8 @@ def episode_config(spec):
     document=scenes.pinned(dict(path=spec['episode_manifest'],sha256=spec['episode_manifest_sha256']))
     episode=scenes.prefix_episode(document,spec)
     members=SOURCE_MEMBERS
+    if spec.get('corelab_world_binding_v3') is not None:
+        members += ('src/go2arx5_vla/world_model/corelab_world_owner_v3.py',)
     if epsilon_enabled:
         members += ('src/go2arx5_vla/world_model/sla_expert_epsilon_v3.py',
                     'src/go2arx5_vla/sla_adapter/codec_v1.py',
