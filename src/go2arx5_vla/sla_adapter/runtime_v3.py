@@ -12,7 +12,6 @@ import numpy as np
 
 from .runtime_v2 import BatchedEngine
 from .batch_v2 import prepared_batches, device_batch
-from .config_v1 import learning_rates
 
 
 def training_matmul_precision(spec):
@@ -105,7 +104,7 @@ class DeviceResidentEngine(BatchedEngine):
         wall = time.perf_counter() - start
         result = dict(step=self.step, cursor=self.cursor, microbatch=self.microbatch,
                       accumulation_steps=self.accumulation_steps, effective_batch=32,
-                      used_lr=learning_rates()[self.step-1], grad_norm_before_clip=float(summary[3]),
+                      used_lr=self.learning_rate_values[self.step-1], grad_norm_before_clip=float(summary[3]),
                       mean_FM32_loss=float(summary[0]), active7=float(summary[1]), padding25=float(summary[2]),
                       micro=logs, gradient_audit=audit, wall_s=wall, samples_per_s=32/wall,
                       updates_per_s=1/wall, host_wait_s=sum(r['host_wait_s'] for r in logs),

@@ -113,7 +113,8 @@ def admit(panel_root, output):
         del result, q
     states, actions = np.asarray(all_state), np.asarray(all_actions).reshape(-1, 7)
     stats = dict(state=Quantiles.fit(states).summary(states), actions=Quantiles.fit(actions).summary(actions),
-                 fit_unique_windows=122, fitted_before_oversampling=True, split='TRAIN', codec_version=VERSION)
+                 fit_unique_windows=122, fitted_before_oversampling=True, split='TRAIN', codec_version=VERSION,
+                 epsilon=EPSILON, state_gripper_transformed=False)
     write(output/'STATISTICS.private.json', stats)
     manifest = dict(schema=SCHEMA, state='committed',
         scope='NAMED_PICK_HOLD_TRAIN01_P10_FITTING_PILOT_ONLY',
