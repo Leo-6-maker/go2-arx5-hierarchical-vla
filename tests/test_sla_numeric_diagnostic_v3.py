@@ -45,3 +45,27 @@ def test_noninitial_engine_cannot_be_used_for_comparison(tmp_path):
     from go2arx5_vla.sla_adapter.numeric_diagnostic_v3 import diagnose
     with pytest.raises(ValueError, match='UNMODIFIED_PARENT'):
         diagnose(SimpleNamespace(step=1, cursor=32, counts={'optimizer_updates': 1}), tmp_path)
+
+
+def test_compiler_inspection_preserves_array_only_typed_pytree_validation():
+    import jax
+    import jax.numpy as jnp
+    from go2arx5_vla.sla_adapter.numeric_diagnostic_v3 import gradient_ir
+    @jax.tree_util.register_pytree_node_class
+    class Observation:
+        def __init__(self, images):
+            if not isinstance(images, (jax.Array, jax.core.Tracer)):
+                raise TypeError('TYPED_OBSERVATION_REQUIRES_REAL_ARRAY_OR_TRACER')
+            self.images = images
+        def tree_flatten(self):
+            return (self.images,), None
+        @classmethod
+        def tree_unflatten(cls, metadata, leaves):
+            return cls(leaves[0])
+    grad = jax.jit(jax.value_and_grad(lambda w, obs: jnp.mean((obs.images @ w)**2)))
+    args = (jnp.ones(2), Observation(jnp.ones((1, 2))))
+    with pytest.raises(TypeError, match='TYPED_OBSERVATION'):
+        grad.lower(*args)
+    text = gradient_ir(grad, args)
+    assert 'stablehlo.dot_general' in text
+    assert float(grad(*args)[0]) == 4

@@ -21,9 +21,24 @@ POINTS = (1, 8, 16)
 PRECISIONS = ('default', 'highest')
 
 
+def gradient_ir(gradient, args):
+    """Lower array leaves; reconstruct typed observations only during tracing.
+
+    JAX0.5 lower() reconstructs input trees with ArgInfo metadata. The pinned
+    upstream Observation correctly rejects those as non-array images. A flat
+    inspection wrapper leaves the original gradient and runtime checks intact.
+    """
+    import jax
+    leaves, structure = jax.tree.flatten(args)
+    def flat_gradient(*values):
+        return gradient(*jax.tree.unflatten(structure, values))
+    return str(jax.jit(flat_gradient).lower(*leaves).compiler_ir(dialect='stablehlo'))
+
+
 def diagnose(engine, root, *, predecessor=None):
     import jax
     import jax.numpy as jnp
+    from scripts.pi0292.durable import write
     root = Path(root)
     if engine.step or engine.cursor or engine.counts['optimizer_updates']:
         raise ValueError('NUMERIC_DIAGNOSIS_REQUIRES_UNMODIFIED_PARENT_STEP0')
@@ -47,7 +62,8 @@ def diagnose(engine, root, *, predecessor=None):
                   original_tolerances_unchanged=True, candidate_training_admitted=False,
                   input_indices=host['indices'], stochastic_inputs=random_inputs,
                   fixed_input_samples=32, state_token_dropped=host['state_token_dropped'],
-                  initial_checkpoint=initial, phases=[], comparisons=[])
+                  initial_checkpoint=initial, phases=[], comparisons=[], actual_engine_counts=engine.counts)
+    write(root / 'PROGRESS.private.json', result)
     for precision in PRECISIONS:
         context = nullcontext() if precision == 'default' else jax.default_matmul_precision('highest')
         with context:
@@ -71,7 +87,7 @@ def diagnose(engine, root, *, predecessor=None):
                     args = (engine.active, engine.frozen, obs, actions[offset:offset + micro],
                             noise[offset:offset + micro], flow_time[offset:offset + micro])
                     if offset == 0:
-                        hlo = str(engine.grad.lower(*args).compiler_ir(dialect='stablehlo'))
+                        hlo = gradient_ir(engine.grad, args)
                         (phase / 'GRADIENT.stablehlo.private.txt').write_text(hlo)
                     engine.counts['forward_backward_attempts'] += 1
                     engine.counts['attempted_diagnostic_visits'] = engine.counts.get('attempted_diagnostic_visits', 0) + micro
@@ -101,7 +117,7 @@ def diagnose(engine, root, *, predecessor=None):
                            dot_input_types=sorted(set(re.findall(r'tensor<[^>]+>', '\n'.join(dots)))))
                 (phase / 'RESULT.private.json').write_text(json.dumps(row, indent=2))
                 result['phases'].append(row)
-                (root / 'PROGRESS.private.json').write_text(json.dumps(result, indent=2))
+                write(root / 'PROGRESS.private.json', result)
         rows = result['phases'][-3:]
         for row in rows[1:]:
             check = compare_gradient(rows[0]['gradient']['path'], row['gradient']['path'],
