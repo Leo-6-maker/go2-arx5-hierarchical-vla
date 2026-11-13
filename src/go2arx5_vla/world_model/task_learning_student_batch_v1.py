@@ -24,6 +24,9 @@ def selection(inp,panel):
     if inp.get('schema')=='SLA_DEV16_OFFICIAL_GR00T_A500_ENGINEERING_V1_GROUP_INPUT':
         from .sla_g_native_v1 import selection
         return selection(inp,panel)
+    if inp.get('schema')=='SLA_DENSE3K_RAW_P10_TRAIN8_GROUP_INPUT_V5':
+        from .sla_dense_native_v5 import selection
+        return selection(inp,panel)
     if inp.get('schema') in('SLA_TARGET500_NATIVE_GROUP_INPUT_V1','SLA_NATIVE_COLD_UNEXECUTED_SUFFIX_INPUT_V2',SLA_DEV_SUFFIX):
         from .sla_native_v1 import selection
         return selection(inp,panel)
@@ -75,6 +78,10 @@ def selection(inp,panel):
     return rows[span[0]:span[1]]
 
 
+def condition_window(panel):
+    return 3600 if panel.get('task_learning_role')==task.SLA_DENSE_ROLE else 1200
+
+
 def specs(inp,panel,row,nbase,gbase,nroot,groot,deadline):
     """Build a pair before registration; original runtime admission still applies."""
     from . import task_learning_live_pair_v1 as pair
@@ -88,7 +95,7 @@ def specs(inp,panel,row,nbase,gbase,nroot,groot,deadline):
     native_body=task.native_body_role(panel.get('task_learning_role'))
     role=panel['task_learning_role'] if native_body else task.MATCHED_ROLE if matched else task.ENDPOINT_ROLE if endpoint else task.CONIC_ROLE if conic else task.CORE_LOCAL_ROLE if local else task.STUDENT_DEV_ROLE
     common=dict(source_root=str(source),source_sha=inp['source_sha'],source_files=inp['source_files'],
-        deadline_epoch=deadline,wall_limit_s=1200,pilot1_binding=inp['pilot1_binding'],
+        deadline_epoch=deadline,wall_limit_s=condition_window(panel),pilot1_binding=inp['pilot1_binding'],
         pilot1_binding_sha256=inp['pilot1_binding_sha256'],task_learning_grasp=task.protocol(role),
         target_gr00t_policy=panel['policies'][row['method']],target_gr00t_query_seeds=row['query_seeds'],
         target_gr00t_pair_id=row['native_run'],target_gr00t_B1_global_step=panel['B1_global_step'])
@@ -111,6 +118,15 @@ def specs(inp,panel,row,nbase,gbase,nroot,groot,deadline):
         stable_task_panel_sha256=inp['panel_sha256'],scene_allowlist=inp['scene_allowlist'],
         scene_allowlist_sha256=inp['scene_allowlist_sha256'],cpus=[0,1,2,3],ROS_DOMAIN_ID=220,
         target_gr00t_gpu_root=str(groot))
+    if role==task.SLA_DENSE_ROLE:
+        native['max_ticks']=task.native_body_profile(role).ENDPOINT
+        # An expert base supplies qualified frozen assets, not its control
+        # owner, expert transforms, dense writer or expert-only startup flags.
+        for key in ('corelab_world_binding_v3','expert_eef_stream_v2','expert_recorded_success_tail_v3',
+                    'expert_dense_observation_v3','expert_cadence_restart','sla_expert_epsilon_v3',
+                    'native_live_control_v3','body_camera_session_v3','body_camera_transport_v3',
+                    'native_display_wait_v5','native_startup_read_wait_s'):
+            native.pop(key,None)
     gpu=copy.deepcopy(gbase)
     for key in('night1_binding','next1_binding','next2_binding','phase','max_ticks','stage_identity_sha256',
         'episode_manifest','episode_manifest_sha256','target_capture_result','target_capture_result_sha256',
@@ -121,13 +137,13 @@ def specs(inp,panel,row,nbase,gbase,nroot,groot,deadline):
     gpu.update(common,registered_root=str(groot),role=groot.name.upper(),lease=str(groot/'control/LEASE.json'),
         registry_snapshot=str(groot/'control/REGISTRY_SNAPSHOT.private.json'),profile=pair.PROFILE,kind=pair.KIND,
         scope='WM02_FUSION_REFERENCE_SIM_ONLY',execution_site='CORE_FUSION_NEURAL',physics=False,device='cuda',
-        max_queries=15,cpus=[8,9,10,11],baseline_changed=False,GR00T_updates=0,WM_updates=0,Actor_updates=0,
+        max_queries=common['task_learning_grasp']['policy_queries'],cpus=[8,9,10,11],baseline_changed=False,GR00T_updates=0,WM_updates=0,Actor_updates=0,
         fusion_binding=inp['fusion_binding'],fusion_binding_sha256=inp['fusion_binding_sha256'],
         memory_execution=inp['memory_execution'],memory_execution_reference=inp['memory_execution_reference'])
     if native_body:
         q=pinned(panel['policies'][row['method']]['Native_body_qualification'])
         gpu['allocator_limit_bytes']=q['allocator_limit_bytes']
-        if role==task.SLA_ROLE:
+        if task.sla_role(role):
             from .sla_live_v1 import apply_inference_spec
             apply_inference_spec(gpu,q)
         if role in(task.NATIVE_A500_ROLE,task.SLA_G_ROLE):
@@ -157,7 +173,7 @@ def environment(s,*,gpu):
         CUDA_VISIBLE_DEVICES=s['GPU_uuid']if gpu else'',PYTHONDONTWRITEBYTECODE='1',
         OMP_NUM_THREADS='4'if gpu else'1',MKL_NUM_THREADS='4'if gpu else'1',OPENBLAS_NUM_THREADS='1',
         TMPDIR=str(root/'tmp'),XDG_CACHE_HOME=str(root/'cache'),XDG_CONFIG_HOME=str(root/'cache/config'))
-    if gpu and s.get('core_local_protocol')==task.SLA_ROLE:
+    if gpu and task.sla_role(s.get('core_local_protocol')):
         from .sla_live_v1 import inference_environment
         env.update(inference_environment(s))
     if gpu and s.get('core_local_protocol')==task.CONIC_ROLE:
@@ -270,7 +286,7 @@ def run(input_path):
     if native_body:
         body=task.native_body_profile(panel['task_learning_role'])
         validate_policy,summarize,methods=body.policy_contract,body.summarize,body.METHODS
-        if panel['task_learning_role']==task.SLA_ROLE:methods=tuple(panel['policies'])
+        if task.sla_role(panel['task_learning_role']):methods=tuple(panel['policies'])
     if conic:
         from .task_learning_conic_native_v3 import policy_contract as validate_policy,summarize
         from .task_learning_conic_policy_v3 import METHODS as methods
@@ -283,7 +299,12 @@ def run(input_path):
     if local:
         from .task_learning_local_policy_v1 import policy_contract as validate_policy,summarize
     for method in methods:
-        validate_policy(panel['policies'][method],gbase['checkpoint_files'],expected_global_step=panel['B1_global_step'])
+        q=validate_policy(panel['policies'][method],gbase['checkpoint_files'],expected_global_step=panel['B1_global_step'])
+        if panel.get('task_learning_role')==task.SLA_DENSE_ROLE:
+            # Capacity and ownership must use the card actually reconstructed
+            # for this endpoint, before any new pair is registered.
+            from .sla_live_v1 import apply_inference_spec
+            gbase=copy.deepcopy(gbase);apply_inference_spec(gbase,q)
     journal=Journal(campaign/'control/journal',campaign.name);outcomes=[];code=1;failure=None;start=time.monotonic()
     retained_prefix=0
     if inp.get('schema')=='SLA_NATIVE_COLD_UNEXECUTED_SUFFIX_INPUT_V2':
@@ -315,7 +336,7 @@ def run(input_path):
                 for root in(nr,gr):
                     root.mkdir()
                     for name in('control','logs','cache','tmp','data'):(root/name).mkdir()
-                n,g=specs(inp,panel,row,nbase,gbase,nr,gr,min(time.time()+1200,inp['deadline_epoch']))
+                n,g=specs(inp,panel,row,nbase,gbase,nr,gr,min(time.time()+condition_window(panel),inp['deadline_epoch']))
                 ep=nr/'EPISODE_MANIFEST.private.json';write(ep,episode(n));n.update(episode_manifest=str(ep),
                     episode_manifest_sha256=digest(ep),stage_identity_sha256=digest(ep))
                 ns=nr/'EXECUTION_SPEC.json';write(ns,n)
@@ -341,7 +362,7 @@ def run(input_path):
             return journal.once(register_key(nr.name),dict(row=row,source_sha=inp['source_sha']),effect)
     try:
         for row in rows:
-            task.need(time.time()+1200<inp['deadline_epoch']and not(stage/'STOP.json').exists(),'NO_LATE_NEW_DEV_CONDITION')
+            task.need(time.time()+condition_window(panel)<inp['deadline_epoch']and not(stage/'STOP.json').exists(),'NO_LATE_NEW_DEV_CONDITION')
             current_row=row;current_pair=None
             if inp.get('capacity_wait_before_pair_v3') is None:
                 registered=register(row)
@@ -389,7 +410,7 @@ def run(input_path):
                         terminal_reason='NEVER_DISPATCHED_PERMISSION_REVOKED')
                     write(root/'control/LEASE.json',permission)
         summary=summarize(panel,outcomes);write(stage/'SUMMARY.private.json',summary)
-        write(stage/'RESULT.private.json',dict(status=('G_FIXED_NEW_DEV16_COMPLETE'if code==0 else'G_FIXED_NEW_DEV16_INCOMPLETE_PRESERVED')if panel['task_learning_role']==task.SLA_G_ROLE else(('SLA_NATIVE_GROUP_COMPLETE_WITH_RETAINED_FAILURE_PREFIX'if retained_prefix else'SLA_NATIVE_GROUP_COMPLETE')if code==0 else'SLA_NATIVE_GROUP_INCOMPLETE_PRESERVED')if panel['task_learning_role']==task.SLA_ROLE else(('A_TARGET500_TRAIN4_GROUP_COMPLETE'if code==0 else'A_TARGET500_TRAIN4_GROUP_INCOMPLETE_PRESERVED')if panel['task_learning_role']==task.NATIVE_A500_ROLE else('NATIVE_BODY_TRAIN4_GROUP_COMPLETE'if code==0 else'NATIVE_BODY_TRAIN4_GROUP_INCOMPLETE_PRESERVED'))if native_body else('CORE_MATCHED128_NATIVE_GROUP_COMPLETE'if code==0 else'CORE_MATCHED128_NATIVE_GROUP_INCOMPLETE_PRESERVED')if matched else('CORE_C500_ENDPOINT_BASIS_NATIVE_GROUP_COMPLETE'if code==0 else'CORE_C500_ENDPOINT_BASIS_NATIVE_GROUP_INCOMPLETE_PRESERVED')if endpoint else('CORE_C500_CONIC_NATIVE_GROUP_COMPLETE'if code==0 else'CORE_C500_CONIC_NATIVE_GROUP_INCOMPLETE_PRESERVED')if conic else('TASK_LEARNING_CORE_LOCAL_GROUP_COMPLETE'if code==0 else'TASK_LEARNING_CORE_LOCAL_GROUP_INCOMPLETE_PRESERVED')if local else('TASK_LEARNING_STUDENT_DEV_GROUP_COMPLETE'if code==0 else'TASK_LEARNING_STUDENT_DEV_GROUP_INCOMPLETE_PRESERVED'),
+        write(stage/'RESULT.private.json',dict(status=('G_FIXED_NEW_DEV16_COMPLETE'if code==0 else'G_FIXED_NEW_DEV16_INCOMPLETE_PRESERVED')if panel['task_learning_role']==task.SLA_G_ROLE else(('SLA_NATIVE_GROUP_COMPLETE_WITH_RETAINED_FAILURE_PREFIX'if retained_prefix else'SLA_NATIVE_GROUP_COMPLETE')if code==0 else'SLA_NATIVE_GROUP_INCOMPLETE_PRESERVED')if task.sla_role(panel['task_learning_role']) else(('A_TARGET500_TRAIN4_GROUP_COMPLETE'if code==0 else'A_TARGET500_TRAIN4_GROUP_INCOMPLETE_PRESERVED')if panel['task_learning_role']==task.NATIVE_A500_ROLE else('NATIVE_BODY_TRAIN4_GROUP_COMPLETE'if code==0 else'NATIVE_BODY_TRAIN4_GROUP_INCOMPLETE_PRESERVED'))if native_body else('CORE_MATCHED128_NATIVE_GROUP_COMPLETE'if code==0 else'CORE_MATCHED128_NATIVE_GROUP_INCOMPLETE_PRESERVED')if matched else('CORE_C500_ENDPOINT_BASIS_NATIVE_GROUP_COMPLETE'if code==0 else'CORE_C500_ENDPOINT_BASIS_NATIVE_GROUP_INCOMPLETE_PRESERVED')if endpoint else('CORE_C500_CONIC_NATIVE_GROUP_COMPLETE'if code==0 else'CORE_C500_CONIC_NATIVE_GROUP_INCOMPLETE_PRESERVED')if conic else('TASK_LEARNING_CORE_LOCAL_GROUP_COMPLETE'if code==0 else'TASK_LEARNING_CORE_LOCAL_GROUP_INCOMPLETE_PRESERVED')if local else('TASK_LEARNING_STUDENT_DEV_GROUP_COMPLETE'if code==0 else'TASK_LEARNING_STUDENT_DEV_GROUP_INCOMPLETE_PRESERVED'),
             exit_code=code,failure=failure,summary=summary,assignment_slice=inp['assignment_slice'],
             selected_requests=len(rows),completed_in_group=len(outcomes)-retained_prefix,retained_prefix_conditions=retained_prefix,cumulative_completed=len(outcomes),source_sha=inp['source_sha'],panel_sha256=inp['panel_sha256'],
             wall_s=time.monotonic()-start,CPU_s=sum(v['CPU_s']for v in outcomes[retained_prefix:]),retained_prefix_CPU_s=sum(v['CPU_s']for v in outcomes[:retained_prefix]),

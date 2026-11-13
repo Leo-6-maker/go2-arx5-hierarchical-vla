@@ -53,6 +53,9 @@ def native_protocol(spec):
 
 def native_endpoint(spec):
     from . import task_learning_grasp_v1 as task
+    if spec.get('task_learning_role') == task.SLA_DENSE_ROLE:
+        from .sla_dense_native_v5 import ENDPOINT
+        return ENDPOINT
     return task.E + 500 if recorded_tail(spec) else task.E
 
 

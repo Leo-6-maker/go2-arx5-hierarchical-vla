@@ -199,7 +199,7 @@ def validate_gpu(s,actual):
     from .pilot1_scope import GPU_UUIDS
     from .pilot1_storage import local_path
     validate_spec(s)
-    if s.get('core_local_protocol')==task.SLA_ROLE:
+    if task.sla_role(s.get('core_local_protocol')):
         from .sla_live_v1 import source_custody
         source_custody(s)
     need(s.get('GPU_uuid')in GPU_UUIDS and actual['uuid']==s['GPU_uuid']
@@ -222,19 +222,26 @@ def validate_gpu(s,actual):
 
 
 def request_path(producer,index):
-    need(type(index)is int and 0<=index<task.QUERIES,'FINITE_REQUEST_INDEX')
+    need(type(index)is int and 0<=index<query_count(producer),'FINITE_REQUEST_INDEX')
     return Path(producer['registered_root'])/'native-01/GR00T_REQUESTS'/f'{index:02d}.json'
+
+
+def query_count(spec):
+    if spec.get('core_local_protocol',spec.get('task_learning_role')) == task.SLA_DENSE_ROLE:
+        from .sla_dense_native_v5 import QUERIES
+        return QUERIES
+    return task.QUERIES
 
 
 def request_body(s,observation,index):
     from .stable_task_prefix_v1 import observation_steps
-    need(type(index)is int and 0<=index<task.QUERIES,'FINITE_REQUEST_INDEX')
+    need(type(index)is int and 0<=index<query_count(s),'FINITE_REQUEST_INDEX')
     producer=validate_spec(s,verify_model=False);step=observation_steps(producer)[index]
     need(observation.get('native_step')==step
         and abs(observation['native_time_s']-step*.002)<=1e-8,
         'FRESH_OBSERVATION_AT_EXACT_CURRENT_CYCLE')
     extra={}
-    if producer.get('task_learning_role')==task.SLA_ROLE:
+    if task.sla_role(producer.get('task_learning_role')):
         frame=Path(producer['registered_root'])/'native-01/SLA_TASK_FRAME.private.json'
         from .stable_task_scene_v1 import pinned
         extra['sla_task_frame']=dict(path=str(frame),sha256=digest(frame))
@@ -304,7 +311,7 @@ def query_from_native(adapter,observation,index):
     need(producer==adapter.spec,'SAME_ACTUAL_NATIVE_OWNER')
     _registered(s,s_path);_live(s,producer)
     request=request_body(s,observation,index);path=request_path(producer,index)
-    if producer.get('task_learning_role')==task.SLA_ROLE and index==0:
+    if task.sla_role(producer.get('task_learning_role')) and index==0:
         from scripts.pi0294.task_state import read_state
         from .stable_task_scene_v1 import pinned
         import hashlib
@@ -423,7 +430,7 @@ def wait_request(s,producer,index):
 
 
 def infer(s,output):
-    if s.get('core_local_protocol')==task.SLA_ROLE:
+    if task.sla_role(s.get('core_local_protocol')):
         from .sla_live_v1 import infer as infer_sla
         return infer_sla(s,output)
     from scripts.pi0294.numerics import prepare_environment,configure_torch

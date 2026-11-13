@@ -39,6 +39,11 @@ def acknowledgement_wait(spec, original_seconds):
 
 
 def maximum_wall_seconds(spec, original_seconds):
+    from . import task_learning_grasp_v1 as task
+    if spec.get('task_learning_role') == task.SLA_DENSE_ROLE:
+        if spec.get('task_learning_grasp') != task.protocol(task.SLA_DENSE_ROLE):
+            raise ValueError('DENSE_P10_FINITE_NATIVE_PROTOCOL_REQUIRED')
+        return 3600
     return 3600 if configuration(spec) is not None else original_seconds
 
 

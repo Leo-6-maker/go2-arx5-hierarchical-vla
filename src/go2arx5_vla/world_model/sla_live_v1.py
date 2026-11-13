@@ -23,6 +23,8 @@ def apply_inference_spec(spec, qualification):
         numeric_mode='SLA_PINNED_JAX_BF16_DETERMINISTIC_V1',
         memory_execution='SLA_ORDINARY_RGB_JAX_SINGLE_CORE_V1',
         memory_execution_reference=q['ordinary_RGB_reconstruction'])
+    if q.get('schema') == 'SLA_COMPLETE_DENSE3K_CORE_RGB16_NATIVE_ADMISSION_V5':
+        spec['neural_owner_lock'] = q['neural_owner_lock']
 
 
 def inference_environment(spec):
@@ -38,6 +40,8 @@ def inference_environment(spec):
 def source_custody(spec):
     """Additional source requirements apply only to the separate SLA identity."""
     names = ('sla_native_v1.py', 'sla_native_policy_v1.py', 'sla_live_v1.py', 'sla_population_v1.py')
+    if spec.get('core_local_protocol') == task.SLA_DENSE_ROLE:
+        names += ('sla_dense_native_v5.py','sla_dense_policy_v5.py')
     source = Path(spec['source_root'])
     for name in names:
         key = 'src/go2arx5_vla/world_model/'+name
@@ -56,7 +60,7 @@ def infer(spec, output):
     from scripts.pi0294.e1.journal import Journal
     from .fusion_paused_query_bridge import _registered, _live
     from .task_learning_live_pair_v1 import (validate_spec, wait_request, read_request,
-                                             native_terminal, SCHEMA)
+                                             native_terminal, SCHEMA, query_count)
     import jax
     root = Path(output)
     producer = validate_spec(spec)
@@ -84,7 +88,7 @@ def infer(spec, output):
         loads = 1
         write(root/'MODEL_LOADED.private.json', dict(actual_SLA_parent_loads=1, optimizer_loaded=False,
             teacher_loaded=False, training_cache_used=False, deployed_LoRA_retained=True))
-        for index in range(task.QUERIES):
+        for index in range(query_count(producer)):
             path, terminal = wait_request(spec, producer, index)
             if path is None:
                 break
@@ -134,7 +138,7 @@ def infer(spec, output):
             status='ACTUAL_CONTINUOUS_LIVE_QUERIES_TERMINAL', actual_model_loads=loads,
             actual_SLA_parent_loads=loads, actual_SLA_queries=len(records), actual_GR00T_queries=0,
             actual_VLA_inferences=len(records), Processor_decode_calls=len(records), SLA_codec_decode_calls=len(records),
-            requested_query_slots=15, unused_query_slots=15-len(records), actual_early_native_terminal=terminal,
+            requested_query_slots=query_count(producer), unused_query_slots=query_count(producer)-len(records), actual_early_native_terminal=terminal,
             GR00T_updates=0, WM_updates=0, Actor_updates=0, SLA_updates=0, native_integrations=0,
             records=records, GPU_memory=jax.devices()[0].memory_stats(),
             wall_s=time.monotonic()-started, CPU_s=time.process_time()-cpu,
