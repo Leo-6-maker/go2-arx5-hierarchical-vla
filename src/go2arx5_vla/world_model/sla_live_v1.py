@@ -23,7 +23,8 @@ def apply_inference_spec(spec, qualification):
         numeric_mode='SLA_PINNED_JAX_BF16_DETERMINISTIC_V1',
         memory_execution='SLA_ORDINARY_RGB_JAX_SINGLE_CORE_V1',
         memory_execution_reference=q['ordinary_RGB_reconstruction'])
-    if q.get('schema') == 'SLA_COMPLETE_DENSE3K_CORE_RGB16_NATIVE_ADMISSION_V5':
+    if q.get('schema') in ('SLA_COMPLETE_DENSE3K_CORE_RGB16_NATIVE_ADMISSION_V5',
+                           'SLA_FRESH_N20_FM3K_CORE_RGB16_NATIVE_ADMISSION_V5'):
         spec['neural_owner_lock'] = q['neural_owner_lock']
 
 

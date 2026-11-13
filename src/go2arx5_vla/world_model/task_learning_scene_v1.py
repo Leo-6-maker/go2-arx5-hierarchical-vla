@@ -121,13 +121,19 @@ def admission(spec):
     return validate_static_provenance(spec, proof, expected_role=expected_role)
 
 
-def validate_static_provenance(spec, proof, *, expected_role):
-    """Read-only geometry evidence; supplies no execution or collection grant."""
+def validate_static_provenance(spec, proof, *, expected_role, verified_builder_sha256=None):
+    """Read-only geometry evidence; supplies no execution or collection grant.
+
+    A caller may supply the archived builder digest only after checking its
+    closed producer and immutable model custody. Ordinary callers keep the
+    exact current-file check.
+    """
     from . import task_learning_grasp_v1 as task
     layout=proof.get('layout')
     if not(proof.get('schema')=='TASK_LEARNING_NEAR_WORKSPACE_STATIC_V1'
         and proof.get('status')=='STATIC_ONLY_PASSED_NEW_NATIVE_ADMISSION_REQUIRED'
-        and proof.get('builder_sha256')==spec['source_files'][MEMBER]
+        and proof.get('builder_sha256')==(spec['source_files'][MEMBER] if verified_builder_sha256 is None
+                                        else verified_builder_sha256)
         and proof.get('geometry')==geometry(layout)and proof.get('parent')==scene_id(layout)==spec['scene_id']==spec['data_parent']
         and spec.get('task_learning_role',task.CONSTRUCTION_ROLE)==expected_role
         and proof.get('split')==spec['data_role']==('DEV'if layout in DEV_OFFSETS else'TRAIN')

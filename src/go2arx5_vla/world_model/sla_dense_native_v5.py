@@ -17,6 +17,14 @@ NATIVE_SCHEMA = 'SLA_DENSE3K_RAW_P10_NATIVE_ACTUAL_V5'
 EXPERIMENT = 'LIMITED_TWO_EPISODE_DENSE3K_RAW_P10_TRAIN8_NOT_DEV_TEST'
 ADMISSION = 'SLA_COMPLETE_DENSE3K_CORE_RGB16_NATIVE_ADMISSION_V5'
 METHODS = ('DENSE_FM3K_RAW_P10','DENSE_SF3K_RAW_P10')
+NAMED_METHOD = 'N20_FM3K_RAW_P10'
+NAMED_ADMISSION = 'SLA_FRESH_N20_FM3K_CORE_RGB16_NATIVE_ADMISSION_V5'
+NAMED_SCHEMA = 'SLA_FRESH_N20_RAW_P10_TRAIN8_PANEL_V5'
+NAMED_INPUT_SCHEMA = 'SLA_FRESH_N20_RAW_P10_TRAIN8_GROUP_INPUT_V5'
+NAMED_DECLARATION = 'experiments/sla_go2_posttrain/named20_train8_inputs_v5.json'
+NAMED_EXPERIMENT = 'FRESH_N20_COMPLETE3K_RAW_P10_TRAIN8_NOT_INDEPENDENT_DEV_OR_D100'
+NAMED_DATASET = 'T_PICK_HOLD_TRAIN8_P10_N20_V5'
+NAMED_RECIPE = 'SLA_FRESH_NAMED_N20_FM32_3K_V5'
 QUERIES, PREFIX_ATOMS, FINAL_HOLD = 60, 10, 40
 ENDPOINT = task.B + 25*(QUERIES*PREFIX_ATOMS+FINAL_HOLD)
 DECLARATION = 'experiments/sla_go2_posttrain/dense_train8_inputs_v5.json'
@@ -43,8 +51,8 @@ def protocol():
         complete_H40_gate_before_every_prefix=True,unexecuted_suffix_is_expert_data=False)
 
 
-def declaration():
-    p=Path(__file__).resolve().parents[3]/DECLARATION
+def declaration(*,named=False):
+    p=Path(__file__).resolve().parents[3]/(NAMED_DECLARATION if named else DECLARATION)
     return json.loads(p.read_bytes()),digest(p)
 
 
@@ -52,7 +60,9 @@ def qualification(q,*,verify_package=True):
     """Check actual closed training/save and fresh ordinary-RGB reconstruction."""
     from .sla_native_v1 import closed
     from ..sla_adapter.gripper_latent_v2 import VERSION, EPSILON
-    task.need(q.get('schema')==ADMISSION and q.get('method') in METHODS
+    named=q.get('schema')==NAMED_ADMISSION
+    task.need((q.get('schema')==ADMISSION and q.get('method') in METHODS
+               or named and q.get('method')==NAMED_METHOD)
               and q.get('old_DEV_TEST_admitted') is False,'DENSE_COMPLETE3K_SEPARATE_IDENTITY')
     owner=closed(q['candidate_owner'])
     rgb_owner=closed(q['ordinary_RGB_owner'])
@@ -69,7 +79,18 @@ def qualification(q,*,verify_package=True):
         and training['actual']['optimizer_updates']==3000
         and training['actual']['completed_training_visits']>=96000,
         'DENSE_REAL_COMPLETE3K_AND96000_COMMITTED_TARGET_VISITS')
-    if q['method']==METHODS[1]:
+    if named:
+        task.need(training['schema']=='SLA_FRESH_N20_FINITE_FM3K_ACTUAL_V5'
+            and training['operation']=='NAMED_PICK_HOLD_N20_FM_3K'
+            and not training['noncandidate'] and training['complete3K'] is True
+            and training['fresh_complete_episodes']==20 and training['old_2EP_reused']==0
+            and training['D100_new'] is training['D300_new'] is False
+            and owner['schema']=='SLA_CORE_FRESH_N20_FM3K_RGB_ACTUAL_V5'
+            and owner['complete3K'] is owner['passes'] is owner['fresh_RGB16_bit_exact'] is True
+            and owner['step']==3000 and owner['target_visits']==96000 and owner['source_visits']==0
+            and owner['fresh_complete_episodes']==20,
+            'NAMED_N20_ACTUAL_FRESH20_FM3K_NOT_OLD2EP_OR_QUALIFICATION')
+    elif q['method']==METHODS[1]:
         task.need(training['schema']=='SLA_CLEAN_BASE_DENSE_SPATIAL3K_ACTUAL_V5'
             and training['source_visits']==0 and training['actual']['teacher_model_loads']==0
             and training['actual']['spatial_cache_training_visits']>=96000
@@ -92,8 +113,8 @@ def qualification(q,*,verify_package=True):
         and m.get('codec')==b.get('codec_version')==VERSION and m.get('label_epsilon')==EPSILON
         and m.get('step')==3000 and m.get('cursor')==96000 and not m['qualification_only']
         and m['original_complete_sha256']==q['complete_state']['sha256']
-        and b==complete['bindings'] and b['recipe']==RECIPES[q['method']]
-        and b['dataset_id']=='T_PICK_HOLD_TRAIN01_P10_2EP_V4_1'
+        and b==complete['bindings'] and b['recipe']==(NAMED_RECIPE if named else RECIPES[q['method']])
+        and b['dataset_id']==(NAMED_DATASET if named else 'T_PICK_HOLD_TRAIN01_P10_2EP_V4_1')
         and b['dense_manifest_sha256']==q['dense_manifest_sha256']
         and b['derived_statistics_sha256']==m['statistics_sha256']
         and b['D100_new'] is False and b['PICK_PLACE_admitted'] is False
@@ -107,9 +128,15 @@ def qualification(q,*,verify_package=True):
         and m['decode_order']=='INVERSE_LATENT_NORMALIZATION_THEN_SIGMOID_ONCE_THEN_ORIGINAL_NATIVE_NOMINAL_MAPPING',
         'DENSE_EXACT_TRAINED_RAW_LOGIT_RGB_PACKAGE_WITHOUT_ENDPOINT_BASIS')
     audit=pinned(q['target_audit'])
-    task.need(audit['passes'] and audit['read_windows']==122
+    task.need(audit['passes'] and audit['read_windows']==(1220 if named else 122)
         and audit['manifest_sha256']==b['dense_manifest_sha256']
         and q['target_audit']['sha256']==b['target_audit'],'DENSE_REUSED_EXACT122_WINDOW_DATA_AUDIT')
+    if named:
+        task.need(audit['schema']=='SLA_FRESH_NAMED_N20_ALL_WINDOW_READBACK_V5'
+            and audit['dataset_id']==NAMED_DATASET and audit['episodes']==20
+            and b['old_2EP_reused']==b['old_engineering16_reused']==0 and b['D300_new'] is False
+            and b['limited_fresh_named_N20_fitting'] is True,
+            'NAMED_N20_TYPED_ALL1220_WINDOW_READER_AND_UNMODIFIED_OLD_DATA')
     task.need(rgb.get('passes') is True and rgb.get('all_bit_exact') is True
         and rgb['ordinary_RGB_generations']==len(rgb['records'])==16
         and rgb['actual_parent_loads']==1 and rgb['optimizer_updates']==rgb['physical_requests']==0
@@ -138,7 +165,7 @@ def qualification(q,*,verify_package=True):
 
 def policy_contract(value,checkpoint_files=None,*,verify_package=True,expected_global_step=3000):
     task.need(set(value)=={'arm','package','Native_body_qualification'}
-        and value['arm'] in METHODS and expected_global_step==3000,'DENSE_ONLY_FIXED3K_POLICY')
+        and value['arm'] in METHODS+(NAMED_METHOD,) and expected_global_step==3000,'DENSE_ONLY_FIXED3K_POLICY')
     q=qualification(pinned(value['Native_body_qualification']),verify_package=verify_package)
     task.need(q['method']==value['arm'] and q['package']==value['package'],'DENSE_SAME_METHOD_AND_PACKAGE')
     return q
@@ -153,10 +180,11 @@ def memory_contract(spec):
 
 
 def validate_panel(panel):
-    d,pin=declaration();rows=panel.get('assignments')or[];method=panel.get('method')
-    task.need(panel.get('schema')==SCHEMA and panel.get('task_learning_role')==PROTOCOL
+    named=panel.get('schema')==NAMED_SCHEMA
+    d,pin=declaration(named=named);rows=panel.get('assignments')or[];method=panel.get('method')
+    task.need(panel.get('schema')==(NAMED_SCHEMA if named else SCHEMA) and panel.get('task_learning_role')==PROTOCOL
         and panel['protocol']==protocol() and panel['B1_global_step']==3000
-        and panel['population']=='TRAIN8' and method in METHODS
+        and panel['population']=='TRAIN8' and method in ((NAMED_METHOD,)if named else METHODS)
         and set(panel['policies'])=={method} and panel['policies'][method]['arm']==method
         and panel['preregistration']['sha256']==pin and pinned(panel['preregistration'])==d
         and len(rows)==len({r['native_run']for r in rows})==8,'DENSE_FIXED_TRAIN8_POPULATION_BEFORE_OUTPUTS')
@@ -164,7 +192,7 @@ def validate_panel(panel):
         task.need(all(row[k]==expected[k]for k in ('layout','restart','query_seeds'))
             and row['method']==method and row['split']=='TRAIN'
             and row['parent']=='TASK_LEARNING_UNDER_HAND_'+row['layout']
-            and row['command']==task.COMMAND and row['purpose']==EXPERIMENT
+            and row['command']==task.COMMAND and row['purpose']==(NAMED_EXPERIMENT if named else EXPERIMENT)
             and len(row['model_sha256'])==64 and Path(row['native_run']).name==row['native_run'],
             'DENSE_ALL_EIGHT_CONDITIONS_AND_SIXTY_DECLARED_QUERY_SEEDS')
     return rows
@@ -172,7 +200,7 @@ def validate_panel(panel):
 
 def selection(inp,panel):
     rows=validate_panel(panel)
-    task.need(inp.get('schema')==INPUT_SCHEMA and inp['source_sha']==panel['source_sha']
+    task.need(inp.get('schema')==(NAMED_INPUT_SCHEMA if panel['schema']==NAMED_SCHEMA else INPUT_SCHEMA) and inp['source_sha']==panel['source_sha']
         and inp['assignment_slice']==[0,8] and inp.get('population_predecessor') is None,
         'DENSE_ORIGINAL_FULL_TRAIN8_NOT_SELECTED_SUCCESSES')
     return rows
@@ -185,9 +213,9 @@ def native_scene_admission(spec):
     panel=pinned(dict(path=spec['stable_task_panel'],sha256=spec['stable_task_panel_sha256']))
     proof=pinned(spec['task_learning_scene_reference'])
     task.need(spec['task_learning_role']==spec['core_local_protocol']==PROTOCOL,'DENSE_DISTINCT_NATIVE_ROLE')
-    validate_static_provenance(spec,proof,expected_role=PROTOCOL)
-    scene_custody(panel['registration']['scene_producers'][proof['layout']],
-                  spec['task_learning_scene_reference'],spec['model_path'])
+    builder=scene_custody(panel['registration']['scene_producers'][proof['layout']],
+                          spec['task_learning_scene_reference'],spec['model_path'])
+    validate_static_provenance(spec,proof,expected_role=PROTOCOL,verified_builder_sha256=builder)
     matches=[r for r in validate_panel(panel)if r['native_run']==Path(spec['registered_root']).name]
     task.need(len(matches)==1,'DENSE_ONE_REGISTERED_NATIVE_REQUEST')
     row=matches[0]
@@ -233,7 +261,7 @@ def summarize(panel,outcomes):
     task.need(len(outcomes)<=8 and all(all(r[k]==rows[i][k]for k in
         ('native_run','layout','method','restart','parent','split','query_seeds'))
         for i,r in enumerate(outcomes)),'DENSE_ORIGINAL_CONDITIONS_ONCE')
-    return dict(schema=SCHEMA+'_ACTUAL',requested=8,completed=len(outcomes),complete=len(outcomes)==8,
+    return dict(schema=panel['schema']+'_ACTUAL',requested=8,completed=len(outcomes),complete=len(outcomes)==8,
         methods={panel['method']:dict(requested=8,attempted=sum(r['attempted']for r in outcomes),
             task_successes=sum(r['technical_valid']and r['task_success']for r in outcomes),
             valid_task_failures=sum(r['technical_valid']and not r['task_success']for r in outcomes),
@@ -265,7 +293,8 @@ def register_panel(request):
         'DENSE_EXISTING_IMMUTABLE_SOURCE_TRANSFER_SEAL')
     q=qualification(pinned(request['Native_body_qualification']))
     method=q['method'];policy=dict(arm=method,package=q['package'],Native_body_qualification=request['Native_body_qualification'])
-    d,pin=declaration()
+    named=q['method']==NAMED_METHOD
+    d,pin=declaration(named=named)
     task.need(request['preregistration']['sha256']==pin and pinned(request['preregistration'])==d
         and set(request['scenes'])=={r['layout']for r in d['conditions']},'DENSE_FIXED_INPUTS_AND_FOUR_TRAIN_SCENES')
     rows=[]
@@ -275,8 +304,8 @@ def register_panel(request):
         scene_custody(request['scene_producers'][layout],reference,model)
         rows.append(dict(expected,native_run=f"sla-{method.lower()}-{layout.lower()}-r{expected['restart']}",
             parent=proof['parent'],method=method,model_sha256=digest(model),split='TRAIN',
-            purpose=EXPERIMENT,command=task.COMMAND))
-    panel=dict(schema=SCHEMA,task_learning_role=PROTOCOL,protocol=protocol(),source_sha=request['source_sha'],
+            purpose=NAMED_EXPERIMENT if named else EXPERIMENT,command=task.COMMAND))
+    panel=dict(schema=NAMED_SCHEMA if named else SCHEMA,task_learning_role=PROTOCOL,protocol=protocol(),source_sha=request['source_sha'],
         B1_global_step=3000,training_seed=20261112,method=method,population='TRAIN8',policies={method:policy},
         assignments=rows,preregistration=request['preregistration'],
         registration={k:request[k]for k in ('source_root','source_files','native_base','gpu_base','scenes',
@@ -290,7 +319,7 @@ def register_panel(request):
                 panel_sha256=digest(root/'PANEL.private.json'),created_epoch=time.time()))
             registry,before=snapshot(n['registry'])
             task.need(not any(r.get('path')==str(root)for r in registry['entries']),'DENSE_NEW_PANEL_REGISTRY')
-            registry['entries'].append(dict(path=str(root),role=key,scope=SCHEMA,owner=n['owner'],
+            registry['entries'].append(dict(path=str(root),role=key,scope=panel['schema'],owner=n['owner'],
                 source_sha=request['source_sha'],local_lease=str(root/'control/LEASE.json'),executor_node=n['host']))
             once(n['registry'],registry,key+'-REGISTRY',expected_before_sha256=before)
             return dict(status='DENSE_TRAIN8_PANEL_SEALED_NO_WORKER_STARTED',panel=descriptor(root/'PANEL.private.json'))

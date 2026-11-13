@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 
 from go2arx5_vla.world_model.storage import digest
-from go2arx5_vla.world_model.sla_dense_native_v5 import ADMISSION,parameter_bytes,qualification
+from go2arx5_vla.world_model.sla_dense_native_v5 import ADMISSION,NAMED_ADMISSION,NAMED_METHOD,parameter_bytes,qualification
 
 
 def build(request):
@@ -22,7 +22,8 @@ def build(request):
     inventory=json.loads(Path(pins['parameter_inventory']['path']).read_bytes())
     runtime={key:rs[key]for key in ('python','upstream_root','JAX_memory_fraction',
                                     'compilation_cache_dir','initial_function_rule')}
-    q=dict(schema=ADMISSION,method=request['method'],old_DEV_TEST_admitted=False,**pins,
+    q=dict(schema=NAMED_ADMISSION if request['method']==NAMED_METHOD else ADMISSION,
+        method=request['method'],old_DEV_TEST_admitted=False,**pins,
         package=rs['package'],parent_params=rs['parent_params'],parent_manifest=rs['parent_manifest'],
         GPU_uuid=rs['GPU_uuid'],allocator_limit_bytes=rs['allocator_limit_bytes'],
         neural_owner_lock=rs['neural_owner_lock'],ordinary_parameter_bytes=parameter_bytes(inventory),
