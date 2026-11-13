@@ -25,7 +25,7 @@ def declaration():
 
 def qualification(q, *, verify_package=True):
     from .sla_native_v1 import closed
-    from ..sla_adapter.provider_v3 import contract
+    from ..sla_adapter.gripper_latent_v2 import VERSION, EPSILON
     task.need(q.get('schema') == ADMISSION and q.get('method') == METHODS[1]
               and q.get('old_DEV_TEST_admitted') is False, 'DISTINCT_R1_LOGIT500_IDENTITY')
     rgb = closed(q['ordinary_RGB_reconstruction'])
@@ -53,7 +53,15 @@ def qualification(q, *, verify_package=True):
               and candidate['step'] == 500 and candidate['cursor'] == 16000,
               'ACTUAL_R1_FIXED500_AND_16000_VISITS')
     m = pinned(dict(path=str(Path(q['package']['path'])/'MANIFEST.private.json'), sha256=q['package']['sha256']))
-    contract(m)
+    # The native supervisor checks metadata without importing the model's
+    # SciPy/JAX environment. The GPU provider repeats its serving contract.
+    task.need(m.get('schema') == 'SLA_GRIP_LOGIT_ORDINARY_RGB_INFERENCE_PACKAGE_V3'
+              and m.get('codec') == m.get('bindings',{}).get('codec_version') == VERSION
+              and m.get('label_epsilon') == EPSILON
+              and m.get('decode_order') == 'INVERSE_LATENT_NORMALIZATION_THEN_SIGMOID_ONCE_THEN_ORIGINAL_NATIVE_NOMINAL_MAPPING'
+              and all(m.get(k) is False for k in ('state_gripper_transformed','teacher_required',
+                                                'training_cache_required','optimizer_required')),
+              'R1_DISTINCT_SINGLE_SIGMOID_TEACHER_FREE_PACKAGE')
     task.need(m['step'] == 500 and m['cursor'] == 16000 and not m['qualification_only']
               and m['original_complete_sha256'] == candidate['last_checkpoint']['sha256']
               and m['bindings']['recipe'] == 'SLA_EFFECTIVE32_DEVICE_REDUCTION_V3'
