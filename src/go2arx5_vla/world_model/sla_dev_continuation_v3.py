@@ -7,6 +7,43 @@ from .stable_task_scene_v1 import pinned
 from .storage import digest
 
 SCHEMA = 'SLA_DEV16_COLD_SUFFIX_INPUT_V3'
+REGISTRATION_PROOF_KEYS = frozenset(('S1_loader_reconstruction', 'S1_prelaunch_reconciliation'))
+
+
+def reconciled_prelaunch(panel, inp, names, journal, registry):
+    """Prove that the known rejected registration had no run or registry effect."""
+    from .task_learning_grasp_v1 import need
+    proof = panel['registration'].get('S1_prelaunch_reconciliation')
+    if proof is None:
+        return None
+    need(set(proof) == {'input', 'result', 'lease', 'registration_intent'}, 'EXACT_S1_PREFLIGHT_PROOF')
+    old, result, lease, intent = [pinned(proof[k]) for k in ('input', 'result', 'lease', 'registration_intent')]
+    group = Path(proof['input']['path']).parent
+    need(proof['result']['path'] == str(group / 'RESULT.private.json')
+         and proof['lease']['path'] == str(group / 'control/LEASE.json')
+         and lease['status'] == 'CLOSED' and lease['worker_exit_code'] == result['exit_code'] == 1
+         and lease['input_sha256'] == proof['input']['sha256']
+         and old['native_base'] == inp['native_base'] and old['gpu_base'] == inp['gpu_base']
+         and old['assignment_slice'] == result['assignment_slice'] and result['completed_in_group'] == 0
+         and result['failure'] == 'ValueError: TASK_LEARNING_GRASP_SLA_DEPLOYMENT_USES_ACTUAL_TRAINED_AND_QUALIFIED_ADAPTER_CODE'
+         and result['unresolved_pair']['stage'] == 'REGISTRATION_NOT_COMPLETED_NO_REPLAY',
+         'CLOSED_EFFECT_FREE_S1_LOADER_PREFLIGHT_REQUIRED')
+    root = Path(result['unresolved_pair']['native_root'])
+    name = root.name
+    partner = root.with_name(name + '-gpu')
+    key = name.upper()
+    need(root.parent == group / 'runs' and name in names
+         and proof['registration_intent']['path'] == str(journal.path(key + '-REGISTER'))
+         and intent['status'] == 'INTENT'
+         and not any(journal.path(k).exists() for k in
+                     (key + '-PAIR-REGISTRY', key + '-RUN', key + '-GPU-RUN'))
+         and not any(entry.get('run_uuid') in (name, name + '-gpu') for entry in registry['entries'])
+         and all(not (r / p).exists() for r in (root, partner) for p in
+                 ('control/LEASE.json', 'SUPERVISOR.private.json', 'native-01', 'fit-01', 'WORKER_EXIT.private.json'))
+         and subprocess.check_output(['systemctl', '--user', 'show', 'wm02-' + group.name,
+                                      '--property=MainPID', '--value'], text=True).strip() == '0',
+         'NO_EFFECTS_FROM_RECONCILED_S1_PREFLIGHT')
+    return name
 
 
 def retained_prefix(panel):
@@ -19,10 +56,13 @@ def retained_prefix(panel):
     journal = Journal(campaign / 'control/journal', campaign.name)
     registry = json.loads(Path(native_base['registry']).read_bytes())
     names = {row['native_run'] for row in panel['assignments'][len(rows):]}
+    reconciled = reconciled_prelaunch(panel, inp, names, journal, registry)
     for name in names:
         key = name.upper()
+        suffixes = ('-RECONCILED-REGISTER', '-PAIR-REGISTRY', '-RUN', '-GPU-RUN') if name == reconciled else (
+            '-REGISTER', '-PAIR-REGISTRY', '-RUN', '-GPU-RUN')
         need(not any(journal.path(key + suffix).exists() for suffix in
-                     ('-REGISTER', '-PAIR-REGISTRY', '-RUN', '-GPU-RUN'))
+                     suffixes)
              and not any(entry.get('run_uuid') in (name, name + '-gpu') for entry in registry['entries'])
              and not any((group / 'runs' / child).exists() for group in completed_groups
                          for child in (name, name + '-gpu')),
@@ -41,8 +81,10 @@ def _closed_prefix(panel, seen=frozenset()):
     need(panel['population'] == prior['population'] == 'DEV16'
          and {k: v for k, v in panel.items() if k not in ('source_sha', 'registration', 'dev16_predecessor')}
          == {k: v for k, v in prior.items() if k not in ('source_sha', 'registration', 'dev16_predecessor')}
-         and {k: v for k, v in panel['registration'].items() if k not in ('source_root', 'source_files')}
-         == {k: v for k, v in prior['registration'].items() if k not in ('source_root', 'source_files')},
+         and {k: v for k, v in panel['registration'].items()
+              if k not in REGISTRATION_PROOF_KEYS | {'source_root', 'source_files'}}
+         == {k: v for k, v in prior['registration'].items()
+             if k not in REGISTRATION_PROOF_KEYS | {'source_root', 'source_files'}},
          'SAME_ORIGINAL_DEV16_CONDITIONS_POLICY_AND_RUNTIME_INPUTS_REQUIRED')
     earlier, groups, earlier_input = (
         _closed_prefix(prior, seen | {group}) if 'dev16_predecessor' in prior else ([], (), inp))

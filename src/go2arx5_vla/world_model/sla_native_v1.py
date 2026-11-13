@@ -220,13 +220,52 @@ def validate_live(s, *, verify_model=True):
     native_scene_admission(producer)
     q = policy_contract(s['target_gr00t_policy'], verify_package=verify_model)
     manifest=pinned(dict(path=str(Path(q['package']['path'])/'MANIFEST.private.json'),sha256=q['package']['sha256']))
+    updated = _reconstructed_loader(s, q)
     for name,pin in manifest['bindings']['adapter_source'].items():
-        task.need(name in s['source_files'] and s['source_files'][name]==pin
-            and digest(Path(s['source_root'])/name)==pin,'SLA_DEPLOYMENT_USES_ACTUAL_TRAINED_AND_QUALIFIED_ADAPTER_CODE')
+        expected = updated.get(name, pin)
+        task.need(name in s['source_files'] and s['source_files'][name]==expected
+            and digest(Path(s['source_root'])/name)==expected,'SLA_DEPLOYMENT_USES_ACTUAL_TRAINED_AND_QUALIFIED_ADAPTER_CODE')
     task.need(s['GPU_uuid'] == q['GPU_uuid'] and s['allocator_limit_bytes'] == q['allocator_limit_bytes'],
               'SLA_ACTUALLY_QUALIFIED_GPU_AND_MEMORY_LIMIT')
     memory_contract(s)
     return producer
+
+
+def _reconstructed_loader(spec, qualification):
+    producer = pinned(spec['producer_native_spec'])
+    panel = pinned(dict(path=producer['stable_task_panel'], sha256=producer['stable_task_panel_sha256']))
+    evidence = panel['registration'].get('S1_loader_reconstruction')
+    if evidence is None:
+        return {}
+    task.need(panel['population'] == 'DEV16' and panel['method'] == METHODS[0],
+              'LOADER_RECONSTRUCTION_ONLY_FOR_FIXED_S1_DEV16')
+    result = closed(evidence)
+    root = Path(evidence['path']).parent
+    reconstruction = json.loads((root / 'EXECUTION_SPEC.json').read_bytes())
+    source = Path(reconstruction['source_root'])
+    seal = pinned(reconstruction['source_seal'])
+    original = closed(qualification['ordinary_RGB_reconstruction'])
+    memory = result['GPU_memory']
+    path = 'src/go2arx5_vla/sla_adapter/model_v1.py'
+    task.need(result['schema'] == original['schema'] == 'SLA_FRESH_ORDINARY_RGB_PACKAGE_ACTUAL_V1'
+              and result['passes'] is True and result['step'] == 500
+              and result['package'] == original['package'] == qualification['package']
+              and result['frozen_fingerprint'] == original['frozen_fingerprint']
+              and result['ordinary_RGB_generations'] == len(result['records']) == 16
+              and [(v['index'], v['noise']) for v in result['records']]
+              == [(v['index'], v['noise']) for v in original['records']]
+              and all(v['bit_exact'] for v in result['records'])
+              and result['actual_parent_loads'] == 1 and result['deployed_LoRA_retained']
+              and result['optimizer_updates'] == result['physical_requests'] == 0
+              and not any(result[k] for k in ('optimizer_loaded', 'training_cache_used', 'teacher_loaded'))
+              and reconstruction['GPU_uuid'] == spec['GPU_uuid'] == qualification['GPU_uuid']
+              and reconstruction['JAX_memory_fraction'] == qualification['runtime']['JAX_memory_fraction']
+              and reconstruction['parent_params'] == qualification['parent_params']
+              and reconstruction['source_sha'] == seal['source_sha']
+              and seal['files'][path] == digest(source / path)
+              and max(memory['peak_bytes_in_use'], memory['bytes_limit']) <= spec['allocator_limit_bytes'],
+              'ACTUAL_SAME_PACKAGE_16_BIT_EXACT_RGB_LOADER_QUALIFICATION_REQUIRED')
+    return {path: seal['files'][path]}
 
 
 def summarize(panel, outcomes):
