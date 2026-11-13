@@ -44,7 +44,7 @@ def parameter_bytes(inventory):
 def protocol():
     from .sla_native_v1 import protocol as original
     from .sla_dense_policy_v5 import VERSION
-    return dict(original(),stage=PROTOCOL,scene_family='LIMITED_DENSE3K_FIXED_TRAIN8',
+    return dict(original(),stage=PROTOCOL,scene_family='FIXED_DENSE3K_RAW_P10_TARGET_EVALUATION',
         policy='SLA_COMPLETE_DENSE3K_RAW_H40_WITHOUT_ENDPOINT_BASIS',
         prefix_atoms=PREFIX_ATOMS,policy_queries=QUERIES,final_hold_atoms=FINAL_HOLD,
         consumer_version=VERSION,reference_TTL_s=.4,reference_renewal_max_s=.35,
@@ -180,6 +180,8 @@ def memory_contract(spec):
 
 
 def validate_panel(panel):
+    from . import sla_dev48_v5 as dev
+    if panel.get('schema')==dev.SCHEMA:return dev.validate_panel(panel)
     named=panel.get('schema')==NAMED_SCHEMA
     d,pin=declaration(named=named);rows=panel.get('assignments')or[];method=panel.get('method')
     task.need(panel.get('schema')==(NAMED_SCHEMA if named else SCHEMA) and panel.get('task_learning_role')==PROTOCOL
@@ -199,6 +201,8 @@ def validate_panel(panel):
 
 
 def selection(inp,panel):
+    from . import sla_dev48_v5 as dev
+    if panel.get('schema')==dev.SCHEMA:return dev.selection(inp,panel)
     rows=validate_panel(panel)
     task.need(inp.get('schema')==(NAMED_INPUT_SCHEMA if panel['schema']==NAMED_SCHEMA else INPUT_SCHEMA) and inp['source_sha']==panel['source_sha']
         and inp['assignment_slice']==[0,8] and inp.get('population_predecessor') is None,
@@ -258,11 +262,11 @@ def validate_live(spec,*,verify_model=True):
 
 def summarize(panel,outcomes):
     rows=validate_panel(panel)
-    task.need(len(outcomes)<=8 and all(all(r[k]==rows[i][k]for k in
+    task.need(len(outcomes)<=len(rows) and all(all(r[k]==rows[i][k]for k in
         ('native_run','layout','method','restart','parent','split','query_seeds'))
         for i,r in enumerate(outcomes)),'DENSE_ORIGINAL_CONDITIONS_ONCE')
-    return dict(schema=panel['schema']+'_ACTUAL',requested=8,completed=len(outcomes),complete=len(outcomes)==8,
-        methods={panel['method']:dict(requested=8,attempted=sum(r['attempted']for r in outcomes),
+    return dict(schema=panel['schema']+'_ACTUAL',population=panel['population'],requested=len(rows),completed=len(outcomes),complete=len(outcomes)==len(rows),
+        methods={panel['method']:dict(requested=len(rows),attempted=sum(r['attempted']for r in outcomes),
             task_successes=sum(r['technical_valid']and r['task_success']for r in outcomes),
             valid_task_failures=sum(r['technical_valid']and not r['task_success']for r in outcomes),
             technical_failures=sum(not r['technical_valid']for r in outcomes),
@@ -274,7 +278,7 @@ def summarize(panel,outcomes):
 
 
 def register_panel(request):
-    """Seal one method's full TRAIN8 via the existing registry and Journal."""
+    """Seal one method's full fixed population via the existing registry/Journal."""
     from contextlib import closing
     import time
     from scripts.pi0292.durable import OwnerLock,write
@@ -282,6 +286,7 @@ def register_panel(request):
     from scripts.pi0294.night10.native_relay import snapshot,once
     from .task_learning_student_registration_v2 import closed_base,actual_site,descriptor
     from .sla_native_v1 import scene_custody
+    from . import sla_dev48_v5 as dev
     n=closed_base(request['native_base']);closed_base(request['gpu_base'])
     campaign=Path(n['campaign_root']);actual_site(campaign)
     root,source=Path(request['root']),Path(request['source_root'])
@@ -294,33 +299,42 @@ def register_panel(request):
     q=qualification(pinned(request['Native_body_qualification']))
     method=q['method'];policy=dict(arm=method,package=q['package'],Native_body_qualification=request['Native_body_qualification'])
     named=q['method']==NAMED_METHOD
-    d,pin=declaration(named=named)
+    development=request.get('population')==dev.POPULATION
+    task.need(request.get('population','TRAIN8')in('TRAIN8',dev.POPULATION),'DENSE_EXPLICIT_TRAIN8_OR_NEW_DEV48')
+    d,pin=dev.declaration()if development else declaration(named=named)
+    inputs=dev.inputs()if development else d['conditions']
+    purpose=dev.EXPERIMENT if development else NAMED_EXPERIMENT if named else EXPERIMENT
     task.need(request['preregistration']['sha256']==pin and pinned(request['preregistration'])==d
-        and set(request['scenes'])=={r['layout']for r in d['conditions']},'DENSE_FIXED_INPUTS_AND_FOUR_TRAIN_SCENES')
+        and set(request['scenes'])=={r['layout']for r in inputs},'DENSE_FIXED_INPUTS_AND_SCENES')
+    if development:dev.disjointness(request['scene_disjointness'])
     rows=[]
-    for expected in d['conditions']:
+    for expected in inputs:
         layout=expected['layout'];reference=request['scenes'][layout];proof=pinned(reference)
         model=Path(reference['path']).parent/'SCENE.private.mjb'
         scene_custody(request['scene_producers'][layout],reference,model)
         rows.append(dict(expected,native_run=f"sla-{method.lower()}-{layout.lower()}-r{expected['restart']}",
-            parent=proof['parent'],method=method,model_sha256=digest(model),split='TRAIN',
-            purpose=NAMED_EXPERIMENT if named else EXPERIMENT,command=task.COMMAND))
-    panel=dict(schema=NAMED_SCHEMA if named else SCHEMA,task_learning_role=PROTOCOL,protocol=protocol(),source_sha=request['source_sha'],
-        B1_global_step=3000,training_seed=20261112,method=method,population='TRAIN8',policies={method:policy},
+            parent=proof['parent'],method=method,model_sha256=digest(model),split=dev.SPLIT if development else'TRAIN',
+            purpose=purpose,command=task.COMMAND))
+    panel=dict(schema=dev.SCHEMA if development else NAMED_SCHEMA if named else SCHEMA,task_learning_role=PROTOCOL,protocol=protocol(),source_sha=request['source_sha'],
+        B1_global_step=3000,training_seed=20261112,method=method,population=dev.POPULATION if development else'TRAIN8',policies={method:policy},
         assignments=rows,preregistration=request['preregistration'],
         registration={k:request[k]for k in ('source_root','source_files','native_base','gpu_base','scenes',
             'scene_producers','scene_allowlist','scene_allowlist_sha256','memory_execution','memory_execution_reference')})
+    if development:panel['scene_disjointness']=request['scene_disjointness']
+    if request.get('capacity_wait_before_pair_v3')is not None:
+        from .sla_native_resource_continuation_v3 import configuration
+        panel['registration']['capacity_wait_before_pair_v3']=request['capacity_wait_before_pair_v3'];configuration(panel)
     validate_panel(panel);key=root.name.upper()+'-PANEL';journal=Journal(campaign/'control/journal',campaign.name)
     with closing(OwnerLock(campaign/'OWNER.lock')):
         task.need(not root.exists() and not journal.path(key).exists(),'DENSE_UNKNOWN_PANEL_NEVER_REPLAY')
         def effect():
             root.mkdir();(root/'control').mkdir();write(root/'PANEL.private.json',panel)
-            write(root/'control/LEASE.json',dict(status='SEALED_NONCOMPUTE_PANEL',planned_conditions=8,
+            write(root/'control/LEASE.json',dict(status='SEALED_NONCOMPUTE_PANEL',planned_conditions=len(rows),
                 panel_sha256=digest(root/'PANEL.private.json'),created_epoch=time.time()))
             registry,before=snapshot(n['registry'])
             task.need(not any(r.get('path')==str(root)for r in registry['entries']),'DENSE_NEW_PANEL_REGISTRY')
             registry['entries'].append(dict(path=str(root),role=key,scope=panel['schema'],owner=n['owner'],
                 source_sha=request['source_sha'],local_lease=str(root/'control/LEASE.json'),executor_node=n['host']))
             once(n['registry'],registry,key+'-REGISTRY',expected_before_sha256=before)
-            return dict(status='DENSE_TRAIN8_PANEL_SEALED_NO_WORKER_STARTED',panel=descriptor(root/'PANEL.private.json'))
+            return dict(status='DENSE_FIXED_PANEL_SEALED_NO_WORKER_STARTED',panel=descriptor(root/'PANEL.private.json'))
         return journal.once(key,dict(policy=policy,preregistration=request['preregistration'],source_sha=request['source_sha']),effect)

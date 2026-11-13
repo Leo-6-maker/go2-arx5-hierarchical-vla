@@ -42,7 +42,7 @@ def source_custody(spec):
     """Additional source requirements apply only to the separate SLA identity."""
     names = ('sla_native_v1.py', 'sla_native_policy_v1.py', 'sla_live_v1.py', 'sla_population_v1.py')
     if spec.get('core_local_protocol') == task.SLA_DENSE_ROLE:
-        names += ('sla_dense_native_v5.py','sla_dense_policy_v5.py')
+        names += ('sla_dense_native_v5.py','sla_dense_policy_v5.py','sla_dev48_v5.py')
     source = Path(spec['source_root'])
     for name in names:
         key = 'src/go2arx5_vla/world_model/'+name

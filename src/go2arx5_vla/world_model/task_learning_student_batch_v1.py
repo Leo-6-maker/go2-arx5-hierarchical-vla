@@ -24,7 +24,7 @@ def selection(inp,panel):
     if inp.get('schema')=='SLA_DEV16_OFFICIAL_GR00T_A500_ENGINEERING_V1_GROUP_INPUT':
         from .sla_g_native_v1 import selection
         return selection(inp,panel)
-    if inp.get('schema') in ('SLA_DENSE3K_RAW_P10_TRAIN8_GROUP_INPUT_V5','SLA_FRESH_N20_RAW_P10_TRAIN8_GROUP_INPUT_V5'):
+    if inp.get('schema') in ('SLA_DENSE3K_RAW_P10_TRAIN8_GROUP_INPUT_V5','SLA_FRESH_N20_RAW_P10_TRAIN8_GROUP_INPUT_V5','SLA_RAW3K_PICK_HOLD_NEW_GEOMETRY_DEV48_GROUP_INPUT_V5'):
         from .sla_dense_native_v5 import selection
         return selection(inp,panel)
     if inp.get('schema') in('SLA_TARGET500_NATIVE_GROUP_INPUT_V1','SLA_NATIVE_COLD_UNEXECUTED_SUFFIX_INPUT_V2',SLA_DEV_SUFFIX,'SLA_R1_COLD_UNSTARTED_TRAIN8_SUFFIX_INPUT_V5'):
@@ -120,7 +120,7 @@ def specs(inp,panel,row,nbase,gbase,nroot,groot,deadline):
     native.update(common,registered_root=str(nroot),role=nroot.name.upper(),lease=str(nroot/'control/LEASE.json'),
         registry_snapshot=str(nroot/'control/REGISTRY_SNAPSHOT.private.json'),task_learning_role=role,
         experiment_role=(task.native_body_profile(role).EXPERIMENT if native_body else 'CORE_MATCHED128_SMOOTH_TRAIN_DIAGNOSTIC_V3'if matched else 'CORE_C500_ENDPOINT_BASIS_TRAIN_DIAGNOSTIC_V3'if endpoint else 'CORE_C500_RAW_VERSUS_EXPLICIT_CONIC_TRAIN_DIAGNOSTIC_V3'if conic else 'CORE_LOCAL_B0_SFT2000_DIAGNOSTIC_NOT_DEV_TEST'if local else student.EXPERIMENT),task_condition=role,
-        task_learning_scene_reference=descriptor,scene_id=row['parent'],data_parent=row['parent'],data_role=row['split']if role in(task.SLA_ROLE,task.SLA_G_ROLE) else'TRAIN'if local or conic or endpoint or matched or native_body else'DEV',
+        task_learning_scene_reference=descriptor,scene_id=row['parent'],data_parent=row['parent'],data_role=row['split']if role in(task.SLA_ROLE,task.SLA_DENSE_ROLE,task.SLA_G_ROLE) else'TRAIN'if local or conic or endpoint or matched or native_body else'DEV',
         model_path=str(Path(descriptor['path']).parent/'SCENE.private.mjb'),stable_task_panel=inp['panel'],
         stable_task_panel_sha256=inp['panel_sha256'],scene_allowlist=inp['scene_allowlist'],
         scene_allowlist_sha256=inp['scene_allowlist_sha256'],cpus=[0,1,2,3],ROS_DOMAIN_ID=220,
@@ -314,6 +314,9 @@ def run(input_path):
             gbase=copy.deepcopy(gbase);apply_inference_spec(gbase,q)
     journal=Journal(campaign/'control/journal',campaign.name);outcomes=[];code=1;failure=None;start=time.monotonic()
     retained_prefix=0
+    if inp.get('schema')=='SLA_RAW3K_PICK_HOLD_NEW_GEOMETRY_DEV48_GROUP_INPUT_V5':
+        from .sla_dev48_v5 import retained_prefix as dev48_prefix
+        outcomes=dev48_prefix(inp,panel);retained_prefix=len(outcomes)
     if inp.get('schema')=='SLA_NATIVE_COLD_UNEXECUTED_SUFFIX_INPUT_V2':
         from .sla_native_continuation_v2 import prefix
         outcomes=prefix(panel);retained_prefix=len(outcomes)

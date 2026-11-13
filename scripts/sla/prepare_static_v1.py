@@ -36,15 +36,24 @@ def same_geometry(a, b):
 
 
 def run(spec):
+    return prepare_population(spec,expected_schema='SLA_FIXED_DEV16_INPUTS_V1',
+        expected_conditions=16,offsets=DEV_OFFSETS,split='SLA_DEV',
+        result_schema='SLA_DEV_STATIC_INPUT_PREPARATION_ACTUAL_V1',
+        disjoint_schema='SLA_DEV_ACTUAL_SCENE_DISJOINTNESS_V1')
+
+
+def prepare_population(spec,*,expected_schema,expected_conditions,offsets,split,
+                       result_schema,disjoint_schema,declared_population=None):
     import mujoco
     if mujoco.__version__ != '3.2.7':
         raise ValueError('ORIGINAL_MUJOCO_VERSION_REQUIRED')
     R = Path(spec['registered_root'])
     declaration = pinned(spec['preregistration'])
-    if declaration['schema'] != 'SLA_FIXED_DEV16_INPUTS_V1' or len(declaration['population']) != 16:
+    population=declaration['population']if declared_population is None else declared_population
+    if declaration['schema'] != expected_schema or len(population) != expected_conditions:
         raise ValueError('FIXED_INPUT_POPULATION_REQUIRED')
-    desired = {layout: initial_geometry(geometry(layout)) for layout in DEV_OFFSETS}
-    if any(row['initial_geometry_sha256'] != geometry_sha(geometry(row['layout'])) for row in declaration['population']):
+    desired = {layout: initial_geometry(geometry(layout)) for layout in offsets}
+    if any(row['initial_geometry_sha256'] != geometry_sha(geometry(row['layout'])) for row in population):
         raise ValueError('CANDIDATE_INDEPENDENT_DEV_GEOMETRY_CHANGED')
     catalogs, originals, seen = [], [], set()
     for pin in spec['old_scene_catalogs']:
@@ -68,7 +77,7 @@ def run(spec):
         raise ValueError('OLD_TEST_INITIAL_IDENTITY_CATALOG_REQUIRED_NO_TEST_OUTCOME_READ')
     scenes, identities = {}, []
     base = spec['compiler']
-    for layout in DEV_OFFSETS:
+    for layout in offsets:
         if time.time() >= spec['deadline_epoch']:
             raise TimeoutError('FINITE_SLA_STATIC_PREPARATION')
         target = R/layout
@@ -81,9 +90,9 @@ def run(spec):
         scenes[layout] = dict(path=str(target/'STATIC_RESULT.private.json'), sha256=digest(target/'STATIC_RESULT.private.json'))
         identities.append(dict(layout=layout, initial_geometry_sha256=geometry_sha(result['geometry']),
                                model_sha256=result['compiled']['scene_sha256'], actual=actual))
-        write_progress(R/'PROGRESS.private.json', dict(completed_static_layouts=len(scenes), requested=8,
+        write_progress(R/'PROGRESS.private.json', dict(completed_static_layouts=len(scenes), requested=len(offsets),
             model_calls=0, optimizer_updates=0, physics_integrations=0))
-    proof = dict(schema='SLA_DEV_ACTUAL_SCENE_DISJOINTNESS_V1', passes=True,
+    proof = dict(schema=disjoint_schema, passes=True,
         preregistration=spec['preregistration'], old_catalogs=catalogs,
         old_input_scenes=originals, old_TEST_initial_inputs=sum(r['split']=='TEST' for r in originals),
         new_initial_inputs=identities, geometry_comparison_atol=1e-12,
@@ -92,14 +101,14 @@ def run(spec):
         optimizer_updates=0, epoch=time.time())
     write_json(R/'SCENE_DISJOINTNESS.private.json', proof)
     allowlist = pinned(spec['template_allowlist'])
-    allowlist = dict(allowlist, scenes=[dict(scene_id=scene_id(layout), parent=scene_id(layout), split='SLA_DEV',
+    allowlist = dict(allowlist, scenes=[dict(scene_id=scene_id(layout), parent=scene_id(layout), split=split,
         model_path=str(R/layout/'SCENE.private.mjb'), model_sha256=digest(R/layout/'SCENE.private.mjb'),
-        static_check='PASSED_NO_INTEGRATION') for layout in DEV_OFFSETS])
+        static_check='PASSED_NO_INTEGRATION') for layout in offsets])
     write_json(R/'SCENE_ALLOWLIST.private.json', allowlist)
-    return dict(schema='SLA_DEV_STATIC_INPUT_PREPARATION_ACTUAL_V1', passes=True,
+    return dict(schema=result_schema, passes=True,
         scenes=scenes, scene_disjointness=dict(path=str(R/'SCENE_DISJOINTNESS.private.json'),
                                              sha256=digest(R/'SCENE_DISJOINTNESS.private.json')),
-        requested_layouts=8, completed_layouts=8, saved_startup_checks_per_layout=5703,
+        requested_layouts=len(offsets), completed_layouts=len(scenes), saved_startup_checks_per_layout=5703,
         physics_integrations=0, model_calls=0, optimizer_updates=0, old_TEST_scores_read=False)
 
 

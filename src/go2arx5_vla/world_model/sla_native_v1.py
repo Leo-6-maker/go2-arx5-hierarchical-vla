@@ -326,6 +326,8 @@ def scene_custody(producer, reference, model):
     from .task_learning_scene_v1 import MEMBER
     from .task_learning_local_policy_v1 import scene_builder_custody
     proof = pinned(reference)
+    from . import sla_dev48_v5 as dev
+    if proof['layout']in dev.OFFSETS:return dev.scene_custody(producer,reference,model)
     if proof['layout'] in TRAIN_ORDER:
         return scene_builder_custody(producer, reference, model)
     source = closed(producer)
