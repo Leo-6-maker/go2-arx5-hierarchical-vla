@@ -1,7 +1,7 @@
 {
   "schema": "SLA_V4_FIRST_EXECUTION_INCREMENT_ACTUAL",
-  "generated_SGT": "2026-11-13T21:26:13.768692+08:00",
-  "plan_revision": "fd46f53cabcb00a30320b63607379e95a5bfdce1",
+  "generated_SGT": "2026-11-13T23:18:52.384538+08:00",
+  "plan_revision": "080bf9fa3361f493c2012540ad18d7ae0102d6d5",
   "execution_base": "3195f0eb664ed98db7f76ad0643ed1d742472a7b",
   "R1": {
     "real_updates": 500,
@@ -41,7 +41,23 @@
       "RECORDED_ENDPOSE_IS_ACHIEVED_EEF_NOT_DESIRED_COMMAND",
       "MEASURED_CURRENT_GRIPPER_STATE_NOT_ESTABLISHED"
     ],
-    "next": "Reconstruct source command FK/tool and physical clock with a pinned collector, or generate a separately identified source-simulation pool. Do not mix achieved endpose into main action loss."
+    "next": "Resolve actual collection clock, desired-joint FK/tool and current-gripper semantics. The five selected default archives each have 50 episodes, not 200; separately named source-simulation generation remains an allowed fallback.",
+    "V4_1_fixed_tasks_audited": 20,
+    "episodes_per_fixed_task": {
+      "move_pillbottle_pad": 4,
+      "move_stapler_pad": 4,
+      "place_mouse_pad": 4,
+      "place_empty_cup": 4,
+      "place_object_stand": 4
+    },
+    "fixed_default_archive_format": "XPOLICYLAB_V1.0",
+    "declared_frequency_hz": [
+      15
+    ],
+    "archive_frequency_bound_to_native_clock": false,
+    "fixed_auxiliary_probes": 64,
+    "fixed_RGB_decodes": 128,
+    "original_exploratory_ARX5_audit_retained": true
   },
   "mixed_sampler": {
     "implemented": true,
@@ -67,18 +83,62 @@
   "scientific_work_complete": false,
   "collector_background": {
     "fixed_requested": 16,
-    "retained_complete": 2,
-    "physical_started_total": 4,
-    "current_pair_native_steps": [
-      7053,
-      7203
-    ],
-    "current_pair_frames": [
-      28,
-      30
-    ],
-    "additional_complete": 0,
-    "training_demonstrations_admitted": 0,
-    "next": "Read and independently seal each fixed pair; keep production admission separate."
+    "physical_started": 12,
+    "sealed_successes": 12,
+    "actual_native_integrations": 260436,
+    "manager_live": true,
+    "model_updates": 0,
+    "production_D100_admitted": 0,
+    "next": "Finish and independently seal all original 16; retain every native terminal."
+  },
+  "original_V4_plan_revision": "fd46f53cabcb00a30320b63607379e95a5bfdce1",
+  "latest_remote_main": "6843163d641eb24a29c3b1557f868765346ba66c",
+  "named_target_pilot": {
+    "dataset_id": "T_PICK_HOLD_TRAIN01_P10_2EP_V4_1",
+    "episodes": 2,
+    "supervised_windows": 122,
+    "original_RGB_frames": 642,
+    "actual_consumed_commands": 1280,
+    "manifest_sha256": "a5e1643d4e7b1736f3a86befdc5b7430bcaa806e2a6ae97a23cdb75d9b4c8b0c",
+    "optimizer_updates": 0,
+    "optimization_visits": 0,
+    "new_physical_requests": 0,
+    "D100_new": false,
+    "PICK_PLACE_admitted": false
+  },
+  "H200_named_pilot": {
+    "job_id": "716146.hopper-m-02",
+    "source_sha": "d20597a91cea544a2333b1adb9bbf3ba0ff51155",
+    "actual_queue_state": "R",
+    "GPU_allocation": true,
+    "qualification_updates": 0,
+    "candidate_updates": 0,
+    "optimization_visits": 0,
+    "physical_requests": 0,
+    "planned_noncandidate_updates": 8,
+    "planned_candidate_updates": 3000,
+    "planned_candidate_visits": 96000,
+    "max_allocated_GPU_hours": 4,
+    "first_failure_or_wait": null,
+    "next": "Inside the allocation: new-data continuous4 vs2+2 and fresh RGB, then a separate clean-parent 3K candidate.",
+    "stage": "ENVIRONMENT_SETUP_NO_NEW_H200_UPDATE_YET",
+    "initial_wait_preserved": "NO_AVAILABLE_H200_GPU"
+  },
+  "Core_named_pilot_qualification": {
+    "source_sha": "89c72e86350215d8f3294d4ee3a4e850bf159034",
+    "operation": "DENSE_CORE_MICRO1_QUAL4",
+    "planned_noncandidate_updates": 4,
+    "planned_visits": 128,
+    "actual_updates": 4,
+    "actual_visits": 128,
+    "physical_requests": 0,
+    "status": "CLOSED0_REAL_GRADIENT_FULL_SAVE_AND_RGB",
+    "prestart_registry_path_omission_repaired": true,
+    "H200_candidate_replaced": false,
+    "next": "Read actual gradient, saved state and RGB counts; preserve any failure without automatic replay.",
+    "ordinary_RGB_generations": 16,
+    "checkpoint_arrays": 87,
+    "actual_restores": 0,
+    "GPU_peak_bytes": 8543467776
   }
 }

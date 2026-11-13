@@ -1,35 +1,310 @@
 {
-  "schema": "SLA_V4_FIXED_CADENCE_PANEL_BACKGROUND_ACTUAL",
-  "observed_SGT": "2026-11-13T21:26:59.935636+08:00",
+  "schema": "SLA_V4_1_FIXED16_EXPERT_BACKGROUND_ACTUAL",
+  "observed_epoch": 1794582232.0437303,
   "source_sha": "77d6e1764033ae6eba0f28862ec27f740c51de0b",
   "fixed_requested_conditions": 16,
-  "retained_successful_conditions": 2,
-  "remaining_registered_manager_conditions": 14,
-  "manager_live": true,
-  "state": "RUNNING_FIXED_PAIR",
-  "current_pair": [
+  "physical_requests_started": 12,
+  "sealed_expert_successes": 12,
+  "actual_integrations": 260436,
+  "conditions": [
     {
-      "run": "sla-pt-expert-cadence-20261113-02-train01-r2-p40",
-      "permission": "ACTIVE",
-      "native_step": 7053,
-      "frames": 28,
-      "structural_preflight_exit_code": 0
+      "layout": "TRAIN01",
+      "restart": 1,
+      "prefix_atoms": 40,
+      "registered": true,
+      "physical_request_started": true,
+      "native_step": 21703,
+      "worker": {
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 453.45314316637814,
+        "CPU_s": 312.754287406,
+        "child_CPU_s": 113.7719
+      },
+      "manifest_sha256": "39f90338238d9935419f253ce14740da3cd70d41680687450728f04ec6cf38a4",
+      "frames": 321,
+      "commands": 640,
+      "windows": 61,
+      "training_dataset_admitted": false,
+      "actual_success_tail": true
     },
     {
-      "run": "sla-pt-expert-cadence-20261113-02-train01-r2-p10",
-      "permission": "ACTIVE",
-      "native_step": 7203,
-      "frames": 30,
-      "structural_preflight_exit_code": 0
+      "layout": "TRAIN01",
+      "restart": 1,
+      "prefix_atoms": 10,
+      "registered": true,
+      "physical_request_started": true,
+      "native_step": 21703,
+      "worker": {
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 453.8587688487023,
+        "CPU_s": 334.903254077,
+        "child_CPU_s": 119.986961
+      },
+      "manifest_sha256": "b072de2c5a18ea49c4ec4884be558d4c4108df17326a3a52a61b7f511eced9b0",
+      "frames": 321,
+      "commands": 640,
+      "windows": 61,
+      "training_dataset_admitted": false,
+      "actual_success_tail": true
+    },
+    {
+      "layout": "TRAIN01",
+      "restart": 2,
+      "prefix_atoms": 40,
+      "registered": true,
+      "physical_request_started": true,
+      "native_step": 21703,
+      "worker": {
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 527.0379920601845,
+        "CPU_s": 314.859866873,
+        "child_CPU_s": 110.053032
+      },
+      "manifest_sha256": "26e00bb690bac6746d78ae0608e287dd45fc5844383a102c7969a374ba42420c",
+      "frames": 321,
+      "commands": 640,
+      "windows": 61,
+      "training_dataset_admitted": false,
+      "actual_success_tail": true
+    },
+    {
+      "layout": "TRAIN01",
+      "restart": 2,
+      "prefix_atoms": 10,
+      "registered": true,
+      "physical_request_started": true,
+      "native_step": 21703,
+      "worker": {
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 531.4666304234415,
+        "CPU_s": 337.594571764,
+        "child_CPU_s": 116.97253099999999
+      },
+      "manifest_sha256": "a57686ddbd346522d8f26e431640df3bff16c4cdbab416a0b883d071ecedc820",
+      "frames": 321,
+      "commands": 640,
+      "windows": 61,
+      "training_dataset_admitted": false,
+      "actual_success_tail": true
+    },
+    {
+      "layout": "TRAIN07",
+      "restart": 1,
+      "prefix_atoms": 40,
+      "registered": true,
+      "physical_request_started": true,
+      "native_step": 21703,
+      "worker": {
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 414.04147002566606,
+        "CPU_s": 311.208604018,
+        "child_CPU_s": 107.336964
+      },
+      "manifest_sha256": "89fd3b2a0fac75154d3cb3c8e3ed896da1c75cc8ba09a8b3c7733126ef7469d2",
+      "frames": 321,
+      "commands": 640,
+      "windows": 61,
+      "training_dataset_admitted": false,
+      "actual_success_tail": true
+    },
+    {
+      "layout": "TRAIN07",
+      "restart": 1,
+      "prefix_atoms": 10,
+      "registered": true,
+      "physical_request_started": true,
+      "native_step": 21703,
+      "worker": {
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 443.5301332883537,
+        "CPU_s": 334.15507740099997,
+        "child_CPU_s": 115.764216
+      },
+      "manifest_sha256": "e0bb0b1eaf830b9b1b07fa7f40cd221b9c6450b4a252f2f0b4780243ff556b20",
+      "frames": 321,
+      "commands": 640,
+      "windows": 61,
+      "training_dataset_admitted": false,
+      "actual_success_tail": true
+    },
+    {
+      "layout": "TRAIN07",
+      "restart": 2,
+      "prefix_atoms": 40,
+      "registered": true,
+      "physical_request_started": true,
+      "native_step": 21703,
+      "worker": {
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 422.47526892926544,
+        "CPU_s": 314.30117880200004,
+        "child_CPU_s": 107.932462
+      },
+      "manifest_sha256": "7ddf5b2b36924c9c8503c2341c320d44b9c31f0fbf6df0d2a051dc6911a388c0",
+      "frames": 321,
+      "commands": 640,
+      "windows": 61,
+      "training_dataset_admitted": false,
+      "actual_success_tail": true
+    },
+    {
+      "layout": "TRAIN07",
+      "restart": 2,
+      "prefix_atoms": 10,
+      "registered": true,
+      "physical_request_started": true,
+      "native_step": 21703,
+      "worker": {
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 452.6860514655709,
+        "CPU_s": 333.90437751300004,
+        "child_CPU_s": 116.925353
+      },
+      "manifest_sha256": "41f3cac517af81a5c731ba2ed045a3e66ab67e6d2bb3f50c3ae2508591333291",
+      "frames": 321,
+      "commands": 640,
+      "windows": 61,
+      "training_dataset_admitted": false,
+      "actual_success_tail": true
+    },
+    {
+      "layout": "TRAIN13",
+      "restart": 1,
+      "prefix_atoms": 40,
+      "registered": true,
+      "physical_request_started": true,
+      "native_step": 21703,
+      "worker": {
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 442.19032011553645,
+        "CPU_s": 315.54690751100003,
+        "child_CPU_s": 110.173306
+      },
+      "manifest_sha256": "7ae10402a3261b6cdc0e0cb852f89a1525c823972fd239980a2eb22876a6b193",
+      "frames": 321,
+      "commands": 640,
+      "windows": 61,
+      "training_dataset_admitted": false,
+      "actual_success_tail": true
+    },
+    {
+      "layout": "TRAIN13",
+      "restart": 1,
+      "prefix_atoms": 10,
+      "registered": true,
+      "physical_request_started": true,
+      "native_step": 21703,
+      "worker": {
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 453.02646843902767,
+        "CPU_s": 335.691734658,
+        "child_CPU_s": 116.784109
+      },
+      "manifest_sha256": "ab782798ff3fa7629f90ec6d68a07aa9161bb99b4956a9a0c1e05a13903f2884",
+      "frames": 321,
+      "commands": 640,
+      "windows": 61,
+      "training_dataset_admitted": false,
+      "actual_success_tail": true
+    },
+    {
+      "layout": "TRAIN13",
+      "restart": 2,
+      "prefix_atoms": 40,
+      "registered": true,
+      "physical_request_started": true,
+      "native_step": 21703,
+      "worker": {
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 422.82787237130105,
+        "CPU_s": 314.066143505,
+        "child_CPU_s": 108.77773499999999
+      },
+      "manifest_sha256": "8cd65b29a5d8a6b6ad56f7b8cba55b16797ce5d2cbf01d9286cbe2cbbf20c7fa",
+      "frames": 321,
+      "commands": 640,
+      "windows": 61,
+      "training_dataset_admitted": false,
+      "actual_success_tail": true
+    },
+    {
+      "layout": "TRAIN13",
+      "restart": 2,
+      "prefix_atoms": 10,
+      "registered": true,
+      "physical_request_started": true,
+      "native_step": 21703,
+      "worker": {
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 460.65978082083166,
+        "CPU_s": 335.81339124600004,
+        "child_CPU_s": 117.928525
+      },
+      "manifest_sha256": "04ac795a0becc842db4193bc517908954df1fc1b7de3708545418029ea89ab48",
+      "frames": 321,
+      "commands": 640,
+      "windows": 61,
+      "training_dataset_admitted": false,
+      "actual_success_tail": true
+    },
+    {
+      "layout": "TRAIN25",
+      "restart": 1,
+      "prefix_atoms": 40,
+      "registered": true,
+      "physical_request_started": false,
+      "native_step": 0
+    },
+    {
+      "layout": "TRAIN25",
+      "restart": 1,
+      "prefix_atoms": 10,
+      "registered": true,
+      "physical_request_started": false,
+      "native_step": 0
+    },
+    {
+      "layout": "TRAIN25",
+      "restart": 2,
+      "prefix_atoms": 40,
+      "registered": false,
+      "physical_request_started": false,
+      "native_step": 0
+    },
+    {
+      "layout": "TRAIN25",
+      "restart": 2,
+      "prefix_atoms": 10,
+      "registered": false,
+      "physical_request_started": false,
+      "native_step": 0
     }
   ],
-  "physical_requests_at_registration": 0,
-  "additional_completed_conditions": 0,
-  "training_dataset_admission": false,
-  "new_model_calls": 0,
+  "manager_live": true,
+  "manager_version": 3,
+  "manager_spec_sha256": "10cabc29c3889c38c7f156bea4ff938e172b670dbecfe33423d3d40329a8453d",
+  "retained_before_manager3": 6,
+  "manager_failures_preserved": [
+    "MANAGER1_SEALER_SYSTEMEXIT0_MISCLASSIFIED",
+    "MANAGER2_SEALER_CPU_AFFINITY_NOT_RESTORED_NEXT_WORLD_REFUSED_BEFORE_START"
+  ],
+  "repair": "Restore caller CPU affinity in a finally block; preserve all six sealed conditions and dispatch only never-started suffix.",
+  "standalone_affinity_restore_checks": 3,
+  "training_demonstrations_admitted_by_original_panel": 0,
   "optimizer_updates": 0,
-  "source_preparation_does_not_block_target_collection": true,
-  "next": "Read each actual native terminal and independently seal its shards. Stop on a native engineering failure; preserve all completed conditions.",
-  "physical_requests_started_total": 4,
-  "physical_requests_started_this_continuation": 2
+  "original_safety_and_WBC_unchanged": true,
+  "note": "Prefix10 also uses a bounded segmented expert stream; the P40/P10 panel does not isolate cadence alone.",
+  "next": "Finish and independently seal all original 16; retain every native terminal."
 }

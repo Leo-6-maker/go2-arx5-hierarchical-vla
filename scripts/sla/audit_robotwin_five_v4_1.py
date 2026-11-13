@@ -68,6 +68,11 @@ def audit(descriptor_path, binding):
             count = len(pose)
             cameras = ['cam_head', 'cam_'+arm+'_wrist']
             if (pose.shape != (count, 7) or grip.shape != (count,) or count < 43
+                    or current_pose.shape != (count, 7) or current_grip.shape != (count,)
+                    or any(not np.isfinite(a).all() for a in (pose, grip, current_pose, current_grip))
+                    or any(((a < 0) | (a > 1)).any() for a in (grip, current_grip))
+                    or any(not np.allclose(np.linalg.norm(a[:, 3:], axis=1), 1, rtol=0, atol=1e-6)
+                           for a in (pose, current_pose))
                     or any(not np.isfinite(a).all() or len(a) != count for a in joints.values())
                     or any(len(f[f'vision/{c}/colors']) != count for c in cameras)):
                 raise ValueError('ALIGNED_FINITE_SOURCE_EEF_JOINT_AND_RGB_ARRAYS_REQUIRED')
