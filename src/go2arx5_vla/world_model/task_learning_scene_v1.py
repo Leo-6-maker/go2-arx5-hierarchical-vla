@@ -118,6 +118,13 @@ def admission(spec):
         task.QUALIFICATION_ROLE if layout in QUALIFICATION_OFFSETS else
         task.COLLECTION_ROLE if layout in TRAIN_OFFSETS else
         task.RECOVERY_QUALIFICATION_ROLE if layout in RECOVERY_OFFSETS else task.CONSTRUCTION_ROLE)
+    return validate_static_provenance(spec, proof, expected_role=expected_role)
+
+
+def validate_static_provenance(spec, proof, *, expected_role):
+    """Read-only geometry evidence; supplies no execution or collection grant."""
+    from . import task_learning_grasp_v1 as task
+    layout=proof.get('layout')
     if not(proof.get('schema')=='TASK_LEARNING_NEAR_WORKSPACE_STATIC_V1'
         and proof.get('status')=='STATIC_ONLY_PASSED_NEW_NATIVE_ADMISSION_REQUIRED'
         and proof.get('builder_sha256')==spec['source_files'][MEMBER]

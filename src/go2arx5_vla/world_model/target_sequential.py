@@ -2,8 +2,10 @@
 from pathlib import Path
 import json,os,signal,subprocess,time
 from .native_collection_performance_v1 import configuration, PerformanceTrace, measure, profiled
+from .native_live_control_v3 import live_path
 C02_PHASE='collect-target-fusion-c02-source-state-initialization-v1'
 C02_FEEDBACK_PHASE='collect-target-fusion-c02-source-state-feedback-v2'
+NATIVE_STARTUP_READ_WAIT_S=180
 
 def native_task_bucket(phase,dynamic):
     """Select only existing quota ABI buckets for the exact finite phase."""
@@ -25,6 +27,16 @@ def native_startup_readiness(output,reference):
     return evidence
 
 
+def await_native_startup(adapter):
+    # Cold CppAD library builds exceeded the former30s read allowance in the
+    # retained TRAIN25 failure. Physics stays at zero/HOLD until these original
+    # markers and both feedback streams are ready; no ENTER is published here.
+    ready=lambda:(native_startup_readiness(adapter.output,adapter.reference_phase())
+                  and adapter.counts.get('odom',0)>10 and adapter.counts.get('arm',0)>10)
+    if not adapter.spin(NATIVE_STARTUP_READ_WAIT_S,ready):
+        raise RuntimeError('PAUSED_NATIVE_EXECUTOR_OR_FEEDBACK_UNAVAILABLE')
+
+
 def supported_object_hypothesis(phase,stage,sample):
     """Use the existing clone-only attachment hypothesis after actual grasp."""
     if (phase in('collect-target-task-learning-grasp-v1','collect-target-pilot1-supported-close','collect-target-pilot2-supported')and stage in('close','lift','hold','release')
@@ -33,7 +45,7 @@ def supported_object_hypothesis(phase,stage,sample):
         return PlanningObjectMotion(sample,mode='ACTUAL_GRASP_ATTACHMENT')
     return None
 
-def native_display_command(spec,output,environment):
+def native_display_command(spec,output,environment,*,live_output=None):
     # Do not inject constructor-bearing native libraries into xvfb-run's shell,
     # xauth/Xvfb or utilities. Only the final simulator exec receives preload.
     env=dict(environment)
@@ -48,7 +60,8 @@ def native_display_command(spec,output,environment):
         prefix += [spec['diagnostic_debugger'],'--batch','-ex','set pagination off','-ex','set confirm off','-ex','handle SIGINT nostop noprint pass','-ex','handle SIGTERM nostop noprint pass','-ex','run','-ex','thread apply all bt','--args']
     trace_first=(spec.get('extended_trace_build')and spec.get('phase')=='collect-target-next2-contact')or(spec.get('trajectory_trace_capacity_build')and spec.get('phase')in(C02_FEEDBACK_PHASE,C02_PHASE,'collect-target-fusion-trajectory-qualification-v1','collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1','collect-target-fusion-paused-query-v2','collect-target-fusion-live-proposal-qualification-v3','collect-target-fusion-source-posture-qualification-v1','collect-target-fusion-source-posture-query-v3','collect-target-fusion-task-phase-initialization-v1','collect-target-fusion-task-phase-bias-calibration-v2','collect-target-fusion-task-phase-bias-continuation-v3','collect-target-fusion-task-phase-xyz-feedback-v4','collect-target-fusion-task-phase-xyz-feedback-continuation-v5','collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1','collect-target-task-learning-grasp-v1'))
     order=('trace_library','outer_library','observer_library')if trace_first else('outer_library','observer_library','trace_library')
-    argv=[*prefix,'/usr/bin/env','LD_PRELOAD='+':'.join(spec[n]for n in order),'WM02_INIT_TRACE='+str(Path(output)/'init.trace'),'WM02_INIT_SEAL_REQUEST='+str(Path(output)/'trace_seal_request'),spec['native_binary'],'go2_x5','scene']
+    trace_output=Path(live_output or output)
+    argv=[*prefix,'/usr/bin/env','LD_PRELOAD='+':'.join(spec[n]for n in order),'WM02_INIT_TRACE='+str(trace_output/'init.trace'),'WM02_INIT_SEAL_REQUEST='+str(trace_output/'trace_seal_request'),spec['native_binary'],'go2_x5','scene']
     return argv,env
 
 def owned_simulator_pid(wrapper_pid,binary):
@@ -74,11 +87,21 @@ class TargetSequentialAdapter:
     def __init__(self,spec,output):
         self.spec=spec;self.output=Path(output);self.processes=[];self.handles=[];self.node=None;self.counts={};self.latest={};self.started=time.monotonic();self.commands=[];self.exit_records=[];self.reference_qualification=None;self.ros_evidence=[];self.trace_sealed=False
         self.performance=PerformanceTrace() if configuration(spec) is not None else None
+        from .native_async_journal_v3 import configuration as async_configuration
+        self.async_journal_config=async_configuration(spec);self.ros_journal=None
+        from .native_body_memory_v3 import configuration as memory_configuration
+        memory_configuration(spec)
     def reference_phase(self):
         return self.spec['phase'].startswith(('g2-','collect-target-'))
     def dynamic_phase(self):
         return self.reference_phase()and self.spec['phase']!='g2-reference-qualification'
     def guard(self):
+        from .native_live_control_v3 import check
+        check(self)
+        writer=getattr(self,'ros_journal',None)
+        if writer is not None:writer.check()
+        memory=getattr(self,'_body_memory_capture',None)
+        if memory is not None:memory.check()
         if time.monotonic()-self.started>=self.spec['wall_limit_s']or time.time()>=self.spec['deadline_epoch']or any((p/'STOP.json').exists()for p in(self.output,Path(self.spec['registered_root']),Path(self.spec['campaign_root']))):raise TimeoutError('AUTO1_FINITE_ENDPOINT_OR_OPERATOR_STOP')
     def control(self):
         p=self.output/'control.jsonl'
@@ -115,6 +138,9 @@ class TargetSequentialAdapter:
         from sensor_msgs.msg import JointState
         from rclpy.qos import qos_profile_sensor_data,QoSProfile,DurabilityPolicy
         self.rclpy=rclpy;self.String=String;rclpy.init();self.node=rclpy.create_node('wm02_auto1_'+self.spec['phase'].replace('-','_'))
+        if self.async_journal_config is not None:
+            from .native_async_journal_v3 import BoundedJournal
+            self.ros_journal=BoundedJournal(self.output/'ROS_CONSUMPTION.private.jsonl')
         def record(key,msg):
             self.counts[key]=self.counts.get(key,0)+1;self.latest[key]=msg
             if self.dynamic_phase()and key in('policy','arm_request','arm_target','base_command','mode','observation','ee'):
@@ -124,7 +150,10 @@ class TargetSequentialAdapter:
                         row=dict(topic_key=key,received_monotonic_s=time.monotonic(),message=message_to_ordereddict(msg))
                     self.ros_evidence.append(row)
                     with measure(self,'ros.journal_append.'+key):
-                        with(self.output/'ROS_CONSUMPTION.private.jsonl').open('a')as f:f.write(json.dumps(row,allow_nan=False)+'\n')
+                        payload=json.dumps(row,allow_nan=False)+'\n'
+                        if self.ros_journal is not None:self.ros_journal.append(payload.encode('utf-8'))
+                        else:
+                            with(self.output/'ROS_CONSUMPTION.private.jsonl').open('a')as f:f.write(payload)
         self.subs=[self.node.create_subscription(cls,topic,lambda msg,k=key:record(k,msg),qos_profile_sensor_data)for key,topic,cls in(('odom','/go2_x5/slam/odom_mocap',Odometry),('arm','/go2_x5/arm/state',JointState))]
         if self.reference_phase():
             from ocs2_msgs.msg import MpcObservation
@@ -142,16 +171,20 @@ class TargetSequentialAdapter:
         if any(name!=self.node.get_name()for name in self.node.get_node_names()):raise RuntimeError('ISOLATED_ROS_DOMAIN_ALREADY_OCCUPIED')
         s=self.spec;out=self.output
         for name in('tmp','ros-logs','cache'):(out/name).mkdir()
-        (out/'CONTACT_SAFETY_ARMED').touch();(out/'step_quota').write_text(str(2500 if self.reference_phase()else s['max_ticks'])+'\n')
+        from .native_live_control_v3 import initialize
+        initialize(self)
+        (out/'CONTACT_SAFETY_ARMED').touch();live_path(self,'step_quota').write_text(str(2500 if self.reference_phase()else s['max_ticks'])+'\n')
         warmup=min(5,(s['max_ticks']+499)//500)
         # Existing C++ admits task allocation buckets; the exact bound below
         # still restricts this diagnostic to its declared few task ticks.
         task_bucket=native_task_bucket(s.get('phase'),self.dynamic_phase())
-        (out/'quota.binding').write_text('\n'.join(('GRTQUOTA2',out.name,s['stage_identity_sha256'],out.name,str(s['max_ticks']),str(warmup),task_bucket))+'\n')
+        live_path(self,'quota.binding').write_text('\n'.join(('GRTQUOTA2',out.name,s['stage_identity_sha256'],out.name,str(s['max_ticks']),str(warmup),task_bucket))+'\n')
         env=dict(os.environ,**s['native_environment']);env.update(ROS_DOMAIN_ID=str(s['ROS_DOMAIN_ID']),ROS_LOCALHOST_ONLY='1',ROS_AUTOMATIC_DISCOVERY_RANGE='LOCALHOST',CUDA_VISIBLE_DEVICES='',TMPDIR=str(out/'tmp'),ROS_LOG_DIR=str(out/'ros-logs'),XDG_CACHE_HOME=str(out/'cache'),XDG_CONFIG_HOME=str(out/'cache'),MUJOCO_GL='egl',PYOPENGL_PLATFORM='egl')
         self.native_env=env
         sim=dict(env,LD_PRELOAD=':'.join(s[n]for n in('outer_library','observer_library','trace_library')),PI0288_COMPILED_MODEL=s['model_path'],PI0288_PHYSICS_TRACE=str(out/'physics.jsonl'),PI0288_PHYSICS_CAP=str(s['max_ticks']),PI0288_CONTACT_SAFETY_MARKER=str(out/'CONTACT_SAFETY_ARMED'),PI0289_INITIALIZATION_TRACE=str(out/'initialization.jsonl'),PI0289_CONTROL_TRACE=str(out/'control.jsonl'),WM02_INIT_TRACE=str(out/'init.trace'),GR00T_TASK_GRIPPER_COMMAND=str(out/'gripper.bin'),GR00T_TASK_STATE=str(out/'state.bin'),GR00T_TASK_ERROR=str(out/'task_errors.txt'),GR00T_TASK_STEP_QUOTA=str(out/'step_quota'),GR00T_TASK_PAUSE_ACK=str(out/'pause_ack.json'),GR00T_TASK_QUOTA_BINDING=str(out/'quota.binding'),GR00T_TASK_RUN_UUID=out.name,GR00T_TASK_CARD_SHA256=s['stage_identity_sha256'],GR00T_TASK_RESERVATION_ID=out.name)
-        command,display_env=native_display_command(s,out,sim);self.launch(command,'sim',display_env)
+        for key,name in (('GR00T_TASK_GRIPPER_COMMAND','gripper.bin'),('GR00T_TASK_STATE','state.bin'),('GR00T_TASK_STEP_QUOTA','step_quota'),('GR00T_TASK_PAUSE_ACK','pause_ack.json'),('GR00T_TASK_QUOTA_BINDING','quota.binding')):
+            sim[key]=str(live_path(self,name))
+        command,display_env=native_display_command(s,out,sim,live_output=getattr(self,'live_control_output',None));self.launch(command,'sim',display_env)
         native=Path(s['native_root']);params=['--ros-args','-p','use_sim_time:=true','-p','taskFile:='+str(native/'src/ctrl/go2_x5_ocs2/config/task_floating.info'),'-p','urdfFile:='+str(native/'src/ctrl/go2_x5_description/urdf/arx5_ac1_floating.urdf')]
         # OCS2 can regenerate cache libraries while constructing its interface.
         # Preserve canonical caches; each owned process gets its private copy.
@@ -169,7 +202,7 @@ class TargetSequentialAdapter:
         # OCS2 construction/codegen sets start_time_=now(). Starting physics
         # before it completes gives that process a nonzero clock origin and
         # permanently stale reference times at the next exact native pause.
-        if not self.spin(30,lambda:native_startup_readiness(out,self.reference_phase())and self.counts.get('odom',0)>10 and self.counts.get('arm',0)>10):raise RuntimeError('PAUSED_NATIVE_EXECUTOR_OR_FEEDBACK_UNAVAILABLE')
+        await_native_startup(self)
         self.publish(self.modes,'HOLD')
         if not self.spin(5,lambda:self.control().get('arm_mode')=='HOLD'and self.control().get('fsm')=='RLFSMStateRLLocomotion'):raise RuntimeError('ORIGINAL_PAUSED_STANDBY_REQUIRED')
         c=self.control()
@@ -182,7 +215,7 @@ class TargetSequentialAdapter:
         from scripts.pi0294.task_state import read_state
         until=time.monotonic()+.25
         while True:
-            try:return read_state(self.output/'state.bin')
+            try:return read_state(live_path(self,'state.bin'))
             except FileNotFoundError:
                 # Same observed live-snapshot publication gap as pause_ack.
                 # Never reuse an old packet or change the native step quota.
@@ -212,21 +245,29 @@ class TargetSequentialAdapter:
         # TTL restricts task-phase pauses, not the registered cold-init windows.
         if self.spec.get('startup_pause_stride_ticks')==25:allowed.update(range(25,min(2500,self.spec['max_ticks'])+1,25))
         if ticks not in allowed or ticks>self.spec['max_ticks']:raise PermissionError('EXACT_REGISTERED_NATIVE_PAUSE_REQUIRED')
+        from .native_async_journal_v3 import before_clock_grant
+        before_clock_grant(self)
         if self.dynamic_phase()and ticks>2503 and not ttl:
             from .target_reference import require_live_window
             packet=self.observe();require_live_window(self.active_reference['source_mpc_s'],packet['time_s'],ticks-packet['step'])
-        p=self.output/'step_quota';pending=p.with_suffix('.pending');pending.write_text(str(ticks)+'\n');os.replace(pending,p)
+        p=live_path(self,'step_quota');pending=p.with_suffix('.pending');pending.write_text(str(ticks)+'\n');os.replace(pending,p)
         self.resume_clock_once(ticks)
         def paused():
-            try:return json.loads((self.output/'pause_ack.json').read_text())['step']==ticks and self.observe()['step']==ticks
+            try:return json.loads(live_path(self,'pause_ack.json').read_text())['step']==ticks and self.observe()['step']==ticks
             except(FileNotFoundError,ValueError,KeyError):return False
         pause_wait = 35
         if self.spec.get('native_pause_read_wait') is not None:
             from .sla_native_continuation_v2 import wait_seconds
             pause_wait = wait_seconds(self.spec)
+        elif self.spec.get('expert_recorded_success_tail_v3'):
+            from .corelab_expert_semantics_v3 import recorded_tail
+            if recorded_tail(self.spec):
+                # Concurrent archive I/O delayed the original ACK until after
+                # the 35s observer deadline. Wait for the same single grant.
+                pause_wait = 90
         if not self.spin(pause_wait,paused):
             from .storage import write_json
-            ack=self.output/'pause_ack.json'
+            ack=live_path(self,'pause_ack.json')
             try:pause=json.loads(ack.read_text())
             except(FileNotFoundError,json.JSONDecodeError):pause=None
             write_json(self.output/'CLOCK_RESUME_FAILURE.json',dict(requested_step=ticks,
@@ -254,24 +295,29 @@ class TargetSequentialAdapter:
         # Preserve exact evidence even when the native GUI shutdown blocks on
         # an input thread. This only closes trace admission, never physics or
         # safety. The native quota remains responsible for the actual pause.
+        from .native_live_control_v3 import acknowledgement_wait
+        wait=acknowledgement_wait(self.spec,3)
         snapshot={}
         def confirmed_pause():
             # The measured local block filesystem can briefly hide a replaced
             # live snapshot. Retry reads only; never grant another physics tick.
-            try:ack=json.loads((self.output/'pause_ack.json').read_text());packet=self.observe()
+            try:ack=json.loads(live_path(self,'pause_ack.json').read_text());packet=self.observe()
             except(FileNotFoundError,json.JSONDecodeError):return False
             if (ack.get('step')!=ticks or packet['step']!=ticks
                     or ack.get('running')is not False or ack.get('clock_paused')is not True
                     or abs(ack.get('time_s',float('inf'))-packet['time_s'])>1e-8):
                 raise RuntimeError('NATIVE_PAUSE_NOT_CONFIRMED_FOR_TRACE_SEAL')
             snapshot.update(packet);return True
-        if not self.spin(3,confirmed_pause):raise RuntimeError('NATIVE_PAUSE_SNAPSHOT_NOT_READABLE_FOR_TRACE_SEAL')
-        request=self.output/'trace_seal_request';pending=request.with_suffix('.pending')
+        if not self.spin(wait,confirmed_pause):raise RuntimeError('NATIVE_PAUSE_SNAPSHOT_NOT_READABLE_FOR_TRACE_SEAL')
+        request=(live_path(self,'trace_seal_request')if getattr(self,'live_control_output',None)is not None
+                 else self.output/'trace_seal_request');pending=request.with_suffix('.pending')
         pending.write_text(json.dumps(dict(step=ticks,sim_time_s=snapshot['time_s'])));os.replace(pending,request)
         def sealed():
-            try:return json.loads((self.output/'init.trace.summary').read_text()).get('sealed_at_explicit_pause')is True
+            path=(live_path(self,'init.trace.summary')if getattr(self,'live_control_output',None)is not None
+                  else self.output/'init.trace.summary')
+            try:return json.loads(path.read_text()).get('sealed_at_explicit_pause')is True
             except(FileNotFoundError,ValueError):return False
-        if not self.spin(3,sealed):raise RuntimeError('NATIVE_PAUSE_TRACE_SEAL_NOT_ACKNOWLEDGED')
+        if not self.spin(wait,sealed):raise RuntimeError('NATIVE_PAUSE_TRACE_SEAL_NOT_ACKNOWLEDGED')
         self.trace_sealed=True
     def qualify_reference(self):
         """Original install/cancel/HOLD transaction at the native paused boundary.
@@ -316,7 +362,7 @@ class TargetSequentialAdapter:
         if not self.spin(5,installed):raise RuntimeError('ORIGINAL_REFERENCE_INSTALL_ACK_MISSING')
         before=self.counts.get('mode',0);cancel=dict(_pi0294=dict(episode=self.output.name,sequence=1,source_mpc_s=source,ttl_s=.4,operation='cancel'));self.publish(self.refs,json.dumps(cancel,separators=(',',':')))
         if not self.spin(5,lambda:any(r['kind']=='lifecycle'and r.get('reason')=='CANCEL'for r in events())and self.counts.get('mode',0)>before and self.latest['mode'].data=='HOLD'):raise RuntimeError('ORIGINAL_CANCEL_AND_HOLD_ACK_MISSING')
-        after=self.observe();ack=json.loads((self.output/'pause_ack.json').read_text())
+        after=self.observe();ack=json.loads(live_path(self,'pause_ack.json').read_text())
         if after['step']!=step or after['time_s']!=t or ack['running']or not ack['clock_paused']:raise RuntimeError('PHYSICS_ADVANCED_DURING_PAUSED_REFERENCE_TRANSACTION')
         self.reference_qualification=dict(status='ORIGINAL_FEEDBACK_INSTALL_CANCEL_HOLD_AT_PAUSE_PASSED',native_step=step,source_mpc_s=source,installed_wire_sha256=ref,extra_integrations=0,task_reference_consumption='NOT_TESTED_NO_TASK_TICKS',events=len(events()))
         write(self.output/'REFERENCE_QUALIFICATION.json',self.reference_qualification)
@@ -337,9 +383,10 @@ class TargetSequentialAdapter:
         if raw and not raw.endswith(b'\n'):raw=raw[:raw.rfind(b'\n')+1]
         return[json.loads(line)for line in raw.splitlines()if line.strip()]
     def prepare_dynamic(self):
+        from .native_live_control_v3 import acknowledgement_wait
         if not self.dynamic_phase():raise PermissionError('FINITE_DYNAMIC_PHASE_REQUIRED')
         self.advance_initialization(2500);before=self.counts.get('mode',0);self.publish(self.modes,'WBC')
-        if not self.spin(3,lambda:self.counts.get('mode',0)>before and self.latest['mode'].data=='WBC'):raise RuntimeError('NATIVE_WBC_MODE_ACK_MISSING')
+        if not self.spin(acknowledgement_wait(self.spec,3),lambda:self.counts.get('mode',0)>before and self.latest['mode'].data=='WBC'):raise RuntimeError('NATIVE_WBC_MODE_ACK_MISSING')
         self.advance_to(2503)
         self.wait_source();self.reference_sequence=-1;self.reference_history=[]
         if self.spec['phase'].startswith(('g2-standing-','collect-target-')):
@@ -349,8 +396,9 @@ class TargetSequentialAdapter:
     @profiled('ros.wait_source')
     def wait_source(self):
         from scripts.pi0294.task_clock import actual_source_age
+        from .native_live_control_v3 import acknowledgement_wait
         t=self.observe()['time_s']
-        if not self.spin(10,lambda:all(k in self.latest and 0<=actual_source_age(t,float(self.latest[k].time))<=.025 for k in('ee','observation'))):
+        if not self.spin(acknowledgement_wait(self.spec,10),lambda:all(k in self.latest and 0<=actual_source_age(t,float(self.latest[k].time))<=.025 for k in('ee','observation'))):
             self.save_feedback_diagnostic('ACTUAL_DYNAMIC_SOURCE_NOT_READY');raise RuntimeError('ACTUAL_DYNAMIC_SOURCE_NOT_READY')
         if self.latest['mode'].data!='WBC':raise RuntimeError('DYNAMIC_WBC_MODE_LOST')
     @profiled('native.measured_task_state_FK')
@@ -497,7 +545,7 @@ class TargetSequentialAdapter:
         intent=dict(phase='proposed',sequence=self.reference_sequence,wire=wire,wire_sha256=ref,source_mpc_s=source,deadline_s=deadline(source),native_step=packet['step'],sim_time_s=packet['time_s'],wall_monotonic_s=time.monotonic(),action_EEF10=action.tolist(),measured_BASE_pose_hold=getattr(self,'base_pose_hold',None),native_reference_certificate=certificate)
         self.command_event(intent)
         if self.spec.get('phase')not in(C02_FEEDBACK_PHASE,C02_PHASE,'collect-target-fusion-trajectory-qualification-v1','collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1','collect-target-fusion-paused-query-v2','collect-target-fusion-live-proposal-qualification-v3','collect-target-fusion-source-posture-qualification-v1','collect-target-fusion-source-posture-query-v3','collect-target-fusion-task-phase-initialization-v1','collect-target-fusion-task-phase-bias-calibration-v2','collect-target-fusion-task-phase-bias-continuation-v3','collect-target-fusion-task-phase-xyz-feedback-v4','collect-target-fusion-task-phase-xyz-feedback-continuation-v5','collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1','collect-target-task-learning-grasp-v1'):
-            write_gripper(self.output/'gripper.bin',self.reference_sequence,source,float(action[0,9]))
+            write_gripper(live_path(self,'gripper.bin'),self.reference_sequence,source,float(action[0,9]))
         self.publish(self.refs,wire)
         def installed():
             rows=self.reference_events()
@@ -776,7 +824,9 @@ class TargetSequentialAdapter:
             with measure(self,'native.close'):
                 self._close_native()
         finally:
-            close_resources(self)
+            from .native_async_journal_v3 import close_journal
+            try:close_journal(self)
+            finally:close_resources(self)
     def _close_native(self):
         # Signal only the Popen-owned process groups; retain all actual exits.
         for name,p in reversed(self.processes):
@@ -807,3 +857,5 @@ class TargetSequentialAdapter:
             self.exit_records.append(dict(name=name,pid=p.pid,exit_code=p.poll(),signals=escalation,display_child_lookup_error=lookup_error))
         for h in self.handles:h.close()
         if self.node is not None:self.node.destroy_node();self.rclpy.shutdown()
+        from .native_live_control_v3 import archive
+        archive(self)

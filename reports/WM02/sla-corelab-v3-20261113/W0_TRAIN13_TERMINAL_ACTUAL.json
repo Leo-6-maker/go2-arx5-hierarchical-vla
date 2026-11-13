@@ -1,0 +1,53 @@
+{
+  "schema": "SLA_W0_TRAIN13_TERMINAL_AND_STOP_ACTUAL",
+  "as_of_SGT": "2026-11-13T06:11:00.280565+08:00",
+  "source_sha": "b558a3d9813cfd9a0a973bcd1cccb7de7622db81",
+  "queue_live": false,
+  "queue_status": "STOPPED_AFTER_INCOMPLETE_GROUP",
+  "group_lease": "CLOSED",
+  "group_exit_code": 1,
+  "summary": {
+    "schema": "SLA_FIXED_NATIVE_POPULATION_SUMMARY_V1",
+    "population": "TRAIN4",
+    "requested": 4,
+    "completed": 3,
+    "complete": false,
+    "methods": {
+      "S1_TARGET500_PLUS_ENDPOINT_BASIS": {
+        "requested": 4,
+        "attempted": 3,
+        "task_successes": 0,
+        "valid_task_failures": 2,
+        "technical_failures": 1,
+        "hard_safety_stop_conditions": 0,
+        "actual_SLA_queries": 2,
+        "actual_native_integrations": 13481
+      }
+    },
+    "original_DEV_conditions": 0,
+    "TEST_conditions": 0,
+    "qualified_training_demonstrations": 0,
+    "model_updates": 0,
+    "WBC_changes": false,
+    "generalization_claim": false
+  },
+  "completed_in_new_group": 1,
+  "selected_in_new_group": 2,
+  "new_condition": "TRAIN13",
+  "new_condition_outcome": "VALID_POLICY_REJECTION_ORIGINAL_NOMINAL_GRIPPER_RANGE",
+  "new_SLA_queries": 1,
+  "new_integrations": 5703,
+  "new_candidate_H40_consumed": 0,
+  "TRAIN25": "UNSTARTED; REGISTRATION_NOT_COMPLETED; RECONCILE_BEFORE_COLD_CONTINUATION",
+  "S1_DEV16_attempted": 0,
+  "S2_updates": 0,
+  "G_DEV16_attempted": 0,
+  "stop_reason": "FRESH_SHARED_GPU_AND_HOST_HEADROOM_BEFORE_DEV_PAIR",
+  "latest_GPU_free_bytes": 14741929984,
+  "latest_host_available_bytes": 30374797312,
+  "new_model_updates": 0,
+  "retained_S1_updates": 500,
+  "retained_S1_visits": 16000,
+  "hard_safety_stops": 0,
+  "old_conditions_not_replayed": true
+}

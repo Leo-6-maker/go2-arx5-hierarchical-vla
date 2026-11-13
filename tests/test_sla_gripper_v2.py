@@ -54,3 +54,20 @@ def test_middle_violation_keeps_legal_last_point_separate():
     assert row['last_legal'] and row['endpoints_legal'] and not row['full_H40_legal']
     assert row['interior_outside'] == row['above_one'] == 1
     assert row['first_outside'] == row['last_outside'] == row['below_zero'] == 0
+
+
+def test_native_expert_representation_preserves_pose_and_original_mechanical_mapping():
+    from go2arx5_vla.world_model import task_learning_grasp_v1 as task
+    from go2arx5_vla.world_model.sla_expert_epsilon_v3 import transform
+
+    raw = np.tile([.4, 0, .2, 1, 0, 0, 0, 1, 0, 0.], (40, 1))
+    actual = np.eye(4)
+    actual[:3, 3] = raw[0, :3]
+    base = np.array([0, 0, 0, 0, 0, 0, 1.])
+    program = task.FiftyMsProgram(raw, actual, actual, base)
+    adjusted, audit = transform(program)
+    np.testing.assert_array_equal(program.decoded_H40, raw)
+    np.testing.assert_array_equal(adjusted.reference_path[:, :9], program.reference_path[:, :9])
+    expected = EPSILON * (task.WORKING_OPEN_M - task.WORKING_CLOSED_M) / task.MECHANICAL_TRAVEL_M
+    np.testing.assert_allclose(adjusted.reference_path[:, 9] - program.reference_path[:, 9], expected, rtol=0, atol=1e-14)
+    assert audit['maximum_nominal_bias'] <= EPSILON + 1e-15

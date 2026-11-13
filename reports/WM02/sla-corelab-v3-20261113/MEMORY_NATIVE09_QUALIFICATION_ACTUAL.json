@@ -1,0 +1,141 @@
+{
+  "schema": "SLA_MEMORY_DENSE_NATIVE09_QUALIFICATION_ACTUAL_V3",
+  "as_of_SGT": "2026-11-13T08:22:22.675253+08:00",
+  "source_sha": "197b956629f5b8b03b5a06f37d6051de31836e6b",
+  "spec_sha256": "60b2225f26a2798d129d479e4ec950d61d2caddd2ade25f304671f9cc78a7815",
+  "result_sha256": "0e6b30a2f3b22259417e34144eefcb538f0aceede0d217cfc97f00256f0d97e1",
+  "status": "NATIVE_STAGE_PASSED",
+  "physical_requests": 1,
+  "actual_native_integrations": 21203,
+  "worker_exit_code": 0,
+  "worker_wall_s": 364.90644598938525,
+  "native_wall_s": 356.29236230719835,
+  "score": {
+    "samples": 621,
+    "maximum_object_lift_m": 0.025957990529653308,
+    "longest_contiguous_grasp_lift_hold_s": 8.700000000000001,
+    "unsafe_samples": 0,
+    "standing_passes": true,
+    "maximum_base_displacement_m": 0.006316113570892832,
+    "maximum_base_rotation_rad": 0.00919970566460278,
+    "maximum_foot_planar_displacement_m": 0.003974071918763978,
+    "minimum_supported_feet": 4,
+    "old_short_task_pose_bound_all_samples_pass": false,
+    "task_success": true
+  },
+  "all_child_exit_codes": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "shutdown_clean": true,
+  "hard_safety_stops": 0,
+  "original_joint_warning_samples": 0,
+  "Teacher_decisions": 15,
+  "solver_and_gripper_confirmed_atoms": 748,
+  "confirmed_nominal_commands": 600,
+  "frames": 311,
+  "anchors": 63,
+  "complete_consumed_H40_windows": 57,
+  "incomplete_tail_anchors": 6,
+  "writer": {
+    "accepted": 311,
+    "committed": 311,
+    "pending_frames": 0,
+    "pending_payload_bytes": 0,
+    "peak_frames": 1,
+    "peak_payload_bytes": 597198,
+    "max_frames": 16,
+    "max_payload_bytes": 16777216,
+    "includes_inflight_payload": true,
+    "immutable_owned_payloads": true,
+    "reusable_slots": false,
+    "publish_wall_s": 71.49275295715779,
+    "failure": null,
+    "episode_archive_published": true,
+    "records_count": 0,
+    "nominal_windows_count": 0
+  },
+  "journal": {
+    "schema": "CORELAB_BOUNDED_ASYNC_ROS_JOURNAL_V3",
+    "committed": true,
+    "accepted_records": 58431,
+    "written_records": 58431,
+    "written_bytes": 390035016,
+    "pending_records": 0,
+    "pending_bytes": 0,
+    "peak_records": 24,
+    "peak_payload_bytes": 147713,
+    "max_records": 1024,
+    "max_payload_bytes": 33554432,
+    "includes_inflight_payload": true,
+    "sha256": "0f208470ee60e77265548d353776272f5a27ee7136316c0b31c7291e354bb15c",
+    "write_wall_s": 19.262555303052068,
+    "maximum_write_wall_s": 0.0729646859690547,
+    "failure": null,
+    "observed_callback_records": 58431
+  },
+  "performance": {
+    "sha256": "d11b514a23722db1f5b1a0c3bd037deedb07fad4176fef3395972cee37b1a9c5",
+    "spans": {
+      "native.advance_to": {
+        "count": 849,
+        "failures": 0,
+        "wall_s": 121.62003143
+      },
+      "reference.original_full40_certificate": {
+        "count": 113,
+        "failures": 0,
+        "wall_s": 37.410582722
+      },
+      "atom.fixed_spin_150ms": {
+        "count": 128,
+        "failures": 0,
+        "wall_s": 19.348067457
+      },
+      "camera.native_model_load": {
+        "count": 1,
+        "failures": 0,
+        "wall_s": 0.093908434
+      },
+      "camera.native_renderer_create": {
+        "count": 1,
+        "failures": 0,
+        "wall_s": 0.204249182
+      },
+      "camera.body_scene_reset": {
+        "count": 311,
+        "failures": 0,
+        "wall_s": 3.243491103
+      },
+      "atom.event_wait": {
+        "count": 620,
+        "failures": 0,
+        "wall_s": 5.476787764
+      },
+      "camera.native_scene_reset": {
+        "count": 310,
+        "failures": 0,
+        "wall_s": 3.385186051
+      }
+    },
+    "mode": "events_camera_cache"
+  },
+  "read_wait": {
+    "version": "PAUSED_EVENT_WALL_READ_WAIT_V3",
+    "max_wall_s": 2.0,
+    "source_freshness_max_s": 0.025,
+    "exact_pause_ACK_and_consumption_predicate_unchanged": true
+  },
+  "archive_sha256": "5a99e4ba459e7940351292e4648f1d462a3c279d7a85723ecf4ee9d7b91801bc",
+  "independent_audit_passes": true,
+  "model_calls": 0,
+  "optimizer_updates": 0,
+  "optimization_visits": 0,
+  "BC_eligible": false,
+  "supervised_windows_admitted": 0,
+  "qualified_training_demonstrations": 0,
+  "role": "TASK_CONSTRUCTION_NOT_BC",
+  "matched_throughput_claim": false
+}

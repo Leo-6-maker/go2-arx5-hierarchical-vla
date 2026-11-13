@@ -1,0 +1,27 @@
+{
+  "schema": "SLA_CORELAB_TMPFS_FIRST_NATIVE_FAILURE_ACTUAL_V3",
+  "observed_SGT": "2026-11-13T12:27:36.609844+08:00",
+  "source_sha": "0cd9afdb8d5ef2b3dabdcf18c7112227434f37ed",
+  "physical_requests": 1,
+  "successes": 0,
+  "technical_failures": 1,
+  "native_integrations": 2500,
+  "optimizer_updates": 0,
+  "optimization_visits": 0,
+  "training_demonstrations_admitted": 0,
+  "frames": 0,
+  "first_failure": "NATIVE_WBC_MODE_ACK_MISSING",
+  "late_receipt": {
+    "actual_WBC_message_recorded": true,
+    "approximate_delay_after_last_native_CONTROL_sample_wall_s": 18,
+    "former_wall_wait_s": 3
+  },
+  "original_native_safety_stops": [],
+  "shutdown_clean": false,
+  "owned_children_terminal": true,
+  "simulator_wrapper_exit_code": 143,
+  "tmpfs_raw_snapshots_archived": true,
+  "durable_original_state_journal_retained": true,
+  "worker_wall_s": 404.51574448961765,
+  "next": "New source waits up to90 wall seconds for the same fresh acknowledgement, without republishing or granting native ticks."
+}

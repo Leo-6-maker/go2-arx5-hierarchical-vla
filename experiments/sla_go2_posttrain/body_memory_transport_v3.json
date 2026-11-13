@@ -1,0 +1,49 @@
+{
+  "schema": "IMMUTABLE_BODY_MEMORY_ASYNC_EXPERT_V3",
+  "opt_in": {
+    "body_camera_transport_v3": {
+      "version": "IMMUTABLE_BODY_MEMORY_ASYNC_EXPERT_V3"
+    },
+    "collection_event_read_wait_v3": {
+      "version": "PAUSED_EVENT_WALL_READ_WAIT_V3",
+      "max_wall_s": 2.0
+    },
+    "expert_dense_observation_v3": {
+      "version": "NATIVE_RGB_STATE10HZ_ANCHOR2HZ_V3",
+      "frame_period_ticks": 50,
+      "anchor_period_ticks": 250
+    }
+  },
+  "requires": "BODY_BASE_EPISODE_SESSION_V3/PERSISTENT_COMPATIBILITY and fresh CPU-expert construction/semantics role",
+  "unchanged": {
+    "Teacher": "NORMAL_TEACHER_V7",
+    "command_period_s": 0.05,
+    "native_dt_s": 0.002,
+    "reference_TTL_s": 0.4,
+    "reference_renewal_max_s": 0.35,
+    "WBC": true,
+    "native_safety": true
+  },
+  "transport": {
+    "renderer_thread": "ACTOR_MAIN",
+    "archive_thread": "ONE_DAEMON_WRITER",
+    "immutable_bytes": true,
+    "max_pending_frames": 16,
+    "max_pending_payload_bytes": 16777216,
+    "reservation_bytes": 4194304,
+    "inflight_counts_against_capacity": true,
+    "policy_writer_buffer_reuse": false,
+    "atomic_frame_manifest_after_fsync_hash_index": true
+  },
+  "dense": {
+    "task_start_step": 5703,
+    "task_end_step": 21203,
+    "frames": 311,
+    "anchors": 63,
+    "consumption_joined_full_H40_windows": 57,
+    "incomplete_tail_anchors": 6,
+    "tail_padding": false,
+    "BC_admitted_windows": 0
+  },
+  "admission": "Requires saved-frame byte equivalence and fresh native endpoint. Dataset producer additionally requires complete native shutdown and explicit data/codec/scientific split admission; this transport itself does not admit training data."
+}

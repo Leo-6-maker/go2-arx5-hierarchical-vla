@@ -12,6 +12,7 @@ import time
 
 VERSION = 'TASK_COLLECTION_PERFORMANCE_CONSTRUCTION_V1'
 MODES = ('profile', 'events', 'camera_cache', 'events_camera_cache')
+EVENT_READ_WAIT_VERSION = 'PAUSED_EVENT_WALL_READ_WAIT_V3'
 
 
 def configuration(spec):
@@ -19,12 +20,30 @@ def configuration(spec):
     if config is None:
         return None
     from .task_learning_grasp_v1 import CONSTRUCTION_ROLE
+    role=spec.get('task_learning_role')
+    expert=role=='CORELAB_EXPERT_TRAIN4_SEMANTICS_NOT_BC_V3'
+    if expert:
+        from .native_body_camera_capture_v1 import session_configuration
+        if session_configuration(spec) is None:
+            raise ValueError('V3_EXPERT_PERFORMANCE_REQUIRES_BODY_SESSION')
     if not (isinstance(config, dict) and set(config) == {'version', 'mode'}
             and config['version'] == VERSION and config['mode'] in MODES
             and spec.get('phase') == 'collect-target-task-learning-grasp-v1'
-            and spec.get('task_learning_role') == CONSTRUCTION_ROLE):
+            and (role == CONSTRUCTION_ROLE or expert)):
         raise ValueError('PERFORMANCE_FRESH_TASK_CONSTRUCTION_ONLY')
     return config
+
+
+def event_read_seconds(spec):
+    value = spec.get('collection_event_read_wait_v3')
+    if value is None:return .15
+    from .native_body_memory_v3 import configuration as memory_configuration
+    config = configuration(spec)
+    if (value != dict(version=EVENT_READ_WAIT_VERSION,max_wall_s=2.)
+            or config is None or config['mode'] not in ('events','events_camera_cache')
+            or memory_configuration(spec) is None):
+        raise ValueError('FRESH_CPU_MEMORY_EVENT_WALL_READ_ONLY')
+    return 2.
 
 
 class PerformanceTrace:
@@ -113,13 +132,18 @@ def reset_render_scene(renderer, model):
 def settle_atom(adapter, *, event_start, before, after, clock, submitted):
     """Wait for the original evidence, with no additional ENTER or tick grant.
 
-    Startup and preaction settling keep their original 150ms wait. The new
-    readiness condition is deliberately stronger than a bare callback drain.
+    Legacy startup keeps its original150ms wait. Explicit new tmpfs experts
+    also join the stationary-prefix receipts before another atom is granted.
     Original consumption, gripper and standing checks still run afterwards.
     """
     config = configuration(adapter.spec)
+    read_wait = event_read_seconds(adapter.spec)
+    from .native_live_control_v3 import configuration as live_configuration, acknowledgement_wait
+    live_control = live_configuration(adapter.spec) is not None
+    if live_control:
+        read_wait = acknowledgement_wait(adapter.spec,read_wait)
     if (config is None or config['mode'] not in ('events', 'events_camera_cache')
-            or before['step'] < adapter.spec['task_learning_grasp']['start_step']):
+            or (before['step'] < adapter.spec['task_learning_grasp']['start_step'] and not live_control)):
         with measure(adapter, 'atom.fixed_spin_150ms', native_step=before['step']):
             return adapter.spin(.15)
     from scripts.pi0294.task_clock import actual_source_age
@@ -132,9 +156,10 @@ def settle_atom(adapter, *, event_start, before, after, clock, submitted):
         confirm_gripper(adapter, submitted, adapter.measured_task_state())
 
     def ready():
+        from .native_live_control_v3 import live_path
         packet = adapter.observe()
         try:
-            ack = json.loads((adapter.output/'pause_ack.json').read_text())
+            ack = json.loads(live_path(adapter,'pause_ack.json').read_text())
         except (FileNotFoundError, json.JSONDecodeError):
             return False
         if not (packet['step'] == after['step'] == ack.get('step')
@@ -155,18 +180,28 @@ def settle_atom(adapter, *, event_start, before, after, clock, submitted):
             result = consumed_window(adapter, event_start, before, after, clock)
         return bool(result['solver_policies_with_exact_installed_target'] and result['arm_request_count'])
 
-    # Keep the old allowance as a timeout; success may now return earlier.
+    # Read only while the exact native quota remains paused. A fresh memory
+    # run may allow delayed callbacks longer, with the identical 25ms source
+    # age, installed-policy/gripper, WBC and TTL predicates; no new clock key.
     with measure(adapter, 'atom.event_wait', native_step=before['step']):
-        if not adapter.spin(.15, ready):
+        if not adapter.spin(read_wait, ready):
             raise RuntimeError('PERFORMANCE_REQUIRED_ATOM_FEEDBACK_TIMEOUT_NO_RETRY')
 
 
 def close_resources(adapter):
     try:
-        session = getattr(adapter, '_source_camera_session', None)
-        if session is not None:
-            with measure(adapter, 'camera.session_close'):
-                session.close()
+        try:
+            memory = getattr(adapter, '_body_memory_capture', None)
+            if memory is not None:memory.close()
+        finally:
+            body = getattr(adapter, '_body_camera_session', None)
+            if body is not None:
+                with measure(adapter, 'camera.body_session_close'):
+                    body.close()
+            session = getattr(adapter, '_source_camera_session', None)
+            if session is not None:
+                with measure(adapter, 'camera.session_close'):
+                    session.close()
     finally:
         trace = getattr(adapter, 'performance', None)
         if trace is not None:

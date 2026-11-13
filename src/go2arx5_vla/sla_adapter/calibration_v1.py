@@ -22,13 +22,20 @@ def pinned(pin):
 
 
 def episode_frame(dataset_root, episode, T_policy_from_world):
+    capture_index = pinned(episode['proof']['capture_index'])
+    with np.load(Path(dataset_root)/episode['file'], allow_pickle=False) as z:
+        first_state = z['actual_state10'][0]
+    return captured_mount_frame(episode['proof']['spec'], episode['proof']['start_readiness'],
+                                capture_index['records'][0], T_policy_from_world, first_state)
+
+
+def captured_mount_frame(spec_pin, readiness_pin, first, T_policy_from_world, first_state):
+    """Use the original post-hold capture to calibrate an episode's fixed mount."""
     import mujoco
     if mujoco.__version__ != '3.2.7' or mujoco.get_mjcb_control() is not None:
         raise ValueError('UNCHANGED_CALLBACK_FREE_NATIVE_MODEL_REQUIRED')
-    spec = pinned(episode['proof']['spec'])
-    capture_index = pinned(episode['proof']['capture_index'])
-    ready = pinned(episode['proof']['start_readiness'])
-    first = capture_index['records'][0]
+    spec = pinned(spec_pin)
+    ready = pinned(readiness_pin)
     body = unseal(pinned(first))
     packet_path = Path(first['path']).parent/'STATE.private.bin'
     packet_sha = digest(packet_path)
@@ -39,7 +46,7 @@ def episode_frame(dataset_root, episode, T_policy_from_world):
     if (packet['step'] != ready['native_step'] or not ready['passes']
             or packet['step'] != first['native_step'] or packet['time_s'] != body['native_time_s']
             or body['world']['scene_sha256'] != scene_sha
-            or body['world']['execution_spec_sha256'] != episode['proof']['spec']['sha256']):
+            or body['world']['execution_spec_sha256'] != spec_pin['sha256']):
         raise ValueError('ACTUAL_EPISODE_START_AND_ORIGINAL_SCENE_REQUIRED')
     policy_from_world = rigid(T_policy_from_world)
     if not np.array_equal(policy_from_world, spec['task_phase_source_from_target']):
@@ -60,12 +67,10 @@ def episode_frame(dataset_root, episode, T_policy_from_world):
     tcp = model.site('x5_ee').id
     world_from_tcp[:3, :3] = data.site_xmat[tcp].reshape(3, 3)
     world_from_tcp[:3, 3] = data.site_xpos[tcp]
-    with np.load(Path(dataset_root)/episode['file'], allow_pickle=False) as z:
-        first_state = z['actual_state10'][0]
     if not np.allclose(matrix_from10(first_state), policy_from_world @ world_from_tcp, rtol=0, atol=1e-10):
         raise ValueError('CANONICAL_TCP_AND_POLICY_FRAME_MUST_MATCH_SAVED_NATIVE_FK')
     return dict(T_policy_from_mount=rigid(policy_from_world @ world_from_mount).tolist(),
                 mount_body='x5_base_link', native_step=packet['step'], native_time_s=packet['time_s'],
-                source_spec=episode['proof']['spec'], first_capture=first, scene_sha256=scene_sha,
+                source_spec=spec_pin, first_capture=first, scene_sha256=scene_sha,
                 packet_sha256=packet_sha, fixed_for_episode=True, object_truth_used=False,
                 additional_TCP_offset_m=0., native_integrations=0)

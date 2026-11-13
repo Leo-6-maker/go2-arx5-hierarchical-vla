@@ -1,0 +1,47 @@
+{
+  "schema": "SLA_S1_TRAIN4_FULL_TERMINAL_V3",
+  "as_of_SGT": "2026-11-13T06:55:15.414051+08:00",
+  "source_sha": "a6332f552d0074637a1b8979ea70e9fe88c9b2eb",
+  "TRAIN4": {
+    "schema": "SLA_FIXED_NATIVE_POPULATION_SUMMARY_V1",
+    "population": "TRAIN4",
+    "requested": 4,
+    "completed": 4,
+    "complete": true,
+    "methods": {
+      "S1_TARGET500_PLUS_ENDPOINT_BASIS": {
+        "requested": 4,
+        "attempted": 4,
+        "task_successes": 0,
+        "valid_task_failures": 2,
+        "technical_failures": 2,
+        "hard_safety_stop_conditions": 0,
+        "actual_SLA_queries": 2,
+        "actual_native_integrations": 13481
+      }
+    },
+    "original_DEV_conditions": 0,
+    "TEST_conditions": 0,
+    "qualified_training_demonstrations": 0,
+    "model_updates": 0,
+    "WBC_changes": false,
+    "generalization_claim": false
+  },
+  "result_sha256": "5cfe2fad6eb7f589b0b240e2823d0332b875212b4e9737a5e9ae7b78b79225cd",
+  "outcomes_sha256": "e4fd4e49fe690e05389136e707650abb8c1041277a1477e12a5c5d7769d14594",
+  "new_condition": "TRAIN25",
+  "new_physical_requests": 1,
+  "new_native_integrations": 0,
+  "new_SLA_queries": 0,
+  "new_training_updates": 0,
+  "new_training_visits": 0,
+  "new_native_failure": "PAUSED_NATIVE_EXECUTOR_OR_FEEDBACK_UNAVAILABLE",
+  "first_mechanism": "Cold per-run CppAD controller/solver shared-library compilation had not produced any ready marker before the30s startup read deadline; shutdown interrupted gcc. Physics remained zero/HOLD.",
+  "both_workers_CLOSED": true,
+  "old_supervisor_PIDs_absent": true,
+  "queue_live": false,
+  "DEV16_attempts": 0,
+  "original_all_negative_outcomes_retained": true,
+  "TRAIN25_will_not_be_replayed": true,
+  "next": "New source permits up to180s cold startup read, preserving exact readiness and zero physics before admission. Qualify separately, then continue untouched DEV16; retain both TRAIN technical failures."
+}

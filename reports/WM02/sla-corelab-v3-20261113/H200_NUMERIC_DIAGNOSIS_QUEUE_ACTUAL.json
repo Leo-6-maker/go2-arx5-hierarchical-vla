@@ -1,0 +1,35 @@
+{
+  "schema": "SLA_H200_ZERO_UPDATE_NUMERICAL_DIAGNOSIS_QUEUE_ACTUAL_V3",
+  "as_of_SGT": "2026-11-13T08:22:22.675253+08:00",
+  "job_id": "715077.hopper-m-02",
+  "source_sha": "0122ccb0e406372461c4ec204773d941be9be3da",
+  "scheduler_state": "Q",
+  "actual_GPU_allocation": false,
+  "planned_GPU_count": 1,
+  "maximum_wall_s": 7200,
+  "planned_optimizer_updates": 0,
+  "planned_optimization_visits": 0,
+  "planned_diagnostic_forward_backward_visits": 192,
+  "planned_microbatches": [
+    1,
+    8,
+    16
+  ],
+  "planned_matmul_precisions": [
+    "default",
+    "highest"
+  ],
+  "actual_optimizer_updates": 0,
+  "actual_optimization_visits": 0,
+  "actual_diagnostic_forward_backward_visits": 0,
+  "actual_parent_loads": 0,
+  "actual_RGB_generations": 0,
+  "actual_physical_requests": 0,
+  "scheduler_reason": "Not Running: Insufficient amount of resource: ngpus ",
+  "prior_qualification_updates": 19,
+  "prior_qualification_visits": 608,
+  "remaining_qualification_updates": 21,
+  "candidate_training_admitted": false,
+  "old_failed_job_715002_retained": true,
+  "automatic_retry": false
+}

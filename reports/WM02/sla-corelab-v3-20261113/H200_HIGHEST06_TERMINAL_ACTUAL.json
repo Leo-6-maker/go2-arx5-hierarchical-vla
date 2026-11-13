@@ -1,0 +1,66 @@
+{
+  "schema": "SLA_H200_HIGHEST_PRECISION_TERMINAL_ACTUAL_V3",
+  "observed_SGT": "2026-11-13T09:26:21.906818+08:00",
+  "job_id": "715115.hopper-m-02",
+  "source_sha": "21760b71c2dbf827df1f1e9bb9476a87ec818639",
+  "scheduler_state": "F",
+  "worker_exit_code": 0,
+  "status": "COMPLETE_HIGHEST_PRECISION_UPDATES_AND_RESTORE_RGB_NOT_RUN",
+  "actual_committed_updates": 16,
+  "actual_optimization_visits": 512,
+  "physical_requests": 0,
+  "ordinary_RGB_generations": 0,
+  "total_actual_qualification_updates": 35,
+  "total_qualification_optimization_visits": 1120,
+  "qualification_update_limit": 40,
+  "remaining_qualification_updates": 5,
+  "batch_comparisons": [
+    {
+      "right_microbatch": 8,
+      "passes": true,
+      "loss_rtol": 0.001,
+      "loss_atol": 1e-05,
+      "left_loss": 0.08474104106426239,
+      "right_loss": 0.08481931686401367,
+      "loss_pass": true,
+      "merged_gradient_cosine": 0.9999554150470793,
+      "merged_gradient_relative_L2": 0.009749853320691164,
+      "small_norm_cutoff": 1e-12,
+      "optimizer_updates_during_comparison": 0
+    },
+    {
+      "right_microbatch": 16,
+      "passes": true,
+      "loss_rtol": 0.001,
+      "loss_atol": 1e-05,
+      "left_loss": 0.08474104106426239,
+      "right_loss": 0.08481632173061371,
+      "loss_pass": true,
+      "merged_gradient_cosine": 0.9999556406328087,
+      "merged_gradient_relative_L2": 0.009711278438567795,
+      "small_norm_cutoff": 1e-12,
+      "optimizer_updates_during_comparison": 0
+    }
+  ],
+  "profile8": {
+    "warmup_updates": 2,
+    "timed_updates": 8,
+    "samples_per_s": 23.414140470099742,
+    "updates_per_s": 0.7316918896906169,
+    "timed_wall_s": 10.933563857572153,
+    "warmup_wall_s": 13.46573473396711,
+    "host_wait_s": 0.4847417292185128
+  },
+  "full_state_comparison": {
+    "bit_exact": true,
+    "arrays": 87,
+    "step": 4,
+    "cursor": 128,
+    "differences": []
+  },
+  "wall_s": 467.9751048088074,
+  "allocated_GPU_wall_hours_upper": 0.12999308506647747,
+  "matched_highest_micro1_and_micro16_throughput_measured": false,
+  "selected_endpoint_ordinary_RGB_verified": false,
+  "candidate_training_admitted": false
+}

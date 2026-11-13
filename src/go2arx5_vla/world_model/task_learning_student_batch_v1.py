@@ -16,10 +16,15 @@ CONTINUATION_SCHEMA='TASK_LEARNING_STUDENT_DEV_GROUP_INPUT_V2'
 
 
 def selection(inp,panel):
+    from .sla_dev_continuation_v3 import SCHEMA as SLA_DEV_SUFFIX
+    if inp.get('capacity_wait_before_pair_v3') is not None:
+        from .sla_native_resource_continuation_v3 import configuration
+        task.need(configuration(panel)==inp['capacity_wait_before_pair_v3'],
+            'EXACT_DECLARED_SLA_PAIR_CAPACITY_WAIT')
     if inp.get('schema')=='SLA_DEV16_OFFICIAL_GR00T_A500_ENGINEERING_V1_GROUP_INPUT':
         from .sla_g_native_v1 import selection
         return selection(inp,panel)
-    if inp.get('schema') in('SLA_TARGET500_NATIVE_GROUP_INPUT_V1','SLA_NATIVE_COLD_UNEXECUTED_SUFFIX_INPUT_V2'):
+    if inp.get('schema') in('SLA_TARGET500_NATIVE_GROUP_INPUT_V1','SLA_NATIVE_COLD_UNEXECUTED_SUFFIX_INPUT_V2',SLA_DEV_SUFFIX):
         from .sla_native_v1 import selection
         return selection(inp,panel)
     if inp.get('schema')=='A_TARGET500_TRAIN4_DELIVERY_GROUP_INPUT_V1':
@@ -284,14 +289,27 @@ def run(input_path):
     if inp.get('schema')=='SLA_NATIVE_COLD_UNEXECUTED_SUFFIX_INPUT_V2':
         from .sla_native_continuation_v2 import prefix
         outcomes=prefix(panel);retained_prefix=len(outcomes)
+    from .sla_dev_continuation_v3 import SCHEMA as SLA_DEV_SUFFIX, retained_prefix as retained_dev_prefix
+    if inp.get('schema') == SLA_DEV_SUFFIX:
+        outcomes = retained_dev_prefix(panel)
+        retained_prefix = len(outcomes)
+    reconciled_run = None
+    if inp.get('schema') == SLA_DEV_SUFFIX:
+        from .sla_dev_continuation_v3 import reconciled_prelaunch
+        reconciled_run = reconciled_prelaunch(panel, inp, {r['native_run'] for r in rows}, journal,
+                                              json.loads(Path(nbase['registry']).read_bytes()))
     current_row=None;current_pair=None;unresolved=None
     write(stage/'SUPERVISOR.private.json',dict(pid=os.getpid(),source_sha=inp['source_sha'],started_epoch=time.time()))
     def interrupted(sig,frame):raise KeyboardInterrupt('OWNED_STUDENT_DEV_SIGNAL_'+str(sig))
     handlers={s:signal.signal(s,interrupted)for s in(signal.SIGTERM,signal.SIGINT)}
+    def register_key(name):
+        return name.upper() + ('-RECONCILED-REGISTER' if name == reconciled_run else '-REGISTER')
+
     def register(row):
         nr=stage/'runs'/row['native_run'];gr=stage/'runs'/(row['native_run']+'-gpu');key=nr.name.upper()
         with closing(OwnerLock(campaign/'OWNER.lock')),closing(OwnerLock(nbase['physical_owner_lock'])),closing(OwnerLock(gbase['neural_owner_lock'])):
-            task.need(not nr.exists()and not gr.exists()and not journal.path(key+'-REGISTER').exists(),'NO_EXISTING_OR_UNKNOWN_DEV_PAIR')
+            task.need(not nr.exists() and not gr.exists() and not journal.path(register_key(nr.name)).exists(),
+                      'NO_EXISTING_OR_UNKNOWN_DEV_PAIR')
             actual_resources=resources(gbase)
             def effect():
                 for root in(nr,gr):
@@ -320,11 +338,26 @@ def run(input_path):
                 pair.preflight(n)
                 write(nr/'PAIR_RESOURCE_READBACK.private.json',actual_resources)
                 return dict(native=dict(path=str(ns),sha256=digest(ns)),gpu=dict(path=str(gs),sha256=digest(gs)))
-            return journal.once(key+'-REGISTER',dict(row=row,source_sha=inp['source_sha']),effect)
+            return journal.once(register_key(nr.name),dict(row=row,source_sha=inp['source_sha']),effect)
     try:
         for row in rows:
             task.need(time.time()+1200<inp['deadline_epoch']and not(stage/'STOP.json').exists(),'NO_LATE_NEW_DEV_CONDITION')
-            current_row=row;current_pair=None;registered=register(row);current_pair=registered
+            current_row=row;current_pair=None
+            if inp.get('capacity_wait_before_pair_v3') is None:
+                registered=register(row)
+            else:
+                from .sla_native_resource_continuation_v3 import wait_for_pair
+                nr=stage/'runs'/row['native_run'];gr=stage/'runs'/(row['native_run']+'-gpu')
+                def untouched():
+                    return (not nr.exists() and not gr.exists()
+                        and not any(journal.path(k).exists()for k in(
+                            register_key(nr.name),nr.name.upper()+'-PAIR-REGISTRY',
+                            nr.name.upper()+'-RUN',gr.name.upper()+'-RUN')))
+                registered=wait_for_pair(lambda:register(row),untouched,
+                    lambda value:write(stage/'PROGRESS.private.json',dict(value,current_run=row['native_run'],completed=len(outcomes))),
+                    inp['deadline_epoch']-1201,
+                    stopped=lambda:(stage/'STOP.json').exists()or(campaign/'STOP.json').exists())
+            current_pair=registered
             execute_pair(registered,journal,stage,len(outcomes))
             result=student.classify_actual(row,stage/'runs'/row['native_run'],inp['source_sha'],core_local=local,conic=conic,endpoint=endpoint,matched=matched,native_body=panel['task_learning_role'] if native_body else False)
             outcomes.append(result);write(stage/'OUTCOMES.private.json',outcomes)

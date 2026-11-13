@@ -1,0 +1,53 @@
+{
+  "schema": "SLA_S1_DEV16_COLD_SUFFIX_ACTUAL_V3",
+  "observed_SGT": "2026-11-13T09:01:38.617704+08:00",
+  "requested": 16,
+  "attempted": 2,
+  "terminal": 2,
+  "successes": 0,
+  "valid_policy_failures": 1,
+  "technical_failures": 1,
+  "actual_native_integrations": 11406,
+  "actual_committed_SLA_generations": 2,
+  "original_summary_SLA_queries": 1,
+  "candidate_H40_consumed": 0,
+  "optimizer_updates": 0,
+  "optimization_visits": 0,
+  "hard_safety_stops": 0,
+  "unstarted": 14,
+  "old_group_closed": true,
+  "old_group_exit_code": 1,
+  "old_queue_closed": true,
+  "old_classification_preserved": true,
+  "second_condition": {
+    "layout": "SLADEV01",
+    "restart": 2,
+    "completed_query_records": 1,
+    "native_steps": 5703,
+    "generation_sha256": "7e6a658c3ff927a1fd687dc881da69d1ff4662f6984c393e6bc6128c044b9ecb",
+    "action_sha256": "bfbb06c94f2a677f2e502604c4fdfa2f608266572a3e4ad4939e0e0756ab5ca4",
+    "gpu_failure_sha256": "7d61d5bb3668390d1b5a56a5432ed34782b7ab3763c5395319bcd51a92ebe742",
+    "gpu_closeout": "FileNotFoundError while reading the producer lease after the native rejection",
+    "native_rejection": "Original nominal gripper range",
+    "native_worker_exit_code": 1,
+    "GPU_worker_exit_code": 1
+  },
+  "new_queue": {
+    "source_sha": "0bc54fe3716e9d819d85ae8469f3a64a861d1b6c",
+    "config_sha256": "21d4d905126e7890c9ba2ac67e911054757b7494919d540c5894addf0035f3bd",
+    "process_verified_live": true,
+    "assignment_slice": [
+      2,
+      16
+    ],
+    "state": "WAIT_ORIGINAL_GPU_HOST_CAPACITY",
+    "group_exists": false,
+    "physical_requests": 0,
+    "model_calls": 0,
+    "GPU_free_bytes": 12313427968,
+    "host_available_bytes": 25258258432,
+    "latest_admission_SGT": "2026-11-13T12:34:50.882498+08:00",
+    "deadline_SGT": "2026-11-13T18:39:50.882498+08:00"
+  },
+  "next": "Continue only the 14 original unstarted conditions under the existing resource gates"
+}

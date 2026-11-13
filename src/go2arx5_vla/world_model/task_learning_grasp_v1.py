@@ -62,6 +62,9 @@ def need(ok,why):
 
 
 def protocol(role=CONSTRUCTION_ROLE):
+    if role=='CORELAB_EXPERT_TRAIN4_SEMANTICS_NOT_BC_V3':
+        from .corelab_expert_semantics_v3 import protocol as expert_protocol
+        return expert_protocol()
     if native_body_role(role):
         return native_body_profile(role).protocol()
     if role=='TEACHER_V9_FULL_RECOVERY24_QUALIFICATION_NOT_BC_V1':
@@ -107,9 +110,10 @@ def protocol(role=CONSTRUCTION_ROLE):
 
 
 def declared(spec):
-    need(spec.get('phase')==PHASE and spec.get('kind')==KIND and spec.get('task_learning_grasp')==protocol(spec.get('task_learning_role',CONSTRUCTION_ROLE))
+    from .corelab_expert_semantics_v3 import native_protocol, native_endpoint
+    need(spec.get('phase')==PHASE and spec.get('kind')==KIND and spec.get('task_learning_grasp')==native_protocol(spec)
         and spec.get('task_command')==COMMAND and spec.get('live_skill_start_step')==CALIBRATION_B
-        and spec.get('max_ticks')==E and spec.get('physics_dt_s')==.002 and spec.get('WBC_changes')is False,
+        and spec.get('max_ticks')==native_endpoint(spec) and spec.get('physics_dt_s')==.002 and spec.get('WBC_changes')is False,
         'EXACT_NEW_TASK_AND_NATIVE_CLOCK')
 
 

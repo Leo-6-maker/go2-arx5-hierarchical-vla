@@ -79,6 +79,44 @@ def test_complete_current_evidence_returns_early_without_extra_clock_write(tmp_p
     assert adapter.performance.report()['spans']['atom.event_wait']['failures']==0
 
 
+def memory_read_wait(adapter):
+    from go2arx5_vla.world_model.native_body_memory_v3 import VERSION
+    from go2arx5_vla.world_model.native_camera_transfer_v1 import CAMERA_ID
+    adapter.spec.update(body_camera_session_v3=dict(version='BODY_BASE_EPISODE_SESSION_V3',mode='PERSISTENT_COMPATIBILITY'),
+        observation_camera_profile=CAMERA_ID,body_camera_transport_v3=dict(version=VERSION),
+        collection_event_read_wait_v3=dict(version=p.EVENT_READ_WAIT_VERSION,max_wall_s=2.))
+
+
+def test_delayed_current_feedback_can_arrive_at_same_pause_without_new_clock(tmp_path,monkeypatch):
+    adapter,kwargs,_=adapter_fixture(tmp_path,monkeypatch)
+    def delayed(seconds,predicate):
+        adapter.calls.append((seconds,True))
+        if seconds>=.374:feedback(adapter,kwargs['after']['time_s']-.010)
+        return predicate()
+    adapter.spin=delayed
+    with pytest.raises(RuntimeError,match='TIMEOUT_NO_RETRY'):p.settle_atom(adapter,**kwargs)
+    memory_read_wait(adapter);p.settle_atom(adapter,**kwargs)
+    assert adapter.calls==[(.15,True),(2.,True)]
+    assert adapter.observe()['step']==kwargs['after']['step']
+
+
+def test_longer_read_does_not_admit26ms_source_or_missing_consumption(tmp_path,monkeypatch):
+    adapter,kwargs,_=adapter_fixture(tmp_path,monkeypatch);memory_read_wait(adapter)
+    feedback(adapter,kwargs['after']['time_s']-.026)
+    with pytest.raises(RuntimeError,match='TIMEOUT_NO_RETRY'):p.settle_atom(adapter,**kwargs)
+    feedback(adapter);adapter.join['solver_policies_with_exact_installed_target']=[]
+    with pytest.raises(RuntimeError,match='TIMEOUT_NO_RETRY'):p.settle_atom(adapter,**kwargs)
+    assert adapter.calls==[(2.,True),(2.,True)]
+
+
+def test_extra_wall_read_is_not_a_foreign_role_or_arbitrary_timeout_grant(tmp_path,monkeypatch):
+    adapter,_,_=adapter_fixture(tmp_path,monkeypatch);memory_read_wait(adapter)
+    assert p.event_read_seconds(adapter.spec)==2.
+    for changed in (dict(task_learning_role='SLA_TARGET500_NATIVE_EVALUATION_V1'),
+                    dict(collection_event_read_wait_v3=dict(version=p.EVENT_READ_WAIT_VERSION,max_wall_s=10.))):
+        with pytest.raises(ValueError):p.event_read_seconds(dict(adapter.spec,**changed))
+
+
 @pytest.mark.parametrize('fault',['missing','stale','old_query','policy','arm_request'])
 def test_missing_actual_evidence_times_out_without_retry(tmp_path,monkeypatch,fault):
     adapter,kwargs,_=adapter_fixture(tmp_path,monkeypatch)
@@ -113,3 +151,42 @@ def test_profile_camera_and_startup_preserve_original_fixed_wait(tmp_path,monkey
     adapter.spec=spec(mode);kwargs['before']['step']=step
     p.settle_atom(adapter,**kwargs)
     assert adapter.calls==[(.15,False)] and adapter.gripper_checks==0
+
+
+def new_live_expert(adapter):
+    from go2arx5_vla.world_model import corelab_expert_semantics_v3 as expert
+    from go2arx5_vla.world_model.native_live_control_v3 import VERSION
+    from go2arx5_vla.world_model.native_body_memory_v3 import DENSE_VERSION
+    memory_read_wait(adapter)
+    adapter.spec.update(task_learning_role=expert.ROLE,
+        native_live_control_v3=dict(version=VERSION),
+        expert_recorded_success_tail_v3=expert.RECORDED_TAIL,
+        expert_dense_observation_v3=dict(version=DENSE_VERSION,frame_period_ticks=50,anchor_period_ticks=250))
+
+
+def test_new_expert_prefix_waits_for_delayed_same_clock_consumption(tmp_path,monkeypatch):
+    adapter,kwargs,_=adapter_fixture(tmp_path,monkeypatch);new_live_expert(adapter)
+    # The measured failure was before5703: legacy fixed-spin drained no new
+    # policy for one atom, then a later decision found unconfirmed history.
+    kwargs['before'].update(step=3503,time_s=7.006)
+    kwargs['after'].update(step=3528,time_s=7.056)
+    (tmp_path/'pause_ack.json').write_text(json.dumps(dict(kwargs['after'],running=False,clock_paused=True)))
+    adapter.observe=lambda:dict(kwargs['after'])
+    def delayed(seconds,predicate):
+        adapter.calls.append((seconds,True))
+        if seconds>=18:feedback(adapter,kwargs['after']['time_s']-.010)
+        return predicate()
+    adapter.spin=delayed
+    p.settle_atom(adapter,**kwargs)
+    assert adapter.calls==[(90,True)]and adapter.observe()['step']==3528
+
+
+@pytest.mark.parametrize('fault',['policy','arm_request','26ms'])
+def test_new_expert_extended_prefix_wait_never_certifies_missing_or_stale_data(tmp_path,monkeypatch,fault):
+    adapter,kwargs,_=adapter_fixture(tmp_path,monkeypatch);new_live_expert(adapter)
+    kwargs['before']['step']=3503
+    feedback(adapter,kwargs['after']['time_s']-(.026 if fault=='26ms'else 0))
+    if fault=='policy':adapter.join['solver_policies_with_exact_installed_target']=[]
+    if fault=='arm_request':adapter.join['arm_request_count']=0
+    with pytest.raises(RuntimeError,match='TIMEOUT_NO_RETRY'):p.settle_atom(adapter,**kwargs)
+    assert adapter.calls==[(90,True)]

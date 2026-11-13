@@ -134,6 +134,11 @@ def validate_scope(spec,lease,registry,*,host,uid,now):
     from .storage import digest
     if spec.get('diagnostic_debugger')and(spec.get('standby_shutdown_diagnostic')is not True or spec['phase']!='cold-1'):raise PermissionError('DEBUGGER_ONLY_FOR_ZERO_TICK_STANDBY_DIAGNOSIS')
     wall_bound=1200 if spec.get('phase')in('collect-target-fusion-c02-source-state-feedback-v2','collect-target-fusion-c02-source-state-initialization-v1','collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1','collect-target-fusion-paused-query-v2','collect-target-fusion-live-proposal-qualification-v3','collect-target-fusion-source-posture-qualification-v1','collect-target-fusion-source-posture-query-v3','collect-target-fusion-task-phase-initialization-v1','collect-target-fusion-task-phase-bias-calibration-v2','collect-target-fusion-task-phase-bias-continuation-v3','collect-target-fusion-task-phase-xyz-feedback-v4','collect-target-fusion-task-phase-xyz-feedback-continuation-v5','collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1','collect-target-task-learning-grasp-v1')else 600
+    if spec.get('native_live_control_v3') is not None:
+        from .native_live_control_v3 import maximum_wall_seconds
+        # New expert production keeps its exact native-tick budget. A finite
+        # one-hour wall window accommodates measured shared-storage waits.
+        wall_bound=maximum_wall_seconds(spec,wall_bound)
     if (spec['domain']!='WM02_AUTO1_TARGET_COMMISSION_V1'or spec['physics']is not True
             or spec['site_profile']!='4080-simulation'or spec['owner']!='EXISTING_LOCAL_PC'
             or host!='corelab-4080s'or uid!=2009 or spec['host']!=host or spec['uid']!=uid
@@ -191,6 +196,13 @@ def admitted_target(spec_path,run_id,output):
     if os.environ.get('CUDA_VISIBLE_DEVICES')!='':raise PermissionError('CPU_TARGET_COMMISSIONING_ONLY')
     validate_parent_loader(spec['native_environment']['LD_LIBRARY_PATH'],os.environ.get('LD_LIBRARY_PATH'))
     if str(Path(spec['xvfb_run']))not in spec['frozen_files']or not os.access(spec['xvfb_run'],os.X_OK):raise PermissionError('BOUND_EXISTING_XVFB_ENTRY_REQUIRED')
+    if spec.get('corelab_world_binding_v3') is not None:
+        from .corelab_world_owner_v3 import world_owner
+        registry = json.loads(Path(spec['registry']).read_text())
+        with world_owner(spec, registry):
+            with admitted_run(spec_path, run_id, 'wm02-auto1-target', output, physics=True):
+                yield spec
+        return
     if spec.get('parallel_batch_spec'):
         from .target_parallel import inherited_batch_owner
         with inherited_batch_owner(spec_path,spec):

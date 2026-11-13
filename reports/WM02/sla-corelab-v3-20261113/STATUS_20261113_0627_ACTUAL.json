@@ -1,0 +1,65 @@
+{
+  "schema": "SLA_V3_ACTUAL_STATUS_20261113_0627",
+  "as_of_SGT": "2026-11-13T06:27:37.266074+08:00",
+  "H200": {
+    "job": "714991.hopper-m-02",
+    "status": "FINISHED_EXIT0",
+    "source_sha": "7eafd350eb604cf129c3a6929c77585cb922d02f",
+    "actual_optimizer_updates": 8,
+    "actual_optimization_visits": 256,
+    "ordinary_RGB_generations": 32,
+    "fresh_process_RGB_generations": 16,
+    "physical_requests": 0,
+    "full_state_comparison": {
+      "bit_exact": true,
+      "arrays": 87,
+      "step": 4,
+      "cursor": 128,
+      "differences": []
+    },
+    "RGB_bit_exact": true,
+    "result_sha256": "abb4c1ba627ddce90b451d1721503dd53c6117217abbfc340dca41bbdd49da3d",
+    "worker_wall_s": 485.02239322662354,
+    "GPU_wall_hours_upper": 0.13472844276163312,
+    "batch1_8_16": "NOT_RUN",
+    "native_epsilon_validation": "NOT_RUN",
+    "candidate500_admitted": false
+  },
+  "original_S1": {
+    "optimizer_updates": 500,
+    "optimization_visits": 16000,
+    "TRAIN4_terminal": 3,
+    "TRAIN4_population": 4,
+    "successes": 0,
+    "valid_policy_failures": 2,
+    "initialization_technical_failures": 1,
+    "native_integrations": 13481,
+    "SLA_queries": 2,
+    "candidate_H40_consumed": 0,
+    "TRAIN25": "UNSTARTED",
+    "DEV16_attempts": 0,
+    "original_queue_live": false,
+    "GPU_free_bytes": 14741929984,
+    "GPU_required_bytes": 15032385536,
+    "host_available_bytes": 35686440960,
+    "next": "Independent sealed continuation under original resource guards; not launched"
+  },
+  "new_Core_expert": {
+    "physical_attempts": 4,
+    "complete_successes": 3,
+    "technical_failures": 1,
+    "native_integrations": 76362,
+    "usable_training_episodes": 0,
+    "TRAIN4_semantic_successes": 1,
+    "TRAIN4_semantic_technical_failures": 1,
+    "TRAIN4_semantic_unstarted": 2,
+    "failure": "TRAIN07 required feedback age26ms exceeded25ms; no retry or threshold relaxation"
+  },
+  "S2": {
+    "optimizer_updates": 0,
+    "DEV16_attempts": 0
+  },
+  "G_common_DEV16_attempts": 0,
+  "scientific_goal_complete": false,
+  "safety": "Frozen WBC, native safety, historical DEV/TEST and negative outcomes preserved."
+}

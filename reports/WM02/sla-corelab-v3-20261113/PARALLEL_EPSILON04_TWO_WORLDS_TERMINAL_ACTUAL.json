@@ -1,0 +1,60 @@
+{
+  "schema": "SLA_NATIVE_TWO_INDEPENDENT_EXPERT_WORLDS_TERMINAL_ACTUAL_V3",
+  "observed_SGT": "2026-11-13T09:29:36.242339+08:00",
+  "source_sha": "0a6044e02fd9b5ee36f30ba50e411c485f63b34c",
+  "physical_requests": 2,
+  "terminal": 2,
+  "task_successes": 2,
+  "native_integrations": 42406,
+  "fully_consumed_expert_H40": 30,
+  "optimizer_updates": 0,
+  "optimization_visits": 0,
+  "model_calls": 0,
+  "BC_examples_admitted": 0,
+  "rows": [
+    {
+      "layout": "TRAIN01",
+      "source_sha": "0a6044e02fd9b5ee36f30ba50e411c485f63b34c",
+      "spec_sha256": "9e257fc1714e652c84393ed2957814eaabb454bb305454ce6c0c1d579cb6b762",
+      "result_sha256": "472493c6e991b5a49c731decf61cac5822a4b57e7ed02b6d679eee1f3e3e68c7",
+      "worker_exit_code": 0,
+      "task_success": true,
+      "native_integrations": 21203,
+      "frames": 15,
+      "worker_wall_s": 247.36633564624935,
+      "epsilon": 0.0001,
+      "maximum_nominal_gripper_bias": 0.00010000000000000017,
+      "fully_consumed_expert_H40": 15,
+      "hard_safety_stops": 0
+    },
+    {
+      "layout": "TRAIN07",
+      "source_sha": "0a6044e02fd9b5ee36f30ba50e411c485f63b34c",
+      "spec_sha256": "b48269c31dcdcfb94fa4e2889f15ad91f6de364914fb4f1137211ca062884140",
+      "result_sha256": "e38b93932c4d257bccf16ea520c32a6e780f653281444e7fa9f9af4e50bce2d5",
+      "worker_exit_code": 0,
+      "task_success": true,
+      "native_integrations": 21203,
+      "frames": 15,
+      "worker_wall_s": 257.40514386165887,
+      "epsilon": 0.0001,
+      "maximum_nominal_gripper_bias": 0.00010000000000000017,
+      "fully_consumed_expert_H40": 15,
+      "hard_safety_stops": 0
+    }
+  ],
+  "simultaneous_worlds_verified_by_earlier_live_receipt": true,
+  "same_native_2ms_reference_path": true,
+  "per_world_owner": true,
+  "matched_throughput_claim": false,
+  "earlier_prestart_failures": [
+    {
+      "cause": "Missing subprocess import in preparation helper",
+      "physical_requests": 0
+    },
+    {
+      "cause": "Native environment lacked SciPy required by an indirect diagnostic import",
+      "physical_requests": 0
+    }
+  ]
+}

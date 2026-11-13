@@ -27,9 +27,8 @@ class FrameRecorder:
         self.model_path,self.folder=model_path,folder
         self.model=self.data=self.renderer=None
 
-    def save(self,index,packet):
+    def render_packet(self,packet):
         import mujoco
-        from PIL import Image
         from go2arx5_vla.world_model.native_collection_performance_v1 import measure,reset_render_scene
         reused=self.renderer is not None
         if self.model is None:
@@ -44,16 +43,24 @@ class FrameRecorder:
         if getattr(self,'reset_each_packet',False):mujoco.mj_resetData(m,d)
         d.qpos[:]=packet['qpos'];d.qvel[:]=packet['qvel'];d.ctrl[:]=packet['ctrl'];d.time=packet['time_s']
         with measure(self,'camera.native_FK'):mujoco.mj_forward(m,d)
-        calibration={}
+        calibration={};images={}
         for camera in ('body_rgb','wrist_rgb'):
             with measure(self,'camera.native_render.'+camera):
                 r.update_scene(d,camera=camera);image=r.render().copy()
-            with measure(self,'camera.native_PNG.'+camera):
-                Image.fromarray(image).save(self.folder/'images'/f'{index:06d}-{camera}.png')
+            images[camera]=image
             c=mujoco.mj_name2id(m,mujoco.mjtObj.mjOBJ_CAMERA,camera)
             transform=np.eye(4);transform[:3,:3]=d.cam_xmat[c].reshape(3,3)@np.diag([1,-1,-1]);transform[:3,3]=d.cam_xpos[c]
             focal=128/np.tan(np.deg2rad(m.cam_fovy[c])/2)
             calibration[camera]=dict(timestamp_s=float(d.time),T_world_optical=transform.tolist(),K=[[focal,0,128],[0,focal,128],[0,0,1]])
+        return images,calibration
+
+    def save(self,index,packet):
+        from PIL import Image
+        from go2arx5_vla.world_model.native_collection_performance_v1 import measure
+        images,calibration=self.render_packet(packet)
+        for camera,image in images.items():
+            with measure(self,'camera.native_PNG.'+camera):
+                Image.fromarray(image).save(self.folder/'images'/f'{index:06d}-{camera}.png')
         # Raw input states retain their actual clock. They are not desired poses.
         (self.folder/'images'/f'{index:06d}-calibration.json').write_text(json.dumps(calibration))
         return dict(index=index,native_step=packet['step'],time_s=packet['time_s'])

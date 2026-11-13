@@ -1,0 +1,31 @@
+{
+  "schema": "SLA_S1_RESOURCE_SUFFIX_QUEUE_ACTUAL_V3",
+  "as_of_SGT": "2026-11-13T06:33:21.848797+08:00",
+  "native_source_sha": "a6332f552d0074637a1b8979ea70e9fe88c9b2eb",
+  "config_sha256": "94a27bb7618f43ee194a7eee9c719d6550170f00082c23291e2141a50afc4105",
+  "TRAIN4_panel_sha256": "2ec35c07c2e46ecd03166f7d4c883427d28fd28dab1c1098bcdd107dcf8d5773",
+  "DEV16_panel_sha256": "51e58bd9d150503f9c17c04146e3dfa524f5e875e48e9e263359cbbd3733cbc8",
+  "prior_terminal_conditions_retained": 3,
+  "remaining_TRAIN4_requests": 1,
+  "DEV16_requests": 16,
+  "queue_process_verified_live": true,
+  "queue_state": "WAIT_ORIGINAL_GPU_HOST_CAPACITY",
+  "new_groups_registered": 0,
+  "actual_new_model_calls": 0,
+  "actual_new_physical_requests": 0,
+  "actual_new_optimizer_updates": 0,
+  "GPU_free_bytes": 14741929984,
+  "original_GPU_required_bytes": 15032385536,
+  "host_available_bytes": 37943922688,
+  "original_host_required_bytes": 34359738368,
+  "original_first_admission_deadline_epoch": 1794533990.8824978,
+  "original_queue_deadline_epoch": 1794566390.8824978,
+  "resource_limits_and_safety_unchanged": true,
+  "old_capsules_unchanged": true,
+  "automatic_worker_retry": false,
+  "software_checks": {
+    "continuation_queue_population_regression": 54,
+    "device_batch_regression": 18
+  },
+  "next": "Wait for original capacity, then execute only unstarted TRAIN25, followed by untouched DEV16. No outcome replay."
+}

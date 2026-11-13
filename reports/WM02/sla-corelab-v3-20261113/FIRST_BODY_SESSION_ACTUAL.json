@@ -1,0 +1,343 @@
+{
+  "schema": "SLA_CORELAB_V3_BODY_SESSION_FIRST_ACTUAL",
+  "plan_revision": "f672fb1aa574a2dbac3c91e047346eaa441bc9f5",
+  "implementation_parent": "aaf80b4eda7ecb2816c0c251d3535a4e54ea62c9",
+  "as_of_SGT": "2026-11-13T01:56:19.300662+08:00",
+  "saved32": {
+    "source_sha": "ec6a6d0ef543fe72c9768e5e5052a5ef0951bee2",
+    "result_sha256": "c60e0d79b651ec9a3375267f08f4088ba30e7b700f0a3653759d58397fba8a43",
+    "schema": "SLA_BODY_SESSION_SAVED32_ACTUAL_V3",
+    "passes": true,
+    "saved_states": 32,
+    "all_fresh_persistent_PNG_and_calibration_bytes_exact": true,
+    "source_dataset_sha256": "11ac2104e72ddb091045bb2ae0f8cba56bd4002022fc44825e983173565efbe1",
+    "sessions": 3,
+    "renderer_contexts_per_session": 2,
+    "fresh_capture_count": 32,
+    "fresh_capture_wall_s": 33.90111421234906,
+    "persistent_capture_wall_s": 13.795518657192588,
+    "wall_s": 57.47512807417661,
+    "physics_integrations": 0,
+    "model_queries": 0,
+    "optimizer_updates": 0,
+    "original_native_state_unchanged": true,
+    "PNG_file_ABI_retained": true,
+    "memory_transport_admitted": false,
+    "native_task_success": false,
+    "worker_wall_s": 66.08734059333801,
+    "peak_memory_bytes": 1643880448
+  },
+  "construction_episodes": [
+    {
+      "run": "sla-v3-body-native-20261113-04",
+      "source_sha": "2f544d0d702978e38e45cf2f2ff08e0e92cce514",
+      "spec_sha256": "60707abbf703a9785d914c2aca28f7d3e1950188e72079ef25985b98090646f2",
+      "result_sha256": "5b200d3a4069a21fc3a0a0a40ec1da1a92e8cb3d5681941720f0e5fb7330d13b",
+      "lease_status": "CLOSED",
+      "worker": {
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 223.53768893983215,
+        "CPU_s": 124.906618913,
+        "child_CPU_s": 76.924177
+      },
+      "result": {
+        "status": "NATIVE_STAGE_PASSED",
+        "actual_target_integrations": 21203,
+        "complete_atomic_transitions": 848,
+        "partial_native_ticks": 3,
+        "reached_exact_pause": true,
+        "physics_stops": [],
+        "original_joint_or_warning_samples": 0,
+        "failure": null,
+        "shutdown_clean": true,
+        "native_outer_guard_rejection_count": 0,
+        "wall_s": 216.87777612451464,
+        "CPU_s": 120.67053440000001
+      },
+      "qualification": {
+        "new_task_score": {
+          "samples": 621,
+          "maximum_object_lift_m": 0.025896396426999924,
+          "longest_contiguous_grasp_lift_hold_s": 8.65,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_base_displacement_m": 0.006322793117653202,
+          "maximum_base_rotation_rad": 0.009230569341840545,
+          "maximum_foot_planar_displacement_m": 0.003973792178697596,
+          "minimum_supported_feet": 4,
+          "old_short_task_pose_bound_all_samples_pass": false,
+          "task_success": true
+        },
+        "task_condition_success": true,
+        "native_endpoint_step": 21203,
+        "complete_task_atoms": 748,
+        "task_native_ticks": 18700,
+        "solver_target_confirmed_atoms": 748,
+        "gripper_confirmed_atoms": 748,
+        "expert_training_eligible": false,
+        "expert_policy_decisions": 15,
+        "GR00T_queries": 0,
+        "VLA_queries": 0,
+        "data_role": "TASK_CONSTRUCTION_NOT_BC"
+      },
+      "all_child_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "performance": {
+        "sha256": "19ef539d34ea325cea06e99289305aa9a56939125ddefd673b42c601e62c58ad",
+        "spans": {
+          "native.advance_to": {
+            "count": 849,
+            "failures": 0,
+            "wall_s": 95.983622457
+          },
+          "reference.original_full40_certificate": {
+            "count": 113,
+            "failures": 0,
+            "wall_s": 37.695566539
+          },
+          "atom.fixed_spin_150ms": {
+            "count": 128,
+            "failures": 0,
+            "wall_s": 19.451624282
+          },
+          "camera.native_model_load": {
+            "count": 1,
+            "failures": 0,
+            "wall_s": 0.08774823
+          },
+          "camera.native_renderer_create": {
+            "count": 1,
+            "failures": 0,
+            "wall_s": 0.184444199
+          },
+          "camera.body_scene_reset": {
+            "count": 15,
+            "failures": 0,
+            "wall_s": 0.142248015
+          },
+          "camera.capture_total": {
+            "count": 15,
+            "failures": 0,
+            "wall_s": 15.09897887
+          },
+          "atom.event_wait": {
+            "count": 620,
+            "failures": 0,
+            "wall_s": 3.571733847
+          },
+          "camera.native_scene_reset": {
+            "count": 14,
+            "failures": 0,
+            "wall_s": 0.137056365
+          }
+        },
+        "mode": "events_camera_cache"
+      },
+      "peak_memory_bytes": 4621148160
+    },
+    {
+      "run": "sla-v3-body-native-20261113-05",
+      "source_sha": "2f544d0d702978e38e45cf2f2ff08e0e92cce514",
+      "spec_sha256": "ff78fd61f299a1355977e4192dfcb7fb82f2273561d52ebfebc627b8adfa877b",
+      "result_sha256": "1aedcf0262980232003f55773d788338078e1973dd69f6075298a9c53c0fc813",
+      "lease_status": "CLOSED",
+      "worker": {
+        "exit_code": 0,
+        "failure": null,
+        "wall_s": 233.92291412781924,
+        "CPU_s": 125.2264395,
+        "child_CPU_s": 77.277678
+      },
+      "result": {
+        "status": "NATIVE_STAGE_PASSED",
+        "actual_target_integrations": 21203,
+        "complete_atomic_transitions": 848,
+        "partial_native_ticks": 3,
+        "reached_exact_pause": true,
+        "physics_stops": [],
+        "original_joint_or_warning_samples": 0,
+        "failure": null,
+        "shutdown_clean": true,
+        "native_outer_guard_rejection_count": 0,
+        "wall_s": 226.68421182595193,
+        "CPU_s": 121.010278232
+      },
+      "qualification": {
+        "new_task_score": {
+          "samples": 621,
+          "maximum_object_lift_m": 0.02590319590247192,
+          "longest_contiguous_grasp_lift_hold_s": 8.5,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_base_displacement_m": 0.006523779390562791,
+          "maximum_base_rotation_rad": 0.010744248235348095,
+          "maximum_foot_planar_displacement_m": 0.0039070549578202165,
+          "minimum_supported_feet": 4,
+          "old_short_task_pose_bound_all_samples_pass": false,
+          "task_success": true
+        },
+        "task_condition_success": true,
+        "native_endpoint_step": 21203,
+        "complete_task_atoms": 748,
+        "task_native_ticks": 18700,
+        "solver_target_confirmed_atoms": 748,
+        "gripper_confirmed_atoms": 748,
+        "expert_training_eligible": false,
+        "expert_policy_decisions": 15,
+        "GR00T_queries": 0,
+        "VLA_queries": 0,
+        "data_role": "TASK_CONSTRUCTION_NOT_BC"
+      },
+      "all_child_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "performance": {
+        "sha256": "43f5346caa8aec9d8f4ee3ad854b49ef3e049fd0035f9a8eccacc975a909f04e",
+        "spans": {
+          "native.advance_to": {
+            "count": 849,
+            "failures": 0,
+            "wall_s": 102.232507488
+          },
+          "reference.original_full40_certificate": {
+            "count": 113,
+            "failures": 0,
+            "wall_s": 37.645413798
+          },
+          "atom.fixed_spin_150ms": {
+            "count": 128,
+            "failures": 0,
+            "wall_s": 19.374498906
+          },
+          "camera.native_model_load": {
+            "count": 1,
+            "failures": 0,
+            "wall_s": 0.094029086
+          },
+          "camera.native_renderer_create": {
+            "count": 1,
+            "failures": 0,
+            "wall_s": 0.196389449
+          },
+          "camera.body_scene_reset": {
+            "count": 15,
+            "failures": 0,
+            "wall_s": 0.14687447
+          },
+          "camera.capture_total": {
+            "count": 15,
+            "failures": 0,
+            "wall_s": 15.65817875
+          },
+          "atom.event_wait": {
+            "count": 620,
+            "failures": 0,
+            "wall_s": 3.643200396
+          },
+          "camera.native_scene_reset": {
+            "count": 14,
+            "failures": 0,
+            "wall_s": 0.143267776
+          }
+        },
+        "mode": "events_camera_cache"
+      },
+      "peak_memory_bytes": 4019376128
+    }
+  ],
+  "counts": {
+    "prestart_rejections": 3,
+    "physical_requests": 2,
+    "technical_complete": 2,
+    "full_task_success": 2,
+    "training_eligible_episodes": 0,
+    "usable_supervision_H40": 0,
+    "new_D100_episodes": 0,
+    "new_optimizer_updates": 0,
+    "new_optimization_visits": 0,
+    "new_model_queries": 0,
+    "physical_integrations": 42406,
+    "camera_observations": 30,
+    "confirmed_expert_nominal_commands": 1200,
+    "coverage": {
+      "layout": "PILOT01_CONSTRUCTION",
+      "independent_restarts": 2,
+      "objects": 1,
+      "tasks": 1
+    }
+  },
+  "throughput": {
+    "qualified_training_demonstrations_per_hour": 0,
+    "worker_wall_sum_s": 457.4606030676514,
+    "not_a_matched_end_to_end_speedup_measurement": true
+  },
+  "W0_snapshot": {
+    "epoch": 1794505293.3737125,
+    "same_queue_process_live": true,
+    "config_sha256": "600bab633d1b68f0909a8183670ad5bd44b12efb35f74117e6f578d550c116e5",
+    "wrapper_sha256": "619c27e15bd7328b1ec93a25250474de47637737aa11b898c473c38e5eb559b6",
+    "status": "WAIT_ORIGINAL_GPU_HOST_CAPACITY",
+    "GPU_free_bytes": 3318743040,
+    "host_available_bytes": 29343240192,
+    "new_groups_registered": 0,
+    "own_GPU_process_count": 0
+  },
+  "GPU_site_snapshot": {
+    "Hopper_own_jobs": 0,
+    "Hopper_auto_queue_enabled": true,
+    "Hopper_small_queue_enabled": true,
+    "H200_resource_published": true,
+    "H200_project_allocation_for_SLA_verified": false,
+    "Vanda_own_running_jobs": 1,
+    "Vanda_running_job_is_other_project": true,
+    "new_GPU_jobs_submitted": 0,
+    "blocker": "SLA V2/V3 finite training entry, model/data staging and actual single-GPU allocation binding remain incomplete. No queue/hardware-unavailability claim."
+  },
+  "device_boundary": {
+    "model_input_H2D_bytes": 0,
+    "model_input_H2D_calls": 0,
+    "model_action_D2H_bytes": 0,
+    "model_action_D2H_calls": 0,
+    "reason": "CPU expert only; no model constructed or called",
+    "renderer_framebuffer_transfers": "NOT_INSTRUMENTED",
+    "EGL_zero_copy_qualified": false,
+    "GL_renderer_identity": "NOT_RECORDED"
+  },
+  "remaining": {
+    "memory_snapshot_and_bounded_async_writer": "NOT_IMPLEMENTED",
+    "native_actor_pool": "NOT_IMPLEMENTED",
+    "RGB10Hz_state10Hz_anchors2Hz": "NOT_IMPLEMENTED",
+    "four_TRAIN_semantics": "ASSETS_READY_NATIVE_NOT_STARTED_AT_THIS_RECEIPT",
+    "GRIP_LOGIT_native_epsilon_validation": "NOT_RUN",
+    "EEF_STREAM": "NOT_IMPLEMENTED",
+    "real_V2_V3_GPU_gradients_restore_RGB": "NOT_RUN"
+  },
+  "prestart_failures": [
+    {
+      "run_suffix": "01",
+      "reason": "EXACT_NEW_NEAR_WORKSPACE_STATIC_PROVENANCE",
+      "physical_integrations": 0,
+      "repair": "Fresh current-builder checks; compiled scene identical to original"
+    },
+    {
+      "run_suffix": "02",
+      "reason": "FROZEN_WBC_2MS_FINITE_NATIVE_WALL",
+      "physical_integrations": 0,
+      "repair": "Corrected new spec to existing 1200s maximum; no bound relaxed"
+    },
+    {
+      "run_suffix": "03",
+      "reason": "EXACT_VIEWER_ONLY_SOURCE_AND_CURRENT_UI_VALIDATOR",
+      "physical_integrations": 0,
+      "repair": "Explicit new body-session role may reuse completed build only with identical AST viewer patch and compiled source/binary; original paths retain behavior"
+    }
+  ]
+}

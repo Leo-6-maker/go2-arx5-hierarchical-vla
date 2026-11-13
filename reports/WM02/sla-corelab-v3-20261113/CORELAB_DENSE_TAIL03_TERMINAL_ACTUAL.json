@@ -1,0 +1,32 @@
+{
+  "schema": "SLA_CORELAB_DENSE_TAIL03_TERMINAL_ACTUAL_V3",
+  "observed_SGT": "2026-11-13T12:08:13.965247+08:00",
+  "physical_requests": 2,
+  "successes": 0,
+  "technical_failures": 2,
+  "native_integrations": 23081,
+  "training_demonstrations_admitted": 0,
+  "optimizer_updates": 0,
+  "optimization_visits": 0,
+  "first_failure": "FINITE_20_MINUTE_WALL_WINDOW_EXPIRED_UNDER_SHARED_STORAGE_WAIT",
+  "rows": [
+    {
+      "layout": "TRAIN01",
+      "worker_exit_code": 1,
+      "native_integrations": 11603,
+      "committed_frames": 118,
+      "result_sha256": "63b71764de7ec775df888a753615dde6d8c7d51efc003f61ec3ae5ce98d4fc15",
+      "worker_wall_s": 1201.9348821993917,
+      "recorded_success_tail": false
+    },
+    {
+      "layout": "TRAIN07",
+      "worker_exit_code": 1,
+      "native_integrations": 11478,
+      "committed_frames": 116,
+      "result_sha256": "3158b30cf0fe5e4bd3dbadd657632540b4bb1902b0106e0ac0eef47e083a1e38",
+      "worker_wall_s": 1222.856505760923,
+      "recorded_success_tail": false
+    }
+  ]
+}
