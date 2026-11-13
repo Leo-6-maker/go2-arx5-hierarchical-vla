@@ -1,18 +1,18 @@
 {
   "schema": "SLA_CORELAB_V3_CURRENT_STAGE_ACTUAL",
-  "as_of_SGT": "2026-11-13T09:10:06.576543+08:00",
+  "as_of_SGT": "2026-11-13T09:29:36.268512+08:00",
   "plan_revision": "f672fb1aa574a2dbac3c91e047346eaa441bc9f5",
-  "latest_implementation_source": "21760b71c2dbf827df1f1e9bb9476a87ec818639",
+  "latest_implementation_source": "0a6044e02fd9b5ee36f30ba50e411c485f63b34c",
   "native_source": "197b956629f5b8b03b5a06f37d6051de31836e6b",
   "saved32_passed": 32,
-  "total_new_physical_requests": 9,
-  "total_new_integrations": 171302,
-  "total_full_native_successes": 7,
+  "total_new_physical_requests": 13,
+  "total_new_integrations": 256114,
+  "total_full_native_successes": 11,
   "total_technical_failures": 2,
   "usable_training_episodes": 0,
   "qualified_demonstrations_per_wall_hour": 0,
-  "new_optimizer_updates": 19,
-  "new_optimization_visits": 608,
+  "new_optimizer_updates": 35,
+  "new_optimization_visits": 1120,
   "new_ordinary_RGB_generations": 32,
   "TRAIN4": {
     "requested": 4,
@@ -164,15 +164,13 @@
     "DEV16_pair_read_and_continuation_regressions": 63
   },
   "remaining": [
-    "Complete the untouched DEV16 suffix in its existing queue, retain two original terminal results, then run matched S2 and common GR00T DEV",
-    "Follow H200715115. Complete precision-pinned real updates, throughput and restore. Establish remaining selected endpoint RGB and native epsilon admission.",
-    "Finish fresh four-TRAIN expert semantics. TRAIN01 and TRAIN07 passed independent audits, TRAIN13 dispatched, TRAIN25 unstarted.",
-    "Implement independent per-world actor registration/isolation under explicit V3 authority; qualify matched1/2/4 throughput without interrupting old W0",
-    "Admit dense dataset/frame/codec after actual expert qualification; currently0 new BC examples",
-    "Native logit-epsilon and EEF_STREAM; D100/D300, four recipes, long budget curve, correction, three-seed independent TEST and skills remain required"
+    "Complete the untouched DEV16 suffix in its existing queue, retain two original terminal results, then run matched S2 and common GR00T DEV.",
+    "Bind the selected H200 precision, ordinary RGB endpoint and native admission before the R1 candidate.",
+    "Audit the two closed epsilon worlds, run the fixed matched actor throughput matrix and qualify dense data codec and production admission.",
+    "EEF_STREAM, D100/D300, four recipes, long budget curve, correction, three-seed independent TEST and skills remain required."
   ],
   "scientific_goal_complete": false,
-  "counter_scope": "Top-level new counters are V3 expert and H200 work; original W0 increments are separate.",
+  "counter_scope": "Top-level physical counters include 13 terminal V3 expert requests. W0 denominators are separate.",
   "H200_prior_failure": {
     "number": 714737,
     "scheduler_terminal": "F",
@@ -268,7 +266,16 @@
       "latest_admission_SGT": "2026-11-13T12:34:50.882498+08:00",
       "deadline_SGT": "2026-11-13T18:39:50.882498+08:00"
     },
-    "next": "Continue only the 14 original unstarted conditions under the existing resource gates"
+    "next": "Continue only the 14 original unstarted conditions under the existing resource gates",
+    "latest_queue_readback": {
+      "observed_SGT": "2026-11-13T09:29:36.268512+08:00",
+      "pid": 3852859,
+      "state": "WAIT_ORIGINAL_GPU_HOST_CAPACITY",
+      "gpu_free_bytes": 12313427968,
+      "host_available_bytes": 25102446592,
+      "additional_physical_requests": 0,
+      "unstarted": 14
+    }
   },
   "native_async_journal_qualification": {
     "schema": "CORELAB_ASYNC_JOURNAL_NATIVE_QUALIFICATION_ACTUAL_V3",
@@ -1133,5 +1140,338 @@
     "prior_technical_failure_in_separate_panel_retained": true,
     "panel_source_qualified_conditions": 2,
     "next_condition": "TRAIN13"
+  },
+  "expert_memory_train4": {
+    "schema": "SLA_EXPERT_DENSE_NATIVE_FOUR_TRAIN_TERMINAL_ACTUAL_V3",
+    "observed_SGT": "2026-11-13T09:22:36.158952+08:00",
+    "source_sha": "197b956629f5b8b03b5a06f37d6051de31836e6b",
+    "requested": 4,
+    "attempted": 4,
+    "terminal": 4,
+    "successful": 4,
+    "technical_failures": 0,
+    "native_integrations": 84812,
+    "physical_requests": 4,
+    "frames": 1244,
+    "anchors": 252,
+    "full_consumed_H40_windows": 228,
+    "partial_tail_anchors": 24,
+    "verified_frame_files": 9952,
+    "PNGs_decoded": 4976,
+    "total_confirmed_commands": 2400,
+    "cross_replan_H40_windows": 168,
+    "rows": [
+      {
+        "layout": "TRAIN01",
+        "source_sha": "197b956629f5b8b03b5a06f37d6051de31836e6b",
+        "spec_sha256": "0ebcfd0176007ef2d4cb54b0b23cf40561fd06f7e425a83ae8ec6747e98bb3d4",
+        "result_sha256": "5ce43a66d6ca7f54f3a7559d1656ab90b105624b562706813f0caf58f6f6788c",
+        "archive_sha256": "99379df65fda9b4fdba1c1af518b6c12bb973d8970686a22913866cf983f2acc",
+        "task_success": true,
+        "physical_requests": 1,
+        "native_integrations": 21203,
+        "frames": 311,
+        "anchors": 63,
+        "complete_consumed_H40_windows": 57,
+        "frame_files_verified": 2488,
+        "PNGs_decoded": 1244,
+        "confirmed_nominal_commands": 600,
+        "cross_replan_windows": 42,
+        "excluded_tail_anchors": 6,
+        "independent_audit": true,
+        "unsafe_samples": 0,
+        "worker_wall_s": 380.6658510779962,
+        "score": {
+          "samples": 621,
+          "maximum_object_lift_m": 0.025641579432304273,
+          "longest_contiguous_grasp_lift_hold_s": 6.8,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_base_displacement_m": 0.007261036626816325,
+          "maximum_base_rotation_rad": 0.014963117697283484,
+          "maximum_foot_planar_displacement_m": 0.003901311093214926,
+          "minimum_supported_feet": 4,
+          "old_short_task_pose_bound_all_samples_pass": false,
+          "task_success": true
+        },
+        "supervised_windows_admitted": 0
+      },
+      {
+        "layout": "TRAIN07",
+        "source_sha": "197b956629f5b8b03b5a06f37d6051de31836e6b",
+        "spec_sha256": "4b7296722da22e5141dc1710130c272cc4d7668cb0f3831446e3900eb42958a2",
+        "result_sha256": "269bf7f8bb5688bf31a2a85f4a71b64f47f27acae98d5e0a19488f4adfa62f51",
+        "archive_sha256": "354afa27323a2b79eb194845515271c77b642e70579fea2323d0fee02fd84069",
+        "task_success": true,
+        "physical_requests": 1,
+        "native_integrations": 21203,
+        "frames": 311,
+        "anchors": 63,
+        "complete_consumed_H40_windows": 57,
+        "frame_files_verified": 2488,
+        "PNGs_decoded": 1244,
+        "confirmed_nominal_commands": 600,
+        "cross_replan_windows": 42,
+        "excluded_tail_anchors": 6,
+        "independent_audit": true,
+        "unsafe_samples": 0,
+        "worker_wall_s": 371.7193811899051,
+        "score": {
+          "samples": 621,
+          "maximum_object_lift_m": 0.025956737472446645,
+          "longest_contiguous_grasp_lift_hold_s": 8.75,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_base_displacement_m": 0.0066236985666552955,
+          "maximum_base_rotation_rad": 0.011371650721087272,
+          "maximum_foot_planar_displacement_m": 0.003968912257293961,
+          "minimum_supported_feet": 4,
+          "old_short_task_pose_bound_all_samples_pass": false,
+          "task_success": true
+        },
+        "supervised_windows_admitted": 0
+      },
+      {
+        "layout": "TRAIN13",
+        "source_sha": "197b956629f5b8b03b5a06f37d6051de31836e6b",
+        "spec_sha256": "ee445fe60c44b054efc40b852549c3dc960dc63c919916deaf3b1a0184b43b98",
+        "result_sha256": "54fd009053e52603017dc59032de7dcf312cbd35ceaeca99c149accb49e2f2b4",
+        "archive_sha256": "dc38c973a1e69f1452c3e2a3b0e5274a10da628da85e6f8916066f076fe779e2",
+        "task_success": true,
+        "physical_requests": 1,
+        "native_integrations": 21203,
+        "frames": 311,
+        "anchors": 63,
+        "complete_consumed_H40_windows": 57,
+        "frame_files_verified": 2488,
+        "PNGs_decoded": 1244,
+        "confirmed_nominal_commands": 600,
+        "cross_replan_windows": 42,
+        "excluded_tail_anchors": 6,
+        "independent_audit": true,
+        "unsafe_samples": 0,
+        "worker_wall_s": 373.3896211730316,
+        "score": {
+          "samples": 621,
+          "maximum_object_lift_m": 0.02586981788435172,
+          "longest_contiguous_grasp_lift_hold_s": 8.65,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_base_displacement_m": 0.006281384386175463,
+          "maximum_base_rotation_rad": 0.008974025030196004,
+          "maximum_foot_planar_displacement_m": 0.003974412007395971,
+          "minimum_supported_feet": 4,
+          "old_short_task_pose_bound_all_samples_pass": false,
+          "task_success": true
+        },
+        "supervised_windows_admitted": 0
+      },
+      {
+        "layout": "TRAIN25",
+        "source_sha": "197b956629f5b8b03b5a06f37d6051de31836e6b",
+        "spec_sha256": "6f00a2e0f19503d6c1bd96c1bf84ad5cc885794aa07dd1d39e45ae6a3a91b46e",
+        "result_sha256": "a02eba23ba396b62d069e756c7221397e33e8d2fee5e87ad6bf108e3f8587aab",
+        "archive_sha256": "6d257581ef17bd4879e23e735881593f6d298986f7a34a609d497c43dd92e1e7",
+        "task_success": true,
+        "physical_requests": 1,
+        "native_integrations": 21203,
+        "frames": 311,
+        "anchors": 63,
+        "complete_consumed_H40_windows": 57,
+        "frame_files_verified": 2488,
+        "PNGs_decoded": 1244,
+        "confirmed_nominal_commands": 600,
+        "cross_replan_windows": 42,
+        "excluded_tail_anchors": 6,
+        "independent_audit": true,
+        "unsafe_samples": 0,
+        "worker_wall_s": 373.6879998939112,
+        "score": {
+          "samples": 621,
+          "maximum_object_lift_m": 0.025839779335492863,
+          "longest_contiguous_grasp_lift_hold_s": 8.700000000000001,
+          "unsafe_samples": 0,
+          "standing_passes": true,
+          "maximum_base_displacement_m": 0.005777702972837755,
+          "maximum_base_rotation_rad": 0.007749031857281199,
+          "maximum_foot_planar_displacement_m": 0.003986237652983317,
+          "minimum_supported_feet": 4,
+          "old_short_task_pose_bound_all_samples_pass": false,
+          "task_success": true
+        },
+        "supervised_windows_admitted": 0
+      }
+    ],
+    "old_failed_panel_retained": true,
+    "model_calls": 0,
+    "optimizer_updates": 0,
+    "optimization_visits": 0,
+    "supervised_windows_admitted": 0,
+    "matched_throughput_claim": false,
+    "final_dataset_version_admitted": false
+  },
+  "parallel_epsilon_live": {
+    "schema": "SLA_NATIVE_TWO_INDEPENDENT_EXPERT_WORLDS_LIVE_ACTUAL_V3",
+    "observed_SGT": "2026-11-13T09:24:57.265581+08:00",
+    "source_sha": "0a6044e02fd9b5ee36f30ba50e411c485f63b34c",
+    "physical_requests": 2,
+    "worlds_verified_live": 2,
+    "optimizer_updates": 0,
+    "optimization_visits": 0,
+    "model_calls": 0,
+    "task_successes_observed": 0,
+    "same_native_2ms_reference_path": true,
+    "per_world_owner": true,
+    "earlier_prestart_failures": [
+      {
+        "cause": "Missing subprocess import in preparation helper",
+        "physical_requests": 0
+      },
+      {
+        "cause": "Native environment lacked SciPy required by an indirect diagnostic import",
+        "physical_requests": 0
+      }
+    ],
+    "endpoints": [
+      {
+        "layout": "TRAIN01",
+        "spec_sha256": "9e257fc1714e652c84393ed2957814eaabb454bb305454ce6c0c1d579cb6b762",
+        "observed_pause_step": 2000,
+        "actual_process_live": true
+      },
+      {
+        "layout": "TRAIN07",
+        "spec_sha256": "b48269c31dcdcfb94fa4e2889f15ad91f6de364914fb4f1137211ca062884140",
+        "observed_pause_step": 1650,
+        "actual_process_live": true
+      }
+    ],
+    "matched_throughput_claim": false
+  },
+  "H200_highest_precision_qualification_current": {
+    "schema": "SLA_H200_HIGHEST_PRECISION_TERMINAL_ACTUAL_V3",
+    "observed_SGT": "2026-11-13T09:26:21.906818+08:00",
+    "job_id": "715115.hopper-m-02",
+    "source_sha": "21760b71c2dbf827df1f1e9bb9476a87ec818639",
+    "scheduler_state": "F",
+    "worker_exit_code": 0,
+    "status": "COMPLETE_HIGHEST_PRECISION_UPDATES_AND_RESTORE_RGB_NOT_RUN",
+    "actual_committed_updates": 16,
+    "actual_optimization_visits": 512,
+    "physical_requests": 0,
+    "ordinary_RGB_generations": 0,
+    "total_actual_qualification_updates": 35,
+    "total_qualification_optimization_visits": 1120,
+    "qualification_update_limit": 40,
+    "remaining_qualification_updates": 5,
+    "batch_comparisons": [
+      {
+        "right_microbatch": 8,
+        "passes": true,
+        "loss_rtol": 0.001,
+        "loss_atol": 1e-05,
+        "left_loss": 0.08474104106426239,
+        "right_loss": 0.08481931686401367,
+        "loss_pass": true,
+        "merged_gradient_cosine": 0.9999554150470793,
+        "merged_gradient_relative_L2": 0.009749853320691164,
+        "small_norm_cutoff": 1e-12,
+        "optimizer_updates_during_comparison": 0
+      },
+      {
+        "right_microbatch": 16,
+        "passes": true,
+        "loss_rtol": 0.001,
+        "loss_atol": 1e-05,
+        "left_loss": 0.08474104106426239,
+        "right_loss": 0.08481632173061371,
+        "loss_pass": true,
+        "merged_gradient_cosine": 0.9999556406328087,
+        "merged_gradient_relative_L2": 0.009711278438567795,
+        "small_norm_cutoff": 1e-12,
+        "optimizer_updates_during_comparison": 0
+      }
+    ],
+    "profile8": {
+      "warmup_updates": 2,
+      "timed_updates": 8,
+      "samples_per_s": 23.414140470099742,
+      "updates_per_s": 0.7316918896906169,
+      "timed_wall_s": 10.933563857572153,
+      "warmup_wall_s": 13.46573473396711,
+      "host_wait_s": 0.4847417292185128
+    },
+    "full_state_comparison": {
+      "bit_exact": true,
+      "arrays": 87,
+      "step": 4,
+      "cursor": 128,
+      "differences": []
+    },
+    "wall_s": 467.9751048088074,
+    "allocated_GPU_wall_hours_upper": 0.12999308506647747,
+    "matched_highest_micro1_and_micro16_throughput_measured": false,
+    "selected_endpoint_ordinary_RGB_verified": false,
+    "candidate_training_admitted": false
+  },
+  "parallel_epsilon_terminal": {
+    "schema": "SLA_NATIVE_TWO_INDEPENDENT_EXPERT_WORLDS_TERMINAL_ACTUAL_V3",
+    "observed_SGT": "2026-11-13T09:29:36.242339+08:00",
+    "source_sha": "0a6044e02fd9b5ee36f30ba50e411c485f63b34c",
+    "physical_requests": 2,
+    "terminal": 2,
+    "task_successes": 2,
+    "native_integrations": 42406,
+    "fully_consumed_expert_H40": 30,
+    "optimizer_updates": 0,
+    "optimization_visits": 0,
+    "model_calls": 0,
+    "BC_examples_admitted": 0,
+    "rows": [
+      {
+        "layout": "TRAIN01",
+        "source_sha": "0a6044e02fd9b5ee36f30ba50e411c485f63b34c",
+        "spec_sha256": "9e257fc1714e652c84393ed2957814eaabb454bb305454ce6c0c1d579cb6b762",
+        "result_sha256": "472493c6e991b5a49c731decf61cac5822a4b57e7ed02b6d679eee1f3e3e68c7",
+        "worker_exit_code": 0,
+        "task_success": true,
+        "native_integrations": 21203,
+        "frames": 15,
+        "worker_wall_s": 247.36633564624935,
+        "epsilon": 0.0001,
+        "maximum_nominal_gripper_bias": 0.00010000000000000017,
+        "fully_consumed_expert_H40": 15,
+        "hard_safety_stops": 0
+      },
+      {
+        "layout": "TRAIN07",
+        "source_sha": "0a6044e02fd9b5ee36f30ba50e411c485f63b34c",
+        "spec_sha256": "b48269c31dcdcfb94fa4e2889f15ad91f6de364914fb4f1137211ca062884140",
+        "result_sha256": "e38b93932c4d257bccf16ea520c32a6e780f653281444e7fa9f9af4e50bce2d5",
+        "worker_exit_code": 0,
+        "task_success": true,
+        "native_integrations": 21203,
+        "frames": 15,
+        "worker_wall_s": 257.40514386165887,
+        "epsilon": 0.0001,
+        "maximum_nominal_gripper_bias": 0.00010000000000000017,
+        "fully_consumed_expert_H40": 15,
+        "hard_safety_stops": 0
+      }
+    ],
+    "simultaneous_worlds_verified_by_earlier_live_receipt": true,
+    "same_native_2ms_reference_path": true,
+    "per_world_owner": true,
+    "matched_throughput_claim": false,
+    "earlier_prestart_failures": [
+      {
+        "cause": "Missing subprocess import in preparation helper",
+        "physical_requests": 0
+      },
+      {
+        "cause": "Native environment lacked SciPy required by an indirect diagnostic import",
+        "physical_requests": 0
+      }
+    ]
   }
 }
