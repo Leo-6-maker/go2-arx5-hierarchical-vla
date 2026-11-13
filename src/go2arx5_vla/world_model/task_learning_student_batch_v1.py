@@ -105,6 +105,8 @@ def specs(inp,panel,row,nbase,gbase,nroot,groot,deadline):
     if local or conic or endpoint or matched or native_body:common['core_local_protocol']=role
     if role==task.SLA_DENSE_ROLE or panel.get('r1_cold_suffix_v5') is not None:
         common['enforce_cpu_slot_v5']=True
+    if panel.get('r1_cold_suffix_v5') is not None:
+        common['r1_condition_wall_repair_v5']=dict(path=inp['panel'],sha256=inp['panel_sha256'])
     if role==task.SLA_ROLE and inp.get('native_pause_read_wait') is not None:
         common['native_pause_read_wait']=inp['native_pause_read_wait']
     if native_body:
@@ -327,6 +329,11 @@ def run(input_path):
         from .sla_dev_continuation_v3 import reconciled_prelaunch
         reconciled_run = reconciled_prelaunch(panel, inp, {r['native_run'] for r in rows}, journal,
                                               json.loads(Path(nbase['registry']).read_bytes()))
+    if inp.get('schema')=='SLA_R1_COLD_UNSTARTED_TRAIN8_SUFFIX_INPUT_V5':
+        from .sla_dev_continuation_v3 import reconciled_prelaunch
+        reconciled_run=reconciled_prelaunch(panel,inp,{r['native_run']for r in rows},journal,
+            json.loads(Path(nbase['registry']).read_bytes()),proof_key='R1_prelaunch_reconciliation_v5',
+            expected_failure='ValueError: TASK_PHASE_INITIALIZATION_NATIVE_FROZEN_WBC_2MS_FINITE_NATIVE_WALL')
     current_row=None;current_pair=None;unresolved=None
     write(stage/'SUPERVISOR.private.json',dict(pid=os.getpid(),source_sha=inp['source_sha'],started_epoch=time.time()))
     def interrupted(sig,frame):raise KeyboardInterrupt('OWNED_STUDENT_DEV_SIGNAL_'+str(sig))

@@ -61,3 +61,22 @@ def test_selection_runs_only_never_started_suffix(monkeypatch):
     assert suffix.selection(inp,p,p['assignments'])==p['assignments'][13:]
     inp['assignment_slice']=[12,16]
     with pytest.raises(ValueError):suffix.selection(inp,p,p['assignments'])
+
+
+def test_native_entry_accepts_only_declared_suffix_wall_repair(tmp_path,monkeypatch):
+    import json
+    from go2arx5_vla.world_model.storage import digest
+    from go2arx5_vla.world_model import task_learning_grasp_v1 as task
+    from go2arx5_vla.world_model import sla_r1_diagnostic_v5 as diagnostic
+    from go2arx5_vla.world_model.native_live_control_v3 import maximum_wall_seconds
+    panel,*_=population()
+    path=tmp_path/'panel.json';path.write_text(json.dumps(panel))
+    monkeypatch.setattr(diagnostic,'validate_panel',lambda p:p['assignments'])
+    pin=dict(path=str(path),sha256=digest(path))
+    spec=dict(task_learning_role=task.SLA_ROLE,task_learning_grasp=task.protocol(task.SLA_ROLE),
+        r1_condition_wall_repair_v5=pin,stable_task_panel=str(path),stable_task_panel_sha256=pin['sha256'],
+        registered_root=str(tmp_path/'fixed-13'))
+    assert maximum_wall_seconds(spec,1200)==3600
+    assert maximum_wall_seconds({},1200)==1200
+    spec['registered_root']=str(tmp_path/'fixed-12')
+    with pytest.raises(ValueError):maximum_wall_seconds(spec,1200)
