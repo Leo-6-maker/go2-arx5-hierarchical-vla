@@ -89,9 +89,10 @@ class MemoryCapture:
         self.finalized = False
 
     def _identity(self):
+        from .native_live_control_v3 import live_path
         spec = self.adapter.spec
         paths = [Path(spec['model_path']), Path(spec['registered_root'])/'EXECUTION_SPEC.json',
-                 self.adapter.output/'quota.binding']
+                 live_path(self.adapter,'quota.binding')]
         result=[]
         for path in paths:
             stat=path.stat()

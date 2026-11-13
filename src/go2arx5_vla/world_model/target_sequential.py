@@ -2,6 +2,7 @@
 from pathlib import Path
 import json,os,signal,subprocess,time
 from .native_collection_performance_v1 import configuration, PerformanceTrace, measure, profiled
+from .native_live_control_v3 import live_path
 C02_PHASE='collect-target-fusion-c02-source-state-initialization-v1'
 C02_FEEDBACK_PHASE='collect-target-fusion-c02-source-state-feedback-v2'
 NATIVE_STARTUP_READ_WAIT_S=180
@@ -94,6 +95,8 @@ class TargetSequentialAdapter:
     def dynamic_phase(self):
         return self.reference_phase()and self.spec['phase']!='g2-reference-qualification'
     def guard(self):
+        from .native_live_control_v3 import check
+        check(self)
         writer=getattr(self,'ros_journal',None)
         if writer is not None:writer.check()
         memory=getattr(self,'_body_memory_capture',None)
@@ -167,15 +170,19 @@ class TargetSequentialAdapter:
         if any(name!=self.node.get_name()for name in self.node.get_node_names()):raise RuntimeError('ISOLATED_ROS_DOMAIN_ALREADY_OCCUPIED')
         s=self.spec;out=self.output
         for name in('tmp','ros-logs','cache'):(out/name).mkdir()
-        (out/'CONTACT_SAFETY_ARMED').touch();(out/'step_quota').write_text(str(2500 if self.reference_phase()else s['max_ticks'])+'\n')
+        from .native_live_control_v3 import initialize
+        initialize(self)
+        (out/'CONTACT_SAFETY_ARMED').touch();live_path(self,'step_quota').write_text(str(2500 if self.reference_phase()else s['max_ticks'])+'\n')
         warmup=min(5,(s['max_ticks']+499)//500)
         # Existing C++ admits task allocation buckets; the exact bound below
         # still restricts this diagnostic to its declared few task ticks.
         task_bucket=native_task_bucket(s.get('phase'),self.dynamic_phase())
-        (out/'quota.binding').write_text('\n'.join(('GRTQUOTA2',out.name,s['stage_identity_sha256'],out.name,str(s['max_ticks']),str(warmup),task_bucket))+'\n')
+        live_path(self,'quota.binding').write_text('\n'.join(('GRTQUOTA2',out.name,s['stage_identity_sha256'],out.name,str(s['max_ticks']),str(warmup),task_bucket))+'\n')
         env=dict(os.environ,**s['native_environment']);env.update(ROS_DOMAIN_ID=str(s['ROS_DOMAIN_ID']),ROS_LOCALHOST_ONLY='1',ROS_AUTOMATIC_DISCOVERY_RANGE='LOCALHOST',CUDA_VISIBLE_DEVICES='',TMPDIR=str(out/'tmp'),ROS_LOG_DIR=str(out/'ros-logs'),XDG_CACHE_HOME=str(out/'cache'),XDG_CONFIG_HOME=str(out/'cache'),MUJOCO_GL='egl',PYOPENGL_PLATFORM='egl')
         self.native_env=env
         sim=dict(env,LD_PRELOAD=':'.join(s[n]for n in('outer_library','observer_library','trace_library')),PI0288_COMPILED_MODEL=s['model_path'],PI0288_PHYSICS_TRACE=str(out/'physics.jsonl'),PI0288_PHYSICS_CAP=str(s['max_ticks']),PI0288_CONTACT_SAFETY_MARKER=str(out/'CONTACT_SAFETY_ARMED'),PI0289_INITIALIZATION_TRACE=str(out/'initialization.jsonl'),PI0289_CONTROL_TRACE=str(out/'control.jsonl'),WM02_INIT_TRACE=str(out/'init.trace'),GR00T_TASK_GRIPPER_COMMAND=str(out/'gripper.bin'),GR00T_TASK_STATE=str(out/'state.bin'),GR00T_TASK_ERROR=str(out/'task_errors.txt'),GR00T_TASK_STEP_QUOTA=str(out/'step_quota'),GR00T_TASK_PAUSE_ACK=str(out/'pause_ack.json'),GR00T_TASK_QUOTA_BINDING=str(out/'quota.binding'),GR00T_TASK_RUN_UUID=out.name,GR00T_TASK_CARD_SHA256=s['stage_identity_sha256'],GR00T_TASK_RESERVATION_ID=out.name)
+        for key,name in (('GR00T_TASK_GRIPPER_COMMAND','gripper.bin'),('GR00T_TASK_STATE','state.bin'),('GR00T_TASK_STEP_QUOTA','step_quota'),('GR00T_TASK_PAUSE_ACK','pause_ack.json'),('GR00T_TASK_QUOTA_BINDING','quota.binding')):
+            sim[key]=str(live_path(self,name))
         command,display_env=native_display_command(s,out,sim);self.launch(command,'sim',display_env)
         native=Path(s['native_root']);params=['--ros-args','-p','use_sim_time:=true','-p','taskFile:='+str(native/'src/ctrl/go2_x5_ocs2/config/task_floating.info'),'-p','urdfFile:='+str(native/'src/ctrl/go2_x5_description/urdf/arx5_ac1_floating.urdf')]
         # OCS2 can regenerate cache libraries while constructing its interface.
@@ -207,7 +214,7 @@ class TargetSequentialAdapter:
         from scripts.pi0294.task_state import read_state
         until=time.monotonic()+.25
         while True:
-            try:return read_state(self.output/'state.bin')
+            try:return read_state(live_path(self,'state.bin'))
             except FileNotFoundError:
                 # Same observed live-snapshot publication gap as pause_ack.
                 # Never reuse an old packet or change the native step quota.
@@ -242,10 +249,10 @@ class TargetSequentialAdapter:
         if self.dynamic_phase()and ticks>2503 and not ttl:
             from .target_reference import require_live_window
             packet=self.observe();require_live_window(self.active_reference['source_mpc_s'],packet['time_s'],ticks-packet['step'])
-        p=self.output/'step_quota';pending=p.with_suffix('.pending');pending.write_text(str(ticks)+'\n');os.replace(pending,p)
+        p=live_path(self,'step_quota');pending=p.with_suffix('.pending');pending.write_text(str(ticks)+'\n');os.replace(pending,p)
         self.resume_clock_once(ticks)
         def paused():
-            try:return json.loads((self.output/'pause_ack.json').read_text())['step']==ticks and self.observe()['step']==ticks
+            try:return json.loads(live_path(self,'pause_ack.json').read_text())['step']==ticks and self.observe()['step']==ticks
             except(FileNotFoundError,ValueError,KeyError):return False
         pause_wait = 35
         if self.spec.get('native_pause_read_wait') is not None:
@@ -259,7 +266,7 @@ class TargetSequentialAdapter:
                 pause_wait = 90
         if not self.spin(pause_wait,paused):
             from .storage import write_json
-            ack=self.output/'pause_ack.json'
+            ack=live_path(self,'pause_ack.json')
             try:pause=json.loads(ack.read_text())
             except(FileNotFoundError,json.JSONDecodeError):pause=None
             write_json(self.output/'CLOCK_RESUME_FAILURE.json',dict(requested_step=ticks,
@@ -291,7 +298,7 @@ class TargetSequentialAdapter:
         def confirmed_pause():
             # The measured local block filesystem can briefly hide a replaced
             # live snapshot. Retry reads only; never grant another physics tick.
-            try:ack=json.loads((self.output/'pause_ack.json').read_text());packet=self.observe()
+            try:ack=json.loads(live_path(self,'pause_ack.json').read_text());packet=self.observe()
             except(FileNotFoundError,json.JSONDecodeError):return False
             if (ack.get('step')!=ticks or packet['step']!=ticks
                     or ack.get('running')is not False or ack.get('clock_paused')is not True
@@ -349,7 +356,7 @@ class TargetSequentialAdapter:
         if not self.spin(5,installed):raise RuntimeError('ORIGINAL_REFERENCE_INSTALL_ACK_MISSING')
         before=self.counts.get('mode',0);cancel=dict(_pi0294=dict(episode=self.output.name,sequence=1,source_mpc_s=source,ttl_s=.4,operation='cancel'));self.publish(self.refs,json.dumps(cancel,separators=(',',':')))
         if not self.spin(5,lambda:any(r['kind']=='lifecycle'and r.get('reason')=='CANCEL'for r in events())and self.counts.get('mode',0)>before and self.latest['mode'].data=='HOLD'):raise RuntimeError('ORIGINAL_CANCEL_AND_HOLD_ACK_MISSING')
-        after=self.observe();ack=json.loads((self.output/'pause_ack.json').read_text())
+        after=self.observe();ack=json.loads(live_path(self,'pause_ack.json').read_text())
         if after['step']!=step or after['time_s']!=t or ack['running']or not ack['clock_paused']:raise RuntimeError('PHYSICS_ADVANCED_DURING_PAUSED_REFERENCE_TRANSACTION')
         self.reference_qualification=dict(status='ORIGINAL_FEEDBACK_INSTALL_CANCEL_HOLD_AT_PAUSE_PASSED',native_step=step,source_mpc_s=source,installed_wire_sha256=ref,extra_integrations=0,task_reference_consumption='NOT_TESTED_NO_TASK_TICKS',events=len(events()))
         write(self.output/'REFERENCE_QUALIFICATION.json',self.reference_qualification)
@@ -530,7 +537,7 @@ class TargetSequentialAdapter:
         intent=dict(phase='proposed',sequence=self.reference_sequence,wire=wire,wire_sha256=ref,source_mpc_s=source,deadline_s=deadline(source),native_step=packet['step'],sim_time_s=packet['time_s'],wall_monotonic_s=time.monotonic(),action_EEF10=action.tolist(),measured_BASE_pose_hold=getattr(self,'base_pose_hold',None),native_reference_certificate=certificate)
         self.command_event(intent)
         if self.spec.get('phase')not in(C02_FEEDBACK_PHASE,C02_PHASE,'collect-target-fusion-trajectory-qualification-v1','collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1','collect-target-fusion-paused-query-v2','collect-target-fusion-live-proposal-qualification-v3','collect-target-fusion-source-posture-qualification-v1','collect-target-fusion-source-posture-query-v3','collect-target-fusion-task-phase-initialization-v1','collect-target-fusion-task-phase-bias-calibration-v2','collect-target-fusion-task-phase-bias-continuation-v3','collect-target-fusion-task-phase-xyz-feedback-v4','collect-target-fusion-task-phase-xyz-feedback-continuation-v5','collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1','collect-target-task-learning-grasp-v1'):
-            write_gripper(self.output/'gripper.bin',self.reference_sequence,source,float(action[0,9]))
+            write_gripper(live_path(self,'gripper.bin'),self.reference_sequence,source,float(action[0,9]))
         self.publish(self.refs,wire)
         def installed():
             rows=self.reference_events()
@@ -842,3 +849,5 @@ class TargetSequentialAdapter:
             self.exit_records.append(dict(name=name,pid=p.pid,exit_code=p.poll(),signals=escalation,display_child_lookup_error=lookup_error))
         for h in self.handles:h.close()
         if self.node is not None:self.node.destroy_node();self.rclpy.shutdown()
+        from .native_live_control_v3 import archive
+        archive(self)

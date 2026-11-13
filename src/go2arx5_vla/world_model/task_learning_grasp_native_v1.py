@@ -30,6 +30,7 @@ SOURCE_MEMBERS=tuple(dict.fromkeys(previous.SOURCE_MEMBERS+(
     'scripts/wm02/task_learning_teacher_qualification_v1.py',
     'src/go2arx5_vla/world_model/native_collection_performance_v1.py',
     'src/go2arx5_vla/world_model/native_async_journal_v3.py',
+    'src/go2arx5_vla/world_model/native_live_control_v3.py',
     'src/go2arx5_vla/world_model/native_body_memory_v3.py',
     'src/go2arx5_vla/world_model/native_frame_writer_v3.py',
     'src/go2arx5_vla/world_model/native_state_snapshot.py',
@@ -195,6 +196,8 @@ def episode_config(spec):
     async_configuration(spec)
     from .native_body_memory_v3 import configuration as memory_configuration
     memory_configuration(spec)
+    from .native_live_control_v3 import configuration as live_configuration
+    live_configuration(spec)
     from .sla_expert_epsilon_v3 import configuration as epsilon_configuration
     epsilon_enabled = epsilon_configuration(spec)
     from .eef_stream_v2 import configuration as stream_configuration

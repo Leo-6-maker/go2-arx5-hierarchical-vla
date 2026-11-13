@@ -69,7 +69,8 @@ def _read_live_snapshot(adapter, name, *, decode_json=False):
     # The actual paused wait observed ENOENT for a repeatedly published native
     # snapshot. Match TargetSequentialAdapter.observe's bounded read retry;
     # never replay a write, reuse an old packet, or advance the quota.
-    path = Path(adapter.output) / name
+    from .native_live_control_v3 import live_path
+    path = live_path(adapter, name)
     budget = .25
     if name == 'pause_ack.json' and getattr(adapter, 'spec', {}).get('expert_recorded_success_tail_v3'):
         from .corelab_expert_semantics_v3 import recorded_tail
@@ -101,7 +102,8 @@ def _pause(adapter):
           and all(np.array_equal(observed[k], packet[k]) for k in ("qpos", "qvel", "ctrl")),
           "ADAPTER_OBSERVE_AND_CURRENT_PACKET_MUST_AGREE")
     pause = _read_live_snapshot(adapter, "pause_ack.json", decode_json=True)
-    quota = (Path(adapter.output) / "step_quota").read_bytes()
+    from .native_live_control_v3 import live_path
+    quota = live_path(adapter, "step_quota").read_bytes()
     _need(pause.get("clock_paused") is True and pause.get("running") is False
           and type(pause.get("step")) is int and pause["step"] == packet["step"]
           and int(quota.decode().strip()) == packet["step"]
@@ -141,7 +143,8 @@ def _runtime(adapter, binding):
           and digest(spec_path) == binding.target_runtime_sha256
           and digest(adapter.spec["model_path"]) == binding.scene_sha256,
           "CURRENT_OWNER_SPEC_AND_EXACT_COMPILED_SCENE_BYTES")
-    quota_binding = (output / "quota.binding").read_bytes()
+    from .native_live_control_v3 import live_path
+    quota_binding = live_path(adapter, "quota.binding").read_bytes()
     lines = quota_binding.decode().splitlines()
     _need(len(lines) == 7 and lines[:5] == ["GRTQUOTA2", output.name,
           adapter.spec["stage_identity_sha256"], output.name, str(adapter.spec["max_ticks"])],
@@ -251,7 +254,7 @@ def capture_paused_observation(adapter, *, binding, task, task_sha256, query_uui
             last = _after_pause(adapter, first)
         _need(digest(adapter.spec["model_path"]) == world["scene_sha256"]
               and digest(Path(adapter.spec["registered_root"]) / "EXECUTION_SPEC.json") == world["execution_spec_sha256"]
-              and _sha((Path(adapter.output) / "quota.binding").read_bytes()) == world["quota_binding_sha256"],
+              and _sha(_read_live_snapshot(adapter, "quota.binding")) == world["quota_binding_sha256"],
               "SCENE_RUNTIME_OR_QUOTA_BINDING_CHANGED_DURING_CAPTURE")
         files = {p.relative_to(output).as_posix(): digest(p) for p in
                  [state_path, calibration, *images.values(), output / "BOUND_SHADOW_ABI.private.json", *extra_files]}
@@ -330,7 +333,7 @@ def verify_still_paused(adapter, record):
     _need(str(Path(adapter.output)) == world["native_output"]
           and digest(Path(adapter.spec["registered_root"]) / "EXECUTION_SPEC.json") == world["execution_spec_sha256"]
           and digest(adapter.spec["model_path"]) == world["scene_sha256"]
-          and _sha((Path(adapter.output) / "quota.binding").read_bytes()) == world["quota_binding_sha256"]
+          and _sha(_read_live_snapshot(adapter, "quota.binding")) == world["quota_binding_sha256"]
           and _sha(current["raw"]) == body["files"]["STATE.private.bin"]
           and _sha(current["quota"]) == body["step_quota_sha256"], "QUERY_RETURN_MUST_MATCH_CURRENT_WORLD_AND_PACKET")
     original = dict(current, pause=body["pause_after"])

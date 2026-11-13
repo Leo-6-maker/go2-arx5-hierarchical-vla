@@ -152,9 +152,10 @@ def settle_atom(adapter, *, event_start, before, after, clock, submitted):
         confirm_gripper(adapter, submitted, adapter.measured_task_state())
 
     def ready():
+        from .native_live_control_v3 import live_path
         packet = adapter.observe()
         try:
-            ack = json.loads((adapter.output/'pause_ack.json').read_text())
+            ack = json.loads(live_path(adapter,'pause_ack.json').read_text())
         except (FileNotFoundError, json.JSONDecodeError):
             return False
         if not (packet['step'] == after['step'] == ack.get('step')

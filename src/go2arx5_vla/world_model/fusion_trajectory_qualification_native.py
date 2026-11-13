@@ -43,6 +43,7 @@ def validate_adapter_install(adapter, action):
 
 
 def submit_gripper(adapter, sequence, opening):
+    from .native_live_control_v3 import live_path
     from scripts.pi0294.task_gripper_contract import require_working_target
     from scripts.pi0294.task_state import write_gripper
     require_working_target(opening)
@@ -50,7 +51,7 @@ def submit_gripper(adapter, sequence, opening):
     packet = adapter.observe()
     source = float(adapter.latest['ee'].time)
     require_install_clock(source, packet['time_s'])
-    write_gripper(adapter.output/'gripper.bin', sequence, source, float(opening))
+    write_gripper(live_path(adapter,'gripper.bin'), sequence, source, float(opening))
     return dict(sequence=sequence, opening=float(opening), source_mpc_s=source,
                 expiry=source+.4, native_start_step=packet['step'])
 
