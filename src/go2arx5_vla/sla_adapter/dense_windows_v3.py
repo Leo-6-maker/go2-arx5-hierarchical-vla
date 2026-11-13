@@ -63,6 +63,15 @@ def encode_episode(root, *, expected_result_sha256, expected_archive_sha256):
     need(confirmed['complete'] is True and confirmed['task_success'] is True
          and confirmed['unexecuted_suffix_included'] is False and confirmed['future_achieved_labels'] is False,
          'ACTUALLY_CONSUMED_COMMANDS_ONLY')
+    windows_by_step = {row['native_start_step']: row for row in q['windows']}
+    for command in confirmed['records']:
+        native = windows_by_step[command['native_start_step']]
+        need(command['native_end_step'] == native['native_end_step']
+             and native['gripper']['command_consumed'] is True
+             and bool(native['solver_policies_with_exact_installed_target'])
+             and np.array_equal(command['installed_consumed_EEF10'],
+                                native['actual_installed_consumed_EEF10_BASE7'][:10]),
+             'LABEL_COMMAND_JOINS_ACTUALLY_INSTALLED_NATIVE_WINDOW')
     records = archive['records']
     windows = nominal_windows(records, confirmed['records'])
     need(windows == archive['nominal_windows'], 'EVERY_ARCHIVED_WINDOW_JOINS_ORIGINAL_CONSUMED_COMMANDS')
