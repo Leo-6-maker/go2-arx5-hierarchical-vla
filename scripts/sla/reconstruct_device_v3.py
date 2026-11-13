@@ -30,6 +30,8 @@ def run(spec, mode):
         return dict(package=dict(path=str(package),sha256=sha(package/'MANIFEST.private.json')),
                     arrays=len(manifest['adapter_arrays']),model_loads=1,optimizer_updates=0,model_calls=0,wall_s=time.time()-started)
     reference_mode=mode=='reference'
+    import jax
+    jax.config.update('jax_compilation_cache_dir',spec['compilation_cache_dir'])
     probes_root=root/'RGB_PROBES'
     if reference_mode:probes_root.mkdir()
     provider=provider_v3.Provider(spec['package']['path'],manifest_sha256=spec['package']['sha256'],
@@ -60,7 +62,7 @@ def run(spec, mode):
             model_loads=1,physical_requests=0,wall_s=time.time()-started,
             package=spec['package'],step=provider.manifest['step'],cursor=provider.manifest['cursor'],
             deployed_LoRA_retained=True,optimizer_loaded=False,teacher_loaded=False,
-            GPU_memory=__import__('jax').devices()[0].memory_stats())
+            GPU_memory=jax.devices()[0].memory_stats())
     reference=json.loads(Path(spec['reference_probes']).read_bytes())
     exact=all(all(a[k]==b[k]for k in ('index','noise','normalized_sha256','physical_sha256'))for a,b in zip(rows,reference))
     if not len(rows)==len(reference)==16:raise ValueError('EXACT_SIXTEEN_ORDINARY_RGB_REQUESTS_REQUIRED')
@@ -69,7 +71,7 @@ def run(spec, mode):
                 teacher_calls=0,optimizer_updates=0,model_loads=1,physical_requests=0,wall_s=time.time()-started,
                 package=spec['package'],step=provider.manifest['step'],cursor=provider.manifest['cursor'],
                 deployed_LoRA_retained=True,optimizer_loaded=False,teacher_loaded=False,
-                GPU_memory=__import__('jax').devices()[0].memory_stats())
+                GPU_memory=jax.devices()[0].memory_stats())
 
 
 if __name__=='__main__':
