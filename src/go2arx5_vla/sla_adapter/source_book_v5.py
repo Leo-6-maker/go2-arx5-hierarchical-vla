@@ -64,6 +64,38 @@ def manifest_contract(value):
         raise ValueError('EXACT_EXISTING_BOOK21_SOURCE_ONLY_COMMAND_AND_SPARSE_RGB_CONTRACT')
 
 
+def deployment_metadata_copy(source, expected_manifest_sha256, output):
+    """Add provider codec metadata in a new version, preserving all data bytes.
+
+    The first conversion's quantiles were correct but used the key 'codec'.
+    The ordinary provider also needs codec_version and the label epsilon.
+    This is a metadata repair before training; never mutate a closed dataset.
+    """
+    import os
+    from .gripper_v2 import EPSILON
+    source,output=Path(source),Path(output)
+    if sha(source/'MANIFEST.private.json')!=expected_manifest_sha256:
+        raise ValueError('PINNED_CLOSED_BOOK_SOURCE_DATASET_REQUIRED')
+    m=json.loads((source/'MANIFEST.private.json').read_bytes());manifest_contract(m)
+    original_stat=member(source,m['statistics']['file'])
+    if sha(original_stat)!=m['statistics']['sha256']:raise ValueError('ORIGINAL_BOOK_QUANTILES_CHANGED')
+    stats=json.loads(original_stat.read_bytes());output.mkdir()
+    for ep in m['episodes']:
+        for descriptor in [ep['labels'],*ep['frame_shards']]:
+            p=member(source,descriptor['file'])
+            if sha(p)!=descriptor['sha256']:raise ValueError('BOOK_DATA_BYTES_CHANGED_BEFORE_METADATA_COPY')
+            target=member(output,descriptor['file']);target.parent.mkdir(exist_ok=True,parents=True);os.link(p,target)
+    stats.update(codec_version=VERSION,epsilon=EPSILON)
+    stat=output/'STATISTICS.private.json';stat.write_text(json.dumps(stats,indent=2)+'\n')
+    m.update(parent_dataset_manifest_sha256=expected_manifest_sha256,
+             parent_statistics_sha256=m['statistics']['sha256'],
+             metadata_repair='ADD_PROVIDER_CODEC_VERSION_AND_LABEL_EPSILON_QUANTILES_UNCHANGED',
+             statistics=dict(file=stat.name,sha256=sha(stat)))
+    manifest_contract(m);(output/'MANIFEST.private.json').write_text(json.dumps(m,indent=2)+'\n')
+    return dict(manifest_sha256=sha(output/'MANIFEST.private.json'),parent_manifest_sha256=expected_manifest_sha256,
+                all_label_and_image_bytes_unchanged=True,quantiles_unchanged=True,model_loads=0,optimizer_updates=0)
+
+
 class SourceBookDataset(DensePilotDataset):
     """Reuse the lossless bounded shard reader and ordinary pinned RGB resize."""
     validate_manifest = staticmethod(manifest_contract)

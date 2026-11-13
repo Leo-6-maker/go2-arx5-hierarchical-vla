@@ -60,7 +60,7 @@ def admission(spec):
 
 
 def run(spec, *, engine_class=None, admission_check=None, endpoint_updates=None, candidate_run=None,
-        expected_resume_cursor=(2, 64)):
+        expected_resume_cursor=(2, 64), probe_function=None):
     (admission_check or admission)(spec)
     from go2arx5_vla.sla_adapter.site_v2 import validate
     site = validate(spec)
@@ -70,6 +70,7 @@ def run(spec, *, engine_class=None, admission_check=None, endpoint_updates=None,
         from go2arx5_vla.sla_adapter.runtime_v4 import DensePilotEngine
         engine_class = DensePilotEngine
     from scripts.sla.train_v1 import probes
+    run_probes = probe_function or probes
     import jax, flax, optax
     root = Path(spec['registered_root'])
     (root/'SITE_ACTUAL.private.json').write_text(json.dumps(site, indent=2))
@@ -94,7 +95,7 @@ def run(spec, *, engine_class=None, admission_check=None, endpoint_updates=None,
     if engine.step == 0:
         result['initial_checkpoint'] = engine.checkpoint('step0000')
         if candidate:
-            result['initial_RGB'] = probes(engine, 'step0-RGB')
+            result['initial_RGB'] = run_probes(engine, 'step0-RGB')
     try:
         while engine.step < stop:
             if STOP_REQUESTED or time.time() >= local['deadline_epoch']:
@@ -107,14 +108,14 @@ def run(spec, *, engine_class=None, admission_check=None, endpoint_updates=None,
             if engine.step in ((500, 1500, 3000) if candidate else (2, 4)):
                 result['last_checkpoint'] = engine.checkpoint(f'step{engine.step:04d}')
             if candidate and engine.step in (500, 1500):
-                result[f'RGB_step{engine.step}'] = probes(engine, f'step{engine.step}-RGB')
+                result[f'RGB_step{engine.step}'] = run_probes(engine, f'step{engine.step}-RGB')
     except TimeoutError:
         result['last_checkpoint'] = engine.checkpoint(f'LIMIT-step{engine.step:04d}')
         result.update(status='LIMIT_SAVED_COMMITTED_STATE_NOT_COMPLETE', exit_code=75)
     else:
         result.update(status='COMPLETE_NAMED_DENSE_PILOT_CUDA_OPERATION', exit_code=0)
         if engine.step in (4, 3000):
-            result['endpoint_RGB'] = probes(engine, f'step{engine.step}-RGB')
+            result['endpoint_RGB'] = run_probes(engine, f'step{engine.step}-RGB')
     result.update(step=engine.step, cursor=engine.cursor, actual=engine.counts,
                   frozen_fingerprint_unchanged=engine.verify_frozen(), residency=engine.residency(),
                   wall_s=time.time()-started, load_wall_s=engine.load_wall_s, site=site,

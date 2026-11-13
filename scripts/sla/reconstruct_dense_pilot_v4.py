@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 
-def run(spec, mode, *, engine_class=None, export_function=None):
+def run(spec, mode, *, engine_class=None, export_function=None, probe_selector=None):
     from go2arx5_vla.sla_adapter.site_v2 import validate
     validate(spec)
     from go2arx5_vla.sla_adapter.checkpoint_v1 import sha
@@ -44,7 +44,7 @@ def run(spec, mode, *, engine_class=None, export_function=None):
     dataset = engine_class.__new__(engine_class).dataset_for_spec(spec)
     from go2arx5_vla.sla_adapter.runtime_v1 import probe_indices
     rows = []
-    for index in probe_indices(dataset):
+    for index in (probe_selector or probe_indices)(dataset):
         state, _, images, text = dataset.raw(index)
         frame = dataset.frames[dataset.identity(index)['episode_id']]['T_policy_from_mount']
         for noise in range(2):

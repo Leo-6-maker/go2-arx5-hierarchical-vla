@@ -25,11 +25,11 @@ def exact_trees(left, right):
                 max_abs=max(errors, default=0.), leaves=len(a))
 
 
-def probes(engine, name):
+def probes(engine, name, *, indices=None):
     root = engine.output/name
     root.mkdir()
     records = []
-    for i, index in enumerate(probe_indices(engine.dataset)):
+    for i, index in enumerate(probe_indices(engine.dataset) if indices is None else indices):
         for noise in range(2):
             normalized, physical = engine.generate(index, noise)
             p = root/f'{i:02d}-{noise}.npz'

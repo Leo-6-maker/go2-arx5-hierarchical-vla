@@ -144,7 +144,7 @@ def prepare(source_root, frame_proof_path, output):
         stat = output/'STATISTICS.private.json'
         write(stat,dict(state=Quantiles.fit(states).summary(states),actions=Quantiles.fit(actions).summary(actions),
             split='TRAIN',domain='SOURCE_FIXED_ARM',unique_windows=1281,action_knots=51240,
-            fit_before_oversampling=True,state_gripper_transformed=False,codec=VERSION))
+            fit_before_oversampling=True,state_gripper_transformed=False,codec=VERSION,codec_version=VERSION,epsilon=EPSILON))
         manifest = dict(schema=SCHEMA,dataset_id=DATASET_ID,state='committed',domain='SOURCE_FIXED_ARM',
             source_manifest_sha256=SOURCE_MANIFEST_SHA,source_frame_proof_sha256=sha(frame_proof_path),
             codec=VERSION,split='TRAIN',tasks=['BOOK_FROM_TABLE_TO_SLOT'],target_WBC_qualified=False,
