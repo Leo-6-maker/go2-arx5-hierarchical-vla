@@ -1,38 +1,30 @@
-# SLA V4 入口：开源／自采混合后训练与移动底座适配
+# SLA 当前入口：长程推进 V5
 
-2026-11-13 · **计划与操作说明已发布；运行能力以独立实际回执为准**
+2026-11-13 · **计划已发布，不是训练或原生能力结果**
 
-用户要求进一步明确后训练流程、细节和数据集使用。本PR最初四个文件保留，新增一份V4.1操作说明并更新本入口；不改现役代码、WBC、其他开放计划入口或正在运行的作业。
+优先阅读：
+1. [长程推进 V5](docs/protocols/SLA_LONG_HORIZON_EVIDENCE_V5_20261113.md)：可执行策略→空间与条件化→恢复与源混合→共享技能→移动/跨执行器；世界模型/传感/RL有明确进入条件。
+2. [V5 机读矩阵](docs/protocols/SLA_LONG_HORIZON_EVIDENCE_V5_20261113.json)：状态PLANNED、execution_ready=false，不能直接作为现场job配置。
+3. [V5 启动 prompt](docs/handover/2026-11-13/SLA_LONG_HORIZON_V5_START.md)：先接续实际作业，复用资格，下一次交付真实数据、checkpoint与原生结果。
+4. [V4.1 具体后训练流程](docs/protocols/SLA_POSTTRAIN_WORKFLOW_AND_DATA_V4_1_20261113.md)、[V4 源目标/移动计划](docs/protocols/SLA_SOURCE_TARGET_MOBILE_V4_20261113.md)与[原矩阵](docs/protocols/SLA_SOURCE_TARGET_MOBILE_V4_20261113.json)：保留历史设计；未启动工作的顺序与实际源数量以V5修正为准。
 
-## 先读操作说明
+## 新的事实基线与直接下一步
 
-1. [V4.1 后训练具体流程与数据集使用](docs/protocols/SLA_POSTTRAIN_WORKFLOW_AND_DATA_V4_1_20261113.md)：固定模型、数据池、五个源task ID、样本构造、模块与超参数、每阶段初始化、batch配比、评价和实现缺口。
-2. [完整V4实验计划](docs/protocols/SLA_SOURCE_TARGET_MOBILE_V4_20261113.md)：研究对照、归因、完整预算和移动frame/mode。
-3. [机读研究矩阵](docs/protocols/SLA_SOURCE_TARGET_MOBILE_V4_20261113.json)：PLANNED、execution_ready=false；不能直接当现场job配置。
-4. [Codex启动prompt与交接](docs/handover/2026-11-13/SLA_SOURCE_TARGET_MOBILE_V4_START.md)：与V4.1一起读取；现场状态采用最新实际端点。
+执行已到[PR #384](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/pull/384)，固定阅读SHA `cb09e71441b2f02307317b60d059ea06c38cb55b`。[回执](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/cb09e71441b2f02307317b60d059ea06c38cb55b/reports/WM02/sla-source-target-v4-20261113/CURRENT_STAGE_ACTUAL.json)时间2026-11-13 23:35:31 SGT；这是证据快照，不是现在服务器状态。
 
-## 明确主流程
+- R1_500训练/RGB恢复已完成，原生R1请求仍0。
+- 具名PICK_HOLD小集2条/122窗口已经用于H200 job716146；快照513/3000更新、已有完整step500。先核实后继终态，勿重投。
+- 固定专家16/16完成，正式D100/D300/PICK_PLACE仍0；122窗口空间cache已读回，空间梯度未完成。
+- 五个RoboTwin默认包实际每任务50条、共250，20条已审；S_cmd仍0，15Hz字段不证明真实时钟。补缺口或仪器化源仿真，不能再空等“已经下载的1000条”。
 
-SLA_base → 新目标D100的动作/空间两臂 → D300固定配方 → 合格RoboTwin源池与D300的T-only/M75对照 → 同父模型专家纠正 → 独立TEST → 新站位/导航后操作。
+先兑现当前候选原生执行和空间链，继续目标示范生产；小集可学习但不冒称D100泛化。开源准备不阻塞目标policy，新技能不等待抓放100%。源池固定实际数量比较，不为凑S1000放宽标签或复制episode。
 
-数据嵌套扩大不等于权重一路串训。D100、D300和主要混合消融从同一干净SLA_base起步；相同已完成端点可复用。只有明确的续训/纠正/顺序实验继续父checkpoint。
+## 执行与权限
 
-- 旧TRAIN100只用于既有S1/S2/R1，不能改名为D100_new。
-- 新目标池为10姿态层×5物体×PICK_HOLD/PICK_PLACE，D100/D300/D1000累计100/300/1000完整episode。
-- 首轮源池明确筛选`TianxingChen/RoboTwin2.0`中的`move_pillbottle_pad`、`move_stapler_pad`、`place_mouse_pad`、`place_empty_cup`、`place_object_stand`；每任务200条TRAIN为目标。其原始数据尚未审核准入，不声称1,000条已可用。
-- 仅命令语义兼容的S_cmd进入动作混合；future-achieved/未知标签留在S_aux。另一臂需要协助的任务不直接裁剪动作。公开下载与开源环境再生成分别绑定origin/version。
-- 首要对照实际使用D300：每batch32分别32T与24T+8S，各3K；`T100`是100%目标比例，不是100条数据。
-- DROID/RoboCasa/LIBERO、未准入ARX5与移动源数据不进入首个混合池；不重做SLA大规模预训练，不使用在线RL。
-- R1和目标D100/D300不等待source准备完成。源转换、码本、统计和数据读取缺口在V4.1列为明确实现项。
+Corelab独立并行世界沿用户已明确V3授权，每世界单owner；H200用真实有效allocation，避免CPU/GPU大张量反复搬运。旧AGENTS里的全Core串行/禁止H200首轮范围不覆盖后续明确授权；其他安全、冻结WBC/2ms、工作树和现场权限仍有效。健康capsule不热改，未知作业不盲重投。
 
-移动先验证低层能力/坐标→新站位静止操作→导航稳定接管→负载运输/连续移动。固定臂来源缺base标签就mask，不补假零；高层不直接输出腿关节，不在推理时使用未来底座真值。
+当前不重做CPT、不自动启动在线RL、真机或WBC重训。移动先能力/坐标与新站位，再真实导航；固定臂缺base标签不补零。暂停仿真不是实时部署结果。
 
-## 最新核验快照与历史
+[PR #383](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/pull/383)为计划分支，#384为执行分支；main不自动具备全部最新runtime。[仓库工作流](docs/REPOSITORY_WORKFLOW.md)仍适用。V5仅正常追加文档，不合并、不改在途实验；V4/V4.1旧内容和所有负结果保留。
 
-本轮读到[PR #382](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/pull/382) HEAD `3195f0eb664ed98db7f76ad0643ed1d742472a7b`，实际摘要为2026-11-13 20:59 SGT：R1已完成500更新/16,000访问及H200/Core RGB恢复；R1原生任务评价0；D100_new/D300_new/PICK_PLACE生产准入0。这是GitHub快照，不是本次登录现场。
-
-V4最初使用的[12:56汇总/12:54端点](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/b3e58cdbbefbc68bf733792ff9b7009a23d10eb3/reports/WM02/sla-corelab-v3-20261113/CURRENT_STAGE_ACTUAL.json)保留在原计划中，不能当作当前状态。开工检查后继端点，不重投未知或已完成作业。
-
-继承[并行采集与GPU驻留V3](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/f672fb1aa574a2dbac3c91e047346eaa441bc9f5/docs/protocols/SLA_CORELAB_PARALLEL_DATA_H200_V3_20261113.md)和现役监督优先方向。Corelab独立多环境沿用既有授权，H200采用真实allocation。此次文档更新未启动训练、采集、自动化或实机。
-
-main是发布整合入口，不代表全部现役runtime已合并。遵循[仓库工作流](docs/REPOSITORY_WORKFLOW.md)，在独立worktree实施并正常PR整合，不热改健康capsule。
+继承：[设备驻留与Corelab并行V3](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/f672fb1aa574a2dbac3c91e047346eaa441bc9f5/docs/protocols/SLA_CORELAB_PARALLEL_DATA_H200_V3_20261113.md) · [旧V4执行交接](docs/handover/2026-11-13/SLA_SOURCE_TARGET_MOBILE_V4_START.md)。

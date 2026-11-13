@@ -56,7 +56,6 @@ def infer(spec, output):
     from .fusion_paused_query_bridge import _registered, _live
     from .task_learning_live_pair_v1 import (validate_spec, wait_request, read_request,
                                              native_terminal, SCHEMA)
-    from ..sla_adapter.provider_v1 import Provider
     import jax
     root = Path(output)
     producer = validate_spec(spec)
@@ -73,6 +72,11 @@ def infer(spec, output):
         _live(spec, producer)
         write(root/'MODEL_LOAD_INTENT.private.json', dict(policy=spec['target_gr00t_policy'], retries=False))
         package = spec['target_gr00t_policy']['package']
+        manifest = pinned(dict(path=str(Path(package['path'])/'MANIFEST.private.json'),sha256=package['sha256']))
+        if manifest['schema'] == 'SLA_GRIP_LOGIT_ORDINARY_RGB_INFERENCE_PACKAGE_V3':
+            from ..sla_adapter.provider_v3 import Provider
+        else:
+            from ..sla_adapter.provider_v1 import Provider
         provider = Provider(package['path'], manifest_sha256=package['sha256'], parent_params=spec['checkpoint'])
         loads = 1
         write(root/'MODEL_LOADED.private.json', dict(actual_SLA_parent_loads=1, optimizer_loaded=False,
