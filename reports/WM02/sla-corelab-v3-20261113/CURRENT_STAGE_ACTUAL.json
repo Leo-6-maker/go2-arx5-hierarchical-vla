@@ -1,8 +1,8 @@
 {
   "schema": "SLA_CORELAB_V3_CURRENT_STAGE_ACTUAL",
-  "as_of_SGT": "2026-11-13T11:36:59.841305+08:00",
+  "as_of_SGT": "2026-11-13T11:47:15.536353+08:00",
   "plan_revision": "f672fb1aa574a2dbac3c91e047346eaa441bc9f5",
-  "latest_implementation_source": "a86e7efaa01abe3001607931e13ab474bc9ebed9",
+  "latest_implementation_source": "9e04a394ca961ae2fbbc30a8bfcde1a7a5b6664f",
   "native_source": "197b956629f5b8b03b5a06f37d6051de31836e6b",
   "saved32_passed": 32,
   "total_new_physical_requests": 13,
@@ -1718,7 +1718,7 @@
   },
   "corelab_shared_GPU1_continuation": {
     "schema": "SLA_CORELAB_GPU1_SHARED_CONTINUATION_ACTUAL_V3",
-    "observed_SGT": "2026-11-13T11:36:59.841305+08:00",
+    "observed_SGT": "2026-11-13T11:47:15.536353+08:00",
     "shared_GPU1_reconstruction": {
       "package_sha256": "b88ce285027da1417fa7eb70b403cb8183019920f0a8cbdc3e06d78625e5329e",
       "actual_parent_loads": 1,
@@ -1740,17 +1740,17 @@
       "model_calls": 0
     },
     "original_DEV16": {
-      "terminal": 3,
+      "terminal": 4,
       "requested": 16,
       "successes": 0,
-      "actual_committed_generations": 2,
-      "terminal_native_integrations": 15609,
+      "actual_committed_generations": 3,
+      "terminal_native_integrations": 21312,
       "technical_failures": 2,
-      "policy_failures": 1,
-      "first_untouched_condition": "SLADEV02 restart 2",
+      "policy_failures": 2,
+      "current_group_condition": "sla-s1-sladev03-r1",
       "live_group": true,
-      "live_GPU_and_native_pair": true,
-      "new_pair_native_pause_step": 600,
+      "live_GPU_and_native_pair": false,
+      "new_pair_native_pause_step": 5703,
       "queue_state": "NATIVE_GROUP_LIVE"
     },
     "earlier_two_second_tail_cohort": {
@@ -1788,29 +1788,44 @@
       "requested": 2,
       "optimizer_updates": 0,
       "optimization_visits": 0,
-      "physical_requests": 0,
+      "physical_requests": 2,
       "rows": [
         {
           "layout": "TRAIN01",
-          "registered": false,
-          "live": false,
-          "native_step": 0,
-          "frames": 0
+          "registered": true,
+          "live": true,
+          "native_step": 7603,
+          "frames": 38,
+          "task_success": null,
+          "recorded_success_tail": null
         },
         {
           "layout": "TRAIN07",
-          "registered": false,
-          "live": false,
-          "native_step": 0,
-          "frames": 0
+          "registered": true,
+          "live": true,
+          "native_step": 7553,
+          "frames": 37,
+          "task_success": null,
+          "recorded_success_tail": null
         }
       ],
       "training_windows_admitted": 0,
       "registration": {
-        "active_verified": true,
-        "waiting_for_registry_owner": true,
-        "dispatched_physical_worlds": 0
-      }
+        "dispatched_physical_worlds": 2
+      },
+      "terminal": 0,
+      "successes": 0
     }
+  },
+  "expert_cadence_panel": {
+    "source_sha": "9e04a394ca961ae2fbbc30a8bfcde1a7a5b6664f",
+    "panel_sha256": "ea90ae72123abde579f6f292e4b9684cd043f63cb0fef769632b7e7a88c897d5",
+    "requested": 16,
+    "prefix_seconds": [
+      2.0,
+      0.5
+    ],
+    "native_requests_at_registration": 0,
+    "optimizer_updates_at_registration": 0
   }
 }
