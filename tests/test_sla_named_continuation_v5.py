@@ -26,12 +26,14 @@ def finite_prefix(tmp_path):
     spec = {key:key for key in keys}
     spec.update(planned_candidate_updates=3000, planned_target_visits=96000, planned_source_visits=0)
     pinned_spec = save(old/'EXECUTION_SPEC.json', spec)
+    training_spec = save(old/'candidate3000/EXECUTION_SPEC.json', spec)
     save(old/'control/LEASE.json', dict(status='CLOSED', worker_exit_code=75,
                                       spec_sha256=pinned_spec['sha256']))
     save(old/'WORKER_EXIT.private.json', dict(exit_code=75))
     result = dict(schema='SLA_CORE_N20_FINITE_PREFIX_ACTUAL_V5', exit_code=75,
                   complete3K=False, step=500, target_visits=16000, source_visits=0,
                   physical_requests=0, last_checkpoint=resume,
+                  training_spec=training_spec,
                   actual=dict(optimizer_updates=500, completed_training_visits=16008,
                               actual_parent_loads=1))
     spec.update(resume=resume, continuation=save(old/'RESULT.private.json', result))

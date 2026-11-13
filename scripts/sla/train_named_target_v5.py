@@ -57,11 +57,12 @@ def continuation_prefix(spec):
     root = Path(prior['path']).parent
     lease = json.loads((root/'control/LEASE.json').read_bytes())
     worker = json.loads((root/'WORKER_EXIT.private.json').read_bytes())
-    previous = json.loads((root/'EXECUTION_SPEC.json').read_bytes())
+    previous = read_pin(result['training_spec'])
     if (result.get('schema') != 'SLA_CORE_N20_FINITE_PREFIX_ACTUAL_V5'
             or result['exit_code'] != 75 or result['complete3K']
             or lease['status'] != 'CLOSED' or lease['worker_exit_code'] != worker['exit_code']
             or worker['exit_code'] != 75 or lease['spec_sha256'] != sha(root/'EXECUTION_SPEC.json')
+            or Path(result['training_spec']['path']) != root/'candidate3000/EXECUTION_SPEC.json'
             or result['last_checkpoint'] != spec['resume'] or result['physical_requests'] != 0
             or result['source_visits'] != 0 or not 0 < result['step'] < 3000
             or result['target_visits'] != 32*result['step']
