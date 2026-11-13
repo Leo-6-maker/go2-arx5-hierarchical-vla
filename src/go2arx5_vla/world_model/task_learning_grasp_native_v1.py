@@ -195,10 +195,16 @@ def episode_config(spec):
     async_configuration(spec)
     from .native_body_memory_v3 import configuration as memory_configuration
     memory_configuration(spec)
+    from .sla_expert_epsilon_v3 import configuration as epsilon_configuration
+    epsilon_enabled = epsilon_configuration(spec)
     validate(spec)
     document=scenes.pinned(dict(path=spec['episode_manifest'],sha256=spec['episode_manifest_sha256']))
     episode=scenes.prefix_episode(document,spec)
     members=SOURCE_MEMBERS
+    if epsilon_enabled:
+        members += ('src/go2arx5_vla/world_model/sla_expert_epsilon_v3.py',
+                    'src/go2arx5_vla/sla_adapter/codec_v1.py',
+                    'src/go2arx5_vla/sla_adapter/gripper_v2.py')
     if task.student_role(spec.get('task_learning_role')):
         from .task_learning_live_pair_v1 import SOURCE_MEMBERS as model_members
         members=tuple(dict.fromkeys(members+model_members))
@@ -254,6 +260,8 @@ def actual_feet(adapter,sample):
 def continue_native(adapter,report,samples,windows):
     from .stable_task_closed_loop_v1 import _link_replacement
     from .stable_task_data_v1 import capture_input
+    from .sla_expert_epsilon_v3 import configuration as epsilon_configuration, transform as epsilon_transform
+    epsilon_enabled = epsilon_configuration(adapter.spec)
     validate(adapter.spec);ready=report['task_local_preparation']
     task.need(adapter.observe()['step']==task.CALIBRATION_B and not adapter.trace_sealed
         and ready['original_steady_prefix_qualified']is True and ready['source_pose_alignment']is False
@@ -299,6 +307,7 @@ def continue_native(adapter,report,samples,windows):
     else:
         teacher=(task.HoldControl if control else UnderCloseRecoveryTeacher if mode==UNDER_CLOSE else task.Teacher)(samples[-1])
     intervention_decisions=0
+    epsilon_decisions = []
     cycles=[reset_cycle];decisions=[];captures=[];confirmed=[]
     task_samples=[samples[-1]];standing=[]
     def observe(s):
@@ -324,6 +333,11 @@ def continue_native(adapter,report,samples,windows):
         from .native_collection_performance_v1 import measure
         with measure(adapter,'policy.student_inference' if student else 'policy.Teacher_decision', native_step=step):
             program,proposal=teacher.decide(samples[-1],adapter.reference_history[-1]['pose'],adapter.base_pose_hold)
+            if epsilon_enabled:
+                program, audit = epsilon_transform(program)
+                proposal = dict(proposal, original_teacher_policy_H40=proposal['submitted_policy_H40'],
+                                submitted_policy_H40=program.decoded_H40.tolist(), gripper_epsilon=audit)
+                epsilon_decisions.append(dict(native_step=step, maximum_nominal_bias=audit['maximum_nominal_bias']))
         intervention_decisions+=proposal.get('label_role')==INTERVENTION
         adapter.task_learning_stage=teacher.stage
         decision_path=adapter.output/f'TASK_LEARNING_DECISION_{index:03d}.private.json'
@@ -370,6 +384,10 @@ def continue_native(adapter,report,samples,windows):
     write_progress(adapter.output/'TASK_LEARNING_CONFIRMED_COMMANDS.private.json',dict(records=confirmed,
         period_s=.05,complete=True,unexecuted_suffix_included=False,future_achieved_labels=False,
         task_success=scored['task_success'],expert_training_eligible=False))
+    epsilon_result = dict(sla_expert_epsilon=dict(configuration=adapter.spec['sla_expert_epsilon_v3'],
+        decisions=epsilon_decisions, fully_consumed_H40=sum(
+            c['complete_suffix_atoms'] == 40 and c['solver_target_confirmed_atoms'] == 40
+            and c['gripper_confirmed_atoms'] == 40 for c in cycles[1:-1]))) if epsilon_enabled else {}
     return jsonable(dict(copy.deepcopy(report),schema=native_result_schema(adapter.spec),
         actual_spec_phase=task.PHASE,native_endpoint_step=task.E,
         task_learning_grasp=task.protocol(adapter.spec.get('task_learning_role',task.CONSTRUCTION_ROLE)),
@@ -386,6 +404,7 @@ def continue_native(adapter,report,samples,windows):
         new_task_score=scored,task_condition_success=scored['task_success'],
         decision_start_readiness=start_ready,expert_training_eligible=False,
         memory_frame_archive=memory_archive,
+        **epsilon_result,
         data_role=('TEACHER_QUALIFICATION_NOT_BC'if adapter.spec.get('task_learning_role')==task.QUALIFICATION_ROLE else
             'TASK_CONSTRUCTION_NOT_BC'if adapter.spec.get('task_learning_role',task.CONSTRUCTION_ROLE)==task.CONSTRUCTION_ROLE else
             adapter.spec['task_learning_role']),
