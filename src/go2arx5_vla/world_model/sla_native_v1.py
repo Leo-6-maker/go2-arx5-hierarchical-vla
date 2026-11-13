@@ -246,7 +246,7 @@ def _reconstructed_loader(spec, qualification):
     seal = pinned(reconstruction['source_seal'])
     original = closed(qualification['ordinary_RGB_reconstruction'])
     memory = result['GPU_memory']
-    path = 'src/go2arx5_vla/sla_adapter/model_v1.py'
+    paths = ('src/go2arx5_vla/sla_adapter/model_v1.py', 'src/go2arx5_vla/sla_adapter/calibration_v1.py')
     task.need(result['schema'] == original['schema'] == 'SLA_FRESH_ORDINARY_RGB_PACKAGE_ACTUAL_V1'
               and result['passes'] is True and result['step'] == 500
               and result['package'] == original['package'] == qualification['package']
@@ -262,10 +262,10 @@ def _reconstructed_loader(spec, qualification):
               and reconstruction['JAX_memory_fraction'] == qualification['runtime']['JAX_memory_fraction']
               and reconstruction['parent_params'] == qualification['parent_params']
               and reconstruction['source_sha'] == seal['source_sha']
-              and seal['files'][path] == digest(source / path)
+              and all(seal['files'][path] == digest(source / path) for path in paths)
               and max(memory['peak_bytes_in_use'], memory['bytes_limit']) <= spec['allocator_limit_bytes'],
               'ACTUAL_SAME_PACKAGE_16_BIT_EXACT_RGB_LOADER_QUALIFICATION_REQUIRED')
-    return {path: seal['files'][path]}
+    return {path: seal['files'][path] for path in paths}
 
 
 def summarize(panel, outcomes):

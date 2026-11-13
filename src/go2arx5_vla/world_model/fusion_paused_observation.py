@@ -70,7 +70,16 @@ def _read_live_snapshot(adapter, name, *, decode_json=False):
     # snapshot. Match TargetSequentialAdapter.observe's bounded read retry;
     # never replay a write, reuse an old packet, or advance the quota.
     path = Path(adapter.output) / name
-    until = time.monotonic() + .25
+    budget = .25
+    if name == 'pause_ack.json' and getattr(adapter, 'spec', {}).get('expert_recorded_success_tail_v3'):
+        from .corelab_expert_semantics_v3 import recorded_tail
+        from .native_collection_performance_v1 import event_read_seconds
+        if recorded_tail(adapter.spec):
+            # The dense parallel collector can see the original ACK file
+            # between publications. Allow the existing bounded expert wall
+            # read while still requiring the exact live ACK and state below.
+            budget = event_read_seconds(adapter.spec)
+    until = time.monotonic() + budget
     while True:
         adapter.guard()
         try:
