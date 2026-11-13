@@ -14,6 +14,9 @@ NATIVE_SCHEMA = 'CORELAB_EXPERT_TRAIN4_SEMANTICS_NATIVE_V3'
 LAYOUTS = ('TRAIN01', 'TRAIN07', 'TRAIN13', 'TRAIN25')
 PURPOSE = 'EXPERT_CAMERA_EVENT_SEMANTICS_NOT_BC_OR_STUDENT_EVALUATION'
 RECORDED_TAIL = 'CORELAB_ACTUAL_TWO_SECOND_EXPERT_SUCCESS_TAIL_V3'
+CADENCE_PANEL = 'CORELAB_EXPERT_FIXED_CADENCE_PANEL_V3'
+CADENCE_PURPOSE = 'MATCHED_EXPERT_CADENCE_QUALIFICATION_NOT_BC'
+CADENCES = (40, 10)
 
 
 def protocol():
@@ -76,6 +79,32 @@ def validate_panel(panel):
     return rows
 
 
+def validate_cadence_panel(panel):
+    from . import task_learning_grasp_v1 as task
+    from .task_learning_scene_v1 import scene_id
+    from .task_learning_teacher_panel_v1 import teacher_fingerprint, FROZEN_TEACHER
+    from .task_learning_collection_v1 import qualified_base
+
+    rows = panel['assignments']
+    expected = {(layout, restart, atoms) for layout in LAYOUTS for restart in (1, 2) for atoms in CADENCES}
+    actual = {(r['layout'], r['restart'], r['prefix_atoms']) for r in rows}
+    task.need(panel['schema'] == CADENCE_PANEL and panel['task_learning_role'] == ROLE
+              and panel['Teacher_implementation_source_sections_sha256'] == teacher_fingerprint() == FROZEN_TEACHER
+              and len(rows) == len(expected) == len({r['native_run'] for r in rows})
+              and actual == expected, 'FIXED_SIXTEEN_MATCHED_CADENCE_REQUESTS')
+    model_by_layout = {}
+    for row in rows:
+        sha = row['model_sha256']
+        task.need(row['parent'] == scene_id(row['layout']) and row['split'] == 'TRAIN'
+                  and row['command'] == task.COMMAND and row['purpose'] == CADENCE_PURPOSE
+                  and row['Teacher_mode'] == 'NORMAL_TEACHER_V7'
+                  and len(sha) == 64 and sha == model_by_layout.setdefault(row['layout'], sha)
+                  and Path(row['native_run']).name == row['native_run'] and not row['native_run'].startswith('.'),
+                  'CADENCE_SAME_LAYOUT_MODEL_AND_FROZEN_TEACHER')
+    qualified_base(panel['base_Teacher_qualification'])
+    return rows
+
+
 def native_scene_admission(spec):
     from . import task_learning_grasp_v1 as task
     from .task_learning_scene_v1 import validate_static_provenance
@@ -88,9 +117,15 @@ def native_scene_admission(spec):
     task.need(proof.get('layout') in LAYOUTS, 'V3_TRAIN_ONLY_NEVER_DEV_TEST')
     validate_static_provenance(spec, proof, expected_role=ROLE)
     panel = pinned(dict(path=spec['stable_task_panel'], sha256=spec['stable_task_panel_sha256']))
-    rows = validate_panel(panel)
+    cadence = panel.get('schema') == CADENCE_PANEL
+    rows = validate_cadence_panel(panel) if cadence else validate_panel(panel)
     matches = [r for r in rows if r['native_run'] == Path(spec['registered_root']).name]
     task.need(len(matches) == 1 and matches[0]['parent'] == spec['data_parent']
               and matches[0]['model_sha256'] == digest(spec['model_path']),
               'V3_ONE_PREREGISTERED_EXPERT_REQUEST_NO_RETRY')
+    if cadence:
+        task.need(panel['source_sha'] == spec['source_sha'] and recorded_tail(spec)
+                  and spec['task_learning_grasp']['prefix_atoms'] == matches[0]['prefix_atoms']
+                  and spec['expert_cadence_restart'] == matches[0]['restart'],
+                  'FRESH_MATCHED_CADENCE_AND_INDEPENDENT_RESTART_IDENTITY')
     return proof
