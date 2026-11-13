@@ -177,7 +177,8 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
     if actual_phase=='collect-target-stable-task-closed-loop-v1':live_end=43503
     if actual_phase in('collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1','collect-target-task-learning-grasp-v1'):live_end=40503
     if actual_phase=='collect-target-task-learning-grasp-v1':
-        from .task_learning_grasp_v1 import E as live_end
+        from .corelab_expert_semantics_v3 import native_endpoint
+        live_end = native_endpoint(spec)
     if c01:live_end=38703 if spec.get('task_condition')==CPU_CONDITION else 34303
     if actual_phase == 'collect-target-fusion-task-phase-live-skill-v9':
         from .fusion_task_reference_diagnostic_v1 import SHORT_TASK_CONDITION, endpoint, validate_registration
