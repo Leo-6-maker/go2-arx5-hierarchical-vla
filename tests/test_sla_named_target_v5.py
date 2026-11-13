@@ -33,6 +33,13 @@ def test_separate_typed_reader_does_not_relax_two_episode_contract():
     with pytest.raises(ValueError):named.manifest_contract(value)
 
 
+def test_host_cache_configuration_is_bounded_and_keeps_the_existing_default():
+    assert named.frame_cache_limit({})==512*1024**2
+    assert named.frame_cache_limit(dict(frame_cache_bytes=3*1024**3))==3*1024**3
+    for invalid in (True,-1,0,32*1024**3,3.0):
+        with pytest.raises(ValueError):named.frame_cache_limit(dict(frame_cache_bytes=invalid))
+
+
 @pytest.mark.parametrize('mutation',['duplicate','substitute','old_restart','D100','placement','future',
                                     'student_phase','incomplete_tail','missing_frame','wrong_clock'])
 def test_no_old_data_or_success_based_substitution(mutation):

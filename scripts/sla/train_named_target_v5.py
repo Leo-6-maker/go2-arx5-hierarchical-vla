@@ -74,6 +74,9 @@ def continuation_prefix(spec):
           'candidate_lineage','GPU_uuid','python','upstream_root','measure_input_transfer_payloads')
     if any(spec[k] != previous[k] for k in keys):
         raise ValueError('ONE_N20_PARENT_DATA_VISIT_BANK_SCHEDULE_AND_TOTAL3K_BUDGET')
+    from go2arx5_vla.sla_adapter.named_dataset_v5 import frame_cache_limit
+    if frame_cache_limit(spec)!=frame_cache_limit(previous):
+        raise ValueError('N20_RESTORE_RETAINS_DECLARED_HOST_FRAME_CACHE_CONFIGURATION')
     complete = read_pin(dict(path=str(Path(spec['resume']['path'])/'COMPLETE.json'),
                              sha256=spec['resume']['sha256']))
     if (complete['schema'] != 'SLA_COMPLETE_PEFT_STATE_V1' or len(complete['arrays']) != 87

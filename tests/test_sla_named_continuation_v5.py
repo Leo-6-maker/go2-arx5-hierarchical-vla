@@ -59,6 +59,11 @@ def test_running_or_unknown_predecessor_cannot_resume(tmp_path):
         continuation_prefix(spec)
 
 
+def test_resume_cannot_silently_switch_to_a_different_cache_profile(tmp_path):
+    spec=finite_prefix(tmp_path);spec['frame_cache_bytes']=3*1024**3
+    with pytest.raises(ValueError,match='HOST_FRAME_CACHE_CONFIGURATION'):continuation_prefix(spec)
+
+
 @pytest.mark.parametrize('key,value', [('dataset','changed-data'),
                                       ('planned_candidate_updates',3500), ('microbatch',1)])
 def test_continuation_cannot_change_data_or_add_another_budget(tmp_path, key, value):

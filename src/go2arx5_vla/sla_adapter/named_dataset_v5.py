@@ -12,6 +12,14 @@ RECIPE = 'SLA_FRESH_NAMED_N20_FM32_3K_V5'
 OPERATION = 'NAMED_PICK_HOLD_N20_FM_3K'
 
 
+def frame_cache_limit(spec):
+    """Bounded host input cache for a declared future cold run only."""
+    value=spec.get('frame_cache_bytes',512*1024**2)
+    if type(value)is not int or not 512*1024**2<=value<=16*1024**3:
+        raise ValueError('EXPLICIT_BOUNDED_HOST_FRAME_CACHE_BYTES_REQUIRED')
+    return value
+
+
 def manifest_contract(value):
     episodes = value.get('episodes') or []
     if (value.get('schema') != SCHEMA or value.get('state') != 'committed'
