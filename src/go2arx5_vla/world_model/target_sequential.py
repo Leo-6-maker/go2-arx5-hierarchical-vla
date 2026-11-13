@@ -45,7 +45,7 @@ def supported_object_hypothesis(phase,stage,sample):
         return PlanningObjectMotion(sample,mode='ACTUAL_GRASP_ATTACHMENT')
     return None
 
-def native_display_command(spec,output,environment):
+def native_display_command(spec,output,environment,*,live_output=None):
     # Do not inject constructor-bearing native libraries into xvfb-run's shell,
     # xauth/Xvfb or utilities. Only the final simulator exec receives preload.
     env=dict(environment)
@@ -60,7 +60,8 @@ def native_display_command(spec,output,environment):
         prefix += [spec['diagnostic_debugger'],'--batch','-ex','set pagination off','-ex','set confirm off','-ex','handle SIGINT nostop noprint pass','-ex','handle SIGTERM nostop noprint pass','-ex','run','-ex','thread apply all bt','--args']
     trace_first=(spec.get('extended_trace_build')and spec.get('phase')=='collect-target-next2-contact')or(spec.get('trajectory_trace_capacity_build')and spec.get('phase')in(C02_FEEDBACK_PHASE,C02_PHASE,'collect-target-fusion-trajectory-qualification-v1','collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1','collect-target-fusion-paused-query-v2','collect-target-fusion-live-proposal-qualification-v3','collect-target-fusion-source-posture-qualification-v1','collect-target-fusion-source-posture-query-v3','collect-target-fusion-task-phase-initialization-v1','collect-target-fusion-task-phase-bias-calibration-v2','collect-target-fusion-task-phase-bias-continuation-v3','collect-target-fusion-task-phase-xyz-feedback-v4','collect-target-fusion-task-phase-xyz-feedback-continuation-v5','collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1','collect-target-task-learning-grasp-v1'))
     order=('trace_library','outer_library','observer_library')if trace_first else('outer_library','observer_library','trace_library')
-    argv=[*prefix,'/usr/bin/env','LD_PRELOAD='+':'.join(spec[n]for n in order),'WM02_INIT_TRACE='+str(Path(output)/'init.trace'),'WM02_INIT_SEAL_REQUEST='+str(Path(output)/'trace_seal_request'),spec['native_binary'],'go2_x5','scene']
+    trace_output=Path(live_output or output)
+    argv=[*prefix,'/usr/bin/env','LD_PRELOAD='+':'.join(spec[n]for n in order),'WM02_INIT_TRACE='+str(trace_output/'init.trace'),'WM02_INIT_SEAL_REQUEST='+str(trace_output/'trace_seal_request'),spec['native_binary'],'go2_x5','scene']
     return argv,env
 
 def owned_simulator_pid(wrapper_pid,binary):
@@ -183,7 +184,7 @@ class TargetSequentialAdapter:
         sim=dict(env,LD_PRELOAD=':'.join(s[n]for n in('outer_library','observer_library','trace_library')),PI0288_COMPILED_MODEL=s['model_path'],PI0288_PHYSICS_TRACE=str(out/'physics.jsonl'),PI0288_PHYSICS_CAP=str(s['max_ticks']),PI0288_CONTACT_SAFETY_MARKER=str(out/'CONTACT_SAFETY_ARMED'),PI0289_INITIALIZATION_TRACE=str(out/'initialization.jsonl'),PI0289_CONTROL_TRACE=str(out/'control.jsonl'),WM02_INIT_TRACE=str(out/'init.trace'),GR00T_TASK_GRIPPER_COMMAND=str(out/'gripper.bin'),GR00T_TASK_STATE=str(out/'state.bin'),GR00T_TASK_ERROR=str(out/'task_errors.txt'),GR00T_TASK_STEP_QUOTA=str(out/'step_quota'),GR00T_TASK_PAUSE_ACK=str(out/'pause_ack.json'),GR00T_TASK_QUOTA_BINDING=str(out/'quota.binding'),GR00T_TASK_RUN_UUID=out.name,GR00T_TASK_CARD_SHA256=s['stage_identity_sha256'],GR00T_TASK_RESERVATION_ID=out.name)
         for key,name in (('GR00T_TASK_GRIPPER_COMMAND','gripper.bin'),('GR00T_TASK_STATE','state.bin'),('GR00T_TASK_STEP_QUOTA','step_quota'),('GR00T_TASK_PAUSE_ACK','pause_ack.json'),('GR00T_TASK_QUOTA_BINDING','quota.binding')):
             sim[key]=str(live_path(self,name))
-        command,display_env=native_display_command(s,out,sim);self.launch(command,'sim',display_env)
+        command,display_env=native_display_command(s,out,sim,live_output=getattr(self,'live_control_output',None));self.launch(command,'sim',display_env)
         native=Path(s['native_root']);params=['--ros-args','-p','use_sim_time:=true','-p','taskFile:='+str(native/'src/ctrl/go2_x5_ocs2/config/task_floating.info'),'-p','urdfFile:='+str(native/'src/ctrl/go2_x5_description/urdf/arx5_ac1_floating.urdf')]
         # OCS2 can regenerate cache libraries while constructing its interface.
         # Preserve canonical caches; each owned process gets its private copy.
@@ -308,10 +309,13 @@ class TargetSequentialAdapter:
                 raise RuntimeError('NATIVE_PAUSE_NOT_CONFIRMED_FOR_TRACE_SEAL')
             snapshot.update(packet);return True
         if not self.spin(wait,confirmed_pause):raise RuntimeError('NATIVE_PAUSE_SNAPSHOT_NOT_READABLE_FOR_TRACE_SEAL')
-        request=self.output/'trace_seal_request';pending=request.with_suffix('.pending')
+        request=(live_path(self,'trace_seal_request')if getattr(self,'live_control_output',None)is not None
+                 else self.output/'trace_seal_request');pending=request.with_suffix('.pending')
         pending.write_text(json.dumps(dict(step=ticks,sim_time_s=snapshot['time_s'])));os.replace(pending,request)
         def sealed():
-            try:return json.loads((self.output/'init.trace.summary').read_text()).get('sealed_at_explicit_pause')is True
+            path=(live_path(self,'init.trace.summary')if getattr(self,'live_control_output',None)is not None
+                  else self.output/'init.trace.summary')
+            try:return json.loads(path.read_text()).get('sealed_at_explicit_pause')is True
             except(FileNotFoundError,ValueError):return False
         if not self.spin(wait,sealed):raise RuntimeError('NATIVE_PAUSE_TRACE_SEAL_NOT_ACKNOWLEDGED')
         self.trace_sealed=True

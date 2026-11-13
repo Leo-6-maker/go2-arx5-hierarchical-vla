@@ -10,6 +10,12 @@ from go2arx5_vla.world_model import native_live_control_v3 as live
 from go2arx5_vla.world_model import corelab_expert_semantics_v3 as expert
 
 
+@pytest.fixture(autouse=True)
+def small_synthetic_trace_budget(monkeypatch):
+    # These raw-file doubles use a few bytes; no native recorder is running.
+    monkeypatch.setattr(live,'TRACE_MAX_BYTES',1024**2)
+
+
 def spec():
     return dict(native_live_control_v3=dict(version=live.VERSION),
         phase='collect-target-task-learning-grasp-v1', task_learning_role=expert.ROLE,
@@ -48,6 +54,9 @@ def test_atomic_current_snapshot_and_original_journal_survive_archive(tmp_path):
             assert (tmp_path/'state.bin').read_bytes()==value
             assert live.live_path(a,'state.bin').read_bytes()==value
         (root/'pause_ack.json').write_text('{"step":25}')
+        (root/'init.trace').write_bytes(b'raw trace bytes')
+        (root/'init.trace.snapshots').write_bytes(b'raw snapshot bytes')
+        (root/'init.trace.summary').write_text('{"sealed_at_explicit_pause":true}')
         live.check(a)
         live.archive(a)
         assert not root.exists() and a.live_control_output is None
@@ -55,6 +64,8 @@ def test_atomic_current_snapshot_and_original_journal_survive_archive(tmp_path):
         assert (tmp_path/'state.bin').read_bytes()==b'next native packet'
         assert json.loads((tmp_path/'LIVE_CONTROL_ARCHIVE.private.json').read_text())['children_terminal']
         assert (tmp_path/'state.bin.journal').read_bytes()==b'actual journal'
+        assert (tmp_path/'init.trace').read_bytes()==b'raw trace bytes'
+        assert not (tmp_path/'init.trace').is_symlink()
     finally:
         if root.exists():live.archive(a)
 
@@ -91,6 +102,20 @@ def test_unknown_live_members_and_oversized_snapshots_are_rejected(tmp_path,monk
             m.setattr(live,'MAX_BYTES',4)
             with pytest.raises(MemoryError,match='BOUNDED'):live.check(a)
     finally:live.archive(a)
+
+
+def test_native_trace_route_changes_only_file_locations_not_frozen_preloads(tmp_path):
+    from go2arx5_vla.world_model.target_sequential import native_display_command
+    s=dict(xvfb_run='/usr/bin/xvfb-run',native_binary='/frozen/native',
+        trace_library='/frozen/trace',outer_library='/frozen/outer',observer_library='/frozen/observer',
+        phase='collect-target-task-learning-grasp-v1')
+    env=dict(LD_PRELOAD='must_not_reach_wrapper',WM02_INIT_TRACE='old',WM02_INIT_SEAL_REQUEST='old',KEEP='same')
+    old,old_env=native_display_command(s,tmp_path,env)
+    new,new_env=native_display_command(s,tmp_path,env,live_output=tmp_path/'memory')
+    assert old_env==new_env=={'KEEP':'same'}
+    assert [x for x in old if not x.startswith('WM02_INIT_')]==[x for x in new if not x.startswith('WM02_INIT_')]
+    assert 'WM02_INIT_TRACE='+str(tmp_path/'memory/init.trace')in new
+    assert 'WM02_INIT_SEAL_REQUEST='+str(tmp_path/'memory/trace_seal_request')in new
 
 
 @pytest.mark.parametrize('fresh,mode,passes',[(True,'WBC',True),(False,'WBC',False),(True,'HOLD',False)])
