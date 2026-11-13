@@ -49,6 +49,8 @@ def manifest_contract(value):
 
 class DensePilotDataset:
     """Bounded frame-shard cache; no PNG, FK or per-visit source hashing."""
+    validate_manifest = staticmethod(manifest_contract)
+
     def __init__(self, root, expected_manifest_sha256, *, resize_with_pad, max_cache_bytes=512*1024**2):
         self.root = Path(root)
         path = self.root / 'MANIFEST.private.json'
@@ -56,7 +58,7 @@ class DensePilotDataset:
             raise ValueError('FIXED_NAMED_PILOT_MANIFEST_REQUIRED')
         self.manifest_sha = expected_manifest_sha256
         self.manifest = json.loads(path.read_bytes())
-        manifest_contract(self.manifest)
+        self.validate_manifest(self.manifest)
         self.resize = resize_with_pad
         self.cache_limit = max_cache_bytes
         self.cache = OrderedDict()

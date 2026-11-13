@@ -61,6 +61,12 @@ class DeviceResidentEngine(BatchedEngine):
                 if time.time() >= self.spec['deadline_epoch']:
                     raise TimeoutError('FINITE_V3_WINDOW_BEFORE_COMMITTED_UPDATE')
                 observation, actions = device_batch(host)
+                if self.spec.get('measure_input_transfer_payloads'):
+                    # Device buffers are the once-submitted logical payload;
+                    # no additional device readback or synchronization here.
+                    count('input_device_batch_submissions')
+                    self.counts['input_H2D_submitted_bytes'] = self.counts.get('input_H2D_submitted_bytes', 0) + sum(
+                        value.nbytes for value in jax.tree.leaves((observation, actions)))
                 self.counts['forward_backward_attempts'] += 1
                 self.counts['attempted_training_visits'] += self.microbatch
                 offset = int(host['cursors'][0]) - self.cursor

@@ -5,22 +5,26 @@ import json
 from pathlib import Path
 
 
-def run(spec, mode):
+def run(spec, mode, *, engine_class=None, export_function=None):
     from go2arx5_vla.sla_adapter.site_v2 import validate
     validate(spec)
     from go2arx5_vla.sla_adapter.checkpoint_v1 import sha
     from go2arx5_vla.sla_adapter.provider_v3 import Provider
-    from go2arx5_vla.sla_adapter.runtime_v4 import DensePilotEngine
+    if engine_class is None:
+        from go2arx5_vla.sla_adapter.runtime_v4 import DensePilotEngine
+        engine_class = DensePilotEngine
     import jax, flax, optax
     root = Path(spec['registered_root'])
     if mode == 'export':
-        from go2arx5_vla.sla_adapter.provider_v4 import export
-        engine = DensePilotEngine(spec, root/'work')
+        if export_function is None:
+            from go2arx5_vla.sla_adapter.provider_v4 import export
+            export_function = export
+        engine = engine_class(spec, root/'work')
         engine.bindings['training_site'] = dict(GPU_uuid=spec['GPU_uuid'], GPU_name=spec['GPU_name'],
                                               jax=jax.__version__, flax=flax.__version__, optax=optax.__version__)
         engine.resume(spec['resume'])
         package = root/'RGB_PACKAGE'
-        export(package, spec['resume']['path'], active_template=engine.active, dataset=spec['dataset'],
+        export_function(package, spec['resume']['path'], active_template=engine.active, dataset=spec['dataset'],
                tokenizer=spec['tokenizer']['path'], parent_manifest=spec['parent_manifest'])
         result = dict(package=dict(path=str(package), sha256=sha(package/'MANIFEST.private.json')),
                       actual_parent_loads=1, optimizer_updates=0, ordinary_RGB_generations=0,
@@ -37,7 +41,7 @@ def run(spec, mode):
     counts['actual_parent_loads'] = 1
     write(root/'RGB_PROGRESS.private.json', counts)
     # The reader supplies only current state, RGB, prompt and mount to predict.
-    dataset = DensePilotEngine.__new__(DensePilotEngine).dataset_for_spec(spec)
+    dataset = engine_class.__new__(engine_class).dataset_for_spec(spec)
     from go2arx5_vla.sla_adapter.runtime_v1 import probe_indices
     rows = []
     for index in probe_indices(dataset):

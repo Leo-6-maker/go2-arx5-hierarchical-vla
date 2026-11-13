@@ -59,13 +59,16 @@ def admission(spec):
                 raise ValueError('ACTUAL_TERMINAL_DENSE_PHASE_PROOFS_REQUIRED')
 
 
-def run(spec):
-    admission(spec)
+def run(spec, *, engine_class=None, admission_check=None, endpoint_updates=None, candidate_run=None,
+        expected_resume_cursor=(2, 64)):
+    (admission_check or admission)(spec)
     from go2arx5_vla.sla_adapter.site_v2 import validate
     site = validate(spec)
     if spec['operation'] == 'DENSE_CORE_MICRO1_QUAL4' and (site['host'] != 'corelab-4080s' or site['uid'] != 2009):
         raise ValueError('DISTINCT_CORE_QUALIFICATION_REQUIRES_ACTUAL_CORE_SITE')
-    from go2arx5_vla.sla_adapter.runtime_v4 import DensePilotEngine
+    if engine_class is None:
+        from go2arx5_vla.sla_adapter.runtime_v4 import DensePilotEngine
+        engine_class = DensePilotEngine
     from scripts.sla.train_v1 import probes
     import jax, flax, optax
     root = Path(spec['registered_root'])
@@ -73,16 +76,16 @@ def run(spec):
     local = dict(spec, deadline_epoch=spec['deadline_epoch']-spec['closeout_reserve_s'],
                  gradient_capture_steps=[])
     global ACTIVE_ENGINE
-    engine = ACTIVE_ENGINE = DensePilotEngine.__new__(DensePilotEngine)
-    DensePilotEngine.__init__(engine, local, root/'work')
+    engine = ACTIVE_ENGINE = engine_class.__new__(engine_class)
+    engine_class.__init__(engine, local, root/'work')
     engine.bindings['training_site'] = dict(GPU_uuid=site['GPU_uuid'], GPU_name=site['GPU_name'],
                                           jax=jax.__version__, flax=flax.__version__, optax=optax.__version__)
     if spec.get('resume'):
         engine.resume(spec['resume'])
-        if (engine.step, engine.cursor) != (2, 64):
-            raise ValueError('ORIGINAL_STEP2_COMPLETE_STATE_REQUIRED')
-    stop = ENDPOINTS[spec['operation']]
-    candidate = spec['operation'] == 'DENSE_PICK_HOLD_3K'
+        if (engine.step, engine.cursor) != expected_resume_cursor:
+            raise ValueError('EXACT_COMMITTED_COMPLETE_STATE_CURSOR_REQUIRED')
+    stop = ENDPOINTS[spec['operation']] if endpoint_updates is None else endpoint_updates
+    candidate = spec['operation'] == 'DENSE_PICK_HOLD_3K' if candidate_run is None else candidate_run
     started = time.time()
     result = dict(schema='SLA_DENSE_PILOT_FINITE_CUDA_ACTUAL_V4_1', operation=spec['operation'],
                   source_sha=spec['source_sha'], noncandidate=not candidate,
@@ -120,7 +123,7 @@ def run(spec):
     return result
 
 
-def main():
+def main(*, runner=run):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('spec', type=Path)
     args = parser.parse_args()
@@ -136,7 +139,7 @@ def main():
     signal.signal(signal.SIGTERM, stop)
     signal.signal(signal.SIGINT, stop)
     try:
-        result = run(spec)
+        result = runner(spec)
     except Exception as error:
         result = dict(status='FAILED_NAMED_PILOT_CUDA_OPERATION_PRESERVED', error=repr(error),
                       actual=getattr(ACTIVE_ENGINE, 'counts', {}), step=getattr(ACTIVE_ENGINE, 'step', 0),
