@@ -38,3 +38,17 @@ def test_parallel_production_cannot_relabel_conditions_or_claim_isolated_through
     elif mutation=='D100':p['D100_new']=True
     else:p['matched_actor_benchmark']=True
     with pytest.raises(ValueError):named.validate(p)
+
+
+def test_repaired_benchmark_is_fresh_and_fixed_at_all_three_actor_counts(monkeypatch):
+    monkeypatch.setattr(collection,'qualified_base',lambda p:None)
+    p=panel();p.update(schema=named.REPAIRED_BENCHMARK_SCHEMA,matched_actor_benchmark=True,
+        prior_partial_benchmark_relabelled=False,startup_repair=dict(paused_readiness_s=600,
+            total_wall_s=3600,original_native_markers_required=True,physics_or_Teacher_changed=False))
+    p['assignments']=[dict(actor_count=a,layout=l,restart=r,prefix_atoms=10,parent=scene_id(l),
+        split='TRAIN',command=task.COMMAND,purpose=named.REPAIRED_BENCHMARK_PURPOSE,
+        Teacher_mode='NORMAL_TEACHER_V7',model_sha256='a'*64,native_run=f'bench-a{a}-{l}-r{r}')
+        for a in named.ACTORS for l in named.LAYOUTS for r in named.REPAIRED_BENCHMARK_RESTARTS]
+    assert len(named.validate(p))==48
+    p['assignments'][0]['restart']=3
+    with pytest.raises(ValueError):named.validate(p)

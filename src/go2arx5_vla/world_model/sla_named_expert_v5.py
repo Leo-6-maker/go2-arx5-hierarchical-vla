@@ -17,6 +17,9 @@ PRODUCTION_SCHEMA = 'SLA_NAMED_PICK_HOLD24_PARALLEL_PRODUCTION_V5'
 PRODUCTION_RESTARTS = (5,6,7)
 PRODUCTION_ACTORS = 3
 PRODUCTION_PURPOSE = 'FRESH_NAMED_PICK_HOLD_PARALLEL_PRODUCTION_NOT_MATCHED_ACTOR_BENCHMARK'
+REPAIRED_BENCHMARK_SCHEMA = 'SLA_NAMED_PICK_HOLD48_STARTUP_REPAIRED_ACTOR_BENCHMARK_V5'
+REPAIRED_BENCHMARK_RESTARTS = (8,9)
+REPAIRED_BENCHMARK_PURPOSE = 'FRESH_MATCHED_ACTOR_BENCHMARK_AFTER_EVIDENCED_STARTUP_REPAIR'
 
 
 def validate(panel):
@@ -24,10 +27,12 @@ def validate(panel):
     from .task_learning_teacher_panel_v1 import teacher_fingerprint, FROZEN_TEACHER
     from .task_learning_collection_v1 import qualified_base
     production = panel.get('schema') == PRODUCTION_SCHEMA
+    repaired_benchmark = panel.get('schema') == REPAIRED_BENCHMARK_SCHEMA
     rows = panel['assignments']
     expected = ([(PRODUCTION_ACTORS,l,r) for r in PRODUCTION_RESTARTS for l in LAYOUTS]
-                if production else [(a,l,r) for a in ACTORS for l in LAYOUTS for r in RESTARTS])
-    task.need(panel.get('schema') in (SCHEMA,PRODUCTION_SCHEMA) and panel.get('task_learning_role') == ROLE
+                if production else [(a,l,r) for a in ACTORS for l in LAYOUTS
+                                     for r in (REPAIRED_BENCHMARK_RESTARTS if repaired_benchmark else RESTARTS)])
+    task.need(panel.get('schema') in (SCHEMA,PRODUCTION_SCHEMA,REPAIRED_BENCHMARK_SCHEMA) and panel.get('task_learning_role') == ROLE
               and panel['Teacher_implementation_source_sections_sha256'] == teacher_fingerprint() == FROZEN_TEACHER
               and panel['tasks'] == ['PICK_HOLD'] and panel['D100_new'] is False
               and panel['PICK_PLACE_admitted'] is False and panel['old_engineering_episodes_reused'] == 0
@@ -37,12 +42,20 @@ def validate(panel):
         task.need(panel.get('matched_actor_benchmark') is False
                   and panel.get('other_live_collection_preserved') is True,
                   'PARALLEL_PRODUCTION_IS_NOT_AN_ISOLATED_ACTOR_THROUGHPUT_COMPARISON')
+    if repaired_benchmark:
+        task.need(panel.get('matched_actor_benchmark') is True
+                  and panel.get('other_live_collection_preserved') is True
+                  and panel.get('startup_repair') == dict(paused_readiness_s=600,total_wall_s=3600,
+                      original_native_markers_required=True,physics_or_Teacher_changed=False)
+                  and panel.get('prior_partial_benchmark_relabelled') is False,
+                  'FRESH_MATCHED_POPULATION_SAME_REPAIRED_STARTUP_AT_ALL_ACTOR_COUNTS')
     models = {}
     for row,(actors,layout,restart) in zip(rows,expected,strict=True):
         task.need(row['actor_count'] == actors and row['layout'] == layout and row['restart'] == restart
                   and row['prefix_atoms'] == 10 and row['parent'] == scene_id(layout)
                   and row['split'] == 'TRAIN' and row['command'] == task.COMMAND
-                  and row['purpose'] == (PRODUCTION_PURPOSE if production else PURPOSE)
+                  and row['purpose'] == (PRODUCTION_PURPOSE if production else
+                      REPAIRED_BENCHMARK_PURPOSE if repaired_benchmark else PURPOSE)
                   and row['Teacher_mode'] == 'NORMAL_TEACHER_V7'
                   and len(row['model_sha256']) == 64
                   and row['model_sha256'] == models.setdefault(layout,row['model_sha256'])
