@@ -114,16 +114,18 @@ def native_scene_admission(spec):
               and spec.get('task_learning_control') is None,
               'V3_FRESH_EXPERT_BODY_SESSION_ONLY')
     proof = pinned(spec['task_learning_scene_reference'])
-    task.need(proof.get('layout') in LAYOUTS, 'V3_TRAIN_ONLY_NEVER_DEV_TEST')
-    validate_static_provenance(spec, proof, expected_role=ROLE)
     panel = pinned(dict(path=spec['stable_task_panel'], sha256=spec['stable_task_panel_sha256']))
+    from .sla_named_expert_v5 import SCHEMA as NAMED, LAYOUTS as NAMED_LAYOUTS, validate as named_rows
+    named = panel.get('schema') == NAMED
+    task.need(proof.get('layout') in (NAMED_LAYOUTS if named else LAYOUTS), 'V3_TRAIN_ONLY_NEVER_DEV_TEST')
+    validate_static_provenance(spec, proof, expected_role=ROLE)
     cadence = panel.get('schema') == CADENCE_PANEL
-    rows = validate_cadence_panel(panel) if cadence else validate_panel(panel)
+    rows = named_rows(panel) if named else validate_cadence_panel(panel) if cadence else validate_panel(panel)
     matches = [r for r in rows if r['native_run'] == Path(spec['registered_root']).name]
     task.need(len(matches) == 1 and matches[0]['parent'] == spec['data_parent']
               and matches[0]['model_sha256'] == digest(spec['model_path']),
               'V3_ONE_PREREGISTERED_EXPERT_REQUEST_NO_RETRY')
-    if cadence:
+    if cadence or named:
         task.need(panel['source_sha'] == spec['source_sha'] and recorded_tail(spec)
                   and spec['task_learning_grasp']['prefix_atoms'] == matches[0]['prefix_atoms']
                   and spec['expert_cadence_restart'] == matches[0]['restart'],
