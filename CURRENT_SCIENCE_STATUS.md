@@ -1,5 +1,7 @@
 # 当前科学状态 · Goal V7 · 2026-11-03
 
+2026-11-14 05:01:59 SGT · SLA V5固定f61305f9：R0/R1固定16条件全部终态，R0 0/8；R1 5/8成功、1有效失败、2技术失败，未重试失败筛选。107 raw→99安装→97完整H40消费、3880完整前缀确认、185995积分；属于endpoint-basis组合策略TRAIN诊断。新增生产24/24完整成功，加此前1条及worker对照1条，累计26条新完整示范；一物体PICK_HOLD，D100/D300／PLACE仍0。固定新N20全部1220窗口核验后，GPU1已提交155真实更新／4960T访问；GPU0原2EP空间臂807更新／25824T访问，完整500状态已独立回读，3K与新端点DEV待完成。1/2/4-worker对照首条已真实成功封存、下一条运行；旧准备失败、旧DEV/TEST和冻结WBC／安全均保留。[逐条件、真实保存与成本](reports/WM02/sla-long-horizon-v5-20261114/EXECUTION_20261114.md)、[机器可读分母](reports/WM02/sla-long-horizon-v5-20261114/ACTUAL_20261114.json)。
+
 2026-11-13 21:26 SGT · V4执行增量：固定fd46f53，以现役runtime3195f0eb建立独立worktree；20条真实RoboTwin示范审计、64个辅助codec检查、128次RGB解码完成，但缺物理时钟／采集版本／命令FK工具依据，S_cmd准入0、保留S_aux。五配方各1000模拟CPU批次与恢复检查通过，未接入正式learner。Corelab固定16条件剩余14条已挂有限双CPU世界后台；D100/D300生产和混合训练更新仍0。R1训练及Core RGB已完成，原生R1评价0；完整工作未完成。[实际端点](reports/WM02/sla-source-target-v4-20261113/CURRENT_STAGE_ACTUAL.json)、[源隔离证据与软件边界](reports/WM02/sla-source-target-v4-20261113/EXECUTION_20261113.md)。
 
 2026-11-13 21:00 SGT · SLA V3→V4接续：R1在H200完成500真实更新／16000访问／64 RGB，Corelab两个独立进程另完成32 RGB、回读逐字节一致，原生R1评价仍0。新稠密单世界工程验证1/1及首组2秒／0.5秒合同2/2成功并独立封存；均非D100生产数据，D100_new／PLACE仍0。旧S1 DEV已15/16终态关闭：0成功、12策略拒绝、3技术失败，最后初始化故障发生在2653步；仅剩一条未启动。V4固定fd46f53补充目标优先与源语义／移动合同；未新投混合训练。[当前端点](reports/WM02/sla-corelab-v3-20261113/CURRENT_STAGE_ACTUAL.json)、[完整分母与下一动作](reports/WM02/sla-corelab-v3-20261113/STATUS_20261113_2100.md)。
