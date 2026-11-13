@@ -1,0 +1,35 @@
+{
+  "schema": "SLA_V4_FIXED_CADENCE_PANEL_BACKGROUND_ACTUAL",
+  "observed_SGT": "2026-11-13T21:26:59.935636+08:00",
+  "source_sha": "77d6e1764033ae6eba0f28862ec27f740c51de0b",
+  "fixed_requested_conditions": 16,
+  "retained_successful_conditions": 2,
+  "remaining_registered_manager_conditions": 14,
+  "manager_live": true,
+  "state": "RUNNING_FIXED_PAIR",
+  "current_pair": [
+    {
+      "run": "sla-pt-expert-cadence-20261113-02-train01-r2-p40",
+      "permission": "ACTIVE",
+      "native_step": 7053,
+      "frames": 28,
+      "structural_preflight_exit_code": 0
+    },
+    {
+      "run": "sla-pt-expert-cadence-20261113-02-train01-r2-p10",
+      "permission": "ACTIVE",
+      "native_step": 7203,
+      "frames": 30,
+      "structural_preflight_exit_code": 0
+    }
+  ],
+  "physical_requests_at_registration": 0,
+  "additional_completed_conditions": 0,
+  "training_dataset_admission": false,
+  "new_model_calls": 0,
+  "optimizer_updates": 0,
+  "source_preparation_does_not_block_target_collection": true,
+  "next": "Read each actual native terminal and independently seal its shards. Stop on a native engineering failure; preserve all completed conditions.",
+  "physical_requests_started_total": 4,
+  "physical_requests_started_this_continuation": 2
+}

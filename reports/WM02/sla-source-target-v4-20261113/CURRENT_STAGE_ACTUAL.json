@@ -1,0 +1,84 @@
+{
+  "schema": "SLA_V4_FIRST_EXECUTION_INCREMENT_ACTUAL",
+  "generated_SGT": "2026-11-13T21:26:13.768692+08:00",
+  "plan_revision": "fd46f53cabcb00a30320b63607379e95a5bfdce1",
+  "execution_base": "3195f0eb664ed98db7f76ad0643ed1d742472a7b",
+  "R1": {
+    "real_updates": 500,
+    "optimization_visits": 16000,
+    "H200_RGB": 64,
+    "Core_RGB": 32,
+    "Core_fresh_process_bit_exact": true,
+    "native_physical_requests": 0,
+    "next": "Distinct R1 native bridge and fixed new R0/R1 diagnostic; RGB does not prove task execution."
+  },
+  "original_S1_DEV": {
+    "terminal": 15,
+    "requested": 16,
+    "successes": 0,
+    "policy_failures": 12,
+    "technical_failures": 3,
+    "remaining_unstarted": 1,
+    "consumed_candidate_H40": 0,
+    "next": "Diagnose step2653 ACTUAL_DYNAMIC_SOURCE_NOT_READY, then cold-continue only the unstarted row."
+  },
+  "target_production": {
+    "D100_new": 0,
+    "D300_new": 0,
+    "PICK_PLACE": 0,
+    "first_failure": "FULL_PRODUCTION_TASK_AND_COVERAGE_ADMISSION_INCOMPLETE",
+    "next": "Complete production expert/data admission; start D100 action/spatial training immediately once qualified, while collecting D300."
+  },
+  "source": {
+    "S_cmd_episodes": 0,
+    "real_RoboTwin_episodes_audited": 20,
+    "auxiliary_codec_probes": 64,
+    "actual_RGB_decodes": 128,
+    "first_failure": [
+      "ARCHIVE_COLLECTION_CODE_REVISION_UNBOUND",
+      "NO_PHYSICAL_TIMESTAMP_OR_TICK_RECORDS",
+      "COMMAND_JOINT_FK_AND_TOOL_FRAME_NOT_VERIFIED",
+      "RECORDED_ENDPOSE_IS_ACHIEVED_EEF_NOT_DESIRED_COMMAND",
+      "MEASURED_CURRENT_GRIPPER_STATE_NOT_ESTABLISHED"
+    ],
+    "next": "Reconstruct source command FK/tool and physical clock with a pinned collector, or generate a separately identified source-simulation pool. Do not mix achieved endpose into main action loss."
+  },
+  "mixed_sampler": {
+    "implemented": true,
+    "CPU_simulated_batches_per_arm": 1000,
+    "real_training_visits": 0,
+    "CUDA_qualified": false,
+    "training_updates": 0,
+    "next": "Admitted source pilot and immutable target snapshot, then only the new GPU tensor/randomness seams."
+  },
+  "T100_M75_training": {
+    "updates": 0,
+    "T_visits": 0,
+    "S_visits": 0,
+    "first_failure": "D300_AND_COMPATIBLE_S1000_NOT_ADMITTED",
+    "next": "Reuse a fully matching T-only endpoint or run T100_3K; then M75_3K. Do not queue the optional grid."
+  },
+  "mobile": {
+    "offline_cases_run": 0,
+    "native_capability_conditions": 0,
+    "first_failure": "ACTUAL_DEPLOYED_BASE_INTERFACE_AUDIT_AND_EXECUTABLE_MANIPULATION_POLICY_REQUIRED",
+    "next": "Inspect actual BASE/frame/mode contract before new stance/native mobility trials; no locomotion claim."
+  },
+  "scientific_work_complete": false,
+  "collector_background": {
+    "fixed_requested": 16,
+    "retained_complete": 2,
+    "physical_started_total": 4,
+    "current_pair_native_steps": [
+      7053,
+      7203
+    ],
+    "current_pair_frames": [
+      28,
+      30
+    ],
+    "additional_complete": 0,
+    "training_demonstrations_admitted": 0,
+    "next": "Read and independently seal each fixed pair; keep production admission separate."
+  }
+}
