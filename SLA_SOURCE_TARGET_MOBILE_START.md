@@ -1,3 +1,5 @@
+> 2026-11-15 V7.1实际诊断：[完整报告](reports/WM02/sla-numerical-diagnostics-v71-20261115/DIAGNOSTICS_20261115.md)。新增160次固定推理／168次无积分克隆认证，更新和访问0。原16关节拒绝在更严格IK下仍16/16；16个核实的专家记录状态上，执行参考标签16/16通过，S16预测18/32通过EEF＋关节克隆门。500端点10／20／40采样EEF为24／25／26（各32），无逐窗口挑最好。不是动态WBC不可能性、历史学生状态专家最终计划配对或原生资格；旧失败保持。PD4新统计独立前瞻资格另行登记，不恢复旧RP8。
+
 # SLA 当前入口：V7 可执行任务空间策略
 
 2026-11-14T23:23:54+08:00 实际端点 · [S16训练与32条预测](reports/WM02/sla-s16-joint-suffix-v7-20261114/S16_20261114.md) · [16条关节前后缀分析](reports/WM02/sla-s16-joint-suffix-v7-20261114/JOINT_SUFFIX_20261114.md) · [V7协议](docs/protocols/SLA_EXECUTABLE_EEF_POLICY_V7_20261114.md) · [机读范围](experiments/sla_go2_posttrain/executable_eef_v7.json)。
