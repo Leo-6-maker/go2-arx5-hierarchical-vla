@@ -1,10 +1,10 @@
 # SLA V6.1: fixed TRAIN8 prefix, mask loss and saved-prediction diagnosis
 
-Snapshot **2026-11-14 18:20:39 SGT**. Fixed plan PR383 `6e6636577d53b6b25a92b1e36cf2e619e765eab3`,execution Draft PR384,goal unfinished. The actual evidence covers the fixed evaluation,isolated mask implementation and a readback of existing model outputs. [Machine-readable actuals](ACTUAL_20261114.json) include all outcomes,decision identities,limits and costs;[first4/complete3K evidence](../sla-action-contract-v61-first4-20261114/EXECUTION_20261114.md) remains unchanged.
+Snapshot **2026-11-14 18:28:09 SGT**. Fixed plan PR383 `6e6636577d53b6b25a92b1e36cf2e619e765eab3`,execution Draft PR384,goal unfinished. The actual evidence covers the fixed evaluation,isolated mask implementation and a readback of existing model outputs. [Machine-readable actuals](ACTUAL_20261114.json) include all outcomes,decision identities,limits and costs;[first4/complete3K evidence](../sla-action-contract-v61-first4-20261114/EXECUTION_20261114.md) remains unchanged.
 
-## Real student panel:0/5 complete tasks,130 confirmed commands
+## Real student panel:0/6 complete tasks,310 confirmed commands
 
-The same finite observer03 and original TRAIN8 group are confirmed live by their actual process handles. **8 planned /6 physical native requests started /5 terminal /1 running /2 unstarted**. All five terminal outcomes are valid policy failures,with0 technical failures and0 hard safety stops. The completed rows contain **18 genuine SLA queries /130 original solver-gripper-confirmed commands /3250 student-execution integrations**. Including28515 preparation integrations,the closed-row total is31765. Counts exclude the running sixth world's unfinished model/physics work.
+The same finite observer03 and original TRAIN8 group are confirmed live by their actual process handles. **8 planned /7 physical native requests started /6 terminal /1 running /1 unstarted**. All six terminal outcomes are valid policy failures,with0 technical failures and0 hard safety stops. The completed rows contain **37 genuine SLA queries /310 original solver-gripper-confirmed commands /7750 student-execution integrations**. Including34218 preparation integrations,the closed-row total is41968. Counts exclude the running seventh world's unfinished model/physics work.
 
 | Original condition | SLA queries | Confirmed student commands | Native integrations | First failure |
 |---|---:|---:|---:|---|
@@ -13,8 +13,9 @@ The same finite observer03 and original TRAIN8 group are confirmed live by their
 | TRAIN07/r3 | 2 | 10 | 5953 | Original joint acceleration certificate |
 | TRAIN07/r4 | 1 | 0 | 5703 | Original joint acceleration certificate |
 | TRAIN13/r3 | 2 | 10 | 5953 | Original joint acceleration certificate |
+| TRAIN13/r4 | 19 | 180 | 10203 | Original joint acceleration certificate |
 
-Every consumed command has its exact original decision-file hash and contiguous25-tick interval verified;the failed next proposal is not counted as installed or consumed. Closed pair CPU totals1880.3675s,with per-condition native/neural wall/CPU in the JSON. All remaining original conditions stay in the denominator;no success-selected substitute,retry,checkpoint selection or extra training. IndependentDEV48 remains0/48 started;its original conditional stop/deadline rules remain effective.
+Every consumed command has its exact original decision-file hash and contiguous25-tick interval verified;the failed next proposal is not counted as installed or consumed. Closed pair CPU totals2512.1925s,with per-condition native/neural wall/CPU in the JSON. All remaining original conditions stay in the denominator;no success-selected substitute,retry,checkpoint selection or extra training. IndependentDEV48 remains0/48 started;its original conditional stop/deadline rules remain effective.
 
 The model is still the closed V6 endpoint **3000 updates /96000 target visits /0 source visits**,source3f48cadf,COMPLETE `b01d15817391f7e74971678ad3304060e8651dd7582761b1a0ba7611f115800d`. Full87 saved arrays/625851664 bytes and freshRGB16 were already independently verified and were not requalified here. Native runtime remains d2f77dde. No Teacher fallback,expert regeneration,endpoint basis,clipping or safety relaxation.
 
