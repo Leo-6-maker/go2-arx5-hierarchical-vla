@@ -195,6 +195,9 @@ def preflight(native):
 
 
 def validate_gpu(s,actual):
+    if s.get('pd4_student_v71')is not None:
+        from .pd4_student_v71 import validate_gpu as pd4_gpu
+        return pd4_gpu(s,actual)
     from .fusion_scope import validate
     from .pilot1_scope import GPU_UUIDS
     from .pilot1_storage import local_path
@@ -227,9 +230,8 @@ def request_path(producer,index):
 
 
 def query_count(spec):
-    if spec.get('core_local_protocol',spec.get('task_learning_role')) == task.SLA_DENSE_ROLE:
-        from .sla_dense_native_v5 import QUERIES
-        return QUERIES
+    if task.dense_sla_role(spec.get('core_local_protocol',spec.get('task_learning_role'))):
+        return task.native_body_profile(spec.get('core_local_protocol',spec.get('task_learning_role'))).QUERIES
     return task.QUERIES
 
 

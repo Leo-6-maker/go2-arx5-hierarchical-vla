@@ -74,9 +74,8 @@ def native_endpoint(spec):
         configuration(spec)
         return endpoint(spec)
     from . import task_learning_grasp_v1 as task
-    if spec.get('task_learning_role') == task.SLA_DENSE_ROLE:
-        from .sla_dense_native_v5 import ENDPOINT
-        return ENDPOINT
+    if task.dense_sla_role(spec.get('task_learning_role')):
+        return task.native_body_profile(spec['task_learning_role']).ENDPOINT
     return task.E + 500 if recorded_tail(spec) else task.E
 
 

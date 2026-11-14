@@ -116,7 +116,7 @@ def classify_actual(row,root,expected_source,*,core_local=False,conic=False,endp
         score=read(native/'TASK_LEARNING_SCORE.private.json'),spec=spec,
         expected_source=expected_source,attempted=native.exists(),
         expected_role=role,expected_native_schema=schema,
-        expected_endpoint=task.native_body_profile(role).ENDPOINT if role==task.SLA_DENSE_ROLE else task.E)
+        expected_endpoint=task.native_body_profile(role).ENDPOINT if task.dense_sla_role(role) else task.E)
     gpu=Path(spec['target_gr00t_gpu_root']);gs=read(gpu/'EXECUTION_SPEC.json')
     gl=read(gpu/'control/LEASE.json');gw=read(gpu/'WORKER_EXIT.private.json')
     gr=read(gpu/'fit-01/RESULT.private.json');records=gr.get('records')or[]
@@ -226,7 +226,7 @@ class StudentPolicy:
         try:
             compiler=compile_proposal
             consumption=None
-            if self.adapter.spec.get('task_learning_role') == task.SLA_DENSE_ROLE:
+            if task.dense_sla_role(self.adapter.spec.get('task_learning_role')):
                 from .sla_dense_policy_v5 import compile_proposal as dense_compile
                 compiler=dense_compile
             elif self.adapter.spec.get('task_learning_role')in(task.ENDPOINT_ROLE,task.MATCHED_ROLE,task.NATIVE_BODY_ROLE,task.NATIVE_A500_ROLE,task.SLA_ROLE,task.SLA_G_ROLE):
@@ -259,7 +259,7 @@ class StudentPolicy:
             raise
         proposal.update(actual_model_query=actual, label_role='STUDENT_NOT_EXPERT', index=self.index)
         if consumption is not None:proposal['previous_consumed_grip_witness']=consumption
-        if self.adapter.spec.get('task_learning_role')in(task.CORE_LOCAL_ROLE,task.CONIC_ROLE,task.ENDPOINT_ROLE,task.MATCHED_ROLE,task.NATIVE_BODY_ROLE,task.NATIVE_A500_ROLE,task.SLA_ROLE,task.SLA_DENSE_ROLE,task.SLA_G_ROLE):
+        if self.adapter.spec.get('task_learning_role')in(task.CORE_LOCAL_ROLE,task.CONIC_ROLE,task.ENDPOINT_ROLE,task.MATCHED_ROLE,task.NATIVE_BODY_ROLE,task.NATIVE_A500_ROLE,task.SLA_ROLE,task.SLA_DENSE_ROLE,task.SLA_G_ROLE,task.SLA_PD4_ROLE):
             from .task_learning_local_policy_v1 import execution_stage,EXECUTION_STAGE_REVISION
             self.stage=execution_stage(program.decoded_H40,sample)
             proposal.update(execution_stage=self.stage,execution_stage_revision=EXECUTION_STAGE_REVISION,

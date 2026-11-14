@@ -44,6 +44,7 @@ def source_custody(spec):
     names = ('sla_native_v1.py', 'sla_native_policy_v1.py', 'sla_live_v1.py', 'sla_population_v1.py')
     if spec.get('core_local_protocol') == task.SLA_DENSE_ROLE:
         names += ('sla_dense_native_v5.py','sla_dense_policy_v5.py','sla_dev48_v5.py','sla_reference_native_v6.py')
+    if spec.get('pd4_student_v71')is not None:names += ('pd4_student_v71.py',)
     source = Path(spec['source_root'])
     for name in names:
         key = 'src/go2arx5_vla/world_model/'+name
@@ -81,7 +82,10 @@ def infer(spec, output):
         package = spec['target_gr00t_policy']['package']
         manifest = pinned(dict(path=str(Path(package['path'])/'MANIFEST.private.json'),sha256=package['sha256']))
         if manifest['schema'] == 'SLA_GRIP_LOGIT_ORDINARY_RGB_INFERENCE_PACKAGE_V3':
-            from ..sla_adapter.provider_v3 import Provider
+            if spec.get('pd4_student_v71')is not None:
+                from ..sla_adapter.provider_pd4_v71 import Provider
+            else:
+                from ..sla_adapter.provider_v3 import Provider
             provider = Provider(package['path'], manifest_sha256=package['sha256'],
                 parent_params=spec['checkpoint'], parent_manifest_path=spec['checkpoint_manifest_path'])
         else:

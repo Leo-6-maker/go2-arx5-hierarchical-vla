@@ -192,8 +192,12 @@ def _live(spec, producer):
          'ORIGINAL_STOP_AND_FINITE_PAIR_DEADLINE')
     # The existing scope validator rechecks P1/FUSION leases and scope STOP files;
     # it acquires no campaign/physical lock and grants no native motion.
-    from .fusion_scope import validate
-    validate(spec)
+    if spec.get('pd4_student_v71')is not None:
+        from .pd4_student_v71 import validate_scope
+        validate_scope(spec)
+    else:
+        from .fusion_scope import validate
+        validate(spec)
 
 
 def preflight_pair(gpu_spec_path, native_spec):

@@ -88,6 +88,9 @@ def recipe_config(spec, episode=None, *, actual_phase=PHASE, actual_kind=KIND, s
          ('collect-target-teacher-prefix-diagnostic-v1','TARGET_TEACHER_PREFIX_DIAGNOSTIC_V1'),('collect-target-task-learning-grasp-v1','TASK_LEARNING_GRASP_LIFT_HOLD_V1'))
          and isinstance(source_members, tuple) and set(SOURCE_MEMBERS) <= set(source_members),
          'EXPLICIT_KNOWN_RECIPE_CALLER_RETAINS_ALL_SHARED_SOURCE_CHECKS')
+    if spec.get('pd4_student_v71')is not None:
+        from .pd4_student_v71 import recipe_config as pd4_student_recipe
+        return pd4_student_recipe(spec,episode,actual_phase=actual_phase,actual_kind=actual_kind,source_members=source_members)
     if spec.get('pd4_statistics_prospective_v71')is not None:
         from .pd4_prospective_v71 import recipe_config as fresh_pd4_recipe
         return fresh_pd4_recipe(spec,episode,actual_phase=actual_phase,actual_kind=actual_kind,source_members=source_members)

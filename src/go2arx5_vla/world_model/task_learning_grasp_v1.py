@@ -37,12 +37,16 @@ NATIVE_A500_ROLE='A_TARGET500_TRAIN4_DELIVERY_DIAGNOSTIC_V1'
 SLA_ROLE='SLA_TARGET500_NATIVE_EVALUATION_V1'
 SLA_DENSE_ROLE='SLA_DENSE3K_RAW_P10_NATIVE_EVALUATION_V5'
 SLA_G_ROLE='SLA_DEV16_OFFICIAL_GR00T_A500_ENGINEERING_V1'
+SLA_PD4_ROLE='SLA_PD4_MATCHED500_RAW_P10_NATIVE_EVALUATION_V71'
+
+def dense_sla_role(role):
+    return role in (SLA_DENSE_ROLE,SLA_PD4_ROLE)
 
 def sla_role(role):
-    return role in (SLA_ROLE,SLA_DENSE_ROLE)
+    return role in (SLA_ROLE,SLA_DENSE_ROLE,SLA_PD4_ROLE)
 
 def native_body_role(role):
-    return role in(NATIVE_BODY_ROLE,NATIVE_A500_ROLE,SLA_ROLE,SLA_DENSE_ROLE,SLA_G_ROLE)
+    return role in(NATIVE_BODY_ROLE,NATIVE_A500_ROLE,SLA_ROLE,SLA_DENSE_ROLE,SLA_G_ROLE,SLA_PD4_ROLE)
 
 def native_body_profile(role):
     if role==NATIVE_BODY_ROLE:
@@ -53,6 +57,8 @@ def native_body_profile(role):
         from . import sla_native_v1 as profile
     elif role==SLA_DENSE_ROLE:
         from . import sla_dense_native_v5 as profile
+    elif role==SLA_PD4_ROLE:
+        from . import pd4_student_v71 as profile
     elif role==SLA_G_ROLE:
         from . import sla_g_native_v1 as profile
     else:raise ValueError('EXPLICIT_NATIVE_BODY_DIAGNOSTIC_ROLE')
@@ -60,7 +66,7 @@ def native_body_profile(role):
 
 
 def student_role(role):
-    return role in(STUDENT_DEV_ROLE,CORE_LOCAL_ROLE,CONIC_ROLE,ENDPOINT_ROLE,MATCHED_ROLE,NATIVE_BODY_ROLE,NATIVE_A500_ROLE,SLA_ROLE,SLA_DENSE_ROLE,SLA_G_ROLE)
+    return role in(STUDENT_DEV_ROLE,CORE_LOCAL_ROLE,CONIC_ROLE,ENDPOINT_ROLE,MATCHED_ROLE,NATIVE_BODY_ROLE,NATIVE_A500_ROLE,SLA_ROLE,SLA_DENSE_ROLE,SLA_G_ROLE,SLA_PD4_ROLE)
 
 
 def need(ok,why):

@@ -157,6 +157,10 @@ def admitted_target(spec_path,run_id,output):
         from .pd4_prospective_v71 import admitted
         with admitted(spec_path,run_id,output)as current:yield current
         return
+    if spec.get('pd4_student_v71')is not None or spec.get('execution_site')=='CORE_SLA_PD4_STUDENT_NATIVE_V71':
+        from .pd4_student_v71 import admitted
+        with admitted(spec_path,run_id,output)as current:yield current
+        return
     previous=json.loads(Path(spec['previous_stage']).read_text())if spec.get('previous_stage')else None
     if previous is not None:
         if (digest(spec['previous_stage'])!=spec['previous_stage_sha256']or previous.get('campaign_uuid')!=campaign.name

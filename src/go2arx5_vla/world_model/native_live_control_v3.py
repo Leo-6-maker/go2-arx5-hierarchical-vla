@@ -53,8 +53,8 @@ def maximum_wall_seconds(spec, original_seconds):
             and Path(spec['registered_root']).name in {r['native_run']for r in rows[13:]},
             'R1_ONLY_DECLARED_UNSTARTED_SUFFIX_NATIVE_WALL_REPAIR')
         return window(panel)
-    if spec.get('task_learning_role') == task.SLA_DENSE_ROLE:
-        if spec.get('task_learning_grasp') != task.protocol(task.SLA_DENSE_ROLE):
+    if task.dense_sla_role(spec.get('task_learning_role')):
+        if spec.get('task_learning_grasp') != task.protocol(spec['task_learning_role']):
             raise ValueError('DENSE_P10_FINITE_NATIVE_PROTOCOL_REQUIRED')
         return 3600
     return 3600 if configuration(spec) is not None else original_seconds

@@ -47,7 +47,11 @@ def world_owner(spec, registry):
     control = campaign / 'control'
     expected_owner = control / 'corelab-world-owners-v3' / f'ros-{domain}.lock'
     entry = next((row for row in registry['entries'] if row.get('path') == str(root)), None)
-    if (slot is None or spec.get('task_learning_role') != ROLE or spec['phase'] != PHASE
+    allowed_role=spec.get('task_learning_role')==ROLE
+    if spec.get('pd4_student_v71')is not None:
+        from .pd4_student_v71 import validate_scope,PROTOCOL
+        validate_scope(spec);allowed_role=spec.get('task_learning_role')==PROTOCOL
+    if (slot is None or not allowed_role or spec['phase'] != PHASE
             or spec.get('v3_plan_revision') != PLAN or spec.get('parallel_batch_spec') is not None
             or binding['campaign_root'] != str(campaign) or binding['source_sha'] != spec['source_sha']
             or slot['ROS_DOMAIN_ID'] != domain or slot['cpus'] != spec['cpus']
