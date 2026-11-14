@@ -16,6 +16,11 @@ COMMAND='GRASP_RED_TRANSFER150MM_PLACE_RELEASE_WITHDRAW_V5'
 LANGUAGE='Pick up the red cube, place it on the left side of the table, release it, and withdraw the gripper.'
 QUERIES=120
 ENDPOINT=grasp.B+25*(QUERIES*10+40)
+PACED_VERSION='SLA_TARGET_PICK_PLACE_PACING_V5_2'
+PACED_PANEL='SLA_TARGET_PICK_PLACE_FIXED_PACED_PILOT1_V5_2'
+PACED_COMMAND='GRASP_RED_TRANSFER150MM_PLACE_RELEASE_WITHDRAW_PACED_V5_2'
+PACED_QUERIES=240
+MAX_EXTRA_REFERENCE_OFFSET_M=.004
 TRANSFER=np.array([0.,.15,0.])
 ROLE='CORELAB_EXPERT_TRAIN4_SEMANTICS_NOT_BC_V3'
 
@@ -23,9 +28,10 @@ ROLE='CORELAB_EXPERT_TRAIN4_SEMANTICS_NOT_BC_V3'
 def configuration(spec):
     value=spec.get('sla_pick_place_v5')
     if value is None:return False
-    grasp.need(value==dict(version=VERSION) and spec.get('task_learning_role')==ROLE
+    grasp.need(value in (dict(version=VERSION),dict(version=PACED_VERSION)) and spec.get('task_learning_role')==ROLE
         and spec.get('task_learning_teacher_mode')=='NORMAL_TEACHER_V7'
-        and spec.get('task_learning_control')is None and not spec.get('target_gr00t_policy'),
+        and spec.get('task_learning_control')is None and not spec.get('target_gr00t_policy')
+        and spec.get('sla_five_object_hold_v5')is None,
         'EXPLICIT_NEW_FULL_PLACE_CPU_EXPERT_ONLY')
     return True
 
@@ -40,20 +46,36 @@ def score_contract():
         original_GO2_PLACE_or_grasp_score_changed=False,clock='ORIGINAL_CONTIGUOUS_2MS_50MS_SAMPLES')
 
 
-def protocol():
+def version(spec=None):
+    if spec is None:return VERSION
+    grasp.need(configuration(spec),'EXPLICIT_PLACE_VERSION_REQUIRED')
+    return spec['sla_pick_place_v5']['version']
+
+
+def endpoint(spec):
+    return grasp.B+25*((PACED_QUERIES if version(spec)==PACED_VERSION else QUERIES)*10+40)
+
+
+def protocol(spec=None):
+    current=version(spec);paced=current==PACED_VERSION
     p=grasp.protocol(grasp.CONSTRUCTION_ROLE)
-    p.update(schema=VERSION,stage=ROLE,task_revision=VERSION,task_command=COMMAND,language=LANGUAGE,
-        prefix_atoms=10,policy_queries=QUERIES,final_hold_atoms=40,expert_consumer='EEF_STREAM_V2',
+    p.update(schema=current,stage=ROLE,task_revision=current,task_command=PACED_COMMAND if paced else COMMAND,language=LANGUAGE,
+        prefix_atoms=10,policy_queries=PACED_QUERIES if paced else QUERIES,final_hold_atoms=40,expert_consumer='EEF_STREAM_V2',
         reference_TTL_s=.4,reference_renewal_max_s=.35,goal_offset_world_m=TRANSFER.tolist(),
         task_score=score_contract(),construction_only_not_D100=True,postgrasp_step_limit_m=.004)
+    if paced:p.update(expert_reference_pacing=dict(maximum_extra_reference_offset_m=MAX_EXTRA_REFERENCE_OFFSET_M,
+        baseline='MEASURED_REFERENCE_MINUS_ACTUAL_AT_TRANSFER_ENTRY',
+        pause_action='HOLD_EXISTING_REFERENCE_THROUGH_UNCHANGED_TRANSPORT',
+        actual_native_clock_and_all_standing_samples_retained=True),
+        finite_query_budget_reason='ACCOUNT_FOR_ACTUAL_TRACKING_HOLDS_WITH_UNCHANGED150MM_GOAL_AND_SCORE')
     return p
 
 
 def declared(spec):
     grasp.need(configuration(spec),'EXPLICIT_PLACE_CONFIGURATION_REQUIRED')
     grasp.need(spec.get('phase')==grasp.PHASE and spec.get('kind')==grasp.KIND
-        and spec.get('task_learning_grasp')==protocol()and spec.get('task_command')==COMMAND
-        and spec.get('live_skill_start_step')==grasp.CALIBRATION_B and spec.get('max_ticks')==ENDPOINT
+        and spec.get('task_learning_grasp')==protocol(spec)and spec.get('task_command')==protocol(spec)['task_command']
+        and spec.get('live_skill_start_step')==grasp.CALIBRATION_B and spec.get('max_ticks')==endpoint(spec)
         and spec.get('physics_dt_s')==.002 and spec.get('WBC_changes')is False,
         'EXACT_FULL_PLACE_PROTOCOL_WITH_UNCHANGED_NATIVE_PREPARATION')
 
@@ -63,12 +85,15 @@ def validate_panel(panel):
     from .task_learning_teacher_panel_v1 import teacher_fingerprint,FROZEN_TEACHER
     from .task_learning_collection_v1 import qualified_base
     rows=panel.get('assignments')or[]
-    grasp.need(panel.get('schema')==PANEL and panel.get('protocol')==protocol()
+    paced=panel.get('schema')==PACED_PANEL
+    proto_spec=dict(sla_pick_place_v5=dict(version=PACED_VERSION if paced else VERSION),
+        task_learning_role=ROLE,task_learning_teacher_mode='NORMAL_TEACHER_V7')
+    grasp.need(panel.get('schema')==(PACED_PANEL if paced else PANEL) and panel.get('protocol')==protocol(proto_spec)
         and panel.get('source_sha') and panel.get('tasks')==['PICK_PLACE']and panel.get('D100_new')is False
         and panel.get('base_grasp_Teacher_sha256')==teacher_fingerprint()==FROZEN_TEACHER
-        and len(rows)==1 and rows[0]['layout']=='TRAIN01'and rows[0]['restart']==10
+        and len(rows)==1 and rows[0]['layout']=='TRAIN01'and rows[0]['restart']==(11 if paced else 10)
         and rows[0]['parent']==scene_id('TRAIN01')and rows[0]['split']=='TRAIN'
-        and rows[0]['command']==COMMAND and rows[0]['purpose']=='NEW_FULL_PICK_PLACE_CONSTRUCTION_NOT_D100'
+        and rows[0]['command']==protocol(proto_spec)['task_command'] and rows[0]['purpose']=='NEW_FULL_PICK_PLACE_CONSTRUCTION_NOT_D100'
         and rows[0]['prefix_atoms']==10 and Path(rows[0]['native_run']).name==rows[0]['native_run'],
         'FIXED_NEW_PLACE_PILOT_NOT_OLD_HOLD_OR_FORMAL_DATA')
     qualified_base(panel['base_Teacher_qualification'])
@@ -88,9 +113,14 @@ def native_scene_admission(spec):
     row,=validate_panel(panel)
     grasp.need(panel['source_sha']==spec['source_sha']and panel['place_Teacher_sha256']==spec['source_files'][
         'src/go2arx5_vla/world_model/sla_pick_place_v5.py']and row['model_sha256']==digest(spec['model_path'])
+        and panel['protocol']==protocol(spec)and row['command']==spec['task_command']
         and row['native_run']==Path(spec['registered_root']).name and row['parent']==spec['data_parent']
         and spec['expert_cadence_restart']==row['restart'],'EXACT_NEW_PLACE_MODEL_TEACHER_AND_REQUEST')
     return proof
+
+
+def make_teacher(spec,initial):
+    return (PacedTeacher if version(spec)==PACED_VERSION else Teacher)(initial)
 
 
 def with_actual_support(adapter,sample):
@@ -200,3 +230,39 @@ class Teacher:
         return grasp.FiftyMsProgram(raw,actual,reference,base),dict(stage=self.stage,privileged_goal=goal.tolist(),
             submitted_policy_H40=raw.tolist(),no_future_achieved_state_labels=True,student_metadata=False,
             full_place_not_established=True)
+
+
+class PacedTeacher(Teacher):
+    """Pause expert progress when its existing reference runs ahead of tracking.
+
+    No WBC/reference compiler,base target,geometry,clock or safety gate changes.
+    Each pause still consumes a genuine native prefix and remains training
+    intent evidence; elapsed simulation and its standing checks are retained.
+    """
+    def __init__(self,initial):
+        super().__init__(initial)
+        self.reference_baseline=None
+        self.pacing_holds=0
+
+    def decide(self,sample,reference,base):
+        actual=np.asarray(sample['tcp']);reference=np.asarray(reference)
+        post=self.stage in ('TRANSFER','LOWER','RELEASE','WITHDRAW','PLACED')
+        if post:
+            grasp.need(self.reference_baseline is not None,'PACED_PLACE_REQUIRES_OBSERVED_TRANSFER_ENTRY')
+            if self.stage=='TRANSFER':grasp.need(sample.get('native_grasp')is True,
+                'PLACE_TRANSFER_REQUIRES_ACTUAL_BILATERAL_GRASP')
+            extra=reference[:3,3]-actual[:3,3]-self.reference_baseline
+            if np.linalg.norm(extra)>MAX_EXTRA_REFERENCE_OFFSET_M:
+                raw=np.empty((40,10));raw[:,:3]=actual[:3,3]
+                raw[:,3:9]=grasp.rotation_matrix_to_rot6d_rows(actual[:3,:3]);raw[:,9]=self.grip
+                self.pacing_holds+=1
+                return grasp.FiftyMsProgram(raw,actual,reference,base),dict(stage=self.stage,
+                    privileged_goal=actual[:3,3].tolist(),placement_goal_world=self.goal_center.tolist(),
+                    submitted_policy_H40=raw.tolist(),expert_pacing_hold=True,
+                    extra_reference_offset_world_m=extra.tolist(),reference_baseline_world_m=self.reference_baseline.tolist(),
+                    no_future_achieved_state_labels=True,student_metadata=False,full_place_not_established=True)
+        program,proposal=super().decide(sample,reference,base)
+        if self.stage=='TRANSFER'and self.reference_baseline is None:
+            self.reference_baseline=(reference[:3,3]-actual[:3,3]).copy()
+        return program,dict(proposal,expert_pacing_hold=False,
+            reference_baseline_world_m=None if self.reference_baseline is None else self.reference_baseline.tolist())

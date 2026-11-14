@@ -323,7 +323,7 @@ def continue_native(adapter,report,samples,windows):
         and(mode!=V8_VERSION or adapter.spec.get('task_learning_role')=='TEACHER_V8_RECOVERY24_QUALIFICATION_NOT_BC_V1'),
         'EXPLICIT_TEACHER_MODE')
     if is_place:
-        teacher=place.Teacher(samples[-1])
+        teacher=place.make_teacher(adapter.spec,samples[-1])
     elif student:
         from .task_learning_student_v1 import StudentPolicy
         teacher=StudentPolicy(adapter,samples[-1],consumed_reference=lambda:(cycles[-1],adapter.live_skill_program))
@@ -335,6 +335,9 @@ def continue_native(adapter,report,samples,windows):
         teacher=NativeQualificationTeacher(adapter,samples[-1],lambda:(cycles[-1],adapter.live_skill_program))
     else:
         teacher=(task.HoldControl if control else UnderCloseRecoveryTeacher if mode==UNDER_CLOSE else task.Teacher)(samples[-1])
+    if adapter.spec.get('sla_five_object_hold_v5')is not None:
+        from .sla_five_object_hold_v5 import make_teacher
+        teacher=make_teacher(adapter.spec,samples[-1])
     intervention_decisions=0
     epsilon_decisions = []
     previous_nominal_grip = 1.
@@ -494,17 +497,17 @@ def continue_native(adapter,report,samples,windows):
         VLA_queries=queries if student else 0,GR00T_updates=0,
         WM_updates=0,Actor_updates=0,full_task_success=False,target_task_success=False,
         new_grasp_lift_hold_task_success=False if control or is_place else scored['task_success'],
-        **(dict(new_pick_place_task_success=scored['task_success'],PICK_PLACE_version=place.VERSION,
+        **(dict(new_pick_place_task_success=scored['task_success'],PICK_PLACE_version=place.version(adapter.spec),
                 D100_new=False,task_scope='FULL_PICK_PLACE_CONSTRUCTION_NOT_FORMAL_D100')if is_place else{}),source_task_phase_equivalence=False))
 
 
 def native_result_schema(spec):
     if spec.get('sla_five_object_hold_v5')is not None:
-        from .sla_five_object_hold_v5 import VERSION
-        return VERSION+'_NATIVE_ACTUAL'
+        from .sla_five_object_hold_v5 import version
+        return version(spec)+'_NATIVE_ACTUAL'
     if spec.get('sla_pick_place_v5')is not None:
-        from .sla_pick_place_v5 import VERSION
-        return VERSION+'_NATIVE_ACTUAL'
+        from .sla_pick_place_v5 import version
+        return version(spec)+'_NATIVE_ACTUAL'
     role=spec.get('task_learning_role',task.CONSTRUCTION_ROLE)
     if role=='CORELAB_EXPERT_TRAIN4_SEMANTICS_NOT_BC_V3':
         from .corelab_expert_semantics_v3 import NATIVE_SCHEMA

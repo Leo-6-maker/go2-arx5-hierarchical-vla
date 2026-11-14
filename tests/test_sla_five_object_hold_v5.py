@@ -8,19 +8,38 @@ from go2arx5_vla.world_model import task_learning_grasp_v1 as task
 from go2arx5_vla.world_model.task_learning_teacher_panel_v1 import FROZEN_TEACHER, teacher_fingerprint
 
 
-def spec(obj):
-    s = dict(sla_five_object_hold_v5=dict(version=profile.VERSION, object_id=obj, pose_id='POSE01'),
+def spec(obj, version=profile.VERSION):
+    s = dict(sla_five_object_hold_v5=dict(version=version, object_id=obj, pose_id='POSE01'),
         task_learning_role=profile.ROLE, task_learning_teacher_mode='NORMAL_TEACHER_V7',
         expert_eef_stream_v2=dict(version='EEF_STREAM_V2', prefix_atoms=10),
         expert_recorded_success_tail_v3=expert.RECORDED_TAIL,
         expert_dense_observation_v3=dict(version='NATIVE_EXPERT_DENSE_OBSERVATION_V3'))
     s.update(phase=task.PHASE, kind=task.KIND, task_learning_grasp=profile.protocol(s),
-        task_command=profile.command(obj), live_skill_start_step=task.CALIBRATION_B,
+        task_command=profile.command(obj, version), live_skill_start_step=task.CALIBRATION_B,
         max_ticks=profile.ENDPOINT, physics_dt_s=.002, WBC_changes=False)
     return s
 
 
 class FiveObjectExpertContract(unittest.TestCase):
+    def test_repair_changes_only_grasp_point_for_three_failed_geometry_conditions(self):
+        import numpy as np
+        initial=dict(tcp=np.eye(4),object_pose=np.eye(4))
+        initial['object_pose'][:3,3]=[.28,-.014,.62]
+        old=profile.make_teacher(spec('RED_CUBE40'),initial)
+        self.assertIs(type(old),task.Teacher)
+        for obj in profile.REPAIRED_OBJECTS:
+            s=spec(obj,profile.REPAIRED_VERSION); profile.declared(s)
+            new=profile.make_teacher(s,initial)
+            np.testing.assert_allclose(new.grasp_goal()-old.grasp_goal(),[-.005,0.,0.],atol=1e-16,rtol=0)
+            self.assertEqual(new.stage,old.stage)
+            self.assertEqual(new.grip,old.grip)
+            self.assertEqual(s['task_learning_grasp']['policy_queries'],60)
+            self.assertEqual(s['task_learning_grasp']['prefix_atoms'],10)
+            self.assertTrue(s['task_learning_grasp']['original_score_unchanged'])
+            self.assertEqual(profile.restart(s),12)
+        for obj in ['RED_CUBE40','YELLOW_BOX35_45_40']:
+            with self.assertRaises(ValueError):spec(obj,profile.REPAIRED_VERSION)
+
     def test_each_object_has_its_real_language_and_unchanged_clock_teacher_score(self):
         self.assertEqual(teacher_fingerprint(), FROZEN_TEACHER)
         for obj, name in profile.NAMES.items():
@@ -66,6 +85,17 @@ class FiveObjectExpertContract(unittest.TestCase):
             for field, value in [('object_id', 'RED_CUBE40'), ('restart', 10), ('pose_id', 'POSE02')]:
                 changed = copy.deepcopy(panel); changed['assignments'][-1][field] = value
                 with self.assertRaises(ValueError): profile.validate_panel(changed)
+
+    def test_repair_panel_does_not_reopen_the_two_completed_objects(self):
+        panel=dict(schema=profile.REPAIRED_PANEL,expert_version=profile.REPAIRED_VERSION,
+            source_sha='a'*40,tasks=['PICK_HOLD'],D100_new=False,base_grasp_Teacher_sha256=FROZEN_TEACHER,
+            base_Teacher_qualification={},assignments=[dict(object_id=obj,pose_id='POSE01',parent=profile.scene_id(obj),
+                split='TRAIN',restart=12,prefix_atoms=10,command=profile.command(obj,profile.REPAIRED_VERSION),
+                model_sha256='b'*64,native_run='repair-'+obj.lower())for obj in profile.REPAIRED_OBJECTS])
+        with patch('go2arx5_vla.world_model.task_learning_collection_v1.qualified_base'):
+            self.assertEqual(len(profile.validate_panel(panel)),3)
+            bad=copy.deepcopy(panel);bad['assignments'][0]['restart']=11
+            with self.assertRaises(ValueError):profile.validate_panel(bad)
 
 
 if __name__ == '__main__': unittest.main()

@@ -44,7 +44,7 @@ def native_protocol(spec):
     if spec.get('sla_pick_place_v5')is not None:
         from .sla_pick_place_v5 import configuration,protocol
         configuration(spec)
-        return protocol()
+        return protocol(spec)
     from . import task_learning_grasp_v1 as task
     from .eef_stream_v2 import PREFIX_ATOMS, VERSION, configuration
     original = task.protocol(spec.get('task_learning_role', task.CONSTRUCTION_ROLE))
@@ -64,9 +64,9 @@ def native_endpoint(spec):
         configuration(spec)
         return ENDPOINT
     if spec.get('sla_pick_place_v5')is not None:
-        from .sla_pick_place_v5 import configuration,ENDPOINT
+        from .sla_pick_place_v5 import configuration,endpoint
         configuration(spec)
-        return ENDPOINT
+        return endpoint(spec)
     from . import task_learning_grasp_v1 as task
     if spec.get('task_learning_role') == task.SLA_DENSE_ROLE:
         from .sla_dense_native_v5 import ENDPOINT
