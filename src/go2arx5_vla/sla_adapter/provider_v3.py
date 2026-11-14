@@ -126,14 +126,17 @@ class Provider:
             leaves.append(jax.device_put(value))
         self.active, = jax.tree_util.tree_unflatten(structure, leaves)
         stats = json.loads((self.package / 'STATISTICS.json').read_bytes())
-        if stats.get('codec_version') != VERSION or stats.get('epsilon') != EPSILON:
-            raise ValueError('LOGIT_STATISTICS_VERSION_REQUIRED')
+        self.validate_statistics_metadata(stats)
         self.statistics = {key: Quantiles(stats[key]['q01'], stats[key]['q99']) for key in ('state', 'actions')}
         self.tokenizer = Tokenizer(self.package / 'paligemma_tokenizer.model')
         self.resize = resize_with_pad
         graph = self.graph
         self.infer = jax.jit(lambda active, frozen, obs, noise:
                              nnx.merge(graph, active, frozen).sample_actions(jax.random.PRNGKey(0), obs, noise=noise, num_steps=10))
+
+    def validate_statistics_metadata(self, stats):
+        if stats.get('codec_version') != VERSION or stats.get('epsilon') != EPSILON:
+            raise ValueError('LOGIT_STATISTICS_VERSION_REQUIRED')
 
     def predict(self, state10, images, prompt, T_policy_from_mount, *, noise_id):
         import jax
