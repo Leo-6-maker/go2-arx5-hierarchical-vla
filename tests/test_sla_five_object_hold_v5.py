@@ -37,6 +37,16 @@ class FiveObjectExpertContract(unittest.TestCase):
         self.assertFalse(profile.configuration(s))
         self.assertEqual(expert.native_protocol(s), task.protocol(expert.ROLE))
 
+    def test_original_initializer_gets_exact_scene_fields_without_rewriting_evidence(self):
+        proof = dict(schema='new_static_evidence', scene_sha256='c'*64, passes=True)
+        original = copy.deepcopy(proof)
+        value = profile.scene_binding(proof, 'PURPLE_BOX45_35_50')
+        self.assertEqual(value['parent'], profile.scene_id('PURPLE_BOX45_35_50'))
+        self.assertEqual(value['compiled']['scene_sha256'], proof['scene_sha256'])
+        self.assertEqual(value['split'], 'TRAIN')
+        self.assertEqual(proof, original)
+        self.assertFalse(value['original_static_result_modified'])
+
     def test_conflicting_task_or_privileged_student_rejected(self):
         for extra in [dict(sla_pick_place_v5=dict(version='other')),
             dict(target_gr00t_policy=dict(kind='student')), dict(task_learning_control='hold')]:

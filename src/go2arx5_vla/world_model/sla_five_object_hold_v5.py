@@ -49,6 +49,13 @@ def scene_id(object_id):
     return 'SLA_TARGET_V5_1_' + object_id + '_POSE01'
 
 
+def scene_binding(proof, object_id):
+    """Project checked new evidence into the original initializer's scene ABI."""
+    return dict(proof, parent=scene_id(object_id), split='TRAIN',
+        compiled=dict(scene_sha256=proof['scene_sha256']),
+        static_evidence_projection_only=True, original_static_result_modified=False)
+
+
 def protocol(spec):
     configuration(spec)
     obj = spec['sla_five_object_hold_v5']['object_id']
@@ -126,4 +133,4 @@ def native_scene_admission(spec):
         and matches[0]['model_sha256'] == proof['scene_sha256']
         and spec['expert_cadence_restart'] == RESTART,
         'FIVE_OBJECT_FRESH_FIXED_REQUEST_NO_FAILED_CONDITION_REPLAY')
-    return proof
+    return scene_binding(proof, obj)
