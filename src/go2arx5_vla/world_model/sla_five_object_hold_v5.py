@@ -33,6 +33,8 @@ def configuration(spec):
     if value is None:
         return False
     version = value.get('version')
+    from . import sla_hold50_v6 as production
+    if version==production.VERSION:return production.configuration(spec)
     objects = REPAIRED_OBJECTS if version == REPAIRED_VERSION else NAMES
     task.need(version in (VERSION, REPAIRED_VERSION)
         and value == dict(version=version, object_id=value.get('object_id'), pose_id='POSE01')
@@ -45,6 +47,8 @@ def configuration(spec):
 
 
 def command(object_id, version=VERSION):
+    from . import sla_hold50_v6 as production
+    if version==production.VERSION:return production.command(object_id)
     return 'GRASP_' + object_id + '_LIFT20MM_HOLD1S_' + ('V5_2' if version == REPAIRED_VERSION else 'V5_1')
 
 
@@ -54,6 +58,8 @@ def version(spec):
 
 
 def restart(spec):
+    from . import sla_hold50_v6 as production
+    if version(spec)==production.VERSION:return production.RESTART
     return 12 if version(spec) == REPAIRED_VERSION else RESTART
 
 
@@ -64,6 +70,8 @@ class GeometryTeacher(task.Teacher):
 
 
 def make_teacher(spec, initial):
+    from . import sla_hold50_v6 as production
+    if version(spec)==production.VERSION:return production.make_teacher(spec,initial)
     return (GeometryTeacher if version(spec) == REPAIRED_VERSION else task.Teacher)(initial)
 
 
@@ -72,18 +80,20 @@ def language(spec):
     return 'Grasp the ' + NAMES[spec['sla_five_object_hold_v5']['object_id']] + ', lift it at least 20 millimeters, and hold it steady for one second.'
 
 
-def scene_id(object_id):
-    return 'SLA_TARGET_V5_1_' + object_id + '_POSE01'
+def scene_id(object_id,pose_id='POSE01'):
+    return 'SLA_TARGET_V5_1_' + object_id + '_'+pose_id
 
 
-def scene_binding(proof, object_id):
+def scene_binding(proof, object_id,pose_id='POSE01'):
     """Project checked new evidence into the original initializer's scene ABI."""
-    return dict(proof, parent=scene_id(object_id), split='TRAIN',
+    return dict(proof, parent=scene_id(object_id,pose_id), split='TRAIN',
         compiled=dict(scene_sha256=proof['scene_sha256']),
         static_evidence_projection_only=True, original_static_result_modified=False)
 
 
 def protocol(spec):
+    from . import sla_hold50_v6 as production
+    if version(spec)==production.VERSION:return production.protocol(spec)
     configuration(spec)
     obj = spec['sla_five_object_hold_v5']['object_id']
     current = version(spec)
@@ -110,6 +120,8 @@ def declared(spec):
 
 
 def validate_panel(panel):
+    from . import sla_hold50_v6 as production
+    if panel.get('schema')==production.PANEL:return production.validate_panel(panel)
     from .task_learning_teacher_panel_v1 import teacher_fingerprint, FROZEN_TEACHER
     from .task_learning_collection_v1 import qualified_base
     rows = panel.get('assignments') or []
@@ -146,27 +158,27 @@ def native_scene_admission(spec):
     root = Path(producer_pin['path']).parent
     lease = pinned(dict(path=str(root/'control/LEASE.json'), sha256=digest(root/'control/LEASE.json')))
     worker = pinned(dict(path=str(root/'WORKER_EXIT.private.json'), sha256=digest(root/'WORKER_EXIT.private.json')))
-    value = spec['sla_five_object_hold_v5']; obj = value['object_id']
-    matching = [r for r in producer['rows'] if r['declaration']['object_id'] == obj and r['declaration']['pose_id'] == 'POSE01']
+    value = spec['sla_five_object_hold_v5']; obj = value['object_id'];pose=value['pose_id']
+    matching = [r for r in producer['rows'] if r['declaration']['object_id'] == obj and r['declaration']['pose_id'] == pose]
     task.need(lease['status'] == 'CLOSED' and lease['worker_exit_code'] == worker['exit_code'] == 0
         and lease['spec_sha256'] == digest(root/'EXECUTION_SPEC.json')
         and producer['schema'] == coverage.VERSION and producer['passed'] == producer['completed'] == 50
         and len(matching) == 1 and matching[0]['result_sha256'] == spec['task_learning_scene_reference']['sha256']
-        and proof['passes'] and proof['declaration'] == coverage.declaration(obj, 'POSE01')
+        and proof['passes'] and proof['declaration'] == coverage.declaration(obj, pose)
         and proof['builder_sha256'] == spec['source_files']['src/go2arx5_vla/world_model/sla_target_coverage_v5.py']
         and proof['saved_startup_checks'] == 5703 and proof['actual_integrations'] == 0
         and proof['native_execution_authorized'] is False
         and proof['robot_contract']['status'] == 'ROBOT_AND_NATIVE_SAFETY_EXACT_WITH_EXPLICIT_OBJECT_VARIATION'
         and proof['scene_sha256'] == digest(spec['model_path'])
-        and spec['data_role'] == 'TRAIN' and spec['scene_id'] == spec['data_parent'] == scene_id(obj),
+        and spec['data_role'] == 'TRAIN' and spec['scene_id'] == spec['data_parent'] == scene_id(obj,pose),
         'CLOSED_FIFTY_CASE_STATIC_CUSTODY_AND_EXACT_OBJECT_MODEL')
     panel = pinned(dict(path=spec['stable_task_panel'], sha256=spec['stable_task_panel_sha256']))
     rows = validate_panel(panel)
     matches = [r for r in rows if r['native_run'] == Path(spec['registered_root']).name]
     task.need(panel['source_sha'] == spec['source_sha'] and len(matches) == 1
         and panel.get('expert_version', VERSION) == version(spec)
-        and matches[0]['object_id'] == obj and matches[0]['parent'] == spec['data_parent']
+        and matches[0]['object_id'] == obj and matches[0]['pose_id']==pose and matches[0]['parent'] == spec['data_parent']
         and matches[0]['model_sha256'] == proof['scene_sha256']
         and spec['expert_cadence_restart'] == restart(spec),
         'FIVE_OBJECT_FRESH_FIXED_REQUEST_NO_FAILED_CONDITION_REPLAY')
-    return scene_binding(proof, obj)
+    return scene_binding(proof, obj,pose)

@@ -208,6 +208,7 @@ def episode_config(spec):
     members=SOURCE_MEMBERS
     if spec.get('sla_five_object_hold_v5')is not None:
         members+=('src/go2arx5_vla/world_model/sla_five_object_hold_v5.py',
+                  'src/go2arx5_vla/world_model/sla_hold50_v6.py',
                   'src/go2arx5_vla/world_model/sla_target_coverage_v5.py')
     if spec.get('sla_pick_place_v5')is not None:
         members+=('src/go2arx5_vla/world_model/sla_pick_place_v5.py',)
