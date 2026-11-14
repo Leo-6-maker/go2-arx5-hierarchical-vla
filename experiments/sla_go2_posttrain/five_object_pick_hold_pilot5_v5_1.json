@@ -24,8 +24,12 @@
   "expected_consumed_commands": 640,
   "expected_dual_frame_pairs": 321,
   "expected_full_H40_windows": 61,
-  "maximum_new_concurrent_worlds": 3,
+  "maximum_new_concurrent_worlds": 4,
   "CPU_slots": [
+    [
+      4,
+      5
+    ],
     [
       6,
       7
@@ -39,14 +43,13 @@
       15
     ]
   ],
-  "preserves_existing_PICK_PLACE_CPU_slot": [
-    4,
-    5
-  ],
   "base_Teacher_and_score_unchanged": true,
   "old_DEV_TEST_or_failed_conditions_retried": false,
   "D100_new": false,
   "student_evaluation": false,
   "model_loads": 0,
-  "optimizer_updates": 0
+  "optimizer_updates": 0,
+  "CPU_slot4_5_requires_previous_PICK_PLACE_actual_terminal": true,
+  "previous_PICK_PLACE_pass_required": false,
+  "actor_choice": "COMPLETED_FIXED1_2_4_FULL_DEMO_RATES_FAVOR4_UNDER_OBSERVED_LOAD"
 }
