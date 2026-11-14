@@ -23,6 +23,11 @@ class S16OfflineEngine(ReferenceTargetEngine):
 
     def __init__(self, spec, output):
         super().__init__(spec, output)
+        expected = read_pin(spec['original_N20_initial_complete'])['bindings']['frozen_fingerprint']
+        if self.initial_frozen != expected:
+            raise ValueError('S16_ORIGINAL_DENSE_FROZEN_BYTES_MUST_MATCH')
         self.bindings.update(recipe=OPERATION, S16_selection=spec['S16_selection']['sha256'],
             offline_fitting_only=True, native_execution_admitted=False,
-            limited_fresh_named_N20_fitting=False, full_N20_TRAIN_statistics_retained=True)
+            limited_fresh_named_N20_fitting=False, full_N20_TRAIN_statistics_retained=True,
+            parent_host_cast_v7=spec.get('parent_host_cast_v7',False),
+            original_frozen_fingerprint_matched=True)

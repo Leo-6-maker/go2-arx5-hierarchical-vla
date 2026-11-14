@@ -90,7 +90,8 @@ class Engine:
         self.step = self.cursor = 0
         self.rng = jax.device_put(jax.random.PRNGKey(SEED))
         started = time.time()
-        self.graph, self.active, self.frozen, self.inventory = load_parent(spec['parent_params'])
+        self.graph, self.active, self.frozen, self.inventory = load_parent(
+            spec['parent_params'], host_cast=spec.get('parent_host_cast_v7', False))
         self.counts['actual_parent_loads'] += 1
         self.load_wall_s = time.time()-started
         (self.output/'PARAMETERS.private.json').write_text(json.dumps(self.inventory, indent=2))

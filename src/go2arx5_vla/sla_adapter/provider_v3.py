@@ -110,7 +110,8 @@ class Provider:
         if (asset.get('repo') != 'haofuly/SLA_base' or not asset.get('all_files_verified')
                 or asset.get('revision') != '5bbdf3012ab643554aa2eb83ddeae9ace3dce476'):
             raise ValueError('PINNED_SLA_BASE_REQUIRED')
-        self.graph, self.active, self.frozen, self.inventory = load_parent(parent_params)
+        self.graph, self.active, self.frozen, self.inventory = load_parent(
+            parent_params, host_cast=m['bindings'].get('parent_host_cast_v7',False))
         if self.inventory['frozen_fingerprint'] != m['bindings']['frozen_fingerprint']:
             raise ValueError('LOGIT_PROVIDER_FROZEN_PARAMETER_MISMATCH')
         rows, structure = active_rows(dict(arrays=m['adapter_arrays']), self.active)
