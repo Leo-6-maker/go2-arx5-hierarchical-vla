@@ -39,4 +39,7 @@ fig.text(.02, .925, 'Any-joint exceedance: prefix 6/16, suffix 12/16, both 2/16.
 fig.text(.02, .025, 'k is the rightmost H40 knot in each second difference; k=0/1 includes the saved two-point reference history.\nRead-only clone diagnostic. Prefix values within the bound do not grant native execution. Full H40 checks remain unchanged.', fontsize=9, color='#3b4652')
 fig.subplots_adjust(left=.225, right=.98, top=.875, bottom=.20, wspace=.13)
 for extension in ('png', 'svg'):
-    fig.savefig(ROOT/f'JOINT_SUFFIX_20261114.{extension}', dpi=180, facecolor='white')
+    target=ROOT/f'JOINT_SUFFIX_20261114.{extension}'
+    fig.savefig(target, dpi=180, facecolor='white')
+    if extension=='svg':
+        target.write_text('\n'.join(line.rstrip() for line in target.read_text().splitlines())+'\n')

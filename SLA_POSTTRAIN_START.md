@@ -1,4 +1,4 @@
-> 2026-11-14 V7：先读 [当前统一入口](SLA_SOURCE_TARGET_MOBILE_START.md) 与 [可执行 EEF 路线](docs/protocols/SLA_EXECUTABLE_EEF_POLICY_V7_20261114.md)。80 查询归因已有实际证据；S16离线拟合与旧RP8解耦，但尚未实施训练worker／注册新训练。原V6 TRAIN8为0/8、DEV12为0/12，DEV36未启动；旧RP8失败和安全保持。以下V1原文保留，不作为最新进度。
+> 2026-11-14T23:23:54+08:00 V7实际端点：[S16实际报告](reports/WM02/sla-s16-joint-suffix-v7-20261114/S16_20261114.md)：500真实更新／16000T／0S，32条固定预测，完整EEF H40 24/32、全部拟合目标21/32；独立RGB32逐位一致。[16条关节前后缀分析](reports/WM02/sla-s16-joint-suffix-v7-20261114/JOINT_SUFFIX_20261114.md)已封存；D取消、E暂缓。不是原生关节资格或策略任务成功，新增物理0；旧RP8失败、TRAIN8为0/8、DEV12为0/12及余36未启动保持。继续读[当前入口](SLA_SOURCE_TARGET_MOBILE_START.md)和[V7协议](docs/protocols/SLA_EXECUTABLE_EEF_POLICY_V7_20261114.md)。以下V1原文保留，不作为当前状态。
 
 # SLA 本体后训练 · Codex唯一入口
 
