@@ -3506,7 +3506,11 @@
       "CPU_s": 0.17823157
     },
     "all_failed_conditions_retained": true,
-    "automatic_failed_condition_retry": false
+    "automatic_failed_condition_retry": false,
+    "accepted_full_H40_preview_wire_ACKs": 105,
+    "wire_ACKs_include_TTL_renewals": true,
+    "installed_prefix_unit": "ACCEPTED_FULL_H40_PREVIEW_WITH_TEN_ATOM_EXECUTION_PREFIX",
+    "initialization_cycle_excluded": true
   },
   "latest_control_access_after_snapshot": {
     "state": "RESTORED_USER_CAMPUS_CONNECTION_AND_ACTUAL_REMOTE_READS_SUCCEEDED",
@@ -5415,7 +5419,12 @@
           "sealed_shard_bytes": 20348030,
           "sealed_manifest_sha256": "37ed1dde0b8bb234e8925db91afa5ebe743bb71b413366601c46a918fe077cb7"
         }
-      ]
+      ],
+      "accepted_full_H40_preview_policy_wire_ACKs": 358,
+      "terminal_hold_wire_ACKs": 12,
+      "wire_ACKs_include_TTL_renewals": true,
+      "installed_prefix_unit": "ACCEPTED_FULL_H40_PREVIEW_WITH_TEN_ATOM_EXECUTION_PREFIX",
+      "initialization_cycle_excluded": true
     }
   },
   "all_target_expert_attempt_accounting": {
@@ -5459,5 +5468,12 @@
     "scope": "CLOSED_ORIGINAL_PRODUCTION_AND_ACTOR_BENCHMARK_ONLY_NEW_SKILL_ATTEMPTS_REPORTED_SEPARATELY",
     "five_object_native": 2,
     "PICK_PLACE": 0
+  },
+  "native_wire_acknowledgement_units": {
+    "R0_R1_policy_query_wire_ACKs": 588,
+    "R0_R1_terminal_hold_wire_ACKs": 15,
+    "raw_installed_consumed_counts_group_by_policy_query_or_execution_prefix": true,
+    "TTL_renewal_wire_requests_count_separately": true,
+    "initialization_cycle_excluded": true
   }
 }
