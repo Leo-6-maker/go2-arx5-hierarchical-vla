@@ -1,3 +1,5 @@
+> SLA V6.1 actual update · 2026-11-14 17:46 SGT: user-authorized prospective first4 PICK_HOLD closes4/4 with9760 supervised/2560 consumed points;two PD4 views each244 windows pass frozen-statistics FP32 CPU audit,not new-statistics native/training admission. Inherited V6 CLOSED0 at3000/96000T,full87 and freshRGB16 verified;fixedTRAIN8 first world running after a prephysics registration repair. OldRP8 remains failed after arm-handoff divergence;S16 unstarted. [Evidence](reports/WM02/sla-action-contract-v61-first4-20261114/EXECUTION_20261114.md).
+
 > SLA V6.1 actual update · 2026-11-14T15:49:18.392684+08:00: first RP8 stops at state reconstruction before oracle injection;1220/1220 FP32 student-file checks pass;HOLD50 closes40/50,combined118 full;inherited V6 2002/64064T remains live. S16 not started. [Evidence](reports/WM02/sla-action-contract-v61-20261114/EXECUTION_20261114.md).
 
 # 当前科学状态 · Goal V7 · 2026-11-03
