@@ -27,6 +27,15 @@ def queue_once(root,spec,event,*,runner=subprocess.run):
             message_id=match.group(1)if match else None,stdout=p.stdout,stderr=p.stderr,
             automatic_resume='REQUESTED_NOT_INDEPENDENTLY_VERIFIED')
         if p.stderr.strip():value['automatic_resume']='UNAVAILABLE_OR_WARNING_RETAINED'
+        if spec.get('notify_send'):
+            try:
+                notice=runner([spec['notify_send'],'--app-name=Codex','SLA 后台批次有收尾结果',
+                    '训练与评价 monitor 已产生终态或需处理事件；完成消息已排入原会话，请核对实际分母。'],
+                    capture_output=True,text=True,timeout=15)
+                value['desktop_notification_ack']=notice.returncode==0
+                value['desktop_notification_error']=notice.stderr[-1000:]
+            except (OSError,subprocess.SubprocessError)as error:
+                value['desktop_notification_ack']=False;value['desktop_notification_error']=str(error)[-1000:]
         write(root/'QUEUE_ACTUAL.private.json',value)
         return value
     return journal.once(key,payload,deliver)
