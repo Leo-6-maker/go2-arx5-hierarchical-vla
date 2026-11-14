@@ -129,6 +129,9 @@ def group_input(request,panel):
         if panel.get('schema')=='SLA_RAW3K_PICK_HOLD_NEW_GEOMETRY_DEV48_PANEL_V5':
             from .sla_dev48_v5 import INPUT_SCHEMA
             inp['schema']=INPUT_SCHEMA
+        if panel.get('named_cold_suffix_v5')is not None:
+            inp['native_pause_read_wait']=reg['native_pause_read_wait']
+            inp['population_predecessor']=panel['named_cold_suffix_v5']['result']
         if panel['task_learning_role']==task.SLA_ROLE:
             if reg.get('native_pause_read_wait') is not None:inp['native_pause_read_wait']=reg['native_pause_read_wait']
             if panel.get('cold_continuation') is not None:

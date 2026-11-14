@@ -204,6 +204,9 @@ def selection(inp,panel):
     from . import sla_dev48_v5 as dev
     if panel.get('schema')==dev.SCHEMA:return dev.selection(inp,panel)
     rows=validate_panel(panel)
+    if panel.get('named_cold_suffix_v5')is not None:
+        from .sla_n20_suffix_v5 import selection as suffix_selection
+        return suffix_selection(inp,panel,rows)
     task.need(inp.get('schema')==(NAMED_INPUT_SCHEMA if panel['schema']==NAMED_SCHEMA else INPUT_SCHEMA) and inp['source_sha']==panel['source_sha']
         and inp['assignment_slice']==[0,8] and inp.get('population_predecessor') is None,
         'DENSE_ORIGINAL_FULL_TRAIN8_NOT_SELECTED_SUCCESSES')
@@ -321,6 +324,12 @@ def register_panel(request):
         registration={k:request[k]for k in ('source_root','source_files','native_base','gpu_base','scenes',
             'scene_producers','scene_allowlist','scene_allowlist_sha256','memory_execution','memory_execution_reference')})
     if development:panel['scene_disjointness']=request['scene_disjointness']
+    if request.get('named_cold_suffix_v5')is not None:
+        task.need(named and not development,'N20_ONLY_EXPLICIT_TRAIN8_COLD_SUFFIX')
+        panel['named_cold_suffix_v5']=request['named_cold_suffix_v5']
+        panel['registration']['native_pause_read_wait']=request['native_pause_read_wait']
+        from .sla_n20_suffix_v5 import prefix
+        prefix(panel)
     if request.get('capacity_wait_before_pair_v3')is not None:
         from .sla_native_resource_continuation_v3 import configuration
         panel['registration']['capacity_wait_before_pair_v3']=request['capacity_wait_before_pair_v3'];configuration(panel)

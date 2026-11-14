@@ -107,7 +107,7 @@ def specs(inp,panel,row,nbase,gbase,nroot,groot,deadline):
         common['enforce_cpu_slot_v5']=True
     if panel.get('r1_cold_suffix_v5') is not None:
         common['r1_condition_wall_repair_v5']=dict(path=inp['panel'],sha256=inp['panel_sha256'])
-    if role==task.SLA_ROLE and inp.get('native_pause_read_wait') is not None:
+    if role in(task.SLA_ROLE,task.SLA_DENSE_ROLE)and inp.get('native_pause_read_wait') is not None:
         common['native_pause_read_wait']=inp['native_pause_read_wait']
     if native_body:
         from .native_camera_transfer_v1 import CAMERA_ID
@@ -314,6 +314,9 @@ def run(input_path):
             gbase=copy.deepcopy(gbase);apply_inference_spec(gbase,q)
     journal=Journal(campaign/'control/journal',campaign.name);outcomes=[];code=1;failure=None;start=time.monotonic()
     retained_prefix=0
+    if panel.get('named_cold_suffix_v5')is not None:
+        from .sla_n20_suffix_v5 import prefix
+        outcomes=prefix(panel);retained_prefix=len(outcomes)
     if inp.get('schema')=='SLA_RAW3K_PICK_HOLD_NEW_GEOMETRY_DEV48_GROUP_INPUT_V5':
         from .sla_dev48_v5 import retained_prefix as dev48_prefix
         outcomes=dev48_prefix(inp,panel);retained_prefix=len(outcomes)
