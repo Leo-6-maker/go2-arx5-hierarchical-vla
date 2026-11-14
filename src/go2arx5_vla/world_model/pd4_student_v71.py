@@ -72,6 +72,8 @@ def panel_contract(panel):
         a,b=[r for r in rows if r['layout']==layout]
         if a['query_seeds']!=b['query_seeds']or a['restart']!=b['restart']or len(set(a['query_seeds']))!=60:
             raise PermissionError('SAME_FIXED_SCENE_RESTART_AND_SIXTY_NOISE_SLOTS')
+        if any(type(v)is not int or not 0<=v<2**63 for v in a['query_seeds']):
+            raise PermissionError('EXACT_PREREGISTERED_INTEGER_NOISE_SLOTS')
     return rows
 
 
@@ -106,7 +108,9 @@ def native_scene_admission(spec):
     r=matches[0]
     if (r['layout']!=proof['layout']or spec['target_gr00t_policy']!=panel['policies'][r['method']]
             or spec['target_gr00t_query_seeds']!=r['query_seeds']or spec['target_gr00t_B1_global_step']!=500
-            or spec.get('task_learning_teacher_mode')is not None or spec.get('expert_eef_stream_v2')is not None):
+            or spec['target_gr00t_pair_id']!=r['native_run']or spec['data_role']!='TRAIN'
+            or spec.get('task_learning_teacher_mode')is not None or spec.get('task_learning_control')is not None
+            or spec.get('expert_eef_stream_v2')is not None):
         raise PermissionError('CURRENT_RGB_RAW_STUDENT_WITHOUT_TEACHER_OR_RECONSTRUCTOR')
     policy_contract(spec['target_gr00t_policy'],verify_package=False)
     return proof
@@ -137,6 +141,12 @@ def recipe_config(spec,episode,*,actual_phase,actual_kind,source_members):
     if not all(digest(Path(spec['source_root'])/n)==spec['source_files'][n]for n in source_members):raise PermissionError('SEALED_SHARED_NATIVE_SOURCE')
     for n,pin in spec['frozen_files'].items():
         if digest(n)!=pin:raise PermissionError('FROZEN_PD4_NATIVE_BYTES:'+n)
+    catalog=pinned(dict(path=spec['scene_allowlist'],sha256=spec['scene_allowlist_sha256']))
+    matches=[r for r in catalog['scenes']if r['scene_id']==spec['scene_id']]
+    if (len(matches)!=1 or matches[0]['parent']!=spec['data_parent']or matches[0]['split']!='TRAIN'
+            or matches[0]['model_sha256']!=digest(spec['model_path'])or matches[0]['model_path']!=spec['model_path']
+            or catalog['native_binary_sha256']!=digest(spec['native_binary'])):
+        raise PermissionError('SAME_SCENE_AND_RUNTIME_ALLOWLIST')
     from .stable_task_scene_v1 import prefix_episode
     view=prefix_episode(pinned(dict(path=spec['episode_manifest'],sha256=spec['episode_manifest_sha256'])),spec)
     if episode is not None and view!=episode:raise PermissionError('ORIGINAL_TASK_LOCAL_PREPARATION')
@@ -174,13 +184,26 @@ def validate_live(spec,*,verify_model=True):
     from .task_learning_live_pair_v1 import PROFILE,KIND
     configuration(spec);validate_scope(spec)
     if (spec['profile']!=PROFILE or spec['kind']!=KIND or spec['execution_site']!=GPU_SITE
-            or spec['physics']is not False or spec['max_queries']!=60):raise PermissionError('PD4_FINITE_GPU_LIVE_QUERY_SCOPE')
+            or spec['physics']is not False or spec['max_queries']!=60 or spec['device']!='cuda'
+            or spec['GR00T_updates']!=0 or spec['WM_updates']!=0 or spec['Actor_updates']!=0
+            or spec['baseline_changed']is not False
+            or spec['numeric_mode']!='SLA_PINNED_JAX_BF16_DETERMINISTIC_V1'):
+        raise PermissionError('PD4_FINITE_GPU_LIVE_QUERY_SCOPE')
     producer=pinned(spec['producer_native_spec']);native_scene_admission(producer)
-    if producer['target_gr00t_gpu_root']!=spec['registered_root']or producer['target_gr00t_policy']!=spec['target_gr00t_policy']or producer['source_sha']!=spec['source_sha']:raise PermissionError('EXACT_PD4_NATIVE_GPU_PAIR')
+    if (producer['target_gr00t_gpu_root']!=spec['registered_root']or producer['source_sha']!=spec['source_sha']
+            or Path(spec['producer_native_spec']['path'])!=Path(producer['registered_root'])/'EXECUTION_SPEC.json'
+            or any(producer[k]!=spec[k]for k in ('target_gr00t_policy','target_gr00t_query_seeds',
+                'target_gr00t_pair_id','target_gr00t_B1_global_step','observation_camera_profile'))):
+        raise PermissionError('EXACT_PD4_NATIVE_GPU_PAIR')
     q=policy_contract(spec['target_gr00t_policy'],verify_package=verify_model)
     if (spec['GPU_uuid']!=q['spec']['GPU_uuid']or Path(spec['python']).resolve()!=Path(q['spec']['python']).resolve()
             or spec['SLA_runtime']['initial_function_rule']!=q['spec']['initial_function_rule']
             or spec['SLA_runtime']['upstream_sha']!=q['spec']['upstream_sha']
+            or spec['SLA_runtime']['upstream_root']!=q['spec']['upstream_root']
+            or spec['SLA_runtime']['JAX_memory_fraction']!=q['spec']['JAX_memory_fraction']
+            or spec['allocator_limit_bytes']!=q['spec']['allocator_limit_bytes']
+            or spec['neural_owner_lock']!=q['spec']['neural_owner_lock']
+            or spec['checkpoint']!=q['spec']['parent_params']
             or spec['checkpoint_manifest_path']!=q['spec']['parent_manifest']['path']):
         raise PermissionError('SAME_ACTUAL_CANDIDATE_RGB_DEVICE_PARENT_AND_RUNTIME')
     return producer
@@ -192,3 +215,5 @@ def validate_gpu(spec,actual):
     if (spec['GPU_uuid']!=actual['uuid']or os.environ.get('CUDA_VISIBLE_DEVICES')!=spec['GPU_uuid']
             or not spec['checkpoint_parameter_bytes']<=spec['allocator_limit_bytes']<actual['free_bytes']-1024**3):raise PermissionError('REAL_PD4_SHARED_GPU_HEADROOM')
     for k in ('source_root','registered_root','checkpoint','cache','logs','tmp','data'):local_path(spec,spec[k])
+    from .sla_live_v1 import source_custody
+    source_custody(spec)
