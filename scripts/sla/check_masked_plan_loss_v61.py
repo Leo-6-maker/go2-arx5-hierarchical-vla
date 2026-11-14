@@ -20,7 +20,7 @@ def run():
         image_padding_mask={k:jnp.ones((B,224,224),bool)for k in ('base_0_rgb','left_wrist_0_rgb','right_wrist_0_rgb')},
         state=jnp.reshape(jnp.arange(B*32,dtype=jnp.float32),(B,32))*.001,
         tokenized_prompt=jnp.zeros((B,2),jnp.int32),tokenized_prompt_mask=jnp.ones((B,2),bool)))
-    captured=[]
+    captured=[];forward_outputs=[]
     class Model:
         action_horizon=40
         def __init__(self,p,capture=False):
@@ -37,7 +37,10 @@ def run():
             weights=jax.nn.softmax(jnp.where(mask,scores,-1e30),axis=-1)
             result=jnp.tanh(x+jnp.einsum('bqk,bkd->bqd',weights,x)+positions[...,None]*.0001)
             return (result[:,:2],result[:,2:]),None
-        def action_out_proj(self,x):return x*self.p['out']
+        def action_out_proj(self,x):
+            prediction=x*self.p['out']
+            if self.capture:forward_outputs.append(np.asarray(prediction))
+            return prediction
     p={'in':jnp.array(.7),'out':jnp.array(.4)}
     actions=jnp.sin(jnp.arange(B*40*32,dtype=jnp.float32).reshape(B,40,32)*.03)*.1
     noise=jnp.cos(jnp.arange(B*40*32,dtype=jnp.float32).reshape(B,40,32)*.07)
@@ -70,6 +73,10 @@ def run():
         assert not attention[row,:,3:][:,~mask[row]].any()
         assert attention[row,:,2].any(),'STATE_TOKEN_IS_NOT_A_SUPERVISION_SLOT'
     np.testing.assert_array_equal(positions,np.tile(np.arange(43),(B,1)))
+    for replacement in (1e6,np.nan,-np.inf):
+        changed=jnp.where(jnp.asarray(mask)[...,None],actions,replacement)
+        masked.error32(Model(p,True),observation,changed,noise,flow,mask)
+        np.testing.assert_array_equal(forward_outputs[-1][mask],forward_outputs[0][mask])
     # Deliberately unequal per-row valid lengths: the answer must be5, not a
     # global point-weighted average. Active7/padding25 keep their old means.
     error=jnp.stack([jnp.ones((40,32)),jnp.ones((40,32))*9]);unequal=np.ones((B,40),bool);unequal[0,1:]=False
@@ -84,6 +91,7 @@ def run():
         optimizer_updates=0,training_visits=0,physical_requests=0,physics_integrations=0,
         all_true_loss_absolute_error=float(abs(new_value-old_value)),all_true_parameter_gradient_max_error=gradient_max,
         invalid_target_variants=variants,invalid_target_gradient_exact_zero=True,invalid_attention_keys_absent=True,
+        valid_point_forward_predictions_bit_exact_under_invalid_target_changes=True,
         original_state_token_and_H40_positions_preserved=True,unequal_row_normalization_pass=True,
         original_FM32_active7_padding25_pass=True,all_false_device_rejected_by_nonfinite=True,
         wall_s=time.time()-start,CPU_s=time.process_time()-cpu)
