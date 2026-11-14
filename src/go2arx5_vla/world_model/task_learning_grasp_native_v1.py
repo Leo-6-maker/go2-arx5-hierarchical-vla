@@ -206,6 +206,13 @@ def episode_config(spec):
     document=scenes.pinned(dict(path=spec['episode_manifest'],sha256=spec['episode_manifest_sha256']))
     episode=scenes.prefix_episode(document,spec)
     members=SOURCE_MEMBERS
+    if spec.get('expert_plan_capture_v61') is not None:
+        from .expert_plan_capture_v61 import configuration as capture_configuration
+        capture_configuration(spec)
+        members += ('src/go2arx5_vla/world_model/expert_plan_capture_v61.py',
+                    'src/go2arx5_vla/sla_adapter/action_contract_v61.py',
+                    'src/go2arx5_vla/world_model/sla_dense_policy_v5.py',
+                    'scripts/sla/final_plan_transport_v61.py')
     if spec.get('native_callback_replay_v61') is not None:
         members += ('src/go2arx5_vla/world_model/native_callback_replay_v61.py',
                     'src/go2arx5_vla/target_mujoco/callback_replay_v61.hpp')
@@ -374,6 +381,10 @@ def continue_native(adapter,report,samples,windows):
     if adapter.spec.get('sla_label_replay_v61') is not None:
         from .sla_label_replay_v61 import continue_from_start
         return continue_from_start(adapter,report,samples,windows,reset_cycle,teacher,observe)
+    recorder=None
+    if adapter.spec.get('expert_plan_capture_v61') is not None:
+        from .expert_plan_capture_v61 import Recorder
+        recorder=adapter._final_plan_recorder_v61=Recorder(adapter)
     for index,step in enumerate(consumer.observation_steps(adapter.spec)):
         task.need(adapter.observe()['step']==samples[-1]['native_step']==step,'REAL_CONTINUOUS_TEACHER_CLOCK')
         observe(samples[-1])
@@ -397,6 +408,10 @@ def continue_native(adapter,report,samples,windows):
                 epsilon_decisions.append(dict(native_step=step, maximum_nominal_bias=audit['maximum_nominal_bias']))
         intervention_decisions+=proposal.get('label_role')==INTERVENTION
         adapter.task_learning_stage=teacher.stage
+        if recorder is not None:
+            recorder.begin(program,index=index,proposal=proposal.get('original_teacher_policy_H40'),
+                           reference=np.asarray(adapter.reference_history[-1]['pose']))
+            program=recorder.transport(program,samples[-1])
         decision_path=adapter.output/f'TASK_LEARNING_DECISION_{index:03d}.private.json'
         adaptation=program.evidence()
         if proposal.get('explicit_decoder_applied')is True:
@@ -429,6 +444,10 @@ def continue_native(adapter,report,samples,windows):
     raw[:,:3]=np.asarray(samples[-1]['tcp'])[:3,3]
     raw[:,3:9]=task.rotation_matrix_to_rot6d_rows(np.asarray(samples[-1]['tcp'])[:3,:3])
     hold=task.FiftyMsProgram(raw,samples[-1]['tcp'],adapter.reference_history[-1]['pose'],adapter.base_pose_hold)
+    if recorder is not None:
+        recorder.begin(hold,index=queries,proposal=dict(kind='DETERMINISTIC_EXPERT_TERMINATION_HOLD'),
+                       reference=np.asarray(adapter.reference_history[-1]['pose']))
+        hold=recorder.transport(hold,samples[-1])
     tail_start = len(task_samples) - 1
     current,samples,windows=consumer.run_prefix(adapter,hold,index=queries,
         past_samples=samples,past_windows=windows,sample_observer=observe)
@@ -464,6 +483,7 @@ def continue_native(adapter,report,samples,windows):
             observed_task_success=scored['task_success'],confirmed=confirmed)
     write_progress(adapter.output/'TASK_LEARNING_STANDING_ACTUAL.private.json',dict(records=standing,complete=True))
     write_json(adapter.output/'TASK_LEARNING_SCORE.private.json',scored)
+    if recorder is not None:recorder.success=scored['task_success']
     write_progress(adapter.output/'TASK_LEARNING_CAPTURES.private.json',dict(records=captures,complete=True,task_success=scored['task_success']))
     write_progress(adapter.output/'TASK_LEARNING_CONFIRMED_COMMANDS.private.json',dict(records=confirmed,
         period_s=.05,complete=True,unexecuted_suffix_included=False,future_achieved_labels=False,

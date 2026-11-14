@@ -130,6 +130,9 @@ def validate_cadence_panel(panel):
 
 
 def native_scene_admission(spec):
+    if spec.get('expert_plan_capture_v61') is not None:
+        from .expert_plan_capture_v61 import native_scene_admission as capture_admission
+        return capture_admission(spec)
     if spec.get('sla_label_replay_v61') is not None:
         from .sla_label_replay_v61 import native_scene_admission as replay_admission
         return replay_admission(spec)

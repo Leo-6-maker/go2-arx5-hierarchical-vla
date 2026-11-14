@@ -73,3 +73,12 @@ def test_selection_keeps_all_stages_and_distinct_replan_events():
     bad=copy.deepcopy(m)
     for e in bad['episodes']:e['expert_stage_audit_only']=['HOLD']*61
     with pytest.raises(ValueError,match='MISSING_STAGE'):selection(bad)
+
+
+def test_certification_status_keeps_original_command_ids_and_raw_stats_can_be_unfitted():
+    a,b=plan(False),plan(True)
+    assert a['plan_sha256']==b['plan_sha256'] and a['command_ids']==b['command_ids']
+    raw=[[0.,0.,.6,1.,0.,0.,0.,1.,0.,.5]for _ in range(40)]
+    p=final_plan(SimpleNamespace(decoded_H40=raw,reference_path=raw),query_id='raw-plan',native_step=5703,
+        planner_sha256='a'*64,adapter_sha256='b'*64,normalizer_sha256=None,full_H40_valid=False)
+    assert p['normalizer_sha256'] is None and not any(p['supervision_mask'])

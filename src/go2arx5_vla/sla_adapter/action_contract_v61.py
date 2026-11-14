@@ -28,14 +28,17 @@ def _trajectory(value):
 
 def final_plan(program,*,query_id,native_step,planner_sha256,adapter_sha256,normalizer_sha256,full_H40_valid):
     if(not isinstance(query_id,str)or not query_id or type(native_step)is not int or native_step<5703
-            or any(not isinstance(x,str)or len(x)!=64 for x in(planner_sha256,adapter_sha256,normalizer_sha256))
+            or any(not isinstance(x,str)or len(x)!=64 for x in(planner_sha256,adapter_sha256))
+            or normalizer_sha256 is not None and(not isinstance(normalizer_sha256,str)or len(normalizer_sha256)!=64)
             or type(full_H40_valid)is not bool):raise ValueError('EXPLICIT_QUERY_CLOCK_AND_IMMUTABLE_CONTRACT_IDENTITIES')
     raw=_trajectory(program.decoded_H40);installed=_trajectory(program.reference_path)
     core=dict(schema=SCHEMA,query_id=query_id,native_step=native_step,final_H40=raw,
         installed_reference_H40=installed,planner_sha256=planner_sha256,adapter_sha256=adapter_sha256,
         normalizer_sha256=normalizer_sha256,command_period_ticks=25,physics_dt_s=.002,
         full_H40_valid=full_H40_valid)
-    pin=identity(core)
+    # Certification arrives after the immutable physical plan is recorded.
+    # Its status cannot change the original query/command identities.
+    pin=identity({k:v for k,v in core.items()if k!='full_H40_valid'})
     core.update(plan_sha256=pin,supervision_mask=[full_H40_valid]*40,
         command_ids=[identity(dict(plan_sha256=pin,origin_query_id=query_id,k=k,
             start_tick=native_step+25*k,end_tick=native_step+25*(k+1)))for k in range(40)],

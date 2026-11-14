@@ -849,7 +849,11 @@ class TargetSequentialAdapter:
         finally:
             from .native_async_journal_v3 import close_journal
             try:close_journal(self)
-            finally:close_resources(self)
+            finally:
+                try:
+                    recorder=getattr(self,'_final_plan_recorder_v61',None)
+                    if recorder is not None:recorder.close()
+                finally:close_resources(self)
     def _close_native(self):
         # Signal only the Popen-owned process groups; retain all actual exits.
         for name,p in reversed(self.processes):
