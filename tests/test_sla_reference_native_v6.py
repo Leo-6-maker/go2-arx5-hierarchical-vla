@@ -88,8 +88,11 @@ def test_new_train_panel_keeps_all_original_eight_conditions_and_no_old_suffix(t
     assert selection(inp,p)==p['assignments']
     from go2arx5_vla.world_model.task_learning_student_registration_v2 import group_input
     p['registration']={k:'fixture'for k in ('source_root','source_files','native_base','gpu_base','scenes','scene_allowlist','scene_allowlist_sha256','memory_execution','memory_execution_reference')}
+    p['registration']['native_pause_read_wait']=dict(path=str(Path(dense.__file__).resolve().parents[3]/'experiments/sla_go2_posttrain/native_pause_read_wait_v1.json'),sha256='413d96e953a11d790136cd64e3a6f28a2fb13d89fe73ea4b6f55b896c50e6eb8')
     import time
     binding=save(tmp_path/'binding.json',dict(deadline_epoch=time.time()+10000))
     save(tmp_path/'LEASE.json',dict(status='ACTIVE'))
     q=group_input(dict(assignment_slice=[0,8],panel=dict(path='/fixture',sha256='a'*64),pilot1_binding=binding,fusion_binding=binding,max_wall_s=3600),p)
     assert q['schema']==ref.INPUT_SCHEMA
+    from go2arx5_vla.world_model.sla_native_continuation_v2 import wait_seconds
+    assert wait_seconds(dict(q,task_learning_role=task.SLA_DENSE_ROLE))==90

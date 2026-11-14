@@ -126,12 +126,15 @@ def group_input(request,panel):
         if panel.get('schema')=='SLA_REFERENCE_N20_RAW_P10_TRAIN8_PANEL_V6':
             from .sla_reference_native_v6 import INPUT_SCHEMA
             inp['schema']=INPUT_SCHEMA
+            inp['native_pause_read_wait']=reg['native_pause_read_wait']
         elif panel.get('schema')=='SLA_FRESH_N20_RAW_P10_TRAIN8_PANEL_V5':
             from .sla_dense_native_v5 import NAMED_INPUT_SCHEMA
             inp['schema']=NAMED_INPUT_SCHEMA
         if panel.get('schema')=='SLA_RAW3K_PICK_HOLD_NEW_GEOMETRY_DEV48_PANEL_V5':
             from .sla_dev48_v5 import INPUT_SCHEMA
             inp['schema']=INPUT_SCHEMA
+            from .sla_reference_native_v6 import METHOD as REFERENCE_METHOD
+            if panel['method']==REFERENCE_METHOD:inp['native_pause_read_wait']=reg['native_pause_read_wait']
         if panel.get('named_cold_suffix_v5')is not None:
             inp['native_pause_read_wait']=reg['native_pause_read_wait']
             inp['population_predecessor']=panel['named_cold_suffix_v5']['result']

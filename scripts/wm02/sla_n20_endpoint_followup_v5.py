@@ -17,6 +17,8 @@ from go2arx5_vla.world_model import sla_dense_native_v5 as dense,sla_dev48_v5 as
 from go2arx5_vla.world_model import task_learning_grasp_v1 as task
 
 SCHEMA='SLA_FINITE_N20_RAW3K_TRAIN8_THEN_NEW_DEV48_FOLLOWUP_V5'
+REFERENCE_SCHEMA='SLA_FINITE_REFERENCE_N20_RAW3K_TRAIN8_THEN_NEW_DEV48_FOLLOWUP_V6'
+REFERENCE_TRAIN_SOURCE='3f48cadfafac08e86b2bc14594481978bb6788f0'
 
 
 def descriptor(path):
@@ -65,18 +67,20 @@ def run(spec):
     from go2arx5_vla.world_model.task_learning_student_registration_v2 import register_group,dispatch_group
     from scripts.wm02.admit_dense_sla_native_v5 import build
     from scripts.pi0294.e1.journal import Journal
+    corrected=spec['schema']==REFERENCE_SCHEMA
+    method=dense.reference.METHOD if corrected else dense.NAMED_METHOD
     root=Path(spec['registered_root']);parent=Path(spec['candidate_spec']['path']).parent
     campaign=Path(spec['campaign_root']);start=time.time()
-    task.need(spec['schema']==SCHEMA and os.getuid()==2009 and os.uname().nodename=='corelab-4080s'
+    task.need(spec['schema']in(SCHEMA,REFERENCE_SCHEMA) and os.getuid()==2009 and os.uname().nodename=='corelab-4080s'
         and spec['source_root']==str(Path(__file__).resolve().parents[2])
-        and spec['poll_s']==60 and spec['method']==dense.NAMED_METHOD,
+        and spec['poll_s']==60 and spec['method']==method,
         'FINITE_EXISTING_CORE_N20_ENDPOINT_FOLLOWUP')
     source=pinned(dict(path=str(Path(spec['source_root'])/'SOURCE_STAGED.private.json'),
         sha256=spec['source_seal_sha256']))
     task.need(source['source_sha']==spec['source_sha']and source['files']==spec['source_files'],
               'N20_FOLLOWUP_IMMUTABLE_SOURCE_SEAL')
     candidate=pinned(spec['candidate_spec'])
-    task.need(candidate['source_sha']=='cdc6ec75400ec1d2b508b4349166cda4a395da4c',
+    task.need(candidate['source_sha']==(REFERENCE_TRAIN_SOURCE if corrected else 'cdc6ec75400ec1d2b508b4349166cda4a395da4c'),
               'FOLLOW_ONLY_THE_EXISTING_FRESH_N20_OWNER')
     def live():
         task.need(time.time()<spec['deadline_epoch']and not(root/'STOP.json').exists()
@@ -89,7 +93,7 @@ def run(spec):
             new_model_loads=0,optimizer_updates=0,physical_requests=0,GPU_owner_held=False))
         time.sleep(60)
     owner=descriptor(parent/'RESULT.private.json');result=closed(owner)
-    task.need(result['schema']=='SLA_CORE_FRESH_N20_FM3K_RGB_ACTUAL_V5'
+    task.need(result['schema']==('SLA_CORE_FRESH_REFERENCE_N20_FM3K_RGB_ACTUAL_V6'if corrected else 'SLA_CORE_FRESH_N20_FM3K_RGB_ACTUAL_V5')
         and result['complete3K']and result['fresh_RGB16_bit_exact']and result['step']==3000
         and result['target_visits']==96000 and result['source_visits']==0,
         'ACTUAL_COMPLETE3K_FRESH_RGB_NOT_INTERMEDIATE500_OR_PREFIX')
@@ -97,7 +101,7 @@ def run(spec):
     complete=Path(trained['last_checkpoint']['path'])/'COMPLETE.json'
     readback_start=time.time();readback=verify_saved_state(complete)
     write(root/'SAVED_ARRAYS_READBACK.private.json',dict(readback,wall_s=time.time()-readback_start))
-    request=dict(method=dense.NAMED_METHOD,candidate_owner=owner['path'],
+    request=dict(method=method,candidate_owner=owner['path'],
         training_result=str(parent/'candidate3000/RESULT.private.json'),complete_state=str(complete),
         parameter_inventory=str(parent/'candidate3000/work/PARAMETERS.private.json'),ordinary_RGB_owner=owner['path'],
         ordinary_RGB_reconstruction=str(parent/'fresh_RGB/REPLAY_RESULT.private.json'),
@@ -113,12 +117,16 @@ def run(spec):
         capacity_wait_before_pair_v3=dict(version='SLA_UNSTARTED_PAIR_RESOURCE_WAIT_V3',poll_s=60))
     train_request=dict(common,root=spec['train_panel_root'],scenes=base['scenes'],scene_producers=base['scene_producers'],
         scene_allowlist=base['scene_allowlist'],scene_allowlist_sha256=base['scene_allowlist_sha256'],
-        preregistration=descriptor(Path(spec['source_root'])/dense.NAMED_DECLARATION))
+        preregistration=descriptor(Path(spec['source_root'])/(dense.reference.DECLARATION if corrected else dense.NAMED_DECLARATION)))
     development_request=dict(common,root=spec['dev_panel_root'],population=dev.POPULATION,
         scenes=dev_actual['scenes'],scene_producers={l:spec['dev_static_spec']for l in dev_actual['scenes']},
         scene_allowlist=str(Path(static['registered_root'])/'SCENE_ALLOWLIST.private.json'),
         scene_allowlist_sha256=digest(Path(static['registered_root'])/'SCENE_ALLOWLIST.private.json'),
         scene_disjointness=dev_actual['scene_disjointness'],preregistration=descriptor(Path(spec['source_root'])/dev.DECLARATION))
+    if corrected:
+        common_wait=descriptor(Path(spec['source_root'])/'experiments/sla_go2_posttrain/native_pause_read_wait_v1.json')
+        train_request['native_pause_read_wait']=common_wait
+        development_request['native_pause_read_wait']=common_wait
     for kind,request,slices in (('TRAIN8',train_request,[(0,8)]),('DEV48',development_request,[(i,i+8)for i in range(0,48,8)])):
         live();task.need(not Path(request['root']).exists(),'FOLLOWUP_PANEL_EXISTS_RECONCILE_NEVER_REPLAY')
         panel=dense.register_panel(request)['panel'];previous=None

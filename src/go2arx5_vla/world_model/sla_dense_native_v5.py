@@ -347,6 +347,11 @@ def register_panel(request):
     if request.get('capacity_wait_before_pair_v3')is not None:
         from .sla_native_resource_continuation_v3 import configuration
         panel['registration']['capacity_wait_before_pair_v3']=request['capacity_wait_before_pair_v3'];configuration(panel)
+    if corrected:
+        from .sla_native_continuation_v2 import wait_seconds
+        task.need(wait_seconds(dict(task_learning_role=PROTOCOL,native_pause_read_wait=request['native_pause_read_wait']))==90,
+                  'REFERENCE_REUSE_ORIGINAL_EXACT_ACK_READ_ALLOWANCE')
+        panel['registration']['native_pause_read_wait']=request['native_pause_read_wait']
     validate_panel(panel);key=root.name.upper()+'-PANEL';journal=Journal(campaign/'control/journal',campaign.name)
     with closing(OwnerLock(campaign/'OWNER.lock')):
         task.need(not root.exists() and not journal.path(key).exists(),'DENSE_UNKNOWN_PANEL_NEVER_REPLAY')
