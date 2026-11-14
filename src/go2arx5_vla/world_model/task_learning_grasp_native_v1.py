@@ -412,6 +412,9 @@ def continue_native(adapter,report,samples,windows):
             recorder.begin(program,index=index,proposal=proposal.get('original_teacher_policy_H40'),
                            reference=np.asarray(adapter.reference_history[-1]['pose']))
             program=recorder.transport(program,samples[-1])
+            proposal=dict(proposal,final_expert_plan_before_FP32=proposal['submitted_policy_H40'],
+                submitted_policy_H40=program.decoded_H40.tolist(),
+                expert_final_plan_capture_version='SLA_PROSPECTIVE_FINAL_PLAN_CAPTURE_V6_1')
         decision_path=adapter.output/f'TASK_LEARNING_DECISION_{index:03d}.private.json'
         adaptation=program.evidence()
         if proposal.get('explicit_decoder_applied')is True:
