@@ -16,10 +16,13 @@ COMMAND='GRASP_RED_TRANSFER150MM_PLACE_RELEASE_WITHDRAW_V5'
 LANGUAGE='Pick up the red cube, place it on the left side of the table, release it, and withdraw the gripper.'
 QUERIES=120
 ENDPOINT=grasp.B+25*(QUERIES*10+40)
-PACED_VERSION='SLA_TARGET_PICK_PLACE_PACING_V5_2'
-PACED_PANEL='SLA_TARGET_PICK_PLACE_FIXED_PACED_PILOT1_V5_2'
-PACED_COMMAND='GRASP_RED_TRANSFER150MM_PLACE_RELEASE_WITHDRAW_PACED_V5_2'
-PACED_QUERIES=240
+PACED_VERSION='SLA_TARGET_PICK_PLACE_PACING_V5_3'
+PACED_PANEL='SLA_TARGET_PICK_PLACE_FIXED_PACED_PILOT1_V5_3'
+PACED_COMMAND='GRASP_RED_TRANSFER150MM_PLACE_RELEASE_WITHDRAW_PACED_V5_3'
+# Retain the original native quota parser and its66503-tick resource bound.
+# V5.2's240-query design exceeded it by200ticks and never advanced physics.
+PACED_NATIVE_MAX_TICKS=66503
+PACED_QUERIES=(PACED_NATIVE_MAX_TICKS-grasp.B-25*40)//(25*10)
 MAX_EXTRA_REFERENCE_OFFSET_M=.004
 TRANSFER=np.array([0.,.15,0.])
 ROLE='CORELAB_EXPERT_TRAIN4_SEMANTICS_NOT_BC_V3'
@@ -68,6 +71,8 @@ def protocol(spec=None):
         pause_action='HOLD_EXISTING_REFERENCE_THROUGH_UNCHANGED_TRANSPORT',
         actual_native_clock_and_all_standing_samples_retained=True),
         finite_query_budget_reason='ACCOUNT_FOR_ACTUAL_TRACKING_HOLDS_WITH_UNCHANGED150MM_GOAL_AND_SCORE')
+    if paced:p.update(original_native_quota_max_ticks=PACED_NATIVE_MAX_TICKS,
+        finite_query_budget_is_largest_complete_P10_with_original_tail=True)
     return p
 
 

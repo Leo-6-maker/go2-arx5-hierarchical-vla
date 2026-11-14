@@ -24,9 +24,10 @@ def test_paced_version_keeps_task_score_goal_transport_and_full_native_clock():
     p=expert.native_protocol(spec)
     assert p['task_score']==place.score_contract()
     assert p['goal_offset_world_m']==[0.,.15,0.]
-    assert p['prefix_atoms']==10 and p['policy_queries']==240 and p['final_hold_atoms']==40
-    assert expert.native_endpoint(spec)==66703
-    assert (66703-5703)//25==2440
+    assert p['prefix_atoms']==10 and p['policy_queries']==239 and p['final_hold_atoms']==40
+    assert expert.native_endpoint(spec)==66453<=place.PACED_NATIVE_MAX_TICKS==66503
+    assert (66453-5703)//25==2430
+    assert 5703+25*((p['policy_queries']+1)*10+40)>place.PACED_NATIVE_MAX_TICKS
     assert p['reference_transport']==place.protocol()['reference_transport']
     old=copy.deepcopy(spec);old['sla_pick_place_v5']['version']=place.VERSION
     assert type(place.make_teacher(old,initial()))is place.Teacher
@@ -70,10 +71,10 @@ def test_paced_native_entry_admits_its_exact_endpoint_without_expanding_old_reci
     s=dict(sla_pick_place_v5=dict(version=place.PACED_VERSION),task_learning_role=place.ROLE,
         task_learning_teacher_mode='NORMAL_TEACHER_V7',phase=grasp.PHASE,kind=grasp.KIND,
         task_command=place.PACED_COMMAND,live_skill_start_step=grasp.CALIBRATION_B,
-        max_ticks=66703,physics_dt_s=.002,WBC_changes=False)
+        max_ticks=66453,physics_dt_s=.002,WBC_changes=False)
     s['task_learning_grasp']=place.protocol(s)
     assert continuation_endpoint_allowed(s,4703)
-    for field,value in [('max_ticks',66728),('physics_dt_s',.004),('WBC_changes',True),
+    for field,value in [('max_ticks',66703),('physics_dt_s',.004),('WBC_changes',True),
             ('task_command',place.COMMAND)]:
         bad=copy.deepcopy(s);bad[field]=value
         with pytest.raises(ValueError):continuation_endpoint_allowed(bad,4703)

@@ -166,17 +166,13 @@ def continuation_endpoint_allowed(spec, end_step):
     maximum = spec.get('max_ticks')
     if type(maximum) is not int:
         return False
-    if end_step < maximum <= 66503:
-        return True
-    if spec.get('task_condition') == 'SOURCE_PHASE_C01_QUERY_ONLY_AT34303_V1':
-        return maximum == end_step == 34303
-    # The separately declared paced PLACE has240 P10 queries plus40 real
-    # terminal atoms:66703 ticks. Keep the old bound for every other recipe.
     from . import sla_pick_place_v5 as place, task_learning_grasp_v1 as grasp
-    if spec.get('sla_pick_place_v5') != dict(version=place.PACED_VERSION):
-        return False
-    place.declared(spec)
-    return end_step == grasp.CALIBRATION_B and maximum == place.endpoint(spec) == 66703
+    if spec.get('sla_pick_place_v5') == dict(version=place.PACED_VERSION):
+        place.declared(spec)
+        return end_step == grasp.CALIBRATION_B and maximum == place.endpoint(spec) <= 66503
+    return (end_step < maximum <= 66503 or
+        spec.get('task_condition') == 'SOURCE_PHASE_C01_QUERY_ONLY_AT34303_V1'
+        and maximum == end_step == 34303)
 
 
 def run_program(adapter, episode, inputs, *, program_factory=None,
