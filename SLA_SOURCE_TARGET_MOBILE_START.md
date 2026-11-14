@@ -1,3 +1,21 @@
+# SLA 当前入口：V6.1 动作合同与部署回放
+
+2026-11-14 · **只发布实施计划；未修改运行源码、现役数据/统计或作业。**
+
+优先阅读 [V6.1详细推进计划](docs/protocols/SLA_ACTION_CONTRACT_REPLAY_V6_1_20261114.md)、[机读矩阵](docs/protocols/SLA_ACTION_CONTRACT_REPLAY_V6_1_20261114.json) 与 [执行启动prompt](docs/handover/2026-11-14/SLA_ACTION_CONTRACT_V6_1_START.md)。V5长程路线继续保留，本补充不重开整体路线。
+
+本轮锁定：EEF_STREAM_V2属于专家规划，最终重构H40才是计划目标；专家/学生之后共用执行adapter。supervision_mask与consumed_mask分开，未执行后缀不作为消费或成功证据。先冻结TRAIN统计，再完整FP32/部署回放；在途V6不改动作定义、不加参考误差/历史、不转计划蒸馏。
+
+近期顺序是**标签经学生入口的RP8原生回放 → S16阶段/接缝窗口的固定500步拟合 → V6原定终点与闭环 → 条件性匹配空间监督/独立计划蒸馏 → LeRobot双reader张量一致**。已启动V6健康训练独立继续，不等待新增检查、不抢占或重复提交。
+
+最新核验执行[PR #384](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/pull/384)固定SHA `4273dcdf143a0f9bac28afc5f831eb597a240412`，[报告](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/4273dcdf143a0f9bac28afc5f831eb597a240412/reports/WM02/sla-long-horizon-v5-20261114/EXECUTION_20261114.md)对应V6训练快照2026-11-14 12:25:57 SGT：1220/1220参考与FP32标签包络通过，候选92更新；原N20 TRAIN8已0/8终态。不是当前服务器实时状态，接手先查后继终态。
+
+仅旧AGENTS中与用户后续明确授权冲突的范围以新授权为准：Corelab独立多世界继续，当前已验证4-world；WBC/腿策略/2ms动力学与原安全、所有权、工作流保持不变。计划文档不自动启动仿真、H200、真机或RL。
+
+---
+
+## 下方为V5历史入口原文（2026-11-13快照，不作为最新运行状态）
+
 # SLA 当前入口：长程推进 V5
 
 2026-11-13 · **计划已发布，不是训练或原生能力结果**
