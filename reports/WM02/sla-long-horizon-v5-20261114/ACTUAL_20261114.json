@@ -2970,5 +2970,82 @@
     "original_grasp_Teacher_fingerprint_unchanged": true,
     "WBC_and_native_safety_unchanged": true,
     "native_task_success": false
+  },
+  "latest_control_access_after_snapshot": {
+    "Core_read_intent_SGT": "2026-11-14T08:32:34+08:00",
+    "Core_transport_exit": 255,
+    "Core_result": "SSH_FIRST_RELAY_CONNECT_TIMEOUT",
+    "new_remote_program_execution": false,
+    "live_state_after_0809": "NOT_OBSERVED",
+    "healthy_workers_not_stopped_or_duplicated": true,
+    "A40_read_intent_SGT": "2026-11-14T08:32:34+08:00",
+    "A40_transport_exit": 255,
+    "A40_result": "DNS_RESOLUTION_FAILED",
+    "A40_new_jobs": 0,
+    "optimizer_updates_added_by_observation": 0,
+    "physical_requests_added_by_observation": 0
+  },
+  "five_object_ten_pose_static_preparation": {
+    "state": "IMPLEMENTED_LOCALLY_NOT_DEPLOYED",
+    "source_sha": "31fd6605c79372a03f04eddac8f8d924a46b9bed",
+    "declaration": "experiments/sla_go2_posttrain/target_five_object_ten_pose_static_v5.json",
+    "objects": 5,
+    "poses": 10,
+    "static_cases": 50,
+    "planned_tasks": [
+      "PICK_HOLD",
+      "PICK_PLACE"
+    ],
+    "D100_full_demonstrations_required": 100,
+    "D300_full_demonstrations_required": 300,
+    "scope": "FIVE_DECLARED_BOX_INSTANCES_NOT_UNSEEN_OBJECT_CATEGORY_GENERALIZATION",
+    "sizes_m": [
+      [
+        0.04,
+        0.04,
+        0.04
+      ],
+      [
+        0.035,
+        0.035,
+        0.035
+      ],
+      [
+        0.05,
+        0.03,
+        0.04
+      ],
+      [
+        0.035,
+        0.045,
+        0.04
+      ],
+      [
+        0.045,
+        0.035,
+        0.05
+      ]
+    ],
+    "yaw_degrees": [
+      -5,
+      0,
+      5
+    ],
+    "preserves_original_robot_via_checked_object_only_normalization_in_separate_copy": true,
+    "declared_object_mass_and_inertia_not_hidden_robot_change": true,
+    "local_tests": 6,
+    "local_subtests": 52,
+    "Core_static_cases_executed": 0,
+    "Core_static_worker_registered": false,
+    "Core_physics_integrations": 0,
+    "Core_policy_model_loads": 0,
+    "optimizer_updates": 0,
+    "formal_demonstrations": 0,
+    "D100_new": false,
+    "D300_new": false,
+    "source_transfer_result": "SSH_FIRST_RELAY_CONNECT_TIMEOUT_BEFORE_REMOTE_EXECUTION",
+    "planned_CPU_workers": 2,
+    "actual_registered_workers": 0,
+    "existing_running_sources_unchanged": true
   }
 }
