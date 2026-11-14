@@ -69,7 +69,7 @@ def validate_panel(panel):
     d,p=declaration();rows=panel.get('assignments')or[];method=panel.get('method')
     task.need(panel['schema']==SCHEMA and panel['task_learning_role']==dense.PROTOCOL
         and panel['protocol']==dense.protocol() and panel['B1_global_step']==3000
-        and panel['population']==POPULATION and method in dense.METHODS+(dense.NAMED_METHOD,)
+        and panel['population']==POPULATION and method in dense.METHODS+(dense.NAMED_METHOD,dense.reference.METHOD)
         and set(panel['policies'])=={method} and panel['policies'][method]['arm']==method
         and panel['preregistration']['sha256']==p and pinned(panel['preregistration'])==d
         and len(rows)==len({r['native_run']for r in rows})==48,

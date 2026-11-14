@@ -8,6 +8,7 @@ from pathlib import Path
 
 from . import task_learning_grasp_v1 as task
 from .storage import digest
+from . import sla_reference_native_v6 as reference
 from .stable_task_scene_v1 import pinned
 
 PROTOCOL = task.SLA_DENSE_ROLE
@@ -51,8 +52,8 @@ def protocol():
         complete_H40_gate_before_every_prefix=True,unexecuted_suffix_is_expert_data=False)
 
 
-def declaration(*,named=False):
-    p=Path(__file__).resolve().parents[3]/(NAMED_DECLARATION if named else DECLARATION)
+def declaration(*,named=False,corrected=False):
+    p=Path(__file__).resolve().parents[3]/(reference.DECLARATION if corrected else NAMED_DECLARATION if named else DECLARATION)
     return json.loads(p.read_bytes()),digest(p)
 
 
@@ -61,8 +62,10 @@ def qualification(q,*,verify_package=True):
     from .sla_native_v1 import closed
     from ..sla_adapter.gripper_latent_v2 import VERSION, EPSILON
     named=q.get('schema')==NAMED_ADMISSION
+    corrected=q.get('schema')==reference.ADMISSION
     task.need((q.get('schema')==ADMISSION and q.get('method') in METHODS
-               or named and q.get('method')==NAMED_METHOD)
+               or named and q.get('method')==NAMED_METHOD
+               or corrected and q.get('method')==reference.METHOD)
               and q.get('old_DEV_TEST_admitted') is False,'DENSE_COMPLETE3K_SEPARATE_IDENTITY')
     owner=closed(q['candidate_owner'])
     rgb_owner=closed(q['ordinary_RGB_owner'])
@@ -79,7 +82,9 @@ def qualification(q,*,verify_package=True):
         and training['actual']['optimizer_updates']==3000
         and training['actual']['completed_training_visits']>=96000,
         'DENSE_REAL_COMPLETE3K_AND96000_COMMITTED_TARGET_VISITS')
-    if named:
+    if corrected:
+        reference.endpoint(training,owner)
+    elif named:
         task.need(training['schema']=='SLA_FRESH_N20_FINITE_FM3K_ACTUAL_V5'
             and training['operation']=='NAMED_PICK_HOLD_N20_FM_3K'
             and not training['noncandidate'] and training['complete3K'] is True
@@ -113,8 +118,8 @@ def qualification(q,*,verify_package=True):
         and m.get('codec')==b.get('codec_version')==VERSION and m.get('label_epsilon')==EPSILON
         and m.get('step')==3000 and m.get('cursor')==96000 and not m['qualification_only']
         and m['original_complete_sha256']==q['complete_state']['sha256']
-        and b==complete['bindings'] and b['recipe']==(NAMED_RECIPE if named else RECIPES[q['method']])
-        and b['dataset_id']==(NAMED_DATASET if named else 'T_PICK_HOLD_TRAIN01_P10_2EP_V4_1')
+        and b==complete['bindings'] and b['recipe']==(reference.RECIPE if corrected else NAMED_RECIPE if named else RECIPES[q['method']])
+        and b['dataset_id']==(reference.DATASET_ID if corrected else NAMED_DATASET if named else 'T_PICK_HOLD_TRAIN01_P10_2EP_V4_1')
         and b['dense_manifest_sha256']==q['dense_manifest_sha256']
         and b['derived_statistics_sha256']==m['statistics_sha256']
         and b['D100_new'] is False and b['PICK_PLACE_admitted'] is False
@@ -128,9 +133,16 @@ def qualification(q,*,verify_package=True):
         and m['decode_order']=='INVERSE_LATENT_NORMALIZATION_THEN_SIGMOID_ONCE_THEN_ORIGINAL_NATIVE_NOMINAL_MAPPING',
         'DENSE_EXACT_TRAINED_RAW_LOGIT_RGB_PACKAGE_WITHOUT_ENDPOINT_BASIS')
     audit=pinned(q['target_audit'])
-    task.need(audit['passes'] and audit['read_windows']==(1220 if named else 122)
-        and audit['manifest_sha256']==b['dense_manifest_sha256']
-        and q['target_audit']['sha256']==b['target_audit'],'DENSE_REUSED_EXACT122_WINDOW_DATA_AUDIT')
+    task.need(q['target_audit']['sha256']==b['target_audit'],'DENSE_SAME_EXACT_DATA_AUDIT_BYTES')
+    if corrected:
+        task.need(b['reference_conversion_audit']==q['target_audit']['sha256'],
+                  'REFERENCE_SAME_CONVERSION_BYTES_IN_COMPLETE_AND_PACKAGE')
+        reference.labels(audit,b,q['dense_manifest_sha256'])
+        task.need(owner['dataset_manifest_sha256']==b['dense_manifest_sha256'],
+                  'REFERENCE_SAME_CLOSED_OWNER_DATASET')
+    else:
+        task.need(audit['passes'] and audit['read_windows']==(1220 if named else 122)
+            and audit['manifest_sha256']==b['dense_manifest_sha256'],'DENSE_REUSED_EXACT122_WINDOW_DATA_AUDIT')
     if named:
         task.need(audit['schema']=='SLA_FRESH_NAMED_N20_ALL_WINDOW_READBACK_V5'
             and audit['dataset_id']==NAMED_DATASET and audit['episodes']==20
@@ -165,7 +177,7 @@ def qualification(q,*,verify_package=True):
 
 def policy_contract(value,checkpoint_files=None,*,verify_package=True,expected_global_step=3000):
     task.need(set(value)=={'arm','package','Native_body_qualification'}
-        and value['arm'] in METHODS+(NAMED_METHOD,) and expected_global_step==3000,'DENSE_ONLY_FIXED3K_POLICY')
+        and value['arm'] in METHODS+(NAMED_METHOD,reference.METHOD) and expected_global_step==3000,'DENSE_ONLY_FIXED3K_POLICY')
     q=qualification(pinned(value['Native_body_qualification']),verify_package=verify_package)
     task.need(q['method']==value['arm'] and q['package']==value['package'],'DENSE_SAME_METHOD_AND_PACKAGE')
     return q
@@ -183,10 +195,11 @@ def validate_panel(panel):
     from . import sla_dev48_v5 as dev
     if panel.get('schema')==dev.SCHEMA:return dev.validate_panel(panel)
     named=panel.get('schema')==NAMED_SCHEMA
-    d,pin=declaration(named=named);rows=panel.get('assignments')or[];method=panel.get('method')
-    task.need(panel.get('schema')==(NAMED_SCHEMA if named else SCHEMA) and panel.get('task_learning_role')==PROTOCOL
+    corrected=panel.get('schema')==reference.SCHEMA
+    d,pin=declaration(named=named,corrected=corrected);rows=panel.get('assignments')or[];method=panel.get('method')
+    task.need(panel.get('schema')==(reference.SCHEMA if corrected else NAMED_SCHEMA if named else SCHEMA) and panel.get('task_learning_role')==PROTOCOL
         and panel['protocol']==protocol() and panel['B1_global_step']==3000
-        and panel['population']=='TRAIN8' and method in ((NAMED_METHOD,)if named else METHODS)
+        and panel['population']=='TRAIN8' and method in ((reference.METHOD,)if corrected else (NAMED_METHOD,)if named else METHODS)
         and set(panel['policies'])=={method} and panel['policies'][method]['arm']==method
         and panel['preregistration']['sha256']==pin and pinned(panel['preregistration'])==d
         and len(rows)==len({r['native_run']for r in rows})==8,'DENSE_FIXED_TRAIN8_POPULATION_BEFORE_OUTPUTS')
@@ -194,7 +207,7 @@ def validate_panel(panel):
         task.need(all(row[k]==expected[k]for k in ('layout','restart','query_seeds'))
             and row['method']==method and row['split']=='TRAIN'
             and row['parent']=='TASK_LEARNING_UNDER_HAND_'+row['layout']
-            and row['command']==task.COMMAND and row['purpose']==(NAMED_EXPERIMENT if named else EXPERIMENT)
+            and row['command']==task.COMMAND and row['purpose']==(reference.EXPERIMENT if corrected else NAMED_EXPERIMENT if named else EXPERIMENT)
             and len(row['model_sha256'])==64 and Path(row['native_run']).name==row['native_run'],
             'DENSE_ALL_EIGHT_CONDITIONS_AND_SIXTY_DECLARED_QUERY_SEEDS')
     return rows
@@ -207,7 +220,7 @@ def selection(inp,panel):
     if panel.get('named_cold_suffix_v5')is not None:
         from .sla_n20_suffix_v5 import selection as suffix_selection
         return suffix_selection(inp,panel,rows)
-    task.need(inp.get('schema')==(NAMED_INPUT_SCHEMA if panel['schema']==NAMED_SCHEMA else INPUT_SCHEMA) and inp['source_sha']==panel['source_sha']
+    task.need(inp.get('schema')==(reference.INPUT_SCHEMA if panel['schema']==reference.SCHEMA else NAMED_INPUT_SCHEMA if panel['schema']==NAMED_SCHEMA else INPUT_SCHEMA) and inp['source_sha']==panel['source_sha']
         and inp['assignment_slice']==[0,8] and inp.get('population_predecessor') is None,
         'DENSE_ORIGINAL_FULL_TRAIN8_NOT_SELECTED_SUCCESSES')
     return rows
@@ -302,11 +315,12 @@ def register_panel(request):
     q=qualification(pinned(request['Native_body_qualification']))
     method=q['method'];policy=dict(arm=method,package=q['package'],Native_body_qualification=request['Native_body_qualification'])
     named=q['method']==NAMED_METHOD
+    corrected=q['method']==reference.METHOD
     development=request.get('population')==dev.POPULATION
     task.need(request.get('population','TRAIN8')in('TRAIN8',dev.POPULATION),'DENSE_EXPLICIT_TRAIN8_OR_NEW_DEV48')
-    d,pin=dev.declaration()if development else declaration(named=named)
+    d,pin=dev.declaration()if development else declaration(named=named,corrected=corrected)
     inputs=dev.inputs()if development else d['conditions']
-    purpose=dev.EXPERIMENT if development else NAMED_EXPERIMENT if named else EXPERIMENT
+    purpose=dev.EXPERIMENT if development else reference.EXPERIMENT if corrected else NAMED_EXPERIMENT if named else EXPERIMENT
     task.need(request['preregistration']['sha256']==pin and pinned(request['preregistration'])==d
         and set(request['scenes'])=={r['layout']for r in inputs},'DENSE_FIXED_INPUTS_AND_SCENES')
     if development:dev.disjointness(request['scene_disjointness'])
@@ -318,7 +332,7 @@ def register_panel(request):
         rows.append(dict(expected,native_run=f"sla-{method.lower()}-{layout.lower()}-r{expected['restart']}",
             parent=proof['parent'],method=method,model_sha256=digest(model),split=dev.SPLIT if development else'TRAIN',
             purpose=purpose,command=task.COMMAND))
-    panel=dict(schema=dev.SCHEMA if development else NAMED_SCHEMA if named else SCHEMA,task_learning_role=PROTOCOL,protocol=protocol(),source_sha=request['source_sha'],
+    panel=dict(schema=dev.SCHEMA if development else reference.SCHEMA if corrected else NAMED_SCHEMA if named else SCHEMA,task_learning_role=PROTOCOL,protocol=protocol(),source_sha=request['source_sha'],
         B1_global_step=3000,training_seed=20261112,method=method,population=dev.POPULATION if development else'TRAIN8',policies={method:policy},
         assignments=rows,preregistration=request['preregistration'],
         registration={k:request[k]for k in ('source_root','source_files','native_base','gpu_base','scenes',

@@ -24,7 +24,7 @@ def selection(inp,panel):
     if inp.get('schema')=='SLA_DEV16_OFFICIAL_GR00T_A500_ENGINEERING_V1_GROUP_INPUT':
         from .sla_g_native_v1 import selection
         return selection(inp,panel)
-    if inp.get('schema') in ('SLA_DENSE3K_RAW_P10_TRAIN8_GROUP_INPUT_V5','SLA_FRESH_N20_RAW_P10_TRAIN8_GROUP_INPUT_V5','SLA_RAW3K_PICK_HOLD_NEW_GEOMETRY_DEV48_GROUP_INPUT_V5'):
+    if inp.get('schema') in ('SLA_DENSE3K_RAW_P10_TRAIN8_GROUP_INPUT_V5','SLA_FRESH_N20_RAW_P10_TRAIN8_GROUP_INPUT_V5','SLA_REFERENCE_N20_RAW_P10_TRAIN8_GROUP_INPUT_V6','SLA_RAW3K_PICK_HOLD_NEW_GEOMETRY_DEV48_GROUP_INPUT_V5'):
         from .sla_dense_native_v5 import selection
         return selection(inp,panel)
     if inp.get('schema') in('SLA_TARGET500_NATIVE_GROUP_INPUT_V1','SLA_NATIVE_COLD_UNEXECUTED_SUFFIX_INPUT_V2',SLA_DEV_SUFFIX,'SLA_R1_COLD_UNSTARTED_TRAIN8_SUFFIX_INPUT_V5'):

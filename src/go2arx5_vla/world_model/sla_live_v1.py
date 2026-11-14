@@ -24,7 +24,8 @@ def apply_inference_spec(spec, qualification):
         memory_execution='SLA_ORDINARY_RGB_JAX_SINGLE_CORE_V1',
         memory_execution_reference=q['ordinary_RGB_reconstruction'])
     if q.get('schema') in ('SLA_COMPLETE_DENSE3K_CORE_RGB16_NATIVE_ADMISSION_V5',
-                           'SLA_FRESH_N20_FM3K_CORE_RGB16_NATIVE_ADMISSION_V5'):
+                           'SLA_FRESH_N20_FM3K_CORE_RGB16_NATIVE_ADMISSION_V5',
+                           'SLA_REFERENCE_N20_FM3K_CORE_RGB16_NATIVE_ADMISSION_V6'):
         spec['neural_owner_lock'] = q['neural_owner_lock']
 
 
@@ -42,7 +43,7 @@ def source_custody(spec):
     """Additional source requirements apply only to the separate SLA identity."""
     names = ('sla_native_v1.py', 'sla_native_policy_v1.py', 'sla_live_v1.py', 'sla_population_v1.py')
     if spec.get('core_local_protocol') == task.SLA_DENSE_ROLE:
-        names += ('sla_dense_native_v5.py','sla_dense_policy_v5.py','sla_dev48_v5.py')
+        names += ('sla_dense_native_v5.py','sla_dense_policy_v5.py','sla_dev48_v5.py','sla_reference_native_v6.py')
     source = Path(spec['source_root'])
     for name in names:
         key = 'src/go2arx5_vla/world_model/'+name

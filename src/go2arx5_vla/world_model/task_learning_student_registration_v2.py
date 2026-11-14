@@ -123,7 +123,10 @@ def group_input(request,panel):
         inp['schema']=INPUT_SCHEMA
     if task.native_body_role(panel.get('task_learning_role')):
         inp['schema']=task.native_body_profile(panel['task_learning_role']).INPUT_SCHEMA
-        if panel.get('schema')=='SLA_FRESH_N20_RAW_P10_TRAIN8_PANEL_V5':
+        if panel.get('schema')=='SLA_REFERENCE_N20_RAW_P10_TRAIN8_PANEL_V6':
+            from .sla_reference_native_v6 import INPUT_SCHEMA
+            inp['schema']=INPUT_SCHEMA
+        elif panel.get('schema')=='SLA_FRESH_N20_RAW_P10_TRAIN8_PANEL_V5':
             from .sla_dense_native_v5 import NAMED_INPUT_SCHEMA
             inp['schema']=NAMED_INPUT_SCHEMA
         if panel.get('schema')=='SLA_RAW3K_PICK_HOLD_NEW_GEOMETRY_DEV48_PANEL_V5':
