@@ -14,6 +14,12 @@ def admission(spec):
             or (spec['planned_candidate_updates'],spec['planned_target_visits'],spec['planned_source_visits'])
                != (3000,96000,0)):
         raise ValueError('CLEAN_BASE_FINITE_N20_FM3K_FIXED_B32_MICRO8_RECIPE_REQUIRED')
+    reusable_core_qualifications(spec)
+    continuation_prefix(spec)
+
+
+def reusable_core_qualifications(spec):
+    """Reuse the actual parent/site/gradient qualification across new data."""
     # These are the already CLOSED0 site/RGB and real-gradient operations;
     # new data does not replay camera, SFT2000 or save/restore qualification.
     proof = read_pin(spec['prior_core_RGB_qualification'])
@@ -44,7 +50,6 @@ def admission(spec):
             or lease['status'] != 'CLOSED' or lease['worker_exit_code'] != worker['exit_code']
             or worker['exit_code'] != 0):
         raise ValueError('EXISTING_ACTUAL_DENSE_GRADIENT_NOT_NEW_QUALIFICATION_REQUIRED')
-    continuation_prefix(spec)
 
 
 def continuation_prefix(spec):
