@@ -19,7 +19,8 @@ from .pilot1_curriculum import robot_contract, scene_xml
 from .storage import digest
 from .task_learning_scene_v1 import BASE_SCENE, geometry
 
-VERSION = 'SLA_TARGET_FIVE_OBJECT_TEN_POSE_STATIC_V5'
+VERSION = 'SLA_TARGET_FIVE_OBJECT_TEN_POSE_STATIC_V5_1'
+LAYOUT_CENTER_XY_M = [.28, -.014]
 OBJECTS = {
     'RED_CUBE40': dict(size_m=[.04, .04, .04], rgba=[.82, .04, .04, 1.]),
     'GREEN_CUBE35': dict(size_m=[.035, .035, .035], rgba=[.05, .65, .10, 1.]),
@@ -27,8 +28,11 @@ OBJECTS = {
     'YELLOW_BOX35_45_40': dict(size_m=[.035, .045, .04], rgba=[.90, .75, .04, 1.]),
     'PURPLE_BOX45_35_50': dict(size_m=[.045, .035, .05], rgba=[.60, .08, .70, 1.]),
 }
-# Fixed before any new student output. Local offsets remain within the old
-# reachable TRAIN envelope; yaw and object geometry are new declared factors.
+# Fixed before any new student output. The original .26m center produced ten
+# tall-object startup collisions at link6. A read-only translation diagnostic
+# isolated +20mm X as a passing alternative without resizing that object. The
+# new version moves the entire five-object panel, retaining all relative pose
+# strata and the original negative catalogue; dynamic reachability is pending.
 POSES = {
     f'POSE{i + 1:02d}': dict(offset_xy_m=[x, y], yaw_rad=math.radians(yaw))
     for i, (x, y, yaw) in enumerate([
@@ -45,7 +49,7 @@ def declaration(object_id, pose_id):
     obj = OBJECTS[object_id]
     pose = POSES[pose_id]
     size = np.asarray(obj['size_m'], float)
-    xyz = np.array([.26, -.014, .6 + size[2] / 2])
+    xyz = np.array([*LAYOUT_CENTER_XY_M, .6 + size[2] / 2])
     xyz[:2] += pose['offset_xy_m']
     yaw = pose['yaw_rad']
     return dict(version=VERSION, object_id=object_id, pose_id=pose_id,
@@ -59,6 +63,10 @@ def declaration(object_id, pose_id):
 def catalogue():
     return dict(schema=VERSION, objects=list(OBJECTS), poses=list(POSES),
         cases=[declaration(o, p) for o in OBJECTS for p in POSES],
+        layout_center_xy_m=LAYOUT_CENTER_XY_M,
+        prior_static_catalogue='SLA_TARGET_FIVE_OBJECT_TEN_POSE_STATIC_V5',
+        prior_static_failure='ALL_TEN_50MM_OBJECT_POSES_TOUCH_ORIGINAL_LINK6_DURING_STARTUP',
+        change='ENTIRE_PANEL_PLUS20MM_WORLD_X_OBJECT_DIMENSIONS_AND_RELATIVE_STRATA_UNCHANGED',
         D100_required_full_demonstrations=100, D300_required_full_demonstrations=300,
         production_admitted=False, student_evaluation=False,
         scope='FIVE_DECLARED_BOX_INSTANCES_NOT_UNSEEN_OBJECT_CATEGORY_GENERALIZATION')
