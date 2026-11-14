@@ -1,9 +1,8 @@
 """Bind corrected-label endpoints to the unchanged raw-H40 native consumer."""
 from . import task_learning_grasp_v1 as task
 from .stable_task_scene_v1 import pinned
-from ..sla_adapter.reference_dataset_v6 import (
-    DATASET_ID,RECIPE,OPERATION,AUDIT_SCHEMA,ORIGINAL_MANIFEST_SHA)
-from ..sla_adapter.reference_labels_v6 import VERSION
+from ..sla_adapter.reference_identity_v6 import (
+    DATASET_ID,RECIPE,OPERATION,AUDIT_SCHEMA,ORIGINAL_MANIFEST_SHA,VERSION)
 
 METHOD='N20_REFERENCE_FM3K_RAW_P10'
 ADMISSION='SLA_REFERENCE_N20_FM3K_CORE_RGB16_NATIVE_ADMISSION_V6'

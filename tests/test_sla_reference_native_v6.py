@@ -96,3 +96,20 @@ def test_new_train_panel_keeps_all_original_eight_conditions_and_no_old_suffix(t
     assert q['schema']==ref.INPUT_SCHEMA
     from go2arx5_vla.world_model.sla_native_continuation_v2 import wait_seconds
     assert wait_seconds(dict(q,task_learning_role=task.SLA_DENSE_ROLE))==90
+
+
+def test_native_metadata_entry_imports_without_training_scipy_or_jax():
+    import os,subprocess,sys
+    code="""
+import sys,importlib.abc
+class NativeOnly(importlib.abc.MetaPathFinder):
+ def find_spec(self,fullname,path=None,target=None):
+  if fullname.split('.')[0]in('scipy','jax','torch','flax'):
+   raise ImportError('NATIVE_METADATA_MUST_NOT_IMPORT_'+fullname)
+sys.meta_path.insert(0,NativeOnly())
+from scripts.wm02.sla_n20_endpoint_followup_v5 import run
+from scripts.wm02.admit_dense_sla_native_v5 import build
+from go2arx5_vla.world_model.sla_reference_native_v6 import METHOD
+assert METHOD=='N20_REFERENCE_FM3K_RAW_P10'
+"""
+    subprocess.run([sys.executable,'-c',code],env=dict(os.environ),check=True,capture_output=True,text=True)

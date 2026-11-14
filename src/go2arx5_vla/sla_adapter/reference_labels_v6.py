@@ -14,7 +14,7 @@ from ..world_model.task_learning_grasp_v1 import (
     FiftyMsProgram,WORKING_CLOSED_M,WORKING_OPEN_M,MECHANICAL_TRAVEL_M,
 )
 
-VERSION='SLA_CURRENT_ANCHOR_EQUIVALENT_CONSUMED_REFERENCE_V6'
+from .reference_identity_v6 import VERSION
 
 
 def derive(state10,issuing_nominal,installed_reference,*,anchor_native_step,command_native_steps):
