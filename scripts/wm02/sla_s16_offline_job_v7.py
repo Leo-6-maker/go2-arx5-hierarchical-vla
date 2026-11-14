@@ -10,8 +10,12 @@ import os
 from pathlib import Path
 import signal
 import subprocess
+import sys
 import time
 import traceback
+
+_SOURCE = Path(__file__).resolve().parents[2]
+sys.path[:0] = [str(_SOURCE/'src'), str(_SOURCE)]
 
 from scripts.pi0292.durable import OwnerLock, write
 from go2arx5_vla.world_model.storage import digest
