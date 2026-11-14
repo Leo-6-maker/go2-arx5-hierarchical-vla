@@ -13,7 +13,7 @@ import numpy as np
 from scripts.sla.audit_saved_reference_probes_v61 import preview_metrics, LIMITS
 from go2arx5_vla.sla_adapter.checkpoint_v1 import sha
 from go2arx5_vla.sla_adapter.s16_offline_v7 import DATA_SHA, STATS_SHA
-from go2arx5_vla.trajectory.so3 import rot6d_rows_to_matrix, matrix_to_quat
+from go2arx5_vla.trajectory.so3 import rot6d_rows_to_matrix, matrix_to_quat, geodesic_angle
 from go2arx5_vla.world_model.task_learning_grasp_v1 import WORKING_OPEN_M, WORKING_CLOSED_M
 
 DT=.05
@@ -29,7 +29,7 @@ def series(physical):
     angular=q[:,:3]*(2*np.arctan2(sine,q[:,3:]))/np.where(sine>0,sine,1.)/DT
     angular_a=np.diff(np.vstack((np.zeros(3),angular,np.zeros(3))),axis=0)/DT
     return dict(maximum_translation_speed_m_s=np.linalg.norm(velocity,axis=1),
-        maximum_angular_speed_rad_s=np.linalg.norm(angular,axis=1),
+        maximum_angular_speed_rad_s=geodesic_angle(rotations[:-1],rotations[1:])/DT,
         maximum_finger_speed_m_s=(WORKING_OPEN_M-WORKING_CLOSED_M)*np.abs(np.diff(physical[:,9]))/DT,
         maximum_discrete_translation_acceleration_m_s2=np.linalg.norm(acceleration,axis=1),
         maximum_discrete_angular_acceleration_rad_s2=np.linalg.norm(angular_a,axis=1)),acceleration
