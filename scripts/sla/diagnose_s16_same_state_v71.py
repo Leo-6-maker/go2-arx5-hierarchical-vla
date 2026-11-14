@@ -32,10 +32,17 @@ def run(spec,output):
     selection_path=Path(spec['selection']);assert sha(selection_path)==spec['selection_sha256']
     selection=json.loads(selection_path.read_bytes());indices=fixed_indices(m,selection)
     matrix=[(e,k)for e in m['episodes']for k in range(61)];cache={};models={};rows=[];calls=0
+    if spec.get('prior_rows'):
+        pin=spec['prior_rows'];assert sha(pin['path'])==pin['sha256']
+        rows=[json.loads(line)for line in Path(pin['path']).read_text().splitlines()]
+        assert len(rows)==pin['completed_windows']==2 and [r['index']for r in rows]==list(indices[:2])
+        assert all(r['TCP_max_component_error']<=1e-9 and len(r['variants'])==3 for r in rows)
+    prior_calls=sum(len(v['settings'])for row in rows for v in row['variants'])
+    completed=len(rows)
     R=Path(spec['fixed160_root']);result=json.loads((R/'RESULT.private.json').read_bytes())
     assert sha(R/'RESULT.private.json')==spec['fixed160_result_sha256'] and result['actual_generations']==160
     assert json.loads((R/'control/LEASE.json').read_bytes())['status']=='CLOSED'
-    for index in indices:
+    for index in indices[completed:]:
         ep,anchor=matrix[index]
         if ep['id'] not in cache:
             assert sha(D/ep['labels']['file'])==ep['labels']['sha256']
@@ -84,5 +91,5 @@ def run(spec,output):
         row=dict(index=index,episode=ep['id'],anchor=anchor,native_step=sample['native_step'],stage=stage,state_sha256=sha(state_file),scene_sha256=sha(scene),source_spec_sha256=source['sha256'],TCP_max_component_error=error,reference_history=[dict(end_native_step=v['end_native_step'],pose=v['pose'].tolist())for v in history],variants=variants,full_WBC_state_restored=False,historical_student_state_expert_final_plan_pair=False)
         rows.append(row)
         with(output/'ROWS.private.jsonl').open('a')as f:f.write(json.dumps(row,allow_nan=False)+'\n')
-    out=dict(schema='SLA_S16_RECORDED_STATE_LABEL_PREDICTION_CLONE_V7_1',rows=rows,verified_windows=len(rows),predictions=32,label_plans=16,clone_certifier_calls=calls,new_model_generations=0,optimizer_updates=0,training_visits=0,physical_requests=0,physics_integrations=0,full_WBC_state_restored=False,same_state_historical_expert_final_plan_pairs=0,formal_results_changed=False,wall_s=time.time()-start,CPU_s=time.process_time()-cpu)
+    out=dict(schema='SLA_S16_RECORDED_STATE_LABEL_PREDICTION_CLONE_V7_1',rows=rows,verified_windows=len(rows),predictions=32,label_plans=16,clone_certifier_calls=calls,prior_clone_certifier_calls=prior_calls,total_clone_certifier_calls=calls+prior_calls,prior_rows=spec.get('prior_rows'),new_model_generations=0,optimizer_updates=0,training_visits=0,physical_requests=0,physics_integrations=0,full_WBC_state_restored=False,same_state_historical_expert_final_plan_pairs=0,formal_results_changed=False,wall_s=time.time()-start,CPU_s=time.process_time()-cpu)
     (output/'RESULT.private.json').write_text(json.dumps(out,indent=2,allow_nan=False));return out

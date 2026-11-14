@@ -86,7 +86,7 @@ class Recorder:
             adapter_sha256=digest(source/'src/go2arx5_vla/world_model/task_learning_grasp_v1.py'),
             normalizer_sha256=None,full_H40_valid=False)
         p.update(reference_before_query=reference.tolist(),base_pose_hold=program.base_pose_hold.tolist(),preplanner_proposal=proposal,
-            training_statistics_status='UNFIT_RAW_PHYSICAL_PLAN_NOT_TRAINING_ADMITTED',
+            training_statistics_status=('FROZEN_PD4_TRAIN_STATS_ORACLE_NOT_STUDENT_QUALIFIED'if self.adapter.spec.get('pd4_statistics_prospective_v71')else'UNFIT_RAW_PHYSICAL_PLAN_NOT_TRAINING_ADMITTED'),
             transport_statistics_sha256=self.config['transport_statistics']['sha256'],
             transport_is_oracle_not_student=True,origin_query_index=index,events=[])
         self.plans.append(p);self.active=p;self.emit('FINAL_PLAN_BEFORE_INSTALL',plan=p.copy())
