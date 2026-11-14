@@ -38,6 +38,9 @@ def recorded_tail(spec):
 
 
 def native_protocol(spec):
+    if spec.get('sla_five_object_hold_v5')is not None:
+        from .sla_five_object_hold_v5 import protocol as five_object_protocol
+        return five_object_protocol(spec)
     if spec.get('sla_pick_place_v5')is not None:
         from .sla_pick_place_v5 import configuration,protocol
         configuration(spec)
@@ -56,6 +59,10 @@ def native_protocol(spec):
 
 
 def native_endpoint(spec):
+    if spec.get('sla_five_object_hold_v5')is not None:
+        from .sla_five_object_hold_v5 import configuration,ENDPOINT
+        configuration(spec)
+        return ENDPOINT
     if spec.get('sla_pick_place_v5')is not None:
         from .sla_pick_place_v5 import configuration,ENDPOINT
         configuration(spec)
@@ -117,6 +124,9 @@ def validate_cadence_panel(panel):
 
 
 def native_scene_admission(spec):
+    if spec.get('sla_five_object_hold_v5')is not None:
+        from .sla_five_object_hold_v5 import native_scene_admission as five_object_admission
+        return five_object_admission(spec)
     if spec.get('sla_pick_place_v5')is not None:
         from .sla_pick_place_v5 import native_scene_admission as place_admission
         return place_admission(spec)

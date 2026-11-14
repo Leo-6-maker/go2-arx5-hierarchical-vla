@@ -206,6 +206,9 @@ def episode_config(spec):
     document=scenes.pinned(dict(path=spec['episode_manifest'],sha256=spec['episode_manifest_sha256']))
     episode=scenes.prefix_episode(document,spec)
     members=SOURCE_MEMBERS
+    if spec.get('sla_five_object_hold_v5')is not None:
+        members+=('src/go2arx5_vla/world_model/sla_five_object_hold_v5.py',
+                  'src/go2arx5_vla/world_model/sla_target_coverage_v5.py')
     if spec.get('sla_pick_place_v5')is not None:
         members+=('src/go2arx5_vla/world_model/sla_pick_place_v5.py',)
     if spec.get('corelab_world_binding_v3') is not None:
@@ -337,6 +340,9 @@ def continue_native(adapter,report,samples,windows):
     previous_nominal_grip = 1.
     cycles=[reset_cycle];decisions=[];captures=[];confirmed=[]
     language=place.LANGUAGE if is_place else task.LANGUAGE
+    if adapter.spec.get('sla_five_object_hold_v5')is not None:
+        from .sla_five_object_hold_v5 import language as five_object_language
+        language=five_object_language(adapter.spec)
     scoring=place.score_contract()if is_place else task.score_contract()
     task_samples=[place.with_actual_support(adapter,samples[-1])if is_place else samples[-1]];standing=[]
     def observe(s):
@@ -493,6 +499,9 @@ def continue_native(adapter,report,samples,windows):
 
 
 def native_result_schema(spec):
+    if spec.get('sla_five_object_hold_v5')is not None:
+        from .sla_five_object_hold_v5 import VERSION
+        return VERSION+'_NATIVE_ACTUAL'
     if spec.get('sla_pick_place_v5')is not None:
         from .sla_pick_place_v5 import VERSION
         return VERSION+'_NATIVE_ACTUAL'

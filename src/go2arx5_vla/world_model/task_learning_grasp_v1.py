@@ -116,6 +116,9 @@ def protocol(role=CONSTRUCTION_ROLE):
 
 
 def declared(spec):
+    if spec.get('sla_five_object_hold_v5')is not None:
+        from .sla_five_object_hold_v5 import declared as five_object_declared
+        return five_object_declared(spec)
     if spec.get('sla_pick_place_v5')is not None:
         from .sla_pick_place_v5 import declared as place_declared
         return place_declared(spec)
