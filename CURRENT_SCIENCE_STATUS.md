@@ -1,4 +1,16 @@
+> SLA V6.1 actual · 2026-11-14 18:28 SGT: fixedTRAIN8 7/8 native requests started,6 terminal,0/6 complete success;37 SLA queries/310 confirmed student commands in closed rows. ExistingRGB probes12/16 EEF-geometric legal despite<0.65mm XYZ RMSE,notS16/native qualification. Separate mask loss and CPU synthetic forward/gradient assay pass;real-SLA mask qualification/learner binding pending,0 new training updates. [Evidence](reports/WM02/sla-v61-train8-mask-20261114/EXECUTION_20261114.md).
+
+> SLA V6 student actual · 2026-11-14T17:54:51.847243+08:00: fixedTRAIN8 first condition0/1 complete success,valid H40 rate/acceleration rejection after10 SLA queries;9 original P10 prefixes/90 solver-gripper-confirmed student commands/2250 execution integrations. Second original condition progressing;no retraining,Teacher fallback or safety change. [Evidence](reports/WM02/sla-action-contract-v61-first4-20261114/FIRST_STUDENT_20261114.md).
+
+> SLA V6.1 actual update · 2026-11-14 17:46 SGT: user-authorized prospective first4 PICK_HOLD closes4/4 with9760 supervised/2560 consumed points;two PD4 views each244 windows pass frozen-statistics FP32 CPU audit,not new-statistics native/training admission. Inherited V6 CLOSED0 at3000/96000T,full87 and freshRGB16 verified;fixedTRAIN8 first world running after a prephysics registration repair. OldRP8 remains failed after arm-handoff divergence;S16 unstarted. [Evidence](reports/WM02/sla-action-contract-v61-first4-20261114/EXECUTION_20261114.md).
+
+> SLA V6.1 actual update · 2026-11-14T15:49:18.392684+08:00: first RP8 stops at state reconstruction before oracle injection;1220/1220 FP32 student-file checks pass;HOLD50 closes40/50,combined118 full;inherited V6 2002/64064T remains live. S16 not started. [Evidence](reports/WM02/sla-action-contract-v61-20261114/EXECUTION_20261114.md).
+
 # 当前科学状态 · Goal V7 · 2026-11-03
+
+2026-11-14T12:25:57+08:00 · SLA V5固定f61305f9：Core新参考系标签版本实际92更新／2,944T／0S，20EP/1220窗完全复用，全部1220原H40及FP32门通过、87个初始模型／Adam／RNG数组与旧N20逐位一致；3K保存和新进程RGB／原生评价仍待完成。旧N20完整3000更新／96,000T／0S和87状态＋16RGB重建保留；旧TRAIN8已8/8终态、0成功：7rawH40→0安装→0消费，另1启动技术失败。空间2EP支线累计2857更新，BOOK500队列保留；不是同数据FM/SF。专家78完整／87原生worker请求，pacedPLACE25,878步触及原5mm脚位移评分，0/1；旧负结果和WBC／安全／旧DEV_TEST冻结。D100/D300未完成。[真实状态、分母、成本与后续](reports/WM02/sla-long-horizon-v5-20261114/EXECUTION_20261114.md)。
+
+2026-11-13 21:26 SGT · V4执行增量：固定fd46f53，以现役runtime3195f0eb建立独立worktree；20条真实RoboTwin示范审计、64个辅助codec检查、128次RGB解码完成，但缺物理时钟／采集版本／命令FK工具依据，S_cmd准入0、保留S_aux。五配方各1000模拟CPU批次与恢复检查通过，未接入正式learner。Corelab固定16条件剩余14条已挂有限双CPU世界后台；D100/D300生产和混合训练更新仍0。R1训练及Core RGB已完成，原生R1评价0；完整工作未完成。[实际端点](reports/WM02/sla-source-target-v4-20261113/CURRENT_STAGE_ACTUAL.json)、[源隔离证据与软件边界](reports/WM02/sla-source-target-v4-20261113/EXECUTION_20261113.md)。
 
 2026-11-13 21:00 SGT · SLA V3→V4接续：R1在H200完成500真实更新／16000访问／64 RGB，Corelab两个独立进程另完成32 RGB、回读逐字节一致，原生R1评价仍0。新稠密单世界工程验证1/1及首组2秒／0.5秒合同2/2成功并独立封存；均非D100生产数据，D100_new／PLACE仍0。旧S1 DEV已15/16终态关闭：0成功、12策略拒绝、3技术失败，最后初始化故障发生在2653步；仅剩一条未启动。V4固定fd46f53补充目标优先与源语义／移动合同；未新投混合训练。[当前端点](reports/WM02/sla-corelab-v3-20261113/CURRENT_STAGE_ACTUAL.json)、[完整分母与下一动作](reports/WM02/sla-corelab-v3-20261113/STATUS_20261113_2100.md)。
 

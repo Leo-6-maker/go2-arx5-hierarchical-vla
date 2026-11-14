@@ -67,7 +67,7 @@ def test_sla_inference_spec_uses_qualified_gpu_and_its_own_environment(tmp_path)
                  JAX_memory_fraction=.8,initial_function_rule=dict(path=str(rule),sha256=digest(rule)))
     spec=dict(GPU_uuid='LEGACY_OTHER_CARD',source_root='/own/sealed/source')
     q=dict(runtime=runtime,GPU_uuid='ACTUALLY_QUALIFIED_CARD',parent_params='/own/parent/params',
-           parent_manifest=dict(sha256='parent'),ordinary_parameter_bytes=6911149664,
+           parent_manifest=dict(path='/own/parent/BYTE_MANIFEST.json',sha256='parent'),ordinary_parameter_bytes=6911149664,
            allocator_limit_bytes=13367404333,ordinary_RGB_reconstruction=dict(sha256='proof'))
     apply_inference_spec(spec,q);env=inference_environment(spec)
     assert spec['GPU_uuid']=='ACTUALLY_QUALIFIED_CARD' and spec['python']=='/own/sla/python'

@@ -1,0 +1,55 @@
+{
+  "schema": "SLA_FIVE_OBJECT_PICK_HOLD_CONSTRUCTION_V5_1_PANEL",
+  "fixed_plan": "f61305f9c1f847e460851fd067892160f71ca432",
+  "purpose": "Five declared object instances at POSE01: native expert feasibility, not D100 or student evaluation",
+  "tasks": [
+    "PICK_HOLD"
+  ],
+  "objects": [
+    "RED_CUBE40",
+    "GREEN_CUBE35",
+    "BLUE_BOX50_30_40",
+    "YELLOW_BOX35_45_40",
+    "PURPLE_BOX45_35_50"
+  ],
+  "pose_id": "POSE01",
+  "restart": 11,
+  "requested": 5,
+  "source_static_version": "SLA_TARGET_FIVE_OBJECT_TEN_POSE_STATIC_V5_1",
+  "native_end_step": 21703,
+  "queries": 60,
+  "prefix_atoms": 10,
+  "full_preview_atoms": 40,
+  "terminal_hold_atoms": 40,
+  "expected_consumed_commands": 640,
+  "expected_dual_frame_pairs": 321,
+  "expected_full_H40_windows": 61,
+  "maximum_new_concurrent_worlds": 4,
+  "CPU_slots": [
+    [
+      4,
+      5
+    ],
+    [
+      6,
+      7
+    ],
+    [
+      12,
+      13
+    ],
+    [
+      14,
+      15
+    ]
+  ],
+  "base_Teacher_and_score_unchanged": true,
+  "old_DEV_TEST_or_failed_conditions_retried": false,
+  "D100_new": false,
+  "student_evaluation": false,
+  "model_loads": 0,
+  "optimizer_updates": 0,
+  "CPU_slot4_5_requires_previous_PICK_PLACE_actual_terminal": true,
+  "previous_PICK_PLACE_pass_required": false,
+  "actor_choice": "COMPLETED_FIXED1_2_4_FULL_DEMO_RATES_FAVOR4_UNDER_OBSERVED_LOAD"
+}

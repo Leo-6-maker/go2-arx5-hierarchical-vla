@@ -1,0 +1,460 @@
+{
+  "schema": "SLA_V61_FIRST4_AND_INHERITED_V6_CLOSEOUT_ACTUAL",
+  "snapshot": "2026-11-14T17:46:13.983305+08:00",
+  "goal_complete": false,
+  "fixed_plan": "6e6636577d53b6b25a92b1e36cf2e619e765eab3",
+  "plan_PR": 383,
+  "execution_PR": 384,
+  "authorization": "USER_EXPLICITLY_ADVANCED_ONLY_FIRST4_NEW_EXPERT_EPISODES_KEEP_OLD_RP8_FAILED",
+  "runtime_sources": {
+    "prospective_first4": "a29f076963af048569f8779bb20fd5ad9fbf9aac",
+    "dual_view_audit": "ad7458193763bd96bb1de5a4a118f14f9bb7dce1",
+    "inherited_V6": "3f48cadfafac08e86b2bc14594481978bb6788f0",
+    "fixed_endpoint_followup": "d2f77ddeb648bf5e6645b3e5747806c7e9266203"
+  },
+  "old_snapshot": "reports/WM02/sla-action-contract-v61-20261114/ACTUAL_20261114.json",
+  "first4_native": {
+    "schema": "SLA_PROSPECTIVE_FIRST4_FINAL_PLAN_FP32_NATIVE_ACTUAL_V6_1",
+    "exit_code": 0,
+    "requested": 4,
+    "physical_requests": 4,
+    "terminal": 4,
+    "full": 4,
+    "native_integrations": 86812,
+    "supervised_points": 9760,
+    "consumed_points": 2560,
+    "SLA_model_queries": 0,
+    "optimizer_updates": 0,
+    "training_visits": 0,
+    "old_RP8_passed": false,
+    "PD_training_statistics": "UNFIT",
+    "training_dataset_admitted": false,
+    "wall_s": 1052.5015025138855,
+    "outcomes": [
+      {
+        "layout": "TRAIN01",
+        "native_run": "sla-v61-pd-first4-20261114-01-train01-r14-p10",
+        "physical_request": true,
+        "worker_exit_code": 0,
+        "native_integrations": 21703,
+        "task_success": true,
+        "first_failure": [],
+        "queries": 61,
+        "supervised_points": 2440,
+        "consumed_points": 640,
+        "SLA_model_queries": 0,
+        "updates": 0,
+        "wall_s": 507.35735601652414,
+        "CPU_s": 472.00183004999997,
+        "training_dataset_admitted": false,
+        "shards": {
+          "frames": 321,
+          "commands": 640,
+          "windows": 61,
+          "manifest_sha256": "a565d47e1ae926fe39bba7d6636b985ce15aca5d7780ea411866f5ad710e4cce"
+        }
+      },
+      {
+        "layout": "TRAIN04",
+        "native_run": "sla-v61-pd-first4-20261114-01-train04-r14-p10",
+        "physical_request": true,
+        "worker_exit_code": 0,
+        "native_integrations": 21703,
+        "task_success": true,
+        "first_failure": [],
+        "queries": 61,
+        "supervised_points": 2440,
+        "consumed_points": 640,
+        "SLA_model_queries": 0,
+        "updates": 0,
+        "wall_s": 518.9949932359159,
+        "CPU_s": 474.670467161,
+        "training_dataset_admitted": false,
+        "shards": {
+          "frames": 321,
+          "commands": 640,
+          "windows": 61,
+          "manifest_sha256": "f9c839f8c19e72c5b51d952461d353ba23582d4f0dfd25140ddce94c07c6be82"
+        }
+      },
+      {
+        "layout": "TRAIN07",
+        "native_run": "sla-v61-pd-first4-20261114-01-train07-r14-p10",
+        "physical_request": true,
+        "worker_exit_code": 0,
+        "native_integrations": 21703,
+        "task_success": true,
+        "first_failure": [],
+        "queries": 61,
+        "supervised_points": 2440,
+        "consumed_points": 640,
+        "SLA_model_queries": 0,
+        "updates": 0,
+        "wall_s": 609.8309548012912,
+        "CPU_s": 609.4125051340001,
+        "training_dataset_admitted": false,
+        "shards": {
+          "frames": 321,
+          "commands": 640,
+          "windows": 61,
+          "manifest_sha256": "39388634c4372d350eff4fa8ae8bcaaca03aabde6728a3b775260df49e828d78"
+        }
+      },
+      {
+        "layout": "TRAIN10",
+        "native_run": "sla-v61-pd-first4-20261114-01-train10-r14-p10",
+        "physical_request": true,
+        "worker_exit_code": 0,
+        "native_integrations": 21703,
+        "task_success": true,
+        "first_failure": [],
+        "queries": 61,
+        "supervised_points": 2440,
+        "consumed_points": 640,
+        "SLA_model_queries": 0,
+        "updates": 0,
+        "wall_s": 494.91366735938936,
+        "CPU_s": 570.985363514,
+        "training_dataset_admitted": false,
+        "shards": {
+          "frames": 321,
+          "commands": 640,
+          "windows": 61,
+          "manifest_sha256": "7aeae1dc69f3a04cd2dc5010b42d9dbb9f6f168552f0ffa0b9ebf69445e4824e"
+        }
+      }
+    ]
+  },
+  "first4_observed_at": "2026-11-14T17:31:30.259389+08:00",
+  "first4_evidence": {
+    "task": "PICK_HOLD",
+    "restart": 14,
+    "normal_native_binary_sha256": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+    "callback_replay_enabled": false,
+    "transport_statistics_sha256": "024951afc22e03586635f17b5ee8f473aead1960f107d8768384643844afb9e1",
+    "final_plans": 244,
+    "P10_queries": 240,
+    "terminal_P40_plans": 4,
+    "body_wrist_frame_pairs": 1284,
+    "actual_pipeline": [
+      "POST_EEF_STREAM_FINAL_PLAN",
+      "REAL_NORMALIZED_FP32_FILE",
+      "EXISTING_GRIP_LOGIT_CODEC",
+      "REAL_ACTION_NPZ",
+      "UNCHANGED_RAW_STUDENT_COMPILER",
+      "ORIGINAL_FULL_H40_NATIVE_CERTIFIER",
+      "ORIGINAL_NATIVE_INSTALL_ACK",
+      "ACTUAL_P10_WITH_ORIGIN_COMMAND_AND_TICK_MASKS"
+    ],
+    "post_raw_expert_regeneration": false,
+    "SLA_student_success": false,
+    "PICK_PLACE_success": false,
+    "worker_CPU_s": 2127.0701658589996,
+    "writer_events_per_episode": 823,
+    "all_writer_committed": true,
+    "writer_pending_dropped": 0,
+    "supervision_mask_not_consumption_mask": true,
+    "normal_P10_supervised": 40,
+    "normal_P10_consumed": 10,
+    "terminal_hold_supervised": 40,
+    "terminal_hold_consumed": 40,
+    "future_query_backfills_old_consumed_mask": false
+  },
+  "dual_views": {
+    "schema": "SLA_PD4_TWO_VIEW_STATISTICS_AND_FP32_AUDIT_V6_1",
+    "views": {
+      "PD4_EXECUTED_REF": {
+        "windows": 244,
+        "manifest_sha256": "a06eab92e12f9b6eec91e04d45665cb9f65834d1d0f626a9b0a0b22571df3f4c",
+        "statistics_sha256": "66ff4bdf39bfbf1db3d9ff394dad8a0a0384be1b4e22c0b80c1be2304cf6fe37",
+        "FP32_max_reference_error": {
+          "xyz_m": 3.200972598094154e-09,
+          "so3_rad": 1.7956482217359773e-09,
+          "mechanical_grip_m": 4.949297656153817e-10
+        }
+      },
+      "PD4_FINAL_PLAN": {
+        "windows": 244,
+        "manifest_sha256": "f9482067c8634fec3dab197a50a9aa8ae1b0c37731d8bf32e446ce3cd883e603",
+        "statistics_sha256": "31462fbeb99e907605eb203d359c78dedaf8f356f643adb725dc637c9a52fcbf",
+        "FP32_max_reference_error": {
+          "xyz_m": 1.6624484011629193e-09,
+          "so3_rad": 6.975032994699559e-10,
+          "mechanical_grip_m": 4.00000039174353e-06
+        }
+      }
+    },
+    "models": 0,
+    "updates": 0,
+    "physics_integrations": 0,
+    "old_RP8_passed": false,
+    "new_statistics_native_replay": false,
+    "new_statistics_training_admitted": false,
+    "passes": true,
+    "wall_s": 17.66863465309143,
+    "CPU_s": 2.426118354
+  },
+  "dual_view_worker": {
+    "exit_code": 0,
+    "error": null,
+    "wall_s": 17.91210436820984,
+    "CPU_s": 0.012460032,
+    "child_CPU_s": 2.564131,
+    "model_loads": 0,
+    "optimizer_updates": 0,
+    "physical_requests": 0,
+    "physics_integrations": 0
+  },
+  "inherited_V6": {
+    "run_id": "sla-pt-n20-reference-fm3k-core-v6-20261114-01",
+    "status": "CLOSED0",
+    "updates": 3000,
+    "target_visits": 96000,
+    "source_visits": 0,
+    "physical_requests": 0,
+    "complete_sha256": "b01d15817391f7e74971678ad3304060e8651dd7582761b1a0ba7611f115800d",
+    "ordinary_RGB_package_manifest_sha256": "34b610446a2fbf00a49b042b76fc8fc0cb557898a90c40ff7c2ba77c4c3da8b2",
+    "actual_training_counters": {
+      "actual_parent_loads": 1,
+      "forward_backward_attempts": 12000,
+      "completed_forward_backward": 12000,
+      "optimizer_updates": 3000,
+      "attempted_training_visits": 96000,
+      "completed_training_visits": 96000,
+      "ordinary_RGB_generation_attempts": 64,
+      "ordinary_RGB_generations": 64,
+      "physical_requests": 0,
+      "rng_bank_generation_attempts": 3000,
+      "host_window_read_attempts": 96000,
+      "host_window_reads": 96000,
+      "input_device_batch_submissions": 12000,
+      "input_H2D_submitted_bytes": 188459040000,
+      "rng_banks_generated": 3000,
+      "update_metric_D2H_calls": 3000,
+      "update_metric_D2H_bytes": 48000,
+      "optimizer_update_attempts": 3000
+    },
+    "fresh_RGB16_bit_exact": true,
+    "fresh_RGB_result_sha256": "9a6954fc4b455e47abb5f8caafbf39a52e53d23d0da056f4f4f280b546a2b21e",
+    "independent_saved_arrays_readback": {
+      "complete_sha256": "b01d15817391f7e74971678ad3304060e8651dd7582761b1a0ba7611f115800d",
+      "arrays_read": 87,
+      "saved_array_file_bytes": 625851664,
+      "model_loads": 0,
+      "optimizer_updates": 0,
+      "physical_requests": 0,
+      "wall_s": 10.274951696395874
+    },
+    "saved_array_readback_receipt_sha256": "e5e9b535bacea9fc3ed796dd364ba445acb9209b918fcc1eeaeb989134c0e9c9",
+    "original_initial_all87_bit_exact": true,
+    "source_and_data_unchanged": true,
+    "dataset_manifest_sha256": "29fd45ff31a2031f70f5d32402e6bfefe2f8b644e8e81ad1d2003d4537a1a6f5",
+    "statistics_sha256": "024951afc22e03586635f17b5ee8f473aead1960f107d8768384643844afb9e1",
+    "GPU_owned_wall_s": 19368.134794712067,
+    "wall_s": 19368.327617406845,
+    "worker_cost": {
+      "exit_code": 0,
+      "wall_s": 19368.34926366806,
+      "GPU_owned_wall_s": 19368.156442165375,
+      "own_CPU_s": 7.380615464,
+      "child_CPU_s": 13324.722291
+    },
+    "new_optimizer_updates_added_by_this_continuation": 0,
+    "native_task_success_established": false
+  },
+  "followup_engineering_failure": {
+    "run_id": "sla-n20-reference3k-native-followup-v6-20261114-02",
+    "status": "CLOSED1",
+    "reason": "SCENE_REFERENCE_LOCAL_SHADOWED_REFERENCE_MODULE_IN_REGISTER_PANEL",
+    "actual_saved_arrays_read": 87,
+    "policy_admission_verified": true,
+    "panels_registered": 0,
+    "physical_requests": 0,
+    "model_loads": 0,
+    "optimizer_updates": 0,
+    "repair": "RENAME_LOCAL_SCENE_PIN_ONLY_NEW_SOURCE_NEW_OBSERVER_NO_TRAINING_OR_PANEL_RETRY"
+  },
+  "fixed_evaluation": {
+    "run_id": "sla-n20-reference3k-native-followup-v6-20261114-03",
+    "source_sha": "d2f77ddeb648bf5e6645b3e5747806c7e9266203",
+    "observed_at": "2026-11-14T17:46:13.983305+08:00",
+    "status": "TRAIN8_FIRST_ORIGINAL_PAIR_RUNNING",
+    "TRAIN8_planned": 8,
+    "TRAIN8_started": 1,
+    "TRAIN8_terminal": 0,
+    "TRAIN8_success": 0,
+    "DEV48_planned": 48,
+    "DEV48_started": 0,
+    "DEV48_terminal": 0,
+    "DEV48_success": 0,
+    "first_native_progress_tick": 1750,
+    "not_terminal_is_not_failure": true,
+    "valid_condition_retries": false,
+    "original_panel_seed_horizon_and_raw_consumer_unchanged": true,
+    "checkpoint_selection_step": 3000
+  },
+  "old_RP8": {
+    "passed": false,
+    "fixed_conditions": 8,
+    "first_condition": "TRAIN01-P10-r5:00",
+    "other_fixed_conditions_unstarted": 7,
+    "engineering_native_attempts": 3,
+    "total_initialization_integrations": 16666,
+    "oracle_injections": 0,
+    "oracle_consumed_points": 0,
+    "SLA_queries": 0,
+    "optimizer_updates": 0,
+    "technical_preflights_separate": true,
+    "original_failure": "STATE_DIVERGENCE_STARTS_AT_TICK12",
+    "callback_replay_attempts": [
+      {
+        "run_id": "sla-v61-rp8-callback-20261114-02",
+        "status": "CLOSED1",
+        "source_sha": "d51ebf80dded70888fa681388f28ba6d8b4003df",
+        "native_integrations": 5260,
+        "physical_requests": 1,
+        "oracle_injections": 0,
+        "oracle_consumed_points": 0,
+        "reason": "EXACT_NATIVE_PAUSE_NOT_REACHED",
+        "CPU_s": 34.675230567,
+        "wall_s": 128.44851609598845,
+        "shutdown_clean": true
+      },
+      {
+        "run_id": "sla-v61-rp8-callback-20261114-03",
+        "status": "CLOSED1",
+        "source_sha": "4e8fad01152cf070db01809daea4c3e935d9fe9f",
+        "native_integrations": 5703,
+        "physical_requests": 1,
+        "oracle_injections": 0,
+        "oracle_consumed_points": 0,
+        "reason": "RP8_STATE_RECONSTRUCTION_NOT_ESTABLISHED",
+        "CPU_s": 24.737382036,
+        "wall_s": 44.12631032522768,
+        "shutdown_clean": true
+      }
+    ],
+    "first2503_prefix_near_machine_precision": true,
+    "final_first_state_divergence_tick": 2504,
+    "divergent_control_indices": [
+      12,
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "first_control_max_error": 0.18552795,
+    "full_MPC_snapshot_restore_qualified": false,
+    "selected_original_policy_ID_exported": false,
+    "interpretation": "RECORDED_CALLBACK_ORDER_ALONE_DOES_NOT_RESTORE_MPC_ARM_HANDOFF",
+    "next_action": "REQUIRE_A_VERIFIED_COMPLETE_CONTROL_SNAPSHOT_OR_PREFIX_BEFORE_ANOTHER_OLD_RP8_ATTEMPT"
+  },
+  "S16": {
+    "updates": 0,
+    "target_visits": 0,
+    "RGB_predictions": 0,
+    "student_TRAIN4_requests": 0,
+    "old_RP8_support": false
+  },
+  "generation_pool": {
+    "full_demonstrations": 122,
+    "terminal_generation_native_worker_requests": 141,
+    "positive_integration_worlds": 137,
+    "zero_tick_failures": 4,
+    "native_integrations": 2852786,
+    "RP8_diagnostics_included": false,
+    "formal_D100": false,
+    "formal_D300": false,
+    "PICK_PLACE_admitted": false
+  },
+  "retained_other_endpoints": {
+    "two_episode_SF": {
+      "updates": 3000,
+      "committed_target_visits": 96000,
+      "actual_gradient_visits": 96016,
+      "source_visits": 0,
+      "arrays_read": 105,
+      "saved_array_file_bytes": 726615568,
+      "complete_sha256": "e88776ab91534ceef4e69b8d2388f15c2ac0978d94c8c85e4241616208f8d715",
+      "fresh_RGB16_bit_exact": true,
+      "matched_to_N20": false
+    },
+    "BOOK21": {
+      "updates": 500,
+      "target_visits": 0,
+      "source_visits": 16000,
+      "arrays_read": 87,
+      "saved_array_file_bytes": 625851664,
+      "complete_sha256": "5961e0f1c7f2405a7eb40280900f5f36f16d5414ab959ec4acc0763da6b9f846",
+      "fresh_RGB16_bit_exact": true,
+      "target_native_requests": 0
+    },
+    "original_N20_TRAIN8": {
+      "success": 0,
+      "terminal": 8,
+      "first_H40_policy_reject": 7,
+      "initialization_technical_failure": 1
+    },
+    "old_DEV_TEST_unchanged": true,
+    "old_paced_PLACE_failure_retained": true,
+    "H200_716146": "UNKNOWN_NOT_DUPLICATED"
+  },
+  "checks": {
+    "latest_affected_regressions": 24,
+    "GitHub_CI": "NOT_RUN",
+    "overlapping_earlier_test_totals_not_summed": true
+  },
+  "next_actions": [
+    "RECEIVE_ORIGINAL_FIXED_V6_TRAIN8_AND_CONDITIONAL_INDEPENDENT_DEV48",
+    "KEEP_OLD_RP8_FAILED_AND_S16_UNSTARTED",
+    "NEW_PD4_STATISTICS_NEED_COMPLETE_NATIVE_CHAIN_QUALIFICATION_BEFORE_TRAINING",
+    "DO_NOT_AUTOMATICALLY_EXPAND_FIRST4_TO_PD20_OR_START_OPTIONAL_TRAINING_ARMS"
+  ],
+  "invariants": {
+    "WBC_weights_gains_cost_solver_legs_frozen": true,
+    "native_2ms_and_safety_unchanged": true,
+    "inflight_capsules_hotpatched": false,
+    "old_DEV_TEST_and_negative_results_preserved": true,
+    "RL": false,
+    "real_robot": false
+  },
+  "callback_builds": [
+    {
+      "build": 1,
+      "exit_code": 1,
+      "wall_s": 19.967132806777954,
+      "child_CPU_s": 17.712010999999997,
+      "binary_sha256": null,
+      "status": "BUILD_RECEIPT_FINALIZATION_FAILED",
+      "WBC_math_reused": null,
+      "not_native_qualification": true,
+      "physical_requests": 0,
+      "updates": 0
+    },
+    {
+      "build": 2,
+      "exit_code": 0,
+      "wall_s": 18.815701246261597,
+      "child_CPU_s": 17.728458,
+      "binary_sha256": "dbaa7650ecf2d3daff20b6284e634e88f8380639ff238730b6d3c91fca6dc22a",
+      "status": "COMPILED_NOT_NATIVE_QUALIFIED",
+      "WBC_math_reused": true,
+      "not_native_qualification": true,
+      "physical_requests": 0,
+      "updates": 0
+    },
+    {
+      "build": 3,
+      "exit_code": 0,
+      "wall_s": 19.0110502243042,
+      "child_CPU_s": 17.729251,
+      "binary_sha256": "d009f122002ddd019f628701b2fbf1787bb7463896b5df4357279c5780acde99",
+      "status": "COMPILED_NOT_NATIVE_QUALIFIED",
+      "WBC_math_reused": true,
+      "not_native_qualification": true,
+      "physical_requests": 0,
+      "updates": 0
+    }
+  ]
+}

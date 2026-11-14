@@ -23,7 +23,7 @@ def wait_seconds(spec):
     if pin is None:
         return 35
     repair = pinned(pin)
-    task.need(spec.get('task_learning_role') == task.SLA_ROLE
+    task.need(spec.get('task_learning_role') in (task.SLA_ROLE, task.SLA_DENSE_ROLE)
         and pin['sha256'] == REPAIR_SHA
         and repair['schema'] == 'SLA_NATIVE_EXACT_PAUSE_READ_WAIT_V1'
         and repair['old_wall_read_wait_s'] == 35 and repair['new_wall_read_wait_s'] == 90

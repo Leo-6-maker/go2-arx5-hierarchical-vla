@@ -13,7 +13,7 @@ DOMAIN_POOL = frozenset(range(192, 200))
 def validate_layout(binding):
     worlds = binding['worlds']
     if (binding.get('schema') != SCHEMA or binding.get('plan_revision') != PLAN
-            or len(worlds) not in (1, 2, 4, 8) or len({w['root'] for w in worlds}) != len(worlds)
+            or len(worlds) not in (1, 2, 3, 4, 8) or len({w['root'] for w in worlds}) != len(worlds)
             or len({w['ROS_DOMAIN_ID'] for w in worlds}) != len(worlds)):
         raise PermissionError('EXACT_CORELAB_EXPERT_COHORT_REQUIRED')
     reserved_cpus = set(binding['reserved_cpus'])

@@ -36,6 +36,9 @@ def closed(pin):
 
 
 def qualification(q, *, verify_package=True):
+    from .sla_r1_diagnostic_v5 import ADMISSION, qualification as r1_qualification
+    if q.get('schema') == ADMISSION:
+        return r1_qualification(q, verify_package=verify_package)
     task.need(q.get('schema') == 'SLA_TARGET500_NATIVE_ADMISSION_V1'
         and q.get('method') in METHODS and q.get('old_DEV_TEST_admitted') is False,
         'SLA_DISTINCT_FIXED500_IDENTITY')
@@ -92,6 +95,14 @@ def qualification(q, *, verify_package=True):
 
 
 def policy_contract(value, checkpoint_files=None, *, verify_package=True, expected_global_step=500):
+    from .sla_r1_diagnostic_v5 import METHODS as R1_METHODS
+    if value.get('arm') in R1_METHODS:
+        task.need(set(value) == {'arm','package','Native_body_qualification'} and expected_global_step == 500,
+                  'DISTINCT_R0_R1_POLICY_FIELDS')
+        q = qualification(pinned(value['Native_body_qualification']),verify_package=verify_package)
+        task.need(q['package'] == value['package'] and q['method'] ==
+            (METHODS[0] if value['arm'] == R1_METHODS[0] else R1_METHODS[1]), 'R0_R1_MATCHED_ACTUAL_PACKAGE')
+        return q
     task.need(set(value) == {'arm', 'package', 'Native_body_qualification'}
               and value['arm'] in METHODS and expected_global_step == 500, 'SLA_ONLY_SEPARATE_FIXED500_POLICY')
     q = qualification(pinned(value['Native_body_qualification']), verify_package=verify_package)
@@ -111,6 +122,9 @@ def memory_contract(s):
 
 
 def validate_panel(panel):
+    from .sla_r1_diagnostic_v5 import SCHEMA as R1_SCHEMA, validate_panel as r1_panel
+    if panel.get('schema') == R1_SCHEMA:
+        return r1_panel(panel)
     from .task_learning_scene_v1 import scene_id
     declaration = pinned(panel['preregistration'])
     task.need(panel['preregistration']['sha256'] == (TRAIN_DECLARATION_SHA if panel['population'] == 'TRAIN4' else DEV_DECLARATION_SHA), 'SLA_UNCHANGED_INPUT_DECLARATION')
@@ -149,6 +163,9 @@ def validate_panel(panel):
 
 def selection(inp, panel):
     rows = validate_panel(panel)
+    from .sla_r1_suffix_v5 import SCHEMA as R1_SUFFIX, selection as r1_suffix
+    if inp.get('schema') == R1_SUFFIX:
+        return r1_suffix(inp,panel,rows)
     from .sla_dev_continuation_v3 import SCHEMA as DEV_SUFFIX, select as select_dev_suffix
     if inp.get('schema') == DEV_SUFFIX:
         return select_dev_suffix(inp, panel, rows)
@@ -220,6 +237,19 @@ def validate_live(s, *, verify_model=True):
     native_scene_admission(producer)
     q = policy_contract(s['target_gr00t_policy'], verify_package=verify_model)
     manifest=pinned(dict(path=str(Path(q['package']['path'])/'MANIFEST.private.json'),sha256=q['package']['sha256']))
+    from .sla_r1_diagnostic_v5 import ADMISSION, SCHEMA as R1_SCHEMA, inference_identity
+    panel = pinned(dict(path=producer['stable_task_panel'],sha256=producer['stable_task_panel_sha256']))
+    if panel.get('schema') == R1_SCHEMA:
+        proof = (q['ordinary_RGB_reconstruction'] if q.get('schema') == ADMISSION else
+                 panel['registration']['S1_loader_reconstruction'])
+        rgb_spec = json.loads((Path(proof['path']).parent/'EXECUTION_SPEC.json').read_bytes())
+        inference_identity(s['source_root'],rgb_spec['source_root'],logit=q.get('schema') == ADMISSION)
+        if q.get('schema') != ADMISSION:
+            _reconstructed_loader(s,q)
+        task.need(s['GPU_uuid'] == q['GPU_uuid'] and s['allocator_limit_bytes'] == q['allocator_limit_bytes'],
+                  'R1_QUALIFIED_CARD_AND_ALLOCATOR')
+        memory_contract(s)
+        return producer
     updated = _reconstructed_loader(s, q)
     for name,pin in manifest['bindings']['adapter_source'].items():
         expected = updated.get(name, pin)
@@ -237,7 +267,9 @@ def _reconstructed_loader(spec, qualification):
     evidence = panel['registration'].get('S1_loader_reconstruction')
     if evidence is None:
         return {}
-    task.need(panel['population'] == 'DEV16' and panel['method'] == METHODS[0],
+    from .sla_r1_diagnostic_v5 import SCHEMA as R1_SCHEMA
+    task.need((panel['population'] == 'DEV16' and panel['method'] == METHODS[0])
+              or panel.get('schema') == R1_SCHEMA,
               'LOADER_RECONSTRUCTION_ONLY_FOR_FIXED_S1_DEV16')
     result = closed(evidence)
     root = Path(evidence['path']).parent
@@ -269,6 +301,9 @@ def _reconstructed_loader(spec, qualification):
 
 
 def summarize(panel, outcomes):
+    from .sla_r1_diagnostic_v5 import SCHEMA as R1_SCHEMA, summarize as r1_summary
+    if panel.get('schema') == R1_SCHEMA:
+        return r1_summary(panel,outcomes)
     rows = validate_panel(panel)
     task.need(len(outcomes) <= len(rows) and len({r['native_run'] for r in outcomes}) == len(outcomes)
         and all(all(r[k] == rows[i][k] for k in ('native_run','layout','method','restart','parent','split','query_seeds'))
@@ -291,6 +326,8 @@ def scene_custody(producer, reference, model):
     from .task_learning_scene_v1 import MEMBER
     from .task_learning_local_policy_v1 import scene_builder_custody
     proof = pinned(reference)
+    from . import sla_dev48_v5 as dev
+    if proof['layout']in dev.OFFSETS:return dev.scene_custody(producer,reference,model)
     if proof['layout'] in TRAIN_ORDER:
         return scene_builder_custody(producer, reference, model)
     source = closed(producer)

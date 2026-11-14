@@ -8,7 +8,7 @@ import numpy as np
 
 from .checkpoint_v1 import save, restore, sha
 from .codec_v1 import Quantiles
-from .config_v1 import SEED, learning_rates, lr_sha256, visits
+from .config_v1 import SEED, learning_rates, visits
 from .dataset_v1 import TargetDataset
 from .model_v1 import load_parent, observation, Tokenizer, frozen_fingerprint
 
@@ -50,6 +50,15 @@ def probe_indices(d):
 
 
 class Engine:
+    def dataset_for_spec(self, spec):
+        return data(spec)
+
+    def visits_for_dataset(self, dataset):
+        return visits(dataset.original.manifest)
+
+    def learning_rate_values_for_spec(self, spec):
+        return learning_rates()
+
     def __init__(self, spec, output):
         import flax.nnx as nnx
         import jax
@@ -74,9 +83,10 @@ class Engine:
                 or asset.get('revision') != '5bbdf3012ab643554aa2eb83ddeae9ace3dce476'
                 or Path(spec['parent_params']).resolve() != (Path(spec['parent_manifest']['path']).parent/'model/params').resolve()):
             raise ValueError('EXACT_VERIFIED_SLA_BASE_PARENT_REQUIRED')
-        self.dataset = data(spec)
+        self.dataset = self.dataset_for_spec(spec)
         self.tokenizer = Tokenizer(spec['tokenizer']['path'])
-        self.visit_map = visits(self.dataset.original.manifest)
+        self.visit_map = self.visits_for_dataset(self.dataset)
+        self.learning_rate_values = self.learning_rate_values_for_spec(spec)
         self.step = self.cursor = 0
         self.rng = jax.device_put(jax.random.PRNGKey(SEED))
         started = time.time()
@@ -89,14 +99,15 @@ class Engine:
         adapter_source = {str(p.relative_to(source)): sha(p) for p in sorted((source/'src/go2arx5_vla/sla_adapter').glob('*.py'))}
         self.bindings = dict(parent_manifest=spec['parent_manifest'], tokenizer=spec['tokenizer']['sha256'],
                              target_audit=spec['target_audit']['sha256'], visit_map_sha256=hashlib.sha256(self.visit_map.tobytes()).hexdigest(),
-                             lr_sha256=lr_sha256(), seed=SEED, frozen_fingerprint=self.initial_frozen,
+                             lr_sha256=hashlib.sha256(''.join(v.hex()+'\n' for v in self.learning_rate_values).encode('ascii')).hexdigest(),
+                             seed=SEED, frozen_fingerprint=self.initial_frozen,
                              upstream_sha=spec['upstream_sha'], codec_version='SLA_NATIVE_TASK_EEF7_H40_V1',
                              adapter_source=adapter_source,
                              initial_function_rule=spec['initial_function_rule']['sha256'], XLA_FLAGS=rule['XLA_FLAGS'],
                              recipe='S1_FM32_MICRO1_ACCUM32_DROPOUT_TOKEN_ONLY_V1',
                              optimizer=dict(b1=.9, b2=.95, eps=1e-8, weight_decay=1e-5, clip_norm=1.))
-        rate = jnp.asarray(learning_rates(), dtype=jnp.float32)
-        self.tx = AdamW(weight_decay=1e-5, clip_gradient_norm=1.).create(lambda count: rate[jnp.minimum(count, 499)])
+        rate = jnp.asarray(self.learning_rate_values, dtype=jnp.float32)
+        self.tx = AdamW(weight_decay=1e-5, clip_gradient_norm=1.).create(lambda count: rate[jnp.minimum(count, len(rate)-1)])
         self.opt_state = self.tx.init(self.active)
         graph = self.graph
 
@@ -189,8 +200,8 @@ class Engine:
         self.counts['optimizer_updates'] += 1
         self.step += 1
         self.cursor += 32
-        row = dict(step=self.step, cursor=self.cursor, used_lr=learning_rates()[self.step-1],
-                   next_lr=learning_rates()[self.step] if self.step < 500 else None,
+        row = dict(step=self.step, cursor=self.cursor, used_lr=self.learning_rate_values[self.step-1],
+                   next_lr=self.learning_rate_values[self.step] if self.step < len(self.learning_rate_values) else None,
                    grad_norm_before_clip=float(norm), micro=logs, wall_s=time.time()-start,
                    GPU_memory=jax.devices()[0].memory_stats())
         with (self.output/'updates.private.jsonl').open('a') as f:

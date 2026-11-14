@@ -1,5 +1,6 @@
 import json
 import os
+from contextlib import ExitStack
 
 import pytest
 
@@ -11,13 +12,14 @@ from go2arx5_vla.world_model.task_learning_grasp_v1 import PHASE
 from scripts.pi0292.durable import OwnerLock
 
 
-def test_independent_worlds_can_hold_their_locks_beside_legacy_owner(tmp_path, monkeypatch):
+@pytest.mark.parametrize('count', [2,3])
+def test_independent_worlds_can_hold_their_locks_beside_legacy_owner(tmp_path, monkeypatch,count):
     campaign = tmp_path / 'campaign'
     locks = campaign / 'control/corelab-world-owners-v3'
     locks.mkdir(parents=True)
     pool = tmp_path / 'worlds'
     pool.mkdir()
-    worlds = [dict(root=str(pool / f'world-{i}'), cpus=[i + 4], ROS_DOMAIN_ID=192 + i) for i in range(2)]
+    worlds = [dict(root=str(pool / f'world-{i}'), cpus=[i + 4], ROS_DOMAIN_ID=192 + i) for i in range(count)]
     for slot in worlds:
         (pool / slot['root']).mkdir()
     binding = dict(schema=world.SCHEMA, plan_revision=world.PLAN, worlds=worlds,
@@ -42,7 +44,8 @@ def test_independent_worlds_can_hold_their_locks_beside_legacy_owner(tmp_path, m
     registry = dict(entries=entries)
     legacy = OwnerLock(campaign / 'OWNER.lock')
     try:
-        with world.world_owner(specs[0], registry), world.world_owner(specs[1], registry):
+        with ExitStack() as stack:
+            for spec in specs:stack.enter_context(world.world_owner(spec,registry))
             with pytest.raises(BlockingIOError):
                 with world.world_owner(specs[0], registry):
                     pytest.fail('same domain admitted twice')

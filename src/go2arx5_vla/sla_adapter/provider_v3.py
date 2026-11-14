@@ -48,6 +48,14 @@ def export(package, checkpoint, *, active_template, statistics, tokenizer, paren
             or audit['statistics_sha256'] != bindings['derived_statistics_sha256']
             or sha(statistics) != audit['statistics_sha256']):
         raise ValueError('EXACT_TRAIN_ONLY_LOGIT_STATISTICS_REQUIRED')
+    return write_verified_package(package, checkpoint, complete=complete, active_template=active_template,
+                                  statistics=statistics, tokenizer=tokenizer, parent_manifest=parent_manifest)
+
+
+def write_verified_package(package, checkpoint, *, complete, active_template, statistics, tokenizer, parent_manifest):
+    """Copy already validated endpoint assets; callers enforce their recipe."""
+    package, checkpoint = Path(package), Path(checkpoint)
+    bindings = complete['bindings']
     rows, _ = active_rows(complete, active_template)
     package.mkdir(parents=True, exist_ok=False)
     (package / 'adapters').mkdir()

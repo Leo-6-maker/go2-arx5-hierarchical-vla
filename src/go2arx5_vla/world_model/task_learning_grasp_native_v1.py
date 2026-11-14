@@ -206,6 +206,27 @@ def episode_config(spec):
     document=scenes.pinned(dict(path=spec['episode_manifest'],sha256=spec['episode_manifest_sha256']))
     episode=scenes.prefix_episode(document,spec)
     members=SOURCE_MEMBERS
+    if spec.get('expert_plan_capture_v61') is not None:
+        from .expert_plan_capture_v61 import configuration as capture_configuration
+        capture_configuration(spec)
+        members += ('src/go2arx5_vla/world_model/expert_plan_capture_v61.py',
+                    'src/go2arx5_vla/sla_adapter/action_contract_v61.py',
+                    'src/go2arx5_vla/world_model/sla_dense_policy_v5.py',
+                    'scripts/sla/final_plan_transport_v61.py')
+    if spec.get('native_callback_replay_v61') is not None:
+        members += ('src/go2arx5_vla/world_model/native_callback_replay_v61.py',
+                    'src/go2arx5_vla/target_mujoco/callback_replay_v61.hpp')
+    if spec.get('sla_label_replay_v61') is not None:
+        members += ('src/go2arx5_vla/world_model/sla_label_replay_v61.py',
+                    'src/go2arx5_vla/world_model/sla_dense_policy_v5.py',
+                    'src/go2arx5_vla/sla_adapter/action_contract_v61.py',
+                    'experiments/sla_go2_posttrain/s16_rp8_reference_v61.json')
+    if spec.get('sla_five_object_hold_v5')is not None:
+        members+=('src/go2arx5_vla/world_model/sla_five_object_hold_v5.py',
+                  'src/go2arx5_vla/world_model/sla_hold50_v6.py',
+                  'src/go2arx5_vla/world_model/sla_target_coverage_v5.py')
+    if spec.get('sla_pick_place_v5')is not None:
+        members+=('src/go2arx5_vla/world_model/sla_pick_place_v5.py',)
     if spec.get('corelab_world_binding_v3') is not None:
         members += ('src/go2arx5_vla/world_model/corelab_world_owner_v3.py',)
     if epsilon_enabled:
@@ -216,6 +237,10 @@ def episode_config(spec):
     if task.student_role(spec.get('task_learning_role')):
         from .task_learning_live_pair_v1 import SOURCE_MEMBERS as model_members
         members=tuple(dict.fromkeys(members+model_members))
+        if spec.get('task_learning_role')==task.SLA_DENSE_ROLE:
+            members += ('src/go2arx5_vla/world_model/sla_dense_native_v5.py',
+                        'src/go2arx5_vla/world_model/sla_dense_policy_v5.py',
+                        'experiments/sla_go2_posttrain/dense_train8_inputs_v5.json')
     episode,source=common.operational.recipe_config(spec,episode,actual_phase=task.PHASE,
         actual_kind=task.KIND,source_members=members)
     return episode,dict(source,stable_task_scene_reference=spec['stable_task_scene_reference'])
@@ -267,6 +292,8 @@ def actual_feet(adapter,sample):
 
 
 def continue_native(adapter,report,samples,windows):
+    from . import sla_pick_place_v5 as place
+    is_place=place.configuration(adapter.spec)
     from .stable_task_closed_loop_v1 import _link_replacement
     from .stable_task_data_v1 import capture_input
     from .sla_expert_epsilon_v3 import configuration as epsilon_configuration, transform as epsilon_transform
@@ -311,7 +338,9 @@ def continue_native(adapter,report,samples,windows):
         and(mode!=V9_VERSION or adapter.spec.get('task_learning_role')=='TEACHER_V9_E1_SMALL4_QUALIFICATION_NOT_BC_V1')
         and(mode!=V8_VERSION or adapter.spec.get('task_learning_role')=='TEACHER_V8_RECOVERY24_QUALIFICATION_NOT_BC_V1'),
         'EXPLICIT_TEACHER_MODE')
-    if student:
+    if is_place:
+        teacher=place.make_teacher(adapter.spec,samples[-1])
+    elif student:
         from .task_learning_student_v1 import StudentPolicy
         teacher=StudentPolicy(adapter,samples[-1],consumed_reference=lambda:(cycles[-1],adapter.live_skill_program))
     elif mode==FULL24_VERSION:
@@ -322,13 +351,22 @@ def continue_native(adapter,report,samples,windows):
         teacher=NativeQualificationTeacher(adapter,samples[-1],lambda:(cycles[-1],adapter.live_skill_program))
     else:
         teacher=(task.HoldControl if control else UnderCloseRecoveryTeacher if mode==UNDER_CLOSE else task.Teacher)(samples[-1])
+    if adapter.spec.get('sla_five_object_hold_v5')is not None:
+        from .sla_five_object_hold_v5 import make_teacher
+        teacher=make_teacher(adapter.spec,samples[-1])
     intervention_decisions=0
     epsilon_decisions = []
     previous_nominal_grip = 1.
     cycles=[reset_cycle];decisions=[];captures=[];confirmed=[]
-    task_samples=[samples[-1]];standing=[]
+    language=place.LANGUAGE if is_place else task.LANGUAGE
+    if adapter.spec.get('sla_five_object_hold_v5')is not None:
+        from .sla_five_object_hold_v5 import language as five_object_language
+        language=five_object_language(adapter.spec)
+    scoring=place.score_contract()if is_place else task.score_contract()
+    task_samples=[place.with_actual_support(adapter,samples[-1])if is_place else samples[-1]];standing=[]
     def observe(s):
         feet,supported=actual_feet(adapter,s)
+        if is_place:s=place.with_actual_support(adapter,s)
         witness=dict(task.standing_metrics(s['qpos'][:7],feet,supported,initial),native_step=s['native_step'])
         if not standing or s['native_step']>standing[-1]['native_step']:standing.append(witness)
         if not witness['passes']:
@@ -339,17 +377,25 @@ def continue_native(adapter,report,samples,windows):
             'UNCHANGED_NATIVE_CONTACT_AND_STANDING_SAFETY')
         if s['native_step']>task_samples[-1]['native_step']:task_samples.append(copy.deepcopy(s))
         from .native_body_memory_v3 import observe_dense
-        observe_dense(adapter,s,lambda:capture_input(adapter,language=task.LANGUAGE,task_score=task.score_contract()))
+        observe_dense(adapter,s,lambda:capture_input(adapter,language=language,task_score=scoring))
+    if adapter.spec.get('sla_label_replay_v61') is not None:
+        from .sla_label_replay_v61 import continue_from_start
+        return continue_from_start(adapter,report,samples,windows,reset_cycle,teacher,observe)
+    recorder=None
+    if adapter.spec.get('expert_plan_capture_v61') is not None:
+        from .expert_plan_capture_v61 import Recorder
+        recorder=adapter._final_plan_recorder_v61=Recorder(adapter)
     for index,step in enumerate(consumer.observation_steps(adapter.spec)):
         task.need(adapter.observe()['step']==samples[-1]['native_step']==step,'REAL_CONTINUOUS_TEACHER_CLOCK')
         observe(samples[-1])
-        capture=capture_input(adapter,language=task.LANGUAGE,task_score=task.score_contract())
+        capture=capture_input(adapter,language=language,task_score=scoring)
         captures.append(capture)
         write_progress(adapter.output/'TASK_LEARNING_CAPTURES.private.json',dict(records=captures,complete=False))
         if student:teacher.observation=capture
         from .native_collection_performance_v1 import measure
         with measure(adapter,'policy.student_inference' if student else 'policy.Teacher_decision', native_step=step):
-            program,proposal=teacher.decide(samples[-1],adapter.reference_history[-1]['pose'],adapter.base_pose_hold)
+            decision_sample=place.with_actual_support(adapter,samples[-1])if is_place else samples[-1]
+            program,proposal=teacher.decide(decision_sample,adapter.reference_history[-1]['pose'],adapter.base_pose_hold)
             if stream_enabled:
                 program = expert_program(program, previous_nominal_grip)
                 proposal = dict(proposal, original_teacher_policy_H40=proposal['submitted_policy_H40'],
@@ -362,6 +408,13 @@ def continue_native(adapter,report,samples,windows):
                 epsilon_decisions.append(dict(native_step=step, maximum_nominal_bias=audit['maximum_nominal_bias']))
         intervention_decisions+=proposal.get('label_role')==INTERVENTION
         adapter.task_learning_stage=teacher.stage
+        if recorder is not None:
+            recorder.begin(program,index=index,proposal=proposal.get('original_teacher_policy_H40'),
+                           reference=np.asarray(adapter.reference_history[-1]['pose']))
+            program=recorder.transport(program,samples[-1])
+            proposal=dict(proposal,final_expert_plan_before_FP32=proposal['submitted_policy_H40'],
+                submitted_policy_H40=program.decoded_H40.tolist(),
+                expert_final_plan_capture_version='SLA_PROSPECTIVE_FINAL_PLAN_CAPTURE_V6_1')
         decision_path=adapter.output/f'TASK_LEARNING_DECISION_{index:03d}.private.json'
         adaptation=program.evidence()
         if proposal.get('explicit_decoder_applied')is True:
@@ -394,17 +447,24 @@ def continue_native(adapter,report,samples,windows):
     raw[:,:3]=np.asarray(samples[-1]['tcp'])[:3,3]
     raw[:,3:9]=task.rotation_matrix_to_rot6d_rows(np.asarray(samples[-1]['tcp'])[:3,:3])
     hold=task.FiftyMsProgram(raw,samples[-1]['tcp'],adapter.reference_history[-1]['pose'],adapter.base_pose_hold)
+    if recorder is not None:
+        recorder.begin(hold,index=queries,proposal=dict(kind='DETERMINISTIC_EXPERT_TERMINATION_HOLD'),
+                       reference=np.asarray(adapter.reference_history[-1]['pose']))
+        hold=recorder.transport(hold,samples[-1])
     tail_start = len(task_samples) - 1
     current,samples,windows=consumer.run_prefix(adapter,hold,index=queries,
         past_samples=samples,past_windows=windows,sample_observer=observe)
     _link_replacement(adapter,cycles[-1],current);cycles.append(current)
-    scored=task.score(task_samples,teacher.cube[2,3],standing=standing)
+    scored=(place.score(task_samples,teacher.cube[2,3],standing=standing,goal=teacher.goal_center)if is_place else
+            task.score(task_samples,teacher.cube[2,3],standing=standing))
     tail = None
     if tail_enabled:
-        tail_score = task.score(task_samples[tail_start:], teacher.cube[2, 3], standing=standing[tail_start:])
+        tail_score=(place.terminal_score(task_samples[tail_start:],teacher.cube[2,3],standing=standing[tail_start:],goal=teacher.goal_center)
+                    if is_place else task.score(task_samples[tail_start:], teacher.cube[2, 3], standing=standing[tail_start:]))
         # The hold is separately identified and must be successful over the
         # whole interval, including both endpoint observations.
-        passed = tail_score['task_success'] and tail_score['longest_contiguous_grasp_lift_hold_s'] >= 2.
+        tail_metric='longest_contiguous_terminal_success_s'if is_place else'longest_contiguous_grasp_lift_hold_s'
+        passed=tail_score['task_success']and tail_score[tail_metric]>=2.
         tail = dict(passes=passed, start_step=current['cycle']['start_step'], end_step=endpoint,
                     consumed_commands=len(current['windows']), score=tail_score)
         tail_file = adapter.output / 'TASK_LEARNING_TERMINATION_HOLD.private.json'
@@ -426,6 +486,7 @@ def continue_native(adapter,report,samples,windows):
             observed_task_success=scored['task_success'],confirmed=confirmed)
     write_progress(adapter.output/'TASK_LEARNING_STANDING_ACTUAL.private.json',dict(records=standing,complete=True))
     write_json(adapter.output/'TASK_LEARNING_SCORE.private.json',scored)
+    if recorder is not None:recorder.success=scored['task_success']
     write_progress(adapter.output/'TASK_LEARNING_CAPTURES.private.json',dict(records=captures,complete=True,task_success=scored['task_success']))
     write_progress(adapter.output/'TASK_LEARNING_CONFIRMED_COMMANDS.private.json',dict(records=confirmed,
         period_s=.05,complete=True,unexecuted_suffix_included=False,future_achieved_labels=False,
@@ -438,11 +499,13 @@ def continue_native(adapter,report,samples,windows):
         actual_spec_phase=task.PHASE,native_endpoint_step=endpoint,
         task_learning_grasp=protocol,
         teacher_decisions=[]if control or student else decisions,control_decisions=decisions if control else[],
-        **(dict(student_decisions=decisions,all_fifteen_generated_H40_consumed=True,
-            student_commands_are_expert_labels=False)if student else{}),
+        **(dict(student_decisions=decisions,student_commands_are_expert_labels=False,
+            **(dict(SLA_dense_H40_prefixes_consumed=True,SLA_dense_complete_raw_H40_consumed=False)
+               if adapter.spec.get('task_learning_role')==task.SLA_DENSE_ROLE else
+               dict(all_fifteen_generated_H40_consumed=True)))if student else{}),
         diagnostic_control=task.HOLD_CONTROL if control else None,generated_cycles=cycles,windows=windows,
         initialization_all40_knots_consumed=True,all_40_knots_consumed=False,raw_knot_consumed=[False]*40,
-        GR00T_raw_H40_consumed=student and adapter.spec.get('target_gr00t_policy',{}).get('arm')!='C500_PLUS_CONIC' and not str(adapter.spec.get('target_gr00t_policy',{}).get('arm')).endswith('_PLUS_ENDPOINT_BASIS'),
+        GR00T_raw_H40_consumed=student and adapter.spec.get('task_learning_role')!=task.SLA_DENSE_ROLE and adapter.spec.get('target_gr00t_policy',{}).get('arm')!='C500_PLUS_CONIC' and not str(adapter.spec.get('target_gr00t_policy',{}).get('arm')).endswith('_PLUS_ENDPOINT_BASIS'),
         matched_smooth_H40_consumed=student and adapter.spec.get('task_learning_role')==task.MATCHED_ROLE and str(adapter.spec['target_gr00t_policy']['arm']).endswith('_PLUS_ENDPOINT_BASIS'),
         explicit_endpoint_basis_H40_consumed=student and adapter.spec.get('task_learning_role')in(task.ENDPOINT_ROLE,task.NATIVE_BODY_ROLE,task.NATIVE_A500_ROLE,task.SLA_ROLE,task.SLA_G_ROLE),
         explicit_conic_H40_consumed=student and adapter.spec.get('target_gr00t_policy',{}).get('arm')=='C500_PLUS_CONIC',complete_task_atoms=len(windows),task_native_ticks=endpoint-2503,
@@ -463,12 +526,26 @@ def continue_native(adapter,report,samples,windows):
         **(dict(teacher_v8_recovery_evidence=teacher.evidence())if mode==V8_VERSION else{}),
         **(dict(teacher_v9_recovery_evidence=teacher.evidence())if mode==V9_VERSION else{}),
         **(dict(teacher_full24_recovery_evidence=teacher.evidence())if mode==FULL24_VERSION else{}),
-        GR00T_queries=task.QUERIES if student else 0,VLA_queries=task.QUERIES if student else 0,GR00T_updates=0,
+        GR00T_queries=0 if adapter.spec.get('task_learning_role')==task.SLA_DENSE_ROLE else task.QUERIES if student else 0,
+        **(dict(SLA_queries=queries,SLA_raw_prefix_atoms=queries*protocol['prefix_atoms'])
+           if adapter.spec.get('task_learning_role')==task.SLA_DENSE_ROLE else{}),
+        VLA_queries=queries if student else 0,GR00T_updates=0,
         WM_updates=0,Actor_updates=0,full_task_success=False,target_task_success=False,
-        new_grasp_lift_hold_task_success=False if control else scored['task_success'],source_task_phase_equivalence=False))
+        new_grasp_lift_hold_task_success=False if control or is_place else scored['task_success'],
+        **(dict(new_pick_place_task_success=scored['task_success'],PICK_PLACE_version=place.version(adapter.spec),
+                D100_new=False,task_scope='FULL_PICK_PLACE_CONSTRUCTION_NOT_FORMAL_D100')if is_place else{}),source_task_phase_equivalence=False))
 
 
 def native_result_schema(spec):
+    if spec.get('sla_label_replay_v61') is not None:
+        from .sla_label_replay_v61 import VERSION
+        return VERSION + '_NATIVE_ACTUAL'
+    if spec.get('sla_five_object_hold_v5')is not None:
+        from .sla_five_object_hold_v5 import version
+        return version(spec)+'_NATIVE_ACTUAL'
+    if spec.get('sla_pick_place_v5')is not None:
+        from .sla_pick_place_v5 import version
+        return version(spec)+'_NATIVE_ACTUAL'
     role=spec.get('task_learning_role',task.CONSTRUCTION_ROLE)
     if role=='CORELAB_EXPERT_TRAIN4_SEMANTICS_NOT_BC_V3':
         from .corelab_expert_semantics_v3 import NATIVE_SCHEMA
@@ -512,18 +589,24 @@ def native_result_schema(spec):
 
 
 def complete_consumption(spec,result):
+    if spec.get('sla_label_replay_v61') is not None:
+        from .sla_label_replay_v61 import complete_consumption as replay_complete
+        return replay_complete(spec,result)
     task.declared(spec);cycles=result.get('generated_cycles')or[]
     queries = spec.get('task_learning_grasp', {}).get('policy_queries', task.QUERIES)
     control=spec.get('task_learning_control')==task.HOLD_CONTROL
     student=task.student_role(spec.get('task_learning_role'))
     decisions=result.get('student_decisions'if student else'control_decisions'if control else'teacher_decisions',[])
     expected_schema=native_result_schema(spec)
+    student_complete=(result.get('GR00T_queries')==0 and result.get('SLA_queries')==queries
+        and result.get('SLA_dense_H40_prefixes_consumed') is True
+        and result.get('SLA_dense_complete_raw_H40_consumed') is False
+        if spec.get('task_learning_role')==task.SLA_DENSE_ROLE else
+        result.get('GR00T_queries')==task.QUERIES and result.get('all_fifteen_generated_H40_consumed')is True)
     if not(result.get('schema')==expected_schema
         and result.get('diagnostic_control')==(task.HOLD_CONTROL if control else None)
         and (not(control or student)or result.get('teacher_decisions')==[])
-        and (not student or(result.get('GR00T_queries')==task.QUERIES
-            and result.get('student_commands_are_expert_labels')is False
-            and result.get('all_fifteen_generated_H40_consumed')is True))
+        and (not student or(student_complete and result.get('student_commands_are_expert_labels')is False))
         and len(cycles)==queries+2 and len(decisions)==queries
         and result.get('expert_training_eligible')is False):return False
     for position,row in enumerate(cycles):

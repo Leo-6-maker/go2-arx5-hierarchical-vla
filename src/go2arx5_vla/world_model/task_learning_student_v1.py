@@ -115,7 +115,8 @@ def classify_actual(row,root,expected_source,*,core_local=False,conic=False,endp
         readiness=read(native/'TASK_LEARNING_START_READINESS.private.json'),
         score=read(native/'TASK_LEARNING_SCORE.private.json'),spec=spec,
         expected_source=expected_source,attempted=native.exists(),
-        expected_role=role,expected_native_schema=schema)
+        expected_role=role,expected_native_schema=schema,
+        expected_endpoint=task.native_body_profile(role).ENDPOINT if role==task.SLA_DENSE_ROLE else task.E)
     gpu=Path(spec['target_gr00t_gpu_root']);gs=read(gpu/'EXECUTION_SPEC.json')
     gl=read(gpu/'control/LEASE.json');gw=read(gpu/'WORKER_EXIT.private.json')
     gr=read(gpu/'fit-01/RESULT.private.json');records=gr.get('records')or[]
@@ -128,7 +129,7 @@ def classify_actual(row,root,expected_source,*,core_local=False,conic=False,endp
         and gs.get('target_gr00t_query_seeds')==spec.get('target_gr00t_query_seeds')
         and gr.get('status')=='ACTUAL_CONTINUOUS_LIVE_QUERIES_TERMINAL'
         and gr.get('actual_model_loads')==1
-        and gr.get('actual_VLA_inferences')==gr.get('Processor_decode_calls')==len(records)<=15
+        and gr.get('actual_VLA_inferences')==gr.get('Processor_decode_calls')==len(records)<=spec['task_learning_grasp']['policy_queries']
         and gr.get('GR00T_updates')==gr.get('WM_updates')==gr.get('Actor_updates')==gr.get('native_integrations')==0)
     rejected=read(native/'TASK_LEARNING_STUDENT_REJECTION.private.json')
     children=n.get('owned_process_exits')or[]
@@ -143,7 +144,7 @@ def classify_actual(row,root,expected_source,*,core_local=False,conic=False,endp
         and 0<=rejected.get('index',-1)<len(records)
         and rejected['index']==len(records)-1
         and rejected.get('action_sha256')==records[-1].get('action_sha256')
-        and rejected.get('native_step')==task.B+1000*rejected['index'])
+        and rejected.get('native_step')==task.B+25*spec['task_learning_grasp']['prefix_atoms']*rejected['index'])
     out['technical_valid']=bool(server and(out['technical_valid']or controlled))
     out['task_success']=bool(out['task_success']and out['technical_valid'])
     failed=read(gpu/'fit-01/FAILED.private.json')
@@ -162,7 +163,7 @@ def classify_actual(row,root,expected_source,*,core_local=False,conic=False,endp
         GPU_worker_wall_s=gw.get('wall_s'),GPU_child_CPU_s=gw.get('child_CPU_s',0),
         result_sha256=digest(native/'RESULT.json')if(native/'RESULT.json').exists()else None,
         GPU_result_sha256=digest(gpu/'fit-01/RESULT.private.json')if(gpu/'fit-01/RESULT.private.json').exists()else None)
-    if role==task.SLA_ROLE:
+    if task.sla_role(role):
         out['actual_SLA_queries']=out.pop('actual_GR00T_queries')
         out['actual_SLA_query_attempts']=out.pop('actual_GR00T_query_attempts')
         out['actual_GR00T_queries']=0
@@ -207,7 +208,7 @@ class StudentPolicy:
         self.index = 0
         self.observation = None
         self.consumed_reference=consumed_reference
-        if adapter.spec.get('task_learning_role')==task.SLA_ROLE:
+        if task.sla_role(adapter.spec.get('task_learning_role')):
             from .sla_native_policy_v1 import capture_task_frame
             capture_task_frame(adapter,initial)
 
@@ -216,7 +217,7 @@ class StudentPolicy:
         from .task_learning_live_pair_v1 import query_from_native
         import json
         task.need(self.observation is not None and sample['native_step'] ==
-                  task.B + 1000 * self.index, 'FRESH_STUDENT_QUERY_AT_ORIGINAL_NATIVE_CLOCK')
+                  task.B + 25 * self.adapter.spec['task_learning_grasp']['prefix_atoms'] * self.index, 'FRESH_STUDENT_QUERY_AT_ORIGINAL_NATIVE_CLOCK')
         action, pin, actual = query_from_native(self.adapter, self.observation, self.index)
         body = unseal(json.loads(Path(self.observation['path']).read_bytes()))
         shadow = unseal(body['original_shadow_ABI'])
@@ -225,7 +226,10 @@ class StudentPolicy:
         try:
             compiler=compile_proposal
             consumption=None
-            if self.adapter.spec.get('task_learning_role')in(task.ENDPOINT_ROLE,task.MATCHED_ROLE,task.NATIVE_BODY_ROLE,task.NATIVE_A500_ROLE,task.SLA_ROLE,task.SLA_G_ROLE):
+            if self.adapter.spec.get('task_learning_role') == task.SLA_DENSE_ROLE:
+                from .sla_dense_policy_v5 import compile_proposal as dense_compile
+                compiler=dense_compile
+            elif self.adapter.spec.get('task_learning_role')in(task.ENDPOINT_ROLE,task.MATCHED_ROLE,task.NATIVE_BODY_ROLE,task.NATIVE_A500_ROLE,task.SLA_ROLE,task.SLA_G_ROLE):
                 from functools import partial
                 from .task_learning_endpoint_policy_v3 import compile_proposal as endpoint_compile,consumed_grip
                 task.need(callable(self.consumed_reference),'ENDPOINT_ACTUAL_CONSUMPTION_CALLBACK')
@@ -255,7 +259,7 @@ class StudentPolicy:
             raise
         proposal.update(actual_model_query=actual, label_role='STUDENT_NOT_EXPERT', index=self.index)
         if consumption is not None:proposal['previous_consumed_grip_witness']=consumption
-        if self.adapter.spec.get('task_learning_role')in(task.CORE_LOCAL_ROLE,task.CONIC_ROLE,task.ENDPOINT_ROLE,task.MATCHED_ROLE,task.NATIVE_BODY_ROLE,task.NATIVE_A500_ROLE,task.SLA_ROLE,task.SLA_G_ROLE):
+        if self.adapter.spec.get('task_learning_role')in(task.CORE_LOCAL_ROLE,task.CONIC_ROLE,task.ENDPOINT_ROLE,task.MATCHED_ROLE,task.NATIVE_BODY_ROLE,task.NATIVE_A500_ROLE,task.SLA_ROLE,task.SLA_DENSE_ROLE,task.SLA_G_ROLE):
             from .task_learning_local_policy_v1 import execution_stage,EXECUTION_STAGE_REVISION
             self.stage=execution_stage(program.decoded_H40,sample)
             proposal.update(execution_stage=self.stage,execution_stage_revision=EXECUTION_STAGE_REVISION,

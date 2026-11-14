@@ -12,7 +12,6 @@ import numpy as np
 
 from .runtime_v2 import BatchedEngine
 from .batch_v2 import prepared_batches, device_batch
-from .config_v1 import learning_rates
 
 
 def training_matmul_precision(spec):
@@ -62,6 +61,12 @@ class DeviceResidentEngine(BatchedEngine):
                 if time.time() >= self.spec['deadline_epoch']:
                     raise TimeoutError('FINITE_V3_WINDOW_BEFORE_COMMITTED_UPDATE')
                 observation, actions = device_batch(host)
+                if self.spec.get('measure_input_transfer_payloads'):
+                    # Device buffers are the once-submitted logical payload;
+                    # no additional device readback or synchronization here.
+                    count('input_device_batch_submissions')
+                    self.counts['input_H2D_submitted_bytes'] = self.counts.get('input_H2D_submitted_bytes', 0) + sum(
+                        value.nbytes for value in jax.tree.leaves((observation, actions)))
                 self.counts['forward_backward_attempts'] += 1
                 self.counts['attempted_training_visits'] += self.microbatch
                 offset = int(host['cursors'][0]) - self.cursor
@@ -105,7 +110,7 @@ class DeviceResidentEngine(BatchedEngine):
         wall = time.perf_counter() - start
         result = dict(step=self.step, cursor=self.cursor, microbatch=self.microbatch,
                       accumulation_steps=self.accumulation_steps, effective_batch=32,
-                      used_lr=learning_rates()[self.step-1], grad_norm_before_clip=float(summary[3]),
+                      used_lr=self.learning_rate_values[self.step-1], grad_norm_before_clip=float(summary[3]),
                       mean_FM32_loss=float(summary[0]), active7=float(summary[1]), padding25=float(summary[2]),
                       micro=logs, gradient_audit=audit, wall_s=wall, samples_per_s=32/wall,
                       updates_per_s=1/wall, host_wait_s=sum(r['host_wait_s'] for r in logs),

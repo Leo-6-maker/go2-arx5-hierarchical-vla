@@ -30,7 +30,11 @@ def run(spec,output):
     output=Path(output);trace=output/'init.trace';audit=None;audit_error=None
     try:audit=audit_trace(trace,max_native_ticks=spec['max_ticks'])if trace.exists()else None
     except BaseException:audit_error=traceback.format_exc()
-    rows=packets(output/'state.bin.journal')if(output/'state.bin.journal').exists()else[]
+    journal=output/'state.bin.journal'
+    # A display/startup failure can close before the first native packet.
+    # Preserve that actual failure instead of masking it with the replay
+    # reader's intentional rejection of an empty training/replay journal.
+    rows=packets(journal)if journal.exists()and journal.stat().st_size else[]
     physics=[json.loads(l)for l in(output/'physics.jsonl').read_text().splitlines()]if(output/'physics.jsonl').exists()else[]
     stops=[r for r in physics if r['kind']=='stop'];samples=[r for r in physics if r['kind']=='sample']
     warnings=sum(bool(r.get('positive_bound')or any(r.get('native_warnings',[])))for r in samples)

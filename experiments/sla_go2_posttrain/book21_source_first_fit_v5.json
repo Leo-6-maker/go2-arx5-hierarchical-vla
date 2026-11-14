@@ -1,0 +1,23 @@
+{
+  "schema": "SLA_BOOK21_SOURCE_FIRST_FIT_INPUTS_V5",
+  "fixed_plan": "f61305f9c1f847e460851fd067892160f71ca432",
+  "dataset_id": "S_BOOK_FULL21_COMMAND_2HZ_V5",
+  "source_population": "21 original complete TRAIN book episodes; six expert suffixes excluded",
+  "initialization": "verified haofuly/SLA_base, fresh Adam/RNG; no target or spatial endpoint resumed",
+  "optimizer_updates": 500,
+  "effective_batch": 32,
+  "microbatch": 8,
+  "accumulation_steps": 4,
+  "training_matmul_precision": "highest",
+  "target_visits": 0,
+  "source_command_visits": 16000,
+  "warmup_updates": 25,
+  "learning_rate_peak": 0.00005,
+  "learning_rate_final": 0.00001,
+  "source_only": true,
+  "WBC_or_target_qualification": false,
+  "probe_phases_before_any_model_output": ["approach", "close", "verify_grasp", "lift", "preinsert", "release", "withdraw", "hold"],
+  "probe_noise_ids": [0, 1],
+  "GPU_queue": "GPU0 only after both existing spatial candidate and its cumulative-budget follower actually terminate; no preemption or held owner while waiting",
+  "endpoint": "complete87-array500 state, ordinaryRGB16 and independent ordinaryRGB16 reconstruction; no native skill success inferred"
+}

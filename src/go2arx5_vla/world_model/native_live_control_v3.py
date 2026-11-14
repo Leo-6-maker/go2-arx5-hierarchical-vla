@@ -39,6 +39,24 @@ def acknowledgement_wait(spec, original_seconds):
 
 
 def maximum_wall_seconds(spec, original_seconds):
+    from . import task_learning_grasp_v1 as task
+    if spec.get('r1_condition_wall_repair_v5') is not None:
+        from .stable_task_scene_v1 import pinned
+        from .sla_r1_diagnostic_v5 import validate_panel
+        from .sla_r1_suffix_v5 import window
+        pin=spec['r1_condition_wall_repair_v5'];panel=pinned(pin)
+        rows=validate_panel(panel)
+        task.need(spec.get('task_learning_role')==task.SLA_ROLE
+            and spec.get('task_learning_grasp')==task.protocol(task.SLA_ROLE)
+            and spec.get('stable_task_panel')==pin['path']
+            and spec.get('stable_task_panel_sha256')==pin['sha256']
+            and Path(spec['registered_root']).name in {r['native_run']for r in rows[13:]},
+            'R1_ONLY_DECLARED_UNSTARTED_SUFFIX_NATIVE_WALL_REPAIR')
+        return window(panel)
+    if spec.get('task_learning_role') == task.SLA_DENSE_ROLE:
+        if spec.get('task_learning_grasp') != task.protocol(task.SLA_DENSE_ROLE):
+            raise ValueError('DENSE_P10_FINITE_NATIVE_PROTOCOL_REQUIRED')
+        return 3600
     return 3600 if configuration(spec) is not None else original_seconds
 
 

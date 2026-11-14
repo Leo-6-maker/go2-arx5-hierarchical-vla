@@ -38,6 +38,16 @@ def recorded_tail(spec):
 
 
 def native_protocol(spec):
+    if spec.get('sla_label_replay_v61') is not None:
+        from .sla_label_replay_v61 import protocol as replay_protocol
+        return replay_protocol(spec)
+    if spec.get('sla_five_object_hold_v5')is not None:
+        from .sla_five_object_hold_v5 import protocol as five_object_protocol
+        return five_object_protocol(spec)
+    if spec.get('sla_pick_place_v5')is not None:
+        from .sla_pick_place_v5 import configuration,protocol
+        configuration(spec)
+        return protocol(spec)
     from . import task_learning_grasp_v1 as task
     from .eef_stream_v2 import PREFIX_ATOMS, VERSION, configuration
     original = task.protocol(spec.get('task_learning_role', task.CONSTRUCTION_ROLE))
@@ -52,7 +62,21 @@ def native_protocol(spec):
 
 
 def native_endpoint(spec):
+    if spec.get('sla_label_replay_v61') is not None:
+        from .sla_label_replay_v61 import endpoint as replay_endpoint
+        return replay_endpoint(spec)
+    if spec.get('sla_five_object_hold_v5')is not None:
+        from .sla_five_object_hold_v5 import configuration,ENDPOINT
+        configuration(spec)
+        return ENDPOINT
+    if spec.get('sla_pick_place_v5')is not None:
+        from .sla_pick_place_v5 import configuration,endpoint
+        configuration(spec)
+        return endpoint(spec)
     from . import task_learning_grasp_v1 as task
+    if spec.get('task_learning_role') == task.SLA_DENSE_ROLE:
+        from .sla_dense_native_v5 import ENDPOINT
+        return ENDPOINT
     return task.E + 500 if recorded_tail(spec) else task.E
 
 
@@ -106,6 +130,18 @@ def validate_cadence_panel(panel):
 
 
 def native_scene_admission(spec):
+    if spec.get('expert_plan_capture_v61') is not None:
+        from .expert_plan_capture_v61 import native_scene_admission as capture_admission
+        return capture_admission(spec)
+    if spec.get('sla_label_replay_v61') is not None:
+        from .sla_label_replay_v61 import native_scene_admission as replay_admission
+        return replay_admission(spec)
+    if spec.get('sla_five_object_hold_v5')is not None:
+        from .sla_five_object_hold_v5 import native_scene_admission as five_object_admission
+        return five_object_admission(spec)
+    if spec.get('sla_pick_place_v5')is not None:
+        from .sla_pick_place_v5 import native_scene_admission as place_admission
+        return place_admission(spec)
     from . import task_learning_grasp_v1 as task
     from .task_learning_scene_v1 import validate_static_provenance
     from .native_body_camera_capture_v1 import session_configuration
@@ -114,16 +150,19 @@ def native_scene_admission(spec):
               and spec.get('task_learning_control') is None,
               'V3_FRESH_EXPERT_BODY_SESSION_ONLY')
     proof = pinned(spec['task_learning_scene_reference'])
-    task.need(proof.get('layout') in LAYOUTS, 'V3_TRAIN_ONLY_NEVER_DEV_TEST')
-    validate_static_provenance(spec, proof, expected_role=ROLE)
     panel = pinned(dict(path=spec['stable_task_panel'], sha256=spec['stable_task_panel_sha256']))
+    from .sla_named_expert_v5 import (SCHEMA as NAMED, PRODUCTION_SCHEMA, REPAIRED_BENCHMARK_SCHEMA,
+                                      LAYOUTS as NAMED_LAYOUTS, validate as named_rows)
+    named = panel.get('schema') in (NAMED,PRODUCTION_SCHEMA,REPAIRED_BENCHMARK_SCHEMA)
+    task.need(proof.get('layout') in (NAMED_LAYOUTS if named else LAYOUTS), 'V3_TRAIN_ONLY_NEVER_DEV_TEST')
+    validate_static_provenance(spec, proof, expected_role=ROLE)
     cadence = panel.get('schema') == CADENCE_PANEL
-    rows = validate_cadence_panel(panel) if cadence else validate_panel(panel)
+    rows = named_rows(panel) if named else validate_cadence_panel(panel) if cadence else validate_panel(panel)
     matches = [r for r in rows if r['native_run'] == Path(spec['registered_root']).name]
     task.need(len(matches) == 1 and matches[0]['parent'] == spec['data_parent']
               and matches[0]['model_sha256'] == digest(spec['model_path']),
               'V3_ONE_PREREGISTERED_EXPERT_REQUEST_NO_RETRY')
-    if cadence:
+    if cadence or named:
         task.need(panel['source_sha'] == spec['source_sha'] and recorded_tail(spec)
                   and spec['task_learning_grasp']['prefix_atoms'] == matches[0]['prefix_atoms']
                   and spec['expert_cadence_restart'] == matches[0]['restart'],
