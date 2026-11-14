@@ -1,0 +1,246 @@
+{
+  "schema": "SLA_FIXED_S16_RP8_INPUTS_V6_1",
+  "plan_sha": "6e6636577d53b6b25a92b1e36cf2e619e765eab3",
+  "data_manifest_sha256": "29fd45ff31a2031f70f5d32402e6bfefe2f8b644e8e81ad1d2003d4537a1a6f5",
+  "statistics_sha256": "024951afc22e03586635f17b5ee8f473aead1960f107d8768384643844afb9e1",
+  "S16": [
+    {
+      "id": "TRAIN01-P10-r5:00",
+      "episode": "TRAIN01-P10-r5",
+      "layout": "TRAIN01",
+      "anchor": 0,
+      "native_step": 5703,
+      "stage": "PREGRASP",
+      "selection_kind": "STAGE_PREGRASP"
+    },
+    {
+      "id": "TRAIN04-P10-r5:00",
+      "episode": "TRAIN04-P10-r5",
+      "layout": "TRAIN04",
+      "anchor": 0,
+      "native_step": 5703,
+      "stage": "PREGRASP",
+      "selection_kind": "STAGE_PREGRASP"
+    },
+    {
+      "id": "TRAIN07-P10-r5:02",
+      "episode": "TRAIN07-P10-r5",
+      "layout": "TRAIN07",
+      "anchor": 2,
+      "native_step": 6203,
+      "stage": "DESCEND",
+      "selection_kind": "STAGE_DESCEND"
+    },
+    {
+      "id": "TRAIN10-P10-r5:02",
+      "episode": "TRAIN10-P10-r5",
+      "layout": "TRAIN10",
+      "anchor": 2,
+      "native_step": 6203,
+      "stage": "DESCEND",
+      "selection_kind": "STAGE_DESCEND"
+    },
+    {
+      "id": "TRAIN13-P10-r5:21",
+      "episode": "TRAIN13-P10-r5",
+      "layout": "TRAIN13",
+      "anchor": 21,
+      "native_step": 10953,
+      "stage": "CLOSE",
+      "selection_kind": "STAGE_CLOSE"
+    },
+    {
+      "id": "TRAIN16-P10-r5:22",
+      "episode": "TRAIN16-P10-r5",
+      "layout": "TRAIN16",
+      "anchor": 22,
+      "native_step": 11203,
+      "stage": "CLOSE",
+      "selection_kind": "STAGE_CLOSE"
+    },
+    {
+      "id": "TRAIN21-P10-r5:26",
+      "episode": "TRAIN21-P10-r5",
+      "layout": "TRAIN21",
+      "anchor": 26,
+      "native_step": 12203,
+      "stage": "LIFT",
+      "selection_kind": "STAGE_LIFT"
+    },
+    {
+      "id": "TRAIN25-P10-r5:25",
+      "episode": "TRAIN25-P10-r5",
+      "layout": "TRAIN25",
+      "anchor": 25,
+      "native_step": 11953,
+      "stage": "LIFT",
+      "selection_kind": "STAGE_LIFT"
+    },
+    {
+      "id": "TRAIN01-P10-r5:33",
+      "episode": "TRAIN01-P10-r5",
+      "layout": "TRAIN01",
+      "anchor": 33,
+      "native_step": 13953,
+      "stage": "HOLD",
+      "selection_kind": "STAGE_HOLD"
+    },
+    {
+      "id": "TRAIN04-P10-r5:31",
+      "episode": "TRAIN04-P10-r5",
+      "layout": "TRAIN04",
+      "anchor": 31,
+      "native_step": 13453,
+      "stage": "HOLD",
+      "selection_kind": "STAGE_HOLD"
+    },
+    {
+      "id": "TRAIN07-P10-r5:01",
+      "episode": "TRAIN07-P10-r5",
+      "layout": "TRAIN07",
+      "anchor": 1,
+      "native_step": 5953,
+      "stage": "PREGRASP",
+      "selection_kind": "JOIN_PREGRASP_DESCEND"
+    },
+    {
+      "id": "TRAIN10-P10-r5:20",
+      "episode": "TRAIN10-P10-r5",
+      "layout": "TRAIN10",
+      "anchor": 20,
+      "native_step": 10703,
+      "stage": "DESCEND",
+      "selection_kind": "JOIN_DESCEND_CLOSE"
+    },
+    {
+      "id": "TRAIN13-P10-r5:24",
+      "episode": "TRAIN13-P10-r5",
+      "layout": "TRAIN13",
+      "anchor": 24,
+      "native_step": 11703,
+      "stage": "CLOSE",
+      "selection_kind": "JOIN_CLOSE_LIFT"
+    },
+    {
+      "id": "TRAIN16-P10-r5:32",
+      "episode": "TRAIN16-P10-r5",
+      "layout": "TRAIN16",
+      "anchor": 32,
+      "native_step": 13703,
+      "stage": "LIFT",
+      "selection_kind": "JOIN_LIFT_HOLD"
+    },
+    {
+      "id": "TRAIN01-P10-r5:22",
+      "episode": "TRAIN01-P10-r5",
+      "layout": "TRAIN01",
+      "anchor": 22,
+      "native_step": 11203,
+      "stage": "CLOSE",
+      "selection_kind": "GRIP_CLOSE_EVENT"
+    },
+    {
+      "id": "TRAIN01-P10-r5:57",
+      "episode": "TRAIN01-P10-r5",
+      "layout": "TRAIN01",
+      "anchor": 57,
+      "native_step": 19953,
+      "stage": "HOLD",
+      "selection_kind": "POLICY_TO_RECORDED_TERMINAL_HOLD"
+    }
+  ],
+  "RP8": [
+    {
+      "id": "TRAIN01-P10-r5:00",
+      "episode": "TRAIN01-P10-r5",
+      "layout": "TRAIN01",
+      "anchor": 0,
+      "native_step": 5703,
+      "stage": "PREGRASP",
+      "selection_kind": "STAGE_PREGRASP",
+      "RP8_kind": "STAGE_PREGRASP"
+    },
+    {
+      "id": "TRAIN07-P10-r5:02",
+      "episode": "TRAIN07-P10-r5",
+      "layout": "TRAIN07",
+      "anchor": 2,
+      "native_step": 6203,
+      "stage": "DESCEND",
+      "selection_kind": "STAGE_DESCEND",
+      "RP8_kind": "STAGE_DESCEND"
+    },
+    {
+      "id": "TRAIN13-P10-r5:21",
+      "episode": "TRAIN13-P10-r5",
+      "layout": "TRAIN13",
+      "anchor": 21,
+      "native_step": 10953,
+      "stage": "CLOSE",
+      "selection_kind": "STAGE_CLOSE",
+      "RP8_kind": "STAGE_CLOSE"
+    },
+    {
+      "id": "TRAIN21-P10-r5:26",
+      "episode": "TRAIN21-P10-r5",
+      "layout": "TRAIN21",
+      "anchor": 26,
+      "native_step": 12203,
+      "stage": "LIFT",
+      "selection_kind": "STAGE_LIFT",
+      "RP8_kind": "STAGE_LIFT"
+    },
+    {
+      "id": "TRAIN01-P10-r5:33",
+      "episode": "TRAIN01-P10-r5",
+      "layout": "TRAIN01",
+      "anchor": 33,
+      "native_step": 13953,
+      "stage": "HOLD",
+      "selection_kind": "STAGE_HOLD",
+      "RP8_kind": "STAGE_HOLD"
+    },
+    {
+      "id": "TRAIN10-P10-r5:20",
+      "episode": "TRAIN10-P10-r5",
+      "layout": "TRAIN10",
+      "anchor": 20,
+      "native_step": 10703,
+      "stage": "DESCEND",
+      "selection_kind": "JOIN_DESCEND_CLOSE",
+      "RP8_kind": "JOIN_DESCEND_CLOSE"
+    },
+    {
+      "id": "TRAIN13-P10-r5:24",
+      "episode": "TRAIN13-P10-r5",
+      "layout": "TRAIN13",
+      "anchor": 24,
+      "native_step": 11703,
+      "stage": "CLOSE",
+      "selection_kind": "JOIN_CLOSE_LIFT",
+      "RP8_kind": "JOIN_CLOSE_LIFT"
+    },
+    {
+      "id": "TRAIN16-P10-r5:32",
+      "episode": "TRAIN16-P10-r5",
+      "layout": "TRAIN16",
+      "anchor": 32,
+      "native_step": 13703,
+      "stage": "LIFT",
+      "selection_kind": "JOIN_LIFT_HOLD",
+      "RP8_kind": "JOIN_LIFT_HOLD"
+    }
+  ],
+  "inference_noise_ids": [
+    0,
+    1
+  ],
+  "fixed_before_S16_candidate_outputs": true,
+  "refit_statistics": false,
+  "selected_episodes": 8,
+  "selected_layouts": 8,
+  "model_loads": 0,
+  "optimizer_updates": 0,
+  "physical_requests": 0,
+  "oracle_is_student": false
+}
