@@ -58,3 +58,23 @@ def test_pacing_never_hides_lost_grasp_or_invents_transfer_baseline():
     with pytest.raises(ValueError):teacher(place.PacedTeacher).decide(sample,ref,np.array([0,0,0,1,0,0,0.]))
     t=teacher(place.PacedTeacher);t.reference_baseline=None
     with pytest.raises(ValueError):t.decide(initial(),ref,np.array([0,0,0,1,0,0,0.]))
+
+
+def test_paced_native_entry_admits_its_exact_endpoint_without_expanding_old_recipes():
+    from go2arx5_vla.world_model import task_learning_grasp_v1 as grasp
+    from go2arx5_vla.world_model.fusion_trajectory_qualification_native import continuation_endpoint_allowed
+    assert continuation_endpoint_allowed(dict(max_ticks=66503),4703)
+    assert not continuation_endpoint_allowed(dict(max_ticks=66703),4703)
+    assert continuation_endpoint_allowed(dict(max_ticks=34303,
+        task_condition='SOURCE_PHASE_C01_QUERY_ONLY_AT34303_V1'),34303)
+    s=dict(sla_pick_place_v5=dict(version=place.PACED_VERSION),task_learning_role=place.ROLE,
+        task_learning_teacher_mode='NORMAL_TEACHER_V7',phase=grasp.PHASE,kind=grasp.KIND,
+        task_command=place.PACED_COMMAND,live_skill_start_step=grasp.CALIBRATION_B,
+        max_ticks=66703,physics_dt_s=.002,WBC_changes=False)
+    s['task_learning_grasp']=place.protocol(s)
+    assert continuation_endpoint_allowed(s,4703)
+    for field,value in [('max_ticks',66728),('physics_dt_s',.004),('WBC_changes',True),
+            ('task_command',place.COMMAND)]:
+        bad=copy.deepcopy(s);bad[field]=value
+        with pytest.raises(ValueError):continuation_endpoint_allowed(bad,4703)
+    assert not continuation_endpoint_allowed(s,4728)

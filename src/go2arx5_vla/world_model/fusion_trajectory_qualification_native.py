@@ -162,6 +162,23 @@ def complete_reference_consumption(spec,complete):
         and complete.get('actual_reference_installations')==len(suffix.get('install_attempts',[]))>0)
 
 
+def continuation_endpoint_allowed(spec, end_step):
+    maximum = spec.get('max_ticks')
+    if type(maximum) is not int:
+        return False
+    if end_step < maximum <= 66503:
+        return True
+    if spec.get('task_condition') == 'SOURCE_PHASE_C01_QUERY_ONLY_AT34303_V1':
+        return maximum == end_step == 34303
+    # The separately declared paced PLACE has240 P10 queries plus40 real
+    # terminal atoms:66703 ticks. Keep the old bound for every other recipe.
+    from . import sla_pick_place_v5 as place, task_learning_grasp_v1 as grasp
+    if spec.get('sla_pick_place_v5') != dict(version=place.PACED_VERSION):
+        return False
+    place.declared(spec)
+    return end_step == grasp.CALIBRATION_B and maximum == place.endpoint(spec) == 66703
+
+
 def run_program(adapter, episode, inputs, *, program_factory=None,
                 report_context=None, task_score_contract=None, report_finalizer=None,
                 sample_observer=None, before_preview=None, continuation=None,preparation_end_step=None):
@@ -200,8 +217,7 @@ def run_program(adapter, episode, inputs, *, program_factory=None,
                  ('collect-target-teacher-prefix-diagnostic-v1','TARGET_TEACHER_PREFIX_DIAGNOSTIC_V1'),('collect-target-task-learning-grasp-v1','TASK_LEARNING_GRASP_LIFT_HOLD_V1'))
              and adapter.spec.get('live_skill_start_step') == end_step
              and type(adapter.spec.get('max_ticks')) is int
-             and (end_step < adapter.spec['max_ticks'] <= 66503 or
-                 (adapter.spec.get('task_condition')=='SOURCE_PHASE_C01_QUERY_ONLY_AT34303_V1'and adapter.spec['max_ticks']==end_step==34303))
+             and continuation_endpoint_allowed(adapter.spec, end_step)
              and (adapter.spec['max_ticks']-end_step) % 25 == 0
              and not getattr(adapter, 'trace_sealed', False),
              'EXPLICIT_V8_PREREGISTERED_QUERY_BOUNDARY_AND_FINAL_ENDPOINT')
