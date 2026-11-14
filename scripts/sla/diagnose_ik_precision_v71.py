@@ -90,7 +90,15 @@ def run_original16(payload,output):
     assert mujoco.__version__=='3.2.7' and mujoco.get_mjcb_control() is None
     assert hashlib.sha256(Path(inspect.getsourcefile(original.certify_chunk)).read_bytes()).hexdigest()==ORIGINAL_SHA
     output=Path(output);output.mkdir(exist_ok=False);start=time.time();cpu=time.process_time();models={};rows=[]
-    for i,r in enumerate(payload['rows']):
+    if payload.get('prior_rows'):
+        pin=payload['prior_rows'];raw=Path(pin['path']).read_bytes();assert hashlib.sha256(raw).hexdigest()==pin['sha256']
+        rows=[json.loads(line) for line in raw.splitlines()];assert len(rows)==pin['completed_paths']==2
+        for row,r in zip(rows,payload['rows'],strict=False):
+            assert (row['native_run'],row['query'],row['state_sha256'])==(r['native_run'],r['query'],r['state_sha256'])
+            assert len(row['settings'])==3 and row['settings'][0]['result']=='ORIGINAL_JOINT_ACCELERATION_REJECT'
+            assert np.allclose(row['settings'][0]['rates']['command_q'],r['command_q'],rtol=0,atol=1e-12)
+    completed=len(rows)
+    for i,r in enumerate(payload['rows'][completed:],start=completed):
         root=Path(payload['roots'][r['native_run']]);native=root/'native-01';spec=json.loads((root/'EXECUTION_SPEC.json').read_bytes())
         result=json.loads((native/'RESULT.json').read_bytes());scene=Path(spec['model_path'])
         assert hashlib.sha256(scene.read_bytes()).hexdigest()==result['scene_sha256']
@@ -99,7 +107,10 @@ def run_original16(payload,output):
         blob=(Path(capture['path']).parent/'STATE.private.bin').read_bytes();assert hashlib.sha256(blob).hexdigest()==r['state_sha256']
         with forbid_integration(mujoco):sample=ActualState(model).update(parse_state(blob))
         past=list(json.loads((native/'STABLE_TASK_CYCLES/-1/RESULT.private.json').read_bytes())['windows'])
-        for v in json.loads((native/'TASK_LEARNING_CONFIRMED_COMMANDS.private.json').read_bytes())['records']:
+        command_path=native/'TASK_LEARNING_CONFIRMED_COMMANDS.private.json'
+        commands=json.loads(command_path.read_bytes())['records'] if command_path.exists() else []
+        assert command_path.exists() or r['query']==0,'MISSING_NONINITIAL_COMMAND_HISTORY'
+        for v in commands:
             past.append(dict(v,actual_installed_consumed_EEF10_BASE7=v['installed_consumed_EEF10']))
         past=[v for v in past if v['native_end_step']<=sample['native_step']][-2:]
         assert [v['native_end_step'] for v in past]==[sample['native_step']-25,sample['native_step']]
@@ -116,7 +127,8 @@ def run_original16(payload,output):
         rows.append(row)
         with(output/'ROWS.private.jsonl').open('a')as f:f.write(json.dumps(row,allow_nan=False)+'\n')
     out=dict(schema='SLA_ORIGINAL16_IK_CONVERGENCE_SENSITIVITY_V7_1',rows=rows,original_certifier_sha256=ORIGINAL_SHA,
-        paths=16,clone_certifier_calls=48,new_model_generations=0,optimizer_updates=0,training_visits=0,
+        paths=len(rows),clone_certifier_calls=3*(len(rows)-completed),prior_clone_certifier_calls=3*completed,
+        total_clone_certifier_calls=3*len(rows),prior_rows=payload.get('prior_rows'),new_model_generations=0,optimizer_updates=0,training_visits=0,
         physical_requests=0,physics_integrations=0,full_WBC_state_restored=False,
         formal_results_or_thresholds_changed=False,wall_s=time.time()-start,CPU_s=time.process_time()-cpu)
     (output/'RESULT.private.json').write_text(json.dumps(out,indent=2,allow_nan=False));return out
