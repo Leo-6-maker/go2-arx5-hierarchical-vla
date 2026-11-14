@@ -11,7 +11,7 @@ def recorder(tmp_path,monkeypatch):
     adapter=SimpleNamespace(output=tmp_path,spec={'source_root':str(Path(__file__).resolve().parents[1]),'registered_root':str(tmp_path)},observe=lambda:{'step':5703})
     r=capture.Recorder(adapter)
     raw=np.repeat(np.array([[0.,0.,.6,1.,0.,0.,0.,1.,0.,.5]]),40,axis=0)
-    p=SimpleNamespace(decoded_H40=raw,reference_path=raw)
+    p=SimpleNamespace(decoded_H40=raw,reference_path=raw,base_pose_hold=np.zeros(7))
     r.begin(p,index=0,proposal={'preplanner':True},reference=np.eye(4))
     r.active['transported_reference_H40']=raw.tolist()
     return r,raw

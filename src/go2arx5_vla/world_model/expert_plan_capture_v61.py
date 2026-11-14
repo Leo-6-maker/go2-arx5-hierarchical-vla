@@ -79,7 +79,7 @@ class Recorder:
             native_step=step,planner_sha256=digest(source/'src/go2arx5_vla/world_model/eef_stream_v2.py'),
             adapter_sha256=digest(source/'src/go2arx5_vla/world_model/task_learning_grasp_v1.py'),
             normalizer_sha256=None,full_H40_valid=False)
-        p.update(reference_before_query=reference.tolist(),preplanner_proposal=proposal,
+        p.update(reference_before_query=reference.tolist(),base_pose_hold=program.base_pose_hold.tolist(),preplanner_proposal=proposal,
             training_statistics_status='UNFIT_RAW_PHYSICAL_PLAN_NOT_TRAINING_ADMITTED',
             transport_statistics_sha256=self.config['transport_statistics']['sha256'],
             transport_is_oracle_not_student=True,origin_query_index=index,events=[])
@@ -110,6 +110,8 @@ class Recorder:
                 self.config['transport_statistics']['path']],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=self.stderr,
                 text=True,bufsize=1,env=env,start_new_session=False)
         folder=a.output/'FINAL_PLAN_TRANSPORT'/str(p['origin_query_index']).zfill(3)
+        p.update(transport_query_state_eef10=state.tolist(),transport_policy_from_mount=self.mount.tolist(),
+                 policy_from_native_target=frame.tolist())
         request=dict(output=str(folder),state10=state.tolist(),policy_H40=pose10(frame@matrix10(program.decoded_H40),program.decoded_H40[:,9]).tolist(),mount=self.mount.tolist())
         self.worker.stdin.write(json.dumps(request)+'\n');self.worker.stdin.flush()
         with selectors.DefaultSelector()as selector:
