@@ -26,6 +26,9 @@ def validate_panel(panel):
 
 
 def native_scene_admission(spec):
+    if spec.get('pd4_statistics_prospective_v71')is not None:
+        from .pd4_prospective_v71 import native_scene_admission as prospective
+        return prospective(spec)
     from .stable_task_scene_v1 import pinned
     from .task_learning_scene_v1 import validate_static_provenance
     from .sla_label_replay_v61 import _archived_scene
@@ -44,6 +47,9 @@ def native_scene_admission(spec):
 
 
 def configuration(spec):
+    if spec.get('pd4_statistics_prospective_v71')is not None:
+        from .pd4_prospective_v71 import configuration as prospective
+        return prospective(spec)
     value=spec.get(KEY)
     if value is None:return None
     from ..sla_adapter.action_contract_v61 import STATS_SHA
@@ -106,8 +112,8 @@ class Recorder:
                 PYTHONPATH=str(Path(a.spec['source_root'])/'src')+':'+a.spec['source_root'])
             env.pop('LD_PRELOAD',None)
             self.stderr=(a.output/'FINAL_PLAN_CODEC_WORKER.stderr.log').open('x')
-            self.worker=subprocess.Popen([self.config['python'],'-B','-m','scripts.sla.final_plan_transport_v61',
-                self.config['transport_statistics']['path']],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=self.stderr,
+            self.worker=subprocess.Popen([self.config['python'],'-B','-m',self.config.get('codec_module','scripts.sla.final_plan_transport_v61'),
+                self.config['transport_statistics']['path'],*([self.config['transport_statistics']['sha256']]if self.config.get('codec_module')else[])],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=self.stderr,
                 text=True,bufsize=1,env=env,start_new_session=False)
         folder=a.output/'FINAL_PLAN_TRANSPORT'/str(p['origin_query_index']).zfill(3)
         p.update(transport_query_state_eef10=state.tolist(),transport_policy_from_mount=self.mount.tolist(),
@@ -142,7 +148,7 @@ class Recorder:
         p.update(transported_final_H40=compiled.decoded_H40.tolist(),transported_reference_H40=compiled.reference_path.tolist(),
             original_plan_native_certificate=certificate,transport_proof=proof,transport_packet=response['action'],
             transport_reference_error=dict(xyz_m=xyz,so3_rad=angle,mechanical_grip_m=width),
-            transport_statistics_sha256=STATS_SHA)
+            transport_statistics_sha256=self.config['transport_statistics']['sha256'])
         self.emit('FP32_RAW_STUDENT_TRANSPORT',query_id=p['query_id'],packet=response['action'],proof=proof,
                   reference_error=p['transport_reference_error'])
         return compiled

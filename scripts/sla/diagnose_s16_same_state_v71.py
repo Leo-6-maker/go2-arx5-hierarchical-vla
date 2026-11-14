@@ -57,7 +57,10 @@ def run(spec,output):
         past=[v for v in past if v['native_end_step']<=sample['native_step']][-2:]
         assert [v['native_end_step']for v in past]==[sample['native_step']-25,sample['native_step']]
         history=[dict(end_native_step=v['native_end_step'],pose=matrix10(v['actual_installed_consumed_EEF10_BASE7'][:10]))for v in past]
-        base=np.asarray(past[-1]['actual_installed_consumed_EEF10_BASE7'][10:]);assert base.shape==(7,)
+        events=[json.loads(line)for line in (native/'COMMANDS.private.jsonl').read_text().splitlines()]
+        bases=[np.asarray(v['measured_BASE_pose_hold'])for v in events if v.get('measured_BASE_pose_hold')is not None]
+        assert bases and all(v.shape==(7,) and np.array_equal(v,bases[0])for v in bases),'EXACT_RECORDED_FROZEN_BASE_HOLD_REQUIRED'
+        base=bases[0]
         stage={'CLOSE':'close','LIFT':'lift','HOLD':'hold'}.get(ep['expert_stage_audit_only'][anchor],'approach')
         variants=[]
         for noise in (None,0,1):

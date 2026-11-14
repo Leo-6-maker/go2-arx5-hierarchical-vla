@@ -213,6 +213,8 @@ def episode_config(spec):
                     'src/go2arx5_vla/sla_adapter/action_contract_v61.py',
                     'src/go2arx5_vla/world_model/sla_dense_policy_v5.py',
                     'scripts/sla/final_plan_transport_v61.py')
+    if spec.get('pd4_statistics_prospective_v71')is not None:
+        members += ('src/go2arx5_vla/world_model/pd4_prospective_v71.py','scripts/sla/pd4_plan_transport_v71.py')
     if spec.get('native_callback_replay_v61') is not None:
         members += ('src/go2arx5_vla/world_model/native_callback_replay_v61.py',
                     'src/go2arx5_vla/target_mujoco/callback_replay_v61.hpp')
