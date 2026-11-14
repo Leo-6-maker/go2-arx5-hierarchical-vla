@@ -56,6 +56,6 @@ def prepare(manifest, selection):
         checkpoints=[0, 100, 500], warmup=25, microbatch=8, accumulation=4,
         inference_windows=16, inference_noise_ids=[0, 1], planned_predictions=32,
         requires_RP8_for_offline_fitting=False, native_execution_admitted=False,
-        training_worker_implemented=False, training_registered=False,
+        training_worker_implemented=True, training_registered=False,
         optimizer_updates=0, actual_training_visits=0, physical_requests=0,
         refit_statistics=False, native_gates_changed=False)
