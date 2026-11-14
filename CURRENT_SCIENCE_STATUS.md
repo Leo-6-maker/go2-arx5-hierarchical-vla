@@ -1,3 +1,5 @@
+> SLA V6.1 actual update · 2026-11-14T15:49:18.392684+08:00: first RP8 stops at state reconstruction before oracle injection;1220/1220 FP32 student-file checks pass;HOLD50 closes40/50,combined118 full;inherited V6 2002/64064T remains live. S16 not started. [Evidence](reports/WM02/sla-action-contract-v61-20261114/EXECUTION_20261114.md).
+
 # 当前科学状态 · Goal V7 · 2026-11-03
 
 2026-11-14T12:25:57+08:00 · SLA V5固定f61305f9：Core新参考系标签版本实际92更新／2,944T／0S，20EP/1220窗完全复用，全部1220原H40及FP32门通过、87个初始模型／Adam／RNG数组与旧N20逐位一致；3K保存和新进程RGB／原生评价仍待完成。旧N20完整3000更新／96,000T／0S和87状态＋16RGB重建保留；旧TRAIN8已8/8终态、0成功：7rawH40→0安装→0消费，另1启动技术失败。空间2EP支线累计2857更新，BOOK500队列保留；不是同数据FM/SF。专家78完整／87原生worker请求，pacedPLACE25,878步触及原5mm脚位移评分，0/1；旧负结果和WBC／安全／旧DEV_TEST冻结。D100/D300未完成。[真实状态、分母、成本与后续](reports/WM02/sla-long-horizon-v5-20261114/EXECUTION_20261114.md)。
