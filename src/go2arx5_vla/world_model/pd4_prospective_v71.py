@@ -121,3 +121,58 @@ def admitted(spec_path,run_id,output):
     for k in ('source_root','registered_root','logs','tmp','cache','data'):local_path(spec,spec[k])
     with world_owner(spec,json.loads(Path(spec['registry']).read_bytes())):
         with admitted_run(spec_path,run_id,'wm02-auto1-target',output,physics=True):yield spec
+
+
+def recipe_config(spec,episode,*,actual_phase,actual_kind,source_members):
+    """Fresh runtime custody instead of unavailable historical build paths.
+
+    This is an independent diagnostic recipe, never a claim that the old
+    expired P1/build lineage has been restored. Dynamic checks stay shared.
+    """
+    from .stable_task_scene_v1 import pinned,prefix_episode
+    from .task_learning_grasp_v1 import CALIBRATION_B,PHASE,KIND
+    from .fusion_task_phase_initialization_contract import _source
+    configuration(spec);binding=pinned(spec[KEY]['binding']);root=Path(spec['registered_root'])
+    if (actual_phase!=PHASE or actual_kind!=KIND or spec['profile']!='wm02-auto1-target'
+            or spec['domain']!='WM02_AUTO1_TARGET_COMMISSION_V1' or spec['physics']is not True
+            or spec['WBC_changes']is not False or spec['physics_dt_s']!=.002
+            or spec['wall_limit_s']!=3600 or spec['max_ticks']!=21703
+            or spec['live_skill_start_step']!=CALIBRATION_B
+            or binding['schema']!=VERSION+'_BINDING' or binding['scope']!=SCOPE
+            or binding['source_sha']!=spec['source_sha'] or str(root)not in binding['native_roots']
+            or spec['reference_binding_version']!='MEASURED_EEF_AND_BASE_POSE_HOLD_V2'
+            or any(spec.get(k)for k in ('pilot1_binding','fusion_binding','night1_binding','next1_binding',
+                'next2_binding','parallel_batch_spec','standby_shutdown_diagnostic','reference_readiness_probe','diagnostic_debugger'))):
+        raise PermissionError('EXACT_PD4_FRESH_NATIVE_RECIPE_NOT_OLD_P1_GRANT')
+    source=Path(spec['source_root']);files=spec['source_files']
+    if not all(n in files and digest(source/n)==files[n]for n in source_members):
+        raise PermissionError('ALL_SHARED_NATIVE_SOURCE_CHECKS_RETAINED')
+    proof=native_scene_admission(spec)
+    view=prefix_episode(pinned(dict(path=spec['episode_manifest'],sha256=spec['episode_manifest_sha256'])),spec)
+    if episode is not None and episode!=view:raise PermissionError('EXACT_SAME_COLD_START_RECIPE')
+    if spec['trajectory_trace_capacity']!=524288:raise PermissionError('UNCHANGED_TRACE_CAPACITY')
+    for n,pin in spec['frozen_files'].items():
+        if digest(n)!=pin:raise PermissionError('FROZEN_RUNTIME_CUSTODY_CHANGED:'+n)
+    # Reuse the sealed successful native producer, with exact current runtime
+    # bytes, not the disappeared historical build executable/expired grant.
+    panel=pinned(dict(path=spec['stable_task_panel'],sha256=spec['stable_task_panel_sha256']))
+    row=next(r for r in panel['assignments']if r['native_run']==root.name)
+    mpath=Path(spec[KEY]['frozen_N20_manifest']['path']);mpin=spec[KEY]['frozen_N20_manifest']['sha256']
+    from ..sla_adapter.s16_offline_v7 import DATA_SHA
+    if mpin!=DATA_SHA or digest(mpath)!=DATA_SHA:raise PermissionError('ORIGINAL_CLOSED_PRODUCER_CUSTODY')
+    m=json.loads(mpath.read_bytes());ep=next(e for e in m['episodes']if e['mount']['source_spec']==row['original_spec'])
+    old=pinned(row['original_spec']);native=Path(old['registered_root'])/'native-01/RESULT.json';v=json.loads(native.read_bytes())
+    if (digest(native)!=ep['source_native_result_sha256'] or v['status']!='NATIVE_STAGE_PASSED'
+            or v['actual_target_integrations']!=21703 or not v['shutdown_clean']
+            or v['physics_stops'] or v['original_joint_or_warning_samples']
+            or v['native_binary_sha256']!=digest(spec['native_binary'])
+            or v['scene_sha256']!=proof['compiled']['scene_sha256']):
+        raise PermissionError('SEALED_COMPLETE_NATIVE_PRODUCER_WITH_SAME_RUNTIME')
+    catalog=pinned(dict(path=spec['scene_allowlist'],sha256=spec['scene_allowlist_sha256']))
+    matches=[r for r in catalog['scenes']if r['scene_id']==spec['scene_id']]
+    if (len(matches)!=1 or matches[0]['parent']!=spec['data_parent'] or matches[0]['split']!='TRAIN'
+            or matches[0]['model_sha256']!=digest(spec['model_path'])
+            or matches[0]['model_path']!=spec['model_path']
+            or catalog['native_binary_sha256']!=digest(spec['native_binary'])):
+        raise PermissionError('SAME_SCENE_AND_RUNTIME_ALLOWLIST')
+    return view,_source(spec)
