@@ -111,3 +111,51 @@ def patch(cpp,utils):
             or after[len(INCLUDE):].replace(new,old)!=utils):
         raise ValueError('RECORDED_SCHEDULE_GATE_CHANGED_ORIGINAL_CONTROL_OR_PHYSICS_TEXT')
     return changed,after
+
+
+def baseline_spec(spec):
+    """Validate the new build and bind existing frozen-math ancestry only.
+
+    Returned metadata is for the old ancestry validators. The actual worker
+    still launches and records its distinct replay executable and schedule.
+    """
+    from .stable_task_scene_v1 import pinned
+    from .storage import digest
+    config=spec.get('native_callback_replay_v61')
+    if not config:return spec
+    result=pinned(config['build']);candidate=Path(config['build']['path']).parent
+    root=candidate.parent;build=json.loads((root/'EXECUTION_SPEC.json').read_bytes())
+    lease=json.loads((root/'control/LEASE.json').read_bytes())
+    worker=json.loads((root/'WORKER_EXIT.private.json').read_bytes())
+    original=pinned(build['original_spec'])
+    schedule=candidate/'recorded-prefix/CALLBACK_SCHEDULE.private.txt'
+    if(config['version']!=VERSION or spec.get('sla_label_replay_v61')is None
+            or result['schema']!=VERSION+'_BUILD_ACTUAL'
+            or result['status']!='COMPILED_NOT_NATIVE_QUALIFIED'
+            or lease['status']!='CLOSED' or lease['worker_exit_code']!=worker['exit_code'] or worker['exit_code']!=0
+            or lease['spec_sha256']!=digest(root/'EXECUTION_SPEC.json')
+            or candidate!=root/'candidate-01'
+            or Path(spec['native_binary'])!=candidate/'rl_sim_mujoco'
+            or digest(spec['native_binary'])!=result['binary_sha256']
+            or digest(schedule)!=result['schedule_sha256']
+            or spec['native_environment'].get('WM02_CALLBACK_REPLAY_V61')!=str(schedule)
+            or spec['sla_label_replay_v61']['original_spec']!=build['original_spec']
+            or result['recorded_prefix_end_tick']!=5703 or result['physics_integrations']!=0
+            or not result['original_control_and_physics_text_exact_after_removing_gates']
+            or not result['original_SDK_archive_reused_unchanged']):
+        raise ValueError('ACTUAL_CLOSED_REPLAY_BUILD_AND_NEW_TYPED_ORACLE_ONLY')
+    for name in('solver_binary','controller_binary','outer_library','trace_library','observer_library',
+                 'native_ui_build','native_ui_rate','frozen_files'):
+        if spec[name]!=original[name]:raise ValueError('REPLAY_CHANGED_FROZEN_CONTROL_ANCESTRY_'+name)
+    ui=Path(original['native_ui_build']['path']).parent
+    ui_spec=json.loads((ui.parent/'EXECUTION_SPEC.json').read_bytes());base=Path(ui_spec['baseline_candidate'])
+    cpp,utils=patch((base/'rl_sim_mujoco.cpp').read_text(),(base/'mujoco_utils.hpp').read_text())
+    if((candidate/'rl_sim_mujoco.cpp').read_text()!=cpp
+            or(candidate/'mujoco_utils.hpp').read_text()!=utils
+            or digest(candidate/'callback_replay_v61.hpp')!=result['replay_header_sha256']
+            or digest(base/'rl_sim_mujoco.cpp')!=result['original_cpp_sha256']
+            or digest(base/'mujoco_utils.hpp')!=result['original_utils_sha256']):
+        raise ValueError('EXACT_INVERTIBLE_REPLAY_GATES_AND_FROZEN_SOURCE')
+    bound=dict(spec,native_binary=original['native_binary'])
+    bound.pop('native_callback_replay_v61')
+    return bound

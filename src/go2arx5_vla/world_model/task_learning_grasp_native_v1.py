@@ -206,6 +206,9 @@ def episode_config(spec):
     document=scenes.pinned(dict(path=spec['episode_manifest'],sha256=spec['episode_manifest_sha256']))
     episode=scenes.prefix_episode(document,spec)
     members=SOURCE_MEMBERS
+    if spec.get('native_callback_replay_v61') is not None:
+        members += ('src/go2arx5_vla/world_model/native_callback_replay_v61.py',
+                    'src/go2arx5_vla/target_mujoco/callback_replay_v61.hpp')
     if spec.get('sla_label_replay_v61') is not None:
         members += ('src/go2arx5_vla/world_model/sla_label_replay_v61.py',
                     'src/go2arx5_vla/world_model/sla_dense_policy_v5.py',

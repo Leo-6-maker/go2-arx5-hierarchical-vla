@@ -1,6 +1,7 @@
 """Finite build-only callback replay candidate;never launches a native world."""
 import json,os,shutil,subprocess,time
 from pathlib import Path
+from scripts.pi0292.durable import write as write_progress
 
 from go2arx5_vla.world_model.storage import digest,write_json
 from go2arx5_vla.world_model.native_callback_replay_v61 import VERSION,patch,write_schedule
@@ -54,7 +55,7 @@ def build(spec,output):
                          timeout=min(900,max(1,spec['deadline_epoch']-time.time()-60)))
         (output/(label+'.log')).write_text(q.stdout+q.stderr)
         actual.append(dict(label=label,argv=argv,exit_code=q.returncode))
-        write_json(output/'COMMANDS.private.json',actual);q.check_returncode()
+        write_progress(output/'COMMANDS.private.json',actual);q.check_returncode()
     if 'not found'in(output/'native_ldd.log').read_text():raise ValueError('REPLAY_CANDIDATE_DEPENDENCIES')
     for name,pin in ui_spec['frozen_files'].items():
         if digest(name)!=pin:raise ValueError('ORIGINAL_INPUT_CHANGED_DURING_BUILD')
