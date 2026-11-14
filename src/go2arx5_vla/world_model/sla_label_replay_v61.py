@@ -6,6 +6,7 @@ Heavy imports stay in the actual execution functions.
 """
 import json
 from pathlib import Path
+from functools import lru_cache
 
 VERSION = 'SLA_FP32_LABEL_NATIVE_RP8_V6_1'
 KEY = 'sla_label_replay_v61'
@@ -59,14 +60,31 @@ def protocol(spec):
         full_controller_preview_retained=True)
 
 
+@lru_cache(maxsize=8)
+def _archived_scene(path, pin):
+    """Check archived scene custody once at the immutable transfer boundary."""
+    from .stable_task_scene_v1 import pinned
+    from .storage import digest
+    from .corelab_expert_semantics_v3 import native_scene_admission as original_admission
+    from .task_learning_scene_v1 import MEMBER
+    original = pinned(dict(path=path, sha256=pin))
+    lease = json.loads((Path(original['registered_root'])/'control/LEASE.json').read_bytes())
+    builder = original['source_files'][MEMBER]
+    if (lease.get('status') != 'CLOSED' or lease.get('worker_exit_code') != 0
+            or lease.get('spec_sha256') != pin or lease.get('source_sha') != original['source_sha']
+            or digest(Path(original['source_root'])/MEMBER) != builder):
+        raise ValueError('RP8_ARCHIVED_CLOSED_PRODUCER_AND_ACTUAL_BUILDER_CUSTODY')
+    return original_admission(original), builder
+
+
 def native_scene_admission(spec):
     from .stable_task_scene_v1 import pinned
-    from .corelab_expert_semantics_v3 import native_scene_admission as original_admission
     from .task_learning_scene_v1 import validate_static_provenance
     value = configuration(spec)
     original = pinned(value['original_spec'])
-    proof = original_admission(original)
-    validate_static_provenance(spec, proof, expected_role=original['task_learning_role'])
+    proof, builder = _archived_scene(value['original_spec']['path'], value['original_spec']['sha256'])
+    validate_static_provenance(spec, proof, expected_role=original['task_learning_role'],
+                               verified_builder_sha256=builder)
     panel = pinned(dict(path=spec['stable_task_panel'], sha256=spec['stable_task_panel_sha256']))
     matches = [r for r in panel['assignments'] if r['native_run'] == Path(spec['registered_root']).name]
     if (panel['schema'] != VERSION + '_PANEL' or panel['source_sha'] != spec['source_sha']
