@@ -1,3 +1,5 @@
+> 2026-11-14 V7：先读 [当前统一入口](SLA_SOURCE_TARGET_MOBILE_START.md) 与 [可执行 EEF 路线](docs/protocols/SLA_EXECUTABLE_EEF_POLICY_V7_20261114.md)。80 查询归因已有实际证据；S16离线拟合与旧RP8解耦，但尚未实施训练worker／注册新训练。原V6 TRAIN8为0/8、DEV12为0/12，DEV36未启动；旧RP8失败和安全保持。以下V1原文保留，不作为最新进度。
+
 # SLA 本体后训练 · Codex唯一入口
 
 用户请求（2026-11-12）：利用SLA预训练模型，对完整Go2＋ARX5＋冻结WBC进行目标本体后训练；制定详细计划并推送GitHub供Codex执行。
