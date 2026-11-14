@@ -28,3 +28,23 @@ def test_qpos_only_match_never_admits_changed_control_history(part):
     elif part=='past_references':h['past_consumed_EEF10_BASE7'][0,0]+=2*STATE_ATOL
     elif part=='reference':r['reference'][0,3]+=2*STATE_ATOL
     assert not anchor_comparison(a,np.eye(4),h,np.zeros(7),r)['passes']
+
+
+def test_archived_builder_requires_closed_producer_and_actual_bytes(tmp_path,monkeypatch):
+    import json,hashlib
+    from go2arx5_vla.world_model import sla_label_replay_v61 as replay,corelab_expert_semantics_v3 as expert
+    from go2arx5_vla.world_model.task_learning_scene_v1 import MEMBER
+    from go2arx5_vla.world_model.storage import digest
+    source=tmp_path/'source';builder=source/MEMBER;builder.parent.mkdir(parents=True);builder.write_text('immutable archived builder')
+    run=tmp_path/'original';(run/'control').mkdir(parents=True)
+    original=dict(registered_root=str(run),source_root=str(source),source_sha='a'*40,source_files={MEMBER:digest(builder)})
+    spec=run/'EXECUTION_SPEC.json';spec.write_text(json.dumps(original));pin=digest(spec)
+    lease=run/'control/LEASE.json';lease.write_text(json.dumps(dict(status='CLOSED',worker_exit_code=0,spec_sha256=pin,source_sha='a'*40)))
+    monkeypatch.setattr(expert,'native_scene_admission',lambda value:dict(old_builder=value['source_files'][MEMBER]))
+    proof,actual_builder=replay._archived_scene(str(spec),pin)
+    assert proof['old_builder']==actual_builder==digest(builder)
+    # Changed bytes at a new transfer boundary never inherit cached custody.
+    replay._archived_scene.cache_clear();builder.write_text('changed builder')
+    with pytest.raises(ValueError,match='ACTUAL_BUILDER_CUSTODY'):replay._archived_scene(str(spec),pin)
+    builder.write_text('immutable archived builder');lease.write_text(json.dumps(dict(status='ACTIVE',worker_exit_code=0,spec_sha256=pin,source_sha='a'*40)))
+    with pytest.raises(ValueError,match='CLOSED_PRODUCER'):replay._archived_scene(str(spec),pin)
