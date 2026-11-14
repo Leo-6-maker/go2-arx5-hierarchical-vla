@@ -38,6 +38,9 @@ def recorded_tail(spec):
 
 
 def native_protocol(spec):
+    if spec.get('sla_label_replay_v61') is not None:
+        from .sla_label_replay_v61 import protocol as replay_protocol
+        return replay_protocol(spec)
     if spec.get('sla_five_object_hold_v5')is not None:
         from .sla_five_object_hold_v5 import protocol as five_object_protocol
         return five_object_protocol(spec)
@@ -59,6 +62,9 @@ def native_protocol(spec):
 
 
 def native_endpoint(spec):
+    if spec.get('sla_label_replay_v61') is not None:
+        from .sla_label_replay_v61 import endpoint as replay_endpoint
+        return replay_endpoint(spec)
     if spec.get('sla_five_object_hold_v5')is not None:
         from .sla_five_object_hold_v5 import configuration,ENDPOINT
         configuration(spec)
@@ -124,6 +130,9 @@ def validate_cadence_panel(panel):
 
 
 def native_scene_admission(spec):
+    if spec.get('sla_label_replay_v61') is not None:
+        from .sla_label_replay_v61 import native_scene_admission as replay_admission
+        return replay_admission(spec)
     if spec.get('sla_five_object_hold_v5')is not None:
         from .sla_five_object_hold_v5 import native_scene_admission as five_object_admission
         return five_object_admission(spec)

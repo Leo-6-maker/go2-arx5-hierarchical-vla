@@ -206,6 +206,11 @@ def episode_config(spec):
     document=scenes.pinned(dict(path=spec['episode_manifest'],sha256=spec['episode_manifest_sha256']))
     episode=scenes.prefix_episode(document,spec)
     members=SOURCE_MEMBERS
+    if spec.get('sla_label_replay_v61') is not None:
+        members += ('src/go2arx5_vla/world_model/sla_label_replay_v61.py',
+                    'src/go2arx5_vla/world_model/sla_dense_policy_v5.py',
+                    'src/go2arx5_vla/sla_adapter/action_contract_v61.py',
+                    'experiments/sla_go2_posttrain/s16_rp8_reference_v61.json')
     if spec.get('sla_five_object_hold_v5')is not None:
         members+=('src/go2arx5_vla/world_model/sla_five_object_hold_v5.py',
                   'src/go2arx5_vla/world_model/sla_hold50_v6.py',
@@ -363,6 +368,9 @@ def continue_native(adapter,report,samples,windows):
         if s['native_step']>task_samples[-1]['native_step']:task_samples.append(copy.deepcopy(s))
         from .native_body_memory_v3 import observe_dense
         observe_dense(adapter,s,lambda:capture_input(adapter,language=language,task_score=scoring))
+    if adapter.spec.get('sla_label_replay_v61') is not None:
+        from .sla_label_replay_v61 import continue_from_start
+        return continue_from_start(adapter,report,samples,windows,reset_cycle,teacher,observe)
     for index,step in enumerate(consumer.observation_steps(adapter.spec)):
         task.need(adapter.observe()['step']==samples[-1]['native_step']==step,'REAL_CONTINUOUS_TEACHER_CLOCK')
         observe(samples[-1])
@@ -503,6 +511,9 @@ def continue_native(adapter,report,samples,windows):
 
 
 def native_result_schema(spec):
+    if spec.get('sla_label_replay_v61') is not None:
+        from .sla_label_replay_v61 import VERSION
+        return VERSION + '_NATIVE_ACTUAL'
     if spec.get('sla_five_object_hold_v5')is not None:
         from .sla_five_object_hold_v5 import version
         return version(spec)+'_NATIVE_ACTUAL'
@@ -552,6 +563,9 @@ def native_result_schema(spec):
 
 
 def complete_consumption(spec,result):
+    if spec.get('sla_label_replay_v61') is not None:
+        from .sla_label_replay_v61 import complete_consumption as replay_complete
+        return replay_complete(spec,result)
     task.declared(spec);cycles=result.get('generated_cycles')or[]
     queries = spec.get('task_learning_grasp', {}).get('policy_queries', task.QUERIES)
     control=spec.get('task_learning_control')==task.HOLD_CONTROL
