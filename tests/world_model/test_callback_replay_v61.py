@@ -28,10 +28,11 @@ def test_missing_trace_and_non_native_clock_are_rejected(tmp_path):
 
 
 def test_patch_preserves_all_original_control_math_and_gates():
-    cpp='void RL_Sim::RobotControl()\n{\n    const std::lock_guard<std::recursive_mutex> lock(sim->mtx);\nORIGINAL_CONTROL_MATH\n}\nvoid RL_Sim::StartRosInterface()\n{\n}\n        if(!wm02_applied_control_clock::clock().policy_due(wm02_policy_time_s,wm02_policy_period_ns))return;\n    wm02_applied_control_clock::clock().control(this->mj_data->time,std::llround(double(this->params.Get<float>("dt"))*1e9));'
+    cpp='void RL_Sim::RobotControl()\n{\n    const std::lock_guard<std::recursive_mutex> lock(sim->mtx);\nthis->GetState(&this->robot_state);\nORIGINAL_PAUSE_ACK\n    this->StateController(&this->robot_state, &this->robot_command);\nORIGINAL_CONTROL_MATH\n}\nvoid RL_Sim::StartRosInterface()\n{\n}\n        if(!wm02_applied_control_clock::clock().policy_due(wm02_policy_time_s,wm02_policy_period_ns))return;\n    wm02_applied_control_clock::clock().control(this->mj_data->time,std::llround(double(this->params.Get<float>("dt"))*1e9));'
     utils='if(!wm02_applied_control_clock::clock().ready(d->time))continue;\nmj_step(m,d);\nif(!wm02_applied_control_clock::clock().ready(d->time))break;\nmj_step(m,d);'
     a,b=patch(cpp,utils)
     assert 'ORIGINAL_CONTROL_MATH'in a and b.count('mj_step(m,d);')==2
+    assert a.index('this->GetState')<a.index('ORIGINAL_PAUSE_ACK')<a.index('control_allowed(')<a.index('this->StateController')
     with pytest.raises(ValueError):patch(a,b)
     with pytest.raises(ValueError):patch(cpp,utils.replace('break','continue')+utils)
 

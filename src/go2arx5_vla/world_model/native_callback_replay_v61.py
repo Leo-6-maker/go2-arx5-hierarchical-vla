@@ -94,14 +94,19 @@ def patch(cpp,utils):
     """Extra scheduling constraints;remove them to recover exact input text."""
     begin='void RL_Sim::RobotControl()\n{';end='void RL_Sim::StartRosInterface()'
     lock='    const std::lock_guard<std::recursive_mutex> lock(sim->mtx);\n'
+    sensor='this->GetState(&this->robot_state);'
+    controller='    this->StateController(&this->robot_state, &this->robot_command);'
     due='        if(!wm02_applied_control_clock::clock().policy_due(wm02_policy_time_s,wm02_policy_period_ns))return;'
     mark='    wm02_applied_control_clock::clock().control(this->mj_data->time,std::llround(double(this->params.Get<float>("dt"))*1e9));'
     if cpp.count(begin)!=1 or cpp.count(end)!=1 or INCLUDE in cpp or INCLUDE in utils:
         raise ValueError('EXACT_FROZEN_NATIVE_CONTROL_FUNCTIONS')
     a=cpp.index(begin);b=cpp.index(end,a);body=cpp[a:b]
-    if body.count(lock)!=1 or cpp.count(due)!=1 or cpp.count(mark)!=1:
+    if(body.count(lock)!=1 or body.count(sensor)!=1 or body.count(controller)!=1
+            or body.index(sensor)>body.index(controller) or cpp.count(due)!=1 or cpp.count(mark)!=1):
         raise ValueError('EXACT_EXISTING_CALLBACK_CLOCK_AND_CONTROL_MUTEX')
-    changed=INCLUDE+cpp[:a]+body.replace(lock,lock+CONTROL,1)+cpp[b:]
+    # Sensor/time refresh and the existing pause/ACK path must remain callable
+    # while waiting for a new policy. Gate only before original controller math.
+    changed=INCLUDE+cpp[:a]+body.replace(controller,CONTROL+controller,1)+cpp[b:]
     changed=changed.replace(due,POLICY+due,1).replace(mark,mark+COMPLETE,1)
     old='!wm02_applied_control_clock::clock().ready(d->time)'
     new=old+'||!wm02_callback_replay_v61::clock().integration_ready(wm02_callback_replay_v61::tick(d->time))'
