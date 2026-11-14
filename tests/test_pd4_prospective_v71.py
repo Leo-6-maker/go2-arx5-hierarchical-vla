@@ -25,3 +25,18 @@ def test_new_native_route_cannot_be_entered_by_unknown_site_without_binding(tmp_
     with pytest.raises(KeyError):
         with admitted_target(f,'native-01',tmp_path/'native-01'):pytest.fail('must not admit')
     assert not (tmp_path/'native-01').exists()
+
+
+def test_fresh_recipe_does_not_allow_changed_physics_or_unbounded_endpoint(monkeypatch):
+    monkeypatch.setattr(p,'configuration',lambda s:{})
+    from go2arx5_vla.world_model import stable_task_scene_v1 as scene
+    monkeypatch.setattr(scene,'pinned',lambda pin:dict(schema=p.VERSION+'_BINDING',scope=p.SCOPE,source_sha='source',native_roots=['/fresh/run']))
+    s={p.KEY:{'binding':{}},'registered_root':'/fresh/run','profile':'wm02-auto1-target',
+       'domain':'WM02_AUTO1_TARGET_COMMISSION_V1','physics':True,'WBC_changes':False,'physics_dt_s':.002,
+       'wall_limit_s':3600,'max_ticks':21703,'live_skill_start_step':4703,'source_sha':'source',
+       'reference_binding_version':'MEASURED_EEF_AND_BASE_POSE_HOLD_V2'}
+    from go2arx5_vla.world_model.task_learning_grasp_v1 import PHASE,KIND
+    for key,value in [('WBC_changes',True),('physics_dt_s',.004),('max_ticks',21704),('wall_limit_s',100000),('pilot1_binding','/expired')]:
+        altered=dict(s,**{key:value})
+        with pytest.raises(PermissionError,match='EXACT_PD4_FRESH_NATIVE_RECIPE'):
+            p.recipe_config(altered,None,actual_phase=PHASE,actual_kind=KIND,source_members=())

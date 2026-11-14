@@ -249,7 +249,11 @@ def episode_config(spec):
 
 
 def episode_limit(spec,prior):
-    episode_config(spec);common.audit_prefix_predecessor(spec,prior)
+    episode_config(spec)
+    if spec.get('pd4_statistics_prospective_v71')is not None:
+        from .pd4_prospective_v71 import audit_prefix_predecessor
+        audit_prefix_predecessor(spec,prior)
+    else:common.audit_prefix_predecessor(spec,prior)
     if task.student_role(spec.get('task_learning_role')):
         from .task_learning_live_pair_v1 import preflight
         preflight(spec)

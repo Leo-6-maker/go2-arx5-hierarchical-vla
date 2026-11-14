@@ -131,7 +131,6 @@ def recipe_config(spec,episode,*,actual_phase,actual_kind,source_members):
     """
     from .stable_task_scene_v1 import pinned,prefix_episode
     from .task_learning_grasp_v1 import CALIBRATION_B,PHASE,KIND
-    from .fusion_task_phase_initialization_contract import _source
     configuration(spec);binding=pinned(spec[KEY]['binding']);root=Path(spec['registered_root'])
     if (actual_phase!=PHASE or actual_kind!=KIND or spec['profile']!='wm02-auto1-target'
             or spec['domain']!='WM02_AUTO1_TARGET_COMMISSION_V1' or spec['physics']is not True
@@ -175,4 +174,36 @@ def recipe_config(spec,episode,*,actual_phase,actual_kind,source_members):
             or matches[0]['model_path']!=spec['model_path']
             or catalog['native_binary_sha256']!=digest(spec['native_binary'])):
         raise PermissionError('SAME_SCENE_AND_RUNTIME_ALLOWLIST')
-    return view,_source(spec)
+    from .fusion_observation import rigid,transform_hash
+    from .fusion_task_phase_initialization import FRAME_MAP
+    frame=rigid(spec['task_phase_source_from_target'])
+    if transform_hash(frame)!=spec['task_phase_frame_map_sha256'] or spec['task_phase_frame_map_sha256']!=FRAME_MAP:
+        raise PermissionError('ORIGINAL_FROZEN_POLICY_FRAME_REQUIRED')
+    # Task-local preparation explicitly never reads a historical source pose.
+    return view,dict(T_source_from_target=frame,scene_sha256=digest(spec['model_path']),
+        source_pose_alignment=False,historical_source_observation_used=False)
+
+
+def audit_prefix_predecessor(spec,prior):
+    """Use the sealed same-runtime task-local qualification, not source alignment.
+
+    The live 3703 steady-prefix gate still runs unchanged for this diagnostic.
+    This supplies no admission or claim of historical hidden-state recovery.
+    """
+    from .stable_task_scene_v1 import pinned
+    from .fusion_live_proposal_qualification_contract import _closed
+    panel=pinned(dict(path=spec['stable_task_panel'],sha256=spec['stable_task_panel_sha256']))
+    row=next(r for r in panel['assignments']if r['native_run']==Path(spec['registered_root']).name)
+    old,pin=_closed(Path(row['original_spec']['path']).parent)
+    if pin!=row['original_spec']['sha256'] or digest(spec['previous_stage'])!=spec['previous_stage_sha256']:
+        raise PermissionError('ORIGINAL_CLOSED_PREFIX_CUSTODY_REQUIRED')
+    if prior!=json.loads(Path(spec['previous_stage']).read_bytes()):raise PermissionError('EXACT_PREDECESSOR_RECORD')
+    native=Path(old['registered_root'])/'native-01/RESULT.json';v=json.loads(native.read_bytes())
+    m=pinned(spec[KEY]['frozen_N20_manifest']);ep=next(e for e in m['episodes']if e['mount']['source_spec']==row['original_spec'])
+    ready=(v.get('reference_qualification')or{}).get('task_local_preparation')or{}
+    if (digest(native)!=ep['source_native_result_sha256'] or v['status']!='NATIVE_STAGE_PASSED'
+            or ready.get('original_steady_prefix_qualified')is not True
+            or ready.get('original_steady_prefix_native_step')!=3703
+            or ready.get('source_pose_alignment')is not False):
+        raise PermissionError('SAME_RUNTIME_TASK_LOCAL_STEADY_PREFIX_EVIDENCE')
+    return ready
