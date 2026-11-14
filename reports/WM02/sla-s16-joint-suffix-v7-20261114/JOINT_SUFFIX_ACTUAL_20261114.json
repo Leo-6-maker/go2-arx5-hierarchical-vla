@@ -1,0 +1,2709 @@
+{
+  "schema": "SLA_ORIGINAL16_JOINT_PREFIX_SUFFIX_DIAGNOSTIC_V7",
+  "original_monitor_result_sha256": "bf4ec2603c829b58e4b089de082a6f51df7d65c3e6c4e23242abb26ce13090aa",
+  "trajectories": 16,
+  "first_exceedance_partitions": {
+    "PREFIX": 6,
+    "SUFFIX": 10
+  },
+  "prefix_exceeds_original_joint_bound": 6,
+  "suffix_exceeds_original_joint_bound": 12,
+  "joint3_exceeds_in_prefix": 5,
+  "joint3_exceeds_in_suffix": 11,
+  "rows": [
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-train01-r4",
+      "layout": "TRAIN01",
+      "restart": 4,
+      "query": 2,
+      "native_step": 6203,
+      "state_sha256": "5575802b96085b892deed1628356e9c7f03152075b893d4cd682d80aaf18cf23",
+      "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+      "prefix_knots": 10,
+      "suffix_knots": 30,
+      "acceleration_k": "RIGHTMOST_H40_KNOT; negative preceding knots are executed history",
+      "prefix_max_abs_acceleration_rad_s2": 1.0529784673993903,
+      "suffix_max_abs_acceleration_rad_s2": 0.8279829199071997,
+      "joint3_prefix_max_abs_acceleration_rad_s2": 1.0320652671239827,
+      "joint3_suffix_max_abs_acceleration_rad_s2": 0.8279829199071997,
+      "reference_join_max_abs_acceleration_rad_s2": 0.5642387568583374,
+      "first_exceedance_k": 3,
+      "first_exceedance_joint": 3,
+      "first_exceedance_partition": "PREFIX",
+      "first_joint3_exceedance_k": 3,
+      "per_joint": [
+        {
+          "joint": 1,
+          "prefix_max_abs_acceleration_rad_s2": 0.1621042415892393,
+          "suffix_max_abs_acceleration_rad_s2": 0.116405632762355,
+          "max_speed_rad_s": 0.01588395637188683
+        },
+        {
+          "joint": 2,
+          "prefix_max_abs_acceleration_rad_s2": 0.17103078552933582,
+          "suffix_max_abs_acceleration_rad_s2": 0.246596358352269,
+          "max_speed_rad_s": 0.033712110846058074
+        },
+        {
+          "joint": 3,
+          "prefix_max_abs_acceleration_rad_s2": 1.0320652671239827,
+          "suffix_max_abs_acceleration_rad_s2": 0.8279829199071997,
+          "max_speed_rad_s": 0.10789568023624296
+        },
+        {
+          "joint": 4,
+          "prefix_max_abs_acceleration_rad_s2": 1.0529784673993903,
+          "suffix_max_abs_acceleration_rad_s2": 0.6520457172722538,
+          "max_speed_rad_s": 0.10014883493910776
+        },
+        {
+          "joint": 5,
+          "prefix_max_abs_acceleration_rad_s2": 0.16307092891673647,
+          "suffix_max_abs_acceleration_rad_s2": 0.12341960435956478,
+          "max_speed_rad_s": 0.018837792501871092
+        },
+        {
+          "joint": 6,
+          "prefix_max_abs_acceleration_rad_s2": 0.020221231964777375,
+          "suffix_max_abs_acceleration_rad_s2": 0.01786329267631781,
+          "max_speed_rad_s": 0.002280650633809944
+        }
+      ],
+      "original_acceleration_limit_rad_s2": 1.0,
+      "original_speed_limit_rad_s": 0.7,
+      "prefix_only_execution_admitted": false,
+      "full_WBC_restored": false,
+      "actual_joint3_qpos_rad": 0.6556045755082741,
+      "actual_joint3_qvel_rad_s": -0.02470253368551445,
+      "joint3_IK_qpos_triple_rad": [
+        0.7071742532847275,
+        0.706318495863473,
+        0.7028825752744084
+      ],
+      "kinematics": [
+        {
+          "label": "ACTUAL_QUERY",
+          "joint3_qpos_rad": 0.6556045755082741,
+          "raw_stacked_jacobian_singular_values": [
+            1.8295367655952997,
+            1.4537489363114227,
+            1.0001669042051378,
+            0.18422858397715902,
+            0.15176401175960016,
+            0.09417922467093594
+          ],
+          "raw_stacked_condition_number": 19.42611836089899,
+          "joint3_translation_column_norm_m_rad": 0.48402369538483475,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_1",
+          "joint3_qpos_rad": 0.7071742532847275,
+          "raw_stacked_jacobian_singular_values": [
+            1.8342427583985756,
+            1.4558942765859297,
+            0.9987515909978157,
+            0.18361810970468942,
+            0.15818197298782308,
+            0.10134457765847144
+          ],
+          "raw_stacked_condition_number": 18.099071512044045,
+          "joint3_translation_column_norm_m_rad": 0.48581443290518717,
+          "joint3_angular_column_norm": 0.9999999999999999
+        },
+        {
+          "label": "IK_KNOT_2",
+          "joint3_qpos_rad": 0.706318495863473,
+          "raw_stacked_jacobian_singular_values": [
+            1.8342286833285293,
+            1.455892724575094,
+            0.9987659708963447,
+            0.1836295801189642,
+            0.15807223628306113,
+            0.10133477335013485
+          ],
+          "raw_stacked_condition_number": 18.100683730656296,
+          "joint3_translation_column_norm_m_rad": 0.48583991777529806,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_3",
+          "joint3_qpos_rad": 0.7028825752744084,
+          "raw_stacked_jacobian_singular_values": [
+            1.8342008349919738,
+            1.455902214739147,
+            0.9988011131379583,
+            0.18368078649052866,
+            0.15762441384234413,
+            0.1013587113763161
+          ],
+          "raw_stacked_condition_number": 18.09613411699866,
+          "joint3_translation_column_norm_m_rad": 0.4859537366111955,
+          "joint3_angular_column_norm": 1.0
+        }
+      ],
+      "history_removed_offline": {
+        "scope": "ORIGINAL_CLONE_CERTIFIER_AT_SAVED_MEASURED_STATE_AND_REFERENCE_HISTORY",
+        "full_WBC_state_restored": false,
+        "physical_requests": 0,
+        "physics_integrations": 0,
+        "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+        "status": "REJECT_OFFLINE_CLONE_ONLY",
+        "error": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+        "joint_rates": {
+          "maximum_speed_rad_s": 0.10789568023625185,
+          "speed_limit_rad_s": 0.7,
+          "maximum_acceleration_rad_s2": 1.0529784673994735,
+          "acceleration_limit_rad_s2": 1.0,
+          "peak_joint": 4,
+          "peak_H40_knot_triple": [
+            1,
+            2,
+            3
+          ],
+          "first_acceleration_exceedance": {
+            "joint": 3,
+            "acceleration_rad_s2": -1.032065267124116,
+            "absolute_ratio": 1.032065267124116,
+            "H40_knot_triple": [
+              1,
+              2,
+              3
+            ],
+            "location": "H40_INTERIOR"
+          },
+          "history_points": 0,
+          "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+        }
+      },
+      "history_removal_max_acceleration_change_rad_s2": 8.326672684688674e-14
+    },
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-train07-r3",
+      "layout": "TRAIN07",
+      "restart": 3,
+      "query": 1,
+      "native_step": 5953,
+      "state_sha256": "7d10583560d91f85edf04106f61b29a03efe7626c22162ed54bc4bf0eba3454a",
+      "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+      "prefix_knots": 10,
+      "suffix_knots": 30,
+      "acceleration_k": "RIGHTMOST_H40_KNOT; negative preceding knots are executed history",
+      "prefix_max_abs_acceleration_rad_s2": 0.7234315946575531,
+      "suffix_max_abs_acceleration_rad_s2": 1.0638687726152174,
+      "joint3_prefix_max_abs_acceleration_rad_s2": 0.7234315946575531,
+      "joint3_suffix_max_abs_acceleration_rad_s2": 1.0638687726152174,
+      "reference_join_max_abs_acceleration_rad_s2": 0.2570028379603406,
+      "first_exceedance_k": 19,
+      "first_exceedance_joint": 3,
+      "first_exceedance_partition": "SUFFIX",
+      "first_joint3_exceedance_k": 19,
+      "per_joint": [
+        {
+          "joint": 1,
+          "prefix_max_abs_acceleration_rad_s2": 0.530400667162767,
+          "suffix_max_abs_acceleration_rad_s2": 0.2188198700365962,
+          "max_speed_rad_s": 0.06171400772803537
+        },
+        {
+          "joint": 2,
+          "prefix_max_abs_acceleration_rad_s2": 0.14003273653622195,
+          "suffix_max_abs_acceleration_rad_s2": 0.30899243579374236,
+          "max_speed_rad_s": 0.03484950186753544
+        },
+        {
+          "joint": 3,
+          "prefix_max_abs_acceleration_rad_s2": 0.7234315946575531,
+          "suffix_max_abs_acceleration_rad_s2": 1.0638687726152174,
+          "max_speed_rad_s": 0.10897943588184189
+        },
+        {
+          "joint": 4,
+          "prefix_max_abs_acceleration_rad_s2": 0.6468800058377216,
+          "suffix_max_abs_acceleration_rad_s2": 0.8343047380955245,
+          "max_speed_rad_s": 0.10792037738001123
+        },
+        {
+          "joint": 5,
+          "prefix_max_abs_acceleration_rad_s2": 0.5440906137465173,
+          "suffix_max_abs_acceleration_rad_s2": 0.24500826908076534,
+          "max_speed_rad_s": 0.06310925771412915
+        },
+        {
+          "joint": 6,
+          "prefix_max_abs_acceleration_rad_s2": 0.061403677525992406,
+          "suffix_max_abs_acceleration_rad_s2": 0.028638606544749423,
+          "max_speed_rad_s": 0.006999298116737648
+        }
+      ],
+      "original_acceleration_limit_rad_s2": 1.0,
+      "original_speed_limit_rad_s": 0.7,
+      "prefix_only_execution_admitted": false,
+      "full_WBC_restored": false,
+      "actual_joint3_qpos_rad": 0.6703364533792984,
+      "actual_joint3_qvel_rad_s": -0.026295004529290393,
+      "joint3_IK_qpos_triple_rad": [
+        0.6879083527278483,
+        0.6857283746895996,
+        0.6862080685828889
+      ],
+      "kinematics": [
+        {
+          "label": "ACTUAL_QUERY",
+          "joint3_qpos_rad": 0.6703364533792984,
+          "raw_stacked_jacobian_singular_values": [
+            1.8295007631766267,
+            1.453587252865467,
+            1.000082324005673,
+            0.18384100271813575,
+            0.1539240528567677,
+            0.09349915041258229
+          ],
+          "raw_stacked_condition_number": 19.56703087785949,
+          "joint3_translation_column_norm_m_rad": 0.48338344732923094,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_17",
+          "joint3_qpos_rad": 0.6879083527278483,
+          "raw_stacked_jacobian_singular_values": [
+            1.8339044946157432,
+            1.4557969134206712,
+            0.9989819561199602,
+            0.18392846687172998,
+            0.15564728064702602,
+            0.10089411041005121
+          ],
+          "raw_stacked_condition_number": 18.17652672849224,
+          "joint3_translation_column_norm_m_rad": 0.4863094909237041,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_18",
+          "joint3_qpos_rad": 0.6857283746895996,
+          "raw_stacked_jacobian_singular_values": [
+            1.8338797038409773,
+            1.455787037412993,
+            0.9989835009080806,
+            0.1839708606320717,
+            0.1553507915260415,
+            0.10085051925933922
+          ],
+          "raw_stacked_condition_number": 18.184137447275976,
+          "joint3_translation_column_norm_m_rad": 0.4863622754155723,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_19",
+          "joint3_qpos_rad": 0.6862080685828889,
+          "raw_stacked_jacobian_singular_values": [
+            1.8338862979207002,
+            1.4557884005357196,
+            0.998979641042874,
+            0.18396133516702554,
+            0.1554162627429698,
+            0.10085716226924814
+          ],
+          "raw_stacked_condition_number": 18.18300511990373,
+          "joint3_translation_column_norm_m_rad": 0.48634975342295916,
+          "joint3_angular_column_norm": 0.9999999999999999
+        }
+      ],
+      "history_removed_offline": {
+        "scope": "ORIGINAL_CLONE_CERTIFIER_AT_SAVED_MEASURED_STATE_AND_REFERENCE_HISTORY",
+        "full_WBC_state_restored": false,
+        "physical_requests": 0,
+        "physics_integrations": 0,
+        "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+        "status": "REJECT_OFFLINE_CLONE_ONLY",
+        "error": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+        "joint_rates": {
+          "maximum_speed_rad_s": 0.10897943588188408,
+          "speed_limit_rad_s": 0.7,
+          "maximum_acceleration_rad_s2": 1.0638687726144624,
+          "acceleration_limit_rad_s2": 1.0,
+          "peak_joint": 3,
+          "peak_H40_knot_triple": [
+            17,
+            18,
+            19
+          ],
+          "first_acceleration_exceedance": {
+            "joint": 3,
+            "acceleration_rad_s2": 1.0638687726144624,
+            "absolute_ratio": 1.0638687726144624,
+            "H40_knot_triple": [
+              17,
+              18,
+              19
+            ],
+            "location": "H40_INTERIOR"
+          },
+          "history_points": 0,
+          "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+        }
+      },
+      "history_removal_max_acceleration_change_rad_s2": 7.549516567451064e-13
+    },
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-train07-r4",
+      "layout": "TRAIN07",
+      "restart": 4,
+      "query": 0,
+      "native_step": 5703,
+      "state_sha256": "55d311637800f843bfd4941eb14083c0e3e532982637bc52c9b48ff15eaf906c",
+      "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+      "prefix_knots": 10,
+      "suffix_knots": 30,
+      "acceleration_k": "RIGHTMOST_H40_KNOT; negative preceding knots are executed history",
+      "prefix_max_abs_acceleration_rad_s2": 0.5947229016084632,
+      "suffix_max_abs_acceleration_rad_s2": 1.0617362256459817,
+      "joint3_prefix_max_abs_acceleration_rad_s2": 0.5232068755716135,
+      "joint3_suffix_max_abs_acceleration_rad_s2": 1.0617362256459817,
+      "reference_join_max_abs_acceleration_rad_s2": 0.2351267099240939,
+      "first_exceedance_k": 24,
+      "first_exceedance_joint": 3,
+      "first_exceedance_partition": "SUFFIX",
+      "first_joint3_exceedance_k": 24,
+      "per_joint": [
+        {
+          "joint": 1,
+          "prefix_max_abs_acceleration_rad_s2": 0.17164185373319818,
+          "suffix_max_abs_acceleration_rad_s2": 0.31612891912261853,
+          "max_speed_rad_s": 0.031064604489834252
+        },
+        {
+          "joint": 2,
+          "prefix_max_abs_acceleration_rad_s2": 0.08992048343050563,
+          "suffix_max_abs_acceleration_rad_s2": 0.3817103394982091,
+          "max_speed_rad_s": 0.0437256720400403
+        },
+        {
+          "joint": 3,
+          "prefix_max_abs_acceleration_rad_s2": 0.5232068755716135,
+          "suffix_max_abs_acceleration_rad_s2": 1.0617362256459817,
+          "max_speed_rad_s": 0.10992381289615771
+        },
+        {
+          "joint": 4,
+          "prefix_max_abs_acceleration_rad_s2": 0.5947229016084632,
+          "suffix_max_abs_acceleration_rad_s2": 0.9780362165712514,
+          "max_speed_rad_s": 0.09145591107314763
+        },
+        {
+          "joint": 5,
+          "prefix_max_abs_acceleration_rad_s2": 0.17019271654858392,
+          "suffix_max_abs_acceleration_rad_s2": 0.3276388747289194,
+          "max_speed_rad_s": 0.03253590382843438
+        },
+        {
+          "joint": 6,
+          "prefix_max_abs_acceleration_rad_s2": 0.02152616227517057,
+          "suffix_max_abs_acceleration_rad_s2": 0.040670304791046163,
+          "max_speed_rad_s": 0.003783660385160356
+        }
+      ],
+      "original_acceleration_limit_rad_s2": 1.0,
+      "original_speed_limit_rad_s": 0.7,
+      "prefix_only_execution_admitted": false,
+      "full_WBC_restored": false,
+      "actual_joint3_qpos_rad": 0.6824784564034048,
+      "actual_joint3_qvel_rad_s": 0.002101658729570715,
+      "joint3_IK_qpos_triple_rad": [
+        0.7092168310509755,
+        0.7072238311748559,
+        0.7025764907346213
+      ],
+      "kinematics": [
+        {
+          "label": "ACTUAL_QUERY",
+          "joint3_qpos_rad": 0.6824784564034048,
+          "raw_stacked_jacobian_singular_values": [
+            1.8295050713037495,
+            1.453480656090303,
+            1.0000080109613723,
+            0.18355612269811097,
+            0.15565410935850052,
+            0.09304487767935783
+          ],
+          "raw_stacked_condition_number": 19.66260923689331,
+          "joint3_translation_column_norm_m_rad": 0.48287564216185147,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_22",
+          "joint3_qpos_rad": 0.7092168310509755,
+          "raw_stacked_jacobian_singular_values": [
+            1.8346564490857062,
+            1.4559294006416685,
+            0.9980388319525905,
+            0.1835968721679137,
+            0.1584266636691587,
+            0.10156669055695022
+          ],
+          "raw_stacked_condition_number": 18.06356433418476,
+          "joint3_translation_column_norm_m_rad": 0.48570597925860454,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_23",
+          "joint3_qpos_rad": 0.7072238311748559,
+          "raw_stacked_jacobian_singular_values": [
+            1.834630684285322,
+            1.4559100745099662,
+            0.9980419327599911,
+            0.18362135616145608,
+            0.1581737620855567,
+            0.1014782082021542
+          ],
+          "raw_stacked_condition_number": 18.07906068493606,
+          "joint3_translation_column_norm_m_rad": 0.48575529569514814,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_24",
+          "joint3_qpos_rad": 0.7025764907346213,
+          "raw_stacked_jacobian_singular_values": [
+            1.8345653672639572,
+            1.4558733685538767,
+            0.998053985686262,
+            0.1836839100338835,
+            0.15757752051232096,
+            0.10131482882861702
+          ],
+          "raw_stacked_condition_number": 18.107570120532767,
+          "joint3_translation_column_norm_m_rad": 0.48586693872813463,
+          "joint3_angular_column_norm": 1.0
+        }
+      ],
+      "history_removed_offline": {
+        "scope": "ORIGINAL_CLONE_CERTIFIER_AT_SAVED_MEASURED_STATE_AND_REFERENCE_HISTORY",
+        "full_WBC_state_restored": false,
+        "physical_requests": 0,
+        "physics_integrations": 0,
+        "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+        "status": "REJECT_OFFLINE_CLONE_ONLY",
+        "error": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+        "joint_rates": {
+          "maximum_speed_rad_s": 0.1099238128961777,
+          "speed_limit_rad_s": 0.7,
+          "maximum_acceleration_rad_s2": 1.0617362256458929,
+          "acceleration_limit_rad_s2": 1.0,
+          "peak_joint": 3,
+          "peak_H40_knot_triple": [
+            22,
+            23,
+            24
+          ],
+          "first_acceleration_exceedance": {
+            "joint": 3,
+            "acceleration_rad_s2": -1.0617362256458929,
+            "absolute_ratio": 1.0617362256458929,
+            "H40_knot_triple": [
+              22,
+              23,
+              24
+            ],
+            "location": "H40_INTERIOR"
+          },
+          "history_points": 0,
+          "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+        }
+      },
+      "history_removal_max_acceleration_change_rad_s2": 8.881784197001252e-14
+    },
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-train13-r3",
+      "layout": "TRAIN13",
+      "restart": 3,
+      "query": 1,
+      "native_step": 5953,
+      "state_sha256": "98a52daea75bd15ab90a529d9c134a7808738c11807aad5bb0ee542febc4501f",
+      "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+      "prefix_knots": 10,
+      "suffix_knots": 30,
+      "acceleration_k": "RIGHTMOST_H40_KNOT; negative preceding knots are executed history",
+      "prefix_max_abs_acceleration_rad_s2": 0.8893198043975176,
+      "suffix_max_abs_acceleration_rad_s2": 1.007386248761355,
+      "joint3_prefix_max_abs_acceleration_rad_s2": 0.6466270208538294,
+      "joint3_suffix_max_abs_acceleration_rad_s2": 1.007386248761355,
+      "reference_join_max_abs_acceleration_rad_s2": 0.35430960992934857,
+      "first_exceedance_k": 38,
+      "first_exceedance_joint": 3,
+      "first_exceedance_partition": "SUFFIX",
+      "first_joint3_exceedance_k": 38,
+      "per_joint": [
+        {
+          "joint": 1,
+          "prefix_max_abs_acceleration_rad_s2": 0.8563646762633117,
+          "suffix_max_abs_acceleration_rad_s2": 0.3380011541223606,
+          "max_speed_rad_s": 0.08964133835223216
+        },
+        {
+          "joint": 2,
+          "prefix_max_abs_acceleration_rad_s2": 0.1980669102214172,
+          "suffix_max_abs_acceleration_rad_s2": 0.3055741261918765,
+          "max_speed_rad_s": 0.035578463127183824
+        },
+        {
+          "joint": 3,
+          "prefix_max_abs_acceleration_rad_s2": 0.6466270208538294,
+          "suffix_max_abs_acceleration_rad_s2": 1.007386248761355,
+          "max_speed_rad_s": 0.11653043667880114
+        },
+        {
+          "joint": 4,
+          "prefix_max_abs_acceleration_rad_s2": 0.5925485372680284,
+          "suffix_max_abs_acceleration_rad_s2": 0.8199235218098755,
+          "max_speed_rad_s": 0.09788017827123532
+        },
+        {
+          "joint": 5,
+          "prefix_max_abs_acceleration_rad_s2": 0.8893198043975176,
+          "suffix_max_abs_acceleration_rad_s2": 0.3880756507071779,
+          "max_speed_rad_s": 0.09319843867695583
+        },
+        {
+          "joint": 6,
+          "prefix_max_abs_acceleration_rad_s2": 0.09107865748360644,
+          "suffix_max_abs_acceleration_rad_s2": 0.04530075110528442,
+          "max_speed_rad_s": 0.00971118784140551
+        }
+      ],
+      "original_acceleration_limit_rad_s2": 1.0,
+      "original_speed_limit_rad_s": 0.7,
+      "prefix_only_execution_admitted": false,
+      "full_WBC_restored": false,
+      "actual_joint3_qpos_rad": 0.6724118754406012,
+      "actual_joint3_qvel_rad_s": -0.014315309904116393,
+      "joint3_IK_qpos_triple_rad": [
+        0.6408618945714362,
+        0.6373604403178268,
+        0.6363774516861208
+      ],
+      "kinematics": [
+        {
+          "label": "ACTUAL_QUERY",
+          "joint3_qpos_rad": 0.6724118754406012,
+          "raw_stacked_jacobian_singular_values": [
+            1.8293910219083318,
+            1.4534848144579848,
+            1.0002215463448205,
+            0.18378739009553954,
+            0.15422901551638535,
+            0.09296285370498819
+          ],
+          "raw_stacked_condition_number": 19.678731331912314,
+          "joint3_translation_column_norm_m_rad": 0.4832888084326049,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_36",
+          "joint3_qpos_rad": 0.6408618945714362,
+          "raw_stacked_jacobian_singular_values": [
+            1.8326332267772465,
+            1.4552769783861437,
+            1.000142381730889,
+            0.18503701328737795,
+            0.1489859343815867,
+            0.0984886766951353
+          ],
+          "raw_stacked_condition_number": 18.60755254586304,
+          "joint3_translation_column_norm_m_rad": 0.4874017921830039,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_37",
+          "joint3_qpos_rad": 0.6373604403178268,
+          "raw_stacked_jacobian_singular_values": [
+            1.8325970273819936,
+            1.4552585758224257,
+            1.0001412180819043,
+            0.1851346578004396,
+            0.14846553476272964,
+            0.09840498592719095
+          ],
+          "raw_stacked_condition_number": 18.62300990254617,
+          "joint3_translation_column_norm_m_rad": 0.4874790020749059,
+          "joint3_angular_column_norm": 0.9999999999999999
+        },
+        {
+          "label": "IK_KNOT_38",
+          "joint3_qpos_rad": 0.6363774516861208,
+          "raw_stacked_jacobian_singular_values": [
+            1.8325871267136442,
+            1.4552510757681834,
+            1.0001406164312359,
+            0.1851623352147233,
+            0.14831897473342626,
+            0.09837013856920858
+          ],
+          "raw_stacked_condition_number": 18.62950640680782,
+          "joint3_translation_column_norm_m_rad": 0.4875007289566973,
+          "joint3_angular_column_norm": 0.9999999999999999
+        }
+      ],
+      "history_removed_offline": {
+        "scope": "ORIGINAL_CLONE_CERTIFIER_AT_SAVED_MEASURED_STATE_AND_REFERENCE_HISTORY",
+        "full_WBC_state_restored": false,
+        "physical_requests": 0,
+        "physics_integrations": 0,
+        "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+        "status": "REJECT_OFFLINE_CLONE_ONLY",
+        "error": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+        "joint_rates": {
+          "maximum_speed_rad_s": 0.11653043667877672,
+          "speed_limit_rad_s": 0.7,
+          "maximum_acceleration_rad_s2": 1.007386248761577,
+          "acceleration_limit_rad_s2": 1.0,
+          "peak_joint": 3,
+          "peak_H40_knot_triple": [
+            36,
+            37,
+            38
+          ],
+          "first_acceleration_exceedance": {
+            "joint": 3,
+            "acceleration_rad_s2": 1.007386248761577,
+            "absolute_ratio": 1.007386248761577,
+            "H40_knot_triple": [
+              36,
+              37,
+              38
+            ],
+            "location": "H40_INTERIOR"
+          },
+          "history_points": 0,
+          "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+        }
+      },
+      "history_removal_max_acceleration_change_rad_s2": 2.220446049250313e-13
+    },
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-train13-r4",
+      "layout": "TRAIN13",
+      "restart": 4,
+      "query": 18,
+      "native_step": 10203,
+      "state_sha256": "b06110c73e7d4932196c741c70100e9a9db4707406529be0fbbfd78c50b07095",
+      "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+      "prefix_knots": 10,
+      "suffix_knots": 30,
+      "acceleration_k": "RIGHTMOST_H40_KNOT; negative preceding knots are executed history",
+      "prefix_max_abs_acceleration_rad_s2": 0.9650004815028312,
+      "suffix_max_abs_acceleration_rad_s2": 1.0776163037259368,
+      "joint3_prefix_max_abs_acceleration_rad_s2": 0.9011665850066297,
+      "joint3_suffix_max_abs_acceleration_rad_s2": 0.9323429529043858,
+      "reference_join_max_abs_acceleration_rad_s2": 0.3693827362593938,
+      "first_exceedance_k": 14,
+      "first_exceedance_joint": 4,
+      "first_exceedance_partition": "SUFFIX",
+      "first_joint3_exceedance_k": null,
+      "per_joint": [
+        {
+          "joint": 1,
+          "prefix_max_abs_acceleration_rad_s2": 0.12276796796928113,
+          "suffix_max_abs_acceleration_rad_s2": 0.1382793372791756,
+          "max_speed_rad_s": 0.010536839488621275
+        },
+        {
+          "joint": 2,
+          "prefix_max_abs_acceleration_rad_s2": 0.1590642943376519,
+          "suffix_max_abs_acceleration_rad_s2": 0.18406270724193874,
+          "max_speed_rad_s": 0.007920470817077696
+        },
+        {
+          "joint": 3,
+          "prefix_max_abs_acceleration_rad_s2": 0.9011665850066297,
+          "suffix_max_abs_acceleration_rad_s2": 0.9323429529043858,
+          "max_speed_rad_s": 0.09624780490700591
+        },
+        {
+          "joint": 4,
+          "prefix_max_abs_acceleration_rad_s2": 0.9650004815028312,
+          "suffix_max_abs_acceleration_rad_s2": 1.0776163037259368,
+          "max_speed_rad_s": 0.10789496063056792
+        },
+        {
+          "joint": 5,
+          "prefix_max_abs_acceleration_rad_s2": 0.12658974845802806,
+          "suffix_max_abs_acceleration_rad_s2": 0.13773367647038626,
+          "max_speed_rad_s": 0.010803743208036426
+        },
+        {
+          "joint": 6,
+          "prefix_max_abs_acceleration_rad_s2": 0.014301896876176001,
+          "suffix_max_abs_acceleration_rad_s2": 0.012554774861806006,
+          "max_speed_rad_s": 0.0012762134911709078
+        }
+      ],
+      "original_acceleration_limit_rad_s2": 1.0,
+      "original_speed_limit_rad_s": 0.7,
+      "prefix_only_execution_admitted": false,
+      "full_WBC_restored": false,
+      "actual_joint3_qpos_rad": 0.4400267868346863,
+      "actual_joint3_qvel_rad_s": -0.020362767540567636,
+      "joint3_IK_qpos_triple_rad": null,
+      "kinematics": [
+        {
+          "label": "ACTUAL_QUERY",
+          "joint3_qpos_rad": 0.4400267868346863,
+          "raw_stacked_jacobian_singular_values": [
+            1.8281759810109568,
+            1.4534644252067417,
+            1.000264854132637,
+            0.1908691394946433,
+            0.11729135827642712,
+            0.09306713502303818
+          ],
+          "raw_stacked_condition_number": 19.64362586812631,
+          "joint3_translation_column_norm_m_rad": 0.48927497498141037,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_12",
+          "joint3_qpos_rad": 0.32597439626857827,
+          "raw_stacked_jacobian_singular_values": [
+            1.829437969346544,
+            1.454403861284488,
+            0.999485355950647,
+            0.19475354280244123,
+            0.0974547648352206,
+            0.09440205266481022
+          ],
+          "raw_stacked_condition_number": 19.379218117663815,
+          "joint3_translation_column_norm_m_rad": 0.4897037245308959,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_13",
+          "joint3_qpos_rad": 0.32369106432725037,
+          "raw_stacked_jacobian_singular_values": [
+            1.8293907734581587,
+            1.4543839083567662,
+            0.9994918105521583,
+            0.19481578155699333,
+            0.09706349696382284,
+            0.09431711702608889
+          ],
+          "raw_stacked_condition_number": 19.39616933957104,
+          "joint3_translation_column_norm_m_rad": 0.48967528955881195,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_14",
+          "joint3_qpos_rad": 0.3190768750036615,
+          "raw_stacked_jacobian_singular_values": [
+            1.829299280262228,
+            1.4543496653552432,
+            0.999504022519616,
+            0.19494277700205237,
+            0.09627120807494009,
+            0.09416971464243848
+          ],
+          "raw_stacked_condition_number": 19.425558282809504,
+          "joint3_translation_column_norm_m_rad": 0.4896114396927054,
+          "joint3_angular_column_norm": 1.0
+        }
+      ],
+      "history_removed_offline": {
+        "scope": "ORIGINAL_CLONE_CERTIFIER_AT_SAVED_MEASURED_STATE_AND_REFERENCE_HISTORY",
+        "full_WBC_state_restored": false,
+        "physical_requests": 0,
+        "physics_integrations": 0,
+        "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+        "status": "REJECT_OFFLINE_CLONE_ONLY",
+        "error": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+        "joint_rates": {
+          "maximum_speed_rad_s": 0.1078949606305657,
+          "speed_limit_rad_s": 0.7,
+          "maximum_acceleration_rad_s2": 1.077616303723672,
+          "acceleration_limit_rad_s2": 1.0,
+          "peak_joint": 4,
+          "peak_H40_knot_triple": [
+            12,
+            13,
+            14
+          ],
+          "first_acceleration_exceedance": {
+            "joint": 4,
+            "acceleration_rad_s2": 1.077616303723672,
+            "absolute_ratio": 1.077616303723672,
+            "H40_knot_triple": [
+              12,
+              13,
+              14
+            ],
+            "location": "H40_INTERIOR"
+          },
+          "history_points": 0,
+          "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+        }
+      },
+      "history_removal_max_acceleration_change_rad_s2": 2.2648549702353193e-12
+    },
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-train25-r4",
+      "layout": "TRAIN25",
+      "restart": 4,
+      "query": 6,
+      "native_step": 7203,
+      "state_sha256": "4f729ba7352cde6835ddadcffdf8e7f4b9dd8cbd1da990785ae0fcc5706c7495",
+      "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+      "prefix_knots": 10,
+      "suffix_knots": 30,
+      "acceleration_k": "RIGHTMOST_H40_KNOT; negative preceding knots are executed history",
+      "prefix_max_abs_acceleration_rad_s2": 1.0098165091456224,
+      "suffix_max_abs_acceleration_rad_s2": 0.8372152791224607,
+      "joint3_prefix_max_abs_acceleration_rad_s2": 1.0098165091456224,
+      "joint3_suffix_max_abs_acceleration_rad_s2": 0.8372152791224607,
+      "reference_join_max_abs_acceleration_rad_s2": 0.3451435905247102,
+      "first_exceedance_k": 4,
+      "first_exceedance_joint": 3,
+      "first_exceedance_partition": "PREFIX",
+      "first_joint3_exceedance_k": 4,
+      "per_joint": [
+        {
+          "joint": 1,
+          "prefix_max_abs_acceleration_rad_s2": 0.12959866325473746,
+          "suffix_max_abs_acceleration_rad_s2": 0.11013949314658544,
+          "max_speed_rad_s": 0.010355803364307387
+        },
+        {
+          "joint": 2,
+          "prefix_max_abs_acceleration_rad_s2": 0.21225719730249004,
+          "suffix_max_abs_acceleration_rad_s2": 0.21966948160936361,
+          "max_speed_rad_s": 0.02787013032196972
+        },
+        {
+          "joint": 3,
+          "prefix_max_abs_acceleration_rad_s2": 1.0098165091456224,
+          "suffix_max_abs_acceleration_rad_s2": 0.8372152791224607,
+          "max_speed_rad_s": 0.11192988797410486
+        },
+        {
+          "joint": 4,
+          "prefix_max_abs_acceleration_rad_s2": 0.8860424506448167,
+          "suffix_max_abs_acceleration_rad_s2": 0.7155315482730296,
+          "max_speed_rad_s": 0.1020347659245241
+        },
+        {
+          "joint": 5,
+          "prefix_max_abs_acceleration_rad_s2": 0.13381666655007396,
+          "suffix_max_abs_acceleration_rad_s2": 0.11633125976370229,
+          "max_speed_rad_s": 0.010741862763081339
+        },
+        {
+          "joint": 6,
+          "prefix_max_abs_acceleration_rad_s2": 0.020220700141199144,
+          "suffix_max_abs_acceleration_rad_s2": 0.01592155518119337,
+          "max_speed_rad_s": 0.0018930559726201834
+        }
+      ],
+      "original_acceleration_limit_rad_s2": 1.0,
+      "original_speed_limit_rad_s": 0.7,
+      "prefix_only_execution_admitted": false,
+      "full_WBC_restored": false,
+      "actual_joint3_qpos_rad": 0.6058816737566479,
+      "actual_joint3_qvel_rad_s": -0.02573403723468967,
+      "joint3_IK_qpos_triple_rad": [
+        0.6226156046917217,
+        0.6200372461421854,
+        0.6149343463197849
+      ],
+      "kinematics": [
+        {
+          "label": "ACTUAL_QUERY",
+          "joint3_qpos_rad": 0.6058816737566479,
+          "raw_stacked_jacobian_singular_values": [
+            1.8295932155374528,
+            1.4539287728487673,
+            1.0000443997272732,
+            0.18569451011029597,
+            0.14419658015128134,
+            0.09487188230944439
+          ],
+          "raw_stacked_condition_number": 19.284883687348522,
+          "joint3_translation_column_norm_m_rad": 0.4857583292307987,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_2",
+          "joint3_qpos_rad": 0.6226156046917217,
+          "raw_stacked_jacobian_singular_values": [
+            1.8341514823154108,
+            1.4558337141778872,
+            0.9979428654481297,
+            0.18564530088612194,
+            0.1461089112352575,
+            0.10088773577404807
+          ],
+          "raw_stacked_condition_number": 18.180123364283293,
+          "joint3_translation_column_norm_m_rad": 0.4879633184332026,
+          "joint3_angular_column_norm": 0.9999999999999999
+        },
+        {
+          "label": "IK_KNOT_3",
+          "joint3_qpos_rad": 0.6200372461421854,
+          "raw_stacked_jacobian_singular_values": [
+            1.834116577846958,
+            1.4558196448082599,
+            0.9979534521236534,
+            0.18572118768273316,
+            0.1457185678860676,
+            0.10082311652158456
+          ],
+          "raw_stacked_condition_number": 18.19142911987157,
+          "joint3_translation_column_norm_m_rad": 0.48801401434451525,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_4",
+          "joint3_qpos_rad": 0.6149343463197849,
+          "raw_stacked_jacobian_singular_values": [
+            1.834044253283594,
+            1.4557980423260428,
+            0.9979877522255827,
+            0.1858733000596427,
+            0.14494247470806626,
+            0.10072087494389792
+          ],
+          "raw_stacked_condition_number": 18.209177137362705,
+          "joint3_translation_column_norm_m_rad": 0.48811685652391185,
+          "joint3_angular_column_norm": 0.9999999999999999
+        }
+      ],
+      "history_removed_offline": {
+        "scope": "ORIGINAL_CLONE_CERTIFIER_AT_SAVED_MEASURED_STATE_AND_REFERENCE_HISTORY",
+        "full_WBC_state_restored": false,
+        "physical_requests": 0,
+        "physics_integrations": 0,
+        "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+        "status": "REJECT_OFFLINE_CLONE_ONLY",
+        "error": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+        "joint_rates": {
+          "maximum_speed_rad_s": 0.11192988797411152,
+          "speed_limit_rad_s": 0.7,
+          "maximum_acceleration_rad_s2": 1.009816509146022,
+          "acceleration_limit_rad_s2": 1.0,
+          "peak_joint": 3,
+          "peak_H40_knot_triple": [
+            2,
+            3,
+            4
+          ],
+          "first_acceleration_exceedance": {
+            "joint": 3,
+            "acceleration_rad_s2": -1.009816509146022,
+            "absolute_ratio": 1.009816509146022,
+            "H40_knot_triple": [
+              2,
+              3,
+              4
+            ],
+            "location": "H40_INTERIOR"
+          },
+          "history_points": 0,
+          "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+        }
+      },
+      "history_removal_max_acceleration_change_rad_s2": 3.9968028886505635e-13
+    },
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-slav5dev01-r1",
+      "layout": "SLAV5DEV01",
+      "restart": 1,
+      "query": 5,
+      "native_step": 6953,
+      "state_sha256": "ed1031ed91839b6fdae94c6d56753f7af51b7301205266120ff1c364c839d0f1",
+      "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+      "prefix_knots": 10,
+      "suffix_knots": 30,
+      "acceleration_k": "RIGHTMOST_H40_KNOT; negative preceding knots are executed history",
+      "prefix_max_abs_acceleration_rad_s2": 0.9825003247115216,
+      "suffix_max_abs_acceleration_rad_s2": 1.1428350005039611,
+      "joint3_prefix_max_abs_acceleration_rad_s2": 0.9825003247115216,
+      "joint3_suffix_max_abs_acceleration_rad_s2": 1.1428350005039611,
+      "reference_join_max_abs_acceleration_rad_s2": 0.14076160645442037,
+      "first_exceedance_k": 29,
+      "first_exceedance_joint": 3,
+      "first_exceedance_partition": "SUFFIX",
+      "first_joint3_exceedance_k": 29,
+      "per_joint": [
+        {
+          "joint": 1,
+          "prefix_max_abs_acceleration_rad_s2": 0.14982258025965922,
+          "suffix_max_abs_acceleration_rad_s2": 0.1173555150806832,
+          "max_speed_rad_s": 0.009256155125728985
+        },
+        {
+          "joint": 2,
+          "prefix_max_abs_acceleration_rad_s2": 0.2407412754305227,
+          "suffix_max_abs_acceleration_rad_s2": 0.2601826744473623,
+          "max_speed_rad_s": 0.03123119823425169
+        },
+        {
+          "joint": 3,
+          "prefix_max_abs_acceleration_rad_s2": 0.9825003247115216,
+          "suffix_max_abs_acceleration_rad_s2": 1.1428350005039611,
+          "max_speed_rad_s": 0.11532988071593753
+        },
+        {
+          "joint": 4,
+          "prefix_max_abs_acceleration_rad_s2": 0.8367119981956695,
+          "suffix_max_abs_acceleration_rad_s2": 0.9897434171564023,
+          "max_speed_rad_s": 0.09658667639799584
+        },
+        {
+          "joint": 5,
+          "prefix_max_abs_acceleration_rad_s2": 0.15080777979740445,
+          "suffix_max_abs_acceleration_rad_s2": 0.12159225181279099,
+          "max_speed_rad_s": 0.009606196992078264
+        },
+        {
+          "joint": 6,
+          "prefix_max_abs_acceleration_rad_s2": 0.020453945691017994,
+          "suffix_max_abs_acceleration_rad_s2": 0.01793371490627499,
+          "max_speed_rad_s": 0.0018489127099589192
+        }
+      ],
+      "original_acceleration_limit_rad_s2": 1.0,
+      "original_speed_limit_rad_s": 0.7,
+      "prefix_only_execution_admitted": false,
+      "full_WBC_restored": false,
+      "actual_joint3_qpos_rad": 0.6171678113301429,
+      "actual_joint3_qvel_rad_s": -0.015738069882198506,
+      "joint3_IK_qpos_triple_rad": [
+        0.5718062742786626,
+        0.5694310863155598,
+        0.569912985853717
+      ],
+      "kinematics": [
+        {
+          "label": "ACTUAL_QUERY",
+          "joint3_qpos_rad": 0.6171678113301429,
+          "raw_stacked_jacobian_singular_values": [
+            1.8293492312059818,
+            1.453790912719108,
+            1.0002013804498604,
+            0.1853260610319246,
+            0.14597849244873584,
+            0.0943950238605872
+          ],
+          "raw_stacked_condition_number": 19.379721052963163,
+          "joint3_translation_column_norm_m_rad": 0.4852315761187661,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_27",
+          "joint3_qpos_rad": 0.5718062742786626,
+          "raw_stacked_jacobian_singular_values": [
+            1.8326426113437941,
+            1.4553550471813284,
+            0.9992276684129247,
+            0.18716157261667216,
+            0.13831602126256468,
+            0.09879932112822272
+          ],
+          "raw_stacked_condition_number": 18.549141739196493,
+          "joint3_translation_column_norm_m_rad": 0.48883678860706675,
+          "joint3_angular_column_norm": 0.9999999999999999
+        },
+        {
+          "label": "IK_KNOT_28",
+          "joint3_qpos_rad": 0.5694310863155598,
+          "raw_stacked_jacobian_singular_values": [
+            1.83260946556533,
+            1.45534373134207,
+            0.9992377904125792,
+            0.18723650555285562,
+            0.13794130850834027,
+            0.09874860393935159
+          ],
+          "raw_stacked_condition_number": 18.55833290251742,
+          "joint3_translation_column_norm_m_rad": 0.488876102129672,
+          "joint3_angular_column_norm": 0.9999999999999999
+        },
+        {
+          "label": "IK_KNOT_29",
+          "joint3_qpos_rad": 0.569912985853717,
+          "raw_stacked_jacobian_singular_values": [
+            1.832613212497382,
+            1.4553450544930002,
+            0.9992389711308881,
+            0.187221076821238,
+            0.13801767757297265,
+            0.09875516282547661
+          ],
+          "raw_stacked_condition_number": 18.557138280821192,
+          "joint3_translation_column_norm_m_rad": 0.4888677015210153,
+          "joint3_angular_column_norm": 1.0
+        }
+      ],
+      "history_removed_offline": {
+        "scope": "ORIGINAL_CLONE_CERTIFIER_AT_SAVED_MEASURED_STATE_AND_REFERENCE_HISTORY",
+        "full_WBC_state_restored": false,
+        "physical_requests": 0,
+        "physics_integrations": 0,
+        "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+        "status": "REJECT_OFFLINE_CLONE_ONLY",
+        "error": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+        "joint_rates": {
+          "maximum_speed_rad_s": 0.11532988071593309,
+          "speed_limit_rad_s": 0.7,
+          "maximum_acceleration_rad_s2": 1.1428350005041388,
+          "acceleration_limit_rad_s2": 1.0,
+          "peak_joint": 3,
+          "peak_H40_knot_triple": [
+            27,
+            28,
+            29
+          ],
+          "first_acceleration_exceedance": {
+            "joint": 3,
+            "acceleration_rad_s2": 1.1428350005041388,
+            "absolute_ratio": 1.1428350005041388,
+            "H40_knot_triple": [
+              27,
+              28,
+              29
+            ],
+            "location": "H40_INTERIOR"
+          },
+          "history_points": 0,
+          "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+        }
+      },
+      "history_removal_max_acceleration_change_rad_s2": 1.7763568394002505e-13
+    },
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-slav5dev01-r3",
+      "layout": "SLAV5DEV01",
+      "restart": 3,
+      "query": 11,
+      "native_step": 8453,
+      "state_sha256": "7d6bdd5d23f19b88864c8943f9253a80b715e7fa9e0070a11d3054ee3e6718fa",
+      "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+      "prefix_knots": 10,
+      "suffix_knots": 30,
+      "acceleration_k": "RIGHTMOST_H40_KNOT; negative preceding knots are executed history",
+      "prefix_max_abs_acceleration_rad_s2": 0.7897364554293684,
+      "suffix_max_abs_acceleration_rad_s2": 1.0328750552935695,
+      "joint3_prefix_max_abs_acceleration_rad_s2": 0.7897364554293684,
+      "joint3_suffix_max_abs_acceleration_rad_s2": 1.0328750552935695,
+      "reference_join_max_abs_acceleration_rad_s2": 0.2743763683014211,
+      "first_exceedance_k": 37,
+      "first_exceedance_joint": 3,
+      "first_exceedance_partition": "SUFFIX",
+      "first_joint3_exceedance_k": 37,
+      "per_joint": [
+        {
+          "joint": 1,
+          "prefix_max_abs_acceleration_rad_s2": 0.10577438930378796,
+          "suffix_max_abs_acceleration_rad_s2": 0.12197772213893843,
+          "max_speed_rad_s": 0.013050231617838803
+        },
+        {
+          "joint": 2,
+          "prefix_max_abs_acceleration_rad_s2": 0.15587060735002822,
+          "suffix_max_abs_acceleration_rad_s2": 0.18244579483872592,
+          "max_speed_rad_s": 0.021928782797355773
+        },
+        {
+          "joint": 3,
+          "prefix_max_abs_acceleration_rad_s2": 0.7897364554293684,
+          "suffix_max_abs_acceleration_rad_s2": 1.0328750552935695,
+          "max_speed_rad_s": 0.10954453979562628
+        },
+        {
+          "joint": 4,
+          "prefix_max_abs_acceleration_rad_s2": 0.7230839632072272,
+          "suffix_max_abs_acceleration_rad_s2": 0.9744315192675046,
+          "max_speed_rad_s": 0.09704866005325885
+        },
+        {
+          "joint": 5,
+          "prefix_max_abs_acceleration_rad_s2": 0.1050829490492372,
+          "suffix_max_abs_acceleration_rad_s2": 0.12739355429876864,
+          "max_speed_rad_s": 0.013072853293729508
+        },
+        {
+          "joint": 6,
+          "prefix_max_abs_acceleration_rad_s2": 0.015254891846074037,
+          "suffix_max_abs_acceleration_rad_s2": 0.013141033343785913,
+          "max_speed_rad_s": 0.0016187695687032433
+        }
+      ],
+      "original_acceleration_limit_rad_s2": 1.0,
+      "original_speed_limit_rad_s": 0.7,
+      "prefix_only_execution_admitted": false,
+      "full_WBC_restored": false,
+      "actual_joint3_qpos_rad": 0.5374464501835772,
+      "actual_joint3_qvel_rad_s": -0.02442142847768426,
+      "joint3_IK_qpos_triple_rad": [
+        0.4251152735934114,
+        0.42062850319322465,
+        0.4187239204312718
+      ],
+      "kinematics": [
+        {
+          "label": "ACTUAL_QUERY",
+          "joint3_qpos_rad": 0.5374464501835772,
+          "raw_stacked_jacobian_singular_values": [
+            1.8288322076429715,
+            1.4536787035039878,
+            1.0002505969366524,
+            0.18782487670031248,
+            0.13337238054556091,
+            0.09395177316803907
+          ],
+          "raw_stacked_condition_number": 19.46564866180846,
+          "joint3_translation_column_norm_m_rad": 0.487329794796948,
+          "joint3_angular_column_norm": 0.9999999999999999
+        },
+        {
+          "label": "IK_KNOT_35",
+          "joint3_qpos_rad": 0.4251152735934114,
+          "raw_stacked_jacobian_singular_values": [
+            1.8306982286695808,
+            1.4546585202588567,
+            0.999603115547613,
+            0.19179251610889125,
+            0.11434356235774602,
+            0.09561163936285832
+          ],
+          "raw_stacked_condition_number": 19.14723187332714,
+          "joint3_translation_column_norm_m_rad": 0.490336625871442,
+          "joint3_angular_column_norm": 0.9999999999999999
+        },
+        {
+          "label": "IK_KNOT_36",
+          "joint3_qpos_rad": 0.42062850319322465,
+          "raw_stacked_jacobian_singular_values": [
+            1.8306221098236388,
+            1.4546277544213986,
+            0.9996190837127612,
+            0.19192708450016285,
+            0.11359195455140385,
+            0.09547799113087332
+          ],
+          "raw_stacked_condition_number": 19.17323655578775,
+          "joint3_translation_column_norm_m_rad": 0.4903461439845355,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_37",
+          "joint3_qpos_rad": 0.4187239204312718,
+          "raw_stacked_jacobian_singular_values": [
+            1.830587077465007,
+            1.454611375494647,
+            0.9996292915224223,
+            0.19198386726501268,
+            0.11327280256832423,
+            0.09540561938161794
+          ],
+          "raw_stacked_condition_number": 19.187413585595475,
+          "joint3_translation_column_norm_m_rad": 0.4903499937440373,
+          "joint3_angular_column_norm": 0.9999999999999999
+        }
+      ],
+      "history_removed_offline": {
+        "scope": "ORIGINAL_CLONE_CERTIFIER_AT_SAVED_MEASURED_STATE_AND_REFERENCE_HISTORY",
+        "full_WBC_state_restored": false,
+        "physical_requests": 0,
+        "physics_integrations": 0,
+        "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+        "status": "REJECT_OFFLINE_CLONE_ONLY",
+        "error": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+        "joint_rates": {
+          "maximum_speed_rad_s": 0.10954453979563405,
+          "speed_limit_rad_s": 0.7,
+          "maximum_acceleration_rad_s2": 1.032875055294058,
+          "acceleration_limit_rad_s2": 1.0,
+          "peak_joint": 3,
+          "peak_H40_knot_triple": [
+            35,
+            36,
+            37
+          ],
+          "first_acceleration_exceedance": {
+            "joint": 3,
+            "acceleration_rad_s2": 1.032875055294058,
+            "absolute_ratio": 1.032875055294058,
+            "H40_knot_triple": [
+              35,
+              36,
+              37
+            ],
+            "location": "H40_INTERIOR"
+          },
+          "history_points": 0,
+          "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+        }
+      },
+      "history_removal_max_acceleration_change_rad_s2": 4.884981308350689e-13
+    },
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-slav5dev01-r5",
+      "layout": "SLAV5DEV01",
+      "restart": 5,
+      "query": 2,
+      "native_step": 6203,
+      "state_sha256": "d6c43ec0147027fe6128564d78b04cc871ccc92610371f0276afd6a1f628a924",
+      "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+      "prefix_knots": 10,
+      "suffix_knots": 30,
+      "acceleration_k": "RIGHTMOST_H40_KNOT; negative preceding knots are executed history",
+      "prefix_max_abs_acceleration_rad_s2": 1.062945454682868,
+      "suffix_max_abs_acceleration_rad_s2": 1.117957011153603,
+      "joint3_prefix_max_abs_acceleration_rad_s2": 0.7229612332039892,
+      "joint3_suffix_max_abs_acceleration_rad_s2": 1.117957011153603,
+      "reference_join_max_abs_acceleration_rad_s2": 0.3466886651029011,
+      "first_exceedance_k": 3,
+      "first_exceedance_joint": 1,
+      "first_exceedance_partition": "PREFIX",
+      "first_joint3_exceedance_k": 14,
+      "per_joint": [
+        {
+          "joint": 1,
+          "prefix_max_abs_acceleration_rad_s2": 1.0115669877622977,
+          "suffix_max_abs_acceleration_rad_s2": 0.5155501393136981,
+          "max_speed_rad_s": 0.08660773801360713
+        },
+        {
+          "joint": 2,
+          "prefix_max_abs_acceleration_rad_s2": 0.22663605273547383,
+          "suffix_max_abs_acceleration_rad_s2": 0.3426199323746104,
+          "max_speed_rad_s": 0.039405137799364276
+        },
+        {
+          "joint": 3,
+          "prefix_max_abs_acceleration_rad_s2": 0.7229612332039892,
+          "suffix_max_abs_acceleration_rad_s2": 1.117957011153603,
+          "max_speed_rad_s": 0.12513105344241104
+        },
+        {
+          "joint": 4,
+          "prefix_max_abs_acceleration_rad_s2": 0.6139682875163699,
+          "suffix_max_abs_acceleration_rad_s2": 0.901641591686512,
+          "max_speed_rad_s": 0.10032570856800581
+        },
+        {
+          "joint": 5,
+          "prefix_max_abs_acceleration_rad_s2": 1.062945454682868,
+          "suffix_max_abs_acceleration_rad_s2": 0.5307987658383362,
+          "max_speed_rad_s": 0.09233452945484072
+        },
+        {
+          "joint": 6,
+          "prefix_max_abs_acceleration_rad_s2": 0.12051524308519801,
+          "suffix_max_abs_acceleration_rad_s2": 0.05597289170825859,
+          "max_speed_rad_s": 0.010369202104158759
+        }
+      ],
+      "original_acceleration_limit_rad_s2": 1.0,
+      "original_speed_limit_rad_s": 0.7,
+      "prefix_only_execution_admitted": false,
+      "full_WBC_restored": false,
+      "actual_joint3_qpos_rad": 0.6630872386365295,
+      "actual_joint3_qvel_rad_s": -0.017830566883955297,
+      "joint3_IK_qpos_triple_rad": [
+        0.6984358781670166,
+        0.6957882138254706,
+        0.6903979118643422
+      ],
+      "kinematics": [
+        {
+          "label": "ACTUAL_QUERY",
+          "joint3_qpos_rad": 0.6630872386365295,
+          "raw_stacked_jacobian_singular_values": [
+            1.8293431614156959,
+            1.4535348281657932,
+            1.000290938804274,
+            0.18401834587711416,
+            0.1528840407734035,
+            0.09318291101364529
+          ],
+          "raw_stacked_condition_number": 19.63174515065123,
+          "joint3_translation_column_norm_m_rad": 0.4836357691121936,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_12",
+          "joint3_qpos_rad": 0.6984358781670166,
+          "raw_stacked_jacobian_singular_values": [
+            1.8332578200525091,
+            1.455566802223276,
+            1.0001462529167426,
+            0.1837206030566162,
+            0.1571017800050778,
+            0.09977879469791788
+          ],
+          "raw_stacked_condition_number": 18.373220738962928,
+          "joint3_translation_column_norm_m_rad": 0.4860475687829062,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_13",
+          "joint3_qpos_rad": 0.6957882138254706,
+          "raw_stacked_jacobian_singular_values": [
+            1.8332187133847415,
+            1.4555421656339815,
+            1.0001448110436864,
+            0.1837625819637273,
+            0.15675410866640344,
+            0.09967474078142852
+          ],
+          "raw_stacked_condition_number": 18.392008838073732,
+          "joint3_translation_column_norm_m_rad": 0.4861044301373351,
+          "joint3_angular_column_norm": 0.9999999999999999
+        },
+        {
+          "label": "IK_KNOT_14",
+          "joint3_qpos_rad": 0.6903979118643422,
+          "raw_stacked_jacobian_singular_values": [
+            1.8331482378551438,
+            1.4555061000737897,
+            1.0001420010473066,
+            0.1838559973943891,
+            0.15603583653374115,
+            0.09952282291318207
+          ],
+          "raw_stacked_condition_number": 18.4193754175791,
+          "joint3_translation_column_norm_m_rad": 0.4862267043389924,
+          "joint3_angular_column_norm": 1.0
+        }
+      ],
+      "history_removed_offline": {
+        "scope": "ORIGINAL_CLONE_CERTIFIER_AT_SAVED_MEASURED_STATE_AND_REFERENCE_HISTORY",
+        "full_WBC_state_restored": false,
+        "physical_requests": 0,
+        "physics_integrations": 0,
+        "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+        "status": "REJECT_OFFLINE_CLONE_ONLY",
+        "error": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+        "joint_rates": {
+          "maximum_speed_rad_s": 0.12513105344239994,
+          "speed_limit_rad_s": 0.7,
+          "maximum_acceleration_rad_s2": 1.1179570111537362,
+          "acceleration_limit_rad_s2": 1.0,
+          "peak_joint": 3,
+          "peak_H40_knot_triple": [
+            27,
+            28,
+            29
+          ],
+          "first_acceleration_exceedance": {
+            "joint": 1,
+            "acceleration_rad_s2": -1.011566987762256,
+            "absolute_ratio": 1.011566987762256,
+            "H40_knot_triple": [
+              1,
+              2,
+              3
+            ],
+            "location": "H40_INTERIOR"
+          },
+          "history_points": 0,
+          "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+        }
+      },
+      "history_removal_max_acceleration_change_rad_s2": 1.3322676295501878e-13
+    },
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-slav5dev01-r6",
+      "layout": "SLAV5DEV01",
+      "restart": 6,
+      "query": 1,
+      "native_step": 5953,
+      "state_sha256": "b6c1ed2d5e48e9a53a533bce8197b23597dd9b180e16defada8d0b1adb7708ba",
+      "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+      "prefix_knots": 10,
+      "suffix_knots": 30,
+      "acceleration_k": "RIGHTMOST_H40_KNOT; negative preceding knots are executed history",
+      "prefix_max_abs_acceleration_rad_s2": 0.9645419748660434,
+      "suffix_max_abs_acceleration_rad_s2": 1.024764558267277,
+      "joint3_prefix_max_abs_acceleration_rad_s2": 0.49231283984223495,
+      "joint3_suffix_max_abs_acceleration_rad_s2": 1.024764558267277,
+      "reference_join_max_abs_acceleration_rad_s2": 0.49231283984223495,
+      "first_exceedance_k": 24,
+      "first_exceedance_joint": 3,
+      "first_exceedance_partition": "SUFFIX",
+      "first_joint3_exceedance_k": 24,
+      "per_joint": [
+        {
+          "joint": 1,
+          "prefix_max_abs_acceleration_rad_s2": 0.9413682371566523,
+          "suffix_max_abs_acceleration_rad_s2": 0.6612692463756253,
+          "max_speed_rad_s": 0.10563493627913818
+        },
+        {
+          "joint": 2,
+          "prefix_max_abs_acceleration_rad_s2": 0.15302961097756196,
+          "suffix_max_abs_acceleration_rad_s2": 0.3305443871637781,
+          "max_speed_rad_s": 0.037175987868784954
+        },
+        {
+          "joint": 3,
+          "prefix_max_abs_acceleration_rad_s2": 0.49231283984223495,
+          "suffix_max_abs_acceleration_rad_s2": 1.024764558267277,
+          "max_speed_rad_s": 0.10321800330715947
+        },
+        {
+          "joint": 4,
+          "prefix_max_abs_acceleration_rad_s2": 0.5232586064961964,
+          "suffix_max_abs_acceleration_rad_s2": 0.7231391121905739,
+          "max_speed_rad_s": 0.07240632103245714
+        },
+        {
+          "joint": 5,
+          "prefix_max_abs_acceleration_rad_s2": 0.9645419748660434,
+          "suffix_max_abs_acceleration_rad_s2": 0.697388671049333,
+          "max_speed_rad_s": 0.109562470768622
+        },
+        {
+          "joint": 6,
+          "prefix_max_abs_acceleration_rad_s2": 0.10278066604388625,
+          "suffix_max_abs_acceleration_rad_s2": 0.07970136711897002,
+          "max_speed_rad_s": 0.01146448533286673
+        }
+      ],
+      "original_acceleration_limit_rad_s2": 1.0,
+      "original_speed_limit_rad_s": 0.7,
+      "prefix_only_execution_admitted": false,
+      "full_WBC_restored": false,
+      "actual_joint3_qpos_rad": 0.6733311778342193,
+      "actual_joint3_qvel_rad_s": -0.013743852989947694,
+      "joint3_IK_qpos_triple_rad": [
+        0.7038095613787817,
+        0.7012105726090919,
+        0.696049672443734
+      ],
+      "kinematics": [
+        {
+          "label": "ACTUAL_QUERY",
+          "joint3_qpos_rad": 0.6733311778342193,
+          "raw_stacked_jacobian_singular_values": [
+            1.8295624741033527,
+            1.4536293015051758,
+            1.0002227897064813,
+            0.18378412798009974,
+            0.15433031764554167,
+            0.09354097410218458
+          ],
+          "raw_stacked_condition_number": 19.558941861186206,
+          "joint3_translation_column_norm_m_rad": 0.48343148715611084,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_22",
+          "joint3_qpos_rad": 0.7038095613787817,
+          "raw_stacked_jacobian_singular_values": [
+            1.8337515882158077,
+            1.4559514440257826,
+            1.0000796759227424,
+            0.1836943282150944,
+            0.15772024096830536,
+            0.10128429079791886
+          ],
+          "raw_stacked_condition_number": 18.104995096174253,
+          "joint3_translation_column_norm_m_rad": 0.48624481793267776,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_23",
+          "joint3_qpos_rad": 0.7012105726090919,
+          "raw_stacked_jacobian_singular_values": [
+            1.8337182749671732,
+            1.455930406928515,
+            1.0000719909491902,
+            0.18373112163895627,
+            0.15738461269125653,
+            0.10119655352028552
+          ],
+          "raw_stacked_condition_number": 18.120362909390906,
+          "joint3_translation_column_norm_m_rad": 0.48630110523079084,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_24",
+          "joint3_qpos_rad": 0.696049672443734,
+          "raw_stacked_jacobian_singular_values": [
+            1.8336485512405711,
+            1.4558947721319175,
+            1.0000665252110885,
+            0.18381121857540342,
+            0.15670937700816515,
+            0.1010492821595036
+          ],
+          "raw_stacked_condition_number": 18.146081912251546,
+          "joint3_translation_column_norm_m_rad": 0.48641395876619137,
+          "joint3_angular_column_norm": 0.9999999999999999
+        }
+      ],
+      "history_removed_offline": {
+        "scope": "ORIGINAL_CLONE_CERTIFIER_AT_SAVED_MEASURED_STATE_AND_REFERENCE_HISTORY",
+        "full_WBC_state_restored": false,
+        "physical_requests": 0,
+        "physics_integrations": 0,
+        "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+        "status": "REJECT_OFFLINE_CLONE_ONLY",
+        "error": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+        "joint_rates": {
+          "maximum_speed_rad_s": 0.109562470768624,
+          "speed_limit_rad_s": 0.7,
+          "maximum_acceleration_rad_s2": 1.0247645582675435,
+          "acceleration_limit_rad_s2": 1.0,
+          "peak_joint": 3,
+          "peak_H40_knot_triple": [
+            22,
+            23,
+            24
+          ],
+          "first_acceleration_exceedance": {
+            "joint": 3,
+            "acceleration_rad_s2": -1.0247645582675435,
+            "absolute_ratio": 1.0247645582675435,
+            "H40_knot_triple": [
+              22,
+              23,
+              24
+            ],
+            "location": "H40_INTERIOR"
+          },
+          "history_points": 0,
+          "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+        }
+      },
+      "history_removal_max_acceleration_change_rad_s2": 2.6645352591003757e-13
+    },
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-slav5dev02-r1",
+      "layout": "SLAV5DEV02",
+      "restart": 1,
+      "query": 0,
+      "native_step": 5703,
+      "state_sha256": "31e31c464d048367828f440a634cfc539becb3dc35c36b7674de49b3bd4759cf",
+      "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+      "prefix_knots": 10,
+      "suffix_knots": 30,
+      "acceleration_k": "RIGHTMOST_H40_KNOT; negative preceding knots are executed history",
+      "prefix_max_abs_acceleration_rad_s2": 0.5955824245523544,
+      "suffix_max_abs_acceleration_rad_s2": 1.0023769295520957,
+      "joint3_prefix_max_abs_acceleration_rad_s2": 0.5955824245523544,
+      "joint3_suffix_max_abs_acceleration_rad_s2": 1.0023769295520957,
+      "reference_join_max_abs_acceleration_rad_s2": 0.29020387629028477,
+      "first_exceedance_k": 34,
+      "first_exceedance_joint": 3,
+      "first_exceedance_partition": "SUFFIX",
+      "first_joint3_exceedance_k": 34,
+      "per_joint": [
+        {
+          "joint": 1,
+          "prefix_max_abs_acceleration_rad_s2": 0.08231511392864099,
+          "suffix_max_abs_acceleration_rad_s2": 0.14152416116112454,
+          "max_speed_rad_s": 0.011116389817908828
+        },
+        {
+          "joint": 2,
+          "prefix_max_abs_acceleration_rad_s2": 0.11571883771339664,
+          "suffix_max_abs_acceleration_rad_s2": 0.29991988571782535,
+          "max_speed_rad_s": 0.044157549946548524
+        },
+        {
+          "joint": 3,
+          "prefix_max_abs_acceleration_rad_s2": 0.5955824245523544,
+          "suffix_max_abs_acceleration_rad_s2": 1.0023769295520957,
+          "max_speed_rad_s": 0.12391222568300497
+        },
+        {
+          "joint": 4,
+          "prefix_max_abs_acceleration_rad_s2": 0.5038700016298137,
+          "suffix_max_abs_acceleration_rad_s2": 0.791498070342568,
+          "max_speed_rad_s": 0.09426493129212274
+        },
+        {
+          "joint": 5,
+          "prefix_max_abs_acceleration_rad_s2": 0.07913778850812125,
+          "suffix_max_abs_acceleration_rad_s2": 0.14416845112424082,
+          "max_speed_rad_s": 0.011969440830809502
+        },
+        {
+          "joint": 6,
+          "prefix_max_abs_acceleration_rad_s2": 0.00915958249012444,
+          "suffix_max_abs_acceleration_rad_s2": 0.018801514348019965,
+          "max_speed_rad_s": 0.0019467070740186027
+        }
+      ],
+      "original_acceleration_limit_rad_s2": 1.0,
+      "original_speed_limit_rad_s": 0.7,
+      "prefix_only_execution_admitted": false,
+      "full_WBC_restored": false,
+      "actual_joint3_qpos_rad": 0.683417272543831,
+      "actual_joint3_qvel_rad_s": 0.0026754989428353993,
+      "joint3_IK_qpos_triple_rad": [
+        0.6834842447281634,
+        0.6814877651746223,
+        0.676985343297201
+      ],
+      "kinematics": [
+        {
+          "label": "ACTUAL_QUERY",
+          "joint3_qpos_rad": 0.683417272543831,
+          "raw_stacked_jacobian_singular_values": [
+            1.8295621419791124,
+            1.4534724841888862,
+            1.0000389744947664,
+            0.18354444744183257,
+            0.15577185088892057,
+            0.09289973326876359
+          ],
+          "raw_stacked_condition_number": 19.693943971680707,
+          "joint3_translation_column_norm_m_rad": 0.48292713600610826,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_32",
+          "joint3_qpos_rad": 0.6834842447281634,
+          "raw_stacked_jacobian_singular_values": [
+            1.834138116360744,
+            1.4554830964512835,
+            0.9981597483963212,
+            0.1839984319936663,
+            0.15505903044724798,
+            0.09958776361461134
+          ],
+          "raw_stacked_condition_number": 18.417303991869563,
+          "joint3_translation_column_norm_m_rad": 0.4862205073079222,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_33",
+          "joint3_qpos_rad": 0.6814877651746223,
+          "raw_stacked_jacobian_singular_values": [
+            1.83410436250483,
+            1.455465601005378,
+            0.99816990810851,
+            0.18403854618467003,
+            0.1547859368117345,
+            0.09951127109454153
+          ],
+          "raw_stacked_condition_number": 18.431121845105604,
+          "joint3_translation_column_norm_m_rad": 0.48626433627613946,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_34",
+          "joint3_qpos_rad": 0.676985343297201,
+          "raw_stacked_jacobian_singular_values": [
+            1.8340341889646228,
+            1.4554404544248705,
+            0.9982004653819273,
+            0.18413381130634937,
+            0.15416347766873584,
+            0.099398748279453
+          ],
+          "raw_stacked_condition_number": 18.451280531303645,
+          "joint3_translation_column_norm_m_rad": 0.4863711179637442,
+          "joint3_angular_column_norm": 1.0
+        }
+      ],
+      "history_removed_offline": {
+        "scope": "ORIGINAL_CLONE_CERTIFIER_AT_SAVED_MEASURED_STATE_AND_REFERENCE_HISTORY",
+        "full_WBC_state_restored": false,
+        "physical_requests": 0,
+        "physics_integrations": 0,
+        "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+        "status": "REJECT_OFFLINE_CLONE_ONLY",
+        "error": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+        "joint_rates": {
+          "maximum_speed_rad_s": 0.12391222568301608,
+          "speed_limit_rad_s": 0.7,
+          "maximum_acceleration_rad_s2": 1.0023769295518292,
+          "acceleration_limit_rad_s2": 1.0,
+          "peak_joint": 3,
+          "peak_H40_knot_triple": [
+            32,
+            33,
+            34
+          ],
+          "first_acceleration_exceedance": {
+            "joint": 3,
+            "acceleration_rad_s2": -1.0023769295518292,
+            "absolute_ratio": 1.0023769295518292,
+            "H40_knot_triple": [
+              32,
+              33,
+              34
+            ],
+            "location": "H40_INTERIOR"
+          },
+          "history_points": 0,
+          "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+        }
+      },
+      "history_removal_max_acceleration_change_rad_s2": 2.6645352591003757e-13
+    },
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-slav5dev02-r2",
+      "layout": "SLAV5DEV02",
+      "restart": 2,
+      "query": 0,
+      "native_step": 5703,
+      "state_sha256": "e85543e69ebfcbbcf9d6a14517e9a30db156c9ee330e2e7d4fb6c8ee47e27262",
+      "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+      "prefix_knots": 10,
+      "suffix_knots": 30,
+      "acceleration_k": "RIGHTMOST_H40_KNOT; negative preceding knots are executed history",
+      "prefix_max_abs_acceleration_rad_s2": 0.7204410904917413,
+      "suffix_max_abs_acceleration_rad_s2": 1.0701255382011166,
+      "joint3_prefix_max_abs_acceleration_rad_s2": 0.7204410904917413,
+      "joint3_suffix_max_abs_acceleration_rad_s2": 1.0701255382011166,
+      "reference_join_max_abs_acceleration_rad_s2": 0.4003162345818101,
+      "first_exceedance_k": 37,
+      "first_exceedance_joint": 3,
+      "first_exceedance_partition": "SUFFIX",
+      "first_joint3_exceedance_k": 37,
+      "per_joint": [
+        {
+          "joint": 1,
+          "prefix_max_abs_acceleration_rad_s2": 0.17539805550134402,
+          "suffix_max_abs_acceleration_rad_s2": 0.16258188642398474,
+          "max_speed_rad_s": 0.01597656095653585
+        },
+        {
+          "joint": 2,
+          "prefix_max_abs_acceleration_rad_s2": 0.1799452758515674,
+          "suffix_max_abs_acceleration_rad_s2": 0.23971719525288648,
+          "max_speed_rad_s": 0.03533481448472209
+        },
+        {
+          "joint": 3,
+          "prefix_max_abs_acceleration_rad_s2": 0.7204410904917413,
+          "suffix_max_abs_acceleration_rad_s2": 1.0701255382011166,
+          "max_speed_rad_s": 0.1021333992093365
+        },
+        {
+          "joint": 4,
+          "prefix_max_abs_acceleration_rad_s2": 0.5706389621713548,
+          "suffix_max_abs_acceleration_rad_s2": 0.8800382114830786,
+          "max_speed_rad_s": 0.08126968135935539
+        },
+        {
+          "joint": 5,
+          "prefix_max_abs_acceleration_rad_s2": 0.17961206165478805,
+          "suffix_max_abs_acceleration_rad_s2": 0.16951916220384888,
+          "max_speed_rad_s": 0.01694281241336762
+        },
+        {
+          "joint": 6,
+          "prefix_max_abs_acceleration_rad_s2": 0.018288770551910805,
+          "suffix_max_abs_acceleration_rad_s2": 0.01695128302956206,
+          "max_speed_rad_s": 0.0018831707253934987
+        }
+      ],
+      "original_acceleration_limit_rad_s2": 1.0,
+      "original_speed_limit_rad_s": 0.7,
+      "prefix_only_execution_admitted": false,
+      "full_WBC_restored": false,
+      "actual_joint3_qpos_rad": 0.6832787896389378,
+      "actual_joint3_qvel_rad_s": 0.0031895331759713035,
+      "joint3_IK_qpos_triple_rad": [
+        0.671608932242332,
+        0.6666461974082813,
+        0.6643587764197335
+      ],
+      "kinematics": [
+        {
+          "label": "ACTUAL_QUERY",
+          "joint3_qpos_rad": 0.6832787896389378,
+          "raw_stacked_jacobian_singular_values": [
+            1.8295642927799467,
+            1.4534811733399227,
+            1.0000249773062868,
+            0.18354674022256298,
+            0.15575343742168843,
+            0.0929567858075021
+          ],
+          "raw_stacked_condition_number": 19.681879885226103,
+          "joint3_translation_column_norm_m_rad": 0.48292412520777483,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_35",
+          "joint3_qpos_rad": 0.671608932242332,
+          "raw_stacked_jacobian_singular_values": [
+            1.8339168429558717,
+            1.4555840748844346,
+            0.9985607103562022,
+            0.18427129356969604,
+            0.15339033970772348,
+            0.09995719059862862
+          ],
+          "raw_stacked_condition_number": 18.347022680137556,
+          "joint3_translation_column_norm_m_rad": 0.48663735397835034,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_36",
+          "joint3_qpos_rad": 0.6666461974082813,
+          "raw_stacked_jacobian_singular_values": [
+            1.8338467081477883,
+            1.4555566138632228,
+            0.9985819556028148,
+            0.18438707732580784,
+            0.15268901599339588,
+            0.09983514686500049
+          ],
+          "raw_stacked_condition_number": 18.368748539305106,
+          "joint3_translation_column_norm_m_rad": 0.48675096921899047,
+          "joint3_angular_column_norm": 0.9999999999999999
+        },
+        {
+          "label": "IK_KNOT_37",
+          "joint3_qpos_rad": 0.6643587764197335,
+          "raw_stacked_jacobian_singular_values": [
+            1.8338061946813935,
+            1.4555331063946568,
+            0.9985955238182173,
+            0.18444113932834114,
+            0.15236474990465906,
+            0.09973137786165473
+          ],
+          "raw_stacked_condition_number": 18.387454720872412,
+          "joint3_translation_column_norm_m_rad": 0.486798613227393,
+          "joint3_angular_column_norm": 1.0
+        }
+      ],
+      "history_removed_offline": {
+        "scope": "ORIGINAL_CLONE_CERTIFIER_AT_SAVED_MEASURED_STATE_AND_REFERENCE_HISTORY",
+        "full_WBC_state_restored": false,
+        "physical_requests": 0,
+        "physics_integrations": 0,
+        "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+        "status": "REJECT_OFFLINE_CLONE_ONLY",
+        "error": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+        "joint_rates": {
+          "maximum_speed_rad_s": 0.1021333992093365,
+          "speed_limit_rad_s": 0.7,
+          "maximum_acceleration_rad_s2": 1.070125538201161,
+          "acceleration_limit_rad_s2": 1.0,
+          "peak_joint": 3,
+          "peak_H40_knot_triple": [
+            35,
+            36,
+            37
+          ],
+          "first_acceleration_exceedance": {
+            "joint": 3,
+            "acceleration_rad_s2": 1.070125538201161,
+            "absolute_ratio": 1.070125538201161,
+            "H40_knot_triple": [
+              35,
+              36,
+              37
+            ],
+            "location": "H40_INTERIOR"
+          },
+          "history_points": 0,
+          "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+        }
+      },
+      "history_removal_max_acceleration_change_rad_s2": 4.440892098500626e-14
+    },
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-slav5dev02-r3",
+      "layout": "SLAV5DEV02",
+      "restart": 3,
+      "query": 0,
+      "native_step": 5703,
+      "state_sha256": "86e6007ba2ce6a16ce9d998fc245eb2e3b826b1b069de8e081ab189554bcd084",
+      "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+      "prefix_knots": 10,
+      "suffix_knots": 30,
+      "acceleration_k": "RIGHTMOST_H40_KNOT; negative preceding knots are executed history",
+      "prefix_max_abs_acceleration_rad_s2": 1.0168773486125993,
+      "suffix_max_abs_acceleration_rad_s2": 1.0450585663505318,
+      "joint3_prefix_max_abs_acceleration_rad_s2": 1.0168773486125993,
+      "joint3_suffix_max_abs_acceleration_rad_s2": 1.0450585663505318,
+      "reference_join_max_abs_acceleration_rad_s2": 0.23302858430955808,
+      "first_exceedance_k": 8,
+      "first_exceedance_joint": 3,
+      "first_exceedance_partition": "PREFIX",
+      "first_joint3_exceedance_k": 8,
+      "per_joint": [
+        {
+          "joint": 1,
+          "prefix_max_abs_acceleration_rad_s2": 0.2034816621875657,
+          "suffix_max_abs_acceleration_rad_s2": 0.26890718162911886,
+          "max_speed_rad_s": 0.020921868296751578
+        },
+        {
+          "joint": 2,
+          "prefix_max_abs_acceleration_rad_s2": 0.2666337179516365,
+          "suffix_max_abs_acceleration_rad_s2": 0.2948505346847874,
+          "max_speed_rad_s": 0.038076777722197974
+        },
+        {
+          "joint": 3,
+          "prefix_max_abs_acceleration_rad_s2": 1.0168773486125993,
+          "suffix_max_abs_acceleration_rad_s2": 1.0450585663505318,
+          "max_speed_rad_s": 0.1193943133999209
+        },
+        {
+          "joint": 4,
+          "prefix_max_abs_acceleration_rad_s2": 0.7762051483997057,
+          "suffix_max_abs_acceleration_rad_s2": 0.8124382370835737,
+          "max_speed_rad_s": 0.09489343341979067
+        },
+        {
+          "joint": 5,
+          "prefix_max_abs_acceleration_rad_s2": 0.2082028966678473,
+          "suffix_max_abs_acceleration_rad_s2": 0.2812104495544032,
+          "max_speed_rad_s": 0.021169245014322213
+        },
+        {
+          "joint": 6,
+          "prefix_max_abs_acceleration_rad_s2": 0.021881960565087177,
+          "suffix_max_abs_acceleration_rad_s2": 0.033114219133734135,
+          "max_speed_rad_s": 0.002527459888875122
+        }
+      ],
+      "original_acceleration_limit_rad_s2": 1.0,
+      "original_speed_limit_rad_s": 0.7,
+      "prefix_only_execution_admitted": false,
+      "full_WBC_restored": false,
+      "actual_joint3_qpos_rad": 0.6822843865689501,
+      "actual_joint3_qvel_rad_s": -0.0002484964926677718,
+      "joint3_IK_qpos_triple_rad": [
+        0.7306304504793355,
+        0.727133043235157,
+        0.7261778293625101
+      ],
+      "kinematics": [
+        {
+          "label": "ACTUAL_QUERY",
+          "joint3_qpos_rad": 0.6822843865689501,
+          "raw_stacked_jacobian_singular_values": [
+            1.8295035321041997,
+            1.4534954139879148,
+            1.0000158460977868,
+            0.18356051672513873,
+            0.15562670591188135,
+            0.09312157458156786
+          ],
+          "raw_stacked_condition_number": 19.646398166320576,
+          "joint3_translation_column_norm_m_rad": 0.48288531051897193,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_6",
+          "joint3_qpos_rad": 0.7306304504793355,
+          "raw_stacked_jacobian_singular_values": [
+            1.8350561781951171,
+            1.4555489575376075,
+            0.9967542821051252,
+            0.18338319137951453,
+            0.16109331011986824,
+            0.10026238559683623
+          ],
+          "raw_stacked_condition_number": 18.30253855692241,
+          "joint3_translation_column_norm_m_rad": 0.48457390456782606,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_7",
+          "joint3_qpos_rad": 0.727133043235157,
+          "raw_stacked_jacobian_singular_values": [
+            1.8350537491095829,
+            1.4555397028649193,
+            0.9966823436367976,
+            0.18339119795458195,
+            0.16068946569236164,
+            0.10023378052978238
+          ],
+          "raw_stacked_condition_number": 18.307737565224677,
+          "joint3_translation_column_norm_m_rad": 0.4846585916519024,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_8",
+          "joint3_qpos_rad": 0.7261778293625101,
+          "raw_stacked_jacobian_singular_values": [
+            1.8350537143790377,
+            1.4555378381391193,
+            0.9966588178292364,
+            0.18339440160727297,
+            0.1605780239560272,
+            0.1002310488945282
+          ],
+          "raw_stacked_condition_number": 18.30823616652002,
+          "joint3_translation_column_norm_m_rad": 0.48467981632822627,
+          "joint3_angular_column_norm": 1.0
+        }
+      ],
+      "history_removed_offline": {
+        "scope": "ORIGINAL_CLONE_CERTIFIER_AT_SAVED_MEASURED_STATE_AND_REFERENCE_HISTORY",
+        "full_WBC_state_restored": false,
+        "physical_requests": 0,
+        "physics_integrations": 0,
+        "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+        "status": "REJECT_OFFLINE_CLONE_ONLY",
+        "error": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+        "joint_rates": {
+          "maximum_speed_rad_s": 0.11939431339992979,
+          "speed_limit_rad_s": 0.7,
+          "maximum_acceleration_rad_s2": 1.0450585663506207,
+          "acceleration_limit_rad_s2": 1.0,
+          "peak_joint": 3,
+          "peak_H40_knot_triple": [
+            37,
+            38,
+            39
+          ],
+          "first_acceleration_exceedance": {
+            "joint": 3,
+            "acceleration_rad_s2": 1.0168773486128213,
+            "absolute_ratio": 1.0168773486128213,
+            "H40_knot_triple": [
+              6,
+              7,
+              8
+            ],
+            "location": "H40_INTERIOR"
+          },
+          "history_points": 0,
+          "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+        }
+      },
+      "history_removal_max_acceleration_change_rad_s2": 8.881784197001252e-14
+    },
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-slav5dev02-r4",
+      "layout": "SLAV5DEV02",
+      "restart": 4,
+      "query": 3,
+      "native_step": 6453,
+      "state_sha256": "c1de16a260a3156e6a1280b64da9fd716ef7ed0efaad8c3dc2b876e8ad12bcad",
+      "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+      "prefix_knots": 10,
+      "suffix_knots": 30,
+      "acceleration_k": "RIGHTMOST_H40_KNOT; negative preceding knots are executed history",
+      "prefix_max_abs_acceleration_rad_s2": 1.0653558720520095,
+      "suffix_max_abs_acceleration_rad_s2": 0.7695172239444048,
+      "joint3_prefix_max_abs_acceleration_rad_s2": 1.0653558720520095,
+      "joint3_suffix_max_abs_acceleration_rad_s2": 0.7695172239444048,
+      "reference_join_max_abs_acceleration_rad_s2": 0.16133380096583494,
+      "first_exceedance_k": 3,
+      "first_exceedance_joint": 3,
+      "first_exceedance_partition": "PREFIX",
+      "first_joint3_exceedance_k": 3,
+      "per_joint": [
+        {
+          "joint": 1,
+          "prefix_max_abs_acceleration_rad_s2": 0.11951147303523313,
+          "suffix_max_abs_acceleration_rad_s2": 0.12227053005837984,
+          "max_speed_rad_s": 0.011320637514720538
+        },
+        {
+          "joint": 2,
+          "prefix_max_abs_acceleration_rad_s2": 0.2891670844743288,
+          "suffix_max_abs_acceleration_rad_s2": 0.20599120023914175,
+          "max_speed_rad_s": 0.03252195170447836
+        },
+        {
+          "joint": 3,
+          "prefix_max_abs_acceleration_rad_s2": 1.0653558720520095,
+          "suffix_max_abs_acceleration_rad_s2": 0.7695172239444048,
+          "max_speed_rad_s": 0.10579330826869793
+        },
+        {
+          "joint": 4,
+          "prefix_max_abs_acceleration_rad_s2": 0.882711576847929,
+          "suffix_max_abs_acceleration_rad_s2": 0.6244869661316876,
+          "max_speed_rad_s": 0.08321985530581759
+        },
+        {
+          "joint": 5,
+          "prefix_max_abs_acceleration_rad_s2": 0.12686516719161434,
+          "suffix_max_abs_acceleration_rad_s2": 0.12599441981523962,
+          "max_speed_rad_s": 0.012033539735446519
+        },
+        {
+          "joint": 6,
+          "prefix_max_abs_acceleration_rad_s2": 0.015940804768760364,
+          "suffix_max_abs_acceleration_rad_s2": 0.01383363275059557,
+          "max_speed_rad_s": 0.0019100859812899718
+        }
+      ],
+      "original_acceleration_limit_rad_s2": 1.0,
+      "original_speed_limit_rad_s": 0.7,
+      "prefix_only_execution_admitted": false,
+      "full_WBC_restored": false,
+      "actual_joint3_qpos_rad": 0.6417793316942196,
+      "actual_joint3_qvel_rad_s": -0.031512611601767944,
+      "joint3_IK_qpos_triple_rad": [
+        0.6824366257452147,
+        0.6815992552640511,
+        0.6780984951027574
+      ],
+      "kinematics": [
+        {
+          "label": "ACTUAL_QUERY",
+          "joint3_qpos_rad": 0.6417793316942196,
+          "raw_stacked_jacobian_singular_values": [
+            1.8293620101306833,
+            1.453609896183513,
+            1.0000169842303719,
+            0.18458518489916872,
+            0.14974576883145857,
+            0.09369560832203512
+          ],
+          "raw_stacked_condition_number": 19.52452247113975,
+          "joint3_translation_column_norm_m_rad": 0.4842560507493406,
+          "joint3_angular_column_norm": 0.9999999999999999
+        },
+        {
+          "label": "IK_KNOT_1",
+          "joint3_qpos_rad": 0.6824366257452147,
+          "raw_stacked_jacobian_singular_values": [
+            1.8344237880851528,
+            1.4555169088163096,
+            0.9973130131382812,
+            0.18400027743569689,
+            0.15493350107979348,
+            0.09997448777467806
+          ],
+          "raw_stacked_condition_number": 18.348919098436063,
+          "joint3_translation_column_norm_m_rad": 0.4860271767749599,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_2",
+          "joint3_qpos_rad": 0.6815992552640511,
+          "raw_stacked_jacobian_singular_values": [
+            1.8344056126658346,
+            1.4555076107704008,
+            0.9973212174487626,
+            0.1840169085722085,
+            0.15481927521654815,
+            0.09993414884966963
+          ],
+          "raw_stacked_condition_number": 18.356143858545497,
+          "joint3_translation_column_norm_m_rad": 0.48604442923745245,
+          "joint3_angular_column_norm": 0.9999999999999999
+        },
+        {
+          "label": "IK_KNOT_3",
+          "joint3_qpos_rad": 0.6780984951027574,
+          "raw_stacked_jacobian_singular_values": [
+            1.8343581864258534,
+            1.455490035122942,
+            0.9973401112121669,
+            0.18409107903456115,
+            0.15433494081208834,
+            0.0998522796266616
+          ],
+          "raw_stacked_condition_number": 18.37071915918543,
+          "joint3_translation_column_norm_m_rad": 0.48613159886927637,
+          "joint3_angular_column_norm": 1.0
+        }
+      ],
+      "history_removed_offline": {
+        "scope": "ORIGINAL_CLONE_CERTIFIER_AT_SAVED_MEASURED_STATE_AND_REFERENCE_HISTORY",
+        "full_WBC_state_restored": false,
+        "physical_requests": 0,
+        "physics_integrations": 0,
+        "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+        "status": "REJECT_OFFLINE_CLONE_ONLY",
+        "error": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+        "joint_rates": {
+          "maximum_speed_rad_s": 0.10579330826868683,
+          "speed_limit_rad_s": 0.7,
+          "maximum_acceleration_rad_s2": 1.0653558720525869,
+          "acceleration_limit_rad_s2": 1.0,
+          "peak_joint": 3,
+          "peak_H40_knot_triple": [
+            1,
+            2,
+            3
+          ],
+          "first_acceleration_exceedance": {
+            "joint": 3,
+            "acceleration_rad_s2": -1.0653558720525869,
+            "absolute_ratio": 1.0653558720525869,
+            "H40_knot_triple": [
+              1,
+              2,
+              3
+            ],
+            "location": "H40_INTERIOR"
+          },
+          "history_points": 0,
+          "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+        }
+      },
+      "history_removal_max_acceleration_change_rad_s2": 5.773159728050814e-13
+    },
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-slav5dev02-r5",
+      "layout": "SLAV5DEV02",
+      "restart": 5,
+      "query": 0,
+      "native_step": 5703,
+      "state_sha256": "2a2c022665f4103fee96a0b8c9d4c99f52f46bd82393337b97c292f23d4908a9",
+      "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+      "prefix_knots": 10,
+      "suffix_knots": 30,
+      "acceleration_k": "RIGHTMOST_H40_KNOT; negative preceding knots are executed history",
+      "prefix_max_abs_acceleration_rad_s2": 0.7269436424057751,
+      "suffix_max_abs_acceleration_rad_s2": 1.110652075346863,
+      "joint3_prefix_max_abs_acceleration_rad_s2": 0.7269436424057751,
+      "joint3_suffix_max_abs_acceleration_rad_s2": 1.110652075346863,
+      "reference_join_max_abs_acceleration_rad_s2": 0.22722691291220953,
+      "first_exceedance_k": 24,
+      "first_exceedance_joint": 3,
+      "first_exceedance_partition": "SUFFIX",
+      "first_joint3_exceedance_k": 24,
+      "per_joint": [
+        {
+          "joint": 1,
+          "prefix_max_abs_acceleration_rad_s2": 0.11847217774814955,
+          "suffix_max_abs_acceleration_rad_s2": 0.15440567596000376,
+          "max_speed_rad_s": 0.014233451178127382
+        },
+        {
+          "joint": 2,
+          "prefix_max_abs_acceleration_rad_s2": 0.13106793818780105,
+          "suffix_max_abs_acceleration_rad_s2": 0.46253680362240424,
+          "max_speed_rad_s": 0.049766538046316366
+        },
+        {
+          "joint": 3,
+          "prefix_max_abs_acceleration_rad_s2": 0.7269436424057751,
+          "suffix_max_abs_acceleration_rad_s2": 1.110652075346863,
+          "max_speed_rad_s": 0.12704801479278327
+        },
+        {
+          "joint": 4,
+          "prefix_max_abs_acceleration_rad_s2": 0.5863224028293867,
+          "suffix_max_abs_acceleration_rad_s2": 0.8647557436041758,
+          "max_speed_rad_s": 0.09448770925919336
+        },
+        {
+          "joint": 5,
+          "prefix_max_abs_acceleration_rad_s2": 0.1222134332000302,
+          "suffix_max_abs_acceleration_rad_s2": 0.16638595169712056,
+          "max_speed_rad_s": 0.015792183065529708
+        },
+        {
+          "joint": 6,
+          "prefix_max_abs_acceleration_rad_s2": 0.012666862587713823,
+          "suffix_max_abs_acceleration_rad_s2": 0.022946969612204493,
+          "max_speed_rad_s": 0.002403425814329757
+        }
+      ],
+      "original_acceleration_limit_rad_s2": 1.0,
+      "original_speed_limit_rad_s": 0.7,
+      "prefix_only_execution_admitted": false,
+      "full_WBC_restored": false,
+      "actual_joint3_qpos_rad": 0.6834369098629217,
+      "actual_joint3_qvel_rad_s": 0.006002274991035732,
+      "joint3_IK_qpos_triple_rad": [
+        0.7105347950228944,
+        0.7083068949768461,
+        0.7033023647424306
+      ],
+      "kinematics": [
+        {
+          "label": "ACTUAL_QUERY",
+          "joint3_qpos_rad": 0.6834369098629217,
+          "raw_stacked_jacobian_singular_values": [
+            1.8295601906509238,
+            1.4534725876086776,
+            1.0000389239124938,
+            0.18354378930086696,
+            0.1557749770720215,
+            0.0929031190418469
+          ],
+          "raw_stacked_condition_number": 19.693205239178507,
+          "joint3_translation_column_norm_m_rad": 0.48292408383018864,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_22",
+          "joint3_qpos_rad": 0.7105347950228944,
+          "raw_stacked_jacobian_singular_values": [
+            1.8344511668948795,
+            1.4556386361292015,
+            0.9981276105984105,
+            0.1835588712260932,
+            0.1586281097730083,
+            0.10029643115061439
+          ],
+          "raw_stacked_condition_number": 18.290293541353414,
+          "joint3_translation_column_norm_m_rad": 0.4855419474141814,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_23",
+          "joint3_qpos_rad": 0.7083068949768461,
+          "raw_stacked_jacobian_singular_values": [
+            1.8344197914845846,
+            1.4556210433558923,
+            0.9981368183838624,
+            0.1835851145818355,
+            0.1583467586477777,
+            0.10021621078856892
+          ],
+          "raw_stacked_condition_number": 18.304621348683302,
+          "joint3_translation_column_norm_m_rad": 0.48559829997648385,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_24",
+          "joint3_qpos_rad": 0.7033023647424306,
+          "raw_stacked_jacobian_singular_values": [
+            1.8343349551028854,
+            1.4555811856309355,
+            0.9981742791260156,
+            0.18365033910952674,
+            0.15770751833324684,
+            0.1000376907442513
+          ],
+          "raw_stacked_condition_number": 18.336438410922597,
+          "joint3_translation_column_norm_m_rad": 0.48572054436011014,
+          "joint3_angular_column_norm": 1.0
+        }
+      ],
+      "history_removed_offline": {
+        "scope": "ORIGINAL_CLONE_CERTIFIER_AT_SAVED_MEASURED_STATE_AND_REFERENCE_HISTORY",
+        "full_WBC_state_restored": false,
+        "physical_requests": 0,
+        "physics_integrations": 0,
+        "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+        "status": "REJECT_OFFLINE_CLONE_ONLY",
+        "error": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+        "joint_rates": {
+          "maximum_speed_rad_s": 0.12704801479278327,
+          "speed_limit_rad_s": 0.7,
+          "maximum_acceleration_rad_s2": 1.1106520753469518,
+          "acceleration_limit_rad_s2": 1.0,
+          "peak_joint": 3,
+          "peak_H40_knot_triple": [
+            22,
+            23,
+            24
+          ],
+          "first_acceleration_exceedance": {
+            "joint": 3,
+            "acceleration_rad_s2": -1.1106520753469518,
+            "absolute_ratio": 1.1106520753469518,
+            "H40_knot_triple": [
+              22,
+              23,
+              24
+            ],
+            "location": "H40_INTERIOR"
+          },
+          "history_points": 0,
+          "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+        }
+      },
+      "history_removal_max_acceleration_change_rad_s2": 8.881784197001252e-14
+    },
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-slav5dev02-r6",
+      "layout": "SLAV5DEV02",
+      "restart": 6,
+      "query": 0,
+      "native_step": 5703,
+      "state_sha256": "04062683dca1192b2607f28e0e71c509ce7b7530a8088b137c47366ebdabe95d",
+      "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+      "prefix_knots": 10,
+      "suffix_knots": 30,
+      "acceleration_k": "RIGHTMOST_H40_KNOT; negative preceding knots are executed history",
+      "prefix_max_abs_acceleration_rad_s2": 1.0006992372133539,
+      "suffix_max_abs_acceleration_rad_s2": 0.7974778071695443,
+      "joint3_prefix_max_abs_acceleration_rad_s2": 1.0006992372133539,
+      "joint3_suffix_max_abs_acceleration_rad_s2": 0.7974778071695443,
+      "reference_join_max_abs_acceleration_rad_s2": 0.26089410369847243,
+      "first_exceedance_k": 8,
+      "first_exceedance_joint": 3,
+      "first_exceedance_partition": "PREFIX",
+      "first_joint3_exceedance_k": 8,
+      "per_joint": [
+        {
+          "joint": 1,
+          "prefix_max_abs_acceleration_rad_s2": 0.1569277531784763,
+          "suffix_max_abs_acceleration_rad_s2": 0.12102223053599426,
+          "max_speed_rad_s": 0.019186355114894776
+        },
+        {
+          "joint": 2,
+          "prefix_max_abs_acceleration_rad_s2": 0.23607686696522912,
+          "suffix_max_abs_acceleration_rad_s2": 0.24461330518570357,
+          "max_speed_rad_s": 0.037264929683882286
+        },
+        {
+          "joint": 3,
+          "prefix_max_abs_acceleration_rad_s2": 1.0006992372133539,
+          "suffix_max_abs_acceleration_rad_s2": 0.7974778071695443,
+          "max_speed_rad_s": 0.11562889832856804
+        },
+        {
+          "joint": 4,
+          "prefix_max_abs_acceleration_rad_s2": 0.763506194707142,
+          "suffix_max_abs_acceleration_rad_s2": 0.6359416898285314,
+          "max_speed_rad_s": 0.0885630252067967
+        },
+        {
+          "joint": 5,
+          "prefix_max_abs_acceleration_rad_s2": 0.16583993677635744,
+          "suffix_max_abs_acceleration_rad_s2": 0.12125170910394778,
+          "max_speed_rad_s": 0.019283094403258483
+        },
+        {
+          "joint": 6,
+          "prefix_max_abs_acceleration_rad_s2": 0.020540669251878363,
+          "suffix_max_abs_acceleration_rad_s2": 0.014685573185582723,
+          "max_speed_rad_s": 0.002047122700922638
+        }
+      ],
+      "original_acceleration_limit_rad_s2": 1.0,
+      "original_speed_limit_rad_s": 0.7,
+      "prefix_only_execution_admitted": false,
+      "full_WBC_restored": false,
+      "actual_joint3_qpos_rad": 0.6820616240255095,
+      "actual_joint3_qvel_rad_s": 0.001921386350460871,
+      "joint3_IK_qpos_triple_rad": [
+        0.7294994545698278,
+        0.7259210082156525,
+        0.7248443099545107
+      ],
+      "kinematics": [
+        {
+          "label": "ACTUAL_QUERY",
+          "joint3_qpos_rad": 0.6820616240255095,
+          "raw_stacked_jacobian_singular_values": [
+            1.8294899968118568,
+            1.4534972103909103,
+            1.0000197170895424,
+            0.18356402813185327,
+            0.1555977040156007,
+            0.09314552825880251
+          ],
+          "raw_stacked_condition_number": 19.641200506466234,
+          "joint3_translation_column_norm_m_rad": 0.48288103084030287,
+          "joint3_angular_column_norm": 0.9999999999999999
+        },
+        {
+          "label": "IK_KNOT_6",
+          "joint3_qpos_rad": 0.7294994545698278,
+          "raw_stacked_jacobian_singular_values": [
+            1.8350034711524443,
+            1.455530239920911,
+            0.9968067684110852,
+            0.18338327715694824,
+            0.1609672508832442,
+            0.1001792809502833
+          ],
+          "raw_stacked_condition_number": 18.317195469421613,
+          "joint3_translation_column_norm_m_rad": 0.4845980907561555,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_7",
+          "joint3_qpos_rad": 0.7259210082156525,
+          "raw_stacked_jacobian_singular_values": [
+            1.8349894991058884,
+            1.4555205342603745,
+            0.9967552798922096,
+            0.18339380573132588,
+            0.1605516282232225,
+            0.10014649257937182
+          ],
+          "raw_stacked_condition_number": 18.323053077985275,
+          "joint3_translation_column_norm_m_rad": 0.4846868581995632,
+          "joint3_angular_column_norm": 1.0
+        },
+        {
+          "label": "IK_KNOT_8",
+          "joint3_qpos_rad": 0.7248443099545107,
+          "raw_stacked_jacobian_singular_values": [
+            1.8349829935398443,
+            1.4555158107768185,
+            0.996740615876206,
+            0.18339812166650887,
+            0.16042534974056688,
+            0.10012941899542721
+          ],
+          "raw_stacked_condition_number": 18.32611246474571,
+          "joint3_translation_column_norm_m_rad": 0.4847118531304691,
+          "joint3_angular_column_norm": 1.0
+        }
+      ],
+      "history_removed_offline": {
+        "scope": "ORIGINAL_CLONE_CERTIFIER_AT_SAVED_MEASURED_STATE_AND_REFERENCE_HISTORY",
+        "full_WBC_state_restored": false,
+        "physical_requests": 0,
+        "physics_integrations": 0,
+        "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+        "status": "REJECT_OFFLINE_CLONE_ONLY",
+        "error": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+        "joint_rates": {
+          "maximum_speed_rad_s": 0.11562889832856582,
+          "speed_limit_rad_s": 0.7,
+          "maximum_acceleration_rad_s2": 1.000699237213487,
+          "acceleration_limit_rad_s2": 1.0,
+          "peak_joint": 3,
+          "peak_H40_knot_triple": [
+            6,
+            7,
+            8
+          ],
+          "first_acceleration_exceedance": {
+            "joint": 3,
+            "acceleration_rad_s2": 1.000699237213487,
+            "absolute_ratio": 1.000699237213487,
+            "H40_knot_triple": [
+              6,
+              7,
+              8
+            ],
+            "location": "H40_INTERIOR"
+          },
+          "history_points": 0,
+          "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+        }
+      },
+      "history_removal_max_acceleration_change_rad_s2": 1.3322676295501878e-13
+    }
+  ],
+  "new_model_queries": 0,
+  "optimizer_updates": 0,
+  "training_visits": 0,
+  "physical_requests": 0,
+  "physics_integrations": 0,
+  "safety_limits_changed": false,
+  "inference": "VIOLATION_LOCATION_ONLY_NOT_A_CAUSAL_CLASSIFICATION",
+  "root_cause_selected": false,
+  "input_sha256": "715c0694d614edb11efa1835e07b4197a89dc049a4198ad159157076ed3ed3c0",
+  "history_removed_rejected": 16,
+  "history_removal_max_peak_change_rad_s2": 2.2648549702353193e-12,
+  "kinematic_contexts": 64,
+  "jacobian_units": "RAW_STACKED_Jp_METERS_PER_RAD_Jr_RADIANS_PER_RAD_NO_RESCALING",
+  "singularity_threshold_defined": false,
+  "raw_stacked_jacobian_condition_range": [
+    18.06356433418476,
+    19.693943971680707
+  ],
+  "context_CPU_s": 6.711040497,
+  "context_wall_s": 12.727593183517456,
+  "full_dynamic_WBC_restore": false,
+  "raw_control_horizon_usage_causally_tested": false,
+  "input_pins": {
+    "JOINT_SUFFIX_ACTUAL.private.json": "cea67e9b73a0a5e6be0925b9436462a3a0a0f24f111195750bcfcd74ad937ca1",
+    "JOINT3_CONTEXT_ACTUAL.private.json": "c58ee564dd98822dcad1fe10976e7ef081e2c935d698c3ae42d46e9be7c62f19"
+  }
+}
