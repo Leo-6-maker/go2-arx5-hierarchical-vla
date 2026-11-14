@@ -113,3 +113,48 @@ from go2arx5_vla.world_model.sla_reference_native_v6 import METHOD
 assert METHOD=='N20_REFERENCE_FM3K_RAW_P10'
 """
     subprocess.run([sys.executable,'-c',code],env=dict(os.environ),check=True,capture_output=True,text=True)
+
+
+@pytest.mark.parametrize('kind',['dense','named','reference'])
+def test_registration_builds_all_eight_scene_rows_before_mutation(tmp_path,monkeypatch,kind):
+    """Exercise the real registration path, including its module/scene names."""
+    from go2arx5_vla.world_model import task_learning_student_registration_v2 as registration
+    from go2arx5_vla.world_model import sla_native_v1
+    from scripts.pi0294.e1 import journal
+    source=tmp_path/'source';source.mkdir()
+    method={'dense':dense.METHODS[0],'named':dense.NAMED_METHOD,'reference':ref.METHOD}[kind]
+    declaration,pin=dense.declaration(named=kind=='named',corrected=kind=='reference')
+    declaration_path=Path(dense.__file__).resolve().parents[3]/{'dense':dense.DECLARATION,
+        'named':dense.NAMED_DECLARATION,'reference':ref.DECLARATION}[kind]
+    seal=save(source/'SOURCE_STAGED.private.json',dict(source_sha='c'*40,files={}))
+    admission=save(tmp_path/'admission.json',dict(method=method,package={}))
+    scenes={}
+    for row in declaration['conditions']:
+        if row['layout'] in scenes:continue
+        path=tmp_path/row['layout'];path.mkdir()
+        (path/'SCENE.private.mjb').write_bytes(b'scene fixture')
+        scenes[row['layout']]=save(path/'proof.json',dict(parent='TASK_LEARNING_UNDER_HAND_'+row['layout']))
+    monkeypatch.setattr(registration,'closed_base',lambda _:dict(campaign_root=str(tmp_path/'campaign'),
+        registered_root=str(tmp_path/'a/b/c/base')))
+    monkeypatch.setattr(registration,'actual_site',lambda _:None)
+    monkeypatch.setattr(dense,'qualification',lambda q:q)
+    monkeypatch.setattr(sla_native_v1,'scene_custody',lambda *_:None)
+    request=dict(root=str(tmp_path/'a/new-panel'),source_root=str(source),source_sha='c'*40,
+        source_files={},source_seal=seal,Native_body_qualification=admission,
+        native_base={},gpu_base={},preregistration=dict(path=str(declaration_path),sha256=pin),
+        scenes=scenes,scene_producers={k:{}for k in scenes},scene_allowlist='',scene_allowlist_sha256='',
+        memory_execution='',memory_execution_reference='')
+    if kind=='reference':
+        wait=Path(dense.__file__).resolve().parents[3]/'experiments/sla_go2_posttrain/native_pause_read_wait_v1.json'
+        request['native_pause_read_wait']=dict(path=str(wait),sha256=dense.digest(wait))
+    seen=[];validate=dense.validate_panel
+    def validated(panel):
+        rows=validate(panel);seen.extend(rows);return rows
+    monkeypatch.setattr(dense,'validate_panel',validated)
+    class BeforeMutation(Exception):pass
+    def stop_before_mutation(*_):raise BeforeMutation
+    monkeypatch.setattr(journal,'Journal',stop_before_mutation)
+    with pytest.raises(BeforeMutation):dense.register_panel(request)
+    assert len(seen)==8 and [r['layout']for r in seen]==[r['layout']for r in declaration['conditions']]
+    assert all(r['method']==method for r in seen)
+    assert not Path(request['root']).exists()

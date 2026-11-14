@@ -326,9 +326,9 @@ def register_panel(request):
     if development:dev.disjointness(request['scene_disjointness'])
     rows=[]
     for expected in inputs:
-        layout=expected['layout'];reference=request['scenes'][layout];proof=pinned(reference)
-        model=Path(reference['path']).parent/'SCENE.private.mjb'
-        scene_custody(request['scene_producers'][layout],reference,model)
+        layout=expected['layout'];scene_reference=request['scenes'][layout];proof=pinned(scene_reference)
+        model=Path(scene_reference['path']).parent/'SCENE.private.mjb'
+        scene_custody(request['scene_producers'][layout],scene_reference,model)
         rows.append(dict(expected,native_run=f"sla-{method.lower()}-{layout.lower()}-r{expected['restart']}",
             parent=proof['parent'],method=method,model_sha256=digest(model),split=dev.SPLIT if development else'TRAIN',
             purpose=purpose,command=task.COMMAND))
