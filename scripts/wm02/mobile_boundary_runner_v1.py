@@ -175,7 +175,9 @@ def run_case(spec_path,lock_fd):
     try:
         adapter.start()
         if spec.get('mobile_stage')=='L1':
-            if spec.get('mobile_experiment_version')=='MOBILE_CONTINUOUS_TEACHER_V2':
+            if spec.get('mobile_experiment_version')=='MFREE_C20_FINAL_PLAN_V1':
+                from go2arx5_vla.world_model.mfree_expert_capture_v1 import episode as l1_episode
+            elif spec.get('mobile_experiment_version')=='MOBILE_CONTINUOUS_TEACHER_V2':
                 from go2arx5_vla.world_model.mobile_expert_episode_v2 import episode as l1_episode
             elif spec.get('mobile_experiment_version')=='MOBILE_GRASP_BUDGET_V3':
                 from go2arx5_vla.world_model.mobile_expert_episode_v3 import episode as l1_episode
