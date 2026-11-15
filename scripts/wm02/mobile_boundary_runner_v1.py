@@ -1,0 +1,236 @@
+"""Finite native mobile M0 runner; original JOIN10 and frozen WBC stay separate."""
+import argparse
+from contextlib import closing
+import json
+import os
+from pathlib import Path
+import signal
+import subprocess
+import time
+import traceback
+import numpy as np
+
+from scripts.pi0292.durable import OwnerLock,write
+from go2arx5_vla.world_model.storage import digest
+from go2arx5_vla.world_model.mobile_wbc_reference_v1 import PHASE,START,M0_END,m0_reference
+
+
+def read(path):return json.loads(Path(path).read_bytes())
+
+
+def measured_mount(adapter):
+    from go2_x5_planning.ee_trajectory import Pose
+    from go2arx5_vla.trajectory.so3 import quat_to_matrix
+    pose=Pose.from_base_state(adapter.latest['observation'].state.value[:6])
+    out=np.eye(4);out[:3,3]=pose.position;out[:3,:3]=quat_to_matrix(np.asarray(pose.quaternion_xyzw))
+    return out
+
+
+def arm(adapter):
+    adapter.wait_source()
+    mount=measured_mount(adapter)
+    # Marker stores the measured mount origin, not an arbitrary zero frame.
+    path=adapter.output/'MOBILE_SAFETY_ARMED'
+    with path.open('x')as f:f.write(f'MOBILE_ARMED_V1 {mount[0,3]:.17g} {mount[1,3]:.17g}\n')
+    adapter.mobile_motion_armed=True;adapter.mobile_mode='M_ASSIST'
+    adapter.mobile_base_preview=np.repeat(mount[None],41,axis=0)
+    return mount
+
+
+def consume(adapter,action,*,sequence):
+    from scripts.pi0294.task_state import write_gripper
+    from scripts.pi0292.eval_contract import matrix10
+    from go2arx5_vla.world_model.native_live_control_v3 import live_path
+    from go2arx5_vla.world_model.target_reference import require_live_window
+    from go2arx5_vla.world_model.mobile_safety_profile_v1 import require_armed
+    require_armed(adapter)
+    before=adapter.observe();step=before['step'];source=adapter.active_reference['source_mpc_s']
+    require_live_window(source,before['time_s'],25)
+    row=np.asarray(adapter.active_reference['action_EEF10'])[(step-adapter.mobile_installed_step)//25]
+    write_gripper(live_path(adapter,'gripper.bin'),sequence,source,float(row[9]))
+    event_start=len(adapter.ros_evidence)
+    after=adapter.advance_to(step+25);adapter.spin(.15);require_armed(adapter)
+    from go2arx5_vla.world_model.target_reference import trajectory_identity,installed_target_identities
+    sent=installed_target_identities(adapter.reference_events(),adapter.active_reference['wire_sha256'])
+    matched=[];arm_requests=0;base_commands=0
+    for event in adapter.ros_evidence[event_start:]:
+        message=event['message']
+        if event['topic_key']=='policy':
+            target=message['plan_target_trajectories']
+            key=trajectory_identity(target['time_trajectory'],[s['value']for s in target['state_trajectory']],
+                                    [s['value']for s in target['input_trajectory']])
+            if key in sent and sent[key]['monotonic_s']<=event['received_monotonic_s']:matched.append(key)
+        arm_requests+=event['topic_key']=='arm_request';base_commands+=event['topic_key']=='base_command'
+    if adapter.latest['mode'].data!='WBC':raise RuntimeError('MOBILE_NATIVE_WBC_MODE_LOST')
+    adapter.reference_history.append(dict(end_native_step=after['step'],pose=matrix10(row)))
+    sample=adapter.measured_task_state()
+    # Keep the exact native high-frequency state journal; these are metric samples.
+    adapter.wait_source();mount=measured_mount(adapter)
+    record=dict(native_start_step=step,native_end_step=after['step'],ticks=25,
+        installed_reference_sha256=adapter.active_reference['wire_sha256'],
+        installed_EEF10=row.tolist(),target_endpoint_EEF10=adapter.active_reference['action_EEF10'][(step-adapter.mobile_installed_step)//25+1],
+        actual_TCP=sample['tcp'].tolist(),actual_mount=mount.tolist(),
+        solver_exact_installed_targets=matched,arm_requests=arm_requests,base_commands=base_commands,
+        controller_selected_reference='DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED',
+        safety_valid=sample['safety_valid'],native_grasp=sample['native_grasp'],
+        object_pose=sample['object_pose'].tolist(),qpos=sample['qpos'].tolist(),qvel=sample['qvel'].tolist())
+    with(adapter.output/'MOBILE_SAMPLES.private.jsonl').open('a')as f:f.write(json.dumps(record)+'\n')
+    return sample,mount
+
+
+def install(adapter,action,base):
+    adapter.mobile_base_preview=base;adapter.active_reference=adapter.install_reference(action)
+    adapter.mobile_installed_step=adapter.observe()['step']
+    received=[v for v in adapter.active_reference['receiver_events']if v['kind']=='installed']
+    expected=7 if adapter.mobile_mode=='M_FREE'else 14
+    if not received or any(len(p)!=expected for event in received for p in event['poses']):
+        raise RuntimeError('MOBILE_REAL_RECEIVER_DIMENSION_MISMATCH')
+
+
+def episode(adapter):
+    from scripts.pi0291_arx5_data.native_dataset import pose10
+    from go2arx5_vla.world_model.fusion_trajectory_adapter import WORKING_OPEN_M,MECHANICAL_TRAVEL_M
+    adapter.prepare_dynamic();mount=arm(adapter);sample=adapter.measured_task_state()
+    hold=np.repeat(pose10(sample['tcp'],WORKING_OPEN_M/MECHANICAL_TRAVEL_M)[None],40,axis=0)
+    # Reuse the existing measured stable startup duration, not an old state restore.
+    for i in range(128):
+        if i%7==0:install(adapter,hold,np.repeat(mount[None],41,axis=0))
+        sample,mount_now=consume(adapter,hold,sequence=i)
+    if adapter.observe()['step']!=START:raise RuntimeError('MOBILE_EXACT_INITIALIZATION_CLOCK')
+    initial_tcp=sample['tcp'].copy();initial_mount=mount_now.copy();condition=adapter.spec['mobile_condition']
+    adapter.command_event(dict(phase='mobile-M0-motion-start',native_step=START,
+        initial_TCP=initial_tcp.tolist(),initial_mount=initial_mount.tolist(),condition=condition))
+    for i in range(120):
+        action,base=m0_reference(initial_tcp,initial_mount,condition['axis'],condition['eef_mode'],i)
+        if i%7==0:install(adapter,action,base)
+        sample,mount_now=consume(adapter,action,sequence=128+i)
+    if adapter.observe()['step']!=M0_END:raise RuntimeError('MOBILE_EXACT_SIX_SECOND_ENDPOINT')
+    # Demonstrate the 14D -> 7D omission transaction before final cancel/HOLD.
+    adapter.mobile_mode='M_FREE';adapter.mobile_base_preview=None
+    hold=np.repeat(pose10(sample['tcp'],WORKING_OPEN_M/MECHANICAL_TRAVEL_M)[None],40,axis=0)
+    install(adapter,hold,None)
+    cleared=dict(old_BASE_cleared=True,new_target_dimension=7,world_reference=True,
+        receiver_events=adapter.active_reference['receiver_events'])
+    adapter.command_event(dict(phase='mobile-base-preference-cleared',**cleared))
+    cancelled=adapter.cancel_reference()
+    return dict(initial_TCP=initial_tcp.tolist(),initial_mount=initial_mount.tolist(),
+        final_TCP=sample['tcp'].tolist(),final_mount=mount_now.tolist(),
+        base_clear=cleared,cancel=cancelled)
+
+
+def run_case(spec_path,lock_fd):
+    from go2arx5_vla.world_model.target_sequential import TargetSequentialAdapter
+    from go2arx5_vla.world_model.native_replay import packets
+    from go2arx5_vla.world_model.init_trace_reader import audit_trace
+    spec=read(spec_path);root=Path(spec['registered_root']);group=Path(spec['mobile_group'])
+    lease=read(root/'control/LEASE.json');parent=read(group/'SUPERVISOR.private.json')
+    if (spec['phase']!=PHASE or os.uname().nodename!='corelab-4080s'or os.getuid()!=2009
+            or lease['status']!='ACTIVE'or lease['spec_sha256']!=digest(spec_path)
+            or os.getppid()!=parent['pid']or time.time()>=spec['deadline_epoch']):
+        raise PermissionError('REGISTERED_CURRENT_FINITE_MOBILE_CHILD_REQUIRED')
+    expected=os.stat(spec['mobile_world_lock']);held=os.fstat(lock_fd)
+    if(expected.st_dev,expected.st_ino)!=(held.st_dev,held.st_ino):raise PermissionError('INHERITED_ACTUAL_WORLD_OWNER')
+    qualification=read(spec['mobile_guard_qualification']['path'])
+    if (digest(spec['mobile_guard_qualification']['path'])!=spec['mobile_guard_qualification']['sha256']
+            or not qualification['passed']or qualification['library_sha256']!=spec['mobile_safety_library_sha256']):
+        raise PermissionError('QUALIFIED_ACTUAL_MOBILE_GUARD_REQUIRED_BEFORE_PHYSICS')
+    for name,pin in spec['frozen_files'].items():
+        if digest(name)!=pin:raise PermissionError('FROZEN_MOBILE_EXECUTOR_CHANGED:'+name)
+    for name,pin in spec['source_files'].items():
+        if digest(Path(spec['source_root'])/name)!=pin:raise PermissionError('SEALED_MOBILE_SOURCE_CHANGED:'+name)
+    out=root/'native-01';out.mkdir();adapter=TargetSequentialAdapter(spec,out)
+    write(root/'SUPERVISOR.private.json',dict(pid=os.getpid(),epoch=time.time(),source_sha=spec['source_sha']))
+    start=time.monotonic();cpu=time.process_time();failure=None;detail=None
+    try:
+        adapter.start();detail=episode(adapter)
+    except BaseException:failure=traceback.format_exc()
+    finally:
+        if adapter.node is not None:
+            try:
+                adapter.capture_loaded_identity()
+                if not adapter.trace_sealed:adapter.seal_trace(adapter.observe()['step'])
+            except BaseException:write(out/'FINAL_EVIDENCE_ERROR.private.json',dict(error=traceback.format_exc()))
+        adapter.close()
+    journal=out/'state.bin.journal';count=len(packets(journal))if journal.exists()and journal.stat().st_size else 0
+    stop=read(out/'MOBILE_SAFETY_STOP.private.json')if(out/'MOBILE_SAFETY_STOP.private.json').exists()else None
+    physics=[json.loads(x)for x in(out/'physics.jsonl').read_text().splitlines()]if(out/'physics.jsonl').exists()else[]
+    stop_events=[r for r in physics if r['kind']=='stop']
+    try:trace=audit_trace(out/'init.trace',max_native_ticks=spec['max_ticks'])if(out/'init.trace').exists()else None
+    except BaseException:trace=dict(error=traceback.format_exc())
+    clean=bool(adapter.exit_records)and all(r['exit_code']==0 for r in adapter.exit_records)
+    passed=detail is not None and not failure and not stop and not stop_events and clean and count==M0_END
+    from go2arx5_vla.world_model.mobile_boundary_metrics_v1 import metrics
+    value=dict(schema='MOBILE_M0_ACTUAL_NATIVE_RESULT_V1',condition=spec['mobile_condition'],
+        completed=passed,technical_failure=bool(failure and not stop and not stop_events),
+        unsafe=bool(stop or stop_events),failure=failure,mobile_safety_stop=stop,physics_stops=stop_events,
+        actual_native_integrations=count,detail=detail,shutdown_clean=clean,owned_process_exits=adapter.exit_records,
+        trace_audit=trace,wall_s=time.monotonic()-start,CPU_s=time.process_time()-cpu,
+        optimizer_updates=0,model_generations=0,physical_requests=1,source_sha=spec['source_sha'],
+        WBC_changes=False,raw_fixed_root_IK_is_shadow=True,metrics=metrics(out,spec['mobile_condition']))
+    write(root/'RESULT.private.json',value)
+    code=0 if passed else 2 if value['unsafe']else 1
+    write(root/'WORKER_EXIT.private.json',dict(exit_code=code,wall_s=value['wall_s']))
+    write(root/'control/LEASE.json',dict(lease,status='CLOSED',worker_exit_code=code,closed_epoch=time.time()))
+    return code
+
+
+def run_batch(spec_path):
+    from scripts.pi0294.e1.journal import Journal
+    spec=read(spec_path);group=Path(spec['registered_root']);lease=read(group/'control/LEASE.json')
+    if lease['status']!='ACTIVE'or lease['spec_sha256']!=digest(spec_path):raise PermissionError('FINITE_REGISTERED_MOBILE_BATCH')
+    if (group/'SUPERVISOR.private.json').exists():raise PermissionError('MOBILE_BATCH_ALREADY_LAUNCHED_NO_REPLAY')
+    write(group/'SUPERVISOR.private.json',dict(pid=os.getpid(),epoch=time.time()))
+    journal=Journal(group/'control/journal',group.name)
+    outcomes=[];quarantine=set();code=1;failure=None
+    try:
+        with closing(OwnerLock(spec['mobile_world_lock']))as world:
+            for path in spec['cases']:
+                if time.time()>=spec['deadline_epoch']-900:break
+                case=read(path);axis=case['mobile_condition']['axis'].lstrip('+-')
+                if axis in quarantine:continue
+                if(group/'STOP.json').exists():break
+                write(group/'PROGRESS.private.json',dict(current=case['mobile_condition'],terminal=len(outcomes),epoch=time.time()))
+                argv=[spec['python'],'-B','-m','scripts.wm02.mobile_boundary_runner_v1','--case',path,
+                      '--world-lock-fd',str(world.handle.fileno())]
+                log=group/'logs'/(Path(path).parent.name+'.log')
+                children=[]
+                def launch():
+                    with log.open('xb')as f:
+                        children.append(subprocess.Popen(argv,cwd=spec['source_root'],env=dict(os.environ,**spec['native_environment']),
+                            stdout=f,stderr=subprocess.STDOUT,pass_fds=(world.handle.fileno(),)))
+                    return dict(pid=children[0].pid)
+                journal.once(Path(path).parent.name,dict(spec_sha256=digest(path)),launch)
+                if not children:raise PermissionError('PRIOR_CHILD_IDENTITY_MUST_BE_RECONCILED_NO_REPLAY')
+                child=children[0]
+                try:result_code=child.wait(timeout=case['wall_limit_s']+180)
+                except BaseException:
+                    child.terminate()
+                    try:child.wait(timeout=30)
+                    except subprocess.TimeoutExpired:child.kill();child.wait()
+                    raise
+                root=Path(path).parent
+                if not(root/'RESULT.private.json').exists():raise RuntimeError('MOBILE_CHILD_EXIT_WITHOUT_RESULT:'+str(result_code))
+                result=read(root/'RESULT.private.json');outcomes.append(dict(root=root.name,result=result,result_sha256=digest(root/'RESULT.private.json')))
+                write(group/'OUTCOMES.private.json',outcomes)
+                if result['unsafe']:quarantine.add(axis)
+                elif result['technical_failure']:raise RuntimeError('MOBILE_TECHNICAL_FAILURE_RETAINED_NO_RETRY')
+            code=0
+    except BaseException:failure=traceback.format_exc()
+    value=dict(schema='MOBILE_M0_FINITE_BATCH_ACTUAL_V1',exit_code=code,failure=failure,
+        requested=12,terminal=len(outcomes),outcomes=outcomes,quarantined_axes=sorted(quarantine),
+        physical_requests=sum(v['result']['physical_requests']for v in outcomes),
+        native_integrations=sum(v['result']['actual_native_integrations']for v in outcomes),
+        new_training_updates=0,new_model_generations=0,automatic_retry=False,goal_complete=False)
+    write(group/'RESULT.private.json',value);write(group/'WORKER_EXIT.private.json',dict(exit_code=code))
+    write(group/'control/LEASE.json',dict(lease,status='CLOSED',worker_exit_code=code,closed_epoch=time.time()))
+    return code
+
+
+def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--batch');parser.add_argument('--case');parser.add_argument('--world-lock-fd',type=int)
+    args=parser.parse_args()
+    return run_case(args.case,args.world_lock_fd)if args.case else run_batch(args.batch)
+
+
+if __name__=='__main__':raise SystemExit(main())
