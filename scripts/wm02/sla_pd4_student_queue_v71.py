@@ -58,6 +58,29 @@ def require_training_summary(result,matching):
         raise PermissionError('BOTH_REAL500_MATCHED_START_INPUT_VISITS_AND_DROPOUT_REQUIRED')
 
 
+def host_capacity_admission(spec):
+    """Use measured startup capacity only for the explicit serial-load mode."""
+    minimum=spec.get('minimum_host_available_bytes',32*1024**3)
+    if minimum==32*1024**3:return minimum
+    proof=spec.get('host_capacity_evidence',{})
+    expected={
+        'sla-pd4-matched500-core-v71-20261115-01-pd4_executed_ref':
+            '31f8223b1afeaadfeef4002f35e16a16af52dcd122174539a0c5103c8416ad8c',
+        'sla-pd4-student-train4-v71-20261115-04':
+            'cf8fb33818cb950fcd2d27c6097837a61a89de7d1ca4c38423cdf0a94039dc3d',
+    }
+    rows=proof.get('rows',[])
+    if (minimum!=24*1024**3 or spec.get('startup_schedule')!='SLA_MODEL_READY_BEFORE_NATIVE_V71'
+            or proof.get('schema')!='SLA_CLOSED_CORE_MEASURED_HOST_CAPACITY_V71'
+            or len(rows)!=2 or {r['unit']for r in rows}!=set(expected)
+            or any(r['result_sha256']!=expected[r['unit']]or r['MainPID']!='0'
+                or r['SubState']not in('exited','failed')
+                or type(r['peak_bytes'])is not int or not 8*1024**3<r['peak_bytes']<=16*1024**3 for r in rows)
+            or minimum-max(r['peak_bytes']for r in rows)<8*1024**3):
+        raise PermissionError('MEASURED_COLD_STARTUP_PEAK_PLUS_EIGHT_GIB_HEADROOM_REQUIRED')
+    return minimum
+
+
 def summarize(panel,outcomes):
     from go2arx5_vla.world_model.pd4_student_v71 import panel_contract,VERSION
     rows=panel_contract(panel)
@@ -207,6 +230,7 @@ def run(spec):
     try:
         if schedule not in ('CONCURRENT_ORIGINAL_V71','SLA_MODEL_READY_BEFORE_NATIVE_V71'):
             raise PermissionError('EXPLICIT_PD4_STARTUP_SCHEDULE_ONLY')
+        minimum_ram=host_capacity_admission(spec)
         while time.time()<spec['deadline_epoch']-14520:
             if stopped():raise PermissionError('OWNED_STOP_RETAINED')
             if cold(q):break
@@ -232,7 +256,7 @@ def run(spec):
                 free=int(subprocess.check_output(['nvidia-smi','-i',gpu['GPU_uuid'],'--query-gpu=memory.free','--format=csv,noheader,nounits'],text=True,timeout=15).strip())*1024**2
                 ram=next(int(l.split()[1])*1024 for l in Path('/proc/meminfo').read_text().splitlines()if l.startswith('MemAvailable:'))
                 ready=False
-                if free>gpu['allocator_limit_bytes']+1024**3 and ram>32*1024**3:
+                if free>gpu['allocator_limit_bytes']+1024**3 and ram>minimum_ram:
                     try:
                         with closing(OwnerLock(gpu['neural_owner_lock'])),world_owner(n,read(n['registry'])):ready=True
                     except BlockingIOError:pass

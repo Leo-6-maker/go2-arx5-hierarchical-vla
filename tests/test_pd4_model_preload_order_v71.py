@@ -7,6 +7,7 @@ import pytest
 
 from go2arx5_vla.world_model import pd4_student_v71 as pd4
 from go2arx5_vla.world_model import task_learning_student_batch_v1 as batch
+from scripts.wm02.sla_pd4_student_queue_v71 import host_capacity_admission
 
 
 def setup(tmp_path):
@@ -70,3 +71,21 @@ def test_rejects_other_role_wrong_receipt_prior_query_and_expired_deadline(tmp_p
     (neural / 'fit-01/MODEL_LOADED.private.json').write_text(json.dumps(loaded))
     with pytest.raises((ValueError, TimeoutError)):
         batch.await_pd4_model_before_native(values, SimpleNamespace(poll=lambda: None), stage, 0)
+
+
+def test_host_admission_default_and_measured_serial_startup():
+    assert host_capacity_admission({}) == 32*1024**3
+    spec=dict(minimum_host_available_bytes=24*1024**3,startup_schedule='SLA_MODEL_READY_BEFORE_NATIVE_V71',
+        host_capacity_evidence=dict(schema='SLA_CLOSED_CORE_MEASURED_HOST_CAPACITY_V71',rows=[
+            dict(unit='sla-pd4-matched500-core-v71-20261115-01-pd4_executed_ref',
+                result_sha256='31f8223b1afeaadfeef4002f35e16a16af52dcd122174539a0c5103c8416ad8c',MainPID='0',SubState='exited',peak_bytes=15233007616),
+            dict(unit='sla-pd4-student-train4-v71-20261115-04',
+                result_sha256='cf8fb33818cb950fcd2d27c6097837a61a89de7d1ca4c38423cdf0a94039dc3d',MainPID='0',SubState='failed',peak_bytes=10936266752)]))
+    assert host_capacity_admission(spec) == 24*1024**3
+    spec['startup_schedule']='CONCURRENT_ORIGINAL_V71'
+    with pytest.raises(PermissionError):host_capacity_admission(spec)
+
+
+def test_host_admission_rejects_missing_live_or_unbounded_capacity_evidence():
+    with pytest.raises(PermissionError):host_capacity_admission(dict(minimum_host_available_bytes=24*1024**3))
+    with pytest.raises(PermissionError):host_capacity_admission(dict(minimum_host_available_bytes=16*1024**3))
