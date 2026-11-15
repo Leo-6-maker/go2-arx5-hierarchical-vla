@@ -207,7 +207,7 @@ def run_batch(spec_path):
                 if axis in quarantine:continue
                 if(group/'STOP.json').exists():break
                 write(group/'PROGRESS.private.json',dict(current=case['mobile_condition'],terminal=len(outcomes),epoch=time.time()))
-                argv=[spec['python'],'-B','-m','scripts.wm02.mobile_boundary_runner_v1','--case',path,
+                argv=[spec['python'],'-B',str(Path(spec['source_root'])/'scripts/wm02/mobile_boundary_bootstrap_v1.py'),'--case',path,
                       '--world-lock-fd',str(world.handle.fileno())]
                 log=group/'logs'/(Path(path).parent.name+'.log')
                 children=[]
