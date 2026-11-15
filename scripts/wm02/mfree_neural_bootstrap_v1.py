@@ -17,7 +17,9 @@ def main():
     import go2arx5_vla.world_model,go2arx5_vla.sla_adapter,scripts.wm02,scripts.sla
     for package,relative in ((go2arx5_vla.world_model,'src/go2arx5_vla/world_model'),
             (go2arx5_vla.sla_adapter,'src/go2arx5_vla/sla_adapter'),(scripts.wm02,'scripts/wm02'),(scripts.sla,'scripts/sla')):
-        package.__path__.insert(0,str(root/relative))
+        # sla_adapter/scripts.sla are namespace packages on the actual site;
+        # their _NamespacePath does not expose list.insert.
+        package.__path__=[str(root/relative),*list(package.__path__)]
     if operation in ('--train','--replay'):
         sys.argv=[sys.argv[0],str(path)]+(['--replay']if operation=='--replay'else[])
         module='scripts.sla.train_mfree_c20_v1'
