@@ -1,0 +1,142 @@
+{
+  "schema": "SLA_JOIN10_TWO_NATIVE_TERMINALS_ACTUAL_V72",
+  "as_of": "2026-11-15T16:41:00+08:00",
+  "runtime_source_sha": "3232af4a42f0c1436980c5cd17a24a62ba2cb9ba",
+  "spec_sha256": "803b92a4825b8b462acd980734da0a9e4cf3fd2bc9769f2ceb0670e98be637ca",
+  "requested_conditions": 8,
+  "terminal_conditions": 2,
+  "task_successes": 0,
+  "valid_policy_failures": 2,
+  "technical_failures": 0,
+  "hard_safety_stops": 0,
+  "remaining_conditions": 6,
+  "conditions": [
+    {
+      "view": "PD4_EXECUTED_REF",
+      "layout": "TRAIN01",
+      "technical_valid": true,
+      "task_success": false,
+      "queries": 1,
+      "confirmed_student_points": 0,
+      "native_integrations": 5703,
+      "student_integrations": 0,
+      "unaccounted_integrations": 0,
+      "native_student_certificate_attempts": 0,
+      "native_student_certificates_passed": 0,
+      "native_student_certificates_rejected": 0,
+      "first_failure": "go2arx5_vla.world_model.task_learning_student_v1.StudentProposalRejected: TASK_LEARNING_STUDENT_FULL_PROPOSAL_REJECTED: SLA_DENSE_ORIGINAL_FULL_H40_GATE:TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+      "native_result_sha256": "b405c84a8883ae338da14f7727b461abc806dc92afe0cff6dcd67258364f7a68",
+      "GPU_result_sha256": "8fe2e335e732f557db66b022568c167819024d5f604a61e29d39935477be795b",
+      "query_outcomes": [
+        {
+          "query": 0,
+          "status": "ORIGINAL_RAW_EEF_REJECT",
+          "confirmed": 0
+        }
+      ]
+    },
+    {
+      "view": "PD4_FINAL_PLAN",
+      "layout": "TRAIN01",
+      "technical_valid": true,
+      "task_success": false,
+      "queries": 8,
+      "confirmed_student_points": 70,
+      "native_integrations": 7453,
+      "student_integrations": 1750,
+      "unaccounted_integrations": 0,
+      "native_student_certificate_attempts": 15,
+      "native_student_certificates_passed": 14,
+      "native_student_certificates_rejected": 1,
+      "first_failure": "ValueError: ORIGINAL_JOINT_ACCELERATION_REJECT",
+      "native_result_sha256": "87fdda184a4b298f08ed6dca85dd457fa06b7af359f9389f2ef15f060fb99dd1",
+      "GPU_result_sha256": "b6f625ce7d4bcb61490b87e5cea182f3c53cf94483f2b08e90129c7ffbc1dad2",
+      "query_outcomes": [
+        {
+          "query": 0,
+          "status": "P10_CONSUMED",
+          "confirmed": 10
+        },
+        {
+          "query": 1,
+          "status": "P10_CONSUMED",
+          "confirmed": 10
+        },
+        {
+          "query": 2,
+          "status": "P10_CONSUMED",
+          "confirmed": 10
+        },
+        {
+          "query": 3,
+          "status": "P10_CONSUMED",
+          "confirmed": 10
+        },
+        {
+          "query": 4,
+          "status": "P10_CONSUMED",
+          "confirmed": 10
+        },
+        {
+          "query": 5,
+          "status": "P10_CONSUMED",
+          "confirmed": 10
+        },
+        {
+          "query": 6,
+          "status": "P10_CONSUMED",
+          "confirmed": 10
+        },
+        {
+          "query": 7,
+          "status": "REJECTED_BEFORE_CONSUMPTION",
+          "confirmed": 0
+        }
+      ]
+    }
+  ],
+  "completed_SLA_parent_loads": 2,
+  "actual_generations": 9,
+  "physical_requests": 2,
+  "integrations": 13156,
+  "initialization_integrations": 11406,
+  "confirmed_student_points": 70,
+  "student_integrations": 1750,
+  "new_optimizer_updates": 0,
+  "new_TRAIN_visits": 0,
+  "new_SOURCE_visits": 0,
+  "audit": {
+    "source_sha": "689d5463d1dcce1a428cd9af8f605ab2a0429f19",
+    "result_sha256": "84d834f6ad9970ef641d17873fdd427414c3475d9437855b22ee3f74720ecd39",
+    "verified_terminal_conditions": 2,
+    "full_panel_complete": false,
+    "new_model_generations": 0,
+    "new_offline_certifier_calls": 0,
+    "new_physical_requests": 0
+  },
+  "GPU0_shared_capacity": {
+    "observation_time": "2026-11-15T16:34:38+08:00",
+    "total_MiB": 32760,
+    "SLA_process_MiB": 8450,
+    "free_MiB": 23549,
+    "recorded_JAX_peak_bytes": 7315062528,
+    "recorded_JAX_allocator_limit_bytes": 15207461280,
+    "proposed_inference_workers": 2,
+    "parallel_SLA_workers_qualified": false,
+    "additional_GPU_experiments_started": 0,
+    "active_queue_workers": 1,
+    "training_capacity_not_inferred_from_inference": true
+  },
+  "original_raw_results_retained": {
+    "EXEC": "0/4",
+    "FINAL": "0/4",
+    "physical_requests": 8,
+    "integrations": 47374,
+    "queries": 15,
+    "consumed_points": 70
+  },
+  "old_RP8_passed": false,
+  "WBC_changes": false,
+  "safety_changes": false,
+  "goal_complete": false
+}
