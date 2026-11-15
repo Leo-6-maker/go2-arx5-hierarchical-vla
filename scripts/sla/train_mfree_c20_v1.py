@@ -112,7 +112,8 @@ def replay(spec):
     provider=Provider(result['package']['path'],manifest_sha256=result['package']['sha256'],
         parent_params=spec['parent_params'],parent_manifest_path=spec['parent_manifest']['path'])
     dataset=MobileDataset(spec['dataset'],spec['dense_manifest_sha256'],resize_with_pad=resize_with_pad,max_cache_bytes=spec['frame_cache_bytes'])
-    reference=json.loads((root/'ENDPOINT_RGB.private.json').read_bytes());rows=[]
+    training_root=Path(spec.get('training_root',root))
+    reference=json.loads((training_root/'ENDPOINT_RGB.private.json').read_bytes());rows=[]
     import hashlib
     for record in reference:
         index=record['index'];state,_,images,text=dataset.raw(index)

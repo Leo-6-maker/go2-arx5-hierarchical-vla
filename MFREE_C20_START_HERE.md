@@ -25,3 +25,5 @@
 
 M_ASSIST 整个模式继续隔离；WBC、MPC、腿、臂 PD、solver、物理和安全门不改。
 旧 RP8、JOIN10、历史移动负结果、旧 DEV/TEST 保留。不用真机或 RL。
+
+有限后台入口为 `scripts/wm02/mfree_pipeline_v1.py`，只接续本轮固定链：8 条旧学生基线、成功 TRAIN 封存／统计与 FP32 编译器检查、一个 FM1000、独立进程普通 RGB 恢复、TRAIN8 和 DEV16。复用原 Journal、registry 和 owner，不重投未知或有效失败；TRAIN8 安全隔离传递到 DEV16。只有实际主存和 GPU 余量能容纳全部已承诺世界时并行。缓存仅复用不可变原始回调 identity，不改变参考、时钟、规划或安全规则；第一条未缓存生产样本按原身份保留。
