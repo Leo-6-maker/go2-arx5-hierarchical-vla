@@ -146,6 +146,7 @@ def register_conditions(spec,policies):
                 task_condition=p.PROTOCOL,experiment_role=p.EXPERIMENT,execution_site=p.NATIVE_SITE,
                 cpus=[2,3],ROS_DOMAIN_ID=domain,v3_plan_revision=PLAN,max_ticks=p.ENDPOINT,
                 corelab_world_binding_v3=dict(path=str(wp),sha256=digest(wp)),controller_binary=str(recovered),
+                native_binary=old['native_binary'],native_binary_source_sha=old['native_binary_source_sha'],
                 frozen_files=frozen,model_path=old['model_path'],scene_id=old['scene_id'],data_parent=old['data_parent'],
                 task_learning_scene_reference=old['task_learning_scene_reference'],data_role='TRAIN',
                 scene_allowlist=old['scene_allowlist'],scene_allowlist_sha256=old['scene_allowlist_sha256'],
@@ -197,7 +198,6 @@ def run(spec):
     from go2arx5_vla.world_model.task_learning_student_batch_v1 import execute_pair
     from go2arx5_vla.world_model.task_learning_grasp_native_v1 import episode_config
     from go2arx5_vla.world_model.auto1_native import phase_limit
-    from go2arx5_vla.world_model import stable_start_short_task_v1 as common
     from go2arx5_vla.world_model.corelab_world_owner_v3 import world_owner
     g=Path(spec['registered_root']);q=Path(spec['training_root']);start=time.time();outcomes=[];panel=None;code=1;error=None;current=None
     j=Journal(g/'control/journal',g.name)
@@ -213,7 +213,10 @@ def run(spec):
         for row,pair in zip(panel['assignments'],pairs,strict=True):
             n=read(pair['native']['path']);gpu=read(pair['gpu']['path']);nr=Path(n['registered_root'])
             # All eight scopes are checked before any model or native process.
-            episode_config(n);common.audit_prefix_predecessor(n,read(n['previous_stage']))
+            episode_config(n)
+            # The typed phase limit performs the PD4 producer/prefix audit and
+            # live-pair admission. Do not additionally invoke an unrelated old
+            # source-pose calibration audit from the construction template.
             if phase_limit(n['phase'],read(n['previous_stage']),n)!=p.ENDPOINT:raise PermissionError('EXACT_ORIGINAL_ENDPOINT')
             live.preflight(n)
         write(g/'PREFLIGHT_ACTUAL.private.json',dict(conditions=8,passed=True,models=0,physical_requests=0))

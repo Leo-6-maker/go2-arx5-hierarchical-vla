@@ -1,0 +1,60 @@
+{
+  "schema": "SLA_PD4_P0_DEPENDENCY_AND_RUNTIME_BINDING_REPAIR_ACTUAL",
+  "dependency_repair_source": "2f04900d0ca1f1a0f0003c2409a4026fdbed4646",
+  "prior_training_updates": 1000,
+  "new_training_updates": 0,
+  "new_model_generations": 0,
+  "new_physical_requests": 0,
+  "original_plan_sha256": "140b9087dc3200981c5a754b4acc819b2b304a63c675cb170c844d51af6bb3ec",
+  "preflight": {
+    "scheduler_service_closed0": true,
+    "coordinator_full_actual_package_gate": true,
+    "heavy_numerical_imports_blocked_in_coordinator": true,
+    "worker_numerical_imports_verified_without_model": true,
+    "native_versions": {
+      "numpy": "2.5.4",
+      "scipy": null,
+      "jax": null,
+      "jaxlib": null,
+      "flax": null,
+      "optax": null,
+      "orbax-checkpoint": null,
+      "mujoco": "3.2.7",
+      "torch": null
+    },
+    "policy_versions": {
+      "numpy": "1.26.4",
+      "scipy": "1.13.1",
+      "jax": "0.5.3",
+      "jaxlib": "0.5.3",
+      "flax": "0.10.2",
+      "optax": "0.2.4",
+      "orbax-checkpoint": "0.11.13",
+      "mujoco": "3.2.7",
+      "torch": "2.7.1+cpu"
+    },
+    "output_permissions": true,
+    "wall_s": 79.38779544830322,
+    "scientific_panels_created": 0
+  },
+  "native_binary_binding": {
+    "unused_template_sha256": "82c135c1bf5bb093cac832554b953d0017ec33e35e584865d08ca14327f3aa29",
+    "qualified_original_sha256": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+    "new_statistics_qualified_runtime_sha256": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+    "strict_identity_guard_retained": true
+  },
+  "corrected_eight_readonly_recipe_checks": {
+    "passed": true,
+    "conditions": 8,
+    "scoped_live_admission_pending": true
+  },
+  "second_coordinator_attempt": {
+    "state": "CLOSED1_BEFORE_ANY_WORKER",
+    "wall_s": 7.463071584701538,
+    "reason": "UNCHANGED_NATIVE_RUNTIME:native_binary",
+    "scientific_conditions_started": 0,
+    "all_eight_unstarted": true
+  },
+  "old_RP8_passed": false,
+  "original_safety_changed": false
+}
