@@ -1,0 +1,133 @@
+{
+  "schema": "SLA_PD4_FIRST_TWO_FINAL_JOINT_REJECT_PUBLIC_ACTUAL_V71",
+  "as_of": "2026-11-15T12:44:30+0800",
+  "execution_source_base": "20dcd9ca65fd84689b331e249d3a85f2869a076b",
+  "component_execution_commit": "7bb4424ccea6443c99db2711e09fb8d483bfdd5e",
+  "component_sha256": "347b4b6b36d5d5fa7ec024c46341b50859939d34e282840989012c26b28f06d6",
+  "spec_sha256": "aa04dfb6ee1fbf695d1eb6b8c6e21d679de414041c396975da346a3500e80d6b",
+  "service_result_sha256": "8d77f1eb93f0059455abfed4cd27f0bd2ceaec5ae0889a681a4a4f7ef8e7bbac",
+  "Core_analysis_sha256": "09071b2dbac16edb34e6be274c4ce8d4d711dbca9dc561847adb57386067fb3d",
+  "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+  "service_closed_exit0": true,
+  "clone_certifier_attempts": 2,
+  "clone_certifier_calls_completed": 2,
+  "new_model_generations": 0,
+  "SLA_model_loads": 0,
+  "native_kinematic_model_loads": 2,
+  "optimizer_updates": 0,
+  "training_visits": 0,
+  "physical_requests": 0,
+  "physics_integrations": 0,
+  "same_state_expert_final_plan_pairs": 0,
+  "full_WBC_state_restored": false,
+  "formal_results_or_thresholds_changed": false,
+  "rows": [
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train01-pd4_final_plan-r16",
+      "query": 0,
+      "native_result_sha256": "13f8a0af2363fcbc457a567ce021da7594432db3267808f94d1afd8bd6f1199e",
+      "state_sha256": "f8cae4be60a48b4dab4b8bcc717da9f23b32955cbbe89787829a7b3409ec1ee9",
+      "decision_sha256": "d231571ef6b77e54df0d32317321147f1a614853a3e4f75fa18eb7bb5b363393",
+      "command_journal_sha256": "d873f7034feccdf8532f6a9d543a4509340c989d630a38d91593bc6c92e24a11",
+      "preparation_sha256": "5eb1012be007a45deedc9b579f5da9f6acb39498e1a04bba680da2d6d4f93093",
+      "diagnostic_status": "REJECT_OFFLINE_CLONE_ONLY",
+      "error": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+      "joint_rates": {
+        "maximum_speed_rad_s": 0.07516481729134661,
+        "speed_limit_rad_s": 0.7,
+        "maximum_acceleration_rad_s2": 1.0246873462330996,
+        "acceleration_limit_rad_s2": 1.0,
+        "peak_joint": 4,
+        "peak_H40_knot_triple": [
+          -1,
+          0,
+          1
+        ],
+        "first_acceleration_exceedance": {
+          "joint": 4,
+          "acceleration_rad_s2": 1.0246873462330996,
+          "absolute_ratio": 1.0246873462330996,
+          "H40_knot_triple": [
+            -1,
+            0,
+            1
+          ],
+          "location": "REFERENCE_JOIN"
+        },
+        "history_points": 2,
+        "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+      },
+      "actual_arm_qpos": [
+        0.01802748602417848,
+        0.7200909389207001,
+        0.6822836080290774,
+        -0.1261226846956871,
+        0.02349149531601788,
+        -0.01942637515684178
+      ],
+      "acceleration_partitions": {
+        "reference_join_triples_with_history": 1.0246873462330996,
+        "H40_prefix_center1_9_without_history": 0.5738352000605129,
+        "H40_suffix_center10_38": 0.40761738080981047
+      },
+      "full_WBC_state_restored": false,
+      "original_native_result_unchanged": true
+    },
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train04-pd4_final_plan-r16",
+      "query": 0,
+      "native_result_sha256": "4c4230294f19d2d2eff9998bfe81e716ea59547b6e00aa8378d64d404e096504",
+      "state_sha256": "2f07de1e0cccb6dc8bf226223d7f42b81186f0b7bb6c68ab84157fd8bb6b0327",
+      "decision_sha256": "97e25e69507e7d0b45a872cd1e272d3006c099035f1f3474cbe82292de03ab2c",
+      "command_journal_sha256": "7325ba0aff1c23918c0a7f27020609d7ca62321c242f0e61af2991a330e1fd6b",
+      "preparation_sha256": "481a017cb5c801980b1ba9a04479a0c261ccb5654c02f8e2ce39d6ad774abcaf",
+      "diagnostic_status": "REJECT_OFFLINE_CLONE_ONLY",
+      "error": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+      "joint_rates": {
+        "maximum_speed_rad_s": 0.06569350967539522,
+        "speed_limit_rad_s": 0.7,
+        "maximum_acceleration_rad_s2": 1.0934995232624312,
+        "acceleration_limit_rad_s2": 1.0,
+        "peak_joint": 4,
+        "peak_H40_knot_triple": [
+          -1,
+          0,
+          1
+        ],
+        "first_acceleration_exceedance": {
+          "joint": 4,
+          "acceleration_rad_s2": 1.0934995232624312,
+          "absolute_ratio": 1.0934995232624312,
+          "H40_knot_triple": [
+            -1,
+            0,
+            1
+          ],
+          "location": "REFERENCE_JOIN"
+        },
+        "history_points": 2,
+        "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+      },
+      "actual_arm_qpos": [
+        0.018043495647875697,
+        0.7200519474739481,
+        0.6822691551116076,
+        -0.1260447865641516,
+        0.02350555194405825,
+        -0.019423166742718958
+      ],
+      "acceleration_partitions": {
+        "reference_join_triples_with_history": 1.0934995232624312,
+        "H40_prefix_center1_9_without_history": 0.5400911593840263,
+        "H40_suffix_center10_38": 0.3666938504912398
+      },
+      "full_WBC_state_restored": false,
+      "original_native_result_unchanged": true
+    }
+  ],
+  "partition_note": "Source7bb labels were explicit center bins: center<0,0..9,10..38. This public derivation prioritizes any triple containing history; [-1,0,1] is a reference join. Derived solely from saved acceleration arrays, with zero further clone calls.",
+  "CPU_s": 0.9646733789999999,
+  "analysis_wall_s": 2.8704140186309814,
+  "service_wall_s": 5.5203351974487305,
+  "service_child_CPU_s": 1.169893
+}

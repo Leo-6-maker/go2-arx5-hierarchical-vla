@@ -1,0 +1,271 @@
+{
+  "schema": "SLA_PD4_ORIGINAL8_STUDENT_ACTUAL_1245_20261115",
+  "as_of": "2026-11-15T12:45:36+0800",
+  "source_sha": "20dcd9ca65fd84689b331e249d3a85f2869a076b",
+  "spec_sha256": "a07b1071288af69b328360240ccdd96f6814011a237f1f6d1afe8be72984643f",
+  "original_plan_sha256": "140b9087dc3200981c5a754b4acc819b2b304a63c675cb170c844d51af6bb3ec",
+  "coordinator_observed_live": true,
+  "summary": {
+    "schema": "SLA_PD4_MATCHED500_RAW_P10_STUDENT_V7_1_SUMMARY",
+    "requested": 8,
+    "terminal": 4,
+    "complete": false,
+    "methods": {
+      "PD4_EXECUTED_REF": {
+        "requested": 4,
+        "attempted": 2,
+        "physical_requests": 2,
+        "terminal": 2,
+        "task_successes": 0,
+        "valid_task_failures": 2,
+        "technical_failures": 0,
+        "hard_safety_stops": 0,
+        "SLA_queries": 3,
+        "native_integrations": 11656
+      },
+      "PD4_FINAL_PLAN": {
+        "requested": 4,
+        "attempted": 2,
+        "physical_requests": 2,
+        "terminal": 2,
+        "task_successes": 0,
+        "valid_task_failures": 2,
+        "technical_failures": 0,
+        "hard_safety_stops": 0,
+        "SLA_queries": 2,
+        "native_integrations": 11406
+      }
+    },
+    "physical_requests": 4,
+    "optimizer_updates": 0,
+    "training_visits": 0,
+    "old_RP8_passed": false,
+    "DEV_conditions": 0,
+    "TEST_conditions": 0,
+    "generalization_claim": false,
+    "WBC_changes": false
+  },
+  "summary_sha256": "c24e93612b2edfea00c079dd4bd39d58815f4638da2b343b092997dcc7519cba",
+  "outcomes": [
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train01-pd4_executed_ref-r16",
+      "method": "PD4_EXECUTED_REF",
+      "layout": "TRAIN01",
+      "restart": 16,
+      "technical_valid": true,
+      "task_success": false,
+      "actual_native_integrations": 5703,
+      "actual_SLA_queries": 1,
+      "first_failure": "go2arx5_vla.world_model.task_learning_student_v1.StudentProposalRejected: TASK_LEARNING_STUDENT_FULL_PROPOSAL_REJECTED: SLA_DENSE_ORIGINAL_FULL_H40_GATE:TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+      "result_sha256": "deb7772f98cd495922c09ede7aa144a442fd33af3a60b4104f418782ba72fbe9",
+      "GPU_result_sha256": "fdc66154442347cef3222845f45ae489883b807c232c07cce450372586a860ac",
+      "state": "CLOSED_POLICY_FAILURE",
+      "shutdown_clean": true,
+      "process_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "physics_stops": [],
+      "decision_present": false,
+      "confirmed_student_commands": 0,
+      "student_cycle_result_present": false
+    },
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train01-pd4_final_plan-r16",
+      "method": "PD4_FINAL_PLAN",
+      "layout": "TRAIN01",
+      "restart": 16,
+      "technical_valid": true,
+      "task_success": false,
+      "actual_native_integrations": 5703,
+      "actual_SLA_queries": 1,
+      "first_failure": "ValueError: ORIGINAL_JOINT_ACCELERATION_REJECT",
+      "result_sha256": "13f8a0af2363fcbc457a567ce021da7594432db3267808f94d1afd8bd6f1199e",
+      "GPU_result_sha256": "1d8abce65dc9b24152e3ecff3059860368e1204bc237728eaf2313f272b7a5c7",
+      "state": "CLOSED_POLICY_FAILURE",
+      "shutdown_clean": true,
+      "process_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "physics_stops": [],
+      "decision_present": true,
+      "decision_sha256": "d231571ef6b77e54df0d32317321147f1a614853a3e4f75fa18eb7bb5b363393",
+      "decision_flags": {
+        "SLA_raw_H40_consumed": false,
+        "native_execution_authorized": false,
+        "command_clips": 0,
+        "teacher_fallback": false,
+        "index": 0,
+        "native_step": 5703
+      },
+      "query_generation_wall_s": 9.180751602165401,
+      "confirmed_student_commands": 0,
+      "student_cycle_result_present": false
+    },
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train04-pd4_final_plan-r16",
+      "method": "PD4_FINAL_PLAN",
+      "layout": "TRAIN04",
+      "restart": 16,
+      "technical_valid": true,
+      "task_success": false,
+      "actual_native_integrations": 5703,
+      "actual_SLA_queries": 1,
+      "first_failure": "ValueError: ORIGINAL_JOINT_ACCELERATION_REJECT",
+      "result_sha256": "4c4230294f19d2d2eff9998bfe81e716ea59547b6e00aa8378d64d404e096504",
+      "GPU_result_sha256": "b795012ed4b5d54764f1a5dedd976f0201c3fb107d9bd0f06f59466e62b8db69",
+      "state": "CLOSED_POLICY_FAILURE",
+      "shutdown_clean": true,
+      "process_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "physics_stops": [],
+      "decision_present": true,
+      "decision_sha256": "97e25e69507e7d0b45a872cd1e272d3006c099035f1f3474cbe82292de03ab2c",
+      "decision_flags": {
+        "SLA_raw_H40_consumed": false,
+        "native_execution_authorized": false,
+        "command_clips": 0,
+        "teacher_fallback": false,
+        "index": 0,
+        "native_step": 5703
+      },
+      "query_generation_wall_s": 8.48771855328232,
+      "confirmed_student_commands": 0,
+      "student_cycle_result_present": false
+    },
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train04-pd4_executed_ref-r16",
+      "method": "PD4_EXECUTED_REF",
+      "layout": "TRAIN04",
+      "restart": 16,
+      "technical_valid": true,
+      "task_success": false,
+      "actual_native_integrations": 5953,
+      "actual_SLA_queries": 2,
+      "first_failure": "ValueError: ORIGINAL_JOINT_ACCELERATION_REJECT",
+      "result_sha256": "ded3704d29530f80a406f58baea019a78596f6059166d33375601965c651e6a8",
+      "GPU_result_sha256": "32608dfae3a1ac6662fbc00399951f5acaad27e150da6a1c40191ad0cb2cff54",
+      "state": "CLOSED_POLICY_FAILURE",
+      "shutdown_clean": true,
+      "process_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "physics_stops": [],
+      "decision_present": true,
+      "decision_sha256": "570c5690cb08d219fc02773704cc57a024c4c98632813731317a8e0e25398ca3",
+      "decision_flags": {
+        "SLA_raw_H40_consumed": false,
+        "native_execution_authorized": false,
+        "command_clips": 0,
+        "teacher_fallback": false,
+        "index": 0,
+        "native_step": 5703
+      },
+      "query_generation_wall_s": 7.813394675031304,
+      "confirmed_student_commands": 10,
+      "student_cycle_result_present": false
+    }
+  ],
+  "remaining": [
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train07-pd4_executed_ref-r16",
+      "method": "PD4_EXECUTED_REF",
+      "layout": "TRAIN07",
+      "restart": 16,
+      "state": "RUNNING_OR_CLOSING",
+      "GPU_live": true,
+      "native_started": false,
+      "native_result_present": false
+    },
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train07-pd4_final_plan-r16",
+      "method": "PD4_FINAL_PLAN",
+      "layout": "TRAIN07",
+      "restart": 16,
+      "state": "UNSTARTED",
+      "native_started": false,
+      "native_result_present": false
+    },
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train10-pd4_final_plan-r16",
+      "method": "PD4_FINAL_PLAN",
+      "layout": "TRAIN10",
+      "restart": 16,
+      "state": "UNSTARTED",
+      "native_started": false,
+      "native_result_present": false
+    },
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train10-pd4_executed_ref-r16",
+      "method": "PD4_EXECUTED_REF",
+      "layout": "TRAIN10",
+      "restart": 16,
+      "state": "UNSTARTED",
+      "native_started": false,
+      "native_result_present": false
+    }
+  ],
+  "first_actual_P10": {
+    "native_result_sha256": "ded3704d29530f80a406f58baea019a78596f6059166d33375601965c651e6a8",
+    "confirmed_commands_sha256": "00de2d9bd9e4a6ddd8722d36443f1ee06e00b16c12f23533fce6935f98e05916",
+    "decision0_sha256": "570c5690cb08d219fc02773704cc57a024c4c98632813731317a8e0e25398ca3",
+    "command_count": 10,
+    "all_commands_match_decision0": true,
+    "full_H40_certificate": {
+      "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+      "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+      "maximum_IK_updates_per_point": 5,
+      "position_tolerance_m": 1e-05,
+      "rotation_tolerance_rad": 0.0001,
+      "points": 1051,
+      "local_IK_iterations": 2103,
+      "physics_integrations": 0,
+      "actual_state_modified": false,
+      "max_joint_speed_rad_s": 0.0952393589931333,
+      "max_joint_acceleration_rad_s2": 0.8181222058586624,
+      "executed_reference_history_points": 2,
+      "Cartesian_reference_values_changed": false
+    },
+    "command_journal_sha256": "ce7da6fc478d63563dabdff0ac8a8443dc4dcedcc1a03b4212853f89e6b68556",
+    "actual_integrations": 5953,
+    "new_model_generations": 0,
+    "new_physical_requests": 0,
+    "new_integrations": 0
+  },
+  "first_consumed_interval": [
+    5703,
+    5728
+  ],
+  "last_consumed_interval": [
+    5928,
+    5953
+  ],
+  "total_consumed_physics_ticks": 250,
+  "student_consumed_points": 10,
+  "closed_scientific_requests": 4,
+  "closed_scientific_integrations": 23062,
+  "closed_scientific_SLA_queries": 5,
+  "retained_engineering_requests": 2,
+  "retained_engineering_integrations": 3078,
+  "closed_total_requests": 6,
+  "closed_total_integrations": 26140,
+  "new_optimizer_updates": 0,
+  "new_training_visits": 0,
+  "expert_qualification_excluded": true,
+  "old_RP8_passed": false,
+  "formal_safety_changed": false,
+  "WBC_changes": false,
+  "complete8": false
+}

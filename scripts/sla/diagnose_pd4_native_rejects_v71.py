@@ -29,6 +29,17 @@ def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def acceleration_partitions(rates):
+    """Prioritize any history-containing triple over a prefix center label."""
+    acceleration=np.asarray(rates['acceleration_rad_s2'])
+    first=np.arange(len(acceleration))-rates['history_points']
+    center=first+1
+    return {label:float(np.max(np.abs(acceleration[mask]))) for label,mask in (
+        ('reference_join_triples_with_history',first<0),
+        ('H40_prefix_center1_9_without_history',(first>=0)&(center<10)),
+        ('H40_suffix_center10_38',center>=10)) if np.any(mask)}
+
+
 def run(group, output):
     import mujoco
     from scripts.pi0294 import task_path_model as original
@@ -101,15 +112,11 @@ def run(group, output):
             assert all(np.array_equal(v,sample[k]) for v,k in zip(before,('qpos','qvel','ctrl')))
             assert diagnostic['status'] == 'REJECT_OFFLINE_CLONE_ONLY'
             assert diagnostic['error'] == 'ORIGINAL_JOINT_ACCELERATION_REJECT'
-            rates = diagnostic['joint_rates']; acceleration = np.asarray(rates['acceleration_rad_s2'])
-            centers = np.arange(len(acceleration))+1-rates['history_points']
-            partitions = {label:float(np.max(np.abs(acceleration[mask]))) for label,mask in (
-                ('reference_join',centers<0),('H40_prefix0_9',(centers>=0)&(centers<10)),
-                ('H40_suffix10_38',centers>=10)) if np.any(mask)}
+            rates = diagnostic['joint_rates']; partitions=acceleration_partitions(rates)
             joints=[mujoco.mj_name2id(model,mujoco.mjtObj.mjOBJ_JOINT,f'x5_joint{i}') for i in range(1,7)]
             assert all(i>=0 for i in joints)
             saved = dict(intent,diagnostic=diagnostic,maximum_absolute_acceleration_rad_s2=partitions,
-                acceleration_partition_index='CENTER_KNOT; history center<0; H40 prefix0..9; suffix10..38',
+                acceleration_partition_index='HISTORY_TRIPLES_FIRST; then H40 centers1..9 prefix and10..38 suffix',
                 actual_arm_qpos=sample['qpos'][model.jnt_qposadr[joints]].tolist(),
                 full_WBC_state_restored=False,original_native_result_unchanged=True)
             rows.append(saved)
