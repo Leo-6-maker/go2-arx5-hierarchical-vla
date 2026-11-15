@@ -28,3 +28,14 @@ def test_illegal_suffix_still_rejected():
     action,_=m0_reference(np.eye(4),np.eye(4),'+x','WORLD_HOLD',0)
     action[30,0]+=.1
     with pytest.raises(ValueError,match='FULL40_EEF_GATE'):full_eef_gate(action,np.eye(4))
+
+
+def test_gripper_sequence_uses_current_native_clock_not_live_plan_clock(tmp_path):
+    import struct
+    from types import SimpleNamespace
+    from scripts.wm02.mobile_boundary_runner_v1 import write_mobile_gripper
+    adapter=SimpleNamespace(output=tmp_path,active_reference=dict(source_mpc_s=5.006))
+    row=np.zeros(10);row[9]=.042/.044
+    write_mobile_gripper(adapter,dict(time_s=5.056),1,row)
+    magic,sequence,source,opening,until=struct.unpack('<8sQddd',(tmp_path/'gripper.bin').read_bytes())
+    assert magic==b'GRTGRIP1'and sequence==1 and source==5.056 and until==5.456

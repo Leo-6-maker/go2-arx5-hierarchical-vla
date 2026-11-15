@@ -38,6 +38,16 @@ def measured_mount(adapter):
     return out
 
 
+def write_mobile_gripper(adapter,before,sequence,row):
+    from scripts.pi0294.task_state import write_gripper
+    from go2arx5_vla.world_model.native_live_control_v3 import live_path
+    # Original gripper receiver requires a fresh source for EACH new sequence;
+    # the still-live EEF plan source is a separate clock and may be 350ms old.
+    source=float(before['time_s'])
+    write_gripper(live_path(adapter,'gripper.bin'),sequence,source,float(row[9]))
+    return dict(sequence=sequence,source_native_s=source,EEF_plan_source_s=adapter.active_reference['source_mpc_s'])
+
+
 def arm(adapter):
     from go2arx5_vla.world_model.target_sequential import owned_simulator_pid
     wrapper=next(p for name,p in adapter.processes if name=='sim')
@@ -55,7 +65,6 @@ def arm(adapter):
 
 
 def consume(adapter,action,*,sequence):
-    from scripts.pi0294.task_state import write_gripper
     from scripts.pi0292.eval_contract import matrix10
     from go2arx5_vla.world_model.native_live_control_v3 import live_path
     from go2arx5_vla.world_model.target_reference import require_live_window
@@ -64,7 +73,7 @@ def consume(adapter,action,*,sequence):
     before=adapter.observe();step=before['step'];source=adapter.active_reference['source_mpc_s']
     require_live_window(source,before['time_s'],25)
     row=np.asarray(adapter.active_reference['action_EEF10'])[(step-adapter.mobile_installed_step)//25]
-    write_gripper(live_path(adapter,'gripper.bin'),sequence,source,float(row[9]))
+    gripper=write_mobile_gripper(adapter,before,sequence,row)
     event_start=len(adapter.ros_evidence)
     after=adapter.advance_to(step+25);adapter.spin(.15);require_armed(adapter)
     from go2arx5_vla.world_model.target_reference import trajectory_identity,installed_target_identities
@@ -85,6 +94,7 @@ def consume(adapter,action,*,sequence):
     adapter.wait_source();mount=measured_mount(adapter)
     record=dict(native_start_step=step,native_end_step=after['step'],ticks=25,
         installed_reference_sha256=adapter.active_reference['wire_sha256'],
+        gripper_command=gripper,
         installed_EEF10=row.tolist(),target_endpoint_EEF10=adapter.active_reference['action_EEF10'][(step-adapter.mobile_installed_step)//25+1],
         actual_TCP=sample['tcp'].tolist(),actual_mount=mount.tolist(),
         solver_exact_installed_targets=matched,arm_requests=arm_requests,base_commands=base_commands,
@@ -234,7 +244,7 @@ def run_batch(spec_path):
             code=0
     except BaseException:failure=traceback.format_exc()
     value=dict(schema='MOBILE_M0_FINITE_BATCH_ACTUAL_V1',exit_code=code,failure=failure,
-        requested=12,terminal=len(outcomes),outcomes=outcomes,quarantined_axes=sorted(quarantine),
+        requested=len(spec['cases']),terminal=len(outcomes),outcomes=outcomes,quarantined_axes=sorted(quarantine),
         physical_requests=sum(v['result']['physical_requests']for v in outcomes),
         native_integrations=sum(v['result']['actual_native_integrations']for v in outcomes),
         new_training_updates=0,new_model_generations=0,automatic_retry=False,goal_complete=False)
