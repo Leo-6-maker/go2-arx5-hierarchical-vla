@@ -198,6 +198,7 @@ def run(spec):
     from go2arx5_vla.world_model.task_learning_student_batch_v1 import execute_pair
     from go2arx5_vla.world_model.task_learning_grasp_native_v1 import episode_config
     from go2arx5_vla.world_model.auto1_native import phase_limit
+    from go2arx5_vla.world_model.sla_native_continuation_v2 import wait_seconds
     from go2arx5_vla.world_model.corelab_world_owner_v3 import world_owner
     g=Path(spec['registered_root']);q=Path(spec['training_root']);start=time.time();outcomes=[];panel=None;code=1;error=None;current=None
     j=Journal(g/'control/journal',g.name)
@@ -214,6 +215,7 @@ def run(spec):
             n=read(pair['native']['path']);gpu=read(pair['gpu']['path']);nr=Path(n['registered_root'])
             # All eight scopes are checked before any model or native process.
             episode_config(n)
+            wait_seconds(n)
             # The typed phase limit performs the PD4 producer/prefix audit and
             # live-pair admission. Do not additionally invoke an unrelated old
             # source-pose calibration audit from the construction template.
