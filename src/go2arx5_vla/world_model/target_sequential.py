@@ -400,6 +400,10 @@ class TargetSequentialAdapter:
         return self.reference_qualification
     @profiled('reference.events_read')
     def reference_events(self):
+        if self.spec.get('mobile_wbc_boundary_v1'):
+            from .planner_event_log import PlannerEventLog
+            if not hasattr(self,'_planner_event_log'):self._planner_event_log=PlannerEventLog(self.output/'planner.jsonl')
+            return self._planner_event_log.read()
         if self.spec.get('phase') in (C02_FEEDBACK_PHASE,C02_PHASE,'collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1','collect-target-task-learning-grasp-v1'):
             from .planner_event_log import PlannerEventLog
             if not hasattr(self,'_planner_event_log'):

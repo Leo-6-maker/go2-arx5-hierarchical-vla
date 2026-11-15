@@ -18,6 +18,18 @@ from go2arx5_vla.world_model.mobile_wbc_reference_v1 import PHASE,START,M0_END,m
 def read(path):return json.loads(Path(path).read_bytes())
 
 
+def registered(spec,spec_path):
+    root=Path(spec['registered_root']);lease=read(root/'control/LEASE.json')
+    entry=next((r for r in read(spec['registry'])['entries']if r.get('path')==str(root)),None)
+    if (os.uname().nodename!='corelab-4080s'or os.getuid()!=2009
+            or lease['status']!='ACTIVE'or lease['spec_sha256']!=digest(spec_path)
+            or not entry or entry['source_sha']!=spec['source_sha']or entry['owner']!=spec['owner']
+            or entry['role']!=spec['role']or not set(spec['cpus'])<=os.sched_getaffinity(0)
+            or spec['ROS_DOMAIN_ID']not in range(192,200)or time.time()>=spec['deadline_epoch']):
+        raise PermissionError('REGISTERED_CURRENT_INDEPENDENT_FINITE_MOBILE_OWNER')
+    return lease
+
+
 def measured_mount(adapter):
     from go2_x5_planning.ee_trajectory import Pose
     from go2arx5_vla.trajectory.so3 import quat_to_matrix
@@ -27,6 +39,11 @@ def measured_mount(adapter):
 
 
 def arm(adapter):
+    from go2arx5_vla.world_model.target_sequential import owned_simulator_pid
+    wrapper=next(p for name,p in adapter.processes if name=='sim')
+    pid=owned_simulator_pid(wrapper.pid,adapter.spec['native_binary'])
+    maps=(Path('/proc')/str(pid)/'maps').read_text()
+    if adapter.spec['mobile_safety_library']not in maps:raise PermissionError('MOBILE_GUARD_NOT_LOADED_IN_ACTUAL_SIMULATOR')
     adapter.wait_source()
     mount=measured_mount(adapter)
     # Marker stores the measured mount origin, not an arbitrary zero frame.
@@ -123,7 +140,7 @@ def run_case(spec_path,lock_fd):
     from go2arx5_vla.world_model.native_replay import packets
     from go2arx5_vla.world_model.init_trace_reader import audit_trace
     spec=read(spec_path);root=Path(spec['registered_root']);group=Path(spec['mobile_group'])
-    lease=read(root/'control/LEASE.json');parent=read(group/'SUPERVISOR.private.json')
+    lease=registered(spec,spec_path);parent=read(group/'SUPERVISOR.private.json')
     if (spec['phase']!=PHASE or os.uname().nodename!='corelab-4080s'or os.getuid()!=2009
             or lease['status']!='ACTIVE'or lease['spec_sha256']!=digest(spec_path)
             or os.getppid()!=parent['pid']or time.time()>=spec['deadline_epoch']):
@@ -176,7 +193,7 @@ def run_case(spec_path,lock_fd):
 
 def run_batch(spec_path):
     from scripts.pi0294.e1.journal import Journal
-    spec=read(spec_path);group=Path(spec['registered_root']);lease=read(group/'control/LEASE.json')
+    spec=read(spec_path);group=Path(spec['registered_root']);lease=registered(spec,spec_path)
     if lease['status']!='ACTIVE'or lease['spec_sha256']!=digest(spec_path):raise PermissionError('FINITE_REGISTERED_MOBILE_BATCH')
     if (group/'SUPERVISOR.private.json').exists():raise PermissionError('MOBILE_BATCH_ALREADY_LAUNCHED_NO_REPLAY')
     write(group/'SUPERVISOR.private.json',dict(pid=os.getpid(),epoch=time.time()))
