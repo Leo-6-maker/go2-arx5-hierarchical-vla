@@ -1,0 +1,510 @@
+{
+  "schema": "SLA_TYPED_TIMING_REPAIR_AND_REFERENCE15_ACTUAL_V71",
+  "as_of_Core_clock": "2026-11-15T14:28:04+0800",
+  "goal_complete": false,
+  "new_job_dispatches": 0,
+  "new_optimizer_updates": 0,
+  "new_training_visits": 0,
+  "new_SLA_generations": 0,
+  "new_physical_requests": 0,
+  "new_integrations": 0,
+  "new_certifier_calls": 0,
+  "timing_repair": {
+    "schema": "SLA_SAMPLING_TYPED_OBSERVATION_CPU_INTERFACE_CHECK_V71",
+    "passed": true,
+    "helper_sha256": "c112e320d43911c3257d7cdc452aac65c9c8868d039545a1e00124c3937b3b1e",
+    "tokenizer_sha256": "8986bb4f423f07f8c7f70d0dbe3526fb2316056c17bae71b1ea975e77a168fc6",
+    "archived_error": "TypeCheckError",
+    "actual_Observation_type": "openpi.models.model.Observation",
+    "actual_NNX_parameter_trees": true,
+    "synthetic_RGB": true,
+    "bit_exact_arithmetic_pairs": 2,
+    "toy_device_executions": 4,
+    "timer_executions": 2,
+    "timer_compilations": 1,
+    "changed_structure_rejected": true,
+    "original_type_checks_preserved": true,
+    "wrappers_restored": true,
+    "wall_s": 47.45879714842886,
+    "SLA_parent_loads": 0,
+    "SLA_generations": 0,
+    "optimizer_updates": 0,
+    "training_visits": 0,
+    "physical_requests": 0,
+    "physics_integrations": 0,
+    "GPU_SLA_qualification": false,
+    "subprocess_total_wall_s": 65.46912884712219,
+    "old_error_reproduced": true,
+    "local_budget_and_queue_tests_passed": 30,
+    "full_SLA_GPU_qualification": false,
+    "failed_jobs_hotpatched": false
+  },
+  "reference15": {
+    "original8_result_sha256": "d9185b7dff07e364368efccd04a1e2d26c382900c6b02000c7a8904d6e6a2401",
+    "joint_analysis_sha256": "6d2f6d5fba81176055c7e083489d3cc5f30d77871694225da22b5b9d715b3980",
+    "executed_analysis_source_sha256": "d6decb2e92e8dc40f78c526c7638478c350246a909191952c7240d79799d63e7",
+    "TRAIN_layouts": 4,
+    "correlated_queries": 15,
+    "classification_counts": {
+      "ACCEPTED_P10": 7,
+      "JOINT_REJECT": 7,
+      "EEF_REJECT": 1
+    },
+    "summaries": {
+      "ACCEPTED_P10": {
+        "queries": 7,
+        "episodes": 3,
+        "reference_to_actual_translation_m": {
+          "minimum": 0.022674923185669126,
+          "median": 0.02643685358986676,
+          "maximum": 0.027656822975704095
+        },
+        "reference_to_actual_rotation_rad": {
+          "minimum": 0.047648149892376805,
+          "median": 0.04824370070892259,
+          "maximum": 0.054762127013747434
+        },
+        "raw_start_displacement_m": {
+          "minimum": 0.00016812014402894454,
+          "median": 0.0002624917078818702,
+          "maximum": 0.0003847798154254967
+        },
+        "maximum_join_translation_acceleration_m_s2": {
+          "minimum": 0.09561278293707955,
+          "median": 0.15041548435635096,
+          "maximum": 0.21269482560381786
+        }
+      },
+      "JOINT_REJECT": {
+        "queries": 7,
+        "episodes": 4,
+        "reference_to_actual_translation_m": {
+          "minimum": 0.021323366265932862,
+          "median": 0.027360778534005953,
+          "maximum": 0.02763550970716694
+        },
+        "reference_to_actual_rotation_rad": {
+          "minimum": 0.04762429694136243,
+          "median": 0.04803965335737298,
+          "maximum": 0.0572846843192425
+        },
+        "raw_start_displacement_m": {
+          "minimum": 0.0003022254174813947,
+          "median": 0.00037629427691633925,
+          "maximum": 0.0004270720831263967
+        },
+        "maximum_join_translation_acceleration_m_s2": {
+          "minimum": 0.12646568851180032,
+          "median": 0.22998153893457798,
+          "maximum": 0.2949913857309489
+        }
+      },
+      "EEF_REJECT": {
+        "queries": 1,
+        "episodes": 1,
+        "reference_to_actual_translation_m": {
+          "minimum": 0.027443211351266893,
+          "median": 0.027443211351266893,
+          "maximum": 0.027443211351266893
+        },
+        "reference_to_actual_rotation_rad": {
+          "minimum": 0.04766946497449216,
+          "median": 0.04766946497449216,
+          "maximum": 0.04766946497449216
+        },
+        "raw_start_displacement_m": {
+          "minimum": 0.00024296978898847178,
+          "median": 0.00024296978898847178,
+          "maximum": 0.00024296978898847178
+        },
+        "maximum_join_translation_acceleration_m_s2": {
+          "minimum": 0.16639707729113887,
+          "median": 0.16639707729113887,
+          "maximum": 0.16639707729113887
+        }
+      }
+    },
+    "rows": [
+      {
+        "layout": "TRAIN01",
+        "view": "PD4_EXECUTED_REF",
+        "query": 0,
+        "classification": "EEF_REJECT",
+        "native_step": 5703,
+        "reference_to_actual_translation_m": 0.027443211351266893,
+        "reference_to_actual_rotation_rad": 0.04766946497449216,
+        "raw_start_displacement_m": 0.00024296978898847178,
+        "maximum_join_translation_acceleration_m_s2": 0.16639707729113887,
+        "maximum_interior_translation_acceleration_m_s2": 0.4807732179715426,
+        "connected_internal_translation_difference_error_m": 2.220446049250313e-16,
+        "connected_internal_relative_rotation_error": 3.3306690738754696e-16,
+        "connected_H40_matches_recorded_native_candidate": false,
+        "raw_action_sha256": "b4b4db44bd50a84fcee086d00131848c959463aa3badeac8ddd959857b64029f",
+        "observation_sha256": "d90d3a88656f0bf99ce3f8634d3d4c1bf888e078e74715fb81da2b9b39ed2154",
+        "consumed_points": 0
+      },
+      {
+        "layout": "TRAIN01",
+        "view": "PD4_FINAL_PLAN",
+        "query": 0,
+        "classification": "JOINT_REJECT",
+        "native_step": 5703,
+        "reference_to_actual_translation_m": 0.027476738453956786,
+        "reference_to_actual_rotation_rad": 0.04803965335737298,
+        "raw_start_displacement_m": 0.000384458809259435,
+        "maximum_join_translation_acceleration_m_s2": 0.20310164946231252,
+        "maximum_interior_translation_acceleration_m_s2": 0.1152341879470755,
+        "connected_internal_translation_difference_error_m": 2.220446049250313e-16,
+        "connected_internal_relative_rotation_error": 3.3306690738754696e-16,
+        "connected_H40_matches_recorded_native_candidate": true,
+        "raw_action_sha256": "bed8ef10ed04d9d7d4de20f9165d0988cdc9b40bc9a0f43e3ec6e0855b35a0c0",
+        "observation_sha256": "b83bacd0d1c490a4d44e27afa529cb6960e49ec62028c690408de70a8faac653",
+        "consumed_points": 0,
+        "first_joint_exceedance": {
+          "joint": 4,
+          "acceleration_rad_s2": 1.0246873462330996,
+          "absolute_ratio": 1.0246873462330996,
+          "H40_knot_triple": [
+            -1,
+            0,
+            1
+          ],
+          "location": "REFERENCE_JOIN"
+        },
+        "maximum_joint_acceleration_rad_s2": 1.0246873462330996
+      },
+      {
+        "layout": "TRAIN04",
+        "view": "PD4_FINAL_PLAN",
+        "query": 0,
+        "classification": "JOINT_REJECT",
+        "native_step": 5703,
+        "reference_to_actual_translation_m": 0.027433218342341397,
+        "reference_to_actual_rotation_rad": 0.04788943358532129,
+        "raw_start_displacement_m": 0.0003368601114474271,
+        "maximum_join_translation_acceleration_m_s2": 0.22998153893457798,
+        "maximum_interior_translation_acceleration_m_s2": 0.10107419036691795,
+        "connected_internal_translation_difference_error_m": 2.220446049250313e-16,
+        "connected_internal_relative_rotation_error": 3.3306690738754696e-16,
+        "connected_H40_matches_recorded_native_candidate": true,
+        "raw_action_sha256": "3722d0b6f82940d4ae0c56a1a74a2987659daf2f69b79bba04ceabf5f31401cb",
+        "observation_sha256": "5da2537f18aa6ec85f55a3e6962a771151ecf37976321626612eb8fd64bf9506",
+        "consumed_points": 0,
+        "first_joint_exceedance": {
+          "joint": 4,
+          "acceleration_rad_s2": 1.0934995232624312,
+          "absolute_ratio": 1.0934995232624312,
+          "H40_knot_triple": [
+            -1,
+            0,
+            1
+          ],
+          "location": "REFERENCE_JOIN"
+        },
+        "maximum_joint_acceleration_rad_s2": 1.0934995232624312
+      },
+      {
+        "layout": "TRAIN04",
+        "view": "PD4_EXECUTED_REF",
+        "query": 0,
+        "classification": "ACCEPTED_P10",
+        "native_step": 5703,
+        "reference_to_actual_translation_m": 0.027656822975704095,
+        "reference_to_actual_rotation_rad": 0.047813163564799234,
+        "raw_start_displacement_m": 0.00016812014402894454,
+        "maximum_join_translation_acceleration_m_s2": 0.12278241156863214,
+        "maximum_interior_translation_acceleration_m_s2": 0.17575570099212307,
+        "connected_internal_translation_difference_error_m": 2.220446049250313e-16,
+        "connected_internal_relative_rotation_error": 5.551115123125783e-16,
+        "connected_H40_matches_recorded_native_candidate": true,
+        "raw_action_sha256": "2fb12d567ca7e84b9984c6f13862eaeed96e41ec7079886bc28a9003cf786aa3",
+        "observation_sha256": "fcc9e5daca25d394874c1e63e55ec120a617b63974781a4ed0a36c7a5f8ea80c",
+        "consumed_points": 10
+      },
+      {
+        "layout": "TRAIN04",
+        "view": "PD4_EXECUTED_REF",
+        "query": 1,
+        "classification": "JOINT_REJECT",
+        "native_step": 5953,
+        "reference_to_actual_translation_m": 0.02637023470063628,
+        "reference_to_actual_rotation_rad": 0.04895941592064953,
+        "raw_start_displacement_m": 0.0003860322665989787,
+        "maximum_join_translation_acceleration_m_s2": 0.2949913857309489,
+        "maximum_interior_translation_acceleration_m_s2": 0.17641691999184048,
+        "connected_internal_translation_difference_error_m": 2.220446049250313e-16,
+        "connected_internal_relative_rotation_error": 7.771561172376096e-16,
+        "connected_H40_matches_recorded_native_candidate": true,
+        "raw_action_sha256": "a66bb5436dbed4bc8a717c8c6884dfb9588c60cb3402f79b74b1a74c42bcd936",
+        "observation_sha256": "1d855c5eeb03fa32bb22e655e663b72a745bee6aa872d87fefd6a98bf08e3831",
+        "consumed_points": 0,
+        "first_joint_exceedance": {
+          "joint": 3,
+          "acceleration_rad_s2": -1.235250124440146,
+          "absolute_ratio": 1.235250124440146,
+          "H40_knot_triple": [
+            -1,
+            0,
+            1
+          ],
+          "location": "REFERENCE_JOIN"
+        },
+        "maximum_joint_acceleration_rad_s2": 1.300676074825713
+      },
+      {
+        "layout": "TRAIN07",
+        "view": "PD4_EXECUTED_REF",
+        "query": 0,
+        "classification": "JOINT_REJECT",
+        "native_step": 5703,
+        "reference_to_actual_translation_m": 0.027360778534005953,
+        "reference_to_actual_rotation_rad": 0.04762429694136243,
+        "raw_start_displacement_m": 0.0004270720831263967,
+        "maximum_join_translation_acceleration_m_s2": 0.20292714621962252,
+        "maximum_interior_translation_acceleration_m_s2": 0.16098249798053613,
+        "connected_internal_translation_difference_error_m": 2.220446049250313e-16,
+        "connected_internal_relative_rotation_error": 4.440892098500626e-16,
+        "connected_H40_matches_recorded_native_candidate": true,
+        "raw_action_sha256": "72787226aeda07813a842215fd0a182a30ad6208570b470bac1cdb40363ffde6",
+        "observation_sha256": "c6ca60dea13d5d05440a86669482fec8bb0fb41e272334c1c7bf55f9e88b7dd8",
+        "consumed_points": 0,
+        "first_joint_exceedance": {
+          "joint": 4,
+          "acceleration_rad_s2": 1.0515917104218786,
+          "absolute_ratio": 1.0515917104218786,
+          "H40_knot_triple": [
+            -1,
+            0,
+            1
+          ],
+          "location": "REFERENCE_JOIN"
+        },
+        "maximum_joint_acceleration_rad_s2": 1.0515917104218786
+      },
+      {
+        "layout": "TRAIN07",
+        "view": "PD4_FINAL_PLAN",
+        "query": 0,
+        "classification": "ACCEPTED_P10",
+        "native_step": 5703,
+        "reference_to_actual_translation_m": 0.02736452442886613,
+        "reference_to_actual_rotation_rad": 0.047648149892376805,
+        "raw_start_displacement_m": 0.0003847798154254967,
+        "maximum_join_translation_acceleration_m_s2": 0.20182225912589408,
+        "maximum_interior_translation_acceleration_m_s2": 0.1265817706930318,
+        "connected_internal_translation_difference_error_m": 2.220446049250313e-16,
+        "connected_internal_relative_rotation_error": 6.661338147750939e-16,
+        "connected_H40_matches_recorded_native_candidate": true,
+        "raw_action_sha256": "86e98b502333c22391f403b4ca67bed20dd495444ab14d624aa00648fa2b5a78",
+        "observation_sha256": "e85d235659eb75848b6521e71db2b641ee36d3dc7d77d4815e3454301d7eda5c",
+        "consumed_points": 10
+      },
+      {
+        "layout": "TRAIN07",
+        "view": "PD4_FINAL_PLAN",
+        "query": 1,
+        "classification": "JOINT_REJECT",
+        "native_step": 5953,
+        "reference_to_actual_translation_m": 0.025873208822312557,
+        "reference_to_actual_rotation_rad": 0.04942195014132215,
+        "raw_start_displacement_m": 0.00037629427691633925,
+        "maximum_join_translation_acceleration_m_s2": 0.2895646972403217,
+        "maximum_interior_translation_acceleration_m_s2": 0.11856288041451617,
+        "connected_internal_translation_difference_error_m": 2.220446049250313e-16,
+        "connected_internal_relative_rotation_error": 4.440892098500626e-16,
+        "connected_H40_matches_recorded_native_candidate": true,
+        "raw_action_sha256": "ef1002e00a35a7f0606d2b5040e375fd8821c9d4c9444e5469f75a255947c4ca",
+        "observation_sha256": "7ade882d54446aec9b885309427d1fa300f7b2817913ffdbd7c3283410bf243f",
+        "consumed_points": 0,
+        "first_joint_exceedance": {
+          "joint": 3,
+          "acceleration_rad_s2": 1.171067689851668,
+          "absolute_ratio": 1.171067689851668,
+          "H40_knot_triple": [
+            -2,
+            -1,
+            0
+          ],
+          "location": "REFERENCE_JOIN"
+        },
+        "maximum_joint_acceleration_rad_s2": 1.4561673889032567
+      },
+      {
+        "layout": "TRAIN10",
+        "view": "PD4_FINAL_PLAN",
+        "query": 0,
+        "classification": "ACCEPTED_P10",
+        "native_step": 5703,
+        "reference_to_actual_translation_m": 0.02738812726189538,
+        "reference_to_actual_rotation_rad": 0.04768165860134974,
+        "raw_start_displacement_m": 0.0003078474375762709,
+        "maximum_join_translation_acceleration_m_s2": 0.1394358581301572,
+        "maximum_interior_translation_acceleration_m_s2": 0.22956770835964393,
+        "connected_internal_translation_difference_error_m": 2.220446049250313e-16,
+        "connected_internal_relative_rotation_error": 4.440892098500626e-16,
+        "connected_H40_matches_recorded_native_candidate": true,
+        "raw_action_sha256": "95c713afddfb846e946eee675731762930aa33195f9f1496555bb8c8d0c82cba",
+        "observation_sha256": "046044fd3d999a0b1c8c9dfefde056c3339cf24c6bc35434fae37043cf867e7e",
+        "consumed_points": 10
+      },
+      {
+        "layout": "TRAIN10",
+        "view": "PD4_FINAL_PLAN",
+        "query": 1,
+        "classification": "ACCEPTED_P10",
+        "native_step": 5953,
+        "reference_to_actual_translation_m": 0.02643685358986676,
+        "reference_to_actual_rotation_rad": 0.04824370070892259,
+        "raw_start_displacement_m": 0.0003230664449497878,
+        "maximum_join_translation_acceleration_m_s2": 0.15041548435635096,
+        "maximum_interior_translation_acceleration_m_s2": 0.08511792799475046,
+        "connected_internal_translation_difference_error_m": 2.220446049250313e-16,
+        "connected_internal_relative_rotation_error": 3.3306690738754696e-16,
+        "connected_H40_matches_recorded_native_candidate": true,
+        "raw_action_sha256": "aabbb149b3dc02b7eaddaefa54075e371766adf400830dc79195e3e433c70933",
+        "observation_sha256": "012ff238dd9e4a945dc8ae84f0065c0b14713801302f8846155ba3cacb116845",
+        "consumed_points": 10
+      },
+      {
+        "layout": "TRAIN10",
+        "view": "PD4_FINAL_PLAN",
+        "query": 2,
+        "classification": "ACCEPTED_P10",
+        "native_step": 6203,
+        "reference_to_actual_translation_m": 0.025140833218572408,
+        "reference_to_actual_rotation_rad": 0.05048577063026199,
+        "raw_start_displacement_m": 0.0002088953614901613,
+        "maximum_join_translation_acceleration_m_s2": 0.21269482560381786,
+        "maximum_interior_translation_acceleration_m_s2": 0.11171042583661876,
+        "connected_internal_translation_difference_error_m": 2.220446049250313e-16,
+        "connected_internal_relative_rotation_error": 7.771561172376096e-16,
+        "connected_H40_matches_recorded_native_candidate": true,
+        "raw_action_sha256": "ede775c3155be07d0608d526a48bbef496494309878d890b163b65d987264acf",
+        "observation_sha256": "23b33bd1123432ba824018afad623d9d150a35bfb58fd8f0535ea6b52f09992b",
+        "consumed_points": 10
+      },
+      {
+        "layout": "TRAIN10",
+        "view": "PD4_FINAL_PLAN",
+        "query": 3,
+        "classification": "ACCEPTED_P10",
+        "native_step": 6453,
+        "reference_to_actual_translation_m": 0.023882327310252065,
+        "reference_to_actual_rotation_rad": 0.05228826775829271,
+        "raw_start_displacement_m": 0.00023723541824063687,
+        "maximum_join_translation_acceleration_m_s2": 0.09561278293707955,
+        "maximum_interior_translation_acceleration_m_s2": 0.09854283482498644,
+        "connected_internal_translation_difference_error_m": 2.220446049250313e-16,
+        "connected_internal_relative_rotation_error": 5.551115123125783e-16,
+        "connected_H40_matches_recorded_native_candidate": true,
+        "raw_action_sha256": "ed2187b2d7c4272c2a43fffa1168b0fa6c399471874eade4eba74734a576dacc",
+        "observation_sha256": "02b2ada2173dbdaed182763ab451bb3c2212276b20aff5f77a4861d2c3c9c087",
+        "consumed_points": 10
+      },
+      {
+        "layout": "TRAIN10",
+        "view": "PD4_FINAL_PLAN",
+        "query": 4,
+        "classification": "ACCEPTED_P10",
+        "native_step": 6703,
+        "reference_to_actual_translation_m": 0.022674923185669126,
+        "reference_to_actual_rotation_rad": 0.054762127013747434,
+        "raw_start_displacement_m": 0.0002624917078818702,
+        "maximum_join_translation_acceleration_m_s2": 0.1713593352178444,
+        "maximum_interior_translation_acceleration_m_s2": 0.17055180869030562,
+        "connected_internal_translation_difference_error_m": 2.220446049250313e-16,
+        "connected_internal_relative_rotation_error": 5.551115123125783e-16,
+        "connected_H40_matches_recorded_native_candidate": true,
+        "raw_action_sha256": "62d9461ffc45a3c1a61e4a1144935e195bc4b40574b0ff076d501a6c6e62c5a1",
+        "observation_sha256": "27649a2993d5eae6d9ba779596d2949b95a6e8233803441c2d7888084f80aaef",
+        "consumed_points": 10
+      },
+      {
+        "layout": "TRAIN10",
+        "view": "PD4_FINAL_PLAN",
+        "query": 5,
+        "classification": "JOINT_REJECT",
+        "native_step": 6953,
+        "reference_to_actual_translation_m": 0.021323366265932862,
+        "reference_to_actual_rotation_rad": 0.0572846843192425,
+        "raw_start_displacement_m": 0.00034185512053674005,
+        "maximum_join_translation_acceleration_m_s2": 0.2634264111904658,
+        "maximum_interior_translation_acceleration_m_s2": 0.11718151795126124,
+        "connected_internal_translation_difference_error_m": 2.220446049250313e-16,
+        "connected_internal_relative_rotation_error": 4.440892098500626e-16,
+        "connected_H40_matches_recorded_native_candidate": true,
+        "raw_action_sha256": "7596ba9b27c74b783543d23a091791fff3b88d30f8e8c92bf4cb8baf04958026",
+        "observation_sha256": "a59f2cc6d60993785ed812a0c392407193f19d7256e8c7156628eca7d971ba96",
+        "consumed_points": 0,
+        "first_joint_exceedance": {
+          "joint": 3,
+          "acceleration_rad_s2": 1.0800774470654861,
+          "absolute_ratio": 1.0800774470654861,
+          "H40_knot_triple": [
+            -2,
+            -1,
+            0
+          ],
+          "location": "REFERENCE_JOIN"
+        },
+        "maximum_joint_acceleration_rad_s2": 1.0800774470654861
+      },
+      {
+        "layout": "TRAIN10",
+        "view": "PD4_EXECUTED_REF",
+        "query": 0,
+        "classification": "JOINT_REJECT",
+        "native_step": 5703,
+        "reference_to_actual_translation_m": 0.02763550970716694,
+        "reference_to_actual_rotation_rad": 0.04783435935923231,
+        "raw_start_displacement_m": 0.0003022254174813947,
+        "maximum_join_translation_acceleration_m_s2": 0.12646568851180032,
+        "maximum_interior_translation_acceleration_m_s2": 0.2223475233892594,
+        "connected_internal_translation_difference_error_m": 2.220446049250313e-16,
+        "connected_internal_relative_rotation_error": 5.551115123125783e-16,
+        "connected_H40_matches_recorded_native_candidate": true,
+        "raw_action_sha256": "633582fbe75550630b77bee5a891156e9a266aacbeeaed268a9f948bfbccd103",
+        "observation_sha256": "41cbd9f31ab27bfb9aca141821d0571b96582ce12a74f9ce44254a857e85502c",
+        "consumed_points": 0,
+        "first_joint_exceedance": {
+          "joint": 3,
+          "acceleration_rad_s2": -1.0506590964166396,
+          "absolute_ratio": 1.0506590964166396,
+          "H40_knot_triple": [
+            33,
+            34,
+            35
+          ],
+          "location": "H40_INTERIOR"
+        },
+        "maximum_joint_acceleration_rad_s2": 1.0506590964166396
+      }
+    ],
+    "CPU_s": 0.5514065499999999,
+    "wall_s": 1.4174411296844482,
+    "causal_reference_error_claim": false,
+    "full_WBC_state_restored": false,
+    "same_student_state_expert_final_plan_pairs": 0,
+    "two_history_translation_acceleration_above_025_count": 3,
+    "two_history_metric_is_original_EEF_gate": false,
+    "original_failure_classifications_changed": false
+  },
+  "retained_failure_worker_sha256": "2b90ac9a772e9691512d1fb41133897a2920af9e3422465ef77697e2c60ae1fb",
+  "retained_baseline_counts": {
+    "real_training_updates": 1000,
+    "TRAIN_visits": 32000,
+    "SOURCE_visits": 0,
+    "student_successes": 0,
+    "valid_original_student_conditions": 8,
+    "physical_requests": 8,
+    "native_integrations": 47374,
+    "student_queries": 15,
+    "consumed_points": 70,
+    "old_engineering_physical_requests": 2,
+    "old_engineering_integrations": 3078
+  },
+  "proposed_successors_unregistered": true,
+  "proposal_path": "experiments/sla_go2_posttrain/v71_pd4_sampling_repair64_20261115.json",
+  "proposal_sha256": "2824d578c286cd242761c76b45cb0b69a18c19b265ec8232e436edbf54d20081",
+  "authorization_outstanding": true
+}

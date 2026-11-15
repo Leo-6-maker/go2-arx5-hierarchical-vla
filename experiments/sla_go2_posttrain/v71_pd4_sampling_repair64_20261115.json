@@ -1,0 +1,97 @@
+{
+  "schema": "SLA_PD4_REPAIRED_SAMPLING64_AND_JOINT_FOLLOWER_PLAN_V71",
+  "state": "PLAN_ONLY_NOT_REGISTERED_AWAITING_EXPLICIT_RESUBMISSION_AUTHORIZATION",
+  "goal_complete": false,
+  "authorization_constraint": "Latest monitor requests explicitly prohibit resubmission; this plan and code repair do not authorize dispatch",
+  "proposed_run_names": [
+    "sla-pd4-sampling64-v71-20261115-02",
+    "sla-pd4-rgb20-joint-clones-v71-20261115-02"
+  ],
+  "immutable_import_base": "20dcd9ca65fd84689b331e249d3a85f2869a076b",
+  "implementation_files_sha256": {
+    "sampling_timing_v71.py": "c112e320d43911c3257d7cdc452aac65c9c8868d039545a1e00124c3937b3b1e",
+    "diagnose_pd4_sampling_v71.py": "8620557b157f03956847c5d6d30bd272f58396ae64b26eb276ac042206c7ee9e"
+  },
+  "planned_new_optimizer_updates": 0,
+  "planned_new_training_visits": 0,
+  "planned_new_physical_requests": 0,
+  "planned_new_integrations": 0,
+  "planned_new_RGB_generations": 64,
+  "planned_parent_loads": 1,
+  "sampling_steps": 20,
+  "original_sampling_steps": 10,
+  "original64_predictions_reused": true,
+  "extra_warmup_generations": 0,
+  "per_window_best_selection": false,
+  "views": [
+    "PD4_EXECUTED_REF",
+    "PD4_FINAL_PLAN"
+  ],
+  "selected_indices": [
+    0,
+    61,
+    124,
+    185,
+    22,
+    82,
+    148,
+    208,
+    32,
+    93,
+    2,
+    81,
+    147,
+    213,
+    23,
+    57
+  ],
+  "noise_ids": [
+    0,
+    1
+  ],
+  "training_result_sha256": "c0b2037ffe1fbef373724b12a3e3c4fe50e3448d3163df85c2175fb5a8736220",
+  "package_manifests": {
+    "PD4_EXECUTED_REF": "f311fd5a69ca0da32691ae3be643321625b2ee9c385bf50f901132bd2a83f6ee",
+    "PD4_FINAL_PLAN": "1eed4332465298ac7dd1d0f6c68010c98caef0c65c5e7daa13edbf2d837325b0"
+  },
+  "completed_RGB20_generations_before_repair": 0,
+  "retained_failed_generation_attempts": 1,
+  "retained_failed_parent_loads": 1,
+  "retained_failure_worker_sha256": "2b90ac9a772e9691512d1fb41133897a2920af9e3422465ef77697e2c60ae1fb",
+  "CPU_joint_follower": {
+    "maximum_new_original_certifier_calls": 64,
+    "only_EEF_passing_new20_predictions": true,
+    "baseline81_result_reused": true,
+    "baseline81_analysis_sha256": "571cb1b9f9dfa0fbd7538442c82015a4621db95678dba8e9236525cca26411de",
+    "new_label_or_old10_certifier_calls": 0,
+    "full_WBC_state_restored": false
+  },
+  "resource_scope": {
+    "site": "EXISTING_CORELAB",
+    "GPU": "GPU0_SHARED",
+    "exclusive_GPU": false,
+    "canonical_neural_owner_required": true,
+    "headroom_and_existing_owner_checks_required": true,
+    "maximum_inference_child_s": 3600,
+    "CPU_follower_timeout_s": 540,
+    "finite_queue_deadline_required_before_registration": true
+  },
+  "before_dispatch": [
+    "Explicit authorization to lift the latest no-resubmission instruction",
+    "Recheck no existing successor, actual unit/process state, finite site window and capacity",
+    "Pin the reviewed implementation commit and exact changed helper, reuse this same-environment typed-input check only if its identities still match",
+    "Retain both old failed roots, counters and all original8 policy failures unchanged"
+  ],
+  "preserved": {
+    "checkpoints_and_statistics": true,
+    "formal_original8_sampler10": true,
+    "H40_P10": true,
+    "original_safety_thresholds": true,
+    "frozen_WBC": true,
+    "old_RP8_failed": true,
+    "old_DEV_TEST": true
+  },
+  "automatic_retry": false,
+  "automatic_RGB40_extension": false,
+  "automatic_new_training": false
+}

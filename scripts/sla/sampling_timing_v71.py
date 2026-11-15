@@ -21,6 +21,7 @@ class SamplingTimer:
         self.jax = jax_module
         self.model_module = model_module
         self.compiled = None
+        self.input_structure = None
         self.submitted = self.completed = self.compilations = 0
         self.current = None
 
@@ -76,17 +77,27 @@ class SamplingTimer:
         self.current.update(noise_identity_D2H_s=time.perf_counter()-started,
             noise_identity_D2H_bytes=host_noise.nbytes,
             initial_noise_sha256=hashlib.sha256(host_noise.tobytes()).hexdigest())
+        leaves, structure = jax.tree_util.tree_flatten((active, frozen, observation, noise))
         if self.compiled is None:
+            # JAX0.5.3 lower() rebuilds its public argument tree with ArgInfo.
+            # Keep typed Observation/NNX nodes inside tracing, where their
+            # original constructors receive array tracers rather than ArgInfo.
+            def invoke_flat(*values):
+                return self.function(*jax.tree_util.tree_unflatten(structure, values))
+
             started = time.perf_counter()
-            lowered = self.function.lower(active, frozen, observation, noise)
+            lowered = jax.jit(invoke_flat).lower(*leaves)
             self.current['lowering_s'] = time.perf_counter() - started
             started = time.perf_counter()
             self.compiled = lowered.compile()
             self.current['compilation_s'] = time.perf_counter() - started
             self.compilations += 1
+            self.input_structure = structure
+        elif structure != self.input_structure:
+            raise ValueError('COMPILED_SAMPLING_INPUT_STRUCTURE_CHANGED')
         started = time.perf_counter()
         self.submitted += 1
-        result = self.compiled(active, frozen, observation, noise)
+        result = self.compiled(*leaves)
         jax.block_until_ready(result)
         self.completed += 1
         self.current['inference_device_completed_s'] = time.perf_counter() - started

@@ -33,8 +33,20 @@ class DeviceArray:
 class FakeJax:
     def __init__(self):
         self.device_put=self.put
-        self.tree_util=SimpleNamespace(tree_leaves=lambda value:[value])
+        self.tree_util=SimpleNamespace(tree_leaves=lambda value:[value],
+            tree_flatten=lambda value:(list(value),len(value)),
+            tree_unflatten=lambda structure,values:tuple(values))
         self.gets=[]
+        self.lowerings=self.compilations=0
+
+    def jit(self,function):
+        def lower(*args):
+            self.lowerings+=1
+            def compile():
+                self.compilations+=1
+                return function
+            return SimpleNamespace(compile=compile)
+        return SimpleNamespace(lower=lower)
 
     def put(self,value):
         return DeviceArray(value)
@@ -53,18 +65,12 @@ class FakeJax:
 
 class Function:
     def __init__(self):
-        self.lowered=self.compiled=self.executions=0
+        self.executions=0
 
-    def lower(self,*args):
-        self.lowered+=1
-        def compile():
-            self.compiled+=1
-            def execute(active,frozen,obs,noise):
-                self.executions+=1
-                assert obs.ready and noise.ready
-                return DeviceArray(noise.value+active+frozen+obs.value.sum())
-            return execute
-        return SimpleNamespace(compile=compile)
+    def __call__(self,active,frozen,obs,noise):
+        self.executions+=1
+        assert obs.ready and noise.ready
+        return DeviceArray(noise.value+active+frozen+obs.value.sum())
 
 
 def test_one_compile_no_extra_warmup_and_ready_before_each_D2H():
@@ -83,7 +89,7 @@ def test_one_compile_no_extra_warmup_and_ready_before_each_D2H():
         assert timing['input_H2D_bytes']==item.nbytes+noise.value.nbytes
         assert timing['output_D2H_bytes']==noise.value.nbytes
         assert model.observation is observation and jax.device_put is original_put
-    assert function.lowered==function.compiled==timer.compilations==1
+    assert jax.lowerings==jax.compilations==timer.compilations==1
     assert function.executions==timer.submitted==timer.completed==2
     assert len(jax.gets)==4  # One noise audit and one result per real execution.
 
@@ -157,6 +163,7 @@ def test_failed_model_execution_is_submitted_but_never_counted_complete():
     timer=SamplingTimer(function,jax_module=jax,model_module=SimpleNamespace(observation=observation))
     def failed(*args):raise RuntimeError('device execution failed')
     timer.compiled=failed
+    timer.input_structure=4
     with pytest.raises(RuntimeError,match='device execution failed'):
         with timer.prediction():
             obs,_=timer.model_module.observation(np.ones(1),None)
