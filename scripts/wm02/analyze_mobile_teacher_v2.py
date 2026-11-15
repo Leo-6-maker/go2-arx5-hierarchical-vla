@@ -75,7 +75,7 @@ def analyze_case(path):
     pregrasp = cube + [0, -.0017, .080]
     descend = cube + [0, -.0017, .012] + rotation @ [-.012, 0, 0]
     qevents = [r for r in commands if r['phase'] in
-               ('mobile-expert-query', 'F4-real-expert-prefix', 'mobile-task-expert',
+               ('mobile-expert-query', 'F4-real-expert-prefix', 'mobile-task-expert','mobile-continuous-expert-query',
                 'mobile-student-query', 'mobile-task-student')]
     model_responses = sorted((out / 'queries').glob('*/RESPONSE.private.json'))
     by_query = {e['query']: e for e in qevents}
@@ -117,6 +117,7 @@ def analyze_case(path):
         target = [np.asarray(r['target_endpoint_EEF10'])[:3] for r in segment]
         last = segment[-1] if segment else prior
         wires = [proposals[r['installed_reference_sha256']] for r in segment]
+        installed_query = np.asarray(wires[0]['action_EEF10']) if wires else None
         base_errors, preview_spans = [], []
         for r, wire in zip(segment, wires):
             doc = json.loads(wire['wire'])
@@ -164,6 +165,8 @@ def analyze_case(path):
                           reference_goal_within4mm_points=sum(norm(goal-p)<=.004 for p in target),
                           longest_sampled_actual_goal_within4mm_s=within_span(segment,goal,'actual_TCP'),
                           longest_sampled_reference_goal_within4mm_s=within_span(segment,goal,'target_endpoint_EEF10'),
+                          installed_H40_endpoint_goal_distance_m=norm(goal-installed_query[-1,:3]) if installed_query is not None else None,
+                          installed_query_boundary_jump_m=norm(installed_query[0,:3]-boundary_reference) if installed_query is not None else None,
                           teacher_15mm_cap=norm(raw[39,:3]-raw[0,:3])>=.015-1e-9)
         queries.append(record)
     # Native contact bytes are original, not contacts recomputed by forward/IK.
