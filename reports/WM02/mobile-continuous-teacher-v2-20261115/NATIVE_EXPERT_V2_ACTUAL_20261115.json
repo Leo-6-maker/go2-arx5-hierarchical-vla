@@ -1,0 +1,287 @@
+{
+  "schema": "MOBILE_CONTINUOUS_TEACHER_V2_ACTUAL_NATIVE_FINAL",
+  "date_SGT": "2026-11-15",
+  "PR": 387,
+  "runtime_source_sha": "cb24a1c1dd71bfe38aa47a48ed0378d5dcf6542c",
+  "spec_sha256": "cccaeb50e9df8b40f4b809eb4a82f482d21307a01ee4a065749077915d2ee85c",
+  "source_seal_sha256": "7bf6cb85c03723f4266287a18bfaee65473e4bb6e06613b61b3192ea5c17d68a",
+  "group_result_sha256": "1080ca69fb8c4aaa6551fcd6962835e238a419212c245dca09a5cac0607545f7",
+  "queue_terminal": true,
+  "case_leases_closed": 4,
+  "registered_conditions": 4,
+  "physical_requests": 4,
+  "native_integrations": 81030,
+  "initialization_integrations": 22812,
+  "confirmed_task_points": 2328,
+  "confirmed_task_integrations": 58200,
+  "unconfirmed_task_integrations": 18,
+  "expert_queries": 233,
+  "new_SLA_queries": 0,
+  "optimizer_updates": 0,
+  "training_visits": 0,
+  "native_grasp_observed_cases": 3,
+  "complete_grasp_lift_hold_successes": 0,
+  "unsafe_cases": 1,
+  "technical_failures": 0,
+  "quarantined_modes": [
+    "M_FREE"
+  ],
+  "automatic_retry": false,
+  "old29_native_results_specs_commands_samples_and_journals_unchanged": true,
+  "frozen_native_file_count_verified": 19,
+  "old_JOIN10_result_sha256": "942abedf67e2166157db0b469b5fa6e3053c20d6dcafe7ff14b3cbce1f56e50d",
+  "old_RP8_passed": false,
+  "cases": [
+    {
+      "condition": {
+        "family": "F1",
+        "level": "L1",
+        "mode": "M_FREE",
+        "method": "EXPERT",
+        "axis": "+x",
+        "reset": 17
+      },
+      "result_sha256": "f63f698d11fd028b8dd7bb7b7896d7d8e7d73ad8ce79c225a53dc1a216ee74b4",
+      "state_journal_sha256": "99b4fb362a4dfa6bae5ed1c97ae9dcc7f996e33263d9ad0531851a5a17974f49",
+      "native_integrations": 20703,
+      "physical_requests": 1,
+      "expert_queries": 60,
+      "model_queries": 0,
+      "optimizer_updates": 0,
+      "training_visits": 0,
+      "confirmed_task_points": 600,
+      "unconfirmed_task_integrations": 0,
+      "task_success": false,
+      "unsafe": false,
+      "technical_failure": false,
+      "maximum_object_lift_m": 0.0076473589587736646,
+      "native_grasp_points": 48,
+      "longest_sampled_native_grasp_span_s": 2.35,
+      "longest_grasp_lift20mm_span_s": 0.0,
+      "stage_entry_task_s": {
+        "CLOSE": 26.5,
+        "DESCEND": 13.5,
+        "LIFT": 28.0,
+        "PREGRASP": 0.0
+      },
+      "stage_queries": {
+        "PREGRASP": 27,
+        "DESCEND": 26,
+        "CLOSE": 3,
+        "LIFT": 4
+      },
+      "left_pad_contact_native_ticks": 1197,
+      "right_pad_contact_native_ticks": 1185,
+      "bilateral_pad_contact_native_ticks": 1185,
+      "minimum_CLOSE_goal_error_m": 0.00041196002712042337,
+      "EEF_tracking_RMS_m": 0.018907460734026243,
+      "actual_BASE_translation_m": [
+        0.10604676994273395,
+        -0.005121099806365031,
+        0.0003991956559247778
+      ],
+      "BASE_wire_installs": 0,
+      "all_task_wire_installs": 120,
+      "maximum_query_boundary_reference_jump_m": 1.2413882881933434e-16,
+      "terminal_reason": "TASK_BUDGET_EXHAUSTED_IN_LIFT",
+      "trace_integrations_after_STOP": null,
+      "WBC_changes": false,
+      "worker_wall_s": 275.69315043184906,
+      "worker_process_CPU_s": 132.130022009
+    },
+    {
+      "condition": {
+        "family": "F2",
+        "level": "L1",
+        "mode": "M_FREE",
+        "method": "EXPERT",
+        "axis": "+y",
+        "reset": 17
+      },
+      "result_sha256": "ad03b6f1f4464faf909972ceb67593fa941723fa84dc8229a6a5cb81909911a5",
+      "state_journal_sha256": "56aacd93c6741c2c5c3b3c827f2f8a010e9304a914b10ef94b61b9b97de0c1a2",
+      "native_integrations": 18921,
+      "physical_requests": 1,
+      "expert_queries": 53,
+      "model_queries": 0,
+      "optimizer_updates": 0,
+      "training_visits": 0,
+      "confirmed_task_points": 528,
+      "unconfirmed_task_integrations": 18,
+      "task_success": false,
+      "unsafe": true,
+      "technical_failure": false,
+      "maximum_object_lift_m": 0.0,
+      "native_grasp_points": 0,
+      "longest_sampled_native_grasp_span_s": 0.0,
+      "longest_grasp_lift20mm_span_s": 0.0,
+      "stage_entry_task_s": {
+        "DESCEND": 15.0,
+        "PREGRASP": 0.0
+      },
+      "stage_queries": {
+        "PREGRASP": 30,
+        "DESCEND": 23
+      },
+      "left_pad_contact_native_ticks": 0,
+      "right_pad_contact_native_ticks": 0,
+      "bilateral_pad_contact_native_ticks": 0,
+      "minimum_CLOSE_goal_error_m": null,
+      "EEF_tracking_RMS_m": 0.01925404510440965,
+      "actual_BASE_translation_m": [
+        0.015806092945650226,
+        0.08644254522467554,
+        -0.010913981579964482
+      ],
+      "BASE_wire_installs": 0,
+      "all_task_wire_installs": 106,
+      "maximum_query_boundary_reference_jump_m": 1.249000902703301e-16,
+      "terminal_reason": "ILLEGAL_CONTACT",
+      "trace_integrations_after_STOP": 0,
+      "WBC_changes": false,
+      "worker_wall_s": 251.83656982984394,
+      "worker_process_CPU_s": 124.29656067399999,
+      "original_forbidden_contact": {
+        "geom_ids": [
+          1,
+          77
+        ],
+        "geom_names": [
+          "task_table",
+          "task_right_pad"
+        ],
+        "bodies": [
+          "world",
+          "x5_link8"
+        ],
+        "distance_m": -1.0137537159398899e-05,
+        "normal_force_N": 4.28381076375781
+      }
+    },
+    {
+      "condition": {
+        "family": "F1",
+        "level": "L1",
+        "mode": "M_ASSIST",
+        "method": "EXPERT",
+        "axis": "+x",
+        "reset": 17
+      },
+      "result_sha256": "2d2452c2fbeab414c72836790207b5c0bb0b227bb8f3f9aa97a35fa4827e499e",
+      "state_journal_sha256": "78648a1d65417017c762d897e213486bb059b5c94680d0f72641a2d4af4d527d",
+      "native_integrations": 20703,
+      "physical_requests": 1,
+      "expert_queries": 60,
+      "model_queries": 0,
+      "optimizer_updates": 0,
+      "training_visits": 0,
+      "confirmed_task_points": 600,
+      "unconfirmed_task_integrations": 0,
+      "task_success": false,
+      "unsafe": false,
+      "technical_failure": false,
+      "maximum_object_lift_m": 0.004935155289591209,
+      "native_grasp_points": 38,
+      "longest_sampled_native_grasp_span_s": 1.85,
+      "longest_grasp_lift20mm_span_s": 0.0,
+      "stage_entry_task_s": {
+        "CLOSE": 27.0,
+        "DESCEND": 14.0,
+        "LIFT": 28.5,
+        "PREGRASP": 0.0
+      },
+      "stage_queries": {
+        "PREGRASP": 28,
+        "DESCEND": 26,
+        "CLOSE": 3,
+        "LIFT": 3
+      },
+      "left_pad_contact_native_ticks": 939,
+      "right_pad_contact_native_ticks": 940,
+      "bilateral_pad_contact_native_ticks": 939,
+      "minimum_CLOSE_goal_error_m": 0.0001841371110355905,
+      "EEF_tracking_RMS_m": 0.020440295726870724,
+      "actual_BASE_translation_m": [
+        0.09659739971915629,
+        -0.003963205586960076,
+        -0.00040149231906516647
+      ],
+      "BASE_wire_installs": 120,
+      "all_task_wire_installs": 120,
+      "maximum_query_boundary_reference_jump_m": 1.2417518519112547e-16,
+      "terminal_reason": "TASK_BUDGET_EXHAUSTED_IN_LIFT",
+      "trace_integrations_after_STOP": null,
+      "WBC_changes": false,
+      "worker_wall_s": 274.3672752901912,
+      "worker_process_CPU_s": 132.57266592699997
+    },
+    {
+      "condition": {
+        "family": "F2",
+        "level": "L1",
+        "mode": "M_ASSIST",
+        "method": "EXPERT",
+        "axis": "+y",
+        "reset": 17
+      },
+      "result_sha256": "b425de14e6a38242ad68b8bfb761eb058192fcb434865aaaf141f63bd6d955de",
+      "state_journal_sha256": "bff6773954227484eb3760125ab1fa1eb8894bd9937dd98076be79d02c295625",
+      "native_integrations": 20703,
+      "physical_requests": 1,
+      "expert_queries": 60,
+      "model_queries": 0,
+      "optimizer_updates": 0,
+      "training_visits": 0,
+      "confirmed_task_points": 600,
+      "unconfirmed_task_integrations": 0,
+      "task_success": false,
+      "unsafe": false,
+      "technical_failure": false,
+      "maximum_object_lift_m": 0.0003971289124800048,
+      "native_grasp_points": 8,
+      "longest_sampled_native_grasp_span_s": 0.35000000000000003,
+      "longest_grasp_lift20mm_span_s": 0.0,
+      "stage_entry_task_s": {
+        "CLOSE": 28.5,
+        "DESCEND": 14.5,
+        "PREGRASP": 0.0
+      },
+      "stage_queries": {
+        "PREGRASP": 29,
+        "DESCEND": 28,
+        "CLOSE": 3
+      },
+      "left_pad_contact_native_ticks": 192,
+      "right_pad_contact_native_ticks": 207,
+      "bilateral_pad_contact_native_ticks": 188,
+      "minimum_CLOSE_goal_error_m": 0.00038489922833766715,
+      "EEF_tracking_RMS_m": 0.02038032437385562,
+      "actual_BASE_translation_m": [
+        0.006748656513034176,
+        0.0932430466304967,
+        0.004289986947053459
+      ],
+      "BASE_wire_installs": 120,
+      "all_task_wire_installs": 120,
+      "maximum_query_boundary_reference_jump_m": 1.249000902703301e-16,
+      "terminal_reason": "TASK_BUDGET_EXHAUSTED_IN_CLOSE",
+      "trace_integrations_after_STOP": null,
+      "WBC_changes": false,
+      "worker_wall_s": 278.0220579979941,
+      "worker_process_CPU_s": 137.559661702
+    }
+  ],
+  "unlaunched": {
+    "M_ASSIST_AFTER_GRASP_V2": true,
+    "F4_observed_version": true,
+    "new_successful_demonstrations": 0,
+    "posttraining_updates": 0
+  },
+  "interpretation": [
+    "Continuous expert reference repair materially improves reaching and stage transitions: all four enter DESCEND, three enter CLOSE and observe native grasp, two enter LIFT. It does not qualify complete expert demonstrations or demonstrate a new SLA policy.",
+    "This is a fresh-start engineering comparison in previously observed scenes, not an exact full-controller-state paired causal experiment or independent DEV/TEST/generalization result. The intervention includes continuous position/velocity/acceleration, the P10 wire endpoint instead of row9 as the next reference boundary, and continuous gripper timing; contributions are not separately estimated.",
+    "The selected V2 expert translation speed is 7.5mm/s, a planner design choice preserving the legacy 15mm H40 span, not a frozen WBC physical limit. F1 has only 2.0/1.5 seconds in LIFT; moving a 20mm reference and holding 1 second would require at least 3.67 seconds at this chosen speed before filter/tracking costs. This supports a remaining time-allocation defect without proving all low-level tracking limitations resolved.",
+    "F2/M_FREE stops at tick18921 with original ILLEGAL_CONTACT: right pad versus table, approximately10.14 micrometers penetration and4.28N normal force. Original safety and failure are retained, zero recorded integrations follow STOP, no affected-mode retry.",
+    "Complete expert grasp+lift20mm+hold1s is0/4. No20-successful-demo collection or matched SLA training has been started. F5/F6 BASE-after-grasp is a separate unlaunched condition; old early previews and F4 false initialization flag remain preserved as original artifacts with corrected analysis."
+  ]
+}

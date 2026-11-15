@@ -1,0 +1,1148 @@
+{
+  "schema": "MOBILE_TEACHER_P10_TIMING_READONLY_V2_PUBLIC",
+  "original_cases": 29,
+  "query_rows": 1265,
+  "new_physical_requests": 0,
+  "new_integrations": 0,
+  "new_training_updates": 0,
+  "new_training_visits": 0,
+  "new_model_queries": 0,
+  "new_certifier_calls": 0,
+  "new_forward_calls": 0,
+  "analysis_CPU_s": 9.795374267,
+  "analysis_wall_s": 30.0128014087677,
+  "original_WBC_changed": false,
+  "w9": 0.08428114723412508,
+  "w10": 0.11039166997758548,
+  "maximum_old_P9_increment_m": 0.0012642172085118762,
+  "maximum_old_P10_endpoint_increment_m": 0.0016558750496637822,
+  "cases": [
+    {
+      "case": "mobile-wbc-sla-boundary-v1-l1-f1-20261115-01-m_assist-expert",
+      "condition": {
+        "family": "F1",
+        "level": "L1",
+        "mode": "M_ASSIST",
+        "method": "EXPERT",
+        "axis": "+x",
+        "reset": 17
+      },
+      "role": "EXPERT",
+      "summary": {
+        "queries": 60,
+        "stage_queries": {
+          "PREGRASP": 60
+        },
+        "native_integrations": 20703,
+        "tracking_RMS_m": 0.020946989091453986,
+        "original_left_pad_contact_ticks": 0,
+        "original_right_pad_contact_ticks": 0,
+        "original_bilateral_pad_contact_ticks": 0,
+        "confirmed_task_or_prefix_points": 600,
+        "native_grasp_points": 0
+      },
+      "result_sha256": "7518973d4f631f7fa042847ac123e73c71a243ebaf977118e8aac7297f3819a7",
+      "journal_sha256": "a1774f528e79615495ba2e6d4fd55a10440d0a49f7e869a3e66dd53e2173f009",
+      "stages": {
+        "PREGRASP": {
+          "queries": 60,
+          "teacher_15mm_cap_queries": 60,
+          "initial_actual_goal_distance_m": 0.09853048185950061,
+          "final_actual_goal_distance_m": 0.023583817697811166,
+          "closest_actual_to_goal_m": 0.023583817697811166,
+          "closest_installed_reference_to_goal_m": 0.02443824977481411,
+          "P9_reference_increment_sum_m": 0.07585303251071268,
+          "P10_endpoint_increment_sum_m": 0.09935250297982699,
+          "longest_sampled_actual_within4mm_query_span_s": 0.0,
+          "actual_within4mm_points": 0,
+          "reference_within4mm_points": 0
+        }
+      }
+    },
+    {
+      "case": "mobile-wbc-sla-boundary-v1-l1-f1-20261115-01-m_free-expert",
+      "condition": {
+        "family": "F1",
+        "level": "L1",
+        "mode": "M_FREE",
+        "method": "EXPERT",
+        "axis": "+x",
+        "reset": 17
+      },
+      "role": "EXPERT",
+      "summary": {
+        "queries": 60,
+        "stage_queries": {
+          "PREGRASP": 60
+        },
+        "native_integrations": 20703,
+        "tracking_RMS_m": 0.025501058012892732,
+        "original_left_pad_contact_ticks": 0,
+        "original_right_pad_contact_ticks": 0,
+        "original_bilateral_pad_contact_ticks": 0,
+        "confirmed_task_or_prefix_points": 600,
+        "native_grasp_points": 0
+      },
+      "result_sha256": "7241b5ec5977f0d6558429831a99128f17d805d20560fa03c865199ab0a9ca2a",
+      "journal_sha256": "2874c6408066a228bb619c880375ede599555b58731adcc8d8e2e4a9ccd7924b",
+      "stages": {
+        "PREGRASP": {
+          "queries": 60,
+          "teacher_15mm_cap_queries": 60,
+          "initial_actual_goal_distance_m": 0.09868925572510888,
+          "final_actual_goal_distance_m": 0.02445534247522726,
+          "closest_actual_to_goal_m": 0.024062008307887045,
+          "closest_installed_reference_to_goal_m": 0.02612568326406552,
+          "P9_reference_increment_sum_m": 0.07585303251071271,
+          "P10_endpoint_increment_sum_m": 0.09935250297982694,
+          "longest_sampled_actual_within4mm_query_span_s": 0.0,
+          "actual_within4mm_points": 0,
+          "reference_within4mm_points": 0
+        }
+      }
+    },
+    {
+      "case": "mobile-wbc-sla-boundary-v1-l1-f1-20261115-01-m_assist-pd4_executed_ref",
+      "condition": {
+        "family": "F1",
+        "level": "L1",
+        "mode": "M_ASSIST",
+        "method": "PD4_EXECUTED_REF",
+        "axis": "+x",
+        "reset": 17
+      },
+      "role": "PD4_EXECUTED_REF",
+      "summary": {
+        "queries": 10,
+        "stage_queries": {},
+        "native_integrations": 7953,
+        "tracking_RMS_m": 0.02055521713234886,
+        "original_left_pad_contact_ticks": 0,
+        "original_right_pad_contact_ticks": 0,
+        "original_bilateral_pad_contact_ticks": 0,
+        "confirmed_task_or_prefix_points": 90,
+        "native_grasp_points": 0
+      },
+      "result_sha256": "8dc37519a54060b2f51c055b5551cd1aff3f04a0633c732621c8dec3005f3d7a",
+      "journal_sha256": "f11f6217f242c27b1873c7effcaa3d5af13d67ff4b6d5cbf88599de53f7a7c04",
+      "stages": {}
+    },
+    {
+      "case": "mobile-wbc-sla-boundary-v1-l1-f1-20261115-01-m_free-pd4_final_plan",
+      "condition": {
+        "family": "F1",
+        "level": "L1",
+        "mode": "M_FREE",
+        "method": "PD4_FINAL_PLAN",
+        "axis": "+x",
+        "reset": 17
+      },
+      "role": "PD4_FINAL_PLAN",
+      "summary": {
+        "queries": 60,
+        "stage_queries": {},
+        "native_integrations": 20703,
+        "tracking_RMS_m": 0.01128823192368754,
+        "original_left_pad_contact_ticks": 0,
+        "original_right_pad_contact_ticks": 0,
+        "original_bilateral_pad_contact_ticks": 0,
+        "confirmed_task_or_prefix_points": 600,
+        "native_grasp_points": 0
+      },
+      "result_sha256": "b9f07febd9247b365313a4925809926757bbd2a0bcc5809c5a80ed8e0fe25818",
+      "journal_sha256": "c99814a2923667c330a508f71bc7eae5a9620e7bd68659bd781deb39cef89af1",
+      "stages": {}
+    },
+    {
+      "case": "mobile-wbc-sla-boundary-v1-l1-f1-20261115-01-m_assist-pd4_final_plan",
+      "condition": {
+        "family": "F1",
+        "level": "L1",
+        "mode": "M_ASSIST",
+        "method": "PD4_FINAL_PLAN",
+        "axis": "+x",
+        "reset": 17
+      },
+      "role": "PD4_FINAL_PLAN",
+      "summary": {
+        "queries": 58,
+        "stage_queries": {},
+        "native_integrations": 20098,
+        "tracking_RMS_m": 0.023175758585341467,
+        "original_left_pad_contact_ticks": 0,
+        "original_right_pad_contact_ticks": 0,
+        "original_bilateral_pad_contact_ticks": 0,
+        "confirmed_task_or_prefix_points": 575,
+        "native_grasp_points": 0
+      },
+      "result_sha256": "9e3771e0e894f4725e21af494fa639cb55504ed9a4736cd9304cc6477e46f0ea",
+      "journal_sha256": "66cabb5ed016860e3af3f8ef4e434ea8eb92fb01b34a3770977c9966bac72597",
+      "stages": {}
+    },
+    {
+      "case": "mobile-wbc-sla-boundary-v1-l1-rest-20261115-01-f2-m_assist-expert",
+      "condition": {
+        "family": "F2",
+        "level": "L1",
+        "mode": "M_ASSIST",
+        "method": "EXPERT",
+        "axis": "+y",
+        "reset": 17
+      },
+      "role": "EXPERT",
+      "summary": {
+        "queries": 60,
+        "stage_queries": {
+          "PREGRASP": 60
+        },
+        "native_integrations": 20703,
+        "tracking_RMS_m": 0.022096957313723523,
+        "original_left_pad_contact_ticks": 0,
+        "original_right_pad_contact_ticks": 0,
+        "original_bilateral_pad_contact_ticks": 0,
+        "confirmed_task_or_prefix_points": 600,
+        "native_grasp_points": 0
+      },
+      "result_sha256": "7060dbe03975564cc4bbd25ccb56a943905cac43bbe6914a77776ad23ffb2526",
+      "journal_sha256": "4f86cf8dc7c3a6d98fc03254a908a8c971db099750e3dd1de37ebf8810568cf4",
+      "stages": {
+        "PREGRASP": {
+          "queries": 60,
+          "teacher_15mm_cap_queries": 60,
+          "initial_actual_goal_distance_m": 0.0955412352320978,
+          "final_actual_goal_distance_m": 0.015997993395944595,
+          "closest_actual_to_goal_m": 0.015997993395944595,
+          "closest_installed_reference_to_goal_m": 0.027114939247747823,
+          "P9_reference_increment_sum_m": 0.0758530325107126,
+          "P10_endpoint_increment_sum_m": 0.09935250297982685,
+          "longest_sampled_actual_within4mm_query_span_s": 0.0,
+          "actual_within4mm_points": 0,
+          "reference_within4mm_points": 0
+        }
+      }
+    },
+    {
+      "case": "mobile-wbc-sla-boundary-v1-l1-rest-20261115-01-f2-m_free-expert",
+      "condition": {
+        "family": "F2",
+        "level": "L1",
+        "mode": "M_FREE",
+        "method": "EXPERT",
+        "axis": "+y",
+        "reset": 17
+      },
+      "role": "EXPERT",
+      "summary": {
+        "queries": 60,
+        "stage_queries": {
+          "PREGRASP": 60
+        },
+        "native_integrations": 20703,
+        "tracking_RMS_m": 0.0250194598968265,
+        "original_left_pad_contact_ticks": 0,
+        "original_right_pad_contact_ticks": 0,
+        "original_bilateral_pad_contact_ticks": 0,
+        "confirmed_task_or_prefix_points": 600,
+        "native_grasp_points": 0
+      },
+      "result_sha256": "5efb5fdddb5e83eccd089041e61e3ab69b03278a8ca1c2cfeac25e7570cfffbd",
+      "journal_sha256": "abd0b72b54aaaee3781aa4b932595ddc78c1b0b4178ed99667ed04daa4599484",
+      "stages": {
+        "PREGRASP": {
+          "queries": 60,
+          "teacher_15mm_cap_queries": 59,
+          "initial_actual_goal_distance_m": 0.09448320532207037,
+          "final_actual_goal_distance_m": 0.025998103998417402,
+          "closest_actual_to_goal_m": 0.004815111967359925,
+          "closest_installed_reference_to_goal_m": 0.02851073405892028,
+          "P9_reference_increment_sum_m": 0.07566649684345614,
+          "P10_endpoint_increment_sum_m": 0.09910817806856752,
+          "longest_sampled_actual_within4mm_query_span_s": 0.0,
+          "actual_within4mm_points": 0,
+          "reference_within4mm_points": 0
+        }
+      }
+    },
+    {
+      "case": "mobile-wbc-sla-boundary-v1-l1-rest-20261115-01-f2-m_assist-pd4_executed_ref",
+      "condition": {
+        "family": "F2",
+        "level": "L1",
+        "mode": "M_ASSIST",
+        "method": "PD4_EXECUTED_REF",
+        "axis": "+y",
+        "reset": 17
+      },
+      "role": "PD4_EXECUTED_REF",
+      "summary": {
+        "queries": 6,
+        "stage_queries": {},
+        "native_integrations": 6953,
+        "tracking_RMS_m": 0.02445127781421144,
+        "original_left_pad_contact_ticks": 0,
+        "original_right_pad_contact_ticks": 0,
+        "original_bilateral_pad_contact_ticks": 0,
+        "confirmed_task_or_prefix_points": 50,
+        "native_grasp_points": 0
+      },
+      "result_sha256": "6ca44453d86b43b6d3e445c0a9e0eb5fa60e65649f14140af53f89d66acd5dc2",
+      "journal_sha256": "3e55c9f86dc7a1c897088cdaed8724d25bacbfe63ae28b36a8d31db0910d744b",
+      "stages": {}
+    },
+    {
+      "case": "mobile-wbc-sla-boundary-v1-l1-rest-20261115-01-f2-m_free-pd4_final_plan",
+      "condition": {
+        "family": "F2",
+        "level": "L1",
+        "mode": "M_FREE",
+        "method": "PD4_FINAL_PLAN",
+        "axis": "+y",
+        "reset": 17
+      },
+      "role": "PD4_FINAL_PLAN",
+      "summary": {
+        "queries": 13,
+        "stage_queries": {},
+        "native_integrations": 8703,
+        "tracking_RMS_m": 0.018854382258492956,
+        "original_left_pad_contact_ticks": 0,
+        "original_right_pad_contact_ticks": 0,
+        "original_bilateral_pad_contact_ticks": 0,
+        "confirmed_task_or_prefix_points": 120,
+        "native_grasp_points": 0
+      },
+      "result_sha256": "fbd875e9b9227bb6dc8947642e56f79fbfe06c1811f40e27361991d53aa8da59",
+      "journal_sha256": "fe1d7aaffa226d09120fff4883f8a8e320302d6a3082bd71f55e91e1469f31a6",
+      "stages": {}
+    },
+    {
+      "case": "mobile-wbc-sla-boundary-v1-l1-rest-20261115-01-f2-m_assist-pd4_final_plan",
+      "condition": {
+        "family": "F2",
+        "level": "L1",
+        "mode": "M_ASSIST",
+        "method": "PD4_FINAL_PLAN",
+        "axis": "+y",
+        "reset": 17
+      },
+      "role": "PD4_FINAL_PLAN",
+      "summary": {
+        "queries": 30,
+        "stage_queries": {},
+        "native_integrations": 12953,
+        "tracking_RMS_m": 0.020378934641640686,
+        "original_left_pad_contact_ticks": 0,
+        "original_right_pad_contact_ticks": 0,
+        "original_bilateral_pad_contact_ticks": 0,
+        "confirmed_task_or_prefix_points": 290,
+        "native_grasp_points": 0
+      },
+      "result_sha256": "1b9908bb636b4c6cc5b6c496fbf35831f0a23266be79dd5dd1f4c3274603a5a7",
+      "journal_sha256": "8c07f117f9493c14a2c12daa11ea1d1a178ea0a7abb3b5c2afaed13693f918a2",
+      "stages": {}
+    },
+    {
+      "case": "mobile-wbc-sla-boundary-v1-l1-rest-20261115-01-f2-m_free-pd4_executed_ref",
+      "condition": {
+        "family": "F2",
+        "level": "L1",
+        "mode": "M_FREE",
+        "method": "PD4_EXECUTED_REF",
+        "axis": "+y",
+        "reset": 17
+      },
+      "role": "PD4_EXECUTED_REF",
+      "summary": {
+        "queries": 10,
+        "stage_queries": {},
+        "native_integrations": 7953,
+        "tracking_RMS_m": 0.020062029343029558,
+        "original_left_pad_contact_ticks": 0,
+        "original_right_pad_contact_ticks": 0,
+        "original_bilateral_pad_contact_ticks": 0,
+        "confirmed_task_or_prefix_points": 90,
+        "native_grasp_points": 0
+      },
+      "result_sha256": "d724abeb3e28f86815ce4541baed47438035a1b136fc1fd578ced880b10bb0f8",
+      "journal_sha256": "b74b10d081b1f2fe181705693e08ef7e836c10a2f25a62bf50d60483554f33dd",
+      "stages": {}
+    },
+    {
+      "case": "mobile-wbc-sla-boundary-v1-l1-rest-20261115-01-f4-m_assist-expert",
+      "condition": {
+        "family": "F4",
+        "level": "L1",
+        "mode": "M_ASSIST",
+        "method": "EXPERT",
+        "axis": "+x",
+        "reset": 17
+      },
+      "role": "EXPERT_PREFIX_INITIALIZATION_ONLY",
+      "summary": {
+        "queries": 60,
+        "stage_queries": {
+          "PREGRASP": 19,
+          "DESCEND": 41
+        },
+        "native_integrations": 20703,
+        "tracking_RMS_m": 0.021351764208189496,
+        "original_left_pad_contact_ticks": 0,
+        "original_right_pad_contact_ticks": 0,
+        "original_bilateral_pad_contact_ticks": 0,
+        "confirmed_task_or_prefix_points": 600,
+        "native_grasp_points": 0
+      },
+      "result_sha256": "c69bc93441f24386b7cb565a1bba11eabefd4264c5ad6473946b0ede8a04c3fb",
+      "journal_sha256": "557a5ffb5dab29a4c81beb6b5bb076da80c87b0c2086e10993a4a75fd86381e5",
+      "stages": {
+        "DESCEND": {
+          "queries": 41,
+          "teacher_15mm_cap_queries": 41,
+          "initial_actual_goal_distance_m": 0.06930425192948976,
+          "final_actual_goal_distance_m": 0.03256412397271437,
+          "closest_actual_to_goal_m": 0.03256412397271437,
+          "closest_installed_reference_to_goal_m": 0.04170511747518969,
+          "P9_reference_increment_sum_m": 0.05183290554898683,
+          "P10_endpoint_increment_sum_m": 0.06789087703621499,
+          "longest_sampled_actual_within4mm_query_span_s": 0.0,
+          "actual_within4mm_points": 0,
+          "reference_within4mm_points": 0
+        },
+        "PREGRASP": {
+          "queries": 19,
+          "teacher_15mm_cap_queries": 0,
+          "initial_actual_goal_distance_m": 0.01041680849227636,
+          "final_actual_goal_distance_m": 0.003806388886962944,
+          "closest_actual_to_goal_m": 0.003806388886962944,
+          "closest_installed_reference_to_goal_m": 0.027787980494988016,
+          "P9_reference_increment_sum_m": 0.01089452431830394,
+          "P10_endpoint_increment_sum_m": 0.014269676820702506,
+          "longest_sampled_actual_within4mm_query_span_s": 0.1,
+          "actual_within4mm_points": 3,
+          "reference_within4mm_points": 0
+        }
+      }
+    },
+    {
+      "case": "mobile-wbc-sla-boundary-v1-l1-rest-20261115-01-f4-m_free-expert",
+      "condition": {
+        "family": "F4",
+        "level": "L1",
+        "mode": "M_FREE",
+        "method": "EXPERT",
+        "axis": "+x",
+        "reset": 17
+      },
+      "role": "EXPERT_PREFIX_INITIALIZATION_ONLY",
+      "summary": {
+        "queries": 60,
+        "stage_queries": {
+          "PREGRASP": 19,
+          "DESCEND": 41
+        },
+        "native_integrations": 20703,
+        "tracking_RMS_m": 0.021511996651338603,
+        "original_left_pad_contact_ticks": 0,
+        "original_right_pad_contact_ticks": 0,
+        "original_bilateral_pad_contact_ticks": 0,
+        "confirmed_task_or_prefix_points": 600,
+        "native_grasp_points": 0
+      },
+      "result_sha256": "0415ed02936f11a7790fc0c3e76befee7a2d34ae72f5cc86a16cd6c3c12bfcdf",
+      "journal_sha256": "b49da7232ca7f4efaf7de98e84e04a5f2bee803ad1cb3311dbe6939be09b7725",
+      "stages": {
+        "DESCEND": {
+          "queries": 41,
+          "teacher_15mm_cap_queries": 41,
+          "initial_actual_goal_distance_m": 0.06938964302052893,
+          "final_actual_goal_distance_m": 0.032520180413049514,
+          "closest_actual_to_goal_m": 0.032520180413049514,
+          "closest_installed_reference_to_goal_m": 0.04186655142749818,
+          "P9_reference_increment_sum_m": 0.051832905548986875,
+          "P10_endpoint_increment_sum_m": 0.0678908770362148,
+          "longest_sampled_actual_within4mm_query_span_s": 0.0,
+          "actual_within4mm_points": 0,
+          "reference_within4mm_points": 0
+        },
+        "PREGRASP": {
+          "queries": 19,
+          "teacher_15mm_cap_queries": 0,
+          "initial_actual_goal_distance_m": 0.010534671319310763,
+          "final_actual_goal_distance_m": 0.003878635096250331,
+          "closest_actual_to_goal_m": 0.003878635096250331,
+          "closest_installed_reference_to_goal_m": 0.027984735988789335,
+          "P9_reference_increment_sum_m": 0.010909321791418866,
+          "P10_endpoint_increment_sum_m": 0.014289058590199072,
+          "longest_sampled_actual_within4mm_query_span_s": 0.05,
+          "actual_within4mm_points": 2,
+          "reference_within4mm_points": 0
+        }
+      }
+    },
+    {
+      "case": "mobile-wbc-sla-boundary-v1-l1-rest-20261115-01-f4-m_assist-pd4_executed_ref",
+      "condition": {
+        "family": "F4",
+        "level": "L1",
+        "mode": "M_ASSIST",
+        "method": "PD4_EXECUTED_REF",
+        "axis": "+x",
+        "reset": 17
+      },
+      "role": "EXPERT_PREFIX_INITIALIZATION_ONLY",
+      "summary": {
+        "queries": 60,
+        "stage_queries": {
+          "PREGRASP": 19,
+          "DESCEND": 41
+        },
+        "native_integrations": 20703,
+        "tracking_RMS_m": 0.02151154197755618,
+        "original_left_pad_contact_ticks": 0,
+        "original_right_pad_contact_ticks": 0,
+        "original_bilateral_pad_contact_ticks": 0,
+        "confirmed_task_or_prefix_points": 600,
+        "native_grasp_points": 0
+      },
+      "result_sha256": "7c778e923fa055139a5c8e5ee0d1c3a67c7e8e5d19eb8ce4f2b6f7a6a3f55eea",
+      "journal_sha256": "6e9d74387d4c31711a7a55740f6d7400ff421874dd1ff344bc1b2b891caf2658",
+      "stages": {
+        "DESCEND": {
+          "queries": 41,
+          "teacher_15mm_cap_queries": 41,
+          "initial_actual_goal_distance_m": 0.06933664162032938,
+          "final_actual_goal_distance_m": 0.0324215020880055,
+          "closest_actual_to_goal_m": 0.0324215020880055,
+          "closest_installed_reference_to_goal_m": 0.04183848525862348,
+          "P9_reference_increment_sum_m": 0.05183290554898714,
+          "P10_endpoint_increment_sum_m": 0.06789087703621503,
+          "longest_sampled_actual_within4mm_query_span_s": 0.0,
+          "actual_within4mm_points": 0,
+          "reference_within4mm_points": 0
+        },
+        "PREGRASP": {
+          "queries": 19,
+          "teacher_15mm_cap_queries": 0,
+          "initial_actual_goal_distance_m": 0.010490601479802365,
+          "final_actual_goal_distance_m": 0.0038400368259581662,
+          "closest_actual_to_goal_m": 0.0038400368259581662,
+          "closest_installed_reference_to_goal_m": 0.027962903625873427,
+          "P9_reference_increment_sum_m": 0.010931226945393103,
+          "P10_endpoint_increment_sum_m": 0.014317750018919035,
+          "longest_sampled_actual_within4mm_query_span_s": 0.1,
+          "actual_within4mm_points": 3,
+          "reference_within4mm_points": 0
+        }
+      }
+    },
+    {
+      "case": "mobile-wbc-sla-boundary-v1-l1-rest-20261115-01-f4-m_free-pd4_final_plan",
+      "condition": {
+        "family": "F4",
+        "level": "L1",
+        "mode": "M_FREE",
+        "method": "PD4_FINAL_PLAN",
+        "axis": "+x",
+        "reset": 17
+      },
+      "role": "EXPERT_PREFIX_INITIALIZATION_ONLY",
+      "summary": {
+        "queries": 60,
+        "stage_queries": {
+          "PREGRASP": 18,
+          "DESCEND": 42
+        },
+        "native_integrations": 20703,
+        "tracking_RMS_m": 0.02068472920385792,
+        "original_left_pad_contact_ticks": 0,
+        "original_right_pad_contact_ticks": 0,
+        "original_bilateral_pad_contact_ticks": 0,
+        "confirmed_task_or_prefix_points": 600,
+        "native_grasp_points": 0
+      },
+      "result_sha256": "3a52b8f36e66b15099c9975c06cb4b61a3a718f5bfdedfdd77a719869c95565e",
+      "journal_sha256": "c7b563bfd1cc64f710db0d464abe5b65cb5acf8ab023d8c9b66feb5883c80bba",
+      "stages": {
+        "DESCEND": {
+          "queries": 42,
+          "teacher_15mm_cap_queries": 42,
+          "initial_actual_goal_distance_m": 0.06975454391230161,
+          "final_actual_goal_distance_m": 0.03191683591887921,
+          "closest_actual_to_goal_m": 0.03191683591887921,
+          "closest_installed_reference_to_goal_m": 0.04043437950676673,
+          "P9_reference_increment_sum_m": 0.0530971227574987,
+          "P10_endpoint_increment_sum_m": 0.069546752085879,
+          "longest_sampled_actual_within4mm_query_span_s": 0.0,
+          "actual_within4mm_points": 0,
+          "reference_within4mm_points": 0
+        },
+        "PREGRASP": {
+          "queries": 18,
+          "teacher_15mm_cap_queries": 0,
+          "initial_actual_goal_distance_m": 0.010365392713916354,
+          "final_actual_goal_distance_m": 0.003967993045643423,
+          "closest_actual_to_goal_m": 0.003967993045643423,
+          "closest_installed_reference_to_goal_m": 0.02786169766111826,
+          "P9_reference_increment_sum_m": 0.01029185807826603,
+          "P10_endpoint_increment_sum_m": 0.013480302982540337,
+          "longest_sampled_actual_within4mm_query_span_s": 0.05,
+          "actual_within4mm_points": 2,
+          "reference_within4mm_points": 0
+        }
+      }
+    },
+    {
+      "case": "mobile-wbc-sla-boundary-v1-l1-rest-20261115-01-f4-m_assist-pd4_final_plan",
+      "condition": {
+        "family": "F4",
+        "level": "L1",
+        "mode": "M_ASSIST",
+        "method": "PD4_FINAL_PLAN",
+        "axis": "+x",
+        "reset": 17
+      },
+      "role": "EXPERT_PREFIX_INITIALIZATION_ONLY",
+      "summary": {
+        "queries": 60,
+        "stage_queries": {
+          "PREGRASP": 19,
+          "DESCEND": 41
+        },
+        "native_integrations": 20703,
+        "tracking_RMS_m": 0.021300524436168006,
+        "original_left_pad_contact_ticks": 0,
+        "original_right_pad_contact_ticks": 0,
+        "original_bilateral_pad_contact_ticks": 0,
+        "confirmed_task_or_prefix_points": 600,
+        "native_grasp_points": 0
+      },
+      "result_sha256": "b418dac2f6a82e79e6bd7e457630c368257944a8794688cf66597b202768f0bb",
+      "journal_sha256": "2a7a9515fcb1c1b3784a73074156261c93737e49d1986a91251777052c46cd09",
+      "stages": {
+        "DESCEND": {
+          "queries": 41,
+          "teacher_15mm_cap_queries": 41,
+          "initial_actual_goal_distance_m": 0.06940252873185998,
+          "final_actual_goal_distance_m": 0.032605605912058126,
+          "closest_actual_to_goal_m": 0.032605605912058126,
+          "closest_installed_reference_to_goal_m": 0.04166411999794673,
+          "P9_reference_increment_sum_m": 0.05183290554898679,
+          "P10_endpoint_increment_sum_m": 0.06789087703621492,
+          "longest_sampled_actual_within4mm_query_span_s": 0.0,
+          "actual_within4mm_points": 0,
+          "reference_within4mm_points": 0
+        },
+        "PREGRASP": {
+          "queries": 19,
+          "teacher_15mm_cap_queries": 0,
+          "initial_actual_goal_distance_m": 0.010628494737472297,
+          "final_actual_goal_distance_m": 0.0038677243720976013,
+          "closest_actual_to_goal_m": 0.0038677243720976013,
+          "closest_installed_reference_to_goal_m": 0.027738667147085286,
+          "P9_reference_increment_sum_m": 0.01093116555227749,
+          "P10_endpoint_increment_sum_m": 0.014317669606053848,
+          "longest_sampled_actual_within4mm_query_span_s": 0.05,
+          "actual_within4mm_points": 2,
+          "reference_within4mm_points": 0
+        }
+      }
+    },
+    {
+      "case": "mobile-wbc-sla-boundary-v1-l1-rest-20261115-01-f4-m_free-pd4_executed_ref",
+      "condition": {
+        "family": "F4",
+        "level": "L1",
+        "mode": "M_FREE",
+        "method": "PD4_EXECUTED_REF",
+        "axis": "+x",
+        "reset": 17
+      },
+      "role": "EXPERT_PREFIX_INITIALIZATION_ONLY",
+      "summary": {
+        "queries": 60,
+        "stage_queries": {
+          "PREGRASP": 19,
+          "DESCEND": 41
+        },
+        "native_integrations": 20703,
+        "tracking_RMS_m": 0.021434032402054253,
+        "original_left_pad_contact_ticks": 0,
+        "original_right_pad_contact_ticks": 0,
+        "original_bilateral_pad_contact_ticks": 0,
+        "confirmed_task_or_prefix_points": 600,
+        "native_grasp_points": 0
+      },
+      "result_sha256": "8d86a1d083c1e2d8e0ac32422f4aca5e80923333b527dccf1ac86a16cef82ed7",
+      "journal_sha256": "e2e90328397fcbddfa256863f43370a8bfdca35c3f9e4b50bca549b5e913e44e",
+      "stages": {
+        "DESCEND": {
+          "queries": 41,
+          "teacher_15mm_cap_queries": 41,
+          "initial_actual_goal_distance_m": 0.06938547968503324,
+          "final_actual_goal_distance_m": 0.03247652408454161,
+          "closest_actual_to_goal_m": 0.03247652408454161,
+          "closest_installed_reference_to_goal_m": 0.04179619608555394,
+          "P9_reference_increment_sum_m": 0.05183290554898706,
+          "P10_endpoint_increment_sum_m": 0.06789087703621499,
+          "longest_sampled_actual_within4mm_query_span_s": 0.0,
+          "actual_within4mm_points": 0,
+          "reference_within4mm_points": 0
+        },
+        "PREGRASP": {
+          "queries": 19,
+          "teacher_15mm_cap_queries": 0,
+          "initial_actual_goal_distance_m": 0.010488284241745046,
+          "final_actual_goal_distance_m": 0.0038267973412976475,
+          "closest_actual_to_goal_m": 0.0038267973412976475,
+          "closest_installed_reference_to_goal_m": 0.02793834620520344,
+          "P9_reference_increment_sum_m": 0.010937792855416635,
+          "P10_endpoint_increment_sum_m": 0.014326350065266396,
+          "longest_sampled_actual_within4mm_query_span_s": 0.2,
+          "actual_within4mm_points": 9,
+          "reference_within4mm_points": 0
+        }
+      }
+    },
+    {
+      "case": "mobile-wbc-sla-boundary-v1-l1-rest-20261115-01-f5-m_assist-expert",
+      "condition": {
+        "family": "F5",
+        "level": "L1",
+        "mode": "M_ASSIST",
+        "method": "EXPERT",
+        "axis": "+x",
+        "reset": 17
+      },
+      "role": "EXPERT",
+      "summary": {
+        "queries": 60,
+        "stage_queries": {
+          "PREGRASP": 21,
+          "DESCEND": 39
+        },
+        "native_integrations": 20703,
+        "tracking_RMS_m": 0.02124041222910944,
+        "original_left_pad_contact_ticks": 0,
+        "original_right_pad_contact_ticks": 0,
+        "original_bilateral_pad_contact_ticks": 0,
+        "confirmed_task_or_prefix_points": 600,
+        "native_grasp_points": 0
+      },
+      "result_sha256": "d322b0cddc337a0117f9e4ee1a1b270d150f7ad610d3a773469fdce53b4e9a68",
+      "journal_sha256": "39c8c958c5c9a5f01f457d047e95a6b033fd61ef3cf88937c4c7a54cfb8737d4",
+      "stages": {
+        "DESCEND": {
+          "queries": 39,
+          "teacher_15mm_cap_queries": 39,
+          "initial_actual_goal_distance_m": 0.06979151993164501,
+          "final_actual_goal_distance_m": 0.03514652126639432,
+          "closest_actual_to_goal_m": 0.03514652126639432,
+          "closest_installed_reference_to_goal_m": 0.043255812966909196,
+          "P9_reference_increment_sum_m": 0.04930447113196307,
+          "P10_endpoint_increment_sum_m": 0.0645791269368874,
+          "longest_sampled_actual_within4mm_query_span_s": 0.0,
+          "actual_within4mm_points": 0,
+          "reference_within4mm_points": 0
+        },
+        "PREGRASP": {
+          "queries": 21,
+          "teacher_15mm_cap_queries": 0,
+          "initial_actual_goal_distance_m": 0.010425776963675238,
+          "final_actual_goal_distance_m": 0.0038175021843385847,
+          "closest_actual_to_goal_m": 0.0036380657681576306,
+          "closest_installed_reference_to_goal_m": 0.027162461216624658,
+          "P9_reference_increment_sum_m": 0.011957335998603255,
+          "P10_endpoint_increment_sum_m": 0.015661750375823614,
+          "longest_sampled_actual_within4mm_query_span_s": 0.3,
+          "actual_within4mm_points": 9,
+          "reference_within4mm_points": 0
+        }
+      }
+    },
+    {
+      "case": "mobile-wbc-sla-boundary-v1-l1-rest-20261115-01-f5-m_free-expert",
+      "condition": {
+        "family": "F5",
+        "level": "L1",
+        "mode": "M_FREE",
+        "method": "EXPERT",
+        "axis": "+x",
+        "reset": 17
+      },
+      "role": "EXPERT",
+      "summary": {
+        "queries": 60,
+        "stage_queries": {
+          "PREGRASP": 23,
+          "DESCEND": 37
+        },
+        "native_integrations": 20703,
+        "tracking_RMS_m": 0.01695965564966477,
+        "original_left_pad_contact_ticks": 0,
+        "original_right_pad_contact_ticks": 0,
+        "original_bilateral_pad_contact_ticks": 0,
+        "confirmed_task_or_prefix_points": 600,
+        "native_grasp_points": 0
+      },
+      "result_sha256": "b36936a57e5e1512216e03492f661288d3b8cb194f511a46983fab9141e57a5a",
+      "journal_sha256": "aebe3d9558845a7a713629b0e3303d051e51307d23194873c8d5102c64570d39",
+      "stages": {
+        "DESCEND": {
+          "queries": 37,
+          "teacher_15mm_cap_queries": 37,
+          "initial_actual_goal_distance_m": 0.0702414988628071,
+          "final_actual_goal_distance_m": 0.03697534494663837,
+          "closest_actual_to_goal_m": 0.03697534494663837,
+          "closest_installed_reference_to_goal_m": 0.04186382971614463,
+          "P9_reference_increment_sum_m": 0.04677603671493958,
+          "P10_endpoint_increment_sum_m": 0.06126737683756018,
+          "longest_sampled_actual_within4mm_query_span_s": 0.0,
+          "actual_within4mm_points": 0,
+          "reference_within4mm_points": 0
+        },
+        "PREGRASP": {
+          "queries": 23,
+          "teacher_15mm_cap_queries": 0,
+          "initial_actual_goal_distance_m": 0.010441897732494891,
+          "final_actual_goal_distance_m": 0.003973232888147161,
+          "closest_actual_to_goal_m": 0.003973232888147161,
+          "closest_installed_reference_to_goal_m": 0.022703661020886987,
+          "P9_reference_increment_sum_m": 0.015325205602480633,
+          "P10_endpoint_increment_sum_m": 0.02007299490724924,
+          "longest_sampled_actual_within4mm_query_span_s": 0.05,
+          "actual_within4mm_points": 2,
+          "reference_within4mm_points": 0
+        }
+      }
+    },
+    {
+      "case": "mobile-wbc-sla-boundary-v1-l1-rest-20261115-01-f5-m_assist-pd4_executed_ref",
+      "condition": {
+        "family": "F5",
+        "level": "L1",
+        "mode": "M_ASSIST",
+        "method": "PD4_EXECUTED_REF",
+        "axis": "+x",
+        "reset": 17
+      },
+      "role": "PD4_EXECUTED_REF",
+      "summary": {
+        "queries": 10,
+        "stage_queries": {},
+        "native_integrations": 7953,
+        "tracking_RMS_m": 0.024840752129931483,
+        "original_left_pad_contact_ticks": 0,
+        "original_right_pad_contact_ticks": 0,
+        "original_bilateral_pad_contact_ticks": 0,
+        "confirmed_task_or_prefix_points": 90,
+        "native_grasp_points": 0
+      },
+      "result_sha256": "f2f08d93ab9297f9d93a92940d3cb07487d8e7e95e58b0cb4fce482994f3fe10",
+      "journal_sha256": "1acb2cbaf5cf5c2cc01b6ebd63a0ef8e15cd0e587a68c1a8a3b6265393f5c381",
+      "stages": {}
+    },
+    {
+      "case": "mobile-wbc-sla-boundary-v1-l1-rest-20261115-01-f5-m_free-pd4_final_plan",
+      "condition": {
+        "family": "F5",
+        "level": "L1",
+        "mode": "M_FREE",
+        "method": "PD4_FINAL_PLAN",
+        "axis": "+x",
+        "reset": 17
+      },
+      "role": "PD4_FINAL_PLAN",
+      "summary": {
+        "queries": 60,
+        "stage_queries": {},
+        "native_integrations": 20703,
+        "tracking_RMS_m": 0.015301203329864137,
+        "original_left_pad_contact_ticks": 0,
+        "original_right_pad_contact_ticks": 0,
+        "original_bilateral_pad_contact_ticks": 0,
+        "confirmed_task_or_prefix_points": 600,
+        "native_grasp_points": 0
+      },
+      "result_sha256": "fecf7355508d9fb5cde80e5d8a549db65ce5ee8a280b1cfd81195a04340d7ec9",
+      "journal_sha256": "3554484d5cd55967d7054ece87c4ffed0a6d34cfbdeec81b7605f8beb1ffce84",
+      "stages": {}
+    },
+    {
+      "case": "mobile-wbc-sla-boundary-v1-l1-rest-20261115-01-f5-m_assist-pd4_final_plan",
+      "condition": {
+        "family": "F5",
+        "level": "L1",
+        "mode": "M_ASSIST",
+        "method": "PD4_FINAL_PLAN",
+        "axis": "+x",
+        "reset": 17
+      },
+      "role": "PD4_FINAL_PLAN",
+      "summary": {
+        "queries": 60,
+        "stage_queries": {},
+        "native_integrations": 20703,
+        "tracking_RMS_m": 0.017934316320678878,
+        "original_left_pad_contact_ticks": 0,
+        "original_right_pad_contact_ticks": 0,
+        "original_bilateral_pad_contact_ticks": 0,
+        "confirmed_task_or_prefix_points": 600,
+        "native_grasp_points": 0
+      },
+      "result_sha256": "0f2558fcb185e1f47f240f63e7146b87228461caa99470bb23555626ed5641cb",
+      "journal_sha256": "040146fa446ea2d36a0d0eab0676655324967b3e6a9dda86c951f3efc475b146",
+      "stages": {}
+    },
+    {
+      "case": "mobile-wbc-sla-boundary-v1-l1-rest-20261115-01-f5-m_free-pd4_executed_ref",
+      "condition": {
+        "family": "F5",
+        "level": "L1",
+        "mode": "M_FREE",
+        "method": "PD4_EXECUTED_REF",
+        "axis": "+x",
+        "reset": 17
+      },
+      "role": "PD4_EXECUTED_REF",
+      "summary": {
+        "queries": 10,
+        "stage_queries": {},
+        "native_integrations": 7953,
+        "tracking_RMS_m": 0.02214512820512205,
+        "original_left_pad_contact_ticks": 0,
+        "original_right_pad_contact_ticks": 0,
+        "original_bilateral_pad_contact_ticks": 0,
+        "confirmed_task_or_prefix_points": 90,
+        "native_grasp_points": 0
+      },
+      "result_sha256": "e44d64d08c8ab642740ca1ff6ff17785b9c856f390140d6ab382463ef0fa2fd1",
+      "journal_sha256": "bcccbb1dafe1c45acbb1641a090289b0e1f5c23814c10de9835e562168995b74",
+      "stages": {}
+    },
+    {
+      "case": "mobile-wbc-sla-boundary-v1-l1-rest-20261115-01-f6-m_assist-expert",
+      "condition": {
+        "family": "F6",
+        "level": "L1",
+        "mode": "M_ASSIST",
+        "method": "EXPERT",
+        "axis": "+x",
+        "reset": 17
+      },
+      "role": "EXPERT",
+      "summary": {
+        "queries": 60,
+        "stage_queries": {
+          "PREGRASP": 21,
+          "DESCEND": 39
+        },
+        "native_integrations": 20703,
+        "tracking_RMS_m": 0.02126362398779284,
+        "original_left_pad_contact_ticks": 0,
+        "original_right_pad_contact_ticks": 0,
+        "original_bilateral_pad_contact_ticks": 0,
+        "confirmed_task_or_prefix_points": 600,
+        "native_grasp_points": 0
+      },
+      "result_sha256": "1301b169cf4eb07f1b700728a5f02c0d4cd190a37a31dfa5bd6b751f017c03f5",
+      "journal_sha256": "1de10d259c49d2213a9d7b2eb82255f1736b80ae9cc0fe91b156196e855f4a61",
+      "stages": {
+        "DESCEND": {
+          "queries": 39,
+          "teacher_15mm_cap_queries": 39,
+          "initial_actual_goal_distance_m": 0.06981807957773593,
+          "final_actual_goal_distance_m": 0.03513354753171707,
+          "closest_actual_to_goal_m": 0.03513354753171707,
+          "closest_installed_reference_to_goal_m": 0.04326875968328546,
+          "P9_reference_increment_sum_m": 0.049304471131963165,
+          "P10_endpoint_increment_sum_m": 0.06457912693688757,
+          "longest_sampled_actual_within4mm_query_span_s": 0.0,
+          "actual_within4mm_points": 0,
+          "reference_within4mm_points": 0
+        },
+        "PREGRASP": {
+          "queries": 21,
+          "teacher_15mm_cap_queries": 0,
+          "initial_actual_goal_distance_m": 0.01022855535035303,
+          "final_actual_goal_distance_m": 0.0038309870177263604,
+          "closest_actual_to_goal_m": 0.003717729975201521,
+          "closest_installed_reference_to_goal_m": 0.02717372549586088,
+          "P9_reference_increment_sum_m": 0.011912737254218295,
+          "P10_endpoint_increment_sum_m": 0.0156033348222497,
+          "longest_sampled_actual_within4mm_query_span_s": 0.3,
+          "actual_within4mm_points": 10,
+          "reference_within4mm_points": 0
+        }
+      }
+    },
+    {
+      "case": "mobile-wbc-sla-boundary-v1-l1-rest-20261115-01-f6-m_free-expert",
+      "condition": {
+        "family": "F6",
+        "level": "L1",
+        "mode": "M_FREE",
+        "method": "EXPERT",
+        "axis": "+x",
+        "reset": 17
+      },
+      "role": "EXPERT",
+      "summary": {
+        "queries": 60,
+        "stage_queries": {
+          "PREGRASP": 23,
+          "DESCEND": 37
+        },
+        "native_integrations": 20703,
+        "tracking_RMS_m": 0.018433279736072616,
+        "original_left_pad_contact_ticks": 0,
+        "original_right_pad_contact_ticks": 0,
+        "original_bilateral_pad_contact_ticks": 0,
+        "confirmed_task_or_prefix_points": 600,
+        "native_grasp_points": 0
+      },
+      "result_sha256": "f0eee19417de26ffbcf95fe5a66822b3013ac899b765394ea0652d6d1cbfc9ba",
+      "journal_sha256": "0e2f25a0eca7b439829a6ed6efaac2b2460976d6acecfe0805eca857b46491a6",
+      "stages": {
+        "DESCEND": {
+          "queries": 37,
+          "teacher_15mm_cap_queries": 37,
+          "initial_actual_goal_distance_m": 0.06995846786971312,
+          "final_actual_goal_distance_m": 0.03674487279033627,
+          "closest_actual_to_goal_m": 0.03674487279033627,
+          "closest_installed_reference_to_goal_m": 0.042970278079665754,
+          "P9_reference_increment_sum_m": 0.046776036714939614,
+          "P10_endpoint_increment_sum_m": 0.06126737683755981,
+          "longest_sampled_actual_within4mm_query_span_s": 0.0,
+          "actual_within4mm_points": 0,
+          "reference_within4mm_points": 0
+        },
+        "PREGRASP": {
+          "queries": 23,
+          "teacher_15mm_cap_queries": 0,
+          "initial_actual_goal_distance_m": 0.010348212484333905,
+          "final_actual_goal_distance_m": 0.003693586664632885,
+          "closest_actual_to_goal_m": 0.003693586664632885,
+          "closest_installed_reference_to_goal_m": 0.024059462224694916,
+          "P9_reference_increment_sum_m": 0.014543966625915278,
+          "P10_endpoint_increment_sum_m": 0.019049726025596715,
+          "longest_sampled_actual_within4mm_query_span_s": 0.45,
+          "actual_within4mm_points": 12,
+          "reference_within4mm_points": 0
+        }
+      }
+    },
+    {
+      "case": "mobile-wbc-sla-boundary-v1-l1-rest-20261115-01-f6-m_assist-pd4_executed_ref",
+      "condition": {
+        "family": "F6",
+        "level": "L1",
+        "mode": "M_ASSIST",
+        "method": "PD4_EXECUTED_REF",
+        "axis": "+x",
+        "reset": 17
+      },
+      "role": "PD4_EXECUTED_REF",
+      "summary": {
+        "queries": 43,
+        "stage_queries": {},
+        "native_integrations": 16203,
+        "tracking_RMS_m": 0.013852426639460041,
+        "original_left_pad_contact_ticks": 0,
+        "original_right_pad_contact_ticks": 0,
+        "original_bilateral_pad_contact_ticks": 0,
+        "confirmed_task_or_prefix_points": 420,
+        "native_grasp_points": 0
+      },
+      "result_sha256": "74f19e867e6c02c9cbb49df1a66a7725936630f668a61cc1f3c51e417e802e75",
+      "journal_sha256": "7ad6c1fb652caca88ba8a54c1bd5e99d875105e4e261a28105328a4e83f3f725",
+      "stages": {}
+    },
+    {
+      "case": "mobile-wbc-sla-boundary-v1-l1-rest-20261115-01-f6-m_free-pd4_final_plan",
+      "condition": {
+        "family": "F6",
+        "level": "L1",
+        "mode": "M_FREE",
+        "method": "PD4_FINAL_PLAN",
+        "axis": "+x",
+        "reset": 17
+      },
+      "role": "PD4_FINAL_PLAN",
+      "summary": {
+        "queries": 13,
+        "stage_queries": {},
+        "native_integrations": 8703,
+        "tracking_RMS_m": 0.019468672981755353,
+        "original_left_pad_contact_ticks": 0,
+        "original_right_pad_contact_ticks": 0,
+        "original_bilateral_pad_contact_ticks": 0,
+        "confirmed_task_or_prefix_points": 120,
+        "native_grasp_points": 0
+      },
+      "result_sha256": "ee4b4838cbae9d9265d8cee614fc82b37f8ffabb35974e84bf3d233f4132ec30",
+      "journal_sha256": "c2d24b4dab5244a1ed395bf07f2a5a8dc6cec556c675250a9fa7290273d522c8",
+      "stages": {}
+    },
+    {
+      "case": "mobile-wbc-sla-boundary-v1-l1-rest-20261115-01-f6-m_assist-pd4_final_plan",
+      "condition": {
+        "family": "F6",
+        "level": "L1",
+        "mode": "M_ASSIST",
+        "method": "PD4_FINAL_PLAN",
+        "axis": "+x",
+        "reset": 17
+      },
+      "role": "PD4_FINAL_PLAN",
+      "summary": {
+        "queries": 36,
+        "stage_queries": {},
+        "native_integrations": 14453,
+        "tracking_RMS_m": 0.015397918941486684,
+        "original_left_pad_contact_ticks": 0,
+        "original_right_pad_contact_ticks": 0,
+        "original_bilateral_pad_contact_ticks": 0,
+        "confirmed_task_or_prefix_points": 350,
+        "native_grasp_points": 0
+      },
+      "result_sha256": "730624c2ce56deffcdb4820fd518d8508cf878a4c8380bf2d0e683192013585c",
+      "journal_sha256": "fc382fd904a7ebe91a2f9ed81c924caea6572fb35865337b68f18d85876c2726",
+      "stages": {}
+    },
+    {
+      "case": "mobile-wbc-sla-boundary-v1-l1-rest-20261115-01-f6-m_free-pd4_executed_ref",
+      "condition": {
+        "family": "F6",
+        "level": "L1",
+        "mode": "M_FREE",
+        "method": "PD4_EXECUTED_REF",
+        "axis": "+x",
+        "reset": 17
+      },
+      "role": "PD4_EXECUTED_REF",
+      "summary": {
+        "queries": 6,
+        "stage_queries": {},
+        "native_integrations": 6953,
+        "tracking_RMS_m": 0.024259792368355022,
+        "original_left_pad_contact_ticks": 0,
+        "original_right_pad_contact_ticks": 0,
+        "original_bilateral_pad_contact_ticks": 0,
+        "confirmed_task_or_prefix_points": 50,
+        "native_grasp_points": 0
+      },
+      "result_sha256": "dc959bf03ed79a9cc26dcc2a71c8ffb283bedca4718e7a0596bb35177cefc2f9",
+      "journal_sha256": "df6b23960261e6dac04d11cb80e7402fc1d8332d60f77d8483ded5039ccecfcf",
+      "stages": {}
+    }
+  ],
+  "interpretation": [
+    "P9 is the last command row at t=.45; P10 is the end of that 50ms window at t=.5. Sums of P10 increments must not be treated as a continuous path: V1 anchors the next query at the consumed row9 reference.",
+    "The old teacher repeatedly restarts its quintic. F1/F2 never reach the 4mm actual-TCP pregrasp predicate. F4 prefixes do transition to DESCEND and fail before CLOSE; none has true pad contact. Timing is supported as a repair target, not established as the sole cause.",
+    "Tracking RMS around 20\u201325mm is independently present. Absolute installed references do not necessarily equal teacher privileged goals because the old nominal-to-reference transport preserves the measured reference offset.",
+    "F4 method labels are future student identities; all six observed segments are expert initialization, with zero student carry execution. Original RESULT files and hashes remain unchanged."
+  ],
+  "analysis_duration_enrichment_CPU_s": 9.404163363,
+  "analysis_duration_enrichment_wall_s": 10.06364917755127,
+  "duration_scope": "Longest contiguous sampled span within each query; a 50ms sample is not proof of every 2ms instant."
+}

@@ -1,0 +1,48 @@
+{
+  "schema": "MOBILE_F2_FREE_PAD_TABLE_ATTRIBUTION_V3",
+  "original_source_sha": "cb24a1c1dd71bfe38aa47a48ed0378d5dcf6542c",
+  "original_result_sha256": "ad03b6f1f4464faf909972ceb67593fa941723fa84dc8229a6a5cb81909911a5",
+  "read_only": true,
+  "new_physical_requests": 0,
+  "new_integrations": 0,
+  "new_forward_calls": 0,
+  "new_certifier_calls": 0,
+  "FK_only": true,
+  "original_native_STOP": {
+    "tick": 18921,
+    "reason": "ILLEGAL_CONTACT",
+    "pair": [
+      "task_table",
+      "task_right_pad"
+    ],
+    "recorded_normal_force_N": 4.28381076375781,
+    "recorded_contact_distance_m": -1.0137537159398899e-05,
+    "integrations_after_STOP": 0
+  },
+  "interval_native_steps": [
+    18878,
+    18920
+  ],
+  "interval_seconds": 0.084,
+  "TCP_vertical_delta_m": -0.016479056014951032,
+  "mount_translation_vertical_contribution_m": -0.009688873010090082,
+  "mount_rotation_vertical_contribution_m": -0.005015018186717516,
+  "arm_relative_vertical_contribution_m": -0.0017751648181433316,
+  "decomposition": "p_world = mount_translation + mount_rotation @ p_relative; exact ordered FK accounting, not isolated causal WBC interventions",
+  "original_goal_right_pad_clearance_m": 0.012526399275500831,
+  "last_confirmed_installed_reference_right_pad_clearance_m": 0.011017245748400815,
+  "same_actual_position_original_goal_rotation_right_pad_clearance_m": 0.0003738170970310137,
+  "actual_right_pad_vertical_clearance_m": -2.0275074318766573e-05,
+  "repair": {
+    "high_level_F2_FREE_grasp_raise_m": 0.008,
+    "minimum_saved_finger_configuration_nominal_raised_pad_clearance_m": 0.020518896955343723,
+    "minimum_raised_pad_object_vertical_overlap_m": 0.017169164961683955,
+    "dynamic_qualification": false,
+    "original_safety_changed": false
+  },
+  "interpretation": [
+    "The nominal grasp target and last confirmed installed reference retain positive table clearance. The observed collision is preceded by an actual TCP downward transient dominated by mount motion, not a nominal target deliberately inside the table.",
+    "The internal MPC/leg-policy cause of the base transient is not established. This saved FK analysis is not exact full-controller replay, a causal controller intervention, IK feasibility or a native safety certificate.",
+    "A separately labelled F2/M_FREE condition raises only the high-level grasp target8mm. It is not pooled with budget-only conditions. Original WBC, native safety, scene, state and failed result are not modified."
+  ]
+}

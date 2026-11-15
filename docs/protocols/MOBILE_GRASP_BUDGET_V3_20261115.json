@@ -1,0 +1,100 @@
+{
+  "schema": "MOBILE_GRASP_BUDGET_V3",
+  "date_SGT": "2026-11-15",
+  "parent_PR": 387,
+  "parent_commit": "c3748fe4647b405bc54835e3eb8c27cdd17c35e6",
+  "status": "NATIVE4_TERMINAL_QUALIFIED3_SAFETY_FAILURE1",
+  "diagnosis": "reports/WM02/mobile-grasp-budget-v3-20261115/PAD_TABLE_CAUSE_20261115.json",
+  "max_physical_requests": 4,
+  "previous_mobile_actual_requests": 43,
+  "projected_max_requests": 47,
+  "old_first_wave_maximum": 48,
+  "conditions": [
+    {
+      "family": "F1",
+      "mode": "M_FREE",
+      "method": "EXPERT",
+      "reset": 17,
+      "grasp_goal_raise_m": 0.0,
+      "experimental_arm": "BUDGET_ONLY"
+    },
+    {
+      "family": "F1",
+      "mode": "M_ASSIST",
+      "method": "EXPERT",
+      "reset": 17,
+      "grasp_goal_raise_m": 0.0,
+      "experimental_arm": "BUDGET_ONLY"
+    },
+    {
+      "family": "F2",
+      "mode": "M_ASSIST",
+      "method": "EXPERT",
+      "reset": 17,
+      "grasp_goal_raise_m": 0.0,
+      "experimental_arm": "BUDGET_ONLY"
+    },
+    {
+      "family": "F2",
+      "mode": "M_FREE",
+      "method": "EXPERT",
+      "reset": 17,
+      "grasp_goal_raise_m": 0.008,
+      "experimental_arm": "BUDGET_AND_F2_FREE_PAD_CLEARANCE"
+    }
+  ],
+  "stage_budget_s": {
+    "PREGRASP": 20.0,
+    "DESCEND": 20.0,
+    "CLOSE": 6.0,
+    "LIFT": 10.0,
+    "HOLD": 3.0
+  },
+  "global_task_budget_s": 60.0,
+  "policy_queries": 120,
+  "physics_dt_s": 0.002,
+  "action_period_s": 0.05,
+  "H": 40,
+  "P": 10,
+  "initialization_ticks": 5703,
+  "max_native_ticks": 35703,
+  "qualification": "ORIGINAL_ACTUAL_NATIVE_GRASP_AND_LIFT20MM_CONTINUOUS1S_PLUS_CLEAN_NATIVE_EXIT_AND_TRACE",
+  "unchanged": [
+    "WBC",
+    "MPC",
+    "solver",
+    "legs",
+    "arm_controller",
+    "native_safety",
+    "scene",
+    "EEF_original_speed_acceleration_limits",
+    "4mm_actual_stage_tolerance",
+    "gripper_mapping",
+    "H40_P10",
+    "continuous_reference_V2",
+    "BASE_semantics_V1_V2",
+    "DEV_TEST"
+  ],
+  "original_trace_capacity": 524288,
+  "source_trace_capacity_changed": false,
+  "geometry_factor": "Only F2/M_FREE gets explicitly labelled8mm higher grasp target; not a pure budget comparison.",
+  "unsafe": "STOP_AND_QUARANTINE_ENTIRE_AFFECTED_MODE_NO_RETRY",
+  "technical_failure": "STOP_BATCH_NO_RETRY",
+  "new_SLA_queries": 0,
+  "training_updates": 0,
+  "training_visits": 0,
+  "RL": false,
+  "real_hardware": false,
+  "automatic_collection": false,
+  "automatic_training": false,
+  "subsequent_collection_and_training_requires": "Complete native qualification; no failed or partial episode as a successful demonstration; separate frozen input/recipe identity before training.",
+  "runtime_source_sha": "094231c55abbafd18a7aa70e9e37e4bd52edc5c1",
+  "actual_result": "reports/WM02/mobile-grasp-budget-v3-20261115/NATIVE_V3_ACTUAL_20261115.json",
+  "qualified_complete_experts": 3,
+  "quarantined_modes": [
+    "M_ASSIST"
+  ],
+  "eligible_next_collection_modes": [
+    "M_FREE"
+  ]
+}
