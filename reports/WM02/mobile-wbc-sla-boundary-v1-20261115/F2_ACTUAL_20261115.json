@@ -1,0 +1,387 @@
+{
+  "schema": "MOBILE_WBC_SLA_BOUNDARY_V1_F2_ACTUAL_20261115",
+  "snapshot_epoch": 1794742746.030177,
+  "runtime_source_sha": "afb8571f06b7054a9c4ddfb451a415143229466f",
+  "conditions": [
+    {
+      "condition": {
+        "family": "F2",
+        "level": "L1",
+        "mode": "M_ASSIST",
+        "method": "EXPERT",
+        "axis": "+y",
+        "reset": 17
+      },
+      "physical_requests": 1,
+      "actual_native_integrations": 20703,
+      "model_generations": 0,
+      "optimizer_updates": 0,
+      "training_visits": 0,
+      "confirmed_task_atoms": 600,
+      "task_success": false,
+      "initialization_failed": false,
+      "unsafe": false,
+      "technical_failure": false,
+      "metrics": {
+        "task_atoms": 600,
+        "task_integrations": 15000,
+        "actual_base_translation_m": [
+          0.02056788971331748,
+          0.08466280183353465,
+          0.00255626834563899
+        ],
+        "actual_base_yaw_rad": 0.01903832678662271,
+        "actual_base_path_m": 0.25753214875772945,
+        "directional_motion": 0.08466280183353465,
+        "movement_demonstrated": true,
+        "movement_observed": true,
+        "EEF_translation_RMS_m": 0.022096957313723523,
+        "EEF_rotation_RMS_rad": 0.05265928303130269,
+        "exact_solver_target_confirmed_atoms": 600,
+        "arm_request_atoms": 600,
+        "base_command_atoms": 600,
+        "all_sampled_contacts_valid": true,
+        "foot_contact_counts": [
+          2,
+          3,
+          4
+        ],
+        "contact_tangent_speed_max_m_s": 0.5156779828653115,
+        "grasped_atoms": 0,
+        "task_success": false,
+        "controller_selected_policy_identity": "NOT_EXPORTED_DERIVED_ONLY",
+        "task_and_required_motion_success": false
+      },
+      "failure": null,
+      "result_sha256": "7060dbe03975564cc4bbd25ccb56a943905cac43bbe6914a77776ad23ffb2526",
+      "next_action": "Preserve the complete-budget expert failure and inspect pregrasp/reference progress."
+    },
+    {
+      "condition": {
+        "family": "F2",
+        "level": "L1",
+        "mode": "M_FREE",
+        "method": "EXPERT",
+        "axis": "+y",
+        "reset": 17
+      },
+      "physical_requests": 1,
+      "actual_native_integrations": 20703,
+      "model_generations": 0,
+      "optimizer_updates": 0,
+      "training_visits": 0,
+      "confirmed_task_atoms": 600,
+      "task_success": false,
+      "initialization_failed": false,
+      "unsafe": false,
+      "technical_failure": false,
+      "metrics": {
+        "task_atoms": 600,
+        "task_integrations": 15000,
+        "actual_base_translation_m": [
+          0.04412637978374247,
+          0.06545095819348837,
+          0.004744744241183152
+        ],
+        "actual_base_yaw_rad": 0.042215875051289396,
+        "actual_base_path_m": 0.37278140094232726,
+        "directional_motion": 0.06545095819348837,
+        "movement_demonstrated": true,
+        "movement_observed": true,
+        "EEF_translation_RMS_m": 0.0250194598968265,
+        "EEF_rotation_RMS_rad": 0.054538854652755056,
+        "exact_solver_target_confirmed_atoms": 600,
+        "arm_request_atoms": 600,
+        "base_command_atoms": 600,
+        "all_sampled_contacts_valid": true,
+        "foot_contact_counts": [
+          2,
+          3,
+          4
+        ],
+        "contact_tangent_speed_max_m_s": 1.100237194140276,
+        "grasped_atoms": 0,
+        "task_success": false,
+        "controller_selected_policy_identity": "NOT_EXPORTED_DERIVED_ONLY",
+        "task_and_required_motion_success": false
+      },
+      "failure": null,
+      "result_sha256": "5efb5fdddb5e83eccd089041e61e3ab69b03278a8ca1c2cfeac25e7570cfffbd",
+      "next_action": "Preserve the complete-budget expert failure and inspect pregrasp/reference progress."
+    },
+    {
+      "condition": {
+        "family": "F2",
+        "level": "L1",
+        "mode": "M_ASSIST",
+        "method": "PD4_EXECUTED_REF",
+        "axis": "+y",
+        "reset": 17
+      },
+      "physical_requests": 1,
+      "actual_native_integrations": 6953,
+      "model_generations": 6,
+      "optimizer_updates": 0,
+      "training_visits": 0,
+      "confirmed_task_atoms": 50,
+      "task_success": false,
+      "initialization_failed": false,
+      "unsafe": false,
+      "technical_failure": false,
+      "metrics": {
+        "task_atoms": 50,
+        "task_integrations": 1250,
+        "actual_base_translation_m": [
+          0.02360974733408905,
+          0.04353949840480517,
+          0.002706624057926821
+        ],
+        "actual_base_yaw_rad": 0.006312655150360726,
+        "actual_base_path_m": 0.09422814926430219,
+        "directional_motion": 0.04353949840480517,
+        "movement_demonstrated": false,
+        "movement_observed": false,
+        "EEF_translation_RMS_m": 0.02445127781421144,
+        "EEF_rotation_RMS_rad": 0.052542820545164966,
+        "exact_solver_target_confirmed_atoms": 50,
+        "arm_request_atoms": 50,
+        "base_command_atoms": 50,
+        "all_sampled_contacts_valid": true,
+        "foot_contact_counts": [
+          2,
+          3,
+          4
+        ],
+        "contact_tangent_speed_max_m_s": 0.6258767308350169,
+        "grasped_atoms": 0,
+        "task_success": false,
+        "controller_selected_policy_identity": "NOT_EXPORTED_DERIVED_ONLY",
+        "task_and_required_motion_success": false
+      },
+      "failure": {
+        "query": 5,
+        "reason": "TASK_LEARNING_STUDENT_FULL_PROPOSAL_REJECTED: SLA_DENSE_ORIGINAL_FULL_H40_GATE:TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+        "full_H40_checked": true,
+        "installed": false
+      },
+      "result_sha256": "6ca44453d86b43b6d3e445c0a9e0eb5fa60e65649f14140af53f89d66acd5dc2",
+      "next_action": "Preserve original full-H40 rejection; quantify derivative violation and continue remaining registered cells without retraining."
+    },
+    {
+      "condition": {
+        "family": "F2",
+        "level": "L1",
+        "mode": "M_FREE",
+        "method": "PD4_FINAL_PLAN",
+        "axis": "+y",
+        "reset": 17
+      },
+      "physical_requests": 1,
+      "actual_native_integrations": 8703,
+      "model_generations": 13,
+      "optimizer_updates": 0,
+      "training_visits": 0,
+      "confirmed_task_atoms": 120,
+      "task_success": false,
+      "initialization_failed": false,
+      "unsafe": false,
+      "technical_failure": false,
+      "metrics": {
+        "task_atoms": 120,
+        "task_integrations": 3000,
+        "actual_base_translation_m": [
+          0.014564107219204744,
+          -0.0021908626144714043,
+          0.0007444569597609973
+        ],
+        "actual_base_yaw_rad": 0.011520148270525403,
+        "actual_base_path_m": 0.03735355853609692,
+        "directional_motion": -0.0021908626144714043,
+        "movement_demonstrated": false,
+        "movement_observed": false,
+        "EEF_translation_RMS_m": 0.018854382258492956,
+        "EEF_rotation_RMS_rad": 0.06715494343356347,
+        "exact_solver_target_confirmed_atoms": 120,
+        "arm_request_atoms": 120,
+        "base_command_atoms": 120,
+        "all_sampled_contacts_valid": true,
+        "foot_contact_counts": [
+          3,
+          4
+        ],
+        "contact_tangent_speed_max_m_s": 0.20824064948621768,
+        "grasped_atoms": 0,
+        "task_success": false,
+        "controller_selected_policy_identity": "NOT_EXPORTED_DERIVED_ONLY",
+        "task_and_required_motion_success": false
+      },
+      "failure": {
+        "query": 12,
+        "reason": "TASK_LEARNING_STUDENT_FULL_PROPOSAL_REJECTED: SLA_DENSE_ORIGINAL_FULL_H40_GATE:TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+        "full_H40_checked": true,
+        "installed": false
+      },
+      "result_sha256": "fbd875e9b9227bb6dc8947642e56f79fbfe06c1811f40e27361991d53aa8da59",
+      "next_action": "Preserve original full-H40 rejection; quantify derivative violation and continue remaining registered cells without retraining."
+    },
+    {
+      "condition": {
+        "family": "F2",
+        "level": "L1",
+        "mode": "M_ASSIST",
+        "method": "PD4_FINAL_PLAN",
+        "axis": "+y",
+        "reset": 17
+      },
+      "physical_requests": 1,
+      "actual_native_integrations": 12953,
+      "model_generations": 30,
+      "optimizer_updates": 0,
+      "training_visits": 0,
+      "confirmed_task_atoms": 290,
+      "task_success": false,
+      "initialization_failed": false,
+      "unsafe": false,
+      "technical_failure": false,
+      "metrics": {
+        "task_atoms": 290,
+        "task_integrations": 7250,
+        "actual_base_translation_m": [
+          0.010515576964811701,
+          0.04707989894346171,
+          0.002435361184564333
+        ],
+        "actual_base_yaw_rad": -0.004380567438495634,
+        "actual_base_path_m": 0.1381564563232408,
+        "directional_motion": 0.04707989894346171,
+        "movement_demonstrated": false,
+        "movement_observed": false,
+        "EEF_translation_RMS_m": 0.020378934641640686,
+        "EEF_rotation_RMS_rad": 0.08585937990167611,
+        "exact_solver_target_confirmed_atoms": 290,
+        "arm_request_atoms": 290,
+        "base_command_atoms": 290,
+        "all_sampled_contacts_valid": true,
+        "foot_contact_counts": [
+          2,
+          3,
+          4
+        ],
+        "contact_tangent_speed_max_m_s": 0.32476929770682317,
+        "grasped_atoms": 0,
+        "task_success": false,
+        "controller_selected_policy_identity": "NOT_EXPORTED_DERIVED_ONLY",
+        "task_and_required_motion_success": false
+      },
+      "failure": {
+        "query": 29,
+        "reason": "TASK_LEARNING_STUDENT_FULL_PROPOSAL_REJECTED: SLA_DENSE_ORIGINAL_FULL_H40_GATE:TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+        "full_H40_checked": true,
+        "installed": false
+      },
+      "result_sha256": "1b9908bb636b4c6cc5b6c496fbf35831f0a23266be79dd5dd1f4c3274603a5a7",
+      "next_action": "Preserve original full-H40 rejection; quantify derivative violation and continue remaining registered cells without retraining."
+    },
+    {
+      "condition": {
+        "family": "F2",
+        "level": "L1",
+        "mode": "M_FREE",
+        "method": "PD4_EXECUTED_REF",
+        "axis": "+y",
+        "reset": 17
+      },
+      "physical_requests": 1,
+      "actual_native_integrations": 7953,
+      "model_generations": 10,
+      "optimizer_updates": 0,
+      "training_visits": 0,
+      "confirmed_task_atoms": 90,
+      "task_success": false,
+      "initialization_failed": false,
+      "unsafe": false,
+      "technical_failure": false,
+      "metrics": {
+        "task_atoms": 90,
+        "task_integrations": 2250,
+        "actual_base_translation_m": [
+          0.019701896115057384,
+          -0.002962247918960546,
+          0.000496467965284908
+        ],
+        "actual_base_yaw_rad": 0.010568372279116786,
+        "actual_base_path_m": 0.042423396302103726,
+        "directional_motion": -0.002962247918960546,
+        "movement_demonstrated": false,
+        "movement_observed": false,
+        "EEF_translation_RMS_m": 0.020062029343029558,
+        "EEF_rotation_RMS_rad": 0.06343985359449748,
+        "exact_solver_target_confirmed_atoms": 90,
+        "arm_request_atoms": 90,
+        "base_command_atoms": 90,
+        "all_sampled_contacts_valid": true,
+        "foot_contact_counts": [
+          2,
+          4
+        ],
+        "contact_tangent_speed_max_m_s": 0.18057380205147,
+        "grasped_atoms": 0,
+        "task_success": false,
+        "controller_selected_policy_identity": "NOT_EXPORTED_DERIVED_ONLY",
+        "task_and_required_motion_success": false
+      },
+      "failure": {
+        "query": 9,
+        "reason": "TASK_LEARNING_STUDENT_FULL_PROPOSAL_REJECTED: SLA_DENSE_ORIGINAL_FULL_H40_GATE:TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+        "full_H40_checked": true,
+        "installed": false
+      },
+      "result_sha256": "d724abeb3e28f86815ce4541baed47438035a1b136fc1fd578ced880b10bb0f8",
+      "next_action": "Preserve original full-H40 rejection; quantify derivative violation and continue remaining registered cells without retraining."
+    }
+  ],
+  "physical_requests": 6,
+  "actual_native_integrations": 77968,
+  "model_generations": 59,
+  "new_optimizer_updates": 0,
+  "new_training_visits": 0,
+  "expert_task_successes": 0,
+  "expert_requests": 2,
+  "student_task_successes": 0,
+  "student_requests": 4,
+  "native_safety_failures": 0,
+  "technical_failures": 0,
+  "cumulative_sealed_M0_F1_F2": {
+    "physical_requests": 21,
+    "native_integrations": 247735,
+    "model_generations": 187,
+    "optimizer_updates": 0,
+    "training_visits": 0,
+    "native_safety_events": 2,
+    "technical_failures": 1
+  },
+  "remaining": {
+    "registered": 18,
+    "families": [
+      "F4",
+      "F5",
+      "F6"
+    ],
+    "current_condition": {
+      "family": "F4",
+      "level": "L1",
+      "mode": "M_ASSIST",
+      "method": "EXPERT",
+      "axis": "+x",
+      "reset": 17
+    },
+    "native_state": "RUNNING",
+    "resident_state": "RUNNING",
+    "resident_parent_loads": 1,
+    "resident_adapter_packages": 2,
+    "foreground_agent_required": false,
+    "automatic_retry": false,
+    "F3": "NOT_REGISTERED_RETAINED_YAW_QUARANTINE",
+    "full_228_autostart": false
+  }
+}

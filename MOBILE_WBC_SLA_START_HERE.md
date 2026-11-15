@@ -3,7 +3,9 @@
 
 [执行实现 PR #386](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/pull/386) · [首批实际报告](reports/WM02/mobile-wbc-sla-boundary-v1-20261115/FIRST_ACTUAL_20261115.md) · [逐端点分母与哈希](reports/WM02/mobile-wbc-sla-boundary-v1-20261115/FIRST_ACTUAL_20261115.json)
 
-已封存15次物理请求、169,767个原生积分、128次SLA生成；新增训练更新／访问均为0。F1专家0/2、学生0/3完成抓持任务，另1个学生单元保持安全隔离。F2／F4／F5／F6共24个条件已独立挂后台；不自动启动完整228探索。
+已封存M0／F1／F2共21次物理请求、247,735个原生积分、187次SLA生成；新增训练更新／访问均为0。F1专家0/2、学生0/3，F2专家0/2、学生0/4完成任务。F1另1个学生单元保持安全隔离；F4／F5／F6剩余18个条件已独立挂后台。不自动启动完整228探索。
+
+[F2最新端点与后台余项](reports/WM02/mobile-wbc-sla-boundary-v1-20261115/F2_ACTUAL_20261115.md)
 
 **主线决定：直接测试Go2＋ARX5完整移动WBC中的SLA能力边界；不要求固定底座raw、RP8、S16或JOIN10先成功。** 现役PR #384与所有历史结果原样保留，不热改、不并入主线运行。
 
