@@ -16,6 +16,11 @@ def read(path):return json.loads(Path(path).read_bytes())
 
 def providers(spec):
     import jax
+    if set(spec['policies'])=={'MFREE_C20_FINAL_FM1000'}:
+        from go2arx5_vla.sla_adapter.provider_mfree_v1 import Provider
+        package=spec['policies']['MFREE_C20_FINAL_FM1000']['package']
+        return {'MFREE_C20_FINAL_FM1000':Provider(package['path'],manifest_sha256=package['sha256'],
+            parent_params=spec['checkpoint'],parent_manifest_path=spec['checkpoint_manifest_path'])}
     from go2arx5_vla.sla_adapter.provider_pd4_v71 import Provider
     from go2arx5_vla.sla_adapter.provider_v1 import active_rows
     from go2arx5_vla.sla_adapter.provider_v3 import contract
@@ -60,9 +65,9 @@ def run(spec_path):
             raise PermissionError('ORIGINAL_QUALIFIED_SLA_NUMERIC_ENVIRONMENT')
         jax.config.update('jax_compilation_cache_dir',spec['SLA_runtime']['compilation_cache_dir'])
         if len(jax.devices())!=1 or jax.devices()[0].platform!='gpu':raise PermissionError('ACTUAL_SINGLE_GPU')
-        write(root/'MODEL_LOAD_INTENT.private.json',dict(parent_loads=1,adapters=2,optimizer_updates=0))
+        write(root/'MODEL_LOAD_INTENT.private.json',dict(parent_loads=1,adapters=len(spec['policies']),optimizer_updates=0))
         policies=providers(spec);loads=1
-        write(root/'READY.private.json',dict(pid=os.getpid(),parent_loads=1,adapter_packages=2,
+        write(root/'READY.private.json',dict(pid=os.getpid(),parent_loads=1,adapter_packages=len(policies),
             GPU_uuid=spec['GPU_uuid'],optimizer_updates=0,training_visits=0,reloads_per_episode=0))
         index=0
         while index<spec['max_queries']and time.time()<spec['deadline_epoch']:

@@ -175,7 +175,11 @@ def run_case(spec_path,lock_fd):
     try:
         adapter.start()
         if spec.get('mobile_stage')=='L1':
-            if spec.get('mobile_experiment_version')=='MOBILE_CONTINUOUS_TEACHER_V2':
+            if spec.get('mobile_experiment_version')=='MFREE_C20_FINAL_PLAN_V1':
+                from go2arx5_vla.world_model.mfree_expert_capture_v1 import episode as l1_episode
+            elif spec.get('mobile_experiment_version')=='MFREE_STUDENT_60S_V1':
+                from go2arx5_vla.world_model.mfree_student_v1 import episode as l1_episode
+            elif spec.get('mobile_experiment_version')=='MOBILE_CONTINUOUS_TEACHER_V2':
                 from go2arx5_vla.world_model.mobile_expert_episode_v2 import episode as l1_episode
             elif spec.get('mobile_experiment_version')=='MOBILE_GRASP_BUDGET_V3':
                 from go2arx5_vla.world_model.mobile_expert_episode_v3 import episode as l1_episode
@@ -238,6 +242,7 @@ def run_batch(spec_path):
                 if time.time()>=spec['deadline_epoch']-900:break
                 case=read(path);axis=case['mobile_condition']['axis'].lstrip('+-')
                 if case.get('mobile_stage')=='L1':axis=case['mobile_condition']['family']+':'+case['mobile_condition']['mode']
+                if spec.get('mobile_experiment_version')=='MFREE_STUDENT_60S_V1':axis=case['mobile_condition']['family']+':'+case['mobile_condition']['method']
                 if spec.get('mobile_experiment_version')in('MOBILE_CONTINUOUS_TEACHER_V2','MOBILE_GRASP_BUDGET_V3'):axis=case['mobile_condition']['mode']
                 if axis in quarantine:continue
                 if(group/'STOP.json').exists():break
@@ -274,12 +279,13 @@ def run_batch(spec_path):
                 elif result['technical_failure']:raise RuntimeError('MOBILE_TECHNICAL_FAILURE_RETAINED_NO_RETRY')
             code=0
     except BaseException:failure=traceback.format_exc()
-    if spec.get('mobile_experiment_version')in('MOBILE_CONTINUOUS_TEACHER_V2','MOBILE_GRASP_BUDGET_V3'):
+    if spec.get('mobile_experiment_version')in('MOBILE_CONTINUOUS_TEACHER_V2','MOBILE_GRASP_BUDGET_V3','MFREE_STUDENT_60S_V1'):
         for path in spec['cases']:
             root=Path(path).parent
             if not(root/'SUPERVISOR.private.json').exists():
                 pending=read(root/'control/LEASE.json')
-                reason='MODE_NATIVE_SAFETY_QUARANTINE'if read(path)['mobile_condition']['mode']in quarantine else'BATCH_STOP_OR_DEADLINE'
+                c=read(path)['mobile_condition'];key=c['family']+':'+c['method']if spec.get('mobile_experiment_version')=='MFREE_STUDENT_60S_V1'else c['mode']
+                reason='NATIVE_SAFETY_QUARANTINE'if key in quarantine else'BATCH_STOP_OR_DEADLINE'
                 write(root/'control/LEASE.json',dict(pending,status='CLOSED_UNSTARTED',physical_requests=0,native_integrations=0,reason=reason,closed_epoch=time.time()))
     value=dict(schema='MOBILE_L1_FINITE_BATCH_ACTUAL_V1'if spec.get('mobile_stage')=='L1'else 'MOBILE_M0_FINITE_BATCH_ACTUAL_V1',exit_code=code,failure=failure,
         requested=len(spec['cases']),terminal=len(outcomes),outcomes=outcomes,quarantined_axes=sorted(quarantine),

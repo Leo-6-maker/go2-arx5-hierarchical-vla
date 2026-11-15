@@ -7,7 +7,7 @@ import sys
 
 
 def main():
-    flag='--server'if '--server'in sys.argv else '--case'if '--case'in sys.argv else '--batch'
+    flag='--production'if '--production'in sys.argv else '--server'if '--server'in sys.argv else '--case'if '--case'in sys.argv else '--batch'
     spec=json.loads(Path(sys.argv[sys.argv.index(flag)+1]).read_bytes())
     root=Path(spec['source_root']);parent=spec['trusted_source_parent']
     if Path(__file__).resolve()!=root/'scripts/wm02/mobile_boundary_bootstrap_v1.py':
@@ -22,7 +22,8 @@ def main():
     import scripts.wm02
     go2arx5_vla.world_model.__path__.insert(0,str(root/'src/go2arx5_vla/world_model'))
     scripts.wm02.__path__.insert(0,str(root/'scripts/wm02'))
-    runpy.run_module('scripts.wm02.mobile_sla_resident_v1'if flag=='--server'else 'scripts.wm02.mobile_boundary_runner_v1',run_name='__main__')
+    runpy.run_module('scripts.wm02.mfree_collection_v1'if flag=='--production'else
+        'scripts.wm02.mobile_sla_resident_v1'if flag=='--server'else 'scripts.wm02.mobile_boundary_runner_v1',run_name='__main__')
 
 
 if __name__=='__main__':main()
