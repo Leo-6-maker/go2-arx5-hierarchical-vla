@@ -1,3 +1,5 @@
+> 最新：[V3完整原生资格终态](MOBILE_GRASP_BUDGET_V3_START_HERE.md)。四条新专家3通过、1原生失败；M_ASSIST保持隔离，未扩采或训练。以下保留旧版本说明，旧结果不改。
+
 # 连续专家抓持诊断 V2
 
 [四条真实终态](reports/WM02/mobile-continuous-teacher-v2-20261115/NATIVE_EXPERT_V2_ACTUAL_20261115.md) · [原专家逐query归因](reports/WM02/mobile-continuous-teacher-v2-20261115/TIMING_ATTRIBUTION_20261115.md) · [固定协议](docs/protocols/MOBILE_CONTINUOUS_TEACHER_V2_20261115.json)

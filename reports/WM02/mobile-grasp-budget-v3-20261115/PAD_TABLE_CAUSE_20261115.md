@@ -1,5 +1,7 @@
 # F2/M_FREE夹爪垫碰桌归因 · 只读
 
+![F2/M_FREE净空与下坠分解](F2_FREE_PAD_TABLE_DIAGNOSIS_20261115.png)
+
 原停止仍为tick18921的ILLEGAL_CONTACT：task_right_pad接触task_table，原记录距离−10.1375μm、法向力4.2838N，STOP后积分0。原结果和状态字节不改；本轮只有保存qpos的前向运动学，0新积分／控制器／模型／IK认证器调用。
 
 | 停止前84ms的垂直运动分解 | 数值 |

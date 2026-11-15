@@ -1,0 +1,374 @@
+{
+  "schema": "MOBILE_GRASP_BUDGET_V3_NATIVE_FINAL",
+  "verified_at_SGT": "2026-11-15T23:03:49.021802+08:00",
+  "runtime_source_sha": "094231c55abbafd18a7aa70e9e37e4bd52edc5c1",
+  "source_seal_sha256": "0c8b0d4ef76731a0848ab7b2d3d2481f224518cebf77f9f28530d81f27536a4d",
+  "spec_sha256": "445179e191f50f00729d03397c3cc01537165b94aaf6e7670b71cfa1d5500434",
+  "group_result_sha256": "98c5baef3202bb21f4fdc96a33580c76095f58c8764943e42e86d27cae8a324d",
+  "all_four_terminal": true,
+  "all_case_leases_closed": true,
+  "background_unit_mainpid": 0,
+  "physical_requests": 4,
+  "native_integrations": 87636,
+  "initialization_integrations": 22812,
+  "confirmed_task_points": 2592,
+  "confirmed_task_integrations": 64800,
+  "unconfirmed_task_integrations": 24,
+  "expert_queries": 260,
+  "new_SLA_queries": 0,
+  "optimizer_updates": 0,
+  "training_visits": 0,
+  "qualified_complete_experts": 3,
+  "unsafe_cases": 1,
+  "technical_failures": 0,
+  "all_four_qualified": false,
+  "quarantined_modes": [
+    "M_ASSIST"
+  ],
+  "automatic_retry": false,
+  "automatic_collection_started": false,
+  "automatic_training_started": false,
+  "formal_new_dataset_export_count": 0,
+  "qualified_native_episode_count": 3,
+  "eligible_collection_conditions": [
+    {
+      "family": "F1",
+      "level": "L1",
+      "mode": "M_FREE",
+      "method": "EXPERT",
+      "axis": "+x",
+      "reset": 17
+    },
+    {
+      "family": "F2",
+      "level": "L1",
+      "mode": "M_FREE",
+      "method": "EXPERT",
+      "axis": "+y",
+      "reset": 17
+    }
+  ],
+  "frozen_native_files_verified": 19,
+  "WBC_changes": false,
+  "native_safety_changes": false,
+  "old_V2_result_sha256": "1080ca69fb8c4aaa6551fcd6962835e238a419212c245dca09a5cac0607545f7",
+  "old_JOIN10_result_sha256": "942abedf67e2166157db0b469b5fa6e3053c20d6dcafe7ff14b3cbce1f56e50d",
+  "old_RP8_passed": false,
+  "cases": [
+    {
+      "condition": {
+        "family": "F1",
+        "level": "L1",
+        "mode": "M_FREE",
+        "method": "EXPERT",
+        "axis": "+x",
+        "reset": 17
+      },
+      "result_sha256": "7f9c2f118acd942a59a9729de23f654add67853102b6a222749bec5caa49c6c9",
+      "source_spec_sha256": "7cf7d599f06fdd660a73f8ce850de96389787d0d64230936f2366e9525866a75",
+      "native_state_journal_sha256": "c7792692a2928b867e282dbc1ebaef6d1f9cc292d8ddb01ee9599e6eea060787",
+      "source_sha": "094231c55abbafd18a7aa70e9e37e4bd52edc5c1",
+      "native_integrations": 22703,
+      "confirmed_task_points": 680,
+      "confirmed_task_integrations": 17000,
+      "unconfirmed_task_integrations": 0,
+      "maximum_confirmed_lift_m": 0.0247383196132559,
+      "native_grasp_points": 118,
+      "longest_sampled_grasp_span_s": 5.8500000000000005,
+      "longest_sampled_grasp_lift20mm_span_s": 1.05,
+      "qualified_complete_expert": true,
+      "expert_queries": 68,
+      "grasp_goal_raise_m": 0.0,
+      "phase_transitions": [
+        {
+          "stage": "PREGRASP",
+          "native_step": 5703,
+          "task_elapsed_s": 0.0
+        },
+        {
+          "stage": "DESCEND",
+          "native_step": 12703,
+          "task_elapsed_s": 14.0
+        },
+        {
+          "stage": "CLOSE",
+          "native_step": 19203,
+          "task_elapsed_s": 27.0
+        },
+        {
+          "stage": "LIFT",
+          "native_step": 19953,
+          "task_elapsed_s": 28.5
+        },
+        {
+          "stage": "HOLD",
+          "native_step": 22203,
+          "task_elapsed_s": 33.0
+        }
+      ],
+      "terminal_reason": "TASK_SUCCESS",
+      "unsafe": false,
+      "technical_failure": false,
+      "BASE_installs": 0,
+      "all_task_installs": 136,
+      "trace_after_STOP_integrations": null,
+      "new_SLA_queries": 0,
+      "optimizer_updates": 0,
+      "training_visits": 0,
+      "actual_BASE_translation_m": [
+        0.09902400468947692,
+        -0.0023185266502050864,
+        -0.00326254027901135
+      ],
+      "actual_BASE_yaw_rad": 0.008147001377871912,
+      "EEF_tracking_RMS_m": 0.019404809460431872,
+      "solver_target_confirmed_points": 680,
+      "original_trace_status": "RECORDED_TRACE_CHECKS_PASS",
+      "original_trace_dropped": 0,
+      "task_elapsed_s": 34.0,
+      "experimental_arm": "BUDGET_ONLY",
+      "eligible_for_next_collection": true,
+      "next_action": "FREEZE_C20_CAPTURE_AND_EXPORT_IDENTITY_FOR_THIS_QUALIFIED_M_FREE_VARIANT; NO_TRAINING_BEFORE_QUALIFIED_DATA_AND_STATISTICS"
+    },
+    {
+      "condition": {
+        "family": "F1",
+        "level": "L1",
+        "mode": "M_ASSIST",
+        "method": "EXPERT",
+        "axis": "+x",
+        "reset": 17
+      },
+      "result_sha256": "14ae86cafa18798e95e88ede974b02595ae9a573cf97096fda74d85639e0d903",
+      "source_spec_sha256": "8790d650163805b9a538b4c6e557606edca5e3a5fb07886c29abe3fb84db51e3",
+      "native_state_journal_sha256": "e38209e4426addc058bf0359587a602fbd9baf6541d708c30799ec1f607c0efb",
+      "source_sha": "094231c55abbafd18a7aa70e9e37e4bd52edc5c1",
+      "native_integrations": 22453,
+      "confirmed_task_points": 670,
+      "confirmed_task_integrations": 16750,
+      "unconfirmed_task_integrations": 0,
+      "maximum_confirmed_lift_m": 0.02486261272237511,
+      "native_grasp_points": 118,
+      "longest_sampled_grasp_span_s": 5.8500000000000005,
+      "longest_sampled_grasp_lift20mm_span_s": 1.05,
+      "qualified_complete_expert": true,
+      "expert_queries": 67,
+      "grasp_goal_raise_m": 0.0,
+      "phase_transitions": [
+        {
+          "stage": "PREGRASP",
+          "native_step": 5703,
+          "task_elapsed_s": 0.0
+        },
+        {
+          "stage": "DESCEND",
+          "native_step": 12703,
+          "task_elapsed_s": 14.0
+        },
+        {
+          "stage": "CLOSE",
+          "native_step": 18953,
+          "task_elapsed_s": 26.5
+        },
+        {
+          "stage": "LIFT",
+          "native_step": 19703,
+          "task_elapsed_s": 28.0
+        },
+        {
+          "stage": "HOLD",
+          "native_step": 21953,
+          "task_elapsed_s": 32.5
+        }
+      ],
+      "terminal_reason": "TASK_SUCCESS",
+      "unsafe": false,
+      "technical_failure": false,
+      "BASE_installs": 134,
+      "all_task_installs": 134,
+      "trace_after_STOP_integrations": null,
+      "new_SLA_queries": 0,
+      "optimizer_updates": 0,
+      "training_visits": 0,
+      "actual_BASE_translation_m": [
+        0.09694360725624762,
+        -0.0037179749306604252,
+        -0.00038892280652635947
+      ],
+      "actual_BASE_yaw_rad": -0.002659257007761007,
+      "EEF_tracking_RMS_m": 0.019120570829131798,
+      "solver_target_confirmed_points": 670,
+      "original_trace_status": "RECORDED_TRACE_CHECKS_PASS",
+      "original_trace_dropped": 0,
+      "task_elapsed_s": 33.5,
+      "experimental_arm": "BUDGET_ONLY",
+      "eligible_for_next_collection": false,
+      "next_action": "KEEP_VALID_QUALIFIED_EPISODE; NO_FURTHER_M_ASSIST_PHYSICS_WHILE_MODE_QUARANTINED"
+    },
+    {
+      "condition": {
+        "family": "F2",
+        "level": "L1",
+        "mode": "M_ASSIST",
+        "method": "EXPERT",
+        "axis": "+y",
+        "reset": 17
+      },
+      "result_sha256": "c91374b9829d25bddd8769a814933c850b2695f9bb3b32474ef72b5435bb2feb",
+      "source_spec_sha256": "de72317003d911b9ee8ea7d9cc829ab0af81897a181d22454ae264a91c7cb67e",
+      "native_state_journal_sha256": "1233dde68207f0ef8895ed27f9bc77dcc0b0842f8fdc0b81442f2d39a49e653a",
+      "source_sha": "094231c55abbafd18a7aa70e9e37e4bd52edc5c1",
+      "native_integrations": 19277,
+      "confirmed_task_points": 542,
+      "confirmed_task_integrations": 13550,
+      "unconfirmed_task_integrations": 24,
+      "maximum_confirmed_lift_m": 0.0,
+      "native_grasp_points": 0,
+      "longest_sampled_grasp_span_s": 0.0,
+      "longest_sampled_grasp_lift20mm_span_s": 0.0,
+      "qualified_complete_expert": false,
+      "expert_queries": 55,
+      "grasp_goal_raise_m": 0.0,
+      "phase_transitions": null,
+      "terminal_reason": "ORIGINAL_ILLEGAL_CONTACT",
+      "unsafe": true,
+      "technical_failure": false,
+      "BASE_installs": 109,
+      "all_task_installs": 109,
+      "trace_after_STOP_integrations": 0,
+      "new_SLA_queries": 0,
+      "optimizer_updates": 0,
+      "training_visits": 0,
+      "actual_BASE_translation_m": [
+        0.007902749610463458,
+        0.09284175977777126,
+        -0.01283980782096078
+      ],
+      "actual_BASE_yaw_rad": 0.011427587823168755,
+      "EEF_tracking_RMS_m": 0.020650480046979086,
+      "solver_target_confirmed_points": 542,
+      "original_trace_status": "RECORDED_TRACE_CHECKS_PASS",
+      "original_trace_dropped": 0,
+      "task_elapsed_s": 27.148,
+      "experimental_arm": "BUDGET_ONLY",
+      "eligible_for_next_collection": false,
+      "original_forbidden_contact_points": [
+        {
+          "geom_ids": [
+            1,
+            77
+          ],
+          "geom_names": [
+            "task_table",
+            "task_right_pad"
+          ],
+          "bodies": [
+            "world",
+            "x5_link8"
+          ],
+          "distance_m": -6.766549663082821e-05,
+          "normal_force_N": 5.857998779569909
+        },
+        {
+          "geom_ids": [
+            1,
+            77
+          ],
+          "geom_names": [
+            "task_table",
+            "task_right_pad"
+          ],
+          "bodies": [
+            "world",
+            "x5_link8"
+          ],
+          "distance_m": -1.0918831877084381e-05,
+          "normal_force_N": 6.262621706142756
+        }
+      ],
+      "next_action": "KEEP_NATIVE_FAILURE_AND_MODE_QUARANTINE; DIAGNOSE_LATERAL_CLEARANCE_IN_SEPARATE_VERSION"
+    },
+    {
+      "condition": {
+        "family": "F2",
+        "level": "L1",
+        "mode": "M_FREE",
+        "method": "EXPERT",
+        "axis": "+y",
+        "reset": 17
+      },
+      "result_sha256": "9130dbe6b27a2002e555781a5697419b554efbeeec7d673aab2eeba91ec4af98",
+      "source_spec_sha256": "eda8c65fb157483a4d2146d627d89a84959410d983e1c81d844fdf5c307019f9",
+      "native_state_journal_sha256": "8e634e7c434d58289837867490cb9b2ce23fa069f10f004a425a2deaebe81617",
+      "source_sha": "094231c55abbafd18a7aa70e9e37e4bd52edc5c1",
+      "native_integrations": 23203,
+      "confirmed_task_points": 700,
+      "confirmed_task_integrations": 17500,
+      "unconfirmed_task_integrations": 0,
+      "maximum_confirmed_lift_m": 0.025282010220741613,
+      "native_grasp_points": 118,
+      "longest_sampled_grasp_span_s": 5.8500000000000005,
+      "longest_sampled_grasp_lift20mm_span_s": 1.25,
+      "qualified_complete_expert": true,
+      "expert_queries": 70,
+      "grasp_goal_raise_m": 0.008,
+      "phase_transitions": [
+        {
+          "stage": "PREGRASP",
+          "native_step": 5703,
+          "task_elapsed_s": 0.0
+        },
+        {
+          "stage": "DESCEND",
+          "native_step": 14203,
+          "task_elapsed_s": 17.0
+        },
+        {
+          "stage": "CLOSE",
+          "native_step": 19703,
+          "task_elapsed_s": 28.0
+        },
+        {
+          "stage": "LIFT",
+          "native_step": 20453,
+          "task_elapsed_s": 29.5
+        },
+        {
+          "stage": "HOLD",
+          "native_step": 22703,
+          "task_elapsed_s": 34.0
+        }
+      ],
+      "terminal_reason": "TASK_SUCCESS",
+      "unsafe": false,
+      "technical_failure": false,
+      "BASE_installs": 0,
+      "all_task_installs": 140,
+      "trace_after_STOP_integrations": null,
+      "new_SLA_queries": 0,
+      "optimizer_updates": 0,
+      "training_visits": 0,
+      "actual_BASE_translation_m": [
+        0.010494009845700744,
+        0.08744279948563839,
+        0.0037242887355243837
+      ],
+      "actual_BASE_yaw_rad": 0.0973150641067857,
+      "EEF_tracking_RMS_m": 0.017422102462223445,
+      "solver_target_confirmed_points": 700,
+      "original_trace_status": "RECORDED_TRACE_CHECKS_PASS",
+      "original_trace_dropped": 0,
+      "task_elapsed_s": 35.0,
+      "experimental_arm": "BUDGET_AND_F2_FREE_PAD_CLEARANCE",
+      "eligible_for_next_collection": true,
+      "next_action": "FREEZE_C20_CAPTURE_AND_EXPORT_IDENTITY_FOR_THIS_QUALIFIED_M_FREE_VARIANT; NO_TRAINING_BEFORE_QUALIFIED_DATA_AND_STATISTICS"
+    }
+  ],
+  "interpretation": [
+    "Budget-only F1/M_FREE and F1/M_ASSIST complete the unchanged native grasp+lift20mm+hold1s predicate. These are expert/frozen-WBC successes, not SLA policy or training successes.",
+    "F2/M_FREE with the separately declared8mm higher grasp target also completes the native task. It is not pooled into a pure time-budget causal comparison. The original base-motion transient is not claimed to be eliminated.",
+    "F2/M_ASSIST fails at original native table/right-pad contact. The predeclared entire-mode quarantine remains; even the earlier qualified F1/M_ASSIST episode does not authorize additional M_ASSIST rollout in this version.",
+    "Only qualified and unquarantined M_FREE F1/F2 are eligible for a subsequent bounded C20 collection. Freeze capture/export/labels/TRAIN-only statistics before matched training. No failure, unexecuted suffix or partial trace may become a successful demonstration.",
+    "One fresh restart per condition in known scenes is feasibility evidence, not a reliability estimate or independent DEV/TEST/generalization claim. Old full-controller-state RP8 restoration remains failed."
+  ]
+}

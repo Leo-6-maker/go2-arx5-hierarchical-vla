@@ -3,7 +3,7 @@
   "date_SGT": "2026-11-15",
   "parent_PR": 387,
   "parent_commit": "c3748fe4647b405bc54835e3eb8c27cdd17c35e6",
-  "status": "IMPLEMENTED_NATIVE_PENDING",
+  "status": "NATIVE4_TERMINAL_QUALIFIED3_SAFETY_FAILURE1",
   "diagnosis": "reports/WM02/mobile-grasp-budget-v3-20261115/PAD_TABLE_CAUSE_20261115.json",
   "max_physical_requests": 4,
   "previous_mobile_actual_requests": 43,
@@ -87,5 +87,14 @@
   "real_hardware": false,
   "automatic_collection": false,
   "automatic_training": false,
-  "subsequent_collection_and_training_requires": "Complete native qualification; no failed or partial episode as a successful demonstration; separate frozen input/recipe identity before training."
+  "subsequent_collection_and_training_requires": "Complete native qualification; no failed or partial episode as a successful demonstration; separate frozen input/recipe identity before training.",
+  "runtime_source_sha": "094231c55abbafd18a7aa70e9e37e4bd52edc5c1",
+  "actual_result": "reports/WM02/mobile-grasp-budget-v3-20261115/NATIVE_V3_ACTUAL_20261115.json",
+  "qualified_complete_experts": 3,
+  "quarantined_modes": [
+    "M_ASSIST"
+  ],
+  "eligible_next_collection_modes": [
+    "M_FREE"
+  ]
 }
