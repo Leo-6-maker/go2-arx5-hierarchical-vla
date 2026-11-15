@@ -1,0 +1,63 @@
+{
+  "schema": "SLA_FIXED_JOIN10_NATIVE_QUEUE_ACTUAL_V72",
+  "observation_epoch": 1794730147.0227592,
+  "source_sha": "3232af4a42f0c1436980c5cd17a24a62ba2cb9ba",
+  "job_id": "sla-pd4-join10-train4-v72-20261115-01",
+  "job_spec_sha256": "803b92a4825b8b462acd980734da0a9e4cf3fd2bc9769f2ceb0670e98be637ca",
+  "job_live": true,
+  "queue_state": "WAIT_SHARED_GPU_AND_WORLD_NO_MODEL",
+  "registered_conditions": 8,
+  "completed_conditions": 0,
+  "new_system_native_conditions_started": 0,
+  "new_task_success_rate": null,
+  "saved15_interface": {
+    "result_sha256": "794239828ba20448698a61b07dedefc500c7f15c0504c02934619c2cdbe20b9e",
+    "candidate_compilations": 14,
+    "retained_raw_EEF_rejections": 1,
+    "maximum_difference_from_offline": 6.661338147750939e-16,
+    "wall_s": 1.9433553218841553,
+    "new_model_generations": 0,
+    "certifier_calls": 0,
+    "physical_requests": 0
+  },
+  "native_GPU_preflight": {
+    "sha256": "5e3fe8936befe12f542a4be47dffe635d1ea788484e13b89a3e731384acf7b01",
+    "value": {
+      "conditions": 8,
+      "passed": true,
+      "models": 0,
+      "physical_requests": 0
+    }
+  },
+  "new_optimizer_updates": 0,
+  "new_training_visits": 0,
+  "new_model_generations": 0,
+  "new_physical_requests": 0,
+  "new_integrations": 0,
+  "resource": {
+    "available_host_bytes": 19528577024,
+    "minimum_host_bytes": 25769803776,
+    "GPU0_free_MiB": 32006,
+    "GPU0_utilization_percent": 0
+  },
+  "monitor": {
+    "poll_s": 180,
+    "process_observed_live": true,
+    "automatic_chat_resume": "REQUESTED_ON_TERMINAL_NOT_PROVEN"
+  },
+  "original_raw": {
+    "EXEC_successes": 0,
+    "EXEC_conditions": 4,
+    "FINAL_successes": 0,
+    "FINAL_conditions": 4,
+    "physical_requests": 8,
+    "integrations": 47374,
+    "queries": 15,
+    "consumed_points": 70,
+    "result_sha256": "d9185b7dff07e364368efccd04a1e2d26c382900c6b02000c7a8904d6e6a2401"
+  },
+  "old_RP8_passed": false,
+  "WBC_changes": false,
+  "safety_changes": false,
+  "goal_complete": false
+}
