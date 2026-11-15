@@ -211,9 +211,57 @@ def resources(spec):
     return dict(GPU_uuid=uuid,free_GPU_bytes=int(free)*1024**2,host_available_bytes=available,epoch=time.time())
 
 
-def execute_pair(registered,journal,stage,outcome_count):
+def await_pd4_model_before_native(values,gpu,stage,outcome_count):
+    """Finish one registered model load before the first native integration.
+
+    The measured native failure reached its requested step during error
+    closeout, with parent restore/fingerprinting overlapping the native run.
+    Serialize these startup I/O phases without claiming causal proof; keep
+    the original finite deadline and single clock publication. This grants
+    no query and does not modify either worker.
+    """
+    from scripts.pi0292.durable import write
+    from . import pd4_student_v71 as pd4
+    native,neural=values['native'],values['gpu']
+    task.need(native.get('task_learning_role')==pd4.PROTOCOL
+        and neural.get('core_local_protocol')==pd4.PROTOCOL
+        and pd4.KEY in native and pd4.KEY in neural,
+        'PD4_ONLY_SERIAL_MODEL_LOAD_BEFORE_NATIVE')
+    root=Path(neural['registered_root']);marker=root/'fit-01/MODEL_LOADED.private.json'
+    expected=dict(actual_SLA_parent_loads=1,optimizer_loaded=False,teacher_loaded=False,
+        training_cache_used=False,deployed_LoRA_retained=True)
+    deadline=min(native['deadline_epoch'],neural['deadline_epoch'])
+    write(stage/'PROGRESS.private.json',dict(state='WAIT_REGISTERED_SLA_MODEL_BEFORE_NATIVE',
+        native_run=Path(native['registered_root']).name,completed=outcome_count,
+        physical_requests=outcome_count,optimizer_updates=0))
+    while True:
+        task.need(gpu.poll()is None,'GPU_EXIT_BEFORE_NATIVE_START')
+        if time.time()>=deadline:raise TimeoutError('FINITE_PD4_MODEL_PRELOAD_NO_NATIVE_STARTED')
+        task.need(not any((Path(p)/'STOP.json').exists()for p in(
+            str(stage),native['registered_root'],neural['registered_root'],native['campaign_root'])),
+            'ORIGINAL_STOP_BEFORE_NATIVE_START')
+        try:loaded=json.loads(marker.read_bytes())
+        except FileNotFoundError:loaded=None
+        if loaded is not None:
+            task.need(loaded==expected,'EXACT_PD4_SLA_LOAD_RECEIPT_BEFORE_NATIVE')
+            intent=json.loads((root/'fit-01/MODEL_LOAD_INTENT.private.json').read_bytes())
+            task.need(intent==dict(policy=neural['target_gr00t_policy'],retries=False),
+                'EXACT_REGISTERED_PD4_MODEL_PRELOAD_IDENTITY')
+            task.need(not(root/'fit-01/queries').exists()
+                and not(Path(native['registered_root'])/'SUPERVISOR.private.json').exists(),
+                'MODEL_PRELOAD_WITHOUT_QUERY_OR_NATIVE_WORKER')
+            write(Path(native['registered_root'])/'SLA_MODEL_READY_BEFORE_NATIVE.private.json',
+                dict(model_loaded_sha256=digest(marker),model_load_intent_sha256=digest(root/'fit-01/MODEL_LOAD_INTENT.private.json'),
+                    GPU_spec_sha256=digest(root/'EXECUTION_SPEC.json'),actual_parent_loads=1,
+                    actual_queries=0,physical_requests=0,original_clock_and_safety_unchanged=True))
+            return
+        time.sleep(.5)
+
+
+def execute_pair(registered,journal,stage,outcome_count,*,native_after_model=False):
     """Both exits are required; never redraw or restart a lost serving process."""
     from scripts.pi0292.durable import write
+    task.need(type(native_after_model)is bool,'TYPED_MODEL_PRELOAD_SCHEDULE')
     values={name:json.loads(Path(registered[name]['path']).read_bytes())for name in('native','gpu')}
     children={};handles=[]
     for name in('native','gpu'):
@@ -222,7 +270,9 @@ def execute_pair(registered,journal,stage,outcome_count):
             'RECONCILE_EXISTING_OR_UNKNOWN_PAIR_DISPATCH')
     try:
         for name in('gpu','native'):
-            if name=='native':task.need(children['gpu'].poll()is None,'GPU_EXIT_BEFORE_NATIVE_START')
+            if name=='native':
+                task.need(children['gpu'].poll()is None,'GPU_EXIT_BEFORE_NATIVE_START')
+                if native_after_model:await_pd4_model_before_native(values,children['gpu'],stage,outcome_count)
             s=values[name];root=Path(s['registered_root']);gpu=name=='gpu'
             task.need(not(root/'SUPERVISOR.private.json').exists(),'NEVER_REPLAY_A_STARTED_PAIR_WORKER')
             command=[s['python'],'-B','-m','scripts.wm02.pilot1_neural_worker'if gpu else'scripts.wm02.pilot1_native_worker',

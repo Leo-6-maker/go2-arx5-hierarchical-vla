@@ -202,8 +202,11 @@ def run(spec):
     from go2arx5_vla.world_model.corelab_world_owner_v3 import world_owner
     g=Path(spec['registered_root']);q=Path(spec['training_root']);start=time.time();outcomes=[];panel=None;code=1;error=None;current=None
     j=Journal(g/'control/journal',g.name)
+    schedule=spec.get('startup_schedule','CONCURRENT_ORIGINAL_V71')
     def stopped():return (g/'STOP.json').exists()or(Path(spec['campaign_root'])/'STOP.json').exists()
     try:
+        if schedule not in ('CONCURRENT_ORIGINAL_V71','SLA_MODEL_READY_BEFORE_NATIVE_V71'):
+            raise PermissionError('EXPLICIT_PD4_STARTUP_SCHEDULE_ONLY')
         while time.time()<spec['deadline_epoch']-14520:
             if stopped():raise PermissionError('OWNED_STOP_RETAINED')
             if cold(q):break
@@ -237,7 +240,7 @@ def run(spec):
                 write(g/'PROGRESS.private.json',dict(state='WAIT_SHARED_GPU_AND_WORLD_NO_MODEL',epoch=time.time(),terminal=len(outcomes),physical_requests=len(outcomes)));time.sleep(30)
             else:raise TimeoutError('FINITE_CAPACITY_WINDOW_UNRUN_SUFFIX_RETAINED')
             current=(row,pair)
-            execute_pair(pair,j,g,len(outcomes))
+            execute_pair(pair,j,g,len(outcomes),native_after_model=schedule=='SLA_MODEL_READY_BEFORE_NATIVE_V71')
             value=student.classify_actual(row,nr,spec['source_sha'],native_body=p.PROTOCOL)
             outcomes.append(value);current=None;write(g/'OUTCOMES.private.json',outcomes);write(g/'SUMMARY.private.json',summarize(panel,outcomes))
             if value['hard_safety_stop']or not value['technical_valid']:
