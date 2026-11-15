@@ -22,7 +22,8 @@ def predict(adapter,sample,session,frame,query):
     atomic_npz(path,state_eef10=state,body_rgb=body,wrist_rgb=images['wrist_rgb'],T_policy_from_mount=frame)
     # The server serializes all predeclared episodes, so no per-episode reload.
     server_spec=adapter.spec['resident_server_spec'];server=Path(read(server_spec['path'])['registered_root'])
-    ready=read(server/'READY.private.json');index=len(list((server/'requests').glob('*/REQUEST.private.json')))
+    read(server/'READY.private.json')
+    index=adapter.mobile_last_resident_sequence+1 if hasattr(adapter,'mobile_last_resident_sequence')else len(list((server/'requests').glob('*/REQUEST.private.json')))
     folder=server/'requests'/f'{index:04d}';folder.mkdir()
     request=dict(sequence=index,method=adapter.spec['mobile_condition']['method'],native_spec=str(Path(adapter.spec['registered_root'])/'EXECUTION_SPEC.json'),
         native_spec_sha256=digest(Path(adapter.spec['registered_root'])/'EXECUTION_SPEC.json'),
@@ -30,6 +31,10 @@ def predict(adapter,sample,session,frame,query):
         seed=2026111500+query,task_frame=frame.tolist(),native_step=sample['native_step'],
         provenance='CURRENT_NATIVE_BODY_AND_WRIST_RGB_AND_MEASURED_STATE_ONLY')
     write(folder/'REQUEST.private.json',request);deadline=time.monotonic()+600
+    adapter.mobile_last_resident_sequence=index
+    write(root/'INPUT_META.private.json',dict(native_step=before['packet']['step'],native_time_s=before['packet']['time_s'],
+        input_sha256=digest(path),camera_calibration=cal,episode_fixed_frame=frame.tolist(),
+        input_fields=['state_eef10','body_rgb','wrist_rgb','T_policy_from_mount'],object_truth_in_model_input=False))
     while not(folder/'RESULT.private.json').exists():
         if(server/'RESULT.private.json').exists():raise RuntimeError('RESIDENT_SLA_SERVER_TERMINAL_BEFORE_RESPONSE')
         adapter.spin(.05)
