@@ -1,0 +1,105 @@
+{
+  "schema": "SLA_REPAIRED64_EXPLICITLY_AUTHORIZED_QUEUED_ACTUAL_V71",
+  "observed_clock": "2026-11-15T15:09:02+0800",
+  "user_authorization": "允许补齐64条及关节检查",
+  "authorization_received": true,
+  "goal_complete": false,
+  "jobs": {
+    "sla-pd4-sampling64-v71-20261115-02": {
+      "spec_sha256": "23e61cac84cacc8844159dfb7f382c099e89f8ce90ce45250b82f8b40db97b8f",
+      "unit": {
+        "MainPID": "2116948",
+        "Result": "success",
+        "ExecMainStatus": "0",
+        "MemoryCurrent": "9994244096",
+        "MemoryPeak": "11258257408",
+        "SubState": "running",
+        "InvocationID": "c042dab10da64b75b53ccccfe40c7f4c"
+      },
+      "actual_process_live": true,
+      "implementation_files_match": true,
+      "declaration_hash_match": true,
+      "progress": {
+        "sha256": "25ea766dc8cf7badb1ffa5b49aee454eec6376ca7867bc3b3eff8458918b0f12",
+        "value": {
+          "state": "FIXED64_RGB20_RUNNING",
+          "epoch": 1794726257.505796,
+          "optimizer_updates": 0,
+          "planned_generations": 64,
+          "physical_requests": 0
+        }
+      },
+      "completed_model_load_marker_seen": false,
+      "completed_prediction_records_seen": 0
+    },
+    "sla-pd4-rgb20-joint-clones-v71-20261115-02": {
+      "spec_sha256": "975a08052c55905480f591390bc9b8f620e1a70a8e8ccd238aee051340767554",
+      "unit": {
+        "MainPID": "2119115",
+        "Result": "success",
+        "ExecMainStatus": "0",
+        "MemoryCurrent": "9072640",
+        "MemoryPeak": "11833344",
+        "SubState": "running",
+        "InvocationID": "7d128c07eebe4362a0c6aa119d9d9e0c"
+      },
+      "actual_process_live": true,
+      "implementation_files_match": true,
+      "declaration_hash_match": true,
+      "progress": {
+        "sha256": "dbcfc530cec424fe175654c8eeb450b8900ddb30027c526f3cb11b3f0698d020",
+        "value": {
+          "state": "WAIT_EXISTING_RGB20_NO_MODELS_OR_CLONES",
+          "epoch": 1794726523.9322865,
+          "clone_certifier_calls": 0,
+          "new_model_generations": 0,
+          "optimizer_updates": 0,
+          "physical_requests": 0
+        }
+      },
+      "completed_model_load_marker_seen": false,
+      "completed_prediction_records_seen": 0
+    }
+  },
+  "implementation_commit": "3a0f1c7e7e75257c7df127bbb0cb316f67772f47",
+  "imported_base": "20dcd9ca65fd84689b331e249d3a85f2869a076b",
+  "helper_sha256": "c112e320d43911c3257d7cdc452aac65c9c8868d039545a1e00124c3937b3b1e",
+  "budget": {
+    "new_RGB20_generations": 64,
+    "old_RGB10_generations_reused": 64,
+    "new_training_updates": 0,
+    "new_training_visits": 0,
+    "new_physical_requests": 0,
+    "maximum_new_original_certifier_calls_for_RGB20": 64,
+    "old_label_or_RGB10_certifier_calls_repeated": 0
+  },
+  "failed_prior_sampling": {
+    "worker_sha256": "2b90ac9a772e9691512d1fb41133897a2920af9e3422465ef77697e2c60ae1fb",
+    "failed_generation_attempts": 1,
+    "completed_generations": 0,
+    "parent_loads": 1,
+    "retained": true
+  },
+  "finite_background_execution": true,
+  "automatic_retry": false,
+  "GPU_shared": true,
+  "old_formal_original8_unchanged": true,
+  "WBC_changes": false,
+  "old_RP8_passed": false,
+  "monitors": [
+    {
+      "role": "P1_FIXED64",
+      "local_name": "sla-v71-sampling64-completion-bridge-20261115-02",
+      "spec_sha256": "f8fb8f8875b62251bb1b6125154d4c785279e36062da1a874863ba2b56373d04",
+      "MainPID": 2322519
+    },
+    {
+      "role": "P1_RGB20_JOINTS",
+      "local_name": "sla-v71-rgb20-joints-completion-bridge-20261115-02",
+      "spec_sha256": "e25df0017eaff99a7d321654194cd4e450a12092bb6dc853ea79e2998b373a0e",
+      "MainPID": 2322522
+    }
+  ],
+  "monitor_poll_s": 180,
+  "chat_auto_resume_proven": false
+}

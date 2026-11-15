@@ -2,6 +2,7 @@ import numpy as np
 import pytest
 
 from scripts.sla.reference_join10_v71 import connect, _exp
+from scripts.sla.diagnose_pd4_join10_v71 import recorded_stage
 from go2arx5_vla.trajectory.so3 import rot6d_rows_to_matrix, rotation_matrix_to_rot6d_rows
 
 
@@ -55,3 +56,22 @@ def test_invalid_inputs_are_rejected_without_clipping(kind):
     if kind == 'nan': raw[1, 0] = np.nan
     if kind == 'reflection': past[0, 0, :3] *= -1
     with pytest.raises(ValueError): connect(raw, past)
+
+
+@pytest.mark.parametrize('event', [{}, {'stage': 'approach'}])
+def test_accepted_and_rejected_events_use_the_same_original_stage_mapping(event):
+    assert recorded_stage({'execution_stage': 'PREGRASP'}, event,
+        {'phase': 'collect-target-task-learning-grasp-v1'}) == 'approach'
+
+
+def test_conflicting_contact_stage_is_rejected_instead_of_made_more_permissive():
+    with pytest.raises(ValueError, match='STAGE_MISMATCH'):
+        recorded_stage({'execution_stage': 'PREGRASP'}, {'stage': 'hold'},
+            {'phase': 'collect-target-task-learning-grasp-v1'})
+
+
+def test_missing_stage_or_a_different_task_cannot_silently_use_approach():
+    with pytest.raises(ValueError, match='RECORDED_STUDENT_EXECUTION_STAGE'):
+        recorded_stage({}, {}, {'phase': 'collect-target-task-learning-grasp-v1'})
+    with pytest.raises(ValueError, match='EXACT_ORIGINAL_GRASP_STAGE'):
+        recorded_stage({'execution_stage': 'PREGRASP'}, {}, {'phase': 'different_task'})
