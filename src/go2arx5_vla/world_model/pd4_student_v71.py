@@ -23,6 +23,18 @@ QUERIES=60
 LAYOUTS=('TRAIN01','TRAIN04','TRAIN07','TRAIN10')
 
 
+def profile(value):
+    """Resolve explicit system identity; do not rename old raw experiments."""
+    import sys
+    role=value.get('core_local_protocol') or value.get('task_learning_role') or value.get('protocol',{}).get('stage')
+    if role==task.SLA_JOIN_ROLE:
+        from . import pd4_join_v72
+        return pd4_join_v72
+    if role not in (None,PROTOCOL):raise PermissionError('EXPLICIT_PD4_RAW_OR_JOIN_SYSTEM_IDENTITY')
+    if value.get('reference_join10_v72')is not None:raise PermissionError('JOIN10_CANNOT_MODIFY_RAW_IDENTITY')
+    return sys.modules[__name__]
+
+
 def protocol():
     from .sla_dense_native_v5 import protocol as dense
     return dict(dense(),stage=PROTOCOL,scene_family='PD4_MATCHED_TRAIN4_NEW_RESTARTS_NOT_GENERALIZATION',
@@ -62,9 +74,9 @@ def policy_contract(value,checkpoint_files=None,*,verify_package=True,expected_g
 
 def panel_contract(panel):
     from ..sla_adapter.pd4_config_v71 import MANIFESTS
-    rows=panel['assignments']
-    if (panel['schema']!=VERSION+'_PANEL'or panel['B1_global_step']!=500
-            or panel['protocol']!=protocol()or len(rows)!=8 or len({r['native_run']for r in rows})!=8
+    p=profile(panel);rows=panel['assignments']
+    if (panel['schema']!=p.VERSION+'_PANEL'or panel['B1_global_step']!=500
+            or panel['protocol']!=p.protocol()or len(rows)!=8 or len({r['native_run']for r in rows})!=8
             or {(r['method'],r['layout'])for r in rows}!={(v,l)for v in MANIFESTS for l in LAYOUTS}
             or panel['old_RP8_passed']is not False or panel['automatic_retry']is not False):
         raise PermissionError('EIGHT_MATCHED_PD4_STUDENT_CONDITIONS_NOT_OLD_POPULATIONS')
@@ -78,10 +90,13 @@ def panel_contract(panel):
 
 
 def configuration(spec):
-    c=spec[KEY]
-    if (c['version']!=VERSION or spec['scope']!=SCOPE
-            or spec.get('core_local_protocol')!=PROTOCOL
-            or spec['task_learning_grasp']!=protocol()or c['old_RP8_passed']is not False
+    p=profile(spec);c=spec[KEY]
+    if p.PROTOCOL==task.SLA_JOIN_ROLE:
+        from .sla_reference_join_v72 import configuration as join
+        if spec.get('reference_join10_v72')!=join():raise PermissionError('EXACT_FIXED_JOIN10_SYSTEM')
+    if (c['version']!=p.VERSION or spec['scope']!=p.SCOPE
+            or spec.get('core_local_protocol')!=p.PROTOCOL
+            or spec['task_learning_grasp']!=p.protocol()or c['old_RP8_passed']is not False
             or any(spec.get(k)for k in ('pilot1_binding','fusion_binding','night1_binding','next1_binding','next2_binding'))):
         raise PermissionError('EXPLICIT_FRESH_PD4_STUDENT_SCOPE')
     return c
@@ -100,9 +115,9 @@ def _original(spec):
 
 
 def native_scene_admission(spec):
-    configuration(spec);old,proof,builder=_original(spec)
+    configuration(spec);p=profile(spec);old,proof,builder=_original(spec)
     from .task_learning_scene_v1 import validate_static_provenance
-    validate_static_provenance(spec,proof,expected_role=PROTOCOL,verified_builder_sha256=builder)
+    validate_static_provenance(spec,proof,expected_role=p.PROTOCOL,verified_builder_sha256=builder)
     panel=pinned(dict(path=spec['stable_task_panel'],sha256=spec['stable_task_panel_sha256']));matches=[r for r in panel_contract(panel)if r['native_run']==Path(spec['registered_root']).name]
     if len(matches)!=1:raise PermissionError('UNIQUE_FIXED_PD4_STUDENT_CONDITION')
     r=matches[0]
@@ -117,10 +132,10 @@ def native_scene_admission(spec):
 
 
 def validate_scope(spec):
-    c=configuration(spec);binding=pinned(c['binding']);G=Path(binding['registered_root']);lease=json.loads((G/'control/LEASE.json').read_bytes());now=time.time()
+    c=configuration(spec);p=profile(spec);binding=pinned(c['binding']);G=Path(binding['registered_root']);lease=json.loads((G/'control/LEASE.json').read_bytes());now=time.time()
     if (spec['host']!=os.uname().nodename or spec['host']!='corelab-4080s'or spec['uid']!=2009 or os.getuid()!=2009
-            or spec['owner']!='EXISTING_LOCAL_PC'or binding['schema']!=VERSION+'_BINDING'
-            or binding['scope']!=SCOPE or binding['source_sha']!=spec['source_sha']
+            or spec['owner']!='EXISTING_LOCAL_PC'or binding['schema']!=p.VERSION+'_BINDING'
+            or binding['scope']!=p.SCOPE or binding['source_sha']!=spec['source_sha']
             or not binding['activated_epoch']<=now<spec['deadline_epoch']<=binding['deadline_epoch']
             or binding['maximum_conditions']!=8 or binding['deadline_epoch']-binding['activated_epoch']>14400
             or str(Path(spec['registered_root']))not in binding['roots']
@@ -128,13 +143,13 @@ def validate_scope(spec):
             or any((r/'STOP.json').exists()for r in (G,Path(spec['registered_root']),Path(spec['campaign_root'])))):
         raise PermissionError('FRESH_REGISTERED_FINITE_PD4_STUDENT_OWNER')
     reg=json.loads(Path(spec['registry']).read_bytes())
-    if not any(v.get('path')==spec['registered_root']and v.get('scope')==SCOPE and v.get('source_sha')==spec['source_sha']and v.get('owner')==spec['owner']for v in reg['entries']):raise PermissionError('ACTUAL_PD4_STUDENT_REGISTRY')
+    if not any(v.get('path')==spec['registered_root']and v.get('scope')==p.SCOPE and v.get('source_sha')==spec['source_sha']and v.get('owner')==spec['owner']for v in reg['entries']):raise PermissionError('ACTUAL_PD4_STUDENT_REGISTRY')
     return binding
 
 
 def recipe_config(spec,episode,*,actual_phase,actual_kind,source_members):
-    configuration(spec);native_scene_admission(spec)
-    if (actual_phase!=task.PHASE or actual_kind!=task.KIND or spec['task_learning_role']!=PROTOCOL
+    configuration(spec);native_scene_admission(spec);p=profile(spec)
+    if (actual_phase!=task.PHASE or actual_kind!=task.KIND or spec['task_learning_role']!=p.PROTOCOL
             or spec['max_ticks']!=ENDPOINT or spec['physics_dt_s']!=.002 or spec['WBC_changes']is not False
             or spec['wall_limit_s']!=3600 or spec['reference_binding_version']!='MEASURED_EEF_AND_BASE_POSE_HOLD_V2'):
         raise PermissionError('UNCHANGED_PD4_STUDENT_NATIVE_RECIPE')
@@ -172,8 +187,8 @@ def admitted(spec_path,run_id,output):
     from .auto1_native import phase_limit,validate_parent_loader
     from .runtime import admitted_run
     from .corelab_world_owner_v3 import world_owner
-    s=json.loads(Path(spec_path).read_bytes());validate_scope(s)
-    if s['execution_site']!=NATIVE_SITE or s['physics']is not True or os.environ.get('CUDA_VISIBLE_DEVICES')!='':raise PermissionError('PD4_NATIVE_CPU_SCOPE_ONLY')
+    s=json.loads(Path(spec_path).read_bytes());validate_scope(s);p=profile(s)
+    if s['execution_site']!=p.NATIVE_SITE or s['physics']is not True or os.environ.get('CUDA_VISIBLE_DEVICES')!='':raise PermissionError('PD4_NATIVE_CPU_SCOPE_ONLY')
     validate_parent_loader(s['native_environment']['LD_LIBRARY_PATH'],os.environ.get('LD_LIBRARY_PATH'))
     if phase_limit(s['phase'],json.loads(Path(s['previous_stage']).read_bytes()),s)!=ENDPOINT:raise PermissionError('EXACT_PD4_STUDENT_ENDPOINT')
     with world_owner(s,json.loads(Path(s['registry']).read_bytes())):
@@ -182,8 +197,8 @@ def admitted(spec_path,run_id,output):
 
 def validate_live(spec,*,verify_model=True):
     from .task_learning_live_pair_v1 import PROFILE,KIND
-    configuration(spec);validate_scope(spec)
-    if (spec['profile']!=PROFILE or spec['kind']!=KIND or spec['execution_site']!=GPU_SITE
+    configuration(spec);validate_scope(spec);p=profile(spec)
+    if (spec['profile']!=PROFILE or spec['kind']!=KIND or spec['execution_site']!=p.GPU_SITE
             or spec['physics']is not False or spec['max_queries']!=60 or spec['device']!='cuda'
             or spec['GR00T_updates']!=0 or spec['WM_updates']!=0 or spec['Actor_updates']!=0
             or spec['baseline_changed']is not False

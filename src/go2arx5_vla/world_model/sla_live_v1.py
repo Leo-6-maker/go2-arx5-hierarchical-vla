@@ -45,6 +45,9 @@ def source_custody(spec):
     if spec.get('core_local_protocol') == task.SLA_DENSE_ROLE:
         names += ('sla_dense_native_v5.py','sla_dense_policy_v5.py','sla_dev48_v5.py','sla_reference_native_v6.py')
     if spec.get('pd4_student_v71')is not None:names += ('pd4_student_v71.py',)
+    if spec.get('core_local_protocol')==task.SLA_JOIN_ROLE:
+        from .sla_reference_join_v72 import source_custody as join_custody
+        join_custody(spec)
     source = Path(spec['source_root'])
     for name in names:
         key = 'src/go2arx5_vla/world_model/'+name

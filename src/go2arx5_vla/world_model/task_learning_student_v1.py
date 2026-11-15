@@ -229,6 +229,11 @@ class StudentPolicy:
             if task.dense_sla_role(self.adapter.spec.get('task_learning_role')):
                 from .sla_dense_policy_v5 import compile_proposal as dense_compile
                 compiler=dense_compile
+                if self.adapter.spec['task_learning_role']==task.SLA_JOIN_ROLE:
+                    from functools import partial
+                    from .sla_reference_join_v72 import compile_proposal as join_compile
+                    compiler=partial(join_compile,reference_history=self.adapter.reference_history[-2:],
+                                     query_native_step=sample['native_step'])
             elif self.adapter.spec.get('task_learning_role')in(task.ENDPOINT_ROLE,task.MATCHED_ROLE,task.NATIVE_BODY_ROLE,task.NATIVE_A500_ROLE,task.SLA_ROLE,task.SLA_G_ROLE):
                 from functools import partial
                 from .task_learning_endpoint_policy_v3 import compile_proposal as endpoint_compile,consumed_grip
@@ -255,11 +260,13 @@ class StudentPolicy:
             write_json(self.adapter.output/'TASK_LEARNING_STUDENT_REJECTION.private.json',
                 dict(index=self.index,native_step=sample['native_step'],action_sha256=pin,
                     observation=self.observation,actual_model_query=actual,failure=str(error),
+                    **(dict(reference_connection_evidence=error.reference_connection_evidence)
+                       if hasattr(error,'reference_connection_evidence')else{}),
                     proposal_executed=False,teacher_fallback=False,command_clips=0))
             raise
         proposal.update(actual_model_query=actual, label_role='STUDENT_NOT_EXPERT', index=self.index)
         if consumption is not None:proposal['previous_consumed_grip_witness']=consumption
-        if self.adapter.spec.get('task_learning_role')in(task.CORE_LOCAL_ROLE,task.CONIC_ROLE,task.ENDPOINT_ROLE,task.MATCHED_ROLE,task.NATIVE_BODY_ROLE,task.NATIVE_A500_ROLE,task.SLA_ROLE,task.SLA_DENSE_ROLE,task.SLA_G_ROLE,task.SLA_PD4_ROLE):
+        if self.adapter.spec.get('task_learning_role')in(task.CORE_LOCAL_ROLE,task.CONIC_ROLE,task.ENDPOINT_ROLE,task.MATCHED_ROLE,task.NATIVE_BODY_ROLE,task.NATIVE_A500_ROLE,task.SLA_ROLE,task.SLA_DENSE_ROLE,task.SLA_G_ROLE,task.SLA_PD4_ROLE,task.SLA_JOIN_ROLE):
             from .task_learning_local_policy_v1 import execution_stage,EXECUTION_STAGE_REVISION
             self.stage=execution_stage(program.decoded_H40,sample)
             proposal.update(execution_stage=self.stage,execution_stage_revision=EXECUTION_STAGE_REVISION,

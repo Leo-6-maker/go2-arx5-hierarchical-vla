@@ -82,7 +82,8 @@ def host_capacity_admission(spec):
 
 
 def summarize(panel,outcomes):
-    from go2arx5_vla.world_model.pd4_student_v71 import panel_contract,VERSION
+    from go2arx5_vla.world_model.pd4_student_v71 import panel_contract,profile
+    VERSION=profile(panel).VERSION
     rows=panel_contract(panel)
     if [v['native_run']for v in outcomes]!=[v['native_run']for v in rows[:len(outcomes)]]:
         raise PermissionError('FIXED_ORDER_WITHOUT_CONDITION_REPLACEMENT')
@@ -110,6 +111,8 @@ def register_conditions(spec,policies):
     from go2arx5_vla.world_model import pd4_student_v71 as p,stable_task_scene_v1 as scenes
     from go2arx5_vla.world_model.corelab_world_owner_v3 import SCHEMA,PLAN,DOMAIN_POOL,validate_layout
     from go2arx5_vla.sla_adapter.s16_offline_v7 import DATA_SHA
+    p=p.profile(spec)
+    if p.PROTOCOL=='SLA_PD4_MATCHED500_JOIN10_P10_NATIVE_EVALUATION_V72':p.validate_entry(spec)
     g=Path(spec['registered_root']);h=g.parent;s=Path(spec['source_root']);c=Path(spec['campaign_root'])
     plan=read(g/'PLAN.private.json');seal=read(s/'SOURCE_STAGED.private.json')
     if digest(g/'PLAN.private.json')!=spec['plan_sha256']or seal['source_sha']!=spec['source_sha']:
@@ -158,6 +161,10 @@ def register_conditions(spec,policies):
                 target_gr00t_query_seeds=row['query_seeds'],target_gr00t_pair_id=row['native_run'],
                 target_gr00t_B1_global_step=500,observation_camera_profile=nbase['observation_camera_profile'],
                 enforce_cpu_slot_v5=True)
+            if spec.get('reference_join10_v72')is not None:
+                from go2arx5_vla.world_model.sla_reference_join_v72 import configuration as join
+                if spec['reference_join10_v72']!=join():raise PermissionError('FIXED_JOIN10_QUEUE_CONFIGURATION')
+                shared['reference_join10_v72']=join()
             dedicated=dict(version=p.VERSION,binding=dict(path=str(bp),sha256=digest(bp)),
                 original_spec=originals[row['layout']],frozen_N20_manifest=dict(path=str(manifest),sha256=DATA_SHA),old_RP8_passed=False)
             n=copy.deepcopy(nbase)
@@ -223,6 +230,7 @@ def run(spec):
     from go2arx5_vla.world_model.auto1_native import phase_limit
     from go2arx5_vla.world_model.sla_native_continuation_v2 import wait_seconds
     from go2arx5_vla.world_model.corelab_world_owner_v3 import world_owner
+    p=p.profile(spec)
     g=Path(spec['registered_root']);q=Path(spec['training_root']);start=time.time();outcomes=[];panel=None;code=1;error=None;current=None
     j=Journal(g/'control/journal',g.name)
     schedule=spec.get('startup_schedule','CONCURRENT_ORIGINAL_V71')

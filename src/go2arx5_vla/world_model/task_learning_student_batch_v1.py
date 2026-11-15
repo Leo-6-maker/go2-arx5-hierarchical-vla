@@ -221,8 +221,11 @@ def await_pd4_model_before_native(values,gpu,stage,outcome_count):
     no query and does not modify either worker.
     """
     from scripts.pi0292.durable import write
-    from . import pd4_student_v71 as pd4
+    from .pd4_student_v71 import profile
     native,neural=values['native'],values['gpu']
+    task.need(native.get('task_learning_role')in(task.SLA_PD4_ROLE,task.SLA_JOIN_ROLE),
+              'PD4_ONLY_SERIAL_MODEL_LOAD_BEFORE_NATIVE')
+    pd4=profile(native)
     task.need(native.get('task_learning_role')==pd4.PROTOCOL
         and neural.get('core_local_protocol')==pd4.PROTOCOL
         and pd4.KEY in native and pd4.KEY in neural,

@@ -84,8 +84,8 @@ def run_prefix(adapter,program,*,index,past_samples,past_windows,sample_observer
     from scripts.pi0292.eval_contract import matrix10
     c=cycle(adapter.spec,index);start,end,atoms=c['start_step'],c['end_step'],c['atoms']
     samples,windows=list(past_samples),list(past_windows)
-    from .task_learning_grasp_v1 import FiftyMsProgram,KIND as GRASP_KIND
-    program_ok=(type(program)is FiftyMsProgram and program.time_stretch_factor==1)if adapter.spec.get('kind')==GRASP_KIND else(type(program)is TrajectoryAdaptation and program.time_stretch_factor==2)
+    from .task_learning_grasp_v1 import program_type,KIND as GRASP_KIND
+    program_ok=(type(program)is program_type(adapter.spec,index) and program.time_stretch_factor==1)if adapter.spec.get('kind')==GRASP_KIND else(type(program)is TrajectoryAdaptation and program.time_stretch_factor==2)
     need(program_ok and program.geometry_scale==1. and np.array_equal(program.base_pose_hold,adapter.base_pose_hold)
          and np.array_equal(adapter.base_pose_hold,adapter.trajectory_initial_base),
          'ORIGINAL_FULL_REFERENCE_PROGRAM_AND_FIXED_BASE')

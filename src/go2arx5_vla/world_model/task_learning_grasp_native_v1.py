@@ -215,6 +215,10 @@ def episode_config(spec):
                     'scripts/sla/final_plan_transport_v61.py')
     if spec.get('pd4_student_v71')is not None:
         members += ('src/go2arx5_vla/world_model/pd4_student_v71.py',)
+    if spec.get('task_learning_role')==task.SLA_JOIN_ROLE:
+        from .sla_reference_join_v72 import source_members,source_custody
+        source_custody(spec)
+        members += source_members()
     if spec.get('pd4_statistics_prospective_v71')is not None:
         members += ('src/go2arx5_vla/world_model/pd4_prospective_v71.py','scripts/sla/pd4_plan_transport_v71.py')
     if spec.get('native_callback_replay_v61') is not None:
@@ -273,7 +277,7 @@ def validate_adapter_install(adapter,action):
         from .task_learning_preparation_v1 import validate_preview
         return validate_preview(adapter,action)
     c=consumer.cycle(adapter.spec,active['index']);program=active['program']
-    task.need(type(program)is task.FiftyMsProgram and all(active[k]==v for k,v in c.items())
+    task.need(type(program)is task.program_type(adapter.spec,active['index']) and all(active[k]==v for k,v in c.items())
         and c['start_step']<=step<c['end_step'] and (step-c['start_step'])%25==0
         and np.array_equal(action,program.preview((step-c['start_step'])//25))
         and np.array_equal(program.base_pose_hold,adapter.base_pose_hold)
