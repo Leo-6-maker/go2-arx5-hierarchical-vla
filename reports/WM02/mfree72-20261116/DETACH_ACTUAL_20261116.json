@@ -1,0 +1,89 @@
+{
+  "schema": "MFREE_UNATTENDED_72H_DETACH_READY_V1",
+  "DETACH_READY": true,
+  "status": "DETACHED_QUEUED",
+  "verified_UTC": "2026-11-15T18:56:21.676246+00:00",
+  "verified_SGT": "2026-11-16T02:56:21.676246+08:00",
+  "plan": {
+    "PR": 389,
+    "commit": "4e926e42a7337ad1d48c00087ef980a8f0157936"
+  },
+  "source_sha": "76c5fb50140428331302ba471ed6d17eeb97c456",
+  "source_seal_sha256": "91fa9582dc2ab867f820cf9ed0c3d96046b0db248721bcde0270650632ad5e58",
+  "spec_sha256": "f29bce2227206b8b49027e2d02034e95828f63d5613ec0f5c5b2b26f28b9cdb5",
+  "started_UTC": "2026-11-15T18:51:23.855488+00:00",
+  "started_SGT": "2026-11-16T02:51:23.855488+08:00",
+  "deadline_UTC": "2026-11-18T18:51:23.855488+00:00",
+  "deadline_SGT": "2026-11-19T02:51:23.855488+08:00",
+  "last_completed": "C20_SEALED_20_AND_BASELINE8_REUSED",
+  "next_pending": "RESOURCE_ADMITTED_C60_EXPERT_ATTEMPTS; healthy existing C20 continues independently",
+  "limits": {
+    "deadline_epoch": 1795027883.855488,
+    "collection_attempts_including_existing": 200,
+    "new_optimizer_updates": 2000,
+    "new_target_visits": 64000,
+    "total_evaluation_requests_including_baseline_and_C20": 80,
+    "data_GiB": 512,
+    "neural_GPU_hours": 36,
+    "supervisor_restarts_max": 2,
+    "checkpoint_resumes_max": 2,
+    "blind_retries": false
+  },
+  "report_scope": "Server-managed queue survival verified; not collection/optimization/policy success",
+  "private_receipt_sha256": "4cdb8d548060bc15e9aaaa918b7b7d39aa1c1b027bae2bffe61c423615139045",
+  "process_evidence": {
+    "linger_yes": true,
+    "registered_frontend_exited": true,
+    "independent_same_PID_start_cgroup": true,
+    "heartbeat_sequences": [
+      1,
+      4
+    ],
+    "local_machine_dependency": false,
+    "managed_supervisor_services": 1,
+    "registered_collector_services": 4,
+    "currently_new_native_worlds": 0
+  },
+  "actual": {
+    "C20_qualified_episodes": 20,
+    "C20_physical_requests": 20,
+    "C20_native_integrations": 458060,
+    "new_physical_requests": 0,
+    "C20_real_updates": 550,
+    "C20_real_optimization_visits": 17600,
+    "C60_real_updates": 0,
+    "C60_real_visits": 0,
+    "C100_real_updates": 0,
+    "C100_real_visits": 0,
+    "old_baseline_reused": true,
+    "baseline_task_successes": 0,
+    "baseline_physical_requests": 8,
+    "baseline_grasp_conditions": 0,
+    "baseline_valid_policy_rejections": 7,
+    "baseline_native_safety_stops": 1,
+    "baseline_technical_failures": 0
+  },
+  "resource_queue": {
+    "reason": "ACTUAL_RAM_BELOW_RESERVED_REQUIREMENT",
+    "available_bytes": 15334821888,
+    "required_bytes": 22834659328,
+    "initial_total_world_commitment": 2,
+    "max_worlds_including_evaluation": 4
+  },
+  "freezes": {
+    "WBC_changed": false,
+    "safety_gates_changed": false,
+    "M_ASSIST": "QUARANTINED",
+    "old_RP8_passed": false,
+    "JOIN10_retried": false,
+    "real_robot": false,
+    "RL": false
+  },
+  "validation": {
+    "focused_local_tests": 12,
+    "Core_import_and_export_routing": true,
+    "Core_preflight_model_loads": 0,
+    "Core_preflight_updates": 0,
+    "Core_preflight_physics": 0
+  }
+}
