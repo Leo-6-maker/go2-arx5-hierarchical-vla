@@ -1,0 +1,47 @@
+{
+  "schema": "SLA_PD4_RGB20_JOINT_FOLLOWER_REGISTERED_ACTUAL_V71",
+  "as_of": "2026-11-15T13:33:31+0800",
+  "run": "sla-pd4-rgb20-joint-clones-v71-20261115-01",
+  "spec_sha256": "734a4d269876bd9e4176a94a897df501d6123fa8c037d5a6a227dfc9ee74cbcb",
+  "source_execution_base": "20dcd9ca65fd84689b331e249d3a85f2869a076b",
+  "implementation_source_commit": "fbcf039000bc9df6d402bf9bd173ba8618d51a27",
+  "component_sha256": {
+    "diagnose_pd4_rgb20_joints_v71.py": "880b43e037d7f563b20dc83054a8102a2bbff0be89654eda2385e5e35219a33d",
+    "sla_pd4_rgb20_clone_queue_v71.py": "cc2d655a375854a82f7f33a2f55842fa024dd2dd3dc37963e8354506ddd98e0b",
+    "DECLARATION.private.json": "7febaec9a62ae26e1583604dd4c8a0ef42850f6f772968d9b50c213399bb84b2"
+  },
+  "preflight_scope": "IMPORT_AND_BUDGET_ONLY_NO_MODEL_OR_CLONE",
+  "Core_preflight_passed": true,
+  "local_targeted_tests_passed": 22,
+  "independent_live_observations": [
+    {
+      "clock": "2026-11-15T13:29:06+0800",
+      "process_observed_live": true,
+      "same_service_identity": true,
+      "progress_epoch": 1794720553.588294
+    },
+    {
+      "clock": "2026-11-15T13:33:31+0800",
+      "process_observed_live": true,
+      "same_service_identity": true,
+      "progress_epoch": 1794720803.5979187
+    }
+  ],
+  "state": "WAIT_EXISTING_RGB20_NO_MODELS_OR_CLONES",
+  "baseline81_analysis_sha256": "571cb1b9f9dfa0fbd7538442c82015a4621db95678dba8e9236525cca26411de",
+  "sampling_dependency_spec_sha256": "b86ab1674b62c11789466827caadca4430ad223bb734a8bf50c28815e15fdd1b",
+  "planned_new_prediction_checks": 64,
+  "maximum_new_clone_calls": 64,
+  "baseline_and_labels_rerun": false,
+  "actual_clone_calls": 0,
+  "new_model_generations": 0,
+  "SLA_model_loads": 0,
+  "optimizer_updates": 0,
+  "training_visits": 0,
+  "physical_requests": 0,
+  "physics_integrations": 0,
+  "formal_policy_changed": false,
+  "old_RP8_passed": false,
+  "automatic_retry": false,
+  "upstream_failure_behavior": "RETAIN_FAILURE_NO_REPLACEMENT_INFERENCE"
+}
