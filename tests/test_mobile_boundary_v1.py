@@ -39,3 +39,19 @@ def test_gripper_sequence_uses_current_native_clock_not_live_plan_clock(tmp_path
     write_mobile_gripper(adapter,dict(time_s=5.056),1,row)
     magic,sequence,source,opening,until=struct.unpack('<8sQddd',(tmp_path/'gripper.bin').read_bytes())
     assert magic==b'GRTGRIP1'and sequence==1 and source==5.056 and until==5.456
+
+
+def test_renewal_checks_original_full_program_without_fictitious_velocity_reset():
+    from types import SimpleNamespace
+    from go2arx5_vla.world_model.task_learning_grasp_v1 import FiftyMsProgram
+    from go2arx5_vla.world_model.mobile_wbc_reference_v1 import validate_preview,quintic
+    raw,_=m0_reference(np.eye(4),np.eye(4),'+x','WORLD_HOLD',0)
+    raw[:,0]=.05*quintic(np.arange(40)/39);raw[:,9]=1.
+    program=FiftyMsProgram(raw,np.eye(4),np.eye(4),[0,0,0,0,0,0,1])
+    adapter=SimpleNamespace(spec=dict(mobile_stage='L1'),mobile_program=program,
+        mobile_program_start_step=5703,observe=lambda:dict(step=5878))
+    action=program.preview(7)
+    with pytest.raises(ValueError):full_eef_gate(action,np.eye(4))
+    assert validate_preview(adapter,action,np.eye(4))['original_full40_desired_and_reference_gate']
+    action[30,0]+=.1
+    with pytest.raises(ValueError,match='EXACT_PREDECLARED'):validate_preview(adapter,action,np.eye(4))

@@ -262,7 +262,7 @@ def run_batch(spec_path):
                 elif result['technical_failure']:raise RuntimeError('MOBILE_TECHNICAL_FAILURE_RETAINED_NO_RETRY')
             code=0
     except BaseException:failure=traceback.format_exc()
-    value=dict(schema='MOBILE_M0_FINITE_BATCH_ACTUAL_V1',exit_code=code,failure=failure,
+    value=dict(schema='MOBILE_L1_FINITE_BATCH_ACTUAL_V1'if spec.get('mobile_stage')=='L1'else 'MOBILE_M0_FINITE_BATCH_ACTUAL_V1',exit_code=code,failure=failure,
         requested=len(spec['cases']),terminal=len(outcomes),outcomes=outcomes,quarantined_axes=sorted(quarantine),
         physical_requests=sum(v['result']['physical_requests']for v in outcomes),
         native_integrations=sum(v['result']['actual_native_integrations']for v in outcomes),

@@ -82,6 +82,7 @@ def episode(adapter):
                 except ValueError as error:
                     valid_rejection=dict(query=query,reason=str(error),full_H40_checked=True,installed=False);break
                 adapter.command_event(dict(phase='mobile-student-query',query=query,**evidence))
+            adapter.mobile_program=program;adapter.mobile_program_start_step=adapter.observe()['step']
             for atom in range(10):
                 action=program.preview(atom)
                 _,base=m0_reference(initial['tcp'],initial_mount,'+x','WORLD_HOLD',query*10+atom)

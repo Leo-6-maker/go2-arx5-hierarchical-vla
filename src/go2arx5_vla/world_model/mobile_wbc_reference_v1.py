@@ -84,11 +84,25 @@ def document(action,*,mode,base_poses=None):
     return doc
 
 
+def validate_preview(adapter,action,anchor):
+    program=getattr(adapter,'mobile_program',None)
+    if adapter.spec.get('mobile_stage')!='L1'or program is None:
+        return full_eef_gate(action,anchor)
+    # A renewal is the same previously certified H40's suffix, not a fresh
+    # rest-to-rest plan. Retain the original full desired/reference envelope.
+    elapsed=(adapter.observe()['step']-adapter.mobile_program_start_step)//25
+    if not np.array_equal(action,program.preview(elapsed)):
+        raise ValueError('EXACT_PREDECLARED_FULL40_PROGRAM_RENEWAL')
+    program.validate_envelope()
+    return dict(original_full40_desired_and_reference_gate=True,renewal_cursor=elapsed,
+                retiming=False,additional_smoothing=False)
+
+
 def prepare_install(adapter,action,original_doc):
     from scripts.pi0294.task_path_model import certify_chunk
     from .native_replay import forbid_integration
     import mujoco
-    sample=adapter.measured_task_state();full_eef_gate(action,sample['tcp'])
+    sample=adapter.measured_task_state();validate_preview(adapter,action,sample['tcp'])
     if not getattr(adapter,'mobile_motion_armed',False):
         # Original stable startup, before any new mobile reference is allowed.
         from .target_reference import measured_base_hold
