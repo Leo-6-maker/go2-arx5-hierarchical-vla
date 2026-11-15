@@ -1,0 +1,96 @@
+{
+  "schema": "MOBILE_CONTINUOUS_TEACHER_V2",
+  "parent_source": "06a180f1830b5e129c0d0740e9d2e2461b4953dd",
+  "status": "IMPLEMENTED_NOT_NATIVE_QUALIFIED",
+  "offline_evidence": "reports/WM02/mobile-continuous-teacher-v2-20261115/TIMING_ATTRIBUTION_20261115.json",
+  "physics": "CORE_NATIVE_SIMULATION_ONLY",
+  "WBC_changes": false,
+  "real_hardware": false,
+  "RL": false,
+  "new_training_updates": 0,
+  "new_training_visits": 0,
+  "new_model_queries": 0,
+  "H": 40,
+  "P": 10,
+  "dt": 0.05,
+  "physics_dt": 0.002,
+  "policy_queries": 60,
+  "maximum_task_s": 30,
+  "initialization_ticks": 5703,
+  "maximum_native_ticks_per_case": 20703,
+  "maximum_physical_requests": 4,
+  "continuous_state": [
+    "installed_reference_at_P10_endpoint",
+    "filtered_velocity",
+    "filtered_acceleration"
+  ],
+  "translation_speed_m_s": 0.0075,
+  "translation_filter_tau_s": 0.15,
+  "angular_speed_rad_s": 0.02,
+  "angular_filter_tau_s": 0.3,
+  "maximum_H40_translation_m": 0.015,
+  "phase_tolerance_m": 0.004,
+  "grasp_predicate": "ORIGINAL_NATIVE_GRASP_AND_LIFT20MM_CONTINUOUS1S",
+  "unchanged": [
+    "WBC",
+    "MPC",
+    "legs",
+    "arm_PD",
+    "native_safety",
+    "full_H40_limits",
+    "original_grasp_geometry",
+    "F1_F2_BASE_route",
+    "scene",
+    "native_startup",
+    "task_budget"
+  ],
+  "conditions": [
+    {
+      "family": "F1",
+      "mode": "M_FREE",
+      "method": "EXPERT",
+      "reset": 17
+    },
+    {
+      "family": "F2",
+      "mode": "M_FREE",
+      "method": "EXPERT",
+      "reset": 17
+    },
+    {
+      "family": "F1",
+      "mode": "M_ASSIST",
+      "method": "EXPERT",
+      "reset": 17
+    },
+    {
+      "family": "F2",
+      "mode": "M_ASSIST",
+      "method": "EXPERT",
+      "reset": 17
+    }
+  ],
+  "unsafe": "QUARANTINE_ENTIRE_AFFECTED_MODE_NO_RETRY",
+  "technical_failure": "STOP_BATCH_NO_RETRY",
+  "new_unlaunched_version": {
+    "schema": "MOBILE_OBSERVED_AFTER_GRASP_V2",
+    "mode": "M_ASSIST_AFTER_GRASP_V2",
+    "before_trigger": "M_FREE_EEF_ONLY_NO_BASE",
+    "trigger": "ACTUAL_NATIVE_GRASP_LIFT20MM_CONTIGUOUS1S",
+    "origin": "MEASURED_MPC_MOUNT_AT_TRIGGER",
+    "teacher": "ORIGINAL_V1_FOR_SEPARATE_ATTRIBUTION",
+    "physical_requests_authorized_now": 0
+  },
+  "later_training": {
+    "auto_run": false,
+    "requires": "SUCCESSFUL_NATIVE_EXPERT_GRASP_AND_QUALIFIED_COMPLETE_DEMOS",
+    "demonstrations": 20,
+    "arms": 2,
+    "updates_per_arm": 1000,
+    "visits_per_arm": 32000,
+    "common_initialization": true,
+    "common_valid_data": true,
+    "arm0": "ORIGINAL_FLOW_MATCHING",
+    "arm1": "ONE_EXPLICIT_CONTINUITY_OR_BOUNDARY_INTERVENTION_TO_BE_FIXED_FROM_EVIDENCE"
+  }
+}
