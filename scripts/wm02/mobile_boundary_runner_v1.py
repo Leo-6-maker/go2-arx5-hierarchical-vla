@@ -97,6 +97,7 @@ def consume(adapter,action,*,sequence):
     mount=np.eye(4);mount[:3,:3]=d.xmat[body].reshape(3,3);mount[:3,3]=d.xpos[body]
     record=dict(native_start_step=step,native_end_step=after['step'],ticks=25,
         installed_reference_sha256=adapter.active_reference['wire_sha256'],
+        segment=getattr(adapter,'mobile_segment','WARMUP'if step<START else'MOBILE_TASK'),
         gripper_command=gripper,
         installed_EEF10=row.tolist(),target_endpoint_EEF10=adapter.active_reference['action_EEF10'][(step-adapter.mobile_installed_step)//25+1],
         actual_TCP=sample['tcp'].tolist(),actual_mount=mount.tolist(),measured_MPC_mount=measured_mpc_mount.tolist(),
@@ -174,7 +175,10 @@ def run_case(spec_path,lock_fd):
     try:
         adapter.start()
         if spec.get('mobile_stage')=='L1':
-            from go2arx5_vla.world_model.mobile_l1_episode_v1 import episode as l1_episode
+            if spec['mobile_condition']['family']=='F1':
+                from go2arx5_vla.world_model.mobile_l1_episode_v1 import episode as l1_episode
+            else:
+                from go2arx5_vla.world_model.mobile_task_episode_v1 import episode as l1_episode
             detail=l1_episode(adapter)
         else:detail=episode(adapter)
     except BaseException:failure=traceback.format_exc()
@@ -227,6 +231,7 @@ def run_batch(spec_path):
             for path in spec['cases']:
                 if time.time()>=spec['deadline_epoch']-900:break
                 case=read(path);axis=case['mobile_condition']['axis'].lstrip('+-')
+                if case.get('mobile_stage')=='L1':axis=case['mobile_condition']['family']+':'+case['mobile_condition']['mode']
                 if axis in quarantine:continue
                 if(group/'STOP.json').exists():break
                 if case.get('mobile_stage')=='L1'and case['mobile_condition']['method']!='EXPERT':

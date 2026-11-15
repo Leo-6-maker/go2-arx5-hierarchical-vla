@@ -8,7 +8,7 @@ from .mobile_wbc_reference_v1 import START
 def metrics(output,condition):
     path=Path(output)/'MOBILE_SAMPLES.private.jsonl'
     rows=[json.loads(x)for x in path.read_text().splitlines()]if path.exists()else[]
-    task=[r for r in rows if r['native_start_step']>=START]
+    task=[r for r in rows if r['native_start_step']>=START and r.get('segment','MOBILE_TASK')=='MOBILE_TASK']
     if not task:return dict(task_atoms=0,movement_demonstrated=False)
     base=np.asarray([r['actual_mount']for r in task]);tcp=np.asarray([r['actual_TCP']for r in task])
     ref=np.asarray([r['target_endpoint_EEF10']for r in task])
@@ -19,7 +19,7 @@ def metrics(output,condition):
     angle=geodesic_angle(desired[:,:3,:3],tcp[:,:3,:3])
     yaw=np.unwrap(np.arctan2(base[:,1,0],base[:,0,0]))
     # Initial pose is the actual sample immediately before the mobile window.
-    initial=next((r for r in reversed(rows)if r['native_end_step']==START),None)
+    initial=next((r for r in reversed(rows)if r['native_end_step']==task[0]['native_start_step']),None)
     origin=np.asarray(initial['actual_mount'])if initial else base[0]
     delta=base[-1,:3,3]-origin[:3,3]
     yaw_delta=float(np.arctan2(np.sin(yaw[-1]-np.arctan2(origin[1,0],origin[0,0])),
@@ -34,6 +34,7 @@ def metrics(output,condition):
         actual_base_translation_m=delta.tolist(),actual_base_yaw_rad=yaw_delta,
         actual_base_path_m=float(np.linalg.norm(np.diff(base[:,:3,3],axis=0),axis=1).sum()),
         directional_motion=directional,movement_demonstrated=bool(movement),
+        movement_observed=bool(np.linalg.norm(delta[:2])>=.05 or abs(yaw_delta)>=np.deg2rad(5)),
         EEF_translation_RMS_m=float(np.sqrt(np.mean(xyz**2))),EEF_rotation_RMS_rad=float(np.sqrt(np.mean(angle**2))),
         exact_solver_target_confirmed_atoms=sum(bool(r['solver_exact_installed_targets'])for r in task),
         arm_request_atoms=sum(r['arm_requests']>0 for r in task),base_command_atoms=sum(r['base_commands']>0 for r in task),
