@@ -1,0 +1,560 @@
+{
+  "schema": "SLA_PD4_MONITOR_RECONCILED_1400_V71_ACTUAL",
+  "observed_Core_clock": "2026-11-15T14:00:47+0800",
+  "goal_complete": false,
+  "scope": "READ_ONLY_EVENT_AND_EXISTING_JOB_RECONCILIATION_NO_DISPATCH",
+  "event_fixed_snapshot": {
+    "status": "ATTENTION_REQUIRED_FAILURE_RETAINED",
+    "evaluation_result_sha256": "136bad699b0870f6fd0639f4b889c4f6fe796112e9e329312b6c5ee5cec474ef",
+    "training_result_sha256": "c0b2037ffe1fbef373724b12a3e3c4fe50e3448d3163df85c2175fb5a8736220",
+    "all_pins_reverified": true,
+    "failure": "Coordinator import chain requires SciPy, unavailable in native Python; zero original conditions dispatched at that time",
+    "student_physical_requests": 0,
+    "student_integrations": 0
+  },
+  "training": {
+    "arms": [
+      {
+        "view": "PD4_EXECUTED_REF",
+        "result_sha256": "31f8223b1afeaadfeef4002f35e16a16af52dcd122174539a0c5103c8416ad8c",
+        "updates_verified": 500,
+        "visits_verified": 16000,
+        "source_visits": 0,
+        "ledger_sha256": "373f1aee3ea2e5bd344a29c5517d8dfac90281881cd20dcb7addf21afa9ce493",
+        "minimum_gradient_norm": 0.02321215532720089,
+        "EEF_pass": 24,
+        "fit_pass": 16,
+        "fresh_RGB32_bit_exact": true,
+        "replay_result_sha256": "4cd4efc94351d9ffc4c1877686776851572b3c94b491b63db863b2127dbe8a1b"
+      },
+      {
+        "view": "PD4_FINAL_PLAN",
+        "result_sha256": "d0ed1522ae1d2f8d3ee180a90e85d818361f59512804117689d94a03f92f3a3a",
+        "updates_verified": 500,
+        "visits_verified": 16000,
+        "source_visits": 0,
+        "ledger_sha256": "5556b65ca370177f32bf59d1832d385f19620166c3af30a7bb7464bc5ae40d39",
+        "minimum_gradient_norm": 0.023462526500225067,
+        "EEF_pass": 25,
+        "fit_pass": 17,
+        "fresh_RGB32_bit_exact": true,
+        "replay_result_sha256": "b3d4a326fe92547ff649ddf990565e80760ec2e8d9df5bb521d116d3bb1ae64d"
+      }
+    ],
+    "actual_training_visits_and_dropout_equal": true,
+    "new_optimizer_updates_this_reconciliation": 0,
+    "new_training_visits_this_reconciliation": 0
+  },
+  "original8": {
+    "result_sha256": "d9185b7dff07e364368efccd04a1e2d26c382900c6b02000c7a8904d6e6a2401",
+    "summary_sha256": "a3276511ddad7cd9126710b2cdac74406411ea502289fbb5516f8267322700dc",
+    "actual_unit_main_pid": 0,
+    "service_exit": 0,
+    "closed_actor_leases": 16,
+    "all8_native_result_pins_match": true,
+    "summary": {
+      "schema": "SLA_PD4_MATCHED500_RAW_P10_STUDENT_V7_1_SUMMARY",
+      "requested": 8,
+      "terminal": 8,
+      "complete": true,
+      "methods": {
+        "PD4_EXECUTED_REF": {
+          "requested": 4,
+          "attempted": 4,
+          "physical_requests": 4,
+          "terminal": 4,
+          "task_successes": 0,
+          "valid_task_failures": 4,
+          "technical_failures": 0,
+          "hard_safety_stops": 0,
+          "SLA_queries": 5,
+          "native_integrations": 23062
+        },
+        "PD4_FINAL_PLAN": {
+          "requested": 4,
+          "attempted": 4,
+          "physical_requests": 4,
+          "terminal": 4,
+          "task_successes": 0,
+          "valid_task_failures": 4,
+          "technical_failures": 0,
+          "hard_safety_stops": 0,
+          "SLA_queries": 10,
+          "native_integrations": 24312
+        }
+      },
+      "physical_requests": 8,
+      "optimizer_updates": 0,
+      "training_visits": 0,
+      "old_RP8_passed": false,
+      "DEV_conditions": 0,
+      "TEST_conditions": 0,
+      "generalization_claim": false,
+      "WBC_changes": false
+    },
+    "EXEC_consumed_points": 10,
+    "FINAL_consumed_points": 60,
+    "total_consumed_points": 70,
+    "initialization_integrations": 45624,
+    "student_consumption_integrations": 1750,
+    "first_failure_counts": {
+      "EEF_H40_acceleration": 1,
+      "original_joint_acceleration": 7
+    },
+    "historical_engineering_cost_separate": {
+      "physical_requests": 2,
+      "integrations": 3078
+    }
+  },
+  "terminal_joint_attribution": {
+    "parent_result_sha256": "c0aedbda1aa4ec7d5286c93faea5d8ea2e1ff5ac9a666ded8cc54cc0ad4e894f",
+    "analysis_result_sha256": "6d2f6d5fba81176055c7e083489d3cc5f30d77871694225da22b5b9d715b3980",
+    "source_commit": "454b303c3409f641eb7fb4852dce7e3d6555d72f",
+    "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+    "new_calls": 5,
+    "prior_calls_reused": 2,
+    "total_terminal_rejects_diagnosed": 7,
+    "first_reference_join_count": 6,
+    "first_suffix_count": 1,
+    "first_joint_counts": {
+      "4": 3,
+      "3": 4
+    },
+    "full_WBC_state_restored": false,
+    "same_student_state_expert_final_plan_pairs": 0,
+    "CPU_s": 2.203226658,
+    "wall_s": 5.793748378753662,
+    "rows": [
+      {
+        "condition": "train01-pd4_final_plan-r16",
+        "query": 0,
+        "native_result_sha256": "13f8a0af2363fcbc457a567ce021da7594432db3267808f94d1afd8bd6f1199e",
+        "reused_prior_result": true,
+        "first_acceleration_exceedance": {
+          "joint": 4,
+          "acceleration_rad_s2": 1.0246873462330996,
+          "absolute_ratio": 1.0246873462330996,
+          "H40_knot_triple": [
+            -1,
+            0,
+            1
+          ],
+          "location": "REFERENCE_JOIN"
+        },
+        "peak_joint": 4,
+        "peak_H40_knot_triple": [
+          -1,
+          0,
+          1
+        ],
+        "maximum_absolute_acceleration_rad_s2": 1.0246873462330996,
+        "partitions": {
+          "reference_join": {
+            "maximum_absolute_acceleration_rad_s2": 1.0246873462330996,
+            "joint": 4,
+            "H40_knot_triple": [
+              -1,
+              0,
+              1
+            ]
+          },
+          "prefix_center_1_through_9": {
+            "maximum_absolute_acceleration_rad_s2": 0.5738352000605129,
+            "joint": 3,
+            "H40_knot_triple": [
+              6,
+              7,
+              8
+            ]
+          },
+          "suffix_center_10_through_38": {
+            "maximum_absolute_acceleration_rad_s2": 0.40761738080981047,
+            "joint": 3,
+            "H40_knot_triple": [
+              37,
+              38,
+              39
+            ]
+          }
+        }
+      },
+      {
+        "condition": "train04-pd4_final_plan-r16",
+        "query": 0,
+        "native_result_sha256": "4c4230294f19d2d2eff9998bfe81e716ea59547b6e00aa8378d64d404e096504",
+        "reused_prior_result": true,
+        "first_acceleration_exceedance": {
+          "joint": 4,
+          "acceleration_rad_s2": 1.0934995232624312,
+          "absolute_ratio": 1.0934995232624312,
+          "H40_knot_triple": [
+            -1,
+            0,
+            1
+          ],
+          "location": "REFERENCE_JOIN"
+        },
+        "peak_joint": 4,
+        "peak_H40_knot_triple": [
+          -1,
+          0,
+          1
+        ],
+        "maximum_absolute_acceleration_rad_s2": 1.0934995232624312,
+        "partitions": {
+          "reference_join": {
+            "maximum_absolute_acceleration_rad_s2": 1.0934995232624312,
+            "joint": 4,
+            "H40_knot_triple": [
+              -1,
+              0,
+              1
+            ]
+          },
+          "prefix_center_1_through_9": {
+            "maximum_absolute_acceleration_rad_s2": 0.5400911593840263,
+            "joint": 3,
+            "H40_knot_triple": [
+              2,
+              3,
+              4
+            ]
+          },
+          "suffix_center_10_through_38": {
+            "maximum_absolute_acceleration_rad_s2": 0.3666938504912398,
+            "joint": 3,
+            "H40_knot_triple": [
+              18,
+              19,
+              20
+            ]
+          }
+        }
+      },
+      {
+        "condition": "train04-pd4_executed_ref-r16",
+        "query": 1,
+        "native_result_sha256": "ded3704d29530f80a406f58baea019a78596f6059166d33375601965c651e6a8",
+        "reused_prior_result": false,
+        "first_acceleration_exceedance": {
+          "joint": 3,
+          "acceleration_rad_s2": -1.235250124440146,
+          "absolute_ratio": 1.235250124440146,
+          "H40_knot_triple": [
+            -1,
+            0,
+            1
+          ],
+          "location": "REFERENCE_JOIN"
+        },
+        "peak_joint": 4,
+        "peak_H40_knot_triple": [
+          -1,
+          0,
+          1
+        ],
+        "maximum_absolute_acceleration_rad_s2": 1.300676074825713,
+        "partitions": {
+          "reference_join": {
+            "maximum_absolute_acceleration_rad_s2": 1.300676074825713,
+            "joint": 4,
+            "H40_knot_triple": [
+              -1,
+              0,
+              1
+            ]
+          },
+          "prefix_center_1_through_9": {
+            "maximum_absolute_acceleration_rad_s2": 0.8132781146879431,
+            "joint": 3,
+            "H40_knot_triple": [
+              6,
+              7,
+              8
+            ]
+          },
+          "suffix_center_10_through_38": {
+            "maximum_absolute_acceleration_rad_s2": 0.7128410354146908,
+            "joint": 3,
+            "H40_knot_triple": [
+              17,
+              18,
+              19
+            ]
+          }
+        }
+      },
+      {
+        "condition": "train07-pd4_executed_ref-r16",
+        "query": 0,
+        "native_result_sha256": "c568fe53bdcd1fea3331ee0d9308ad88677f665211e39a77e4acc1ebee138e2d",
+        "reused_prior_result": false,
+        "first_acceleration_exceedance": {
+          "joint": 4,
+          "acceleration_rad_s2": 1.0515917104218786,
+          "absolute_ratio": 1.0515917104218786,
+          "H40_knot_triple": [
+            -1,
+            0,
+            1
+          ],
+          "location": "REFERENCE_JOIN"
+        },
+        "peak_joint": 4,
+        "peak_H40_knot_triple": [
+          -1,
+          0,
+          1
+        ],
+        "maximum_absolute_acceleration_rad_s2": 1.0515917104218786,
+        "partitions": {
+          "reference_join": {
+            "maximum_absolute_acceleration_rad_s2": 1.0515917104218786,
+            "joint": 4,
+            "H40_knot_triple": [
+              -1,
+              0,
+              1
+            ]
+          },
+          "prefix_center_1_through_9": {
+            "maximum_absolute_acceleration_rad_s2": 0.739783636667557,
+            "joint": 3,
+            "H40_knot_triple": [
+              5,
+              6,
+              7
+            ]
+          },
+          "suffix_center_10_through_38": {
+            "maximum_absolute_acceleration_rad_s2": 0.5480050851151219,
+            "joint": 3,
+            "H40_knot_triple": [
+              22,
+              23,
+              24
+            ]
+          }
+        }
+      },
+      {
+        "condition": "train07-pd4_final_plan-r16",
+        "query": 1,
+        "native_result_sha256": "f59726fc86910e59097a9d6eb13f6b1ff098f83c4f5ec3a1f38366cb0feb05fd",
+        "reused_prior_result": false,
+        "first_acceleration_exceedance": {
+          "joint": 3,
+          "acceleration_rad_s2": 1.171067689851668,
+          "absolute_ratio": 1.171067689851668,
+          "H40_knot_triple": [
+            -2,
+            -1,
+            0
+          ],
+          "location": "REFERENCE_JOIN"
+        },
+        "peak_joint": 4,
+        "peak_H40_knot_triple": [
+          -2,
+          -1,
+          0
+        ],
+        "maximum_absolute_acceleration_rad_s2": 1.4561673889032567,
+        "partitions": {
+          "reference_join": {
+            "maximum_absolute_acceleration_rad_s2": 1.4561673889032567,
+            "joint": 4,
+            "H40_knot_triple": [
+              -2,
+              -1,
+              0
+            ]
+          },
+          "prefix_center_1_through_9": {
+            "maximum_absolute_acceleration_rad_s2": 0.6176833347411037,
+            "joint": 3,
+            "H40_knot_triple": [
+              8,
+              9,
+              10
+            ]
+          },
+          "suffix_center_10_through_38": {
+            "maximum_absolute_acceleration_rad_s2": 0.28254496714268384,
+            "joint": 3,
+            "H40_knot_triple": [
+              9,
+              10,
+              11
+            ]
+          }
+        }
+      },
+      {
+        "condition": "train10-pd4_final_plan-r16",
+        "query": 5,
+        "native_result_sha256": "56a49cb9a7c0cd758de651864e42297487cd9089c0087c957b43bc49c23ec9d3",
+        "reused_prior_result": false,
+        "first_acceleration_exceedance": {
+          "joint": 3,
+          "acceleration_rad_s2": 1.0800774470654861,
+          "absolute_ratio": 1.0800774470654861,
+          "H40_knot_triple": [
+            -2,
+            -1,
+            0
+          ],
+          "location": "REFERENCE_JOIN"
+        },
+        "peak_joint": 3,
+        "peak_H40_knot_triple": [
+          -2,
+          -1,
+          0
+        ],
+        "maximum_absolute_acceleration_rad_s2": 1.0800774470654861,
+        "partitions": {
+          "reference_join": {
+            "maximum_absolute_acceleration_rad_s2": 1.0800774470654861,
+            "joint": 3,
+            "H40_knot_triple": [
+              -2,
+              -1,
+              0
+            ]
+          },
+          "prefix_center_1_through_9": {
+            "maximum_absolute_acceleration_rad_s2": 0.50680740995106,
+            "joint": 3,
+            "H40_knot_triple": [
+              7,
+              8,
+              9
+            ]
+          },
+          "suffix_center_10_through_38": {
+            "maximum_absolute_acceleration_rad_s2": 0.4842353747085859,
+            "joint": 3,
+            "H40_knot_triple": [
+              13,
+              14,
+              15
+            ]
+          }
+        }
+      },
+      {
+        "condition": "train10-pd4_executed_ref-r16",
+        "query": 0,
+        "native_result_sha256": "3174fc942d78f6c61466dec177f3ed4921db92290a2bcae59edaf9d4d869ac44",
+        "reused_prior_result": false,
+        "first_acceleration_exceedance": {
+          "joint": 3,
+          "acceleration_rad_s2": -1.0506590964166396,
+          "absolute_ratio": 1.0506590964166396,
+          "H40_knot_triple": [
+            33,
+            34,
+            35
+          ],
+          "location": "H40_INTERIOR"
+        },
+        "peak_joint": 3,
+        "peak_H40_knot_triple": [
+          33,
+          34,
+          35
+        ],
+        "maximum_absolute_acceleration_rad_s2": 1.0506590964166396,
+        "partitions": {
+          "reference_join": {
+            "maximum_absolute_acceleration_rad_s2": 0.49260797374021115,
+            "joint": 4,
+            "H40_knot_triple": [
+              -1,
+              0,
+              1
+            ]
+          },
+          "prefix_center_1_through_9": {
+            "maximum_absolute_acceleration_rad_s2": 0.591276303013677,
+            "joint": 3,
+            "H40_knot_triple": [
+              2,
+              3,
+              4
+            ]
+          },
+          "suffix_center_10_through_38": {
+            "maximum_absolute_acceleration_rad_s2": 1.0506590964166396,
+            "joint": 3,
+            "H40_knot_triple": [
+              33,
+              34,
+              35
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "RGB20": {
+    "state": "CLOSED_TECHNICAL_FAILURE_PRESERVED",
+    "unit_main_pid": 0,
+    "worker_exit": 1,
+    "worker_exit_sha256": "2b90ac9a772e9691512d1fb41133897a2920af9e3422465ef77697e2c60ae1fb",
+    "counters_sha256": "26e8e3bdcd1b6464b98171e1a4f39675fbcf98802489d26fff74dfa2e11d872d",
+    "counters": {
+      "generation_attempts": 1,
+      "model_executions_submitted": 0,
+      "model_executions_completed": 0,
+      "completed_prediction_records": 0,
+      "actual_SLA_parent_loads": 1,
+      "model_load_completion_unknown": false,
+      "optimizer_updates": 0,
+      "training_visits": 0,
+      "physical_requests": 0,
+      "physics_integrations": 0
+    },
+    "failure": "sampling_timing_v71.SamplingTimer calls jitted function.lower with Observation; jaxtyping rejects JAX ArgInfo reconstructed in dataclass images before model dispatch",
+    "actual_generation_attempts": 1,
+    "actual_completed_predictions": 0,
+    "GPU_owned_wall_s": 423.03543305397034,
+    "inference_child_CPU_s": 58.033702,
+    "no_10_vs_20_comparison_available": true,
+    "no_model_latency_result_available": true,
+    "automatic_retry": false
+  },
+  "RGB20_joint_follower": {
+    "state": "CLOSED_UPSTREAM_FAILURE_NO_REPLACEMENT",
+    "unit_main_pid": 0,
+    "worker_exit": 1,
+    "worker_exit_sha256": "b738586df22cb48ab8b98f0560c659e26cd1e9762aee870c9ebd58aa875470c9",
+    "new_certifier_calls": 0,
+    "new_generations": 0,
+    "physical_requests": 0,
+    "automatic_retry": false
+  },
+  "read_only_audit_effects": {
+    "dispatches": 0,
+    "new_training_updates": 0,
+    "model_loads": 0,
+    "generations": 0,
+    "certifier_calls": 0,
+    "physical_requests": 0,
+    "integrations": 0
+  },
+  "preserved": {
+    "WBC_frozen": true,
+    "safety_thresholds_unchanged": true,
+    "valid_policy_failures_retained": true,
+    "old_RP8_passed": false,
+    "old_DEV_TEST_unchanged": true
+  },
+  "remaining_plan": [
+    "Repair and qualify the timing-wrapper lower/Observation interface independently before any future sampling dispatch; this reconciliation does not restart either failed job",
+    "Only after actual completed matched RGB20 outputs, inspect fixed-context original joint checks; no automatic RGB40 or best-of selection",
+    "Use reference-join and suffix evidence to choose one independent feasibility/representation study; do not automatically expand PD20 or training",
+    "Independent development evaluation and a usable task policy remain unmet"
+  ]
+}
