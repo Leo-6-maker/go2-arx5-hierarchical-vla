@@ -92,11 +92,14 @@ def consume(adapter,action,*,sequence):
     sample=adapter.measured_task_state()
     # Keep the exact native high-frequency state journal; these are metric samples.
     adapter.wait_source();mount=measured_mount(adapter)
+    measured_mpc_mount=mount.copy()
+    body=adapter.actual_state.model.body('x5_base_link').id;d=adapter.actual_state.data
+    mount=np.eye(4);mount[:3,:3]=d.xmat[body].reshape(3,3);mount[:3,3]=d.xpos[body]
     record=dict(native_start_step=step,native_end_step=after['step'],ticks=25,
         installed_reference_sha256=adapter.active_reference['wire_sha256'],
         gripper_command=gripper,
         installed_EEF10=row.tolist(),target_endpoint_EEF10=adapter.active_reference['action_EEF10'][(step-adapter.mobile_installed_step)//25+1],
-        actual_TCP=sample['tcp'].tolist(),actual_mount=mount.tolist(),
+        actual_TCP=sample['tcp'].tolist(),actual_mount=mount.tolist(),measured_MPC_mount=measured_mpc_mount.tolist(),
         solver_exact_installed_targets=matched,arm_requests=arm_requests,base_commands=base_commands,
         controller_selected_reference='DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED',
         safety_valid=sample['safety_valid'],native_grasp=sample['native_grasp'],
@@ -169,7 +172,11 @@ def run_case(spec_path,lock_fd):
     write(root/'SUPERVISOR.private.json',dict(pid=os.getpid(),epoch=time.time(),source_sha=spec['source_sha']))
     start=time.monotonic();cpu=time.process_time();failure=None;detail=None
     try:
-        adapter.start();detail=episode(adapter)
+        adapter.start()
+        if spec.get('mobile_stage')=='L1':
+            from go2arx5_vla.world_model.mobile_l1_episode_v1 import episode as l1_episode
+            detail=l1_episode(adapter)
+        else:detail=episode(adapter)
     except BaseException:failure=traceback.format_exc()
     finally:
         if adapter.node is not None:
@@ -185,15 +192,21 @@ def run_case(spec_path,lock_fd):
     try:trace=audit_trace(out/'init.trace',max_native_ticks=spec['max_ticks'])if(out/'init.trace').exists()else None
     except BaseException:trace=dict(error=traceback.format_exc())
     clean=bool(adapter.exit_records)and all(r['exit_code']==0 for r in adapter.exit_records)
-    passed=detail is not None and not failure and not stop and not stop_events and clean and count==M0_END
+    expected=detail.get('terminal_native_step')if detail is not None and spec.get('mobile_stage')=='L1'else M0_END
+    passed=detail is not None and not failure and not stop and not stop_events and clean and count==expected
     from go2arx5_vla.world_model.mobile_boundary_metrics_v1 import metrics
-    value=dict(schema='MOBILE_M0_ACTUAL_NATIVE_RESULT_V1',condition=spec['mobile_condition'],
+    measured_metrics=metrics(out,spec['mobile_condition'])
+    if spec.get('mobile_stage')=='L1':
+        measured_metrics['task_success']=detail['task_success']if detail is not None else False
+        measured_metrics['task_and_required_motion_success']=bool(measured_metrics['task_success']and measured_metrics.get('directional_motion',0)>=.08)
+    response_count=len(list((out/'queries').glob('*/RESPONSE.private.json')))if(out/'queries').exists()else 0
+    value=dict(schema='MOBILE_L1_ACTUAL_NATIVE_RESULT_V1'if spec.get('mobile_stage')=='L1'else 'MOBILE_M0_ACTUAL_NATIVE_RESULT_V1',condition=spec['mobile_condition'],
         completed=passed,technical_failure=bool(failure and not stop and not stop_events),
         unsafe=bool(stop or stop_events),failure=failure,mobile_safety_stop=stop,physics_stops=stop_events,
         actual_native_integrations=count,detail=detail,shutdown_clean=clean,owned_process_exits=adapter.exit_records,
         trace_audit=trace,wall_s=time.monotonic()-start,CPU_s=time.process_time()-cpu,
-        optimizer_updates=0,model_generations=0,physical_requests=1,source_sha=spec['source_sha'],
-        WBC_changes=False,raw_fixed_root_IK_is_shadow=True,metrics=metrics(out,spec['mobile_condition']))
+        optimizer_updates=0,training_visits=0,model_generations=response_count,physical_requests=1,source_sha=spec['source_sha'],
+        WBC_changes=False,raw_fixed_root_IK_is_shadow=True,metrics=measured_metrics)
     write(root/'RESULT.private.json',value)
     code=0 if passed else 2 if value['unsafe']else 1
     write(root/'WORKER_EXIT.private.json',dict(exit_code=code,wall_s=value['wall_s']))
@@ -216,6 +229,12 @@ def run_batch(spec_path):
                 case=read(path);axis=case['mobile_condition']['axis'].lstrip('+-')
                 if axis in quarantine:continue
                 if(group/'STOP.json').exists():break
+                if case.get('mobile_stage')=='L1'and case['mobile_condition']['method']!='EXPERT':
+                    server=Path(read(case['resident_server_spec']['path'])['registered_root']);until=time.monotonic()+900
+                    while not(server/'READY.private.json').exists():
+                        if(server/'RESULT.private.json').exists():raise RuntimeError('SLA_RESIDENT_FAILED_BEFORE_STUDENT')
+                        if time.monotonic()>until:raise TimeoutError('FINITE_OWN_MODEL_READINESS')
+                        time.sleep(.2)
                 write(group/'PROGRESS.private.json',dict(current=case['mobile_condition'],terminal=len(outcomes),epoch=time.time()))
                 argv=[spec['python'],'-B',str(Path(spec['source_root'])/'scripts/wm02/mobile_boundary_bootstrap_v1.py'),'--case',path,
                       '--world-lock-fd',str(world.handle.fileno())]
@@ -247,7 +266,7 @@ def run_batch(spec_path):
         requested=len(spec['cases']),terminal=len(outcomes),outcomes=outcomes,quarantined_axes=sorted(quarantine),
         physical_requests=sum(v['result']['physical_requests']for v in outcomes),
         native_integrations=sum(v['result']['actual_native_integrations']for v in outcomes),
-        new_training_updates=0,new_model_generations=0,automatic_retry=False,goal_complete=False)
+        new_training_updates=0,new_model_generations=sum(v['result']['model_generations']for v in outcomes),automatic_retry=False,goal_complete=False)
     write(group/'RESULT.private.json',value);write(group/'WORKER_EXIT.private.json',dict(exit_code=code))
     write(group/'control/LEASE.json',dict(lease,status='CLOSED',worker_exit_code=code,closed_epoch=time.time()))
     return code
