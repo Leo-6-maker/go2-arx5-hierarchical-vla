@@ -1,0 +1,357 @@
+{
+  "schema": "MOBILE_WBC_SLA_BOUNDARY_V1",
+  "date_SGT": "2026-11-15",
+  "status": "DESIGN_NOT_EXECUTED",
+  "execution_ready": false,
+  "goal": "Test mobile-base SLA capability boundaries with frozen native WBC before further post-training",
+  "observed_runtime": {
+    "repo": "Leo-6-maker/go2-arx5-hierarchical-vla",
+    "pr": 384,
+    "head": "7c85cce9b7e521918365b375f0124379d1aa57bc",
+    "updated_SGT": "2026-11-15T16:44:56+08:00",
+    "not_live_server_read": true
+  },
+  "archive_static_inspection": {
+    "filename": "wbc_mujoco_minimal.tar.gz",
+    "bytes": 215194129,
+    "sha256": "6dd13098de5a58327fb0a0a5b3ff749e0a5534510375b92fba3f8fb50a322d52",
+    "runtime_or_library_executed": false,
+    "actual_runtime_fingerprint": "MUST_BIND_DEPLOYED_ARTIFACTS_NOT_REPLACE_WITH_ARCHIVE"
+  },
+  "freeze": [
+    "WBC_binary",
+    "native_profile",
+    "MPC_costs",
+    "solver",
+    "leg_policy",
+    "arm_PD",
+    "gains",
+    "physics_model",
+    "actuator_limits",
+    "physics_dt",
+    "gripper_mapping",
+    "camera_calibration",
+    "SLA_checkpoint",
+    "normalizer",
+    "codec",
+    "tokenizer",
+    "sampling_noise_schedule"
+  ],
+  "allowed_new_boundary_components": [
+    "mobile_reference_adapter",
+    "mobile_safety_profile",
+    "mobile_metrics",
+    "mode_7D_or_14D_supported_input",
+    "fixed_root_IK_shadow_logging"
+  ],
+  "not_prerequisites": [
+    "static_raw_H40_full_success",
+    "old_RP8_restore",
+    "S16_32_of_32",
+    "JOIN10_success",
+    "static_D100_completion"
+  ],
+  "no_new_fixed_base_main_matrix": true,
+  "policy_endpoints": [
+    "PD4_EXECUTED_REF_500",
+    "PD4_FINAL_PLAN_500"
+  ],
+  "new_training_updates_initial": 0,
+  "modes": [
+    {
+      "id": "M_FREE",
+      "input": "EEF_7D_plus_separate_gripper",
+      "base_reference": "OMITTED_AND_PRIOR_BASE_HOLD_CLEARED",
+      "base_motion_source": "frozen_WBC",
+      "SLA_base_head": false
+    },
+    {
+      "id": "M_ASSIST",
+      "input": "EEF_AND_BASE_14D_plus_separate_gripper",
+      "base_reference": "PREDECLARED_EXTERNAL_SOFT_POSE_TRAJECTORY",
+      "base_motion_source": "external_route_and_frozen_WBC",
+      "claims_SLA_navigation": false,
+      "SLA_base_head": false
+    }
+  ],
+  "interface": {
+    "H": 40,
+    "knot_dt_s": 0.05,
+    "prefix_points": 10,
+    "physics_dt_s": 0.002,
+    "ticks_per_action": 25,
+    "ticks_per_prefix": 250,
+    "query_period_sim_s": 0.5,
+    "sample_steps": 10,
+    "reference_TTL_s": 0.4,
+    "renewal_period_max_s": 0.35,
+    "world_reference_bound_once": true,
+    "task_frame": "EPISODE_FIXED_INITIAL_MOUNT_FRAME",
+    "moving_base_future_truth": false,
+    "base_origin": "native_arm_mount_plane_not_IMU",
+    "write_velocity_to_native_input12": false,
+    "model_input_dimension_change": false,
+    "model_normalizer_change": false,
+    "base_only_hand_following_is_world_hold": false,
+    "old_nominal_to_reference_semantics_preserved": true,
+    "deploy_REAL_TIME_claim": false,
+    "sync_paused_simulation_initial": true
+  },
+  "safety": {
+    "sim_only": true,
+    "real_robot": false,
+    "online_RL": false,
+    "low_level_retraining": false,
+    "old_fixed_root_IK": "SHADOW_ONLY_FOR_NEW_MOBILE_IDENTITY",
+    "old_IK_thresholds_changed": false,
+    "fixed_root_IK_is_full_dynamic_proof": false,
+    "full_H40_EEF_checks_retained": true,
+    "finite_pose_time_cancel_checks_retained": true,
+    "actual_joint_actuator_collision_fall_protection": "BIND_EXISTING_VALIDATED_NATIVE_LIMITS",
+    "stance_rules": "GAIT_SPECIFIC_NO_PERMANENT_THREE_FOOT_REQUIREMENT",
+    "global_foot_5mm_hold_test": "NOT_APPLICABLE_TO_LOCOMOTION",
+    "initial_command_speed_ceiling_m_s": 0.05,
+    "initial_command_yaw_rate_ceiling_rad_s": 0.1,
+    "lower_native_limit_wins": true,
+    "workspace_default_radius_m": 1,
+    "physical_threshold_binding_required": true,
+    "unsafe_episode": "STOP_AND_QUARANTINE_AFFECTED_CONDITION_KEEP_NEGATIVE",
+    "all_other_safe_families_must_stop": false,
+    "same_version_failure_retry_for_success": false
+  },
+  "M0": {
+    "axes": [
+      "+x",
+      "-x",
+      "+y",
+      "-y",
+      "+yaw",
+      "-yaw"
+    ],
+    "eef_modes": [
+      "WORLD_HOLD",
+      "SMOOTH_5CM_TRANSLATION"
+    ],
+    "native_episode_max": 12,
+    "base_translation_m": 0.1,
+    "base_yaw_deg": 10,
+    "reference_duration_s": 4,
+    "terminal_observation_s": 2,
+    "time_law": "QUINTIC_REST_TO_REST",
+    "all_12_success_required_before_any_student": false,
+    "student_entry": "needed_motion_direction_and_monitoring_seam_operational",
+    "base_endpoint_error_goal_m": 0.03,
+    "base_yaw_error_goal_rad": 0.05,
+    "EEF_hold_RMS_goal_m": 0.015,
+    "EEF_rotation_RMS_goal_rad": 0.05,
+    "goals_not_hardware_certification": true
+  },
+  "task_families": [
+    {
+      "id": "F1",
+      "name": "FORWARD_REACH_GRASP_HOLD",
+      "axis": "x",
+      "levels_m": [
+        0.1,
+        0.2,
+        0.3
+      ],
+      "complete_task": true
+    },
+    {
+      "id": "F2",
+      "name": "LATERAL_REACH_GRASP_HOLD",
+      "axis": "y",
+      "levels_m": [
+        0.1,
+        0.2,
+        0.3
+      ],
+      "complete_task": true
+    },
+    {
+      "id": "F3",
+      "name": "REORIENT_AND_GRASP_HOLD",
+      "levels_yaw_deg": [
+        10,
+        20,
+        30
+      ],
+      "fixed_approach_m": 0.1,
+      "complete_task": true
+    },
+    {
+      "id": "F4",
+      "name": "PREGRASPED_TRANSPORT_HOLD",
+      "levels_m": [
+        0.1,
+        0.25,
+        0.4
+      ],
+      "complete_task": false,
+      "expert_prefix_declared": true
+    },
+    {
+      "id": "F5",
+      "name": "PICK_TRANSPORT_HOLD",
+      "levels_m": [
+        0.1,
+        0.25,
+        0.4
+      ],
+      "complete_task": true
+    },
+    {
+      "id": "F6",
+      "name": "PICK_TRANSPORT_PLACE",
+      "levels_m": [
+        0.1,
+        0.25,
+        0.4
+      ],
+      "complete_task": true,
+      "untrained_task_probe": true
+    }
+  ],
+  "exploration": {
+    "n_families": 6,
+    "n_levels": 3,
+    "n_modes": 2,
+    "n_policies": 2,
+    "n_independent_resets": 2,
+    "expert_trials_max": 72,
+    "student_trials_max": 144,
+    "native_total_including_M0_max": 228,
+    "wave1": {
+      "levels": [
+        1
+      ],
+      "reset_indices": [
+        0
+      ],
+      "expert_trials": 12,
+      "student_trials": 24,
+      "with_M0_max": 48
+    },
+    "later_remaining_max": 180,
+    "balanced_interleaving": true,
+    "same_seed_means_same_hidden_WBC": false,
+    "condition_clocks_and_attempts_independent": true,
+    "unrun_dangerous_cells": "REPORT_UNSTARTED_CONTROLLER_LIMIT_NOT_POLICY_FAILURE",
+    "optional_speed_study": {
+      "n_speeds": 3,
+      "n_families": 4,
+      "n_resets": 2,
+      "n_systems": 1,
+      "trials": 24,
+      "auto_run": false
+    }
+  },
+  "metrics": {
+    "task_success": true,
+    "movement_observed": true,
+    "task_and_required_motion_success": true,
+    "movement_min_translation_m": 0.05,
+    "movement_min_yaw_deg": 5,
+    "required_motion_fraction_default": 0.8,
+    "grasp_lift_m": 0.02,
+    "grasp_hold_s": 1,
+    "placed_object_ROI": "REGISTER_PER_ASSET_BEFORE_RUN",
+    "partial_pregrasped_tasks_report_separately": true,
+    "raw_installed_achieved_logged_separately": true,
+    "shadow_reject_plus_safe_P10_proves_full_H40": false,
+    "statistics_unit": "independent_episode_and_layout_not_query",
+    "first_wave_is_reliability_estimate": false,
+    "field_names": [
+      "queries",
+      "consumed_points",
+      "native_ticks",
+      "base_translation",
+      "base_path_length",
+      "base_yaw",
+      "EEF_RMS",
+      "EEF_P95",
+      "tracking_lag",
+      "foot_stance_slip",
+      "fall",
+      "forbidden_contact",
+      "first_failure",
+      "task_complete",
+      "motion_complete",
+      "CPU_wall",
+      "GPU_wall",
+      "H2D",
+      "D2H"
+    ]
+  },
+  "later_learning": {
+    "condition": "first_mobile_evidence_identifies_policy_or_perception_gap",
+    "dataset_first_complete_episodes": 100,
+    "first_quota": {
+      "forward_lateral_grasp": 40,
+      "yaw_grasp": 20,
+      "pregrasped_transport": 20,
+      "full_pick_transport": 20
+    },
+    "later_nested_episodes": 300,
+    "place_seed_episodes_range": [
+      20,
+      50
+    ],
+    "arms": 2,
+    "updates_per_arm": 1000,
+    "batch": 32,
+    "visits_per_arm": 32000,
+    "total_visits": 64000,
+    "common_parent": "selected_frozen_PD4_endpoint",
+    "arm0": "100pct_original_standing_replay",
+    "arm1": "75pct_mobile_25pct_standing",
+    "same_normalizer_per_comparison": true,
+    "new_statistics_require_new_common_protocol": true,
+    "base_head_now": false,
+    "partial_base_labels": "MASK_NOT_ZERO",
+    "heldout_DEV_conditions": 24,
+    "auto_run": false
+  },
+  "confirmation": {
+    "systems": 2,
+    "families": 6,
+    "fresh_resets_per_family": 10,
+    "conditions": 120,
+    "auto_run": false,
+    "population": "NEW_HELD_OUT_LAYOUTS_AND_SEEDS"
+  },
+  "operations": {
+    "native_parallelism": [
+      1,
+      2,
+      4
+    ],
+    "scale_by": "qualified_mobile_episodes_and_new_coverage_per_hour",
+    "persistent_policy_server": true,
+    "separate_world_control_history": true,
+    "need_previous_static_jobs_terminated": false,
+    "hotpatch_healthy_capsules": false,
+    "monitor_dispatches_trials": false,
+    "chat_resume_required": false,
+    "dependencies_preflight_in_actual_scheduler_interpreter": true,
+    "GPU_model_optimizer_state_resident": true,
+    "CPU_native_control_resident": true,
+    "expert_collection_needs_SLA": false,
+    "unknown_job_blind_resubmit": false,
+    "source_world_sim_truth_in_student_inputs": false
+  },
+  "files": {
+    "plan": "docs/protocols/MOBILE_WBC_SLA_BOUNDARY_V1_20261115.md",
+    "matrix": "docs/protocols/MOBILE_WBC_SLA_BOUNDARY_V1_20261115.json",
+    "prompt": "docs/handover/2026-11-15/START_MOBILE_WBC_SLA_BOUNDARY_V1.txt",
+    "entry": "MOBILE_WBC_SLA_START_HERE.md"
+  },
+  "publication_scope": {
+    "kind": "GITHUB_DOCUMENTATION_ONLY",
+    "runtime_code_modified": false,
+    "remote_jobs_started": false,
+    "hardware_or_RL_performed": false,
+    "CI": "NOT_RUN"
+  }
+}

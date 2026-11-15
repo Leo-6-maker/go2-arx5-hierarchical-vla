@@ -9,6 +9,7 @@ NATIVE_STARTUP_READ_WAIT_S=180
 
 def native_task_bucket(phase,dynamic):
     """Select only existing quota ABI buckets for the exact finite phase."""
+    if phase=='collect-target-mobile-wbc-boundary-v1':return '128'
     if phase in('collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1','collect-target-task-learning-grasp-v1'):return '128'
     if phase in(C02_FEEDBACK_PHASE,'collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1','collect-target-task-learning-grasp-v1'):return '96'
     return '64'if phase in(C02_FEEDBACK_PHASE,C02_PHASE,'collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1','collect-target-fusion-live-proposal-qualification-v3','collect-target-fusion-source-posture-qualification-v1','collect-target-fusion-source-posture-query-v3','collect-target-fusion-task-phase-initialization-v1','collect-target-fusion-task-phase-bias-calibration-v2','collect-target-fusion-task-phase-bias-continuation-v3','collect-target-fusion-task-phase-xyz-feedback-v4','collect-target-fusion-task-phase-xyz-feedback-continuation-v5')else('32'if dynamic else'0')
@@ -35,6 +36,9 @@ def await_native_startup(adapter):
                   and adapter.counts.get('odom',0)>10 and adapter.counts.get('arm',0)>10)
     wait=NATIVE_STARTUP_READ_WAIT_S
     spec=getattr(adapter,'spec',{})
+    if spec.get('mobile_wbc_boundary_v1'):
+        if spec.get('phase')!='collect-target-mobile-wbc-boundary-v1':raise PermissionError('MOBILE_STARTUP_SCOPE')
+        wait=600
     if spec.get('native_startup_read_wait_s') is not None:
         if (type(spec['native_startup_read_wait_s']) is not int or spec['native_startup_read_wait_s'] != 600
                 or spec.get('phase') != 'collect-target-task-learning-grasp-v1'
@@ -77,7 +81,9 @@ def native_display_command(spec,output,environment,*,live_output=None):
     if spec.get('diagnostic_debugger'):
         prefix += [spec['diagnostic_debugger'],'--batch','-ex','set pagination off','-ex','set confirm off','-ex','handle SIGINT nostop noprint pass','-ex','handle SIGTERM nostop noprint pass','-ex','run','-ex','thread apply all bt','--args']
     trace_first=(spec.get('extended_trace_build')and spec.get('phase')=='collect-target-next2-contact')or(spec.get('trajectory_trace_capacity_build')and spec.get('phase')in(C02_FEEDBACK_PHASE,C02_PHASE,'collect-target-fusion-trajectory-qualification-v1','collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1','collect-target-fusion-paused-query-v2','collect-target-fusion-live-proposal-qualification-v3','collect-target-fusion-source-posture-qualification-v1','collect-target-fusion-source-posture-query-v3','collect-target-fusion-task-phase-initialization-v1','collect-target-fusion-task-phase-bias-calibration-v2','collect-target-fusion-task-phase-bias-continuation-v3','collect-target-fusion-task-phase-xyz-feedback-v4','collect-target-fusion-task-phase-xyz-feedback-continuation-v5','collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1','collect-target-task-learning-grasp-v1'))
-    order=('trace_library','outer_library','observer_library')if trace_first else('outer_library','observer_library','trace_library')
+    order=(('trace_library','mobile_safety_library','outer_library','observer_library')
+           if spec.get('mobile_wbc_boundary_v1')else
+           ('trace_library','outer_library','observer_library')if trace_first else('outer_library','observer_library','trace_library'))
     trace_output=Path(live_output or output)
     argv=[*prefix,'/usr/bin/env','LD_PRELOAD='+':'.join(spec[n]for n in order),'WM02_INIT_TRACE='+str(trace_output/'init.trace'),'WM02_INIT_SEAL_REQUEST='+str(trace_output/'trace_seal_request'),spec['native_binary'],'go2_x5','scene']
     return argv,env
@@ -202,6 +208,11 @@ class TargetSequentialAdapter:
         sim=dict(env,LD_PRELOAD=':'.join(s[n]for n in('outer_library','observer_library','trace_library')),PI0288_COMPILED_MODEL=s['model_path'],PI0288_PHYSICS_TRACE=str(out/'physics.jsonl'),PI0288_PHYSICS_CAP=str(s['max_ticks']),PI0288_CONTACT_SAFETY_MARKER=str(out/'CONTACT_SAFETY_ARMED'),PI0289_INITIALIZATION_TRACE=str(out/'initialization.jsonl'),PI0289_CONTROL_TRACE=str(out/'control.jsonl'),WM02_INIT_TRACE=str(out/'init.trace'),GR00T_TASK_GRIPPER_COMMAND=str(out/'gripper.bin'),GR00T_TASK_STATE=str(out/'state.bin'),GR00T_TASK_ERROR=str(out/'task_errors.txt'),GR00T_TASK_STEP_QUOTA=str(out/'step_quota'),GR00T_TASK_PAUSE_ACK=str(out/'pause_ack.json'),GR00T_TASK_QUOTA_BINDING=str(out/'quota.binding'),GR00T_TASK_RUN_UUID=out.name,GR00T_TASK_CARD_SHA256=s['stage_identity_sha256'],GR00T_TASK_RESERVATION_ID=out.name)
         for key,name in (('GR00T_TASK_GRIPPER_COMMAND','gripper.bin'),('GR00T_TASK_STATE','state.bin'),('GR00T_TASK_STEP_QUOTA','step_quota'),('GR00T_TASK_PAUSE_ACK','pause_ack.json'),('GR00T_TASK_QUOTA_BINDING','quota.binding')):
             sim[key]=str(live_path(self,name))
+        if s.get('mobile_wbc_boundary_v1'):
+            sim.update(MOBILE_SAFETY_BINDING=s['mobile_safety_binding'],
+                MOBILE_SAFETY_ARMED=str(out/'MOBILE_SAFETY_ARMED'),
+                MOBILE_SAFETY_STOP=str(out/'MOBILE_SAFETY_STOP.private.json'),
+                MOBILE_SAFETY_TRACE=str(out/'MOBILE_SAFETY_TRACE.private.jsonl'))
         command,display_env=native_display_command(s,out,sim,live_output=getattr(self,'live_control_output',None));self.launch(command,'sim',display_env)
         native=Path(s['native_root']);params=['--ros-args','-p','use_sim_time:=true','-p','taskFile:='+str(native/'src/ctrl/go2_x5_ocs2/config/task_floating.info'),'-p','urdfFile:='+str(native/'src/ctrl/go2_x5_description/urdf/arx5_ac1_floating.urdf')]
         # OCS2 can regenerate cache libraries while constructing its interface.
@@ -274,7 +285,9 @@ class TargetSequentialAdapter:
             try:return json.loads(live_path(self,'pause_ack.json').read_text())['step']==ticks and self.observe()['step']==ticks
             except(FileNotFoundError,ValueError,KeyError):return False
         pause_wait = 35
-        if self.spec.get('native_pause_read_wait') is not None:
+        if self.spec.get('mobile_wbc_boundary_v1'):
+            pause_wait=90
+        elif self.spec.get('native_pause_read_wait') is not None:
             from .sla_native_continuation_v2 import wait_seconds
             pause_wait = wait_seconds(self.spec)
         elif self.spec.get('expert_recorded_success_tail_v3'):
@@ -387,6 +400,10 @@ class TargetSequentialAdapter:
         return self.reference_qualification
     @profiled('reference.events_read')
     def reference_events(self):
+        if self.spec.get('mobile_wbc_boundary_v1'):
+            from .planner_event_log import PlannerEventLog
+            if not hasattr(self,'_planner_event_log'):self._planner_event_log=PlannerEventLog(self.output/'planner.jsonl')
+            return self._planner_event_log.read()
         if self.spec.get('phase') in (C02_FEEDBACK_PHASE,C02_PHASE,'collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1','collect-target-task-learning-grasp-v1'):
             from .planner_event_log import PlannerEventLog
             if not hasattr(self,'_planner_event_log'):
@@ -534,7 +551,10 @@ class TargetSequentialAdapter:
         require_working_target(action[:,9]);self.reference_sequence+=1
         doc=eef_document(action)
         certificate=None
-        if hasattr(self,'base_pose_hold'):
+        if self.spec.get('mobile_wbc_boundary_v1'):
+            from .mobile_wbc_reference_v1 import prepare_install
+            doc,certificate=prepare_install(self,action,doc)
+        elif hasattr(self,'base_pose_hold'):
             from .target_reference import measured_base_hold
             from scripts.pi0294.task_path_model import certify_chunk
             from scripts.pi0292.eval_contract import matrix10
@@ -567,7 +587,7 @@ class TargetSequentialAdapter:
         wire=json.dumps(doc,separators=(',',':'));ref=hashlib.sha256(wire.encode()).hexdigest()
         intent=dict(phase='proposed',sequence=self.reference_sequence,wire=wire,wire_sha256=ref,source_mpc_s=source,deadline_s=deadline(source),native_step=packet['step'],sim_time_s=packet['time_s'],wall_monotonic_s=time.monotonic(),action_EEF10=action.tolist(),measured_BASE_pose_hold=getattr(self,'base_pose_hold',None),native_reference_certificate=certificate)
         self.command_event(intent)
-        if self.spec.get('phase')not in(C02_FEEDBACK_PHASE,C02_PHASE,'collect-target-fusion-trajectory-qualification-v1','collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1','collect-target-fusion-paused-query-v2','collect-target-fusion-live-proposal-qualification-v3','collect-target-fusion-source-posture-qualification-v1','collect-target-fusion-source-posture-query-v3','collect-target-fusion-task-phase-initialization-v1','collect-target-fusion-task-phase-bias-calibration-v2','collect-target-fusion-task-phase-bias-continuation-v3','collect-target-fusion-task-phase-xyz-feedback-v4','collect-target-fusion-task-phase-xyz-feedback-continuation-v5','collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1','collect-target-task-learning-grasp-v1'):
+        if not self.spec.get('mobile_wbc_boundary_v1')and self.spec.get('phase')not in(C02_FEEDBACK_PHASE,C02_PHASE,'collect-target-fusion-trajectory-qualification-v1','collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1','collect-target-fusion-paused-query-v2','collect-target-fusion-live-proposal-qualification-v3','collect-target-fusion-source-posture-qualification-v1','collect-target-fusion-source-posture-query-v3','collect-target-fusion-task-phase-initialization-v1','collect-target-fusion-task-phase-bias-calibration-v2','collect-target-fusion-task-phase-bias-continuation-v3','collect-target-fusion-task-phase-xyz-feedback-v4','collect-target-fusion-task-phase-xyz-feedback-continuation-v5','collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1','collect-target-task-learning-grasp-v1'):
             write_gripper(live_path(self,'gripper.bin'),self.reference_sequence,source,float(action[0,9]))
         self.publish(self.refs,wire)
         def installed():
