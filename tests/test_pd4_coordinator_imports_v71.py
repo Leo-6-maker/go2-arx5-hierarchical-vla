@@ -17,6 +17,7 @@ from go2arx5_vla.sla_adapter.pd4_config_v71 import MANIFESTS,STATISTICS
 from go2arx5_vla.sla_adapter.provider_v3 import contract,SCHEMA,DECODE_ORDER,VERSION,EPSILON
 from go2arx5_vla.world_model.pd4_student_v71 import policy_contract,protocol
 from scripts.wm02.sla_pd4_student_queue_v71 import terminal_training
+from scripts.wm02.sla_pd4_sampling_queue_v71 import dependency_cold
 contract(dict(schema=SCHEMA,codec=VERSION,decode_order=DECODE_ORDER,label_epsilon=EPSILON,
     bindings=dict(codec_version=VERSION),state_gripper_transformed=False,
     teacher_required=False,training_cache_required=False,optimizer_required=False))
