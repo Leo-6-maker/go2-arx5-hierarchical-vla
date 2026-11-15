@@ -77,6 +77,9 @@ def environment_sla(value):
  return dict(CUDA_VISIBLE_DEVICES=s['GPU_uuid'],JAX_PLATFORMS='cuda',XLA_PYTHON_CLIENT_PREALLOCATE='false',
   XLA_PYTHON_CLIENT_MEM_FRACTION=str(runtime['JAX_memory_fraction']),XLA_FLAGS=rule['XLA_FLAGS'],
   PYTHONPATH=str(R)+':'+str(R/'src')+':'+runtime['upstream_root']+'/src:'+runtime['upstream_root']+'/packages/openpi-client/src',
+  # The supervisor uses the native environment. Its vendor libtorch is built
+  # for a different Python ABI; the isolated SLA child uses its own venv libs.
+  LD_LIBRARY_PATH='',LD_PRELOAD='',
   PYTHONDONTWRITEBYTECODE='1',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1',TOKENIZERS_PARALLELISM='false')
 
 def capacity(kind):
