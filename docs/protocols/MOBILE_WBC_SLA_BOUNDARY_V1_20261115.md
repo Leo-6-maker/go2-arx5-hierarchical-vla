@@ -2,8 +2,8 @@
 
 日期：2026-11-15（Asia/Singapore）  
 实验族：`MOBILE_WBC_SLA_BOUNDARY_V1`  
-状态：**计划／待实施，不是已启动或已完成的原生实验。**  
-配套：[机读矩阵](MOBILE_WBC_SLA_BOUNDARY_V1.json) · [启动交接](../handover/2026-11-15/START_MOBILE_WBC_SLA_BOUNDARY_V1.txt)
+状态：**本文件为固定计划；实际执行状态、失败与后台余项见[首批实证](../../reports/WM02/mobile-wbc-sla-boundary-v1-20261115/FIRST_ACTUAL_20261115.md)，不据此宣称整个计划完成。**  
+配套：[机读矩阵](MOBILE_WBC_SLA_BOUNDARY_V1_20261115.json) · [启动交接](../handover/2026-11-15/START_MOBILE_WBC_SLA_BOUNDARY_V1.txt)
 
 ## 0. 本轮决定
 
