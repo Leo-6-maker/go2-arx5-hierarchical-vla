@@ -31,3 +31,15 @@ def test_initial_constant_base_hold_is_explicitly_separate():
         accepted_boundary([event],'a',11.906,[policy])
     pose,w=accepted_boundary([event],'a',11.906,[policy],initial_hold=True)
     assert pose[0,3]==.010 and w['initial_constant_BASE_hold']
+
+
+def test_immutable_callback_identity_cache_preserves_exact_boundary(monkeypatch):
+    from go2arx5_vla.world_model import mobile_boundary_clock_v1 as clock
+    event,policy=evidence();cache={};calls=[];original=clock.trajectory_identity
+    def measured(*args):calls.append(1);return original(*args)
+    monkeypatch.setattr(clock,'trajectory_identity',measured)
+    a,w=accepted_boundary([event],'a',11.906,[policy],policy_identity_cache=cache)
+    b,z=accepted_boundary([event],'a',11.956,[policy],policy_identity_cache=cache)
+    c,q=accepted_boundary([event],'a',11.956,[policy])
+    assert np.array_equal(b,c) and z==q and len(calls)==2
+    assert w['receiver_knot_index']==10 and z['receiver_knot_index']==11

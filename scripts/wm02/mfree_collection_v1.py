@@ -48,8 +48,21 @@ def run(spec_path):
     if (root/'SUPERVISOR.private.json').exists(): raise PermissionError('EXISTING_PRODUCTION_OWNER_NO_REPLAY')
     write(root/'SUPERVISOR.private.json',dict(pid=os.getpid(),epoch=time.time()))
     journal=Journal(root/'control/journal',root.name); outcomes=[]; counts={}; failure=None; unsafe=False; code=1
+    carried=0
     campaign=Path(spec['collection_root']); stop=campaign/'control/TECHNICAL_STOP.private.json'
     try:
+        # Cold successor may retain an already qualified first production
+        # episode. It consumes the same declared attempt; never launch it again.
+        for pin in spec.get('qualified_carryover',[]):
+            if digest(pin['path'])!=pin['sha256']:raise ValueError('UNCHANGED_PRIOR_PRODUCTION_RESULT')
+            native=read(pin['path']);case_root=Path(pin['path']).parent;old=read(case_root/'EXECUTION_SPEC.json')
+            if not qualification_record(native)['qualified']:raise ValueError('QUALIFIED_CARRYOVER_ONLY')
+            capture=capture_check(native);c=old['collection_contract'];layout=c['layout_id']
+            counts[layout]=counts.get(layout,0)+1;carried+=1
+            outcomes.append(dict(root=str(case_root),condition=old['mobile_condition'],collection=c,
+                result_sha256=pin['sha256'],qualified=True,capture=capture,physical_requests=1,
+                native_integrations=native['actual_native_integrations'],unsafe=False,technical_failure=False,
+                detail=native['detail'],carried_over_prior_attempt=True))
         dependency=spec.get('first_capture_dependency')
         while dependency and not Path(dependency).exists():
             if stop.exists(): raise RuntimeError('OTHER_FAMILY_CAPTURE_TECHNICAL_STOP')
@@ -108,6 +121,7 @@ def run(spec_path):
     result=dict(schema='MFREE_C20_FAMILY_PRODUCTION_ACTUAL_V1',source_sha=spec['source_sha'],
         outcomes=outcomes,successful_by_layout=counts,qualified_episodes=sum(counts.values()),
         physical_requests=len(outcomes),native_integrations=sum(v['native_integrations'] for v in outcomes),
+        carried_over_physical_requests=carried,new_physical_requests=len(outcomes)-carried,
         new_optimizer_updates=0,new_training_visits=0,new_model_queries=0,unsafe=unsafe,
         failure=failure,exit_code=code,automatic_retry=False,maximum_predeclared_attempts=20)
     write(root/'RESULT.private.json',result);write(root/'WORKER_EXIT.private.json',dict(exit_code=code))
