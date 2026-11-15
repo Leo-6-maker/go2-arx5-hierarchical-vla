@@ -1,0 +1,417 @@
+{
+  "schema": "SLA_ACTION_CONTRACT_REPLAY_V6_1",
+  "date_SGT": "2026-11-14",
+  "status": "PLANNED_DOCUMENTATION_ONLY",
+  "execution_ready": false,
+  "publication": {
+    "repository": "Leo-6-maker/go2-arx5-hierarchical-vla",
+    "plan_pr": 383,
+    "expected_plan_head": "f61305f9c1f847e460851fd067892160f71ca432",
+    "runtime_pr": 384,
+    "runtime_snapshot": "4273dcdf143a0f9bac28afc5f831eb597a240412",
+    "observed_training_SGT": "2026-11-14T12:25:57+08:00",
+    "observed_native_SGT": "2026-11-14T12:07:35+08:00",
+    "source_runtime_changes": false,
+    "remote_execution_started": false,
+    "auto_merge": false
+  },
+  "documents": {
+    "plan": "docs/protocols/SLA_ACTION_CONTRACT_REPLAY_V6_1_20261114.md",
+    "matrix": "docs/protocols/SLA_ACTION_CONTRACT_REPLAY_V6_1_20261114.json",
+    "prompt": "docs/handover/2026-11-14/SLA_ACTION_CONTRACT_V6_1_START.md",
+    "entry": "SLA_SOURCE_TARGET_MOBILE_START.md"
+  },
+  "boundaries": {
+    "expert_planning_includes_EEF_STREAM_V2": true,
+    "plan_label": "post_EEF_STREAM_final_decoded_H40",
+    "student_runs_expert_planner": false,
+    "same_downstream_adapter": "existing_FiftyMsProgram_and_native_chain",
+    "supervision_and_consumption_independent": true,
+    "frozen_TRAIN_stats_before_FP32_and_native_acceptance": true,
+    "inflight_V6_immutable": true,
+    "reference_error_input_now": false,
+    "history_input_now": false
+  },
+  "observed": {
+    "old_N20_episodes": 20,
+    "old_N20_windows": 1220,
+    "old_N20_updates": 3000,
+    "old_N20_visits": 96000,
+    "old_N20_TRAIN8": {
+      "requested": 8,
+      "terminal": 8,
+      "success": 0,
+      "policy_failure": 7,
+      "technical_failure": 1
+    },
+    "old_label_envelope_pass": 545,
+    "old_label_envelope_fail": 675,
+    "V6_exact_envelope_pass": 1220,
+    "V6_FP32_envelope_pass": 1220,
+    "V6_reference_error_max": 2.3315e-15,
+    "V6_updates_snapshot": 92,
+    "V6_visits_snapshot": 2944,
+    "V6_native_requests": 0,
+    "V6_dataset_sha256": "29fd45ff31a2031f70f5d32402e6bfefe2f8b644e8e81ad1d2003d4537a1a6f5",
+    "V6_statistics_sha256": "024951afc22e03586635f17b5ee8f473aead1960f107d8768384643844afb9e1",
+    "new_task_success_claim": false
+  },
+  "action_contract": {
+    "horizon": 40,
+    "action_period_s": 0.05,
+    "physics_dt_s": 0.002,
+    "policy_prefix_atoms": 10,
+    "reference_TTL_s": 0.4,
+    "renewal_max_s": 0.35,
+    "physical_action_dim": 10,
+    "model_action_dim": 32,
+    "active_action_dim": 7,
+    "gripper_sigmoid_calls": 1,
+    "policy_frame_map_calls": 1,
+    "clipping": false,
+    "retiming": false,
+    "student_endpoint_basis": false,
+    "supervision_mask_shape": [
+      40
+    ],
+    "consumed_mask_shape": [
+      40
+    ],
+    "consumption_key": [
+      "episode_id",
+      "origin_query_id",
+      "command_id",
+      "native_interval"
+    ],
+    "renewal_ACK_is_consumption": false,
+    "future_query_same_value_fills_old_mask": false,
+    "query_reference_required": true,
+    "installed_first_is_reference_only_if_proven": true
+  },
+  "supervision_routes": [
+    {
+      "id": "EXECUTED_REFERENCE_V6",
+      "status": "EXISTING_IMMUTABLE",
+      "target": "current_anchor_equivalent_actual_consumed_reference",
+      "all_40_consumed": true,
+      "may_have_multiple_origin_queries": true,
+      "new_masks_sidecar_only": true
+    },
+    {
+      "id": "EXPERT_FINAL_PLAN_PD1",
+      "status": "CONDITIONAL_NEW",
+      "target": "current_query_verified_final_expert_plan",
+      "all_40_consumed": false,
+      "one_origin_query_per_sample": true,
+      "new_schema_stats_run": true,
+      "historical_recomputation_is_original_plan": false
+    }
+  ],
+  "mask_examples": [
+    {
+      "id": "V6_full_reference",
+      "supervised": 40,
+      "consumed": 40,
+      "train_allowed": true,
+      "counts_as_policy_success": false
+    },
+    {
+      "id": "PD1_P10",
+      "supervised": 40,
+      "consumed": 10,
+      "train_allowed": true,
+      "counts_as_policy_success": false
+    },
+    {
+      "id": "PD1_failure_after_6",
+      "supervised": 40,
+      "consumed": 6,
+      "train_allowed": false,
+      "reason": "retained_in_failure_pool_not_initial_full_success_PD1",
+      "counts_as_policy_success": false
+    },
+    {
+      "id": "rejected_plan",
+      "supervised": 0,
+      "consumed": 0,
+      "train_allowed": false,
+      "counts_as_policy_success": false
+    }
+  ],
+  "mask_training": {
+    "changes_inflight_V6_loss": false,
+    "dimension_reduction": "retain_FM32",
+    "formula": "mean_i(sum_k(mask_ik*sum_c(error_ikc**2))/(32*sum_k(mask_ik)))",
+    "mask": "supervision_mask",
+    "consumed_mask_weights_loss": false,
+    "all_true_matches_original_loss_and_gradient": true,
+    "all_false_rows_rejected_before_loss": true,
+    "sanitize_invalid_targets_before_noising": true,
+    "invalid_target_perturbation_invariance_required": true,
+    "image_mask_distinct": true,
+    "padding25_remains_original_training_definition": true
+  },
+  "admission_order": [
+    "semantic_and_episode_split",
+    "fit_and_freeze_TRAIN_statistics",
+    "encode_normalize_FP32_serialize_decode",
+    "complete_student_deployment_adapter",
+    "offline_all_window_and_boundary_validation",
+    "RP8_native_oracle_replay",
+    "new_training"
+  ],
+  "statistics": {
+    "V6_existing_statistics_reused": true,
+    "fit_scope": "unique_TRAIN_supervised_targets",
+    "consumed_mask_filters_plan_stats": false,
+    "resampling_multiplicity_changes_stats": false,
+    "changed_stats_new_version_and_revalidation": true,
+    "microfit_uses_full_N20_TRAIN_stats": true,
+    "PD_views_each_fit_valid_TRAIN_stats": true,
+    "PD_comparison_includes_preprocessing": true,
+    "fit_input": "unnormalized_transformed_state_and_action_latents"
+  },
+  "S16": {
+    "unique_windows": 16,
+    "stage_counts": {
+      "PREGRASP": 2,
+      "DESCEND": 2,
+      "CLOSE": 2,
+      "LIFT": 2,
+      "HOLD": 2
+    },
+    "extra_distinct_join_or_event_windows": 6,
+    "minimum_episodes_goal": 4,
+    "minimum_layouts_goal": 4,
+    "selection_before_model_outputs": true,
+    "missing_stratum_reported_not_easy_replaced": true,
+    "source_data": "V6_N20_1220",
+    "refit_stats_on_16": false
+  },
+  "RP8": {
+    "new_native_diagnostics": 8,
+    "stage_cases": 5,
+    "join_cases": 3,
+    "consume_atoms_per_query": 10,
+    "validate_full40": true,
+    "full_controller_state_or_verified_prefix_replay": true,
+    "qpos_qvel_only_restore_sufficient": false,
+    "silent_reanchor_after_state_mismatch": false,
+    "failed_condition_auto_retry": false,
+    "oracle_counts_as_student_success": false,
+    "teacher_suffix_counts_as_full_consumption": false
+  },
+  "microfit": {
+    "id": "MICROFIT_S16_REFERENCE500",
+    "new_parent_start": true,
+    "parent": "haofuly/SLA_base",
+    "parent_revision": "5bbdf3012ab643554aa2eb83ddeae9ace3dce476",
+    "updates": 500,
+    "batch": 32,
+    "visits": 16000,
+    "microbatch": 8,
+    "accumulation": 4,
+    "state_dropout": 0.25,
+    "physical_anchor_dropout": false,
+    "precision": "highest",
+    "warmup": 25,
+    "loss": "FM_only",
+    "extra_inputs": [],
+    "windows_per_batch": 16,
+    "noise_draws_per_window_per_batch": 2,
+    "statistics": "frozen_V6_N20_TRAIN",
+    "checkpoints": [
+      0,
+      100,
+      500
+    ],
+    "selection_endpoint": 500,
+    "RGB_probe_windows": 16,
+    "RGB_probe_noise_ids": 2,
+    "RGB_probe_trajectories": 32,
+    "native_full_task_diagnostics": 4,
+    "engineering_targets": {
+      "full_H40_legal": 32,
+      "xyz_RMSE_m_max": 0.002,
+      "mean_SO3_rad_max": 0.01,
+      "grip_MAE_max": 0.02
+    },
+    "targets_are_not_safety_changes": true,
+    "claims_generalization": false,
+    "automatic_extend_if_failed": false
+  },
+  "matched_spatial": {
+    "status": "CONDITIONAL_NEW",
+    "entry": "reference_route_native_acceptance",
+    "updates": 3000,
+    "batch": 32,
+    "visits": 96000,
+    "alpha": 0.5,
+    "reuse_exact_FM_endpoint": true,
+    "same_data_stats_initial_common_arrays_and_consumer": true,
+    "old_2EP_is_matched_control": false
+  },
+  "plan_distillation": {
+    "status": "CONDITIONAL_NEW",
+    "dataset": "PD20_dual_views",
+    "first_closed_episodes": 4,
+    "target_closed_episodes": 20,
+    "attempts_first_wave_max": 40,
+    "train_layout_quotas": [
+      3,
+      3,
+      3,
+      3,
+      2,
+      2,
+      2,
+      2
+    ],
+    "task": "PICK_HOLD",
+    "same_episode_views": [
+      "PD20_EXECUTED_REF",
+      "PD20_FINAL_PLAN"
+    ],
+    "store_final_plan_before_install": true,
+    "future_truth_used_to_rebuild_plan": false,
+    "all_40_supervised_for_initial_plan_arm": true,
+    "consumed_prefix_evidence_separate": true,
+    "formal_D100_claim": false,
+    "arms": 2,
+    "updates_per_arm": 500,
+    "batch": 32,
+    "visits_total": 32000,
+    "native_diagnostics_per_arm": 4,
+    "native_diagnostics_total": 8,
+    "source_images_states_anchors_visits_noise_shared": true,
+    "loss": "FM_only",
+    "separate_TRAIN_stats_per_label_view": true,
+    "mask_qualification_updates_max": 8,
+    "mask_qualification_visits_max": 256
+  },
+  "lerobot_parity": {
+    "status": "AFTER_NATIVE_AND_MICROFIT",
+    "independent_reader_paths": 2,
+    "shared_windows": 16,
+    "batch_configurations": [
+      1,
+      8
+    ],
+    "passes_per_configuration": 2,
+    "logical_sample_reads": 64,
+    "per_reader_sample_reads": 64,
+    "two_reader_total_sample_reads": 128,
+    "GPU_updates": 0,
+    "native_requests": 0,
+    "lossless_RGB_required_for_exact_pixels": true,
+    "checkpoint_Lerobot_revision_pinned": true,
+    "sampling_frequency_equals_control_frequency": false,
+    "mask_aware_stats_required": true,
+    "equivalence_unit": "complete_model_training_tensors"
+  },
+  "work_packages": [
+    {
+      "id": "W0",
+      "depends_on": [],
+      "delivery": "current_V6_state_no_changes",
+      "new_candidate_updates": 0
+    },
+    {
+      "id": "W1",
+      "depends_on": [],
+      "delivery": "final_plan_shared_adapter_two_masks"
+    },
+    {
+      "id": "W2",
+      "depends_on": [
+        "W1"
+      ],
+      "delivery": "frozen_stats_full_FP32_adapter_RP8"
+    },
+    {
+      "id": "W3",
+      "depends_on": [
+        "W2"
+      ],
+      "delivery": "S16_500_executable_fit"
+    },
+    {
+      "id": "W4",
+      "depends_on": [
+        "W2"
+      ],
+      "delivery": "matched_reference_FM_SF",
+      "conditional": true
+    },
+    {
+      "id": "W5",
+      "depends_on": [
+        "W1",
+        "W2",
+        "W3"
+      ],
+      "delivery": "PD20_independent_two_view_test",
+      "conditional": true
+    },
+    {
+      "id": "W6",
+      "depends_on": [
+        "W2",
+        "W3"
+      ],
+      "delivery": "LeRobot_tensor_parity_nonblocking"
+    }
+  ],
+  "resources": {
+    "parallel_worlds_max_current": 4,
+    "initial_RP8_workers": 1,
+    "increase_replay_only_if_independent_history_supported": true,
+    "SLA_needed_for_expert_collection": false,
+    "native_metadata_heavy_ML_imports": false,
+    "model_optimizer_gradient_resident": true,
+    "per_knot_fsync": false,
+    "native_current_allocation_and_ownership_required": true,
+    "preempt_healthy_jobs": false,
+    "repeated_full_qualification": false
+  },
+  "budget": {
+    "mandatory_new_candidate_updates": 500,
+    "mandatory_new_candidate_visits": 16000,
+    "all_conditional_new_candidate_updates": 4500,
+    "all_conditional_new_candidate_visits": 144000,
+    "new_qualification_updates_max": 8,
+    "new_qualification_visits_max": 256,
+    "all_new_optimization_updates_max": 4508,
+    "all_new_optimization_visits_max": 144256,
+    "mandatory_new_native_diagnostics": 12,
+    "with_PD_native_diagnostics": 20,
+    "PD_collection_attempts_separate_max": 40,
+    "inherited_V6_counts_again": false,
+    "automatic_run_all_branches": false
+  },
+  "forbidden_changes": [
+    "hot_change_V6",
+    "relabel_old_N20",
+    "replace_inflight_normalizer",
+    "add_reference_error_or_history_to_current_student",
+    "fake_suffix_consumption",
+    "relax_native_gate",
+    "WBC_or_leg_retraining",
+    "online_RL",
+    "real_robot_start",
+    "force_push",
+    "auto_merge"
+  ],
+  "receipt_requirements": [
+    "data_and_stats_identity",
+    "planner_and_adapter_identity",
+    "mask_counts_by_origin_query",
+    "raw_installed_consumed_separate",
+    "RP8_stage_and_seam_results",
+    "S16_prediction_legality",
+    "student_task_denominator",
+    "actual_updates_and_visits",
+    "CPU_GPU_payload_and_wall_cost",
+    "first_failure_and_next_fix"
+  ]
+}

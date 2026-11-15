@@ -13,7 +13,7 @@ DOMAIN_POOL = frozenset(range(192, 200))
 def validate_layout(binding):
     worlds = binding['worlds']
     if (binding.get('schema') != SCHEMA or binding.get('plan_revision') != PLAN
-            or len(worlds) not in (1, 2, 4, 8) or len({w['root'] for w in worlds}) != len(worlds)
+            or len(worlds) not in (1, 2, 3, 4, 8) or len({w['root'] for w in worlds}) != len(worlds)
             or len({w['ROS_DOMAIN_ID'] for w in worlds}) != len(worlds)):
         raise PermissionError('EXACT_CORELAB_EXPERT_COHORT_REQUIRED')
     reserved_cpus = set(binding['reserved_cpus'])
@@ -47,7 +47,11 @@ def world_owner(spec, registry):
     control = campaign / 'control'
     expected_owner = control / 'corelab-world-owners-v3' / f'ros-{domain}.lock'
     entry = next((row for row in registry['entries'] if row.get('path') == str(root)), None)
-    if (slot is None or spec.get('task_learning_role') != ROLE or spec['phase'] != PHASE
+    allowed_role=spec.get('task_learning_role')==ROLE
+    if spec.get('pd4_student_v71')is not None:
+        from .pd4_student_v71 import validate_scope,profile
+        validate_scope(spec);allowed_role=spec.get('task_learning_role')==profile(spec).PROTOCOL
+    if (slot is None or not allowed_role or spec['phase'] != PHASE
             or spec.get('v3_plan_revision') != PLAN or spec.get('parallel_batch_spec') is not None
             or binding['campaign_root'] != str(campaign) or binding['source_sha'] != spec['source_sha']
             or slot['ROS_DOMAIN_ID'] != domain or slot['cpus'] != spec['cpus']

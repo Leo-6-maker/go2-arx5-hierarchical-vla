@@ -38,7 +38,7 @@ def validate(panel):
 
 def classify(row,*,native,worker,lease,readiness,score,spec,expected_source,attempted,
              expected_role=task.QUALIFICATION_ROLE,
-             expected_native_schema='TASK_LEARNING_TEACHER_QUALIFICATION_NATIVE_ACTUAL_V1'):
+             expected_native_schema='TASK_LEARNING_TEACHER_QUALIFICATION_NATIVE_ACTUAL_V1',expected_endpoint=None):
     identity=(spec.get('task_learning_role')==expected_role
         and spec.get('source_sha')==expected_source and spec.get('phase')==task.PHASE)
     children=native.get('owned_process_exits')or[]
@@ -50,7 +50,7 @@ def classify(row,*,native,worker,lease,readiness,score,spec,expected_source,atte
         'NEW_TASK_STANDING_SCORE_BOUND_EXCEEDED','ORIGINAL_FULL_NATIVE_CONTACT_REJECT','ORIGINAL_NATIVE_JOINT_LIMIT_REJECT',
         'ORIGINAL_FIVE_ITERATION_NATIVE_IK_REJECT','ORIGINAL_JOINT_SPEED_REJECT','ORIGINAL_JOINT_ACCELERATION_REJECT',
         'NATIVE_WBC_FEEDBACK_CLOCK_NOT_READY_AT_PAUSE'))
-    completed=(native.get('status')=='NATIVE_STAGE_PASSED'and native.get('actual_target_integrations')==task.E
+    completed=(native.get('status')=='NATIVE_STAGE_PASSED'and native.get('actual_target_integrations')==(task.E if expected_endpoint is None else expected_endpoint)
         and native.get('reference_qualification',{}).get('schema')==expected_native_schema)
     technical=bool(identity and clean and worker and lease.get('status')=='CLOSED'
         and(completed or known or native.get('physics_stops')))

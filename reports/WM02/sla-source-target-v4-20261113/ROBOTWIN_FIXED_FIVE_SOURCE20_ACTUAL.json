@@ -1,0 +1,1558 @@
+{
+  "schema": "SLA_V4_1_FIXED_FIVE_TASK_SOURCE20_AUDIT_ACTUAL",
+  "source_binding": {
+    "repository": "TianxingChen/RoboTwin2.0",
+    "revision": "3dc3b798668feb99ac61cc9086d84cbcc3d79186",
+    "archives": [
+      {
+        "task": "move_pillbottle_pad",
+        "bytes": 278554199,
+        "sha256": "c4af787c9ef4688ed9282e1ba9d76cfbaa15bb84942ca4da545fbd70614d9738"
+      },
+      {
+        "task": "move_stapler_pad",
+        "bytes": 281036762,
+        "sha256": "f04cd56cd33e81ba20a255c1b9fd936fcb76454f8f6cbe642993ca50f3276b25"
+      },
+      {
+        "task": "place_empty_cup",
+        "bytes": 295915886,
+        "sha256": "ebad5d2418fe85ebb883f79cbe98a51ec4b614e0750a7f29bb751bf67893ebcc"
+      },
+      {
+        "task": "place_mouse_pad",
+        "bytes": 257569474,
+        "sha256": "32830874f06d31f3a56c6694ca1e93344aecc525c9c32c8c774bdb896d39f210"
+      },
+      {
+        "task": "place_object_stand",
+        "bytes": 277911965,
+        "sha256": "6da23fc5c3c5d98fbb039d312a4e30a89c56673e98c672754eceba71280c8658"
+      }
+    ],
+    "task_code": [
+      {
+        "task": "move_pillbottle_pad",
+        "sha256": "a5db7c65db15c2273d1f9e99fab8fc00533a27b740a45161c9402d43b8aa6824",
+        "bytes": 3545,
+        "revision": "ea8b21121ebb3cd201ff5b3fe361944ac94eda3f"
+      },
+      {
+        "task": "move_stapler_pad",
+        "sha256": "c2b7aa7bf4e896afc392a8cf1ac107b6982088a459c716de005a3412fcdedd6d",
+        "bytes": 4057,
+        "revision": "ea8b21121ebb3cd201ff5b3fe361944ac94eda3f"
+      },
+      {
+        "task": "place_mouse_pad",
+        "sha256": "369bf399d0fd6a2687abb7d80b8feb6101c8b5405d33f9de63bbbdaaea7b73d0",
+        "bytes": 4291,
+        "revision": "ea8b21121ebb3cd201ff5b3fe361944ac94eda3f"
+      },
+      {
+        "task": "place_empty_cup",
+        "sha256": "424bbd61f990ebfffb283eb152d17103c2a990edd20f68229203a96a2fd4d581",
+        "bytes": 3386,
+        "revision": "ea8b21121ebb3cd201ff5b3fe361944ac94eda3f"
+      },
+      {
+        "task": "place_object_stand",
+        "sha256": "62a6b5d93513d61ad67756a96c9375979249531b55ac0957d233f597826ee58e",
+        "bytes": 4416,
+        "revision": "ea8b21121ebb3cd201ff5b3fe361944ac94eda3f"
+      }
+    ],
+    "source_code_revision": "ea8b21121ebb3cd201ff5b3fe361944ac94eda3f",
+    "collection_revision_bound": false,
+    "archive_embodiment": "aloha_agilex",
+    "selected_default_archives_each_contain_50_episodes": true,
+    "default_config_sha256": "24afe1249dfed7fc824b321322803469fbc7c6282c486dd8612601ee80ac874b",
+    "default_config_is_archive_collection_proof": false
+  },
+  "episodes_checked": 20,
+  "episodes_per_task": {
+    "move_pillbottle_pad": 4,
+    "move_stapler_pad": 4,
+    "place_mouse_pad": 4,
+    "place_empty_cup": 4,
+    "place_object_stand": 4
+  },
+  "default_embodiment": "aloha_agilex",
+  "episodes": [
+    {
+      "task": "move_pillbottle_pad",
+      "episode": 0,
+      "file_sha256": "2d3f1825fd82c10dc5092a322a8efae261d25ca800f8f7d7d61c883e51a8b336",
+      "frames": 142,
+      "active_arm": "left",
+      "arm_from_scene_metadata": true,
+      "inactive_joint_target_max_span_rad": 0.0,
+      "gripper_min": 0.0,
+      "gripper_max": 1.0,
+      "close_transitions": 14,
+      "open_transitions": 14,
+      "physical_clock_fields": [
+        "additional_info/frequency"
+      ],
+      "data_format_version": "v1.0",
+      "declared_frequency_hz": 15,
+      "action_state_adjacent_row_shift_exact": true,
+      "hdf5_attribute_names": [
+        "/source_format",
+        "/source_path"
+      ],
+      "camera_order": [
+        "cam_head",
+        "cam_left_wrist"
+      ]
+    },
+    {
+      "task": "move_pillbottle_pad",
+      "episode": 1,
+      "file_sha256": "96f506ff0fb036b5bf4fd5ecb4388449d44182b621d3dfa61910c77a1da504b2",
+      "frames": 148,
+      "active_arm": "left",
+      "arm_from_scene_metadata": true,
+      "inactive_joint_target_max_span_rad": 0.0,
+      "gripper_min": 0.0,
+      "gripper_max": 1.0,
+      "close_transitions": 14,
+      "open_transitions": 14,
+      "physical_clock_fields": [
+        "additional_info/frequency"
+      ],
+      "data_format_version": "v1.0",
+      "declared_frequency_hz": 15,
+      "action_state_adjacent_row_shift_exact": true,
+      "hdf5_attribute_names": [
+        "/source_format",
+        "/source_path"
+      ],
+      "camera_order": [
+        "cam_head",
+        "cam_left_wrist"
+      ]
+    },
+    {
+      "task": "move_pillbottle_pad",
+      "episode": 2,
+      "file_sha256": "750911388deaccc9b185d91254a8f6f890d172254aca5d4802b68142887c545e",
+      "frames": 138,
+      "active_arm": "right",
+      "arm_from_scene_metadata": true,
+      "inactive_joint_target_max_span_rad": 0.0,
+      "gripper_min": 0.0,
+      "gripper_max": 1.0,
+      "close_transitions": 14,
+      "open_transitions": 14,
+      "physical_clock_fields": [
+        "additional_info/frequency"
+      ],
+      "data_format_version": "v1.0",
+      "declared_frequency_hz": 15,
+      "action_state_adjacent_row_shift_exact": true,
+      "hdf5_attribute_names": [
+        "/source_format",
+        "/source_path"
+      ],
+      "camera_order": [
+        "cam_head",
+        "cam_right_wrist"
+      ]
+    },
+    {
+      "task": "move_pillbottle_pad",
+      "episode": 3,
+      "file_sha256": "1203ab2ae8507ffbbe91003c56bcb272a403f3ca8e9a14b4e7d1111171fe8736",
+      "frames": 163,
+      "active_arm": "left",
+      "arm_from_scene_metadata": true,
+      "inactive_joint_target_max_span_rad": 0.0,
+      "gripper_min": 0.0,
+      "gripper_max": 1.0,
+      "close_transitions": 14,
+      "open_transitions": 14,
+      "physical_clock_fields": [
+        "additional_info/frequency"
+      ],
+      "data_format_version": "v1.0",
+      "declared_frequency_hz": 15,
+      "action_state_adjacent_row_shift_exact": true,
+      "hdf5_attribute_names": [
+        "/source_format",
+        "/source_path"
+      ],
+      "camera_order": [
+        "cam_head",
+        "cam_left_wrist"
+      ]
+    },
+    {
+      "task": "move_stapler_pad",
+      "episode": 0,
+      "file_sha256": "73228a6c9c1cccd0543b445ece1116a0a08fc74222b3ed3f7802b41361e37b5b",
+      "frames": 172,
+      "active_arm": "left",
+      "arm_from_scene_metadata": true,
+      "inactive_joint_target_max_span_rad": 0.0,
+      "gripper_min": 0.0,
+      "gripper_max": 1.0,
+      "close_transitions": 14,
+      "open_transitions": 14,
+      "physical_clock_fields": [
+        "additional_info/frequency"
+      ],
+      "data_format_version": "v1.0",
+      "declared_frequency_hz": 15,
+      "action_state_adjacent_row_shift_exact": true,
+      "hdf5_attribute_names": [
+        "/source_format",
+        "/source_path"
+      ],
+      "camera_order": [
+        "cam_head",
+        "cam_left_wrist"
+      ]
+    },
+    {
+      "task": "move_stapler_pad",
+      "episode": 1,
+      "file_sha256": "4b7bed4de1d6c713fd39a15c19b4911b63d600f0dd00a4cf5bf698d97d9d5940",
+      "frames": 140,
+      "active_arm": "right",
+      "arm_from_scene_metadata": true,
+      "inactive_joint_target_max_span_rad": 0.0,
+      "gripper_min": 0.0,
+      "gripper_max": 1.0,
+      "close_transitions": 14,
+      "open_transitions": 14,
+      "physical_clock_fields": [
+        "additional_info/frequency"
+      ],
+      "data_format_version": "v1.0",
+      "declared_frequency_hz": 15,
+      "action_state_adjacent_row_shift_exact": true,
+      "hdf5_attribute_names": [
+        "/source_format",
+        "/source_path"
+      ],
+      "camera_order": [
+        "cam_head",
+        "cam_right_wrist"
+      ]
+    },
+    {
+      "task": "move_stapler_pad",
+      "episode": 2,
+      "file_sha256": "0cf6b01bf9f5879c9bacbffa4b3e43416931347b1943a939a251ce81f387cd4c",
+      "frames": 141,
+      "active_arm": "left",
+      "arm_from_scene_metadata": true,
+      "inactive_joint_target_max_span_rad": 0.0,
+      "gripper_min": 0.0,
+      "gripper_max": 1.0,
+      "close_transitions": 14,
+      "open_transitions": 14,
+      "physical_clock_fields": [
+        "additional_info/frequency"
+      ],
+      "data_format_version": "v1.0",
+      "declared_frequency_hz": 15,
+      "action_state_adjacent_row_shift_exact": true,
+      "hdf5_attribute_names": [
+        "/source_format",
+        "/source_path"
+      ],
+      "camera_order": [
+        "cam_head",
+        "cam_left_wrist"
+      ]
+    },
+    {
+      "task": "move_stapler_pad",
+      "episode": 3,
+      "file_sha256": "899ea7126ddc5bad14b2a8eb58ce0bf36e1304624370a9750db3c329ebc73515",
+      "frames": 152,
+      "active_arm": "right",
+      "arm_from_scene_metadata": true,
+      "inactive_joint_target_max_span_rad": 0.0,
+      "gripper_min": 0.0,
+      "gripper_max": 1.0,
+      "close_transitions": 14,
+      "open_transitions": 14,
+      "physical_clock_fields": [
+        "additional_info/frequency"
+      ],
+      "data_format_version": "v1.0",
+      "declared_frequency_hz": 15,
+      "action_state_adjacent_row_shift_exact": true,
+      "hdf5_attribute_names": [
+        "/source_format",
+        "/source_path"
+      ],
+      "camera_order": [
+        "cam_head",
+        "cam_right_wrist"
+      ]
+    },
+    {
+      "task": "place_mouse_pad",
+      "episode": 0,
+      "file_sha256": "3c4235706813714960aa4b0f1f3f201eb70ee78ce4d739a3440a4bd3b2052037",
+      "frames": 153,
+      "active_arm": "left",
+      "arm_from_scene_metadata": true,
+      "inactive_joint_target_max_span_rad": 0.0,
+      "gripper_min": 0.0,
+      "gripper_max": 1.0,
+      "close_transitions": 14,
+      "open_transitions": 14,
+      "physical_clock_fields": [
+        "additional_info/frequency"
+      ],
+      "data_format_version": "v1.0",
+      "declared_frequency_hz": 15,
+      "action_state_adjacent_row_shift_exact": true,
+      "hdf5_attribute_names": [
+        "/source_format",
+        "/source_path"
+      ],
+      "camera_order": [
+        "cam_head",
+        "cam_left_wrist"
+      ]
+    },
+    {
+      "task": "place_mouse_pad",
+      "episode": 1,
+      "file_sha256": "ee96806827739874d6c2e55da2c3e032e748487ecdd7532ca928205205126766",
+      "frames": 148,
+      "active_arm": "right",
+      "arm_from_scene_metadata": true,
+      "inactive_joint_target_max_span_rad": 0.0,
+      "gripper_min": 0.0,
+      "gripper_max": 1.0,
+      "close_transitions": 14,
+      "open_transitions": 14,
+      "physical_clock_fields": [
+        "additional_info/frequency"
+      ],
+      "data_format_version": "v1.0",
+      "declared_frequency_hz": 15,
+      "action_state_adjacent_row_shift_exact": true,
+      "hdf5_attribute_names": [
+        "/source_format",
+        "/source_path"
+      ],
+      "camera_order": [
+        "cam_head",
+        "cam_right_wrist"
+      ]
+    },
+    {
+      "task": "place_mouse_pad",
+      "episode": 2,
+      "file_sha256": "aa3808541bce5ba27bb5e5f8ba6e7f4b53b81532f10f41145e97ca557f484148",
+      "frames": 147,
+      "active_arm": "left",
+      "arm_from_scene_metadata": true,
+      "inactive_joint_target_max_span_rad": 0.0,
+      "gripper_min": 0.0,
+      "gripper_max": 1.0,
+      "close_transitions": 14,
+      "open_transitions": 14,
+      "physical_clock_fields": [
+        "additional_info/frequency"
+      ],
+      "data_format_version": "v1.0",
+      "declared_frequency_hz": 15,
+      "action_state_adjacent_row_shift_exact": true,
+      "hdf5_attribute_names": [
+        "/source_format",
+        "/source_path"
+      ],
+      "camera_order": [
+        "cam_head",
+        "cam_left_wrist"
+      ]
+    },
+    {
+      "task": "place_mouse_pad",
+      "episode": 3,
+      "file_sha256": "919775dfde4a673a30638701e758b92eba00a6981cac300cf3256dc1509f69d4",
+      "frames": 151,
+      "active_arm": "right",
+      "arm_from_scene_metadata": true,
+      "inactive_joint_target_max_span_rad": 0.0,
+      "gripper_min": 0.0,
+      "gripper_max": 1.0,
+      "close_transitions": 14,
+      "open_transitions": 14,
+      "physical_clock_fields": [
+        "additional_info/frequency"
+      ],
+      "data_format_version": "v1.0",
+      "declared_frequency_hz": 15,
+      "action_state_adjacent_row_shift_exact": true,
+      "hdf5_attribute_names": [
+        "/source_format",
+        "/source_path"
+      ],
+      "camera_order": [
+        "cam_head",
+        "cam_right_wrist"
+      ]
+    },
+    {
+      "task": "place_empty_cup",
+      "episode": 0,
+      "file_sha256": "7454907139551ab6d290acf5ab5ccb07a67472fef56ebdd56d4dd449a5ddb27a",
+      "frames": 179,
+      "active_arm": "right",
+      "arm_from_scene_metadata": false,
+      "inactive_joint_target_max_span_rad": 0.0,
+      "gripper_min": 0.0,
+      "gripper_max": 1.0,
+      "close_transitions": 28,
+      "open_transitions": 14,
+      "physical_clock_fields": [
+        "additional_info/frequency"
+      ],
+      "data_format_version": "v1.0",
+      "declared_frequency_hz": 15,
+      "action_state_adjacent_row_shift_exact": true,
+      "hdf5_attribute_names": [
+        "/source_format",
+        "/source_path"
+      ],
+      "camera_order": [
+        "cam_head",
+        "cam_right_wrist"
+      ]
+    },
+    {
+      "task": "place_empty_cup",
+      "episode": 1,
+      "file_sha256": "de904ebe8748c97f27d52d9cbcb463591431f5416b47fe8c2cdffbdd6cf2fcbf",
+      "frames": 168,
+      "active_arm": "right",
+      "arm_from_scene_metadata": false,
+      "inactive_joint_target_max_span_rad": 0.0,
+      "gripper_min": 0.0,
+      "gripper_max": 1.0,
+      "close_transitions": 28,
+      "open_transitions": 14,
+      "physical_clock_fields": [
+        "additional_info/frequency"
+      ],
+      "data_format_version": "v1.0",
+      "declared_frequency_hz": 15,
+      "action_state_adjacent_row_shift_exact": true,
+      "hdf5_attribute_names": [
+        "/source_format",
+        "/source_path"
+      ],
+      "camera_order": [
+        "cam_head",
+        "cam_right_wrist"
+      ]
+    },
+    {
+      "task": "place_empty_cup",
+      "episode": 2,
+      "file_sha256": "0b244880b75ea422466e2185a76fb879e04304f0220253466f05efed9d2da339",
+      "frames": 172,
+      "active_arm": "right",
+      "arm_from_scene_metadata": false,
+      "inactive_joint_target_max_span_rad": 0.0,
+      "gripper_min": 0.0,
+      "gripper_max": 1.0,
+      "close_transitions": 28,
+      "open_transitions": 14,
+      "physical_clock_fields": [
+        "additional_info/frequency"
+      ],
+      "data_format_version": "v1.0",
+      "declared_frequency_hz": 15,
+      "action_state_adjacent_row_shift_exact": true,
+      "hdf5_attribute_names": [
+        "/source_format",
+        "/source_path"
+      ],
+      "camera_order": [
+        "cam_head",
+        "cam_right_wrist"
+      ]
+    },
+    {
+      "task": "place_empty_cup",
+      "episode": 3,
+      "file_sha256": "ba4f1682cf0f9d40abf745aba192d435852c3f7bbb2ce9c2033dc7029da855b7",
+      "frames": 168,
+      "active_arm": "right",
+      "arm_from_scene_metadata": false,
+      "inactive_joint_target_max_span_rad": 0.0,
+      "gripper_min": 0.0,
+      "gripper_max": 1.0,
+      "close_transitions": 28,
+      "open_transitions": 14,
+      "physical_clock_fields": [
+        "additional_info/frequency"
+      ],
+      "data_format_version": "v1.0",
+      "declared_frequency_hz": 15,
+      "action_state_adjacent_row_shift_exact": true,
+      "hdf5_attribute_names": [
+        "/source_format",
+        "/source_path"
+      ],
+      "camera_order": [
+        "cam_head",
+        "cam_right_wrist"
+      ]
+    },
+    {
+      "task": "place_object_stand",
+      "episode": 0,
+      "file_sha256": "48eeee3df7fe59c8b115a04ff7b1b3be96533279e37a20013b5981cb9f89780c",
+      "frames": 137,
+      "active_arm": "left",
+      "arm_from_scene_metadata": true,
+      "inactive_joint_target_max_span_rad": 0.0,
+      "gripper_min": 0.0,
+      "gripper_max": 1.0,
+      "close_transitions": 14,
+      "open_transitions": 14,
+      "physical_clock_fields": [
+        "additional_info/frequency"
+      ],
+      "data_format_version": "v1.0",
+      "declared_frequency_hz": 15,
+      "action_state_adjacent_row_shift_exact": true,
+      "hdf5_attribute_names": [
+        "/source_format",
+        "/source_path"
+      ],
+      "camera_order": [
+        "cam_head",
+        "cam_left_wrist"
+      ]
+    },
+    {
+      "task": "place_object_stand",
+      "episode": 1,
+      "file_sha256": "90850b4a5bf29d73a2dad829ebce84bcc251d184c93cee4925a0fb140242ca48",
+      "frames": 134,
+      "active_arm": "right",
+      "arm_from_scene_metadata": true,
+      "inactive_joint_target_max_span_rad": 0.0,
+      "gripper_min": 0.0,
+      "gripper_max": 1.0,
+      "close_transitions": 14,
+      "open_transitions": 14,
+      "physical_clock_fields": [
+        "additional_info/frequency"
+      ],
+      "data_format_version": "v1.0",
+      "declared_frequency_hz": 15,
+      "action_state_adjacent_row_shift_exact": true,
+      "hdf5_attribute_names": [
+        "/source_format",
+        "/source_path"
+      ],
+      "camera_order": [
+        "cam_head",
+        "cam_right_wrist"
+      ]
+    },
+    {
+      "task": "place_object_stand",
+      "episode": 2,
+      "file_sha256": "5d9d086f7293c839bdc8e6847c25f0e51aa3daa969b962bfd40d3c320ac3ff0b",
+      "frames": 137,
+      "active_arm": "left",
+      "arm_from_scene_metadata": true,
+      "inactive_joint_target_max_span_rad": 0.0,
+      "gripper_min": 0.0,
+      "gripper_max": 1.0,
+      "close_transitions": 14,
+      "open_transitions": 14,
+      "physical_clock_fields": [
+        "additional_info/frequency"
+      ],
+      "data_format_version": "v1.0",
+      "declared_frequency_hz": 15,
+      "action_state_adjacent_row_shift_exact": true,
+      "hdf5_attribute_names": [
+        "/source_format",
+        "/source_path"
+      ],
+      "camera_order": [
+        "cam_head",
+        "cam_left_wrist"
+      ]
+    },
+    {
+      "task": "place_object_stand",
+      "episode": 3,
+      "file_sha256": "6ea6cc6e369382998c723f29e4691277f28f804131fa50964587ce8ab24f308b",
+      "frames": 138,
+      "active_arm": "right",
+      "arm_from_scene_metadata": true,
+      "inactive_joint_target_max_span_rad": 0.0,
+      "gripper_min": 0.0,
+      "gripper_max": 1.0,
+      "close_transitions": 14,
+      "open_transitions": 14,
+      "physical_clock_fields": [
+        "additional_info/frequency"
+      ],
+      "data_format_version": "v1.0",
+      "declared_frequency_hz": 15,
+      "action_state_adjacent_row_shift_exact": true,
+      "hdf5_attribute_names": [
+        "/source_format",
+        "/source_path"
+      ],
+      "camera_order": [
+        "cam_head",
+        "cam_right_wrist"
+      ]
+    }
+  ],
+  "original_frame_rows": 3028,
+  "auxiliary_index_codec_probes": 64,
+  "actual_RGB_decodes": 128,
+  "original_RGB_sizes": [
+    [
+      320,
+      240
+    ]
+  ],
+  "max_auxiliary_roundtrip_error": {
+    "xyz_m": 0.0,
+    "so3_rad": 9.979053058116644e-16,
+    "gripper": 0.00010000000000000017
+  },
+  "numerical_probe_semantics": "ACHIEVED_EEF_INDEX_ALGEBRA_ONLY_NOT_PHYSICAL_COMMAND_H40",
+  "classification": "S_aux",
+  "S_cmd_episodes_admitted": 0,
+  "desired_command_windows_converted": 0,
+  "source_physical_replay_episodes": 0,
+  "training_windows_admitted": 0,
+  "declared_frequency_hz": [
+    15
+  ],
+  "physical_timestamps_present": false,
+  "frequency_bound_to_native_capture_clock": false,
+  "isolation_reasons": [
+    "ARCHIVE_COLLECTION_REVISION_UNBOUND",
+    "PHYSICAL_CLOCK_NOT_ESTABLISHED",
+    "DESIRED_JOINT_COMMAND_FK_AND_TOOL_FRAME_UNVERIFIED",
+    "RECORDED_ENDPOSE_IS_ACHIEVED_EEF",
+    "MEASURED_CURRENT_GRIPPER_NOT_ESTABLISHED"
+  ],
+  "records": [
+    {
+      "task": "move_pillbottle_pad",
+      "episode": 0,
+      "row_anchor": 0,
+      "RGB_sha256": [
+        "3cb625099ceab19143744c5d26eff713a2290725dd72b0c9909f50cab4b91e62",
+        "998d5b37e24d93ceb4162b748bd8ae9cb4cfe8a1b69403e70f0125cc1ee0c435"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 4.46899245057492e-16,
+        "gripper": 9.999999999987796e-05
+      }
+    },
+    {
+      "task": "move_pillbottle_pad",
+      "episode": 0,
+      "row_anchor": 34,
+      "RGB_sha256": [
+        "42fd532249fd20f005ea39a73f892a14d3f3cbfa6fd98c2d460d936409190443",
+        "39a606a8506557094b75864751c7c5815e368b62f89d085f0c115058c1998366"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 1.952777839357751e-16,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "move_pillbottle_pad",
+      "episode": 0,
+      "row_anchor": 68,
+      "RGB_sha256": [
+        "c7c1fea929008d1fdb4f0b6d52e8df6e53c994d56377906861817359d7539e95",
+        "3ea00c8e06d3f7701575eb4b623fe8e119a28d24ce2f337fba23f33be1d7ad0b"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 2.4995071881592793e-16,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "move_pillbottle_pad",
+      "episode": 1,
+      "row_anchor": 0,
+      "RGB_sha256": [
+        "0897fc45081f211900aada5c5d317be4663f7b01c4ce80e53553d455b1b004de",
+        "0d53cf1f8a886626c026b2bc3c0807a6a61d316685b01293661dc4143316ba73"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 4.079219866531555e-16,
+        "gripper": 9.999999999987796e-05
+      }
+    },
+    {
+      "task": "move_pillbottle_pad",
+      "episode": 1,
+      "row_anchor": 36,
+      "RGB_sha256": [
+        "e73a557c39930c47ee4692cd06c8afb8298adad03375419665924639f1ab5ded",
+        "ed57f07f069ea0ab89c528c4b1928ee4e5e006c6cc04f8089557290614fbe4a2"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 1.6711069443220838e-16,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "move_pillbottle_pad",
+      "episode": 1,
+      "row_anchor": 72,
+      "RGB_sha256": [
+        "d0e64d548916ce877c1e692a1b0592b44d1350da3ccb8e5a23ef5f2f026bf074",
+        "e62a114353d3909d0c041d36d041a6789d4a9038336ee95e469175be98121c68"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 1.1236938283130691e-16,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "move_pillbottle_pad",
+      "episode": 2,
+      "row_anchor": 0,
+      "RGB_sha256": [
+        "72a46f4d951b9c44a1ea37130879f23b9bbdd07706f7461e99ac0048c7fb3c46",
+        "adb949a2111f70dc4f000088bffed558a27eb22a1dbf6f95783b4c78ce830490"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 5.061843514849922e-16,
+        "gripper": 9.999999999987796e-05
+      }
+    },
+    {
+      "task": "move_pillbottle_pad",
+      "episode": 2,
+      "row_anchor": 32,
+      "RGB_sha256": [
+        "5c64597f378728d0b8fdec60946994bf005fecf366281752ef68454caedbee25",
+        "025c03b56dce19d15adbdecd5cc66bc28cf0a87cad9a850c683c802656e09c36"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 1.9436645689359795e-16,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "move_pillbottle_pad",
+      "episode": 2,
+      "row_anchor": 65,
+      "RGB_sha256": [
+        "41f3d2c8459426f58336700db7fd60c2683cc827f3b3ab779cc96db3a3bca090",
+        "2486766f5d11bb1d0bdd7f9553d7a17d49a87a53b4b610a207edd236a3b185d2"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 3.10526617575415e-16,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "move_pillbottle_pad",
+      "episode": 3,
+      "row_anchor": 0,
+      "RGB_sha256": [
+        "6b33fd52d7ca1495b4f4e3584d88824b7875ec02121bf7b5709bab2874bc9ceb",
+        "2eb4ef7745038d1257fc63d0d3061885ecf9ee02dbfc03831ec90e7bec626773"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 3.4021815010030383e-16,
+        "gripper": 9.999999999987796e-05
+      }
+    },
+    {
+      "task": "move_pillbottle_pad",
+      "episode": 3,
+      "row_anchor": 41,
+      "RGB_sha256": [
+        "3a489ff1dbe37e4cc74ed9b4addf4e7000248a08d3cc519c6973afa213c826c8",
+        "ffbdbd8d1b6bd1f0c6fa6b98dfc6cab203b0dcf26476bd8583808b7a1f743d52"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 1.7388818282700985e-16,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "move_pillbottle_pad",
+      "episode": 3,
+      "row_anchor": 82,
+      "RGB_sha256": [
+        "06dbfc74a74923dbbee959f5f75213a5b7a4d60ab138618e815d049f333b7270",
+        "fdaef190aebdba231a5716a6161513522aec67d910dfdf48875b17cff1e79410"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 4.305409282897269e-16,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "move_stapler_pad",
+      "episode": 0,
+      "row_anchor": 0,
+      "RGB_sha256": [
+        "05c5a056028992c9bc9436b89da91e96a5cbc8947de1fbedd7772f5eae4c6290",
+        "8e24318322d19cbbae492596a82612b5b32dcc2bcbf8c04aee04e4343e4bf829"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 3.956272594671129e-16,
+        "gripper": 9.999999999987796e-05
+      }
+    },
+    {
+      "task": "move_stapler_pad",
+      "episode": 0,
+      "row_anchor": 44,
+      "RGB_sha256": [
+        "49db0537de05cf5cd05a7909618b7cdc59dcf93976df66e030920c14d525fa60",
+        "51d119afa79577086617328bfa519b3c6a97d41165bf8997d962b4d50e47ac7f"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 1.1102558880245028e-16,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "move_stapler_pad",
+      "episode": 0,
+      "row_anchor": 88,
+      "RGB_sha256": [
+        "ee31ef7aa17967961dfc2103967deef5beb9988ad148977ce7a51c179114aa36",
+        "765a9a0f333ccb3203a76fc39cf09850c902bf749c273531745f6c8464420f57"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 5.986078041718114e-16,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "move_stapler_pad",
+      "episode": 1,
+      "row_anchor": 0,
+      "RGB_sha256": [
+        "1172580075f92c2f68353ec22086f54754755e2a583b2948825537a1fb5243d7",
+        "0e663504ded6bce1b2e11a54e0aa895d32b4ba40bdf37f615cec17d83b31ae37"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 6.938412772512761e-16,
+        "gripper": 9.999999999987796e-05
+      }
+    },
+    {
+      "task": "move_stapler_pad",
+      "episode": 1,
+      "row_anchor": 33,
+      "RGB_sha256": [
+        "ba9e28b214493e23f8c661e19ac4d4f80c62ce3fa28da5fba8fe593a479fbfd0",
+        "5caf02f32752ca080adf1808b0da4b31541db80702e0f277fee881dab3cf235f"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 1.1105617861210413e-16,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "move_stapler_pad",
+      "episode": 1,
+      "row_anchor": 66,
+      "RGB_sha256": [
+        "a3b3d911b34c0b93d4f923cb31ce9ec6f79979c0e098d2f0a4a9cd272af73606",
+        "47bd70d216837d0762d9dce81ff3c7ac017568d1fd900f01cd167510d1f38ff6"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 1.7260849249001155e-16,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "move_stapler_pad",
+      "episode": 2,
+      "row_anchor": 0,
+      "RGB_sha256": [
+        "ea78b466c47424c20b455eaf5a5c82d8c4dc7f00d4cdc29db0974d7c6144c58d",
+        "8d65ffcdf2fe3837068ace9b2ef1faa69f74c4ed028dd2c5df84ba3d246366f1"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 6.214494396708215e-16,
+        "gripper": 9.999999999987796e-05
+      }
+    },
+    {
+      "task": "move_stapler_pad",
+      "episode": 2,
+      "row_anchor": 33,
+      "RGB_sha256": [
+        "0b325db56e39ddcc3136bc9b281302a986b34d2d3d523353a12d5726e9e388e1",
+        "fa1dbf0e6b39e4351d24cf2040947ea53bcc3e13e8696dad3391c2c36338fe5b"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 5.551264840797657e-17,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "move_stapler_pad",
+      "episode": 2,
+      "row_anchor": 67,
+      "RGB_sha256": [
+        "23f862ae8d09416ecb3dc9f7bdf6324d51482606c77507a75ad65cf1ae320d55",
+        "7de518dc998714b4548ab9164ed078c010c29dc28b73e185c8c3487de12d093f"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 5.555387397250363e-17,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "move_stapler_pad",
+      "episode": 3,
+      "row_anchor": 0,
+      "RGB_sha256": [
+        "ab4488729fa494d54e0bbf75c9652b3bde1418129c6a59ba142aebfb79351738",
+        "2724a61443fbdced54cb6671bf47f073e3751897d9a3699cd4ca4825a8ffa9a6"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 6.020806221357336e-16,
+        "gripper": 9.999999999987796e-05
+      }
+    },
+    {
+      "task": "move_stapler_pad",
+      "episode": 3,
+      "row_anchor": 37,
+      "RGB_sha256": [
+        "34980a6ae6254c67b2d15da7a1f34276425949df69f0a4fffe1230ab251f1a2f",
+        "8fbb19f64adc69dd15b0e4d590b5506fe057147bc4efb7e76e89ede3c848cb53"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 8.327103248638179e-17,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "move_stapler_pad",
+      "episode": 3,
+      "row_anchor": 74,
+      "RGB_sha256": [
+        "7010109f4bcd45c5a60716ba9a63db34a809df30455ca8edbcda1193d8167925",
+        "9663cf052d949c75988551197df670c5024a703d5e1f3a57705cd3dcd52fb8ad"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 2.7758861908913736e-16,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "place_mouse_pad",
+      "episode": 0,
+      "row_anchor": 0,
+      "RGB_sha256": [
+        "0ec7ca91d081565d7e0b3699a9bd45046572194e8b6bc60cd8061995011b8ee1",
+        "29955411fa1a9c71cfe8136f60865f7e07a526ea8c40a09d4a6cc11023c35d11"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 9.979053058116644e-16,
+        "gripper": 9.999999999987796e-05
+      }
+    },
+    {
+      "task": "place_mouse_pad",
+      "episode": 0,
+      "row_anchor": 37,
+      "RGB_sha256": [
+        "527f5942a6d2df0cc873af26c66552fa94d5b47b57e1f7dade8fb4660bc561ae",
+        "b188a537c1dc33cee866ee735cd4c956124aa6f8ebafc123a6c8c7d8fc7c03d1"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 1.3878774566117057e-16,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "place_mouse_pad",
+      "episode": 0,
+      "row_anchor": 75,
+      "RGB_sha256": [
+        "9e3c42d30edea4f58e70496b245cb5afd6aee8de3dd0c94de1d5d3de2e20deb9",
+        "3738c7fbce50b3388028ddaa0cc5e8af4666ae6efadbba64d4aaaf7261c21035"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 2.723474422490469e-16,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "place_mouse_pad",
+      "episode": 1,
+      "row_anchor": 0,
+      "RGB_sha256": [
+        "2064825e21c3d3d65321ffea201faac3eac9bb8fdff2ad72cc16fc259323d480",
+        "5276d14a4e48ad37626855f5697b68a01303b1b16ee17d9310130e7b35408a92"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 6.878505189543589e-16,
+        "gripper": 9.999999999987796e-05
+      }
+    },
+    {
+      "task": "place_mouse_pad",
+      "episode": 1,
+      "row_anchor": 36,
+      "RGB_sha256": [
+        "60e5e19cf274b6bfb3faf57c4eab481c72ab50c0a8b8491bd39ce634f624b38e",
+        "5014776d8711348bd91ffe27e04f2c70f938afba9752c470d075e8a36124c7a6"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 1.387922874780909e-16,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "place_mouse_pad",
+      "episode": 1,
+      "row_anchor": 72,
+      "RGB_sha256": [
+        "65fc4fb3d0fffb328d473f0ec79bf3acac73f4ed148620da06dbe2dbf0775fdb",
+        "c8b766ec7c8a7c9b713159b3897baa83015e937cd0041045921ab1d9a581b982"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 3.193436150649354e-16,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "place_mouse_pad",
+      "episode": 2,
+      "row_anchor": 0,
+      "RGB_sha256": [
+        "22f0973f9a1586ad69045030cebf8deecfc1aded3837f35c75f3fc68af765ab4",
+        "734651425ecbb4cf6b8bf9eccd7f97cbb793d65d0922c28895120126ae6dbc66"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 6.733230345894572e-16,
+        "gripper": 9.999999999987796e-05
+      }
+    },
+    {
+      "task": "place_mouse_pad",
+      "episode": 2,
+      "row_anchor": 35,
+      "RGB_sha256": [
+        "de730f9d95a5e483bacf27de6b6f6d59dac2ab3efdbf228d771743c2457d76f2",
+        "024b37a6e9de5e1bbebea19d58dd0a656044c82ca4f56fdfb5ee3dbda77e0eac"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 5.564651146936438e-17,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "place_mouse_pad",
+      "episode": 2,
+      "row_anchor": 71,
+      "RGB_sha256": [
+        "a575c9312b4e01b5741e6c10474b7e7f5f3fbc2a5584f97a3320710f1dca18df",
+        "734ca9eb3f42d119ef04a20643dbf4a345f5627d11123461bf3a76e2cb0bdfc0"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 3.332478409492327e-16,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "place_mouse_pad",
+      "episode": 3,
+      "row_anchor": 0,
+      "RGB_sha256": [
+        "4b9ac42b04aad6d47894f43c0f8998654f375b3fb7a38b0835a7985cde74af22",
+        "38f677b2e3c6d5f6825a4994efd7a962622a825daa7412d09dafa7ed723014f5"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 7.480908253473358e-16,
+        "gripper": 9.999999999987796e-05
+      }
+    },
+    {
+      "task": "place_mouse_pad",
+      "episode": 3,
+      "row_anchor": 37,
+      "RGB_sha256": [
+        "834798d4af9f66f5fcc427d65fe8e5e2999f438294f4dea7d36cb7ef12e31974",
+        "d203b2b41c3a6130da5d91529575fb2227f7b2756b48cd05b5902a28fa15b3e5"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 1.1110697347012682e-16,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "place_mouse_pad",
+      "episode": 3,
+      "row_anchor": 74,
+      "RGB_sha256": [
+        "cc5afcba1301967c1a8de333dfaab1569eb98e17d6541acc8a4ce6e514279340",
+        "82a4baa78d9980695ec400cd93315edf6588cd04746f3788c5b8bf7aea05f1b0"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 2.7758657056318443e-16,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "place_empty_cup",
+      "episode": 0,
+      "row_anchor": 0,
+      "RGB_sha256": [
+        "b2ac339063314b20dad3e3949d7dbc40eb9856a51a394cd8fb3c15bfc1b74573",
+        "565d5b253b221c3a27c98cac477545bc32289f43eadbef3b17948f480f506158"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 4.997917538668995e-16,
+        "gripper": 9.999999999987796e-05
+      }
+    },
+    {
+      "task": "place_empty_cup",
+      "episode": 0,
+      "row_anchor": 46,
+      "RGB_sha256": [
+        "892ccf7c76ede024de972424983a5b08c2a5bebd289cd02a4b2b3dcbce1c76f8",
+        "77b745c157eaa1267a201a60a100428fe5d7f39cb610dd7d95f04273bf950291"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 1.669693875727034e-16,
+        "gripper": 1.1102230246251565e-16
+      }
+    },
+    {
+      "task": "place_empty_cup",
+      "episode": 0,
+      "row_anchor": 92,
+      "RGB_sha256": [
+        "25bbc093483353fcb0d38941894ecc91ee34267894ff48480a274957098d11b7",
+        "82e7d24b34a3fd6faad3b5d2661746a1e1b31e2d81dadf3efc9e17181a3a90d0"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 3.1845336001952954e-17,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "place_empty_cup",
+      "episode": 1,
+      "row_anchor": 0,
+      "RGB_sha256": [
+        "5df6a68b4bbca549d8c98f25be3c9fa0a49ab32f91d52a6102d168f5c4725e9a",
+        "5b6177e9955ac5ea72e2fdcf52de6507b752512f7d374511e5e0aa6965309c91"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 2.5604806449091014e-16,
+        "gripper": 9.999999999987796e-05
+      }
+    },
+    {
+      "task": "place_empty_cup",
+      "episode": 1,
+      "row_anchor": 42,
+      "RGB_sha256": [
+        "ee32f298a8d1f4ab4c9594635a5f18e58fcb7263c8825821ca2487c6b31e7ab3",
+        "f57cdb77874be1a0e7ecea7e6e36ad0ddd4a8bb2629b63bc49ce24f169f27240"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 1.707172210945159e-16,
+        "gripper": 1.1102230246251565e-16
+      }
+    },
+    {
+      "task": "place_empty_cup",
+      "episode": 1,
+      "row_anchor": 85,
+      "RGB_sha256": [
+        "2c2dc215549dc84945910b03daabf25ffb17c1b969936a690fd8abf323ba3fcc",
+        "09474d0180d8fecfe60a035fd85df498d8fb90285d1aabaaab9d709a57568895"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 2.1114960177505077e-17,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "place_empty_cup",
+      "episode": 2,
+      "row_anchor": 0,
+      "RGB_sha256": [
+        "b218f195b15d492a4babb6359eb7964710fdd0e721c36dc38a88d137ad4bf3bb",
+        "53593a6908208b13f05b32a5e616a46090ff9bd5b24e4e268acb43e3646046e1"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 3.053121333840775e-16,
+        "gripper": 9.999999999987796e-05
+      }
+    },
+    {
+      "task": "place_empty_cup",
+      "episode": 2,
+      "row_anchor": 44,
+      "RGB_sha256": [
+        "a164ca6d0494b70b162f738e4500c4d746fd2459fd2b4bf6cf56570d58210dc3",
+        "e0283c475125fb7840b5950014b698ab3ad6cae355fd2a5d2dc97bde47d63ab9"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 1.65672946588254e-16,
+        "gripper": 1.1102230246251565e-16
+      }
+    },
+    {
+      "task": "place_empty_cup",
+      "episode": 2,
+      "row_anchor": 88,
+      "RGB_sha256": [
+        "5ff6fbd6d1b07f034e08235086740efccd432a35f979a898043f0281c206a3cc",
+        "ca74a9a4f094d6cf46e72b65cf4fc870b9a1308552698a9e21f0688a9cd00645"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 2.2548281537373266e-17,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "place_empty_cup",
+      "episode": 3,
+      "row_anchor": 0,
+      "RGB_sha256": [
+        "0b0c4b470e783d1bb79c94ff3e94ce337a6da131bc75e33f77ec9057c01b7680",
+        "be12f6766b0cde8fc2e40d3728c8ee9f5138e66a9bce560f4e7e27b2aaf856de"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 4.718485737917162e-16,
+        "gripper": 9.999999999987796e-05
+      }
+    },
+    {
+      "task": "place_empty_cup",
+      "episode": 3,
+      "row_anchor": 42,
+      "RGB_sha256": [
+        "bb31d0597c18e0bbe782752ed0f227edff0864ab653c3b31da30d97c66f2a22e",
+        "c88056035591d15f4f2deb84827592fc326b19dc3689b5bc4bdbabe3782c38c5"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 8.283647632447084e-17,
+        "gripper": 1.1102230246251565e-16
+      }
+    },
+    {
+      "task": "place_empty_cup",
+      "episode": 3,
+      "row_anchor": 85,
+      "RGB_sha256": [
+        "bf8c0419b63bdf646b81f490f437b043c558f78dc5e8287799082d38f620fc66",
+        "d49d84947528839f465da203307d92fbfcf134775e94cf17ebfbf4d8b4138008"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 2.7755575615628914e-17,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "place_object_stand",
+      "episode": 0,
+      "row_anchor": 0,
+      "RGB_sha256": [
+        "ba73925469035c905c4e4269070244e1015da694e3b499ca175461790759b362",
+        "8d284ad76d8f3b24409c85ae74fa6831aa2f8ed2d4c0dee7e43d170a62666f4c"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 5.011308171447443e-16,
+        "gripper": 9.999999999987796e-05
+      }
+    },
+    {
+      "task": "place_object_stand",
+      "episode": 0,
+      "row_anchor": 32,
+      "RGB_sha256": [
+        "336e79ce74bc39cac878c4c6c9a9f3d81779f51ebbafc4b55d040d2f74377e89",
+        "f7b8e61efff4c61d00b40d0c6358c436df9b2961c407912e99c645df11614af0"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 1.110379714663265e-16,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "place_object_stand",
+      "episode": 0,
+      "row_anchor": 64,
+      "RGB_sha256": [
+        "ffc49bd39960997f5777e3f92e85d1f439b6c9a957a227fd70bf201f7d5e0db1",
+        "70ccf83a696e1e69484d81a7fd02897f9d332d5764f58e1e401518cf3e9f3bf8"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 2.221021956969069e-16,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "place_object_stand",
+      "episode": 1,
+      "row_anchor": 0,
+      "RGB_sha256": [
+        "379a4820bca975995ba1ed2513f25c6c1ad3b3dfa88cc40ffe15008f89c1003b",
+        "fc1cb4fa1355cd6f9037db759fcca30d464509a7b2db16359c8e345889f741db"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 4.673333453687127e-16,
+        "gripper": 9.999999999987796e-05
+      }
+    },
+    {
+      "task": "place_object_stand",
+      "episode": 1,
+      "row_anchor": 31,
+      "RGB_sha256": [
+        "4725d98eaeec990fc740586a1d97966ebae322dae39dc6fa3946adcd24306637",
+        "8d24bd36aa320154e364beafa12df847665f284c8d2dc10731041071f24e0ca1"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 5.566171889705965e-17,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "place_object_stand",
+      "episode": 1,
+      "row_anchor": 62,
+      "RGB_sha256": [
+        "5e203d3b22d8f518e06810f8881c68e903b187096733211e549a9b5fd00190ba",
+        "deaa6c7bfdc19065b36ef3a793fdbac67f5a84928669e89552d16401d57ab380"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 5.562115651681586e-17,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "place_object_stand",
+      "episode": 2,
+      "row_anchor": 0,
+      "RGB_sha256": [
+        "c0db689288757dfdaa45adff7e6d771aa58fea520d77e83785a07eaa49746a18",
+        "8c8b13ba15aeff4a523794a039be37e5f3cb4f1619a8c08b0a7986c8c7f1fac7"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 4.611114548173538e-16,
+        "gripper": 9.999999999987796e-05
+      }
+    },
+    {
+      "task": "place_object_stand",
+      "episode": 2,
+      "row_anchor": 32,
+      "RGB_sha256": [
+        "c23533cf3c649cbd2be2b5b301c614e921a9b768dac342e14528e460d621f6c9",
+        "3fc6ed585187381a868defefe984d0017627616fda3835e08897e187226ce9d4"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 4.164412640926706e-17,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "place_object_stand",
+      "episode": 2,
+      "row_anchor": 64,
+      "RGB_sha256": [
+        "1193dd354511d8e1ec406b72e049ccb526367e55a1b8c167eb28d85b3317d914",
+        "85ce2f4534a858f1ef9c43c773b86c1430daa13058a38b129d18a1a4afd8d111"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 5.698408194146403e-17,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "place_object_stand",
+      "episode": 3,
+      "row_anchor": 0,
+      "RGB_sha256": [
+        "31301d720f4dec44369c2630221bd7a4650fb34dfefd7c7e4b23029fb31db210",
+        "f1c2696d5ba64905145a64568aa9f2319e7eaf0ff3d86f4dd04a6a2f7015d146"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 6.279564487329425e-16,
+        "gripper": 9.999999999987796e-05
+      }
+    },
+    {
+      "task": "place_object_stand",
+      "episode": 3,
+      "row_anchor": 32,
+      "RGB_sha256": [
+        "c237118a6cbca7226e6dd15fa88055334d41a1d4407d5048fb1fb06afa89d3e2",
+        "e445923a470cb4bc66a3df17dab68d70dce2cf43db9362575899cd519f7c9fb3"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 2.781057825840793e-17,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "place_object_stand",
+      "episode": 3,
+      "row_anchor": 65,
+      "RGB_sha256": [
+        "5f8ec810434c793a39d4e1edf8cb08d364823ef67ee2500f842a2151f6cb6818",
+        "dd85f05a3c24aac13c9c7345f85a2b0fc57668bcc1f51aea6ead12f7e6ca3db3"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 1.4507662234651405e-17,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "move_pillbottle_pad",
+      "episode": 0,
+      "row_anchor": 102,
+      "RGB_sha256": [
+        "6ec98bb6a3c02bf74c7abd9e916b825f9a79fafd139ef354398a7293806590ea",
+        "4b5e3b150363b9bdfa7413e73056391f1fa6c3c8c5d2da073e22cc51ba55053a"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 9.349307686435072e-17,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "move_pillbottle_pad",
+      "episode": 1,
+      "row_anchor": 108,
+      "RGB_sha256": [
+        "23d79968d476c2af6d31f447b2fb82778557dd3231362c12d122a830ad5a74cb",
+        "66b98355c1fe7d3087a075e20a44fbe31e2f49e0794d369553679be728aa78bd"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 6.444147855209732e-17,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "move_pillbottle_pad",
+      "episode": 2,
+      "row_anchor": 98,
+      "RGB_sha256": [
+        "273120951fb62b36f72b6d50f6e3f4d94b7a06cdd84410bafefdac3f240f4636",
+        "e49c2aeaa8b68f61373eeb0f238dad6801ad31e8f0d51f4353beef1f785508f0"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 4.5108575455817684e-17,
+        "gripper": 0.00010000000000000017
+      }
+    },
+    {
+      "task": "move_pillbottle_pad",
+      "episode": 3,
+      "row_anchor": 123,
+      "RGB_sha256": [
+        "8c68f868d96e13ceee92bdc610d1ba1236bf0d5cf9b443d58270ba8aa18738d7",
+        "389d034a6e4a0d41cf4fe5efcd4321157b3d49d5ace27b5beb2e1e4d9430fe0f"
+      ],
+      "error": {
+        "xyz_m": 0.0,
+        "so3_rad": 5.650513902230012e-17,
+        "gripper": 0.00010000000000000017
+      }
+    }
+  ],
+  "optimizer_updates": 0,
+  "optimization_visits": 0,
+  "model_calls": 0,
+  "physical_requests": 0,
+  "wall_s": 0.2991724079765845
+}

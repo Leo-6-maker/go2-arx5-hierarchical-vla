@@ -32,3 +32,17 @@ def test_cold_wait_never_substitutes_for_missing_markers_or_feedback(tmp_path,mi
     with pytest.raises(RuntimeError,match='FEEDBACK_UNAVAILABLE'):
         native.await_native_startup(a)
     assert a.clock_grants==0 and a.calls==[180]
+
+
+def test_new_independent_expert_can_finish_slow_compile_without_a_clock_grant(tmp_path):
+    a=fixture(tmp_path)
+    a.spec=dict(phase='collect-target-task-learning-grasp-v1',
+        task_learning_role='CORELAB_EXPERT_TRAIN4_SEMANTICS_NOT_BC_V3',
+        corelab_world_binding_v3={'sha256':'existing'},wall_limit_s=3600,native_startup_read_wait_s=600)
+    spin=a.spin
+    a.spin=lambda seconds,predicate:spin(seconds,predicate)if seconds>=200 else False
+    native.await_native_startup(a)
+    assert a.calls==[600] and a.clock_grants==0
+    a.spec['task_learning_role']='SLA_TARGET500_NATIVE_EVALUATION_V1'
+    with pytest.raises(PermissionError,match='INDEPENDENT_EXPERT'):
+        native.await_native_startup(a)

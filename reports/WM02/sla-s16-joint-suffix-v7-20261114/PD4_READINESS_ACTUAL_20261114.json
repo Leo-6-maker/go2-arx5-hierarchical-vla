@@ -1,0 +1,138 @@
+{
+  "schema": "SLA_PD4_MATCHED_READINESS_AND_FROZEN_CONTROLLER_RECOVERY_ACTUAL_V7",
+  "read_at_SGT": "2026-11-14T23:39:51+08:00",
+  "views": {
+    "PD4_EXECUTED_REF": {
+      "manifest_sha256": "a06eab92e12f9b6eec91e04d45665cb9f65834d1d0f626a9b0a0b22571df3f4c",
+      "statistics_sha256": "66ff4bdf39bfbf1db3d9ff394dad8a0a0384be1b4e22c0b80c1be2304cf6fe37",
+      "windows": 244,
+      "episodes": 4,
+      "original_FP32_audit": {
+        "xyz_m": 3.200972598094154e-09,
+        "so3_rad": 1.7956482217359773e-09,
+        "mechanical_grip_m": 4.949297656153817e-10
+      },
+      "new_statistics_native_qualification": false
+    },
+    "PD4_FINAL_PLAN": {
+      "manifest_sha256": "f9482067c8634fec3dab197a50a9aa8ae1b0c37731d8bf32e446ce3cd883e603",
+      "statistics_sha256": "31462fbeb99e907605eb203d359c78dedaf8f356f643adb725dc637c9a52fcbf",
+      "windows": 244,
+      "episodes": 4,
+      "original_FP32_audit": {
+        "xyz_m": 1.6624484011629193e-09,
+        "so3_rad": 6.975032994699559e-10,
+        "mechanical_grip_m": 4.00000039174353e-06
+      },
+      "new_statistics_native_qualification": false
+    }
+  },
+  "pairs": [
+    {
+      "episode": "TRAIN01-r14",
+      "windows": 61,
+      "observations_and_anchors_bit_exact": true,
+      "same_frame_shard_descriptors": true,
+      "all40_supervised": true,
+      "executed_reference_consumed_mask_true_entries_in_overlapping_windows": 2440,
+      "final_plan_consumed_mask_true_entries": 640
+    },
+    {
+      "episode": "TRAIN04-r14",
+      "windows": 61,
+      "observations_and_anchors_bit_exact": true,
+      "same_frame_shard_descriptors": true,
+      "all40_supervised": true,
+      "executed_reference_consumed_mask_true_entries_in_overlapping_windows": 2440,
+      "final_plan_consumed_mask_true_entries": 640
+    },
+    {
+      "episode": "TRAIN07-r14",
+      "windows": 61,
+      "observations_and_anchors_bit_exact": true,
+      "same_frame_shard_descriptors": true,
+      "all40_supervised": true,
+      "executed_reference_consumed_mask_true_entries_in_overlapping_windows": 2440,
+      "final_plan_consumed_mask_true_entries": 640
+    },
+    {
+      "episode": "TRAIN10-r14",
+      "windows": 61,
+      "observations_and_anchors_bit_exact": true,
+      "same_frame_shard_descriptors": true,
+      "all40_supervised": true,
+      "executed_reference_consumed_mask_true_entries_in_overlapping_windows": 2440,
+      "final_plan_consumed_mask_true_entries": 640
+    }
+  ],
+  "matched_windows": 244,
+  "all40_supervision_true": true,
+  "state_statistics_equal": true,
+  "statistics_refitted": false,
+  "original_expert_episodes": 4,
+  "original_expert_physical_requests": 4,
+  "original_unique_consumed_command_points": 2560,
+  "executed_ref_overlapping_window_mask_true_entries": 9760,
+  "final_plan_mask_true_entries": 2560,
+  "additional_physical_requests": 0,
+  "additional_physics_integrations": 0,
+  "optimizer_updates": 0,
+  "training_visits": 0,
+  "matched_training_worker_implemented": false,
+  "matched_training_registered": false,
+  "new_statistics_native_qualification": false,
+  "existing_native_binding_accepted_now": false,
+  "existing_native_binding_rejection": "PermissionError('LIVE_PILOT1_OWNER_SITE_AND_FINITE_ENDPOINT_REQUIRED')",
+  "existing_binding_deadline_SGT": "2026-11-14T21:14:27+08:00",
+  "original_campaign_control_record_exists": false,
+  "missing_original_frozen_path_count": 19,
+  "recovered_original_controller": {
+    "manifest_sha256": "f9a35b715b53a4f5fd5c53b44c42a82c6daed2fcd7e0fe707386f155a0a2e447",
+    "binary_sha256": "9e8ce46837d09bc39ae04d4b49f1ce4dd8c8c2d31bea39eac56c5806d108c1f3",
+    "byte_identical": true,
+    "runtime_loader_pass": true,
+    "native_execution_admitted": false
+  },
+  "original_controller_bytes_sha256": "9e8ce46837d09bc39ae04d4b49f1ce4dd8c8c2d31bea39eac56c5806d108c1f3",
+  "controller_asset_recovery_is_native_qualification": false,
+  "controller_recovery_failures": [
+    {
+      "run_suffix": "01",
+      "reason": "COMPILE_TIMEOUT110_WITH_INCOMPLETE_OBJECT",
+      "worker_wall_s": 114.91472172737122,
+      "child_CPU_s": 18.205613,
+      "systemd_CPU_s": 18.534798,
+      "optimizer_updates": 0,
+      "physical_requests": 0
+    },
+    {
+      "run_suffix": "02",
+      "reason": "LOADER_ENVIRONMENT_INCOMPLETE_IN_BUILD_UNIT",
+      "worker_wall_s": 20.017163276672363,
+      "child_CPU_s": 19.18242,
+      "systemd_CPU_s": 19.267638,
+      "optimizer_updates": 0,
+      "physical_requests": 0
+    }
+  ],
+  "independent_post_failure_readback": {
+    "byte_identical": true,
+    "original_runtime_loader_pass": true,
+    "old_failed_jobs_unchanged": true,
+    "archive_manifest_sha256": "f9a35b715b53a4f5fd5c53b44c42a82c6daed2fcd7e0fe707386f155a0a2e447"
+  },
+  "planned_updates_per_arm": 500,
+  "planned_visits_per_arm": 16000,
+  "planned_total_visits": 32000,
+  "loss": "ORIGINAL_FM32_ALL40_SUPERVISED",
+  "no_new_partial_mask_qualification_needed_for_all_true_labels": true,
+  "consumed_mask_is_loss_weight": false,
+  "old_RP8_failed": true,
+  "old_native_outcomes_unchanged": true,
+  "WBC_bytes_changed": false,
+  "safety_changed": false,
+  "same_student_state_historical_expert_pairs": 0,
+  "CPU_s": 0.036719326999999996,
+  "wall_s": 0.36661720275878906,
+  "private_receipt_sha256": "72c624af9fb69da35a27bf7b0b5bd448d7b9037a9df7d6bcd52f2a3852c57496"
+}

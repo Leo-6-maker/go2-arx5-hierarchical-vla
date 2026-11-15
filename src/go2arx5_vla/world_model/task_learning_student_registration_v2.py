@@ -123,6 +123,21 @@ def group_input(request,panel):
         inp['schema']=INPUT_SCHEMA
     if task.native_body_role(panel.get('task_learning_role')):
         inp['schema']=task.native_body_profile(panel['task_learning_role']).INPUT_SCHEMA
+        if panel.get('schema')=='SLA_REFERENCE_N20_RAW_P10_TRAIN8_PANEL_V6':
+            from .sla_reference_native_v6 import INPUT_SCHEMA
+            inp['schema']=INPUT_SCHEMA
+            inp['native_pause_read_wait']=reg['native_pause_read_wait']
+        elif panel.get('schema')=='SLA_FRESH_N20_RAW_P10_TRAIN8_PANEL_V5':
+            from .sla_dense_native_v5 import NAMED_INPUT_SCHEMA
+            inp['schema']=NAMED_INPUT_SCHEMA
+        if panel.get('schema')=='SLA_RAW3K_PICK_HOLD_NEW_GEOMETRY_DEV48_PANEL_V5':
+            from .sla_dev48_v5 import INPUT_SCHEMA
+            inp['schema']=INPUT_SCHEMA
+            from .sla_reference_native_v6 import METHOD as REFERENCE_METHOD
+            if panel['method']==REFERENCE_METHOD:inp['native_pause_read_wait']=reg['native_pause_read_wait']
+        if panel.get('named_cold_suffix_v5')is not None:
+            inp['native_pause_read_wait']=reg['native_pause_read_wait']
+            inp['population_predecessor']=panel['named_cold_suffix_v5']['result']
         if panel['task_learning_role']==task.SLA_ROLE:
             if reg.get('native_pause_read_wait') is not None:inp['native_pause_read_wait']=reg['native_pause_read_wait']
             if panel.get('cold_continuation') is not None:
@@ -131,6 +146,10 @@ def group_input(request,panel):
             if panel.get('dev16_predecessor') is not None:
                 from .sla_dev_continuation_v3 import SCHEMA as DEV_SUFFIX
                 inp['schema'] = DEV_SUFFIX
+            if panel.get('r1_cold_suffix_v5') is not None:
+                from .sla_r1_suffix_v5 import SCHEMA as R1_SUFFIX
+                inp['schema']=R1_SUFFIX
+                inp['population_predecessor']=panel['r1_cold_suffix_v5']['result']
     if panel.get('task_learning_role')==task.CONIC_ROLE:
         from .task_learning_conic_native_v3 import INPUT_SCHEMA
         inp['schema']=INPUT_SCHEMA
@@ -184,6 +203,17 @@ def register_group(request):
         return j.once(key,dict(panel=request['panel'],assignment_slice=inp['assignment_slice']),effect)
 
 
+def execution_gpu_base(panel,base):
+    """Use the complete endpoint's actual reconstructed card before capacity."""
+    if panel.get('task_learning_role')!=task.SLA_DENSE_ROLE:return base
+    from .sla_dense_native_v5 import policy_contract
+    from .sla_live_v1 import apply_inference_spec
+    task.need(len(panel['policies'])==1,'ONE_COMPLETE_RAW3K_POLICY_PER_GROUP')
+    q=policy_contract(panel['policies'][panel['method']],verify_package=False,
+        expected_global_step=panel['B1_global_step'])
+    result=dict(base);apply_inference_spec(result,q);return result
+
+
 def dispatch_group(input_path):
     from scripts.pi0292.durable import write
     from scripts.pi0294.e1.journal import Journal
@@ -199,8 +229,9 @@ def dispatch_group(input_path):
         capture_output=True,text=True,timeout=10,check=True)
     task.need('LoadState=not-found'in q.stdout and 'MainPID=0'in q.stdout,'NO_EXISTING_DEV_GROUP_UNIT')
     remaining=int(inp['deadline_epoch']-time.time());task.need(remaining>1800,'TIME_FOR_FINITE_DEV_GROUP')
+    g=execution_gpu_base(panel,g)
     actual=batch.resources(g);write(root/'ACTUAL_CAPACITY_BEFORE_DISPATCH.private.json',actual)
-    sla_inputs = ('SLA_TARGET500_NATIVE_GROUP_INPUT_V1', 'SLA_NATIVE_COLD_UNEXECUTED_SUFFIX_INPUT_V2', DEV_SUFFIX)
+    sla_inputs = ('SLA_TARGET500_NATIVE_GROUP_INPUT_V1', 'SLA_NATIVE_COLD_UNEXECUTED_SUFFIX_INPUT_V2', DEV_SUFFIX,'SLA_R1_COLD_UNSTARTED_TRAIN8_SUFFIX_INPUT_V5')
     argv=['systemd-run','--user','--unit=wm02-'+root.name,'--property=Type=exec','--property=RemainAfterExit=yes',
         '--property=Restart=no','--property=RuntimeMaxSec='+str(remaining+90),'--property=TimeoutStopSec=90',
         '--property=AllowedCPUs=0-3,8-11','--property=CPUQuota=800%','--property=MemoryMax='+('32G'if inp.get('schema') in sla_inputs else'40G'),

@@ -39,6 +39,15 @@ def test_late_exact_ack_is_read_without_republishing_or_changing_quota(tmp_path)
     assert (tmp_path/'step_quota').read_text()=='2075\n'
 
 
+@pytest.mark.parametrize('role',[task.SLA_DENSE_ROLE,task.SLA_PD4_ROLE])
+def test_raw_dense_roles_use_identical_sealed_wait_and_single_clock_request(tmp_path,role):
+    adapter,publications,waits=make_adapter(tmp_path)
+    adapter.spec['task_learning_role']=role
+    assert adapter.advance_to(2075)['step']==2075
+    assert publications==[2075]and waits==[90]
+    assert(tmp_path/'step_quota').read_text()=='2075\n'
+
+
 def test_longer_read_wait_does_not_admit_a_stale_ack(tmp_path):
     adapter,publications,waits=make_adapter(tmp_path,matching=False)
     with pytest.raises(RuntimeError,match='EXACT_NATIVE_PAUSE_NOT_REACHED'):

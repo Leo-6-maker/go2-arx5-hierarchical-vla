@@ -1,0 +1,36 @@
+{
+  "schema": "SLA_TWO_EXISTING_JOB_COMPLETION_BRIDGES_ACTUAL_V71",
+  "as_of": "2026-11-15T13:07:50+0800",
+  "bridges": [
+    {
+      "role": "P0_ORIGINAL8",
+      "bridge_spec_sha256": "be04d429eb235b5f0ff292abb628d1a5887505b1fdca98f1a40c7bf4dfeb28fd",
+      "target_spec_sha256": "a07b1071288af69b328360240ccdd96f6814011a237f1f6d1afe8be72984643f",
+      "current_bridge_process_observed_live": true,
+      "completed_readonly_polls": 5,
+      "latest_poll_epoch": 1794719191.3892841,
+      "target_MainPID_nonzero": true,
+      "target_state": "running",
+      "deadline": "2026-11-15T21:41:23.835285+08:00",
+      "automatic_resume_proven": false
+    },
+    {
+      "role": "P1_FIXED64",
+      "bridge_spec_sha256": "19dd10aa5120ed7d1d286f0944353fa973898ac733b46e4c361c29466a0a7b6f",
+      "target_spec_sha256": "b86ab1674b62c11789466827caadca4430ad223bb734a8bf50c28815e15fdd1b",
+      "current_bridge_process_observed_live": true,
+      "completed_readonly_polls": 5,
+      "latest_poll_epoch": 1794719190.7711864,
+      "target_MainPID_nonzero": true,
+      "target_state": "running",
+      "deadline": "2026-11-16T00:45:48.324132+08:00",
+      "automatic_resume_proven": false
+    }
+  ],
+  "model_loads": 0,
+  "optimizer_updates": 0,
+  "physical_requests": 0,
+  "experiment_dispatch_capability": false,
+  "notification_semantics": "ONE_PINNED_TERMINAL_OR_ATTENTION_EVENT_PER_JOB; QUEUE_ACK_DOES_NOT_PROVE_CHAT_RESUME",
+  "previous_CLI_resume_warning_retained": true
+}

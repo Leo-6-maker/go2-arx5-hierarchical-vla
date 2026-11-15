@@ -1,0 +1,58 @@
+{
+  "schema": "SLA_V4_SIMULATED_MIXED_VISIT_AUDIT_ACTUAL",
+  "catalogs": "SIMULATED_IDS_ONLY",
+  "arms": {
+    "T100_3K": {
+      "simulated_batches": 1000,
+      "T_references": 32000,
+      "S_cmd_references": 0,
+      "reference_stream_sha256": "1b7b32a57a64c8e1c1cc171e715da92792f92c0e72ff727134c476ee6c435557",
+      "fresh_restore_next_batch_exact": true
+    },
+    "M75_3K": {
+      "simulated_batches": 1000,
+      "T_references": 24000,
+      "S_cmd_references": 8000,
+      "reference_stream_sha256": "91bc50cb3be6f90939fa064d24c007e67782f6bf8e9ac3727615895f459c2917",
+      "fresh_restore_next_batch_exact": true
+    },
+    "M50_3K": {
+      "simulated_batches": 1000,
+      "T_references": 16000,
+      "S_cmd_references": 16000,
+      "reference_stream_sha256": "11104a78191bdbbcaf92e9614d43769d4ea1c816f273d8048c1994d7b8722f6c",
+      "fresh_restore_next_batch_exact": true
+    },
+    "SEQ_3K": {
+      "simulated_batches": 1000,
+      "T_references": 8000,
+      "S_cmd_references": 24000,
+      "reference_stream_sha256": "0e1ef36eea5661ad4beea8ba1b1d967bd77c07e3cda54a2306db69b06454681c",
+      "fresh_restore_next_batch_exact": true
+    },
+    "S_ONLY_3K": {
+      "simulated_batches": 1000,
+      "T_references": 0,
+      "S_cmd_references": 32000,
+      "reference_stream_sha256": "b806a72825d8d3d8d352a77003ae4f219738ec3f6923a94fe9102844e0269489",
+      "fresh_restore_next_batch_exact": true
+    }
+  },
+  "wall_s": 4.4327863969956525,
+  "actual_dataset_visits": 0,
+  "model_calls": 0,
+  "optimizer_updates": 0,
+  "physical_requests": 0,
+  "CUDA_qualification": false,
+  "production_reader_or_dataset_admission": false,
+  "unit_checks": {
+    "passed": 13,
+    "mixed_sampler_cases": 6,
+    "continuous4_equals_independent2plus2": true,
+    "M75_and_SEQ_same_domain_samples_and_random_tags": true,
+    "source_aux_and_DEV_rejected": true
+  },
+  "GPU_training_random_bank_qualified": false,
+  "existing_target_reader_changed": false,
+  "existing_runtime_v3_wired_to_new_sampler": false
+}

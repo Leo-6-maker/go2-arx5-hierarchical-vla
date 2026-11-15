@@ -1,0 +1,57 @@
+{
+  "schema": "SLA_V4_1_NAMED_DENSE_PICK_HOLD_PILOT_ADMISSION_ACTUAL",
+  "dataset_id": "T_PICK_HOLD_TRAIN01_P10_2EP_V4_1",
+  "manifest_sha256": "a5e1643d4e7b1736f3a86befdc5b7430bcaa806e2a6ae97a23cdb75d9b4c8b0c",
+  "audit_sha256": "8eaec1d4090f5ab5e912f1dfb12c78de90fa4fcf34531bc8ffed040d406adee6",
+  "admission_source_sha": "5b4e72717bf9779ba8b40c282a1e1a0fc6587bc8",
+  "episodes": 2,
+  "layouts": [
+    "TRAIN01"
+  ],
+  "restarts": [
+    1,
+    2
+  ],
+  "prefix_atoms": 10,
+  "supervised_windows": 122,
+  "original_RGB_frames": 642,
+  "actual_consumed_commands": 1280,
+  "source_native_integrations_reused": 43406,
+  "new_physical_requests": 0,
+  "optimizer_updates": 0,
+  "optimization_visits": 0,
+  "CPU_readback": {
+    "schema": "SLA_NAMED_DENSE_PILOT_ALL_WINDOW_CPU_READBACK_V4_1",
+    "passes": true,
+    "manifest_sha256": "a5e1643d4e7b1736f3a86befdc5b7430bcaa806e2a6ae97a23cdb75d9b4c8b0c",
+    "read_windows": 122,
+    "phase_windows": {
+      "PREGRASP": 6,
+      "DESCEND": 38,
+      "CLOSE": 8,
+      "LIFT": 14,
+      "HOLD": 56
+    },
+    "max_normalized_float32_roundtrip_error": {
+      "xyz_m": 2.3442228158643275e-09,
+      "so3_rad": 7.41722234606938e-10,
+      "gripper": 0.00010000000979371038
+    },
+    "RGB_source_frames": 642,
+    "actual_consumed_commands": 1280,
+    "cache_bytes": 252501168,
+    "D100_new": false,
+    "PICK_PLACE_admitted": false,
+    "model_calls": 0,
+    "optimizer_updates": 0,
+    "optimization_visits": 0,
+    "physical_requests": 0
+  },
+  "original_engineering_receipts_unchanged": true,
+  "D100_new": false,
+  "D300_new": false,
+  "PICK_PLACE_admitted": false,
+  "allowed_scope": "ONE_LAYOUT_ONE_OBJECT_PICK_HOLD_FITTING_ONLY",
+  "phase_metadata_student_input": false,
+  "next": "New-data hardware gradient qualification; then clean-parent 3K pilot, retaining the formal D100/D300 and spatial comparison as separate endpoints."
+}

@@ -1,0 +1,68 @@
+{
+  "schema": "SLA_RAW3K_PICK_HOLD_NEW_GEOMETRY_DEV48_INPUTS_V5",
+  "status": "FIXED_BEFORE_ANY_RAW3K_DEV_OUTPUT",
+  "population": "PICK_HOLD_DEV48",
+  "layouts": {
+    "SLAV5DEV01": [
+      -0.0031,
+      -0.0028
+    ],
+    "SLAV5DEV02": [
+      -0.0031,
+      0.0028
+    ],
+    "SLAV5DEV03": [
+      -0.0011,
+      -0.0028
+    ],
+    "SLAV5DEV04": [
+      -0.0011,
+      0.0028
+    ],
+    "SLAV5DEV05": [
+      0.0013,
+      -0.0028
+    ],
+    "SLAV5DEV06": [
+      0.0013,
+      0.0028
+    ],
+    "SLAV5DEV07": [
+      0.0031,
+      -0.0028
+    ],
+    "SLAV5DEV08": [
+      0.0031,
+      0.0028
+    ]
+  },
+  "restart_ids": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "conditions_per_method": 48,
+  "maximum_queries_per_condition": 60,
+  "seed_rule": "202611150000 + layout_index0*10000 + restart_id*100 + query_index0",
+  "native_start_step": 5703,
+  "endpoint_integrations": 21703,
+  "physics_dt_s": 0.002,
+  "command_period_s": 0.05,
+  "prefix_atoms": 10,
+  "final_hold_atoms": 40,
+  "raw_H40_preview_atoms": 40,
+  "training_admitted": false,
+  "old_DEV_TEST_relabelled": false,
+  "old_TEST_outputs_read": false,
+  "C24_replaced": false,
+  "scope": "EARLY_ONE_CUBE_PICK_HOLD_NEW_GEOMETRY_DEVELOPMENT_NOT_TWO_TASK_FIVE_OBJECT_TEST",
+  "score_contract": "UNCHANGED_TASK_LEARNING_GRASP_LIFT_HOLD_SCORE_V1_AND_NATIVE_SAFETY",
+  "checkpoint_selection": "FIXED_COMPLETE_3K_NO_DEV_CHECKPOINT_SELECTION",
+  "retries": false,
+  "teacher_fallback": false,
+  "clipping": false,
+  "WBC_changes": false
+}

@@ -1,0 +1,76 @@
+{
+  "schema": "SLA_JOIN10_FIRST_NATIVE_CONDITION_ACTUAL_V72",
+  "as_of": "2026-11-15T16:29:00+08:00",
+  "runtime_source_sha": "3232af4a42f0c1436980c5cd17a24a62ba2cb9ba",
+  "job_spec_sha256": "803b92a4825b8b462acd980734da0a9e4cf3fd2bc9769f2ceb0670e98be637ca",
+  "registered_conditions": 8,
+  "terminal_conditions": 1,
+  "valid_policy_failures": 1,
+  "technical_failures": 0,
+  "task_successes": 0,
+  "remaining": {
+    "model_loading": 1,
+    "native_unstarted_other": 6
+  },
+  "models": {
+    "completed_parent_loads": 1,
+    "current_next_parent_load_in_progress": true,
+    "completed_generations": 1
+  },
+  "native": {
+    "physical_requests": 1,
+    "integrations": 5703,
+    "initialization_integrations": 5703,
+    "confirmed_student_points": 0,
+    "student_integrations": 0
+  },
+  "failure": {
+    "view": "PD4_EXECUTED_REF",
+    "layout": "TRAIN01",
+    "query": 0,
+    "stage": "ORIGINAL_RAW_FULL40_EEF_GATE",
+    "metric": "maximum_discrete_translation_acceleration_m_s2",
+    "value": 0.3652069421808245,
+    "threshold": 0.25,
+    "first_zero_based_difference_index": 38,
+    "runtime_candidate_created": false,
+    "joint_certifier_calls": 0
+  },
+  "native_result_sha256": "b405c84a8883ae338da14f7727b461abc806dc92afe0cff6dcd67258364f7a68",
+  "GPU_result_sha256": "8fe2e335e732f557db66b022568c167819024d5f604a61e29d39935477be795b",
+  "audit": {
+    "component_source_sha": "689d5463d1dcce1a428cd9af8f605ab2a0429f19",
+    "result_sha256": "75ecf7735e8f8e1d1e599e09e005ed3ffadb7ab2c1bd4c13b73484ea4bb9c5cb",
+    "verified_terminal_conditions": 1,
+    "full_panel_audit_complete": false,
+    "new_model_generations": 0,
+    "new_certifier_calls": 0,
+    "new_physical_requests": 0
+  },
+  "cost": {
+    "GPU_worker_wall_s": 763.5406606364995,
+    "GPU_child_CPU_s": 59.971421,
+    "native_worker_wall_s": 215.5940064713359
+  },
+  "next_condition": {
+    "view": "PD4_FINAL_PLAN",
+    "layout": "TRAIN01",
+    "native_started": false,
+    "model_loading": true
+  },
+  "new_optimizer_updates": 0,
+  "new_TRAIN_visits": 0,
+  "new_SOURCE_visits": 0,
+  "original_raw_results_retained": {
+    "EXEC": "0/4",
+    "FINAL": "0/4",
+    "physical_requests": 8,
+    "integrations": 47374,
+    "queries": 15,
+    "consumed_points": 70
+  },
+  "old_RP8_passed": false,
+  "WBC_changes": false,
+  "safety_changes": false,
+  "goal_complete": false
+}

@@ -1,0 +1,108 @@
+{
+  "schema": "SLA_DENSE_CORE_MICRO1_QUAL4_ACTUAL_V4_1",
+  "observed_epoch": 1794582758.111208,
+  "source_sha": "89c72e86350215d8f3294d4ee3a4e850bf159034",
+  "worker_exit_code": 0,
+  "lease": "CLOSED",
+  "passes": true,
+  "noncandidate_updates": 4,
+  "optimization_visits": 128,
+  "ordinary_RGB_generations": 16,
+  "physical_requests": 0,
+  "all_GPU_resident": true,
+  "CPU_training_activation_offload": false,
+  "GPU_peak_bytes": 8543467776,
+  "GPU_bytes_limit": 13033218552,
+  "frozen_fingerprint": "507aa0a700c2e8cacfb398c76e2147da4a82cbf05bc2e7b4ec85d1562c091b06",
+  "full_checkpoint_array_readback": {
+    "schema": "SLA_DENSE_CORE_QUAL4_ALL_CHECKPOINT_ARRAYS_READBACK_ACTUAL",
+    "passes": true,
+    "checkpoints": [
+      {
+        "step": 0,
+        "cursor": 0,
+        "arrays": 87,
+        "bytes": 625851664,
+        "complete_sha256": "c25ffa22a5f2ffb85f6067aeb95ccbec4fb27199bc21c73a0a896c66be198e3d"
+      },
+      {
+        "step": 2,
+        "cursor": 64,
+        "arrays": 87,
+        "bytes": 625851664,
+        "complete_sha256": "ca457eb1c7495d30c1f7071382cc68a5cd8d920de133c58232598a45e4a4ba24"
+      },
+      {
+        "step": 4,
+        "cursor": 128,
+        "arrays": 87,
+        "bytes": 625851664,
+        "complete_sha256": "1eb8e5f2e17c01500da29d01955152abb28ecaa4c66b190d44852fdd9bfe62b5"
+      }
+    ],
+    "changed_active_arrays": 28,
+    "changed_optimizer_arrays": 58,
+    "actual_restore_attempts_in_this_audit": 0,
+    "optimizer_updates_in_this_audit": 0,
+    "physical_requests": 0
+  },
+  "actual_counts": {
+    "actual_parent_loads": 1,
+    "forward_backward_attempts": 128,
+    "completed_forward_backward": 128,
+    "optimizer_updates": 4,
+    "attempted_training_visits": 128,
+    "completed_training_visits": 128,
+    "ordinary_RGB_generation_attempts": 16,
+    "ordinary_RGB_generations": 16,
+    "physical_requests": 0,
+    "rng_bank_generation_attempts": 4,
+    "host_window_read_attempts": 128,
+    "host_window_reads": 128,
+    "rng_banks_generated": 4,
+    "update_metric_D2H_calls": 4,
+    "update_metric_D2H_bytes": 64,
+    "optimizer_update_attempts": 4
+  },
+  "update_rows": [
+    {
+      "step": 1,
+      "cursor": 32,
+      "used_lr": 3.3333333333333335e-07,
+      "mean_FM32_loss": 0.09426131099462509,
+      "grad_norm_before_clip": 0.18330690264701843,
+      "wall_s": 28.46484626736492
+    },
+    {
+      "step": 2,
+      "cursor": 64,
+      "used_lr": 6.666666666666667e-07,
+      "mean_FM32_loss": 0.09360595792531967,
+      "grad_norm_before_clip": 0.2398100048303604,
+      "wall_s": 7.44583008531481
+    },
+    {
+      "step": 3,
+      "cursor": 96,
+      "used_lr": 1.0000000000000002e-06,
+      "mean_FM32_loss": 0.0765744149684906,
+      "grad_norm_before_clip": 0.1567331999540329,
+      "wall_s": 7.516107345931232
+    },
+    {
+      "step": 4,
+      "cursor": 128,
+      "used_lr": 1.3333333333333334e-06,
+      "mean_FM32_loss": 0.09566334635019302,
+      "grad_norm_before_clip": 0.202544704079628,
+      "wall_s": 7.696640216745436
+    }
+  ],
+  "actual_restore_attempts": 0,
+  "fresh_independent_RGB_process": false,
+  "H200_micro8_qualification": false,
+  "D100_new": false,
+  "PICK_PLACE_admitted": false,
+  "prestart_registry_path_repair_zero_model_effects": true,
+  "next": "Inside the H200 allocation, execute the new-data micro8 continuous4 vs2+2 and fresh-package reconstruction; then clean-parent 3K. Core4 is not a policy capability endpoint."
+}

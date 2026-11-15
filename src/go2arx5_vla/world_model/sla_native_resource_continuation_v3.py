@@ -26,7 +26,7 @@ def configuration(panel):
     value = panel.get('registration', {}).get('capacity_wait_before_pair_v3')
     if value is None:
         return None
-    task.need(panel.get('task_learning_role') == task.SLA_ROLE
+    task.need(task.sla_role(panel.get('task_learning_role'))
               and value == dict(version=WAIT_VERSION, poll_s=60),
               'SLA_EXPLICIT_READONLY_RESOURCE_WAIT_ONLY')
     return value

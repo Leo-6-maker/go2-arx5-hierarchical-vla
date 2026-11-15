@@ -5,11 +5,7 @@ import shutil
 import numpy as np
 
 from .checkpoint_v1 import sha
-from .codec_v1 import Quantiles, pad32
-from .dataset_v1 import images224
-from .gripper_v2 import EPSILON, VERSION, GripLogitCodec
-from .model_v1 import Tokenizer, load_parent, observation
-from .provider_v1 import active_rows
+from .gripper_latent_v2 import EPSILON, VERSION
 
 SCHEMA = 'SLA_GRIP_LOGIT_ORDINARY_RGB_INFERENCE_PACKAGE_V3'
 DECODE_ORDER = 'INVERSE_LATENT_NORMALIZATION_THEN_SIGMOID_ONCE_THEN_ORIGINAL_NATIVE_NOMINAL_MAPPING'
@@ -48,6 +44,15 @@ def export(package, checkpoint, *, active_template, statistics, tokenizer, paren
             or audit['statistics_sha256'] != bindings['derived_statistics_sha256']
             or sha(statistics) != audit['statistics_sha256']):
         raise ValueError('EXACT_TRAIN_ONLY_LOGIT_STATISTICS_REQUIRED')
+    return write_verified_package(package, checkpoint, complete=complete, active_template=active_template,
+                                  statistics=statistics, tokenizer=tokenizer, parent_manifest=parent_manifest)
+
+
+def write_verified_package(package, checkpoint, *, complete, active_template, statistics, tokenizer, parent_manifest):
+    """Copy already validated endpoint assets; callers enforce their recipe."""
+    from .provider_v1 import active_rows
+    package, checkpoint = Path(package), Path(checkpoint)
+    bindings = complete['bindings']
     rows, _ = active_rows(complete, active_template)
     package.mkdir(parents=True, exist_ok=False)
     (package / 'adapters').mkdir()
@@ -78,6 +83,9 @@ def export(package, checkpoint, *, active_template, statistics, tokenizer, paren
 
 class Provider:
     def __init__(self, package, *, manifest_sha256, parent_params, parent_manifest_path=None):
+        from .codec_v1 import Quantiles
+        from .model_v1 import Tokenizer, load_parent
+        from .provider_v1 import active_rows
         import flax.nnx as nnx
         import jax
         from openpi_client.image_tools import resize_with_pad
@@ -102,7 +110,8 @@ class Provider:
         if (asset.get('repo') != 'haofuly/SLA_base' or not asset.get('all_files_verified')
                 or asset.get('revision') != '5bbdf3012ab643554aa2eb83ddeae9ace3dce476'):
             raise ValueError('PINNED_SLA_BASE_REQUIRED')
-        self.graph, self.active, self.frozen, self.inventory = load_parent(parent_params)
+        self.graph, self.active, self.frozen, self.inventory = load_parent(
+            parent_params, host_cast=m['bindings'].get('parent_host_cast_v7',False))
         if self.inventory['frozen_fingerprint'] != m['bindings']['frozen_fingerprint']:
             raise ValueError('LOGIT_PROVIDER_FROZEN_PARAMETER_MISMATCH')
         rows, structure = active_rows(dict(arrays=m['adapter_arrays']), self.active)
@@ -117,8 +126,7 @@ class Provider:
             leaves.append(jax.device_put(value))
         self.active, = jax.tree_util.tree_unflatten(structure, leaves)
         stats = json.loads((self.package / 'STATISTICS.json').read_bytes())
-        if stats.get('codec_version') != VERSION or stats.get('epsilon') != EPSILON:
-            raise ValueError('LOGIT_STATISTICS_VERSION_REQUIRED')
+        self.validate_statistics_metadata(stats)
         self.statistics = {key: Quantiles(stats[key]['q01'], stats[key]['q99']) for key in ('state', 'actions')}
         self.tokenizer = Tokenizer(self.package / 'paligemma_tokenizer.model')
         self.resize = resize_with_pad
@@ -126,7 +134,15 @@ class Provider:
         self.infer = jax.jit(lambda active, frozen, obs, noise:
                              nnx.merge(graph, active, frozen).sample_actions(jax.random.PRNGKey(0), obs, noise=noise, num_steps=10))
 
+    def validate_statistics_metadata(self, stats):
+        if stats.get('codec_version') != VERSION or stats.get('epsilon') != EPSILON:
+            raise ValueError('LOGIT_STATISTICS_VERSION_REQUIRED')
+
     def predict(self, state10, images, prompt, T_policy_from_mount, *, noise_id):
+        from .codec_v1 import pad32
+        from .dataset_v1 import images224
+        from .gripper_v2 import GripLogitCodec
+        from .model_v1 import observation
         import jax
         codec = GripLogitCodec(T_policy_from_mount)
         dummy = np.broadcast_to(np.asarray(state10), (40, 10)).copy()

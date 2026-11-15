@@ -1,0 +1,1650 @@
+{
+  "schema": "SLA_PD4_ORIGINAL8_FULL_RAW_INSTALLED_CONSUMED_AUDIT_V71",
+  "as_of": "2026-11-15T13:44:11+0800",
+  "group_result_sha256": "d9185b7dff07e364368efccd04a1e2d26c382900c6b02000c7a8904d6e6a2401",
+  "summary_sha256": "a3276511ddad7cd9126710b2cdac74406411ea502289fbb5516f8267322700dc",
+  "plan_sha256": "140b9087dc3200981c5a754b4acc819b2b304a63c675cb170c844d51af6bb3ec",
+  "spec_sha256": "a07b1071288af69b328360240ccdd96f6814011a237f1f6d1afe8be72984643f",
+  "queue_worker_exit0": true,
+  "all_actor_leases_closed": true,
+  "summary": {
+    "schema": "SLA_PD4_MATCHED500_RAW_P10_STUDENT_V7_1_SUMMARY",
+    "requested": 8,
+    "terminal": 8,
+    "complete": true,
+    "methods": {
+      "PD4_EXECUTED_REF": {
+        "requested": 4,
+        "attempted": 4,
+        "physical_requests": 4,
+        "terminal": 4,
+        "task_successes": 0,
+        "valid_task_failures": 4,
+        "technical_failures": 0,
+        "hard_safety_stops": 0,
+        "SLA_queries": 5,
+        "native_integrations": 23062
+      },
+      "PD4_FINAL_PLAN": {
+        "requested": 4,
+        "attempted": 4,
+        "physical_requests": 4,
+        "terminal": 4,
+        "task_successes": 0,
+        "valid_task_failures": 4,
+        "technical_failures": 0,
+        "hard_safety_stops": 0,
+        "SLA_queries": 10,
+        "native_integrations": 24312
+      }
+    },
+    "physical_requests": 8,
+    "optimizer_updates": 0,
+    "training_visits": 0,
+    "old_RP8_passed": false,
+    "DEV_conditions": 0,
+    "TEST_conditions": 0,
+    "generalization_claim": false,
+    "WBC_changes": false
+  },
+  "conditions": [
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train01-pd4_executed_ref-r16",
+      "view": "PD4_EXECUTED_REF",
+      "layout": "TRAIN01",
+      "restart": 16,
+      "technical_valid": true,
+      "task_success": false,
+      "hard_safety_stop": false,
+      "native_result_sha256": "deb7772f98cd495922c09ede7aa144a442fd33af3a60b4104f418782ba72fbe9",
+      "GPU_result_sha256": "fdc66154442347cef3222845f45ae489883b807c232c07cce450372586a860ac",
+      "SLA_parent_loads": 1,
+      "queries": 1,
+      "accepted_query_prefixes": 0,
+      "rejected_queries": 1,
+      "consumed_points": 0,
+      "native_integrations": 5703,
+      "initialization_integrations": 5703,
+      "student_integrations": 0,
+      "other_integrations": 0,
+      "confirmed_commands_sha256": null,
+      "command_journal_sha256": "b9d70881141e6126f368ed263b740c4a7d269ec1ade3f032592f1599633f8a83",
+      "first_failure": "go2arx5_vla.world_model.task_learning_student_v1.StudentProposalRejected: TASK_LEARNING_STUDENT_FULL_PROPOSAL_REJECTED: SLA_DENSE_ORIGINAL_FULL_H40_GATE:TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+      "shutdown_clean": true,
+      "native_process_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "score": null,
+      "pair_CPU_s": 117.508867751,
+      "GPU_worker_wall_s": 884.9655843898654,
+      "native_worker_wall_s": 292.62964288145304
+    },
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train01-pd4_final_plan-r16",
+      "view": "PD4_FINAL_PLAN",
+      "layout": "TRAIN01",
+      "restart": 16,
+      "technical_valid": true,
+      "task_success": false,
+      "hard_safety_stop": false,
+      "native_result_sha256": "13f8a0af2363fcbc457a567ce021da7594432db3267808f94d1afd8bd6f1199e",
+      "GPU_result_sha256": "1d8abce65dc9b24152e3ecff3059860368e1204bc237728eaf2313f272b7a5c7",
+      "SLA_parent_loads": 1,
+      "queries": 1,
+      "accepted_query_prefixes": 0,
+      "rejected_queries": 1,
+      "consumed_points": 0,
+      "native_integrations": 5703,
+      "initialization_integrations": 5703,
+      "student_integrations": 0,
+      "other_integrations": 0,
+      "confirmed_commands_sha256": null,
+      "command_journal_sha256": "d873f7034feccdf8532f6a9d543a4509340c989d630a38d91593bc6c92e24a11",
+      "first_failure": "ValueError: ORIGINAL_JOINT_ACCELERATION_REJECT",
+      "shutdown_clean": true,
+      "native_process_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "score": null,
+      "pair_CPU_s": 115.78173647999999,
+      "GPU_worker_wall_s": 729.3447404196486,
+      "native_worker_wall_s": 217.78917120862752
+    },
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train04-pd4_final_plan-r16",
+      "view": "PD4_FINAL_PLAN",
+      "layout": "TRAIN04",
+      "restart": 16,
+      "technical_valid": true,
+      "task_success": false,
+      "hard_safety_stop": false,
+      "native_result_sha256": "4c4230294f19d2d2eff9998bfe81e716ea59547b6e00aa8378d64d404e096504",
+      "GPU_result_sha256": "b795012ed4b5d54764f1a5dedd976f0201c3fb107d9bd0f06f59466e62b8db69",
+      "SLA_parent_loads": 1,
+      "queries": 1,
+      "accepted_query_prefixes": 0,
+      "rejected_queries": 1,
+      "consumed_points": 0,
+      "native_integrations": 5703,
+      "initialization_integrations": 5703,
+      "student_integrations": 0,
+      "other_integrations": 0,
+      "confirmed_commands_sha256": null,
+      "command_journal_sha256": "7325ba0aff1c23918c0a7f27020609d7ca62321c242f0e61af2991a330e1fd6b",
+      "first_failure": "ValueError: ORIGINAL_JOINT_ACCELERATION_REJECT",
+      "shutdown_clean": true,
+      "native_process_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "score": null,
+      "pair_CPU_s": 113.924858755,
+      "GPU_worker_wall_s": 700.1060610990971,
+      "native_worker_wall_s": 226.6239058189094
+    },
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train04-pd4_executed_ref-r16",
+      "view": "PD4_EXECUTED_REF",
+      "layout": "TRAIN04",
+      "restart": 16,
+      "technical_valid": true,
+      "task_success": false,
+      "hard_safety_stop": false,
+      "native_result_sha256": "ded3704d29530f80a406f58baea019a78596f6059166d33375601965c651e6a8",
+      "GPU_result_sha256": "32608dfae3a1ac6662fbc00399951f5acaad27e150da6a1c40191ad0cb2cff54",
+      "SLA_parent_loads": 1,
+      "queries": 2,
+      "accepted_query_prefixes": 1,
+      "rejected_queries": 1,
+      "consumed_points": 10,
+      "native_integrations": 5953,
+      "initialization_integrations": 5703,
+      "student_integrations": 250,
+      "other_integrations": 0,
+      "confirmed_commands_sha256": "00de2d9bd9e4a6ddd8722d36443f1ee06e00b16c12f23533fce6935f98e05916",
+      "command_journal_sha256": "ce7da6fc478d63563dabdff0ac8a8443dc4dcedcc1a03b4212853f89e6b68556",
+      "first_failure": "ValueError: ORIGINAL_JOINT_ACCELERATION_REJECT",
+      "shutdown_clean": true,
+      "native_process_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "score": null,
+      "pair_CPU_s": 113.05057543999999,
+      "GPU_worker_wall_s": 732.797106587328,
+      "native_worker_wall_s": 208.20436104014516
+    },
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train07-pd4_executed_ref-r16",
+      "view": "PD4_EXECUTED_REF",
+      "layout": "TRAIN07",
+      "restart": 16,
+      "technical_valid": true,
+      "task_success": false,
+      "hard_safety_stop": false,
+      "native_result_sha256": "c568fe53bdcd1fea3331ee0d9308ad88677f665211e39a77e4acc1ebee138e2d",
+      "GPU_result_sha256": "2af025a23fa7c92deee955f1d3ebc5f79c58b9cdf2621127b9ca32dc4991ac81",
+      "SLA_parent_loads": 1,
+      "queries": 1,
+      "accepted_query_prefixes": 0,
+      "rejected_queries": 1,
+      "consumed_points": 0,
+      "native_integrations": 5703,
+      "initialization_integrations": 5703,
+      "student_integrations": 0,
+      "other_integrations": 0,
+      "confirmed_commands_sha256": null,
+      "command_journal_sha256": "d379c2e237fbece7e837e3798bc30153e6eae487a4a11c441c94c67d989ec8ab",
+      "first_failure": "ValueError: ORIGINAL_JOINT_ACCELERATION_REJECT",
+      "shutdown_clean": true,
+      "native_process_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "score": null,
+      "pair_CPU_s": 112.43412851299999,
+      "GPU_worker_wall_s": 717.4359899470583,
+      "native_worker_wall_s": 236.3224760228768
+    },
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train07-pd4_final_plan-r16",
+      "view": "PD4_FINAL_PLAN",
+      "layout": "TRAIN07",
+      "restart": 16,
+      "technical_valid": true,
+      "task_success": false,
+      "hard_safety_stop": false,
+      "native_result_sha256": "f59726fc86910e59097a9d6eb13f6b1ff098f83c4f5ec3a1f38366cb0feb05fd",
+      "GPU_result_sha256": "ffcd70467281f0cd558f28ed373c6a7368f5f46316aebdc4f86e61b190aaf052",
+      "SLA_parent_loads": 1,
+      "queries": 2,
+      "accepted_query_prefixes": 1,
+      "rejected_queries": 1,
+      "consumed_points": 10,
+      "native_integrations": 5953,
+      "initialization_integrations": 5703,
+      "student_integrations": 250,
+      "other_integrations": 0,
+      "confirmed_commands_sha256": "36c405c6f62514ed3694c4247ca10ebe93c8803c681907a2cc0f563eee30b3ee",
+      "command_journal_sha256": "030a73958829834aefdff0cad0da8bf5ac736921c0cc23d143fb42401a56d904",
+      "first_failure": "ValueError: ORIGINAL_JOINT_ACCELERATION_REJECT",
+      "shutdown_clean": true,
+      "native_process_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "score": null,
+      "pair_CPU_s": 115.534687056,
+      "GPU_worker_wall_s": 756.6244955640286,
+      "native_worker_wall_s": 217.04766982793808
+    },
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train10-pd4_final_plan-r16",
+      "view": "PD4_FINAL_PLAN",
+      "layout": "TRAIN10",
+      "restart": 16,
+      "technical_valid": true,
+      "task_success": false,
+      "hard_safety_stop": false,
+      "native_result_sha256": "56a49cb9a7c0cd758de651864e42297487cd9089c0087c957b43bc49c23ec9d3",
+      "GPU_result_sha256": "5ec85a09d3e239350c2f4a8d2360c795ff0263eed1e04756ca0f55b864cdbda1",
+      "SLA_parent_loads": 1,
+      "queries": 6,
+      "accepted_query_prefixes": 5,
+      "rejected_queries": 1,
+      "consumed_points": 50,
+      "native_integrations": 6953,
+      "initialization_integrations": 5703,
+      "student_integrations": 1250,
+      "other_integrations": 0,
+      "confirmed_commands_sha256": "9826f92c7c7ee91859ba3802f0e50b717ab2e8feab259e0af9eb026158f8d109",
+      "command_journal_sha256": "67e3f6c92af490a443decc969f675e1b42cad17d92d70f4447e9f6984d9e7a2f",
+      "first_failure": "ValueError: ORIGINAL_JOINT_ACCELERATION_REJECT",
+      "shutdown_clean": true,
+      "native_process_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "score": null,
+      "pair_CPU_s": 136.684519998,
+      "GPU_worker_wall_s": 667.485750310123,
+      "native_worker_wall_s": 246.86201714910567
+    },
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train10-pd4_executed_ref-r16",
+      "view": "PD4_EXECUTED_REF",
+      "layout": "TRAIN10",
+      "restart": 16,
+      "technical_valid": true,
+      "task_success": false,
+      "hard_safety_stop": false,
+      "native_result_sha256": "3174fc942d78f6c61466dec177f3ed4921db92290a2bcae59edaf9d4d869ac44",
+      "GPU_result_sha256": "397b4c591b8f10770e8aab4f6c70ebc5f27adad5be67626936611ca2b4a808ce",
+      "SLA_parent_loads": 1,
+      "queries": 1,
+      "accepted_query_prefixes": 0,
+      "rejected_queries": 1,
+      "consumed_points": 0,
+      "native_integrations": 5703,
+      "initialization_integrations": 5703,
+      "student_integrations": 0,
+      "other_integrations": 0,
+      "confirmed_commands_sha256": null,
+      "command_journal_sha256": "c499cf1f766da73c51fb534b07e9cf639d657807376d0af065f0e1a831d4c08c",
+      "first_failure": "ValueError: ORIGINAL_JOINT_ACCELERATION_REJECT",
+      "shutdown_clean": true,
+      "native_process_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "score": null,
+      "pair_CPU_s": 109.745527221,
+      "GPU_worker_wall_s": 709.5274309031665,
+      "native_worker_wall_s": 219.9182178657502
+    }
+  ],
+  "queries": [
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train01-pd4_executed_ref-r16",
+      "view": "PD4_EXECUTED_REF",
+      "layout": "TRAIN01",
+      "query": 0,
+      "native_step": 5703,
+      "seed": 202611150000,
+      "status": "EEF_FULL_H40_REJECT",
+      "action_sha256": "b4b4db44bd50a84fcee086d00131848c959463aa3badeac8ddd959857b64029f",
+      "query_result_sha256": "fee410a70c9a07cd815a9fb9fe9ef92dd9b64fe6c3541c0147192767168120a7",
+      "state_sha256": "691cbacaf145f2257282ace6f552caacf6091c3584829cda3d5f9e9cfe96e4b9",
+      "observation_sha256": "d90d3a88656f0bf99ce3f8634d3d4c1bf888e078e74715fb81da2b9b39ed2154",
+      "decision_sha256": null,
+      "consumed_points": 0,
+      "consumed_ticks": 0,
+      "desired_geometry": {
+        "metrics": {
+          "xyz_min_m": [
+            0.254353205088066,
+            -0.016037746918751226,
+            0.6888272999485648
+          ],
+          "xyz_max_m": [
+            0.2581200352851064,
+            -0.01417720702788372,
+            0.7088095603313455
+          ],
+          "max_anchor_distance_m": 0.02031717356861718,
+          "path_length_m": 0.02050739675008236,
+          "max_anchor_rotation_rad": 0.012052396507413519,
+          "gripper_mechanical_fraction_min": 0.9544455394395122,
+          "gripper_mechanical_fraction_max": 0.9544534604390921,
+          "maximum_translation_speed_m_s": 0.034013825328820226,
+          "maximum_angular_speed_rad_s": 0.02592350637417649,
+          "maximum_finger_speed_m_s": 5.3176631038454045e-06,
+          "maximum_discrete_translation_acceleration_m_s2": 0.4807732179715427,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.3152735039390885
+        },
+        "failed": [
+          {
+            "metric": "maximum_discrete_translation_acceleration_m_s2",
+            "maximum": 0.4807732179715427,
+            "limit": 0.25,
+            "ratio": 1.9230928718861708,
+            "first_difference_index": 37
+          }
+        ],
+        "passes": false,
+        "index_convention": "ZERO_BASED; velocity index joins k,k+1; acceleration uses zero endpoint rates"
+      },
+      "candidate_reference_geometry": {
+        "metrics": {
+          "xyz_min_m": [
+            0.2669685886280716,
+            -0.01227224939326569,
+            0.7129063982662848
+          ],
+          "xyz_max_m": [
+            0.270735418825112,
+            -0.010411709502398184,
+            0.7328886586490654
+          ],
+          "max_anchor_distance_m": 0.02031717356861718,
+          "path_length_m": 0.020507396750082358,
+          "max_anchor_rotation_rad": 0.012052396507413519,
+          "gripper_mechanical_fraction_min": 0.9544455394395122,
+          "gripper_mechanical_fraction_max": 0.9544534604390921,
+          "maximum_translation_speed_m_s": 0.034013825328820226,
+          "maximum_angular_speed_rad_s": 0.02592350637417649,
+          "maximum_finger_speed_m_s": 5.3176631038454045e-06,
+          "maximum_discrete_translation_acceleration_m_s2": 0.4807732179715427,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.31527350393909126
+        },
+        "failed": [
+          {
+            "metric": "maximum_discrete_translation_acceleration_m_s2",
+            "maximum": 0.4807732179715427,
+            "limit": 0.25,
+            "ratio": 1.9230928718861708,
+            "first_difference_index": 37
+          }
+        ],
+        "passes": false,
+        "index_convention": "ZERO_BASED; velocity index joins k,k+1; acceleration uses zero endpoint rates"
+      },
+      "original_certificate": null,
+      "original_certificate_event_phase": null,
+      "original_certificate_reason": null,
+      "raw_mapped_and_consumed_arrays_verified": true,
+      "raw_H40_unchanged": true,
+      "Teacher_fallback": false,
+      "clips": 0
+    },
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train01-pd4_final_plan-r16",
+      "view": "PD4_FINAL_PLAN",
+      "layout": "TRAIN01",
+      "query": 0,
+      "native_step": 5703,
+      "seed": 202611150000,
+      "status": "JOINT_REJECT_BEFORE_INSTALL",
+      "action_sha256": "bed8ef10ed04d9d7d4de20f9165d0988cdc9b40bc9a0f43e3ec6e0855b35a0c0",
+      "query_result_sha256": "5000cddc9e83fe44565880791790906e462e9e3d4845589ad866b435d672125f",
+      "state_sha256": "f8cae4be60a48b4dab4b8bcc717da9f23b32955cbbe89787829a7b3409ec1ee9",
+      "observation_sha256": "b83bacd0d1c490a4d44e27afa529cb6960e49ec62028c690408de70a8faac653",
+      "decision_sha256": "d231571ef6b77e54df0d32317321147f1a614853a3e4f75fa18eb7bb5b363393",
+      "consumed_points": 0,
+      "consumed_ticks": 0,
+      "desired_geometry": {
+        "metrics": {
+          "xyz_min_m": [
+            0.257629276672219,
+            -0.014966251190998522,
+            0.6995780770439702
+          ],
+          "xyz_max_m": [
+            0.2586102372990621,
+            -0.014135418043426738,
+            0.7087533361307725
+          ],
+          "max_anchor_distance_m": 0.009050901005835013,
+          "path_length_m": 0.009561063770882498,
+          "max_anchor_rotation_rad": 0.0032454831040300966,
+          "gripper_mechanical_fraction_min": 0.9544469432809266,
+          "gripper_mechanical_fraction_max": 0.9544569328724262,
+          "maximum_translation_speed_m_s": 0.014861097197421113,
+          "maximum_angular_speed_rad_s": 0.010569862361941029,
+          "maximum_finger_speed_m_s": 4.7620916970991795e-06,
+          "maximum_discrete_translation_acceleration_m_s2": 0.11523418794698684,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.0791441036063981
+        },
+        "failed": [],
+        "passes": true,
+        "index_convention": "ZERO_BASED; velocity index joins k,k+1; acceleration uses zero endpoint rates"
+      },
+      "candidate_reference_geometry": {
+        "metrics": {
+          "xyz_min_m": [
+            0.269974573371763,
+            -0.011007717003569036,
+            0.7238039890506279
+          ],
+          "xyz_max_m": [
+            0.27095553399860617,
+            -0.010176883855997252,
+            0.7329792481374303
+          ],
+          "max_anchor_distance_m": 0.009050901005835131,
+          "path_length_m": 0.009561063770882523,
+          "max_anchor_rotation_rad": 0.003245483104098513,
+          "gripper_mechanical_fraction_min": 0.9544469432809266,
+          "gripper_mechanical_fraction_max": 0.9544569328724262,
+          "maximum_translation_speed_m_s": 0.014861097197419156,
+          "maximum_angular_speed_rad_s": 0.010569862353538096,
+          "maximum_finger_speed_m_s": 4.7620916970991795e-06,
+          "maximum_discrete_translation_acceleration_m_s2": 0.11523418794707553,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.07914410360640924
+        },
+        "failed": [],
+        "passes": true,
+        "index_convention": "ZERO_BASED; velocity index joins k,k+1; acceleration uses zero endpoint rates"
+      },
+      "original_certificate": null,
+      "original_certificate_event_phase": "reference-certificate-rejected",
+      "original_certificate_reason": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+      "raw_mapped_and_consumed_arrays_verified": true,
+      "raw_H40_unchanged": true,
+      "Teacher_fallback": false,
+      "clips": 0
+    },
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train04-pd4_final_plan-r16",
+      "view": "PD4_FINAL_PLAN",
+      "layout": "TRAIN04",
+      "query": 0,
+      "native_step": 5703,
+      "seed": 202611150100,
+      "status": "JOINT_REJECT_BEFORE_INSTALL",
+      "action_sha256": "3722d0b6f82940d4ae0c56a1a74a2987659daf2f69b79bba04ceabf5f31401cb",
+      "query_result_sha256": "b27c136e8287b2fb27fd9d9403c3fbd9dc2f94fbe1959b5e5b11c203c735a906",
+      "state_sha256": "2f07de1e0cccb6dc8bf226223d7f42b81186f0b7bb6c68ab84157fd8bb6b0327",
+      "observation_sha256": "5da2537f18aa6ec85f55a3e6962a771151ecf37976321626612eb8fd64bf9506",
+      "decision_sha256": "97e25e69507e7d0b45a872cd1e272d3006c099035f1f3474cbe82292de03ab2c",
+      "consumed_points": 0,
+      "consumed_ticks": 0,
+      "desired_geometry": {
+        "metrics": {
+          "xyz_min_m": [
+            0.2577022092478125,
+            -0.014579874285920773,
+            0.7028739352914384
+          ],
+          "xyz_max_m": [
+            0.2587086402481866,
+            -0.014122701082286776,
+            0.7088181096054099
+          ],
+          "max_anchor_distance_m": 0.0058101389284904385,
+          "path_length_m": 0.006557268352198371,
+          "max_anchor_rotation_rad": 0.003919955135518842,
+          "gripper_mechanical_fraction_min": 0.9544438530533587,
+          "gripper_mechanical_fraction_max": 0.95445494905002,
+          "maximum_translation_speed_m_s": 0.012622134261727919,
+          "maximum_angular_speed_rad_s": 0.011291185883923508,
+          "maximum_finger_speed_m_s": 9.086947515868359e-06,
+          "maximum_discrete_translation_acceleration_m_s2": 0.11002290067213061,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.10335939652911365
+        },
+        "failed": [],
+        "passes": true,
+        "index_convention": "ZERO_BASED; velocity index joins k,k+1; acceleration uses zero endpoint rates"
+      },
+      "candidate_reference_geometry": {
+        "metrics": {
+          "xyz_min_m": [
+            0.2700386207815603,
+            -0.010614814708613644,
+            0.7270539419423265
+          ],
+          "xyz_max_m": [
+            0.27104505178193444,
+            -0.010157641504979647,
+            0.7329981162562982
+          ],
+          "max_anchor_distance_m": 0.0058101389284904385,
+          "path_length_m": 0.006557268352199199,
+          "max_anchor_rotation_rad": 0.003919955135518842,
+          "gripper_mechanical_fraction_min": 0.9544438530533587,
+          "gripper_mechanical_fraction_max": 0.95445494905002,
+          "maximum_translation_speed_m_s": 0.012622134261730117,
+          "maximum_angular_speed_rad_s": 0.011291185876057385,
+          "maximum_finger_speed_m_s": 9.086947515868359e-06,
+          "maximum_discrete_translation_acceleration_m_s2": 0.11002290067217481,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.10335939652909577
+        },
+        "failed": [],
+        "passes": true,
+        "index_convention": "ZERO_BASED; velocity index joins k,k+1; acceleration uses zero endpoint rates"
+      },
+      "original_certificate": null,
+      "original_certificate_event_phase": "reference-certificate-rejected",
+      "original_certificate_reason": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+      "raw_mapped_and_consumed_arrays_verified": true,
+      "raw_H40_unchanged": true,
+      "Teacher_fallback": false,
+      "clips": 0
+    },
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train04-pd4_executed_ref-r16",
+      "view": "PD4_EXECUTED_REF",
+      "layout": "TRAIN04",
+      "query": 0,
+      "native_step": 5703,
+      "seed": 202611150100,
+      "status": "P10_CONSUMED",
+      "action_sha256": "2fb12d567ca7e84b9984c6f13862eaeed96e41ec7079886bc28a9003cf786aa3",
+      "query_result_sha256": "519eea1f4c5cf92d38ac8194e785bb8da0147a5667a41a774ae343e91d539e6d",
+      "state_sha256": "f9b9eecdf4814b0b6925052f6462c0ed140ddac8cf4205a9d41262352a73d13e",
+      "observation_sha256": "fcc9e5daca25d394874c1e63e55ec120a617b63974781a4ed0a36c7a5f8ea80c",
+      "decision_sha256": "570c5690cb08d219fc02773704cc57a024c4c98632813731317a8e0e25398ca3",
+      "consumed_points": 10,
+      "consumed_ticks": 250,
+      "desired_geometry": {
+        "metrics": {
+          "xyz_min_m": [
+            0.2545738806282357,
+            -0.020824821357403905,
+            0.6919538471807292
+          ],
+          "xyz_max_m": [
+            0.25835176262543547,
+            -0.013478986573557894,
+            0.708500887398402
+          ],
+          "max_anchor_distance_m": 0.018303483656547017,
+          "path_length_m": 0.02044906859612775,
+          "max_anchor_rotation_rad": 0.007684843545740465,
+          "gripper_mechanical_fraction_min": 0.9544367523999054,
+          "gripper_mechanical_fraction_max": 0.9544557305936943,
+          "maximum_translation_speed_m_s": 0.02027904018868096,
+          "maximum_angular_speed_rad_s": 0.010004926128130712,
+          "maximum_finger_speed_m_s": 8.507263652433038e-06,
+          "maximum_discrete_translation_acceleration_m_s2": 0.20396823840207304,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.06417749891404262
+        },
+        "failed": [],
+        "passes": true,
+        "index_convention": "ZERO_BASED; velocity index joins k,k+1; acceleration uses zero endpoint rates"
+      },
+      "candidate_reference_geometry": {
+        "metrics": {
+          "xyz_min_m": [
+            0.26739932923998666,
+            -0.017572711913259327,
+            0.7162402942074163
+          ],
+          "xyz_max_m": [
+            0.2711772112371864,
+            -0.010226877129413314,
+            0.7327873344250891
+          ],
+          "max_anchor_distance_m": 0.01830348365654692,
+          "path_length_m": 0.02044906859612781,
+          "max_anchor_rotation_rad": 0.007684843545682677,
+          "gripper_mechanical_fraction_min": 0.9544367523999054,
+          "gripper_mechanical_fraction_max": 0.9544557305936943,
+          "maximum_translation_speed_m_s": 0.020279040188683147,
+          "maximum_angular_speed_rad_s": 0.010004926128130712,
+          "maximum_finger_speed_m_s": 8.507263652433038e-06,
+          "maximum_discrete_translation_acceleration_m_s2": 0.20396823840207304,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.06417749891404449
+        },
+        "failed": [],
+        "passes": true,
+        "index_convention": "ZERO_BASED; velocity index joins k,k+1; acceleration uses zero endpoint rates"
+      },
+      "original_certificate": {
+        "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+        "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+        "maximum_IK_updates_per_point": 5,
+        "position_tolerance_m": 1e-05,
+        "rotation_tolerance_rad": 0.0001,
+        "points": 1051,
+        "local_IK_iterations": 2103,
+        "physics_integrations": 0,
+        "actual_state_modified": false,
+        "max_joint_speed_rad_s": 0.0952393589931333,
+        "max_joint_acceleration_rad_s2": 0.8181222058586624,
+        "executed_reference_history_points": 2,
+        "Cartesian_reference_values_changed": false
+      },
+      "original_certificate_event_phase": "proposed",
+      "original_certificate_reason": null,
+      "raw_mapped_and_consumed_arrays_verified": true,
+      "raw_H40_unchanged": true,
+      "Teacher_fallback": false,
+      "clips": 0
+    },
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train04-pd4_executed_ref-r16",
+      "view": "PD4_EXECUTED_REF",
+      "layout": "TRAIN04",
+      "query": 1,
+      "native_step": 5953,
+      "seed": 202611150101,
+      "status": "JOINT_REJECT_BEFORE_INSTALL",
+      "action_sha256": "a66bb5436dbed4bc8a717c8c6884dfb9588c60cb3402f79b74b1a74c42bcd936",
+      "query_result_sha256": "0725e44ff278c20c405c6c35608177b9add36f268b475a612c205034d2be58c8",
+      "state_sha256": "b012007d8099e4aa553fbde760f74a80cbe12c723cfc9e1d30e5f2b19cc4a739",
+      "observation_sha256": "1d855c5eeb03fa32bb22e655e663b72a745bee6aa872d87fefd6a98bf08e3831",
+      "decision_sha256": "5ee69d15eb33d82ca096d486f344904deec8fb9a02f0dd63f415e1ad8778bb29",
+      "consumed_points": 0,
+      "consumed_ticks": 0,
+      "desired_geometry": {
+        "metrics": {
+          "xyz_min_m": [
+            0.25469070904851854,
+            -0.017417010978672195,
+            0.6886599804935397
+          ],
+          "xyz_max_m": [
+            0.2580421296552845,
+            -0.01448297728336384,
+            0.7063098938603303
+          ],
+          "max_anchor_distance_m": 0.017954625323918557,
+          "path_length_m": 0.018333306314481573,
+          "max_anchor_rotation_rad": 0.007788798508957846,
+          "gripper_mechanical_fraction_min": 0.9544418105571594,
+          "gripper_mechanical_fraction_max": 0.9544501400093175,
+          "maximum_translation_speed_m_s": 0.017390777295585073,
+          "maximum_angular_speed_rad_s": 0.009378931154211666,
+          "maximum_finger_speed_m_s": 3.613322772508809e-06,
+          "maximum_discrete_translation_acceleration_m_s2": 0.17641691999188427,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.0844563790026595
+        },
+        "failed": [],
+        "passes": true,
+        "index_convention": "ZERO_BASED; velocity index joins k,k+1; acceleration uses zero endpoint rates"
+      },
+      "candidate_reference_geometry": {
+        "metrics": {
+          "xyz_min_m": [
+            0.26714503739100814,
+            -0.01531186400906423,
+            0.7118083571092001
+          ],
+          "xyz_max_m": [
+            0.2704964579977741,
+            -0.012377830313755875,
+            0.7294582704759905
+          ],
+          "max_anchor_distance_m": 0.017954625323918557,
+          "path_length_m": 0.01833330631448147,
+          "max_anchor_rotation_rad": 0.007788798508957846,
+          "gripper_mechanical_fraction_min": 0.9544418105571594,
+          "gripper_mechanical_fraction_max": 0.9544501400093175,
+          "maximum_translation_speed_m_s": 0.017390777295585073,
+          "maximum_angular_speed_rad_s": 0.009378931154211666,
+          "maximum_finger_speed_m_s": 3.613322772508809e-06,
+          "maximum_discrete_translation_acceleration_m_s2": 0.1764169199918405,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.08445637900270296
+        },
+        "failed": [],
+        "passes": true,
+        "index_convention": "ZERO_BASED; velocity index joins k,k+1; acceleration uses zero endpoint rates"
+      },
+      "original_certificate": null,
+      "original_certificate_event_phase": "reference-certificate-rejected",
+      "original_certificate_reason": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+      "raw_mapped_and_consumed_arrays_verified": true,
+      "raw_H40_unchanged": true,
+      "Teacher_fallback": false,
+      "clips": 0
+    },
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train07-pd4_executed_ref-r16",
+      "view": "PD4_EXECUTED_REF",
+      "layout": "TRAIN07",
+      "query": 0,
+      "native_step": 5703,
+      "seed": 202611150200,
+      "status": "JOINT_REJECT_BEFORE_INSTALL",
+      "action_sha256": "72787226aeda07813a842215fd0a182a30ad6208570b470bac1cdb40363ffde6",
+      "query_result_sha256": "79db3f9a46e97669d80170197cdb0a054c5a4d76c7cbac516d82b898f98a8558",
+      "state_sha256": "9c744f23e2102477807d1957c2f901329032656fe1510909904828fe81d95b44",
+      "observation_sha256": "c6ca60dea13d5d05440a86669482fec8bb0fb41e272334c1c7bf55f9e88b7dd8",
+      "decision_sha256": "d3368b493937825fe637696b8cf8eb01bdaaeb7d0770d2ad717a2bfaeeef8ea8",
+      "consumed_points": 0,
+      "consumed_ticks": 0,
+      "desired_geometry": {
+        "metrics": {
+          "xyz_min_m": [
+            0.25571212431178936,
+            -0.018178041563411886,
+            0.6925098120847658
+          ],
+          "xyz_max_m": [
+            0.25837924256575706,
+            -0.014153967924471558,
+            0.7087443602075868
+          ],
+          "max_anchor_distance_m": 0.016949348823001396,
+          "path_length_m": 0.017163287684307967,
+          "max_anchor_rotation_rad": 0.010667121681576623,
+          "gripper_mechanical_fraction_min": 0.9544362897115863,
+          "gripper_mechanical_fraction_max": 0.9544474624168005,
+          "maximum_translation_speed_m_s": 0.01769748479062063,
+          "maximum_angular_speed_rad_s": 0.009889388169180542,
+          "maximum_finger_speed_m_s": 4.297636587535791e-06,
+          "maximum_discrete_translation_acceleration_m_s2": 0.1760895260507939,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.1425899172255617
+        },
+        "failed": [],
+        "passes": true,
+        "index_convention": "ZERO_BASED; velocity index joins k,k+1; acceleration uses zero endpoint rates"
+      },
+      "candidate_reference_geometry": {
+        "metrics": {
+          "xyz_min_m": [
+            0.26810367140471647,
+            -0.014217924987457753,
+            0.7165801099503001
+          ],
+          "xyz_max_m": [
+            0.2707707896586842,
+            -0.010193851348517425,
+            0.7328146580731211
+          ],
+          "max_anchor_distance_m": 0.016949348823001396,
+          "path_length_m": 0.017163287684307995,
+          "max_anchor_rotation_rad": 0.010667121681576623,
+          "gripper_mechanical_fraction_min": 0.9544362897115863,
+          "gripper_mechanical_fraction_max": 0.9544474624168005,
+          "maximum_translation_speed_m_s": 0.017697484790622844,
+          "maximum_angular_speed_rad_s": 0.009889388169180542,
+          "maximum_finger_speed_m_s": 4.297636587535791e-06,
+          "maximum_discrete_translation_acceleration_m_s2": 0.1760895260507939,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.14258991722557218
+        },
+        "failed": [],
+        "passes": true,
+        "index_convention": "ZERO_BASED; velocity index joins k,k+1; acceleration uses zero endpoint rates"
+      },
+      "original_certificate": null,
+      "original_certificate_event_phase": "reference-certificate-rejected",
+      "original_certificate_reason": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+      "raw_mapped_and_consumed_arrays_verified": true,
+      "raw_H40_unchanged": true,
+      "Teacher_fallback": false,
+      "clips": 0
+    },
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train07-pd4_final_plan-r16",
+      "view": "PD4_FINAL_PLAN",
+      "layout": "TRAIN07",
+      "query": 0,
+      "native_step": 5703,
+      "seed": 202611150200,
+      "status": "P10_CONSUMED",
+      "action_sha256": "86e98b502333c22391f403b4ca67bed20dd495444ab14d624aa00648fa2b5a78",
+      "query_result_sha256": "627fec266f9196daa3ef0581b6e9de442be71103fa47a098322b00f2e2fe0a3d",
+      "state_sha256": "d95e67f94a69673c1d21d6009a70a343f1d0d139143d0b413c58858e2f2b9c4a",
+      "observation_sha256": "e85d235659eb75848b6521e71db2b641ee36d3dc7d77d4815e3454301d7eda5c",
+      "decision_sha256": "2496ab23051fb1dd34976844b384cbcc58a3df1da513a899dcaebd0b6f3d4200",
+      "consumed_points": 10,
+      "consumed_ticks": 250,
+      "desired_geometry": {
+        "metrics": {
+          "xyz_min_m": [
+            0.2581397400806692,
+            -0.016235021679507862,
+            0.7002893835830399
+          ],
+          "xyz_max_m": [
+            0.25857347465544644,
+            -0.014134668794515672,
+            0.7088781595363004
+          ],
+          "max_anchor_distance_m": 0.008654076279057898,
+          "path_length_m": 0.00933523544558506,
+          "max_anchor_rotation_rad": 0.003273545553638205,
+          "gripper_mechanical_fraction_min": 0.9544401352652652,
+          "gripper_mechanical_fraction_max": 0.9544489334902992,
+          "maximum_translation_speed_m_s": 0.015592418843518304,
+          "maximum_angular_speed_rad_s": 0.010245143252534079,
+          "maximum_finger_speed_m_s": 4.171300555730894e-06,
+          "maximum_discrete_translation_acceleration_m_s2": 0.12658177069316842,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.07357005664318238
+        },
+        "failed": [],
+        "passes": true,
+        "index_convention": "ZERO_BASED; velocity index joins k,k+1; acceleration uses zero endpoint rates"
+      },
+      "candidate_reference_geometry": {
+        "metrics": {
+          "xyz_min_m": [
+            0.27050815193089395,
+            -0.01227839253502389,
+            0.7243764064653776
+          ],
+          "xyz_max_m": [
+            0.2709418865056711,
+            -0.0101780396500317,
+            0.732965182418638
+          ],
+          "max_anchor_distance_m": 0.008654076279057796,
+          "path_length_m": 0.009335235445585113,
+          "max_anchor_rotation_rad": 0.0032735455535703745,
+          "gripper_mechanical_fraction_min": 0.9544401352652652,
+          "gripper_mechanical_fraction_max": 0.9544489334902992,
+          "maximum_translation_speed_m_s": 0.015592418843518188,
+          "maximum_angular_speed_rad_s": 0.010245143269872605,
+          "maximum_finger_speed_m_s": 4.171300555730894e-06,
+          "maximum_discrete_translation_acceleration_m_s2": 0.12658177069303184,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.07357005664318114
+        },
+        "failed": [],
+        "passes": true,
+        "index_convention": "ZERO_BASED; velocity index joins k,k+1; acceleration uses zero endpoint rates"
+      },
+      "original_certificate": {
+        "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+        "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+        "maximum_IK_updates_per_point": 5,
+        "position_tolerance_m": 1e-05,
+        "rotation_tolerance_rad": 0.0001,
+        "points": 1051,
+        "local_IK_iterations": 2103,
+        "physics_integrations": 0,
+        "actual_state_modified": false,
+        "max_joint_speed_rad_s": 0.07624753798134654,
+        "max_joint_acceleration_rad_s2": 0.9810038350349826,
+        "executed_reference_history_points": 2,
+        "Cartesian_reference_values_changed": false
+      },
+      "original_certificate_event_phase": "proposed",
+      "original_certificate_reason": null,
+      "raw_mapped_and_consumed_arrays_verified": true,
+      "raw_H40_unchanged": true,
+      "Teacher_fallback": false,
+      "clips": 0
+    },
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train07-pd4_final_plan-r16",
+      "view": "PD4_FINAL_PLAN",
+      "layout": "TRAIN07",
+      "query": 1,
+      "native_step": 5953,
+      "seed": 202611150201,
+      "status": "JOINT_REJECT_BEFORE_INSTALL",
+      "action_sha256": "ef1002e00a35a7f0606d2b5040e375fd8821c9d4c9444e5469f75a255947c4ca",
+      "query_result_sha256": "4068fcec235c52e9426cefbe4acb95535988ebf7f296dd9f9e0bab069c69607b",
+      "state_sha256": "3a85941afe752f67688b8a5fc8a82eef32a80af5840e38da64fa40e81c88589a",
+      "observation_sha256": "7ade882d54446aec9b885309427d1fa300f7b2817913ffdbd7c3283410bf243f",
+      "decision_sha256": "c95eb6cd4cd79f48494c7cccc199d67ed76212fce7a182409c9f331c0bc48342",
+      "consumed_points": 0,
+      "consumed_ticks": 0,
+      "desired_geometry": {
+        "metrics": {
+          "xyz_min_m": [
+            0.2576476252378871,
+            -0.016615168101531748,
+            0.6978209973392933
+          ],
+          "xyz_max_m": [
+            0.2586415082989546,
+            -0.014071870926138853,
+            0.7058999114469604
+          ],
+          "max_anchor_distance_m": 0.008320597306194635,
+          "path_length_m": 0.008860999754792934,
+          "max_anchor_rotation_rad": 0.00471202527185037,
+          "gripper_mechanical_fraction_min": 0.954442795087395,
+          "gripper_mechanical_fraction_max": 0.9544545609138416,
+          "maximum_translation_speed_m_s": 0.014704514365862436,
+          "maximum_angular_speed_rad_s": 0.016258619189364238,
+          "maximum_finger_speed_m_s": 5.05654894069174e-06,
+          "maximum_discrete_translation_acceleration_m_s2": 0.11856288041455638,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.15107207378569343
+        },
+        "failed": [],
+        "passes": true,
+        "index_convention": "ZERO_BASED; velocity index joins k,k+1; acceleration uses zero endpoint rates"
+      },
+      "candidate_reference_geometry": {
+        "metrics": {
+          "xyz_min_m": [
+            0.269415431200126,
+            -0.013130846300041556,
+            0.720598204788446
+          ],
+          "xyz_max_m": [
+            0.2704093142611935,
+            -0.010587549124648661,
+            0.7286771188961132
+          ],
+          "max_anchor_distance_m": 0.008320597306194739,
+          "path_length_m": 0.008860999754792936,
+          "max_anchor_rotation_rad": 0.004712025271803247,
+          "gripper_mechanical_fraction_min": 0.954442795087395,
+          "gripper_mechanical_fraction_max": 0.9544545609138416,
+          "maximum_translation_speed_m_s": 0.014704514365862436,
+          "maximum_angular_speed_rad_s": 0.01625861918390142,
+          "maximum_finger_speed_m_s": 5.05654894069174e-06,
+          "maximum_discrete_translation_acceleration_m_s2": 0.11856288041451621,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.1510720737857048
+        },
+        "failed": [],
+        "passes": true,
+        "index_convention": "ZERO_BASED; velocity index joins k,k+1; acceleration uses zero endpoint rates"
+      },
+      "original_certificate": null,
+      "original_certificate_event_phase": "reference-certificate-rejected",
+      "original_certificate_reason": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+      "raw_mapped_and_consumed_arrays_verified": true,
+      "raw_H40_unchanged": true,
+      "Teacher_fallback": false,
+      "clips": 0
+    },
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train10-pd4_final_plan-r16",
+      "view": "PD4_FINAL_PLAN",
+      "layout": "TRAIN10",
+      "query": 0,
+      "native_step": 5703,
+      "seed": 202611150300,
+      "status": "P10_CONSUMED",
+      "action_sha256": "95c713afddfb846e946eee675731762930aa33195f9f1496555bb8c8d0c82cba",
+      "query_result_sha256": "83ad617995493846bbaffc77b00010e53d0d2f554ceadf6e1445c08c3731e9f5",
+      "state_sha256": "07df27d160ab7816a1cfa909140cc831b7885375c87da207419a989efa41a43f",
+      "observation_sha256": "046044fd3d999a0b1c8c9dfefde056c3339cf24c6bc35434fae37043cf867e7e",
+      "decision_sha256": "dce7ae750be36218cda0fe59bc201ecfa4586bb8a42f12deef88477f10206f1a",
+      "consumed_points": 10,
+      "consumed_ticks": 250,
+      "desired_geometry": {
+        "metrics": {
+          "xyz_min_m": [
+            0.25683708376905134,
+            -0.019537171790426647,
+            0.7008322338613823
+          ],
+          "xyz_max_m": [
+            0.25844202292987795,
+            -0.014253310728847182,
+            0.708747421326885
+          ],
+          "max_anchor_distance_m": 0.009654182248981888,
+          "path_length_m": 0.010202795444241417,
+          "max_anchor_rotation_rad": 0.0035521612950677596,
+          "gripper_mechanical_fraction_min": 0.9544474628566715,
+          "gripper_mechanical_fraction_max": 0.9544578499631851,
+          "maximum_translation_speed_m_s": 0.01643840112417617,
+          "maximum_angular_speed_rad_s": 0.018284816469847694,
+          "maximum_finger_speed_m_s": 3.2111738388884702e-06,
+          "maximum_discrete_translation_acceleration_m_s2": 0.22956770835974027,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.15231437753376417
+        },
+        "failed": [],
+        "passes": true,
+        "index_convention": "ZERO_BASED; velocity index joins k,k+1; acceleration uses zero endpoint rates"
+      },
+      "candidate_reference_geometry": {
+        "metrics": {
+          "xyz_min_m": [
+            0.2692078343156945,
+            -0.015570020314582081,
+            0.7249431391740041
+          ],
+          "xyz_max_m": [
+            0.2708127734765211,
+            -0.010286159253002617,
+            0.7328583266395067
+          ],
+          "max_anchor_distance_m": 0.009654182248981787,
+          "path_length_m": 0.010202795444241504,
+          "max_anchor_rotation_rad": 0.0035521612950677596,
+          "gripper_mechanical_fraction_min": 0.9544474628566715,
+          "gripper_mechanical_fraction_max": 0.9544578499631851,
+          "maximum_translation_speed_m_s": 0.01643840112417617,
+          "maximum_angular_speed_rad_s": 0.018284816464990233,
+          "maximum_finger_speed_m_s": 3.2111738388884702e-06,
+          "maximum_discrete_translation_acceleration_m_s2": 0.229567708359644,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.15231437753378937
+        },
+        "failed": [],
+        "passes": true,
+        "index_convention": "ZERO_BASED; velocity index joins k,k+1; acceleration uses zero endpoint rates"
+      },
+      "original_certificate": {
+        "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+        "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+        "maximum_IK_updates_per_point": 5,
+        "position_tolerance_m": 1e-05,
+        "rotation_tolerance_rad": 0.0001,
+        "points": 1051,
+        "local_IK_iterations": 2103,
+        "physics_integrations": 0,
+        "actual_state_modified": false,
+        "max_joint_speed_rad_s": 0.08222340038548742,
+        "max_joint_acceleration_rad_s2": 0.9093270125499986,
+        "executed_reference_history_points": 2,
+        "Cartesian_reference_values_changed": false
+      },
+      "original_certificate_event_phase": "proposed",
+      "original_certificate_reason": null,
+      "raw_mapped_and_consumed_arrays_verified": true,
+      "raw_H40_unchanged": true,
+      "Teacher_fallback": false,
+      "clips": 0
+    },
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train10-pd4_final_plan-r16",
+      "view": "PD4_FINAL_PLAN",
+      "layout": "TRAIN10",
+      "query": 1,
+      "native_step": 5953,
+      "seed": 202611150301,
+      "status": "P10_CONSUMED",
+      "action_sha256": "aabbb149b3dc02b7eaddaefa54075e371766adf400830dc79195e3e433c70933",
+      "query_result_sha256": "1d43ce86215b053f7c897af33178e98974d2b8c09e191c8e152454dd8a36fc5f",
+      "state_sha256": "b2f6deb6ffdf6be3958254ab8db7d50e5883ed6914284ad1cb1275959af85847",
+      "observation_sha256": "012ff238dd9e4a945dc8ae84f0065c0b14713801302f8846155ba3cacb116845",
+      "decision_sha256": "eb83a68b7cd032cd809322129da507f3708091142f03f338c7eb274c6e42c204",
+      "consumed_points": 10,
+      "consumed_ticks": 250,
+      "desired_geometry": {
+        "metrics": {
+          "xyz_min_m": [
+            0.2568674317272601,
+            -0.015020063287598778,
+            0.698954026389101
+          ],
+          "xyz_max_m": [
+            0.2583144159057017,
+            -0.01488459034129739,
+            0.7076071118002191
+          ],
+          "max_anchor_distance_m": 0.00876859444873247,
+          "path_length_m": 0.009019276150722193,
+          "max_anchor_rotation_rad": 0.0023140736062097315,
+          "gripper_mechanical_fraction_min": 0.9544474299322703,
+          "gripper_mechanical_fraction_max": 0.9544586855681114,
+          "maximum_translation_speed_m_s": 0.013289311919887888,
+          "maximum_angular_speed_rad_s": 0.008748688105597379,
+          "maximum_finger_speed_m_s": 4.240905334276235e-06,
+          "maximum_discrete_translation_acceleration_m_s2": 0.08511792799479417,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.07480536447462799
+        },
+        "failed": [],
+        "passes": true,
+        "index_convention": "ZERO_BASED; velocity index joins k,k+1; acceleration uses zero endpoint rates"
+      },
+      "candidate_reference_geometry": {
+        "metrics": {
+          "xyz_min_m": [
+            0.2688991165114616,
+            -0.012500935702646555,
+            0.7223591494436035
+          ],
+          "xyz_max_m": [
+            0.27034610068990317,
+            -0.012365462756345166,
+            0.7310122348547214
+          ],
+          "max_anchor_distance_m": 0.008768594448732361,
+          "path_length_m": 0.009019276150721659,
+          "max_anchor_rotation_rad": 0.0023140736062097315,
+          "gripper_mechanical_fraction_min": 0.9544474299322703,
+          "gripper_mechanical_fraction_max": 0.9544586855681114,
+          "maximum_translation_speed_m_s": 0.013289311919887888,
+          "maximum_angular_speed_rad_s": 0.008748688105597379,
+          "maximum_finger_speed_m_s": 4.240905334276235e-06,
+          "maximum_discrete_translation_acceleration_m_s2": 0.08511792799475046,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.07480536447464388
+        },
+        "failed": [],
+        "passes": true,
+        "index_convention": "ZERO_BASED; velocity index joins k,k+1; acceleration uses zero endpoint rates"
+      },
+      "original_certificate": {
+        "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+        "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+        "maximum_IK_updates_per_point": 5,
+        "position_tolerance_m": 1e-05,
+        "rotation_tolerance_rad": 0.0001,
+        "points": 1051,
+        "local_IK_iterations": 2103,
+        "physics_integrations": 0,
+        "actual_state_modified": false,
+        "max_joint_speed_rad_s": 0.06673852518378709,
+        "max_joint_acceleration_rad_s2": 0.6827614478132571,
+        "executed_reference_history_points": 2,
+        "Cartesian_reference_values_changed": false
+      },
+      "original_certificate_event_phase": "proposed",
+      "original_certificate_reason": null,
+      "raw_mapped_and_consumed_arrays_verified": true,
+      "raw_H40_unchanged": true,
+      "Teacher_fallback": false,
+      "clips": 0
+    },
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train10-pd4_final_plan-r16",
+      "view": "PD4_FINAL_PLAN",
+      "layout": "TRAIN10",
+      "query": 2,
+      "native_step": 6203,
+      "seed": 202611150302,
+      "status": "P10_CONSUMED",
+      "action_sha256": "ede775c3155be07d0608d526a48bbef496494309878d890b163b65d987264acf",
+      "query_result_sha256": "dd8a43f8c33ca48fb763e06917d8fc7461bd0e4c0c3eb42c6a79354749987f89",
+      "state_sha256": "a2aafdf4b71c527c7b0d2ef82941f2ff1efc0d65fa50c66a6e5574ed8813a38c",
+      "observation_sha256": "23b33bd1123432ba824018afad623d9d150a35bfb58fd8f0535ea6b52f09992b",
+      "decision_sha256": "9dc6d29d2f013d9765067b913653cdea1c3c531d4080a096f8ac16155a632830",
+      "consumed_points": 10,
+      "consumed_ticks": 250,
+      "desired_geometry": {
+        "metrics": {
+          "xyz_min_m": [
+            0.2560286802131191,
+            -0.015433549156074193,
+            0.6953751911676487
+          ],
+          "xyz_max_m": [
+            0.25807580929959983,
+            -0.014829443028157807,
+            0.7050981501925829
+          ],
+          "max_anchor_distance_m": 0.009891128118809656,
+          "path_length_m": 0.010453673710544332,
+          "max_anchor_rotation_rad": 0.0018446048012860912,
+          "gripper_mechanical_fraction_min": 0.9544479211399062,
+          "gripper_mechanical_fraction_max": 0.9544594110560713,
+          "maximum_translation_speed_m_s": 0.01603905898755849,
+          "maximum_angular_speed_rad_s": 0.007592604943991339,
+          "maximum_finger_speed_m_s": 4.876979816827996e-06,
+          "maximum_discrete_translation_acceleration_m_s2": 0.11171042583670551,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.0473000370405741
+        },
+        "failed": [],
+        "passes": true,
+        "index_convention": "ZERO_BASED; velocity index joins k,k+1; acceleration uses zero endpoint rates"
+      },
+      "candidate_reference_geometry": {
+        "metrics": {
+          "xyz_min_m": [
+            0.2674976529726995,
+            -0.013201118331500696,
+            0.7176359281585385
+          ],
+          "xyz_max_m": [
+            0.26954478205918025,
+            -0.01259701220358431,
+            0.7273588871834729
+          ],
+          "max_anchor_distance_m": 0.009891128118809657,
+          "path_length_m": 0.010453673710544007,
+          "max_anchor_rotation_rad": 0.0018446048012860912,
+          "gripper_mechanical_fraction_min": 0.9544479211399062,
+          "gripper_mechanical_fraction_max": 0.9544594110560713,
+          "maximum_translation_speed_m_s": 0.01603905898755849,
+          "maximum_angular_speed_rad_s": 0.007592604943991339,
+          "maximum_finger_speed_m_s": 4.876979816827996e-06,
+          "maximum_discrete_translation_acceleration_m_s2": 0.11171042583661879,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.04730003704057296
+        },
+        "failed": [],
+        "passes": true,
+        "index_convention": "ZERO_BASED; velocity index joins k,k+1; acceleration uses zero endpoint rates"
+      },
+      "original_certificate": {
+        "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+        "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+        "maximum_IK_updates_per_point": 5,
+        "position_tolerance_m": 1e-05,
+        "rotation_tolerance_rad": 0.0001,
+        "points": 1051,
+        "local_IK_iterations": 2103,
+        "physics_integrations": 0,
+        "actual_state_modified": false,
+        "max_joint_speed_rad_s": 0.07737031195675037,
+        "max_joint_acceleration_rad_s2": 0.9047714649728256,
+        "executed_reference_history_points": 2,
+        "Cartesian_reference_values_changed": false
+      },
+      "original_certificate_event_phase": "proposed",
+      "original_certificate_reason": null,
+      "raw_mapped_and_consumed_arrays_verified": true,
+      "raw_H40_unchanged": true,
+      "Teacher_fallback": false,
+      "clips": 0
+    },
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train10-pd4_final_plan-r16",
+      "view": "PD4_FINAL_PLAN",
+      "layout": "TRAIN10",
+      "query": 3,
+      "native_step": 6453,
+      "seed": 202611150303,
+      "status": "P10_CONSUMED",
+      "action_sha256": "ed2187b2d7c4272c2a43fffa1168b0fa6c399471874eade4eba74734a576dacc",
+      "query_result_sha256": "882e942f17486528acc1263a1a6855247e624f06cb79e24b6fa9e03c2539dc5c",
+      "state_sha256": "d45104756b5be5702b9795089087b34d061d14a1f956a3390a28d889bac65ea3",
+      "observation_sha256": "02b2ada2173dbdaed182763ab451bb3c2212276b20aff5f77a4861d2c3c9c087",
+      "decision_sha256": "7ce18bc17843f2c03f407f90f880ac64b1c43880240351b3a1ba4de75d6b4c5d",
+      "consumed_points": 10,
+      "consumed_ticks": 250,
+      "desired_geometry": {
+        "metrics": {
+          "xyz_min_m": [
+            0.2558248734895787,
+            -0.014993300058897777,
+            0.6930841699707866
+          ],
+          "xyz_max_m": [
+            0.2574703025310855,
+            -0.014847468455128174,
+            0.701940006638705
+          ],
+          "max_anchor_distance_m": 0.009187786163606937,
+          "path_length_m": 0.009399384259643966,
+          "max_anchor_rotation_rad": 0.0021015598053352093,
+          "gripper_mechanical_fraction_min": 0.9544469595018444,
+          "gripper_mechanical_fraction_max": 0.9544569175162472,
+          "maximum_translation_speed_m_s": 0.014842490764270692,
+          "maximum_angular_speed_rad_s": 0.007362956671934903,
+          "maximum_finger_speed_m_s": 3.54433775906493e-06,
+          "maximum_discrete_translation_acceleration_m_s2": 0.10449884012721461,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.05619070175756972
+        },
+        "failed": [],
+        "passes": true,
+        "index_convention": "ZERO_BASED; velocity index joins k,k+1; acceleration uses zero endpoint rates"
+      },
+      "candidate_reference_geometry": {
+        "metrics": {
+          "xyz_min_m": [
+            0.26679190845593365,
+            -0.01290001316515365,
+            0.7141959641101117
+          ],
+          "xyz_max_m": [
+            0.2684373374974403,
+            -0.012754181561384047,
+            0.72305180077803
+          ],
+          "max_anchor_distance_m": 0.009187786163606925,
+          "path_length_m": 0.009399384259643479,
+          "max_anchor_rotation_rad": 0.002101559805440866,
+          "gripper_mechanical_fraction_min": 0.9544469595018444,
+          "gripper_mechanical_fraction_max": 0.9544569175162472,
+          "maximum_translation_speed_m_s": 0.014842490764268496,
+          "maximum_angular_speed_rad_s": 0.007362956671934903,
+          "maximum_finger_speed_m_s": 3.54433775906493e-06,
+          "maximum_discrete_translation_acceleration_m_s2": 0.10449884012721461,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.056190701757555084
+        },
+        "failed": [],
+        "passes": true,
+        "index_convention": "ZERO_BASED; velocity index joins k,k+1; acceleration uses zero endpoint rates"
+      },
+      "original_certificate": {
+        "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+        "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+        "maximum_IK_updates_per_point": 5,
+        "position_tolerance_m": 1e-05,
+        "rotation_tolerance_rad": 0.0001,
+        "points": 1051,
+        "local_IK_iterations": 2103,
+        "physics_integrations": 0,
+        "actual_state_modified": false,
+        "max_joint_speed_rad_s": 0.0705187338097768,
+        "max_joint_acceleration_rad_s2": 0.5541209513424628,
+        "executed_reference_history_points": 2,
+        "Cartesian_reference_values_changed": false
+      },
+      "original_certificate_event_phase": "proposed",
+      "original_certificate_reason": null,
+      "raw_mapped_and_consumed_arrays_verified": true,
+      "raw_H40_unchanged": true,
+      "Teacher_fallback": false,
+      "clips": 0
+    },
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train10-pd4_final_plan-r16",
+      "view": "PD4_FINAL_PLAN",
+      "layout": "TRAIN10",
+      "query": 4,
+      "native_step": 6703,
+      "seed": 202611150304,
+      "status": "P10_CONSUMED",
+      "action_sha256": "62d9461ffc45a3c1a61e4a1144935e195bc4b40574b0ff076d501a6c6e62c5a1",
+      "query_result_sha256": "ccf905865378d835e624ca3f80ee9daa0976870dd94f37be5d781539f4017e97",
+      "state_sha256": "c846a2d4d34d08f4dc4f4677127e9cdd855d9ab40540abeca8eb07ad044bf83b",
+      "observation_sha256": "27649a2993d5eae6d9ba779596d2949b95a6e8233803441c2d7888084f80aaef",
+      "decision_sha256": "a212b1291221ac5867b99519261c0ef1b2924edabd117fc31e1eb159c48fa82e",
+      "consumed_points": 10,
+      "consumed_ticks": 250,
+      "desired_geometry": {
+        "metrics": {
+          "xyz_min_m": [
+            0.2553774908212896,
+            -0.01521746890745803,
+            0.6898332197238753
+          ],
+          "xyz_max_m": [
+            0.2569656021099139,
+            -0.015037560472661464,
+            0.6994826718252317
+          ],
+          "max_anchor_distance_m": 0.009691217998304654,
+          "path_length_m": 0.010493795064989429,
+          "max_anchor_rotation_rad": 0.002572640463964823,
+          "gripper_mechanical_fraction_min": 0.9544454611003517,
+          "gripper_mechanical_fraction_max": 0.9544577939709528,
+          "maximum_translation_speed_m_s": 0.016899165832674097,
+          "maximum_angular_speed_rad_s": 0.010640783776627478,
+          "maximum_finger_speed_m_s": 6.107626505089669e-06,
+          "maximum_discrete_translation_acceleration_m_s2": 0.17055180869021072,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.07164090658834031
+        },
+        "failed": [],
+        "passes": true,
+        "index_convention": "ZERO_BASED; velocity index joins k,k+1; acceleration uses zero endpoint rates"
+      },
+      "candidate_reference_geometry": {
+        "metrics": {
+          "xyz_min_m": [
+            0.26602751404596797,
+            -0.013192975275203696,
+            0.7097488058895588
+          ],
+          "xyz_max_m": [
+            0.26761562533459243,
+            -0.01301306684040713,
+            0.7193982579909152
+          ],
+          "max_anchor_distance_m": 0.009691217998304772,
+          "path_length_m": 0.010493795064989141,
+          "max_anchor_rotation_rad": 0.002572640463964823,
+          "gripper_mechanical_fraction_min": 0.9544454611003517,
+          "gripper_mechanical_fraction_max": 0.9544577939709528,
+          "maximum_translation_speed_m_s": 0.016899165832674097,
+          "maximum_angular_speed_rad_s": 0.010640783793321331,
+          "maximum_finger_speed_m_s": 6.107626505089669e-06,
+          "maximum_discrete_translation_acceleration_m_s2": 0.17055180869030567,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.07164090658834654
+        },
+        "failed": [],
+        "passes": true,
+        "index_convention": "ZERO_BASED; velocity index joins k,k+1; acceleration uses zero endpoint rates"
+      },
+      "original_certificate": {
+        "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+        "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+        "maximum_IK_updates_per_point": 5,
+        "position_tolerance_m": 1e-05,
+        "rotation_tolerance_rad": 0.0001,
+        "points": 1051,
+        "local_IK_iterations": 2103,
+        "physics_integrations": 0,
+        "actual_state_modified": false,
+        "max_joint_speed_rad_s": 0.08288002485257628,
+        "max_joint_acceleration_rad_s2": 0.8272070852035851,
+        "executed_reference_history_points": 2,
+        "Cartesian_reference_values_changed": false
+      },
+      "original_certificate_event_phase": "proposed",
+      "original_certificate_reason": null,
+      "raw_mapped_and_consumed_arrays_verified": true,
+      "raw_H40_unchanged": true,
+      "Teacher_fallback": false,
+      "clips": 0
+    },
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train10-pd4_final_plan-r16",
+      "view": "PD4_FINAL_PLAN",
+      "layout": "TRAIN10",
+      "query": 5,
+      "native_step": 6953,
+      "seed": 202611150305,
+      "status": "JOINT_REJECT_BEFORE_INSTALL",
+      "action_sha256": "7596ba9b27c74b783543d23a091791fff3b88d30f8e8c92bf4cb8baf04958026",
+      "query_result_sha256": "711984d5bcfa85187bdbaa74db8c9c29161a1af2dbf2d2aebccee9f371c26886",
+      "state_sha256": "024055006c75ec65ec8d9551570f10de9845619d21399671dae7af000d65cdaf",
+      "observation_sha256": "a59f2cc6d60993785ed812a0c392407193f19d7256e8c7156628eca7d971ba96",
+      "decision_sha256": "65e974a52ea1e8b24d87e2a88c3a796db44899141d6003bc1750ae727335d181",
+      "consumed_points": 0,
+      "consumed_ticks": 0,
+      "desired_geometry": {
+        "metrics": {
+          "xyz_min_m": [
+            0.25528989345745356,
+            -0.01662475524783725,
+            0.6894144078026038
+          ],
+          "xyz_max_m": [
+            0.2565955167898609,
+            -0.015208533552103838,
+            0.6968576107220863
+          ],
+          "max_anchor_distance_m": 0.007469426847697378,
+          "path_length_m": 0.008579844086987354,
+          "max_anchor_rotation_rad": 0.0035018341549427523,
+          "gripper_mechanical_fraction_min": 0.9544448847720278,
+          "gripper_mechanical_fraction_max": 0.954453628954169,
+          "maximum_translation_speed_m_s": 0.017401857102551443,
+          "maximum_angular_speed_rad_s": 0.013416988334116853,
+          "maximum_finger_speed_m_s": 4.0837194512288724e-06,
+          "maximum_discrete_translation_acceleration_m_s2": 0.11718151795126731,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.10697871537029773
+        },
+        "failed": [],
+        "passes": true,
+        "index_convention": "ZERO_BASED; velocity index joins k,k+1; acceleration uses zero endpoint rates"
+      },
+      "candidate_reference_geometry": {
+        "metrics": {
+          "xyz_min_m": [
+            0.2655336310305121,
+            -0.014734246995085016,
+            0.708020260859954
+          ],
+          "xyz_max_m": [
+            0.26683925436291944,
+            -0.013318025299351605,
+            0.7154634637794364
+          ],
+          "max_anchor_distance_m": 0.007469426847697388,
+          "path_length_m": 0.008579844086987747,
+          "max_anchor_rotation_rad": 0.003501834155006161,
+          "gripper_mechanical_fraction_min": 0.9544448847720278,
+          "gripper_mechanical_fraction_max": 0.954453628954169,
+          "maximum_translation_speed_m_s": 0.017401857102551214,
+          "maximum_angular_speed_rad_s": 0.013416988340736659,
+          "maximum_finger_speed_m_s": 4.0837194512288724e-06,
+          "maximum_discrete_translation_acceleration_m_s2": 0.11718151795126126,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.10697871537031142
+        },
+        "failed": [],
+        "passes": true,
+        "index_convention": "ZERO_BASED; velocity index joins k,k+1; acceleration uses zero endpoint rates"
+      },
+      "original_certificate": null,
+      "original_certificate_event_phase": "reference-certificate-rejected",
+      "original_certificate_reason": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+      "raw_mapped_and_consumed_arrays_verified": true,
+      "raw_H40_unchanged": true,
+      "Teacher_fallback": false,
+      "clips": 0
+    },
+    {
+      "native_run": "sla-pd4-student-train4-v71-20261115-01-train10-pd4_executed_ref-r16",
+      "view": "PD4_EXECUTED_REF",
+      "layout": "TRAIN10",
+      "query": 0,
+      "native_step": 5703,
+      "seed": 202611150300,
+      "status": "JOINT_REJECT_BEFORE_INSTALL",
+      "action_sha256": "633582fbe75550630b77bee5a891156e9a266aacbeeaed268a9f948bfbccd103",
+      "query_result_sha256": "57a63280e1011aa21fc1cc579b6ae909fd4911b99f49f45fde343a82f64c7ce0",
+      "state_sha256": "081e4d7267474d09953c8ec1e33a070eb044ce348b434158254e3b8e26ecf67e",
+      "observation_sha256": "41cbd9f31ab27bfb9aca141821d0571b96582ce12a74f9ce44254a857e85502c",
+      "decision_sha256": "463fae1074d12b4aaddc83db3172fc3d4e87987eaa48bf5a802f21a36836ac1f",
+      "consumed_points": 0,
+      "consumed_ticks": 0,
+      "desired_geometry": {
+        "metrics": {
+          "xyz_min_m": [
+            0.2550575889131943,
+            -0.014486741092065325,
+            0.6892969325679268
+          ],
+          "xyz_max_m": [
+            0.25821072112202503,
+            -0.013318811979509342,
+            0.7086619580076268
+          ],
+          "max_anchor_distance_m": 0.019474905921650253,
+          "path_length_m": 0.01970572655841771,
+          "max_anchor_rotation_rad": 0.007216436343729611,
+          "gripper_mechanical_fraction_min": 0.954447875505791,
+          "gripper_mechanical_fraction_max": 0.9544582110221302,
+          "maximum_translation_speed_m_s": 0.018365181389771622,
+          "maximum_angular_speed_rad_s": 0.008608321633298329,
+          "maximum_finger_speed_m_s": 2.4916138227037975e-06,
+          "maximum_discrete_translation_acceleration_m_s2": 0.22234752338930353,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.10268545770025307
+        },
+        "failed": [],
+        "passes": true,
+        "index_convention": "ZERO_BASED; velocity index joins k,k+1; acceleration uses zero endpoint rates"
+      },
+      "candidate_reference_geometry": {
+        "metrics": {
+          "xyz_min_m": [
+            0.2679018611782936,
+            -0.011414747634482997,
+            0.7135726184068788
+          ],
+          "xyz_max_m": [
+            0.27105499338712435,
+            -0.010246818521927013,
+            0.7329376438465786
+          ],
+          "max_anchor_distance_m": 0.019474905921650142,
+          "path_length_m": 0.019705726558417545,
+          "max_anchor_rotation_rad": 0.007216436343729611,
+          "gripper_mechanical_fraction_min": 0.954447875505791,
+          "gripper_mechanical_fraction_max": 0.9544582110221302,
+          "maximum_translation_speed_m_s": 0.018365181389769433,
+          "maximum_angular_speed_rad_s": 0.008608321633298329,
+          "maximum_finger_speed_m_s": 2.4916138227037975e-06,
+          "maximum_discrete_translation_acceleration_m_s2": 0.22234752338925945,
+          "maximum_discrete_angular_acceleration_rad_s2": 0.1026854577002681
+        },
+        "failed": [],
+        "passes": true,
+        "index_convention": "ZERO_BASED; velocity index joins k,k+1; acceleration uses zero endpoint rates"
+      },
+      "original_certificate": null,
+      "original_certificate_event_phase": "reference-certificate-rejected",
+      "original_certificate_reason": "ORIGINAL_JOINT_ACCELERATION_REJECT",
+      "raw_mapped_and_consumed_arrays_verified": true,
+      "raw_H40_unchanged": true,
+      "Teacher_fallback": false,
+      "clips": 0
+    }
+  ],
+  "actual_SLA_parent_loads": 8,
+  "actual_SLA_queries": 15,
+  "student_consumed_points": 70,
+  "actual_physical_requests": 8,
+  "actual_native_integrations": 47374,
+  "retained_engineering_physical_requests": 2,
+  "retained_engineering_integrations": 3078,
+  "actual_training_updates_added": 0,
+  "actual_training_visits_added": 0,
+  "additional_model_generations": 0,
+  "additional_certifier_calls": 0,
+  "additional_physical_requests": 0,
+  "additional_integrations": 0,
+  "old_RP8_passed": false,
+  "full_WBC_state_restored": false,
+  "formal_gate_changed": false,
+  "WBC_changes": false,
+  "queue_wall_s": 7509.857225418091,
+  "audit_CPU_s": 0.6341063060000001,
+  "audit_wall_s": 5.964597463607788,
+  "execution_source_sha": "20dcd9ca65fd84689b331e249d3a85f2869a076b",
+  "full_raw_chain_audit_passed": true,
+  "query_status_counts": {
+    "EEF_FULL_H40_REJECT": 1,
+    "JOINT_REJECT_BEFORE_INSTALL": 7,
+    "P10_CONSUMED": 7
+  },
+  "frozen_training_endpoints": {
+    "PD4_EXECUTED_REF": {
+      "updates": 500,
+      "TRAIN_visits": 16000,
+      "SOURCE_visits": 0,
+      "EEF32": 24,
+      "fit32": 16
+    },
+    "PD4_FINAL_PLAN": {
+      "updates": 500,
+      "TRAIN_visits": 16000,
+      "SOURCE_visits": 0,
+      "EEF32": 25,
+      "fit32": 17
+    }
+  },
+  "training_result_sha256": "c0b2037ffe1fbef373724b12a3e3c4fe50e3448d3163df85c2175fb5a8736220",
+  "scientific_initialization_integrations": 45624,
+  "scientific_student_integrations": 1750,
+  "scientific_other_integrations": 0,
+  "closed_cost_with_retained_engineering": {
+    "physical_requests": 10,
+    "integrations": 50452
+  },
+  "expert_qualification_in_student_denominator": false,
+  "Core_readonly_audit_program_sha256": "d49a22401f46a336c48436b401b1a4b4d98292ca419c4bf15f4761a4e3881af6",
+  "parameterized_audit_script_sha256": "a8bedacb9851242e46e171591003227bf9a02919f7f68cd4298f6fba332c453b",
+  "automatic_chat_resume_proven": false
+}

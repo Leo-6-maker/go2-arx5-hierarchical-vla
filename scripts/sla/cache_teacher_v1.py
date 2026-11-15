@@ -69,7 +69,8 @@ def offline_constructor(spec, counts, factory):
     return model
 
 
-def run(spec,counts):
+def run(spec,counts,*,view_schema='SLA_EXACT_TRAIN_RGB224_TEACHER_VIEW_V1',window_count=1450,
+        cache_schema='SLA_FROZEN_OMNIVGGT_TARGET_CACHE_V1'):
     import torch
     from safetensors.torch import load_file
     from omnivggt.models.omnivggt import OmniVGGT
@@ -94,7 +95,7 @@ def run(spec,counts):
     if sha(pixel_root/'MANIFEST.private.json')!=spec['pixel_view']['sha256']:
         raise ValueError('EXACT_STUDENT_RGB_VIEW_MANIFEST_REQUIRED')
     view=json.loads((pixel_root/'MANIFEST.private.json').read_bytes())
-    if view['schema']!='SLA_EXACT_TRAIN_RGB224_TEACHER_VIEW_V1' or not view['passes'] or len(view['rows'])!=1450 or view['privileged_inputs_saved']:
+    if view['schema']!=view_schema or not view['passes'] or len(view['rows'])!=window_count or view['privileged_inputs_saved']:
         raise ValueError('ALL_TRAIN_ONLY_CURRENT_STUDENT_PIXELS_REQUIRED')
     counts['teacher_model_load_attempts']+=1
     write(Path(spec['registered_root'])/'TEACHER_LOAD_INTENT.private.json',dict(teacher_weight_sha256=weight_sha,teacher_model_load_attempts=counts['teacher_model_load_attempts']))
@@ -162,7 +163,7 @@ def run(spec,counts):
         raise ValueError('FROZEN_TEACHER_PARAMETERS_CHANGED')
     if sha(weight)!=weight_sha:
         raise ValueError('SEALED_TEACHER_WEIGHT_FILE_CHANGED_DURING_CACHE')
-    value=dict(schema='SLA_FROZEN_OMNIVGGT_TARGET_CACHE_V1',passes=True,rows=rows,
+    value=dict(schema=cache_schema,passes=True,rows=rows,
         source_dataset_sha256=view['source_dataset_sha256'],target_audit=view['target_audit'],
         source_pixel_view=spec['pixel_view'],teacher_manifest=spec['teacher_manifest'],
         source_teacher_preinit=spec['teacher_preinit'],

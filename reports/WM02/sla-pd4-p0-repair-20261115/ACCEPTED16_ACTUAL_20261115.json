@@ -1,0 +1,2799 @@
+{
+  "schema": "SLA_PREDECLARED_ACCEPTED16_IK_CONVERGENCE_V71",
+  "paths": 16,
+  "clone_certifier_calls": 48,
+  "selection_sha256": "e2d3fd06d334220a023f81b84df1bf8e9478a9fc93401dc7282bb9997036fb88",
+  "original_certifier_sha256": "edfb96620f91b6e2e583168bb1e157e8b8a9b5dab884917985af3d68d8a82e93",
+  "original16_rejected_reused_not_rerun": true,
+  "new_model_generations": 0,
+  "actual_SLA_model_loads": 0,
+  "optimizer_updates": 0,
+  "training_visits": 0,
+  "physical_requests": 0,
+  "physics_integrations": 0,
+  "full_WBC_state_restored": false,
+  "formal_results_or_thresholds_changed": false,
+  "wall_s": 23.138489723205566,
+  "CPU_s": 17.585599153,
+  "core_result_sha256": "8797b54328d23ba9898477804aee6cd7de7b0c3b530fe58ed16a31ac6845a2b4",
+  "trace_hashes_verified": 48,
+  "implementation_source_commit": "b27f2affc1d41afdd5c7250c05cc526c4476a58e",
+  "base_execution_source_sha": "77e10d9aaac806fad6ec40773901b266c8ec9d05",
+  "worker": {
+    "exit_code": 0,
+    "wall_s": 25.14759635925293,
+    "child_CPU_s": 17.781693,
+    "optimizer_updates": 0,
+    "physical_requests": 0
+  },
+  "rows": [
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-train01-r3",
+      "layout": "TRAIN01",
+      "restart": 3,
+      "query": 0,
+      "native_step": 5703,
+      "state_sha256": "8b82530263a638e1e0e3ebaec3275514bff3365ea6f8df288dd69acf14a2712a",
+      "decision_sha256": "dd0478ed97b3d770c0044aab57a84dbc00e75633cabd2b7323fe0f49b7c6d2f5",
+      "action_sha256": "922ac5e50f1b679da6d89e1d23872f87950f3955c2a831632aa635e1dbb37036",
+      "command_journal_sha256": "b2598e240e2aaf0e1f8002847d37314599d6ae520dcb7373b3dc1c613df9f673",
+      "original_classification": "ACCEPTED_AND_CONSUMED",
+      "confirmed_commands": 10,
+      "original_certificate_unchanged": true,
+      "full_WBC_state_restored": false,
+      "settings": [
+        {
+          "settings": {
+            "max_updates": 5,
+            "position_m": 1e-05,
+            "rotation_rad": 0.0001
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2103,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.10043369630345911,
+            "max_joint_acceleration_rad_s2": 0.931171812209941,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 9.865093892138634e-07,
+          "maximum_rotation_residual_rad": 5.670278546345443e-07,
+          "trace_file": "00-precision0.npz",
+          "trace_sha256": "04c593a2d329711530b21a7f5ed061d6005647d7ed2e9c3c190232799ee986b5",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.30168843269348145,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.10043369630345911,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.931171812209941,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              22,
+              23,
+              24
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 20,
+            "position_m": 1e-07,
+            "rotation_rad": 1e-06
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2104,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.10043369630346133,
+            "max_joint_acceleration_rad_s2": 0.9311718122101631,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 3.0721356490833684e-09,
+          "maximum_rotation_residual_rad": 6.664001874625058e-08,
+          "trace_file": "00-precision1.npz",
+          "trace_sha256": "8743808aa7b4341f6a5c38722f902fd652675818ae06eca07b3a59920f818b82",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.2945683002471924,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.10043369630346133,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.9311718122101631,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              22,
+              23,
+              24
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 50,
+            "position_m": 1e-09,
+            "rotation_rad": 1e-08
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2429,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.1004336611636858,
+            "max_joint_acceleration_rad_s2": 0.9311700716203575,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 9.68648712118008e-10,
+          "maximum_rotation_residual_rad": 7.300048299977716e-08,
+          "trace_file": "00-precision2.npz",
+          "trace_sha256": "1a78c45915d45434065ea4a8c9ce339088a45cdefa6716f686d8ed3d935aede2",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.31398653984069824,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.1004336611636858,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.9311700716203575,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              22,
+              23,
+              24
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        }
+      ]
+    },
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-train01-r4",
+      "layout": "TRAIN01",
+      "restart": 4,
+      "query": 0,
+      "native_step": 5703,
+      "state_sha256": "a4e824303b48f2a81530b014096a78c10a378df3e74a2b7daf6e9e378d19a07f",
+      "decision_sha256": "6c694a1d571d00497570946acabb6c716ae84a316836bcedf1da1c79336d60a4",
+      "action_sha256": "a76c5fa1f073dacd6bd5e9e2b88182a418bffaf2db4d0526de34aba9ba778706",
+      "command_journal_sha256": "06f9607ac3b0b28c55d563d774b3cd48dabce64de37e3d204bfdff6f284c576b",
+      "original_classification": "ACCEPTED_AND_CONSUMED",
+      "confirmed_commands": 10,
+      "original_certificate_unchanged": true,
+      "full_WBC_state_restored": false,
+      "settings": [
+        {
+          "settings": {
+            "max_updates": 5,
+            "position_m": 1e-05,
+            "rotation_rad": 0.0001
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2103,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.1078520933762106,
+            "max_joint_acceleration_rad_s2": 0.7848957824488245,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 8.81077700613022e-07,
+          "maximum_rotation_residual_rad": 5.017953586722289e-07,
+          "trace_file": "01-precision0.npz",
+          "trace_sha256": "96e8d6fffe0c2c0c28cb402741c89a8aac35281310e6cdaa8d0c437519916f6a",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.2933342456817627,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.1078520933762106,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.7848957824488245,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              6,
+              7,
+              8
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 20,
+            "position_m": 1e-07,
+            "rotation_rad": 1e-06
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2104,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.1078520933762328,
+            "max_joint_acceleration_rad_s2": 0.7848957824485137,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 3.5185570008522336e-09,
+          "maximum_rotation_residual_rad": 0.0,
+          "trace_file": "01-precision1.npz",
+          "trace_sha256": "3c5730aa3dd02cd784907041f7a8b493234d82e4f242762712c261e37c512011",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.29398608207702637,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.1078520933762328,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.7848957824485137,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              6,
+              7,
+              8
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 50,
+            "position_m": 1e-09,
+            "rotation_rad": 1e-08
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2504,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.10785204682249638,
+            "max_joint_acceleration_rad_s2": 0.7848955878934305,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 9.594296869417711e-10,
+          "maximum_rotation_residual_rad": 0.0,
+          "trace_file": "01-precision2.npz",
+          "trace_sha256": "2e98b9e97c680ae59f2cdd95e7b9924c55bef3dc6b9f5bfc2af2f6a70129430d",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.31998276710510254,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.10785204682249638,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.7848955878934305,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              6,
+              7,
+              8
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        }
+      ]
+    },
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-train07-r3",
+      "layout": "TRAIN07",
+      "restart": 3,
+      "query": 0,
+      "native_step": 5703,
+      "state_sha256": "a9b4397c402fbdd8e0c097f8322cad154c32264efd79f141fd0d7be1901f316a",
+      "decision_sha256": "d9a370e2c07bd076e291e7e18272e7681d68456fee699a6544e809d5c0d8c953",
+      "action_sha256": "c8f6e918da21b72ecb6c80db365d3e22aa88c4c104659d08b1b1ff1ccc316ec4",
+      "command_journal_sha256": "46ea089968f64a5f89043499dcf52e3c291512f6a134746dbbb8095e8508e204",
+      "original_classification": "ACCEPTED_AND_CONSUMED",
+      "confirmed_commands": 10,
+      "original_certificate_unchanged": true,
+      "full_WBC_state_restored": false,
+      "settings": [
+        {
+          "settings": {
+            "max_updates": 5,
+            "position_m": 1e-05,
+            "rotation_rad": 0.0001
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2103,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.10366937391973918,
+            "max_joint_acceleration_rad_s2": 0.7969922511029903,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 9.275062597485882e-07,
+          "maximum_rotation_residual_rad": 5.331201499700108e-07,
+          "trace_file": "02-precision0.npz",
+          "trace_sha256": "d4738ec806c39eedbf79bbb4dcabd17b77d4b1b072c6ada5ac25d729e853b239",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.29502296447753906,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.10366937391973918,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.7969922511029903,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              26,
+              27,
+              28
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 20,
+            "position_m": 1e-07,
+            "rotation_rad": 1e-06
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2104,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.10366937391974362,
+            "max_joint_acceleration_rad_s2": 0.7969922511025462,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 3.313225058566579e-09,
+          "maximum_rotation_residual_rad": 5.16191365590357e-08,
+          "trace_file": "02-precision1.npz",
+          "trace_sha256": "e1871a68caffe492d80e004a5acce498636af9a28a79e3245ef1d47306792fcd",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.29611730575561523,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.10366937391974362,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.7969922511025462,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              26,
+              27,
+              28
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 50,
+            "position_m": 1e-09,
+            "rotation_rad": 1e-08
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2429,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.10366934841225861,
+            "max_joint_acceleration_rad_s2": 0.7969922511020133,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 9.812219633721752e-10,
+          "maximum_rotation_residual_rad": 5.16191365590357e-08,
+          "trace_file": "02-precision2.npz",
+          "trace_sha256": "247eb2073b515a51e8a565702cfe57cadc464f485224e1844a57a2ffd5ef8c7d",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.3178415298461914,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.10366934841225861,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.7969922511020133,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              26,
+              27,
+              28
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        }
+      ]
+    },
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-train13-r3",
+      "layout": "TRAIN13",
+      "restart": 3,
+      "query": 0,
+      "native_step": 5703,
+      "state_sha256": "87865f7b45b4f9cbbf9072dd0b39dbf9805607628896de454b5dff3c506a9c45",
+      "decision_sha256": "cebe8f21ec2fcb45dee015c42adad2ef05b32f7d91db63ca244446d72568f69d",
+      "action_sha256": "671884c0560398018c8aa58599ece9cc90eb9af67c4a21a2e72c8d51c38eddcc",
+      "command_journal_sha256": "114f30555579adbdd89f032e947f9895aa9016e48e14ca0e98aa9a586b6df5d0",
+      "original_classification": "ACCEPTED_AND_CONSUMED",
+      "confirmed_commands": 10,
+      "original_certificate_unchanged": true,
+      "full_WBC_state_restored": false,
+      "settings": [
+        {
+          "settings": {
+            "max_updates": 5,
+            "position_m": 1e-05,
+            "rotation_rad": 0.0001
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2103,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.10872053159368257,
+            "max_joint_acceleration_rad_s2": 0.9161009827256539,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 7.053542000583258e-07,
+          "maximum_rotation_residual_rad": 4.2409448238485497e-07,
+          "trace_file": "03-precision0.npz",
+          "trace_sha256": "57138b32bd8fe390acc2e343ad9de6d28330fa52cb7e47d2cd18335e315223cc",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.29451441764831543,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.10872053159368257,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.9161009827256539,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              6,
+              7,
+              8
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 20,
+            "position_m": 1e-07,
+            "rotation_rad": 1e-06
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2104,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.10872053159368247,
+            "max_joint_acceleration_rad_s2": 0.9161009827256095,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 3.7533918200506965e-09,
+          "maximum_rotation_residual_rad": 5.575503985246929e-08,
+          "trace_file": "03-precision1.npz",
+          "trace_sha256": "47ef9beae0b5ba8a955a375e4ef2c9a6b3c009c74e6b42d5157972d6d675e862",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.2952909469604492,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.10872053159368247,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.9161009827256095,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              6,
+              7,
+              8
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 50,
+            "position_m": 1e-09,
+            "rotation_rad": 1e-08
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2579,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.10872069098518736,
+            "max_joint_acceleration_rad_s2": 0.9160997763117518,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 7.190994978957306e-10,
+          "maximum_rotation_residual_rad": 5.960464477539064e-08,
+          "trace_file": "03-precision2.npz",
+          "trace_sha256": "b8b9b55c667ebb0ca4abba833b421a938d7dad19aad79f9a0b89e02e4ea309df",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.3251345157623291,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.10872069098518736,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.9160997763117518,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              6,
+              7,
+              8
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        }
+      ]
+    },
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-train13-r4",
+      "layout": "TRAIN13",
+      "restart": 4,
+      "query": 0,
+      "native_step": 5703,
+      "state_sha256": "a14166c82bcf2b099a6873d424b99422b97bbaf0c3b8697b3014699ce3efb987",
+      "decision_sha256": "38d4c3bcbe0e202a1c170af27fbd4f0f043a91a94727fab5cd819fab17f0fb50",
+      "action_sha256": "fe10ca52d2f8f0af0fa6ade06205896c174126b7ede8c2e46e8fad6ed84959a1",
+      "command_journal_sha256": "b254f198f8973784e3430ce773865b24d4d2dbc8ed840209f0de7c4d27cfdf1f",
+      "original_classification": "ACCEPTED_AND_CONSUMED",
+      "confirmed_commands": 10,
+      "original_certificate_unchanged": true,
+      "full_WBC_state_restored": false,
+      "settings": [
+        {
+          "settings": {
+            "max_updates": 5,
+            "position_m": 1e-05,
+            "rotation_rad": 0.0001
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2103,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.1055273332152118,
+            "max_joint_acceleration_rad_s2": 0.9378340348699776,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 9.048671170956301e-07,
+          "maximum_rotation_residual_rad": 5.276778700836295e-07,
+          "trace_file": "04-precision0.npz",
+          "trace_sha256": "dac2b0e4870b68980e881872027ec4e638a29a9f09d3f13495132914bbe0fed6",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.29462194442749023,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.1055273332152118,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.9378340348699776,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              22,
+              23,
+              24
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 20,
+            "position_m": 1e-07,
+            "rotation_rad": 1e-06
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2104,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.1055273332152118,
+            "max_joint_acceleration_rad_s2": 0.9378340348699776,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 3.962005080305326e-09,
+          "maximum_rotation_residual_rad": 8.161702118890975e-08,
+          "trace_file": "04-precision1.npz",
+          "trace_sha256": "5d292c8e53d5e56b2e71ddbc7d2c94a58b3ce389dafbd0f99c1ec5082befb121",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.2939720153808594,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.1055273332152118,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.9378340348699776,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              22,
+              23,
+              24
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 50,
+            "position_m": 1e-09,
+            "rotation_rad": 1e-08
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2479,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.10552731929589942,
+            "max_joint_acceleration_rad_s2": 0.9378319828851289,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 8.823250722497002e-10,
+          "maximum_rotation_residual_rad": 7.884953353001449e-08,
+          "trace_file": "04-precision2.npz",
+          "trace_sha256": "4749e3bd141ab87cf46606a0ece081ecee67a9685168c2554570eeb60ddae98e",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.32034802436828613,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.10552731929589942,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.9378319828851289,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              22,
+              23,
+              24
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        }
+      ]
+    },
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-train25-r4",
+      "layout": "TRAIN25",
+      "restart": 4,
+      "query": 0,
+      "native_step": 5703,
+      "state_sha256": "af4b69480486a14766dbec873d1d884331389f411f898fec808af0f022fb9dde",
+      "decision_sha256": "58baa23db37c4609c2e14c98b01aeb2e5923c18ee5139160961549b3adf84431",
+      "action_sha256": "b82e45fa07e0363e5e612230514d5856ed7cc7118e8ebac19899bf05e8d32bb6",
+      "command_journal_sha256": "e99e01ca6ee9fd4f62af1a000667de327e3421d9a49656988cd8b74c55e87177",
+      "original_classification": "ACCEPTED_AND_CONSUMED",
+      "confirmed_commands": 10,
+      "original_certificate_unchanged": true,
+      "full_WBC_state_restored": false,
+      "settings": [
+        {
+          "settings": {
+            "max_updates": 5,
+            "position_m": 1e-05,
+            "rotation_rad": 0.0001
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2103,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.1153989691615509,
+            "max_joint_acceleration_rad_s2": 0.8391514722219551,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 8.914896341275648e-07,
+          "maximum_rotation_residual_rad": 5.144678503761369e-07,
+          "trace_file": "05-precision0.npz",
+          "trace_sha256": "a6b73a7f9eaaa97041e75f8b8865103e08414b1e5c5e4758a329ab7ca83fd42b",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.29830479621887207,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.1153989691615509,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.8391514722219551,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              14,
+              15,
+              16
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 20,
+            "position_m": 1e-07,
+            "rotation_rad": 1e-06
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2104,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.11539896916157977,
+            "max_joint_acceleration_rad_s2": 0.8391514722219995,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 5.3660811155334106e-09,
+          "maximum_rotation_residual_rad": 7.598131170262078e-08,
+          "trace_file": "05-precision1.npz",
+          "trace_sha256": "a61a54a7d0bae088c485bcada2ffd30fe2490082c0b2e8c625a3b9fa1f3b7cfe",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.2954859733581543,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.11539896916157977,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.8391514722219995,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              14,
+              15,
+              16
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 50,
+            "position_m": 1e-09,
+            "rotation_rad": 1e-08
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2529,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.11539891715796502,
+            "max_joint_acceleration_rad_s2": 0.8391479240337674,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 9.925600386277133e-10,
+          "maximum_rotation_residual_rad": 7.598131170262078e-08,
+          "trace_file": "05-precision2.npz",
+          "trace_sha256": "44015838a4871ef96f01fed9cd1aa56155d67f0dce3dc286d36bf90a48623230",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.32456207275390625,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.11539891715796502,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.8391479240337674,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              14,
+              15,
+              16
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        }
+      ]
+    },
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-train01-r3",
+      "layout": "TRAIN01",
+      "restart": 3,
+      "query": 1,
+      "native_step": 5953,
+      "state_sha256": "3ad68de1f814f137f00b628f02431097917381a504b167e0d43360b9906e06c9",
+      "decision_sha256": "f4cb6e82a5f662261c73db0ccba0cbf17d17f7590659104b2f7f742eebb5cccf",
+      "action_sha256": "6a5a877d51c825d26154f2024bd4a96eda17146d185ca38a393b7df9cfde90fe",
+      "command_journal_sha256": "b2598e240e2aaf0e1f8002847d37314599d6ae520dcb7373b3dc1c613df9f673",
+      "original_classification": "ACCEPTED_AND_CONSUMED",
+      "confirmed_commands": 10,
+      "original_certificate_unchanged": true,
+      "full_WBC_state_restored": false,
+      "settings": [
+        {
+          "settings": {
+            "max_updates": 5,
+            "position_m": 1e-05,
+            "rotation_rad": 0.0001
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2103,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.1036050587110382,
+            "max_joint_acceleration_rad_s2": 0.9058417109585992,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 6.992031368746867e-07,
+          "maximum_rotation_residual_rad": 3.851308817660858e-07,
+          "trace_file": "06-precision0.npz",
+          "trace_sha256": "ef57dfbd527a8e7eb2068d26beeb8a40ef8d500c5c091ae7d47435dc68d6313f",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.296252965927124,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.1036050587110382,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.9058417109585992,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              22,
+              23,
+              24
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 20,
+            "position_m": 1e-07,
+            "rotation_rad": 1e-06
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2104,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.10360505871104264,
+            "max_joint_acceleration_rad_s2": 0.9058417109587324,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 4.247061748239541e-09,
+          "maximum_rotation_residual_rad": 7.884953353001449e-08,
+          "trace_file": "06-precision1.npz",
+          "trace_sha256": "1f5bb1df9ddddf55fb6df1e36bbf08a3091a9fcc7735ad284fe4d4a13d4678f3",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.2954995632171631,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.10360505871104264,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.9058417109587324,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              22,
+              23,
+              24
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 50,
+            "position_m": 1e-09,
+            "rotation_rad": 1e-08
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2429,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.10360505130730058,
+            "max_joint_acceleration_rad_s2": 0.9058396602200425,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 9.368983722673992e-10,
+          "maximum_rotation_residual_rad": 7.884953353001449e-08,
+          "trace_file": "06-precision2.npz",
+          "trace_sha256": "dc8a366fe4a832489cab1bc8401f6592cfff75700b02364e14a91d836bbb003b",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.31691718101501465,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.10360505130730058,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.9058396602200425,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              22,
+              23,
+              24
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        }
+      ]
+    },
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-train01-r4",
+      "layout": "TRAIN01",
+      "restart": 4,
+      "query": 1,
+      "native_step": 5953,
+      "state_sha256": "23234d974ae044a6a13b9a25b60c5ddc6ad0cdb8441809c57cf435dbcf498a45",
+      "decision_sha256": "a0f92035ba60d7a349ecc2b08472dd60e3db8db4acd200d70d061247706e31b8",
+      "action_sha256": "f1733d8d9a25068b0938caf13d020284632fe1afecce475c1f7b76db744aab17",
+      "command_journal_sha256": "06f9607ac3b0b28c55d563d774b3cd48dabce64de37e3d204bfdff6f284c576b",
+      "original_classification": "ACCEPTED_AND_CONSUMED",
+      "confirmed_commands": 10,
+      "original_certificate_unchanged": true,
+      "full_WBC_state_restored": false,
+      "settings": [
+        {
+          "settings": {
+            "max_updates": 5,
+            "position_m": 1e-05,
+            "rotation_rad": 0.0001
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2103,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.10119851789482048,
+            "max_joint_acceleration_rad_s2": 0.8505916044148965,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 6.801395052410464e-07,
+          "maximum_rotation_residual_rad": 3.942476676500749e-07,
+          "trace_file": "07-precision0.npz",
+          "trace_sha256": "87ccd10d0fcead00f5775a5468e6fcc8d35ca8239ba4601e55af5989c46eab29",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.29457783699035645,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.10119851789482048,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.8505916044148965,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              22,
+              23,
+              24
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 20,
+            "position_m": 1e-07,
+            "rotation_rad": 1e-06
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2104,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.1011985178948116,
+            "max_joint_acceleration_rad_s2": 0.8505916044147188,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 5.175350238615422e-09,
+          "maximum_rotation_residual_rad": 7.884953353001449e-08,
+          "trace_file": "07-precision1.npz",
+          "trace_sha256": "1890bffd6ae26d6b278a630e22baa182ce33cbf712b462d444a2a0f03ff580f9",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.29758596420288086,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.1011985178948116,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.8505916044147188,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              22,
+              23,
+              24
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 50,
+            "position_m": 1e-09,
+            "rotation_rad": 1e-08
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2454,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.1011984476118033,
+            "max_joint_acceleration_rad_s2": 0.8505899588100885,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 8.68890996206469e-10,
+          "maximum_rotation_residual_rad": 7.884953353001449e-08,
+          "trace_file": "07-precision2.npz",
+          "trace_sha256": "26fd6860238bb06fcd1040ed7e3f7d0389888809b6330ce71a755ea375811a4d",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.32021355628967285,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.1011984476118033,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.8505899588100885,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              22,
+              23,
+              24
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        }
+      ]
+    },
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-train13-r4",
+      "layout": "TRAIN13",
+      "restart": 4,
+      "query": 1,
+      "native_step": 5953,
+      "state_sha256": "67a27ef15bb668b715d9cd4a14a9d6576c9d577954c6a660aec4a05b2c0b8394",
+      "decision_sha256": "2b4beccf0d09fb2c773b0b9ec3b4c603d6e8bbbd81ac2c2ce3a06a8d81fd186d",
+      "action_sha256": "d76f1aa1a3d172d4e2a52c5e27cd9b6ffecc1bb51be586cea2ee2bebb24de57b",
+      "command_journal_sha256": "b254f198f8973784e3430ce773865b24d4d2dbc8ed840209f0de7c4d27cfdf1f",
+      "original_classification": "ACCEPTED_AND_CONSUMED",
+      "confirmed_commands": 10,
+      "original_certificate_unchanged": true,
+      "full_WBC_state_restored": false,
+      "settings": [
+        {
+          "settings": {
+            "max_updates": 5,
+            "position_m": 1e-05,
+            "rotation_rad": 0.0001
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2103,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.11588382908480188,
+            "max_joint_acceleration_rad_s2": 0.8950674043227469,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 6.990866418179243e-07,
+          "maximum_rotation_residual_rad": 4.0808510594455145e-07,
+          "trace_file": "08-precision0.npz",
+          "trace_sha256": "bca3b025d547b06c9071bcdd203c03b1b5f21efe06f4c788ea704b919504dc01",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.29442310333251953,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.11588382908480188,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.8950674043227469,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              17,
+              18,
+              19
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 20,
+            "position_m": 1e-07,
+            "rotation_rad": 1e-06
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2104,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.11588382908480188,
+            "max_joint_acceleration_rad_s2": 0.8950674043227469,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 5.3689837540444696e-09,
+          "maximum_rotation_residual_rad": 7.884953353001449e-08,
+          "trace_file": "08-precision1.npz",
+          "trace_sha256": "eb30883313c2e6cbd8203a1f85a76b41cffcb9817f4a50f0a61c59ca7d518a50",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.2964484691619873,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.11588382908480188,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.8950674043227469,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              17,
+              18,
+              19
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 50,
+            "position_m": 1e-09,
+            "rotation_rad": 1e-08
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2479,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.11588379025433415,
+            "max_joint_acceleration_rad_s2": 0.8950684689029043,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 9.72117694305723e-10,
+          "maximum_rotation_residual_rad": 8.161702118890975e-08,
+          "trace_file": "08-precision2.npz",
+          "trace_sha256": "d5325878ca3c4ca4cb10454d38ef49c2ab1056f12a31fc2e5a2cf7f37a06b3a4",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.3211708068847656,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.11588379025433415,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.8950684689029043,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              17,
+              18,
+              19
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        }
+      ]
+    },
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-train25-r4",
+      "layout": "TRAIN25",
+      "restart": 4,
+      "query": 1,
+      "native_step": 5953,
+      "state_sha256": "2240a3fee7d3fea02b382aea6b66aa9f239b99d87125f61b6bf21bd5eeae7361",
+      "decision_sha256": "22a7138972f2199f9b8cda997b1af936c935cbbe805c1e452e3e2c0860a5e8dc",
+      "action_sha256": "60424cc024202abc5f2735b508b00529efc81990a489af10eebe243959b6de63",
+      "command_journal_sha256": "e99e01ca6ee9fd4f62af1a000667de327e3421d9a49656988cd8b74c55e87177",
+      "original_classification": "ACCEPTED_AND_CONSUMED",
+      "confirmed_commands": 10,
+      "original_certificate_unchanged": true,
+      "full_WBC_state_restored": false,
+      "settings": [
+        {
+          "settings": {
+            "max_updates": 5,
+            "position_m": 1e-05,
+            "rotation_rad": 0.0001
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2103,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.11956076012333838,
+            "max_joint_acceleration_rad_s2": 0.7473243065516666,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 8.471424817653756e-07,
+          "maximum_rotation_residual_rad": 4.786961795153964e-07,
+          "trace_file": "09-precision0.npz",
+          "trace_sha256": "1a89494c939adedd5a9320e9e50cb0a11b2bb7e2815cb65aea8e6fd6f41b8c92",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.2964439392089844,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.11956076012333838,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.7473243065516666,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              26,
+              27,
+              28
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 20,
+            "position_m": 1e-07,
+            "rotation_rad": 1e-06
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2104,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.11956076012332506,
+            "max_joint_acceleration_rad_s2": 0.7473243065520219,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 3.884811902135609e-09,
+          "maximum_rotation_residual_rad": 5.960464477539064e-08,
+          "trace_file": "09-precision1.npz",
+          "trace_sha256": "bf2bd7aa9605388e87ced59bc4f5dd885323d59462cc6b1e94bf331b90315b79",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.29642224311828613,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.11956076012332506,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.7473243065520219,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              26,
+              27,
+              28
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 50,
+            "position_m": 1e-09,
+            "rotation_rad": 1e-08
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2554,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.11956070361652804,
+            "max_joint_acceleration_rad_s2": 0.7473260327627518,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 9.673602965038768e-10,
+          "maximum_rotation_residual_rad": 5.960464477539064e-08,
+          "trace_file": "09-precision2.npz",
+          "trace_sha256": "89e4f4c65350ec9c53f94306875e321153fb0b1f20332a174477a5b4604df0d3",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.3265693187713623,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.11956070361652804,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.7473260327627518,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              26,
+              27,
+              28
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        }
+      ]
+    },
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-train01-r3",
+      "layout": "TRAIN01",
+      "restart": 3,
+      "query": 2,
+      "native_step": 6203,
+      "state_sha256": "cae1de670aa8adfa8ee8847eccbecae6af3bab6174d9bb3456aaa6914a8f41cf",
+      "decision_sha256": "8f68619701fe831f48f929bb7a7430621de9eb3297a6aee8d9875b0145563ffe",
+      "action_sha256": "aed0f2594931a513673ea1e447b3ed5e0d15605a5a001c337a246a51cc11456b",
+      "command_journal_sha256": "b2598e240e2aaf0e1f8002847d37314599d6ae520dcb7373b3dc1c613df9f673",
+      "original_classification": "ACCEPTED_AND_CONSUMED",
+      "confirmed_commands": 10,
+      "original_certificate_unchanged": true,
+      "full_WBC_state_restored": false,
+      "settings": [
+        {
+          "settings": {
+            "max_updates": 5,
+            "position_m": 1e-05,
+            "rotation_rad": 0.0001
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2103,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.1133785284289246,
+            "max_joint_acceleration_rad_s2": 0.8702793184394597,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 4.4660583563461824e-07,
+          "maximum_rotation_residual_rad": 2.615143176136061e-07,
+          "trace_file": "10-precision0.npz",
+          "trace_sha256": "4ea28ed7c4490f4bec636b64662827868ef36a29871bfa5a821cb6d8425af726",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.29534149169921875,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.1133785284289246,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.8702793184394597,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              26,
+              27,
+              28
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 20,
+            "position_m": 1e-07,
+            "rotation_rad": 1e-06
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2104,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.11337852842895346,
+            "max_joint_acceleration_rad_s2": 0.8702793184391933,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 3.0731072359727087e-09,
+          "maximum_rotation_residual_rad": 7.884953353001449e-08,
+          "trace_file": "10-precision1.npz",
+          "trace_sha256": "a11bddeb8e3c4f39dc2a6badafa389629679b5f5e9c1e85b61048ae7523b7e25",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.2952141761779785,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.11337852842895346,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.8702793184391933,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              26,
+              27,
+              28
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 50,
+            "position_m": 1e-09,
+            "rotation_rad": 1e-08
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2454,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.11337847814287594,
+            "max_joint_acceleration_rad_s2": 0.8702785419233638,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 9.497086755947654e-10,
+          "maximum_rotation_residual_rad": 7.884953353001449e-08,
+          "trace_file": "10-precision2.npz",
+          "trace_sha256": "1dbeee9b02dc28fe44b2dfdce1aca2c05f4ecc347b99a85778f21a600208dfa9",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.3185901641845703,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.11337847814287594,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.8702785419233638,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              26,
+              27,
+              28
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        }
+      ]
+    },
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-train13-r4",
+      "layout": "TRAIN13",
+      "restart": 4,
+      "query": 2,
+      "native_step": 6203,
+      "state_sha256": "f63efcb0a0d68dc3e69c0722ef625f64d7101e985116257eeb33bea02ce620b8",
+      "decision_sha256": "7430527d2c4501e314cf6f8ca2c356171faaaa4172292e1fef28c7e7cbe7d30d",
+      "action_sha256": "94b0d255f348f443a732a67284c8efe707c23425dd32c349fd736cb31b53bff9",
+      "command_journal_sha256": "b254f198f8973784e3430ce773865b24d4d2dbc8ed840209f0de7c4d27cfdf1f",
+      "original_classification": "ACCEPTED_AND_CONSUMED",
+      "confirmed_commands": 10,
+      "original_certificate_unchanged": true,
+      "full_WBC_state_restored": false,
+      "settings": [
+        {
+          "settings": {
+            "max_updates": 5,
+            "position_m": 1e-05,
+            "rotation_rad": 0.0001
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2103,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.10940463166796865,
+            "max_joint_acceleration_rad_s2": 0.8945506330935604,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 4.1731702488342644e-07,
+          "maximum_rotation_residual_rad": 2.580956827951792e-07,
+          "trace_file": "11-precision0.npz",
+          "trace_sha256": "7da6f06aee32df63ff714e8c1deaffee48408648e3e4b92383d4678d81216834",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.29379820823669434,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.10940463166796865,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.8945506330935604,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              27,
+              28,
+              29
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 20,
+            "position_m": 1e-07,
+            "rotation_rad": 1e-06
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2104,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.10940463166797532,
+            "max_joint_acceleration_rad_s2": 0.8945506330930275,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 4.524213867040807e-09,
+          "maximum_rotation_residual_rad": 5.16191365590357e-08,
+          "trace_file": "11-precision1.npz",
+          "trace_sha256": "a43be37e77c8489daeaf933b09c24e994fc32eb9b962456dac86f10b6ed443f9",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.2981886863708496,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.10940463166797532,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.8945506330930275,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              27,
+              28,
+              29
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 50,
+            "position_m": 1e-09,
+            "rotation_rad": 1e-08
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2454,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.10940459498816946,
+            "max_joint_acceleration_rad_s2": 0.8945506330936048,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 9.820357672537443e-10,
+          "maximum_rotation_residual_rad": 5.16191365590357e-08,
+          "trace_file": "11-precision2.npz",
+          "trace_sha256": "545aec87e3a58335e2466eb33b0c61e198936fef8ecdaa757afd0b2b456dd6f3",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.31786370277404785,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.10940459498816946,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.8945506330936048,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              27,
+              28,
+              29
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        }
+      ]
+    },
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-train25-r4",
+      "layout": "TRAIN25",
+      "restart": 4,
+      "query": 2,
+      "native_step": 6203,
+      "state_sha256": "337a3107960d6cba5a744473cd358b3f7671fbfd5f322e7b300fec5b0f55012c",
+      "decision_sha256": "269e496f6c2c8e4bf327bc19a45682a6f9cfc4e1505ab696e01408c98ed11dc1",
+      "action_sha256": "94ae996c55f98b8f7753ad4107bf9d191ac15fd89065a5c12255d9dbf91f88f9",
+      "command_journal_sha256": "e99e01ca6ee9fd4f62af1a000667de327e3421d9a49656988cd8b74c55e87177",
+      "original_classification": "ACCEPTED_AND_CONSUMED",
+      "confirmed_commands": 10,
+      "original_certificate_unchanged": true,
+      "full_WBC_state_restored": false,
+      "settings": [
+        {
+          "settings": {
+            "max_updates": 5,
+            "position_m": 1e-05,
+            "rotation_rad": 0.0001
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2103,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.11142164537317756,
+            "max_joint_acceleration_rad_s2": 0.8661136273334868,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 9.141784016692835e-07,
+          "maximum_rotation_residual_rad": 5.004660971089256e-07,
+          "trace_file": "12-precision0.npz",
+          "trace_sha256": "426243712c663d02b5d24d65826e4c29a00219ccd6af19ba082ce52134973cfa",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.29624104499816895,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.11142164537317756,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.8661136273334868,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              32,
+              33,
+              34
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 20,
+            "position_m": 1e-07,
+            "rotation_rad": 1e-06
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2104,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.11142164537316424,
+            "max_joint_acceleration_rad_s2": 0.8661136273340642,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 3.4986513619549772e-09,
+          "maximum_rotation_residual_rad": 5.16191365590357e-08,
+          "trace_file": "12-precision1.npz",
+          "trace_sha256": "cf222858f627c9d10583643f1d957b572919c6d5c272bed5ae6bdd71cee14001",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.2983973026275635,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.11142164537316424,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.8661136273340642,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              32,
+              33,
+              34
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 50,
+            "position_m": 1e-09,
+            "rotation_rad": 1e-08
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2454,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.11142159599380141,
+            "max_joint_acceleration_rad_s2": 0.866111899337918,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 9.47647189658477e-10,
+          "maximum_rotation_residual_rad": 5.16191365590357e-08,
+          "trace_file": "12-precision2.npz",
+          "trace_sha256": "74256a436e08acba91c8934064190cc7415019dd697ddfdec5b28fd4b299e25b",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.3190879821777344,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.11142159599380141,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.866111899337918,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              32,
+              33,
+              34
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        }
+      ]
+    },
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-train01-r3",
+      "layout": "TRAIN01",
+      "restart": 3,
+      "query": 3,
+      "native_step": 6453,
+      "state_sha256": "ddf56dceb681b2c8b7574b4628eb73f5c4a175024d749f7dc4465eeb08edcbd8",
+      "decision_sha256": "a1183dd7650da9ae9a4be09ac5edf60b1d5f080e81797181a47a6174e960fd36",
+      "action_sha256": "57a0d420c1b804dbd8d1394a5b4a7bac9c1fec211f5c62eece87e828ca2c7d60",
+      "command_journal_sha256": "b2598e240e2aaf0e1f8002847d37314599d6ae520dcb7373b3dc1c613df9f673",
+      "original_classification": "ACCEPTED_AND_CONSUMED",
+      "confirmed_commands": 10,
+      "original_certificate_unchanged": true,
+      "full_WBC_state_restored": false,
+      "settings": [
+        {
+          "settings": {
+            "max_updates": 5,
+            "position_m": 1e-05,
+            "rotation_rad": 0.0001
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2103,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.10743539888754317,
+            "max_joint_acceleration_rad_s2": 0.7726427685339932,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 4.368858510541629e-07,
+          "maximum_rotation_residual_rad": 2.11785292678355e-07,
+          "trace_file": "13-precision0.npz",
+          "trace_sha256": "a535b2e5925e09c1e95e7f5e7f9bc6475c712fb727b5d4b8eceafb2843288bb1",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.2940521240234375,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.10743539888754317,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.7726427685339932,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              1,
+              2,
+              3
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 20,
+            "position_m": 1e-07,
+            "rotation_rad": 1e-06
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2104,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.1074353988875365,
+            "max_joint_acceleration_rad_s2": 0.7726427685341264,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 2.735871705923298e-09,
+          "maximum_rotation_residual_rad": 5.960464477539064e-08,
+          "trace_file": "13-precision1.npz",
+          "trace_sha256": "0050d59c5587cc992066bac593d9338ec8a6f0e9d2b3e254d797d1d18f1e757c",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.29630398750305176,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.1074353988875365,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.7726427685341264,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              1,
+              2,
+              3
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 50,
+            "position_m": 1e-09,
+            "rotation_rad": 1e-08
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2404,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.10743536231707873,
+            "max_joint_acceleration_rad_s2": 0.7726427685341264,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 9.652573740604262e-10,
+          "maximum_rotation_residual_rad": 5.960464477539064e-08,
+          "trace_file": "13-precision2.npz",
+          "trace_sha256": "fc6fc5d48a7a66ce8a1f3e90a001f2d73f9afdd113419927e71adec35987d7ba",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.31699323654174805,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.10743536231707873,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.7726427685341264,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              1,
+              2,
+              3
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        }
+      ]
+    },
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-train13-r4",
+      "layout": "TRAIN13",
+      "restart": 4,
+      "query": 3,
+      "native_step": 6453,
+      "state_sha256": "b3d982d8342d5dd93fa497889ff679d76fa11cefa8ef101cc1972283bd5dbd12",
+      "decision_sha256": "d54363230507ee7b99a343c8afdf7a2a18851103ccdfe5992ec7afa9c0940433",
+      "action_sha256": "41c8ea1c55eb6db579cfa23320fdfb8ebf53c935a3a391c3aef3f319db617775",
+      "command_journal_sha256": "b254f198f8973784e3430ce773865b24d4d2dbc8ed840209f0de7c4d27cfdf1f",
+      "original_classification": "ACCEPTED_AND_CONSUMED",
+      "confirmed_commands": 10,
+      "original_certificate_unchanged": true,
+      "full_WBC_state_restored": false,
+      "settings": [
+        {
+          "settings": {
+            "max_updates": 5,
+            "position_m": 1e-05,
+            "rotation_rad": 0.0001
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2103,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.1066086838734237,
+            "max_joint_acceleration_rad_s2": 0.8069604149198106,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 3.3652470660670373e-07,
+          "maximum_rotation_residual_rad": 2.1900144899933185e-07,
+          "trace_file": "14-precision0.npz",
+          "trace_sha256": "018382dce15a233ae61053a1c190b367355131d1818e644772f5f9954521ea23",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.2950139045715332,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.1066086838734237,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.8069604149198106,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              27,
+              28,
+              29
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 20,
+            "position_m": 1e-07,
+            "rotation_rad": 1e-06
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2104,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.10660868387341038,
+            "max_joint_acceleration_rad_s2": 0.8069604149196774,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 2.9184431072132745e-09,
+          "maximum_rotation_residual_rad": 7.300048299977716e-08,
+          "trace_file": "14-precision1.npz",
+          "trace_sha256": "b9bd05c2447698dbc5f8ebb0bde5c07daea6e3835977abaf0f3f1e950106b7b3",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.29408693313598633,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.10660868387341038,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.8069604149196774,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              27,
+              28,
+              29
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 50,
+            "position_m": 1e-09,
+            "rotation_rad": 1e-08
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2404,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.1066086381557052,
+            "max_joint_acceleration_rad_s2": 0.8069604149192777,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 9.74338759227003e-10,
+          "maximum_rotation_residual_rad": 7.300048299977716e-08,
+          "trace_file": "14-precision2.npz",
+          "trace_sha256": "f3286167c570084efe7d84ffafa59888247a8292bf85a341e8c87791e8103f2d",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.3134951591491699,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.1066086381557052,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.8069604149192777,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              27,
+              28,
+              29
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        }
+      ]
+    },
+    {
+      "native_run": "sla-n20_reference_fm3k_raw_p10-train25-r4",
+      "layout": "TRAIN25",
+      "restart": 4,
+      "query": 3,
+      "native_step": 6453,
+      "state_sha256": "864b4c0ea34cc3f64ff767c663b2a59184ce824f5c4869f05a6dd414714338d8",
+      "decision_sha256": "e25b89db389db97082b0da10fdad838028d6d565f4c23dff5a56208e378a7ac7",
+      "action_sha256": "d34df23c7d9a011d2f1747017df4f04818deb0ef122f460ff0d3b07c85084f43",
+      "command_journal_sha256": "e99e01ca6ee9fd4f62af1a000667de327e3421d9a49656988cd8b74c55e87177",
+      "original_classification": "ACCEPTED_AND_CONSUMED",
+      "confirmed_commands": 10,
+      "original_certificate_unchanged": true,
+      "full_WBC_state_restored": false,
+      "settings": [
+        {
+          "settings": {
+            "max_updates": 5,
+            "position_m": 1e-05,
+            "rotation_rad": 0.0001
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2103,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.10302063818045548,
+            "max_joint_acceleration_rad_s2": 0.8306038385980319,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 8.291844616533469e-07,
+          "maximum_rotation_residual_rad": 4.251403396632437e-07,
+          "trace_file": "15-precision0.npz",
+          "trace_sha256": "76256a582076d78b28bc606f07bb95735d10fe1fbc3d4e6fde30e15922884b4f",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.2924036979675293,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.10302063818045548,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.8306038385980319,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              1,
+              2,
+              3
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 20,
+            "position_m": 1e-07,
+            "rotation_rad": 1e-06
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2104,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.1030206381804355,
+            "max_joint_acceleration_rad_s2": 0.8306038385988757,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 2.781714196409558e-09,
+          "maximum_rotation_residual_rad": 6.664001874625058e-08,
+          "trace_file": "15-precision1.npz",
+          "trace_sha256": "c519e6e0da0703dc98e9e45272092aaae367274be40ee508152afccab05a6320",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.29325342178344727,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.1030206381804355,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.8306038385988757,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              1,
+              2,
+              3
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        },
+        {
+          "settings": {
+            "max_updates": 50,
+            "position_m": 1e-09,
+            "rotation_rad": 1e-08
+          },
+          "result": "DIAGNOSTIC_PASS_ONLY",
+          "certificate": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1051,
+            "local_IK_iterations": 2454,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.10302060625374754,
+            "max_joint_acceleration_rad_s2": 0.8306038385988757,
+            "executed_reference_history_points": 2,
+            "Cartesian_reference_values_changed": false
+          },
+          "full_path_solved": true,
+          "solved_points": 1051,
+          "maximum_position_residual_m": 9.481844675079122e-10,
+          "maximum_rotation_residual_rad": 6.664001874625058e-08,
+          "trace_file": "15-precision2.npz",
+          "trace_sha256": "62b91e5603272bdd3608275af8073aa90c0da2ea18d6508bbde437c0fade1c57",
+          "AST_changes": {
+            "loop": 1,
+            "ep": 2,
+            "er": 2,
+            "trace": 1
+          },
+          "wall_s": 0.3166787624359131,
+          "formal_native_admission": false,
+          "rates": {
+            "maximum_speed_rad_s": 0.10302060625374754,
+            "speed_limit_rad_s": 0.7,
+            "maximum_acceleration_rad_s2": 0.8306038385988757,
+            "acceleration_limit_rad_s2": 1.0,
+            "peak_joint": 3,
+            "peak_H40_knot_triple": [
+              1,
+              2,
+              3
+            ],
+            "first_acceleration_exceedance": null,
+            "history_points": 2,
+            "index_convention": "ZERO_BASED_H40; negative indices are executed history"
+          }
+        }
+      ]
+    }
+  ]
+}

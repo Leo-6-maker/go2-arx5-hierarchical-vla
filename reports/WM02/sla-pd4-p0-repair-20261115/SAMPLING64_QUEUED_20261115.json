@@ -1,0 +1,51 @@
+{
+  "schema": "SLA_PD4_FIXED64_SAMPLING_REGISTERED_QUEUED_ACTUAL_V71",
+  "as_of": "2026-11-15T12:38:21+0800",
+  "run": "sla-pd4-sampling64-v71-20261115-01",
+  "spec_sha256": "b86ab1674b62c11789466827caadca4430ad223bb734a8bf50c28815e15fdd1b",
+  "implementation_source_commit": "b2426980bb5341c15de13e12bf22689ab28847ca",
+  "execution_source_base": "20dcd9ca65fd84689b331e249d3a85f2869a076b",
+  "component_sha256": {
+    "sla_pd4_sampling_queue_v71.py": "496e877eb62fabcb5f71a09bb87d6c2dc8f25dd44c1d44602c4d722016371d1c",
+    "diagnose_pd4_sampling_v71.py": "8620557b157f03956847c5d6d30bd272f58396ae64b26eb276ac042206c7ee9e",
+    "sampling_timing_v71.py": "6d6b48a356ced6437fb1cd58834eca7c391dec0d8bc8fc9e0dde3f5af4d598fb",
+    "DECLARATION.private.json": "84c13ef4444ca6057a92aa111d88c4e505e21bf5cde198a8548d511aff3d346d"
+  },
+  "actual_registration_complete": true,
+  "actual_dispatch_complete": true,
+  "independent_observations": [
+    {
+      "time": "2026-11-15T12:36:03+0800",
+      "process_observed_live": true,
+      "same_service_identity": true,
+      "progress_epoch": 1794717349.9551694
+    },
+    {
+      "time": "2026-11-15T12:38:21+0800",
+      "process_observed_live": true,
+      "same_service_identity": true,
+      "progress_epoch": 1794717500.6034086
+    }
+  ],
+  "state": "WAIT_CURRENT_P0_WINDOW_NO_MODEL",
+  "preflight_scope": "COMPONENT_IMPORT_AND_BUDGET_ONLY_NO_MODEL",
+  "preflight_passed": true,
+  "component_hashes_match": true,
+  "declaration_hash_matches": true,
+  "cache_filesystem": "ext4",
+  "finite_parent_deadline": "2026-11-16T00:35:48.324132+08:00",
+  "inference_max_walltime_s": 3600,
+  "planned_generations": 64,
+  "actual_SLA_parent_loads": 0,
+  "actual_generations": 0,
+  "optimizer_updates": 0,
+  "training_visits": 0,
+  "physical_requests": 0,
+  "physics_integrations": 0,
+  "formal_original10_policy_changed": false,
+  "P0_current_window_has_resource_priority": true,
+  "automatic_retry": false,
+  "automatic40step_extension": false,
+  "old_RP8_passed": false,
+  "task_success_established": false
+}

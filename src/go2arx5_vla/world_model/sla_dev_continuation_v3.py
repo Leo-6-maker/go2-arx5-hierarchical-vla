@@ -10,10 +10,12 @@ SCHEMA = 'SLA_DEV16_COLD_SUFFIX_INPUT_V3'
 REGISTRATION_PROOF_KEYS = frozenset(('S1_loader_reconstruction', 'S1_prelaunch_reconciliation'))
 
 
-def reconciled_prelaunch(panel, inp, names, journal, registry):
+def reconciled_prelaunch(panel, inp, names, journal, registry, *,
+                        proof_key='S1_prelaunch_reconciliation',
+                        expected_failure='ValueError: TASK_LEARNING_GRASP_SLA_DEPLOYMENT_USES_ACTUAL_TRAINED_AND_QUALIFIED_ADAPTER_CODE'):
     """Prove that the known rejected registration had no run or registry effect."""
     from .task_learning_grasp_v1 import need
-    proof = panel['registration'].get('S1_prelaunch_reconciliation')
+    proof = panel['registration'].get(proof_key)
     if proof is None:
         return None
     need(set(proof) == {'input', 'result', 'lease', 'registration_intent'}, 'EXACT_S1_PREFLIGHT_PROOF')
@@ -25,7 +27,7 @@ def reconciled_prelaunch(panel, inp, names, journal, registry):
          and lease['input_sha256'] == proof['input']['sha256']
          and old['native_base'] == inp['native_base'] and old['gpu_base'] == inp['gpu_base']
          and old['assignment_slice'] == result['assignment_slice'] and result['completed_in_group'] == 0
-         and result['failure'] == 'ValueError: TASK_LEARNING_GRASP_SLA_DEPLOYMENT_USES_ACTUAL_TRAINED_AND_QUALIFIED_ADAPTER_CODE'
+         and result['failure'] == expected_failure
          and result['unresolved_pair']['stage'] == 'REGISTRATION_NOT_COMPLETED_NO_REPLAY',
          'CLOSED_EFFECT_FREE_S1_LOADER_PREFLIGHT_REQUIRED')
     root = Path(result['unresolved_pair']['native_root'])

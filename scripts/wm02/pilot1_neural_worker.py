@@ -23,7 +23,11 @@ def main(argv=None):
         raise PermissionError('EXACT_FRESH_PILOT1_WORKER_REQUIRED')
     if (root / 'SUPERVISOR.private.json').exists():
         raise FileExistsError('DO_NOT_REDISPATCH_EXISTING_OR_UNKNOWN_WORKER')
-    write(root / 'SUPERVISOR.private.json', dict(pid=os.getpid(), source_sha=spec['source_sha'], started_epoch=time.time()))
+    if spec.get('enforce_cpu_slot_v5') is True:
+        cpus=set(spec['cpus'])
+        if not cpus or not cpus<=os.sched_getaffinity(0):raise PermissionError('REGISTERED_NEURAL_CPU_SLOT_REQUIRED')
+        os.sched_setaffinity(0,cpus)
+    write(root / 'SUPERVISOR.private.json', dict(pid=os.getpid(), source_sha=spec['source_sha'], started_epoch=time.time(),actual_cpu_affinity=sorted(os.sched_getaffinity(0))))
     module = {'ACTOR_DISTILLATION': 'scripts.wm02.train_pilot1_actor',
               'TASK_ADAPTER': 'scripts.wm02.train_stable_task_adapter_v1',
               'ACTOR_STUDY': 'scripts.wm02.train_pilot2_matrix',

@@ -61,7 +61,43 @@ def _hash_parameter(digest, value, *, max_bytes=8 * 1024**2):
             del chunk
 
 
-def load_parent(params_path):
+def placement_dtype_name(path):
+    """Same final precision as the original loader, before materialization."""
+    parts = tuple(path)
+    if parts and parts[0] == 'params':
+        parts = parts[1:]
+    if parts and parts[-1] == 'value':
+        parts = parts[:-1]
+    return 'float32' if trainable(parts) else 'bfloat16'
+
+
+def _restore_for_placement(params_path):
+    """Pinned upstream restore structure with bounded, final-dtype host reads.
+
+    Keep every trainable interface in FP32 and frozen leaves in BF16, as the
+    original loader does after restoring. Avoid a full FP32 host mirror and
+    bound concurrent checkpoint reads to1GB. No checkpoint bytes are changed.
+    """
+    import jax
+    import jax.numpy as jnp
+    import orbax.checkpoint as ocp
+    from flax.traverse_util import flatten_dict, unflatten_dict
+    handler = ocp.PyTreeCheckpointHandler(restore_concurrent_gb=1)
+    with ocp.Checkpointer(handler) as checkpointer:
+        metadata = checkpointer.metadata(Path(params_path).resolve())
+        item = {'params': metadata['params']}
+        def argument(path, _):
+            dtype = jnp.float32 if placement_dtype_name(tuple(k.key for k in path)) == 'float32' else jnp.bfloat16
+            return ocp.ArrayRestoreArgs(restore_type=np.ndarray, dtype=dtype)
+        restored = checkpointer.restore(Path(params_path).resolve(), ocp.args.PyTreeRestore(
+            item=item, restore_args=jax.tree_util.tree_map_with_path(argument,item)))['params']
+    values = flatten_dict(restored)
+    if all(p[-1] == 'value' for p in values):
+        values = {p[:-1]: v for p,v in values.items()}
+    return unflatten_dict(values)
+
+
+def load_parent(params_path, *, host_cast=False):
     import flax.nnx as nnx
     import jax
     import jax.numpy as jnp
@@ -78,8 +114,11 @@ def load_parent(params_path):
     graph, reference = nnx.split(abstract)
     expected = flat(reference.to_pure_dict())
     phase('ORBAX_HOST_RESTORE_BEGIN')
-    loaded = flat(restore_params(Path(params_path), restore_type=np.ndarray))
+    loaded = flat(_restore_for_placement(params_path) if host_cast else
+                  restore_params(Path(params_path), restore_type=np.ndarray))
     phase('ORBAX_HOST_RESTORE_COMPLETE')
+    if host_cast:
+        gc.collect()
     missing = sorted(set(expected)-set(loaded))
     extra = sorted(set(loaded)-set(expected))
     if any('lora' not in '/'.join(p) for p in missing):
@@ -95,7 +134,19 @@ def load_parent(params_path):
                 raise ValueError('PRETRAINED_PARAMETER_SHAPE_MISMATCH:'+str(path))
             # Preserve all pretrained interfaces. Only frozen dense weights are
             # cast to BF16, as specified; trainable interfaces retain FP32.
-            value = jnp.asarray(value, dtype=jnp.float32 if selected else jnp.bfloat16)
+            dtype = jnp.float32 if selected else jnp.bfloat16
+            if host_cast:
+                # Bound transfer staging: send the final dtype instead of a
+                # full FP32 device input followed by a BF16 conversion kernel.
+                # S16 verifies the original full frozen fingerprint and all87
+                # initial model/Adam/RNG arrays before its first update.
+                host = np.asarray(value, dtype=dtype)
+                del value
+                value = jax.device_put(host)
+                jax.block_until_ready(value)
+                del host
+            else:
+                value = jnp.asarray(value, dtype=dtype)
         else:
             if not selected:
                 raise ValueError('NEW_PARAMETER_OUTSIDE_POSITIVE_ALLOWLIST')

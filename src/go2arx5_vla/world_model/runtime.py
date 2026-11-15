@@ -144,7 +144,13 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
             local_path(spec, item['path'])
             local_path(spec, item['checkpoint'])
         validate_contact_full_history_cpu(spec)
-    if gpu and spec.get('execution_site') == 'CORE_FUSION_NEURAL':
+    if gpu and (spec.get('execution_site')=='CORE_SLA_PD4_STUDENT_RGB_V71' or spec.get('pd4_student_v71')is not None):
+        import subprocess
+        from .pd4_student_v71 import validate_gpu
+        reply=subprocess.check_output(['nvidia-smi','--id='+spec['GPU_uuid'],'--query-gpu=uuid,memory.free','--format=csv,noheader,nounits'],text=True,timeout=15)
+        uuid,free=[x.strip()for x in reply.strip().split(',')]
+        validate_gpu(spec,dict(uuid=uuid,free_bytes=int(free)*1024**2));gpu_baseline=reply
+    elif gpu and spec.get('execution_site') == 'CORE_FUSION_NEURAL':
         import subprocess
         from .fusion_scope import validate_gpu
         from .pilot1_storage import local_path
@@ -306,7 +312,7 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
     night_campaign_owner = None
     night_physical_owner = None
     try:
-        if gpu and spec.get('execution_site') in ('CORE_WM02_GPU0','CORE_WM02_GPU1_REAL_S','CORE_WM02_GPU0_REAL_S','CORE_AUTO1_TARGET_NEURAL','CORE_PILOT1_NEURAL','CORE_FUSION_NEURAL'):
+        if gpu and spec.get('execution_site') in ('CORE_WM02_GPU0','CORE_WM02_GPU1_REAL_S','CORE_WM02_GPU0_REAL_S','CORE_AUTO1_TARGET_NEURAL','CORE_PILOT1_NEURAL','CORE_FUSION_NEURAL','CORE_SLA_PD4_STUDENT_RGB_V71'):
             neural_owner = OwnerLock(spec['neural_owner_lock'])
         if gpu and(spec.get('night1_binding')or spec.get('next1_binding')or spec.get('next2_binding')):
             night_campaign_owner=OwnerLock(Path(spec['campaign_root'])/'OWNER.lock')
@@ -321,7 +327,7 @@ def admitted_run(spec_path, run_id, profile, output, *, physics=False, gpu=False
             source_camera_scope(spec, output)
         write_json(output/'STARTED.json', dict(run_id=run_id, source_sha=spec['source_sha'],
             spec_sha256=digest(spec_path), pid=os.getpid(), epoch=time.time(), profile=profile,
-            GPU_compute_baseline=gpu_baseline if gpu and spec.get('execution_site')in('CORE_WM02_GPU0','CORE_WM02_GPU1_REAL_S','CORE_WM02_GPU0_REAL_S','CORE_AUTO1_TARGET_NEURAL','CORE_PILOT1_NEURAL','CORE_FUSION_NEURAL') else None))
+            GPU_compute_baseline=gpu_baseline if gpu and spec.get('execution_site')in('CORE_WM02_GPU0','CORE_WM02_GPU1_REAL_S','CORE_WM02_GPU0_REAL_S','CORE_AUTO1_TARGET_NEURAL','CORE_PILOT1_NEURAL','CORE_FUSION_NEURAL','CORE_SLA_PD4_STUDENT_RGB_V71') else None))
         yield spec
     finally:
         if night_physical_owner is not None:

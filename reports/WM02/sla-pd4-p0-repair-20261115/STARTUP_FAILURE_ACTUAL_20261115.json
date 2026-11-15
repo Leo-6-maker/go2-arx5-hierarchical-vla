@@ -1,0 +1,32 @@
+{
+  "schema": "SLA_PD4_P0_FIRST_STARTUP_ENGINEERING_FAILURE_RETAINED",
+  "source_sha": "34433fdaf7cfaa491372fc9a0589d0c231c6e028",
+  "scientific_condition": "sla-pd4-student-train4-v71-20261115-01-train01-pd4_executed_ref-r16",
+  "physical_requests": 1,
+  "native_integrations": 25,
+  "SLA_model_loads": 0,
+  "SLA_queries": 0,
+  "training_updates": 0,
+  "training_visits": 0,
+  "reset_ready": false,
+  "hard_safety_stops": 0,
+  "original_joint_or_warning_samples": 0,
+  "shutdown_clean": true,
+  "owned_native_process_exit_codes": {
+    "planner": 0,
+    "controller": 0,
+    "solver": 0,
+    "sim": 0
+  },
+  "first_failure": "ValueError: TASK_LEARNING_GRASP_SLA_ONLY_SEALED_READ_WAIT_WITHOUT_CLOCK_RETRY_OR_PHYSICS_CHANGE",
+  "native_result_sha256": "f7941b6421889f4020d79312f00358b3ad57151c9a37ca68bf1366488f5ec21c",
+  "native_worker_wall_s": 229.88164025451988,
+  "CPU_s": 8.659090095,
+  "GPU_worker_wall_s": 232.20400829799473,
+  "GPU_child_CPU_s": 1.953758,
+  "remaining_unstarted_conditions": 7,
+  "valid_policy_failures": 0,
+  "repair": "Add the already-declared PD4 role to the sealed exact-ACK read-wait route; retain90s, single ENTER, original quotas and all safety.",
+  "WBC_changes": false,
+  "old_RP8_passed": false
+}

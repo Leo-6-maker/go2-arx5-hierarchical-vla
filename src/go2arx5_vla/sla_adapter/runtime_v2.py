@@ -9,7 +9,6 @@ import time
 import numpy as np
 
 from .runtime_v1 import Engine as OriginalEngine, read_pin
-from .config_v1 import learning_rates
 from .batch_v2 import RNG_VERSION, accumulation_steps, prepared_batches, device_batch, draw_bank, error32
 
 
@@ -95,7 +94,7 @@ class BatchedEngine(OriginalEngine):
         wall = time.perf_counter() - start
         result = dict(step=self.step, cursor=self.cursor, microbatch=self.microbatch,
                       accumulation_steps=self.accumulation_steps, effective_batch=32,
-                      used_lr=learning_rates()[self.step - 1], grad_norm_before_clip=float(norm),
+                      used_lr=self.learning_rate_values[self.step - 1], grad_norm_before_clip=float(norm),
                       mean_FM32_loss=float(np.mean([row['loss'] for row in logs])), micro=logs,
                       wall_s=wall, samples_per_s=32 / wall, updates_per_s=1 / wall,
                       host_wait_s=sum(row['host_wait_s'] for row in logs),

@@ -84,8 +84,8 @@ def run_prefix(adapter,program,*,index,past_samples,past_windows,sample_observer
     from scripts.pi0292.eval_contract import matrix10
     c=cycle(adapter.spec,index);start,end,atoms=c['start_step'],c['end_step'],c['atoms']
     samples,windows=list(past_samples),list(past_windows)
-    from .task_learning_grasp_v1 import FiftyMsProgram,KIND as GRASP_KIND
-    program_ok=(type(program)is FiftyMsProgram and program.time_stretch_factor==1)if adapter.spec.get('kind')==GRASP_KIND else(type(program)is TrajectoryAdaptation and program.time_stretch_factor==2)
+    from .task_learning_grasp_v1 import program_type,KIND as GRASP_KIND
+    program_ok=(type(program)is program_type(adapter.spec,index) and program.time_stretch_factor==1)if adapter.spec.get('kind')==GRASP_KIND else(type(program)is TrajectoryAdaptation and program.time_stretch_factor==2)
     need(program_ok and program.geometry_scale==1. and np.array_equal(program.base_pose_hold,adapter.base_pose_hold)
          and np.array_equal(adapter.base_pose_hold,adapter.trajectory_initial_base),
          'ORIGINAL_FULL_REFERENCE_PROGRAM_AND_FIXED_BASE')
@@ -125,6 +125,9 @@ def run_prefix(adapter,program,*,index,past_samples,past_windows,sample_observer
              and np.array_equal(adapter.active_reference['action_EEF10'],action)
              and adapter.active_reference['wire_sha256']==reference['wire_sha256'],
              'EXACT_NEW_FULL_PREVIEW_ACK_AT_UNCHANGED_NATIVE_CLOCK')
+        recorder=getattr(adapter,'_final_plan_recorder_v61',None)
+        if recorder is not None and recorder.active is not None and elapsed==0:
+            recorder.certify(reference)
         record.update(stage='ORIGINAL_INSTALL_ACKED_BEFORE_EFFECT',wire_sha256=reference['wire_sha256'],
             source_mpc_s=reference['source_mpc_s'],receiver_events=reference['receiver_events'],
             supersedes_previous_from_native_step=packet['step'])
@@ -176,6 +179,9 @@ def run_prefix(adapter,program,*,index,past_samples,past_windows,sample_observer
             attempt.update(consumed,gripper=grip,actual_TCP=actual['tcp'].tolist(),
                 actual_state_vector=state_vector(actual).tolist(),stage='ACTUAL_CONSUMPTION_CONFIRMED')
             rows.append(attempt);windows.append(attempt)
+            recorder=getattr(adapter,'_final_plan_recorder_v61',None)
+            if recorder is not None and recorder.active is not None:
+                recorder.confirm(elapsed,attempt)
             adapter.reference_history.append(dict(end_native_step=step+25,pose=matrix10(actual_row)))
             adapter.command_event(dict(phase='live-skill-controller-consumed',protocol=adapter.spec['phase'],**attempt))
             attempt=None

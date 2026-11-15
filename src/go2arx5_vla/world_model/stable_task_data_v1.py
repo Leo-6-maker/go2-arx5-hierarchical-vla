@@ -107,7 +107,7 @@ def capture_input(adapter, *, language=None, task_score=None):
     if session_configuration(spec):
         from .native_body_camera_capture_v1 import BodyBaseCameraCapture
         camera = BodyBaseCameraCapture(frame)
-    elif spec.get('task_learning_role')in('NATIVE_BODY_SFT2000_TRAIN4_DIAGNOSTIC_V1','A_TARGET500_TRAIN4_DELIVERY_DIAGNOSTIC_V1','SLA_TARGET500_NATIVE_EVALUATION_V1'):
+    elif spec.get('task_learning_role')in('NATIVE_BODY_SFT2000_TRAIN4_DIAGNOSTIC_V1','A_TARGET500_TRAIN4_DELIVERY_DIAGNOSTIC_V1','SLA_TARGET500_NATIVE_EVALUATION_V1','SLA_DENSE3K_RAW_P10_NATIVE_EVALUATION_V5'):
         from .native_body_camera_capture_v1 import BodyBaseCameraCapture
         from .native_camera_transfer_v1 import CAMERA_ID
         from .task_learning_grasp_v1 import native_body_profile

@@ -1,0 +1,163 @@
+{
+  "schema": "SLA_V4_FIRST_EXECUTION_INCREMENT_ACTUAL",
+  "generated_SGT": "2026-11-13T23:35:31.098134+08:00",
+  "plan_revision": "080bf9fa3361f493c2012540ad18d7ae0102d6d5",
+  "execution_base": "3195f0eb664ed98db7f76ad0643ed1d742472a7b",
+  "R1": {
+    "real_updates": 500,
+    "optimization_visits": 16000,
+    "H200_RGB": 64,
+    "Core_RGB": 32,
+    "Core_fresh_process_bit_exact": true,
+    "native_physical_requests": 0,
+    "next": "Distinct R1 native bridge and fixed new R0/R1 diagnostic; RGB does not prove task execution."
+  },
+  "original_S1_DEV": {
+    "terminal": 15,
+    "requested": 16,
+    "successes": 0,
+    "policy_failures": 12,
+    "technical_failures": 3,
+    "remaining_unstarted": 1,
+    "consumed_candidate_H40": 0,
+    "next": "Diagnose step2653 ACTUAL_DYNAMIC_SOURCE_NOT_READY, then cold-continue only the unstarted row."
+  },
+  "target_production": {
+    "D100_new": 0,
+    "D300_new": 0,
+    "PICK_PLACE": 0,
+    "first_failure": "FULL_PRODUCTION_TASK_AND_COVERAGE_ADMISSION_INCOMPLETE",
+    "next": "Complete production expert/data admission; start D100 action/spatial training immediately once qualified, while collecting D300."
+  },
+  "source": {
+    "S_cmd_episodes": 0,
+    "real_RoboTwin_episodes_audited": 20,
+    "auxiliary_codec_probes": 64,
+    "actual_RGB_decodes": 128,
+    "first_failure": [
+      "ARCHIVE_COLLECTION_CODE_REVISION_UNBOUND",
+      "NO_PHYSICAL_TIMESTAMP_OR_TICK_RECORDS",
+      "COMMAND_JOINT_FK_AND_TOOL_FRAME_NOT_VERIFIED",
+      "RECORDED_ENDPOSE_IS_ACHIEVED_EEF_NOT_DESIRED_COMMAND",
+      "MEASURED_CURRENT_GRIPPER_STATE_NOT_ESTABLISHED"
+    ],
+    "next": "Resolve actual collection clock, desired-joint FK/tool and current-gripper semantics. The five selected default archives each have 50 episodes, not 200; separately named source-simulation generation remains an allowed fallback.",
+    "V4_1_fixed_tasks_audited": 20,
+    "episodes_per_fixed_task": {
+      "move_pillbottle_pad": 4,
+      "move_stapler_pad": 4,
+      "place_mouse_pad": 4,
+      "place_empty_cup": 4,
+      "place_object_stand": 4
+    },
+    "fixed_default_archive_format": "XPOLICYLAB_V1.0",
+    "declared_frequency_hz": [
+      15
+    ],
+    "archive_frequency_bound_to_native_clock": false,
+    "fixed_auxiliary_probes": 64,
+    "fixed_RGB_decodes": 128,
+    "original_exploratory_ARX5_audit_retained": true
+  },
+  "mixed_sampler": {
+    "implemented": true,
+    "CPU_simulated_batches_per_arm": 1000,
+    "real_training_visits": 0,
+    "CUDA_qualified": false,
+    "training_updates": 0,
+    "next": "Admitted source pilot and immutable target snapshot, then only the new GPU tensor/randomness seams."
+  },
+  "T100_M75_training": {
+    "updates": 0,
+    "T_visits": 0,
+    "S_visits": 0,
+    "first_failure": "D300_AND_COMPATIBLE_S1000_NOT_ADMITTED",
+    "next": "Reuse a fully matching T-only endpoint or run T100_3K; then M75_3K. Do not queue the optional grid."
+  },
+  "mobile": {
+    "offline_cases_run": 0,
+    "native_capability_conditions": 0,
+    "first_failure": "ACTUAL_DEPLOYED_BASE_INTERFACE_AUDIT_AND_EXECUTABLE_MANIPULATION_POLICY_REQUIRED",
+    "next": "Inspect actual BASE/frame/mode contract before new stance/native mobility trials; no locomotion claim."
+  },
+  "scientific_work_complete": false,
+  "collector_background": {
+    "fixed_requested": 16,
+    "physical_started": 16,
+    "sealed_successes": 16,
+    "actual_native_integrations": 347248,
+    "manager_live": false,
+    "model_updates": 0,
+    "production_D100_admitted": 0,
+    "next": "Preserve the closed fixed panel. Admit new production tasks/coverage separately; the named two-episode fitting pilot remains a separate snapshot.",
+    "manager_terminal": "CLOSED0"
+  },
+  "original_V4_plan_revision": "fd46f53cabcb00a30320b63607379e95a5bfdce1",
+  "latest_remote_main": "6843163d641eb24a29c3b1557f868765346ba66c",
+  "named_target_pilot": {
+    "dataset_id": "T_PICK_HOLD_TRAIN01_P10_2EP_V4_1",
+    "episodes": 2,
+    "supervised_windows": 122,
+    "original_RGB_frames": 642,
+    "actual_consumed_commands": 1280,
+    "manifest_sha256": "a5e1643d4e7b1736f3a86befdc5b7430bcaa806e2a6ae97a23cdb75d9b4c8b0c",
+    "optimizer_updates": 0,
+    "optimization_visits": 0,
+    "new_physical_requests": 0,
+    "D100_new": false,
+    "PICK_PLACE_admitted": false
+  },
+  "H200_named_pilot": {
+    "job_id": "716146.hopper-m-02",
+    "source_sha": "d20597a91cea544a2333b1adb9bbf3ba0ff51155",
+    "actual_queue_state": "R",
+    "GPU_allocation": true,
+    "qualification_updates": 8,
+    "candidate_updates": 513,
+    "optimization_visits": 16416,
+    "physical_requests": 0,
+    "planned_noncandidate_updates": 8,
+    "planned_candidate_updates": 3000,
+    "planned_candidate_visits": 96000,
+    "max_allocated_GPU_hours": 4,
+    "first_failure_or_wait": null,
+    "next": "Continue the same finite job to step1500/3000, export the endpoint and replay ordinary RGB in a fresh process; then qualify native policy execution. The current fitting pilot is not D100/D300/PICK_PLACE.",
+    "stage": "TRAINING_SAME_CLEAN_PARENT_DENSE_PICK_HOLD_3K",
+    "initial_wait_preserved": "NO_AVAILABLE_H200_GPU",
+    "qualification_optimization_visits": 256,
+    "qualification_RGB_generations": 48,
+    "full_state_restore_bit_exact": true,
+    "fresh_RGB16_bit_exact": true,
+    "complete_step500_checkpoint": true,
+    "step500_complete_sha256": "ba52032ec238ad2cb53f9bef7b4af3a840f862fcbee477e597bffefeb19e5d45"
+  },
+  "Core_named_pilot_qualification": {
+    "source_sha": "89c72e86350215d8f3294d4ee3a4e850bf159034",
+    "operation": "DENSE_CORE_MICRO1_QUAL4",
+    "planned_noncandidate_updates": 4,
+    "planned_visits": 128,
+    "actual_updates": 4,
+    "actual_visits": 128,
+    "physical_requests": 0,
+    "status": "CLOSED0_REAL_GRADIENT_FULL_SAVE_AND_RGB",
+    "prestart_registry_path_omission_repaired": true,
+    "H200_candidate_replaced": false,
+    "next": "Read actual gradient, saved state and RGB counts; preserve any failure without automatic replay.",
+    "ordinary_RGB_generations": 16,
+    "checkpoint_arrays": 87,
+    "actual_restores": 0,
+    "GPU_peak_bytes": 8543467776
+  },
+  "dense_spatial_cache": {
+    "source_sha": "e52be7f2adbcf8de5431dd007ddfccd90a40d602",
+    "teacher_forwards": 123,
+    "cached_windows": 122,
+    "CPU_all_row_readback": true,
+    "cache_manifest_sha256": "9de1a45c2084078f2036c8595f586c548ee790f1979f09fc502ddb4b917b954d",
+    "teacher_updates": 0,
+    "SLA_updates": 0,
+    "physical_requests": 0,
+    "spatial_gradient_qualified": false,
+    "next": "Wire this distinct dense cache into matched spatial gradients; qualify alpha0 common updates and positive spatial gradients before the same-parent/data/budget spatial arm."
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "schema": "SLA_PD4_BACKGROUND_QUEUES_ACTUAL_SNAPSHOT_V71",
+  "clock": "2026-11-15T02:24:31+0800",
+  "training_source": "3c55d392f7a6eb485f5a3b1c3645000b06da6049",
+  "evaluation_source": "4f62a88445f0f7ac2aa2071f57de4eca7038cd86",
+  "evaluation_spec_sha256": "e8f12e797de9f9aed8c0c71b5f7fc0b7b4400a21d1bd9f40a41a4f25cf0ebeeb",
+  "evaluation_plan_sha256": "140b9087dc3200981c5a754b4acc819b2b304a63c675cb170c844d51af6bb3ec",
+  "arms": {
+    "PD4_EXECUTED_REF": {
+      "actual_optimizer_updates": 265,
+      "actual_training_visits": 8480,
+      "terminal": false,
+      "last_committed_gradient_norm": 0.039279915392398834
+    },
+    "PD4_FINAL_PLAN": {
+      "actual_optimizer_updates": 0,
+      "actual_training_visits": 0,
+      "terminal": false,
+      "state": "UNDISPATCHED_NEXT_ARM_IN_FIXED_GPU0_QUEUE"
+    }
+  },
+  "evaluation": {
+    "state": "WAIT_BOTH_TRAINING_ARMS_TERMINAL",
+    "planned_conditions": 8,
+    "actual_physical_requests": 0,
+    "actual_SLA_generations": 0,
+    "terminal_conditions": 0,
+    "successes": null,
+    "after_both_complete500_only": true
+  },
+  "monitor": {
+    "poll_s": 180,
+    "local_service_running": true,
+    "last_probe_passed": true,
+    "event_delivered": false,
+    "resume": "REQUESTED_ONLY_WHEN_TERMINAL_OR_ATTENTION_EVENT_OCCURS_NOT_YET_VERIFIED"
+  },
+  "WBC_changes": false,
+  "old_RP8_passed": false,
+  "valid_failures_retried": false,
+  "remote_GitHub_publication": false
+}

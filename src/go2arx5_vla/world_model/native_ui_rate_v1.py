@@ -42,6 +42,9 @@ def patch(source):
 
 def baseline_spec(spec):
     """Bind historical control ancestry without relabeling the new executable."""
+    if spec.get('native_callback_replay_v61'):
+        from .native_callback_replay_v61 import baseline_spec as replay_baseline
+        spec=replay_baseline(spec)
     if not spec.get('native_ui_build')and not spec.get('native_ui_rate'):return spec
     from .task_learning_grasp_v1 import CONSTRUCTION_ROLE,EXPANSION_QUALIFICATION_ROLE
     expert=spec.get('task_learning_role')=='CORELAB_EXPERT_TRAIN4_SEMANTICS_NOT_BC_V3'

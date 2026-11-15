@@ -1,0 +1,56 @@
+{
+  "schema": "SLA_THREE_OBJECT_PICK_HOLD_GEOMETRY_V5_2_PANEL",
+  "fixed_plan": "f61305f9c1f847e460851fd067892160f71ca432",
+  "expert_version": "SLA_THREE_OBJECT_PICK_HOLD_GEOMETRY_V5_2",
+  "purpose": "New geometry-aware expert construction after exact replay of three original full-H40 contact rejections;not student evaluation or formal production",
+  "tasks": [
+    "PICK_HOLD"
+  ],
+  "objects": [
+    "BLUE_BOX50_30_40",
+    "GREEN_CUBE35",
+    "PURPLE_BOX45_35_50"
+  ],
+  "pose_id": "POSE01",
+  "restart": 12,
+  "requested": 3,
+  "grasp_goal_delta_world_m": [
+    -0.005,
+    0.0,
+    0.0
+  ],
+  "object_dimensions_or_mass_changed": false,
+  "original_contact_thresholds_and_full_H40_certificate_unchanged": true,
+  "completed_red_yellow_conditions_replayed": false,
+  "original_failed_rows_retained": true,
+  "queries": 60,
+  "executed_prefix_atoms": 10,
+  "full_preview_atoms": 40,
+  "final_hold_atoms": 40,
+  "native_endpoint": 21703,
+  "expected_consumed_commands": 640,
+  "expected_dual_frame_pairs": 321,
+  "expected_H40_windows": 61,
+  "maximum_new_concurrent_worlds": 3,
+  "CPU_slots": [
+    [
+      6,
+      7
+    ],
+    [
+      12,
+      13
+    ],
+    [
+      14,
+      15
+    ]
+  ],
+  "frozen_WBC_and_native_safety": true,
+  "models_or_updates": 0,
+  "D100_new": false,
+  "automatic_failed_condition_retry": false,
+  "original50_scene_static_checks_repeated": false,
+  "source_camera_qualification_repeated": false,
+  "changed_native_entry_preflight_required": true
+}

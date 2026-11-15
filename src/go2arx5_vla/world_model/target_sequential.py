@@ -33,7 +33,16 @@ def await_native_startup(adapter):
     # markers and both feedback streams are ready; no ENTER is published here.
     ready=lambda:(native_startup_readiness(adapter.output,adapter.reference_phase())
                   and adapter.counts.get('odom',0)>10 and adapter.counts.get('arm',0)>10)
-    if not adapter.spin(NATIVE_STARTUP_READ_WAIT_S,ready):
+    wait=NATIVE_STARTUP_READ_WAIT_S
+    spec=getattr(adapter,'spec',{})
+    if spec.get('native_startup_read_wait_s') is not None:
+        if (type(spec['native_startup_read_wait_s']) is not int or spec['native_startup_read_wait_s'] != 600
+                or spec.get('phase') != 'collect-target-task-learning-grasp-v1'
+                or spec.get('task_learning_role') != 'CORELAB_EXPERT_TRAIN4_SEMANTICS_NOT_BC_V3'
+                or not spec.get('corelab_world_binding_v3') or spec.get('wall_limit_s') != 3600):
+            raise PermissionError('FINITE_INDEPENDENT_EXPERT_STARTUP_READ_WAIT_REQUIRED')
+        wait=spec['native_startup_read_wait_s']
+    if not adapter.spin(wait,ready):
         raise RuntimeError('PAUSED_NATIVE_EXECUTOR_OR_FEEDBACK_UNAVAILABLE')
 
 
@@ -51,6 +60,15 @@ def native_display_command(spec,output,environment,*,live_output=None):
     env=dict(environment)
     for key in('LD_PRELOAD','WM02_INIT_TRACE','WM02_INIT_SEAL_REQUEST'):env.pop(key,None)
     prefix=[spec['xvfb_run'],'-a']
+    if spec.get('native_display_wait_v5') is not None:
+        from scripts.wm02.await_native_display_v5 import VERSION
+        if (spec['native_display_wait_v5'] != VERSION
+                or spec.get('phase') != 'collect-target-task-learning-grasp-v1'
+                or spec.get('task_learning_role') != 'CORELAB_EXPERT_TRAIN4_SEMANTICS_NOT_BC_V3'
+                or not spec.get('corelab_world_binding_v3')):
+            raise PermissionError('FRESH_INDEPENDENT_EXPERT_DISPLAY_WAIT_ONLY')
+        prefix += ['-e',str(Path(output)/'XSERVER.private.log'),spec['python'],'-B','-m',
+                   'scripts.wm02.await_native_display_v5','--log',str(Path(output)/'DISPLAY_READY.private.json'),'--']
     if spec.get('native_signal_trace'):
         from .storage import digest
         path=spec['native_signal_trace']
@@ -530,6 +548,11 @@ class TargetSequentialAdapter:
                 stage={'CLOSE':'close','SUPPORTED_HOLD':'hold','RELEASE':'release','EARLY_RELEASE':'release','OPEN_HOLD':'release'}.get(getattr(self,'pilot1_supported_stage',None),'approach')
             if self.spec['phase']=='collect-target-task-learning-grasp-v1':
                 stage={'CLOSE':'close','LIFT':'lift','HOLD':'hold'}.get(getattr(self,'task_learning_stage',None),'approach')
+                if self.spec.get('sla_pick_place_v5')is not None:
+                    from .sla_pick_place_v5 import configuration
+                    configuration(self.spec)
+                    stage={'TRANSFER':'lift','LOWER':'release','RELEASE':'release','WITHDRAW':'detach','PLACED':'release'}.get(
+                        getattr(self,'task_learning_stage',None),stage)
             try:
                 with measure(self,'reference.original_full40_certificate'):
                     with forbid_integration(mujoco):
@@ -826,7 +849,11 @@ class TargetSequentialAdapter:
         finally:
             from .native_async_journal_v3 import close_journal
             try:close_journal(self)
-            finally:close_resources(self)
+            finally:
+                try:
+                    recorder=getattr(self,'_final_plan_recorder_v61',None)
+                    if recorder is not None:recorder.close()
+                finally:close_resources(self)
     def _close_native(self):
         # Signal only the Popen-owned process groups; retain all actual exits.
         for name,p in reversed(self.processes):

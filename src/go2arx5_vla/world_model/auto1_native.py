@@ -134,11 +134,10 @@ def validate_scope(spec,lease,registry,*,host,uid,now):
     from .storage import digest
     if spec.get('diagnostic_debugger')and(spec.get('standby_shutdown_diagnostic')is not True or spec['phase']!='cold-1'):raise PermissionError('DEBUGGER_ONLY_FOR_ZERO_TICK_STANDBY_DIAGNOSIS')
     wall_bound=1200 if spec.get('phase')in('collect-target-fusion-c02-source-state-feedback-v2','collect-target-fusion-c02-source-state-initialization-v1','collect-target-fusion-trajectory-slow-qualification-v2','collect-target-fusion-trajectory-response-v1','collect-target-fusion-paused-query-v2','collect-target-fusion-live-proposal-qualification-v3','collect-target-fusion-source-posture-qualification-v1','collect-target-fusion-source-posture-query-v3','collect-target-fusion-task-phase-initialization-v1','collect-target-fusion-task-phase-bias-calibration-v2','collect-target-fusion-task-phase-bias-continuation-v3','collect-target-fusion-task-phase-xyz-feedback-v4','collect-target-fusion-task-phase-xyz-feedback-continuation-v5','collect-target-fusion-task-phase-pose-feedback-v6','collect-target-fusion-task-phase-pose-continuation-v7','collect-target-fusion-task-phase-bias-fade-v8','collect-target-fusion-task-phase-live-skill-v8','collect-target-fusion-task-phase-live-skill-v9','collect-target-stable-start-short-v1','collect-target-stable-task-data-v1','collect-target-stable-task-eval-v1','collect-target-stable-task-closed-loop-v1','collect-target-gr00t-prefix-loop-v1','collect-target-teacher-prefix-diagnostic-v1','collect-target-task-learning-grasp-v1')else 600
-    if spec.get('native_live_control_v3') is not None:
-        from .native_live_control_v3 import maximum_wall_seconds
-        # New expert production keeps its exact native-tick budget. A finite
-        # one-hour wall window accommodates measured shared-storage waits.
-        wall_bound=maximum_wall_seconds(spec,wall_bound)
+    from .native_live_control_v3 import maximum_wall_seconds
+    # Typed expert/dense/R1 wall allowances do not depend on opting into the
+    # separate tmpfs transport. Ordinary roles retain their original bound.
+    wall_bound=maximum_wall_seconds(spec,wall_bound)
     if (spec['domain']!='WM02_AUTO1_TARGET_COMMISSION_V1'or spec['physics']is not True
             or spec['site_profile']!='4080-simulation'or spec['owner']!='EXISTING_LOCAL_PC'
             or host!='corelab-4080s'or uid!=2009 or spec['host']!=host or spec['uid']!=uid
@@ -154,6 +153,14 @@ def admitted_target(spec_path,run_id,output):
     from .runtime import admitted_run
     from .storage import digest
     spec=json.loads(Path(spec_path).read_text());campaign=Path(spec['campaign_root'])
+    if spec.get('pd4_statistics_prospective_v71')is not None or spec.get('execution_site')=='CORE_SLA_PD4_PROSPECTIVE_NATIVE_V71':
+        from .pd4_prospective_v71 import admitted
+        with admitted(spec_path,run_id,output)as current:yield current
+        return
+    if spec.get('pd4_student_v71')is not None or spec.get('execution_site')=='CORE_SLA_PD4_STUDENT_NATIVE_V71':
+        from .pd4_student_v71 import admitted
+        with admitted(spec_path,run_id,output)as current:yield current
+        return
     previous=json.loads(Path(spec['previous_stage']).read_text())if spec.get('previous_stage')else None
     if previous is not None:
         if (digest(spec['previous_stage'])!=spec['previous_stage_sha256']or previous.get('campaign_uuid')!=campaign.name
