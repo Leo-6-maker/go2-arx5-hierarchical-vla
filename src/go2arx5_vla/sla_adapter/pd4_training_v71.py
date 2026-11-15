@@ -16,12 +16,7 @@ from .runtime_v4 import DensePilotEngine
 from .runtime_v1 import read_pin
 from .mixed_visits_v4 import Catalog,MixedVisits
 
-OPERATION='SLA_PD4_MATCHED_FM32_500_V7_1'
-MANIFESTS={'PD4_EXECUTED_REF':'a06eab92e12f9b6eec91e04d45665cb9f65834d1d0f626a9b0a0b22571df3f4c',
-           'PD4_FINAL_PLAN':'f9482067c8634fec3dab197a50a9aa8ae1b0c37731d8bf32e446ce3cd883e603'}
-STATISTICS={'PD4_EXECUTED_REF':'66ff4bdf39bfbf1db3d9ff394dad8a0a0384be1b4e22c0b80c1be2304cf6fe37',
-            'PD4_FINAL_PLAN':'31462fbeb99e907605eb203d359c78dedaf8f356f643adb725dc637c9a52fcbf'}
-LAYOUTS=('TRAIN01','TRAIN04','TRAIN07','TRAIN10')
+from .pd4_config_v71 import OPERATION,MANIFESTS,STATISTICS,LAYOUTS
 
 
 def native_qualification(pin):

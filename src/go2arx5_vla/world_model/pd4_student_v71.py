@@ -30,7 +30,7 @@ def protocol():
 
 
 def policy_contract(value,checkpoint_files=None,*,verify_package=True,expected_global_step=500):
-    from ..sla_adapter.pd4_training_v71 import MANIFESTS,STATISTICS,OPERATION
+    from ..sla_adapter.pd4_config_v71 import MANIFESTS,STATISTICS,OPERATION
     from ..sla_adapter.provider_v3 import contract
     if set(value)!={'arm','package','qualification'}or value['arm']not in MANIFESTS or expected_global_step!=500:
         raise PermissionError('PD4_ONLY_TWO_FIXED500_RAW_POLICIES')
@@ -61,7 +61,7 @@ def policy_contract(value,checkpoint_files=None,*,verify_package=True,expected_g
 
 
 def panel_contract(panel):
-    from ..sla_adapter.pd4_training_v71 import MANIFESTS
+    from ..sla_adapter.pd4_config_v71 import MANIFESTS
     rows=panel['assignments']
     if (panel['schema']!=VERSION+'_PANEL'or panel['B1_global_step']!=500
             or panel['protocol']!=protocol()or len(rows)!=8 or len({r['native_run']for r in rows})!=8

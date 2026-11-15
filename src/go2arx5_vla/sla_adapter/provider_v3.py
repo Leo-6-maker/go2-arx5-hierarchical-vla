@@ -5,11 +5,7 @@ import shutil
 import numpy as np
 
 from .checkpoint_v1 import sha
-from .codec_v1 import Quantiles, pad32
-from .dataset_v1 import images224
-from .gripper_v2 import EPSILON, VERSION, GripLogitCodec
-from .model_v1 import Tokenizer, load_parent, observation
-from .provider_v1 import active_rows
+from .gripper_latent_v2 import EPSILON, VERSION
 
 SCHEMA = 'SLA_GRIP_LOGIT_ORDINARY_RGB_INFERENCE_PACKAGE_V3'
 DECODE_ORDER = 'INVERSE_LATENT_NORMALIZATION_THEN_SIGMOID_ONCE_THEN_ORIGINAL_NATIVE_NOMINAL_MAPPING'
@@ -54,6 +50,7 @@ def export(package, checkpoint, *, active_template, statistics, tokenizer, paren
 
 def write_verified_package(package, checkpoint, *, complete, active_template, statistics, tokenizer, parent_manifest):
     """Copy already validated endpoint assets; callers enforce their recipe."""
+    from .provider_v1 import active_rows
     package, checkpoint = Path(package), Path(checkpoint)
     bindings = complete['bindings']
     rows, _ = active_rows(complete, active_template)
@@ -86,6 +83,9 @@ def write_verified_package(package, checkpoint, *, complete, active_template, st
 
 class Provider:
     def __init__(self, package, *, manifest_sha256, parent_params, parent_manifest_path=None):
+        from .codec_v1 import Quantiles
+        from .model_v1 import Tokenizer, load_parent
+        from .provider_v1 import active_rows
         import flax.nnx as nnx
         import jax
         from openpi_client.image_tools import resize_with_pad
@@ -139,6 +139,10 @@ class Provider:
             raise ValueError('LOGIT_STATISTICS_VERSION_REQUIRED')
 
     def predict(self, state10, images, prompt, T_policy_from_mount, *, noise_id):
+        from .codec_v1 import pad32
+        from .dataset_v1 import images224
+        from .gripper_v2 import GripLogitCodec
+        from .model_v1 import observation
         import jax
         codec = GripLogitCodec(T_policy_from_mount)
         dummy = np.broadcast_to(np.asarray(state10), (40, 10)).copy()

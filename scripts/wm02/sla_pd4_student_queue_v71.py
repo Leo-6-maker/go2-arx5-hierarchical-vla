@@ -28,7 +28,7 @@ def cold(root):
 def terminal_training(spec):
     from go2arx5_vla.world_model.storage import digest
     from go2arx5_vla.world_model import pd4_student_v71 as p
-    from go2arx5_vla.sla_adapter.pd4_training_v71 import MANIFESTS
+    from go2arx5_vla.sla_adapter.pd4_config_v71 import MANIFESTS
     q=Path(spec['training_root'])
     if digest(q/'EXECUTION_SPEC.json')!=spec['training_spec_sha256']:
         raise PermissionError('EXISTING_TRAINING_IDENTITY_CHANGED')
