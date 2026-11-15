@@ -139,7 +139,9 @@ def run(path):
                         journal.once('LAUNCH-NEURAL-'+stage,dict(spec_sha256=job['spec_sha256']),lambda:launch_service(value,unit,'--neural'))
                         actual=started_unit(unit);ledger.job_update('neural-'+stage,state='RUNNING',process=actual)
             active=[r for r in state['attempts']if r['state']in ('CLAIMED','REGISTERED','RUNNING','LAUNCHED','UNKNOWN')]
-            write(root/'HEARTBEAT.private.json',dict(schema='MFREE_UNATTENDED_72H_HEARTBEAT_V1',epoch=now,sequence=counter,pid=os.getpid(),source_sha=s['source_sha'],spec_sha256=sha(path),deadline_epoch=s['deadline_epoch'],attempts=len(state['attempts']),physical_requests=sum(r.get('physical_requests',0)for r in state['attempts']),qualified=sum(r['state']=='QUALIFIED'for r in state['attempts']),active=active,snapshots=state['snapshots'],jobs=read(ledger.path)['jobs'],old_C20_real_updates=old_step,old_C20_real_visits=32*old_step,worlds_committed=total_limit,collectors_admitted=allowed,neural_reserved=reserved,resource_ok=resource_ok,unknown_owner_blocks=unknown,M_ASSIST='QUARANTINED',old_RP8_passed=False))
+            hashed=[r['initial_state_hashes']for r in state['attempts']if r.get('initial_state_hashes')]
+            unique_initial=len({json.dumps(v,sort_keys=True)for v in hashed})
+            write(root/'HEARTBEAT.private.json',dict(initial_state_diversity=dict(measured=len(hashed),unique=unique_initial,duplicate_rate=1-unique_initial/len(hashed)if hashed else None,seed_labels_do_not_prove_distinct_states=True),schema='MFREE_UNATTENDED_72H_HEARTBEAT_V1',epoch=now,sequence=counter,pid=os.getpid(),source_sha=s['source_sha'],spec_sha256=sha(path),deadline_epoch=s['deadline_epoch'],attempts=len(state['attempts']),physical_requests=sum(r.get('physical_requests',0)for r in state['attempts']),qualified=sum(r['state']=='QUALIFIED'for r in state['attempts']),active=active,snapshots=state['snapshots'],jobs=read(ledger.path)['jobs'],old_C20_real_updates=old_step,old_C20_real_visits=32*old_step,worlds_committed=total_limit,collectors_admitted=allowed,neural_reserved=reserved,resource_ok=resource_ok,unknown_owner_blocks=unknown,M_ASSIST='QUARANTINED',old_RP8_passed=False))
             state=read(ledger.path)
             endpoints=all('neural-'+n in state['jobs']and state['jobs']['neural-'+n]['state']in ('DONE','BLOCKED','DEDUPLICATED')for n in ('C60','C100'))
             if (stop or deadline or ('C100'in state['snapshots']and endpoints))and not active and not neural:final=True;break
@@ -147,7 +149,7 @@ def run(path):
             counter+=1;time.sleep(60)
     except BaseException:failure=traceback.format_exc()
     finally:
-        write(control/'DISPATCH.private.json',dict(epoch=time.time(),collectors=[],closed=True,reason='CONTROLLER_TERMINAL',failure=failure))
+        write(control/'DISPATCH.private.json',dict(epoch=time.time(),collectors=[],closed=not bool(failure and len(read(ledger.path)['supervisor_epochs'])<3),reason='CONTROLLER_TERMINAL',failure=failure))
         epochs=len(read(ledger.path)['supervisor_epochs'])
         if failure and epochs<3:
             write(root/f'CONTROLLER_EPOCH_{epochs}_FAILURE.private.json',dict(failure=failure,epoch=time.time(),restart_with_reconciliation_only=True))

@@ -29,6 +29,8 @@ def export(collection, destination):
     for descriptor in snapshot['episodes']:
         pin=descriptor['result']
         if sha(pin['path'])!=pin['sha256']:raise ValueError('IMMUTABLE_SNAPSHOT_NATIVE_RESULT')
+        if descriptor.get('spec')and sha(descriptor['spec']['path'])!=descriptor['spec']['sha256']:raise ValueError('IMMUTABLE_CAPTURE_EXECUTION_SPEC')
+        if read(Path(pin['path']).parent/'control/LEASE.json')['status']!='CLOSED':raise ValueError('ONLY_CLOSED_CAPTURE_EPISODES')
         result=read(pin['path'])
         from go2arx5_vla.world_model.mobile_grasp_budget_v3 import qualification_record
         if not qualification_record(result)['qualified']:raise ValueError('QUALIFIED_COMPLETE_NATIVE_EPISODES_ONLY')
