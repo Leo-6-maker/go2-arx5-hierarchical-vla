@@ -177,6 +177,8 @@ def run_case(spec_path,lock_fd):
         if spec.get('mobile_stage')=='L1':
             if spec.get('mobile_experiment_version')=='MOBILE_CONTINUOUS_TEACHER_V2':
                 from go2arx5_vla.world_model.mobile_expert_episode_v2 import episode as l1_episode
+            elif spec.get('mobile_experiment_version')=='MOBILE_GRASP_BUDGET_V3':
+                from go2arx5_vla.world_model.mobile_expert_episode_v3 import episode as l1_episode
             elif spec.get('mobile_experiment_version')=='MOBILE_OBSERVED_AFTER_GRASP_V2':
                 from go2arx5_vla.world_model.mobile_task_episode_v2 import episode as l1_episode
             elif spec['mobile_condition']['family']=='F1':
@@ -236,7 +238,7 @@ def run_batch(spec_path):
                 if time.time()>=spec['deadline_epoch']-900:break
                 case=read(path);axis=case['mobile_condition']['axis'].lstrip('+-')
                 if case.get('mobile_stage')=='L1':axis=case['mobile_condition']['family']+':'+case['mobile_condition']['mode']
-                if spec.get('mobile_experiment_version')=='MOBILE_CONTINUOUS_TEACHER_V2':axis=case['mobile_condition']['mode']
+                if spec.get('mobile_experiment_version')in('MOBILE_CONTINUOUS_TEACHER_V2','MOBILE_GRASP_BUDGET_V3'):axis=case['mobile_condition']['mode']
                 if axis in quarantine:continue
                 if(group/'STOP.json').exists():break
                 if case.get('mobile_stage')=='L1'and case['mobile_condition']['method']!='EXPERT':
@@ -272,7 +274,7 @@ def run_batch(spec_path):
                 elif result['technical_failure']:raise RuntimeError('MOBILE_TECHNICAL_FAILURE_RETAINED_NO_RETRY')
             code=0
     except BaseException:failure=traceback.format_exc()
-    if spec.get('mobile_experiment_version')=='MOBILE_CONTINUOUS_TEACHER_V2':
+    if spec.get('mobile_experiment_version')in('MOBILE_CONTINUOUS_TEACHER_V2','MOBILE_GRASP_BUDGET_V3'):
         for path in spec['cases']:
             root=Path(path).parent
             if not(root/'SUPERVISOR.private.json').exists():
@@ -284,6 +286,13 @@ def run_batch(spec_path):
         physical_requests=sum(v['result']['physical_requests']for v in outcomes),
         native_integrations=sum(v['result']['actual_native_integrations']for v in outcomes),
         new_training_updates=0,new_model_generations=sum(v['result']['model_generations']for v in outcomes),automatic_retry=False,goal_complete=False)
+    if spec.get('mobile_experiment_version')=='MOBILE_GRASP_BUDGET_V3':
+        from go2arx5_vla.world_model.mobile_grasp_budget_v3 import qualification_record
+        qualifications=[qualification_record(v['result'])for v in outcomes]
+        value.update(qualifications=qualifications,
+            qualified_complete_experts=sum(v['qualified']for v in qualifications),
+            all_four_qualified=len(qualifications)==4 and all(v['qualified']for v in qualifications),
+            automatic_collection_started=False,automatic_training_started=False)
     write(group/'RESULT.private.json',value);write(group/'WORKER_EXIT.private.json',dict(exit_code=code))
     write(group/'control/LEASE.json',dict(lease,status='CLOSED',worker_exit_code=code,closed_epoch=time.time()))
     return code
