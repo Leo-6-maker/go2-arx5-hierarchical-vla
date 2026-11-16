@@ -21,11 +21,22 @@ def run(spec):
     pin=lambda p:dict(path=str(p),sha256=sha(p))
 
     def state(phase,**extra):
+        updates=visits=0
+        for name in ('fm-control','grip-temporal'):
+            outcome=root/name/'RESULT.private.json';progress=root/name/'PROGRESS.private.json'
+            value=read(outcome)if outcome.exists()else read(progress)if progress.exists()else{}
+            updates+=value.get('new_updates',0);visits+=value.get('new_training_visits',0)
         write(goal/'goal_state.json',dict(schema='SLA_CLOSE_SAFE_MOBILE_GOAL_STATE_V1',phase=phase,
             epoch=time.time(),pid=os.getpid(),controller_source_sha=spec['source_sha'],
             plan_sha=spec['goal_plan_sha'],G1_source_sha=spec['G1_source_sha'],
             old_C20_updates=1000,old_C20_visits=32000,new_physical_requests=0,
-            goal_met=False,completed=completed,**extra))
+            goal_met=False,completed=completed,last_reported_committed_updates=updates,
+            last_reported_training_visits=visits,**extra))
+
+    def effect(kind,**details):
+        with(goal/'effects.jsonl').open('a')as handle:
+            handle.write(json.dumps(dict(epoch=time.time(),kind=kind,source_sha=spec['source_sha'],**details))+'\n')
+            handle.flush();os.fsync(handle.fileno())
 
     def child(name,operation,coefficient,route,training=None):
         folder=root/name;dirs(folder)
@@ -36,6 +47,7 @@ def run(spec):
             planned_candidate_updates=500,planned_target_visits=16000,planned_source_visits=0,
             new_optimizer_updates_budget=500 if operation=='--close-train'else 0,
             new_training_visits_budget=16000 if operation=='--close-train'else 0,
+            new_complete_generations_budget=96 if operation=='--close-train'else 16,
             microbatch=4,gripper_lambda=coefficient,inference_route=route,frame_cache_bytes=512*1024**2,
             compilation_cache_dir=str(folder/'cache'),max_walltime_s=max(1,math.ceil(spec['deadline_epoch']-time.time())+60),
             max_gpu_hours=max(1.,(spec['deadline_epoch']-time.time())/3600+1),save_and_exit_on_limit=True,
@@ -55,6 +67,7 @@ def run(spec):
         sp=folder/'EXECUTION_SPEC.json';result=folder/'RESULT.private.json'
 
         def execute():
+            effect('G2_CHILD_STARTED',name=name,operation=operation,spec=pin(sp))
             with(folder/'logs/worker.log').open('xb')as handle:
                 process=subprocess.Popen([value['python'],'-B',str(Path(value['source_root'])/'scripts/wm02/close_goal_bootstrap_v1.py'),
                     operation,str(sp)],env=dict(os.environ,**value['native_environment']),stdout=handle,stderr=subprocess.STDOUT)
@@ -70,6 +83,8 @@ def run(spec):
             outcome=read(result)
             if process.returncode!=0 or outcome['exit_code']!=0:raise RuntimeError('PRESERVED_CHILD_FAILURE_NO_AUTOMATIC_RETRY:'+name)
             if read(folder/'control/LEASE.json')['status']!='CLOSED':raise RuntimeError('CHILD_NOT_CLOSED')
+            effect('G2_CHILD_COMMITTED',name=name,result=pin(result),
+                   new_updates=outcome.get('new_updates',0),new_training_visits=outcome.get('new_training_visits',0))
             return pin(result)
         return journal.once('EXECUTE-'+name,pin(sp),execute)
 

@@ -146,7 +146,10 @@ if __name__=='__main__':
     signal.signal(signal.SIGTERM,stop);signal.signal(signal.SIGINT,stop)
     s=read(sys.argv[2]);root=Path(s['registered_root']);lock=None
     try:
-        lock=wait_resource_owner(s);value=(replay if sys.argv[1]=='--close-rgb'else train)(s)
+        lock=wait_resource_owner(s)
+        write(root/'goal_state.json',dict(phase='ORDINARY_RGB_LOAD'if sys.argv[1]=='--close-rgb'else'OFFLINE_TRAINING_LOAD_PARENT1000',
+            epoch=time.time(),source_sha=s['source_sha'],optimizer_updates=0,physical_requests=0))
+        value=(replay if sys.argv[1]=='--close-rgb'else train)(s)
     except BaseException:
         # Partial effects remain authoritative in the per-update log/checkpoints.
         value=dict(exit_code=1,status='TECHNICAL_FAILURE_PRESERVED',failure=traceback.format_exc(),
