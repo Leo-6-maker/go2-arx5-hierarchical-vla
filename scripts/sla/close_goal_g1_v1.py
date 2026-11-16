@@ -316,7 +316,8 @@ def run(spec):
     write(root/'ACCUMULATED_COMPARISONS.private.json',accumulated)
     for w in bank:
         for noise_id in (0,1):
-            record(w,noise_id,'cached_actual',stage='NUMERIC_CONFIRM48',reused=True)
+            record(w,noise_id,'cached_actual',stage='NUMERIC_CONFIRM48',
+                   reused=spec.get('confirmation_reuse_old_baseline',True))
             if chosen!='cached_actual':record(w,noise_id,chosen,stage='NUMERIC_CONFIRM48')
     confirm = [trajectories[(w['index'],n,r)] for w in bank for n in (0,1)
                for r in dict.fromkeys(['cached_actual',chosen])]
