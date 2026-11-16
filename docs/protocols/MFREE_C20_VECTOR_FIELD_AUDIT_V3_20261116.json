@@ -1,0 +1,40 @@
+{
+  "schema": "MFREE_C20_VECTOR_FIELD_AUDIT_V3",
+  "status": "REGISTER_AFTER_SOURCE_PINNING",
+  "parent_C20_step": 1000,
+  "parent_C20_visits": 32000,
+  "official_upstream_commit": "405ca8879c032a05f0a778adc7d86f4e221c5eba",
+  "pi0_sha256": "24b32d7c6ed5e409459afa8ca5af96a4dae09c2dcdf48e828907e411f4f12342",
+  "observations": 16,
+  "selection": "FIXED_TRAIN48: one per family/phase plus three extra CLOSE per family",
+  "taus": [
+    0.1,
+    0.5,
+    0.9
+  ],
+  "noise_seed_base": 2026111600,
+  "vector_field_evaluations_max": 240,
+  "prefix_cache_builds_max": 32,
+  "new_complete_generations": 0,
+  "new_optimizer_updates": 0,
+  "new_optimization_visits": 0,
+  "new_physical_requests": 0,
+  "comparisons": [
+    "actual_error32_field_highest",
+    "pinned_official_full_field_highest",
+    "cached_prefix_suffix_field_highest",
+    "cached_prefix_suffix_field_actual_default"
+  ],
+  "measures": [
+    "active7",
+    "padding25",
+    "physical_XYZ_SO3_gripper_clean_estimate",
+    "physical_time_derivative_differences"
+  ],
+  "no_model_parameter_mutations": true,
+  "no_action_expert_unfreeze": true,
+  "no_boundary_or_safety_changes": true,
+  "no_C60_C100_training": true,
+  "original_deadline_epoch": 1795027883.855488,
+  "physical_clean_estimates_are_not_policy_rollouts": true
+}
