@@ -16,6 +16,30 @@ from go2arx5_vla.world_model.mfree_query_diagnostics_v2 import analyze
 ROUTES = ('cached_actual', 'cached_highest', 'full_actual', 'full_highest')
 
 
+def wait_resource_owner(spec):
+    """Finite existing-device capacity queue, without claiming another owner's GPU."""
+    import subprocess
+    root=Path(spec['registered_root'])
+    while time.time()<spec['deadline_epoch']-300 and not (root/'STOP.json').exists():
+        try:lock=OwnerLock(spec['neural_owner_lock'])
+        except BlockingIOError:lock=None
+        free_host=int(next(l.split()[1]for l in Path('/proc/meminfo').read_text().splitlines()
+                           if l.startswith('MemAvailable:')))*1024
+        query=subprocess.run(['nvidia-smi','--id='+spec['GPU_uuid'],'--query-gpu=memory.free',
+                              '--format=csv,noheader,nounits'],capture_output=True,text=True,timeout=15)
+        free_gpu=int(query.stdout.strip())*1024**2 if query.returncode==0 else None
+        ready=lock is not None and free_gpu is not None and free_host>=spec['minimum_host_available_bytes'] and free_gpu>=spec['allocator_limit_bytes']+1024**3
+        if ready:return lock
+        if lock:lock.close()
+        write(root/'goal_state.json',dict(schema='SLA_CLOSE_SAFE_MOBILE_GOAL_STATE_V1',phase='WAIT_RESOURCE',
+            epoch=time.time(),pid=os.getpid(),source_sha=spec['source_sha'],plan_sha=spec['goal_plan_sha'],
+            free_host_bytes=free_host,free_gpu_bytes=free_gpu,canonical_owner_available=lock is not None,
+            new_optimizer_updates=0,new_training_visits=0,new_complete_generations=0,new_physical_requests=0,
+            goal_met=False,deadline_epoch=spec['deadline_epoch']))
+        time.sleep(30)
+    raise TimeoutError('FINITE_G1_RESOURCE_QUEUE_DEADLINE_OR_STOP')
+
+
 def width_metrics(prediction, expert):
     """Mechanical width; crossing is scored only for an annotated in-window event."""
     width = .002 + .040 * np.asarray(prediction)[:, 9]
@@ -319,13 +343,14 @@ def run(spec):
 
 if __name__=='__main__':
     import sys
-    s=read(sys.argv[2]); root=Path(s['registered_root']); lock=OwnerLock(s['neural_owner_lock'])
-    try:run(s); code=0
+    s=read(sys.argv[2]); root=Path(s['registered_root']); lock=None
+    try:lock=wait_resource_owner(s);run(s); code=0
     except BaseException:
         write(root/'RESULT.private.json',dict(exit_code=1,failure=traceback.format_exc(),
             last_state=read(root/'goal_state.json') if (root/'goal_state.json').exists() else None,
             physical_requests=0,optimizer_updates=0,goal_met=False)); code=1
-    finally:lock.close()
+    finally:
+        if lock:lock.close()
     from go2arx5_vla.world_model.mfree_unattended_runtime_v1 import close
     close(s,code)
     raise SystemExit(code)
