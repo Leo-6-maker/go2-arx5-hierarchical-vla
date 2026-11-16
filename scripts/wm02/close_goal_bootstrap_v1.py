@@ -8,7 +8,7 @@ import sys
 
 def main():
     operation,path=sys.argv[1:3]
-    routes={'--g1':'scripts.sla.close_goal_g1_v1','--safety':'scripts.wm02.close_goal_safety_v1',
+    routes={'--time-label-audit':'scripts.sla.prepare_close_time_labels_v1','--g1':'scripts.sla.close_goal_g1_v1','--safety':'scripts.wm02.close_goal_safety_v1',
             '--safety-margin':'scripts.wm02.close_goal_clearance_audit_v1',
             '--safety-highrate':'scripts.wm02.close_goal_contact_highrate_v1',
             '--boundary-report':'scripts.wm02.close_goal_boundary_report_v1',
