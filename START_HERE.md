@@ -1,4 +1,4 @@
-2026-11-16 20:24 SGT Core终态：**唯一时间表示后继已真实500更新／16000访问，87项全态与独立RGB16/16逐位恢复；固定TRAIN96的CLOSE20/20、其他68/76，完整离线目标未通过。** 新增8拒绝全部LIFT后缀k26平移加速度0.252–0.308m/s²超原0.25门；无漏闭合、96条终末意图正确。全Goal独有新增1500／48000，主服务与两子角色CLOSED，不自动第三候选。新原生／积分／任务评价0，隔离、旧失败和WBC／安全门保留，Goal未完成。[完整终态、模型边界、分母与下一动作](reports/WM02/sla-close-safe-mobile-20261116/TIME500_BOUNDED_FAILURE_ACTUAL.md)。
+2026-11-16 20:24 SGT Core终态：**唯一时间表示后继已真实500更新／16000访问，87项全态与独立RGB16/16逐位恢复；固定TRAIN96的CLOSE20/20、其他68/76，完整离线目标未通过。** 新增8拒绝全部LIFT后缀k26平移加速度0.252–0.308m/s²超原0.25门；无漏闭合、96条终末意图正确。全Goal独有新增1500／48000，主服务与两子角色CLOSED，不自动第三候选。新原生／积分／任务评价0，隔离、旧失败和WBC／安全门保留，Goal未完成。[完整终态、模型边界、分母与下一动作](reports/WM02/sla-close-safe-mobile-20261116/TIME500_BOUNDED_FAILURE_ACTUAL.md)。 [补充LIFT曲率归因](reports/WM02/sla-close-safe-mobile-20261116/LIFT_CURVATURE_ACTUAL.md)：专家有约0.10m/s²余量，参数分块邻近仅是假设。
 
 2026-11-16 Core：C20保留真实1,000更新／32,000访问；全部754 query、TRAIN48×2与16观测向量场审核已完成。采集CN38／41物理请求，F1/F2专家非法接触触发共同隔离，所有本轮服务已关闭，C60/C100训练未提交。[实际分母、夹爪／缓存精度诊断与限制](reports/WM02/mfree-c20-recovery-diagnostics-20261116/ACTUAL_RESULTS.md)。
 

@@ -28,3 +28,5 @@
 安全与剩余计划：冻结WBC、MPC、腿策略、臂PD、solver、2ms、H40/P10/50ms与原40mm/s门；F1/F2共同专家、旧学生、M_ASSIST隔离继续。原693670保存2ms状态的候选监测在三次碰桌前34／316／12ms告警，但误拦1/38成功专家，零误拦筛选失败；候选未安装、原生停止延迟未资格验证、独立代码／scene／profile／有限面板新准入未建立。本轮新增原生请求0、积分0、抓持／任务评价0，不能报告新增成功率；旧学生0/13、RP8、JOIN10及旧DEV／TEST失败不变。专家安全8、学生pilot8、DEV32、TEST40均未启动。下一科学决策应先审核这8条LIFT后缀回归和既有接触安全证据；不自动第三候选、不扩采、不重训。原截止2026-11-19 02:51:23.855488 SGT不延长。
 
 证据SHA：训练结果 `8cdd6d2940e36ba3f304bd3c3500bb6f9f1e48885364694cc5f102402f4c33d9`；500全态COMPLETE `354822f6b946aed5cce64d8f7e9d1fa5f1245f07b1ad731c4846057c24dc7b09`；独立RGB `7e1bc0ef863711a48d99376e8e664f4c180a5b98cc3493746f65c324bfedf0b4`；推理包manifest `1cd1559af58b95d4ff29b6de0969c04d6f4bd1174d285c23826055be7b6d608f`；完整匹配 `b4a962f0166f80f9daf116d899a8c4bba12c2904781f736a9b48081c4ffc3af7`；独立终态读回 `8987a0d503e0a3d29289b0afaf53cdeb81298fd3b9d80c0f1a483036455ebd33`。全部四条件意图审计及拒绝／接缝分析SHA、逐阶段计数、成本与剩余计划见[对应JSON](TIME500_BOUNDED_FAILURE_ACTUAL.json)。真实unit/PID/cgroup、站点路径、日志和停止入口保留在私有终态回执，不发布权重、原图或私有数据。
+
+补充只读归因：[LIFT_CURVATURE_ACTUAL.md](LIFT_CURVATURE_ACTUAL.md)。全部20条专家LIFT有约0.10m/s²余量，8个学生后缀拒绝由局部预测曲率偏差形成；首次超限邻参数分块边界只是实现假设。新增模型调用／更新／原生0，原终态不改。
