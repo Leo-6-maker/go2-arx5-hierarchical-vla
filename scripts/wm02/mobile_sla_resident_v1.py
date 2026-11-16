@@ -16,6 +16,9 @@ def read(path):return json.loads(Path(path).read_bytes())
 
 def providers(spec):
     import jax
+    from go2arx5_vla.sla_adapter.resident_close_pair_v1 import METHODS,providers as close_pair
+    if set(spec['policies']) == METHODS:
+        return close_pair(spec)
     if set(spec['policies'])=={'MFREE_C20_FINAL_FM1000'}:
         from go2arx5_vla.sla_adapter.provider_mfree_v1 import Provider
         package=spec['policies']['MFREE_C20_FINAL_FM1000']['package']
@@ -85,8 +88,9 @@ def run(spec_path):
                 nonlocal attempts
                 attempts+=1;wall=time.monotonic()
                 with np.load(q['input'],allow_pickle=False)as data:
-                    value=policies[q['method']].predict(data['state_eef10'],[data['body_rgb'],data['wrist_rgb']],
-                        q['language'],data['T_policy_from_mount'],noise_id=q['seed']%2**32-2026111200)
+                    from go2arx5_vla.world_model.close_reference_input_v1 import prediction
+                    value=prediction(policies[q['method']],q['method'],data,q['language'],
+                        q['seed']%2**32-2026111200)
                 from scripts.pi0294.e1.artifacts import atomic_npz
                 action=folder/'ACTION.npz';atomic_npz(action,physical_H40=value['physical_H40'],normalized=value['normalized'])
                 return dict(method=q['method'],sequence=index,request_sha256=digest(request),action=str(action),
