@@ -34,6 +34,8 @@ def run(spec):
         value.update(registered_root=str(folder),campaign_root=str(root),role='SLA_CLOSE_'+name.upper(),
             dataset=spec['training_template']['dataset'],operation='SLA_CLOSE_PARENT1000_NEW500_MATCHED_V1',
             planned_candidate_updates=500,planned_target_visits=16000,planned_source_visits=0,
+            new_optimizer_updates_budget=500 if operation=='--close-train'else 0,
+            new_training_visits_budget=16000 if operation=='--close-train'else 0,
             microbatch=4,gripper_lambda=coefficient,inference_route=route,frame_cache_bytes=512*1024**2,
             compilation_cache_dir=str(folder/'cache'),max_walltime_s=max(1,math.ceil(spec['deadline_epoch']-time.time())+60),
             max_gpu_hours=max(1.,(spec['deadline_epoch']-time.time())/3600+1),save_and_exit_on_limit=True,

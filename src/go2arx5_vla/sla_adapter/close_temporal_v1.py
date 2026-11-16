@@ -34,6 +34,7 @@ class CloseEngine(DeviceResidentEngine):
         from openpi_client.image_tools import resize_with_pad
         audit=read_pin(spec['target_audit'])
         if (spec['operation']!=RECIPE or spec['planned_candidate_updates']!=500
+                or spec['new_optimizer_updates_budget']!=500 or spec['new_training_visits_budget']!=16000
                 or spec['planned_target_visits']!=16000 or spec['microbatch']not in (4,8)
                 or spec['training_matmul_precision']!='highest'
                 or spec['gripper_lambda']not in (0.,1.)
