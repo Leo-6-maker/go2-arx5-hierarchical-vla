@@ -1,0 +1,69 @@
+{
+  "schema": "MFREE_C20_RECOVERY_DIAGNOSTICS_V2",
+  "user_plan_sha256": "e0045efda85cae23784c82a764891b4c6575785ca6c840e47e264e8e849693ac",
+  "reviewed_source": "3681f72149be24c10f0dbe4005a4fa95fab047ff",
+  "supersedes_automatic_training_only": "MFREE_UNATTENDED_72H_V1",
+  "deadline_SGT": "2026-11-19T02:51:23.855488+08:00",
+  "deadline_epoch": 1795027883.855488,
+  "collection": {
+    "initial_worlds": 1,
+    "after_one_qualified_max_worlds": 2,
+    "maximum_total_worlds_including_evaluation": 4,
+    "four_worlds_automatic": false,
+    "target": "C60",
+    "C100_enabled": false,
+    "attempt_cap_including_old": 200,
+    "old_qualified": 26,
+    "old_claims": 27,
+    "UNKNOWN_not_reused": true,
+    "technical_successor_max": 1,
+    "existing_seed_and_geometry": true
+  },
+  "neural": {
+    "C20_updates": 1000,
+    "C20_visits": 32000,
+    "retrain_C20": false,
+    "C60_auto_train": false,
+    "C100_auto_train": false,
+    "diagnostic_updates": 0,
+    "diagnostic_optimization_visits": 0,
+    "expert_windows": 48,
+    "seeds_per_window": 2,
+    "maximum_new_generations": 96,
+    "cross_entry_comparison": 16,
+    "use_cached_identical_predictions": true,
+    "diagnostic_step500_TRAIN_only": true,
+    "new_training_intervention": "CONDITIONAL_NOT_REGISTERED"
+  },
+  "evaluation": {
+    "old_TRAIN_actual": 5,
+    "old_TRAIN_planned": 8,
+    "old_DEV_actual": 8,
+    "old_DEV_planned": 16,
+    "old_unstarted_not_replayed": 11,
+    "new_physical_evaluation_registered": 0,
+    "conditional_F2_evaluation_cap": 8,
+    "F1_student_physical": "QUARANTINED_UNTIL_INDEPENDENT_NEW_ADMISSION"
+  },
+  "isolation": {
+    "old_C20_scope": "MODEL_BY_FAMILY:F1:MFREE_C20_FINAL_FM1000",
+    "baseline_scope": "MODEL_BY_FAMILY:F1:PD4_FINAL_PLAN",
+    "all_future_F1_student_physical": "HELD_NO_RENAME_BYPASS",
+    "expert_F1": "ALLOWED_ONLY_IF_SHARED_EXPERT_FAMILY_ISOLATION_ABSENT",
+    "M_ASSIST": "QUARANTINED"
+  },
+  "freeze": [
+    "WBC",
+    "MPC",
+    "leg_policy",
+    "arm_PD",
+    "physics",
+    "2ms",
+    "safety_thresholds",
+    "C20_model_data_statistics",
+    "old_RP8_JOIN10_negative_results"
+  ],
+  "new_RL": false,
+  "real_robot": false,
+  "status": "FINITE_REVISION_IMPLEMENTATION_PENDING"
+}
