@@ -10,13 +10,14 @@ import json
 from pathlib import Path
 import time
 from scripts.pi0292.durable import OwnerLock, write
+from .durable_control_v2 import short_lock,read_control
 
 PLAN='4e926e42a7337ad1d48c00087ef980a8f0157936'
 STAGES=(('C20',2,4),('C60',6,12),('C100',10,20))
 CELLS=tuple(f'{family}-T{k}'for k in range(5)for family in ('F1','F2'))
 ACTIVE={'CLAIMED','REGISTERED','LAUNCHED','RUNNING','UNKNOWN'}
 
-def read(path):return json.loads(Path(path).read_bytes())
+def read(path):return read_control(path)
 def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
@@ -26,17 +27,11 @@ class Ledger:
 
     @contextmanager
     def transaction(self):
-        # This lock serializes short JSON transactions only, never a worker.
-        until=time.monotonic()+10
-        while True:
-            try:lock=OwnerLock(self.lock);break
-            except BlockingIOError:
-                if time.monotonic()>until:raise
-                time.sleep(.01)
-        try:
+        # One shared bounded lock primitive also serves registration. Neither
+        # permission/I/O/JSON errors nor native work are retried by this layer.
+        with short_lock(self.lock):
             value=read(self.path);yield value
             value['revision']+=1;value['updated_epoch']=time.time();write(self.path,value)
-        finally:lock.close()
 
     def create(self,carryover,*,deadline_epoch):
         self.root.mkdir(parents=True,exist_ok=True)
