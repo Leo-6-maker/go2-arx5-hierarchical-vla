@@ -19,7 +19,11 @@ def predict(adapter,sample,session,frame,query):
     root=adapter.output/'queries'/f'{query:02d}';root.mkdir(parents=True)
     state=pose10(np.asarray(adapter.spec['policy_from_world'])@sample['tcp'],sample['gripper_fraction'])
     path=root/'INPUT.private.npz'
-    atomic_npz(path,state_eef10=state,body_rgb=body,wrist_rgb=images['wrist_rgb'],T_policy_from_mount=frame)
+    from .close_reference_input_v1 import TIME_METHOD,query_reference,reference_arrays
+    extra={}
+    if adapter.spec['mobile_condition']['method']==TIME_METHOD:
+        extra=reference_arrays(query_reference(adapter,before['packet'],sample))
+    atomic_npz(path,state_eef10=state,body_rgb=body,wrist_rgb=images['wrist_rgb'],T_policy_from_mount=frame,**extra)
     # The server serializes all predeclared episodes, so no per-episode reload.
     server_spec=adapter.spec['resident_server_spec'];server=Path(read(server_spec['path'])['registered_root'])
     read(server/'READY.private.json')
@@ -30,11 +34,12 @@ def predict(adapter,sample,session,frame,query):
         input=str(path),input_sha256=digest(path),language=adapter.spec['language'],
         seed=2026111500+query,task_frame=frame.tolist(),native_step=sample['native_step'],
         provenance='CURRENT_NATIVE_BODY_AND_WRIST_RGB_AND_MEASURED_STATE_ONLY')
+    if extra:request['provenance']='CURRENT_RGB_MEASURED_STATE_AND_PREVIOUS_EMITTED_GRIPPER_REFERENCE'
     write(folder/'REQUEST.private.json',request);deadline=time.monotonic()+600
     adapter.mobile_last_resident_sequence=index
     write(root/'INPUT_META.private.json',dict(native_step=before['packet']['step'],native_time_s=before['packet']['time_s'],
         input_sha256=digest(path),camera_calibration=cal,episode_fixed_frame=frame.tolist(),
-        input_fields=['state_eef10','body_rgb','wrist_rgb','T_policy_from_mount'],object_truth_in_model_input=False))
+        input_fields=['state_eef10','body_rgb','wrist_rgb','T_policy_from_mount']+list(extra),object_truth_in_model_input=False))
     while not(folder/'RESULT.private.json').exists():
         if(server/'RESULT.private.json').exists():raise RuntimeError('RESIDENT_SLA_SERVER_TERMINAL_BEFORE_RESPONSE')
         adapter.spin(.05)

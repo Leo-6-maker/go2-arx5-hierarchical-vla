@@ -1,0 +1,22 @@
+{
+  "schema": "SLA_CLOSE_CONTACT_FENCE_CANDIDATE_REVIEW_V1",
+  "status": "UNINSTALLED_NOT_ADMITTED_FAILED_ZERO_FALSE_BLOCK_SCREEN",
+  "goal_plan_sha": "74264d5b56cf0cf201713d407152a36ecd798983",
+  "historical_scope": {"successes":38,"known_collisions":3,"all_recorded_2ms_states":693670},
+  "observed_successes_blocked":1,
+  "known_collision_alarm_lead_ms":[34,316,12],
+  "thresholds_unchanged": {"pad_clearance_m":0.003,"conditional_upper_tracking_error_m":-0.005,"reference_rate_bound_m_s":0.05,"maximum_witness_age_s":0.05},
+  "predicate":"Table XY overlap AND pad box-corner clearance<=3mm AND actual_TCP_z-receiver_z+50mm/s*witness_age<=-5mm",
+  "reference":"Exact deployment-available receiver knot, NOT controller-selected policy",
+  "implementation":"Independent pre-step observer; passive FK on private mjData; no command/reference/controller/model writes",
+  "software_stop":"Latch and SIGINT before calling next mj_step; invalid/stale/nonfinite witness fails closed; once armed cannot silently disarm",
+  "not_installed":true,
+  "existing_native_runner_unchanged":true,
+  "WBC_and_original_safety_unchanged":true,
+  "latency_or_dynamic_prevention_proven":false,
+  "independent_admission":false,
+  "physical_requests":0,
+  "automatic_native_validation":false,
+  "eligibility":"NOT_READY; historical zero-success-block screen remains failed. Independent review must explicitly decide a new prevention contract before any native qualification.",
+  "conditional_future_native_panel":"At most8 experts: F1/F2 x two reviewed layouts x two resets, only after explicit independent code/scene/profile-bound admission. First safety stop quarantines corresponding reviewed scope. Student pilot/DEV/TEST remain separate and blocked."
+}

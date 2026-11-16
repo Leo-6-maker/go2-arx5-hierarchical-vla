@@ -1,0 +1,23 @@
+{
+  "schema":"SLA_CLOSE_PARENT_AND_MATCHED_ENDPOINT_COMMAND_BOUNDARIES_V1",
+  "goal_plan_sha":"74264d5b56cf0cf201713d407152a36ecd798983",
+  "models":["C20_1000","FM_control_parent1000_new500","physical_temporal_parent1000_new500"],
+  "population":"same fixed48 TRAIN windows x noises0,1, all96 per model",
+  "previous_command":"last physically emitted gripper command from MOBILE_SAMPLES ending at the query native_step",
+  "previous_command_width_m":"0.044 * installed_EEF10[9]",
+  "query_measured_width_m":"0.044 * original_state_eef10[9]",
+  "model_first_width_m":"0.002+0.040*decoded_nominal_H40[0,9]",
+  "expert_first_width_m":"0.002+0.040*original_live_nominal_world_H40[0,9]",
+  "seam_interval":"query_native_time minus previous_gripper_source_native_s, verified equal50ms",
+  "nominal_rate_comparison_m_s":0.040,
+  "additional_native_gate_installed":false,
+  "native_safety_claim_allowed":false,
+  "existing_scores_changed":false,
+  "new_generations":0,
+  "new_field_evaluations":0,
+  "new_optimizer_updates":0,
+  "new_physical_requests":0,
+  "dependency":"existing managed matched500 service; ordinaryRGB16 must pass before endpoint is summarized",
+  "foreground_dependency":false,
+  "deadline_extension":false
+}

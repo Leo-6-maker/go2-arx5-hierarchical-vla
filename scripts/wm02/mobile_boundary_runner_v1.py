@@ -88,6 +88,8 @@ def consume(adapter,action,*,sequence):
             if key in sent and sent[key]['monotonic_s']<=event['received_monotonic_s']:matched.append(key)
         arm_requests+=event['topic_key']=='arm_request';base_commands+=event['topic_key']=='base_command'
     if adapter.latest['mode'].data!='WBC':raise RuntimeError('MOBILE_NATIVE_WBC_MODE_LOST')
+    from go2arx5_vla.world_model.close_reference_input_v1 import remember
+    remember(adapter,row,gripper,after)
     adapter.reference_history.append(dict(end_native_step=after['step'],pose=matrix10(row)))
     sample=adapter.measured_task_state()
     # Keep the exact native high-frequency state journal; these are metric samples.

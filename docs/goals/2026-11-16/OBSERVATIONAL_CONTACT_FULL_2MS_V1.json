@@ -1,0 +1,38 @@
+{
+  "schema": "SLA_CLOSE_SAFETY_FULL_RECORDED_2MS_COHORT_V1",
+  "goal_plan_sha": "74264d5b56cf0cf201713d407152a36ecd798983",
+  "triggering_evidence": "Fixed four 2ms windows found alarm leads 34/316/12ms before three contacts, while the one successful false-positive persisted; other 37 successes have only 50ms coverage.",
+  "cohort": {
+    "original_successes": 38,
+    "known_unsafe_experts": 2,
+    "known_unsafe_students": 1
+  },
+  "selection": "All recorded task ticks 5703 through original actual_native_integrations inclusive, same fixed 41 episodes",
+  "thresholds_unchanged": {
+    "pad_clearance_m": 0.003,
+    "negative_tracking_error_m": -0.005
+  },
+  "reference_profiles": [
+    "latest exact receiver knot held between witnesses",
+    "same threshold with conditional 50mm/s reference-age uncertainty bound"
+  ],
+  "controller_selected_reference_known": false,
+  "full_control_state_restore": false,
+  "installed_guard": false,
+  "stop_latency_qualification": false,
+  "original_outcomes_preserved": true,
+  "threshold_search": false,
+  "new_model_generations": 0,
+  "new_optimizer_updates": 0,
+  "new_physical_requests": 0,
+  "new_integrations": 0,
+  "CPU_affinity": [
+    4,
+    5
+  ],
+  "memory_max_GiB": 2,
+  "wall_cap_s": 7200,
+  "start_dependency": "existing temporal learner first actual update; no neural lock or GPU allocation",
+  "independent_admission": false,
+  "automatic_native_successor": false
+}

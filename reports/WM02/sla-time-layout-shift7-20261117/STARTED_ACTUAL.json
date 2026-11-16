@@ -1,0 +1,213 @@
+{
+  "schema": "SLA_PARAMETER_SHIFT7_500_SHARED_GPU_STARTED_ACTUAL_V1",
+  "as_of_SGT": "2026-11-17T00:33:18.226002+08:00",
+  "status": "DETACH_READY_OFFLINE_ONLY_RUNNING",
+  "explicit_new_round_authorized_20261117": true,
+  "old_goal_automatic_third_candidate_prohibition_preserved": true,
+  "actual_source_sha": "ef584be687d9f3c94e1f79e0e9f44ad12f32e92a",
+  "spec_sha256": "c5faece35e048fe8dab2bc3d261c6c1cdf854b45bf8cee3f89b01fb7138f6b7c",
+  "source_seal_sha256": "fb6a751378870d521db2a06fcfac5239dac4c71e8a96c6f80ba067550135d220",
+  "original_goal_plan_sha": "74264d5b56cf0cf201713d407152a36ecd798983",
+  "one_variable": "CYCLICALLY_SHIFT_PARAMETER_SLOT_LAYOUT_PLUS7",
+  "old_blocks": [
+    [
+      0,
+      14
+    ],
+    [
+      14,
+      27
+    ],
+    [
+      27,
+      40
+    ]
+  ],
+  "new_slots": [
+    [
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20
+    ],
+    [
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33
+    ],
+    [
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
+  ],
+  "unchanged_parameter_repetitions": [
+    14,
+    13,
+    13
+  ],
+  "same_parameter_values_and_physical_decoder": true,
+  "raw_H40_output_filtering": false,
+  "primary_control_result_sha256": "8cdd6d2940e36ba3f304bd3c3500bb6f9f1e48885364694cc5f102402f4c33d9",
+  "secondary_FM_anchor_result_sha256": "31655caebdb34129390785a22d846951f392acbbb838dda5bd47193251ce473b",
+  "primary_control_not_retrained": true,
+  "existing_RGB_state_prompt_seams": 8,
+  "new_camera_qualification": false,
+  "qualification_result_sha256": "5c82c5de7043322e88471801d694e089f59d6981759534a50e434c5e03230d0c",
+  "shifted_label_array_sha256": "87214085a223ec1b4493bfb2c68c9672e02e67ecac6ae41ef4343d8f75329995",
+  "qualification_wall_s": 0.8283994197845459,
+  "qualification_CPU_s": 0.747915931,
+  "data": {
+    "episodes": 20,
+    "windows": 1376,
+    "manifest_sha256": "4bcc5ffcd8920d874599a54cca73792c50a49ea6013d65ca7826817a9f80d7de",
+    "statistics_sha256": "f28d50e6eeea09b332d4bd159eca4333bbe23b185f95f1d336d45311e364ab3e",
+    "statistics_refitted": false
+  },
+  "new_actual_updates": 18,
+  "new_actual_visits": 576,
+  "planned_new_updates": 500,
+  "planned_new_visits": 16000,
+  "prior_unique_new_updates": 1500,
+  "prior_unique_new_visits": 48000,
+  "unique_new_if_this_round_completes": 2000,
+  "unique_new_visits_if_this_round_completes": 64000,
+  "parent_C20_updates": 1000,
+  "parent_C20_visits": 32000,
+  "effective_batch": 32,
+  "microbatch": 4,
+  "initial_control_match": {
+    "initial_arrays_bit_exact": 87,
+    "common_bindings_bit_exact": true,
+    "first_actual_noise_time_bank_bit_exact": true,
+    "new_optimizer_updates": 0,
+    "changed_variable": "CYCLIC_PARAMETER_SLOT_SHIFT_PLUS7_ONLY"
+  },
+  "actual_prefix_match": {
+    "actual_matched_updates": 18,
+    "actual_matched_visits": 576,
+    "visit_dropout_LR_bit_exact": true,
+    "canonical_prefix_sha256": "a8e7d0376f39f3ead2052b87b20838245021090b1712baaf881369f14e0ee1a6"
+  },
+  "gradient": {
+    "optimizer_updates": 0,
+    "optimization_visits": 0,
+    "diagnostic_backward_calls": 1,
+    "diagnostic_backward_windows": 4,
+    "objective": 0.10866492986679077,
+    "FM32": 0.10866492986679077,
+    "active7": 0.496558278799057,
+    "padding25": 5.47796007595025e-05,
+    "physical_width": 0.0,
+    "physical_delta": 0.0,
+    "gradient_norm": 0.6063687801361084,
+    "noise_bank_sha256": "18194f21c15d5625598cbd4d80b0d7e8fd730507ed8a57cc16adc0e419c3d519",
+    "tau_bank_sha256": "83423ee5ecee2666f078ac5d97f3402e53d42bf18512a95f9ca367bd77e050f9",
+    "visit_map_sha256": "a151bfca90511a5fee70398aa50616472f989cbf41cdd899ca93d569a24040af",
+    "lambda_value": 0.0
+  },
+  "gradient_auxiliary_metric_zeros_mean_disabled_not_zero_physical_error": true,
+  "training_GPU_matches_primary_control": true,
+  "inference_route": "cached_actual",
+  "Euler_steps": 10,
+  "planned_new_complete_generations": 112,
+  "new_complete_generations_observed": 0,
+  "new_full_restore_pending": true,
+  "new_checkpoint500_pending": true,
+  "new_RGB16_pending": true,
+  "late_endpoint_pending": true,
+  "background": {
+    "linger": true,
+    "stdin_null": true,
+    "restart_no": true,
+    "unchanged_process_identity_across_control_connections": true,
+    "observed_updates_13_then18": true,
+    "all_critical_paths_on_Core": true,
+    "foreground_dependency": false,
+    "deadline_SGT": "2026-11-17T08:26:30.531913+08:00",
+    "original_allocation_deadline_SGT": "2026-11-19T02:51:23.855488+08:00",
+    "deadline_extended": false,
+    "service_max_hours": 8,
+    "host_memory_limit_bytes": 17179869184,
+    "automatic_successor_or_retry": false
+  },
+  "detach_receipt_sha256": "15afeca35d9d22602760c8a0c01d83e6b9f8b6ae8364b12b63c4322c13407b33",
+  "server_pipeline": [
+    "all1376 exact permutation and8 existing-input CPU seams COMPLETE",
+    "one500 pureFM learner fromC20_1000",
+    "step0/250/500 and full87 restore",
+    "fixedTRAIN48x2 original fullH40 gate and events",
+    "new-process ordinaryRGB16 reference-aware restore",
+    "all500 actual initial/noise/visit/dropout/LR match toTIME500",
+    "all20LIFT oldk26/newk33 and other predeclared boundary curvature",
+    "seal result or preserve technical failure; no further experiment"
+  ],
+  "readout": {
+    "old_interior_boundaries": [
+      14,
+      27
+    ],
+    "new_interior_boundaries": [
+      7,
+      21,
+      34
+    ],
+    "predeclared_acceleration_k": [
+      6,
+      7,
+      13,
+      14,
+      20,
+      21,
+      26,
+      27,
+      33,
+      34
+    ],
+    "fixed_LIFT_predictions": 20,
+    "fixed_full_predictions": 96,
+    "no_seed_or_route_selection": true,
+    "boundary_migration_alone_is_not_universal_causal_proof": true
+  },
+  "new_native_requests": 0,
+  "new_integrations": 0,
+  "new_task_success_rate": null,
+  "WBC_and_original_safety_unchanged": true,
+  "all_old_failures_preserved": true,
+  "quarantine": "F1_F2_STUDENT_M_ASSIST_ACTIVE",
+  "physical_admission": false,
+  "goal_met": false,
+  "all1376_label_physical_gripper_trace_bit_exact": true,
+  "full_physical_H40_bit_exact_on_existing_RGB_seams": 8,
+  "qualification_field_scope_note": "The sealed qualifier calls its all1376 flag physical_H40, but directly compares decoded gripper width there. Other31 labels are unchanged by construction; complete XYZ/SO3/width decode was directly checked on8 existing inputs."
+}
