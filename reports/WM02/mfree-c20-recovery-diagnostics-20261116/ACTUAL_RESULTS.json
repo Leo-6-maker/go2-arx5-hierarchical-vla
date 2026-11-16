@@ -1,0 +1,2370 @@
+{
+  "schema": "MFREE_C20_RECOVERY_DIAGNOSTICS_ACTUAL_20261116",
+  "as_of": "2026-11-16T14:08:45.403754+08:00",
+  "status": "TERMINAL_SHARED_EXPERT_SAFETY_QUARANTINE",
+  "PR": 391,
+  "source_shas": {
+    "capture": "750011df11e910e8e2b24a0a48a822602548dc06",
+    "query_attribution": "d8267096882866f3ad7fb09d8e445b122105e513",
+    "vector_field": "7f76aafd29e8cd28582fa813f8a20926e80e0e71",
+    "upstream_SLA": "405ca8879c032a05f0a778adc7d86f4e221c5eba",
+    "preserved_C20": "efae461c548919f9e54956dde9dc31536adfcb3f"
+  },
+  "collection": {
+    "qualified": 38,
+    "family_qualified": {
+      "F1": 24,
+      "F2": 14
+    },
+    "physical_requests": 41,
+    "ledger_ids": 42,
+    "native_integrations": 921492,
+    "states": {
+      "QUALIFIED": 38,
+      "CONFIRMED_NOT_STARTED": 1,
+      "UNSAFE": 2,
+      "ISOLATED_ABORT": 1
+    },
+    "new_since_revision": {
+      "qualified": 12,
+      "physical_requests": 15
+    },
+    "actual_dataset": "CN38",
+    "C60_target_reached": false,
+    "C100_experiment_executed": false,
+    "unstarted_technical_original_preserved": true,
+    "first_one_world_recovery": {
+      "id": "72H-F1-T3-A003-TECH1",
+      "native_integrations": 22953,
+      "queries": 69,
+      "qualified": true
+    },
+    "maximum_simultaneous_worlds": 2,
+    "negative_endpoints": [
+      {
+        "id": "72H-F1-T3-A003",
+        "state": "CONFIRMED_NOT_STARTED",
+        "physical_requests": 0,
+        "native_integrations": 0,
+        "unsafe": false,
+        "quarantine_abort": false,
+        "physics_stops": [],
+        "shutdown_clean": null,
+        "trace_status": null,
+        "integrations_after_first_STOP": null,
+        "STOP_check": null
+      },
+      {
+        "id": "72H-F2-T4-A003",
+        "state": "UNSAFE",
+        "physical_requests": 1,
+        "native_integrations": 19154,
+        "unsafe": true,
+        "quarantine_abort": false,
+        "physics_stops": [
+          {
+            "kind": "stop",
+            "reason": "ILLEGAL_CONTACT",
+            "steps": 19154
+          }
+        ],
+        "shutdown_clean": true,
+        "trace_status": "RECORDED_TRACE_CHECKS_PASS",
+        "integrations_after_first_STOP": 0,
+        "STOP_check": "ZERO_FOLLOWING_RECORDED_STEPS"
+      },
+      {
+        "id": "72H-F1-T3-A006",
+        "state": "UNSAFE",
+        "physical_requests": 1,
+        "native_integrations": 19346,
+        "unsafe": true,
+        "quarantine_abort": false,
+        "physics_stops": [
+          {
+            "kind": "stop",
+            "reason": "ILLEGAL_CONTACT",
+            "steps": 19346
+          }
+        ],
+        "shutdown_clean": true,
+        "trace_status": "RECORDED_TRACE_CHECKS_PASS",
+        "integrations_after_first_STOP": 0,
+        "STOP_check": "ZERO_FOLLOWING_RECORDED_STEPS"
+      },
+      {
+        "id": "72H-F1-T0-A006",
+        "state": "ISOLATED_ABORT",
+        "physical_requests": 1,
+        "native_integrations": 13528,
+        "unsafe": false,
+        "quarantine_abort": true,
+        "physics_stops": [],
+        "shutdown_clean": true,
+        "trace_status": "RECORDED_TRACE_CHECKS_PASS",
+        "integrations_after_first_STOP": null,
+        "STOP_check": "NOT_TESTED"
+      }
+    ]
+  },
+  "preserved_C20": {
+    "optimizer_updates": 1000,
+    "training_visits": 32000,
+    "training_episodes": 20,
+    "training_windows": 1376,
+    "complete_state_arrays": 87,
+    "ordinary_RGB_reload_comparisons": 16,
+    "student_physical_requests": 13,
+    "student_task_successes": 0,
+    "student_grasp_successes": 0,
+    "TRAIN8_actual": 5,
+    "DEV16_actual": 8,
+    "unstarted": 11,
+    "old_baseline_reused": 8,
+    "old_baseline_successes": 0,
+    "statistics_sha256": "f28d50e6eeea09b332d4bd159eca4333bbe23b185f95f1d336d45311e364ab3e",
+    "manifest_sha256": "4bcc5ffcd8920d874599a54cca73792c50a49ea6013d65ca7826817a9f80d7de"
+  },
+  "all754": {
+    "actual_original_queries": 754,
+    "original_H40_pass": 742,
+    "original_H40_rejected": 12,
+    "first_channels": {
+      "finger_velocity": 12
+    },
+    "first_regions": {
+      "SUFFIX": 12
+    },
+    "max_rejection_ratio": 1.4806281615468084,
+    "new_model_generations": 0,
+    "new_optimizer_updates": 0,
+    "new_training_visits": 0,
+    "new_physical_requests": 0,
+    "new_integrations": 0,
+    "old_RP8_passed": false
+  },
+  "fixed48": {
+    "schema": "C20_FIXED48_ZERO_UPDATE_DIAGNOSTIC_V2",
+    "unique_TRAIN_windows": 48,
+    "predictions": 96,
+    "new_model_generations": 86,
+    "cached_predictions": 10,
+    "expert_label_passes": 48,
+    "expert_state_generated_H40_pass": 76,
+    "expert_state_generated_H40_fail": 20,
+    "failure_channels": {
+      "finger_velocity": 20
+    },
+    "failure_regions": {
+      "P10": 13,
+      "SUFFIX": 5,
+      "P10_SUFFIX_JOIN": 2
+    },
+    "entry16_bit_exact": true,
+    "entry16_existing_forward_outputs_reused": true,
+    "step500_original_TRAIN_diagnostic": {
+      "predictions": 16,
+      "EEF_full_H40_pass": 12
+    },
+    "step1000_original_TRAIN_diagnostic": {
+      "ordinary_RGB_predictions": 16,
+      "EEF_full_H40_pass": 12,
+      "controls_native_panel_admission": false
+    },
+    "new_optimizer_updates": 0,
+    "new_training_visits": 0,
+    "new_physical_requests": 0,
+    "new_integrations": 0,
+    "neural_training_choice": "NOT_AUTOMATICALLY_REGISTERED_REQUIRES_MECHANISM_DECISION",
+    "F1_physical_isolation_preserved": true
+  },
+  "fixed48_by_phase": {
+    "CLOSE": {
+      "predictions": 20,
+      "H40_pass": 0
+    },
+    "DESCEND": {
+      "predictions": 20,
+      "H40_pass": 20
+    },
+    "HOLD": {
+      "predictions": 20,
+      "H40_pass": 20
+    },
+    "LIFT": {
+      "predictions": 20,
+      "H40_pass": 20
+    },
+    "PREGRASP": {
+      "predictions": 16,
+      "H40_pass": 16
+    }
+  },
+  "vector_field": {
+    "schema": "C20_VECTOR_FIELD_NUMERICAL_AUDIT_V3",
+    "observations": 16,
+    "tau_cases": 48,
+    "vector_field_evaluations": 240,
+    "prefix_cache_builds": 32,
+    "complete_sample_actions_calls": 0,
+    "new_optimizer_updates": 0,
+    "new_training_visits": 0,
+    "new_physical_requests": 0,
+    "comparisons": {
+      "train_highest__official_full_highest": {
+        "max_active7_field_difference": 0.0,
+        "max_padding25_field_difference": 0.0,
+        "max_clean_XYZ_difference_m": 0.0,
+        "max_clean_SO3_difference_rad": 0.0,
+        "max_clean_gripper_difference": 0.0,
+        "max_XYZ_speed_difference_m_s": 0.0,
+        "max_XYZ_acceleration_difference_m_s2": 0.0,
+        "max_SO3_angular_speed_difference_rad_s": 0.0,
+        "max_finger_speed_difference_m_s": 0.0,
+        "max_finger_acceleration_difference_m_s2": 0.0,
+        "single_field_speed_gate_changes": 0,
+        "all_vector_fields_bit_exact": true
+      },
+      "official_full_highest__cached_highest": {
+        "max_active7_field_difference": 0.021790623664855957,
+        "max_padding25_field_difference": 0.016983509063720703,
+        "max_clean_XYZ_difference_m": 0.0001145300681473227,
+        "max_clean_SO3_difference_rad": 9.725026509278199e-05,
+        "max_clean_gripper_difference": 0.01525491790071537,
+        "max_XYZ_speed_difference_m_s": 0.0030527691180828593,
+        "max_XYZ_acceleration_difference_m_s2": 0.09588897780633547,
+        "max_SO3_angular_speed_difference_rad_s": 0.0029134404379279094,
+        "max_finger_speed_difference_m_s": 0.01634283843335832,
+        "max_finger_acceleration_difference_m_s2": 0.5089828388471953,
+        "single_field_speed_gate_changes": 0,
+        "all_vector_fields_bit_exact": false
+      },
+      "cached_highest__cached_actual": {
+        "max_active7_field_difference": 0.05072963237762451,
+        "max_padding25_field_difference": 0.023517251014709473,
+        "max_clean_XYZ_difference_m": 0.00019058049550557676,
+        "max_clean_SO3_difference_rad": 0.00022722374539314248,
+        "max_clean_gripper_difference": 0.0201300420126993,
+        "max_XYZ_speed_difference_m_s": 0.003754296210194345,
+        "max_XYZ_acceleration_difference_m_s2": 0.1340916609483214,
+        "max_SO3_angular_speed_difference_rad_s": 0.004363287719431416,
+        "max_finger_speed_difference_m_s": 0.020211009388545476,
+        "max_finger_acceleration_difference_m_s2": 0.7047547580434772,
+        "single_field_speed_gate_changes": 0,
+        "all_vector_fields_bit_exact": false
+      }
+    },
+    "original_error32_squared_max_abs": 0.0,
+    "actual_default_matmul_precision": null,
+    "original_pinned_pi0_sha256": "24b32d7c6ed5e409459afa8ca5af96a4dae09c2dcdf48e828907e411f4f12342",
+    "clean_estimate_scope": "SINGLE_IDENTICAL_X_TAU_AND_TAU_NOT_A_POLICY_GENERATION_OR_NATIVE_CERTIFICATE"
+  },
+  "actual_gripper_quantiles": [
+    -9.210240366975848,
+    9.21024036697596
+  ],
+  "gripper_normalized_symmetric_jump": 0.03,
+  "synthetic_width_speed_at_actual_quantiles_m_s": 0.055173714386982375,
+  "gripper_speed_limit_m_s": 0.04,
+  "codec_reconstruction_max_abs": 0,
+  "metadata_annotation_count": 14,
+  "snapshot_note": "DUPLICATE_TERMINAL_DESCRIPTOR_FROM_INHERITED_STAGE_SEALER_NOT_A_C100_EXPERIMENT",
+  "all_service_MainPID": 0,
+  "all_service_cgroup_pids": [],
+  "linger": "yes",
+  "deadline_SGT": "2026-11-19T02:51:23.855488+08:00",
+  "new_optimizer_updates": 0,
+  "new_training_visits": 0,
+  "new_student_physical_requests": 0,
+  "WBC_changed": false,
+  "safety_changed": false,
+  "RP8_passed": false,
+  "JOIN10_failures_preserved": true,
+  "M_ASSIST": "QUARANTINED",
+  "automatic_successor": false,
+  "next_action": "ZERO_UPDATE_NUMERICAL_ROUTING_ISOLATION_BEFORE_ANY_SINGLE_TRAINING_INTERVENTION_NOT_SUBMITTED",
+  "evidence_sha256": {
+    "readonly-attribution-v3/RESULT.private.json": "7089accc9855902f9e7066871c41e2abd1b2fb40065f59675dafb8348b3b3672",
+    "readonly-attribution-v3/COLLISION.private.json": "fe819c1e1f84dc08df3e37833543f36cf7a40cd2ce2c222b37181946e2ef355d",
+    "diagnostic/RESULT.private.json": "6e34b9e9c2d54f453bf3bbc873de2f3542fdc043f0b032ba3caed70bc39805a9",
+    "diagnostic/ENTRY16_INPUT_AND_DECODE.private.json": "4cf71c9e8005540e9773d7ea1a64da1fdc56c3e44926d8c158efff476a4ec1fa",
+    "RESULT.private.json": "554b3bcdf4fff361752beb5fe1b1e5e03fb0faec850509ba6deaf6259a55d066",
+    "vector-field-v3/RESULT.private.json": "dd0060b41daeedf1f3ff207ab567898a260a5718deb345461adaf6142e94edd6",
+    "vector-field-v3/ALL_FIELD_COMPARISONS.private.json": "ca81befedd2e448f95796cec917a864362983968a8aee8e3f360e28f23d8ad61",
+    "FINAL_RECONCILIATION.private.json": "c1cb20956ba32f048ed7397cd66370effeb1bad1c540f2994602c4572a6e6f01",
+    "TERMINAL_SCOPE_ANNOTATION.private.json": "d7596f933f30b8aabc5d288a4c3936385103ffae69be05553a4c8be227aca285",
+    "evidence-pack/ALL754_TRAJECTORIES.private.npz": "efd25d0cda64aad41ee7bc052546c7e3113d6c5b03b94644808f0f15b05ac603",
+    "evidence-pack/CANONICAL_SCENE_ANNOTATIONS.private.json": "add5d235d449f9342c676c7ef9d466163bce7d62be33ad7abf39098d2dd62935",
+    "evidence-pack/DIVERSITY.private.json": "6e3844934a0435788e8f689075f51b29d1c6eff4ad347a5edc1ace03d9669d60",
+    "evidence-pack/F1_CONTACT_MECHANISM.private.json": "66b4a9a33fad53e515920d0429c97b0541cbca4303dadbae4f2434c94b87fe5f",
+    "evidence-pack/TRAJECTORY_INDEX.private.json": "38bf7c4fd7b1d92b2dd4c66817643aa6842f0acb1be4f816f72359fa7cd09201"
+  },
+  "rejections12": [
+    {
+      "case": "04-F2-MFREE_C20_FINAL_FM1000-r201",
+      "panel": "TRAIN8",
+      "query": 54,
+      "first": {
+        "path": "nominal",
+        "channel": "finger_velocity",
+        "k": 16,
+        "time_s": 0.8,
+        "region": "SUFFIX",
+        "first_ratio": 1.0103054060615173,
+        "peak_ratio": 1.053698572716236,
+        "order": 2
+      },
+      "nominal": {
+        "channels": {
+          "linear_velocity": {
+            "peak_value": 0.006419900564775918,
+            "threshold": 0.05,
+            "peak_threshold_ratio": 0.12839801129551834,
+            "margin": 0.04358009943522408,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.006419900564775918,
+            "suffix_peak": 0.0025578390881430242,
+            "zero_velocity_endpoint_padding": false
+          },
+          "angular_velocity": {
+            "peak_value": 0.005516976260657307,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.02206790504262923,
+            "margin": 0.2444830237393427,
+            "peak_k": 1,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.005516976260657307,
+            "suffix_peak": 0.003784769637562943,
+            "zero_velocity_endpoint_padding": false
+          },
+          "finger_velocity": {
+            "peak_value": 0.04214794290864944,
+            "threshold": 0.04,
+            "peak_threshold_ratio": 1.053698572716236,
+            "margin": -0.0021479429086494403,
+            "peak_k": 24,
+            "first_exceedance_k": 16,
+            "exceedance_indices": [
+              16,
+              20,
+              24
+            ],
+            "prefix_peak": 0.028063428133423968,
+            "suffix_peak": 0.04214794290864944,
+            "zero_velocity_endpoint_padding": false
+          },
+          "linear_acceleration": {
+            "peak_value": 0.12839801129551834,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.5135920451820734,
+            "margin": 0.12160198870448166,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.12839801129551834,
+            "suffix_peak": 0.04511916416317758,
+            "zero_velocity_endpoint_padding": true
+          },
+          "angular_acceleration": {
+            "peak_value": 0.08132474886958702,
+            "threshold": 1.0,
+            "peak_threshold_ratio": 0.08132474886958702,
+            "margin": 0.918675251130413,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.08132474886958702,
+            "suffix_peak": 0.04644654439178278,
+            "zero_velocity_endpoint_padding": true
+          }
+        },
+        "full_H40_pass": false,
+        "first_point_anchor_gap_m": 0.0003327818480575257,
+        "path_length_m": 0.0032611694907478898,
+        "endpoint_progress_m": 0.001839866945310066
+      },
+      "reference": {
+        "channels": {
+          "linear_velocity": {
+            "peak_value": 0.0064199005647756794,
+            "threshold": 0.05,
+            "peak_threshold_ratio": 0.1283980112955136,
+            "margin": 0.043580099435224326,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.0064199005647756794,
+            "suffix_peak": 0.0025578390881386267,
+            "zero_velocity_endpoint_padding": false
+          },
+          "angular_velocity": {
+            "peak_value": 0.005516976260657563,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.022067905042630252,
+            "margin": 0.24448302373934244,
+            "peak_k": 1,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.005516976260657563,
+            "suffix_peak": 0.0037847696375629394,
+            "zero_velocity_endpoint_padding": false
+          },
+          "finger_velocity": {
+            "peak_value": 0.04214794290864944,
+            "threshold": 0.04,
+            "peak_threshold_ratio": 1.053698572716236,
+            "margin": -0.0021479429086494403,
+            "peak_k": 24,
+            "first_exceedance_k": 16,
+            "exceedance_indices": [
+              16,
+              20,
+              24
+            ],
+            "prefix_peak": 0.028063428133423968,
+            "suffix_peak": 0.04214794290864944,
+            "zero_velocity_endpoint_padding": false
+          },
+          "linear_acceleration": {
+            "peak_value": 0.1283980112955136,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.5135920451820544,
+            "margin": 0.12160198870448641,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.1283980112955136,
+            "suffix_peak": 0.04511916416307018,
+            "zero_velocity_endpoint_padding": true
+          },
+          "angular_acceleration": {
+            "peak_value": 0.08132474886960153,
+            "threshold": 1.0,
+            "peak_threshold_ratio": 0.08132474886960153,
+            "margin": 0.9186752511303985,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.08132474886960153,
+            "suffix_peak": 0.04644654439178885,
+            "zero_velocity_endpoint_padding": true
+          }
+        },
+        "full_H40_pass": false,
+        "first_point_anchor_gap_m": 0.0003327818480574961,
+        "path_length_m": 0.0032611694907475086,
+        "endpoint_progress_m": 0.00183986694530984
+      },
+      "original_short_circuit_component": {
+        "path": "nominal",
+        "channel": "finger_velocity",
+        "k": 16,
+        "time_s": 0.8,
+        "region": "SUFFIX",
+        "first_ratio": 1.0103054060615173,
+        "peak_ratio": 1.053698572716236,
+        "order": 2
+      }
+    },
+    {
+      "case": "05-F2-MFREE_C20_FINAL_FM1000-r202",
+      "panel": "TRAIN8",
+      "query": 60,
+      "first": {
+        "path": "nominal",
+        "channel": "finger_velocity",
+        "k": 16,
+        "time_s": 0.8,
+        "region": "SUFFIX",
+        "first_ratio": 1.0941565693421087,
+        "peak_ratio": 1.4806281615468084,
+        "order": 2
+      },
+      "nominal": {
+        "channels": {
+          "linear_velocity": {
+            "peak_value": 0.008414713728597943,
+            "threshold": 0.05,
+            "peak_threshold_ratio": 0.16829427457195886,
+            "margin": 0.04158528627140206,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.008414713728597943,
+            "suffix_peak": 0.00297634633742786,
+            "zero_velocity_endpoint_padding": false
+          },
+          "angular_velocity": {
+            "peak_value": 0.0029262449430925755,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.011704979772370302,
+            "margin": 0.24707375505690743,
+            "peak_k": 8,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.0029262449430925755,
+            "suffix_peak": 0.002248762004745025,
+            "zero_velocity_endpoint_padding": false
+          },
+          "finger_velocity": {
+            "peak_value": 0.059225126461872335,
+            "threshold": 0.04,
+            "peak_threshold_ratio": 1.4806281615468084,
+            "margin": -0.019225126461872334,
+            "peak_k": 18,
+            "first_exceedance_k": 16,
+            "exceedance_indices": [
+              16,
+              18,
+              20,
+              21,
+              23,
+              25
+            ],
+            "prefix_peak": 0.019801538058772106,
+            "suffix_peak": 0.059225126461872335,
+            "zero_velocity_endpoint_padding": false
+          },
+          "linear_acceleration": {
+            "peak_value": 0.16829427457195886,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.6731770982878355,
+            "margin": 0.08170572542804114,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.16829427457195886,
+            "suffix_peak": 0.049168735475099014,
+            "zero_velocity_endpoint_padding": true
+          },
+          "angular_acceleration": {
+            "peak_value": 0.04758555944175265,
+            "threshold": 1.0,
+            "peak_threshold_ratio": 0.04758555944175265,
+            "margin": 0.9524144405582473,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.04758555944175265,
+            "suffix_peak": 0.04111259005210801,
+            "zero_velocity_endpoint_padding": true
+          }
+        },
+        "full_H40_pass": false,
+        "first_point_anchor_gap_m": 0.00015620041863360516,
+        "path_length_m": 0.004509297118634626,
+        "endpoint_progress_m": 0.003145335300801463
+      },
+      "reference": {
+        "channels": {
+          "linear_velocity": {
+            "peak_value": 0.008414713728595863,
+            "threshold": 0.05,
+            "peak_threshold_ratio": 0.16829427457191726,
+            "margin": 0.04158528627140414,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.008414713728595863,
+            "suffix_peak": 0.0029763463374257192,
+            "zero_velocity_endpoint_padding": false
+          },
+          "angular_velocity": {
+            "peak_value": 0.0029262449430920937,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.011704979772368375,
+            "margin": 0.2470737550569079,
+            "peak_k": 8,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.0029262449430920937,
+            "suffix_peak": 0.0022487620047448083,
+            "zero_velocity_endpoint_padding": false
+          },
+          "finger_velocity": {
+            "peak_value": 0.059225126461872335,
+            "threshold": 0.04,
+            "peak_threshold_ratio": 1.4806281615468084,
+            "margin": -0.019225126461872334,
+            "peak_k": 18,
+            "first_exceedance_k": 16,
+            "exceedance_indices": [
+              16,
+              18,
+              20,
+              21,
+              23,
+              25
+            ],
+            "prefix_peak": 0.019801538058772106,
+            "suffix_peak": 0.059225126461872335,
+            "zero_velocity_endpoint_padding": false
+          },
+          "linear_acceleration": {
+            "peak_value": 0.16829427457191729,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.6731770982876691,
+            "margin": 0.08170572542808271,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.16829427457191729,
+            "suffix_peak": 0.04916873547517426,
+            "zero_velocity_endpoint_padding": true
+          },
+          "angular_acceleration": {
+            "peak_value": 0.04758555944174177,
+            "threshold": 1.0,
+            "peak_threshold_ratio": 0.04758555944174177,
+            "margin": 0.9524144405582582,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.04758555944174177,
+            "suffix_peak": 0.041112590052110924,
+            "zero_velocity_endpoint_padding": true
+          }
+        },
+        "full_H40_pass": false,
+        "first_point_anchor_gap_m": 0.00015620041863357827,
+        "path_length_m": 0.004509297118635214,
+        "endpoint_progress_m": 0.0031453353008015538
+      },
+      "original_short_circuit_component": {
+        "path": "nominal",
+        "channel": "finger_velocity",
+        "k": 16,
+        "time_s": 0.8,
+        "region": "SUFFIX",
+        "first_ratio": 1.0941565693421087,
+        "peak_ratio": 1.4806281615468084,
+        "order": 2
+      }
+    },
+    {
+      "case": "06-F2-MFREE_C20_FINAL_FM1000-r201",
+      "panel": "TRAIN8",
+      "query": 59,
+      "first": {
+        "path": "nominal",
+        "channel": "finger_velocity",
+        "k": 13,
+        "time_s": 0.65,
+        "region": "SUFFIX",
+        "first_ratio": 1.0176980760133736,
+        "peak_ratio": 1.2481883952113608,
+        "order": 2
+      },
+      "nominal": {
+        "channels": {
+          "linear_velocity": {
+            "peak_value": 0.005293319991080683,
+            "threshold": 0.05,
+            "peak_threshold_ratio": 0.10586639982161365,
+            "margin": 0.04470668000891932,
+            "peak_k": 2,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.005293319991080683,
+            "suffix_peak": 0.0018429643259882677,
+            "zero_velocity_endpoint_padding": false
+          },
+          "angular_velocity": {
+            "peak_value": 0.004897988983882798,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.019591955935531192,
+            "margin": 0.2451020110161172,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.004897988983882798,
+            "suffix_peak": 0.00271534383234584,
+            "zero_velocity_endpoint_padding": false
+          },
+          "finger_velocity": {
+            "peak_value": 0.04992753580845444,
+            "threshold": 0.04,
+            "peak_threshold_ratio": 1.2481883952113608,
+            "margin": -0.009927535808454437,
+            "peak_k": 21,
+            "first_exceedance_k": 13,
+            "exceedance_indices": [
+              13,
+              16,
+              17,
+              18,
+              21
+            ],
+            "prefix_peak": 0.022651227634473553,
+            "suffix_peak": 0.04992753580845444,
+            "zero_velocity_endpoint_padding": false
+          },
+          "linear_acceleration": {
+            "peak_value": 0.06827099543994093,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.2730839817597637,
+            "margin": 0.18172900456005908,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.06827099543994093,
+            "suffix_peak": 0.05725750696104334,
+            "zero_velocity_endpoint_padding": true
+          },
+          "angular_acceleration": {
+            "peak_value": 0.09795977967765597,
+            "threshold": 1.0,
+            "peak_threshold_ratio": 0.09795977967765597,
+            "margin": 0.902040220322344,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.09795977967765597,
+            "suffix_peak": 0.04097133675703785,
+            "zero_velocity_endpoint_padding": true
+          }
+        },
+        "full_H40_pass": false,
+        "first_point_anchor_gap_m": 0.00011608973184031846,
+        "path_length_m": 0.0030530880598078625,
+        "endpoint_progress_m": 0.0010630876728999516
+      },
+      "reference": {
+        "channels": {
+          "linear_velocity": {
+            "peak_value": 0.005293319991082704,
+            "threshold": 0.05,
+            "peak_threshold_ratio": 0.10586639982165408,
+            "margin": 0.044706680008917296,
+            "peak_k": 2,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.005293319991082704,
+            "suffix_peak": 0.0018429643259861425,
+            "zero_velocity_endpoint_padding": false
+          },
+          "angular_velocity": {
+            "peak_value": 0.00489798898388329,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.01959195593553316,
+            "margin": 0.2451020110161167,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.00489798898388329,
+            "suffix_peak": 0.0027153438323462764,
+            "zero_velocity_endpoint_padding": false
+          },
+          "finger_velocity": {
+            "peak_value": 0.04992753580845444,
+            "threshold": 0.04,
+            "peak_threshold_ratio": 1.2481883952113608,
+            "margin": -0.009927535808454437,
+            "peak_k": 21,
+            "first_exceedance_k": 13,
+            "exceedance_indices": [
+              13,
+              16,
+              17,
+              18,
+              21
+            ],
+            "prefix_peak": 0.022651227634473553,
+            "suffix_peak": 0.04992753580845444,
+            "zero_velocity_endpoint_padding": false
+          },
+          "linear_acceleration": {
+            "peak_value": 0.06827099543994128,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.2730839817597651,
+            "margin": 0.18172900456005872,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.06827099543994128,
+            "suffix_peak": 0.057257506960976895,
+            "zero_velocity_endpoint_padding": true
+          },
+          "angular_acceleration": {
+            "peak_value": 0.09795977967766578,
+            "threshold": 1.0,
+            "peak_threshold_ratio": 0.09795977967766578,
+            "margin": 0.9020402203223342,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.09795977967766578,
+            "suffix_peak": 0.040971336757046756,
+            "zero_velocity_endpoint_padding": true
+          }
+        },
+        "full_H40_pass": false,
+        "first_point_anchor_gap_m": 0.000116089731840238,
+        "path_length_m": 0.0030530880598074943,
+        "endpoint_progress_m": 0.0010630876728998562
+      },
+      "original_short_circuit_component": {
+        "path": "nominal",
+        "channel": "finger_velocity",
+        "k": 13,
+        "time_s": 0.65,
+        "region": "SUFFIX",
+        "first_ratio": 1.0176980760133736,
+        "peak_ratio": 1.2481883952113608,
+        "order": 2
+      }
+    },
+    {
+      "case": "07-F2-MFREE_C20_FINAL_FM1000-r202",
+      "panel": "TRAIN8",
+      "query": 58,
+      "first": {
+        "path": "nominal",
+        "channel": "finger_velocity",
+        "k": 19,
+        "time_s": 0.9500000000000001,
+        "region": "SUFFIX",
+        "first_ratio": 1.0481749590076794,
+        "peak_ratio": 1.0481749590076794,
+        "order": 2
+      },
+      "nominal": {
+        "channels": {
+          "linear_velocity": {
+            "peak_value": 0.009066575124442668,
+            "threshold": 0.05,
+            "peak_threshold_ratio": 0.18133150248885335,
+            "margin": 0.04093342487555733,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.009066575124442668,
+            "suffix_peak": 0.0035663551430019274,
+            "zero_velocity_endpoint_padding": false
+          },
+          "angular_velocity": {
+            "peak_value": 0.006027099010046022,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.02410839604018409,
+            "margin": 0.24397290098995397,
+            "peak_k": 8,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.006027099010046022,
+            "suffix_peak": 0.006009659847642549,
+            "zero_velocity_endpoint_padding": false
+          },
+          "finger_velocity": {
+            "peak_value": 0.04192699836030718,
+            "threshold": 0.04,
+            "peak_threshold_ratio": 1.0481749590076794,
+            "margin": -0.0019269983603071791,
+            "peak_k": 19,
+            "first_exceedance_k": 19,
+            "exceedance_indices": [
+              19
+            ],
+            "prefix_peak": 0.01913005499277559,
+            "suffix_peak": 0.04192699836030718,
+            "zero_velocity_endpoint_padding": false
+          },
+          "linear_acceleration": {
+            "peak_value": 0.18133150248885338,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.7253260099554135,
+            "margin": 0.06866849751114662,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.18133150248885338,
+            "suffix_peak": 0.0370013403403119,
+            "zero_velocity_endpoint_padding": true
+          },
+          "angular_acceleration": {
+            "peak_value": 0.08175576217625359,
+            "threshold": 1.0,
+            "peak_threshold_ratio": 0.08175576217625359,
+            "margin": 0.9182442378237464,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.08175576217625359,
+            "suffix_peak": 0.044530093599453785,
+            "zero_velocity_endpoint_padding": true
+          }
+        },
+        "full_H40_pass": false,
+        "first_point_anchor_gap_m": 0.0002078512291568245,
+        "path_length_m": 0.005056852152843935,
+        "endpoint_progress_m": 0.003951883989883292
+      },
+      "reference": {
+        "channels": {
+          "linear_velocity": {
+            "peak_value": 0.009066575124442668,
+            "threshold": 0.05,
+            "peak_threshold_ratio": 0.18133150248885335,
+            "margin": 0.04093342487555733,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.009066575124442668,
+            "suffix_peak": 0.0035663551429999264,
+            "zero_velocity_endpoint_padding": false
+          },
+          "angular_velocity": {
+            "peak_value": 0.00602709901004638,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.02410839604018552,
+            "margin": 0.2439729009899536,
+            "peak_k": 8,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.00602709901004638,
+            "suffix_peak": 0.00600965984764319,
+            "zero_velocity_endpoint_padding": false
+          },
+          "finger_velocity": {
+            "peak_value": 0.04192699836030718,
+            "threshold": 0.04,
+            "peak_threshold_ratio": 1.0481749590076794,
+            "margin": -0.0019269983603071791,
+            "peak_k": 19,
+            "first_exceedance_k": 19,
+            "exceedance_indices": [
+              19
+            ],
+            "prefix_peak": 0.01913005499277559,
+            "suffix_peak": 0.04192699836030718,
+            "zero_velocity_endpoint_padding": false
+          },
+          "linear_acceleration": {
+            "peak_value": 0.18133150248885338,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.7253260099554135,
+            "margin": 0.06866849751114662,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.18133150248885338,
+            "suffix_peak": 0.03700134034022208,
+            "zero_velocity_endpoint_padding": true
+          },
+          "angular_acceleration": {
+            "peak_value": 0.08175576217624735,
+            "threshold": 1.0,
+            "peak_threshold_ratio": 0.08175576217624735,
+            "margin": 0.9182442378237526,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.08175576217624735,
+            "suffix_peak": 0.044530093599465824,
+            "zero_velocity_endpoint_padding": true
+          }
+        },
+        "full_H40_pass": false,
+        "first_point_anchor_gap_m": 0.0002078512291569015,
+        "path_length_m": 0.005056852152844069,
+        "endpoint_progress_m": 0.003951883989883291
+      },
+      "original_short_circuit_component": {
+        "path": "nominal",
+        "channel": "finger_velocity",
+        "k": 19,
+        "time_s": 0.9500000000000001,
+        "region": "SUFFIX",
+        "first_ratio": 1.0481749590076794,
+        "peak_ratio": 1.0481749590076794,
+        "order": 2
+      }
+    },
+    {
+      "case": "00-F2-MFREE_C20_FINAL_FM1000-r1",
+      "panel": "DEV16",
+      "query": 57,
+      "first": {
+        "path": "nominal",
+        "channel": "finger_velocity",
+        "k": 26,
+        "time_s": 1.3,
+        "region": "SUFFIX",
+        "first_ratio": 1.074743191713877,
+        "peak_ratio": 1.2403317997037162,
+        "order": 2
+      },
+      "nominal": {
+        "channels": {
+          "linear_velocity": {
+            "peak_value": 0.006855023815873232,
+            "threshold": 0.05,
+            "peak_threshold_ratio": 0.13710047631746464,
+            "margin": 0.04314497618412677,
+            "peak_k": 2,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.006855023815873232,
+            "suffix_peak": 0.0024757218042184763,
+            "zero_velocity_endpoint_padding": false
+          },
+          "angular_velocity": {
+            "peak_value": 0.003092504231794258,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.012370016927177032,
+            "margin": 0.24690749576820575,
+            "peak_k": 2,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.003092504231794258,
+            "suffix_peak": 0.001832405050307878,
+            "zero_velocity_endpoint_padding": false
+          },
+          "finger_velocity": {
+            "peak_value": 0.049613271988148654,
+            "threshold": 0.04,
+            "peak_threshold_ratio": 1.2403317997037162,
+            "margin": -0.009613271988148653,
+            "peak_k": 32,
+            "first_exceedance_k": 26,
+            "exceedance_indices": [
+              26,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33
+            ],
+            "prefix_peak": 0.004362765657889567,
+            "suffix_peak": 0.049613271988148654,
+            "zero_velocity_endpoint_padding": false
+          },
+          "linear_acceleration": {
+            "peak_value": 0.1357968682957373,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.5431874731829492,
+            "margin": 0.11420313170426269,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.1357968682957373,
+            "suffix_peak": 0.045933990537389495,
+            "zero_velocity_endpoint_padding": true
+          },
+          "angular_acceleration": {
+            "peak_value": 0.044801210429399586,
+            "threshold": 1.0,
+            "peak_threshold_ratio": 0.044801210429399586,
+            "margin": 0.9551987895706004,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.044801210429399586,
+            "suffix_peak": 0.03650387281990788,
+            "zero_velocity_endpoint_padding": true
+          }
+        },
+        "full_H40_pass": false,
+        "first_point_anchor_gap_m": 0.00022851540572439274,
+        "path_length_m": 0.003689705712087838,
+        "endpoint_progress_m": 0.0019365529211869154
+      },
+      "reference": {
+        "channels": {
+          "linear_velocity": {
+            "peak_value": 0.006855023815871061,
+            "threshold": 0.05,
+            "peak_threshold_ratio": 0.1371004763174212,
+            "margin": 0.04314497618412894,
+            "peak_k": 2,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.006855023815871061,
+            "suffix_peak": 0.002475721804216684,
+            "zero_velocity_endpoint_padding": false
+          },
+          "angular_velocity": {
+            "peak_value": 0.0030925042317942702,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.012370016927177081,
+            "margin": 0.24690749576820573,
+            "peak_k": 2,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.0030925042317942702,
+            "suffix_peak": 0.0018324050503075273,
+            "zero_velocity_endpoint_padding": false
+          },
+          "finger_velocity": {
+            "peak_value": 0.049613271988148654,
+            "threshold": 0.04,
+            "peak_threshold_ratio": 1.2403317997037162,
+            "margin": -0.009613271988148653,
+            "peak_k": 32,
+            "first_exceedance_k": 26,
+            "exceedance_indices": [
+              26,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33
+            ],
+            "prefix_peak": 0.004362765657889567,
+            "suffix_peak": 0.049613271988148654,
+            "zero_velocity_endpoint_padding": false
+          },
+          "linear_acceleration": {
+            "peak_value": 0.13579686829578136,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.5431874731831254,
+            "margin": 0.11420313170421864,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.13579686829578136,
+            "suffix_peak": 0.04593399053741935,
+            "zero_velocity_endpoint_padding": true
+          },
+          "angular_acceleration": {
+            "peak_value": 0.04480121042939274,
+            "threshold": 1.0,
+            "peak_threshold_ratio": 0.04480121042939274,
+            "margin": 0.9551987895706072,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.04480121042939274,
+            "suffix_peak": 0.036503872819925044,
+            "zero_velocity_endpoint_padding": true
+          }
+        },
+        "full_H40_pass": false,
+        "first_point_anchor_gap_m": 0.00022851540572444993,
+        "path_length_m": 0.0036897057120878515,
+        "endpoint_progress_m": 0.0019365529211869154
+      },
+      "original_short_circuit_component": {
+        "path": "nominal",
+        "channel": "finger_velocity",
+        "k": 26,
+        "time_s": 1.3,
+        "region": "SUFFIX",
+        "first_ratio": 1.074743191713877,
+        "peak_ratio": 1.2403317997037162,
+        "order": 2
+      }
+    },
+    {
+      "case": "01-F2-MFREE_C20_FINAL_FM1000-r2",
+      "panel": "DEV16",
+      "query": 55,
+      "first": {
+        "path": "nominal",
+        "channel": "finger_velocity",
+        "k": 18,
+        "time_s": 0.9,
+        "region": "SUFFIX",
+        "first_ratio": 1.254608915856801,
+        "peak_ratio": 1.3026555456397242,
+        "order": 2
+      },
+      "nominal": {
+        "channels": {
+          "linear_velocity": {
+            "peak_value": 0.005421889937963742,
+            "threshold": 0.05,
+            "peak_threshold_ratio": 0.10843779875927484,
+            "margin": 0.04457811006203626,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.005421889937963742,
+            "suffix_peak": 0.0016306563545036988,
+            "zero_velocity_endpoint_padding": false
+          },
+          "angular_velocity": {
+            "peak_value": 0.0073103975809034275,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.02924159032361371,
+            "margin": 0.24268960241909657,
+            "peak_k": 5,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.0073103975809034275,
+            "suffix_peak": 0.005779370549382677,
+            "zero_velocity_endpoint_padding": false
+          },
+          "finger_velocity": {
+            "peak_value": 0.052106221825588966,
+            "threshold": 0.04,
+            "peak_threshold_ratio": 1.3026555456397242,
+            "margin": -0.012106221825588966,
+            "peak_k": 26,
+            "first_exceedance_k": 18,
+            "exceedance_indices": [
+              18,
+              20,
+              24,
+              25,
+              26,
+              29
+            ],
+            "prefix_peak": 0.013572617580319829,
+            "suffix_peak": 0.052106221825588966,
+            "zero_velocity_endpoint_padding": false
+          },
+          "linear_acceleration": {
+            "peak_value": 0.10843779875927484,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.43375119503709936,
+            "margin": 0.14156220124072516,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.10843779875927484,
+            "suffix_peak": 0.03294047618794565,
+            "zero_velocity_endpoint_padding": true
+          },
+          "angular_acceleration": {
+            "peak_value": 0.09172044110780866,
+            "threshold": 1.0,
+            "peak_threshold_ratio": 0.09172044110780866,
+            "margin": 0.9082795588921914,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.09172044110780866,
+            "suffix_peak": 0.03363572379466499,
+            "zero_velocity_endpoint_padding": true
+          }
+        },
+        "full_H40_pass": false,
+        "first_point_anchor_gap_m": 0.0003613529394721184,
+        "path_length_m": 0.002629696729333338,
+        "endpoint_progress_m": 0.0010041465832254586
+      },
+      "reference": {
+        "channels": {
+          "linear_velocity": {
+            "peak_value": 0.005421889937961549,
+            "threshold": 0.05,
+            "peak_threshold_ratio": 0.10843779875923097,
+            "margin": 0.044578110062038455,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.005421889937961549,
+            "suffix_peak": 0.0016306563545002075,
+            "zero_velocity_endpoint_padding": false
+          },
+          "angular_velocity": {
+            "peak_value": 0.007310397580903877,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.029241590323615507,
+            "margin": 0.24268960241909612,
+            "peak_k": 5,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.007310397580903877,
+            "suffix_peak": 0.0057793705493821255,
+            "zero_velocity_endpoint_padding": false
+          },
+          "finger_velocity": {
+            "peak_value": 0.052106221825588966,
+            "threshold": 0.04,
+            "peak_threshold_ratio": 1.3026555456397242,
+            "margin": -0.012106221825588966,
+            "peak_k": 26,
+            "first_exceedance_k": 18,
+            "exceedance_indices": [
+              18,
+              20,
+              24,
+              25,
+              26,
+              29
+            ],
+            "prefix_peak": 0.013572617580319829,
+            "suffix_peak": 0.052106221825588966,
+            "zero_velocity_endpoint_padding": false
+          },
+          "linear_acceleration": {
+            "peak_value": 0.10843779875923097,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.4337511950369239,
+            "margin": 0.14156220124076901,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.10843779875923097,
+            "suffix_peak": 0.03294047618794177,
+            "zero_velocity_endpoint_padding": true
+          },
+          "angular_acceleration": {
+            "peak_value": 0.09172044110782843,
+            "threshold": 1.0,
+            "peak_threshold_ratio": 0.09172044110782843,
+            "margin": 0.9082795588921716,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.09172044110782843,
+            "suffix_peak": 0.033635723794643545,
+            "zero_velocity_endpoint_padding": true
+          }
+        },
+        "full_H40_pass": false,
+        "first_point_anchor_gap_m": 0.00036135293947203126,
+        "path_length_m": 0.0026296967293328913,
+        "endpoint_progress_m": 0.0010041465832252836
+      },
+      "original_short_circuit_component": {
+        "path": "nominal",
+        "channel": "finger_velocity",
+        "k": 18,
+        "time_s": 0.9,
+        "region": "SUFFIX",
+        "first_ratio": 1.254608915856801,
+        "peak_ratio": 1.3026555456397242,
+        "order": 2
+      }
+    },
+    {
+      "case": "02-F2-MFREE_C20_FINAL_FM1000-r1",
+      "panel": "DEV16",
+      "query": 56,
+      "first": {
+        "path": "nominal",
+        "channel": "finger_velocity",
+        "k": 25,
+        "time_s": 1.25,
+        "region": "SUFFIX",
+        "first_ratio": 1.051599653981992,
+        "peak_ratio": 1.3991439036768185,
+        "order": 2
+      },
+      "nominal": {
+        "channels": {
+          "linear_velocity": {
+            "peak_value": 0.008228581581187234,
+            "threshold": 0.05,
+            "peak_threshold_ratio": 0.16457163162374466,
+            "margin": 0.04177141841881277,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.008228581581187234,
+            "suffix_peak": 0.0030802238109856263,
+            "zero_velocity_endpoint_padding": false
+          },
+          "angular_velocity": {
+            "peak_value": 0.005912512021650849,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.023650048086603394,
+            "margin": 0.24408748797834914,
+            "peak_k": 21,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.0021276789833285467,
+            "suffix_peak": 0.005912512021650849,
+            "zero_velocity_endpoint_padding": false
+          },
+          "finger_velocity": {
+            "peak_value": 0.05596575614707274,
+            "threshold": 0.04,
+            "peak_threshold_ratio": 1.3991439036768185,
+            "margin": -0.01596575614707274,
+            "peak_k": 32,
+            "first_exceedance_k": 25,
+            "exceedance_indices": [
+              25,
+              30,
+              32,
+              33,
+              34,
+              35
+            ],
+            "prefix_peak": 0.011506595965478233,
+            "suffix_peak": 0.05596575614707274,
+            "zero_velocity_endpoint_padding": false
+          },
+          "linear_acceleration": {
+            "peak_value": 0.1645716316237447,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.6582865264949788,
+            "margin": 0.08542836837625531,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.1645716316237447,
+            "suffix_peak": 0.04066227349674295,
+            "zero_velocity_endpoint_padding": true
+          },
+          "angular_acceleration": {
+            "peak_value": 0.033323725507486635,
+            "threshold": 1.0,
+            "peak_threshold_ratio": 0.033323725507486635,
+            "margin": 0.9666762744925134,
+            "peak_k": 2,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.033323725507486635,
+            "suffix_peak": 0.03144318563174973,
+            "zero_velocity_endpoint_padding": true
+          }
+        },
+        "full_H40_pass": false,
+        "first_point_anchor_gap_m": 0.00031477029354920255,
+        "path_length_m": 0.004565351960087394,
+        "endpoint_progress_m": 0.00401849424358901
+      },
+      "reference": {
+        "channels": {
+          "linear_velocity": {
+            "peak_value": 0.008228581581187234,
+            "threshold": 0.05,
+            "peak_threshold_ratio": 0.16457163162374466,
+            "margin": 0.04177141841881277,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.008228581581187234,
+            "suffix_peak": 0.00308022381099021,
+            "zero_velocity_endpoint_padding": false
+          },
+          "angular_velocity": {
+            "peak_value": 0.005912512021649929,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.023650048086599717,
+            "margin": 0.24408748797835006,
+            "peak_k": 21,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.0021276789833283155,
+            "suffix_peak": 0.005912512021649929,
+            "zero_velocity_endpoint_padding": false
+          },
+          "finger_velocity": {
+            "peak_value": 0.05596575614707274,
+            "threshold": 0.04,
+            "peak_threshold_ratio": 1.3991439036768185,
+            "margin": -0.01596575614707274,
+            "peak_k": 32,
+            "first_exceedance_k": 25,
+            "exceedance_indices": [
+              25,
+              30,
+              32,
+              33,
+              34,
+              35
+            ],
+            "prefix_peak": 0.011506595965478233,
+            "suffix_peak": 0.05596575614707274,
+            "zero_velocity_endpoint_padding": false
+          },
+          "linear_acceleration": {
+            "peak_value": 0.1645716316237447,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.6582865264949788,
+            "margin": 0.08542836837625531,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.1645716316237447,
+            "suffix_peak": 0.04066227349677135,
+            "zero_velocity_endpoint_padding": true
+          },
+          "angular_acceleration": {
+            "peak_value": 0.033323725507488765,
+            "threshold": 1.0,
+            "peak_threshold_ratio": 0.033323725507488765,
+            "margin": 0.9666762744925113,
+            "peak_k": 2,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.033323725507488765,
+            "suffix_peak": 0.031443185631762766,
+            "zero_velocity_endpoint_padding": true
+          }
+        },
+        "full_H40_pass": false,
+        "first_point_anchor_gap_m": 0.0003147702935491789,
+        "path_length_m": 0.004565351960087448,
+        "endpoint_progress_m": 0.004018494243588911
+      },
+      "original_short_circuit_component": {
+        "path": "nominal",
+        "channel": "finger_velocity",
+        "k": 25,
+        "time_s": 1.25,
+        "region": "SUFFIX",
+        "first_ratio": 1.051599653981992,
+        "peak_ratio": 1.3991439036768185,
+        "order": 2
+      }
+    },
+    {
+      "case": "03-F2-MFREE_C20_FINAL_FM1000-r2",
+      "panel": "DEV16",
+      "query": 58,
+      "first": {
+        "path": "nominal",
+        "channel": "finger_velocity",
+        "k": 14,
+        "time_s": 0.7000000000000001,
+        "region": "SUFFIX",
+        "first_ratio": 1.0653955520174563,
+        "peak_ratio": 1.3306403704569056,
+        "order": 2
+      },
+      "nominal": {
+        "channels": {
+          "linear_velocity": {
+            "peak_value": 0.005667315959514144,
+            "threshold": 0.05,
+            "peak_threshold_ratio": 0.11334631919028289,
+            "margin": 0.04433268404048586,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.005667315959514144,
+            "suffix_peak": 0.0017599718785372132,
+            "zero_velocity_endpoint_padding": false
+          },
+          "angular_velocity": {
+            "peak_value": 0.005924872159233829,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.023699488636935315,
+            "margin": 0.24407512784076618,
+            "peak_k": 4,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.005924872159233829,
+            "suffix_peak": 0.0050409468931753715,
+            "zero_velocity_endpoint_padding": false
+          },
+          "finger_velocity": {
+            "peak_value": 0.05322561481827623,
+            "threshold": 0.04,
+            "peak_threshold_ratio": 1.3306403704569056,
+            "margin": -0.013225614818276228,
+            "peak_k": 16,
+            "first_exceedance_k": 14,
+            "exceedance_indices": [
+              14,
+              15,
+              16,
+              17,
+              18,
+              19
+            ],
+            "prefix_peak": 0.020182465414015777,
+            "suffix_peak": 0.05322561481827623,
+            "zero_velocity_endpoint_padding": false
+          },
+          "linear_acceleration": {
+            "peak_value": 0.11334631919028289,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.45338527676113155,
+            "margin": 0.13665368080971713,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.11334631919028289,
+            "suffix_peak": 0.042952798093850934,
+            "zero_velocity_endpoint_padding": true
+          },
+          "angular_acceleration": {
+            "peak_value": 0.09958809609533165,
+            "threshold": 1.0,
+            "peak_threshold_ratio": 0.09958809609533165,
+            "margin": 0.9004119039046683,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.09958809609533165,
+            "suffix_peak": 0.03480696904841947,
+            "zero_velocity_endpoint_padding": true
+          }
+        },
+        "full_H40_pass": false,
+        "first_point_anchor_gap_m": 0.0002986158485298018,
+        "path_length_m": 0.003362003895347319,
+        "endpoint_progress_m": 0.0018987863537936608
+      },
+      "reference": {
+        "channels": {
+          "linear_velocity": {
+            "peak_value": 0.005667315959516168,
+            "threshold": 0.05,
+            "peak_threshold_ratio": 0.11334631919032336,
+            "margin": 0.044332684040483836,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.005667315959516168,
+            "suffix_peak": 0.0017599718785372132,
+            "zero_velocity_endpoint_padding": false
+          },
+          "angular_velocity": {
+            "peak_value": 0.005924872159234012,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.023699488636936047,
+            "margin": 0.244075127840766,
+            "peak_k": 4,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.005924872159234012,
+            "suffix_peak": 0.0050409468931761625,
+            "zero_velocity_endpoint_padding": false
+          },
+          "finger_velocity": {
+            "peak_value": 0.05322561481827623,
+            "threshold": 0.04,
+            "peak_threshold_ratio": 1.3306403704569056,
+            "margin": -0.013225614818276228,
+            "peak_k": 16,
+            "first_exceedance_k": 14,
+            "exceedance_indices": [
+              14,
+              15,
+              16,
+              17,
+              18,
+              19
+            ],
+            "prefix_peak": 0.020182465414015777,
+            "suffix_peak": 0.05322561481827623,
+            "zero_velocity_endpoint_padding": false
+          },
+          "linear_acceleration": {
+            "peak_value": 0.11334631919032336,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.4533852767612934,
+            "margin": 0.13665368080967666,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.11334631919032336,
+            "suffix_peak": 0.042952798093850934,
+            "zero_velocity_endpoint_padding": true
+          },
+          "angular_acceleration": {
+            "peak_value": 0.09958809609532515,
+            "threshold": 1.0,
+            "peak_threshold_ratio": 0.09958809609532515,
+            "margin": 0.9004119039046748,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.09958809609532515,
+            "suffix_peak": 0.034806969048412094,
+            "zero_velocity_endpoint_padding": true
+          }
+        },
+        "full_H40_pass": false,
+        "first_point_anchor_gap_m": 0.0002986158485297984,
+        "path_length_m": 0.003362003895347973,
+        "endpoint_progress_m": 0.00189878635379374
+      },
+      "original_short_circuit_component": {
+        "path": "nominal",
+        "channel": "finger_velocity",
+        "k": 14,
+        "time_s": 0.7000000000000001,
+        "region": "SUFFIX",
+        "first_ratio": 1.0653955520174563,
+        "peak_ratio": 1.3306403704569056,
+        "order": 2
+      }
+    },
+    {
+      "case": "04-F2-MFREE_C20_FINAL_FM1000-r1",
+      "panel": "DEV16",
+      "query": 57,
+      "first": {
+        "path": "nominal",
+        "channel": "finger_velocity",
+        "k": 21,
+        "time_s": 1.05,
+        "region": "SUFFIX",
+        "first_ratio": 1.2436638191439098,
+        "peak_ratio": 1.2436638191439098,
+        "order": 2
+      },
+      "nominal": {
+        "channels": {
+          "linear_velocity": {
+            "peak_value": 0.005975980258418009,
+            "threshold": 0.05,
+            "peak_threshold_ratio": 0.11951960516836017,
+            "margin": 0.044024019741581995,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.005975980258418009,
+            "suffix_peak": 0.0025850325933032526,
+            "zero_velocity_endpoint_padding": false
+          },
+          "angular_velocity": {
+            "peak_value": 0.0029208908432624683,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.011683563373049873,
+            "margin": 0.24707910915673753,
+            "peak_k": 2,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.0029208908432624683,
+            "suffix_peak": 0.0018159651992576797,
+            "zero_velocity_endpoint_padding": false
+          },
+          "finger_velocity": {
+            "peak_value": 0.04974655276575639,
+            "threshold": 0.04,
+            "peak_threshold_ratio": 1.2436638191439098,
+            "margin": -0.009746552765756387,
+            "peak_k": 21,
+            "first_exceedance_k": 21,
+            "exceedance_indices": [
+              21,
+              24,
+              25,
+              26
+            ],
+            "prefix_peak": 0.01425060197159364,
+            "suffix_peak": 0.04974655276575639,
+            "zero_velocity_endpoint_padding": false
+          },
+          "linear_acceleration": {
+            "peak_value": 0.11951960516836017,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.4780784206734407,
+            "margin": 0.1304803948316398,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.11951960516836017,
+            "suffix_peak": 0.04557137952383511,
+            "zero_velocity_endpoint_padding": true
+          },
+          "angular_acceleration": {
+            "peak_value": 0.05143376734405444,
+            "threshold": 1.0,
+            "peak_threshold_ratio": 0.05143376734405444,
+            "margin": 0.9485662326559455,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.05143376734405444,
+            "suffix_peak": 0.03501173921125036,
+            "zero_velocity_endpoint_padding": true
+          }
+        },
+        "full_H40_pass": false,
+        "first_point_anchor_gap_m": 0.0003027726200018726,
+        "path_length_m": 0.0031651469946461404,
+        "endpoint_progress_m": 0.0016959814848442787
+      },
+      "reference": {
+        "channels": {
+          "linear_velocity": {
+            "peak_value": 0.005975980258415871,
+            "threshold": 0.05,
+            "peak_threshold_ratio": 0.11951960516831742,
+            "margin": 0.04402401974158413,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.005975980258415871,
+            "suffix_peak": 0.0025850325933052167,
+            "zero_velocity_endpoint_padding": false
+          },
+          "angular_velocity": {
+            "peak_value": 0.002920890843262913,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.011683563373051651,
+            "margin": 0.2470791091567371,
+            "peak_k": 2,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.002920890843262913,
+            "suffix_peak": 0.0018159651992571827,
+            "zero_velocity_endpoint_padding": false
+          },
+          "finger_velocity": {
+            "peak_value": 0.04974655276575639,
+            "threshold": 0.04,
+            "peak_threshold_ratio": 1.2436638191439098,
+            "margin": -0.009746552765756387,
+            "peak_k": 21,
+            "first_exceedance_k": 21,
+            "exceedance_indices": [
+              21,
+              24,
+              25,
+              26
+            ],
+            "prefix_peak": 0.01425060197159364,
+            "suffix_peak": 0.04974655276575639,
+            "zero_velocity_endpoint_padding": false
+          },
+          "linear_acceleration": {
+            "peak_value": 0.11951960516831743,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.4780784206732697,
+            "margin": 0.13048039483168256,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.11951960516831743,
+            "suffix_peak": 0.04557137952385517,
+            "zero_velocity_endpoint_padding": true
+          },
+          "angular_acceleration": {
+            "peak_value": 0.05143376734405317,
+            "threshold": 1.0,
+            "peak_threshold_ratio": 0.05143376734405317,
+            "margin": 0.9485662326559469,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.05143376734405317,
+            "suffix_peak": 0.035011739211252446,
+            "zero_velocity_endpoint_padding": true
+          }
+        },
+        "full_H40_pass": false,
+        "first_point_anchor_gap_m": 0.0003027726200018195,
+        "path_length_m": 0.0031651469946464886,
+        "endpoint_progress_m": 0.001695981484844176
+      },
+      "original_short_circuit_component": {
+        "path": "nominal",
+        "channel": "finger_velocity",
+        "k": 21,
+        "time_s": 1.05,
+        "region": "SUFFIX",
+        "first_ratio": 1.2436638191439098,
+        "peak_ratio": 1.2436638191439098,
+        "order": 2
+      }
+    },
+    {
+      "case": "05-F2-MFREE_C20_FINAL_FM1000-r2",
+      "panel": "DEV16",
+      "query": 58,
+      "first": {
+        "path": "nominal",
+        "channel": "finger_velocity",
+        "k": 16,
+        "time_s": 0.8,
+        "region": "SUFFIX",
+        "first_ratio": 1.2190188163777975,
+        "peak_ratio": 1.2190188163777975,
+        "order": 2
+      },
+      "nominal": {
+        "channels": {
+          "linear_velocity": {
+            "peak_value": 0.007622012338744601,
+            "threshold": 0.05,
+            "peak_threshold_ratio": 0.152440246774892,
+            "margin": 0.042377987661255404,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.007622012338744601,
+            "suffix_peak": 0.0025193775823395214,
+            "zero_velocity_endpoint_padding": false
+          },
+          "angular_velocity": {
+            "peak_value": 0.004071278138863831,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.016285112555455325,
+            "margin": 0.24592872186113618,
+            "peak_k": 11,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.003882366970711552,
+            "suffix_peak": 0.004071278138863831,
+            "zero_velocity_endpoint_padding": false
+          },
+          "finger_velocity": {
+            "peak_value": 0.0487607526551119,
+            "threshold": 0.04,
+            "peak_threshold_ratio": 1.2190188163777975,
+            "margin": -0.008760752655111899,
+            "peak_k": 16,
+            "first_exceedance_k": 16,
+            "exceedance_indices": [
+              16,
+              19
+            ],
+            "prefix_peak": 0.020239554393575165,
+            "suffix_peak": 0.0487607526551119,
+            "zero_velocity_endpoint_padding": false
+          },
+          "linear_acceleration": {
+            "peak_value": 0.15244024677489204,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.6097609870995682,
+            "margin": 0.09755975322510796,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.15244024677489204,
+            "suffix_peak": 0.04906476927581171,
+            "zero_velocity_endpoint_padding": true
+          },
+          "angular_acceleration": {
+            "peak_value": 0.07166372719720608,
+            "threshold": 1.0,
+            "peak_threshold_ratio": 0.07166372719720608,
+            "margin": 0.928336272802794,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.07166372719720608,
+            "suffix_peak": 0.03444876194915821,
+            "zero_velocity_endpoint_padding": true
+          }
+        },
+        "full_H40_pass": false,
+        "first_point_anchor_gap_m": 0.00015825880523057071,
+        "path_length_m": 0.004139564854202876,
+        "endpoint_progress_m": 0.0030981582984713546
+      },
+      "reference": {
+        "channels": {
+          "linear_velocity": {
+            "peak_value": 0.007622012338742473,
+            "threshold": 0.05,
+            "peak_threshold_ratio": 0.15244024677484946,
+            "margin": 0.04237798766125753,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.007622012338742473,
+            "suffix_peak": 0.0025193775823373786,
+            "zero_velocity_endpoint_padding": false
+          },
+          "angular_velocity": {
+            "peak_value": 0.004071278138864049,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.016285112555456196,
+            "margin": 0.24592872186113596,
+            "peak_k": 11,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.003882366970711109,
+            "suffix_peak": 0.004071278138864049,
+            "zero_velocity_endpoint_padding": false
+          },
+          "finger_velocity": {
+            "peak_value": 0.0487607526551119,
+            "threshold": 0.04,
+            "peak_threshold_ratio": 1.2190188163777975,
+            "margin": -0.008760752655111899,
+            "peak_k": 16,
+            "first_exceedance_k": 16,
+            "exceedance_indices": [
+              16,
+              19
+            ],
+            "prefix_peak": 0.020239554393575165,
+            "suffix_peak": 0.0487607526551119,
+            "zero_velocity_endpoint_padding": false
+          },
+          "linear_acceleration": {
+            "peak_value": 0.1524402467748495,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.609760987099398,
+            "margin": 0.09755975322515051,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.1524402467748495,
+            "suffix_peak": 0.049064769275889035,
+            "zero_velocity_endpoint_padding": true
+          },
+          "angular_acceleration": {
+            "peak_value": 0.07166372719721642,
+            "threshold": 1.0,
+            "peak_threshold_ratio": 0.07166372719721642,
+            "margin": 0.9283362728027835,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.07166372719721642,
+            "suffix_peak": 0.03444876194915571,
+            "zero_velocity_endpoint_padding": true
+          }
+        },
+        "full_H40_pass": false,
+        "first_point_anchor_gap_m": 0.00015825880523049617,
+        "path_length_m": 0.004139564854202584,
+        "endpoint_progress_m": 0.0030981582984712466
+      },
+      "original_short_circuit_component": {
+        "path": "nominal",
+        "channel": "finger_velocity",
+        "k": 16,
+        "time_s": 0.8,
+        "region": "SUFFIX",
+        "first_ratio": 1.2190188163777975,
+        "peak_ratio": 1.2190188163777975,
+        "order": 2
+      }
+    },
+    {
+      "case": "06-F2-MFREE_C20_FINAL_FM1000-r1",
+      "panel": "DEV16",
+      "query": 59,
+      "first": {
+        "path": "nominal",
+        "channel": "finger_velocity",
+        "k": 14,
+        "time_s": 0.7000000000000001,
+        "region": "SUFFIX",
+        "first_ratio": 1.0459116409943081,
+        "peak_ratio": 1.2485772533465544,
+        "order": 2
+      },
+      "nominal": {
+        "channels": {
+          "linear_velocity": {
+            "peak_value": 0.005853572004187211,
+            "threshold": 0.05,
+            "peak_threshold_ratio": 0.11707144008374422,
+            "margin": 0.044146427995812795,
+            "peak_k": 1,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.005853572004187211,
+            "suffix_peak": 0.0018551752342739385,
+            "zero_velocity_endpoint_padding": false
+          },
+          "angular_velocity": {
+            "peak_value": 0.0077221257005991115,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.030888502802396446,
+            "margin": 0.2422778742994009,
+            "peak_k": 5,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.0077221257005991115,
+            "suffix_peak": 0.005369848870004645,
+            "zero_velocity_endpoint_padding": false
+          },
+          "finger_velocity": {
+            "peak_value": 0.04994309013386218,
+            "threshold": 0.04,
+            "peak_threshold_ratio": 1.2485772533465544,
+            "margin": -0.00994309013386218,
+            "peak_k": 21,
+            "first_exceedance_k": 14,
+            "exceedance_indices": [
+              14,
+              18,
+              21
+            ],
+            "prefix_peak": 0.023987222985479423,
+            "suffix_peak": 0.04994309013386218,
+            "zero_velocity_endpoint_padding": false
+          },
+          "linear_acceleration": {
+            "peak_value": 0.07956648204295985,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.3182659281718394,
+            "margin": 0.17043351795704015,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.07956648204295985,
+            "suffix_peak": 0.045852317815109025,
+            "zero_velocity_endpoint_padding": true
+          },
+          "angular_acceleration": {
+            "peak_value": 0.1153016120115363,
+            "threshold": 1.0,
+            "peak_threshold_ratio": 0.1153016120115363,
+            "margin": 0.8846983879884637,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.1153016120115363,
+            "suffix_peak": 0.04328966362773612,
+            "zero_velocity_endpoint_padding": true
+          }
+        },
+        "full_H40_pass": false,
+        "first_point_anchor_gap_m": 0.0001126334507382888,
+        "path_length_m": 0.003279748183947828,
+        "endpoint_progress_m": 0.001806815280413499
+      },
+      "reference": {
+        "channels": {
+          "linear_velocity": {
+            "peak_value": 0.005853572004189322,
+            "threshold": 0.05,
+            "peak_threshold_ratio": 0.11707144008378643,
+            "margin": 0.04414642799581068,
+            "peak_k": 1,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.005853572004189322,
+            "suffix_peak": 0.0018551752342722448,
+            "zero_velocity_endpoint_padding": false
+          },
+          "angular_velocity": {
+            "peak_value": 0.007722125700598959,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.030888502802395836,
+            "margin": 0.24227787429940104,
+            "peak_k": 5,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.007722125700598959,
+            "suffix_peak": 0.00536984887000529,
+            "zero_velocity_endpoint_padding": false
+          },
+          "finger_velocity": {
+            "peak_value": 0.04994309013386218,
+            "threshold": 0.04,
+            "peak_threshold_ratio": 1.2485772533465544,
+            "margin": -0.00994309013386218,
+            "peak_k": 21,
+            "first_exceedance_k": 14,
+            "exceedance_indices": [
+              14,
+              18,
+              21
+            ],
+            "prefix_peak": 0.023987222985479423,
+            "suffix_peak": 0.04994309013386218,
+            "zero_velocity_endpoint_padding": false
+          },
+          "linear_acceleration": {
+            "peak_value": 0.07956648204296099,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.31826592817184396,
+            "margin": 0.170433517957039,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.07956648204296099,
+            "suffix_peak": 0.04585231781518531,
+            "zero_velocity_endpoint_padding": true
+          },
+          "angular_acceleration": {
+            "peak_value": 0.11530161201155287,
+            "threshold": 1.0,
+            "peak_threshold_ratio": 0.11530161201155287,
+            "margin": 0.8846983879884471,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.11530161201155287,
+            "suffix_peak": 0.04328966362773782,
+            "zero_velocity_endpoint_padding": true
+          }
+        },
+        "full_H40_pass": false,
+        "first_point_anchor_gap_m": 0.00011263345073828519,
+        "path_length_m": 0.0032797481839479626,
+        "endpoint_progress_m": 0.0018068152804134984
+      },
+      "original_short_circuit_component": {
+        "path": "nominal",
+        "channel": "finger_velocity",
+        "k": 14,
+        "time_s": 0.7000000000000001,
+        "region": "SUFFIX",
+        "first_ratio": 1.0459116409943081,
+        "peak_ratio": 1.2485772533465544,
+        "order": 2
+      }
+    },
+    {
+      "case": "07-F2-MFREE_C20_FINAL_FM1000-r2",
+      "panel": "DEV16",
+      "query": 55,
+      "first": {
+        "path": "nominal",
+        "channel": "finger_velocity",
+        "k": 18,
+        "time_s": 0.9,
+        "region": "SUFFIX",
+        "first_ratio": 1.244343847552922,
+        "peak_ratio": 1.2757847192060336,
+        "order": 2
+      },
+      "nominal": {
+        "channels": {
+          "linear_velocity": {
+            "peak_value": 0.006061256226962112,
+            "threshold": 0.05,
+            "peak_threshold_ratio": 0.12122512453924224,
+            "margin": 0.04393874377303789,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.006061256226962112,
+            "suffix_peak": 0.002215619185164366,
+            "zero_velocity_endpoint_padding": false
+          },
+          "angular_velocity": {
+            "peak_value": 0.0059931716575367415,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.023972686630146966,
+            "margin": 0.24400682834246326,
+            "peak_k": 2,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.0059931716575367415,
+            "suffix_peak": 0.004920812460988539,
+            "zero_velocity_endpoint_padding": false
+          },
+          "finger_velocity": {
+            "peak_value": 0.05103138876824134,
+            "threshold": 0.04,
+            "peak_threshold_ratio": 1.2757847192060336,
+            "margin": -0.011031388768241342,
+            "peak_k": 26,
+            "first_exceedance_k": 18,
+            "exceedance_indices": [
+              18,
+              20,
+              24,
+              25,
+              26
+            ],
+            "prefix_peak": 0.013436813931700098,
+            "suffix_peak": 0.05103138876824134,
+            "zero_velocity_endpoint_padding": false
+          },
+          "linear_acceleration": {
+            "peak_value": 0.12122512453924224,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.48490049815696895,
+            "margin": 0.12877487546075778,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.12122512453924224,
+            "suffix_peak": 0.049566635756813845,
+            "zero_velocity_endpoint_padding": true
+          },
+          "angular_acceleration": {
+            "peak_value": 0.08753662363971582,
+            "threshold": 1.0,
+            "peak_threshold_ratio": 0.08753662363971582,
+            "margin": 0.9124633763602842,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.08753662363971582,
+            "suffix_peak": 0.042346189719582476,
+            "zero_velocity_endpoint_padding": true
+          }
+        },
+        "full_H40_pass": false,
+        "first_point_anchor_gap_m": 0.0003900136846565837,
+        "path_length_m": 0.00316473068656968,
+        "endpoint_progress_m": 0.0011198700461418597
+      },
+      "reference": {
+        "channels": {
+          "linear_velocity": {
+            "peak_value": 0.006061256226964332,
+            "threshold": 0.05,
+            "peak_threshold_ratio": 0.12122512453928663,
+            "margin": 0.04393874377303567,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.006061256226964332,
+            "suffix_peak": 0.0022156191851686706,
+            "zero_velocity_endpoint_padding": false
+          },
+          "angular_velocity": {
+            "peak_value": 0.00599317165753648,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.02397268663014592,
+            "margin": 0.2440068283424635,
+            "peak_k": 2,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.00599317165753648,
+            "suffix_peak": 0.004920812460989234,
+            "zero_velocity_endpoint_padding": false
+          },
+          "finger_velocity": {
+            "peak_value": 0.05103138876824134,
+            "threshold": 0.04,
+            "peak_threshold_ratio": 1.2757847192060336,
+            "margin": -0.011031388768241342,
+            "peak_k": 26,
+            "first_exceedance_k": 18,
+            "exceedance_indices": [
+              18,
+              20,
+              24,
+              25,
+              26
+            ],
+            "prefix_peak": 0.013436813931700098,
+            "suffix_peak": 0.05103138876824134,
+            "zero_velocity_endpoint_padding": false
+          },
+          "linear_acceleration": {
+            "peak_value": 0.12122512453928663,
+            "threshold": 0.25,
+            "peak_threshold_ratio": 0.48490049815714653,
+            "margin": 0.12877487546071337,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.12122512453928663,
+            "suffix_peak": 0.04956663575684147,
+            "zero_velocity_endpoint_padding": true
+          },
+          "angular_acceleration": {
+            "peak_value": 0.08753662363970026,
+            "threshold": 1.0,
+            "peak_threshold_ratio": 0.08753662363970026,
+            "margin": 0.9124633763602997,
+            "peak_k": 0,
+            "first_exceedance_k": null,
+            "exceedance_indices": [],
+            "prefix_peak": 0.08753662363970026,
+            "suffix_peak": 0.04234618971957632,
+            "zero_velocity_endpoint_padding": true
+          }
+        },
+        "full_H40_pass": false,
+        "first_point_anchor_gap_m": 0.0003900136846566252,
+        "path_length_m": 0.003164730686569846,
+        "endpoint_progress_m": 0.0011198700461419735
+      },
+      "original_short_circuit_component": {
+        "path": "nominal",
+        "channel": "finger_velocity",
+        "k": 18,
+        "time_s": 0.9,
+        "region": "SUFFIX",
+        "first_ratio": 1.244343847552922,
+        "peak_ratio": 1.2757847192060336,
+        "order": 2
+      }
+    }
+  ]
+}
