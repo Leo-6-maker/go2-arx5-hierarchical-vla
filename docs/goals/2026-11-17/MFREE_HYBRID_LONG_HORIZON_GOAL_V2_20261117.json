@@ -1,0 +1,230 @@
+{
+  "schema": "MFREE_HYBRID_LONG_HORIZON_GOAL_V2_20261117",
+  "status": "GITHUB_DOCUMENTATION_ONLY_NOT_DEPLOYED",
+  "created_date_SGT": "2026-11-17",
+  "source": {
+    "execution_PR": 393,
+    "execution_SHA": "e3fb6005597a9329fa886c3015e9c5fa7f92afbe",
+    "prior_goal_PR": 392,
+    "prior_goal_SHA": "74264d5b56cf0cf201713d407152a36ecd798983",
+    "prior_evidence_PR": 391,
+    "prior_evidence_SHA": "65bd544d8ed3bf6a717783f8691fcb95c8d12165",
+    "existing_implementation_spec": "docs/goals/2026-11-17/MFREE_EEF_GRIP_DECOUPLING_AND_SAFETY_V1.json",
+    "existing_implementation_state": "IMPLEMENTED_NOT_DEPLOYED",
+    "shift_source_sha": "ef584be687d9f3c94e1f79e0e9f44ad12f32e92a",
+    "shift_spec_sha256": "c5faece35e048fe8dab2bc3d261c6c1cdf854b45bf8cee3f89b01fb7138f6b7c"
+  },
+  "verified_status": {
+    "SHIFT7_latest_verified_updates": 50,
+    "SHIFT7_latest_verified_visits": 1600,
+    "SHIFT7_target_updates": 500,
+    "SHIFT7_target_visits": 16000,
+    "SHIFT7_deadline_SGT": "2026-11-17T08:26:30.531913+08:00",
+    "SHIFT7_terminal_unverified": true,
+    "C20_parent": {
+      "episodes": 20,
+      "windows": 1376,
+      "updates": 1000,
+      "visits": 32000,
+      "student_native_task_successes": 0,
+      "student_native_requests": 13,
+      "student_native_unstarted": 11
+    },
+    "CN38": {
+      "expert_qualified": 38,
+      "expert_physical_requests": 41,
+      "F1": 24,
+      "F2": 14,
+      "unsafe_expert": 2,
+      "isolation_abort": 1,
+      "not_C60_or_C100": true
+    },
+    "TRAIN96": {
+      "FM500": {
+        "CLOSE_pass": 0,
+        "CLOSE_denominator": 20,
+        "nonCLOSE_pass": 76,
+        "nonCLOSE_denominator": 76
+      },
+      "TIME500": {
+        "CLOSE_pass": 20,
+        "CLOSE_denominator": 20,
+        "nonCLOSE_pass": 68,
+        "nonCLOSE_denominator": 76,
+        "LIFT_rejects": 8,
+        "k": 26
+      }
+    },
+    "common_quarantine_active": true,
+    "new_native_admission_granted": false
+  },
+  "phases": [
+    {
+      "id": "H0",
+      "name": "SHIFT7 terminal intake",
+      "new_updates": 0,
+      "new_complete_generations": 0,
+      "new_native_requests": 0,
+      "already_registered_SHIFT_max_updates": 500,
+      "requires": [
+        "source_spec_owner_pin",
+        "closed_lease",
+        "actual_500_updates",
+        "87_restore",
+        "TRAIN96",
+        "RGB16",
+        "all20_LIFT_curvature"
+      ],
+      "on_fail": "BLOCKED_INCOMPLETE_DO_NOT_RELAUNCH"
+    },
+    {
+      "id": "H1",
+      "name": "saved96 hybrid fixed compositions",
+      "requires": [
+        "valid_SHIFT7_endpoint",
+        "pre-existing_two_model_prediction_files"
+      ],
+      "pair_conditions": 96,
+      "composites": 2,
+      "composite_full_h40_checks": 192,
+      "original_FM_spatial_checks": 96,
+      "new_updates": 0,
+      "new_complete_generations": 0,
+      "new_native_requests": 0,
+      "candidates": [
+        "FM_EEF_TIME_GRIP",
+        "FM_EEF_SHIFT7_GRIP"
+      ],
+      "selection": "TIME_GLOBAL_FIRST_SHIFT7_GLOBAL_SECOND_NO_PER_QUERY_SELECTION",
+      "dev_criteria": {
+        "close_at_least": 18,
+        "close_of": 20,
+        "nonclose_exact": 76,
+        "nonclose_of": 76,
+        "annotated_crossings_timely": 20,
+        "annotated_crossings_total": 20,
+        "terminal_width_error_le_m": 0.001,
+        "command_seam_speed_le_m_s": 0.04,
+        "spatial_rate_failures": 0
+      },
+      "fail_next": "STOP_NO_AUTO_TRAIN"
+    },
+    {
+      "id": "H2",
+      "name": "CN38-C20 heldout episode offline",
+      "prerequisite": "H1_GLOBAL_CANDIDATE_PASS",
+      "episodes": 18,
+      "F1": 14,
+      "F2": 4,
+      "anchors_per_episode": 5,
+      "noise_ids": [
+        0,
+        1
+      ],
+      "conditions": 180,
+      "branch_generations": 360,
+      "shared_replay_generations": 16,
+      "total_complete_generation_cap": 376,
+      "new_updates": 0,
+      "new_native_requests": 0,
+      "not_blind_test": true,
+      "dev_targets": {
+        "close_at_least": 32,
+        "close_of": 36,
+        "nonclose_at_least": 140,
+        "nonclose_of": 144,
+        "F2_CLOSE_at_least": 7,
+        "F2_CLOSE_of": 8
+      },
+      "fail_next": "OFFLINE_FAILURE_NO_AUTO_MODEL"
+    },
+    {
+      "id": "H3",
+      "name": "shared parent 2-adapter ordinary RGB and lifecycle",
+      "new_updates": 0,
+      "new_native_requests": 0,
+      "extra_generation_budget": 0,
+      "requires": [
+        "exact_two_branch_replay8x2_generations_within_H2",
+        "parent_loads_one",
+        "model_parameter_pins",
+        "wrong_clock_stop_ttl_ack_partial_P10_fault_tests"
+      ],
+      "not_native_qualified": true
+    },
+    {
+      "id": "S",
+      "name": "independent safety review",
+      "new_updates": 0,
+      "new_native_requests": 0,
+      "existing_collision_events": 3,
+      "existing_safety_falseblocks": 1,
+      "existing_success_expert_episodes": 38,
+      "passive_lead_ms": [
+        12,
+        34,
+        316
+      ],
+      "requires_independent_approval_before_any_native": true
+    },
+    {
+      "id": "P",
+      "name": "physical evaluation only after readmission",
+      "proposed_not_authorized": true,
+      "expert_safety_episodes_cap": 8,
+      "student_pilot_cap": 8,
+      "dev_cap": 32,
+      "test_cap": 40,
+      "total_native_episodes_cap": 88,
+      "pilot_required_success_each_family": 1,
+      "dev_success_target": 24,
+      "dev_total": 32,
+      "dev_per_family_target": 12,
+      "dev_per_family_total": 16,
+      "test_success_target": 32,
+      "test_total": 40,
+      "test_per_family_target": 16,
+      "test_per_family_total": 20,
+      "hard_safety_stops_allowed": 0
+    },
+    {
+      "id": "F",
+      "name": "optional separate independent gripper head",
+      "not_authorized": true,
+      "new_candidate_cap_if_authorized": 1,
+      "new_updates_cap_if_authorized": 500,
+      "new_visits_cap_if_authorized": 16000,
+      "new_native_requests": 0,
+      "EEF_parameters_frozen": true
+    }
+  ],
+  "science_constraints": {
+    "WBC_frozen": true,
+    "real_robot": false,
+    "BASE_oracle": false,
+    "collision_and_native_gates_unchanged": true,
+    "H40": 40,
+    "atom_s": 0.05,
+    "P10": 10,
+    "query_s": 0.5,
+    "physics_dt_s": 0.002,
+    "no_stage_or_object_truth_student_inputs": true,
+    "no_gate_based_source_selection": true,
+    "no_posthoc_smoothing_or_clipping": true,
+    "no_shift14_grid": true,
+    "no_C60_C100_auto_training": true,
+    "no_old_CLOSED_restart": true,
+    "no_hotpatch_shift": true,
+    "no_native_before_independent_readmission": true,
+    "no_allocation_extension": true,
+    "unstarted_not_failures": true
+  },
+  "publication": {
+    "repo_PR_only": true,
+    "server_jobs_started": false,
+    "checkpoints_changed": false,
+    "native_integrations_added": 0,
+    "training_updates_added": 0,
+    "CI": "NOT_RUN"
+  }
+}
