@@ -33,11 +33,18 @@ def providers(spec):
         parent_params=spec['checkpoint'], parent_manifest_path=spec['checkpoint_manifest_path'])
     if one.manifest['bindings']['gripper_lambda'] != 0:
         raise ValueError('ORIGINAL_PURE_FM_CONTROL_REQUIRED')
-    second = spec['policies']['CLOSE_TIME500']['package']; root = Path(second['path'])
+    two = attach(one, spec['policies']['CLOSE_TIME500']['package'], TimeProvider)
+    return dict(CLOSE_FM_CONTROL500=one, CLOSE_TIME500=two)
+
+
+def attach(one, second, provider_class):
+    import jax
+    from .provider_v1 import active_rows
+    root = Path(second['path'])
     if sha(root / 'MANIFEST.private.json') != second['sha256']:
         raise ValueError('FROZEN_TIME_RESIDENT_PACKAGE')
     manifest = json.loads((root / 'MANIFEST.private.json').read_bytes())
-    two = TimeProvider.__new__(TimeProvider)
+    two = provider_class.__new__(provider_class)
     two.__dict__ = one.__dict__.copy()
     two.package = root; two.manifest = manifest
     two.validate_package_contract(manifest); shared_contract(one.manifest, manifest)
@@ -59,4 +66,4 @@ def providers(spec):
             raise ValueError('TIME_RESIDENT_ADAPTER_SHAPE_OR_DTYPE')
         leaves.append(jax.device_put(value))
     two.active, = jax.tree_util.tree_unflatten(structure, leaves)
-    return dict(CLOSE_FM_CONTROL500=one, CLOSE_TIME500=two)
+    return two

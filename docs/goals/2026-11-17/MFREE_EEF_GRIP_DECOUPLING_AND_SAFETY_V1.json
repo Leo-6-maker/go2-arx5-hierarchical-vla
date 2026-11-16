@@ -1,0 +1,80 @@
+{
+  "schema": "MFREE_EEF_GRIP_DECOUPLING_AND_SAFETY_V1",
+  "status": "IMPLEMENTED_NOT_DEPLOYED",
+  "user_request_attachment_sha256": "24b22a7a72506c0d11833262c4ca667903fa8d7e464224a6b86ecc2810d31f5a",
+  "prerequisite": {
+    "SHIFT_source": "ef584be687d9f3c94e1f79e0e9f44ad12f32e92a",
+    "SHIFT_spec_sha256": "c5faece35e048fe8dab2bc3d261c6c1cdf854b45bf8cee3f89b01fb7138f6b7c",
+    "must_complete_existing500_and_original_checks": true,
+    "do_not_hotpatch_or_relaunch": true
+  },
+  "saved_prediction_stage": {
+    "combinations": [
+      "FM500_EEF_TIME500_GRIP",
+      "FM500_EEF_SHIFT7_GRIP"
+    ],
+    "fixed_conditions_each": 96,
+    "new_composite_checks": 192,
+    "original_FM_all_spatial_checks": 96,
+    "new_model_calls": 0,
+    "source_selection": "FIXED_PER_CHANNEL_NO_GATE_BASED_QUERY_SWITCH"
+  },
+  "CN38_stage": {
+    "conditional_on_TRAIN_candidate": true,
+    "primary_preference": "FM_EEF_TIME_GRIP",
+    "fallback_global_candidate": "FM_EEF_SHIFT7_GRIP",
+    "episode_exclusion": "EXACT_CN38_MINUS_C20_IDS_AND_DISTINCT_NATIVE_RESULT_HASHES",
+    "episodes": 18,
+    "F1": 14,
+    "F2": 4,
+    "anchors_per_episode": 5,
+    "anchor_rule": "LOWER_MEDIAN_QUERY_INDEX_IN_EACH_PREGRASP_DESCEND_CLOSE_LIFT_HOLD",
+    "noise_ids": [
+      0,
+      1
+    ],
+    "conditions": 180,
+    "branch_model_generations": 360,
+    "split": "EPISODE_HELDOUT_DIAGNOSTIC_NOT_BLIND_TEST",
+    "TRAIN_statistics_frozen": true
+  },
+  "shared_resident_seam": {
+    "conditional_on_complete_CN38_inference": true,
+    "extra_generations": 16,
+    "fixed_replay": "FIRST8_OLD_RGB16_CONDITIONS_TWO_BRANCHES",
+    "exact_output_comparison": true,
+    "parent_loads": 1,
+    "adapters": 2,
+    "no_native_lifecycle_qualification_claim": true
+  },
+  "coordination_metrics": {
+    "close_onset_width_change_m": 0.0001,
+    "near_predicted_terminal_width_m": 0.001,
+    "EEF_world_lift_threshold_m": 0.002,
+    "clock_s": 0.05,
+    "metrics_only_no_new_gate": true,
+    "teacher_phase_or_object_truth_in_model_input": false,
+    "teacher_previous_command_not_student_closed_loop_history": true
+  },
+  "execution": {
+    "server_managed": true,
+    "new_training_updates": 0,
+    "new_training_visits": 0,
+    "new_complete_generation_cap": 376,
+    "new_native_requests": 0,
+    "new_integrations": 0,
+    "no_SHIFT14_or_more_slot_grid": true,
+    "no_new_head_training": true,
+    "no_automatic_failure_replay": true,
+    "original_allocation_deadline_epoch": 1795027883.855488
+  },
+  "safety": {
+    "WBC_and_all_original_gates_frozen": true,
+    "F1_F2_student_M_ASSIST_quarantine_active": true,
+    "old_failures_preserved": true,
+    "independent_native_readmission": false,
+    "old_falseblock_1_of38_remains_failure": true,
+    "native_STOP_TTL_partial_P10_unqualified": true
+  },
+  "final_output": "MEASURED_SHIFT_AND_HYBRID96_AND_CN38_MATRIX_WITH_COSTS_FAILURES_AND_UNSTARTED_NATIVE_DENOMINATORS"
+}

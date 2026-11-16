@@ -8,7 +8,9 @@ import sys
 
 def main():
     operation,path=sys.argv[1:3]
-    routes={'--shift-prepare':'scripts.sla.prepare_time_shift7_v1',
+    routes={'--hybrid-control':'scripts.wm02.hybrid_decoupling_control_v1',
+            '--hybrid-cn38':'scripts.sla.hybrid_cn38_infer_v1',
+            '--shift-prepare':'scripts.sla.prepare_time_shift7_v1',
             '--shift-train':'scripts.sla.train_time_shift7_v1','--shift-rgb':'scripts.sla.train_time_shift7_v1',
             '--shift-control':'scripts.wm02.close_time_shift7_control_v1',
             '--time-label-audit':'scripts.sla.prepare_close_time_labels_v1',
