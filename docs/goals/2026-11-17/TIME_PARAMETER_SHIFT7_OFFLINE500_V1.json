@@ -1,0 +1,164 @@
+{
+  "schema": "SLA_TIME_PARAMETER_SHIFT7_OFFLINE500_V1",
+  "status": "IMPLEMENTED_NOT_LAUNCHED",
+  "authorization": "User explicitly authorized one additional bounded offline500 round on2026-11-17, sharedGPU, no native release.",
+  "historical_goal_plan_sha": "74264d5b56cf0cf201713d407152a36ecd798983",
+  "hypothesis": "The time-parameter block boundary atslot27 may induce the LIFT XYZ curvature spike atacceleration k26.",
+  "one_variable": "CYCLICALLY_SHIFT_ALL_THREE_PARAMETER_BLOCKS_PLUS7_TIME_SLOTS",
+  "old_slots": [
+    [
+      0,
+      14
+    ],
+    [
+      14,
+      27
+    ],
+    [
+      27,
+      40
+    ]
+  ],
+  "new_slots": [
+    [
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20
+    ],
+    [
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33
+    ],
+    [
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
+  ],
+  "unchanged_repetitions": [
+    14,
+    13,
+    13
+  ],
+  "old_interior_boundaries": [
+    14,
+    27
+  ],
+  "new_interior_boundaries": [
+    7,
+    21,
+    34
+  ],
+  "predeclared_acceleration_indices": [
+    6,
+    7,
+    13,
+    14,
+    20,
+    21,
+    26,
+    27,
+    33,
+    34
+  ],
+  "physical_decode": "Undo only the parameter-slot permutation before the exact original parameter averaging and robot-time decoder; no physical trajectory filtering.",
+  "primary_control": {
+    "name": "ORIGINAL_TIME500",
+    "result_sha256": "8cdd6d2940e36ba3f304bd3c3500bb6f9f1e48885364694cc5f102402f4c33d9",
+    "CLOSE": "20/20",
+    "other": "68/76"
+  },
+  "secondary_anchor": {
+    "name": "FM500",
+    "result_sha256": "31655caebdb34129390785a22d846951f392acbbb838dda5bd47193251ce473b",
+    "CLOSE": "0/20",
+    "other": "76/76"
+  },
+  "training": {
+    "parent": "ORIGINAL_C20_1000_NOT_TIME500_CONTINUATION",
+    "new_updates": 500,
+    "new_visits": 16000,
+    "effective_batch": 32,
+    "microbatch": 4,
+    "gripper_lambda": 0,
+    "fresh_optimizer": true,
+    "matched_initial_files": 87,
+    "matched_visit_noise_dropout_LR": true,
+    "TRAIN_stats_frozen": true,
+    "scope_sampler_and_inputs_unchanged": true
+  },
+  "qualification": {
+    "all_C20_windows": 1376,
+    "labels_are_exact_slot_permutation": true,
+    "all_physical_labels_bit_exact_to_original_time": true,
+    "existing_RGB_seams": 8,
+    "new_camera_render_or_qualification": false
+  },
+  "endpoints": [
+    "step0/250/500",
+    "full87 restore",
+    "fixedTRAIN48x2 with full original H40 gate and allphase intent",
+    "ordinaryRGB16 reference-aware fresh-process restore",
+    "full500 actual control stream match",
+    "all20 LIFT acceleration atold and new boundaries"
+  ],
+  "new_complete_generations_cap": 112,
+  "diagnostic_backward_calls": 1,
+  "diagnostic_backward_windows": 4,
+  "diagnostic_optimization_visits": 0,
+  "interpretation": [
+    "Peak migration k26 towardk33 is evidence of boundary coupling, not by itself universal causal proof.",
+    "Improvement without migration does not uniquely identify slot27 as the mechanism.",
+    "Persistence atk26 weakens the location-coupling hypothesis.",
+    "All failures and all96 original conditions retained; no perwindow route or seed choice."
+  ],
+  "execution": {
+    "server_managed": true,
+    "maximum_service_hours": 8,
+    "one_neural_owner": true,
+    "same_GPU_as_primary_control": true,
+    "new_immutable_identity": true,
+    "no_automatic_retry_or_successor": true,
+    "original_allocation_deadline_epoch": 1795027883.855488
+  },
+  "safety": {
+    "native_requests": 0,
+    "integrations": 0,
+    "WBC_and_original_gates_frozen": true,
+    "all_old_failures_preserved": true,
+    "F1_F2_students_M_ASSIST_quarantine_active": true
+  },
+  "goal_not_achieved_by_offline_results": true
+}

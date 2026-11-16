@@ -8,7 +8,10 @@ import sys
 
 def main():
     operation,path=sys.argv[1:3]
-    routes={'--time-label-audit':'scripts.sla.prepare_close_time_labels_v1',
+    routes={'--shift-prepare':'scripts.sla.prepare_time_shift7_v1',
+            '--shift-train':'scripts.sla.train_time_shift7_v1','--shift-rgb':'scripts.sla.train_time_shift7_v1',
+            '--shift-control':'scripts.wm02.close_time_shift7_control_v1',
+            '--time-label-audit':'scripts.sla.prepare_close_time_labels_v1',
             '--time-train':'scripts.sla.train_close_time_v1','--time-rgb':'scripts.sla.train_close_time_v1',
             '--time-control':'scripts.wm02.close_time_control_v1','--g1':'scripts.sla.close_goal_g1_v1','--safety':'scripts.wm02.close_goal_safety_v1',
             '--safety-margin':'scripts.wm02.close_goal_clearance_audit_v1',

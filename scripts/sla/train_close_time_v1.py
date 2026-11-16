@@ -47,7 +47,7 @@ def evaluate(engine,spec):
         physical_admission=False)
 
 
-def train(spec):
+def train(spec,*,engine_class=None,export_package=None,initial_match_fn=None):
     import jax
     import jax.numpy as jnp
     import optax
@@ -56,6 +56,8 @@ def train(spec):
     from go2arx5_vla.sla_adapter.provider_time_v1 import export as write_verified_package
     from go2arx5_vla.sla_adapter.site_v2 import validate
     from scripts.sla.train_pd4_matched_v71 import verify_restored
+    if engine_class is not None:CloseEngine=engine_class
+    if export_package is not None:write_verified_package=export_package
     root=Path(spec['registered_root']);started=time.time();site=validate(spec)
     engine=CloseEngine(spec,root/'work')
     try:
@@ -82,6 +84,7 @@ def train(spec):
             any(a[k]!=b[k]for k in ('key','shape','dtype','sha256'))
             for a,b in zip(actual_active,parent_manifest['adapter_arrays'])):
             raise ValueError('TRAINED_PARENT1000_FUNCTION_MUST_NOT_RESET')
+        if initial_match_fn is not None:initial_match_fn(spec,root,initial_complete)
         while engine.step<500:
             if STOP_REQUESTED or(root/'STOP.json').exists()or time.time()>=spec['deadline_epoch']-300:
                 checkpoint=engine.checkpoint(f'LIMIT-step{engine.step:04d}')
@@ -113,16 +116,19 @@ def train(spec):
             endpoint_RGB16_sha256=sha(root/'ENDPOINT_RGB16.private.json'),
             actual=engine.counts,diagnostic_backward_calls=1,diagnostic_backward_windows=engine.microbatch,
             metrics=metrics,gripper_lambda=spec['gripper_lambda'],inference_route=spec['inference_route'],
+            representation=dict(codec=engine.bindings['codec_version'],recipe=engine.bindings['recipe'],
+                                parameter_slot_shift=engine.bindings.get('parameter_slot_shift',0)),
             frozen_fingerprint_unchanged=engine.verify_frozen(),residency=engine.residency(),
             wall_s=time.time()-started,CPU_s=time.process_time(),site=site,
             new_physical_requests=0,native_integrations=0,native_task_success=False,fresh_RGB_pending=True,goal_met=False)
     finally:engine.close()
 
 
-def replay(spec):
+def replay(spec,*,provider_class=None):
     from go2arx5_vla.sla_adapter.provider_time_v1 import Provider
     from go2arx5_vla.sla_adapter.mfree_training_v1 import MobileDataset
     from openpi_client.image_tools import resize_with_pad
+    if provider_class is not None:Provider=provider_class
     root=Path(spec['registered_root']);training=read(spec['training_result']['path'])
     assert sha(spec['training_result']['path'])==spec['training_result']['sha256']
     provider=Provider(training['package']['path'],manifest_sha256=training['package']['sha256'],
@@ -144,7 +150,7 @@ def replay(spec):
                 optimizer_updates=0,optimization_visits=0,physical_requests=0,records=records,goal_met=False)
 
 
-if __name__=='__main__':
+def main(*,train_fn=train,replay_fn=replay,RGB_operation='--time-rgb'):
     import signal
     def stop(signum,frame):
         global STOP_REQUESTED
@@ -153,9 +159,9 @@ if __name__=='__main__':
     s=read(sys.argv[2]);root=Path(s['registered_root']);lock=None
     try:
         lock=wait_resource_owner(s)
-        write(root/'goal_state.json',dict(phase='ORDINARY_RGB_LOAD'if sys.argv[1]=='--time-rgb'else'OFFLINE_TRAINING_LOAD_PARENT1000',
+        write(root/'goal_state.json',dict(phase='ORDINARY_RGB_LOAD'if sys.argv[1]==RGB_operation else'OFFLINE_TRAINING_LOAD_PARENT1000',
             epoch=time.time(),source_sha=s['source_sha'],optimizer_updates=0,physical_requests=0))
-        value=(replay if sys.argv[1]=='--time-rgb'else train)(s)
+        value=(replay_fn if sys.argv[1]==RGB_operation else train_fn)(s)
     except BaseException:
         # Partial effects remain authoritative in the per-update log/checkpoints.
         value=dict(exit_code=1,status='TECHNICAL_FAILURE_PRESERVED',failure=traceback.format_exc(),
@@ -166,3 +172,6 @@ if __name__=='__main__':
     write(root/'RESULT.private.json',value)
     from go2arx5_vla.world_model.mfree_unattended_runtime_v1 import close
     close(s,value['exit_code']);raise SystemExit(value['exit_code'])
+
+
+if __name__=='__main__':main()

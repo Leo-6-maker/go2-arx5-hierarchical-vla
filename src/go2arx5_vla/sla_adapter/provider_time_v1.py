@@ -50,6 +50,7 @@ def export(package,checkpoint,*,complete,active_template,statistics,tokenizer,pa
 
 
 class Provider(BaseProvider):
+    physical=staticmethod(physical)
     def validate_package_contract(self,manifest):contract(manifest)
 
     def validate_statistics_metadata(self,stats):
@@ -81,6 +82,6 @@ class Provider(BaseProvider):
             actions=np.zeros((40,32),np.float32),prompt=prompt)
         obs,_=observation(item,self.tokenizer);noise=jax.random.normal(jax.random.PRNGKey(2026111200+noise_id),(1,40,32))
         normalized=self.infer(self.active,self.frozen,obs,noise);jax.block_until_ready(normalized);normalized=np.asarray(normalized)
-        trajectory,detail=physical(normalized,state10,T_policy_from_mount,self.statistics,previous_reference)
-        return dict(normalized=normalized,physical_H40=trajectory,time_parameters=detail,codec=VERSION,
+        trajectory,detail=self.physical(normalized,state10,T_policy_from_mount,self.statistics,previous_reference)
+        return dict(normalized=normalized,physical_H40=trajectory,time_parameters=detail,codec=self.manifest['codec'],
                     teacher_calls=0,optimizer_updates=0,state_token_dropout=False)
