@@ -1,4 +1,4 @@
-2026-11-16 19:29 SGT Core实测：**唯一夹爪时间表示后继已真实39更新／1248访问；1376原C20标签重建最大4µm，40/40事件及时，8个现有RGB／状态／XYZ接缝不变。** 87项初态文件与前23步实际访问／dropout／LR匹配复用FM控制；有限500→恢复／TRAIN48×2／独立RGB16／匹配链已由共享GPU1后台接管，尚无新端点成绩。新物理0，WBC／安全门／隔离和旧失败保留，Goal未完成。[实际准备、首更新与离线DETACH](reports/WM02/sla-close-safe-mobile-20261116/TIME_CODEC_AND_FALLBACK_STARTED_ACTUAL.md)。
+2026-11-16 20:24 SGT Core终态：**唯一时间表示后继已真实500更新／16000访问，87项全态与独立RGB16/16逐位恢复；固定TRAIN96的CLOSE20/20、其他68/76，完整离线目标未通过。** 新增8拒绝全部LIFT后缀k26平移加速度0.252–0.308m/s²超原0.25门；无漏闭合、96条终末意图正确。全Goal独有新增1500／48000，主服务与两子角色CLOSED，不自动第三候选。新原生／积分／任务评价0，隔离、旧失败和WBC／安全门保留，Goal未完成。[完整终态、模型边界、分母与下一动作](reports/WM02/sla-close-safe-mobile-20261116/TIME500_BOUNDED_FAILURE_ACTUAL.md)。
 
 2026-11-16 Core实测：**CN38／41次专家物理请求，F1与F2原生ILLEGAL_CONTACT，两个共同expert-family均隔离，所有本轮unit/PID/cgroup已关闭；C60未达标、C100未执行、自动训练暂停。** C20原1,000更新／32,000访问、学生任务0/13及11未启动保留。全部754 query中12拒绝均夹爪速度／P10后缀；固定TRAIN48×2中CLOSE 0/20，其余76/76通过。新16观测×3 flow-time审核中训练与官方完整前向逐位一致，缓存路径和部署精度存在差异，0新更新／0新学生物理；单步估计不能冒称完整生成因果结论。[结果、失败与后续边界](reports/WM02/mfree-c20-recovery-diagnostics-20261116/ACTUAL_RESULTS.md)。
 
