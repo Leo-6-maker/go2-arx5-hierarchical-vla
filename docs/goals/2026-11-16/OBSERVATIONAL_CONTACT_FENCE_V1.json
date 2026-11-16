@@ -1,0 +1,28 @@
+{
+  "schema": "SLA_CLOSE_GOAL_PASSIVE_CONTACT_FENCE_SCREEN_V1",
+  "goal_plan_sha": "74264d5b56cf0cf201713d407152a36ecd798983",
+  "role": "READ_ONLY_HYPOTHESIS_NOT_INSTALLED_SAFETY_OR_NATIVE_ADMISSION",
+  "cohort": {"CN38_original_successes":38,"new_expert_known_unsafe":2,"old_student_known_unsafe":1},
+  "sample_source": "SAVED_50MS_MOBILE_METRIC_QPOS_QVEL_WITH_EXACT_RECEIVER_KNOT",
+  "candidate_fixed_before_results": {
+    "pad_box_corner_clearance_to_table_m_max":0.003,
+    "actual_TCP_minus_receiver_Z_m_max":-0.005,
+    "requires_table_XY_overlap":true,
+    "both_conditions_required":true
+  },
+  "threshold_search":false,
+  "failure_denominators_preserved":true,
+  "saved_contact_time": "STOP_native_time_minus_2ms",
+  "sampled_precontact_lead_screen_s":0.010,
+  "successful_episodes_candidate_may_block_max_for_screen":0,
+  "native_2ms_stop_latency_qualified_by_this":false,
+  "counterfactual_safety_claim_allowed":false,
+  "controller_selected_policy_exported":false,
+  "CPU_affinity":[4,5],
+  "wall_limit_s":7200,
+  "new_model_generations":0,
+  "new_optimizer_updates":0,
+  "new_physical_requests":0,
+  "new_native_integrations":0,
+  "automatic_native_or_threshold_successor":false
+}
