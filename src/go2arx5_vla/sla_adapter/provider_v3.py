@@ -93,7 +93,7 @@ class Provider:
         if sha(self.package / 'MANIFEST.private.json') != manifest_sha256:
             raise ValueError('LOGIT_PACKAGE_MANIFEST_CHANGED')
         self.manifest = json.loads((self.package / 'MANIFEST.private.json').read_bytes())
-        contract(self.manifest)
+        self.validate_package_contract(self.manifest)
         m = self.manifest
         if len(jax.devices()) != 1 or jax.devices()[0].platform != 'gpu':
             raise ValueError('ORDINARY_LOGIT_INFERENCE_REQUIRES_ONE_ACTUAL_CUDA_DEVICE')
@@ -133,6 +133,9 @@ class Provider:
         graph = self.graph
         self.infer = jax.jit(lambda active, frozen, obs, noise:
                              nnx.merge(graph, active, frozen).sample_actions(jax.random.PRNGKey(0), obs, noise=noise, num_steps=10))
+
+    def validate_package_contract(self, manifest):
+        contract(manifest)
 
     def validate_statistics_metadata(self, stats):
         if stats.get('codec_version') != VERSION or stats.get('epsilon') != EPSILON:

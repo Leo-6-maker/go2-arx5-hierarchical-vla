@@ -1,0 +1,22 @@
+{
+  "schema":"SLA_CLOSE_GOAL_ONE_REFERENCE_TIME_FALLBACK_V1",
+  "status":"IMPLEMENTED_NOT_YET_LAUNCHED",
+  "goal_plan_sha":"74264d5b56cf0cf201713d407152a36ecd798983",
+  "first_pair_result_sha256":"5a204095234e1b5370446196a528572adb4002f5a5cf48f9c261aecbb8130ced",
+  "reused_FM500_control_result_sha256":"31655caebdb34129390785a22d846951f392acbbb838dda5bd47193251ce473b",
+  "evidence":"Auxiliary CLOSE7/20, other76/76,20/20 annotated crossings timely,seam0/96;13 remaining internal finger-velocity rejects.",
+  "one_variable":"TRAIN_DEPLOY_LEARNED_REFERENCE_CONTINUED_GRIP_TIME_REPRESENTATION",
+  "codec":"SLA_REFERENCE_CONTINUED_GRIP_TIME_V1",
+  "latents":{"channel":6,"slots":[[0,14],[14,27],[27,40]],"parameters":["goal width","duration slack","onset delay"],"aggregation":"MEAN_NORMALIZED_LATENT_WITHIN_EACH_TRAINED_PARAMETER_BLOCK"},
+  "decode":{"physical_width_range_m":[0.002,0.042],"old_rate_limit_m_s":0.04,"duration_s":"1.875*abs(goal-opposite_endpoint)/0.04 +0.5*sigmoid(slack_latent)","delay_s":"4*sigmoid(delay_latent)","continuation":"Invert quintic phase from previous actually emitted width; H40 point0 is50ms later. Delay applies only before onset.","opening_closing_and_hold":true,"raw_width_postprocessing":false},
+  "normalizer":"ORIGINAL_C20_QUANTILE_AFFINE_AND_FILE_UNCHANGED;three learned parameter probabilities use the same declared logit transform",
+  "label_epsilon":0.0001,
+  "label_source":"ORIGINAL_SUBMITTED_EXPERT_H40_AND_PREVIOUS_ACTUALLY_EMITTED_COMMAND_ONLY",
+  "model_input":"Original RGB/state/prompt unchanged; no teacher stage,close_start or new history tokens. Previous reference is an explicit deployment decoder input.",
+  "preparation_actual":{"source_sha":"f8daa6a7215944ba09f556ae2e82fd8497e898df","windows":1376,"maximum_width_error_m":0.000004000000391746195,"annotated_crossings_within100ms":"40/40","maximum_speed_with_seam_m_s":0.0374339848846577,"training_updates":0,"physical_requests":0},
+  "training":{"parent":"SAME_C20_1000","new_optimizer":"SAME_FRESH_ADAMW","updates":500,"batch":32,"microbatch":4,"visits":16000,"first_temporal_auxiliary_lambda":0,"scope_dropout_noise_time_LR":"MATCH_EXISTING_FM500_CONTROL","new_statistics":false,"new_SF_EMA_BASE_or_scope_change":false},
+  "endpoints":["step0/250/500","full87 restore","fixedTRAIN48x2 and full original H40 gate","annotated intent/crossing/terminal width","fresh-process RGB16 with observable previous reference","all500 actual visit/dropout/LR and initial87 match to reused control"],
+  "cost":{"previous_goal_new_updates":1000,"new_updates_this_role":500,"total_unique_new_if_complete":1500,"previous_goal_new_visits":32000,"new_visits_this_role":16000,"total_unique_new_visits_if_complete":48000,"fallback_pair_index":1,"further_candidate_authorized":false,"unused_update_headroom_does_not_authorize_third_candidate":true},
+  "execution":{"single_neural_owner":true,"new_immutable_unit_required":true,"old_CLOSED_services_restarted":false,"deadline_not_extended":true,"original_allocation_deadline_epoch":1795027883.855488},
+  "safety":{"new_physical_requests":0,"WBC_and_original_gates_frozen":true,"F1_F2_student_M_ASSIST_quarantine":"ACTIVE","independent_re_admission":false,"automatic_native_successor":false}
+}
