@@ -1,0 +1,22 @@
+{
+  "schema":"SLA_CLOSE_SAFETY_FIXED_2MS_WINDOW_AUDIT_V1",
+  "goal_plan_sha":"74264d5b56cf0cf201713d407152a36ecd798983",
+  "triggering_evidence":"50ms screen: 1/38 original successes blocked, 1/3 collisions alarmed, 0/3 sampled alarms at least10ms precontact",
+  "window_selection":"All three original collisions: stop-300 through stop; the single successful false-positive: first_alarm-150 through first_alarm+150",
+  "window_count":4,
+  "expected_saved_states":1204,
+  "thresholds_unchanged":{"pad_clearance_m":0.003,"negative_tracking_error_m":-0.005},
+  "reference_profiles":["latest exact receiver knot held between witnesses","same threshold with conditional 50mm/s reference-age uncertainty bound"],
+  "controller_selected_reference_known":false,
+  "full_control_state_restore":false,
+  "installed_guard":false,
+  "stop_latency_qualification":false,
+  "new_model_generations":0,
+  "new_optimizer_updates":0,
+  "new_physical_requests":0,
+  "new_integrations":0,
+  "CPU_affinity":[4,5],
+  "memory_max_GiB":2,
+  "wall_cap_s":3600,
+  "independent_admission":false
+}

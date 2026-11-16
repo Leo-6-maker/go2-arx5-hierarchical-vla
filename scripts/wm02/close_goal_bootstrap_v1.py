@@ -10,6 +10,7 @@ def main():
     operation,path=sys.argv[1:3]
     routes={'--g1':'scripts.sla.close_goal_g1_v1','--safety':'scripts.wm02.close_goal_safety_v1',
             '--safety-margin':'scripts.wm02.close_goal_clearance_audit_v1',
+            '--safety-highrate':'scripts.wm02.close_goal_contact_highrate_v1',
             '--close-control':'scripts.wm02.close_goal_control_v1',
             '--close-train':'scripts.sla.train_close_goal_v1','--close-rgb':'scripts.sla.train_close_goal_v1'}
     if operation not in routes:raise PermissionError('OFFLINE_ONLY_NO_NATIVE_ROLE')
