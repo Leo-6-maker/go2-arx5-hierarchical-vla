@@ -10,6 +10,7 @@ import numpy as np
 from scripts.pi0292.durable import write
 from scripts.sla.close_goal_g1_v1 import width_metrics, wait_resource_owner
 from go2arx5_vla.world_model.mfree_unattended_ledger_v1 import read,sha
+STOP_REQUESTED=False
 
 
 def evaluate(engine,spec):
@@ -80,11 +81,15 @@ def train(spec):
             for a,b in zip(actual_active,parent_manifest['adapter_arrays'])):
             raise ValueError('TRAINED_PARENT1000_FUNCTION_MUST_NOT_RESET')
         while engine.step<500:
-            if(root/'STOP.json').exists()or time.time()>=spec['deadline_epoch']-300:
+            if STOP_REQUESTED or(root/'STOP.json').exists()or time.time()>=spec['deadline_epoch']-300:
                 checkpoint=engine.checkpoint(f'LIMIT-step{engine.step:04d}')
                 return dict(exit_code=75,status='BOUNDED_PREFIX_SAVED',step=engine.step,cursor=engine.cursor,
                             checkpoint=checkpoint,actual=engine.counts,physical_requests=0,goal_met=False)
-            row=engine.update()
+            try:row=engine.update()
+            except TimeoutError:
+                checkpoint=engine.checkpoint(f'LIMIT-step{engine.step:04d}')
+                return dict(exit_code=75,status='BOUNDED_PREFIX_SAVED',step=engine.step,cursor=engine.cursor,
+                            checkpoint=checkpoint,actual=engine.counts,physical_requests=0,goal_met=False)
             if engine.step==1 or engine.step%10==0:
                 write(root/'PROGRESS.private.json',dict(phase='OFFLINE_TRAINING',step=engine.step,cursor=engine.cursor,
                     parent_updates=1000,new_updates=engine.step,new_training_visits=engine.cursor,
@@ -134,6 +139,11 @@ def replay(spec):
 
 
 if __name__=='__main__':
+    import signal
+    def stop(signum,frame):
+        global STOP_REQUESTED
+        STOP_REQUESTED=True
+    signal.signal(signal.SIGTERM,stop);signal.signal(signal.SIGINT,stop)
     s=read(sys.argv[2]);root=Path(s['registered_root']);lock=None
     try:
         lock=wait_resource_owner(s);value=(replay if sys.argv[1]=='--close-rgb'else train)(s)
