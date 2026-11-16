@@ -8,7 +8,9 @@ import sys
 
 def main():
     operation,path=sys.argv[1:3]
-    routes={'--g1':'scripts.sla.close_goal_g1_v1','--safety':'scripts.wm02.close_goal_safety_v1'}
+    routes={'--g1':'scripts.sla.close_goal_g1_v1','--safety':'scripts.wm02.close_goal_safety_v1',
+            '--close-control':'scripts.wm02.close_goal_control_v1',
+            '--close-train':'scripts.sla.train_close_goal_v1','--close-rgb':'scripts.sla.train_close_goal_v1'}
     if operation not in routes:raise PermissionError('OFFLINE_ONLY_NO_NATIVE_ROLE')
     spec=json.loads(Path(path).read_bytes());root=Path(spec['source_root']);parent=spec['trusted_source_parent']
     if spec['physics'] or spec['new_physical_requests_budget']!=0:raise PermissionError('PHYSICAL_QUARANTINE')
