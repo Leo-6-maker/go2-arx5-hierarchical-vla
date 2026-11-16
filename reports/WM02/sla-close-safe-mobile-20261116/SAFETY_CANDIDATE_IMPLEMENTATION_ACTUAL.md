@@ -8,7 +8,7 @@ PR392固定计划`74264d5b`，执行PR #393。本文及软件检查均不是安�
 
 预拟实现于`mj_step`调用原链之前，在私有mjData副本做被动FK；条件触发则锁存SIGINT停止、随后不调用原链。参考过期／未来／非有限、布防后标记消失时按无效参考停止，不静默解除。该停止行为目前来自实现设计，**没有原生hook时序、动态预防或延迟资格证据**。原WBC/MPC/腿/臂PD/solver和所有原安全保护未改。
 
-已实际核对固定四个2ms窗口共1204保存状态：C++与原Python结果一致，最大几何／参考差6.9389e−17；输入qpos/qvel/ctrl未变，三种无效参考均拒绝。使用RTLD_LOCAL直接调用只读ABI，没有LD_PRELOAD或mj_step调用；0新模型生成／优化／动力学积分。wall8.50s／CPU1.26s（编译子进程CPU另在工具执行中，未当成神经训练成本）。生产witness的单项测试拒绝错时钟和非精确参考，原文件保留。
+已实际核对固定四个2ms窗口共1204保存状态：C++与原Python结果一致，最大几何／参考差6.9389e−17；输入qpos/qvel/ctrl未变，三种无效参考均拒绝。使用RTLD_LOCAL直接调用只读ABI，没有LD_PRELOAD或mj_step调用；0新模型生成／优化／动力学积分。wall8.50s／CPU1.26s（仅核对调用进程；编译器子进程CPU未单独采集，不算神经训练成本）。生产witness的单项测试拒绝错时钟和非精确参考，原文件保留。
 
 | 保存窗口 | 状态数 | 告警状态 | 首次告警tick |
 |---|---:|---:|---:|
@@ -21,4 +21,4 @@ PR392固定计划`74264d5b`，执行PR #393。本文及软件检查均不是安�
 
 当前状态为`UNINSTALLED_NOT_ADMITTED_FAILED_ZERO_FALSE_BLOCK_SCREEN`。该候选尚不能按原筛选宣称可准入。若责任方拟采用不同的新预防合同，必须独立明确记录可接受的停止代价、代码、scene、冻结profile、有限面板和停止规则，之后才可讨论至多8次专家安全验证（F1/F2×两个审核布局×两reset，首次安全停止立即按审定范围隔离）；不会自动提出或启动学生pilot、DEV或TEST。没有这样的明确记录时，物理预算保持0。
 
-[预拟合同](../../../../docs/goals/2026-11-16/CONTACT_FENCE_CANDIDATE_REVIEW_V1.json)与[实际JSON／source、scene及证据SHA](SAFETY_CANDIDATE_IMPLEMENTATION_ACTUAL.json)供独立审核；不构成解除隔离的文件。第一对G2还需读回完整500端点，任何离线合法率也不等于移动抓持成功。
+[预拟合同](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/660616cc0b3186872fd1cca1b5275a97c2c57ea4/docs/goals/2026-11-16/CONTACT_FENCE_CANDIDATE_REVIEW_V1.json)与[实际JSON／source、scene及证据SHA](SAFETY_CANDIDATE_IMPLEMENTATION_ACTUAL.json)供独立审核；不构成解除隔离的文件。第一对G2还需读回完整500端点，任何离线合法率也不等于移动抓持成功。
