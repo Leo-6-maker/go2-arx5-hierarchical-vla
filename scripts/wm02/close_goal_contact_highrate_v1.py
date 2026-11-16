@@ -1,4 +1,4 @@
-"""Resolve sampling limitations on four fixed saved 2ms windows, never replay dynamics."""
+"""Audit fixed saved 2ms windows or the full fixed historical cohort, no dynamics."""
 import bisect
 import json
 from pathlib import Path
@@ -11,10 +11,11 @@ from scripts.pi0292.durable import write
 from scripts.pi0294.task_state import parse_state
 from scripts.wm02.close_goal_clearance_audit_v1 import fence,pad_clearance,summarize_case
 from go2arx5_vla.world_model.mfree_unattended_ledger_v1 import read,sha
+from go2arx5_vla.world_model.mfree_unattended_runtime_v1 import unit_state
 
 
 def window_packets(path,lower,upper):
-    """Scan length/step headers; decode only the already fixed narrow window."""
+    """Scan length/step headers; decode only the predeclared recorded tick range."""
     with Path(path).open('rb')as handle:
         while size:=handle.read(4):
             if len(size)!=4:raise ValueError('TRUNCATED_ORIGINAL_JOURNAL_LENGTH')
@@ -35,17 +36,35 @@ def run(spec):
     assert mujoco.__version__=='3.2.7'and mujoco.get_mjcb_control()is None
     plan=read(Path(spec['screen_result']['path']).parent/'FIXED_AUDIT_PLAN.private.json')
     originals={e['id']:e for e in plan['episodes']};selected=[]
+    full=bool(spec.get('full_task_cohort',False))
+    if full:
+        # Let the healthy temporal learner finish loading before starting the
+        # longer CPU scan. This process never claims the neural/GPU owner.
+        train_root=Path(spec['training_root']);began=train_root/'grip-temporal/work/updates.private.jsonl'
+        while not began.exists()or not began.stat().st_size:
+            actual=unit_state(spec['training_unit'])
+            if not actual['pid']:raise RuntimeError('TEMPORAL_TRAINING_DEPENDENCY_ENDED_NO_REPLAY')
+            if actual['pid']!=spec['training_main_PID']or actual.get('proc_start')!=spec['training_proc_start']:
+                raise RuntimeError('UNKNOWN_TRAINING_OWNER_NO_CPU_SCAN_ADMISSION')
+            if time.time()>=spec['deadline_epoch']-60:raise TimeoutError('FINITE_CPU_SCAN_DEPENDENCY')
+            write(root/'WAIT.private.json',dict(epoch=time.time(),state='WAIT_TEMPORAL_FIRST_REAL_UPDATE',
+                actual_training_process=actual,new_physical_requests=0))
+            time.sleep(30)
     for e in screen['episodes']:
-        if not e['qualified']:
+        if full:
+            result=read(originals[e['id']]['result']['path'])
+            selected.append(dict(id=e['id'],lower=5703,upper=result['actual_native_integrations'],
+                first_STOP_tick=e['first_STOP_tick'],original_qualified=e['qualified']))
+        elif not e['qualified']:
             selected.append(dict(id=e['id'],lower=e['first_STOP_tick']-300,upper=e['first_STOP_tick'],
                                  first_STOP_tick=e['first_STOP_tick'],original_qualified=False))
         elif e['successful_episode_would_be_blocked']:
             center=e['first_alarm']['step']
             selected.append(dict(id=e['id'],lower=center-150,upper=center+150,
                                  first_STOP_tick=None,original_qualified=True))
-    assert len(selected)==4 and sum(e['original_qualified']for e in selected)==1
+    assert len(selected)==(41 if full else 4)and sum(e['original_qualified']for e in selected)==(38 if full else 1)
     write(root/'FIXED_WINDOWS.private.json',dict(windows=selected,
-        selection='ALL_THREE_KNOWN_COLLISIONS_AND_THE_SINGLE_PREDECLARED_FENCE_FALSE_POSITIVE',
+        selection='ALL_38_SUCCESSES_AND_THREE_KNOWN_COLLISIONS_EVERY_RECORDED_TASK_TICK'if full else'ALL_THREE_KNOWN_COLLISIONS_AND_THE_SINGLE_PREDECLARED_FENCE_FALSE_POSITIVE',
         threshold_unchanged=dict(clearance_m=.003,tracking_error_m=-.005),
         reference_signal='LATEST_EXACT_RECEIVER_KNOT_HELD_BETWEEN_50MS_WITNESSES_NOT_CONTROLLER_SELECTED',
         conditional_uncertainty_bound_m='original_50mm_s_reference_rate_times_knot_age_s',
@@ -66,7 +85,10 @@ def run(spec):
         journal=native/'state.bin.journal';before=(journal.stat().st_size,journal.stat().st_mtime_ns)
         with forbid_integration(mujoco)as forbidden:
             for packet in window_packets(journal,window['lower'],window['upper']):
-                step=packet['step'];data.qpos[:]=packet['qpos'];data.qvel[:]=packet['qvel'];data.ctrl[:]=packet['ctrl'];data.time=packet['time_s']
+                step=packet['step']
+                if step%1000==0 and((root/'STOP.json').exists()or time.time()>=spec['deadline_epoch']-60):
+                    raise TimeoutError('FINITE_RECORDED_STATE_AUDIT_STOP')
+                data.qpos[:]=packet['qpos'];data.qvel[:]=packet['qvel'];data.ctrl[:]=packet['ctrl'];data.time=packet['time_s']
                 mujoco.mj_forward(model,data);calls+=1
                 at=bisect.bisect_right(ticks,step)-1
                 if at<0:raise ValueError('NO_RECEIVER_WITNESS_BEFORE_ORIGINAL_STATE')
@@ -92,7 +114,13 @@ def run(spec):
             assert first_saved_illegal is not None and first_saved_illegal['step']==window['first_STOP_tick']
         held_summary=summarize_case(states,qualified=window['original_qualified'],first_STOP_tick=window['first_STOP_tick'])
         bounded_summary=summarize_case(bounded,qualified=window['original_qualified'],first_STOP_tick=window['first_STOP_tick'])
-        target=root/'data'/(window['id']+'.private.json');write(target,dict(window=window,states=states,
+        saved=states
+        if full:
+            saved=[r for i,r in enumerate(states)if i%25==0 or i==len(states)-1 or
+                   i and(r['candidate_alarm']!=states[i-1]['candidate_alarm']or
+                         r['conditional_rate_bound_alarm']!=states[i-1]['conditional_rate_bound_alarm'])]
+        target=root/'data'/(window['id']+'.private.json');write(target,dict(window=window,states=saved,
+            all_ticks_evaluated=len(states),saved_state_scope='EVERY25TH_AND_ALL_ALARM_TRANSITIONS'if full else'ALL_WINDOW_STATES',
             held_reference_profile=held_summary,conditional_rate_bound_profile=bounded_summary,
             original_first_illegal_contact=first_saved_illegal,geometry_sha256=model_sha,
             journal=dict(path=str(journal),sha256=sha(journal)),original_result=original['result'],
@@ -102,7 +130,7 @@ def run(spec):
             artifact=dict(path=str(target),sha256=sha(target))))
         write(root/'PROGRESS.private.json',dict(epoch=time.time(),completed_windows=len(outcomes),passive_FK_calls=calls,
                                                new_physical_requests=0,new_integrations=0))
-    output=dict(schema='SLA_CLOSE_FIXED_2MS_CONTACT_WINDOWS_ACTUAL_V1',exit_code=0,windows=outcomes,
+    output=dict(schema='SLA_CLOSE_FULL_2MS_CONTACT_COHORT_ACTUAL_V1'if full else'SLA_CLOSE_FIXED_2MS_CONTACT_WINDOWS_ACTUAL_V1',exit_code=0,windows=outcomes,
         passive_FK_calls=calls,threshold_search=False,original_outcomes_preserved=True,
         native_guard_installed=False,native_stop_latency_proven=False,independent_admission=False,
         full_control_state_restore=False,reference_is_receiver_witness_not_controller_selected=True,
