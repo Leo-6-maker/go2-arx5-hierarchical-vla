@@ -1,3 +1,5 @@
+后续实测已取得普通FM500／独立RGB16及完整41任务2ms分析；下文早期53步快照保留。[新端点与安全结果](G2_CONTROL500_AND_S_2MS_ACTUAL.md)。
+
 # SLA CLOSE长程Goal：G1实测、接触证据与G2接续
 
 执行PR #392固定计划`74264d5b56cf0cf201713d407152a36ecd798983`，基线PR391的`65bd544d`，实现PR #393。**Goal未完成**：目标仍是M_FREE F1/F2原生抓持、抬升20mm、保持1秒及独立报告的方向移动8cm，最终需规定的pilot/DEV/TEST；不以诊断、checkpoint或服务退出代替。

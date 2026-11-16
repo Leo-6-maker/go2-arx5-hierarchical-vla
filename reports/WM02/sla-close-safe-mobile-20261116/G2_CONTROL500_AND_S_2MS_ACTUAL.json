@@ -1,0 +1,247 @@
+{
+  "schema": "SLA_CLOSE_FM500_AND_FULL_PASSIVE_2MS_ACTUAL_V1",
+  "observed_SGT": "2026-11-16T17:31:48.962420+08:00",
+  "goal_plan_sha": "74264d5b56cf0cf201713d407152a36ecd798983",
+  "reviewed_baseline": "65bd544d8ed3bf6a717783f8691fcb95c8d12165",
+  "goal_met": false,
+  "new_physical_requests": 0,
+  "new_integrations": 0,
+  "baseline_C20_updates": 1000,
+  "baseline_C20_visits": 32000,
+  "G2_source_sha": "392b7894b6f91d1e01a848dd54dd6ca22418a2f6",
+  "G2_spec_sha256": "b7f683db954fba2b3e55943c0afaed545fa93c9d36d71659d5a7224d8a364f64",
+  "control": {
+    "new_updates": 500,
+    "new_visits": 16000,
+    "cumulative_candidate_updates": 1500,
+    "cumulative_candidate_visits": 48000,
+    "checkpoint_COMPLETE_sha256": "db968f39a978121f309eb8ef71f259dc15ee4f277534b1bfadd5d76ee270daa1",
+    "RGB_package_manifest_sha256": "e31261fc2724bd235c27528462407c72dadc104e49bb9953a38f93a9e5d4027d",
+    "full_restore": {
+      "bit_exact": true,
+      "arrays": 87,
+      "step": 500,
+      "cursor": 16000,
+      "model_Adam_RNG_restored": true,
+      "optimizer_updates_added": 0
+    },
+    "fresh_RGB": {
+      "generations": 16,
+      "all_bit_exact": true,
+      "optimizer_updates": 0
+    },
+    "ordinary_TRAIN_generations": 96,
+    "CLOSE_pass": 0,
+    "CLOSE_count": 20,
+    "other_pass": 76,
+    "other_count": 76,
+    "annotated_crossings": 20,
+    "crossing_within100ms": 19,
+    "missed_crossings": 0,
+    "terminal_width_MAE_m": 3.859534786138776e-06,
+    "CLOSE_peak_speed_range_m_s": [
+      0.04271423119434778,
+      0.05468925358281737
+    ],
+    "wall_s": 3638.9584250450134,
+    "CPU_s": 2840.555004963,
+    "GPU_peak_allocated_bytes": 9711066880
+  },
+  "temporal": {
+    "status": "REAL_UPDATES_RUNNING_NO_ENDPOINT_YET",
+    "new_updates": 110,
+    "new_visits": 3520,
+    "planned_updates": 500,
+    "planned_visits": 16000
+  },
+  "total_new_updates": 610,
+  "total_new_visits": 19520,
+  "common_pair_initial_state_and_full_input_match": "PENDING_BOTH_ENDPOINTS",
+  "command_seams": {
+    "source_sha": "a69c829521d31641fe54ffc6e12437ed777b0347",
+    "scope": "SAME48_TIMES_TWO_SAVED_PREDICTIONS_NO_NEW_GENERATIONS",
+    "not_new_native_gate": true,
+    "completed": {
+      "C20_1000": {
+        "ALL": {
+          "predictions": 96,
+          "model_first_to_previous_applied_command_peak_abs_m": 0.0033939521509624366,
+          "model_first_to_previous_applied_command_MAE_m": 0.00039382562837174346,
+          "expert_first_to_previous_applied_command_peak_abs_m": 0.0011241039062500034,
+          "model_command_seam_over40mm_s": 9,
+          "expert_command_seam_over40mm_s": 0,
+          "model_command_seam_peak_abs_m_s": 0.06787904301916578,
+          "model_first_to_measured_width_peak_abs_m": 0.017226038450098482,
+          "model_first_to_current_expert_plan_MAE_m": 0.00019706646069048248
+        },
+        "CLOSE": {
+          "predictions": 20,
+          "model_first_to_previous_applied_command_peak_abs_m": 0.0025354499940981115,
+          "model_first_to_previous_applied_command_MAE_m": 0.001333396052350547,
+          "expert_first_to_previous_applied_command_peak_abs_m": 0.0009837132812499927,
+          "model_command_seam_over40mm_s": 5,
+          "expert_command_seam_over40mm_s": 0,
+          "model_command_seam_peak_abs_m_s": 0.05070899988190026,
+          "model_first_to_measured_width_peak_abs_m": 0.002485825201248959,
+          "model_first_to_current_expert_plan_MAE_m": 0.0006137728287304824
+        },
+        "NON_CLOSE": {
+          "predictions": 76,
+          "model_first_to_previous_applied_command_peak_abs_m": 0.0033939521509624366,
+          "model_first_to_previous_applied_command_MAE_m": 0.00014657025364047933,
+          "expert_first_to_previous_applied_command_peak_abs_m": 0.0011241039062500034,
+          "model_command_seam_over40mm_s": 4,
+          "expert_command_seam_over40mm_s": 0,
+          "model_command_seam_peak_abs_m_s": 0.06787904301916578,
+          "model_first_to_measured_width_peak_abs_m": 0.017226038450098482,
+          "model_first_to_current_expert_plan_MAE_m": 8.740689015364037e-05
+        }
+      },
+      "fm-control": {
+        "ALL": {
+          "predictions": 96,
+          "model_first_to_previous_applied_command_peak_abs_m": 0.003254845376053986,
+          "model_first_to_previous_applied_command_MAE_m": 0.00037625824920907756,
+          "expert_first_to_previous_applied_command_peak_abs_m": 0.0011241039062500034,
+          "model_command_seam_over40mm_s": 6,
+          "expert_command_seam_over40mm_s": 0,
+          "model_command_seam_peak_abs_m_s": 0.06509690752100016,
+          "model_first_to_measured_width_peak_abs_m": 0.01722613920566291,
+          "model_first_to_current_expert_plan_MAE_m": 0.00023282972513087293
+        },
+        "CLOSE": {
+          "predictions": 20,
+          "model_first_to_previous_applied_command_peak_abs_m": 0.003254845376053986,
+          "model_first_to_previous_applied_command_MAE_m": 0.0016939480043160061,
+          "expert_first_to_previous_applied_command_peak_abs_m": 0.0009837132812499927,
+          "model_command_seam_over40mm_s": 6,
+          "expert_command_seam_over40mm_s": 0,
+          "model_command_seam_peak_abs_m_s": 0.06509690752100016,
+          "model_first_to_measured_width_peak_abs_m": 0.003205269723041082,
+          "model_first_to_current_expert_plan_MAE_m": 0.0009114031752254507
+        },
+        "NON_CLOSE": {
+          "predictions": 76,
+          "model_first_to_previous_applied_command_peak_abs_m": 0.001252589277034288,
+          "model_first_to_previous_applied_command_MAE_m": 2.9497787338833184e-05,
+          "expert_first_to_previous_applied_command_peak_abs_m": 0.0011241039062500034,
+          "model_command_seam_over40mm_s": 0,
+          "expert_command_seam_over40mm_s": 0,
+          "model_command_seam_peak_abs_m_s": 0.025051785540655142,
+          "model_first_to_measured_width_peak_abs_m": 0.01722613920566291,
+          "model_first_to_current_expert_plan_MAE_m": 5.425776457966827e-05
+        }
+      }
+    },
+    "temporal": "WAITING_ENDPOINT"
+  },
+  "S50": {
+    "source_sha": "af3449828664d204af932398022e60becc3eb12a",
+    "episodes": 41,
+    "saved_samples": 27785,
+    "successful_false_positives": 1,
+    "known_unsafe_sampled_alarms": 1,
+    "known_unsafe_sampled_lead_ge10ms": 0
+  },
+  "S4": {
+    "source_sha": "200ed0f18037ed8c25ebc22fea8b13cd767d3a77",
+    "fixed_windows": 4,
+    "saved_states": 1204
+  },
+  "S_full_2ms": {
+    "source_sha": "15f6d20b87b5cbb6ebb8a120868c6f5bb2ef5984",
+    "spec_sha256": "8ff4512817943c3dcef8e0e801e753af011036ddab7273884abd7ecaa994006b",
+    "episodes": 41,
+    "passive_FK_calls": 693670,
+    "wall_s": 131.0441997051239,
+    "CPU_s": 79.571891658,
+    "profiles": {
+      "held_reference_profile": {
+        "successes": 38,
+        "successful_episodes_candidate_would_block": 1,
+        "known_unsafe": 3,
+        "known_unsafe_with_10ms_saved_precontact_alarm": 3,
+        "unsafe_records": [
+          {
+            "id": "72H-F2-T4-A003",
+            "first_alarm_tick": 19136,
+            "first_recorded_contact_tick": 19153,
+            "lead_to_first_recorded_contact_s": 0.034
+          },
+          {
+            "id": "72H-F1-T3-A006",
+            "first_alarm_tick": 19187,
+            "first_recorded_contact_tick": 19345,
+            "lead_to_first_recorded_contact_s": 0.316
+          },
+          {
+            "id": "00-F1-MFREE_C20_FINAL_FM1000-r201",
+            "first_alarm_tick": 19481,
+            "first_recorded_contact_tick": 19487,
+            "lead_to_first_recorded_contact_s": 0.012
+          }
+        ],
+        "blocked_original_success_ids": [
+          "F2-T3-r2"
+        ]
+      },
+      "conditional_rate_bound_profile": {
+        "successes": 38,
+        "successful_episodes_candidate_would_block": 1,
+        "known_unsafe": 3,
+        "known_unsafe_with_10ms_saved_precontact_alarm": 3,
+        "unsafe_records": [
+          {
+            "id": "72H-F2-T4-A003",
+            "first_alarm_tick": 19136,
+            "first_recorded_contact_tick": 19153,
+            "lead_to_first_recorded_contact_s": 0.034
+          },
+          {
+            "id": "72H-F1-T3-A006",
+            "first_alarm_tick": 19187,
+            "first_recorded_contact_tick": 19345,
+            "lead_to_first_recorded_contact_s": 0.316
+          },
+          {
+            "id": "00-F1-MFREE_C20_FINAL_FM1000-r201",
+            "first_alarm_tick": 19481,
+            "first_recorded_contact_tick": 19487,
+            "lead_to_first_recorded_contact_s": 0.012
+          }
+        ],
+        "blocked_original_success_ids": [
+          "F2-T3-r2"
+        ]
+      }
+    },
+    "thresholds_unchanged": {
+      "clearance_m": 0.003,
+      "negative_tracking_error_m": -0.005
+    },
+    "threshold_search": false,
+    "meets_predeclared_zero_success_block_screen": false,
+    "guard_installed": false,
+    "native_stop_latency_proven": false,
+    "controller_selected_reference_known": false,
+    "full_WBC_control_state_restore": false,
+    "independent_admission": false
+  },
+  "evidence_sha256": {
+    "fm_control": "31655caebdb34129390785a22d846951f392acbbb838dda5bd47193251ce473b",
+    "fm_rgb": "ec57324bcc1528f089aa6529c98abc4ac5208c77e365ffedab01b810888db423",
+    "S50": "80cc7dedbe115aef00bad4eaf686c182b467d2238cc890f6913f8e1937268736",
+    "S4": "8f7b298cf8ce15a51e95eed61e198d3c17cb3bc92be9d6ef87cae9785b902f8d",
+    "Sfull": "9ed2b01909cd15e582f6fdb81b8f6e76f0480fa56d9ca3d6ee9bacbd1174c347"
+  },
+  "DETACH_READY_offline_receipt_sha256": "52a3ab8150d96984ede440c02a0c65f040bd8a13e9f942148216cbb0944d680c",
+  "quarantine": {
+    "F1": "ACTIVE",
+    "F2": "ACTIVE",
+    "students": "ACTIVE",
+    "M_ASSIST": "ACTIVE"
+  },
+  "original_deadline_SGT": "2026-11-19T02:51:23.855488+08:00",
+  "G2_deadline_SGT": "2026-11-19T01:51:23.855488+08:00",
+  "automatic_fallback_submitted": false
+}
