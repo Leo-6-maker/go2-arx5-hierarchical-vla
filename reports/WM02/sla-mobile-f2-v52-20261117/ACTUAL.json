@@ -1,8 +1,8 @@
 {
   "schema": "SLA_MOBILE_V52_STAGE_ACTUAL",
-  "status": "ONGOING_E1_NOT_AN_ENDPOINT_OR_POLICY_SUCCESS",
+  "status": "B1_FIXED500_COMPLETE_B2_IN_PROGRESS_E1_E2_NOT_COMPLETE",
   "plan_commit": "90d39196bdc345b977ee54ed64e750cf3561aa72",
-  "as_of_UTC": "2026-11-17T14:29:28.513930+00:00",
+  "as_of_UTC": "2026-11-17T15:03:02.534508+00:00",
   "D0": {
     "source_sha": "4b59cd7c53882e4b04357d25e6e62660de89e715",
     "inputs": 320,
@@ -41,12 +41,12 @@
   "LR_sha256": "7f10a93cbac3bda375845b99b1f50c4eb516cb5d49a8d5e2e17f6e1b956298c9",
   "visit_map_sha256": "a151bfca90511a5fee70398aa50616472f989cbf41cdd899ca93d569a24040af",
   "E1_snapshot": {
-    "B1_updates": 328,
-    "B1_visits": 10496,
-    "B2_updates": 0,
-    "B2_visits": 0,
-    "B2_status": "WAIT_SAME_GPU_OWNER",
-    "new_generations": 0,
+    "B1_updates": 500,
+    "B1_visits": 16000,
+    "B2_updates": 100,
+    "B2_visits": 3200,
+    "B2_status": "ACTUAL_REAL500_TRAINING",
+    "new_generations": 96,
     "new_native_requests": 0,
     "new_integrations": 0,
     "diagnostic_backward_calls_B1": 1,
@@ -92,7 +92,7 @@
   },
   "next": "Finish two fixed500 endpoints and full-state/RGB restoration; then exact saved-input qualification and all24 preregistered native conditions; no offline quality prefilter.",
   "followup": {
-    "status": "ACTIVE_WAIT_ACTUAL_E1_ENDPOINTS",
+    "status": "ACTIVE_WAIT_B2_ENDPOINT",
     "unit": "wm02-sla-mobile-f2-v52-e1-e2-followup-20261117-01",
     "source_sha": "fe440995bd739d666aad3e93952be5f60fa130d2",
     "source_seal_sha256": "ed4d0424e7d15d5058550cdc01fdf1077a69f0acc90a1e6d1b4d81f64001e109",
@@ -104,7 +104,10 @@
     "automatic_retry": false,
     "conditional_new_offline_generations": 600,
     "conditional_new_native_requests": 24,
-    "automatic_confirmation_E3_DEV_TEST": false
+    "automatic_confirmation_E3_DEV_TEST": false,
+    "complete_arms": [
+      "B1"
+    ]
   },
   "B1_recovery250": {
     "step": 250,
@@ -135,5 +138,16 @@
     "new_optimizer_visits": 0,
     "new_native_requests": 0,
     "new_integrations": 0
-  }
+  },
+  "B1_endpoint": {
+    "result_sha256": "6ab3b21ed91789aa883a88d8e875396c20b30910013f403b24377e33e6b4adf6",
+    "package_manifest_sha256": "b9ba974c374b3c3a09d7742004fc799337d5e7f1b9c9c7d290af066766e4706c",
+    "checkpoint_sha256": "ac675d77393b5d05c23c3a71efab09883b0045312efdafac4ffa064ab7b9d268",
+    "all87_GPU_reload_bit_exact": true,
+    "all28_active_arrays_changed": true,
+    "ordinary_RGB16_restore_pending": true,
+    "TRAIN96_full_H40_pass": 96,
+    "TRAIN96_generations": 96
+  },
+  "matched_initial87_arrays_byte_verified_equal": true
 }
