@@ -1,0 +1,13 @@
+【科学主线置顶 / Codex启动】执行 Leo-6-maker/go2-arx5-hierarchical-vla 的 V5：docs/goals/2026-11-17/MFREE_SCIENCE_FIRST_CLOSED_LOOP_V5_20261117.md（同目录JSON与安全单页模板）。以PR398@3497840724c6bfcf54ec4317a5ed605290310b14为实际事实：SHIFT7单模型TRAIN96/96、R1专家状态180/180；R3真实连续时钟失败，H40 32/32但mock P10仅11/32；新学生native抓持0，旧三碰桌与1/38误拦，READMISSION未签。
+
+【唯一优先科学问题】冻结Go2+ARX5 WBC，让SHIFT7用body+wrist RGB、机器人自身状态和真实发出历史，通过原H40/P10/50ms生成EEF+夹爪，在M_FREE真实移动原生闭环抓取、抬升≥20mm、保持≥1s，底座沿任务方向≥8cm单列。不得把专家状态180/180或零积分ACK当任务成功。严格350ms实时优化退为并行工程支线；优先提出SIM_PAUSED_NATIVE研究profile（仿真query边界冻结原生时钟，推理结束仍走原完整动作/安全检查，墙钟单列），绝不冒称原WALL_CLOCK_STRICT通过。
+
+【立即行动】核查Core旧owner/lease、当前源码与SHIFT7单模型包/scene/WBC SHA；0新GPU/原生下自主完成非物理paused-clock协议与具体S0独立READMISSION单页：三接触12/20/34ms连续告警、误停1/38、controller选中reference未知、真实STOP最坏响应未知。能审则请求一次与代码/scene/profile/有限面板绑定的独立安全准入；不能审则明确最小事实缺口。**当前未签之前原生请求0，不准自己解除隔离**。
+
+【获签后才按既定范围执行】专家安全8（F1/F2各4）→学生on-policy先各1条、再pilot总8（各4）→仅安全且每族至少1个完整移动抓持才入DEV32→达到24/32且各12/16才入一次TEST40（目标32/40且各16/20）。任何硬STOP立即按profile隔离。保留全部原生tick、ACK、真实物体位姿/接触、EEF和底座跟踪，给出首次失败原因；有效失败不选seed重投。
+
+【工程授权】路径/overlay/JAX/IPC/serialization/时钟/Journal/归档及非物理paused协议出错时Codex自行复现、最小修复、测试、推GitHub PR并继续已授权科学工作，无需每个小bug另等独立GPT审核；不要假造站点allocation、hotpatch、force-push、自动merge、重跑已关闭有效失败。安全/物理/新训练/scene/WBC/阈值变化是实质性准入，不能自主放宽。
+
+【失败分流】学生接近/目标错误→视觉与student-state诊断；抓持/抬升不同步→时序/反馈；合法参考导致碰桌→WBC实际选中参考与净空安全；恢复状态错误→条件性安全纠正示范。不要自动C60/C100、继续训练SHIFT7、RL或新技能。只在真实闭环证据支持时另提C20/C38×两seed×500/1000步量化学习曲线。
+
+每轮汇报真正科学进展（原生episode分母、抓持/抬升/保持/底座移动、first failure、安全STOP、模型/scene/WBC/profile SHA、真实成本）而不是CPU测试/PR数量；分别把科学更新放Issue #11、集成修复放#47。此启动prompt本身不启动后台作业。
