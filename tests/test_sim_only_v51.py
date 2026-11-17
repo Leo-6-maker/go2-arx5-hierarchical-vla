@@ -6,7 +6,7 @@ import time
 import pytest
 
 from go2arx5_vla.world_model import sim_only_scope_v51 as scope
-from scripts.wm02.sim_only_campaign_v51 import interface_gate, fatal_control_violation, pilot_gate
+from scripts.wm02.sim_only_campaign_v51 import interface_gate, fatal_control_violation, pilot_gate, panel_preflight
 
 
 @pytest.fixture
@@ -81,3 +81,15 @@ def test_stage_gates_preserve_first_round_and_do_not_call_zero_of_eight_success(
     assert pilot_gate(interfaces+students)
     students[2]['hard_STOP']=True
     assert not pilot_gate(interfaces+students)
+
+
+def test_panel_catches_different_historical_collector_lock_before_native_launch(tmp_path):
+    paths=[]
+    for i in range(18):
+        p=tmp_path/('%02d.json'%i);p.write_text(json.dumps(dict(mobile_world_lock='ros-198.lock',
+            ROS_DOMAIN_ID=198,mobile_group=str(tmp_path))));paths.append(str(p))
+    parent=dict(cases=paths,mobile_world_lock='ros-198.lock',ROS_DOMAIN_ID=198,registered_root=str(tmp_path))
+    assert panel_preflight(parent)==[]
+    wrong=json.loads((tmp_path/'01.json').read_text());wrong['mobile_world_lock']='ros-199.lock'
+    (tmp_path/'01.json').write_text(json.dumps(wrong))
+    with pytest.raises(ValueError,match='PARENT_DOMAIN_AND_LOCK'):panel_preflight(parent)

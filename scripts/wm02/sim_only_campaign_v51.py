@@ -56,14 +56,46 @@ def pilot_gate(rows):
         any(r['family']==family and r['task_and_mobile_success']for r in items)for family in ('F1','F2'))
 
 
+def panel_preflight(spec):
+    """Normalize ownership before any case runs; original per-case guard stays."""
+    prior=spec.get('prior_case_results',[])
+    if len(spec['cases'])+len(prior)!=18:
+        raise ValueError('FINITE_ORIGINAL_PANEL_INCLUDES_CARRIED_RESULTS')
+    for path in spec['cases']:
+        case=read(path)
+        if (case['mobile_world_lock']!=spec['mobile_world_lock']
+                or case['ROS_DOMAIN_ID']!=spec['ROS_DOMAIN_ID']
+                or case['mobile_group']!=spec['registered_root']):
+            raise ValueError('ALL_SERIAL_CASES_REQUIRE_THE_ACTUAL_PARENT_DOMAIN_AND_LOCK')
+    return prior
+
+
+def carried_rows(prior):
+    rows=[]
+    for p in prior:
+        if digest(p['spec']['path'])!=p['spec']['sha256']or digest(p['result']['path'])!=p['result']['sha256']:
+            raise ValueError('CARRIED_RESULT_IDENTITY_CHANGED')
+        case=read(p['spec']['path']);result=read(p['result']['path'])
+        lease=read(Path(case['registered_root'])/'control/LEASE.json')
+        if (lease['status']!='CLOSED'or not result['completed']or result['unsafe']
+                or case.get('scope')!='SIM_ONLY_PROJECT_AUTHORIZED'
+                or case.get('sim_only_role')!='INTERFACE'
+                or not result['detail'].get('interface_protocol_pass')):
+            raise ValueError('ONLY_SEALED_PASSED_INTERFACE_MAY_BE_CARRIED')
+        rows.append(compact_case(case,result))
+    return rows
+
+
 def run(spec_path):
     from scripts.wm02.mobile_boundary_runner_v1 import registered
     spec=read(spec_path);root=Path(spec['registered_root']);registered(spec,spec_path)
-    if len(spec['cases'])!=18 or (root/'SUPERVISOR.private.json').exists():
+    prior=panel_preflight(spec)
+    if (root/'SUPERVISOR.private.json').exists():
         raise PermissionError('FINITE_18_CASE_NEW_CONTROLLER_ONLY')
     write(root/'SUPERVISOR.private.json',dict(pid=os.getpid(),epoch=time.time(),source_sha=spec['source_sha']))
     journal=Journal(root/'control/journal',root.name)
-    rows=[];failure=None;code=1;gpu=None;start=time.monotonic();launches=[]
+    rows=carried_rows(prior);prior_count=len(rows)
+    failure=None;code=1;gpu=None;start=time.monotonic();launches=[]
     server_pin=spec['resident_server_spec'];server=read(server_pin['path']);server_root=Path(server['registered_root'])
     if digest(server_pin['path'])!=server_pin['sha256']:
         raise ValueError('IMMUTABLE_MODEL_SERVICE_SPEC')
@@ -145,11 +177,13 @@ def run(spec_path):
         value=dict(schema='MFREE_SIM_ONLY_V51_ACTUAL_TERMINAL',exit_code=code,failure=failure,
             source_sha=spec['source_sha'],records=rows,attempted_case_launches=len(launches),
             verified_native_requests=sum(r['actual_native_requests']for r in rows),
-            unresolved_case_launches=len(launches)-len(rows),
+            carried_native_requests=sum(r['actual_native_requests']for r in rows[:prior_count]),
+            new_verified_native_requests=sum(r['actual_native_requests']for r in rows[prior_count:]),
+            unresolved_case_launches=len(launches)-(len(rows)-prior_count),
             native_ticks=sum(r['native_ticks']for r in rows),
             expert_task_success=sum(r['role']=='EXPERT'and r['task_and_mobile_success']for r in rows),
             student_task_success=sum(r['role']=='STUDENT'and r['task_and_mobile_success']for r in rows),
-            student_attempts=sum(r['role']=='STUDENT'for r in rows),unstarted_cases=len(spec['cases'])-len(rows),
+            student_attempts=sum(r['role']=='STUDENT'for r in rows),unstarted_cases=18-len(rows),
             pilot_GO=pilot_gate(rows),DEV_TEST_auto_started=False,model_service=neural,
             new_updates=0,new_optimization_visits=0,real_robot_requests=0,wall_s=time.monotonic()-start)
         write(root/'RESULT.private.json',value);close(spec,code)
