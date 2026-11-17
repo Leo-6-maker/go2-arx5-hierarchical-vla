@@ -156,6 +156,7 @@ def run_case(spec_path,lock_fd):
     from go2arx5_vla.world_model.native_replay import packets
     from go2arx5_vla.world_model.init_trace_reader import audit_trace
     spec=read(spec_path);root=Path(spec['registered_root']);group=Path(spec['mobile_group'])
+    multitask=spec.get('mobile_experiment_version')=='MFREE_MULTITASK_NATIVE_V6'
     lease=registered(spec,spec_path);parent=read(group/'SUPERVISOR.private.json')
     if (spec['phase']!=PHASE or os.uname().nodename!='corelab-4080s'or os.getuid()!=2009
             or lease['status']!='ACTIVE'or lease['spec_sha256']!=digest(spec_path)
@@ -171,7 +172,12 @@ def run_case(spec_path,lock_fd):
         if digest(name)!=pin:raise PermissionError('FROZEN_MOBILE_EXECUTOR_CHANGED:'+name)
     for name,pin in spec['source_files'].items():
         if digest(Path(spec['source_root'])/name)!=pin:raise PermissionError('SEALED_MOBILE_SOURCE_CHANGED:'+name)
-    if spec.get('mobile_experiment_version')=='MFREE_SHIFT7_SIM_ONLY_V51':
+    if multitask:
+        from go2arx5_vla.world_model.multitask_scope_v6 import validate
+        from go2arx5_vla.world_model.multitask_adapter_v6 import MultitaskAdapter
+        validate(spec)
+        TargetSequentialAdapter=MultitaskAdapter
+    elif spec.get('mobile_experiment_version')=='MFREE_SHIFT7_SIM_ONLY_V51':
         from go2arx5_vla.world_model.sim_only_scope_v51 import validate
         validate(spec)
     elif spec.get('mobile_experiment_version')=='MFREE_B1_FULL_H40_SIM_ONLY_V6':
@@ -186,7 +192,9 @@ def run_case(spec_path,lock_fd):
     try:
         adapter.start()
         if spec.get('mobile_stage')=='L1':
-            if spec.get('mobile_experiment_version')=='MFREE_B1_FULL_H40_SIM_ONLY_V6':
+            if multitask:
+                from go2arx5_vla.world_model.multitask_scope_v6 import episode as l1_episode
+            elif spec.get('mobile_experiment_version')=='MFREE_B1_FULL_H40_SIM_ONLY_V6':
                 from go2arx5_vla.world_model.target_scope_v6 import episode as l1_episode
             elif spec.get('mobile_experiment_version')=='MFREE_SHIFT7_SIM_ONLY_V52':
                 from go2arx5_vla.world_model.mobile_scope_v52 import episode as l1_episode
@@ -216,15 +224,29 @@ def run_case(spec_path,lock_fd):
                 if not adapter.trace_sealed:adapter.seal_trace(adapter.observe()['step'])
             except BaseException:write(out/'FINAL_EVIDENCE_ERROR.private.json',dict(error=traceback.format_exc()))
         adapter.close()
-    journal=out/'state.bin.journal';count=len(packets(journal))if journal.exists()and journal.stat().st_size else 0
+    journal=out/'state.bin.journal'
+    if multitask:
+        from go2arx5_vla.world_model.multitask_state_v6 import packets as multitask_packets
+        count=0
+        try:
+            if journal.exists():
+                for _ in multitask_packets(journal):count+=1
+        except ValueError:
+            failure=(failure or '')+traceback.format_exc()
+    else:count=len(packets(journal))if journal.exists()and journal.stat().st_size else 0
     stop=read(out/'MOBILE_SAFETY_STOP.private.json')if(out/'MOBILE_SAFETY_STOP.private.json').exists()else None
     physics=[json.loads(x)for x in(out/'physics.jsonl').read_text().splitlines()]if(out/'physics.jsonl').exists()else[]
     stop_events=[r for r in physics if r['kind']=='stop']
-    try:trace=audit_trace(out/'init.trace',max_native_ticks=spec['max_ticks'])if(out/'init.trace').exists()else None
+    trace_options={'state_abi':(41,38,20)} if multitask else {}
+    try:trace=audit_trace(out/'init.trace',max_native_ticks=spec['max_ticks'],**trace_options)if(out/'init.trace').exists()else None
     except BaseException:trace=dict(error=traceback.format_exc())
     clean=bool(adapter.exit_records)and all(r['exit_code']==0 for r in adapter.exit_records)
     expected=detail.get('terminal_native_step')if detail is not None and spec.get('mobile_stage')=='L1'else M0_END
     passed=detail is not None and not failure and not stop and not stop_events and clean and count==expected
+    if multitask and passed and ((trace or {}).get('status')!='RECORDED_TRACE_CHECKS_PASS'
+                                or trace['native_step_records']!=count):
+        passed=False
+        failure='MULTITASK_ACTUAL_NATIVE_JOURNAL_AND_TRACE_MUST_AGREE'
     from go2arx5_vla.world_model.mobile_boundary_metrics_v1 import metrics
     measured_metrics=metrics(out,spec['mobile_condition'])
     if spec.get('mobile_stage')=='L1':

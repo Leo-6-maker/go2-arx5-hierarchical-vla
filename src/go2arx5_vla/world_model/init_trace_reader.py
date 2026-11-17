@@ -72,7 +72,7 @@ def audit_trace(path,*,max_native_ticks=None,state_abi=(34,32,20)):
     """Evidence audit only. A coherent synthetic trace never grants native admission."""
     if state_abi not in ((34,32,20),(41,38,20)):
         raise ValueError('EXPLICIT_NATIVE_TRACE_STATE_ABI_REQUIRED')
-    state_width=sum(state_abi)
+    state_width=min(sum(state_abi),96)
     abi_name='_'.join(str(n) for n in state_abi)
     path=Path(path);rows=read_trace(path);sp=Path(str(path)+'.snapshots');snapshots=read_snapshots(sp)if sp.exists()else{};summary=Path(str(path)+'.summary');writer=json.loads(summary.read_text())if summary.exists()else None
     errors=[];missing=[]
@@ -148,7 +148,12 @@ def audit_trace(path,*,max_native_ticks=None,state_abi=(34,32,20)):
     if not pd:missing.append('NO_PD_CALLBACK_RECORDS')
     if any(r['n']!=state_width for r in pd):errors.append('PD_STATE_CTRL_ABI_NOT_'+abi_name)
     status='RECORDED_TRACE_CHECKS_FAIL'if errors else'INSUFFICIENT_RECORDED_EVIDENCE'if missing else'RECORDED_TRACE_CHECKS_PASS'
-    return dict(schema='WM02_INIT_TRACE_EVIDENCE_AUDIT_V1',status=status,errors=sorted(set(errors)),missing=sorted(set(missing)),records=len(rows),writer=writer,full_payload_records=len(snapshots),full_payloads_not_retained=unretained,first_two_policy_evidence=first,legacy_publish_channels_unknown=channel_unknown,applied_mixed_versions=mixed,unmatched_apply_versions=apply_unmatched,native_step_records=len(after),PD_callbacks_recorded=len(pd),integrations_after_first_STOP=extra,STOP_observed=bool(stops),STOP_check='ZERO_FOLLOWING_RECORDED_STEPS'if stop and not extra else'FAIL'if extra else'NOT_TESTED',source_clock_note='PUBLISH/CONSUME/APPLY sim_time=0 is an instrumentation sentinel; use monotonic_ns and version causality, not physics time for those records.',input_files_sha256={p.name:digest(p)for p in(path,sp,summary)if p.exists()},target_qualification='NOT_ESTABLISHED: independent owner admission, original safety/contacts and trace overhead still required',new_effects_of_audit=dict(target_integrations=0,policy_queries=0))
+    result=dict(schema='WM02_INIT_TRACE_EVIDENCE_AUDIT_V1',status=status,errors=sorted(set(errors)),missing=sorted(set(missing)),records=len(rows),writer=writer,full_payload_records=len(snapshots),full_payloads_not_retained=unretained,first_two_policy_evidence=first,legacy_publish_channels_unknown=channel_unknown,applied_mixed_versions=mixed,unmatched_apply_versions=apply_unmatched,native_step_records=len(after),PD_callbacks_recorded=len(pd),integrations_after_first_STOP=extra,STOP_observed=bool(stops),STOP_check='ZERO_FOLLOWING_RECORDED_STEPS'if stop and not extra else'FAIL'if extra else'NOT_TESTED',source_clock_note='PUBLISH/CONSUME/APPLY sim_time=0 is an instrumentation sentinel; use monotonic_ns and version causality, not physics time for those records.',input_files_sha256={p.name:digest(p)for p in(path,sp,summary)if p.exists()},target_qualification='NOT_ESTABLISHED: independent owner admission, original safety/contacts and trace overhead still required',new_effects_of_audit=dict(target_integrations=0,policy_queries=0))
+    if sum(state_abi)>96:
+        result['state_payload']=dict(model_abi=list(state_abi),inline_values=state_width,
+            trailing_ctrl_values_not_retained=sum(state_abi)-state_width,
+            full_post_step_state_source='ACTUAL_NATIVE_STATE_JOURNAL')
+    return result
 
 def summarize(path):
     rows=read_trace(path);begins={r['token']:r for r in rows if r['kind']==2};done=[r for r in rows if r['kind']==5];pd=[r for r in rows if r['kind']==10];stops=[r for r in rows if r['kind']==13]

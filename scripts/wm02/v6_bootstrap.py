@@ -6,7 +6,7 @@ import sys
 
 def main():
     operation,path=sys.argv[1:3];spec=json.loads(Path(path).read_bytes());source=Path(spec['source_root']);parent=spec['trusted_source_parent']
-    if(spec['plan_commit']!='ae3d3c0dceade437b0104a150cd0402fef650052'or spec['scope']not in('SLA_SOURCE_NATIVE_SHARED_V6','SLA_V6_TARGET_NATIVE')):
+    if(spec['plan_commit']!='ae3d3c0dceade437b0104a150cd0402fef650052'or spec['scope']not in('SLA_SOURCE_NATIVE_SHARED_V6','SLA_V6_TARGET_NATIVE','SLA_V6_MULTITASK_NATIVE')):
         raise PermissionError('FIXED_V6_PLAN_AND_EXPLICIT_NEW_SCOPE_REQUIRED')
     if Path(__file__).resolve()!=source/'scripts/wm02/v6_bootstrap.py':raise PermissionError('EXACT_NEW_V6_BOOTSTRAP')
     for name,pin in spec['source_files'].items():
@@ -28,6 +28,9 @@ def main():
     if operation=='--target-followup':
         from scripts.wm02.target_followup_v6 import main
         raise SystemExit(main(spec))
+    if operation=='--multitask-interface':
+        from scripts.wm02.multitask_interface_v6 import run
+        raise SystemExit(run(path,spec))
     if spec['physics']or spec['new_physical_requests_budget']:raise PermissionError('THIS_V6_ROUTE_IS_NONPHYSICAL')
     if operation=='--worker':
         import runpy

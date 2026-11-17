@@ -102,9 +102,14 @@ def run(spec_path,*,preflight=panel_preflight,bootstrap='sim_only_bootstrap_v51.
     journal=Journal(root/'control/journal',root.name)
     rows=carried_rows(prior);prior_count=len(rows)
     failure=None;code=1;gpu=None;start=time.monotonic();launches=[]
-    server_pin=spec['resident_server_spec'];server=read(server_pin['path']);server_root=Path(server['registered_root'])
-    if digest(server_pin['path'])!=server_pin['sha256']:
-        raise ValueError('IMMUTABLE_MODEL_SERVICE_SPEC')
+    server_pin=spec.get('resident_server_spec')
+    server_root=None
+    if server_pin is not None:
+        server=read(server_pin['path']);server_root=Path(server['registered_root'])
+        if digest(server_pin['path'])!=server_pin['sha256']:
+            raise ValueError('IMMUTABLE_MODEL_SERVICE_SPEC')
+    elif any(read(path)['sim_only_role']=='STUDENT' for path in spec['cases']):
+        raise ValueError('STUDENT_REQUIRES_IMMUTABLE_MODEL_SERVICE_SPEC')
     def progress(phase,**extra):
         write(root/'PROGRESS.private.json',dict(phase=phase,epoch=time.time(),source_sha=spec['source_sha'],
             deadline_epoch=spec['deadline_epoch'],completed_cases=len(rows),records=rows,**extra))
@@ -171,7 +176,7 @@ def run(spec_path,*,preflight=panel_preflight,bootstrap='sim_only_bootstrap_v51.
                 write(server_root/'STOP.json',dict(reason='BOUNDED_MODEL_EXIT'))
                 try:gpu.wait(timeout=30)
                 except subprocess.TimeoutExpired:gpu.terminate();gpu.wait(timeout=30)
-        elif read(server_root/'control/LEASE.json')['status']=='ACTIVE':
+        elif server_root is not None and read(server_root/'control/LEASE.json')['status']=='ACTIVE':
             close(server,0,not_started=True,reason='NO_STUDENT_DISPATCH')
         for path in spec['cases']:
             case=read(path);case_root=Path(case['registered_root'])
@@ -179,7 +184,7 @@ def run(spec_path,*,preflight=panel_preflight,bootstrap='sim_only_bootstrap_v51.
                     and not(case_root/'SUPERVISOR.private.json').exists()
                     and read(case_root/'control/LEASE.json')['status']=='ACTIVE'):
                 close(case,0,not_started=True,reason='UNSTARTED_FINITE_SUCCESSOR')
-        neural=read(server_root/'RESULT.private.json')if(server_root/'RESULT.private.json').exists()else None
+        neural=read(server_root/'RESULT.private.json')if server_root is not None and (server_root/'RESULT.private.json').exists()else None
         value=dict(schema=result_schema,exit_code=code,failure=failure,
             source_sha=spec['source_sha'],records=rows,attempted_case_launches=len(launches),
             verified_native_requests=sum(r['actual_native_requests']for r in rows),
