@@ -2,6 +2,7 @@
 from collections import Counter
 import json
 from pathlib import Path
+import shutil
 import time
 import traceback
 
@@ -145,6 +146,13 @@ def run(path, spec):
         previous = preflight(spec)
         interface = wait_interfaces(spec)
         carried = interface_records(interface,spec['mobile_world_lock'])
+        free = shutil.disk_usage(root)
+        available = int(next(line.split()[1] for line in Path('/proc/meminfo').read_text().splitlines()
+                             if line.startswith('MemAvailable:'))) * 1024
+        if available < 13*1024**3 or free.free < max(50*1024**3, int(.15*free.total))+8*1024**3:
+            raise MemoryError('ACTUAL_TEACHER_HOST_OR_DISK_HEADROOM_INSUFFICIENT')
+        write(root/'CAPACITY_ACTUAL.private.json',dict(epoch=time.time(),available_host_bytes=available,
+            free_disk_bytes=free.free,total_disk_bytes=free.total))
     except BaseException:
         for name in spec['cases']:
             case = read(name)
