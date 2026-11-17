@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 import time
 import numpy as np
-from go2arx5_vla.sla_adapter.source_native_v6 import load_numeric,SCHEMA,COORDINATES
+from go2arx5_vla.sla_adapter.source_native_v6 import load_numeric,anchor_strata,SCHEMA,COORDINATES
 from scripts.sla.robodojo_source_audit_v1 import read,write,sha
 
 SEED=20261112
@@ -48,11 +48,11 @@ def evaluation_bank(episodes,split):
     for task in tasks:
         ep=[e for e in episodes if e['task']==task];selected=[];used=set()
         for phase in(1,0):
-            pool=[(e,i)for e in ep for i,v in enumerate(e['_dynamic'])if bool(v)==bool(phase)]
+            pool=[(e,i)for e in ep for i,v in enumerate(e['_dynamic'])if int(v)==phase]
             pool.sort(key=lambda x:hashlib.sha256((str(SEED)+'/eval/'+split+'/'+x[0]['id']+'/'+str(x[1])).encode()).digest())
             for e,i in pool[:8]:selected.append(dict(episode=e['id'],anchor=i,dynamic=bool(phase),task=task));used.add((e['id'],i))
         if len(selected)<16:
-            pool=[(e,i)for e in ep for i in range(e['windows'])if(e['id'],i)not in used]
+            pool=[(e,i)for e in ep for i in range(e['windows'])if int(e['_dynamic'][i])in(0,1)and(e['id'],i)not in used]
             pool.sort(key=lambda x:hashlib.sha256((str(SEED)+'/fill/'+split+'/'+x[0]['id']+'/'+str(x[1])).encode()).digest())
             for e,i in pool[:16-len(selected)]:selected.append(dict(episode=e['id'],anchor=i,dynamic=bool(e['_dynamic'][i]),task=task))
         if len(selected)!=16:raise ValueError('DISTINCT_SOURCE16_PER_TASK_EVAL_REQUIRED')
@@ -67,6 +67,10 @@ def prepare(spec):
     if sha(pin['path'])!=pin['sha256']:raise ValueError('COMPLETE60_SOURCE_MAP_CHANGED')
     source=read(pin['path']);assert len(source['records'])==60
     output=root/'dataset';output.mkdir();(output/'labels').mkdir();episodes=[];test=[];fit={};failures=[]
+    reused=spec.get('reuse_numeric_preparation');cached={}
+    if reused:
+        if sha(reused['coverage']['path'])!=reused['coverage']['sha256']:raise ValueError('PREVIOUS_SEALED_NUMERIC_COVERAGE_CHANGED')
+        cached={e['id']:e for e in read(reused['coverage']['path'])['episodes']}
     for i,record in enumerate(source['records']):
         row=record['source'];split=row['proposed_split']
         if split=='SOURCE_TEST':
@@ -75,8 +79,15 @@ def prepare(spec):
         ep=dict(id=row['task']+'-'+Path(row['path']).stem,task=row['task'],split=split,raw_path=record['raw_path'],raw_sha256=row['sha256'],valid=False)
         write(root/'PROGRESS.private.json',dict(epoch=time.time(),phase='NATIVE_TRAIN_DEV_NUMERIC_CONVERSION',completed=len(episodes),current=ep['id'],TEST_labels_read=False))
         try:
-            if sha(record['raw_path'])!=row['sha256']:raise ValueError('SOURCE_BYTE_PIN_CHANGED')
-            state,actions,text,audit=load_numeric(record['raw_path']);ep.update(valid=True,windows=len(state),instruction=text,audit=audit)
+            if reused:
+                prior=cached[ep['id']];path=Path(reused['dataset'])/prior['arrays']['file']
+                if prior['raw_sha256']!=row['sha256']or prior['split']!=split or sha(path)!=prior['arrays']['sha256']:raise ValueError('PREPARED_SOURCE_CACHE_IDENTITY_CHANGED')
+                with np.load(path,allow_pickle=False)as z:state=z['state'].copy();actions=z['actions'].copy()
+                text,audit=prior['instruction'],prior['audit']
+            else:
+                if sha(record['raw_path'])!=row['sha256']:raise ValueError('SOURCE_BYTE_PIN_CHANGED')
+                state,actions,text,audit=load_numeric(record['raw_path'])
+            ep.update(valid=True,windows=len(state),instruction=text,audit=audit)
             path=output/'labels'/(ep['id']+'.npz');np.savez(path,state=state,actions=actions)
             ep['arrays']=dict(file=str(path.relative_to(output)),sha256=sha(path));fit[ep['id']]=(state,actions)
         except (ValueError,KeyError)as error:
@@ -94,12 +105,13 @@ def prepare(spec):
         quant=np.quantile(values,[.01,.25,.75,.99],axis=0);stats[name]=dict(q01=quant[0].tolist(),q99=quant[3].tolist(),IQR=(quant[2]-quant[1]).tolist(),
             dimensions=14,epsilon=1e-6,implicit_clip=False,units='SOURCE_RECORDED_NATIVE_NOT_HARDWARE_CALIBRATED')
     stats.update(schema=SCHEMA,coordinates=COORDINATES,fit_split='TRAIN_ONLY',fit_episodes=[e['id']for e in train],fit_windows=ids,equal_windows_per_episode=k,source_TEST_read=False)
-    write(output/'STATISTICS.json',stats);threshold=.01*np.asarray(stats['actions']['IQR']);fingerprints={}
+    write(output/'STATISTICS.json',stats);threshold=.01*np.asarray(stats['state']['IQR']);fingerprints={}
     for ep in episodes:
         if not ep['valid']:continue
         s,a=fit[ep['id']];baseline=np.zeros_like(s);baseline[:,6]=s[:,6];baseline[:,13]=s[:,13]
-        dynamic=np.any(np.max(abs(a-baseline[:,None,:]),axis=1)>threshold,axis=1)
-        path=output/ep['arrays']['file'];np.savez(path,state=s,actions=a,dynamic=dynamic);ep['arrays']['sha256']=sha(path);ep['dynamic_windows']=int(dynamic.sum());ep['static_windows']=int((~dynamic).sum());ep['_dynamic']=dynamic
+        future_dynamic=np.any(np.max(abs(a-baseline[:,None,:]),axis=1)>.01*np.asarray(stats['actions']['IQR']),axis=1)
+        dynamic=anchor_strata(s,a,stats['state']['IQR'])
+        path=output/ep['arrays']['file'];np.savez(path,state=s,actions=a,dynamic=dynamic,future_span_dynamic=future_dynamic);ep['arrays']['sha256']=sha(path);ep['dynamic_anchors']=int((dynamic==1).sum());ep['static_anchors']=int((dynamic==0).sum());ep['unknown_predecessor_anchors']=int((dynamic<0).sum());ep['future_span_dynamic_windows']=int(future_dynamic.sum());ep['_dynamic']=dynamic
         fp=hashlib.sha256(s.tobytes()+a.tobytes()).hexdigest();ep['numeric_fingerprint']=fp
         if fp in fingerprints and fingerprints[fp]['split']!=ep['split']:raise ValueError('EXACT_NUMERIC_TRAIN_DEV_DUPLICATE_NOT_ALLOWED')
         fingerprints[fp]=ep
@@ -114,7 +126,7 @@ def prepare(spec):
     manifest=dict(schema=SCHEMA,coordinates=COORDINATES,horizon=50,nominal_frequency_Hz=30,action_dimensions=14,padding_dimensions=18,label_kind='FUTURE_LOGGED_STATE_REFERENCE',
         current_observations_only=True,first_future_state_offset_frames=1,physical_calibration='UNKNOWN',source_map=pin,HF_revision=source['revision'],episodes=episodes,source_TEST=test,statistics=dict(file='STATISTICS.json',sha256=sha(output/'STATISTICS.json')),
         visit_map=dict(file='VISITS32000.npy',sha256=sha(output/'VISITS32000.npy')),evaluation_bank=dict(file='EVAL_BANK.private.json',sha256=sha(output/'EVAL_BANK.private.json')),
-        dynamic_threshold_native=threshold.tolist(),dynamic_rule='ANY_FUTURE_DIM_CHANGE_FROM_CURRENT_EXCEEDS_1PCT_TRAIN_ACTION_IQR',
+        dynamic_threshold_native=threshold.tolist(),dynamic_rule='ANCHOR_PREVIOUS_LOGGED_FRAME_CHANGE_EXCEEDS_1PCT_TRAIN_STATE_IQR',first_anchor_stratum='UNKNOWN_EXCLUDED_FROM_SAMPLING',future_span_metric_separate=True,
         split_claim='EPISODE_HOLDOUT_ONLY_UNKNOWN_SESSION_SCENE',TEST_labels_read=False)
     write(output/'MANIFEST.private.json',manifest)
     return dict(exit_code=0,status='TYPED_SOURCE_H50_READY_FOR_S1000',ready=True,plan_commit=spec['plan_commit'],source_sha=spec['source_sha'],dataset=dict(path=str(output),manifest_sha256=sha(output/'MANIFEST.private.json')),statistics_sha256=sha(output/'STATISTICS.json'),

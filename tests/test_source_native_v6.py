@@ -29,3 +29,15 @@ def test_broken_relationship_and_nonunit_rotation_are_rejected_not_repaired():
     with pytest.raises(ValueError,match='RELATION'):relative_arrays(s,a,g,h)
     s,a,g,h=logged();s[0][:,3:]*=2;a[0][:,3:]*=2
     with pytest.raises(ValueError,match='QUATERNION'):relative_arrays(s,a,g,h)
+
+
+def test_anchor_static_is_not_misreported_as_a_static_future_window():
+    from go2arx5_vla.sla_adapter.source_native_v6 import anchor_strata
+    s,a,g,h=logged();state,actions,_=relative_arrays(s,a,g,h)
+    # Adjacent translations/rotations .001 are below a .01 native threshold,
+    # while the unchanged complete future moves .05. Do not relabel that
+    # future as motionless or feed the previous frame to the student.
+    phase=anchor_strata(state,actions,np.full(14,1.))
+    assert phase[0]==-1
+    assert not (phase[1:]==1).any()
+    assert actions[0,-1,0]>.01

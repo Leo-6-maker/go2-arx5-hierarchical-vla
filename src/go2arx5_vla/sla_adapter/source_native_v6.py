@@ -69,6 +69,22 @@ def load_numeric(path):
     return state,action,text,audit
 
 
+def anchor_strata(state,actions,state_IQR):
+    """Current anchor motion from its preceding logged frame, not H50 span.
+
+    Index0 has no recorded predecessor and remains UNKNOWN (-1). Future H50
+    motion is a separate diagnostic; an anchor-static sample can move later.
+    """
+    state=np.asarray(state);actions=np.asarray(actions);threshold=.01*np.asarray(state_IQR)
+    if state.shape!=(len(actions),14)or actions.shape[1:]!=(50,14)or threshold.shape!=(14,):
+        raise ValueError('TYPED_H50_AND_TRAIN_STATE_IQR_REQUIRED')
+    prior_change=actions[:-1,0].copy()
+    prior_change[:,6]-=state[:-1,6];prior_change[:,13]-=state[:-1,13]
+    phase=np.full(len(state),-1,dtype=np.int8)
+    phase[1:]=np.any(abs(prior_change)>threshold,axis=1).astype(np.int8)
+    return phase
+
+
 class Quantiles14:
     def __init__(self,summary):
         self.q01=np.asarray(summary['q01'],dtype=np.float64);self.q99=np.asarray(summary['q99'],dtype=np.float64)
