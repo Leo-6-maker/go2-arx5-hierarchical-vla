@@ -32,7 +32,10 @@ def run(spec):
         message=read(path);q=message['request'];qid=q['request_id'];folder=Path(message['response_root'])
         # Transport duplicates return the original response without generation.
         if qid in handled:
-            write(folder/'RESPONSE.json',handled[qid]);time.sleep(.005);continue
+            # Immutable response: do not replace the same file every polling tick.
+            if not (folder/'RESPONSE.json').exists():
+                write(folder/'RESPONSE.json',handled[qid])
+            time.sleep(.005);continue
         if len(handled)>=spec['unified_requests_budget']:raise PermissionError('FINITE_UNIFIED_REQUEST_CAP')
         branch=[];t=time.monotonic()
         live_path=Path(message['live_path'])

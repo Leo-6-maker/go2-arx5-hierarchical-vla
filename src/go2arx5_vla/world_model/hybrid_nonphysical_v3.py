@@ -33,6 +33,24 @@ def read(path):
     return json.loads(Path(path).read_bytes())
 
 
+def wait_receipt(path, *, alive, stopped, timeout_s):
+    """Read the atomic publication directly; exists() is not a read receipt.
+
+    Only absence is retried. Invalid bytes/identities and terminal writers fail.
+    This performs no write, model call, installation, or effect retry.
+    """
+    until = time.monotonic()+timeout_s
+    while True:
+        try:
+            return read(path)
+        except FileNotFoundError:
+            if not alive():
+                raise RuntimeError('WRITER_TERMINAL_WITHOUT_READABLE_RECEIPT')
+            if stopped() or time.monotonic() >= until:
+                raise TimeoutError('FINITE_RECEIPT_WAIT_STOP_OR_TIMEOUT')
+            time.sleep(.005)
+
+
 def load_input(request):
     pin = request['input']
     if digest(pin['path']) != pin['sha256']:

@@ -85,3 +85,25 @@ def test_expired_wall_clock_rejected_despite_paused_native_time(tmp_path,monkeyp
     monkeypatch.setattr('time.monotonic',lambda:q['created_monotonic']+.4)
     with pytest.raises(TimeoutError,match='TTL'):r.install(q,a)
     assert not list(r.root.glob('install-*'))
+
+
+def test_read_receipt_retries_absence_without_repeating_any_effect(monkeypatch):
+    from go2arx5_vla.world_model import hybrid_nonphysical_v3 as m
+    calls=[]
+    def delayed(path):
+        calls.append(path)
+        if len(calls)==1:raise FileNotFoundError(path)
+        return {'request_id':'same','status':'GENERATED_NOT_INSTALLED'}
+    monkeypatch.setattr(m,'read',delayed)
+    assert m.wait_receipt('RESPONSE',alive=lambda:True,stopped=lambda:False,timeout_s=1)['request_id']=='same'
+    assert len(calls)==2
+
+
+def test_read_receipt_does_not_retry_invalid_bytes_or_terminal_writer(monkeypatch):
+    from go2arx5_vla.world_model import hybrid_nonphysical_v3 as m
+    def missing(path):raise FileNotFoundError(path)
+    monkeypatch.setattr(m,'read',missing)
+    with pytest.raises(RuntimeError,match='TERMINAL'):m.wait_receipt('R',alive=lambda:False,stopped=lambda:False,timeout_s=1)
+    def invalid(path):raise ValueError('invalid')
+    monkeypatch.setattr(m,'read',invalid)
+    with pytest.raises(ValueError):m.wait_receipt('R',alive=lambda:True,stopped=lambda:False,timeout_s=1)

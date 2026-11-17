@@ -9,7 +9,7 @@ import traceback
 import numpy as np
 from scripts.pi0292.durable import write, OwnerLock
 from scripts.pi0294.e1.journal import Journal
-from go2arx5_vla.world_model.hybrid_nonphysical_v3 import Receiver, read, identity
+from go2arx5_vla.world_model.hybrid_nonphysical_v3 import Receiver, read, identity, wait_receipt
 from go2arx5_vla.world_model.storage import digest
 from go2arx5_vla.world_model.mfree_recovery_v2 import register
 from go2arx5_vla.world_model.mfree_unattended_runtime_v1 import dirs,close
@@ -30,16 +30,45 @@ def run(spec):
     panel=normal+[dict(kind=k,entry=i%8,noise=0)for i,k in enumerate(faults)]
     write(root/'PANEL.private.json',panel)
     def wait(path,p,seconds=90):
-        until=time.monotonic()+seconds
-        while not path.exists():
-            if p.poll()is not None:raise RuntimeError('WORKER_TERMINAL_BEFORE_RECEIPT:'+str(path))
-            if time.monotonic()>until or time.time()>=spec['deadline_epoch']-60 or(root/'STOP.json').exists():
-                raise TimeoutError('FINITE_IPC_WAIT_STOP_OR_TIMEOUT')
-            time.sleep(.005)
-        return read(path)
+        return wait_receipt(path,alive=lambda:p.poll() is None,
+            stopped=lambda:time.time()>=spec['deadline_epoch']-60 or(root/'STOP.json').exists(),
+            timeout_s=seconds)
+    spans=((0,8),(8,32))
+    prior_request_count=prior_generations=0
+    if spec.get('technical_continuation'):
+        old=Path(spec['technical_continuation']['root']);c=spec['technical_continuation']
+        assert digest(old/'RESULT.private.json')==c['result_sha256']
+        assert read(old/'control/LEASE.json')['status']=='CLOSED'
+        from go2arx5_vla.world_model.mfree_unattended_runtime_v1 import unit_state
+        assert not unit_state('wm02-'+old.name)['pid']
+        assert read(old/'PANEL.private.json')==panel
+        rows=read(old/'REQUEST_RECORDS.private.json')
+        assert len(rows)==10 and [r['index']for r in rows]==list(range(10))
+        q=read(old/'request-10/REQUEST.private.json');response=read(old/'request-10/RESPONSE.json')
+        receiver_state=read(old/'request-10/receiver/live.json')
+        assert receiver_state['emitted_atoms']==0 and receiver_state['installed'] is None
+        assert not list((old/'request-10/receiver').glob('install-*'))
+        assert digest(response['action']['path'])==response['action']['sha256']
+        assert response['request_id']==q['request_id'] and response['status']=='GENERATED_NOT_INSTALLED'
+        assert all(not(old/('request-%02d'%i)).exists()for i in range(11,32))
+        for child in sorted(old.glob('gpu-worker-*')):
+            assert read(child/'control/LEASE.json')['status']=='CLOSED'
+            result=read(child/'RESULT.private.json');assert result['exit_code']==0
+            generated+=result['attempted_generations'];worker_results.append(pin(child/'RESULT.private.json'))
+            loads.append(read(child/'READY.private.json'))
+        assert generated==22
+        # Preserve the failed11th request. Its old service deadline is expired;
+        # never install it later, extend TTL, or regenerate it to improve counts.
+        rows.append(dict(index=10,kind='normal',request_id=q['request_id'],input_sha256=q['input']['sha256'],
+            receiver=None,consumption=None,failure='PRESERVED_RECEIPT_ENOENT_NO_INSTALL_NO_REGENERATION',
+            response_status=response['status'],generated=2,branch_wall_s=response['branch_wall_s'],
+            end_to_end_read_IPC_compile_ACK_wall_s=None,clock_mode='SIM_PAUSED_ONLY',physical_integrations=0,
+            original_result_sha256=c['result_sha256']))
+        spans=((11,32),);prior_request_count=11;prior_generations=generated
+        write(root/'REQUEST_RECORDS.private.json',rows)
     with closing(OwnerLock(root/'control/supervisor-owner.lock')):
         # Two cold registered processes prove service restart/cache invalidation.
-        for batch,(lo,hi)in enumerate(((0,8),(8,32))):
+        for batch,(lo,hi)in enumerate(spans):
             child=root/('gpu-worker-%d'%batch);dirs(child);bus=child/'bus';bus.mkdir()
             value=dict(spec,registered_root=str(child),campaign_root=str(root),role='MFREE_HYBRID_GPU_IPC_V3',
                 ipc_root=str(bus),compilation_cache_dir=str(child/'cache'),parent_params=spec['raw_parent'],
@@ -144,10 +173,14 @@ def run(spec):
             result_pin=journal.once('GPU-IPC-BATCH-%d'%batch,pin(sp),execute)
             result=read(result_pin['path']);generated+=result['attempted_generations'];worker_results.append(result_pin)
             assert generated<=64
-        normal_rows=[r for r in rows if r['kind']=='normal'];fault_rows=[r for r in rows if r['kind']!='normal']
+        normal_rows=[r for r in rows if r['kind']=='normal' and r['receiver'] is not None];fault_rows=[r for r in rows if r['kind']!='normal']
         times=[r['end_to_end_read_IPC_compile_ACK_wall_s']for r in normal_rows]
-        result=dict(schema='MFREE_HYBRID_GPU_IPC_ACTUAL_V3',exit_code=0,status='SIM_PAUSED_ONLY_BLOCKED_NATIVE_SAFETY',
-            unified_requests=len(rows),new_complete_generations=generated,normal_install_ACK=len(normal_rows),
+        result=dict(schema='MFREE_HYBRID_GPU_IPC_ACTUAL_V3',exit_code=0,status='SIM_PAUSED_ONLY_PRESERVED_FAILURE_REALTIME_AND_NATIVE_UNQUALIFIED',
+            unified_requests=len(rows),unified_requests_this_role=len(rows)-prior_request_count,
+            prior_unified_requests=prior_request_count,new_complete_generations=generated,
+            new_complete_generations_this_role=generated-prior_generations,prior_generations=prior_generations,
+            normal_requests=sum(r['kind']=='normal'for r in rows),normal_install_ACK=len(normal_rows),
+            preserved_technical_uninstalled=sum(r['kind']=='normal' and r['receiver'] is None for r in rows),
             full_P10=sum(bool(r['consumption']['full_P10'])for r in normal_rows),partial7=sum(r['consumption']['consumed_atoms']==7 for r in normal_rows),
             fault_cases=len(fault_rows),fault_misinstalls=sum(r['receiver']is not None for r in fault_rows),
             latency_p50_p95_p99_max_s=np.percentile(times,[50,95,99,100]).tolist(),

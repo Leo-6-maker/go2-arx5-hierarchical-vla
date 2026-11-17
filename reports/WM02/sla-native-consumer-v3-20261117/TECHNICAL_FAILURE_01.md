@@ -1,0 +1,11 @@
+# First execution: preserved receipt-read failure
+
+Immutable source5956cd03af0ab956f3f73620f31c90fcda34097b / spec1c764b188c0ef789864ee4f12bd3127b78dac6168691982b5f1367bdda314f42 ended with controller exit1. Terminal resultd0c4d72ba8cf33936b679023aa2bc0934463446b317a74313b6e17f8d43634ad. Both neural children exited0 and all leases/processes are CLOSED/absent. No hotpatch or replay occurred.
+
+The consumer saw request10's RESPONSE file as present, then `read_bytes` raised FileNotFoundError. The GPU worker was needlessly atomically replacing its cached response every polling tick. Repeated replacement on the site's FUSE filesystem is a plausible contributor; underlying filesystem causality is unproven. The defect is the exists-then-read assumption. Fix: read the publication directly and retry only transient absence within the original finite read deadline, with no effect/model retry; stop on invalid bytes or a terminal writer. Cached responses are no longer repeatedly replaced when already published.
+
+Independent readback confirmed22 attempted/completed branch generations for11 unique requests. First10 have installed bundles/ACKs:5 complete P10 and5 partial7. Request10 has a complete pinned response/action, no installation,0 emitted atoms. Its response is not installed later and its expired service deadline is not extended. It remains a technical failure. Requests11–31 have no directories and were proven unstarted.
+
+The cold engineering successor may execute only those21 unstarted requests under new source/identity and the original finite deadline; prior22 generations and11 unique requests are carried forward. The grand panel remains32 unique requests/≤64 attempted branches. Request10 is never regenerated or replaced. Its failure reduces the maximum successful normal-ACK denominator to15/16.
+
+CPU regression now39 targeted tests passed, including injected transient absence, invalid receipt and terminal writer. Existing real normal outputs were bit-exact with prior saved dual-adapter predictions. Full-chain warm latency already exceeds both350ms renewal and400ms continuous-wall TTL; simulation-paused correctness must not be called realtime or native qualification. No new training, native request, integration, safety-hook install or score rewrite.
