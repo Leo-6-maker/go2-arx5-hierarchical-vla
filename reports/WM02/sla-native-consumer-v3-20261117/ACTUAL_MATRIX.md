@@ -52,3 +52,5 @@ P0专家、P1学生pilot、DEV、TEST均未启动；新增抓持、抬升20mm/�
 完整脱敏分母、成本与结果SHA见[机读矩阵](ACTUAL_MATRIX.json)、[goal_state](goal_state.json)及[追加式effects摘要](EFFECT_LEDGER.jsonl)。独立终态结果SHA10ea6a4f75a60bc737898ad9a9263cbc273d040a73cee5e806aead5a43e99cbc，请求记录SHAae202b77be2d6a9b4ec8fcab2481059a6071ae27ba2757c716f0363c660b983b。
 
 后续工程复查已新增[V3.1 CPU接缝修复](V3_1_CPU_GUARDS_ACTUAL.md)：发现并复现原故障面板未覆盖的编译后TTL、安装后外部STOP及续期source问题，44项回归通过。新源码未部署Core、未新增请求或生成，不能继承本页旧版GPU资格。历史原生模板的[现场字节绑定](S0_BINDING_READBACK.json)已补齐；独立准入仍未签署。
+
+用户追加32/64后已有独立新scope的[V3.1真实GPU／IPC资格结果](../sla-ipc-storage-v31-20261117/ACTUAL_MATRIX.md)：新增32请求／46生成、普通16/16。本文旧32／52及15/16不回填；连续实时及独立原生准入仍未通过。

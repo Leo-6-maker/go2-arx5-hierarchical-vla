@@ -1,0 +1,994 @@
+{
+  "schema": "V31_STORAGE_GPU_QUALIFICATION_PUBLIC_ACTUAL",
+  "status": "FIXED_NONPHYSICAL_FUNCTIONAL_PANEL_PASSED_REALTIME_NOT_QUALIFIED_NATIVE_NOT_ADMITTED",
+  "plan_sha": "bcc2c67be723149e38998a36802f218caa666917",
+  "authorization": "ADDITIONAL_USER32_REQUESTS64_GENERATIONS_GPU_SHARED_20261117",
+  "source_sha": "3c95a04a70d7772e347763c6f4541046ff13d2b0",
+  "spec_sha256": "626d2a51dab076a7910623cd005d02ddd86455db872aba6d2a0c7030e09e5a08",
+  "result_sha256": "fddffccefc6df665e07c716679039ed0d001aba342a0629a964f9fcdba7e68e1",
+  "request_records_sha256": "b22992aa3d55f37e1e7bfb6261dfd20f59de29d0c16fb226081313366527c555",
+  "independent_readback_sha256": "296e62660def06533f2af846ed94cf6fd9577fb9da7383ce72866a3b6f1311ea",
+  "protocol": "MFREE_HYBRID_NONPHYSICAL_REQUEST_V3_1",
+  "policy_package_sha256": "7aacd184941c6980154935833d97a1975e3cba3d1c1dd6c8a4878d38abbbd1ce",
+  "additional_cost": {
+    "unified_requests": 32,
+    "unified_cap": 32,
+    "attempted_complete_branches": 46,
+    "completed_branches": 46,
+    "generation_cap": 64,
+    "new_updates": 0,
+    "new_visits": 0,
+    "new_native_requests": 0,
+    "new_integrations": 0
+  },
+  "cumulative_PR395_cost": {
+    "unified_requests": 64,
+    "complete_generations": 98,
+    "old_scope_requests": 32,
+    "old_scope_generations": 52,
+    "new_scope_requests": 32,
+    "new_scope_generations": 46,
+    "new_updates": 0,
+    "new_visits": 0,
+    "new_native_requests": 0,
+    "new_integrations": 0
+  },
+  "functional": {
+    "ordinary_real_GPU_requests": 16,
+    "ordinary_full_original_H40_compiler_and_ACK": 16,
+    "bit_exact_saved_output_regressions": 16,
+    "F1": 8,
+    "F2": 8,
+    "duplicate_delivery_without_extra_generation": 16,
+    "full_P10_mock": 8,
+    "partial7_mock": 8,
+    "normal_mock_atoms": 136,
+    "total_mock_atoms": 143,
+    "fault_requests": 16,
+    "pre_install_faults": 13,
+    "pre_install_misinstalls": 0,
+    "post_install_guard_cases": 3,
+    "post_install_illegal_continuations": 0,
+    "cached_protocol_faults": 5,
+    "cached_protocol_new_generations": 0,
+    "archived_complete_neural_branch_files": 46,
+    "controlled_restart_before_branch_requests": 1,
+    "source_clock_not_refreshed_from_late_ACK": true,
+    "native_WBC_certified": false,
+    "all_async_races_or_host_crash_recovery_certified": false
+  },
+  "latency": {
+    "percentiles": [
+      50,
+      95,
+      99,
+      100
+    ],
+    "unit": "seconds",
+    "all_ordinary_n": 16,
+    "all_capture_to_ACK": [
+      0.39423716999590397,
+      2.4987500687129796,
+      7.214018946234134,
+      8.392836165614426
+    ],
+    "warm_n": 15,
+    "warm_capture_to_ACK": [
+      0.3722379384562373,
+      0.5257295864634216,
+      0.5323896797560155,
+      0.534054703079164
+    ],
+    "warm_two_branch_model": [
+      0.3515317952260375,
+      0.3548020554706454,
+      0.35723305236548186,
+      0.35784080158919096
+    ],
+    "paired_same_F1_inputs_noise_warm_n": 7,
+    "paired_old_capture_to_ACK": [
+      0.9240704718977213,
+      1.071478213276714,
+      1.0999107247404754,
+      1.1070188526064157
+    ],
+    "paired_new_capture_to_ACK": [
+      0.3722379384562373,
+      0.48784683756530284,
+      0.4964552568644285,
+      0.49860736168920994
+    ],
+    "component_warm_medians": {
+      "input_read_pack_s": 0.0016822665929794312,
+      "IPC_to_response_s": 0.36173376627266407,
+      "compiler_s": 0.0013960199430584908,
+      "wire_s": 0.0005645183846354485,
+      "install_total_s": 0.004727426916360855
+    },
+    "warm_input_read_pack_min_max": [
+      0.0014664595946669579,
+      0.16636065766215324
+    ],
+    "post_ACK_serial_archive": [
+      0.26875107595697045,
+      0.33410201030783354,
+      0.3574301692284644,
+      0.36469471734017134
+    ],
+    "over_350ms": 16,
+    "over_400ms": 8,
+    "TTL_s": 0.4,
+    "renewal_target_s": 0.35,
+    "realtime_qualified": false,
+    "two_Hz_continuous_throughput_qualified": false,
+    "camera_scope": "RECORDED_RGB_FILE_READ_NOT_NEW_SENSOR_CAPTURE",
+    "normal_clock_mode": "SIM_PAUSED_ONLY",
+    "post_ACK_archive_in_next_query_path": true
+  },
+  "resources": {
+    "parent_loads": 2,
+    "adapters_per_parent": 2,
+    "max_simultaneous_parents": 1,
+    "worker_wall_s": [
+      85.59664285741746,
+      95.6757157240063
+    ],
+    "total_worker_wall_s": 181.27235858142376,
+    "controller_wall_s": 197.31488310173154,
+    "load_and_import_wall_s": [
+      63.91259042080492,
+      82.47434946522117
+    ],
+    "GPU_busy_s": "NOT_SEPARATELY_MEASURED",
+    "GPU_array_peak_bytes": 7531363328,
+    "GPU_pool_peak_bytes": 8592031744,
+    "live_IPC_peak_observed_bytes": 14926599,
+    "live_IPC_cap_bytes": 67108864,
+    "live_storage": "VERIFIED_OWNED_TMPFS",
+    "evidence_storage": "REGISTERED_NODE_LOCAL_DISK_AFTER_REQUEST",
+    "all_leases_closed": true,
+    "all_owned_PIDs_absent": true,
+    "root_cgroup_empty": true,
+    "canonical_neural_lock_unheld": true,
+    "physical_GPU_sharing_allowed": true,
+    "original_allocation_deadline_unchanged": true
+  },
+  "safety": {
+    "independent_readmission": false,
+    "candidate_installed": false,
+    "native_STOP_latency": "UNMEASURED",
+    "old_falseblock": "FAILED_1_OF_38",
+    "legacy_RP8_JOIN10_DEV_TEST_and_collision_failures_preserved": true,
+    "legacy_execution_result_hashes": [
+      "d0c4d72ba8cf33936b679023aa2bc0934463446b317a74313b6e17f8d43634ad",
+      "10ea6a4f75a60bc737898ad9a9263cbc273d040a73cee5e806aead5a43e99cbc"
+    ],
+    "new_grasp_or_task_result": "NOT_RUN",
+    "WBC_and_safety_gates_changed": false
+  },
+  "CPU_tests_passed": 47,
+  "goal_met": false,
+  "requests": [
+    {
+      "index": 0,
+      "kind": "normal",
+      "family": "F1",
+      "entry": 0,
+      "noise": 0,
+      "request_id": "4daaa92ae34d0b451429b01175b89624be106104be292bda76f2fcca038dc9e7",
+      "new_generations": 2,
+      "cached_protocol_replay": false,
+      "installed_bundles": 1,
+      "emitted_mock_atoms": 10,
+      "archive_sha256": "5460cc65491cabf26dd1f6da5ca6f300287e2044f4593140aadb6d4534f90880",
+      "guard_exercised": null,
+      "error": null,
+      "phases_s": {
+        "input_read_pack_s": 0.006026642397046089,
+        "IPC_to_response_s": 7.637810964137316,
+        "compiler_s": 0.5901511171832681,
+        "wire_s": 0.0005606841295957565,
+        "install_total_s": 0.5936900451779366,
+        "capture_to_ACK_s": 8.392836165614426
+      },
+      "model_branch_s": [
+        7.448148555122316,
+        0.17770141642540693
+      ],
+      "post_ACK_archive_s": 0.32523965649306774
+    },
+    {
+      "index": 1,
+      "kind": "normal",
+      "family": "F1",
+      "entry": 0,
+      "noise": 1,
+      "request_id": "b55c6690f1f69b46f0dde1ebd61e4fe67ed3f1a00eb77e27d3ed6843c207fd92",
+      "new_generations": 2,
+      "cached_protocol_replay": false,
+      "installed_bundles": 1,
+      "emitted_mock_atoms": 7,
+      "archive_sha256": "294eed5d1ae99289339fa414f1d0d4df9da23dc41116adbaea0992e594cb036d",
+      "guard_exercised": null,
+      "error": null,
+      "phases_s": {
+        "input_read_pack_s": 0.0014664595946669579,
+        "IPC_to_response_s": 0.3612269489094615,
+        "compiler_s": 0.001423792913556099,
+        "wire_s": 0.0005610976368188858,
+        "install_total_s": 0.004706341773271561,
+        "capture_to_ACK_s": 0.36869726702570915
+      },
+      "model_branch_s": [
+        0.17650246433913708,
+        0.1749871401116252
+      ],
+      "post_ACK_archive_s": 0.2680496545508504
+    },
+    {
+      "index": 2,
+      "kind": "normal",
+      "family": "F1",
+      "entry": 1,
+      "noise": 0,
+      "request_id": "2c84e8073171c8bcbf4e61c23ca16e65cf2d1e1996ef749a39893b1a81a4dac3",
+      "new_generations": 2,
+      "cached_protocol_replay": false,
+      "installed_bundles": 1,
+      "emitted_mock_atoms": 10,
+      "archive_sha256": "2b5cffcfb92b496c6d8147b68bff014c2ac06e632e003935b8062e81959c9567",
+      "guard_exercised": null,
+      "error": null,
+      "phases_s": {
+        "input_read_pack_s": 0.131280149333179,
+        "IPC_to_response_s": 0.3613999346271157,
+        "compiler_s": 0.0013915235176682472,
+        "wire_s": 0.0006708325818181038,
+        "install_total_s": 0.0047678109258413315,
+        "capture_to_ACK_s": 0.49860736168920994
+      },
+      "model_branch_s": [
+        0.1756338458508253,
+        0.1758979493752122
+      ],
+      "post_ACK_archive_s": 0.34126069117337465
+    },
+    {
+      "index": 3,
+      "kind": "normal",
+      "family": "F1",
+      "entry": 1,
+      "noise": 1,
+      "request_id": "43d24085435b41c6503deac4e2efd9e7bcdc28990acd4a1a4d914224350ecdc5",
+      "new_generations": 2,
+      "cached_protocol_replay": false,
+      "installed_bundles": 1,
+      "emitted_mock_atoms": 7,
+      "archive_sha256": "e55f76a194f93b363402e22a4a24ce9c93cd3bc034a2a12fc6c7431a85751cca",
+      "guard_exercised": null,
+      "error": null,
+      "phases_s": {
+        "input_read_pack_s": 0.0014910781756043434,
+        "IPC_to_response_s": 0.36173376627266407,
+        "compiler_s": 0.0013946052640676498,
+        "wire_s": 0.0006721783429384232,
+        "install_total_s": 0.004777578637003899,
+        "capture_to_ACK_s": 0.36916554998606443
+      },
+      "model_branch_s": [
+        0.1767242606729269,
+        0.1745779337361455
+      ],
+      "post_ACK_archive_s": 0.29550661612302065
+    },
+    {
+      "index": 4,
+      "kind": "normal",
+      "family": "F1",
+      "entry": 2,
+      "noise": 0,
+      "request_id": "4490bcbf1f9c7eee668d11dadbe6304ea4a11a9d4a323bb88c46c0a4c20b497f",
+      "new_generations": 2,
+      "cached_protocol_replay": false,
+      "installed_bundles": 1,
+      "emitted_mock_atoms": 10,
+      "archive_sha256": "5b8396a9a24b4cfd9d58a834c17c6821a560fcb4ae5c672417c3a1ca338b66ea",
+      "guard_exercised": null,
+      "error": null,
+      "phases_s": {
+        "input_read_pack_s": 0.06724439095705748,
+        "IPC_to_response_s": 0.35641709715127945,
+        "compiler_s": 0.0014004483819007874,
+        "wire_s": 0.0005745086818933487,
+        "install_total_s": 0.004678048193454742,
+        "capture_to_ACK_s": 0.4295168714597821
+      },
+      "model_branch_s": [
+        0.17396148014813662,
+        0.1751487934961915
+      ],
+      "post_ACK_archive_s": 0.32601116970181465
+    },
+    {
+      "index": 5,
+      "kind": "normal",
+      "family": "F1",
+      "entry": 2,
+      "noise": 1,
+      "request_id": "1fd5b77b649f04a2ade47c894c7682dd9108414bb0f2ae8fb37062c1e7c63c46",
+      "new_generations": 2,
+      "cached_protocol_replay": false,
+      "installed_bundles": 1,
+      "emitted_mock_atoms": 7,
+      "archive_sha256": "5c4e16d9b395a7217137d210295f56031d4522f273aa2346dd59fcd2f3f50efe",
+      "guard_exercised": null,
+      "error": null,
+      "phases_s": {
+        "input_read_pack_s": 0.0016822665929794312,
+        "IPC_to_response_s": 0.361820169724524,
+        "compiler_s": 0.0014045033603906631,
+        "wire_s": 0.0005617616698145866,
+        "install_total_s": 0.004782438278198242,
+        "capture_to_ACK_s": 0.36946890875697136
+      },
+      "model_branch_s": [
+        0.1757132587954402,
+        0.17734085582196712
+      ],
+      "post_ACK_archive_s": 0.3002358488738537
+    },
+    {
+      "index": 6,
+      "kind": "normal",
+      "family": "F1",
+      "entry": 3,
+      "noise": 0,
+      "request_id": "116df188a0f3e758fe7b14c125750e34a7331d61539961ad544ab26acd1ac7f7",
+      "new_generations": 2,
+      "cached_protocol_replay": false,
+      "installed_bundles": 1,
+      "emitted_mock_atoms": 10,
+      "archive_sha256": "6b16f54821d5d1ffe1105a92233cf2f41a68f265b760d2e28eeb634ac1aceaad",
+      "guard_exercised": null,
+      "error": null,
+      "phases_s": {
+        "input_read_pack_s": 0.08610495366156101,
+        "IPC_to_response_s": 0.3707848731428385,
+        "compiler_s": 0.0014240415766835213,
+        "wire_s": 0.0005642985925078392,
+        "install_total_s": 0.004657696932554245,
+        "capture_to_ACK_s": 0.462738947942853
+      },
+      "model_branch_s": [
+        0.1788096111267805,
+        0.17903119046241045
+      ],
+      "post_ACK_archive_s": 0.30386402551084757
+    },
+    {
+      "index": 7,
+      "kind": "normal",
+      "family": "F1",
+      "entry": 3,
+      "noise": 1,
+      "request_id": "b5db39faaf60ea4d4d94832e6665ccbf887530390df60c2169e6857622b41e8c",
+      "new_generations": 2,
+      "cached_protocol_replay": false,
+      "installed_bundles": 1,
+      "emitted_mock_atoms": 7,
+      "archive_sha256": "069fc424865dbe4bdca0010b4ecdd143bdc7b747d2253df981f460951da4b5dd",
+      "guard_exercised": null,
+      "error": null,
+      "phases_s": {
+        "input_read_pack_s": 0.001559896394610405,
+        "IPC_to_response_s": 0.3647824274376035,
+        "compiler_s": 0.0013916641473770142,
+        "wire_s": 0.0005645183846354485,
+        "install_total_s": 0.004724981263279915,
+        "capture_to_ACK_s": 0.3722379384562373
+      },
+      "model_branch_s": [
+        0.17787422332912683,
+        0.17538405116647482
+      ],
+      "post_ACK_archive_s": 0.2777491947636008
+    },
+    {
+      "index": 8,
+      "kind": "normal",
+      "family": "F2",
+      "entry": 70,
+      "noise": 0,
+      "request_id": "209b626248ba6088569cbc5be0a8cf6d6a4d955fc33e4a0eab6f4abe138f84d7",
+      "new_generations": 2,
+      "cached_protocol_replay": false,
+      "installed_bundles": 1,
+      "emitted_mock_atoms": 10,
+      "archive_sha256": "3cffdc51bdf22a9b2526b8244c223f755d729de322ccc2f5d8f7153f7878443a",
+      "guard_exercised": null,
+      "error": null,
+      "phases_s": {
+        "input_read_pack_s": 0.15672475285828114,
+        "IPC_to_response_s": 0.3595714308321476,
+        "compiler_s": 0.0014249514788389206,
+        "wire_s": 0.0005648117512464523,
+        "install_total_s": 0.004701555706560612,
+        "capture_to_ACK_s": 0.5221616793423891
+      },
+      "model_branch_s": [
+        0.17515874281525612,
+        0.17411528807133436
+      ],
+      "post_ACK_archive_s": 0.32824490778148174
+    },
+    {
+      "index": 9,
+      "kind": "normal",
+      "family": "F2",
+      "entry": 70,
+      "noise": 1,
+      "request_id": "e14f4d8fd623b4ad7c5744c6f1e64013a97a6d003d0b390bf0ab276bac33cfe2",
+      "new_generations": 2,
+      "cached_protocol_replay": false,
+      "installed_bundles": 1,
+      "emitted_mock_atoms": 7,
+      "archive_sha256": "978c9f9b1c1e8655bfb4177dd422a3251ebd70fb564b92be16b3fa72458a47f0",
+      "guard_exercised": null,
+      "error": null,
+      "phases_s": {
+        "input_read_pack_s": 0.0016131317242980003,
+        "IPC_to_response_s": 0.3565744059160352,
+        "compiler_s": 0.0013907281681895256,
+        "wire_s": 0.0005646459758281708,
+        "install_total_s": 0.0047596655786037445,
+        "capture_to_ACK_s": 0.36414889711886644
+      },
+      "model_branch_s": [
+        0.17595855239778757,
+        0.17137373331934214
+      ],
+      "post_ACK_archive_s": 0.2804001187905669
+    },
+    {
+      "index": 10,
+      "kind": "normal",
+      "family": "F2",
+      "entry": 71,
+      "noise": 0,
+      "request_id": "03b50678a3246ee924b42a37bf6d9d39c98f596e027c841baa95e8aadc3fd0c1",
+      "new_generations": 2,
+      "cached_protocol_replay": false,
+      "installed_bundles": 1,
+      "emitted_mock_atoms": 10,
+      "archive_sha256": "3ab13191b84cdf244ca72c365ddf93b7cbe9b155077752d8847d74929dd1c89b",
+      "guard_exercised": null,
+      "error": null,
+      "phases_s": {
+        "input_read_pack_s": 0.16636065766215324,
+        "IPC_to_response_s": 0.3617945294827223,
+        "compiler_s": 0.0013888692483305931,
+        "wire_s": 0.000580362044274807,
+        "install_total_s": 0.004727426916360855,
+        "capture_to_ACK_s": 0.534054703079164
+      },
+      "model_branch_s": [
+        0.1765088513493538,
+        0.17614347022026777
+      ],
+      "post_ACK_archive_s": 0.2938099605962634
+    },
+    {
+      "index": 11,
+      "kind": "normal",
+      "family": "F2",
+      "entry": 71,
+      "noise": 1,
+      "request_id": "157b31e9c9045ba1f7959c9dfce899704d2f509774f1c47ef5654def98712076",
+      "new_generations": 2,
+      "cached_protocol_replay": false,
+      "installed_bundles": 1,
+      "emitted_mock_atoms": 7,
+      "archive_sha256": "0083ecb9dfc450d6949eb13c6219e99c1bded7e844eb9a1cd753266ddc8f54f3",
+      "guard_exercised": null,
+      "error": null,
+      "phases_s": {
+        "input_read_pack_s": 0.0015684599056839943,
+        "IPC_to_response_s": 0.3621277268975973,
+        "compiler_s": 0.0014070775359869003,
+        "wire_s": 0.0005613109096884727,
+        "install_total_s": 0.004771067760884762,
+        "capture_to_ACK_s": 0.3696382837370038
+      },
+      "model_branch_s": [
+        0.1757855350151658,
+        0.17570792883634567
+      ],
+      "post_ACK_archive_s": 0.2987247733399272
+    },
+    {
+      "index": 12,
+      "kind": "normal",
+      "family": "F2",
+      "entry": 72,
+      "noise": 0,
+      "request_id": "130bc89894c75dd0e0999bde2db07707d12c727acc4c95a40b04428564edd4a8",
+      "new_generations": 2,
+      "cached_protocol_replay": false,
+      "installed_bundles": 1,
+      "emitted_mock_atoms": 10,
+      "archive_sha256": "ea0e609c1ed1c167fe892453850a7c7866a44d014c5273f52f64504b85886d21",
+      "guard_exercised": null,
+      "error": null,
+      "phases_s": {
+        "input_read_pack_s": 0.047884431667625904,
+        "IPC_to_response_s": 0.3625097721815109,
+        "compiler_s": 0.0013960199430584908,
+        "wire_s": 0.0005781902000308037,
+        "install_total_s": 0.004665687680244446,
+        "capture_to_ACK_s": 0.4162364015355706
+      },
+      "model_branch_s": [
+        0.17631344962865114,
+        0.17710866685956717
+      ],
+      "post_ACK_archive_s": 0.36469471734017134
+    },
+    {
+      "index": 13,
+      "kind": "normal",
+      "family": "F2",
+      "entry": 72,
+      "noise": 1,
+      "request_id": "cd02023199cb54f97eae536ea3e30b33a1c49ee7f7de2a5239a7c7c2bc853a74",
+      "new_generations": 2,
+      "cached_protocol_replay": false,
+      "installed_bundles": 1,
+      "emitted_mock_atoms": 7,
+      "archive_sha256": "4fe8a65f84ee2e6a0e4ba55aaac4a29b3192c6ca6832622799afcc8ebac5df94",
+      "guard_exercised": null,
+      "error": null,
+      "phases_s": {
+        "input_read_pack_s": 0.001514866016805172,
+        "IPC_to_response_s": 0.362999452278018,
+        "compiler_s": 0.0013915849849581718,
+        "wire_s": 0.0005579665303230286,
+        "install_total_s": 0.004770506173372269,
+        "capture_to_ACK_s": 0.37044779025018215
+      },
+      "model_branch_s": [
+        0.17578677274286747,
+        0.17736210487782955
+      ],
+      "post_ACK_archive_s": 0.2984052440151572
+    },
+    {
+      "index": 14,
+      "kind": "normal",
+      "family": "F2",
+      "entry": 73,
+      "noise": 0,
+      "request_id": "9c3f86e7cc2b82af2c8b6ea16542014a7df86b994d0f90d09916119355ed5c60",
+      "new_generations": 2,
+      "cached_protocol_replay": false,
+      "installed_bundles": 1,
+      "emitted_mock_atoms": 10,
+      "archive_sha256": "11682b378d8db9a112563de4ab3857e307a4edcf1bde2cfd1ff968ec2f02921f",
+      "guard_exercised": null,
+      "error": null,
+      "phases_s": {
+        "input_read_pack_s": 0.07489126827567816,
+        "IPC_to_response_s": 0.3610323192551732,
+        "compiler_s": 0.0013927174732089043,
+        "wire_s": 0.0005625048652291298,
+        "install_total_s": 0.004608528688549995,
+        "capture_to_ACK_s": 0.44169539399445057
+      },
+      "model_branch_s": [
+        0.17637940496206284,
+        0.17712033074349165
+      ],
+      "post_ACK_archive_s": 0.2868730388581753
+    },
+    {
+      "index": 15,
+      "kind": "normal",
+      "family": "F2",
+      "entry": 73,
+      "noise": 1,
+      "request_id": "8a93912cba28bc1d836e4b013d5aaf110f3e6aa22ed49d2615f37941beb252b5",
+      "new_generations": 2,
+      "cached_protocol_replay": false,
+      "installed_bundles": 1,
+      "emitted_mock_atoms": 7,
+      "archive_sha256": "d96d744a6f0dae820374f4d50e02362fa161b660f68d8b865aeb1dc1c2a5d439",
+      "guard_exercised": null,
+      "error": null,
+      "phases_s": {
+        "input_read_pack_s": 0.0014805793762207031,
+        "IPC_to_response_s": 0.3569593094289303,
+        "compiler_s": 0.001399807631969452,
+        "wire_s": 0.0005641179159283638,
+        "install_total_s": 0.004732080735266209,
+        "capture_to_ACK_s": 0.36434456519782543
+      },
+      "model_branch_s": [
+        0.1752943592146039,
+        0.17483688425272703
+      ],
+      "post_ACK_archive_s": 0.3185629453510046
+    },
+    {
+      "index": 16,
+      "kind": "service_restart",
+      "family": "F1",
+      "entry": 0,
+      "noise": 0,
+      "request_id": "c2b39f01423f91167ab3b76bd688729bbb51a5d90c6932d815801ef3a27dba85",
+      "new_generations": 0,
+      "cached_protocol_replay": false,
+      "installed_bundles": 0,
+      "emitted_mock_atoms": 0,
+      "archive_sha256": "b1f051f328865d48b752cb8e88c3f2e743de64433d45eb1fcd76c262a082b9e7",
+      "guard_exercised": null,
+      "error": "SERVICE_RESTART_ABORTED_NO_ACTION",
+      "phases_s": {
+        "input_read_pack_s": 0.0017801439389586449,
+        "IPC_to_response_s": 0.0052245743572711945,
+        "failure_elapsed_s": 0.008249467238783836
+      },
+      "model_branch_s": [],
+      "post_ACK_archive_s": 0.13587782252579927
+    },
+    {
+      "index": 17,
+      "kind": "binding",
+      "family": "F1",
+      "entry": 0,
+      "noise": 0,
+      "request_id": "8ff631f3bd35b4cc1dd25eca7fce28db8f4933db14eca74fe7d68adcd7033b00",
+      "new_generations": 0,
+      "cached_protocol_replay": false,
+      "installed_bundles": 0,
+      "emitted_mock_atoms": 0,
+      "archive_sha256": "12bbe340089646d68e1d939a079051e0612e863cbff1a543485973276783b7df",
+      "guard_exercised": null,
+      "error": "ValueError: REGISTERED_PACKAGE_CODEC_STATISTICS_REQUIRED",
+      "phases_s": {
+        "input_read_pack_s": 0.0014894548803567886,
+        "IPC_to_response_s": 0.00527234748005867,
+        "failure_elapsed_s": 0.007920809090137482
+      },
+      "model_branch_s": [],
+      "post_ACK_archive_s": 0.104825085029006
+    },
+    {
+      "index": 18,
+      "kind": "mid_EEF_stop",
+      "family": "F1",
+      "entry": 0,
+      "noise": 0,
+      "request_id": "4cb3a64af06d26f5bd7e7bffac25025e0dad00bb6df9734add85deb1cb0305fe",
+      "new_generations": 1,
+      "cached_protocol_replay": false,
+      "installed_bundles": 0,
+      "emitted_mock_atoms": 0,
+      "archive_sha256": "9f44cd88c5856168bda9463fdfc83acad250be94db72df1ccadeca834ab8acff",
+      "guard_exercised": null,
+      "error": "RuntimeError: STOP_CANCEL_CLOCK_IDENTITY_OR_SERVICE_TIMEOUT",
+      "phases_s": {
+        "input_read_pack_s": 0.0014957822859287262,
+        "IPC_to_response_s": 5.363798919133842,
+        "failure_elapsed_s": 5.36645061802119
+      },
+      "model_branch_s": [],
+      "post_ACK_archive_s": 0.19871745817363262
+    },
+    {
+      "index": 19,
+      "kind": "mid_EEF_cancel",
+      "family": "F1",
+      "entry": 0,
+      "noise": 0,
+      "request_id": "fb7814803884996886f9ca0129e191e6a96de37723b6ab2ff4445616570bf158",
+      "new_generations": 1,
+      "cached_protocol_replay": false,
+      "installed_bundles": 0,
+      "emitted_mock_atoms": 0,
+      "archive_sha256": "940a2e9cdd21dc12afebf136bf02d4ae3f55b9dd82d1a4bc39a328b89cc7a445",
+      "guard_exercised": null,
+      "error": "RuntimeError: STOP_CANCEL_CLOCK_IDENTITY_OR_SERVICE_TIMEOUT",
+      "phases_s": {
+        "input_read_pack_s": 0.0014952402561903,
+        "IPC_to_response_s": 0.1855816524475813,
+        "failure_elapsed_s": 0.18823885917663574
+      },
+      "model_branch_s": [],
+      "post_ACK_archive_s": 0.14395297411829233
+    },
+    {
+      "index": 20,
+      "kind": "mid_EEF_restart",
+      "family": "F1",
+      "entry": 0,
+      "noise": 0,
+      "request_id": "aa304efd670fb85ddb5cc38153780f07adead8df49452dc4cd64d804bbf7a921",
+      "new_generations": 1,
+      "cached_protocol_replay": false,
+      "installed_bundles": 0,
+      "emitted_mock_atoms": 0,
+      "archive_sha256": "7c4556712b8b1b2ea0998485b81f6fed9cf16c6da448fd48939a3dc81bc4c3ab",
+      "guard_exercised": null,
+      "error": "RuntimeError: STOP_CANCEL_CLOCK_IDENTITY_OR_SERVICE_TIMEOUT",
+      "phases_s": {
+        "input_read_pack_s": 0.0014124717563390732,
+        "IPC_to_response_s": 0.18312065303325653,
+        "failure_elapsed_s": 0.18569749034941196
+      },
+      "model_branch_s": [],
+      "post_ACK_archive_s": 0.13356758654117584
+    },
+    {
+      "index": 21,
+      "kind": "mid_EEF_advance",
+      "family": "F1",
+      "entry": 0,
+      "noise": 0,
+      "request_id": "2607c6078dc0b6cd5fe1efbe23600ad7efbda31c426475c6919ec8260c2a751e",
+      "new_generations": 1,
+      "cached_protocol_replay": false,
+      "installed_bundles": 0,
+      "emitted_mock_atoms": 0,
+      "archive_sha256": "73b3a0f7dbefe06936bb81638d64afdeb5ab94eca82b170a2e086d8e3dc25b48",
+      "guard_exercised": null,
+      "error": "RuntimeError: STOP_CANCEL_CLOCK_IDENTITY_OR_SERVICE_TIMEOUT",
+      "phases_s": {
+        "input_read_pack_s": 0.0014246953651309013,
+        "IPC_to_response_s": 0.18246042914688587,
+        "failure_elapsed_s": 0.18502692691981792
+      },
+      "model_branch_s": [],
+      "post_ACK_archive_s": 0.17004806827753782
+    },
+    {
+      "index": 22,
+      "kind": "mid_GRIP_stop",
+      "family": "F1",
+      "entry": 0,
+      "noise": 0,
+      "request_id": "4813df73dd8579a08ab8fc0f2bce7607a0669ea717665a21eda76f51d7856411",
+      "new_generations": 2,
+      "cached_protocol_replay": false,
+      "installed_bundles": 0,
+      "emitted_mock_atoms": 0,
+      "archive_sha256": "0cc6086e663484420d6629e975405f643f223203180bdba0a76e967c55b3e75d",
+      "guard_exercised": null,
+      "error": "RuntimeError: STOP_CANCEL_CLOCK_IDENTITY_OR_SERVICE_TIMEOUT",
+      "phases_s": {
+        "input_read_pack_s": 0.0015001008287072182,
+        "IPC_to_response_s": 0.3645104384049773,
+        "failure_elapsed_s": 0.36717813927680254
+      },
+      "model_branch_s": [],
+      "post_ACK_archive_s": 0.20024210307747126
+    },
+    {
+      "index": 23,
+      "kind": "mid_GRIP_advance",
+      "family": "F1",
+      "entry": 0,
+      "noise": 0,
+      "request_id": "1e037f3789d0512ea9de7ead440cc457b5cc0512ebdb45d086383e209f54e20c",
+      "new_generations": 2,
+      "cached_protocol_replay": false,
+      "installed_bundles": 0,
+      "emitted_mock_atoms": 0,
+      "archive_sha256": "67748e7f0046064fc587f135acde030b2101da568f80e70e166060e478ce311a",
+      "guard_exercised": null,
+      "error": "RuntimeError: STOP_CANCEL_CLOCK_IDENTITY_OR_SERVICE_TIMEOUT",
+      "phases_s": {
+        "input_read_pack_s": 0.001439221203327179,
+        "IPC_to_response_s": 0.3643344910815358,
+        "failure_elapsed_s": 0.36692605074495077
+      },
+      "model_branch_s": [],
+      "post_ACK_archive_s": 0.18206511158496141
+    },
+    {
+      "index": 24,
+      "kind": "wall_expire_after_GRIP",
+      "family": "F1",
+      "entry": 0,
+      "noise": 0,
+      "request_id": "72274b8c7329ba5051a21892c8b146cb17dae4be43a2fb2ee392999f389d2ca6",
+      "new_generations": 2,
+      "cached_protocol_replay": false,
+      "installed_bundles": 0,
+      "emitted_mock_atoms": 0,
+      "archive_sha256": "5224f34f137d690eafe3fd0a523f03f5559fa75c4812a02d00cecc29595b6c5a",
+      "guard_exercised": null,
+      "error": "TimeoutError: WALL_CLOCK_TTL_EXPIRED_NO_INSTALL_OR_EMISSION",
+      "phases_s": {
+        "input_read_pack_s": 0.0014768363907933235,
+        "IPC_to_response_s": 0.40543714072555304,
+        "failure_elapsed_s": 0.40810813941061497
+      },
+      "model_branch_s": [],
+      "post_ACK_archive_s": 0.16944874916225672
+    },
+    {
+      "index": 25,
+      "kind": "compile_expire",
+      "family": "F1",
+      "entry": 0,
+      "noise": 1,
+      "request_id": "7119ac8613d7f96c8d4b668f4cf762f07f683a25512528cf27e41b6e89f982a3",
+      "new_generations": 0,
+      "cached_protocol_replay": true,
+      "installed_bundles": 0,
+      "emitted_mock_atoms": 0,
+      "archive_sha256": "f6a941a5198ce8d7d4c8d8bd361732f33477b7264c3d1c413dcc6e9b70410493",
+      "guard_exercised": null,
+      "error": "WALL_CLOCK_TTL_EXPIRED_NO_INSTALL_OR_EMISSION",
+      "phases_s": {
+        "input_read_pack_s": 0.0014571445062756538,
+        "IPC_to_response_s": 0.1776713114231825,
+        "compiler_s": 0.22136270254850388,
+        "failure_elapsed_s": 0.4029936082661152
+      },
+      "model_branch_s": [],
+      "post_ACK_archive_s": 0.12575110234320164
+    },
+    {
+      "index": 26,
+      "kind": "wire_stop",
+      "family": "F1",
+      "entry": 0,
+      "noise": 1,
+      "request_id": "b401ea81720c2ef462a4dd1a2240c3bfeb0ac6385a7913498937f674ed31da40",
+      "new_generations": 0,
+      "cached_protocol_replay": true,
+      "installed_bundles": 0,
+      "emitted_mock_atoms": 0,
+      "archive_sha256": "f934ee694a565784319009f5b0b1371fd4b059d3210a720747d9bbae873bd6e5",
+      "guard_exercised": null,
+      "error": "STOP_OR_CANCEL_LATCHED_NO_LIVE_COMMAND",
+      "phases_s": {
+        "input_read_pack_s": 0.0016042841598391533,
+        "IPC_to_response_s": 0.0052164457738399506,
+        "compiler_s": 0.0013855155557394028,
+        "wire_s": 0.2153943059965968,
+        "failure_elapsed_s": 0.22664082236588
+      },
+      "model_branch_s": [],
+      "post_ACK_archive_s": 0.12996251415461302
+    },
+    {
+      "index": 27,
+      "kind": "after_ACK_stop",
+      "family": "F1",
+      "entry": 0,
+      "noise": 1,
+      "request_id": "c9b3ba72608585a6795cdf298ac070033f2c522c599b1199eb457f3d18ddbaf5",
+      "new_generations": 0,
+      "cached_protocol_replay": true,
+      "installed_bundles": 1,
+      "emitted_mock_atoms": 0,
+      "archive_sha256": "8a97df17a6cb125a2d3aa73abc6537a0b239f7387abb7e4a42cf0b9efd1068c0",
+      "guard_exercised": true,
+      "error": "STOP_OR_CANCEL_LATCHED_NO_LIVE_COMMAND",
+      "phases_s": {
+        "input_read_pack_s": 0.001999332569539547,
+        "IPC_to_response_s": 0.00523051992058754,
+        "compiler_s": 0.0013913223519921303,
+        "wire_s": 0.0005579628050327301,
+        "install_total_s": 0.0046109361574053764,
+        "capture_to_ACK_s": 0.012998083606362343,
+        "failure_elapsed_s": 0.04480374790728092
+      },
+      "model_branch_s": [],
+      "post_ACK_archive_s": 0.12020284868776798
+    },
+    {
+      "index": 28,
+      "kind": "renew_ACK_late",
+      "family": "F1",
+      "entry": 0,
+      "noise": 1,
+      "request_id": "2c3023bd394209826367b233660ec6ef4a86c358ab84311cc470a85f112f3558",
+      "new_generations": 0,
+      "cached_protocol_replay": true,
+      "installed_bundles": 1,
+      "emitted_mock_atoms": 7,
+      "archive_sha256": "3ae832e972093d0be081ab7941126432b195f42a502e5c76dd4d9be1a66c85c7",
+      "guard_exercised": true,
+      "error": "WALL_CLOCK_TTL_EXPIRED_NO_INSTALL_OR_EMISSION",
+      "phases_s": {
+        "input_read_pack_s": 0.00142589770257473,
+        "IPC_to_response_s": 0.005220960825681686,
+        "compiler_s": 0.0013871937990188599,
+        "wire_s": 0.0005556773394346237,
+        "install_total_s": 0.004599301144480705,
+        "capture_to_ACK_s": 0.012407328002154827,
+        "failure_elapsed_s": 0.4028456090018153
+      },
+      "model_branch_s": [],
+      "post_ACK_archive_s": 0.2694524973630905
+    },
+    {
+      "index": 29,
+      "kind": "strict_50ms_margin",
+      "family": "F1",
+      "entry": 0,
+      "noise": 1,
+      "request_id": "7b9124e14b69532872aaac4c5d4e75f3e41213eed27d5992789118b55685159a",
+      "new_generations": 0,
+      "cached_protocol_replay": true,
+      "installed_bundles": 1,
+      "emitted_mock_atoms": 0,
+      "archive_sha256": "1488a68731b705811358289900bb4a1bba55e7fd4f332918b09d7241b8564a03",
+      "guard_exercised": true,
+      "error": "WALL_CLOCK_TTL_EXPIRED_NO_INSTALL_OR_EMISSION",
+      "phases_s": {
+        "input_read_pack_s": 0.001527346670627594,
+        "IPC_to_response_s": 0.010311456397175789,
+        "compiler_s": 0.001390649937093258,
+        "wire_s": 0.0005607213824987411,
+        "install_total_s": 0.004554737359285355,
+        "capture_to_ACK_s": 0.017555242404341698,
+        "failure_elapsed_s": 0.36228317860513926
+      },
+      "model_branch_s": [],
+      "post_ACK_archive_s": 0.15503040049225092
+    },
+    {
+      "index": 30,
+      "kind": "response_identity",
+      "family": "F1",
+      "entry": 0,
+      "noise": 0,
+      "request_id": "b08a41951ec1f98bcf7d6ec96687a96f9b981be5e0d62d89f0c4ae17b7a790c8",
+      "new_generations": 2,
+      "cached_protocol_replay": false,
+      "installed_bundles": 0,
+      "emitted_mock_atoms": 0,
+      "archive_sha256": "aaa5ab3d705a3db0c64f47174e8bfbd5e6861cc1bc301e521b3df655966b2178",
+      "guard_exercised": null,
+      "error": "ATOMIC_RESPONSE_IDENTITY_MISMATCH",
+      "phases_s": {
+        "input_read_pack_s": 0.0016938848420977592,
+        "IPC_to_response_s": 0.36251954454928637,
+        "failure_elapsed_s": 0.3656197227537632
+      },
+      "model_branch_s": [
+        0.17845007963478565,
+        0.17706359829753637
+      ],
+      "post_ACK_archive_s": 0.1564943939447403
+    },
+    {
+      "index": 31,
+      "kind": "response_hash",
+      "family": "F1",
+      "entry": 0,
+      "noise": 0,
+      "request_id": "751432ceef922e18d338b8e3af2ed7fe5f652bab44a80d969bbcb3db6d8d87ce",
+      "new_generations": 2,
+      "cached_protocol_replay": false,
+      "installed_bundles": 0,
+      "emitted_mock_atoms": 0,
+      "archive_sha256": "5a6f1ab074cf1d9e4cb54a793d5ebe2c92f3133f0112904c7254c4640c5c1f84",
+      "guard_exercised": null,
+      "error": "TASK_LEARNING_GRASP_SLA_DENSE_ORIGINAL_RESPONSE_BYTES",
+      "phases_s": {
+        "input_read_pack_s": 0.0015875492244958878,
+        "IPC_to_response_s": 0.3642187872901559,
+        "failure_elapsed_s": 0.3681442430242896
+      },
+      "model_branch_s": [
+        0.1770662907510996,
+        0.1767342472448945
+      ],
+      "post_ACK_archive_s": 0.16133814584463835
+    }
+  ]
+}
