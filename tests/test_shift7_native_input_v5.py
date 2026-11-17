@@ -214,6 +214,22 @@ def test_V51_keeps_full60s_task_budget_beside_initialization(setup):
     assert result['metadata']['available_prefix_atoms']==10
 
 
+def test_V52_successor_has_distinct_pinned_arm_and_unchanged_full_horizon(setup):
+    from go2arx5_vla.sla_adapter.mobile_successor_v52 import PLAN,PARENT
+    adapter=setup[0];package=dict(path='immutable-successor-package',sha256='1'*64)
+    adapter.spec.update(mobile_experiment_version='MFREE_SHIFT7_SIM_ONLY_V52',
+        scope='SLA_MOBILE_F2_V52',plan_commit=PLAN,arm='B1',max_ticks=35703,
+        physics_dt_s=.002,SHIFT7_package=package,packages=dict(B0=dict(sha256=PARENT),B1=package,B2=dict(sha256='2'*64)))
+    path=Path(adapter.spec['registered_root'])/'EXECUTION_SPEC.json';path.write_text(json.dumps(adapter.spec))
+    result=prepare(setup)
+    assert result['metadata']['available_prefix_atoms']==10
+    assert result['metadata']['max_total_episode_ticks']==35703
+    assert result['previous_reference']['width_m']==.012
+    assert result['previous_reference']['query_native_s']==setup[1]['time_s']
+    adapter.spec['arm']='B2';path.write_text(json.dumps(adapter.spec))
+    with pytest.raises(ValueError,match='V52_SINGLE_MODEL_IDENTITY'):prepare(setup,1)
+
+
 @pytest.mark.parametrize('wrong_identity',[False,True])
 def test_real_protocol_handoff_does_not_install_or_mock_consume_the_model_reply(setup,monkeypatch,wrong_identity):
     from go2arx5_vla.world_model import sim_only_mobile_v51 as runtime

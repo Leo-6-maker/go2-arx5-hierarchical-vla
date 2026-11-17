@@ -1,0 +1,32 @@
+{
+  "schema": "SLA_V52_CONDITIONAL_B_SERIES_EVALUATION_IMPLEMENTATION",
+  "status": "IMPLEMENTED_CPU_CHECKED_NOT_DEPLOYED",
+  "plan_commit": "90d39196bdc345b977ee54ed64e750cf3561aa72",
+  "active_execution_source_sha": "2797d0c2c458667e241aa0d24d6d0b005f3caf1a",
+  "changed_files_sha256": {
+    "scripts/wm02/mobile_evaluation_v52.py": "893a98046aa6fb40c9832f9c1e5b81e3c85d33667d30811f83fa1b8596e770dd",
+    "scripts/wm02/mobile_v52_bootstrap.py": "0d2eb1f82505df3afccddfc4f22e82183ec215de6487001e955b891f05851e1b",
+    "scripts/wm02/mobile_e1_followup_v52.py": "805c708ecffeb8d3995d5e145491e29c07a443eb7a0781bca2b085f3ad93abd1",
+    "src/go2arx5_vla/sla_adapter/mobile_progression_v52.py": "9ece4260536d1b94b2050896c8cd1366031dfb7e745b0cce574b0036ccd8c20f",
+    "tests/test_mobile_progression_v52.py": "cec424bc2dfe8e9c5785657358b2ff638663daa6b7f29aa07d4da86c15d15637",
+    "tests/test_mobile_evaluation_v52.py": "528b6c40e30cdcf7664b529c4ec58d667cc9a9121c2240d096ed6af666803312"
+  },
+  "target_stages": {
+    "CONFIRM": 8,
+    "DEV": 32,
+    "TEST": 40
+  },
+  "actual_new_GPU_generations": 0,
+  "actual_new_native_requests": 0,
+  "actual_new_integrations": 0,
+  "actual_new_training_updates": 0,
+  "tests": {
+    "passed": 61,
+    "command": "PYTHONPATH=src python3 -m pytest -q tests/test_mobile_progression_v52.py tests/test_mobile_evaluation_v52.py tests/test_mobile_endpoint_v52.py tests/test_shift7_native_input_v5.py tests/test_sim_only_v51.py"
+  },
+  "scientific_admission_obtained": false,
+  "old_live_capsule_modified": false,
+  "automatic_stage_launch": false,
+  "scope": "B0/B1/B2 unique qualified successor only; conditional E3/C-series remains evidence-gated work",
+  "implementation_source_sha": "eecf53b3cd25fdbbe0d43f1e8e859c932b77acde"
+}

@@ -1,0 +1,400 @@
+{
+  "schema": "SLA_MOBILE_F2_POSTTRAIN_V52_DESIGN",
+  "date": "2026-11-17",
+  "timezone": "Asia/Singapore",
+  "status": "PLAN_ONLY_NOT_EXECUTED",
+  "scope": {
+    "current_request": "Audit and publish plan/prompt only",
+    "execution": "User submission of the companion prompt requests bounded execution in an actually authorized SIM_ONLY_PROJECT_AUTHORIZED environment",
+    "profile": "SIM_PAUSED_NATIVE",
+    "mode": "M_FREE",
+    "independent_readmission_signature_required": false,
+    "site_permission_owner_capacity_required": true,
+    "auto_extend_allocation": false
+  },
+  "pins": {
+    "publication_main": "6843163d641eb24a29c3b1557f868765346ba66c",
+    "reviewed_pr": 403,
+    "reviewed_head": "dbf222b41cb666bff4dd5412b864d023aec69399",
+    "actual_runtime": "c2b245cb6da251833cfc9cf9813f4e01e9da2d85",
+    "policy_package_sha256": "ef530bceebcc1691d9af9b5b1ea4ea89731f0c1d5d8f3e2287c3618dff7806eb",
+    "statistics_sha256": "f28d50e6eeea09b332d4bd159eca4333bbe23b185f95f1d336d45311e364ab3e",
+    "Core_result_sha256": "ac62fcb13cea6b704e54ce2af7c0a41728e67e8b02eaae4ec963164408018f50"
+  },
+  "observed": {
+    "student_attempts": 8,
+    "successes": 3,
+    "science_valid": 7,
+    "science_failures": 4,
+    "technical_failures": 1,
+    "F1": [
+      3,
+      3
+    ],
+    "F2": [
+      0,
+      4
+    ],
+    "native_requests": 18,
+    "native_ticks": 319518,
+    "initialization_ticks": 102654,
+    "task_ticks": 216864,
+    "expert_grasp_lift_hold": 8,
+    "expert_composite": 7,
+    "IPC_requests": 320,
+    "model_generations": 319,
+    "H40_pass": 316,
+    "ACKs": 631,
+    "complete_P10": 315,
+    "complete_atoms": 3154,
+    "partial_ticks": 14,
+    "pilot_GO": false,
+    "DEV_TEST_started": false
+  },
+  "immutable": {
+    "base_model": "haofuly/SLA_base",
+    "base_model_family": "Spatial-Language-Action / pi05",
+    "WBC_legs_MPC_solver_armPD": true,
+    "original_scoring_and_safety": true,
+    "physics_dt_s": 0.002,
+    "action_dt_s": 0.05,
+    "horizon": 40,
+    "prefix_atoms": 10,
+    "TTL_native_s": 0.4,
+    "gripper_speed_limit_m_s": 0.04,
+    "translation_acceleration_limit_m_s2": 0.25,
+    "SHIFT7_codec": true,
+    "C20_statistics": true,
+    "active_arrays": 28,
+    "active_numel": 52153376,
+    "dense_backbone_frozen": true,
+    "inference_route": "cached_actual",
+    "inference_steps": 10,
+    "BASE_head": false,
+    "teacher_phase_or_scene_truth_input": false,
+    "real_robot": false,
+    "RL": false,
+    "output_postprocessing": false
+  },
+  "D0": {
+    "native_requests": 0,
+    "new_generations": 0,
+    "updates": 0,
+    "inputs": 320,
+    "actions": 319,
+    "expert_episodes": 8,
+    "C20_label_windows": 1376,
+    "contact_history_seconds": 5,
+    "output": [
+      "D0_BOUNDARY_CONTACT.md",
+      "D0_BOUNDARY_CONTACT.json"
+    ],
+    "full_state_counterfactual_requires_solver_and_controller_history": true
+  },
+  "training": {
+    "dataset": "C20",
+    "episodes": 20,
+    "windows": 1376,
+    "updates_per_arm": 500,
+    "batch": 32,
+    "microbatch": 4,
+    "visits_per_arm": 16000,
+    "state_token_dropout": 0.25,
+    "training_matmul_precision": "highest",
+    "FM_dimensions": 32,
+    "optimizer": "matched fresh AdamW",
+    "beta1": 0.9,
+    "beta2": 0.95,
+    "epsilon": 1e-08,
+    "weight_decay": 1e-05,
+    "clip_norm": 1,
+    "LR_source": "mfree_training_v1.learning_rates()[:500]",
+    "warmup": 50,
+    "LR_array_sha256": "RESOLVE_AND_FREEZE_BEFORE_TRAINING",
+    "endpoint_selection": "fixed500",
+    "step250": "recovery only",
+    "matched": [
+      "parent weights",
+      "new Adam",
+      "RNG",
+      "visits",
+      "noise",
+      "flow time",
+      "dropout",
+      "LR"
+    ]
+  },
+  "edge_loss": {
+    "B1_lambda": 0,
+    "B2_lambda": 0.1,
+    "clean": "x_tau - tau * field",
+    "xyz_unnormalize": "(clean_xyz + 1)/2 * (q99_xyz-q01_xyz+1e-6) + q01_xyz",
+    "pairs": [
+      [
+        0,
+        1
+      ],
+      [
+        38,
+        39
+      ]
+    ],
+    "acceleration": "L2(adjacent physical XYZ difference) / (0.05 ** 2)",
+    "margin_m_s2": 0.2,
+    "scale_m_s2": 0.25,
+    "tau_max": 0.5,
+    "reduction": "sum eligible samples / full batch size; mean of two endpoints",
+    "execution_limit_unchanged": 0.25,
+    "proxy_is_sample": false
+  },
+  "E1": {
+    "arms": [
+      {
+        "id": "B0",
+        "parent": "frozen SHIFT7",
+        "updates": 0,
+        "visits": 0
+      },
+      {
+        "id": "B1",
+        "parent": "SHIFT7",
+        "updates": 500,
+        "visits": 16000,
+        "lambda": 0
+      },
+      {
+        "id": "B2",
+        "parent": "SHIFT7",
+        "updates": 500,
+        "visits": 16000,
+        "lambda": 0.1
+      }
+    ],
+    "parent_cumulative_updates": 1500,
+    "parent_cumulative_visits": 48000,
+    "per_successor_cumulative_updates": 2000,
+    "per_successor_cumulative_visits": 64000,
+    "offline": {
+      "TRAIN96": 96,
+      "CN38": 180,
+      "ROLL96": 96,
+      "per_new_endpoint": 372,
+      "per_endpoint_restore": 16,
+      "B0_new_restore": 16
+    },
+    "ROLL96_selection": "48 per family, mandatory three rejects and last10 precontact queries, remaining case-balanced time-spaced ID-ordered unique inputs; freeze before inference",
+    "screen_admission": "identity/reload/input/codec/runtime protection; do not filter B0/B1 by scientific outcome"
+  },
+  "promotion": {
+    "completed_cases": 8,
+    "technical_failures": 0,
+    "hard_STOP": 0,
+    "composite_success_min": 6,
+    "per_family_min": 3,
+    "TRAIN96_pass": 96,
+    "CN38_pass": 180,
+    "saved_reject3_pass": 3,
+    "close_omissions": 0,
+    "close_timing_standard_ms": 100,
+    "selection_order": [
+      "eligible only",
+      "composite successes descending",
+      "minimum family success descending",
+      "H40 rejects ascending",
+      "successful task time median ascending",
+      "simpler arm B0 then B1 then B2"
+    ]
+  },
+  "E2": {
+    "screen_arms": [
+      "B0",
+      "B1",
+      "B2"
+    ],
+    "conditions_per_arm": 8,
+    "screen_requests": 24,
+    "families": [
+      "F1",
+      "F2"
+    ],
+    "layouts": [
+      "T0",
+      "T1",
+      "T2",
+      "T3"
+    ],
+    "identity": "new predeclared reset/noise; never replace or replay PR403 original conditions",
+    "matched_start_noise_scoring": true,
+    "order": "predeclared within-condition counterbalancing",
+    "confirmation_requests": 8,
+    "confirmation_min_success": 6,
+    "confirmation_family_min": 3,
+    "confirmation_hard_STOP": 0,
+    "confirmation_technical_failures": 0,
+    "confirmation_is_independent_layout_test": false,
+    "original_V51_pilot_result_preserved": true
+  },
+  "E3": {
+    "conditional": true,
+    "trigger": "contact or student-state-coverage gap supported after bounded comparison; no automatic expansion for unexplained boundary failures",
+    "P_selection": "same ranking keys over identity-correct complete development models without deployment eligibility filter",
+    "collection_max": 12,
+    "F2": 8,
+    "F1": 4,
+    "F2_layouts": 4,
+    "F1_layouts": 2,
+    "first_two_F2_included": true,
+    "stop_if_first_two_no_valid_correction": true,
+    "assisted_success_min": 8,
+    "F2_success_min": 6,
+    "F2_success_layouts_min": 3,
+    "F1_success_min": 2,
+    "F1_success_layouts_min": 2,
+    "retry_until_success": false,
+    "handoff": {
+      "P10_boundary": true,
+      "gripper_still_open": true,
+      "before_contact": true,
+      "actual_EEF_reference_and_width_clock_continuous": true,
+      "reset_WBC_or_episode_clock": false,
+      "new_teacher_filter_state_explicit": true,
+      "first_H40_and_seam_checked": true,
+      "BC_requires_first_expert_P10_consumed": true
+    },
+    "student_prefix_BC": false,
+    "planned_and_consumed_masks_separate": true,
+    "data_arms": [
+      {
+        "id": "C0",
+        "parent": "P",
+        "same_loss": true,
+        "updates": 500,
+        "visits": 16000,
+        "old": 16000,
+        "new": 0
+      },
+      {
+        "id": "C1",
+        "parent": "P",
+        "same_loss": true,
+        "updates": 500,
+        "visits": 16000,
+        "old": 8000,
+        "new": 8000
+      }
+    ],
+    "common_identical_old_visits": 8000,
+    "replacement_slots": 8000,
+    "replacement_matching": "family/available phase and random tensors by absolute slot cursor; observations differ",
+    "refit_statistics": false,
+    "offline_new_correction_bank": 64,
+    "offline_predictions_per_arm_including_restore": 452,
+    "screen_requests": 16,
+    "confirmation_requests": 8,
+    "extra_pairs": 0,
+    "new_bank_minimum_distinct_windows": 64,
+    "new_bank_underfilled": "NOT_READY_NO_DUPLICATE_FILL",
+    "final_tie_break": [
+      "C0",
+      "C1"
+    ],
+    "unmatched_new_phase": "diagnostic only; no fabricated phase matching"
+  },
+  "evaluation": {
+    "split_before_training_or_selection": true,
+    "group_by": "actual scene/layout and initial-state clusters",
+    "no_seed_only_generalization": true,
+    "DEV": {
+      "requests": 32,
+      "layouts_per_family": 8,
+      "seeds_per_layout": 2,
+      "success_min": 24,
+      "per_family_min": 12,
+      "hard_STOP": 0,
+      "technical_failures": 0
+    },
+    "TEST": {
+      "requests": 40,
+      "layouts_per_family": 10,
+      "seeds_per_layout": 2,
+      "success_min": 32,
+      "per_family_min": 16,
+      "hard_STOP": 0,
+      "technical_failures": 0,
+      "unique_frozen_candidate": true,
+      "attempts": 1
+    },
+    "exclude": [
+      "C20",
+      "CN38",
+      "oldDEV16",
+      "PR403",
+      "E2/E3",
+      "oldRP8/JOIN10/TEST"
+    ],
+    "failed_DEV_opens_TEST": false,
+    "TEST_for_tuning": false
+  },
+  "episode": {
+    "initialization_ticks": 5703,
+    "task_ticks_max": 30000,
+    "total_ticks_max": 35703,
+    "query_max": 120,
+    "interface_ticks_max": 5953,
+    "model_wait_s_max": 30,
+    "success": {
+      "native_grasp": true,
+      "lift_m": 0.02,
+      "hold_s": 1,
+      "directional_base_m": 0.08
+    }
+  },
+  "budgets": {
+    "mandatory_updates": 1000,
+    "mandatory_visits": 32000,
+    "conditional_updates": 1000,
+    "conditional_visits": 32000,
+    "total_updates_max": 2000,
+    "total_visits_max": 64000,
+    "science_data_requests_max": 140,
+    "interface_requests_max": 2,
+    "total_native_requests_max": 142,
+    "total_native_ticks_max": 5010326,
+    "native_generation_max": 16800,
+    "offline_generation_max": 1696,
+    "total_generation_conservative_max": 18496,
+    "technical_attempts_use_same_budget": true,
+    "service_hours_max": 12,
+    "campaign_hours_max": 24,
+    "recorded_deadline_SGT": "2026-11-19T02:51:23.855488+08:00",
+    "effective_deadline": "earliest real valid permission and finite service/campaign deadline; no invented extension"
+  },
+  "failure_policy": {
+    "H40": "fail episode, no install, continue preregistered other cases",
+    "contact": "original STOP ends episode; no promotion; other declared sim cases may continue",
+    "technical": "retain effects, reconcile, repair only unstarted suffix; no scientific replay",
+    "evidenced_repair_continuations_per_stage_max": 2,
+    "campaign_stop": [
+      "integration after STOP",
+      "isolation failure",
+      "frozen SHA change",
+      "unknown owner or launch",
+      "tick violation"
+    ]
+  },
+  "implementation": {
+    "new_SHIFT7_parent_recipe": true,
+    "new_lineage_export": true,
+    "new_conditional_dataset_schema": true,
+    "new_finite_campaign_schema": true,
+    "modify_old_manifests_to_pass_guards": false,
+    "new_scheduler": false,
+    "execution_stack": "PR403 exact head or reviewed legal successor, not assumed main"
+  },
+  "publication_effects": {
+    "updates": 0,
+    "generations": 0,
+    "native_requests": 0,
+    "simulation_ticks": 0
+  }
+}

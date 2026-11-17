@@ -33,7 +33,10 @@ def request_policy(adapter, prepared, query_index):
     if digest(server_pin['path']) != server_pin['sha256']:
         raise ValueError('SEALED_SHIFT7_SERVER_SPEC_CHANGED')
     server = read(server_pin['path']); root = Path(server['registered_root'])
-    if (server['SHIFT7_package']['sha256'] != spec['SHIFT7_package']['sha256']
+    v52=spec.get('mobile_experiment_version')=='MFREE_SHIFT7_SIM_ONLY_V52'
+    package=server['packages'][spec['arm']] if v52 else server['SHIFT7_package']
+    bindings=server['request_bindings_by_arm'][spec['arm']] if v52 else server['request_bindings']
+    if (package['sha256'] != spec['SHIFT7_package']['sha256']
             or read(root/'control/LEASE.json')['status'] != 'ACTIVE'):
         raise RuntimeError('OWN_SINGLE_SHIFT7_SERVICE_NOT_ACTIVE')
     meta = prepared['metadata']; folder = Path(meta['input']['path']).parent
@@ -41,7 +44,7 @@ def request_policy(adapter, prepared, query_index):
         Path(spec['registered_root']).name+'-q%03d'%query_index, meta['native_step'],
         prepared['previous_reference'],
         dict(kind='ACTUAL_CONFIRMED_NATIVE_COMMAND',native_state_sha256=meta['native_state_sha256']),
-        server['request_bindings'], operator_stop=Path(spec['registered_root'])/'STOP.json',
+        bindings, operator_stop=Path(spec['registered_root'])/'STOP.json',
         observation=prepared['observation'])
     response_root = folder/'model-response'; response_root.mkdir()
     until = meta['observation_available_monotonic'] + spec['model_service_timeout_s']

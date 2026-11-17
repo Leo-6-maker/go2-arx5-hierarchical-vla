@@ -17,6 +17,7 @@ def compact_case(spec,result):
     detail=result.get('detail')or{};metrics=result.get('metrics')or{}
     trace=result.get('trace_audit')or{}
     return dict(id=Path(spec['registered_root']).name,role=spec['sim_only_role'],
+        arm=spec.get('arm'),panel_entry_id=spec.get('panel_entry_id'),
         family=spec['mobile_condition']['family'],condition=spec['mobile_condition'],
         actual_native_requests=result.get('physical_requests'),
         native_ticks=result.get('actual_native_integrations'),
@@ -91,10 +92,10 @@ def carried_rows(prior):
     return rows
 
 
-def run(spec_path):
+def run(spec_path,*,preflight=panel_preflight,bootstrap='sim_only_bootstrap_v51.py',expected_count=18,result_schema='MFREE_SIM_ONLY_V51_ACTUAL_TERMINAL',pilot_evaluate=pilot_gate):
     from scripts.wm02.mobile_boundary_runner_v1 import registered
     spec=read(spec_path);root=Path(spec['registered_root']);registered(spec,spec_path)
-    prior=panel_preflight(spec)
+    prior=preflight(spec)
     if (root/'SUPERVISOR.private.json').exists():
         raise PermissionError('FINITE_18_CASE_NEW_CONTROLLER_ONLY')
     write(root/'SUPERVISOR.private.json',dict(pid=os.getpid(),epoch=time.time(),source_sha=spec['source_sha']))
@@ -108,7 +109,7 @@ def run(spec_path):
         write(root/'PROGRESS.private.json',dict(phase=phase,epoch=time.time(),source_sha=spec['source_sha'],
             deadline_epoch=spec['deadline_epoch'],completed_cases=len(rows),records=rows,**extra))
     def start_gpu():
-        command=[server['python'],'-B',str(Path(spec['source_root'])/'scripts/wm02/sim_only_bootstrap_v51.py'),
+        command=[server['python'],'-B',str(Path(spec['source_root'])/'scripts/wm02'/bootstrap),
                  '--worker',server_pin['path']]
         with(server_root/'logs/worker.log').open('xb')as log:
             child=subprocess.Popen(command,cwd=spec['source_root'],env=dict(os.environ,**server['gpu_environment']),
@@ -137,7 +138,7 @@ def run(spec_path):
                         time.sleep(10)
                 progress('NATIVE_CASE',current_case=case['mobile_condition'],case_index=index)
                 log=root/'logs'/('case-%02d.log'%index)
-                command=[case['python'],'-B',str(Path(spec['source_root'])/'scripts/wm02/sim_only_bootstrap_v51.py'),
+                command=[case['python'],'-B',str(Path(spec['source_root'])/'scripts/wm02'/bootstrap),
                     '--case',path,'--world-lock-fd',str(world.handle.fileno())]
                 def execute():
                     with log.open('xb')as stream:
@@ -160,7 +161,7 @@ def run(spec_path):
                 if fatal_control_violation(row):raise RuntimeError('CONTROL_STOP_OR_TICK_BOUND_VIOLATION')
                 if row['technical_failure']:
                     progress('PRESERVED_TECHNICAL_FAILURE_NO_AUTO_REPLAY');break
-            code=0 if len(rows)==18 and not any(r['technical_failure']for r in rows) else 1
+            code=0 if len(rows)==expected_count and not any(r['technical_failure']for r in rows) else 1
     except BaseException:failure=traceback.format_exc()
     finally:
         if gpu is not None:
@@ -179,7 +180,7 @@ def run(spec_path):
                     and read(case_root/'control/LEASE.json')['status']=='ACTIVE'):
                 close(case,0,not_started=True,reason='UNSTARTED_FINITE_SUCCESSOR')
         neural=read(server_root/'RESULT.private.json')if(server_root/'RESULT.private.json').exists()else None
-        value=dict(schema='MFREE_SIM_ONLY_V51_ACTUAL_TERMINAL',exit_code=code,failure=failure,
+        value=dict(schema=result_schema,exit_code=code,failure=failure,
             source_sha=spec['source_sha'],records=rows,attempted_case_launches=len(launches),
             verified_native_requests=sum(r['actual_native_requests']for r in rows),
             carried_native_requests=sum(r['actual_native_requests']for r in rows[:prior_count]),
@@ -188,8 +189,8 @@ def run(spec_path):
             native_ticks=sum(r['native_ticks']for r in rows),
             expert_task_success=sum(r['role']=='EXPERT'and r['task_and_mobile_success']for r in rows),
             student_task_success=sum(r['role']=='STUDENT'and r['task_and_mobile_success']for r in rows),
-            student_attempts=sum(r['role']=='STUDENT'for r in rows),unstarted_cases=18-len(rows),
-            pilot_GO=pilot_gate(rows),DEV_TEST_auto_started=False,model_service=neural,
+            student_attempts=sum(r['role']=='STUDENT'for r in rows),unstarted_cases=expected_count-len(rows),
+            pilot_GO=pilot_evaluate(rows),DEV_TEST_auto_started=False,model_service=neural,
             new_updates=0,new_optimization_visits=0,real_robot_requests=0,wall_s=time.monotonic()-start)
         write(root/'RESULT.private.json',value);close(spec,code)
     return code

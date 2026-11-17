@@ -33,14 +33,18 @@ def run(spec):
     root=Path(spec['registered_root']);bus=Path(spec['ipc_root']);live=Path(spec.get('live_root',root));site=validate(spec)
     from go2arx5_vla.sla_adapter.compilation_cache_binding_v1 import bind_declared_cache
     cache_binding=bind_declared_cache(spec,jax.config)
-    start=time.monotonic();single=spec['selected_combo']=='SHIFT7_SINGLE'
-    if single:
+    start=time.monotonic();single=spec['selected_combo']=='SHIFT7_SINGLE';pool=spec.get('scope')=='SLA_MOBILE_F2_V52'
+    if pool:
+        if not single:raise ValueError('V52_ONE_SHIFT7_ARCHITECTURE_PER_REQUEST')
+        from go2arx5_vla.sla_adapter.mobile_provider_pool_v52 import Pool
+        one=Pool(spec);two=None
+    elif single:
         from go2arx5_vla.sla_adapter.provider_time_shift7_v1 import Provider
         package=spec['SHIFT7_package']
         one=Provider(package['path'],manifest_sha256=package['sha256'],parent_params=spec['parent_params'],parent_manifest_path=spec['parent_manifest']['path'])
         two=None
     else:one,two=load_pair(spec)
-    write(root/'READY.private.json',dict(pid=os.getpid(),parent_loads=1,adapters=1 if single else 2,
+    write(root/'READY.private.json',dict(pid=os.getpid(),parent_loads=1,adapters=3 if pool else 1 if single else 2,
         load_and_import_wall_s=time.monotonic()-start,GPU_memory=jax.devices()[0].memory_stats(),site=site,
         compilation_cache_binding=cache_binding))
     attempted=completed=0;handled={};timings=[];deliveries=set()
@@ -106,7 +110,11 @@ def run(spec):
             # RESPONSE is last: no branch/receipt mutation remains after it.
             write(folder/'RESPONSE.json',response)
         try:
-            if q['bindings']!=spec['request_bindings']:raise ValueError('REGISTERED_PACKAGE_CODEC_STATISTICS_REQUIRED')
+            if pool:
+                arms=[arm for arm,binding in spec['request_bindings_by_arm'].items()if binding==q['bindings']]
+                if len(arms)!=1:raise ValueError('EXACT_PREREGISTERED_V52_ARM_BINDINGS_REQUIRED')
+                one.select(arms[0])
+            elif q['bindings']!=spec['request_bindings']:raise ValueError('REGISTERED_PACKAGE_CODEC_STATISTICS_REQUIRED')
             current();data=load_input(q)
             if message.get('restart_before_branches'):
                 response=dict(status='SERVICE_RESTART_ABORTED_NO_ACTION',request_id=qid,bindings=q['bindings'],
@@ -157,7 +165,7 @@ def run(spec):
     if live!=root:
         write(root/'GENERATION_COUNTS.private.json',read(live/'GENERATION_COUNTS.private.json'))
     result=dict(exit_code=0,requests=len(handled),attempted_generations=attempted,completed_generations=completed,
-        parent_loads=1,adapters=1 if single else 2,peak_GPU_memory=jax.devices()[0].memory_stats(),new_updates=0,new_visits=0,
+        parent_loads=1,adapters=3 if pool else 1 if single else 2,peak_GPU_memory=jax.devices()[0].memory_stats(),new_updates=0,new_visits=0,
         new_native_requests=0,new_integrations=0,wall_s=time.monotonic()-start,site=site)
     write(root/'RESULT.private.json',result);return result
 
