@@ -1,4 +1,12 @@
-# 科学状态与证据边界 · 2026-11-11
+# 科学状态与证据边界 · 2026-11-17
+
+PR403固定head dbf222b41cb666bff4dd5412b864d023aec69399：冻结SLA SHIFT7完成3次真实移动抓持，学生8尝试=3成功+4科学失败+1IPC技术中断；F1有效3/3、F2 0/4。18原生请求、319518tick、319生成；该轮新增训练0。原pilot未过，DEV/TEST未启动，证据限已知布局SIM_PAUSED_NATIVE。[不可变实测报告](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/dbf222b41cb666bff4dd5412b864d023aec69399/reports/WM02/sla-sim-only-v51-20261117/FINAL_RESULT.md)。
+
+本次新增 [V5.2后续计划](docs/protocols/SLA_MOBILE_F2_POSTTRAIN_V5_2_20261117.md)：SHIFT7冻结对照/普通FM500/边界loss500配对闭环，证据触发12次纠正示范及数据对照，再按门进入DEV32/TEST40。**本次仅发布计划，新训练/生成/仿真均0；未合并或部署执行栈。** [启动入口](SLA_MOBILE_V52_START.md)。
+
+以下2026-11-11状态为历史快照，不作为当前SLA运行状态。
+
+# 历史科学状态与证据边界 · 2026-11-11
 
 ## 当前问题
 
