@@ -1,5 +1,7 @@
 # V6 actual stage result
 
+最新版见下方“双端点终态与后继现场复核”。原进度快照保留。
+
 Fixed plan `ae3d3c0dceade437b0104a150cd0402fef650052`. Observed 2026-11-18T04:53:50.851651+08:00. **T-FM500 is sealed; no new native task-success result yet.**
 
 | Stage | Actual updates / visits | Full generations | State |
@@ -35,3 +37,18 @@ Source1000, independent S0/S1000 RGB16 restores and post-freeze once-only TEST96
 M preparation has the six-instruction native scorer and pointwise G7/real previous-command seam objective;15 focused CPU checks passed. Complete2ms state coverage is required, with full rotated footprint, genuine grasp/lift/support/release,1s stability,90% opening,50mm retreat and80mm directional base motion. These checks are not Teacher qualification. Current packet/RGB helpers bind a single-object34/32/20 ABI; a declared two-object scene binding must preserve the same contact predicates and thresholds before dispatch. No M scene or Teacher is yet qualified.
 
 Historical PR407 RealMix remains BLOCKED; V5.2 final17/24 no-promotion result, original B1/B2, old RP8/JOIN10 and TEST remain unchanged. Native requests/integrations in this V6 execution:0. No source SR claim, real hardware, WBC/safety relaxation, RL, scientific retry or automatic allocation extension. Outer allocation remains2026-11-19 02:51:23.855488 SGT. Remaining Goal includes T-H40 and complete new24, S1000/held-out evaluation, then qualified G7 Teacher and conditional M-BASE/M-SRC.
+
+## 双端点终态与后继现场复核
+
+观察时间 2026-11-18T06:07:07.654625+08:00。T 两臂均已完成真实 500 更新及完整恢复。两端点共 1,000 更新、32,000 优化访问、4,000 次训练内完整生成。离线新增204次，含各96条已封存 TRAIN 及先前12次预检。新24原生请求／积分均0。
+
+| 臂 | TRAIN H40合法 | CLOSE无遗漏／最大时差 | 实际辅助反传／非零 | 完整状态恢复 | Wall / CPU |
+|---|---:|---:|---:|---:|---:|
+| T-FM | 96/96 | 20/20，50 ms | 0/0 | 87/87 | 4023.50 / 3422.54 s |
+| T-H40 | 96/96 | 20/20，50 ms | 2000/104 | 87/87 | 4408.02 / 3219.32 s |
+
+T-H40 的104个非零辅助梯度覆盖实际生成的十步路径。两臂均使用同一真实 B1 父与 fresh Adam，初始87数组、访问图和 LR 匹配。T-H40 结果 `53c80ae0e4ccc9f6b43e09b0cc11295c3fda2b8ef895efbb6442592697c0891c`，checkpoint `18a28ba7fa569c2eca176c1f3a6e3f5a647c702fd0de31f6b4f019abfca09ee7`，RGB package `e8a8eb18cc6e2a8cf71f68516384596e352aa8a157146a388df715754a43d816`。来源与成本细目见同目录 JSON。96条 TRAIN 结果不能用于判定新24的高低。
+
+T 跟进原单元01缺少 V6 命令历史和 RGB 身份路由。接续前核对实际 PID/cgroup、无子进程及无 offline/SCREEN/CONFIRM 目录，使用队列的 STOP 入口保留零效果终态。单元01 MainPID0、lease CLOSED。新不可变单元02已独立回读为 ACTIVE，MainPID 1601452，原截止仍为 16:28:08 SGT，source `3e20642a042b9047dc6b24c997cd243ebcfe2b33`，spec `1301e40ea8538ffa3b9caa29936b1c00ba28b86cf47546d7be19b068fb18287e`。原615个离线调用、新24、条件确认8及人口和五个保存拒绝输入的SHA均保持。唤醒继续依赖服务器上的 S1000 冷态接续。针对性命令历史／RGB身份和旧接口回归通过，原生尚未启动。
+
+S1000 子进程 1598217 已实际加载官方SLA_base GPU参数并完成冻结指纹扫描。当前尚无确认的S0评价或S更新。源TEST保持关闭。M 的两场景冷态结果见 [M_BINDING_ACTUAL.md](M_BINDING_ACTUAL.md)。

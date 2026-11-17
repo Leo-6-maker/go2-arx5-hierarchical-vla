@@ -203,5 +203,160 @@
     "parent_package_sha256": "b9ba974c374b3c3a09d7742004fc799337d5e7f1b9c9c7d290af066766e4706c",
     "LR_sha256": "7f10a93cbac3bda375845b99b1f50c4eb516cb5d49a8d5e2e17f6e1b956298c9",
     "visit_map_sha256": "a151bfca90511a5fee70398aa50616472f989cbf41cdd899ca93d569a24040af"
+  },
+  "both_target_endpoints_actual": {
+    "time_SGT": "2026-11-18T06:07:07.654625+08:00",
+    "status": "BOTH_TARGET_500_ENDPOINTS_SEALED_NATIVE_PENDING",
+    "training_source_sha": "131a002de5535509f9e8e4b6abf913a11cc2f445",
+    "arms": {
+      "T-FM": {
+        "spec_sha256": "38be835c44bb3da38b59ca59955bded82d9f95f0e8596bbdd56a6edbe37abde6",
+        "result_sha256": "a55336329556111574bed9fefd24203ed874a0edd6d17cb2a4703e445db09376",
+        "checkpoint_sha256": "8d463f21a11f735320cbb554293ef724493e399eef75271320e8323067bc6778",
+        "package_sha256": "da81037663678052908eafcd84517d59ad93bde76a7544d5180cb1bb4d66e2d8",
+        "new_updates": 500,
+        "new_visits": 16000,
+        "training_full_generations": 2000,
+        "TRAIN96": {
+          "legal": 96,
+          "total": 96,
+          "CLOSE": {
+            "count": 20,
+            "legal": 20,
+            "omissions": 0,
+            "max_crossing_error_s": 0.05
+          }
+        },
+        "full_restore": {
+          "bit_exact": true,
+          "arrays": 87,
+          "step": 500,
+          "cursor": 16000,
+          "model_Adam_RNG_restored": true,
+          "optimizer_updates_added": 0
+        },
+        "initial_match": {
+          "matched_control_result_sha256": null,
+          "all87_hashes_count": 87,
+          "parent_package_sha256": "b9ba974c374b3c3a09d7742004fc799337d5e7f1b9c9c7d290af066766e4706c",
+          "LR_sha256": "7f10a93cbac3bda375845b99b1f50c4eb516cb5d49a8d5e2e17f6e1b956298c9",
+          "visit_map_sha256": "a151bfca90511a5fee70398aa50616472f989cbf41cdd899ca93d569a24040af"
+        },
+        "GPU_live_peak_bytes": 9687290368,
+        "GPU_pool_peak_bytes": 17181966336,
+        "wall_s": 4023.5048230234534,
+        "CPU_s": 3422.539211673,
+        "auxiliary": {
+          "committed_updates": 500,
+          "committed_visits": 16000,
+          "complete_aux_rows": 2000,
+          "aux_loss_positive": 70,
+          "maximum_aux_loss": 0.24093036353588104,
+          "real_full_ten_step_backward_rows": 0,
+          "nonzero_aux_gradient_rows": 0,
+          "maximum_aux_gradient_norm": null,
+          "first_nonzero": [],
+          "prefix_bytes": 1089518,
+          "prefix_sha256": "7c990058fe9f6d5068bfcfe01554a5cdb2c73337a8ede566f7bfb9e5428fd24f",
+          "mean_update_wall_s": 7.579875161092728
+        }
+      },
+      "T-H40": {
+        "spec_sha256": "1689258827ada4ee49f29161cc11dd31c780049c26d1ee3eeccebca04b7ed182",
+        "result_sha256": "53c80ae0e4ccc9f6b43e09b0cc11295c3fda2b8ef895efbb6442592697c0891c",
+        "checkpoint_sha256": "18a28ba7fa569c2eca176c1f3a6e3f5a647c702fd0de31f6b4f019abfca09ee7",
+        "package_sha256": "e8a8eb18cc6e2a8cf71f68516384596e352aa8a157146a388df715754a43d816",
+        "new_updates": 500,
+        "new_visits": 16000,
+        "training_full_generations": 2000,
+        "TRAIN96": {
+          "legal": 96,
+          "total": 96,
+          "CLOSE": {
+            "count": 20,
+            "legal": 20,
+            "omissions": 0,
+            "max_crossing_error_s": 0.05
+          }
+        },
+        "full_restore": {
+          "bit_exact": true,
+          "arrays": 87,
+          "step": 500,
+          "cursor": 16000,
+          "model_Adam_RNG_restored": true,
+          "optimizer_updates_added": 0
+        },
+        "initial_match": {
+          "matched_control_result_sha256": "a55336329556111574bed9fefd24203ed874a0edd6d17cb2a4703e445db09376",
+          "all87_hashes_count": 87,
+          "parent_package_sha256": "b9ba974c374b3c3a09d7742004fc799337d5e7f1b9c9c7d290af066766e4706c",
+          "LR_sha256": "7f10a93cbac3bda375845b99b1f50c4eb516cb5d49a8d5e2e17f6e1b956298c9",
+          "visit_map_sha256": "a151bfca90511a5fee70398aa50616472f989cbf41cdd899ca93d569a24040af"
+        },
+        "GPU_live_peak_bytes": 9687290368,
+        "GPU_pool_peak_bytes": 17181966336,
+        "wall_s": 4408.022783013992,
+        "CPU_s": 3219.321978347,
+        "auxiliary": {
+          "committed_updates": 500,
+          "committed_visits": 16000,
+          "complete_aux_rows": 2000,
+          "aux_loss_positive": 104,
+          "maximum_aux_loss": 0.3149266541004181,
+          "real_full_ten_step_backward_rows": 2000,
+          "nonzero_aux_gradient_rows": 104,
+          "maximum_aux_gradient_norm": 88.3125,
+          "first_nonzero": [
+            {
+              "absolute_cursor": 36,
+              "loss": 0.015775294974446297,
+              "head": 0.23139993846416473,
+              "tail": 0.03159935399889946,
+              "interior": 0.10313308984041214,
+              "aux_gradient_norm": 12.149974822998047
+            }
+          ],
+          "prefix_bytes": 1089775,
+          "prefix_sha256": "0190b6aa8e1c6d6c729397fd8a40d64d2781aeea95a0d6d7e1a63baff48550c0",
+          "mean_update_wall_s": 8.344861542874947
+        }
+      }
+    },
+    "actual_new_T_updates": 1000,
+    "actual_new_T_visits": 32000,
+    "actual_T_training_generations": 4000,
+    "actual_T_offline_generations_including_12_diagnostic": 204,
+    "actual_new_native_requests": 0,
+    "actual_new_integrations": 0,
+    "stopped_queue": {
+      "unit": "wm02-sla-v6-target-followup-20261118-01",
+      "lease": "CLOSED",
+      "MainPID": 0,
+      "actual_model_generation": 0,
+      "actual_native_requests": 0,
+      "reason": "immutable old case consumer lacks V6 scope in emitted-command history and native RGB input"
+    },
+    "successor": {
+      "unit": "wm02-sla-v6-target-followup-20261118-02",
+      "source_sha": "3e20642a042b9047dc6b24c997cd243ebcfe2b33",
+      "source_seal": "649aeda9791caf707ae38cd8a6301fbaf4ab5102bb574feb9a6fd46966048280",
+      "spec_sha256": "1301e40ea8538ffa3b9caa29936b1c00ba28b86cf47546d7be19b068fb18287e",
+      "deadline_epoch": 1794990488.12456,
+      "T_population_sha256": "95f8e6378a894619b4578dd240c1a6eb993996c4ab5591a97d81e55f8d0c8d8d",
+      "E2_reject5_sha256": "12a2bbe8e7556d51058f2c6fe71edbd38fcec2482445a9167f05ffa7864fd3f2",
+      "linger": "Linger=yes",
+      "frontend_dependency": false,
+      "MainPID": 1601452,
+      "cgroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-v6-target-followup-20261118-02.service",
+      "lease": "ACTIVE"
+    },
+    "source_stage": {
+      "unit": "wm02-sla-v6-source1000-20261118-02",
+      "MainPID": 1505424,
+      "S1000_child_PID": 1598217,
+      "status": "ACTUAL_OFFICIAL_PARENT_LOADED_S0_PENDING",
+      "confirmed_updates_at_observation": 0
+    }
   }
 }
