@@ -1,3 +1,7 @@
+## 2026-11-18 · V6现役执行范围
+
+固定计划ae3d3c0dceade437b0104a150cd0402fef650052，入口[SLA_V6_START.md](SLA_V6_START.md)。复用PR407受审执行栈，旧command混合保持BLOCKED，V5.2负结果/TEST/端点不重跑。P0/T/S独立推进；T仅B1同父fresh Adam的FM500与完整10步可微H40约束500，原SHIFT7/C20/硬门冻结；S明确允许双臂三当前RGB/30Hz H50未来记录参考，不伪造dispatch、不重复shift或用复制尾标注、不要求Go2标定才学习源域。S从已验证SLA_base固定1000/32000、TRAIN-only源统计；最多总60（复用首12、补48），源TEST只通用schema直至冻结端点。M新G7共享HOLD/PLACE及共享LoRA初始化迁移依完整协议资格；不以T全过门为准备前置。首周期2000/64000、训练内生成4000、离线1600；M条件预算另记。真实owner/容量/许可/期限先核实，旧CLOSED不重开、不热改健康任务、不自动延期、不重投科学失败。无真机/WBC调参/RL/输出加工或安全门放宽。正常PR，阶段ACTUAL和真实计量。
+
 ## 2026-11-18 · RoboDojo Real/Sim V1 接续
 
 按用户固定计划 `be37da06fd007b24da324ae1cce6ba4ba441687e` 执行 [SLA_REAL_SIM_MIX_START.md](SLA_REAL_SIM_MIX_START.md)。本worktree从已核对PR405执行后继独立建立，仅接入PR406的六份文档；不假定main含runtime。健康V5.2固定24条件及其原决定优先保持，不重复D0/B1/B2、不热改、不抢占。先有限RoboDojo-Real ARX X5审计，首12包含于总60、raw32GiB/总64GiB，CPU至多2线程/4GiB、单解码worker。区分SOURCE_NATIVE、命令/反馈及当前SHIFT7兼容性，不伪造P10/ACK/上一实际命令50ms时钟，不直接套2秒标签或只留静止段。兼容、冷态和真实资源均满足后，才原SHIFT7同父fresh Adam做Real10/25各500，Real0复用B2；冻结C20统计、原decoder/loss/参数/WBC/安全，使用独立新人口。新预算与门仅依固定JSON，不自动续期、加步、换decoder或真机控制。
