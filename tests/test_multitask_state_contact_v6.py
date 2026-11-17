@@ -54,8 +54,10 @@ def test_observer_candidate_changes_only_role_binding_and_keeps_original_stop_la
     assert b'd->contact[i].dist < -.004'in candidate
     assert b'MFREE_V6_SELECTED_COLOR'in candidate
     site=b'    bool task_pair=pair("task_table","task_cube_geom") || pair("task_left_pad","task_cube_geom") || pair("task_right_pad","task_cube_geom");'
-    prefix,suffix=original.split(site)
-    assert candidate.startswith(prefix)and candidate.endswith(suffix)
+    import re
+    restored=re.sub(rb'// V6_TASK_ROLE_HELPER_BEGIN.*?// V6_TASK_ROLE_HELPER_END\n\n',b'',candidate,flags=re.S)
+    restored=re.sub(rb'    // V6_TASK_ROLE_SELECTION_BEGIN.*?    // V6_TASK_ROLE_SELECTION_END',site,restored,flags=re.S)
+    assert restored==original
     with pytest.raises(ValueError):observer_source(original+b'changed')
 
 

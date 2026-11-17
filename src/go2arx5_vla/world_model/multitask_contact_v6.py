@@ -37,11 +37,25 @@ def observer_source(original_source):
         raise ValueError('EXACT_FROZEN_SERIALIZED_TRACE_OBSERVER_SOURCE_REQUIRED')
     source=original_source.decode()
     old='    bool task_pair=pair("task_table","task_cube_geom") || pair("task_left_pad","task_cube_geom") || pair("task_right_pad","task_cube_geom");'
-    replacement='''    const char* selected=std::getenv("MFREE_V6_SELECTED_COLOR");
+    replacement='''    // V6_TASK_ROLE_SELECTION_BEGIN
+    const char* selected=std::getenv("MFREE_V6_SELECTED_COLOR");
     if(!selected || (std::string(selected)!="red" && std::string(selected)!="blue"))std::abort();
-    const char* target=std::string(selected)=="red"?"task_cube_geom":"task_blue_cube_geom";
-    bool support=pair("task_table","task_cube_geom") || pair("task_table","task_blue_cube_geom");
-    bool grasp=pair("task_left_pad",target) || pair("task_right_pad",target);
-    bool task_pair=support || grasp;'''
+    const int role_pair=WM02MultitaskTaskPairV6(a,b,selected);
+    if(role_pair<0)std::abort();
+    bool task_pair=role_pair==1;
+    // V6_TASK_ROLE_SELECTION_END'''
+    helper='''// V6_TASK_ROLE_HELPER_BEGIN
+extern "C" int WM02MultitaskTaskPairV6(const char* a,const char* b,const char* selected) {
+  if(!selected || (std::string(selected)!="red" && std::string(selected)!="blue"))return -1;
+  if(!a || !b)return 0;
+  auto pair=[&](const char* x,const char* y) {
+    return (std::string(a)==x && std::string(b)==y) || (std::string(a)==y && std::string(b)==x);
+  };
+  const char* target=std::string(selected)=="red"?"task_cube_geom":"task_blue_cube_geom";
+  return pair("task_table","task_cube_geom") || pair("task_table","task_blue_cube_geom") || pair("task_left_pad",target) || pair("task_right_pad",target);
+}
+// V6_TASK_ROLE_HELPER_END
+'''
     if source.count(old)!=1:raise ValueError('ORIGINAL_OBSERVER_CONTACT_PATCH_SITE_CHANGED')
-    return source.replace(old,replacement).encode()
+    if source.count('namespace {')!=1:raise ValueError('ORIGINAL_OBSERVER_NAMESPACE_CHANGED')
+    return source.replace('namespace {',helper+'\nnamespace {',1).replace(old,replacement).encode()
