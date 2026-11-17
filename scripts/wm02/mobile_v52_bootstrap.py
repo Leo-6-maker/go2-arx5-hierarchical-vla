@@ -24,6 +24,9 @@ def main():
     if operation=='--campaign':
         from scripts.wm02.mobile_campaign_v52 import run as campaign
         raise SystemExit(campaign(path))
+    if operation=='--evaluation':
+        from scripts.wm02.mobile_evaluation_v52 import run as evaluation
+        raise SystemExit(evaluation(path))
     if operation=='--case':
         from scripts.wm02.mobile_boundary_runner_v1 import run_case
         fd=int(sys.argv[sys.argv.index('--world-lock-fd')+1])

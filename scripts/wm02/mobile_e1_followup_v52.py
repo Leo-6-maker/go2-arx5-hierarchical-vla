@@ -27,11 +27,11 @@ def common(spec,root,role):
     return value
 
 
-def site_binding(spec,root,campaign):
+def site_binding(spec,root,campaign,*,permission='CURRENT_USER_EXPLICIT_PR404_V52_BOUNDED_OFFLINE_AND_E2'):
     if digest(spec['site_binding']['path'])!=spec['site_binding']['sha256']:raise ValueError('SOURCE_SITE_BINDING_CHANGED')
     value=read(spec['site_binding']['path']);value['paths']={k:str(Path(spec[k]).resolve(strict=True))for k in('parent_params','dataset','compilation_cache_dir')}
     value['allocation']=dict(kind='EXISTING_USER_SERVICE',campaign_root=str(campaign),neural_owner_lock=spec['neural_owner_lock'])
-    value['permission']='CURRENT_USER_EXPLICIT_PR404_V52_BOUNDED_OFFLINE_AND_E2'
+    value['permission']=permission
     write(root/'SITE_BINDING.private.json',value);return pin(root/'SITE_BINDING.private.json')
 
 
