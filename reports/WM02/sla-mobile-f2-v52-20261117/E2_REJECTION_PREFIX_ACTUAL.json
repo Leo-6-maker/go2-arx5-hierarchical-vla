@@ -1,0 +1,82 @@
+{
+  "epoch": 1794933366.968896,
+  "cases": [
+    {
+      "case": "E2-F1-T1-B0",
+      "arm": "B0",
+      "family": "F1",
+      "query": 1,
+      "native_step": 5953,
+      "task_s": 0.5,
+      "boundary": {
+        "start": 0.27772878728103945,
+        "end": 0.10876198192800654,
+        "interior": 0.12237481501061326,
+        "start_margin": -0.027728787281039446,
+        "end_margin": 0.14123801807199346,
+        "peak": 0.27772878728103945,
+        "peak_index": 0
+      },
+      "first_reason": {
+        "query": 1,
+        "reason": "TASK_LEARNING_STUDENT_FULL_PROPOSAL_REJECTED: SLA_DENSE_ORIGINAL_FULL_H40_GATE:TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+        "full_H40_checked": true,
+        "installed": false
+      },
+      "actual_full_H40_compiled": false,
+      "installed": false,
+      "action_sha256": "7b5edc699e242ba5a9b3787fa0447913fd85d73059101dd787e006ea3b31d009",
+      "input_sha256": "5c2236b03b6d4ff94be553130de0e3331edb3acac2f2bd6fd8d7c4e03c7079b5",
+      "previous_reference": {
+        "width_m": 0.0419956622005143,
+        "source_native_s": 11.856000000000629,
+        "query_native_s": 11.906000000000645
+      },
+      "new_generations": 0,
+      "new_integrations": 0
+    },
+    {
+      "case": "E2-F1-T2-B2",
+      "arm": "B2",
+      "family": "F1",
+      "query": 54,
+      "native_step": 19203,
+      "task_s": 27.0,
+      "boundary": {
+        "start": 0.11776513917809718,
+        "end": 0.019199517923257785,
+        "interior": 0.26157527532898245,
+        "start_margin": 0.13223486082190283,
+        "end_margin": 0.23080048207674222,
+        "peak": 0.26157527532898245,
+        "peak_index": 34
+      },
+      "first_reason": {
+        "query": 54,
+        "reason": "TASK_LEARNING_STUDENT_FULL_PROPOSAL_REJECTED: SLA_DENSE_ORIGINAL_FULL_H40_GATE:TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+        "full_H40_checked": true,
+        "installed": false
+      },
+      "actual_full_H40_compiled": false,
+      "installed": false,
+      "action_sha256": "f3aa1f5e0a532b8746853d3d841526a4b17fe11dc98f0e950ba8d39621312b6d",
+      "input_sha256": "7230a3a0f21ff1ec4906be71ea5c84d032a42445d43eea7b8bde6bf1d3e6e2d2",
+      "previous_reference": {
+        "width_m": 0.0419958765701296,
+        "source_native_s": 38.35600000000091,
+        "query_native_s": 38.40600000000097
+      },
+      "new_generations": 0,
+      "new_integrations": 0
+    }
+  ],
+  "new_generations": 0,
+  "new_native_requests": 0,
+  "new_integrations": 0,
+  "schema": "SLA_V52_LIVE_SCREEN_REJECTION_READONLY_AUDIT",
+  "as_of_UTC": "2026-11-17T16:36:06.968896+00:00",
+  "runtime_source_sha": "2797d0c2c458667e241aa0d24d6d0b005f3caf1a",
+  "audit_source_sha256": "4c91c89b450fe16e5928936b60e39d03073bbb41ca0bdb378bbc04cbb20b18d9",
+  "CPU_time": "NOT_SEPARATELY_MEASURED",
+  "TEST_outputs_read": false
+}

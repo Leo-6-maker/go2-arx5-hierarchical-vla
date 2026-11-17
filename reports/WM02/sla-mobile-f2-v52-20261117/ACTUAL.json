@@ -2,7 +2,7 @@
   "schema": "SLA_MOBILE_V52_STAGE_ACTUAL",
   "status": "TWO_FIXED500_AND_OFFLINE_COMPLETE_E2_NATIVE_ACTIVE",
   "plan_commit": "90d39196bdc345b977ee54ed64e750cf3561aa72",
-  "as_of_UTC": "2026-11-17T16:14:05.877174+00:00",
+  "as_of_UTC": "2026-11-17T16:38:43.459925+00:00",
   "D0": {
     "source_sha": "4b59cd7c53882e4b04357d25e6e62660de89e715",
     "inputs": 320,
@@ -118,8 +118,8 @@
     "technical_stage": "E2_NATIVE_PROFILE",
     "old_followup_preserved_terminal": true,
     "offline_generations_completed": 600,
-    "E2_started": 4,
-    "E2_terminal": 3
+    "E2_started": 9,
+    "E2_terminal": 8
   },
   "B1_recovery250": {
     "step": 250,
@@ -196,14 +196,14 @@
   },
   "E2_prefix": {
     "report": "E2_PREFIX_ACTUAL.json",
-    "new_requests_started": 4,
-    "new_requests_terminal": 3,
-    "closed_case_native_integrations": 67197,
-    "live_case_integrations_confirmed_minimum": 19953,
-    "closed_case_composite_successes": 2,
+    "new_requests_started": 9,
+    "new_requests_terminal": 8,
+    "closed_case_native_integrations": 161962,
+    "live_case_integrations_confirmed_minimum": 15453,
+    "closed_case_composite_successes": 5,
     "closed_case_hard_STOP": 1,
     "closed_case_technical_failures": 0,
-    "worker_generations": 259,
+    "worker_generations": 508,
     "requested_panel_denominator": 24
   },
   "offline_summary": {
@@ -222,5 +222,13 @@
       "CN38": 180,
       "ROLL96": 96
     }
+  },
+  "prepared_conditional_evaluation": {
+    "source_sha": "eecf53b3",
+    "report": "CONDITIONAL_EVALUATION_READY.json",
+    "deployed": false,
+    "new_GPU_generations": 0,
+    "new_native_requests": 0,
+    "new_training_updates": 0
   }
 }
