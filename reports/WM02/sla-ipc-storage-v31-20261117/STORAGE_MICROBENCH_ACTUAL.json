@@ -1,0 +1,25 @@
+{
+  "schema": "V31_CORE_STORAGE_MICROBENCH_ACTUAL",
+  "iterations_per_storage": 8,
+  "ordinary_input_bytes": 395266,
+  "medians_s": {
+    "local_fuse": {
+      "small_json_s": 0.014767865650355816,
+      "install_bundle_s": 0.01681758649647236,
+      "NPZ_write_close_s": 0.0013830522075295448,
+      "NPZ_read_hash_s": 0.0001717517152428627
+    },
+    "tmpfs": {
+      "small_json_s": 2.2962689399719238e-05,
+      "install_bundle_s": 0.0005692401900887489,
+      "NPZ_write_close_s": 5.05298376083374e-05,
+      "NPZ_read_hash_s": 9.802915155887604e-05
+    }
+  },
+  "new_unified_requests": 0,
+  "new_model_generations": 0,
+  "new_updates": 0,
+  "new_native_requests": 0,
+  "new_integrations": 0,
+  "not_end_to_end_qualification": true
+}

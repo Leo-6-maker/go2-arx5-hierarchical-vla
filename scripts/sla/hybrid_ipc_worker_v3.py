@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 import time
 import traceback
+import shutil
 import numpy as np
 from scripts.pi0292.durable import write
 from scripts.sla.close_goal_g1_v1 import wait_resource_owner
@@ -16,14 +17,14 @@ from go2arx5_vla.sla_adapter.hybrid_request_v1 import predict_request
 def run(spec):
     import jax
     from go2arx5_vla.sla_adapter.site_v2 import validate
-    root=Path(spec['registered_root']);bus=Path(spec['ipc_root']);site=validate(spec)
+    root=Path(spec['registered_root']);bus=Path(spec['ipc_root']);live=Path(spec.get('live_root',root));site=validate(spec)
     start=time.monotonic();one,two=load_pair(spec)
     write(root/'READY.private.json',dict(pid=os.getpid(),parent_loads=1,adapters=2,
         load_and_import_wall_s=time.monotonic()-start,GPU_memory=jax.devices()[0].memory_stats(),site=site))
-    attempted=completed=0;handled={};timings=[]
+    attempted=completed=0;handled={};timings=[];deliveries=set()
     def counts():
-        write(root/'GENERATION_COUNTS.private.json',dict(attempted=attempted,completed=completed,
-            generation_cap=64,requests=len(handled),new_updates=0,new_visits=0,
+        write(live/'GENERATION_COUNTS.private.json',dict(attempted=attempted,completed=completed,
+            generation_cap=spec['new_complete_generations_budget'],requests=len(handled),new_updates=0,new_visits=0,
             new_native_requests=0,new_integrations=0))
     while time.time()<spec['deadline_epoch']-60 and not(root/'STOP.json').exists():
         if(bus/'FINISH.json').exists():break
@@ -35,6 +36,14 @@ def run(spec):
             # Immutable response: do not replace the same file every polling tick.
             if not (folder/'RESPONSE.json').exists():
                 write(folder/'RESPONSE.json',handled[qid])
+            delivery=(qid,message.get('delivery_id',0))
+            if delivery not in deliveries:
+                current_state=read(message['live_path'])
+                try:check_live(q,current_state);status='SAME_LIVE_QUERY_CACHED_RESPONSE'
+                except (RuntimeError,ValueError,TimeoutError):status='STALE_CACHE_REJECTED'
+                write(folder/'DELIVERY_ACK.json',dict(request_id=qid,delivery_id=delivery[1],
+                    status=status,attempted=attempted,completed=completed))
+                deliveries.add(delivery)
             time.sleep(.005);continue
         if len(handled)>=spec['unified_requests_budget']:raise PermissionError('FINITE_UNIFIED_REQUEST_CAP')
         branch=[];t=time.monotonic()
@@ -54,16 +63,47 @@ def run(spec):
                 attempted+=1;counts();begin=time.monotonic()
                 value=self.provider.predict(*a,**kw);completed+=1
                 branch.append(dict(name=self.name,output=value,wall_s=time.monotonic()-begin));counts()
+                if spec.get('archive_all_branches'):
+                    with(folder/(self.name+'_OUTPUT.npz')).open('xb')as f:
+                        np.savez(f,normalized=value['normalized'],physical_H40=value['physical_H40'])
                 # Actual interprocess cancellation barrier, not a local callback mock.
                 write(folder/(self.name+'_DONE.json'),dict(request_id=qid,epoch=time.time()))
-                barrier=folder/(self.name+'_CONTINUE.json');until=time.monotonic()+10
-                while not barrier.exists():
-                    if time.monotonic()>=until:raise TimeoutError('IPC_BRANCH_BARRIER_TIMEOUT')
-                    time.sleep(.002)
+                if message.get('branch_barriers',True):
+                    barrier=folder/(self.name+'_CONTINUE.json');until=time.monotonic()+10
+                    while not barrier.exists():
+                        if time.monotonic()>=until:raise TimeoutError('IPC_BRANCH_BARRIER_TIMEOUT')
+                        time.sleep(.001)
                 return value
+        def respond(response):
+            handled[qid]=response
+            deliveries.add((qid,message.get('delivery_id',0)))
+            counts()
+            write(folder/'DELIVERY_ACK.json',dict(request_id=qid,delivery_id=message.get('delivery_id',0),
+                status='ORIGINAL_RESPONSE',attempted=attempted,completed=completed))
+            # RESPONSE is last: no branch/receipt mutation remains after it.
+            write(folder/'RESPONSE.json',response)
         try:
             if q['bindings']!=spec['request_bindings']:raise ValueError('REGISTERED_PACKAGE_CODEC_STATISTICS_REQUIRED')
             current();data=load_input(q)
+            if message.get('restart_before_branches'):
+                response=dict(status='SERVICE_RESTART_ABORTED_NO_ACTION',request_id=qid,bindings=q['bindings'],
+                    worker_wall_s=time.monotonic()-t,new_generations_this_request=0)
+                respond(response)
+                break
+            if message.get('cached_protocol_replay'):
+                cache=spec['cached_protocol_replay']
+                if digest(cache['action']['path'])!=cache['action']['sha256'] or digest(cache['request']['path'])!=cache['request']['sha256']:
+                    raise ValueError('PINNED_CACHED_PROTOCOL_SOURCE_CHANGED')
+                old=read(cache['request']['path']);old_data=load_input(old)
+                if q['noise_id']!=old['noise_id'] or q['language']!=old['language'] or q['previous_reference']!=old['previous_reference']:
+                    raise ValueError('CACHE_INPUT_NOISE_REFERENCE_IDENTITY')
+                if any(not np.array_equal(data[k],old_data[k])for k in data):raise ValueError('CACHE_CAPTURED_INPUT_ARRAYS_DIFFER')
+                action=folder/'ACTION.npz';shutil.copyfile(cache['action']['path'],action);current()
+                response=dict(status='GENERATED_NOT_INSTALLED',request_id=qid,bindings=q['bindings'],
+                    action=dict(path=str(action),sha256=digest(action)),branch_wall_s=[],
+                    cached_protocol_replay=True,worker_wall_s=time.monotonic()-t,new_generations_this_request=0,
+                    independent_gripper_write=False,native_execution_admitted=False)
+                respond(response);continue
             value=predict_request(Counted(one,'EEF'),Counted(two,'GRIP'),state=data['state_eef10'],
                 images=[data['body_rgb'],data['wrist_rgb']],language=q['language'],frame=data['T_policy_from_mount'],
                 noise_id=q['noise_id'],previous_reference=q['previous_reference'],request_id=qid,
@@ -83,8 +123,10 @@ def run(spec):
                 failure=traceback.format_exc(),branches_completed=len(branch))
         response['worker_wall_s']=time.monotonic()-t
         response['new_generations_this_request']=len(branch)
-        handled[qid]=response;timings.append(response['worker_wall_s']);counts()
-        write(folder/'RESPONSE.json',response)
+        timings.append(response['worker_wall_s']);respond(response)
+    counts()
+    if live!=root:
+        write(root/'GENERATION_COUNTS.private.json',read(live/'GENERATION_COUNTS.private.json'))
     result=dict(exit_code=0,requests=len(handled),attempted_generations=attempted,completed_generations=completed,
         parent_loads=1,adapters=2,peak_GPU_memory=jax.devices()[0].memory_stats(),new_updates=0,new_visits=0,
         new_native_requests=0,new_integrations=0,wall_s=time.monotonic()-start,site=site)
@@ -96,8 +138,9 @@ if __name__=='__main__':
     s=read(sys.argv[2]);root=Path(s['registered_root']);lock=None
     try:lock=wait_resource_owner(s);r=run(s)
     except BaseException:
+        live=Path(s.get('live_root',root))
         r=dict(exit_code=1,failure=traceback.format_exc(),status='PRESERVE_NO_REPLAY',
-            actual_counts=read(root/'GENERATION_COUNTS.private.json')if(root/'GENERATION_COUNTS.private.json').exists()else{},
+            actual_counts=read(live/'GENERATION_COUNTS.private.json')if(live/'GENERATION_COUNTS.private.json').exists()else{},
             new_updates=0,new_native_requests=0,new_integrations=0)
         write(root/'RESULT.private.json',r)
     finally:

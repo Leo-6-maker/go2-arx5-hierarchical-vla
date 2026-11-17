@@ -16,6 +16,9 @@ from go2arx5_vla.world_model.mfree_unattended_runtime_v1 import dirs,close
 
 
 def run(spec):
+    if spec.get('storage_qualification_v31'):
+        from scripts.wm02.hybrid_ipc_storage_control_v31 import run as qualify
+        return qualify(spec)
     root=Path(spec['registered_root']);start=time.monotonic();journal=Journal(root/'control/journal',root.name)
     pin=lambda p:dict(path=str(p),sha256=digest(p))
     def state(phase,**kw):write(root/'goal_state.json',dict(phase=phase,epoch=time.time(),source_sha=spec['source_sha'],
