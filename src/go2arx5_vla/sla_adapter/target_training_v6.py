@@ -101,13 +101,17 @@ class TargetEngine(DeviceResidentEngine):
             if self.spec['full_H40_lambda']:
                 self.counts['full_trajectory_backward_attempts']=self.counts.get('full_trajectory_backward_attempts',0)+1
                 (value,detail),grad=self.aux_gradient(self.active,self.frozen,item,noise)
+                aux_norm=self.gradient_norm(grad)
+                self.counts['logical_denoise_remat_recomputations']=self.counts.get('logical_denoise_remat_recomputations',0)+10
                 accumulator=self.add_aux(accumulator,grad)
-            else:value,detail=self.aux_evaluate(self.active,self.frozen,item,noise)
+            else:
+                value,detail=self.aux_evaluate(self.active,self.frozen,item,noise);aux_norm=None
             jax.block_until_ready((value,detail,accumulator))
             values=np.asarray(jnp.r_[value,jnp.stack(detail)])
             if not np.isfinite(values).all():raise ValueError('FINITE_FULL_TEN_STEP_OBJECTIVE_REQUIRED')
             self.counts[key+'s']=self.counts.get(key+'s',0)+1
-            row=dict(absolute_cursor=first_cursor+i,loss=float(values[0]),head=float(values[1]),tail=float(values[2]),interior=float(values[3]))
+            self.counts['logical_generated_forward_steps']=self.counts.get('logical_generated_forward_steps',0)+10
+            row=dict(absolute_cursor=first_cursor+i,loss=float(values[0]),head=float(values[1]),tail=float(values[2]),interior=float(values[3]),aux_gradient_norm=None if aux_norm is None else float(aux_norm))
             if reference_check:
                 self.counts['reference_comparison_generations']=self.counts.get('reference_comparison_generations',0)+1
                 original=self.infer(self.active,self.frozen,item,noise);static=self.sample(self.active,self.frozen,item,noise);jax.block_until_ready((original,static))

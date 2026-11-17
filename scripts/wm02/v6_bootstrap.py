@@ -19,7 +19,11 @@ def main():
     from scripts.wm02.mobile_boundary_runner_v1 import registered
     registered(spec,path)
     if spec['physics']or spec['new_physical_requests_budget']:raise PermissionError('THIS_V6_ROUTE_IS_NONPHYSICAL')
-    if operation=='--source-prepare':
+    if operation=='--target-pair':
+        from scripts.wm02.v6_target_pair import run
+    elif operation=='--target-train':
+        from scripts.sla.train_target_v6 import main as run
+    elif operation=='--source-prepare':
         from scripts.sla.source_prepare_v6 import main as run
     elif operation=='--target-diagnose':
         from scripts.sla.target_diagnose_v6 import run
