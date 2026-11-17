@@ -39,6 +39,8 @@ def main():
         from scripts.sla.train_target_v6 import main as run
     elif operation=='--source-prepare':
         from scripts.sla.source_prepare_v6 import main as run
+    elif operation=='--multitask-scene-audit':
+        from scripts.wm02.multitask_scene_audit_v6 import main as run
     elif operation in('--source-test-prepare','--source-test'):
         from scripts.sla.source_test_v6 import main
         run=lambda spec:main(spec,gpu=operation=='--source-test')
