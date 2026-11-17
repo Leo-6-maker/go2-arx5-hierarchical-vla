@@ -18,9 +18,16 @@ def main():
     for module,rel in ((go2arx5_vla.world_model,'src/go2arx5_vla/world_model'),(go2arx5_vla.sla_adapter,'src/go2arx5_vla/sla_adapter'),(scripts.wm02,'scripts/wm02'),(scripts.sla,'scripts/sla')):module.__path__=[str(root/rel),*list(module.__path__)]
     from scripts.wm02.mobile_boundary_runner_v1 import registered
     registered(spec,path)
-    if operation!='--d0':raise PermissionError('UNIMPLEMENTED_V52_ROUTE')
+    if operation in('--train','--rgb'):
+        if spec['physics']or spec['new_physical_requests_budget']:raise PermissionError('OFFLINE_V52_NO_NATIVE')
+        from scripts.sla.train_mobile_v52 import main as learner
+        raise SystemExit(learner(operation,spec))
+    if operation not in('--d0','--prepare'):raise PermissionError('UNIMPLEMENTED_V52_ROUTE')
     if spec['physics']or spec['new_physical_requests_budget']or spec['new_model_generations_budget']or spec['optimizer_updates']:raise PermissionError('D0_MUST_BE_ZERO_GENERATION_AND_INTEGRATION')
-    from scripts.wm02.mobile_d0_v52 import run
+    if operation=='--d0':
+        from scripts.wm02.mobile_d0_v52 import run
+    else:
+        from scripts.wm02.mobile_prepare_v52 import run
     from scripts.pi0292.durable import write
     from go2arx5_vla.world_model.mfree_unattended_runtime_v1 import close
     import traceback

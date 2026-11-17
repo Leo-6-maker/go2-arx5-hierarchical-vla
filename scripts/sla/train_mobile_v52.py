@@ -57,6 +57,9 @@ def train(spec):
 def replay(spec):
     from scripts.sla.train_close_time_v1 import replay as original
     from go2arx5_vla.sla_adapter.provider_mobile_v52 import Provider
+    if spec['arm']=='B0':
+        from go2arx5_vla.sla_adapter.provider_time_shift7_v1 import Provider as FrozenProvider
+        return original(spec,provider_class=FrozenProvider)
     return original(spec,provider_class=Provider)
 
 

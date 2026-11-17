@@ -28,7 +28,8 @@ class SuccessorEngine(DeviceResidentEngine):
                 or spec['microbatch']!=4 or spec['training_matmul_precision']!='highest'
                 or spec['planned_candidate_updates']!=500 or spec['new_optimizer_updates_budget']!=500
                 or spec['new_training_visits_budget']!=16000 or spec['planned_target_visits']!=16000
-                or spec['endpoint_lambda']not in(0.,.1)or spec['inference_route']!='cached_actual'
+                or spec['endpoint_lambda']!={'B1':0.,'B2':.1}.get(spec['arm'])or spec['inference_route']!='cached_actual'
+                or spec['dense_manifest_sha256']!='4bcc5ffcd8920d874599a54cca73792c50a49ea6013d65ca7826817a9f80d7de'
                 or spec['SHIFT7_parent_package']['sha256']!=PARENT
                 or not audit['passes']or audit['manifest_sha256']!=spec['dense_manifest_sha256']):
             raise ValueError('FIXED_MATCHED_SHIFT7_SUCCESSOR500_V52_REQUIRED')
