@@ -1,0 +1,28 @@
+"""Fixed V6 source/parent closure, independent of all closed capsules."""
+import hashlib,json
+from pathlib import Path
+import sys
+
+
+def main():
+    operation,path=sys.argv[1:3];spec=json.loads(Path(path).read_bytes());source=Path(spec['source_root']);parent=spec['trusted_source_parent']
+    if(spec['plan_commit']!='ae3d3c0dceade437b0104a150cd0402fef650052'or spec['scope']!='SLA_SOURCE_NATIVE_SHARED_V6'):
+        raise PermissionError('FIXED_V6_PLAN_AND_EXPLICIT_NEW_SCOPE_REQUIRED')
+    if Path(__file__).resolve()!=source/'scripts/wm02/v6_bootstrap.py':raise PermissionError('EXACT_NEW_V6_BOOTSTRAP')
+    for name,pin in spec['source_files'].items():
+        if hashlib.sha256((source/name).read_bytes()).hexdigest()!=pin:raise ValueError('V6_IMMUTABLE_SOURCE_CHANGED:'+name)
+    if hashlib.sha256(Path(parent['spec_path']).read_bytes()).hexdigest()!=parent['spec_sha256']:raise ValueError('TRUSTED_EXECUTION_PARENT_CHANGED')
+    sys.path[:0]=[str(source),str(source/'src'),parent['source_root'],parent['source_root']+'/src']
+    import go2arx5_vla.world_model,go2arx5_vla.sla_adapter,scripts.wm02,scripts.sla
+    for module,rel in((go2arx5_vla.world_model,'src/go2arx5_vla/world_model'),(go2arx5_vla.sla_adapter,'src/go2arx5_vla/sla_adapter'),(scripts.wm02,'scripts/wm02'),(scripts.sla,'scripts/sla')):
+        module.__path__=[str(source/rel),*list(module.__path__)]
+    from scripts.wm02.mobile_boundary_runner_v1 import registered
+    registered(spec,path)
+    if spec['physics']or spec['new_physical_requests_budget']:raise PermissionError('THIS_V6_ROUTE_IS_NONPHYSICAL')
+    if operation=='--target-diagnose':
+        from scripts.sla.target_diagnose_v6 import run
+    else:raise ValueError('V6_ROUTE_NOT_IMPLEMENTED_NO_AUTOMATIC_FALLBACK')
+    raise SystemExit(run(spec))
+
+
+if __name__=='__main__':main()

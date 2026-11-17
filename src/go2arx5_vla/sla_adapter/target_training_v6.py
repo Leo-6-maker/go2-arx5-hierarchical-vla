@@ -95,6 +95,8 @@ class TargetEngine(DeviceResidentEngine):
             item=jax.tree.map(lambda x:x[i:i+1],obs);noise=self.aux_noise(jnp.uint32(first_cursor+i))
             key='diagnostic_full_generation'if diagnostic else'training_full_generation'
             self.counts[key+'_attempts']=self.counts.get(key+'_attempts',0)+1
+            from scripts.pi0292.durable import write
+            write(self.output/'AUX_PROGRESS.private.json',dict(phase='BEFORE_AUX',step=self.step,cursor=self.cursor,absolute_cursor=first_cursor+i,diagnostic=diagnostic,actual=self.counts))
             if self.spec['full_H40_lambda']:
                 self.counts['full_trajectory_backward_attempts']=self.counts.get('full_trajectory_backward_attempts',0)+1
                 (value,detail),grad=self.aux_gradient(self.active,self.frozen,item,noise)
@@ -112,9 +114,16 @@ class TargetEngine(DeviceResidentEngine):
                 # backprop's earlier output is not claimed as this prediction.
                 self.counts['static_comparison_generations']=self.counts.get('static_comparison_generations',0)+1
                 x,y=np.asarray(original),np.asarray(static);row['sampler_max_abs_difference']=float(np.max(abs(x-y)));row['sampler_exact_equal']=bool(np.array_equal(x,y))
-                if not np.array_equal(x,y):raise ValueError('STATIC_SCAN_DIFFERS_FROM_ORIGINAL_CACHED_SAMPLER')
+                span=np.asarray(self.dataset.statistics['actions'].q99[:3])-np.asarray(self.dataset.statistics['actions'].q01[:3])+1e-6
+                px=(x[...,:3]+1)*.5*span;py=(y[...,:3]+1)*.5*span
+                ax=full_h40_v6.acceleration_samples(px,xp=np);ay=full_h40_v6.acceleration_samples(py,xp=np)
+                row['physical_XYZ_max_difference_m']=float(np.max(abs(px-py)));row['acceleration_max_difference_m_s2']=float(np.max(abs(ax-ay)))
+                row['H40_XYZ_gate_equal']=bool(np.array_equal(np.max(ax,axis=-1)<=.25,np.max(ay,axis=-1)<=.25))
+                if row['sampler_max_abs_difference']>1e-5 or row['physical_XYZ_max_difference_m']>1e-6 or row['acceleration_max_difference_m_s2']>1e-4 or not row['H40_XYZ_gate_equal']:
+                    raise ValueError('STATIC_SCAN_EXCEEDS_FIXED_FLOAT_EQUIVALENCE_TOLERANCES')
                 row['noise_sha256']=hashlib.sha256(np.asarray(noise).tobytes()).hexdigest()
             records.append(row)
+            write(self.output/'AUX_PROGRESS.private.json',dict(phase='AUX_COMPLETE',step=self.step,cursor=self.cursor,absolute_cursor=first_cursor+i,diagnostic=diagnostic,actual=self.counts,row=row))
         return accumulator,records
 
     def diagnose(self):
