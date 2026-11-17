@@ -75,7 +75,7 @@ def run(spec):
                         with f.open('xb')as out:np.savez(out,state_eef10=state10,body_rgb=images[0],wrist_rgb=images[1],T_policy_from_mount=frame,policy_from_world=np.asarray(entry['policy_from_world']),accepted_reference_TCP=reference)
                         receiver=Receiver(folder/'receiver',entry['episode']+'-replay-%02d'%index,
                             int(round(entry['previous_reference']['query_native_s']/.002)),entry['previous_reference'],
-                            dict(kind='RECORDED_NATIVE_COMMAND',bank=bank,input_sha256=entry['input']['sha256']),bindings)
+                            dict(kind='RECORDED_NATIVE_COMMAND',bank=bank,input_sha256=entry['input']['sha256']),bindings,operator_stop=root/'STOP.json')
                         q=receiver.request(pin(f),entry['language'],item['noise']);write(folder/'REQUEST.private.json',q)
                         kind=item['kind']
                         def mutate(kind):

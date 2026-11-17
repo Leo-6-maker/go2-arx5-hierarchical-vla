@@ -52,6 +52,7 @@ def load_input(request):
 def check_live(request, state, *, now=time.monotonic):
     body = {k: v for k, v in request.items() if k != 'request_id'}
     if (identity(body) != request['request_id'] or request['schema'] != SCHEMA
+            or (state.get('operator_stop') and Path(state['operator_stop']).exists())
             or state['stop'] or state['cancelled'] or state['pending'] != request['request_id']
             or state['episode'] != request['episode'] or state['generation'] != request['generation']
             or state['native_step'] != request['native_step']
@@ -69,7 +70,7 @@ class Receiver:
     seed is a proven recorded command, not a newly emitted native command.
     Subsequent previous references advance only after the atomic mock ACK.
     """
-    def __init__(self, root, episode, native_step, seed, seed_evidence, bindings):
+    def __init__(self, root, episode, native_step, seed, seed_evidence, bindings, operator_stop=None):
         self.root = Path(root)
         self.root.mkdir()
         if type(native_step) is not int or abs(native_s(native_step) - seed['query_native_s']) > 1e-8:
@@ -77,6 +78,7 @@ class Receiver:
         reference_width(seed)
         self.state = dict(episode=episode, generation=0, sequence=0, native_step=native_step,
             previous=seed, previous_evidence=seed_evidence, bindings=bindings,
+            operator_stop=None if operator_stop is None else str(operator_stop),
             stop=False, cancelled=False, pending=None, installed=None, emitted_atoms=0)
         self.save()
 
