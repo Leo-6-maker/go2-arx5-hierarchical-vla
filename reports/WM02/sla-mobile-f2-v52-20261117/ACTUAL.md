@@ -1,35 +1,26 @@
-# V5.2 actual progress — B1 sealed, B2 running
+# V5.2 actual progress — E1 complete, real E2 running
 
-As of `2026-11-17T15:03:02.534508+00:00`, B1 has completed **500 actual updates /16,000 optimization visits**. B2 is at the verified prefix **100 updates /3200 visits** on the same GPU. The campaign has generated96 new TRAIN predictions. **New native requests/integrations are0/0; no new mobile-grasp success has been established.** The full E1/E2 objective remains incomplete.
+As of `2026-11-17T16:04:48.419630+00:00`, B1 and B2 each completed **500 genuine updates/16,000 optimization visits**, full-state checkpoint restoration and independent ordinary-RGB16 restoration. The campaign added1,000 updates/32,000 optimization visits,8 separately charged diagnostic windows and792 offline model generations.
 
-Plan `90d39196bdc345b977ee54ed64e750cf3561aa72`; execution PR405 independently inherits reviewed PR403 head `dbf222b41cb666bff4dd5412b864d023aec69399`.
+**Real MuJoCo E2:3/24 new requests started,2 terminal,1 active.** B1/F1-T0 achieved genuine grasp/lift/hold plus101.46mm required base motion;B0/F1-T0 stopped on illegal contact, with0 post-STOP integrations. One success among2 closed requests is a prefix, not an eight-condition result or promotion. No candidate is selected.
 
 | Stage | Actual state |
 |---|---|
-| D0 | 320 inputs,319 actions,1,376 C20 labels,8 experts/550 plans,2,501 saved contact states;0 new generation/integration |
-| Pretraining split freeze | 36 new layout clusters: DEV32/TEST40;205,308 static initialization-state FK checks;0 new dynamics |
-| B1 lambda0 | 500/16,000 complete;4,000 micro4 backward calls plus one diagnostic over4 windows |
-| B1 restoration | Actual all87 GPU reload bit-exact;all28 adapters changed;checkpoint/package bytes separately verified |
-| B1 TRAIN96 | 96/96 original H40;20/20 CLOSE events within100ms;maximum50ms |
-| B2 lambda.1 | Verified prefix above;fresh Adam and same true SHIFT7 parent |
-| Independent RGB16 / CN38 / ROLL96 | Pending finite followup;scientific failures cannot remove an E2 control |
-| E2 | Fixed24 requests preregistered;0 started |
-| Confirmation/E3/DEV/TEST | Conditional;none started |
+| D0 |320 inputs,319 actions,1,376 C20 labels,8 experts/550 plans;0 new generation/integration |
+| Pretraining split |36 sealed new layout clusters,DEV32/TEST40;205,308 passive FK checks;no new dynamics |
+| B1/B2 |500/16,000 each;all87 GPU reload bit-exact;all28 active arrays changed |
+| Independent RGB |B0/B1/B2 each16/16 bit-exact;no optimizer loaded |
+| Saved TRAIN/CN38 |All three96/96 and180/180;CLOSE20+36 per arm,0 omissions/late events |
+| ROLL96 |B0=93/96,B1=93/96,B2=96/96;original rejected3 repaired0/3,1/3,3/3 |
+| E2 native |3 started,2 closed;1 genuine success,1 contact STOP;21 requests remain unstarted |
+| Confirmation/E3/DEV/TEST |Conditional;0 started |
 
-See [B1 endpoint identities and measured costs](B1_ENDPOINT_ACTUAL.md), [D0 boundary/contact evidence](D0_BOUNDARY_CONTACT.md), and [B0 saved-prediction baseline](B0_OFFLINE_REUSE_ACTUAL.md). B0 remains96/96 TRAIN,180/180 CN38 and93/96 ROLL;its three historical H40 rejections still block promotion but do not remove its eight E2 conditions. No saved ROLL prediction is an executed trajectory or a same-state expert correction.
+See [actual matched endpoints and costs](E1_PAIR_ACTUAL.md),[offline distributions/gates](E1_OFFLINE_ACTUAL.md),[real native prefix and counters](E2_PREFIX_ACTUAL.md),[D0 evidence](D0_BOUNDARY_CONTACT.md),and[retained native-profile cold repair](E2_PROFILE_COLD_REPAIR_ACTUAL.md). The complete24-condition matrix and fixed selection/negative decision remain unfinished.
 
-The two saved pre-update states were independently byte-compared: all87 model/Adam/RNG arrays match, together with parent,visit map,LR,noise,time,dropout and first indices. Training source is `8ebdcbb7ab39c0f707c5b2ba94b0b097abc937e5`;matched LR SHA `7f10a93cbac3bda375845b99b1f50c4eb516cb5d49a8d5e2e17f6e1b956298c9`. The only objective change is lambda0 versus.1, with margin.20 and original execution threshold.25. Both endpoints are fixed500;step250 is recovery-only.
+Fixed plan `90d39196bdc345b977ee54ed64e750cf3561aa72`;reviewed PR403 head `dbf222b41cb666bff4dd5412b864d023aec69399`. Training source `8ebdcbb7ab39c0f707c5b2ba94b0b097abc937e5`;current immutable inference/native source `2797d0c2c458667e241aa0d24d6d0b005f3caf1a`. Common SHIFT7 parent `ef530bceebcc1691d9af9b5b1ea4ea89731f0c1d5d8f3e2287c3618dff7806eb` and frozen statistics `f28d50e6eeea09b332d4bd159eca4333bbe23b185f95f1d336d45311e364ab3e`. Source publication and offline legality are not task-success evidence.
 
-B1 model manifest: `b9ba974c374b3c3a09d7742004fc799337d5e7f1b9c9c7d290af066766e4706c`;result: `6ab3b21ed91789aa883a88d8e875396c20b30910013f403b24377e33e6b4adf6`. True common SHIFT7 parent: `ef530bceebcc1691d9af9b5b1ea4ea89731f0c1d5d8f3e2287c3618dff7806eb`;C20 manifest: `4bcc5ffcd8920d874599a54cca73792c50a49ea6013d65ca7826817a9f80d7de`;statistics: `f28d50e6eeea09b332d4bd159eca4333bbe23b185f95f1d336d45311e364ab3e`.
+The healthy server service `wm02-sla-mobile-f2-v52-e1-e2-followup-20261117-02` runs under verified linger with no frontend dependency. Its fixed deadline is unchanged at epoch1794967938.2895093(Nov18 10:12:18.289509 SGT);the campaign/allocation deadlines are unchanged. It automatically runs the remaining fixed E2 suffix, with no scientific replay, extra training, confirmation, E3 or DEV/TEST automatically scheduled. PID/cgroup,private logs and cooperative STOP entries are retained in the private detach receipt.
 
-Measured B1 service cost:3369.86s wall/2829.06s CPU,host peak14,365,962,240 bytes,swap peak0,JAX live-buffer peak9,714,233,344 bytes. GPU busy-seconds were not separately measured. D0 cost6.13s wall/3.02s CPU;split preparation278.73s wall/54.95s CPU. The split uses predeclared local outward offsets8–38mm with unchanged material/camera/robot,minimum5mm separation from190 historical initial centers and between new clusters. This is the declared local population;no TEST model output has been read. The CPU-only input-format audit read186 input archives,90 truths,276 baseline archives and verified16 existing RGB output hashes,with0 new generation/update/native request.
+Both zero-update E1 environment failures and the zero-scientific-effect native-profile repair are preserved. Old followup01 is terminal;new02 retains the reviewed native interpreter instead of the learner interpreter. No healthy capsule, frozen binary or saved result was hotpatched.
 
-Server followup `wm02-sla-mobile-f2-v52-e1-e2-followup-20261117-02` is actually live under linger,with an independently advancing heartbeat and no frontend dependency. Source `2797d0c2c458667e241aa0d24d6d0b005f3caf1a`;spec `9d0d02c39749219116498a85ec0323e0a2c78cf89e6cee9813a3d7f3421eaf01`. It waits for B2's closed actual500 endpoint,then performs exactly600 new offline generations (48 independent RGB restorations plus B1/B2's276 saved-input conditions each) and the fixed24 E2 requests. It has no automatic retry or automatic confirmation/E3/DEV/TEST. Original deadlines remain;detailed PID/cgroup/log/stop receipts are private.
-
-Two zero-update technical failures are retained: B1-01 missing upstream dependency path,and B1-02 inherited native LibTorch ABI search path. Both ended before model load,optimization visits or generation. Their B2 siblings were verified unstarted and closed. New03 identities fixed the offline environment;no old capsule was hotpatched or scientific outcome replayed.
-
-Frozen WBC,legs,MPC,solver,arm PD,H40/P10/TTL,2ms integration,collision/STOP and scoring remain. Hardware,RL,oracle BASE/phase,output clipping/smoothing and scientific retries remain forbidden. PR403's3/8 student success,F2 0/4,failed V5.1 pilot,and RP8/JOIN10/R3/history remain unchanged.
-
-Next actual deliverable remains both fixed500 endpoints,independent ordinary-RGB restoration,the complete24-condition paired native matrix and fixed selection/rejection,then the plan's conditional successors.
-
-The zero-scientific-effect [native profile cold repair](E2_PROFILE_COLD_REPAIR_ACTUAL.md) preserves the original native NumPy/MuJoCo/ROS stack. Old followup01 is terminal and retained;new02 is independently verified live,using the exact same deadline and unstarted600+24 suffix. Training units and model endpoints were untouched.
+WBC/legs/MPC/solver/arm PD,original completeH40/P10/TTL/2ms,collision/STOP and scores remain fixed. Pure MuJoCo uses the project-owner authorization already recorded in V5.1;no new third-party signature is required. Real hardware,RL,oracleBASE/phase,action clipping/smoothing and scientific retries remain forbidden. PR4033/8,F2 0/4,failed V5.1 pilot and old RP8/JOIN10/R3/history remain unchanged.
