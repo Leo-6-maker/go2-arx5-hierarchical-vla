@@ -2,7 +2,7 @@
   "schema": "SLA_MOBILE_V52_STAGE_ACTUAL",
   "status": "ONGOING_E1_NOT_AN_ENDPOINT_OR_POLICY_SUCCESS",
   "plan_commit": "90d39196bdc345b977ee54ed64e750cf3561aa72",
-  "as_of_UTC": "2026-11-17T14:20:14.984812+00:00",
+  "as_of_UTC": "2026-11-17T14:29:28.513930+00:00",
   "D0": {
     "source_sha": "4b59cd7c53882e4b04357d25e6e62660de89e715",
     "inputs": 320,
@@ -41,8 +41,8 @@
   "LR_sha256": "7f10a93cbac3bda375845b99b1f50c4eb516cb5d49a8d5e2e17f6e1b956298c9",
   "visit_map_sha256": "a151bfca90511a5fee70398aa50616472f989cbf41cdd899ca93d569a24040af",
   "E1_snapshot": {
-    "B1_updates": 240,
-    "B1_visits": 7680,
+    "B1_updates": 328,
+    "B1_visits": 10496,
     "B2_updates": 0,
     "B2_visits": 0,
     "B2_status": "WAIT_SAME_GPU_OWNER",
@@ -105,5 +105,35 @@
     "conditional_new_offline_generations": 600,
     "conditional_new_native_requests": 24,
     "automatic_confirmation_E3_DEV_TEST": false
+  },
+  "B1_recovery250": {
+    "step": 250,
+    "cursor": 8000,
+    "arrays": 87,
+    "all_files_hash_verified": true,
+    "COMPLETE_sha256": "0fe72a7023cbf7f7a63fda4e8cad097395e562b4eea25cd85b14fafbdf5418a8",
+    "inference_or_selection_performed": false
+  },
+  "B1_actual_cost_prefix": {
+    "completed_update_wall_s": 2052.9680973654613,
+    "service_CPU_s": 1867.112832,
+    "service_peak_host_bytes": 14365962240,
+    "JAX_peak_bytes_in_use": 9714233344,
+    "GPU_active_seconds": "NOT_SEPARATELY_MEASURED"
+  },
+  "zero_generation_input_format_audit": {
+    "status": "ACTUAL_INPUT_AND_BASELINE_FORMAT_READY",
+    "CN38_inputs": 90,
+    "ROLL96_inputs": 96,
+    "input_archive_reads": 186,
+    "truth_archive_reads": 90,
+    "baseline_archive_reads": 276,
+    "existing_RGB16_output_hashes": 16,
+    "new_model_loads": 0,
+    "new_model_generations": 0,
+    "new_updates": 0,
+    "new_optimizer_visits": 0,
+    "new_native_requests": 0,
+    "new_integrations": 0
   }
 }
