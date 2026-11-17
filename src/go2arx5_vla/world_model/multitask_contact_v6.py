@@ -26,8 +26,21 @@ def observer_permitted(a,b,distance,selected):
 
 def preview_permitted(a,b,distance,stage,selected):
     pair=frozenset((a,b));target=OBJECT_GEOMS[selected]
-    if stage in('approach','align')and any(pair==frozenset((p,target))for p in PADS):return False
-    return observer_permitted(a,b,distance,selected)
+    task_pad=any(pair==frozenset((pad,target)) for pad in PADS)
+    return bool(allowed_pair(a,b,selected) and not (
+        task_pad and (stage in ('approach','align') or distance < -PENETRATION_LIMIT)))
+
+
+def actuation_source(original_source):
+    """Use the same gripper and quota implementation with the new scene ABI."""
+    import hashlib
+    if hashlib.sha256(original_source).hexdigest() != '490c41c0dea0e28580f2cdae06903d020333d00654e39d11fb5d573e55cd63c5':
+        raise ValueError('EXACT_FROZEN_TASK_ACTUATION_SOURCE_REQUIRED')
+    before = b'm->nu!=20 || m->nq!=34 || m->nv!=32'
+    after = b'm->nu!=20 || m->nq!=41 || m->nv!=38'
+    if original_source.count(before) != 1:
+        raise ValueError('EXACT_ORIGINAL_TASK_ACTUATION_ABI_GUARD_REQUIRED')
+    return original_source.replace(before,after,1)
 
 
 def observer_source(original_source):

@@ -51,6 +51,7 @@ class Score:
         if direction.shape!=(2,)or not np.isclose(np.linalg.norm(direction),1.,rtol=0,atol=1e-12):raise ValueError('FIXED_UNIT_TASK_DIRECTION_REQUIRED')
         self.direction=direction;self.start=int(initial['native_step']);self.last=None;self.gaps=0;self.states=0
         self.ever_grasp=False;self.ever_lift=False;self.wrong_grasp=False;self.wrong_contact=False
+        self.unsafe_states=0
         self.hold_since=None;self.release_since=None;self.longest_hold=0.;self.longest_release=0.;self.maximum_lift=0.
         self.events={};self.latest=None;self.maximum_base_motion=0.
 
@@ -62,6 +63,8 @@ class Score:
         if(self.last is None and step!=self.start)or(self.last is not None and step!=self.last+1):
             self.gaps+=1;self.hold_since=self.release_since=None
         self.last=step;self.states+=1
+        safe=sample.get('safety_valid') is True
+        self.unsafe_states+=not safe
         if set(sample['objects'])!={'red','blue'}:raise ValueError('TWO_ACTUAL_OBJECT_STATES_REQUIRED')
         target=sample['objects'][self.task.color];other=sample['objects']['blue'if self.task.color=='red'else'red']
         pose=np.asarray(target['pose'],float);initial=np.asarray(self.initial['objects'][self.task.color]['pose'],float)
@@ -96,7 +99,7 @@ class Score:
             if value and name not in self.events:self.events[name]=dict(native_step=step,native_time_s=time_s)
         qualified_hold=holding and self.hold_since is not None and time_s-self.hold_since>=HOLD_SECONDS-1e-10
         qualified_place=stable and self.release_since is not None and time_s-self.release_since>=HOLD_SECONDS-1e-10
-        success=bool(not self.wrong_grasp and self.gaps==0 and motion>=BASE_MOTION and
+        success=bool(self.unsafe_states==0 and not self.wrong_grasp and self.gaps==0 and motion>=BASE_MOTION and
             (qualified_hold if self.task.operation=='HOLD'else qualified_place))
         self.latest=dict(task_success=success,native_step=step,base_directional_motion_m=motion,lift_m=lift,inside_selected_region=inside,
             target_grasp=grasp,wrong_object_grasp_ever=self.wrong_grasp,wrong_object_contact_ever=self.wrong_contact,released=released,
@@ -106,6 +109,6 @@ class Score:
     def result(self):
         if self.latest is None:raise ValueError('NO_NATIVE_SCORE_DENOMINATOR')
         return dict(schema='SLA_V6_MULTITASK_NATIVE_SCORE',instruction=self.task.instruction,**self.latest,
-            states=self.states,missing_native_intervals=self.gaps,ever_target_grasp=self.ever_grasp,ever_target_lift20mm=self.ever_lift,
+            states=self.states,missing_native_intervals=self.gaps,unsafe_states=self.unsafe_states,ever_target_grasp=self.ever_grasp,ever_target_lift20mm=self.ever_lift,
             maximum_lift_m=self.maximum_lift,longest_grasp_lift_hold_s=self.longest_hold,longest_stable_released_retreat_s=self.longest_release,
             events=self.events,task_privileged_truth_in_student_input=False,clock='ACTUAL_2MS_NATIVE_STREAM')

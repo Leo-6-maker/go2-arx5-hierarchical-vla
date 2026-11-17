@@ -13,7 +13,7 @@ def setup(task='PLACE-red-left'):
     initial=dict(native_step=5703,objects=objects,base_pose=np.eye(4));geometry=dict(zones={z:dict(center_world_XY=[.5,y],half_size_XY=[.05,.04])for z,y in(('left',-.06),('right',.06))},
         direction_world_XY=[1.,0.],object_half_sizes={c:[.02]*3 for c in objects},table_top_world_z=0.)
     scorer=Score(task,initial,geometry)
-    sample=dict(native_step=5703,time_s=5703*.002,objects=copy.deepcopy(objects),base_pose=pose(.10,0,0),tcp=pose(.5,-.06,.09),gripper_open_fraction=.95)
+    sample=dict(native_step=5703,time_s=5703*.002,objects=copy.deepcopy(objects),base_pose=pose(.10,0,0),tcp=pose(.5,-.06,.09),gripper_open_fraction=.95,safety_valid=True)
     sample['objects']['red'].update(pose=pose(.5,-.06,.041),native_grasp=True,hand_contact=True,table_contact=False)
     return scorer,sample
 
@@ -33,7 +33,7 @@ def test_place_requires_real_lift_full_footprint_release_and_continuous_one_seco
     assert not stream(scorer,sample,6205,6205)['task_success']
 
 
-@pytest.mark.parametrize('fault',['wrong_object','wrong_destination','no_lift','closed_gripper','contact','no_retreat','airborne','base','gap'])
+@pytest.mark.parametrize('fault',['wrong_object','wrong_destination','no_lift','closed_gripper','contact','no_retreat','airborne','base','gap','unsafe_state'])
 def test_clear_negative_place_states_are_not_success(fault):
     scorer,sample=setup()
     if fault=='no_lift':sample['objects']['red']['pose'][2,3]=.02
@@ -46,6 +46,7 @@ def test_clear_negative_place_states_are_not_success(fault):
     elif fault=='no_retreat':sample['tcp']=pose(.5,-.06,.05)
     elif fault=='airborne':sample['objects']['red']['table_contact']=False
     elif fault=='base':sample['base_pose']=pose(.079,0,0)
+    elif fault=='unsafe_state':sample['safety_valid']=False
     first=5705 if fault=='gap'else 5704
     assert not stream(scorer,sample,first,6306)['task_success']
 

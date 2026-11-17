@@ -4,7 +4,7 @@ import struct
 import numpy as np
 from scripts.pi0294.task_state import _parse_state_abi,ActualState
 from .multitask_scene_v6 import OBJECTS
-from .multitask_contact_v6 import allowed_pair
+from .multitask_contact_v6 import observer_permitted
 
 
 def parse_state(raw):
@@ -19,17 +19,22 @@ def parse_state(raw):
 def read_state(path):return parse_state(Path(path).read_bytes())
 
 
+def read_journal_packet(stream):
+    size=stream.read(4)
+    if not size:return None
+    if len(size)!=4:raise ValueError('TRUNCATED_MULTITASK_JOURNAL_LENGTH')
+    count,=struct.unpack('<I',size)
+    if not 40<=count<=2*1024**2:raise ValueError('BOUNDED_MULTITASK_STATE_PACKET_REQUIRED')
+    raw=stream.read(count)
+    if len(raw)!=count:raise ValueError('TRUNCATED_MULTITASK_NATIVE_PACKET')
+    return parse_state(raw)
+
+
 def packets(path):
     """Stream actual snapshots; a gap is reported to the strict task scorer."""
     previous=None
     with Path(path).open('rb')as f:
-        while size:=f.read(4):
-            if len(size)!=4:raise ValueError('TRUNCATED_MULTITASK_JOURNAL_LENGTH')
-            count,=struct.unpack('<I',size)
-            if not 40<=count<=2*1024**2:raise ValueError('BOUNDED_MULTITASK_STATE_PACKET_REQUIRED')
-            raw=f.read(count)
-            if len(raw)!=count:raise ValueError('TRUNCATED_MULTITASK_NATIVE_PACKET')
-            row=parse_state(raw)
+        while (row:=read_journal_packet(f)) is not None:
             if previous is not None and row['step']<=previous:raise ValueError('MONOTONE_MULTITASK_NATIVE_JOURNAL_REQUIRED')
             previous=row['step'];yield row
 
@@ -58,7 +63,7 @@ class TwoObjectState(ActualState):
         for contact in packet['contacts']:
             a,b=contact['geom0'],contact['geom1']
             if not 0<=a<m.ngeom or not 0<=b<m.ngeom:raise ValueError('CONTACT_IDS_BOUND_TO_ACTUAL_SCENE_REQUIRED')
-            safe&=allowed_pair(mujoco.mj_id2name(m,mujoco.mjtObj.mjOBJ_GEOM,a),mujoco.mj_id2name(m,mujoco.mjtObj.mjOBJ_GEOM,b),self.selected)
+            safe&=observer_permitted(mujoco.mj_id2name(m,mujoco.mjtObj.mjOBJ_GEOM,a),mujoco.mj_id2name(m,mujoco.mjtObj.mjOBJ_GEOM,b),contact['distance_m'],self.selected)
         for color,ids in self.object_ids.items():
             sides=[[],[]];hand=False;support=False
             for c in packet['contacts']:

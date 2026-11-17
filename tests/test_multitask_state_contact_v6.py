@@ -5,7 +5,7 @@ import pytest
 from scripts.pi0294.task_state import parse_state as legacy
 from scripts.pi0294.task_contacts import allowed,TASK_PAIRS
 from go2arx5_vla.world_model.multitask_state_v6 import parse_state
-from go2arx5_vla.world_model.multitask_contact_v6 import allowed_pair,observer_permitted,preview_permitted,observer_source
+from go2arx5_vla.world_model.multitask_contact_v6 import allowed_pair,observer_permitted,preview_permitted,observer_source,actuation_source
 
 
 def packet(abi,*,step=100,time_s=.2,contact_nan=False):
@@ -64,3 +64,15 @@ def test_observer_candidate_changes_only_role_binding_and_keeps_original_stop_la
 def test_unbound_repository_observer_cannot_replace_actual_core_frozen_trace_source():
     raw=(Path(__file__).parents[1]/'src/go2arx5_vla/target_mujoco/observer.cpp').read_bytes()
     with pytest.raises(ValueError,match='FROZEN_SERIALIZED'):observer_source(raw)
+
+
+def test_two_object_outer_changes_only_the_actual_frozen_state_abi():
+    import os
+    supplied=os.environ.get('SLA_V6_FROZEN_ACTUATION_SOURCE')
+    if not supplied:pytest.skip('actual archived Core outer source is supplied during execution qualification')
+    original=Path(supplied).read_bytes()
+    new=actuation_source(original)
+    assert new.replace(b'm->nu!=20 || m->nq!=41 || m->nv!=38',
+                       b'm->nu!=20 || m->nq!=34 || m->nv!=32') == original
+    with pytest.raises(ValueError,match='FROZEN_TASK_ACTUATION'):
+        actuation_source(original+b'changed')

@@ -23,33 +23,38 @@ def pinned(binding):
     return path
 
 
-def build_observer(spec, output):
-    from go2arx5_vla.world_model.multitask_contact_v6 import observer_source
-
-    build = spec['observer_build']
+def compile_candidate(build, output, name, edit):
     original = pinned(build['source'])
     pinned(build['library'])
     pinned(build['trace_header'])
     pinned(build['trace_library'])
     pinned(build['compiler_commands'])
-    argv = list(build['observer_argv'])
-    source = output / 'observer.cpp'
-    library = output / 'observer.so'
-    source.write_bytes(observer_source(original.read_bytes()))
+    argv = list(build['argv'])
+    source = output / (name+'.cpp')
+    library = output / (name+'.so')
+    source.write_bytes(edit(original.read_bytes()))
     argv[argv.index(str(original))] = str(source)
     if argv[-2:] != ['-o', build['library']['path']]:
         raise ValueError('ARCHIVED_OBSERVER_COMPILER_OUTPUT_MISMATCH')
     argv[-1] = str(library)
-    with (output / 'compile.log').open('x') as log:
+    with (output / (name+'-compile.log')).open('x') as log:
         subprocess.run(argv, check=True, stdout=log, stderr=subprocess.STDOUT, timeout=90)
     loaded = ctypes.CDLL(str(library), mode=ctypes.RTLD_LOCAL)
+    return loaded, {'source_sha256': digest(source), 'library_sha256': digest(library),
+                    'frozen_parent_sha256': digest(original)}
+
+
+def build_observer(spec, output):
+    from go2arx5_vla.world_model.multitask_contact_v6 import observer_source
+
+    build = dict(spec['observer_build'],argv=spec['observer_build']['observer_argv'])
+    loaded, evidence = compile_candidate(build,output,'observer',observer_source)
     pair = loaded.WM02MultitaskTaskPairV6
     pair.argtypes = [ctypes.c_char_p] * 3
     pair.restype = ctypes.c_int
     if pair(b'floor', b'FL', b'unknown') != -1:
         raise ValueError('INVALID_ROLE_MUST_FAIL_CLOSED')
-    return pair, {'source_sha256': digest(source), 'library_sha256': digest(library),
-                  'frozen_parent_sha256': digest(original)}
+    return pair, evidence
 
 
 def check_compiled_pairs(model, pair):

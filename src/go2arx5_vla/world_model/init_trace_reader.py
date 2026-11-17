@@ -68,8 +68,12 @@ def payload_metadata(row,snapshots):
     return dict(status=status,count=found['count'],original_count=ref['original_count'],sha256=found['sha256'],encoding='f32')
 
 
-def audit_trace(path,*,max_native_ticks=None):
+def audit_trace(path,*,max_native_ticks=None,state_abi=(34,32,20)):
     """Evidence audit only. A coherent synthetic trace never grants native admission."""
+    if state_abi not in ((34,32,20),(41,38,20)):
+        raise ValueError('EXPLICIT_NATIVE_TRACE_STATE_ABI_REQUIRED')
+    state_width=sum(state_abi)
+    abi_name='_'.join(str(n) for n in state_abi)
     path=Path(path);rows=read_trace(path);sp=Path(str(path)+'.snapshots');snapshots=read_snapshots(sp)if sp.exists()else{};summary=Path(str(path)+'.summary');writer=json.loads(summary.read_text())if summary.exists()else None
     errors=[];missing=[]
     if writer is None:missing.append('WRITER_SUMMARY_MISSING')
@@ -131,7 +135,7 @@ def audit_trace(path,*,max_native_ticks=None):
     for token in before.keys()&after.keys():
         a,z=before[token],after[token]
         if z['ticket']<=a['ticket']or abs(z['sim_time_s']-a['sim_time_s']-.002)>1e-8:errors.append('NATIVE_STEP_CLOCK_OR_ORDER_DIFFERS')
-        if a['n']!=86 or z['n']!=86:errors.append('NATIVE_STEP_ABI_NOT_34_32_20')
+        if a['n']!=state_width or z['n']!=state_width:errors.append('NATIVE_STEP_ABI_NOT_'+abi_name)
     if sorted(after)!=list(range(1,len(after)+1)):errors.append('NATIVE_STEP_TOKENS_NOT_CONTIGUOUS_FROM_COLD_START')
     if max_native_ticks is not None and(type(max_native_ticks)is not int or max_native_ticks<=0):raise ValueError('Positive bounded tick limit required')
     if max_native_ticks is not None and len(after)>max_native_ticks:errors.append('DECLARED_NATIVE_TICK_LIMIT_EXCEEDED')
@@ -142,7 +146,7 @@ def audit_trace(path,*,max_native_ticks=None):
     if not after:missing.append('NO_NATIVE_STEP_RECORDS')
     pd=[r for r in rows if r['kind']==10]
     if not pd:missing.append('NO_PD_CALLBACK_RECORDS')
-    if any(r['n']!=86 for r in pd):errors.append('PD_STATE_CTRL_ABI_NOT_34_32_20')
+    if any(r['n']!=state_width for r in pd):errors.append('PD_STATE_CTRL_ABI_NOT_'+abi_name)
     status='RECORDED_TRACE_CHECKS_FAIL'if errors else'INSUFFICIENT_RECORDED_EVIDENCE'if missing else'RECORDED_TRACE_CHECKS_PASS'
     return dict(schema='WM02_INIT_TRACE_EVIDENCE_AUDIT_V1',status=status,errors=sorted(set(errors)),missing=sorted(set(missing)),records=len(rows),writer=writer,full_payload_records=len(snapshots),full_payloads_not_retained=unretained,first_two_policy_evidence=first,legacy_publish_channels_unknown=channel_unknown,applied_mixed_versions=mixed,unmatched_apply_versions=apply_unmatched,native_step_records=len(after),PD_callbacks_recorded=len(pd),integrations_after_first_STOP=extra,STOP_observed=bool(stops),STOP_check='ZERO_FOLLOWING_RECORDED_STEPS'if stop and not extra else'FAIL'if extra else'NOT_TESTED',source_clock_note='PUBLISH/CONSUME/APPLY sim_time=0 is an instrumentation sentinel; use monotonic_ns and version causality, not physics time for those records.',input_files_sha256={p.name:digest(p)for p in(path,sp,summary)if p.exists()},target_qualification='NOT_ESTABLISHED: independent owner admission, original safety/contacts and trace overhead still required',new_effects_of_audit=dict(target_integrations=0,policy_queries=0))
 

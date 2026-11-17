@@ -88,6 +88,12 @@ class ContinuousTeacher(Teacher):
                 self.stage = 'HOLD'
         return goal
 
+    def grip_trajectory(self, start):
+        if self.close_start is None:
+            return np.ones(40)
+        u = np.clip(((start-self.close_start)*.002+np.arange(40)*DT)/2.,0.,1.)
+        return 1-u**3*(10+u*(-15+6*u))
+
     def decide(self, sample, reference, base):
         actual, reference = np.asarray(sample['tcp']), np.asarray(reference)
         start = sample['native_step']
@@ -117,11 +123,7 @@ class ContinuousTeacher(Teacher):
         raw[:,:3] = actual[:3,3] + (np.asarray([p for p,r in path])-origin)
         raw[:,3:9] = rotation_matrix_to_rot6d_rows(np.asarray([
             actual[:3,:3] @ reference[:3,:3].T @ r for p,r in path]))
-        if self.close_start is None:
-            raw[:,9] = 1.
-        else:
-            u = np.clip(((start-self.close_start)*.002+np.arange(40)*DT)/2.,0.,1.)
-            raw[:,9] = 1-u**3*(10+u*(-15+6*u))
+        raw[:,9] = self.grip_trajectory(start)
         program = FiftyMsProgram(raw,actual,reference,base)
         if np.linalg.norm(raw[-1,:3]-raw[0,:3]) > .015+1e-12:
             raise ValueError('CONTINUOUS_TEACHER_RETAINS_15MM_H40_SPAN')
