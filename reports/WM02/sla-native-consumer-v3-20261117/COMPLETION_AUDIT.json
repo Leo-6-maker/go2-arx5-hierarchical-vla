@@ -1,0 +1,292 @@
+{
+  "schema": "MFREE_V3_REQUIREMENT_COMPLETION_AND_BLOCKED_AUDIT",
+  "plan_sha": "bcc2c67be723149e38998a36802f218caa666917",
+  "reviewed_published_head": "e26a35f97f7df2dd2c757629eb09ca8554be5665",
+  "reviewed_CPU_source": "603f719ec8cb737544f1bb5a62fdbff9508dfa22",
+  "completion_proven": false,
+  "goal_met": false,
+  "terminal_result_sha256": "10ea6a4f75a60bc737898ad9a9263cbc273d040a73cee5e806aead5a43e99cbc",
+  "request_records_sha256": "ae202b77be2d6a9b4ec8fcab2481059a6071ae27ba2757c716f0363c660b983b",
+  "fresh_terminal_readback_sha256": "8663906cf083e04223b33722061ecc9fa875cea16ea0f256203bae977d1d623c",
+  "authoritative_terminal_checks": {
+    "requests": 32,
+    "attempted_generations": 52,
+    "completed_generations": 52,
+    "all_leases_closed": true,
+    "all_unit_PIDs_zero": true,
+    "all_cgroups_empty": true,
+    "neural_lock_unheld": true,
+    "new_updates": 0,
+    "new_visits": 0,
+    "new_native_requests": 0,
+    "new_integrations": 0
+  },
+  "requirements": [
+    {
+      "id": "A0.1",
+      "requirement": "从现役PR393执行栈隔离开发并固定V3计划",
+      "status": "PROVED",
+      "evidence": "Git ancestry7afbc0bd；固定bcc2c67b；PR395当前e26a35f9；独立worktree",
+      "remaining": ""
+    },
+    {
+      "id": "A0.2",
+      "requirement": "核对source/spec/registry/unit/PID/cgroup/lease及资源owner",
+      "status": "PROVED",
+      "evidence": "首两轮spec1c764b18/20a2db01；独立现场读回：两服务PID0、空cgroup、CLOSED，神经锁无持有者",
+      "remaining": ""
+    },
+    {
+      "id": "A0.3",
+      "requirement": "复用旧SHIFT7/两组合/CN38/RGB16/缓存64与历史失败",
+      "status": "PROVED_WITHIN_SCOPE",
+      "evidence": "本PR变更路径不含原模型/数据/旧评价结果；旧成功失败不重跑；本Goal新增训练0",
+      "remaining": ""
+    },
+    {
+      "id": "A0.4",
+      "requirement": "独有成本与effect ledger分开报告",
+      "status": "PROVED",
+      "evidence": "ACTUAL_MATRIX.json、EFFECT_LEDGER.jsonl；32请求/52生成/0更新/0访问/0原生/0积分；wall未称GPU忙时",
+      "remaining": ""
+    },
+    {
+      "id": "A1.1",
+      "requirement": "query绑定episode/sequence/native step/输入hash和模型codec统计身份",
+      "status": "PARTIAL",
+      "evidence": "hybrid_nonphysical_v3.py请求identity；worker核对registered bindings；旧15个正常query有实际IPC证据",
+      "remaining": "最新V3.1 schema仅CPU验证，尚无同版本真实GPU资格"
+    },
+    {
+      "id": "A1.2",
+      "requirement": "同输入noise的FM-EEF和TIME夹爪在物理H40合并后走原完整编译器",
+      "status": "PROVED_WITHIN_SCOPE",
+      "evidence": "旧15个安装query逐位比对原保存分支与组合；compile_proposal未修改；不拼归一化第7维",
+      "remaining": "不能推导完整WBC关节认证或新学生闭环"
+    },
+    {
+      "id": "A1.3",
+      "requirement": "上一实际发出命令与精确50ms历史、无教师状态输入",
+      "status": "PARTIAL",
+      "evidence": "Core使用已记录专家命令种子；替身126点ACK后推进；CPU跨query历史测试",
+      "remaining": "真实学生滚动重规划的上一命令/新状态连续性未建立"
+    },
+    {
+      "id": "A1.4",
+      "requirement": "推理前/中/后及编译/安装前STOP取消TTL与原子联合ACK",
+      "status": "PARTIAL",
+      "evidence": "旧固定16故障0误安装；603f719e新增五项CPU回归，44测试通过",
+      "remaining": "旧故障面板未覆盖所有新窗口；V3.1未部署/未真实IPC验证；无普遍STOP最坏界证明"
+    },
+    {
+      "id": "A1.5",
+      "requirement": "生成不推进历史；完整10点和部分7点、STOP/reset/cache清理",
+      "status": "PARTIAL",
+      "evidence": "Core完整P10共7次、部分7点8次；安装不推进历史；取消代际定向测试",
+      "remaining": "跨真实worker崩溃的在途query/cache/旧ACK恢复未证明；顺序冷装载不等同这一资格"
+    },
+    {
+      "id": "A1.6",
+      "requirement": "保留M_FREE7D、无BASE/oracle或独立夹爪写入",
+      "status": "PROVED_WITHIN_SCOPE",
+      "evidence": "原eef_document无BASE；替身联合H40/ACK；模型调用只接普通RGB/实测EEF/语言/frame/noise/上一命令",
+      "remaining": "真实native M_FREE消费仍为0"
+    },
+    {
+      "id": "A1.7",
+      "requirement": "task/TCP/world与nominal→mechanical只转换一次并核对原安装参考",
+      "status": "PROVED_WITHIN_SCOPE",
+      "evidence": "FRAME_ACTUAL.json：F1/F2各DESCEND/LIFT，4/4，参考最大2.554e-15、宽度差0",
+      "remaining": "只支持这四点转换，不能当作整场景或实际抓持资格"
+    },
+    {
+      "id": "A1.delivery",
+      "requirement": "版本化schema/状态转换、定向故障测试、RGB→H40→原编译器非物理回放",
+      "status": "PARTIAL",
+      "evidence": "PROTOCOL.md、V3_1_CPU_GUARDS_ACTUAL.md、旧Core正常ACK15/16",
+      "remaining": "当前版本无真实GPU/IPC资格；原生消费资格没有"
+    },
+    {
+      "id": "A2.1",
+      "requirement": "有效站点资源下最多32联合请求/64分支，0训练0原生",
+      "status": "PROVED",
+      "evidence": "首两轮真实site binding/owner/有限user service；32唯一请求，52尝试/52完成；已全部结束",
+      "remaining": "32请求额度耗尽，剩余12分支不授权第33请求"
+    },
+    {
+      "id": "A2.2",
+      "requirement": "不同query、重复query、分支延迟、参考时钟、冷重启和非积分receiver",
+      "status": "PARTIAL",
+      "evidence": "原8锚点x2noise、安装幂等、真实分支IPC屏障、三次顺序冷worker",
+      "remaining": "锚点均F1；没有新传感器采集；没有在途请求跨真实worker崩溃恢复；F2模型IPC未覆盖"
+    },
+    {
+      "id": "A2.3",
+      "requirement": "复用旧8正常/56故障，并检查真实IPC竞态/部分消费/STOP/TTL",
+      "status": "PARTIAL",
+      "evidence": "旧缓存64复用；新16故障含两分支间STOP；真实部分7点回执",
+      "remaining": "严格墙钟过期与新发现TTL/STOP窗口仅CPU验证；不能概括为全故障资格"
+    },
+    {
+      "id": "A2.4",
+      "requirement": "量化全链p50/p95/p99/max、冷载/JIT并守住350ms/400ms",
+      "status": "NOT_ACHIEVED",
+      "evidence": "旧热态12条：.8713/1.0419/1.0940/1.1070秒；模型p95=.3568秒；15/15 ACK均超350ms与400ms",
+      "remaining": "只有SIM_PAUSED_ONLY；连续实时失败；未延长TTL或跳过原检查"
+    },
+    {
+      "id": "A2.5",
+      "requirement": "每请求身份/时钟/分支输出/融合/编译/ACK拒绝/资源可重演",
+      "status": "PARTIAL",
+      "evidence": "32记录与结果hash；15正常完整数值包；阶段计数与拒绝原因；数组峰值7531363328 bytes",
+      "remaining": "中途取消的部分分支未完整落盘，不能声称全部数值可重演"
+    },
+    {
+      "id": "A2.6",
+      "requirement": "新补丁同版本真实Core资格",
+      "status": "NOT_ACHIEVED",
+      "evidence": "603f719e仅CPU44测试；实际Core执行源仍为5956cd03/c3777fee且均CLOSED",
+      "remaining": "需要独立有限资格额度与有效site allocation；不能借旧结果或已有剩余分支数新增query"
+    },
+    {
+      "id": "A3",
+      "requirement": "旧13条学生有效RGB/时钟/上一命令的one-step诊断",
+      "status": "NOT_RUN",
+      "evidence": "本轮没有A3生成或学生状态评价",
+      "remaining": "源完整性未完成审计，不得写SOURCE_MISSING；不能冒称新闭环；额外调用不可隐式突破总query上限"
+    },
+    {
+      "id": "S0.1",
+      "requirement": "三碰桌/contact/TCP/pad/BASE/reference age与控制器选定reference归因",
+      "status": "PARTIAL",
+      "evidence": "S0_ACTUAL.json和原693670状态结果9ed2b019；三次事件与误拦逐项保留",
+      "remaining": "仅receiver见证；UNKNOWN_CONTROLLER_SELECTED；完整WBC状态因果恢复仍未建立"
+    },
+    {
+      "id": "S0.2",
+      "requirement": "保护器误停代价和事前风险接受",
+      "status": "NOT_ACHIEVED",
+      "evidence": "原零误拦screen仍FAILED_1_OF_38；三次提前告警34/316/12ms",
+      "remaining": "没有新的独立事前风险接受；不能事后把误拦改PASS"
+    },
+    {
+      "id": "S0.3",
+      "requirement": "native hook位置、传感IO延迟、最坏STOP时延和实际预防",
+      "status": "NOT_ACHIEVED",
+      "evidence": "旧C++仅1204保存状态被动数值核对；候选未安装",
+      "remaining": "没有原生时延/真实预防证据；12ms告警提前量不是STOP上界"
+    },
+    {
+      "id": "S0.4",
+      "requirement": "可审核保护方案、绑定现场基线并提交独立准入申请",
+      "status": "PARTIAL",
+      "evidence": "S0_READMISSION_REQUEST.md、READMISSION_UNSIGNED.json；原controller9e8ce468与7配置/腿策略现场匹配",
+      "remaining": "只核对历史F1基线，不等于批准未来执行源、scene/layout/profile或有限面板"
+    },
+    {
+      "id": "S0.5",
+      "requirement": "独立责任方绑定source/package/scene/WBC/profile/STOP/面板签署READMISSION",
+      "status": "NOT_ACHIEVED",
+      "evidence": "签名/reviewer/approved字段均空；PR394/395当前无审核签署反馈；审核人问题待回复",
+      "remaining": "不能由执行代理自签；F1/F2专家/学生及M_ASSIST继续隔离"
+    },
+    {
+      "id": "P0",
+      "requirement": "独立准入后专家安全8：2族x2新审定布局x2reset、0硬STOP",
+      "status": "NOT_RUN",
+      "evidence": "当前新原生请求0",
+      "remaining": "先完成独立代码/scene/profile/STOP资格绑定与有效现场资源；8只是条件性上限"
+    },
+    {
+      "id": "P1",
+      "requirement": "学生pilot8，F1/F2各至少1次原生抓持/抬升20mm/保持1s/方向底座8cm且0硬STOP",
+      "status": "NOT_RUN",
+      "evidence": "当前新增学生原生任务与移动抓持成绩0；旧学生0/13保留",
+      "remaining": "不得将EEF误差、替身消费或离线H40合法率算作任务成功"
+    },
+    {
+      "id": "P2",
+      "requirement": "独立DEV32：≥24/32，各族≥12/16，0硬STOP",
+      "status": "NOT_RUN",
+      "evidence": "没有新DEV episode",
+      "remaining": "先满足P1；不改变失败条件/模型/种子挑成功"
+    },
+    {
+      "id": "P3",
+      "requirement": "一次性TEST40：≥32/40，各族≥16/20，0硬STOP",
+      "status": "NOT_RUN",
+      "evidence": "没有新TEST episode",
+      "remaining": "先满足DEV；没有TEST成功证据，不能标Goal完成"
+    },
+    {
+      "id": "P.trace",
+      "requirement": "真实candidate/scene/seed/reset/消费/拒绝k/通道/WBC/BASE/物体/STOP/积分记录",
+      "status": "NOT_RUN",
+      "evidence": "没有新native trace",
+      "remaining": "原生获准后才可能验证；当前缺失不能用软件测试代替"
+    },
+    {
+      "id": "L",
+      "requirement": "根据真实闭环学习瓶颈决定后继，当前不训练",
+      "status": "INVARIANT_PRESERVED",
+      "evidence": "新更新/访问0；无SHIFT网格、C60/C100、RL、真机或新科学训练",
+      "remaining": "未有新的真实闭环学习证据，L未启动"
+    },
+    {
+      "id": "INV.1",
+      "requirement": "冻结WBC/MPC/腿/臂/solver/2ms、H40/P10/50ms、40mm/s和原保护",
+      "status": "INVARIANT_PRESERVED",
+      "evidence": "git变更路径不含冻结控制器/门模块或资产；现场hash匹配；新代码只在非物理adapter",
+      "remaining": "CPU协议guard不是native碰撞/STOP资格"
+    },
+    {
+      "id": "INV.2",
+      "requirement": "冻结模型/统计、无教师真值输入/逐query择模/裁剪/平滑",
+      "status": "INVARIANT_PRESERVED",
+      "evidence": "固定FM500+TIME500包7aacd184；共享parent/codecs/statistics检查；组合物理列来源固定",
+      "remaining": "未新增训练或改动作表示"
+    },
+    {
+      "id": "INV.3",
+      "requirement": "旧RP8/JOIN10/DEV_TEST/三碰桌及误拦负结果不覆盖重投",
+      "status": "INVARIANT_PRESERVED",
+      "evidence": "effect ledger保留原ENOENT失败；第11条无补装/延期/重新生成；旧结果未修改",
+      "remaining": "旧失败不能因本PR发布而改成功"
+    },
+    {
+      "id": "OPS.1",
+      "requirement": "服务不依赖前台，本机断开后独立确认，有限期限及停止入口",
+      "status": "PROVED_WITHIN_SCOPE",
+      "evidence": "原受管user service、linger及独立连接回执；期限未延长；当前两个unit及三子角色全终态",
+      "remaining": "现在没有活跃任务或等待中的服务器job，不宣称后台持续推进"
+    },
+    {
+      "id": "GIT.1",
+      "requirement": "正常stacked PR/源SHA/测试证据回读、无force/merge/hotpatch/private资产发布",
+      "status": "PROVED_WITHIN_SCOPE",
+      "evidence": "PR395 open draft，base现役393；e26a35f9远端回读；源码603f719e与实际GPU源分开",
+      "remaining": "没有自动合并或自动部署；PR状态不等于能力资格"
+    },
+    {
+      "id": "REPORT.1",
+      "requirement": "goal_state、append-only效果账本、实际成本/失败/下一动作",
+      "status": "PROVED",
+      "evidence": "同目录goal_state.json/EFFECT_LEDGER.jsonl/ACTUAL_MATRIX与PR四字段",
+      "remaining": "本审计仍明确goal_met=false"
+    },
+    {
+      "id": "GOAL",
+      "requirement": "真实M_FREE两族移动抓持与目标DEV/TEST成绩全部成立",
+      "status": "NOT_ACHIEVED",
+      "evidence": "新native/积分/抓持/DEV/TEST均0；实时失败；独立准入缺失",
+      "remaining": "不能把已完成的非物理工程子集重新定义为完整Goal"
+    }
+  ],
+  "blocking_conditions": [
+    "ORIGINAL_32_CORE_REQUEST_BUDGET_EXHAUSTED_LATEST_VERSION_UNQUALIFIED",
+    "CONTINUOUS_REALTIME_TARGET_FAILED",
+    "INDEPENDENT_SOURCE_SCENE_PROFILE_STOP_READMISSION_NOT_PROVIDED"
+  ],
+  "independent_reviewer_request": "PENDING_USER_REPLY",
+  "new_GPU_or_native_jobs_authorized_by_audit": false
+}
