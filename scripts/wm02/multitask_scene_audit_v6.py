@@ -35,11 +35,24 @@ def run(spec):
         if digest(pin['path'])!=pin['sha256']:raise ValueError('OLD_TRAIN_SUPPORT_TEMPLATE_CHANGED')
         template=json.loads(Path(pin['path']).read_bytes());asset_root,assets=asset_binding(template);template=dict(template,asset_root=asset_root);path=template['model_path']
         if digest(path)!=template['frozen_files'][path]:raise ValueError('ORIGINAL_FROZEN_MODEL_BYTES_CHANGED')
+        reuse=spec.get('reuse_static_family',{}).get(family)
+        if reuse:
+            if digest(reuse['result']['path'])!=reuse['result']['sha256']or digest(reuse['spec']['path'])!=reuse['spec']['sha256']:raise ValueError('SEALED_STATIC_CANDIDATE_REUSE_CHANGED')
+            prior=json.loads(Path(reuse['result']['path']).read_bytes());old_spec=json.loads(Path(reuse['spec']['path']).read_bytes())
+            relative='src/go2arx5_vla/world_model/multitask_scene_v6.py'
+            if old_spec['source_files'][relative]!=spec['source_files'][relative]:raise ValueError('STATIC_SCENE_BUILDER_CHANGED_BEFORE_REUSE')
+            row=next(r for r in prior['records']if r['family']==family)
+            if not row['valid_static_candidate']or row['template']!=pin or row['original_scene_sha256']!=digest(path)or digest(row['model']['path'])!=row['model']['sha256']:
+                raise ValueError('EXACT_SUCCESSFUL_STATIC_CANDIDATE_ONLY_NO_RECOMPILE')
+            records.append(dict(row,reused_static_result=reuse['result'],new_compilations=0));continue
         original=mujoco.MjModel.from_binary_path(path);cube=original.body('task_cube').id;address=int(original.jnt_qposadr[original.body_jntadr[cube]])
         origin=original.key_qpos[0,address:address+3].copy();axis=template['mobile_condition']['axis']
+        offset=np.asarray(spec.get('prototype_origin_offsets',{}).get(family,[0.,0.,0.]),float)
+        if offset.shape!=(3,)or not np.isfinite(offset).all()or offset[2]!=0:raise ValueError('PREDECLARED_STATIC_XY_LAYOUT_OFFSET_REQUIRED')
+        origin+=offset
         direction={'+x':[1.,0.],'-x':[-1.,0.],'+y':[0.,1.],'-y':[0.,-1.]}[axis];u=np.asarray(direction);v=np.asarray([-u[1],u[0]])
         card=dict(object_positions_world={c:(origin+np.r_[sign*.045*v,0.]).tolist()for c,sign in(('red',-1),('blue',1))},
-            zones={z:dict(center_world_XY=(origin[:2]+.09*u+sign*.06*v).tolist(),half_size_XY=[.035,.035])for z,sign in(('left',1),('right',-1))},direction_world_XY=direction)
+            zones={z:dict(center_world_XY=(origin[:2]+.09*u+sign*.06*v).tolist(),half_size_XY=[.035,.035])for z,sign in(('left',1),('right',-1))},direction_world_XY=direction,prototype_origin_offset_world_m=offset.tolist())
         folder=root/family;folder.mkdir();record=dict(family=family,template=pin,asset_XML_binding=assets,original_scene_sha256=digest(path),card=card,valid_static_candidate=False)
         try:
             xml,binding=overlay_xml(template,original,card);xml_path=folder/'SCENE.private.xml';xml_path.write_text(xml)
