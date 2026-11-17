@@ -603,6 +603,8 @@ class TargetSequentialAdapter:
     def command_event(self,value):
         with(self.output/'COMMANDS.private.jsonl').open('a')as f:f.write(json.dumps(value,allow_nan=False)+'\n')
     def cancel_reference(self):
+        from .close_reference_input_v1 import invalidate
+        invalidate(self)
         before=self.counts.get('mode',0);self.reference_sequence+=1
         source=float(self.latest['ee'].time);doc=dict(_pi0294=dict(episode=self.output.name,sequence=self.reference_sequence,source_mpc_s=source,ttl_s=.4,operation='cancel'))
         self.publish(self.refs,json.dumps(doc,separators=(',',':')))
@@ -862,6 +864,8 @@ class TargetSequentialAdapter:
         self.publish(self.modes,'WBC');self.spin(3)
         return self.save_feedback_diagnostic('ZERO_INTEGRATION_REFERENCE_READINESS_INSPECTION')
     def close(self):
+        from .close_reference_input_v1 import invalidate
+        invalidate(self)
         from .native_collection_performance_v1 import close_resources
         try:
             with measure(self,'native.close'):
