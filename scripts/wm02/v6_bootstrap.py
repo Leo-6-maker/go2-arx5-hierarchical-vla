@@ -13,8 +13,8 @@ def main():
         if hashlib.sha256((source/name).read_bytes()).hexdigest()!=pin:raise ValueError('V6_IMMUTABLE_SOURCE_CHANGED:'+name)
     if hashlib.sha256(Path(parent['spec_path']).read_bytes()).hexdigest()!=parent['spec_sha256']:raise ValueError('TRUSTED_EXECUTION_PARENT_CHANGED')
     sys.path[:0]=[str(source),str(source/'src'),parent['source_root'],parent['source_root']+'/src']
-    import go2arx5_vla.world_model,go2arx5_vla.sla_adapter,scripts.wm02,scripts.sla
-    for module,rel in((go2arx5_vla.world_model,'src/go2arx5_vla/world_model'),(go2arx5_vla.sla_adapter,'src/go2arx5_vla/sla_adapter'),(scripts.wm02,'scripts/wm02'),(scripts.sla,'scripts/sla')):
+    import go2arx5_vla.world_model,go2arx5_vla.sla_adapter,scripts.wm02,scripts.sla,scripts.pi0294
+    for module,rel in((go2arx5_vla.world_model,'src/go2arx5_vla/world_model'),(go2arx5_vla.sla_adapter,'src/go2arx5_vla/sla_adapter'),(scripts.wm02,'scripts/wm02'),(scripts.sla,'scripts/sla'),(scripts.pi0294,'scripts/pi0294')):
         module.__path__=[str(source/rel),*list(module.__path__)]
     from scripts.wm02.mobile_boundary_runner_v1 import registered
     registered(spec,path)
