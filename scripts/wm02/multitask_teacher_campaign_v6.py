@@ -98,6 +98,8 @@ def teacher_coverage(rows):
 
 
 def preflight(spec):
+    from .multitask_stage_cards_v6 import verified_teacher_prefix
+
     if (spec['plan_commit'] != PLAN or spec['scope'] != SCOPE or not spec['physics']
             or spec['new_optimizer_updates_budget'] or spec['new_model_generations_budget']
             or spec.get('resident_server_spec') is not None or spec['case_lead_s'] < 1980):
@@ -112,14 +114,13 @@ def preflight(spec):
     panel = read_pin(spec['registered_panel'])
     start = spec['teacher_start_index']
     stop = start + spec['new_physical_requests_budget']
-    if not (0 <= start < stop <= 48 and ((start == 0 and stop == 6) or start >= 6)):
+    if not (0 <= start < stop <= 48 and (stop == 6 or start >= 6)):
         raise ValueError('INITIAL_TEACHER6_OR_EXACT_UNSTARTED_SUFFIX_REQUIRED')
     if [r['id'] for r in panel] != ids[start:stop] or len(spec['cases']) != stop-start:
         raise ValueError('TEACHER_SLICE_MUST_MATCH_ORIGINAL_ORDER')
-    completed = [read_pin(x) for x in spec['previous_teacher_results']]
-    previous = [row for result in completed for row in result['records'] if row['role']=='EXPERT']
-    if [r['id'] for r in previous] != ids[:start] or any(
-            fatal_control_violation(r) or r['technical_failure'] for r in previous):
+    previous = verified_teacher_prefix(spec['previous_teacher_results'],spec['compiled_population'],
+                                       world_lock=spec['mobile_world_lock'])
+    if [r['id'] for r in previous] != ids[:start]:
         raise ValueError('ONLY_EXACT_TERMINAL_TEACHER_PREFIX_CAN_PRECEDE_SUFFIX')
     clusters = {cluster['id']:cluster for cluster in population['clusters']}
     for path,item,record in zip(spec['cases'],panel,candidates[start:stop],strict=True):

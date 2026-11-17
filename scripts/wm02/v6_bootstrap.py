@@ -51,6 +51,8 @@ def main():
         run=lambda spec:main(spec,restore=operation=='--multitask-restore')
     elif operation=='--multitask-dataset':
         from scripts.sla.export_multitask_g7_v6 import main as run
+    elif operation=='--multitask-learning-campaign':
+        from scripts.wm02.multitask_learning_campaign_v6 import run
     elif operation=='--source-prepare':
         from scripts.sla.source_prepare_v6 import main as run
     elif operation=='--multitask-scene-audit':

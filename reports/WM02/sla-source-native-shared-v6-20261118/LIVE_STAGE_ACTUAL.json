@@ -1,27 +1,27 @@
 {
   "schema": "SLA_V6_ACTIVE_STAGE_READBACK",
-  "observed_SGT": "2026-11-18T07:11:28.825465+08:00",
+  "observed_SGT": "2026-11-18T07:23:41.616400+08:00",
   "source_S1000_prefix": {
-    "step": 570,
-    "cursor": 18240,
+    "step": 690,
+    "cursor": 22080,
     "actual": {
       "actual_parent_loads": 1,
-      "optimizer_updates": 570,
-      "forward_backward_attempts": 4560,
-      "completed_forward_backward": 4560,
-      "attempted_training_visits": 18240,
-      "completed_training_visits": 18240,
+      "optimizer_updates": 690,
+      "forward_backward_attempts": 5520,
+      "completed_forward_backward": 5520,
+      "attempted_training_visits": 22080,
+      "completed_training_visits": 22080,
       "ordinary_RGB_generation_attempts": 192,
       "ordinary_RGB_generations": 192,
       "physical_requests": 0,
       "diagnostic_backward_attempts": 1,
       "diagnostic_windows": 4,
       "diagnostic_backward_completed": 1,
-      "host_window_read_attempts": 18240,
-      "host_window_reads": 18240,
-      "optimizer_update_attempts": 570
+      "host_window_read_attempts": 22080,
+      "host_window_reads": 22080,
+      "optimizer_update_attempts": 690
     },
-    "step_wall_s": 6.452879694290459,
+    "step_wall_s": 6.452689813449979,
     "peak_GPU_live_bytes": 9749278464
   },
   "S0_TRAIN96": {
@@ -537,7 +537,7 @@
       "source_sha": "258beceaf24a26c5fd3ecf945488df0a75125299",
       "linger": "Linger=yes",
       "frontend_dependency": false,
-      "observed_SGT": "2026-11-18T07:12:54.919785+08:00"
+      "observed_SGT": "2026-11-18T07:23:41.601743+08:00"
     }
   },
   "F2_regions_actual": {
@@ -1394,7 +1394,7 @@
   "actual_RealMix_new_updates": 0,
   "allocation_deadline_SGT": "2026-11-19T02:51:23.855488+08:00",
   "M_Teacher_first6_queue": {
-    "observed_SGT": "2026-11-18T07:12:54.919785+08:00",
+    "observed_SGT": "2026-11-18T07:23:41.601743+08:00",
     "panel_sha256": "19caf6e925df6e0e66c8a1543b1dd5376340ace621cd046d2ac03fd60a15f3cd",
     "source_seal": "d5e793170a5e637c0a047880d5ce26e867e5efea035b3001a4dfdea23509b4a5",
     "preregistered_case_ids": [
@@ -1700,5 +1700,53 @@
     },
     "local_checks_passed": 85,
     "local_checks_skipped_without_archived_Core_source": 2
+  },
+  "M_continuation_preparation": {
+    "status": "FIXED_NATIVE_AND_LEARNING_ENTRYPOINTS_CHECKED_NO_DISPATCH",
+    "native_card_preflight": {
+      "native_python": "3.12.3",
+      "mujoco": "3.2.7",
+      "archived_pilot_cards_fields_match": 6,
+      "sealed_teacher_conditions": 48,
+      "fixed_unstarted_continuation_cards": 42,
+      "HOLD120_cards": 16,
+      "PLACE180_cards": 32,
+      "cards_registered": 0,
+      "models_generated": 0,
+      "native_requests": 0,
+      "native_ticks": 0
+    },
+    "same_G7_learner_site_preflight": {
+      "actual_archived_GPU_template_SHA": "38be835c44bb3da38b59ca59955bded82d9f95f0e8596bbdd56a6edbe37abde6",
+      "site_allocation_deadline_unchanged": true,
+      "canonical_neural_owner_binding_match": true,
+      "original_base_tokenizer_bindings_match": true,
+      "baseline_alone_scope_verified": true,
+      "dry_run_only": true,
+      "registered_children": 0,
+      "optimizer_updates": 0,
+      "model_generations": 0,
+      "native_requests": 0
+    },
+    "native_probe_wall_s": 0.23675537016242743,
+    "site_probe_wall_s": 0.5081518199294806,
+    "exact_native_sources": {
+      "scripts/wm02/multitask_stage_cards_v6.py": "37812a4b777baf43c92ffff01ea392af274ec4c7cd30b31ef6574a655ab834ab",
+      "scripts/wm02/multitask_teacher_campaign_v6.py": "cf96c51adf4598e25a2caddedd62bf5dd287140782b213dc9781a16e02972b5b",
+      "src/go2arx5_vla/world_model/multitask_scope_v6.py": "aa98d4edd377cdc88ed28ee3c637023f6209f3c934d8df1770153a213698ac97",
+      "src/go2arx5_vla/sla_adapter/multitask_contract_v6.py": "1571b1e038e0e393c526db39e07f75167a7ad71bfb77ae018ea93aeff8596ead"
+    },
+    "exact_site_sources": {
+      "scripts/wm02/multitask_learning_campaign_v6.py": "1fe424ab2fe50865066fc01008a164a98585cc000da810550991196ab658c236",
+      "scripts/wm02/multitask_stage_cards_v6.py": "37812a4b777baf43c92ffff01ea392af274ec4c7cd30b31ef6574a655ab834ab",
+      "src/go2arx5_vla/sla_adapter/multitask_initialization_v6.py": "6b1f426868c99593c89d1f022578c7458b9863d6fd5e3eb84bda380c1df2700b",
+      "src/go2arx5_vla/sla_adapter/multitask_contract_v6.py": "1571b1e038e0e393c526db39e07f75167a7ad71bfb77ae018ea93aeff8596ead"
+    },
+    "local_regressions_passed": 34,
+    "teacher_suffix_live_registration": 0,
+    "learning_live_registration": 0,
+    "new_optimizer_updates": 0,
+    "new_model_generations": 0,
+    "new_native_requests": 0
   }
 }
