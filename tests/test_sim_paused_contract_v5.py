@@ -208,3 +208,17 @@ def test_compilation_time_is_inside_wall_service_deadline(setup, monkeypatch):
     assert s.receiver.state['previous'] is None
     assert s.receiver.state['installed'] is None
     assert s.receiver.state['emitted_atoms'] == 0
+
+
+def test_saved_replay_uses_sealed_receiver_action_not_provider_archive(tmp_path):
+    from scripts.wm02.sim_paused_saved_pair_v5 import cached_pair_pins
+    (tmp_path/'INPUT.npz').write_bytes(b'input')
+    (tmp_path/'ACTION.npz').write_bytes(b'original receiver action')
+    (tmp_path/'SHIFT7_OUTPUT.npz').write_bytes(b'provider archive with other fields')
+    q = dict(input=dict(sha256=digest(tmp_path/'INPUT.npz')))
+    response = dict(action=dict(sha256=digest(tmp_path/'ACTION.npz')))
+    _, action = cached_pair_pins(tmp_path, q, response)
+    assert action['path'] == str(tmp_path/'ACTION.npz')
+    (tmp_path/'ACTION.npz').write_bytes(b'changed')
+    with pytest.raises(ValueError, match='SEALED'):
+        cached_pair_pins(tmp_path, q, response)

@@ -12,6 +12,15 @@ from go2arx5_vla.world_model.sim_paused_contract_v5 import (
 from go2arx5_vla.world_model.storage import digest
 
 
+def cached_pair_pins(saved, request, response):
+    """Use the receiver's ACTION, not the provider's richer output archive."""
+    inp = dict(path=str(saved/'INPUT.npz'), sha256=request['input']['sha256'])
+    action = dict(path=str(saved/'ACTION.npz'), sha256=response['action']['sha256'])
+    if digest(inp['path']) != inp['sha256'] or digest(action['path']) != action['sha256']:
+        raise ValueError('SEALED_INPUT_OR_H40_CHANGED')
+    return inp, action
+
+
 def run(evidence_root, output_root, source_sha):
     start, cpu = time.monotonic(), time.process_time()
     evidence_root, output_root = Path(evidence_root), Path(output_root)
@@ -31,10 +40,7 @@ def run(evidence_root, output_root, source_sha):
         saved = evidence_root/'requests'/('request-%02d' % index)
         original = read(saved/'REQUEST.private.json')
         response = read(saved/'RESPONSE.json')
-        inp = dict(path=str(saved/'INPUT.npz'), sha256=original['input']['sha256'])
-        action = dict(path=str(saved/'SHIFT7_OUTPUT.npz'), sha256=response['action']['sha256'])
-        if digest(inp['path']) != inp['sha256'] or digest(action['path']) != action['sha256']:
-            raise ValueError('SEALED_INPUT_OR_H40_CHANGED')
+        inp, action = cached_pair_pins(saved, original, response)
         seed = original['previous_evidence']
         if digest(seed['bank']['path']) != seed['bank']['sha256']:
             raise ValueError('RECORDED_SEED_EVIDENCE_CHANGED')
