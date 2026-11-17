@@ -6,6 +6,7 @@ upstream numeric interpretation. They cannot establish command provenance.
 import hashlib
 import json
 from pathlib import Path
+import time
 
 
 def temporal_alignment(action, state, lags=range(-3, 4)):
@@ -132,3 +133,21 @@ def inspect(root):
         command_provenance='UNKNOWN_NOT_INFERRED_FROM_TEMPORAL_CORRELATION',
         no_previous_actual_emitted_context_created=True,model_generations=0,native_requests=0,
         optimizer_updates=0,optimization_visits=0)
+
+
+if __name__ == '__main__':
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--root', required=True)
+    parser.add_argument('--output', required=True)
+    parser.add_argument('--source-sha', required=True)
+    args = parser.parse_args()
+    started, cpu = time.monotonic(), time.process_time()
+    result = inspect(args.root)
+    result.update(source_sha=args.source_sha, wall_s=time.monotonic()-started,
+        CPU_s=time.process_time()-cpu, epoch=time.time())
+    with Path(args.output).open('x') as stream:
+        json.dump(result, stream, indent=2, allow_nan=False)
+        stream.write('\n')
+    print(json.dumps(dict(result_sha256=hashlib.sha256(Path(args.output).read_bytes()).hexdigest(),
+        episodes=len(result['records']), wall_s=result['wall_s'], CPU_s=result['CPU_s'])))
