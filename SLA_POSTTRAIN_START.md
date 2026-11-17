@@ -1,3 +1,7 @@
+## 2026-11-17 · V5.1 隔离仿真直接授权
+
+最新用户指令采用 [SIM_ONLY_PROJECT_AUTHORIZED V5.1](docs/goals/2026-11-17/MFREE_SIM_ONLY_PROJECT_AUTHORIZED_V51.md)（[JSON](docs/goals/2026-11-17/MFREE_SIM_ONLY_PROJECT_AUTHORIZED_V51.json)）：新隔离MuJoCo仿真由项目负责人直接授权，取代旧V5第三方READMISSION签发前置。Codex自主完成工程并执行有界新版本；原WBC/H40/STOP/碰撞保护、真实计量与站点资源/owner约束保持，禁止真机通信。旧胶囊、隔离文件和历史失败不改写；新碰撞计失败并终止该episode，不永久禁止所有后继仿真。首轮2接口＋8专家＋8学生，初始化5703tick与60s任务段分别计数，整EP≤35703tick；不自动启动DEV/TEST或训练。
+
 > 当前移动学习入口：[M_FREE C20 → 一个 FM1000 → 原生 TRAIN8/DEV16](MFREE_C20_START_HERE.md)。完整用户计划与预登记布局／预算已固定；同步原生 RGB、当前最终 H40 和实际消费分别计量。M_ASSIST 继续整模式隔离。具体数据、更新和成功必须以本轮实际结果为准，以下历史记录不回填。
 
 > 2026-11-15 16:41 SGT：[JOIN10两条真实终态与70点消费](reports/WM02/sla-pd4-p0-repair-20261115/JOIN10_PREFIX2_ACTUAL_20261115.md)。EXEC原raw EEF拒绝；FINAL 8查询中7次完整消费P10，第8次原关节加速度拒绝。2有效失败／0成功，累计9推理／2请求／13156积分／70点；14次完整原证书通过及1拒绝已核对。余6条同队列后台接续，训练／访问新增0。GPU0并行容量已核，2路推理为候选；当前现役仍单worker，未额外启动新实验。

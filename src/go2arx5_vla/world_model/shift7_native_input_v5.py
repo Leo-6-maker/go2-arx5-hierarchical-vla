@@ -16,7 +16,7 @@ from scripts.pi0292.eval_contract import matrix10
 from scripts.pi0291_arx5_data.native_dataset import pose10
 from scripts.pi0294.e1.artifacts import atomic_npz
 from .close_reference_input_v1 import (
-    SHIFT7_METHOD, SHIFT7_NATIVE_VERSION, query_reference, reference_arrays,
+    SHIFT7_METHOD, SHIFT7_NATIVE_VERSION, SHIFT7_SIM_VERSION, query_reference, reference_arrays,
 )
 from .sim_paused_contract_v5 import SELECTED_SHIFT7_MANIFEST_SHA256
 from .storage import digest
@@ -26,13 +26,15 @@ from .hybrid_nonphysical_v3 import read
 
 def _identity(adapter):
     spec = adapter.spec
-    if (spec.get('mobile_experiment_version') != SHIFT7_NATIVE_VERSION
+    sim_only = spec.get('mobile_experiment_version') == SHIFT7_SIM_VERSION
+    max_ticks = 35703 if sim_only else 30000
+    if (spec.get('mobile_experiment_version') not in (SHIFT7_NATIVE_VERSION, SHIFT7_SIM_VERSION)
             or spec['mobile_condition'].get('method') != SHIFT7_METHOD
             or spec['mobile_condition'].get('mode') != 'M_FREE'
             or spec['mobile_condition'].get('family') not in ('F1', 'F2')
             or spec.get('execution_clock_profile') != 'SIM_PAUSED_NATIVE'
             or spec.get('SHIFT7_package', {}).get('sha256') != SELECTED_SHIFT7_MANIFEST_SHA256
-            or type(spec.get('max_ticks')) is not int or not 0 < spec['max_ticks'] <= 30000):
+            or type(spec.get('max_ticks')) is not int or not 0 < spec['max_ticks'] <= max_ticks):
         raise ValueError('NEW_PAUSED_SHIFT7_SINGLE_MFREE_IDENTITY_REQUIRED')
     spec_path = Path(spec['registered_root'])/'EXECUTION_SPEC.json'
     if (read(spec_path) != spec

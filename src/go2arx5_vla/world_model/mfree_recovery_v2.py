@@ -24,7 +24,7 @@ def register(parent,entries):
             if len(matches)>1:raise ValueError('DUPLICATE_REGISTERED_OWNER')
             if matches:
                 if any(matches[0][k]!=spec[k]for k in ('source_sha','owner','role')):raise ValueError('PARTIAL_REGISTRY_OWNER_MISMATCH')
-            else:registry['entries'].append(dict(path=str(path),run_uuid=path.name+'-'+Path(parent['campaign_root']).name,role=spec['role'],source_sha=spec['source_sha'],owner=spec['owner'],executor_node='corelab-4080s',scope='MFREE_COLD_RECOVERY_V2_NO_AUTOTRAIN',local_lease=str(lease),ROS_DOMAIN_ID=spec['ROS_DOMAIN_ID']))
+            else:registry['entries'].append(dict(path=str(path),run_uuid=path.name+'-'+Path(parent['campaign_root']).name,role=spec['role'],source_sha=spec['source_sha'],owner=spec['owner'],executor_node='corelab-4080s',scope=parent.get('registry_scope','MFREE_COLD_RECOVERY_V2_NO_AUTOTRAIN'),local_lease=str(lease),ROS_DOMAIN_ID=spec['ROS_DOMAIN_ID']))
         write(parent['registry'],registry)
     return dict(phase='REGISTERED',paths=[str(p)for p,_ in entries],epoch=time.time())
 

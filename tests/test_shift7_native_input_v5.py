@@ -202,3 +202,51 @@ def test_total_native_cap_includes_startup_and_partial_P10_is_explicit(setup):
 def test_stale_sample_state_cannot_be_retagged_with_current_time(setup):
     setup[1]['qpos'][2]=.1
     with pytest.raises(ValueError,match='CURRENT_SAMPLE'):prepare(setup)
+
+
+def test_V51_keeps_full60s_task_budget_beside_initialization(setup):
+    adapter=setup[0]
+    adapter.spec['mobile_experiment_version']='MFREE_SHIFT7_SIM_ONLY_V51'
+    adapter.spec['max_ticks']=35703
+    (Path(adapter.spec['registered_root'])/'EXECUTION_SPEC.json').write_text(json.dumps(adapter.spec))
+    result=prepare(setup)
+    assert result['metadata']['max_total_episode_ticks']==35703
+    assert result['metadata']['available_prefix_atoms']==10
+
+
+@pytest.mark.parametrize('wrong_identity',[False,True])
+def test_real_protocol_handoff_does_not_install_or_mock_consume_the_model_reply(setup,monkeypatch,wrong_identity):
+    from go2arx5_vla.world_model import sim_only_mobile_v51 as runtime
+    from go2arx5_vla.world_model.storage import digest
+    adapter=setup[0];root=Path(adapter.spec['registered_root']);server=root/'server';server.mkdir()
+    (server/'control').mkdir();(server/'bus').mkdir()
+    (server/'control/LEASE.json').write_text(json.dumps(dict(status='ACTIVE')))
+    spec=dict(registered_root=str(server),ipc_root=str(server/'bus'),
+        SHIFT7_package=dict(sha256=SELECTED_SHIFT7_MANIFEST_SHA256),
+        request_bindings=dict(policy_package_sha256=SELECTED_SHIFT7_MANIFEST_SHA256,selected_combo='SHIFT7_SINGLE'))
+    sp=server/'EXECUTION_SPEC.json';sp.write_text(json.dumps(spec))
+    adapter.spec.update(resident_server_spec=dict(path=str(sp),sha256=digest(sp)),language='pick',
+        model_service_timeout_s=30)
+    adapter.spec['mobile_condition']['seed']=7
+    (root/'EXECUTION_SPEC.json').write_text(json.dumps(adapter.spec))
+    prepared=prepare(setup);previous=copy.deepcopy(adapter.close_previous_reference)
+    original=runtime.write;seen=[]
+    def deliver(path,value):
+        original(path,value)
+        if path==server/'bus/REQUEST.json':
+            seen.append(value);q=value['request'];out=Path(value['response_root']);action=out/'ACTION.npz'
+            raw=np.repeat(prepared['observation'].values_for(prepared['metadata']['input'])['state_eef10'][None],40,axis=0)
+            np.savez(action,physical_H40=raw,normalized=np.zeros((1,40,32)))
+            original(out/'RESPONSE.json',dict(status='GENERATED_NOT_INSTALLED',
+                request_id='wrong'if wrong_identity else q['request_id'],bindings=q['bindings'],
+                action=dict(path=str(action),sha256=digest(action)),new_generations_this_request=1))
+    monkeypatch.setattr(runtime,'write',deliver)
+    if wrong_identity:
+        with pytest.raises(ValueError,match='REAL_SHIFT7_RESPONSE'):runtime.request_policy(adapter,prepared,0)
+    else:
+        assert runtime.request_policy(adapter,prepared,0)['status']=='GENERATED_NOT_INSTALLED'
+    assert seen[0]['request']['previous_reference']['width_m']==pytest.approx(.012)
+    assert adapter.close_previous_reference==previous and adapter.integrations==0
+    folder=Path(prepared['metadata']['input']['path']).parent/'inference-control'
+    assert not list(folder.glob('install-*'))and not list(folder.glob('emitted-*'))
+    assert json.loads((folder/'live.json').read_text())['cancelled']
