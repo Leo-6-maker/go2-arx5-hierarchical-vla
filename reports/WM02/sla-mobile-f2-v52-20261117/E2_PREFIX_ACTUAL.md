@@ -1,6 +1,6 @@
 # E2 real MuJoCo prefix — not a completed panel
 
-As of `2026-11-17T16:38:43.459925+00:00`: **9/24 new native requests started;8 terminal;1 still active.** There are5 composite successes among8 closed requests(5/9 launched, with1 pending). Two old interface results are reused evidence, not new requests. No candidate has been selected; confirmation,E3,DEV and TEST requests remain0.
+As of `2026-11-17T16:44:41.143756+00:00`: **10/24 new native requests started;9 terminal;1 still active.** There are6 composite successes among9 closed requests(6/10 launched, with1 pending). Two old interface results are reused evidence, not new requests. No candidate has been selected; confirmation,E3,DEV and TEST requests remain0.
 
 | Condition | Status | Native ticks | Verified model generations / H40 pass | Grasp / lift / hold | Required base motion |
 |---|---|---:|---:|---|---:|
@@ -11,14 +11,15 @@ As of `2026-11-17T16:38:43.459925+00:00`: **9/24 new native requests started;8 t
 | E2-F1-T1-B1 | COMPOSITE_SUCCESS | 22703 | 68 / 68 | true / 24.64mm / 1.10s | 103.97mm |
 | E2-F1-T1-B2 | COMPOSITE_SUCCESS | 23203 | 70 / 70 | true / 25.77mm / 1.35s | 102.09mm |
 | E2-F1-T2-B0 | COMPOSITE_SUCCESS | 23703 | 72 / 72 | true / 23.71mm / 1.05s | 99.99mm |
-| E2-F1-T2-B1 | RUNNING | ≥15453 | 40 / 39 | pending | pending |
+| E2-F1-T2-B1 | COMPOSITE_SUCCESS | 22453 | 67 / 67 | true / 24.69mm / 1.05s | 98.05mm |
 | E2-F1-T2-B2 | ORIGINAL_FULL_H40_POLICY_REJECTED | 19203 | 55 / 54 | false / 0.00mm / 0.00s | 110.00mm |
+| E2-F1-T3-B0 | RUNNING | ≥13703 | 33 / 32 | pending | pending |
 
 In the first complete F1/T0 triplet,B0 stopped on illegal contact while B1 and B2 each genuinely grasped,lifted20mm,held continuously for at least1s,and moved beyond80mm in the required direction. B1 used72 full P10s and B2 used71. Both ended without STOP or technical failure. This is paused-simulation task evidence,not continuous wall-clock real-time qualification or a completed eight-condition model result.
 
 B0 made58 verified returns,all58 passed the original fullH40 gate. It consumed57 full P10s plus3 complete atoms and13 partial ticks,then the original contact checker stopped at tick20,041. Its sealed trace has0 following integrations and no trace error. There were0 recorded grasped complete atoms and no task success. This retained contact failure is not a trajectory-envelope refusal.
 
-Closed-case integrations reconcile exactly: `4653×25+13+8×5703=161962`. Live prefixes independently confirm at least15453 further integrations. At this snapshot the GPU worker had508 completed generations;closed-case verified returns total468,live-case verified returns40. The2,880 native-policy cap is separate from792 E1 offline generations.
+Closed-case integrations reconcile exactly: `5323×25+13+9×5703=184415`. Live prefixes independently confirm at least13703 further integrations. At this snapshot the GPU worker had568 completed generations;closed-case verified returns total535,live-case verified returns33. The2,880 native-policy cap is separate from792 E1 offline generations.
 
 The original native result field `model_generations=0` scans obsolete `queries/`. This report instead checks `shift7-queries/` request/return identities,immutable bindings and action hashes. Original result bytes are retained;no active source was hotpatched to repair the report.
 
