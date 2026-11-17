@@ -52,3 +52,24 @@ def test_roll96_is_unique_balanced_and_keeps_all_failed_and_precontact_inputs():
  assert {('00-student-f2',q)for q in range(35,45)}<=keys
  assert {('02-student-f2',2),('04-student-f2',12),('06-student-f2',21)}<=keys
  assert selected==balanced_roll(list(reversed(rows)))
+
+
+def test_followup_requires_actual_500_endpoints_and_matching_initial_randomness(tmp_path,monkeypatch):
+ import json,time,pytest
+ from scripts.wm02 import mobile_e1_followup_v52 as followup
+ from go2arx5_vla.sla_adapter.mobile_successor_v52 import PARENT
+ monkeypatch.setattr(followup,'unit_state',lambda unit:dict(pid=0,cgroup_pids=[]))
+ monkeypatch.setattr(followup.subprocess,'Popen',lambda *a,**kw:pytest.fail('gate test must not launch any process'))
+ initial=dict(parent_package=dict(sha256=PARENT),all_state_array_hashes=[str(i)for i in range(87)],visit_map_sha256='same-visits',LR_sha256='same-LR',noise_sha256='same-noise',tau_sha256='same-time',state_dropout=[True,False],first_indices=[1,2],fresh_Adam=True)
+ specs={}
+ for arm in('B1','B2'):
+  folder=tmp_path/arm;folder.mkdir();(folder/'control').mkdir()
+  for name,value in [('EXECUTION_SPEC.json',dict(arm=arm)),('control/LEASE.json',dict(status='CLOSED')),('INITIAL_MATCH.private.json',initial),('RESULT.private.json',dict(exit_code=0,status='FIXED500_COMPLETE',new_updates=500,new_visits=16000,full_restore=dict(bit_exact=True,arrays=87),parent_package=dict(sha256=PARENT),frozen_fingerprint_unchanged='same-frozen'))]:
+   (folder/name).write_text(json.dumps(value))
+  specs[arm]=followup.pin(folder/'EXECUTION_SPEC.json')
+ s=dict(registered_root=str(tmp_path),E1_specs=specs,deadline_epoch=time.time()+3600)
+ assert set(followup.wait_endpoints(s))=={'B1','B2'}
+ changed=dict(initial,noise_sha256='different-noise');(tmp_path/'B2/INITIAL_MATCH.private.json').write_text(json.dumps(changed))
+ with pytest.raises(ValueError,match='MATCHED_INITIAL_STATE_MISMATCH_noise'):followup.wait_endpoints(s)
+ bad=json.loads((tmp_path/'B2/RESULT.private.json').read_text());bad['new_updates']=499;(tmp_path/'B2/RESULT.private.json').write_text(json.dumps(bad))
+ with pytest.raises(ValueError,match='TWO_REAL_MATCHED500'):followup.wait_endpoints(s)

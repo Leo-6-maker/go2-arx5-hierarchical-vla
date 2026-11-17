@@ -18,6 +18,9 @@ def main():
     for module,rel in ((go2arx5_vla.world_model,'src/go2arx5_vla/world_model'),(go2arx5_vla.sla_adapter,'src/go2arx5_vla/sla_adapter'),(scripts.wm02,'scripts/wm02'),(scripts.sla,'scripts/sla')):module.__path__=[str(root/rel),*list(module.__path__)]
     from scripts.wm02.mobile_boundary_runner_v1 import registered
     registered(spec,path)
+    if operation=='--followup':
+        from scripts.wm02.mobile_e1_followup_v52 import main as followup
+        raise SystemExit(followup(spec))
     if operation=='--campaign':
         from scripts.wm02.mobile_campaign_v52 import run as campaign
         raise SystemExit(campaign(path))
