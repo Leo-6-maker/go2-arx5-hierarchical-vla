@@ -1,9 +1,17 @@
-# V6 actual progress
+# V6 actual stage snapshot
 
-固定计划ae3d3c0dceade437b0104a150cd0402fef650052；旧PR407 BLOCKED和V5.2完整负结果保持。见[V6_DECISION](V6_DECISION.md)。
+Fixed plan `ae3d3c0dceade437b0104a150cd0402fef650052`. Observed 2026-11-18T04:13:58.298920+08:00. Execution remains in progress. No new native request or policy task-success claim.
 
-源depot已真实复用12并补读48，60文件逐SHA核验，合计10,715,427,154字节。SOURCE_TEST只读通用schema，未读数值标签或模型结果。有限CPU服务正常exit0，实际489.15s wall/19.61s CPU；不是训练成功。
+- Historical PR407 RealMix BLOCKED, V5.2 17/24 negative no-promotion endpoint, old B1/B2 and TEST remain unchanged.
+- T real-model qualification: four B1 TRAIN windows traversed real FM gradients and all ten generated-sampler steps; four original/static comparisons were bit exact. Twelve offline generations, zero optimizer updates in this precheck. All four initial auxiliary losses were zero, so this proves capacity/differentiability, not an auxiliary-learning benefit.
+- T-FM actual prefix: **170/500 updates, 5,440/16,000 visits, 680/2,000 complete in-batch generations**, as observed at 2026-11-18T04:10:41.855847+08:00. T-H40 is unstarted. Both remain under their original finite managed pair; the fixed new24 condition identities were sealed before updates. Real full endpoints, ordinary RGB restoration, fixed offline qualification and native screen are pending.
+- Source60: reused12 plus downloaded48, all SHA verified, 10,715,427,154 raw bytes. Typed source preparation has36 TRAIN/12 DEV episodes and38,106 eligible H50 TRAIN windows. Separate TRAIN-only statistics SHA `a94e1567bb002621d5841150a8e677e38fa6d02b51af22e4ab6f301317ebd521`; typed manifest SHA `7954a6637564ad39a88f3e173c47687d66c39c50bbaccd9a2ad5f1a361667ab5`. SOURCE_TEST numerical labels remain unread.
+- The first CPU preparation's whole-future-span motion definition made every H50 dynamic and returned NOT_READY. This result is preserved. Before any S generation/update, the numeric stratum was explicitly fixed to preceding-frame anchor change using1% per-dimension TRAIN state IQR. First anchors without a predecessor remain UNKNOWN and excluded. Future-H50 motion stays a separate diagnostic: a low-change current anchor is not a stationary future. No curve, frequency, horizon, threshold coefficient, split, model or target decoder was changed.
+- Actual sealed source visits: **16,000 dynamic +16,000 low-change anchor**, uniform task/episode slots,18,866 distinct windows. Both arms, three current RGB cameras and original full instructions are retained. No dispatch/ACK/physical-width claim.
+- Source1000 code implements official-base native H50 FM32,14 active/18 zero padding, fresh AdamW, fixed1000 MFREE LR, step250/500/1000 complete states, S0/S1000 TRAIN96+DEV96 and separate-process RGB16 restores. Seven focused CPU tests passed; no S learning has yet occurred.
+- S technical predecessor failed registration before its controller/model: registered CPU12/13 did not match service affinity14/15. Actual terminal PID0, no child, work directory or Journal. It was sealed with zero effects; a corrected independent successor retains the same deadline.
+- S successor **wm02-sla-v6-source1000-20261118-02**, PID1505424, actual cgroup verified, is independently observed waiting for the healthy T pair's cold boundary, without requiring scientific success. Linger=yes; no frontend dependency. Source `0fa944e99683cdfd957f56af676370edbe5cab8a`, spec `6c8fe43fa70b8ab1284fcb1bce28038ed8ab2b9f94b5f0e207c900bfefe8db14`. Deadline 2026-11-18T16:10:54.939560+08:00; outer allocation 2026-11-19T02:51:23.855488+08:00 is unchanged.
 
-T仅一次B1同父FM500/完整H40生成约束500。新静态十步反传、固定四窗与计量已实现，真实模型GPU梯度预检尚未开始。S typed H50 reader/TRAIN统计与官方base1000训练仍在实现。当前新增优化更新/优化访问/模型生成/原生请求均0。
+Current costs: target170 updates/5,440 visits/680 training generations plus12 qualification generations; source0 updates/0 model generations; new native0/integrations0. Earlier source-depot costs489.15s wall/19.61s CPU; typed cached preparation13.16s wall/1.86s CPU. Source resource queue has not consumed its training budget.
 
-旧服务不重开、真实allocation不续期、WBC/安全门/旧TEST不变。首交付仍须真实T端点/新闭环和S1000/源评价；本文件是进度，不是完成声明。
+Remaining scope: actual T-FM/T-H40 endpoints and new24/conditional confirm8, S1000 complete evaluation and once-frozen TEST96, then independently qualified G7 HOLD/PLACE preparation and conditional M-BASE/M-SRC. No automatic scientific retry, training sweep, WBC/safety change or allocation renewal.
