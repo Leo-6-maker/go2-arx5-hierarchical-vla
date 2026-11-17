@@ -1,4 +1,5 @@
 import json
+import inspect
 from pathlib import Path
 import os
 import subprocess
@@ -14,6 +15,7 @@ from go2arx5_vla.world_model.hybrid_ipc_storage_v31 import archive_request
 from go2arx5_vla.world_model.hybrid_nonphysical_v3 import Receiver, load_input
 from go2arx5_vla.world_model.verified_observation_v1 import VerifiedObservation
 from test_hybrid_nonphysical_v3 import fixture, strict_request
+import test_hybrid_nonphysical_v3 as legacy_protocol
 
 
 def memory_receiver(tmp_path):
@@ -250,3 +252,31 @@ def test_completed_archive_loss_is_unknown_at_next_owner_boundary(tmp_path):
     (dest/'data').write_bytes(b'corrupted after completion')
     with pytest.raises(MutationOutcomeUnknown):
         AsyncRequestArchive(journal)
+
+
+LEGACY_CASES = [name for name in vars(legacy_protocol) if name.startswith('test_')
+                and name != 'test_fault_has_no_install']
+
+
+@pytest.mark.parametrize('name', LEGACY_CASES)
+def test_original_protocol_with_both_caches_enabled(tmp_path, monkeypatch, name):
+    def cached(root, *args, **kwargs):
+        pin = Path(root).parent/'input.npz'
+        from go2arx5_vla.world_model.storage import digest
+        observation = VerifiedObservation.from_file(dict(path=str(pin), sha256=digest(pin)))
+        return Receiver(root, *args, **kwargs, observation=observation, cache_compiled=True)
+    monkeypatch.setattr(legacy_protocol, 'Receiver', cached)
+    function = getattr(legacy_protocol, name)
+    values = dict(tmp_path=tmp_path, monkeypatch=monkeypatch)
+    function(**{key: values[key] for key in inspect.signature(function).parameters})
+
+
+@pytest.mark.parametrize('fault', ['stop', 'cancel', 'restart', 'response_id', 'binding', 'native', 'request'])
+def test_original_preinstall_faults_with_both_caches_enabled(tmp_path, monkeypatch, fault):
+    def cached(root, *args, **kwargs):
+        pin = Path(root).parent/'input.npz'
+        from go2arx5_vla.world_model.storage import digest
+        observation = VerifiedObservation.from_file(dict(path=str(pin), sha256=digest(pin)))
+        return Receiver(root, *args, **kwargs, observation=observation, cache_compiled=True)
+    monkeypatch.setattr(legacy_protocol, 'Receiver', cached)
+    legacy_protocol.test_fault_has_no_install(tmp_path, fault)
