@@ -28,5 +28,13 @@
   "native_requests": 0,
   "actual_allocation_deadline_epoch": 1795027883.855488,
   "old_capsules_reopened": false,
-  "next_action": "Finish typed S reader/TRAIN statistics and real T gradient qualification; no scientific qualification from files or CPU tests"
+  "next_action": "Finish typed S reader/TRAIN statistics and real T gradient qualification; no scientific qualification from files or CPU tests",
+  "source_stratum_fixed_before_S_model_work": {
+    "rule": "PRECEDING_LOGGED_FRAME_ANCHOR_CHANGE",
+    "threshold": "1PCT_PER_DIMENSION_SOURCE_TRAIN_STATE_IQR",
+    "first_anchor": "UNKNOWN_EXCLUDED",
+    "future_H50_span_motion_separate": true,
+    "whole_span_CPU_NOT_READY_preserved": true,
+    "model_generations_or_updates_before_definition": 0
+  }
 }

@@ -22,17 +22,17 @@
   "source_depot_wall_s": 489.1485514724627,
   "source_depot_CPU_s": 19.607971499,
   "source_TEST_labels_read": false,
-  "T_updates": 170,
+  "T_updates": 480,
   "S_updates": 0,
-  "model_generations": 692,
+  "model_generations": 1932,
   "native_requests": 0,
   "actual_allocation_deadline_epoch": 1795027883.855488,
   "old_capsules_reopened": false,
   "next_action": "Complete existing T pair; finish fixed377/endpoint RGB restores/new24; execute queued source1000 and independent source evaluation; conditional M remains in scope",
   "status": "T_REAL_UPDATES_RUNNING_S_TYPED_READY_AND_QUEUED",
-  "observed_epoch": 1794946438.2989197,
-  "T_visits": 5440,
-  "T_training_complete_generations": 680,
+  "observed_epoch": 1794948438.7217412,
+  "T_visits": 15360,
+  "T_training_complete_generations": 1920,
   "T_H40_updates": 0,
   "S_visits": 0,
   "diagnostic_offline_generations": 12,
@@ -41,9 +41,9 @@
     "PID": 1477389,
     "source_sha": "131a002de5535509f9e8e4b6abf913a11cc2f445",
     "spec_sha256": "3d2bcd67b7cce710ad14b576c920d5a611374b8bae6cdb4179174e5e95a16846",
-    "observed_epoch": 1794946241.8558471,
-    "actual_update_step": 170,
-    "completed_visits": 5440,
+    "observed_epoch": 1794948438.7217412,
+    "actual_update_step": 480,
+    "completed_visits": 15360,
     "state": "ACTIVE_RUNNING",
     "precheck_windows": 4,
     "precheck_backward_complete": true,
@@ -101,5 +101,41 @@
   "local_source_tests": {
     "passed": 7,
     "model_qualification": false
+  },
+  "target_followup": {
+    "unit": "wm02-sla-v6-target-followup-20261118-01",
+    "PID": 1518080,
+    "source_sha": "d32a6f983de0908e9508940e551ab7ab18f4be83",
+    "spec_sha256": "2ada7979fcfd60017a239b68e19c24fb7bb5c89a275cfe4c9456a964af2105dd",
+    "deadline_epoch": 1794990488.12456,
+    "actual_state": "ACTIVE_WAIT_EXISTING_T_AND_S_CAPACITY_COLD_BOUNDARY",
+    "verified_independently": true,
+    "new_generations": 0,
+    "new_native_requests": 0,
+    "old5_reject_bank_sha256": "12a2bbe8e7556d51058f2c6fe71edbd38fcec2482445a9167f05ffa7864fd3f2",
+    "offline_new_generation_cap": 615,
+    "screen_cap": 24,
+    "conditional_confirmation_cap": 8
+  },
+  "source_once_TEST": {
+    "code_implemented": true,
+    "dispatched": false,
+    "labels_read": false,
+    "required_endpoint_updates": 1000,
+    "required_independent_RGB_restores": 2,
+    "cap": 96
+  },
+  "M_preparation": {
+    "scoring_predicate_implemented": true,
+    "pointwise_G7_and_seam_objective_implemented": true,
+    "focused_CPU_tests_passed": 15,
+    "actual_Teacher_requests": 0,
+    "actual_model_updates": 0,
+    "native_scene_binding_pending": true,
+    "findings": [
+      "Existing packet reader and RGB mirror explicitly require nq34/nv32/nu20 single-object ABI",
+      "Existing literal task-contact whitelist has one task cube; adding a second object needs an explicit scene binding preserving the same contact predicates, not disabling its guard"
+    ],
+    "success_claim": false
   }
 }
