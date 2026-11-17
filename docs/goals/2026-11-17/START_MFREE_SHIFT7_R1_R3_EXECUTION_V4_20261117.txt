@@ -1,0 +1,7 @@
+执行 Leo-6-maker/go2-arx5-hierarchical-vla 的 MFREE_SHIFT7_R1_R3_EXECUTION_V4_20261117。先读 docs/goals/2026-11-17/MFREE_SHIFT7_R1_R3_EXECUTION_V4_20261117.md / .json，并核查 PR396@3c576f5fa29afcccc5ca143a4a4ab6d40d67f8d3、PR395@7930e9a6ccac4d0dff0c2bb402323b22d2ca9100、PR393@7afbc0bd953c9b87821858bd70738a287ec082fc的真实Core终态、代码／数据／模型SHA、owner／lease及资源批准。main只是集成入口，使用受审PR396执行栈及新不可变worktree，不热改、重投任何旧CLOSED/UNKNOWN任务。
+
+已完成R0/R2：Core CPU 32/32 H40缓存逐字节相同、272点一致、624文件SHA、异步归档4请求；0新GPU。勿重跑。新R1/R3 GPU任务仍未经本计划授权：申请并核验独立有限资源后，R1先SHIFT7单模型在CN38固定8EP×5阶段×2noise=80次生成，若预登记合法/时序/EEF误差门过，再扩至总180，不是追加180。不得把HYBRID的180/180写成SHIFT7成绩。R1通过则锁定单模型，否则锁定FM500 EEF＋TIME500 Grip。R3仅为锁定的一个架构做32个非物理连续请求：单模型≤32生成，HYBRID≤64生成，测真实GPU+PR396内存输入/有界异步归档、完整原H40、mock ACK、严格墙钟TTL、热态p95≤350ms、max<400ms及2Hz/归档背压；不能用SIM_PAUSED或记录相机帧冒称现场传感器/原生实时。
+
+Codex遇用户空间E0/E1工程问题主动最小修复、跑定向回归并提交GitHub PR；禁止更换训练目标/权重/统计/动作语义、放宽H40/40mm/s/碰撞、安全门、私自延长原allocation或新训练。并行只读整理三次碰桌、监测误拦1/38及真实STOP hook/控制参考缺口；没有责任审核者签发代码/scene/WBC/profile/有限面板READMISSION，新原生请求=0，F1/F2专家/学生与M_ASSIST共同隔离继续。数据量×步数学习曲线（C20/C38×两个seed×500/1000）的4K步/128K访问仅在未来真实学生闭环显示学习缺口并另授权时登记，当前训练0。
+
+交付每阶段真实run_id/source/spec、按family/episode/phase/seed的完整失败、模型调用/更新/原生分母、p50/p95/p99/max、存档SHA、PR链接及明确BLOCKED/GO分支；只做已经获准的下一步，绝不把计划/CI/CPU/GPU离线等于安全移动抓取成功。
