@@ -22,3 +22,5 @@
 3. **LIMITED_SCIENCE_READMISSION**：只有动态STOP、selected-reference、误停风险和profile证据足以接受时，签发绑定完整的有界科学面板：专家安全8→学生pilot8→DEV32→一次TEST40；每EP≤60s、2ms。任何硬STOP即隔离；pilot须各族≥1次完整安全移动任务，DEV≥24/32且各≥12/16，TEST≥32/40且各≥16/20。未开始与失败分别计数，不自动重跑。当前**没有**足够证据或签名将该分支设为GO。
 
 **独立签发区：** reviewer/实际角色/签名/时间=`null`；决定=`NOT_SIGNED`；可接受误停成本与风险声明=`null`；批准source/model/scene/WBC/guard/site/profile及预算=`null`。最短下一步是由有权限的独立责任人明确拒绝或限定STOP/reference资格范围；无需重复批准无安全语义变更的工程修复。执行Codex不会伪填这些字段，也不会用CPU通过数替代签发。
+
+补充核查见[原生接入审计](NATIVE_ROUTE_AUDIT.md)：旧CANCEL/HOLD ACK不证明物理停止；新mock token不能恢复native。旧专家60秒任务段前还含5,703初始化/保持tick，满预算合计35,703tick；签发时必须按V5每EP总≤30,000tick明确包含初始化与停止尾部，或另行明确增加预算，不能直接复制旧任务段限制。此处只报告差异，未改变运行代码或预算。

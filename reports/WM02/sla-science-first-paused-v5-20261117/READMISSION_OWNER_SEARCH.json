@@ -1,0 +1,134 @@
+{
+  "schema": "V5_BOUNDED_READMISSION_AND_OWNER_SEARCH",
+  "epoch": 1794902796.8267398,
+  "searched": [
+    {
+      "role": "sla-native-consumer-v3-20261117-02",
+      "directory": "ROOT",
+      "exists": true,
+      "entry_count": 34,
+      "matching_filenames": []
+    },
+    {
+      "role": "sla-native-consumer-v3-20261117-02",
+      "directory": "control",
+      "exists": true,
+      "entry_count": 3,
+      "matching_filenames": []
+    },
+    {
+      "role": "sla-runtime-critical-path-v32-20261117-01",
+      "directory": "ROOT",
+      "exists": true,
+      "entry_count": 12,
+      "matching_filenames": []
+    },
+    {
+      "role": "sla-runtime-critical-path-v32-20261117-01",
+      "directory": "control",
+      "exists": true,
+      "entry_count": 3,
+      "matching_filenames": []
+    },
+    {
+      "role": "sla-shift7-cn38-r1-v4-20261117-01",
+      "directory": "ROOT",
+      "exists": true,
+      "entry_count": 18,
+      "matching_filenames": []
+    },
+    {
+      "role": "sla-shift7-cn38-r1-v4-20261117-01",
+      "directory": "control",
+      "exists": true,
+      "entry_count": 2,
+      "matching_filenames": []
+    },
+    {
+      "role": "sla-continuous-gpu-r3-v4-20261117-01",
+      "directory": "ROOT",
+      "exists": true,
+      "entry_count": 19,
+      "matching_filenames": []
+    },
+    {
+      "role": "sla-continuous-gpu-r3-v4-20261117-01",
+      "directory": "control",
+      "exists": true,
+      "entry_count": 3,
+      "matching_filenames": []
+    },
+    {
+      "role": "sla-science-first-paused-v5-cpu-20261117-02",
+      "directory": "ROOT",
+      "exists": true,
+      "entry_count": 3,
+      "matching_filenames": []
+    },
+    {
+      "role": "sla-science-first-paused-v5-cpu-20261117-02",
+      "directory": "control",
+      "exists": false
+    },
+    {
+      "role": "sla-close-safe-mobile-v1-20261116-02",
+      "directory": "ROOT",
+      "exists": true,
+      "entry_count": 27,
+      "matching_filenames": []
+    },
+    {
+      "role": "sla-close-safe-mobile-v1-20261116-02",
+      "directory": "control",
+      "exists": true,
+      "entry_count": 1,
+      "matching_filenames": []
+    },
+    {
+      "role": "mfree-c20-recovery-v2-20261116-01",
+      "directory": "ROOT",
+      "exists": true,
+      "entry_count": 22,
+      "matching_filenames": []
+    },
+    {
+      "role": "mfree-c20-recovery-v2-20261116-01",
+      "directory": "control",
+      "exists": true,
+      "entry_count": 10,
+      "matching_filenames": []
+    }
+  ],
+  "candidate_decision_files_found": 0,
+  "claim_limit": "ONLY_THE_LISTED_ROOT_AND_CONTROL_DIRECTORIES_NO_CANONICAL_SIGNED_PATH_SUPPLIED",
+  "quarantined_families": [
+    "F1",
+    "F2"
+  ],
+  "roles": [
+    {
+      "role": "sla-shift7-cn38-r1-v4-20261117-01",
+      "lease_status": "CLOSED",
+      "owner_matches_previous": true,
+      "unit_inactive": true,
+      "main_PID_zero": true,
+      "cgroup_empty": true
+    },
+    {
+      "role": "sla-continuous-gpu-r3-v4-20261117-01",
+      "lease_status": "CLOSED",
+      "owner_matches_previous": true,
+      "unit_inactive": true,
+      "main_PID_zero": true,
+      "cgroup_empty": true
+    }
+  ],
+  "R3_child_lease_status": "CLOSED",
+  "GitHub_PR399_comments": 0,
+  "GitHub_PR401_comments": 0,
+  "GitHub_PR401_reviews": 0,
+  "independent_signed_decision_supplied": null,
+  "new_native_requests": 0,
+  "new_native_ticks": 0,
+  "new_model_generations": 0
+}

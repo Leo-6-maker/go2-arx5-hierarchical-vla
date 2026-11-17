@@ -31,3 +31,5 @@
 已完成[单页决定请求](READMISSION_DECISION_REQUEST.md)，不自签。最小缺口是实际MPC选中reference身份、拟议native STOP hook动态最坏响应/暂停期间wall-STOP，以及最终native adapter/scene/site的获准绑定。三碰撞、连续告警12/20/34ms、原监测器1/38误拦、RP8/JOIN10和旧学生0/13结果全部保留。原生请求继续0。
 
 责任人若认为接触证据不足，可以明确拒绝并给最小缺口，或只签独立预算的非接触STOP/reference资格；不能默认启动8+8+32+40。未来科学GO仍由真实原生grasp、≥20mm抬升、≥1s保持与独立≥8cm任务方向底座位移证据判定。旧GPU212生成额度已经用尽；本轮没有新授权、没有自动延长旧11月19日allocation，没有训练/C60/C100/RL。
+
+后续只读[原生接入审计](NATIVE_ROUTE_AUDIT.md)进一步定位了现有真实pause ACK可复用位置、CANCEL/HOLD与原生停止的区别、尚未导出的selected-reference，以及旧60秒任务段加初始化会超过V5总tick上限的接入风险。对应现场限定搜索未收到可识别的独立签发，原生继续0；此审计没有运行新模型、缓存面板或native。
