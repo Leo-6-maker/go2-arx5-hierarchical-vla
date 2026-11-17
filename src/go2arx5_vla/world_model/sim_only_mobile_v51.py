@@ -33,7 +33,7 @@ def request_policy(adapter, prepared, query_index):
     if digest(server_pin['path']) != server_pin['sha256']:
         raise ValueError('SEALED_SHIFT7_SERVER_SPEC_CHANGED')
     server = read(server_pin['path']); root = Path(server['registered_root'])
-    v52=spec.get('mobile_experiment_version')=='MFREE_SHIFT7_SIM_ONLY_V52'
+    v52=spec.get('mobile_experiment_version')in('MFREE_SHIFT7_SIM_ONLY_V52','MFREE_B1_FULL_H40_SIM_ONLY_V6')
     package=server['packages'][spec['arm']] if v52 else server['SHIFT7_package']
     bindings=server['request_bindings_by_arm'][spec['arm']] if v52 else server['request_bindings']
     if (package['sha256'] != spec['SHIFT7_package']['sha256']

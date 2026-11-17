@@ -174,6 +174,9 @@ def run_case(spec_path,lock_fd):
     if spec.get('mobile_experiment_version')=='MFREE_SHIFT7_SIM_ONLY_V51':
         from go2arx5_vla.world_model.sim_only_scope_v51 import validate
         validate(spec)
+    elif spec.get('mobile_experiment_version')=='MFREE_B1_FULL_H40_SIM_ONLY_V6':
+        from go2arx5_vla.world_model.target_scope_v6 import validate
+        validate(spec)
     elif spec.get('mobile_experiment_version')=='MFREE_SHIFT7_SIM_ONLY_V52':
         from go2arx5_vla.world_model.mobile_scope_v52 import validate
         validate(spec)
@@ -183,7 +186,9 @@ def run_case(spec_path,lock_fd):
     try:
         adapter.start()
         if spec.get('mobile_stage')=='L1':
-            if spec.get('mobile_experiment_version')=='MFREE_SHIFT7_SIM_ONLY_V52':
+            if spec.get('mobile_experiment_version')=='MFREE_B1_FULL_H40_SIM_ONLY_V6':
+                from go2arx5_vla.world_model.target_scope_v6 import episode as l1_episode
+            elif spec.get('mobile_experiment_version')=='MFREE_SHIFT7_SIM_ONLY_V52':
                 from go2arx5_vla.world_model.mobile_scope_v52 import episode as l1_episode
             elif spec.get('mobile_experiment_version')=='MFREE_SHIFT7_SIM_ONLY_V51':
                 from go2arx5_vla.world_model.sim_only_mobile_v51 import episode as l1_episode

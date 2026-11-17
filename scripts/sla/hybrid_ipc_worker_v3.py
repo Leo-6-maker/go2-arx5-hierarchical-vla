@@ -33,10 +33,13 @@ def run(spec):
     root=Path(spec['registered_root']);bus=Path(spec['ipc_root']);live=Path(spec.get('live_root',root));site=validate(spec)
     from go2arx5_vla.sla_adapter.compilation_cache_binding_v1 import bind_declared_cache
     cache_binding=bind_declared_cache(spec,jax.config)
-    start=time.monotonic();single=spec['selected_combo']=='SHIFT7_SINGLE';pool=spec.get('scope')=='SLA_MOBILE_F2_V52'
+    start=time.monotonic();single=spec['selected_combo']=='SHIFT7_SINGLE';pool=spec.get('scope')in('SLA_MOBILE_F2_V52','SLA_V6_TARGET_NATIVE')
     if pool:
         if not single:raise ValueError('V52_ONE_SHIFT7_ARCHITECTURE_PER_REQUEST')
-        from go2arx5_vla.sla_adapter.mobile_provider_pool_v52 import Pool
+        if spec.get('scope')=='SLA_V6_TARGET_NATIVE':
+            from go2arx5_vla.sla_adapter.target_pool_v6 import Pool
+        else:
+            from go2arx5_vla.sla_adapter.mobile_provider_pool_v52 import Pool
         one=Pool(spec);two=None
     elif single:
         from go2arx5_vla.sla_adapter.provider_time_shift7_v1 import Provider
