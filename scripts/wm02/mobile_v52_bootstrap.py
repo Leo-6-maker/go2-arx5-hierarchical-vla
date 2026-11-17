@@ -6,7 +6,9 @@ import sys
 
 
 def main():
-    operation,path=sys.argv[1:3];spec=json.loads(Path(path).read_bytes());root=Path(spec['source_root']);parent=spec['trusted_source_parent']
+    operation,path=sys.argv[1:3];spec=json.loads(Path(path).read_bytes())
+    if spec.get('plan_commit')!='90d39196bdc345b977ee54ed64e750cf3561aa72'or spec.get('scope')!='SLA_MOBILE_F2_V52':raise PermissionError('PINNED_V52_PLAN_AND_SCOPE')
+    root=Path(spec['source_root']);parent=spec['trusted_source_parent']
     if Path(__file__).resolve()!=root/'scripts/wm02/mobile_v52_bootstrap.py':raise PermissionError('EXACT_V52_BOOTSTRAP')
     for name,expected in spec['source_files'].items():
         if hashlib.sha256((root/name).read_bytes()).hexdigest()!=expected:raise ValueError('V52_SOURCE_CHANGED:'+name)
