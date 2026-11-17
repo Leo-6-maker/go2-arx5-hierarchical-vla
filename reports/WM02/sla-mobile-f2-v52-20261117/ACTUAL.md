@@ -1,8 +1,8 @@
 # V5.2 actual progress — E1 complete, real E2 running
 
-As of `2026-11-17T16:04:48.419630+00:00`, B1 and B2 each completed **500 genuine updates/16,000 optimization visits**, full-state checkpoint restoration and independent ordinary-RGB16 restoration. The campaign added1,000 updates/32,000 optimization visits,8 separately charged diagnostic windows and792 offline model generations.
+As of `2026-11-17T16:14:05.877174+00:00`,B1 and B2 each completed **500 genuine updates/16,000 optimization visits**,full-state checkpoint restoration and independent ordinary-RGB16 restoration. The campaign added1,000 updates/32,000 optimization visits,8 separately charged diagnostic windows and792 offline model generations.
 
-**Real MuJoCo E2:3/24 new requests started,2 terminal,1 active.** B1/F1-T0 achieved genuine grasp/lift/hold plus101.46mm required base motion;B0/F1-T0 stopped on illegal contact, with0 post-STOP integrations. One success among2 closed requests is a prefix, not an eight-condition result or promotion. No candidate is selected.
+**Real MuJoCo E2:4/24 new requests started,3 terminal,1 active.** In the complete first F1/T0 triplet,B1 and B2 both achieved genuine grasp/lift/hold plus required base motion;B0 stopped on illegal contact,with0 following integrations. This is2/3 among closed requests,2/4 among launched requests with1 pending. It is a prefix,not promotion. No candidate is selected.
 
 | Stage | Actual state |
 |---|---|
@@ -12,7 +12,7 @@ As of `2026-11-17T16:04:48.419630+00:00`, B1 and B2 each completed **500 genuine
 | Independent RGB |B0/B1/B2 each16/16 bit-exact;no optimizer loaded |
 | Saved TRAIN/CN38 |All three96/96 and180/180;CLOSE20+36 per arm,0 omissions/late events |
 | ROLL96 |B0=93/96,B1=93/96,B2=96/96;original rejected3 repaired0/3,1/3,3/3 |
-| E2 native |3 started,2 closed;1 genuine success,1 contact STOP;21 requests remain unstarted |
+| E2 native |4 started,3 closed;2 genuine successes,1 contact STOP;20 remain unstarted |
 | Confirmation/E3/DEV/TEST |Conditional;0 started |
 
 See [actual matched endpoints and costs](E1_PAIR_ACTUAL.md),[offline distributions/gates](E1_OFFLINE_ACTUAL.md),[real native prefix and counters](E2_PREFIX_ACTUAL.md),[D0 evidence](D0_BOUNDARY_CONTACT.md),and[retained native-profile cold repair](E2_PROFILE_COLD_REPAIR_ACTUAL.md). The complete24-condition matrix and fixed selection/negative decision remain unfinished.
