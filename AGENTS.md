@@ -1,3 +1,7 @@
+## 2026-11-18 · RoboDojo Real/Sim V1 接续
+
+按用户固定计划 `be37da06fd007b24da324ae1cce6ba4ba441687e` 执行 [SLA_REAL_SIM_MIX_START.md](SLA_REAL_SIM_MIX_START.md)。本worktree从已核对PR405执行后继独立建立，仅接入PR406的六份文档；不假定main含runtime。健康V5.2固定24条件及其原决定优先保持，不重复D0/B1/B2、不热改、不抢占。先有限RoboDojo-Real ARX X5审计，首12包含于总60、raw32GiB/总64GiB，CPU至多2线程/4GiB、单解码worker。区分SOURCE_NATIVE、命令/反馈及当前SHIFT7兼容性，不伪造P10/ACK/上一实际命令50ms时钟，不直接套2秒标签或只留静止段。兼容、冷态和真实资源均满足后，才原SHIFT7同父fresh Adam做Real10/25各500，Real0复用B2；冻结C20统计、原decoder/loss/参数/WBC/安全，使用独立新人口。新预算与门仅依固定JSON，不自动续期、加步、换decoder或真机控制。
+
 ## 2026-11-17 · 当前 V5.2 有界执行
 
 按用户指定固定计划 `90d39196bdc345b977ee54ed64e750cf3561aa72` 执行 [SLA移动F2后训练V5.2](SLA_MOBILE_V52_START.md)。从PR403固定执行栈独立接续；先D0存量归因并在新训练/选择前冻结独立布局DEV/TEST，再同真实SHIFT7父做匹配FM500/endpoint-loss500及B0/B1/B2各8次原生screen。条件纠正、确认与DEV/TEST严格按新JSON门。V5.1旧失败和胶囊保持，负责人直接授权纯仿真仍有效；原WBC/H40/P10/TTL/碰撞/STOP/评分及站点owner、容量、截止保持。新训练上限2000/64000，不自动耗尽。
