@@ -5,6 +5,7 @@ expert phase, future reference, or scene truth. It grants no native admission.
 """
 import numpy as np
 from go2arx5_vla.sla_adapter.gripper_time_v1 import reference_width
+from go2arx5_vla.sla_adapter.multitask_contract_v6 import NATIVE_METHOD as G7_METHOD, NATIVE_VERSION as G7_VERSION
 
 TIME_METHOD = 'CLOSE_TIME500'
 SHIFT7_METHOD = 'SHIFT7_SINGLE'
@@ -14,14 +15,20 @@ SHIFT7_V52_VERSION = 'MFREE_SHIFT7_SIM_ONLY_V52'
 SHIFT7_V6_T_VERSION = 'MFREE_B1_FULL_H40_SIM_ONLY_V6'
 SHIFT7_HISTORY_VERSIONS = (SHIFT7_NATIVE_VERSION, SHIFT7_SIM_VERSION, SHIFT7_V52_VERSION, SHIFT7_V6_T_VERSION)
 REFERENCE_FIELDS = ('previous_width_m', 'previous_source_native_s', 'query_native_s')
+STRICT_METHODS = (SHIFT7_METHOD, G7_METHOD)
+
+
+def history_version_ok(adapter, method):
+    version = adapter.spec.get('mobile_experiment_version')
+    return version == G7_VERSION if method == G7_METHOD else version in SHIFT7_HISTORY_VERSIONS
 
 
 def remember(adapter, row, gripper, after):
     method = adapter.spec['mobile_condition']['method']
-    if method not in (TIME_METHOD, SHIFT7_METHOD):
+    if method not in (TIME_METHOD, *STRICT_METHODS):
         return
-    if method == SHIFT7_METHOD:
-        if (adapter.spec.get('mobile_experiment_version') not in SHIFT7_HISTORY_VERSIONS
+    if method in STRICT_METHODS:
+        if (not history_version_ok(adapter, method)
                 or adapter.spec['mobile_condition'].get('mode') != 'M_FREE'
                 or getattr(adapter, 'shift7_history_invalidated', False)):
             raise ValueError('SHIFT7_EMISSION_HISTORY_REQUIRES_NEW_MFREE_NATIVE_IDENTITY')
@@ -40,8 +47,9 @@ def remember(adapter, row, gripper, after):
 
 
 def query_reference(adapter, packet, sample):
-    if adapter.spec['mobile_condition']['method'] == SHIFT7_METHOD:
-        if (adapter.spec.get('mobile_experiment_version') not in SHIFT7_HISTORY_VERSIONS
+    method = adapter.spec['mobile_condition']['method']
+    if method in STRICT_METHODS:
+        if (not history_version_ok(adapter, method)
                 or getattr(adapter, 'shift7_history_invalidated', False)
                 or not isinstance(getattr(adapter, 'close_previous_reference', None), dict)):
             raise ValueError('SHIFT7_CONFIRMED_EMISSION_HISTORY_MISSING_OR_INVALIDATED')
@@ -57,7 +65,7 @@ def query_reference(adapter, packet, sample):
 def invalidate(adapter):
     # Invalidate before attempting cancel/close: a missing acknowledgement must
     # not leave a reusable history. Old methods retain exactly their old state.
-    if adapter.spec.get('mobile_condition', {}).get('method') == SHIFT7_METHOD:
+    if adapter.spec.get('mobile_condition', {}).get('method') in STRICT_METHODS:
         adapter.close_previous_reference = None
         adapter.shift7_history_invalidated = True
 
@@ -70,7 +78,7 @@ def reference_arrays(context):
 
 def prediction(provider, method, data, language, noise_id):
     extra = {}
-    if method in (TIME_METHOD, SHIFT7_METHOD):
+    if method in (TIME_METHOD, *STRICT_METHODS):
         values = []
         for key in REFERENCE_FIELDS:
             value = np.asarray(data[key])

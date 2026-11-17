@@ -39,6 +39,21 @@ def packets(path):
             previous=row['step'];yield row
 
 
+def score_through(stream, reader, score, limit):
+    """Score the actual 2 ms journal up to the owned paused boundary."""
+    import mujoco
+    from .native_replay import forbid_integration
+
+    with forbid_integration(mujoco):
+        while score.last is None or score.last < limit:
+            packet = read_journal_packet(stream)
+            if packet is None or packet['step'] > limit:
+                raise ValueError('EXACT_PAUSED_TASK_SCORE_PACKET_MISSING')
+            if packet['step'] >= score.start:
+                score.update(reader.update(packet))
+    return score.result()
+
+
 class TwoObjectState(ActualState):
     def __init__(self,model,selected):
         import mujoco

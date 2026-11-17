@@ -8,21 +8,8 @@ from .mfree_expert_capture_v1 import initialize
 from .mobile_boundary_clock_v1 import boundary
 from .multitask_camera_v6 import TwoObjectCameraSession
 from .multitask_score_v6 import Score
-from .multitask_state_v6 import TwoObjectState, read_journal_packet
+from .multitask_state_v6 import TwoObjectState, score_through
 from .multitask_teacher_v6 import MultitaskTeacher
-from .native_replay import forbid_integration
-
-
-def score_through(stream, reader, score, limit):
-    import mujoco
-    with forbid_integration(mujoco):
-        while score.last is None or score.last < limit:
-            packet = read_journal_packet(stream)
-            if packet is None or packet['step'] > limit:
-                raise ValueError('EXACT_PAUSED_TASK_SCORE_PACKET_MISSING')
-            if packet['step'] >= score.start:
-                score.update(reader.update(packet))
-    return score.result()
 
 
 def confirmed_context(adapter, step, query_time):

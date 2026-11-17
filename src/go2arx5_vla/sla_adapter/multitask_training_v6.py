@@ -8,12 +8,10 @@ from . import batch_v2, dense_g7_v6, full_h40_v6
 from .checkpoint_v1 import sha
 from .config_v1 import SEED
 from .mfree_training_v1 import learning_rates
+from .multitask_contract_v6 import RECIPE
 from .multitask_data_v6 import MultitaskDataset, visit_bank
 from .multitask_initialization_v6 import sealed_source, transplant
 from .target_training_v6 import FullTrajectoryEngine, PLAN
-
-RECIPE = 'SLA_V6_G7_SHARED_TARGET_FM1000_FULL_H40'
-
 
 class MultitaskEngine(FullTrajectoryEngine):
     auxiliary_metric = 'weighted_G7_XYZ_and_speed_loss'

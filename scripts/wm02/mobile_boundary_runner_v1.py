@@ -253,6 +253,10 @@ def run_case(spec_path,lock_fd):
         measured_metrics['task_success']=detail['task_success']if detail is not None else False
         measured_metrics['task_and_required_motion_success']=bool(measured_metrics['task_success']and measured_metrics.get('directional_motion',0)>=.08)
     response_count=len(list((out/'queries').glob('*/RESPONSE.private.json')))if(out/'queries').exists()else 0
+    if multitask and spec['sim_only_role']=='STUDENT':
+        from go2arx5_vla.world_model.shift7_native_input_v5 import G7_QUERY_DIRECTORY
+        responses=(out/G7_QUERY_DIRECTORY).glob('*/model-response/RESPONSE.json')
+        response_count=sum(read(path)['new_generations_this_request'] for path in responses)
     value=dict(schema='MOBILE_L1_ACTUAL_NATIVE_RESULT_V1'if spec.get('mobile_stage')=='L1'else 'MOBILE_M0_ACTUAL_NATIVE_RESULT_V1',condition=spec['mobile_condition'],
         completed=passed,technical_failure=bool(failure and not stop and not stop_events),
         unsafe=bool(stop or stop_events),failure=failure,mobile_safety_stop=stop,physics_stops=stop_events,

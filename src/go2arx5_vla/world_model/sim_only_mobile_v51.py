@@ -26,6 +26,7 @@ def checked_response(query, response):
 
 
 def request_policy(adapter, prepared, query_index):
+    from go2arx5_vla.sla_adapter.multitask_contract_v6 import NATIVE_VERSION as G7_VERSION
     from .shift7_native_input_v5 import verify_query_return
     from .fusion_paused_observation import _pause, _same_pause
     spec = adapter.spec
@@ -33,10 +34,12 @@ def request_policy(adapter, prepared, query_index):
     if digest(server_pin['path']) != server_pin['sha256']:
         raise ValueError('SEALED_SHIFT7_SERVER_SPEC_CHANGED')
     server = read(server_pin['path']); root = Path(server['registered_root'])
-    v52=spec.get('mobile_experiment_version')in('MFREE_SHIFT7_SIM_ONLY_V52','MFREE_B1_FULL_H40_SIM_ONLY_V6')
-    package=server['packages'][spec['arm']] if v52 else server['SHIFT7_package']
-    bindings=server['request_bindings_by_arm'][spec['arm']] if v52 else server['request_bindings']
-    if (package['sha256'] != spec['SHIFT7_package']['sha256']
+    version=spec.get('mobile_experiment_version')
+    multi=version in ('MFREE_SHIFT7_SIM_ONLY_V52','MFREE_B1_FULL_H40_SIM_ONLY_V6',G7_VERSION)
+    package=server['packages'][spec['arm']] if multi else server['SHIFT7_package']
+    bindings=server['request_bindings_by_arm'][spec['arm']] if multi else server['request_bindings']
+    expected=spec['G7_package'] if version==G7_VERSION else spec['SHIFT7_package']
+    if (package['sha256'] != expected['sha256']
             or read(root/'control/LEASE.json')['status'] != 'ACTIVE'):
         raise RuntimeError('OWN_SINGLE_SHIFT7_SERVICE_NOT_ACTIVE')
     meta = prepared['metadata']; folder = Path(meta['input']['path']).parent

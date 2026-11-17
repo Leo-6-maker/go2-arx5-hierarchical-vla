@@ -33,10 +33,17 @@ def run(spec):
     root=Path(spec['registered_root']);bus=Path(spec['ipc_root']);live=Path(spec.get('live_root',root));site=validate(spec)
     from go2arx5_vla.sla_adapter.compilation_cache_binding_v1 import bind_declared_cache
     cache_binding=bind_declared_cache(spec,jax.config)
-    start=time.monotonic();single=spec['selected_combo']=='SHIFT7_SINGLE';pool=spec.get('scope')in('SLA_MOBILE_F2_V52','SLA_V6_TARGET_NATIVE')
+    start=time.monotonic();scope=spec.get('scope');g7=scope=='SLA_V6_MULTITASK_NATIVE'
+    if g7:
+        from go2arx5_vla.sla_adapter.multitask_contract_v6 import NATIVE_METHOD
+        if spec['selected_combo']!=NATIVE_METHOD:raise ValueError('EXACT_G7_SINGLE_H40_GENERATION')
+    single=g7 or spec['selected_combo']=='SHIFT7_SINGLE'
+    pool=g7 or scope in ('SLA_MOBILE_F2_V52','SLA_V6_TARGET_NATIVE')
     if pool:
         if not single:raise ValueError('V52_ONE_SHIFT7_ARCHITECTURE_PER_REQUEST')
-        if spec.get('scope')=='SLA_V6_TARGET_NATIVE':
+        if g7:
+            from go2arx5_vla.sla_adapter.multitask_pool_v6 import Pool
+        elif scope=='SLA_V6_TARGET_NATIVE':
             from go2arx5_vla.sla_adapter.target_pool_v6 import Pool
         else:
             from go2arx5_vla.sla_adapter.mobile_provider_pool_v52 import Pool
@@ -47,7 +54,8 @@ def run(spec):
         one=Provider(package['path'],manifest_sha256=package['sha256'],parent_params=spec['parent_params'],parent_manifest_path=spec['parent_manifest']['path'])
         two=None
     else:one,two=load_pair(spec)
-    write(root/'READY.private.json',dict(pid=os.getpid(),parent_loads=1,adapters=3 if pool else 1 if single else 2,
+    adapters=len(one.providers) if pool else 1 if single else 2
+    write(root/'READY.private.json',dict(pid=os.getpid(),parent_loads=1,adapters=adapters,
         load_and_import_wall_s=time.monotonic()-start,GPU_memory=jax.devices()[0].memory_stats(),site=site,
         compilation_cache_binding=cache_binding))
     attempted=completed=0;handled={};timings=[];deliveries=set()
@@ -139,7 +147,7 @@ def run(spec):
                     independent_gripper_write=False,native_execution_admitted=False)
                 respond(response);continue
             if single:
-                value=Counted(one,'SHIFT7').predict(data['state_eef10'],[data['body_rgb'],data['wrist_rgb']],
+                value=Counted(one,'G7' if g7 else 'SHIFT7').predict(data['state_eef10'],[data['body_rgb'],data['wrist_rgb']],
                     q['language'],data['T_policy_from_mount'],noise_id=q['noise_id'],previous_reference=q['previous_reference'])
             else:
                 value=predict_request(Counted(one,'EEF'),Counted(two,'GRIP'),state=data['state_eef10'],
@@ -168,7 +176,7 @@ def run(spec):
     if live!=root:
         write(root/'GENERATION_COUNTS.private.json',read(live/'GENERATION_COUNTS.private.json'))
     result=dict(exit_code=0,requests=len(handled),attempted_generations=attempted,completed_generations=completed,
-        parent_loads=1,adapters=3 if pool else 1 if single else 2,peak_GPU_memory=jax.devices()[0].memory_stats(),new_updates=0,new_visits=0,
+        parent_loads=1,adapters=adapters,peak_GPU_memory=jax.devices()[0].memory_stats(),new_updates=0,new_visits=0,
         new_native_requests=0,new_integrations=0,wall_s=time.monotonic()-start,site=site)
     write(root/'RESULT.private.json',result);return result
 

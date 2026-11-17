@@ -48,7 +48,9 @@ def test_clear_negative_place_states_are_not_success(fault):
     elif fault=='base':sample['base_pose']=pose(.079,0,0)
     elif fault=='unsafe_state':sample['safety_valid']=False
     first=5705 if fault=='gap'else 5704
-    assert not stream(scorer,sample,first,6306)['task_success']
+    result=stream(scorer,sample,first,6306)
+    assert not result['task_success']
+    assert ('wrong_destination_release' in result['events']) == (fault=='wrong_destination')
 
 
 def test_region_contains_complete_rotated_box_not_only_center():

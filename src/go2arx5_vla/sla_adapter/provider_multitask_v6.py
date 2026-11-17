@@ -7,24 +7,10 @@ from .checkpoint_v1 import sha
 from .dense_g7_v6 import VERSION, label_margin_report, previous_command_context
 from .gripper_latent_v2 import EPSILON
 from .multitask_data_v6 import SCHEMA as DATA_SCHEMA
-from .multitask_training_v6 import RECIPE
+from .multitask_contract_v6 import SCHEMA, contract
 from .provider_v1 import active_rows
 from .provider_v3 import DECODE_ORDER, Provider as LogitProvider
 from .runtime_v1 import read_pin
-
-SCHEMA = 'SLA_V6_G7_TARGET_RGB_PACKAGE'
-
-
-def contract(package):
-    bindings = package['bindings']
-    if (package['schema'] != SCHEMA or package['codec'] != VERSION or package['decode_order'] != DECODE_ORDER
-            or package['step'] != 1000 or package['cursor'] != 32000 or package['label_epsilon'] != EPSILON
-            or bindings['recipe'] != RECIPE or bindings['codec_version'] != VERSION or len(package['adapter_arrays']) != 28
-            or bindings['inference_route'] != 'cached_actual' or not package['previous_reference_required']
-            or any(package[key] is not False for key in ('teacher_required','training_cache_required','optimizer_required',
-                    'state_gripper_transformed','physical_execution_admitted','endpoint_basis_applied'))):
-        raise ValueError('EXACT_FIXED1000_TEACHER_FREE_G7_PACKAGE_REQUIRED')
-
 
 def export(package, checkpoint, *, engine):
     checkpoint_root = Path(checkpoint['path'])

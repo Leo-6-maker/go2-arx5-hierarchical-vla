@@ -83,19 +83,24 @@ class Score:
         motion=float((base[:2,3]-np.asarray(self.initial['base_pose'])[:2,3])@self.direction)
         self.maximum_base_motion=max(self.maximum_base_motion,motion)
         retreat=float(np.linalg.norm(tcp[:3,3]-pose[:3,3]));inside=None;stable=False;released=not grasp and not target['hand_contact']
+        wrong_destination_release=False
         if self.task.destination is not None:
             zone=self.geometry['zones'][self.task.destination];inside=footprint_inside(pose,self.geometry['object_half_sizes'][self.task.color],zone)
             # Actual surface contact is required; an airborne object passing
             # through the region does not become a successful PLACE.
             half=np.asarray(self.geometry['object_half_sizes'][self.task.color]);bottom=float(pose[2,3]-np.sum(abs(pose[2,:3])*half))
             surface=abs(bottom-float(self.geometry['table_top_world_z']))<=TABLE_TOLERANCE and target['table_contact']is True
+            if self.ever_lift and surface and released and not inside:
+                other_zone='right' if self.task.destination=='left' else 'left'
+                wrong_destination_release=footprint_inside(pose,half,self.geometry['zones'][other_zone])
             stable=bool(self.ever_lift and inside and surface and released and opening>=OPEN_FRACTION and retreat>=RETREAT and np.linalg.norm(velocity)<STABLE_SPEED)
             if stable:
                 if self.release_since is None:self.release_since=time_s
                 self.longest_release=max(self.longest_release,time_s-self.release_since)
             else:self.release_since=None
         for name,value in(('target_grasp',grasp),('target_lift20mm',grasp and lift>=LIFT),('wrong_object_grasp',other_grasp),('wrong_object_contact',other['hand_contact']),
-            ('correct_region',inside is True),('released',released and self.ever_lift),('retreated50mm',retreat>=RETREAT and self.ever_lift),('base80mm',motion>=BASE_MOTION)):
+            ('correct_region',inside is True),('released',released and self.ever_lift),('wrong_destination_release',wrong_destination_release),
+            ('retreated50mm',retreat>=RETREAT and self.ever_lift),('base80mm',motion>=BASE_MOTION)):
             if value and name not in self.events:self.events[name]=dict(native_step=step,native_time_s=time_s)
         qualified_hold=holding and self.hold_since is not None and time_s-self.hold_since>=HOLD_SECONDS-1e-10
         qualified_place=stable and self.release_since is not None and time_s-self.release_since>=HOLD_SECONDS-1e-10
