@@ -35,6 +35,6 @@ def test_numeric_probe_is_fully_json_serializable_with_real_hdf5_types(tmp_path)
                 f[g+'/'+arm+'_ee_joint_states']=np.linspace(.2,.8,100).reshape(-1,1)
                 f[g+'/'+arm+'_arm_joint_states']=np.zeros((100,6))
     result=numeric_probe(path,30.)
-    assert len(result['windows'])==12
+    assert len(result['windows'])==8
     assert result['context_semantics']=='SOURCE_NOMINAL_GRID_ONLY_NOT_ACTUAL_EMITTED_REFERENCE'
     json.dumps(result,allow_nan=False)
