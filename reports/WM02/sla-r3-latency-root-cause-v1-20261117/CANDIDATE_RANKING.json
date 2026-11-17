@@ -1,0 +1,42 @@
+{
+  "order": "Next diagnostic priority, not causal probabilities",
+  "candidates": [
+    {
+      "rank": 1,
+      "candidate": "Shared configured CPU allocation and serving concurrency",
+      "confirmed": "R1/R3 configured affinity same two logical CPUs; R3 adds controller/polling/archive to worker; four exact-input exact-output pairs still slower",
+      "unmeasured": "Historical offCPU/driver queue/GPU clocks and load",
+      "causal_status": "NOT_CONFIRMED"
+    },
+    {
+      "rank": 2,
+      "candidate": "H2D / JAX dispatch / synchronization / decode internal waiting",
+      "confirmed": "Provider boundary includes all of these; outside-worker output writes excluded from both Provider timers",
+      "unmeasured": "Internal event timestamps and CUDA kernel/transfer durations",
+      "causal_status": "NOT_CONFIRMED"
+    },
+    {
+      "rank": 3,
+      "candidate": "Main-thread persistent progress and Journal commits reduce cadence",
+      "confirmed": "Exact postresponse tail p50 130.709ms, Journal INTENT span p50 25.387ms; four durable main writes/request in source",
+      "unmeasured": "Full reserve second-directory-fsync and each overwritten progress write duration",
+      "causal_status": "CONFIRMED_SERIAL_WORK_PARTIAL_TIME_NOT_FULL_130MS_ATTRIBUTION"
+    },
+    {
+      "rank": 4,
+      "candidate": "Input delivery and delayed request origin",
+      "confirmed": "File delivery p95 165.600ms; input-to-request p95 32.578ms; four ACK observation ages >=400ms",
+      "unmeasured": "Real live-camera acquisition/transport age",
+      "causal_status": "CONFIRMED_REQUEST_AGE_AND_CYCLE_COST_NOT_PROVIDER_GAP"
+    },
+    {
+      "rank": 5,
+      "candidate": "JIT cache configuration wiring",
+      "confirmed": "Original entrypoints validate declared cache directories but never explicitly apply jax_compilation_cache_dir; declared dirs currently empty",
+      "unmeasured": "Historical effective config / cache misses / retraces",
+      "causal_status": "CONFIRMED_CONFIGURATION_OMISSION_HOT_LATENCY_CAUSALITY_UNPROVEN"
+    }
+  ],
+  "global_causal_root_cause": "UNRESOLVED",
+  "new_GPU_scope": 0
+}
