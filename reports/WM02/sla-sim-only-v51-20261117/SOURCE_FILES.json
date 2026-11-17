@@ -1,6 +1,6 @@
 {
-  "source_sha": "be742f62e744b9322dbd1a6c2b86a86af83b10f7",
-  "actual_Core_source_seal_sha256": "cd7541499c14167bd64418e6847fac92cd7cc35dae0e4e6cf6b9bab2f8abcfa6",
+  "running_source_sha": "c2b245cb6da251833cfc9cf9813f4e01e9da2d85",
+  "source_seal_sha256": "6d384ba7d731eb02e72aa0cd18581f7bf4ad78874574244b546526b97458a102",
   "source_files": {
     "CURRENT_SCIENCE_STATUS.md": "31025b83067e15901dd86fe04c347e57348ea3efe4e3653ec00cf60b8a502cb7",
     "MFREE_C20_START_HERE.md": "a8c97b29838f215cd420b214648904f1ad173b90946f24e7907c9744734f4024",
@@ -60,7 +60,7 @@
     "scripts/sla/export_mfree_c20_v1.py": "27250a4c6bee8162b1a9451dd67aa4d1f619229302fe4e942ec9e23418a0c9cd",
     "scripts/sla/export_mfree_snapshot_v1.py": "649719e869819ab3367cd9e8a32d418235087ec320b759d445c9ae61effbc4ff",
     "scripts/sla/hybrid_cn38_infer_v1.py": "dbe8a66ffdc89310c7149c5c624903b9bc4a371d86510e206d945d76918e10ff",
-    "scripts/sla/hybrid_ipc_worker_v3.py": "f63c5ce85a8f79d4b300f6229490161f257b9009f4d0c89eda330c84e2639eba",
+    "scripts/sla/hybrid_ipc_worker_v3.py": "5db13982081168ab20f61b8d26d076b563024ef00ab6de32c2c77d20d0b53e3c",
     "scripts/sla/hybrid_saved96_v1.py": "4e2898064397a756ce39343d569d3aaa7448967fcc75838c86cbca3e6ddaa130",
     "scripts/sla/mfree_c20_diagnostics_v2.py": "d138a46f0bc4a30b184f918a92f3b49fe2668ae7dc01c8f25bcbe8cbc1a6e202",
     "scripts/sla/mfree_c20_vectorfield_v3.py": "e961854be9e980a21781f23ad99ffc59cd2a89af2b99b18fa17526743c83fa4b",
@@ -111,7 +111,7 @@
     "scripts/wm02/runtime_latency_r0_v32.py": "af59d4862208adf03f2b2e5833c35ce6bc3d8be89100b382c5c7521d88f2746e",
     "scripts/wm02/s0_saved_alarm_runs_v4.py": "abc4188399af9e8a0458c9ad36829496a745c7928341bf6b591265afc0066870",
     "scripts/wm02/sim_only_bootstrap_v51.py": "0c1700d063943251080f1b2888cc9d0f11b9c5a69a4e84d26f936a5de95a4db5",
-    "scripts/wm02/sim_only_campaign_v51.py": "6ef8745b7c62caf851422bd7afaafe3e44d354784b20b527b65a586067726eac",
+    "scripts/wm02/sim_only_campaign_v51.py": "6c5b79798c7e3d2debc81098a0a47986aa269042ccd194f167d23264ae3555ba",
     "scripts/wm02/sim_paused_saved_pair_v5.py": "e8a03e15b68fb4fd2d26b63a8abbd21eda8ce8417f4e91d832bf541948cca408",
     "src/go2arx5_vla/sla_adapter/__init__.py": "65c8ad74bec8722ded6017e1d97f5177d8bfcb536f6450a4a9731e8c34f7ee70",
     "src/go2arx5_vla/sla_adapter/action_contract_v61.py": "618cea825fb9bbc64740ffddcea0031de5e9f2294778ad12244c61f18face7af",
@@ -224,6 +224,7 @@
     "tests/test_continuous_r3_v4.py": "23fede7a70606ec68a641514d2de7a4f0fe7fa5081cb350a18aee0d1c6b1c6f7",
     "tests/test_gripper_time_v1.py": "fb19e08a27628d5b4b265b55bb52e48e15e3b010f283958537e80aa65d1f95ac",
     "tests/test_hybrid_eef_grip_v1.py": "850214738c88a051d60a1ac06a7a9eca0d559b2b8abf4a00e73024339d83e605",
+    "tests/test_hybrid_ipc_publication_v51.py": "efbfc35e18355798e9389cde1427aad7ac573f259d12ae22e7e9774ba6ed5b42",
     "tests/test_hybrid_ipc_storage_v31.py": "59869529c2c869943dcffca71729fc614f4798f8dc708d1b32de8688159fdfa5",
     "tests/test_hybrid_nonphysical_v3.py": "c599deaa7350ed5e66cc1edc8841a8c83a0fc0d2c210111a893232c6c98f2c84",
     "tests/test_mfree_contract_v1.py": "201c458e796e992ad346f82a82cb528dbbdcaf60994eef41cd894596c8b58d92",
@@ -241,8 +242,8 @@
     "tests/test_runtime_critical_path_v32.py": "b95fdfbfea32b1b93e93a481edc17cc13a3899f9a3946e4c5ca90917dfaec557",
     "tests/test_s0_saved_alarm_runs_v4.py": "68907622ba1feead0f9de77b99b6fa51b90381895012527163109deb4090098a",
     "tests/test_shift7_cn38_r1_v4.py": "9a55d2b47ca4c3042b2970d412df4b339383a6654925d9b983be3e177e0cd04b",
+    "tests/test_sim_only_v51.py": "4583cdf38e22f458abbb2859a885ac539c645ec2e4a2f27d6723597803261a27",
     "tests/test_time_package_identity_v1.py": "f93fc2ea99670ef02739b8906acdba015442b11986a7fe568e34141eaeea6b10",
     "tests/test_time_shift7_v1.py": "50d08cc401858095b1865bd29ba82df87ad833068b752bce7acd5cd6a9aa0b78"
-  },
-  "trusted_parent_source_sha": "3232af4a42f0c1436980c5cd17a24a62ba2cb9ba"
+  }
 }

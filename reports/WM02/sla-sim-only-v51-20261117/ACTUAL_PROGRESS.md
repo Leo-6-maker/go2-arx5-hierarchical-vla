@@ -1,27 +1,28 @@
-# V5.1：实际原生接口与首个专家结果
+# V5.1：专家面板与首个真实SHIFT7执行链结果
 
-本轮落实用户最新`SIM_ONLY_PROJECT_AUTHORIZED`授权，采用[新V5.1协议](../../../docs/goals/2026-11-17/MFREE_SIM_ONLY_PROJECT_AUTHORIZED_V51.md)。独立第三方签发前置已对新隔离MuJoCo scope取消；没有伪造旧READMISSION或修改旧失败。**任务仍在服务器运行，尚无SHIFT7学生闭环成绩。** 具体观测时刻、全部SHA和分母见[实际进度](ACTUAL_PROGRESS.json)。
+[新V5.1协议](../../../docs/goals/2026-11-17/MFREE_SIM_ONLY_PROJECT_AUTHORIZED_V51.md)已按项目负责人最新授权实施，新隔离MuJoCo仿真不再等待第三方READMISSION。原签名、旧失败、WBC/H40/STOP/碰撞保护及真机隔离保持。**尚未取得SHIFT7学生抓持成功；当前是工程中断后，仅接续未启动条件的有限面板。** 时间和分母见[实际进度](ACTUAL_PROGRESS.json)。
 
-| 端点 | 实际封存结果 | 原生分母 | 不可称作 |
-|---|---|---|---|
-| F1无接触接口 | 原M_FREE 7D安装、H40保持、完整P10、同后缀TTL续期及CANCEL/HOLD通过，无硬STOP；wall66.267s，调用进程CPU26.568s（不含C++子进程） | 1请求、5953tick；5703初始化＋250任务 | 抓持或学生策略成功 |
-| F2无接触接口 | 同接口通过，无硬STOP；原trace检查通过 | 1请求、5953tick；5703初始化＋250任务 | 动态STOP最坏延迟认证 |
-| 首个F1专家 | 原native grasp＋抬升20mm＋保持1s评分通过；最大抬升24.782mm、任务方向底座净位移102.698mm，综合移动任务成功 | 1请求、22953tick；全trace通过，无硬STOP | SHIFT7学生能力 |
-| 其余专家 | 第一条之后的F1正在LIFT，已有实际native_grasp；其余事前固定条件排队 | 未终态，不提前计成功 | 已完成8/8 |
-| SHIFT7 pilot | 尚未开始，模型服务尚未加载 | 0实际学生请求／8计划；0新生成 | 0/8任务失败或通过 |
+| 端点 | 实际封存结果 | 原生分母 |
+|---|---|---|
+| F1/F2无接触接口 | 2/2通过；原7D M_FREE安装、H40、完整P10、同后缀TTL续期与CANCEL/HOLD；无硬STOP | 2请求、11,906tick |
+| 专家8 | 原native grasp＋抬升20mm＋连续保持1s为8/8；综合移动任务7/8；F2一条位移79.519mm低于原80mm，保留失败；无硬STOP | 8请求、183,124tick |
+| 首个F1 SHIFT7学生 | 23/23真实GPU生成和完整H40编译，46安装ACK、23完整P10、230原子；底座任务方向移动111.874mm；无抓持、无碰撞/硬STOP。第24次请求尚未生成时通信读取中断 | 1请求、11,453tick＝5703初始化＋5750任务；正式任务11.5s |
+| 其余学生7 | 原固定条件尚未执行；新不可变版本只接续这7项，旧学生不重放 | 0新增已封存结果／7后继 |
 
-以上封存原生分母共**3请求、34,859个2ms tick**；另有一个专家世界在运行。初始化、任务段和总积分独立计量；当前没有新优化更新、优化访问或真机请求。原生碰撞/STOP继续终止并计失败，不因仿真碰撞永久禁止其它固定仿真条件。
+已封存共**11个真实原生请求、206,483个2ms tick**；GPU实际尝试／完成23/23，训练更新0、优化访问0、真机请求0。学生为**1个技术中断、0个完整有效科学终态、0个成功**，不能将其写成策略能力0/8，也不能以底座运动或H40通过替代抓持成功。
 
-## 实际工程接续与旧结果保留
+## 两次工程缺陷及保留方式
 
-初始源码`0e6065ce`完成F1接口；随后F2的旧模板来自不同collector，world lock仍指向另一domain，继承锁检查在创建native输出或启动仿真前正确拒绝。该次是**启动前技术失败、0原生请求/积分/生成**；原日志、Journal INTENT和主服务失败保留。终态确认原主unit无PID/cgroup成员后，依据缺少native输出与锁拒绝证据将该未启动case独立核对关闭，未盲重放UNKNOWN。
+初始source`0e6065ce`通过F1接口；F2旧模板world-lock/domain不一致，在原生输出/仿真启动前被拒绝，0积分。核实旧unit终态、cgroup空后，source`be742f62`增加全panel owner一致性预检，只续接原未启动条件。F1成功结果按原spec/result SHA复用。
 
-源码`be742f62e744b9322dbd1a6c2b86a86af83b10f7`增加全panel domain/lock一致性预检，并只续接F2接口及其余16个未启动条件。F1成功接口按原spec/result SHA复用，**没有重复积分或替换旧失败**。新源修复仅在调度/所有权层；接口及原生程序、模型、WBC、原H40/夹爪/碰撞门不变。定向回归116项通过，随后接口与专家结果来自真实MuJoCo执行，不由CPU测试替代。
+随后`be742f62`完成另一接口、8专家及首学生23次查询。GPU worker在`REQUEST.json`的exists与read之间得到`FileNotFoundError`，以PRESERVE_NO_REPLAY终止；学生停止在query23生成前。保存证据确认23个响应、23个完整P10、230确认原子，第24个输入/请求存在但没有响应；没有猜测额外模型生成。文件系统瞬时缺失的底层原因尚未独立测量，不归因GPU或模型。
 
-## 服务器托管事实
+修复source **`c2b245cb6da251833cfc9cf9813f4e01e9da2d85`**直接读取IPC发布，仅ENOENT回到原有限等待；无效JSON、其它I/O错误、STOP、截止时间及请求去重不变。70项定向回归通过。旧unit02已failed/终态、主PID0、cgroup空、lease CLOSED；旧11个结果包括技术失败原样保留。新unit03只续接7个已核实未启动学生，不重放首学生或任何专家、接口，不改变模型/噪声/scene条件。
 
-实际unit为`wm02-sla-sim-only-v51-20261117-02`，已从独立后续RPC读取到持续更新的进度和原生tick，`linger=yes`，无前台聊天依赖。新服务仅调度原有限面板；保留原绝对期限，未因技术接续延长。实际source seal：`cd7541499c14167bd64418e6847fac92cd7cc35dae0e4e6cf6b9bab2f8abcfa6`；controller spec：`ba483dd53c614f74142d261207cbd497758150334368e67d53ebbfa811c5275e`；[241源码成员](SOURCE_FILES.json)。PID/cgroup、真实路径、日志与STOP入口保留在私有现场回执，不公开站点或原始数据。
+## 当前后台与资源
 
-GPU0采用现有负责人授权下的共享站点绑定，启动前实际容量与owner检查通过；其它用户进程未改变。冻结SHIFT7单模型服务只在学生阶段加载，不重训、不借用旧R1/R3的已耗额度。新scope的项目授权是实际依据；旧spec继承的R3参考元数据不构成本轮授权。
+独立后续RPC确认`wm02-sla-sim-only-v51-20261117-03` active/running、共享GPU worker已启动并在加载模型；`linger=yes`、无前台依赖。controller spec `e3786fb9ccd331e34213dee477c710e6113b2ca7ad81b244955b6e96eb09d961`；source seal `6d384ba7d731eb02e72aa0cd18581f7bf4ad78874574244b546526b97458a102`；[243源码成员](SOURCE_FILES.json)。原绝对期限不延长，已用23生成保留，新7项至多840生成，仍在总960及18原生请求以内。GPU0共享许可与实际站点容量重新核验，其它用户进程未改动。
 
-源代码已接通普通body/wrist RGB＋可得状态＋上一实际命令→有限单模型IPC→原完整H40编译→实际安装ACK→原WBC/P10消费及续期→原评分。**这条SLA路径仍待本轮学生实际运行资格**。暂停仿真与连续350ms实时资格分开；动态STOP最坏延迟和controller-selected reference仍不伪填为已知。下一项科学交付为剩余专家及SHIFT7 pilot的真实抓持、抬升/保持、底座移动和首失败原因。
+已终态unit02墙钟2961.587s，cgroup合计CPU2251.013s、峰值主存18,549,407,744B；GPU加载179.191s，READY时allocator峰值7,315,062,528B（不是完整运行峰值）。分项CPU字段仅调用Python进程，不能当作C++与GPU总成本。PID/cgroup、现场路径和STOP入口存私有回执。
+
+已证明普通RGB/自身状态/上一实际命令→真实SHIFT7→原完整H40→原生安装ACK→WBC/P10/TTL续接可连续消费23次。完整学生抓持、暂停profile长期生命周期、动态STOP最坏延迟、controller-selected reference及严格350ms连续实时仍未宣称合格；DEV/TEST未自动启动。下一项交付是7个原定学生后继的真实终态与失败归因，不新增训练。
