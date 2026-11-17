@@ -31,6 +31,9 @@ def main():
     if operation=='--multitask-interface':
         from scripts.wm02.multitask_interface_v6 import run
         raise SystemExit(run(path,spec))
+    if operation=='--multitask-teacher':
+        from scripts.wm02.multitask_teacher_campaign_v6 import run
+        raise SystemExit(run(path,spec))
     if spec['physics']or spec['new_physical_requests_budget']:raise PermissionError('THIS_V6_ROUTE_IS_NONPHYSICAL')
     if operation=='--worker':
         import runpy

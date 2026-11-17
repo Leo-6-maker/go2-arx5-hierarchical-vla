@@ -92,7 +92,7 @@ def carried_rows(prior):
     return rows
 
 
-def run(spec_path,*,preflight=panel_preflight,bootstrap='sim_only_bootstrap_v51.py',expected_count=18,result_schema='MFREE_SIM_ONLY_V51_ACTUAL_TERMINAL',pilot_evaluate=pilot_gate):
+def run(spec_path,*,preflight=panel_preflight,bootstrap='sim_only_bootstrap_v51.py',expected_count=18,result_schema='MFREE_SIM_ONLY_V51_ACTUAL_TERMINAL',pilot_evaluate=pilot_gate,load_carried=carried_rows,compact=compact_case,case_lead_s=900):
     from scripts.wm02.mobile_boundary_runner_v1 import registered
     spec=read(spec_path);root=Path(spec['registered_root']);registered(spec,spec_path)
     prior=preflight(spec)
@@ -100,7 +100,7 @@ def run(spec_path,*,preflight=panel_preflight,bootstrap='sim_only_bootstrap_v51.
         raise PermissionError('FINITE_18_CASE_NEW_CONTROLLER_ONLY')
     write(root/'SUPERVISOR.private.json',dict(pid=os.getpid(),epoch=time.time(),source_sha=spec['source_sha']))
     journal=Journal(root/'control/journal',root.name)
-    rows=carried_rows(prior);prior_count=len(rows)
+    rows=load_carried(prior);prior_count=len(rows)
     failure=None;code=1;gpu=None;start=time.monotonic();launches=[]
     server_pin=spec.get('resident_server_spec')
     server_root=None
@@ -126,7 +126,7 @@ def run(spec_path,*,preflight=panel_preflight,bootstrap='sim_only_bootstrap_v51.
     try:
         with _world(spec['mobile_world_lock']) as world:
             for index,path in enumerate(spec['cases']):
-                if time.time()>=spec['deadline_epoch']-900 or (root/'STOP.json').exists():
+                if time.time()>=spec['deadline_epoch']-case_lead_s or (root/'STOP.json').exists():
                     progress('FINITE_STOP_OR_DEADLINE');break
                 case=read(path)
                 if case['sim_only_role']!='INTERFACE'and not interface_gate(rows):
@@ -161,7 +161,7 @@ def run(spec_path,*,preflight=panel_preflight,bootstrap='sim_only_bootstrap_v51.
                     if not result.exists():raise RuntimeError('CASE_TERMINAL_WITHOUT_RESULT_NO_REPLAY')
                     return dict(path=str(result),sha256=digest(result),exit_code=child.returncode)
                 pin=journal.once('CASE-%02d'%index,dict(spec_sha256=digest(path)),execute)
-                result=read(pin['path']);row=compact_case(case,result);rows.append(row)
+                result=read(pin['path']);row=compact(case,result);rows.append(row)
                 write(root/'RECORDS.private.json',rows);progress('CASE_SEALED',last=row)
                 if fatal_control_violation(row):raise RuntimeError('CONTROL_STOP_OR_TICK_BOUND_VIOLATION')
                 if row['technical_failure']:
