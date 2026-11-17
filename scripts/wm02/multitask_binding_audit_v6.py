@@ -29,6 +29,8 @@ def compile_candidate(build, output, name, edit):
     pinned(build['trace_header'])
     pinned(build['trace_library'])
     pinned(build['compiler_commands'])
+    for header in build.get('additional_headers',()):
+        pinned(header)
     argv = list(build['argv'])
     source = output / (name+'.cpp')
     library = output / (name+'.so')
