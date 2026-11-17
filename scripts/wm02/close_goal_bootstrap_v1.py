@@ -8,7 +8,8 @@ import sys
 
 def main():
     operation,path=sys.argv[1:3]
-    routes={'--hybrid-ipc-control-v3':'scripts.wm02.hybrid_ipc_control_v3',
+    routes={'--runtime-cpu-v32':'scripts.wm02.runtime_cached_replay_v32',
+            '--hybrid-ipc-control-v3':'scripts.wm02.hybrid_ipc_control_v3',
             '--hybrid-ipc-worker-v3':'scripts.sla.hybrid_ipc_worker_v3',
             '--hybrid-control':'scripts.wm02.hybrid_decoupling_control_v1',
             '--hybrid-cn38':'scripts.sla.hybrid_cn38_infer_v1',

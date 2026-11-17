@@ -52,19 +52,8 @@ def wait_receipt(path, *, alive, stopped, timeout_s):
 
 
 def load_input(request):
-    pin = request['input']
-    if digest(pin['path']) != pin['sha256']:
-        raise ValueError('UNIFIED_INPUT_BYTES_CHANGED')
-    with np.load(pin['path'], allow_pickle=False) as z:
-        values = {k: z[k].copy() for k in ('state_eef10', 'body_rgb', 'wrist_rgb',
-                  'T_policy_from_mount', 'policy_from_world', 'accepted_reference_TCP')}
-    for key in ('body_rgb', 'wrist_rgb'):
-        a = values[key]
-        if a.dtype != np.uint8 or a.ndim != 3 or a.shape[-1] != 3:
-            raise ValueError('ORDINARY_UINT8_BODY_AND_WRIST_RGB_REQUIRED')
-    if values['state_eef10'].shape != (10,) or not all(np.isfinite(a).all() for a in values.values()):
-        raise ValueError('FINITE_CAPTURED_QUERY_REQUIRED')
-    return values
+    from .verified_observation_v1 import VerifiedObservation
+    return VerifiedObservation.from_file(request['input']).values_for(request['input'])
 
 
 def check_live(request, state, *, now=None):
@@ -97,7 +86,15 @@ class Receiver:
     seed is a proven recorded command, not a newly emitted native command.
     Subsequent previous references advance only after the atomic mock ACK.
     """
-    def __init__(self, root, episode, native_step, seed, seed_evidence, bindings, operator_stop=None):
+    def __init__(self, root, episode, native_step, seed, seed_evidence, bindings, operator_stop=None,
+                 *, observation=None, cache_compiled=False):
+        # Opt-in for a newly owned capsule only. No wire/clock/schema change.
+        from .verified_observation_v1 import VerifiedObservation
+        if observation is not None and not isinstance(observation, VerifiedObservation):
+            raise TypeError('VERIFIED_OBSERVATION_REQUIRED')
+        self._observation = observation
+        self._cache_compiled = cache_compiled
+        self._compiled = None
         self.root = Path(root)
         self.root.mkdir()
         if type(native_step) is not int or abs(native_s(native_step) - seed['query_native_s']) > 1e-8:
@@ -111,6 +108,21 @@ class Receiver:
 
     def save(self):
         write(self.root / 'live.json', self.state)
+
+    def input_values(self, request):
+        if self._observation is None:
+            return load_input(request)
+        return self._observation.values_for(request['input'])
+
+    def compiled_path(self, pin):
+        if self._cache_compiled:
+            if self._compiled is None or self._compiled[0] != pin:
+                raise ValueError('COMPILED_MEMORY_IDENTITY_CHANGED')
+            return self._compiled[1]
+        if digest(pin['path']) != pin['sha256']:
+            raise ValueError('COMPILED_REFERENCE_CHANGED')
+        with np.load(pin['path'], allow_pickle=False) as z:
+            return z['reference_H40'].copy()
 
     def require_running(self):
         flag = self.state.get('operator_stop')
@@ -139,7 +151,7 @@ class Receiver:
             mode='M_FREE', independent_gripper_write=False)
         request['request_id'] = identity(request)
         s['pending'] = request['request_id']; self.save()
-        load_input(request)
+        self.input_values(request)
         return request
 
     def install(self, request, response):
@@ -152,7 +164,7 @@ class Receiver:
             if s['emitted_atoms'] == 0 and s['installed']['action'] == response['action']:
                 return s['installed']['ack']  # idempotent ACK, never a second installation
             raise RuntimeError('LATE_RESPONSE_AFTER_CONSUMPTION')
-        data = load_input(request)
+        data = self.input_values(request)
         from scripts.pi0292.eval_contract import matrix10
         from .sla_dense_policy_v5 import compile_proposal
         frame = data['policy_from_world']
@@ -186,6 +198,9 @@ class Receiver:
         s['installed'] = dict(action=response['action'], compiled=bundle['mechanical_H40_pin'],
             ack=ack, plan_source_native_s=request['source_native_s'], start_step=s['native_step'],
             clock_mode=request['clock_mode'], source_wall_monotonic=request['created_monotonic'])
+        if self._cache_compiled:
+            from .verified_observation_v1 import immutable_array
+            self._compiled = (dict(bundle['mechanical_H40_pin']), immutable_array(program.reference_path))
         s['emitted_atoms'] = 0; self.save()
         return ack
 
@@ -202,10 +217,7 @@ class Receiver:
             if s['native_step'] != installed['start_step']+25*k:
                 raise ValueError('NO_PARTIAL_OR_STALE_ATOM_ACK')
             pin = installed['compiled']
-            if digest(pin['path']) != pin['sha256']:
-                raise ValueError('COMPILED_REFERENCE_CHANGED')
-            with np.load(pin['path'], allow_pickle=False) as z:
-                path = z['reference_H40'].copy()
+            path = self.compiled_path(pin)
             if k == 7 and renew_at_seven:
                 # Exact existing native consumer behavior: same H40 suffix,
                 # fresh measured source. This substitutes a clock, not WBC ACK.
