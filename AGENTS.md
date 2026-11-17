@@ -1,3 +1,7 @@
+## 2026-11-17 · 当前 V5.2 有界执行
+
+按用户指定固定计划 `90d39196bdc345b977ee54ed64e750cf3561aa72` 执行 [SLA移动F2后训练V5.2](SLA_MOBILE_V52_START.md)。从PR403固定执行栈独立接续；先D0存量归因并在新训练/选择前冻结独立布局DEV/TEST，再同真实SHIFT7父做匹配FM500/endpoint-loss500及B0/B1/B2各8次原生screen。条件纠正、确认与DEV/TEST严格按新JSON门。V5.1旧失败和胶囊保持，负责人直接授权纯仿真仍有效；原WBC/H40/P10/TTL/碰撞/STOP/评分及站点owner、容量、截止保持。新训练上限2000/64000，不自动耗尽。
+
 ## 2026-11-17 · V5.1 隔离仿真直接授权
 
 最新用户指令采用 [SIM_ONLY_PROJECT_AUTHORIZED V5.1](docs/goals/2026-11-17/MFREE_SIM_ONLY_PROJECT_AUTHORIZED_V51.md)（[JSON](docs/goals/2026-11-17/MFREE_SIM_ONLY_PROJECT_AUTHORIZED_V51.json)）：新隔离MuJoCo仿真由项目负责人直接授权，取代旧V5第三方READMISSION签发前置。Codex自主完成工程并执行有界新版本；原WBC/H40/STOP/碰撞保护、真实计量与站点资源/owner约束保持，禁止真机通信。旧胶囊、隔离文件和历史失败不改写；新碰撞计失败并终止该episode，不永久禁止所有后继仿真。首轮2接口＋8专家＋8学生，初始化5703tick与60s任务段分别计数，整EP≤35703tick；不自动启动DEV/TEST或训练。
