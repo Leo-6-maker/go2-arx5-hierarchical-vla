@@ -92,11 +92,11 @@
   },
   "next": "Finish two fixed500 endpoints and full-state/RGB restoration; then exact saved-input qualification and all24 preregistered native conditions; no offline quality prefilter.",
   "followup": {
-    "status": "ACTIVE_WAIT_B2_ENDPOINT",
-    "unit": "wm02-sla-mobile-f2-v52-e1-e2-followup-20261117-01",
-    "source_sha": "fe440995bd739d666aad3e93952be5f60fa130d2",
-    "source_seal_sha256": "ed4d0424e7d15d5058550cdc01fdf1077a69f0acc90a1e6d1b4d81f64001e109",
-    "spec_sha256": "aad7a220e53e75f185a01385be9885d47e6e4c335887ec02f22f0221a506e25c",
+    "status": "ACTIVE_WAIT_B2_ENDPOINT_NATIVE_PROFILE_REPAIRED",
+    "unit": "wm02-sla-mobile-f2-v52-e1-e2-followup-20261117-02",
+    "source_sha": "2797d0c2c458667e241aa0d24d6d0b005f3caf1a",
+    "source_seal_sha256": "4895567ec1295459b3e8c51cbe9d67d069278a5c7107d15381cb9ddaff20df42",
+    "spec_sha256": "9d0d02c39749219116498a85ec0323e0a2c78cf89e6cee9813a3d7f3421eaf01",
     "deadline_epoch": 1794967938.2895093,
     "independent_heartbeat_advanced": true,
     "linger": true,
@@ -107,7 +107,10 @@
     "automatic_confirmation_E3_DEV_TEST": false,
     "complete_arms": [
       "B1"
-    ]
+    ],
+    "technical_repair_index": 1,
+    "technical_stage": "E2_NATIVE_PROFILE",
+    "old_followup_preserved_terminal": true
   },
   "B1_recovery250": {
     "step": 250,
@@ -149,5 +152,11 @@
     "TRAIN96_full_H40_pass": 96,
     "TRAIN96_generations": 96
   },
-  "matched_initial87_arrays_byte_verified_equal": true
+  "matched_initial87_arrays_byte_verified_equal": true,
+  "E2_native_profile_repair": {
+    "report": "E2_PROFILE_COLD_REPAIR_ACTUAL.json",
+    "new_scientific_effects": 0,
+    "source_sha": "2797d0c2c458667e241aa0d24d6d0b005f3caf1a",
+    "original_deadline_unchanged": true
+  }
 }

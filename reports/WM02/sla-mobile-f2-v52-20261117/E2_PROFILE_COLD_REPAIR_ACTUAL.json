@@ -1,0 +1,59 @@
+{
+  "schema": "SLA_V52_E2_NATIVE_PROFILE_COLD_REPAIR_ACTUAL",
+  "status": "PROFILE_REPAIRED_NEW_FOLLOWUP_LIVE",
+  "technical_stage": "E2_NATIVE_PROFILE",
+  "technical_repair_index": 1,
+  "old_source_sha": "fe440995bd739d666aad3e93952be5f60fa130d2",
+  "old_spec_sha256": "aad7a220e53e75f185a01385be9885d47e6e4c335887ec02f22f0221a506e25c",
+  "old_terminal_sha256": "4a8e0e5f99bf7d5e025cdb9a3e9529f344bb39bd9b4ae3af4ad5c5b58f7e8ae3",
+  "old_unit_PID": 0,
+  "old_cgroup_empty": true,
+  "old_lease": "CLOSED",
+  "old_terminal_status": "PRESERVED_NO_REPLAY",
+  "verified_old_no_offline_or_native_child": true,
+  "reason": "COMMON_METADATA_OVERWROTE_NATIVE_INTERPRETER_AND_IMPORTED_LEARNER_FROM_SCOPE",
+  "frozen_native_profile": {
+    "numpy": "2.5.4",
+    "mujoco": "3.2.7",
+    "fingerprints": {
+      "Python_binary": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f",
+      "numpy_multiarray": "b185dfe64b07180bedc7c15fb2735b0d0f4f4e09eb9c15bd8e67f74568aebcbf",
+      "mujoco_library": "848a26ad3daccac3a56d7269ac68167ed3497f048223f8720f4e56eb432eb6c6",
+      "rclpy_library": "1693241b31637bfe6055ca492133ee3ad74173e5b8a8f318c2c8d6d4c9d26f05",
+      "ROS_types": {
+        "std_msgs": "50a6495eaa98bf7c3f3d14f9661f947f9e480473634da587a97ab46e56c20fc1",
+        "nav_msgs": "e970398199f7ae1644184ab7341e554a98e12a88263093f61a4a88250dadf5c1",
+        "sensor_msgs": "f8355c65b48b7e96f2316d362d147c9b3521b4aa4754a72a24a21da7bf6fd2b4",
+        "ocs2_msgs": "d7f36baf84605dee888eeb268402577deae9ade26507f2e5649804b7c1d0d0c0",
+        "trajectory_msgs": "00c256b7533c6c0cbc86cb2c276bbd14636df27bd1bfa02569b9674041f3226f"
+      }
+    }
+  },
+  "model_profile": {
+    "numpy": "1.26.4",
+    "mujoco": "3.2.7"
+  },
+  "fixed_native_import_exit": 0,
+  "fixed_imports_include_real_B1_contract": true,
+  "contract_AST_identical_to_previous": true,
+  "targeted_CPU_tests_passed": 53,
+  "new_source_sha": "2797d0c2c458667e241aa0d24d6d0b005f3caf1a",
+  "new_source_seal_sha256": "4895567ec1295459b3e8c51cbe9d67d069278a5c7107d15381cb9ddaff20df42",
+  "new_spec_sha256": "9d0d02c39749219116498a85ec0323e0a2c78cf89e6cee9813a3d7f3421eaf01",
+  "new_unit": "wm02-sla-mobile-f2-v52-e1-e2-followup-20261117-02",
+  "independently_observed_PID": 1237800,
+  "independently_observed_unit_running": true,
+  "new_deadline_epoch": 1794967938.2895093,
+  "old_deadline_epoch": 1794967938.2895093,
+  "deadline_unchanged": true,
+  "training_source_sha_unchanged": "8ebdcbb7ab39c0f707c5b2ba94b0b097abc937e5",
+  "training_units_untouched": true,
+  "existing_model_predictions_replayed": false,
+  "new_generations_from_repair": 0,
+  "new_updates_from_repair": 0,
+  "new_native_requests_from_repair": 0,
+  "new_integrations_from_repair": 0,
+  "remaining_authorized_offline_generations": 600,
+  "remaining_E2_conditions": 24,
+  "new_safety_or_scoring_thresholds": false
+}
