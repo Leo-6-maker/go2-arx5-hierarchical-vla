@@ -158,7 +158,10 @@ def run(spec):
 
 if __name__=='__main__':
     spec=read(sys.argv[2]);root=Path(spec['registered_root']);code=1
-    try:run(spec);code=0
+    try:
+        Journal(root/'control/journal',root.name).once('EXECUTE-R3-V4',
+            dict(spec_sha256=digest(sys.argv[2])),lambda:run(spec))
+        code=0
     except BaseException:
         write(root/'FAILURE.private.json',dict(failure=traceback.format_exc(),automatic_retry=False,new_native_requests=0))
         raise
