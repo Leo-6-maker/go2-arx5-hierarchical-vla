@@ -43,6 +43,11 @@ def main():
         from scripts.wm02.v6_target_pair import run
     elif operation=='--target-train':
         from scripts.sla.train_target_v6 import main as run
+    elif operation in ('--multitask-train','--multitask-restore'):
+        from scripts.sla.train_multitask_v6 import main
+        run=lambda spec:main(spec,restore=operation=='--multitask-restore')
+    elif operation=='--multitask-dataset':
+        from scripts.sla.export_multitask_g7_v6 import main as run
     elif operation=='--source-prepare':
         from scripts.sla.source_prepare_v6 import main as run
     elif operation=='--multitask-scene-audit':

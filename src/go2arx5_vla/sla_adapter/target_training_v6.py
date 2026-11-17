@@ -17,7 +17,43 @@ RECIPE='SLA_B1_PARENT2000_FRESH_ADAM_FULL_GENERATED_H40_V6'
 B1='b9ba974c374b3c3a09d7742004fc799337d5e7f1b9c9c7d290af066766e4706c'
 
 
-class TargetEngine(DeviceResidentEngine):
+class FullTrajectoryEngine(DeviceResidentEngine):
+    """Shared fixed32 update with four full-trajectory auxiliary samples."""
+    auxiliary_metric = 'full_H40_loss'
+
+    def update(self):
+        import jax,jax.numpy as jnp
+        from .batch_v2 import prepared_batches,device_batch
+        started=time.perf_counter();accumulator=jax.tree.map(jnp.zeros_like,self.active);metrics=jnp.zeros(3,jnp.float32);logs=[];aux_obs=None
+        noise,tau=self.draw_bank(self.rng,np.arange(self.cursor,self.cursor+32,dtype=np.uint32));first=full_h40_v6.aux_slots(self.step)[0]
+        def count(k):self.counts[k]=self.counts.get(k,0)+1
+        batches=prepared_batches(self.dataset,self.tokenizer,self.visit_map,self.cursor,4,executor=self.loader,on_read=count)
+        try:
+            for host in batches:
+                if time.time()>=self.spec['deadline_epoch']-60:raise TimeoutError('FINITE_V6_BEFORE_UPDATE_COMMIT')
+                obs,actions=device_batch(host);offset=int(host['cursors'][0])-self.cursor
+                count('forward_backward_attempts');self.counts['attempted_training_visits']+=4
+                (value,parts),gradient=self.grad(self.active,self.frozen,obs,actions,noise[offset:offset+4],tau[offset:offset+4])
+                accumulator=self.accumulate(accumulator,gradient);metrics=self.add_fm_metrics(metrics,(value,*parts))
+                if offset==first:aux_obs=obs
+                logs.append(dict(indices=host['indices'],first_absolute_cursor=int(host['cursors'][0]),state_token_dropped=host['state_token_dropped']))
+        finally:batches.close()
+        if aux_obs is None:raise ValueError('FOUR_FIXED_IN_BATCH_AUX_ANCHORS_REQUIRED')
+        accumulator,aux=self._aux_four(aux_obs,self.cursor+first,accumulator)
+        norm=float(self.gradient_norm(accumulator));value=np.asarray(metrics)
+        if not np.isfinite(value).all()or not np.isfinite(norm)or norm<=0:raise ValueError('FINITE_REAL_EFFECTIVE32_PLUS_AUX_GRADIENT_REQUIRED')
+        self.counts['completed_forward_backward']+=8;self.counts['completed_training_visits']+=32;count('optimizer_update_attempts')
+        self.active,self.opt_state,_=self.apply(self.active,self.opt_state,accumulator);jax.block_until_ready((self.active,self.opt_state))
+        self.step+=1;self.cursor+=32;count('optimizer_updates')
+        row=dict(step=self.step,cursor=self.cursor,mean_FM32_loss=float(value[0]),active7=float(value[1]),padding25=float(value[2]),
+            aux=aux,micro=logs,grad_norm_before_clip=norm,
+            used_lr=self.learning_rate_values[self.step-1],wall_s=time.perf_counter()-started,GPU_memory=jax.devices()[0].memory_stats())
+        row[self.auxiliary_metric]=float(np.mean([x['loss']for x in aux]))
+        with(self.output/'updates.private.jsonl').open('a')as f:f.write(json.dumps(row)+'\n');f.flush()
+        return row
+
+
+class TargetEngine(FullTrajectoryEngine):
     generate=ShiftEngine.generate
     visits_for_dataset=CloseEngine.visits_for_dataset
     learning_rate_values_for_spec=CloseEngine.learning_rate_values_for_spec
@@ -148,33 +184,3 @@ class TargetEngine(DeviceResidentEngine):
         return dict(FM32_micro4=float(fm),gradient_norm=norm,aux=records,optimizer_updates=0,optimization_visits=0,
             diagnostic_windows=4,full_trajectory_gradients=4 if self.spec['full_H40_lambda'] else 0,comparison_generations=8,total_offline_generations=12,
             backward_complete=True,training_precision='highest',aux_forward='cached_actual',GPU_memory=jax.devices()[0].memory_stats())
-
-    def update(self):
-        import jax,jax.numpy as jnp
-        from .batch_v2 import prepared_batches,device_batch
-        started=time.perf_counter();accumulator=jax.tree.map(jnp.zeros_like,self.active);metrics=jnp.zeros(3,jnp.float32);logs=[];aux_obs=None
-        noise,tau=self.draw_bank(self.rng,np.arange(self.cursor,self.cursor+32,dtype=np.uint32));first=full_h40_v6.aux_slots(self.step)[0]
-        def count(k):self.counts[k]=self.counts.get(k,0)+1
-        batches=prepared_batches(self.dataset,self.tokenizer,self.visit_map,self.cursor,4,executor=self.loader,on_read=count)
-        try:
-            for host in batches:
-                if time.time()>=self.spec['deadline_epoch']-60:raise TimeoutError('FINITE_V6_BEFORE_UPDATE_COMMIT')
-                obs,actions=device_batch(host);offset=int(host['cursors'][0])-self.cursor
-                count('forward_backward_attempts');self.counts['attempted_training_visits']+=4
-                (value,parts),gradient=self.grad(self.active,self.frozen,obs,actions,noise[offset:offset+4],tau[offset:offset+4])
-                accumulator=self.accumulate(accumulator,gradient);metrics=self.add_fm_metrics(metrics,(value,*parts))
-                if offset==first:aux_obs=obs
-                logs.append(dict(indices=host['indices'],first_absolute_cursor=int(host['cursors'][0]),state_token_dropped=host['state_token_dropped']))
-        finally:batches.close()
-        if aux_obs is None:raise ValueError('FOUR_FIXED_IN_BATCH_AUX_ANCHORS_REQUIRED')
-        accumulator,aux=self._aux_four(aux_obs,self.cursor+first,accumulator)
-        norm=float(self.gradient_norm(accumulator));value=np.asarray(metrics)
-        if not np.isfinite(value).all()or not np.isfinite(norm)or norm<=0:raise ValueError('FINITE_REAL_EFFECTIVE32_PLUS_AUX_GRADIENT_REQUIRED')
-        self.counts['completed_forward_backward']+=8;self.counts['completed_training_visits']+=32;count('optimizer_update_attempts')
-        self.active,self.opt_state,_=self.apply(self.active,self.opt_state,accumulator);jax.block_until_ready((self.active,self.opt_state))
-        self.step+=1;self.cursor+=32;count('optimizer_updates')
-        row=dict(step=self.step,cursor=self.cursor,mean_FM32_loss=float(value[0]),active7=float(value[1]),padding25=float(value[2]),
-            full_H40_loss=float(np.mean([x['loss']for x in aux])),aux=aux,micro=logs,grad_norm_before_clip=norm,
-            used_lr=self.learning_rate_values[self.step-1],wall_s=time.perf_counter()-started,GPU_memory=jax.devices()[0].memory_stats())
-        with(self.output/'updates.private.jsonl').open('a')as f:f.write(json.dumps(row)+'\n');f.flush()
-        return row
