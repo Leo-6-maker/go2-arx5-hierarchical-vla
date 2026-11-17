@@ -1,0 +1,135 @@
+{
+  "schema": "MFREE_V3_ACTUAL_NONPHYSICAL_MATRIX_20261117",
+  "status": "A2_TECHNICAL_AND_REALTIME_BLOCKED_WAIT_INDEPENDENT_READMISSION",
+  "plan_sha": "bcc2c67be723149e38998a36802f218caa666917",
+  "runtime_ancestor_sha": "7afbc0bd953c9b87821858bd70738a287ec082fc",
+  "first_source_sha": "5956cd03af0ab956f3f73620f31c90fcda34097b",
+  "successor_source_sha": "c3777fee3f1dc80b835759f13c3eebe67153fb42",
+  "first_spec_sha256": "1c764b188c0ef789864ee4f12bd3127b78dac6168691982b5f1367bdda314f42",
+  "successor_spec_sha256": "20a2db018eea45d5711f2b27769c0f063d9e1e24d9146e8d050da363f2e5ece5",
+  "first_failure_result_sha256": "d0c4d72ba8cf33936b679023aa2bc0934463446b317a74313b6e17f8d43634ad",
+  "terminal_result_sha256": "10ea6a4f75a60bc737898ad9a9263cbc273d040a73cee5e806aead5a43e99cbc",
+  "request_records_sha256": "ae202b77be2d6a9b4ec8fcab2481059a6071ae27ba2757c716f0363c660b983b",
+  "independent_readback_sha256": "17573bf9272849f1276243fcf8a9c9f7707d6915e22afc5b4f01cede672abbf3",
+  "policy_package_sha256": "7aacd184941c6980154935833d97a1975e3cba3d1c1dd6c8a4878d38abbbd1ce",
+  "actual": {
+    "unified_requests": 32,
+    "unified_request_cap": 32,
+    "complete_branch_generations_attempted": 52,
+    "complete_branch_generations_completed": 52,
+    "generation_cap": 64,
+    "new_optimizer_updates": 0,
+    "new_training_visits": 0,
+    "normal_requests": 16,
+    "normal_full_compiler_and_install_ACK": 15,
+    "normal_preserved_technical_no_install": 1,
+    "fault_cases": 16,
+    "fault_misinstalls": 0,
+    "complete_P10_mock_consumptions": 7,
+    "partial7_mock_consumptions": 8,
+    "emitted_mock_atoms": 126,
+    "real_native_requests": 0,
+    "real_integrations": 0,
+    "real_new_task_results": 0
+  },
+  "cost": {
+    "original_generations": 22,
+    "successor_generations": 30,
+    "original_unique_requests": 11,
+    "successor_unique_requests": 21,
+    "parent_loads": 3,
+    "adapters_per_parent": 2,
+    "simultaneously_loaded_parents": 1,
+    "worker_wall_s": [
+      205.50171041768044,
+      108.12698478996754,
+      110.91703093517572
+    ],
+    "total_worker_wall_s": 424.5457261428237,
+    "wall_is_not_GPU_busy_time": true,
+    "model_ready_load_s": [
+      180.87870187032968,
+      98.24198625795543,
+      88.65295999031514
+    ],
+    "GPU_array_peak_bytes": 7531363328,
+    "GPU_pool_peak_bytes": 8592031744,
+    "initial_service_cgroup_memory_peak_bytes": 17179869184,
+    "all_services_and_leases_closed": true,
+    "remaining_cgroup_processes": 0
+  },
+  "latency": {
+    "units": "seconds",
+    "percentiles": [
+      50,
+      95,
+      99,
+      100
+    ],
+    "all_accepted_n": 15,
+    "all_accepted_end_to_end": [
+      0.893212509341538,
+      8.410974596347655,
+      11.072076129298654,
+      11.737351512536407
+    ],
+    "warm_excluding_first_request_of_each_of_three_workers_n": 12,
+    "warm_end_to_end": [
+      0.8712955424562097,
+      1.041861013835296,
+      1.0939872848521919,
+      1.1070188526064157
+    ],
+    "warm_two_branch_model_only": [
+      0.35081075225025415,
+      0.35678794514387846,
+      0.3577047748491168,
+      0.3579339822754264
+    ],
+    "camera_scope": "RECORDED_RGB_FILE_READ_NOT_NEW_SENSOR_CAPTURE",
+    "end_to_end_scope": "INPUT_READ_AND_REPACK_IPC_BRANCH_HANDSHAKES_ORIGINAL_COMPILER_INSTALL_MOCK_ACK_BEFORE_CONSUMPTION",
+    "over_350ms": 15,
+    "over_400ms": 15,
+    "realtime_qualified": false,
+    "clock_mode": "SIM_PAUSED_ONLY",
+    "TTL_s": 0.4,
+    "renewal_target_s": 0.35
+  },
+  "coverage": {
+    "input_bank_sha256": "99d53967cc05137cf5eef4697411f357444c1fbf04e38a71a3b6c6ac6d5d2962",
+    "normal_fixed_known_expert_anchors": 8,
+    "normal_family": "F1",
+    "F2_model_IPC_coverage": false,
+    "normal_output_bit_exact_with_saved": true,
+    "normal_comparison_count": 15,
+    "independent_native_consumption": false,
+    "original_full_H40_compiler_unchanged": true,
+    "no_BASE_reference": true,
+    "no_independent_gripper_API": true,
+    "former_cached64_results_reused_not_rerun": true,
+    "CPU_directed_tests_passed": 39,
+    "frame_installed_reference_checks": 4,
+    "frame_checks_by_family": {
+      "F1": 2,
+      "F2": 2
+    },
+    "historical_student_one_step_A3": "NOT_RUN_NO_NEW_GENERATION_BUDGET_REQUESTED",
+    "new_camera_capture": false,
+    "wall_strict_expiry_fault": "CPU_DIRECTED_TEST_ONLY_NOT_NEW_GPU_REQUEST",
+    "controller_selected_reference": "UNKNOWN",
+    "native_STOP_latency": "UNMEASURED"
+  },
+  "safety": {
+    "independent_readmission": "NOT_PROVIDED",
+    "native_guard_installed": false,
+    "original_falseblock_screen": "FAILED_1_OF_38",
+    "historical_2ms_states_reused": 693670,
+    "old_RP8_JOIN10_DEV_TEST_failures_preserved": true,
+    "WBC_and_original_safety_unchanged": true,
+    "P0_expert_requests": 0,
+    "P1_pilot_requests": 0,
+    "P2_DEV_requests": 0,
+    "P3_TEST_requests": 0
+  },
+  "goal_met": false
+}
