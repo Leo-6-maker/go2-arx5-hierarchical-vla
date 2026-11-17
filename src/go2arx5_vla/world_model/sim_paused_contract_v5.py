@@ -53,7 +53,7 @@ class PausedMockSession:
             and type(seed_evidence.get('index')) is int
         )
         if (not math.isfinite(service_timeout_s) or service_timeout_s <= 0
-                or not episode or not recorded_seed
+                or not episode or not recorded_seed or operator_stop is None
                 or bindings.get('architecture') != 'SHIFT7_SINGLE'
                 or bindings.get('SHIFT7_package_manifest_sha256') != SELECTED_SHIFT7_MANIFEST_SHA256):
             raise ValueError('EXPLICIT_FINITE_SERVICE_AND_RECORDED_SINGLE_MODEL_BINDINGS_REQUIRED')

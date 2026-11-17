@@ -44,7 +44,7 @@ def run(evidence_root, output_root, source_sha):
             dict(architecture='SHIFT7_SINGLE',
                  SHIFT7_package_manifest_sha256=SELECTED_SHIFT7_MANIFEST_SHA256,
                  candidate_source_sha=source_sha, saved_R3_request_id=original['request_id']),
-            service_timeout_s=10.)
+            service_timeout_s=10., operator_stop=output_root/'OPERATOR_STOP')
         query = session.begin_query(inp, original['language'], original['noise_id'],
             native_step=original['native_step'], observation_native_step=original['native_step'],
             observation_available_monotonic=time.monotonic())
