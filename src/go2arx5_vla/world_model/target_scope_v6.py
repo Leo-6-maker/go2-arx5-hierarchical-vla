@@ -2,14 +2,27 @@
 from pathlib import Path
 from .storage import digest
 from .sim_only_scope_v51 import BINARIES,TOTAL_TICKS,INTERFACE_TICKS
+from .close_reference_input_v1 import SHIFT7_V6_T_VERSION
 from go2arx5_vla.sla_adapter.target_contract_v6 import PLAN,B1,contract
-VERSION='MFREE_B1_FULL_H40_SIM_ONLY_V6'
+VERSION=SHIFT7_V6_T_VERSION
 SCOPE='SLA_V6_TARGET_NATIVE'
 
 
 def read(pin):
     if digest(pin['path'])!=pin['sha256']:raise ValueError('V6_TARGET_PIN_CHANGED')
     return __import__('json').loads(Path(pin['path']).read_bytes())
+
+
+def query_identity(spec):
+    condition=spec['mobile_condition'];arm=spec['arm'];packages=spec['packages']
+    if (spec.get('mobile_experiment_version')!=VERSION or spec.get('scope')!=SCOPE
+            or spec.get('plan_commit')!=PLAN or spec.get('sim_only_role')!='STUDENT'
+            or spec.get('execution_clock_profile')!='SIM_PAUSED_NATIVE'
+            or condition.get('method')!='SHIFT7_SINGLE' or condition.get('mode')!='M_FREE'
+            or condition.get('family')not in('F1','F2') or spec['physics_dt_s']!=.002
+            or spec['max_ticks']!=TOTAL_TICKS or arm not in('T-B1','T-FM','T-H40')
+            or packages['T-B1']['sha256']!=B1 or spec['SHIFT7_package']!=packages[arm]):
+        raise ValueError('PREREGISTERED_V6_TARGET_ARM_AND_ORIGINAL_H40_INTERFACE_REQUIRED')
 
 
 def validate(spec):
@@ -26,10 +39,8 @@ def validate(spec):
        or spec['deadline_epoch']>min(authority['deadline_epoch'],1795027883.855488) or spec['new_physical_requests_budget']!=1):
         raise PermissionError('BOUNDED_V6_TARGET_MUJOCO_ONLY_FROZEN_CONTRACT_REQUIRED')
     if role=='STUDENT':
+        query_identity(spec)
         arm=spec['arm'];packages=spec['packages']
-        if(arm not in('T-B1','T-FM','T-H40')or packages['T-B1']['sha256']!=B1
-           or spec['SHIFT7_package']!=packages[arm]or spec['max_ticks']!=TOTAL_TICKS or condition['method']!='SHIFT7_SINGLE'):
-            raise ValueError('PREREGISTERED_V6_TARGET_ARM_AND_ORIGINAL_H40_INTERFACE_REQUIRED')
         panel=read(spec['registered_panel']);entry=next(r for r in panel if r['id']==spec['panel_entry_id'])
         if any(entry[k]!=condition[k]for k in('family','layout','reset'))or entry['noise_seed']!=condition['seed']or entry['arm']!=arm:
             raise ValueError('SEALED_V6_TARGET_PANEL_CONDITION_REQUIRED')

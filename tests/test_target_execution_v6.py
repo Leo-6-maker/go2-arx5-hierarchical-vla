@@ -1,4 +1,6 @@
 import copy,hashlib,json
+from types import SimpleNamespace
+import numpy as np
 import pytest
 from go2arx5_vla.world_model import target_scope_v6 as scope
 from scripts.wm02.target_offline_report_v6 import decision
@@ -23,6 +25,30 @@ def interface(tmp_path,monkeypatch):
 
 def test_v6_new_identity_preserves_frozen_interface_contract(interface):
     assert scope.validate(interface)['original_full_H40_P10_TTL_STOP']
+
+
+def test_v6_actual_command_history_reaches_the_paused_camera_entry(tmp_path):
+    from go2arx5_vla.world_model.close_reference_input_v1 import remember, query_reference
+    from go2arx5_vla.world_model.shift7_native_input_v5 import _identity
+
+    packages={'T-B1':{'sha256':scope.B1},'T-H40':{'sha256':'a'*64}}
+    spec=dict(mobile_experiment_version=scope.VERSION,scope=scope.SCOPE,plan_commit=scope.PLAN,
+        sim_only_role='STUDENT',execution_clock_profile='SIM_PAUSED_NATIVE',
+        mobile_condition=dict(method='SHIFT7_SINGLE',mode='M_FREE',family='F2'),
+        physics_dt_s=.002,max_ticks=scope.TOTAL_TICKS,arm='T-H40',packages=packages,
+        SHIFT7_package=packages['T-H40'],registered_root=str(tmp_path))
+    path=tmp_path/'EXECUTION_SPEC.json';path.write_text(json.dumps(spec))
+    adapter=SimpleNamespace(spec=spec,output=tmp_path/'native-01')
+    after=dict(step=5703,time_s=5703*.002)
+    row=np.zeros(10);row[9]=.042/.044
+    remember(adapter,row,dict(source_native_s=5678*.002),after)
+    assert query_reference(adapter,after,dict(native_step=5703))['width_m']==.042
+    assert _identity(adapter)['path']==str(path)
+    with pytest.raises(ValueError,match='PREVIOUS_COMMAND_END'):
+        query_reference(adapter,dict(step=5728,time_s=5728*.002),dict(native_step=5728))
+    adapter.spec=dict(spec,SHIFT7_package=packages['T-B1'])
+    with pytest.raises(ValueError,match='PREREGISTERED_V6'):
+        _identity(adapter)
 
 
 @pytest.mark.parametrize('fault',['hardware','clock','binary','contact_gate','ticks','source','GPU','mode'])
