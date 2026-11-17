@@ -1,13 +1,32 @@
 """Run the two predeclared noncontact ABI interfaces on the existing owner."""
 import json
 from pathlib import Path
+import time
 import traceback
 
 from scripts.pi0292.durable import write
-from go2arx5_vla.world_model.mfree_unattended_runtime_v1 import close
-from go2arx5_vla.world_model.multitask_scope_v6 import PLAN, SCOPE, validate
+from go2arx5_vla.world_model.mfree_unattended_runtime_v1 import close, unit_state
+from go2arx5_vla.world_model.multitask_scope_v6 import PLAN, SCOPE, read_pin, validate
 from .sim_only_campaign_v51 import run as run_campaign, fatal_control_violation
-from .source_test_campaign_v6 import wait_terminal
+
+
+def wait_target_owner(spec):
+    root=Path(spec['registered_root'])
+    predecessor=spec['wait_target_followup']
+    prior=Path(read_pin(predecessor)['registered_root'])
+    while time.time()<spec['deadline_epoch']-1800 and not (root/'STOP.json').exists():
+        lease=json.loads((prior/'control/LEASE.json').read_bytes())
+        state=unit_state('wm02-'+prior.name)
+        if lease['spec_sha256']!=predecessor['sha256']:
+            raise ValueError('T_NATIVE_OWNER_IDENTITY_CHANGED')
+        write(root/'PROGRESS.private.json',dict(phase='WAIT_EXISTING_T_NATIVE_OWNER_COLD_BOUNDARY',
+            epoch=time.time(),waited_lease=lease['status'],waited_MainPID=state['pid'],
+            new_native_requests=0,new_native_ticks=0))
+        if (lease['status']=='CLOSED' and not state['pid'] and not state['cgroup_pids']
+                and (prior/'RESULT.private.json').exists()):
+            return prior
+        time.sleep(30)
+    raise TimeoutError('FINITE_MULTITASK_INTERFACE_DEPENDENCY_WINDOW')
 
 
 def preflight(spec):
@@ -33,8 +52,7 @@ def run(path,spec):
     root=Path(spec['registered_root'])
     try:
         preflight(spec)
-        terminal=wait_terminal(spec,spec['wait_target_followup'],'WAIT_EXISTING_T_NATIVE_OWNER_COLD_BOUNDARY')
-        prior=Path(terminal['path']).parent
+        prior=wait_target_owner(spec)
         for stage in ('SCREEN','CONFIRM'):
             result=prior/stage/'RESULT.private.json'
             if not result.exists():continue

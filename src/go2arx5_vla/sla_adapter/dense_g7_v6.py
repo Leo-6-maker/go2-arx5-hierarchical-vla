@@ -4,8 +4,6 @@ No source statistics/width retargeting, block averaging, clipping or retiming.
 The unchanged native H40 compiler remains the execution authority.
 """
 import numpy as np
-from .gripper_v2 import GripLogitCodec
-from .full_h40_v6 import loss as XYZ_loss
 
 VERSION='DENSE_REFERENCE_G7_V6'
 DT=.05
@@ -35,6 +33,7 @@ def grip_speed_loss(normalized,q01,q99,previous_width,*,xp,sigmoid):
 
 
 def full_objective(normalized,q01,q99,previous_width,*,xp,sigmoid):
+    from .full_h40_v6 import loss as XYZ_loss
     xyz,parts=XYZ_loss(normalized,q01,q99,xp=xp)
     grip,detail=grip_speed_loss(normalized,q01,q99,previous_width,xp=xp,sigmoid=sigmoid)
     return .1*xyz+.1*grip,dict(XYZ_dyn=xyz,gripper_speed=grip,XYZ_parts=parts,gripper=detail)
