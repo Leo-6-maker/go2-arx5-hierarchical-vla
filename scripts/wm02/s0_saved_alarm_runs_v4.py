@@ -33,7 +33,7 @@ def analyze(bundle):
             item['last_alarm_run_lead_to_contact_s']=contact['contact_time_s']-runs[-1]['first_time_s']
         result.append(item)
     return dict(schema='V4_SAVED_S0_ALARM_RUNS_NO_RESCORE',historical_full_result_sha256=bundle['safety'][1]['result_sha256'],
-        historical_window_result_sha256=bundle['safety'][0]['result_sha256'],events=result,quarantine=bundle['quarantine'],
+        historical_window_result_sha256=bundle['safety'][0]['result_sha256'],events=result,quarantine=sorted(bundle['quarantine']),
         new_native_requests=0,new_integrations=0,independent_readmission=False,
         causal_limitation='Receiver witness is not controller-selected reference; no full WBC restoration or dynamic STOP proof',
         derivative_scope='Saved right-pad geometry finite differences, not command limits or a forward safety bound')

@@ -245,20 +245,10 @@
       "last_alarm_run_lead_to_contact_s": 0.012000000000014666
     }
   ],
-  "quarantine": {
-    "F2": {
-      "reason": "ILLEGAL_CONTACT",
-      "case": "/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/mfree-c20-recovery-v2-20261116-01/collectors/b/runs/72H-F2-T4-A003",
-      "source": "EXPERT_NATIVE_SAFETY",
-      "epoch": 1794806478.0619347
-    },
-    "F1": {
-      "reason": "ILLEGAL_CONTACT",
-      "case": "/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/mfree-c20-recovery-v2-20261116-01/collectors/b/runs/72H-F1-T3-A006",
-      "source": "EXPERT_NATIVE_SAFETY",
-      "epoch": 1794808332.816515
-    }
-  },
+  "quarantine": [
+    "F1",
+    "F2"
+  ],
   "new_native_requests": 0,
   "new_integrations": 0,
   "independent_readmission": false,
