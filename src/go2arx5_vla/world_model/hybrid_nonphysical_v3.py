@@ -16,7 +16,7 @@ from go2arx5_vla.sla_adapter.gripper_time_v1 import reference_width
 from .storage import digest
 from .target_reference import require_install_clock, require_live_window
 
-SCHEMA = 'MFREE_HYBRID_NONPHYSICAL_REQUEST_V3'
+SCHEMA = 'MFREE_HYBRID_NONPHYSICAL_REQUEST_V3_1'
 
 
 def native_s(step):
@@ -67,7 +67,8 @@ def load_input(request):
     return values
 
 
-def check_live(request, state, *, now=time.monotonic):
+def check_live(request, state, *, now=None):
+    wall = (time.monotonic if now is None else now)()
     body = {k: v for k, v in request.items() if k != 'request_id'}
     if (identity(body) != request['request_id'] or request['schema'] != SCHEMA
             or (state.get('operator_stop') and Path(state['operator_stop']).exists())
@@ -76,10 +77,18 @@ def check_live(request, state, *, now=time.monotonic):
             or state['native_step'] != request['native_step']
             or state['sequence'] != request['sequence'] or state['bindings'] != request['bindings']
             or state['previous'] != request['previous_reference']
-            or not math.isfinite(now()) or now() >= request['service_deadline_monotonic']):
+            or not math.isfinite(wall) or wall >= request['service_deadline_monotonic']):
         raise RuntimeError('STOP_CANCEL_CLOCK_IDENTITY_OR_SERVICE_TIMEOUT')
+    if request['clock_mode'] == 'WALL_CLOCK_STRICT':
+        require_wall_window(request['created_monotonic'], wall, 0.)
     reference_width(request['previous_reference'])
     require_install_clock(request['source_native_s'], native_s(state['native_step']))
+
+
+def require_wall_window(source, wall, duration):
+    if (not all(math.isfinite(v) for v in (source, wall, duration))
+            or wall < source or duration < 0 or wall+duration >= source+.4-1e-10):
+        raise TimeoutError('WALL_CLOCK_TTL_EXPIRED_NO_INSTALL_OR_EMISSION')
 
 
 class Receiver:
@@ -103,7 +112,15 @@ class Receiver:
     def save(self):
         write(self.root / 'live.json', self.state)
 
+    def require_running(self):
+        flag = self.state.get('operator_stop')
+        if flag and Path(flag).exists() and not self.state['stop']:
+            self.stop()  # Removing the external flag later cannot un-latch STOP.
+        if self.state['stop'] or self.state['cancelled']:
+            raise RuntimeError('STOP_OR_CANCEL_LATCHED_NO_LIVE_COMMAND')
+
     def request(self, input_pin, language, noise_id, *, timeout_s=60., clock_mode='SIM_PAUSED_ONLY'):
+        self.require_running()
         s = self.state
         if s['stop'] or s['cancelled'] or s['pending'] is not None or s['installed'] is not None:
             raise RuntimeError('RESET_OR_FINISH_PREVIOUS_REQUEST_FIRST')
@@ -126,12 +143,11 @@ class Receiver:
         return request
 
     def install(self, request, response):
+        self.require_running()
         s = self.state
         check_live(request, s)
         if response['request_id'] != request['request_id'] or response['bindings'] != request['bindings']:
             raise ValueError('ATOMIC_RESPONSE_IDENTITY_MISMATCH')
-        if request['clock_mode'] == 'WALL_CLOCK_STRICT' and time.monotonic()-request['created_monotonic'] >= .4-1e-10:
-            raise TimeoutError('WALL_CLOCK_TTL_EXPIRED_NO_INSTALL')
         if s['installed'] is not None:
             if s['emitted_atoms'] == 0 and s['installed']['action'] == response['action']:
                 return s['installed']['ack']  # idempotent ACK, never a second installation
@@ -159,14 +175,17 @@ class Receiver:
             unified_EEF_and_gripper=True, original_compiler=evidence,
             gripper_mapping_count=1, nominal_reference_mapping_count=1)
         bundle['bundle_sha256'] = identity(bundle)
-        ack = dict(schema='NONPHYSICAL_ACCEPT_AND_INSTALL_ACK_V3', request_id=request['request_id'],
+        ack = dict(schema='NONPHYSICAL_ACCEPT_AND_INSTALL_ACK_V3_1', request_id=request['request_id'],
             bundle_sha256=bundle['bundle_sha256'], action_sha256=response['action']['sha256'],
             receiver_kind='MOCK_NO_INTEGRATION', full_H40_compiled=True, EEF_dimension=7,
             native_WBC_certified=False, native_execution_admitted=False)
         # One atomic publication contains the full path and its installation ACK.
+        self.require_running()
+        check_live(request, read(self.root/'live.json'))
         write(self.root / ('install-%04d.json' % s['sequence']), dict(bundle=bundle, ack=ack))
         s['installed'] = dict(action=response['action'], compiled=bundle['mechanical_H40_pin'],
-            ack=ack, plan_source_native_s=request['source_native_s'], start_step=s['native_step'])
+            ack=ack, plan_source_native_s=request['source_native_s'], start_step=s['native_step'],
+            clock_mode=request['clock_mode'], source_wall_monotonic=request['created_monotonic'])
         s['emitted_atoms'] = 0; self.save()
         return ack
 
@@ -174,9 +193,12 @@ class Receiver:
         if type(count) is not int or count <= 0:
             raise ValueError('POSITIVE_ATOM_COUNT')
         for _ in range(count):
+            self.require_running()
             s = self.state; installed = s['installed']; k = s['emitted_atoms']
             if s['stop'] or s['cancelled'] or installed is None or k >= 10:
                 raise RuntimeError('NO_LIVE_ACKED_P10')
+            if installed['clock_mode'] == 'WALL_CLOCK_STRICT':
+                require_wall_window(installed['source_wall_monotonic'], time.monotonic(), 0.)
             if s['native_step'] != installed['start_step']+25*k:
                 raise ValueError('NO_PARTIAL_OR_STALE_ATOM_ACK')
             pin = installed['compiled']
@@ -187,19 +209,31 @@ class Receiver:
             if k == 7 and renew_at_seven:
                 # Exact existing native consumer behavior: same H40 suffix,
                 # fresh measured source. This substitutes a clock, not WBC ACK.
-                installed['plan_source_native_s'] = native_s(s['native_step'])
+                renewal_native_source = native_s(s['native_step'])
+                renewal_wall_source = time.monotonic()
                 from scripts.pi0294.base_intent import eef_document
                 suffix = path[np.minimum(np.arange(k, k+40), 39)]
                 doc = eef_document(suffix)
                 doc['_pi0294'] = dict(episode=s['episode'], sequence=s['sequence'],
-                    source_mpc_s=installed['plan_source_native_s'], ttl_s=.4, operation='install')
+                    source_mpc_s=renewal_native_source, ttl_s=.4, operation='install')
+                self.require_running()
                 write(self.root/('renew-%04d.json' % s['sequence']), dict(request_id=s['pending'],
                     exact_same_H40_suffix=True, eef_wire=doc, mock_ack=True))
+                self.require_running()
+                if installed['clock_mode'] == 'WALL_CLOCK_STRICT':
+                    # A late acknowledgement cannot resurrect the old plan or
+                    # move the source timestamp from acquisition to ACK time.
+                    require_wall_window(installed['source_wall_monotonic'], time.monotonic(), 0.)
+                installed['plan_source_native_s'] = renewal_native_source
+                installed['source_wall_monotonic'] = renewal_wall_source
             require_live_window(installed['plan_source_native_s'], native_s(s['native_step']), 25)
             source = native_s(s['native_step'])
             emitted = dict(request_id=s['pending'], atom=k, source_native_s=source,
                 end_native_step=s['native_step']+25, EEF10_mechanical=path[k].tolist(),
                 mock_receiver_ACK=True, native_emission=False, real_integrations=0)
+            self.require_running()
+            if installed['clock_mode'] == 'WALL_CLOCK_STRICT':
+                require_wall_window(installed['source_wall_monotonic'], time.monotonic(), .05)
             write(self.root/('emitted-%04d-%02d.json' % (s['sequence'], k)), emitted)
             # Only a receiver-confirmed emission advances command history.
             s['native_step'] += 25; s['emitted_atoms'] += 1

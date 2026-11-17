@@ -107,3 +107,74 @@ def test_read_receipt_does_not_retry_invalid_bytes_or_terminal_writer(monkeypatc
     def invalid(path):raise ValueError('invalid')
     monkeypatch.setattr(m,'read',invalid)
     with pytest.raises(ValueError):m.wait_receipt('R',alive=lambda:True,stopped=lambda:False,timeout_s=1)
+
+
+def strict_request(receiver, request, response):
+    request['clock_mode']='WALL_CLOCK_STRICT'
+    request['request_id']=identity({k:v for k,v in request.items()if k!='request_id'})
+    receiver.state['pending']=request['request_id'];receiver.save()
+    response['request_id']=request['request_id']
+
+
+def test_compilation_crossing_wall_TTL_cannot_publish_ACK(tmp_path,monkeypatch):
+    from go2arx5_vla.world_model import sla_dense_policy_v5 as compiler
+    r,q,a=fixture(tmp_path);strict_request(r,q,a)
+    clock=[q['created_monotonic']+.05]
+    monkeypatch.setattr('time.monotonic',lambda:clock[0])
+    original=compiler.compile_proposal
+    def late_compile(*args,**kwargs):
+        result=original(*args,**kwargs)
+        clock[0]=q['created_monotonic']+.401
+        return result
+    monkeypatch.setattr(compiler,'compile_proposal',late_compile)
+    with pytest.raises(TimeoutError,match='TTL'):r.install(q,a)
+    assert not list(r.root.glob('install-*'))
+    assert r.state['installed'] is None
+
+
+def test_operator_STOP_after_ACK_latches_before_any_consumption(tmp_path):
+    r,q,a=fixture(tmp_path);flag=tmp_path/'OPERATOR_STOP'
+    r.state['operator_stop']=str(flag);r.save();r.install(q,a)
+    before=copy.deepcopy(r.state['previous']);flag.write_text('stop')
+    with pytest.raises(RuntimeError,match='STOP|LIVE'):r.consume(1)
+    assert r.state['emitted_atoms']==0 and r.state['previous']==before
+    assert not list(r.root.glob('emitted-*'))
+    flag.unlink()
+    with pytest.raises(RuntimeError):r.consume(1)
+
+
+def test_operator_STOP_during_wire_serialization_prevents_install(tmp_path,monkeypatch):
+    from scripts.pi0294 import base_intent
+    r,q,a=fixture(tmp_path);flag=tmp_path/'OPERATOR_STOP'
+    r.state['operator_stop']=str(flag);r.save()
+    original=base_intent.eef_document
+    def stop_at_wire(*args,**kwargs):
+        document=original(*args,**kwargs);flag.write_text('stop');return document
+    monkeypatch.setattr(base_intent,'eef_document',stop_at_wire)
+    with pytest.raises(RuntimeError,match='STOP|CANCEL'):r.install(q,a)
+    assert not list(r.root.glob('install-*'))
+
+
+def test_strict_consumption_requires_full_50ms_remaining_window(tmp_path,monkeypatch):
+    r,q,a=fixture(tmp_path);strict_request(r,q,a)
+    clock=[q['created_monotonic']+.02]
+    monkeypatch.setattr('time.monotonic',lambda:clock[0]);r.install(q,a)
+    clock[0]=q['created_monotonic']+.36
+    with pytest.raises(TimeoutError,match='TTL'):r.consume(1)
+    assert r.state['emitted_atoms']==0 and not list(r.root.glob('emitted-*'))
+
+
+def test_late_renewal_ACK_cannot_refresh_source_after_expiry(tmp_path,monkeypatch):
+    from go2arx5_vla.world_model import hybrid_nonphysical_v3 as module
+    r,q,a=fixture(tmp_path);strict_request(r,q,a)
+    clock=[q['created_monotonic']+.02]
+    monkeypatch.setattr('time.monotonic',lambda:clock[0]);r.install(q,a);r.consume(7)
+    previous=copy.deepcopy(r.state['previous']);clock[0]=q['created_monotonic']+.35
+    original=module.write
+    def delayed_renewal(path,value):
+        original(path,value)
+        if path.name.startswith('renew-'):clock[0]=q['created_monotonic']+.401
+    monkeypatch.setattr(module,'write',delayed_renewal)
+    with pytest.raises(TimeoutError,match='TTL'):r.consume(1)
+    assert r.state['emitted_atoms']==7 and r.state['previous']==previous
+    assert not(r.root/'emitted-0001-07.json').exists()
