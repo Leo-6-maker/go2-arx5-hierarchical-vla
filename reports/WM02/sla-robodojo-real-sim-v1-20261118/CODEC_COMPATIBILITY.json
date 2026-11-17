@@ -1,0 +1,78 @@
+{
+  "schema": "SLA_ROBODOJO_CODEC_COMPATIBILITY_ACTUAL",
+  "status": "NOT_ADMITTED_LABEL_SEMANTICS_BLOCKED_WITH_PROVEN_CONDITIONAL_REPRESENTATION_EXCLUSIONS",
+  "decoder_changed": false,
+  "old_two_second_labeler_used": false,
+  "inverse_fit_attempted": false,
+  "reason_no_inverse_fit": "Command/frame/TCP and single-arm semantics not qualified. Necessary-condition failures are proofs; remaining windows are unclassified, not compatible.",
+  "analysis_only": true,
+  "retargeting": ".002 + .040 * recorded scalar, conditional on normalized-open-amount semantics, not measured source metres; no clipping",
+  "clock": "nominal source frequency, query every .5s, full query+k*.05 for k=0..39, separate nominal context query-.05; no emitted-command fields or ACKs",
+  "resampling": "ZOH and linear sensitivity both reported; neither admitted as the correct command reader",
+  "max_width_error_tolerance_m": 0.0002,
+  "RMS_width_error_tolerance_m": 0.0001,
+  "crossing_tolerance_s": 0.05,
+  "necessary_condition": "Any unchanged decoder curve is monotone from fixed context and has speed <= .04 m/s. Two free outputs share an offending difference by at most half; a fixed context/output violation incurs its full error.",
+  "methods": {
+    "ZOH": {
+      "windows": 1568,
+      "dynamic": 661,
+      "dynamic_bound_fail": 521,
+      "monotonic_bound_fail": 134,
+      "speed_bound_fail": 512,
+      "any_bound_fail": 522,
+      "overlap_fail": 124,
+      "EEF_head_fail": 660,
+      "EEF_tail_fail": 678,
+      "EEF_interior_fail": 1076,
+      "maximum_necessary_width_error_lower_bound_m": 0.02038216938691981
+    },
+    "LINEAR_SENSITIVITY_ONLY": {
+      "windows": 1568,
+      "dynamic": 663,
+      "dynamic_bound_fail": 506,
+      "monotonic_bound_fail": 139,
+      "speed_bound_fail": 492,
+      "any_bound_fail": 506,
+      "overlap_fail": 125,
+      "EEF_head_fail": 690,
+      "EEF_tail_fail": 712,
+      "EEF_interior_fail": 1074,
+      "maximum_necessary_width_error_lower_bound_m": 0.020988660475786985
+    }
+  },
+  "proven_exclusions_not_bad_source_labels": true,
+  "target_envelope_diagnostics_not_data_filter": true,
+  "qualified_canonical_windows": 0,
+  "required_TRAIN": {
+    "episodes": 12,
+    "tasks": 2,
+    "windows": 256,
+    "close": 24,
+    "open": 24,
+    "episodes_per_event_kind": 4
+  },
+  "actual_qualified_TRAIN": {
+    "episodes": 0,
+    "tasks": 0,
+    "windows": 0,
+    "close": 0,
+    "open": 0
+  },
+  "required_SOURCE_DEV": {
+    "episodes": 6,
+    "tasks": 2,
+    "windows": 64
+  },
+  "actual_qualified_SOURCE_DEV": {
+    "episodes": 0,
+    "tasks": 0,
+    "windows": 0
+  },
+  "SOURCE_TEST_used": 0,
+  "source_sha": "09efbebbc4acb343578047d259aca65b23ea02c1",
+  "numeric_result_sha256": "8025c0fea6e9e7d578c302dba5257859493d74d788cb77b72aa71e396cce6e58",
+  "new_updates": 0,
+  "new_generations": 0,
+  "new_native_requests": 0
+}
