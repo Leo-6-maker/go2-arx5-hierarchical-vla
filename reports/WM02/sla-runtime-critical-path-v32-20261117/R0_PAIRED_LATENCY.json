@@ -1,0 +1,719 @@
+{
+  "schema": "R0_V31_SEALED_PAIRED_LATENCY_RECOMPUTE_V1",
+  "source_records_sha256": "b22992aa3d55f37e1e7bfb6261dfd20f59de29d0c16fb226081313366527c555",
+  "percentile_method": "numpy linear",
+  "summaries": {
+    "all32": {
+      "n": 32,
+      "archive_s": {
+        "p50": 0.26875107595697045,
+        "p95": 0.33410201030783354,
+        "p99": 0.3574301692284644,
+        "max": 0.36469471734017134
+      }
+    },
+    "ordinary16": {
+      "n": 16,
+      "archive_s": {
+        "p50": 0.29948031110689044,
+        "p95": 0.3471191977150738,
+        "p99": 0.3611796134151518,
+        "max": 0.36469471734017134
+      },
+      "ACK_s": {
+        "p50": 0.39423716999590397,
+        "p95": 2.4987500687129796,
+        "p99": 7.214018946234134,
+        "max": 8.392836165614426
+      },
+      "model_sum_s": {
+        "p50": 0.35209205839782953,
+        "p95": 2.174843094078824,
+        "p99": 6.5356485960539406,
+        "max": 7.625849971547723
+      },
+      "nonmodel_ACK_s": {
+        "p50": 0.04089697450399399,
+        "p95": 0.3277983346488327,
+        "p99": 0.679148622183129,
+        "max": 0.7669861940667033
+      },
+      "serial_ACK_plus_archive_s": {
+        "p50": 0.7057379717007279,
+        "p95": 2.8173238958697766,
+        "p99": 7.537925436859948,
+        "max": 8.718075822107494
+      },
+      "serial_over_500ms": 16,
+      "ACK_over_350ms": 16,
+      "ACK_at_least_400ms": 8,
+      "EEF_branch_s": {
+        "p50": 0.17613600101321936,
+        "p95": 1.9961443471256644,
+        "p99": 6.357747713522983,
+        "max": 7.448148555122316
+      },
+      "grip_branch_s": {
+        "p50": 0.17580293910577893,
+        "p95": 0.1780338599346578,
+        "p99": 0.17883172435685993,
+        "max": 0.17903119046241045
+      },
+      "phases": {
+        "input_read_pack_s": {
+          "p50": 0.00385445449501276,
+          "p95": 0.15913372905924916,
+          "p99": 0.16491527194157243,
+          "max": 0.16636065766215324
+        },
+        "IPC_to_response_s": {
+          "p50": 0.3617641478776932,
+          "p95": 2.187541395891458,
+          "p99": 6.5477570504881415,
+          "max": 7.637810964137316
+        },
+        "compiler_s": {
+          "p50": 0.0013979137875139713,
+          "p95": 0.1486064929049462,
+          "p99": 0.5018421923276035,
+          "max": 0.5901511171832681
+        },
+        "wire_s": {
+          "p50": 0.0005644084885716438,
+          "p95": 0.0006711690220981836,
+          "p99": 0.0006719764787703753,
+          "max": 0.0006721783429384232
+        },
+        "install_total_s": {
+          "p50": 0.004729753825813532,
+          "p95": 0.15200934000313282,
+          "p99": 0.5053539041429755,
+          "max": 0.5936900451779366
+        }
+      }
+    },
+    "hot_ordinary15": {
+      "n": 15,
+      "archive_s": {
+        "p50": 0.2987247733399272,
+        "p95": 0.34829089902341365,
+        "p99": 0.3614139536768198,
+        "max": 0.36469471734017134
+      },
+      "ACK_s": {
+        "p50": 0.3722379384562373,
+        "p95": 0.5257295864634216,
+        "p99": 0.5323896797560155,
+        "max": 0.534054703079164
+      },
+      "model_sum_s": {
+        "p50": 0.3515317952260375,
+        "p95": 0.3548020554706454,
+        "p99": 0.35723305236548186,
+        "max": 0.35784080158919096
+      },
+      "nonmodel_ACK_s": {
+        "p50": 0.018979663960635662,
+        "p95": 0.17544206837192178,
+        "p99": 0.18021031888201833,
+        "max": 0.18140238150954247
+      },
+      "serial_ACK_plus_archive_s": {
+        "p50": 0.68290751054883,
+        "p95": 0.8430296131409705,
+        "p99": 0.8489311923272908,
+        "max": 0.8504065871238708
+      },
+      "serial_over_500ms": 15,
+      "ACK_over_350ms": 15,
+      "ACK_at_least_400ms": 7,
+      "EEF_branch_s": {
+        "p50": 0.17595855239778757,
+        "p95": 0.17815483966842294,
+        "p99": 0.178678656835109,
+        "max": 0.1788096111267805
+      },
+      "grip_branch_s": {
+        "p50": 0.17570792883634567,
+        "p95": 0.17786283055320382,
+        "p99": 0.17879751848056913,
+        "max": 0.17903119046241045
+      },
+      "phases": {
+        "input_read_pack_s": {
+          "p50": 0.0016822665929794312,
+          "p95": 0.15961552429944276,
+          "p99": 0.16501163098961114,
+          "max": 0.16636065766215324
+        },
+        "IPC_to_response_s": {
+          "p50": 0.36173376627266407,
+          "p95": 0.36658316114917394,
+          "p99": 0.36994453074410555,
+          "max": 0.3707848731428385
+        },
+        "compiler_s": {
+          "p50": 0.0013960199430584908,
+          "p95": 0.0014243145473301412,
+          "p99": 0.0014248240925371647,
+          "max": 0.0014249514788389206
+        },
+        "wire_s": {
+          "p50": 0.0005645183846354485,
+          "p95": 0.0006712363101541996,
+          "p99": 0.0006719899363815784,
+          "max": 0.0006721783429384232
+        },
+        "install_total_s": {
+          "p50": 0.004727426916360855,
+          "p95": 0.004779036529362202,
+          "p99": 0.0047817579284310345,
+          "max": 0.004782438278198242
+        }
+      }
+    }
+  },
+  "compiler_wire_install_overlap": true,
+  "IPC_includes_model": true,
+  "serial_sum_is_lower_bound_cycle_excluding_consumption_and_other_controller_work": true,
+  "live_camera_measured": false,
+  "real_time_qualified": false,
+  "new_generations": 0,
+  "native_requests": 0,
+  "rows": [
+    {
+      "index": 0,
+      "kind": "normal",
+      "family": "F1",
+      "noise": 0,
+      "phases": {
+        "input_read_pack_s": 0.006026642397046089,
+        "IPC_to_response_s": 7.637810964137316,
+        "compiler_s": 0.5901511171832681,
+        "wire_s": 0.0005606841295957565,
+        "install_total_s": 0.5936900451779366,
+        "capture_to_ACK_s": 8.392836165614426
+      },
+      "model_branch_s": [
+        7.448148555122316,
+        0.17770141642540693
+      ],
+      "archive_s": 0.32523965649306774
+    },
+    {
+      "index": 1,
+      "kind": "normal",
+      "family": "F1",
+      "noise": 1,
+      "phases": {
+        "input_read_pack_s": 0.0014664595946669579,
+        "IPC_to_response_s": 0.3612269489094615,
+        "compiler_s": 0.001423792913556099,
+        "wire_s": 0.0005610976368188858,
+        "install_total_s": 0.004706341773271561,
+        "capture_to_ACK_s": 0.36869726702570915
+      },
+      "model_branch_s": [
+        0.17650246433913708,
+        0.1749871401116252
+      ],
+      "archive_s": 0.2680496545508504
+    },
+    {
+      "index": 2,
+      "kind": "normal",
+      "family": "F1",
+      "noise": 0,
+      "phases": {
+        "input_read_pack_s": 0.131280149333179,
+        "IPC_to_response_s": 0.3613999346271157,
+        "compiler_s": 0.0013915235176682472,
+        "wire_s": 0.0006708325818181038,
+        "install_total_s": 0.0047678109258413315,
+        "capture_to_ACK_s": 0.49860736168920994
+      },
+      "model_branch_s": [
+        0.1756338458508253,
+        0.1758979493752122
+      ],
+      "archive_s": 0.34126069117337465
+    },
+    {
+      "index": 3,
+      "kind": "normal",
+      "family": "F1",
+      "noise": 1,
+      "phases": {
+        "input_read_pack_s": 0.0014910781756043434,
+        "IPC_to_response_s": 0.36173376627266407,
+        "compiler_s": 0.0013946052640676498,
+        "wire_s": 0.0006721783429384232,
+        "install_total_s": 0.004777578637003899,
+        "capture_to_ACK_s": 0.36916554998606443
+      },
+      "model_branch_s": [
+        0.1767242606729269,
+        0.1745779337361455
+      ],
+      "archive_s": 0.29550661612302065
+    },
+    {
+      "index": 4,
+      "kind": "normal",
+      "family": "F1",
+      "noise": 0,
+      "phases": {
+        "input_read_pack_s": 0.06724439095705748,
+        "IPC_to_response_s": 0.35641709715127945,
+        "compiler_s": 0.0014004483819007874,
+        "wire_s": 0.0005745086818933487,
+        "install_total_s": 0.004678048193454742,
+        "capture_to_ACK_s": 0.4295168714597821
+      },
+      "model_branch_s": [
+        0.17396148014813662,
+        0.1751487934961915
+      ],
+      "archive_s": 0.32601116970181465
+    },
+    {
+      "index": 5,
+      "kind": "normal",
+      "family": "F1",
+      "noise": 1,
+      "phases": {
+        "input_read_pack_s": 0.0016822665929794312,
+        "IPC_to_response_s": 0.361820169724524,
+        "compiler_s": 0.0014045033603906631,
+        "wire_s": 0.0005617616698145866,
+        "install_total_s": 0.004782438278198242,
+        "capture_to_ACK_s": 0.36946890875697136
+      },
+      "model_branch_s": [
+        0.1757132587954402,
+        0.17734085582196712
+      ],
+      "archive_s": 0.3002358488738537
+    },
+    {
+      "index": 6,
+      "kind": "normal",
+      "family": "F1",
+      "noise": 0,
+      "phases": {
+        "input_read_pack_s": 0.08610495366156101,
+        "IPC_to_response_s": 0.3707848731428385,
+        "compiler_s": 0.0014240415766835213,
+        "wire_s": 0.0005642985925078392,
+        "install_total_s": 0.004657696932554245,
+        "capture_to_ACK_s": 0.462738947942853
+      },
+      "model_branch_s": [
+        0.1788096111267805,
+        0.17903119046241045
+      ],
+      "archive_s": 0.30386402551084757
+    },
+    {
+      "index": 7,
+      "kind": "normal",
+      "family": "F1",
+      "noise": 1,
+      "phases": {
+        "input_read_pack_s": 0.001559896394610405,
+        "IPC_to_response_s": 0.3647824274376035,
+        "compiler_s": 0.0013916641473770142,
+        "wire_s": 0.0005645183846354485,
+        "install_total_s": 0.004724981263279915,
+        "capture_to_ACK_s": 0.3722379384562373
+      },
+      "model_branch_s": [
+        0.17787422332912683,
+        0.17538405116647482
+      ],
+      "archive_s": 0.2777491947636008
+    },
+    {
+      "index": 8,
+      "kind": "normal",
+      "family": "F2",
+      "noise": 0,
+      "phases": {
+        "input_read_pack_s": 0.15672475285828114,
+        "IPC_to_response_s": 0.3595714308321476,
+        "compiler_s": 0.0014249514788389206,
+        "wire_s": 0.0005648117512464523,
+        "install_total_s": 0.004701555706560612,
+        "capture_to_ACK_s": 0.5221616793423891
+      },
+      "model_branch_s": [
+        0.17515874281525612,
+        0.17411528807133436
+      ],
+      "archive_s": 0.32824490778148174
+    },
+    {
+      "index": 9,
+      "kind": "normal",
+      "family": "F2",
+      "noise": 1,
+      "phases": {
+        "input_read_pack_s": 0.0016131317242980003,
+        "IPC_to_response_s": 0.3565744059160352,
+        "compiler_s": 0.0013907281681895256,
+        "wire_s": 0.0005646459758281708,
+        "install_total_s": 0.0047596655786037445,
+        "capture_to_ACK_s": 0.36414889711886644
+      },
+      "model_branch_s": [
+        0.17595855239778757,
+        0.17137373331934214
+      ],
+      "archive_s": 0.2804001187905669
+    },
+    {
+      "index": 10,
+      "kind": "normal",
+      "family": "F2",
+      "noise": 0,
+      "phases": {
+        "input_read_pack_s": 0.16636065766215324,
+        "IPC_to_response_s": 0.3617945294827223,
+        "compiler_s": 0.0013888692483305931,
+        "wire_s": 0.000580362044274807,
+        "install_total_s": 0.004727426916360855,
+        "capture_to_ACK_s": 0.534054703079164
+      },
+      "model_branch_s": [
+        0.1765088513493538,
+        0.17614347022026777
+      ],
+      "archive_s": 0.2938099605962634
+    },
+    {
+      "index": 11,
+      "kind": "normal",
+      "family": "F2",
+      "noise": 1,
+      "phases": {
+        "input_read_pack_s": 0.0015684599056839943,
+        "IPC_to_response_s": 0.3621277268975973,
+        "compiler_s": 0.0014070775359869003,
+        "wire_s": 0.0005613109096884727,
+        "install_total_s": 0.004771067760884762,
+        "capture_to_ACK_s": 0.3696382837370038
+      },
+      "model_branch_s": [
+        0.1757855350151658,
+        0.17570792883634567
+      ],
+      "archive_s": 0.2987247733399272
+    },
+    {
+      "index": 12,
+      "kind": "normal",
+      "family": "F2",
+      "noise": 0,
+      "phases": {
+        "input_read_pack_s": 0.047884431667625904,
+        "IPC_to_response_s": 0.3625097721815109,
+        "compiler_s": 0.0013960199430584908,
+        "wire_s": 0.0005781902000308037,
+        "install_total_s": 0.004665687680244446,
+        "capture_to_ACK_s": 0.4162364015355706
+      },
+      "model_branch_s": [
+        0.17631344962865114,
+        0.17710866685956717
+      ],
+      "archive_s": 0.36469471734017134
+    },
+    {
+      "index": 13,
+      "kind": "normal",
+      "family": "F2",
+      "noise": 1,
+      "phases": {
+        "input_read_pack_s": 0.001514866016805172,
+        "IPC_to_response_s": 0.362999452278018,
+        "compiler_s": 0.0013915849849581718,
+        "wire_s": 0.0005579665303230286,
+        "install_total_s": 0.004770506173372269,
+        "capture_to_ACK_s": 0.37044779025018215
+      },
+      "model_branch_s": [
+        0.17578677274286747,
+        0.17736210487782955
+      ],
+      "archive_s": 0.2984052440151572
+    },
+    {
+      "index": 14,
+      "kind": "normal",
+      "family": "F2",
+      "noise": 0,
+      "phases": {
+        "input_read_pack_s": 0.07489126827567816,
+        "IPC_to_response_s": 0.3610323192551732,
+        "compiler_s": 0.0013927174732089043,
+        "wire_s": 0.0005625048652291298,
+        "install_total_s": 0.004608528688549995,
+        "capture_to_ACK_s": 0.44169539399445057
+      },
+      "model_branch_s": [
+        0.17637940496206284,
+        0.17712033074349165
+      ],
+      "archive_s": 0.2868730388581753
+    },
+    {
+      "index": 15,
+      "kind": "normal",
+      "family": "F2",
+      "noise": 1,
+      "phases": {
+        "input_read_pack_s": 0.0014805793762207031,
+        "IPC_to_response_s": 0.3569593094289303,
+        "compiler_s": 0.001399807631969452,
+        "wire_s": 0.0005641179159283638,
+        "install_total_s": 0.004732080735266209,
+        "capture_to_ACK_s": 0.36434456519782543
+      },
+      "model_branch_s": [
+        0.1752943592146039,
+        0.17483688425272703
+      ],
+      "archive_s": 0.3185629453510046
+    },
+    {
+      "index": 16,
+      "kind": "service_restart",
+      "family": "F1",
+      "noise": 0,
+      "phases": {
+        "input_read_pack_s": 0.0017801439389586449,
+        "IPC_to_response_s": 0.0052245743572711945,
+        "failure_elapsed_s": 0.008249467238783836
+      },
+      "model_branch_s": [],
+      "archive_s": 0.13587782252579927
+    },
+    {
+      "index": 17,
+      "kind": "binding",
+      "family": "F1",
+      "noise": 0,
+      "phases": {
+        "input_read_pack_s": 0.0014894548803567886,
+        "IPC_to_response_s": 0.00527234748005867,
+        "failure_elapsed_s": 0.007920809090137482
+      },
+      "model_branch_s": [],
+      "archive_s": 0.104825085029006
+    },
+    {
+      "index": 18,
+      "kind": "mid_EEF_stop",
+      "family": "F1",
+      "noise": 0,
+      "phases": {
+        "input_read_pack_s": 0.0014957822859287262,
+        "IPC_to_response_s": 5.363798919133842,
+        "failure_elapsed_s": 5.36645061802119
+      },
+      "model_branch_s": [],
+      "archive_s": 0.19871745817363262
+    },
+    {
+      "index": 19,
+      "kind": "mid_EEF_cancel",
+      "family": "F1",
+      "noise": 0,
+      "phases": {
+        "input_read_pack_s": 0.0014952402561903,
+        "IPC_to_response_s": 0.1855816524475813,
+        "failure_elapsed_s": 0.18823885917663574
+      },
+      "model_branch_s": [],
+      "archive_s": 0.14395297411829233
+    },
+    {
+      "index": 20,
+      "kind": "mid_EEF_restart",
+      "family": "F1",
+      "noise": 0,
+      "phases": {
+        "input_read_pack_s": 0.0014124717563390732,
+        "IPC_to_response_s": 0.18312065303325653,
+        "failure_elapsed_s": 0.18569749034941196
+      },
+      "model_branch_s": [],
+      "archive_s": 0.13356758654117584
+    },
+    {
+      "index": 21,
+      "kind": "mid_EEF_advance",
+      "family": "F1",
+      "noise": 0,
+      "phases": {
+        "input_read_pack_s": 0.0014246953651309013,
+        "IPC_to_response_s": 0.18246042914688587,
+        "failure_elapsed_s": 0.18502692691981792
+      },
+      "model_branch_s": [],
+      "archive_s": 0.17004806827753782
+    },
+    {
+      "index": 22,
+      "kind": "mid_GRIP_stop",
+      "family": "F1",
+      "noise": 0,
+      "phases": {
+        "input_read_pack_s": 0.0015001008287072182,
+        "IPC_to_response_s": 0.3645104384049773,
+        "failure_elapsed_s": 0.36717813927680254
+      },
+      "model_branch_s": [],
+      "archive_s": 0.20024210307747126
+    },
+    {
+      "index": 23,
+      "kind": "mid_GRIP_advance",
+      "family": "F1",
+      "noise": 0,
+      "phases": {
+        "input_read_pack_s": 0.001439221203327179,
+        "IPC_to_response_s": 0.3643344910815358,
+        "failure_elapsed_s": 0.36692605074495077
+      },
+      "model_branch_s": [],
+      "archive_s": 0.18206511158496141
+    },
+    {
+      "index": 24,
+      "kind": "wall_expire_after_GRIP",
+      "family": "F1",
+      "noise": 0,
+      "phases": {
+        "input_read_pack_s": 0.0014768363907933235,
+        "IPC_to_response_s": 0.40543714072555304,
+        "failure_elapsed_s": 0.40810813941061497
+      },
+      "model_branch_s": [],
+      "archive_s": 0.16944874916225672
+    },
+    {
+      "index": 25,
+      "kind": "compile_expire",
+      "family": "F1",
+      "noise": 1,
+      "phases": {
+        "input_read_pack_s": 0.0014571445062756538,
+        "IPC_to_response_s": 0.1776713114231825,
+        "compiler_s": 0.22136270254850388,
+        "failure_elapsed_s": 0.4029936082661152
+      },
+      "model_branch_s": [],
+      "archive_s": 0.12575110234320164
+    },
+    {
+      "index": 26,
+      "kind": "wire_stop",
+      "family": "F1",
+      "noise": 1,
+      "phases": {
+        "input_read_pack_s": 0.0016042841598391533,
+        "IPC_to_response_s": 0.0052164457738399506,
+        "compiler_s": 0.0013855155557394028,
+        "wire_s": 0.2153943059965968,
+        "failure_elapsed_s": 0.22664082236588
+      },
+      "model_branch_s": [],
+      "archive_s": 0.12996251415461302
+    },
+    {
+      "index": 27,
+      "kind": "after_ACK_stop",
+      "family": "F1",
+      "noise": 1,
+      "phases": {
+        "input_read_pack_s": 0.001999332569539547,
+        "IPC_to_response_s": 0.00523051992058754,
+        "compiler_s": 0.0013913223519921303,
+        "wire_s": 0.0005579628050327301,
+        "install_total_s": 0.0046109361574053764,
+        "capture_to_ACK_s": 0.012998083606362343,
+        "failure_elapsed_s": 0.04480374790728092
+      },
+      "model_branch_s": [],
+      "archive_s": 0.12020284868776798
+    },
+    {
+      "index": 28,
+      "kind": "renew_ACK_late",
+      "family": "F1",
+      "noise": 1,
+      "phases": {
+        "input_read_pack_s": 0.00142589770257473,
+        "IPC_to_response_s": 0.005220960825681686,
+        "compiler_s": 0.0013871937990188599,
+        "wire_s": 0.0005556773394346237,
+        "install_total_s": 0.004599301144480705,
+        "capture_to_ACK_s": 0.012407328002154827,
+        "failure_elapsed_s": 0.4028456090018153
+      },
+      "model_branch_s": [],
+      "archive_s": 0.2694524973630905
+    },
+    {
+      "index": 29,
+      "kind": "strict_50ms_margin",
+      "family": "F1",
+      "noise": 1,
+      "phases": {
+        "input_read_pack_s": 0.001527346670627594,
+        "IPC_to_response_s": 0.010311456397175789,
+        "compiler_s": 0.001390649937093258,
+        "wire_s": 0.0005607213824987411,
+        "install_total_s": 0.004554737359285355,
+        "capture_to_ACK_s": 0.017555242404341698,
+        "failure_elapsed_s": 0.36228317860513926
+      },
+      "model_branch_s": [],
+      "archive_s": 0.15503040049225092
+    },
+    {
+      "index": 30,
+      "kind": "response_identity",
+      "family": "F1",
+      "noise": 0,
+      "phases": {
+        "input_read_pack_s": 0.0016938848420977592,
+        "IPC_to_response_s": 0.36251954454928637,
+        "failure_elapsed_s": 0.3656197227537632
+      },
+      "model_branch_s": [
+        0.17845007963478565,
+        0.17706359829753637
+      ],
+      "archive_s": 0.1564943939447403
+    },
+    {
+      "index": 31,
+      "kind": "response_hash",
+      "family": "F1",
+      "noise": 0,
+      "phases": {
+        "input_read_pack_s": 0.0015875492244958878,
+        "IPC_to_response_s": 0.3642187872901559,
+        "failure_elapsed_s": 0.3681442430242896
+      },
+      "model_branch_s": [
+        0.1770662907510996,
+        0.1767342472448945
+      ],
+      "archive_s": 0.16133814584463835
+    }
+  ],
+  "local_receipt_sha256": "78a9584a478299b0c72601adb0561afad43e73cdf12cf1a4cbe7bd469ac1c088"
+}
