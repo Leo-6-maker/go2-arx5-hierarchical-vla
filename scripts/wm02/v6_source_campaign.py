@@ -9,6 +9,18 @@ from go2arx5_vla.world_model.mfree_unattended_runtime_v1 import close
 def run(spec):
     root=Path(spec['registered_root']);journal=Journal(root/'control/journal',root.name);records=[]
     try:
+        # A capacity boundary only: source learning does not require target
+        # scientific success. Leave the healthy pair's inter-arm gap alone.
+        predecessor=spec['wait_for_existing_pair_terminal'];path=Path(predecessor['spec_path'])
+        if hashlib.sha256(path.read_bytes()).hexdigest()!=predecessor['spec_sha256']:raise ValueError('EXISTING_TARGET_PAIR_IDENTITY_CHANGED')
+        previous=path.parent
+        while True:
+            lease=json.loads((previous/'control/LEASE.json').read_bytes())
+            if lease['status']=='CLOSED'and(previous/'RESULT.private.json').exists():break
+            if time.time()>=spec['deadline_epoch']-600 or(root/'STOP.json').exists():raise TimeoutError('FINITE_SOURCE_CAPACITY_QUEUE_LIMIT_NO_TARGET_PREEMPTION')
+            write(root/'PROGRESS.private.json',dict(epoch=time.time(),phase='WAIT_HEALTHY_TARGET_PAIR_COLD_BOUNDARY',predecessor_spec_sha256=predecessor['spec_sha256'],
+                predecessor_status=lease['status'],new_updates=0,new_generations=0,new_native_requests=0,deadline_epoch=spec['deadline_epoch']))
+            time.sleep(30)
         for child in spec['children']:
             path=Path(child['spec_path']);raw=path.read_bytes()
             if hashlib.sha256(raw).hexdigest()!=child['spec_sha256']:raise ValueError('IMMUTABLE_SOURCE_CHILD_CHANGED')
