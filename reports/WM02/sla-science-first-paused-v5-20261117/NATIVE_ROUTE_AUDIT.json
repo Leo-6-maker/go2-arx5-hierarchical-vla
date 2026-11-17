@@ -1,0 +1,291 @@
+{
+  "schema": "MFREE_V5_STATIC_NATIVE_ROUTE_AUDIT",
+  "source_sha": "980933e0896c247edeb7d9faf66c11fb987ce4b0",
+  "evidence_scope": "STATIC_SOURCE_AND_BOUNDED_READONLY_OWNER_CHECK_NOT_NATIVE_QUALIFICATION",
+  "files": [
+    {
+      "file": "scripts/pi0294/task_clock.py",
+      "sha256": "9f4286bdc6ddf5f3931d776e08102a42dc22951bd2a683785bd27df753c1c8f7",
+      "anchors": [
+        {
+          "marker": "FROZEN_FIELDS=",
+          "lines": [
+            5
+          ]
+        },
+        {
+          "marker": "def require_pause(",
+          "lines": [
+            14
+          ]
+        }
+      ]
+    },
+    {
+      "file": "src/go2arx5_vla/world_model/fusion_paused_observation.py",
+      "sha256": "dcf0b199d803a22fcfa479363b3c0e55d0ad3185977d3aa5037e3168212c74f9",
+      "anchors": [
+        {
+          "marker": "def _pause(",
+          "lines": [
+            95
+          ]
+        },
+        {
+          "marker": "def _after_pause(",
+          "lines": [
+            125
+          ]
+        },
+        {
+          "marker": "def verify_still_paused(",
+          "lines": [
+            327
+          ]
+        }
+      ]
+    },
+    {
+      "file": "src/go2arx5_vla/world_model/target_sequential.py",
+      "sha256": "ba67e251da78181f765c2e454e6eb212aae732b6c080bd406bec5018709a7664",
+      "anchors": [
+        {
+          "marker": "def native_display_command(",
+          "lines": [
+            61
+          ]
+        },
+        {
+          "marker": "    order=",
+          "lines": [
+            84
+          ]
+        },
+        {
+          "marker": "    def advance_to(",
+          "lines": [
+            268
+          ]
+        },
+        {
+          "marker": "    def install_reference(",
+          "lines": [
+            447
+          ]
+        },
+        {
+          "marker": "    def cancel_reference(",
+          "lines": [
+            605
+          ]
+        }
+      ]
+    },
+    {
+      "file": "src/go2arx5_vla/world_model/mobile_boundary_clock_v1.py",
+      "sha256": "94fdd10ed07d590076c1a1b2646e1aa5ecec79f818c2e0855f2e2c0241af41d7",
+      "anchors": [
+        {
+          "marker": "def accepted_boundary(",
+          "lines": [
+            13
+          ]
+        },
+        {
+          "marker": "controller_selected_reference=",
+          "lines": [
+            50
+          ]
+        }
+      ]
+    },
+    {
+      "file": "scripts/wm02/mobile_boundary_runner_v1.py",
+      "sha256": "276d75cfa2d3c9597aa2ed3606da976eca264f879f66c87b028d3e25429ebd85",
+      "anchors": [
+        {
+          "marker": "def arm(",
+          "lines": [
+            51
+          ]
+        },
+        {
+          "marker": "def consume(",
+          "lines": [
+            67
+          ]
+        },
+        {
+          "marker": "controller_selected_reference=",
+          "lines": [
+            107
+          ]
+        }
+      ]
+    },
+    {
+      "file": "src/go2arx5_vla/target_mujoco/close_contact_fence_candidate_v1.cpp",
+      "sha256": "00e213b273e055065e439f1cbb3f75839bbe06e3227742c2f477cdcb615ffc3e",
+      "anchors": [
+        {
+          "marker": "int evaluate(",
+          "lines": [
+            33
+          ]
+        },
+        {
+          "marker": "void configure(",
+          "lines": [
+            72
+          ]
+        },
+        {
+          "marker": "void latch(",
+          "lines": [
+            78
+          ]
+        },
+        {
+          "marker": "extern \"C\" void mj_step",
+          "lines": [
+            97
+          ]
+        }
+      ]
+    },
+    {
+      "file": "src/go2arx5_vla/target_mujoco/mobile_safety_v1.cpp",
+      "sha256": "49f32c2d4543a76388fb3a8514b327710b3715b5bb0ba89ef39323702c452d79",
+      "anchors": [
+        {
+          "marker": "extern \"C\" void mj_step",
+          "lines": [
+            100
+          ]
+        },
+        {
+          "marker": "  next(m,d);",
+          "lines": [
+            108
+          ]
+        }
+      ]
+    },
+    {
+      "file": "src/go2arx5_vla/world_model/mobile_wbc_reference_v1.py",
+      "sha256": "3ba445211acd14612565b6f1aa01154680ca5fe6ee171a4fc5e7956c7aa2db81",
+      "anchors": [
+        {
+          "marker": "START=",
+          "lines": [
+            11
+          ]
+        }
+      ]
+    },
+    {
+      "file": "src/go2arx5_vla/world_model/mobile_grasp_budget_v3.py",
+      "sha256": "4021d14bb4babadc883739eddebda120cbaeea9c097c7920dc5665721906b106",
+      "anchors": [
+        {
+          "marker": "MAX_TASK_SECONDS=",
+          "lines": [
+            12
+          ]
+        },
+        {
+          "marker": "MAX_QUERIES=",
+          "lines": [
+            13
+          ]
+        }
+      ]
+    },
+    {
+      "file": "src/go2arx5_vla/world_model/mobile_expert_episode_v3.py",
+      "sha256": "818b6f7c84f63f61e2d9f6ff8371c8d98d7400bcd0cd70526f1f9a065d09c849",
+      "anchors": [
+        {
+          "marker": "    for i in range(128):",
+          "lines": [
+            21
+          ]
+        },
+        {
+          "marker": "    for query in range(MAX_QUERIES):",
+          "lines": [
+            29
+          ]
+        }
+      ]
+    },
+    {
+      "file": "src/go2arx5_vla/world_model/sim_paused_contract_v5.py",
+      "sha256": "203a9481fdaadd6788dd374a6fd333f1b0092f3231374e157e84c306f9d8d981",
+      "anchors": [
+        {
+          "marker": "class PausedMockSession:",
+          "lines": [
+            38
+          ]
+        },
+        {
+          "marker": "    def prepare_mock_resume(",
+          "lines": [
+            195
+          ]
+        },
+        {
+          "marker": "    def resume_mock(",
+          "lines": [
+            217
+          ]
+        }
+      ]
+    }
+  ],
+  "clock": {
+    "existing_pause_frozen_fields": [
+      "step",
+      "time_s",
+      "motiontime",
+      "leg_history_steps",
+      "gait_indices"
+    ],
+    "fresh_ACK_required": true,
+    "raw_state_and_quota_identity_required": true,
+    "new_mock_token_is_native_permit": false
+  },
+  "STOP": {
+    "original_cancel_HOLD_implies_physics_stop": false,
+    "uninstalled_close_fence_uses_receiver_witness": true,
+    "controller_selected_reference": "UNKNOWN",
+    "dynamic_native_STOP_latency": "UNMEASURED",
+    "pause_wall_STOP_native_response": "UNMEASURED",
+    "candidate_hook_not_auto_added_by_native_display_command": true
+  },
+  "tick_budget": {
+    "physics_dt_s": 0.002,
+    "legacy_task_start_native_step": 5703,
+    "legacy_full_task_queries": 120,
+    "query_ticks": 250,
+    "legacy_max_task_ticks": 30000,
+    "legacy_total_ticks_if_full_task": 35703,
+    "legacy_total_native_seconds_if_full_task": 71.406,
+    "V5_per_episode_all_native_ticks_cap": 30000,
+    "V5_expert8_all_native_ticks_cap": 240000,
+    "remaining_ticks_after_unchanged_startup": 24297,
+    "remaining_native_seconds_after_unchanged_startup": 48.594,
+    "full_P10_queries_fitting_total_cap": 97,
+    "remaining_ticks_after97_P10": 47,
+    "status": "DO_NOT_SILENTLY_REUSE_LEGACY_60S_TASK_LIMIT_AS_V5_60S_TOTAL_LIMIT",
+    "budgets_or_runtime_changed": false
+  },
+  "effects": {
+    "new_model_generations": 0,
+    "new_updates": 0,
+    "new_optimization_visits": 0,
+    "new_native_requests": 0,
+    "new_native_ticks": 0
+  }
+}
