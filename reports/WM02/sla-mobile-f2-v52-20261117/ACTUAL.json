@@ -2,7 +2,7 @@
   "schema": "SLA_MOBILE_V52_STAGE_ACTUAL",
   "status": "ONGOING_E1_NOT_AN_ENDPOINT_OR_POLICY_SUCCESS",
   "plan_commit": "90d39196bdc345b977ee54ed64e750cf3561aa72",
-  "as_of_UTC": "2026-11-17T13:57:46.811004+00:00",
+  "as_of_UTC": "2026-11-17T14:20:14.984812+00:00",
   "D0": {
     "source_sha": "4b59cd7c53882e4b04357d25e6e62660de89e715",
     "inputs": 320,
@@ -41,14 +41,16 @@
   "LR_sha256": "7f10a93cbac3bda375845b99b1f50c4eb516cb5d49a8d5e2e17f6e1b956298c9",
   "visit_map_sha256": "a151bfca90511a5fee70398aa50616472f989cbf41cdd899ca93d569a24040af",
   "E1_snapshot": {
-    "B1_updates": 20,
-    "B1_visits": 640,
+    "B1_updates": 240,
+    "B1_visits": 7680,
     "B2_updates": 0,
     "B2_visits": 0,
     "B2_status": "WAIT_SAME_GPU_OWNER",
     "new_generations": 0,
     "new_native_requests": 0,
-    "new_integrations": 0
+    "new_integrations": 0,
+    "diagnostic_backward_calls_B1": 1,
+    "diagnostic_backward_visits_B1": 4
   },
   "preserved_technical_failures": [
     {
@@ -88,5 +90,20 @@
     "JOIN10": "FAILED",
     "R3_realtime": "FAILED"
   },
-  "next": "Finish two fixed500 endpoints and full-state/RGB restoration; then exact saved-input qualification and all24 preregistered native conditions; no offline quality prefilter."
+  "next": "Finish two fixed500 endpoints and full-state/RGB restoration; then exact saved-input qualification and all24 preregistered native conditions; no offline quality prefilter.",
+  "followup": {
+    "status": "ACTIVE_WAIT_ACTUAL_E1_ENDPOINTS",
+    "unit": "wm02-sla-mobile-f2-v52-e1-e2-followup-20261117-01",
+    "source_sha": "fe440995bd739d666aad3e93952be5f60fa130d2",
+    "source_seal_sha256": "ed4d0424e7d15d5058550cdc01fdf1077a69f0acc90a1e6d1b4d81f64001e109",
+    "spec_sha256": "aad7a220e53e75f185a01385be9885d47e6e4c335887ec02f22f0221a506e25c",
+    "deadline_epoch": 1794967938.2895093,
+    "independent_heartbeat_advanced": true,
+    "linger": true,
+    "frontend_dependency": false,
+    "automatic_retry": false,
+    "conditional_new_offline_generations": 600,
+    "conditional_new_native_requests": 24,
+    "automatic_confirmation_E3_DEV_TEST": false
+  }
 }

@@ -73,3 +73,21 @@ def test_followup_requires_actual_500_endpoints_and_matching_initial_randomness(
  with pytest.raises(ValueError,match='MATCHED_INITIAL_STATE_MISMATCH_noise'):followup.wait_endpoints(s)
  bad=json.loads((tmp_path/'B2/RESULT.private.json').read_text());bad['new_updates']=499;(tmp_path/'B2/RESULT.private.json').write_text(json.dumps(bad))
  with pytest.raises(ValueError,match='TWO_REAL_MATCHED500'):followup.wait_endpoints(s)
+
+
+def test_selection_keeps_scientific_controls_and_separates_development_parent():
+ from go2arx5_vla.sla_adapter.mobile_selection_v52 import summarize,OFFLINE_GATES
+ rows=[]
+ for arm,n in(('B0',6),('B1',7),('B2',8)):
+  # Fail the last F1/F2 conditions in the six-success case, preserving3/4 each.
+  failures={3,7}if n==6 else{7}if n==7 else set()
+  for i in range(8):rows.append(dict(arm=arm,family='F1'if i<4 else'F2',condition=dict(layout='T%d'%(i%4)),actual_native_requests=1,technical_failure=False,hard_STOP=False,completed=True,task_and_mobile_success=i not in failures,task_ticks=10000,native_ticks=15703,valid_policy_rejection=None))
+ gates={a:{k:True for k in OFFLINE_GATES}for a in('B0','B1','B2')};gates['B2']['CN38_180_all']=False
+ result=summarize(rows,gates)
+ assert result['unique_confirmation_candidate']=='B1'and result['development_parent']=='B2'
+ assert len(result['paired_conditions'])==8 and result['by_arm']['B2']['attempts']==8
+ gates['B2']['CN38_180_all']=True
+ assert summarize(rows,gates)['unique_confirmation_candidate']=='B2'
+ # Missing one condition cannot be promoted or supply a development parent.
+ partial=[r for r in rows if r['arm']=='B2'][:-1]
+ assert summarize(partial,gates)['development_parent']is None
