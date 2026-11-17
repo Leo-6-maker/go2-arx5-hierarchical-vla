@@ -18,8 +18,14 @@ def run(spec):
     import jax
     from go2arx5_vla.sla_adapter.site_v2 import validate
     root=Path(spec['registered_root']);bus=Path(spec['ipc_root']);live=Path(spec.get('live_root',root));site=validate(spec)
-    start=time.monotonic();one,two=load_pair(spec)
-    write(root/'READY.private.json',dict(pid=os.getpid(),parent_loads=1,adapters=2,
+    start=time.monotonic();single=spec['selected_combo']=='SHIFT7_SINGLE'
+    if single:
+        from go2arx5_vla.sla_adapter.provider_time_shift7_v1 import Provider
+        package=spec['SHIFT7_package']
+        one=Provider(package['path'],manifest_sha256=package['sha256'],parent_params=spec['parent_params'],parent_manifest_path=spec['parent_manifest']['path'])
+        two=None
+    else:one,two=load_pair(spec)
+    write(root/'READY.private.json',dict(pid=os.getpid(),parent_loads=1,adapters=1 if single else 2,
         load_and_import_wall_s=time.monotonic()-start,GPU_memory=jax.devices()[0].memory_stats(),site=site))
     attempted=completed=0;handled={};timings=[];deliveries=set()
     def counts():
@@ -104,13 +110,18 @@ def run(spec):
                     cached_protocol_replay=True,worker_wall_s=time.monotonic()-t,new_generations_this_request=0,
                     independent_gripper_write=False,native_execution_admitted=False)
                 respond(response);continue
-            value=predict_request(Counted(one,'EEF'),Counted(two,'GRIP'),state=data['state_eef10'],
-                images=[data['body_rgb'],data['wrist_rgb']],language=q['language'],frame=data['T_policy_from_mount'],
-                noise_id=q['noise_id'],previous_reference=q['previous_reference'],request_id=qid,
-                deadline_monotonic=q['service_deadline_monotonic'],now=time.monotonic,live_state=current)
+            if single:
+                value=Counted(one,'SHIFT7').predict(data['state_eef10'],[data['body_rgb'],data['wrist_rgb']],
+                    q['language'],data['T_policy_from_mount'],noise_id=q['noise_id'],previous_reference=q['previous_reference'])
+            else:
+                value=predict_request(Counted(one,'EEF'),Counted(two,'GRIP'),state=data['state_eef10'],
+                    images=[data['body_rgb'],data['wrist_rgb']],language=q['language'],frame=data['T_policy_from_mount'],
+                    noise_id=q['noise_id'],previous_reference=q['previous_reference'],request_id=qid,
+                    deadline_monotonic=q['service_deadline_monotonic'],now=time.monotonic,live_state=current)
             current();action=folder/'ACTION.npz'
             with action.open('xb')as f:
-                np.savez(f,physical_H40=value['physical_H40'],normalized=branch[0]['output']['normalized'],
+                if single:np.savez(f,physical_H40=value['physical_H40'],normalized=value['normalized'])
+                else:np.savez(f,physical_H40=value['physical_H40'],normalized=branch[0]['output']['normalized'],
                     FM_physical_H40=branch[0]['output']['physical_H40'],
                     grip_physical_H40=branch[1]['output']['physical_H40'],
                     grip_normalized=branch[1]['output']['normalized'])
@@ -122,13 +133,14 @@ def run(spec):
             response=dict(status='REJECTED_NO_ACTION',request_id=qid,bindings=q['bindings'],
                 failure=traceback.format_exc(),branches_completed=len(branch))
         response['worker_wall_s']=time.monotonic()-t
+        response.setdefault('branch_wall_s',[r['wall_s']for r in branch])
         response['new_generations_this_request']=len(branch)
         timings.append(response['worker_wall_s']);respond(response)
     counts()
     if live!=root:
         write(root/'GENERATION_COUNTS.private.json',read(live/'GENERATION_COUNTS.private.json'))
     result=dict(exit_code=0,requests=len(handled),attempted_generations=attempted,completed_generations=completed,
-        parent_loads=1,adapters=2,peak_GPU_memory=jax.devices()[0].memory_stats(),new_updates=0,new_visits=0,
+        parent_loads=1,adapters=1 if single else 2,peak_GPU_memory=jax.devices()[0].memory_stats(),new_updates=0,new_visits=0,
         new_native_requests=0,new_integrations=0,wall_s=time.monotonic()-start,site=site)
     write(root/'RESULT.private.json',result);return result
 
