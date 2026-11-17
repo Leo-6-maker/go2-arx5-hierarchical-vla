@@ -11,10 +11,13 @@ def preflight(spec):
             or len(spec['cases'])!=24):raise PermissionError('FIXED_V52_E2_24_MATCHED_REQUESTS_ONLY')
     panel=read(spec['registered_panel'])
     if len(panel)!=24 or len({r['id']for r in panel})!=24:raise ValueError('EXACT_E2_PREREGISTRATION')
+    panel_by_id={r['id']:r for r in panel}
     cases=[]
     for path in spec['cases']:
         import json
         case=json.loads(Path(path).read_bytes());validate(case)
+        template=read(panel_by_id[case['panel_entry_id']]['template_spec'])
+        if case['python']!=template['python']:raise ValueError('FROZEN_NATIVE_INTERPRETER_PROFILE_REQUIRED')
         if (case['mobile_world_lock']!=spec['mobile_world_lock']or case['ROS_DOMAIN_ID']!=spec['ROS_DOMAIN_ID']
                 or case['mobile_group']!=spec['registered_root']or case['source_sha']!=spec['source_sha']
                 or case['registered_panel']!=spec['registered_panel']):raise ValueError('EXACT_E2_PARENT_WORLD_OWNER_SOURCE_AND_PANEL')

@@ -110,6 +110,9 @@ def prepare_screen(spec,offline,offline_result):
     panel=read(spec['E2_screen']['path']);entries=[];paths=[]
     for row in panel:
         folder=root/'cases'/row['id'];dirs(folder);s=dict(templates[row['family']]);previous_model=s['model_path'];s.update(common(spec,folder,'SLA_MOBILE_V52_E2_'+row['arm']))
+        # The model worker uses sla-pt. Native capture/compile/score retain the
+        # reviewed native interpreter and its NumPy/MuJoCo/ROS profile.
+        s['python']=templates[row['family']]['python']
         for key in('old_condition_result','old_V3_seed','previous_v2_result','same_old_scene_new_expert_condition'):s.pop(key,None)
         s.update(mobile_group=str(root),campaign_root=str(root),mobile_experiment_version='MFREE_SHIFT7_SIM_ONLY_V52',sim_only_role='STUDENT',sim_only_project_authorization=pin(authority),native_backend='MUJOCO_ONLY',hardware_connections_allowed=False,physics=True,max_ticks=35703,physics_dt_s=.002,model_service_timeout_s=30,new_physical_requests_budget=1,cpus=[10,11],arm=row['arm'],packages=offline['packages'],SHIFT7_package=offline['packages'][row['arm']],ordinary_RGB_restore=offline_result['ordinary_RGB_restore'][row['arm']],resident_server_spec=server_pin,registered_panel=spec['E2_screen'],panel_entry_id=row['id'],model_path=row['scene']['path'],language=row['language'],expert_training_eligible=False,unattended_control=str(root/'control'))
         s['frozen_files']=dict(s['frozen_files']);s['frozen_files'].pop(previous_model,None);s['frozen_files'][s['model_path']]=row['scene']['sha256']

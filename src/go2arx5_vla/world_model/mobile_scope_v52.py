@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 from .storage import digest
 from .sim_only_scope_v51 import BINARIES,STARTUP_TICKS,TOTAL_TICKS,INTERFACE_TICKS
-from go2arx5_vla.sla_adapter.mobile_successor_v52 import PLAN,PARENT
+from go2arx5_vla.sla_adapter.mobile_contract_v52 import PLAN,PARENT,contract
 
 VERSION='MFREE_SHIFT7_SIM_ONLY_V52'
 
@@ -52,10 +52,9 @@ def validate(spec):
             raise ValueError('FROZEN_PANEL_ARM_AND_SCENE_REQUIRED')
         package=spec['SHIFT7_package'];manifest=read(dict(path=str(Path(package['path'])/'MANIFEST.private.json'),sha256=package['sha256']))
         if spec['arm']=='B0':
-            from go2arx5_vla.sla_adapter.provider_time_shift7_v1 import contract
+            if package['sha256']!=PARENT:raise ValueError('EXACT_FROZEN_B0_PACKAGE_BYTES_REQUIRED')
         else:
-            from go2arx5_vla.sla_adapter.provider_mobile_v52 import contract
-        contract(manifest)
+            contract(manifest)
         restoration=read(spec['ordinary_RGB_restore'])
         if restoration['arm']!=spec['arm']or restoration['package']!=package or not restoration['all_bit_exact']or restoration['generations']!=16:
             raise ValueError('ACTUAL_ARM_RGB16_RESTORATION_REQUIRED')

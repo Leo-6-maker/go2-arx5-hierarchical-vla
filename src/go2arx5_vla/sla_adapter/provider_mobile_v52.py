@@ -4,32 +4,9 @@ from pathlib import Path
 import shutil
 from .checkpoint_v1 import sha
 from .provider_time_shift7_v1 import Provider as ShiftProvider
-from .provider_time_v1 import ORDER
-from .mobile_successor_v52 import RECIPE,PARENT,PLAN
+from .mobile_contract_v52 import RECIPE,PARENT,PLAN,SCHEMA,ORDER,contract
 from .gripper_time_shift7_v1 import VERSION,SHIFT,SLOTS
 from .gripper_latent_v2 import VERSION as STATS_CODEC,EPSILON
-
-SCHEMA='SLA_MOBILE_SHIFT7_SUCCESSOR_RGB_PACKAGE_V52'
-
-
-def contract(m):
-    b=m['bindings']
-    if (m['schema']!=SCHEMA or m['codec']!=VERSION or m['decode_order']!=ORDER
-            or m['step']!=500 or m['cursor']!=16000 or b['recipe']!=RECIPE
-            or b['successor_parent_package']['sha256']!=PARENT
-            or b['parent_cumulative_updates']!=1500 or b['parent_cumulative_visits']!=48000
-            or b['successor_cumulative_updates']!=2000 or b['successor_cumulative_visits']!=64000
-            or b['new_planned_updates']!=500 or b['new_planned_visits']!=16000
-            or b['endpoint_lambda']not in(0.,.1)or b['endpoint_margin_m_s2']!=.2
-            or b['endpoint_scale_m_s2']!=.25 or b['endpoint_tau_max']!=.5
-            or b['goal_plan_sha']!=PLAN or not b['fresh_Adam']
-            or b['codec_version']!=VERSION or b['statistics_codec_version']!=STATS_CODEC
-            or b['inference_route']!='cached_actual' or m['parameter_slot_shift']!=SHIFT
-            or m['parameter_slots']!=[[int(i)for i in g]for g in SLOTS]
-            or m['previous_reference_required']is not True
-            or any(m[k]is not False for k in ('teacher_required','optimizer_required','training_cache_required','physical_execution_admitted','endpoint_basis_applied'))):
-        raise ValueError('EXPLICIT_FIXED_SHIFT7_SUCCESSOR_V52_LINEAGE_REQUIRED')
-
 
 def export(package,checkpoint,*,complete,active_template,statistics,tokenizer,parent_manifest):
     from .provider_v1 import active_rows

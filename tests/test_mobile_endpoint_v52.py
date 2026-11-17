@@ -91,3 +91,21 @@ def test_selection_keeps_scientific_controls_and_separates_development_parent():
  # Missing one condition cannot be promoted or supply a development parent.
  partial=[r for r in rows if r['arm']=='B2'][:-1]
  assert summarize(partial,gates)['development_parent']is None
+
+
+def test_native_contract_import_does_not_require_the_training_environment():
+ import os,subprocess,sys
+ from pathlib import Path
+ root=Path(__file__).resolve().parents[1]
+ code='''import importlib.abc,sys
+class NoLearnerDependencies(importlib.abc.MetaPathFinder):
+ def find_spec(self,fullname,path=None,target=None):
+  if fullname.split('.')[0]in('scipy','jax','torch','flax','optax','openpi'):
+   raise AssertionError('native metadata imported learner dependency: '+fullname)
+sys.meta_path.insert(0,NoLearnerDependencies())
+from go2arx5_vla.world_model.mobile_scope_v52 import query_identity
+from go2arx5_vla.sla_adapter.mobile_contract_v52 import contract
+assert not any(k.split('.')[0]in('scipy','jax','torch','flax','optax','openpi')for k in sys.modules)
+'''
+ result=subprocess.run([sys.executable,'-c',code],cwd=root,env=dict(os.environ,PYTHONPATH=str(root/'src')),capture_output=True,text=True,timeout=30)
+ assert result.returncode==0,result.stderr
