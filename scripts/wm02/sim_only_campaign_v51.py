@@ -40,7 +40,7 @@ def compact_case(spec,result):
 
 def interface_gate(rows):
     items=[r for r in rows if r['role']=='INTERFACE']
-    return len(items)==2 and all(r['completed']and not r['hard_STOP']
+    return len(items)==2 and {r['family']for r in items}=={'F1','F2'} and all(r['completed']and not r['hard_STOP']
         and r['interface_protocol_pass'] for r in items)
 
 

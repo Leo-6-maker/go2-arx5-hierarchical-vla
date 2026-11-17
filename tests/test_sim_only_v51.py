@@ -71,7 +71,7 @@ def test_one_simulated_collision_is_a_failed_case_without_waiving_STOP_integrity
 
 
 def test_stage_gates_preserve_first_round_and_do_not_call_zero_of_eight_success():
-    interfaces=[dict(role='INTERFACE',completed=True,hard_STOP=False,interface_protocol_pass=True)for _ in range(2)]
+    interfaces=[dict(role='INTERFACE',family=f,completed=True,hard_STOP=False,interface_protocol_pass=True)for f in ('F1','F2')]
     assert interface_gate(interfaces)
     assert not interface_gate(interfaces[:1])
     students=[dict(role='STUDENT',family='F1'if i<4 else'F2',hard_STOP=False,
