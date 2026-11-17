@@ -50,3 +50,5 @@ S0重新读回原693670状态结果SHA9ed2b01909cd15e582f6fdb81b8f6e76f0480fa56d
 P0专家、P1学生pilot、DEV、TEST均未启动；新增抓持、抬升20mm/保持1秒或底座8cm的成绩仍无证据。F1/F2专家/学生及M_ASSIST继续隔离，WBC/MPC/腿/臂/solver/2ms及原H40/P10/50ms、40mm/s不变。旧学生0/13、RP8、JOIN10、DEV/TEST负结果保持。**下一关是延迟工程修复方案与独立安全准入；不自动新增GPU请求、训练或原生任务。**
 
 完整脱敏分母、成本与结果SHA见[机读矩阵](ACTUAL_MATRIX.json)、[goal_state](goal_state.json)及[追加式effects摘要](EFFECT_LEDGER.jsonl)。独立终态结果SHA10ea6a4f75a60bc737898ad9a9263cbc273d040a73cee5e806aead5a43e99cbc，请求记录SHAae202b77be2d6a9b4ec8fcab2481059a6071ae27ba2757c716f0363c660b983b。
+
+后续工程复查已新增[V3.1 CPU接缝修复](V3_1_CPU_GUARDS_ACTUAL.md)：发现并复现原故障面板未覆盖的编译后TTL、安装后外部STOP及续期source问题，44项回归通过。新源码未部署Core、未新增请求或生成，不能继承本页旧版GPU资格。历史原生模板的[现场字节绑定](S0_BINDING_READBACK.json)已补齐；独立准入仍未签署。
