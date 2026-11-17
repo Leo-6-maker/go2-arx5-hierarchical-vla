@@ -50,6 +50,8 @@ def main():
         run=lambda spec:main(spec,gpu=operation=='--source-test')
     elif operation=='--source-campaign':
         from scripts.wm02.v6_source_campaign import run
+    elif operation=='--source-test-campaign':
+        from scripts.wm02.source_test_campaign_v6 import run
     elif operation=='--source-train':
         from scripts.sla.train_source_v6 import main as run
     elif operation=='--source-restore':

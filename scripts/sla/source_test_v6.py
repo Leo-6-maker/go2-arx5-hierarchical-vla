@@ -69,7 +69,11 @@ def evaluate(spec):
     for name in('source_training_v6.py','model_v1.py','source_batch_v6.py'):
         relative='src/go2arx5_vla/sla_adapter/'+name
         if sha(Path(spec['source_root'])/relative)!=training_spec['source_files'][relative]:raise ValueError('SOURCE_TRAINED_MODEL_RESTORE_IMPLEMENTATION_CHANGED')
-    engine=SourceEngine(training_spec,root/'work')
+    # Checkpoint bindings still use the original training source/spec identity.
+    # Runtime output and JAX cache belong to this new read-only evaluation.
+    runtime=dict(training_spec,compilation_cache_dir=spec['compilation_cache_dir'],
+                 deadline_epoch=spec['deadline_epoch'])
+    engine=SourceEngine(runtime,root/'work')
     try:
         engine.resume(train['last_checkpoint']);full=verify(engine,train['last_checkpoint'])
         d=SourceTestDataset(prepared['dataset']['path'],prepared['dataset']['manifest_sha256'],frozen_training_result=spec['frozen_training_result'],

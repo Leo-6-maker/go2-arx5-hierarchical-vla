@@ -1,5 +1,6 @@
 """Recorded-source reference errors, explicitly not Go2 task success."""
 import hashlib
+import time
 from pathlib import Path
 import numpy as np
 from scipy.spatial.transform import Rotation
@@ -53,6 +54,8 @@ def evaluate(engine,root,split,*,endpoint,dataset=None,windows=None):
     lookup={key:i for i,key in enumerate(dataset.rows)};rows=[];restore=[]
     out=root/(endpoint+'-'+split);out.mkdir()
     for number,window in enumerate(windows):
+        if split=='SOURCE_TEST' and (time.time()>=engine.spec['deadline_epoch']-60 or (root/'STOP.json').exists()):
+            raise TimeoutError('FINITE_SOURCE_TEST_BEFORE_NEXT_GENERATION')
         index=lookup[window['episode'],window['anchor']];noise_id=int.from_bytes(hashlib.sha256(('V6_SOURCE/'+window['id']+'/2026111808').encode()).digest()[:4],'little')
         normalized,prediction=engine.generate(index,noise_id,dataset=dataset)
         arrays=dataset.arrays(window['episode']);anchor=window['anchor'];state=arrays['state'][anchor];target=arrays['actions'][anchor]
