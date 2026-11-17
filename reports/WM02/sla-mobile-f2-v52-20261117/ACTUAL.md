@@ -1,8 +1,8 @@
 # V5.2 actual progress — E1 complete, real E2 running
 
-As of `2026-11-17T16:44:41.143756+00:00`,B1 and B2 each completed **500 genuine updates/16,000 optimization visits**,full-state checkpoint restoration and independent ordinary-RGB16 restoration. The campaign added1,000 updates/32,000 optimization visits,8 separately charged diagnostic windows and792 offline model generations.
+As of `2026-11-17T17:17:22.462272+00:00`,B1 and B2 each completed **500 genuine updates/16,000 optimization visits**,full-state checkpoint restoration and independent ordinary-RGB16 restoration. The campaign added1,000 updates/32,000 optimization visits,8 separately charged diagnostic windows and792 offline model generations.
 
-**Real MuJoCo E2:10/24 new requests started,9 terminal,1 active.** In the complete first F1/T0 triplet,B1 and B2 both achieved genuine grasp/lift/hold plus required base motion;B0 stopped on illegal contact,with0 following integrations. This is6/9 among closed requests,6/10 among launched requests with1 pending. It is a prefix,not promotion. No candidate is selected.
+**Real MuJoCo E2:16/24 new requests started,15 terminal,1 active.** CompleteF1 success counts areB0 2/4,B1 3/4,B2 2/4. The first matchedF2/T0 triplet is3/3,including frozenB0;this cannot be attributed to the new training. Across closed requests there are10/15 composite successes,or10/16 among launched requests with1 pending. All three arms already have fixed promotion blockers. No candidate or development parent has been selected;the complete24 comparison and E3 evidence decision remain pending.
 
 | Stage | Actual state |
 |---|---|
@@ -12,7 +12,7 @@ As of `2026-11-17T16:44:41.143756+00:00`,B1 and B2 each completed **500 genuine 
 | Independent RGB |B0/B1/B2 each16/16 bit-exact;no optimizer loaded |
 | Saved TRAIN/CN38 |All three96/96 and180/180;CLOSE20+36 per arm,0 omissions/late events |
 | ROLL96 |B0=93/96,B1=93/96,B2=96/96;original rejected3 repaired0/3,1/3,3/3 |
-| E2 native |10 started,9 closed;6 genuine successes,1 contact STOP;14 remain unstarted |
+| E2 native |16 started,15 closed;10 genuine successes,2 contact STOP;8 remain unstarted |
 | Confirmation/E3/DEV/TEST |Conditional;0 started |
 
 See [actual matched endpoints and costs](E1_PAIR_ACTUAL.md),[offline distributions/gates](E1_OFFLINE_ACTUAL.md),[real native prefix and counters](E2_PREFIX_ACTUAL.md),[D0 evidence](D0_BOUNDARY_CONTACT.md),and[retained native-profile cold repair](E2_PROFILE_COLD_REPAIR_ACTUAL.md). The complete24-condition matrix and fixed selection/negative decision remain unfinished.
@@ -26,3 +26,7 @@ Both zero-update E1 environment failures and the zero-scientific-effect native-p
 WBC/legs/MPC/solver/arm PD,original completeH40/P10/TTL/2ms,collision/STOP and scores remain fixed. Pure MuJoCo uses the project-owner authorization already recorded in V5.1;no new third-party signature is required. Real hardware,RL,oracleBASE/phase,action clipping/smoothing and scientific retries remain forbidden. PR4033/8,F2 0/4,failed V5.1 pilot and old RP8/JOIN10/R3/history remain unchanged.
 
 New [live H40 rejection attribution](E2_REJECTION_PREFIX_ACTUAL.md) identifies B2/F1-T2 interior index34 at0.261575m/s²;head/tail remain legal. The [conditional evaluation implementation](CONDITIONAL_EVALUATION_READY.md),source `eecf53b3cd25fdbbe0d43f1e8e859c932b77acde`,passed61 focused CPU checks but is not deployed or dispatched. The active capsule remains source `2797d0c2`.
+
+The [complete F1 subset](F1_ACTUAL.md) isB0 2/4,B1 3/4,B2 2/4;new B1/F2-T0 genuinely passes grasp/lift/hold and90.02mm motion. All three arms already have fixed promotion blockers;F2 continues without filtering. The [read-only query diagnosis](QUERY_DIAGNOSTICS_PREFIX_ACTUAL.md) finds no repeated horizon-only closing postponement in these12 F1 records. Full24 selection and the E3 evidence decision remain pending.
+
+The first matched F2/T0 triplet is3/3,including frozenB0. See [the complete F1 and first F2 layout](F1_ACTUAL.md). Historical PR403F2 0/4 is unchanged;success in this new layout/reset/noise population is not an update to that old score.

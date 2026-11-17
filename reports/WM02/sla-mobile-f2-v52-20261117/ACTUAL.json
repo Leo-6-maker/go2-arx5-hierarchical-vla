@@ -2,7 +2,7 @@
   "schema": "SLA_MOBILE_V52_STAGE_ACTUAL",
   "status": "TWO_FIXED500_AND_OFFLINE_COMPLETE_E2_NATIVE_ACTIVE",
   "plan_commit": "90d39196bdc345b977ee54ed64e750cf3561aa72",
-  "as_of_UTC": "2026-11-17T16:44:41.143756+00:00",
+  "as_of_UTC": "2026-11-17T17:17:22.462272+00:00",
   "D0": {
     "source_sha": "4b59cd7c53882e4b04357d25e6e62660de89e715",
     "inputs": 320,
@@ -118,8 +118,8 @@
     "technical_stage": "E2_NATIVE_PROFILE",
     "old_followup_preserved_terminal": true,
     "offline_generations_completed": 600,
-    "E2_started": 10,
-    "E2_terminal": 9
+    "E2_started": 16,
+    "E2_terminal": 15
   },
   "B1_recovery250": {
     "step": 250,
@@ -196,14 +196,14 @@
   },
   "E2_prefix": {
     "report": "E2_PREFIX_ACTUAL.json",
-    "new_requests_started": 10,
-    "new_requests_terminal": 9,
-    "closed_case_native_integrations": 184415,
-    "live_case_integrations_confirmed_minimum": 13703,
-    "closed_case_composite_successes": 6,
-    "closed_case_hard_STOP": 1,
+    "new_requests_started": 16,
+    "new_requests_terminal": 15,
+    "closed_case_native_integrations": 302656,
+    "live_case_integrations_confirmed_minimum": 13953,
+    "closed_case_composite_successes": 10,
+    "closed_case_hard_STOP": 2,
     "closed_case_technical_failures": 0,
-    "worker_generations": 568,
+    "worker_generations": 907,
     "requested_panel_denominator": 24
   },
   "offline_summary": {
@@ -230,5 +230,61 @@
     "new_GPU_generations": 0,
     "new_native_requests": 0,
     "new_training_updates": 0
+  },
+  "complete_F1": {
+    "report": "F1_ACTUAL.json",
+    "B0": [
+      2,
+      4
+    ],
+    "B1": [
+      3,
+      4
+    ],
+    "B2": [
+      2,
+      4
+    ],
+    "first_F2_B1_composite_success": true,
+    "complete_E2_decision_pending": true,
+    "first_F2_T0_triplet_all_success": true
+  },
+  "current_fixed_promotion_blockers": {
+    "B0": [
+      "F1_SUCCESS_2_LT3",
+      "HARD_STOP",
+      "SAVED_REJECT3_NOT_ALL_PASS"
+    ],
+    "B1": [
+      "SAVED_REJECT3_NOT_ALL_PASS"
+    ],
+    "B2": [
+      "F1_SUCCESS_2_LT3",
+      "HARD_STOP"
+    ]
+  },
+  "E3_evidence_branch": "UNDECIDED_WAIT_COMPLETE24",
+  "complete_F2_T0": {
+    "B0": {
+      "success": true,
+      "lift_m": 0.02512202160489041,
+      "hold_s": 1.2000000000014666,
+      "directional_base_motion_m": 0.09014391186114083,
+      "result_sha256": "d9ba991a518a6a04636c90901e1cc0133cf6a7a2e6684df9cad2ba07cba4f67a"
+    },
+    "B1": {
+      "success": true,
+      "lift_m": 0.025391157090386196,
+      "hold_s": 1.2500000000015277,
+      "directional_base_motion_m": 0.09001751547439212,
+      "result_sha256": "85805f694240d9f7a56fb56d111416051b451bc1cc98d50e3a7fbc7c711cdd8f"
+    },
+    "B2": {
+      "success": true,
+      "lift_m": 0.024528163164711958,
+      "hold_s": 1.0500000000012832,
+      "directional_base_motion_m": 0.09585395974796676,
+      "result_sha256": "6728d99cadefb94662aa525d0e98e5fd33b31beac4071219935c715850e96f33"
+    }
   }
 }
