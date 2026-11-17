@@ -57,10 +57,11 @@ class Catalog:
         # choices use canonical task/episode/phase/anchor order.
         self.sha256 = _digest(dict(domain=domain, snapshot=snapshot_sha256, rows=self.rows))
 
-    def sample(self, seed, ordinal):
+    def sample(self, seed, ordinal, *, task=None):
         key = _digest([VERSION, seed, self.domain, ordinal])
         rng = random.Random(int(key, 16))
-        task = rng.choice(tuple(self.tree))
+        if task is None:
+            task = rng.choice(tuple(self.tree))
         episodes = self.tree[task]
         episode = rng.choice(tuple(episodes))
         phases = episodes[episode]
