@@ -9,6 +9,7 @@ import numpy as np
 from scripts.pi0292.durable import write
 from scripts.sla.close_goal_g1_v1 import wait_resource_owner
 from go2arx5_vla.sla_adapter.checkpoint_v1 import sha
+STOP_REQUESTED=False
 
 
 def read(p):return json.loads(Path(p).read_bytes())
@@ -40,10 +41,13 @@ def train(spec):
         write(root/'INITIAL_MATCH.private.json',dict(parent_package=spec['SHIFT7_parent_package'],initial_checkpoint=initial,active_arrays=active,all_state_array_hashes=[r['sha256']for r in manifest['arrays']],visit_map_sha256=engine.bindings['visit_map_sha256'],LR_sha256=engine.bindings['lr_sha256'],noise_sha256=hashlib.sha256(np.asarray(noise).tobytes()).hexdigest(),tau_sha256=hashlib.sha256(np.asarray(tau).tobytes()).hexdigest(),state_dropout=host['state_token_dropped'],first_indices=host['indices'],diagnostic_backward_calls=1,diagnostic_backward_visits=4,diagnostic_loss=float(loss),diagnostic_edge=float(aux[3]),gradient_norm=norm,optimization_updates=0,optimization_visits=0,fresh_Adam=True))
         del gradient
         while engine.step<500:
-            if(root/'STOP.json').exists()or time.time()>=spec['deadline_epoch']-300:
+            if STOP_REQUESTED or(root/'STOP.json').exists()or time.time()>=spec['deadline_epoch']-300:
                 saved=engine.checkpoint('LIMIT-step%04d'%engine.step)
                 return dict(exit_code=75,status='BOUNDED_PREFIX_SAVED',new_updates=engine.step,new_visits=engine.cursor,checkpoint=saved,actual=engine.counts,diagnostic_backward_calls=1,diagnostic_backward_visits=4,new_native_requests=0)
-            engine.update()
+            try:engine.update()
+            except TimeoutError:
+                saved=engine.checkpoint('LIMIT-step%04d'%engine.step)
+                return dict(exit_code=75,status='BOUNDED_PREFIX_SAVED',new_updates=engine.step,new_visits=engine.cursor,checkpoint=saved,actual=engine.counts,diagnostic_backward_calls=1,diagnostic_backward_visits=4,new_native_requests=0)
             if engine.step==1 or engine.step%10==0:
                 write(root/'PROGRESS.private.json',dict(epoch=time.time(),phase='V52_REAL_TRAINING',step=engine.step,cursor=engine.cursor,arm=spec['arm'],parent_cumulative_updates=1500,new_updates=engine.step,new_visits=engine.cursor,actual=engine.counts))
             if engine.step in(250,500):last=engine.checkpoint('step%04d'%engine.step)
@@ -64,6 +68,11 @@ def replay(spec):
 
 
 def main(operation,spec):
+    import signal
+    def stop(signum,frame):
+        global STOP_REQUESTED
+        STOP_REQUESTED=True
+    signal.signal(signal.SIGTERM,stop);signal.signal(signal.SIGINT,stop)
     root=Path(spec['registered_root']);lock=None
     try:
         lock=wait_resource_owner(spec)
