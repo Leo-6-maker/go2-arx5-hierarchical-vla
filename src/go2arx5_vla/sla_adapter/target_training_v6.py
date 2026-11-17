@@ -8,7 +8,7 @@ from .runtime_v3 import DeviceResidentEngine
 from .runtime_v1 import read_pin
 from .checkpoint_v1 import sha
 from .close_temporal_v1 import CloseEngine
-from .time_shift7_training_v1 import ShiftDataset,physical
+from .time_shift7_training_v1 import ShiftDataset,physical,ShiftEngine
 from .config_v1 import SEED
 from . import full_h40_v6
 
@@ -18,6 +18,7 @@ B1='b9ba974c374b3c3a09d7742004fc799337d5e7f1b9c9c7d290af066766e4706c'
 
 
 class TargetEngine(DeviceResidentEngine):
+    generate=ShiftEngine.generate
     visits_for_dataset=CloseEngine.visits_for_dataset
     learning_rate_values_for_spec=CloseEngine.learning_rate_values_for_spec
 
