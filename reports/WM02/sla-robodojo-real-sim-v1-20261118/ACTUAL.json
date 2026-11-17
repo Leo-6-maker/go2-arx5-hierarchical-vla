@@ -112,5 +112,107 @@
     "native_ticks": 0,
     "hardware_commands": 0
   },
-  "preexisting_V52_job_continued_independently": true
+  "preexisting_V52_job_continued_independently": true,
+  "read_only_recheck_20261118": {
+    "time_SGT": "2026-11-18T05:48:59.300005+08:00",
+    "status": "BLOCKED_LABEL_SEMANTICS_UNCHANGED",
+    "mode": "READ_ONLY_SEALED_EVIDENCE_RECONCILIATION_NOT_NEW_HDF5_AUDIT",
+    "V52_result_sha256": "8d7a0fcd2500a8b4fe85d9ec877295f8300e24af77835213449b8891cafe99d9",
+    "V52_native_requests": 24,
+    "V52_successes": 17,
+    "V52_native_ticks": 481233,
+    "V52_H40_refusals": 5,
+    "V52_contact_STOP": 2,
+    "V52_technical_failures": 0,
+    "V52_by_arm": {
+      "B0": {
+        "success": 5,
+        "requests": 8,
+        "F1_success": 2,
+        "F2_success": 3
+      },
+      "B1": {
+        "success": 6,
+        "requests": 8,
+        "F1_success": 3,
+        "F2_success": 3
+      },
+      "B2": {
+        "success": 6,
+        "requests": 8,
+        "F1_success": 2,
+        "F2_success": 4
+      }
+    },
+    "V52_MainPID": 0,
+    "V52_leases_closed": true,
+    "V52_source275_unchanged": true,
+    "source_first12_result_sha256": "56de3b37feaa17c2831e02d7c545e2ef86522b2d3f1f4f0a267a6a884722d1c7",
+    "source_numeric_result_sha256": "8025c0fea6e9e7d578c302dba5257859493d74d788cb77b72aa71e396cce6e58",
+    "source_audit_MainPID": 0,
+    "source_audit_lease": "CLOSED",
+    "source_audit_source_unchanged": true,
+    "source_raw_file_SHA_records_match_frozen_inventory": true,
+    "raw_files_rehashed_in_this_recheck": false,
+    "exact_next_state_field_rows": 75438,
+    "codec_necessary_conditions": {
+      "ZOH": {
+        "windows": 1568,
+        "necessary_max_error_failed": 522,
+        "conditional_EEF_failed": 1078,
+        "maximum_error_lower_bound_m": 0.02038216938691981
+      },
+      "LINEAR_SENSITIVITY_ONLY": {
+        "windows": 1568,
+        "necessary_max_error_failed": 506,
+        "conditional_EEF_failed": 1076,
+        "maximum_error_lower_bound_m": 0.020988660475786985
+      }
+    },
+    "source_canonical_admitted": 0,
+    "allocation_deadline_epoch": 1795027883.855488,
+    "old_service_deadline_epoch": 1794967938.2895093,
+    "allocation_extended": false,
+    "new_GPU_permission_inferred": false,
+    "independent_V6_services_preserved": [
+      {
+        "unit": "sla-v6-target-pair500-20261118-01",
+        "source_sha": "131a002de5535509f9e8e4b6abf913a11cc2f445",
+        "MainPID": 1477389,
+        "status": "active",
+        "lease": "ACTIVE",
+        "observed_phase": "REGISTERED_TARGET_CHILD"
+      },
+      {
+        "unit": "sla-v6-source1000-20261118-02",
+        "source_sha": "0fa944e99683cdfd957f56af676370edbe5cab8a",
+        "MainPID": 1505424,
+        "status": "active",
+        "lease": "ACTIVE",
+        "observed_phase": "WAIT_HEALTHY_TARGET_PAIR_COLD_BOUNDARY"
+      },
+      {
+        "unit": "sla-v6-target-followup-20261118-01",
+        "source_sha": "d32a6f983de0908e9508940e551ab7ab18f4be83",
+        "MainPID": 1518080,
+        "status": "active",
+        "lease": "ACTIVE",
+        "observed_phase": "WAIT_EXISTING_T_AND_S_CAPACITY_COLD_BOUNDARY"
+      }
+    ],
+    "scope_note": "Counts above belong only to PR406/407 RealMix. Independent V6 source-native reads/updates are not admitted command-mix data and are not charged as Real10/25. Historical first12 unread48 is the original audit snapshot, not a claim about present whole-project storage.",
+    "new_effects": {
+      "new_downloads": 0,
+      "new_HDF5_decodes": 0,
+      "new_training_updates": 0,
+      "new_model_generations": 0,
+      "new_native_requests": 0,
+      "new_native_ticks": 0,
+      "hardware_commands": 0,
+      "source_or_capsule_mutations": 0
+    },
+    "recheck_wall_and_CPU_s": "NOT_SEPARATELY_MEASURED_NO_GPU_EXECUTION",
+    "CI": "NOT_RUN_DOCUMENTATION_ONLY",
+    "next_action": "Keep Real10/25 and new24 unstarted. Command producer, calibrated frame/TCP, clock, single-arm and event qualifications remain unmet; source-native or decoder changes belong to separately versioned work."
+  }
 }
