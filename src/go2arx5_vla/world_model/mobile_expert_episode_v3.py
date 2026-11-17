@@ -11,7 +11,7 @@ def episode(adapter):
     from scripts.pi0291_arx5_data.native_dataset import pose10
     from .fusion_trajectory_adapter import WORKING_OPEN_M,MECHANICAL_TRAVEL_M
     condition=adapter.spec['mobile_condition']
-    if(adapter.spec.get('mobile_experiment_version')!=VERSION or condition['method']!='EXPERT'
+    if(adapter.spec.get('mobile_experiment_version')not in(VERSION,'MFREE_SHIFT7_SIM_ONLY_V51') or condition['method']!='EXPERT'
             or condition['family']not in('F1','F2')or condition['mode']not in('M_FREE','M_ASSIST')
             or adapter.spec['policy_queries']!=MAX_QUERIES
             or adapter.spec['grasp_goal_raise_m']!=grasp_raise(condition)):

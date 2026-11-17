@@ -171,13 +171,18 @@ def run_case(spec_path,lock_fd):
         if digest(name)!=pin:raise PermissionError('FROZEN_MOBILE_EXECUTOR_CHANGED:'+name)
     for name,pin in spec['source_files'].items():
         if digest(Path(spec['source_root'])/name)!=pin:raise PermissionError('SEALED_MOBILE_SOURCE_CHANGED:'+name)
+    if spec.get('mobile_experiment_version')=='MFREE_SHIFT7_SIM_ONLY_V51':
+        from go2arx5_vla.world_model.sim_only_scope_v51 import validate
+        validate(spec)
     out=root/'native-01';out.mkdir();adapter=TargetSequentialAdapter(spec,out)
     write(root/'SUPERVISOR.private.json',dict(pid=os.getpid(),epoch=time.time(),source_sha=spec['source_sha']))
     start=time.monotonic();cpu=time.process_time();failure=None;detail=None
     try:
         adapter.start()
         if spec.get('mobile_stage')=='L1':
-            if spec.get('mobile_experiment_version')=='MFREE_C20_FINAL_PLAN_V1':
+            if spec.get('mobile_experiment_version')=='MFREE_SHIFT7_SIM_ONLY_V51':
+                from go2arx5_vla.world_model.sim_only_mobile_v51 import episode as l1_episode
+            elif spec.get('mobile_experiment_version')=='MFREE_C20_FINAL_PLAN_V1':
                 from go2arx5_vla.world_model.mfree_expert_capture_v1 import episode as l1_episode
             elif spec.get('mobile_experiment_version')=='MFREE_STUDENT_60S_V1':
                 from go2arx5_vla.world_model.mfree_student_v1 import episode as l1_episode

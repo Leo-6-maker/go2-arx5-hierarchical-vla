@@ -9,6 +9,7 @@ from go2arx5_vla.sla_adapter.gripper_time_v1 import reference_width
 TIME_METHOD = 'CLOSE_TIME500'
 SHIFT7_METHOD = 'SHIFT7_SINGLE'
 SHIFT7_NATIVE_VERSION = 'MFREE_SHIFT7_PAUSED_V5'
+SHIFT7_SIM_VERSION = 'MFREE_SHIFT7_SIM_ONLY_V51'
 REFERENCE_FIELDS = ('previous_width_m', 'previous_source_native_s', 'query_native_s')
 
 
@@ -17,7 +18,7 @@ def remember(adapter, row, gripper, after):
     if method not in (TIME_METHOD, SHIFT7_METHOD):
         return
     if method == SHIFT7_METHOD:
-        if (adapter.spec.get('mobile_experiment_version') != SHIFT7_NATIVE_VERSION
+        if (adapter.spec.get('mobile_experiment_version') not in (SHIFT7_NATIVE_VERSION, SHIFT7_SIM_VERSION)
                 or adapter.spec['mobile_condition'].get('mode') != 'M_FREE'
                 or getattr(adapter, 'shift7_history_invalidated', False)):
             raise ValueError('SHIFT7_EMISSION_HISTORY_REQUIRES_NEW_MFREE_NATIVE_IDENTITY')
@@ -37,7 +38,7 @@ def remember(adapter, row, gripper, after):
 
 def query_reference(adapter, packet, sample):
     if adapter.spec['mobile_condition']['method'] == SHIFT7_METHOD:
-        if (adapter.spec.get('mobile_experiment_version') != SHIFT7_NATIVE_VERSION
+        if (adapter.spec.get('mobile_experiment_version') not in (SHIFT7_NATIVE_VERSION, SHIFT7_SIM_VERSION)
                 or getattr(adapter, 'shift7_history_invalidated', False)
                 or not isinstance(getattr(adapter, 'close_previous_reference', None), dict)):
             raise ValueError('SHIFT7_CONFIRMED_EMISSION_HISTORY_MISSING_OR_INVALIDATED')
