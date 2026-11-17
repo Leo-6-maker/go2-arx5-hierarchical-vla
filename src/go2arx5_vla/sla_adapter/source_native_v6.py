@@ -105,11 +105,12 @@ def native_rgb(encoded):
 
 
 class SourceDataset:
+    ALLOWED_SPLITS=('TRAIN','SOURCE_DEV')
     def __init__(self,root,manifest_sha256,*,split,resize_with_pad,max_cache_bytes=128*1024**2):
         self.root=Path(root);path=self.root/'MANIFEST.private.json'
         if hashlib.sha256(path.read_bytes()).hexdigest()!=manifest_sha256:raise ValueError('FIXED_PREPARED_SOURCE_MANIFEST_REQUIRED')
         self.manifest=json.loads(path.read_bytes())
-        if self.manifest['schema']!=SCHEMA or self.manifest['coordinates']!=COORDINATES or split not in('TRAIN','SOURCE_DEV'):
+        if self.manifest['schema']!=SCHEMA or self.manifest['coordinates']!=COORDINATES or split not in self.ALLOWED_SPLITS:
             raise ValueError('EXPLICIT_TRAIN_OR_DEV_SOURCE_ONLY_READER')
         stat_path=self.root/self.manifest['statistics']['file']
         if hashlib.sha256(stat_path.read_bytes()).hexdigest()!=self.manifest['statistics']['sha256']:raise ValueError('SOURCE_TRAIN_STATISTICS_CHANGED')
@@ -153,3 +154,18 @@ class SourceDataset:
         episode,anchor=self.rows[index]
         return dict(episode=episode,anchor=anchor,input_camera_index=anchor,input_record_state_index=anchor,
             future_record_state_range=[anchor+1,anchor+50],native_frequency_Hz=30,command_dispatch='UNKNOWN')
+
+
+class SourceTestDataset(SourceDataset):
+    """Explicit post-freeze TEST reader; ordinary source readers still refuse it."""
+    ALLOWED_SPLITS=('SOURCE_TEST',)
+
+    def __init__(self,root,manifest_sha256,*,frozen_training_result,source_campaign_result,resize_with_pad):
+        from .runtime_v1 import read_pin
+        train=read_pin(frozen_training_result);campaign=read_pin(source_campaign_result)
+        if(train['exit_code']or train['new_updates']!=1000 or train['new_visits']!=32000 or not train['full_restore']['bit_exact']
+           or campaign['exit_code']or campaign['new_updates']!=1000 or len(campaign['records'])!=3):
+            raise ValueError('FROZEN_SOURCE1000_AND_SEPARATE_RGB_RESTORES_REQUIRED_BEFORE_TEST')
+        super().__init__(root,manifest_sha256,split='SOURCE_TEST',resize_with_pad=resize_with_pad)
+        if self.manifest['frozen_training_result']!=frozen_training_result or self.manifest['source_campaign_result']!=source_campaign_result:
+            raise ValueError('TEST_MANIFEST_MUST_BIND_ACTUAL_FROZEN_ENDPOINT_AND_RESTORES')

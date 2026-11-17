@@ -48,3 +48,17 @@ def test_source_gate_requires_general_task_gain_and_motion():
     assert not transfer_gate(s0,s1,reloadable=False)['passed']
     s1['dynamic']['better_than_persistence']=False
     assert not transfer_gate(s0,s1,reloadable=True)['passed']
+
+
+def test_default_source_reader_still_refuses_test_before_endpoint(tmp_path):
+    import hashlib,json
+    from go2arx5_vla.sla_adapter.source_native_v6 import SourceDataset,SourceTestDataset,SCHEMA,COORDINATES
+    path=tmp_path/'MANIFEST.private.json';path.write_text(json.dumps(dict(schema=SCHEMA,coordinates=COORDINATES)))
+    pin=hashlib.sha256(path.read_bytes()).hexdigest()
+    with pytest.raises(ValueError,match='EXPLICIT_TRAIN_OR_DEV'):
+        SourceDataset(tmp_path,pin,split='SOURCE_TEST',resize_with_pad=None)
+    training=tmp_path/'TRAINING.json';training.write_text(json.dumps(dict(exit_code=0,new_updates=500,new_visits=16000,full_restore=dict(bit_exact=True))))
+    campaign=tmp_path/'CAMPAIGN.json';campaign.write_text(json.dumps(dict(exit_code=0,new_updates=500,records=[])))
+    p=lambda f:dict(path=str(f),sha256=hashlib.sha256(f.read_bytes()).hexdigest())
+    with pytest.raises(ValueError,match='FROZEN_SOURCE1000'):
+        SourceTestDataset(tmp_path,pin,frozen_training_result=p(training),source_campaign_result=p(campaign),resize_with_pad=None)

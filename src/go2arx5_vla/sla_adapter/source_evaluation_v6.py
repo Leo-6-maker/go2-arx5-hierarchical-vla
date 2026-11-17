@@ -42,9 +42,14 @@ def summarize(rows):
         actual_task_success_rate=None,scope='SOURCE_FUTURE_LOGGED_REFERENCE_NOT_PHYSICAL_COMMAND_OR_TASK_SR')
 
 
-def evaluate(engine,root,split,*,endpoint):
-    root=Path(root);m=engine.dataset.manifest;bank=read_pin(dict(path=str(Path(engine.spec['dataset'])/m['evaluation_bank']['file']),sha256=m['evaluation_bank']['sha256']))
-    dataset=engine.dataset if split=='TRAIN'else engine.dev;windows=bank['TRAIN96'if split=='TRAIN'else'SOURCE_DEV96']
+def evaluate(engine,root,split,*,endpoint,dataset=None,windows=None):
+    root=Path(root)
+    if windows is None:
+        if split not in('TRAIN','SOURCE_DEV'):raise ValueError('SOURCE_TEST_REQUIRES_EXPLICIT_POST_FREEZE_DATASET_AND_BANK')
+        m=engine.dataset.manifest;bank=read_pin(dict(path=str(Path(engine.spec['dataset'])/m['evaluation_bank']['file']),sha256=m['evaluation_bank']['sha256']))
+        dataset=engine.dataset if split=='TRAIN'else engine.dev;windows=bank['TRAIN96'if split=='TRAIN'else'SOURCE_DEV96']
+    elif split!='SOURCE_TEST'or dataset is None or len(windows)!=96:
+        raise ValueError('EXPLICIT_POST_FREEZE_TEST96_ONLY')
     lookup={key:i for i,key in enumerate(dataset.rows)};rows=[];restore=[]
     out=root/(endpoint+'-'+split);out.mkdir()
     for number,window in enumerate(windows):
