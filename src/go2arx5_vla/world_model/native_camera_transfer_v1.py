@@ -75,6 +75,7 @@ def unchanged_packet(original, exported):
 
 class FixedBodyRenderer:
     """One independent native MJB copy, FK only; body camera alone is patched."""
+    MODEL_ABI=(34,32,20,0,0,0)
     def __init__(self, model_path):
         import mujoco
         from .fusion_source_camera_capture import _same_model_except_external
@@ -82,7 +83,7 @@ class FixedBodyRenderer:
             raise ValueError('PINNED_MUJOCO_WITHOUT_CONTROL_CALLBACK')
         native = mujoco.MjModel.from_binary_path(str(model_path))
         self.model = m = mujoco.MjModel.from_binary_path(str(model_path))
-        if (m.nq, m.nv, m.nu, m.na, m.nplugin, m.nmocap) != (34, 32, 20, 0, 0, 0):
+        if (m.nq, m.nv, m.nu, m.na, m.nplugin, m.nmocap) != self.MODEL_ABI:
             raise ValueError('RECORDED_STATE_ABI_CANNOT_RECONSTRUCT_THIS_MODEL')
         c = m.camera('body_rgb').id
         if m.cam_mode[c] != mujoco.mjtCamLight.mjCAMLIGHT_FIXED:

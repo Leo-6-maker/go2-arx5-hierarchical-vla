@@ -36,10 +36,10 @@ class LiveCamera(BodyBaseCameraSession):
 
 
 class LiveWriter:
-    def __init__(self, adapter, frame):
+    def __init__(self, adapter, frame, *, camera_factory=LiveCamera):
         self.adapter = adapter; self.frame = frame
         self.root = adapter.output/'LIVE_DATA'; self.root.mkdir()
-        self.camera = LiveCamera(adapter.spec['model_path'])
+        self.camera = camera_factory(adapter.spec['model_path'])
         self.queue = Queue(4); self.rows = []; self.shards = []; self.error = None
         self.thread = Thread(target=self._worker, daemon=True); self.thread.start()
 
@@ -112,7 +112,7 @@ class LiveWriter:
         # partial intervals from confirmed 25-tick consumption.
         from .native_live_control_v3 import live_path
         from scripts.pi0294.task_state import parse_state
-        packet = parse_state(live_path(self.adapter,'state.bin').read_bytes())
+        packet = getattr(self.adapter,'native_packet_parser',parse_state)(live_path(self.adapter,'state.bin').read_bytes())
         for row in self.rows:
             row['actual_elapsed_prefix_ticks'] = max(0, min(250, packet['step']-row['native_step']))
             row['partial_interval_ticks'] = row['actual_elapsed_prefix_ticks'] % 25

@@ -97,7 +97,7 @@ def _pause(adapter):
     adapter.guard()
     observed = adapter.observe()
     raw = _read_live_snapshot(adapter, "state.bin")
-    packet = parse_state(raw)
+    packet = getattr(adapter, 'native_packet_parser', parse_state)(raw)
     _need(observed["step"] == packet["step"] and observed["time_s"] == packet["time_s"]
           and all(np.array_equal(observed[k], packet[k]) for k in ("qpos", "qvel", "ctrl")),
           "ADAPTER_OBSERVE_AND_CURRENT_PACKET_MUST_AGREE")
