@@ -39,11 +39,13 @@ def run(spec):
     import jax
     from go2arx5_vla.sla_adapter.site_v2 import validate
     site=validate(spec)
+    from go2arx5_vla.sla_adapter.compilation_cache_binding_v1 import bind_declared_cache
+    cache_binding=bind_declared_cache(spec,jax.config)
     from go2arx5_vla.sla_adapter.provider_time_shift7_v1 import Provider
     package=spec['SHIFT7_package']
     provider=Provider(package['path'],manifest_sha256=package['sha256'],parent_params=spec['parent_params'],parent_manifest_path=spec['parent_manifest']['path'])
     write(root/'MODEL_LOAD_ACTUAL.private.json',dict(parent_loads=1,adapter_packages=1,optimizer_loaded=False,package=package,
-        load_wall_s=time.monotonic()-start,GPU_memory=jax.devices()[0].memory_stats(),site=site))
+        load_wall_s=time.monotonic()-start,GPU_memory=jax.devices()[0].memory_stats(),site=site,compilation_cache=cache_binding))
     attempted=completed=0;rows=[];first=None;journal=Journal(root/'control/journal',root.name)
     for case in cases:
         if attempted==80:
