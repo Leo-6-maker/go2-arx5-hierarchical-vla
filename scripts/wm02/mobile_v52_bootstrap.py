@@ -18,6 +18,21 @@ def main():
     for module,rel in ((go2arx5_vla.world_model,'src/go2arx5_vla/world_model'),(go2arx5_vla.sla_adapter,'src/go2arx5_vla/sla_adapter'),(scripts.wm02,'scripts/wm02'),(scripts.sla,'scripts/sla')):module.__path__=[str(root/rel),*list(module.__path__)]
     from scripts.wm02.mobile_boundary_runner_v1 import registered
     registered(spec,path)
+    if operation=='--campaign':
+        from scripts.wm02.mobile_campaign_v52 import run as campaign
+        raise SystemExit(campaign(path))
+    if operation=='--case':
+        from scripts.wm02.mobile_boundary_runner_v1 import run_case
+        fd=int(sys.argv[sys.argv.index('--world-lock-fd')+1])
+        raise SystemExit(run_case(path,fd))
+    if operation=='--worker':
+        if spec['physics']or spec['new_physical_requests_budget']:raise PermissionError('NEURAL_V52_NO_NATIVE')
+        import runpy
+        runpy.run_module('scripts.sla.hybrid_ipc_worker_v3',run_name='__main__')
+        return
+    if operation=='--offline':
+        from scripts.sla.mobile_offline_v52 import main as offline
+        raise SystemExit(offline(spec))
     if operation in('--train','--rgb'):
         if spec['physics']or spec['new_physical_requests_budget']:raise PermissionError('OFFLINE_V52_NO_NATIVE')
         from scripts.sla.train_mobile_v52 import main as learner

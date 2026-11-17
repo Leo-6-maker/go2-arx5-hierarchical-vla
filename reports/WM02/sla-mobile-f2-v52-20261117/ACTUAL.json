@@ -1,0 +1,92 @@
+{
+  "schema": "SLA_MOBILE_V52_STAGE_ACTUAL",
+  "status": "ONGOING_E1_NOT_AN_ENDPOINT_OR_POLICY_SUCCESS",
+  "plan_commit": "90d39196bdc345b977ee54ed64e750cf3561aa72",
+  "as_of_UTC": "2026-11-17T13:57:46.811004+00:00",
+  "D0": {
+    "source_sha": "4b59cd7c53882e4b04357d25e6e62660de89e715",
+    "inputs": 320,
+    "actions": 319,
+    "C20_labels": 1376,
+    "expert_episodes": 8,
+    "expert_plans": 550,
+    "saved_contact_states": 2501,
+    "new_generations": 0,
+    "new_integrations": 0
+  },
+  "preparation": {
+    "source_sha": "fd2ab0e9a167c9a9e89c0de91f5cde6fbca7a181",
+    "DEV_count": 32,
+    "TEST_count": 40,
+    "layouts": 36,
+    "old_initial_centers": 190,
+    "passive_FK_calls": 205308,
+    "static_rejected": 0,
+    "new_generations": 0,
+    "new_native_requests": 0,
+    "new_integrations": 0,
+    "new_updates": 0,
+    "new_visits": 0,
+    "wall_s": 278.7294726371765,
+    "CPU_s": 54.950840475
+  },
+  "evaluation_split_sha256": "b3db2ab95169ab027ec87b143bb1e53a4d6d74d3299c942837effa139809ca72",
+  "ROLL96_sha256": "aa67d99829a8c471bf7c9862d9fd4f2c5eb57c100497f8d89d529d67f54ff21a",
+  "E2_screen_sha256": "4da11f2c056c61573543c4669daebd686e604fc475addb1e0ad01e53236f6e51",
+  "training_source_sha": "8ebdcbb7ab39c0f707c5b2ba94b0b097abc937e5",
+  "training_source_seal_sha256": "c2f7a334654d542a8440857a43b44d53e9955b95238108be60217d256aefc996",
+  "parent_SHIFT7_manifest_sha256": "ef530bceebcc1691d9af9b5b1ea4ea89731f0c1d5d8f3e2287c3618dff7806eb",
+  "C20_manifest_sha256": "4bcc5ffcd8920d874599a54cca73792c50a49ea6013d65ca7826817a9f80d7de",
+  "TRAIN_statistics_sha256": "f28d50e6eeea09b332d4bd159eca4333bbe23b185f95f1d336d45311e364ab3e",
+  "LR_sha256": "7f10a93cbac3bda375845b99b1f50c4eb516cb5d49a8d5e2e17f6e1b956298c9",
+  "visit_map_sha256": "a151bfca90511a5fee70398aa50616472f989cbf41cdd899ca93d569a24040af",
+  "E1_snapshot": {
+    "B1_updates": 20,
+    "B1_visits": 640,
+    "B2_updates": 0,
+    "B2_visits": 0,
+    "B2_status": "WAIT_SAME_GPU_OWNER",
+    "new_generations": 0,
+    "new_native_requests": 0,
+    "new_integrations": 0
+  },
+  "preserved_technical_failures": [
+    {
+      "identity": "B1-01",
+      "reason": "MISSING_OFFLINE_UPSTREAM_PYTHON_PATH",
+      "updates": 0,
+      "visits": 0,
+      "generations": 0,
+      "native_requests": 0
+    },
+    {
+      "identity": "B1-02",
+      "reason": "INHERITED_NATIVE_LIBTORCH_ABI_SEARCH_PATH",
+      "updates": 0,
+      "visits": 0,
+      "generations": 0,
+      "native_requests": 0
+    }
+  ],
+  "unstarted_superseded_B2": [
+    "B2-01",
+    "B2-02"
+  ],
+  "current_units": [
+    "wm02-sla-mobile-f2-v52-b1-500-20261117-03",
+    "wm02-sla-mobile-f2-v52-b2-500-20261117-03"
+  ],
+  "original_service_deadline_epoch": 1794966322.447919,
+  "campaign_deadline_epoch": 1795006461.8041062,
+  "allocation_deadline_epoch": 1795027883.855488,
+  "historical_result_unchanged": {
+    "PR403_students": 8,
+    "PR403_successes": 3,
+    "F2_successes": 0,
+    "F2_attempts": 4,
+    "old_RP8": "FAILED",
+    "JOIN10": "FAILED",
+    "R3_realtime": "FAILED"
+  },
+  "next": "Finish two fixed500 endpoints and full-state/RGB restoration; then exact saved-input qualification and all24 preregistered native conditions; no offline quality prefilter."
+}

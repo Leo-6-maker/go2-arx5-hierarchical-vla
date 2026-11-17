@@ -26,6 +26,13 @@ from .hybrid_nonphysical_v3 import read
 
 def _identity(adapter):
     spec = adapter.spec
+    if spec.get('mobile_experiment_version')=='MFREE_SHIFT7_SIM_ONLY_V52':
+        from .mobile_scope_v52 import query_identity
+        query_identity(spec)
+        spec_path=Path(spec['registered_root'])/'EXECUTION_SPEC.json'
+        if read(spec_path)!=spec or not Path(adapter.output).resolve().is_relative_to(Path(spec['registered_root']).resolve()):
+            raise ValueError('SAME_OWNED_V52_SCOPE_SPEC_AND_OUTPUT_REQUIRED')
+        return dict(path=str(spec_path),sha256=digest(spec_path))
     sim_only = spec.get('mobile_experiment_version') == SHIFT7_SIM_VERSION
     max_ticks = 35703 if sim_only else 30000
     if (spec.get('mobile_experiment_version') not in (SHIFT7_NATIVE_VERSION, SHIFT7_SIM_VERSION)

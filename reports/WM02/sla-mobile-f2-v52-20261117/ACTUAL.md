@@ -1,0 +1,15 @@
+# V5.2 actual progress — ongoing
+
+This is a time-stamped prefix, not a training endpoint or policy-success declaration. Plan `90d39196bdc345b977ee54ed64e750cf3561aa72`; execution PR405 starts from reviewed PR403 head `dbf222b41cb666bff4dd5412b864d023aec69399`.
+
+D0 actually audited all 320 inputs, 319 actions, 1,376 C20 labels and eight experts (550 plans), plus 2,501 saved contact-window states. New generation/integration: **0/0**. See [boundary/contact evidence](D0_BOUNDARY_CONTACT.md). The nearest expert is a different state and supplies no correction label.
+
+Before training, Core sealed 36 new layout clusters (DEV32 / TEST40), at least 5 mm apart in object XY and separated from 190 historical initial centers. The explicitly limited population is outward object offsets of 8–38 mm with the same material/camera/robot. All 205,308 saved initialization-state FK checks passed; this is static geometry evidence, not a new dynamics rollout. Preparation cost: 278.73 s wall, 54.95 s CPU; **0 new model generations / native requests / integration**. Split SHA is in ACTUAL.json; no TEST model output has been read.
+
+At the snapshot recorded in ACTUAL.json, B1 has **20 actual new updates / 640 optimization visits**, following one diagnostic backward over four windows. B2 is queued on the same GPU owner, at **0/0**. Both are finite independent server user services with linger, no frontend dependency, no automatic restart; they retain the same original deadline. Real SHIFT7 is the common parent, with fresh Adam, matching visits/noise/time/dropout/LR, micro4/effective32, and fixed500 endpoints. The 250 checkpoint is recovery-only. B1 lambda=0; B2 lambda=.1, physical endpoint margin=.20; original execution threshold=.25.
+
+Two zero-update technical failures are retained: missing offline dependency path, then inherited native LibTorch ABI search path. Each ended before model load, visits or generation. Their B2 siblings were independently verified unstarted and closed. Corrected identity 03 cleared the native library path; exact offline-environment checks confirmed imports, 1,376 windows, the matching 16,000-visit map, fixed500 LR and original numeric rule before launch. No deadline extension or scientific replay occurred.
+
+The pending serving code adds explicit B0/B1/B2 identities, shared-foundation serving, 16 ordinary RGB restoration calls per arm, matched CN38/ROLL96 checks and the existing native consumer under a fresh V5.2 scope. It has CPU checks only at this publication; no new offline inference or native request is claimed. Scientific offline failures cannot remove an E2 comparison arm. The intended screen remains all three arms × the same eight new reset/noise conditions, 24 requests, followed by conditional confirmation/correction/DEV/TEST exactly as planned.
+
+WBC, legs, MPC, solver, arm PD, H40/P10/TTL, 2 ms integration, collision/STOP and scoring remain frozen. Hardware and RL remain forbidden. PR403's 3/8 student success, F2 0/4 and failed pilot, and all RP8/JOIN10/R3/history remain unchanged. **New V5.2 native denominator remains 0; no new grasp success is reported.**
