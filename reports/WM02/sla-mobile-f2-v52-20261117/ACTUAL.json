@@ -1,8 +1,8 @@
 {
   "schema": "SLA_MOBILE_V52_STAGE_ACTUAL",
-  "status": "TWO_FIXED500_AND_OFFLINE_COMPLETE_E2_NATIVE_ACTIVE",
+  "status": "E2_FULL24_NEGATIVE_PROMOTION",
   "plan_commit": "90d39196bdc345b977ee54ed64e750cf3561aa72",
-  "as_of_UTC": "2026-11-17T17:17:22.462272+00:00",
+  "as_of_UTC": "2026-11-17T18:10:57.729551+00:00",
   "D0": {
     "source_sha": "4b59cd7c53882e4b04357d25e6e62660de89e715",
     "inputs": 320,
@@ -97,7 +97,7 @@
   },
   "next": "Complete remaining immutable E2 conditions, audit paired outcomes and fixed candidate/development-parent decision; no offline prefilter, confirmation/E3/DEV/TEST only under their actual gates.",
   "followup": {
-    "status": "ACTIVE_E2_NATIVE",
+    "status": "TERMINAL_NATURAL_EXIT0_LEASES_CLOSED",
     "unit": "wm02-sla-mobile-f2-v52-e1-e2-followup-20261117-02",
     "source_sha": "2797d0c2c458667e241aa0d24d6d0b005f3caf1a",
     "source_seal_sha256": "4895567ec1295459b3e8c51cbe9d67d069278a5c7107d15381cb9ddaff20df42",
@@ -118,8 +118,8 @@
     "technical_stage": "E2_NATIVE_PROFILE",
     "old_followup_preserved_terminal": true,
     "offline_generations_completed": 600,
-    "E2_started": 16,
-    "E2_terminal": 15
+    "E2_started": 24,
+    "E2_terminal": 24
   },
   "B1_recovery250": {
     "step": 250,
@@ -286,5 +286,16 @@
       "directional_base_motion_m": 0.09585395974796676,
       "result_sha256": "6728d99cadefb94662aa525d0e98e5fd33b31beac4071219935c715850e96f33"
     }
+  },
+  "E2_final": {
+    "report": "E2_FINAL_ACTUAL.json",
+    "new_requests": 24,
+    "successes": 17,
+    "native_ticks": 481233,
+    "native_model_generations": 1384,
+    "candidate": null,
+    "development_parent": "B1",
+    "E3": "NOT_TRIGGERED_PRIMARY_BOUNDARY_FAILURES",
+    "confirmation_DEV_TEST": 0
   }
 }
