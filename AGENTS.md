@@ -1,3 +1,7 @@
+## 2026-11-17 · V5.1 隔离仿真直接授权
+
+最新用户指令采用 [SIM_ONLY_PROJECT_AUTHORIZED V5.1](docs/goals/2026-11-17/MFREE_SIM_ONLY_PROJECT_AUTHORIZED_V51.md)（[JSON](docs/goals/2026-11-17/MFREE_SIM_ONLY_PROJECT_AUTHORIZED_V51.json)）：新隔离MuJoCo仿真由项目负责人直接授权，取代旧V5第三方READMISSION签发前置。Codex自主完成工程并执行有界新版本；原WBC/H40/STOP/碰撞保护、真实计量与站点资源/owner约束保持，禁止真机通信。旧胶囊、隔离文件和历史失败不改写；新碰撞计失败并终止该episode，不永久禁止所有后继仿真。首轮2接口＋8专家＋8学生，初始化5703tick与60s任务段分别计数，整EP≤35703tick；不自动启动DEV/TEST或训练。
+
 # GR00T + WBC agent entry · native camera / public ARX5 pilot
 
 ## Latest bounded first-round mandate · 2026-11-11
