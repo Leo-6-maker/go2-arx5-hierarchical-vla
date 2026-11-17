@@ -50,3 +50,15 @@ def test_existing_contact_contract_does_not_silently_admit_new_object_names():
     assert allowed('task_cube_geom','task_table')
     assert not allowed('task_blue_cube_geom','task_table')
     assert not allowed('task_blue_cube_geom','task_left_pad')
+
+
+def test_missing_convenience_asset_root_is_resolved_from_frozen_members_only(tmp_path):
+    import hashlib
+    from scripts.wm02.multitask_scene_audit_v6 import asset_binding
+    files={}
+    for name in('go2_x5.xml','scene.xml'):
+        path=tmp_path/name;path.write_text('fixed XML '+name);files[str(path)]=hashlib.sha256(path.read_bytes()).hexdigest()
+    root,pins=asset_binding(dict(frozen_files=files))
+    assert root==str(tmp_path) and len(pins)==2
+    (tmp_path/'scene.xml').write_text('changed')
+    with pytest.raises(ValueError,match='FROZEN_NATIVE_ASSET_XML_CHANGED'):asset_binding(dict(frozen_files=files))

@@ -6,6 +6,22 @@ from scripts.pi0292.durable import write
 from go2arx5_vla.world_model.storage import digest
 
 
+def asset_binding(template):
+    """Resolve only the two already-frozen XML members, without a path scan."""
+    members={}
+    for name in('go2_x5.xml','scene.xml'):
+        matches=[Path(p)for p in template['frozen_files']if Path(p).name==name]
+        if len(matches)!=1:raise ValueError('UNIQUE_FROZEN_NATIVE_ASSET_XML_REQUIRED')
+        path=matches[0]
+        if digest(path)!=template['frozen_files'][str(path)]:raise ValueError('FROZEN_NATIVE_ASSET_XML_CHANGED')
+        members[name]=dict(path=str(path),sha256=digest(path))
+    roots={str(Path(p['path']).parent)for p in members.values()}
+    if len(roots)!=1:raise ValueError('SAME_FROZEN_NATIVE_ASSET_DIRECTORY_REQUIRED')
+    root=roots.pop()
+    if template.get('asset_root',root)!=root:raise ValueError('EXPLICIT_ASSET_ROOT_DIFFERS_FROM_FROZEN_XML')
+    return root,members
+
+
 def run(spec):
     import mujoco
     from go2arx5_vla.world_model.multitask_scene_v6 import overlay_xml,robot_contract
@@ -17,14 +33,14 @@ def run(spec):
         raise PermissionError('FINITE_V6_CPU_SCENE_AUDIT_ONLY_NO_CALLBACK_OR_NATIVE')
     for family,pin in spec['templates'].items():
         if digest(pin['path'])!=pin['sha256']:raise ValueError('OLD_TRAIN_SUPPORT_TEMPLATE_CHANGED')
-        template=json.loads(Path(pin['path']).read_bytes());path=template['model_path']
+        template=json.loads(Path(pin['path']).read_bytes());asset_root,assets=asset_binding(template);template=dict(template,asset_root=asset_root);path=template['model_path']
         if digest(path)!=template['frozen_files'][path]:raise ValueError('ORIGINAL_FROZEN_MODEL_BYTES_CHANGED')
         original=mujoco.MjModel.from_binary_path(path);cube=original.body('task_cube').id;address=int(original.jnt_qposadr[original.body_jntadr[cube]])
         origin=original.key_qpos[0,address:address+3].copy();axis=template['mobile_condition']['axis']
         direction={'+x':[1.,0.],'-x':[-1.,0.],'+y':[0.,1.],'-y':[0.,-1.]}[axis];u=np.asarray(direction);v=np.asarray([-u[1],u[0]])
         card=dict(object_positions_world={c:(origin+np.r_[sign*.045*v,0.]).tolist()for c,sign in(('red',-1),('blue',1))},
             zones={z:dict(center_world_XY=(origin[:2]+.09*u+sign*.06*v).tolist(),half_size_XY=[.035,.035])for z,sign in(('left',1),('right',-1))},direction_world_XY=direction)
-        folder=root/family;folder.mkdir();record=dict(family=family,template=pin,original_scene_sha256=digest(path),card=card,valid_static_candidate=False)
+        folder=root/family;folder.mkdir();record=dict(family=family,template=pin,asset_XML_binding=assets,original_scene_sha256=digest(path),card=card,valid_static_candidate=False)
         try:
             xml,binding=overlay_xml(template,original,card);xml_path=folder/'SCENE.private.xml';xml_path.write_text(xml)
             with forbid_integration(mujoco)as integrations:
