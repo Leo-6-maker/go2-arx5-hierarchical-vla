@@ -93,3 +93,23 @@ def test_panel_catches_different_historical_collector_lock_before_native_launch(
     wrong=json.loads((tmp_path/'01.json').read_text());wrong['mobile_world_lock']='ros-199.lock'
     (tmp_path/'01.json').write_text(json.dumps(wrong))
     with pytest.raises(ValueError,match='PARENT_DOMAIN_AND_LOCK'):panel_preflight(parent)
+
+
+def test_cold_continuation_preserves_failed_student_in_original_denominator(tmp_path):
+    from scripts.wm02.sim_only_campaign_v51 import carried_rows
+    root=tmp_path/'09-student-f1';root.mkdir();(root/'control').mkdir()
+    scene=root/'scene.xml';scene.write_text('fixed scene')
+    spec=dict(registered_root=str(root),scope='SIM_ONLY_PROJECT_AUTHORIZED',sim_only_role='STUDENT',
+        mobile_condition=dict(family='F1'),source_sha='a'*40,model_path=str(scene),
+        frozen_files={str(scene):hashlib.sha256(scene.read_bytes()).hexdigest()})
+    result=dict(physical_requests=1,actual_native_integrations=11453,completed=False,
+        technical_failure=True,unsafe=False,detail=None,failure='IPC_PUBLICATION_UNAVAILABLE')
+    (root/'control/LEASE.json').write_text(json.dumps(dict(status='CLOSED')))
+    items={}
+    for name,value in (('spec',spec),('result',result)):
+        path=root/('EXECUTION_SPEC.json'if name=='spec'else'RESULT.private.json');path.write_text(json.dumps(value))
+        items[name]=dict(path=str(path),sha256=hashlib.sha256(path.read_bytes()).hexdigest())
+    rows=carried_rows([items])
+    assert len(rows)==1 and rows[0]['id']=='09-student-f1'
+    assert rows[0]['technical_failure']and not rows[0]['task_success']
+    assert rows[0]['actual_native_requests']==1 and rows[0]['native_ticks']==11453

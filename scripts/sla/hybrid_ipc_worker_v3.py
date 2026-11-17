@@ -14,6 +14,19 @@ from go2arx5_vla.world_model.storage import digest
 from go2arx5_vla.sla_adapter.hybrid_request_v1 import predict_request
 
 
+def poll_message(path):
+    """Absence at an IPC publication boundary is not a failed model request.
+
+    Read directly instead of trusting exists(). Only ENOENT is transient;
+    malformed bytes and other I/O errors remain failures. The caller's finite
+    deadline, STOP and request-identity deduplication remain authoritative.
+    """
+    try:
+        return read(path)
+    except FileNotFoundError:
+        return None
+
+
 def run(spec):
     import jax
     from go2arx5_vla.sla_adapter.site_v2 import validate
@@ -38,8 +51,9 @@ def run(spec):
     while time.time()<spec['deadline_epoch']-60 and not(root/'STOP.json').exists():
         if(bus/'FINISH.json').exists():break
         path=bus/'REQUEST.json'
-        if not path.exists():time.sleep(.005);continue
-        message=read(path);q=message['request'];qid=q['request_id'];folder=Path(message['response_root'])
+        message=poll_message(path)
+        if message is None:time.sleep(.005);continue
+        q=message['request'];qid=q['request_id'];folder=Path(message['response_root'])
         # Transport duplicates return the original response without generation.
         if qid in handled:
             # Immutable response: do not replace the same file every polling tick.

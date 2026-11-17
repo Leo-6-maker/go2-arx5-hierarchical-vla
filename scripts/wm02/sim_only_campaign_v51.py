@@ -77,11 +77,16 @@ def carried_rows(prior):
             raise ValueError('CARRIED_RESULT_IDENTITY_CHANGED')
         case=read(p['spec']['path']);result=read(p['result']['path'])
         lease=read(Path(case['registered_root'])/'control/LEASE.json')
-        if (lease['status']!='CLOSED'or not result['completed']or result['unsafe']
+        if (lease['status']!='CLOSED'
                 or case.get('scope')!='SIM_ONLY_PROJECT_AUTHORIZED'
-                or case.get('sim_only_role')!='INTERFACE'
-                or not result['detail'].get('interface_protocol_pass')):
-            raise ValueError('ONLY_SEALED_PASSED_INTERFACE_MAY_BE_CARRIED')
+                or case.get('sim_only_role')not in('INTERFACE','EXPERT','STUDENT')
+                or result.get('physical_requests')!=1):
+            raise ValueError('ONLY_SEALED_KNOWN_SCOPE_RESULTS_MAY_BE_CARRIED')
+        if case['sim_only_role']=='INTERFACE'and(not result['completed']or result['unsafe']
+                or not(result.get('detail')or{}).get('interface_protocol_pass')):
+            raise ValueError('CARRIED_INTERFACE_MUST_HAVE_PASSED')
+        # A closed failed student/expert still occupies its original panel
+        # condition. Carrying preserves it; it never authorizes a replay.
         rows.append(compact_case(case,result))
     return rows
 
