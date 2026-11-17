@@ -1,27 +1,27 @@
 {
   "schema": "SLA_V6_ACTIVE_STAGE_READBACK",
-  "observed_SGT": "2026-11-18T07:23:41.616400+08:00",
+  "observed_SGT": "2026-11-18T07:30:13.903147+08:00",
   "source_S1000_prefix": {
-    "step": 690,
-    "cursor": 22080,
+    "step": 750,
+    "cursor": 24000,
     "actual": {
       "actual_parent_loads": 1,
-      "optimizer_updates": 690,
-      "forward_backward_attempts": 5520,
-      "completed_forward_backward": 5520,
-      "attempted_training_visits": 22080,
-      "completed_training_visits": 22080,
+      "optimizer_updates": 750,
+      "forward_backward_attempts": 6000,
+      "completed_forward_backward": 6000,
+      "attempted_training_visits": 24000,
+      "completed_training_visits": 24000,
       "ordinary_RGB_generation_attempts": 192,
       "ordinary_RGB_generations": 192,
       "physical_requests": 0,
       "diagnostic_backward_attempts": 1,
       "diagnostic_windows": 4,
       "diagnostic_backward_completed": 1,
-      "host_window_read_attempts": 22080,
-      "host_window_reads": 22080,
-      "optimizer_update_attempts": 690
+      "host_window_read_attempts": 24000,
+      "host_window_reads": 24000,
+      "optimizer_update_attempts": 750
     },
-    "step_wall_s": 6.452689813449979,
+    "step_wall_s": 6.444473914802074,
     "peak_GPU_live_bytes": 9749278464
   },
   "S0_TRAIN96": {
@@ -1748,5 +1748,107 @@
     "new_optimizer_updates": 0,
     "new_model_generations": 0,
     "new_native_requests": 0
+  },
+  "T_archived_offline_handoff_readback": {
+    "source_sha": "3e20642a042b9047dc6b24c997cd243ebcfe2b33",
+    "spec_sha256": "1301e40ea8538ffa3b9caa29936b1c00ba28b86cf47546d7be19b068fb18287e",
+    "CN_anchor_files": 90,
+    "CN_fixed_calls": 180,
+    "ROLL_fixed_calls": 96,
+    "old_B1_reused_archived_rows": 276,
+    "old_B1_distinct_output_shas": 276,
+    "prior_archive_H40_counts": {
+      "CN38_H40_pass": 180,
+      "ROLL96_H40_pass": 93
+    },
+    "five_sealed_E2_rejection_inputs": [
+      {
+        "case": "E2-F1-T1-B0/q1",
+        "saved_rejection": true
+      },
+      {
+        "case": "E2-F1-T2-B2/q54",
+        "saved_rejection": true
+      },
+      {
+        "case": "E2-F1-T3-B1/q3",
+        "saved_rejection": true
+      },
+      {
+        "case": "E2-F2-T3-B1/q16",
+        "saved_rejection": true
+      },
+      {
+        "case": "E2-F2-T3-B0/q16",
+        "saved_rejection": true
+      }
+    ],
+    "distinct_nontrain_input_shas": 191,
+    "saved_RGB16_output_and_current_rgb_verified_by_arm": {
+      "T-FM": 16,
+      "T-H40": 16,
+      "T-B1": 16
+    },
+    "no_models_loaded": true,
+    "new_generation_calls": 0,
+    "new_native_integrations": 0,
+    "new_optimizer_updates": 0,
+    "source_TEST_opened": false,
+    "wall_s": 17.730561410076916,
+    "CPU_s": 0.873644675,
+    "observed_SGT": "2026-11-18T07:27:37.957654+08:00"
+  },
+  "T_SCREEN_zero_effect_assembly": {
+    "T_live_source_sha": "3e20642a042b9047dc6b24c997cd243ebcfe2b33",
+    "T_live_spec_sha256": "1301e40ea8538ffa3b9caa29936b1c00ba28b86cf47546d7be19b068fb18287e",
+    "actual_preregistered_screen_cards": 24,
+    "matched_scene_reset_noise_sets": 8,
+    "validated_scratch_role_specs": 27,
+    "required_restoration_fixture_fields_checked": true,
+    "actual_target_RGB_restores_added": 0,
+    "zero_integration_adapter_construction": {
+      "cases": 24,
+      "actual_adapter_constructors": 24,
+      "process_starts": 0,
+      "new_native_requests": 0,
+      "new_integrations": 0
+    },
+    "heldout_data_opened": false,
+    "service_processes_started": 0,
+    "new_models_loaded": 0,
+    "new_complete_generations": 0,
+    "new_native_requests": 0,
+    "wall_s": 2.3564089611172676,
+    "CPU_s": 0.23467941199999998,
+    "observed_SGT": "2026-11-18T07:29:36.618511+08:00"
+  },
+  "source_TEST_wait_and_preserved_split_readback": {
+    "PID": 1608316,
+    "phase": "WAIT_FIXED_S1000_AND_INDEPENDENT_RESTORES",
+    "source_sha": "7fa2d80dccc899272fb36fe2f2edc822c3017e6d",
+    "spec_sha256": "5b45c5e4ccdb200e23fcdd32866935b2c0c6d7cbdb2135e69bd297a72283e52a",
+    "allocation_deadline_epoch": 1795027883.855488,
+    "train_episodes": 36,
+    "DEV_episodes": 12,
+    "heldout_metadata_episodes": 12,
+    "typed_TEST_episodes": 0,
+    "source_TEST_generations": 0,
+    "TRAIN_only_statistics_sha256": "a94e1567bb002621d5841150a8e677e38fa6d02b51af22e4ab6f301317ebd521",
+    "model_runtime_file_shas_match": {
+      "source_training_v6.py": "e3a7753dcaa95518fadb330eb41b620a074e453d2ef91cd4805a925779254a63",
+      "model_v1.py": "6637c01bd8873cfc4227af1bee897e89852a52dd08d60ff0f8dbde5875a105a9",
+      "source_batch_v6.py": "70016414c0a5be0cd3b0d1722d3b01654facf6a1ca426923555e0180fc2b5410"
+    },
+    "fixed_GPU_TEST_calls": 96,
+    "source_roles": [
+      "S1000",
+      "RESTORE-S0",
+      "RESTORE-S1000"
+    ],
+    "extra_S_TEST_raw_reads": 0,
+    "actual_model_or_physics_calls": 0,
+    "wall_s": 0.07005630899220705,
+    "CPU_s": 0.0030207610000000003,
+    "observed_SGT": "2026-11-18T07:28:30.728302+08:00"
   }
 }
