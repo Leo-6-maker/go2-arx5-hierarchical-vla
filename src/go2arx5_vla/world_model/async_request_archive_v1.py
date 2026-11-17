@@ -81,6 +81,7 @@ def unknown_reservations(journal):
 class Reservation:
     message_id: str
     max_bytes: int
+    capacity_wait_s: float = 0.
 
 
 class AsyncRequestArchive:
@@ -129,6 +130,7 @@ class AsyncRequestArchive:
             raise ValueError('FINITE_RESERVATION_REQUIRED')
         self.journal.path('RESERVE-' + message_id)
         end = time.monotonic() + timeout_s
+        waited = 0.
         with self._condition:
             while True:
                 self.require_dispatch()
@@ -139,10 +141,12 @@ class AsyncRequestArchive:
                 size = sum(t.max_bytes for t, _ in self._pending.values())
                 if len(self._pending) < self.max_pending and size + max_bytes <= self.max_bytes:
                     break
-                self._condition.wait(min(.02, end - time.monotonic()))
+                before = time.monotonic()
+                self._condition.wait(min(.02, end - before))
+                waited += time.monotonic() - before
             self.journal.once('RESERVE-' + message_id, dict(request=payload, max_bytes=max_bytes),
                               lambda: dict(reserved=True, automatic_retry=False, actual_generations='NOT_ASSERTED'))
-            ticket = Reservation(message_id, max_bytes)
+            ticket = Reservation(message_id, max_bytes, waited)
             self._pending[message_id] = (ticket, 'RESERVED')
             self.peak_pending = max(self.peak_pending, len(self._pending))
             self.peak_reserved_bytes = max(self.peak_reserved_bytes, size + max_bytes)

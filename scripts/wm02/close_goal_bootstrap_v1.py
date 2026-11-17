@@ -8,7 +8,9 @@ import sys
 
 def main():
     operation,path=sys.argv[1:3]
-    routes={'--runtime-cpu-v32':'scripts.wm02.runtime_cached_replay_v32',
+    routes={'--continuous-r3-v4':'scripts.wm02.continuous_gpu_control_v4',
+            '--shift7-r1-v4':'scripts.sla.shift7_cn38_r1_v4',
+            '--runtime-cpu-v32':'scripts.wm02.runtime_cached_replay_v32',
             '--hybrid-ipc-control-v3':'scripts.wm02.hybrid_ipc_control_v3',
             '--hybrid-ipc-worker-v3':'scripts.sla.hybrid_ipc_worker_v3',
             '--hybrid-control':'scripts.wm02.hybrid_decoupling_control_v1',

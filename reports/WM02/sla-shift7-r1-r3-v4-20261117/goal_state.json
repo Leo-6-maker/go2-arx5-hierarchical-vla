@@ -1,0 +1,42 @@
+{
+  "schema": "MFREE_SHIFT7_R1_R3_V4_ACTUAL_STATE",
+  "plan_sha": "a51f7a02d23414304f631b8720aec5fcb95d5705",
+  "status": "R1_COMPLETE_R3_BLOCKED_REALTIME_S0_BLOCKED_SAFETY",
+  "R0_R2": "REUSED_NOT_REEXECUTED",
+  "R1": {
+    "status": "FULL_PASS",
+    "actual_generations": 180,
+    "source_sha": "fa1477b1ad18c3f01f8ef26b4c523e42814b205b",
+    "result_sha256": "0321115e51307b6e16d2444d5494c359b71cd8c7cd0cecae442fcd65cb08a3c0"
+  },
+  "R3": {
+    "status": "BLOCKED_REALTIME",
+    "joint_requests": 32,
+    "actual_generations": 32,
+    "source_sha": "7a8633b7261b888df836adcec8fb9081b1664375",
+    "result_sha256": "28a2869e4ab0169382c9c640432d4ced5aea7b421a9635e09744ec41e354a5dc",
+    "strict_ACK": 23,
+    "complete_mock_P10": 11
+  },
+  "effects": {
+    "new_neural_generations": 212,
+    "new_optimizer_updates": 0,
+    "new_training_visits": 0,
+    "new_native_requests": 0,
+    "new_integrations": 0,
+    "new_task_episodes": 0
+  },
+  "all_services_closed": true,
+  "remaining_applicable_GPU_requests": 0,
+  "unused_HYBRID_branches_not_transferable": true,
+  "independent_READMISSION": false,
+  "goal_met": false,
+  "old_failures_preserved": true,
+  "original_deadline_epoch": 1795027883.855488,
+  "next_authorized_work": [
+    "ZERO_GENERATION_ENGINEERING_ATTRIBUTION",
+    "INDEPENDENT_S0_DOSSIER"
+  ],
+  "no_new_GPU_without_new_scope": true,
+  "no_native_without_signed_readmission": true
+}

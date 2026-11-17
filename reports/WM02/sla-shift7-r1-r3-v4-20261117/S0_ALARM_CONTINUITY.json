@@ -1,0 +1,257 @@
+{
+  "schema": "V4_SAVED_S0_ALARM_RUNS_NO_RESCORE",
+  "historical_full_result_sha256": "9ed2b01909cd15e582f6fdb81b8f6e76f0480fa56d9ca3d6ee9bacbd1174c347",
+  "historical_window_result_sha256": "8f7b298cf8ce15a51e95eed61e198d3c17cb3bc92be9d6ef87cae9785b902f8d",
+  "events": [
+    {
+      "id": "F2-T3-r2",
+      "original_qualified": true,
+      "artifact_sha256": "a471048e9d0501512b42e6db90da43a6e742c19b2a84cbd8a9ed01262b869f11",
+      "geometry_sha256": "8bf1a0c650d1d7fc631b12b21b2242be06ee435e75253da36bea1a6b1054ee0b",
+      "original_result_sha256": "d669bbc92744bac219dcf4c4d32d98c47bae719e0c0f1c5fb1a48ab26a59f2f7",
+      "journal_sha256": "4757460747874b15df656183f13b7e5dbee630d922d0bcb6caf3fc389b324a18",
+      "first_alarm": {
+        "step": 19000,
+        "time_s": 38.000000000000476,
+        "receiver_knot_step": 18978,
+        "receiver_knot_age_s": 0.044000000000053774,
+        "actual_minus_held_receiver_z_m": -0.012126199395007142,
+        "conditional_upper_error_m": -0.009926199395004453,
+        "pads": [
+          {
+            "pad": "task_left_pad",
+            "clearance_m": 0.0051422462053871895,
+            "overlaps_table_xy": true
+          },
+          {
+            "pad": "task_right_pad",
+            "clearance_m": 0.0027111056878085446,
+            "overlaps_table_xy": true
+          }
+        ],
+        "candidate_alarm": true,
+        "conditional_rate_bound_alarm": true,
+        "native_grasp_not_recomputed": true,
+        "controller_selected_reference_known": false
+      },
+      "alarm_runs": [
+        {
+          "first_step": 19000,
+          "last_step": 19024,
+          "first_time_s": 38.000000000000476,
+          "last_time_s": 38.048000000000535,
+          "samples": 25
+        }
+      ],
+      "original_contact": null,
+      "original_lead_to_contact_s": null,
+      "final_state_s": 38.30600000000085,
+      "final_right_pad_clearance_m": 0.023634532674507346,
+      "minimum_right_pad_clearance_m": 0.0010013512342156514,
+      "maximum_sampled_pad_downward_speed_m_s": 0.27542881453895474,
+      "controller_selected_reference": "UNKNOWN",
+      "native_STOP_hook_response": "UNMEASURED_NOT_INSTALLED",
+      "new_native_requests": 0,
+      "new_integrations": 0
+    },
+    {
+      "id": "72H-F2-T4-A003",
+      "original_qualified": false,
+      "artifact_sha256": "90cf4d2087f2afa0fd9e53f00b9390199ebac106b07b39f15ff4763e6cec673e",
+      "geometry_sha256": "587d51a9a93d3951e73719150602e5eff59500ac5fdbc19cd187c9c4a7418778",
+      "original_result_sha256": "dc23e248b9cbea1ded1fe57b06017b83fb93381f3bfa3ae5261be1e7af796b09",
+      "journal_sha256": "20eedb62a8997ecb3da3476d8932f028aea289d5ee74ae0b227ec7714622d2d1",
+      "first_alarm": {
+        "step": 19136,
+        "time_s": 38.27200000000081,
+        "receiver_knot_step": 19128,
+        "receiver_knot_age_s": 0.016000000000019554,
+        "actual_minus_held_receiver_z_m": -0.019345650579060347,
+        "conditional_upper_error_m": -0.01854565057905937,
+        "pads": [
+          {
+            "pad": "task_left_pad",
+            "clearance_m": 0.0046104045903509125,
+            "overlaps_table_xy": true
+          },
+          {
+            "pad": "task_right_pad",
+            "clearance_m": 0.002837908987037306,
+            "overlaps_table_xy": true
+          }
+        ],
+        "candidate_alarm": true,
+        "conditional_rate_bound_alarm": true,
+        "native_grasp_not_recomputed": true,
+        "controller_selected_reference_known": false
+      },
+      "alarm_runs": [
+        {
+          "first_step": 19136,
+          "last_step": 19154,
+          "first_time_s": 38.27200000000081,
+          "last_time_s": 38.30800000000085,
+          "samples": 19
+        }
+      ],
+      "original_contact": {
+        "step": 19154,
+        "contact_time_s": 38.30600000000085,
+        "pair": [
+          "task_right_pad",
+          "task_table"
+        ],
+        "distance_m": -6.480306816465144e-05
+      },
+      "original_lead_to_contact_s": 0.034,
+      "final_state_s": 38.30800000000085,
+      "final_right_pad_clearance_m": -0.0002363311708627261,
+      "minimum_right_pad_clearance_m": -0.0002363311708627261,
+      "maximum_sampled_pad_downward_speed_m_s": 0.19135375827554685,
+      "controller_selected_reference": "UNKNOWN",
+      "native_STOP_hook_response": "UNMEASURED_NOT_INSTALLED",
+      "new_native_requests": 0,
+      "new_integrations": 0,
+      "contact_packet_time_lag_s": 0.0020000000000024443,
+      "last_alarm_run_lead_to_contact_s": 0.03400000000004155
+    },
+    {
+      "id": "72H-F1-T3-A006",
+      "original_qualified": false,
+      "artifact_sha256": "db6c52d4549f229c123380dbef4a831a5c8bd6f1ff298a186b43851070994c6e",
+      "geometry_sha256": "aad8a6f42ccca848e2a382b3d5a548e7106b24b78624eb5ed794e7bc515d2cbd",
+      "original_result_sha256": "4848c5d50be8d5a6f5ed02ad8dfddc5656d787b5f8f859fbdc65911b00fada00",
+      "journal_sha256": "02abfd88e21741f3207213af70e658eb2a9189f189a8cbd681a1d277fe8d97b0",
+      "first_alarm": {
+        "step": 19187,
+        "time_s": 38.37400000000093,
+        "receiver_knot_step": 19178,
+        "receiver_knot_age_s": 0.018000000000022,
+        "actual_minus_held_receiver_z_m": -0.006255338096685437,
+        "conditional_upper_error_m": -0.005355338096684337,
+        "pads": [
+          {
+            "pad": "task_left_pad",
+            "clearance_m": 0.00553273406970458,
+            "overlaps_table_xy": true
+          },
+          {
+            "pad": "task_right_pad",
+            "clearance_m": 0.0028752663485627425,
+            "overlaps_table_xy": true
+          }
+        ],
+        "candidate_alarm": true,
+        "conditional_rate_bound_alarm": true,
+        "native_grasp_not_recomputed": true,
+        "controller_selected_reference_known": false
+      },
+      "alarm_runs": [
+        {
+          "first_step": 19187,
+          "last_step": 19193,
+          "first_time_s": 38.37400000000093,
+          "last_time_s": 38.38600000000095,
+          "samples": 7
+        },
+        {
+          "first_step": 19335,
+          "last_step": 19346,
+          "first_time_s": 38.670000000001295,
+          "last_time_s": 38.69200000000132,
+          "samples": 12
+        }
+      ],
+      "original_contact": {
+        "step": 19346,
+        "contact_time_s": 38.69000000000132,
+        "pair": [
+          "task_right_pad",
+          "task_table"
+        ],
+        "distance_m": -7.660261220195606e-05
+      },
+      "original_lead_to_contact_s": 0.316,
+      "final_state_s": 38.69200000000132,
+      "final_right_pad_clearance_m": -0.000271029580032979,
+      "minimum_right_pad_clearance_m": -0.000271029580032979,
+      "maximum_sampled_pad_downward_speed_m_s": 0.2948746837833365,
+      "controller_selected_reference": "UNKNOWN",
+      "native_STOP_hook_response": "UNMEASURED_NOT_INSTALLED",
+      "new_native_requests": 0,
+      "new_integrations": 0,
+      "contact_packet_time_lag_s": 0.0020000000000024443,
+      "last_alarm_run_lead_to_contact_s": 0.020000000000024443
+    },
+    {
+      "id": "00-F1-MFREE_C20_FINAL_FM1000-r201",
+      "original_qualified": false,
+      "artifact_sha256": "fe4b0001743e6360cdfd3aebd0959ac68b155ffe0949bfef56b5a6103a50ee5c",
+      "geometry_sha256": "659661a7afb541045c0c3a242d474a9ccc51f8eb923b7667f078bb0d83518b43",
+      "original_result_sha256": "08fd7333fe69571f2246216fee6b3ab10edd9b01b83e72138d3e26786bc60ebe",
+      "journal_sha256": "050c6b4dfc45b0c1272fb622456ea2962f87c289285b7e48126b4101c6817896",
+      "first_alarm": {
+        "step": 19481,
+        "time_s": 38.96200000000165,
+        "receiver_knot_step": 19478,
+        "receiver_knot_age_s": 0.006000000000007333,
+        "actual_minus_held_receiver_z_m": -0.007019729667607333,
+        "conditional_upper_error_m": -0.006719729667606966,
+        "pads": [
+          {
+            "pad": "task_left_pad",
+            "clearance_m": 0.004403185444949019,
+            "overlaps_table_xy": true
+          },
+          {
+            "pad": "task_right_pad",
+            "clearance_m": 0.0026042763501869168,
+            "overlaps_table_xy": true
+          }
+        ],
+        "candidate_alarm": true,
+        "conditional_rate_bound_alarm": true,
+        "native_grasp_not_recomputed": true,
+        "controller_selected_reference_known": false
+      },
+      "alarm_runs": [
+        {
+          "first_step": 19481,
+          "last_step": 19488,
+          "first_time_s": 38.96200000000165,
+          "last_time_s": 38.97600000000167,
+          "samples": 8
+        }
+      ],
+      "original_contact": {
+        "step": 19488,
+        "contact_time_s": 38.974000000001666,
+        "pair": [
+          "task_right_pad",
+          "task_table"
+        ],
+        "distance_m": -0.00020244625144661375
+      },
+      "original_lead_to_contact_s": 0.012,
+      "final_state_s": 38.97600000000167,
+      "final_right_pad_clearance_m": -0.0007043380121844814,
+      "minimum_right_pad_clearance_m": -0.0007043380121844814,
+      "maximum_sampled_pad_downward_speed_m_s": 0.33522320773419323,
+      "controller_selected_reference": "UNKNOWN",
+      "native_STOP_hook_response": "UNMEASURED_NOT_INSTALLED",
+      "new_native_requests": 0,
+      "new_integrations": 0,
+      "contact_packet_time_lag_s": 0.0020000000000024443,
+      "last_alarm_run_lead_to_contact_s": 0.012000000000014666
+    }
+  ],
+  "quarantine": [
+    "F1",
+    "F2"
+  ],
+  "new_native_requests": 0,
+  "new_integrations": 0,
+  "independent_readmission": false,
+  "causal_limitation": "Receiver witness is not controller-selected reference; no full WBC restoration or dynamic STOP proof",
+  "derivative_scope": "Saved right-pad geometry finite differences, not command limits or a forward safety bound"
+}
