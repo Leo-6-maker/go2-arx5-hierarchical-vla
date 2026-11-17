@@ -36,6 +36,7 @@ def necessary_width_error_bounds(width, context_width, dt=.05, vmax=.04):
     """
     import numpy as np
     w = np.asarray(width, dtype=float)
+    context_width = float(context_width)
     if w.shape != (40,) or not np.isfinite(w).all() or not np.isfinite(context_width):
         raise ValueError('FINITE_FULL_NUMERIC_WINDOW_REQUIRED')
     decrease = float(np.max(np.maximum.accumulate(w)-w))
@@ -98,7 +99,7 @@ def numeric_probe(path, frequency):
                     normalized_range=[float(sampled.min()),float(sampled.max())],
                     normalized_direction=direction,range_exceeds_0_1=bool(sampled.min()<0 or sampled.max()>1),
                     equivalent_width_range_m=float(np.ptp(widths[1:])),
-                    necessary_max_error_gate_failed=bound['combined_max_error_lower_bound_m']>.0002+1e-12,
+                    necessary_max_error_gate_failed=bool(bound['combined_max_error_lower_bound_m']>.0002+1e-12),
                     **bound,conditional_EEF_head_acceleration=float(acceleration[0]),
                     conditional_EEF_tail_acceleration=float(acceleration[-1]),
                     conditional_EEF_interior_acceleration=float(acceleration[1:-1].max()),
