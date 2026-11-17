@@ -10,9 +10,11 @@ import numpy as np
 from .config_v1 import SEED, trainable
 
 
-def configuration(*, lora=True):
+def configuration(*, lora=True, action_horizon=40):
     from openpi.models.pi0_config import Pi0Config
-    return Pi0Config(pi05=True, dtype='bfloat16', action_dim=32, action_horizon=40,
+    if action_horizon not in (40, 50):
+        raise ValueError('EXPLICIT_TARGET_H40_OR_NATIVE_SOURCE_H50_REQUIRED')
+    return Pi0Config(pi05=True, dtype='bfloat16', action_dim=32, action_horizon=action_horizon,
                      paligemma_variant='gemma_2b_lora' if lora else 'gemma_2b',
                      action_expert_variant='gemma_300m_lora' if lora else 'gemma_300m',
                      max_token_len=200)
@@ -97,7 +99,7 @@ def _restore_for_placement(params_path):
     return unflatten_dict(values)
 
 
-def load_parent(params_path, *, host_cast=False):
+def load_parent(params_path, *, host_cast=False, action_horizon=40):
     import flax.nnx as nnx
     import jax
     import jax.numpy as jnp
@@ -109,7 +111,7 @@ def load_parent(params_path, *, host_cast=False):
                               host_peak_RSS_KiB=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)), flush=True)
 
     phase('ABSTRACT_MODEL')
-    config = configuration()
+    config = configuration(action_horizon=action_horizon)
     abstract = nnx.eval_shape(config.create, jax.random.PRNGKey(SEED))
     graph, reference = nnx.split(abstract)
     expected = flat(reference.to_pure_dict())

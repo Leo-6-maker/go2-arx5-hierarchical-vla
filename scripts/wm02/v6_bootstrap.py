@@ -25,6 +25,13 @@ def main():
         from scripts.sla.train_target_v6 import main as run
     elif operation=='--source-prepare':
         from scripts.sla.source_prepare_v6 import main as run
+    elif operation=='--source-campaign':
+        from scripts.wm02.v6_source_campaign import run
+    elif operation=='--source-train':
+        from scripts.sla.train_source_v6 import main as run
+    elif operation=='--source-restore':
+        from scripts.sla.train_source_v6 import main
+        run=lambda spec:main(spec,restore=True)
     elif operation=='--target-diagnose':
         from scripts.sla.target_diagnose_v6 import run
     else:raise ValueError('V6_ROUTE_NOT_IMPLEMENTED_NO_AUTOMATIC_FALLBACK')

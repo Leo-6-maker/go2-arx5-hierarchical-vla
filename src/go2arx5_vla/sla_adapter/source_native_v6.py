@@ -117,6 +117,7 @@ class SourceDataset:
         self.episodes={e['id']:e for e in self.manifest['episodes']if e['split']==split and e['valid']}
         self.rows=[(e['id'],i)for e in self.episodes.values()for i in range(e['windows'])]
         self.resize=resize_with_pad;self.cache=OrderedDict();self.cache_bytes=0;self.cache_limit=max_cache_bytes;self.numeric=OrderedDict()
+        self.numeric_bytes=0;self.numeric_limit=256*1024**2
 
     def __len__(self):return len(self.rows)
 
@@ -124,8 +125,10 @@ class SourceDataset:
         if episode not in self.numeric:
             ep=self.episodes[episode];p=self.root/ep['arrays']['file']
             if hashlib.sha256(p.read_bytes()).hexdigest()!=ep['arrays']['sha256']:raise ValueError('SOURCE_LABEL_ARRAY_BYTES_CHANGED')
-            with np.load(p,allow_pickle=False)as z:self.numeric[episode]={k:z[k].copy()for k in('state','actions','dynamic')}
-            while len(self.numeric)>2:self.numeric.popitem(last=False)
+            with np.load(p,allow_pickle=False)as z:self.numeric[episode]={k:z[k].copy()for k in('state','actions','dynamic','future_span_dynamic')}
+            self.numeric_bytes+=sum(x.nbytes for x in self.numeric[episode].values())
+            while self.numeric_bytes>self.numeric_limit and len(self.numeric)>1:
+                _,removed=self.numeric.popitem(last=False);self.numeric_bytes-=sum(x.nbytes for x in removed.values())
         self.numeric.move_to_end(episode);return self.numeric[episode]
 
     def __getitem__(self,index):
