@@ -440,7 +440,7 @@
   "B2": {
     "status": "ACTIVE",
     "registered": 12,
-    "observation_epoch": 1794994095.9903953,
+    "observation_epoch": 1794994400.6377645,
     "unit": "wm02-sla-d2-teacher-development-b2-20261118-01",
     "pid": 2254139,
     "invocation_id": "fb2a24672a004969a87f74fdeb959a07",
@@ -454,18 +454,18 @@
     "allocation_deadline_epoch": 1795027883.855488,
     "predecessor_native_result_sha256": "b0c953ba9a23d10c3430dabbc14645cec7affb2048d4459fe3b4c0eacc6e43d7",
     "launch_readback_sha256": "ee93eac6f563d1b40f5207fee5f83c6c3f156fe8b11c3d9865a7cb0f220b3a97",
-    "live_readback_sha256": "bb235bad21a9f015ea9ff2e27e46d41075bda5c6ff6f24dff10952761d2bec6a",
+    "live_readback_sha256": "51569d6ef155366ceb96851b9c3983faf856888fef5f059f2fa17cf418b049e2",
     "site_readback_sha256": "f0ec5448bc45e0d8bbcac7110d73c847d9bc34f59b3a047515b3e2fc73a4b4d7",
     "linger": true,
     "frontend_dependency": false,
     "backend": "LEGACY_N1",
-    "native_requests": 7,
-    "sealed": 6,
+    "native_requests": 8,
+    "sealed": 7,
     "first_case": "D2-DEVELOPMENT-F1-2-HOLD-red",
-    "observed_native_ticks": 5703,
+    "observed_native_ticks": 6053,
     "cgroup_membership_verified": true,
-    "sealed_native_ticks": 152895,
-    "current_case": "D2-DEVELOPMENT-F2-2-HOLD-red",
+    "sealed_native_ticks": 172744,
+    "current_case": "D2-DEVELOPMENT-F2-2-HOLD-blue",
     "records": [
       {
         "id": "D2-DEVELOPMENT-F1-2-HOLD-red",
@@ -959,24 +959,69 @@
         "released_after_grasp": false,
         "reached_retreat_after_lift": false,
         "stable_release_and_retreat": false
+      },
+      {
+        "id": "D2-DEVELOPMENT-F2-2-HOLD-red",
+        "family": "F2",
+        "instruction": "HOLD-red",
+        "native_ticks": 19849,
+        "initialized_ticks": 5703,
+        "task_ticks": 14146,
+        "result_sha256": "0583f90785168e52c3770d45cd2102e23df9f5d924f72cae0bd751c750db4e39",
+        "task_success": false,
+        "technical_failure": false,
+        "g7": null,
+        "first_failure": "ILLEGAL_CONTACT",
+        "maximum_lift_m": null,
+        "hold_s": null,
+        "hard_STOP": true,
+        "post_STOP_ticks": 0,
+        "wall_s": 295.91422916855663,
+        "CPU_s": 201.177265981,
+        "trace_status": "RECORDED_TRACE_CHECKS_PASS",
+        "score_steps": null,
+        "stage_boundaries": null,
+        "scene_sha256": "a346b5da29986e23ce8e9016ccbcfaee19ae88b699d29d72d38bdcb95d748de6",
+        "native_grasp": false,
+        "phase": "DESCEND",
+        "archive_readback_sha256": "38dc71e108a8de04b4d726cecfa77fdf7180ed0e1061e3373b2af33d2480095f",
+        "native_contacts": [
+          {
+            "ids": [
+              73,
+              79
+            ],
+            "names": [
+              null,
+              "task_blue_cube_geom"
+            ],
+            "body": [
+              "x5_link6",
+              "task_blue_cube"
+            ],
+            "gap_m": -8.42682230379789e-05,
+            "normal_force_N": 8.75438433462361
+          }
+        ],
+        "contact_after_query_ticks": 146
       }
     ],
-    "known_failed_qualification_cells": 5,
+    "known_failed_qualification_cells": 6,
     "remaining_development_in_flight": true,
     "last_cgroup_empty": false,
     "remaining_supervisor_pid": 2254139,
-    "unstarted_registered": 5,
-    "completed_HOLD": 2,
+    "unstarted_registered": 4,
+    "completed_HOLD": 3,
     "successful_HOLD": 1,
     "completed_PLACE": 4,
     "successful_PLACE": 0,
-    "hard_STOP": 1,
+    "hard_STOP": 2,
     "technical_failure": 0,
     "g7_episodes": 1,
     "g7_current_RGB_and_H40": 65,
     "g7_confirmed_P10_atoms": 650,
-    "case_CPU_s": 1596.8122382999998,
-    "case_wall_s": 2324.1782161649317
+    "case_CPU_s": 1797.9895042809999,
+    "case_wall_s": 2620.0924453334883
   },
   "Q48_native_requests": 0,
   "statistics_fits": 0,

@@ -1790,5 +1790,169 @@
     "last_consumed_calibrated_open_command_m": 0.005156911718750001,
     "new_native_ticks": 0,
     "new_native_requests": 0
+  },
+  "cold_pregrasp_rejection_audit": {
+    "receipt_sha256": "25533c186d756b5bdbf5540d720b1d04e95649c8732f13137941c61cae06f434",
+    "observed_epoch": 1794994245.4609165,
+    "rows": [
+      {
+        "block": 1,
+        "condition": "D2-DEVELOPMENT-F1-1-PLACE-red-left",
+        "native_requests": 1,
+        "native_ticks": 5703,
+        "teacher_queries": 0,
+        "technical_failure": false,
+        "hard_STOP": false,
+        "frozen_result_sha256": "7f012d79eddecdc12d4fc736798792582b57a98528561266111659309c4406ca",
+        "time_feasible_ranked_candidates": 54,
+        "passed": 0,
+        "first_rejections": [
+          {
+            "phase": "approach",
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "frozen_geom_pair": [
+              "task_right_pad",
+              "task_table"
+            ],
+            "count": 18,
+            "best_margin_slack_m": -8.737751040026765e-05
+          },
+          {
+            "phase": "carry",
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "frozen_geom_pair": [
+              "task_cube_geom",
+              "task_blue_cube_geom"
+            ],
+            "count": 17,
+            "best_margin_slack_m": -8.287814091541539e-05
+          },
+          {
+            "phase": "lower",
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "frozen_geom_pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "count": 16,
+            "best_margin_slack_m": -3.7638025988477423e-05
+          },
+          {
+            "phase": "carry",
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "frozen_geom_pair": [
+              "task_left_pad",
+              "task_blue_cube_geom"
+            ],
+            "count": 3,
+            "best_margin_slack_m": -0.0007490577195476333
+          }
+        ]
+      },
+      {
+        "block": 1,
+        "condition": "D2-DEVELOPMENT-F2-1-PLACE-red-left",
+        "native_requests": 1,
+        "native_ticks": 5703,
+        "teacher_queries": 0,
+        "technical_failure": false,
+        "hard_STOP": false,
+        "frozen_result_sha256": "8fa6bbe6f36d19e3e8c6dbef9712dcabdbf2ee5f24e4b08a6f1dcc5722565951",
+        "time_feasible_ranked_candidates": 36,
+        "passed": 0,
+        "first_rejections": [
+          {
+            "phase": "approach",
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "frozen_geom_pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "count": 36,
+            "best_margin_slack_m": -0.0004484714117211812
+          }
+        ]
+      },
+      {
+        "block": 1,
+        "condition": "D2-DEVELOPMENT-F2-1-PLACE-red-right",
+        "native_requests": 1,
+        "native_ticks": 5703,
+        "teacher_queries": 0,
+        "technical_failure": false,
+        "hard_STOP": false,
+        "frozen_result_sha256": "f1c07f52aea480b48fb1800dbf52350b8a3d6d76cbf311ceb5e71c9e122e1222",
+        "time_feasible_ranked_candidates": 36,
+        "passed": 0,
+        "first_rejections": [
+          {
+            "phase": "approach",
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "frozen_geom_pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "count": 36,
+            "best_margin_slack_m": -0.0004021293916080873
+          }
+        ]
+      },
+      {
+        "block": 1,
+        "condition": "D2-DEVELOPMENT-F2-1-PLACE-blue-left",
+        "native_requests": 1,
+        "native_ticks": 5703,
+        "teacher_queries": 0,
+        "technical_failure": false,
+        "hard_STOP": false,
+        "frozen_result_sha256": "e0334042adf0ca0036f0d3592ea09efb056887193afa63354e4def55f9019a47",
+        "time_feasible_ranked_candidates": 36,
+        "passed": 0,
+        "first_rejections": [
+          {
+            "phase": "carry",
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "frozen_geom_pair": [
+              "task_blue_cube_geom",
+              "task_cube_geom"
+            ],
+            "count": 20,
+            "best_margin_slack_m": -0.0006699164073143433
+          },
+          {
+            "phase": "open",
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "frozen_geom_pair": [
+              "task_right_pad",
+              "task_cube_geom"
+            ],
+            "count": 9,
+            "best_margin_slack_m": -0.00020836164901126986
+          },
+          {
+            "phase": "lower",
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "frozen_geom_pair": [
+              "task_right_pad",
+              "task_cube_geom"
+            ],
+            "count": 4,
+            "best_margin_slack_m": -0.00013030837953570146
+          },
+          {
+            "phase": "withdraw",
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "frozen_geom_pair": [
+              "task_right_pad",
+              "task_cube_geom"
+            ],
+            "count": 3,
+            "best_margin_slack_m": -0.0026152626144267657
+          }
+        ]
+      }
+    ],
+    "new_native_requests": 0,
+    "new_native_ticks": 0
   }
 }
