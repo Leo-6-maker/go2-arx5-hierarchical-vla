@@ -35,7 +35,7 @@ def episode(adapter):
     score = Score(instruction,initial,geometry)
     reader = TwoObjectState(adapter.actual_state.model,adapter.task.color)
     teacher = MultitaskTeacher(initial,condition,geometry,instruction)
-    if instruction == 'PLACE-red-left' and condition['family'] == 'F1':
+    if teacher.landing is not None:
         from .multitask_carry_geometry_v6 import DistalCarryGeometry
 
         probe = DistalCarryGeometry(adapter.actual_state.model, adapter.task.color)

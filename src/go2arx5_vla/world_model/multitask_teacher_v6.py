@@ -1,13 +1,19 @@
 """Feedback Teacher for the six declared tasks and original H40 transport."""
 import numpy as np
 
-from .mobile_continuous_teacher_v2 import DT
+from .mobile_continuous_teacher_v2 import DT, rotation_vector
 from .mobile_grasp_budget_v3 import BudgetTeacher
-from .multitask_score_v6 import BASE_MOTION, LIFT, OPEN_FRACTION, Task
+from .multitask_carry_geometry_v6 import world_yaw
+from .multitask_score_v6 import BASE_MOTION, LIFT, OPEN_FRACTION, Task, footprint_inside
 
 TRANSFER_CLEARANCE_M = .008
 F1_RED_GRASP_RAISE_M = .016
-F1_RED_LEFT_CARRY_RAISE_M = .036
+F1_PLACE_CARRY_RAISE_M = .036
+LANDING_YAW_TOLERANCE_RAD = np.deg2rad(3.)
+F1_LANDING = {
+    'PLACE-red-left': (-20., (.008, .008)),
+    'PLACE-blue-right': (30., (.004, -.004)),
+}
 
 
 def swept_footprints_overlap(start, finish, obstacle, combined_half_size):
@@ -50,15 +56,32 @@ class MultitaskTeacher(BudgetTeacher):
         self.distal_clearance = None
         self.distal_raise_height = None
         self.distal_clearance_evidence = None
+        self.landing = F1_LANDING.get(instruction) if condition['family'] == 'F1' else None
+        self.landing_rotation = None
 
     def distal_carry_goal(self, sample, zone, tcp, obj):
-        gap = self.distal_clearance(sample, zone)
+        actual_rotation = np.asarray(sample['tcp'])[:3, :3]
+        remaining_yaw = 0.
+        if self.landing is None:
+            gap = self.distal_clearance(sample, zone)
+        else:
+            remaining_yaw = np.deg2rad(self.landing[0]) if self.landing_rotation is None else (
+                rotation_vector(self.landing_rotation @ actual_rotation.T)[2])
+            gap = self.distal_clearance(sample, zone, yaw_rad=remaining_yaw)
         if gap < TRANSFER_CLEARANCE_M and self.distal_raise_height is None:
-            self.distal_raise_height = tcp[2] + F1_RED_LEFT_CARRY_RAISE_M
+            self.distal_raise_height = tcp[2] + F1_PLACE_CARRY_RAISE_M
             self.carry_height = max(self.carry_height, self.distal_raise_height)
         waiting = gap < TRANSFER_CLEARANCE_M
         self.distal_clearance_evidence = dict(sampled_gap_m=gap, raise_height_m=self.distal_raise_height,
                                              waiting_for_measured_clearance=waiting)
+        if self.landing is not None:
+            if not waiting and self.landing_rotation is None:
+                self.landing_rotation = world_yaw(remaining_yaw) @ actual_rotation
+            if self.landing_rotation is not None:
+                self.rotation = actual_rotation.copy() if waiting else self.landing_rotation
+            self.distal_clearance_evidence.update(requested_landing_yaw_deg=self.landing[0],
+                landing_goal_XY_m=zone.tolist(), remaining_landing_yaw_deg=float(np.rad2deg(remaining_yaw)),
+                turn_latched=self.landing_rotation is not None)
         if waiting:
             if self.raise_xy is None:
                 self.raise_xy = tcp[:2].copy()
@@ -68,6 +91,13 @@ class MultitaskTeacher(BudgetTeacher):
         if np.linalg.norm(obj[:2] - zone) <= .004:
             support_z = self.geometry['table_top_world_z'] + self.geometry['object_half_sizes'][self.task.color][2]
             can_lower = self.distal_clearance(sample, zone, support_z=support_z) > 0.
+            if self.landing is not None:
+                expected = np.asarray(sample['object_pose']).copy()
+                expected[:2, 3] = zone
+                inside = footprint_inside(expected, self.geometry['object_half_sizes'][self.task.color],
+                                           self.geometry['zones'][self.task.destination])
+                can_lower &= (self.landing_rotation is not None
+                              and abs(remaining_yaw) <= LANDING_YAW_TOLERANCE_RAD and inside)
         return np.r_[tcp[:2] + zone - obj[:2], self.carry_height], can_lower
 
     def carry_goal(self, sample, zone):
@@ -87,6 +117,8 @@ class MultitaskTeacher(BudgetTeacher):
         if self.distal_clearance is not None:
             if not sample['native_grasp']:
                 self.distal_clearance_evidence = dict(sampled_gap_m=None, native_grasp=False)
+                if self.landing_rotation is not None:
+                    self.rotation = np.asarray(sample['tcp'])[:3, :3].copy()
                 return tcp, False
             return self.distal_carry_goal(sample, zone, tcp, obj)
         if sample['native_grasp'] and self.carry_footprint_overlap:
@@ -113,6 +145,8 @@ class MultitaskTeacher(BudgetTeacher):
                 return grasp_goal
             self.stage = 'CARRY'
         zone = np.asarray(self.geometry['zones'][self.task.destination]['center_world_XY'])
+        if self.landing is not None and self.distal_clearance is not None:
+            zone = zone + self.landing[1]
         if self.stage == 'CARRY':
             goal, lower_clear = self.carry_goal(sample, zone)
             displacement = np.asarray(sample['base_pose'])[:2,3]-self.base_origin
@@ -157,7 +191,7 @@ class MultitaskTeacher(BudgetTeacher):
         version = ('MFREE_MULTITASK_TEACHER_V6_F1_RED_GRASP_CLEARANCE'
                    if self.f1_red_grasp_clearance else 'MFREE_MULTITASK_TEACHER_V6_TRANSFER_CLEARANCE')
         if self.distal_clearance is not None:
-            version = 'MFREE_MULTITASK_TEACHER_V6_F1_RED_LEFT_DISTAL_CARRY'
+            version = 'MFREE_MULTITASK_TEACHER_V6_F1_ORIENTED_LANDING'
         evidence.update(teacher_version=version,
                         instruction=self.task.instruction, release_start_step=self.open_start,
                         teacher_carry_footprint_overlap=self.carry_footprint_overlap,

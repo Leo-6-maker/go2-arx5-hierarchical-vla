@@ -88,6 +88,7 @@ def test_distal_carry_waits_for_measured_clearance_and_checks_the_lowering_corri
                   objects={'red': {'pose': pose(0., 0., .044)},
                            'blue': {'pose': pose(.08, .08, .02)}})
     gaps = iter([.001, .009, .012, -.001, .012, .003])
+    teacher.landing = None
     teacher.distal_clearance = lambda sample, zone, *, support_z=None: next(gaps)
 
     raise_goal, can_lower = teacher.carry_goal(sample, zone)
@@ -102,4 +103,36 @@ def test_distal_carry_waits_for_measured_clearance_and_checks_the_lowering_corri
     sample['tcp'] = pose(.15, 0., .102)
     sample['objects']['red']['pose'] = pose(.15, 0., .080)
     assert not teacher.carry_goal(sample, zone)[1]
+    assert teacher.carry_goal(sample, zone)[1]
+
+
+
+def test_oriented_landing_preserves_measured_yaw_until_the_turn_corridor_is_clear():
+    geometry = dict(direction_world_XY=[1., 0.], table_top_world_z=0.,
+        object_half_sizes={'red': [.02] * 3, 'blue': [.02] * 3},
+        zones={'left': dict(center_world_XY=[.15, 0.], half_size_XY=[.035, .035])})
+    teacher = MultitaskTeacher(
+        dict(object_pose=pose(0., 0., .02), tcp=pose(0., 0., .04), base_pose=np.eye(4)),
+        dict(family='F1', mode='M_FREE'), geometry, 'PLACE-red-left',
+    )
+    teacher.lift_origin = np.array([0., 0., .04])
+    zone = np.array([.158, .008])
+    sample = dict(tcp=pose(0., 0., .066), native_grasp=True,
+                  objects={'red': {'pose': pose(0., 0., .044)},
+                           'blue': {'pose': pose(.08, .08, .02)}},
+                  object_pose=pose(0., 0., .044))
+    gaps = iter([.001, .010, .010, .004, .010, .004])
+    teacher.distal_clearance = lambda sample, zone, **kwargs: next(gaps)
+
+    raised, can_lower = teacher.carry_goal(sample, zone)
+    assert not can_lower and teacher.landing_rotation is None
+    np.testing.assert_allclose(raised, [0., 0., .102])
+
+    assert not teacher.carry_goal(sample, zone)[1]
+    assert np.isclose(np.arctan2(teacher.rotation[1, 0], teacher.rotation[0, 0]), np.deg2rad(-20.))
+
+    sample.update(tcp=pose(*zone, .102), object_pose=pose(*zone, .08))
+    sample['objects']['red']['pose'] = sample['object_pose']
+    assert not teacher.carry_goal(sample, zone)[1]
+    sample['tcp'][:3, :3] = teacher.landing_rotation
     assert teacher.carry_goal(sample, zone)[1]

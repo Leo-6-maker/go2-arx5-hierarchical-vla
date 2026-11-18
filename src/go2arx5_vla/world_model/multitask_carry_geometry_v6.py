@@ -5,6 +5,12 @@ from .multitask_contact_v6 import OBJECT_GEOMS
 from .native_replay import forbid_integration
 
 DISTAL_CARRY_STEP_M = .004
+DISTAL_TURN_STEP_RAD = np.deg2rad(5.)
+
+
+def world_yaw(angle):
+    cosine, sine = np.cos(angle), np.sin(angle)
+    return np.array([[cosine, -sine, 0.], [sine, cosine, 0.], [0., 0., 1.]])
 
 
 class DistalCarryGeometry:
@@ -40,7 +46,7 @@ class DistalCarryGeometry:
                 distance = min(distance, float(gap))
         return distance
 
-    def clearance(self, sample, xy, *, support_z=None):
+    def clearance(self, sample, xy, *, support_z=None, yaw_rad=0.):
         import mujoco
 
         with forbid_integration(mujoco):
@@ -53,7 +59,18 @@ class DistalCarryGeometry:
             against_other = [(piece, self.other) for piece in self.pieces]
             if support_z is None:
                 against_table = [(piece, self.table) for piece in self.pieces]
-                return self._minimum(start, planar, against_other + against_table)
+                pairs = against_other + against_table
+                if not yaw_rad:
+                    return self._minimum(start, planar, pairs)
+                initial_rotations = self.data.geom_xmat[self.pieces].reshape((-1, 3, 3)).copy()
+                samples = int(np.ceil(abs(yaw_rad) / DISTAL_TURN_STEP_RAD))
+                distance = float('inf')
+                for angle in np.linspace(0., yaw_rad, samples + 1):
+                    turn = world_yaw(angle)
+                    turned = target + (start - target) @ turn.T
+                    self.data.geom_xmat[self.pieces] = (turn @ initial_rotations).reshape((-1, 9))
+                    distance = min(distance, self._minimum(turned, planar, pairs))
+                return distance
 
             # Selected-object support contact is the intended end of lowering.
             against_table = [(piece, self.table) for piece in self.distal]
