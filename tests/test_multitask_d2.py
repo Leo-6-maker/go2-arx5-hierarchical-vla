@@ -6,8 +6,8 @@ from scripts.wm02.multitask_d2_campaign import matrix_still_possible
 
 
 def test_touchdown_uses_measured_se3_and_rotated_support_footprint():
-    attachment = transform(rotation_increment([.1,.2,0]), [.04,0,-.015])
-    rotation = rotation_increment([.1,-.22,-.35])
+    attachment = transform(rotation_increment(np.array([.1,.2,0])), [.04,0,-.015])
+    rotation = rotation_increment(np.array([.1,-.22,-.35]))
     half = np.array([.02,.025,.021])
     tcp = landing_tcp(attachment,[.4,.12],rotation,half,.61)
     lowered = tcp@attachment
