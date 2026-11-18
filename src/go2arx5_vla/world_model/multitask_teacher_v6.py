@@ -7,6 +7,7 @@ from .multitask_score_v6 import BASE_MOTION, LIFT, OPEN_FRACTION, Task
 
 TRANSFER_CLEARANCE_M = .008
 F1_RED_HOLD_GRASP_RAISE_M = .016
+F1_RED_LEFT_CARRY_RAISE_M = .036
 
 
 def swept_footprints_overlap(start, finish, obstacle, combined_half_size):
@@ -46,6 +47,28 @@ class MultitaskTeacher(BudgetTeacher):
         self.carry_height = None
         self.raise_xy = None
         self.carry_footprint_overlap = False
+        self.distal_clearance = None
+        self.distal_raise_height = None
+        self.distal_clearance_evidence = None
+
+    def distal_carry_goal(self, sample, zone, tcp, obj):
+        gap = self.distal_clearance(sample, zone)
+        if gap < TRANSFER_CLEARANCE_M and self.distal_raise_height is None:
+            self.distal_raise_height = tcp[2] + F1_RED_LEFT_CARRY_RAISE_M
+            self.carry_height = max(self.carry_height, self.distal_raise_height)
+        waiting = gap < TRANSFER_CLEARANCE_M
+        self.distal_clearance_evidence = dict(sampled_gap_m=gap, raise_height_m=self.distal_raise_height,
+                                             waiting_for_measured_clearance=waiting)
+        if waiting:
+            if self.raise_xy is None:
+                self.raise_xy = tcp[:2].copy()
+            return np.r_[self.raise_xy, self.carry_height], False
+        self.raise_xy = None
+        can_lower = False
+        if np.linalg.norm(obj[:2] - zone) <= .004:
+            support_z = self.geometry['table_top_world_z'] + self.geometry['object_half_sizes'][self.task.color][2]
+            can_lower = self.distal_clearance(sample, zone, support_z=support_z) > 0.
+        return np.r_[tcp[:2] + zone - obj[:2], self.carry_height], can_lower
 
     def carry_goal(self, sample, zone):
         target = self.task.color
@@ -61,6 +84,11 @@ class MultitaskTeacher(BudgetTeacher):
         self.carry_footprint_overlap = swept_footprints_overlap(obj[:2], zone, obstacle[:2], half_planar)
         if self.carry_height is None:
             self.carry_height = self.lift_origin[2] + .026
+        if self.distal_clearance is not None:
+            if not sample['native_grasp']:
+                self.distal_clearance_evidence = dict(sampled_gap_m=None, native_grasp=False)
+                return tcp, False
+            return self.distal_carry_goal(sample, zone, tcp, obj)
         if sample['native_grasp'] and self.carry_footprint_overlap:
             gap = (obj[2] - target_half[2]) - (obstacle[2] + other_half[2])
             self.carry_height = max(self.carry_height, tcp[2] + TRANSFER_CLEARANCE_M - gap)
@@ -128,8 +156,11 @@ class MultitaskTeacher(BudgetTeacher):
         plan, evidence = super().decide(sample,reference,base)
         version = ('MFREE_MULTITASK_TEACHER_V6_F1_RED_HOLD_CLEARANCE'
                    if self.f1_red_hold_clearance else 'MFREE_MULTITASK_TEACHER_V6_TRANSFER_CLEARANCE')
+        if self.distal_clearance is not None:
+            version = 'MFREE_MULTITASK_TEACHER_V6_F1_RED_LEFT_DISTAL_CARRY'
         evidence.update(teacher_version=version,
                         instruction=self.task.instruction, release_start_step=self.open_start,
                         teacher_carry_footprint_overlap=self.carry_footprint_overlap,
-                        teacher_carry_waiting_for_measured_clearance=self.raise_xy is not None)
+                        teacher_carry_waiting_for_measured_clearance=(
+                            self.raise_xy is not None and self.distal_clearance is None))
         return plan,evidence

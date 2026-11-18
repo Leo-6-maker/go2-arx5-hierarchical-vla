@@ -35,6 +35,11 @@ def episode(adapter):
     score = Score(instruction,initial,geometry)
     reader = TwoObjectState(adapter.actual_state.model,adapter.task.color)
     teacher = MultitaskTeacher(initial,condition,geometry,instruction)
+    if instruction == 'PLACE-red-left' and condition['family'] == 'F1':
+        from .multitask_carry_geometry_v6 import DistalCarryGeometry
+
+        probe = DistalCarryGeometry(adapter.actual_state.model, adapter.task.color)
+        teacher.distal_clearance = probe.clearance
     writer = LiveWriter(adapter,frame,camera_factory=TwoObjectCameraSession)
     scored = None
     query_count = 0
@@ -71,6 +76,8 @@ def episode(adapter):
                         swept_footprint_overlaps=evidence['teacher_carry_footprint_overlap'],
                         waiting_for_measured_clearance=evidence['teacher_carry_waiting_for_measured_clearance'],
                     )
+                    if teacher.distal_clearance_evidence is not None:
+                        row['teacher_distal_corridor_audit_only'] = teacher.distal_clearance_evidence
                 query_count += 1
                 adapter.mobile_contact_stage = (
                     'approach' if teacher.stage in ('PREGRASP','DESCEND') else teacher.stage.lower()
