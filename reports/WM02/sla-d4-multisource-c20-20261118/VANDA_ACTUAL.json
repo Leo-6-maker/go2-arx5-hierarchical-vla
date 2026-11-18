@@ -61,17 +61,17 @@
     {
       "arm": "D4-B",
       "started": true,
-      "updates": 38,
-      "visits": 1216,
+      "updates": 500,
+      "visits": 16000,
       "model_parameters_written": true,
       "initial_checkpoint_written": true,
       "gradient_receipt_written": true,
-      "RGB16_confirmed": null
+      "RGB16_confirmed": 16
     }
   ],
   "new_native_requests": 0,
   "new_native_integrations": 0,
-  "last_independent_readback": "2026-11-18T22:28:19+08:00",
+  "last_independent_readback": "2026-11-19T00:16:27+08:00",
   "D4_A_actual_counters": {
     "actual_parent_loads": 1,
     "forward_backward_attempts": 560,
@@ -99,7 +99,7 @@
     "optimizer_update_attempts": 70
   },
   "D4_DEV_cold_readback": {
-    "observed_epoch": 1795012055.6979098,
+    "observed_epoch": 1795018542.8903954,
     "compiled_population_sha256": "4a601d1ed2126e7acf6e522b10da569098bda37be0c206baf7069a47c783b746",
     "clusters": 4,
     "matched_conditions": 24,
@@ -713,6 +713,166 @@
       "training_completed_full_trajectory_backwards": 120,
       "optimizer_update_attempts": 30
     },
-    "training_endpoint_closed": false
-  }
+    "training_endpoint_closed": false,
+    "terminal_readback": {
+      "updates": 500,
+      "visits": 16000,
+      "training_endpoint_closed": true
+    }
+  },
+  "PBS_final_state": "F",
+  "PBS_final_exit_status": 0,
+  "D4_ab_terminal": {
+    "observed_epoch": 1795018587.8793166,
+    "pbs_state": "F",
+    "pbs_walltime": "03:04:05",
+    "pbs_cput": "02:16:30",
+    "pbs_obit": "Wed Nov 18 23:51:43 2026",
+    "exit_status": 0,
+    "source_sha": "645f895cc4f2182f2313b7230623250d94c75e34",
+    "campaign_sha256": "30a19ab22b57bca84950b1526995010a90db1fcb8085d479efd0cda54b376a0d",
+    "execution_sha256": "48af23f6c721233f781040c2210b2f29b879b75b489e9fbf8657f603ec8c7bac",
+    "arms": {
+      "D4-A": {
+        "optimizer_updates": 500,
+        "visits": 16000,
+        "source_visits": 0,
+        "restore_arrays_exact": 87,
+        "RGB16_exact": 16,
+        "training_complete_generations": 2000,
+        "offline_TRAIN_diagnostics": 96,
+        "independent_RGB_generations": 16,
+        "result_sha256": "8174773e1052a0f23fe7cfda403ca94c434cc5005904188b67696b8f63e2b7c0",
+        "restore_sha256": "f17af3ab7fd90e9c775dec5b3c5c599fe00202bf27e053fee2c98504f63ddee8",
+        "train96_sha256": "6cd43f099e3955116da83168a4af9af94784fa082fdf0a91c72c6788315b33df",
+        "checkpoint_sha256": "8fa3a78ff8abd88483747505cdc9383651b60fa3b3c05e278cfa3948eea62684",
+        "package_sha256": "a4b4b0dc2746d28f493c982e6aa65a915c8ebeebb237e6960b5297afeff16ab8",
+        "wall_s": 5484.903684522957,
+        "CPU_s": 3992.9043029289996,
+        "offline": {
+          "passed_H40": 93,
+          "combined_H40_and_grip_speed_pass": 89,
+          "gripper_speed_reject": 7,
+          "terminal_width_MAE_m": 0.007114178252658598,
+          "annotated_close_crossings": 20,
+          "missed_close_crossings": 18,
+          "observed_crossing_errors_s": [
+            1.35,
+            1.35
+          ],
+          "H40_reject_causes": [
+            {
+              "index": 58,
+              "noise": 1,
+              "phase": "CLOSE",
+              "failed": {
+                "nominal/finger_velocity": {
+                  "first_k": 27,
+                  "peak": 0.042417870823851095,
+                  "limit": 0.04
+                },
+                "reference/finger_velocity": {
+                  "first_k": 27,
+                  "peak": 0.042417870823851095,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "index": 261,
+              "noise": 1,
+              "phase": "CLOSE",
+              "failed": {
+                "nominal/finger_velocity": {
+                  "first_k": 27,
+                  "peak": 0.045214451947134526,
+                  "limit": 0.04
+                },
+                "reference/finger_velocity": {
+                  "first_k": 27,
+                  "peak": 0.045214451947134526,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "index": 670,
+              "noise": 1,
+              "phase": "CLOSE",
+              "failed": {
+                "nominal/finger_velocity": {
+                  "first_k": 27,
+                  "peak": 0.042657030286894076,
+                  "limit": 0.04
+                },
+                "reference/finger_velocity": {
+                  "first_k": 27,
+                  "peak": 0.042657030286894076,
+                  "limit": 0.04
+                }
+              }
+            }
+          ],
+          "physical_admission": false
+        }
+      },
+      "D4-B": {
+        "optimizer_updates": 500,
+        "visits": 16000,
+        "source_visits": 0,
+        "restore_arrays_exact": 87,
+        "RGB16_exact": 16,
+        "training_complete_generations": 2000,
+        "offline_TRAIN_diagnostics": 96,
+        "independent_RGB_generations": 16,
+        "result_sha256": "69f5e2d7cf2efde7655214a7c625614cb621f24c1251a375bb6ce00fdae7d242",
+        "restore_sha256": "fff2587396498ab67233f10b59d2de6bd93bd46bf52b63dc9c2e42b434cb9768",
+        "train96_sha256": "8a12460f790a9f3ddeb2da74b1a36f3a608db0a813f57f8b0d91e0c5d42fbda7",
+        "checkpoint_sha256": "13f70f1f4e7d9f42e535ebced0e3a0540dfbc12c13bdbf0795d9dcc2ecceb793",
+        "package_sha256": "db2f4c31165dd442b712f286e8589ee2f86ff91f968fdcef1cd7e12d8f74e290",
+        "wall_s": 5402.854566485155,
+        "CPU_s": 3933.4008932889997,
+        "offline": {
+          "passed_H40": 95,
+          "combined_H40_and_grip_speed_pass": 92,
+          "gripper_speed_reject": 4,
+          "terminal_width_MAE_m": 0.00659456443695029,
+          "annotated_close_crossings": 20,
+          "missed_close_crossings": 19,
+          "observed_crossing_errors_s": [
+            0.15000000000000002
+          ],
+          "H40_reject_causes": [
+            {
+              "index": 58,
+              "noise": 1,
+              "phase": "CLOSE",
+              "failed": {
+                "nominal/finger_velocity": {
+                  "first_k": 5,
+                  "peak": 0.06146023215873472,
+                  "limit": 0.04
+                },
+                "reference/finger_velocity": {
+                  "first_k": 5,
+                  "peak": 0.06146023215873472,
+                  "limit": 0.04
+                }
+              }
+            }
+          ],
+          "physical_admission": false
+        }
+      }
+    },
+    "matched_H40_pairs": {
+      "both_pass": 93,
+      "only_A": 0,
+      "only_B": 2,
+      "both_reject": 1
+    },
+    "new_native_requests": 0,
+    "new_native_ticks": 0
+  },
+  "current_arms_state": "A_AND_B_TRAINING_PLUS_INDEPENDENT_OFFLINE_RESTORE_SEALED"
 }
