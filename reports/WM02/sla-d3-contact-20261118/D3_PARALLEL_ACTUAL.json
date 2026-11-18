@@ -1,0 +1,109 @@
+{
+  "schema": "SLA_D3_PARALLEL_ACTUAL",
+  "source_sha": "49750913631781deaf8432d968ebae6e1bdc99fa",
+  "unit": "wm02-sla-d3-e1-legacy-n1-20261118-01",
+  "spec_sha256": "1d02cc27be0c54027dc3f6fd1de58062b413ffca114fcc480aff1fd86901cb88",
+  "launch_receipt_sha256": "12f0a883de14ff512623bd69fefcfaafc3fa238ef7f4a2b81d391a4688d5632e",
+  "closeout_receipt_sha256": "52303b7159fa59e7dfe31abcb5e7b1275a69c2af960af377a22257706670491b",
+  "initial_site_receipt_sha256": "4d9393ec664fd361482ee76ee6acf68682ddb3998ea9a44c09cc6d4a93f4fdb0",
+  "E1": {
+    "lease": "CLOSED",
+    "allocated_cpus": [
+      10,
+      11
+    ],
+    "software_gl": true,
+    "native_requests": 8,
+    "native_ticks": 85624,
+    "confirmed_interface_cases": 8,
+    "technical_failures": 0,
+    "hard_STOP": 0,
+    "wall_s": 1136.0877420213073,
+    "case_CPU_s": 714.945771363,
+    "rows": [
+      {
+        "id": "D3-E1-LEGACY-N1-F1-STABLE-R1",
+        "native_ticks": 10703,
+        "wall_s": 140.1056085843593,
+        "CPU_s": 89.066178524,
+        "interface_protocol_pass": true,
+        "result_sha256": "fbaedd5980bc7366a8e12f435d7a51cde5024d4d5ebbf3c473282085fd1acb63"
+      },
+      {
+        "id": "D3-E1-LEGACY-N1-F2-STABLE-R1",
+        "native_ticks": 10703,
+        "wall_s": 142.03382782824337,
+        "CPU_s": 89.699175764,
+        "interface_protocol_pass": true,
+        "result_sha256": "45676a05ea55a88423a904d79cea7af270b50bd0c11074af1e818aae40089b83"
+      },
+      {
+        "id": "D3-E1-LEGACY-N1-F1-SMALL_EEF-R1",
+        "native_ticks": 10703,
+        "wall_s": 139.55930710583925,
+        "CPU_s": 88.89762872200001,
+        "interface_protocol_pass": true,
+        "result_sha256": "87a076bea4c40d0559aacb08446782e25eca19d504a550efd871626fa21f91d3"
+      },
+      {
+        "id": "D3-E1-LEGACY-N1-F2-SMALL_EEF-R1",
+        "native_ticks": 10703,
+        "wall_s": 141.44940904248506,
+        "CPU_s": 89.89148466399999,
+        "interface_protocol_pass": true,
+        "result_sha256": "c2239eef40c72cc45cd6c02bf9490b808d015b6713602a0517098b602d53ae7f"
+      },
+      {
+        "id": "D3-E1-LEGACY-N1-F2-SMALL_EEF-R2",
+        "native_ticks": 10703,
+        "wall_s": 141.53798632882535,
+        "CPU_s": 89.373325541,
+        "interface_protocol_pass": true,
+        "result_sha256": "1e83a15440731fbc60efdbe164db102b304601057fa4793ae1e6f8abe3909906"
+      },
+      {
+        "id": "D3-E1-LEGACY-N1-F1-SMALL_EEF-R2",
+        "native_ticks": 10703,
+        "wall_s": 141.1290663862601,
+        "CPU_s": 89.576333796,
+        "interface_protocol_pass": true,
+        "result_sha256": "9987887c5acc76df40aee0be3104bdf267ef465f89935f768138cc0f7239d74a"
+      },
+      {
+        "id": "D3-E1-LEGACY-N1-F2-STABLE-R2",
+        "native_ticks": 10703,
+        "wall_s": 139.72905251011252,
+        "CPU_s": 89.33790554400001,
+        "interface_protocol_pass": true,
+        "result_sha256": "2a51e91ba262bbc1ddd0f9f4c1479139cee5c4fa65929d4bc3eda8317b4b6014"
+      },
+      {
+        "id": "D3-E1-LEGACY-N1-F1-STABLE-R2",
+        "native_ticks": 10703,
+        "wall_s": 139.59044766891748,
+        "CPU_s": 89.103738808,
+        "interface_protocol_pass": true,
+        "result_sha256": "cde0a33d58f58e50763a9878ae910f7833246d5acdc7a944c3df61b0df883983"
+      }
+    ]
+  },
+  "E2": {
+    "status": "UNDISPATCHED",
+    "native_requests": 0,
+    "native_ticks": 0
+  },
+  "E3": {
+    "status": "UNDISPATCHED",
+    "native_requests": 0,
+    "native_ticks": 0
+  },
+  "E4": {
+    "status": "UNDISPATCHED",
+    "native_requests": 0,
+    "native_ticks": 0
+  },
+  "N2_admitted": false,
+  "model_generations": 0,
+  "training_updates": 0,
+  "visits": 0
+}
