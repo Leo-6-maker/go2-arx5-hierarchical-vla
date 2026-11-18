@@ -75,7 +75,7 @@
     }
   },
   "actual_new_training_updates": 0,
-  "actual_M_native_requests": 2,
+  "actual_M_native_requests": 3,
   "first6_storage_readback": {
     "time_SGT": "2026-11-18T08:42:28.316569+08:00",
     "headroom": {
@@ -206,5 +206,114 @@
       "available_storage_bytes": 625969098752,
       "required_storage_bytes": 294382508441
     }
+  },
+  "teacher_first_sealed_case": {
+    "observed_SGT": "2026-11-18T10:15:27.733037+08:00",
+    "actual_science_requests_sealed": 1,
+    "seeded_requests_started": 2,
+    "sealed_science_native_ticks": 19308,
+    "physics": {
+      "epoch": 1794968191.6155462,
+      "case": "M-TEACHER-F1-0-HOLD-red",
+      "result_sha256": "6d88e1032aa371057373fe08f1f059e8f2ec3382509e8379d3550840c7f17e94",
+      "physics_trace_sha256": "eccc05b7c42696c933a3055e88a77abe4022f40e0a449f540f39d0681b0f24e6",
+      "case_spec_sha256": "9f5debd6d28f8d488431fd0fb4bb8aad3845ac30510f3b4848c5b7804a0e5018",
+      "scene_sha256": "f69cff6ed63bcc344cb3ac1914794b1a26d7214e59ac18f717b9b01e03d832ec",
+      "original_stops": [
+        {
+          "kind": "stop",
+          "reason": "ILLEGAL_CONTACT",
+          "steps": 19308
+        }
+      ],
+      "native_step": 19308,
+      "illegal_contacts": [
+        {
+          "geometry_pair": [
+            "task_table",
+            "task_right_pad"
+          ],
+          "distance_m": -5.838696559535943e-05,
+          "normal_force_N": 0.6633711754047662
+        },
+        {
+          "geometry_pair": [
+            "task_table",
+            "task_right_pad"
+          ],
+          "distance_m": -2.0071050176612083e-05,
+          "normal_force_N": 1.0320926207234344
+        }
+      ],
+      "integrations_after_STOP": 0,
+      "last_fully_scored_query": {
+        "task_success": false,
+        "ever_target_grasp": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "directional_base_motion_m": null,
+        "native_step": 19203,
+        "ever_target_lift": null
+      },
+      "capture_prefix": {
+        "queries": 55,
+        "phase": "DESCEND",
+        "query": 54,
+        "start_step": 19203,
+        "actual_elapsed_prefix_ticks": 105,
+        "partial_interval_ticks": 5,
+        "fully_consumed_atoms": 544,
+        "writer_error": null,
+        "final_native_step": 19308,
+        "manifest_sha256": "b8160439fd219a58c1ee146d110170743a32bd141b6d3ba6d6bf20f26ed618c4"
+      },
+      "new_model_calls": 0,
+      "new_native_integrations": 0
+    },
+    "case": {
+      "id": "M-TEACHER-F1-0-HOLD-red",
+      "instruction": "HOLD-red",
+      "started": true,
+      "last_observed_integration": {
+        "step": 19308,
+        "kind": "stop",
+        "time_s": null
+      },
+      "sealed": true,
+      "result_sha256": "6d88e1032aa371057373fe08f1f059e8f2ec3382509e8379d3550840c7f17e94",
+      "result": {
+        "unsafe": true,
+        "technical_failure": false,
+        "native_ticks": 19308,
+        "native_requests": 1,
+        "model_generations": 0,
+        "new_updates": 0,
+        "new_visits": 0,
+        "composite_success": false,
+        "score": null,
+        "stages": null,
+        "first_failure": [
+          "RuntimeError: OWNED_NATIVE_PROCESS_EXIT"
+        ],
+        "integrations_after_STOP": 0
+      }
+    },
+    "next_case": {
+      "id": "M-TEACHER-F2-0-HOLD-blue",
+      "instruction": "HOLD-blue",
+      "started": true,
+      "last_observed_integration": {
+        "step": 1879,
+        "kind": "sample",
+        "time_s": 3.7579999999998077
+      },
+      "sealed": false,
+      "result_sha256": null,
+      "result": null
+    },
+    "all_M_new_native_ticks_sealed": 31214,
+    "actual_new_optimizer_updates": 0,
+    "actual_new_optimization_visits": 0,
+    "actual_new_model_generations": 0
   }
 }
