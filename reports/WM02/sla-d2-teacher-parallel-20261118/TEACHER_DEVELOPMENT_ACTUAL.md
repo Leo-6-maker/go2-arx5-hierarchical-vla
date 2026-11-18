@@ -24,3 +24,9 @@
 当前新增独立 QUAL48、统计、模型生成、训练更新、训练访问和学生原生请求均为 0。开发不同版本的成功格独立计量。
 
 [机读实绩](TEACHER_DEVELOPMENT_ACTUAL.json) · [放置阶段复核](D2_PLACEMENT_PHASE_REPLAY_ACTUAL.md) · [旧 13／18 原生证据](D2_CAUSAL_AUDIT_ACTUAL.md)
+
+## 第二批实际启动
+
+16:48:49 SGT 独立核对第二批受管服务已真实派发 **1/12**，第一条 F1 红 HOLD 已积分 3,903 tick，封存 0。第二批用原登记的新场景，首批 12 条同场景条件无重复。现在第二批候选仍需用原生动态结果评定。
+
+服务 `wm02-sla-d2-teacher-development-b2-20261118-01`，PID 2254139，lease ACTIVE，Core user linger 已核对，运行独立于前台。源码 `e16783e389362102470de2def854fcf2bf4b78cd`，spec SHA-256 `720d6a5c5b83f45a0b394cbe378f83dd161dba62bff1ad754889ff655a114e9c`。本批期限 2026-11-18 19:48:11 SGT，原站点期限 2026-11-19 02:51:23 SGT。使用项目登记的服务器侧监督日志、逐条件结果及当前服务 STOP 入口。
