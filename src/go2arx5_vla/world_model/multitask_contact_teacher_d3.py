@@ -33,8 +33,10 @@ APPROACH_STAGES = ('PREGRASP', 'DESCEND', 'CLOSE')
 HELD_STAGES = ('LIFT', 'HOLD', 'CARRY', 'LOWER', 'SUPPORTED', 'RESEAT')
 OPEN_STAGES = ('OPEN', 'RELEASED', 'WITHDRAW', 'SETTLE')
 APPROACH_SWING_YAW_DEG = (-38., -30., -20., -12., 12., 20., 30., 38.)
-APPROACH_ROLL_DEG = (-12., 0., 12.)
+APPROACH_TILTS_DEG = ((-12., 0.), (0., 0.), (12., 0.),
+                      (0., -18.), (0., -9.), (0., 9.), (0., 18.))
 APPROACH_SIDE_STEPS_M = (.016, .028)
+APPROACH_GRASP_OFFSETS_M = (0., .002, .004, .006, .008)
 CARRY_SIDE_STEPS_M = (.018, .032)
 HOLD_FEEDBACK_LIMIT_M = .015
 RESEAT_LIMIT_M = .001
@@ -45,6 +47,8 @@ ATTACHMENT_DRIFT_LIMIT_M = .010
 class RouteWaypoint:
     position: np.ndarray
     rotation: np.ndarray
+    descent: np.ndarray
+    grasp_offset: np.ndarray
 
 
 def horizontal_away(selected, other):
@@ -71,6 +75,8 @@ class ContactTeacher(StagedPlacementTeacher):
         self.reseat_used = False
         self.open_elapsed_ticks = 0
         self.approach_waypoint = None
+        self.descent_waypoint = None
+        self.grasp_offset = np.zeros(3)
         self.carry_waypoint = None
         self.carry_side_target = None
         self.pregrasp_ready = False
@@ -78,6 +84,7 @@ class ContactTeacher(StagedPlacementTeacher):
         self.held_relative_history = deque(maxlen=4)
         self.previous_actual = None
         self.attached_baseline = None
+        self.hold_displacement_m = 0.
 
     def enabled(self, name):
         return self.ablated != name
@@ -93,10 +100,13 @@ class ContactTeacher(StagedPlacementTeacher):
         if self.family == 'F2' and self.task.color == 'red' and self.enabled('APPROACH_TOPOLOGY'):
             away = self.departure(sample)
             center = np.asarray(sample['object_pose'])[:3, 3] + [0., -.0017, .080]
-            for yaw, offset, roll in product(APPROACH_SWING_YAW_DEG, APPROACH_SIDE_STEPS_M, APPROACH_ROLL_DEG):
-                local_roll = rotation_increment(np.deg2rad([roll, 0., 0.]))
-                rotation = world_yaw(np.deg2rad(yaw)) @ self.grasp_rotation @ local_roll
-                yield rotation, RouteWaypoint(center + away * offset, rotation)
+            for yaw, offset, (roll, pitch) in product(
+                    APPROACH_SWING_YAW_DEG, APPROACH_SIDE_STEPS_M, APPROACH_TILTS_DEG):
+                local_tilt = rotation_increment(np.deg2rad([roll, pitch, 0.]))
+                rotation = world_yaw(np.deg2rad(yaw)) @ self.grasp_rotation @ local_tilt
+                side = center + away * offset
+                for bias in APPROACH_GRASP_OFFSETS_M:
+                    yield rotation, RouteWaypoint(side, rotation, side - [0., 0., .027], away * bias)
 
     def carry_options(self, sample):
         yield None
@@ -117,6 +127,23 @@ class ContactTeacher(StagedPlacementTeacher):
             position = root_at_start.copy()
             position[:2] += tcp[:2, 3] - tcp_at_start[:2, 3]
             return position
+        if approach is not None:
+            # Recompute the carried attachment from the same capture point
+            # that the online descent will use.
+            grasp = translate(result[2].tcp, approach.grasp_offset)
+            attachment = np.linalg.solve(grasp, result[2].object_pose)
+            landing = self.landing_pose(grasp, result[2].object_pose, route)
+            if landing is None:
+                return None
+            lift = translate(grasp, [0., 0., route.transit_raise])
+            high = translate(landing, [0., 0., route.transit_raise])
+            for i, tcp in ((2, grasp), (3, grasp), (4, lift), (5, high),
+                           (6, landing), (7, landing), (8, translate(landing, route.withdrawal))):
+                planar = root(landing if i >= 5 else tcp)[:2]
+                obj = tcp @ attachment if i in (4, 5, 6) else result[2].object_pose
+                if i in (7, 8):
+                    obj = landing @ attachment
+                result[i] = replace(result[i], tcp=tcp, object_pose=obj, root_xy=planar)
         for index, knot in enumerate(result):
             result[index] = replace(knot, root_xy=np.r_[knot.root_xy, root_at_start[2:]])
         if detour is not None:
@@ -127,24 +154,53 @@ class ContactTeacher(StagedPlacementTeacher):
         if approach is not None:
             anchor = result[0]
             tcp = transform(approach.rotation, approach.position)
-            result.insert(1, Knot(tcp, anchor.object_pose, anchor.finger_q, root(tcp), 'approach'))
+            result[1] = Knot(tcp, anchor.object_pose, anchor.finger_q, root(tcp), 'approach')
+            down = transform(approach.rotation, approach.descent)
+            result.insert(2, Knot(down, anchor.object_pose, anchor.finger_q, root(down), 'approach'))
         return result
+
+    def set_approach(self, approach):
+        if approach is not None:
+            self.approach_waypoint = approach
+            self.descent_waypoint = approach.descent
+            self.grasp_offset = approach.grasp_offset
+
+    def check_approach_route(self, sample, knots, adaptive_pinch):
+        sampling = sampling_margin(sample)[0]
+        result = self.shadow.check(sample, knots, sampling)
+        if not adaptive_pinch or result['phase'] not in ('close', 'lift', 'carry', 'lower', 'open', 'withdraw'):
+            return result
+        index = next(i for i, k in enumerate(knots) if k.stage == 'close')
+        fingers = self.shadow.pinch_contact_widths(sample, knots[index-1])
+        if fingers is None:
+            return dict(result, passed=False, reason='D3_NO_TWO_PAD_GEOMETRIC_CONTACT_RANGE')
+        revised = [replace(k, finger_q=fingers) if k.stage in ('close', 'lift', 'carry', 'lower')
+                   else k for k in knots]
+        return dict(self.shadow.check(sample, revised, sampling), geometric_contact_widths_m=fingers.tolist())
 
     def select_route(self, sample):
         choices = []
         approaches = tuple(self.approach_options(sample))
         detours = tuple(self.carry_options(sample))
+        approach_checks = {}
         for raw, (rotation, bypass), detour in product(self.candidate_routes(), approaches, detours):
             grasp_rotation = (raw.grasp_rotation if bypass is None and raw.grasp_rotation is not None
                               else rotation)
             route = replace(raw, grasp_rotation=grasp_rotation)
+            if bypass is not None:
+                key = (id(bypass), route.grasp_raise)
+                if key not in approach_checks:
+                    approach = self.hold_knots(sample, grasp_rotation, bypass, route.grasp_raise)
+                    approach_checks[key] = self.check_approach_route(sample, approach, True)
+                if not approach_checks[key]['passed']:
+                    continue
             knots = self.route_knots(sample, route, bypass, detour)
             if knots is not None and (duration := time_estimate(knots)) <= MAX_PLACE_S:
                 choices.append((duration, route, bypass, detour, knots))
         choices.sort(key=lambda option: option[0])
         attempts = []
         for seconds, route, bypass, detour, knots in choices:
-            verdict = self.shadow.check(sample, knots, sampling_margin(sample)[0])
+            verdict = self.check_approach_route(sample, knots, bypass is not None)
             attempts.append(dict(**verdict, estimated_motion_s=seconds,
                                  approach=None if bypass is None else bypass.position.tolist(),
                                  carry=None if detour is None else detour.tolist()))
@@ -152,11 +208,12 @@ class ContactTeacher(StagedPlacementTeacher):
                 self.route = route
                 self.raise_m = route.grasp_raise
                 self.grasp_rotation = route.grasp_rotation
-                self.approach_waypoint = bypass
+                self.set_approach(bypass)
                 self.carry_waypoint = detour
                 self.corridor_evidence = dict(attempts=attempts, root_hypothesis='MEASURED_SE3_WITH_PLANAR_FOLLOW')
                 return
-        raise PlacementUnavailable('D3_NO_COMPLETE_PREGRASP_CANDIDATE', dict(attempts=attempts))
+        raise PlacementUnavailable('D3_NO_COMPLETE_PREGRASP_CANDIDATE', dict(
+            attempts=attempts, rejected_approach_corridors=sum(not r['passed'] for r in approach_checks.values())))
 
     def hold_knots(self, sample, rotation, approach, height):
         tcp, obj = (np.asarray(sample[key]) for key in ('tcp', 'object_pose'))
@@ -165,6 +222,8 @@ class ContactTeacher(StagedPlacementTeacher):
         pre = transform(rotation, obj[:3, 3] + [0., -.0017, .080])
         grasp = transform(rotation, obj[:3, 3] + [0., -.0017, .012 + height]
                            + rotation @ [-.012, 0., 0.])
+        if approach is not None:
+            grasp = translate(grasp, approach.grasp_offset)
         lifted = translate(grasp, [0., 0., .026])
         closed = np.full(2, .020)
         def root(pose):
@@ -173,24 +232,29 @@ class ContactTeacher(StagedPlacementTeacher):
         if approach is not None:
             bypass = transform(approach.rotation, approach.position)
             points.append(Knot(bypass, obj, fingers, root(bypass), 'approach'))
-        points.extend((Knot(pre, obj, fingers, root(pre), 'approach'),
-                       Knot(grasp, obj, fingers, root(grasp), 'approach'),
+            down = transform(approach.rotation, approach.descent)
+            points.append(Knot(down, obj, fingers, root(down), 'approach'))
+        else:
+            points.append(Knot(pre, obj, fingers, root(pre), 'approach'))
+        points.extend((Knot(grasp, obj, fingers, root(grasp), 'approach'),
                        Knot(grasp, obj, closed, root(grasp), 'close'),
                        Knot(lifted, lifted @ np.linalg.solve(grasp, obj), closed, root(lifted), 'lift')))
         return points
 
     def select_hold(self, sample):
         heights = dict.fromkeys((self.raise_m, .012, .016, .020))
+        if self.family == 'F2' and self.task.color == 'red' and self.enabled('APPROACH_TOPOLOGY'):
+            heights.update(dict.fromkeys((0., .004)))
         attempts = []
         for (rotation, approach), height in product(self.approach_options(sample), heights):
             knots = self.hold_knots(sample, rotation, approach, height)
             if time_estimate(knots) > 60.:
                 continue
-            verdict = self.shadow.check(sample, knots, sampling_margin(sample)[0])
+            verdict = self.check_approach_route(sample, knots, approach is not None)
             attempts.append(dict(**verdict, grasp_raise_m=height,
                                  approach=None if approach is None else approach.position.tolist()))
             if verdict['passed']:
-                self.approach_waypoint = approach
+                self.set_approach(approach)
                 self.grasp_rotation = rotation
                 self.raise_m = height
                 self.corridor_evidence = dict(attempts=attempts)
@@ -206,9 +270,20 @@ class ContactTeacher(StagedPlacementTeacher):
         angle_error = np.linalg.norm(rotation_vector(waypoint.rotation @ tcp[:3, :3].T))
         if position_error <= WAYPOINT_TOLERANCE_M and angle_error <= np.deg2rad(3.):
             self.approach_waypoint = None
+            self.stage = 'DESCEND'
             return None
         self.rotation = waypoint.rotation
         return waypoint.position
+
+    def grasp_goal(self):
+        return super().grasp_goal() + self.grasp_offset
+
+    def grasp_phase_goal(self, sample):
+        if self.descent_waypoint is not None and self.stage == 'DESCEND':
+            if np.linalg.norm(sample['tcp'][:3, 3] - self.descent_waypoint) > WAYPOINT_TOLERANCE_M:
+                return self.descent_waypoint
+            self.descent_waypoint = None
+        return None
 
     def hold_goal(self, sample):
         goal = BudgetTeacher.goal(self, sample)
@@ -217,7 +292,9 @@ class ContactTeacher(StagedPlacementTeacher):
             actual = np.asarray(sample['base_pose'])[:2, 3]
             deficit = BASE_MOTION - float((actual - self.base_origin) @ self.direction)
             if deficit > 0.:
-                goal = goal + np.r_[min(HOLD_FEEDBACK_LIMIT_M, deficit + WAYPOINT_TOLERANCE_M) * self.direction, 0.]
+                self.hold_displacement_m = max(self.hold_displacement_m,
+                                               min(HOLD_FEEDBACK_LIMIT_M, deficit + WAYPOINT_TOLERANCE_M))
+            goal = goal + np.r_[self.hold_displacement_m * self.direction, 0.]
         return goal
 
     def release_goal(self, sample):
@@ -274,6 +351,9 @@ class ContactTeacher(StagedPlacementTeacher):
             if goal is not None:
                 return goal
         self.rotation = self.grasp_rotation if self.stage in APPROACH_STAGES else self.rotation
+        goal = self.grasp_phase_goal(sample)
+        if goal is not None:
+            return goal
         if not is_place:
             return self.hold_goal(sample)
         if self.stage in ('SUPPORTED', 'RESEAT', 'OPEN', 'RELEASED') and self.enabled('SUPPORTED_RELEASE'):
@@ -334,6 +414,42 @@ class ContactTeacher(StagedPlacementTeacher):
             q[3:7] = matrix_to_quat(R)[[3, 0, 1, 2]]
             result.append(replace(knot, root_xy=q))
         return result
+
+    def check_approach_atom(self, sample, previous, program, atom):
+        """Recheck the next existing P10 atom at its actual 50 ms boundary."""
+        if self.stage not in APPROACH_STAGES or not self.enabled('DESCEND_CLOSE_PREFIX'):
+            return
+        tcp = np.asarray(sample['tcp'])
+        obj = np.asarray(sample['object_pose'])
+        fingers = np.asarray(sample['finger_q'])
+        root = np.asarray(sample['qpos'])[:7]
+        phase = 'close' if self.stage == 'CLOSE' else 'approach'
+        nominal, following = map(matrix10, program.decoded_H40[atom:atom+2])
+        next_tcp = transform(following[:3, :3] @ nominal[:3, :3].T @ tcp[:3, :3],
+                             tcp[:3, 3] + following[:3, 3] - nominal[:3, 3])
+        anchor = Knot(tcp, obj, fingers, root, phase)
+        sampling, _ = sampling_margin(sample)
+        endpoint = Knot(next_tcp, obj, fingers, root, phase)
+        paths = [[anchor, endpoint]]
+        if previous is not None:
+            if sample['native_step'] - previous['native_step'] != 25:
+                raise ValueError('D3_CONTACT_ATOM_REQUIRES_PREVIOUS_CONFIRMED_50MS')
+            before = np.asarray(previous['tcp'])
+            old_root = np.asarray(previous['qpos'])[:7]
+            previous_rotation = quat_to_matrix(old_root[[4, 5, 6, 3]])
+            rotation = quat_to_matrix(root[[4, 5, 6, 3]])
+            forecast_root = root.copy()
+            forecast_root[:3] += root[:3] - old_root[:3]
+            forecast_root[3:7] = matrix_to_quat(rotation @ previous_rotation.T @ rotation)[[3, 0, 1, 2]]
+            forecast_tcp = transform(tcp[:3, :3] @ before[:3, :3].T @ tcp[:3, :3],
+                                     tcp[:3, 3] + tcp[:3, 3] - before[:3, 3])
+            forecast_fingers = np.clip(2. * fingers - previous['finger_q'], 0., MECHANICAL_TRAVEL_M)
+            paths.append([anchor, Knot(forecast_tcp, obj, forecast_fingers, forecast_root, phase)])
+        for waypoints in paths:
+            verdict = self.shadow.check(sample, waypoints, sampling)
+            if not verdict['passed']:
+                raise PlacementUnavailable('D3_MEASURED_APPROACH_ATOM_CLEARANCE',
+                                           dict(verdict, atom=atom, prior_actual_50ms=previous is not None))
 
     def decide(self, sample, reference, base):
         self.root_history.append(np.asarray(sample['qpos'])[:7].copy())

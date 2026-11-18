@@ -48,6 +48,8 @@ def episode(adapter, *, placement_teacher=None):
         teacher.distal_clearance = probe.clearance
     writer = LiveWriter(adapter,frame,camera_factory=TwoObjectCameraSession)
     observe = getattr(teacher, 'observe_native', None)
+    check_atom = getattr(teacher, 'check_approach_atom', None)
+    previous_atom = None
     scored = None
     query_count = 0
     consumed = 0
@@ -106,6 +108,16 @@ def episode(adapter, *, placement_teacher=None):
                 adapter.mobile_program=program
                 adapter.mobile_program_start_step=sample['native_step']
                 for atom in range(10):
+                    if check_atom is not None:
+                        from .multitask_teacher_d2 import PlacementUnavailable
+
+                        try:
+                            with measure(adapter, 'teacher.measured_approach_atom'):
+                                check_atom(sample, previous_atom, program, atom)
+                        except PlacementUnavailable as error:
+                            placement_failure = dict(query=query, native_step=sample['native_step'],
+                                stage=teacher.stage, reason=str(error), geometry_evidence=error.evidence)
+                            break
                     action=program.preview(atom)
                     if atom in (0,7):
                         install(adapter,action,None)
@@ -113,6 +125,7 @@ def episode(adapter, *, placement_teacher=None):
                                   installed_reference_sha256=adapter.active_reference['wire_sha256'],
                                   confirmed_ticks=0)
                     row['intervals'].append(interval)
+                    previous_atom = sample
                     sample,_=consume(adapter,action,sequence=128+query*10+atom)
                     with measure(adapter,'reference.accepted_boundary'):
                         reference,witness=boundary(adapter)
@@ -120,12 +133,13 @@ def episode(adapter, *, placement_teacher=None):
                     interval.update(end_native_step=sample['native_step'],confirmed_ticks=25,boundary=witness)
                     row['consumed_mask'][atom]=True
                     consumed+=1
-                teacher.commit(program,sample['native_step'])
+                if placement_failure is None:
+                    teacher.commit(program,sample['native_step'])
                 row['next_query_boundary']=witness
                 with measure(adapter,'score.native_2ms'):
                     scored=score_through(stream,reader,score,sample['native_step'],observe=observe)
                 write(adapter.output/'MULTITASK_SCORE_PROGRESS.private.json',scored)
-                if scored['task_success']:
+                if placement_failure is not None or scored['task_success']:
                     break
     finally:
         with measure(adapter,'capture.drain_and_seal'):

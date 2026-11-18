@@ -5,8 +5,10 @@ from dataclasses import dataclass
 import numpy as np
 
 from .mobile_continuous_teacher_v2 import rotation_vector
+from .fusion_trajectory_adapter import WORKING_CLOSED_M
 from .multitask_placement_geometry_d2 import ANGLE_STEP_RAD, POSITION_STEP_M, PlacementGeometry
 from .multitask_score_v6 import STABLE_SPEED, TABLE_TOLERANCE
+from .native_replay import forbid_integration
 
 SUPPORT_CONFIRM_FRAMES = 40
 SUPPORT_WAIT_TICKS = 1000
@@ -107,3 +109,33 @@ class ContactGeometry(PlacementGeometry):
         finally:
             self.pairs = all_pairs
         return dict(interior, pair_scope='HELD_WRIST', unchanged_external_clearance=exterior)
+
+    def pinch_contact_widths(self, sample, grasp):
+        """Use two geometry-projected first contacts for an asymmetric grasp."""
+        import mujoco
+
+        data = self.data
+        data.qpos[:], data.qvel[:], data.ctrl[:] = sample['qpos'], sample['qvel'], sample['ctrl']
+        pad_geoms = [self.model.geom(f'task_{side}_pad').id for side in ('left', 'right')]
+        def gap(pad, joint, width):
+            data.qpos[joint] = width
+            mujoco.mj_fwdPosition(self.model, data)
+            return mujoco.mj_geomDistance(self.model, data, pad, self.target, 5., self.buffer)
+
+        widths = []
+        with forbid_integration(mujoco):
+            _, error, _ = self.sample(grasp.tcp, grasp.object_pose, grasp.finger_q, grasp.root_xy, 'close')
+            if error:
+                return None
+            for pad, joint, upper in zip(pad_geoms, self.fingers, grasp.finger_q, strict=True):
+                lower = WORKING_CLOSED_M
+                if gap(pad, joint, upper) <= 0. or gap(pad, joint, lower) > 0.:
+                    return None
+                for _ in range(12):
+                    middle = (lower + upper) / 2.
+                    if gap(pad, joint, middle) > 0.:
+                        upper = middle
+                    else:
+                        lower = middle
+                widths.append(upper)
+            return np.asarray(widths)

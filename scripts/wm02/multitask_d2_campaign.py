@@ -118,6 +118,10 @@ def preflight(spec):
         gate = read_pin(spec['d2_science_admission'])
         if gate['stage'] != stage or not gate['interface_and_stage_entry_pass'] or gate['source_sha'] != spec['source_sha']:
             raise PermissionError('D2_REAL_STAGE_AND_ACTUAL_INTERFACE_ADMISSION')
+        if scope == D3_SCOPE:
+            from .multitask_d3_admission import verify_stage_manifest
+
+            verify_stage_manifest(spec, [case for _,case in cards], gate)
     for _,case in cards:
         validate(case,before_spawn=True)
         for key in ('source_sha','scope','campaign_root','d2_world_binding','d2_stage','registered_panel'):
@@ -176,6 +180,11 @@ def run(spec_path, spec):
         if case['d2_stage']!='E' and row['task_and_mobile_success'] and row['completed']:
             row['G7']=g7_receipt(case,path,pin['sha256'])
             row['G7_pass']=row['G7']['passed']
+        if case['d2_stage'] == 'R1':
+            from .multitask_d3_admission import r1_result
+
+            row.update(d3_arm=case['d3_arm'], d3_pair=case['d3_pair'], d3_mechanism=case['d3_mechanism'],
+                       d3_R1=r1_result(case,result,row))
         return row
 
     try:
