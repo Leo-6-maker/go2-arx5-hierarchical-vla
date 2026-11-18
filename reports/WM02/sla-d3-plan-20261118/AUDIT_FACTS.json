@@ -1,0 +1,164 @@
+{
+  "schema": "SLA_D2_FINAL_AUDIT_FACTS_V1",
+  "audit_date": "2026-11-18",
+  "timezone": "Asia/Singapore",
+  "execution_report_sha": "4d597259f2968d01c1694f9a9ee93dbc717695d1",
+  "D2_plan_sha": "2352547871684c7617c2c89754fbf9c70a534abb",
+  "batches": [
+    {
+      "batch": "B1",
+      "runtime_source_sha": "1e3e370203857d9a63899e35d96153dc77185a37",
+      "native_requests": 12,
+      "native_ticks": 227908,
+      "HOLD_success": 3,
+      "PLACE_success": 0,
+      "G7_cells": 3,
+      "hard_STOP": 1,
+      "technical_failure": 0,
+      "supervisor_wall_s": 3396.065157887526,
+      "case_CPU_s": 2281.2605631970005,
+      "end_to_end_RTF": 0.1342188617734101,
+      "G7_per_wall_hour": 3.180150997667544,
+      "case_CPU_hours_per_G7": 0.2112278299256482
+    },
+    {
+      "batch": "B2",
+      "runtime_source_sha": "e16783e389362102470de2def854fcf2bf4b78cd",
+      "native_requests": 12,
+      "native_ticks": 274759,
+      "HOLD_success": 1,
+      "PLACE_success": 0,
+      "G7_cells": 1,
+      "hard_STOP": 2,
+      "technical_failure": 0,
+      "supervisor_wall_s": 4142.433684554882,
+      "case_CPU_s": 2803.671472295,
+      "end_to_end_RTF": 0.13265583515528204,
+      "G7_per_wall_hour": 0.8690543468257915,
+      "case_CPU_hours_per_G7": 0.7787976311930556
+    }
+  ],
+  "scientific_total": {
+    "native_requests": 24,
+    "native_ticks": 502667,
+    "HOLD_success": 4,
+    "HOLD_attempts": 8,
+    "PLACE_success": 0,
+    "PLACE_attempts": 16,
+    "hard_STOP": 3,
+    "technical_failure": 0,
+    "post_STOP_ticks_all": 0,
+    "aggregate_for_resource_only": true
+  },
+  "PLACE_first_failures": {
+    "pregrasp_no_complete_path": 6,
+    "carry_clearance": 8,
+    "open": 2
+  },
+  "final_candidate_G7_cells": 1,
+  "required_G7_cells": 12,
+  "QUAL48_dispatched": 0,
+  "M2": {
+    "budget_migrations": 0,
+    "optimizer_updates": 0,
+    "training_visits": 0,
+    "model_generations": 0,
+    "student_native_requests": 0
+  },
+  "engineering": {
+    "native_requests": 20,
+    "native_ticks": 207060,
+    "technical_failure": 1,
+    "N1_requests": 8,
+    "N2_requests": 12,
+    "N1_matched_active_wall_s": 1128.482956834,
+    "N2_matched_makespan_s": 566.236898899,
+    "observed_throughput_ratio": 1.9929519941710618,
+    "state_tolerance_passes": 7,
+    "state_tolerance_cards": 8,
+    "STOP_peer_continuation_directions_proved": 1,
+    "STOP_directions_required": 2,
+    "science_backend": "LEGACY_N1",
+    "controller_selected_reference": "UNKNOWN"
+  },
+  "derived": {
+    "combined_end_to_end_RTF": 0.13335997272293545,
+    "wall_to_simulated_time": 7.498501833661656,
+    "combined_scientific_wall_s": 7538.498842442408,
+    "combined_scientific_sim_s": 1005.334,
+    "Q48_cap_ticks": 2193744,
+    "Q48_N1_hours_at_observed_RTF": 9.138774114769031,
+    "student_192_cap_ticks": 8774976,
+    "student_192_N1_hours_at_observed_RTF": 36.555096459076125
+  },
+  "source_files": [
+    {
+      "path": "reports/WM02/sla-d2-teacher-parallel-20261118/D2_CAUSAL_AUDIT_ACTUAL.json",
+      "sha256_read_content": "b53d58743bbd859ee57642e63492f7b6a1101aa3fcb63c88971f48bcf2f1a044",
+      "bytes_read_content": 57669,
+      "source_commit": "4d597259f2968d01c1694f9a9ee93dbc717695d1"
+    },
+    {
+      "path": "reports/WM02/sla-d2-teacher-parallel-20261118/D2_CAUSAL_AUDIT_ACTUAL.md",
+      "sha256_read_content": "78f5a5c606798165837573a523e642418a71c934df52b286d0e2b7f3d94e5b2d",
+      "bytes_read_content": 4173,
+      "source_commit": "4d597259f2968d01c1694f9a9ee93dbc717695d1"
+    },
+    {
+      "path": "reports/WM02/sla-d2-teacher-parallel-20261118/D2_PLACEMENT_PHASE_REPLAY_ACTUAL.json",
+      "sha256_read_content": "6c70b69c3e5dc153668741b591e96aee642d399b42fc79ba34f83229b2abc26d",
+      "bytes_read_content": 102874,
+      "source_commit": "4d597259f2968d01c1694f9a9ee93dbc717695d1"
+    },
+    {
+      "path": "reports/WM02/sla-d2-teacher-parallel-20261118/D2_PLACEMENT_PHASE_REPLAY_ACTUAL.md",
+      "sha256_read_content": "5c031e9f6f64f8dd0116caba6194466a23c9f6e74be3d76e545aad43adcb42ff",
+      "bytes_read_content": 7326,
+      "source_commit": "4d597259f2968d01c1694f9a9ee93dbc717695d1"
+    },
+    {
+      "path": "reports/WM02/sla-d2-teacher-parallel-20261118/PERFORMANCE_PARALLEL_ACTUAL.json",
+      "sha256_read_content": "e96ea69a6d4df9980efdc2f8e5caa77d75cb544504efc5333c04b91bd13cdda7",
+      "bytes_read_content": 33386,
+      "source_commit": "4d597259f2968d01c1694f9a9ee93dbc717695d1"
+    },
+    {
+      "path": "reports/WM02/sla-d2-teacher-parallel-20261118/PERFORMANCE_PARALLEL_ACTUAL.md",
+      "sha256_read_content": "0a17573b541f9caf6239361cf53f82d39f2c3fbe9275837c835ad0e9fb1fb870",
+      "bytes_read_content": 3193,
+      "source_commit": "4d597259f2968d01c1694f9a9ee93dbc717695d1"
+    },
+    {
+      "path": "reports/WM02/sla-d2-teacher-parallel-20261118/TEACHER_DEVELOPMENT_ACTUAL.json",
+      "sha256_read_content": "5b19c256be6b5a1b9eaeb57d3911b6bd2f54c7aafa433bc75f1b6cade0fc42ed",
+      "bytes_read_content": 46079,
+      "source_commit": "4d597259f2968d01c1694f9a9ee93dbc717695d1"
+    },
+    {
+      "path": "reports/WM02/sla-d2-teacher-parallel-20261118/TEACHER_DEVELOPMENT_ACTUAL.md",
+      "sha256_read_content": "010921cbbc99bf501ad4767e564e83178d2dcd52bb95b0f55c743ad1b205c786",
+      "bytes_read_content": 9463,
+      "source_commit": "4d597259f2968d01c1694f9a9ee93dbc717695d1"
+    },
+    {
+      "path": "reports/WM02/sla-d2-teacher-parallel-20261118/TEACHER_TRAIN_QUAL_ACTUAL.json",
+      "sha256_read_content": "b724765379d31ed8d34faed3e45c79de7a596183c3094c05a298556090f7eac2",
+      "bytes_read_content": 14730,
+      "source_commit": "4d597259f2968d01c1694f9a9ee93dbc717695d1"
+    },
+    {
+      "path": "reports/WM02/sla-d2-teacher-parallel-20261118/TEACHER_TRAIN_QUAL_ACTUAL.md",
+      "sha256_read_content": "3b51d7a005bf6c55a6fa0891052f43b14acdc502f3a5b3e6a04894bf49eaa114",
+      "bytes_read_content": 1250,
+      "source_commit": "4d597259f2968d01c1694f9a9ee93dbc717695d1"
+    }
+  ],
+  "audit_effects": {
+    "native_requests": 0,
+    "native_ticks": 0,
+    "model_generations": 0,
+    "optimizer_updates": 0,
+    "training_visits": 0
+  },
+  "cached_source_text_normalization": "trailing blank lines normalized to one newline; digests identify local read-content cache, not original Git blobs"
+}

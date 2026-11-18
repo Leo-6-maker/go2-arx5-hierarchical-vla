@@ -1,0 +1,1186 @@
+{
+  "schema": "SLA_D3_CAUSAL_DIAGNOSTICS_ACTUAL",
+  "status": "SEALED_R1_R2_INELIGIBLE",
+  "planned_science_conditions": 12,
+  "science_backend": "LEGACY_N1",
+  "first_setup_attempt": {
+    "epoch": 1795001868.5003312,
+    "unit": "wm02-sla-d3-r1-mechanism-pairs-20261118-01",
+    "unit_state": {
+      "MainPID": "0",
+      "ControlGroup": "",
+      "ActiveState": "inactive"
+    },
+    "owned_native_requests": 0,
+    "native_ticks": 0,
+    "registered_execution_spec_exists": false,
+    "registered_lease_exists": false,
+    "registered_case_dirs": 0,
+    "prepared_draft_cases": 12,
+    "receipt_sha256": "eb046bc749e0bea6aa1070d3b568b1620b382fb8d1701a354a2ac8e348a79c09",
+    "reason": "D3_ADMISSION_IMPORTED_COLD_COMPILER_DEPENDENCY"
+  },
+  "native_requests": 12,
+  "native_ticks": 167786,
+  "model_generations": 0,
+  "training_updates": 0,
+  "visits": 0,
+  "selected_reference": "UNKNOWN",
+  "registered_science_conditions": 12,
+  "source_sha": "d535f611f86b16d7c6341c88c8ed4cffac8e22c0",
+  "source_seal_sha256": "9e7d7b05dab9e6f79d1a62d69d7f27b8ce3062d0f4c792e506347663cb1bf2df",
+  "execution_spec_sha256": "f80dd20a77c9631a87353ce8bc415ef571cb736038b58c23856b66580d2bd358",
+  "frozen_rules_sha256": "c19a9ef932ce83fd9c47dad61101b2a1894150069de86062226b61569e3290b8",
+  "population_sha256": "7cfb63e201c35777eab0e3c57d781abee2b9bd86f7083104a588fdb8f5969504",
+  "unit": "wm02-sla-d3-r1-mechanism-pairs-20261118-02",
+  "supervisor_pid": 0,
+  "invocation_id": "dd55c689e46e4785a31e163a7772e7db",
+  "verified_in_cgroup": false,
+  "observed_epoch": 1795006601.6270802,
+  "deadline_epoch": 1795012761.1375186,
+  "frontend_dependency": false,
+  "resource_lease": "CLOSED",
+  "natively_dispatched": 12,
+  "native_ticks_closed": 167786,
+  "sealed_cases": 12,
+  "remaining_order_intact": true,
+  "launch_receipt_sha256": "cb2f1f0e26ed56f83aebf6f8921c576d2393bedc268cdee08db6f80cf61e76d9",
+  "independent_status_readback_sha256": "eb24b070b19fdf820db28bc356ee136ecac4e3d44311caea2490f01af87e0287",
+  "P1": {
+    "cases": [
+      {
+        "case": "D3-R1-F1-P1-CONTROL",
+        "arm": "CONTROL",
+        "native_ticks": 5703,
+        "failure_phase": "PREGRASP",
+        "first_failure": "D3_NO_COMPLETE_PREGRASP_CANDIDATE",
+        "candidate_paths": 105,
+        "actual_expert_queries": 0,
+        "consumed_atoms": 0,
+        "rejection_groups": [
+          {
+            "phase": "approach",
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "task_right_pad",
+              "task_table"
+            ],
+            "count": 35
+          },
+          {
+            "phase": "lower",
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "count": 31
+          },
+          {
+            "phase": "carry",
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "task_cube_geom",
+              "task_blue_cube_geom"
+            ],
+            "count": 29
+          },
+          {
+            "phase": "carry",
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "task_left_pad",
+              "task_blue_cube_geom"
+            ],
+            "count": 10
+          }
+        ],
+        "result_sha256": "a1b6b31bb611004236e0a83897d2a41173c618e126a96bd8ad1fe49a980d9034",
+        "scene_sha256": "89ade3e6eefe2e0e7d2cc7b4251ddaf50446696be8eee39e78b1da40e6299ad2"
+      },
+      {
+        "case": "D3-R1-F1-P1-TREATMENT",
+        "arm": "TREATMENT",
+        "native_ticks": 5703,
+        "failure_phase": "PREGRASP",
+        "first_failure": "D3_NO_COMPLETE_PREGRASP_CANDIDATE",
+        "candidate_paths": 105,
+        "actual_expert_queries": 0,
+        "consumed_atoms": 0,
+        "rejection_groups": [
+          {
+            "phase": "approach",
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "task_right_pad",
+              "task_table"
+            ],
+            "count": 35
+          },
+          {
+            "phase": "lower",
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "count": 31
+          },
+          {
+            "phase": "carry",
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "task_cube_geom",
+              "task_blue_cube_geom"
+            ],
+            "count": 29
+          },
+          {
+            "phase": "carry",
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "task_left_pad",
+              "task_blue_cube_geom"
+            ],
+            "count": 10
+          }
+        ],
+        "result_sha256": "56e1ce5eafd3c5f7accbed5a1449584ccbf9687edbe0b1bbb90eb89eb0d92ade",
+        "scene_sha256": "89ade3e6eefe2e0e7d2cc7b4251ddaf50446696be8eee39e78b1da40e6299ad2"
+      }
+    ],
+    "causal_outcome": "INCONCLUSIVE_MECHANISM_NOT_EXERCISED",
+    "treatment_milestone": false,
+    "first_failure": "D3_NO_COMPLETE_PREGRASP_CANDIDATE",
+    "applied_actual_G7_examples": 0,
+    "readback_sha256": "58476b05c5835dcf97b478c998642a207f84fc70210a85016209462004fb97b7"
+  },
+  "R2_gate_still_possible": false,
+  "pre_terminal_snapshot": {
+    "observed_epoch": 1795002140.843527,
+    "sealed_cases": 2,
+    "natively_dispatched": 3
+  },
+  "terminal": {
+    "epoch": 1795006601.6270802,
+    "source_sha": "d535f611f86b16d7c6341c88c8ed4cffac8e22c0",
+    "spec_sha256": "f80dd20a77c9631a87353ce8bc415ef571cb736038b58c23856b66580d2bd358",
+    "population_sha256": "7cfb63e201c35777eab0e3c57d781abee2b9bd86f7083104a588fdb8f5969504",
+    "campaign_result_sha256": "091d4e1e2f622a3e1e408e9b577eae5a52932d3620092d281d33731fcd47a267",
+    "lease": "CLOSED",
+    "runner_wall_s": 2435.6592406341806,
+    "native_requests": 12,
+    "native_ticks": 167786,
+    "actual_expert_H40": 401,
+    "confirmed_P10_atoms": 3974,
+    "hard_STOP": 0,
+    "technical_failures": 0,
+    "treatment_passes": 0,
+    "full_original_score": 1,
+    "actual_updates": 0,
+    "visits": 0,
+    "generations": 0,
+    "hardware_requests": 0,
+    "qualified_training_members": 0,
+    "cases": [
+      {
+        "id": "D3-R1-F1-P1-CONTROL",
+        "family": "F1",
+        "instruction": "PLACE-red-left",
+        "arm": "CONTROL",
+        "pair": "P1",
+        "mechanism": "INTERNAL_RELATIVE_CLEARANCE",
+        "reset": 678000,
+        "seed": 2036959800,
+        "case_spec_sha256": "c8ae6e7fed234282fd9146b44f1ee6cdc41548168d3a72aed1fe704de914c004",
+        "source_scene_sha256": "89ade3e6eefe2e0e7d2cc7b4251ddaf50446696be8eee39e78b1da40e6299ad2",
+        "native_result_sha256": "a1b6b31bb611004236e0a83897d2a41173c618e126a96bd8ad1fe49a980d9034",
+        "native_ticks": 5703,
+        "first_failure": "D3_NO_COMPLETE_PREGRASP_CANDIDATE",
+        "failure_stage": "PREGRASP",
+        "geometry": {
+          "rejected_approach_corridors": 0,
+          "candidate_paths": 105,
+          "attempt_breakdown": [
+            {
+              "phase": "approach",
+              "reason": "TEACHER_CLEARANCE_MARGIN",
+              "pair": [
+                "task_right_pad",
+                "task_table"
+              ],
+              "count": 35
+            },
+            {
+              "phase": "lower",
+              "reason": "TEACHER_CLEARANCE_MARGIN",
+              "pair": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "count": 31
+            },
+            {
+              "phase": "carry",
+              "reason": "TEACHER_CLEARANCE_MARGIN",
+              "pair": [
+                "task_cube_geom",
+                "task_blue_cube_geom"
+              ],
+              "count": 29
+            },
+            {
+              "phase": "carry",
+              "reason": "TEACHER_CLEARANCE_MARGIN",
+              "pair": [
+                "task_left_pad",
+                "task_blue_cube_geom"
+              ],
+              "count": 10
+            }
+          ]
+        },
+        "consumed": {
+          "H40_queries": 0,
+          "confirmed_atoms": 0,
+          "terminal_native_step": 5703
+        },
+        "task_and_mobile": false,
+        "treatment_milestone": false,
+        "G7_diagnostic_pass": false,
+        "in_original_M2_TRAIN": false,
+        "maximum_lift": 0.0,
+        "ever_target_grasp": false,
+        "correct_region": null,
+        "hold_s": 0.0,
+        "directional_base_motion_m": null,
+        "stages": [],
+        "worker_wall_s": 62.376758666709065,
+        "worker_CPU_s": 35.258403724
+      },
+      {
+        "id": "D3-R1-F1-P1-TREATMENT",
+        "family": "F1",
+        "instruction": "PLACE-red-left",
+        "arm": "TREATMENT",
+        "pair": "P1",
+        "mechanism": "INTERNAL_RELATIVE_CLEARANCE",
+        "reset": 678000,
+        "seed": 2036959800,
+        "case_spec_sha256": "b0656988b50ce00fc7c84f69c6d2e34d4148a8122607d18315320e0ebc93f726",
+        "source_scene_sha256": "89ade3e6eefe2e0e7d2cc7b4251ddaf50446696be8eee39e78b1da40e6299ad2",
+        "native_result_sha256": "56e1ce5eafd3c5f7accbed5a1449584ccbf9687edbe0b1bbb90eb89eb0d92ade",
+        "native_ticks": 5703,
+        "first_failure": "D3_NO_COMPLETE_PREGRASP_CANDIDATE",
+        "failure_stage": "PREGRASP",
+        "geometry": {
+          "rejected_approach_corridors": 0,
+          "candidate_paths": 105,
+          "attempt_breakdown": [
+            {
+              "phase": "approach",
+              "reason": "TEACHER_CLEARANCE_MARGIN",
+              "pair": [
+                "task_right_pad",
+                "task_table"
+              ],
+              "count": 35
+            },
+            {
+              "phase": "lower",
+              "reason": "TEACHER_CLEARANCE_MARGIN",
+              "pair": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "count": 31
+            },
+            {
+              "phase": "carry",
+              "reason": "TEACHER_CLEARANCE_MARGIN",
+              "pair": [
+                "task_cube_geom",
+                "task_blue_cube_geom"
+              ],
+              "count": 29
+            },
+            {
+              "phase": "carry",
+              "reason": "TEACHER_CLEARANCE_MARGIN",
+              "pair": [
+                "task_left_pad",
+                "task_blue_cube_geom"
+              ],
+              "count": 10
+            }
+          ]
+        },
+        "consumed": {
+          "H40_queries": 0,
+          "confirmed_atoms": 0,
+          "terminal_native_step": 5703
+        },
+        "task_and_mobile": false,
+        "treatment_milestone": false,
+        "G7_diagnostic_pass": false,
+        "in_original_M2_TRAIN": false,
+        "maximum_lift": 0.0,
+        "ever_target_grasp": false,
+        "correct_region": null,
+        "hold_s": 0.0,
+        "directional_base_motion_m": null,
+        "stages": [],
+        "worker_wall_s": 62.48542163707316,
+        "worker_CPU_s": 35.059007763
+      },
+      {
+        "id": "D3-R1-F2-P2-TREATMENT",
+        "family": "F2",
+        "instruction": "HOLD-red",
+        "arm": "TREATMENT",
+        "pair": "P2",
+        "mechanism": "APPROACH_TOPOLOGY",
+        "reset": 678010,
+        "seed": 2036959960,
+        "case_spec_sha256": "509bb999e4124d35aa6cb91ddb51fe5dc97600ad9efaf53063c817489331c865",
+        "source_scene_sha256": "ed44814cadd49ad49ef612277bcd626ccdadc1e8f84741718b92f0f06703d92e",
+        "native_result_sha256": "f6c5c8193e13bedbc7f968ad3a709f7635a5b8773865a71b2c4f9e5ca4583884",
+        "native_ticks": 16453,
+        "first_failure": "D3_FILTERED_P10_GEOMETRY_REJECTION",
+        "failure_stage": "PREGRASP",
+        "geometry": {
+          "stage": "PREGRASP",
+          "checks": [
+            {
+              "passed": true,
+              "phase": "approach",
+              "sample_count": 22,
+              "gap_m": 0.027380408448199896,
+              "pair": [
+                "",
+                "task_table"
+              ],
+              "margin_m": 0.004970272046995796
+            },
+            {
+              "passed": false,
+              "reason": "TEACHER_CLEARANCE_MARGIN",
+              "phase": "approach",
+              "sample_count": 22,
+              "gap_m": 0.0036040377695388606,
+              "pair": [
+                "",
+                "task_table"
+              ],
+              "margin_m": 0.004970272046995796,
+              "segment": 10,
+              "segment_fraction": 1.0
+            }
+          ]
+        },
+        "consumed": {
+          "H40_queries": 43,
+          "confirmed_atoms": 430,
+          "terminal_native_step": 16453
+        },
+        "task_and_mobile": false,
+        "treatment_milestone": false,
+        "G7_diagnostic_pass": false,
+        "in_original_M2_TRAIN": false,
+        "maximum_lift": 0.0,
+        "ever_target_grasp": false,
+        "correct_region": null,
+        "hold_s": 0.0,
+        "directional_base_motion_m": 0.14196419564944285,
+        "stages": [
+          {
+            "stage": "PREGRASP",
+            "native_step": 5703
+          }
+        ],
+        "worker_wall_s": 257.2968482170254,
+        "worker_CPU_s": 179.87527684800003
+      },
+      {
+        "id": "D3-R1-F2-P2-CONTROL",
+        "family": "F2",
+        "instruction": "HOLD-red",
+        "arm": "CONTROL",
+        "pair": "P2",
+        "mechanism": "APPROACH_TOPOLOGY",
+        "reset": 678010,
+        "seed": 2036959960,
+        "case_spec_sha256": "56f2251c812f1ae4c33d5aa072f66f3f782d55fa5bcf35134270f4c9c8e7c53d",
+        "source_scene_sha256": "ed44814cadd49ad49ef612277bcd626ccdadc1e8f84741718b92f0f06703d92e",
+        "native_result_sha256": "9e8e79d6ee63738a9b93c61210d523c9890c180a4bec8034ff426f9ce5d21d70",
+        "native_ticks": 5703,
+        "first_failure": "D3_NO_HOLD_APPROACH_CORRIDOR",
+        "failure_stage": "PREGRASP",
+        "geometry": {
+          "candidate_paths": 4,
+          "attempt_breakdown": [
+            {
+              "phase": "approach",
+              "reason": "TEACHER_CLEARANCE_MARGIN",
+              "pair": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "count": 4
+            }
+          ]
+        },
+        "consumed": {
+          "H40_queries": 0,
+          "confirmed_atoms": 0,
+          "terminal_native_step": 5703
+        },
+        "task_and_mobile": false,
+        "treatment_milestone": false,
+        "G7_diagnostic_pass": false,
+        "in_original_M2_TRAIN": false,
+        "maximum_lift": 0.0,
+        "ever_target_grasp": false,
+        "correct_region": null,
+        "hold_s": 0.0,
+        "directional_base_motion_m": null,
+        "stages": [],
+        "worker_wall_s": 57.69100559037179,
+        "worker_CPU_s": 31.546126849
+      },
+      {
+        "id": "D3-R1-F2-P3-CONTROL",
+        "family": "F2",
+        "instruction": "PLACE-blue-right",
+        "arm": "CONTROL",
+        "pair": "P3",
+        "mechanism": "EXTERNAL_CARRY_ROUTE",
+        "reset": 678020,
+        "seed": 2036960120,
+        "case_spec_sha256": "58f884d5fda7d8552ecbb2ae889a9ac4ec57341009915e5d484ca95d6186732e",
+        "source_scene_sha256": "0c4b4dc0c0d40d0b1c4a062bfdda36b2495e1b3b5eab3959c0f861193e9fd378",
+        "native_result_sha256": "f3f9a6161a3084e85e5163b0fef19227936d7b2d4f824025416141667e9bd862",
+        "native_ticks": 15953,
+        "first_failure": "D3_MEASURED_APPROACH_ATOM_CLEARANCE",
+        "failure_stage": "DESCEND",
+        "geometry": {
+          "passed": false,
+          "reason": "TEACHER_CLEARANCE_MARGIN",
+          "phase": "approach",
+          "sample_count": 3,
+          "gap_m": 0.0024956593527886064,
+          "pair": [
+            "task_right_pad",
+            "task_blue_cube_geom"
+          ],
+          "margin_m": 0.003707091520755895,
+          "segment": 0,
+          "segment_fraction": 0.5,
+          "atom": 0,
+          "prior_actual_50ms": true
+        },
+        "consumed": {
+          "H40_queries": 42,
+          "confirmed_atoms": 410,
+          "terminal_native_step": 15953
+        },
+        "task_and_mobile": false,
+        "treatment_milestone": false,
+        "G7_diagnostic_pass": false,
+        "in_original_M2_TRAIN": false,
+        "maximum_lift": 0.0,
+        "ever_target_grasp": false,
+        "correct_region": null,
+        "hold_s": 0.0,
+        "directional_base_motion_m": 0.09571189746887485,
+        "stages": [
+          {
+            "stage": "PREGRASP",
+            "native_step": 5703
+          },
+          {
+            "stage": "DESCEND",
+            "native_step": 13203
+          }
+        ],
+        "worker_wall_s": 234.7332430994138,
+        "worker_CPU_s": 159.749390967
+      },
+      {
+        "id": "D3-R1-F2-P3-TREATMENT",
+        "family": "F2",
+        "instruction": "PLACE-blue-right",
+        "arm": "TREATMENT",
+        "pair": "P3",
+        "mechanism": "EXTERNAL_CARRY_ROUTE",
+        "reset": 678020,
+        "seed": 2036960120,
+        "case_spec_sha256": "770831fbe7d526f0987ce4cfa97350d77b0e27606b9bceaa586f0465cc45d3cc",
+        "source_scene_sha256": "0c4b4dc0c0d40d0b1c4a062bfdda36b2495e1b3b5eab3959c0f861193e9fd378",
+        "native_result_sha256": "6b09eb9d203af761811a939a3f5057cc79ab2e6d4419b660adb5864ca14d7389",
+        "native_ticks": 12428,
+        "first_failure": "D3_MEASURED_APPROACH_ATOM_CLEARANCE",
+        "failure_stage": "PREGRASP",
+        "geometry": {
+          "passed": false,
+          "reason": "TEACHER_CLEARANCE_MARGIN",
+          "phase": "approach",
+          "sample_count": 6,
+          "gap_m": 0.002010782730390112,
+          "pair": [
+            "",
+            "task_blue_cube_geom"
+          ],
+          "margin_m": 0.004162247396898151,
+          "segment": 0,
+          "segment_fraction": 1.0,
+          "atom": 9,
+          "prior_actual_50ms": true
+        },
+        "consumed": {
+          "H40_queries": 27,
+          "confirmed_atoms": 269,
+          "terminal_native_step": 12428
+        },
+        "task_and_mobile": false,
+        "treatment_milestone": false,
+        "G7_diagnostic_pass": false,
+        "in_original_M2_TRAIN": false,
+        "maximum_lift": 0.0,
+        "ever_target_grasp": false,
+        "correct_region": null,
+        "hold_s": 0.0,
+        "directional_base_motion_m": 0.1357336396942444,
+        "stages": [
+          {
+            "stage": "PREGRASP",
+            "native_step": 5703
+          }
+        ],
+        "worker_wall_s": 178.84442292060703,
+        "worker_CPU_s": 120.421828311
+      },
+      {
+        "id": "D3-R1-F1-P4-TREATMENT",
+        "family": "F1",
+        "instruction": "PLACE-red-right",
+        "arm": "TREATMENT",
+        "pair": "P4",
+        "mechanism": "SUPPORTED_RELEASE",
+        "reset": 678030,
+        "seed": 2036960280,
+        "case_spec_sha256": "0fe426281cae83a6ca3be7b9a7eb1e2e77f7ddad85b17122dd71b3c1361a3c49",
+        "source_scene_sha256": "2a4b0de7f48ecf99f5eeca3ab013bd8b5b19be0bb693672efb0e990e039a03e8",
+        "native_result_sha256": "77bd2e752de16543822e0071c0e8de09dac255a7694b8ca50ffb22037da12375",
+        "native_ticks": 16928,
+        "first_failure": "D3_MEASURED_APPROACH_ATOM_CLEARANCE",
+        "failure_stage": "DESCEND",
+        "geometry": {
+          "passed": false,
+          "reason": "TEACHER_CLEARANCE_MARGIN",
+          "phase": "approach",
+          "sample_count": 4,
+          "gap_m": 0.0032294920849524986,
+          "pair": [
+            "task_right_pad",
+            "task_table"
+          ],
+          "margin_m": 0.003258265777753338,
+          "segment": 0,
+          "segment_fraction": 1.0,
+          "atom": 9,
+          "prior_actual_50ms": true
+        },
+        "consumed": {
+          "H40_queries": 45,
+          "confirmed_atoms": 449,
+          "terminal_native_step": 16928
+        },
+        "task_and_mobile": false,
+        "treatment_milestone": false,
+        "G7_diagnostic_pass": false,
+        "in_original_M2_TRAIN": false,
+        "maximum_lift": 0.0,
+        "ever_target_grasp": false,
+        "correct_region": null,
+        "hold_s": 0.0,
+        "directional_base_motion_m": 0.12086344815325197,
+        "stages": [
+          {
+            "stage": "PREGRASP",
+            "native_step": 5703
+          },
+          {
+            "stage": "DESCEND",
+            "native_step": 12953
+          }
+        ],
+        "worker_wall_s": 249.1094687860459,
+        "worker_CPU_s": 169.43343963
+      },
+      {
+        "id": "D3-R1-F1-P4-CONTROL",
+        "family": "F1",
+        "instruction": "PLACE-red-right",
+        "arm": "CONTROL",
+        "pair": "P4",
+        "mechanism": "SUPPORTED_RELEASE",
+        "reset": 678030,
+        "seed": 2036960280,
+        "case_spec_sha256": "1965f2527f9ce598f4e604cfe7f334aa5672f9d4f13c109cb32b96c95fab18db",
+        "source_scene_sha256": "2a4b0de7f48ecf99f5eeca3ab013bd8b5b19be0bb693672efb0e990e039a03e8",
+        "native_result_sha256": "059c430c8ab0f998b2abbb2921cd0bc6e0db443be9f405833e72eccb8ec3390a",
+        "native_ticks": 16703,
+        "first_failure": "D3_FILTERED_P10_GEOMETRY_REJECTION",
+        "failure_stage": "DESCEND",
+        "geometry": {
+          "stage": "DESCEND",
+          "checks": [
+            {
+              "passed": false,
+              "reason": "TEACHER_CLEARANCE_MARGIN",
+              "phase": "approach",
+              "sample_count": 12,
+              "gap_m": -0.06619630221397235,
+              "pair": [
+                "task_left_pad",
+                "task_cube_geom"
+              ],
+              "margin_m": 0.0038541414337796053,
+              "segment": 5,
+              "segment_fraction": 1.0
+            }
+          ]
+        },
+        "consumed": {
+          "H40_queries": 44,
+          "confirmed_atoms": 440,
+          "terminal_native_step": 16703
+        },
+        "task_and_mobile": false,
+        "treatment_milestone": false,
+        "G7_diagnostic_pass": false,
+        "in_original_M2_TRAIN": false,
+        "maximum_lift": 0.0,
+        "ever_target_grasp": false,
+        "correct_region": null,
+        "hold_s": 0.0,
+        "directional_base_motion_m": 0.12549031743109199,
+        "stages": [
+          {
+            "stage": "PREGRASP",
+            "native_step": 5703
+          },
+          {
+            "stage": "DESCEND",
+            "native_step": 12703
+          }
+        ],
+        "worker_wall_s": 248.90317978244275,
+        "worker_CPU_s": 167.056403312
+      },
+      {
+        "id": "D3-R1-F1-P5-CONTROL",
+        "family": "F1",
+        "instruction": "HOLD-blue",
+        "arm": "CONTROL",
+        "pair": "P5",
+        "mechanism": "DESCEND_CLOSE_PREFIX",
+        "reset": 678040,
+        "seed": 2036960440,
+        "case_spec_sha256": "93dea4745eb73a93c32106bf6c86ac9ea80ce3bf7c9201ea77f1fd235fe25031",
+        "source_scene_sha256": "8e64e5dd1d560da9f5814063549beb0cb7209085f2b0cd7420017efdaf96d94c",
+        "native_result_sha256": "2de005cb8a18843c31970fc16ad95ec14c2d27b172e79828bf3bfd6b66538ddd",
+        "native_ticks": 22953,
+        "first_failure": "TASK_SUCCESS",
+        "failure_stage": null,
+        "geometry": null,
+        "consumed": {
+          "H40_queries": 69,
+          "confirmed_atoms": 690,
+          "terminal_native_step": 22953
+        },
+        "task_and_mobile": true,
+        "treatment_milestone": true,
+        "G7_diagnostic_pass": true,
+        "in_original_M2_TRAIN": false,
+        "maximum_lift": 0.02441954811560998,
+        "ever_target_grasp": true,
+        "correct_region": null,
+        "hold_s": 1.026000000001254,
+        "directional_base_motion_m": 0.08923304423414156,
+        "stages": [
+          {
+            "stage": "PREGRASP",
+            "native_step": 5703
+          },
+          {
+            "stage": "DESCEND",
+            "native_step": 12953
+          },
+          {
+            "stage": "CLOSE",
+            "native_step": 19453
+          },
+          {
+            "stage": "LIFT",
+            "native_step": 20203
+          },
+          {
+            "stage": "HOLD",
+            "native_step": 22453
+          }
+        ],
+        "worker_wall_s": 339.2668401841074,
+        "worker_CPU_s": 228.869741818
+      },
+      {
+        "id": "D3-R1-F1-P5-TREATMENT",
+        "family": "F1",
+        "instruction": "HOLD-blue",
+        "arm": "TREATMENT",
+        "pair": "P5",
+        "mechanism": "DESCEND_CLOSE_PREFIX",
+        "reset": 678040,
+        "seed": 2036960440,
+        "case_spec_sha256": "51507591895cb323d3bf3ca4485cd1581f31d70e5b9f0ed614366b199468483f",
+        "source_scene_sha256": "8e64e5dd1d560da9f5814063549beb0cb7209085f2b0cd7420017efdaf96d94c",
+        "native_result_sha256": "02ec2095b52a0383f401fcc24766ac88dfb01063cedd97b0e7f510fccb14be3f",
+        "native_ticks": 15078,
+        "first_failure": "D3_MEASURED_APPROACH_ATOM_CLEARANCE",
+        "failure_stage": "DESCEND",
+        "geometry": {
+          "passed": false,
+          "reason": "TEACHER_CLEARANCE_MARGIN",
+          "phase": "approach",
+          "sample_count": 4,
+          "gap_m": 0.003777081900036401,
+          "pair": [
+            "",
+            "task_blue_cube_geom"
+          ],
+          "margin_m": 0.0038628405835595308,
+          "segment": 0,
+          "segment_fraction": 1.0,
+          "atom": 5,
+          "prior_actual_50ms": true
+        },
+        "consumed": {
+          "H40_queries": 38,
+          "confirmed_atoms": 375,
+          "terminal_native_step": 15078
+        },
+        "task_and_mobile": false,
+        "treatment_milestone": false,
+        "G7_diagnostic_pass": false,
+        "in_original_M2_TRAIN": false,
+        "maximum_lift": 0.0,
+        "ever_target_grasp": false,
+        "correct_region": null,
+        "hold_s": 0.0,
+        "directional_base_motion_m": 0.1366528312740177,
+        "stages": [
+          {
+            "stage": "PREGRASP",
+            "native_step": 5703
+          },
+          {
+            "stage": "DESCEND",
+            "native_step": 13703
+          }
+        ],
+        "worker_wall_s": 217.98279078304768,
+        "worker_CPU_s": 147.246737175
+      },
+      {
+        "id": "D3-R1-F2-P6-TREATMENT",
+        "family": "F2",
+        "instruction": "HOLD-blue",
+        "arm": "TREATMENT",
+        "pair": "P6",
+        "mechanism": "MOBILE_HOLD_SIMULTANEITY",
+        "reset": 678050,
+        "seed": 2036960600,
+        "case_spec_sha256": "f338e65298b3d09d220a23530031e33edb64f63fb90d5dac33c0cd1c531b9836",
+        "source_scene_sha256": "a556f211ff49aadc7608eb301a5763fe726748b70536bba08dcb68edb802738f",
+        "native_result_sha256": "d86751bb83e1942544ea51ecdf9cbb448d875e296206f6a39210ca9e73e376b1",
+        "native_ticks": 18478,
+        "first_failure": "D3_MEASURED_APPROACH_ATOM_CLEARANCE",
+        "failure_stage": "DESCEND",
+        "geometry": {
+          "passed": false,
+          "reason": "TEACHER_CLEARANCE_MARGIN",
+          "phase": "approach",
+          "sample_count": 3,
+          "gap_m": 0.0031672608546082625,
+          "pair": [
+            "task_right_pad",
+            "task_table"
+          ],
+          "margin_m": 0.0031765446507534103,
+          "segment": 0,
+          "segment_fraction": 0.6666666666666666,
+          "atom": 1,
+          "prior_actual_50ms": true
+        },
+        "consumed": {
+          "H40_queries": 52,
+          "confirmed_atoms": 511,
+          "terminal_native_step": 18478
+        },
+        "task_and_mobile": false,
+        "treatment_milestone": false,
+        "G7_diagnostic_pass": false,
+        "in_original_M2_TRAIN": false,
+        "maximum_lift": 0.0,
+        "ever_target_grasp": false,
+        "correct_region": null,
+        "hold_s": 0.0,
+        "directional_base_motion_m": 0.08273704169879878,
+        "stages": [
+          {
+            "stage": "PREGRASP",
+            "native_step": 5703
+          },
+          {
+            "stage": "DESCEND",
+            "native_step": 13703
+          }
+        ],
+        "worker_wall_s": 275.0290125589818,
+        "worker_CPU_s": 187.983291614
+      },
+      {
+        "id": "D3-R1-F2-P6-CONTROL",
+        "family": "F2",
+        "instruction": "HOLD-blue",
+        "arm": "CONTROL",
+        "pair": "P6",
+        "mechanism": "MOBILE_HOLD_SIMULTANEITY",
+        "reset": 678050,
+        "seed": 2036960600,
+        "case_spec_sha256": "b56e611790bc34e13cb78e24dd0f16ea11763d291afe398126126a8a500b7d58",
+        "source_scene_sha256": "a556f211ff49aadc7608eb301a5763fe726748b70536bba08dcb68edb802738f",
+        "native_result_sha256": "cc73b36210ff6e6af9b0b83802baabf8dabd3e588a70f7d89048560b5fe6f67a",
+        "native_ticks": 15703,
+        "first_failure": "D3_MEASURED_APPROACH_ATOM_CLEARANCE",
+        "failure_stage": "DESCEND",
+        "geometry": {
+          "passed": false,
+          "reason": "TEACHER_CLEARANCE_MARGIN",
+          "phase": "approach",
+          "sample_count": 2,
+          "gap_m": 0.002352570539468822,
+          "pair": [
+            "task_right_pad",
+            "task_blue_cube_geom"
+          ],
+          "margin_m": 0.004038872918824982,
+          "segment": 0,
+          "segment_fraction": 0.5,
+          "atom": 0,
+          "prior_actual_50ms": true
+        },
+        "consumed": {
+          "H40_queries": 41,
+          "confirmed_atoms": 400,
+          "terminal_native_step": 15703
+        },
+        "task_and_mobile": false,
+        "treatment_milestone": false,
+        "G7_diagnostic_pass": false,
+        "in_original_M2_TRAIN": false,
+        "maximum_lift": 0.0,
+        "ever_target_grasp": false,
+        "correct_region": null,
+        "hold_s": 0.0,
+        "directional_base_motion_m": 0.10033014111613453,
+        "stages": [
+          {
+            "stage": "PREGRASP",
+            "native_step": 5703
+          },
+          {
+            "stage": "DESCEND",
+            "native_step": 13203
+          }
+        ],
+        "worker_wall_s": 230.62208099197596,
+        "worker_CPU_s": 155.12757399
+      }
+    ],
+    "unstarted": {
+      "R2": {
+        "conditions": [
+          "D3-R2-F1-1-HOLD-red",
+          "D3-R2-F1-1-HOLD-blue",
+          "D3-R2-F1-1-PLACE-red-left",
+          "D3-R2-F1-1-PLACE-red-right",
+          "D3-R2-F1-1-PLACE-blue-left",
+          "D3-R2-F1-1-PLACE-blue-right",
+          "D3-R2-F2-1-HOLD-red",
+          "D3-R2-F2-1-HOLD-blue",
+          "D3-R2-F2-1-PLACE-red-left",
+          "D3-R2-F2-1-PLACE-red-right",
+          "D3-R2-F2-1-PLACE-blue-left",
+          "D3-R2-F2-1-PLACE-blue-right"
+        ],
+        "native_denominator": 12,
+        "actual_dispatch": 0,
+        "actual_ticks": 0
+      },
+      "QUAL": {
+        "conditions": [
+          "D3-QUAL-F1-1-HOLD-red",
+          "D3-QUAL-F1-1-HOLD-blue",
+          "D3-QUAL-F1-1-PLACE-red-left",
+          "D3-QUAL-F1-1-PLACE-red-right",
+          "D3-QUAL-F1-1-PLACE-blue-left",
+          "D3-QUAL-F1-1-PLACE-blue-right",
+          "D3-QUAL-F2-1-HOLD-red",
+          "D3-QUAL-F2-1-HOLD-blue",
+          "D3-QUAL-F2-1-PLACE-red-left",
+          "D3-QUAL-F2-1-PLACE-red-right",
+          "D3-QUAL-F2-1-PLACE-blue-left",
+          "D3-QUAL-F2-1-PLACE-blue-right",
+          "D3-QUAL-F1-2-HOLD-red",
+          "D3-QUAL-F1-2-HOLD-blue",
+          "D3-QUAL-F1-2-PLACE-red-left",
+          "D3-QUAL-F1-2-PLACE-red-right",
+          "D3-QUAL-F1-2-PLACE-blue-left",
+          "D3-QUAL-F1-2-PLACE-blue-right",
+          "D3-QUAL-F2-2-HOLD-red",
+          "D3-QUAL-F2-2-HOLD-blue",
+          "D3-QUAL-F2-2-PLACE-red-left",
+          "D3-QUAL-F2-2-PLACE-red-right",
+          "D3-QUAL-F2-2-PLACE-blue-left",
+          "D3-QUAL-F2-2-PLACE-blue-right",
+          "D3-QUAL-F1-3-HOLD-red",
+          "D3-QUAL-F1-3-HOLD-blue",
+          "D3-QUAL-F1-3-PLACE-red-left",
+          "D3-QUAL-F1-3-PLACE-red-right",
+          "D3-QUAL-F1-3-PLACE-blue-left",
+          "D3-QUAL-F1-3-PLACE-blue-right",
+          "D3-QUAL-F2-3-HOLD-red",
+          "D3-QUAL-F2-3-HOLD-blue",
+          "D3-QUAL-F2-3-PLACE-red-left",
+          "D3-QUAL-F2-3-PLACE-red-right",
+          "D3-QUAL-F2-3-PLACE-blue-left",
+          "D3-QUAL-F2-3-PLACE-blue-right",
+          "D3-QUAL-F1-4-HOLD-red",
+          "D3-QUAL-F1-4-HOLD-blue",
+          "D3-QUAL-F1-4-PLACE-red-left",
+          "D3-QUAL-F1-4-PLACE-red-right",
+          "D3-QUAL-F1-4-PLACE-blue-left",
+          "D3-QUAL-F1-4-PLACE-blue-right",
+          "D3-QUAL-F2-4-HOLD-red",
+          "D3-QUAL-F2-4-HOLD-blue",
+          "D3-QUAL-F2-4-PLACE-red-left",
+          "D3-QUAL-F2-4-PLACE-red-right",
+          "D3-QUAL-F2-4-PLACE-blue-left",
+          "D3-QUAL-F2-4-PLACE-blue-right"
+        ],
+        "native_denominator": 48,
+        "actual_dispatch": 0,
+        "actual_ticks": 0
+      },
+      "M2_SCREEN": {
+        "conditions": [
+          "D3-M2_SCREEN-F1-1-HOLD-red",
+          "D3-M2_SCREEN-F1-1-HOLD-blue",
+          "D3-M2_SCREEN-F1-1-PLACE-red-left",
+          "D3-M2_SCREEN-F1-1-PLACE-red-right",
+          "D3-M2_SCREEN-F1-1-PLACE-blue-left",
+          "D3-M2_SCREEN-F1-1-PLACE-blue-right",
+          "D3-M2_SCREEN-F2-1-HOLD-red",
+          "D3-M2_SCREEN-F2-1-HOLD-blue",
+          "D3-M2_SCREEN-F2-1-PLACE-red-left",
+          "D3-M2_SCREEN-F2-1-PLACE-red-right",
+          "D3-M2_SCREEN-F2-1-PLACE-blue-left",
+          "D3-M2_SCREEN-F2-1-PLACE-blue-right",
+          "D3-M2_SCREEN-F1-2-HOLD-red",
+          "D3-M2_SCREEN-F1-2-HOLD-blue",
+          "D3-M2_SCREEN-F1-2-PLACE-red-left",
+          "D3-M2_SCREEN-F1-2-PLACE-red-right",
+          "D3-M2_SCREEN-F1-2-PLACE-blue-left",
+          "D3-M2_SCREEN-F1-2-PLACE-blue-right",
+          "D3-M2_SCREEN-F2-2-HOLD-red",
+          "D3-M2_SCREEN-F2-2-HOLD-blue",
+          "D3-M2_SCREEN-F2-2-PLACE-red-left",
+          "D3-M2_SCREEN-F2-2-PLACE-red-right",
+          "D3-M2_SCREEN-F2-2-PLACE-blue-left",
+          "D3-M2_SCREEN-F2-2-PLACE-blue-right"
+        ],
+        "native_denominator": 48,
+        "actual_dispatch": 0,
+        "actual_ticks": 0
+      },
+      "M2_CONFIRM": {
+        "conditions": [
+          "D3-M2_CONFIRM-F1-1-HOLD-red",
+          "D3-M2_CONFIRM-F1-1-HOLD-blue",
+          "D3-M2_CONFIRM-F1-1-PLACE-red-left",
+          "D3-M2_CONFIRM-F1-1-PLACE-red-right",
+          "D3-M2_CONFIRM-F1-1-PLACE-blue-left",
+          "D3-M2_CONFIRM-F1-1-PLACE-blue-right",
+          "D3-M2_CONFIRM-F2-1-HOLD-red",
+          "D3-M2_CONFIRM-F2-1-HOLD-blue",
+          "D3-M2_CONFIRM-F2-1-PLACE-red-left",
+          "D3-M2_CONFIRM-F2-1-PLACE-red-right",
+          "D3-M2_CONFIRM-F2-1-PLACE-blue-left",
+          "D3-M2_CONFIRM-F2-1-PLACE-blue-right",
+          "D3-M2_CONFIRM-F1-2-HOLD-red",
+          "D3-M2_CONFIRM-F1-2-HOLD-blue",
+          "D3-M2_CONFIRM-F1-2-PLACE-red-left",
+          "D3-M2_CONFIRM-F1-2-PLACE-red-right",
+          "D3-M2_CONFIRM-F1-2-PLACE-blue-left",
+          "D3-M2_CONFIRM-F1-2-PLACE-blue-right",
+          "D3-M2_CONFIRM-F2-2-HOLD-red",
+          "D3-M2_CONFIRM-F2-2-HOLD-blue",
+          "D3-M2_CONFIRM-F2-2-PLACE-red-left",
+          "D3-M2_CONFIRM-F2-2-PLACE-red-right",
+          "D3-M2_CONFIRM-F2-2-PLACE-blue-left",
+          "D3-M2_CONFIRM-F2-2-PLACE-blue-right"
+        ],
+        "native_denominator": 24,
+        "actual_dispatch": 0,
+        "actual_ticks": 0
+      },
+      "M2_DEV": {
+        "conditions": [
+          "D3-M2_DEV-F1-1-HOLD-red",
+          "D3-M2_DEV-F1-1-HOLD-blue",
+          "D3-M2_DEV-F1-1-PLACE-red-left",
+          "D3-M2_DEV-F1-1-PLACE-red-right",
+          "D3-M2_DEV-F1-1-PLACE-blue-left",
+          "D3-M2_DEV-F1-1-PLACE-blue-right",
+          "D3-M2_DEV-F2-1-HOLD-red",
+          "D3-M2_DEV-F2-1-HOLD-blue",
+          "D3-M2_DEV-F2-1-PLACE-red-left",
+          "D3-M2_DEV-F2-1-PLACE-red-right",
+          "D3-M2_DEV-F2-1-PLACE-blue-left",
+          "D3-M2_DEV-F2-1-PLACE-blue-right",
+          "D3-M2_DEV-F1-2-HOLD-red",
+          "D3-M2_DEV-F1-2-HOLD-blue",
+          "D3-M2_DEV-F1-2-PLACE-red-left",
+          "D3-M2_DEV-F1-2-PLACE-red-right",
+          "D3-M2_DEV-F1-2-PLACE-blue-left",
+          "D3-M2_DEV-F1-2-PLACE-blue-right",
+          "D3-M2_DEV-F2-2-HOLD-red",
+          "D3-M2_DEV-F2-2-HOLD-blue",
+          "D3-M2_DEV-F2-2-PLACE-red-left",
+          "D3-M2_DEV-F2-2-PLACE-red-right",
+          "D3-M2_DEV-F2-2-PLACE-blue-left",
+          "D3-M2_DEV-F2-2-PLACE-blue-right",
+          "D3-M2_DEV-F1-3-HOLD-red",
+          "D3-M2_DEV-F1-3-HOLD-blue",
+          "D3-M2_DEV-F1-3-PLACE-red-left",
+          "D3-M2_DEV-F1-3-PLACE-red-right",
+          "D3-M2_DEV-F1-3-PLACE-blue-left",
+          "D3-M2_DEV-F1-3-PLACE-blue-right",
+          "D3-M2_DEV-F2-3-HOLD-red",
+          "D3-M2_DEV-F2-3-HOLD-blue",
+          "D3-M2_DEV-F2-3-PLACE-red-left",
+          "D3-M2_DEV-F2-3-PLACE-red-right",
+          "D3-M2_DEV-F2-3-PLACE-blue-left",
+          "D3-M2_DEV-F2-3-PLACE-blue-right",
+          "D3-M2_DEV-F1-4-HOLD-red",
+          "D3-M2_DEV-F1-4-HOLD-blue",
+          "D3-M2_DEV-F1-4-PLACE-red-left",
+          "D3-M2_DEV-F1-4-PLACE-red-right",
+          "D3-M2_DEV-F1-4-PLACE-blue-left",
+          "D3-M2_DEV-F1-4-PLACE-blue-right",
+          "D3-M2_DEV-F2-4-HOLD-red",
+          "D3-M2_DEV-F2-4-HOLD-blue",
+          "D3-M2_DEV-F2-4-PLACE-red-left",
+          "D3-M2_DEV-F2-4-PLACE-red-right",
+          "D3-M2_DEV-F2-4-PLACE-blue-left",
+          "D3-M2_DEV-F2-4-PLACE-blue-right",
+          "D3-M2_DEV-F1-5-HOLD-red",
+          "D3-M2_DEV-F1-5-HOLD-blue",
+          "D3-M2_DEV-F1-5-PLACE-red-left",
+          "D3-M2_DEV-F1-5-PLACE-red-right",
+          "D3-M2_DEV-F1-5-PLACE-blue-left",
+          "D3-M2_DEV-F1-5-PLACE-blue-right",
+          "D3-M2_DEV-F2-5-HOLD-red",
+          "D3-M2_DEV-F2-5-HOLD-blue",
+          "D3-M2_DEV-F2-5-PLACE-red-left",
+          "D3-M2_DEV-F2-5-PLACE-red-right",
+          "D3-M2_DEV-F2-5-PLACE-blue-left",
+          "D3-M2_DEV-F2-5-PLACE-blue-right"
+        ],
+        "native_denominator": 60,
+        "actual_dispatch": 0,
+        "actual_ticks": 0
+      },
+      "M2_TEST": {
+        "conditions": [
+          "D3-M2_TEST-F1-1-HOLD-red",
+          "D3-M2_TEST-F1-1-HOLD-blue",
+          "D3-M2_TEST-F1-1-PLACE-red-left",
+          "D3-M2_TEST-F1-1-PLACE-red-right",
+          "D3-M2_TEST-F1-1-PLACE-blue-left",
+          "D3-M2_TEST-F1-1-PLACE-blue-right",
+          "D3-M2_TEST-F2-1-HOLD-red",
+          "D3-M2_TEST-F2-1-HOLD-blue",
+          "D3-M2_TEST-F2-1-PLACE-red-left",
+          "D3-M2_TEST-F2-1-PLACE-red-right",
+          "D3-M2_TEST-F2-1-PLACE-blue-left",
+          "D3-M2_TEST-F2-1-PLACE-blue-right",
+          "D3-M2_TEST-F1-2-HOLD-red",
+          "D3-M2_TEST-F1-2-HOLD-blue",
+          "D3-M2_TEST-F1-2-PLACE-red-left",
+          "D3-M2_TEST-F1-2-PLACE-red-right",
+          "D3-M2_TEST-F1-2-PLACE-blue-left",
+          "D3-M2_TEST-F1-2-PLACE-blue-right",
+          "D3-M2_TEST-F2-2-HOLD-red",
+          "D3-M2_TEST-F2-2-HOLD-blue",
+          "D3-M2_TEST-F2-2-PLACE-red-left",
+          "D3-M2_TEST-F2-2-PLACE-red-right",
+          "D3-M2_TEST-F2-2-PLACE-blue-left",
+          "D3-M2_TEST-F2-2-PLACE-blue-right",
+          "D3-M2_TEST-F1-3-HOLD-red",
+          "D3-M2_TEST-F1-3-HOLD-blue",
+          "D3-M2_TEST-F1-3-PLACE-red-left",
+          "D3-M2_TEST-F1-3-PLACE-red-right",
+          "D3-M2_TEST-F1-3-PLACE-blue-left",
+          "D3-M2_TEST-F1-3-PLACE-blue-right",
+          "D3-M2_TEST-F2-3-HOLD-red",
+          "D3-M2_TEST-F2-3-HOLD-blue",
+          "D3-M2_TEST-F2-3-PLACE-red-left",
+          "D3-M2_TEST-F2-3-PLACE-red-right",
+          "D3-M2_TEST-F2-3-PLACE-blue-left",
+          "D3-M2_TEST-F2-3-PLACE-blue-right",
+          "D3-M2_TEST-F1-4-HOLD-red",
+          "D3-M2_TEST-F1-4-HOLD-blue",
+          "D3-M2_TEST-F1-4-PLACE-red-left",
+          "D3-M2_TEST-F1-4-PLACE-red-right",
+          "D3-M2_TEST-F1-4-PLACE-blue-left",
+          "D3-M2_TEST-F1-4-PLACE-blue-right",
+          "D3-M2_TEST-F2-4-HOLD-red",
+          "D3-M2_TEST-F2-4-HOLD-blue",
+          "D3-M2_TEST-F2-4-PLACE-red-left",
+          "D3-M2_TEST-F2-4-PLACE-red-right",
+          "D3-M2_TEST-F2-4-PLACE-blue-left",
+          "D3-M2_TEST-F2-4-PLACE-blue-right",
+          "D3-M2_TEST-F1-5-HOLD-red",
+          "D3-M2_TEST-F1-5-HOLD-blue",
+          "D3-M2_TEST-F1-5-PLACE-red-left",
+          "D3-M2_TEST-F1-5-PLACE-red-right",
+          "D3-M2_TEST-F1-5-PLACE-blue-left",
+          "D3-M2_TEST-F1-5-PLACE-blue-right",
+          "D3-M2_TEST-F2-5-HOLD-red",
+          "D3-M2_TEST-F2-5-HOLD-blue",
+          "D3-M2_TEST-F2-5-PLACE-red-left",
+          "D3-M2_TEST-F2-5-PLACE-red-right",
+          "D3-M2_TEST-F2-5-PLACE-blue-left",
+          "D3-M2_TEST-F2-5-PLACE-blue-right"
+        ],
+        "native_denominator": 60,
+        "actual_dispatch": 0,
+        "actual_ticks": 0
+      }
+    }
+  },
+  "terminal_audit_receipt_sha256": "60456b1fe5ba78c95feff8856a2d9a316520e7b6515faf4c2cc6cf492212f56a"
+}

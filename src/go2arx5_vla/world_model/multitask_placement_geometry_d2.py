@@ -122,7 +122,10 @@ class PlacementGeometry:
         import mujoco
 
         m, d = self.model, self.data
-        d.qpos[:2] = root_xy
+        if len(root_xy) == 7:
+            d.qpos[:7] = root_xy
+        else:
+            d.qpos[:2] = root_xy
         d.qpos[self.fingers] = fingers
         d.qpos[self.object_q:self.object_q+3] = object_pose[:3, 3]
         q = matrix_to_quat(object_pose[:3,:3])
@@ -163,14 +166,22 @@ class PlacementGeometry:
         pair = None
         count = 0
         with forbid_integration(mujoco):
-            for a, b in zip(knots, knots[1:]):
+            for segment, (a, b) in enumerate(zip(knots, knots[1:])):
                 translation = np.linalg.norm(b.tcp[:3,3]-a.tcp[:3,3])
                 object_travel = np.linalg.norm(b.object_pose[:3,3]-a.object_pose[:3,3])
                 angle = np.linalg.norm(rotation_vector(b.tcp[:3,:3]@a.tcp[:3,:3].T))
                 jaw = np.max(np.abs(b.finger_q-a.finger_q))
-                root = np.linalg.norm(b.root_xy-a.root_xy)
+                left_root, right_root = a.root_xy, b.root_xy
+                root = np.linalg.norm(right_root[:3] - left_root[:3])
+                full_root = len(left_root) == 7
+                root_angle = 0.
+                if full_root:
+                    left_quat = left_root[[4, 5, 6, 3]]
+                    right_quat = right_root[[4, 5, 6, 3]]
+                    root_angle = 2. * np.arccos(np.clip(abs(left_quat @ right_quat), 0., 1.))
                 segments = int(np.ceil(max(1., translation/POSITION_STEP_M, object_travel/POSITION_STEP_M,
-                                           angle/ANGLE_STEP_RAD, jaw/FINGER_STEP_M, root/POSITION_STEP_M)))
+                                           angle/ANGLE_STEP_RAD, jaw/FINGER_STEP_M, root/POSITION_STEP_M,
+                                           root_angle/ANGLE_STEP_RAD)))
                 for index in range(segments+1):
                     u = index/segments
                     tcp = interpolate_pose(a.tcp, b.tcp, u)
@@ -180,13 +191,17 @@ class PlacementGeometry:
                         obj = tcp @ np.linalg.solve(a.tcp, a.object_pose)
                     else:
                         obj = interpolate_pose(a.object_pose, b.object_pose, u)
+                    root_pose = (1.-u)*left_root + u*right_root
+                    if full_root:
+                        root_pose[3:7] = quat_slerp(left_quat, right_quat, u)[[3, 0, 1, 2]]
                     gap, reason, names = self.sample(tcp, obj, (1.-u)*a.finger_q+u*b.finger_q,
-                                                    (1.-u)*a.root_xy+u*b.root_xy, b.stage)
+                                                    root_pose, b.stage)
                     count += 1
                     if gap is not None and gap < minimum:
                         minimum, pair = gap, names
                     if reason or gap < margin:
                         return dict(passed=False, reason=reason or 'TEACHER_CLEARANCE_MARGIN',
-                                    phase=b.stage, sample_count=count, gap_m=gap, pair=names, margin_m=margin)
+                                    phase=b.stage, sample_count=count, gap_m=gap, pair=names, margin_m=margin,
+                                    segment=segment, segment_fraction=u)
         return dict(passed=True, phase=knots[-1].stage, sample_count=count, gap_m=minimum,
                     pair=pair, margin_m=margin)

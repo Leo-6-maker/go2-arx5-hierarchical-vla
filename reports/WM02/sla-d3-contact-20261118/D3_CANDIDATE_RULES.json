@@ -1,0 +1,143 @@
+{
+  "schema": "SLA_D3_FROZEN_R0_CANDIDATE_RULES",
+  "status": "FROZEN_R0_PASS",
+  "source_sha": "d535f611f86b16d7c6341c88c8ed4cffac8e22c0",
+  "source_members_sha256": {
+    "src/go2arx5_vla/world_model/multitask_contact_teacher_d3.py": "d7be81186afc2724a25f59da7aa79e306c4d14d1d9553a789ea80dd3ef6b039a",
+    "src/go2arx5_vla/world_model/multitask_contact_geometry_d3.py": "eff7b2ecf60b41ec45f689ab820156df090fc988085e7f06dca095d1127bc176",
+    "src/go2arx5_vla/world_model/multitask_teacher_episode_v6.py": "75a29d3298ef4a69a93fa121386c1775b0525436669275e59a653094fc3aa047",
+    "scripts/wm02/multitask_d3_population.py": "2c8a5fb5ae250ee8d04b476bcded1bef5e4718841e1c8ccf62665e3d25ff3e6e",
+    "scripts/wm02/multitask_d3_admission.py": "2234234849e064268fcaf22d0e6c0e5c919b5d86ef40d2cba269d358aebf702b"
+  },
+  "plan_commit": "323551a76e4462436d4ed13f1cbb205156d7ce99",
+  "teacher": "CONTACT_D3_V1",
+  "native_candidate_proven": false,
+  "compiled_population_sha256": "7cfb63e201c35777eab0e3c57d781abee2b9bd86f7083104a588fdb8f5969504",
+  "mechanisms": {
+    "INTERNAL_RELATIVE_CLEARANCE": {
+      "offline_regression_passed": true,
+      "receipt_sha256": "07482b05cf03cdf015bb5055be0da5b83499f39dbb9dd7a1d6522cf9dc135078",
+      "fixed_parameters": {
+        "witness_queries": 4,
+        "calibration_translation_m": 1e-05,
+        "calibration_angle_rad": 0.0001,
+        "attachment_drift_limit_m": 0.01,
+        "unchanged_external_world_margin": true,
+        "terms": [
+          "mount_relative_TCP",
+          "TCP_relative_object_slip",
+          "measured_jaw_delta",
+          "original_sampling"
+        ]
+      }
+    },
+    "APPROACH_TOPOLOGY": {
+      "offline_regression_passed": true,
+      "receipt_sha256": "cd037006fe392a13d97fa73da83abc2d5192280f76fa8186d6ae4c89d61e12ba",
+      "fixed_parameters": {
+        "world_yaw_deg": [
+          -38,
+          -30,
+          -20,
+          -12,
+          12,
+          20,
+          30
+        ],
+        "lateral_waypoints_m": [
+          0.016,
+          0.028
+        ],
+        "grasp_offsets_m": [
+          0,
+          0.002,
+          0.004,
+          0.006,
+          0.008
+        ],
+        "local_tilts_deg": [
+          [
+            -12,
+            0
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            12,
+            0
+          ],
+          [
+            0,
+            -18
+          ],
+          [
+            0,
+            -9
+          ],
+          [
+            0,
+            9
+          ],
+          [
+            0,
+            18
+          ]
+        ],
+        "side_descent_m": 0.027,
+        "asymmetric_two_pad_geometric_contact": true
+      }
+    },
+    "EXTERNAL_CARRY_ROUTE": {
+      "offline_regression_passed": true,
+      "receipt_sha256": "cd037006fe392a13d97fa73da83abc2d5192280f76fa8186d6ae4c89d61e12ba",
+      "fixed_parameters": {
+        "detour_m": [
+          0.018,
+          0.032
+        ],
+        "sides": [
+          0,
+          -1,
+          1
+        ],
+        "original_external_world_margin": true,
+        "measured_lift_waypoint_tolerance_m": 0.004
+      }
+    },
+    "SUPPORTED_RELEASE": {
+      "offline_regression_passed": true,
+      "receipt_sha256": "d5e5c595df1e3b4d6dee7043e4c1ef0b7cecfd13c5ba08555366db98eb993a8c",
+      "fixed_parameters": {
+        "consecutive_native_support_frames": 40,
+        "measure_force_original_N": 0.05,
+        "support_wait_cap_ticks": 1000,
+        "reseat_limit_m": 0.001,
+        "maximum_reseats": 1,
+        "support_bottom_tolerance_original_m": 0.005,
+        "object_linear_speed_original_m_s": 0.02
+      }
+    },
+    "DESCEND_CLOSE_PREFIX": {
+      "offline_regression_passed": true,
+      "receipt_sha256": "bc7a4251a4c435b491037ee10ee5d07c9d74fc8bc4f9c99ca30509769752e335",
+      "fixed_parameters": {
+        "receipt_for_old_15_and_18_sha256": "05b786e5ebd682bffb9b02b247dc43f58ac46c2d02de978d2e4a86c7165c5009",
+        "same_original_50ms_atom_check": true,
+        "previous_atom_state_extrapolation_only": true,
+        "no_extra_native_ticks": true,
+        "stops_unconsumed_suffix": true
+      }
+    },
+    "MOBILE_HOLD_SIMULTANEITY": {
+      "offline_regression_passed": true,
+      "receipt_sha256": "3468d938965d9b2414793835afa5012ee75fdea45f0a1ed49115bceefa8dc676",
+      "fixed_parameters": {
+        "maximum_EEF_goal_feedback_m": 0.015,
+        "original_directional_base_motion_m": 0.08,
+        "M_FREE_base_poses": null
+      }
+    }
+  }
+}
