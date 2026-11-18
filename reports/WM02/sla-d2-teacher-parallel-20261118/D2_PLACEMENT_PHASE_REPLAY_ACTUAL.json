@@ -919,5 +919,244 @@
   "new_native_requests": 0,
   "optimizer_updates": 0,
   "training_visits": 0,
-  "new_native_ticks": 0
+  "new_native_ticks": 0,
+  "B2_readonly_replay": {
+    "replay_tool_sha256": "98190051e0053840d732f1fcfe665502d48e5126c5502aef62517590468fe933",
+    "receipt_sha256": "031a350dcb6d228b07e210720949e7fb2b8ad32517a1ff949e5b2a1fd1f34fab",
+    "cases": [
+      {
+        "case": "D2-DEVELOPMENT-F1-2-PLACE-red-left",
+        "source_sha": "e16783e389362102470de2def854fcf2bf4b78cd",
+        "result_sha256": "300da0e77cb4a0428d3d0b11d22f12ebb4f105c091d95b0f9bc3cc2bf1db4f5b",
+        "teacher_candidate": "STAGED_CALIBRATED_V2",
+        "exact_query_count": 88,
+        "max_archived_H40_reproduction_error": 0.0,
+        "measured_lift_to_carry": {
+          "lift_tick": 19703,
+          "carry_tick": 25453,
+          "planned_rise_m": 0.062,
+          "measured_rise_m": 0.05889905531678341,
+          "measured_horizontal_drift_m": 0.0014384666080826032,
+          "first_carry_nominal_P10_displacement_m": [
+            0.001671488798362486,
+            0.0011977940510991963,
+            0.0017717993879745597
+          ]
+        },
+        "observed_terminal_tick": 27703,
+        "original_replayed_rejection": {
+          "passed": false,
+          "reason": "TEACHER_CLEARANCE_MARGIN",
+          "phase": "carry",
+          "sample_count": 1,
+          "gap_m": 0.017691562394892675,
+          "pair": [
+            "",
+            "task_cube_geom"
+          ],
+          "margin_m": 0.019178605115296555
+        },
+        "fixed_vertical_and_angular_root_state": true,
+        "existing_spatial_sampling_margin_m": 0.00350971250797062,
+        "sensitivity_checks": [
+          {
+            "name": "observed_anchor_no_future_perturbation",
+            "varied": false,
+            "verdict": {
+              "passed": true,
+              "phase": "carry",
+              "sample_count": 22,
+              "gap_m": 0.017691562394892675,
+              "pair": [
+                "",
+                "task_cube_geom"
+              ],
+              "margin_m": 0.00350971250797062
+            }
+          },
+          {
+            "name": "paired_TCP_and_root_XY",
+            "varied": true,
+            "paired_observed_error": {
+              "tick": 26953,
+              "translation": [
+                -4.7479946120254635e-05,
+                -0.0017894720636092432,
+                -3.0236645131465067e-05
+              ],
+              "rotation": [
+                -0.00039166227743979236,
+                -0.00040331846101520973,
+                0.0011656768442475547
+              ],
+              "root_shift": [
+                0.0013012579458444307,
+                0.0011576242854629687
+              ],
+              "root_rise_m": -8.936405789922164e-05,
+              "root_angle_rad": 0.0039739361570226475,
+              "relative_translation_m": 0.004713494601037118,
+              "relative_rotation_rad": 0.004174180635907722
+            },
+            "verdict": {
+              "passed": true,
+              "phase": "carry",
+              "sample_count": 22,
+              "gap_m": 0.017691562394892675,
+              "pair": [
+                "",
+                "task_cube_geom"
+              ],
+              "margin_m": 0.00350971250797062
+            }
+          },
+          {
+            "name": "paired_TCP_and_root_XY",
+            "varied": true,
+            "paired_observed_error": {
+              "tick": 27203,
+              "translation": [
+                8.286191803319465e-06,
+                -0.0016987121331525773,
+                -0.0002551511693764663
+              ],
+              "rotation": [
+                -0.00042438135779987533,
+                7.025813965138627e-05,
+                0.0011009416659886904
+              ],
+              "root_shift": [
+                0.0012553713661925675,
+                0.0012224870356090795
+              ],
+              "root_rise_m": -0.00015948582241653853,
+              "root_angle_rad": 0.004285806527738127,
+              "relative_translation_m": 0.0047409464784051985,
+              "relative_rotation_rad": 0.004104981865615005
+            },
+            "verdict": {
+              "passed": true,
+              "phase": "carry",
+              "sample_count": 22,
+              "gap_m": 0.017691562394892675,
+              "pair": [
+                "",
+                "task_cube_geom"
+              ],
+              "margin_m": 0.00350971250797062
+            }
+          },
+          {
+            "name": "paired_TCP_and_root_XY",
+            "varied": true,
+            "paired_observed_error": {
+              "tick": 27453,
+              "translation": [
+                0.0021453049229534504,
+                -0.0009960215171833375,
+                -0.0011464309939244188
+              ],
+              "rotation": [
+                -0.00038986243416804195,
+                0.001516217318042577,
+                0.0010535634898108312
+              ],
+              "root_shift": [
+                0.00435259254381168,
+                0.002179858333642072
+              ],
+              "root_rise_m": -0.0006844988126627483,
+              "root_angle_rad": 0.0033098584288420584,
+              "relative_translation_m": 0.005359582477663351,
+              "relative_rotation_rad": 0.00209207872048234
+            },
+            "verdict": {
+              "passed": true,
+              "phase": "carry",
+              "sample_count": 22,
+              "gap_m": 0.017691562394892675,
+              "pair": [
+                "",
+                "task_cube_geom"
+              ],
+              "margin_m": 0.00350971250797062
+            }
+          },
+          {
+            "name": "paired_TCP_and_root_XY",
+            "varied": true,
+            "paired_observed_error": {
+              "tick": 27703,
+              "translation": [
+                0.008749743300067392,
+                0.00472143449498983,
+                -0.011364294963567056
+              ],
+              "rotation": [
+                -0.0047541199222310305,
+                0.008610248204943296,
+                -0.0008539376363127259
+              ],
+              "root_shift": [
+                0.006991035657568517,
+                0.009527177797590936
+              ],
+              "root_rise_m": -0.010875869774111868,
+              "root_angle_rad": 0.017336037851849423,
+              "relative_translation_m": 0.008842141177255935,
+              "relative_rotation_rad": 0.0093452926424638
+            },
+            "verdict": {
+              "passed": true,
+              "phase": "carry",
+              "sample_count": 22,
+              "gap_m": 0.015654242388827004,
+              "pair": [
+                "task_left_pad",
+                "task_blue_cube_geom"
+              ],
+              "margin_m": 0.00350971250797062
+            }
+          }
+        ],
+        "supported_opening_projection": null,
+        "clearance_by_pair_role": {
+          "world_obstacle_pairs": {
+            "passed": true,
+            "phase": "carry",
+            "sample_count": 22,
+            "gap_m": 0.020239417169425518,
+            "pair": [
+              "task_left_pad",
+              "task_blue_cube_geom"
+            ],
+            "margin_m": 0.019178605115296555
+          },
+          "grasp_attached_robot_pairs": {
+            "passed": true,
+            "phase": "carry",
+            "sample_count": 22,
+            "gap_m": 0.017691562394892675,
+            "pair": [
+              "",
+              "task_cube_geom"
+            ],
+            "margin_m": 0.012890766526527679
+          },
+          "original_native_contact_predicates_on_all_pairs": true
+        },
+        "selected_controller_reference": "UNKNOWN",
+        "new_native_requests": 0,
+        "new_physics_ticks": 0,
+        "modified_live_source": false,
+        "admission_claim": false
+      }
+    ],
+    "native_requests": 0,
+    "native_ticks": 0,
+    "training_updates": 0,
+    "training_visits": 0,
+    "model_generations": 0
+  },
+  "total_exact_archived_H40_reproduced": 447
 }

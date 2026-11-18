@@ -108,6 +108,23 @@ def clearance_by_pair_role(geometry, actual, intended, errors, sample_margin, ra
                 original_native_contact_predicates_on_all_pairs=True)
 
 
+def lift_to_carry(observations):
+    """Check the archived boundary the Teacher used to begin carrying."""
+    route = observations[0]['d2_placement_corridor_audit_only'].get('d2_full_route')
+    lift = next((row for row in observations if row['phase'] == 'LIFT'), None)
+    carry = next((row for row in observations if row['phase'] == 'CARRY'), None)
+    if route is None or lift is None or carry is None:
+        return None
+    accepted = next(item for item in route['attempts'] if item['passed'])
+    before, after = (measured(row['actual_state']) for row in (lift, carry))
+    displacement = after['tcp'][:3, 3] - before['tcp'][:3, 3]
+    nominal = np.asarray(carry['nominal_world_H40'])
+    return dict(lift_tick=before['native_step'], carry_tick=after['native_step'],
+                planned_rise_m=accepted['transit_raise_m'], measured_rise_m=float(displacement[2]),
+                measured_horizontal_drift_m=float(np.linalg.norm(displacement[:2])),
+                first_carry_nominal_P10_displacement_m=(nominal[10, :3]-nominal[0, :3]).tolist())
+
+
 def verify_case(case, expected_sha):
     import mujoco
 
@@ -126,8 +143,16 @@ def verify_case(case, expected_sha):
     observations = read(pinned['path'])
     model = mujoco.MjModel.from_binary_path(spec['model_path'])
     initial = measured(observations[0]['actual_state'])
-    teacher = PlacementTeacher(initial,spec['mobile_condition'],spec['multitask_geometry'],
-                               spec['task_instruction_id'],model)
+    teacher_type = PlacementTeacher
+    if spec.get('d2_teacher_candidate') is not None:
+        from go2arx5_vla.world_model.multitask_scope_d2 import STAGED_TEACHER
+        from go2arx5_vla.world_model.multitask_staged_placement_d2 import StagedPlacementTeacher
+
+        if spec['d2_teacher_candidate'] != STAGED_TEACHER:
+            raise ValueError('EXACT_FROZEN_D2_REPLAY_TEACHER_REQUIRED')
+        teacher_type = StagedPlacementTeacher
+    teacher = teacher_type(initial, spec['mobile_condition'], spec['multitask_geometry'],
+                           spec['task_instruction_id'], model)
     geometry = teacher.placement_geometry
     base = initial['qpos'][[0,1,2,4,5,6,3]]
     peak_error = 0.
@@ -177,7 +202,9 @@ def verify_case(case, expected_sha):
     if attempted:
         raise ValueError('D2_SAME_CLOCK_REPLAY_MUST_NOT_INTEGRATE')
     return dict(case=case.name,source_sha=spec['source_sha'],result_sha256=expected_sha,
+        teacher_candidate=spec.get('d2_teacher_candidate'),
         exact_query_count=len(observations),max_archived_H40_reproduction_error=peak_error,
+        measured_lift_to_carry=lift_to_carry(observations),
         observed_terminal_tick=actual['native_step'],original_replayed_rejection=rejected,
         fixed_vertical_and_angular_root_state=True,
         existing_spatial_sampling_margin_m=sample_margin,sensitivity_checks=checks,
