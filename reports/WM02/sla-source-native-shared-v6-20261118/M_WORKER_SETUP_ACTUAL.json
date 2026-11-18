@@ -75,7 +75,7 @@
     }
   },
   "actual_new_training_updates": 0,
-  "actual_M_native_requests": 9,
+  "actual_M_native_requests": 10,
   "first6_storage_readback": {
     "time_SGT": "2026-11-18T08:42:28.316569+08:00",
     "headroom": {
@@ -3980,5 +3980,249 @@
     "WBC_or_safety_changed": false,
     "frontend_dependency": false,
     "stop_entry": "STOP.json at the new registered capsule root"
+  },
+  "Teacher_eighth_terminal": {
+    "observed_SGT": "2026-11-18T11:15:21.116201+08:00",
+    "scientific_started": 8,
+    "scientific_sealed": 8,
+    "scientific_ticks": 206782,
+    "successful_teaching_episodes": 3,
+    "contact_STOP": 5,
+    "technical_failures": 0,
+    "interface_requests": 2,
+    "interface_ticks": 11906,
+    "unused_registered_teaching_conditions": 40,
+    "eligible_cells_with_two_successes": 0,
+    "outcome": {
+      "epoch": 1794971663.3377445,
+      "spec_sha256": "28e8628e4431db4aead2770d5d3b88d60f3c89eecfd53af01569fb40aac8e0f1",
+      "source_sha256": "47676329b829b369e943c4b68572a9c3e76d929a",
+      "native_parent_pid": 0,
+      "live_owner_confirmed": false,
+      "cgroup_count": 0,
+      "lease": "CLOSED",
+      "terminal": true,
+      "terminal_sha256": "dcd24e7482dd88ca78ad241a75495a242c2debf11298f35887cfd3663092869f",
+      "case_result_sha256": "56eeba6a9be91eb8b284fe090ac38d35693d138689d6c166b4e7c85c01da2193",
+      "native_requests": 1,
+      "native_ticks": 20168,
+      "hard_STOP": true,
+      "technical_failure": false,
+      "success": false,
+      "effects": {
+        "GPU_generations": 0,
+        "updates": 0,
+        "visits": 0
+      },
+      "integrations_after_STOP": 0,
+      "first_failure": "ILLEGAL_CONTACT",
+      "capture_sha256": "6c8ac91c3348cecd71651daf9d13c99ae903e66e0d58a2fad43bc39c20be0143",
+      "query_count": 58,
+      "first_phase": "PREGRASP",
+      "last_phase": "CLOSE",
+      "last_query_start": 19953,
+      "carry_query_classes": {},
+      "real_confirmed_atoms_by_class": {
+        "PREGRASP": 310,
+        "DESCEND": 250,
+        "CLOSE": 18
+      },
+      "last_partial_ticks": 15,
+      "phase_counts": {
+        "PREGRASP": 31,
+        "DESCEND": 25,
+        "CLOSE": 2
+      }
+    },
+    "stop_evidence": {
+      "epoch": 1794971721.1162012,
+      "case": "M-TEACHER-F1-0-PLACE-red-right",
+      "result_sha256": "56eeba6a9be91eb8b284fe090ac38d35693d138689d6c166b4e7c85c01da2193",
+      "physics_trace_sha256": "aeede2c2b1d3748b82d410f22e4de83d2a24e2c1ead2e912bbb96e922e98ae05",
+      "case_spec_sha256": "9fe4fce2230a6ec38f7afa8107f19aff5b3e90d6d351caee29dcc7edd89caa23",
+      "scene_sha256": "f69cff6ed63bcc344cb3ac1914794b1a26d7214e59ac18f717b9b01e03d832ec",
+      "original_stops": [
+        {
+          "kind": "stop",
+          "reason": "ILLEGAL_CONTACT",
+          "steps": 20168
+        }
+      ],
+      "native_step": 20168,
+      "illegal_contacts": [
+        {
+          "geometry_pair": [
+            "task_table",
+            "task_right_pad"
+          ],
+          "geometry_ids": [
+            1,
+            77
+          ],
+          "body_pair": [
+            "world",
+            "x5_link8"
+          ],
+          "geom_types": [
+            6,
+            6
+          ],
+          "distance_m": -2.2599586460878007e-05,
+          "normal_force_N": 7.729910162024218
+        }
+      ],
+      "integrations_after_STOP": 0,
+      "last_fully_scored_query": {
+        "task_success": false,
+        "ever_target_grasp": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "base_directional_motion_m": 0.11412768797628206,
+        "native_step": 19953,
+        "ever_target_lift20mm": false,
+        "inside_selected_region": false,
+        "released": true,
+        "TCP_retreat_m": 0.018435988225622896,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 9644,
+            "native_time_s": 19.28800000000019
+          }
+        }
+      },
+      "capture_prefix": {
+        "queries": 58,
+        "phase": "CLOSE",
+        "query": 57,
+        "start_step": 19953,
+        "actual_elapsed_prefix_ticks": 215,
+        "partial_interval_ticks": 15,
+        "fully_consumed_atoms": 578,
+        "writer_error": null,
+        "final_native_step": 20168,
+        "manifest_sha256": "6c8ac91c3348cecd71651daf9d13c99ae903e66e0d58a2fad43bc39c20be0143"
+      },
+      "new_model_calls": 0,
+      "new_native_integrations": 0
+    },
+    "saved_state_grasp_geometry": {
+      "scope": "MEASURED_SAVED_F1_RED_HAND_GEOMETRY_CURRENT_SCENE_ONLY",
+      "request_and_tick_effects": 0,
+      "receipt_sha256": "c047b7d2e9c3df5ab7e7f028c3eac55e8e1b0fc3bd38a94168561c265b1aeb72",
+      "cases": [
+        {
+          "condition": "M-TEACHER-F1-0-HOLD-red",
+          "snapshot_step": 19203,
+          "scene_sha256": "f69cff6ed63bcc344cb3ac1914794b1a26d7214e59ac18f717b9b01e03d832ec",
+          "result_sha256": "6d88e1032aa371057373fe08f1f059e8f2ec3382509e8379d3550840c7f17e94",
+          "sampled_z_offset_mm": [
+            0,
+            2,
+            4,
+            6,
+            8,
+            10,
+            12,
+            16
+          ],
+          "static_bilateral_pass_count": 8,
+          "baseline": {
+            "delta_z_mm": 0,
+            "open_endpoint_distance_m": {
+              "task_table": 0.0062833600513765055,
+              "task_cube_geom": 0.01340055800296261,
+              "task_blue_cube_geom": 0.020957276313756476
+            },
+            "open_approach_minimum_m": 0.0062833600513765055,
+            "static_bilateral_grip": {
+              "slide_m": 0.019,
+              "pad_gaps_m": [
+                -0.0006369024337491415,
+                -0.0010136946533612053
+              ],
+              "clearance_m": 0.006551012539120358
+            },
+            "nearest_table_part": 77,
+            "nearest_table_name": "task_right_pad"
+          },
+          "largest_z_offset": {
+            "delta_z_mm": 16,
+            "open_endpoint_distance_m": {
+              "task_table": 0.01428336005137651,
+              "task_cube_geom": 0.017817727952902374,
+              "task_blue_cube_geom": 0.020957276313756473
+            },
+            "open_approach_minimum_m": 0.012396312527493155,
+            "static_bilateral_grip": {
+              "slide_m": 0.019,
+              "pad_gaps_m": [
+                -0.00024252961334323523,
+                -0.001013694653361208
+              ],
+              "clearance_m": 0.014551012539120363
+            },
+            "nearest_table_part": 77,
+            "nearest_table_name": "task_right_pad"
+          }
+        },
+        {
+          "condition": "M-TEACHER-F1-0-PLACE-red-left",
+          "snapshot_step": 22203,
+          "scene_sha256": "f69cff6ed63bcc344cb3ac1914794b1a26d7214e59ac18f717b9b01e03d832ec",
+          "result_sha256": "247a515e893db70332912db24fccc6ecef54a19a1669e8a1227ca68baec4df03",
+          "sampled_z_offset_mm": [
+            0,
+            2,
+            4,
+            6,
+            8,
+            10,
+            12,
+            16
+          ],
+          "static_bilateral_pass_count": 8,
+          "baseline": {
+            "delta_z_mm": 0,
+            "open_endpoint_distance_m": {
+              "task_table": 0.0062654132453946985,
+              "task_cube_geom": 0.013399476072247528,
+              "task_blue_cube_geom": 0.020910784423220998
+            },
+            "open_approach_minimum_m": 0.0062654132453946985,
+            "static_bilateral_grip": {
+              "slide_m": 0.019,
+              "pad_gaps_m": [
+                -0.0006607582340652602,
+                -0.0010610070360844081
+              ],
+              "clearance_m": 0.006541830950042845
+            },
+            "nearest_table_part": 77,
+            "nearest_table_name": "task_right_pad"
+          },
+          "largest_z_offset": {
+            "delta_z_mm": 16,
+            "open_endpoint_distance_m": {
+              "task_table": 0.014265413245394707,
+              "task_cube_geom": 0.017819490624752028,
+              "task_blue_cube_geom": 0.02091078442322099
+            },
+            "open_approach_minimum_m": 0.012413063783167469,
+            "static_bilateral_grip": {
+              "slide_m": 0.019,
+              "pad_gaps_m": [
+                -0.00024823210425333066,
+                -0.0010610070360844114
+              ],
+              "clearance_m": 0.014541830950042854
+            },
+            "nearest_table_part": 77,
+            "nearest_table_name": "task_right_pad"
+          }
+        }
+      ]
+    },
+    "next_action": "Diagnose realized grasp alignment and table clearance on saved states; no repeat of the sealed eighth condition."
   }
 }
