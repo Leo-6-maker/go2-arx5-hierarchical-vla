@@ -197,7 +197,7 @@
     "physical_calibration": "UNKNOWN",
     "split_scope": "EPISODE_HOLDOUT_ONLY"
   },
-  "Total_completed_offline_including_restores": 416,
+  "Total_completed_offline_including_restores": 512,
   "V6_combined_updates_through_S_and_T_endpoints": 2000,
   "V6_combined_optimization_visits": 64000,
   "V6_T_training_inner_generations": 4000,
@@ -280,8 +280,8 @@
       "native_requests": 0
     },
     "successor_unit": "wm02-sla-v6-source-test96-20261118-02",
-    "MainPID": 1715106,
-    "lease": "ACTIVE",
+    "MainPID": 0,
+    "lease": "CLOSED",
     "source_sha": "75cabdf92c469506f1cd7b004c9f9d3e0cd4df9b",
     "spec_sha256": "2b60fa74c14b3c983a55301332f1aa2c282d8906eeaa4a87618719edf3523030",
     "deadline_SGT": "2026-11-18T18:13:56.620882+08:00",
@@ -293,9 +293,9 @@
     },
     "prepare_wall_s": 39.73729881551117,
     "panel_windows": 96,
-    "generations": 0,
-    "evaluate_registered": false,
-    "actual_phase": "WAIT_EXISTING_T_FOLLOWUP_GPU_COLD_BOUNDARY",
+    "generations": 96,
+    "evaluate_registered": true,
+    "actual_phase": "SOURCE_TEST96_ONCE_COMPLETE",
     "independent_panel_verification": {
       "observed_SGT": "2026-11-18T08:17:03.273161+08:00",
       "episodes_in_panel": 12,
@@ -335,5 +335,305 @@
   },
   "new_source_native_requests": 0,
   "new_source_native_ticks": 0,
-  "source_hardware_task_success": null
+  "source_hardware_task_success": null,
+  "source_TEST_terminal": {
+    "epoch": 1794967868.733336,
+    "unit": {
+      "MainPID": "0",
+      "ExecMainStatus": "0",
+      "ControlGroup": "",
+      "ActiveState": "inactive"
+    },
+    "group_members_count": 0,
+    "lease": "CLOSED",
+    "source_sha": "75cabdf92c469506f1cd7b004c9f9d3e0cd4df9b",
+    "spec_sha256": "2b60fa74c14b3c983a55301332f1aa2c282d8906eeaa4a87618719edf3523030",
+    "deadline_epoch": 1794996836.6208823,
+    "new_native_requests_from_audit": 0,
+    "new_generations_from_audit": 0,
+    "terminal": true,
+    "exit_code": 0,
+    "status": "SOURCE_TEST96_ONCE_COMPLETE",
+    "parent_result_sha256": "ebf0ec82e26d0d1bdf49a47a87cb3fee2b410b81029f8ea07f1fdf013cf8aa58",
+    "passed_readback": true,
+    "child_result_sha256": "997e1814ece0eb60fcf8b9623ffa15455e66b49734c60203dc066640d67152d4",
+    "child_spec_sha256": "cb2e7b325c24a84e0a2dd44210681b0ed3c8e6570013114f5a961c68195f0164",
+    "score_archive_sha256": "73fde978b4a7e53df5d75d4e9b10a496ffcd3d493bf082dcd9c5aae8d61fb8f4",
+    "frozen_endpoint_sha256": "c08e919b5151ccafdfd5b427e02710f1a8e9f9189ca227314f72e5ec0296ab6d",
+    "bank_sha256": "9939dcea6bb5d9d00cb042b0180a184446f548af0a8c59c2ec4d3ee79543e44f",
+    "test_manifest_sha256": "244ca6175194644164be995633639465eb8a65a3c8526dc0feda78a2abdcb04e",
+    "statistic_sha256": "a94e1567bb002621d5841150a8e677e38fa6d02b51af22e4ab6f301317ebd521",
+    "transfer_selection_changed_after_TEST": false,
+    "actual_prediction_files_verified": 96,
+    "heldout_episodes": 12,
+    "task_window_counts": {
+      "cover_blocks": 16,
+      "insert_tubes": 16,
+      "make_bread": 16,
+      "make_food": 16,
+      "pack_and_pour_fruit": 16,
+      "store_in_safe": 16
+    },
+    "summary": {
+      "all": {
+        "count": 96,
+        "normalized_reference_error": 0.0708778995456028,
+        "persistence_error": 0.13781037176478086,
+        "predicted_motion": 0.14078266130357472,
+        "target_motion": 0.13781037176478086,
+        "better_than_persistence": true,
+        "horizons": {
+          "0.5s": {
+            "XYZ_native_error": 0.021414575954166293,
+            "SO3_error_rad": 0.07179314350534403,
+            "gripper_native_error": 0.023797129818681966
+          },
+          "1.0s": {
+            "XYZ_native_error": 0.04172188126061477,
+            "SO3_error_rad": 0.15841022279698552,
+            "gripper_native_error": 0.023755373283986473
+          },
+          "1.5s": {
+            "XYZ_native_error": 0.04502454252755165,
+            "SO3_error_rad": 0.1580496140151106,
+            "gripper_native_error": 0.029563956550753685
+          }
+        }
+      },
+      "dynamic": {
+        "count": 48,
+        "normalized_reference_error": 0.06516702673880681,
+        "persistence_error": 0.15133786296183502,
+        "predicted_motion": 0.14652476191527294,
+        "target_motion": 0.15133786296183502,
+        "better_than_persistence": true,
+        "horizons": {
+          "0.5s": {
+            "XYZ_native_error": 0.02088262456935272,
+            "SO3_error_rad": 0.07712748197928389,
+            "gripper_native_error": 0.03341715894810294
+          },
+          "1.0s": {
+            "XYZ_native_error": 0.034337784671614774,
+            "SO3_error_rad": 0.11504710947912584,
+            "gripper_native_error": 0.02675762870801818
+          },
+          "1.5s": {
+            "XYZ_native_error": 0.03513554801117467,
+            "SO3_error_rad": 0.12221225422904686,
+            "gripper_native_error": 0.03666853523981505
+          }
+        }
+      },
+      "low_change_anchor": {
+        "count": 48,
+        "normalized_reference_error": 0.07658877235239878,
+        "persistence_error": 0.12428288056772673,
+        "predicted_motion": 0.13504056069187653,
+        "target_motion": 0.12428288056772673,
+        "better_than_persistence": true,
+        "horizons": {
+          "0.5s": {
+            "XYZ_native_error": 0.021946527338979862,
+            "SO3_error_rad": 0.06645880503140418,
+            "gripper_native_error": 0.014177100689260992
+          },
+          "1.0s": {
+            "XYZ_native_error": 0.04910597784961477,
+            "SO3_error_rad": 0.2017733361148452,
+            "gripper_native_error": 0.020753117859954765
+          },
+          "1.5s": {
+            "XYZ_native_error": 0.054913537043928644,
+            "SO3_error_rad": 0.19388697380117437,
+            "gripper_native_error": 0.02245937786169232
+          }
+        }
+      },
+      "tasks": {
+        "cover_blocks": {
+          "count": 8,
+          "normalized_reference_error": 0.044238967675352354,
+          "persistence_error": 0.06552001068219694,
+          "predicted_motion": 0.07225581202554622,
+          "target_motion": 0.06552001068219694,
+          "better_than_persistence": true,
+          "horizons": {
+            "0.5s": {
+              "XYZ_native_error": 0.011750406732245856,
+              "SO3_error_rad": 0.034125536964349314,
+              "gripper_native_error": 0.03647132381924654
+            },
+            "1.0s": {
+              "XYZ_native_error": 0.025738561404732897,
+              "SO3_error_rad": 0.0578943799481941,
+              "gripper_native_error": 0.035806732673087045
+            },
+            "1.5s": {
+              "XYZ_native_error": 0.027953662438004144,
+              "SO3_error_rad": 0.049494824332156545,
+              "gripper_native_error": 0.021203881064826458
+            }
+          }
+        },
+        "insert_tubes": {
+          "count": 8,
+          "normalized_reference_error": 0.05726344596492092,
+          "persistence_error": 0.12114143562667923,
+          "predicted_motion": 0.11948722404706916,
+          "target_motion": 0.12114143562667923,
+          "better_than_persistence": true,
+          "horizons": {
+            "0.5s": {
+              "XYZ_native_error": 0.021392651544949404,
+              "SO3_error_rad": 0.08045663076699225,
+              "gripper_native_error": 0.00755341813654916
+            },
+            "1.0s": {
+              "XYZ_native_error": 0.03526922903626822,
+              "SO3_error_rad": 0.08523536113900437,
+              "gripper_native_error": 0.008213518045757779
+            },
+            "1.5s": {
+              "XYZ_native_error": 0.03901668780476973,
+              "SO3_error_rad": 0.12203022577389142,
+              "gripper_native_error": 0.025031785588997588
+            }
+          }
+        },
+        "make_bread": {
+          "count": 8,
+          "normalized_reference_error": 0.12733678473965826,
+          "persistence_error": 0.1967999357676949,
+          "predicted_motion": 0.18052155342831436,
+          "target_motion": 0.1967999357676949,
+          "better_than_persistence": true,
+          "horizons": {
+            "0.5s": {
+              "XYZ_native_error": 0.04627378012267096,
+              "SO3_error_rad": 0.16243190292625437,
+              "gripper_native_error": 0.045874711581212466
+            },
+            "1.0s": {
+              "XYZ_native_error": 0.062394404592067215,
+              "SO3_error_rad": 0.2372580447175289,
+              "gripper_native_error": 0.03379671984289465
+            },
+            "1.5s": {
+              "XYZ_native_error": 0.07040730659565614,
+              "SO3_error_rad": 0.2533157874868644,
+              "gripper_native_error": 0.06530388760185726
+            }
+          }
+        },
+        "make_food": {
+          "count": 8,
+          "normalized_reference_error": 0.042804152662996704,
+          "persistence_error": 0.13172550821470994,
+          "predicted_motion": 0.14387147777954537,
+          "target_motion": 0.13172550821470994,
+          "better_than_persistence": true,
+          "horizons": {
+            "0.5s": {
+              "XYZ_native_error": 0.010951374202914435,
+              "SO3_error_rad": 0.037127090211274756,
+              "gripper_native_error": 0.035878762244608994
+            },
+            "1.0s": {
+              "XYZ_native_error": 0.025847343274031494,
+              "SO3_error_rad": 0.07731368796794796,
+              "gripper_native_error": 0.02926227942369515
+            },
+            "1.5s": {
+              "XYZ_native_error": 0.01726694564832993,
+              "SO3_error_rad": 0.057321701730882635,
+              "gripper_native_error": 0.0459386519005109
+            }
+          }
+        },
+        "pack_and_pour_fruit": {
+          "count": 8,
+          "normalized_reference_error": 0.050230533407872854,
+          "persistence_error": 0.1714885295652126,
+          "predicted_motion": 0.16779718435369123,
+          "target_motion": 0.1714885295652126,
+          "better_than_persistence": true,
+          "horizons": {
+            "0.5s": {
+              "XYZ_native_error": 0.012335095075011729,
+              "SO3_error_rad": 0.05980437288185024,
+              "gripper_native_error": 0.024691213989438736
+            },
+            "1.0s": {
+              "XYZ_native_error": 0.02405783069794371,
+              "SO3_error_rad": 0.10002513868587812,
+              "gripper_native_error": 0.026163860768703077
+            },
+            "1.5s": {
+              "XYZ_native_error": 0.020914802845372893,
+              "SO3_error_rad": 0.10983595309669707,
+              "gripper_native_error": 0.037748900153856846
+            }
+          }
+        },
+        "store_in_safe": {
+          "count": 8,
+          "normalized_reference_error": 0.06912827598203981,
+          "persistence_error": 0.22135175791451642,
+          "predicted_motion": 0.1952153198574713,
+          "target_motion": 0.22135175791451642,
+          "better_than_persistence": true,
+          "horizons": {
+            "0.5s": {
+              "XYZ_native_error": 0.022592439738323943,
+              "SO3_error_rad": 0.08881935812498243,
+              "gripper_native_error": 0.050033523917561745
+            },
+            "1.0s": {
+              "XYZ_native_error": 0.03271933902464508,
+              "SO3_error_rad": 0.13255604441620164,
+              "gripper_native_error": 0.02730266149397138
+            },
+            "1.5s": {
+              "XYZ_native_error": 0.035253882734915185,
+              "SO3_error_rad": 0.141275032953789,
+              "gripper_native_error": 0.024784105128841237
+            }
+          }
+        }
+      },
+      "actual_task_success_rate": null,
+      "scope": "SOURCE_FUTURE_LOGGED_REFERENCE_NOT_PHYSICAL_COMMAND_OR_TASK_SR"
+    },
+    "restored": {
+      "bit_exact": true,
+      "arrays": 87,
+      "step": 1000,
+      "cursor": 32000,
+      "optimizer_updates_added": 0,
+      "model_Adam_RNG": true
+    },
+    "actual": {
+      "actual_parent_loads": 1,
+      "optimizer_updates": 0,
+      "forward_backward_attempts": 0,
+      "completed_forward_backward": 0,
+      "attempted_training_visits": 0,
+      "completed_training_visits": 0,
+      "ordinary_RGB_generation_attempts": 96,
+      "ordinary_RGB_generations": 96,
+      "physical_requests": 0
+    },
+    "observed_wall_from_eval_spawn_to_child_result_s": 329.9843111038208,
+    "eval_spawn_marker_epoch": 1794967376.4220283,
+    "eval_result_sealed_epoch": 1794967706.4063394,
+    "parent_unit_accounting": {
+      "ExecMainStartTimestampMonotonic": "0",
+      "ExecMainExitTimestampMonotonic": "0",
+      "MemoryPeak": "[not set]",
+      "CPUUsageNSec": "[not set]"
+    },
+    "wall_s_for_audit": 0.02171027474105358,
+    "observed_SGT": "2026-11-18T10:11:08.733336+08:00"
+  }
 }

@@ -75,7 +75,7 @@
     }
   },
   "actual_new_training_updates": 0,
-  "actual_M_native_requests": 0,
+  "actual_M_native_requests": 2,
   "first6_storage_readback": {
     "time_SGT": "2026-11-18T08:42:28.316569+08:00",
     "headroom": {
@@ -133,5 +133,78 @@
     },
     "old_first6_started_cases": 0,
     "alternate_use_is_conditional": "ONLY_AFTER_CONFIRMED_CLOSED_UNSTARTED_ORIGINAL_CAPACITY_FAILURE"
+  },
+  "interface_and_teacher_actual": {
+    "observed_SGT": "2026-11-18T10:11:08.749108+08:00",
+    "new_interface_requests": 2,
+    "interface_native_ticks": 11906,
+    "interface_result_sha256": "3e986f69dee94c1962663351db99c3affd6775356c3e4badfc4061937b2dfaa3",
+    "interface_spec_sha256": "fe68605553401b50ce4207ae26734d158437137ca16964aad7adacf7cacf35a5",
+    "interface_source_sha": "ebfa98700fb943c1340cb0a6ead194cad8cfe05b",
+    "cases": [
+      {
+        "id": "MIF-F1-V6",
+        "result_sha256": "86091ce2671d8e3e523a76ba5be1c97a7c7805a4449c240bcddda2d4e004b62e",
+        "state_ABI": [
+          41,
+          38,
+          20
+        ],
+        "RGB_step": 5953,
+        "native_ticks": 5953,
+        "new_requests": 1,
+        "model_generations": 0,
+        "hard_STOP": false,
+        "technical_failure": false,
+        "trace_status": "RECORDED_TRACE_CHECKS_PASS",
+        "wall_s": 333.4540209816769,
+        "CPU_s": 27.610269263000003
+      },
+      {
+        "id": "MIF-F2-V6",
+        "result_sha256": "a3e809def4b55569e51b992b73ac4e0d97e6b1023d9a3eeb886ac99b1d22b9ab",
+        "state_ABI": [
+          41,
+          38,
+          20
+        ],
+        "RGB_step": 5953,
+        "native_ticks": 5953,
+        "new_requests": 1,
+        "model_generations": 0,
+        "hard_STOP": false,
+        "technical_failure": false,
+        "trace_status": "RECORDED_TRACE_CHECKS_PASS",
+        "wall_s": 67.66406703554094,
+        "CPU_s": 30.012245062999998
+      }
+    ],
+    "post_interface_Old_Teacher": {
+      "lease": "CLOSED",
+      "MainPID": 0,
+      "new_scientific_requests": 0,
+      "native_ticks": 0,
+      "result_sha256": "4cdd97abbe7d96c998ec52036819c7979e4b79841f38c223b23c280a28653ee6",
+      "spec_sha256": "617cee5f166935f63e2a9e2ae2473d726146c48152d7ff92e213600e40477924",
+      "stop_reason": "ACTUAL_TEACHER_HOST_OR_DISK_HEADROOM_INSUFFICIENT"
+    },
+    "new_Teacher": {
+      "unit": "wm02-sla-v6-multitask-teacher-first6-nvme-20261118-02",
+      "MainPID": 1831676,
+      "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-v6-multitask-teacher-first6-nvme-20261118-02.service",
+      "source_sha": "258beceaf24a26c5fd3ecf945488df0a75125299",
+      "spec_sha256": "84c6982b4cd1e70d55e8656a7cc41082c72538a0b13b271abf7b60c6ce38132b",
+      "original_panel_sha256": "19caf6e925df6e0e66c8a1543b1dd5376340ace621cd046d2ac03fd60a15f3cd",
+      "deadline_SGT": "2026-11-18T18:31:33.971987+08:00",
+      "frontend_dependency": false,
+      "actual_owner_verified": true,
+      "started_case_count": 1,
+      "sealed_case_count": 0,
+      "first_case": "M-TEACHER-F1-0-HOLD-red",
+      "first_case_observed_SGT": "2026-11-18T10:12:59.031973+08:00",
+      "native_tick_lower_bound": 11224,
+      "available_storage_bytes": 625969098752,
+      "required_storage_bytes": 294382508441
+    }
   }
 }
