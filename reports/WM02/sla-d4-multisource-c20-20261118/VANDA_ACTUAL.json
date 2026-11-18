@@ -51,11 +51,11 @@
     {
       "arm": "D4-A",
       "started": true,
-      "updates": 0,
-      "visits": 0,
+      "updates": 70,
+      "visits": 2240,
       "model_parameters_written": true,
       "initial_checkpoint_written": true,
-      "gradient_receipt_written": false,
+      "gradient_receipt_written": true,
       "RGB16_confirmed": null
     },
     {
@@ -71,5 +71,46 @@
   ],
   "new_native_requests": 0,
   "new_native_integrations": 0,
-  "last_independent_readback": "2026-11-18T20:49:41+08:00"
+  "last_independent_readback": "2026-11-18T21:02:41+08:00",
+  "D4_A_actual_counters": {
+    "actual_parent_loads": 1,
+    "forward_backward_attempts": 560,
+    "completed_forward_backward": 560,
+    "optimizer_updates": 70,
+    "attempted_training_visits": 2240,
+    "completed_training_visits": 2240,
+    "ordinary_RGB_generation_attempts": 0,
+    "ordinary_RGB_generations": 0,
+    "physical_requests": 0,
+    "diagnostic_FM_backward_attempts": 1,
+    "diagnostic_full_generation_attempts": 4,
+    "diagnostic_full_trajectory_backward_attempts": 4,
+    "diagnostic_full_generations": 4,
+    "diagnostic_completed_full_trajectory_backwards": 4,
+    "diagnostic_sampler_comparison_attempts": 8,
+    "diagnostic_sampler_comparison_generations": 8,
+    "diagnostic_FM_backward_completed": 1,
+    "host_window_read_attempts": 2240,
+    "host_window_reads": 2240,
+    "training_full_generation_attempts": 280,
+    "training_full_trajectory_backward_attempts": 280,
+    "training_full_generations": 280,
+    "training_completed_full_trajectory_backwards": 280,
+    "optimizer_update_attempts": 70
+  },
+  "D4_DEV_cold_readback": {
+    "observed_epoch": 1795007039.3927097,
+    "compiled_population_sha256": "4a601d1ed2126e7acf6e522b10da569098bda37be0c206baf7069a47c783b746",
+    "clusters": 4,
+    "matched_conditions": 24,
+    "planned_native_requests": 48,
+    "first_arm_counts": {
+      "D4-A": 12,
+      "D4-B": 12
+    },
+    "distinct_scene_sha_count": 4,
+    "actual_native": 0,
+    "actual_ticks": 0,
+    "qualified_student_endpoint_receipts": 0
+  }
 }
