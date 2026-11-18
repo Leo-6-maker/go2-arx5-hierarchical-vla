@@ -66,6 +66,11 @@ def episode(adapter):
                 row = writer.capture(sample,program,evidence,witness,teacher)
                 row.update(instruction=instruction,previous_confirmed_command=previous,
                            original_label_G7_margin=margin)
+                if teacher.stage == 'CARRY':
+                    row['teacher_carry_clearance_audit_only'] = dict(
+                        swept_footprint_overlaps=evidence['teacher_carry_footprint_overlap'],
+                        waiting_for_measured_clearance=evidence['teacher_carry_waiting_for_measured_clearance'],
+                    )
                 query_count += 1
                 adapter.mobile_contact_stage = (
                     'approach' if teacher.stage in ('PREGRASP','DESCEND') else teacher.stage.lower()

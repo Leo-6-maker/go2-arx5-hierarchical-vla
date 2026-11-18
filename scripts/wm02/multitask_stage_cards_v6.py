@@ -6,7 +6,6 @@ from pathlib import Path
 import time
 
 from scripts.pi0292.durable import write
-from go2arx5_vla.sla_adapter.multitask_contract_v6 import NATIVE_METHOD
 from go2arx5_vla.world_model.mfree_unattended_runtime_v1 import dirs, unit_state
 from go2arx5_vla.world_model.multitask_scope_v6 import PLAN, SCOPE, read_pin, validate
 from go2arx5_vla.world_model.multitask_score_v6 import Task
@@ -81,6 +80,10 @@ def teacher_slice(population, prefix, stop):
 def panel_cards(population, planned, templates, *, role):
     if role not in ('EXPERT','STUDENT') or set(templates) != {'F1','F2'}:
         raise ValueError('TWO_BOUND_INTERFACE_TEMPLATES_AND_ORIGINAL_M_ROLE_REQUIRED')
+    method = 'EXPERT'
+    if role == 'STUDENT':
+        from go2arx5_vla.sla_adapter.multitask_contract_v6 import NATIVE_METHOD
+        method = NATIVE_METHOD
     clusters = {item['id']:item for item in population['clusters']}
     panel = []
     for row, arm in planned:
@@ -90,7 +93,7 @@ def panel_cards(population, planned, templates, *, role):
             raise ValueError('SEALED_M_CLUSTER_AND_CONDITION_IDENTITY_REQUIRED')
         cid = row['id'] if role == 'EXPERT' else f"{row['id']}-{arm}"
         condition = dict(templates[family]['mobile_condition'],mode='M_FREE',
-            method='EXPERT' if role=='EXPERT' else NATIVE_METHOD,family=family,layout=row['cluster'],
+            method=method,family=family,layout=row['cluster'],
             reset=row['reset'],seed=row['noise_seed'],collection_episode=cid)
         panel.append(dict(id=cid,role=role,instruction=row['instruction'],condition=condition,
             geometry=cluster['scoring_geometry'],scene=cluster['scene'],arm=arm))
@@ -173,6 +176,8 @@ def bind_gpu(spec, child, folder):
 
 def student_worker(spec, panel):
     """Prepare a nonintegrating G7 worker for exactly this new student panel."""
+    from go2arx5_vla.sla_adapter.multitask_contract_v6 import NATIVE_METHOD
+
     root = Path(spec['registered_root'])
     folder = root/'worker'
     dataset = read_pin(spec['multitask_dataset'])

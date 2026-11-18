@@ -5,6 +5,25 @@ from .mobile_continuous_teacher_v2 import DT
 from .mobile_grasp_budget_v3 import BudgetTeacher
 from .multitask_score_v6 import BASE_MOTION, LIFT, OPEN_FRACTION, Task
 
+TRANSFER_CLEARANCE_M = .008
+
+
+def swept_footprints_overlap(start, finish, obstacle, combined_half_size):
+    """Check the whole transported footprint along a straight XY segment."""
+    delta = finish - start
+    offset = start - obstacle
+    first, last = 0., 1.
+    for d, start_axis, half_size in zip(delta, offset, combined_half_size, strict=True):
+        if abs(d) < 1e-12:
+            if abs(start_axis) > half_size:
+                return False
+            continue
+        entry, exit = sorted(((-half_size - start_axis) / d, (half_size - start_axis) / d))
+        first, last = max(first, entry), min(last, exit)
+        if first > last:
+            return False
+    return True
+
 
 class MultitaskTeacher(BudgetTeacher):
     def __init__(self, initial, condition, geometry, instruction):
@@ -16,6 +35,34 @@ class MultitaskTeacher(BudgetTeacher):
         self.open_start = None
         self.withdrawal_goal = None
         self.placement_TCP = None
+        self.carry_height = None
+        self.raise_xy = None
+        self.carry_footprint_overlap = False
+
+    def carry_goal(self, sample, zone):
+        target = self.task.color
+        other = 'blue' if target == 'red' else 'red'
+        target_pose = np.asarray(sample['objects'][target]['pose'])
+        other_pose = np.asarray(sample['objects'][other]['pose'])
+        half_sizes = self.geometry['object_half_sizes']
+        target_half = abs(target_pose[:3,:3]) @ half_sizes[target]
+        other_half = abs(other_pose[:3,:3]) @ half_sizes[other]
+        tcp = np.asarray(sample['tcp'])[:3,3]
+        obj, obstacle = target_pose[:3,3], other_pose[:3,3]
+        half_planar = (target_half + other_half)[:2]
+        self.carry_footprint_overlap = swept_footprints_overlap(obj[:2], zone, obstacle[:2], half_planar)
+        if self.carry_height is None:
+            self.carry_height = self.lift_origin[2] + .026
+        if sample['native_grasp'] and self.carry_footprint_overlap:
+            gap = (obj[2] - target_half[2]) - (obstacle[2] + other_half[2])
+            self.carry_height = max(self.carry_height, tcp[2] + TRANSFER_CLEARANCE_M - gap)
+            if gap < TRANSFER_CLEARANCE_M:
+                if self.raise_xy is None:
+                    self.raise_xy = tcp[:2].copy()
+                return np.r_[self.raise_xy, self.carry_height], False
+        self.raise_xy = None
+        lower_clear = np.any(abs(obj[:2] - obstacle[:2]) > half_planar)
+        return np.r_[tcp[:2] + zone - obj[:2], self.carry_height], lower_clear
 
     def goal(self, sample):
         if self.task.operation == 'HOLD':
@@ -31,9 +78,9 @@ class MultitaskTeacher(BudgetTeacher):
             self.stage = 'CARRY'
         zone = np.asarray(self.geometry['zones'][self.task.destination]['center_world_XY'])
         if self.stage == 'CARRY':
-            goal = np.r_[tcp[:2]+zone-obj[:2], self.lift_origin[2]+.026]
+            goal, lower_clear = self.carry_goal(sample, zone)
             displacement = np.asarray(sample['base_pose'])[:2,3]-self.base_origin
-            if np.linalg.norm(obj[:2]-zone) <= .004 and displacement @ self.direction >= BASE_MOTION:
+            if lower_clear and np.linalg.norm(obj[:2]-zone) <= .004 and displacement @ self.direction >= BASE_MOTION:
                 self.stage = 'LOWER'
             else:
                 return goal
@@ -71,6 +118,8 @@ class MultitaskTeacher(BudgetTeacher):
 
     def decide(self,sample,reference,base):
         plan, evidence = super().decide(sample,reference,base)
-        evidence.update(teacher_version='MFREE_MULTITASK_TEACHER_V6',
-                        instruction=self.task.instruction, release_start_step=self.open_start)
+        evidence.update(teacher_version='MFREE_MULTITASK_TEACHER_V6_TRANSFER_CLEARANCE',
+                        instruction=self.task.instruction, release_start_step=self.open_start,
+                        teacher_carry_footprint_overlap=self.carry_footprint_overlap,
+                        teacher_carry_waiting_for_measured_clearance=self.raise_xy is not None)
         return plan,evidence
