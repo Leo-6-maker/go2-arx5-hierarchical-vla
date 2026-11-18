@@ -1,7 +1,7 @@
 {
   "schema": "SLA_D2_DEVELOPMENT_ACTUAL",
-  "observation_epoch": 1794988340.0832686,
-  "status": "ONE_VALID_HOLD_AND_NEXT_CASE_RUNNING",
+  "observation_epoch": 1794989063.9796326,
+  "status": "TWO_VALID_HOLDS_ONE_PLACE_PRECHECK_FAILURE_AND_NEXT_CASE_RUNNING",
   "source_sha": "1e3e370203857d9a63899e35d96153dc77185a37",
   "source_seal": "421d20bae377644e1ebadbd5aa0dd7eef050002d6f8cb641663ee7dfbbaefafe",
   "registered_spec_sha256": "d9d38299926b1469160b201069068b4d02d48946c1a7799e6bb5368d827d3998",
@@ -11,23 +11,23 @@
     "registered_all": 24,
     "registered_block1": 12,
     "registered_block2": 12,
-    "native_dispatched_lower_bound": 2,
-    "native_requests_sealed": 1,
+    "native_dispatched_lower_bound": 4,
+    "native_requests_sealed": 3,
     "complete_place_successes": 0,
-    "task_successes": 1,
-    "G7_eligible": 1,
+    "task_successes": 2,
+    "G7_eligible": 2,
     "awaiting_native_outcome": 1
   },
   "owned_server": {
     "unit": "wm02-sla-d2-teacher-development-b1-20261118-01",
     "invocation": "fe62ae5fcd104b8d9cdef1af1bf7571a",
     "MainPID": 2192202,
-    "live_child_pid": 2197687,
-    "child_native_observed_tick": 6803,
+    "live_child_pid": 2205233,
+    "child_native_observed_tick": 22703,
     "lease": "ACTIVE",
     "frontend_dependency": false,
     "deadline_epoch": 1794998715.3374267,
-    "latest_confirmed_pending_case": "D2-DEVELOPMENT-F1-1-HOLD-blue"
+    "latest_confirmed_pending_case": "D2-DEVELOPMENT-F1-1-PLACE-red-right"
   },
   "independent_g7_CPU_regression_previous_case": {
     "actual_RGB_pairs": 127,
@@ -114,5 +114,458 @@
     "contact_STOP": 0,
     "technical_failure": 0
   },
-  "scientifically_complete_PLACEs": 0
+  "scientifically_complete_PLACEs": 0,
+  "native_closed_ticks": 54109,
+  "scientific_sealed_cases": [
+    {
+      "id": "D2-DEVELOPMENT-F1-1-HOLD-red",
+      "native_ticks": 22453,
+      "G7": {
+        "passed": true,
+        "full_H40_rows": 2680,
+        "actual_P10_atoms": 670,
+        "current_RGB_pairs": 67,
+        "training_margin_exclusions": 0,
+        "first_failure": null,
+        "wall_s": 0.10379264410585165,
+        "statistics_fitted": false,
+        "new_native_integrations": 0,
+        "new_model_generations": 0,
+        "sha256": "010d4d6a7b7f79eac625545dd62b2592a16c8353219bf30e5d4a8a25c0b2c599"
+      },
+      "task_and_mobile_success": true,
+      "hard_STOP": false,
+      "technical_failure": false,
+      "first_failure": "TASK_SUCCESS",
+      "result_sha256": "ef38fe111c8c9f74076295925f2a5260cb3bda71bba9a81b0f8a92f10aa10e33"
+    },
+    {
+      "id": "D2-DEVELOPMENT-F1-1-HOLD-blue",
+      "native_ticks": 25953,
+      "G7": {
+        "passed": true,
+        "full_H40_rows": 3240,
+        "actual_P10_atoms": 810,
+        "current_RGB_pairs": 81,
+        "training_margin_exclusions": 0,
+        "first_failure": null,
+        "wall_s": 0.12380569335073233,
+        "statistics_fitted": false,
+        "new_native_integrations": 0,
+        "new_model_generations": 0,
+        "sha256": "c69bcf6661b29beb9b20945688f284c3ee6598ca172e5142e9e91777a7058cf9"
+      },
+      "task_and_mobile_success": true,
+      "hard_STOP": false,
+      "technical_failure": false,
+      "first_failure": "TASK_SUCCESS",
+      "result_sha256": "ccfaa741de9bf4318768a36b437326831520c0bed69716b264170fc23b013e84"
+    },
+    {
+      "id": "D2-DEVELOPMENT-F1-1-PLACE-red-left",
+      "native_ticks": 5703,
+      "G7": null,
+      "task_and_mobile_success": false,
+      "hard_STOP": false,
+      "technical_failure": false,
+      "first_failure": "D2_NO_COMPLETE_PREGRASP_CANDIDATE",
+      "result_sha256": "7f012d79eddecdc12d4fc736798792582b57a98528561266111659309c4406ca"
+    }
+  ],
+  "latest_native_score_snapshots": [
+    {
+      "case": "D2-DEVELOPMENT-F1-1-HOLD-red",
+      "score": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "HOLD-red",
+        "task_success": true,
+        "native_step": 22453,
+        "base_directional_motion_m": 0.12480797745725405,
+        "lift_m": 0.02474075470553394,
+        "inside_selected_region": null,
+        "target_grasp": true,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": false,
+        "gripper_open_fraction": 0.43364811675953674,
+        "TCP_retreat_m": 0.032388033302113255,
+        "stable_release_condition": false,
+        "states": 16751,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": true,
+        "ever_target_lift20mm": true,
+        "maximum_lift_m": 0.02474075470553394,
+        "longest_grasp_lift_hold_s": 1.1020000000013468,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 9828,
+            "native_time_s": 19.655999999999985
+          },
+          "target_grasp": {
+            "native_step": 19521,
+            "native_time_s": 39.04200000000175
+          },
+          "target_lift20mm": {
+            "native_step": 21902,
+            "native_time_s": 43.80400000000757
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "native_result": {
+        "native_ticks": 22453,
+        "failure": null,
+        "unsafe": false,
+        "completed": true,
+        "reason": "TASK_SUCCESS"
+      },
+      "G7": {
+        "passed": true,
+        "full_H40_rows": 2680,
+        "actual_P10_atoms": 670,
+        "current_RGB_pairs": 67,
+        "training_margin_exclusions": 0,
+        "first_failure": null,
+        "wall_s": 0.10379264410585165,
+        "statistics_fitted": false,
+        "new_native_integrations": 0,
+        "new_model_generations": 0,
+        "native_result_sha256": "ef38fe111c8c9f74076295925f2a5260cb3bda71bba9a81b0f8a92f10aa10e33"
+      }
+    },
+    {
+      "case": "D2-DEVELOPMENT-F1-1-HOLD-blue",
+      "score": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "HOLD-blue",
+        "task_success": true,
+        "native_step": 25953,
+        "base_directional_motion_m": 0.10856344842701805,
+        "lift_m": 0.024986287851086697,
+        "inside_selected_region": null,
+        "target_grasp": true,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": false,
+        "gripper_open_fraction": 0.4365854526158316,
+        "TCP_retreat_m": 0.018623330903018685,
+        "stable_release_condition": false,
+        "states": 20251,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": true,
+        "ever_target_lift20mm": true,
+        "maximum_lift_m": 0.024986287851086697,
+        "longest_grasp_lift_hold_s": 1.1140000000013615,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 10723,
+            "native_time_s": 21.445999999998993
+          },
+          "target_grasp": {
+            "native_step": 23021,
+            "native_time_s": 46.042000000010304
+          },
+          "target_lift20mm": {
+            "native_step": 25396,
+            "native_time_s": 50.79200000001611
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "native_result": {
+        "native_ticks": 25953,
+        "failure": null,
+        "unsafe": false,
+        "completed": true,
+        "reason": "TASK_SUCCESS"
+      },
+      "G7": {
+        "passed": true,
+        "full_H40_rows": 3240,
+        "actual_P10_atoms": 810,
+        "current_RGB_pairs": 81,
+        "training_margin_exclusions": 0,
+        "first_failure": null,
+        "wall_s": 0.12380569335073233,
+        "statistics_fitted": false,
+        "new_native_integrations": 0,
+        "new_model_generations": 0,
+        "native_result_sha256": "ccfaa741de9bf4318768a36b437326831520c0bed69716b264170fc23b013e84"
+      }
+    },
+    {
+      "case": "D2-DEVELOPMENT-F1-1-PLACE-red-left",
+      "score": null,
+      "native_result": {
+        "native_ticks": 5703,
+        "failure": null,
+        "unsafe": false,
+        "completed": true,
+        "reason": "D2_NO_COMPLETE_PREGRASP_CANDIDATE"
+      },
+      "G7": null
+    },
+    {
+      "case": "D2-DEVELOPMENT-F1-1-PLACE-red-right",
+      "score": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "PLACE-red-right",
+        "task_success": false,
+        "native_step": 22703,
+        "base_directional_motion_m": 0.11173621601058009,
+        "lift_m": 0.01873236657416355,
+        "inside_selected_region": false,
+        "target_grasp": true,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": false,
+        "gripper_open_fraction": 0.43363776406298105,
+        "TCP_retreat_m": 0.0323678579989554,
+        "stable_release_condition": false,
+        "states": 17001,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": true,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.01873236657416355,
+        "longest_grasp_lift_hold_s": 0.0,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 9442,
+            "native_time_s": 18.884000000000412
+          },
+          "target_grasp": {
+            "native_step": 20517,
+            "native_time_s": 41.034000000004184
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "native_result": null,
+      "G7": null
+    }
+  ],
+  "first_new_place_failure": {
+    "epoch": 1794988801.062991,
+    "native_case": "D2-DEVELOPMENT-F1-1-PLACE-red-left",
+    "actual_requests": 1,
+    "native_integrations": 5703,
+    "native_result_sha256": "7f012d79eddecdc12d4fc736798792582b57a98528561266111659309c4406ca",
+    "source_sha": "1e3e370203857d9a63899e35d96153dc77185a37",
+    "native_task_success": false,
+    "full_scientific_H40_queries": 0,
+    "task_atoms": 0,
+    "technical_failure": false,
+    "native_contact_STOP": false,
+    "mechanism": {
+      "first_failure": "D2_NO_COMPLETE_PREGRASP_CANDIDATE",
+      "stage": "PREGRASP",
+      "first_tick": 5703,
+      "ranked": 54,
+      "evaluated": 54,
+      "failure_causes": [
+        {
+          "count": 18,
+          "stage": "approach",
+          "reason": "TEACHER_CLEARANCE_MARGIN",
+          "pair": [
+            "task_right_pad",
+            "task_table"
+          ]
+        },
+        {
+          "count": 17,
+          "stage": "carry",
+          "reason": "TEACHER_CLEARANCE_MARGIN",
+          "pair": [
+            "task_cube_geom",
+            "task_blue_cube_geom"
+          ]
+        },
+        {
+          "count": 16,
+          "stage": "lower",
+          "reason": "TEACHER_CLEARANCE_MARGIN",
+          "pair": [
+            "",
+            "task_blue_cube_geom"
+          ]
+        },
+        {
+          "count": 3,
+          "stage": "carry",
+          "reason": "TEACHER_CLEARANCE_MARGIN",
+          "pair": [
+            "task_left_pad",
+            "task_blue_cube_geom"
+          ]
+        }
+      ],
+      "first_candidate": {
+        "passed": false,
+        "reason": "TEACHER_CLEARANCE_MARGIN",
+        "phase": "carry",
+        "sample_count": 74,
+        "gap_m": 0.0059090909090909055,
+        "pair": [
+          "task_cube_geom",
+          "task_blue_cube_geom"
+        ],
+        "margin_m": 0.006353223836670144,
+        "nominal_motion_reserve_s": 58.840708247799185,
+        "grasp_raise_m": 0.016,
+        "transit_raise_m": 0.026,
+        "zone_XY": [
+          0.4465,
+          0.042499999999999996
+        ],
+        "rotation": [
+          [
+            0.9803523511139607,
+            0.008664172564024925,
+            0.1970639484510287
+          ],
+          [
+            -0.003763122533972217,
+            0.9996745588798019,
+            -0.025231235349605897
+          ],
+          [
+            -0.1972184235159667,
+            0.02399392511144622,
+            0.9800659084896395
+          ]
+        ]
+      },
+      "last_candidate": {
+        "passed": false,
+        "reason": "TEACHER_CLEARANCE_MARGIN",
+        "phase": "approach",
+        "sample_count": 47,
+        "gap_m": 0.006265846326269876,
+        "pair": [
+          "task_right_pad",
+          "task_table"
+        ],
+        "margin_m": 0.006353223836670144,
+        "nominal_motion_reserve_s": 79.42553925742129,
+        "grasp_raise_m": 0.0,
+        "transit_raise_m": 0.062,
+        "zone_XY": [
+          0.4505,
+          0.03849999999999999
+        ],
+        "rotation": [
+          [
+            0.8508916019914777,
+            -0.4923338858966832,
+            0.1832780032034609
+          ],
+          [
+            0.4869172158450067,
+            0.8700756497889236,
+            0.07668108344389168
+          ],
+          [
+            -0.1972184235159667,
+            0.02399392511144622,
+            0.9800659084896395
+          ]
+        ]
+      }
+    },
+    "new_native_integration_of_audit": 0,
+    "effect_replay": false
+  },
+  "offline_geometry_sampling_diagnostic": {
+    "native_state_step": 5703,
+    "frozen_source_sha": "1e3e370203857d9a63899e35d96153dc77185a37",
+    "rows": [
+      {
+        "refinement": 1,
+        "position_spacing_mm": 4.0,
+        "angle_spacing_deg": 3.0,
+        "positive_sampling_margin_mm": 6.353223836670144,
+        "attempted": 54,
+        "passed": false,
+        "first_passing_route": null,
+        "first_failure_phases": {
+          "carry": 20,
+          "lower": 16,
+          "approach": 18
+        },
+        "wall_s": 1.0693819895386696
+      },
+      {
+        "refinement": 2,
+        "position_spacing_mm": 2.0,
+        "angle_spacing_deg": 1.5,
+        "positive_sampling_margin_mm": 3.176611918335072,
+        "attempted": 54,
+        "passed": false,
+        "first_passing_route": null,
+        "first_failure_phases": {
+          "lower": 28,
+          "carry": 26
+        },
+        "wall_s": 2.259005084633827
+      },
+      {
+        "refinement": 4,
+        "position_spacing_mm": 1.0,
+        "angle_spacing_deg": 0.75,
+        "positive_sampling_margin_mm": 1.588305959167536,
+        "attempted": 54,
+        "passed": false,
+        "first_passing_route": null,
+        "first_failure_phases": {
+          "lower": 28,
+          "carry": 26
+        },
+        "wall_s": 4.305349254980683
+      },
+      {
+        "refinement": 8,
+        "position_spacing_mm": 0.5,
+        "angle_spacing_deg": 0.375,
+        "positive_sampling_margin_mm": 0.794152979583768,
+        "attempted": 54,
+        "passed": false,
+        "first_passing_route": null,
+        "first_failure_phases": {
+          "lower": 31,
+          "carry": 23
+        },
+        "wall_s": 8.585623500868678
+      }
+    ],
+    "no_model_generations": 0,
+    "new_native_requests": 0,
+    "new_native_ticks": 0,
+    "scope": "offline geometry refinement on equally pinned path hypotheses"
+  },
+  "offline_alternative_geometry": {
+    "exact_state_step": 5703,
+    "ranked_options": 663,
+    "evaluated": 256,
+    "passes": [],
+    "terminal_phases": {
+      "carry": 115,
+      "lower": 90,
+      "approach": 51
+    },
+    "total_wall_s": 5.4552573543041945,
+    "new_native_requests": 0,
+    "new_native_ticks": 0,
+    "model_generations": 0,
+    "scope": "full-arm kinematic route hypotheses under fixed original margin"
+  }
 }
