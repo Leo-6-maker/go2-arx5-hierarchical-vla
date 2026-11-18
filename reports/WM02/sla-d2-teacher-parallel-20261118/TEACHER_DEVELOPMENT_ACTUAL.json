@@ -440,7 +440,7 @@
   "B2": {
     "status": "ACTIVE",
     "registered": 12,
-    "observation_epoch": 1794994400.6377645,
+    "observation_epoch": 1794994890.7252321,
     "unit": "wm02-sla-d2-teacher-development-b2-20261118-01",
     "pid": 2254139,
     "invocation_id": "fb2a24672a004969a87f74fdeb959a07",
@@ -454,18 +454,18 @@
     "allocation_deadline_epoch": 1795027883.855488,
     "predecessor_native_result_sha256": "b0c953ba9a23d10c3430dabbc14645cec7affb2048d4459fe3b4c0eacc6e43d7",
     "launch_readback_sha256": "ee93eac6f563d1b40f5207fee5f83c6c3f156fe8b11c3d9865a7cb0f220b3a97",
-    "live_readback_sha256": "51569d6ef155366ceb96851b9c3983faf856888fef5f059f2fa17cf418b049e2",
+    "live_readback_sha256": "631e5e6cb8e9cb7be9d97355b8a16e8bfb98325b616c1de6340173763743ccd0",
     "site_readback_sha256": "f0ec5448bc45e0d8bbcac7110d73c847d9bc34f59b3a047515b3e2fc73a4b4d7",
     "linger": true,
     "frontend_dependency": false,
     "backend": "LEGACY_N1",
-    "native_requests": 8,
-    "sealed": 7,
+    "native_requests": 9,
+    "sealed": 8,
     "first_case": "D2-DEVELOPMENT-F1-2-HOLD-red",
-    "observed_native_ticks": 6053,
+    "observed_native_ticks": 3028,
     "cgroup_membership_verified": true,
-    "sealed_native_ticks": 172744,
-    "current_case": "D2-DEVELOPMENT-F2-2-HOLD-blue",
+    "sealed_native_ticks": 208447,
+    "current_case": "D2-DEVELOPMENT-F2-2-PLACE-red-left",
     "records": [
       {
         "id": "D2-DEVELOPMENT-F1-2-HOLD-red",
@@ -1004,14 +1004,63 @@
           }
         ],
         "contact_after_query_ticks": 146
+      },
+      {
+        "id": "D2-DEVELOPMENT-F2-2-HOLD-blue",
+        "family": "F2",
+        "instruction": "HOLD-blue",
+        "native_ticks": 35703,
+        "initialized_ticks": 5703,
+        "task_ticks": 30000,
+        "result_sha256": "3d34f14524308b30b96fa5669e5b7b02266947cc9dd9e42cb60e62dae94e1f9c",
+        "task_success": false,
+        "technical_failure": false,
+        "g7": null,
+        "first_failure": "TASK_BUDGET_EXHAUSTED_IN_HOLD",
+        "maximum_lift_m": 0.0266500631495864,
+        "hold_s": 28.478000000008485,
+        "hard_STOP": false,
+        "post_STOP_ticks": null,
+        "wall_s": 531.5983209693804,
+        "CPU_s": 360.179935597,
+        "trace_status": "RECORDED_TRACE_CHECKS_PASS",
+        "score_steps": 30001,
+        "stage_boundaries": [
+          {
+            "stage": "PREGRASP",
+            "native_step": 5703
+          },
+          {
+            "stage": "DESCEND",
+            "native_step": 12453
+          },
+          {
+            "stage": "CLOSE",
+            "native_step": 18453
+          },
+          {
+            "stage": "LIFT",
+            "native_step": 19203
+          },
+          {
+            "stage": "HOLD",
+            "native_step": 21703
+          }
+        ],
+        "scene_sha256": "a346b5da29986e23ce8e9016ccbcfaee19ae88b699d29d72d38bdcb95d748de6",
+        "native_grasp": true,
+        "score_alignment_readback_sha256": "81d4a6074e65abcc13d8b05added076769fc937546c9cf68b5e0bd182a5e9db1",
+        "final_base_directional_motion_m": 0.07461459213436523,
+        "largest_base_motion_while_qualified_hold_m": 0.0750328910426394,
+        "simultaneous_base_and_hold_success_frames": 0
       }
     ],
-    "known_failed_qualification_cells": 6,
+    "known_failed_qualification_cells": 7,
     "remaining_development_in_flight": true,
     "last_cgroup_empty": false,
     "remaining_supervisor_pid": 2254139,
-    "unstarted_registered": 4,
-    "completed_HOLD": 3,
+    "unstarted_registered": 3,
+    "completed_HOLD": 4,
     "successful_HOLD": 1,
     "completed_PLACE": 4,
     "successful_PLACE": 0,
@@ -1020,8 +1069,8 @@
     "g7_episodes": 1,
     "g7_current_RGB_and_H40": 65,
     "g7_confirmed_P10_atoms": 650,
-    "case_CPU_s": 1797.9895042809999,
-    "case_wall_s": 2620.0924453334883
+    "case_CPU_s": 2158.169439878,
+    "case_wall_s": 3151.6907663028687
   },
   "Q48_native_requests": 0,
   "statistics_fits": 0,

@@ -1954,5 +1954,793 @@
     ],
     "new_native_requests": 0,
     "new_native_ticks": 0
+  },
+  "f2_HOLD_archive_shadow": {
+    "receipt_sha256": "3caaa9d898d12b542b64f31951d5488ffeee7ee710948a2c15ad84b54cadae62",
+    "cases": [
+      {
+        "condition": "D2-DEVELOPMENT-F2-1-HOLD-red",
+        "source_sha": "1e3e370203857d9a63899e35d96153dc77185a37",
+        "result_sha256": "7a4ee115e106bb0472f2af0998f9e6487aa6b9cbee5ef5ccc93f0cf7ab74375b",
+        "end_native_tick": 21175,
+        "native_STOP": true,
+        "last_DESCEND_queries": [
+          {
+            "query_tick": 20453,
+            "confirmed_atoms": 10,
+            "fixed_root_at_observation_zero_margin": {
+              "passed": true,
+              "phase": "approach",
+              "sample_count": 22,
+              "gap_m": 0.003864097524920486,
+              "pair": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "margin_m": 0.0
+            },
+            "fixed_root_at_observation_sampling_margin": {
+              "passed": true,
+              "phase": "approach",
+              "sample_count": 22,
+              "gap_m": 0.003864097524920486,
+              "pair": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "margin_m": 0.003848416433985953
+            },
+            "fixed_root_with_observed_history_margin": {
+              "passed": false,
+              "reason": "TEACHER_CLEARANCE_MARGIN",
+              "phase": "approach",
+              "sample_count": 14,
+              "gap_m": 0.005386959579597353,
+              "pair": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "margin_m": 0.005543062492140823
+            }
+          },
+          {
+            "query_tick": 20703,
+            "confirmed_atoms": 10,
+            "fixed_root_at_observation_zero_margin": {
+              "passed": true,
+              "phase": "approach",
+              "sample_count": 22,
+              "gap_m": 0.0011262400361387037,
+              "pair": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "margin_m": 0.0
+            },
+            "fixed_root_at_observation_sampling_margin": {
+              "passed": false,
+              "reason": "TEACHER_CLEARANCE_MARGIN",
+              "phase": "approach",
+              "sample_count": 10,
+              "gap_m": 0.0034026309840842275,
+              "pair": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "margin_m": 0.0037774840535419497
+            },
+            "fixed_root_with_observed_history_margin": {
+              "passed": false,
+              "reason": "TEACHER_CLEARANCE_MARGIN",
+              "phase": "approach",
+              "sample_count": 1,
+              "gap_m": 0.004919101926962641,
+              "pair": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "margin_m": 0.005470475945293199
+            }
+          },
+          {
+            "query_tick": 20953,
+            "confirmed_atoms": 8,
+            "fixed_root_at_observation_zero_margin": {
+              "passed": false,
+              "reason": "KINEMATIC_FORBIDDEN_CONTACT",
+              "phase": "approach",
+              "sample_count": 14,
+              "gap_m": -6.186266417087041e-05,
+              "pair": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "margin_m": 0.0
+            },
+            "fixed_root_at_observation_sampling_margin": {
+              "passed": false,
+              "reason": "TEACHER_CLEARANCE_MARGIN",
+              "phase": "approach",
+              "sample_count": 1,
+              "gap_m": 0.0022213667820764962,
+              "pair": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "margin_m": 0.0037093834293116666
+            },
+            "fixed_root_with_observed_history_margin": {
+              "passed": false,
+              "reason": "TEACHER_CLEARANCE_MARGIN",
+              "phase": "approach",
+              "sample_count": 1,
+              "gap_m": 0.0022213667820764962,
+              "pair": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "margin_m": 0.005400787192144046
+            }
+          }
+        ],
+        "measured_last_interval": {
+          "frames": 223,
+          "first": [
+            20953,
+            0.0022213667820764962
+          ],
+          "minimum": [
+            21175,
+            -2.2740480928859497e-05
+          ],
+          "last": [
+            21175,
+            -2.2740480928859497e-05
+          ],
+          "under_1mm": 111,
+          "endpoints": [
+            {
+              "tick": 20953,
+              "tcp_m": [
+                0.38505315423528513,
+                0.08717409351772963,
+                0.6596782711395364
+              ],
+              "base_mount_m": [
+                0.0837356912131088,
+                0.08525291043604832,
+                0.4358379345206584
+              ],
+              "distance_to_distractor_m": 0.0022213667820764962
+            },
+            {
+              "tick": 21175,
+              "tcp_m": [
+                0.3846039566160959,
+                0.08726339225219733,
+                0.6574913390323833
+              ],
+              "base_mount_m": [
+                0.08317747152768092,
+                0.08526305258686248,
+                0.43585303003860404
+              ],
+              "distance_to_distractor_m": -2.2740480928859497e-05
+            }
+          ]
+        },
+        "new_native_ticks": 0,
+        "new_native_requests": 0,
+        "wall_s": 0.9657112564891577
+      },
+      {
+        "condition": "D2-DEVELOPMENT-F2-1-HOLD-blue",
+        "source_sha": "1e3e370203857d9a63899e35d96153dc77185a37",
+        "result_sha256": "cf0278c53fd1399dc791d43d04a3e406b85d1fd36b427ecead127d4dc70ada96",
+        "end_native_tick": 22953,
+        "native_STOP": false,
+        "last_DESCEND_queries": [
+          {
+            "query_tick": 18453,
+            "confirmed_atoms": 10,
+            "fixed_root_at_observation_zero_margin": {
+              "passed": true,
+              "phase": "approach",
+              "sample_count": 22,
+              "gap_m": 0.011940539080647974,
+              "pair": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "margin_m": 0.0
+            },
+            "fixed_root_at_observation_sampling_margin": {
+              "passed": true,
+              "phase": "approach",
+              "sample_count": 22,
+              "gap_m": 0.011940539080647974,
+              "pair": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "margin_m": 0.0034250712652809418
+            },
+            "fixed_root_with_observed_history_margin": {
+              "passed": true,
+              "phase": "approach",
+              "sample_count": 22,
+              "gap_m": 0.011940539080647974,
+              "pair": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "margin_m": 0.007969102719273587
+            }
+          },
+          {
+            "query_tick": 18703,
+            "confirmed_atoms": 10,
+            "fixed_root_at_observation_zero_margin": {
+              "passed": true,
+              "phase": "approach",
+              "sample_count": 22,
+              "gap_m": 0.013598519567211692,
+              "pair": [
+                "task_right_pad",
+                "task_table"
+              ],
+              "margin_m": 0.0
+            },
+            "fixed_root_at_observation_sampling_margin": {
+              "passed": true,
+              "phase": "approach",
+              "sample_count": 22,
+              "gap_m": 0.013598519567211692,
+              "pair": [
+                "task_right_pad",
+                "task_table"
+              ],
+              "margin_m": 0.003639671119148785
+            },
+            "fixed_root_with_observed_history_margin": {
+              "passed": false,
+              "reason": "TEACHER_CLEARANCE_MARGIN",
+              "phase": "approach",
+              "sample_count": 1,
+              "gap_m": 0.014799184175219991,
+              "pair": [
+                "task_right_pad",
+                "task_table"
+              ],
+              "margin_m": 0.01891444959536695
+            }
+          },
+          {
+            "query_tick": 18953,
+            "confirmed_atoms": 10,
+            "fixed_root_at_observation_zero_margin": {
+              "passed": true,
+              "phase": "approach",
+              "sample_count": 22,
+              "gap_m": 0.011897870124266732,
+              "pair": [
+                "task_right_pad",
+                "task_table"
+              ],
+              "margin_m": 0.0
+            },
+            "fixed_root_at_observation_sampling_margin": {
+              "passed": true,
+              "phase": "approach",
+              "sample_count": 22,
+              "gap_m": 0.011897870124266732,
+              "pair": [
+                "task_right_pad",
+                "task_table"
+              ],
+              "margin_m": 0.0035030642545495093
+            },
+            "fixed_root_with_observed_history_margin": {
+              "passed": false,
+              "reason": "TEACHER_CLEARANCE_MARGIN",
+              "phase": "approach",
+              "sample_count": 1,
+              "gap_m": 0.013296786880205785,
+              "pair": [
+                "task_right_pad",
+                "task_table"
+              ],
+              "margin_m": 0.01871859074852587
+            }
+          }
+        ],
+        "measured_last_interval": {
+          "frames": 251,
+          "first": [
+            18953,
+            0.10767494486493168
+          ],
+          "minimum": [
+            19203,
+            0.10507559318735527
+          ],
+          "last": [
+            19203,
+            0.10507559318735527
+          ],
+          "under_1mm": 0,
+          "endpoints": [
+            {
+              "tick": 18953,
+              "tcp_m": [
+                0.285504810929469,
+                0.09020234584112585,
+                0.6486273291098412
+              ],
+              "base_mount_m": [
+                -0.003262987305587217,
+                0.09906355919589767,
+                0.4371353398658639
+              ],
+              "distance_to_distractor_m": 0.10767494486493168
+            },
+            {
+              "tick": 19203,
+              "tcp_m": [
+                0.28776161069613704,
+                0.08969035881629536,
+                0.6460183727711024
+              ],
+              "base_mount_m": [
+                -0.0015987752186412962,
+                0.09838418181836284,
+                0.43871701964653065
+              ],
+              "distance_to_distractor_m": 0.10507559318735527
+            }
+          ]
+        },
+        "new_native_ticks": 0,
+        "new_native_requests": 0,
+        "wall_s": 0.886031330563128
+      },
+      {
+        "condition": "D2-DEVELOPMENT-F2-2-HOLD-red",
+        "source_sha": "e16783e389362102470de2def854fcf2bf4b78cd",
+        "result_sha256": "0583f90785168e52c3770d45cd2102e23df9f5d924f72cae0bd751c750db4e39",
+        "end_native_tick": 19849,
+        "native_STOP": true,
+        "last_DESCEND_queries": [
+          {
+            "query_tick": 19203,
+            "confirmed_atoms": 10,
+            "fixed_root_at_observation_zero_margin": {
+              "passed": true,
+              "phase": "approach",
+              "sample_count": 22,
+              "gap_m": 0.011828215451596326,
+              "pair": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "margin_m": 0.0
+            },
+            "fixed_root_at_observation_sampling_margin": {
+              "passed": true,
+              "phase": "approach",
+              "sample_count": 22,
+              "gap_m": 0.011828215451596326,
+              "pair": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "margin_m": 0.004048163691233297
+            },
+            "fixed_root_with_observed_history_margin": {
+              "passed": true,
+              "phase": "approach",
+              "sample_count": 22,
+              "gap_m": 0.011828215451596326,
+              "pair": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "margin_m": 0.009489707502000172
+            }
+          },
+          {
+            "query_tick": 19453,
+            "confirmed_atoms": 10,
+            "fixed_root_at_observation_zero_margin": {
+              "passed": true,
+              "phase": "approach",
+              "sample_count": 22,
+              "gap_m": 0.009584062983767933,
+              "pair": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "margin_m": 0.0
+            },
+            "fixed_root_at_observation_sampling_margin": {
+              "passed": true,
+              "phase": "approach",
+              "sample_count": 22,
+              "gap_m": 0.009584062983767933,
+              "pair": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "margin_m": 0.003984234745423627
+            },
+            "fixed_root_with_observed_history_margin": {
+              "passed": true,
+              "phase": "approach",
+              "sample_count": 22,
+              "gap_m": 0.009584062983767933,
+              "pair": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "margin_m": 0.009414543893028732
+            }
+          },
+          {
+            "query_tick": 19703,
+            "confirmed_atoms": 5,
+            "fixed_root_at_observation_zero_margin": {
+              "passed": true,
+              "phase": "approach",
+              "sample_count": 22,
+              "gap_m": 0.0009859091011819726,
+              "pair": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "margin_m": 0.0
+            },
+            "fixed_root_at_observation_sampling_margin": {
+              "passed": false,
+              "reason": "TEACHER_CLEARANCE_MARGIN",
+              "phase": "approach",
+              "sample_count": 8,
+              "gap_m": 0.0034719512509146233,
+              "pair": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "margin_m": 0.003736204341014371
+            },
+            "fixed_root_with_observed_history_margin": {
+              "passed": false,
+              "reason": "TEACHER_CLEARANCE_MARGIN",
+              "phase": "approach",
+              "sample_count": 1,
+              "gap_m": 0.004603905766044442,
+              "pair": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "margin_m": 0.011743452175053112
+            }
+          }
+        ],
+        "measured_last_interval": {
+          "frames": 147,
+          "first": [
+            19703,
+            0.004603905766044442
+          ],
+          "minimum": [
+            19849,
+            -0.0004922870987605632
+          ],
+          "last": [
+            19849,
+            -0.0004922870987605632
+          ],
+          "under_1mm": 4,
+          "endpoints": [
+            {
+              "tick": 19703,
+              "tcp_m": [
+                0.3827347117586364,
+                0.06944448997549835,
+                0.6611417404097131
+              ],
+              "base_mount_m": [
+                0.08898679804451215,
+                0.07370883379109261,
+                0.42376713319174697
+              ],
+              "distance_to_distractor_m": 0.004603905766044442
+            },
+            {
+              "tick": 19849,
+              "tcp_m": [
+                0.3725298790063256,
+                0.06659649698828267,
+                0.6583332696851691
+              ],
+              "base_mount_m": [
+                0.08500933153373699,
+                0.08068627536468985,
+                0.4193898307883203
+              ],
+              "distance_to_distractor_m": -0.0004922870987605632
+            }
+          ]
+        },
+        "new_native_ticks": 0,
+        "new_native_requests": 0,
+        "wall_s": 0.9148711105808616
+      },
+      {
+        "condition": "D2-DEVELOPMENT-F2-2-HOLD-blue",
+        "source_sha": "e16783e389362102470de2def854fcf2bf4b78cd",
+        "result_sha256": "3d34f14524308b30b96fa5669e5b7b02266947cc9dd9e42cb60e62dae94e1f9c",
+        "end_native_tick": 35703,
+        "native_STOP": false,
+        "last_DESCEND_queries": [
+          {
+            "query_tick": 17703,
+            "confirmed_atoms": 10,
+            "fixed_root_at_observation_zero_margin": {
+              "passed": true,
+              "phase": "approach",
+              "sample_count": 22,
+              "gap_m": 0.01052673973904993,
+              "pair": [
+                "task_right_pad",
+                "task_table"
+              ],
+              "margin_m": 0.0
+            },
+            "fixed_root_at_observation_sampling_margin": {
+              "passed": true,
+              "phase": "approach",
+              "sample_count": 22,
+              "gap_m": 0.01052673973904993,
+              "pair": [
+                "task_right_pad",
+                "task_table"
+              ],
+              "margin_m": 0.0034382197102030727
+            },
+            "fixed_root_with_observed_history_margin": {
+              "passed": false,
+              "reason": "TEACHER_CLEARANCE_MARGIN",
+              "phase": "approach",
+              "sample_count": 1,
+              "gap_m": 0.011689540466949451,
+              "pair": [
+                "task_right_pad",
+                "task_table"
+              ],
+              "margin_m": 0.013929412127121217
+            }
+          },
+          {
+            "query_tick": 17953,
+            "confirmed_atoms": 10,
+            "fixed_root_at_observation_zero_margin": {
+              "passed": true,
+              "phase": "approach",
+              "sample_count": 22,
+              "gap_m": 0.012656094402253175,
+              "pair": [
+                "task_right_pad",
+                "task_table"
+              ],
+              "margin_m": 0.0
+            },
+            "fixed_root_at_observation_sampling_margin": {
+              "passed": true,
+              "phase": "approach",
+              "sample_count": 22,
+              "gap_m": 0.012656094402253175,
+              "pair": [
+                "task_right_pad",
+                "task_table"
+              ],
+              "margin_m": 0.003679654831696854
+            },
+            "fixed_root_with_observed_history_margin": {
+              "passed": false,
+              "reason": "TEACHER_CLEARANCE_MARGIN",
+              "phase": "approach",
+              "sample_count": 1,
+              "gap_m": 0.013247408013840656,
+              "pair": [
+                "task_right_pad",
+                "task_table"
+              ],
+              "margin_m": 0.020719255667798992
+            }
+          },
+          {
+            "query_tick": 18203,
+            "confirmed_atoms": 10,
+            "fixed_root_at_observation_zero_margin": {
+              "passed": true,
+              "phase": "approach",
+              "sample_count": 22,
+              "gap_m": 0.011230486875247556,
+              "pair": [
+                "task_right_pad",
+                "task_table"
+              ],
+              "margin_m": 0.0
+            },
+            "fixed_root_at_observation_sampling_margin": {
+              "passed": true,
+              "phase": "approach",
+              "sample_count": 22,
+              "gap_m": 0.011230486875247556,
+              "pair": [
+                "task_right_pad",
+                "task_table"
+              ],
+              "margin_m": 0.00345596075256496
+            },
+            "fixed_root_with_observed_history_margin": {
+              "passed": false,
+              "reason": "TEACHER_CLEARANCE_MARGIN",
+              "phase": "approach",
+              "sample_count": 1,
+              "gap_m": 0.012285490854972167,
+              "pair": [
+                "task_right_pad",
+                "task_table"
+              ],
+              "margin_m": 0.02034370999045125
+            }
+          }
+        ],
+        "measured_last_interval": {
+          "frames": 251,
+          "first": [
+            18203,
+            0.10760825837141175
+          ],
+          "minimum": [
+            18453,
+            0.10590698225877554
+          ],
+          "last": [
+            18453,
+            0.10590698225877554
+          ],
+          "under_1mm": 0,
+          "endpoints": [
+            {
+              "tick": 18203,
+              "tcp_m": [
+                0.2762500583735325,
+                0.06853821497841352,
+                0.6462724119703118
+              ],
+              "base_mount_m": [
+                -0.01606562495542095,
+                0.07512625177301392,
+                0.44011657271640003
+              ],
+              "distance_to_distractor_m": 0.10760825837141175
+            },
+            {
+              "tick": 18453,
+              "tcp_m": [
+                0.27779411757296524,
+                0.06926943874593264,
+                0.6449282580666545
+              ],
+              "base_mount_m": [
+                -0.015572198806599602,
+                0.0754044206608632,
+                0.44196638189270554
+              ],
+              "distance_to_distractor_m": 0.10590698225877554
+            }
+          ]
+        },
+        "new_native_ticks": 0,
+        "new_native_requests": 0,
+        "wall_s": 0.8710890961810946
+      }
+    ],
+    "unsafe_comparison_does_not_admit_as_guard": true,
+    "shadow_added_native_requests": 0,
+    "shadow_added_native_ticks": 0
+  },
+  "blue_HOLD_same_clock_score_replay": {
+    "receipt_sha256": "81d4a6074e65abcc13d8b05added076769fc937546c9cf68b5e0bd182a5e9db1",
+    "cases": [
+      {
+        "condition": "D2-DEVELOPMENT-F2-1-HOLD-blue",
+        "result_sha256": "cf0278c53fd1399dc791d43d04a3e406b85d1fd36b427ecead127d4dc70ada96",
+        "status": "TASK_SUCCESS",
+        "native_integrations": 22953,
+        "replayed_score_states": 17251,
+        "task_success": true,
+        "peak_lift_m": 0.025442223040305856,
+        "longest_grasp_lift_hold_s": 1.4880000000018185,
+        "peak_base_m": 0.10673905839345706,
+        "final_base_m": 0.09690569432252923,
+        "overlap_frames": 245,
+        "first_accepted_hold_motion": [
+          22709,
+          0.09660860098743253
+        ],
+        "largest_qualified_hold_motion": [
+          22953,
+          0.09690569432252923
+        ],
+        "intervals": {
+          "base_at_least80mm": [
+            [
+              13232,
+              22953
+            ]
+          ],
+          "grasp_lift_qualified_at_least1s": [
+            [
+              22709,
+              22953
+            ]
+          ],
+          "simultaneous_score_success": [
+            [
+              22709,
+              22953
+            ]
+          ]
+        },
+        "actual_new_request": 0,
+        "actual_new_ticks": 0,
+        "analysis_wall_s": 3.8326029935851693
+      },
+      {
+        "condition": "D2-DEVELOPMENT-F2-2-HOLD-blue",
+        "result_sha256": "3d34f14524308b30b96fa5669e5b7b02266947cc9dd9e42cb60e62dae94e1f9c",
+        "status": "TASK_BUDGET_EXHAUSTED_IN_HOLD",
+        "native_integrations": 35703,
+        "replayed_score_states": 30001,
+        "task_success": false,
+        "peak_lift_m": 0.0266500631495864,
+        "longest_grasp_lift_hold_s": 28.478000000008485,
+        "peak_base_m": 0.09831982241197819,
+        "final_base_m": 0.07461459213436523,
+        "overlap_frames": 0,
+        "first_accepted_hold_motion": [
+          21964,
+          0.07440071678916764
+        ],
+        "largest_qualified_hold_motion": [
+          23190,
+          0.0750328910426394
+        ],
+        "intervals": {
+          "base_at_least80mm": [
+            [
+              13468,
+              17683
+            ]
+          ],
+          "grasp_lift_qualified_at_least1s": [
+            [
+              21964,
+              35703
+            ]
+          ],
+          "simultaneous_score_success": []
+        },
+        "actual_new_request": 0,
+        "actual_new_ticks": 0,
+        "analysis_wall_s": 6.235837868414819
+      }
+    ],
+    "decoded_2ms_frames": 47252,
+    "additional_native_requests": 0,
+    "additional_native_ticks": 0
   }
 }
