@@ -72,6 +72,7 @@ class MultitaskEngine(FullTrajectoryEngine):
             grip_speed_margin_m_s=dense_g7_v6.GRIP_MARGIN, grip_speed_limit_m_s=dense_g7_v6.GRIP_LIMIT,
             aux_samples_per_update=4, full_sampling_steps=10, aux_gradient_rematerialization=True,
             inference_route='cached_actual', state_token_dropout=.25, fresh_Adam=True,
+            parent_host_cast_v7=spec.get('parent_host_cast_v7',False),
             BASE_head=False, teacher_memory_input=False, object_truth_input=False, phase_input=False)
         graph = self.graph
         fields, _ = extracted_fields(batch_v2, pi0)

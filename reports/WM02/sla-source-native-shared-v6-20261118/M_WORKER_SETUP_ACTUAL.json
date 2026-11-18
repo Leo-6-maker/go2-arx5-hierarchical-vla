@@ -1,0 +1,79 @@
+{
+  "schema": "SLA_V6_M_G7_WORKER_SETUP_AND_SOURCE_DONOR_CHECK",
+  "observed_SGT": "2026-11-18T08:35:34.272369+08:00",
+  "actual_source_donor": {
+    "S1000_terminal_confirmed": true,
+    "actual_S1000_campaign_sha256": "005c2d628df3929723443e30416f4704ac5f509325c4e6ee753773d9a0077f28",
+    "source_checkpoint_sha256": "c08e919b5151ccafdfd5b427e02710f1a8e9f9189ca227314f72e5ec0296ab6d",
+    "bytes_verified": 199952896,
+    "shared_leaf_count": 20,
+    "official_parent_sha256": "232442c8a8c934118cbcdb890c6f307d7fc857819d7e45c2286ed8e8e5d5f3a3",
+    "source_IO_norm_optimizer_copied": false,
+    "used_production_M_donor_validator": true,
+    "wall_s": 3.3681694827973843,
+    "new_model_loads": 0,
+    "transplanted_target_arrays": 0,
+    "new_updates": 0,
+    "new_generations": 0,
+    "new_native_requests": 0
+  },
+  "Core_scope_assembly": {
+    "shell_python": "3.12.3",
+    "mujoco": "3.2.7",
+    "actual_sealed_population_sha256": "97a586c492811e212558f8e1c3ff978e2ec205cb9f8d7b90b8ba12c8622e3ec5",
+    "archived_GPU_template_sha256": "38be835c44bb3da38b59ca59955bded82d9f95f0e8596bbdd56a6edbe37abde6",
+    "real_native_scope_validated": 48,
+    "worker_generation_limit": 7680,
+    "temporary_lease_rows": 50,
+    "permanent_registrations": 0,
+    "synthetic_endpoint_and_interface_fixtures": true,
+    "gpu_processes": 0,
+    "model_generations": 0,
+    "optimizer_updates": 0,
+    "native_requests": 0,
+    "native_ticks": 0
+  },
+  "Core_scope_assembly_wall_s": 3.9917674716562033,
+  "source_files_sha256": {
+    "scripts/wm02/multitask_stage_cards_v6.py": "7e483ca2848b81737203a48c3615c2bc3350d210108a8863ee28b7b93fa978cf",
+    "scripts/wm02/multitask_student_campaign_v6.py": "420a61c5e4e6eac020989a1214d9e54b3ffaf2fe7f59287f0e6984cfa63462d7",
+    "scripts/wm02/multitask_teacher_campaign_v6.py": "cf96c51adf4598e25a2caddedd62bf5dd287140782b213dc9781a16e02972b5b",
+    "scripts/wm02/multitask_learning_campaign_v6.py": "5c23fb3c043214505eafd276c394d9b06d374b93613ce05b595b1838ba6dbb76",
+    "src/go2arx5_vla/sla_adapter/multitask_contract_v6.py": "1571b1e038e0e393c526db39e07f75167a7ad71bfb77ae018ea93aeff8596ead",
+    "src/go2arx5_vla/sla_adapter/multitask_data_v6.py": "0ba4a9a79051ac0bf026e28e5dcbabe855f20bfe70b0ec4fe91feb885b270dbd",
+    "src/go2arx5_vla/sla_adapter/multitask_initialization_v6.py": "6b1f426868c99593c89d1f022578c7458b9863d6fd5e3eb84bda380c1df2700b",
+    "src/go2arx5_vla/sla_adapter/multitask_pool_v6.py": "66777d202474e26a18bea2a6cd386c76981c4b24e2385cc08c16600c38521ef0",
+    "src/go2arx5_vla/sla_adapter/multitask_training_v6.py": "4ed36ca6d6867fedce197e707d758d37e60f78f46b1520a46fcc18d1374cbc62",
+    "src/go2arx5_vla/world_model/multitask_adapter_v6.py": "23b9c50c22280e9a7d6a528f2aebe0bbed1a2c8462b3c0d69f105c1b5e4204d8",
+    "src/go2arx5_vla/world_model/multitask_camera_v6.py": "d9ddb28a080594115198f967dd9f7a86b7711c4194139f4cd548df08aa17bffb",
+    "src/go2arx5_vla/world_model/multitask_contact_v6.py": "677bcafe70b2d92bbda30284e05a6538a9da65c1884a0448953b060d2c104648",
+    "src/go2arx5_vla/world_model/multitask_scene_v6.py": "05ab846ee60bdeba9bcd5cb5830de592ce1b1c73a2a0d04186c0795a496a2b1b",
+    "src/go2arx5_vla/world_model/multitask_scope_v6.py": "aa98d4edd377cdc88ed28ee3c637023f6209f3c934d8df1770153a213698ac97",
+    "src/go2arx5_vla/world_model/multitask_score_v6.py": "04be0e46e71114f932f8b42ac25fba448e4d07e3201f83c08aa7b385a78fb4b0",
+    "src/go2arx5_vla/world_model/multitask_state_v6.py": "44248e6ab22c039d38bb6dca8264671c9a8eca6fe6365ca7f4eb270ef71579b6",
+    "src/go2arx5_vla/world_model/multitask_student_episode_v6.py": "88b892061bd2a73da0237d3dd53c083b6e713fd0eebbbc5f5d2da4e3f36a48e6",
+    "src/go2arx5_vla/world_model/multitask_teacher_episode_v6.py": "1e595dd1f8c4c04c7b21b7638341786da5c01133eabec8ac8e2faf4c60ce12b3",
+    "src/go2arx5_vla/world_model/multitask_teacher_v6.py": "d0b52236e1cebdcaa3fccda1098f071011f461b9873fb6c0b41c904285e6ceb3",
+    "scripts/pi0294/task_state.py": "3b0ce89af592b3508051df70eeaa5c5978dcadf227251538bf4f2c0e7c93d41c"
+  },
+  "local_targeted_tests": {
+    "passed": 46,
+    "skipped": 2
+  },
+  "live_dependencies": {
+    "sla-v6-source-test96-20261118-02": {
+      "MainPID": 1715106,
+      "phase": "WAIT_EXISTING_T_FOLLOWUP_GPU_COLD_BOUNDARY"
+    },
+    "sla-v6-multitask-interfaces-20261118-02": {
+      "MainPID": 1615664,
+      "phase": "WAIT_EXISTING_T_NATIVE_OWNER_COLD_BOUNDARY"
+    },
+    "sla-v6-multitask-teacher-first6-20261118-01": {
+      "MainPID": 1624423,
+      "phase": "WAIT_ACTUAL_MULTITASK_INTERFACES"
+    }
+  },
+  "actual_new_training_updates": 0,
+  "actual_M_native_requests": 0
+}

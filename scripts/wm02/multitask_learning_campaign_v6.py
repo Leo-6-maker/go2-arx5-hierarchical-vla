@@ -10,7 +10,7 @@ from go2arx5_vla.sla_adapter.multitask_initialization_v6 import sealed_source
 from go2arx5_vla.world_model.mfree_recovery_v2 import register
 from go2arx5_vla.world_model.mfree_unattended_runtime_v1 import close, dirs
 from go2arx5_vla.world_model.multitask_scope_v6 import PLAN, SCOPE, read_pin
-from .multitask_stage_cards_v6 import pin, read, require_unstarted_cases, verified_teacher_prefix
+from .multitask_stage_cards_v6 import bind_gpu, pin, read, require_unstarted_cases, verified_teacher_prefix
 from .target_followup_v6 import run_child
 
 
@@ -61,29 +61,6 @@ def dataset_result(prepared, spec):
             or spec['previous_teacher_results']!=[stage['result'] for stage in manifest['teacher_campaigns']]):
         raise ValueError('SEALED_ACTUAL_QUALIFIED_M_TARGET_DATA_AND_STATS_REQUIRED')
     return actual['dataset'],audit
-
-
-def bind_gpu(spec, child, folder):
-    template = read_pin(spec['gpu_template'])
-    base = read_pin(template['site_binding'])
-    if (base['allocation_deadline_epoch']!=spec['allocation_deadline_epoch'] or base['uid']!=spec['uid']
-            or base['host']!=spec['host'] or base['allocation']['neural_owner_lock']!=template['neural_owner_lock']
-            or template['neural_owner_lock']!=spec['neural_owner_lock']):
-        raise PermissionError('ACTUAL_EXISTING_SITE_AND_GPU_OWNER_BINDING_REQUIRED')
-    for key in ('parent_manifest','parent_params','tokenizer','initial_function_rule','upstream_sha','GPU_uuid',
-                'JAX_memory_fraction','allocator_limit_bytes','minimum_host_available_bytes','RPC_timeout_s',
-                'model_service_timeout_s','save_and_exit_on_limit','frame_cache_bytes'):
-        child[key] = template[key]
-    child.update(parent_host_cast_v7=True,max_gpu_hours=12,max_walltime_s=43200,compilation_cache_dir=str(folder/'cache'))
-    # The common template has already proven its GPU/XLA environment. Keep
-    # the active source/runtime import path from this new owned capsule.
-    env = {k:v for k,v in template['native_environment'].items() if k!='PYTHONPATH'}
-    child['native_environment'].update(env,TMPDIR=str(folder/'tmp'),XDG_CACHE_HOME=str(folder/'cache'),
-                                       JAX_COMPILATION_CACHE_DIR=str(folder/'cache'))
-    base['allocation']['campaign_root'] = spec['registered_root']
-    base['paths'] = {key:str(Path(child[key]).resolve(strict=True)) for key in ('parent_params','dataset','compilation_cache_dir')}
-    write(folder/'SITE_BINDING.private.json',base)
-    child['site_binding'] = pin(folder/'SITE_BINDING.private.json')
 
 
 def register_gpu_stage(spec, arm, dataset, audit, *, training=None, M_BASE_initial=None):

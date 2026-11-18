@@ -147,8 +147,70 @@ def require_unstarted_cases(registry, case_ids):
             raise PermissionError('EXISTING_NATIVE_CONDITION_REQUIRES_RECONCILIATION_OR_IS_ALREADY_CONSUMED:'+root.name)
 
 
+def bind_gpu(spec, child, folder):
+    """Bind a new GPU child to the existing site's owner and finite allocation."""
+    template = read_pin(spec['gpu_template'])
+    base = read_pin(template['site_binding'])
+    if (base['allocation_deadline_epoch']!=spec['allocation_deadline_epoch'] or base['uid']!=spec['uid']
+            or base['host']!=spec['host'] or base['allocation']['neural_owner_lock']!=template['neural_owner_lock']
+            or template['neural_owner_lock']!=spec['neural_owner_lock']):
+        raise PermissionError('ACTUAL_EXISTING_SITE_AND_GPU_OWNER_BINDING_REQUIRED')
+    for key in ('python','parent_manifest','parent_params','tokenizer','initial_function_rule','upstream_sha','GPU_uuid',
+                'JAX_memory_fraction','allocator_limit_bytes','minimum_host_available_bytes','RPC_timeout_s',
+                'model_service_timeout_s','save_and_exit_on_limit','frame_cache_bytes'):
+        child[key] = template[key]
+    child.update(parent_host_cast_v7=True,max_gpu_hours=12,max_walltime_s=43200,compilation_cache_dir=str(folder/'cache'))
+    env = {key:value for key,value in template['native_environment'].items() if key!='PYTHONPATH'}
+    child['native_environment'].update(env,TMPDIR=str(folder/'tmp'),XDG_CACHE_HOME=str(folder/'cache'),
+                                       JAX_COMPILATION_CACHE_DIR=str(folder/'cache'))
+    base['allocation']['campaign_root'] = spec['registered_root']
+    base['paths'] = {key:str(Path(child[key]).resolve(strict=True)) for key in ('parent_params','dataset','compilation_cache_dir')}
+    write(folder/'SITE_BINDING.private.json',base)
+    child['site_binding'] = pin(folder/'SITE_BINDING.private.json')
+
+
+def student_worker(spec, panel):
+    """Prepare a nonintegrating G7 worker for exactly this new student panel."""
+    root = Path(spec['registered_root'])
+    folder = root/'worker'
+    dataset = read_pin(spec['multitask_dataset'])
+    if dataset['state']!='committed' or dataset['compiled_population_sha256']!=spec['compiled_population']['sha256']:
+        raise ValueError('M_WORKER_REQUIRES_COMMITTED_MATCHED_TARGET_POPULATION')
+    manifests = {arm:read_pin(dict(path=str(Path(package['path'])/'MANIFEST.private.json'),sha256=package['sha256']))
+                 for arm, package in spec['packages'].items()}
+    stats = dataset['statistics']['sha256']
+    for arm, manifest in manifests.items():
+        if (manifest['bindings']['dataset_manifest_sha256']!=spec['multitask_dataset']['sha256']
+                or manifest['statistics_sha256']!=stats or manifest['bindings']['arm']!=arm):
+            raise ValueError('M_WORKER_REQUIRES_SHARED_SEALED_TARGET_DATA_AND_STATISTICS')
+    requests = sum(120 if Task.parse(row['instruction']).operation=='HOLD' else 180 for row in panel)
+    if not 0 < requests <= 34560:
+        raise ValueError('M_WORKER_REQUIRES_FINITE_REGISTERED_STUDENT_QUERY_CAP')
+    dirs(folder)
+    ipc = folder/'ipc'
+    ipc.mkdir()
+    child = dict(spec,registered_root=str(folder),campaign_root=str(root),role='SLA_V6_M_STUDENT_G7_WORKER',
+        physics=False,new_physical_requests_budget=0,new_optimizer_updates_budget=0,new_training_visits_budget=0,
+        ipc_root=str(ipc),live_root=str(folder),selected_combo=NATIVE_METHOD,archive_all_branches=False,
+        dataset=str(Path(spec['multitask_dataset']['path']).parent),
+        new_complete_generations_budget=requests,new_model_generations_budget=requests,unified_requests_budget=requests)
+    child['native_environment'] = dict(spec['native_environment'])
+    child['request_bindings_by_arm'] = {arm:dict(arm=arm,policy_package_sha256=spec['packages'][arm]['sha256'],
+        statistics_sha256=manifest['statistics_sha256'],codec=NATIVE_METHOD,source_sha=spec['source_sha'],
+        plan_commit=PLAN,compiled_population_sha256=spec['compiled_population']['sha256'])
+        for arm, manifest in manifests.items()}
+    bind_gpu(spec,child,folder)
+    if any(manifest['parent_manifest']!=child['parent_manifest'] for manifest in manifests.values()):
+        raise ValueError('M_WORKER_REQUIRES_THE_ACTUAL_SHARED_OFFICIAL_PARENT')
+    child['gpu_environment'] = dict(child['native_environment'])
+    # The native case preflight reads this immutable file. The existing
+    # registration transaction will verify the same bytes and create its lease.
+    write(folder/'EXECUTION_SPEC.json',child)
+    return folder, child
+
+
 def prepare_cards(spec, *, teacher_stop=None):
-    """Create artifacts for a new owned stage, leaving service launch to its caller."""
+    """Prepare the parent, native case specs and any G7 worker for registration."""
     from .multitask_teacher_campaign_v6 import interface_records
 
     root = Path(spec['registered_root'])
@@ -174,12 +236,21 @@ def prepare_cards(spec, *, teacher_stop=None):
         selected = [(row,None) for row in teacher_slice(population,prefix,teacher_stop)]
         role = 'EXPERT'
     else:
-        from .multitask_student_campaign_v6 import expected_conditions
+        from .multitask_student_campaign_v6 import endpoint_records, expected_conditions, student_arms
 
-        selected = expected_conditions(population,spec['evaluation_stage'],set(spec['packages']))
+        arms = student_arms(spec)
+        endpoint_records(spec)
+        selected = expected_conditions(population,spec['evaluation_stage'],arms)
         role = 'STUDENT'
     panel = panel_cards(population,selected,templates,role=role)
     require_unstarted_cases(spec['registry'],{row['id'] for row in panel})
+    if not root.exists():
+        dirs(root)
+    workers = []
+    if role == 'STUDENT':
+        folder, worker = student_worker(spec,panel)
+        spec = dict(spec,resident_server_spec=pin(folder/'EXECUTION_SPEC.json'))
+        workers.append((folder,worker))
     (root/'cases').mkdir()
     panel_file = root/'REGISTERED_PANEL.private.json'
     write(panel_file,panel)
@@ -192,4 +263,17 @@ def prepare_cards(spec, *, teacher_stop=None):
                   new_physical_requests_budget=len(entries),case_lead_s=1980)
     if teacher_stop is not None:
         parent['teacher_start_index'] = len(prefix)
-    return parent, entries
+    return parent, workers+entries
+
+
+def register_student_panel(spec):
+    """Register the finite student stage without starting a process."""
+    from go2arx5_vla.world_model.mfree_recovery_v2 import register
+
+    root = Path(spec['registered_root'])
+    if root.exists():
+        raise PermissionError('NEW_OWNED_CARDS_REQUIRE_UNOPENED_STUDENT_ROOT')
+    spec = dict(spec,role='SLA_V6_M_STUDENT_'+spec['evaluation_stage'],registry_scope=SCOPE)
+    parent, entries = prepare_cards(spec)
+    register(parent,[(root,parent),*entries])
+    return pin(root/'EXECUTION_SPEC.json')

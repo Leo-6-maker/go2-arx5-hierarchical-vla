@@ -75,7 +75,7 @@ def previous_panel(spec, stage):
     return decision
 
 
-def preflight(spec):
+def student_arms(spec):
     stage = spec['evaluation_stage']
     arms = set(spec['packages'])
     if (stage not in STAGE_SIZE or spec['scope'] != SCOPE or spec['plan_commit'] != PLAN
@@ -91,6 +91,12 @@ def preflight(spec):
         if arms != {spec['frozen_arm']}:
             raise ValueError('EXACTLY_ONE_FROZEN_POST_SCREEN_ARM_REQUIRED')
         previous_panel(spec,stage)
+    return arms
+
+
+def preflight(spec):
+    stage = spec['evaluation_stage']
+    arms = student_arms(spec)
     endpoints = endpoint_records(spec)
     population = read_pin(spec['compiled_population'])
     expected = expected_conditions(population,stage,arms)

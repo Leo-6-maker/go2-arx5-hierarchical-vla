@@ -1,6 +1,6 @@
 {
   "schema": "SLA_V6_TARGET_NATIVE_SCREEN_PARTIAL_ACTUAL",
-  "observed_SGT": "2026-11-18T08:23:56.432532+08:00",
+  "observed_SGT": "2026-11-18T08:36:40.370387+08:00",
   "scope": "FIXED_F1_F2_MATCHED_TARGET_SCREEN",
   "native_source_sha": "3e20642a042b9047dc6b24c997cd243ebcfe2b33",
   "spec_sha256": "b9471e583f65c5063459c7424c9217e02308087e692c3174ed2e9c513899b153",
@@ -8,12 +8,12 @@
   "native_MainPID": 1601452,
   "panel_sha256": "61cc513bb8d03c91c180789437be92f0b418c5c377bf48296b7f19c5b8c9164c",
   "scientific_requests_planned": 24,
-  "native_processes_started": 4,
-  "native_terminal": 3,
+  "native_processes_started": 6,
+  "native_terminal": 5,
   "pending": 1,
-  "new_native_requests_sealed": 3,
-  "terminal_native_ticks": 52109,
-  "actual_worker_generations": 141,
+  "new_native_requests_sealed": 5,
+  "terminal_native_ticks": 97515,
+  "actual_worker_generations": 277,
   "whole_panel_decision": null,
   "confirmation_started": 0,
   "source_condition_observations": [
@@ -136,6 +136,82 @@
       "arm": "T-H40",
       "family": "F1",
       "layout": "T1",
+      "sealed": true,
+      "query_counts": {
+        "requests": 69,
+        "model_returns": 69,
+        "records": 69,
+        "H40_compiled": 69,
+        "ACK": 138,
+        "full_P10": 69,
+        "confirmed_atoms": 690,
+        "recorded_partial_ticks": 0
+      },
+      "lower_bound_closed_query_ticks": 22953,
+      "terminal": {
+        "native_ticks": 22953,
+        "native_requests": 1,
+        "task_and_motion_success": true,
+        "grasp": true,
+        "lift_m": 0.02519591459433157,
+        "hold_s": 1.2500000000015277,
+        "directional_motion_m": 0.10289634617465698,
+        "EEF_translation_RMS_m": 0.017406554159180517,
+        "collision_STOP": false,
+        "technical_failure": false,
+        "trace_status": "RECORDED_TRACE_CHECKS_PASS",
+        "integrations_after_STOP": null,
+        "result_sha256": "f6dfe49a726b537e24287ac121d5178de21f528751abce34c20e837dd4398848",
+        "wall_s": 372.25106902234256,
+        "CPU_s": 188.351406077,
+        "tick_reconciled": true,
+        "outcome": "综合成功",
+        "rejection_query": null
+      }
+    },
+    {
+      "id": "SCREEN-F1-T1-T-B1",
+      "arm": "T-B1",
+      "family": "F1",
+      "layout": "T1",
+      "sealed": true,
+      "query_counts": {
+        "requests": 67,
+        "model_returns": 67,
+        "records": 67,
+        "H40_compiled": 67,
+        "ACK": 134,
+        "full_P10": 67,
+        "confirmed_atoms": 670,
+        "recorded_partial_ticks": 0
+      },
+      "lower_bound_closed_query_ticks": 22453,
+      "terminal": {
+        "native_ticks": 22453,
+        "native_requests": 1,
+        "task_and_motion_success": true,
+        "grasp": true,
+        "lift_m": 0.02570767578778521,
+        "hold_s": 1.2500000000015277,
+        "directional_motion_m": 0.10054667879884763,
+        "EEF_translation_RMS_m": 0.017704329943691526,
+        "collision_STOP": false,
+        "technical_failure": false,
+        "trace_status": "RECORDED_TRACE_CHECKS_PASS",
+        "integrations_after_STOP": null,
+        "result_sha256": "17a8541124e23e8b6fd0d9379aececf213aa66e5402699f0e0e40cb140259505",
+        "wall_s": 371.0602871244773,
+        "CPU_s": 184.556368451,
+        "tick_reconciled": true,
+        "outcome": "综合成功",
+        "rejection_query": null
+      }
+    },
+    {
+      "id": "SCREEN-F1-T1-T-FM",
+      "arm": "T-FM",
+      "family": "F1",
+      "layout": "T1",
       "sealed": false,
       "query_counts": {
         "requests": 0,
@@ -193,7 +269,7 @@
     }
   ],
   "post_init_pair_audit": {
-    "epoch": 1794961162.250314,
+    "epoch": 1794962200.9735003,
     "observations": [
       {
         "case": "SCREEN-F1-T0-T-B1",
@@ -212,6 +288,18 @@
         "step": 5703,
         "time_s": 11.406000000000478,
         "packet_sha256": "c730cfac66b201d9bb34ff914b43ba9d76be9d0cb875cd74cb5f9e1913cae861"
+      },
+      {
+        "case": "SCREEN-F1-T1-T-H40",
+        "step": 5703,
+        "time_s": 11.406000000000478,
+        "packet_sha256": "2ac94cc84b3df9bbdfc2d2f09149c89034a16a4e36864af5f909249d455156f3"
+      },
+      {
+        "case": "SCREEN-F1-T1-T-B1",
+        "step": 5703,
+        "time_s": 11.406000000000478,
+        "packet_sha256": "8292e14cb8b0001021be77697adc4505a474218d2ac82424206b288a7411e185"
       }
     ],
     "paired_differences": [
@@ -310,10 +398,42 @@
           "x5_joint6": 8.811491670274602e-05
         },
         "control_array_max_abs_delta": 0.2548248357010389
+      },
+      {
+        "family": "F1",
+        "layout": "T1",
+        "arms": [
+          "SCREEN-F1-T1-T-H40",
+          "SCREEN-F1-T1-T-B1"
+        ],
+        "same_complete_recorded_packet": false,
+        "TCP_position_l2_m": 8.058277521786394e-06,
+        "TCP_orientation_rad": 9.095422715205675e-06,
+        "base_translation_l2_m": 6.99131712613373e-06,
+        "base_orientation_rad": 1.4533392114253838e-05,
+        "base_linear_velocity_delta_l2_m_s": 4.892406253174741e-06,
+        "base_angular_velocity_delta_l2_rad_s": 2.146671510559082e-05,
+        "arm_joint_abs_delta_rad": {
+          "x5_joint1": 7.801882819305495e-06,
+          "x5_joint2": 1.3771911047677499e-05,
+          "x5_joint3": 8.355797403991616e-06,
+          "x5_joint4": 4.903801305827793e-06,
+          "x5_joint5": 1.1606272390687206e-05,
+          "x5_joint6": 9.07089616135337e-06
+        },
+        "arm_joint_velocity_abs_delta_rad_s": {
+          "x5_joint1": 7.484363512929031e-05,
+          "x5_joint2": 8.181332452098785e-05,
+          "x5_joint3": 0.00048690612824560733,
+          "x5_joint4": 0.0003014631394620956,
+          "x5_joint5": 0.00010029247814731339,
+          "x5_joint6": 0.00012054500012434108
+        },
+        "control_array_max_abs_delta": 0.005966251885141993
       }
     ],
     "native_mujoco": "3.2.7",
-    "CPU_wall_s": 0.16699000261723995,
+    "CPU_wall_s": 0.2953137597069144,
     "source_model_visible": false,
     "new_integrations": 0,
     "new_generations": 0,
