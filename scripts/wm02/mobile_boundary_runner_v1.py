@@ -240,8 +240,13 @@ def run_case(spec_path,lock_fd):
                 adapter.capture_loaded_identity()
                 if not adapter.trace_sealed:adapter.seal_trace(adapter.observe()['step'])
             except BaseException:write(out/'FINAL_EVIDENCE_ERROR.private.json',dict(error=traceback.format_exc()))
-        with measure(adapter,'native.shutdown_and_archive'):
-            adapter.close()
+        try:
+            with measure(adapter,'native.shutdown_and_archive'):
+                adapter.close()
+        except BaseException:
+            if not d2:
+                raise
+            failure = (failure or '') + traceback.format_exc()
     journal=out/'state.bin.journal'
     if multitask:
         from go2arx5_vla.world_model.multitask_state_v6 import packets as multitask_packets

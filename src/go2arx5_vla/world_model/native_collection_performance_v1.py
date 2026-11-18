@@ -204,7 +204,8 @@ def close_resources(adapter):
                     session.close()
     finally:
         trace = getattr(adapter, 'performance', None)
-        if trace is not None:
+        profile = configuration(adapter.spec) if trace is not None else None
+        if profile is not None:
             from scripts.pi0292.durable import write
             write(adapter.output/'COLLECTION_PERFORMANCE.private.json', dict(trace.report(),
-                source_sha=adapter.spec['source_sha'], mode=configuration(adapter.spec)['mode']))
+                source_sha=adapter.spec['source_sha'], mode=profile['mode']))
