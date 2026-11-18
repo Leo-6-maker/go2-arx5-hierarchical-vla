@@ -2,9 +2,9 @@
 
 import numpy as np
 
+from go2arx5_vla.world_model.multitask_contact_teacher_d3 import MECHANISMS
 from go2arx5_vla.world_model.multitask_scope_d2 import D3_PLAN, D3_TEACHER
 from go2arx5_vla.world_model.multitask_scope_v6 import read_pin
-from .multitask_d3_population import PAIR_TASKS
 
 
 def verify_stage_manifest(spec, cards, entry):
@@ -15,7 +15,7 @@ def verify_stage_manifest(spec, cards, entry):
     if (rules['plan_commit'] != D3_PLAN or rules['status'] != 'FROZEN_R0_PASS'
             or rules['teacher'] != D3_TEACHER or rules['source_sha'] != spec['source_sha']
             or not all(rules['mechanisms'].get(mechanism, {}).get('offline_regression_passed')
-                       for _, _, mechanism in PAIR_TASKS)):
+                       for mechanism in MECHANISMS)):
         raise PermissionError('D3_CANDIDATE_RULES_REQUIRE_COMPLETE_ZERO_INTEGRATION_REGRESSIONS')
     name = 'QUAL' if stage == 'Q' else stage
     expected = population['conditions'][name]
@@ -38,7 +38,7 @@ def verify_stage_manifest(spec, cards, entry):
         treatment = [r for r in earlier['records'] if r.get('d3_arm') == 'TREATMENT']
         if (earlier['source_sha'] != spec['source_sha'] or earlier['profile'] != 'LEGACY_N1'
                 or earlier['unresolved_case_launches'] or len(earlier['records']) != 12
-                or {r.get('d3_mechanism') for r in treatment} != {p[2] for p in PAIR_TASKS}
+                or {r.get('d3_mechanism') for r in treatment} != set(MECHANISMS)
                 or len(treatment) != 6 or not all(r['d3_R1']['passed'] for r in treatment)):
             raise PermissionError('D3_ALL_SIX_ACTUAL_TREATMENT_MILESTONES_REQUIRED')
     if stage == 'Q':
