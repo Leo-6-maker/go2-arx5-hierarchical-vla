@@ -1,0 +1,74 @@
+{
+  "schema": "SLA_D4_VANDA_HANDOFF_ACTUAL_V1",
+  "observed": "2026-11-18T20:48:28+08:00",
+  "source_sha": "645f895cc4f2182f2313b7230623250d94c75e34",
+  "site_execution_sha256": "48af23f6c721233f781040c2210b2f29b879b75b489e9fbf8657f603ec8c7bac",
+  "portable_data_sha256": "a3f05210db12b36874e36de89ae420667b9830fc5c5fa3bd363ca97d5c0064f4",
+  "site": {
+    "PBS_state": "R",
+    "queue": "batch_gpu",
+    "GPU_model": "NVIDIA A40",
+    "GPU_count": 1,
+    "ncpus": 36,
+    "memory": "240gb",
+    "allocation_start": "2026-11-18T20:47:09+08:00",
+    "PBS_walltime_s": 21600,
+    "gpu_free_bytes_at_worker_admission": 47695527936,
+    "effective_deadline": "2026-11-19T02:45:09+08:00",
+    "frontend_dependency": false
+  },
+  "verified_inputs": {
+    "C20_windows": 1376,
+    "same_visit_map_sha256": "a151bfca90511a5fee70398aa50616472f989cbf41cdd899ca93d569a24040af",
+    "source_LoRA_leaves": 20,
+    "foundation_files": 198,
+    "foundation_bytes": 12471036536,
+    "independent_original_full_readback_wall_s": 149.9289182700013,
+    "carry_preflight_wall_s": 44.34275267900375,
+    "runtime_packages": 107
+  },
+  "core_previous_queue": {
+    "terminal_lease": "CLOSED",
+    "arms_dispatched": 0,
+    "updates": 0,
+    "visits": 0,
+    "predecessor_receipt_sha256": "f23ba9303cc442f6b80d63e0a4b89f353fcf3abe85c1606c9833d519864fc8c2"
+  },
+  "first_PBS_technical_terminal": {
+    "state": "F",
+    "exit": 1,
+    "elapsed": "00:00:13",
+    "execution_sha256": "97815b1264cb589252550abb887db4083960ab706e85d09ef4bd59ea8d718900",
+    "A_result_sha256": "3f70c1c519a8213c744752a2d60be99e31088061836b9a3d92bb55357a6af750",
+    "first_failure": "FINITE_ALLOCATED_WINDOW_AND_SAVE_EXIT_REQUIRED",
+    "model_loads": 0,
+    "optimizer_updates": 0,
+    "visits": 0,
+    "policy_generations": 0,
+    "native_requests": 0
+  },
+  "actual_arms": [
+    {
+      "arm": "D4-A",
+      "started": true,
+      "updates": 0,
+      "visits": 0,
+      "model_parameters_written": false,
+      "initial_checkpoint_written": false,
+      "gradient_receipt_written": false,
+      "RGB16_confirmed": null
+    },
+    {
+      "arm": "D4-B",
+      "started": false,
+      "updates": 0,
+      "visits": 0,
+      "model_parameters_written": false,
+      "initial_checkpoint_written": false,
+      "gradient_receipt_written": false,
+      "RGB16_confirmed": null
+    }
+  ],
+  "new_native_requests": 0,
+  "new_native_integrations": 0
+}
