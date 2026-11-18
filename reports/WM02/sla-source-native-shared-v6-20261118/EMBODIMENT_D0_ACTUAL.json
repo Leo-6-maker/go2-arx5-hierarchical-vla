@@ -5496,5 +5496,87 @@
     "EMBODIMENT_D0_NINTH_WRIST_SWEEP01": "cd36a606de5e146abd1485cc53e4735066bfc42a32f2f8089e489cdbc7dc07d4",
     "EMBODIMENT_D1_F1_RED_APPROACH01": "c36591feb9bd2ce8134efd217162a7575a9ba8f7317095abd8c66d82440a5d29",
     "EMBODIMENT_D1_TENTH_PROGRESS01": "daa329d13dd8173a74fd76b047814a4fad8c01780c978b83d78f8051827d4f16"
+  },
+  "same_instruction_cross_episode_hand_context_sensitivity": {
+    "epoch": 1794975530.2126832,
+    "parent_terminal_shas": [
+      "6be8e7583d0e3ca81a8100f6079cc6beccabd2690b15b3297f01aeb9d04de573",
+      "67e7d6c6503dfe0a1b63d1d2d773c8453c2c459e2300bb794889f17808db2bc2",
+      "dcd24e7482dd88ca78ad241a75495a242c2debf11298f35887cfd3663092869f",
+      "82510bb8db3540d32a2facef3f88d88bb71e55e29460c38e8386883a9808b271",
+      "0382ee8723e6200453b1a1827dbb2c4cb60c3fed5f7522ab9e6b91cd61481eb7",
+      "6e323dfb6bcc10ea13de8c16cf5b8fb99cc3682863cdd1a0c0bec9cf982dac0e"
+    ],
+    "per_instruction": [
+      {
+        "instruction": "HOLD-red",
+        "episodes": 2,
+        "candidate_pairs": 3850,
+        "proprio_neighbor_pairs": 12,
+        "disjoint_ordinary_command_intervals": 0,
+        "different_nominal_grip_first_points": 0
+      },
+      {
+        "instruction": "HOLD-blue",
+        "episodes": 3,
+        "candidate_pairs": 14824,
+        "proprio_neighbor_pairs": 20,
+        "disjoint_ordinary_command_intervals": 0,
+        "different_nominal_grip_first_points": 0
+      },
+      {
+        "instruction": "PLACE-red-left",
+        "episodes": 1,
+        "candidate_pairs": 0,
+        "proprio_neighbor_pairs": 0,
+        "disjoint_ordinary_command_intervals": 0,
+        "different_nominal_grip_first_points": 0
+      },
+      {
+        "instruction": "PLACE-red-right",
+        "episodes": 2,
+        "candidate_pairs": 3480,
+        "proprio_neighbor_pairs": 1,
+        "disjoint_ordinary_command_intervals": 0,
+        "different_nominal_grip_first_points": 0
+      },
+      {
+        "instruction": "PLACE-blue-left",
+        "episodes": 1,
+        "candidate_pairs": 0,
+        "proprio_neighbor_pairs": 0,
+        "disjoint_ordinary_command_intervals": 0,
+        "different_nominal_grip_first_points": 0
+      },
+      {
+        "instruction": "PLACE-blue-right",
+        "episodes": 2,
+        "candidate_pairs": 9212,
+        "proprio_neighbor_pairs": 1,
+        "disjoint_ordinary_command_intervals": 0,
+        "different_nominal_grip_first_points": 0
+      }
+    ],
+    "examples": [],
+    "total_episodes": 11,
+    "scope": "cross_episode_policy_EEF_pose_and_measured_grip_proximity_with_same_instruction",
+    "RGB_equivalence_established": false,
+    "raw_RGB_read": false,
+    "thresholds_mm_deg": [
+      2,
+      2,
+      0.5
+    ],
+    "nominal_previous_command_allowed_change_mm": 2.0,
+    "new_native_requests": 0,
+    "new_integrations": 0,
+    "new_generations": 0,
+    "totals": {
+      "candidate_pairs": 31366,
+      "proprio_neighbor_pairs": 34,
+      "disjoint_ordinary_command_intervals": 0,
+      "different_nominal_grip_first_points": 0
+    },
+    "receipt_sha256": "4af2bc43cf2111a4b961636702705b4f2ca113a539993f82fd5e03cdf28b9141"
   }
 }
