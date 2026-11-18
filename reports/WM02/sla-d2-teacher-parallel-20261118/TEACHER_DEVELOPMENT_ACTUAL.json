@@ -440,7 +440,7 @@
   "B2": {
     "status": "ACTIVE",
     "registered": 12,
-    "observation_epoch": 1794993760.611815,
+    "observation_epoch": 1794994095.9903953,
     "unit": "wm02-sla-d2-teacher-development-b2-20261118-01",
     "pid": 2254139,
     "invocation_id": "fb2a24672a004969a87f74fdeb959a07",
@@ -454,18 +454,18 @@
     "allocation_deadline_epoch": 1795027883.855488,
     "predecessor_native_result_sha256": "b0c953ba9a23d10c3430dabbc14645cec7affb2048d4459fe3b4c0eacc6e43d7",
     "launch_readback_sha256": "ee93eac6f563d1b40f5207fee5f83c6c3f156fe8b11c3d9865a7cb0f220b3a97",
-    "live_readback_sha256": "c519377fa6144e3bccea866b13283911ce5dcebc32adf1c16bc008d82e73501f",
+    "live_readback_sha256": "bb235bad21a9f015ea9ff2e27e46d41075bda5c6ff6f24dff10952761d2bec6a",
     "site_readback_sha256": "f0ec5448bc45e0d8bbcac7110d73c847d9bc34f59b3a047515b3e2fc73a4b4d7",
     "linger": true,
     "frontend_dependency": false,
     "backend": "LEGACY_N1",
-    "native_requests": 6,
-    "sealed": 5,
+    "native_requests": 7,
+    "sealed": 6,
     "first_case": "D2-DEVELOPMENT-F1-2-HOLD-red",
-    "observed_native_ticks": 10028,
+    "observed_native_ticks": 5703,
     "cgroup_membership_verified": true,
-    "sealed_native_ticks": 126442,
-    "current_case": "D2-DEVELOPMENT-F1-2-PLACE-blue-right",
+    "sealed_native_ticks": 152895,
+    "current_case": "D2-DEVELOPMENT-F2-2-HOLD-red",
     "records": [
       {
         "id": "D2-DEVELOPMENT-F1-2-HOLD-red",
@@ -645,7 +645,7 @@
         "post_STOP_ticks": null,
         "wall_s": 425.3920949399471,
         "CPU_s": 294.82932269500003,
-        "archive_readback_sha256": "63d7bcc2ced2218b37fdc9fc6f65c56d640c19245194571352b343fbdbf62763",
+        "archive_readback_sha256": "f106f18473baff1d573066db2cfca6ac937e746393aebff64d05287eef1f44b0",
         "phase": "CARRY",
         "requested_route": {
           "chosen_relative_world_yaw_deg": -19.999999999999996,
@@ -719,7 +719,7 @@
         "hard_STOP": false,
         "phase": "OPEN",
         "no_original_full_H40_rejection": true,
-        "archive_readback_sha256": "63d7bcc2ced2218b37fdc9fc6f65c56d640c19245194571352b343fbdbf62763",
+        "archive_readback_sha256": "f106f18473baff1d573066db2cfca6ac937e746393aebff64d05287eef1f44b0",
         "reached_region": true,
         "released_after_grasp": false,
         "stable_release_and_retreat": false,
@@ -867,7 +867,7 @@
           ],
           "margin_m": 0.0184866885489475
         },
-        "archive_readback_sha256": "63d7bcc2ced2218b37fdc9fc6f65c56d640c19245194571352b343fbdbf62763",
+        "archive_readback_sha256": "f106f18473baff1d573066db2cfca6ac937e746393aebff64d05287eef1f44b0",
         "requested_route": {
           "chosen_relative_world_yaw_deg": 4.969616689786735e-17,
           "last_measured_query_relative_world_yaw_deg": -3.2002103640545334,
@@ -884,24 +884,99 @@
         "released_after_grasp": false,
         "reached_retreat_after_lift": false,
         "stable_release_and_retreat": false
+      },
+      {
+        "id": "D2-DEVELOPMENT-F1-2-PLACE-blue-right",
+        "family": "F1",
+        "instruction": "PLACE-blue-right",
+        "native_ticks": 26453,
+        "initialized_ticks": 5703,
+        "task_ticks": 20750,
+        "result_sha256": "4c8e979321c7e5acb499d97b64c15b9648c8b0b24308116079d57ca07a306a81",
+        "task_success": false,
+        "technical_failure": false,
+        "g7": null,
+        "first_failure": "D2_FILTERED_NEXT_P10_CLEARANCE",
+        "maximum_lift_m": 0.06949342488228705,
+        "hold_s": 11.396000000013927,
+        "hard_STOP": false,
+        "post_STOP_ticks": null,
+        "wall_s": 406.7786117075011,
+        "CPU_s": 281.62577532200004,
+        "trace_status": "RECORDED_TRACE_CHECKS_PASS",
+        "score_steps": 20751,
+        "stage_boundaries": [
+          {
+            "stage": "PREGRASP",
+            "native_step": 5703
+          },
+          {
+            "stage": "DESCEND",
+            "native_step": 12453
+          },
+          {
+            "stage": "CLOSE",
+            "native_step": 17703
+          },
+          {
+            "stage": "LIFT",
+            "native_step": 18453
+          },
+          {
+            "stage": "CARRY",
+            "native_step": 24453
+          }
+        ],
+        "scene_sha256": "959c2be2f40e40134a1cf79efb016bbf58373b341cc36aaeedff43877fc2e95c",
+        "native_grasp": true,
+        "phase": "CARRY",
+        "remaining_clearance": {
+          "passed": false,
+          "reason": "TEACHER_CLEARANCE_MARGIN",
+          "phase": "carry",
+          "sample_count": 1,
+          "gap_m": 0.018087425803713038,
+          "pair": [
+            "",
+            "task_blue_cube_geom"
+          ],
+          "margin_m": 0.020479512279688077
+        },
+        "archive_readback_sha256": "f106f18473baff1d573066db2cfca6ac937e746393aebff64d05287eef1f44b0",
+        "requested_route": {
+          "chosen_relative_world_yaw_deg": 29.999999999999996,
+          "last_measured_query_relative_world_yaw_deg": 2.908587072949596,
+          "last_measured_query_tick": 26203,
+          "requested_offset_mm": [
+            4.0000000000000036,
+            -4.0000000000000036
+          ],
+          "archived_H40": 83,
+          "consumed_P10_atoms": 830
+        },
+        "pregrasp_first_rejection_breakdown": [],
+        "reached_region": false,
+        "released_after_grasp": false,
+        "reached_retreat_after_lift": false,
+        "stable_release_and_retreat": false
       }
     ],
-    "known_failed_qualification_cells": 4,
+    "known_failed_qualification_cells": 5,
     "remaining_development_in_flight": true,
     "last_cgroup_empty": false,
     "remaining_supervisor_pid": 2254139,
-    "unstarted_registered": 6,
+    "unstarted_registered": 5,
     "completed_HOLD": 2,
     "successful_HOLD": 1,
-    "completed_PLACE": 3,
+    "completed_PLACE": 4,
     "successful_PLACE": 0,
     "hard_STOP": 1,
     "technical_failure": 0,
     "g7_episodes": 1,
     "g7_current_RGB_and_H40": 65,
     "g7_confirmed_P10_atoms": 650,
-    "case_CPU_s": 1315.1864629779998,
-    "case_wall_s": 1917.3996044574305
+    "case_CPU_s": 1596.8122382999998,
+    "case_wall_s": 2324.1782161649317
   },
   "Q48_native_requests": 0,
   "statistics_fits": 0,
