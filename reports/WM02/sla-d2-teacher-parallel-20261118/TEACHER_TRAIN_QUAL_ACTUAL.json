@@ -1,7 +1,7 @@
 {
   "schema": "SLA_D2_TEACHER_TRAIN_QUAL_ACTUAL",
-  "observation_epoch": 1794995073.4401557,
-  "status": "AWAITING_FINAL_DEVELOPMENT_SEAL_AFTER_GATE_FAILURE",
+  "observation_epoch": 1794995863.677509,
+  "status": "SEALED_INELIGIBLE_DUE_TO_COMPLETE_DEVELOPMENT_FAILURE",
   "registered_cases": 48,
   "population_sha256": "242c37568579c0b08e4839542cd845ed4c96dc8bc223b3cd7f6c4c88cc8aca39",
   "known_final_candidate_cells_with_G7": 1,
@@ -30,12 +30,14 @@
     "F2/HOLD-red",
     "F2/HOLD-blue",
     "F2/PLACE-red-left",
-    "F2/PLACE-red-right"
+    "F2/PLACE-red-right",
+    "F2/PLACE-blue-left",
+    "F2/PLACE-blue-right"
   ],
   "further_candidate_versions_remaining": 0,
   "sealed_undispatched_populations": {
-    "readback_sha256": "4e99c9648685cd7d0bf70c8a3bcafa41c9f606ee877267f0e892a98c85567cd2",
-    "observed_epoch": 1794994559.2128968,
+    "readback_sha256": "79a25d2bb49e3176928fa2e074c940bb7292eb53e020ddfc16044e8d2251858e",
+    "observed_epoch": 1794995886.9925869,
     "population_sha256": "242c37568579c0b08e4839542cd845ed4c96dc8bc223b3cd7f6c4c88cc8aca39",
     "untouched": {
       "QUAL": {
@@ -309,5 +311,77 @@
     "hardware_requests": 0,
     "existing_D2_qualification_or_M2_service": false,
     "older_test_population_reopened": false
-  }
+  },
+  "development_cold_readbacks": [
+    {
+      "block": 1,
+      "receipt_sha256": "eab686b074c6a9af6cb3332c47d91daae588b5fca750df5366c3d680224b921a",
+      "passed": false,
+      "cases": 12,
+      "margin_and_capture_passes": 3,
+      "coverage": {
+        "F1/HOLD-red": 1,
+        "F1/HOLD-blue": 1,
+        "F1/PLACE-red-left": 0,
+        "F1/PLACE-red-right": 0,
+        "F1/PLACE-blue-left": 0,
+        "F1/PLACE-blue-right": 0,
+        "F2/HOLD-red": 0,
+        "F2/HOLD-blue": 1,
+        "F2/PLACE-red-left": 0,
+        "F2/PLACE-red-right": 0,
+        "F2/PLACE-blue-left": 0,
+        "F2/PLACE-blue-right": 0
+      },
+      "candidate": [
+        "1e3e370203857d9a63899e35d96153dc77185a37",
+        "421d20bae377644e1ebadbd5aa0dd7eef050002d6f8cb641663ee7dfbbaefafe",
+        "LEGACY_N1"
+      ],
+      "population_sha256": "242c37568579c0b08e4839542cd845ed4c96dc8bc223b3cd7f6c4c88cc8aca39"
+    },
+    {
+      "block": 2,
+      "receipt_sha256": "e264705fe388aabb822ec62c3cb2c5611b5c13b72bd670da0fabbfc26c2a5961",
+      "passed": false,
+      "cases": 12,
+      "margin_and_capture_passes": 1,
+      "coverage": {
+        "F1/HOLD-red": 1,
+        "F1/HOLD-blue": 0,
+        "F1/PLACE-red-left": 0,
+        "F1/PLACE-red-right": 0,
+        "F1/PLACE-blue-left": 0,
+        "F1/PLACE-blue-right": 0,
+        "F2/HOLD-red": 0,
+        "F2/HOLD-blue": 0,
+        "F2/PLACE-red-left": 0,
+        "F2/PLACE-red-right": 0,
+        "F2/PLACE-blue-left": 0,
+        "F2/PLACE-blue-right": 0
+      },
+      "candidate": [
+        "e16783e389362102470de2def854fcf2bf4b78cd",
+        "1fc0b6bae15fa2dd5513655dc9edced786046266bed8b3aa71e11e8ca2d4cd77",
+        "LEGACY_N1"
+      ],
+      "population_sha256": "242c37568579c0b08e4839542cd845ed4c96dc8bc223b3cd7f6c4c88cc8aca39"
+    }
+  ],
+  "end_site_owner_readback": {
+    "readback_sha256": "7937d28f3c847cbc81f05b3ee9eeb44a7d9c76d02a178535347727a52a9cd497",
+    "observed_epoch": 1794995886.93541,
+    "owner_lock_released": true,
+    "both_development_services_closed": true,
+    "existing_allocation_deadline_epoch": 1795027883.855488,
+    "automatic_extension": false
+  },
+  "no_new_candidate_slot": true,
+  "development_native_requests": 24,
+  "development_native_ticks": 502667,
+  "old_teacher_unstarted_preserved": 30,
+  "registered_M2_training_budget_migrated": false,
+  "opened_M2_DEV": false,
+  "opened_M2_TEST": false,
+  "actual_new_hardware_requests": 0
 }

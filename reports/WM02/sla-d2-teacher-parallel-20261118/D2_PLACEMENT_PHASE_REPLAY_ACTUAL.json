@@ -922,7 +922,7 @@
   "new_native_ticks": 0,
   "B2_readonly_replay": {
     "replay_tool_sha256": "98190051e0053840d732f1fcfe665502d48e5126c5502aef62517590468fe933",
-    "receipt_sha256": "8f880e42b63aaa7c27510cb933530d849e1d77f48f3882135bc71334652cb111",
+    "receipt_sha256": "04418c91cd2a5531430fa4b1957b3082f006c0fa8d2e16fc39fb9bd866d8b0a5",
     "cases": [
       {
         "case": "D2-DEVELOPMENT-F1-2-PLACE-red-left",
@@ -1604,6 +1604,462 @@
         "new_physics_ticks": 0,
         "modified_live_source": false,
         "admission_claim": false
+      },
+      {
+        "case": "D2-DEVELOPMENT-F2-2-PLACE-blue-left",
+        "source_sha": "e16783e389362102470de2def854fcf2bf4b78cd",
+        "result_sha256": "760318e0e07ec092507e8bb3264893a8f2ccca190faed38146f27ff35e75be2b",
+        "teacher_candidate": "STAGED_CALIBRATED_V2",
+        "exact_query_count": 82,
+        "max_archived_H40_reproduction_error": 0.0,
+        "measured_lift_to_carry": {
+          "lift_tick": 18953,
+          "carry_tick": 21453,
+          "planned_rise_m": 0.026,
+          "measured_rise_m": 0.0236500824500101,
+          "measured_horizontal_drift_m": 0.0012036566132499428,
+          "first_carry_nominal_P10_displacement_m": [
+            0.0015301380743907855,
+            0.0015583588698522693,
+            0.0015190727583558328
+          ]
+        },
+        "observed_terminal_tick": 26203,
+        "original_replayed_rejection": {
+          "passed": false,
+          "reason": "TEACHER_CLEARANCE_MARGIN",
+          "phase": "carry",
+          "sample_count": 16,
+          "gap_m": 0.00418988250781041,
+          "pair": [
+            "task_blue_cube_geom",
+            "task_cube_geom"
+          ],
+          "margin_m": 0.00822553643292655
+        },
+        "fixed_vertical_and_angular_root_state": true,
+        "existing_spatial_sampling_margin_m": 0.003524825916122939,
+        "sensitivity_checks": [
+          {
+            "name": "observed_anchor_no_future_perturbation",
+            "varied": false,
+            "verdict": {
+              "passed": true,
+              "phase": "carry",
+              "sample_count": 22,
+              "gap_m": 0.004189882507810402,
+              "pair": [
+                "task_blue_cube_geom",
+                "task_cube_geom"
+              ],
+              "margin_m": 0.003524825916122939
+            }
+          },
+          {
+            "name": "paired_TCP_and_root_XY",
+            "varied": true,
+            "paired_observed_error": {
+              "tick": 25453,
+              "translation": [
+                -0.000753437639559873,
+                -0.00013704142481819892,
+                -0.00042642151017835417
+              ],
+              "rotation": [
+                -0.00038869187430253725,
+                0.0007960641876307724,
+                -5.58808019684199e-05
+              ],
+              "root_shift": [
+                0.001081556914700986,
+                0.00029220039605071246
+              ],
+              "root_rise_m": -6.717422873980805e-05,
+              "root_angle_rad": 0.001596263650452999,
+              "relative_translation_m": 0.0024084854487576176,
+              "relative_rotation_rad": 0.0007375106976138993
+            },
+            "verdict": {
+              "passed": true,
+              "phase": "carry",
+              "sample_count": 22,
+              "gap_m": 0.004422286342555735,
+              "pair": [
+                "task_blue_cube_geom",
+                "task_cube_geom"
+              ],
+              "margin_m": 0.003524825916122939
+            }
+          },
+          {
+            "name": "paired_TCP_and_root_XY",
+            "varied": true,
+            "paired_observed_error": {
+              "tick": 25703,
+              "translation": [
+                -0.0007468885786572343,
+                -0.0001533247297083179,
+                9.265607709130208e-05
+              ],
+              "rotation": [
+                -0.00038254969526947837,
+                -0.0007889992989594414,
+                -0.00016669893033692445
+              ],
+              "root_shift": [
+                0.001105909729115298,
+                0.0002917568954994565
+              ],
+              "root_rise_m": -7.431859587864187e-05,
+              "root_angle_rad": 0.001661238779820012,
+              "relative_translation_m": 0.002532606880299705,
+              "relative_rotation_rad": 0.0022594925247383943
+            },
+            "verdict": {
+              "passed": true,
+              "phase": "carry",
+              "sample_count": 22,
+              "gap_m": 0.0044133436331831545,
+              "pair": [
+                "task_blue_cube_geom",
+                "task_cube_geom"
+              ],
+              "margin_m": 0.003524825916122939
+            }
+          },
+          {
+            "name": "paired_TCP_and_root_XY",
+            "varied": true,
+            "paired_observed_error": {
+              "tick": 25953,
+              "translation": [
+                -0.0007387582399533965,
+                -0.00012810498089885214,
+                -6.624932547161233e-05
+              ],
+              "rotation": [
+                -0.0003407135774083602,
+                -0.00029957191986110834,
+                -0.0001657889445908943
+              ],
+              "root_shift": [
+                0.0011335999419000362,
+                0.0002870757634505783
+              ],
+              "root_rise_m": -8.93701933056823e-05,
+              "root_angle_rad": 0.0017298329518172458,
+              "relative_translation_m": 0.0025389792990818667,
+              "relative_rotation_rad": 0.0018762945900642884
+            },
+            "verdict": {
+              "passed": true,
+              "phase": "carry",
+              "sample_count": 22,
+              "gap_m": 0.004424927900700905,
+              "pair": [
+                "task_blue_cube_geom",
+                "task_cube_geom"
+              ],
+              "margin_m": 0.003524825916122939
+            }
+          },
+          {
+            "name": "paired_TCP_and_root_XY",
+            "varied": true,
+            "paired_observed_error": {
+              "tick": 26203,
+              "translation": [
+                0.002871870014074074,
+                -0.0006086198431241308,
+                -0.003584900424337789
+              ],
+              "rotation": [
+                0.0004277044301543789,
+                0.0006897928097870173,
+                -0.0008196355833145584
+              ],
+              "root_shift": [
+                0.004228500716153959,
+                0.0005611506858652915
+              ],
+              "root_rise_m": -0.003614256222885248,
+              "root_angle_rad": 0.004110728659561175,
+              "relative_translation_m": 0.003244316331060447,
+              "relative_rotation_rad": 0.003510218178649334
+            },
+            "verdict": {
+              "passed": true,
+              "phase": "carry",
+              "sample_count": 22,
+              "gap_m": 0.0038075515769457353,
+              "pair": [
+                "task_blue_cube_geom",
+                "task_cube_geom"
+              ],
+              "margin_m": 0.003524825916122939
+            }
+          }
+        ],
+        "supported_opening_projection": null,
+        "clearance_by_pair_role": {
+          "world_obstacle_pairs": {
+            "passed": false,
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "phase": "carry",
+            "sample_count": 16,
+            "gap_m": 0.00418988250781041,
+            "pair": [
+              "task_blue_cube_geom",
+              "task_cube_geom"
+            ],
+            "margin_m": 0.00822553643292655
+          },
+          "grasp_attached_robot_pairs": {
+            "passed": true,
+            "phase": "carry",
+            "sample_count": 22,
+            "gap_m": 0.018514889046075157,
+            "pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "margin_m": 0.006973591604190926
+          },
+          "original_native_contact_predicates_on_all_pairs": true
+        },
+        "selected_controller_reference": "UNKNOWN",
+        "new_native_requests": 0,
+        "new_physics_ticks": 0,
+        "modified_live_source": false,
+        "admission_claim": false
+      },
+      {
+        "case": "D2-DEVELOPMENT-F2-2-PLACE-blue-right",
+        "source_sha": "e16783e389362102470de2def854fcf2bf4b78cd",
+        "result_sha256": "e3159b58bf137512d1734491469c27af1a669499f7917d592c7f6b8dd4c750a5",
+        "teacher_candidate": "STAGED_CALIBRATED_V2",
+        "exact_query_count": 92,
+        "max_archived_H40_reproduction_error": 0.0,
+        "measured_lift_to_carry": {
+          "lift_tick": 18703,
+          "carry_tick": 24453,
+          "planned_rise_m": 0.062,
+          "measured_rise_m": 0.058901893103782355,
+          "measured_horizontal_drift_m": 0.0017926084101451008,
+          "first_carry_nominal_P10_displacement_m": [
+            0.002315058097457634,
+            0.0006458527976664352,
+            0.0017468092972361404
+          ]
+        },
+        "observed_terminal_tick": 28703,
+        "original_replayed_rejection": {
+          "passed": false,
+          "reason": "TEACHER_CLEARANCE_MARGIN",
+          "phase": "carry",
+          "sample_count": 1,
+          "gap_m": 0.007970321178939995,
+          "pair": [
+            "task_blue_cube_geom",
+            "task_cube_geom"
+          ],
+          "margin_m": 0.013948423419947582
+        },
+        "fixed_vertical_and_angular_root_state": true,
+        "existing_spatial_sampling_margin_m": 0.0035109945918219932,
+        "sensitivity_checks": [
+          {
+            "name": "observed_anchor_no_future_perturbation",
+            "varied": false,
+            "verdict": {
+              "passed": true,
+              "phase": "carry",
+              "sample_count": 22,
+              "gap_m": 0.007970321178939995,
+              "pair": [
+                "task_blue_cube_geom",
+                "task_cube_geom"
+              ],
+              "margin_m": 0.0035109945918219932
+            }
+          },
+          {
+            "name": "paired_TCP_and_root_XY",
+            "varied": true,
+            "paired_observed_error": {
+              "tick": 27953,
+              "translation": [
+                -0.0007749233260077593,
+                -0.0004611693614149648,
+                -0.00029173464308762664
+              ],
+              "rotation": [
+                -0.00023966007483619667,
+                0.00025743240853498924,
+                0.00021898555893236303
+              ],
+              "root_shift": [
+                0.0013683706645533054,
+                0.0004586219373211714
+              ],
+              "root_rise_m": -9.861095263774544e-05,
+              "root_angle_rad": 0.0025680420673464557,
+              "relative_translation_m": 0.003252929470117596,
+              "relative_rotation_rad": 0.002252420233383488
+            },
+            "verdict": {
+              "passed": true,
+              "phase": "carry",
+              "sample_count": 22,
+              "gap_m": 0.007875659021692462,
+              "pair": [
+                "task_blue_cube_geom",
+                "task_cube_geom"
+              ],
+              "margin_m": 0.0035109945918219932
+            }
+          },
+          {
+            "name": "paired_TCP_and_root_XY",
+            "varied": true,
+            "paired_observed_error": {
+              "tick": 28203,
+              "translation": [
+                -0.0006074613556304453,
+                -0.0004101324559069308,
+                -0.0003701501491442105
+              ],
+              "rotation": [
+                -0.00024051937761656843,
+                0.000505068395713095,
+                0.0001458329689120896
+              ],
+              "root_shift": [
+                0.0014480335934970653,
+                0.0004890442780979276
+              ],
+              "root_rise_m": -0.00011604166016587758,
+              "root_angle_rad": 0.0027960529193640196,
+              "relative_translation_m": 0.0032525106759572265,
+              "relative_rotation_rad": 0.002273369621734747
+            },
+            "verdict": {
+              "passed": true,
+              "phase": "carry",
+              "sample_count": 22,
+              "gap_m": 0.007832652120687771,
+              "pair": [
+                "task_blue_cube_geom",
+                "task_cube_geom"
+              ],
+              "margin_m": 0.0035109945918219932
+            }
+          },
+          {
+            "name": "paired_TCP_and_root_XY",
+            "varied": true,
+            "paired_observed_error": {
+              "tick": 28453,
+              "translation": [
+                -0.000674291072335742,
+                -0.00041498876995174627,
+                1.9847363421310327e-05
+              ],
+              "rotation": [
+                -0.00021108504050807553,
+                -0.0005677158277419337,
+                0.00021511627169976501
+              ],
+              "root_shift": [
+                0.0014271415866096426,
+                0.0004790817450785745
+              ],
+              "root_rise_m": -0.00013730293011687822,
+              "root_angle_rad": 0.0028873490132996903,
+              "relative_translation_m": 0.0034276444563706987,
+              "relative_rotation_rad": 0.003283633294396606
+            },
+            "verdict": {
+              "passed": true,
+              "phase": "carry",
+              "sample_count": 22,
+              "gap_m": 0.007970321178939994,
+              "pair": [
+                "task_blue_cube_geom",
+                "task_cube_geom"
+              ],
+              "margin_m": 0.0035109945918219932
+            }
+          },
+          {
+            "name": "paired_TCP_and_root_XY",
+            "varied": true,
+            "paired_observed_error": {
+              "tick": 28703,
+              "translation": [
+                0.007776520270942944,
+                0.006126532707179624,
+                -0.002390745730293853
+              ],
+              "rotation": [
+                -0.0025176628413937172,
+                0.003089583762559988,
+                0.0018216390100544622
+              ],
+              "root_shift": [
+                0.009186715989861097,
+                0.004806177928887045
+              ],
+              "root_rise_m": -0.0024342371921667882,
+              "root_angle_rad": 0.011307332073328439,
+              "relative_translation_m": 0.0059363655624154925,
+              "relative_rotation_rad": 0.006947165305710558
+            },
+            "verdict": {
+              "passed": true,
+              "phase": "carry",
+              "sample_count": 22,
+              "gap_m": 0.00680323372696154,
+              "pair": [
+                "task_blue_cube_geom",
+                "task_cube_geom"
+              ],
+              "margin_m": 0.0035109945918219932
+            }
+          }
+        ],
+        "supported_opening_projection": null,
+        "clearance_by_pair_role": {
+          "world_obstacle_pairs": {
+            "passed": false,
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "phase": "carry",
+            "sample_count": 1,
+            "gap_m": 0.007970321178939995,
+            "pair": [
+              "task_blue_cube_geom",
+              "task_cube_geom"
+            ],
+            "margin_m": 0.013948423419947582
+          },
+          "grasp_attached_robot_pairs": {
+            "passed": true,
+            "phase": "carry",
+            "sample_count": 22,
+            "gap_m": 0.017284512595246805,
+            "pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "margin_m": 0.009848320954553617
+          },
+          "original_native_contact_predicates_on_all_pairs": true
+        },
+        "selected_controller_reference": "UNKNOWN",
+        "new_native_requests": 0,
+        "new_physics_ticks": 0,
+        "modified_live_source": false,
+        "admission_claim": false
       }
     ],
     "native_requests": 0,
@@ -1612,7 +2068,7 @@
     "training_visits": 0,
     "model_generations": 0
   },
-  "total_exact_archived_H40_reproduced": 609,
+  "total_exact_archived_H40_reproduced": 783,
   "B2_red_right_measured_support": {
     "support_readback_sha256": "016e6f99da9cecddc886216a66b39cbef56482d9d338808b9df542075bb597db",
     "result_sha256": "352c2cc6ba89f6e95ea3ff347a91024dca6ca78cfaad30887aa3df32e71bc089",

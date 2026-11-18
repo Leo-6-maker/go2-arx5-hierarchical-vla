@@ -1,7 +1,15 @@
-# D2 Teacher TRAIN 资格
+# D2 Teacher TRAIN 资格终态
 
-独立 QUAL48 已冻结，实际派发 **0/48**。首批 Teacher 的 3 个 G7 都来自 HOLD，8 个 PLACE 全部失败。截至 17:41 SGT，第二批已封存 8/12，只取得 1 格完整成功并通过 G7。同版本 12/12 开发门已无法达到，剩余登记开发任务继续依原顺序执行。资格人口保留每格至少 2/4、合计至少 24/48 的原门。
+2026-11-18 17:57 SGT 后冷态独立核对。两批开发均已完成 12/12，两份源和后端签名独立参与原开发门判定。B1 完整成功且通过 G7 的格为 **3/12**。最终 B2 候选只有 F1 红 HOLD 达标，为 **1/12**。两批完整 PLACE 均为 0/8。同版本 12/12 开发门失败，本轮候选和开发配额用完。
 
-Core 已读回封存未派发清单。独立资格48及 M2 screen48、confirm24、DEV60、TEST60 均为 0 次实际原生请求。旧第 13 条只用于原生证据及 G7 回归。TRAIN 统计拟合、M2-BASE／M2-SRC 更新访问、模型生成和预算迁移均为 0。
+| 后继阶段 | 登记请求 | 实际派发 | 封存原因 |
+|---|---:|---:|---|
+| 独立 TRAIN QUAL | 48 | 0 | 同版本完整开发覆盖不足 |
+| M2 筛查 | 48 | 0 | 未进入 QUAL |
+| M2 确认 | 24 | 0 | 未进入 QUAL |
+| M2 DEV | 60 | 0 | 未进入 QUAL |
+| M2 TEST | 60 | 0 | 未进入 QUAL |
 
-[机读实绩与未派发清单](TEACHER_TRAIN_QUAL_ACTUAL.json) · [开发原生实绩](TEACHER_DEVELOPMENT_ACTUAL.md)
+资格人口保留每格至少 2/4、合计至少 24/48 的原门。TRAIN 统计拟合、原 M 预算迁移、M2-BASE／M2-SRC 更新与访问、模型生成、学生原生和真机请求均为 0。Core 关闭两批 owner 并核对资格与 M2 未创建执行服务。旧第 13 条只保留为历史原生与 G7 证据，旧 Teacher30 未派发后缀和旧 TEST 继续封存。
+
+[机读实绩与未派发清单](TEACHER_TRAIN_QUAL_ACTUAL.json) · [开发原生终态](TEACHER_DEVELOPMENT_ACTUAL.md) · [独立双 world 工程结果](PERFORMANCE_PARALLEL_ACTUAL.md)
