@@ -1,5 +1,6 @@
 """Prepare finite V6 M cards over the sealed scenes and existing interfaces."""
 import copy
+import hashlib
 import json
 from pathlib import Path
 import time
@@ -116,6 +117,7 @@ def case_card(spec, template, item, panel_pin):
         model_path=item['scene']['path'],unattended_control=str(root/'control'))
     case['collection_contract'] = ('SLA_V6_MULTITASK_TEACHER_CURRENT_FULL_H40_AND_CONSUMED_MASK' if expert
                                    else 'SLA_V6_MULTITASK_G7_STUDENT_EVALUATION_ONLY')
+    case['stage_identity_sha256'] = hashlib.sha256(json.dumps(item,sort_keys=True).encode()).hexdigest()
     case['new_model_generations_budget'] = 0 if expert else case['policy_queries']
     case['frozen_files'][case['model_path']] = item['scene']['sha256']
     for kind in ('tmp','cache','logs','data'):

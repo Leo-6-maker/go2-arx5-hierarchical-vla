@@ -118,6 +118,7 @@ def test_student_registration_binds_the_worker_and_all_fixed_cases(tmp_path, mon
     worker = read_pin(parent['resident_server_spec'])
     assert parent['new_physical_requests_budget']==48
     assert len(cards.read(registry)['entries'])==50
+    assert len({cards.read(path)['stage_identity_sha256'] for path in parent['cases']})==48
     assert worker['new_complete_generations_budget']==worker['unified_requests_budget']==7680
     assert worker['new_physical_requests_budget']==worker['new_optimizer_updates_budget']==0
     assert worker['python']=='/qualified/gpu/python'
