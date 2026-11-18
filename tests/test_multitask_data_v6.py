@@ -29,6 +29,7 @@ def test_complete_h40_retains_only_ten_independently_confirmed_atoms(tmp_path):
                 model_path=scene, frozen_files={scene: 'a'*64}, language='Grasp and hold the red cube',
                 collection_contract='EXAMPLE_TEST_ONLY')
     state = pose10(frame, .5)
+    state[3] = np.nextafter(state[3], np.inf)
     h40 = np.tile(state, (40,1)); h40[10:,0] = .03
     context = dict(width_m=.022, source_native_s=(start-25)*.002, query_native_s=start*.002)
     wire = 'b'*64
@@ -66,6 +67,10 @@ def test_complete_h40_retains_only_ten_independently_confirmed_atoms(tmp_path):
     out = tmp_path/'export'/'teacher'; out.mkdir(parents=True)
     copied, = copy_shards(source, data_manifest, arrays, out)
     assert sha(Path(out.parent/copied['file'])) == sha(rgb)
+    wrong_frame = np.asarray(frame).copy()
+    wrong_frame[0,3] = 1e-6
+    with pytest.raises(ValueError, match='SAME_PAUSED_MEASURED_STATE_AND_POLICY_FRAME_REQUIRED'):
+        read_capture(condition, dict(case, policy_from_world=wrong_frame.tolist()), native)
     commands[-1]['installed_reference_sha256'] = 'c'*64
     log.write_text(''.join(json.dumps(row)+'\n' for row in commands))
     with pytest.raises(ValueError, match='P10_INTERVAL_MUST_MATCH_NATIVE_CONSUMPTION:0:9'):

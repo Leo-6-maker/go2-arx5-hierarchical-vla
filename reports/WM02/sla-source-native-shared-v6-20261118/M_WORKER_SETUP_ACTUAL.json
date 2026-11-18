@@ -75,7 +75,7 @@
     }
   },
   "actual_new_training_updates": 0,
-  "actual_M_native_requests": 3,
+  "actual_M_native_requests": 4,
   "first6_storage_readback": {
     "time_SGT": "2026-11-18T08:42:28.316569+08:00",
     "headroom": {
@@ -315,5 +315,470 @@
     "actual_new_optimizer_updates": 0,
     "actual_new_optimization_visits": 0,
     "actual_new_model_generations": 0
+  },
+  "first_Teacher_capture_audit": {
+    "observed_SGT": "2026-11-18T10:24:56.304580+08:00",
+    "verified_scientific_requests": 2,
+    "sealed_scientific_ticks": 42011,
+    "started_scientific_requests": 3,
+    "completed_full_Teacher_demonstrations": 1,
+    "first_F1_collision_clearance": {
+      "epoch": 1794968473.4643755,
+      "case": "M-TEACHER-F1-0-HOLD-red",
+      "query_zero_based": 54,
+      "observed_samples": 36,
+      "scene_sha256": "f69cff6ed63bcc344cb3ac1914794b1a26d7214e59ac18f717b9b01e03d832ec",
+      "result_sha256": "6d88e1032aa371057373fe08f1f059e8f2ec3382509e8379d3550840c7f17e94",
+      "physics_trace_sha256": "eccc05b7c42696c933a3055e88a77abe4022f40e0a449f540f39d0681b0f24e6",
+      "capture_labels_sha256": "a5de928061215d1b3dabbc62b4a119cc665347ab653174a4fd08440153ce9660",
+      "last_contact_step": 19308,
+      "initial": {
+        "step": 19204,
+        "measured_pad_clearance_m": {
+          "task_left_pad": 0.03202658951296755,
+          "task_right_pad": 0.029822978516718446
+        },
+        "bracketing_50ms_knots": [
+          {
+            "query_knot_zero_based": 0,
+            "nominal_desired_clearance_m": {
+              "task_left_pad": 0.031893938383137366,
+              "task_right_pad": 0.029700787597412348
+            },
+            "submitted_clearance_m": {
+              "task_left_pad": 0.015457693981675735,
+              "task_right_pad": 0.014301596253939564
+            },
+            "actual_TCP_minus_nominal_m": [
+              -0.00017207493549131758,
+              2.4195201962659563e-05,
+              0.00011897246719194676
+            ],
+            "actual_TCP_minus_submitted_m": [
+              0.009222464985047973,
+              0.0022582024025643993,
+              0.01753634492556455
+            ],
+            "actual_TCP_nominal_orientation_clearance_m": {
+              "task_left_pad": 0.03201291085032931,
+              "task_right_pad": 0.029819760064604295
+            }
+          },
+          {
+            "query_knot_zero_based": 1,
+            "nominal_desired_clearance_m": {
+              "task_left_pad": 0.03156017773170916,
+              "task_right_pad": 0.02936663177098453
+            },
+            "submitted_clearance_m": {
+              "task_left_pad": 0.015124200005394495,
+              "task_right_pad": 0.01396778051339842
+            },
+            "actual_TCP_minus_nominal_m": [
+              -2.9032067220102764e-05,
+              -5.3152026065136915e-05,
+              0.0004559354205833088
+            ],
+            "actual_TCP_minus_submitted_m": [
+              0.009365507853319133,
+              0.002180855174536603,
+              0.017873307878955913
+            ],
+            "actual_TCP_nominal_orientation_clearance_m": {
+              "task_left_pad": 0.03201611315229247,
+              "task_right_pad": 0.02982256719156784
+            }
+          }
+        ]
+      },
+      "last": {
+        "step": 19308,
+        "measured_pad_clearance_m": {
+          "task_left_pad": 0.0008860627958704459,
+          "task_right_pad": -0.00020732925149091752
+        },
+        "bracketing_50ms_knots": [
+          {
+            "query_knot_zero_based": 4,
+            "nominal_desired_clearance_m": {
+              "task_left_pad": 0.030529559938469286,
+              "task_right_pad": 0.028333780794048025
+            },
+            "submitted_clearance_m": {
+              "task_left_pad": 0.014096862109606367,
+              "task_right_pad": 0.012939077861380044
+            },
+            "actual_TCP_minus_nominal_m": [
+              -0.007668349260189888,
+              -0.0017056274952533812,
+              -0.028489662455660203
+            ],
+            "actual_TCP_minus_submitted_m": [
+              0.0017261906603494581,
+              0.0005283797053483447,
+              -0.011072289997287599
+            ],
+            "actual_TCP_nominal_orientation_clearance_m": {
+              "task_left_pad": 0.0020398974828090832,
+              "task_right_pad": -0.0001558816616121783
+            }
+          },
+          {
+            "query_knot_zero_based": 5,
+            "nominal_desired_clearance_m": {
+              "task_left_pad": 0.03017741413624453,
+              "task_right_pad": 0.027981793703145907
+            },
+            "submitted_clearance_m": {
+              "task_left_pad": 0.013744684305612376,
+              "task_right_pad": 0.012587056806761976
+            },
+            "actual_TCP_minus_nominal_m": [
+              -0.007577697436613462,
+              -0.001732257086012795,
+              -0.028137923321033598
+            ],
+            "actual_TCP_minus_submitted_m": [
+              0.001816842483925829,
+              0.0005017501145889586,
+              -0.010720550862660994
+            ],
+            "actual_TCP_nominal_orientation_clearance_m": {
+              "task_left_pad": 0.0020394908152109315,
+              "task_right_pad": -0.0001561296178876903
+            }
+          }
+        ]
+      },
+      "clearance_along_recorded_prefix": [
+        [
+          19204,
+          0.03202658951296755,
+          0.029822978516718446
+        ],
+        [
+          19207,
+          0.03230859089636018,
+          0.030062199142063206
+        ],
+        [
+          19210,
+          0.032449043206307704,
+          0.030143048908946812
+        ],
+        [
+          19213,
+          0.032497828022518105,
+          0.030093096750820503
+        ],
+        [
+          19216,
+          0.03250117659657492,
+          0.029954838555427243
+        ],
+        [
+          19219,
+          0.03247596833773281,
+          0.029774390589546673
+        ],
+        [
+          19222,
+          0.0324789443645207,
+          0.029605329518552215
+        ],
+        [
+          19225,
+          0.032503593162617306,
+          0.029474903457487156
+        ],
+        [
+          19228,
+          0.032608138456382774,
+          0.029437177421903993
+        ],
+        [
+          19231,
+          0.032678899318591026,
+          0.029381053958385528
+        ],
+        [
+          19234,
+          0.03264420403539925,
+          0.029252367854559758
+        ],
+        [
+          19237,
+          0.03253860646861084,
+          0.02906223007808617
+        ],
+        [
+          19240,
+          0.032347665526796576,
+          0.028791598676137453
+        ],
+        [
+          19243,
+          0.032007267604737266,
+          0.02838945618349553
+        ],
+        [
+          19246,
+          0.031530247116698606,
+          0.027861089578962606
+        ],
+        [
+          19249,
+          0.030918890170038016,
+          0.027210094792016526
+        ],
+        [
+          19252,
+          0.030137211166783917,
+          0.026405234556337365
+        ],
+        [
+          19255,
+          0.02918111273906221,
+          0.02544575958452744
+        ],
+        [
+          19258,
+          0.028076738368038368,
+          0.02435913610783791
+        ],
+        [
+          19261,
+          0.02681471903670185,
+          0.023135087134613097
+        ],
+        [
+          19264,
+          0.02539351894391706,
+          0.02176636873540816
+        ],
+        [
+          19267,
+          0.023849818016663527,
+          0.02028615046341309
+        ],
+        [
+          19270,
+          0.022197962096916157,
+          0.0187199383380261
+        ],
+        [
+          19273,
+          0.020417647748048218,
+          0.017066520998388568
+        ],
+        [
+          19276,
+          0.018541517028562104,
+          0.015351988469429312
+        ],
+        [
+          19279,
+          0.016607425555196786,
+          0.013604074141576827
+        ],
+        [
+          19282,
+          0.014582565583293294,
+          0.011778268246770196
+        ],
+        [
+          19285,
+          0.012477182432725109,
+          0.00986403578261097
+        ],
+        [
+          19288,
+          0.010353044647065213,
+          0.007927799987867856
+        ],
+        [
+          19291,
+          0.008282557566113957,
+          0.006039819411118641
+        ],
+        [
+          19294,
+          0.006366135446140175,
+          0.004313185604300607
+        ],
+        [
+          19297,
+          0.004665804340112878,
+          0.002817582545509456
+        ],
+        [
+          19300,
+          0.00321747360478164,
+          0.0015867031927128128
+        ],
+        [
+          19303,
+          0.002076778591207029,
+          0.0006491343910673963
+        ],
+        [
+          19306,
+          0.0012553815283194991,
+          2.549939543550206e-05
+        ],
+        [
+          19308,
+          0.0008860627958704459,
+          -0.00020732925149091752
+        ]
+      ],
+      "executed_atom_receipts": [
+        {
+          "native_start_step": 19203,
+          "native_end_step": 19228,
+          "installed_reference_sha256": "67f502c2bb706259688c50e79528bf31eca60527f273c70a4674629f32f73500",
+          "observed_matching_solver_reference_ids": 10
+        },
+        {
+          "native_start_step": 19228,
+          "native_end_step": 19253,
+          "installed_reference_sha256": "67f502c2bb706259688c50e79528bf31eca60527f273c70a4674629f32f73500",
+          "observed_matching_solver_reference_ids": 10
+        },
+        {
+          "native_start_step": 19253,
+          "native_end_step": 19278,
+          "installed_reference_sha256": "67f502c2bb706259688c50e79528bf31eca60527f273c70a4674629f32f73500",
+          "observed_matching_solver_reference_ids": 10
+        },
+        {
+          "native_start_step": 19278,
+          "native_end_step": 19303,
+          "installed_reference_sha256": "67f502c2bb706259688c50e79528bf31eca60527f273c70a4674629f32f73500",
+          "observed_matching_solver_reference_ids": 10
+        }
+      ],
+      "comparison_uses_fixed_measured_finger_geometry_at_each_state": true,
+      "exact_selected_controller_reference": false,
+      "new_integrations": 0,
+      "new_native_requests": 0,
+      "new_generations": 0
+    },
+    "F2_HOLD_blue_capture": {
+      "epoch": 1794968682.0916457,
+      "case": "M-TEACHER-F2-0-HOLD-blue",
+      "result_sha256": "6aa8d0c6d5938b1fc30b7b354b5f863b5a252dbf807e6aad14fd624cd0145319",
+      "case_spec_sha256": "5c9ed2ed95e37f5798411a2ea8f0fe1cc3419e3255f2898cc8ddc833097ee35f",
+      "capture_manifest_sha256": "28b8e2fb439d4d6d03a36d8e249b14eaeedc41b51e7329625b0ec36d01e4cb45",
+      "source_sha": "258beceaf24a26c5fd3ecf945488df0a75125299",
+      "used_per_capture_exporter_file_sha256": "0383e957b3a0e544615a2ca34fe696c841a66fead95ed4a3215e3f893aa4c0be",
+      "verified_exact_current_RGB_pairs": 68,
+      "actual_H40_rows": 68,
+      "actual_P10_atoms": 680,
+      "actual_native_ticks": 22703,
+      "actual_native_requests": 1,
+      "positive_score": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "HOLD-blue",
+        "task_success": true,
+        "native_step": 22703,
+        "base_directional_motion_m": 0.08861502366457391,
+        "lift_m": 0.024851271326205238,
+        "inside_selected_region": null,
+        "target_grasp": true,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": false,
+        "gripper_open_fraction": 0.43367182131335374,
+        "TCP_retreat_m": 0.025076937713287166,
+        "stable_release_condition": false,
+        "states": 17001,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": true,
+        "ever_target_lift20mm": true,
+        "maximum_lift_m": 0.024851271326205238,
+        "longest_grasp_lift_hold_s": 1.1940000000014592,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 12454,
+            "native_time_s": 24.907999999997074
+          },
+          "target_grasp": {
+            "native_step": 19770,
+            "native_time_s": 39.54000000000236
+          },
+          "target_lift20mm": {
+            "native_step": 22106,
+            "native_time_s": 44.21200000000807
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "stages": [
+        {
+          "stage": "PREGRASP",
+          "native_step": 5703
+        },
+        {
+          "stage": "DESCEND",
+          "native_step": 13703
+        },
+        {
+          "stage": "CLOSE",
+          "native_step": 19203
+        },
+        {
+          "stage": "LIFT",
+          "native_step": 19953
+        },
+        {
+          "stage": "HOLD",
+          "native_step": 22203
+        }
+      ],
+      "by_phase": {
+        "PREGRASP": 32,
+        "DESCEND": 22,
+        "CLOSE": 3,
+        "LIFT": 9,
+        "HOLD": 2
+      },
+      "rederived_state_differences": {
+        "rows_with_any_bit_difference": 63,
+        "max_abs_XYZ_m": 2.220446049250313e-16,
+        "max_abs_rot6d_component": 1.1102230246251565e-16,
+        "max_abs_gripper": 0.0
+      },
+      "maximum_original_nominal_width_speed_m_s": 0.03743754687500017,
+      "over_training_margin": 0,
+      "native_wall_s": 343.8372560888529,
+      "native_CPU_s": 210.549983227,
+      "observed_shards": 5,
+      "audit_wall_s": 0.22216818016022444,
+      "new_integrations": 0,
+      "new_generations": 0,
+      "new_optimizer_updates": 0,
+      "new_optimization_visits": 0,
+      "statistics_fitted": false
+    },
+    "current_scientific_case": {
+      "id": "M-TEACHER-F1-0-PLACE-red-left",
+      "instruction": "PLACE-red-left",
+      "started": true,
+      "last_observed_integration": {
+        "step": 15988,
+        "kind": "sample",
+        "time_s": 31.975999999993157
+      },
+      "sealed": false,
+      "result_sha256": null,
+      "result": null
+    },
+    "prior_per_capture_export_failure": "SAME_PAUSED_MEASURED_STATE_AND_POLICY_FRAME_REQUIRED",
+    "independent_TCP_transform_only_absolute_tolerance": 1e-12,
+    "exact_RGB_shard_and_gripper_state_identity": true
   }
 }

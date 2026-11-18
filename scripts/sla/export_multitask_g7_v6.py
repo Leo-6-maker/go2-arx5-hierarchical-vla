@@ -146,7 +146,11 @@ def read_capture(condition, case, native):
             raise ValueError(f'EXACT_RAW_G7_LABEL_MARGIN_AND_NATIVE_SPEED_REQUIRED:{index}')
         state = eef(row['state_eef10'], (10,))
         measured = row['actual_state']
-        if not np.array_equal(state, pose10(transform @ np.asarray(measured['tcp']), measured['gripper_fraction'])):
+        expected_state = pose10(transform @ np.asarray(measured['tcp']), measured['gripper_fraction'])
+        # Native capture and offline export can use different floating-point
+        # matrix kernels. Preserve the captured bytes and allow only roundoff
+        # when independently recomputing the pose.
+        if state[9] != expected_state[9] or not np.allclose(state[:9], expected_state[:9], rtol=0, atol=1e-12):
             raise ValueError('SAME_PAUSED_MEASURED_STATE_AND_POLICY_FRAME_REQUIRED')
         target = pose10(transform @ matrix_from10(world), world[:, 9])
         s, a = codec.encode(state, target)
