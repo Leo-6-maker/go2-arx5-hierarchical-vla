@@ -5640,5 +5640,670 @@
       "EMBODIMENT_D1_ORIENTED_15_16_PROGRESS01": "1dd305c4693eff800ad641222bef35f70c24cb95dc9f7c076ba41cd3098d7830",
       "EMBODIMENT_D1_ORIENTED_GEOM_REPLAY02": "9e9525182721a811f53b8cf675b64931a9dad6291b329e22899a746d8370447a"
     }
+  },
+  "checkpoint_16_and_original_17_18": {
+    "scientific_requests_sealed": 16,
+    "successful": 8,
+    "contact_STOP": 7,
+    "budget_failures": 1,
+    "technical_failures": 0,
+    "ticks_science": 454487,
+    "complete_g7_episodes": 8,
+    "verified_RGB_H40_pairs": 742,
+    "verified_consumed_atoms": 7420,
+    "eligible_cells": 3,
+    "side_cases_15_16": {
+      "epoch": 1794978491.482768,
+      "unit": {
+        "MainPID": "0",
+        "ControlGroup": "",
+        "ActiveState": "inactive"
+      },
+      "lease": "CLOSED",
+      "cgroup_size": 0,
+      "confirmed_live": false,
+      "spec_sha256": "bb060b536782aca9b34dbc880a2bf3681a6ef5f898709a3061d53483f86b9304",
+      "source_sha": "a83803fb71c76937020e88f210a592fd1524bf80",
+      "terminal": true,
+      "terminal_sha256": "bf2dc01eb864ee5aff2e9087d275db737acc573bc0c9bbd9c0b164394e6e874a",
+      "episodes": [
+        {
+          "condition": "M-TEACHER-F1-1-PLACE-blue-right",
+          "native_ticks": 23029,
+          "requests": 1,
+          "success": false,
+          "hard_STOP": true,
+          "technical_failure": false,
+          "score": {
+            "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+            "instruction": "PLACE-blue-right",
+            "task_success": false,
+            "native_step": 22953,
+            "base_directional_motion_m": 0.10478462474514738,
+            "lift_m": 0.0,
+            "inside_selected_region": false,
+            "target_grasp": false,
+            "wrong_object_grasp_ever": false,
+            "wrong_object_contact_ever": false,
+            "released": true,
+            "gripper_open_fraction": 0.954870347657472,
+            "TCP_retreat_m": 0.029847243992203506,
+            "stable_release_condition": false,
+            "states": 17251,
+            "missing_native_intervals": 0,
+            "unsafe_states": 0,
+            "ever_target_grasp": false,
+            "ever_target_lift20mm": false,
+            "maximum_lift_m": 0.0,
+            "longest_grasp_lift_hold_s": 0.0,
+            "longest_stable_released_retreat_s": 0.0,
+            "events": {
+              "base80mm": {
+                "native_step": 10621,
+                "native_time_s": 21.241999999999106
+              }
+            },
+            "task_privileged_truth_in_student_input": false,
+            "clock": "ACTUAL_2MS_NATIVE_STREAM"
+          },
+          "source_sha": "a83803fb71c76937020e88f210a592fd1524bf80",
+          "result_sha": "0efdf8bc6c09d1d1dc26b8b937162fb51c8d2b43d6ab114389d5a5b1fa4772aa",
+          "phase_stages": null,
+          "first_failure": "ILLEGAL_CONTACT",
+          "wall_s": 349.34584785904735,
+          "CPU_s": 213.234886883,
+          "integrations_after_STOP": 0,
+          "shard_manifest_sha": "f00857068041059baf7878df69d46182dbf9750b1c3ec462c36dcd0dda50a472",
+          "capture_H40": 70,
+          "true_P10": 693,
+          "atoms_by_phase": {
+            "PREGRASP": 450,
+            "DESCEND": 243
+          },
+          "partial_ticks": 1,
+          "original_G7_margin_excluded": 0,
+          "landing_turn_rows": []
+        },
+        {
+          "condition": "M-TEACHER-F1-2-HOLD-red",
+          "native_ticks": 22953,
+          "requests": 1,
+          "success": true,
+          "hard_STOP": false,
+          "technical_failure": false,
+          "score": {
+            "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+            "instruction": "HOLD-red",
+            "task_success": true,
+            "native_step": 22953,
+            "base_directional_motion_m": 0.12387370311009979,
+            "lift_m": 0.024896287452233157,
+            "inside_selected_region": null,
+            "target_grasp": true,
+            "wrong_object_grasp_ever": false,
+            "wrong_object_contact_ever": false,
+            "released": false,
+            "gripper_open_fraction": 0.4335903901191021,
+            "TCP_retreat_m": 0.03258167564251855,
+            "stable_release_condition": false,
+            "states": 17251,
+            "missing_native_intervals": 0,
+            "unsafe_states": 0,
+            "ever_target_grasp": true,
+            "ever_target_lift20mm": true,
+            "maximum_lift_m": 0.024896287452233157,
+            "longest_grasp_lift_hold_s": 1.0900000000013321,
+            "longest_stable_released_retreat_s": 0.0,
+            "events": {
+              "base80mm": {
+                "native_step": 10242,
+                "native_time_s": 20.483999999999526
+              },
+              "target_grasp": {
+                "native_step": 20023,
+                "native_time_s": 40.04600000000298
+              },
+              "target_lift20mm": {
+                "native_step": 22408,
+                "native_time_s": 44.816000000008806
+              }
+            },
+            "task_privileged_truth_in_student_input": false,
+            "clock": "ACTUAL_2MS_NATIVE_STREAM"
+          },
+          "source_sha": "a83803fb71c76937020e88f210a592fd1524bf80",
+          "result_sha": "ea02687483f1112d09ed87c384c7a3949473508a3f498620a54ddc44e7eaf005",
+          "phase_stages": [
+            {
+              "stage": "PREGRASP",
+              "native_step": 5703
+            },
+            {
+              "stage": "DESCEND",
+              "native_step": 14453
+            },
+            {
+              "stage": "CLOSE",
+              "native_step": 19453
+            },
+            {
+              "stage": "LIFT",
+              "native_step": 20203
+            },
+            {
+              "stage": "HOLD",
+              "native_step": 22453
+            }
+          ],
+          "first_failure": "TASK_SUCCESS",
+          "wall_s": 349.5994243044406,
+          "CPU_s": 213.577078168,
+          "integrations_after_STOP": null,
+          "shard_manifest_sha": "c3f7d7d718ccbafccbf06f37e398e0d6b5bc08eaef5632a4c4faf036e8d1bc71",
+          "capture_H40": 69,
+          "true_P10": 690,
+          "atoms_by_phase": {
+            "PREGRASP": 350,
+            "DESCEND": 200,
+            "CLOSE": 30,
+            "LIFT": 90,
+            "HOLD": 20
+          },
+          "partial_ticks": 0,
+          "original_G7_margin_excluded": 0,
+          "landing_turn_rows": []
+        }
+      ],
+      "science_requests": 2,
+      "unstarted": 0,
+      "registered_ids": [
+        "M-TEACHER-F1-1-PLACE-blue-right",
+        "M-TEACHER-F1-2-HOLD-red"
+      ]
+    },
+    "G7_sixteenth": {
+      "epoch": 1794978493.1598787,
+      "case": "M-TEACHER-F1-2-HOLD-red",
+      "result_sha256": "ea02687483f1112d09ed87c384c7a3949473508a3f498620a54ddc44e7eaf005",
+      "case_spec_sha256": "7e102e9c8f6931920c8707465d29d3bb50d146a036b98e190527df88757db2e5",
+      "capture_manifest_sha256": "c3f7d7d718ccbafccbf06f37e398e0d6b5bc08eaef5632a4c4faf036e8d1bc71",
+      "source_sha": "a83803fb71c76937020e88f210a592fd1524bf80",
+      "used_per_capture_exporter_file_sha256": "0383e957b3a0e544615a2ca34fe696c841a66fead95ed4a3215e3f893aa4c0be",
+      "verified_exact_current_RGB_pairs": 69,
+      "actual_H40_rows": 69,
+      "actual_P10_atoms": 690,
+      "actual_native_ticks": 22953,
+      "actual_native_requests": 1,
+      "positive_score": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "HOLD-red",
+        "task_success": true,
+        "native_step": 22953,
+        "base_directional_motion_m": 0.12387370311009979,
+        "lift_m": 0.024896287452233157,
+        "inside_selected_region": null,
+        "target_grasp": true,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": false,
+        "gripper_open_fraction": 0.4335903901191021,
+        "TCP_retreat_m": 0.03258167564251855,
+        "stable_release_condition": false,
+        "states": 17251,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": true,
+        "ever_target_lift20mm": true,
+        "maximum_lift_m": 0.024896287452233157,
+        "longest_grasp_lift_hold_s": 1.0900000000013321,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 10242,
+            "native_time_s": 20.483999999999526
+          },
+          "target_grasp": {
+            "native_step": 20023,
+            "native_time_s": 40.04600000000298
+          },
+          "target_lift20mm": {
+            "native_step": 22408,
+            "native_time_s": 44.816000000008806
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "stages": [
+        {
+          "stage": "PREGRASP",
+          "native_step": 5703
+        },
+        {
+          "stage": "DESCEND",
+          "native_step": 14453
+        },
+        {
+          "stage": "CLOSE",
+          "native_step": 19453
+        },
+        {
+          "stage": "LIFT",
+          "native_step": 20203
+        },
+        {
+          "stage": "HOLD",
+          "native_step": 22453
+        }
+      ],
+      "by_phase": {
+        "PREGRASP": 35,
+        "DESCEND": 20,
+        "CLOSE": 3,
+        "LIFT": 9,
+        "HOLD": 2
+      },
+      "rederived_state_differences": {
+        "rows_with_any_bit_difference": 69,
+        "max_abs_XYZ_m": 2.220446049250313e-16,
+        "max_abs_rot6d_component": 1.1102230246251565e-16,
+        "max_abs_gripper": 0.0
+      },
+      "maximum_original_nominal_width_speed_m_s": 0.03743754687500017,
+      "over_training_margin": 0,
+      "native_wall_s": 349.5994243044406,
+      "native_CPU_s": 213.577078168,
+      "observed_shards": 5,
+      "audit_wall_s": 1.3043309655040503,
+      "new_integrations": 0,
+      "new_generations": 0,
+      "new_optimizer_updates": 0,
+      "new_optimization_visits": 0,
+      "statistics_fitted": false
+    },
+    "fifteenth_contact": {
+      "epoch": 1794978143.0221798,
+      "case": "M-TEACHER-F1-1-PLACE-blue-right",
+      "result_sha256": "0efdf8bc6c09d1d1dc26b8b937162fb51c8d2b43d6ab114389d5a5b1fa4772aa",
+      "physics_trace_sha256": "5a1307253e5b37586d07a0d2b5378879a5a2cec030de5f8d11569eff32b11e58",
+      "case_spec_sha256": "89bf5b830b7d81d332f0eac5a995b9ff0001b6a3c76f8590bacb1c40e43c729b",
+      "scene_sha256": "e99d44a4e8f6d3a1e9e9ce14e26952f7c038835dd627ebef19d7096fb4f83358",
+      "original_stops": [
+        {
+          "kind": "stop",
+          "reason": "ILLEGAL_CONTACT",
+          "steps": 23029
+        }
+      ],
+      "native_step": 23029,
+      "illegal_contacts": [
+        {
+          "geometry_pair": [
+            "task_table",
+            "task_right_pad"
+          ],
+          "geometry_ids": [
+            1,
+            77
+          ],
+          "body_pair": [
+            "world",
+            "x5_link8"
+          ],
+          "geom_types": [
+            6,
+            6
+          ],
+          "distance_m": -6.200352044321254e-05,
+          "normal_force_N": 15.404683659726087
+        }
+      ],
+      "integrations_after_STOP": 0,
+      "last_fully_scored_query": {
+        "task_success": false,
+        "ever_target_grasp": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "base_directional_motion_m": 0.10478462474514738,
+        "native_step": 22953,
+        "ever_target_lift20mm": false,
+        "inside_selected_region": false,
+        "released": true,
+        "TCP_retreat_m": 0.029847243992203506,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 10621,
+            "native_time_s": 21.241999999999106
+          }
+        }
+      },
+      "capture_prefix": {
+        "queries": 70,
+        "phase": "DESCEND",
+        "query": 69,
+        "start_step": 22953,
+        "actual_elapsed_prefix_ticks": 76,
+        "partial_interval_ticks": 1,
+        "fully_consumed_atoms": 693,
+        "writer_error": null,
+        "final_native_step": 23029,
+        "manifest_sha256": "f00857068041059baf7878df69d46182dbf9750b1c3ec462c36dcd0dda50a472"
+      },
+      "new_model_calls": 0,
+      "new_native_integrations": 0
+    },
+    "fifteenth_geometric_STOP_samples": {
+      "initial": {
+        "step": 22954,
+        "measured_tcp_z_m": 0.6461346827178248,
+        "measured_pad_clearance_m": {
+          "task_left_pad": 0.02717036049032273,
+          "task_right_pad": 0.024398517150137966
+        },
+        "bracketing_50ms_knots": [
+          {
+            "query_knot_zero_based": 0,
+            "actual_TCP_rotation_error_deg": 5.113314947791297,
+            "measured_clearance_using_only_actual_TCP_translation_m": {
+              "task_left_pad": 0.028160616569376185,
+              "task_right_pad": 0.026493730957038775
+            },
+            "measured_clearance_using_only_actual_TCP_rotation_m": {
+              "task_left_pad": 0.00860118089292028,
+              "task_right_pad": 0.005829337552735514
+            },
+            "submitted_tcp_z_m": 0.6275655031204224,
+            "nominal_desired_clearance_m": {
+              "task_left_pad": 0.02723108949821451,
+              "task_right_pad": 0.024499911336624325
+            },
+            "submitted_clearance_m": {
+              "task_left_pad": 0.009591436971973732,
+              "task_right_pad": 0.007924551359636323
+            },
+            "actual_TCP_minus_nominal_m": [
+              -0.00022400374503189768,
+              -0.00010936521203968805,
+              -8.118372267917895e-05
+            ],
+            "actual_TCP_minus_submitted_m": [
+              0.007599448762529104,
+              0.002454748967967376,
+              0.018569179597402452
+            ],
+            "actual_TCP_nominal_orientation_clearance_m": {
+              "task_left_pad": 0.027149905775535332,
+              "task_right_pad": 0.024418727613945146
+            }
+          },
+          {
+            "query_knot_zero_based": 1,
+            "actual_TCP_rotation_error_deg": 5.12448075734847,
+            "measured_clearance_using_only_actual_TCP_translation_m": {
+              "task_left_pad": 0.0281654689913704,
+              "task_right_pad": 0.026496449307360836
+            },
+            "measured_clearance_using_only_actual_TCP_rotation_m": {
+              "task_left_pad": 0.008259397566714455,
+              "task_right_pad": 0.0054875542265296895
+            },
+            "submitted_tcp_z_m": 0.6272237197942165,
+            "nominal_desired_clearance_m": {
+              "task_left_pad": 0.02689413881380498,
+              "task_right_pad": 0.024160188341019406
+            },
+            "submitted_clearance_m": {
+              "task_left_pad": 0.009254506067762125,
+              "task_right_pad": 0.00758548638375256
+            },
+            "actual_TCP_minus_nominal_m": [
+              -7.708670035055931e-05,
+              -0.00013881919126049191,
+              0.0002605996035266456
+            ],
+            "actual_TCP_minus_submitted_m": [
+              0.007746365807210498,
+              0.0024252949887465687,
+              0.018910962923608277
+            ],
+            "actual_TCP_nominal_orientation_clearance_m": {
+              "task_left_pad": 0.027154738417331625,
+              "task_right_pad": 0.024420787944546052
+            }
+          }
+        ]
+      },
+      "last": {
+        "step": 23029,
+        "measured_tcp_z_m": 0.6211494626683461,
+        "measured_pad_clearance_m": {
+          "task_left_pad": 0.0015804723137954335,
+          "task_right_pad": -0.0005752771544571544
+        },
+        "bracketing_50ms_knots": [
+          {
+            "query_knot_zero_based": 3,
+            "actual_TCP_rotation_error_deg": 6.064079168893201,
+            "measured_clearance_using_only_actual_TCP_translation_m": {
+              "task_left_pad": 0.003170614842314623,
+              "task_right_pad": 0.0015002614435132289
+            },
+            "measured_clearance_using_only_actual_TCP_rotation_m": {
+              "task_left_pad": 0.006968333814621808,
+              "task_right_pad": 0.00481258434636922
+            },
+            "submitted_tcp_z_m": 0.6265373241691725,
+            "nominal_desired_clearance_m": {
+              "task_left_pad": 0.026187775807794966,
+              "task_right_pad": 0.023451343343037445
+            },
+            "submitted_clearance_m": {
+              "task_left_pad": 0.008558476343140997,
+              "task_right_pad": 0.006888122944339603
+            },
+            "actual_TCP_minus_nominal_m": [
+              -0.0027465754567516654,
+              -0.0031112399347883145,
+              -0.024038224820908005
+            ],
+            "actual_TCP_minus_submitted_m": [
+              0.005076877050809336,
+              -0.0005471257547812504,
+              -0.005387861500826374
+            ],
+            "actual_TCP_nominal_orientation_clearance_m": {
+              "task_left_pad": 0.002149550986886961,
+              "task_right_pad": -0.00058688147787056
+            }
+          },
+          {
+            "query_knot_zero_based": 4,
+            "actual_TCP_rotation_error_deg": 6.068738640066617,
+            "measured_clearance_using_only_actual_TCP_translation_m": {
+              "task_left_pad": 0.0031714424572514277,
+              "task_right_pad": 0.0015025691564477528
+            },
+            "measured_clearance_using_only_actual_TCP_rotation_m": {
+              "task_left_pad": 0.0066227971410224296,
+              "task_right_pad": 0.004467047672769842
+            },
+            "submitted_tcp_z_m": 0.6261917874955731,
+            "nominal_desired_clearance_m": {
+              "task_left_pad": 0.025843165719174443,
+              "task_right_pad": 0.023107728203557443
+            },
+            "submitted_clearance_m": {
+              "task_left_pad": 0.008213767284478424,
+              "task_right_pad": 0.006544893983674749
+            },
+            "actual_TCP_minus_nominal_m": [
+              -0.0026664922455257867,
+              -0.0031022819009588858,
+              -0.023692688147308738
+            ],
+            "actual_TCP_minus_submitted_m": [
+              0.005156960262035215,
+              -0.0005381677209518217,
+              -0.005042324827226996
+            ],
+            "actual_TCP_nominal_orientation_clearance_m": {
+              "task_left_pad": 0.0021504775718657054,
+              "task_right_pad": -0.0005849599437512953
+            }
+          }
+        ]
+      },
+      "observed_samples": 26
+    },
+    "exact_left_layout_candidate_same_scene": {
+      "epoch": 1794978565.2904973,
+      "actual_native_steps": [
+        22453,
+        22703
+      ],
+      "hypotheses_inside_fixed_zone": 185,
+      "endpoints_with_positive_clearance": 29,
+      "best_low_yaw": [
+        {
+          "yaw_deg": -20,
+          "landing_offset_mm": [
+            8,
+            8
+          ],
+          "minimum_final_gap_mm": 6.378245574863383
+        },
+        {
+          "yaw_deg": -20,
+          "landing_offset_mm": [
+            4,
+            8
+          ],
+          "minimum_final_gap_mm": 5.689060812311637
+        },
+        {
+          "yaw_deg": -20,
+          "landing_offset_mm": [
+            0,
+            8
+          ],
+          "minimum_final_gap_mm": 5.440673980959917
+        },
+        {
+          "yaw_deg": -20,
+          "landing_offset_mm": [
+            -4,
+            8
+          ],
+          "minimum_final_gap_mm": 5.440060893868573
+        },
+        {
+          "yaw_deg": -20,
+          "landing_offset_mm": [
+            -8,
+            8
+          ],
+          "minimum_final_gap_mm": 5.392123906835251
+        },
+        {
+          "yaw_deg": -20,
+          "landing_offset_mm": [
+            8,
+            4
+          ],
+          "minimum_final_gap_mm": 3.2936181852174506
+        },
+        {
+          "yaw_deg": -20,
+          "landing_offset_mm": [
+            4,
+            4
+          ],
+          "minimum_final_gap_mm": 2.5391659761410184
+        },
+        {
+          "yaw_deg": -20,
+          "landing_offset_mm": [
+            0,
+            4
+          ],
+          "minimum_final_gap_mm": 2.266540455751746
+        }
+      ],
+      "original_center_zero_yaw_gap_mm": -9.436213826495798,
+      "left_fixed_yaw_offset_mm": 6.378245574863383,
+      "zone_half_extent_mm": [
+        35.0,
+        35.0
+      ],
+      "scope": "STATIC_END_POSITION_WITH_SAME_MEASURED_GRASP_NOT_A_LOWERING_EXECUTION",
+      "all_new_effects": 0
+    },
+    "remaining_red_left_ids": [
+      {
+        "index": 18,
+        "condition": "M-TEACHER-F1-2-PLACE-red-left",
+        "model_SHA": "9514b8cecaa4b21d340acb7dba5b21a46dccda038ec2e90611fd4b5680c5627c",
+        "original_zone_xy": [
+          0.4465,
+          0.042499999999999996
+        ],
+        "original_zone_half_extent_xy": [
+          0.035,
+          0.035
+        ],
+        "selected_object_half_size_xyz": [
+          0.02,
+          0.02,
+          0.02
+        ],
+        "allowed_target_offset_xy_m": [
+          0.008,
+          0.008
+        ],
+        "yaw_deg": -20.0
+      },
+      {
+        "index": 24,
+        "condition": "M-TEACHER-F1-3-PLACE-red-left",
+        "model_SHA": "d48b2e56a6f4f81f9f3c845dedb22417fca62e4886f6fdd28ada826d23e64012",
+        "original_zone_xy": [
+          0.4465,
+          0.042499999999999996
+        ],
+        "original_zone_half_extent_xy": [
+          0.035,
+          0.035
+        ],
+        "selected_object_half_size_xyz": [
+          0.02,
+          0.02,
+          0.02
+        ],
+        "allowed_target_offset_xy_m": [
+          0.008,
+          0.008
+        ],
+        "yaw_deg": -20.0
+      }
+    ],
+    "active_suffix_17_18": {
+      "unit": "wm02-sla-v6-multitask-teacher-oriented-17-18-20261118-01",
+      "pid": 2022038,
+      "child": 2022076,
+      "cgroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-v6-multitask-teacher-oriented-17-18-20261118-01.service",
+      "source": "a83803fb71c76937020e88f210a592fd1524bf80",
+      "spec": "97074acd3454477bd5f798dedf0d2cb77f32d54018e23818bafef5b5c9728895",
+      "deadline": 1794983918.1339278,
+      "verified_tick": 3349,
+      "readback_epoch": 1794978545.8475244,
+      "case_18_started": false,
+      "frontend_dependency": false,
+      "stop_entry": "STOP.json"
+    },
+    "M_updates": 0,
+    "M_visits": 0,
+    "M_generations": 0,
+    "M_student_native": 0
   }
 }
