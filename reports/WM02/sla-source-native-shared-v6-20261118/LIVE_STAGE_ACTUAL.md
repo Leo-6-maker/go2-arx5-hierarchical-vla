@@ -1,5 +1,7 @@
 # V6 活跃阶段回读
 
+最新的真实 S 端点、源 TEST 准备和 T 新 24 条启动证据见 [SOURCE_ACTUAL](SOURCE_ACTUAL.md) 与 [TARGET_OFFLINE_ACTUAL](TARGET_OFFLINE_ACTUAL.md)。下文保留此前现场回执。
+
 观察时间 2026-11-18T07:30:13.903147+08:00。T 两个固定端点已封存，见 [ACTUAL.md](ACTUAL.md)。S1000 已持久提交 750 次更新及 24,000 次访问。S0 已完成 TRAIN96 与 SOURCE_DEV96 的 192 次生成，四窗反传诊断另计且增加 0 次更新。SOURCE_DEV 的 48 个动态锚点，S0 归一化参考误差为 0.125056，当前状态保持基线为 0.173941。S1000 尚未封存，迁移门未作决定。
 
 | Core 受管单元 | MainPID | 当前状态 | 截止 SGT |
