@@ -59,12 +59,18 @@ def request_policy(adapter, prepared, query_index):
     request = control.request(meta['input'],spec['language'],noise,
                               timeout_s=remaining,clock_mode='SIM_PAUSED_ONLY')
     write(folder/'MODEL_REQUEST.private.json',request)
-    # One publication under a serial parent. The worker caches this exact
-    # request identity; no generation command is replayed on read timeouts.
-    write(Path(server['ipc_root'])/'REQUEST.json',dict(request=request,
-        live_path=str(control.root/'live.json'),response_root=str(response_root),branch_barriers=False))
-    last_pause_check = 0.
+    message = dict(request=request,live_path=str(control.root/'live.json'),
+                   response_root=str(response_root),branch_barriers=False)
     try:
+        route = None
+        if server.get('d2_world_queue') is not None:
+            from .multitask_queue_d2 import WorldQueue
+
+            queue = WorldQueue(server['ipc_root'],server['d2_world_queue'])
+            route = queue.publish(spec['d2_world_id'],message)
+        else:
+            write(Path(server['ipc_root'])/'REQUEST.json',message)
+        last_pause_check = 0.
         while True:
             adapter.guard()
             wall = time.monotonic()
@@ -81,6 +87,8 @@ def request_policy(adapter, prepared, query_index):
                     last_pause_check = wall
                 adapter.spin(.01)
         checked_response(request,response)
+        if route is not None and response.get('d2_route')!=route:
+            raise ValueError('D2_QUEUE_WRONG_WORLD_EPISODE_CAPTURE_OR_PACKAGE_RESPONSE')
         pause = verify_query_return(adapter,prepared)
         write(folder/'MODEL_RETURN.private.json',dict(response=response,
             pause=pause,wall_end_monotonic=time.monotonic(),native_install_ACK=False))

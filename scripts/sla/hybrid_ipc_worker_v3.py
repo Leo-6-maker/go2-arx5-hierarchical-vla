@@ -63,10 +63,17 @@ def run(spec):
         write(live/'GENERATION_COUNTS.private.json',dict(attempted=attempted,completed=completed,
             generation_cap=spec['new_complete_generations_budget'],requests=len(handled),new_updates=0,new_visits=0,
             new_native_requests=0,new_integrations=0))
+    queue=None
+    if spec.get('d2_world_queue') is not None:
+        from go2arx5_vla.world_model.multitask_queue_d2 import WorldQueue
+
+        if not g7 or spec['physics']:
+            raise PermissionError('D2_QUEUE_REQUIRES_NONINTEGRATING_SINGLE_G7_WORKER')
+        queue=WorldQueue(bus,spec['d2_world_queue'])
     while time.time()<spec['deadline_epoch']-60 and not(root/'STOP.json').exists():
         if(bus/'FINISH.json').exists():break
         path=bus/'REQUEST.json'
-        message=poll_message(path)
+        message=queue.next(handled) if queue is not None else poll_message(path)
         if message is None:time.sleep(.005);continue
         q=message['request'];qid=q['request_id'];folder=Path(message['response_root'])
         # Transport duplicates return the original response without generation.
@@ -113,6 +120,8 @@ def run(spec):
                         time.sleep(.001)
                 return value
         def respond(response):
+            if queue is not None:
+                response['d2_route']=message['d2_route']
             handled[qid]=response
             deliveries.add((qid,message.get('delivery_id',0)))
             counts()

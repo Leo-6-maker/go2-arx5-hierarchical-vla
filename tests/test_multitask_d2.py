@@ -30,3 +30,42 @@ def test_futility_keeps_in_flight_and_excludes_non_g7_success():
     assert matrix_still_possible(cards,{'0':rejected,'1':rejected})
     assert not matrix_still_possible(cards,{'0':rejected,'1':rejected,'2':rejected})
     assert matrix_still_possible(cards,{'0':rejected,'1':rejected,'2':complete})
+
+
+def test_world_queue_separate_bounded_requests_and_round_robin(tmp_path):
+    import pytest
+
+    from scripts.pi0292.durable import write
+    from go2arx5_vla.world_model.hybrid_nonphysical_v3 import identity
+    from go2arx5_vla.world_model.multitask_queue_d2 import WorldQueue
+
+    entries = {world:[str(tmp_path/'cases'/world)] for world in ('W1','W2')}
+    queue = WorldQueue(tmp_path,entries)
+
+    def query(world,n):
+        capture = tmp_path/'cases'/world/f'q{n}'
+        (capture/'inference-control').mkdir(parents=True)
+        (capture/'model-response').mkdir()
+        live = capture/'inference-control'/'live.json'
+        write(live,dict(cancelled=False,stop=False))
+        request = dict(input={'path':str(capture/'INPUT.npz'),'sha256':'a'*64},
+                       clock_mode='SIM_PAUSED_ONLY',episode=f'{world}-q{n}',native_step=5703+n*250,
+                       bindings={'policy_package_sha256':'b'*64})
+        request['request_id']=identity(request)
+        return dict(request=request, response_root=str(capture/'model-response'),
+                    live_path=str(live), branch_barriers=False)
+
+    a,b,c = query('W1',0),query('W2',0),query('W1',1)
+    route = queue.publish('W1',a)
+    assert queue.publish('W1',a)==route
+    with pytest.raises(ValueError,match='OUTSIDE_OWNED_EPISODE'):
+        queue.publish('W2',a)
+    with pytest.raises(RuntimeError,match='ALREADY_HAS'):
+        queue.publish('W1',c)
+    queue.publish('W2',b)
+    one = queue.next(set())
+    two = queue.next({one['request']['request_id']})
+    assert (one['d2_route']['environment_id'],two['d2_route']['environment_id'])==('W1','W2')
+    write(a['live_path'],dict(cancelled=True,stop=False))
+    queue.publish('W1',c)
+    assert queue.next({route['request_id'],two['request']['request_id']})['d2_route']['native_step']==5953
