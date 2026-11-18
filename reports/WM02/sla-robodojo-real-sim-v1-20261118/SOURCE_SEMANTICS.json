@@ -1,0 +1,1764 @@
+{
+  "schema": "SLA_ROBODOJO_SOURCE_SEMANTICS_ACTUAL",
+  "status": "BLOCKED_LABEL_SEMANTICS",
+  "plan_commit": "be37da06fd007b24da324ae1cce6ba4ba441687e",
+  "repository": "RoboDojo-Benchmark/RoboDojo",
+  "revision": "1127bda94f172d757386945af3eb3a6754d1a4e6",
+  "license": {
+    "HF_card": "apache-2.0",
+    "scope": "dataset card at pinned revision; code licenses separately"
+  },
+  "selected_total": 60,
+  "source_native_verified": 12,
+  "unread": 48,
+  "original_frames": 12585,
+  "exact_next_state_field_row_matches": 75438,
+  "all_action_fields_next_state_equal_episodes": 12,
+  "tail_duplicate_episodes": 12,
+  "qualified_canonical_episodes": 0,
+  "qualified_canonical_windows": 0,
+  "command_producer_definition": "NOT_ESTABLISHED_FROM_INSPECTED_PRIMARY_RELEASE",
+  "dispatch_ACK_consumption": "UNKNOWN_NO_NATIVE_CLAIM",
+  "timestamp_status": "RECORDED_NOMINAL_FREQUENCY_30HZ_NO_TIMESTAMP_OR_COLLECTOR_SYNCHRONIZATION_PROOF",
+  "frame_TCP_status": "UPSTREAM_ASSUMPTION_NOT_REAL_COLLECTION_CALIBRATION",
+  "gripper_status": "RECORDED_SCALAR_0_TO_1_RANGE_NOT_PROVEN_METRIC_WIDTH_OR_COMMAND",
+  "split_status": "PROVISIONAL_NO_SESSION_OPERATOR_SCENE_GROUP_PROOF",
+  "single_arm_status": "NOT_ADMITTED_FROM_SPARSE_IMAGES_OR_STATIONARY_OTHER_ARM",
+  "RGB": {
+    "cameras": [
+      "cam_head",
+      "cam_left_wrist",
+      "cam_right_wrist"
+    ],
+    "samples_decoded": 60,
+    "standard_XPL_RGB1_markers": 60,
+    "decoded_shape": [
+      480,
+      640,
+      3
+    ],
+    "unaltered_compressed_source_retained": true
+  },
+  "records": [
+    {
+      "source": {
+        "task": "cover_blocks",
+        "path": "data/RoboDojo_real/cover_blocks/arx_x5/data/episode_0000025.hdf5",
+        "sha256": "3c31ad10751ae78e45901009a081acbc8d7fbd45776033ea3352abe953cd969e",
+        "git_blob_oid": "3cb0252efd3a8f810ca1abcfbb1c3fe16eb9d3d9",
+        "size": 140961420,
+        "selection_rank": 0,
+        "proposed_split": "TRAIN",
+        "split_status": "PROVISIONAL_PENDING_SESSION_SCENE_NEAR_DUPLICATE_AUDIT"
+      },
+      "frames": 1054,
+      "frequency_Hz": 30.0,
+      "attributes": {
+        "/": {}
+      },
+      "source_numeric_fingerprint": "3698a2168a895fc8f2adf85c10d9ade170b01ab67e33927d362e8e10b4f22c31",
+      "state_action_alignment": {
+        "comparison": "numeric exact equality, not a raw-byte bit identity assertion",
+        "all_six_action_fields_equal_next_state": true,
+        "matched_rows_per_field": 1053,
+        "last_action_equals_last_state_all_six_fields": true,
+        "producer_dispatch_semantics": "UNKNOWN"
+      },
+      "arm_statistics": {
+        "left": {
+          "pose_fields_present": true,
+          "gripper_fields_present": true,
+          "state_shape": [
+            1054,
+            7
+          ],
+          "action_shape": [
+            1054,
+            7
+          ],
+          "action_equal_state": false,
+          "state_action_position_RMS_native_units": 0.0030256187255698853,
+          "state_quaternion_norm_max_error": 2.220446049250313e-16,
+          "action_quaternion_norm_max_error": 2.220446049250313e-16,
+          "gripper_action_shape": [
+            1054,
+            1
+          ],
+          "gripper_state_shape": [
+            1054,
+            1
+          ],
+          "gripper_action_equal_state": false,
+          "gripper_action_min": 0.6757727791281307,
+          "gripper_action_max": 0.9023018444285673,
+          "gripper_action_unique": 67,
+          "gripper_nonzero_frame_changes": 338,
+          "gripper_max_frame_change": 0.06069940679213581
+        },
+        "right": {
+          "pose_fields_present": true,
+          "gripper_fields_present": true,
+          "state_shape": [
+            1054,
+            7
+          ],
+          "action_shape": [
+            1054,
+            7
+          ],
+          "action_equal_state": false,
+          "state_action_position_RMS_native_units": 0.0033222854104471653,
+          "state_quaternion_norm_max_error": 2.220446049250313e-16,
+          "action_quaternion_norm_max_error": 2.220446049250313e-16,
+          "gripper_action_shape": [
+            1054,
+            1
+          ],
+          "gripper_state_shape": [
+            1054,
+            1
+          ],
+          "gripper_action_equal_state": false,
+          "gripper_action_min": 0.6873290679034065,
+          "gripper_action_max": 0.8943358589621151,
+          "gripper_action_unique": 115,
+          "gripper_nonzero_frame_changes": 324,
+          "gripper_max_frame_change": 0.05834327024572028
+        }
+      },
+      "camera_shapes": {
+        "cam_head": [
+          480,
+          640,
+          3
+        ],
+        "cam_left_wrist": [
+          480,
+          640,
+          3
+        ],
+        "cam_right_wrist": [
+          480,
+          640,
+          3
+        ]
+      },
+      "RGB_samples_checked": 5,
+      "RGB_marker_samples": 5,
+      "command_consumption": "UNKNOWN",
+      "source_native_retained": true,
+      "source_canonical_qualified": false,
+      "independent_single_arm_subtasks_verified": 0,
+      "session": null,
+      "operator": null,
+      "frame_TCP_calibration": null,
+      "hardware_timestamps_present": false,
+      "numeric_diagnostics": {
+        "ZOH": {
+          "windows": 132,
+          "dynamic": 47,
+          "dynamic_bound_fail": 45,
+          "monotonic_bound_fail": 14,
+          "speed_bound_fail": 45,
+          "any_bound_fail": 45,
+          "overlap_fail": 14,
+          "EEF_head_fail": 59,
+          "EEF_tail_fail": 60,
+          "EEF_interior_fail": 96
+        },
+        "LINEAR_SENSITIVITY_ONLY": {
+          "windows": 132,
+          "dynamic": 47,
+          "dynamic_bound_fail": 45,
+          "monotonic_bound_fail": 14,
+          "speed_bound_fail": 45,
+          "any_bound_fail": 45,
+          "overlap_fail": 14,
+          "EEF_head_fail": 63,
+          "EEF_tail_fail": 62,
+          "EEF_interior_fail": 96
+        }
+      }
+    },
+    {
+      "source": {
+        "task": "cover_blocks",
+        "path": "data/RoboDojo_real/cover_blocks/arx_x5/data/episode_0000096.hdf5",
+        "sha256": "f9666424a7597b0b883ec7d43f75c94875b406cf2e2d35814cf52f6498a963f3",
+        "git_blob_oid": "c105a45891fc14c5c93c353b2681c4937a7e3e84",
+        "size": 139704066,
+        "selection_rank": 1,
+        "proposed_split": "TRAIN",
+        "split_status": "PROVISIONAL_PENDING_SESSION_SCENE_NEAR_DUPLICATE_AUDIT"
+      },
+      "frames": 986,
+      "frequency_Hz": 30.0,
+      "attributes": {
+        "/": {}
+      },
+      "source_numeric_fingerprint": "96e65c9c1d1c814474132ff06b3ff42a1eca1d8241db00c35c25a17ad576e8a9",
+      "state_action_alignment": {
+        "comparison": "numeric exact equality, not a raw-byte bit identity assertion",
+        "all_six_action_fields_equal_next_state": true,
+        "matched_rows_per_field": 985,
+        "last_action_equals_last_state_all_six_fields": true,
+        "producer_dispatch_semantics": "UNKNOWN"
+      },
+      "arm_statistics": {
+        "left": {
+          "pose_fields_present": true,
+          "gripper_fields_present": true,
+          "state_shape": [
+            986,
+            7
+          ],
+          "action_shape": [
+            986,
+            7
+          ],
+          "action_equal_state": false,
+          "state_action_position_RMS_native_units": 0.002653755242884934,
+          "state_quaternion_norm_max_error": 2.220446049250313e-16,
+          "action_quaternion_norm_max_error": 2.220446049250313e-16,
+          "gripper_action_shape": [
+            986,
+            1
+          ],
+          "gripper_state_shape": [
+            986,
+            1
+          ],
+          "gripper_action_equal_state": false,
+          "gripper_action_min": 0.6774557338041418,
+          "gripper_action_max": 0.9021896474501666,
+          "gripper_action_unique": 88,
+          "gripper_nonzero_frame_changes": 181,
+          "gripper_max_frame_change": 0.06058720981373511
+        },
+        "right": {
+          "pose_fields_present": true,
+          "gripper_fields_present": true,
+          "state_shape": [
+            986,
+            7
+          ],
+          "action_shape": [
+            986,
+            7
+          ],
+          "action_equal_state": false,
+          "state_action_position_RMS_native_units": 0.003429189115738653,
+          "state_quaternion_norm_max_error": 3.3306690738754696e-16,
+          "action_quaternion_norm_max_error": 3.3306690738754696e-16,
+          "gripper_action_shape": [
+            986,
+            1
+          ],
+          "gripper_state_shape": [
+            986,
+            1
+          ],
+          "gripper_action_equal_state": false,
+          "gripper_action_min": 0.6464888067806468,
+          "gripper_action_max": 0.889735502355239,
+          "gripper_action_unique": 147,
+          "gripper_nonzero_frame_changes": 418,
+          "gripper_max_frame_change": 0.04532814025878906
+        }
+      },
+      "camera_shapes": {
+        "cam_head": [
+          480,
+          640,
+          3
+        ],
+        "cam_left_wrist": [
+          480,
+          640,
+          3
+        ],
+        "cam_right_wrist": [
+          480,
+          640,
+          3
+        ]
+      },
+      "RGB_samples_checked": 5,
+      "RGB_marker_samples": 5,
+      "command_consumption": "UNKNOWN",
+      "source_native_retained": true,
+      "source_canonical_qualified": false,
+      "independent_single_arm_subtasks_verified": 0,
+      "session": null,
+      "operator": null,
+      "frame_TCP_calibration": null,
+      "hardware_timestamps_present": false,
+      "numeric_diagnostics": {
+        "ZOH": {
+          "windows": 122,
+          "dynamic": 55,
+          "dynamic_bound_fail": 29,
+          "monotonic_bound_fail": 7,
+          "speed_bound_fail": 27,
+          "any_bound_fail": 29,
+          "overlap_fail": 5,
+          "EEF_head_fail": 51,
+          "EEF_tail_fail": 56,
+          "EEF_interior_fail": 92
+        },
+        "LINEAR_SENSITIVITY_ONLY": {
+          "windows": 122,
+          "dynamic": 55,
+          "dynamic_bound_fail": 23,
+          "monotonic_bound_fail": 11,
+          "speed_bound_fail": 19,
+          "any_bound_fail": 23,
+          "overlap_fail": 7,
+          "EEF_head_fail": 53,
+          "EEF_tail_fail": 57,
+          "EEF_interior_fail": 93
+        }
+      }
+    },
+    {
+      "source": {
+        "task": "insert_tubes",
+        "path": "data/RoboDojo_real/insert_tubes/arx_x5/data/episode_0000062.hdf5",
+        "sha256": "6c6b56e12a6fcad5657d579f00b9cf1da054b27a6af4db4b8c07eb46d4364fff",
+        "git_blob_oid": "f1a98897c99c41ec4bb3081cfca5e7e7ee77ffd2",
+        "size": 158229148,
+        "selection_rank": 0,
+        "proposed_split": "TRAIN",
+        "split_status": "PROVISIONAL_PENDING_SESSION_SCENE_NEAR_DUPLICATE_AUDIT"
+      },
+      "frames": 974,
+      "frequency_Hz": 30.0,
+      "attributes": {
+        "/": {}
+      },
+      "source_numeric_fingerprint": "019bef47da1167daa6578cf353c81dc51714e0a3ea7c03a57e2a4171fcedd9b7",
+      "state_action_alignment": {
+        "comparison": "numeric exact equality, not a raw-byte bit identity assertion",
+        "all_six_action_fields_equal_next_state": true,
+        "matched_rows_per_field": 973,
+        "last_action_equals_last_state_all_six_fields": true,
+        "producer_dispatch_semantics": "UNKNOWN"
+      },
+      "arm_statistics": {
+        "left": {
+          "pose_fields_present": true,
+          "gripper_fields_present": true,
+          "state_shape": [
+            974,
+            7
+          ],
+          "action_shape": [
+            974,
+            7
+          ],
+          "action_equal_state": false,
+          "state_action_position_RMS_native_units": 0.0015958640863062516,
+          "state_quaternion_norm_max_error": 2.220446049250313e-16,
+          "action_quaternion_norm_max_error": 2.220446049250313e-16,
+          "gripper_action_shape": [
+            974,
+            1
+          ],
+          "gripper_state_shape": [
+            974,
+            1
+          ],
+          "gripper_action_equal_state": false,
+          "gripper_action_min": 0.39348069359274473,
+          "gripper_action_max": 0.9099315194522634,
+          "gripper_action_unique": 67,
+          "gripper_nonzero_frame_changes": 380,
+          "gripper_max_frame_change": 0.05262122434728289
+        },
+        "right": {
+          "pose_fields_present": true,
+          "gripper_fields_present": true,
+          "state_shape": [
+            974,
+            7
+          ],
+          "action_shape": [
+            974,
+            7
+          ],
+          "action_equal_state": false,
+          "state_action_position_RMS_native_units": 0.002626434404409396,
+          "state_quaternion_norm_max_error": 3.3306690738754696e-16,
+          "action_quaternion_norm_max_error": 3.3306690738754696e-16,
+          "gripper_action_shape": [
+            974,
+            1
+          ],
+          "gripper_state_shape": [
+            974,
+            1
+          ],
+          "gripper_action_equal_state": false,
+          "gripper_action_min": 0.3428792953491211,
+          "gripper_action_max": 0.8922041163725012,
+          "gripper_action_unique": 109,
+          "gripper_nonzero_frame_changes": 298,
+          "gripper_max_frame_change": 0.09480812970329733
+        }
+      },
+      "camera_shapes": {
+        "cam_head": [
+          480,
+          640,
+          3
+        ],
+        "cam_left_wrist": [
+          480,
+          640,
+          3
+        ],
+        "cam_right_wrist": [
+          480,
+          640,
+          3
+        ]
+      },
+      "RGB_samples_checked": 5,
+      "RGB_marker_samples": 5,
+      "command_consumption": "UNKNOWN",
+      "source_native_retained": true,
+      "source_canonical_qualified": false,
+      "independent_single_arm_subtasks_verified": 0,
+      "session": null,
+      "operator": null,
+      "frame_TCP_calibration": null,
+      "hardware_timestamps_present": false,
+      "numeric_diagnostics": {
+        "ZOH": {
+          "windows": 120,
+          "dynamic": 39,
+          "dynamic_bound_fail": 24,
+          "monotonic_bound_fail": 3,
+          "speed_bound_fail": 21,
+          "any_bound_fail": 24,
+          "overlap_fail": 0,
+          "EEF_head_fail": 43,
+          "EEF_tail_fail": 44,
+          "EEF_interior_fail": 73
+        },
+        "LINEAR_SENSITIVITY_ONLY": {
+          "windows": 120,
+          "dynamic": 39,
+          "dynamic_bound_fail": 25,
+          "monotonic_bound_fail": 3,
+          "speed_bound_fail": 22,
+          "any_bound_fail": 25,
+          "overlap_fail": 0,
+          "EEF_head_fail": 44,
+          "EEF_tail_fail": 51,
+          "EEF_interior_fail": 74
+        }
+      }
+    },
+    {
+      "source": {
+        "task": "insert_tubes",
+        "path": "data/RoboDojo_real/insert_tubes/arx_x5/data/episode_0000024.hdf5",
+        "sha256": "d07c0e80a1fcab2a0da3408c760fb27463d306318d3c6c1584b3d4349473ea29",
+        "git_blob_oid": "112779fe92dbe16d7c5d493f3d5c3fe3bae1e5bd",
+        "size": 164081552,
+        "selection_rank": 1,
+        "proposed_split": "TRAIN",
+        "split_status": "PROVISIONAL_PENDING_SESSION_SCENE_NEAR_DUPLICATE_AUDIT"
+      },
+      "frames": 1040,
+      "frequency_Hz": 30.0,
+      "attributes": {
+        "/": {}
+      },
+      "source_numeric_fingerprint": "8f5c75572757a0d8f4079dd9056e9012d5d7b95c15eb63c68662a31ba5c4f7c2",
+      "state_action_alignment": {
+        "comparison": "numeric exact equality, not a raw-byte bit identity assertion",
+        "all_six_action_fields_equal_next_state": true,
+        "matched_rows_per_field": 1039,
+        "last_action_equals_last_state_all_six_fields": true,
+        "producer_dispatch_semantics": "UNKNOWN"
+      },
+      "arm_statistics": {
+        "left": {
+          "pose_fields_present": true,
+          "gripper_fields_present": true,
+          "state_shape": [
+            1040,
+            7
+          ],
+          "action_shape": [
+            1040,
+            7
+          ],
+          "action_equal_state": false,
+          "state_action_position_RMS_native_units": 0.002142995663082863,
+          "state_quaternion_norm_max_error": 3.3306690738754696e-16,
+          "action_quaternion_norm_max_error": 3.3306690738754696e-16,
+          "gripper_action_shape": [
+            1040,
+            1
+          ],
+          "gripper_state_shape": [
+            1040,
+            1
+          ],
+          "gripper_action_equal_state": false,
+          "gripper_action_min": 0.31920517192167397,
+          "gripper_action_max": 0.9089214661542108,
+          "gripper_action_unique": 147,
+          "gripper_nonzero_frame_changes": 409,
+          "gripper_max_frame_change": 0.08706625770120058
+        },
+        "right": {
+          "pose_fields_present": true,
+          "gripper_fields_present": true,
+          "state_shape": [
+            1040,
+            7
+          ],
+          "action_shape": [
+            1040,
+            7
+          ],
+          "action_equal_state": false,
+          "state_action_position_RMS_native_units": 0.0018359023291926121,
+          "state_quaternion_norm_max_error": 2.220446049250313e-16,
+          "action_quaternion_norm_max_error": 2.220446049250313e-16,
+          "gripper_action_shape": [
+            1040,
+            1
+          ],
+          "gripper_state_shape": [
+            1040,
+            1
+          ],
+          "gripper_action_equal_state": false,
+          "gripper_action_min": 0.32358113457174864,
+          "gripper_action_max": 0.8923163133509019,
+          "gripper_action_unique": 68,
+          "gripper_nonzero_frame_changes": 161,
+          "gripper_max_frame_change": 0.07135840023265161
+        }
+      },
+      "camera_shapes": {
+        "cam_head": [
+          480,
+          640,
+          3
+        ],
+        "cam_left_wrist": [
+          480,
+          640,
+          3
+        ],
+        "cam_right_wrist": [
+          480,
+          640,
+          3
+        ]
+      },
+      "RGB_samples_checked": 5,
+      "RGB_marker_samples": 5,
+      "command_consumption": "UNKNOWN",
+      "source_native_retained": true,
+      "source_canonical_qualified": false,
+      "independent_single_arm_subtasks_verified": 0,
+      "session": null,
+      "operator": null,
+      "frame_TCP_calibration": null,
+      "hardware_timestamps_present": false,
+      "numeric_diagnostics": {
+        "ZOH": {
+          "windows": 130,
+          "dynamic": 36,
+          "dynamic_bound_fail": 26,
+          "monotonic_bound_fail": 11,
+          "speed_bound_fail": 25,
+          "any_bound_fail": 26,
+          "overlap_fail": 10,
+          "EEF_head_fail": 47,
+          "EEF_tail_fail": 51,
+          "EEF_interior_fail": 80
+        },
+        "LINEAR_SENSITIVITY_ONLY": {
+          "windows": 130,
+          "dynamic": 36,
+          "dynamic_bound_fail": 26,
+          "monotonic_bound_fail": 11,
+          "speed_bound_fail": 25,
+          "any_bound_fail": 26,
+          "overlap_fail": 10,
+          "EEF_head_fail": 50,
+          "EEF_tail_fail": 54,
+          "EEF_interior_fail": 80
+        }
+      }
+    },
+    {
+      "source": {
+        "task": "make_bread",
+        "path": "data/RoboDojo_real/make_bread/arx_x5/data/episode_0000032.hdf5",
+        "sha256": "da45253c740c2ab431dca92494cf6a8029041b5cc5c3cf4afb74f556fd400762",
+        "git_blob_oid": "43b9a5b15cf9d8e38cd93129d52b5f58fe8a6f58",
+        "size": 188312013,
+        "selection_rank": 0,
+        "proposed_split": "TRAIN",
+        "split_status": "PROVISIONAL_PENDING_SESSION_SCENE_NEAR_DUPLICATE_AUDIT"
+      },
+      "frames": 1071,
+      "frequency_Hz": 30.0,
+      "attributes": {
+        "/": {}
+      },
+      "source_numeric_fingerprint": "7049d3a5f5f0e7a036e248a75fb836c13259ce3483493d474a41dfda10385ef9",
+      "state_action_alignment": {
+        "comparison": "numeric exact equality, not a raw-byte bit identity assertion",
+        "all_six_action_fields_equal_next_state": true,
+        "matched_rows_per_field": 1070,
+        "last_action_equals_last_state_all_six_fields": true,
+        "producer_dispatch_semantics": "UNKNOWN"
+      },
+      "arm_statistics": {
+        "left": {
+          "pose_fields_present": true,
+          "gripper_fields_present": true,
+          "state_shape": [
+            1071,
+            7
+          ],
+          "action_shape": [
+            1071,
+            7
+          ],
+          "action_equal_state": false,
+          "state_action_position_RMS_native_units": 0.0035266005403870155,
+          "state_quaternion_norm_max_error": 2.220446049250313e-16,
+          "action_quaternion_norm_max_error": 2.220446049250313e-16,
+          "gripper_action_shape": [
+            1071,
+            1
+          ],
+          "gripper_state_shape": [
+            1071,
+            1
+          ],
+          "gripper_action_equal_state": false,
+          "gripper_action_min": 0.025693388546214384,
+          "gripper_action_max": 0.9091458601110122,
+          "gripper_action_unique": 180,
+          "gripper_nonzero_frame_changes": 414,
+          "gripper_max_frame_change": 0.16235155217787806
+        },
+        "right": {
+          "pose_fields_present": true,
+          "gripper_fields_present": true,
+          "state_shape": [
+            1071,
+            7
+          ],
+          "action_shape": [
+            1071,
+            7
+          ],
+          "action_equal_state": false,
+          "state_action_position_RMS_native_units": 0.003397205683552886,
+          "state_quaternion_norm_max_error": 3.3306690738754696e-16,
+          "action_quaternion_norm_max_error": 3.3306690738754696e-16,
+          "gripper_action_shape": [
+            1071,
+            1
+          ],
+          "gripper_state_shape": [
+            1071,
+            1
+          ],
+          "gripper_action_equal_state": false,
+          "gripper_action_min": 0.02872298745548024,
+          "gripper_action_max": 0.8917550479664522,
+          "gripper_action_unique": 172,
+          "gripper_nonzero_frame_changes": 381,
+          "gripper_max_frame_change": 0.14383877024931066
+        }
+      },
+      "camera_shapes": {
+        "cam_head": [
+          480,
+          640,
+          3
+        ],
+        "cam_left_wrist": [
+          480,
+          640,
+          3
+        ],
+        "cam_right_wrist": [
+          480,
+          640,
+          3
+        ]
+      },
+      "RGB_samples_checked": 5,
+      "RGB_marker_samples": 5,
+      "command_consumption": "UNKNOWN",
+      "source_native_retained": true,
+      "source_canonical_qualified": false,
+      "independent_single_arm_subtasks_verified": 0,
+      "session": null,
+      "operator": null,
+      "frame_TCP_calibration": null,
+      "hardware_timestamps_present": false,
+      "numeric_diagnostics": {
+        "ZOH": {
+          "windows": 134,
+          "dynamic": 65,
+          "dynamic_bound_fail": 52,
+          "monotonic_bound_fail": 3,
+          "speed_bound_fail": 52,
+          "any_bound_fail": 52,
+          "overlap_fail": 3,
+          "EEF_head_fail": 71,
+          "EEF_tail_fail": 69,
+          "EEF_interior_fail": 111
+        },
+        "LINEAR_SENSITIVITY_ONLY": {
+          "windows": 134,
+          "dynamic": 65,
+          "dynamic_bound_fail": 52,
+          "monotonic_bound_fail": 3,
+          "speed_bound_fail": 52,
+          "any_bound_fail": 52,
+          "overlap_fail": 3,
+          "EEF_head_fail": 74,
+          "EEF_tail_fail": 71,
+          "EEF_interior_fail": 111
+        }
+      }
+    },
+    {
+      "source": {
+        "task": "make_bread",
+        "path": "data/RoboDojo_real/make_bread/arx_x5/data/episode_0000035.hdf5",
+        "sha256": "f28020696dc019b828515e9a26497dc172ba9ed70c1c168178c8b82db09366b1",
+        "git_blob_oid": "4cca2a74886464560be87d46a97bd36385d0cd7a",
+        "size": 183743652,
+        "selection_rank": 1,
+        "proposed_split": "TRAIN",
+        "split_status": "PROVISIONAL_PENDING_SESSION_SCENE_NEAR_DUPLICATE_AUDIT"
+      },
+      "frames": 1085,
+      "frequency_Hz": 30.0,
+      "attributes": {
+        "/": {}
+      },
+      "source_numeric_fingerprint": "1e5dc5410b0eb5b341b24df783199a2f4f7d5a1b0b45dd352d7f24c2aac719e8",
+      "state_action_alignment": {
+        "comparison": "numeric exact equality, not a raw-byte bit identity assertion",
+        "all_six_action_fields_equal_next_state": true,
+        "matched_rows_per_field": 1084,
+        "last_action_equals_last_state_all_six_fields": true,
+        "producer_dispatch_semantics": "UNKNOWN"
+      },
+      "arm_statistics": {
+        "left": {
+          "pose_fields_present": true,
+          "gripper_fields_present": true,
+          "state_shape": [
+            1085,
+            7
+          ],
+          "action_shape": [
+            1085,
+            7
+          ],
+          "action_equal_state": false,
+          "state_action_position_RMS_native_units": 0.0036390207370020993,
+          "state_quaternion_norm_max_error": 3.3306690738754696e-16,
+          "action_quaternion_norm_max_error": 3.3306690738754696e-16,
+          "gripper_action_shape": [
+            1085,
+            1
+          ],
+          "gripper_state_shape": [
+            1085,
+            1
+          ],
+          "gripper_action_equal_state": false,
+          "gripper_action_min": 0.03545480615952436,
+          "gripper_action_max": 0.9100437164306641,
+          "gripper_action_unique": 204,
+          "gripper_nonzero_frame_changes": 440,
+          "gripper_max_frame_change": 0.1441753611845129
+        },
+        "right": {
+          "pose_fields_present": true,
+          "gripper_fields_present": true,
+          "state_shape": [
+            1085,
+            7
+          ],
+          "action_shape": [
+            1085,
+            7
+          ],
+          "action_equal_state": false,
+          "state_action_position_RMS_native_units": 0.0036221372939116373,
+          "state_quaternion_norm_max_error": 2.220446049250313e-16,
+          "action_quaternion_norm_max_error": 2.220446049250313e-16,
+          "gripper_action_shape": [
+            1085,
+            1
+          ],
+          "gripper_state_shape": [
+            1085,
+            1
+          ],
+          "gripper_action_equal_state": false,
+          "gripper_action_min": 0.03466942731071921,
+          "gripper_action_max": 0.8917550479664522,
+          "gripper_action_unique": 189,
+          "gripper_nonzero_frame_changes": 334,
+          "gripper_max_frame_change": 0.12364275315228634
+        }
+      },
+      "camera_shapes": {
+        "cam_head": [
+          480,
+          640,
+          3
+        ],
+        "cam_left_wrist": [
+          480,
+          640,
+          3
+        ],
+        "cam_right_wrist": [
+          480,
+          640,
+          3
+        ]
+      },
+      "RGB_samples_checked": 5,
+      "RGB_marker_samples": 5,
+      "command_consumption": "UNKNOWN",
+      "source_native_retained": true,
+      "source_canonical_qualified": false,
+      "independent_single_arm_subtasks_verified": 0,
+      "session": null,
+      "operator": null,
+      "frame_TCP_calibration": null,
+      "hardware_timestamps_present": false,
+      "numeric_diagnostics": {
+        "ZOH": {
+          "windows": 136,
+          "dynamic": 71,
+          "dynamic_bound_fail": 56,
+          "monotonic_bound_fail": 6,
+          "speed_bound_fail": 56,
+          "any_bound_fail": 56,
+          "overlap_fail": 6,
+          "EEF_head_fail": 62,
+          "EEF_tail_fail": 63,
+          "EEF_interior_fail": 114
+        },
+        "LINEAR_SENSITIVITY_ONLY": {
+          "windows": 136,
+          "dynamic": 71,
+          "dynamic_bound_fail": 56,
+          "monotonic_bound_fail": 7,
+          "speed_bound_fail": 56,
+          "any_bound_fail": 56,
+          "overlap_fail": 7,
+          "EEF_head_fail": 68,
+          "EEF_tail_fail": 67,
+          "EEF_interior_fail": 113
+        }
+      }
+    },
+    {
+      "source": {
+        "task": "make_food",
+        "path": "data/RoboDojo_real/make_food/arx_x5/data/episode_0000045.hdf5",
+        "sha256": "051d92e9a6e2bf1352b6b582369b9e352eb2ba43aa73c7e309dc11019a8537ea",
+        "git_blob_oid": "3123ba93712bfc6de231140f438cd78cb8d91783",
+        "size": 234006912,
+        "selection_rank": 0,
+        "proposed_split": "TRAIN",
+        "split_status": "PROVISIONAL_PENDING_SESSION_SCENE_NEAR_DUPLICATE_AUDIT"
+      },
+      "frames": 1485,
+      "frequency_Hz": 30.0,
+      "attributes": {
+        "/": {}
+      },
+      "source_numeric_fingerprint": "6387cc010a7e9e93141bf542a69cd5990a7f9da8c4802ca43c4c673925b746f5",
+      "state_action_alignment": {
+        "comparison": "numeric exact equality, not a raw-byte bit identity assertion",
+        "all_six_action_fields_equal_next_state": true,
+        "matched_rows_per_field": 1484,
+        "last_action_equals_last_state_all_six_fields": true,
+        "producer_dispatch_semantics": "UNKNOWN"
+      },
+      "arm_statistics": {
+        "left": {
+          "pose_fields_present": true,
+          "gripper_fields_present": true,
+          "state_shape": [
+            1485,
+            7
+          ],
+          "action_shape": [
+            1485,
+            7
+          ],
+          "action_equal_state": false,
+          "state_action_position_RMS_native_units": 0.002397518405893397,
+          "state_quaternion_norm_max_error": 3.3306690738754696e-16,
+          "action_quaternion_norm_max_error": 3.3306690738754696e-16,
+          "gripper_action_shape": [
+            1485,
+            1
+          ],
+          "gripper_state_shape": [
+            1485,
+            1
+          ],
+          "gripper_action_equal_state": false,
+          "gripper_action_min": 0.10097868302289177,
+          "gripper_action_max": 0.90880926917581,
+          "gripper_action_unique": 303,
+          "gripper_nonzero_frame_changes": 733,
+          "gripper_max_frame_change": 0.058455467224121066
+        },
+        "right": {
+          "pose_fields_present": true,
+          "gripper_fields_present": true,
+          "state_shape": [
+            1485,
+            7
+          ],
+          "action_shape": [
+            1485,
+            7
+          ],
+          "action_equal_state": false,
+          "state_action_position_RMS_native_units": 0.002869107039218325,
+          "state_quaternion_norm_max_error": 2.220446049250313e-16,
+          "action_quaternion_norm_max_error": 2.220446049250313e-16,
+          "gripper_action_shape": [
+            1485,
+            1
+          ],
+          "gripper_state_shape": [
+            1485,
+            1
+          ],
+          "gripper_action_equal_state": false,
+          "gripper_action_min": 0.048918724060058594,
+          "gripper_action_max": 0.8882769416360294,
+          "gripper_action_unique": 234,
+          "gripper_nonzero_frame_changes": 405,
+          "gripper_max_frame_change": 0.09839843301212087
+        }
+      },
+      "camera_shapes": {
+        "cam_head": [
+          480,
+          640,
+          3
+        ],
+        "cam_left_wrist": [
+          480,
+          640,
+          3
+        ],
+        "cam_right_wrist": [
+          480,
+          640,
+          3
+        ]
+      },
+      "RGB_samples_checked": 5,
+      "RGB_marker_samples": 5,
+      "command_consumption": "UNKNOWN",
+      "source_native_retained": true,
+      "source_canonical_qualified": false,
+      "independent_single_arm_subtasks_verified": 0,
+      "session": null,
+      "operator": null,
+      "frame_TCP_calibration": null,
+      "hardware_timestamps_present": false,
+      "numeric_diagnostics": {
+        "ZOH": {
+          "windows": 190,
+          "dynamic": 83,
+          "dynamic_bound_fail": 56,
+          "monotonic_bound_fail": 17,
+          "speed_bound_fail": 52,
+          "any_bound_fail": 56,
+          "overlap_fail": 13,
+          "EEF_head_fail": 66,
+          "EEF_tail_fail": 68,
+          "EEF_interior_fail": 112
+        },
+        "LINEAR_SENSITIVITY_ONLY": {
+          "windows": 190,
+          "dynamic": 83,
+          "dynamic_bound_fail": 56,
+          "monotonic_bound_fail": 19,
+          "speed_bound_fail": 52,
+          "any_bound_fail": 56,
+          "overlap_fail": 15,
+          "EEF_head_fail": 67,
+          "EEF_tail_fail": 72,
+          "EEF_interior_fail": 110
+        }
+      }
+    },
+    {
+      "source": {
+        "task": "make_food",
+        "path": "data/RoboDojo_real/make_food/arx_x5/data/episode_0000084.hdf5",
+        "sha256": "538af443f5acc0b9ceb7027de2b0ef2c281ff56ba35fa2ffa90df8ce9926c372",
+        "git_blob_oid": "e587d543c51b53efb79c8aad3eda967d51866d69",
+        "size": 238547700,
+        "selection_rank": 1,
+        "proposed_split": "TRAIN",
+        "split_status": "PROVISIONAL_PENDING_SESSION_SCENE_NEAR_DUPLICATE_AUDIT"
+      },
+      "frames": 1446,
+      "frequency_Hz": 30.0,
+      "attributes": {
+        "/": {}
+      },
+      "source_numeric_fingerprint": "2713ef363f5f89221f94e3b3c6f9d95260fdc64108397ae2326b036cc6ef415c",
+      "state_action_alignment": {
+        "comparison": "numeric exact equality, not a raw-byte bit identity assertion",
+        "all_six_action_fields_equal_next_state": true,
+        "matched_rows_per_field": 1445,
+        "last_action_equals_last_state_all_six_fields": true,
+        "producer_dispatch_semantics": "UNKNOWN"
+      },
+      "arm_statistics": {
+        "left": {
+          "pose_fields_present": true,
+          "gripper_fields_present": true,
+          "state_shape": [
+            1446,
+            7
+          ],
+          "action_shape": [
+            1446,
+            7
+          ],
+          "action_equal_state": false,
+          "state_action_position_RMS_native_units": 0.0026788401737560252,
+          "state_quaternion_norm_max_error": 3.3306690738754696e-16,
+          "action_quaternion_norm_max_error": 3.3306690738754696e-16,
+          "gripper_action_shape": [
+            1446,
+            1
+          ],
+          "gripper_state_shape": [
+            1446,
+            1
+          ],
+          "gripper_action_equal_state": false,
+          "gripper_action_min": 0.09783716762767118,
+          "gripper_action_max": 0.90880926917581,
+          "gripper_action_unique": 219,
+          "gripper_nonzero_frame_changes": 507,
+          "gripper_max_frame_change": 0.07483650656307445
+        },
+        "right": {
+          "pose_fields_present": true,
+          "gripper_fields_present": true,
+          "state_shape": [
+            1446,
+            7
+          ],
+          "action_shape": [
+            1446,
+            7
+          ],
+          "action_equal_state": false,
+          "state_action_position_RMS_native_units": 0.003025627038922521,
+          "state_quaternion_norm_max_error": 2.220446049250313e-16,
+          "action_quaternion_norm_max_error": 2.220446049250313e-16,
+          "gripper_action_shape": [
+            1446,
+            1
+          ],
+          "gripper_state_shape": [
+            1446,
+            1
+          ],
+          "gripper_action_equal_state": false,
+          "gripper_action_min": 0.033098669613108915,
+          "gripper_action_max": 0.8883891386144301,
+          "gripper_action_unique": 265,
+          "gripper_nonzero_frame_changes": 629,
+          "gripper_max_frame_change": 0.11074010063620165
+        }
+      },
+      "camera_shapes": {
+        "cam_head": [
+          480,
+          640,
+          3
+        ],
+        "cam_left_wrist": [
+          480,
+          640,
+          3
+        ],
+        "cam_right_wrist": [
+          480,
+          640,
+          3
+        ]
+      },
+      "RGB_samples_checked": 5,
+      "RGB_marker_samples": 5,
+      "command_consumption": "UNKNOWN",
+      "source_native_retained": true,
+      "source_canonical_qualified": false,
+      "independent_single_arm_subtasks_verified": 0,
+      "session": null,
+      "operator": null,
+      "frame_TCP_calibration": null,
+      "hardware_timestamps_present": false,
+      "numeric_diagnostics": {
+        "ZOH": {
+          "windows": 184,
+          "dynamic": 76,
+          "dynamic_bound_fail": 58,
+          "monotonic_bound_fail": 9,
+          "speed_bound_fail": 59,
+          "any_bound_fail": 59,
+          "overlap_fail": 9,
+          "EEF_head_fail": 65,
+          "EEF_tail_fail": 70,
+          "EEF_interior_fail": 105
+        },
+        "LINEAR_SENSITIVITY_ONLY": {
+          "windows": 184,
+          "dynamic": 77,
+          "dynamic_bound_fail": 47,
+          "monotonic_bound_fail": 9,
+          "speed_bound_fail": 46,
+          "any_bound_fail": 47,
+          "overlap_fail": 8,
+          "EEF_head_fail": 68,
+          "EEF_tail_fail": 73,
+          "EEF_interior_fail": 101
+        }
+      }
+    },
+    {
+      "source": {
+        "task": "pack_and_pour_fruit",
+        "path": "data/RoboDojo_real/pack_and_pour_fruit/arx_x5/data/episode_0000000.hdf5",
+        "sha256": "515dcd5a3541ffa4e5563504d2e6746f10732c49aeba866760ba75db7c14c456",
+        "git_blob_oid": "4a199c5c3b8d638a3af068e32088ccd2e4ddd41f",
+        "size": 152395578,
+        "selection_rank": 0,
+        "proposed_split": "TRAIN",
+        "split_status": "PROVISIONAL_PENDING_SESSION_SCENE_NEAR_DUPLICATE_AUDIT"
+      },
+      "frames": 1002,
+      "frequency_Hz": 30.0,
+      "attributes": {
+        "/": {}
+      },
+      "source_numeric_fingerprint": "ffb72d04c50119f74695eacfeb55a4d9e9764daa5b496103d727d66f9639fb57",
+      "state_action_alignment": {
+        "comparison": "numeric exact equality, not a raw-byte bit identity assertion",
+        "all_six_action_fields_equal_next_state": true,
+        "matched_rows_per_field": 1001,
+        "last_action_equals_last_state_all_six_fields": true,
+        "producer_dispatch_semantics": "UNKNOWN"
+      },
+      "arm_statistics": {
+        "left": {
+          "pose_fields_present": true,
+          "gripper_fields_present": true,
+          "state_shape": [
+            1002,
+            7
+          ],
+          "action_shape": [
+            1002,
+            7
+          ],
+          "action_equal_state": false,
+          "state_action_position_RMS_native_units": 0.0026517449078345915,
+          "state_quaternion_norm_max_error": 2.220446049250313e-16,
+          "action_quaternion_norm_max_error": 2.220446049250313e-16,
+          "gripper_action_shape": [
+            1002,
+            1
+          ],
+          "gripper_state_shape": [
+            1002,
+            1
+          ],
+          "gripper_action_equal_state": false,
+          "gripper_action_min": 0.03534260918112362,
+          "gripper_action_max": 0.9102681103874656,
+          "gripper_action_unique": 118,
+          "gripper_nonzero_frame_changes": 236,
+          "gripper_max_frame_change": 0.08100762086756086
+        },
+        "right": {
+          "pose_fields_present": true,
+          "gripper_fields_present": true,
+          "state_shape": [
+            1002,
+            7
+          ],
+          "action_shape": [
+            1002,
+            7
+          ],
+          "action_equal_state": false,
+          "state_action_position_RMS_native_units": 0.003315823674227598,
+          "state_quaternion_norm_max_error": 3.3306690738754696e-16,
+          "action_quaternion_norm_max_error": 3.3306690738754696e-16,
+          "gripper_action_shape": [
+            1002,
+            1
+          ],
+          "gripper_state_shape": [
+            1002,
+            1
+          ],
+          "gripper_action_equal_state": false,
+          "gripper_action_min": 0.026479047887465534,
+          "gripper_action_max": 0.8899601768044865,
+          "gripper_action_unique": 170,
+          "gripper_nonzero_frame_changes": 342,
+          "gripper_max_frame_change": 0.09480784921085134
+        }
+      },
+      "camera_shapes": {
+        "cam_head": [
+          480,
+          640,
+          3
+        ],
+        "cam_left_wrist": [
+          480,
+          640,
+          3
+        ],
+        "cam_right_wrist": [
+          480,
+          640,
+          3
+        ]
+      },
+      "RGB_samples_checked": 5,
+      "RGB_marker_samples": 5,
+      "command_consumption": "UNKNOWN",
+      "source_native_retained": true,
+      "source_canonical_qualified": false,
+      "independent_single_arm_subtasks_verified": 0,
+      "session": null,
+      "operator": null,
+      "frame_TCP_calibration": null,
+      "hardware_timestamps_present": false,
+      "numeric_diagnostics": {
+        "ZOH": {
+          "windows": 124,
+          "dynamic": 50,
+          "dynamic_bound_fail": 47,
+          "monotonic_bound_fail": 16,
+          "speed_bound_fail": 47,
+          "any_bound_fail": 47,
+          "overlap_fail": 16,
+          "EEF_head_fail": 51,
+          "EEF_tail_fail": 50,
+          "EEF_interior_fail": 77
+        },
+        "LINEAR_SENSITIVITY_ONLY": {
+          "windows": 124,
+          "dynamic": 50,
+          "dynamic_bound_fail": 47,
+          "monotonic_bound_fail": 16,
+          "speed_bound_fail": 46,
+          "any_bound_fail": 47,
+          "overlap_fail": 15,
+          "EEF_head_fail": 52,
+          "EEF_tail_fail": 52,
+          "EEF_interior_fail": 77
+        }
+      }
+    },
+    {
+      "source": {
+        "task": "pack_and_pour_fruit",
+        "path": "data/RoboDojo_real/pack_and_pour_fruit/arx_x5/data/episode_0000013.hdf5",
+        "sha256": "10b44032ae0c373530bf5ba9cf45cc0b2e65d6978ac649990d453aa0e839bb37",
+        "git_blob_oid": "5def19b2636746f7880deb3e0c6d6bd50df7b4c8",
+        "size": 131202528,
+        "selection_rank": 1,
+        "proposed_split": "TRAIN",
+        "split_status": "PROVISIONAL_PENDING_SESSION_SCENE_NEAR_DUPLICATE_AUDIT"
+      },
+      "frames": 824,
+      "frequency_Hz": 30.0,
+      "attributes": {
+        "/": {}
+      },
+      "source_numeric_fingerprint": "0f1c4bdb3888623598ef564d1a3ccff841a8b76791f4b637bc70a3a940048701",
+      "state_action_alignment": {
+        "comparison": "numeric exact equality, not a raw-byte bit identity assertion",
+        "all_six_action_fields_equal_next_state": true,
+        "matched_rows_per_field": 823,
+        "last_action_equals_last_state_all_six_fields": true,
+        "producer_dispatch_semantics": "UNKNOWN"
+      },
+      "arm_statistics": {
+        "left": {
+          "pose_fields_present": true,
+          "gripper_fields_present": true,
+          "state_shape": [
+            824,
+            7
+          ],
+          "action_shape": [
+            824,
+            7
+          ],
+          "action_equal_state": false,
+          "state_action_position_RMS_native_units": 0.003197219027643282,
+          "state_quaternion_norm_max_error": 3.3306690738754696e-16,
+          "action_quaternion_norm_max_error": 3.3306690738754696e-16,
+          "gripper_action_shape": [
+            824,
+            1
+          ],
+          "gripper_state_shape": [
+            824,
+            1
+          ],
+          "gripper_action_equal_state": false,
+          "gripper_action_min": 0.023112858042997474,
+          "gripper_action_max": 0.9101559134090649,
+          "gripper_action_unique": 131,
+          "gripper_nonzero_frame_changes": 379,
+          "gripper_max_frame_change": 0.11881856357350074
+        },
+        "right": {
+          "pose_fields_present": true,
+          "gripper_fields_present": true,
+          "state_shape": [
+            824,
+            7
+          ],
+          "action_shape": [
+            824,
+            7
+          ],
+          "action_equal_state": false,
+          "state_action_position_RMS_native_units": 0.0035190858943396,
+          "state_quaternion_norm_max_error": 2.220446049250313e-16,
+          "action_quaternion_norm_max_error": 2.220446049250313e-16,
+          "gripper_action_shape": [
+            824,
+            1
+          ],
+          "gripper_state_shape": [
+            824,
+            1
+          ],
+          "gripper_action_equal_state": false,
+          "gripper_action_min": 0.025581472060259652,
+          "gripper_action_max": 0.8917553284588983,
+          "gripper_action_unique": 145,
+          "gripper_nonzero_frame_changes": 267,
+          "gripper_max_frame_change": 0.11365722207462087
+        }
+      },
+      "camera_shapes": {
+        "cam_head": [
+          480,
+          640,
+          3
+        ],
+        "cam_left_wrist": [
+          480,
+          640,
+          3
+        ],
+        "cam_right_wrist": [
+          480,
+          640,
+          3
+        ]
+      },
+      "RGB_samples_checked": 5,
+      "RGB_marker_samples": 5,
+      "command_consumption": "UNKNOWN",
+      "source_native_retained": true,
+      "source_canonical_qualified": false,
+      "independent_single_arm_subtasks_verified": 0,
+      "session": null,
+      "operator": null,
+      "frame_TCP_calibration": null,
+      "hardware_timestamps_present": false,
+      "numeric_diagnostics": {
+        "ZOH": {
+          "windows": 100,
+          "dynamic": 45,
+          "dynamic_bound_fail": 38,
+          "monotonic_bound_fail": 16,
+          "speed_bound_fail": 38,
+          "any_bound_fail": 38,
+          "overlap_fail": 16,
+          "EEF_head_fail": 43,
+          "EEF_tail_fail": 40,
+          "EEF_interior_fail": 62
+        },
+        "LINEAR_SENSITIVITY_ONLY": {
+          "windows": 100,
+          "dynamic": 45,
+          "dynamic_bound_fail": 39,
+          "monotonic_bound_fail": 16,
+          "speed_bound_fail": 39,
+          "any_bound_fail": 39,
+          "overlap_fail": 16,
+          "EEF_head_fail": 45,
+          "EEF_tail_fail": 45,
+          "EEF_interior_fail": 62
+        }
+      }
+    },
+    {
+      "source": {
+        "task": "store_in_safe",
+        "path": "data/RoboDojo_real/store_in_safe/arx_x5/data/episode_0000037.hdf5",
+        "sha256": "3f4a0fc666b7812438cb4ff8f87bfe36b0d28b2c65f8f608e0f59c678777c1c4",
+        "git_blob_oid": "66a3576642a8237c6dbd2dacf23f8eaa7a90d636",
+        "size": 134605436,
+        "selection_rank": 0,
+        "proposed_split": "TRAIN",
+        "split_status": "PROVISIONAL_PENDING_SESSION_SCENE_NEAR_DUPLICATE_AUDIT"
+      },
+      "frames": 764,
+      "frequency_Hz": 30.0,
+      "attributes": {
+        "/": {}
+      },
+      "source_numeric_fingerprint": "51c58ef12e027aba3da0945eed563cb805e1084ce7a41ce2baa10e190fd965fb",
+      "state_action_alignment": {
+        "comparison": "numeric exact equality, not a raw-byte bit identity assertion",
+        "all_six_action_fields_equal_next_state": true,
+        "matched_rows_per_field": 763,
+        "last_action_equals_last_state_all_six_fields": true,
+        "producer_dispatch_semantics": "UNKNOWN"
+      },
+      "arm_statistics": {
+        "left": {
+          "pose_fields_present": true,
+          "gripper_fields_present": true,
+          "state_shape": [
+            764,
+            7
+          ],
+          "action_shape": [
+            764,
+            7
+          ],
+          "action_equal_state": false,
+          "state_action_position_RMS_native_units": 0.004537597000596121,
+          "state_quaternion_norm_max_error": 3.3306690738754696e-16,
+          "action_quaternion_norm_max_error": 3.3306690738754696e-16,
+          "gripper_action_shape": [
+            764,
+            1
+          ],
+          "gripper_state_shape": [
+            764,
+            1
+          ],
+          "gripper_action_equal_state": false,
+          "gripper_action_min": 0.007292803596047794,
+          "gripper_action_max": 0.90880926917581,
+          "gripper_action_unique": 175,
+          "gripper_nonzero_frame_changes": 302,
+          "gripper_max_frame_change": 0.2627695308012121
+        },
+        "right": {
+          "pose_fields_present": true,
+          "gripper_fields_present": true,
+          "state_shape": [
+            764,
+            7
+          ],
+          "action_shape": [
+            764,
+            7
+          ],
+          "action_equal_state": false,
+          "state_action_position_RMS_native_units": 0.002560599767984725,
+          "state_quaternion_norm_max_error": 2.220446049250313e-16,
+          "action_quaternion_norm_max_error": 2.220446049250313e-16,
+          "gripper_action_shape": [
+            764,
+            1
+          ],
+          "gripper_state_shape": [
+            764,
+            1
+          ],
+          "gripper_action_equal_state": false,
+          "gripper_action_min": 0.06821688483743107,
+          "gripper_action_max": 0.8896233053768383,
+          "gripper_action_unique": 91,
+          "gripper_nonzero_frame_changes": 323,
+          "gripper_max_frame_change": 0.1161255555994371
+        }
+      },
+      "camera_shapes": {
+        "cam_head": [
+          480,
+          640,
+          3
+        ],
+        "cam_left_wrist": [
+          480,
+          640,
+          3
+        ],
+        "cam_right_wrist": [
+          480,
+          640,
+          3
+        ]
+      },
+      "RGB_samples_checked": 5,
+      "RGB_marker_samples": 5,
+      "command_consumption": "UNKNOWN",
+      "source_native_retained": true,
+      "source_canonical_qualified": false,
+      "independent_single_arm_subtasks_verified": 0,
+      "session": null,
+      "operator": null,
+      "frame_TCP_calibration": null,
+      "hardware_timestamps_present": false,
+      "numeric_diagnostics": {
+        "ZOH": {
+          "windows": 92,
+          "dynamic": 46,
+          "dynamic_bound_fail": 44,
+          "monotonic_bound_fail": 17,
+          "speed_bound_fail": 44,
+          "any_bound_fail": 44,
+          "overlap_fail": 17,
+          "EEF_head_fail": 49,
+          "EEF_tail_fail": 50,
+          "EEF_interior_fail": 74
+        },
+        "LINEAR_SENSITIVITY_ONLY": {
+          "windows": 92,
+          "dynamic": 47,
+          "dynamic_bound_fail": 44,
+          "monotonic_bound_fail": 14,
+          "speed_bound_fail": 44,
+          "any_bound_fail": 44,
+          "overlap_fail": 14,
+          "EEF_head_fail": 49,
+          "EEF_tail_fail": 51,
+          "EEF_interior_fail": 74
+        }
+      }
+    },
+    {
+      "source": {
+        "task": "store_in_safe",
+        "path": "data/RoboDojo_real/store_in_safe/arx_x5/data/episode_0000004.hdf5",
+        "sha256": "076ce598e0969e64fc4bc5a1524f7adc84d6a6077834be233b974c772cedb031",
+        "git_blob_oid": "6fb5f2be54bec0abe65f968c88468e7df796c20d",
+        "size": 155240618,
+        "selection_rank": 1,
+        "proposed_split": "TRAIN",
+        "split_status": "PROVISIONAL_PENDING_SESSION_SCENE_NEAR_DUPLICATE_AUDIT"
+      },
+      "frames": 854,
+      "frequency_Hz": 30.0,
+      "attributes": {
+        "/": {}
+      },
+      "source_numeric_fingerprint": "fd91c0a5dfee1338c91c94863ffc3f85fcc85a29ccb746c36fc85a757b3c6259",
+      "state_action_alignment": {
+        "comparison": "numeric exact equality, not a raw-byte bit identity assertion",
+        "all_six_action_fields_equal_next_state": true,
+        "matched_rows_per_field": 853,
+        "last_action_equals_last_state_all_six_fields": true,
+        "producer_dispatch_semantics": "UNKNOWN"
+      },
+      "arm_statistics": {
+        "left": {
+          "pose_fields_present": true,
+          "gripper_fields_present": true,
+          "state_shape": [
+            854,
+            7
+          ],
+          "action_shape": [
+            854,
+            7
+          ],
+          "action_equal_state": false,
+          "state_action_position_RMS_native_units": 0.004383207645778872,
+          "state_quaternion_norm_max_error": 3.3306690738754696e-16,
+          "action_quaternion_norm_max_error": 3.3306690738754696e-16,
+          "gripper_action_shape": [
+            854,
+            1
+          ],
+          "gripper_state_shape": [
+            854,
+            1
+          ],
+          "gripper_action_equal_state": false,
+          "gripper_action_min": 0.0057220458984375,
+          "gripper_action_max": 0.90880926917581,
+          "gripper_action_unique": 162,
+          "gripper_nonzero_frame_changes": 356,
+          "gripper_max_frame_change": 0.2977752685546875
+        },
+        "right": {
+          "pose_fields_present": true,
+          "gripper_fields_present": true,
+          "state_shape": [
+            854,
+            7
+          ],
+          "action_shape": [
+            854,
+            7
+          ],
+          "action_equal_state": false,
+          "state_action_position_RMS_native_units": 0.0023072384711170855,
+          "state_quaternion_norm_max_error": 2.220446049250313e-16,
+          "action_quaternion_norm_max_error": 2.220446049250313e-16,
+          "gripper_action_shape": [
+            854,
+            1
+          ],
+          "gripper_state_shape": [
+            854,
+            1
+          ],
+          "gripper_action_equal_state": false,
+          "gripper_action_min": 0.10815957013298484,
+          "gripper_action_max": 0.8911943435668945,
+          "gripper_action_unique": 87,
+          "gripper_nonzero_frame_changes": 274,
+          "gripper_max_frame_change": 0.12196007896872124
+        }
+      },
+      "camera_shapes": {
+        "cam_head": [
+          480,
+          640,
+          3
+        ],
+        "cam_left_wrist": [
+          480,
+          640,
+          3
+        ],
+        "cam_right_wrist": [
+          480,
+          640,
+          3
+        ]
+      },
+      "RGB_samples_checked": 5,
+      "RGB_marker_samples": 5,
+      "command_consumption": "UNKNOWN",
+      "source_native_retained": true,
+      "source_canonical_qualified": false,
+      "independent_single_arm_subtasks_verified": 0,
+      "session": null,
+      "operator": null,
+      "frame_TCP_calibration": null,
+      "hardware_timestamps_present": false,
+      "numeric_diagnostics": {
+        "ZOH": {
+          "windows": 104,
+          "dynamic": 48,
+          "dynamic_bound_fail": 46,
+          "monotonic_bound_fail": 15,
+          "speed_bound_fail": 46,
+          "any_bound_fail": 46,
+          "overlap_fail": 15,
+          "EEF_head_fail": 53,
+          "EEF_tail_fail": 57,
+          "EEF_interior_fail": 80
+        },
+        "LINEAR_SENSITIVITY_ONLY": {
+          "windows": 104,
+          "dynamic": 48,
+          "dynamic_bound_fail": 46,
+          "monotonic_bound_fail": 16,
+          "speed_bound_fail": 46,
+          "any_bound_fail": 46,
+          "overlap_fail": 16,
+          "EEF_head_fail": 57,
+          "EEF_tail_fail": 57,
+          "EEF_interior_fail": 83
+        }
+      }
+    }
+  ],
+  "new_updates": 0,
+  "new_optimization_visits": 0,
+  "new_generations": 0,
+  "new_native_requests": 0,
+  "site_clock_crosscheck": {
+    "status": "PUBLISHED_RATE_AND_PINNED_FILE_NOMINAL_RATE_UNRECONCILED",
+    "paper": "https://arxiv.org/html/2607.04434v3",
+    "paper_sections": [
+      "3.2.2",
+      "E.1 Table 11"
+    ],
+    "paper_real_training_rate_Hz": 25,
+    "paper_ARX_X5_trajectories": 600,
+    "paper_operators_per_task": 4,
+    "pinned_HDF5_frequency_Hz": 30,
+    "pinned_HDF5_records_with_frequency_30": 12,
+    "pinned_HDF5_records": 12,
+    "revision": "1127bda94f172d757386945af3eb3a6754d1a4e6",
+    "physical_sample_rate_established": false,
+    "operator_mapping_by_episode_established": false,
+    "clock_used_for_existing_codec_diagnostics": "FILE_NOMINAL_30HZ_ONLY",
+    "frame_index_action_next_state_equality_depends_on_physical_rate": false
+  },
+  "documented_task_stages": {
+    "pack_and_pour_fruit": {
+      "source": "https://robodojo-benchmark.com/doc/real-tasks/pack-and-pour-fruit/",
+      "stages": [
+        "pack fruit",
+        "pour from the small bowl"
+      ]
+    },
+    "store_in_safe": {
+      "source": "https://robodojo-benchmark.com/doc/real-tasks/store-in-safe/",
+      "stages": [
+        "store objects",
+        "move safe and close lid"
+      ]
+    },
+    "single_arm_qualified_windows": 0
+  }
+}
