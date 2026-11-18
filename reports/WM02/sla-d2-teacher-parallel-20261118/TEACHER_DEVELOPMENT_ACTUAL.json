@@ -1,7 +1,7 @@
 {
   "schema": "SLA_D2_DEVELOPMENT_ACTUAL",
-  "observation_epoch": 1794987982.6547396,
-  "status": "NATIVE_BLOCK1_IN_FLIGHT",
+  "observation_epoch": 1794988340.0832686,
+  "status": "ONE_VALID_HOLD_AND_NEXT_CASE_RUNNING",
   "source_sha": "1e3e370203857d9a63899e35d96153dc77185a37",
   "source_seal": "421d20bae377644e1ebadbd5aa0dd7eef050002d6f8cb641663ee7dfbbaefafe",
   "registered_spec_sha256": "d9d38299926b1469160b201069068b4d02d48946c1a7799e6bb5368d827d3998",
@@ -11,22 +11,23 @@
     "registered_all": 24,
     "registered_block1": 12,
     "registered_block2": 12,
-    "native_dispatched_lower_bound": 1,
-    "native_requests_sealed": 0,
+    "native_dispatched_lower_bound": 2,
+    "native_requests_sealed": 1,
     "complete_place_successes": 0,
-    "task_successes": 0,
-    "G7_eligible": 0,
+    "task_successes": 1,
+    "G7_eligible": 1,
     "awaiting_native_outcome": 1
   },
   "owned_server": {
     "unit": "wm02-sla-d2-teacher-development-b1-20261118-01",
     "invocation": "fe62ae5fcd104b8d9cdef1af1bf7571a",
     "MainPID": 2192202,
-    "live_child_pid": 2192240,
-    "child_native_observed_tick": 5953,
+    "live_child_pid": 2197687,
+    "child_native_observed_tick": 6803,
     "lease": "ACTIVE",
     "frontend_dependency": false,
-    "deadline_epoch": 1794998715.3374267
+    "deadline_epoch": 1794998715.3374267,
+    "latest_confirmed_pending_case": "D2-DEVELOPMENT-F1-1-HOLD-blue"
   },
   "independent_g7_CPU_regression_previous_case": {
     "actual_RGB_pairs": 127,
@@ -44,5 +45,74 @@
   "new_qualification_requests": 0,
   "new_student_requests": 0,
   "new_hardware_requests": 0,
-  "next": "Collect full outcomes for new fixed block, independently check exact current RGB/nominal H40/native P10 per successful case"
+  "next": "Collect full outcomes for new fixed block, independently check exact current RGB/nominal H40/native P10 per successful case",
+  "first_complete_native": {
+    "native_result_sha256": "ef38fe111c8c9f74076295925f2a5260cb3bda71bba9a81b0f8a92f10aa10e33",
+    "id": "D2-DEVELOPMENT-F1-1-HOLD-red",
+    "successful_G7_sha256": "010d4d6a7b7f79eac625545dd62b2592a16c8353219bf30e5d4a8a25c0b2c599",
+    "score": {
+      "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+      "instruction": "HOLD-red",
+      "task_success": true,
+      "native_step": 22453,
+      "base_directional_motion_m": 0.12480797745725405,
+      "lift_m": 0.02474075470553394,
+      "inside_selected_region": null,
+      "target_grasp": true,
+      "wrong_object_grasp_ever": false,
+      "wrong_object_contact_ever": false,
+      "released": false,
+      "gripper_open_fraction": 0.43364811675953674,
+      "TCP_retreat_m": 0.032388033302113255,
+      "stable_release_condition": false,
+      "states": 16751,
+      "missing_native_intervals": 0,
+      "unsafe_states": 0,
+      "ever_target_grasp": true,
+      "ever_target_lift20mm": true,
+      "maximum_lift_m": 0.02474075470553394,
+      "longest_grasp_lift_hold_s": 1.1020000000013468,
+      "longest_stable_released_retreat_s": 0.0,
+      "events": {
+        "base80mm": {
+          "native_step": 9828,
+          "native_time_s": 19.655999999999985
+        },
+        "target_grasp": {
+          "native_step": 19521,
+          "native_time_s": 39.04200000000175
+        },
+        "target_lift20mm": {
+          "native_step": 21902,
+          "native_time_s": 43.80400000000757
+        }
+      },
+      "task_privileged_truth_in_student_input": false,
+      "clock": "ACTUAL_2MS_NATIVE_STREAM"
+    },
+    "native": {
+      "native_ticks": 22453,
+      "failure": null,
+      "unsafe": false,
+      "completed": true,
+      "reason": "TASK_SUCCESS"
+    },
+    "G7": {
+      "passed": true,
+      "full_H40_rows": 2680,
+      "actual_P10_atoms": 670,
+      "current_RGB_pairs": 67,
+      "training_margin_exclusions": 0,
+      "first_failure": null,
+      "wall_s": 0.10379264410585165,
+      "statistics_fitted": false,
+      "new_native_integrations": 0,
+      "new_model_generations": 0,
+      "native_result_sha256": "ef38fe111c8c9f74076295925f2a5260cb3bda71bba9a81b0f8a92f10aa10e33"
+    },
+    "native_requests": 1,
+    "contact_STOP": 0,
+    "technical_failure": 0
+  },
+  "scientifically_complete_PLACEs": 0
 }
