@@ -5,6 +5,7 @@ The unchanged native H40 compiler remains the execution authority.
 """
 import numpy as np
 
+CLOCK_FIELDS = ('width_m', 'source_native_s', 'query_native_s')
 VERSION='DENSE_REFERENCE_G7_V6'
 DT=.05
 GRIP_MARGIN=.038

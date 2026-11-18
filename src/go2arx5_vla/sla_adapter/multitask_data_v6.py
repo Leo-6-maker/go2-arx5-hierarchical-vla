@@ -9,7 +9,7 @@ from .checkpoint_v1 import sha
 from .codec_v1 import Quantiles
 from .config_v1 import SEED
 from .dense_dataset_v4 import DensePilotDataset, member
-from .dense_g7_v6 import VERSION, previous_command_context
+from .dense_g7_v6 import CLOCK_FIELDS, VERSION, previous_command_context
 from .gripper_v2 import GripLogitCodec
 from .mfree_training_v1 import MobileDataset
 from .mixed_visits_v4 import Catalog
@@ -19,7 +19,6 @@ from go2arx5_vla.world_model.multitask_score_v6 import INSTRUCTIONS
 C20_MANIFEST = '4bcc5ffcd8920d874599a54cca73792c50a49ea6013d65ca7826817a9f80d7de'
 C20_STATISTICS = 'f28d50e6eeea09b332d4bd159eca4333bbe23b185f95f1d336d45311e364ab3e'
 SCHEMA = 'SLA_V6_G7_TARGET_TRAIN_V1'
-CLOCK_FIELDS = ('width_m', 'source_native_s', 'query_native_s')
 
 
 def reference(values):

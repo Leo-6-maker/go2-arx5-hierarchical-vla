@@ -39,8 +39,8 @@ def matrix_still_possible(cases, sealed, minimum=2):
     return all(successes[cell]+n >= minimum for cell,n in remaining.items())
 
 
-def g7_receipt(case, result):
-    from scripts.sla.export_multitask_g7_v6 import copy_shards, read_capture
+def verify_g7_capture(case, result):
+    from scripts.sla.multitask_g7_capture_v6 import copy_shards, read_capture
 
     started = time.monotonic()
     try:
@@ -57,8 +57,29 @@ def g7_receipt(case, result):
         audit = dict(passed=False, first_failure=repr(error))
     audit.update(wall_s=time.monotonic()-started, statistics_fitted=False,
                  new_native_integrations=0, new_model_generations=0)
+    return audit
+
+
+def g7_receipt(case, case_path, result_sha):
+    """Use the independently sealed SLA CPU interpreter, after native exit."""
+    runtime = case['d2_g7_runtime']
+    source = Path(case['source_root'])/'scripts/wm02/multitask_d2_bootstrap.py'
+    until = min(120., case['deadline_epoch']-time.time()-10.)
+    if until <= 0.:
+        return dict(passed=False,first_failure='G7_FINITE_AUDIT_WINDOW_EXHAUSTED')
+    command = ['taskset','-c',','.join(map(str,case['cpus'])), runtime['python'],
+               '-B',str(source),'--audit-g7',case_path,result_sha]
+    environment = dict(os.environ,**runtime['environment'])
+    try:
+        result = subprocess.run(command,env=environment,text=True,capture_output=True,timeout=until)
+        if result.returncode:
+            audit = dict(passed=False,first_failure='G7_CPU_AUDIT_FAILED',error=result.stderr[-2500:])
+        else:
+            audit = json.loads(result.stdout)
+    except (OSError,subprocess.TimeoutExpired,ValueError) as error:
+        audit = dict(passed=False,first_failure=repr(error))
     receipt = Path(case['registered_root'])/'D2_G7_ACTUAL.private.json'
-    write(receipt,audit)
+    write(receipt,dict(audit,native_result_sha256=result_sha))
     return dict(audit,sha256=digest(receipt))
 
 
@@ -142,7 +163,7 @@ def run(spec_path, spec):
                    protocol=case.get('d2_probe_motion'), probe_summary=result.get('detail')
                    if case['d2_stage']=='E' else None)
         if case['d2_stage']!='E' and row['task_and_mobile_success'] and row['completed']:
-            row['G7']=g7_receipt(case,result)
+            row['G7']=g7_receipt(case,path,pin['sha256'])
             row['G7_pass']=row['G7']['passed']
         return row
 

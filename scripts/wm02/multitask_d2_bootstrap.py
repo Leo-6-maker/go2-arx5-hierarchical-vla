@@ -38,6 +38,23 @@ def main():
         from scripts.wm02.multitask_d2_campaign import run
 
         return run(path, spec)
+    if operation=='--audit-g7':
+        import os
+        import time
+        from scripts.wm02.multitask_d2_campaign import verify_g7_capture
+        from go2arx5_vla.world_model.multitask_scope_v6 import read_pin
+
+        sha, = args
+        root = Path(spec['registered_root'])
+        lease = json.loads((root/'control/LEASE.json').read_bytes())
+        if (os.environ.get('CUDA_VISIBLE_DEVICES') != ''
+                or os.getuid() != spec['uid'] or os.uname().nodename != spec['host']
+                or spec['d2_stage'] not in ('D','Q') or time.time() >= spec['deadline_epoch']
+                or lease['status'] != 'CLOSED' or lease['spec_sha256'] != hashlib.sha256(Path(path).read_bytes()).hexdigest()):
+            raise PermissionError('D2_G7_REQUIRES_EXACT_COLD_NATIVE_CASE_AND_CPU_ENVIRONMENT')
+        native = read_pin(dict(path=str(root/'RESULT.private.json'),sha256=sha))
+        print(json.dumps(verify_g7_capture(spec,native),allow_nan=False))
+        return 0
     raise ValueError('D2_DECLARED_EXECUTION_ROUTE_REQUIRED')
 
 
