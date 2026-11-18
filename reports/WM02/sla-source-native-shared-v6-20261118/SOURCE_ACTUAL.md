@@ -37,3 +37,5 @@ S0 为 `haofuly/SLA_base@5bbdf3012ab643554aa2eb83ddeae9ace3dce476`。训练源�
 [机读实绩](SOURCE_ACTUAL.json) · [T 两端点](ACTUAL.md) · [T 离线及闭环交接](TARGET_OFFLINE_ACTUAL.md)
 
 2026-11-18T08:17:03.273161+08:00 独立核对已封存的 TEST 清单与 96 窗身份。面板覆盖全部 12 条留出 episode，每任务 8 个动态与 8 个低变化窗口，所有窗口互异。端点和 TRAIN 统计 SHA 与训练证据一致。核对只读清单，新增标签读取、模型生成均为 0。
+
+TEST 的 episode ID、原始文件 SHA 与全部 48 条 TRAIN/DEV 均无重叠。统计清单逐项匹配 36 条 TRAIN episode。

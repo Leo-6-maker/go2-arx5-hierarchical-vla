@@ -1,5 +1,7 @@
 # T 固定离线面板与原生筛选交接
 
+新的逐条件原生结果见 [TARGET_SCREEN_ACTUAL](TARGET_SCREEN_ACTUAL.md)。
+
 Core 实际完成 **615 次新增离线生成**，对账 T-B1 21、T-FM 297、T-H40 297。另复用 276 条 B1 预测和三臂已封存 TRAIN96。每臂固定条件共 377 个，三臂普通 RGB16 恢复均完成。离线 worker 实际 312.97 s wall，本阶段增加 0 优化更新及优化访问。源码 `3e20642a042b9047dc6b24c997cd243ebcfe2b33`，离线报告 SHA `a3023ab51618473bdc729d47e8768ee87613145f15e34d4d6688cdf64514edcb`。
 
 | 端点 | TRAIN96 H40 | CN38 H40 | ROLL96 H40 | 旧 3 次拒绝输入 | E2 新 5 次拒绝输入 | 离线晋级条件 |
