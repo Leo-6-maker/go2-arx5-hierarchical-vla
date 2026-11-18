@@ -6,6 +6,7 @@ import os
 
 from .multitask_score_v6 import Task
 from .multitask_scope_v6 import VERSION, read_pin, validate_frozen_assets
+from .storage import digest
 
 PLAN = '2352547871684c7617c2c89754fbf9c70a534abb'
 SCOPE = 'SLA_D2_MFREE_NATIVE_MUJOCO'
@@ -102,6 +103,12 @@ def validate(spec, *, before_spawn=False):
     if local_stop != item.get('stop_at_task_tick') or (local_stop is not None and (
             not probe or spec['d2_profile']!='LEGACY_N2' or local_stop!=1500)):
         raise PermissionError('D2_EXACT_PREREGISTERED_ENGINEERING_STOP')
+    if not probe:
+        runtime = spec['d2_g7_runtime']
+        if (runtime['environment']['CUDA_VISIBLE_DEVICES'] != ''
+                or not Path(runtime['python']).is_absolute()
+                or digest(runtime['python']) != runtime['python_sha256']):
+            raise PermissionError('D2_EXACT_INDEPENDENT_SLA_CPU_RUNTIME_REQUIRED')
     return task
 
 

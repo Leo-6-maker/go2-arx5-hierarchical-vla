@@ -63,6 +63,8 @@ def verify_g7_capture(case, result):
 def g7_receipt(case, case_path, result_sha):
     """Use the independently sealed SLA CPU interpreter, after native exit."""
     runtime = case['d2_g7_runtime']
+    if digest(runtime['python']) != runtime['python_sha256']:
+        return dict(passed=False,first_failure='G7_PINNED_CPU_RUNTIME_CHANGED')
     source = Path(case['source_root'])/'scripts/wm02/multitask_d2_bootstrap.py'
     until = min(120., case['deadline_epoch']-time.time()-10.)
     if until <= 0.:
