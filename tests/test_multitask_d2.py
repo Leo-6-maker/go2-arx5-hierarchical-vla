@@ -79,3 +79,43 @@ def test_stop_pair_waits_for_both_slots_before_next_pair():
     assert paired_dispatch_allowed(pair_one,[pair_one])
     assert not paired_dispatch_allowed(pair_two,[pair_one])
     assert paired_dispatch_allowed(pair_two,[])
+
+
+def test_supported_opening_preserves_measured_jaws_until_wire_setpoint_exceeds_them():
+    import pytest
+
+    from go2arx5_vla.world_model.multitask_placement_geometry_d2 import Knot
+    from go2arx5_vla.world_model.multitask_staged_placement_d2 import supported_opening_waypoints
+    from go2arx5_vla.world_model.multitask_teacher_d2 import PlacementUnavailable
+
+    fingers = np.array([.0190074,.0191447])
+    anchor = Knot(np.eye(4),np.eye(4),fingers,np.zeros(2),'open')
+    phantom = Knot(np.eye(4),np.eye(4),np.zeros(2),np.zeros(2),'open')
+    wire = np.array([.002,.006140625,.0191,.030])
+    points = supported_opening_waypoints([anchor,*([phantom]*len(wire))],wire,True)
+    assert np.array_equal(points[0].finger_q,fingers)
+    assert np.array_equal(points[1].finger_q,fingers)
+    assert np.array_equal(points[2].finger_q,fingers)
+    assert np.array_equal(points[3].finger_q,[.0191,fingers[1]])
+    assert np.array_equal(points[4].finger_q,[.03,.03])
+    assert np.array_equal(wire,[.002,.006140625,.0191,.030])
+    with pytest.raises(PlacementUnavailable,match='MEASURED_SUPPORT'):
+        supported_opening_waypoints([anchor,phantom],[.002],False)
+
+
+def test_staged_lift_does_not_enter_carry_on_task_lift_alone():
+    from types import SimpleNamespace
+    from go2arx5_vla.world_model.multitask_staged_placement_d2 import StagedPlacementTeacher
+
+    teacher = object.__new__(StagedPlacementTeacher)
+    teacher.route = SimpleNamespace(transit_raise=.026)
+    teacher.stage = 'LIFT'
+    teacher.lift_origin = np.array([.34927,-.05648,.650117])
+    teacher.grasp_rotation = np.eye(3)
+    teacher.initial_cube_z = .62
+    sample = dict(native_grasp=True,
+                  tcp=transform(np.eye(3),teacher.lift_origin+[0.,0.,.0213737]),
+                  object_pose=transform(np.eye(3),[.35,-.05,.6413718]))
+    target = teacher.goal(sample)
+    assert teacher.stage=='LIFT'
+    assert np.allclose(target,teacher.lift_origin+[0.,0.,.026])

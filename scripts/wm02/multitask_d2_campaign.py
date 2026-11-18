@@ -122,6 +122,8 @@ def preflight(spec):
         for key in ('source_sha','scope','campaign_root','d2_world_binding','d2_stage','registered_panel'):
             if case[key] != spec[key]:
                 raise PermissionError('D2_CASE_OUTSIDE_BATCH_BINDING')
+        if case.get('d2_teacher_candidate') != spec.get('d2_teacher_candidate'):
+            raise PermissionError('D2_TEACHER_CANDIDATE_MIXED_WITHIN_BATCH')
     return root,binding,cards
 
 

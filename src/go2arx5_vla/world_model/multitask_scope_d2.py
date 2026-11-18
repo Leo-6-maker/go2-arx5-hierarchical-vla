@@ -11,6 +11,7 @@ from .storage import digest
 PLAN = '2352547871684c7617c2c89754fbf9c70a534abb'
 SCOPE = 'SLA_D2_MFREE_NATIVE_MUJOCO'
 PROFILES = ('LEGACY_N1', 'LEGACY_N2')
+STAGED_TEACHER = 'STAGED_CALIBRATED_V2'
 START = 5703
 PROBE_TICKS = 10703
 
@@ -107,6 +108,11 @@ def validate(spec, *, before_spawn=False):
     if (stop_pair != item.get('stop_pair') or (stop_pair is not None and (
             not probe or spec['d2_profile']!='LEGACY_N2' or stop_pair not in (1,2)))):
         raise PermissionError('D2_EXACT_PREREGISTERED_STOP_PAIR_BATCH')
+    candidate = spec.get('d2_teacher_candidate')
+    if (candidate != item.get('d2_teacher_candidate')
+            or candidate not in (None, STAGED_TEACHER)
+            or (probe and candidate is not None)):
+        raise PermissionError('D2_EXACT_PREREGISTERED_TEACHER_CANDIDATE')
     if not probe:
         runtime = spec['d2_g7_runtime']
         if (runtime['environment']['CUDA_VISIBLE_DEVICES'] != ''
@@ -122,4 +128,7 @@ def episode(adapter):
         return probe(adapter)
     from .multitask_teacher_d2 import PlacementTeacher
     from .multitask_teacher_episode_v6 import episode as teacher
+    if adapter.spec.get('d2_teacher_candidate') == STAGED_TEACHER:
+        from .multitask_staged_placement_d2 import StagedPlacementTeacher
+        return teacher(adapter, placement_teacher=StagedPlacementTeacher)
     return teacher(adapter, placement_teacher=PlacementTeacher)

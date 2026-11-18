@@ -51,7 +51,8 @@ def landing_tcp(tcp_to_object, xy, rotation, half_size, table_z):
     return transform(object_rotation, center) @ np.linalg.inv(tcp_to_object)
 
 
-def remaining_placement(start, object_pose, landing, fingers, root_xy, *, supported, withdrawal):
+def remaining_placement(start, object_pose, landing, fingers, root_xy, *, supported,
+                        withdrawal, open_qpos_m=OPEN_QPOS_M):
     """Rebuild down/open/exit from current measured attachment and jaw state."""
     attachment = np.linalg.solve(start, object_pose)
     supported_object = object_pose if supported else landing @ attachment
@@ -59,9 +60,9 @@ def remaining_placement(start, object_pose, landing, fingers, root_xy, *, suppor
     return (
         Knot(start, object_pose, fingers, root_xy, 'lower'),
         Knot(finish, supported_object, fingers, root_xy, 'lower'),
-        Knot(finish, supported_object, np.full(2, OPEN_QPOS_M), root_xy, 'open'),
+        Knot(finish, supported_object, np.full(2, open_qpos_m), root_xy, 'open'),
         Knot(translate(finish, withdrawal), supported_object,
-             np.full(2, OPEN_QPOS_M), root_xy, 'withdraw'),
+             np.full(2, open_qpos_m), root_xy, 'withdraw'),
     )
 
 

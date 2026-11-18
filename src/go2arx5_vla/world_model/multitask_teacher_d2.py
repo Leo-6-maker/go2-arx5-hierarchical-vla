@@ -38,6 +38,7 @@ class Route:
     grasp_raise: float
     transit_raise: float
     withdrawal: np.ndarray
+    grasp_rotation: np.ndarray | None = None
 
 
 def time_estimate(knots):
@@ -50,6 +51,8 @@ def time_estimate(knots):
 
 
 class PlacementTeacher(MultitaskTeacher):
+    open_qpos_m = OPEN_QPOS_M
+
     def __init__(self, initial, condition, geometry, instruction, model):
         super().__init__(initial, condition, geometry, instruction)
         self.placement_geometry = PlacementGeometry(model, self.task.color) if self.task.operation=='PLACE' else None
@@ -95,12 +98,13 @@ class PlacementTeacher(MultitaskTeacher):
         obj, tcp = (np.asarray(sample[k]) for k in ('object_pose', 'tcp'))
         q = np.asarray(sample['qpos'])
         fingers = np.asarray(sample['finger_q'])
-        grasp_xyz = obj[:3,3] + [0.,-.0017,.012+route.grasp_raise] + self.grasp_rotation @ [-.012,0.,0.]
-        grasp = transform(self.grasp_rotation, grasp_xyz)
+        rotation = self.grasp_rotation if route.grasp_rotation is None else route.grasp_rotation
+        grasp_xyz = obj[:3,3] + [0.,-.0017,.012+route.grasp_raise] + rotation @ [-.012,0.,0.]
+        grasp = transform(rotation, grasp_xyz)
         landing = self.landing_pose(grasp, obj, route)
         if landing is None:
             return None
-        pregrasp = transform(self.grasp_rotation, obj[:3,3]+[0.,-.0017,.080])
+        pregrasp = transform(rotation, obj[:3,3]+[0.,-.0017,.080])
         lifted = translate(grasp, [0.,0.,route.transit_raise])
         elevated_landing = translate(landing, [0.,0.,route.transit_raise])
         # Under M_FREE the base pose is not an output. Use planar follow
@@ -122,8 +126,8 @@ class PlacementTeacher(MultitaskTeacher):
             Knot(lifted, lifted@attachment, closed, root(lifted), 'lift'),
             Knot(elevated_landing, elevated_landing@attachment, closed, root(landing), 'carry'),
             Knot(landing, landed, closed, root(landing), 'lower'),
-            Knot(landing, landed, np.full(2, OPEN_QPOS_M), root(landing), 'open'),
-            Knot(translate(landing,route.withdrawal), landed, np.full(2, OPEN_QPOS_M), root(landing), 'withdraw'),
+            Knot(landing, landed, np.full(2, self.open_qpos_m), root(landing), 'open'),
+            Knot(translate(landing,route.withdrawal), landed, np.full(2, self.open_qpos_m), root(landing), 'withdraw'),
         )
 
     def select_route(self, sample):
@@ -142,8 +146,12 @@ class PlacementTeacher(MultitaskTeacher):
             attempts.append(dict(**verdict, nominal_motion_reserve_s=duration,
                                  grasp_raise_m=route.grasp_raise, transit_raise_m=route.transit_raise,
                                  zone_XY=route.zone_xy.tolist(), rotation=route.rotation.tolist()))
+            if route.grasp_rotation is not None:
+                attempts[-1]['grasp_rotation'] = route.grasp_rotation.tolist()
             if verdict['passed']:
                 self.route, self.raise_m = route, route.grasp_raise
+                if route.grasp_rotation is not None:
+                    self.grasp_rotation = route.grasp_rotation
                 self.corridor_evidence = dict(attempts=attempts, base_hypothesis='PLANAR_TCP_FOLLOW')
                 return
         raise PlacementUnavailable('D2_NO_COMPLETE_PREGRASP_CANDIDATE',
@@ -161,7 +169,7 @@ class PlacementTeacher(MultitaskTeacher):
         for direction in withdrawal_choices:
             knots = remaining_placement(tcp, obj, landing, np.asarray(sample['finger_q']),
                                         np.asarray(sample['qpos'])[:2], supported=supported,
-                                        withdrawal=direction)
+                                        withdrawal=direction, open_qpos_m=self.open_qpos_m)
             verdict = self.placement_geometry.check(sample, knots, margin)
             attempts.append(dict(**verdict, withdrawal=direction.tolist()))
             if verdict['passed']:
@@ -206,7 +214,8 @@ class PlacementTeacher(MultitaskTeacher):
                       Knot(recover,recover@attachment,fingers,root,'lift'),
                       Knot(carry,carry@attachment,fingers,root,'carry'))
             knots = prefix + remaining_placement(carry,carry@attachment,landing,fingers,root,
-                                                   supported=False,withdrawal=candidate.withdrawal)[1:]
+                                                 supported=False,withdrawal=candidate.withdrawal,
+                                                 open_qpos_m=self.open_qpos_m)[1:]
             seconds = time_estimate(knots)-2.  # Grasp is already closed.
             if seconds > remaining_s:
                 continue
