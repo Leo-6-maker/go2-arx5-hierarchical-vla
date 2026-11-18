@@ -1,5 +1,6 @@
 """Run the unchanged D4 recipe inside one authorized VANDA PBS allocation."""
 import ctypes
+from datetime import datetime
 import json
 import os
 from pathlib import Path
@@ -8,6 +9,7 @@ import sys
 import time
 import traceback
 import uuid
+from zoneinfo import ZoneInfo
 
 from scripts.pi0292.durable import read, write
 from scripts.pi0294.e1.journal import Journal
@@ -22,6 +24,20 @@ def pin(path):
     return dict(path=str(path), sha256=sha(path))
 
 
+def allocation_window(job, *, campaign_deadline, earliest_start_margin=120):
+    """Use the scheduler's actual start and wall grant when binding the deadline."""
+    start = datetime.strptime(job['stime'],'%a %b %d %H:%M:%S %Y').replace(
+        tzinfo=ZoneInfo('Asia/Singapore')).timestamp()
+    hours, minutes, seconds = map(int,job['Resource_List']['walltime'].split(':'))
+    wall = 3600*hours+60*minutes+seconds
+    if wall <= earliest_start_margin or wall > 21600:
+        raise PermissionError('D4_PBS_ALLOCATED_WALLTIME_OUTSIDE_FIXED_LIMIT')
+    allocation_deadline = start+wall
+    deadline = min(campaign_deadline,allocation_deadline-earliest_start_margin)
+    return dict(PBS_start_epoch=start,PBS_wall_s=wall,
+                allocation_deadline_epoch=allocation_deadline,deadline_epoch=deadline)
+
+
 def pbs_job(config):
     job_id = os.environ['PBS_JOBID']
     text = subprocess.check_output(['/opt/pbs/bin/qstat','-f','-F','json',job_id], text=True, timeout=20)
@@ -34,7 +50,7 @@ def pbs_job(config):
             or job['job_state'] != 'R' or job['project'] != config['project']
             or int(job['Resource_List']['ngpus']) != 1):
         raise PermissionError('D4_OWN_RUNNING_PBS_JOB_AND_EXACT_PROJECT_REQUIRED')
-    return job_id
+    return job_id, allocation_window(job,campaign_deadline=config['deadline_epoch'])
 
 
 def actual_gpu():
@@ -56,7 +72,7 @@ def actual_gpu():
     return identity, name, capacity, free
 
 
-def build_cards(config, root, job_id, gpu):
+def build_cards(config, root, job_id, gpu, window):
     identity, name, capacity, free = gpu
     portable = read_pin(config['portable_data'])
     base = portable['spec']
@@ -74,17 +90,17 @@ def build_cards(config, root, job_id, gpu):
         raise ValueError('D4_FIXED_PORTABLE_ARTIFACTS_REQUIRED')
     cache = Path(os.environ['TMPDIR']).resolve(strict=True)/'sla-d4-compile'
     cache.mkdir()
-    deadline = base['deadline_epoch']
+    deadline = window['deadline_epoch']
     inherited = dict(schema='SLA_D4_VANDA_PBS_OBSERVED_V1', job_id=job_id,
         project=config['project'], uid=config['uid'], host=os.uname().nodename,
         state='R', allocated_GPU_uuids=[identity], GPU_free_bytes=free,
-        observed_epoch=time.time())
+        observed_epoch=time.time(),**window)
     allocation = root/'PBS_ALLOCATION_OBSERVED.private.json'
     write(allocation,inherited)
     binding = root/'SITE_BINDING.private.json'
     params = (foundation.parent/'model/params').resolve(strict=True)
     write(binding,dict(schema='SLA_SINGLE_GPU_EXISTING_SITE_V2', host=inherited['host'],
-        uid=config['uid'], GPU_uuid=identity,GPU_name=name,allocation_deadline_epoch=deadline+60,
+        uid=config['uid'], GPU_uuid=identity,GPU_name=name,allocation_deadline_epoch=window['allocation_deadline_epoch'],
         allocator_limit_bytes=24*GIB,GPU_headroom_bytes=GIB,host_headroom_bytes=32*GIB,
         paths=dict(parent_params=str(params),dataset=str(dataset),compilation_cache_dir=str(cache)),
         allocation=dict(kind='PBS',job_id=job_id,project=config['project'],actual_allocation=pin(allocation))))
@@ -95,7 +111,8 @@ def build_cards(config, root, job_id, gpu):
         parent_manifest=pin(foundation),parent_params=str(params),dataset=str(dataset),
         portable_inputs=sidecar,portable_evaluation=contexts,previous_campaign=str(root/'eval'),
         fixed_TRAIN48=bank,compilation_cache_dir=str(cache), site_binding=pin(binding),GPU_uuid=identity,
-        JAX_memory_fraction=min(.5,24*GIB/capacity),max_walltime_s=21600,max_gpu_hours=6,
+        deadline_epoch=deadline,JAX_memory_fraction=min(.5,24*GIB/capacity),
+        max_walltime_s=window['PBS_wall_s'],max_gpu_hours=6,
         RPC_timeout_s=90,model_service_timeout_s=90,save_and_exit_on_limit=True)
     for key in ('target_audit','tokenizer','initial_function_rule'):
         common[key] = locate_input(sidecar,base[key])
@@ -123,22 +140,28 @@ def run(config):
     records, first_failure, code = [], None, 1
     started = time.monotonic()
     try:
-        job_id=pbs_job(config)
+        job_id,window=pbs_job(config)
         for member,digest in config['source_files'].items():
             if sha(Path(config['source_root'])/member)!=digest:
                 raise ValueError('D4_PBS_IMMUTABLE_SOURCE_MEMBER_CHANGED:'+member)
         predecessor=read_pin(config['core_released'])
         if predecessor['lease']!='CLOSED' or predecessor['any_dispatched'] or predecessor['verified_updates']:
             raise PermissionError('D4_CORE_MUST_CLOSE_WITH_ZERO_DISPATCH')
-        if time.time() >= config['latest_pair_start_epoch'] or (root/'STOP.json').exists():
+        if config.get('technical_predecessor'):
+            earlier=read_pin(config['technical_predecessor'])
+            if any((earlier['PBS_state']!='F',earlier['exit_status']!=1,earlier['verified_updates'],
+                    earlier['verified_visits'],earlier['model_loads'],earlier['native_requests'],
+                    earlier['first_failure']!='FINITE_ALLOCATED_WINDOW_AND_SAVE_EXIT_REQUIRED')):
+                raise PermissionError('D4_REQUIRED_TERMINAL_ZERO_MODEL_TECHNICAL_PREDECESSOR')
+        if time.time() >= min(config['latest_pair_start_epoch'],window['deadline_epoch']-10800) or (root/'STOP.json').exists():
             raise TimeoutError('D4_PBS_TERMINAL_BEFORE_PAIR_START')
-        cards, env = build_cards(config,root,job_id,actual_gpu())
+        cards, env = build_cards(config,root,job_id,actual_gpu(),window)
         for card in cards:
             folder=card.parent
             row=dict(arm=folder.name)
             records.append(row)
             for kind,out in (('train','RESULT.private.json'),('restore','RESTORE.private.json')):
-                if time.time() >= config['deadline_epoch']-300 or (root/'STOP.json').exists():
+                if time.time() >= window['deadline_epoch']-300 or (root/'STOP.json').exists():
                     raise TimeoutError('D4_PBS_FINITE_STOP_OR_DEADLINE')
 
                 def execute():
