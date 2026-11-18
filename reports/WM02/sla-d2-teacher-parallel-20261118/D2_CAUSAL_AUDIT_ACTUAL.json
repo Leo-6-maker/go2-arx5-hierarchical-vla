@@ -1,0 +1,1804 @@
+{
+  "schema": "SLA_D2_CAUSAL_AUDIT_ACTUAL",
+  "plan_commit": "2352547871684c7617c2c89754fbf9c70a534abb",
+  "prior_head": "b29bd2badc976e2288f9d009e4bf14cc41b769af",
+  "implementation": "d33481ce7f09ad5d66c7a052225adde20f0db91d",
+  "prior_actual": {
+    "scientific_requests": 18,
+    "scientific_ticks": 526198,
+    "success": 9,
+    "contact_STOP": 8,
+    "budget_failure": 1,
+    "technical": 0,
+    "registered": 48,
+    "unstarted_terminal": 30,
+    "legacy_lifecycle": [
+      {
+        "group": "sla-v6-multitask-teacher-first6-nvme-20261118-02",
+        "deadline": 1794997893.9719865,
+        "authority_deadline": 1794997893.9719865,
+        "campaign_deadline": 1794997893.9719865,
+        "spec_sha": "84c6982b4cd1e70d55e8656a7cc41082c72538a0b13b271abf7b60c6ce38132b",
+        "lease": "CLOSED",
+        "source": "258beceaf24a26c5fd3ecf945488df0a75125299",
+        "result_sha": "6be8e7583d0e3ca81a8100f6079cc6beccabd2690b15b3297f01aeb9d04de573",
+        "safe_sim_only": true,
+        "active": "inactive"
+      },
+      {
+        "group": "sla-v6-multitask-teacher-next1-20261118-01",
+        "deadline": 1794973993.8679676,
+        "authority_deadline": 1794997893.9719865,
+        "campaign_deadline": 1794997893.9719865,
+        "spec_sha": "90da5bfe0a1c6027a9b1c6e079077ccda318fc87768e11b959eb555a68aa6daa",
+        "lease": "CLOSED",
+        "source": "258beceaf24a26c5fd3ecf945488df0a75125299",
+        "result_sha": "67e7d6c6503dfe0a1b63d1d2d773c8453c2c459e2300bb794889f17808db2bc2",
+        "safe_sim_only": true,
+        "active": "inactive"
+      },
+      {
+        "group": "sla-v6-multitask-teacher-next1-carry-20261118-04",
+        "deadline": 1794974784.1489,
+        "authority_deadline": 1794974784.1489,
+        "campaign_deadline": 1794997893.9719865,
+        "spec_sha": "28e8628e4431db4aead2770d5d3b88d60f3c89eecfd53af01569fb40aac8e0f1",
+        "lease": "CLOSED",
+        "source": "47676329b829b369e943c4b68572a9c3e76d929a",
+        "result_sha": "dcd24e7482dd88ca78ad241a75495a242c2debf11298f35887cfd3663092869f",
+        "safe_sim_only": true,
+        "active": "inactive"
+      },
+      {
+        "group": "sla-v6-multitask-teacher-next1-carry-20261118-05",
+        "deadline": 1794974784.1489,
+        "authority_deadline": 1794974784.1489,
+        "campaign_deadline": 1794997893.9719865,
+        "spec_sha": "4fe07071214d1dffe5c97804040e8ebd5f80d613e5db00d373b970ebb9cc7212",
+        "lease": "CLOSED",
+        "source": "47676329b829b369e943c4b68572a9c3e76d929a",
+        "result_sha": "82510bb8db3540d32a2facef3f88d88bb71e55e29460c38e8386883a9808b271",
+        "safe_sim_only": true,
+        "active": "inactive"
+      },
+      {
+        "group": "sla-v6-multitask-teacher-next1-f1-red-hold-20261118-01",
+        "deadline": 1794978117.7939763,
+        "authority_deadline": 1794978117.7939763,
+        "campaign_deadline": 1794997893.9719865,
+        "spec_sha": "b857c024fdad746a93ba468b214ba2bd236ee5048aee178c16c9f7097f60479a",
+        "lease": "CLOSED",
+        "source": "2d8132b99930eecdb0989cff0b2d18fbc507bc98",
+        "result_sha": "0382ee8723e6200453b1a1827dbb2c4cb60c3fed5f7522ab9e6b91cd61481eb7",
+        "safe_sim_only": true,
+        "active": "inactive"
+      },
+      {
+        "group": "sla-v6-multitask-teacher-next1-f1-blue-hold-20261118-01",
+        "deadline": 1794978117.7939763,
+        "authority_deadline": 1794978117.7939763,
+        "campaign_deadline": 1794997893.9719865,
+        "spec_sha": "f28ceada634324957ad85e1634c69bc2855d5b1d1afbd7212d2394310afd8b2b",
+        "lease": "CLOSED",
+        "source": "2d8132b99930eecdb0989cff0b2d18fbc507bc98",
+        "result_sha": "6e323dfb6bcc10ea13de8c16cf5b8fb99cc3682863cdd1a0c0bec9cf982dac0e",
+        "safe_sim_only": true,
+        "active": "inactive"
+      },
+      {
+        "group": "sla-v6-multitask-teacher-next1-f1-red-left-distal-20261118-01",
+        "deadline": 1794978955.8884518,
+        "authority_deadline": 1794978955.8884518,
+        "campaign_deadline": 1794997893.9719865,
+        "spec_sha": "66ab27749d87a865e49cf0edb49a9b975e1dab43c7273fdcb36da89b625f7cae",
+        "lease": "CLOSED",
+        "source": "5d6a379da324919dc27a1e4ae1c5f4bbb348aac6",
+        "result_sha": "9f984e15b4da7e4a2fafc1dc7a1e7e9626588902bd3a5dbb2bc2d0fe2532b2e4",
+        "safe_sim_only": true,
+        "active": "inactive"
+      },
+      {
+        "group": "sla-v6-multitask-teacher-next1-f1-red-right-grasp-20261118-01",
+        "deadline": 1794979818.63151,
+        "authority_deadline": 1794979818.63151,
+        "campaign_deadline": 1794997893.9719865,
+        "spec_sha": "2656e451430aa9105fe988badb6bc2211d0ef4960e57b9f6254ee8e3fd2d28c5",
+        "lease": "CLOSED",
+        "source": "81071d9d55b45e51904db86007452b6db7340846",
+        "result_sha": "b462da1439ad3852eaf45a24f99227db96fd740a1b95a27db71b264c7443e5a3",
+        "safe_sim_only": true,
+        "active": "inactive"
+      },
+      {
+        "group": "sla-v6-multitask-teacher-next1-f1-blue-left-20261118-01",
+        "deadline": 1794979818.63151,
+        "authority_deadline": 1794979818.63151,
+        "campaign_deadline": 1794997893.9719865,
+        "spec_sha": "6245e7b436808a0abca8e52876e994d2b250970b16a31e4410d864a3ae530086",
+        "lease": "CLOSED",
+        "source": "81071d9d55b45e51904db86007452b6db7340846",
+        "result_sha": "00bb818d3f1f968375f3002cc5d8c9b9bbe243b9233973a685523f66d0d1b477",
+        "safe_sim_only": true,
+        "active": "inactive"
+      },
+      {
+        "group": "sla-v6-multitask-teacher-oriented-15-16-20261118-01",
+        "deadline": 1794983155.2214866,
+        "authority_deadline": 1794983155.2214866,
+        "campaign_deadline": 1794997893.9719865,
+        "spec_sha": "bb060b536782aca9b34dbc880a2bf3681a6ef5f898709a3061d53483f86b9304",
+        "lease": "CLOSED",
+        "source": "a83803fb71c76937020e88f210a592fd1524bf80",
+        "result_sha": "bf2dc01eb864ee5aff2e9087d275db737acc573bc0c9bbd9c0b164394e6e874a",
+        "safe_sim_only": true,
+        "active": "inactive"
+      },
+      {
+        "group": "sla-v6-multitask-teacher-oriented-17-18-20261118-01",
+        "deadline": 1794983918.1339278,
+        "authority_deadline": 1794983918.1339278,
+        "campaign_deadline": 1794997893.9719865,
+        "spec_sha": "97074acd3454477bd5f798dedf0d2cb77f32d54018e23818bafef5b5c9728895",
+        "lease": "CLOSED",
+        "source": "a83803fb71c76937020e88f210a592fd1524bf80",
+        "result_sha": "7eff147fb184b33fd1f484e90c9e2c0cf01e965d7d3aa0c42e8d909614c75f55",
+        "safe_sim_only": true,
+        "active": "inactive"
+      }
+    ],
+    "irrecoverable_cells": [
+      {
+        "family": "F1",
+        "instruction": "PLACE-red-left",
+        "attempted": 3,
+        "success": 0,
+        "remaining": 1,
+        "max_success": 1
+      }
+    ]
+  },
+  "audited_archive": {
+    "cases": {
+      "12": {
+        "condition": "M-TEACHER-F1-1-PLACE-red-left",
+        "result_sha256": "81afc97ca318511979729866501057b95db452b5c04e9a556541a4e4c79fe4cb",
+        "source_sha": "5d6a379da324919dc27a1e4ae1c5f4bbb348aac6",
+        "scene_sha256": "e99d44a4e8f6d3a1e9e9ce14e26952f7c038835dd627ebef19d7096fb4f83358",
+        "labels_sha256": "0921ad0b67d510772089e14858754599d8a24147e6c2988a64c9a3689ade1333",
+        "original_journal_sha256": "920e6be9149e2bb355d8c64a927c708c4c64c4a39416804bcc8d20d6d7593136",
+        "trace_sha256": "390aca3e6f633d308f87066ba31c5acf27f871cfe786de370e2876bd11353e80",
+        "private_tick_chain_sha256": "74be959d2d4ace0baae3bf9756b6449a7cc12e616cda4b4644c8b71b0eea3a5e",
+        "private_accepted_ids_sha256": "65de077672cc1e8dceb3d5d3738b2cb1f995d2692c4a0c78bc807b3dd43dfd68",
+        "native_packets": 50703,
+        "actual_scientific_requests": 1,
+        "native_step_size_s": 0.002,
+        "complete_atoms": 1800,
+        "query_counts_by_phase": {
+          "PREGRASP": 29,
+          "DESCEND": 26,
+          "CLOSE": 3,
+          "LIFT": 9,
+          "CARRY": 113
+        },
+        "partial_ticks": 0,
+        "actual_step_count_reconstructed": 50703,
+        "nominal_submitted_rows": 7200,
+        "first_native_failure": "TASK_BUDGET_EXHAUSTED_IN_CARRY",
+        "integrations_after_STOP": null,
+        "last_score": {
+          "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+          "instruction": "PLACE-red-left",
+          "task_success": false,
+          "native_step": 50703,
+          "base_directional_motion_m": 0.20763539874506315,
+          "lift_m": 0.056024464093773374,
+          "inside_selected_region": true,
+          "target_grasp": true,
+          "wrong_object_grasp_ever": false,
+          "wrong_object_contact_ever": false,
+          "released": false,
+          "gripper_open_fraction": 0.4305243642414508,
+          "TCP_retreat_m": 0.018865575476425606,
+          "stable_release_condition": false,
+          "states": 45001,
+          "missing_native_intervals": 0,
+          "unsafe_states": 0,
+          "ever_target_grasp": true,
+          "ever_target_lift20mm": true,
+          "maximum_lift_m": 0.0708466652239097,
+          "longest_grasp_lift_hold_s": 25.91999999993959,
+          "longest_stable_released_retreat_s": 0.0,
+          "events": {
+            "base80mm": {
+              "native_step": 9042,
+              "native_time_s": 18.084000000000856
+            },
+            "target_grasp": {
+              "native_step": 20021,
+              "native_time_s": 40.04200000000297
+            },
+            "target_lift20mm": {
+              "native_step": 22409,
+              "native_time_s": 44.81800000000881
+            },
+            "correct_region": {
+              "native_step": 37505,
+              "native_time_s": 75.01000000000658
+            }
+          },
+          "task_privileged_truth_in_student_input": false,
+          "clock": "ACTUAL_2MS_NATIVE_STREAM"
+        },
+        "controller_selected": "UNKNOWN",
+        "profile": null,
+        "CPU_scope": "OFFLINE_PYTHON_ONLY",
+        "wall_s": 3.935444270260632
+      },
+      "13": {
+        "condition": "M-TEACHER-F1-1-PLACE-red-right",
+        "result_sha256": "02f1502f4bb508c52d3673c2f1b31b313b5eed2541c3b43181c2db77b8c5757b",
+        "source_sha": "81071d9d55b45e51904db86007452b6db7340846",
+        "scene_sha256": "e99d44a4e8f6d3a1e9e9ce14e26952f7c038835dd627ebef19d7096fb4f83358",
+        "labels_sha256": "0d0b0e8f555f5bced1e1f02bedcaaa5232b479aa460888ab2475712274a9c019",
+        "original_journal_sha256": "7d0fe91754c4b531f63a6b8278a40d55a3aef050cc028f9eddb73bdfa8faf559",
+        "trace_sha256": "4287543f7a72f4b91e19173ce30c989d261cccb5622d8ca3f2f66a9e6286c888",
+        "private_tick_chain_sha256": "98a733e910bbb95e8ba0a8b970bc712b81e9589088d98d906858807d18adcc57",
+        "private_accepted_ids_sha256": "b9680f8e1d6d314a865d43962c144741df3150b2f37d626bdf7a71a74a89b4f9",
+        "native_packets": 37453,
+        "actual_scientific_requests": 1,
+        "native_step_size_s": 0.002,
+        "complete_atoms": 1270,
+        "query_counts_by_phase": {
+          "PREGRASP": 30,
+          "DESCEND": 21,
+          "CLOSE": 3,
+          "LIFT": 3,
+          "CARRY": 34,
+          "LOWER": 17,
+          "OPEN": 4,
+          "WITHDRAW": 15
+        },
+        "partial_ticks": 0,
+        "actual_step_count_reconstructed": 37453,
+        "nominal_submitted_rows": 5080,
+        "first_native_failure": "TASK_SUCCESS",
+        "integrations_after_STOP": null,
+        "last_score": {
+          "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+          "instruction": "PLACE-red-right",
+          "task_success": true,
+          "native_step": 37453,
+          "base_directional_motion_m": 0.19484556349055293,
+          "lift_m": 0.0,
+          "inside_selected_region": true,
+          "target_grasp": false,
+          "wrong_object_grasp_ever": false,
+          "wrong_object_contact_ever": false,
+          "released": true,
+          "gripper_open_fraction": 0.9545512296377983,
+          "TCP_retreat_m": 0.05723099557118737,
+          "stable_release_condition": true,
+          "states": 31751,
+          "missing_native_intervals": 0,
+          "unsafe_states": 0,
+          "ever_target_grasp": true,
+          "ever_target_lift20mm": true,
+          "maximum_lift_m": 0.037721200428158075,
+          "longest_grasp_lift_hold_s": 10.496000000012828,
+          "longest_stable_released_retreat_s": 1.3679999999968118,
+          "events": {
+            "base80mm": {
+              "native_step": 9511,
+              "native_time_s": 19.022000000000336
+            },
+            "target_grasp": {
+              "native_step": 19053,
+              "native_time_s": 38.106000000000606
+            },
+            "target_lift20mm": {
+              "native_step": 19875,
+              "native_time_s": 39.750000000002615
+            },
+            "correct_region": {
+              "native_step": 26710,
+              "native_time_s": 53.42000000001932
+            },
+            "released": {
+              "native_step": 33193,
+              "native_time_s": 66.38600000002668
+            },
+            "retreated50mm": {
+              "native_step": 36769,
+              "native_time_s": 73.53800000001002
+            }
+          },
+          "task_privileged_truth_in_student_input": false,
+          "clock": "ACTUAL_2MS_NATIVE_STREAM"
+        },
+        "controller_selected": "UNKNOWN",
+        "profile": null,
+        "CPU_scope": "OFFLINE_PYTHON_ONLY",
+        "wall_s": 2.8633236829191446
+      },
+      "15": {
+        "condition": "M-TEACHER-F1-1-PLACE-blue-right",
+        "result_sha256": "0efdf8bc6c09d1d1dc26b8b937162fb51c8d2b43d6ab114389d5a5b1fa4772aa",
+        "source_sha": "a83803fb71c76937020e88f210a592fd1524bf80",
+        "scene_sha256": "e99d44a4e8f6d3a1e9e9ce14e26952f7c038835dd627ebef19d7096fb4f83358",
+        "labels_sha256": "e31deb7ea0217a3c51bbc23a65f69029570bb4fb703265395291b0353649d527",
+        "original_journal_sha256": "d92f77632fe5650786de852ef7913bfda5695842c0c08e13df8f4181b15f7069",
+        "trace_sha256": "5a1307253e5b37586d07a0d2b5378879a5a2cec030de5f8d11569eff32b11e58",
+        "private_tick_chain_sha256": "3f1f5fd34f3d7d534b06b7063857b8807bcbe04610f2a8e79c95cdb5b21b363c",
+        "private_accepted_ids_sha256": "93d67ab97c61c8e0d4d2bc74155dc517fe7717aacdaa63cd4124548ef861507c",
+        "native_packets": 23029,
+        "actual_scientific_requests": 1,
+        "native_step_size_s": 0.002,
+        "complete_atoms": 693,
+        "query_counts_by_phase": {
+          "PREGRASP": 45,
+          "DESCEND": 25
+        },
+        "partial_ticks": 1,
+        "actual_step_count_reconstructed": 23029,
+        "nominal_submitted_rows": 2800,
+        "first_native_failure": "ILLEGAL_CONTACT",
+        "integrations_after_STOP": 0,
+        "last_score": {
+          "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+          "instruction": "PLACE-blue-right",
+          "task_success": false,
+          "native_step": 22953,
+          "base_directional_motion_m": 0.10478462474514738,
+          "lift_m": 0.0,
+          "inside_selected_region": false,
+          "target_grasp": false,
+          "wrong_object_grasp_ever": false,
+          "wrong_object_contact_ever": false,
+          "released": true,
+          "gripper_open_fraction": 0.954870347657472,
+          "TCP_retreat_m": 0.029847243992203506,
+          "stable_release_condition": false,
+          "states": 17251,
+          "missing_native_intervals": 0,
+          "unsafe_states": 0,
+          "ever_target_grasp": false,
+          "ever_target_lift20mm": false,
+          "maximum_lift_m": 0.0,
+          "longest_grasp_lift_hold_s": 0.0,
+          "longest_stable_released_retreat_s": 0.0,
+          "events": {
+            "base80mm": {
+              "native_step": 10621,
+              "native_time_s": 21.241999999999106
+            }
+          },
+          "task_privileged_truth_in_student_input": false,
+          "clock": "ACTUAL_2MS_NATIVE_STREAM"
+        },
+        "controller_selected": "UNKNOWN",
+        "profile": null,
+        "CPU_scope": "OFFLINE_PYTHON_ONLY",
+        "wall_s": 1.610271262936294
+      },
+      "18": {
+        "condition": "M-TEACHER-F1-2-PLACE-red-left",
+        "result_sha256": "c3872a2ffea727c2033eee7c86f4a880d19f8e05f145a7d26dbff095a562d214",
+        "source_sha": "a83803fb71c76937020e88f210a592fd1524bf80",
+        "scene_sha256": "9514b8cecaa4b21d340acb7dba5b21a46dccda038ec2e90611fd4b5680c5627c",
+        "labels_sha256": "201d25ba837880847af426a2a536b1fb9d90cb791f3d520c2f7ffb2e83cf16db",
+        "original_journal_sha256": "b86e94cde5660edefcbb74efdc0320bae51d04b806328c71f5268d10b52493d8",
+        "trace_sha256": "a082030284e703734e76accfa74cbda313162e0703336dd1a9f2c84fd8bad4e4",
+        "private_tick_chain_sha256": "a8c0dd48d7d4104079f108275b8e5fdca31108f6bb1a6a4c0d44669287b386eb",
+        "private_accepted_ids_sha256": "34bd2589122fd0c356ff3054ca83f7f9cb538cb1bc72d54fb3c6290ae33213af",
+        "native_packets": 48258,
+        "actual_scientific_requests": 1,
+        "native_step_size_s": 0.002,
+        "complete_atoms": 1702,
+        "query_counts_by_phase": {
+          "PREGRASP": 34,
+          "DESCEND": 27,
+          "CLOSE": 3,
+          "LIFT": 9,
+          "CARRY": 74,
+          "LOWER": 24
+        },
+        "partial_ticks": 5,
+        "actual_step_count_reconstructed": 48258,
+        "nominal_submitted_rows": 6840,
+        "first_native_failure": "ILLEGAL_CONTACT",
+        "integrations_after_STOP": 0,
+        "last_score": {
+          "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+          "instruction": "PLACE-red-left",
+          "task_success": false,
+          "native_step": 48203,
+          "base_directional_motion_m": 0.20958525669961628,
+          "lift_m": 0.0005855615687059279,
+          "inside_selected_region": true,
+          "target_grasp": true,
+          "wrong_object_grasp_ever": false,
+          "wrong_object_contact_ever": false,
+          "released": false,
+          "gripper_open_fraction": 0.4305244394256249,
+          "TCP_retreat_m": 0.01899072407109012,
+          "stable_release_condition": false,
+          "states": 42501,
+          "missing_native_intervals": 0,
+          "unsafe_states": 0,
+          "ever_target_grasp": true,
+          "ever_target_lift20mm": true,
+          "maximum_lift_m": 0.06966325353960101,
+          "longest_grasp_lift_hold_s": 20.11400000001064,
+          "longest_stable_released_retreat_s": 0.0,
+          "events": {
+            "base80mm": {
+              "native_step": 9561,
+              "native_time_s": 19.12200000000028
+            },
+            "target_grasp": {
+              "native_step": 21519,
+              "native_time_s": 43.03800000000663
+            },
+            "target_lift20mm": {
+              "native_step": 23904,
+              "native_time_s": 47.80800000001246
+            },
+            "correct_region": {
+              "native_step": 41043,
+              "native_time_s": 82.0859999999901
+            }
+          },
+          "task_privileged_truth_in_student_input": false,
+          "clock": "ACTUAL_2MS_NATIVE_STREAM"
+        },
+        "controller_selected": "UNKNOWN",
+        "profile": {
+          "task_confirmed_atoms": 1702,
+          "archive_cuts": {
+            "0.125": {
+              "planner_events": 209,
+              "policy_events": 2237,
+              "atom_lookups": 24,
+              "identity_lookup_ns": 12897137,
+              "exact_pose_and_solver_id": 22,
+              "exact_pose": 24,
+              "accepted_boundary_with_cache_ns": 492354432,
+              "boundary_JSON_encode_ns": 236350,
+              "encoded_bytes": 17766
+            },
+            "0.25": {
+              "planner_events": 418,
+              "policy_events": 4475,
+              "atom_lookups": 24,
+              "identity_lookup_ns": 14651620,
+              "exact_pose_and_solver_id": 24,
+              "exact_pose": 24,
+              "accepted_boundary_with_cache_ns": 390217122,
+              "boundary_JSON_encode_ns": 257872,
+              "encoded_bytes": 17711
+            },
+            "0.5": {
+              "planner_events": 837,
+              "policy_events": 8950,
+              "atom_lookups": 24,
+              "identity_lookup_ns": 11379036,
+              "exact_pose_and_solver_id": 18,
+              "exact_pose": 24,
+              "accepted_boundary_with_cache_ns": 755676938,
+              "boundary_JSON_encode_ns": 259133,
+              "encoded_bytes": 17700
+            },
+            "1.0": {
+              "planner_events": 1675,
+              "policy_events": 17900,
+              "atom_lookups": 24,
+              "identity_lookup_ns": 16320042,
+              "exact_pose_and_solver_id": 24,
+              "exact_pose": 24,
+              "accepted_boundary_with_cache_ns": 1550902313,
+              "boundary_JSON_encode_ns": 323375,
+              "encoded_bytes": 17610
+            }
+          },
+          "timing_scope": "archive memory lookup and serialization, no live I/O or scheduling"
+        },
+        "CPU_scope": "OFFLINE_PYTHON_ONLY",
+        "wall_s": 16.68570484779775
+      }
+    },
+    "new_native_requests": 0,
+    "new_integrations": 0,
+    "new_generations": 0,
+    "new_updates": 0
+  },
+  "real_archive_geometry": {
+    "rows": {
+      "12": {
+        "pregrasp": {
+          "passed": true,
+          "attempts": 45,
+          "by_reason": {
+            "TEACHER_CLEARANCE_MARGIN": 44,
+            "PASS": 1
+          },
+          "wall_s": 1.0463950168341398
+        },
+        "lower": []
+      },
+      "13": {
+        "pregrasp": {
+          "passed": true,
+          "attempts": 1,
+          "by_reason": {
+            "PASS": 1
+          },
+          "wall_s": 0.037082997150719166
+        },
+        "lower": [
+          {
+            "tick": 28453,
+            "pass_geometry": true,
+            "gap_m": 0.00797339804078072,
+            "reason": null,
+            "pair": [
+              "task_right_pad",
+              "task_table"
+            ],
+            "margin_m": 0.0031832919972102905
+          },
+          {
+            "tick": 28703,
+            "pass_geometry": true,
+            "gap_m": 0.007985898474077031,
+            "reason": null,
+            "pair": [
+              "task_right_pad",
+              "task_table"
+            ],
+            "margin_m": 0.0031830733003406584
+          },
+          {
+            "tick": 28953,
+            "pass_geometry": true,
+            "gap_m": 0.007973391774604065,
+            "reason": null,
+            "pair": [
+              "task_right_pad",
+              "task_table"
+            ],
+            "margin_m": 0.003183142337983234
+          },
+          {
+            "tick": 29203,
+            "pass_geometry": true,
+            "gap_m": 0.007966983028252496,
+            "reason": null,
+            "pair": [
+              "task_right_pad",
+              "task_table"
+            ],
+            "margin_m": 0.0031832159010217135
+          },
+          {
+            "tick": 29453,
+            "pass_geometry": true,
+            "gap_m": 0.007965158488557597,
+            "reason": null,
+            "pair": [
+              "task_right_pad",
+              "task_table"
+            ],
+            "margin_m": 0.003183288560425475
+          },
+          {
+            "tick": 29703,
+            "pass_geometry": true,
+            "gap_m": 0.007964164806681884,
+            "reason": null,
+            "pair": [
+              "task_right_pad",
+              "task_table"
+            ],
+            "margin_m": 0.003183348249104777
+          },
+          {
+            "tick": 29953,
+            "pass_geometry": true,
+            "gap_m": 0.00796893268137318,
+            "reason": null,
+            "pair": [
+              "task_right_pad",
+              "task_table"
+            ],
+            "margin_m": 0.003183427572377636
+          },
+          {
+            "tick": 30203,
+            "pass_geometry": true,
+            "gap_m": 0.00798029302214311,
+            "reason": null,
+            "pair": [
+              "task_right_pad",
+              "task_table"
+            ],
+            "margin_m": 0.00318350196711044
+          },
+          {
+            "tick": 30453,
+            "pass_geometry": true,
+            "gap_m": 0.007979536786519909,
+            "reason": null,
+            "pair": [
+              "task_right_pad",
+              "task_table"
+            ],
+            "margin_m": 0.0031835688771756922
+          },
+          {
+            "tick": 30703,
+            "pass_geometry": true,
+            "gap_m": 0.00797973393240526,
+            "reason": null,
+            "pair": [
+              "task_right_pad",
+              "task_table"
+            ],
+            "margin_m": 0.003183644519297927
+          },
+          {
+            "tick": 30953,
+            "pass_geometry": true,
+            "gap_m": 0.007984872742669154,
+            "reason": null,
+            "pair": [
+              "task_right_pad",
+              "task_table"
+            ],
+            "margin_m": 0.0031837055697115403
+          },
+          {
+            "tick": 31203,
+            "pass_geometry": true,
+            "gap_m": 0.007987846285827348,
+            "reason": null,
+            "pair": [
+              "task_right_pad",
+              "task_table"
+            ],
+            "margin_m": 0.0031837752652976994
+          },
+          {
+            "tick": 31453,
+            "pass_geometry": true,
+            "gap_m": 0.007984705689001437,
+            "reason": null,
+            "pair": [
+              "task_right_pad",
+              "task_table"
+            ],
+            "margin_m": 0.0031838451155823616
+          },
+          {
+            "tick": 31703,
+            "pass_geometry": true,
+            "gap_m": 0.007993172502376524,
+            "reason": null,
+            "pair": [
+              "task_right_pad",
+              "task_table"
+            ],
+            "margin_m": 0.0031839128289095934
+          },
+          {
+            "tick": 31953,
+            "pass_geometry": true,
+            "gap_m": 0.007997631509221554,
+            "reason": null,
+            "pair": [
+              "task_right_pad",
+              "task_table"
+            ],
+            "margin_m": 0.003183986078616286
+          },
+          {
+            "tick": 32203,
+            "pass_geometry": true,
+            "gap_m": 0.00799746208298744,
+            "reason": null,
+            "pair": [
+              "task_right_pad",
+              "task_table"
+            ],
+            "margin_m": 0.0031840576718605807
+          },
+          {
+            "tick": 32453,
+            "pass_geometry": true,
+            "gap_m": 0.008012563611162104,
+            "reason": null,
+            "pair": [
+              "task_right_pad",
+              "task_table"
+            ],
+            "margin_m": 0.003184115419441318
+          }
+        ]
+      },
+      "15": {
+        "pregrasp": {
+          "passed": true,
+          "attempts": 52,
+          "by_reason": {
+            "TEACHER_CLEARANCE_MARGIN": 51,
+            "PASS": 1
+          },
+          "wall_s": 1.2690950259566307
+        },
+        "lower": []
+      },
+      "18": {
+        "pregrasp": {
+          "passed": true,
+          "attempts": 43,
+          "by_reason": {
+            "TEACHER_CLEARANCE_MARGIN": 42,
+            "PASS": 1
+          },
+          "wall_s": 0.8666286431252956
+        },
+        "lower": [
+          {
+            "tick": 42453,
+            "pass_geometry": false,
+            "gap_m": 0.002522779511179324,
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "margin_m": 0.003150252052211544
+          },
+          {
+            "tick": 42703,
+            "pass_geometry": false,
+            "gap_m": 0.0027345716612396306,
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "margin_m": 0.0031503130503596844
+          },
+          {
+            "tick": 42953,
+            "pass_geometry": false,
+            "gap_m": 0.003084138113034797,
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "margin_m": 0.0031503771465558553
+          },
+          {
+            "tick": 43203,
+            "pass_geometry": false,
+            "gap_m": 0.0030948257434768936,
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "margin_m": 0.0031504365592426318
+          },
+          {
+            "tick": 43453,
+            "pass_geometry": false,
+            "gap_m": 0.0017802305314576425,
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "margin_m": 0.0031504984494218242
+          },
+          {
+            "tick": 43703,
+            "pass_geometry": false,
+            "gap_m": 0.0018259356673785629,
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "margin_m": 0.003150556679379529
+          },
+          {
+            "tick": 43953,
+            "pass_geometry": false,
+            "gap_m": 0.0017468652415568997,
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "margin_m": 0.0031506136688362833
+          },
+          {
+            "tick": 44203,
+            "pass_geometry": false,
+            "gap_m": 0.0018106131154046468,
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "margin_m": 0.0031506712699731175
+          },
+          {
+            "tick": 44453,
+            "pass_geometry": false,
+            "gap_m": 0.0019049697277256292,
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "margin_m": 0.0031507378373623455
+          },
+          {
+            "tick": 44703,
+            "pass_geometry": false,
+            "gap_m": 0.001797944048192987,
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "margin_m": 0.003150803373598702
+          },
+          {
+            "tick": 44953,
+            "pass_geometry": false,
+            "gap_m": 0.0018504906458928702,
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "margin_m": 0.0031508598326333292
+          },
+          {
+            "tick": 45203,
+            "pass_geometry": false,
+            "gap_m": 0.0019219814948321853,
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "margin_m": 0.0031509260659787685
+          },
+          {
+            "tick": 45453,
+            "pass_geometry": false,
+            "gap_m": 0.0017880267053905566,
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "margin_m": 0.0031509865957833542
+          },
+          {
+            "tick": 45703,
+            "pass_geometry": false,
+            "gap_m": 0.001876816154752839,
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "margin_m": 0.0031510509798375118
+          },
+          {
+            "tick": 45953,
+            "pass_geometry": false,
+            "gap_m": 0.0019733316235097664,
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "margin_m": 0.003151104612078971
+          },
+          {
+            "tick": 46203,
+            "pass_geometry": false,
+            "gap_m": 0.0017649979420128331,
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "margin_m": 0.0031511739245908294
+          },
+          {
+            "tick": 46453,
+            "pass_geometry": false,
+            "gap_m": 0.0018355728027775256,
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "margin_m": 0.0031512259024429274
+          },
+          {
+            "tick": 46703,
+            "pass_geometry": false,
+            "gap_m": 0.0019546801632934485,
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "margin_m": 0.0031512997577794154
+          },
+          {
+            "tick": 46953,
+            "pass_geometry": false,
+            "gap_m": 0.002850214325609994,
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "margin_m": 0.003151352788489619
+          },
+          {
+            "tick": 47203,
+            "pass_geometry": false,
+            "gap_m": 0.002996194738458434,
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "margin_m": 0.003151417828588992
+          },
+          {
+            "tick": 47453,
+            "pass_geometry": false,
+            "gap_m": 0.001753922385689194,
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "margin_m": 0.003151485584703224
+          },
+          {
+            "tick": 47703,
+            "pass_geometry": false,
+            "gap_m": 0.0007782954651831958,
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "margin_m": 0.0031515470896997617
+          },
+          {
+            "tick": 47953,
+            "pass_geometry": false,
+            "gap_m": 0.0002619351756595785,
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "margin_m": 0.0031515961680342198
+          },
+          {
+            "tick": 48203,
+            "pass_geometry": false,
+            "gap_m": 3.863064781123651e-05,
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "margin_m": 0.0031516744630652703
+          }
+        ],
+        "index": {
+          "total": 1702,
+          "legacy_matches_saved": 1702,
+          "identical_old_new": 1702,
+          "no_full_archive_witness": 0,
+          "legacy_wall_s": 8.74438557960093,
+          "index_build_s": 3.165942845866084,
+          "index_query_s": 0.04703068919479847,
+          "policy_events": 17900,
+          "planner_events": 1675
+        }
+      }
+    },
+    "native_requests": 0,
+    "native_ticks": 0,
+    "generations": 0,
+    "updates": 0
+  },
+  "collision_15": {
+    "native_step": 23029,
+    "illegal_contacts": [
+      {
+        "geometry_pair": [
+          "task_table",
+          "task_right_pad"
+        ],
+        "geometry_ids": [
+          1,
+          77
+        ],
+        "body_pair": [
+          "world",
+          "x5_link8"
+        ],
+        "geom_types": [
+          6,
+          6
+        ],
+        "distance_m": -6.200352044321254e-05,
+        "normal_force_N": 15.404683659726087
+      }
+    ],
+    "integrations_after_STOP": 0
+  },
+  "collision_18": {
+    "native_step": 48258,
+    "illegal_contacts": [
+      {
+        "geometry_pair": [
+          null,
+          "task_blue_cube_geom"
+        ],
+        "geometry_ids": [
+          73,
+          79
+        ],
+        "body_pair": [
+          "x5_link6",
+          "task_blue_cube"
+        ],
+        "geom_types": [
+          3,
+          6
+        ],
+        "distance_m": -2.7934280214664264e-07,
+        "normal_force_N": 0.044668152498980415
+      }
+    ],
+    "integrations_after_STOP": 0
+  },
+  "measured_wrist_18": {
+    "stop_step": 48258,
+    "samples": [
+      {
+        "query": 147,
+        "step": 42453,
+        "measured_anchor_distance_mm": 37.14425226793827,
+        "nominal": {
+          "first_four_mm": [
+            37.14425226793827,
+            37.23660054258332,
+            37.29479285501146,
+            37.30451980387331
+          ],
+          "P10_min_mm": 36.418497593747674,
+          "tail30_min_mm": 26.94266446602577,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        },
+        "submitted": {
+          "first_four_mm": [
+            52.7841274539457,
+            52.91591333600734,
+            53.01098668910764,
+            53.055149526340145
+          ],
+          "P10_min_mm": 52.34075940642242,
+          "tail30_min_mm": 43.588573977976374,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        }
+      },
+      {
+        "query": 148,
+        "step": 42703,
+        "measured_anchor_distance_mm": 36.464703458766515,
+        "nominal": {
+          "first_four_mm": [
+            36.46470345876653,
+            36.193605622403204,
+            35.90907541391634,
+            35.61399638365463
+          ],
+          "P10_min_mm": 33.72458216023676,
+          "tail30_min_mm": 24.063278528562243,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        },
+        "submitted": {
+          "first_four_mm": [
+            52.11138294653007,
+            51.86456157676815,
+            51.603951911203595,
+            51.332530794291465
+          ],
+          "P10_min_mm": 49.58269342606165,
+          "tail30_min_mm": 40.64026684398578,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        }
+      },
+      {
+        "query": 149,
+        "step": 42953,
+        "measured_anchor_distance_mm": 34.60422849733201,
+        "nominal": {
+          "first_four_mm": [
+            34.60422849733201,
+            34.28020116150999,
+            33.95498117072715,
+            33.62854362687399
+          ],
+          "P10_min_mm": 31.650119708364393,
+          "tail30_min_mm": 21.98080469498364,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        },
+        "submitted": {
+          "first_four_mm": [
+            49.28141432742017,
+            48.979027513762155,
+            48.67544801786537,
+            48.3706434510983
+          ],
+          "P10_min_mm": 46.52226770398139,
+          "tail30_min_mm": 37.53097103572844,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        }
+      },
+      {
+        "query": 150,
+        "step": 43203,
+        "measured_anchor_distance_mm": 32.626227158884745,
+        "nominal": {
+          "first_four_mm": [
+            32.626227158884745,
+            32.29533265434648,
+            31.963919917692284,
+            31.63184486204084
+          ],
+          "P10_min_mm": 29.628890516278393,
+          "tail30_min_mm": 20.075415553451833,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        },
+        "submitted": {
+          "first_four_mm": [
+            46.21235710531232,
+            45.902209126490874,
+            45.59157896694886,
+            45.28031387261186
+          ],
+          "P10_min_mm": 43.40303743671618,
+          "tail30_min_mm": 34.501193204996035,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        }
+      },
+      {
+        "query": 151,
+        "step": 43453,
+        "measured_anchor_distance_mm": 30.53548761574002,
+        "nominal": {
+          "first_four_mm": [
+            30.53548761574002,
+            30.20219140276606,
+            29.86880866935547,
+            29.53516804144969
+          ],
+          "P10_min_mm": 27.53076801481989,
+          "tail30_min_mm": 18.133079250850844,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        },
+        "submitted": {
+          "first_four_mm": [
+            43.089886305629555,
+            42.776981797909094,
+            42.464048761164555,
+            42.15091242272294
+          ],
+          "P10_min_mm": 40.27084817684409,
+          "tail30_min_mm": 31.510776272351762,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        }
+      },
+      {
+        "query": 152,
+        "step": 43703,
+        "measured_anchor_distance_mm": 28.66617535979412,
+        "nominal": {
+          "first_four_mm": [
+            28.666175359794142,
+            28.33311642331868,
+            28.000454659390694,
+            27.668095522094184
+          ],
+          "P10_min_mm": 25.684027563614563,
+          "tail30_min_mm": 16.495133499468864,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        },
+        "submitted": {
+          "first_four_mm": [
+            39.95857400093131,
+            39.6469691866914,
+            39.33583448868494,
+            39.025067806279885
+          ],
+          "P10_min_mm": 37.17186732492375,
+          "tail30_min_mm": 28.650420714394226,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        }
+      },
+      {
+        "query": 153,
+        "step": 43953,
+        "measured_anchor_distance_mm": 26.675153505015682,
+        "nominal": {
+          "first_four_mm": [
+            26.67515350501569,
+            26.347319022369025,
+            26.020299827383276,
+            25.6939503220397
+          ],
+          "P10_min_mm": 23.750519867016525,
+          "tail30_min_mm": 14.741649530335458,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        },
+        "submitted": {
+          "first_four_mm": [
+            36.865984714816406,
+            36.561228026361384,
+            36.2573657191691,
+            35.95425246270821
+          ],
+          "P10_min_mm": 34.15196581901983,
+          "tail30_min_mm": 25.87029577184472,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        }
+      },
+      {
+        "query": 154,
+        "step": 44203,
+        "measured_anchor_distance_mm": 24.601730156329765,
+        "nominal": {
+          "first_four_mm": [
+            24.601730156329765,
+            24.28044732138319,
+            23.959983297863882,
+            23.640197013835643
+          ],
+          "P10_min_mm": 21.735611923888605,
+          "tail30_min_mm": 12.916880899511838,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        },
+        "submitted": {
+          "first_four_mm": [
+            33.85498590225182,
+            33.559105004245815,
+            33.26415517254862,
+            32.97000014662387
+          ],
+          "P10_min_mm": 31.221722767016278,
+          "tail30_min_mm": 23.217848786056024,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        }
+      },
+      {
+        "query": 155,
+        "step": 44453,
+        "measured_anchor_distance_mm": 22.342654213015066,
+        "nominal": {
+          "first_four_mm": [
+            22.342654213015066,
+            22.027647053169723,
+            21.713337944582413,
+            21.399556832105898
+          ],
+          "P10_min_mm": 19.527517139409195,
+          "tail30_min_mm": 10.928502464147686,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        },
+        "submitted": {
+          "first_four_mm": [
+            30.933629482989737,
+            30.646599875223703,
+            30.360425912117897,
+            30.074952460701972
+          ],
+          "P10_min_mm": 28.37651930032141,
+          "tail30_min_mm": 20.687777410877047,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        }
+      },
+      {
+        "query": 156,
+        "step": 44703,
+        "measured_anchor_distance_mm": 20.373148378287443,
+        "nominal": {
+          "first_four_mm": [
+            20.373148378287436,
+            20.061520326532115,
+            19.750662076064206,
+            19.4405344015295
+          ],
+          "P10_min_mm": 17.598265792700378,
+          "tail30_min_mm": 9.304781101512804,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        },
+        "submitted": {
+          "first_four_mm": [
+            28.09645625553666,
+            27.817432843519676,
+            27.539396919923625,
+            27.262315353605423
+          ],
+          "P10_min_mm": 25.622788899956422,
+          "tail30_min_mm": 18.395206334159198,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        }
+      },
+      {
+        "query": 157,
+        "step": 44953,
+        "measured_anchor_distance_mm": 18.401510156933984,
+        "nominal": {
+          "first_four_mm": [
+            18.401510156933977,
+            18.096300355802494,
+            17.79225645586118,
+            17.4893032605314
+          ],
+          "P10_min_mm": 15.695978753052648,
+          "tail30_min_mm": 7.721300631688168,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        },
+        "submitted": {
+          "first_four_mm": [
+            25.354153374711398,
+            25.087013731345323,
+            24.821290540544055,
+            24.55692243212051
+          ],
+          "P10_min_mm": 23.00058886996087,
+          "tail30_min_mm": 16.285053856782,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        }
+      },
+      {
+        "query": 158,
+        "step": 45203,
+        "measured_anchor_distance_mm": 16.465319096155202,
+        "nominal": {
+          "first_four_mm": [
+            16.465319096155202,
+            16.16856670899005,
+            15.873146332799196,
+            15.57898496342601
+          ],
+          "P10_min_mm": 13.841565577782031,
+          "tail30_min_mm": 6.216789392462979,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        },
+        "submitted": {
+          "first_four_mm": [
+            22.746755456061265,
+            22.494635783177156,
+            22.244160540812732,
+            21.995271303803424
+          ],
+          "P10_min_mm": 20.536256807980962,
+          "tail30_min_mm": 14.40181205721365,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        }
+      },
+      {
+        "query": 159,
+        "step": 45453,
+        "measured_anchor_distance_mm": 14.552768726523995,
+        "nominal": {
+          "first_four_mm": [
+            14.552768726524,
+            14.265434007246453,
+            13.979538671798034,
+            13.695015876234395
+          ],
+          "P10_min_mm": 12.017982295398106,
+          "tail30_min_mm": 4.792933225409662,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        },
+        "submitted": {
+          "first_four_mm": [
+            20.29929167604773,
+            20.064212409403087,
+            19.830964643357625,
+            19.599503843675286
+          ],
+          "P10_min_mm": 18.249458692376187,
+          "tail30_min_mm": 12.781627028720335,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        }
+      },
+      {
+        "query": 160,
+        "step": 45703,
+        "measured_anchor_distance_mm": 12.501036101033938,
+        "nominal": {
+          "first_four_mm": [
+            12.501036101033925,
+            12.224953406484232,
+            11.950370540157817,
+            11.677166694823834
+          ],
+          "P10_min_mm": 10.067629360995436,
+          "tail30_min_mm": 3.3234095942237944,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        },
+        "submitted": {
+          "first_four_mm": [
+            18.031363869105103,
+            17.815371107490645,
+            17.6013626524049,
+            17.389259932001217
+          ],
+          "P10_min_mm": 16.157534443766433,
+          "tail30_min_mm": 11.429143539156764,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        }
+      },
+      {
+        "query": 161,
+        "step": 45953,
+        "measured_anchor_distance_mm": 10.68416906452256,
+        "nominal": {
+          "first_four_mm": [
+            10.684169064522548,
+            10.417509175018699,
+            10.152537332936973,
+            9.889236543002236
+          ],
+          "P10_min_mm": 8.348205562846573,
+          "tail30_min_mm": 2.164751640392114,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        },
+        "submitted": {
+          "first_four_mm": [
+            15.959622887085413,
+            15.764005540097555,
+            15.570675581729171,
+            15.379640675712936
+          ],
+          "P10_min_mm": 14.284446390857443,
+          "tail30_min_mm": 10.432267815473628,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        }
+      },
+      {
+        "query": 162,
+        "step": 46203,
+        "measured_anchor_distance_mm": 8.892281328465542,
+        "nominal": {
+          "first_four_mm": [
+            8.892281328465534,
+            8.638724101771578,
+            8.387292474964191,
+            8.137926378394951
+          ],
+          "P10_min_mm": 6.687682234226402,
+          "tail30_min_mm": 1.1345302618057211,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        },
+        "submitted": {
+          "first_four_mm": [
+            14.111046207827945,
+            13.940415941502499,
+            13.772527191076897,
+            13.607364522243211
+          ],
+          "P10_min_mm": 12.675449338115659,
+          "tail30_min_mm": 9.780721716374098,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        }
+      },
+      {
+        "query": 163,
+        "step": 46453,
+        "measured_anchor_distance_mm": 7.3154521531051255,
+        "nominal": {
+          "first_four_mm": [
+            7.315452153105133,
+            7.075805855805389,
+            6.838671164550239,
+            6.604060834141737
+          ],
+          "P10_min_mm": 5.252820999915128,
+          "tail30_min_mm": 0.5285687724011501,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        },
+        "submitted": {
+          "first_four_mm": [
+            12.530462278969292,
+            12.388581063467754,
+            12.249852410938969,
+            12.114315313099887
+          ],
+          "P10_min_mm": 11.369940663820161,
+          "tail30_min_mm": 9.500491904712506,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        }
+      },
+      {
+        "query": 164,
+        "step": 46703,
+        "measured_anchor_distance_mm": 5.7668782140782655,
+        "nominal": {
+          "first_four_mm": [
+            5.766878214078237,
+            5.54540003572631,
+            5.326811450685531,
+            5.111093642708287
+          ],
+          "P10_min_mm": 3.879349654121067,
+          "tail30_min_mm": 0.2880939543443081,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        },
+        "submitted": {
+          "first_four_mm": [
+            11.257633271350244,
+            11.14876928303704,
+            11.043381966435375,
+            10.941497647892803
+          ],
+          "P10_min_mm": 10.404589779844382,
+          "tail30_min_mm": 9.364813524531854,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        }
+      },
+      {
+        "query": 165,
+        "step": 46953,
+        "measured_anchor_distance_mm": 4.29415493382921,
+        "nominal": {
+          "first_four_mm": [
+            4.294154933829238,
+            4.09323157177733,
+            3.89549499595148,
+            3.700960278093621
+          ],
+          "P10_min_mm": 2.6038784788692886,
+          "tail30_min_mm": 0.27595103914020147,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        },
+        "submitted": {
+          "first_four_mm": [
+            10.327626249832917,
+            10.254307606797735,
+            10.18476992742129,
+            10.119105876166511
+          ],
+          "P10_min_mm": 9.807458987837753,
+          "tail30_min_mm": 9.346456194080483,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        }
+      },
+      {
+        "query": 166,
+        "step": 47203,
+        "measured_anchor_distance_mm": 2.996194738458434,
+        "nominal": {
+          "first_four_mm": [
+            2.996194738458441,
+            2.816467751364092,
+            2.64051178169894,
+            2.4684832516941384
+          ],
+          "P10_min_mm": 1.523352685816999,
+          "tail30_min_mm": 0.2766568008351275,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        },
+        "submitted": {
+          "first_four_mm": [
+            9.769183472503496,
+            9.734852519280496,
+            9.704753383965107,
+            9.677638819791438
+          ],
+          "P10_min_mm": 9.535818027219971,
+          "tail30_min_mm": 9.365057917105437,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        }
+      },
+      {
+        "query": 167,
+        "step": 47453,
+        "measured_anchor_distance_mm": 1.753922385689194,
+        "nominal": {
+          "first_four_mm": [
+            1.75392238568918,
+            1.6051636103849853,
+            1.4617703810053255,
+            1.3240253076252164
+          ],
+          "P10_min_mm": 0.6713312128044207,
+          "tail30_min_mm": 0.2928796866168669,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        },
+        "submitted": {
+          "first_four_mm": [
+            9.515384038590195,
+            9.496055180172977,
+            9.47843944056919,
+            9.46296775657906
+          ],
+          "P10_min_mm": 9.418683428293544,
+          "tail30_min_mm": 9.418173322777605,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        }
+      },
+      {
+        "query": 168,
+        "step": 47703,
+        "measured_anchor_distance_mm": 0.7782954651831958,
+        "nominal": {
+          "first_four_mm": [
+            0.7782954651831958,
+            0.7054494265516866,
+            0.6416168155000262,
+            0.5857861865347612
+          ],
+          "P10_min_mm": 0.38849175035465117,
+          "tail30_min_mm": 0.3511344717966186,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        },
+        "submitted": {
+          "first_four_mm": [
+            9.418176564751489,
+            9.419319057596256,
+            9.422891016819381,
+            9.429348629284032
+          ],
+          "P10_min_mm": 9.418176564751489,
+          "tail30_min_mm": 9.532595938557224,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        }
+      },
+      {
+        "query": 169,
+        "step": 47953,
+        "measured_anchor_distance_mm": 0.26193517565957847,
+        "nominal": {
+          "first_four_mm": [
+            0.26193517565957847,
+            0.249336228185279,
+            0.2412880592026767,
+            0.23771234995591597
+          ],
+          "P10_min_mm": 0.23771234995591597,
+          "tail30_min_mm": 0.2998366606983757,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        },
+        "submitted": {
+          "first_four_mm": [
+            9.532595958841414,
+            9.550766397162915,
+            9.570893376287234,
+            9.593852074025758
+          ],
+          "P10_min_mm": 9.532595958841414,
+          "tail30_min_mm": 9.805126035315428,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        }
+      },
+      {
+        "query": 170,
+        "step": 48203,
+        "measured_anchor_distance_mm": 0.03863064781123651,
+        "nominal": {
+          "first_four_mm": [
+            0.038630647811222635,
+            0.05317094309926704,
+            0.06964273743123583,
+            0.08853993745288821
+          ],
+          "P10_min_mm": 0.038630647811222635,
+          "tail30_min_mm": 0.2619302438704556,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        },
+        "submitted": {
+          "first_four_mm": [
+            9.805123127713076,
+            9.835775590368453,
+            9.867559331966646,
+            9.901443805259271
+          ],
+          "P10_min_mm": 9.805123127713076,
+          "tail30_min_mm": 10.168356910005324,
+          "P10_nonpositive": 0,
+          "tail30_nonpositive": 0
+        }
+      }
+    ],
+    "stop_projection_mm": -0.0008285893409072653
+  },
+  "site_cut": {
+    "epoch": 1794984215.1362462,
+    "outer_deadline_UTC": "2026-11-18T18:51:23.855488+00:00",
+    "authorized_site_hash": "b0f2218f6128f4e6b8dbe8d801a10cfc548912a42fe5a6f7fa33bca0f6bb2626",
+    "legacy_lock": "ACQUIRED_AND_RELEASED_READBACK",
+    "memory_available_bytes": 46863200256,
+    "disk_available_bytes": 602358554624,
+    "tmpfs_available_bytes": 33263644672
+  },
+  "new_effects": {
+    "native_requests": 0,
+    "native_ticks": 0,
+    "generations": 0,
+    "updates": 0,
+    "training_visits": 0
+  },
+  "conclusion_scope": "Archived same-state geometry discrimination, no new skill or G7 qualification"
+}
