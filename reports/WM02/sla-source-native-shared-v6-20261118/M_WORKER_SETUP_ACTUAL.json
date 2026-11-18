@@ -75,7 +75,7 @@
     }
   },
   "actual_new_training_updates": 0,
-  "actual_M_native_requests": 6,
+  "actual_M_native_requests": 7,
   "first6_storage_readback": {
     "time_SGT": "2026-11-18T08:42:28.316569+08:00",
     "headroom": {
@@ -2270,5 +2270,585 @@
     "new_model_generations": 0,
     "new_optimizer_updates": 0,
     "new_training_visits": 0
+  },
+  "Teacher_first_complete_PLACE": {
+    "observed_SGT": "2026-11-18T10:44:38.153244+08:00",
+    "started": 6,
+    "scientific_requests_sealed": 5,
+    "scientific_ticks_sealed": 133048,
+    "complete_demonstrations": 2,
+    "verified_operations": [
+      "HOLD",
+      "PLACE"
+    ],
+    "verified_training_cells": {
+      "HOLD-blue/F2": 1,
+      "PLACE-blue-left/F1": 1
+    },
+    "fixed_training_cell_coverage_ready": false,
+    "technical_failures": 0,
+    "contact_STOP": 3,
+    "latest_scientific_case": {
+      "id": "M-TEACHER-F2-0-PLACE-blue-right",
+      "instruction": "PLACE-blue-right",
+      "started": true,
+      "last_observed_integration": {
+        "step": 3709,
+        "kind": "sample",
+        "time_s": 7.417999999999405
+      },
+      "sealed": false,
+      "last_complete_score": null,
+      "result_sha256": null,
+      "result": null
+    },
+    "sealed_scientific_cases": [
+      {
+        "id": "M-TEACHER-F1-0-HOLD-red",
+        "instruction": "HOLD-red",
+        "started": true,
+        "last_observed_integration": {
+          "step": 19308,
+          "kind": "stop",
+          "time_s": null
+        },
+        "sealed": true,
+        "last_complete_score": {
+          "native_step": 19203,
+          "base_directional_motion_m": 0.11969686196723278,
+          "ever_target_grasp": false,
+          "ever_target_lift20mm": false,
+          "maximum_lift_m": 0.0,
+          "longest_grasp_lift_hold_s": 0.0,
+          "inside_selected_region": null,
+          "released": true,
+          "gripper_open_fraction": 0.9546383641521724,
+          "TCP_retreat_m": 0.03307696693719718,
+          "longest_stable_released_retreat_s": 0.0,
+          "wrong_object_grasp_ever": false,
+          "events": {
+            "base80mm": {
+              "native_step": 9955,
+              "native_time_s": 19.909999999999844
+            }
+          }
+        },
+        "result_sha256": "6d88e1032aa371057373fe08f1f059e8f2ec3382509e8379d3550840c7f17e94",
+        "result": {
+          "unsafe": true,
+          "technical_failure": false,
+          "native_ticks": 19308,
+          "native_requests": 1,
+          "model_generations": 0,
+          "new_updates": 0,
+          "new_visits": 0,
+          "composite_success": false,
+          "score": null,
+          "stages": null,
+          "first_failure": "ILLEGAL_CONTACT",
+          "integrations_after_STOP": 0
+        }
+      },
+      {
+        "id": "M-TEACHER-F2-0-HOLD-blue",
+        "instruction": "HOLD-blue",
+        "started": true,
+        "last_observed_integration": {
+          "step": 22702,
+          "kind": "sample",
+          "time_s": 45.404000000009525
+        },
+        "sealed": true,
+        "last_complete_score": {
+          "native_step": 22703,
+          "base_directional_motion_m": 0.08861502366457391,
+          "ever_target_grasp": true,
+          "ever_target_lift20mm": true,
+          "maximum_lift_m": 0.024851271326205238,
+          "longest_grasp_lift_hold_s": 1.1940000000014592,
+          "inside_selected_region": null,
+          "released": false,
+          "gripper_open_fraction": 0.43367182131335374,
+          "TCP_retreat_m": 0.025076937713287166,
+          "longest_stable_released_retreat_s": 0.0,
+          "wrong_object_grasp_ever": false,
+          "events": {
+            "base80mm": {
+              "native_step": 12454,
+              "native_time_s": 24.907999999997074
+            },
+            "target_grasp": {
+              "native_step": 19770,
+              "native_time_s": 39.54000000000236
+            },
+            "target_lift20mm": {
+              "native_step": 22106,
+              "native_time_s": 44.21200000000807
+            }
+          }
+        },
+        "result_sha256": "6aa8d0c6d5938b1fc30b7b354b5f863b5a252dbf807e6aad14fd624cd0145319",
+        "result": {
+          "unsafe": false,
+          "technical_failure": false,
+          "native_ticks": 22703,
+          "native_requests": 1,
+          "model_generations": 0,
+          "new_updates": 0,
+          "new_visits": 0,
+          "composite_success": true,
+          "score": {
+            "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+            "instruction": "HOLD-blue",
+            "task_success": true,
+            "native_step": 22703,
+            "base_directional_motion_m": 0.08861502366457391,
+            "lift_m": 0.024851271326205238,
+            "inside_selected_region": null,
+            "target_grasp": true,
+            "wrong_object_grasp_ever": false,
+            "wrong_object_contact_ever": false,
+            "released": false,
+            "gripper_open_fraction": 0.43367182131335374,
+            "TCP_retreat_m": 0.025076937713287166,
+            "stable_release_condition": false,
+            "states": 17001,
+            "missing_native_intervals": 0,
+            "unsafe_states": 0,
+            "ever_target_grasp": true,
+            "ever_target_lift20mm": true,
+            "maximum_lift_m": 0.024851271326205238,
+            "longest_grasp_lift_hold_s": 1.1940000000014592,
+            "longest_stable_released_retreat_s": 0.0,
+            "events": {
+              "base80mm": {
+                "native_step": 12454,
+                "native_time_s": 24.907999999997074
+              },
+              "target_grasp": {
+                "native_step": 19770,
+                "native_time_s": 39.54000000000236
+              },
+              "target_lift20mm": {
+                "native_step": 22106,
+                "native_time_s": 44.21200000000807
+              }
+            },
+            "task_privileged_truth_in_student_input": false,
+            "clock": "ACTUAL_2MS_NATIVE_STREAM"
+          },
+          "stages": [
+            {
+              "stage": "PREGRASP",
+              "native_step": 5703
+            },
+            {
+              "stage": "DESCEND",
+              "native_step": 13703
+            },
+            {
+              "stage": "CLOSE",
+              "native_step": 19203
+            },
+            {
+              "stage": "LIFT",
+              "native_step": 19953
+            },
+            {
+              "stage": "HOLD",
+              "native_step": 22203
+            }
+          ],
+          "first_failure": "TASK_SUCCESS",
+          "integrations_after_STOP": null
+        }
+      },
+      {
+        "id": "M-TEACHER-F1-0-PLACE-red-left",
+        "instruction": "PLACE-red-left",
+        "started": true,
+        "last_observed_integration": {
+          "step": 30592,
+          "kind": "stop",
+          "time_s": null
+        },
+        "sealed": true,
+        "last_complete_score": {
+          "native_step": 30453,
+          "base_directional_motion_m": 0.1396884667983257,
+          "ever_target_grasp": true,
+          "ever_target_lift20mm": true,
+          "maximum_lift_m": 0.022744763019143965,
+          "longest_grasp_lift_hold_s": 8.842000000010806,
+          "inside_selected_region": false,
+          "released": false,
+          "gripper_open_fraction": 0.43349299657233903,
+          "TCP_retreat_m": 0.01852827642487227,
+          "longest_stable_released_retreat_s": 0.0,
+          "wrong_object_grasp_ever": false,
+          "events": {
+            "base80mm": {
+              "native_step": 8741,
+              "native_time_s": 17.48200000000119
+            },
+            "target_grasp": {
+              "native_step": 22767,
+              "native_time_s": 45.534000000009684
+            },
+            "target_lift20mm": {
+              "native_step": 25158,
+              "native_time_s": 50.31600000001553
+            }
+          }
+        },
+        "result_sha256": "247a515e893db70332912db24fccc6ecef54a19a1669e8a1227ca68baec4df03",
+        "result": {
+          "unsafe": true,
+          "technical_failure": false,
+          "native_ticks": 30592,
+          "native_requests": 1,
+          "model_generations": 0,
+          "new_updates": 0,
+          "new_visits": 0,
+          "composite_success": false,
+          "score": null,
+          "stages": null,
+          "first_failure": "ILLEGAL_CONTACT",
+          "integrations_after_STOP": 0
+        }
+      },
+      {
+        "id": "M-TEACHER-F2-0-PLACE-red-right",
+        "instruction": "PLACE-red-right",
+        "started": true,
+        "last_observed_integration": {
+          "step": 20492,
+          "kind": "stop",
+          "time_s": null
+        },
+        "sealed": true,
+        "last_complete_score": {
+          "native_step": 20453,
+          "base_directional_motion_m": 0.08242618206219762,
+          "ever_target_grasp": false,
+          "ever_target_lift20mm": false,
+          "maximum_lift_m": 0.0,
+          "longest_grasp_lift_hold_s": 0.0,
+          "inside_selected_region": false,
+          "released": true,
+          "gripper_open_fraction": 0.9543587296561943,
+          "TCP_retreat_m": 0.045313544064789185,
+          "longest_stable_released_retreat_s": 0.0,
+          "wrong_object_grasp_ever": false,
+          "events": {
+            "base80mm": {
+              "native_step": 14438,
+              "native_time_s": 28.875999999994875
+            }
+          }
+        },
+        "result_sha256": "2255e4563b4f6842a39bd156c7f144a36b708e0666e65950645a2b6a54d49b73",
+        "result": {
+          "unsafe": true,
+          "technical_failure": false,
+          "native_ticks": 20492,
+          "native_requests": 1,
+          "model_generations": 0,
+          "new_updates": 0,
+          "new_visits": 0,
+          "composite_success": false,
+          "score": null,
+          "stages": null,
+          "first_failure": "ILLEGAL_CONTACT",
+          "integrations_after_STOP": 0
+        }
+      },
+      {
+        "id": "M-TEACHER-F1-0-PLACE-blue-left",
+        "instruction": "PLACE-blue-left",
+        "started": true,
+        "last_observed_integration": {
+          "step": 39952,
+          "kind": "sample",
+          "time_s": 79.90399999999518
+        },
+        "sealed": true,
+        "last_complete_score": {
+          "native_step": 39953,
+          "base_directional_motion_m": 0.18597594899356518,
+          "ever_target_grasp": true,
+          "ever_target_lift20mm": true,
+          "maximum_lift_m": 0.026567484627603832,
+          "longest_grasp_lift_hold_s": 12.040000000014714,
+          "inside_selected_region": true,
+          "released": true,
+          "gripper_open_fraction": 0.9545506636066056,
+          "TCP_retreat_m": 0.056080401088497545,
+          "longest_stable_released_retreat_s": 1.1419999999973385,
+          "wrong_object_grasp_ever": false,
+          "events": {
+            "base80mm": {
+              "native_step": 10545,
+              "native_time_s": 21.08999999999919
+            },
+            "target_grasp": {
+              "native_step": 21766,
+              "native_time_s": 43.53200000000724
+            },
+            "target_lift20mm": {
+              "native_step": 24135,
+              "native_time_s": 48.27000000001303
+            },
+            "correct_region": {
+              "native_step": 30228,
+              "native_time_s": 60.45600000002792
+            },
+            "released": {
+              "native_step": 35446,
+              "native_time_s": 70.89200000001618
+            },
+            "retreated50mm": {
+              "native_step": 39382,
+              "native_time_s": 78.76399999999784
+            }
+          }
+        },
+        "result_sha256": "b3cc05fa20f78bad3a4614c78f2da8a0a34a06dc633d9a9ba58faafb5a9ec3d8",
+        "result": {
+          "unsafe": false,
+          "technical_failure": false,
+          "native_ticks": 39953,
+          "native_requests": 1,
+          "model_generations": 0,
+          "new_updates": 0,
+          "new_visits": 0,
+          "composite_success": true,
+          "score": {
+            "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+            "instruction": "PLACE-blue-left",
+            "task_success": true,
+            "native_step": 39953,
+            "base_directional_motion_m": 0.18597594899356518,
+            "lift_m": 0.0,
+            "inside_selected_region": true,
+            "target_grasp": false,
+            "wrong_object_grasp_ever": false,
+            "wrong_object_contact_ever": false,
+            "released": true,
+            "gripper_open_fraction": 0.9545506636066056,
+            "TCP_retreat_m": 0.056080401088497545,
+            "stable_release_condition": true,
+            "states": 34251,
+            "missing_native_intervals": 0,
+            "unsafe_states": 0,
+            "ever_target_grasp": true,
+            "ever_target_lift20mm": true,
+            "maximum_lift_m": 0.026567484627603832,
+            "longest_grasp_lift_hold_s": 12.040000000014714,
+            "longest_stable_released_retreat_s": 1.1419999999973385,
+            "events": {
+              "base80mm": {
+                "native_step": 10545,
+                "native_time_s": 21.08999999999919
+              },
+              "target_grasp": {
+                "native_step": 21766,
+                "native_time_s": 43.53200000000724
+              },
+              "target_lift20mm": {
+                "native_step": 24135,
+                "native_time_s": 48.27000000001303
+              },
+              "correct_region": {
+                "native_step": 30228,
+                "native_time_s": 60.45600000002792
+              },
+              "released": {
+                "native_step": 35446,
+                "native_time_s": 70.89200000001618
+              },
+              "retreated50mm": {
+                "native_step": 39382,
+                "native_time_s": 78.76399999999784
+              }
+            },
+            "task_privileged_truth_in_student_input": false,
+            "clock": "ACTUAL_2MS_NATIVE_STREAM"
+          },
+          "stages": [
+            {
+              "stage": "PREGRASP",
+              "native_step": 5703
+            },
+            {
+              "stage": "DESCEND",
+              "native_step": 14703
+            },
+            {
+              "stage": "CLOSE",
+              "native_step": 21203
+            },
+            {
+              "stage": "LIFT",
+              "native_step": 21953
+            },
+            {
+              "stage": "CARRY",
+              "native_step": 24203
+            },
+            {
+              "stage": "LOWER",
+              "native_step": 31953
+            },
+            {
+              "stage": "OPEN",
+              "native_step": 34953
+            },
+            {
+              "stage": "WITHDRAW",
+              "native_step": 35953
+            }
+          ],
+          "first_failure": "TASK_SUCCESS",
+          "integrations_after_STOP": null
+        }
+      }
+    ],
+    "independent_PLACE_capture": {
+      "epoch": 1794969888.3695009,
+      "case": "M-TEACHER-F1-0-PLACE-blue-left",
+      "result_sha256": "b3cc05fa20f78bad3a4614c78f2da8a0a34a06dc633d9a9ba58faafb5a9ec3d8",
+      "case_spec_sha256": "9998ff79454b72f0b9a615ef52f3bbe5c16e325942296dfcf85c9949b474fb90",
+      "capture_manifest_sha256": "93f349217a11a90e731843aca884ab9b28ce316594e5ba09c1bd4bd0c8fee356",
+      "source_sha": "258beceaf24a26c5fd3ecf945488df0a75125299",
+      "used_per_capture_exporter_file_sha256": "0383e957b3a0e544615a2ca34fe696c841a66fead95ed4a3215e3f893aa4c0be",
+      "verified_exact_current_RGB_pairs": 137,
+      "actual_H40_rows": 137,
+      "actual_P10_atoms": 1370,
+      "actual_native_ticks": 39953,
+      "actual_native_requests": 1,
+      "positive_score": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "PLACE-blue-left",
+        "task_success": true,
+        "native_step": 39953,
+        "base_directional_motion_m": 0.18597594899356518,
+        "lift_m": 0.0,
+        "inside_selected_region": true,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": true,
+        "gripper_open_fraction": 0.9545506636066056,
+        "TCP_retreat_m": 0.056080401088497545,
+        "stable_release_condition": true,
+        "states": 34251,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": true,
+        "ever_target_lift20mm": true,
+        "maximum_lift_m": 0.026567484627603832,
+        "longest_grasp_lift_hold_s": 12.040000000014714,
+        "longest_stable_released_retreat_s": 1.1419999999973385,
+        "events": {
+          "base80mm": {
+            "native_step": 10545,
+            "native_time_s": 21.08999999999919
+          },
+          "target_grasp": {
+            "native_step": 21766,
+            "native_time_s": 43.53200000000724
+          },
+          "target_lift20mm": {
+            "native_step": 24135,
+            "native_time_s": 48.27000000001303
+          },
+          "correct_region": {
+            "native_step": 30228,
+            "native_time_s": 60.45600000002792
+          },
+          "released": {
+            "native_step": 35446,
+            "native_time_s": 70.89200000001618
+          },
+          "retreated50mm": {
+            "native_step": 39382,
+            "native_time_s": 78.76399999999784
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "stages": [
+        {
+          "stage": "PREGRASP",
+          "native_step": 5703
+        },
+        {
+          "stage": "DESCEND",
+          "native_step": 14703
+        },
+        {
+          "stage": "CLOSE",
+          "native_step": 21203
+        },
+        {
+          "stage": "LIFT",
+          "native_step": 21953
+        },
+        {
+          "stage": "CARRY",
+          "native_step": 24203
+        },
+        {
+          "stage": "LOWER",
+          "native_step": 31953
+        },
+        {
+          "stage": "OPEN",
+          "native_step": 34953
+        },
+        {
+          "stage": "WITHDRAW",
+          "native_step": 35953
+        }
+      ],
+      "by_phase": {
+        "PREGRASP": 36,
+        "DESCEND": 26,
+        "CLOSE": 3,
+        "LIFT": 9,
+        "CARRY": 31,
+        "LOWER": 12,
+        "OPEN": 4,
+        "WITHDRAW": 16
+      },
+      "rederived_state_differences": {
+        "rows_with_any_bit_difference": 126,
+        "max_abs_XYZ_m": 2.220446049250313e-16,
+        "max_abs_rot6d_component": 1.1102230246251565e-16,
+        "max_abs_gripper": 0.0
+      },
+      "maximum_original_nominal_width_speed_m_s": 0.03743754687500017,
+      "over_training_margin": 0,
+      "native_wall_s": 595.4526094393805,
+      "native_CPU_s": 359.79602199699997,
+      "observed_shards": 9,
+      "audit_wall_s": 0.39668526500463486,
+      "new_integrations": 0,
+      "new_generations": 0,
+      "new_optimizer_updates": 0,
+      "new_optimization_visits": 0,
+      "statistics_fitted": false
+    },
+    "two_successful_captures_total_H40": 205,
+    "two_successful_captures_total_P10_atoms": 2050,
+    "zero_new_training_statistics": true,
+    "saved_pose_sensitivity": {
+      "unperturbed_bilateral_static_geometry": 16,
+      "forbidden_clearance_retained": 16,
+      "bilateral_and_clearance_retained": 0,
+      "physical_robustness_proven": false
+    }
   }
 }
