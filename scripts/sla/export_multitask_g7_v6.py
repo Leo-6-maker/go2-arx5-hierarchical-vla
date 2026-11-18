@@ -107,10 +107,13 @@ def fp32_audit(episodes, statistics):
 
 
 def export(spec, destination):
-    start, cpu = time.monotonic(), time.process_time()
     if spec['plan_commit'] != PLAN:
         raise ValueError('FIXED_SLA_V6_PLAN_REQUIRED')
-    accepted, rejected, ticks = teacher_results(spec)
+    return export_qualified_population(spec, destination, *teacher_results(spec))
+
+
+def export_qualified_population(spec, destination, accepted, rejected, ticks):
+    start, cpu = time.monotonic(), time.process_time()
     cells = Counter((row['instruction'], row['family']) for row, *_ in accepted)
     coverage = {task: {f: cells[task,f] for f in ('F1','F2')} for task in INSTRUCTIONS}
     root = Path(destination)
