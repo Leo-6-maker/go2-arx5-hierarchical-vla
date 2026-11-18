@@ -1,0 +1,213 @@
+{
+  "schema": "SLA_EMBODIMENT_DIAGNOSIS_NEXT_PLAN_20261118_V1",
+  "status": "PLAN_ONLY_NOT_EXECUTED",
+  "timezone": "Asia/Singapore",
+  "evidence": {
+    "PR409_head": "31db982450bd879a5f88f28fe5009206528e0544",
+    "PR407_head": "4b7040d3b9f43bdc0514609d564d91ecff67410e",
+    "PR408_plan": "ae3d3c0dceade437b0104a150cd0402fef650052",
+    "readback_local": "2026-11-18T11:38:43+08:00",
+    "latest_M_receipt": "2026-11-18T11:15:21.116201+08:00",
+    "evidence_kind": "GITHUB_REPORT_AND_CODE_AUDIT_NOT_SSH_OR_RAW_TRACE_RERUN"
+  },
+  "actual_snapshot": {
+    "T": {
+      "screen": 24,
+      "success": 14,
+      "H40_reject": 9,
+      "contact_STOP": 1,
+      "technical": 0,
+      "qualified": 0,
+      "confirm": 0,
+      "arms": {
+        "B1": 5,
+        "FM": 3,
+        "H40": 6
+      },
+      "new_generations": 1133,
+      "new_ticks": 417669
+    },
+    "S": {
+      "updates": 1000,
+      "visits": 32000,
+      "offline_generations": 512,
+      "DEV_dynamic_reduction_vs_S0": 0.5249,
+      "TEST_dynamic_error": 0.065167,
+      "TEST_dynamic_persistence_error": 0.151338,
+      "TEST_S0_run": false,
+      "real_robot_trials": 0
+    },
+    "M": {
+      "teacher_attempted": 8,
+      "teacher_success": 3,
+      "teacher_STOP": 5,
+      "teacher_technical": 0,
+      "teacher_ticks": 206782,
+      "interface_requests": 2,
+      "interface_ticks": 11906,
+      "updates": 0,
+      "visits": 0,
+      "student_requests": 0,
+      "model_generations": 0,
+      "teacher_cap": 48,
+      "remaining_teacher": 40,
+      "eligible_cells": 0
+    },
+    "T_S_offline_generations": 1331
+  },
+  "stages": [
+    {
+      "id": "D0",
+      "purpose": "existing-evidence mechanism decomposition",
+      "updates": 0,
+      "generations": 0,
+      "native_requests": 0,
+      "required_fields": [
+        "nominal",
+        "submitted",
+        "accepted",
+        "selected_or_UNKNOWN",
+        "actual",
+        "native_tick",
+        "reference_age",
+        "mount_pose",
+        "qvel",
+        "geometry_clearance",
+        "P10_vs_H30"
+      ],
+      "unknown_selected_blocks_independent_geometry_repair": false
+    },
+    {
+      "id": "D1",
+      "purpose": "versioned Teacher geometry/execution repair",
+      "updates": 0,
+      "generations": 0,
+      "native_request_source": "ONLY_UNSTARTED_ORIGINAL_48_SUFFIX",
+      "remaining_cap": 40,
+      "first_checkpoint_max": 8,
+      "first_checkpoint_included_in_remaining_cap": true,
+      "preserve_order": true,
+      "preserve_all_failures": true,
+      "no_repeat_failed_conditions": true,
+      "required_geometry": [
+        "bilateral_grasp",
+        "reachable",
+        "wrist",
+        "both_pads",
+        "whole_arm",
+        "held_object",
+        "other_object",
+        "table",
+        "measured_error_sensitivity"
+      ]
+    },
+    {
+      "id": "D2",
+      "purpose": "full target demonstration qualification",
+      "instruction_count": 6,
+      "family_count": 2,
+      "min_full_success_per_cell": 2,
+      "max_attempts_per_cell": 4,
+      "min_full_success": 24,
+      "feasibility_condition": "s + (4 - a) >= 2 for every cell",
+      "fit_target_statistics_once_on_TRAIN": true
+    },
+    {
+      "id": "M",
+      "purpose": "unchanged V6 matched source initialization comparison",
+      "arms": [
+        "M-BASE",
+        "M-SRC"
+      ],
+      "updates_each": 1000,
+      "visits_each": 32000,
+      "old_C20_visits_each": 6400,
+      "new_target_visits_each": 25600,
+      "shared_transfer_arrays": 20,
+      "full_state_arrays": 87,
+      "nonshared_bit_exact_arrays": 67,
+      "source_IO_norm_optimizer_copied": false,
+      "random_target_IO_reset": false,
+      "source_extra_updates": 1000,
+      "source_extra_visits": 32000,
+      "total_compute_matched": false,
+      "representation": "DENSE_REFERENCE_G7_V6",
+      "loss": "FM32 + 0.1 * full_XYZ + 0.1 * full_gripper_speed",
+      "target_stats_shared": true,
+      "training_internal_generations_total": 8000,
+      "offline_generation_cap": 1600,
+      "screen_total": 48,
+      "screen_each": 24,
+      "screen_success_min_each": 18,
+      "per_instruction_min": "3/4",
+      "per_family_min": "9/12",
+      "hard_STOP_max": 0,
+      "technical_max": 0,
+      "confirm_unique_candidate": 24,
+      "DEV": 60,
+      "TEST": 60,
+      "DEV_TEST_success_min": 48,
+      "DEV_TEST_instruction_min": "8/10",
+      "DEV_TEST_family_min": "24/30",
+      "TEST_once_after_DEV": true
+    },
+    {
+      "id": "SOURCE_MODULE_DIAG",
+      "conditional": true,
+      "not_M_launch_prerequisite": true,
+      "may_not_change_existing_M_initialization": true,
+      "triggers": [
+        "M_SRC_no_target_advantage",
+        "Teacher_waiting_and_real_GPU_idle_with_mechanistic_question"
+      ],
+      "split": "SOURCE_DEV96_ONLY",
+      "existing_predictions_reused": [
+        "S0_LoRA_and_S0_IO",
+        "S1000_LoRA_and_S1000_IO"
+      ],
+      "new_combinations": [
+        "S1000_LoRA_and_S0_IO",
+        "S0_LoRA_and_S1000_IO"
+      ],
+      "new_generations": 192,
+      "independent_restore_generations": 32,
+      "restore_subset": "PRE_FIXED_16_FROM_EACH_SAME_SOURCE_DEV96_WITH_SAME_INPUT_AND_NOISE_BIT_EXACT_VS_FIRST_OUTPUT_NO_TRAIN_OR_TEST",
+      "total_new_generation_cap": 224,
+      "updates": 0,
+      "native_requests": 0,
+      "TEST_opened": false,
+      "charged_to": "ORIGINAL_T_S_OFFLINE_1600",
+      "expected_cumulative_if_no_other_generation": 1555
+    }
+  ],
+  "conditional_followups_not_started_or_budgeted": [
+    "measured_dynamic_input_ablation",
+    "on_policy_teacher_correction",
+    "equal_total_compute_control",
+    "object_position_language_crossing",
+    "long_horizon_memory",
+    "real_robot"
+  ],
+  "invariants": [
+    "WBC_and_legs_and_MPC_and_solver_and_gains_frozen",
+    "original_H40_P10_50ms_2ms_TTL_STOP_frozen",
+    "historical_TEST_and_failures_preserved",
+    "RealMix_BLOCKED_LABEL_SEMANTICS_preserved",
+    "no_output_smoothing_clipping_retiming",
+    "no_real_hardware_commands",
+    "one_actual_physics_owner",
+    "no_hotpatch_active_capsules",
+    "no_automatic_allocation_extension",
+    "no_T_extra_loss_lambda_or_same_distribution_500"
+  ],
+  "known_outer_allocation_deadline": "2026-11-19T02:51:23.855488+08:00",
+  "publication_actual": {
+    "optimizer_updates": 0,
+    "model_generations": 0,
+    "native_requests": 0,
+    "physics_ticks": 0,
+    "runtime_code_changes": 0,
+    "remote_jobs_started": 0
+  }
+}
+
