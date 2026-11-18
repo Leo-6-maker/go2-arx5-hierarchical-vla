@@ -164,7 +164,7 @@ def read_capture(condition, case, native):
     return capture, manifest, frame, codec, arrays
 
 
-def copy_shards(source, manifest, data, output):
+def copy_shards(source, manifest, data, output=None):
     shards = []
     start = 0
     for raw in manifest['frame_shards']:
@@ -173,17 +173,20 @@ def copy_shards(source, manifest, data, output):
         if (path.parent != source or path.name != f'frames-{len(shards):03d}.npz'
                 or raw['first_query'] != start or not 1 <= count <= 16):
             raise ValueError('IMMUTABLE_CONTIGUOUS_SOURCE_RGB_SHARDS_REQUIRED')
-        copied = output/path.name
-        shutil.copyfile(path, copied)
-        if sha(copied) != raw['sha256']:
+        observed = path
+        if output is not None:
+            observed = output/path.name
+            shutil.copyfile(path, observed)
+        if sha(observed) != raw['sha256']:
             raise ValueError('BYTE_EXACT_ORIGINAL_PAUSED_RGB_TRANSFER_REQUIRED')
-        with np.load(copied, allow_pickle=False) as rgb:
+        with np.load(observed, allow_pickle=False) as rgb:
             span = slice(start, start+count)
             if (rgb['rgb'].shape != (count, 2, 256, 256, 3) or rgb['rgb'].dtype != np.uint8
                     or not np.array_equal(rgb['native_step'], data['native_step'][span])
                     or not np.array_equal(rgb['state_eef10'], data['state_eef10'][span])):
                 raise ValueError('EXACT_CURRENT_RGB_STATE_AND_TEACHER_QUERY_JOIN_REQUIRED')
-        shards.append(dict(file=str(copied.relative_to(output.parent)), sha256=raw['sha256'],
+        file = str(observed.relative_to(output.parent)) if output is not None else observed.name
+        shards.append(dict(file=file, sha256=raw['sha256'],
                            first_frame=start, frames=count))
         start += count
     if start != len(data['native_step']):

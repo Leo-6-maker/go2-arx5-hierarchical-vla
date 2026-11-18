@@ -61,7 +61,7 @@ def population(cards):
         old_TEST_reused=False,native_dispatch_qualified=False)
 
 
-def compile_population(spec):
+def compile_population(spec, *, proposed=None):
     import json
     from pathlib import Path
     import time
@@ -86,7 +86,7 @@ def compile_population(spec):
         if digest(old)!=template['frozen_files'][old]:
             raise ValueError('ORIGINAL_TRAIN_TEMPLATE_CHANGED')
         original[family]=(template,mujoco.MjModel.from_binary_path(old))
-    result=population(spec['prototype_cards'])
+    result=population(spec['prototype_cards']) if proposed is None else proposed
     write(root/'GEOMETRY_POPULATION.private.json',result)
     seen=set()
     for index,cluster in enumerate(result['clusters']):
@@ -112,11 +112,12 @@ def compile_population(spec):
         write(root/'PROGRESS.private.json',dict(compiled=index+1,total=len(result['clusters']),
             new_native_requests=0,new_integrations=0,new_generations=0))
     write(root/'COMPILED_POPULATION.private.json',result)
-    return dict(status='PREREGISTERED_COLD_36_SCENE_POPULATION_READY',exit_code=0,
+    return dict(status=('PREREGISTERED_COLD_36_SCENE_POPULATION_READY' if proposed is None
+                else 'COLD_PREREGISTERED_D2_POPULATION_READY'),exit_code=0,
         compiled_clusters=len(result['clusters']),actual_scene_bytes=sum(
             Path(c['scene']['path']).stat().st_size for c in result['clusters']),
         registered_condition_counts={k:len(v) for k,v in result['conditions'].items()},
-        first_teacher_feasibility=len(result['first_feasibility_ids']),
+        first_teacher_feasibility=len(result.get('first_feasibility_ids', ())),
         protection_fingerprints=sorted({c['robot_fingerprint'] for c in result['clusters']}),
         population_sha256=digest(root/'COMPILED_POPULATION.private.json'),
         native_dispatch_qualified=False)

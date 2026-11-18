@@ -4,6 +4,7 @@ from scripts.pi0292.eval_contract import matrix10
 from scripts.pi0294.base_intent import eef_document
 from ..trajectory.so3 import matrix_to_quat,rotation_matrix_to_rot6d_rows
 from .fusion_trajectory_adapter import _geometry,WORKING_OPEN_M,MECHANICAL_TRAVEL_M
+from .native_collection_performance_v1 import profiled
 
 SCHEMA='MOBILE_WBC_SLA_BOUNDARY_V1'
 PHASE='collect-target-mobile-wbc-boundary-v1'
@@ -98,6 +99,7 @@ def validate_preview(adapter,action,anchor):
                 retiming=False,additional_smoothing=False)
 
 
+@profiled('reference.full_H40_fixed_root_shadow_and_wire')
 def prepare_install(adapter,action,original_doc):
     from scripts.pi0294.task_path_model import certify_chunk
     from .native_replay import forbid_integration

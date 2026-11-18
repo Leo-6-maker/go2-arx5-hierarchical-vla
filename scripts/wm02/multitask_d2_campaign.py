@@ -39,6 +39,29 @@ def matrix_still_possible(cases, sealed, minimum=2):
     return all(successes[cell]+n >= minimum for cell,n in remaining.items())
 
 
+def g7_receipt(case, result):
+    from scripts.sla.export_multitask_g7_v6 import copy_shards, read_capture
+
+    started = time.monotonic()
+    try:
+        condition = {'instruction':case['task_instruction_id']}
+        source, manifest, _, _, arrays = read_capture(condition,case,result)
+        shards = copy_shards(source,manifest,arrays)
+        exclusion = result['detail']['label_margin_exclusions']
+        audit = dict(passed=exclusion==0, full_H40_rows=int(arrays['supervision_mask'].sum()),
+                     actual_P10_atoms=int(arrays['consumed_mask'].sum()),
+                     current_RGB_pairs=sum(s['frames'] for s in shards),
+                     training_margin_exclusions=exclusion,
+                     first_failure='RAW_G7_TRAINING_MARGIN' if exclusion else None)
+    except (ValueError, KeyError, OSError, TypeError) as error:
+        audit = dict(passed=False, first_failure=repr(error))
+    audit.update(wall_s=time.monotonic()-started, statistics_fitted=False,
+                 new_native_integrations=0, new_model_generations=0)
+    receipt = Path(case['registered_root'])/'D2_G7_ACTUAL.private.json'
+    write(receipt,audit)
+    return dict(audit,sha256=digest(receipt))
+
+
 def preflight(spec):
     root = Path(spec['registered_root'])
     binding = read_pin(spec['d2_world_binding'])
@@ -118,6 +141,9 @@ def run(spec_path, spec):
                    result_sha256=pin['sha256'],performance=performance,
                    protocol=case.get('d2_probe_motion'), probe_summary=result.get('detail')
                    if case['d2_stage']=='E' else None)
+        if case['d2_stage']!='E' and row['task_and_mobile_success'] and row['completed']:
+            row['G7']=g7_receipt(case,result)
+            row['G7_pass']=row['G7']['passed']
         return row
 
     try:
