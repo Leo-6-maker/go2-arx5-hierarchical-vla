@@ -51,27 +51,27 @@
     {
       "arm": "D4-A",
       "started": true,
-      "updates": 70,
-      "visits": 2240,
+      "updates": 500,
+      "visits": 16000,
       "model_parameters_written": true,
       "initial_checkpoint_written": true,
       "gradient_receipt_written": true,
-      "RGB16_confirmed": null
+      "RGB16_confirmed": 16
     },
     {
       "arm": "D4-B",
-      "started": false,
-      "updates": 0,
-      "visits": 0,
-      "model_parameters_written": false,
-      "initial_checkpoint_written": false,
-      "gradient_receipt_written": false,
+      "started": true,
+      "updates": 38,
+      "visits": 1216,
+      "model_parameters_written": true,
+      "initial_checkpoint_written": true,
+      "gradient_receipt_written": true,
       "RGB16_confirmed": null
     }
   ],
   "new_native_requests": 0,
   "new_native_integrations": 0,
-  "last_independent_readback": "2026-11-18T21:02:41+08:00",
+  "last_independent_readback": "2026-11-18T22:28:19+08:00",
   "D4_A_actual_counters": {
     "actual_parent_loads": 1,
     "forward_backward_attempts": 560,
@@ -99,7 +99,7 @@
     "optimizer_update_attempts": 70
   },
   "D4_DEV_cold_readback": {
-    "observed_epoch": 1795007039.3927097,
+    "observed_epoch": 1795012055.6979098,
     "compiled_population_sha256": "4a601d1ed2126e7acf6e522b10da569098bda37be0c206baf7069a47c783b746",
     "clusters": 4,
     "matched_conditions": 24,
@@ -112,5 +112,607 @@
     "actual_native": 0,
     "actual_ticks": 0,
     "qualified_student_endpoint_receipts": 0
+  },
+  "D4_A_endpoint": {
+    "epoch": 1795012055.392726,
+    "source_sha": "645f895cc4f2182f2313b7230623250d94c75e34",
+    "A_result_sha256": "8174773e1052a0f23fe7cfda403ca94c434cc5005904188b67696b8f63e2b7c0",
+    "A_restore_sha256": "f17af3ab7fd90e9c775dec5b3c5c599fe00202bf27e053fee2c98504f63ddee8",
+    "A_train96_sha256": "6cd43f099e3955116da83168a4af9af94784fa082fdf0a91c72c6788315b33df",
+    "A_train96": {
+      "predictions": 96,
+      "CLOSE_count": 20,
+      "CLOSE_pass": 17,
+      "nonCLOSE_count": 76,
+      "nonCLOSE_pass": 76,
+      "terminal_width_MAE_m": 0.007114178252658598,
+      "maximum_terminal_width_error_m": 0.03980375449898661,
+      "annotated_terminal_width_error_max_m": 0.03980375449898661,
+      "physical_admission": false,
+      "original_H40_and_gripper_speed_pass": 89,
+      "gripper_speed_reject": 7,
+      "annotated_expert_close_crossings": 20,
+      "missed_expert_close_crossings": 18,
+      "full_H40_reject_cases": [
+        {
+          "index": 58,
+          "noise": 1,
+          "phase": "CLOSE",
+          "envelope": {
+            "original_full_H40_pass": false,
+            "paths": {
+              "nominal": {
+                "channels": {
+                  "linear_velocity": {
+                    "peak_value": 0.0033771243197646002,
+                    "threshold": 0.05,
+                    "peak_threshold_ratio": 0.067542486395292,
+                    "margin": 0.046622875680235404,
+                    "peak_k": 0,
+                    "first_exceedance_k": null,
+                    "exceedance_indices": [],
+                    "prefix_peak": 0.0033771243197646002,
+                    "suffix_peak": 0.0020196686697068807,
+                    "zero_velocity_endpoint_padding": false
+                  },
+                  "angular_velocity": {
+                    "peak_value": 0.001954860984927293,
+                    "threshold": 0.25,
+                    "peak_threshold_ratio": 0.007819443939709172,
+                    "margin": 0.24804513901507272,
+                    "peak_k": 0,
+                    "first_exceedance_k": null,
+                    "exceedance_indices": [],
+                    "prefix_peak": 0.001954860984927293,
+                    "suffix_peak": 0.0019110450678888934,
+                    "zero_velocity_endpoint_padding": false
+                  },
+                  "finger_velocity": {
+                    "peak_value": 0.042417870823851095,
+                    "threshold": 0.04,
+                    "peak_threshold_ratio": 1.0604467705962775,
+                    "margin": -0.002417870823851094,
+                    "peak_k": 27,
+                    "first_exceedance_k": 27,
+                    "exceedance_indices": [
+                      27
+                    ],
+                    "prefix_peak": 0.014733661921677299,
+                    "suffix_peak": 0.042417870823851095,
+                    "zero_velocity_endpoint_padding": false
+                  },
+                  "linear_acceleration": {
+                    "peak_value": 0.067542486395292,
+                    "threshold": 0.25,
+                    "peak_threshold_ratio": 0.270169945581168,
+                    "margin": 0.182457513604708,
+                    "peak_k": 0,
+                    "first_exceedance_k": null,
+                    "exceedance_indices": [],
+                    "prefix_peak": 0.067542486395292,
+                    "suffix_peak": 0.06276034997831831,
+                    "zero_velocity_endpoint_padding": true
+                  },
+                  "angular_acceleration": {
+                    "peak_value": 0.056657033414132064,
+                    "threshold": 1.0,
+                    "peak_threshold_ratio": 0.056657033414132064,
+                    "margin": 0.9433429665858679,
+                    "peak_k": 12,
+                    "first_exceedance_k": null,
+                    "exceedance_indices": [],
+                    "prefix_peak": 0.03992838337438569,
+                    "suffix_peak": 0.056657033414132064,
+                    "zero_velocity_endpoint_padding": true
+                  }
+                },
+                "full_H40_pass": false,
+                "first_point_anchor_gap_m": 0.0014837534984811413,
+                "path_length_m": 0.002118906623337276,
+                "endpoint_progress_m": 0.0011717781904556775
+              },
+              "reference": {
+                "channels": {
+                  "linear_velocity": {
+                    "peak_value": 0.0033771243197646002,
+                    "threshold": 0.05,
+                    "peak_threshold_ratio": 0.067542486395292,
+                    "margin": 0.046622875680235404,
+                    "peak_k": 0,
+                    "first_exceedance_k": null,
+                    "exceedance_indices": [],
+                    "prefix_peak": 0.0033771243197646002,
+                    "suffix_peak": 0.002019668669704937,
+                    "zero_velocity_endpoint_padding": false
+                  },
+                  "angular_velocity": {
+                    "peak_value": 0.0019548609849273156,
+                    "threshold": 0.25,
+                    "peak_threshold_ratio": 0.007819443939709262,
+                    "margin": 0.2480451390150727,
+                    "peak_k": 0,
+                    "first_exceedance_k": null,
+                    "exceedance_indices": [],
+                    "prefix_peak": 0.0019548609849273156,
+                    "suffix_peak": 0.001911045067888664,
+                    "zero_velocity_endpoint_padding": false
+                  },
+                  "finger_velocity": {
+                    "peak_value": 0.042417870823851095,
+                    "threshold": 0.04,
+                    "peak_threshold_ratio": 1.0604467705962775,
+                    "margin": -0.002417870823851094,
+                    "peak_k": 27,
+                    "first_exceedance_k": 27,
+                    "exceedance_indices": [
+                      27
+                    ],
+                    "prefix_peak": 0.014733661921677299,
+                    "suffix_peak": 0.042417870823851095,
+                    "zero_velocity_endpoint_padding": false
+                  },
+                  "linear_acceleration": {
+                    "peak_value": 0.067542486395292,
+                    "threshold": 0.25,
+                    "peak_threshold_ratio": 0.270169945581168,
+                    "margin": 0.182457513604708,
+                    "peak_k": 0,
+                    "first_exceedance_k": null,
+                    "exceedance_indices": [],
+                    "prefix_peak": 0.067542486395292,
+                    "suffix_peak": 0.06276034997830357,
+                    "zero_velocity_endpoint_padding": true
+                  },
+                  "angular_acceleration": {
+                    "peak_value": 0.056657033414134625,
+                    "threshold": 1.0,
+                    "peak_threshold_ratio": 0.056657033414134625,
+                    "margin": 0.9433429665858654,
+                    "peak_k": 12,
+                    "first_exceedance_k": null,
+                    "exceedance_indices": [],
+                    "prefix_peak": 0.039928383374393035,
+                    "suffix_peak": 0.056657033414134625,
+                    "zero_velocity_endpoint_padding": true
+                  }
+                },
+                "full_H40_pass": false,
+                "first_point_anchor_gap_m": 0.0014837534984811413,
+                "path_length_m": 0.002118906623336924,
+                "endpoint_progress_m": 0.0011717781904557842
+              }
+            },
+            "first_temporal_exceedance": {
+              "path": "nominal",
+              "channel": "finger_velocity",
+              "k": 27,
+              "time_s": 1.35,
+              "region": "SUFFIX",
+              "first_ratio": 1.0604467705962775,
+              "peak_ratio": 1.0604467705962775,
+              "order": 2
+            },
+            "original_short_circuit_component": {
+              "path": "nominal",
+              "channel": "finger_velocity",
+              "k": 27,
+              "time_s": 1.35,
+              "region": "SUFFIX",
+              "first_ratio": 1.0604467705962775,
+              "peak_ratio": 1.0604467705962775,
+              "order": 2
+            },
+            "rotation_derivative": "RELATIVE_SO3_LOG_NOT_EULER",
+            "dt_s": 0.05,
+            "prefix_suffix_index_definition": "k<10 prefix; k=10 replan join; acceleration39 is last-segment-to-rest; velocity k is segment k to k+1",
+            "full_suffix_gate_retained": true
+          }
+        },
+        {
+          "index": 261,
+          "noise": 1,
+          "phase": "CLOSE",
+          "envelope": {
+            "original_full_H40_pass": false,
+            "paths": {
+              "nominal": {
+                "channels": {
+                  "linear_velocity": {
+                    "peak_value": 0.003415438211085583,
+                    "threshold": 0.05,
+                    "peak_threshold_ratio": 0.06830876422171166,
+                    "margin": 0.046584561788914416,
+                    "peak_k": 0,
+                    "first_exceedance_k": null,
+                    "exceedance_indices": [],
+                    "prefix_peak": 0.003415438211085583,
+                    "suffix_peak": 0.0024860458510039423,
+                    "zero_velocity_endpoint_padding": false
+                  },
+                  "angular_velocity": {
+                    "peak_value": 0.0017925631513099225,
+                    "threshold": 0.25,
+                    "peak_threshold_ratio": 0.00717025260523969,
+                    "margin": 0.24820743684869007,
+                    "peak_k": 10,
+                    "first_exceedance_k": null,
+                    "exceedance_indices": [],
+                    "prefix_peak": 0.001758378295540291,
+                    "suffix_peak": 0.0017925631513099225,
+                    "zero_velocity_endpoint_padding": false
+                  },
+                  "finger_velocity": {
+                    "peak_value": 0.045214451947134526,
+                    "threshold": 0.04,
+                    "peak_threshold_ratio": 1.130361298678363,
+                    "margin": -0.0052144519471345255,
+                    "peak_k": 27,
+                    "first_exceedance_k": 27,
+                    "exceedance_indices": [
+                      27
+                    ],
+                    "prefix_peak": 0.018369378670320402,
+                    "suffix_peak": 0.045214451947134526,
+                    "zero_velocity_endpoint_padding": false
+                  },
+                  "linear_acceleration": {
+                    "peak_value": 0.06830876422171166,
+                    "threshold": 0.25,
+                    "peak_threshold_ratio": 0.27323505688684663,
+                    "margin": 0.18169123577828833,
+                    "peak_k": 0,
+                    "first_exceedance_k": null,
+                    "exceedance_indices": [],
+                    "prefix_peak": 0.06830876422171166,
+                    "suffix_peak": 0.06639327525022284,
+                    "zero_velocity_endpoint_padding": true
+                  },
+                  "angular_acceleration": {
+                    "peak_value": 0.05487005453973321,
+                    "threshold": 1.0,
+                    "peak_threshold_ratio": 0.05487005453973321,
+                    "margin": 0.9451299454602667,
+                    "peak_k": 10,
+                    "first_exceedance_k": null,
+                    "exceedance_indices": [],
+                    "prefix_peak": 0.04175141114164181,
+                    "suffix_peak": 0.05487005453973321,
+                    "zero_velocity_endpoint_padding": true
+                  }
+                },
+                "full_H40_pass": false,
+                "first_point_anchor_gap_m": 0.0013906500341792929,
+                "path_length_m": 0.002271459458449168,
+                "endpoint_progress_m": 0.0015547079007099383
+              },
+              "reference": {
+                "channels": {
+                  "linear_velocity": {
+                    "peak_value": 0.003415438211085583,
+                    "threshold": 0.05,
+                    "peak_threshold_ratio": 0.06830876422171166,
+                    "margin": 0.046584561788914416,
+                    "peak_k": 0,
+                    "first_exceedance_k": null,
+                    "exceedance_indices": [],
+                    "prefix_peak": 0.003415438211085583,
+                    "suffix_peak": 0.0024860458510079435,
+                    "zero_velocity_endpoint_padding": false
+                  },
+                  "angular_velocity": {
+                    "peak_value": 0.0017925631513095298,
+                    "threshold": 0.25,
+                    "peak_threshold_ratio": 0.007170252605238119,
+                    "margin": 0.24820743684869048,
+                    "peak_k": 10,
+                    "first_exceedance_k": null,
+                    "exceedance_indices": [],
+                    "prefix_peak": 0.0017583782955402738,
+                    "suffix_peak": 0.0017925631513095298,
+                    "zero_velocity_endpoint_padding": false
+                  },
+                  "finger_velocity": {
+                    "peak_value": 0.045214451947134526,
+                    "threshold": 0.04,
+                    "peak_threshold_ratio": 1.130361298678363,
+                    "margin": -0.0052144519471345255,
+                    "peak_k": 27,
+                    "first_exceedance_k": 27,
+                    "exceedance_indices": [
+                      27
+                    ],
+                    "prefix_peak": 0.018369378670320402,
+                    "suffix_peak": 0.045214451947134526,
+                    "zero_velocity_endpoint_padding": false
+                  },
+                  "linear_acceleration": {
+                    "peak_value": 0.06830876422171166,
+                    "threshold": 0.25,
+                    "peak_threshold_ratio": 0.27323505688684663,
+                    "margin": 0.18169123577828833,
+                    "peak_k": 0,
+                    "first_exceedance_k": null,
+                    "exceedance_indices": [],
+                    "prefix_peak": 0.06830876422171166,
+                    "suffix_peak": 0.06639327525019861,
+                    "zero_velocity_endpoint_padding": true
+                  },
+                  "angular_acceleration": {
+                    "peak_value": 0.0548700545397335,
+                    "threshold": 1.0,
+                    "peak_threshold_ratio": 0.0548700545397335,
+                    "margin": 0.9451299454602665,
+                    "peak_k": 10,
+                    "first_exceedance_k": null,
+                    "exceedance_indices": [],
+                    "prefix_peak": 0.04175141114164657,
+                    "suffix_peak": 0.0548700545397335,
+                    "zero_velocity_endpoint_padding": true
+                  }
+                },
+                "full_H40_pass": false,
+                "first_point_anchor_gap_m": 0.0013906500341792929,
+                "path_length_m": 0.0022714594584491835,
+                "endpoint_progress_m": 0.0015547079007098275
+              }
+            },
+            "first_temporal_exceedance": {
+              "path": "nominal",
+              "channel": "finger_velocity",
+              "k": 27,
+              "time_s": 1.35,
+              "region": "SUFFIX",
+              "first_ratio": 1.130361298678363,
+              "peak_ratio": 1.130361298678363,
+              "order": 2
+            },
+            "original_short_circuit_component": {
+              "path": "nominal",
+              "channel": "finger_velocity",
+              "k": 27,
+              "time_s": 1.35,
+              "region": "SUFFIX",
+              "first_ratio": 1.130361298678363,
+              "peak_ratio": 1.130361298678363,
+              "order": 2
+            },
+            "rotation_derivative": "RELATIVE_SO3_LOG_NOT_EULER",
+            "dt_s": 0.05,
+            "prefix_suffix_index_definition": "k<10 prefix; k=10 replan join; acceleration39 is last-segment-to-rest; velocity k is segment k to k+1",
+            "full_suffix_gate_retained": true
+          }
+        },
+        {
+          "index": 670,
+          "noise": 1,
+          "phase": "CLOSE",
+          "envelope": {
+            "original_full_H40_pass": false,
+            "paths": {
+              "nominal": {
+                "channels": {
+                  "linear_velocity": {
+                    "peak_value": 0.0034979429198444697,
+                    "threshold": 0.05,
+                    "peak_threshold_ratio": 0.0699588583968894,
+                    "margin": 0.046502057080155534,
+                    "peak_k": 0,
+                    "first_exceedance_k": null,
+                    "exceedance_indices": [],
+                    "prefix_peak": 0.0034979429198444697,
+                    "suffix_peak": 0.0018569686379361016,
+                    "zero_velocity_endpoint_padding": false
+                  },
+                  "angular_velocity": {
+                    "peak_value": 0.0021724121752592423,
+                    "threshold": 0.25,
+                    "peak_threshold_ratio": 0.00868964870103697,
+                    "margin": 0.24782758782474076,
+                    "peak_k": 0,
+                    "first_exceedance_k": null,
+                    "exceedance_indices": [],
+                    "prefix_peak": 0.0021724121752592423,
+                    "suffix_peak": 0.002063715689049927,
+                    "zero_velocity_endpoint_padding": false
+                  },
+                  "finger_velocity": {
+                    "peak_value": 0.042657030286894076,
+                    "threshold": 0.04,
+                    "peak_threshold_ratio": 1.0664257571723519,
+                    "margin": -0.0026570302868940757,
+                    "peak_k": 27,
+                    "first_exceedance_k": 27,
+                    "exceedance_indices": [
+                      27
+                    ],
+                    "prefix_peak": 0.015484494668297488,
+                    "suffix_peak": 0.042657030286894076,
+                    "zero_velocity_endpoint_padding": false
+                  },
+                  "linear_acceleration": {
+                    "peak_value": 0.0699588583968894,
+                    "threshold": 0.25,
+                    "peak_threshold_ratio": 0.2798354335875576,
+                    "margin": 0.1800411416031106,
+                    "peak_k": 0,
+                    "first_exceedance_k": null,
+                    "exceedance_indices": [],
+                    "prefix_peak": 0.0699588583968894,
+                    "suffix_peak": 0.06576225380750114,
+                    "zero_velocity_endpoint_padding": true
+                  },
+                  "angular_acceleration": {
+                    "peak_value": 0.05371542965337178,
+                    "threshold": 1.0,
+                    "peak_threshold_ratio": 0.05371542965337178,
+                    "margin": 0.9462845703466283,
+                    "peak_k": 10,
+                    "first_exceedance_k": null,
+                    "exceedance_indices": [],
+                    "prefix_peak": 0.04344824350518484,
+                    "suffix_peak": 0.05371542965337178,
+                    "zero_velocity_endpoint_padding": true
+                  }
+                },
+                "full_H40_pass": false,
+                "first_point_anchor_gap_m": 0.0014349038093969594,
+                "path_length_m": 0.0020882001039745687,
+                "endpoint_progress_m": 0.001090343148647167
+              },
+              "reference": {
+                "channels": {
+                  "linear_velocity": {
+                    "peak_value": 0.0034979429198432007,
+                    "threshold": 0.05,
+                    "peak_threshold_ratio": 0.06995885839686401,
+                    "margin": 0.046502057080156804,
+                    "peak_k": 0,
+                    "first_exceedance_k": null,
+                    "exceedance_indices": [],
+                    "prefix_peak": 0.0034979429198432007,
+                    "suffix_peak": 0.0018569686379361016,
+                    "zero_velocity_endpoint_padding": false
+                  },
+                  "angular_velocity": {
+                    "peak_value": 0.0021724121752591252,
+                    "threshold": 0.25,
+                    "peak_threshold_ratio": 0.008689648701036501,
+                    "margin": 0.24782758782474087,
+                    "peak_k": 0,
+                    "first_exceedance_k": null,
+                    "exceedance_indices": [],
+                    "prefix_peak": 0.0021724121752591252,
+                    "suffix_peak": 0.0020637156890494714,
+                    "zero_velocity_endpoint_padding": false
+                  },
+                  "finger_velocity": {
+                    "peak_value": 0.042657030286894076,
+                    "threshold": 0.04,
+                    "peak_threshold_ratio": 1.0664257571723519,
+                    "margin": -0.0026570302868940757,
+                    "peak_k": 27,
+                    "first_exceedance_k": 27,
+                    "exceedance_indices": [
+                      27
+                    ],
+                    "prefix_peak": 0.015484494668297488,
+                    "suffix_peak": 0.042657030286894076,
+                    "zero_velocity_endpoint_padding": false
+                  },
+                  "linear_acceleration": {
+                    "peak_value": 0.06995885839686403,
+                    "threshold": 0.25,
+                    "peak_threshold_ratio": 0.2798354335874561,
+                    "margin": 0.18004114160313597,
+                    "peak_k": 0,
+                    "first_exceedance_k": null,
+                    "exceedance_indices": [],
+                    "prefix_peak": 0.06995885839686403,
+                    "suffix_peak": 0.06576225380752229,
+                    "zero_velocity_endpoint_padding": true
+                  },
+                  "angular_acceleration": {
+                    "peak_value": 0.05371542965337298,
+                    "threshold": 1.0,
+                    "peak_threshold_ratio": 0.05371542965337298,
+                    "margin": 0.946284570346627,
+                    "peak_k": 10,
+                    "first_exceedance_k": null,
+                    "exceedance_indices": [],
+                    "prefix_peak": 0.0434482435051825,
+                    "suffix_peak": 0.05371542965337298,
+                    "zero_velocity_endpoint_padding": true
+                  }
+                },
+                "full_H40_pass": false,
+                "first_point_anchor_gap_m": 0.0014349038093969594,
+                "path_length_m": 0.0020882001039747586,
+                "endpoint_progress_m": 0.001090343148647167
+              }
+            },
+            "first_temporal_exceedance": {
+              "path": "nominal",
+              "channel": "finger_velocity",
+              "k": 27,
+              "time_s": 1.35,
+              "region": "SUFFIX",
+              "first_ratio": 1.0664257571723519,
+              "peak_ratio": 1.0664257571723519,
+              "order": 2
+            },
+            "original_short_circuit_component": {
+              "path": "nominal",
+              "channel": "finger_velocity",
+              "k": 27,
+              "time_s": 1.35,
+              "region": "SUFFIX",
+              "first_ratio": 1.0664257571723519,
+              "peak_ratio": 1.0664257571723519,
+              "order": 2
+            },
+            "rotation_derivative": "RELATIVE_SO3_LOG_NOT_EULER",
+            "dt_s": 0.05,
+            "prefix_suffix_index_definition": "k<10 prefix; k=10 replan join; acceleration39 is last-segment-to-rest; velocity k is segment k to k+1",
+            "full_suffix_gate_retained": true
+          }
+        }
+      ]
+    },
+    "A": {
+      "updates": 500,
+      "visits": 16000,
+      "source_visits": 0,
+      "restore_arrays": 87,
+      "step500_sha256": "8fa3a78ff8abd88483747505cdc9383651b60fa3b3c05e278cfa3948eea62684",
+      "package_sha256": "a4b4b0dc2746d28f493c982e6aa65a915c8ebeebb237e6960b5297afeff16ab8",
+      "RGB16_exact": 16,
+      "training_full_generations": 2000,
+      "qualification_generations": 12,
+      "wall_s": 5484.903684522957,
+      "CPU_s": 3992.9043029289996
+    },
+    "B_step_zero": {
+      "checked": 87,
+      "nonshared_exact": 67,
+      "imported_lora": 20,
+      "changed_lora_keys": 20,
+      "proof_sha256": "515e5200a2e756e7ddcf7e415c3f8d6177485ec897d6b345ec3f10b5751975e3",
+      "visit_map_sha256": "a151bfca90511a5fee70398aa50616472f989cbf41cdd899ca93d569a24040af"
+    },
+    "original_site_spec_sha256": "32c26f28f27d46bb6c34db67831534e63180d899c03bddc0df5a91de44bef690",
+    "cutoff": 1795027509.0
+  },
+  "D4_B_latest_durable_progress": {
+    "arm": "D4-B",
+    "updates": 38,
+    "visits": 1216,
+    "emitted_progress_update": 30,
+    "emitted_progress_counters": {
+      "actual_parent_loads": 1,
+      "forward_backward_attempts": 240,
+      "completed_forward_backward": 240,
+      "optimizer_updates": 30,
+      "attempted_training_visits": 960,
+      "completed_training_visits": 960,
+      "ordinary_RGB_generation_attempts": 0,
+      "ordinary_RGB_generations": 0,
+      "physical_requests": 0,
+      "diagnostic_FM_backward_attempts": 1,
+      "diagnostic_full_generation_attempts": 4,
+      "diagnostic_full_trajectory_backward_attempts": 4,
+      "diagnostic_full_generations": 4,
+      "diagnostic_completed_full_trajectory_backwards": 4,
+      "diagnostic_sampler_comparison_attempts": 8,
+      "diagnostic_sampler_comparison_generations": 8,
+      "diagnostic_FM_backward_completed": 1,
+      "host_window_read_attempts": 960,
+      "host_window_reads": 960,
+      "training_full_generation_attempts": 120,
+      "training_full_trajectory_backward_attempts": 120,
+      "training_full_generations": 120,
+      "training_completed_full_trajectory_backwards": 120,
+      "optimizer_update_attempts": 30
+    },
+    "training_endpoint_closed": false
   }
 }
