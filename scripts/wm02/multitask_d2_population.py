@@ -58,8 +58,9 @@ def population(cards, prior):
 
 
 def compile_d2(spec):
-    from go2arx5_vla.world_model.multitask_scope_v6 import read_pin
+    import json
+    from .multitask_binding_audit_v6 import pinned
 
-    original = read_pin(spec['prior_compiled_population'])
+    original = json.loads(pinned(spec['prior_compiled_population']).read_bytes())
     result = population(spec['prototype_cards'],original)
     return compile_population(spec,proposed=result)
