@@ -39,6 +39,12 @@ def matrix_still_possible(cases, sealed, minimum=2):
     return all(successes[cell]+n >= minimum for cell,n in remaining.items())
 
 
+def paired_dispatch_allowed(case, active_cases):
+    """Start each registered STOP pair after the previous owned pair exits."""
+    pair = case.get('d2_stop_pair')
+    return all(c.get('d2_stop_pair')==pair for c in active_cases)
+
+
 def verify_g7_capture(case, result):
     from scripts.sla.multitask_g7_capture_v6 import copy_shards, read_capture
 
@@ -189,7 +195,8 @@ def run(spec_path, spec):
                     while head is not None:
                         case_index,(path,case) = head
                         slot = case['d2_world_id']
-                        if slot in busy:
+                        if slot in busy or not paired_dispatch_allowed(
+                                case, (item for _,item in active.values())):
                             break
                         future = executor.submit(finish_case,case_index,path,case,owners[slot].handle.fileno())
                         active[future] = (case_index,case)

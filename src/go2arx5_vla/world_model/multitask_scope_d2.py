@@ -100,9 +100,13 @@ def validate(spec, *, before_spawn=False):
                            or item['motion'] not in ('STABLE','SMALL_EEF')))):
         raise PermissionError('D2_EXACT_PREREGISTERED_CASE')
     local_stop=spec.get('d2_stop_at_task_tick')
+    stop_pair=spec.get('d2_stop_pair')
     if local_stop != item.get('stop_at_task_tick') or (local_stop is not None and (
             not probe or spec['d2_profile']!='LEGACY_N2' or local_stop!=1500)):
         raise PermissionError('D2_EXACT_PREREGISTERED_ENGINEERING_STOP')
+    if (stop_pair != item.get('stop_pair') or (stop_pair is not None and (
+            not probe or spec['d2_profile']!='LEGACY_N2' or stop_pair not in (1,2)))):
+        raise PermissionError('D2_EXACT_PREREGISTERED_STOP_PAIR_BATCH')
     if not probe:
         runtime = spec['d2_g7_runtime']
         if (runtime['environment']['CUDA_VISIBLE_DEVICES'] != ''

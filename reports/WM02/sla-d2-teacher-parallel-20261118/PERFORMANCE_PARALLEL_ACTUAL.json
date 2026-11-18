@@ -291,5 +291,552 @@
   "training_updates": 0,
   "optimization_visits": 0,
   "model_generations": 0,
-  "new_hardware_requests": 0
+  "new_hardware_requests": 0,
+  "parallel_terminal": {
+    "observation_epoch": 1794987769.0094848,
+    "lease": "CLOSED",
+    "cgroup_members": 0,
+    "main_pid": 0,
+    "matched": {
+      "campaign_result_sha256": "49e495f3e6c9e124689292bd60fb99e3a6e8682806387bf642443a0f5d104ff9",
+      "source_sha": "566e8218b53166ae3db3c247ece074ad7b4ab03e",
+      "tolerance_sha256": "6da63587addd8d9e35d36ce09191593de9dba46b2cee9b47266beeb71df0fc0a",
+      "original_native_counts": {
+        "requests": 12,
+        "ticks": 121436,
+        "technical": 0,
+        "native_stop": 0,
+        "unstarted": 0
+      },
+      "matches": [
+        {
+          "case": "D2-E-LEGACY-N2-F1-STABLE-R1",
+          "first_failure": null,
+          "world": "W1",
+          "cpu_affinity": [
+            10,
+            11
+          ],
+          "ros_domain": 198,
+          "actual_ticks": 10703,
+          "original_native_request": 1,
+          "hard_STOP": false,
+          "technical": false,
+          "wall_s": 140.31357357092202,
+          "result_sha256": "cff31b08f7f0cca168ab99c52ae16530b52a7dacf4d36be17886e6adf31120bb",
+          "protocol_pass": true,
+          "trace": "RECORDED_TRACE_CHECKS_PASS",
+          "whole_world_cpu_core_s_sampled_lower_bound": 133.89,
+          "peak_world_process_sum_PSS_KiB": 2310218,
+          "peak_world_tmpfs_bytes": 78101499,
+          "matched_atom_clocks": true,
+          "native_RGB_pair_count": 20,
+          "state_max_difference": {
+            "EEF_translation_m": 0.002080255296888277,
+            "EEF_angle_rad": 0.004634516413186635,
+            "mount_translation_m": 0.0015156071715512168,
+            "mount_angle_rad": 0.002314070691506773,
+            "jaw_fraction": 0.0
+          },
+          "preregistered_tolerance": {
+            "EEF_translation_m": 0.0025152321752068725,
+            "EEF_angle_rad": 0.017453292519943295,
+            "mount_translation_m": 0.002185499738484875,
+            "mount_angle_rad": 0.017453292519943295,
+            "jaw_fraction": 0.001
+          },
+          "engineering_repeat_tolerance_pass": true,
+          "first_unexpected_grasp": null
+        },
+        {
+          "case": "D2-E-LEGACY-N2-F2-STABLE-R1",
+          "first_failure": null,
+          "world": "W2",
+          "cpu_affinity": [
+            12,
+            13
+          ],
+          "ros_domain": 197,
+          "actual_ticks": 10703,
+          "original_native_request": 1,
+          "hard_STOP": false,
+          "technical": false,
+          "wall_s": 140.90002375096083,
+          "result_sha256": "defca8320cc6ce0b5a452423cfd1fd422acd1bb7492c25b54eb19799a3a58695",
+          "protocol_pass": true,
+          "trace": "RECORDED_TRACE_CHECKS_PASS",
+          "whole_world_cpu_core_s_sampled_lower_bound": 133.89,
+          "peak_world_process_sum_PSS_KiB": 2307260,
+          "peak_world_tmpfs_bytes": 78339126,
+          "matched_atom_clocks": true,
+          "native_RGB_pair_count": 20,
+          "state_max_difference": {
+            "EEF_translation_m": 0.0076578687705037415,
+            "EEF_angle_rad": 0.01191662589478529,
+            "mount_translation_m": 0.007945724467552909,
+            "mount_angle_rad": 0.01662175604398859,
+            "jaw_fraction": 0.0
+          },
+          "preregistered_tolerance": {
+            "EEF_translation_m": 0.005999447781465302,
+            "EEF_angle_rad": 0.0226721509438131,
+            "mount_translation_m": 0.011078147106107416,
+            "mount_angle_rad": 0.03166960249425338,
+            "jaw_fraction": 0.001
+          },
+          "engineering_repeat_tolerance_pass": false,
+          "first_unexpected_grasp": null
+        },
+        {
+          "case": "D2-E-LEGACY-N2-F1-SMALL_EEF-R1",
+          "first_failure": null,
+          "world": "W1",
+          "cpu_affinity": [
+            10,
+            11
+          ],
+          "ros_domain": 198,
+          "actual_ticks": 10703,
+          "original_native_request": 1,
+          "hard_STOP": false,
+          "technical": false,
+          "wall_s": 139.58180917985737,
+          "result_sha256": "3478fedc72012022681382d501cfb043234b564c9e508c94e9eafe8c880fa41c",
+          "protocol_pass": true,
+          "trace": "RECORDED_TRACE_CHECKS_PASS",
+          "whole_world_cpu_core_s_sampled_lower_bound": 135.49,
+          "peak_world_process_sum_PSS_KiB": 2307944,
+          "peak_world_tmpfs_bytes": 77392446,
+          "matched_atom_clocks": true,
+          "native_RGB_pair_count": 20,
+          "state_max_difference": {
+            "EEF_translation_m": 0.00199805809666143,
+            "EEF_angle_rad": 0.00449768116389573,
+            "mount_translation_m": 0.0015795699005943136,
+            "mount_angle_rad": 0.0035654044533046715,
+            "jaw_fraction": 0.0
+          },
+          "preregistered_tolerance": {
+            "EEF_translation_m": 0.0040381210413138425,
+            "EEF_angle_rad": 0.017453292519943295,
+            "mount_translation_m": 0.0031203193680729565,
+            "mount_angle_rad": 0.017453292519943295,
+            "jaw_fraction": 0.001
+          },
+          "engineering_repeat_tolerance_pass": true,
+          "first_unexpected_grasp": null
+        },
+        {
+          "case": "D2-E-LEGACY-N2-F2-SMALL_EEF-R1",
+          "first_failure": null,
+          "world": "W2",
+          "cpu_affinity": [
+            12,
+            13
+          ],
+          "ros_domain": 197,
+          "actual_ticks": 10703,
+          "original_native_request": 1,
+          "hard_STOP": false,
+          "technical": false,
+          "wall_s": 141.18373947963119,
+          "result_sha256": "7c2a31623360e8f7f27ab6161de3e94aad2ecca0042572a3969a5f37f833b913",
+          "protocol_pass": true,
+          "trace": "RECORDED_TRACE_CHECKS_PASS",
+          "whole_world_cpu_core_s_sampled_lower_bound": 134.33,
+          "peak_world_process_sum_PSS_KiB": 2364246,
+          "peak_world_tmpfs_bytes": 78493686,
+          "matched_atom_clocks": true,
+          "native_RGB_pair_count": 20,
+          "state_max_difference": {
+            "EEF_translation_m": 0.0062371715989939765,
+            "EEF_angle_rad": 0.009027627341906787,
+            "mount_translation_m": 0.004760620839638786,
+            "mount_angle_rad": 0.010465787095853473,
+            "jaw_fraction": 0.0
+          },
+          "preregistered_tolerance": {
+            "EEF_translation_m": 0.01017728480458699,
+            "EEF_angle_rad": 0.018870459958318493,
+            "mount_translation_m": 0.0077012046843688295,
+            "mount_angle_rad": 0.024521885853891402,
+            "jaw_fraction": 0.001
+          },
+          "engineering_repeat_tolerance_pass": true,
+          "first_unexpected_grasp": null
+        },
+        {
+          "case": "D2-E-LEGACY-N2-F2-SMALL_EEF-R2",
+          "first_failure": null,
+          "world": "W1",
+          "cpu_affinity": [
+            10,
+            11
+          ],
+          "ros_domain": 198,
+          "actual_ticks": 10703,
+          "original_native_request": 1,
+          "hard_STOP": false,
+          "technical": false,
+          "wall_s": 139.54337337519974,
+          "result_sha256": "89165c05d4f8659704bacca406cbcec6706d81e8da4ea8dbacbf855837572f59",
+          "protocol_pass": true,
+          "trace": "RECORDED_TRACE_CHECKS_PASS",
+          "whole_world_cpu_core_s_sampled_lower_bound": 135.2,
+          "peak_world_process_sum_PSS_KiB": 2303475,
+          "peak_world_tmpfs_bytes": 77471406,
+          "matched_atom_clocks": true,
+          "native_RGB_pair_count": 20,
+          "state_max_difference": {
+            "EEF_translation_m": 0.0008649325136799369,
+            "EEF_angle_rad": 0.001868679985916694,
+            "mount_translation_m": 0.0008321912420443276,
+            "mount_angle_rad": 0.003019627799617779,
+            "jaw_fraction": 0.0
+          },
+          "preregistered_tolerance": {
+            "EEF_translation_m": 0.01017728480458699,
+            "EEF_angle_rad": 0.018870459958318493,
+            "mount_translation_m": 0.0077012046843688295,
+            "mount_angle_rad": 0.024521885853891402,
+            "jaw_fraction": 0.001
+          },
+          "engineering_repeat_tolerance_pass": true,
+          "first_unexpected_grasp": null
+        },
+        {
+          "case": "D2-E-LEGACY-N2-F1-SMALL_EEF-R2",
+          "first_failure": null,
+          "world": "W2",
+          "cpu_affinity": [
+            12,
+            13
+          ],
+          "ros_domain": 197,
+          "actual_ticks": 10703,
+          "original_native_request": 1,
+          "hard_STOP": false,
+          "technical": false,
+          "wall_s": 139.40385625511408,
+          "result_sha256": "41d5ed7441e92c9760271d9d0e5ac5174925f891af2681068645823e480ebd71",
+          "protocol_pass": true,
+          "trace": "RECORDED_TRACE_CHECKS_PASS",
+          "whole_world_cpu_core_s_sampled_lower_bound": 135.47,
+          "peak_world_process_sum_PSS_KiB": 2305304,
+          "peak_world_tmpfs_bytes": 77518446,
+          "matched_atom_clocks": true,
+          "native_RGB_pair_count": 20,
+          "state_max_difference": {
+            "EEF_translation_m": 0.0008278237034100836,
+            "EEF_angle_rad": 0.0014682475202017166,
+            "mount_translation_m": 0.000982428234888435,
+            "mount_angle_rad": 0.0014273502816333228,
+            "jaw_fraction": 0.0
+          },
+          "preregistered_tolerance": {
+            "EEF_translation_m": 0.0040381210413138425,
+            "EEF_angle_rad": 0.017453292519943295,
+            "mount_translation_m": 0.0031203193680729565,
+            "mount_angle_rad": 0.017453292519943295,
+            "jaw_fraction": 0.001
+          },
+          "engineering_repeat_tolerance_pass": true,
+          "first_unexpected_grasp": null
+        },
+        {
+          "case": "D2-E-LEGACY-N2-F2-STABLE-R2",
+          "first_failure": null,
+          "world": "W1",
+          "cpu_affinity": [
+            10,
+            11
+          ],
+          "ros_domain": 198,
+          "actual_ticks": 10703,
+          "original_native_request": 1,
+          "hard_STOP": false,
+          "technical": false,
+          "wall_s": 142.0275766439736,
+          "result_sha256": "d218731e1e2e6519fefee50722c4a063e1149e07f625a27365d03b1cff2e1aff",
+          "protocol_pass": true,
+          "trace": "RECORDED_TRACE_CHECKS_PASS",
+          "whole_world_cpu_core_s_sampled_lower_bound": 137.64,
+          "peak_world_process_sum_PSS_KiB": 2312288,
+          "peak_world_tmpfs_bytes": 78458258,
+          "matched_atom_clocks": true,
+          "native_RGB_pair_count": 20,
+          "state_max_difference": {
+            "EEF_translation_m": 0.0030480120662941157,
+            "EEF_angle_rad": 0.011461706727873939,
+            "mount_translation_m": 0.005917776189841904,
+            "mount_angle_rad": 0.017089838159073868,
+            "jaw_fraction": 0.0
+          },
+          "preregistered_tolerance": {
+            "EEF_translation_m": 0.005999447781465302,
+            "EEF_angle_rad": 0.0226721509438131,
+            "mount_translation_m": 0.011078147106107416,
+            "mount_angle_rad": 0.03166960249425338,
+            "jaw_fraction": 0.001
+          },
+          "engineering_repeat_tolerance_pass": true,
+          "first_unexpected_grasp": null
+        },
+        {
+          "case": "D2-E-LEGACY-N2-F1-STABLE-R2",
+          "first_failure": null,
+          "world": "W2",
+          "cpu_affinity": [
+            12,
+            13
+          ],
+          "ros_domain": 197,
+          "actual_ticks": 10703,
+          "original_native_request": 1,
+          "hard_STOP": false,
+          "technical": false,
+          "wall_s": 140.13182623125613,
+          "result_sha256": "5f45761a15fa5b1307784f3de2c57139e9e26768ab5c76ff0950ab04053918f2",
+          "protocol_pass": true,
+          "trace": "RECORDED_TRACE_CHECKS_PASS",
+          "whole_world_cpu_core_s_sampled_lower_bound": 136.21,
+          "peak_world_process_sum_PSS_KiB": 2314183,
+          "peak_world_tmpfs_bytes": 77616579,
+          "matched_atom_clocks": true,
+          "native_RGB_pair_count": 20,
+          "state_max_difference": {
+            "EEF_translation_m": 0.0006436829693411181,
+            "EEF_angle_rad": 0.0017701618686572081,
+            "mount_translation_m": 0.0006696894029383823,
+            "mount_angle_rad": 0.001756931989462611,
+            "jaw_fraction": 0.0
+          },
+          "preregistered_tolerance": {
+            "EEF_translation_m": 0.0025152321752068725,
+            "EEF_angle_rad": 0.017453292519943295,
+            "mount_translation_m": 0.002185499738484875,
+            "mount_angle_rad": 0.017453292519943295,
+            "jaw_fraction": 0.001
+          },
+          "engineering_repeat_tolerance_pass": true,
+          "first_unexpected_grasp": null
+        }
+      ],
+      "STOP_isolation": [
+        {
+          "case": "D2-E-ISOLATED-STOP-1-W1",
+          "first_failure": null,
+          "world": "W1",
+          "cpu_affinity": [
+            10,
+            11
+          ],
+          "ros_domain": 198,
+          "actual_ticks": 7203,
+          "original_native_request": 1,
+          "hard_STOP": false,
+          "technical": false,
+          "wall_s": 86.0402838550508,
+          "result_sha256": "7993418acad27ac427910a712314ae3b9ccecbafbb4ffda23bb90c1c30282ed4",
+          "protocol_pass": true,
+          "trace": "RECORDED_TRACE_CHECKS_PASS",
+          "whole_world_cpu_core_s_sampled_lower_bound": 79.64,
+          "peak_world_process_sum_PSS_KiB": 2060833,
+          "peak_world_tmpfs_bytes": 51522254,
+          "project_STOP_pass": true,
+          "STOP_epoch": 1794987547.3671684,
+          "peer_expected_to_continue": false,
+          "launch_epoch": 1794987463.3047583,
+          "close_epoch": 1794987549.692897
+        },
+        {
+          "case": "D2-E-ISOLATED-STOP-1-W2",
+          "first_failure": null,
+          "world": "W2",
+          "cpu_affinity": [
+            12,
+            13
+          ],
+          "ros_domain": 197,
+          "actual_ticks": 10703,
+          "original_native_request": 1,
+          "hard_STOP": false,
+          "technical": false,
+          "wall_s": 142.46708763111383,
+          "result_sha256": "5f4c1d987bcb4b1a357e71fd5136f492cfd60697ca51b98cb0d34a79f8f5d5b0",
+          "protocol_pass": true,
+          "trace": "RECORDED_TRACE_CHECKS_PASS",
+          "whole_world_cpu_core_s_sampled_lower_bound": 135.96,
+          "peak_world_process_sum_PSS_KiB": 2315011,
+          "peak_world_tmpfs_bytes": 78407139,
+          "project_STOP_pass": true,
+          "peer_expected_to_continue": true,
+          "launch_epoch": 1794987463.3039181,
+          "close_epoch": 1794987606.124571
+        },
+        {
+          "case": "D2-E-ISOLATED-STOP-2-W1",
+          "first_failure": null,
+          "world": "W1",
+          "cpu_affinity": [
+            10,
+            11
+          ],
+          "ros_domain": 198,
+          "actual_ticks": 10703,
+          "original_native_request": 1,
+          "hard_STOP": false,
+          "technical": false,
+          "wall_s": 140.9061931502074,
+          "result_sha256": "ad46dc78ae944fdc0561cf21e78220c46de085b6a0d24b169f1ea38b89a5ab79",
+          "protocol_pass": true,
+          "trace": "RECORDED_TRACE_CHECKS_PASS",
+          "whole_world_cpu_core_s_sampled_lower_bound": 134.44,
+          "peak_world_process_sum_PSS_KiB": 2306303,
+          "peak_world_tmpfs_bytes": 78318966,
+          "project_STOP_pass": true,
+          "peer_expected_to_continue": true,
+          "launch_epoch": 1794987550.3536003,
+          "close_epoch": 1794987691.6181989
+        },
+        {
+          "case": "D2-E-ISOLATED-STOP-2-W2",
+          "first_failure": null,
+          "world": "W2",
+          "cpu_affinity": [
+            12,
+            13
+          ],
+          "ros_domain": 197,
+          "actual_ticks": 7203,
+          "original_native_request": 1,
+          "hard_STOP": false,
+          "technical": false,
+          "wall_s": 85.00589429307729,
+          "result_sha256": "274ac952aaf6b4c8c4ba32a46924efd99f9f319570ca5d40d7745167dbd6210b",
+          "protocol_pass": true,
+          "trace": "RECORDED_TRACE_CHECKS_PASS",
+          "whole_world_cpu_core_s_sampled_lower_bound": 77.95,
+          "peak_world_process_sum_PSS_KiB": 2060893,
+          "peak_world_tmpfs_bytes": 51496359,
+          "project_STOP_pass": true,
+          "STOP_epoch": 1794987690.316933,
+          "peer_expected_to_continue": false,
+          "launch_epoch": 1794987607.1364028,
+          "close_epoch": 1794987692.488229
+        }
+      ],
+      "N1_active_wall_s": 1128.4829568341374,
+      "N2_first_to_last_matched_wall_s": 566.2368988990784,
+      "N2_over_N1_speedup": 1.9929519941710288,
+      "new_effects_for_this_readback": {
+        "native": 0,
+        "integrations": 0,
+        "training": 0,
+        "generations": 0
+      }
+    },
+    "STOP_alignment": {
+      "pair_runs": [
+        [
+          {
+            "world": "D2-E-ISOLATED-STOP-1-W1",
+            "native_steps": 7203,
+            "stop_wall_epoch": 1794987547.3671684,
+            "last_tick_wall_epoch_from_same_host_monotonic": 1794987547.201407,
+            "last_tick_relative_to_project_STOP_s": -0.16576147079467773,
+            "first_step_after": [],
+            "integrations_after_marker": 0,
+            "max_offset_sampling_variation_ns": 123
+          },
+          {
+            "world": "D2-E-ISOLATED-STOP-1-W2",
+            "native_steps": 10703,
+            "stop_wall_epoch": 1794987547.3671684,
+            "last_tick_wall_epoch_from_same_host_monotonic": 1794987603.2635136,
+            "last_tick_relative_to_project_STOP_s": 55.896345138549805,
+            "first_step_after": [
+              7179
+            ],
+            "integrations_after_marker": 3525,
+            "max_offset_sampling_variation_ns": 123
+          }
+        ],
+        [
+          {
+            "world": "D2-E-ISOLATED-STOP-2-W2",
+            "native_steps": 7203,
+            "stop_wall_epoch": 1794987690.316933,
+            "last_tick_wall_epoch_from_same_host_monotonic": 1794987690.1423616,
+            "last_tick_relative_to_project_STOP_s": -0.17457127571105957,
+            "first_step_after": [],
+            "integrations_after_marker": 0,
+            "max_offset_sampling_variation_ns": 123
+          },
+          {
+            "world": "D2-E-ISOLATED-STOP-2-W1",
+            "native_steps": 10703,
+            "stop_wall_epoch": 1794987690.316933,
+            "last_tick_wall_epoch_from_same_host_monotonic": 1794987688.872413,
+            "last_tick_relative_to_project_STOP_s": -1.4445199966430664,
+            "first_step_after": [],
+            "integrations_after_marker": 0,
+            "max_offset_sampling_variation_ns": 123
+          }
+        ]
+      ],
+      "new_native_requests": 0,
+      "readback_clock_scope": "Same Core monotonic mapped to wall by current paired samples"
+    },
+    "independent_live_worlds": [
+      {
+        "id": "W1",
+        "case": "D2-E-LEGACY-N2-F2-SMALL_EEF-R2",
+        "worker_pid": 2177179,
+        "child_pids": [
+          2177198,
+          2177208,
+          2177210,
+          2177211
+        ],
+        "cpus": [
+          10,
+          11
+        ],
+        "actual_ros_domain": "198",
+        "actual_step": 2475,
+        "spec_sha256": "6e6c994a3ef0732337444f184feb8102a29351406579da56762cd147998465a7"
+      },
+      {
+        "id": "W2",
+        "case": "D2-E-LEGACY-N2-F1-SMALL_EEF-R2",
+        "worker_pid": 2177452,
+        "child_pids": [
+          2177532,
+          2177542,
+          2177544,
+          2177555
+        ],
+        "cpus": [
+          12,
+          13
+        ],
+        "actual_ros_domain": "197",
+        "actual_step": 1950,
+        "spec_sha256": "edf6e2679485285c47a807026362cedeacc19d9e74d0daf5345a5ef79f8f340f"
+      }
+    ],
+    "matched_state_tolerance_passes": 7,
+    "matched_state_tolerance_denominator": 8,
+    "failed_match": "F2 STABLE R1 EEF translation 7.658mm versus fixed 5.999mm",
+    "local_STOP_zero_post_ticks": 2,
+    "paired_sibling_continued_after_STOP": 1,
+    "paired_denominator": 2,
+    "second_peer_already_finished_before_STOP_s": 1.44452,
+    "promoted_science_backend": false
+  },
+  "combined_native_request_denominator": 20,
+  "combined_native_ticks": 207060,
+  "selected_science_backend": "LEGACY_N1",
+  "new_scientific_requests_in_E": 0
 }

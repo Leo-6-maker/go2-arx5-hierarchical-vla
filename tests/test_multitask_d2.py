@@ -69,3 +69,13 @@ def test_world_queue_separate_bounded_requests_and_round_robin(tmp_path):
     write(a['live_path'],dict(cancelled=True,stop=False))
     queue.publish('W1',c)
     assert queue.next({route['request_id'],two['request']['request_id']})['d2_route']['native_step']==5953
+
+
+def test_stop_pair_waits_for_both_slots_before_next_pair():
+    from scripts.wm02.multitask_d2_campaign import paired_dispatch_allowed
+
+    normal, pair_one, pair_two = {}, {'d2_stop_pair':1}, {'d2_stop_pair':2}
+    assert not paired_dispatch_allowed(pair_one,[normal])
+    assert paired_dispatch_allowed(pair_one,[pair_one])
+    assert not paired_dispatch_allowed(pair_two,[pair_one])
+    assert paired_dispatch_allowed(pair_two,[])

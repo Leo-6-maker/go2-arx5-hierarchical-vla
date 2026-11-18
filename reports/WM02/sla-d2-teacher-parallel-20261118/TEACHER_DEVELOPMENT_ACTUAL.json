@@ -1,0 +1,48 @@
+{
+  "schema": "SLA_D2_DEVELOPMENT_ACTUAL",
+  "observation_epoch": 1794987982.6547396,
+  "status": "NATIVE_BLOCK1_IN_FLIGHT",
+  "source_sha": "1e3e370203857d9a63899e35d96153dc77185a37",
+  "source_seal": "421d20bae377644e1ebadbd5aa0dd7eef050002d6f8cb641663ee7dfbbaefafe",
+  "registered_spec_sha256": "d9d38299926b1469160b201069068b4d02d48946c1a7799e6bb5368d827d3998",
+  "plan_commit": "2352547871684c7617c2c89754fbf9c70a534abb",
+  "population_sha256": "242c37568579c0b08e4839542cd845ed4c96dc8bc223b3cd7f6c4c88cc8aca39",
+  "cohort": {
+    "registered_all": 24,
+    "registered_block1": 12,
+    "registered_block2": 12,
+    "native_dispatched_lower_bound": 1,
+    "native_requests_sealed": 0,
+    "complete_place_successes": 0,
+    "task_successes": 0,
+    "G7_eligible": 0,
+    "awaiting_native_outcome": 1
+  },
+  "owned_server": {
+    "unit": "wm02-sla-d2-teacher-development-b1-20261118-01",
+    "invocation": "fe62ae5fcd104b8d9cdef1af1bf7571a",
+    "MainPID": 2192202,
+    "live_child_pid": 2192240,
+    "child_native_observed_tick": 5953,
+    "lease": "ACTIVE",
+    "frontend_dependency": false,
+    "deadline_epoch": 1794998715.3374267
+  },
+  "independent_g7_CPU_regression_previous_case": {
+    "actual_RGB_pairs": 127,
+    "actual_P10_atoms": 1270,
+    "verified_cold_case": "M-TEACHER-F1-1-PLACE-red-right",
+    "required_export_source_hash": "19758e72f8604bb0ee8c350729978623c3bac58d828d7d51b4554ed088dcba73",
+    "new_native_integrations": 0,
+    "new_model_generations": 0,
+    "statistics_fitted": false,
+    "independent_python_executable_sha256": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f"
+  },
+  "new_training_updates": 0,
+  "new_optimization_visits": 0,
+  "new_SLA_generations": 0,
+  "new_qualification_requests": 0,
+  "new_student_requests": 0,
+  "new_hardware_requests": 0,
+  "next": "Collect full outcomes for new fixed block, independently check exact current RGB/nominal H40/native P10 per successful case"
+}
