@@ -2849,6 +2849,224 @@
       "forbidden_clearance_retained": 16,
       "bilateral_and_clearance_retained": 0,
       "physical_robustness_proven": false
+    },
+    "F2_fixed_root_endpoint_side_diagnostic": {
+      "epoch": 1794970042.3174453,
+      "case": "M-TEACHER-F2-0-PLACE-red-right",
+      "actual_root_step": 20453,
+      "original_certificate_sha256": "5a92891ee923e9dbd68312e03c5387d71a8a9a775f1beda39f68bb8bd9f657ca",
+      "source_capture_sha256": "7b806284104237f4ff1cc975cb3defe7920e9b291898c51633703926285221e4",
+      "reachability_scope": "CONSTANT_ENDPOINT_RESOLVE_FROM_ONE_RECORDED_ROOT_NOT_A_TRANSIT_TRAJECTORY",
+      "checks": [
+        {
+          "label": "MEASURED_START_CONTROL",
+          "parameters": {
+            "yaw_delta_degrees": null,
+            "height_delta_mm": null,
+            "planar_offset_mm": null
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2002,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 9.992007221626409e-15,
+            "max_joint_acceleration_rad_s2": 3.3306690738754696e-13,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "UNCHANGED_GOAL",
+          "parameters": {
+            "yaw_delta_degrees": 0,
+            "height_delta_mm": 0,
+            "planar_offset_mm": [
+              0,
+              0
+            ]
+          },
+          "evidence": {
+            "status": "FIXED_ROOT_SIDE_DIAGNOSTIC_REJECT",
+            "reason": "ORIGINAL_FULL_NATIVE_CONTACT_REJECT:[None, 'task_blue_cube_geom']",
+            "contact": {
+              "geom_ids": [
+                73,
+                79
+              ],
+              "geom_names": [
+                null,
+                "task_blue_cube_geom"
+              ],
+              "body_names": [
+                "x5_link6",
+                "task_blue_cube"
+              ],
+              "distance_m": -0.01627607204478307,
+              "planned_native_tick": 0,
+              "planned_TCP": [
+                [
+                  0.9802798686190464,
+                  0.009431000807771393,
+                  0.19738904580545755,
+                  0.37473664157657144
+                ],
+                [
+                  -0.004451379739928528,
+                  0.9996609210394996,
+                  -0.025655957687649826,
+                  0.08085341655687915
+                ],
+                [
+                  -0.19756407669066803,
+                  0.024271365231962945,
+                  0.9799894573061184,
+                  0.6422640249089879
+                ],
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "planned_arm_qpos": [
+                0.05202759308461629,
+                0.5642626657593021,
+                0.3638135862717048,
+                -0.010168355218869501,
+                0.10777830295415006,
+                -0.013824538899229886
+              ]
+            }
+          }
+        },
+        {
+          "label": "STATIC_GEOMETRY_CANDIDATE",
+          "parameters": {
+            "yaw_delta_degrees": -30,
+            "height_delta_mm": 16,
+            "planar_offset_mm": [
+              4,
+              0
+            ]
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2005,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 5.0096183598219435e-05,
+            "max_joint_acceleration_rad_s2": 0.00100192367220725,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "STATIC_GEOMETRY_CANDIDATE",
+          "parameters": {
+            "yaw_delta_degrees": -30,
+            "height_delta_mm": 16,
+            "planar_offset_mm": [
+              0,
+              4
+            ]
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2005,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.0006321759136637684,
+            "max_joint_acceleration_rad_s2": 0.012643518273708354,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "STATIC_GEOMETRY_CANDIDATE",
+          "parameters": {
+            "yaw_delta_degrees": -30,
+            "height_delta_mm": 16,
+            "planar_offset_mm": [
+              0,
+              0
+            ]
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2005,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 6.256404642246416e-05,
+            "max_joint_acceleration_rad_s2": 0.001251280928224463,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        }
+      ],
+      "native_requests": 0,
+      "integrations": 0,
+      "model_generations": 0
+    },
+    "first6_live_readback": {
+      "observed_SGT": "2026-11-18T10:48:08.792254+08:00",
+      "case": {
+        "id": "M-TEACHER-F2-0-PLACE-blue-right",
+        "instruction": "PLACE-blue-right",
+        "started": true,
+        "last_observed_integration": {
+          "step": 16453,
+          "kind": "sample",
+          "time_s": 32.90599999999425
+        },
+        "sealed": false,
+        "last_complete_score": {
+          "native_step": 16453,
+          "base_directional_motion_m": 0.08773350664472275,
+          "ever_target_grasp": false,
+          "ever_target_lift20mm": false,
+          "maximum_lift_m": 0.0,
+          "longest_grasp_lift_hold_s": 0.0,
+          "inside_selected_region": false,
+          "released": true,
+          "gripper_open_fraction": 0.9545419382836559,
+          "TCP_retreat_m": 0.0660663972597649,
+          "longest_stable_released_retreat_s": 0.0,
+          "wrong_object_grasp_ever": false,
+          "events": {
+            "base80mm": {
+              "native_step": 13022,
+              "native_time_s": 26.043999999996444
+            }
+          }
+        },
+        "result_sha256": null,
+        "result": null
+      },
+      "MainPID": "1831676",
+      "verified_live_owner": true,
+      "lease": "ACTIVE"
     }
   }
 }
