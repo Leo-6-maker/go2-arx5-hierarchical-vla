@@ -1,0 +1,295 @@
+{
+  "schema": "SLA_D2_PERFORMANCE_PARALLEL_ACTUAL",
+  "observation_epoch": 1794986940.4305863,
+  "baseline": {
+    "observed_requests": 8,
+    "observed_ticks": 85624,
+    "normal_interface_terminals": 7,
+    "technical_failure": 1,
+    "native_contact_STOP": 0,
+    "wall_s_successor_batch": 988.540240207687,
+    "inactive": true,
+    "closed_lease": "CLOSED",
+    "first_technical": {
+      "epoch": 1794985858.9178717,
+      "native_requests": 1,
+      "native_ticks": 10703,
+      "technical_failure": 1,
+      "source_sha": "d33481ce7f09ad5d66c7a052225adde20f0db91d",
+      "parent_result_sha256": "fe94761a088f4f93c2a4962a0b5209e0121e755670a8c02cdcdf2a32e4dae9c7",
+      "case_spec_sha256": "bc7c4f84efe9f15d04ce01b34a7e8d92608f16e316d3cd4b108ab85151784f7b",
+      "trace_sha256": "75542334eb5ec3ad6c3d4b9a29b2f6df4772ed4c17ea68abdedda6f569c0867d",
+      "native_trace_status": "RECORDED_TRACE_CHECKS_PASS",
+      "integrations_after_STOP": null,
+      "STOP": 0,
+      "first_failure": "D2_OPT_IN_PROFILE_CRASH_IN_LEGACY_TEARDOWN",
+      "ignored_bank_effects": false,
+      "scientific_success": 0,
+      "optimizer_updates": 0,
+      "visits": 0,
+      "generations": 0,
+      "no_replay": true
+    },
+    "rows": [
+      {
+        "case": "D2-E-LEGACY-N1-F2-STABLE-R1",
+        "result_sha": "766041c92a86dcd39f054a8186be1c83fa61d3bb08b7a181f60d51e53aac93fc",
+        "native_ticks": 10703,
+        "physical_requests": 1,
+        "technical_failure": false,
+        "hard_STOP": false,
+        "source_sha": "3816315d1e94053edb6d82fd5e9dba5c0cda35cc",
+        "wall_s": 138.88809460774064,
+        "full_tree_sampled_accounting": {
+          "cpu_ticks": 13345,
+          "read_bytes": 3907584,
+          "write_bytes": 315097088,
+          "observed_process_tree_cpu_core_s_lower_bound": 133.45
+        },
+        "group_cpu_usage_us_including_supervisor": 134418849,
+        "estimated_inclusive_s": {
+          "episode.warmup": 53.022196538,
+          "mobile.post_atom_callbacks_150ms": 49.525293054,
+          "native.advance_to": 44.72068763,
+          "mobile.install_full_H40": 26.07142224,
+          "capture.native_RGB": 9.811560493,
+          "reference.accepted_boundary": 1.142575809,
+          "native.shutdown_and_archive": 0.812332304
+        },
+        "initial_tick": 5703,
+        "measured_native_trace_status": "RECORDED_TRACE_CHECKS_PASS",
+        "native_trace_dropped": 0
+      },
+      {
+        "case": "D2-E-LEGACY-N1-F1-SMALL_EEF-R1",
+        "result_sha": "965261b1a3a2ba10d6b82a976b18f27531e58c5b5926aa22a6337519beb9c4eb",
+        "native_ticks": 10703,
+        "physical_requests": 1,
+        "technical_failure": false,
+        "hard_STOP": false,
+        "source_sha": "3816315d1e94053edb6d82fd5e9dba5c0cda35cc",
+        "wall_s": 139.3227734901011,
+        "full_tree_sampled_accounting": {
+          "cpu_ticks": 13354,
+          "read_bytes": 6770688,
+          "write_bytes": 315535360,
+          "observed_process_tree_cpu_core_s_lower_bound": 133.54
+        },
+        "group_cpu_usage_us_including_supervisor": 134584744,
+        "estimated_inclusive_s": {
+          "episode.warmup": 53.306702952,
+          "mobile.post_atom_callbacks_150ms": 49.526752026,
+          "native.advance_to": 44.796153698,
+          "mobile.install_full_H40": 26.383978488,
+          "capture.native_RGB": 9.71584042,
+          "reference.accepted_boundary": 1.147099256,
+          "native.shutdown_and_archive": 0.802695139
+        },
+        "initial_tick": 5703,
+        "measured_native_trace_status": "RECORDED_TRACE_CHECKS_PASS",
+        "native_trace_dropped": 0
+      },
+      {
+        "case": "D2-E-LEGACY-N1-F2-SMALL_EEF-R1",
+        "result_sha": "4c793e80cfebcb29e722b45660436090bf42f0c6c3cf2fc0177f6dfed4b705b4",
+        "native_ticks": 10703,
+        "physical_requests": 1,
+        "technical_failure": false,
+        "hard_STOP": false,
+        "source_sha": "3816315d1e94053edb6d82fd5e9dba5c0cda35cc",
+        "wall_s": 141.24514656234533,
+        "full_tree_sampled_accounting": {
+          "cpu_ticks": 13568,
+          "read_bytes": 176128,
+          "write_bytes": 316325888,
+          "observed_process_tree_cpu_core_s_lower_bound": 135.68
+        },
+        "group_cpu_usage_us_including_supervisor": 136713589,
+        "estimated_inclusive_s": {
+          "episode.warmup": 53.049165551,
+          "mobile.post_atom_callbacks_150ms": 49.642546387,
+          "native.advance_to": 44.360359521,
+          "mobile.install_full_H40": 26.544890767,
+          "capture.native_RGB": 10.170101603,
+          "reference.accepted_boundary": 1.147956853,
+          "native.shutdown_and_archive": 0.89593392
+        },
+        "initial_tick": 5703,
+        "measured_native_trace_status": "RECORDED_TRACE_CHECKS_PASS",
+        "native_trace_dropped": 0
+      },
+      {
+        "case": "D2-E-LEGACY-N1-F2-SMALL_EEF-R2",
+        "result_sha": "863d9f2f2c2840c95a95e914f692f50ca263829b897b0d24e166abe6b422f48e",
+        "native_ticks": 10703,
+        "physical_requests": 1,
+        "technical_failure": false,
+        "hard_STOP": false,
+        "source_sha": "3816315d1e94053edb6d82fd5e9dba5c0cda35cc",
+        "wall_s": 139.57104713656008,
+        "full_tree_sampled_accounting": {
+          "cpu_ticks": 13501,
+          "read_bytes": 49049600,
+          "write_bytes": 315539456,
+          "observed_process_tree_cpu_core_s_lower_bound": 135.01
+        },
+        "group_cpu_usage_us_including_supervisor": 136160061,
+        "estimated_inclusive_s": {
+          "episode.warmup": 53.36799737,
+          "mobile.post_atom_callbacks_150ms": 49.594262309,
+          "native.advance_to": 44.440771491,
+          "mobile.install_full_H40": 26.676251529,
+          "capture.native_RGB": 9.750689499,
+          "reference.accepted_boundary": 1.415043145,
+          "native.shutdown_and_archive": 0.846711476
+        },
+        "initial_tick": 5703,
+        "measured_native_trace_status": "RECORDED_TRACE_CHECKS_PASS",
+        "native_trace_dropped": 0
+      },
+      {
+        "case": "D2-E-LEGACY-N1-F1-SMALL_EEF-R2",
+        "result_sha": "1e55e77dbb98c9f719eb3a8fc76f7ae2a7cdae64774cf9314922a6cff9cbcc8c",
+        "native_ticks": 10703,
+        "physical_requests": 1,
+        "technical_failure": false,
+        "hard_STOP": false,
+        "source_sha": "3816315d1e94053edb6d82fd5e9dba5c0cda35cc",
+        "wall_s": 139.81648042891175,
+        "full_tree_sampled_accounting": {
+          "cpu_ticks": 13442,
+          "read_bytes": 24838144,
+          "write_bytes": 315011072,
+          "observed_process_tree_cpu_core_s_lower_bound": 134.42
+        },
+        "group_cpu_usage_us_including_supervisor": 136135051,
+        "estimated_inclusive_s": {
+          "episode.warmup": 53.147379336,
+          "mobile.post_atom_callbacks_150ms": 49.536818174,
+          "native.advance_to": 44.705404092,
+          "mobile.install_full_H40": 26.52084612,
+          "capture.native_RGB": 10.292552067,
+          "reference.accepted_boundary": 1.149855775,
+          "native.shutdown_and_archive": 0.807761821
+        },
+        "initial_tick": 5703,
+        "measured_native_trace_status": "RECORDED_TRACE_CHECKS_PASS",
+        "native_trace_dropped": 0
+      },
+      {
+        "case": "D2-E-LEGACY-N1-F2-STABLE-R2",
+        "result_sha": "f21c0774544ce2b4068f88a7f178d41ff1bcddf7bda57a4586fc3563d9cd9976",
+        "native_ticks": 10703,
+        "physical_requests": 1,
+        "technical_failure": false,
+        "hard_STOP": false,
+        "source_sha": "3816315d1e94053edb6d82fd5e9dba5c0cda35cc",
+        "wall_s": 139.07928573712707,
+        "full_tree_sampled_accounting": {
+          "cpu_ticks": 13406,
+          "read_bytes": 12288,
+          "write_bytes": 315215872,
+          "observed_process_tree_cpu_core_s_lower_bound": 134.06
+        },
+        "group_cpu_usage_us_including_supervisor": 134970841,
+        "estimated_inclusive_s": {
+          "episode.warmup": 52.922721785,
+          "mobile.post_atom_callbacks_150ms": 49.534954143,
+          "native.advance_to": 44.539207686,
+          "mobile.install_full_H40": 26.336207058,
+          "capture.native_RGB": 9.890063929,
+          "reference.accepted_boundary": 1.150101697,
+          "native.shutdown_and_archive": 0.949699989
+        },
+        "initial_tick": 5703,
+        "measured_native_trace_status": "RECORDED_TRACE_CHECKS_PASS",
+        "native_trace_dropped": 0
+      },
+      {
+        "case": "D2-E-LEGACY-N1-F1-STABLE-R2",
+        "result_sha": "3e43c533584655fa88c27808133dda9150a88b61f0bb24557b7bfc888c44655b",
+        "native_ticks": 10703,
+        "physical_requests": 1,
+        "technical_failure": false,
+        "hard_STOP": false,
+        "source_sha": "3816315d1e94053edb6d82fd5e9dba5c0cda35cc",
+        "wall_s": 138.91289140097797,
+        "full_tree_sampled_accounting": {
+          "cpu_ticks": 13218,
+          "read_bytes": 12288,
+          "write_bytes": 189034496,
+          "observed_process_tree_cpu_core_s_lower_bound": 132.18
+        },
+        "group_cpu_usage_us_including_supervisor": 135113288,
+        "estimated_inclusive_s": {
+          "episode.warmup": 53.099689442,
+          "mobile.post_atom_callbacks_150ms": 49.552611964,
+          "native.advance_to": 44.55855138,
+          "mobile.install_full_H40": 26.425563752,
+          "capture.native_RGB": 9.791860001,
+          "reference.accepted_boundary": 1.147953877,
+          "native.shutdown_and_archive": 0.794456347
+        },
+        "initial_tick": 5703,
+        "measured_native_trace_status": "RECORDED_TRACE_CHECKS_PASS",
+        "native_trace_dropped": 0
+      }
+    ]
+  },
+  "parallel": {
+    "status": "BOTH_NATIVE_WORLDS_RUNNING",
+    "registered_cards": 12,
+    "scope": "Eight matched noncontact cards and four preregistered STOP isolation cards",
+    "source_sha": "566e8218b53166ae3db3c247ece074ad7b4ab03e",
+    "source_seal": "6a703cc8f56a87e5d00e3d90a31960655257d5ff94ac6076dbaa37abb552dbc7",
+    "spec_sha256": "bb4761071ef77825f596e520a24dbdae905b2eef3620c1ec87a0207fed8234b5",
+    "unit": "wm02-sla-d2-e-legacy-n2-20261118-01",
+    "systemd_pid": 2171451,
+    "invocation": "1d1eba4663ad461789f894ac77549703",
+    "deadline_epoch": 1794992592.664226,
+    "frontend_dependency": false,
+    "tolerance_sha256": "6da63587addd8d9e35d36ce09191593de9dba46b2cee9b47266beeb71df0fc0a",
+    "verified_running": [
+      {
+        "case": "D2-E-LEGACY-N2-F1-STABLE-R1",
+        "native_step": 4778,
+        "pid": 2171500
+      },
+      {
+        "case": "D2-E-LEGACY-N2-F2-STABLE-R1",
+        "native_step": 4728,
+        "pid": 2171499
+      }
+    ],
+    "qualified": false
+  },
+  "cold_populations": {
+    "compiled_population_sha256": "242c37568579c0b08e4839542cd845ed4c96dc8bc223b3cd7f6c4c88cc8aca39",
+    "compiled_clusters": 40,
+    "registered_condition_counts": {
+      "DEVELOPMENT": 24,
+      "QUAL": 48,
+      "M2_SCREEN": 24,
+      "M2_CONFIRM": 24,
+      "M2_DEV": 60,
+      "M2_TEST": 60
+    },
+    "protection_fingerprints": [
+      "67d4b804c438beabec9790ecf40b60584d2b45ec0c5f1799f377bf784f316bc8"
+    ],
+    "wall_s": 11.271089921705425,
+    "CPU_s": 14.681793592,
+    "actual_scene_bytes": 2978824040,
+    "source_sha": "25210e2e4a1213d115cd55ce5cbeac1b901d876c"
+  },
+  "event_ready": {
+    "promoted": false,
+    "reason": "CONTROLLER_SELECTED_REFERENCE_IDENTITY_NOT_EXPORTED"
+  },
+  "science_native": 0,
+  "scientific_task_success": 0,
+  "training_updates": 0,
+  "optimization_visits": 0,
+  "model_generations": 0,
+  "new_hardware_requests": 0
+}
