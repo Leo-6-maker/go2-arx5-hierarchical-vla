@@ -214,5 +214,63 @@
     "recheck_wall_and_CPU_s": "NOT_SEPARATELY_MEASURED_NO_GPU_EXECUTION",
     "CI": "NOT_RUN_DOCUMENTATION_ONLY",
     "next_action": "Keep Real10/25 and new24 unstarted. Command producer, calibrated frame/TCP, clock, single-arm and event qualifications remain unmet; source-native or decoder changes belong to separately versioned work."
+  },
+  "Core_preservation_readback_20261118_0804": {
+    "time_SGT": "2026-11-18T08:04:34.987161+08:00",
+    "V52_actual_requests": 24,
+    "V52_actual_successes": 17,
+    "V52_H40_refusals": 5,
+    "V52_contact_STOP": 2,
+    "V52_technical_failures": 0,
+    "V52_actual_ticks": 481233,
+    "V52_actual_generations": 1384,
+    "V52_source_sha": "2797d0c2c458667e241aa0d24d6d0b005f3caf1a",
+    "V52_source_files_verified": 275,
+    "V52_result_sha256": "8d7a0fcd2500a8b4fe85d9ec877295f8300e24af77835213449b8891cafe99d9",
+    "V52_unit": "inactive/dead",
+    "V52_MainPID": 0,
+    "V52_leases": {
+      "followup": "CLOSED",
+      "E2": "CLOSED",
+      "worker": "CLOSED"
+    },
+    "source_first12_result_sha256": "56de3b37feaa17c2831e02d7c545e2ef86522b2d3f1f4f0a267a6a884722d1c7",
+    "source_numeric_result_sha256": "8025c0fea6e9e7d578c302dba5257859493d74d788cb77b72aa71e396cce6e58",
+    "source_first12_lease": "CLOSED",
+    "first12_transfer_records_matching_frozen_file_SHA_and_size": 12,
+    "C20_statistics_sha256": "f28d50e6eeea09b332d4bd159eca4333bbe23b185f95f1d336d45311e364ab3e",
+    "site_binding_sha256": "b0f2218f6128f4e6b8dbe8d801a10cfc548912a42fe5a6f7fa33bca0f6bb2626",
+    "old_service_deadline_epoch": 1794967938.2895093,
+    "allocation_deadline_epoch": 1795027883.855488,
+    "new_GPU_or_native_authorization_used": false,
+    "clock_crosscheck": {
+      "status": "PUBLISHED_RATE_AND_PINNED_FILE_NOMINAL_RATE_UNRECONCILED",
+      "paper": "https://arxiv.org/html/2607.04434v3",
+      "paper_sections": [
+        "3.2.2",
+        "E.1 Table 11"
+      ],
+      "paper_real_training_rate_Hz": 25,
+      "paper_ARX_X5_trajectories": 600,
+      "paper_operators_per_task": 4,
+      "pinned_HDF5_frequency_Hz": 30,
+      "pinned_HDF5_records_with_frequency_30": 12,
+      "pinned_HDF5_records": 12,
+      "revision": "1127bda94f172d757386945af3eb3a6754d1a4e6",
+      "physical_sample_rate_established": false,
+      "operator_mapping_by_episode_established": false,
+      "clock_used_for_existing_codec_diagnostics": "FILE_NOMINAL_30HZ_ONLY",
+      "frame_index_action_next_state_equality_depends_on_physical_rate": false
+    },
+    "new_effects": {
+      "raw_downloads": 0,
+      "HDF5_decodes": 0,
+      "training_updates": 0,
+      "optimization_visits": 0,
+      "model_generations": 0,
+      "native_requests": 0,
+      "native_ticks": 0,
+      "hardware_commands": 0
+    }
   }
 }

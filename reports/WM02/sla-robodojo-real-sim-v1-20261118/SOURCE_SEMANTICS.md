@@ -32,3 +32,9 @@
 - [上游real入口](https://github.com/thriving191228/XPolicyLab/blob/c1b205ec42b4ab2cac9c2159c8b4c2f723e5e454/utils/run_real_env_client.sh)明确公开版不支持real-world evaluation；所指真实client/采集器不在已审阅公开树中。未执行该入口、未连接硬件。
 
 下一项需要命令/反馈生产者、frame/TCP/同步及单臂独立性证据；若确认future-achieved，则SOURCE_NATIVE预适配或通用夹爪表示须另立科学版本。当前0/10/25配比不变更变量、不启动。
+
+## 公开采集口径与固定文件时钟
+
+RoboDojo 论文 §3.2.2 和附录 E.1 描述同构主从遥操作、每任务四位操作者，并将真实数据按 25 Hz 记录和汇总。固定 HF 首12条的 HDF5 中，12/12 的 `frequency` 为 30 Hz。该发布版缺少硬件时间戳、两种时间口径的映射和逐 episode 操作者归属。原始数据以帧索引为准，30 Hz 只用于已封存的名义网格诊断。25 Hz 与 30 Hz 的差异不影响 action[t] 与 state[t+1] 的精确比较。[RoboDojo 论文 v3](https://arxiv.org/html/2607.04434v3)
+
+官方任务说明提供了可核对的阶段。水果任务先装水果再翻碗倾倒，保险箱任务包含放物、移动箱体和关盖。说明未标注这 12 条记录中的逐窗臂分工，现有稀疏图像也无法确定持物、支撑或交接依赖。单臂全 H40 合格数为 0。[Pack And Pour Fruit](https://robodojo-benchmark.com/doc/real-tasks/pack-and-pour-fruit/) · [Store In Safe](https://robodojo-benchmark.com/doc/real-tasks/store-in-safe/)

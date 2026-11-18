@@ -1724,5 +1724,41 @@
   "new_updates": 0,
   "new_optimization_visits": 0,
   "new_generations": 0,
-  "new_native_requests": 0
+  "new_native_requests": 0,
+  "site_clock_crosscheck": {
+    "status": "PUBLISHED_RATE_AND_PINNED_FILE_NOMINAL_RATE_UNRECONCILED",
+    "paper": "https://arxiv.org/html/2607.04434v3",
+    "paper_sections": [
+      "3.2.2",
+      "E.1 Table 11"
+    ],
+    "paper_real_training_rate_Hz": 25,
+    "paper_ARX_X5_trajectories": 600,
+    "paper_operators_per_task": 4,
+    "pinned_HDF5_frequency_Hz": 30,
+    "pinned_HDF5_records_with_frequency_30": 12,
+    "pinned_HDF5_records": 12,
+    "revision": "1127bda94f172d757386945af3eb3a6754d1a4e6",
+    "physical_sample_rate_established": false,
+    "operator_mapping_by_episode_established": false,
+    "clock_used_for_existing_codec_diagnostics": "FILE_NOMINAL_30HZ_ONLY",
+    "frame_index_action_next_state_equality_depends_on_physical_rate": false
+  },
+  "documented_task_stages": {
+    "pack_and_pour_fruit": {
+      "source": "https://robodojo-benchmark.com/doc/real-tasks/pack-and-pour-fruit/",
+      "stages": [
+        "pack fruit",
+        "pour from the small bowl"
+      ]
+    },
+    "store_in_safe": {
+      "source": "https://robodojo-benchmark.com/doc/real-tasks/store-in-safe/",
+      "stages": [
+        "store objects",
+        "move safe and close lid"
+      ]
+    },
+    "single_arm_qualified_windows": 0
+  }
 }
