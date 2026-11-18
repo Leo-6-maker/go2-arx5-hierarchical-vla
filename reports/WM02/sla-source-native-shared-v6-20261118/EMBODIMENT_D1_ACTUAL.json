@@ -5350,5 +5350,295 @@
     "new_visits": 0,
     "new_updates": 0,
     "native_student_requests": 0
+  },
+  "fourteenth_success_oriented_suffix_live": {
+    "native": {
+      "epoch": 1794977676.5162606,
+      "spec_sha256": "6245e7b436808a0abca8e52876e994d2b250970b16a31e4410d864a3ae530086",
+      "source_sha256": "81071d9d55b45e51904db86007452b6db7340846",
+      "native_parent_pid": 0,
+      "live_owner_confirmed": false,
+      "cgroup_count": 0,
+      "lease": "CLOSED",
+      "terminal": true,
+      "terminal_sha256": "00bb818d3f1f968375f3002cc5d8c9b9bbe243b9233973a685523f66d0d1b477",
+      "case_result_sha256": "3f2ab8090a139977f9d47ab63d9e4a85a013051631519b6d98d15d90be3617f1",
+      "native_requests": 1,
+      "native_ticks": 37703,
+      "hard_STOP": false,
+      "technical_failure": false,
+      "success": true,
+      "effects": {
+        "GPU_generations": 0,
+        "updates": 0,
+        "visits": 0
+      },
+      "integrations_after_STOP": null,
+      "first_failure": "TASK_SUCCESS",
+      "capture_sha256": "b9557590956e2a2f0e7175081bc462f718a5abebaf557961598da67e88ad486d",
+      "query_count": 128,
+      "first_phase": "PREGRASP",
+      "last_phase": "WITHDRAW",
+      "last_query_start": 37453,
+      "carry_query_classes": {
+        "FREE_PLANAR_PATH": 31
+      },
+      "real_confirmed_atoms_by_class": {
+        "PREGRASP": 250,
+        "DESCEND": 270,
+        "CLOSE": 30,
+        "LIFT": 90,
+        "CARRY": 310,
+        "FREE_PLANAR_PATH": 310,
+        "LOWER": 130,
+        "OPEN": 40,
+        "WITHDRAW": 160
+      },
+      "last_partial_ticks": 0,
+      "phase_counts": {
+        "PREGRASP": 25,
+        "DESCEND": 27,
+        "CLOSE": 3,
+        "LIFT": 9,
+        "CARRY": 31,
+        "LOWER": 13,
+        "OPEN": 4,
+        "WITHDRAW": 16
+      },
+      "distal_carry_rows": []
+    },
+    "G7": {
+      "epoch": 1794977703.3032725,
+      "case": "M-TEACHER-F1-1-PLACE-blue-left",
+      "result_sha256": "3f2ab8090a139977f9d47ab63d9e4a85a013051631519b6d98d15d90be3617f1",
+      "case_spec_sha256": "f85b598b4fcedda5041f230d3766cf576e7c6ba103051b6718c94972186d0a27",
+      "capture_manifest_sha256": "b9557590956e2a2f0e7175081bc462f718a5abebaf557961598da67e88ad486d",
+      "source_sha": "81071d9d55b45e51904db86007452b6db7340846",
+      "used_per_capture_exporter_file_sha256": "0383e957b3a0e544615a2ca34fe696c841a66fead95ed4a3215e3f893aa4c0be",
+      "verified_exact_current_RGB_pairs": 128,
+      "actual_H40_rows": 128,
+      "actual_P10_atoms": 1280,
+      "actual_native_ticks": 37703,
+      "actual_native_requests": 1,
+      "positive_score": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "PLACE-blue-left",
+        "task_success": true,
+        "native_step": 37703,
+        "base_directional_motion_m": 0.17294020713740219,
+        "lift_m": 0.0,
+        "inside_selected_region": true,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": true,
+        "gripper_open_fraction": 0.9545504500368986,
+        "TCP_retreat_m": 0.057023357031644205,
+        "stable_release_condition": true,
+        "states": 32001,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": true,
+        "ever_target_lift20mm": true,
+        "maximum_lift_m": 0.028257946617039287,
+        "longest_grasp_lift_hold_s": 7.020000000008579,
+        "longest_stable_released_retreat_s": 1.3439999999968677,
+        "events": {
+          "base80mm": {
+            "native_step": 10419,
+            "native_time_s": 20.83799999999933
+          },
+          "target_grasp": {
+            "native_step": 19268,
+            "native_time_s": 38.53600000000113
+          },
+          "target_lift20mm": {
+            "native_step": 21554,
+            "native_time_s": 43.10800000000672
+          },
+          "correct_region": {
+            "native_step": 28649,
+            "native_time_s": 57.29800000002406
+          },
+          "released": {
+            "native_step": 33193,
+            "native_time_s": 66.38600000002668
+          },
+          "retreated50mm": {
+            "native_step": 37031,
+            "native_time_s": 74.0620000000088
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "stages": [
+        {
+          "stage": "PREGRASP",
+          "native_step": 5703
+        },
+        {
+          "stage": "DESCEND",
+          "native_step": 11953
+        },
+        {
+          "stage": "CLOSE",
+          "native_step": 18703
+        },
+        {
+          "stage": "LIFT",
+          "native_step": 19453
+        },
+        {
+          "stage": "CARRY",
+          "native_step": 21703
+        },
+        {
+          "stage": "LOWER",
+          "native_step": 29453
+        },
+        {
+          "stage": "OPEN",
+          "native_step": 32703
+        },
+        {
+          "stage": "WITHDRAW",
+          "native_step": 33703
+        }
+      ],
+      "by_phase": {
+        "PREGRASP": 25,
+        "DESCEND": 27,
+        "CLOSE": 3,
+        "LIFT": 9,
+        "CARRY": 31,
+        "LOWER": 13,
+        "OPEN": 4,
+        "WITHDRAW": 16
+      },
+      "rederived_state_differences": {
+        "rows_with_any_bit_difference": 118,
+        "max_abs_XYZ_m": 2.220446049250313e-16,
+        "max_abs_rot6d_component": 1.1102230246251565e-16,
+        "max_abs_gripper": 0.0
+      },
+      "maximum_original_nominal_width_speed_m_s": 0.03743754687500017,
+      "over_training_margin": 0,
+      "native_wall_s": 549.8315114630386,
+      "native_CPU_s": 326.75387169699997,
+      "observed_shards": 8,
+      "audit_wall_s": 0.9878585888072848,
+      "new_integrations": 0,
+      "new_generations": 0,
+      "new_optimizer_updates": 0,
+      "new_optimization_visits": 0,
+      "statistics_fitted": false
+    },
+    "closed_scientific_requests": 14,
+    "complete": 7,
+    "contact_stop": 6,
+    "task_budget_failure": 1,
+    "technical": 0,
+    "closed_scientific_ticks": 408505,
+    "g7_frames_and_H40": 673,
+    "g7_confirmed_P10_atoms": 6730,
+    "qualified_cells": 2,
+    "matching_corpus_gate_pass": false,
+    "M_updates": 0,
+    "M_visits": 0,
+    "M_SLA_generations": 0,
+    "M_student_requests": 0,
+    "verification": {
+      "red_left": {
+        "saved_case": "M-TEACHER-F1-1-PLACE-red-left",
+        "requested_case": "PLACE-red-left",
+        "saved_states": 113,
+        "joint_turn_and_transit_sampled_clear": 94,
+        "first_clear": {
+          "tick": 25703,
+          "candidate_corridor_clearance_m": 0.008106021064375517
+        },
+        "maximum_gap_m": 0.027155768334705236,
+        "complete_H40_replay": {
+          "actual_tick": 25703,
+          "nominal_full_H40_valid": true,
+          "exact_gripper_waveform_match": true,
+          "landing_motion": {
+            "sampled_gap_m": 0.008106021064375517,
+            "raise_height_m": null,
+            "waiting_for_measured_clearance": false,
+            "requested_landing_yaw_deg": -20.0,
+            "landing_goal_XY_m": [
+              0.4545,
+              0.050499999999999996
+            ],
+            "remaining_landing_yaw_deg": -20.0,
+            "turn_latched": true
+          }
+        }
+      },
+      "blue_right_measured_and_translated": {
+        "saved_case": "M-TEACHER-F1-1-HOLD-blue",
+        "requested_case": "PLACE-blue-right",
+        "saved_states": 2,
+        "joint_turn_and_transit_sampled_clear": 0,
+        "first_clear": null,
+        "maximum_gap_m": -0.05400620205482732,
+        "complete_H40_replay": null,
+        "synthetic_36mm_raise": [
+          {
+            "actual_tick": 22203,
+            "vertical_gap_m": 0.010653145848579673,
+            "raised_turn_corridor_m": 0.0087065178542297
+          },
+          {
+            "actual_tick": 22453,
+            "vertical_gap_m": 0.011830365956106056,
+            "raised_turn_corridor_m": 0.009883737961756086
+          }
+        ]
+      },
+      "blue_right_static_preserved_fixed_root_counts": {
+        "RAISE": {
+          "PASS": 12
+        },
+        "HIGH_YAW": {
+          "PASS": 52
+        },
+        "LATERAL": {
+          "PASS": 14,
+          "ORIGINAL_FIVE_ITERATION_NATIVE_IK_REJECT": 30
+        },
+        "LOWERING": {
+          "ORIGINAL_FIVE_ITERATION_NATIVE_IK_REJECT": 18
+        }
+      },
+      "blue_counterfactual_actual_same_scene_stances_complete": 62,
+      "blue_counterfactual_fixed_root_scope": "F1_1_BLUE_HELD_TRANSFORM_WITH_COUNTERFACTUAL_ACTUAL_F1_1_MOVING_STANCE_SNAPSHOTS"
+    },
+    "suffix": {
+      "unit": "wm02-sla-v6-multitask-teacher-oriented-15-16-20261118-01",
+      "main_pid": 2009731,
+      "child_pid": 2009769,
+      "cgroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-v6-multitask-teacher-oriented-15-16-20261118-01.service",
+      "spec": "bb060b536782aca9b34dbc880a2bf3681a6ef5f898709a3061d53483f86b9304",
+      "source": "a83803fb71c76937020e88f210a592fd1524bf80",
+      "expiry_epoch": 1794983155.2214866,
+      "lease": "ACTIVE",
+      "verified_scientific_tick": 2548,
+      "actual_started": "M-TEACHER-F1-1-PLACE-blue-right",
+      "remaining_fixed_in_this_checkpoint": [
+        "M-TEACHER-F1-2-HOLD-red"
+      ],
+      "stop_entry": "STOP.json",
+      "frontend_dependency": false
+    },
+    "evidence_sha256": {
+      "EMBODIMENT_D1_FOURTEENTH_TERMINAL01": "46a9c79a5a5510a6fe6eb25face009c7c54ff3b3129f06d2690c4cd163f12692",
+      "EMBODIMENT_D1_FOURTEENTH_G7_ACTUAL01": "aac0368949cdd09f7a1e557529c754dfba6f9455eb514d5ebaecb4ca1b3c0f7d",
+      "EMBODIMENT_D1_BLUE_RIGHT_STANCE_SWEEP02": "5326676f8c27a44ceb0f01088d5474eb784f854a5254aa99ed88758f704d4ad5",
+      "EMBODIMENT_D1_ORIENTED_15_16_PROGRESS01": "1dd305c4693eff800ad641222bef35f70c24cb95dc9f7c076ba41cd3098d7830",
+      "EMBODIMENT_D1_ORIENTED_GEOM_REPLAY02": "9e9525182721a811f53b8cf675b64931a9dad6291b329e22899a746d8370447a"
+    }
   }
 }
