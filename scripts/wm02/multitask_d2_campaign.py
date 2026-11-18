@@ -188,6 +188,9 @@ def run(spec_path, spec):
                                 write(root/'STOP.json',dict(reason=fatal))
                         elif row['technical_failure']:
                             fatal = 'D2_PRESERVED_TECHNICAL_FAILURE_NO_AUTO_REPLAY'
+                        elif spec['d2_stage']=='E' and (not row['completed'] or row['hard_STOP']
+                                                       or not row['interface_protocol_pass']):
+                            fatal = 'D2_ENGINEERING_CASE_FAILED_NO_PROMOTION'
                     except BaseException:
                         fatal = traceback.format_exc()
                 write(root/'RECORDS.private.json',[rows[c['panel_entry_id']] for _,c in cards

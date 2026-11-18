@@ -1,7 +1,7 @@
 """Teacher-only full placement planning with a fresh swept check before P10."""
 
 from collections import deque
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 
 import numpy as np
 
@@ -61,6 +61,7 @@ class PlacementTeacher(MultitaskTeacher):
         self.residuals = deque(maxlen=4)
         self.corridor_evidence = None
         self.remaining_evidence = None
+        self.relocated = False
 
     def margin(self, pose, object_pose):
         # Half of the declared geometric sample spacing plus the recent
@@ -178,6 +179,50 @@ class PlacementTeacher(MultitaskTeacher):
             raise PlacementUnavailable('D2_MEASURED_ATTACHMENT_OUTSIDE_FROZEN_REGION', {'stage':self.stage})
         return landing
 
+    def reposition(self, sample, tcp, obj, remaining_s):
+        """Try a checked, bounded way out before declaring the corridor lost."""
+        if self.relocated:
+            return None
+        self.relocated = True
+        route = self.route
+        root = np.asarray(sample['qpos'])[:2]
+        fingers = np.asarray(sample['finger_q'])
+        attachment = np.linalg.solve(tcp,obj)
+        spare = max(0.,self.transit_z-tcp[2,3])
+        recover = translate(tcp,[0.,0.,min(.016,spare+.006)])
+        center = np.asarray(self.zone['center_world_XY'])
+        remaining_audit = self.remaining_evidence
+        attempts = []
+        for offset in ((.008,.008),(-.008,.008),(.008,-.008),(-.008,-.008),(0.,0.)):
+            candidate = replace(route,zone_xy=center+offset)
+            if np.array_equal(candidate.zone_xy,route.zone_xy):
+                continue
+            landing = self.landing_pose(tcp,obj,candidate)
+            if landing is None:
+                continue
+            carry = landing.copy()
+            carry[2,3] = max(recover[2,3],landing[2,3]+.012)
+            prefix = (Knot(tcp,obj,fingers,root,'lift'),
+                      Knot(recover,recover@attachment,fingers,root,'lift'),
+                      Knot(carry,carry@attachment,fingers,root,'carry'))
+            knots = prefix + remaining_placement(carry,carry@attachment,landing,fingers,root,
+                                                   supported=False,withdrawal=candidate.withdrawal)[1:]
+            seconds = time_estimate(knots)-2.  # Grasp is already closed.
+            if seconds > remaining_s:
+                continue
+            verdict = self.placement_geometry.check(sample,knots,self.margin(tcp,obj))
+            attempts.append(dict(**verdict,zone_XY=candidate.zone_xy.tolist(),command_time_s=seconds))
+            if verdict['passed']:
+                self.route = candidate
+                self.transit_z = carry[2,3]
+                self.stage = 'CARRY'
+                self.rotation = tcp[:3,:3]
+                self.remaining_evidence = dict(original=remaining_audit,reposition=attempts)
+                self.reposition_up = recover[:3,3]
+                return self.reposition_up
+        self.remaining_evidence = dict(original=remaining_audit,reposition=attempts)
+        return None
+
     def goal(self, sample):
         if self.placement_geometry is None:
             return super().goal(sample)
@@ -192,8 +237,13 @@ class PlacementTeacher(MultitaskTeacher):
                 return goal
             self.stage = 'CARRY'
             self.transit_z = max(tcp[2,3], self.lift_origin[2]+self.route.transit_raise)
+            self.reposition_up = None
         if self.stage in ('CARRY','LOWER'):
             landing = self.grasp_correction(sample, tcp, obj)
+            if self.reposition_up is not None:
+                if np.linalg.norm(tcp[:3,3]-self.reposition_up) > .004:
+                    return self.reposition_up
+                self.reposition_up = None
             self.rotation = self.route.rotation
             can_enter = (np.linalg.norm(obj[:2,3]-zone) <= .004
                          and np.linalg.norm(rotation_vector(landing[:3,:3] @ tcp[:3,:3].T)) <= np.deg2rad(3.)
@@ -203,11 +253,14 @@ class PlacementTeacher(MultitaskTeacher):
             supported = (sample['objects'][self.task.color]['table_contact']
                          and abs(tcp[2,3]-landing[2,3]) <= .005 and can_enter
                          and footprint_inside(obj, self.geometry['object_half_sizes'][self.task.color], self.zone))
+            remaining = MAX_PLACE_S-(sample['native_step']-self.start)*.002
             if not self.check_remaining(sample, landing, supported):
+                corrective = self.reposition(sample,tcp,obj,remaining)
+                if corrective is not None:
+                    return corrective
                 raise PlacementUnavailable('D2_REMAINING_LOWER_OPEN_WITHDRAW_CLEARANCE',
                                            self.remaining_evidence)
             # Resolve early enough to finish jaw release, withdraw and settle.
-            remaining = MAX_PLACE_S-(sample['native_step']-self.start)*.002
             required = (np.linalg.norm(tcp[:3,3]-landing[:3,3])/TRANSLATION_SPEED
                         + np.linalg.norm(self.withdrawal_direction)/TRANSLATION_SPEED + 3.)
             if remaining < required:

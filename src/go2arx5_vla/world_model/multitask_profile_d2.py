@@ -32,6 +32,7 @@ def process_row(pid):
                 pss_kib=int(memory['Pss'].split()[0]) if 'Pss' in memory else None,
                 read_bytes=int(io['read_bytes']) if 'read_bytes' in io else None,
                 write_bytes=int(io['write_bytes']) if 'write_bytes' in io else None,
+                cpus_allowed_list=status.get("Cpus_allowed_list","").strip(),
                 name=status.get('Name', '').strip())
 
 
