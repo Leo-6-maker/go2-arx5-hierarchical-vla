@@ -1,6 +1,6 @@
 {
   "schema": "SLA_D3_CAUSAL_DIAGNOSTICS_ACTUAL",
-  "status": "ACTIVE_FIRST_NATIVE_CASE",
+  "status": "ACTIVE_R1_WITH_R2_GATE_INELIGIBLE",
   "planned_science_conditions": 12,
   "science_backend": "LEGACY_N1",
   "first_setup_attempt": {
@@ -20,7 +20,7 @@
     "receipt_sha256": "eb046bc749e0bea6aa1070d3b568b1620b382fb8d1701a354a2ac8e348a79c09",
     "reason": "D3_ADMISSION_IMPORTED_COLD_COMPILER_DEPENDENCY"
   },
-  "native_requests": 1,
+  "native_requests": 3,
   "native_ticks": 0,
   "model_generations": 0,
   "training_updates": 0,
@@ -36,17 +36,129 @@
   "supervisor_pid": 2434170,
   "invocation_id": "dd55c689e46e4785a31e163a7772e7db",
   "verified_in_cgroup": true,
-  "observed_epoch": 1795002024.5506582,
+  "observed_epoch": 1795002140.843527,
   "deadline_epoch": 1795012761.1375186,
   "frontend_dependency": false,
   "resource_lease": "ACTIVE",
-  "natively_dispatched": 1,
-  "native_ticks_closed": 0,
+  "natively_dispatched": 3,
+  "native_ticks_closed": 11406,
   "observed_first_case": "D3-R1-F1-P1-CONTROL",
   "observed_first_case_ticks": 5703,
   "initial_native_ticks_confirmed": 5703,
-  "sealed_cases": 0,
+  "sealed_cases": 2,
   "remaining_order_intact": true,
   "launch_receipt_sha256": "cb2f1f0e26ed56f83aebf6f8921c576d2393bedc268cdee08db6f80cf61e76d9",
-  "independent_status_readback_sha256": "f5de38c5d14cfedb0673ba77dee56ff9d53d7506fa0f317d3fc7c559b4d8ee06"
+  "independent_status_readback_sha256": "eb24b070b19fdf820db28bc356ee136ecac4e3d44311caea2490f01af87e0287",
+  "observed_active_case": "D3-R1-F2-P2-TREATMENT",
+  "observed_active_tick": 5228,
+  "P1": {
+    "cases": [
+      {
+        "case": "D3-R1-F1-P1-CONTROL",
+        "arm": "CONTROL",
+        "native_ticks": 5703,
+        "failure_phase": "PREGRASP",
+        "first_failure": "D3_NO_COMPLETE_PREGRASP_CANDIDATE",
+        "candidate_paths": 105,
+        "actual_expert_queries": 0,
+        "consumed_atoms": 0,
+        "rejection_groups": [
+          {
+            "phase": "approach",
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "task_right_pad",
+              "task_table"
+            ],
+            "count": 35
+          },
+          {
+            "phase": "lower",
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "count": 31
+          },
+          {
+            "phase": "carry",
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "task_cube_geom",
+              "task_blue_cube_geom"
+            ],
+            "count": 29
+          },
+          {
+            "phase": "carry",
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "task_left_pad",
+              "task_blue_cube_geom"
+            ],
+            "count": 10
+          }
+        ],
+        "result_sha256": "a1b6b31bb611004236e0a83897d2a41173c618e126a96bd8ad1fe49a980d9034",
+        "scene_sha256": "89ade3e6eefe2e0e7d2cc7b4251ddaf50446696be8eee39e78b1da40e6299ad2"
+      },
+      {
+        "case": "D3-R1-F1-P1-TREATMENT",
+        "arm": "TREATMENT",
+        "native_ticks": 5703,
+        "failure_phase": "PREGRASP",
+        "first_failure": "D3_NO_COMPLETE_PREGRASP_CANDIDATE",
+        "candidate_paths": 105,
+        "actual_expert_queries": 0,
+        "consumed_atoms": 0,
+        "rejection_groups": [
+          {
+            "phase": "approach",
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "task_right_pad",
+              "task_table"
+            ],
+            "count": 35
+          },
+          {
+            "phase": "lower",
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "count": 31
+          },
+          {
+            "phase": "carry",
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "task_cube_geom",
+              "task_blue_cube_geom"
+            ],
+            "count": 29
+          },
+          {
+            "phase": "carry",
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "pair": [
+              "task_left_pad",
+              "task_blue_cube_geom"
+            ],
+            "count": 10
+          }
+        ],
+        "result_sha256": "56e1ce5eafd3c5f7accbed5a1449584ccbf9687edbe0b1bbb90eb89eb0d92ade",
+        "scene_sha256": "89ade3e6eefe2e0e7d2cc7b4251ddaf50446696be8eee39e78b1da40e6299ad2"
+      }
+    ],
+    "causal_outcome": "INCONCLUSIVE_MECHANISM_NOT_EXERCISED",
+    "treatment_milestone": false,
+    "first_failure": "D3_NO_COMPLETE_PREGRASP_CANDIDATE",
+    "applied_actual_G7_examples": 0,
+    "readback_sha256": "58476b05c5835dcf97b478c998642a207f84fc70210a85016209462004fb97b7"
+  },
+  "R2_gate_still_possible": false
 }
