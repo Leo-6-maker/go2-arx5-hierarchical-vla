@@ -5083,5 +5083,272 @@
       "EMBODIMENT_D1_LEFT_LANDING_ARM01": "99703502f3af18538cd90f26d05d5eb3048435c71ba0bd44f6e831daa468a77c",
       "EMBODIMENT_D1_THIRTEENTH_PROGRESS02": "3f83144752b2c0202888605aaa8ab67150690810420fe5d54367617b21a3cd47"
     }
+  },
+  "thirteenth_complete_and_fourteenth_dispatch": {
+    "terminal": {
+      "epoch": 1794977051.0245926,
+      "spec_sha256": "2656e451430aa9105fe988badb6bc2211d0ef4960e57b9f6254ee8e3fd2d28c5",
+      "source_sha256": "81071d9d55b45e51904db86007452b6db7340846",
+      "native_parent_pid": 0,
+      "live_owner_confirmed": false,
+      "cgroup_count": 0,
+      "lease": "CLOSED",
+      "terminal": true,
+      "terminal_sha256": "b462da1439ad3852eaf45a24f99227db96fd740a1b95a27db71b264c7443e5a3",
+      "case_result_sha256": "02f1502f4bb508c52d3673c2f1b31b313b5eed2541c3b43181c2db77b8c5757b",
+      "native_requests": 1,
+      "native_ticks": 37453,
+      "hard_STOP": false,
+      "technical_failure": false,
+      "success": true,
+      "effects": {
+        "GPU_generations": 0,
+        "updates": 0,
+        "visits": 0
+      },
+      "integrations_after_STOP": null,
+      "first_failure": "TASK_SUCCESS",
+      "capture_sha256": "554dd8d3374a5b97f5d6c8e6320bdacceed40fb3177b00f9fb4e6dc7e088a4ea",
+      "query_count": 127,
+      "first_phase": "PREGRASP",
+      "last_phase": "WITHDRAW",
+      "last_query_start": 37203,
+      "carry_query_classes": {
+        "FREE_PLANAR_PATH": 34
+      },
+      "real_confirmed_atoms_by_class": {
+        "PREGRASP": 300,
+        "DESCEND": 210,
+        "CLOSE": 30,
+        "LIFT": 30,
+        "CARRY": 340,
+        "FREE_PLANAR_PATH": 340,
+        "LOWER": 170,
+        "OPEN": 40,
+        "WITHDRAW": 150
+      },
+      "last_partial_ticks": 0,
+      "phase_counts": {
+        "PREGRASP": 30,
+        "DESCEND": 21,
+        "CLOSE": 3,
+        "LIFT": 3,
+        "CARRY": 34,
+        "LOWER": 17,
+        "OPEN": 4,
+        "WITHDRAW": 15
+      },
+      "distal_carry_rows": []
+    },
+    "G7": {
+      "epoch": 1794977052.6038847,
+      "case": "M-TEACHER-F1-1-PLACE-red-right",
+      "result_sha256": "02f1502f4bb508c52d3673c2f1b31b313b5eed2541c3b43181c2db77b8c5757b",
+      "case_spec_sha256": "1058ab82d1539bc98c5ce1e78127519f8cc6b65eb0152397f3c65a1efac5307e",
+      "capture_manifest_sha256": "554dd8d3374a5b97f5d6c8e6320bdacceed40fb3177b00f9fb4e6dc7e088a4ea",
+      "source_sha": "81071d9d55b45e51904db86007452b6db7340846",
+      "used_per_capture_exporter_file_sha256": "0383e957b3a0e544615a2ca34fe696c841a66fead95ed4a3215e3f893aa4c0be",
+      "verified_exact_current_RGB_pairs": 127,
+      "actual_H40_rows": 127,
+      "actual_P10_atoms": 1270,
+      "actual_native_ticks": 37453,
+      "actual_native_requests": 1,
+      "positive_score": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "PLACE-red-right",
+        "task_success": true,
+        "native_step": 37453,
+        "base_directional_motion_m": 0.19484556349055293,
+        "lift_m": 0.0,
+        "inside_selected_region": true,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": true,
+        "gripper_open_fraction": 0.9545512296377983,
+        "TCP_retreat_m": 0.05723099557118737,
+        "stable_release_condition": true,
+        "states": 31751,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": true,
+        "ever_target_lift20mm": true,
+        "maximum_lift_m": 0.037721200428158075,
+        "longest_grasp_lift_hold_s": 10.496000000012828,
+        "longest_stable_released_retreat_s": 1.3679999999968118,
+        "events": {
+          "base80mm": {
+            "native_step": 9511,
+            "native_time_s": 19.022000000000336
+          },
+          "target_grasp": {
+            "native_step": 19053,
+            "native_time_s": 38.106000000000606
+          },
+          "target_lift20mm": {
+            "native_step": 19875,
+            "native_time_s": 39.750000000002615
+          },
+          "correct_region": {
+            "native_step": 26710,
+            "native_time_s": 53.42000000001932
+          },
+          "released": {
+            "native_step": 33193,
+            "native_time_s": 66.38600000002668
+          },
+          "retreated50mm": {
+            "native_step": 36769,
+            "native_time_s": 73.53800000001002
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "stages": [
+        {
+          "stage": "PREGRASP",
+          "native_step": 5703
+        },
+        {
+          "stage": "DESCEND",
+          "native_step": 13203
+        },
+        {
+          "stage": "CLOSE",
+          "native_step": 18453
+        },
+        {
+          "stage": "LIFT",
+          "native_step": 19203
+        },
+        {
+          "stage": "CARRY",
+          "native_step": 19953
+        },
+        {
+          "stage": "LOWER",
+          "native_step": 28453
+        },
+        {
+          "stage": "OPEN",
+          "native_step": 32703
+        },
+        {
+          "stage": "WITHDRAW",
+          "native_step": 33703
+        }
+      ],
+      "by_phase": {
+        "PREGRASP": 30,
+        "DESCEND": 21,
+        "CLOSE": 3,
+        "LIFT": 3,
+        "CARRY": 34,
+        "LOWER": 17,
+        "OPEN": 4,
+        "WITHDRAW": 15
+      },
+      "rederived_state_differences": {
+        "rows_with_any_bit_difference": 123,
+        "max_abs_XYZ_m": 2.220446049250313e-16,
+        "max_abs_rot6d_component": 1.1102230246251565e-16,
+        "max_abs_gripper": 0.0
+      },
+      "maximum_original_nominal_width_speed_m_s": 0.03743754687500017,
+      "over_training_margin": 0,
+      "native_wall_s": 572.3157832929865,
+      "native_CPU_s": 349.396010289,
+      "observed_shards": 8,
+      "audit_wall_s": 1.3123673917725682,
+      "new_integrations": 0,
+      "new_generations": 0,
+      "new_optimizer_updates": 0,
+      "new_optimization_visits": 0,
+      "statistics_fitted": false
+    },
+    "closed_score": {
+      "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+      "instruction": "PLACE-red-right",
+      "task_success": true,
+      "native_step": 37453,
+      "base_directional_motion_m": 0.19484556349055293,
+      "lift_m": 0.0,
+      "inside_selected_region": true,
+      "target_grasp": false,
+      "wrong_object_grasp_ever": false,
+      "wrong_object_contact_ever": false,
+      "released": true,
+      "gripper_open_fraction": 0.9545512296377983,
+      "TCP_retreat_m": 0.05723099557118737,
+      "stable_release_condition": true,
+      "states": 31751,
+      "missing_native_intervals": 0,
+      "unsafe_states": 0,
+      "ever_target_grasp": true,
+      "ever_target_lift20mm": true,
+      "maximum_lift_m": 0.037721200428158075,
+      "longest_grasp_lift_hold_s": 10.496000000012828,
+      "longest_stable_released_retreat_s": 1.3679999999968118,
+      "events": {
+        "base80mm": {
+          "native_step": 9511,
+          "native_time_s": 19.022000000000336
+        },
+        "target_grasp": {
+          "native_step": 19053,
+          "native_time_s": 38.106000000000606
+        },
+        "target_lift20mm": {
+          "native_step": 19875,
+          "native_time_s": 39.750000000002615
+        },
+        "correct_region": {
+          "native_step": 26710,
+          "native_time_s": 53.42000000001932
+        },
+        "released": {
+          "native_step": 33193,
+          "native_time_s": 66.38600000002668
+        },
+        "retreated50mm": {
+          "native_step": 36769,
+          "native_time_s": 73.53800000001002
+        }
+      },
+      "task_privileged_truth_in_student_input": false,
+      "clock": "ACTUAL_2MS_NATIVE_STREAM"
+    },
+    "started": 14,
+    "sealed": 13,
+    "complete": 6,
+    "contact_stops": 6,
+    "task_budget_failures": 1,
+    "technical_failures": 0,
+    "sealed_scientific_integrations": 370802,
+    "successful_g7_demonstrations": 6,
+    "H40_and_RGB_pairs": 545,
+    "P10_atoms": 5450,
+    "qualified_cells": 1,
+    "entire_M_stats_fitted": false,
+    "M_BASE_and_M_SRC_started": false,
+    "source": "81071d9d55b45e51904db86007452b6db7340846",
+    "active_fourteenth": {
+      "unit": "wm02-sla-v6-multitask-teacher-next1-f1-blue-left-20261118-01",
+      "source_sha": "81071d9d55b45e51904db86007452b6db7340846",
+      "spec_sha256": "6245e7b436808a0abca8e52876e994d2b250970b16a31e4410d864a3ae530086",
+      "parent_pid": 1998480,
+      "child_pid": 1998506,
+      "cgroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-v6-multitask-teacher-next1-f1-blue-left-20261118-01.service",
+      "lease": "ACTIVE",
+      "deadline_epoch": 1794979818.63151,
+      "actual_step": 5200,
+      "readback_epoch": 1794977153.5512412,
+      "independent_frontend": true
+    },
+    "new_model_generations": 0,
+    "new_visits": 0,
+    "new_updates": 0,
+    "native_student_requests": 0
   }
 }
