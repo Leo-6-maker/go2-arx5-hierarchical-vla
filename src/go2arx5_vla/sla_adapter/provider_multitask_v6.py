@@ -13,12 +13,17 @@ from .provider_v3 import DECODE_ORDER, Provider as LogitProvider
 from .runtime_v1 import read_pin
 
 def export(package, checkpoint, *, engine):
+    statistics = engine.dataset.new.root/engine.dataset.manifest['statistics']['file']
+    return export_payload(package, checkpoint, engine=engine, statistics=statistics,
+                          schema=SCHEMA, validate=contract, step=1000, cursor=32000)
+
+
+def export_payload(package, checkpoint, *, engine, statistics, schema, validate, step, cursor):
     checkpoint_root = Path(checkpoint['path'])
     complete = read_pin(dict(path=str(checkpoint_root/'COMPLETE.json'), sha256=checkpoint['sha256']))
     bindings = complete['bindings']
-    statistics = engine.dataset.new.root/engine.dataset.manifest['statistics']['file']
     tokenizer = engine.spec['tokenizer']['path']
-    if (complete['step'] != 1000 or complete['cursor'] != 32000 or bindings != engine.bindings
+    if (complete['step'] != step or complete['cursor'] != cursor or bindings != engine.bindings
             or sha(statistics) != bindings['derived_statistics_sha256'] or sha(tokenizer) != bindings['tokenizer']):
         raise ValueError('ACTUAL_MATCHED_G7_ENDPOINT_AND_FROZEN_RGB_ASSETS_REQUIRED')
     package = Path(package)
@@ -34,14 +39,14 @@ def export(package, checkpoint, *, engine):
         copied.append(dict(row,file=file))
     shutil.copyfile(statistics,package/'STATISTICS.json')
     shutil.copyfile(tokenizer,package/'paligemma_tokenizer.model')
-    manifest = dict(schema=SCHEMA, codec=VERSION, decode_order=DECODE_ORDER, label_epsilon=EPSILON,
-        state_gripper_transformed=False, step=1000, cursor=32000, bindings=bindings, parent_manifest=bindings['parent_manifest'],
+    manifest = dict(schema=schema, codec=VERSION, decode_order=DECODE_ORDER, label_epsilon=EPSILON,
+        state_gripper_transformed=False, step=step, cursor=cursor, bindings=bindings, parent_manifest=bindings['parent_manifest'],
         original_complete_sha256=checkpoint['sha256'], adapter_arrays=copied, statistics_sha256=sha(package/'STATISTICS.json'),
         tokenizer_sha256=sha(package/'paligemma_tokenizer.model'), camera_keys=['base_0_rgb','left_wrist_0_rgb','right_wrist_0_rgb'],
         image_masks=[True,True,False], image_size=[224,224], sampler_steps=10, action_horizon=40, label_interval_s=.05,
         previous_reference_required=True, teacher_required=False, training_cache_required=False, optimizer_required=False,
         physical_execution_admitted=False, endpoint_basis_applied=False)
-    contract(manifest)
+    validate(manifest)
     path = package/'MANIFEST.private.json'
     write(path,manifest)
     return dict(path=str(package),sha256=sha(path))

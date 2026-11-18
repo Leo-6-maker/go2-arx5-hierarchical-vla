@@ -15,6 +15,11 @@ from .target_training_v6 import FullTrajectoryEngine, PLAN
 
 class MultitaskEngine(FullTrajectoryEngine):
     auxiliary_metric = 'weighted_G7_XYZ_and_speed_loss'
+    recipe = RECIPE
+    source_arm = 'M-SRC'
+
+    def population_binding(self):
+        return {'compiled_population_sha256': self.dataset.manifest['compiled_population_sha256']}
 
     def dataset_for_spec(self, spec):
         from openpi_client.image_tools import resize_with_pad
@@ -54,7 +59,7 @@ class MultitaskEngine(FullTrajectoryEngine):
         from scripts.sla.mfree_c20_vectorfield_v3 import extracted_fields
 
         self.transfer_rows, self.transfer_receipt = [], None
-        if spec['arm'] == 'M-SRC':
+        if spec['arm'] == self.source_arm:
             self.transfer_rows, self.transfer_receipt = sealed_source(spec['S1000_transfer_result'], spec['parent_manifest'])
         super().__init__(spec, output)
         if self.inventory['trainable_numel'] != 52153376 or len(jax.tree.leaves(self.active)) != 28:
@@ -63,10 +68,9 @@ class MultitaskEngine(FullTrajectoryEngine):
             self.active, transplant_receipt = transplant(self.active, self.transfer_rows)
             self.transfer_receipt.update(transplant_receipt)
             self.opt_state = self.tx.init(self.active)
-        self.bindings.update(recipe=RECIPE, goal_plan_sha=PLAN, codec_version=dense_g7_v6.VERSION,
+        self.bindings.update(recipe=self.recipe, goal_plan_sha=spec['plan_commit'], codec_version=dense_g7_v6.VERSION,
             arm=spec['arm'], dataset_manifest_sha256=self.dataset.manifest_sha,
             derived_statistics_sha256=self.dataset.manifest['statistics']['sha256'],
-            compiled_population_sha256=self.dataset.manifest['compiled_population_sha256'],
             visit_bank=self.visit_bank_binding, source_initialization=self.transfer_receipt,
             full_XYZ_lambda=.1, full_gripper_speed_lambda=.1,
             grip_speed_margin_m_s=dense_g7_v6.GRIP_MARGIN, grip_speed_limit_m_s=dense_g7_v6.GRIP_LIMIT,
@@ -74,6 +78,7 @@ class MultitaskEngine(FullTrajectoryEngine):
             inference_route='cached_actual', state_token_dropout=.25, fresh_Adam=True,
             parent_host_cast_v7=spec.get('parent_host_cast_v7',False),
             BASE_head=False, teacher_memory_input=False, object_truth_input=False, phase_input=False)
+        self.bindings.update(self.population_binding())
         graph = self.graph
         fields, _ = extracted_fields(batch_v2, pi0)
 

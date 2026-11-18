@@ -1,0 +1,37 @@
+{
+  "schema": "SLA_D4_C20_G7_MATCHED_ONLY",
+  "base_source": "4d597259f2968d01c1694f9a9ee93dbc717695d1",
+  "first_wave": {
+    "arms": ["D4-A", "D4-B"],
+    "updates_per_arm": 500,
+    "effective_batch": 32,
+    "microbatch": 4,
+    "target_visits_per_arm": 16000,
+    "source_optimization_visits_per_arm": 0,
+    "C20_manifest_sha256": "4bcc5ffcd8920d874599a54cca73792c50a49ea6013d65ca7826817a9f80d7de",
+    "C20_stats_sha256": "f28d50e6eeea09b332d4bd159eca4333bbe23b185f95f1d336d45311e364ab3e",
+    "S1000_checkpoint_sha256": "c08e919b5151ccafdfd5b427e02710f1a8e9f9189ca227314f72e5ec0296ab6d",
+    "shared_transplant_leaves": 20,
+    "other_step_zero_leaves_bit_exact": 67,
+    "new_effect_caps": {
+      "optimizer_updates": 1000,
+      "training_visits": 32000,
+      "training_full_generations": 4000,
+      "offline_generations": 248,
+      "native_requests": 0,
+      "native_integrations": 0,
+      "hardware_requests": 0
+    },
+    "minimum_pair_lead_s": 10800,
+    "same_site_allocation_no_extension": true
+  },
+  "followup": {
+    "native_DEV_requested_cap_for_later_binding": 48,
+    "fresh_layouts_per_family": 2,
+    "fixed_prompts_per_layout": 6,
+    "reuse_M2_population": false,
+    "historical_PLACE_in_first_wave": false,
+    "new_LIBERO_download_in_first_wave": false,
+    "automatic_next_stage": false
+  }
+}

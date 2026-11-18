@@ -83,7 +83,7 @@ def transplant(active, source_rows):
     return initialized, dict(shared_rows=source_rows, target_IO_original_keys=target_io)
 
 
-def match_initial_checkpoints(base_pin, source_pin, source_rows):
+def match_initial_checkpoints(base_pin, source_pin, source_rows, *, arms=('M-BASE', 'M-SRC')):
     """Prove identical target I/O, Adam and RNG at the two step-zero boundaries."""
     base, src = (read_pin(dict(path=str(Path(pin['path'])/'COMPLETE.json'), sha256=pin['sha256']))
                  for pin in (base_pin, source_pin))
@@ -94,7 +94,7 @@ def match_initial_checkpoints(base_pin, source_pin, source_rows):
                        'recipe','codec_version','derived_statistics_sha256','full_XYZ_lambda','full_gripper_speed_lambda')
     if (any(value['step'] or value['cursor'] for value in (base,src))
             or set(left) != set(right) or len(left) != 87 or len(changed_keys) != 20
-            or base['bindings']['arm'] != 'M-BASE' or src['bindings']['arm'] != 'M-SRC'
+            or (base['bindings']['arm'], src['bindings']['arm']) != arms
             or base['bindings']['source_initialization'] is not None
             or any(base['bindings'][key] != src['bindings'][key] for key in common_bindings)
             or set(changed_keys) != {key for key in right if shared_key(key)}):
