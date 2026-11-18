@@ -3925,5 +3925,60 @@
       "new_native_requests": 0,
       "new_model_generations": 0
     }
+  },
+  "Teacher_eighth_carry_candidate_actual": {
+    "observed_SGT": "2026-11-18T11:06:47.076635+08:00",
+    "scientific_requests_started": 8,
+    "scientific_results_sealed": 7,
+    "confirmed_prefix_scientific_ticks": 186614,
+    "original_candidate_setup_no_effect_failures": [
+      {
+        "epoch": 1794971046.7840383,
+        "fixed_case": "M-TEACHER-F1-0-PLACE-red-right",
+        "preflight_exit_code": 1,
+        "root_not_registered": true,
+        "child_not_registered": true,
+        "unit_absent": true,
+        "original_source": "47676329b829b369e943c4b68572a9c3e76d929a",
+        "original_preflight_failure": "SEALED_PACKAGE_NAMESPACE_MISSING_IN_PREFLIGHT",
+        "actual_or_unresolved_launches": 0,
+        "actual_native_requests": 0,
+        "actual_integrations": 0
+      },
+      {
+        "epoch": 1794971124.468874,
+        "fixed_case": "M-TEACHER-F1-0-PLACE-red-right",
+        "preflight_exit_code": 1,
+        "root_not_registered": true,
+        "child_not_registered": true,
+        "unit_absent": true,
+        "original_source": "47676329b829b369e943c4b68572a9c3e76d929a",
+        "original_preflight_failure": "SEALED_PACKAGE_NAMESPACE_MISSING_IN_PREFLIGHT",
+        "actual_or_unresolved_launches": 0,
+        "actual_native_requests": 0,
+        "actual_integrations": 0
+      }
+    ],
+    "actual_unit": "wm02-sla-v6-multitask-teacher-next1-carry-20261118-04",
+    "MainPID": 1897211,
+    "native_child_PID": 1897260,
+    "cgroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-v6-multitask-teacher-next1-carry-20261118-04.service",
+    "registered_spec_sha256": "28e8628e4431db4aead2770d5d3b88d60f3c89eecfd53af01569fb40aac8e0f1",
+    "source_sha": "47676329b829b369e943c4b68572a9c3e76d929a",
+    "remaining_site_deadline_SGT": "2026-11-19T02:51:23.855488+08:00",
+    "service_deadline_SGT": "2026-11-18T12:06:24.148900+08:00",
+    "lease": "ACTIVE",
+    "changed_files": {
+      "src/go2arx5_vla/world_model/multitask_teacher_v6.py": "b61651bdc9f825e88e7ac59b2b04cea25fce14d3ffb8f6ed3168f3736e96c683",
+      "src/go2arx5_vla/world_model/multitask_teacher_episode_v6.py": "3e605fd050ab408bd94f8dbdf5987f0f6cd3d8723d16a1dd35175149973f54d1",
+      "src/go2arx5_vla/world_model/multitask_state_v6.py": "44248e6ab22c039d38bb6dca8264671c9a8eca6fe6365ca7f4eb270ef71579b6"
+    },
+    "original_population_sha256": "97a586c492811e212558f8e1c3ff978e2ec205cb9f8d7b90b8ba12c8622e3ec5",
+    "cgroup_holder_verified": true,
+    "original_condition": "M-TEACHER-F1-0-PLACE-red-right",
+    "inflight_native_step_lower_bound": 3028,
+    "WBC_or_safety_changed": false,
+    "frontend_dependency": false,
+    "stop_entry": "STOP.json at the new registered capsule root"
   }
 }
