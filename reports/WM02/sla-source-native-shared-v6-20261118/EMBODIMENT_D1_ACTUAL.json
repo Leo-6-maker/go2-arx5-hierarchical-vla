@@ -371,5 +371,1864 @@
   "optimization_visits": 0,
   "new_SLA_generations": 0,
   "student_native_requests": 0,
-  "common_statistics_fitted": false
+  "common_statistics_fitted": false,
+  "later_cold_and_inflight_checkpoint": {
+    "sealed_science": 11,
+    "attempted_science": 12,
+    "active_science": 1,
+    "unstarted_original_conditions": 36,
+    "science_tick_sealed_total": 282646,
+    "complete_teacher": 5,
+    "contact_STOP": 6,
+    "technical_failure": 0,
+    "eligible_instruction_family_cells": 1,
+    "first_eligible_cell": [
+      "F1",
+      "HOLD-blue"
+    ],
+    "verified_complete_RGB_and_H40": 418,
+    "verified_P10_atoms": 4180,
+    "eleventh_terminal": {
+      "epoch": 1794975341.6005607,
+      "spec_sha256": "f28ceada634324957ad85e1634c69bc2855d5b1d1afbd7212d2394310afd8b2b",
+      "source_sha256": "2d8132b99930eecdb0989cff0b2d18fbc507bc98",
+      "native_parent_pid": 0,
+      "live_owner_confirmed": false,
+      "cgroup_count": 0,
+      "lease": "CLOSED",
+      "terminal": true,
+      "terminal_sha256": "6e323dfb6bcc10ea13de8c16cf5b8fb99cc3682863cdd1a0c0bec9cf982dac0e",
+      "case_result_sha256": "14ddf10d5befd02d8d11155ecfbb674bf0643f16bf2331b393e00e0bb9afbaf0",
+      "native_requests": 1,
+      "native_ticks": 22703,
+      "hard_STOP": false,
+      "technical_failure": false,
+      "success": true,
+      "effects": {
+        "GPU_generations": 0,
+        "updates": 0,
+        "visits": 0
+      },
+      "integrations_after_STOP": null,
+      "first_failure": "TASK_SUCCESS",
+      "capture_sha256": "3e69fa0ee761981113d49cb099d20a987f2125d5f698e0854186d6e6cde1f95d",
+      "query_count": 68,
+      "first_phase": "PREGRASP",
+      "last_phase": "HOLD",
+      "last_query_start": 22453,
+      "carry_query_classes": {},
+      "real_confirmed_atoms_by_class": {
+        "PREGRASP": 270,
+        "DESCEND": 260,
+        "CLOSE": 30,
+        "LIFT": 100,
+        "HOLD": 20
+      },
+      "last_partial_ticks": 0,
+      "phase_counts": {
+        "PREGRASP": 27,
+        "DESCEND": 26,
+        "CLOSE": 3,
+        "LIFT": 10,
+        "HOLD": 2
+      }
+    },
+    "eleventh_G7": {
+      "epoch": 1794975342.0021377,
+      "case": "M-TEACHER-F1-1-HOLD-blue",
+      "result_sha256": "14ddf10d5befd02d8d11155ecfbb674bf0643f16bf2331b393e00e0bb9afbaf0",
+      "case_spec_sha256": "81ba8fd7ba54c2723a38dbfe03b631fdc1fcb272ebc9f3232f8ed4b9b445d0ab",
+      "capture_manifest_sha256": "3e69fa0ee761981113d49cb099d20a987f2125d5f698e0854186d6e6cde1f95d",
+      "source_sha": "2d8132b99930eecdb0989cff0b2d18fbc507bc98",
+      "used_per_capture_exporter_file_sha256": "0383e957b3a0e544615a2ca34fe696c841a66fead95ed4a3215e3f893aa4c0be",
+      "verified_exact_current_RGB_pairs": 68,
+      "actual_H40_rows": 68,
+      "actual_P10_atoms": 680,
+      "actual_native_ticks": 22703,
+      "actual_native_requests": 1,
+      "positive_score": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "HOLD-blue",
+        "task_success": true,
+        "native_step": 22703,
+        "base_directional_motion_m": 0.08284422539733362,
+        "lift_m": 0.025427033915883857,
+        "inside_selected_region": null,
+        "target_grasp": true,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": false,
+        "gripper_open_fraction": 0.43377852311025783,
+        "TCP_retreat_m": 0.018853495421809596,
+        "stable_release_condition": false,
+        "states": 17001,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": true,
+        "ever_target_lift20mm": true,
+        "maximum_lift_m": 0.025548673750947715,
+        "longest_grasp_lift_hold_s": 1.4280000000017452,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 10399,
+            "native_time_s": 20.79799999999935
+          },
+          "target_grasp": {
+            "native_step": 19518,
+            "native_time_s": 39.03600000000174
+          },
+          "target_lift20mm": {
+            "native_step": 21989,
+            "native_time_s": 43.97800000000778
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "stages": [
+        {
+          "stage": "PREGRASP",
+          "native_step": 5703
+        },
+        {
+          "stage": "DESCEND",
+          "native_step": 12453
+        },
+        {
+          "stage": "CLOSE",
+          "native_step": 18953
+        },
+        {
+          "stage": "LIFT",
+          "native_step": 19703
+        },
+        {
+          "stage": "HOLD",
+          "native_step": 22203
+        }
+      ],
+      "by_phase": {
+        "PREGRASP": 27,
+        "DESCEND": 26,
+        "CLOSE": 3,
+        "LIFT": 10,
+        "HOLD": 2
+      },
+      "rederived_state_differences": {
+        "rows_with_any_bit_difference": 63,
+        "max_abs_XYZ_m": 2.220446049250313e-16,
+        "max_abs_rot6d_component": 1.1102230246251565e-16,
+        "max_abs_gripper": 0.0
+      },
+      "maximum_original_nominal_width_speed_m_s": 0.03743754687500017,
+      "over_training_margin": 0,
+      "native_wall_s": 339.3680324982852,
+      "native_CPU_s": 201.841536679,
+      "observed_shards": 5,
+      "audit_wall_s": 0.22646387666463852,
+      "new_integrations": 0,
+      "new_generations": 0,
+      "new_optimizer_updates": 0,
+      "new_optimization_visits": 0,
+      "statistics_fitted": false
+    },
+    "whole_arm_shadow": {
+      "epoch": 1794975101.822935,
+      "case": "M-TEACHER-F1-0-PLACE-red-left",
+      "distinct_saved_roots": 3,
+      "original_certificate_sha256": "5a92891ee923e9dbd68312e03c5387d71a8a9a775f1beda39f68bb8bd9f657ca",
+      "source_capture_sha256": "e24cbb0ea68b6f92da849522b8297fc891e7d9d7fc51a8a871e4edb61b9033ca",
+      "reachability_scope": "THREE_RECORDED_ROOTS_SEALED_F1_RED_LEFT_STATIC_FULL_ARM_AND_HELD_OBJECT_ROUTE",
+      "checks": [
+        {
+          "label": "VERTICAL",
+          "parameters": {
+            "start_native_tick": 25203,
+            "segments": 6,
+            "index": 0
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2002,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.02319857616790766,
+            "max_joint_acceleration_rad_s2": 0.036615571227938126,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "VERTICAL",
+          "parameters": {
+            "start_native_tick": 25203,
+            "segments": 6,
+            "index": 1
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2003,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.023328483230835584,
+            "max_joint_acceleration_rad_s2": 0.03682125448314366,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "VERTICAL",
+          "parameters": {
+            "start_native_tick": 25203,
+            "segments": 6,
+            "index": 2
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2003,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.023460561022772275,
+            "max_joint_acceleration_rad_s2": 0.03703063585931421,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "VERTICAL",
+          "parameters": {
+            "start_native_tick": 25203,
+            "segments": 6,
+            "index": 3
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2003,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.023595334069042018,
+            "max_joint_acceleration_rad_s2": 0.037244519725598835,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "VERTICAL",
+          "parameters": {
+            "start_native_tick": 25203,
+            "segments": 6,
+            "index": 4
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2003,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.02373328804524233,
+            "max_joint_acceleration_rad_s2": 0.037463654723968176,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "VERTICAL",
+          "parameters": {
+            "start_native_tick": 25203,
+            "segments": 6,
+            "index": 5
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2003,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.02387487976372782,
+            "max_joint_acceleration_rad_s2": 0.03768874858938176,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 25203,
+            "segments": 21,
+            "index": 0
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2004,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.034949036548717616,
+            "max_joint_acceleration_rad_s2": 0.056469183411050894,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 25203,
+            "segments": 21,
+            "index": 1
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2003,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.03235537415596984,
+            "max_joint_acceleration_rad_s2": 0.052270398384793304,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 25203,
+            "segments": 21,
+            "index": 2
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2003,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.02997449837920052,
+            "max_joint_acceleration_rad_s2": 0.048411748320448256,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 25203,
+            "segments": 21,
+            "index": 3
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2004,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.02779486411617571,
+            "max_joint_acceleration_rad_s2": 0.044876571801028,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 25203,
+            "segments": 21,
+            "index": 4
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2004,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.026955267584625187,
+            "max_joint_acceleration_rad_s2": 0.042694353710093225,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 25203,
+            "segments": 21,
+            "index": 5
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2004,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.027362765361003127,
+            "max_joint_acceleration_rad_s2": 0.04328942605695829,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 25203,
+            "segments": 21,
+            "index": 6
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2004,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.02768190599338194,
+            "max_joint_acceleration_rad_s2": 0.04374939752320728,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 25203,
+            "segments": 21,
+            "index": 7
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2004,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.027920563226377926,
+            "max_joint_acceleration_rad_s2": 0.04408652381622247,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 25203,
+            "segments": 21,
+            "index": 8
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2004,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.028086320520863683,
+            "max_joint_acceleration_rad_s2": 0.04431260223380917,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 25203,
+            "segments": 21,
+            "index": 9
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2004,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.02818646638218736,
+            "max_joint_acceleration_rad_s2": 0.04443896072698905,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 25203,
+            "segments": 21,
+            "index": 10
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2004,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.02822798342628552,
+            "max_joint_acceleration_rad_s2": 0.04447643816982705,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 25203,
+            "segments": 21,
+            "index": 11
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2005,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.028217533428882557,
+            "max_joint_acceleration_rad_s2": 0.04447058979368812,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 25203,
+            "segments": 21,
+            "index": 12
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2005,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.028161440796607984,
+            "max_joint_acceleration_rad_s2": 0.04440458195067443,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 25203,
+            "segments": 21,
+            "index": 13
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2005,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.028065676700013142,
+            "max_joint_acceleration_rad_s2": 0.04427306572010181,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 25203,
+            "segments": 21,
+            "index": 14
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2005,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.027935845695683525,
+            "max_joint_acceleration_rad_s2": 0.04408506175082039,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 25203,
+            "segments": 21,
+            "index": 15
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2005,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.02777717615734865,
+            "max_joint_acceleration_rad_s2": 0.04384900214722265,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 25203,
+            "segments": 21,
+            "index": 16
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2005,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.027594515319488977,
+            "max_joint_acceleration_rad_s2": 0.04357272018902236,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 25203,
+            "segments": 21,
+            "index": 17
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2005,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.027392329276039185,
+            "max_joint_acceleration_rad_s2": 0.043263447764907426,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 25203,
+            "segments": 21,
+            "index": 18
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2005,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.02717470788726306,
+            "max_joint_acceleration_rad_s2": 0.042927820615190626,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 25203,
+            "segments": 21,
+            "index": 19
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2005,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.02694537425821597,
+            "max_joint_acceleration_rad_s2": 0.04257189099554637,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 25203,
+            "segments": 21,
+            "index": 20
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2005,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.026707698248120693,
+            "max_joint_acceleration_rad_s2": 0.042201147009190976,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "VERTICAL",
+          "parameters": {
+            "start_native_tick": 27953,
+            "segments": 6,
+            "index": 0
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2002,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.023124110874549464,
+            "max_joint_acceleration_rad_s2": 0.03650381370337019,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "VERTICAL",
+          "parameters": {
+            "start_native_tick": 27953,
+            "segments": 6,
+            "index": 1
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2003,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.023264571893826247,
+            "max_joint_acceleration_rad_s2": 0.036725766534506654,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "VERTICAL",
+          "parameters": {
+            "start_native_tick": 27953,
+            "segments": 6,
+            "index": 2
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2003,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.023406541214707755,
+            "max_joint_acceleration_rad_s2": 0.03695042099089996,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "VERTICAL",
+          "parameters": {
+            "start_native_tick": 27953,
+            "segments": 6,
+            "index": 3
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2003,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.02355063109523936,
+            "max_joint_acceleration_rad_s2": 0.03717871420376717,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "VERTICAL",
+          "parameters": {
+            "start_native_tick": 27953,
+            "segments": 6,
+            "index": 4
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2003,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.02369740493347372,
+            "max_joint_acceleration_rad_s2": 0.03741151264873288,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "VERTICAL",
+          "parameters": {
+            "start_native_tick": 27953,
+            "segments": 6,
+            "index": 5
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2003,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.02384738880309767,
+            "max_joint_acceleration_rad_s2": 0.0376496292832762,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 27953,
+            "segments": 17,
+            "index": 0
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2004,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.03460287642298665,
+            "max_joint_acceleration_rad_s2": 0.055881835372667554,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 27953,
+            "segments": 17,
+            "index": 1
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2003,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.03208289119457197,
+            "max_joint_acceleration_rad_s2": 0.05180536095393817,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 27953,
+            "segments": 17,
+            "index": 2
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2003,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.02976442087815584,
+            "max_joint_acceleration_rad_s2": 0.048050585697623216,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 27953,
+            "segments": 17,
+            "index": 3
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2004,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.027637266541366,
+            "max_joint_acceleration_rad_s2": 0.044602952007710694,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 27953,
+            "segments": 17,
+            "index": 4
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2004,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.026573478905722592,
+            "max_joint_acceleration_rad_s2": 0.04207390829851221,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 27953,
+            "segments": 17,
+            "index": 5
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2004,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.026945947985466123,
+            "max_joint_acceleration_rad_s2": 0.042616374441051263,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 27953,
+            "segments": 17,
+            "index": 6
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2004,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.027235068684434705,
+            "max_joint_acceleration_rad_s2": 0.043031615876421014,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 27953,
+            "segments": 17,
+            "index": 7
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2004,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.027448669260479175,
+            "max_joint_acceleration_rad_s2": 0.043331792625700416,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 27953,
+            "segments": 17,
+            "index": 8
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2004,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.02759423959883156,
+            "max_joint_acceleration_rad_s2": 0.04352852898215076,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 27953,
+            "segments": 17,
+            "index": 9
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2004,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.02767892505073366,
+            "max_joint_acceleration_rad_s2": 0.043632902358137216,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 27953,
+            "segments": 17,
+            "index": 10
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2004,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.027709517821445928,
+            "max_joint_acceleration_rad_s2": 0.043655428855915446,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 27953,
+            "segments": 17,
+            "index": 11
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2004,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.027692447214986426,
+            "max_joint_acceleration_rad_s2": 0.04364596918646768,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 27953,
+            "segments": 17,
+            "index": 12
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2005,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.027633770252211143,
+            "max_joint_acceleration_rad_s2": 0.04357386474205249,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 27953,
+            "segments": 17,
+            "index": 13
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2005,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.027539164064251942,
+            "max_joint_acceleration_rad_s2": 0.043442303056284715,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 27953,
+            "segments": 17,
+            "index": 14
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2005,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.027413921169454625,
+            "max_joint_acceleration_rad_s2": 0.0432598208396584,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 27953,
+            "segments": 17,
+            "index": 15
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2005,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.027262948377702045,
+            "max_joint_acceleration_rad_s2": 0.043034346985404426,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 27953,
+            "segments": 17,
+            "index": 16
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2005,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.02709076969872104,
+            "max_joint_acceleration_rad_s2": 0.042773205034407624,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "VERTICAL",
+          "parameters": {
+            "start_native_tick": 30453,
+            "segments": 6,
+            "index": 0
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2002,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.023080297884778833,
+            "max_joint_acceleration_rad_s2": 0.036439283372113884,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "VERTICAL",
+          "parameters": {
+            "start_native_tick": 30453,
+            "segments": 6,
+            "index": 1
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2003,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.0232293484749313,
+            "max_joint_acceleration_rad_s2": 0.0366745595398843,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "VERTICAL",
+          "parameters": {
+            "start_native_tick": 30453,
+            "segments": 6,
+            "index": 2
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2003,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.023379520259501074,
+            "max_joint_acceleration_rad_s2": 0.036911955731033785,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "VERTICAL",
+          "parameters": {
+            "start_native_tick": 30453,
+            "segments": 6,
+            "index": 3
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2003,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.023531478792515603,
+            "max_joint_acceleration_rad_s2": 0.03715249069919935,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "VERTICAL",
+          "parameters": {
+            "start_native_tick": 30453,
+            "segments": 6,
+            "index": 4
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2003,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.023685836425981766,
+            "max_joint_acceleration_rad_s2": 0.03739710600445534,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "VERTICAL",
+          "parameters": {
+            "start_native_tick": 30453,
+            "segments": 6,
+            "index": 5
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2003,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.023843164411390116,
+            "max_joint_acceleration_rad_s2": 0.03764668401786686,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 30453,
+            "segments": 12,
+            "index": 0
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2004,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.035326629238595086,
+            "max_joint_acceleration_rad_s2": 0.057030463210142046,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 30453,
+            "segments": 12,
+            "index": 1
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2003,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.032785693134974314,
+            "max_joint_acceleration_rad_s2": 0.05292457043490906,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 30453,
+            "segments": 12,
+            "index": 2
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2003,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.030440902267692693,
+            "max_joint_acceleration_rad_s2": 0.04913067056204201,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 30453,
+            "segments": 12,
+            "index": 3
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2004,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.028284108005462993,
+            "max_joint_acceleration_rad_s2": 0.04563772759466067,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 30453,
+            "segments": 12,
+            "index": 4
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2004,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.026304626636369233,
+            "max_joint_acceleration_rad_s2": 0.04242996545189559,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 30453,
+            "segments": 12,
+            "index": 5
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2004,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.02624900963705823,
+            "max_joint_acceleration_rad_s2": 0.04151767594788858,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 30453,
+            "segments": 12,
+            "index": 6
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2004,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.02653791994984056,
+            "max_joint_acceleration_rad_s2": 0.04193418977669339,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 30453,
+            "segments": 12,
+            "index": 7
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2004,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.02675439672806812,
+            "max_joint_acceleration_rad_s2": 0.04224045297491763,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 30453,
+            "segments": 12,
+            "index": 8
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2004,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.026905818699252126,
+            "max_joint_acceleration_rad_s2": 0.04244789159986162,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 30453,
+            "segments": 12,
+            "index": 9
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2004,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.026999176947073433,
+            "max_joint_acceleration_rad_s2": 0.042567319767483625,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 30453,
+            "segments": 12,
+            "index": 10
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2004,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.027041072593558813,
+            "max_joint_acceleration_rad_s2": 0.042608936091204086,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        },
+        {
+          "label": "HORIZONTAL",
+          "parameters": {
+            "start_native_tick": 30453,
+            "segments": 12,
+            "index": 11
+          },
+          "evidence": {
+            "status": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+            "certifier_revision": "FIVE_UPDATE_FINAL_FK_CHECK_V1",
+            "maximum_IK_updates_per_point": 5,
+            "position_tolerance_m": 1e-05,
+            "rotation_tolerance_rad": 0.0001,
+            "points": 1001,
+            "local_IK_iterations": 2004,
+            "physics_integrations": 0,
+            "actual_state_modified": false,
+            "max_joint_speed_rad_s": 0.027037714832642834,
+            "max_joint_acceleration_rad_s2": 0.04260697378719591,
+            "executed_reference_history_points": 0,
+            "Cartesian_reference_values_changed": false
+          }
+        }
+      ],
+      "native_requests": 0,
+      "integrations": 0,
+      "model_generations": 0
+    },
+    "full_H40_saved_state_replay": {
+      "epoch": 1794975245.478395,
+      "candidate_file_sha256": "2743876401af12515ad8b1fcb67e5573e57e841295fc74d9bbb31eda2ae5c2bf",
+      "original_native_source_sha": "258beceaf24a26c5fd3ecf945488df0a75125299",
+      "rows": [
+        {
+          "case": "M-TEACHER-F1-0-PLACE-red-left",
+          "result_sha256": "247a515e893db70332912db24fccc6ecef54a19a1669e8a1227ca68baec4df03",
+          "input_capture_sha256": "e24cbb0ea68b6f92da849522b8297fc891e7d9d7fc51a8a871e4edb61b9033ca",
+          "scientific_success": false,
+          "carry_rows": 22,
+          "rows_requesting_measured_raise": 22,
+          "unchanged_goal_rows": 0,
+          "earliest_raise": {
+            "step": 25203,
+            "old_goal": [
+              0.43511684159047553,
+              0.04057206907623381,
+              0.6603161839884231
+            ],
+            "new_goal": [
+              0.34356899751252606,
+              -0.06572640132935101,
+              0.690932999261916
+            ],
+            "measured_tcp": [
+              0.34356899751252606,
+              -0.06572640132935101,
+              0.654932999261916
+            ]
+          },
+          "last_raise": {
+            "step": 30453,
+            "old_goal": [
+              0.43510478754341936,
+              0.040664983090654264,
+              0.6603161839884231
+            ],
+            "new_goal": [
+              0.3852470947487283,
+              -0.02255801766952212,
+              0.6919927715016192
+            ],
+            "measured_tcp": [
+              0.3852470947487283,
+              -0.02255801766952212,
+              0.6559927715016192
+            ]
+          },
+          "paired_original_and_proposed_full_H40": {
+            "native_step": 30453,
+            "original_max_capture_error": 4.440892098500626e-16,
+            "old_last_displacement_m": [
+              0.009056164423921875,
+              0.011454971170234881,
+              0.0008076466342966659
+            ],
+            "new_last_displacement_m": [
+              0.0009773188002227817,
+              0.0012160821315696478,
+              0.012502001463858603
+            ],
+            "new_target": [
+              0.3852470947487283,
+              -0.02255801766952212,
+              0.6919927715016192
+            ],
+            "sampled_min_gap_m": -0.0037604179939740405,
+            "original_full_EEF_gate_pass": true,
+            "existing_gripper_waveform_bit_identical": true
+          }
+        },
+        {
+          "case": "M-TEACHER-F1-0-PLACE-blue-left",
+          "result_sha256": "b3cc05fa20f78bad3a4614c78f2da8a0a34a06dc633d9a9ba58faafb5a9ec3d8",
+          "input_capture_sha256": "87b663007ab00ea942614d7a2c69fe02b9a104193244f0f78723039223d87e48",
+          "scientific_success": true,
+          "carry_rows": 31,
+          "rows_requesting_measured_raise": 0,
+          "unchanged_goal_rows": 31,
+          "earliest_raise": null,
+          "last_raise": null
+        }
+      ],
+      "action_scope": "INDEPENDENT_SAVED_STATE_SINGLE_QUERY_COMPARISON",
+      "same_scene_and_frozen_controller": true,
+      "new_integrations": 0,
+      "new_native_requests": 0,
+      "new_model_generations": 0
+    },
+    "twelfth": {
+      "cgroup_members": 8,
+      "current_owner_verified": true,
+      "lease": {
+        "status": "ACTIVE",
+        "owner": "EXISTING_LOCAL_PC",
+        "spec_sha256": "66ab27749d87a865e49cf0edb49a9b975e1dab43c7273fdcb36da89b625f7cae",
+        "deadline_epoch": 1794978955.8884518
+      },
+      "source_sha": "5d6a379da324919dc27a1e4ae1c5f4bbb348aac6",
+      "current_child_pid": 1969465,
+      "current_phase": "NATIVE_CASE",
+      "all_registered_requests": 1,
+      "spec_sha256": "66ab27749d87a865e49cf0edb49a9b975e1dab43c7273fdcb36da89b625f7cae",
+      "main_pid": 1969424,
+      "unit": "wm02-sla-v6-multitask-teacher-next1-f1-red-left-distal-20261118-01",
+      "observed_SGT": "2026-11-18T12:16:17.284681+08:00",
+      "actual_last_integration": {
+        "step": 3022,
+        "kind": "sample",
+        "time_s": 6.043999999999556
+      },
+      "deadline_SGT": "2026-11-18T13:15:55.888452+08:00",
+      "no_frontend_dependency": true,
+      "stop_file": "STOP.json"
+    },
+    "new_optimizer_updates": 0,
+    "new_optimization_visits": 0,
+    "new_model_generations": 0,
+    "student_native_requests": 0
+  }
 }
