@@ -12,6 +12,9 @@ from .multitask_state_v6 import TwoObjectState, score_through
 from .multitask_teacher_v6 import MultitaskTeacher
 from .native_collection_performance_v1 import measure
 
+CONTACT_PHASES = {'PREGRASP': 'approach', 'DESCEND': 'approach',
+                  'SUPPORTED': 'lower', 'RESEAT': 'lower', 'RELEASED': 'open'}
+
 
 def confirmed_context(adapter, step, query_time):
     """Use the final actually acknowledged atom already recorded by consume."""
@@ -44,6 +47,7 @@ def episode(adapter, *, placement_teacher=None):
         probe = DistalCarryGeometry(adapter.actual_state.model, adapter.task.color)
         teacher.distal_clearance = probe.clearance
     writer = LiveWriter(adapter,frame,camera_factory=TwoObjectCameraSession)
+    observe = getattr(teacher, 'observe_native', None)
     scored = None
     query_count = 0
     consumed = 0
@@ -54,7 +58,7 @@ def episode(adapter, *, placement_teacher=None):
     stages = []
     try:
         with (adapter.output/'state.bin.journal').open('rb') as stream:
-            scored = score_through(stream,reader,score,initial['native_step'])
+            scored = score_through(stream,reader,score,initial['native_step'],observe=observe)
             for query in range(adapter.spec['policy_queries']):
                 sample = adapter.measured_task_state()
                 try:
@@ -88,6 +92,8 @@ def episode(adapter, *, placement_teacher=None):
                     row['d2_placement_corridor_audit_only'] = {
                         key:evidence[key] for key in ('d2_full_route','d2_remaining_placement','d2_filtered_P10')
                         if key in evidence and evidence[key] is not None}
+                if 'd3_contact_audit_only' in evidence:
+                    row['d3_contact_audit_only'] = evidence['d3_contact_audit_only']
                 if teacher.stage == 'CARRY':
                     row['teacher_carry_clearance_audit_only'] = dict(
                         swept_footprint_overlaps=evidence['teacher_carry_footprint_overlap'],
@@ -96,9 +102,7 @@ def episode(adapter, *, placement_teacher=None):
                     if teacher.distal_clearance_evidence is not None:
                         row['teacher_distal_corridor_audit_only'] = teacher.distal_clearance_evidence
                 query_count += 1
-                adapter.mobile_contact_stage = (
-                    'approach' if teacher.stage in ('PREGRASP','DESCEND') else teacher.stage.lower()
-                )
+                adapter.mobile_contact_stage = CONTACT_PHASES.get(teacher.stage, teacher.stage.lower())
                 adapter.mobile_program=program
                 adapter.mobile_program_start_step=sample['native_step']
                 for atom in range(10):
@@ -119,7 +123,7 @@ def episode(adapter, *, placement_teacher=None):
                 teacher.commit(program,sample['native_step'])
                 row['next_query_boundary']=witness
                 with measure(adapter,'score.native_2ms'):
-                    scored=score_through(stream,reader,score,sample['native_step'])
+                    scored=score_through(stream,reader,score,sample['native_step'],observe=observe)
                 write(adapter.output/'MULTITASK_SCORE_PROGRESS.private.json',scored)
                 if scored['task_success']:
                     break

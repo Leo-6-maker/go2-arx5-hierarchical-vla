@@ -163,7 +163,7 @@ def run_case(spec_path,lock_fd):
     from go2arx5_vla.world_model.init_trace_reader import audit_trace
     spec=read(spec_path);root=Path(spec['registered_root']);group=Path(spec['mobile_group'])
     multitask=spec.get('mobile_experiment_version')=='MFREE_MULTITASK_NATIVE_V6'
-    d2=spec.get('scope')=='SLA_D2_MFREE_NATIVE_MUJOCO'
+    d2=spec.get('scope') in ('SLA_D2_MFREE_NATIVE_MUJOCO','SLA_D3_MFREE_NATIVE_MUJOCO')
     lease=registered(spec,spec_path);parent=read(group/'SUPERVISOR.private.json')
     if (spec['phase']!=PHASE or os.uname().nodename!='corelab-4080s'or os.getuid()!=2009
             or lease['status']!='ACTIVE'or lease['spec_sha256']!=digest(spec_path)

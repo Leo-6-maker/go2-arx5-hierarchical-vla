@@ -10,18 +10,28 @@ from .storage import digest
 
 PLAN = '2352547871684c7617c2c89754fbf9c70a534abb'
 SCOPE = 'SLA_D2_MFREE_NATIVE_MUJOCO'
+D3_PLAN = '323551a76e4462436d4ed13f1cbb205156d7ce99'
+D3_SCOPE = 'SLA_D3_MFREE_NATIVE_MUJOCO'
+D3_TEACHER = 'CONTACT_D3_V1'
 PROFILES = ('LEGACY_N1', 'LEGACY_N2')
 STAGED_TEACHER = 'STAGED_CALIBRATED_V2'
 START = 5703
 PROBE_TICKS = 10703
 
 
+def protocol(spec):
+    if spec.get('scope') == D3_SCOPE:
+        return D3_SCOPE, D3_PLAN, 'CURRENT_USER_EXPLICIT_PR413_FIXED_D3_PLAN'
+    return SCOPE, PLAN, 'CURRENT_USER_EXPLICIT_PR411_FIXED_D2_PLAN'
+
+
 def bound_slot(spec):
+    _, plan, _ = protocol(spec)
     binding = read_pin(spec['d2_world_binding'])
     slots = binding['slots']
     profile = spec['d2_profile']
     if (profile not in PROFILES or len(slots) != (1 if profile=='LEGACY_N1' else 2)
-            or binding['plan_commit'] != PLAN or binding['source_sha'] != spec['source_sha']
+            or binding['plan_commit'] != plan or binding['source_sha'] != spec['source_sha']
             or binding['campaign_root'] != spec['campaign_root']
             or binding['deadline_epoch'] != spec['deadline_epoch']):
         raise PermissionError('D2_PINNED_CAMPAIGN_WORLD_BINDING')
@@ -51,6 +61,7 @@ def bound_slot(spec):
 
 
 def validate(spec, *, before_spawn=False):
+    scope, plan, authority_source = protocol(spec)
     env = spec['native_environment']
     role = spec['sim_only_role']
     task = Task.parse(spec['task_instruction_id'])
@@ -60,11 +71,12 @@ def validate(spec, *, before_spawn=False):
     stage = spec['d2_stage']
     world = bound_slot(spec)
     case = Path(spec['registered_root'])
-    if (spec['scope'] != SCOPE or spec['plan_commit'] != PLAN
+    scientific_stages = ('R1', 'R2', 'Q') if scope == D3_SCOPE else ('D', 'Q')
+    if (spec['scope'] != scope or spec['plan_commit'] != plan
             or spec['mobile_experiment_version'] != VERSION or spec['native_backend'] != 'MUJOCO_ONLY'
             or spec['execution_clock_profile'] != 'SIM_PAUSED_NATIVE'
             or role not in ('INTERFACE','EXPERT') or spec['physics'] is not True
-            or (probe and stage!='E') or (not probe and stage not in ('D','Q'))
+            or (probe and stage!='E') or (not probe and stage not in scientific_stages)
             or spec['hardware_connections_allowed'] is not False
             or spec['WBC_changes'] is not False or spec['safety_changes'] is not False
             or spec['physics_dt_s'] != .002 or spec['max_ticks'] != cap
@@ -85,8 +97,8 @@ def validate(spec, *, before_spawn=False):
         raise PermissionError('D2_FROZEN_MOBILE_CONTRACT_OR_WORLD_IDENTITY')
     authority = read_pin(spec['sim_only_project_authorization'])
     now = time.time()
-    if (authority.get('source') != 'CURRENT_USER_EXPLICIT_PR411_FIXED_D2_PLAN'
-            or authority['plan_commit'] != PLAN or authority['source_sha'] != spec['source_sha']
+    if (authority.get('source') != authority_source
+            or authority['plan_commit'] != plan or authority['source_sha'] != spec['source_sha']
             or authority['hardware_allowed'] is not False
             or not now < spec['deadline_epoch'] <= min(authority['deadline_epoch'],
                    spec['allocation_deadline_epoch'], spec['campaign_deadline_epoch'])):
@@ -109,10 +121,28 @@ def validate(spec, *, before_spawn=False):
             not probe or spec['d2_profile']!='LEGACY_N2' or stop_pair not in (1,2)))):
         raise PermissionError('D2_EXACT_PREREGISTERED_STOP_PAIR_BATCH')
     candidate = spec.get('d2_teacher_candidate')
+    candidates = (None, D3_TEACHER) if scope == D3_SCOPE else (None, STAGED_TEACHER)
     if (candidate != item.get('d2_teacher_candidate')
-            or candidate not in (None, STAGED_TEACHER)
+            or candidate not in candidates
             or (probe and candidate is not None)):
         raise PermissionError('D2_EXACT_PREREGISTERED_TEACHER_CANDIDATE')
+    if scope == D3_SCOPE:
+        from .multitask_contact_teacher_d3 import MECHANISMS
+
+        if (not probe and candidate != D3_TEACHER
+                or (stage == 'R1' and spec['d2_profile'] != 'LEGACY_N1')
+                or spec.get('d3_ablation') != item.get('d3_ablation')
+                or spec.get('d3_ablation') not in (None, *MECHANISMS)
+                or (stage != 'R1' and spec.get('d3_ablation') is not None)
+                or spec.get('d3_stop_barrier') != item.get('d3_stop_barrier')
+                or bool(spec.get('d3_stop_barrier')) != bool(stop_pair)):
+            raise PermissionError('D3_EXACT_PREREGISTERED_ARM_AND_ENGINEERING_BARRIER')
+        barrier = spec.get('d3_stop_barrier')
+        if barrier:
+            expected_stop = 'W1' if stop_pair == 1 else 'W2'
+            if (barrier != dict(stop_world=expected_stop, maximum_wait_s=90)
+                    or (local_stop == 1500) != (world['id'] == expected_stop)):
+                raise PermissionError('D3_STOP_PAIR_WORLD_AND_BOUNDED_WAIT')
     if not probe:
         runtime = spec['d2_g7_runtime']
         if (runtime['environment']['CUDA_VISIBLE_DEVICES'] != ''
@@ -128,6 +158,11 @@ def episode(adapter):
         return probe(adapter)
     from .multitask_teacher_d2 import PlacementTeacher
     from .multitask_teacher_episode_v6 import episode as teacher
+    if adapter.spec.get('d2_teacher_candidate') == D3_TEACHER:
+        from functools import partial
+        from .multitask_contact_teacher_d3 import ContactTeacher
+
+        return teacher(adapter, placement_teacher=partial(ContactTeacher, ablated=adapter.spec.get('d3_ablation')))
     if adapter.spec.get('d2_teacher_candidate') == STAGED_TEACHER:
         from .multitask_staged_placement_d2 import StagedPlacementTeacher
         return teacher(adapter, placement_teacher=StagedPlacementTeacher)

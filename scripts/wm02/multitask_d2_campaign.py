@@ -12,7 +12,7 @@ import traceback
 from scripts.pi0292.durable import OwnerLock, write
 from scripts.pi0294.e1.journal import Journal
 from go2arx5_vla.world_model.mfree_unattended_runtime_v1 import close
-from go2arx5_vla.world_model.multitask_scope_d2 import PLAN, SCOPE, validate
+from go2arx5_vla.world_model.multitask_scope_d2 import D3_SCOPE, protocol, validate
 from go2arx5_vla.world_model.multitask_scope_v6 import read_pin
 from go2arx5_vla.world_model.storage import digest
 from .mobile_boundary_runner_v1 import registered
@@ -92,9 +92,10 @@ def g7_receipt(case, case_path, result_sha):
 
 
 def preflight(spec):
+    scope, plan, _ = protocol(spec)
     root = Path(spec['registered_root'])
     binding = read_pin(spec['d2_world_binding'])
-    if (spec['scope'] != SCOPE or spec['plan_commit'] != PLAN
+    if (spec['scope'] != scope or spec['plan_commit'] != plan
             or spec['campaign_root'] != str(root) or spec['new_model_generations_budget']
             or spec['new_training_visits_budget'] or spec['new_optimizer_updates_budget']
             or not time.time() < spec['deadline_epoch'] <= min(spec['allocation_deadline_epoch'],
@@ -107,7 +108,7 @@ def preflight(spec):
     if [c['panel_entry_id'] for _,c in cards] != [c['id'] for c in read_pin(spec['registered_panel'])]:
         raise PermissionError('D2_EXACT_REGISTERED_CASE_ORDER')
     stage = spec['d2_stage']
-    limits = {'E':64,'D':24,'Q':48}
+    limits = {'E':24,'R1':12,'R2':12,'Q':48} if scope==D3_SCOPE else {'E':64,'D':24,'Q':48}
     if len(cards) > limits[stage]:
         raise PermissionError('D2_PREREGISTERED_STAGE_BOUND')
     if stage != 'E':
@@ -191,7 +192,8 @@ def run(spec_path, spec):
             while head is not None or active:
                 stopped = (root/'STOP.json').exists()
                 deadline = time.time() >= spec['deadline_epoch']-spec['case_lead_s']
-                futile = spec['d2_stage']=='Q' and not matrix_still_possible([c for _,c in cards],rows)
+                futile = ((spec['d2_stage']=='Q' and not matrix_still_possible([c for _,c in cards],rows))
+                          or (spec['d2_stage']=='R2' and any(not row.get('G7_pass') for row in rows.values())))
                 if not (stopped or deadline or futile or fatal):
                     busy = {case['d2_world_id'] for _,case in active.values()}
                     while head is not None:
@@ -218,7 +220,7 @@ def run(spec_path, spec):
                             fatal = 'D2_ORIGINAL_STOP_OR_TICK_VIOLATION'
                             if not (root/'STOP.json').exists():
                                 write(root/'STOP.json',dict(reason=fatal))
-                        elif row['technical_failure']:
+                        elif row['technical_failure'] and spec['d2_stage'] != 'R1':
                             fatal = 'D2_PRESERVED_TECHNICAL_FAILURE_NO_AUTO_REPLAY'
                         elif spec['d2_stage']=='E' and (not row['completed'] or row['hard_STOP']
                                                        or not row['interface_protocol_pass']):

@@ -15,10 +15,12 @@ TRACE_MAX_BYTES = 768 * 1024**2
 
 def configuration(spec):
     if spec.get('d2_isolated_live_control') is not None:
-        from .multitask_scope_d2 import PLAN, SCOPE
+        from .multitask_scope_d2 import protocol
+
+        scope, plan, _ = protocol(spec)
 
         if (spec['d2_isolated_live_control'] != VERSION
-                or spec.get('scope') != SCOPE or spec.get('plan_commit') != PLAN
+                or spec.get('scope') != scope or spec.get('plan_commit') != plan
                 or spec.get('sim_only_role') not in ('INTERFACE','EXPERT')
                 or not spec.get('d2_world_binding')):
             raise PermissionError('D2_ISOLATED_MOBILE_WORLD_REQUIRED_FOR_TMPFS')

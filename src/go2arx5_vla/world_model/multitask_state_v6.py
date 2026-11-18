@@ -39,7 +39,7 @@ def packets(path):
             previous=row['step'];yield row
 
 
-def score_through(stream, reader, score, limit):
+def score_through(stream, reader, score, limit, *, observe=None):
     """Score the actual 2 ms journal up to the owned paused boundary."""
     import mujoco
     from .native_replay import forbid_integration
@@ -50,7 +50,10 @@ def score_through(stream, reader, score, limit):
             if packet is None or packet['step'] > limit:
                 raise ValueError('EXACT_PAUSED_TASK_SCORE_PACKET_MISSING')
             if packet['step'] >= score.start:
-                score.update(reader.update(packet))
+                sample = reader.update(packet)
+                score.update(sample)
+                if observe is not None:
+                    observe(sample)
     return score.result()
 
 

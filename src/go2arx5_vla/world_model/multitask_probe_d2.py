@@ -52,6 +52,48 @@ def project_stop(adapter, step):
                 wall_epoch=time.time(),terminal_reason='EXPECTED_WORLD_LOCAL_PROJECT_STOP')
 
 
+def paired_stop_barrier(adapter, step):
+    """Prove the peer is paused at the same tick before latching one STOP."""
+    spec = adapter.spec
+    barrier = spec['d3_stop_barrier']
+    slot = spec['d2_world_id']
+    group = Path(spec['campaign_root']) / 'stop-barriers' / str(spec['d2_stop_pair'])
+    group.mkdir(parents=True, exist_ok=True)
+    if _pause(adapter)['packet']['step'] != step or step != 7203:
+        raise RuntimeError('D3_STOP_PAIR_BARRIER_REQUIRES_EXACT_7203')
+    identity = dict(source_sha=spec['source_sha'], pair=spec['d2_stop_pair'], native_step=step)
+    write(group / f'{slot}.ready.json', dict(identity, world=slot))
+    until = time.monotonic() + barrier['maximum_wait_s']
+
+    def wait_for(path):
+        import json
+        while time.monotonic() < until:
+            adapter.guard()
+            if path.is_file():
+                value = json.loads(path.read_bytes())
+                if any(value.get(k) != v for k, v in identity.items()):
+                    raise RuntimeError('D3_STOP_PAIR_IDENTITY_MISMATCH')
+                return value
+            time.sleep(.025)
+        raise TimeoutError('D3_STOP_PAIR_BARRIER_TIMEOUT_NO_RESUME')
+
+    peer = 'W2' if slot == 'W1' else 'W1'
+    if wait_for(group / f'{peer}.ready.json')['world'] != peer:
+        raise RuntimeError('D3_STOP_PAIR_PEER_WORLD_CHANGED')
+    stopped = barrier['stop_world']
+    proof_path = group / 'stop-proved.json'
+    if slot == stopped:
+        proof = project_stop(adapter, step)
+        write(proof_path, dict(identity, **{k:v for k,v in proof.items() if k!='native_step'}, world=slot))
+        return proof, None
+    proof = wait_for(proof_path)
+    if (proof['world'] != stopped or proof['integrations_after_project_STOP'] != 0
+            or _pause(adapter)['packet']['step'] != step):
+        raise RuntimeError('D3_STOP_PAIR_PROOF_AND_PAUSED_PEER_REQUIRED')
+    return None, dict(barrier_tick=step, stopped_world=stopped, stopped_wall_epoch=proof['wall_epoch'],
+                      peer_resume_wall_epoch=time.time())
+
+
 def episode(adapter):
     from scripts.wm02.mobile_boundary_runner_v1 import consume, install
 
@@ -65,12 +107,17 @@ def episode(adapter):
     motion_counts = Counter()
     sample = initial
     expected_stop = None
+    peer_continuation = None
     task_origin = np.asarray(initial['tcp'])[:3,3]
     largest_distance = 0.
     try:
         for query in range(adapter.spec['policy_queries']):
             local_stop = adapter.spec.get('d2_stop_at_task_tick')
-            if local_stop is not None and sample['native_step']-initial['native_step']==local_stop:
+            if adapter.spec.get('d3_stop_barrier') and sample['native_step']==7203:
+                expected_stop, peer_continuation = paired_stop_barrier(adapter, sample['native_step'])
+                if expected_stop:
+                    break
+            elif local_stop is not None and sample['native_step']-initial['native_step']==local_stop:
                 expected_stop = project_stop(adapter,sample['native_step'])
                 break
             with measure(adapter, 'capture.native_RGB'):
@@ -103,6 +150,8 @@ def episode(adapter):
             controller.commit(program,sample['native_step'])
     finally:
         capture.close()
+    if peer_continuation is not None:
+        peer_continuation['integrations_after_peer_STOP'] = sample['native_step'] - peer_continuation['barrier_tick']
     cancel = adapter.cancel_reference() if expected_stop is None else None
     return dict(schema='SLA_MFREE_D2_NONCONTACT_PROBE_ACTUAL',task_success=False,
                 interface_protocol_pass=sample['native_step']==adapter.spec['max_ticks'] or expected_stop is not None,
@@ -111,4 +160,4 @@ def episode(adapter):
                 consumed_task_atoms=motion_counts['atoms'],install_ACKs=motion_counts['installs'],
                 RGB_pairs=frames,protocol_probe=motion,maximum_actual_TCP_displacement_m=largest_distance,
                 initial_mount=mount.tolist(),controller_selected_reference='UNKNOWN',
-                expected_project_STOP=expected_stop,cancel=cancel)
+                expected_project_STOP=expected_stop,peer_project_STOP_continuation=peer_continuation,cancel=cancel)
