@@ -27,4 +27,6 @@ Core 用原 MuJoCo 3.2.7 将上述四条 159,443 个 2 ms 实际状态的 qpos�
 
 本审计新增训练、访问、模型生成、原生请求和 tick 均为 0。真实接触表现、新 G7 和吞吐资格另见后续阶段实绩。
 
+原 D0 的 31,366 个同指令跨回合候选中有 34 对近邻状态，上一实发夹爪宽度对应的首点可行区间不相交为 0/34。D0 尚未检验这些对的 RGB 等价。本轮保持学生输入，聚焦实际放置路径和阶段交接。[冻结 D0 结果](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/b29bd2badc976e2288f9d009e4bf14cc41b769af/reports/WM02/sla-source-native-shared-v6-20261118/EMBODIMENT_D0_ACTUAL.md)
+
 [机读实绩](D2_CAUSAL_AUDIT_ACTUAL.json) · [固定计划](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/pull/411) · [旧原生终态](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/pull/409)
