@@ -440,7 +440,7 @@
   "B2": {
     "status": "ACTIVE",
     "registered": 12,
-    "observation_epoch": 1794992779.1064079,
+    "observation_epoch": 1794993269.3314235,
     "unit": "wm02-sla-d2-teacher-development-b2-20261118-01",
     "pid": 2254139,
     "invocation_id": "fb2a24672a004969a87f74fdeb959a07",
@@ -454,18 +454,18 @@
     "allocation_deadline_epoch": 1795027883.855488,
     "predecessor_native_result_sha256": "b0c953ba9a23d10c3430dabbc14645cec7affb2048d4459fe3b4c0eacc6e43d7",
     "launch_readback_sha256": "ee93eac6f563d1b40f5207fee5f83c6c3f156fe8b11c3d9865a7cb0f220b3a97",
-    "live_readback_sha256": "2c2c18bded7ad91df0f6a57a871b3d912a1a77c655c1e59a1f74b395ca4aeea9",
+    "live_readback_sha256": "be6a6bc2141a11f0149d8aa22c76dda4ed3dbda3a80c8db4444ceb2a8c729e02",
     "site_readback_sha256": "f0ec5448bc45e0d8bbcac7110d73c847d9bc34f59b3a047515b3e2fc73a4b4d7",
     "linger": true,
     "frontend_dependency": false,
     "backend": "LEGACY_N1",
-    "native_requests": 4,
-    "sealed": 3,
+    "native_requests": 5,
+    "sealed": 4,
     "first_case": "D2-DEVELOPMENT-F1-2-HOLD-red",
-    "observed_native_ticks": 4328,
+    "observed_native_ticks": 3478,
     "cgroup_membership_verified": true,
-    "sealed_native_ticks": 68536,
-    "current_case": "D2-DEVELOPMENT-F1-2-PLACE-red-right",
+    "sealed_native_ticks": 100989,
+    "current_case": "D2-DEVELOPMENT-F1-2-PLACE-blue-left",
     "records": [
       {
         "id": "D2-DEVELOPMENT-F1-2-HOLD-red",
@@ -636,9 +636,70 @@
           ],
           "margin_m": 0.019178605115296555
         }
+      },
+      {
+        "id": "D2-DEVELOPMENT-F1-2-PLACE-red-right",
+        "native_ticks": 32453,
+        "result_sha256": "352c2cc6ba89f6e95ea3ff347a91024dca6ca78cfaad30887aa3df32e71bc089",
+        "task_success": false,
+        "native_grasp": true,
+        "maximum_lift_m": 0.026932506511747833,
+        "first_failure": "D2_SHADOW_OPENING_REQUIRES_MEASURED_SUPPORT",
+        "technical_failure": false,
+        "hard_STOP": false,
+        "phase": "OPEN",
+        "no_original_full_H40_rejection": true,
+        "archive_readback_sha256": "3d8c504a2573089956c1af6d1786936f247ec32256a0156957c17f2f8ff516d7",
+        "reached_region": true,
+        "released_after_grasp": false,
+        "stable_release_and_retreat": false,
+        "requested_route": {
+          "chosen_relative_world_yaw_deg": -1.2424041724466867e-16,
+          "last_measured_query_relative_world_yaw_deg": 0.012739103153426218,
+          "last_measured_query_tick": 32203,
+          "requested_offset_mm": [
+            -8.000000000000007,
+            7.999999999999993
+          ],
+          "archived_H40": 107,
+          "consumed_P10_atoms": 1070
+        },
+        "stages": [
+          {
+            "stage": "PREGRASP",
+            "native_step": 5703
+          },
+          {
+            "stage": "DESCEND",
+            "native_step": 13703
+          },
+          {
+            "stage": "CLOSE",
+            "native_step": 18953
+          },
+          {
+            "stage": "LIFT",
+            "native_step": 19703
+          },
+          {
+            "stage": "CARRY",
+            "native_step": 22203
+          },
+          {
+            "stage": "LOWER",
+            "native_step": 29203
+          },
+          {
+            "stage": "OPEN",
+            "native_step": 32203
+          }
+        ],
+        "g7": null,
+        "wall_s": 499.38963694125414,
+        "CPU_s": 344.433350805
       }
     ],
-    "known_failed_qualification_cells": 2,
+    "known_failed_qualification_cells": 3,
     "remaining_development_in_flight": true
   },
   "Q48_native_requests": 0,
@@ -646,5 +707,22 @@
   "model_generations": 0,
   "optimizer_updates": 0,
   "training_visits": 0,
-  "student_native_requests": 0
+  "student_native_requests": 0,
+  "frozen_contract_recheck": {
+    "receipt_sha256": "fd410e7c39fb862342dc97c324046dd33bce0001c955297b4323d0f29a3810a8",
+    "matching_cells": 12,
+    "same_WBC_safety_scoring_transport": true,
+    "sim_only": true,
+    "old_last_capsule_sealed": true,
+    "frozen_NON_SCENE_MEMBER_counts": [
+      22
+    ],
+    "source_member_hashes": {
+      "src/go2arx5_vla/world_model/multitask_score_v6.py": "48eed7842a6c25840d39fbcdcd4efaa19b54a6887b7995b1d657457737913596",
+      "src/go2arx5_vla/world_model/multitask_contact_v6.py": "677bcafe70b2d92bbda30284e05a6538a9da65c1884a0448953b060d2c104648",
+      "src/go2arx5_vla/world_model/multitask_teacher_episode_v6.py": "e13d81ce1612ed81fc0c11fc52d3d6d4dfe3a72bb74584b195cc8b9f80ca29ee",
+      "src/go2arx5_vla/world_model/task_learning_grasp_v1.py": "176111d93703279469eecf0fe269f8696eebd5521764a7bee1ea123d72c92fa9",
+      "src/go2arx5_vla/sla_adapter/dense_g7_v6.py": "c9f35039a1fa43371bdaac49a6879f66d539030977d150aa055f5eb62c2a195a"
+    }
+  }
 }

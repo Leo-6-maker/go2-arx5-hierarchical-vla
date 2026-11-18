@@ -1158,5 +1158,183 @@
     "training_visits": 0,
     "model_generations": 0
   },
-  "total_exact_archived_H40_reproduced": 447
+  "total_exact_archived_H40_reproduced": 447,
+  "B2_red_right_measured_support": {
+    "support_readback_sha256": "016e6f99da9cecddc886216a66b39cbef56482d9d338808b9df542075bb597db",
+    "result_sha256": "352c2cc6ba89f6e95ea3ff347a91024dca6ca78cfaad30887aa3df32e71bc089",
+    "source_sha": "e16783e389362102470de2def854fcf2bf4b78cd",
+    "candidate": "STAGED_CALIBRATED_V2",
+    "first_open_tick": 32203,
+    "failed_open_query_tick": 32453,
+    "table_support_segments": [
+      {
+        "start_tick": 31953,
+        "end_tick": 32177,
+        "table_support": false
+      },
+      {
+        "start_tick": 32178,
+        "end_tick": 32208,
+        "table_support": true
+      },
+      {
+        "start_tick": 32209,
+        "end_tick": 32210,
+        "table_support": false
+      },
+      {
+        "start_tick": 32211,
+        "end_tick": 32213,
+        "table_support": true
+      },
+      {
+        "start_tick": 32214,
+        "end_tick": 32219,
+        "table_support": false
+      },
+      {
+        "start_tick": 32220,
+        "end_tick": 32232,
+        "table_support": true
+      },
+      {
+        "start_tick": 32233,
+        "end_tick": 32238,
+        "table_support": false
+      },
+      {
+        "start_tick": 32239,
+        "end_tick": 32258,
+        "table_support": true
+      },
+      {
+        "start_tick": 32259,
+        "end_tick": 32259,
+        "table_support": false
+      },
+      {
+        "start_tick": 32260,
+        "end_tick": 32260,
+        "table_support": true
+      },
+      {
+        "start_tick": 32261,
+        "end_tick": 32271,
+        "table_support": false
+      },
+      {
+        "start_tick": 32272,
+        "end_tick": 32278,
+        "table_support": true
+      },
+      {
+        "start_tick": 32279,
+        "end_tick": 32316,
+        "table_support": false
+      },
+      {
+        "start_tick": 32317,
+        "end_tick": 32320,
+        "table_support": true
+      },
+      {
+        "start_tick": 32321,
+        "end_tick": 32346,
+        "table_support": false
+      },
+      {
+        "start_tick": 32347,
+        "end_tick": 32358,
+        "table_support": true
+      },
+      {
+        "start_tick": 32359,
+        "end_tick": 32360,
+        "table_support": false
+      },
+      {
+        "start_tick": 32361,
+        "end_tick": 32370,
+        "table_support": true
+      },
+      {
+        "start_tick": 32371,
+        "end_tick": 32378,
+        "table_support": false
+      },
+      {
+        "start_tick": 32379,
+        "end_tick": 32380,
+        "table_support": true
+      },
+      {
+        "start_tick": 32381,
+        "end_tick": 32389,
+        "table_support": false
+      },
+      {
+        "start_tick": 32390,
+        "end_tick": 32398,
+        "table_support": true
+      },
+      {
+        "start_tick": 32399,
+        "end_tick": 32402,
+        "table_support": false
+      },
+      {
+        "start_tick": 32403,
+        "end_tick": 32403,
+        "table_support": true
+      },
+      {
+        "start_tick": 32404,
+        "end_tick": 32447,
+        "table_support": false
+      },
+      {
+        "start_tick": 32448,
+        "end_tick": 32450,
+        "table_support": true
+      },
+      {
+        "start_tick": 32451,
+        "end_tick": 32453,
+        "table_support": false
+      }
+    ],
+    "on_first_open": {
+      "tick": 32203,
+      "supported": true,
+      "grasp": true,
+      "hand": true,
+      "bottom_gap_m": -0.00010782201150283388,
+      "max_table_contact_force_N": 0.17310823755649843,
+      "finger_q_m": [
+        0.018917919739080538,
+        0.019022694989305568
+      ]
+    },
+    "on_failed_query": {
+      "tick": 32453,
+      "supported": false,
+      "grasp": true,
+      "hand": true,
+      "bottom_gap_m": -2.960733630497092e-05,
+      "max_table_contact_force_N": 0.0,
+      "finger_q_m": [
+        0.01897837013188747,
+        0.019107025226425323
+      ]
+    },
+    "frames_including_open_boundaries": 251,
+    "table_support_frames_for_open": 91,
+    "grasp_frames_for_open": 251,
+    "source_selected_controller_reference": "UNKNOWN",
+    "H40_last_P10_consumed": 10,
+    "first_calibrated_open_command_m": 0.002,
+    "last_consumed_calibrated_open_command_m": 0.005156911718750001,
+    "new_native_ticks": 0,
+    "new_native_requests": 0
+  }
 }
