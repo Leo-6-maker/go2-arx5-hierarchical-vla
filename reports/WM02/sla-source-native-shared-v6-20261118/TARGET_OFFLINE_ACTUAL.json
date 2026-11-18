@@ -769,5 +769,56 @@
       },
       "RGB16_restore_result_sha256": "ba6c038eb72cc23bdf1548d877e8b646fb62614c66e9f4af7faf9432c5a928b6"
     }
+  },
+  "first_native_result": {
+    "observed_SGT": "2026-11-18T08:16:13.933288+08:00",
+    "panel_sha256": "61cc513bb8d03c91c180789437be92f0b418c5c377bf48296b7f19c5b8c9164c",
+    "student_cases_started": 2,
+    "student_cases_sealed": 1,
+    "native_requests_sealed": 1,
+    "new_candidate_selected": false,
+    "active_next_condition": "SCREEN-F1-T0-T-FM",
+    "condition": {
+      "id": "SCREEN-F1-T0-T-B1",
+      "arm": "T-B1",
+      "family": "F1",
+      "layout": "T0",
+      "sealed": true,
+      "query_counts": {
+        "requests": 69,
+        "model_returns": 69,
+        "records": 69,
+        "H40_compiled": 69,
+        "ACK": 138,
+        "full_P10": 69,
+        "confirmed_atoms": 690,
+        "recorded_partial_ticks": 0
+      },
+      "H40_rejections": [],
+      "lower_bound_closed_query_ticks": 22953,
+      "terminal": {
+        "native_requests": 1,
+        "native_ticks": 22953,
+        "task_and_motion_success": true,
+        "grasp": true,
+        "grasped_atoms": null,
+        "lift_m": 0.02522152155694679,
+        "hold_s": 1.0500000000012832,
+        "directional_motion_m": 0.10268296355639472,
+        "EEF_translation_RMS_m": 0.01801951893239292,
+        "H40_rejected": null,
+        "collision_STOP": false,
+        "STOPs": [],
+        "technical_failure": false,
+        "trace_status": "RECORDED_TRACE_CHECKS_PASS",
+        "trace_errors": [],
+        "integrations_after_STOP": null,
+        "first_failure": "TASK_SUCCESS",
+        "result_sha256": "a43166124aa3f9064788e210f5bcadec7e7f40e82243423c43d678527b9cf2e2",
+        "wall_s": 418.3948464849964,
+        "CPU_s": 189.601134977,
+        "tick_reconciled": true
+      }
+    }
   }
 }

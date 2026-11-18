@@ -295,7 +295,40 @@
     "panel_windows": 96,
     "generations": 0,
     "evaluate_registered": false,
-    "actual_phase": "WAIT_EXISTING_T_FOLLOWUP_GPU_COLD_BOUNDARY"
+    "actual_phase": "WAIT_EXISTING_T_FOLLOWUP_GPU_COLD_BOUNDARY",
+    "independent_panel_verification": {
+      "observed_SGT": "2026-11-18T08:17:03.273161+08:00",
+      "episodes_in_panel": 12,
+      "distinct_panel_windows": 96,
+      "per_task": {
+        "cover_blocks": {
+          "dynamic": 8,
+          "lower_change": 8
+        },
+        "insert_tubes": {
+          "dynamic": 8,
+          "lower_change": 8
+        },
+        "make_bread": {
+          "dynamic": 8,
+          "lower_change": 8
+        },
+        "make_food": {
+          "dynamic": 8,
+          "lower_change": 8
+        },
+        "pack_and_pour_fruit": {
+          "dynamic": 8,
+          "lower_change": 8
+        },
+        "store_in_safe": {
+          "dynamic": 8,
+          "lower_change": 8
+        }
+      },
+      "TEST_labels_read_by_audit": 0,
+      "new_model_generations": 0
+    }
   },
   "new_source_native_requests": 0,
   "new_source_native_ticks": 0,
