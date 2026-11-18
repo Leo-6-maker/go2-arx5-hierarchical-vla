@@ -1792,8 +1792,8 @@
     "new_native_requests": 0
   },
   "cold_pregrasp_rejection_audit": {
-    "receipt_sha256": "25533c186d756b5bdbf5540d720b1d04e95649c8732f13137941c61cae06f434",
-    "observed_epoch": 1794994245.4609165,
+    "receipt_sha256": "af71a38e666e22c4c6ea790cc11302bc6a46a1dd3700d46ccf7829d60f8ae4ae",
+    "observed_epoch": 1794995090.248766,
     "rows": [
       {
         "block": 1,
@@ -1948,6 +1948,54 @@
             ],
             "count": 3,
             "best_margin_slack_m": -0.0026152626144267657
+          }
+        ]
+      },
+      {
+        "block": 2,
+        "condition": "D2-DEVELOPMENT-F2-2-PLACE-red-left",
+        "native_requests": 1,
+        "native_ticks": 5703,
+        "teacher_queries": 0,
+        "technical_failure": false,
+        "hard_STOP": false,
+        "frozen_result_sha256": "d82b162048714a5268e3d54c376d319173247e3fb8352835323621166ad46a71",
+        "time_feasible_ranked_candidates": 70,
+        "passed": 0,
+        "first_rejections": [
+          {
+            "phase": "approach",
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "frozen_geom_pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "count": 70,
+            "best_margin_slack_m": -0.0035921450963066976
+          }
+        ]
+      },
+      {
+        "block": 2,
+        "condition": "D2-DEVELOPMENT-F2-2-PLACE-red-right",
+        "native_requests": 1,
+        "native_ticks": 5703,
+        "teacher_queries": 0,
+        "technical_failure": false,
+        "hard_STOP": false,
+        "frozen_result_sha256": "6185d69bccd7e53a61e4a78294c93dad1d4ee1a2972a67c38d3e71fe62d4f225",
+        "time_feasible_ranked_candidates": 70,
+        "passed": 0,
+        "first_rejections": [
+          {
+            "phase": "approach",
+            "reason": "TEACHER_CLEARANCE_MARGIN",
+            "frozen_geom_pair": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "count": 70,
+            "best_margin_slack_m": -0.0036056314969366288
           }
         ]
       }
