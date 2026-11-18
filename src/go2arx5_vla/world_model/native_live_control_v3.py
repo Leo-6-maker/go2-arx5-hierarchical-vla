@@ -14,6 +14,15 @@ TRACE_MAX_BYTES = 768 * 1024**2
 
 
 def configuration(spec):
+    if spec.get('d2_isolated_live_control') is not None:
+        from .multitask_scope_d2 import PLAN, SCOPE
+
+        if (spec['d2_isolated_live_control'] != VERSION
+                or spec.get('scope') != SCOPE or spec.get('plan_commit') != PLAN
+                or spec.get('sim_only_role') not in ('INTERFACE','EXPERT')
+                or not spec.get('d2_world_binding')):
+            raise PermissionError('D2_ISOLATED_MOBILE_WORLD_REQUIRED_FOR_TMPFS')
+        return dict(version=VERSION)
     value = spec.get('native_live_control_v3')
     if value is None:
         return None
@@ -35,7 +44,7 @@ def acknowledgement_wait(spec, original_seconds):
     # A measured WBC mode notification arrived ~18 wall seconds after the
     # paused request on the shared FUSE disk. Wait for the original receipt;
     # never repeat a command or substitute a previous mode/source packet.
-    return 90 if configuration(spec) is not None else original_seconds
+    return 90 if spec.get('d2_isolated_live_control') is None and configuration(spec) is not None else original_seconds
 
 
 def maximum_wall_seconds(spec, original_seconds):

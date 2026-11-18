@@ -84,17 +84,7 @@ def validate(spec):
             or spec['deadline_epoch']>min(authority['deadline_epoch'],spec['allocation_deadline_epoch'])):
         raise PermissionError('ACTUAL_FINITE_V6_MULTITASK_AUTHORITY_REQUIRED')
 
-    for key,sha in BINARIES.items():
-        if spec['frozen_files'].get(spec[key])!=sha:
-            raise PermissionError('FROZEN_SOLVER_CONTROLLER_AND_SIMULATOR_REQUIRED')
-    observer=read_pin(spec['compiled_observer_result'])
-    outer=read_pin(spec['compiled_outer_result'])
-    if observer['exit_code'] or outer['exit_code']:
-        raise ValueError('SEALED_BINARY_COLD_COMPILATION_REQUIRED')
-    for key,d in (('observer_library',observer['observer_candidate']),
-                  ('outer_library',outer['outer_candidate'])):
-        if spec['frozen_files'].get(spec[key])!=d['library_sha256']:
-            raise PermissionError('ONLY_EXACT_COLD_COMPILED_MULTITASK_BINARIES')
+    validate_frozen_assets(spec)
     manifest=read_pin(spec['registered_panel'])
     item=next(row for row in manifest if row['id']==spec['panel_entry_id'])
     if (item['instruction']!=task.instruction or item['role']!=role
@@ -108,6 +98,19 @@ def validate(spec):
         student_package(spec)
     return task
 
+
+def validate_frozen_assets(spec):
+    for key,sha in BINARIES.items():
+        if spec['frozen_files'].get(spec[key])!=sha:
+            raise PermissionError('FROZEN_SOLVER_CONTROLLER_AND_SIMULATOR_REQUIRED')
+    observer=read_pin(spec['compiled_observer_result'])
+    outer=read_pin(spec['compiled_outer_result'])
+    if observer['exit_code'] or outer['exit_code']:
+        raise ValueError('SEALED_BINARY_COLD_COMPILATION_REQUIRED')
+    for key,d in (('observer_library',observer['observer_candidate']),
+                  ('outer_library',outer['outer_candidate'])):
+        if spec['frozen_files'].get(spec[key])!=d['library_sha256']:
+            raise PermissionError('ONLY_EXACT_COLD_COMPILED_MULTITASK_BINARIES')
 
 def episode(adapter):
     if adapter.spec['sim_only_role']=='EXPERT':

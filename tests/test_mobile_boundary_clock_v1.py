@@ -43,3 +43,27 @@ def test_immutable_callback_identity_cache_preserves_exact_boundary(monkeypatch)
     c,q=accepted_boundary([event],'a',11.956,[policy])
     assert np.array_equal(b,c) and z==q and len(calls)==2
     assert w['receiver_knot_index']==10 and z['receiver_knot_index']==11
+
+
+def test_incremental_boundary_tracks_latest_matching_publication_and_log_replacement():
+    from copy import deepcopy
+    from go2arx5_vla.world_model.mobile_boundary_clock_v1 import AcceptedBoundaryIndex
+
+    event, policy = evidence()
+    new_event, new_policy = deepcopy((event, policy))
+    new_event['poses'][10][0] += .001
+    new_policy['message']['plan_target_trajectories']['state_trajectory'][10]['value'][0] = .011
+    new_event['monotonic_s'] = 3.
+    new_policy['received_monotonic_s'] = 4.
+    index = AcceptedBoundaryIndex()
+    rows = [event]
+    policies = [policy]
+    for next_rows, next_policies in ((rows,policies),
+                                    (rows+[new_event],policies),
+                                    (rows+[new_event],policies+[new_policy]),
+                                    (deepcopy(rows),deepcopy(policies))):
+        index.update(next_rows,next_policies)
+        expected,witness = accepted_boundary(next_rows,'a',11.906,next_policies)
+        actual,report = index.boundary('a',11.906)
+        assert np.array_equal(expected,actual)
+        assert report==witness

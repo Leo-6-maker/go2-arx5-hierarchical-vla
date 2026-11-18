@@ -12,6 +12,7 @@ import numpy as np
 
 from scripts.pi0292.durable import OwnerLock,write
 from go2arx5_vla.world_model.storage import digest
+from go2arx5_vla.world_model.native_collection_performance_v1 import measure, profiled
 from go2arx5_vla.world_model.mobile_wbc_reference_v1 import PHASE,START,M0_END,m0_reference
 
 
@@ -64,6 +65,7 @@ def arm(adapter):
     return mount
 
 
+@profiled('mobile.consume_atom')
 def consume(adapter,action,*,sequence):
     from scripts.pi0292.eval_contract import matrix10
     from go2arx5_vla.world_model.native_live_control_v3 import live_path
@@ -75,7 +77,10 @@ def consume(adapter,action,*,sequence):
     row=np.asarray(adapter.active_reference['action_EEF10'])[(step-adapter.mobile_installed_step)//25]
     gripper=write_mobile_gripper(adapter,before,sequence,row)
     event_start=len(adapter.ros_evidence)
-    after=adapter.advance_to(step+25);adapter.spin(.15);require_armed(adapter)
+    after=adapter.advance_to(step+25)
+    with measure(adapter,'mobile.post_atom_callbacks_150ms'):
+        adapter.spin(.15)
+    require_armed(adapter)
     from go2arx5_vla.world_model.target_reference import trajectory_identity,installed_target_identities
     sent=installed_target_identities(adapter.reference_events(),adapter.active_reference['wire_sha256'])
     matched=[];arm_requests=0;base_commands=0
@@ -111,6 +116,7 @@ def consume(adapter,action,*,sequence):
     return sample,mount
 
 
+@profiled('mobile.install_full_H40')
 def install(adapter,action,base):
     adapter.mobile_base_preview=base;adapter.active_reference=adapter.install_reference(action)
     adapter.mobile_installed_step=adapter.observe()['step']
@@ -157,6 +163,7 @@ def run_case(spec_path,lock_fd):
     from go2arx5_vla.world_model.init_trace_reader import audit_trace
     spec=read(spec_path);root=Path(spec['registered_root']);group=Path(spec['mobile_group'])
     multitask=spec.get('mobile_experiment_version')=='MFREE_MULTITASK_NATIVE_V6'
+    d2=spec.get('scope')=='SLA_D2_MFREE_NATIVE_MUJOCO'
     lease=registered(spec,spec_path);parent=read(group/'SUPERVISOR.private.json')
     if (spec['phase']!=PHASE or os.uname().nodename!='corelab-4080s'or os.getuid()!=2009
             or lease['status']!='ACTIVE'or lease['spec_sha256']!=digest(spec_path)
@@ -173,7 +180,10 @@ def run_case(spec_path,lock_fd):
     for name,pin in spec['source_files'].items():
         if digest(Path(spec['source_root'])/name)!=pin:raise PermissionError('SEALED_MOBILE_SOURCE_CHANGED:'+name)
     if multitask:
-        from go2arx5_vla.world_model.multitask_scope_v6 import validate
+        if d2:
+            from go2arx5_vla.world_model.multitask_scope_d2 import validate
+        else:
+            from go2arx5_vla.world_model.multitask_scope_v6 import validate
         from go2arx5_vla.world_model.multitask_adapter_v6 import MultitaskAdapter
         validate(spec)
         TargetSequentialAdapter=MultitaskAdapter
@@ -187,12 +197,19 @@ def run_case(spec_path,lock_fd):
         from go2arx5_vla.world_model.mobile_scope_v52 import validate
         validate(spec)
     out=root/'native-01';out.mkdir();adapter=TargetSequentialAdapter(spec,out)
+    profile=None
+    if d2:
+        from go2arx5_vla.world_model.multitask_profile_d2 import MobileProfile
+        profile=MobileProfile(adapter)
     write(root/'SUPERVISOR.private.json',dict(pid=os.getpid(),epoch=time.time(),source_sha=spec['source_sha']))
     start=time.monotonic();cpu=time.process_time();failure=None;detail=None
     try:
-        adapter.start()
+        with measure(adapter,'native.startup'):
+            adapter.start()
         if spec.get('mobile_stage')=='L1':
-            if multitask:
+            if d2:
+                from go2arx5_vla.world_model.multitask_scope_d2 import episode as l1_episode
+            elif multitask:
                 from go2arx5_vla.world_model.multitask_scope_v6 import episode as l1_episode
             elif spec.get('mobile_experiment_version')=='MFREE_B1_FULL_H40_SIM_ONLY_V6':
                 from go2arx5_vla.world_model.target_scope_v6 import episode as l1_episode
@@ -223,7 +240,8 @@ def run_case(spec_path,lock_fd):
                 adapter.capture_loaded_identity()
                 if not adapter.trace_sealed:adapter.seal_trace(adapter.observe()['step'])
             except BaseException:write(out/'FINAL_EVIDENCE_ERROR.private.json',dict(error=traceback.format_exc()))
-        adapter.close()
+        with measure(adapter,'native.shutdown_and_archive'):
+            adapter.close()
     journal=out/'state.bin.journal'
     if multitask:
         from go2arx5_vla.world_model.multitask_state_v6 import packets as multitask_packets
@@ -264,6 +282,10 @@ def run_case(spec_path,lock_fd):
         trace_audit=trace,wall_s=time.monotonic()-start,CPU_s=time.process_time()-cpu,
         optimizer_updates=0,training_visits=0,model_generations=response_count,physical_requests=1,source_sha=spec['source_sha'],
         WBC_changes=False,raw_fixed_root_IK_is_shadow=True,metrics=measured_metrics)
+    if profile is not None:
+        report_path=root/'PERFORMANCE.private.json'
+        write(report_path,profile.close())
+        value['performance']=dict(file=report_path.name,sha256=digest(report_path))
     write(root/'RESULT.private.json',value)
     code=0 if passed else 2 if value['unsafe']else 1
     write(root/'WORKER_EXIT.private.json',dict(exit_code=code,wall_s=value['wall_s']))
