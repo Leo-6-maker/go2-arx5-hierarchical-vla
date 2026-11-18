@@ -6,6 +6,7 @@ from .mobile_grasp_budget_v3 import BudgetTeacher
 from .multitask_score_v6 import BASE_MOTION, LIFT, OPEN_FRACTION, Task
 
 TRANSFER_CLEARANCE_M = .008
+F1_RED_HOLD_GRASP_RAISE_M = .016
 
 
 def swept_footprints_overlap(start, finish, obstacle, combined_half_size):
@@ -29,6 +30,13 @@ class MultitaskTeacher(BudgetTeacher):
     def __init__(self, initial, condition, geometry, instruction):
         super().__init__(initial, condition)
         self.task = Task.parse(instruction)
+        self.f1_red_hold_clearance = (
+            self.task.instruction == 'HOLD-red'
+            and condition['family'] == 'F1'
+            and condition['mode'] == 'M_FREE'
+        )
+        if self.f1_red_hold_clearance:
+            self.raise_m = F1_RED_HOLD_GRASP_RAISE_M
         self.geometry = geometry
         self.base_origin = np.asarray(initial['base_pose'])[:2,3].copy()
         self.direction = np.asarray(geometry['direction_world_XY'])
@@ -118,7 +126,9 @@ class MultitaskTeacher(BudgetTeacher):
 
     def decide(self,sample,reference,base):
         plan, evidence = super().decide(sample,reference,base)
-        evidence.update(teacher_version='MFREE_MULTITASK_TEACHER_V6_TRANSFER_CLEARANCE',
+        version = ('MFREE_MULTITASK_TEACHER_V6_F1_RED_HOLD_CLEARANCE'
+                   if self.f1_red_hold_clearance else 'MFREE_MULTITASK_TEACHER_V6_TRANSFER_CLEARANCE')
+        evidence.update(teacher_version=version,
                         instruction=self.task.instruction, release_start_step=self.open_start,
                         teacher_carry_footprint_overlap=self.carry_footprint_overlap,
                         teacher_carry_waiting_for_measured_clearance=self.raise_xy is not None)

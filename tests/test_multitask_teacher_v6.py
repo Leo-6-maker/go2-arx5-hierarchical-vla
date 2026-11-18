@@ -1,6 +1,8 @@
 import numpy as np
 
-from go2arx5_vla.world_model.multitask_teacher_v6 import MultitaskTeacher, TRANSFER_CLEARANCE_M
+from go2arx5_vla.world_model.multitask_teacher_v6 import (
+    F1_RED_HOLD_GRASP_RAISE_M, MultitaskTeacher, TRANSFER_CLEARANCE_M,
+)
 
 
 def pose(x, y, z):
@@ -53,3 +55,18 @@ def test_clear_route_retains_the_original_carry_height():
 
     np.testing.assert_allclose(goal, [.15, 0., .066])
     assert lower_clear
+
+
+
+def test_f1_red_hold_raise_is_teacher_only_and_does_not_change_other_conditions():
+    initial = dict(object_pose=pose(0., 0., .02), tcp=pose(0., 0., .04), base_pose=np.eye(4))
+    geometry = dict(direction_world_XY=[1., 0.])
+
+    def grasp(family, instruction):
+        teacher = MultitaskTeacher(initial, dict(family=family, mode='M_FREE'), geometry, instruction)
+        return teacher.grasp_goal()
+
+    other_f1 = grasp('F1', 'HOLD-blue')
+    np.testing.assert_allclose(grasp('F1', 'HOLD-red') - other_f1, [0., 0., F1_RED_HOLD_GRASP_RAISE_M])
+    np.testing.assert_array_equal(grasp('F1', 'PLACE-red-right'), other_f1)
+    np.testing.assert_allclose(grasp('F2', 'HOLD-red') - other_f1, [0., 0., .008])
