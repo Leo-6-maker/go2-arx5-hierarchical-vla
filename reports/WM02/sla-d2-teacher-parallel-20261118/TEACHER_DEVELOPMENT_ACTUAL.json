@@ -1,7 +1,7 @@
 {
   "schema": "SLA_D2_DEVELOPMENT_ACTUAL",
-  "observation_epoch": 1794989063.9796326,
-  "status": "TWO_VALID_HOLDS_ONE_PLACE_PRECHECK_FAILURE_AND_NEXT_CASE_RUNNING",
+  "observation_epoch": 1794989293.85426,
+  "status": "TWO_G7_HOLDS_AND_TWO_PLACE_FAILURES_WITH_NEXT_CASE_RUNNING",
   "source_sha": "1e3e370203857d9a63899e35d96153dc77185a37",
   "source_seal": "421d20bae377644e1ebadbd5aa0dd7eef050002d6f8cb641663ee7dfbbaefafe",
   "registered_spec_sha256": "d9d38299926b1469160b201069068b4d02d48946c1a7799e6bb5368d827d3998",
@@ -11,23 +11,24 @@
     "registered_all": 24,
     "registered_block1": 12,
     "registered_block2": 12,
-    "native_dispatched_lower_bound": 4,
-    "native_requests_sealed": 3,
+    "native_dispatched_lower_bound": 5,
+    "native_requests_sealed": 4,
     "complete_place_successes": 0,
     "task_successes": 2,
     "G7_eligible": 2,
-    "awaiting_native_outcome": 1
+    "awaiting_native_outcome": 1,
+    "complete_place_denominator": 2
   },
   "owned_server": {
     "unit": "wm02-sla-d2-teacher-development-b1-20261118-01",
     "invocation": "fe62ae5fcd104b8d9cdef1af1bf7571a",
     "MainPID": 2192202,
-    "live_child_pid": 2205233,
-    "child_native_observed_tick": 22703,
+    "live_child_pid": 2212751,
+    "child_native_observed_tick": 9828,
     "lease": "ACTIVE",
     "frontend_dependency": false,
     "deadline_epoch": 1794998715.3374267,
-    "latest_confirmed_pending_case": "D2-DEVELOPMENT-F1-1-PLACE-red-right"
+    "latest_confirmed_pending_case": "D2-DEVELOPMENT-F1-1-PLACE-blue-left"
   },
   "independent_g7_CPU_regression_previous_case": {
     "actual_RGB_pairs": 127,
@@ -115,7 +116,7 @@
     "technical_failure": 0
   },
   "scientifically_complete_PLACEs": 0,
-  "native_closed_ticks": 54109,
+  "native_closed_ticks": 82812,
   "scientific_sealed_cases": [
     {
       "id": "D2-DEVELOPMENT-F1-1-HOLD-red",
@@ -170,6 +171,16 @@
       "technical_failure": false,
       "first_failure": "D2_NO_COMPLETE_PREGRASP_CANDIDATE",
       "result_sha256": "7f012d79eddecdc12d4fc736798792582b57a98528561266111659309c4406ca"
+    },
+    {
+      "id": "D2-DEVELOPMENT-F1-1-PLACE-red-right",
+      "native_ticks": 28703,
+      "G7": null,
+      "task_and_mobile_success": false,
+      "hard_STOP": false,
+      "technical_failure": false,
+      "first_failure": "D2_FILTERED_NEXT_P10_CLEARANCE",
+      "result_sha256": "bb4a9df4c34223d66953116a42403b0dc53e2c3d69e2701c8ff6875601112d7d"
     }
   ],
   "latest_native_score_snapshots": [
@@ -567,5 +578,141 @@
     "new_native_ticks": 0,
     "model_generations": 0,
     "scope": "full-arm kinematic route hypotheses under fixed original margin"
+  },
+  "first_new_right_place_failure": {
+    "epoch": 1794989213.9504218,
+    "case": "D2-DEVELOPMENT-F1-1-PLACE-red-right",
+    "result_sha256": "bb4a9df4c34223d66953116a42403b0dc53e2c3d69e2701c8ff6875601112d7d",
+    "source_sha": "1e3e370203857d9a63899e35d96153dc77185a37",
+    "actual_requests": 1,
+    "ticks": 28703,
+    "score": {
+      "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+      "instruction": "PLACE-red-right",
+      "task_success": false,
+      "native_step": 28703,
+      "base_directional_motion_m": 0.19892906477952269,
+      "lift_m": 0.015395762888894882,
+      "inside_selected_region": true,
+      "target_grasp": true,
+      "wrong_object_grasp_ever": false,
+      "wrong_object_contact_ever": false,
+      "released": false,
+      "gripper_open_fraction": 0.433594787621212,
+      "TCP_retreat_m": 0.032401268266437105,
+      "stable_release_condition": false,
+      "states": 23001,
+      "missing_native_intervals": 0,
+      "unsafe_states": 0,
+      "ever_target_grasp": true,
+      "ever_target_lift20mm": true,
+      "maximum_lift_m": 0.029352694077330876,
+      "longest_grasp_lift_hold_s": 4.098000000005008,
+      "longest_stable_released_retreat_s": 0.0,
+      "events": {
+        "base80mm": {
+          "native_step": 9442,
+          "native_time_s": 18.884000000000412
+        },
+        "target_grasp": {
+          "native_step": 20517,
+          "native_time_s": 41.034000000004184
+        },
+        "target_lift20mm": {
+          "native_step": 22815,
+          "native_time_s": 45.6300000000098
+        },
+        "correct_region": {
+          "native_step": 28516,
+          "native_time_s": 57.032000000023736
+        }
+      },
+      "task_privileged_truth_in_student_input": false,
+      "clock": "ACTUAL_2MS_NATIVE_STREAM"
+    },
+    "task_success": false,
+    "task_H40_queries": 92,
+    "actual_P10_atoms": 920,
+    "native_contact_STOP": false,
+    "technical_failure": false,
+    "planned_first_failure": {
+      "query": 92,
+      "native_step": 28703,
+      "stage": "CARRY",
+      "reason": "D2_FILTERED_NEXT_P10_CLEARANCE",
+      "geometry_evidence": {
+        "passed": false,
+        "reason": "TEACHER_CLEARANCE_MARGIN",
+        "phase": "carry",
+        "sample_count": 1,
+        "gap_m": 0.017457593925871887,
+        "pair": [
+          "",
+          "task_cube_geom"
+        ],
+        "margin_m": 0.019325767339923822
+      }
+    },
+    "new_audit_native_requests": 0,
+    "new_audit_native_ticks": 0
+  },
+  "right_place_residual_decomposition": {
+    "step": 28703,
+    "same_clock_previous_P10": [
+      {
+        "native_step": 27953,
+        "phase": "CARRY",
+        "gap_xyz_m": [
+          0.0008076024765329981,
+          -0.0013196873372455786,
+          0.005033110545350827
+        ],
+        "absolute_xyz_m": 0.005265548232606958,
+        "absolute_rotation_rad": 0.011203807515239663,
+        "contribution_m": 0.005908660993394754
+      },
+      {
+        "native_step": 28203,
+        "phase": "CARRY",
+        "gap_xyz_m": [
+          -0.003239654621006338,
+          -0.0022090327351210193,
+          0.0003243412127746925
+        ],
+        "absolute_xyz_m": 0.003934512029534047,
+        "absolute_rotation_rad": 0.0023933543496592615,
+        "contribution_m": 0.004071893604615483
+      },
+      {
+        "native_step": 28453,
+        "phase": "CARRY",
+        "gap_xyz_m": [
+          -0.0022002323427873227,
+          0.0016329629904620335,
+          -0.006250583932166265
+        ],
+        "absolute_xyz_m": 0.0068247629983407615,
+        "absolute_rotation_rad": 0.00960528000774237,
+        "contribution_m": 0.0073761182528394266
+      },
+      {
+        "native_step": 28703,
+        "phase": "CARRY",
+        "gap_xyz_m": [
+          0.013334901135456989,
+          -0.003070307556802543,
+          -0.006571033729942277
+        ],
+        "absolute_xyz_m": 0.015179751679978497,
+        "absolute_rotation_rad": 0.011206267566332546,
+        "contribution_m": 0.015823005650819025
+      }
+    ],
+    "geometric_sample_allowance_m": 0.003502761689104798,
+    "recent_residual_allowance_m": 0.015823005650819025,
+    "combined_clearance_margin_m": 0.019325767339923822,
+    "anchor_geometry_gap_m": 0.017457593925871887,
+    "offline_new_native_ticks": 0,
+    "controller_selected_reference": "UNKNOWN"
   }
 }
