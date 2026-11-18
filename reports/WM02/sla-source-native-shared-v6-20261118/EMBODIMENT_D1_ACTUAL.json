@@ -1,0 +1,375 @@
+{
+  "plan_commit": "df6c3aedb7bed2376096f08e8b7c92d7c861d412",
+  "attempted_science": 11,
+  "sealed_science": 10,
+  "sealed_success": 4,
+  "sealed_contact_STOP": 6,
+  "sealed_technical_failure": 0,
+  "cumulative_sealed_science_ticks": 259943,
+  "unstarted_original_conditions": 37,
+  "interface_requests": 2,
+  "interface_ticks": 11906,
+  "G7_verified_successes": 4,
+  "G7_reconciled_successful_H40": 350,
+  "G7_reconciled_successful_P10_atoms": 3500,
+  "terminal_tenth": {
+    "epoch": 1794974913.918561,
+    "spec_sha256": "b857c024fdad746a93ba468b214ba2bd236ee5048aee178c16c9f7097f60479a",
+    "source_sha256": "2d8132b99930eecdb0989cff0b2d18fbc507bc98",
+    "native_parent_pid": 0,
+    "live_owner_confirmed": false,
+    "cgroup_count": 0,
+    "lease": "CLOSED",
+    "terminal": true,
+    "terminal_sha256": "0382ee8723e6200453b1a1827dbb2c4cb60c3fed5f7522ab9e6b91cd61481eb7",
+    "case_result_sha256": "bbd3e46350b8260ff8df48f1b99b5d8e27658dd40119d538160608440979c3fe",
+    "native_requests": 1,
+    "native_ticks": 23203,
+    "hard_STOP": false,
+    "technical_failure": false,
+    "success": true,
+    "effects": {
+      "GPU_generations": 0,
+      "updates": 0,
+      "visits": 0
+    },
+    "integrations_after_STOP": null,
+    "first_failure": "TASK_SUCCESS",
+    "capture_sha256": "6ed9cca400fea47986aff675dfcd18f8f2c77c4989628dca599d0d2c9c8619e1",
+    "query_count": 70,
+    "first_phase": "PREGRASP",
+    "last_phase": "HOLD",
+    "last_query_start": 22953,
+    "carry_query_classes": {},
+    "real_confirmed_atoms_by_class": {
+      "PREGRASP": 360,
+      "DESCEND": 200,
+      "CLOSE": 30,
+      "LIFT": 90,
+      "HOLD": 20
+    },
+    "last_partial_ticks": 0,
+    "phase_counts": {
+      "PREGRASP": 36,
+      "DESCEND": 20,
+      "CLOSE": 3,
+      "LIFT": 9,
+      "HOLD": 2
+    }
+  },
+  "G7_tenth": {
+    "epoch": 1794974915.6640406,
+    "case": "M-TEACHER-F1-1-HOLD-red",
+    "result_sha256": "bbd3e46350b8260ff8df48f1b99b5d8e27658dd40119d538160608440979c3fe",
+    "case_spec_sha256": "b0756af86fbb5193826fb0c7a73a3446f62af620fe1381d6d216c01526049397",
+    "capture_manifest_sha256": "6ed9cca400fea47986aff675dfcd18f8f2c77c4989628dca599d0d2c9c8619e1",
+    "source_sha": "2d8132b99930eecdb0989cff0b2d18fbc507bc98",
+    "used_per_capture_exporter_file_sha256": "0383e957b3a0e544615a2ca34fe696c841a66fead95ed4a3215e3f893aa4c0be",
+    "verified_exact_current_RGB_pairs": 70,
+    "actual_H40_rows": 70,
+    "actual_P10_atoms": 700,
+    "actual_native_ticks": 23203,
+    "actual_native_requests": 1,
+    "positive_score": {
+      "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+      "instruction": "HOLD-red",
+      "task_success": true,
+      "native_step": 23203,
+      "base_directional_motion_m": 0.10257486817296443,
+      "lift_m": 0.02552537939588584,
+      "inside_selected_region": null,
+      "target_grasp": true,
+      "wrong_object_grasp_ever": false,
+      "wrong_object_contact_ever": false,
+      "released": false,
+      "gripper_open_fraction": 0.43364536965973743,
+      "TCP_retreat_m": 0.033089952640917575,
+      "stable_release_condition": false,
+      "states": 17501,
+      "missing_native_intervals": 0,
+      "unsafe_states": 0,
+      "ever_target_grasp": true,
+      "ever_target_lift20mm": true,
+      "maximum_lift_m": 0.02552537939588584,
+      "longest_grasp_lift_hold_s": 1.1620000000014201,
+      "longest_stable_released_retreat_s": 0.0,
+      "events": {
+        "base80mm": {
+          "native_step": 9111,
+          "native_time_s": 18.22200000000078
+        },
+        "target_grasp": {
+          "native_step": 20271,
+          "native_time_s": 40.54200000000358
+        },
+        "target_lift20mm": {
+          "native_step": 22622,
+          "native_time_s": 45.24400000000933
+        }
+      },
+      "task_privileged_truth_in_student_input": false,
+      "clock": "ACTUAL_2MS_NATIVE_STREAM"
+    },
+    "stages": [
+      {
+        "stage": "PREGRASP",
+        "native_step": 5703
+      },
+      {
+        "stage": "DESCEND",
+        "native_step": 14703
+      },
+      {
+        "stage": "CLOSE",
+        "native_step": 19703
+      },
+      {
+        "stage": "LIFT",
+        "native_step": 20453
+      },
+      {
+        "stage": "HOLD",
+        "native_step": 22703
+      }
+    ],
+    "by_phase": {
+      "PREGRASP": 36,
+      "DESCEND": 20,
+      "CLOSE": 3,
+      "LIFT": 9,
+      "HOLD": 2
+    },
+    "rederived_state_differences": {
+      "rows_with_any_bit_difference": 68,
+      "max_abs_XYZ_m": 2.220446049250313e-16,
+      "max_abs_rot6d_component": 1.1102230246251565e-16,
+      "max_abs_gripper": 0.0
+    },
+    "maximum_original_nominal_width_speed_m_s": 0.03743754687500017,
+    "over_training_margin": 0,
+    "native_wall_s": 345.5025893235579,
+    "native_CPU_s": 209.18611930699998,
+    "measured_Teacher_goal_offset_from_parent_m": [
+      0.0,
+      0.0,
+      0.016000000000000014
+    ],
+    "observed_shards": 5,
+    "audit_wall_s": 1.3611503895372152,
+    "new_integrations": 0,
+    "new_generations": 0,
+    "new_optimizer_updates": 0,
+    "new_optimization_visits": 0,
+    "statistics_fitted": false
+  },
+  "training_coverage_after_tenth": [
+    {
+      "family": "F1",
+      "instruction": "HOLD-blue",
+      "attempted": 1,
+      "success": 1,
+      "remaining": 3,
+      "max_success": 4
+    },
+    {
+      "family": "F1",
+      "instruction": "HOLD-red",
+      "attempted": 2,
+      "success": 1,
+      "remaining": 2,
+      "max_success": 3
+    },
+    {
+      "family": "F1",
+      "instruction": "PLACE-blue-left",
+      "attempted": 1,
+      "success": 1,
+      "remaining": 3,
+      "max_success": 4
+    },
+    {
+      "family": "F1",
+      "instruction": "PLACE-blue-right",
+      "attempted": 1,
+      "success": 0,
+      "remaining": 3,
+      "max_success": 3
+    },
+    {
+      "family": "F1",
+      "instruction": "PLACE-red-left",
+      "attempted": 1,
+      "success": 0,
+      "remaining": 3,
+      "max_success": 3
+    },
+    {
+      "family": "F1",
+      "instruction": "PLACE-red-right",
+      "attempted": 1,
+      "success": 0,
+      "remaining": 3,
+      "max_success": 3
+    },
+    {
+      "family": "F2",
+      "instruction": "HOLD-blue",
+      "attempted": 1,
+      "success": 1,
+      "remaining": 3,
+      "max_success": 4
+    },
+    {
+      "family": "F2",
+      "instruction": "HOLD-red",
+      "attempted": 0,
+      "success": 0,
+      "remaining": 4,
+      "max_success": 4
+    },
+    {
+      "family": "F2",
+      "instruction": "PLACE-blue-left",
+      "attempted": 0,
+      "success": 0,
+      "remaining": 4,
+      "max_success": 4
+    },
+    {
+      "family": "F2",
+      "instruction": "PLACE-blue-right",
+      "attempted": 1,
+      "success": 0,
+      "remaining": 3,
+      "max_success": 3
+    },
+    {
+      "family": "F2",
+      "instruction": "PLACE-red-left",
+      "attempted": 0,
+      "success": 0,
+      "remaining": 4,
+      "max_success": 4
+    },
+    {
+      "family": "F2",
+      "instruction": "PLACE-red-right",
+      "attempted": 1,
+      "success": 0,
+      "remaining": 3,
+      "max_success": 3
+    }
+  ],
+  "current_next": {
+    "unit": "wm02-sla-v6-multitask-teacher-next1-f1-blue-hold-20261118-01",
+    "pid": 1958485,
+    "child_pid": 1958512,
+    "cgroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-v6-multitask-teacher-next1-f1-blue-hold-20261118-01.service",
+    "source_sha": "2d8132b99930eecdb0989cff0b2d18fbc507bc98",
+    "spec_sha": "f28ceada634324957ad85e1634c69bc2855d5b1d1afbd7212d2394310afd8b2b",
+    "deadline_epoch": 1794978117.7939763,
+    "observed_epoch": 1794974972.572493,
+    "ticks_lower_bound": 3376,
+    "science": "M-TEACHER-F1-1-HOLD-blue",
+    "lease": "ACTIVE",
+    "independent_of_frontend": true,
+    "stop": "STOP.json"
+  },
+  "carry_candidate_geometry": {
+    "source_receipt_sha256": "e127db68416161f4ae2024c6896a2457158deb86bb24f2dc920788ccb55a0a70",
+    "scope": "FROZEN_DISTAL_VERTICAL_AND_HORIZONTAL_SENSITIVITY",
+    "max_static_sampling_step_mm": 4,
+    "found_routes": [
+      {
+        "condition": "M-TEACHER-F1-0-PLACE-red-left",
+        "archive_result_sha256": "247a515e893db70332912db24fccc6ecef54a19a1669e8a1227ca68baec4df03",
+        "count": 22,
+        "geom_sweep_by_elevation": {
+          "36mm": 14,
+          "32mm": 8
+        },
+        "last": {
+          "query": 99,
+          "native_step": 30453,
+          "horizontal_unraised_min_mm": -3.7604179939740403,
+          "bounded_vertical_first_route": {
+            "elevation_mm": 36,
+            "vertical_min_mm": 2.550620842531602,
+            "horizontal_min_mm": 9.622150687271285
+          }
+        }
+      },
+      {
+        "condition": "M-TEACHER-F1-0-PLACE-blue-left",
+        "archive_result_sha256": "b3cc05fa20f78bad3a4614c78f2da8a0a34a06dc633d9a9ba58faafb5a9ec3d8",
+        "count": 31,
+        "geom_sweep_by_elevation": {
+          "already_clear": 31
+        },
+        "last": {
+          "query": 104,
+          "native_step": 31703,
+          "horizontal_unraised_min_mm": 58.116343520112466,
+          "bounded_vertical_first_route": null
+        }
+      },
+      {
+        "condition": "M-TEACHER-F2-0-PLACE-blue-right",
+        "archive_result_sha256": "883f3dcafbf786284194ed88a9ee2fd4c74df831ec21d01e6d0ed8fed86a8f53",
+        "count": 21,
+        "geom_sweep_by_elevation": {
+          "36mm": 21
+        },
+        "last": {
+          "query": 93,
+          "native_step": 28953,
+          "horizontal_unraised_min_mm": -14.213614177263857,
+          "bounded_vertical_first_route": {
+            "elevation_mm": 36,
+            "vertical_min_mm": 1.2737692185575304,
+            "horizontal_min_mm": 8.4608312559422
+          }
+        }
+      },
+      {
+        "condition": "M-TEACHER-F1-0-PLACE-blue-right",
+        "archive_result_sha256": "b1a3f79af47fb1bb7b9b23305eb857a880d7207ad2bb63ecbc93c5a9f3d28e3c",
+        "count": 27,
+        "geom_sweep_by_elevation": {
+          "40mm": 1,
+          "36mm": 13,
+          "32mm": 3,
+          "20mm": 1,
+          "no_vertical_first_candidate": 1,
+          "28mm": 4,
+          "16mm": 3,
+          "8mm": 1
+        },
+        "last": {
+          "query": 97,
+          "native_step": 29953,
+          "horizontal_unraised_min_mm": 0.5914714701622976,
+          "bounded_vertical_first_route": {
+            "elevation_mm": 8,
+            "vertical_min_mm": 0.6163671437156432,
+            "horizontal_min_mm": 8.5914714701623
+          }
+        }
+      }
+    ],
+    "whole_arm_dynamic_qualification": false,
+    "deployed": false,
+    "new_native_requests": 0,
+    "new_native_integrations": 0
+  },
+  "receipt_sha256": {
+    "EMBODIMENT_D1_TENTH_TERMINAL02": "941d85699f5e5d4dd7c23b10500155a34203da9503d4f3696af1c6b49a926aa6",
+    "EMBODIMENT_D1_TENTH_G7_ACTUAL01": "0746316bcbb04457701676d3181ddcc1775c53b90a448b1ea2ae4f0bd2229d32",
+    "EMBODIMENT_D1_ELEVENTH_PROGRESS01": "bfcc18ab367e39d48efb8be8a437251f38b6e64bc3a0f0fe6ec61c423c633ab8"
+  },
+  "optimizer_updates": 0,
+  "optimization_visits": 0,
+  "new_SLA_generations": 0,
+  "student_native_requests": 0,
+  "common_statistics_fitted": false
+}
