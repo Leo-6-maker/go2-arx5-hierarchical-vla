@@ -10,9 +10,14 @@ def read_state(path):
 
 
 def parse_state(raw):
+    return _parse_state_abi(raw,(34,32,20))
+
+
+def _parse_state_abi(raw,expected_abi):
+    """Shared byte layout only; public legacy reader keeps its exact old ABI."""
     if len(raw)<40:raise ValueError('INCOMPLETE_ACTUAL_NATIVE_STATE')
     magic,step,t,nq,nv,nu=struct.unpack_from('<8sQdIII',raw)
-    if magic!=b'GRTSTATE' or (nq,nv,nu)!=(34,32,20):raise ValueError('NATIVE_STATE_ABI')
+    if magic!=b'GRTSTATE' or (nq,nv,nu)!=expected_abi:raise ValueError('NATIVE_STATE_ABI')
     n=nq+nv+nu;values=np.frombuffer(raw,dtype='<f8',count=n,offset=36).copy();offset=36+8*n
     nc,=struct.unpack_from('<I',raw,offset);offset+=4
     if len(raw)!=offset+160*nc or not np.isfinite(values).all():raise ValueError('FINITE_COMPLETE_NATIVE_STATE_REQUIRED')

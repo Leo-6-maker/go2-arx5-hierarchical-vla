@@ -16,22 +16,31 @@ from scripts.pi0292.eval_contract import matrix10
 from scripts.pi0291_arx5_data.native_dataset import pose10
 from scripts.pi0294.e1.artifacts import atomic_npz
 from .close_reference_input_v1 import (
-    SHIFT7_METHOD, SHIFT7_NATIVE_VERSION, SHIFT7_SIM_VERSION, query_reference, reference_arrays,
+    SHIFT7_METHOD, SHIFT7_NATIVE_VERSION, SHIFT7_SIM_VERSION, SHIFT7_V6_T_VERSION,
+    G7_VERSION, query_reference, reference_arrays,
 )
 from .sim_paused_contract_v5 import SELECTED_SHIFT7_MANIFEST_SHA256
 from .storage import digest
 from .verified_observation_v1 import VerifiedObservation
 from .hybrid_nonphysical_v3 import read
 
+G7_QUERY_DIRECTORY = 'g7-queries'
+
 
 def _identity(adapter):
     spec = adapter.spec
-    if spec.get('mobile_experiment_version')=='MFREE_SHIFT7_SIM_ONLY_V52':
-        from .mobile_scope_v52 import query_identity
+    version=spec.get('mobile_experiment_version')
+    if version in ('MFREE_SHIFT7_SIM_ONLY_V52', SHIFT7_V6_T_VERSION, G7_VERSION):
+        if version==G7_VERSION:
+            from .multitask_scope_v6 import query_identity
+        elif version==SHIFT7_V6_T_VERSION:
+            from .target_scope_v6 import query_identity
+        else:
+            from .mobile_scope_v52 import query_identity
         query_identity(spec)
         spec_path=Path(spec['registered_root'])/'EXECUTION_SPEC.json'
         if read(spec_path)!=spec or not Path(adapter.output).resolve().is_relative_to(Path(spec['registered_root']).resolve()):
-            raise ValueError('SAME_OWNED_V52_SCOPE_SPEC_AND_OUTPUT_REQUIRED')
+            raise ValueError('SAME_OWNED_TARGET_SCOPE_SPEC_AND_OUTPUT_REQUIRED')
         return dict(path=str(spec_path),sha256=digest(spec_path))
     sim_only = spec.get('mobile_experiment_version') == SHIFT7_SIM_VERSION
     max_ticks = 35703 if sim_only else 30000
@@ -92,7 +101,8 @@ def capture(adapter, sample, camera, fixed_task_frame, accepted_reference_TCP, q
     state = pose10(frame @ sample['tcp'], sample['gripper_fraction'])
     if not np.allclose(matrix10(state), frame @ sample['tcp'], rtol=0, atol=1e-9):
         raise ValueError('ONE_OBSERVABLE_EEF_FRAME_MAPPING')
-    folder = Path(adapter.output)/'shift7-queries'/('%04d' % query_index)
+    g7 = adapter.spec['mobile_experiment_version'] == G7_VERSION
+    folder = Path(adapter.output)/(G7_QUERY_DIRECTORY if g7 else 'shift7-queries')/('%04d' % query_index)
     folder.mkdir(parents=True, exist_ok=False)
     output = folder/'INPUT.npz'
     atomic_npz(output, state_eef10=state, body_rgb=body, wrist_rgb=wrist,
@@ -106,7 +116,7 @@ def capture(adapter, sample, camera, fixed_task_frame, accepted_reference_TCP, q
         raise ValueError('SCOPE_OR_EMITTED_HISTORY_CHANGED_DURING_CAPTURE')
     # Copy/hash the exact arrays retained above, not a mutable renderer alias.
     data = observation.values_for(pin)
-    record = dict(schema='MFREE_SHIFT7_NATIVE_INPUT_CANDIDATE_V5',
+    record = dict(schema='MFREE_G7_NATIVE_INPUT_V6' if g7 else 'MFREE_SHIFT7_NATIVE_INPUT_CANDIDATE_V5',
         query_index=query_index, input=pin,
         native_scope_spec=scope_pin, native_output=str(adapter.output),
         source_kind='CALLER_OWNED_NATIVE_PAUSE_ABI_NOT_A_NATIVE_ADMISSION',

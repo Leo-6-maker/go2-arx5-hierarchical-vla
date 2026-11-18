@@ -103,12 +103,15 @@ def prepare_install(adapter,action,original_doc):
     from .native_replay import forbid_integration
     import mujoco
     sample=adapter.measured_task_state();validate_preview(adapter,action,sample['tcp'])
+    contact_rule=getattr(adapter,'native_preview_contact',None)
+    contact_binding={} if contact_rule is None else {'contact_rule':contact_rule}
     if not getattr(adapter,'mobile_motion_armed',False):
         # Original stable startup, before any new mobile reference is allowed.
         from .target_reference import measured_base_hold
         doc=measured_base_hold(original_doc,adapter.base_pose_hold)
         shadow=certify_chunk(adapter.actual_state.model,sample,matrix10(action),stage='approach',
-            history=adapter.reference_history[-2:]if len(adapter.reference_history)>=2 else())
+            history=adapter.reference_history[-2:]if len(adapter.reference_history)>=2 else(),
+            **contact_binding)
         return doc,shadow
     from .mobile_safety_profile_v1 import require_armed
     require_armed(adapter)
@@ -118,7 +121,8 @@ def prepare_install(adapter,action,original_doc):
         with forbid_integration(mujoco):
             shadow=certify_chunk(adapter.actual_state.model,sample,matrix10(action),
                 stage=getattr(adapter,'mobile_contact_stage','approach'),
-                history=adapter.reference_history[-2:]if len(adapter.reference_history)>=2 else())
+                history=adapter.reference_history[-2:]if len(adapter.reference_history)>=2 else(),
+                **contact_binding)
         shadow=dict(shadow,shadow_only=True)
     except ValueError as error:
         shadow=dict(status='FIXED_ROOT_IK_SHADOW_REJECT',reason=str(error),shadow_only=True,

@@ -51,7 +51,8 @@ class PlanningObjectMotion:
                     actual_physics_or_labels_modified=False)
 
 
-def certify_chunk(model, sample, poses, *, stage, history=(), planning_object_motion=None):
+def certify_chunk(model, sample, poses, *, stage, history=(), planning_object_motion=None,
+                  contact_rule=contact_permitted):
     """500Hz SE3 interpolation/local IK, 20Hz .7rad/s and 1rad/s² bounds.
 
     The two most recently completed reference points are re-solved in the
@@ -118,7 +119,7 @@ def certify_chunk(model, sample, poses, *, stage, history=(), planning_object_mo
         mujoco.mj_forward(model, data)
         for c in data.contact if tick >= prefix*25 else ():
             names = [mujoco.mj_id2name(model, mujoco.mjtObj.mjOBJ_GEOM, g) for g in (c.geom1, c.geom2)]
-            if not contact_permitted(names, c.dist, stage):
+            if not contact_rule(names, c.dist, stage):
                 error=ValueError('ORIGINAL_FULL_NATIVE_CONTACT_REJECT:'+str(names))
                 error.native_contact_details=dict(geom_ids=[int(c.geom1),int(c.geom2)],geom_names=names,
                     body_names=[mujoco.mj_id2name(model,mujoco.mjtObj.mjOBJ_BODY,int(model.geom_bodyid[g]))for g in(c.geom1,c.geom2)],

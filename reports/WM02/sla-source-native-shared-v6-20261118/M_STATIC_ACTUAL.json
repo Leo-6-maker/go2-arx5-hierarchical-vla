@@ -1,0 +1,100 @@
+{
+  "schema": "SLA_V6_M_STATIC_PREPARATION_ACTUAL",
+  "plan_commit": "ae3d3c0dceade437b0104a150cd0402fef650052",
+  "source_sha": "145bf72085f0d91cac83bab130f1176ed4c2fd6f",
+  "spec_sha256": "42ea427f4b0f739013d5f32705cadc28efeb5d12854c907f380314f432a81522",
+  "unit": "wm02-sla-v6-multitask-static-scene-20261118-03",
+  "former_PID": 1562043,
+  "terminal": "CLOSED_EXIT0",
+  "wall_s": 1.5049691116437316,
+  "CPU_s": 0.9615709819999999,
+  "CPU_limit": 2,
+  "memory_limit_bytes": 4294967296,
+  "native_dispatch_qualified": false,
+  "new_updates": 0,
+  "new_visits": 0,
+  "new_model_generations": 0,
+  "new_native_requests": 0,
+  "new_integrations": 0,
+  "Teacher_requests": 0,
+  "records": [
+    {
+      "family": "F1",
+      "valid_static_candidate": true,
+      "compiled_ABI": {
+        "nq": 41,
+        "nv": 38,
+        "nu": 20
+      },
+      "robot_contract": {
+        "status": "ORIGINAL_ROBOT_CONTROL_IDS_AND_DYNAMICS_EXACT_WITH_ONE_NEW_PASSIVE_BOX",
+        "fingerprint": "67d4b804c438beabec9790ecf40b60584d2b45ec0c5f1799f377bf784f316bc8",
+        "original_robot_nq": 27,
+        "original_robot_nv": 26,
+        "actuators": 20,
+        "physics_dt_s": 0.002,
+        "native_dispatch_qualified": false
+      },
+      "model_sha256": "f69cff6ed63bcc344cb3ac1914794b1a26d7214e59ac18f717b9b01e03d832ec",
+      "reuse_without_recompilation": true,
+      "prototype_origin_offset_world_m": [
+        0,
+        0,
+        0
+      ],
+      "existing_contact_predicates": {
+        "red_support": true,
+        "blue_support": false,
+        "pad_table": false,
+        "wrong_object_pad": false
+      }
+    },
+    {
+      "family": "F2",
+      "valid_static_candidate": true,
+      "compiled_ABI": {
+        "nq": 41,
+        "nv": 38,
+        "nu": 20
+      },
+      "robot_contract": {
+        "status": "ORIGINAL_ROBOT_CONTROL_IDS_AND_DYNAMICS_EXACT_WITH_ONE_NEW_PASSIVE_BOX",
+        "fingerprint": "67d4b804c438beabec9790ecf40b60584d2b45ec0c5f1799f377bf784f316bc8",
+        "original_robot_nq": 27,
+        "original_robot_nv": 26,
+        "actuators": 20,
+        "physics_dt_s": 0.002,
+        "native_dispatch_qualified": false
+      },
+      "model_sha256": "7526278ffa4ca6f8343537ca71228c5dd0de4406d1366f5e5e81a6daffa4a74c",
+      "reuse_without_recompilation": false,
+      "prototype_origin_offset_world_m": [
+        0.085,
+        0.0,
+        0.0
+      ],
+      "existing_contact_predicates": {
+        "red_support": true,
+        "blue_support": false,
+        "pad_table": false,
+        "wrong_object_pad": false
+      }
+    }
+  ],
+  "preserved_predecessors": [
+    {
+      "identity": "static01",
+      "type": "ZERO_EFFECT_TECHNICAL",
+      "cause": "MISSING_ASSET_ROOT_CONVENIENCE_FIELD",
+      "repair": "resolve only two unique already-frozen XML members with byte pins",
+      "native_effects": 0
+    },
+    {
+      "identity": "static02_F2",
+      "type": "VALID_STATIC_GEOMETRY_NEGATIVE",
+      "cause": "blue center43.5mm outside complete support margin on the original F2 edge prototype",
+      "retained": true
+    }
+  ],
+  "next_action": "Explicit 41/38/20 packet/camera and two-object collision-role binding, zero-integration initial-pose/contact coverage, fixed48 Teacher population and task FSM before native dispatch. Keep original contact predicates/thresholds and STOP; no Teacher or strategy qualification from this audit."
+}

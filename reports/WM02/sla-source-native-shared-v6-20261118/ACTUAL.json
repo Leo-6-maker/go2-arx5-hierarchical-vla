@@ -1,0 +1,362 @@
+{
+  "schema": "SLA_V6_ACTUAL_STAGE_SNAPSHOT",
+  "plan_commit": "ae3d3c0dceade437b0104a150cd0402fef650052",
+  "parent_PR407": "1d78f2b758fb9b0dc5bbc05ecfc5a0aa3b1e63d3",
+  "old_RealMix": "BLOCKED_UNCHANGED",
+  "old_V52": "NO_PROMOTION_UNCHANGED",
+  "source_label_kind": "FUTURE_LOGGED_STATE_REFERENCE_NOT_ISSUED_COMMAND",
+  "source_coordinates": "SOURCE_ARM_LOCAL_V1",
+  "source_next_state_is_verified_physics": false,
+  "source_direct_Go2_execution_permitted": false,
+  "source_TRAIN_DEV_TEST": [
+    36,
+    12,
+    12
+  ],
+  "source_raw_existing_reused": 12,
+  "source_new_downloads": 48,
+  "source_total_verified_bytes": 10715427154,
+  "source_map_sha256": "d22bf910c4e6e03ac76952abf054f5d0244b80d646d791b360d15cbff2ce2da6",
+  "source_depot_exit_code": 0,
+  "source_depot_source_sha": "0f459b6b55a2c6b1c9e311c9a9ebe3338357e019",
+  "source_depot_wall_s": 489.1485514724627,
+  "source_depot_CPU_s": 19.607971499,
+  "source_TEST_labels_read": false,
+  "T_updates": 500,
+  "S_updates": 0,
+  "native_requests": 0,
+  "actual_allocation_deadline_epoch": 1795027883.855488,
+  "old_capsules_reopened": false,
+  "next_action": "Keep actual T-H40 training healthy; execute already queued S1000 and target615/new24 at their pinned cold boundaries; once-frozen source TEST and independent M preparation remain pending",
+  "status": "T_FM500_ENDPOINT_SEALED_T_H40_MATCHED_INITIAL_LOADED_S_QUEUED",
+  "observed_epoch": 1794948830.8516514,
+  "T_visits": 16000,
+  "T_training_complete_generations": 2000,
+  "T_H40_updates": 0,
+  "S_visits": 0,
+  "diagnostic_offline_generations": 12,
+  "target_pair": {
+    "unit": "wm02-sla-v6-target-pair500-20261118-01",
+    "PID": 1477389,
+    "source_sha": "131a002de5535509f9e8e4b6abf913a11cc2f445",
+    "spec_sha256": "3d2bcd67b7cce710ad14b576c920d5a611374b8bae6cdb4179174e5e95a16846",
+    "observed_epoch": 1794948830.8516514,
+    "actual_update_step": 500,
+    "completed_visits": 16000,
+    "state": "ACTIVE_RUNNING",
+    "precheck_windows": 4,
+    "precheck_backward_complete": true,
+    "precheck_aux_losses_all_zero": true,
+    "precheck_sampler_bit_exact": true,
+    "ordinary_RGB_restoration_pending": true,
+    "new24_pending": true,
+    "T_FM_state": "CLOSED_EXIT0_FIXED500",
+    "T_H40_state": "ACTUAL_PARENT_LOADED_ALL87_INITIAL_MATCH_CHECKED_PREFIX_PENDING",
+    "T_H40_PID": 1536115
+  },
+  "source_preparation": {
+    "source_sha": "c033b1db4a3c6785ccf3a4afbc16529d2b0eda72",
+    "ready": true,
+    "manifest_sha256": "7954a6637564ad39a88f3e173c47687d66c39c50bbaccd9a2ad5f1a361667ab5",
+    "statistics_sha256": "a94e1567bb002621d5841150a8e677e38fa6d02b51af22e4ab6f301317ebd521",
+    "TRAIN_episodes": 36,
+    "DEV_episodes": 12,
+    "TRAIN_windows": 38106,
+    "dynamic_visits": 16000,
+    "low_change_anchor_visits": 16000,
+    "distinct_training_windows": 18866,
+    "source_TEST_labels_read": false,
+    "first_future_span_stratification_result": "NOT_READY_ALL38106_DYNAMIC_PRESERVED",
+    "corrected_before_any_S_model_generation_or_update": true,
+    "dynamic_rule": "PRECEDING_LOGGED_FRAME_ANCHOR_CHANGE_1PCT_TRAIN_STATE_IQR",
+    "first_anchor_unknown_excluded": true,
+    "future_span_dynamic_reported_separately": true
+  },
+  "source_learning": {
+    "unit": "wm02-sla-v6-source1000-20261118-02",
+    "PID": 1505424,
+    "source_sha": "0fa944e99683cdfd957f56af676370edbe5cab8a",
+    "spec_sha256": "6c8fe43fa70b8ab1284fcb1bce28038ed8ab2b9f94b5f0e207c900bfefe8db14",
+    "state": "WAIT_HEALTHY_TARGET_PAIR_COLD_BOUNDARY",
+    "observed_epoch": 1794946438.2989197,
+    "deadline_epoch": 1794989454.9395604,
+    "linger": true,
+    "frontend_dependency": false,
+    "planned_updates": 1000,
+    "planned_visits": 32000,
+    "actual_updates": 0,
+    "actual_generations": 0,
+    "source_TEST_pending": true,
+    "technical_predecessor": {
+      "unit": "wm02-sla-v6-source1000-20261118-01",
+      "cause": "REGISTERED_CPU12_13_OUTSIDE_SERVICE_CPU14_15",
+      "effects": {
+        "updates": 0,
+        "visits": 0,
+        "generations": 0,
+        "native": 0
+      },
+      "retained": true,
+      "successor_same_deadline": true
+    }
+  },
+  "local_source_tests": {
+    "passed": 7,
+    "model_qualification": false
+  },
+  "target_followup": {
+    "unit": "wm02-sla-v6-target-followup-20261118-01",
+    "PID": 1518080,
+    "source_sha": "d32a6f983de0908e9508940e551ab7ab18f4be83",
+    "spec_sha256": "2ada7979fcfd60017a239b68e19c24fb7bb5c89a275cfe4c9456a964af2105dd",
+    "deadline_epoch": 1794990488.12456,
+    "actual_state": "ACTIVE_WAIT_EXISTING_T_AND_S_CAPACITY_COLD_BOUNDARY",
+    "verified_independently": true,
+    "new_generations": 0,
+    "new_native_requests": 0,
+    "old5_reject_bank_sha256": "12a2bbe8e7556d51058f2c6fe71edbd38fcec2482445a9167f05ffa7864fd3f2",
+    "offline_new_generation_cap": 615,
+    "screen_cap": 24,
+    "conditional_confirmation_cap": 8
+  },
+  "source_once_TEST": {
+    "code_implemented": true,
+    "dispatched": false,
+    "labels_read": false,
+    "required_endpoint_updates": 1000,
+    "required_independent_RGB_restores": 2,
+    "cap": 96
+  },
+  "M_preparation": {
+    "scoring_predicate_implemented": true,
+    "pointwise_G7_and_seam_objective_implemented": true,
+    "focused_CPU_tests_passed": 15,
+    "actual_Teacher_requests": 0,
+    "actual_model_updates": 0,
+    "native_scene_binding_pending": true,
+    "findings": [
+      "Existing packet reader and RGB mirror explicitly require nq34/nv32/nu20 single-object ABI",
+      "Existing literal task-contact whitelist has one task cube; adding a second object needs an explicit scene binding preserving the same contact predicates, not disabling its guard"
+    ],
+    "success_claim": false,
+    "static_scene_candidates": {
+      "valid": 2,
+      "source_sha": "145bf72085f0d91cac83bab130f1176ed4c2fd6f",
+      "spec_sha256": "42ea427f4b0f739013d5f32705cadc28efeb5d12854c907f380314f432a81522",
+      "native_qualified": false,
+      "Teacher_requests": 0
+    }
+  },
+  "T_completed_training_evaluation_generations": 96,
+  "model_generations_confirmed_minimum": 2108,
+  "T_FM_endpoint": {
+    "source_sha": "131a002de5535509f9e8e4b6abf913a11cc2f445",
+    "spec_sha256": "38be835c44bb3da38b59ca59955bded82d9f95f0e8596bbdd56a6edbe37abde6",
+    "result_sha256": "a55336329556111574bed9fefd24203ed874a0edd6d17cb2a4703e445db09376",
+    "checkpoint_sha256": "8d463f21a11f735320cbb554293ef724493e399eef75271320e8323067bc6778",
+    "package_sha256": "da81037663678052908eafcd84517d59ad93bde76a7544d5180cb1bb4d66e2d8",
+    "new_updates": 500,
+    "new_visits": 16000,
+    "training_complete_generations": 2000,
+    "TRAIN96_generations": 96,
+    "TRAIN96_full_H40_pass": 96,
+    "CLOSE_count": 20,
+    "CLOSE_omissions": 0,
+    "CLOSE_max_crossing_error_s": 0.05,
+    "full_state_restore": {
+      "bit_exact": true,
+      "arrays": 87,
+      "step": 500,
+      "cursor": 16000,
+      "model_Adam_RNG_restored": true,
+      "optimizer_updates_added": 0
+    },
+    "frozen_fingerprint": "507aa0a700c2e8cacfb398c76e2147da4a82cbf05bc2e7b4ec85d1562c091b06",
+    "wall_s": 4023.5048230234534,
+    "CPU_s": 3422.539211673,
+    "GPU_live_peak_bytes": 9687290368,
+    "GPU_pool_peak_bytes": 17181966336,
+    "actual": {
+      "actual_parent_loads": 1,
+      "forward_backward_attempts": 4000,
+      "completed_forward_backward": 4000,
+      "optimizer_updates": 500,
+      "attempted_training_visits": 16000,
+      "completed_training_visits": 16000,
+      "ordinary_RGB_generation_attempts": 96,
+      "ordinary_RGB_generations": 96,
+      "physical_requests": 0,
+      "host_window_read_attempts": 16000,
+      "host_window_reads": 16000,
+      "training_full_generation_attempts": 2000,
+      "training_full_generations": 2000,
+      "logical_generated_forward_steps": 20000,
+      "optimizer_update_attempts": 500
+    },
+    "independent_RGB_restore_pending": true,
+    "new_native_requests": 0,
+    "policy_task_success_claim": false
+  },
+  "T_H40_initial_match": {
+    "matched_control_result_sha256": "a55336329556111574bed9fefd24203ed874a0edd6d17cb2a4703e445db09376",
+    "all87_hashes_count": 87,
+    "parent_package_sha256": "b9ba974c374b3c3a09d7742004fc799337d5e7f1b9c9c7d290af066766e4706c",
+    "LR_sha256": "7f10a93cbac3bda375845b99b1f50c4eb516cb5d49a8d5e2e17f6e1b956298c9",
+    "visit_map_sha256": "a151bfca90511a5fee70398aa50616472f989cbf41cdd899ca93d569a24040af"
+  },
+  "both_target_endpoints_actual": {
+    "time_SGT": "2026-11-18T06:07:07.654625+08:00",
+    "status": "BOTH_TARGET_500_ENDPOINTS_SEALED_NATIVE_PENDING",
+    "training_source_sha": "131a002de5535509f9e8e4b6abf913a11cc2f445",
+    "arms": {
+      "T-FM": {
+        "spec_sha256": "38be835c44bb3da38b59ca59955bded82d9f95f0e8596bbdd56a6edbe37abde6",
+        "result_sha256": "a55336329556111574bed9fefd24203ed874a0edd6d17cb2a4703e445db09376",
+        "checkpoint_sha256": "8d463f21a11f735320cbb554293ef724493e399eef75271320e8323067bc6778",
+        "package_sha256": "da81037663678052908eafcd84517d59ad93bde76a7544d5180cb1bb4d66e2d8",
+        "new_updates": 500,
+        "new_visits": 16000,
+        "training_full_generations": 2000,
+        "TRAIN96": {
+          "legal": 96,
+          "total": 96,
+          "CLOSE": {
+            "count": 20,
+            "legal": 20,
+            "omissions": 0,
+            "max_crossing_error_s": 0.05
+          }
+        },
+        "full_restore": {
+          "bit_exact": true,
+          "arrays": 87,
+          "step": 500,
+          "cursor": 16000,
+          "model_Adam_RNG_restored": true,
+          "optimizer_updates_added": 0
+        },
+        "initial_match": {
+          "matched_control_result_sha256": null,
+          "all87_hashes_count": 87,
+          "parent_package_sha256": "b9ba974c374b3c3a09d7742004fc799337d5e7f1b9c9c7d290af066766e4706c",
+          "LR_sha256": "7f10a93cbac3bda375845b99b1f50c4eb516cb5d49a8d5e2e17f6e1b956298c9",
+          "visit_map_sha256": "a151bfca90511a5fee70398aa50616472f989cbf41cdd899ca93d569a24040af"
+        },
+        "GPU_live_peak_bytes": 9687290368,
+        "GPU_pool_peak_bytes": 17181966336,
+        "wall_s": 4023.5048230234534,
+        "CPU_s": 3422.539211673,
+        "auxiliary": {
+          "committed_updates": 500,
+          "committed_visits": 16000,
+          "complete_aux_rows": 2000,
+          "aux_loss_positive": 70,
+          "maximum_aux_loss": 0.24093036353588104,
+          "real_full_ten_step_backward_rows": 0,
+          "nonzero_aux_gradient_rows": 0,
+          "maximum_aux_gradient_norm": null,
+          "first_nonzero": [],
+          "prefix_bytes": 1089518,
+          "prefix_sha256": "7c990058fe9f6d5068bfcfe01554a5cdb2c73337a8ede566f7bfb9e5428fd24f",
+          "mean_update_wall_s": 7.579875161092728
+        }
+      },
+      "T-H40": {
+        "spec_sha256": "1689258827ada4ee49f29161cc11dd31c780049c26d1ee3eeccebca04b7ed182",
+        "result_sha256": "53c80ae0e4ccc9f6b43e09b0cc11295c3fda2b8ef895efbb6442592697c0891c",
+        "checkpoint_sha256": "18a28ba7fa569c2eca176c1f3a6e3f5a647c702fd0de31f6b4f019abfca09ee7",
+        "package_sha256": "e8a8eb18cc6e2a8cf71f68516384596e352aa8a157146a388df715754a43d816",
+        "new_updates": 500,
+        "new_visits": 16000,
+        "training_full_generations": 2000,
+        "TRAIN96": {
+          "legal": 96,
+          "total": 96,
+          "CLOSE": {
+            "count": 20,
+            "legal": 20,
+            "omissions": 0,
+            "max_crossing_error_s": 0.05
+          }
+        },
+        "full_restore": {
+          "bit_exact": true,
+          "arrays": 87,
+          "step": 500,
+          "cursor": 16000,
+          "model_Adam_RNG_restored": true,
+          "optimizer_updates_added": 0
+        },
+        "initial_match": {
+          "matched_control_result_sha256": "a55336329556111574bed9fefd24203ed874a0edd6d17cb2a4703e445db09376",
+          "all87_hashes_count": 87,
+          "parent_package_sha256": "b9ba974c374b3c3a09d7742004fc799337d5e7f1b9c9c7d290af066766e4706c",
+          "LR_sha256": "7f10a93cbac3bda375845b99b1f50c4eb516cb5d49a8d5e2e17f6e1b956298c9",
+          "visit_map_sha256": "a151bfca90511a5fee70398aa50616472f989cbf41cdd899ca93d569a24040af"
+        },
+        "GPU_live_peak_bytes": 9687290368,
+        "GPU_pool_peak_bytes": 17181966336,
+        "wall_s": 4408.022783013992,
+        "CPU_s": 3219.321978347,
+        "auxiliary": {
+          "committed_updates": 500,
+          "committed_visits": 16000,
+          "complete_aux_rows": 2000,
+          "aux_loss_positive": 104,
+          "maximum_aux_loss": 0.3149266541004181,
+          "real_full_ten_step_backward_rows": 2000,
+          "nonzero_aux_gradient_rows": 104,
+          "maximum_aux_gradient_norm": 88.3125,
+          "first_nonzero": [
+            {
+              "absolute_cursor": 36,
+              "loss": 0.015775294974446297,
+              "head": 0.23139993846416473,
+              "tail": 0.03159935399889946,
+              "interior": 0.10313308984041214,
+              "aux_gradient_norm": 12.149974822998047
+            }
+          ],
+          "prefix_bytes": 1089775,
+          "prefix_sha256": "0190b6aa8e1c6d6c729397fd8a40d64d2781aeea95a0d6d7e1a63baff48550c0",
+          "mean_update_wall_s": 8.344861542874947
+        }
+      }
+    },
+    "actual_new_T_updates": 1000,
+    "actual_new_T_visits": 32000,
+    "actual_T_training_generations": 4000,
+    "actual_T_offline_generations_including_12_diagnostic": 204,
+    "actual_new_native_requests": 0,
+    "actual_new_integrations": 0,
+    "stopped_queue": {
+      "unit": "wm02-sla-v6-target-followup-20261118-01",
+      "lease": "CLOSED",
+      "MainPID": 0,
+      "actual_model_generation": 0,
+      "actual_native_requests": 0,
+      "reason": "immutable old case consumer lacks V6 scope in emitted-command history and native RGB input"
+    },
+    "successor": {
+      "unit": "wm02-sla-v6-target-followup-20261118-02",
+      "source_sha": "3e20642a042b9047dc6b24c997cd243ebcfe2b33",
+      "source_seal": "649aeda9791caf707ae38cd8a6301fbaf4ab5102bb574feb9a6fd46966048280",
+      "spec_sha256": "1301e40ea8538ffa3b9caa29936b1c00ba28b86cf47546d7be19b068fb18287e",
+      "deadline_epoch": 1794990488.12456,
+      "T_population_sha256": "95f8e6378a894619b4578dd240c1a6eb993996c4ab5591a97d81e55f8d0c8d8d",
+      "E2_reject5_sha256": "12a2bbe8e7556d51058f2c6fe71edbd38fcec2482445a9167f05ffa7864fd3f2",
+      "linger": "Linger=yes",
+      "frontend_dependency": false,
+      "MainPID": 1601452,
+      "cgroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-v6-target-followup-20261118-02.service",
+      "lease": "ACTIVE"
+    },
+    "source_stage": {
+      "unit": "wm02-sla-v6-source1000-20261118-02",
+      "MainPID": 1505424,
+      "S1000_child_PID": 1598217,
+      "status": "ACTUAL_OFFICIAL_PARENT_LOADED_S0_PENDING",
+      "confirmed_updates_at_observation": 0
+    }
+  }
+}

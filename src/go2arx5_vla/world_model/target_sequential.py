@@ -151,6 +151,8 @@ class TargetSequentialAdapter:
         write(self.output/'PROCESS_COMMANDS.private.json',self.commands)
     def publish(self,pub,text):
         msg=self.String();msg.data=text;pub.publish(msg)
+    def bind_simulator_environment(self, environment):
+        return environment
     def start(self):
         # Caller has already checked scope, hashes and physical owner lock.
         os.environ.update(ROS_DOMAIN_ID=str(self.spec['ROS_DOMAIN_ID']),ROS_LOCALHOST_ONLY='1',ROS_AUTOMATIC_DISCOVERY_RANGE='LOCALHOST')
@@ -213,7 +215,7 @@ class TargetSequentialAdapter:
                 MOBILE_SAFETY_ARMED=str(out/'MOBILE_SAFETY_ARMED'),
                 MOBILE_SAFETY_STOP=str(out/'MOBILE_SAFETY_STOP.private.json'),
                 MOBILE_SAFETY_TRACE=str(out/'MOBILE_SAFETY_TRACE.private.jsonl'))
-        command,display_env=native_display_command(s,out,sim,live_output=getattr(self,'live_control_output',None));self.launch(command,'sim',display_env)
+        command,display_env=native_display_command(s,out,self.bind_simulator_environment(sim),live_output=getattr(self,'live_control_output',None));self.launch(command,'sim',display_env)
         native=Path(s['native_root']);params=['--ros-args','-p','use_sim_time:=true','-p','taskFile:='+str(native/'src/ctrl/go2_x5_ocs2/config/task_floating.info'),'-p','urdfFile:='+str(native/'src/ctrl/go2_x5_description/urdf/arx5_ac1_floating.urdf')]
         # OCS2 can regenerate cache libraries while constructing its interface.
         # Preserve canonical caches; each owned process gets its private copy.
@@ -241,16 +243,18 @@ class TargetSequentialAdapter:
         write(out/'BEFORE_FIRST_INTEGRATION.json',c)
     @profiled('native.state_read')
     def observe(self):
-        from scripts.pi0294.task_state import read_state
         until=time.monotonic()+.25
         while True:
-            try:return read_state(live_path(self,'state.bin'))
+            try:return self.read_native_state(live_path(self,'state.bin'))
             except FileNotFoundError:
                 # Same observed live-snapshot publication gap as pause_ack.
                 # Never reuse an old packet or change the native step quota.
                 self.guard()
                 if time.monotonic()>=until:raise
                 time.sleep(.002)
+    def read_native_state(self,path):
+        from scripts.pi0294.task_state import read_state
+        return read_state(path)
     def step_to(self,ticks):
         if ticks!=self.spec['max_ticks']:raise PermissionError('EXACT_REGISTERED_INITIALIZATION_QUOTA_REQUIRED')
         self.advance_initialization(ticks);self.seal_trace(ticks)
@@ -440,9 +444,12 @@ class TargetSequentialAdapter:
     def measured_task_state(self):
         import mujoco
         from .native_replay import forbid_integration
-        from scripts.pi0294.task_state import ActualState
-        if not hasattr(self,'actual_state'):self.actual_state=ActualState(mujoco.MjModel.from_binary_path(self.spec['model_path']))
+        if not hasattr(self,'actual_state'):
+            self.actual_state=self.make_task_state(mujoco.MjModel.from_binary_path(self.spec['model_path']))
         with forbid_integration(mujoco):return self.actual_state.update(self.observe())
+    def make_task_state(self, model):
+        from scripts.pi0294.task_state import ActualState
+        return ActualState(model)
     @profiled('reference.install_and_ACK')
     def install_reference(self,action):
         import hashlib
