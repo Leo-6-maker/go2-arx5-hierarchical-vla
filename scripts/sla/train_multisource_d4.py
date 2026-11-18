@@ -83,7 +83,8 @@ def train(spec):
         if stopped(spec):
             return dict(exit_code=75, status='FIXED_ENDPOINT_DIAGNOSTIC_UNSTARTED',
                         last_checkpoint=last, full_restore=restored, **effects)
-        metrics = evaluate(engine, spec)
+        contexts = read_pin(spec['portable_evaluation']) if spec.get('portable_evaluation') else None
+        metrics = evaluate(engine, spec, archived_contexts=contexts)
         seam, full = 0, 0
         for row in read(root/'TRAIN48_PREDICTIONS.private.json'):
             path = row['output']['path']
@@ -122,6 +123,7 @@ def restore_rgb(spec):
         raise ValueError('D4_FIXED_UNIQUE_RGB16_REQUIRED')
     package = result['package']
     dataset = C20G7Dataset(spec['dataset'], time_audit=spec['time_codec_audit'],
+        portable_inputs=spec.get('portable_inputs'),
         resize_with_pad=resize_with_pad, max_cache_bytes=spec['frame_cache_bytes'])
     provider = Provider(package['path'], manifest_sha256=package['sha256'], parent_params=spec['parent_params'])
     observations = []

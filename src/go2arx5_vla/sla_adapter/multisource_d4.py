@@ -10,6 +10,7 @@ from .dense_g7_v6 import VERSION, label_margin_report
 from .gripper_latent_v2 import EPSILON
 from .mfree_training_v1 import MobileDataset
 from .multitask_data_v6 import C20_MANIFEST, C20_STATISTICS, legacy_contexts, reference
+from .multitask_initialization_v6 import sealed_source
 from .multitask_training_v6 import MultitaskEngine
 from .provider_multitask_v6 import Provider as TargetProvider, export_payload
 from .provider_v3 import DECODE_ORDER
@@ -23,14 +24,28 @@ SCHEMA = 'SLA_D4_C20_G7_RGB_PACKAGE_V1'
 
 
 class C20G7Dataset(MobileDataset):
-    def __init__(self, root, *, time_audit, **kwargs):
+    def __init__(self, root, *, time_audit, portable_inputs=None, **kwargs):
         super().__init__(root, C20_MANIFEST, **kwargs)
-        self.contexts = legacy_contexts(self, time_audit)
+        self.contexts = legacy_contexts(self, time_audit,
+            read_pinned=lambda pin: read_pin(locate_input(portable_inputs, pin)))
         if self.manifest['statistics']['sha256'] != C20_STATISTICS:
             raise ValueError('D4_FROZEN_C20_TRAIN_STATISTICS_REQUIRED')
 
     def reference(self, index):
         return reference(self.contexts[index])
+
+
+def locate_input(portable_inputs, pin):
+    """Resolve an archived input without changing its original digest or JSON bytes."""
+    if portable_inputs is None:
+        return pin
+    manifest = read_pin(portable_inputs)
+    root = Path(portable_inputs['path']).parent.resolve(strict=True)
+    member = manifest['members'][pin['path']]
+    path = (root/member['file']).resolve(strict=True)
+    if member['sha256'] != pin['sha256'] or not path.is_relative_to(root):
+        raise ValueError('D4_PORTABLE_INPUT_DOES_NOT_MATCH_ORIGINAL_PIN')
+    return dict(path=str(path),sha256=pin['sha256'])
 
 
 class TransferEngine(MultitaskEngine):
@@ -58,7 +73,12 @@ class TransferEngine(MultitaskEngine):
                 or sha(spec['tokenizer']['path']) != spec['tokenizer']['sha256']):
             raise ValueError('D4_EXACT_MATCHED_C20_TRAIN_CONTRACT_REQUIRED')
         return C20G7Dataset(spec['dataset'], time_audit=spec['time_codec_audit'],
+            portable_inputs=spec.get('portable_inputs'),
             resize_with_pad=resize_with_pad, max_cache_bytes=spec['frame_cache_bytes'])
+
+    def source_initialization(self, spec):
+        return sealed_source(spec['S1000_transfer_result'], spec['parent_manifest'],
+            locate_pin=lambda pin: locate_input(spec.get('portable_inputs'), pin))
 
     def visits_for_dataset(self, dataset):
         values = CloseEngine.visits_for_dataset(self, dataset)

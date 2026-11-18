@@ -13,16 +13,30 @@ from go2arx5_vla.world_model.mfree_unattended_ledger_v1 import read,sha
 STOP_REQUESTED=False
 
 
-def evaluate(engine,spec):
+def evaluate(engine,spec,*,archived_contexts=None):
     from scripts.sla.export_mfree_c20_v1 import _reference
     from go2arx5_vla.world_model.mfree_query_diagnostics_v2 import analyze
     bank=read(Path(spec['previous_campaign'])/'diagnostic/WINDOW48_PLAN.private.json')['windows']
     root=Path(spec['registered_root']);source_rows={};records=[]
+    if archived_contexts is not None and (
+            archived_contexts['fixed_bank_sha256'] != spec['fixed_TRAIN48']['sha256']
+            or archived_contexts['C20_manifest_sha256'] != engine.dataset.manifest_sha
+            or set(archived_contexts['windows']) != {str(row['index']) for row in bank}):
+        raise ValueError('D4_PORTABLE_TRAIN48_CONTEXT_IDENTITY')
     for w in bank:
         index=w['index'];ep,anchor=engine.dataset.rows[index];state,expert,_,_=engine.dataset.raw(index)
-        native_spec=read(Path(ep['native_result']['path']).parent/'EXECUTION_SPEC.json')
-        if ep['id']not in source_rows:
-            capture=read(ep['original_live_capture']['path']);source_rows[ep['id']]=read(capture['labels']['path'])
+        if archived_contexts is None:
+            native_spec=read(Path(ep['native_result']['path']).parent/'EXECUTION_SPEC.json')
+            if ep['id']not in source_rows:
+                capture=read(ep['original_live_capture']['path']);source_rows[ep['id']]=read(capture['labels']['path'])
+            policy_from_world=native_spec['policy_from_world']
+            reference_row=source_rows[ep['id']][anchor]
+        else:
+            context=archived_contexts['windows'][str(index)]
+            if (context['episode'],context['anchor'])!=(ep['id'],anchor):
+                raise ValueError('D4_EXACT_ARCHIVED_TRAIN48_EPISODE_AND_ANCHOR')
+            policy_from_world=context['policy_from_world']
+            reference_row=context
         for noise in (0,1):
             normalized,physical=engine.generate(index,noise)
             file=root/'data'/f'{index:04d}-{noise}.npz'
@@ -31,7 +45,7 @@ def evaluate(engine,spec):
                 normalized_sha256=hashlib.sha256(normalized.tobytes()).hexdigest(),
                 physical_sha256=hashlib.sha256(physical.tobytes()).hexdigest(),
                 width=width_metrics(physical,expert),
-                envelope=analyze(physical,state,np.asarray(native_spec['policy_from_world']),_reference(source_rows[ep['id']][anchor])))
+                envelope=analyze(physical,state,np.asarray(policy_from_world),_reference(reference_row)))
             records.append(record)
     write(root/'TRAIN48_PREDICTIONS.private.json',records)
     write(root/'ENDPOINT_RGB16.private.json',[records[2*j+n]for j in (0,4,8,12,16,20,28,36)for n in (0,1)])

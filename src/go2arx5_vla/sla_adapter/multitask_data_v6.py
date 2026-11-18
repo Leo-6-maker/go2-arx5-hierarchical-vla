@@ -25,14 +25,14 @@ def reference(values):
     return dict(zip(CLOCK_FIELDS, map(float, values), strict=True))
 
 
-def legacy_contexts(dataset, time_audit):
-    audit = read_pin(time_audit)
+def legacy_contexts(dataset, time_audit, *, read_pinned=read_pin):
+    audit = read_pinned(time_audit)
     if (audit['schema'] != 'SLA_REFERENCE_CONTINUED_TIME_CODEC_C20_LABEL_AUDIT_V1'
             or not audit['passes'] or audit['dataset_manifest_sha256'] != C20_MANIFEST
             or audit['statistics_sha256'] != C20_STATISTICS or audit['windows'] != 1376
             or dataset.manifest_sha != C20_MANIFEST or len(dataset) != 1376):
         raise ValueError('EXACT_C20_ACTUAL_PREVIOUS_COMMAND_LEDGER_REQUIRED')
-    contexts = read_pin(audit['reference_contexts'])['contexts']
+    contexts = read_pinned(audit['reference_contexts'])['contexts']
     if len(contexts) != len(dataset):
         raise ValueError('C20_REFERENCE_DENOMINATOR_CHANGED')
     output = []

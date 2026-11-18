@@ -21,6 +21,9 @@ class MultitaskEngine(FullTrajectoryEngine):
     def population_binding(self):
         return {'compiled_population_sha256': self.dataset.manifest['compiled_population_sha256']}
 
+    def source_initialization(self, spec):
+        return sealed_source(spec['S1000_transfer_result'], spec['parent_manifest'])
+
     def dataset_for_spec(self, spec):
         from openpi_client.image_tools import resize_with_pad
 
@@ -60,7 +63,7 @@ class MultitaskEngine(FullTrajectoryEngine):
 
         self.transfer_rows, self.transfer_receipt = [], None
         if spec['arm'] == self.source_arm:
-            self.transfer_rows, self.transfer_receipt = sealed_source(spec['S1000_transfer_result'], spec['parent_manifest'])
+            self.transfer_rows, self.transfer_receipt = self.source_initialization(spec)
         super().__init__(spec, output)
         if self.inventory['trainable_numel'] != 52153376 or len(jax.tree.leaves(self.active)) != 28:
             raise ValueError('EXACT_ORIGINAL_SHARED_TARGET_PARAMETER_RANGE_REQUIRED')
