@@ -84,6 +84,30 @@ def test_shared_learning_rate_table_and_only_admitted_training_across_cursors():
         visits([rows[0],dict(rows[1],split='SOURCE_DEV')],'target')
 
 
+def test_target_first6_waits_for_reconciled_cold_world_even_if_result_exists(tmp_path):
+    from scripts.pi0292.durable import write
+    from scripts.wm02 import target_adaptation_core_wait as wait
+
+    (tmp_path/'control').mkdir()
+    lease = tmp_path/'control/LEASE.json'
+    terminal = tmp_path/'RESULT.private.json'
+    previous = dict(sha256='existing-spec')
+    write(lease, dict(status='CLOSED', spec_sha256=previous['sha256']))
+    result = dict(schema='SLA_D416_NATIVE_FOLLOWUP_ACTUAL', exit_code=1, failure=None,
+                  records=[dict(technical_failure=False, task_and_mobile_success=False)],
+                  unresolved_case_launches=0)
+    write(terminal, result)
+    assert wait.previous_terminal(tmp_path, previous, dict(pid=0, cgroup_pids=[123])) is None
+    cold = dict(pid=0, cgroup_pids=[], ActiveState='failed')
+    assert wait.previous_terminal(tmp_path, previous, cold) == wait.pin(terminal)
+    write(terminal, dict(result, unresolved_case_launches=1))
+    with pytest.raises(RuntimeError, match='terminal evidence'):
+        wait.previous_terminal(tmp_path, previous, cold)
+    write(lease, dict(status='ACTIVE', spec_sha256=previous['sha256']))
+    with pytest.raises(RuntimeError, match='ownership'):
+        wait.previous_terminal(tmp_path, previous, cold)
+
+
 def test_scale_microbatch_grouping_preserves_inputs_and_auxiliary_exposure(monkeypatch):
     from types import SimpleNamespace
 
