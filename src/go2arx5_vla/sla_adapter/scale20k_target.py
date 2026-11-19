@@ -3,7 +3,7 @@ from pathlib import Path
 
 from .checkpoint_v1 import sha
 from .dense_g7_v6 import VERSION
-from .multisource_d4 import C20G7Dataset
+from .multisource_d4 import C20G7Dataset, locate_input
 from .multitask_data_v6 import C20_MANIFEST, C20_STATISTICS, MultitaskDataset, TeacherDataset
 from .runtime_v1 import read_pin
 
@@ -11,7 +11,7 @@ SCHEMA = 'SLA_SCALE20K_TARGET_C20_AND_ADMITTED_PLACE_V1'
 
 
 class HistoricalPlace(TeacherDataset):
-    def __init__(self, pin, legacy, *, resize_with_pad, cache_bytes):
+    def __init__(self, pin, legacy, *, resize_with_pad, cache_bytes, portable_inputs=None):
         self.manifest = manifest = read_pin(pin)
         self.manifest_sha = pin['sha256']
         self.root = Path(pin['path']).parent
@@ -25,8 +25,8 @@ class HistoricalPlace(TeacherDataset):
                 or any(not ep['task'].startswith('PLACE-') or ep['individual_pass'] is not True
                        for ep in manifest['episodes'])):
             raise ValueError('SCALE20K_FROZEN_PLACE_TRAIN_ADMISSION_REQUIRED')
-        split = read_pin(manifest['split_inventory'])
-        audit = read_pin(manifest['audit'])
+        split = read_pin(locate_input(portable_inputs, manifest['split_inventory']))
+        audit = read_pin(locate_input(portable_inputs, manifest['audit']))
         cases = {r['id']: r for r in audit['cases'] if r['admitted']}
         if (split['old_TEST_rollouts_read'] or len(cases) != len(manifest['episodes'])
                 or len(audit['cases']) != 3
@@ -44,10 +44,11 @@ class ScaleTargetDataset(MultitaskDataset):
         if (Path(pin['path']).resolve(strict=True) != legacy_manifest.resolve(strict=True)
                 or pin['sha256'] != C20_MANIFEST or sha(legacy_manifest) != C20_MANIFEST):
             raise ValueError('SCALE20K_EXACT_C20_ANCESTOR_REQUIRED')
+        portable_inputs = spec.get('portable_inputs')
         self.legacy = C20G7Dataset(spec['root'], time_audit=spec['time_audit'],
-            resize_with_pad=resize_with_pad, max_cache_bytes=cache_bytes//2)
+            resize_with_pad=resize_with_pad, max_cache_bytes=cache_bytes//2, portable_inputs=portable_inputs)
         self.new = HistoricalPlace(spec['admission'], self.legacy,
-            resize_with_pad=resize_with_pad, cache_bytes=cache_bytes//2)
+            resize_with_pad=resize_with_pad, cache_bytes=cache_bytes//2, portable_inputs=portable_inputs)
         self.rows = self.legacy.rows + self.new.rows
         self.statistics = self.legacy.statistics
         self.labels = self.legacy.labels | self.new.labels
