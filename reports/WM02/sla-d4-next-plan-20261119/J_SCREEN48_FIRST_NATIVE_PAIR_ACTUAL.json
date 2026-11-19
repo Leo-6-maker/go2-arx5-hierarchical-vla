@@ -1,0 +1,153 @@
+{
+  "plan_sha": "cf9d1acbf72e96b1bd158322ff8cbaf8fe28fabb",
+  "source_sha": "b405fb173c91a32a1ad5b86aa9e87418cd0d0d56",
+  "spec_sha256": "e80ca90c07af71eafca37172eda48d644dcbe69cffd4a4ebeba5741062764581",
+  "audit_sha256": "37f529dcce165ed8e7b7e95dd7b2de0f6d233bfb74485b2bd1dc9933564f2828",
+  "planned_native_requests": 48,
+  "sealed_native_requests": 2,
+  "sealed_pairs": 1,
+  "totals": {
+    "terminal_cases": 2,
+    "verified_cases": 2,
+    "evidence_errors": 0,
+    "scored_cases": 2,
+    "native_requests": 2,
+    "native_ticks": 65441,
+    "model_generations": 217,
+    "complete_success": 0,
+    "correct_grasp": 0,
+    "lift20mm": 0,
+    "observed_safety_STOP": 1,
+    "observed_illegal_contact_STOP": 1,
+    "observed_integrations_after_STOP": 0,
+    "safety_STOP_with_unknown_post_stop_ticks": 0,
+    "observed_technical_failures": 0,
+    "confirmed_atoms_observed": 2161,
+    "H40_first_closure_by_region": {
+      "P10": 0,
+      "tail30": 0,
+      "no_crossing": 217
+    },
+    "first_failures": {
+      "FIXED_TASK_BUDGET_EXHAUSTED": 1,
+      "ILLEGAL_CONTACT": 1
+    },
+    "observed_wall_s": 984.4063927819952,
+    "observed_CPU_s": 541.8995585380001
+  },
+  "cases": [
+    {
+      "case": "J_SCREEN48-F1-1-HOLD-red-J0",
+      "arm": "J0",
+      "instruction": "HOLD-red",
+      "layout": "J_SCREEN48-F1-1",
+      "reset": 702000,
+      "noise_seed": 2037343900,
+      "scene_sha256": "aab9f053f3607bd6eb7642e3e3f3b424c60ae7c1deb22c9e3d8c04018be45b26",
+      "native_request": 1,
+      "native_ticks": 35703,
+      "native_result_sha256": "e0310b1b12d804659bdafc021ea8a9285ac78f10c0dd95378bff94ae6c2eafc1",
+      "generations": 120,
+      "query_counts": {
+        "no_crossing": 120
+      },
+      "confirmed_atoms": 1200,
+      "emitted_min_width_m": 0.041994952193370634,
+      "measured_min_width_m": 0.04198110677083801,
+      "first_failure": "FIXED_TASK_BUDGET_EXHAUSTED",
+      "first_stop": null,
+      "STOP_after_ticks": null,
+      "technical_failure": false,
+      "contact_evidence": [],
+      "wall_s": 542.1821862580255,
+      "CPU_s": 297.675777507,
+      "native_score": {
+        "base_directional_motion_m": 0.10345446568039371,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "wrong_object_contact_ever": false,
+        "task_success": false,
+        "events": {
+          "base80mm": {
+            "native_step": 14007,
+            "native_time_s": 28.013999999995352
+          }
+        }
+      },
+      "full_native_rescore_differs_from_cached_boundary": false
+    },
+    {
+      "case": "J_SCREEN48-F1-1-HOLD-red-J1",
+      "arm": "J1",
+      "instruction": "HOLD-red",
+      "layout": "J_SCREEN48-F1-1",
+      "reset": 702000,
+      "noise_seed": 2037343900,
+      "scene_sha256": "aab9f053f3607bd6eb7642e3e3f3b424c60ae7c1deb22c9e3d8c04018be45b26",
+      "native_request": 1,
+      "native_ticks": 29738,
+      "native_result_sha256": "bb0bdc8bbbe793351ebee57c12a830da43cd09543ad9cde0cb1a5b7858b64558",
+      "generations": 97,
+      "query_counts": {
+        "no_crossing": 97
+      },
+      "confirmed_atoms": 961,
+      "emitted_min_width_m": 0.041969008805868714,
+      "measured_min_width_m": 0.04196859399075718,
+      "first_failure": "ILLEGAL_CONTACT",
+      "first_stop": {
+        "kind": "stop",
+        "reason": "ILLEGAL_CONTACT",
+        "steps": 29738
+      },
+      "STOP_after_ticks": 0,
+      "technical_failure": false,
+      "contact_evidence": [
+        {
+          "geoms": [
+            {
+              "geom_id": 73,
+              "geom": null,
+              "body": "x5_link6",
+              "geom_type": "mjGEOM_CAPSULE"
+            },
+            {
+              "geom_id": 79,
+              "geom": "task_blue_cube_geom",
+              "body": "task_blue_cube",
+              "geom_type": "mjGEOM_BOX"
+            }
+          ],
+          "distance_m": -1.84981342874653e-05,
+          "normal_force_N": 1.607247940413396
+        }
+      ],
+      "wall_s": 442.22420652396977,
+      "CPU_s": 244.223781031,
+      "native_score": {
+        "base_directional_motion_m": 0.1114799735034028,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "wrong_object_contact_ever": true,
+        "task_success": false,
+        "events": {
+          "base80mm": {
+            "native_step": 13080,
+            "native_time_s": 26.15999999999638
+          },
+          "wrong_object_contact": {
+            "native_step": 29738,
+            "native_time_s": 59.47600000002672
+          }
+        }
+      },
+      "full_native_rescore_differs_from_cached_boundary": true
+    }
+  ],
+  "new_training_updates": 0,
+  "new_optimization_visits": 0,
+  "analyzed_prefix_only_no_arm_ranking": true,
+  "native_unit": "wm02-sla-d416-j-screen48-20261119-01.service",
+  "native_unit_pid_at_readback": 3825536,
+  "continuing_original_order": true
+}
