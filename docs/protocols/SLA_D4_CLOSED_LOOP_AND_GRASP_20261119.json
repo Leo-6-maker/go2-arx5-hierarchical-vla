@@ -1,0 +1,385 @@
+{
+  "schema": "SLA_D4_CLOSED_LOOP_D5_GRASP_JOINT_PLAN_V1",
+  "date_SGT": "2026-11-19",
+  "status": "PUBLISHED_PLAN_NOT_EXECUTED",
+  "observed_user_asof_SGT": "2026-11-19T11:47:00+08:00",
+  "evidence_pin": "6d0ff9f8d8d33c47e5dde308203c57bb5b2adc64",
+  "execution_training_source": "645f895cc4f2182f2313b7230623250d94c75e34",
+  "publication_base": "6843163d641eb24a29c3b1557f868765346ba66c",
+  "sources": {
+    "actual": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/6d0ff9f8d8d33c47e5dde308203c57bb5b2adc64/reports/WM02/sla-d4-multisource-c20-20261118/VANDA_ACTUAL.md",
+    "actual_json": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/6d0ff9f8d8d33c47e5dde308203c57bb5b2adc64/reports/WM02/sla-d4-multisource-c20-20261118/VANDA_ACTUAL.json",
+    "core": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/6d0ff9f8d8d33c47e5dde308203c57bb5b2adc64/reports/WM02/sla-d4-multisource-c20-20261118/ACTUAL.json",
+    "d4protocol": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/6d0ff9f8d8d33c47e5dde308203c57bb5b2adc64/docs/protocols/SLA_D4_MULTISOURCE_C20_20261118.md",
+    "d4engine": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/6d0ff9f8d8d33c47e5dde308203c57bb5b2adc64/src/go2arx5_vla/sla_adapter/multisource_d4.py",
+    "loss": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/6d0ff9f8d8d33c47e5dde308203c57bb5b2adc64/src/go2arx5_vla/sla_adapter/dense_g7_v6.py",
+    "engine": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/6d0ff9f8d8d33c47e5dde308203c57bb5b2adc64/src/go2arx5_vla/sla_adapter/multitask_training_v6.py",
+    "width": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/6d0ff9f8d8d33c47e5dde308203c57bb5b2adc64/scripts/sla/close_goal_g1_v1.py",
+    "scope": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/6d0ff9f8d8d33c47e5dde308203c57bb5b2adc64/src/go2arx5_vla/world_model/multitask_scope_v6.py",
+    "campaign": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/6d0ff9f8d8d33c47e5dde308203c57bb5b2adc64/scripts/wm02/multitask_student_campaign_v6.py",
+    "episode": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/6d0ff9f8d8d33c47e5dde308203c57bb5b2adc64/src/go2arx5_vla/world_model/multitask_student_episode_v6.py",
+    "scorer": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/6d0ff9f8d8d33c47e5dde308203c57bb5b2adc64/src/go2arx5_vla/world_model/multitask_score_v6.py",
+    "population": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/6d0ff9f8d8d33c47e5dde308203c57bb5b2adc64/scripts/wm02/multisource_d4_population.py",
+    "d3parallel": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/8d6df823e58bd73d441e2557329c3131f4427756/reports/WM02/sla-d3-contact-20261118/D3_PARALLEL_ACTUAL.md",
+    "d3r1": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/8d6df823e58bd73d441e2557329c3131f4427756/reports/WM02/sla-d3-contact-20261118/D3_CAUSAL_DIAGNOSTICS_ACTUAL.md",
+    "paper": "https://arxiv.org/html/2611.08373v1",
+    "loader": "https://github.com/OpenHelix-Team/Spatial-Forcing/blob/18896e757647ed9c2a68816b35a7100afda6e287/SLA/src/openpi/training/data_loader.py"
+  },
+  "current_effects": {
+    "optimizer_updates": 0,
+    "target_visits": 0,
+    "source_visits": 0,
+    "model_generations": 0,
+    "native_requests": 0,
+    "native_ticks": 0,
+    "hardware_requests": 0
+  },
+  "required_frozen_contract": {
+    "WBC": "unchanged",
+    "physics_dt_s": 0.002,
+    "label_interval_s": 0.05,
+    "horizon": 40,
+    "prefix": 10,
+    "atoms_ticks": 25,
+    "query_ticks": 250,
+    "execution_clock": "SIM_PAUSED_NATIVE",
+    "backend_all_scientific_panels": "LEGACY_N1",
+    "contact_STOP_after_ticks": 0,
+    "gripper_speed_limit_m_s": 0.04,
+    "training_speed_margin_m_s": 0.038,
+    "original_scoring": "multitask_score_v6.Score",
+    "original_M2_and_D3_qualifications": "PRESERVED_NOT_RELABELED",
+    "Teacher_all_cells_pass_required": false,
+    "output_postprocessing": false,
+    "hardware_allowed": false,
+    "strict_wall_realtime_qualified": false
+  },
+  "hashes": {
+    "C20_manifest": "4bcc5ffcd8920d874599a54cca73792c50a49ea6013d65ca7826817a9f80d7de",
+    "C20_statistics": "f28d50e6eeea09b332d4bd159eca4333bbe23b185f95f1d336d45311e364ab3e",
+    "C20_visit_bank": "a151bfca90511a5fee70398aa50616472f989cbf41cdd899ca93d569a24040af",
+    "source_S1000_checkpoint": "c08e919b5151ccafdfd5b427e02710f1a8e9f9189ca227314f72e5ec0296ab6d",
+    "D4_AB_initialization_proof": "515e5200a2e756e7ddcf7e415c3f8d6177485ec897d6b345ec3f10b5751975e3",
+    "D4_population": "4a601d1ed2126e7acf6e522b10da569098bda37be0c206baf7069a47c783b746",
+    "A_package": "a4b4b0dc2746d28f493c982e6aa65a915c8ebeebb237e6960b5297afeff16ab8",
+    "B_package": "db2f4c31165dd442b712f286e8589ee2f86ff91f968fdcef1cd7e12d8f74e290",
+    "B_checkpoint": "13f70f1f4e7d9f42e535ebced0e3a0540dfbc12c13bdbf0795d9dcc2ecceb793"
+  },
+  "native_panels": [
+    {
+      "id": "E0_INTERFACE",
+      "role": "engineering",
+      "arms": [],
+      "hold": 0,
+      "place": 0,
+      "requests": 2,
+      "ticks": 11906,
+      "model_generations": 0,
+      "condition": "New D4 route, F1/F2 once; 5703 startup + 250 P10 each"
+    },
+    {
+      "id": "D4_AB48",
+      "role": "development",
+      "arms": [
+        "D4-A",
+        "D4-B"
+      ],
+      "hold": 16,
+      "place": 32,
+      "requests": 48,
+      "ticks": 2193744,
+      "model_generations": 7680,
+      "layouts": 4,
+      "condition": "Original sealed 24 pairs and arm order; no new training"
+    },
+    {
+      "id": "D5_GRASP24",
+      "role": "development",
+      "arms": [
+        "D4-B",
+        "D5-W",
+        "D5-T"
+      ],
+      "hold": 24,
+      "place": 0,
+      "requests": 24,
+      "ticks": 856872,
+      "model_generations": 2880,
+      "layouts": 4,
+      "condition": "New 4 layouts x HOLD-red/blue x 3 arms; technically restored endpoints"
+    },
+    {
+      "id": "D5_CONFIRM32",
+      "role": "confirmation",
+      "arms": [
+        "D4-B",
+        "SELECTED_D5"
+      ],
+      "hold": 32,
+      "place": 0,
+      "requests": 32,
+      "ticks": 1142496,
+      "model_generations": 3840,
+      "layouts": 8,
+      "condition": "Selection frozen from GRASP24; fresh 8 layouts x HOLD-red/blue x 2 arms"
+    },
+    {
+      "id": "J_SCREEN48",
+      "role": "development",
+      "arms": [
+        "J0",
+        "J1"
+      ],
+      "hold": 16,
+      "place": 32,
+      "requests": 48,
+      "ticks": 2193744,
+      "model_generations": 7680,
+      "layouts": 4,
+      "condition": "Domain route qualified, both endpoints restored; fresh 4 layouts x 6 prompts x 2 arms; independent of Teacher and D5 success"
+    }
+  ],
+  "training_arms": [
+    {
+      "id": "D5-W",
+      "start": "historical_D4_B_step_zero",
+      "updates": 500,
+      "target_visits": 16000,
+      "source_visits": 0,
+      "target_batch": 32,
+      "source_batch": 0,
+      "microbatch": 4,
+      "training_generations": 2000,
+      "offline_generations": 124,
+      "Core_restore_generations": 16,
+      "loss": "D4 + 1.0 L_width"
+    },
+    {
+      "id": "D5-T",
+      "start": "historical_D4_B_step_zero",
+      "updates": 500,
+      "target_visits": 16000,
+      "source_visits": 0,
+      "target_batch": 32,
+      "source_batch": 0,
+      "microbatch": 4,
+      "training_generations": 2000,
+      "offline_generations": 124,
+      "Core_restore_generations": 16,
+      "loss": "D4 + 1.0 L_width + 1.0 L_delta"
+    },
+    {
+      "id": "J0",
+      "start": "sealed_D4_B_500",
+      "updates": 500,
+      "target_visits": 16000,
+      "source_visits": 0,
+      "target_batch": 32,
+      "source_batch": 0,
+      "microbatch": 4,
+      "training_generations": 2000,
+      "offline_generations": 236,
+      "Core_restore_generations": 16,
+      "loss": "Original D4 target objective; fresh optimizer"
+    },
+    {
+      "id": "J1",
+      "start": "sealed_D4_B_500",
+      "updates": 500,
+      "target_visits": 16000,
+      "source_visits": 4000,
+      "target_batch": 32,
+      "source_batch": 8,
+      "microbatch": 4,
+      "training_generations": 2000,
+      "offline_generations": 236,
+      "Core_restore_generations": 16,
+      "loss": "Original D4 target objective + 0.25 mean(source FM32); one optimizer update"
+    }
+  ],
+  "full_conditional_caps": {
+    "native_requests": 154,
+    "native_ticks": 6398762,
+    "native_model_generations": 22080,
+    "optimizer_updates": 2000,
+    "target_visits": 64000,
+    "source_visits": 4000,
+    "training_complete_generations": 8000,
+    "offline_complete_generations": 816,
+    "hardware_requests": 0,
+    "all_complete_generations": 30896
+  },
+  "first_next_wave": {
+    "Core_RGB_generations": 32,
+    "interface_requests": 2,
+    "interface_ticks": 11906,
+    "science_requests": 12,
+    "science_ticks": 548436,
+    "science_generations": 1920,
+    "conditions": "First original D4 layout, preserve all six pair orders; finite site binding"
+  },
+  "D5": {
+    "baseline": "Reuse D4-B500; not a closed-loop winner claim",
+    "exact_matching_required": [
+      "87 historical B step-zero arrays",
+      "16000 visit bank",
+      "noise, flow-time, dropout and auxiliary positions",
+      "500 LR entries",
+      "base assets, statistics, trainable leaves, FP32 highest precision, dependency/operator environment"
+    ],
+    "unavailable_history_action": "Do not start W/T; seal blocker; no automatic B500-continuation substitution",
+    "losses": {
+      "width_weight": 1,
+      "delta_weight": 1,
+      "width_scale_m": 0.04,
+      "delta_scale_m": 0.002,
+      "width_formula": "mean_k( ((w_pred[k]-w_true[k])/0.040)^2 )",
+      "delta_formula": "mean_k( (((w_pred[k]-w_pred[k-1])-(w_true[k]-w_true[k-1]))/0.002)^2 )",
+      "k_minus_1": "Same actual previous command for prediction and label",
+      "applies_to": "Same four full 10-step generated H40 per optimizer update, all 40 nominal plan points",
+      "extra_training_generations": 0,
+      "reduction": "mean40 per generated trajectory, then mean4 auxiliary trajectories; original FM mean over batch32",
+      "predicted_width": "0.002 + 0.040 * sigmoid(inverse_C20_quantile(normalized[...,6]))",
+      "label_width": "0.002 + 0.040 * nominal_policy_H40[...,9]; no second sigmoid"
+    },
+    "screen_selection": {
+      "full_HOLD_per_candidate_at_least": 4,
+      "out_of": 8,
+      "F1_success_at_least": 1,
+      "F2_success_at_least": 1,
+      "must_not_have_fewer_successes_than_B": true,
+      "contact_STOP_not_more_than_B": true,
+      "technical_and_evidence_failures": 0,
+      "rank": [
+        "higher full HOLD",
+        "higher ever_target_lift20mm",
+        "fewer contact STOP",
+        "fewer original H40/seam rejects",
+        "D5-W before D5-T"
+      ],
+      "all_24_terminal_required": true,
+      "complete_comparable_conditions_per_arm": 8,
+      "control_technical_and_evidence_failures": 0
+    },
+    "confirmation": {
+      "candidate_frozen_before_unblinding": true,
+      "operational_goal_full_HOLD": 12,
+      "out_of": 16,
+      "minimum_per_family": 6,
+      "out_of_per_family": 8,
+      "must_exceed_control_successes": true,
+      "contact_STOP_not_more_than_control": true,
+      "interpretation": "Provisional simulation development target, not statistical proof, TEST admission or hardware qualification",
+      "all_32_comparable_terminal_required": true,
+      "both_arms_technical_and_evidence_failures": 0
+    }
+  },
+  "joint": {
+    "objective_question": "Effect of additional source gradients at matched target exposure and optimizer updates",
+    "source": "Existing SOURCE_NATIVE RoboDojo TRAIN only; no new dataset downloads",
+    "common_parent": "D4-B500",
+    "common_target_data": "C20 only; no historical PLACE in J0/J1",
+    "target_objective": "Original D4 unchanged in both; do not import selected D5 losses post hoc",
+    "extra_source_loss_weight": 0.25,
+    "gradient_normalization": "target mean over 32 + 0.25 source mean over 8; one combined update, identical clip/optimizer",
+    "source_trainable": "Only shared 20 LoRA; frozen S1000 domain I/O/time modules outside optimizer update tree (no AdamW decay); target 8 I/O source gradients exactly zero",
+    "source_contract": "Native bimanual H50 / nominal 30Hz / future logged reference; original valid complete-window enumeration excludes copied terminal labels, no new padding or mask strategy; no command equivalence claim",
+    "target_contract": "Go2 G7 H40 / 50ms, C20 statistics, actual previous command, target-only XYZ and gripper auxiliary",
+    "target_random_stream": "Independent of source RNG; identical J0/J1 target order and draws",
+    "relation_to_D4": "Sequential B initialization now supplemented by actual joint optimization in J1",
+    "ratio_interpretation": "32:8 sampled target:source windows, not frame, duration, demo, FLOP or official sim:real ratio",
+    "compute_matched": false,
+    "source_TEST_use": false,
+    "Teacher_qualification_dependency": false,
+    "offline_per_arm": {
+      "target_qualification": 12,
+      "target_TRAIN": 96,
+      "target_restore": 16,
+      "source_DEV": 96,
+      "source_restore": 16
+    },
+    "gradient_qualification": [
+      "finite effective source gradient on shared LoRA only",
+      "zero source gradient in target I/O leaves",
+      "frozen source I/O, statistics and base assets unchanged before/after"
+    ],
+    "new_optimizer_step": 0,
+    "new_target_cursor": 0,
+    "new_source_cursor": 0,
+    "learning_rate_bank": "Reuse exact D4 500-entry table from new step0",
+    "target_visit_bank": "Reuse exact frozen D4 16000-visit bank",
+    "source_visit_bank": "Freeze 4000 SOURCE_TRAIN visits and separate RNG before training; resolve dataset/stats pins from sealed S1000 bindings",
+    "implementation": "Dedicated J recipe/domain accumulator; shared frozen base asset in H40/H50 graph views; do not call old fixed-B32/1000 SourceEngine.update",
+    "source_metric": "Identical SOURCE_DEV96 bank/noise at J0/J1 endpoints; no claim of forgetting relative to unmeasured B500 source step-zero"
+  },
+  "later_data": {
+    "historical_PLACE": {
+      "verified_episodes": 3,
+      "windows": 392,
+      "consumed_atoms": 3920,
+      "family": "F1",
+      "layouts": 2,
+      "current_training_visits": 0,
+      "admission": "May build separate future TRAIN version after scene and collection-lineage dedupe; not silently add to W/T or J"
+    },
+    "correction_data": "New TRAIN scenes only; choose pregrasp/close/hold/place deficits from D4 first-failure histograms; independently audited episodes, no full Teacher grid prerequisite",
+    "new_collection_requests_in_this_plan": 0,
+    "new_download_bytes_in_this_plan": 0,
+    "official_alignment_memory": "Separate versioned future controls, not prerequisites for current native evaluation"
+  },
+  "performance": {
+    "latest_D3_pin": "8d6df823e58bd73d441e2557329c3131f4427756",
+    "N2_relative_throughput_about": 1.99,
+    "latest_state_tolerance_pass": 5,
+    "latest_state_tolerance_total": 8,
+    "bidirectional_STOP_witness_pass": 4,
+    "bidirectional_STOP_witness_total": 4,
+    "STOP_peer_ticks_each": 3500,
+    "scientific_N2_qualified": false,
+    "future_engineering": "Read-only causal analysis first; no repeat or new N2 requests budgeted here",
+    "D2_N1_RTF_reference": 0.13335997272293545,
+    "D4_48_reference_hours": 9.138774114769031,
+    "warning": "Historical throughput reference only; current inference, scheduling and evidence overhead must be measured; no current site capacity claim"
+  },
+  "operations": {
+    "publish_does_not_start_remote_jobs": true,
+    "site_binding_required": true,
+    "expired_20261119_0245_0251_windows_reusable": false,
+    "automatic_extension": false,
+    "use_existing_owner_and_effect_ledger": true,
+    "save_exit_reserve_s": 120,
+    "resume": "At complete pair/triple boundary; dispatch only never-started suffix; no replay of scientific or unknown effects",
+    "stop_whole_campaign_on": [
+      "STOP followed by integration",
+      "wrong package/arm/query identity",
+      "unresolved duplicate dispatch",
+      "broken state/command evidence or counter reconciliation"
+    ],
+    "scientific_failure": "Retain denominator, terminate current episode, close owner resources, continue next fixed condition if safe and lease permits",
+    "parallel_training_and_Core": "Allowed only on independently authorized actual capacity; no new cross-site heartbeat dependency"
+  },
+  "deliverables": [
+    "D4 native route diff and interface ACTUAL",
+    "AB48 per-query and paired actual results",
+    "D5 W/T checkpoints and matching proof",
+    "GRASP24 and CONFIRM32 actuals if admitted",
+    "J0/J1 domain and budget proof plus J_SCREEN48 if admitted",
+    "Per-stage Markdown/JSON actuals including zero effects, failures and unstarted suffix"
+  ],
+  "no_automatic_TEST": true,
+  "required_native_route_seams": [
+    "multisource_d4.package_contract/Provider",
+    "new D4 scope",
+    "new D4 pool/campaign",
+    "hybrid_ipc_worker_v3",
+    "v6_bootstrap",
+    "mobile_boundary_runner_v1.run_case (validate/episode, multitask ABI and trace)",
+    "shift7_native_input_v5",
+    "sim_only_mobile_v51",
+    "terminal full-journal original Score audit"
+  ],
+  "scoring_predicates": {
+    "HOLD": "Correct target grasp and lift >=20mm continuously >=1s, with current base directional motion >=80mm and original safety/identity/stream constraints",
+    "PLACE": "ever correctly grasped/lifted >=20mm; final correct region, true table support, released/open/retreated and low-speed stable >=1s; current base >=80mm; no added prior suspended-hold requirement"
+  }
+}
