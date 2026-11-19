@@ -1,0 +1,124 @@
+{
+  "observed_SGT": "2026-11-19 19:13",
+  "source_sha": "b405fb173c91a32a1ad5b86aa9e87418cd0d0d56",
+  "scope_spec_sha256": "b66e80aadd046bd13cb8bbc3c56a0df5725bd3c20af586c86b8f4885b232357a",
+  "newly_verified_terminal_case": {
+    "case": "D5_GRASP24-F2-1-HOLD-blue-D5-T",
+    "arm": "D5-T",
+    "instruction": "HOLD-blue",
+    "layout": "D5_GRASP24-F2-1",
+    "reset": 700001,
+    "noise_seed": 2037311917,
+    "scene_sha256": "b1e5179682a16240cac9dd5f11ba0963b754eb7bf179d6dd819a2f5a9f1b02f3",
+    "native_result_sha256": "47a823c50df77891b4699551ddd2ff1c1637e29b03837aaee468d53d0bc4951f",
+    "native_request": 1,
+    "native_ticks": 29748,
+    "generations": 97,
+    "confirmed_atoms": 961,
+    "emitted_min_width_m": 0.04197367667677648,
+    "measured_min_width_m": 0.04197338947472661,
+    "first_failure": "ILLEGAL_CONTACT",
+    "first_stop": {
+      "kind": "stop",
+      "reason": "ILLEGAL_CONTACT",
+      "steps": 29748
+    },
+    "STOP_after_ticks": 0,
+    "technical_failure": false,
+    "wall_s": 417.28430885169655,
+    "CPU_s": 218.336203197,
+    "contact_evidence": [
+      {
+        "geoms": [
+          {
+            "geom_id": 77,
+            "geom": "task_right_pad",
+            "body": "x5_link8",
+            "geom_type": "mjGEOM_BOX"
+          },
+          {
+            "geom_id": 78,
+            "geom": "task_cube_geom",
+            "body": "task_cube",
+            "geom_type": "mjGEOM_BOX"
+          }
+        ],
+        "distance_m": -2.77177926076821e-05,
+        "normal_force_N": 2.7623677217775064
+      },
+      {
+        "geoms": [
+          {
+            "geom_id": 77,
+            "geom": "task_right_pad",
+            "body": "x5_link8",
+            "geom_type": "mjGEOM_BOX"
+          },
+          {
+            "geom_id": 78,
+            "geom": "task_cube_geom",
+            "body": "task_cube",
+            "geom_type": "mjGEOM_BOX"
+          }
+        ],
+        "distance_m": -2.5936577919132353e-05,
+        "normal_force_N": 2.8091100218174248
+      }
+    ],
+    "query_counts": {
+      "no_crossing": 97
+    },
+    "final_partial_atom_ticks": 20,
+    "scored_native_states": 24046,
+    "ever_target_grasp": false,
+    "ever_target_lift20mm": false,
+    "task_success": false,
+    "missing_native_intervals": 0,
+    "wrong_object_contact_ever": true
+  },
+  "newly_verified_totals": {
+    "terminal_cases": 1,
+    "verified_cases": 1,
+    "evidence_errors": 0,
+    "scored_cases": 1,
+    "native_requests": 1,
+    "native_ticks": 29748,
+    "model_generations": 97,
+    "complete_success": 0,
+    "correct_grasp": 0,
+    "lift20mm": 0,
+    "observed_safety_STOP": 1,
+    "observed_illegal_contact_STOP": 1,
+    "observed_integrations_after_STOP": 0,
+    "safety_STOP_with_unknown_post_stop_ticks": 0,
+    "observed_technical_failures": 0,
+    "confirmed_atoms_observed": 961,
+    "H40_first_closure_by_region": {
+      "P10": 0,
+      "tail30": 0,
+      "no_crossing": 97
+    },
+    "first_failures": {
+      "ILLEGAL_CONTACT": 1
+    },
+    "observed_wall_s": 417.28430885169655,
+    "observed_CPU_s": 218.336203197
+  },
+  "cumulative": {
+    "sealed": 12,
+    "planned": 24,
+    "native_ticks": 373725,
+    "H40": 1227,
+    "never_crossing_22mm": 1227,
+    "correct_grasp": 0,
+    "lift20mm": 0,
+    "task_success": 0,
+    "contacts": 6,
+    "ticks_after_STOP": 0,
+    "technical_failures": 0
+  },
+  "remaining_fixed_conditions": 12,
+  "confirm32_released": false,
+  "independent_audit_new_native": 0,
+  "independent_audit_new_updates": 0
+}
