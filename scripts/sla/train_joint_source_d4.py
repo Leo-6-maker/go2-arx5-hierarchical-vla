@@ -41,7 +41,7 @@ def restore_source(spec):
     observations = []
     try:
         engine.resume(result['last_checkpoint'])
-        restored = verify_restored(engine, result['last_checkpoint'])
+        restored = verify_restored(engine, result['last_checkpoint'], expected_arrays=None)
         for row in bank:
             if train_multisource_d4.stopped(spec):
                 break

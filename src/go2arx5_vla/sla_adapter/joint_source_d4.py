@@ -241,15 +241,21 @@ class Engine(multisource_d4.TransferEngine):
         self.source_counts = dict(attempted_training_visits=0, completed_training_visits=0, backward_attempts=0,
                                   completed_backwards=0, ordinary_RGB_generation_attempts=0, ordinary_RGB_generations=0)
         self.source = SourceView(self)
+        source_noise, source_flow = self.source.draw(self.source.rng, np.arange(SOURCE_BATCH, dtype=np.uint32))
+        first_source_draw = {name: hashlib.sha256(np.asarray(value).tobytes()).hexdigest()
+                             for name, value in (('noise', source_noise), ('flow_time', source_flow))}
         self.bindings.update(B500_package_sha256=B_PACKAGE, B500_checkpoint_sha256=B_CHECKPOINT,
                              S1000_checkpoint_sha256=SOURCE_CHECKPOINT, joint_source_MANIFEST_sha256=SOURCE_MANIFEST,
                              joint_source_statistics_sha256=SOURCE_STATS, joint_source_visit_bank_sha256=SOURCE_BANK,
                              joint_source_rng_seed=SOURCE_SEED, joint_source_batch=self.source_batch,
                              joint_source_weight=SOURCE_WEIGHT if self.source_batch else 0.,
-                             joint_source_frozen_leaves=dict(self.source.private_pin))
+                             joint_source_frozen_leaves=dict(self.source.private_pin),
+                             joint_source_initial_draw_sha256=first_source_draw,
+                             joint_source_dropout_sha256=hashlib.sha256(bytes(source_dropout(i) for i in range(4000))).hexdigest())
         self.initial_match = dict(B500_adapter_leaves=len(rows), source_frozen_adapter_leaves=len(self.source.private),
                                   source_shared_adapter_leaves=len(self.source.shared_indices), fresh_Adam=True,
-                                  source_private_on_device_sha256=self.source.private_fingerprint)
+                                  source_private_on_device_sha256=self.source.private_fingerprint,
+                                  source_first_draw_sha256=first_source_draw)
 
     @property
     def source_batch(self):

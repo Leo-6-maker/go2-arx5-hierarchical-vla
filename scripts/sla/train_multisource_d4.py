@@ -85,7 +85,7 @@ def train(spec, *, engine_type=None, export_package=None, endpoint_diagnostics=N
         if engine.cursor != VISITS or engine.counts['training_full_generations'] != UPDATES*4:
             raise ValueError('D4_REAL_FIXED500_VISITS_AND_FULL_H40_AUXILIARIES_REQUIRED')
         engine.resume(last)
-        restored = verify_restored(engine, last)
+        restored = verify_restored(engine, last, expected_arrays=None if endpoint_diagnostics else 87)
         if stopped(spec):
             return dict(exit_code=75, status='FIXED_ENDPOINT_DIAGNOSTIC_UNSTARTED',
                         last_checkpoint=last, full_restore=restored, **effects)
