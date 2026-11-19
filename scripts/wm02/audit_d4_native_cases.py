@@ -199,6 +199,90 @@ def audit(root, *, start=0, limit=12, preserve_errors=False):
                 checked_case_window=[start,start+limit], new_generations=0, new_native_ticks=0, new_training_updates=0)
 
 
+def summarize_layouts(spec_file, spec_sha, artifacts):
+    """Combine sealed evidence using the original case order and count raw effects."""
+    if digest(spec_file) != spec_sha:
+        raise ValueError('D4_SUMMARY_REQUIRES_THE_ORIGINAL_SPEC')
+    spec = read(spec_file)
+    if spec['compiled_population']['sha256'] != POPULATION_SHA or len(spec['cases']) != 48:
+        raise ValueError('D4_SUMMARY_REQUIRES_ORIGINAL_48_CASE_POPULATION')
+
+    planned = [Path(file).parent.name for file in spec['cases']]
+    locked_cases, locked_errors, pair_counts, layouts = [], [], Counter(), []
+    next_case = 0
+    for artifact in artifacts:
+        evidence = read(artifact)
+        begin, end = evidence['checked_case_window']
+        if (evidence['source_spec_sha256'] != spec_sha or begin != next_case
+                or begin % 12 or not begin < end <= begin+12 <= len(planned)
+                or any(evidence[key] for key in ('new_generations','new_native_ticks','new_training_updates'))):
+            raise ValueError('D4_SUMMARY_REQUIRES_CONTIGUOUS_ORIGINAL_READ_ONLY_LAYOUTS')
+        cases, errors = evidence['cases'], evidence.get('audit_errors', [])
+        entries = [row['case'] for row in (*cases,*errors)]
+        next_case = begin+len(entries)
+        if (next_case > end or len(set(entries)) != len(entries)
+                or set(entries) != set(planned[begin:next_case])
+                or len({row['layout'] for row in cases}) > 1):
+            raise ValueError('D4_SUMMARY_LAYOUT_EVIDENCE_DOES_NOT_MATCH_REGISTERED_CLOSED_PREFIX')
+
+        matrix = Counter(both=0,A_only=0,B_only=0,neither=0,unscored=0)
+        pairs = paired_results(cases)
+        for pair in pairs:
+            a,b = pair['science_A'],pair['science_B']
+            key = 'unscored'
+            if a and b:
+                key = ('neither','A_only','B_only','both')[int(a['task_success'])+2*int(b['task_success'])]
+            matrix[key] += 1
+        pair_counts.update(matrix)
+        layouts.append(dict(observed_case_window=[begin,next_case],planned_case_window=[begin,begin+12],
+                            receipt_sha256=digest(artifact),paired_matrix=dict(matrix),
+                            actual=summary_totals(cases,errors),pairs=pairs))
+        locked_cases.extend(cases)
+        locked_errors.extend(errors)
+
+    by_arm_task = {}
+    for arm in ('D4-A','D4-B'):
+        for operation in ('HOLD','PLACE'):
+            registered = [name for name in planned if f'-{operation}-' in name and name.endswith('-'+arm)]
+            observed = [row for row in locked_cases if row['case'] in registered]
+            errors = [row for row in locked_errors if row['case'] in registered]
+            by_arm_task[arm+'/'+operation] = dict(planned=len(registered),**summary_totals(observed,errors))
+    return dict(source_spec_sha256=spec_sha,compiled_population_sha256=POPULATION_SHA,
+                original_case_budget=len(planned),without_closed_case_evidence=planned[next_case:],
+                actual=summary_totals(locked_cases,locked_errors),paired_matrix=dict(pair_counts),
+                scientific_result_by_arm_operation=by_arm_task,layouts=layouts,audit_errors=locked_errors,
+                cases=[dict(case=row['case'],arm=row['arm'],instruction=row['instruction'],layout=row['layout'],
+                            native_result_sha256=row['native_result_sha256'],first_failure=row['first_failure'],
+                            trace=row['trace'],score=row['terminal_full_score']['score'],
+                            actual=summary_totals([row],[])) for row in locked_cases],
+                new_generations=0,new_native_ticks=0,new_training_updates=0)
+
+
+def summary_totals(cases, errors):
+    scores = [case['terminal_full_score']['score'] for case in cases if case['terminal_full_score']['score']]
+    crossing = Counter(P10=0,tail30=0,no_crossing=0)
+    for row in cases:
+        crossing.update(row['query_counts'])
+    return dict(terminal_cases=len(cases)+len(errors),verified_cases=len(cases),
+        evidence_errors=len(errors),scored_cases=len(scores),
+        native_requests=sum(row['native_request'] for row in cases)+sum(row['native_requests'] for row in errors),
+        native_ticks=sum(row['native_ticks'] for row in (*cases,*errors)),
+        model_generations=sum(row['generations'] for row in (*cases,*errors)),
+        complete_success=sum(row['task_success'] for row in scores),
+        correct_grasp=sum(row['ever_target_grasp'] for row in scores),
+        lift20mm=sum(row['ever_target_lift20mm'] for row in scores),
+        observed_safety_STOP=sum(row['STOP'] for row in cases),
+        observed_illegal_contact_STOP=sum((row['first_stop'] or {}).get('reason') == 'ILLEGAL_CONTACT' for row in cases),
+        observed_integrations_after_STOP=sum(row['STOP_after_ticks'] or 0 for row in cases),
+        safety_STOP_with_unknown_post_stop_ticks=sum(row['STOP'] and row['STOP_after_ticks'] is None for row in cases),
+        observed_technical_failures=sum(bool(row['technical_failure']) for row in cases),
+        confirmed_atoms_observed=sum(row['confirmed_atoms'] for row in cases),
+        H40_first_closure_by_region=dict(crossing),
+        first_failures=dict(Counter(row['first_failure'] for row in cases if row['first_failure'])),
+        observed_wall_s=sum(row['wall_s'] for row in cases),
+        observed_CPU_s=sum(row['CPU_s'] for row in cases))
+
+
 def watch_first_wave(root, spec_sha, result, deadline):
     from go2arx5_vla.world_model.mfree_unattended_runtime_v1 import unit_state
     from scripts.pi0292.durable import write
@@ -284,10 +368,16 @@ if __name__ == '__main__':
     parser.add_argument('--limit', type=int, default=12)
     parser.add_argument('--watch-result',type=Path)
     parser.add_argument('--watch-remaining',type=Path)
+    parser.add_argument('--summarize-layouts',type=Path,nargs='+')
     parser.add_argument('--spec-sha')
     parser.add_argument('--deadline',type=float)
     args = parser.parse_args()
-    if args.watch_result or args.watch_remaining:
+    if args.summarize_layouts:
+        if not args.spec_sha or args.watch_result or args.watch_remaining:
+            parser.error('summary mode requires --spec-sha and no watcher')
+        summary = summarize_layouts(args.root/'EXECUTION_SPEC.json',args.spec_sha,args.summarize_layouts)
+        print(json.dumps(summary,allow_nan=False))
+    elif args.watch_result or args.watch_remaining:
         if not args.spec_sha or not args.deadline:
             parser.error('watch mode requires --spec-sha and --deadline')
         if args.watch_result and args.watch_remaining:
