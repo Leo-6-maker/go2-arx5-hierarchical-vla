@@ -99,9 +99,10 @@ class MultitaskEngine(FullTrajectoryEngine):
         quantiles = self.dataset.statistics['actions']
         low, high = jnp.asarray(quantiles.q01,jnp.float32), jnp.asarray(quantiles.q99,jnp.float32)
 
-        def objective(active, frozen, obs, noise, actual_previous_width):
+        def objective(active, frozen, obs, noise, actual_previous_width, target_width=None):
             generated = self.sample(active, frozen, obs, noise)
-            return dense_g7_v6.full_objective(generated, low, high, actual_previous_width, xp=jnp, sigmoid=jax.nn.sigmoid)
+            return self.auxiliary_objective(generated, low, high, actual_previous_width, target_width,
+                                            xp=jnp, sigmoid=jax.nn.sigmoid)
 
         self.aux_gradient = jax.jit(jax.value_and_grad(objective, has_aux=True))
         self.aux_noise = jax.jit(lambda cursor: jax.random.normal(
@@ -128,7 +129,11 @@ class MultitaskEngine(FullTrajectoryEngine):
                 self.counts[counter] = self.counts.get(counter, 0)+1
             write(self.output/'AUX_PROGRESS.private.json', dict(phase='BEFORE_G7_AUX', step=self.step,
                 cursor=cursor, diagnostic=diagnose, actual=self.counts))
-            (loss, detail), gradient = self.aux_gradient(self.active, self.frozen, item, noise, jnp.array([width],jnp.float32))
+            labels = self.target_width_for_aux(index)
+            args = (self.active, self.frozen, item, noise, jnp.array([width],jnp.float32))
+            if labels is not None:
+                args += (jnp.asarray(labels[None, :], dtype=jnp.float32),)
+            (loss, detail), gradient = self.aux_gradient(*args)
             norm = self.gradient_norm(gradient)
             accumulator = self.add_aux(accumulator, gradient)
             jax.block_until_ready((loss, detail, norm, accumulator))
@@ -141,6 +146,11 @@ class MultitaskEngine(FullTrajectoryEngine):
             row = dict(absolute_cursor=cursor, index=index, loss=float(summary[0]), XYZ_loss=float(summary[1]),
                 gripper_speed_loss=float(summary[2]), maximum_gripper_speed_m_s=float(summary[3]),
                 aux_gradient_norm=float(summary[4]), actual_previous_width_m=width)
+            if labels is not None:
+                for field in ('physical_width_loss', 'physical_delta_loss'):
+                    row[field] = float(detail[field])
+                    if not np.isfinite(row[field]):
+                        raise ValueError('FINITE_D5_PHYSICAL_SUPERVISION_COMPONENT_REQUIRED')
             if diagnose:
                 self.counts['diagnostic_sampler_comparison_attempts'] = self.counts.get('diagnostic_sampler_comparison_attempts',0)+2
                 deployed = self.infer(self.active,self.frozen,item,noise)
@@ -174,3 +184,8 @@ class MultitaskEngine(FullTrajectoryEngine):
         self.counts['diagnostic_FM_backward_completed'] = 1
         return dict(gradient_norm=norm, FM=float(fm), aux=records, complete_full_generations=12,
             training_updates=0, optimization_visits=0, qualification_scope='MODEL_GRADIENT_AND_SAMPLER_EQUIVALENCE')
+    def target_width_for_aux(self, index):
+        return None
+
+    def auxiliary_objective(self, normalized, low, high, previous_width, target_width, *, xp, sigmoid):
+        return dense_g7_v6.full_objective(normalized, low, high, previous_width, xp=xp, sigmoid=sigmoid)

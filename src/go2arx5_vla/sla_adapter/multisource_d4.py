@@ -50,13 +50,14 @@ def locate_input(portable_inputs, pin):
 
 class TransferEngine(MultitaskEngine):
     recipe = RECIPE
+    arms = ARMS
     source_arm = ARMS[1]
 
     def dataset_for_spec(self, spec):
         from openpi_client.image_tools import resize_with_pad
 
         audit = read_pin(spec['target_audit'])
-        if (spec['operation'] != RECIPE or spec['arm'] not in ARMS
+        if (spec['operation'] != self.recipe or spec['arm'] not in self.arms
                 or spec['microbatch'] != 4 or spec['training_matmul_precision'] != 'highest'
                 or spec['planned_candidate_updates'] != UPDATES
                 or spec['new_optimizer_updates_budget'] != UPDATES
@@ -99,20 +100,20 @@ class TransferEngine(MultitaskEngine):
                     Teacher_episodes=0, source_optimization_visits=0)
 
 
-def package_contract(manifest):
+def package_contract(manifest, *, schema=SCHEMA, recipe=RECIPE, arms=ARMS, source_arm=ARMS[1]):
     bindings = manifest['bindings']
-    if (manifest['schema'] != SCHEMA or manifest['codec'] != VERSION
+    if (manifest['schema'] != schema or manifest['codec'] != VERSION
             or manifest['decode_order'] != DECODE_ORDER or manifest['label_epsilon'] != EPSILON
             or (manifest['step'], manifest['cursor']) != (UPDATES, VISITS)
-            or len(manifest['adapter_arrays']) != 28 or bindings['recipe'] != RECIPE
-            or bindings['arm'] not in ARMS or bindings['codec_version'] != VERSION
+            or len(manifest['adapter_arrays']) != 28 or bindings['recipe'] != recipe
+            or bindings['arm'] not in arms or bindings['codec_version'] != VERSION
             or bindings['inference_route'] != 'cached_actual'
             or bindings['dataset_manifest_sha256'] != C20_MANIFEST
             or manifest['statistics_sha256'] != C20_STATISTICS
             or bindings['derived_statistics_sha256'] != C20_STATISTICS
             or not bindings['C20_only'] or bindings['Teacher_episodes']
             or bindings['source_optimization_visits']
-            or bool(bindings['source_initialization']) != (bindings['arm'] == ARMS[1])
+            or bool(bindings['source_initialization']) != (bindings['arm'] == source_arm)
             or manifest['previous_reference_required'] is not True
             or any(manifest[key] is not False for key in ('teacher_required', 'training_cache_required',
                 'optimizer_required', 'state_gripper_transformed', 'physical_execution_admitted',

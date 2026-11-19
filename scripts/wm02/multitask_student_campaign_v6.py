@@ -156,6 +156,18 @@ def student_row(spec,result):
     recorded = root/'MULTITASK_SCORE_PROGRESS.private.json'
     if score is None and recorded.exists():
         score = read(recorded)
+    replay = None
+    if spec.get('scope') == d4.SCOPE:
+        last_tick = result['actual_native_integrations']
+        if score is None or score['native_step'] != last_tick or score['missing_native_intervals']:
+            from go2arx5_vla.world_model.multitask_terminal_audit_v1 import replay as audit_terminal
+
+            try:
+                replay = audit_terminal(spec, root/'state.bin.journal', last_tick, score)
+            except (ValueError, OSError) as error:
+                row.update(technical_failure=True, terminal_score_error=str(error))
+            else:
+                score = replay['score']
     initial = None
     journal = root/'state.bin.journal'
     if journal.exists():
@@ -166,6 +178,8 @@ def student_row(spec,result):
                 break
     row.update(instruction=spec['task_instruction_id'],cluster=spec['mobile_condition']['layout'],
         score=score,initial_native_state=initial,actual_model_generations=result['model_generations'])
+    if replay is not None:
+        row['terminal_score_readback'] = replay
     return row
 
 

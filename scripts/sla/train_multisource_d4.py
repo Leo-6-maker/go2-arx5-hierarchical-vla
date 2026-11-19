@@ -20,7 +20,7 @@ def stopped(spec):
             or (Path(spec['campaign_root'])/'STOP.json').exists())
 
 
-def train(spec):
+def train(spec, *, engine_type=None, export_package=None):
     from go2arx5_vla.sla_adapter.multisource_d4 import TransferEngine, export
     from go2arx5_vla.sla_adapter.multitask_initialization_v6 import match_initial_checkpoints
     from scripts.sla.train_close_time_v1 import evaluate
@@ -31,7 +31,8 @@ def train(spec):
     if str(fixed_bank) != spec['fixed_TRAIN48']['path'] or len(read_pin(spec['fixed_TRAIN48'])['windows']) != 48:
         raise ValueError('D4_EXACT_ORIGINAL_TRAIN48_DIAGNOSTIC_REQUIRED')
     begin, cpu = time.monotonic(), time.process_time()
-    engine = TransferEngine(spec, root/'work')
+    engine = (engine_type or TransferEngine)(spec, root/'work')
+    export_package = export_package or export
     try:
         initial = engine.checkpoint('step0000')
         start = read_pin(dict(path=str(Path(initial['path'])/'COMPLETE.json'), sha256=initial['sha256']))
@@ -43,6 +44,8 @@ def train(spec):
             initial_flow_time_sha256=hashlib.sha256(np.asarray(tau).tobytes()).hexdigest(),
             first32=engine.visit_map[:32].tolist(),
             visit_map_sha256=engine.bindings['visit_map_sha256'])
+        if engine_type is not None:
+            initial_record['historical_match'] = engine.initial_match
         if spec['arm'] == ARMS[1]:
             control = Path(spec['campaign_root'])/ARMS[0]
             if not (control/'RESTORE.private.json').is_file() or not read(control/'RESTORE.private.json')['passed']:
@@ -96,7 +99,7 @@ def train(spec):
             full += not rejected and row['envelope']['original_full_H40_pass']
         metrics.update(original_H40_and_gripper_speed_pass=full, gripper_speed_reject=seam)
         return dict(exit_code=0, status='D4_FIXED500_SEALED_NATIVE_UNSTARTED', last_checkpoint=last,
-            full_restore=restored, package=export(root/'RGB_PACKAGE', last, engine=engine), TRAIN96=metrics,
+            full_restore=restored, package=export_package(root/'RGB_PACKAGE', last, engine=engine), TRAIN96=metrics,
             RGB16_list=dict(path=str(root/'ENDPOINT_RGB16.private.json'), sha256=sha(root/'ENDPOINT_RGB16.private.json')),
             frozen_fingerprint=engine.verify_frozen(), wall_s=time.monotonic()-begin,
             CPU_s=time.process_time()-cpu, **effects)
@@ -110,7 +113,7 @@ def train(spec):
         engine.close()
 
 
-def restore_rgb(spec):
+def restore_rgb(spec, *, provider_type=None):
     from openpi_client.image_tools import resize_with_pad
     from go2arx5_vla.sla_adapter.multisource_d4 import C20G7Dataset, Provider
 
@@ -125,7 +128,8 @@ def restore_rgb(spec):
     dataset = C20G7Dataset(spec['dataset'], time_audit=spec['time_codec_audit'],
         portable_inputs=spec.get('portable_inputs'),
         resize_with_pad=resize_with_pad, max_cache_bytes=spec['frame_cache_bytes'])
-    provider = Provider(package['path'], manifest_sha256=package['sha256'], parent_params=spec['parent_params'])
+    provider = (provider_type or Provider)(package['path'], manifest_sha256=package['sha256'],
+                                          parent_params=spec['parent_params'])
     observations = []
     for case in cases:
         if stopped(spec):
