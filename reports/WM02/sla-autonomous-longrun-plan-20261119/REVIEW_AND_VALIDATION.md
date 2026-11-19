@@ -29,7 +29,7 @@
 4. 阶段面板在ADAPT0首次预测前封存去重窗口、标签种类、桶和噪声，固定时序公式。
 5. 离线联合时序/原门与native消费/接触/任务证据分开。
 6. benchmark采用时从正式谱系最新冷态端点接续，不回滚benchmark父端点。
-7. VANDA全TRAIN准备显式列为实际数据步骤；CoreGPU1显存fallback走原handoff，与既有watcher协调。
+7. VANDA全TRAIN准备按工作分别绑定：ADAPT用D1/R200，原MIX benchmark用原23/R48，不等待新数据；CoreGPU1显存fallback走原handoff，与既有watcher协调。
 8. 首6已存在WAIT守候被纳入调度，不重复创建；旧有限窗过期不伪造新期限。
 
 修订后合同/预算复读通过，未发现发布阻断。当前runtime的完整GPU/microbatch资格和新reader部署仍属于未来执行任务，本文不称它们已经通过。
@@ -66,9 +66,9 @@
 
 | 文件 | SHA-256 |
 |---|---|
-| docs/protocols/SLA_MULTISOURCE_EMBODIMENT_AUTONOMOUS_V1_20261119.md | 2147bad368c933b27eb62f464383cb4fccd651ca2f7d81340dc79050062fe8e5 |
-| docs/protocols/SLA_MULTISOURCE_EMBODIMENT_AUTONOMOUS_V1_20261119.json | 85ea24399b0e5a4fc34dce714361e2877f4ba2a215709ef8c9a4b9e97a5f7596 |
-| docs/handover/2026-11-19/START_SLA_MULTISOURCE_EMBODIMENT_AUTONOMOUS_V1.md | 84b35560306d65b58daae4d40de53713436d3ab4a4c713a22b35874f01673f2b |
+| docs/protocols/SLA_MULTISOURCE_EMBODIMENT_AUTONOMOUS_V1_20261119.md | 78ff39868b713919b62eebb3ab54a7a9bca018ecdf0c852df757ca2d1204f2d5 |
+| docs/protocols/SLA_MULTISOURCE_EMBODIMENT_AUTONOMOUS_V1_20261119.json | 4b7c1f6c00ad7633fa2b7b639048d7476077613876721278e4947044caf205db |
+| docs/handover/2026-11-19/START_SLA_MULTISOURCE_EMBODIMENT_AUTONOMOUS_V1.md | 5cce55914f4670339b305aa6eadbed55e9657a1342a414b52a979a8aa8e32f6c |
 | SLA_D4_CLOSED_LOOP_NEXT_START.md | d086e80ee2207ce174f640f1d5f246c1efae7d333d02ba92d11b42a5dc66b7e3 |
 
 ## 入口

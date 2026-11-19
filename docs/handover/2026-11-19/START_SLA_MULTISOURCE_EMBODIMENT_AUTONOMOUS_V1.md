@@ -47,7 +47,7 @@
 1. ADAPT0是新state表示下的继承权重，明确与原MIX输入身份不同。四端点各三域96+独立恢复各16，共1344生成；另固定最多96个D1 TRAIN阶段窗口/端点，共384，实际不足不复制凑分母。在ADAPT0首次预测前固定去重window/label_kind/phase_bucket/noise列表与时序公式，各窗口仅归一桶、四端点同噪声。离线预测不能借专家历史消费声称已执行，接触/抬升只能来自新native结果。
 2. 冻结新DEV四布局×六指令；ADAPT0/2k/5k各24，固定5k另24新确认，共96科学请求。原双门、P10消费、2ms评分、STOP后0tick保持。Core三端点各16输出核验，完整SCALE包在GPU1实测能装入后再派发。
 3. GPU1不够时先继续CPU采集，在GPU0原训练自然冷态窗安排固定native块后恢复；或在A40同配方迁移验证成立且实获allocation后冷态迁移MIX。先与after500 watcher通过同一既有handoff协调，避免抢GPU0；不能静默量化、减图像或改decoder。
-4. 空闲GPU上最多4候选×30更新做同一MIX配方性能比较，优先复用Core baseline，实测A40 microbatch1/2/4。工程权重不得进入正式谱系；采用新实现时从正式谱系当时最新冷态端点继续s+1，不回退benchmark父端点；分解data/FM/aux/optimizer/save与显存，旧逐位失败保留，数值合同提前固定。兼容且净吞吐提升≥15%才采用明确新后继执行版本。
+4. 空闲GPU上最多4候选×30更新做同一MIX配方性能比较，优先复用Core baseline，实测A40 microbatch1/2/4；benchmark使用父端点原目标23/R48/LIBERO1261及其bank，只准备该配方所需数据，不等待新D1/R200。工程权重不得进入正式谱系；采用新实现时从正式谱系当时最新冷态端点继续s+1，不回退benchmark父端点；分解data/FM/aux/optimizer/save与显存，旧逐位失败保留，数值合同提前固定。兼容且净吞吐提升≥15%才采用明确新后继执行版本。
 5. N2最多24请求×10703tick，修复F2瞬态容差和双向STOP同伴继续证据；独立CPU/ROS/目录/owner。原容差全通过才在新冷态人口使用，否则N1持续。不要把此前1.99倍吞吐称为已资格。
 
 ## F. 计数、修复与汇报

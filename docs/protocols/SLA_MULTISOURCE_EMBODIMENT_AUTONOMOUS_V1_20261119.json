@@ -145,7 +145,23 @@
     "cross_site_WAN_gradient_sync": false,
     "extra_optimizer_as_data_parallel": false,
     "storage": "Measure checkpoint and pilot raw-log sizes; retain historical data; no autonomous cleanup/deletion.",
-    "VANDA_TRAIN_readiness": "SOURCE_DEV55 files do not prove full TRAIN readiness. Before ADAPT or MIX benchmark, verify full D1/R200/LIBERO1261 manifests, inherited statistics, model and actual CPU samples using bounded incremental transfer of missing members.",
+    "VANDA_TRAIN_readiness": {
+      "SOURCE_DEV_does_not_prove_TRAIN_ready": true,
+      "ADAPT_required": [
+        "D1_target",
+        "R200",
+        "LIBERO1261",
+        "inherited_bound_statistics_and_model"
+      ],
+      "MIX_benchmark_required": [
+        "parent_original_target23",
+        "parent_R48",
+        "parent_LIBERO1261",
+        "parent_statistics_model_and_visit_bank"
+      ],
+      "MIX_benchmark_waits_new_D1_or_R200": false,
+      "validation": "Separate per-workload fixed manifests, bounded transfer of missing members, hashes and real domain CPU samples; reuse trusted existing data."
+    },
     "dense_Core_inference_fallback": {
       "via_existing_handoff_not_new_scheduler": true,
       "reconcile_after500_watcher": true,

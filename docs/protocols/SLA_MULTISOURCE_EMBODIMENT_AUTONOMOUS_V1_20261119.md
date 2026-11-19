@@ -57,7 +57,7 @@ Core GPU0的容量是站点记录值，不据厂商常规规格推断；Core不�
 
 默认同时维持Core的MIX和VANDA的TGT；新增目标可用后申请/使用额外一张实际A40运行ADAPT。短评估使用实际空闲allocation或正常训练段切换窗口。没有额外卡时串行排队，健康在训进程继续，CPU准备照常推进。取得更多既有许可内的资源时可并行工程验证，正式训练臂数量仍以本计划为准。
 
-VANDA现有SOURCE_DEV旁件就绪不证明源TRAIN已就绪。ADAPT或完整MIX benchmark在A40启动前，按固定manifest完成R200、LIBERO1261、D1及继承统计/模型的缺失文件有界增量传输、逐文件hash和真实三域CPU窗口核验；复用已核对成员，不反复全库复制。此准备不阻塞Core训练。
+VANDA现有SOURCE_DEV旁件就绪不证明源TRAIN已就绪。A40上的ADAPT需要D1目标、R200、LIBERO1261；同配方MIX benchmark只需要其父端点的原23条目标、R48、LIBERO1261，不能等待新D1或R200。两种工作分别按自身固定manifest完成缺失文件有界增量传输、继承统计/模型绑定、逐文件hash和真实三域CPU窗口核验；复用已核对成员，不反复全库复制。此准备不阻塞Core训练。
 
 同一GPU同一时段一个训练进程；同一训练谱系只有一个优化owner。跨站两个独立Adam不能称为同步数据并行。GPU训练不持有native world锁，两站运行不依赖对方在线心跳。按实际cgroup检查CPU affinity，数据worker避开physics核心；预取深度先2、解码worker先2再实测4，禁止重扫描共享登录存储。提前按实测checkpoint大小、保留端点数和首批raw日志估算临时/持久容量；磁盘不足时报告，清理由用户负责。
 
