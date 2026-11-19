@@ -21,7 +21,7 @@ def output(*command):
     return subprocess.check_output(command,text=True,timeout=20).strip()
 
 
-def resources(root, gpu, cpus):
+def resources(root, gpu, cpus, *, shared=False):
     if (root.parent.stat().st_uid != os.getuid()
             or output('loginctl','show-user',str(os.getuid()),'-p','Linger') != 'Linger=yes'
             or output('findmnt','-n','-o','FSTYPE','-T',str(root.parent)) != 'ext4'
@@ -34,13 +34,14 @@ def resources(root, gpu, cpus):
     host = int(next(line.split()[1] for line in Path('/proc/meminfo').read_text().splitlines()
                     if line.startswith('MemAvailable:')))*1024
     if (uuid == gpu['GPU_uuid'] or '4080' not in name or int(free) <= int(total)*.70+2048
-            or uuid in active or host <= 36*GIB):
+            or (not shared and uuid in active) or host <= 36*GIB):
         raise PermissionError('FREE_SEPARATE_CORE_GPU1_AND_HOST_HEADROOM_REQUIRED')
     lock_path = Path(gpu['neural_owner_lock']).parent/'sla-pt-gpu1-owner.lock'
     lock = OwnerLock(lock_path)
     lock.close()
     return dict(uuid=uuid,name=name,GPU_free_MiB=int(free),GPU_total_MiB=int(total),
-                host_available_bytes=host,gpu_owner_lock=str(lock_path),cpus=cpus,linger=True)
+                host_available_bytes=host,gpu_owner_lock=str(lock_path),cpus=cpus,linger=True,
+                GPU_sharing_authorized=shared)
 
 
 def launch(config):
@@ -71,7 +72,8 @@ def launch(config):
             or sha(gpu['parent_manifest']['path']) != PARENT_SHA
             or data['dataset'] != gpu['dataset']):
         raise ValueError('ORIGINAL_CORE_PARENT_BYTES_AND_C20_DATA_REQUIRED')
-    available = resources(run,gpu,config['cpus'])
+    shared = authority.get('shared_GPU1') is True
+    available = resources(run,gpu,config['cpus'],shared=shared)
     transfer_file = Path(deployment['transfer']['path'])
     archive = read_pin(deployment['transfer'])
     if archive['job'] != deployment['source_job']:
@@ -107,7 +109,8 @@ def launch(config):
     command = ['systemd-run','--user','--unit='+unit,'--property=Restart=no',
         '--property=KillMode=control-group','--property=TimeoutStopSec=30','--property=StandardInput=null',
         '--property=RuntimeMaxSec='+str(int(deadline-time.time())+30),'--property=WorkingDirectory='+str(source),
-        '--property=CPUAffinity='+' '.join(map(str,config['cpus'])),'--property=MemoryMax=20G',
+        '--property=CPUAffinity='+' '.join(map(str,config['cpus'])),
+        '--property=MemoryMax='+('14G' if shared else '20G'),
         '--property=StandardOutput=append:'+str(run/'logs/worker.log'),
         '--property=StandardError=append:'+str(run/'logs/worker.log')]
     command += ['--setenv='+key+'='+value for key,value in env.items()]
