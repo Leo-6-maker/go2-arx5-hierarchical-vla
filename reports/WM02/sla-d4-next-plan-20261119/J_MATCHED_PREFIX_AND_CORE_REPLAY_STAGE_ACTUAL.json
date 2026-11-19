@@ -1,0 +1,192 @@
+{
+  "VANDA_J_matched_readback": {
+    "observed_SGT": "2026-11-19T18:24:35.895244+08:00",
+    "PBS_state": "R",
+    "job": "1592217.stdct-mgmt-02",
+    "J0_endpoint_contract_pass": true,
+    "training_source_sha": "9e7442e752324ad5fec18341b36640a5bbecc70e",
+    "J0_package_sha256": "385ce6b08519e4c24c04cb6432d03d766452967bed6317f7de2632b5ae6301bf",
+    "J0_source_endpoint_generations": 96,
+    "exact_matched_step_zero_arrays": 87,
+    "target_bank_sha256": "a151bfca90511a5fee70398aa50616472f989cbf41cdd899ca93d569a24040af",
+    "J0_rows": 500,
+    "J1_rows": 123,
+    "matched_target_rows": 123,
+    "matched_LR_rows": 123,
+    "target_visits": 3936,
+    "source_visits": 984,
+    "source_bank_sha256": "a23fb4e46f86c5ea6f1d17748b913bcdcd5565cc1d36c2c04f5508a047b396af",
+    "nonzero_source_gradient_steps": 123,
+    "min_shared_gradient_norm": 0.01274636760354042,
+    "median_shared_gradient_norm": 0.03658909350633621,
+    "J0_ledger_sha256": "e3af26632331c5b9baba3ed8cb0b7d05b1ba27db260285e8955979a12b690634",
+    "J1_ledger_sha256": "cf78f1653ecd343698d16dadd22787a86968baeaa1079bedd2d914b4ba64f095",
+    "new_model_loads": 0,
+    "new_predictions": 0,
+    "new_updates": 0,
+    "new_native_requests": 0
+  },
+  "Core_J_replay_stage": {
+    "draft_sha256": "24d93a9cf5037245b4d4d933ced64a6ad7a3da004da070ad590fe89979d36742",
+    "source_sha": "730727b212d23aeadf5fb6f6b488fcbb0223b8b8",
+    "planned_JOB": "1592217.stdct-mgmt-02",
+    "unit": "wm02-sla-d416-j-core-rgb32-20261119-01.service",
+    "program_checks": {
+      "replay_mode": "J",
+      "arms": [
+        "J0",
+        "J1"
+      ],
+      "provider": "go2arx5_vla.sla_adapter.joint_source_d4",
+      "C20_windows": 1376,
+      "C20_manifest_sha256": "4bcc5ffcd8920d874599a54cca73792c50a49ea6013d65ca7826817a9f80d7de",
+      "previous_command_clock_checked": 1376,
+      "model_loads": 0,
+      "generations": 0,
+      "new_updates": 0,
+      "new_native_requests": 0
+    },
+    "GPU1_free_MiB": 5566,
+    "launched": false
+  },
+  "VANDA_exporter_stage": {
+    "staged_source_sha": "730727b212d23aeadf5fb6f6b488fcbb0223b8b8",
+    "exporter_sha256": "c7a6437baecef9e3aba29435f02a3130f3529492fad525b5998868abd7e694e5",
+    "model_loads": 0,
+    "new_updates": 0,
+    "new_native_requests": 0,
+    "bundle_created": false
+  },
+  "confirmed_live_PBS_prevents_transfer": true,
+  "Core_live": {
+    "observed_SGT": "2026-11-19T18:25:11.317081+08:00",
+    "D5": {
+      "native_phase": "NATIVE_CASE",
+      "current_case": 5,
+      "sealed": 5,
+      "cases": [
+        {
+          "case": "D5_GRASP24-F1-1-HOLD-red-D4-B",
+          "ticks": 35703,
+          "generations": 120,
+          "grasp": false,
+          "lift": false,
+          "hold": false,
+          "first_failure": "FIXED_TASK_BUDGET_EXHAUSTED",
+          "post_stop_ticks": null
+        },
+        {
+          "case": "D5_GRASP24-F1-1-HOLD-red-D5-W",
+          "ticks": 27006,
+          "generations": 86,
+          "grasp": false,
+          "lift": false,
+          "hold": false,
+          "first_failure": "ILLEGAL_CONTACT",
+          "post_stop_ticks": 0
+        },
+        {
+          "case": "D5_GRASP24-F1-1-HOLD-red-D5-T",
+          "ticks": 31484,
+          "generations": 104,
+          "grasp": false,
+          "lift": false,
+          "hold": false,
+          "first_failure": "ILLEGAL_CONTACT",
+          "post_stop_ticks": 0
+        },
+        {
+          "case": "D5_GRASP24-F1-1-HOLD-blue-D5-W",
+          "ticks": 31807,
+          "generations": 105,
+          "grasp": false,
+          "lift": false,
+          "hold": false,
+          "first_failure": "ILLEGAL_CONTACT",
+          "post_stop_ticks": 0
+        },
+        {
+          "case": "D5_GRASP24-F1-1-HOLD-blue-D5-T",
+          "ticks": 35703,
+          "generations": 120,
+          "grasp": false,
+          "lift": false,
+          "hold": false,
+          "first_failure": "FIXED_TASK_BUDGET_EXHAUSTED",
+          "post_stop_ticks": null
+        }
+      ]
+    },
+    "MIX": {
+      "updates": 72,
+      "visits": {
+        "target": 2304,
+        "robodojo": 3456,
+        "libero": 3456
+      },
+      "H40": 288,
+      "update_log_sha": "0e280d4cb060114573be05e6fc9d0d774b7a11115dd9cf42e9aa602ddb98ca27"
+    }
+  },
+  "GRASP24_fifth_case": {
+    "stage": "D5_GRASP24",
+    "spec_sha256": "b66e80aadd046bd13cb8bbc3c56a0df5725bd3c20af586c86b8f4885b232357a",
+    "source_sha": "b405fb173c91a32a1ad5b86aa9e87418cd0d0d56",
+    "checked_case_window": [
+      4,
+      6
+    ],
+    "planned_conditions": 24,
+    "totals": {
+      "terminal_cases": 1,
+      "verified_cases": 1,
+      "evidence_errors": 0,
+      "scored_cases": 1,
+      "native_requests": 1,
+      "native_ticks": 35703,
+      "model_generations": 120,
+      "complete_success": 0,
+      "correct_grasp": 0,
+      "lift20mm": 0,
+      "observed_safety_STOP": 0,
+      "observed_illegal_contact_STOP": 0,
+      "observed_integrations_after_STOP": 0,
+      "safety_STOP_with_unknown_post_stop_ticks": 0,
+      "observed_technical_failures": 0,
+      "confirmed_atoms_observed": 1200,
+      "H40_first_closure_by_region": {
+        "P10": 0,
+        "tail30": 0,
+        "no_crossing": 120
+      },
+      "first_failures": {
+        "FIXED_TASK_BUDGET_EXHAUSTED": 1
+      },
+      "observed_wall_s": 522.4228347381577,
+      "observed_CPU_s": 273.861653049
+    },
+    "new_generations": 0,
+    "new_native_ticks": 0,
+    "new_training_updates": 0,
+    "new_case": {
+      "native_result_sha256": "e6955f982e1d8c392e15c184ff30c2c8df8f6a103996bb6557abf9d007541016",
+      "case": "D5_GRASP24-F1-1-HOLD-blue-D5-T",
+      "first_failure": "FIXED_TASK_BUDGET_EXHAUSTED",
+      "native_ticks": 35703,
+      "generations": 120,
+      "confirmed_atoms": 1200,
+      "query_counts": {
+        "no_crossing": 120
+      },
+      "measured_min_width_m": 0.04196154233171126,
+      "first_stop": null,
+      "wall_s": 522.4228347381577,
+      "base_directional_motion_m": 0.19637310882068992,
+      "full_state_score": 30001,
+      "correct_grasp": false,
+      "target_lift20mm": false,
+      "complete_HOLD": false,
+      "missing_native_intervals": 0
+    }
+  }
+}

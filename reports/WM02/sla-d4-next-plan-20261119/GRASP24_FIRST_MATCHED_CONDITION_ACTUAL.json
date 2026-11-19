@@ -1,0 +1,135 @@
+{
+  "source_sha": "b405fb173c91a32a1ad5b86aa9e87418cd0d0d56",
+  "spec_sha256": "b66e80aadd046bd13cb8bbc3c56a0df5725bd3c20af586c86b8f4885b232357a",
+  "cases": [
+    {
+      "case": "D5_GRASP24-F1-1-HOLD-red-D4-B",
+      "arm": "D4-B",
+      "case_result_sha256": "fb6e93913ecb9d84d039cc8a936381a821a7f4575aaf93e37091a35527c72a21",
+      "native_requests": 1,
+      "native_ticks": 35703,
+      "complete_H40": 120,
+      "full_H40_compiled": 120,
+      "H40_closure_counts": {
+        "no_crossing": 120
+      },
+      "consumed_atoms": 1200,
+      "partial_atom_ticks": 0,
+      "full_score_states": 30001,
+      "missing_native_intervals": 0,
+      "minimum_measured_width_m": 0.041938746283312664,
+      "correct_grasp": false,
+      "lift20mm": false,
+      "hold_success": false,
+      "directional_base_travel_m": 0.11790240928019978,
+      "first_failure": "FIXED_TASK_BUDGET_EXHAUSTED",
+      "stop": false,
+      "post_stop_ticks": null,
+      "trace": "RECORDED_TRACE_CHECKS_PASS",
+      "technical_failure": false,
+      "contacts": [],
+      "final_identity_probe": null,
+      "native_wall_s": 544.0643588611856,
+      "native_CPU_s": 296.68381360200004
+    },
+    {
+      "case": "D5_GRASP24-F1-1-HOLD-red-D5-W",
+      "arm": "D5-W",
+      "case_result_sha256": "633f92942b00deac0f7dbdabc1648befac3a26a26d115e6ce7dcf1b8e2409d98",
+      "native_requests": 1,
+      "native_ticks": 27006,
+      "complete_H40": 86,
+      "full_H40_compiled": 86,
+      "H40_closure_counts": {
+        "no_crossing": 86
+      },
+      "consumed_atoms": 852,
+      "partial_atom_ticks": 3,
+      "full_score_states": 21304,
+      "missing_native_intervals": 0,
+      "minimum_measured_width_m": 0.041981125175812664,
+      "correct_grasp": false,
+      "lift20mm": false,
+      "hold_success": false,
+      "directional_base_travel_m": 0.11313876671414773,
+      "first_failure": "ILLEGAL_CONTACT",
+      "stop": true,
+      "post_stop_ticks": 0,
+      "trace": "RECORDED_TRACE_CHECKS_PASS",
+      "technical_failure": false,
+      "contacts": [
+        [
+          {
+            "geom_id": 73,
+            "geom": null,
+            "body": "x5_link6",
+            "geom_type": "mjGEOM_CAPSULE"
+          },
+          {
+            "geom_id": 79,
+            "geom": "task_blue_cube_geom",
+            "body": "task_blue_cube",
+            "geom_type": "mjGEOM_BOX"
+          }
+        ]
+      ],
+      "final_identity_probe": "RuntimeError: EXACT_OWNED_SIMULATOR_PID_REQUIRED",
+      "native_wall_s": 401.01775623019785,
+      "native_CPU_s": 209.043700179
+    },
+    {
+      "case": "D5_GRASP24-F1-1-HOLD-red-D5-T",
+      "arm": "D5-T",
+      "case_result_sha256": "1fd3a0b954384429f1d066e316db1b0f51e600e5406f2045a0a5c589618283f2",
+      "native_requests": 1,
+      "native_ticks": 31484,
+      "complete_H40": 104,
+      "full_H40_compiled": 104,
+      "H40_closure_counts": {
+        "no_crossing": 104
+      },
+      "consumed_atoms": 1031,
+      "partial_atom_ticks": 6,
+      "full_score_states": 25782,
+      "missing_native_intervals": 0,
+      "minimum_measured_width_m": 0.04196176088482577,
+      "correct_grasp": false,
+      "lift20mm": false,
+      "hold_success": false,
+      "directional_base_travel_m": 0.14656383926038777,
+      "first_failure": "ILLEGAL_CONTACT",
+      "stop": true,
+      "post_stop_ticks": 0,
+      "trace": "RECORDED_TRACE_CHECKS_PASS",
+      "technical_failure": false,
+      "contacts": [
+        [
+          {
+            "geom_id": 73,
+            "geom": null,
+            "body": "x5_link6",
+            "geom_type": "mjGEOM_CAPSULE"
+          },
+          {
+            "geom_id": 79,
+            "geom": "task_blue_cube_geom",
+            "body": "task_blue_cube",
+            "geom_type": "mjGEOM_BOX"
+          }
+        ]
+      ],
+      "final_identity_probe": "RuntimeError: EXACT_OWNED_SIMULATOR_PID_REQUIRED",
+      "native_wall_s": 460.19250162970275,
+      "native_CPU_s": 241.50888776899998
+    }
+  ],
+  "terminal_science_requests": 3,
+  "planned_science_requests": 24,
+  "new_optimizer_updates": 0,
+  "scoring_added_native_ticks": 0,
+  "scoring_added_predictions": 0,
+  "native_ticks": 94193,
+  "native_complete_H40": 310,
+  "contact_STOP": 2,
+  "successful_HOLD": 0
+}

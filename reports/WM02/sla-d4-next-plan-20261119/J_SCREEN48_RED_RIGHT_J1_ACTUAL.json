@@ -1,0 +1,111 @@
+{
+  "source_sha": "b405fb173c91a32a1ad5b86aa9e87418cd0d0d56",
+  "plan_sha": "cf9d1acbf72e96b1bd158322ff8cbaf8fe28fabb",
+  "spec_sha256": "e80ca90c07af71eafca37172eda48d644dcbe69cffd4a4ebeba5741062764581",
+  "case_audit_sha256": "90dd61c2caafc7fb53be9b79201976c231d872e5627b995a0712cd53b5364a93",
+  "case": {
+    "case": "J_SCREEN48-F1-1-PLACE-red-right-J1",
+    "arm": "J1",
+    "instruction": "PLACE-red-right",
+    "layout": "J_SCREEN48-F1-1",
+    "reset": 702000,
+    "noise_seed": 2037343903,
+    "scene_sha256": "aab9f053f3607bd6eb7642e3e3f3b424c60ae7c1deb22c9e3d8c04018be45b26",
+    "native_request": 1,
+    "native_ticks": 50703,
+    "source_sha": "b405fb173c91a32a1ad5b86aa9e87418cd0d0d56",
+    "native_result_sha256": "fedbb3902632f0c7674d0cb89b5a9985cc741419bd89c481e6c8e1ab175d1b2b",
+    "generations": 180,
+    "query_rows": 180,
+    "query_counts": {
+      "no_crossing": 180
+    },
+    "confirmed_atoms": 1800,
+    "emitted_min_width_m": 0.04197571558555887,
+    "measured_min_width_m": 0.04196943925927547,
+    "first_failure": "FIXED_TASK_BUDGET_EXHAUSTED",
+    "first_stop": null,
+    "technical_failure": false,
+    "STOP": false,
+    "trace": "RECORDED_TRACE_CHECKS_PASS",
+    "STOP_after_ticks": null,
+    "wall_s": 786.140918539837,
+    "CPU_s": 438.41738685,
+    "contact_evidence": []
+  },
+  "terminal_task_score": {
+    "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+    "instruction": "PLACE-red-right",
+    "task_success": false,
+    "native_step": 50703,
+    "base_directional_motion_m": 0.2136765771008997,
+    "lift_m": 0.0,
+    "inside_selected_region": false,
+    "target_grasp": false,
+    "wrong_object_grasp_ever": false,
+    "wrong_object_contact_ever": false,
+    "released": true,
+    "gripper_open_fraction": 0.9544589136358844,
+    "TCP_retreat_m": 0.22386888405353028,
+    "stable_release_condition": false,
+    "states": 45001,
+    "missing_native_intervals": 0,
+    "unsafe_states": 0,
+    "ever_target_grasp": false,
+    "ever_target_lift20mm": false,
+    "maximum_lift_m": 0.0,
+    "longest_grasp_lift_hold_s": 0.0,
+    "longest_stable_released_retreat_s": 0.0,
+    "events": {
+      "base80mm": {
+        "native_step": 13815,
+        "native_time_s": 27.629999999995565
+      }
+    },
+    "task_privileged_truth_in_student_input": false,
+    "clock": "ACTUAL_2MS_NATIVE_STREAM"
+  },
+  "sealed_original_score_states": 45001,
+  "admitted_H40_queries": 180,
+  "acknowledged_queries": 180,
+  "whole_P10_consumed_queries": 180,
+  "confirmation_ACK_count_distribution": {
+    "2": 180
+  },
+  "max_confirmed_width_error_mm": 0.026762304268380943,
+  "cumulative_native_science": {
+    "terminal_cases": 7,
+    "verified_cases": 7,
+    "evidence_errors": 0,
+    "scored_cases": 7,
+    "native_requests": 7,
+    "native_ticks": 270697,
+    "model_generations": 925,
+    "complete_success": 0,
+    "correct_grasp": 0,
+    "lift20mm": 0,
+    "observed_safety_STOP": 3,
+    "observed_illegal_contact_STOP": 3,
+    "observed_integrations_after_STOP": 0,
+    "safety_STOP_with_unknown_post_stop_ticks": 0,
+    "observed_technical_failures": 0,
+    "confirmed_atoms_observed": 9230,
+    "observed_wall_s": 4189.233879691921,
+    "observed_CPU_s": 2294.3671681920005
+  },
+  "cumulative_h40_22mm_crossings": {
+    "P10": 0,
+    "tail30": 0,
+    "no_crossing": 925
+  },
+  "cumulative_first_failure_counts": {
+    "FIXED_TASK_BUDGET_EXHAUSTED": 4,
+    "ILLEGAL_CONTACT": 3
+  },
+  "closed_science_conditions": 7,
+  "planned_science_conditions": 48,
+  "comparative_pair_complete": false,
+  "added_native_integrations": 0,
+  "added_GPU_generations": 0,
+  "added_optimizer_updates": 0
+}

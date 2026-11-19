@@ -4,23 +4,27 @@ from pathlib import Path
 
 import numpy as np
 
+from .fixed500_contract import (
+    D4_ARMS as ARMS,
+    UPDATES,
+    VISITS,
+    D4_RECIPE as RECIPE,
+    D4_SCHEMA as SCHEMA,
+    d4_package_contract as package_contract,
+    C20_MANIFEST,
+    C20_STATISTICS,
+    EPSILON,
+)
 from .checkpoint_v1 import sha
 from .close_temporal_v1 import CloseEngine
-from .dense_g7_v6 import VERSION, label_margin_report
-from .gripper_latent_v2 import EPSILON
+from .dense_g7_v6 import label_margin_report
 from .mfree_training_v1 import MobileDataset
-from .multitask_data_v6 import C20_MANIFEST, C20_STATISTICS, legacy_contexts, reference
+from .multitask_data_v6 import legacy_contexts, reference
 from .multitask_initialization_v6 import sealed_source
 from .multitask_training_v6 import MultitaskEngine
 from .provider_multitask_v6 import Provider as TargetProvider, export_payload
-from .provider_v3 import DECODE_ORDER
 from .runtime_v1 import read_pin
 
-ARMS = ('D4-A', 'D4-B')
-UPDATES = 500
-VISITS = UPDATES * 32
-RECIPE = 'SLA_D4_C20_G7_MATCHED_TRANSFER_500'
-SCHEMA = 'SLA_D4_C20_G7_RGB_PACKAGE_V1'
 
 
 class C20G7Dataset(MobileDataset):
@@ -50,13 +54,14 @@ def locate_input(portable_inputs, pin):
 
 class TransferEngine(MultitaskEngine):
     recipe = RECIPE
+    arms = ARMS
     source_arm = ARMS[1]
 
     def dataset_for_spec(self, spec):
         from openpi_client.image_tools import resize_with_pad
 
         audit = read_pin(spec['target_audit'])
-        if (spec['operation'] != RECIPE or spec['arm'] not in ARMS
+        if (spec['operation'] != self.recipe or spec['arm'] not in self.arms
                 or spec['microbatch'] != 4 or spec['training_matmul_precision'] != 'highest'
                 or spec['planned_candidate_updates'] != UPDATES
                 or spec['new_optimizer_updates_budget'] != UPDATES
@@ -97,27 +102,6 @@ class TransferEngine(MultitaskEngine):
     def population_binding(self):
         return dict(C20_only=True, C20_time_audit=self.spec['time_codec_audit'],
                     Teacher_episodes=0, source_optimization_visits=0)
-
-
-def package_contract(manifest):
-    bindings = manifest['bindings']
-    if (manifest['schema'] != SCHEMA or manifest['codec'] != VERSION
-            or manifest['decode_order'] != DECODE_ORDER or manifest['label_epsilon'] != EPSILON
-            or (manifest['step'], manifest['cursor']) != (UPDATES, VISITS)
-            or len(manifest['adapter_arrays']) != 28 or bindings['recipe'] != RECIPE
-            or bindings['arm'] not in ARMS or bindings['codec_version'] != VERSION
-            or bindings['inference_route'] != 'cached_actual'
-            or bindings['dataset_manifest_sha256'] != C20_MANIFEST
-            or manifest['statistics_sha256'] != C20_STATISTICS
-            or bindings['derived_statistics_sha256'] != C20_STATISTICS
-            or not bindings['C20_only'] or bindings['Teacher_episodes']
-            or bindings['source_optimization_visits']
-            or bool(bindings['source_initialization']) != (bindings['arm'] == ARMS[1])
-            or manifest['previous_reference_required'] is not True
-            or any(manifest[key] is not False for key in ('teacher_required', 'training_cache_required',
-                'optimizer_required', 'state_gripper_transformed', 'physical_execution_admitted',
-                'endpoint_basis_applied'))):
-        raise ValueError('D4_EXACT_FIXED_C20_RGB_PACKAGE_REQUIRED')
 
 
 def export(package, checkpoint, *, engine):

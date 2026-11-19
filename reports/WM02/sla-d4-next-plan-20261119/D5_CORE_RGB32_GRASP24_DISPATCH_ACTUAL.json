@@ -1,0 +1,124 @@
+{
+  "schema": "SLA_D416_D5_CORE_RGB_AND_GRASP24_DISPATCH_ACTUAL_V1",
+  "plan_sha": "cf9d1acbf72e96b1bd158322ff8cbaf8fe28fabb",
+  "RGB32": {
+    "summary": {
+      "sha256": "830b23bfe7606bdb39cb307cb915d503b99f41104f9ad0d68fb8a072aaf45b7b",
+      "v": {
+        "source_sha": "9e7442e752324ad5fec18341b36640a5bbecc70e",
+        "spec_sha": "d9207ed7240c2df4f0fb89c20f5643ece40fb4575f5fa1a9d3989cd1eb28e496",
+        "planned": 32,
+        "attempts": 32,
+        "completed": 32,
+        "updates": 0,
+        "visits": 0,
+        "native_requests": 0,
+        "native_integrations": 0,
+        "epoch": 1795080082.607975,
+        "GPU_memory": {
+          "num_allocs": 9936,
+          "bytes_in_use": 7105297152,
+          "peak_bytes_in_use": 7315062528,
+          "largest_alloc_size": 2415919104,
+          "bytes_limit": 11696478418,
+          "bytes_reserved": 0,
+          "peak_bytes_reserved": 0,
+          "largest_free_block_bytes": 0,
+          "pool_bytes": 8592031744,
+          "peak_pool_bytes": 8592031744
+        },
+        "both_bit_exact": 0,
+        "normalized_bit_exact": 32,
+        "original_H40_and_seam_decisions_identical": 32,
+        "passed": true,
+        "status": "CORE_RGB32_MEASURED",
+        "exit_code": 0,
+        "wall_s": 614.6397588308901
+      }
+    },
+    "endpoints": {
+      "D5-W": {
+        "sha256": "8051bc518be5c40c64cd6518975e7021d6f016ad40c8e61e91a98eefcf747abc",
+        "v": {
+          "arm": "D5-W",
+          "source_sha": "9e7442e752324ad5fec18341b36640a5bbecc70e",
+          "package_sha256": "bb85e98e941797ade843da89171ef09175d56e128266787743f9bf6487cf30fe",
+          "actual_generations": 16,
+          "original_H40_seam_decisions_match": true,
+          "normalized_bit_exact": 16,
+          "physical_bit_exact": 0,
+          "max_physical_abs": 3.3306690738754696e-16,
+          "native_requests": 0,
+          "native_integrations": 0
+        }
+      },
+      "D5-T": {
+        "sha256": "956beaedb456cf7f0640b1e1986c2dead76a32e604a7547063545b5fb8e04a16",
+        "v": {
+          "arm": "D5-T",
+          "source_sha": "9e7442e752324ad5fec18341b36640a5bbecc70e",
+          "package_sha256": "6fa421ef463aaf458d6a66296095f82c63cf307307bf442a1f8638ebc2a0724d",
+          "actual_generations": 16,
+          "original_H40_seam_decisions_match": true,
+          "normalized_bit_exact": 16,
+          "physical_bit_exact": 0,
+          "max_physical_abs": 3.3306690738754696e-16,
+          "native_requests": 0,
+          "native_integrations": 0
+        }
+      }
+    },
+    "epoch": 1795080389.6501627
+  },
+  "prep_technical_terminal": {
+    "sha256": "a8506caac076552b93b9b30d592dc2dfb941de0ac6f612c0257210fa493713e6",
+    "data": {
+      "exit_code": 1,
+      "status": "TECHNICAL_TERMINAL_VERIFIED_NO_DISPATCH",
+      "source_sha": "3ccdee981ccc9be94afb45b034eb09f77e3728b0",
+      "first_failure": "ModuleNotFoundError: No module named 'scipy'",
+      "attempted_case_launches": 0,
+      "new_verified_native_requests": 0,
+      "new_native_ticks": 0,
+      "new_model_generations": 0,
+      "new_optimizer_updates": 0,
+      "unresolved_case_launches": 0,
+      "unstarted_cases": 24
+    }
+  },
+  "original_native_runtime_metadata": {
+    "arms": {
+      "D4-B": 500,
+      "D5-W": 500,
+      "D5-T": 500
+    },
+    "numpy": "2.5.4",
+    "mujoco": "3.2.7",
+    "rclpy_scheme": "rclpy",
+    "scipy_required": false,
+    "native_requests": 0,
+    "new_model_generations": 0
+  },
+  "native_runtime_metadata_proof_sha256": "9013cf9d43053c0adfdc3af1408d4c273c511976e919365e8e6073d640c389ce",
+  "runtime": {
+    "unit": "wm02-sla-d416-d5-grasp24-20261119-02.service",
+    "source_sha": "b405fb173c91a32a1ad5b86aa9e87418cd0d0d56",
+    "spec_sha256": "b66e80aadd046bd13cb8bbc3c56a0df5725bd3c20af586c86b8f4885b232357a",
+    "population_sha256": "bc2f4bddf256bf957489a096335f2a541ab6d390715289214420c1cfb0631a50",
+    "deadline_SGT": "2026-11-20T00:12:04.204337+08:00",
+    "observed_epoch": 1795080856.077544,
+    "PID": 3619057,
+    "cgroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-d416-d5-grasp24-20261119-02.service",
+    "caps": {
+      "new_physical_requests_budget": 24,
+      "new_model_generations_budget": 2880,
+      "new_native_tick_budget": 856872
+    },
+    "phase": "WAIT_SHARED_GPU_RESOURCE",
+    "carried_E0_interfaces": 2,
+    "new_science_requests": 0,
+    "new_science_ticks": 0,
+    "new_science_generations": 0,
+    "new_optimizer_updates": 0
+  }
+}

@@ -1,0 +1,1778 @@
+{
+  "readback_epoch": 1795097453.8865302,
+  "audit_reader_sha256": "5f6c8d059f05a3676fce35d2c3709f8e5756b084351bdfab96b8b6045c02d912",
+  "panels": {
+    "D4_DEV": {
+      "spec_sha256": "a25383aea633117056de01c76d5dde1a5f408c3469663347b17b085f1b61e947",
+      "native_execution_source": "56b096101fb1d52a0b4458a136d696a284699bfe",
+      "scientific_cases": 28,
+      "planned_scientific_cases": 48,
+      "counts": {
+        "returned_H40": 3646,
+        "full_H40_compiled": 3643,
+        "acknowledged_queries": 3640,
+        "queries_with_confirmed_atoms": 3639,
+        "full_P10_consumed": 3637,
+        "confirmed_atoms": 36378,
+        "native_cases": 28,
+        "native_ticks": 1069175,
+        "STOPs": 3,
+        "post_STOP_ticks": 0,
+        "queries_emitted_at_or_below_22mm": 0,
+        "queries_measured_at_or_below_22mm": 0
+      },
+      "by_arm": {
+        "D4-A": {
+          "returned_H40": 2013,
+          "full_H40_compiled": 2013,
+          "acknowledged_queries": 2011,
+          "queries_with_confirmed_atoms": 2010,
+          "full_P10_consumed": 2008,
+          "confirmed_atoms": 20088,
+          "native_cases": 14,
+          "native_ticks": 582083,
+          "STOPs": 3,
+          "post_STOP_ticks": 0,
+          "queries_emitted_at_or_below_22mm": 0,
+          "queries_measured_at_or_below_22mm": 0
+        },
+        "D4-B": {
+          "returned_H40": 1633,
+          "full_H40_compiled": 1630,
+          "acknowledged_queries": 1629,
+          "queries_with_confirmed_atoms": 1629,
+          "full_P10_consumed": 1629,
+          "confirmed_atoms": 16290,
+          "native_cases": 14,
+          "native_ticks": 487092,
+          "STOPs": 0,
+          "post_STOP_ticks": 0,
+          "queries_emitted_at_or_below_22mm": 0,
+          "queries_measured_at_or_below_22mm": 0
+        }
+      },
+      "nominal_crossings": {
+        "none": 3646
+      },
+      "query_rejections": {
+        "ORIGINAL_FULL_H40_POLICY_REJECTED": 3,
+        "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED": 3
+      },
+      "cases": [
+        {
+          "case": "D4-DEV-F1-1-HOLD-red-D4-A",
+          "arm": "D4-A",
+          "instruction": "HOLD-red",
+          "native_result_sha256": "2d0966a1eaac8015ef9bf85750c32f790ff2f57e48c53e5437888e53614860cf",
+          "query_counts": {
+            "returned_H40": 120,
+            "full_H40_compiled": 120,
+            "acknowledged_queries": 120,
+            "queries_with_confirmed_atoms": 120,
+            "full_P10_consumed": 120,
+            "confirmed_atoms": 1200,
+            "native_cases": 1,
+            "native_ticks": 35703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 120
+          },
+          "min_emitted_width_m": 0.038447718826626114,
+          "min_measured_width_m": 0.038380606137063664
+        },
+        {
+          "case": "D4-DEV-F1-1-HOLD-red-D4-B",
+          "arm": "D4-B",
+          "instruction": "HOLD-red",
+          "native_result_sha256": "398d49da2c790c71c1620cd11e326c64b22caed876d293a11c3d3fa2776fbb8b",
+          "query_counts": {
+            "returned_H40": 120,
+            "full_H40_compiled": 120,
+            "acknowledged_queries": 120,
+            "queries_with_confirmed_atoms": 120,
+            "full_P10_consumed": 120,
+            "confirmed_atoms": 1200,
+            "native_cases": 1,
+            "native_ticks": 35703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 120
+          },
+          "min_emitted_width_m": 0.04192348452735408,
+          "min_measured_width_m": 0.04192307637491905
+        },
+        {
+          "case": "D4-DEV-F1-1-HOLD-blue-D4-B",
+          "arm": "D4-B",
+          "instruction": "HOLD-blue",
+          "native_result_sha256": "76c4868656a5f93990e0c07afea54b58b0d7a7a70ce0033a349d332abccdde3f",
+          "query_counts": {
+            "returned_H40": 120,
+            "full_H40_compiled": 120,
+            "acknowledged_queries": 120,
+            "queries_with_confirmed_atoms": 120,
+            "full_P10_consumed": 120,
+            "confirmed_atoms": 1200,
+            "native_cases": 1,
+            "native_ticks": 35703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 120
+          },
+          "min_emitted_width_m": 0.04192880621283756,
+          "min_measured_width_m": 0.04192847001229119
+        },
+        {
+          "case": "D4-DEV-F1-1-HOLD-blue-D4-A",
+          "arm": "D4-A",
+          "instruction": "HOLD-blue",
+          "native_result_sha256": "93c25f1ddb4cc842f2a3218b5e4540ed8524eba98a3b2cad1cf354f56e21d878",
+          "query_counts": {
+            "returned_H40": 120,
+            "full_H40_compiled": 120,
+            "acknowledged_queries": 120,
+            "queries_with_confirmed_atoms": 120,
+            "full_P10_consumed": 120,
+            "confirmed_atoms": 1200,
+            "native_cases": 1,
+            "native_ticks": 35703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 120
+          },
+          "min_emitted_width_m": 0.04154411838419557,
+          "min_measured_width_m": 0.041533567984780716
+        },
+        {
+          "case": "D4-DEV-F1-1-PLACE-red-left-D4-A",
+          "arm": "D4-A",
+          "instruction": "PLACE-red-left",
+          "native_result_sha256": "a6044d6ea1b6c27cfc4803dd62f31c0c4d0f22aad09ceb0415afd41d129295f0",
+          "query_counts": {
+            "returned_H40": 180,
+            "full_H40_compiled": 180,
+            "acknowledged_queries": 180,
+            "queries_with_confirmed_atoms": 180,
+            "full_P10_consumed": 180,
+            "confirmed_atoms": 1800,
+            "native_cases": 1,
+            "native_ticks": 50703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 180
+          },
+          "min_emitted_width_m": 0.041688558855525526,
+          "min_measured_width_m": 0.04168794008847056
+        },
+        {
+          "case": "D4-DEV-F1-1-PLACE-red-left-D4-B",
+          "arm": "D4-B",
+          "instruction": "PLACE-red-left",
+          "native_result_sha256": "28ba6e0fad86e02a6ef58199768f3b892990df65e759d747971fdb0aada98d07",
+          "query_counts": {
+            "returned_H40": 180,
+            "full_H40_compiled": 180,
+            "acknowledged_queries": 180,
+            "queries_with_confirmed_atoms": 180,
+            "full_P10_consumed": 180,
+            "confirmed_atoms": 1800,
+            "native_cases": 1,
+            "native_ticks": 50703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 180
+          },
+          "min_emitted_width_m": 0.04195820912050424,
+          "min_measured_width_m": 0.04195823180154986
+        },
+        {
+          "case": "D4-DEV-F1-1-PLACE-red-right-D4-B",
+          "arm": "D4-B",
+          "instruction": "PLACE-red-right",
+          "native_result_sha256": "8fef494eea6deb6adcfca8f71956b58b44276c103a514caf9a4d78a995814caa",
+          "query_counts": {
+            "returned_H40": 180,
+            "full_H40_compiled": 180,
+            "acknowledged_queries": 180,
+            "queries_with_confirmed_atoms": 180,
+            "full_P10_consumed": 180,
+            "confirmed_atoms": 1800,
+            "native_cases": 1,
+            "native_ticks": 50703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 180
+          },
+          "min_emitted_width_m": 0.041965541681681234,
+          "min_measured_width_m": 0.04196371419544724
+        },
+        {
+          "case": "D4-DEV-F1-1-PLACE-red-right-D4-A",
+          "arm": "D4-A",
+          "instruction": "PLACE-red-right",
+          "native_result_sha256": "f262f07f4f0afceb197796ace280dab8908266dae6e4cc8ab20dc3c7bee58c29",
+          "query_counts": {
+            "returned_H40": 159,
+            "full_H40_compiled": 159,
+            "acknowledged_queries": 159,
+            "queries_with_confirmed_atoms": 158,
+            "full_P10_consumed": 158,
+            "confirmed_atoms": 1580,
+            "native_cases": 1,
+            "native_ticks": 45214,
+            "STOPs": 1,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 159
+          },
+          "min_emitted_width_m": 0.041269661959093,
+          "min_measured_width_m": 0.04125177907246326
+        },
+        {
+          "case": "D4-DEV-F1-1-PLACE-blue-left-D4-A",
+          "arm": "D4-A",
+          "instruction": "PLACE-blue-left",
+          "native_result_sha256": "42b5a3f609372dd4ad5aa809d0b7271539592baec727462aa84b143d9bf41c29",
+          "query_counts": {
+            "returned_H40": 180,
+            "full_H40_compiled": 180,
+            "acknowledged_queries": 180,
+            "queries_with_confirmed_atoms": 180,
+            "full_P10_consumed": 180,
+            "confirmed_atoms": 1800,
+            "native_cases": 1,
+            "native_ticks": 50703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 180
+          },
+          "min_emitted_width_m": 0.04171321421639189,
+          "min_measured_width_m": 0.04171130241992397
+        },
+        {
+          "case": "D4-DEV-F1-1-PLACE-blue-left-D4-B",
+          "arm": "D4-B",
+          "instruction": "PLACE-blue-left",
+          "native_result_sha256": "282439f15f20564e1ade5ab18b0a634afce8cab84b2d7ccf5e0acda787ad9239",
+          "query_counts": {
+            "returned_H40": 180,
+            "full_H40_compiled": 180,
+            "acknowledged_queries": 180,
+            "queries_with_confirmed_atoms": 180,
+            "full_P10_consumed": 180,
+            "confirmed_atoms": 1800,
+            "native_cases": 1,
+            "native_ticks": 50703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 180
+          },
+          "min_emitted_width_m": 0.04192601660586845,
+          "min_measured_width_m": 0.04192581517829094
+        },
+        {
+          "case": "D4-DEV-F1-1-PLACE-blue-right-D4-B",
+          "arm": "D4-B",
+          "instruction": "PLACE-blue-right",
+          "native_result_sha256": "cdfd9dcd4ed509c47008f1dbbe8f8a661fe903ef124058ee4ea60e18418c6d9e",
+          "query_counts": {
+            "returned_H40": 180,
+            "full_H40_compiled": 180,
+            "acknowledged_queries": 180,
+            "queries_with_confirmed_atoms": 180,
+            "full_P10_consumed": 180,
+            "confirmed_atoms": 1800,
+            "native_cases": 1,
+            "native_ticks": 50703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 180
+          },
+          "min_emitted_width_m": 0.04193540083194102,
+          "min_measured_width_m": 0.041935237442031974
+        },
+        {
+          "case": "D4-DEV-F1-1-PLACE-blue-right-D4-A",
+          "arm": "D4-A",
+          "instruction": "PLACE-blue-right",
+          "native_result_sha256": "77f80fb9d2f1485f0793723ec149a761b03795842f3871793852ae966d1fa959",
+          "query_counts": {
+            "returned_H40": 157,
+            "full_H40_compiled": 157,
+            "acknowledged_queries": 157,
+            "queries_with_confirmed_atoms": 157,
+            "full_P10_consumed": 156,
+            "confirmed_atoms": 1562,
+            "native_cases": 1,
+            "native_ticks": 44768,
+            "STOPs": 1,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 157
+          },
+          "min_emitted_width_m": 0.04162689467602564,
+          "min_measured_width_m": 0.04161908239343623
+        },
+        {
+          "case": "D4-DEV-F1-2-HOLD-red-D4-B",
+          "arm": "D4-B",
+          "instruction": "HOLD-red",
+          "native_result_sha256": "aab30754c9b0139d9b902236f7c521d7502e23ad54d242b233324fe6a3d2d674",
+          "query_counts": {
+            "returned_H40": 120,
+            "full_H40_compiled": 120,
+            "acknowledged_queries": 120,
+            "queries_with_confirmed_atoms": 120,
+            "full_P10_consumed": 120,
+            "confirmed_atoms": 1200,
+            "native_cases": 1,
+            "native_ticks": 35703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 120
+          },
+          "min_emitted_width_m": 0.04196523592452256,
+          "min_measured_width_m": 0.04196426341227463
+        },
+        {
+          "case": "D4-DEV-F1-2-HOLD-red-D4-A",
+          "arm": "D4-A",
+          "instruction": "HOLD-red",
+          "native_result_sha256": "4c93a24841385d0f86c4e6231f9fa5273170e5851529a0ffdc735d8525827af5",
+          "query_counts": {
+            "returned_H40": 120,
+            "full_H40_compiled": 120,
+            "acknowledged_queries": 120,
+            "queries_with_confirmed_atoms": 120,
+            "full_P10_consumed": 120,
+            "confirmed_atoms": 1200,
+            "native_cases": 1,
+            "native_ticks": 35703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 120
+          },
+          "min_emitted_width_m": 0.040448813266704665,
+          "min_measured_width_m": 0.04041647340651744
+        },
+        {
+          "case": "D4-DEV-F1-2-HOLD-blue-D4-A",
+          "arm": "D4-A",
+          "instruction": "HOLD-blue",
+          "native_result_sha256": "3dc5cf96c751cd2d05cd0a1e6318a7a7706f2b156e831587bd68535326a810e4",
+          "query_counts": {
+            "returned_H40": 120,
+            "full_H40_compiled": 120,
+            "acknowledged_queries": 120,
+            "queries_with_confirmed_atoms": 120,
+            "full_P10_consumed": 120,
+            "confirmed_atoms": 1200,
+            "native_cases": 1,
+            "native_ticks": 35703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 120
+          },
+          "min_emitted_width_m": 0.04172457113657567,
+          "min_measured_width_m": 0.041716937829400114
+        },
+        {
+          "case": "D4-DEV-F1-2-HOLD-blue-D4-B",
+          "arm": "D4-B",
+          "instruction": "HOLD-blue",
+          "native_result_sha256": "354339d91c7cbf07c71dc200d8475b74ce06d9004c6b6b0fa769b8d592ed2b35",
+          "query_counts": {
+            "returned_H40": 120,
+            "full_H40_compiled": 120,
+            "acknowledged_queries": 120,
+            "queries_with_confirmed_atoms": 120,
+            "full_P10_consumed": 120,
+            "confirmed_atoms": 1200,
+            "native_cases": 1,
+            "native_ticks": 35703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 120
+          },
+          "min_emitted_width_m": 0.04195509083811907,
+          "min_measured_width_m": 0.04195023372839153
+        },
+        {
+          "case": "D4-DEV-F1-2-PLACE-red-left-D4-B",
+          "arm": "D4-B",
+          "instruction": "PLACE-red-left",
+          "native_result_sha256": "d1e4af78f97e7bfbfffe28a13250ff33e3e5661c46db6b67d0a40f483bf276b3",
+          "query_counts": {
+            "returned_H40": 16,
+            "full_H40_compiled": 15,
+            "acknowledged_queries": 15,
+            "queries_with_confirmed_atoms": 15,
+            "full_P10_consumed": 15,
+            "confirmed_atoms": 150,
+            "native_cases": 1,
+            "native_ticks": 9453,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {
+            "ORIGINAL_FULL_H40_POLICY_REJECTED": 1
+          },
+          "nominal_crossing": {
+            "none": 16
+          },
+          "min_emitted_width_m": 0.04198886840525413,
+          "min_measured_width_m": 0.04197915860259058
+        },
+        {
+          "case": "D4-DEV-F1-2-PLACE-red-left-D4-A",
+          "arm": "D4-A",
+          "instruction": "PLACE-red-left",
+          "native_result_sha256": "a282394092f49f5857c1c66f1602880b36e99b15ba25c2d66a41ef0384e46d1b",
+          "query_counts": {
+            "returned_H40": 180,
+            "full_H40_compiled": 180,
+            "acknowledged_queries": 180,
+            "queries_with_confirmed_atoms": 180,
+            "full_P10_consumed": 180,
+            "confirmed_atoms": 1800,
+            "native_cases": 1,
+            "native_ticks": 50703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 180
+          },
+          "min_emitted_width_m": 0.040586426543099755,
+          "min_measured_width_m": 0.04054504068041451
+        },
+        {
+          "case": "D4-DEV-F1-2-PLACE-red-right-D4-A",
+          "arm": "D4-A",
+          "instruction": "PLACE-red-right",
+          "native_result_sha256": "c38bb35616d633c6abedc113d8732e30a1b8db6ff2d330788c452fd031ace5df",
+          "query_counts": {
+            "returned_H40": 180,
+            "full_H40_compiled": 180,
+            "acknowledged_queries": 180,
+            "queries_with_confirmed_atoms": 180,
+            "full_P10_consumed": 180,
+            "confirmed_atoms": 1800,
+            "native_cases": 1,
+            "native_ticks": 50703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 180
+          },
+          "min_emitted_width_m": 0.0401936483379315,
+          "min_measured_width_m": 0.04014779453881841
+        },
+        {
+          "case": "D4-DEV-F1-2-PLACE-red-right-D4-B",
+          "arm": "D4-B",
+          "instruction": "PLACE-red-right",
+          "native_result_sha256": "01b6c1be492fc760b22822a65e039c54ca851ef456f025af44a3a54e88cfdd58",
+          "query_counts": {
+            "returned_H40": 180,
+            "full_H40_compiled": 180,
+            "acknowledged_queries": 180,
+            "queries_with_confirmed_atoms": 180,
+            "full_P10_consumed": 180,
+            "confirmed_atoms": 1800,
+            "native_cases": 1,
+            "native_ticks": 50703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 180
+          },
+          "min_emitted_width_m": 0.041900097755417094,
+          "min_measured_width_m": 0.04189940190232988
+        },
+        {
+          "case": "D4-DEV-F1-2-PLACE-blue-left-D4-B",
+          "arm": "D4-B",
+          "instruction": "PLACE-blue-left",
+          "native_result_sha256": "ae917e9e78c32452d3839d628a926ebb8e208738c4bc0615d2dbae76198273af",
+          "query_counts": {
+            "returned_H40": 14,
+            "full_H40_compiled": 13,
+            "acknowledged_queries": 13,
+            "queries_with_confirmed_atoms": 13,
+            "full_P10_consumed": 13,
+            "confirmed_atoms": 130,
+            "native_cases": 1,
+            "native_ticks": 8953,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {
+            "ORIGINAL_FULL_H40_POLICY_REJECTED": 1
+          },
+          "nominal_crossing": {
+            "none": 14
+          },
+          "min_emitted_width_m": 0.04197265151042699,
+          "min_measured_width_m": 0.04196508497200635
+        },
+        {
+          "case": "D4-DEV-F1-2-PLACE-blue-left-D4-A",
+          "arm": "D4-A",
+          "instruction": "PLACE-blue-left",
+          "native_result_sha256": "2d08d9574d3b9083523d70476613d7db7cfc38008067fc1d2283b5156f7b5a4c",
+          "query_counts": {
+            "returned_H40": 180,
+            "full_H40_compiled": 180,
+            "acknowledged_queries": 180,
+            "queries_with_confirmed_atoms": 180,
+            "full_P10_consumed": 180,
+            "confirmed_atoms": 1800,
+            "native_cases": 1,
+            "native_ticks": 50703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 180
+          },
+          "min_emitted_width_m": 0.04120798078321454,
+          "min_measured_width_m": 0.04118886284336412
+        },
+        {
+          "case": "D4-DEV-F1-2-PLACE-blue-right-D4-A",
+          "arm": "D4-A",
+          "instruction": "PLACE-blue-right",
+          "native_result_sha256": "e962dec9673866a109e66f631eb8a1f484cc5cf7b4f9c618ecab8de7463ebae2",
+          "query_counts": {
+            "returned_H40": 132,
+            "full_H40_compiled": 132,
+            "acknowledged_queries": 132,
+            "queries_with_confirmed_atoms": 132,
+            "full_P10_consumed": 131,
+            "confirmed_atoms": 1316,
+            "native_cases": 1,
+            "native_ticks": 38618,
+            "STOPs": 1,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 132
+          },
+          "min_emitted_width_m": 0.04145151267029901,
+          "min_measured_width_m": 0.04143827936178647
+        },
+        {
+          "case": "D4-DEV-F1-2-PLACE-blue-right-D4-B",
+          "arm": "D4-B",
+          "instruction": "PLACE-blue-right",
+          "native_result_sha256": "a247665a06a34905ce225a708553c9635de5146b8882e2dd45cdd073398982c4",
+          "query_counts": {
+            "returned_H40": 13,
+            "full_H40_compiled": 12,
+            "acknowledged_queries": 12,
+            "queries_with_confirmed_atoms": 12,
+            "full_P10_consumed": 12,
+            "confirmed_atoms": 120,
+            "native_cases": 1,
+            "native_ticks": 8703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {
+            "ORIGINAL_FULL_H40_POLICY_REJECTED": 1
+          },
+          "nominal_crossing": {
+            "none": 13
+          },
+          "min_emitted_width_m": 0.041995467455757066,
+          "min_measured_width_m": 0.04197924797217775
+        },
+        {
+          "case": "D4-DEV-F2-1-HOLD-red-D4-B",
+          "arm": "D4-B",
+          "instruction": "HOLD-red",
+          "native_result_sha256": "e03d7baaea53eadc4ee957c1416e77f85ccbff19f49a1fa3eeca1cfa07d30162",
+          "query_counts": {
+            "returned_H40": 90,
+            "full_H40_compiled": 90,
+            "acknowledged_queries": 89,
+            "queries_with_confirmed_atoms": 89,
+            "full_P10_consumed": 89,
+            "confirmed_atoms": 890,
+            "native_cases": 1,
+            "native_ticks": 27953,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {
+            "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED": 1
+          },
+          "nominal_crossing": {
+            "none": 90
+          },
+          "min_emitted_width_m": 0.04137172289501218,
+          "min_measured_width_m": 0.04138979841435858
+        },
+        {
+          "case": "D4-DEV-F2-1-HOLD-red-D4-A",
+          "arm": "D4-A",
+          "instruction": "HOLD-red",
+          "native_result_sha256": "430c02762b3a9fb28d962334b5698e1305a5d9c96c696de3ed883d8d869f953f",
+          "query_counts": {
+            "returned_H40": 102,
+            "full_H40_compiled": 102,
+            "acknowledged_queries": 101,
+            "queries_with_confirmed_atoms": 101,
+            "full_P10_consumed": 101,
+            "confirmed_atoms": 1010,
+            "native_cases": 1,
+            "native_ticks": 30953,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {
+            "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED": 1
+          },
+          "nominal_crossing": {
+            "none": 102
+          },
+          "min_emitted_width_m": 0.03899229209629122,
+          "min_measured_width_m": 0.03897349660577683
+        },
+        {
+          "case": "D4-DEV-F2-1-HOLD-blue-D4-A",
+          "arm": "D4-A",
+          "instruction": "HOLD-blue",
+          "native_result_sha256": "5ec93fc12c07832ab5af1cff500279bd130b54556f4fc0c057a2de5cfd55feee",
+          "query_counts": {
+            "returned_H40": 83,
+            "full_H40_compiled": 83,
+            "acknowledged_queries": 82,
+            "queries_with_confirmed_atoms": 82,
+            "full_P10_consumed": 82,
+            "confirmed_atoms": 820,
+            "native_cases": 1,
+            "native_ticks": 26203,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {
+            "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED": 1
+          },
+          "nominal_crossing": {
+            "none": 83
+          },
+          "min_emitted_width_m": 0.03283277388684492,
+          "min_measured_width_m": 0.032784070919029726
+        },
+        {
+          "case": "D4-DEV-F2-1-HOLD-blue-D4-B",
+          "arm": "D4-B",
+          "instruction": "HOLD-blue",
+          "native_result_sha256": "e4440d39d6c9b0fcad2ef63c79ea591a2fc9815898ed771f23c71420dec146ab",
+          "query_counts": {
+            "returned_H40": 120,
+            "full_H40_compiled": 120,
+            "acknowledged_queries": 120,
+            "queries_with_confirmed_atoms": 120,
+            "full_P10_consumed": 120,
+            "confirmed_atoms": 1200,
+            "native_cases": 1,
+            "native_ticks": 35703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 120
+          },
+          "min_emitted_width_m": 0.04190535483788062,
+          "min_measured_width_m": 0.041904605000880106
+        }
+      ]
+    },
+    "D5_GRASP24": {
+      "spec_sha256": "b66e80aadd046bd13cb8bbc3c56a0df5725bd3c20af586c86b8f4885b232357a",
+      "native_execution_source": "b405fb173c91a32a1ad5b86aa9e87418cd0d0d56",
+      "scientific_cases": 24,
+      "planned_scientific_cases": 24,
+      "counts": {
+        "returned_H40": 2406,
+        "full_H40_compiled": 2405,
+        "acknowledged_queries": 2403,
+        "queries_with_confirmed_atoms": 2402,
+        "full_P10_consumed": 2392,
+        "confirmed_atoms": 23949,
+        "native_cases": 24,
+        "native_ticks": 735680,
+        "STOPs": 11,
+        "post_STOP_ticks": 0,
+        "queries_emitted_at_or_below_22mm": 0,
+        "queries_measured_at_or_below_22mm": 0
+      },
+      "by_arm": {
+        "D4-B": {
+          "returned_H40": 855,
+          "full_H40_compiled": 854,
+          "acknowledged_queries": 853,
+          "queries_with_confirmed_atoms": 853,
+          "full_P10_consumed": 853,
+          "confirmed_atoms": 8530,
+          "native_cases": 8,
+          "native_ticks": 258874,
+          "STOPs": 0,
+          "post_STOP_ticks": 0,
+          "queries_emitted_at_or_below_22mm": 0,
+          "queries_measured_at_or_below_22mm": 0
+        },
+        "D5-W": {
+          "returned_H40": 737,
+          "full_H40_compiled": 737,
+          "acknowledged_queries": 736,
+          "queries_with_confirmed_atoms": 736,
+          "full_P10_consumed": 731,
+          "confirmed_atoms": 7323,
+          "native_cases": 8,
+          "native_ticks": 228720,
+          "STOPs": 5,
+          "post_STOP_ticks": 0,
+          "queries_emitted_at_or_below_22mm": 0,
+          "queries_measured_at_or_below_22mm": 0
+        },
+        "D5-T": {
+          "returned_H40": 814,
+          "full_H40_compiled": 814,
+          "acknowledged_queries": 814,
+          "queries_with_confirmed_atoms": 813,
+          "full_P10_consumed": 808,
+          "confirmed_atoms": 8096,
+          "native_cases": 8,
+          "native_ticks": 248086,
+          "STOPs": 6,
+          "post_STOP_ticks": 0,
+          "queries_emitted_at_or_below_22mm": 0,
+          "queries_measured_at_or_below_22mm": 0
+        }
+      },
+      "nominal_crossings": {
+        "none": 2404,
+        "suffix": 2
+      },
+      "query_rejections": {
+        "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED": 2,
+        "ORIGINAL_FULL_H40_POLICY_REJECTED": 1
+      },
+      "cases": [
+        {
+          "case": "D5_GRASP24-F1-1-HOLD-red-D4-B",
+          "arm": "D4-B",
+          "instruction": "HOLD-red",
+          "native_result_sha256": "fb6e93913ecb9d84d039cc8a936381a821a7f4575aaf93e37091a35527c72a21",
+          "query_counts": {
+            "returned_H40": 120,
+            "full_H40_compiled": 120,
+            "acknowledged_queries": 120,
+            "queries_with_confirmed_atoms": 120,
+            "full_P10_consumed": 120,
+            "confirmed_atoms": 1200,
+            "native_cases": 1,
+            "native_ticks": 35703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 120
+          },
+          "min_emitted_width_m": 0.04194138279484741,
+          "min_measured_width_m": 0.041938746283312664
+        },
+        {
+          "case": "D5_GRASP24-F1-1-HOLD-red-D5-W",
+          "arm": "D5-W",
+          "instruction": "HOLD-red",
+          "native_result_sha256": "633f92942b00deac0f7dbdabc1648befac3a26a26d115e6ce7dcf1b8e2409d98",
+          "query_counts": {
+            "returned_H40": 86,
+            "full_H40_compiled": 86,
+            "acknowledged_queries": 86,
+            "queries_with_confirmed_atoms": 86,
+            "full_P10_consumed": 85,
+            "confirmed_atoms": 852,
+            "native_cases": 1,
+            "native_ticks": 27006,
+            "STOPs": 1,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 86
+          },
+          "min_emitted_width_m": 0.041995624536160965,
+          "min_measured_width_m": 0.041981125175812664
+        },
+        {
+          "case": "D5_GRASP24-F1-1-HOLD-red-D5-T",
+          "arm": "D5-T",
+          "instruction": "HOLD-red",
+          "native_result_sha256": "1fd3a0b954384429f1d066e316db1b0f51e600e5406f2045a0a5c589618283f2",
+          "query_counts": {
+            "returned_H40": 104,
+            "full_H40_compiled": 104,
+            "acknowledged_queries": 104,
+            "queries_with_confirmed_atoms": 104,
+            "full_P10_consumed": 103,
+            "confirmed_atoms": 1031,
+            "native_cases": 1,
+            "native_ticks": 31484,
+            "STOPs": 1,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 104
+          },
+          "min_emitted_width_m": 0.04196218224132975,
+          "min_measured_width_m": 0.04196176088482577
+        },
+        {
+          "case": "D5_GRASP24-F1-1-HOLD-blue-D5-W",
+          "arm": "D5-W",
+          "instruction": "HOLD-blue",
+          "native_result_sha256": "67219019679bc572871b986cb9c7d7136859e6b0e0266a1c204938f5addebd0e",
+          "query_counts": {
+            "returned_H40": 105,
+            "full_H40_compiled": 105,
+            "acknowledged_queries": 105,
+            "queries_with_confirmed_atoms": 105,
+            "full_P10_consumed": 104,
+            "confirmed_atoms": 1044,
+            "native_cases": 1,
+            "native_ticks": 31807,
+            "STOPs": 1,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 105
+          },
+          "min_emitted_width_m": 0.04198915882090193,
+          "min_measured_width_m": 0.04197743408665227
+        },
+        {
+          "case": "D5_GRASP24-F1-1-HOLD-blue-D5-T",
+          "arm": "D5-T",
+          "instruction": "HOLD-blue",
+          "native_result_sha256": "e6955f982e1d8c392e15c184ff30c2c8df8f6a103996bb6557abf9d007541016",
+          "query_counts": {
+            "returned_H40": 120,
+            "full_H40_compiled": 120,
+            "acknowledged_queries": 120,
+            "queries_with_confirmed_atoms": 120,
+            "full_P10_consumed": 120,
+            "confirmed_atoms": 1200,
+            "native_cases": 1,
+            "native_ticks": 35703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 120
+          },
+          "min_emitted_width_m": 0.04196245347381651,
+          "min_measured_width_m": 0.04196154233171126
+        },
+        {
+          "case": "D5_GRASP24-F1-1-HOLD-blue-D4-B",
+          "arm": "D4-B",
+          "instruction": "HOLD-blue",
+          "native_result_sha256": "48c7e11e69c8a4eccac9c3e3c841aca29bac39cad95078e9a4ca0cd4bb620b31",
+          "query_counts": {
+            "returned_H40": 120,
+            "full_H40_compiled": 120,
+            "acknowledged_queries": 120,
+            "queries_with_confirmed_atoms": 120,
+            "full_P10_consumed": 120,
+            "confirmed_atoms": 1200,
+            "native_cases": 1,
+            "native_ticks": 35703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 120
+          },
+          "min_emitted_width_m": 0.041967705240933635,
+          "min_measured_width_m": 0.04196571584101175
+        },
+        {
+          "case": "D5_GRASP24-F2-1-HOLD-red-D5-T",
+          "arm": "D5-T",
+          "instruction": "HOLD-red",
+          "native_result_sha256": "200ec6c201f334f823220d6ecccde7de012464494bf59ae01744aebfa8079f13",
+          "query_counts": {
+            "returned_H40": 74,
+            "full_H40_compiled": 74,
+            "acknowledged_queries": 74,
+            "queries_with_confirmed_atoms": 73,
+            "full_P10_consumed": 73,
+            "confirmed_atoms": 730,
+            "native_cases": 1,
+            "native_ticks": 23957,
+            "STOPs": 1,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 74
+          },
+          "min_emitted_width_m": 0.04198514651317256,
+          "min_measured_width_m": 0.04197949915672493
+        },
+        {
+          "case": "D5_GRASP24-F2-1-HOLD-red-D4-B",
+          "arm": "D4-B",
+          "instruction": "HOLD-red",
+          "native_result_sha256": "52fc513c2eb2675fd8236722210a0c82b529880ea128bea240e6df32dab84ce6",
+          "query_counts": {
+            "returned_H40": 87,
+            "full_H40_compiled": 87,
+            "acknowledged_queries": 86,
+            "queries_with_confirmed_atoms": 86,
+            "full_P10_consumed": 86,
+            "confirmed_atoms": 860,
+            "native_cases": 1,
+            "native_ticks": 27203,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {
+            "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED": 1
+          },
+          "nominal_crossing": {
+            "none": 87
+          },
+          "min_emitted_width_m": 0.040052688510476823,
+          "min_measured_width_m": 0.04027328405658358
+        },
+        {
+          "case": "D5_GRASP24-F2-1-HOLD-red-D5-W",
+          "arm": "D5-W",
+          "instruction": "HOLD-red",
+          "native_result_sha256": "c84aa6ba31fd2c53569eccc1ec353914edeff7e81bb5a6bd1436c1d4068abe5b",
+          "query_counts": {
+            "returned_H40": 74,
+            "full_H40_compiled": 74,
+            "acknowledged_queries": 74,
+            "queries_with_confirmed_atoms": 74,
+            "full_P10_consumed": 73,
+            "confirmed_atoms": 732,
+            "native_cases": 1,
+            "native_ticks": 24005,
+            "STOPs": 1,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 74
+          },
+          "min_emitted_width_m": 0.041994639116374285,
+          "min_measured_width_m": 0.041206008742079796
+        },
+        {
+          "case": "D5_GRASP24-F2-1-HOLD-blue-D4-B",
+          "arm": "D4-B",
+          "instruction": "HOLD-blue",
+          "native_result_sha256": "f5ff42c1d24639ea23dc009b6e5a2e1a5e847e1c9d69428706aa807fe0799ca2",
+          "query_counts": {
+            "returned_H40": 120,
+            "full_H40_compiled": 120,
+            "acknowledged_queries": 120,
+            "queries_with_confirmed_atoms": 120,
+            "full_P10_consumed": 120,
+            "confirmed_atoms": 1200,
+            "native_cases": 1,
+            "native_ticks": 35703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 120
+          },
+          "min_emitted_width_m": 0.041920282499948974,
+          "min_measured_width_m": 0.041917931043757455
+        },
+        {
+          "case": "D5_GRASP24-F2-1-HOLD-blue-D5-W",
+          "arm": "D5-W",
+          "instruction": "HOLD-blue",
+          "native_result_sha256": "dde493768ddef8fb083bab11759885463abbfed053ef3aef80b2a640870060b0",
+          "query_counts": {
+            "returned_H40": 120,
+            "full_H40_compiled": 120,
+            "acknowledged_queries": 120,
+            "queries_with_confirmed_atoms": 120,
+            "full_P10_consumed": 120,
+            "confirmed_atoms": 1200,
+            "native_cases": 1,
+            "native_ticks": 35703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 120
+          },
+          "min_emitted_width_m": 0.041985736960952855,
+          "min_measured_width_m": 0.04197821576698654
+        },
+        {
+          "case": "D5_GRASP24-F2-1-HOLD-blue-D5-T",
+          "arm": "D5-T",
+          "instruction": "HOLD-blue",
+          "native_result_sha256": "47a823c50df77891b4699551ddd2ff1c1637e29b03837aaee468d53d0bc4951f",
+          "query_counts": {
+            "returned_H40": 97,
+            "full_H40_compiled": 97,
+            "acknowledged_queries": 97,
+            "queries_with_confirmed_atoms": 97,
+            "full_P10_consumed": 96,
+            "confirmed_atoms": 961,
+            "native_cases": 1,
+            "native_ticks": 29748,
+            "STOPs": 1,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 97
+          },
+          "min_emitted_width_m": 0.04197367667677648,
+          "min_measured_width_m": 0.04197338947472661
+        },
+        {
+          "case": "D5_GRASP24-F1-2-HOLD-red-D5-W",
+          "arm": "D5-W",
+          "instruction": "HOLD-red",
+          "native_result_sha256": "822425e42d31bb16fb1224a38a1cc78cd3306bef0e5742c7733b60b84ae4fffb",
+          "query_counts": {
+            "returned_H40": 74,
+            "full_H40_compiled": 74,
+            "acknowledged_queries": 74,
+            "queries_with_confirmed_atoms": 74,
+            "full_P10_consumed": 73,
+            "confirmed_atoms": 731,
+            "native_cases": 1,
+            "native_ticks": 23980,
+            "STOPs": 1,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 74
+          },
+          "min_emitted_width_m": 0.041996045119015536,
+          "min_measured_width_m": 0.04196669010492125
+        },
+        {
+          "case": "D5_GRASP24-F1-2-HOLD-red-D5-T",
+          "arm": "D5-T",
+          "instruction": "HOLD-red",
+          "native_result_sha256": "e9ebba14f57c0fad26a1c8dd35a0130db6d1303fd360fb1b7c2cc73ee33f015b",
+          "query_counts": {
+            "returned_H40": 84,
+            "full_H40_compiled": 84,
+            "acknowledged_queries": 84,
+            "queries_with_confirmed_atoms": 84,
+            "full_P10_consumed": 83,
+            "confirmed_atoms": 836,
+            "native_cases": 1,
+            "native_ticks": 26603,
+            "STOPs": 1,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 84
+          },
+          "min_emitted_width_m": 0.041983362020382615,
+          "min_measured_width_m": 0.04196605186987161
+        },
+        {
+          "case": "D5_GRASP24-F1-2-HOLD-red-D4-B",
+          "arm": "D4-B",
+          "instruction": "HOLD-red",
+          "native_result_sha256": "836254ed04f6fee929ac209d633678018b05c0c15f014de4c94bade9a17b2546",
+          "query_counts": {
+            "returned_H40": 120,
+            "full_H40_compiled": 120,
+            "acknowledged_queries": 120,
+            "queries_with_confirmed_atoms": 120,
+            "full_P10_consumed": 120,
+            "confirmed_atoms": 1200,
+            "native_cases": 1,
+            "native_ticks": 35703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 120
+          },
+          "min_emitted_width_m": 0.04191843646532836,
+          "min_measured_width_m": 0.04191796018506984
+        },
+        {
+          "case": "D5_GRASP24-F1-2-HOLD-blue-D5-T",
+          "arm": "D5-T",
+          "instruction": "HOLD-blue",
+          "native_result_sha256": "0b87749d366f3fbc52569e8b3b5554e4dafa21c677305ddba91cce9a2e4e7406",
+          "query_counts": {
+            "returned_H40": 120,
+            "full_H40_compiled": 120,
+            "acknowledged_queries": 120,
+            "queries_with_confirmed_atoms": 120,
+            "full_P10_consumed": 120,
+            "confirmed_atoms": 1200,
+            "native_cases": 1,
+            "native_ticks": 35703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 120
+          },
+          "min_emitted_width_m": 0.04198022651717949,
+          "min_measured_width_m": 0.041964097422522634
+        },
+        {
+          "case": "D5_GRASP24-F1-2-HOLD-blue-D4-B",
+          "arm": "D4-B",
+          "instruction": "HOLD-blue",
+          "native_result_sha256": "95f0c600c1d4b44fe3546cf139149f2409b664ae1bac4714f1c1f5463a277c01",
+          "query_counts": {
+            "returned_H40": 120,
+            "full_H40_compiled": 120,
+            "acknowledged_queries": 120,
+            "queries_with_confirmed_atoms": 120,
+            "full_P10_consumed": 120,
+            "confirmed_atoms": 1200,
+            "native_cases": 1,
+            "native_ticks": 35703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 120
+          },
+          "min_emitted_width_m": 0.04195837882765962,
+          "min_measured_width_m": 0.04195475616976488
+        },
+        {
+          "case": "D5_GRASP24-F1-2-HOLD-blue-D5-W",
+          "arm": "D5-W",
+          "instruction": "HOLD-blue",
+          "native_result_sha256": "0d8c8b54f141997549c341ba6ed1e6f5d83ecdd4434fc25e71d3ddd1ee4c5d26",
+          "query_counts": {
+            "returned_H40": 97,
+            "full_H40_compiled": 97,
+            "acknowledged_queries": 97,
+            "queries_with_confirmed_atoms": 97,
+            "full_P10_consumed": 96,
+            "confirmed_atoms": 964,
+            "native_cases": 1,
+            "native_ticks": 29813,
+            "STOPs": 1,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 97
+          },
+          "min_emitted_width_m": 0.041995597336224946,
+          "min_measured_width_m": 0.041984982944914095
+        },
+        {
+          "case": "D5_GRASP24-F2-2-HOLD-red-D4-B",
+          "arm": "D4-B",
+          "instruction": "HOLD-red",
+          "native_result_sha256": "cb66166220d1249c057eba235d48495e98a5ac77768948207d9fd0687037f67b",
+          "query_counts": {
+            "returned_H40": 48,
+            "full_H40_compiled": 47,
+            "acknowledged_queries": 47,
+            "queries_with_confirmed_atoms": 47,
+            "full_P10_consumed": 47,
+            "confirmed_atoms": 470,
+            "native_cases": 1,
+            "native_ticks": 17453,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {
+            "ORIGINAL_FULL_H40_POLICY_REJECTED": 1
+          },
+          "nominal_crossing": {
+            "none": 48
+          },
+          "min_emitted_width_m": 0.0419273494243704,
+          "min_measured_width_m": 0.0419270395583131
+        },
+        {
+          "case": "D5_GRASP24-F2-2-HOLD-red-D5-W",
+          "arm": "D5-W",
+          "instruction": "HOLD-red",
+          "native_result_sha256": "2fffdb30e106352104e8bccb1898a6079328e9bc64888acb5a5f19220ed9e198",
+          "query_counts": {
+            "returned_H40": 61,
+            "full_H40_compiled": 61,
+            "acknowledged_queries": 60,
+            "queries_with_confirmed_atoms": 60,
+            "full_P10_consumed": 60,
+            "confirmed_atoms": 600,
+            "native_cases": 1,
+            "native_ticks": 20703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {
+            "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED": 1
+          },
+          "nominal_crossing": {
+            "none": 60,
+            "suffix": 1
+          },
+          "min_emitted_width_m": 0.03963552329444584,
+          "min_measured_width_m": 0.039447394119521924
+        },
+        {
+          "case": "D5_GRASP24-F2-2-HOLD-red-D5-T",
+          "arm": "D5-T",
+          "instruction": "HOLD-red",
+          "native_result_sha256": "cf1f9b74b62b9b76dab291173d0b072cbcee3ca2ce7fc51f648e9c55c57b15b3",
+          "query_counts": {
+            "returned_H40": 112,
+            "full_H40_compiled": 112,
+            "acknowledged_queries": 112,
+            "queries_with_confirmed_atoms": 112,
+            "full_P10_consumed": 111,
+            "confirmed_atoms": 1112,
+            "native_cases": 1,
+            "native_ticks": 33521,
+            "STOPs": 1,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 112
+          },
+          "min_emitted_width_m": 0.041981231655237705,
+          "min_measured_width_m": 0.04196829749097923
+        },
+        {
+          "case": "D5_GRASP24-F2-2-HOLD-blue-D5-W",
+          "arm": "D5-W",
+          "instruction": "HOLD-blue",
+          "native_result_sha256": "90d76b462de62e962fa7bb2e4d6356902d8f357a0b3d354b7947055e392a8c7b",
+          "query_counts": {
+            "returned_H40": 120,
+            "full_H40_compiled": 120,
+            "acknowledged_queries": 120,
+            "queries_with_confirmed_atoms": 120,
+            "full_P10_consumed": 120,
+            "confirmed_atoms": 1200,
+            "native_cases": 1,
+            "native_ticks": 35703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 120
+          },
+          "min_emitted_width_m": 0.041985462179979526,
+          "min_measured_width_m": 0.041963394911044206
+        },
+        {
+          "case": "D5_GRASP24-F2-2-HOLD-blue-D5-T",
+          "arm": "D5-T",
+          "instruction": "HOLD-blue",
+          "native_result_sha256": "54bdde5d6a299193e71da2b0741c67a3e7b51e7eb39dbeebb9f2aede63ff1137",
+          "query_counts": {
+            "returned_H40": 103,
+            "full_H40_compiled": 103,
+            "acknowledged_queries": 103,
+            "queries_with_confirmed_atoms": 103,
+            "full_P10_consumed": 102,
+            "confirmed_atoms": 1026,
+            "native_cases": 1,
+            "native_ticks": 31367,
+            "STOPs": 1,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 102,
+            "suffix": 1
+          },
+          "min_emitted_width_m": 0.04026501022132751,
+          "min_measured_width_m": 0.04022377916166777
+        },
+        {
+          "case": "D5_GRASP24-F2-2-HOLD-blue-D4-B",
+          "arm": "D4-B",
+          "instruction": "HOLD-blue",
+          "native_result_sha256": "90ac25b517bb943356a26fd22520039a66e1395a03ca63114b523811edeb9543",
+          "query_counts": {
+            "returned_H40": 120,
+            "full_H40_compiled": 120,
+            "acknowledged_queries": 120,
+            "queries_with_confirmed_atoms": 120,
+            "full_P10_consumed": 120,
+            "confirmed_atoms": 1200,
+            "native_cases": 1,
+            "native_ticks": 35703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 120
+          },
+          "min_emitted_width_m": 0.04193795662996351,
+          "min_measured_width_m": 0.04193758949443017
+        }
+      ]
+    },
+    "J_SCREEN48": {
+      "spec_sha256": "e80ca90c07af71eafca37172eda48d644dcbe69cffd4a4ebeba5741062764581",
+      "native_execution_source": "b405fb173c91a32a1ad5b86aa9e87418cd0d0d56",
+      "scientific_cases": 7,
+      "planned_scientific_cases": 48,
+      "counts": {
+        "returned_H40": 925,
+        "full_H40_compiled": 925,
+        "acknowledged_queries": 925,
+        "queries_with_confirmed_atoms": 925,
+        "full_P10_consumed": 922,
+        "confirmed_atoms": 9230,
+        "native_cases": 7,
+        "native_ticks": 270697,
+        "STOPs": 3,
+        "post_STOP_ticks": 0,
+        "queries_emitted_at_or_below_22mm": 0,
+        "queries_measured_at_or_below_22mm": 0
+      },
+      "by_arm": {
+        "J0": {
+          "returned_H40": 362,
+          "full_H40_compiled": 362,
+          "acknowledged_queries": 362,
+          "queries_with_confirmed_atoms": 362,
+          "full_P10_consumed": 361,
+          "confirmed_atoms": 3614,
+          "native_cases": 3,
+          "native_ticks": 107469,
+          "STOPs": 1,
+          "post_STOP_ticks": 0,
+          "queries_emitted_at_or_below_22mm": 0,
+          "queries_measured_at_or_below_22mm": 0
+        },
+        "J1": {
+          "returned_H40": 563,
+          "full_H40_compiled": 563,
+          "acknowledged_queries": 563,
+          "queries_with_confirmed_atoms": 563,
+          "full_P10_consumed": 561,
+          "confirmed_atoms": 5616,
+          "native_cases": 4,
+          "native_ticks": 163228,
+          "STOPs": 2,
+          "post_STOP_ticks": 0,
+          "queries_emitted_at_or_below_22mm": 0,
+          "queries_measured_at_or_below_22mm": 0
+        }
+      },
+      "nominal_crossings": {
+        "none": 925
+      },
+      "query_rejections": {},
+      "cases": [
+        {
+          "case": "J_SCREEN48-F1-1-HOLD-red-J0",
+          "arm": "J0",
+          "instruction": "HOLD-red",
+          "native_result_sha256": "e0310b1b12d804659bdafc021ea8a9285ac78f10c0dd95378bff94ae6c2eafc1",
+          "query_counts": {
+            "returned_H40": 120,
+            "full_H40_compiled": 120,
+            "acknowledged_queries": 120,
+            "queries_with_confirmed_atoms": 120,
+            "full_P10_consumed": 120,
+            "confirmed_atoms": 1200,
+            "native_cases": 1,
+            "native_ticks": 35703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 120
+          },
+          "min_emitted_width_m": 0.041994952193370634,
+          "min_measured_width_m": 0.04198110677083801
+        },
+        {
+          "case": "J_SCREEN48-F1-1-HOLD-red-J1",
+          "arm": "J1",
+          "instruction": "HOLD-red",
+          "native_result_sha256": "bb0bdc8bbbe793351ebee57c12a830da43cd09543ad9cde0cb1a5b7858b64558",
+          "query_counts": {
+            "returned_H40": 97,
+            "full_H40_compiled": 97,
+            "acknowledged_queries": 97,
+            "queries_with_confirmed_atoms": 97,
+            "full_P10_consumed": 96,
+            "confirmed_atoms": 961,
+            "native_cases": 1,
+            "native_ticks": 29738,
+            "STOPs": 1,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 97
+          },
+          "min_emitted_width_m": 0.041969008805868714,
+          "min_measured_width_m": 0.04196859399075718
+        },
+        {
+          "case": "J_SCREEN48-F1-1-HOLD-blue-J1",
+          "arm": "J1",
+          "instruction": "HOLD-blue",
+          "native_result_sha256": "2a9fe319805fafe14ef8ac6796f553c7cec04f9fe360458fb128ef6566bc26ba",
+          "query_counts": {
+            "returned_H40": 120,
+            "full_H40_compiled": 120,
+            "acknowledged_queries": 120,
+            "queries_with_confirmed_atoms": 120,
+            "full_P10_consumed": 120,
+            "confirmed_atoms": 1200,
+            "native_cases": 1,
+            "native_ticks": 35703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 120
+          },
+          "min_emitted_width_m": 0.04195208393676057,
+          "min_measured_width_m": 0.041951864936332794
+        },
+        {
+          "case": "J_SCREEN48-F1-1-HOLD-blue-J0",
+          "arm": "J0",
+          "instruction": "HOLD-blue",
+          "native_result_sha256": "ad13c157fe736b5e0e8519a4e0f1142ec1b49ef7f868815bf61934bda6d07e54",
+          "query_counts": {
+            "returned_H40": 120,
+            "full_H40_compiled": 120,
+            "acknowledged_queries": 120,
+            "queries_with_confirmed_atoms": 120,
+            "full_P10_consumed": 120,
+            "confirmed_atoms": 1200,
+            "native_cases": 1,
+            "native_ticks": 35703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 120
+          },
+          "min_emitted_width_m": 0.0419932765892722,
+          "min_measured_width_m": 0.04197892874367388
+        },
+        {
+          "case": "J_SCREEN48-F1-1-PLACE-red-left-J0",
+          "arm": "J0",
+          "instruction": "PLACE-red-left",
+          "native_result_sha256": "4fd8b6b88b171c3613fb6fadd5e2b10a0eb46e257bbb6a63567eaa81f9dc8a6e",
+          "query_counts": {
+            "returned_H40": 122,
+            "full_H40_compiled": 122,
+            "acknowledged_queries": 122,
+            "queries_with_confirmed_atoms": 122,
+            "full_P10_consumed": 121,
+            "confirmed_atoms": 1214,
+            "native_cases": 1,
+            "native_ticks": 36063,
+            "STOPs": 1,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 122
+          },
+          "min_emitted_width_m": 0.04195960644797474,
+          "min_measured_width_m": 0.041959596277839614
+        },
+        {
+          "case": "J_SCREEN48-F1-1-PLACE-red-left-J1",
+          "arm": "J1",
+          "instruction": "PLACE-red-left",
+          "native_result_sha256": "850acb2d07e56a8103dcd5f45ab802c598f33a25178239486c833c2596e5a7c6",
+          "query_counts": {
+            "returned_H40": 166,
+            "full_H40_compiled": 166,
+            "acknowledged_queries": 166,
+            "queries_with_confirmed_atoms": 166,
+            "full_P10_consumed": 165,
+            "confirmed_atoms": 1655,
+            "native_cases": 1,
+            "native_ticks": 47084,
+            "STOPs": 1,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 166
+          },
+          "min_emitted_width_m": 0.04197202769037925,
+          "min_measured_width_m": 0.041951086751008025
+        },
+        {
+          "case": "J_SCREEN48-F1-1-PLACE-red-right-J1",
+          "arm": "J1",
+          "instruction": "PLACE-red-right",
+          "native_result_sha256": "fedbb3902632f0c7674d0cb89b5a9985cc741419bd89c481e6c8e1ab175d1b2b",
+          "query_counts": {
+            "returned_H40": 180,
+            "full_H40_compiled": 180,
+            "acknowledged_queries": 180,
+            "queries_with_confirmed_atoms": 180,
+            "full_P10_consumed": 180,
+            "confirmed_atoms": 1800,
+            "native_cases": 1,
+            "native_ticks": 50703,
+            "STOPs": 0,
+            "post_STOP_ticks": 0,
+            "queries_emitted_at_or_below_22mm": 0,
+            "queries_measured_at_or_below_22mm": 0
+          },
+          "rejects": {},
+          "nominal_crossing": {
+            "none": 180
+          },
+          "min_emitted_width_m": 0.04197571558555887,
+          "min_measured_width_m": 0.04196943925927547
+        }
+      ]
+    }
+  },
+  "additional_model_generations": 0,
+  "additional_integrations": 0,
+  "additional_requests": 0,
+  "additional_optimizer_updates": 0,
+  "readback_sha256": "16da5e104541e2d900920ab68a5ffed3177b46cd8642779260e9393409acb629",
+  "combined_counts": {
+    "returned_H40": 6977,
+    "full_H40_compiled": 6973,
+    "acknowledged_queries": 6968,
+    "queries_with_confirmed_atoms": 6966,
+    "full_P10_consumed": 6951,
+    "confirmed_atoms": 69557,
+    "native_cases": 59,
+    "native_ticks": 2075552,
+    "STOPs": 17,
+    "post_STOP_ticks": 0,
+    "queries_emitted_at_or_below_22mm": 0,
+    "queries_measured_at_or_below_22mm": 0
+  },
+  "combined_nominal_crossings": {
+    "none": 6975,
+    "suffix": 2
+  },
+  "combined_query_rejections": {
+    "ORIGINAL_FULL_H40_POLICY_REJECTED": 4,
+    "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED": 5
+  },
+  "scope_note": "Closed scientific episodes only. Disjoint layouts, conditions and arms retain separate denominators.",
+  "operational_interfaces_included": false
+}

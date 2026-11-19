@@ -49,17 +49,18 @@ def prediction_metrics(dataset, index, normalized, physical):
         joint_native_qualification='NOT_ESTABLISHED_BY_EEF_PROBES', full_WBC_state_restored=False)
 
 
-def verify_restored(engine, checkpoint):
+def verify_restored(engine, checkpoint, *, expected_arrays=87):
     import jax
     manifest = json.loads((Path(checkpoint['path'])/'COMPLETE.json').read_bytes())
     leaves, _ = jax.tree_util.tree_flatten_with_path((engine.active, engine.opt_state, engine.rng))
-    assert len(leaves) == len(manifest['arrays']) == 87
+    if len(leaves) != len(manifest['arrays']) or (expected_arrays is not None and len(leaves) != expected_arrays):
+        raise ValueError('COMPLETE_RESTORED_MODEL_ADAM_RNG_ARRAY_COUNT_MISMATCH')
     for (key, value), row in zip(leaves, manifest['arrays'], strict=True):
         path = Path(checkpoint['path'])/row['file']
         if (jax.tree_util.keystr(key) != row['key'] or sha(path) != row['sha256']
                 or not np.array_equal(np.asarray(value), np.load(path,allow_pickle=False))):
-            raise ValueError('ALL87_RESTORED_MODEL_ADAM_RNG_ARRAYS_MUST_MATCH')
-    return dict(bit_exact=True, arrays=87, step=engine.step, cursor=engine.cursor,
+            raise ValueError('ALL_RESTORED_MODEL_ADAM_RNG_ARRAYS_MUST_MATCH')
+    return dict(bit_exact=True, arrays=len(leaves), step=engine.step, cursor=engine.cursor,
                 model_Adam_RNG_restored=True, optimizer_updates_added=0)
 
 

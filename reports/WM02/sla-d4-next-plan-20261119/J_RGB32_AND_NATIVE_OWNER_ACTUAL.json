@@ -1,0 +1,116 @@
+{
+  "rgb_owner": {
+    "MainPID": "0",
+    "ControlGroup": "",
+    "ActiveState": "inactive",
+    "InvocationID": "",
+    "actual_pids": [],
+    "unit": "wm02-sla-d416-j-core-rgb32-20261119-01.service"
+  },
+  "RGB": {
+    "attempts": 32,
+    "completed": 32,
+    "exit_code": 0,
+    "passed": true,
+    "normalized_bit_exact": 32,
+    "original_H40_and_seam_decisions_identical": 32,
+    "native_requests": 0,
+    "native_integrations": 0,
+    "updates": 0,
+    "visits": 0,
+    "wall_s": 399.5570399463177,
+    "both_bit_exact": 0,
+    "max_physical_abs": 3.3306690738754696e-16
+  },
+  "RGB_result_sha256": "f3e6fc4c9daa0f125892cfcba90990ad5ba5509171daa8976133948f546ced64",
+  "native_owner": {
+    "MainPID": "3825536",
+    "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-d416-j-screen48-20261119-01.service",
+    "ActiveState": "active",
+    "InvocationID": "09d5fc62cdb441f38a6f52f2c01c5ca6",
+    "actual_pids": [
+      3825536,
+      3825538
+    ],
+    "unit": "wm02-sla-d416-j-screen48-20261119-01.service"
+  },
+  "handoff_phase": "NATIVE_PREDISPATCH_ISSUED",
+  "observation_epoch": 1795092725.3247566,
+  "native_spec": {
+    "source_sha": "b405fb173c91a32a1ad5b86aa9e87418cd0d0d56",
+    "plan_commit": "cf9d1acbf72e96b1bd158322ff8cbaf8fe28fabb",
+    "evaluation_stage": "J_SCREEN48",
+    "deadline_epoch": 1795104724.2043371,
+    "new_physical_requests_budget": 48,
+    "new_native_tick_budget": 2193744,
+    "new_model_generations_budget": 7680,
+    "spec_sha256": "e80ca90c07af71eafca37172eda48d644dcbe69cffd4a4ebeba5741062764581",
+    "status": "ACTIVE"
+  },
+  "registered_first_case": "J_SCREEN48-F1-1-HOLD-red-J0",
+  "progress": {
+    "phase": "WAIT_SHARED_GPU_RESOURCE",
+    "worker_PID": 3825538,
+    "completed_cases": 2,
+    "sealed_science": 0
+  },
+  "independent_runtime_progress": {
+    "phase": "WAIT_SHARED_GPU_RESOURCE",
+    "completed_cases": 2,
+    "worker_PID": 3825538
+  },
+  "first_native_case_readback": {
+    "case": "J_SCREEN48-F1-1-HOLD-red-J0",
+    "case_spec_sha256": "b8593506b26a4a371d8b84564f4f12107336d81783d6cbae330ef299fcedbdf2",
+    "active_parent_spec_sha256": "e80ca90c07af71eafca37172eda48d644dcbe69cffd4a4ebeba5741062764581",
+    "source_sha": "b405fb173c91a32a1ad5b86aa9e87418cd0d0d56",
+    "actual_parent": {
+      "MainPID": "3825536",
+      "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-d416-j-screen48-20261119-01.service",
+      "ActiveState": "active"
+    },
+    "active_child": 3829252,
+    "registered_first_case_index": 0,
+    "executing_requests": 1,
+    "sealed_requests": 0,
+    "observed_simulator_tick_lower_bound": 7258,
+    "observed_completed_queries": [
+      {
+        "query": 0,
+        "native_start_step": 5703,
+        "confirmed_atoms": 10,
+        "full_H40_compiled": true
+      },
+      {
+        "query": 1,
+        "native_start_step": 5953,
+        "confirmed_atoms": 10,
+        "full_H40_compiled": true
+      },
+      {
+        "query": 2,
+        "native_start_step": 6203,
+        "confirmed_atoms": 10,
+        "full_H40_compiled": true
+      },
+      {
+        "query": 3,
+        "native_start_step": 6453,
+        "confirmed_atoms": 10,
+        "full_H40_compiled": true
+      },
+      {
+        "query": 4,
+        "native_start_step": 6703,
+        "confirmed_atoms": 10,
+        "full_H40_compiled": true
+      },
+      {
+        "query": 5,
+        "native_start_step": 6953,
+        "confirmed_atoms": 10,
+        "full_H40_compiled": true
+      }
+    ]
+  }
+}

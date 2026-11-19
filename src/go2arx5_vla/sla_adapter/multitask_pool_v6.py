@@ -46,14 +46,22 @@ def attach(parent, pin, *, check=contract, training_keys=('dataset_manifest_sha2
 class Pool:
     def __init__(self,spec):
         from go2arx5_vla.world_model import multisource_d4_native as d4
+        from go2arx5_vla.world_model import sla_followup_native_v1 as followup
 
         is_d4 = spec.get('scope') == d4.SCOPE
+        is_followup = spec.get('scope') == followup.SCOPE
         arms, provider_cls, attach_options = ARMS, Provider, {}
-        if is_d4:
+        if is_d4 or is_followup:
             from .multisource_d4 import Provider as D4Provider, package_contract
 
-            arms, provider_cls = d4.ARMS, D4Provider
-            attach_options = dict(check=package_contract,
+            arms, provider_cls = (followup.ARMS if is_followup else d4.ARMS), D4Provider
+            if is_followup:
+                class D416Provider(D4Provider):
+                    def validate_package_contract(self, manifest):
+                        followup.manifest_contract(manifest)
+
+                provider_cls = D416Provider
+            attach_options = dict(check=followup.manifest_contract if is_followup else package_contract,
                                   training_keys=('dataset_manifest_sha256', 'visit_map_sha256', 'lr_sha256'))
         packages = spec['packages']
         if (not packages or not set(packages).issubset(arms) or set(packages)!=set(spec['request_bindings_by_arm'])

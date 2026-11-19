@@ -1,0 +1,133 @@
+{
+  "analyzed_prefix_only_no_arm_ranking": true,
+  "cases_second_pair": [
+    {
+      "CPU_s": 295.594652015,
+      "STOP_after_ticks": null,
+      "arm": "J1",
+      "case": "J_SCREEN48-F1-1-HOLD-blue-J1",
+      "confirmed_atoms": 1200,
+      "emitted_min_width_m": 0.04195208393676057,
+      "first_failure": "FIXED_TASK_BUDGET_EXHAUSTED",
+      "first_stop": null,
+      "generations": 120,
+      "instruction": "HOLD-blue",
+      "layout": "J_SCREEN48-F1-1",
+      "measured_min_width_m": 0.041951864936332794,
+      "native_request": 1,
+      "native_result_sha256": "2a9fe319805fafe14ef8ac6796f553c7cec04f9fe360458fb128ef6566bc26ba",
+      "native_score": {
+        "base_directional_motion_m": 0.2102799271505701,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "task_success": false
+      },
+      "native_ticks": 35703,
+      "noise_seed": 2037343901,
+      "query_counts": {
+        "no_crossing": 120
+      },
+      "reset": 702000,
+      "scene_sha256": "aab9f053f3607bd6eb7642e3e3f3b424c60ae7c1deb22c9e3d8c04018be45b26",
+      "technical_failure": false,
+      "wall_s": 538.6559472344816
+    },
+    {
+      "CPU_s": 306.293423867,
+      "STOP_after_ticks": null,
+      "arm": "J0",
+      "case": "J_SCREEN48-F1-1-HOLD-blue-J0",
+      "confirmed_atoms": 1200,
+      "emitted_min_width_m": 0.0419932765892722,
+      "first_failure": "FIXED_TASK_BUDGET_EXHAUSTED",
+      "first_stop": null,
+      "generations": 120,
+      "instruction": "HOLD-blue",
+      "layout": "J_SCREEN48-F1-1",
+      "measured_min_width_m": 0.04197892874367388,
+      "native_request": 1,
+      "native_result_sha256": "ad13c157fe736b5e0e8519a4e0f1142ec1b49ef7f868815bf61934bda6d07e54",
+      "native_score": {
+        "base_directional_motion_m": 0.14638710095111881,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "task_success": false
+      },
+      "native_ticks": 35703,
+      "noise_seed": 2037343901,
+      "query_counts": {
+        "no_crossing": 120
+      },
+      "reset": 702000,
+      "scene_sha256": "aab9f053f3607bd6eb7642e3e3f3b424c60ae7c1deb22c9e3d8c04018be45b26",
+      "technical_failure": false,
+      "wall_s": 568.9259679084644
+    }
+  ],
+  "new_optimization_visits": 0,
+  "new_optimizer_updates": 0,
+  "plan_sha": "cf9d1acbf72e96b1bd158322ff8cbaf8fe28fabb",
+  "planned_native_science_denominator": 48,
+  "preceding_report_SHA256": "ece910a897cd38443cbd55d672bcdda9291e4df5fb343002adeb92f6a0a155b1",
+  "second_pair_natives": {
+    "H40_first_closure_by_region": {
+      "P10": 0,
+      "no_crossing": 240,
+      "tail30": 0
+    },
+    "complete_success": 0,
+    "confirmed_atoms_observed": 2400,
+    "correct_grasp": 0,
+    "evidence_errors": 0,
+    "first_failures": {
+      "FIXED_TASK_BUDGET_EXHAUSTED": 2
+    },
+    "lift20mm": 0,
+    "model_generations": 240,
+    "native_requests": 2,
+    "native_ticks": 71406,
+    "observed_CPU_s": 601.8880758820001,
+    "observed_illegal_contact_STOP": 0,
+    "observed_integrations_after_STOP": 0,
+    "observed_safety_STOP": 0,
+    "observed_technical_failures": 0,
+    "observed_wall_s": 1107.581915142946,
+    "safety_STOP_with_unknown_post_stop_ticks": 0,
+    "scored_cases": 2,
+    "terminal_cases": 2,
+    "verified_cases": 2
+  },
+  "second_pair_readback_SHA256": "9b17feb0571b2c81dfc458faf4642835b54d65ec3943c18353fdfc9b5756c808",
+  "source_sha": "b405fb173c91a32a1ad5b86aa9e87418cd0d0d56",
+  "spec_sha256": "e80ca90c07af71eafca37172eda48d644dcbe69cffd4a4ebeba5741062764581",
+  "totals": {
+    "H40_first_closure_by_region": {
+      "P10": 0,
+      "no_crossing": 457,
+      "tail30": 0
+    },
+    "complete_success": 0,
+    "confirmed_atoms_observed": 4561,
+    "correct_grasp": 0,
+    "evidence_errors": 0,
+    "first_failures": {
+      "FIXED_TASK_BUDGET_EXHAUSTED": 3,
+      "ILLEGAL_CONTACT": 1
+    },
+    "lift20mm": 0,
+    "model_generations": 457,
+    "native_requests": 4,
+    "native_ticks": 136847,
+    "observed_CPU_s": 1143.7876344200001,
+    "observed_illegal_contact_STOP": 1,
+    "observed_integrations_after_STOP": 0,
+    "observed_safety_STOP": 1,
+    "observed_technical_failures": 0,
+    "observed_wall_s": 2091.988307924941,
+    "safety_STOP_with_unknown_post_stop_ticks": 0,
+    "scored_cases": 4,
+    "terminal_cases": 4,
+    "verified_cases": 4
+  },
+  "verified_native_science_denominator": 4
+}

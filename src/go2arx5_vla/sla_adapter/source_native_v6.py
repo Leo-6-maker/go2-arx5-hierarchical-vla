@@ -122,6 +122,9 @@ class SourceDataset:
 
     def __len__(self):return len(self.rows)
 
+    def raw_path(self, episode):
+        return self.episodes[episode]['raw_path']
+
     def arrays(self,episode):
         if episode not in self.numeric:
             ep=self.episodes[episode];p=self.root/ep['arrays']['file']
@@ -137,7 +140,7 @@ class SourceDataset:
         episode,anchor=self.rows[index];ep=self.episodes[episode];arrays=self.arrays(episode);key=(episode,anchor)
         if key not in self.cache:
             images={};padding={}
-            with h5py.File(ep['raw_path'],'r')as f:
+            with h5py.File(self.raw_path(episode),'r')as f:
                 for name,cam in zip(CAMERAS,SOURCE_CAMERAS,strict=True):
                     image=native_rgb(f['vision/'+cam+'/colors'][anchor])
                     if image.shape!=(480,640,3):raise ValueError('DECLARED_SOURCE_RGB480_640_REQUIRED')

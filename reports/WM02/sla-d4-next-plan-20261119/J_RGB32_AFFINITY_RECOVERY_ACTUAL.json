@@ -1,0 +1,48 @@
+{
+  "unit": "wm02-sla-d416-j-core-world-handoff-20261119-02.service",
+  "state": {
+    "MainPID": "3817803",
+    "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-d416-j-core-world-handoff-20261119-02.service",
+    "ActiveState": "active",
+    "InvocationID": "c9b90e011a8c424dbfa20f15569a16a6"
+  },
+  "site_linger": true,
+  "spec_sha256": "3c67a9bd092c8283d81b2a5746331bdbfbb1e50cf2bc77b63487482e32bd288c",
+  "deadline_epoch": 1795104724.2043371,
+  "start_exit": 0,
+  "prior_effects": 0,
+  "independent_site": {
+    "handoff": {
+      "MainPID": "3817803",
+      "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-d416-j-core-world-handoff-20261119-02.service",
+      "ActiveState": "active",
+      "InvocationID": "c9b90e011a8c424dbfa20f15569a16a6"
+    },
+    "RGB": {
+      "MainPID": "3817881",
+      "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-d416-j-core-rgb32-20261119-01.service",
+      "ActiveState": "active",
+      "InvocationID": "36a4e5bc8876467f94340143a35f95ac"
+    },
+    "D5": {
+      "MainPID": "0",
+      "ControlGroup": "",
+      "ActiveState": "inactive",
+      "InvocationID": ""
+    },
+    "progress": {
+      "epoch": 1795092250.2365818,
+      "phase": "START_RGB"
+    },
+    "RGB_dispatch_receipt": true,
+    "failure_log": ""
+  },
+  "prior_affinity_failure_native_requests": 0,
+  "prior_affinity_failure_generations": 0,
+  "gpu_attempt_started": true,
+  "J_science_requests": 0,
+  "changed_fields": [
+    "parent_CPU_affinity",
+    "sealed_RGB_spec_bootstrap"
+  ]
+}

@@ -1,0 +1,164 @@
+{
+  "observed_SGT": "2026-11-19 19:27",
+  "source_sha": "b405fb173c91a32a1ad5b86aa9e87418cd0d0d56",
+  "scope_spec_sha256": "b66e80aadd046bd13cb8bbc3c56a0df5725bd3c20af586c86b8f4885b232357a",
+  "newly_verified_cases": [
+    {
+      "case": "D5_GRASP24-F1-2-HOLD-red-D5-W",
+      "arm": "D5-W",
+      "instruction": "HOLD-red",
+      "layout": "D5_GRASP24-F1-2",
+      "reset": 700010,
+      "noise_seed": 2037312060,
+      "scene_sha256": "865f746d42d05ede81869ec83999213e7e1091e9619966e7444165314817fa27",
+      "native_result_sha256": "822425e42d31bb16fb1224a38a1cc78cd3306bef0e5742c7733b60b84ae4fffb",
+      "native_request": 1,
+      "native_ticks": 23980,
+      "generations": 74,
+      "confirmed_atoms": 731,
+      "emitted_min_width_m": 0.041996045119015536,
+      "measured_min_width_m": 0.04196669010492125,
+      "first_failure": "ILLEGAL_CONTACT",
+      "first_stop": {
+        "kind": "stop",
+        "reason": "ILLEGAL_CONTACT",
+        "steps": 23980
+      },
+      "STOP_after_ticks": 0,
+      "technical_failure": false,
+      "wall_s": 339.312083366327,
+      "CPU_s": 179.566204979,
+      "contact_evidence": [
+        {
+          "geoms": [
+            {
+              "geom_id": 73,
+              "geom": null,
+              "body": "x5_link6",
+              "geom_type": "mjGEOM_CAPSULE"
+            },
+            {
+              "geom_id": 79,
+              "geom": "task_blue_cube_geom",
+              "body": "task_blue_cube",
+              "geom_type": "mjGEOM_BOX"
+            }
+          ],
+          "distance_m": -1.6059603915440784e-05,
+          "normal_force_N": 0.49208188701574723
+        }
+      ],
+      "query_counts": {
+        "no_crossing": 74
+      },
+      "final_partial_atom_ticks": 2,
+      "scored_native_states": 18278,
+      "ever_target_grasp": false,
+      "ever_target_lift20mm": false,
+      "task_success": false,
+      "missing_native_intervals": 0,
+      "wrong_object_contact_ever": true
+    },
+    {
+      "case": "D5_GRASP24-F1-2-HOLD-red-D5-T",
+      "arm": "D5-T",
+      "instruction": "HOLD-red",
+      "layout": "D5_GRASP24-F1-2",
+      "reset": 700010,
+      "noise_seed": 2037312060,
+      "scene_sha256": "865f746d42d05ede81869ec83999213e7e1091e9619966e7444165314817fa27",
+      "native_result_sha256": "e9ebba14f57c0fad26a1c8dd35a0130db6d1303fd360fb1b7c2cc73ee33f015b",
+      "native_request": 1,
+      "native_ticks": 26603,
+      "generations": 84,
+      "confirmed_atoms": 836,
+      "emitted_min_width_m": 0.041983362020382615,
+      "measured_min_width_m": 0.04196605186987161,
+      "first_failure": "ILLEGAL_CONTACT",
+      "first_stop": {
+        "kind": "stop",
+        "reason": "ILLEGAL_CONTACT",
+        "steps": 26603
+      },
+      "STOP_after_ticks": 0,
+      "technical_failure": false,
+      "wall_s": 372.82797925453633,
+      "CPU_s": 195.142769475,
+      "contact_evidence": [
+        {
+          "geoms": [
+            {
+              "geom_id": 73,
+              "geom": null,
+              "body": "x5_link6",
+              "geom_type": "mjGEOM_CAPSULE"
+            },
+            {
+              "geom_id": 79,
+              "geom": "task_blue_cube_geom",
+              "body": "task_blue_cube",
+              "geom_type": "mjGEOM_BOX"
+            }
+          ],
+          "distance_m": -0.00017822968455145569,
+          "normal_force_N": 4.583832625948079
+        }
+      ],
+      "query_counts": {
+        "no_crossing": 84
+      },
+      "final_partial_atom_ticks": 0,
+      "scored_native_states": 20901,
+      "ever_target_grasp": false,
+      "ever_target_lift20mm": false,
+      "task_success": false,
+      "missing_native_intervals": 0,
+      "wrong_object_contact_ever": true
+    }
+  ],
+  "newly_verified_totals": {
+    "terminal_cases": 2,
+    "verified_cases": 2,
+    "evidence_errors": 0,
+    "scored_cases": 2,
+    "native_requests": 2,
+    "native_ticks": 50583,
+    "model_generations": 158,
+    "complete_success": 0,
+    "correct_grasp": 0,
+    "lift20mm": 0,
+    "observed_safety_STOP": 2,
+    "observed_illegal_contact_STOP": 2,
+    "observed_integrations_after_STOP": 0,
+    "safety_STOP_with_unknown_post_stop_ticks": 0,
+    "observed_technical_failures": 0,
+    "confirmed_atoms_observed": 1567,
+    "H40_first_closure_by_region": {
+      "P10": 0,
+      "tail30": 0,
+      "no_crossing": 158
+    },
+    "first_failures": {
+      "ILLEGAL_CONTACT": 2
+    },
+    "observed_wall_s": 712.1400626208633,
+    "observed_CPU_s": 374.708974454
+  },
+  "cumulative": {
+    "sealed": 14,
+    "planned": 24,
+    "native_ticks": 424308,
+    "H40": 1385,
+    "never_crossing_22mm": 1385,
+    "correct_grasp": 0,
+    "lift20mm": 0,
+    "task_success": 0,
+    "contacts": 8,
+    "ticks_after_STOP": 0,
+    "technical_failures": 0
+  },
+  "remaining_fixed_conditions": 10,
+  "confirm32_released": false,
+  "independent_audit_new_native": 0,
+  "independent_audit_new_updates": 0
+}

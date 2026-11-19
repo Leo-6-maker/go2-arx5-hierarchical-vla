@@ -2,6 +2,7 @@
 from pathlib import Path
 
 from .multisource_d4_native import SCOPE as D4_SCOPE
+from .sla_followup_native_v1 import SCOPE as D416_SCOPE
 from scripts.pi0292.durable import write
 from go2arx5_vla.sla_adapter.dense_g7_v6 import label_margin_report
 from .mfree_expert_capture_v1 import initialize
@@ -36,7 +37,7 @@ def consume_prefix(adapter, prepared, program, query, action, speed):
     adapter.mobile_program_start_step = start
     intervals, acks = [], []
     reference = None
-    is_d4 = adapter.spec.get('scope') == D4_SCOPE
+    is_d4 = adapter.spec.get('scope') in (D4_SCOPE, D416_SCOPE)
     try:
         for atom in range(meta['available_prefix_atoms']):
             adapter.guard()

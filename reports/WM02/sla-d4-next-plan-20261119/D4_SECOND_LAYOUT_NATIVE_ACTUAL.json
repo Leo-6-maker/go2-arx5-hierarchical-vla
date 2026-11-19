@@ -1,0 +1,1527 @@
+{
+  "schema": "D4_ORIGINAL_SECOND_LAYOUT_NATIVE_ACTUAL_V1",
+  "observed": "2026-11-19T16:26:29+08:00",
+  "original_source_sha": "56b096101fb1d52a0b4458a136d696a284699bfe",
+  "fixed_goal_plan": "cf9d1acbf72e96b1bd158322ff8cbaf8fe28fabb",
+  "source_spec_sha256": "a25383aea633117056de01c76d5dde1a5f408c3469663347b17b085f1b61e947",
+  "second_layout_receipt_sha256": "4e507f569cd26ca634c4338e39d0c3a62a1a14b5ef65bf1c44eb7836bb9e8cf4",
+  "full_original_prefix": {
+    "terminal_cases": 24,
+    "verified_cases": 24,
+    "evidence_errors": 0,
+    "scored_cases": 24,
+    "native_requests": 24,
+    "native_ticks": 948363,
+    "model_generations": 3251,
+    "complete_success": 0,
+    "correct_grasp": 0,
+    "lift20mm": 0,
+    "observed_safety_STOP": 3,
+    "observed_illegal_contact_STOP": 3,
+    "observed_integrations_after_STOP": 0,
+    "safety_STOP_with_unknown_post_stop_ticks": 0,
+    "observed_technical_failures": 0,
+    "confirmed_atoms_observed": 32458,
+    "H40_first_closure_by_region": {
+      "P10": 0,
+      "tail30": 0,
+      "no_crossing": 3251
+    },
+    "first_failures": {
+      "FIXED_TASK_BUDGET_EXHAUSTED": 18,
+      "ILLEGAL_CONTACT": 3,
+      "ORIGINAL_FULL_H40_POLICY_REJECTED": 3
+    },
+    "observed_wall_s": 14503.062546576373,
+    "observed_CPU_s": 7821.605368759001
+  },
+  "second_layout": {
+    "terminal_cases": 12,
+    "verified_cases": 12,
+    "evidence_errors": 0,
+    "scored_cases": 12,
+    "native_requests": 12,
+    "native_ticks": 411351,
+    "model_generations": 1375,
+    "complete_success": 0,
+    "correct_grasp": 0,
+    "lift20mm": 0,
+    "observed_safety_STOP": 1,
+    "observed_illegal_contact_STOP": 1,
+    "observed_integrations_after_STOP": 0,
+    "safety_STOP_with_unknown_post_stop_ticks": 0,
+    "observed_technical_failures": 0,
+    "confirmed_atoms_observed": 13716,
+    "H40_first_closure_by_region": {
+      "P10": 0,
+      "tail30": 0,
+      "no_crossing": 1375
+    },
+    "first_failures": {
+      "FIXED_TASK_BUDGET_EXHAUSTED": 8,
+      "ORIGINAL_FULL_H40_POLICY_REJECTED": 3,
+      "ILLEGAL_CONTACT": 1
+    },
+    "observed_wall_s": 6198.45031366311,
+    "observed_CPU_s": 3379.7175804750004
+  },
+  "paired_matrix": {
+    "both": 0,
+    "A_only": 0,
+    "B_only": 0,
+    "neither": 12,
+    "unscored": 0
+  },
+  "second_layout_pair_metrics": [
+    {
+      "layout": "D4-DEV-F1-2",
+      "instruction": "HOLD-red",
+      "initial_max_abs_difference": {
+        "qpos": 7.735228689942364e-05,
+        "qvel": 0.0007013684214285448,
+        "ctrl": 0.009510265634446347,
+        "TCP": 1.1499418636022e-05,
+        "base": 2.0636456455946917e-05,
+        "objects": {
+          "red": 2.6565405292627183e-17,
+          "blue": 1.6725648471332695e-17
+        },
+        "controller_mount": 2.0637253690121427e-05
+      },
+      "initial_pose_difference": {
+        "TCP": {
+          "translation_m": 7.183179980709305e-06,
+          "rotation_deg": 0.000740944693247361
+        },
+        "x5_mount_from_state": {
+          "translation_m": 1.3411989524549647e-05,
+          "rotation_deg": 0.0013481093985200485
+        },
+        "red": {
+          "translation_m": 0.0,
+          "rotation_deg": 0.0
+        },
+        "blue": {
+          "translation_m": 0.0,
+          "rotation_deg": 0.0
+        },
+        "controller_mount": {
+          "translation_m": 1.3408379498955042e-05,
+          "rotation_deg": 0.001348151572847277
+        },
+        "Go2_root_free_joint": {
+          "translation_m": 1.5217138447088526e-05,
+          "rotation_deg": 0.0013481137241294699
+        }
+      },
+      "stop_A": false,
+      "stop_B": false,
+      "science_A": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "HOLD-red",
+        "task_success": false,
+        "native_step": 35703,
+        "base_directional_motion_m": 0.2037682023972702,
+        "lift_m": 0.0,
+        "inside_selected_region": null,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": true,
+        "gripper_open_fraction": 0.9528065878403722,
+        "TCP_retreat_m": 0.17506007459650325,
+        "stable_release_condition": false,
+        "states": 30001,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 13317,
+            "native_time_s": 26.633999999996117
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "science_B": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "HOLD-red",
+        "task_success": false,
+        "native_step": 35703,
+        "base_directional_motion_m": 0.10780470148199658,
+        "lift_m": 0.0,
+        "inside_selected_region": null,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": true,
+        "gripper_open_fraction": 0.9544539650720264,
+        "TCP_retreat_m": 0.12517223042444173,
+        "stable_release_condition": false,
+        "states": 30001,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 12175,
+            "native_time_s": 24.349999999997383
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      }
+    },
+    {
+      "layout": "D4-DEV-F1-2",
+      "instruction": "HOLD-blue",
+      "initial_max_abs_difference": {
+        "qpos": 5.009674169786926e-05,
+        "qvel": 0.0006596834906080398,
+        "ctrl": 0.01077873898635029,
+        "TCP": 9.593953696179769e-05,
+        "base": 3.901952244075857e-06,
+        "objects": {
+          "red": 4.232716652948814e-18,
+          "blue": 8.248838598683913e-18
+        },
+        "controller_mount": 4.3048057705163956e-06
+      },
+      "initial_pose_difference": {
+        "TCP": {
+          "translation_m": 3.7602088684954166e-05,
+          "rotation_deg": 0.00560960044210354
+        },
+        "x5_mount_from_state": {
+          "translation_m": 2.1308671284696522e-06,
+          "rotation_deg": 0.00022811259705446217
+        },
+        "red": {
+          "translation_m": 0.0,
+          "rotation_deg": 0.0
+        },
+        "blue": {
+          "translation_m": 0.0,
+          "rotation_deg": 0.0
+        },
+        "controller_mount": {
+          "translation_m": 5.177243139254542e-06,
+          "rotation_deg": 0.00031111352347940816
+        },
+        "Go2_root_free_joint": {
+          "translation_m": 1.7596371827994405e-06,
+          "rotation_deg": 0.00022811579251283317
+        }
+      },
+      "stop_A": false,
+      "stop_B": false,
+      "science_A": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "HOLD-blue",
+        "task_success": false,
+        "native_step": 35703,
+        "base_directional_motion_m": 0.22104784677073047,
+        "lift_m": 0.0,
+        "inside_selected_region": null,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": true,
+        "gripper_open_fraction": 0.9539898625596633,
+        "TCP_retreat_m": 0.15864189953417596,
+        "stable_release_condition": false,
+        "states": 30001,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 13744,
+            "native_time_s": 27.487999999995644
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "science_B": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "HOLD-blue",
+        "task_success": false,
+        "native_step": 35703,
+        "base_directional_motion_m": 0.16234271338533854,
+        "lift_m": 0.0,
+        "inside_selected_region": null,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": true,
+        "gripper_open_fraction": 0.9544515105236074,
+        "TCP_retreat_m": 0.10840906709825751,
+        "stable_release_condition": false,
+        "states": 30001,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 12831,
+            "native_time_s": 25.661999999996656
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      }
+    },
+    {
+      "layout": "D4-DEV-F1-2",
+      "instruction": "PLACE-red-left",
+      "initial_max_abs_difference": {
+        "qpos": 5.1218767514349395e-05,
+        "qvel": 0.0007624005111325105,
+        "ctrl": 0.0205567734016332,
+        "TCP": 6.446167106791134e-05,
+        "base": 1.4190616257868383e-05,
+        "objects": {
+          "red": 3.3363973867416535e-18,
+          "blue": 2.0895161834314437e-18
+        },
+        "controller_mount": 1.419517710338214e-05
+      },
+      "initial_pose_difference": {
+        "TCP": {
+          "translation_m": 2.1747247972060715e-05,
+          "rotation_deg": 0.0037673290129170466
+        },
+        "x5_mount_from_state": {
+          "translation_m": 2.628088019614745e-06,
+          "rotation_deg": 0.0008873957517123694
+        },
+        "red": {
+          "translation_m": 0.0,
+          "rotation_deg": 0.0
+        },
+        "blue": {
+          "translation_m": 0.0,
+          "rotation_deg": 0.0
+        },
+        "controller_mount": {
+          "translation_m": 2.616283878836246e-06,
+          "rotation_deg": 0.0008875846594545954
+        },
+        "Go2_root_free_joint": {
+          "translation_m": 3.478935558129338e-06,
+          "rotation_deg": 0.0008873973945550613
+        }
+      },
+      "stop_A": false,
+      "stop_B": false,
+      "science_A": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "PLACE-red-left",
+        "task_success": false,
+        "native_step": 50703,
+        "base_directional_motion_m": 0.20604973135560187,
+        "lift_m": 0.0,
+        "inside_selected_region": false,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": true,
+        "gripper_open_fraction": 0.9492769464711877,
+        "TCP_retreat_m": 0.23213768156589765,
+        "stable_release_condition": false,
+        "states": 45001,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 15288,
+            "native_time_s": 30.575999999993932
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "science_B": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "PLACE-red-left",
+        "task_success": false,
+        "native_step": 9453,
+        "base_directional_motion_m": 0.060503441519537154,
+        "lift_m": 0.0,
+        "inside_selected_region": false,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": true,
+        "gripper_open_fraction": 0.9544578499330084,
+        "TCP_retreat_m": 0.1281953627679318,
+        "stable_release_condition": false,
+        "states": 3751,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {},
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      }
+    },
+    {
+      "layout": "D4-DEV-F1-2",
+      "instruction": "PLACE-red-right",
+      "initial_max_abs_difference": {
+        "qpos": 4.045626624382681e-05,
+        "qvel": 0.00023869511685711527,
+        "ctrl": 0.0027812891941139117,
+        "TCP": 5.984095033179093e-05,
+        "base": 1.467386428772189e-05,
+        "objects": {
+          "red": 9.64151484383315e-18,
+          "blue": 1.1021035836586808e-17
+        },
+        "controller_mount": 1.383100658135239e-05
+      },
+      "initial_pose_difference": {
+        "TCP": {
+          "translation_m": 2.2093848223040604e-05,
+          "rotation_deg": 0.0035547361756481997
+        },
+        "x5_mount_from_state": {
+          "translation_m": 5.603114842620783e-06,
+          "rotation_deg": 0.0010125316310428155
+        },
+        "red": {
+          "translation_m": 0.0,
+          "rotation_deg": 0.0
+        },
+        "blue": {
+          "translation_m": 0.0,
+          "rotation_deg": 0.0
+        },
+        "controller_mount": {
+          "translation_m": 3.460421645109591e-06,
+          "rotation_deg": 0.001084659524090432
+        },
+        "Go2_root_free_joint": {
+          "translation_m": 5.824105103512594e-06,
+          "rotation_deg": 0.001012535230565635
+        }
+      },
+      "stop_A": false,
+      "stop_B": false,
+      "science_A": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "PLACE-red-right",
+        "task_success": false,
+        "native_step": 50703,
+        "base_directional_motion_m": 0.21279326277672894,
+        "lift_m": 0.0,
+        "inside_selected_region": false,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": true,
+        "gripper_open_fraction": 0.9535328703463036,
+        "TCP_retreat_m": 0.2342832360368461,
+        "stable_release_condition": false,
+        "states": 45001,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 16595,
+            "native_time_s": 33.1899999999946
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "science_B": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "PLACE-red-right",
+        "task_success": false,
+        "native_step": 50703,
+        "base_directional_motion_m": 0.10106751375497339,
+        "lift_m": 0.0,
+        "inside_selected_region": false,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": true,
+        "gripper_open_fraction": 0.954458002507844,
+        "TCP_retreat_m": 0.16715975084199441,
+        "stable_release_condition": false,
+        "states": 45001,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 30283,
+            "native_time_s": 60.566000000028055
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      }
+    },
+    {
+      "layout": "D4-DEV-F1-2",
+      "instruction": "PLACE-blue-left",
+      "initial_max_abs_difference": {
+        "qpos": 0.02826344560488947,
+        "qvel": 0.0015685024754411529,
+        "ctrl": 0.8709504927069398,
+        "TCP": 0.002807292753737301,
+        "base": 0.007242692561953618,
+        "objects": {
+          "red": 5.006782891188475e-18,
+          "blue": 1.3675022396304188e-17
+        },
+        "controller_mount": 0.00724269269283768
+      },
+      "initial_pose_difference": {
+        "TCP": {
+          "translation_m": 0.0008643591601799926,
+          "rotation_deg": 0.17543373847171775
+        },
+        "x5_mount_from_state": {
+          "translation_m": 0.003911000702011173,
+          "rotation_deg": 0.5668481181639444
+        },
+        "red": {
+          "translation_m": 0.0,
+          "rotation_deg": 0.0
+        },
+        "blue": {
+          "translation_m": 0.0,
+          "rotation_deg": 0.0
+        },
+        "controller_mount": {
+          "translation_m": 0.003911002584735854,
+          "rotation_deg": 0.5668481311919572
+        },
+        "Go2_root_free_joint": {
+          "translation_m": 0.004914870006514962,
+          "rotation_deg": 0.5668481181933119
+        }
+      },
+      "stop_A": false,
+      "stop_B": false,
+      "science_A": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "PLACE-blue-left",
+        "task_success": false,
+        "native_step": 50703,
+        "base_directional_motion_m": 0.20647435537963024,
+        "lift_m": 0.0,
+        "inside_selected_region": false,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": true,
+        "gripper_open_fraction": 0.9537600708122593,
+        "TCP_retreat_m": 0.1812834612717583,
+        "stable_release_condition": false,
+        "states": 45001,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 13363,
+            "native_time_s": 26.725999999996066
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "science_B": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "PLACE-blue-left",
+        "task_success": false,
+        "native_step": 8953,
+        "base_directional_motion_m": 0.05143589023806533,
+        "lift_m": 0.0,
+        "inside_selected_region": false,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": true,
+        "gripper_open_fraction": 0.9544587928447668,
+        "TCP_retreat_m": 0.11311289419319184,
+        "stable_release_condition": false,
+        "states": 3251,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {},
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      }
+    },
+    {
+      "layout": "D4-DEV-F1-2",
+      "instruction": "PLACE-blue-right",
+      "initial_max_abs_difference": {
+        "qpos": 3.5090352757172205e-05,
+        "qvel": 0.0006178432263625202,
+        "ctrl": 0.01534351325403227,
+        "TCP": 8.96511121024346e-05,
+        "base": 2.964187912193883e-06,
+        "objects": {
+          "red": 4.735198716014362e-18,
+          "blue": 8.165373820773488e-18
+        },
+        "controller_mount": null
+      },
+      "initial_pose_difference": {
+        "TCP": {
+          "translation_m": 3.101883804184585e-05,
+          "rotation_deg": 0.005248754017572917
+        },
+        "x5_mount_from_state": {
+          "translation_m": 1.826983724659479e-06,
+          "rotation_deg": 0.0002631839490068953
+        },
+        "red": {
+          "translation_m": 0.0,
+          "rotation_deg": 0.0
+        },
+        "blue": {
+          "translation_m": 0.0,
+          "rotation_deg": 0.0
+        },
+        "Go2_root_free_joint": {
+          "translation_m": 2.1920386032551487e-06,
+          "rotation_deg": 0.00026318394900672174
+        }
+      },
+      "stop_A": true,
+      "stop_B": false,
+      "science_A": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "PLACE-blue-right",
+        "task_success": false,
+        "native_step": 38618,
+        "base_directional_motion_m": 0.23469855257069094,
+        "lift_m": 0.0,
+        "inside_selected_region": false,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": true,
+        "gripper_open_fraction": 0.954025183914381,
+        "TCP_retreat_m": 0.1703300630482347,
+        "stable_release_condition": false,
+        "states": 32916,
+        "missing_native_intervals": 0,
+        "unsafe_states": 1,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 12202,
+            "native_time_s": 24.403999999997353
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "science_B": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "PLACE-blue-right",
+        "task_success": false,
+        "native_step": 8703,
+        "base_directional_motion_m": 0.05949408096189111,
+        "lift_m": 0.0,
+        "inside_selected_region": false,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": true,
+        "gripper_open_fraction": 0.9544590067406967,
+        "TCP_retreat_m": 0.10997191417988954,
+        "stable_release_condition": false,
+        "states": 3001,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {},
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      }
+    }
+  ],
+  "cases": [
+    {
+      "case": "D4-DEV-F1-2-HOLD-red-D4-B",
+      "arm": "D4-B",
+      "instruction": "HOLD-red",
+      "layout": "D4-DEV-F1-2",
+      "native_result_sha256": "aab30754c9b0139d9b902236f7c521d7502e23ad54d242b233324fe6a3d2d674",
+      "first_failure": "FIXED_TASK_BUDGET_EXHAUSTED",
+      "trace": "RECORDED_TRACE_CHECKS_PASS",
+      "score": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "HOLD-red",
+        "task_success": false,
+        "native_step": 35703,
+        "base_directional_motion_m": 0.10780470148199658,
+        "lift_m": 0.0,
+        "inside_selected_region": null,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": true,
+        "gripper_open_fraction": 0.9544539650720264,
+        "TCP_retreat_m": 0.12517223042444173,
+        "stable_release_condition": false,
+        "states": 30001,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 12175,
+            "native_time_s": 24.349999999997383
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "actual": {
+        "terminal_cases": 1,
+        "verified_cases": 1,
+        "evidence_errors": 0,
+        "scored_cases": 1,
+        "native_requests": 1,
+        "native_ticks": 35703,
+        "model_generations": 120,
+        "complete_success": 0,
+        "correct_grasp": 0,
+        "lift20mm": 0,
+        "observed_safety_STOP": 0,
+        "observed_illegal_contact_STOP": 0,
+        "observed_integrations_after_STOP": 0,
+        "safety_STOP_with_unknown_post_stop_ticks": 0,
+        "observed_technical_failures": 0,
+        "confirmed_atoms_observed": 1200,
+        "H40_first_closure_by_region": {
+          "P10": 0,
+          "tail30": 0,
+          "no_crossing": 120
+        },
+        "first_failures": {
+          "FIXED_TASK_BUDGET_EXHAUSTED": 1
+        },
+        "observed_wall_s": 538.3375292290002,
+        "observed_CPU_s": 291.989521901
+      }
+    },
+    {
+      "case": "D4-DEV-F1-2-HOLD-red-D4-A",
+      "arm": "D4-A",
+      "instruction": "HOLD-red",
+      "layout": "D4-DEV-F1-2",
+      "native_result_sha256": "4c93a24841385d0f86c4e6231f9fa5273170e5851529a0ffdc735d8525827af5",
+      "first_failure": "FIXED_TASK_BUDGET_EXHAUSTED",
+      "trace": "RECORDED_TRACE_CHECKS_PASS",
+      "score": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "HOLD-red",
+        "task_success": false,
+        "native_step": 35703,
+        "base_directional_motion_m": 0.2037682023972702,
+        "lift_m": 0.0,
+        "inside_selected_region": null,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": true,
+        "gripper_open_fraction": 0.9528065878403722,
+        "TCP_retreat_m": 0.17506007459650325,
+        "stable_release_condition": false,
+        "states": 30001,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 13317,
+            "native_time_s": 26.633999999996117
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "actual": {
+        "terminal_cases": 1,
+        "verified_cases": 1,
+        "evidence_errors": 0,
+        "scored_cases": 1,
+        "native_requests": 1,
+        "native_ticks": 35703,
+        "model_generations": 120,
+        "complete_success": 0,
+        "correct_grasp": 0,
+        "lift20mm": 0,
+        "observed_safety_STOP": 0,
+        "observed_illegal_contact_STOP": 0,
+        "observed_integrations_after_STOP": 0,
+        "safety_STOP_with_unknown_post_stop_ticks": 0,
+        "observed_technical_failures": 0,
+        "confirmed_atoms_observed": 1200,
+        "H40_first_closure_by_region": {
+          "P10": 0,
+          "tail30": 0,
+          "no_crossing": 120
+        },
+        "first_failures": {
+          "FIXED_TASK_BUDGET_EXHAUSTED": 1
+        },
+        "observed_wall_s": 528.0911238407716,
+        "observed_CPU_s": 284.77786261700004
+      }
+    },
+    {
+      "case": "D4-DEV-F1-2-HOLD-blue-D4-A",
+      "arm": "D4-A",
+      "instruction": "HOLD-blue",
+      "layout": "D4-DEV-F1-2",
+      "native_result_sha256": "3dc5cf96c751cd2d05cd0a1e6318a7a7706f2b156e831587bd68535326a810e4",
+      "first_failure": "FIXED_TASK_BUDGET_EXHAUSTED",
+      "trace": "RECORDED_TRACE_CHECKS_PASS",
+      "score": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "HOLD-blue",
+        "task_success": false,
+        "native_step": 35703,
+        "base_directional_motion_m": 0.22104784677073047,
+        "lift_m": 0.0,
+        "inside_selected_region": null,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": true,
+        "gripper_open_fraction": 0.9539898625596633,
+        "TCP_retreat_m": 0.15864189953417596,
+        "stable_release_condition": false,
+        "states": 30001,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 13744,
+            "native_time_s": 27.487999999995644
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "actual": {
+        "terminal_cases": 1,
+        "verified_cases": 1,
+        "evidence_errors": 0,
+        "scored_cases": 1,
+        "native_requests": 1,
+        "native_ticks": 35703,
+        "model_generations": 120,
+        "complete_success": 0,
+        "correct_grasp": 0,
+        "lift20mm": 0,
+        "observed_safety_STOP": 0,
+        "observed_illegal_contact_STOP": 0,
+        "observed_integrations_after_STOP": 0,
+        "safety_STOP_with_unknown_post_stop_ticks": 0,
+        "observed_technical_failures": 0,
+        "confirmed_atoms_observed": 1200,
+        "H40_first_closure_by_region": {
+          "P10": 0,
+          "tail30": 0,
+          "no_crossing": 120
+        },
+        "first_failures": {
+          "FIXED_TASK_BUDGET_EXHAUSTED": 1
+        },
+        "observed_wall_s": 522.7116013076156,
+        "observed_CPU_s": 279.658015132
+      }
+    },
+    {
+      "case": "D4-DEV-F1-2-HOLD-blue-D4-B",
+      "arm": "D4-B",
+      "instruction": "HOLD-blue",
+      "layout": "D4-DEV-F1-2",
+      "native_result_sha256": "354339d91c7cbf07c71dc200d8475b74ce06d9004c6b6b0fa769b8d592ed2b35",
+      "first_failure": "FIXED_TASK_BUDGET_EXHAUSTED",
+      "trace": "RECORDED_TRACE_CHECKS_PASS",
+      "score": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "HOLD-blue",
+        "task_success": false,
+        "native_step": 35703,
+        "base_directional_motion_m": 0.16234271338533854,
+        "lift_m": 0.0,
+        "inside_selected_region": null,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": true,
+        "gripper_open_fraction": 0.9544515105236074,
+        "TCP_retreat_m": 0.10840906709825751,
+        "stable_release_condition": false,
+        "states": 30001,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 12831,
+            "native_time_s": 25.661999999996656
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "actual": {
+        "terminal_cases": 1,
+        "verified_cases": 1,
+        "evidence_errors": 0,
+        "scored_cases": 1,
+        "native_requests": 1,
+        "native_ticks": 35703,
+        "model_generations": 120,
+        "complete_success": 0,
+        "correct_grasp": 0,
+        "lift20mm": 0,
+        "observed_safety_STOP": 0,
+        "observed_illegal_contact_STOP": 0,
+        "observed_integrations_after_STOP": 0,
+        "safety_STOP_with_unknown_post_stop_ticks": 0,
+        "observed_technical_failures": 0,
+        "confirmed_atoms_observed": 1200,
+        "H40_first_closure_by_region": {
+          "P10": 0,
+          "tail30": 0,
+          "no_crossing": 120
+        },
+        "first_failures": {
+          "FIXED_TASK_BUDGET_EXHAUSTED": 1
+        },
+        "observed_wall_s": 527.7764543732628,
+        "observed_CPU_s": 280.913289018
+      }
+    },
+    {
+      "case": "D4-DEV-F1-2-PLACE-red-left-D4-B",
+      "arm": "D4-B",
+      "instruction": "PLACE-red-left",
+      "layout": "D4-DEV-F1-2",
+      "native_result_sha256": "d1e4af78f97e7bfbfffe28a13250ff33e3e5661c46db6b67d0a40f483bf276b3",
+      "first_failure": "ORIGINAL_FULL_H40_POLICY_REJECTED",
+      "trace": "RECORDED_TRACE_CHECKS_PASS",
+      "score": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "PLACE-red-left",
+        "task_success": false,
+        "native_step": 9453,
+        "base_directional_motion_m": 0.060503441519537154,
+        "lift_m": 0.0,
+        "inside_selected_region": false,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": true,
+        "gripper_open_fraction": 0.9544578499330084,
+        "TCP_retreat_m": 0.1281953627679318,
+        "stable_release_condition": false,
+        "states": 3751,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {},
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "actual": {
+        "terminal_cases": 1,
+        "verified_cases": 1,
+        "evidence_errors": 0,
+        "scored_cases": 1,
+        "native_requests": 1,
+        "native_ticks": 9453,
+        "model_generations": 16,
+        "complete_success": 0,
+        "correct_grasp": 0,
+        "lift20mm": 0,
+        "observed_safety_STOP": 0,
+        "observed_illegal_contact_STOP": 0,
+        "observed_integrations_after_STOP": 0,
+        "safety_STOP_with_unknown_post_stop_ticks": 0,
+        "observed_technical_failures": 0,
+        "confirmed_atoms_observed": 150,
+        "H40_first_closure_by_region": {
+          "P10": 0,
+          "tail30": 0,
+          "no_crossing": 16
+        },
+        "first_failures": {
+          "ORIGINAL_FULL_H40_POLICY_REJECTED": 1
+        },
+        "observed_wall_s": 114.47586152609438,
+        "observed_CPU_s": 56.383152088
+      }
+    },
+    {
+      "case": "D4-DEV-F1-2-PLACE-red-left-D4-A",
+      "arm": "D4-A",
+      "instruction": "PLACE-red-left",
+      "layout": "D4-DEV-F1-2",
+      "native_result_sha256": "a282394092f49f5857c1c66f1602880b36e99b15ba25c2d66a41ef0384e46d1b",
+      "first_failure": "FIXED_TASK_BUDGET_EXHAUSTED",
+      "trace": "RECORDED_TRACE_CHECKS_PASS",
+      "score": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "PLACE-red-left",
+        "task_success": false,
+        "native_step": 50703,
+        "base_directional_motion_m": 0.20604973135560187,
+        "lift_m": 0.0,
+        "inside_selected_region": false,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": true,
+        "gripper_open_fraction": 0.9492769464711877,
+        "TCP_retreat_m": 0.23213768156589765,
+        "stable_release_condition": false,
+        "states": 45001,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 15288,
+            "native_time_s": 30.575999999993932
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "actual": {
+        "terminal_cases": 1,
+        "verified_cases": 1,
+        "evidence_errors": 0,
+        "scored_cases": 1,
+        "native_requests": 1,
+        "native_ticks": 50703,
+        "model_generations": 180,
+        "complete_success": 0,
+        "correct_grasp": 0,
+        "lift20mm": 0,
+        "observed_safety_STOP": 0,
+        "observed_illegal_contact_STOP": 0,
+        "observed_integrations_after_STOP": 0,
+        "safety_STOP_with_unknown_post_stop_ticks": 0,
+        "observed_technical_failures": 0,
+        "confirmed_atoms_observed": 1800,
+        "H40_first_closure_by_region": {
+          "P10": 0,
+          "tail30": 0,
+          "no_crossing": 180
+        },
+        "first_failures": {
+          "FIXED_TASK_BUDGET_EXHAUSTED": 1
+        },
+        "observed_wall_s": 779.2442074306309,
+        "observed_CPU_s": 431.771558099
+      }
+    },
+    {
+      "case": "D4-DEV-F1-2-PLACE-red-right-D4-A",
+      "arm": "D4-A",
+      "instruction": "PLACE-red-right",
+      "layout": "D4-DEV-F1-2",
+      "native_result_sha256": "c38bb35616d633c6abedc113d8732e30a1b8db6ff2d330788c452fd031ace5df",
+      "first_failure": "FIXED_TASK_BUDGET_EXHAUSTED",
+      "trace": "RECORDED_TRACE_CHECKS_PASS",
+      "score": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "PLACE-red-right",
+        "task_success": false,
+        "native_step": 50703,
+        "base_directional_motion_m": 0.21279326277672894,
+        "lift_m": 0.0,
+        "inside_selected_region": false,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": true,
+        "gripper_open_fraction": 0.9535328703463036,
+        "TCP_retreat_m": 0.2342832360368461,
+        "stable_release_condition": false,
+        "states": 45001,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 16595,
+            "native_time_s": 33.1899999999946
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "actual": {
+        "terminal_cases": 1,
+        "verified_cases": 1,
+        "evidence_errors": 0,
+        "scored_cases": 1,
+        "native_requests": 1,
+        "native_ticks": 50703,
+        "model_generations": 180,
+        "complete_success": 0,
+        "correct_grasp": 0,
+        "lift20mm": 0,
+        "observed_safety_STOP": 0,
+        "observed_illegal_contact_STOP": 0,
+        "observed_integrations_after_STOP": 0,
+        "safety_STOP_with_unknown_post_stop_ticks": 0,
+        "observed_technical_failures": 0,
+        "confirmed_atoms_observed": 1800,
+        "H40_first_closure_by_region": {
+          "P10": 0,
+          "tail30": 0,
+          "no_crossing": 180
+        },
+        "first_failures": {
+          "FIXED_TASK_BUDGET_EXHAUSTED": 1
+        },
+        "observed_wall_s": 800.2731354190037,
+        "observed_CPU_s": 441.74219313699996
+      }
+    },
+    {
+      "case": "D4-DEV-F1-2-PLACE-red-right-D4-B",
+      "arm": "D4-B",
+      "instruction": "PLACE-red-right",
+      "layout": "D4-DEV-F1-2",
+      "native_result_sha256": "01b6c1be492fc760b22822a65e039c54ca851ef456f025af44a3a54e88cfdd58",
+      "first_failure": "FIXED_TASK_BUDGET_EXHAUSTED",
+      "trace": "RECORDED_TRACE_CHECKS_PASS",
+      "score": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "PLACE-red-right",
+        "task_success": false,
+        "native_step": 50703,
+        "base_directional_motion_m": 0.10106751375497339,
+        "lift_m": 0.0,
+        "inside_selected_region": false,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": true,
+        "gripper_open_fraction": 0.954458002507844,
+        "TCP_retreat_m": 0.16715975084199441,
+        "stable_release_condition": false,
+        "states": 45001,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 30283,
+            "native_time_s": 60.566000000028055
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "actual": {
+        "terminal_cases": 1,
+        "verified_cases": 1,
+        "evidence_errors": 0,
+        "scored_cases": 1,
+        "native_requests": 1,
+        "native_ticks": 50703,
+        "model_generations": 180,
+        "complete_success": 0,
+        "correct_grasp": 0,
+        "lift20mm": 0,
+        "observed_safety_STOP": 0,
+        "observed_illegal_contact_STOP": 0,
+        "observed_integrations_after_STOP": 0,
+        "safety_STOP_with_unknown_post_stop_ticks": 0,
+        "observed_technical_failures": 0,
+        "confirmed_atoms_observed": 1800,
+        "H40_first_closure_by_region": {
+          "P10": 0,
+          "tail30": 0,
+          "no_crossing": 180
+        },
+        "first_failures": {
+          "FIXED_TASK_BUDGET_EXHAUSTED": 1
+        },
+        "observed_wall_s": 794.8012846857309,
+        "observed_CPU_s": 442.836880673
+      }
+    },
+    {
+      "case": "D4-DEV-F1-2-PLACE-blue-left-D4-B",
+      "arm": "D4-B",
+      "instruction": "PLACE-blue-left",
+      "layout": "D4-DEV-F1-2",
+      "native_result_sha256": "ae917e9e78c32452d3839d628a926ebb8e208738c4bc0615d2dbae76198273af",
+      "first_failure": "ORIGINAL_FULL_H40_POLICY_REJECTED",
+      "trace": "RECORDED_TRACE_CHECKS_PASS",
+      "score": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "PLACE-blue-left",
+        "task_success": false,
+        "native_step": 8953,
+        "base_directional_motion_m": 0.05143589023806533,
+        "lift_m": 0.0,
+        "inside_selected_region": false,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": true,
+        "gripper_open_fraction": 0.9544587928447668,
+        "TCP_retreat_m": 0.11311289419319184,
+        "stable_release_condition": false,
+        "states": 3251,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {},
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "actual": {
+        "terminal_cases": 1,
+        "verified_cases": 1,
+        "evidence_errors": 0,
+        "scored_cases": 1,
+        "native_requests": 1,
+        "native_ticks": 8953,
+        "model_generations": 14,
+        "complete_success": 0,
+        "correct_grasp": 0,
+        "lift20mm": 0,
+        "observed_safety_STOP": 0,
+        "observed_illegal_contact_STOP": 0,
+        "observed_integrations_after_STOP": 0,
+        "safety_STOP_with_unknown_post_stop_ticks": 0,
+        "observed_technical_failures": 0,
+        "confirmed_atoms_observed": 130,
+        "H40_first_closure_by_region": {
+          "P10": 0,
+          "tail30": 0,
+          "no_crossing": 14
+        },
+        "first_failures": {
+          "ORIGINAL_FULL_H40_POLICY_REJECTED": 1
+        },
+        "observed_wall_s": 107.02831583935767,
+        "observed_CPU_s": 52.459605836
+      }
+    },
+    {
+      "case": "D4-DEV-F1-2-PLACE-blue-left-D4-A",
+      "arm": "D4-A",
+      "instruction": "PLACE-blue-left",
+      "layout": "D4-DEV-F1-2",
+      "native_result_sha256": "2d08d9574d3b9083523d70476613d7db7cfc38008067fc1d2283b5156f7b5a4c",
+      "first_failure": "FIXED_TASK_BUDGET_EXHAUSTED",
+      "trace": "RECORDED_TRACE_CHECKS_PASS",
+      "score": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "PLACE-blue-left",
+        "task_success": false,
+        "native_step": 50703,
+        "base_directional_motion_m": 0.20647435537963024,
+        "lift_m": 0.0,
+        "inside_selected_region": false,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": true,
+        "gripper_open_fraction": 0.9537600708122593,
+        "TCP_retreat_m": 0.1812834612717583,
+        "stable_release_condition": false,
+        "states": 45001,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 13363,
+            "native_time_s": 26.725999999996066
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "actual": {
+        "terminal_cases": 1,
+        "verified_cases": 1,
+        "evidence_errors": 0,
+        "scored_cases": 1,
+        "native_requests": 1,
+        "native_ticks": 50703,
+        "model_generations": 180,
+        "complete_success": 0,
+        "correct_grasp": 0,
+        "lift20mm": 0,
+        "observed_safety_STOP": 0,
+        "observed_illegal_contact_STOP": 0,
+        "observed_integrations_after_STOP": 0,
+        "safety_STOP_with_unknown_post_stop_ticks": 0,
+        "observed_technical_failures": 0,
+        "confirmed_atoms_observed": 1800,
+        "H40_first_closure_by_region": {
+          "P10": 0,
+          "tail30": 0,
+          "no_crossing": 180
+        },
+        "first_failures": {
+          "FIXED_TASK_BUDGET_EXHAUSTED": 1
+        },
+        "observed_wall_s": 791.530311955139,
+        "observed_CPU_s": 444.12383024400003
+      }
+    },
+    {
+      "case": "D4-DEV-F1-2-PLACE-blue-right-D4-A",
+      "arm": "D4-A",
+      "instruction": "PLACE-blue-right",
+      "layout": "D4-DEV-F1-2",
+      "native_result_sha256": "e962dec9673866a109e66f631eb8a1f484cc5cf7b4f9c618ecab8de7463ebae2",
+      "first_failure": "ILLEGAL_CONTACT",
+      "trace": "RECORDED_TRACE_CHECKS_PASS",
+      "score": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "PLACE-blue-right",
+        "task_success": false,
+        "native_step": 38618,
+        "base_directional_motion_m": 0.23469855257069094,
+        "lift_m": 0.0,
+        "inside_selected_region": false,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": true,
+        "gripper_open_fraction": 0.954025183914381,
+        "TCP_retreat_m": 0.1703300630482347,
+        "stable_release_condition": false,
+        "states": 32916,
+        "missing_native_intervals": 0,
+        "unsafe_states": 1,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 12202,
+            "native_time_s": 24.403999999997353
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "actual": {
+        "terminal_cases": 1,
+        "verified_cases": 1,
+        "evidence_errors": 0,
+        "scored_cases": 1,
+        "native_requests": 1,
+        "native_ticks": 38618,
+        "model_generations": 132,
+        "complete_success": 0,
+        "correct_grasp": 0,
+        "lift20mm": 0,
+        "observed_safety_STOP": 1,
+        "observed_illegal_contact_STOP": 1,
+        "observed_integrations_after_STOP": 0,
+        "safety_STOP_with_unknown_post_stop_ticks": 0,
+        "observed_technical_failures": 0,
+        "confirmed_atoms_observed": 1316,
+        "H40_first_closure_by_region": {
+          "P10": 0,
+          "tail30": 0,
+          "no_crossing": 132
+        },
+        "first_failures": {
+          "ILLEGAL_CONTACT": 1
+        },
+        "observed_wall_s": 588.3459295267239,
+        "observed_CPU_s": 322.545755121
+      }
+    },
+    {
+      "case": "D4-DEV-F1-2-PLACE-blue-right-D4-B",
+      "arm": "D4-B",
+      "instruction": "PLACE-blue-right",
+      "layout": "D4-DEV-F1-2",
+      "native_result_sha256": "a247665a06a34905ce225a708553c9635de5146b8882e2dd45cdd073398982c4",
+      "first_failure": "ORIGINAL_FULL_H40_POLICY_REJECTED",
+      "trace": "RECORDED_TRACE_CHECKS_PASS",
+      "score": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "PLACE-blue-right",
+        "task_success": false,
+        "native_step": 8703,
+        "base_directional_motion_m": 0.05949408096189111,
+        "lift_m": 0.0,
+        "inside_selected_region": false,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": true,
+        "gripper_open_fraction": 0.9544590067406967,
+        "TCP_retreat_m": 0.10997191417988954,
+        "stable_release_condition": false,
+        "states": 3001,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {},
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "actual": {
+        "terminal_cases": 1,
+        "verified_cases": 1,
+        "evidence_errors": 0,
+        "scored_cases": 1,
+        "native_requests": 1,
+        "native_ticks": 8703,
+        "model_generations": 13,
+        "complete_success": 0,
+        "correct_grasp": 0,
+        "lift20mm": 0,
+        "observed_safety_STOP": 0,
+        "observed_illegal_contact_STOP": 0,
+        "observed_integrations_after_STOP": 0,
+        "safety_STOP_with_unknown_post_stop_ticks": 0,
+        "observed_technical_failures": 0,
+        "confirmed_atoms_observed": 120,
+        "H40_first_closure_by_region": {
+          "P10": 0,
+          "tail30": 0,
+          "no_crossing": 13
+        },
+        "first_failures": {
+          "ORIGINAL_FULL_H40_POLICY_REJECTED": 1
+        },
+        "observed_wall_s": 105.83455852977931,
+        "observed_CPU_s": 50.515916609
+      }
+    }
+  ],
+  "second_layout_min_emitted_width_m": 0.0401936483379315,
+  "second_layout_min_measured_width_m": 0.04014779453881841,
+  "new_native_requests_from_audit": 0,
+  "new_optimizer_updates_from_audit": 0,
+  "new_model_generations_from_audit": 0,
+  "new_integrations_from_audit": 0
+}

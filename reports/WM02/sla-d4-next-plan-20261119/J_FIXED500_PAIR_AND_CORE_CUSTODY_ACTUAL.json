@@ -1,0 +1,549 @@
+{
+  "observed_SGT": "2026-11-19 19:46:52 +08",
+  "job": "1592217.stdct-mgmt-02",
+  "PBS_state": "F",
+  "PBS_exit": 0,
+  "source_sha": "9e7442e752324ad5fec18341b36640a5bbecc70e",
+  "arms": {
+    "J0": {
+      "updates": 500,
+      "target_visits": 16000,
+      "source_visits": 0,
+      "checkpoint_sha256": "9b3bab333cd33c69d2cf688134c4f0d68bbd42a2ce8b0e67d4d9ca9a996afcfd",
+      "result_sha256": "2883261c91f2f54d6c75f5c0c73027d6734c85538a2432ba20679129a5c029e4",
+      "package_sha256": "385ce6b08519e4c24c04cb6432d03d766452967bed6317f7de2632b5ae6301bf",
+      "full_restore": {
+        "bit_exact": true,
+        "arrays": 87,
+        "step": 500,
+        "cursor": 16000,
+        "model_Adam_RNG_restored": true,
+        "optimizer_updates_added": 0
+      },
+      "target_RGB_restore": 16,
+      "source_RGB_restore": 16,
+      "source_DEV_generations": 96,
+      "training_H40_generations": 2000,
+      "target_TRAIN96": {
+        "H40_pass": 95,
+        "H40_and_seam_pass": 85,
+        "terminal_width_MAE_m": 0.006488889424001082,
+        "closures": 1,
+        "annotated_closures": 20
+      },
+      "source_DEV96": {
+        "all": {
+          "count": 96,
+          "normalized_reference_error": 0.07786844430218179,
+          "persistence_error": 0.13895841614915214,
+          "predicted_motion": 0.16584271911573412,
+          "target_motion": 0.13895841614915214,
+          "better_than_persistence": true,
+          "horizons": {
+            "0.5s": {
+              "XYZ_native_error": 0.02492547154082155,
+              "SO3_error_rad": 0.09436270790555897,
+              "gripper_native_error": 0.027352848498988225
+            },
+            "1.0s": {
+              "XYZ_native_error": 0.03732328793010208,
+              "SO3_error_rad": 0.13401265926222863,
+              "gripper_native_error": 0.03270142365890018
+            },
+            "1.5s": {
+              "XYZ_native_error": 0.04059720361033222,
+              "SO3_error_rad": 0.16808118105066105,
+              "gripper_native_error": 0.03844942116188716
+            }
+          }
+        },
+        "dynamic": {
+          "count": 48,
+          "normalized_reference_error": 0.07729835205652345,
+          "persistence_error": 0.17394071980821404,
+          "predicted_motion": 0.1926424635037717,
+          "target_motion": 0.17394071980821404,
+          "better_than_persistence": true,
+          "horizons": {
+            "0.5s": {
+              "XYZ_native_error": 0.028837363355591426,
+              "SO3_error_rad": 0.10305632464018782,
+              "gripper_native_error": 0.020726409423522364
+            },
+            "1.0s": {
+              "XYZ_native_error": 0.03577228844829391,
+              "SO3_error_rad": 0.1225912621406922,
+              "gripper_native_error": 0.03786109421383312
+            },
+            "1.5s": {
+              "XYZ_native_error": 0.03604927376425921,
+              "SO3_error_rad": 0.15053162789122487,
+              "gripper_native_error": 0.047032776006587985
+            }
+          }
+        },
+        "low_change_anchor": {
+          "count": 48,
+          "normalized_reference_error": 0.07843853654784015,
+          "persistence_error": 0.10397611249009016,
+          "predicted_motion": 0.13904297472769647,
+          "target_motion": 0.10397611249009016,
+          "better_than_persistence": true,
+          "horizons": {
+            "0.5s": {
+              "XYZ_native_error": 0.021013579726051678,
+              "SO3_error_rad": 0.08566909117093012,
+              "gripper_native_error": 0.033979287574454085
+            },
+            "1.0s": {
+              "XYZ_native_error": 0.038874287411910256,
+              "SO3_error_rad": 0.14543405638376508,
+              "gripper_native_error": 0.027541753103967236
+            },
+            "1.5s": {
+              "XYZ_native_error": 0.04514513345640523,
+              "SO3_error_rad": 0.1856307342100972,
+              "gripper_native_error": 0.02986606631718634
+            }
+          }
+        },
+        "tasks": {
+          "cover_blocks": {
+            "count": 8,
+            "normalized_reference_error": 0.053802901618646336,
+            "persistence_error": 0.10524968541547383,
+            "predicted_motion": 0.11686163381512944,
+            "target_motion": 0.10524968541547383,
+            "better_than_persistence": true,
+            "horizons": {
+              "0.5s": {
+                "XYZ_native_error": 0.025012669859539843,
+                "SO3_error_rad": 0.0761908309114506,
+                "gripper_native_error": 0.017965231750676616
+              },
+              "1.0s": {
+                "XYZ_native_error": 0.024037401382117615,
+                "SO3_error_rad": 0.07208799505306913,
+                "gripper_native_error": 0.009420526325528207
+              },
+              "1.5s": {
+                "XYZ_native_error": 0.023530912786998093,
+                "SO3_error_rad": 0.08158544657275403,
+                "gripper_native_error": 0.028702277936434824
+              }
+            }
+          },
+          "insert_tubes": {
+            "count": 8,
+            "normalized_reference_error": 0.05937661285718491,
+            "persistence_error": 0.12214235260212755,
+            "predicted_motion": 0.1365599457745661,
+            "target_motion": 0.12214235260212755,
+            "better_than_persistence": true,
+            "horizons": {
+              "0.5s": {
+                "XYZ_native_error": 0.026354822393149475,
+                "SO3_error_rad": 0.06604391266070946,
+                "gripper_native_error": 0.0065146677529517374
+              },
+              "1.0s": {
+                "XYZ_native_error": 0.03092759925740954,
+                "SO3_error_rad": 0.08861893511664692,
+                "gripper_native_error": 0.01592429270040183
+              },
+              "1.5s": {
+                "XYZ_native_error": 0.031349271517233934,
+                "SO3_error_rad": 0.13637180054493392,
+                "gripper_native_error": 0.03075269481447106
+              }
+            }
+          },
+          "make_bread": {
+            "count": 8,
+            "normalized_reference_error": 0.10979156195565996,
+            "persistence_error": 0.19636328682341117,
+            "predicted_motion": 0.22789697898160358,
+            "target_motion": 0.19636328682341117,
+            "better_than_persistence": true,
+            "horizons": {
+              "0.5s": {
+                "XYZ_native_error": 0.03408274307761358,
+                "SO3_error_rad": 0.15960313956561975,
+                "gripper_native_error": 0.05581729317320086
+              },
+              "1.0s": {
+                "XYZ_native_error": 0.05234800503491828,
+                "SO3_error_rad": 0.1711287140494587,
+                "gripper_native_error": 0.08708547907755826
+              },
+              "1.5s": {
+                "XYZ_native_error": 0.04711641081300437,
+                "SO3_error_rad": 0.14568187440023117,
+                "gripper_native_error": 0.11797309797504282
+              }
+            }
+          },
+          "make_food": {
+            "count": 8,
+            "normalized_reference_error": 0.07912312625695608,
+            "persistence_error": 0.11470117382912975,
+            "predicted_motion": 0.15764902593780258,
+            "target_motion": 0.11470117382912975,
+            "better_than_persistence": true,
+            "horizons": {
+              "0.5s": {
+                "XYZ_native_error": 0.022219102026150662,
+                "SO3_error_rad": 0.10594903036293676,
+                "gripper_native_error": 0.01698153660418884
+              },
+              "1.0s": {
+                "XYZ_native_error": 0.03871562587325585,
+                "SO3_error_rad": 0.1461577254336506,
+                "gripper_native_error": 0.03479084273540278
+              },
+              "1.5s": {
+                "XYZ_native_error": 0.0380100931095982,
+                "SO3_error_rad": 0.15265062480733887,
+                "gripper_native_error": 0.07311774622185065
+              }
+            }
+          },
+          "pack_and_pour_fruit": {
+            "count": 8,
+            "normalized_reference_error": 0.06803961404076929,
+            "persistence_error": 0.20583028464676523,
+            "predicted_motion": 0.21565023725412313,
+            "target_motion": 0.20583028464676523,
+            "better_than_persistence": true,
+            "horizons": {
+              "0.5s": {
+                "XYZ_native_error": 0.025854117470366395,
+                "SO3_error_rad": 0.09321912028510573,
+                "gripper_native_error": 0.016663481451904237
+              },
+              "1.0s": {
+                "XYZ_native_error": 0.027358987657927176,
+                "SO3_error_rad": 0.12277645567942477,
+                "gripper_native_error": 0.032305730328714546
+              },
+              "1.5s": {
+                "XYZ_native_error": 0.022352201397387934,
+                "SO3_error_rad": 0.16889227205302892,
+                "gripper_native_error": 0.006214332096924982
+              }
+            }
+          },
+          "store_in_safe": {
+            "count": 8,
+            "normalized_reference_error": 0.09365629560992417,
+            "persistence_error": 0.29935753553237676,
+            "predicted_motion": 0.30123695925940563,
+            "target_motion": 0.29935753553237676,
+            "better_than_persistence": true,
+            "horizons": {
+              "0.5s": {
+                "XYZ_native_error": 0.0395007253067286,
+                "SO3_error_rad": 0.11733191405530462,
+                "gripper_native_error": 0.010416245808211893
+              },
+              "1.0s": {
+                "XYZ_native_error": 0.04124611148413498,
+                "SO3_error_rad": 0.134777747511903,
+                "gripper_native_error": 0.04763969411539312
+              },
+              "1.5s": {
+                "XYZ_native_error": 0.05393675296133277,
+                "SO3_error_rad": 0.2180077489690623,
+                "gripper_native_error": 0.025436506994803588
+              }
+            }
+          }
+        },
+        "actual_task_success_rate": null,
+        "scope": "SOURCE_FUTURE_LOGGED_REFERENCE_NOT_PHYSICAL_COMMAND_OR_TASK_SR"
+      }
+    },
+    "J1": {
+      "updates": 500,
+      "target_visits": 16000,
+      "source_visits": 4000,
+      "checkpoint_sha256": "5c4282e0c220005b2ce783943760d1937db2495028927621ea0bdba3edfb2d40",
+      "result_sha256": "c3770ee17d14083f24375e5f3a1b00411081779c05cb1dab9f1626f3f3e0ea7f",
+      "package_sha256": "890802f8119a5b7990d5de6b0690460fbbfa8a5f090e115ad2b846b80f833e2f",
+      "full_restore": {
+        "bit_exact": true,
+        "arrays": 87,
+        "step": 500,
+        "cursor": 16000,
+        "model_Adam_RNG_restored": true,
+        "optimizer_updates_added": 0
+      },
+      "target_RGB_restore": 16,
+      "source_RGB_restore": 16,
+      "source_DEV_generations": 96,
+      "training_H40_generations": 2000,
+      "target_TRAIN96": {
+        "H40_pass": 96,
+        "H40_and_seam_pass": 91,
+        "terminal_width_MAE_m": 0.00711972244432249,
+        "closures": 0,
+        "annotated_closures": 20
+      },
+      "source_DEV96": {
+        "all": {
+          "count": 96,
+          "normalized_reference_error": 0.059704481931964426,
+          "persistence_error": 0.13895841614915214,
+          "predicted_motion": 0.14576172548132907,
+          "target_motion": 0.13895841614915214,
+          "better_than_persistence": true,
+          "horizons": {
+            "0.5s": {
+              "XYZ_native_error": 0.01734543895239449,
+              "SO3_error_rad": 0.07332987023171128,
+              "gripper_native_error": 0.023479654961893515
+            },
+            "1.0s": {
+              "XYZ_native_error": 0.028965232153281967,
+              "SO3_error_rad": 0.10780118402977501,
+              "gripper_native_error": 0.028499285153801467
+            },
+            "1.5s": {
+              "XYZ_native_error": 0.03129657713756219,
+              "SO3_error_rad": 0.14367007834916437,
+              "gripper_native_error": 0.031854254865151026
+            }
+          }
+        },
+        "dynamic": {
+          "count": 48,
+          "normalized_reference_error": 0.06178662050316588,
+          "persistence_error": 0.17394071980821404,
+          "predicted_motion": 0.1764640825002618,
+          "target_motion": 0.17394071980821404,
+          "better_than_persistence": true,
+          "horizons": {
+            "0.5s": {
+              "XYZ_native_error": 0.02069236338568566,
+              "SO3_error_rad": 0.08257534450215367,
+              "gripper_native_error": 0.0155730415357979
+            },
+            "1.0s": {
+              "XYZ_native_error": 0.027607072834023038,
+              "SO3_error_rad": 0.10325871553584692,
+              "gripper_native_error": 0.031571046328200174
+            },
+            "1.5s": {
+              "XYZ_native_error": 0.02846126453318616,
+              "SO3_error_rad": 0.13477951802396124,
+              "gripper_native_error": 0.04368024209229785
+            }
+          }
+        },
+        "low_change_anchor": {
+          "count": 48,
+          "normalized_reference_error": 0.057622343360762995,
+          "persistence_error": 0.10397611249009016,
+          "predicted_motion": 0.11505936846239628,
+          "target_motion": 0.10397611249009016,
+          "better_than_persistence": true,
+          "horizons": {
+            "0.5s": {
+              "XYZ_native_error": 0.013998514519103325,
+              "SO3_error_rad": 0.06408439596126887,
+              "gripper_native_error": 0.031386268387989136
+            },
+            "1.0s": {
+              "XYZ_native_error": 0.030323391472540904,
+              "SO3_error_rad": 0.11234365252370311,
+              "gripper_native_error": 0.02542752397940276
+            },
+            "1.5s": {
+              "XYZ_native_error": 0.034131889741938225,
+              "SO3_error_rad": 0.1525606386743675,
+              "gripper_native_error": 0.020028267638004204
+            }
+          }
+        },
+        "tasks": {
+          "cover_blocks": {
+            "count": 8,
+            "normalized_reference_error": 0.03550716202915205,
+            "persistence_error": 0.10524968541547383,
+            "predicted_motion": 0.10619937644786898,
+            "target_motion": 0.10524968541547383,
+            "better_than_persistence": true,
+            "horizons": {
+              "0.5s": {
+                "XYZ_native_error": 0.0178015780086277,
+                "SO3_error_rad": 0.05387852755626824,
+                "gripper_native_error": 0.015207334723609758
+              },
+              "1.0s": {
+                "XYZ_native_error": 0.015095797407283437,
+                "SO3_error_rad": 0.05105321065922072,
+                "gripper_native_error": 0.006649162561760409
+              },
+              "1.5s": {
+                "XYZ_native_error": 0.013056434839250668,
+                "SO3_error_rad": 0.06281984579932245,
+                "gripper_native_error": 0.018578249913039066
+              }
+            }
+          },
+          "insert_tubes": {
+            "count": 8,
+            "normalized_reference_error": 0.04217658958053497,
+            "persistence_error": 0.12214235260212755,
+            "predicted_motion": 0.11884125439703132,
+            "target_motion": 0.12214235260212755,
+            "better_than_persistence": true,
+            "horizons": {
+              "0.5s": {
+                "XYZ_native_error": 0.01696204616571031,
+                "SO3_error_rad": 0.049272743893004387,
+                "gripper_native_error": 0.00428810300596472
+              },
+              "1.0s": {
+                "XYZ_native_error": 0.021537925822017998,
+                "SO3_error_rad": 0.06819316769912218,
+                "gripper_native_error": 0.017517614546333195
+              },
+              "1.5s": {
+                "XYZ_native_error": 0.023817678364810232,
+                "SO3_error_rad": 0.12367510943358057,
+                "gripper_native_error": 0.024550061179921548
+              }
+            }
+          },
+          "make_bread": {
+            "count": 8,
+            "normalized_reference_error": 0.09065357903020574,
+            "persistence_error": 0.19636328682341117,
+            "predicted_motion": 0.20740526156467876,
+            "target_motion": 0.19636328682341117,
+            "better_than_persistence": true,
+            "horizons": {
+              "0.5s": {
+                "XYZ_native_error": 0.02532934483411082,
+                "SO3_error_rad": 0.1396780769545424,
+                "gripper_native_error": 0.04454601395959847
+              },
+              "1.0s": {
+                "XYZ_native_error": 0.041767873279777955,
+                "SO3_error_rad": 0.1594443907225392,
+                "gripper_native_error": 0.060606935773880426
+              },
+              "1.5s": {
+                "XYZ_native_error": 0.037437313662492686,
+                "SO3_error_rad": 0.12317020452731932,
+                "gripper_native_error": 0.10511487187936963
+              }
+            }
+          },
+          "make_food": {
+            "count": 8,
+            "normalized_reference_error": 0.060089635369078256,
+            "persistence_error": 0.11470117382912975,
+            "predicted_motion": 0.1349737785105588,
+            "target_motion": 0.11470117382912975,
+            "better_than_persistence": true,
+            "horizons": {
+              "0.5s": {
+                "XYZ_native_error": 0.012997809133093254,
+                "SO3_error_rad": 0.06304968564242266,
+                "gripper_native_error": 0.012809035168452918
+              },
+              "1.0s": {
+                "XYZ_native_error": 0.024469967960825015,
+                "SO3_error_rad": 0.10273112946256654,
+                "gripper_native_error": 0.032374035269946436
+              },
+              "1.5s": {
+                "XYZ_native_error": 0.025991453102805092,
+                "SO3_error_rad": 0.12942805356313952,
+                "gripper_native_error": 0.08866288266762076
+              }
+            }
+          },
+          "pack_and_pour_fruit": {
+            "count": 8,
+            "normalized_reference_error": 0.055397354918469886,
+            "persistence_error": 0.20583028464676523,
+            "predicted_motion": 0.19968758904721642,
+            "target_motion": 0.20583028464676523,
+            "better_than_persistence": true,
+            "horizons": {
+              "0.5s": {
+                "XYZ_native_error": 0.016587629039009663,
+                "SO3_error_rad": 0.08427739058266796,
+                "gripper_native_error": 0.00919257058968172
+              },
+              "1.0s": {
+                "XYZ_native_error": 0.021301431424179278,
+                "SO3_error_rad": 0.11433459633968346,
+                "gripper_native_error": 0.03130465690094078
+              },
+              "1.5s": {
+                "XYZ_native_error": 0.01676267422481692,
+                "SO3_error_rad": 0.15838819190414788,
+                "gripper_native_error": 0.005013092203404577
+              }
+            }
+          },
+          "store_in_safe": {
+            "count": 8,
+            "normalized_reference_error": 0.08689540209155433,
+            "persistence_error": 0.29935753553237676,
+            "predicted_motion": 0.2916772350342166,
+            "target_motion": 0.29935753553237676,
+            "better_than_persistence": true,
+            "horizons": {
+              "0.5s": {
+                "XYZ_native_error": 0.034475773133562225,
+                "SO3_error_rad": 0.10529564238401634,
+                "gripper_native_error": 0.007395191767479813
+              },
+              "1.0s": {
+                "XYZ_native_error": 0.041469441110054545,
+                "SO3_error_rad": 0.12379579833194952,
+                "gripper_native_error": 0.04097387291633978
+              },
+              "1.5s": {
+                "XYZ_native_error": 0.053702033004941356,
+                "SO3_error_rad": 0.2111957029162576,
+                "gripper_native_error": 0.020162294710431537
+              }
+            }
+          }
+        },
+        "actual_task_success_rate": null,
+        "scope": "SOURCE_FUTURE_LOGGED_REFERENCE_NOT_PHYSICAL_COMMAND_OR_TASK_SR"
+      }
+    }
+  },
+  "matched_actual_target_update_rows": 500,
+  "matched_source_bank_visits": 4000,
+  "source_bank_sha256": "a23fb4e46f86c5ea6f1d17748b913bcdcd5565cc1d36c2c04f5508a047b396af",
+  "J0_updates_sha256": "e3af26632331c5b9baba3ed8cb0b7d05b1ba27db260285e8955979a12b690634",
+  "J1_updates_sha256": "4aaecead840387a37744be65b45a1cd2f067362e30234b3a9fb74e8757717a71",
+  "source_gradient_on_target_IO_leaves": 0,
+  "shared_source_gradient_steps": 500,
+  "min_shared_source_gradient_norm": 0.01274636760354042,
+  "median_shared_source_gradient_norm": 0.03445417806506157,
+  "historical_failed_job": "1591681.stdct-mgmt-02",
+  "historical_failed_job_exit": 1,
+  "existing_native_requests": 0,
+  "audit_new_generations": 0,
+  "audit_new_updates": 0,
+  "core_custody_verified": true,
+  "transfer_sha256": "7e5f3cee16896bf6116f8dc2f5d7ae4110dbedc60d241dc343e8fb43bef65ba5",
+  "core_actual_RGB_replay_generations": 0,
+  "core_actual_native_requests": 0,
+  "last_checked_GPU1": {
+    "observed_SGT": "2026-11-19 19:47",
+    "free_MiB": 7379,
+    "total_MiB": 16376,
+    "original_minimum_free_MiB_strictly_over": 13511.2
+  }
+}

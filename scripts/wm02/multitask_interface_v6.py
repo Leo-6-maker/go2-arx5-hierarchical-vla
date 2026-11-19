@@ -7,6 +7,7 @@ import traceback
 from scripts.pi0292.durable import write
 from go2arx5_vla.world_model.mfree_unattended_runtime_v1 import close, unit_state
 from go2arx5_vla.world_model.multitask_scope_v6 import PLAN, SCOPE, read_pin, validate
+from go2arx5_vla.world_model import multisource_d4_native as d4
 from .sim_only_campaign_v51 import run as run_campaign, fatal_control_violation
 
 
@@ -30,7 +31,8 @@ def wait_target_owner(spec):
 
 
 def preflight(spec):
-    if (spec['plan_commit']!=PLAN or spec['scope']!=SCOPE or
+    identity = (spec['plan_commit'], spec['scope'])
+    if (identity not in ((PLAN, SCOPE), (d4.E0_PLAN, d4.E0_SCOPE)) or
             spec['new_physical_requests_budget']!=2 or spec['physics'] is not True or
             spec['new_optimizer_updates_budget'] or spec['new_model_generations_budget'] or
             len(spec['cases'])!=2 or spec.get('resident_server_spec') is not None):
@@ -48,17 +50,46 @@ def preflight(spec):
     return []
 
 
+def e0_predecessor(spec):
+    before = read_pin(spec['wait_D4_native'])
+    if before['scope'] != d4.SCOPE or before['mobile_world_lock'] != spec['mobile_world_lock']:
+        raise ValueError('E0_REQUIRES_THE_ACTUAL_EXISTING_D4_NATIVE_OWNER')
+    root = Path(before['registered_root'])
+    waiting = Path(spec['registered_root'])
+    observed = json.loads((root/'control/LEASE.json').read_bytes())
+    while time.time() < spec['deadline_epoch']-480 and not (waiting/'STOP.json').exists():
+        state = unit_state('wm02-'+root.name)
+        observed = json.loads((root/'control/LEASE.json').read_bytes())
+        if observed['spec_sha256'] != spec['wait_D4_native']['sha256']:
+            raise ValueError('D4_NATIVE_PREDECESSOR_IDENTITY_CHANGED')
+        write(waiting/'PROGRESS.private.json', dict(phase='WAIT_D4_EXISTING_NATIVE_WORLD', epoch=time.time(),
+              waited_lease=observed['status'], waited_MainPID=state['pid'], new_native_requests=0, new_native_ticks=0))
+        if observed['status'] == 'CLOSED' and not state['pid'] and not state['cgroup_pids']:
+            result = json.loads((root/'RESULT.private.json').read_bytes())
+            if (result['unresolved_case_launches']
+                    or any(fatal_control_violation(row) for row in result['records'])):
+                raise ValueError('RECONCILE_D4_PREDECESSOR_TRACE_OR_OWNER_BEFORE_E0')
+            return
+        if not state['pid'] and not state['cgroup_pids'] and observed['status'] == 'ACTIVE':
+            raise ValueError('D4_PREDECESSOR_OWNER_UNKNOWN_NO_AUTOMATIC_E0_DISPATCH')
+        time.sleep(30)
+    raise TimeoutError('FINITE_D4_E0_WAIT_FOR_THE_SINGLE_NATIVE_WORLD')
+
+
 def run(path,spec):
     root=Path(spec['registered_root'])
     try:
         preflight(spec)
-        prior=wait_target_owner(spec)
-        for stage in ('SCREEN','CONFIRM'):
-            result=prior/stage/'RESULT.private.json'
-            if not result.exists():continue
-            report=json.loads(result.read_bytes())
-            if report['unresolved_case_launches'] or any(fatal_control_violation(row) for row in report['records']):
-                raise ValueError('RECONCILE_PREVIOUS_NATIVE_OWNER_OR_TRACE_VIOLATION_FIRST')
+        if spec['scope'] == d4.E0_SCOPE:
+            e0_predecessor(spec)
+        else:
+            prior=wait_target_owner(spec)
+            for stage in ('SCREEN','CONFIRM'):
+                result=prior/stage/'RESULT.private.json'
+                if not result.exists():continue
+                report=json.loads(result.read_bytes())
+                if report['unresolved_case_launches'] or any(fatal_control_violation(row) for row in report['records']):
+                    raise ValueError('RECONCILE_PREVIOUS_NATIVE_OWNER_OR_TRACE_VIOLATION_FIRST')
     except BaseException:
         for case_path in spec['cases']:
             case=json.loads(Path(case_path).read_bytes())

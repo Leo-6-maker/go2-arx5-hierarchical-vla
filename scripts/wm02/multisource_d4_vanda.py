@@ -18,6 +18,8 @@ from go2arx5_vla.sla_adapter.multisource_d4 import ARMS, RECIPE, UPDATES, VISITS
 from go2arx5_vla.sla_adapter.runtime_v1 import read_pin
 
 GIB = 1024**3
+D5_SCOPE = 'SLA_D5_MATCHED_PHYSICAL_GRASP_V1'
+J_SCOPE = 'SLA_J_SOURCE_MATCHED_VANDA_PBS_V1'
 
 
 def pin(path):
@@ -77,11 +79,14 @@ def build_cards(config, root, job_id, gpu, window):
     portable = read_pin(config['portable_data'])
     base = portable['spec']
     source = Path(config['source_root'])
-    foundation = root/'foundation'/portable['model_manifest_filename']
-    dataset = (root/'C20').resolve(strict=True)
-    sidecar = pin(root/'sealed/INPUTS.private.json')
-    contexts = pin(root/'eval/CONTEXTS.private.json')
-    bank = pin(root/'eval/diagnostic/WINDOW48_PLAN.private.json')
+    d5 = config['scope'] == D5_SCOPE
+    joint = config['scope'] == J_SCOPE
+    assets = Path(config['historical_assets_root']) if d5 or joint else root
+    foundation = assets/'foundation'/portable['model_manifest_filename']
+    dataset = (assets/'C20').resolve(strict=True)
+    sidecar = pin(assets/'sealed/INPUTS.private.json')
+    contexts = pin(assets/'eval/CONTEXTS.private.json')
+    bank = pin(assets/'eval/diagnostic/WINDOW48_PLAN.private.json')
     if (sidecar['sha256'] != portable['portable_inputs_sha256']
             or contexts['sha256'] != portable['portable_target_audit_sha256']
             or bank['sha256'] != base['fixed_TRAIN48']['sha256']
@@ -109,26 +114,53 @@ def build_cards(config, root, job_id, gpu, window):
         new_optimizer_updates_budget=UPDATES,microbatch=4,training_matmul_precision='highest',
         aux_samples_per_update=4,aux_sampling_steps=10,physics=False,new_physical_requests_budget=0,
         parent_manifest=pin(foundation),parent_params=str(params),dataset=str(dataset),
-        portable_inputs=sidecar,portable_evaluation=contexts,previous_campaign=str(root/'eval'),
+        portable_inputs=sidecar,portable_evaluation=contexts,previous_campaign=str(assets/'eval'),
         fixed_TRAIN48=bank,compilation_cache_dir=str(cache), site_binding=pin(binding),GPU_uuid=identity,
         deadline_epoch=deadline,JAX_memory_fraction=min(.5,24*GIB/capacity),
         max_walltime_s=window['PBS_wall_s'],max_gpu_hours=6,
         RPC_timeout_s=90,model_service_timeout_s=90,save_and_exit_on_limit=True)
     for key in ('target_audit','tokenizer','initial_function_rule'):
         common[key] = locate_input(sidecar,base[key])
+    arms = ARMS
+    if d5:
+        from go2arx5_vla.sla_adapter import grasp_supervision_d5 as successor
+
+        arms = successor.ARMS
+        common.update(plan_commit=successor.PLAN, operation=successor.RECIPE,
+                      historical_B_initial=config['historical_B_initial'],
+                      historical_dependency_lock=config['historical_dependency_lock'],
+                      sealed_followup_population=config['sealed_followup_population'])
+    if joint:
+        from go2arx5_vla.sla_adapter import joint_source_d4 as successor
+
+        custody = read_pin(config['source_custody'])
+        if not custody['completed'] or (custody['TRAIN'], custody['SOURCE_DEV'], custody['SOURCE_TEST']) != (36, 12, 0):
+            raise ValueError('JOINT_REQUIRES_VERIFIED_TRAIN_DEV_ONLY_SOURCE_CUSTODY')
+        source_data = Path(custody['root'])
+        arms = successor.ARMS
+        common.update(plan_commit=successor.PLAN, operation=successor.RECIPE,
+                      historical_dependency_lock=config['historical_dependency_lock'],
+                      sealed_followup_population=config['sealed_followup_population'],
+                      B500_package=config['B500_package'], source_dataset=str(source_data/'dataset'),
+                      source_raw_root=str(source_data/'raw'), source_visit_bank=str(source_data/'VISITS4000.npy'),
+                      S1000_source_checkpoint=dict(path=str(source_data/'S1000'), sha256=successor.SOURCE_CHECKPOINT))
     env = dict(os.environ, CUDA_VISIBLE_DEVICES=identity, JAX_PLATFORMS='cuda',
         JAX_COMPILATION_CACHE_DIR=str(cache), XLA_FLAGS=portable['XLA_FLAGS'],
         XLA_PYTHON_CLIENT_MEM_FRACTION=str(common['JAX_memory_fraction']),
         XLA_PYTHON_CLIENT_PREALLOCATE='false', HF_HUB_OFFLINE='1', OMP_NUM_THREADS='1',
         OPENBLAS_NUM_THREADS='1', MKL_NUM_THREADS='1', PYTHONDONTWRITEBYTECODE='1')
+    recovery = config.get('recover_J0')
+    if recovery and not joint:
+        raise ValueError('ONLY_J_CAN_RECOVER_A_FIXED_ENDPOINT')
     cards = []
-    for arm in ARMS:
+    for arm in arms:
         folder = root/arm
         folder.mkdir()
         (folder/'data').mkdir()
         (folder/'logs').mkdir()
         card = folder/'EXECUTION_SPEC.json'
-        write(card,dict(common,arm=arm,registered_root=str(folder),
+        fields = dict(recover_J0=recovery) if recovery and arm=='J0' else {}
+        write(card,dict(common,arm=arm,registered_root=str(folder),**fields,
                        S1000_transfer_result=base['S1000_transfer_result'] if arm=='D4-B' else None))
         cards.append(card)
     return cards, env
@@ -144,9 +176,17 @@ def run(config):
         for member,digest in config['source_files'].items():
             if sha(Path(config['source_root'])/member)!=digest:
                 raise ValueError('D4_PBS_IMMUTABLE_SOURCE_MEMBER_CHANGED:'+member)
-        predecessor=read_pin(config['core_released'])
-        if predecessor['lease']!='CLOSED' or predecessor['any_dispatched'] or predecessor['verified_updates']:
-            raise PermissionError('D4_CORE_MUST_CLOSE_WITH_ZERO_DISPATCH')
+        if config['scope'] in (D5_SCOPE, J_SCOPE):
+            from go2arx5_vla.sla_adapter.grasp_supervision_d5 import PLAN as D5_PLAN
+            from .sla_followup_population_v1 import validate_frozen
+
+            if config['plan_commit'] != D5_PLAN:
+                raise PermissionError('EXACT_D5_AND_J_PLAN_REQUIRED')
+            validate_frozen(read_pin(config['sealed_followup_population']))
+        else:
+            predecessor=read_pin(config['core_released'])
+            if predecessor['lease']!='CLOSED' or predecessor['any_dispatched'] or predecessor['verified_updates']:
+                raise PermissionError('D4_CORE_MUST_CLOSE_WITH_ZERO_DISPATCH')
         if config.get('technical_predecessor'):
             earlier=read_pin(config['technical_predecessor'])
             if any((earlier['PBS_state']!='F',earlier['exit_status']!=1,earlier['verified_updates'],
@@ -160,19 +200,28 @@ def run(config):
             folder=card.parent
             row=dict(arm=folder.name)
             records.append(row)
-            for kind,out in (('train','RESULT.private.json'),('restore','RESTORE.private.json')):
+            stages = [('train','RESULT.private.json'), ('restore','RESTORE.private.json')]
+            recover_J0 = config.get('recover_J0') and folder.name=='J0'
+            if config['scope'] == J_SCOPE:
+                stages += [('restore_source','SOURCE_RESTORE.private.json')]
+            for kind,out in stages:
                 if time.time() >= window['deadline_epoch']-300 or (root/'STOP.json').exists():
                     raise TimeoutError('D4_PBS_FINITE_STOP_OR_DEADLINE')
+
+                action = 'recover_J0' if kind=='train' and recover_J0 else kind
 
                 def execute():
                     with (folder/'logs'/f'{kind}.log').open('xb') as log:
                         proc=subprocess.Popen([sys.executable,'-B','-m','scripts.wm02.multisource_d4_vanda',
-                                               kind,str(card)],env=env,stdout=log,stderr=subprocess.STDOUT)
+                                               action,str(card)],env=env,stdout=log,stderr=subprocess.STDOUT)
                         write(root/'ACTIVE_CHILD.private.json',dict(epoch=time.time(),arm=folder.name,kind=kind,pid=proc.pid))
                         result=proc.wait()
                     proof=read(folder/out)
-                    return dict(exit_code=result,result=pin(folder/out),new_updates=proof.get('new_updates'),
-                        new_visits=proof.get('new_visits'),actual_generations=proof.get('actual_generations'))
+                    recovered = proof.get('recovery')
+                    return dict(exit_code=result,result=pin(folder/out),recovered_existing_endpoint=bool(recovered),
+                        new_updates=0 if recovered else proof.get('new_updates'),
+                        new_visits=0 if recovered else proof.get('new_visits'),actual_generations=proof.get('actual_generations'),
+                        new_source_visits=proof.get('new_source_visits'))
 
                 row[kind]=journal.once(folder.name+'-'+kind,pin(card),execute)
                 if row[kind]['exit_code']:
@@ -194,8 +243,17 @@ if __name__ == '__main__':
     mode, path = sys.argv[1:]
     if mode=='pair':
         raise SystemExit(run(read(path)))
-    if mode not in ('train','restore') or not os.environ.get('PBS_JOBID'):
+    if mode not in ('train','recover_J0','restore','restore_source') or not os.environ.get('PBS_JOBID'):
         raise SystemExit('D4_PBS_CHILD_MODE_REQUIRED')
-    from scripts.sla.train_multisource_d4 import run as child
+    spec = read(path)
+    if spec['scope'] == J_SCOPE:
+        from scripts.sla.train_joint_source_d4 import run as joint_child
 
-    raise SystemExit(child(read(path),restore=mode=='restore'))
+        raise SystemExit(joint_child(spec, mode=mode))
+    if mode in ('recover_J0','restore_source'):
+        raise SystemExit('SOURCE_OR_J0_RECOVERY_REQUIRES_JOINT_SCOPE')
+    if spec['scope'] == D5_SCOPE:
+        from scripts.sla.train_grasp_supervision_d5 import run as child
+    else:
+        from scripts.sla.train_multisource_d4 import run as child
+    raise SystemExit(child(spec,restore=mode=='restore'))

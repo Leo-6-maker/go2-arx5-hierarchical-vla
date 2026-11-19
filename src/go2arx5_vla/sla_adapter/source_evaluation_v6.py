@@ -43,7 +43,7 @@ def summarize(rows):
         actual_task_success_rate=None,scope='SOURCE_FUTURE_LOGGED_REFERENCE_NOT_PHYSICAL_COMMAND_OR_TASK_SR')
 
 
-def evaluate(engine,root,split,*,endpoint,dataset=None,windows=None):
+def evaluate(engine,root,split,*,endpoint,dataset=None,windows=None,stop=None):
     root=Path(root)
     if windows is None:
         if split not in('TRAIN','SOURCE_DEV'):raise ValueError('SOURCE_TEST_REQUIRES_EXPLICIT_POST_FREEZE_DATASET_AND_BANK')
@@ -54,6 +54,8 @@ def evaluate(engine,root,split,*,endpoint,dataset=None,windows=None):
     lookup={key:i for i,key in enumerate(dataset.rows)};rows=[];restore=[]
     out=root/(endpoint+'-'+split);out.mkdir()
     for number,window in enumerate(windows):
+        if stop is not None and stop():
+            raise TimeoutError('FINITE_SOURCE_EVALUATION_BEFORE_NEXT_GENERATION')
         if split=='SOURCE_TEST' and (time.time()>=engine.spec['deadline_epoch']-60 or (root/'STOP.json').exists()):
             raise TimeoutError('FINITE_SOURCE_TEST_BEFORE_NEXT_GENERATION')
         index=lookup[window['episode'],window['anchor']];noise_id=int.from_bytes(hashlib.sha256(('V6_SOURCE/'+window['id']+'/2026111808').encode()).digest()[:4],'little')

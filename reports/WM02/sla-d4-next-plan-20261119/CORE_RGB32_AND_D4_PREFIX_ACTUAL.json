@@ -1,0 +1,599 @@
+{
+  "schema": "SLA_D416_CORE_GPU_RGB32_AND_CLOSED_NATIVE_PREFIX_ACTUAL_V1",
+  "plan_commit": "cf9d1acbf72e96b1bd158322ff8cbaf8fe28fabb",
+  "native_prefix": {
+    "planned": 48,
+    "first_layout": 12,
+    "closed": 10,
+    "native_ticks": 441541,
+    "generations": 1539,
+    "consumed_atoms": 15380,
+    "grasp": 0,
+    "lift20": 0,
+    "task_success": 0,
+    "contact_STOP": 1,
+    "native_score_cache_differences": 1,
+    "terminal_audit_sha256": "0005319aaf2b7b0357520350f64d1deed3747fe5b8dad339a116d882aaddd71c",
+    "cases": [
+      {
+        "case": "D4-DEV-F1-1-HOLD-red-D4-A",
+        "arm": "D4-A",
+        "instruction": "HOLD-red",
+        "native_ticks": 35703,
+        "generations": 120,
+        "measured_min_width_m": 0.038380606137063664,
+        "first_failure": "FIXED_TASK_BUDGET_EXHAUSTED",
+        "native_result_sha256": "2d0966a1eaac8015ef9bf85750c32f790ff2f57e48c53e5437888e53614860cf",
+        "technical_failure": false,
+        "grasp": false,
+        "lift20": false,
+        "full_task": false,
+        "STOP": false
+      },
+      {
+        "case": "D4-DEV-F1-1-HOLD-red-D4-B",
+        "arm": "D4-B",
+        "instruction": "HOLD-red",
+        "native_ticks": 35703,
+        "generations": 120,
+        "measured_min_width_m": 0.04192307637491905,
+        "first_failure": "FIXED_TASK_BUDGET_EXHAUSTED",
+        "native_result_sha256": "398d49da2c790c71c1620cd11e326c64b22caed876d293a11c3d3fa2776fbb8b",
+        "technical_failure": false,
+        "grasp": false,
+        "lift20": false,
+        "full_task": false,
+        "STOP": false
+      },
+      {
+        "case": "D4-DEV-F1-1-HOLD-blue-D4-B",
+        "arm": "D4-B",
+        "instruction": "HOLD-blue",
+        "native_ticks": 35703,
+        "generations": 120,
+        "measured_min_width_m": 0.04192847001229119,
+        "first_failure": "FIXED_TASK_BUDGET_EXHAUSTED",
+        "native_result_sha256": "76c4868656a5f93990e0c07afea54b58b0d7a7a70ce0033a349d332abccdde3f",
+        "technical_failure": false,
+        "grasp": false,
+        "lift20": false,
+        "full_task": false,
+        "STOP": false
+      },
+      {
+        "case": "D4-DEV-F1-1-HOLD-blue-D4-A",
+        "arm": "D4-A",
+        "instruction": "HOLD-blue",
+        "native_ticks": 35703,
+        "generations": 120,
+        "measured_min_width_m": 0.041533567984780716,
+        "first_failure": "FIXED_TASK_BUDGET_EXHAUSTED",
+        "native_result_sha256": "93c25f1ddb4cc842f2a3218b5e4540ed8524eba98a3b2cad1cf354f56e21d878",
+        "technical_failure": false,
+        "grasp": false,
+        "lift20": false,
+        "full_task": false,
+        "STOP": false
+      },
+      {
+        "case": "D4-DEV-F1-1-PLACE-red-left-D4-A",
+        "arm": "D4-A",
+        "instruction": "PLACE-red-left",
+        "native_ticks": 50703,
+        "generations": 180,
+        "measured_min_width_m": 0.04168794008847056,
+        "first_failure": "FIXED_TASK_BUDGET_EXHAUSTED",
+        "native_result_sha256": "a6044d6ea1b6c27cfc4803dd62f31c0c4d0f22aad09ceb0415afd41d129295f0",
+        "technical_failure": false,
+        "grasp": false,
+        "lift20": false,
+        "full_task": false,
+        "STOP": false
+      },
+      {
+        "case": "D4-DEV-F1-1-PLACE-red-left-D4-B",
+        "arm": "D4-B",
+        "instruction": "PLACE-red-left",
+        "native_ticks": 50703,
+        "generations": 180,
+        "measured_min_width_m": 0.04195823180154986,
+        "first_failure": "FIXED_TASK_BUDGET_EXHAUSTED",
+        "native_result_sha256": "28ba6e0fad86e02a6ef58199768f3b892990df65e759d747971fdb0aada98d07",
+        "technical_failure": false,
+        "grasp": false,
+        "lift20": false,
+        "full_task": false,
+        "STOP": false
+      },
+      {
+        "case": "D4-DEV-F1-1-PLACE-red-right-D4-B",
+        "arm": "D4-B",
+        "instruction": "PLACE-red-right",
+        "native_ticks": 50703,
+        "generations": 180,
+        "measured_min_width_m": 0.04196371419544724,
+        "first_failure": "FIXED_TASK_BUDGET_EXHAUSTED",
+        "native_result_sha256": "8fef494eea6deb6adcfca8f71956b58b44276c103a514caf9a4d78a995814caa",
+        "technical_failure": false,
+        "grasp": false,
+        "lift20": false,
+        "full_task": false,
+        "STOP": false
+      },
+      {
+        "case": "D4-DEV-F1-1-PLACE-red-right-D4-A",
+        "arm": "D4-A",
+        "instruction": "PLACE-red-right",
+        "native_ticks": 45214,
+        "generations": 159,
+        "measured_min_width_m": 0.04125177907246326,
+        "first_failure": "ILLEGAL_CONTACT",
+        "native_result_sha256": "f262f07f4f0afceb197796ace280dab8908266dae6e4cc8ab20dc3c7bee58c29",
+        "technical_failure": false,
+        "grasp": false,
+        "lift20": false,
+        "full_task": false,
+        "STOP": true
+      },
+      {
+        "case": "D4-DEV-F1-1-PLACE-blue-left-D4-A",
+        "arm": "D4-A",
+        "instruction": "PLACE-blue-left",
+        "native_ticks": 50703,
+        "generations": 180,
+        "measured_min_width_m": 0.04171130241992397,
+        "first_failure": "FIXED_TASK_BUDGET_EXHAUSTED",
+        "native_result_sha256": "42b5a3f609372dd4ad5aa809d0b7271539592baec727462aa84b143d9bf41c29",
+        "technical_failure": false,
+        "grasp": false,
+        "lift20": false,
+        "full_task": false,
+        "STOP": false
+      },
+      {
+        "case": "D4-DEV-F1-1-PLACE-blue-left-D4-B",
+        "arm": "D4-B",
+        "instruction": "PLACE-blue-left",
+        "native_ticks": 50703,
+        "generations": 180,
+        "measured_min_width_m": 0.04192581517829094,
+        "first_failure": "FIXED_TASK_BUDGET_EXHAUSTED",
+        "native_result_sha256": "282439f15f20564e1ade5ab18b0a634afce8cab84b2d7ccf5e0acda787ad9239",
+        "technical_failure": false,
+        "grasp": false,
+        "lift20": false,
+        "full_task": false,
+        "STOP": false
+      }
+    ],
+    "terminal_limit_failures": 9,
+    "first_STOP": {
+      "case": "D4-DEV-F1-1-PLACE-red-right-D4-A",
+      "native_tick": 45214,
+      "after_STOP_ticks": 0,
+      "technical_failure": false,
+      "score_reconciled_native_tail_ticks": 11,
+      "simulator_processes_closed_cleanly": true,
+      "post_exit_process_rescan": "EXACT_OWNED_SIMULATOR_PID_REQUIRED",
+      "receipt_sha256": "6a33d1c846f16f351492a9aa313e7ce9d561843c4d1c6b3da0e6d354526393ff",
+      "terminal_contacts": [
+        {
+          "geom_ids": [
+            66,
+            1
+          ],
+          "geoms": [
+            null,
+            "task_table"
+          ],
+          "bodies": [
+            "x5_link2",
+            "world"
+          ],
+          "penetration_m": 6.257516523798523e-06,
+          "normal_force_N": 7.965199562829678
+        },
+        {
+          "geom_ids": [
+            66,
+            1
+          ],
+          "geoms": [
+            null,
+            "task_table"
+          ],
+          "bodies": [
+            "x5_link2",
+            "world"
+          ],
+          "penetration_m": 6.257516523798523e-06,
+          "normal_force_N": 7.965199562829678
+        }
+      ],
+      "terminal_contacts_receipt_sha256": "13b3044dbee92642265715670e9c20b088cb66860c413bd5bfd24086a852f41e"
+    },
+    "source_case_audit_digests": [
+      "382cfdcddeb69841670217056699e5cc560030d80ef21c10d60910a7b29aeaa4",
+      "845a6dc268c3499d1df3323e6bf09872547d258b06551919b2c8fc3bac7bd13e"
+    ],
+    "H40_crossing_counts": {
+      "no_crossing": 1539
+    },
+    "initial_pairs": [
+      {
+        "layout": "D4-DEV-F1-1",
+        "instruction": "HOLD-red",
+        "initial_max_abs_difference": {
+          "qpos": 0.02831246537834564,
+          "qvel": 0.0013014002951359897,
+          "ctrl": 0.8718221270817332,
+          "TCP": 0.002804724793771882,
+          "base": 0.007243995707820666,
+          "objects": {
+            "red": 4.2577368222596715e-18,
+            "blue": 3.8374620684520444e-18
+          },
+          "controller_mount": 0.007243995549325247
+        },
+        "initial_pose_difference": {
+          "TCP": {
+            "translation_m": 0.0008834101543596218,
+            "rotation_deg": 0.17642948723650795
+          },
+          "x5_mount_from_state": {
+            "translation_m": 0.00391938856201338,
+            "rotation_deg": 0.5669868706332575
+          },
+          "red": {
+            "translation_m": 0.0,
+            "rotation_deg": 0.0
+          },
+          "blue": {
+            "translation_m": 0.0,
+            "rotation_deg": 0.0
+          },
+          "controller_mount": {
+            "translation_m": 0.0039193884540487806,
+            "rotation_deg": 0.566986844151632
+          },
+          "Go2_root_free_joint": {
+            "translation_m": 0.004923262473811691,
+            "rotation_deg": 0.566986870636112
+          }
+        },
+        "stop_A": false,
+        "stop_B": false
+      },
+      {
+        "layout": "D4-DEV-F1-1",
+        "instruction": "HOLD-blue",
+        "initial_max_abs_difference": {
+          "qpos": 0.00013259894604844558,
+          "qvel": 0.0024858574444653753,
+          "ctrl": 0.042691730169333475,
+          "TCP": 7.178999602586167e-05,
+          "base": 1.238975299232975e-05,
+          "objects": {
+            "red": 5.8422293232571146e-18,
+            "blue": 4.2327468917071694e-18
+          },
+          "controller_mount": 1.2382864952087402e-05
+        },
+        "initial_pose_difference": {
+          "TCP": {
+            "translation_m": 3.474835236447511e-05,
+            "rotation_deg": 0.004210062514932081
+          },
+          "x5_mount_from_state": {
+            "translation_m": 1.2458853584479339e-05,
+            "rotation_deg": 0.0007616110769645838
+          },
+          "red": {
+            "translation_m": 0.0,
+            "rotation_deg": 0.0
+          },
+          "blue": {
+            "translation_m": 0.0,
+            "rotation_deg": 0.0
+          },
+          "controller_mount": {
+            "translation_m": 1.2451751763972386e-05,
+            "rotation_deg": 0.000761646488427304
+          },
+          "Go2_root_free_joint": {
+            "translation_m": 1.263779513741368e-05,
+            "rotation_deg": 0.0007616101198709674
+          }
+        },
+        "stop_A": false,
+        "stop_B": false
+      },
+      {
+        "layout": "D4-DEV-F1-1",
+        "instruction": "PLACE-red-left",
+        "initial_max_abs_difference": {
+          "qpos": 8.493941358123092e-05,
+          "qvel": 0.0016655459714144455,
+          "ctrl": 0.0441000791592252,
+          "TCP": 3.360100429841695e-05,
+          "base": 2.5076308580077034e-05,
+          "objects": {
+            "red": 7.217571713359895e-18,
+            "blue": 1.0319147322105647e-17
+          },
+          "controller_mount": 2.50752118823791e-05
+        },
+        "initial_pose_difference": {
+          "TCP": {
+            "translation_m": 1.7806584485347662e-05,
+            "rotation_deg": 0.0021060995184102216
+          },
+          "x5_mount_from_state": {
+            "translation_m": 1.743404417714448e-05,
+            "rotation_deg": 0.0019575523539743962
+          },
+          "red": {
+            "translation_m": 0.0,
+            "rotation_deg": 0.0
+          },
+          "blue": {
+            "translation_m": 0.0,
+            "rotation_deg": 0.0
+          },
+          "controller_mount": {
+            "translation_m": 1.7429867845037304e-05,
+            "rotation_deg": 0.0019574804856721246
+          },
+          "Go2_root_free_joint": {
+            "translation_m": 2.0138604180095676e-05,
+            "rotation_deg": 0.001957554588108439
+          }
+        },
+        "stop_A": false,
+        "stop_B": false
+      },
+      {
+        "layout": "D4-DEV-F1-1",
+        "instruction": "PLACE-red-right",
+        "initial_max_abs_difference": {
+          "qpos": 4.293452142478671e-05,
+          "qvel": 0.0013983493251943143,
+          "ctrl": 0.015112457406678992,
+          "TCP": 4.39182444585684e-05,
+          "base": 7.396225175477014e-06,
+          "objects": {
+            "red": 4.9413490653615595e-18,
+            "blue": 1.1620996044898862e-17
+          },
+          "controller_mount": null
+        },
+        "initial_pose_difference": {
+          "TCP": {
+            "translation_m": 1.5083921953423003e-05,
+            "rotation_deg": 0.0025675439347408223
+          },
+          "x5_mount_from_state": {
+            "translation_m": 5.571435693363887e-06,
+            "rotation_deg": 0.0004499913605703782
+          },
+          "red": {
+            "translation_m": 0.0,
+            "rotation_deg": 0.0
+          },
+          "blue": {
+            "translation_m": 0.0,
+            "rotation_deg": 0.0
+          },
+          "Go2_root_free_joint": {
+            "translation_m": 5.668130146790581e-06,
+            "rotation_deg": 0.000449999459868109
+          }
+        },
+        "stop_A": true,
+        "stop_B": false
+      },
+      {
+        "layout": "D4-DEV-F1-1",
+        "instruction": "PLACE-blue-left",
+        "initial_max_abs_difference": {
+          "qpos": 8.06341639993935e-05,
+          "qvel": 0.0036728029122511485,
+          "ctrl": 0.048826159042986816,
+          "TCP": 9.085945193759454e-06,
+          "base": 1.4396352993877905e-05,
+          "objects": {
+            "red": 1.6140721215470148e-17,
+            "blue": 1.173205075215513e-17
+          },
+          "controller_mount": 1.4396463064919596e-05
+        },
+        "initial_pose_difference": {
+          "TCP": {
+            "translation_m": 1.1290400692078057e-05,
+            "rotation_deg": 0.0005734029235828013
+          },
+          "x5_mount_from_state": {
+            "translation_m": 5.158083885270298e-06,
+            "rotation_deg": 0.0008265446122359758
+          },
+          "red": {
+            "translation_m": 0.0,
+            "rotation_deg": 0.0
+          },
+          "blue": {
+            "translation_m": 0.0,
+            "rotation_deg": 0.0
+          },
+          "controller_mount": {
+            "translation_m": 5.1573321269608424e-06,
+            "rotation_deg": 0.0008265446122359758
+          },
+          "Go2_root_free_joint": {
+            "translation_m": 5.006731870544385e-06,
+            "rotation_deg": 0.0008265446122306004
+          }
+        },
+        "stop_A": false,
+        "stop_B": false
+      }
+    ],
+    "raw_qpos_qvel_ctrl_differences_are_max_component_not_single_unit": true,
+    "timing": {
+      "observed": "2026-11-19T14:15:28+08:00",
+      "episodes": 10,
+      "completed_reply_timings": 1539,
+      "sum_case_wall_s": 6857.327749077231,
+      "CPU_parent_s": 3652.4991230180003,
+      "phases_s": {
+        "observation_to_RGB_input": 13.471797411330044,
+        "input_ready_to_request": 10.961222315207124,
+        "request_to_reply": 376.3916785614565,
+        "provider_inside_worker": 324.048208120279,
+        "worker_inside_request_to_reply": 338.5840543387458
+      },
+      "provider_worker_timings_nested_in_request_reply": true,
+      "compiler_callback_storage_components_independently_timed": false,
+      "timing_readback_sha256": "25949173578fc8ce3494aa359abda0605864c10fc80f7a917ab22043d28431e3"
+    },
+    "detached_auditor": {
+      "unit": "wm02-sla-d4-first12-readonly-20261119-01",
+      "spec_sha256": "a25383aea633117056de01c76d5dde1a5f408c3469663347b17b085f1b61e947",
+      "source_sha": "d48c28ff8405db1dc75204b50006101b260be522",
+      "deadline": "2026-11-19T15:43:59+08:00",
+      "initial_receipt_sha256": "49f20ed4453646f7ef94b5c37ca7f70d5c1b99fe04ed4d56ab95c0108a1468af",
+      "verified_heartbeat": "2026-11-19T14:15:14+08:00",
+      "new_generations": 0,
+      "new_native_requests": 0
+    }
+  },
+  "core_RGB32": {
+    "source_sha": "f6a85e79a38b09fce5749f942c343927fe6c16a0",
+    "spec_sha256": "4e5a16b2ffba0af28f3b2f67417f3385b1e3b1e9c233a3724f3935d6c565b932",
+    "terminal_sha256": "59b5b0ae45f3e7e7d34316a765079b7121b932165cefb4c0c4c386b07bb4aa40",
+    "readback_time": "2026-11-19T13:35:51+08:00",
+    "gpu": "Corelab RTX 4080 SUPER GPU1",
+    "attempted": 32,
+    "completed": 32,
+    "normalized_bit_exact": 32,
+    "physical_bit_exact": 0,
+    "strict_comparator_passed": false,
+    "max_rotation6_abs": 3.3306690738754696e-16,
+    "max_XYZ_abs_m": 2.220446049250313e-16,
+    "max_width_abs_m": 8.881784197001253e-18,
+    "original_compiler_and_seam_decisions_matched": 32,
+    "passed_original_H40_and_seam": 30,
+    "compiler_audit_sha256": "dcd4c3cda1c34280f071d635db781af7cac2b9090e0aa31955f921be7b4e7e99",
+    "wall_s": 386.5262580551207,
+    "native_requests": 0,
+    "integration_ticks": 0
+  },
+  "d5": {
+    "observed": "2026-11-19T14:16:34+08:00",
+    "PBS_id": "1591464.stdct-mgmt-02",
+    "state": "R",
+    "actual": {
+      "D5-W": {
+        "updates": 298,
+        "target_visits": 9536,
+        "source_visits": 0,
+        "training_H40_generations": 1192,
+        "initial_sha256": "441f8a57e397abc2531eb7bffc6f220654109dec1171e5aa1c811e4f09d2e470"
+      },
+      "D5-T": {
+        "updates": 0,
+        "target_visits": 0,
+        "source_visits": 0,
+        "training_H40_generations": 0,
+        "initial_sha256": null
+      }
+    },
+    "wall": "00:54:18",
+    "native_requests": 0,
+    "readback_sha256": "cb5277c4053f134dab5d95d89b2a0cf56532e2a309051fe523bdbb66d6f2c0ee",
+    "current_PBS_state": "R",
+    "PBS_enforced_deadline": "2026-11-19T19:18:55+08:00"
+  },
+  "joint": {
+    "CPU_evidence_sha256": "ff0beb0f406ed0bfc1ae164ab9b1e1765eaebd2d21e15a15aa7336f18c6d8bfd",
+    "CPU": {
+      "source_sha": "9677487ae1344811cf85be992aa36ac73a54d201",
+      "backend": "cpu",
+      "abstract_Pi0_H40_H50": true,
+      "same_frozen_shape_keys": 43,
+      "shared_loRA": 20,
+      "private_target_no_source_grad": 8,
+      "source_private_file_hashes": 8,
+      "registered_weight": 0.25,
+      "optimizer_updates": 0,
+      "training_visits": 0,
+      "model_generations": 0,
+      "native_requests": 0
+    },
+    "source_private_copied_to_optimizer": false,
+    "PBS_id": "1591681.stdct-mgmt-02",
+    "PBS_state": "R",
+    "source_sha": "15cb5568cd1f1fa7cfd06b2c53d1813dfd8eec68",
+    "spec_sha256": "01da2c9da4bae0db3573126b2b7ed6980193c24d4b7cba7e80090fea4b1bb0e1",
+    "observed": "2026-11-19T14:16:34+08:00",
+    "stage_deadline": "2026-11-20T01:20:47+08:00",
+    "actual": {
+      "J0": {
+        "updates": 88,
+        "target_visits": 2816,
+        "source_visits": 0,
+        "training_H40_generations": 352,
+        "initial_sha256": "f3145b0814205c73d2948ad93ccf3ba9973c9ba73721055e38d12bdb24ad95e3"
+      },
+      "J1": {
+        "updates": 0,
+        "target_visits": 0,
+        "source_visits": 0,
+        "training_H40_generations": 0,
+        "initial_sha256": null
+      }
+    },
+    "source_custody_sha256": "a80136ddd9fc419a9a45cc133624459d871c2579adfd8f11834a595400d6ccf8",
+    "source_custody": {
+      "verified_members": 109,
+      "TRAIN": 36,
+      "SOURCE_DEV": 12,
+      "SOURCE_TEST": 0,
+      "bytes": 8723922557,
+      "completed": true
+    },
+    "native_requests": 0,
+    "wall": "00:16:19",
+    "current_PBS_state": "R",
+    "PBS_enforced_deadline": "2026-11-19T19:56:22+08:00",
+    "readback_sha256": "cb5277c4053f134dab5d95d89b2a0cf56532e2a309051fe523bdbb66d6f2c0ee"
+  },
+  "E0_core_interfaces": {
+    "unit": "wm02-sla-d4-core-e0-interfaces-20261119-01",
+    "main_PID": 3393746,
+    "source": "3c68f5c9cfe4a7daa34a23aebfb9338c01cebc5a",
+    "spec_sha256": "5912f331e72b0d90526eb6fb7a2c084a938b6f211217a3badf5a271356d1d5f2",
+    "deadline_SGT": "2026-11-20T00:12:04+08:00",
+    "dispatched": 0,
+    "planned": 2,
+    "native_ticks": 0,
+    "model_generations": 0,
+    "predecessor_PID": 3300943,
+    "phase": "WAIT_D4_EXISTING_NATIVE_WORLD",
+    "independent_unit_readback_sha256": "6af22a1ae6b189490fd2d495710ed2234fb20153f5d0b395d5ba5172d7877652"
+  },
+  "followup_transfer_preflight": {
+    "source_sha": "d48c28ff8405db1dc75204b50006101b260be522",
+    "validated_GPU1_free_MiB": 15838,
+    "verified_CPU_sets": [
+      12,
+      13,
+      14,
+      15
+    ],
+    "measured": "2026-11-19T14:15:27+08:00",
+    "site_resource_readback_sha256": "2366284f2a8127557e1abb21e358341122f6310d0ba5d38b6b189bd6f77fd7cc",
+    "transfered_terminal_endpoint_pairs": 0,
+    "Core_followup_model_generations": 0,
+    "Core_followup_native_requests": 0
+  }
+}

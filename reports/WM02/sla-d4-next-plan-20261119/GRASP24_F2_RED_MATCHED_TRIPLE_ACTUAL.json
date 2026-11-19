@@ -1,0 +1,141 @@
+{
+  "observed_SGT": "2026-11-19 18:46",
+  "source_sha": "b405fb173c91a32a1ad5b86aa9e87418cd0d0d56",
+  "scope_spec_sha256": "b66e80aadd046bd13cb8bbc3c56a0df5725bd3c20af586c86b8f4885b232357a",
+  "newly_read_terminal_cases": [
+    {
+      "case": "D5_GRASP24-F2-1-HOLD-red-D4-B",
+      "arm": "D4-B",
+      "instruction": "HOLD-red",
+      "layout": "D5_GRASP24-F2-1",
+      "reset": 700001,
+      "noise_seed": 2037311916,
+      "scene_sha256": "b1e5179682a16240cac9dd5f11ba0963b754eb7bf179d6dd819a2f5a9f1b02f3",
+      "native_result_sha256": "52fc513c2eb2675fd8236722210a0c82b529880ea128bea240e6df32dab84ce6",
+      "native_request": 1,
+      "native_ticks": 27203,
+      "generations": 87,
+      "confirmed_atoms": 860,
+      "emitted_min_width_m": 0.040052688510476823,
+      "measured_min_width_m": 0.04027328405658358,
+      "first_failure": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+      "first_stop": null,
+      "STOP_after_ticks": null,
+      "technical_failure": false,
+      "wall_s": 409.0729834642261,
+      "CPU_s": 213.726550837,
+      "contact_evidence": [],
+      "query_counts": {
+        "no_crossing": 87
+      },
+      "final_partial_atom_ticks": 0,
+      "scored_native_states": 21501,
+      "ever_target_grasp": false,
+      "ever_target_lift20mm": false,
+      "task_success": false,
+      "missing_native_intervals": 0
+    },
+    {
+      "case": "D5_GRASP24-F2-1-HOLD-red-D5-W",
+      "arm": "D5-W",
+      "instruction": "HOLD-red",
+      "layout": "D5_GRASP24-F2-1",
+      "reset": 700001,
+      "noise_seed": 2037311916,
+      "scene_sha256": "b1e5179682a16240cac9dd5f11ba0963b754eb7bf179d6dd819a2f5a9f1b02f3",
+      "native_result_sha256": "c84aa6ba31fd2c53569eccc1ec353914edeff7e81bb5a6bd1436c1d4068abe5b",
+      "native_request": 1,
+      "native_ticks": 24005,
+      "generations": 74,
+      "confirmed_atoms": 732,
+      "emitted_min_width_m": 0.041994639116374285,
+      "measured_min_width_m": 0.041206008742079796,
+      "first_failure": "ILLEGAL_CONTACT",
+      "first_stop": {
+        "kind": "stop",
+        "reason": "ILLEGAL_CONTACT",
+        "steps": 24005
+      },
+      "STOP_after_ticks": 0,
+      "technical_failure": false,
+      "wall_s": 334.58189575280994,
+      "CPU_s": 174.661569649,
+      "contact_evidence": [
+        {
+          "geoms": [
+            {
+              "geom_id": 73,
+              "geom": null,
+              "body": "x5_link6",
+              "geom_type": "mjGEOM_CAPSULE"
+            },
+            {
+              "geom_id": 79,
+              "geom": "task_blue_cube_geom",
+              "body": "task_blue_cube",
+              "geom_type": "mjGEOM_BOX"
+            }
+          ],
+          "distance_m": -5.021026663879283e-05,
+          "normal_force_N": 1.7479010278520704
+        }
+      ],
+      "query_counts": {
+        "no_crossing": 74
+      },
+      "final_partial_atom_ticks": 2,
+      "scored_native_states": 18303,
+      "ever_target_grasp": false,
+      "ever_target_lift20mm": false,
+      "task_success": false,
+      "missing_native_intervals": 0
+    }
+  ],
+  "newly_read_totals": {
+    "terminal_cases": 2,
+    "verified_cases": 2,
+    "evidence_errors": 0,
+    "scored_cases": 2,
+    "native_requests": 2,
+    "native_ticks": 51208,
+    "model_generations": 161,
+    "complete_success": 0,
+    "correct_grasp": 0,
+    "lift20mm": 0,
+    "observed_safety_STOP": 1,
+    "observed_illegal_contact_STOP": 1,
+    "observed_integrations_after_STOP": 0,
+    "safety_STOP_with_unknown_post_stop_ticks": 0,
+    "observed_technical_failures": 0,
+    "confirmed_atoms_observed": 1592,
+    "H40_first_closure_by_region": {
+      "P10": 0,
+      "tail30": 0,
+      "no_crossing": 161
+    },
+    "first_failures": {
+      "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED": 1,
+      "ILLEGAL_CONTACT": 1
+    },
+    "observed_wall_s": 743.6548792170361,
+    "observed_CPU_s": 388.388120486
+  },
+  "cumulative": {
+    "sealed": 9,
+    "planned": 24,
+    "native_ticks": 272571,
+    "H40": 890,
+    "never_crossing_22mm": 890,
+    "correct_grasp": 0,
+    "lift20mm": 0,
+    "task_success": 0,
+    "contacts": 5,
+    "ticks_after_STOP": 0,
+    "technical_failures": 0
+  },
+  "remaining_fixed_conditions": 15,
+  "confirm32_released": false,
+  "independent_cpu_audit_new_generations": 0,
+  "independent_cpu_audit_new_native_ticks": 0,
+  "independent_cpu_audit_new_updates": 0
+}

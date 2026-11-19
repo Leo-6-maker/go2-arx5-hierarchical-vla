@@ -1,0 +1,592 @@
+{
+  "closed_D4_panel_prefix": {
+    "terminal_cases": 16,
+    "verified_cases": 16,
+    "evidence_errors": 0,
+    "scored_cases": 16,
+    "native_requests": 16,
+    "native_ticks": 679824,
+    "model_generations": 2356,
+    "complete_success": 0,
+    "correct_grasp": 0,
+    "lift20mm": 0,
+    "observed_safety_STOP": 2,
+    "observed_illegal_contact_STOP": 2,
+    "observed_integrations_after_STOP": 0,
+    "safety_STOP_with_unknown_post_stop_ticks": 0,
+    "observed_technical_failures": 0,
+    "confirmed_atoms_observed": 23542,
+    "H40_first_closure_by_region": {
+      "P10": 0,
+      "tail30": 0,
+      "no_crossing": 2356
+    },
+    "first_failures": {
+      "FIXED_TASK_BUDGET_EXHAUSTED": 14,
+      "ILLEGAL_CONTACT": 2
+    },
+    "observed_wall_s": 10421.528941663913,
+    "observed_CPU_s": 5579.226476952001
+  },
+  "closed_D4_panel_prefix_receipt_sha256": "4af435ad1e671637c0b00ba6d295975ceed7c83f86d2dc7dd903aae613de6306",
+  "schema": "D4_F1_HOLD_RECORDED_APPROACH_GEOMETRY_ACTUAL_V1",
+  "observed": "2026-11-19T15:16:11+08:00",
+  "source_spec_sha256": "a25383aea633117056de01c76d5dde1a5f408c3469663347b17b085f1b61e947",
+  "plan_sha": "cf9d1acbf72e96b1bd158322ff8cbaf8fe28fabb",
+  "native_source_sha": "56b096101fb1d52a0b4458a136d696a284699bfe",
+  "source_readonly_receipts": [
+    {
+      "sha256": "f61e159762aefe2975126fa1696c87a9f40f10cdd7683087c0248acaa2b0463b",
+      "wall_s": 28.839136791415513,
+      "observed_epoch": 1795072459.554171
+    },
+    {
+      "sha256": "ad639eb14def78efa7c7b2800fbb952d23538ed2e29f2eed081876546228caf3",
+      "wall_s": 14.289420049637556,
+      "observed_epoch": 1795072360.6779873
+    },
+    {
+      "sha256": "c1a2923b28d78cf831bc1f437f5ea3fb3a7f14d7a2cb1cb4e0be0ad543ed666c",
+      "wall_s": 14.920516708865762,
+      "observed_epoch": 1795072571.3612366
+    }
+  ],
+  "method": "Native saved 2 ms qpos/qvel/ctrl and contact packet on the original hashed model, FK in integration-forbidden replay. Pad midpoint and target center distance is descriptive geometry.",
+  "actual": {
+    "archived_native_episodes": 8,
+    "archived_native_ticks": 285624,
+    "active_native_states": 240008,
+    "archived_H40": 960,
+    "H40_without_closure_crossing": 960,
+    "archived_confirmed_atoms": 9600,
+    "target_hand_contact_frames": 0,
+    "complete_successes": 0,
+    "correct_grasps": 0
+  },
+  "new_model_generations": 0,
+  "new_optimizer_updates": 0,
+  "new_native_requests": 0,
+  "new_native_ticks": 0,
+  "cases": [
+    {
+      "case": "D4-DEV-F1-1-HOLD-red-D4-A",
+      "arm": "D4-A",
+      "instruction": "HOLD-red",
+      "case_sha256": "f7b89d79736736251788d280d3aab496ea4dfc44573f44702749b7b954130d35",
+      "raw_result_sha256": "2d0966a1eaac8015ef9bf85750c32f790ff2f57e48c53e5437888e53614860cf",
+      "scene_sha256": "bb214e3978cd56aa6c368523e55d9e377fc125c16b72272dcabc36318ac59aa1",
+      "native_states": 30001,
+      "native_ticks": 35703,
+      "object_half_sizes_m": [
+        0.02,
+        0.02,
+        0.02
+      ],
+      "target_contact_frames": {
+        "hand": 0,
+        "left_pad": 0,
+        "right_pad": 0,
+        "opposing": 0
+      },
+      "wrong_object_hand_contact_frames": 0,
+      "first_target_contact_tick": {
+        "hand": null,
+        "left_pad": null,
+        "right_pad": null,
+        "opposing": null
+      },
+      "layout": "F1-1",
+      "nearest_pad_midpoint": {
+        "native_tick": 11336,
+        "elapsed_task_s": 11.266,
+        "center_to_pad_midpoint_m": 0.09632860474499248,
+        "axial_offset_along_pad_axis_m": 0.061666257802705966,
+        "orthogonal_offset_to_pad_axis_m": 0.07400319412516729,
+        "pad_center_separation_m": 0.0910039330931578,
+        "actual_gripper_open_fraction": 0.9540446942398054,
+        "target_hand_contact": false
+      },
+      "nearest_TCP": {
+        "native_tick": 11336,
+        "elapsed_task_s": 11.266,
+        "center_to_TCP_m": 0.09534211085789669
+      },
+      "preceding_generated_H40": {
+        "query": 22,
+        "native_start_step": 11203,
+        "generated_H40_first_below_22mm_k": null,
+        "model_action_sha256": "54183a0ba1126164a8b56c178c08f35f4d955b0b24d0c5e4843cef35e81174ae",
+        "confirmed_atoms": 10,
+        "emitted_min_width_m": 0.041976030832778746,
+        "measured_min_width_m": 0.041971160165794275
+      },
+      "actual": {
+        "model_generations": 120,
+        "H40_with_no_closure_crossing": 120,
+        "confirmed_atoms": 1200,
+        "minimum_emitted_width_m": 0.038447718826626114
+      },
+      "original_score": {
+        "task_success": false,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "base_directional_motion_m": 0.16355047975841397
+      }
+    },
+    {
+      "case": "D4-DEV-F1-1-HOLD-red-D4-B",
+      "arm": "D4-B",
+      "instruction": "HOLD-red",
+      "case_sha256": "0d77f2ee658c0fe5df46bd8d41db4ea61c3bde0eb3749484001aed90490d1c48",
+      "raw_result_sha256": "398d49da2c790c71c1620cd11e326c64b22caed876d293a11c3d3fa2776fbb8b",
+      "scene_sha256": "bb214e3978cd56aa6c368523e55d9e377fc125c16b72272dcabc36318ac59aa1",
+      "native_states": 30001,
+      "native_ticks": 35703,
+      "object_half_sizes_m": [
+        0.02,
+        0.02,
+        0.02
+      ],
+      "target_contact_frames": {
+        "hand": 0,
+        "left_pad": 0,
+        "right_pad": 0,
+        "opposing": 0
+      },
+      "wrong_object_hand_contact_frames": 0,
+      "first_target_contact_tick": {
+        "hand": null,
+        "left_pad": null,
+        "right_pad": null,
+        "opposing": null
+      },
+      "layout": "F1-1",
+      "nearest_pad_midpoint": {
+        "native_tick": 18148,
+        "elapsed_task_s": 24.89,
+        "center_to_pad_midpoint_m": 0.07584281632249396,
+        "axial_offset_along_pad_axis_m": 0.057005401932950964,
+        "orthogonal_offset_to_pad_axis_m": 0.05002516305011174,
+        "pad_center_separation_m": 0.09105151434805728,
+        "actual_gripper_open_fraction": 0.9545853903182085,
+        "target_hand_contact": false
+      },
+      "nearest_TCP": {
+        "native_tick": 18148,
+        "elapsed_task_s": 24.89,
+        "center_to_TCP_m": 0.07467390340622411
+      },
+      "preceding_generated_H40": {
+        "query": 49,
+        "native_start_step": 17953,
+        "generated_H40_first_below_22mm_k": null,
+        "model_action_sha256": "6e706eb6c0c2b4581b44b59ebb712b1f66ea9b0098995ddac9a74a5c5ce4049b",
+        "confirmed_atoms": 10,
+        "emitted_min_width_m": 0.041995634909011675,
+        "measured_min_width_m": 0.041988614140235456
+      },
+      "actual": {
+        "model_generations": 120,
+        "H40_with_no_closure_crossing": 120,
+        "confirmed_atoms": 1200,
+        "minimum_emitted_width_m": 0.04192348452735408
+      },
+      "original_score": {
+        "task_success": false,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "base_directional_motion_m": 0.11443232937672557
+      }
+    },
+    {
+      "case": "D4-DEV-F1-1-HOLD-blue-D4-B",
+      "arm": "D4-B",
+      "instruction": "HOLD-blue",
+      "case_sha256": "aade6ef798de37f7ef67507d4a1e9269ce31a86344458475d2adfbbeef7fd909",
+      "raw_result_sha256": "76c4868656a5f93990e0c07afea54b58b0d7a7a70ce0033a349d332abccdde3f",
+      "scene_sha256": "bb214e3978cd56aa6c368523e55d9e377fc125c16b72272dcabc36318ac59aa1",
+      "native_states": 30001,
+      "native_ticks": 35703,
+      "object_half_sizes_m": [
+        0.02,
+        0.02,
+        0.02
+      ],
+      "target_contact_frames": {
+        "hand": 0,
+        "left_pad": 0,
+        "right_pad": 0,
+        "opposing": 0
+      },
+      "wrong_object_hand_contact_frames": 0,
+      "first_target_contact_tick": {
+        "hand": null,
+        "left_pad": null,
+        "right_pad": null,
+        "opposing": null
+      },
+      "layout": "F1-1",
+      "nearest_pad_midpoint": {
+        "native_tick": 19093,
+        "elapsed_task_s": 26.78,
+        "center_to_pad_midpoint_m": 0.07419599551597451,
+        "axial_offset_along_pad_axis_m": 0.004560364963209197,
+        "orthogonal_offset_to_pad_axis_m": 0.07405571431030047,
+        "pad_center_separation_m": 0.0910391562707876,
+        "actual_gripper_open_fraction": 0.9544449576219622,
+        "target_hand_contact": false
+      },
+      "nearest_TCP": {
+        "native_tick": 19093,
+        "elapsed_task_s": 26.78,
+        "center_to_TCP_m": 0.07411626532928223
+      },
+      "preceding_generated_H40": {
+        "query": 53,
+        "native_start_step": 18953,
+        "generated_H40_first_below_22mm_k": null,
+        "model_action_sha256": "0c51494e8f9355a342e1c2be0623a4e9501b64beb5b194eb68f405edbf03db54",
+        "confirmed_atoms": 10,
+        "emitted_min_width_m": 0.04199562737890843,
+        "measured_min_width_m": 0.041987835028773846
+      },
+      "actual": {
+        "model_generations": 120,
+        "H40_with_no_closure_crossing": 120,
+        "confirmed_atoms": 1200,
+        "minimum_emitted_width_m": 0.04192880621283756
+      },
+      "original_score": {
+        "task_success": false,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "base_directional_motion_m": 0.15907999634088915
+      }
+    },
+    {
+      "case": "D4-DEV-F1-1-HOLD-blue-D4-A",
+      "arm": "D4-A",
+      "instruction": "HOLD-blue",
+      "case_sha256": "465f0c9fb3f4df0ca4b0891d36da89c55b7c759a1f65d17f81b628bed57af961",
+      "raw_result_sha256": "93c25f1ddb4cc842f2a3218b5e4540ed8524eba98a3b2cad1cf354f56e21d878",
+      "scene_sha256": "bb214e3978cd56aa6c368523e55d9e377fc125c16b72272dcabc36318ac59aa1",
+      "native_states": 30001,
+      "native_ticks": 35703,
+      "object_half_sizes_m": [
+        0.02,
+        0.02,
+        0.02
+      ],
+      "target_contact_frames": {
+        "hand": 0,
+        "left_pad": 0,
+        "right_pad": 0,
+        "opposing": 0
+      },
+      "wrong_object_hand_contact_frames": 0,
+      "first_target_contact_tick": {
+        "hand": null,
+        "left_pad": null,
+        "right_pad": null,
+        "opposing": null
+      },
+      "layout": "F1-1",
+      "nearest_pad_midpoint": {
+        "native_tick": 19883,
+        "elapsed_task_s": 28.36,
+        "center_to_pad_midpoint_m": 0.07084982476289836,
+        "axial_offset_along_pad_axis_m": 0.004081926351046308,
+        "orthogonal_offset_to_pad_axis_m": 0.07073213941482359,
+        "pad_center_separation_m": 0.09079284969359118,
+        "actual_gripper_open_fraction": 0.9516460192447286,
+        "target_hand_contact": false
+      },
+      "nearest_TCP": {
+        "native_tick": 19883,
+        "elapsed_task_s": 28.36,
+        "center_to_TCP_m": 0.07077916250132836
+      },
+      "preceding_generated_H40": {
+        "query": 56,
+        "native_start_step": 19703,
+        "generated_H40_first_below_22mm_k": null,
+        "model_action_sha256": "a6de6e3505918e679d31dd94c3ad32a30d9e04eaa721ef6d836a065f58a40f18",
+        "confirmed_atoms": 10,
+        "emitted_min_width_m": 0.04187855400420329,
+        "measured_min_width_m": 0.04187024307046525
+      },
+      "actual": {
+        "model_generations": 120,
+        "H40_with_no_closure_crossing": 120,
+        "confirmed_atoms": 1200,
+        "minimum_emitted_width_m": 0.04154411838419557
+      },
+      "original_score": {
+        "task_success": false,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "base_directional_motion_m": 0.2186627074642723
+      }
+    },
+    {
+      "case": "D4-DEV-F1-2-HOLD-red-D4-B",
+      "arm": "D4-B",
+      "instruction": "HOLD-red",
+      "case_sha256": "e2e127dc3d793000793bb003d3482d73dfece2a7e467a34b945e51b3a5e542cc",
+      "raw_result_sha256": "aab30754c9b0139d9b902236f7c521d7502e23ad54d242b233324fe6a3d2d674",
+      "scene_sha256": "be9562080b7742a5a03908e3056742b5b8ab2617b29a4a8234090197443bc6db",
+      "native_states": 30001,
+      "native_ticks": 35703,
+      "object_half_sizes_m": [
+        0.02,
+        0.02,
+        0.02
+      ],
+      "target_contact_frames": {
+        "hand": 0,
+        "left_pad": 0,
+        "right_pad": 0,
+        "opposing": 0
+      },
+      "wrong_object_hand_contact_frames": 0,
+      "first_target_contact_tick": {
+        "hand": null,
+        "left_pad": null,
+        "right_pad": null,
+        "opposing": null
+      },
+      "layout": "F1-2",
+      "nearest_pad_midpoint": {
+        "native_tick": 10116,
+        "elapsed_task_s": 8.826,
+        "center_to_pad_midpoint_m": 0.10143690996296441,
+        "axial_offset_along_pad_axis_m": 0.07026315015256863,
+        "orthogonal_offset_to_pad_axis_m": 0.07316103083932145,
+        "pad_center_separation_m": 0.09104675691045125,
+        "actual_gripper_open_fraction": 0.9545313285272313,
+        "target_hand_contact": false
+      },
+      "nearest_TCP": {
+        "native_tick": 10116,
+        "elapsed_task_s": 8.826,
+        "center_to_TCP_m": 0.10048570003009394
+      },
+      "preceding_generated_H40": {
+        "query": 17,
+        "native_start_step": 9953,
+        "generated_H40_first_below_22mm_k": null,
+        "model_action_sha256": "85439583f61adc743ca6bb6c078c75c3acf7eef9c5e4a098aaec5ddfbdff1da4",
+        "confirmed_atoms": 10,
+        "emitted_min_width_m": 0.04199557912039636,
+        "measured_min_width_m": 0.04199041210498446
+      },
+      "actual": {
+        "model_generations": 120,
+        "H40_with_no_closure_crossing": 120,
+        "confirmed_atoms": 1200,
+        "minimum_emitted_width_m": 0.04196523592452256
+      },
+      "original_score": {
+        "task_success": false,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "base_directional_motion_m": 0.10780470148199658
+      }
+    },
+    {
+      "case": "D4-DEV-F1-2-HOLD-red-D4-A",
+      "arm": "D4-A",
+      "instruction": "HOLD-red",
+      "case_sha256": "1438c3c78173cc8b9662d1dbada5a2233342c3a09735eff70fbec2082e542e7e",
+      "raw_result_sha256": "4c93a24841385d0f86c4e6231f9fa5273170e5851529a0ffdc735d8525827af5",
+      "scene_sha256": "be9562080b7742a5a03908e3056742b5b8ab2617b29a4a8234090197443bc6db",
+      "native_states": 30001,
+      "native_ticks": 35703,
+      "object_half_sizes_m": [
+        0.02,
+        0.02,
+        0.02
+      ],
+      "target_contact_frames": {
+        "hand": 0,
+        "left_pad": 0,
+        "right_pad": 0,
+        "opposing": 0
+      },
+      "wrong_object_hand_contact_frames": 0,
+      "first_target_contact_tick": {
+        "hand": null,
+        "left_pad": null,
+        "right_pad": null,
+        "opposing": null
+      },
+      "layout": "F1-2",
+      "nearest_pad_midpoint": {
+        "native_tick": 13340,
+        "elapsed_task_s": 15.274000000000001,
+        "center_to_pad_midpoint_m": 0.10475664671334615,
+        "axial_offset_along_pad_axis_m": 0.08562159336721308,
+        "orthogonal_offset_to_pad_axis_m": 0.060356422855272276,
+        "pad_center_separation_m": 0.09098383518944261,
+        "actual_gripper_open_fraction": 0.9538163089703143,
+        "target_hand_contact": false
+      },
+      "nearest_TCP": {
+        "native_tick": 13340,
+        "elapsed_task_s": 15.274000000000001,
+        "center_to_TCP_m": 0.10351045045258878
+      },
+      "preceding_generated_H40": {
+        "query": 30,
+        "native_start_step": 13203,
+        "generated_H40_first_below_22mm_k": null,
+        "model_action_sha256": "5c85b47cbd2428bb2164d504ef90ce73f34c1de2e74a5e0069541899be26d3e7",
+        "confirmed_atoms": 10,
+        "emitted_min_width_m": 0.04196701417145414,
+        "measured_min_width_m": 0.04196005915377524
+      },
+      "actual": {
+        "model_generations": 120,
+        "H40_with_no_closure_crossing": 120,
+        "confirmed_atoms": 1200,
+        "minimum_emitted_width_m": 0.040448813266704665
+      },
+      "original_score": {
+        "task_success": false,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "base_directional_motion_m": 0.2037682023972702
+      }
+    },
+    {
+      "case": "D4-DEV-F1-2-HOLD-blue-D4-A",
+      "arm": "D4-A",
+      "instruction": "HOLD-blue",
+      "case_sha256": "d976dd82fb75a4dfaf1f5c768028e092850a2c362600754650adbc8b0dc7c9e8",
+      "raw_result_sha256": "3dc5cf96c751cd2d05cd0a1e6318a7a7706f2b156e831587bd68535326a810e4",
+      "scene_sha256": "be9562080b7742a5a03908e3056742b5b8ab2617b29a4a8234090197443bc6db",
+      "native_states": 30001,
+      "native_ticks": 35703,
+      "object_half_sizes_m": [
+        0.02,
+        0.02,
+        0.02
+      ],
+      "target_contact_frames": {
+        "hand": 0,
+        "left_pad": 0,
+        "right_pad": 0,
+        "opposing": 0
+      },
+      "wrong_object_hand_contact_frames": 0,
+      "first_target_contact_tick": {
+        "hand": null,
+        "left_pad": null,
+        "right_pad": null,
+        "opposing": null
+      },
+      "layout": "F1-2",
+      "nearest_pad_midpoint": {
+        "native_tick": 18339,
+        "elapsed_task_s": 25.272000000000002,
+        "center_to_pad_midpoint_m": 0.06964258312281509,
+        "axial_offset_along_pad_axis_m": 0.0243244706342643,
+        "orthogonal_offset_to_pad_axis_m": 0.06525649019355102,
+        "pad_center_separation_m": 0.09087042344709194,
+        "actual_gripper_open_fraction": 0.9525275391708741,
+        "target_hand_contact": false
+      },
+      "nearest_TCP": {
+        "native_tick": 18340,
+        "elapsed_task_s": 25.274,
+        "center_to_TCP_m": 0.06911153022926335
+      },
+      "preceding_generated_H40": {
+        "query": 50,
+        "native_start_step": 18203,
+        "generated_H40_first_below_22mm_k": null,
+        "model_action_sha256": "7151c1eb314fc044d0f23851e9c503487841d07712c6baa6d3523b5e0daa9119",
+        "confirmed_atoms": 10,
+        "emitted_min_width_m": 0.0418961484306057,
+        "measured_min_width_m": 0.041895035725195026
+      },
+      "actual": {
+        "model_generations": 120,
+        "H40_with_no_closure_crossing": 120,
+        "confirmed_atoms": 1200,
+        "minimum_emitted_width_m": 0.04172457113657567
+      },
+      "original_score": {
+        "task_success": false,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "base_directional_motion_m": 0.22104784677073047
+      }
+    },
+    {
+      "case": "D4-DEV-F1-2-HOLD-blue-D4-B",
+      "arm": "D4-B",
+      "instruction": "HOLD-blue",
+      "case_sha256": "85cef217a10037aed919161704f5aa075f4704997588d4840b9d8deca4dc45d0",
+      "raw_result_sha256": "354339d91c7cbf07c71dc200d8475b74ce06d9004c6b6b0fa769b8d592ed2b35",
+      "scene_sha256": "be9562080b7742a5a03908e3056742b5b8ab2617b29a4a8234090197443bc6db",
+      "native_states": 30001,
+      "native_ticks": 35703,
+      "object_half_sizes_m": [
+        0.02,
+        0.02,
+        0.02
+      ],
+      "target_contact_frames": {
+        "hand": 0,
+        "left_pad": 0,
+        "right_pad": 0,
+        "opposing": 0
+      },
+      "wrong_object_hand_contact_frames": 0,
+      "first_target_contact_tick": {
+        "hand": null,
+        "left_pad": null,
+        "right_pad": null,
+        "opposing": null
+      },
+      "layout": "F1-2",
+      "nearest_pad_midpoint": {
+        "native_tick": 25349,
+        "elapsed_task_s": 39.292,
+        "center_to_pad_midpoint_m": 0.07956672270690764,
+        "axial_offset_along_pad_axis_m": 0.02524265270994915,
+        "orthogonal_offset_to_pad_axis_m": 0.07545642349384728,
+        "pad_center_separation_m": 0.09103524739855436,
+        "actual_gripper_open_fraction": 0.9544005386193116,
+        "target_hand_contact": false
+      },
+      "nearest_TCP": {
+        "native_tick": 25349,
+        "elapsed_task_s": 39.292,
+        "center_to_TCP_m": 0.07908348126286946
+      },
+      "preceding_generated_H40": {
+        "query": 78,
+        "native_start_step": 25203,
+        "generated_H40_first_below_22mm_k": null,
+        "model_action_sha256": "05d694786984087d5be8f21bcfc729cff7df9836457350cc74dd9bdf6708e5b1",
+        "confirmed_atoms": 10,
+        "emitted_min_width_m": 0.04199559359845502,
+        "measured_min_width_m": 0.04199071851005849
+      },
+      "actual": {
+        "model_generations": 120,
+        "H40_with_no_closure_crossing": 120,
+        "confirmed_atoms": 1200,
+        "minimum_emitted_width_m": 0.04195509083811907
+      },
+      "original_score": {
+        "task_success": false,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "base_directional_motion_m": 0.16234271338533854
+      }
+    }
+  ]
+}

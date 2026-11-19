@@ -1,0 +1,148 @@
+{
+  "cumulative": {
+    "sealed": 20,
+    "planned": 24,
+    "native_ticks": 599386,
+    "H40": 1951,
+    "never_crossing_22mm": 1950,
+    "correct_grasp": 0,
+    "lift20mm": 0,
+    "task_success": 0,
+    "contacts": 9,
+    "ticks_after_STOP": 0,
+    "technical_failures": 0,
+    "crossing_in_tail30": 1,
+    "crossing_in_P10": 0
+  },
+  "source_sha": "b405fb173c91a32a1ad5b86aa9e87418cd0d0d56",
+  "spec_sha256": "b66e80aadd046bd13cb8bbc3c56a0df5725bd3c20af586c86b8f4885b232357a",
+  "cases": [
+    {
+      "case": "D5_GRASP24-F2-2-HOLD-red-D4-B",
+      "arm": "D4-B",
+      "native_requests": 1,
+      "native_ticks": 17453,
+      "generations": 48,
+      "first_failure": "ORIGINAL_FULL_H40_POLICY_REJECTED",
+      "first_failure_and_closure_queries": [
+        {
+          "query": 47,
+          "native_start_step": 17453,
+          "generated_H40_first_below_22mm_k": null,
+          "projected_first_below_22mm_native_tick": null,
+          "model_action_sha256": "beb9e26de39ef6ae72d83b85df493940632704997a88a6d10d2135fd4001785e",
+          "full_H40_pass": false,
+          "install_ACKs": 0,
+          "confirmed_atoms": 0,
+          "partial_ticks": null,
+          "rejection": {
+            "kind": "ORIGINAL_FULL_H40_POLICY_REJECTED",
+            "reason": "TASK_LEARNING_STUDENT_FULL_PROPOSAL_REJECTED: SLA_DENSE_ORIGINAL_FULL_H40_GATE:TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS",
+            "full_H40_compiled": false,
+            "query": 47,
+            "installed": false,
+            "full_H40_checked": true
+          },
+          "actual_previous_width_m": null,
+          "emitted_min_width_m": null,
+          "measured_min_width_m": null,
+          "maximum_abs_width_tracking_error_m": null
+        }
+      ],
+      "all_P10_atoms": 470,
+      "native_result_sha256": "cb66166220d1249c057eba235d48495e98a5ac77768948207d9fd0687037f67b",
+      "target_grasp": false,
+      "lift20mm": false,
+      "success": false
+    },
+    {
+      "case": "D5_GRASP24-F2-2-HOLD-red-D5-W",
+      "arm": "D5-W",
+      "native_requests": 1,
+      "native_ticks": 20703,
+      "generations": 61,
+      "first_failure": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+      "first_failure_and_closure_queries": [
+        {
+          "query": 59,
+          "native_start_step": 20453,
+          "generated_H40_first_below_22mm_k": 31,
+          "projected_first_below_22mm_native_tick": 21228,
+          "model_action_sha256": "f726a1df8ba02a2aee73bbee215b943c3c1f6bedff97bcc4c280e8a209802a07",
+          "full_H40_pass": true,
+          "install_ACKs": 2,
+          "confirmed_atoms": 10,
+          "partial_ticks": 0,
+          "rejection": null,
+          "actual_previous_width_m": 0.04199673815287867,
+          "emitted_min_width_m": 0.03963552329444584,
+          "measured_min_width_m": 0.039447394119521924,
+          "maximum_abs_width_tracking_error_m": 0.0006132262669368699
+        },
+        {
+          "query": 60,
+          "native_start_step": 20703,
+          "generated_H40_first_below_22mm_k": null,
+          "projected_first_below_22mm_native_tick": null,
+          "model_action_sha256": "feeb6eebd20f018affdba61b83530868cfc910d84b97dc5c793ddaf03f3e614f",
+          "full_H40_pass": true,
+          "install_ACKs": 0,
+          "confirmed_atoms": 0,
+          "partial_ticks": null,
+          "rejection": {
+            "kind": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+            "original_gripper_speed": {
+              "first_seam_speed_m_s": 0.04668461950161462,
+              "maximum_speed_m_s": 0.04668461950161462,
+              "training_margin_exceeded": true,
+              "original_execution_speed_exceeded": true,
+              "labels_not_retimed": true,
+              "representation": "DENSE_REFERENCE_G7_V6"
+            },
+            "full_H40_compiled": true,
+            "query": 60,
+            "installed": false,
+            "full_H40_checked": true
+          },
+          "actual_previous_width_m": null,
+          "emitted_min_width_m": null,
+          "measured_min_width_m": null,
+          "maximum_abs_width_tracking_error_m": null
+        }
+      ],
+      "all_P10_atoms": 600,
+      "native_result_sha256": "2fffdb30e106352104e8bccb1898a6079328e9bc64888acb5a5f19220ed9e198",
+      "target_grasp": false,
+      "lift20mm": false,
+      "success": false
+    }
+  ],
+  "newly_dispatched_by_audit": 0,
+  "confirm32_released": false,
+  "B_original_compiler_and_first_component": {
+    "case": "D5_GRASP24-F2-2-HOLD-red-D4-B",
+    "query": 47,
+    "terminal_sha256": "cb66166220d1249c057eba235d48495e98a5ac77768948207d9fd0687037f67b",
+    "action_sha256": "beb9e26de39ef6ae72d83b85df493940632704997a88a6d10d2135fd4001785e",
+    "input_sha256": "2de024870a85e7338d8e0f86012f573f39b388dde0ac2da2d101ced8233d0f78",
+    "original_full_H40_pass": false,
+    "first_temporal_exceedance": {
+      "path": "nominal",
+      "channel": "finger_velocity",
+      "k": 27,
+      "time_s": 1.35,
+      "region": "SUFFIX",
+      "first_ratio": 1.0241365124198791,
+      "peak_ratio": 1.0241365124198791,
+      "order": 2
+    },
+    "width_knots_mm": [
+      35.91050050525716,
+      33.8622274804174
+    ],
+    "controller_selected_reference": "UNKNOWN",
+    "new_ticks": 0,
+    "new_native": 0,
+    "new_generations": 0
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "D5": {
+    "cases": [
+      {
+        "case": "D5_GRASP24-F1-1-HOLD-red-D4-B",
+        "arm": "D4-B",
+        "instruction": "HOLD-red",
+        "native_request": 1,
+        "native_ticks": 35703,
+        "native_result_sha256": "fb6e93913ecb9d84d039cc8a936381a821a7f4575aaf93e37091a35527c72a21",
+        "generations": 120,
+        "confirmed_atoms": 1200,
+        "query_counts": {
+          "no_crossing": 120
+        },
+        "emitted_min_width_m": 0.04194138279484741,
+        "measured_min_width_m": 0.041938746283312664,
+        "first_failure": "FIXED_TASK_BUDGET_EXHAUSTED",
+        "first_stop": null,
+        "STOP": false,
+        "technical_failure": false,
+        "trace": "RECORDED_TRACE_CHECKS_PASS",
+        "wall_s": 544.0643588611856,
+        "CPU_s": 296.68381360200004,
+        "task_and_mobile_success": false,
+        "full_H40_compiled": 120,
+        "verified_query_rows": 120,
+        "original_score_replayed": {
+          "states": 30001,
+          "cache_agreed": true,
+          "missing_intervals": 0,
+          "base_directional_motion_m": 0.11790240928019978,
+          "ever_correct_grasp": false,
+          "ever_lift20mm": false,
+          "longest_grasp_lift_hold_s": 0.0,
+          "task_success": false
+        }
+      }
+    ],
+    "source_sha": "b405fb173c91a32a1ad5b86aa9e87418cd0d0d56",
+    "spec_sha256": "b66e80aadd046bd13cb8bbc3c56a0df5725bd3c20af586c86b8f4885b232357a",
+    "observed_epoch": 1795081781.066423,
+    "planned": 24,
+    "actual_new_requests": 1,
+    "new_native_ticks": 35703,
+    "new_predictions": 120,
+    "independent_audit_updates": 0,
+    "independent_audit_ticks": 0,
+    "independent_audit_generations": 0
+  },
+  "VANDA": {
+    "job_id": "1592217.stdct-mgmt-02",
+    "original_job_id": "1591681.stdct-mgmt-02",
+    "original_terminal": "F",
+    "original_exit_status": 1,
+    "scheduler_observed": "R",
+    "modified_scope": "recover_J0_then_first_J1",
+    "requested_walltime_s": 21600,
+    "GPU_count": 1,
+    "GPU_model": "A40",
+    "ncpus": 36,
+    "memory_GB": 240,
+    "source_sha": "9e7442e752324ad5fec18341b36640a5bbecc70e",
+    "execution_spec_sha256": "4418b7f64eff54cd9e5dae24db7d3a4ed014b1f5a5f6081e8b2835e07029fa71",
+    "deadline_epoch": 1795108847.2839417,
+    "old_J0_updates": 500,
+    "old_J0_target_visits": 16000,
+    "old_J0_checkpoint_sha256": "9b3bab333cd33c69d2cf688134c4f0d68bbd42a2ce8b0e67d4d9ca9a996afcfd",
+    "new_J0_updates": 0,
+    "new_J1_updates_observed": 0,
+    "native_requests": 0
+  },
+  "D5_subsequent_readback": {
+    "case": {
+      "case": "D5_GRASP24-F1-1-HOLD-red-D5-W",
+      "arm": "D5-W",
+      "instruction": "HOLD-red",
+      "native_request": 1,
+      "native_ticks": 27006,
+      "native_result_sha256": "633f92942b00deac0f7dbdabc1648befac3a26a26d115e6ce7dcf1b8e2409d98",
+      "generations": 86,
+      "confirmed_atoms": 852,
+      "query_counts": {
+        "no_crossing": 86
+      },
+      "emitted_min_width_m": 0.041995624536160965,
+      "measured_min_width_m": 0.041981125175812664,
+      "first_failure": "ILLEGAL_CONTACT",
+      "first_stop": {
+        "kind": "stop",
+        "reason": "ILLEGAL_CONTACT",
+        "steps": 27006
+      },
+      "STOP": true,
+      "technical_failure": false,
+      "trace": "RECORDED_TRACE_CHECKS_PASS",
+      "wall_s": 401.01775623019785,
+      "CPU_s": 209.043700179,
+      "task_and_mobile_success": false,
+      "post_stop_integrations": 0,
+      "full_H40_compiled": 86,
+      "verified_query_rows": 86,
+      "original_score_replayed": {
+        "states": 21304,
+        "cache_agreed": false,
+        "missing_intervals": 0,
+        "base_directional_motion_m": 0.11313876671414773,
+        "ever_correct_grasp": false,
+        "ever_lift20mm": false,
+        "longest_grasp_lift_hold_s": 0.0,
+        "task_success": false,
+        "partial_atom_ticks": 3
+      }
+    },
+    "terminal_cases": 2,
+    "planned": 24,
+    "combined_native_requests": 2,
+    "combined_native_ticks": 62709,
+    "combined_predictions": 206,
+    "combined_consumed_atoms": 2052,
+    "combined_correct_grasp": 0,
+    "combined_lift20mm": 0,
+    "combined_task_success": 0,
+    "combined_contact_STOP": 1
+  }
+}

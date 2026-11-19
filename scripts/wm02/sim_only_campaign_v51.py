@@ -92,7 +92,7 @@ def carried_rows(prior):
     return rows
 
 
-def run(spec_path,*,preflight=panel_preflight,bootstrap='sim_only_bootstrap_v51.py',expected_count=18,result_schema='MFREE_SIM_ONLY_V51_ACTUAL_TERMINAL',pilot_evaluate=pilot_gate,load_carried=carried_rows,compact=compact_case,case_lead_s=900):
+def run(spec_path,*,preflight=panel_preflight,bootstrap='sim_only_bootstrap_v51.py',expected_count=18,result_schema='MFREE_SIM_ONLY_V51_ACTUAL_TERMINAL',pilot_evaluate=pilot_gate,load_carried=carried_rows,compact=compact_case,case_lead_s=900,condition_group=1):
     from scripts.wm02.mobile_boundary_runner_v1 import registered
     spec=read(spec_path);root=Path(spec['registered_root']);registered(spec,spec_path)
     prior=preflight(spec)
@@ -126,7 +126,8 @@ def run(spec_path,*,preflight=panel_preflight,bootstrap='sim_only_bootstrap_v51.
     try:
         with _world(spec['mobile_world_lock']) as world:
             for index,path in enumerate(spec['cases']):
-                if time.time()>=spec['deadline_epoch']-case_lead_s or (root/'STOP.json').exists():
+                remaining = condition_group-(index % condition_group)
+                if time.time()>=spec['deadline_epoch']-case_lead_s*remaining or (root/'STOP.json').exists():
                     progress('FINITE_STOP_OR_DEADLINE');break
                 case=read(path)
                 if case['sim_only_role']!='INTERFACE'and not interface_gate(rows):
