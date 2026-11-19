@@ -1,0 +1,73 @@
+{
+  "plan_sha": "926226914a0c08ee1ebb143e0edea1434728107b",
+  "source_sha": "31076fc7a64302b0705ae4d7e526c4341209a100",
+  "site_unit": "wm02-sla-scale20k-mix-core-prefix-20261119-02.service",
+  "pid": 3588479,
+  "cgroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-scale20k-mix-core-prefix-20261119-02.service",
+  "execution_schedule_sha256": "93bf6dfeb3ebf00c9f25ad1f9cd42bf4e5b203086275678aa1723e3589b1cf73",
+  "deadline_SGT": "2026-11-19T20:54:01.169580+08:00",
+  "qualifier_result_sha256": "48f02d0d18fd571f17506e060cc3ecaf08794d81bc1a77a2d1126a813ee00082",
+  "old_loader_failure_sha256": "ee579f8a910e9c67fa179de1d462f8000c12a96daf177971853658f11ebda675",
+  "old_failure": "COMPOUND_UPSTREAM_MLP_LORA_ARRAY_NOT_CLASSIFIED_VLM_LORA",
+  "sealed_step_zero_sha256": "8e84e7fddc905dbd62c6b4a31265e15e2afe5560c56c152e29ce66f1b7e78d6f",
+  "sealed_step_zero_arrays": 140,
+  "step": 0,
+  "cursors": {
+    "target": 0,
+    "robodojo": 0,
+    "libero": 0
+  },
+  "qualified_GPU": "NVIDIA GeForce RTX 4080 SUPER",
+  "gradient_reports": {
+    "target": {
+      "FM32": 0.06411834730533883,
+      "auxiliary": 27.859676363701904,
+      "backward_calls": 32,
+      "training_full_generations": 4,
+      "data_wait_s": 1.6422003908082843,
+      "shared_gradient_norm": 0.28190913796424866,
+      "private_gradient_norm": 0.18156512081623077,
+      "visit_slice_sha256": "d9a0369c0a94f4146a6b0185ff25b8d690a45139d610bd0888bb101fef45bef7"
+    },
+    "robodojo": {
+      "FM32": 0.02394146832133023,
+      "auxiliary": 0.0,
+      "backward_calls": 48,
+      "training_full_generations": 0,
+      "data_wait_s": 78.14826658833772,
+      "shared_gradient_norm": 0.1092880368232727,
+      "private_gradient_norm": 0.06438667327165604,
+      "visit_slice_sha256": "ce233ab1c28e7ef7558b05cb7ed2593d7884f841d00145fd074252c0f1065d60"
+    },
+    "libero": {
+      "FM32": 0.16419155239903677,
+      "auxiliary": 0.0,
+      "backward_calls": 48,
+      "training_full_generations": 0,
+      "data_wait_s": 4.530167105607688,
+      "shared_gradient_norm": 0.5216536521911621,
+      "private_gradient_norm": 0.41599535942077637,
+      "visit_slice_sha256": "7c957bdc96008c0f1c3b644616e382c30322d9f89d7006e9f6ec8397d727db0c"
+    }
+  },
+  "actual_gradient_input_windows": {
+    "target": 32,
+    "robodojo": 48,
+    "libero": 48
+  },
+  "actual_GPU_parameter_counts": {
+    "frozen": 2923335408,
+    "action_expert": 427932672,
+    "vlm_lora": 27869184,
+    "domain_template": 2165792
+  },
+  "lower_bound_model_and_Adam_GiB": 10.611733049154282,
+  "new_optimizer_updates": 0,
+  "new_optimization_visits": 0,
+  "new_training_full_generations": 0,
+  "new_qualification_complete_generations": 4,
+  "qualification_wall_s": 422.21152203530073,
+  "new_native_requests": 0,
+  "new_native_ticks": 0,
+  "independent_step_zero_restore_verified": false
+}
