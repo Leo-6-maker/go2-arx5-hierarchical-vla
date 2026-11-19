@@ -30,6 +30,45 @@ def test_vanda_offline_retries_only_bounded_scheduler_authentication(monkeypatch
     query.assert_called_once_with('fixed-job')
 
 
+def test_mix_handoff_watcher_leaves_original_owner_running(tmp_path, monkeypatch):
+    import os
+    from unittest.mock import Mock
+    from go2arx5_vla.sla_adapter.checkpoint_v1 import sha
+    from scripts.pi0292.durable import read, write
+    from scripts.sla import scale20k_core_after500_watch as watch
+
+    old, new, root = (tmp_path/name for name in ('old','new','watch'))
+    for folder in (old/'control',old/'train',new,root):
+        folder.mkdir(parents=True)
+    launcher = root/'launcher.py'
+    launcher.write_text('raise RuntimeError("the live owner must never be interrupted")')
+    def save(path, data):
+        write(path,data)
+        return dict(path=str(path),sha256=sha(path))
+
+    deadline = watch.time.time()+60
+    predecessor = save(old/'SCHEDULE.private.json',dict(plan=PLAN,arm='SCALE-MIX20K',
+        unit='old',global_stop_step=500,source_sha='original',deadline_epoch=deadline))
+    draft = save(new/'DRAFT.private.json',dict(root=str(new),global_stop_step=2000,source_sha='original'))
+    staged = save(new/'STAGED_ACTUAL.private.json',dict(unit='new.service',draft_sha256=draft['sha256']))
+    save(old/'control/LEASE.json',dict(status='ACTIVE',unit='old.service',deadline_epoch=deadline))
+    save(old/'train/PROGRESS.private.json',dict(step=351))
+    states = {'watch.service':dict(pid=os.getpid()),'old.service':dict(pid=123,proc_start='20',cgroup_pids=[123]),
+              'new.service':dict(pid=0,cgroup_pids=[])}
+    monkeypatch.setattr(watch,'unit_state',lambda unit:states[unit])
+    monkeypatch.setattr(watch.time,'sleep',lambda _: (root/'STOP.json').touch())
+    launch = Mock()
+    monkeypatch.setattr(watch.subprocess,'run',launch)
+    config = dict(root=str(root),host=os.uname().nodename,uid=os.getuid(),plan=PLAN,source_sha='watch',
+        watch_sha256=sha(watch.__file__),unit='watch.service',predecessor=predecessor,draft=draft,staged=staged,
+        predecessor_pid=123,predecessor_proc_start='20',deadline_epoch=deadline,
+        launcher=dict(path=str(launcher),sha256=sha(launcher)))
+    assert watch.run(config) == 0
+    assert read(root/'PROGRESS.private.json')['step'] == 351
+    assert read(root/'RESULT.private.json')['status'] == 'STOPPED_WITHOUT_HANDOFF'
+    launch.assert_not_called()
+
+
 def test_shared_learning_rate_table_and_only_admitted_training_across_cursors():
     rates = learning_rates()
     assert len(rates) == 20000 and rates[499] == 2e-5 and rates[-1] == 2e-6
