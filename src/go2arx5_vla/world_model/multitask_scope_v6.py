@@ -16,6 +16,8 @@ VERSION = NATIVE_VERSION
 
 
 def scope_identity(spec):
+    if spec.get('scope') == d4.E0_SCOPE:
+        return d4.E0_SCOPE, d4.E0_PLAN, (), d4.AUTHORITY_SOURCE
     if spec.get('scope') == d4.SCOPE:
         return d4.SCOPE, d4.PLAN, d4.ARMS, d4.AUTHORITY_SOURCE
     return SCOPE, PLAN, ARMS, 'CURRENT_USER_EXPLICIT_FIXED_SLA_V6_PLAN'
@@ -77,7 +79,7 @@ def validate(spec):
     scope, plan, _, authority_source = scope_identity(spec)
     if (spec.get('scope')!=scope or spec['plan_commit']!=plan
             or spec['mobile_experiment_version']!=VERSION or role not in ('INTERFACE','EXPERT','STUDENT')
-            or (scope == d4.SCOPE and not student)
+            or (scope == d4.SCOPE and not student) or (scope == d4.E0_SCOPE and not interface)
             or spec['native_backend']!='MUJOCO_ONLY' or spec['hardware_connections_allowed'] is not False
             or spec['execution_clock_profile']!='SIM_PAUSED_NATIVE' or spec['physics'] is not True
             or spec['WBC_changes'] is not False or spec['safety_changes'] is not False
