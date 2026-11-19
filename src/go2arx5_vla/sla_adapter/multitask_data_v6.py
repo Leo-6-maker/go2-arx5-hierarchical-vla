@@ -67,11 +67,17 @@ class TeacherDataset(DensePilotDataset):
                 or fit['teacher_windows'] != manifest['windows'] or fit['legacy_windows'] != 1376):
             raise ValueError('ONE_SHARED_TRAIN_STATISTICS_POPULATION_REQUIRED')
         self.statistics = {key: Quantiles(fit[key]['q01'], fit[key]['q99']) for key in ('state', 'actions')}
+        cells = self._load_episodes(resize_with_pad, cache_bytes)
+        expected = {(task, family) for task in INSTRUCTIONS for family in ('F1', 'F2')}
+        if set(cells) != expected or min(cells.values()) < 2:
+            raise ValueError('SIX_TASK_TWO_FAMILY_COMPLETE_TEACHER_COVERAGE_REQUIRED')
+
+    def _load_episodes(self, resize_with_pad, cache_bytes):
         self.cache, self.cache_bytes, self.cache_limit = OrderedDict(), 0, cache_bytes
         self.resize = resize_with_pad
         self.labels, self.frames, self.codecs, self.rows, self.contexts = {}, {}, {}, [], []
         cells = Counter()
-        for episode in manifest['episodes']:
+        for episode in self.manifest['episodes']:
             eid, n = episode['id'], episode['windows']
             label = member(self.root, episode['labels']['file'])
             if (episode['split'] != 'TRAIN' or eid in self.labels or not 1 <= n <= 180
@@ -108,9 +114,9 @@ class TeacherDataset(DensePilotDataset):
             self.rows.extend((episode, anchor) for anchor in range(n))
             self.contexts.extend(data['previous_actual_command'])
             cells[episode['task'], episode['family']] += 1
-        expected = {(task, family) for task in INSTRUCTIONS for family in ('F1', 'F2')}
-        if set(cells) != expected or min(cells.values()) < 2 or len(self) != manifest['windows']:
-            raise ValueError('SIX_TASK_TWO_FAMILY_COMPLETE_TEACHER_COVERAGE_REQUIRED')
+        if len(self) != self.manifest['windows']:
+            raise ValueError('TEACHER_WINDOW_DENOMINATOR_CHANGED')
+        return cells
 
 
 class MultitaskDataset:

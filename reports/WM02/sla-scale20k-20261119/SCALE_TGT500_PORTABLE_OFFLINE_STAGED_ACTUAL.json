@@ -1,0 +1,60 @@
+{
+  "source_sha": "6d3ad0bb5eb777ac69d8970894968621c7704ea6",
+  "core_unit": "wm02-sla-scale20k-tgt500-core-offline-20261119-01.service",
+  "stage_source_files": {
+    "scripts/sla/scale20k_core_offline.py": "99d233ddbcbeacce4292bc189ffbb6feeeaac1f4c518afa3971dc008425dbad4",
+    "scripts/sla/evaluate_scale20k.py": "c88ee0ee3c05f4514efabb14edf515533421ff4b2fe23c7b709b1b143e1df20a",
+    "scripts/sla/scale20k_portable_endpoint.py": "c21aea747c1f55a090fde90bd151603dc25bd8b2d2bd5dea2afc284a40b8e7b2"
+  },
+  "original_live_spec_sha256": "3f207f115f456565b3a3c88c7914f8f6e8c6d9db76a15f98fb89fb4c81bcf75b",
+  "core_assets_sha256": "12cc57743aa4cdde1a897f1bbcd680d6a3425c4b6c3e4664be78b4b533486e55",
+  "panel_sha256": "7dc3383b6ea091b0fbb1e90903f9199ad5e4a180c17f60daf4a357a93d8d9473",
+  "core_CPU": {
+    "data": {
+      "manifests": {
+        "target": "4bcc5ffcd8920d874599a54cca73792c50a49ea6013d65ca7826817a9f80d7de",
+        "robodojo": "57e9836d62bf0775bca7c7b7396ab4251d299a6d23116de66771af0fd3960991",
+        "libero": "ba86ee2f88803fff79bda950ee54add91dcefaa105575ac22dade5d650b3fa8a"
+      },
+      "target_admission": "4d07b8ee9c85b0a78f598ae1643cbc4bf4ee98ecebd92ad50d6891a7d1dea7f6",
+      "target_clock": "d693aade3a96fce4ef0e77cdddb1dd143dd9a218120246a0f30a5bd65a6e318a"
+    },
+    "serializations_match": true,
+    "exact_panel_rows": {
+      "target": 96,
+      "robodojo": 96,
+      "libero": 96
+    },
+    "first_data_row_shape": {
+      "target": [
+        40,
+        32
+      ],
+      "robodojo": [
+        50,
+        32
+      ],
+      "libero": [
+        10,
+        32
+      ]
+    },
+    "asset_tokens_verified": true,
+    "output_optimizer_updates": 0,
+    "output_model_calls": 0,
+    "output_native_requests": 0
+  },
+  "vanda_early_transfer_guard": {
+    "source_file_sha256": "c21aea747c1f55a090fde90bd151603dc25bd8b2d2bd5dea2afc284a40b8e7b2",
+    "running_VANDA_job_rejected": true,
+    "model_bytes_streamed": 0,
+    "updates": 0,
+    "native_requests": 0
+  },
+  "actual_stepzero_payload_reference_bytes": 5547655820,
+  "archive_payload_cap_bytes": 8589934592,
+  "formal_evaluation_generations": 0,
+  "formal_restore_generations": 0,
+  "native_requests": 0,
+  "transfer_or_evaluation_launched": false
+}

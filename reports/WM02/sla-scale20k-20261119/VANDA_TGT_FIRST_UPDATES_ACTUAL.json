@@ -1,0 +1,160 @@
+{
+  "observed_SGT": "2026-11-19 19:03:58 +08",
+  "job_id": "1592563.stdct-mgmt-02",
+  "source_sha": "ea7f609426677d5812dd27daa5b391d545269d0d",
+  "global_updates": 4,
+  "cursors": {
+    "target": 128,
+    "robodojo": 0,
+    "libero": 0
+  },
+  "qualification_H40": 4,
+  "training_H40": 16,
+  "zero_restore_before_update": true,
+  "zero_checkpoint_sha256": "c9bb29fc64e099fbe05341932f3a1c42fb00a781fd1e2cd1d3af05f6915c0c40",
+  "completed_nonzero_checkpoints": 0,
+  "native_requests": 0,
+  "first_updates": [
+    {
+      "step": 1,
+      "cursors": {
+        "target": 32,
+        "robodojo": 0,
+        "libero": 0
+      },
+      "learning_rate": 4e-08,
+      "grad_norm": 0.33528661727905273,
+      "domains": {
+        "target": {
+          "FM32": 0.06408235267736018,
+          "auxiliary": 27.859614374875562,
+          "backward_calls": 32,
+          "training_full_generations": 4,
+          "data_wait_s": 1.6178070933092386,
+          "shared_gradient_norm": 0.2813831567764282,
+          "private_gradient_norm": 0.18232017755508423,
+          "visit_slice_sha256": "d9a0369c0a94f4146a6b0185ff25b8d690a45139d610bd0888bb101fef45bef7"
+        }
+      },
+      "actual_GPU_memory_stats": {
+        "num_allocs": 8131,
+        "bytes_in_use": 13591766016,
+        "peak_bytes_in_use": 20573715200,
+        "largest_alloc_size": 3327358720,
+        "bytes_limit": 31003497768,
+        "bytes_reserved": 0,
+        "peak_bytes_reserved": 0,
+        "largest_free_block_bytes": 0,
+        "pool_bytes": 31003497728,
+        "peak_pool_bytes": 31003497728
+      },
+      "wall_s": 23.82177583593875
+    },
+    {
+      "step": 2,
+      "cursors": {
+        "target": 64,
+        "robodojo": 0,
+        "libero": 0
+      },
+      "learning_rate": 8e-08,
+      "grad_norm": 0.34486860036849976,
+      "domains": {
+        "target": {
+          "FM32": 0.07199791184393689,
+          "auxiliary": 27.87832641862358,
+          "backward_calls": 32,
+          "training_full_generations": 4,
+          "data_wait_s": 1.865850638365373,
+          "shared_gradient_norm": 0.29318830370903015,
+          "private_gradient_norm": 0.18159008026123047,
+          "visit_slice_sha256": "5f0f270664fe6dbd1ab688ad5ed63a6084ef289db8e121a986fbd39aa0174487"
+        }
+      },
+      "actual_GPU_memory_stats": {
+        "num_allocs": 10644,
+        "bytes_in_use": 13468514560,
+        "peak_bytes_in_use": 20605311232,
+        "largest_alloc_size": 3327358720,
+        "bytes_limit": 31003497768,
+        "bytes_reserved": 0,
+        "peak_bytes_reserved": 0,
+        "largest_free_block_bytes": 0,
+        "pool_bytes": 31003497728,
+        "peak_pool_bytes": 31003497728
+      },
+      "wall_s": 13.565277324989438
+    },
+    {
+      "step": 3,
+      "cursors": {
+        "target": 96,
+        "robodojo": 0,
+        "libero": 0
+      },
+      "learning_rate": 1.2000000000000002e-07,
+      "grad_norm": 17.066980361938477,
+      "domains": {
+        "target": {
+          "FM32": 0.05856448254780844,
+          "auxiliary": 9.104097374105422,
+          "backward_calls": 32,
+          "training_full_generations": 4,
+          "data_wait_s": 2.081343237310648,
+          "shared_gradient_norm": 13.003057479858398,
+          "private_gradient_norm": 11.05451488494873,
+          "visit_slice_sha256": "32bef8efa4fccda0f2eb50e80b937552dff2e550e506bd4a002e4d73ee6a2550"
+        }
+      },
+      "actual_GPU_memory_stats": {
+        "num_allocs": 13157,
+        "bytes_in_use": 13683855616,
+        "peak_bytes_in_use": 20688194304,
+        "largest_alloc_size": 3327358720,
+        "bytes_limit": 31003497768,
+        "bytes_reserved": 0,
+        "peak_bytes_reserved": 0,
+        "largest_free_block_bytes": 0,
+        "pool_bytes": 31003497728,
+        "peak_pool_bytes": 31003497728
+      },
+      "wall_s": 13.870161607163027
+    },
+    {
+      "step": 4,
+      "cursors": {
+        "target": 128,
+        "robodojo": 0,
+        "libero": 0
+      },
+      "learning_rate": 1.6e-07,
+      "grad_norm": 0.2519656717777252,
+      "domains": {
+        "target": {
+          "FM32": 0.0647090277634561,
+          "auxiliary": 9.092530258552845,
+          "backward_calls": 32,
+          "training_full_generations": 4,
+          "data_wait_s": 1.9739502160809934,
+          "shared_gradient_norm": 0.20280329883098602,
+          "private_gradient_norm": 0.14952434599399567,
+          "visit_slice_sha256": "c8d1153522ee1e993915c9ede41fac1428f2240438894d764fc77b42f622c7b6"
+        }
+      },
+      "actual_GPU_memory_stats": {
+        "num_allocs": 15670,
+        "bytes_in_use": 13485985280,
+        "peak_bytes_in_use": 20706571008,
+        "largest_alloc_size": 3327358720,
+        "bytes_limit": 31003497768,
+        "bytes_reserved": 0,
+        "peak_bytes_reserved": 0,
+        "largest_free_block_bytes": 0,
+        "pool_bytes": 31003497728,
+        "peak_pool_bytes": 31003497728
+      },
+      "wall_s": 13.731761205010116
+    }
+  ],
+  "deadline_epoch": 1795096619.0
+}

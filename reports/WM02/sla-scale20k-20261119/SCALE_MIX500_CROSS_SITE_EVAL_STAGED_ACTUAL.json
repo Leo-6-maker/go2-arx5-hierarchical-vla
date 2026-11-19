@@ -1,0 +1,55 @@
+{
+  "official_plan_sha": "926226914a0c08ee1ebb143e0edea1434728107b",
+  "endpoint_training_source_sha": "31076fc7a64302b0705ae4d7e526c4341209a100",
+  "execution_source_sha": "ed0ce4251f0207d50c97706b6ce2e6ae55cefe14",
+  "panel_sha256": "7dc3383b6ea091b0fbb1e90903f9199ad5e4a180c17f60daf4a357a93d8d9473",
+  "site_preflight": {
+    "core": {
+      "site": "core",
+      "source_sha": "ed0ce4251f0207d50c97706b6ce2e6ae55cefe14",
+      "panel_sha256": "7dc3383b6ea091b0fbb1e90903f9199ad5e4a180c17f60daf4a357a93d8d9473",
+      "preflight": "LIVE_ORIGINAL_EXPORT_REFUSED_AND_0_BYTES_WRITTEN",
+      "checked_unchanged_dependency_count": 5,
+      "runtime_members": {
+        "scripts/sla/scale20k_portable_endpoint.py": "f4766e9e1c30380fb36b829fcbe8228535efe9068368a6cab3495dd4c43b35ea",
+        "scripts/sla/scale20k_vanda_offline.py": "7290c72b2b6de68ba6cc559b169c470834625d63c1675cfc9fd5f3a7df45e874"
+      },
+      "checkpoint_transfers": 0,
+      "PBS_jobs_submitted": 0,
+      "optimizer_updates": 0,
+      "offline_model_generations": 0,
+      "native_requests": 0,
+      "preflight_receipt_sha256": "113c61e7e92ed38e7fa485863f68b12b743374a7124378bba22c8c7427f16aa3"
+    },
+    "vanda": {
+      "site": "vanda",
+      "source_sha": "ed0ce4251f0207d50c97706b6ce2e6ae55cefe14",
+      "panel_sha256": "7dc3383b6ea091b0fbb1e90903f9199ad5e4a180c17f60daf4a357a93d8d9473",
+      "preflight": "VANDA_CPU_READY_REQUIRES_ACTUAL_MIX500_CUSTODY",
+      "checked_unchanged_dependency_count": 8,
+      "runtime_members": {
+        "scripts/sla/scale20k_portable_endpoint.py": "f4766e9e1c30380fb36b829fcbe8228535efe9068368a6cab3495dd4c43b35ea",
+        "scripts/sla/scale20k_vanda_offline.py": "7290c72b2b6de68ba6cc559b169c470834625d63c1675cfc9fd5f3a7df45e874"
+      },
+      "checkpoint_transfers": 0,
+      "PBS_jobs_submitted": 0,
+      "optimizer_updates": 0,
+      "offline_model_generations": 0,
+      "native_requests": 0,
+      "preflight_receipt_sha256": "e9d58dbdedb24409d8fad3306fbbbc3365bd24c9e1913459f28f85c8fb6eb4c0"
+    }
+  },
+  "formal_panel": {
+    "diagnostic_per_domain": 96,
+    "independent_restore_per_domain": 16,
+    "expected_total_predictions": 336
+  },
+  "matched_inputs_from_sealed_tgt500": 288,
+  "optimizer_updates": 0,
+  "native_requests": 0,
+  "offline_generation_attempts": 0,
+  "pbs_submissions": 0,
+  "checkpoint_portable_copy_bytes": 0,
+  "selected_evaluation_site": null,
+  "cpu_regression_checks_passed": 18
+}

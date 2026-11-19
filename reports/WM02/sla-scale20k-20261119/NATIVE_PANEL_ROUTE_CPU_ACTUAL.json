@@ -1,0 +1,97 @@
+{
+  "core_population_check": {
+    "source_sha": "aaf2f8a2cb3cb1b78aa586ffe7299245560eb29f",
+    "population_sha256": "86ad22180a0e1fd937fdff28302e190fef65928c0d8b724de282b6c8e0eb0c4a",
+    "planned_panels": [
+      {
+        "stage": "SCALE_DEV",
+        "arm": "SCALE-TGT5K",
+        "case_cap": 24,
+        "tick_cap": 1096872,
+        "model_call_cap": 3840,
+        "families": {
+          "F1": 12,
+          "F2": 12
+        },
+        "scenes": 4
+      },
+      {
+        "stage": "SCALE_DEV",
+        "arm": "SCALE-MIX5K",
+        "case_cap": 24,
+        "tick_cap": 1096872,
+        "model_call_cap": 3840,
+        "families": {
+          "F1": 12,
+          "F2": 12
+        },
+        "scenes": 4
+      },
+      {
+        "stage": "SCALE_DEV",
+        "arm": "SCALE-MIX20K",
+        "case_cap": 24,
+        "tick_cap": 1096872,
+        "model_call_cap": 3840,
+        "families": {
+          "F1": 12,
+          "F2": 12
+        },
+        "scenes": 4
+      },
+      {
+        "stage": "SCALE_CONFIRM",
+        "arm": "SCALE-MIX20K",
+        "case_cap": 24,
+        "tick_cap": 1096872,
+        "model_call_cap": 3840,
+        "families": {
+          "F1": 12,
+          "F2": 12
+        },
+        "scenes": 4
+      }
+    ],
+    "distinct_science_identities": 96,
+    "original_interface_records_seen": 2,
+    "original_interface_ticks_seen": 11906,
+    "mujoco_imported": false,
+    "jax_imported": false,
+    "actual_packages_loaded": 0,
+    "native_requests": 0,
+    "native_ticks": 0,
+    "model_generations": 0,
+    "optimizer_updates": 0
+  },
+  "regression_tests_passed": 30,
+  "core_live": {
+    "observed_SGT": "2026-11-19T18:34:53.201004+08:00",
+    "SCALE": {
+      "persisted_updates": 84,
+      "visits": {
+        "target": 2688,
+        "robodojo": 4032,
+        "libero": 4032
+      },
+      "H40": 336,
+      "site_service": {
+        "MainPID": "3588479",
+        "ActiveState": "active"
+      },
+      "step200_sealed": false,
+      "ledger_sha256": "0a27a75801f10499aace56e2fa59c6a00b5380713d7b9b26f9859aee1512e79e"
+    },
+    "GRASP24": {
+      "sealed": 7,
+      "ticks": 221363,
+      "H40": 729,
+      "task_success": 0,
+      "contacts": 4,
+      "ticks_after_STOP": 0,
+      "site_service": {
+        "MainPID": "3619057",
+        "ActiveState": "active"
+      }
+    }
+  }
+}

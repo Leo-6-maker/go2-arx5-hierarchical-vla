@@ -1,0 +1,174 @@
+{
+  "training_observed_SGT": "2026-11-19T17:52:14.252485+08:00",
+  "MIX_live": {
+    "unit": {
+      "unit": "wm02-sla-scale20k-mix-core-prefix-20261119-02.service",
+      "MainPID": "3588479",
+      "Result": "success",
+      "ActiveState": "active"
+    },
+    "source_sha": "31076fc7a64302b0705ae4d7e526c4341209a100",
+    "training_spec_sha256": "12cc57743aa4cdde1a897f1bbcd680d6a3425c4b6c3e4664be78b4b533486e55",
+    "updates": 29,
+    "cursors": {
+      "target": 928,
+      "robodojo": 1392,
+      "libero": 1392
+    },
+    "full_H40": 116,
+    "ledger_sha256": "1909b0b301181bf99fa55fbfacc109e19efe0b39a1cc75e421d7c0a399292120",
+    "late10_median_step_s": 46.17137464042753,
+    "summed_step_wall_s": 1628.795094304718,
+    "memory": {
+      "num_allocs": 249537,
+      "bytes_in_use": 13656971264,
+      "peak_bytes_in_use": 20958722816,
+      "largest_alloc_size": 3327295744,
+      "bytes_limit": 25683712742,
+      "bytes_reserved": 0,
+      "peak_bytes_reserved": 0,
+      "largest_free_block_bytes": 0,
+      "pool_bytes": 25683712512,
+      "peak_pool_bytes": 25683712512
+    },
+    "checkpoint_200": false,
+    "native_requests": 0
+  },
+  "frozen_panel_CPU": {
+    "panel_sha256": "7dc3383b6ea091b0fbb1e90903f9199ad5e4a180c17f60daf4a357a93d8d9473",
+    "training_spec_sha256": "12cc57743aa4cdde1a897f1bbcd680d6a3425c4b6c3e4664be78b4b533486e55",
+    "source_sha": "10b97b11736bdb195093b674d307b1d230c430ec",
+    "actual_backend": "cpu",
+    "actual": {
+      "target": {
+        "panel": 96,
+        "episodes": 23,
+        "groups": {
+          "HOLD": 48,
+          "PLACE": 48
+        },
+        "restore": 16,
+        "restore_groups": {
+          "HOLD": 8,
+          "PLACE": 8
+        },
+        "checked": [
+          {
+            "group": "HOLD",
+            "native_shape": [
+              40,
+              10
+            ],
+            "identity_active_MAE": 0.0,
+            "original_target_gates": true,
+            "camera_mask": {
+              "base_0_rgb": true,
+              "left_wrist_0_rgb": true,
+              "right_wrist_0_rgb": false
+            }
+          },
+          {
+            "group": "PLACE",
+            "native_shape": [
+              40,
+              10
+            ],
+            "identity_active_MAE": 0.0,
+            "original_target_gates": true,
+            "camera_mask": {
+              "base_0_rgb": true,
+              "left_wrist_0_rgb": true,
+              "right_wrist_0_rgb": false
+            }
+          }
+        ]
+      },
+      "robodojo": {
+        "panel": 96,
+        "episodes": 12,
+        "groups": {
+          "cover_blocks": 16,
+          "insert_tubes": 16,
+          "make_bread": 16,
+          "make_food": 16,
+          "pack_and_pour_fruit": 16,
+          "store_in_safe": 16
+        },
+        "restore": 16,
+        "restore_groups": {
+          "cover_blocks": 3,
+          "insert_tubes": 3,
+          "make_bread": 3,
+          "make_food": 3,
+          "pack_and_pour_fruit": 2,
+          "store_in_safe": 2
+        },
+        "checked": [
+          {
+            "group": "cover_blocks",
+            "native_shape": [
+              50,
+              14
+            ],
+            "identity_active_MAE": 0.0,
+            "original_target_gates": null,
+            "camera_mask": {
+              "base_0_rgb": true,
+              "left_wrist_0_rgb": true,
+              "right_wrist_0_rgb": true
+            }
+          }
+        ]
+      },
+      "libero": {
+        "panel": 96,
+        "episodes": 96,
+        "groups": {
+          "pick up the black bowl between the plate and the ramekin and place it on the plate": 10,
+          "pick up the black bowl from table center and place it on the plate": 10,
+          "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate": 10,
+          "pick up the black bowl next to the cookie box and place it on the plate": 10,
+          "pick up the black bowl next to the plate and place it on the plate": 10,
+          "pick up the black bowl next to the ramekin and place it on the plate": 10,
+          "pick up the black bowl on the cookie box and place it on the plate": 9,
+          "pick up the black bowl on the ramekin and place it on the plate": 9,
+          "pick up the black bowl on the stove and place it on the plate": 9,
+          "pick up the black bowl on the wooden cabinet and place it on the plate": 9
+        },
+        "restore": 16,
+        "restore_groups": {
+          "pick up the black bowl between the plate and the ramekin and place it on the plate": 2,
+          "pick up the black bowl on the ramekin and place it on the plate": 2,
+          "pick up the black bowl next to the plate and place it on the plate": 2,
+          "pick up the black bowl from table center and place it on the plate": 2,
+          "pick up the black bowl on the stove and place it on the plate": 1,
+          "pick up the black bowl next to the ramekin and place it on the plate": 1,
+          "pick up the black bowl on the cookie box and place it on the plate": 2,
+          "pick up the black bowl next to the cookie box and place it on the plate": 2,
+          "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate": 1,
+          "pick up the black bowl on the wooden cabinet and place it on the plate": 1
+        },
+        "checked": [
+          {
+            "group": "pick up the black bowl between the plate and the ramekin and place it on the plate",
+            "native_shape": [
+              10,
+              7
+            ],
+            "identity_active_MAE": 0.0,
+            "original_target_gates": null,
+            "camera_mask": {
+              "base_0_rgb": true,
+              "left_wrist_0_rgb": true,
+              "right_wrist_0_rgb": false
+            }
+          }
+        ]
+      }
+    },
+    "new_updates": 0,
+    "new_model_generations": 0,
+    "new_native_requests": 0,
+    "wall_s": 45.973633826710284
+  }
+}

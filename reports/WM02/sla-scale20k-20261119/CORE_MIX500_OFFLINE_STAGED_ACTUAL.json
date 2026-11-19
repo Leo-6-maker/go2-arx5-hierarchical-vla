@@ -1,0 +1,29 @@
+{
+  "source_sha": "7799e96a3e4ebbe9e46363af06c09c6e4596d007",
+  "unit": "wm02-sla-scale20k-mix500-core-offline-20261119-01.service",
+  "staging_sha256": "fc35ce4211b5dd7de15f00fa4dc403c881985db6a38635f6f200a747f03dc4f7",
+  "observed": {
+    "backend": "cpu",
+    "imports": {
+      "scripts.sla.scale20k_core_offline": "scripts/sla/scale20k_core_offline.py",
+      "scripts.sla.evaluate_scale20k": "scripts/sla/evaluate_scale20k.py",
+      "go2arx5_vla.sla_adapter.scale20k_checkpoint": "src/go2arx5_vla/sla_adapter/scale20k_checkpoint.py"
+    },
+    "panel_counts": {
+      "target": 96,
+      "robodojo": 96,
+      "libero": 96
+    },
+    "independent_restore_rows": 48,
+    "formal_endpoint_missing_rejected": true,
+    "real_model_generations": 0,
+    "native_requests": 0,
+    "optimizer_updates": 0
+  },
+  "source_members": {
+    "scripts/sla/scale20k_core_offline.py": "bfbb4f0845b2a93dfe63c9225e373f9f31d22d200e5ff78d3c586e07b554d45a",
+    "scripts/sla/evaluate_scale20k.py": "57aeeedbbb0b77fe122cab264c9ac9bf616c93412f6a4db9a7dc1e0109c1b6fd",
+    "src/go2arx5_vla/sla_adapter/scale20k_checkpoint.py": "a465540f9a3ef39ca84226215c29247ae2454108a5c5e13d19ab159f2ba86583"
+  },
+  "launched": false
+}

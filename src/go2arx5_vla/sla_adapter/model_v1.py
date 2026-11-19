@@ -73,7 +73,7 @@ def placement_dtype_name(path):
     return 'float32' if trainable(parts) else 'bfloat16'
 
 
-def _restore_for_placement(params_path):
+def _restore_for_placement(params_path, *, dtype_for_path=placement_dtype_name):
     """Pinned upstream restore structure with bounded, final-dtype host reads.
 
     Keep every trainable interface in FP32 and frozen leaves in BF16, as the
@@ -89,7 +89,7 @@ def _restore_for_placement(params_path):
         metadata = checkpointer.metadata(Path(params_path).resolve())
         item = {'params': metadata['params']}
         def argument(path, _):
-            dtype = jnp.float32 if placement_dtype_name(tuple(k.key for k in path)) == 'float32' else jnp.bfloat16
+            dtype = jnp.float32 if dtype_for_path(tuple(k.key for k in path)) == 'float32' else jnp.bfloat16
             return ocp.ArrayRestoreArgs(restore_type=np.ndarray, dtype=dtype)
         restored = checkpointer.restore(Path(params_path).resolve(), ocp.args.PyTreeRestore(
             item=item, restore_args=jax.tree_util.tree_map_with_path(argument,item)))['params']

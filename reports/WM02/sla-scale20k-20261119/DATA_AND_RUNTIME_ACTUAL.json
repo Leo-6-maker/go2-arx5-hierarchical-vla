@@ -1,0 +1,294 @@
+{
+  "schema": "SCALE20K_DATA_AND_RUNTIME_PREP_ACTUAL_V1",
+  "fixed_plan": "926226914a0c08ee1ebb143e0edea1434728107b",
+  "execution_base": "f61c1a24ba7b6575b3789a4143acc22daedb354b",
+  "observed": "2026-11-19T16:37:27+08:00",
+  "target": {
+    "verified_existing_TRAIN_episodes": 20,
+    "TRAIN_windows": 1376,
+    "admitted_historical_PLACE": 0,
+    "historical_PLACE_candidates": 3
+  },
+  "robodojo": {
+    "TRAIN": 48,
+    "SOURCE_DEV": 12,
+    "protected_SOURCE_TEST": 12,
+    "statistics_sha256": "c8afc74108b66b497122502e3b9b1d27cfc9565855fec88f4e01c3ebcb34f269",
+    "manifest_sha256": "57e9836d62bf0775bca7c7b7396ab4251d299a6d23116de66771af0fd3960991",
+    "train_windows": 50979,
+    "new_optimizer_updates": 0,
+    "pin": "190cfabc71f373b1c3889920bc75aa972643570b470822a65138d4faca11c2af",
+    "revision": "1127bda94f172d757386945af3eb3a6754d1a4e6",
+    "expansion_new_episodes": 12,
+    "new_valid_windows": 12873,
+    "native_fps_nominal": 30,
+    "native_horizon": 50,
+    "source_action": "future logged reference, not dispatched Go2 commands"
+  },
+  "libero": {
+    "revision": "a1aaacb7f6cd6ee5fb43120f673cebb0cfea7dd4",
+    "manifest_sha256": "ba86ee2f88803fff79bda950ee54add91dcefaa105575ac22dade5d650b3fa8a",
+    "decoder": "PyAV 16.0.1 CPU exact stream PTS",
+    "split": {
+      "TRAIN": {
+        "episodes": 1261,
+        "tasks": 30,
+        "known_BDDL_scene_groups": 11,
+        "candidate_windows": 209146,
+        "raw_frames": 220495,
+        "unique_initial_dual_rgb": 1261
+      },
+      "SOURCE_DEV": {
+        "episodes": 432,
+        "tasks": 10,
+        "known_BDDL_scene_groups": 1,
+        "candidate_windows": 49082,
+        "raw_frames": 52970,
+        "unique_initial_dual_rgb": 432
+      }
+    },
+    "image_checks": 6772,
+    "numeric_raw_state_action_episodes_equal": 0,
+    "cross_split_initial_pair_duplicates": 0,
+    "maximum_absolute_action": 1.0,
+    "published_release_total": 1693,
+    "train_statistics": {
+      "state": {
+        "samples": 209146,
+        "q01": [
+          -0.3977247104048729,
+          -0.27314894944429396,
+          0.021396819967776533,
+          1.482191276550293,
+          -2.761554181575775,
+          -1.1056206166744234,
+          0.0018641767441295088,
+          -0.04007174856960773
+        ],
+        "q99": [
+          0.13707337006926498,
+          0.287519161403179,
+          1.2613544642925256,
+          3.2714202880859373,
+          2.453276205062866,
+          0.5769599944353102,
+          0.04036658145487308,
+          -0.0018764208944048733
+        ]
+      },
+      "action": {
+        "samples": 220495,
+        "q01": [
+          -0.6857143044471741,
+          -0.8169642686843872,
+          -0.9375,
+          -0.11678571254014969,
+          -0.14249999821186066,
+          -0.23357142508029938,
+          -1.0
+        ],
+        "q99": [
+          0.8999999761581421,
+          0.8678571581840515,
+          0.9375,
+          0.13928571343421936,
+          0.1971428543329239,
+          0.35249999165534973,
+          1.0
+        ]
+      }
+    }
+  },
+  "Core_data_custody": {
+    "epoch": 1795076849.419356,
+    "files_verified": 463,
+    "source_asset_bytes": 4090433116,
+    "libero_manifest_sha256": "3d8777b644917ac56ecb7ba288e06d60be4089443cc31bf6cc9cd181af3ef4f4",
+    "robodojo_addition_manifest_sha256": "190cfabc71f373b1c3889920bc75aa972643570b470822a65138d4faca11c2af",
+    "wall_s": 210.88674319628626,
+    "model_generations": 0,
+    "optimizer_updates": 0,
+    "native_requests": 0
+  },
+  "isolated_dependencies": {
+    "dependencies": {
+      "opencv": "4.11.0",
+      "h5py": "3.13.0",
+      "pyarrow": "19.0.1",
+      "numpy": "1.26.4"
+    },
+    "sha256": {
+      "h5py-3.13.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl": "d6f13f9b5ce549448c01e4dfe08ea8d1772e6078799af2c1c8d09e941230a90d",
+      "opencv_python_headless-4.11.0.86-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl": "0e0a27c19dd1f40ddff94976cfe43066fbbe9dfbb2ec1907d66c19caef42a57b",
+      "pyarrow-19.0.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl": "f3ad4c0eb4e2a9aeb990af6c09e6fa0b195c8c0e7b272ecc8d4d2b6574809d34"
+    },
+    "elapsed_s": 3.5232354989275336,
+    "model_updates": 0,
+    "native_requests": 0
+  },
+  "Core_CPU_real_batch": {
+    "actual_backend": "cpu",
+    "parent_revision": "5bbdf3012ab643554aa2eb83ddeae9ace3dce476",
+    "parent_manifest_sha256": "232442c8a8c934118cbcdb890c6f307d7fc857819d7e45c2286ed8e8e5d5f3a3",
+    "manifest_sha256": {
+      "target": "4bcc5ffcd8920d874599a54cca73792c50a49ea6013d65ca7826817a9f80d7de",
+      "robodojo": "57e9836d62bf0775bca7c7b7396ab4251d299a6d23116de66771af0fd3960991",
+      "libero": "ba86ee2f88803fff79bda950ee54add91dcefaa105575ac22dade5d650b3fa8a"
+    },
+    "bank_sha256": {
+      "target": "ec04999d5b07f8fdb69bb3e88e3b447efd95b9ad2ad893053d0910d255c3a4b1",
+      "robodojo": "0ded525f5d81e129213301448cce7e75e2672a6f666323099c690445db6be775",
+      "libero": "c34ad99b2f4de12fa8320000fd74e0f308b57fe8b8c0a8251fe1c1d59f4bc97f"
+    },
+    "domains": {
+      "target": {
+        "windows": 1376,
+        "shape": [
+          4,
+          40,
+          32
+        ],
+        "state_shape": [
+          4,
+          32
+        ],
+        "image_masks": {
+          "base_0_rgb": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "left_wrist_0_rgb": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "right_wrist_0_rgb": [
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        "sample_action_sha256": "d647ebbd105ee069bcc7c50ea88d36cd580f8c7fdbe9295e2a0881a2becda502"
+      },
+      "robodojo": {
+        "windows": 50979,
+        "shape": [
+          4,
+          50,
+          32
+        ],
+        "state_shape": [
+          4,
+          32
+        ],
+        "image_masks": {
+          "base_0_rgb": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "left_wrist_0_rgb": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "right_wrist_0_rgb": [
+            true,
+            true,
+            true,
+            true
+          ]
+        },
+        "sample_action_sha256": "59a12c8968ea2a82d7c533dd10dfd9de4118af7bca3150e16749933d08bf4844"
+      },
+      "libero": {
+        "windows": 209146,
+        "shape": [
+          4,
+          10,
+          32
+        ],
+        "state_shape": [
+          4,
+          32
+        ],
+        "image_masks": {
+          "base_0_rgb": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "left_wrist_0_rgb": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "right_wrist_0_rgb": [
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        "sample_action_sha256": "4e3beb1e428a6a1d5fc2a57dc327b0d52066421e48d133f3c49e59850c9874a5"
+      }
+    },
+    "actual_data_windows_tokenized": 12,
+    "new_optimizer_updates": 0,
+    "new_model_generations": 0,
+    "new_native_requests": 0,
+    "wall_s": 53.370186232961714
+  },
+  "model": {
+    "upstream_abstract_receipt_sha256": "84f8ca9165b90d2edebba8b26987b472a50b4b0fd0f7639fca4c6ee495872592",
+    "parameter_paths": {
+      "frozen": 36,
+      "vlm_lora": 6,
+      "action_expert": 11,
+      "domain_template": 8
+    },
+    "parameter_numel": {
+      "frozen": 2939260656,
+      "vlm_lora": 11943936,
+      "action_expert": 427932672,
+      "domain_template": 2165792
+    },
+    "FP32_trainable_bytes": 1785495936,
+    "model_and_Adam_minimum_bytes": 11235009120,
+    "memory_estimate_excludes_activations_and_workspace": true,
+    "weights_loaded": 0
+  },
+  "scale_GPU_capacity": [
+    {
+      "index": 0,
+      "gpu": "NVIDIA GeForce RTX 4080 SUPER",
+      "free_MiB": 21733,
+      "total_MiB": 32760
+    },
+    {
+      "index": 1,
+      "gpu": "NVIDIA GeForce RTX 4080 SUPER",
+      "free_MiB": 14025,
+      "total_MiB": 16376
+    }
+  ],
+  "Core_D4_priority": true,
+  "real_GPU_qualification": 0,
+  "checkpoint_recovery_real_model": 0,
+  "target_accesses": 0,
+  "source_accesses": 0,
+  "new_optimizer_updates": 0,
+  "new_model_generations": 0,
+  "new_native_requests": 0,
+  "new_native_ticks": 0,
+  "retained_technical_failure": "First Core CPU data attempt stopped at OpenCV AV1. New handler uses PyAV native PTS.",
+  "next": "Individual historical PLACE scene/lineage admission and final common target manifest; qualify real gradient, peak memory and full recovery on one authorized bounded GPU; then launch first 200 updates."
+}

@@ -8,6 +8,8 @@ import traceback
 
 from scripts.pi0292.durable import write
 from go2arx5_vla.world_model.mfree_unattended_runtime_v1 import close, unit_state
+from go2arx5_vla.world_model import multisource_d4_native as d4
+from go2arx5_vla.world_model import target_adaptation_teacher as adaptation
 from go2arx5_vla.world_model.multitask_scope_v6 import PLAN, SCOPE, read_pin, validate
 from go2arx5_vla.world_model.multitask_score_v6 import INSTRUCTIONS
 from go2arx5_vla.world_model.storage import digest
@@ -97,38 +99,48 @@ def teacher_coverage(rows):
         observed_label_margin_exclusions=sum(r.get('label_margin_exclusions') or 0 for r in teachers))
 
 
-def preflight(spec):
+def preflight(spec, *, prepared_cases=None):
     from .multitask_stage_cards_v6 import verified_teacher_prefix
 
-    if (spec['plan_commit'] != PLAN or spec['scope'] != SCOPE or not spec['physics']
+    identity = spec['scope'], spec['plan_commit']
+    if (identity not in ((SCOPE,PLAN),(adaptation.SCOPE,adaptation.PLAN)) or not spec['physics']
             or spec['new_optimizer_updates_budget'] or spec['new_model_generations_budget']
             or spec.get('resident_server_spec') is not None or spec['case_lead_s'] < 1980):
         raise PermissionError('FINITE_TEACHER_ONLY_SCOPE_REQUIRED')
     population = read_pin(spec['compiled_population'])
-    candidates = population['conditions']['TEACHER']
-    ids = [row['id'] for row in candidates]
-    if (len(ids) != 48 or len(set(ids)) != 48 or ids[:6] != population['first_feasibility_ids']
-            or Counter((r['instruction'],r['family']) for r in candidates)
-            != Counter({(task,family):4 for task in INSTRUCTIONS for family in ('F1','F2')})):
-        raise ValueError('EXACT_SEALED_TEACHER48_POPULATION_REQUIRED')
     panel = read_pin(spec['registered_panel'])
     start = spec['teacher_start_index']
     stop = start + spec['new_physical_requests_budget']
-    if not (0 <= start < stop <= 48 and (stop == 6 or start >= 6)):
-        raise ValueError('INITIAL_TEACHER6_OR_EXACT_UNSTARTED_SUFFIX_REQUIRED')
+    if spec['scope'] == adaptation.SCOPE:
+        candidates = adaptation.conditions(population)
+        if start != 0 or stop != len(candidates) or spec.get('previous_teacher_results'):
+            raise ValueError('EXPECTED_ALL_SIX_NEW_TRAIN_CONDITIONS_IN_ORDER')
+        previous = []
+    else:
+        candidates = population['conditions']['TEACHER']
+        original_ids = [row['id'] for row in candidates]
+        if (len(original_ids) != 48 or len(set(original_ids)) != 48
+                or original_ids[:6] != population['first_feasibility_ids']
+                or Counter((r['instruction'],r['family']) for r in candidates)
+                != Counter({(task,family):4 for task in INSTRUCTIONS for family in ('F1','F2')})):
+            raise ValueError('EXACT_SEALED_TEACHER48_POPULATION_REQUIRED')
+        if not (0 <= start < stop <= 48 and (stop == 6 or start >= 6)):
+            raise ValueError('INITIAL_TEACHER6_OR_EXACT_UNSTARTED_SUFFIX_REQUIRED')
+        previous = verified_teacher_prefix(spec['previous_teacher_results'],spec['compiled_population'],
+                                           world_lock=spec['mobile_world_lock'])
+    ids = [row['id'] for row in candidates]
     if [r['id'] for r in panel] != ids[start:stop] or len(spec['cases']) != stop-start:
         raise ValueError('TEACHER_SLICE_MUST_MATCH_ORIGINAL_ORDER')
-    previous = verified_teacher_prefix(spec['previous_teacher_results'],spec['compiled_population'],
-                                       world_lock=spec['mobile_world_lock'])
     if [r['id'] for r in previous] != ids[:start]:
         raise ValueError('ONLY_EXACT_TERMINAL_TEACHER_PREFIX_CAN_PRECEDE_SUFFIX')
     clusters = {cluster['id']:cluster for cluster in population['clusters']}
-    for path,item,record in zip(spec['cases'],panel,candidates[start:stop],strict=True):
-        case = read(path)
+    cases = map(read,spec['cases']) if prepared_cases is None else prepared_cases
+    for case,item,record in zip(cases,panel,candidates[start:stop],strict=True):
         validate(case)
         cluster=clusters[record['cluster']]
         condition=item['condition']
         if (case['sim_only_role']!='EXPERT' or case['panel_entry_id']!=item['id']
+                or (case['scope'],case['plan_commit']) != identity or case['source_sha'] != spec['source_sha']
                 or case['mobile_group']!=spec['registered_root']
                 or case['mobile_world_lock']!=spec['mobile_world_lock']
                 or case['ROS_DOMAIN_ID']!=spec['ROS_DOMAIN_ID']
@@ -146,7 +158,8 @@ def run(path, spec):
     try:
         previous = preflight(spec)
         interface = wait_interfaces(spec)
-        carried = interface_records(interface,spec['mobile_world_lock'])
+        identity = (d4.E0_SCOPE,d4.E0_PLAN) if spec['scope'] == adaptation.SCOPE else (SCOPE,PLAN)
+        carried = interface_records(interface,spec['mobile_world_lock'],identity=identity)
         free = shutil.disk_usage(root)
         available = int(next(line.split()[1] for line in Path('/proc/meminfo').read_text().splitlines()
                              if line.startswith('MemAvailable:'))) * 1024
@@ -165,9 +178,15 @@ def run(path, spec):
             failure=traceback.format_exc(),records=[]))
         close(spec,1)
         return 1
+    def coverage(rows):
+        if spec['scope'] == adaptation.SCOPE:
+            return sum(row['role']=='EXPERT' and row['task_and_mobile_success']
+                       and not row['technical_failure'] and not row['hard_STOP'] for row in rows) == len(adaptation.CELLS)
+        return teacher_coverage(previous+rows)['passes_task_counts']
+
     return run_campaign(path, preflight=lambda _:carried,
         load_carried=lambda rows:rows, compact=teacher_row, bootstrap='v6_bootstrap.py',
         expected_count=2+spec['new_physical_requests_budget'],
         result_schema='SLA_V6_MULTITASK_TEACHER_ACTUAL',
-        pilot_evaluate=lambda rows:teacher_coverage(previous+rows)['passes_task_counts'],
+        pilot_evaluate=coverage,
         case_lead_s=spec['case_lead_s'])
