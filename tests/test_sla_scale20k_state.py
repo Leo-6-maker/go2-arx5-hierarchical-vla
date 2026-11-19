@@ -109,6 +109,27 @@ def test_core_successor_binds_only_a_closed_hash_verified_training_segment(tmp_p
         core.closed_predecessor(config,tmp_path/'new')
 
 
+def test_core_offline_does_not_consume_formal_budget_on_the_technical_prefix(tmp_path, monkeypatch):
+    from scripts.pi0292.durable import write
+    from scripts.sla import scale20k_core_offline as offline
+
+    result_path = tmp_path/'RESULT.private.json'
+    training_path = tmp_path/'SPEC.private.json'
+    write(result_path, dict(checkpoint={'path': 'endpoint', 'sha256': '4'*64}))
+    write(training_path, dict(planned_step=500))
+    prior = offline.pin(result_path)
+    config = dict(arm='SCALE-MIX20K', step=500, training_source_sha='a'*40,
+                  training_spec=offline.pin(training_path))
+    monkeypatch.setattr(offline, 'closed_predecessor', lambda config, root: (prior, None, 200))
+    with pytest.raises(ValueError, match='SEALED_FORMAL_TRAINING_STEP'):
+        offline.offline_endpoint(config, tmp_path/'evaluation')
+    monkeypatch.setattr(offline, 'closed_predecessor', lambda config, root: (prior, None, 500))
+    assert offline.offline_endpoint(config, tmp_path/'evaluation')[0]['sha256']=='4'*64
+    write(training_path, dict(planned_step=200))
+    with pytest.raises(ValueError, match='ORIGINAL_TERMINAL_TRAINING_SPEC_REQUIRED'):
+        offline.offline_endpoint(config, tmp_path/'evaluation')
+
+
 def test_core_successor_imports_verified_original_worker_and_uses_original_cache(tmp_path):
     import os
     from go2arx5_vla.sla_adapter.checkpoint_v1 import sha
