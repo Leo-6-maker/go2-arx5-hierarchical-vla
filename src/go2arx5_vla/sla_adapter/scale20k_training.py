@@ -94,6 +94,8 @@ def target_auxiliary(graph, quantiles):
 
 
 class Engine:
+    profile_timing = False
+
     def __init__(self, arm, graphs, parameters, frozen, datasets, banks, tokenizer, microbatch, optimizer, *, rng):
         self.arm,self.parameters,self.frozen = arm,parameters,frozen
         self.datasets,self.banks,self.tokenizer = datasets,banks,tokenizer
@@ -129,15 +131,23 @@ class Engine:
         dataset = self.datasets[domain]
         accumulator = jax.tree.map(jnp.zeros_like,active)
         totals = dict(FM32=0.,auxiliary=0.,backward_calls=0,training_full_generations=0,data_wait_s=0.)
+        if self.profile_timing:
+            totals.update(FM_backward_s=0.,auxiliary_input_s=0.,auxiliary_backward_s=0.)
         for offset in range(0,size,micro):
             guard()
             end = offset+micro
             started = time.monotonic()
             obs,actions = host_batch(dataset,self.tokenizer,domain,range(cursor+offset,cursor+end),indices[offset:end])
-            totals['data_wait_s'] += time.monotonic()-started
+            if self.profile_timing:
+                jax.block_until_ready((obs,actions,draws))
+            input_ready = time.monotonic()
+            totals['data_wait_s'] += input_ready-started
             value,grad = self.grad[domain](active,self.frozen,obs,actions,draws[0][offset:end],draws[1][offset:end])
             accumulator = self.add(accumulator,grad,micro/size)
             totals['FM32'] += float(value)*micro/size
+            if self.profile_timing:
+                jax.block_until_ready(accumulator)
+                totals['FM_backward_s'] += time.monotonic()-input_ready
             totals['backward_calls'] += 1
             self.gradient_windows[domain] += micro
         return accumulator,totals
@@ -149,17 +159,28 @@ class Engine:
         dataset = self.datasets['target']
         for slot in slots:
             guard()
+            if self.profile_timing:
+                started = time.monotonic()
             index = int(indices[slot]); absolute = cursor+slot
             obs,_ = host_batch(dataset,self.tokenizer,'target',[absolute],[index])
             episode,anchor = dataset.rows[index]
             label = dataset.labels[episode['id']]['nominal_policy_H40'][anchor,:,9]
             width = dense_g7_v6.previous_command_context(dataset.reference(index))
             noise = jax.random.normal(jax.random.fold_in(jax.random.fold_in(self.rng,37),absolute),(1,40,32))
+            width = jnp.asarray([width],jnp.float32)
+            label_width = jnp.asarray((.002+.040*label)[None,:],jnp.float32)
+            if self.profile_timing:
+                jax.block_until_ready((obs,noise,width,label_width))
+                ready = time.monotonic()
+                totals['auxiliary_input_s'] += ready-started
+                started = ready
             self.attempted_aux += 1
-            value,grad = self.aux(active,self.frozen,obs,noise,jnp.asarray([width],jnp.float32),
-                                  jnp.asarray((.002+.040*label)[None,:],jnp.float32))
+            value,grad = self.aux(active,self.frozen,obs,noise,width,label_width)
             accumulator = self.add(accumulator,grad,.25)
             totals['auxiliary'] += float(value)*.25
+            if self.profile_timing:
+                jax.block_until_ready(accumulator)
+                totals['auxiliary_backward_s'] += time.monotonic()-started
             self.completed_aux += 1
             totals['training_full_generations'] += 1
         return accumulator
@@ -202,9 +223,17 @@ class Engine:
                 del mean
         guard()
         lr = float(self.rates[self.step])
+        if self.profile_timing:
+            jax.block_until_ready(gradient)
+            adam_started = time.monotonic()
         parameters,states,norm = self.apply(self.parameters,self.states,gradient,lr)
         jax.block_until_ready((parameters,states))
+        if self.profile_timing:
+            adam_seconds = time.monotonic()-adam_started
         self.parameters,self.states = parameters,states
         self.step += 1
-        return dict(step=self.step,cursors=cursors(self.arm,self.step),learning_rate=lr,grad_norm=float(norm),
-                    domains=metrics,actual_GPU_memory_stats=jax.devices()[0].memory_stats(),wall_s=time.monotonic()-before)
+        row = dict(step=self.step,cursors=cursors(self.arm,self.step),learning_rate=lr,grad_norm=float(norm),
+                   domains=metrics,actual_GPU_memory_stats=jax.devices()[0].memory_stats(),wall_s=time.monotonic()-before)
+        if self.profile_timing:
+            row['optimizer_s'] = adam_seconds
+        return row

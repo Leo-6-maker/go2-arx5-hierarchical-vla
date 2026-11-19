@@ -678,6 +678,8 @@ def test_scale_native_does_not_admit_core_replay_with_altered_physical_output(mo
 
 
 def test_offline_robodojo_relocation_preserves_frozen_dev_raw_sha(tmp_path):
+    import json
+
     from go2arx5_vla.sla_adapter.checkpoint_v1 import sha
     from go2arx5_vla.sla_adapter.scale20k_data import RobodojoDataset
     from scripts.pi0292.durable import write
@@ -706,3 +708,15 @@ def test_offline_robodojo_relocation_preserves_frozen_dev_raw_sha(tmp_path):
     fresh = RobodojoDataset(tmp_path,pin(manifest),split='SOURCE_DEV',resize_with_pad=None,raw_binding=pin(binding))
     with pytest.raises(ValueError,match='PINNED_RGB_FILE_BYTES_CHANGED'):
         fresh.raw_path('source-dev')
+
+    # A separate TRAIN binding admits only the same original TRAIN member.
+    raw.write_bytes(b'original source record')
+    value = json.loads(manifest.read_bytes())
+    value['episodes'] = [dict(episode,id='source-train',split='TRAIN')]
+    write(manifest,value)
+    write(binding,dict(split='TRAIN',manifest_sha256=sha(manifest),
+                       raw={'source-train':dict(file=raw.name,sha256=sha(raw))}))
+    reader = RobodojoDataset(tmp_path,pin(manifest),split='TRAIN',resize_with_pad=None,raw_binding=pin(binding))
+    assert reader.raw_path('source-train') == raw
+    with pytest.raises(ValueError,match='ORIGINAL_TRAIN_BYTES'):
+        RobodojoDataset(tmp_path,pin(manifest),split='SOURCE_DEV',resize_with_pad=None,raw_binding=pin(binding))

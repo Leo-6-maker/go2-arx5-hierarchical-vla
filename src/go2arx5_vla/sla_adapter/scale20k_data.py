@@ -20,11 +20,14 @@ class RobodojoDataset(SourceDataset):
         self.raw_binding = None
         if raw_binding is not None:
             binding = read_pin(raw_binding)
-            if (kwargs['split'] != 'SOURCE_DEV' or binding['manifest_sha256'] != manifest['sha256']
+            source_split = binding.get('split','SOURCE_DEV')
+            if (kwargs['split'] != source_split
+                    or binding['manifest_sha256'] != manifest['sha256']
                     or set(binding['raw']) != set(self.episodes)
                     or any(binding['raw'][episode]['sha256'] != row['raw_sha256']
                            for episode,row in self.episodes.items())):
-                raise ValueError('SCALE20K_RELOCATED_RAW_SOURCE_REQUIRES_THE_ORIGINAL_DEV_BYTES')
+                label = 'DEV' if source_split == 'SOURCE_DEV' else 'TRAIN'
+                raise ValueError(f'SCALE20K_RELOCATED_RAW_SOURCE_REQUIRES_THE_ORIGINAL_{label}_BYTES')
             self.raw_binding = binding['raw']
         self.verified_raw = set()
 
