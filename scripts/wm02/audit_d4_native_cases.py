@@ -199,6 +199,84 @@ def audit(root, *, start=0, limit=12, preserve_errors=False):
                 checked_case_window=[start,start+limit], new_generations=0, new_native_ticks=0, new_training_updates=0)
 
 
+def stopped_contact(case, stop):
+    """Name forbidden geoms in the exact sealed terminal packet, without stepping."""
+    import mujoco
+    from go2arx5_vla.world_model.multitask_contact_v6 import observer_permitted
+    from go2arx5_vla.world_model.multitask_score_v6 import Task
+    from go2arx5_vla.world_model.multitask_state_v6 import read_state
+    from go2arx5_vla.world_model.native_replay import forbid_integration
+
+    spec = read(case)
+    scene = spec['model_path']
+    packet = read_state(case.parent/'native-01/state.bin')
+    if packet['step'] != stop['steps'] or digest(scene) != spec['frozen_files'][scene]:
+        raise ValueError('FOLLOWUP_STOP_CONTACT_REQUIRES_TERMINAL_PACKET_AND_ORIGINAL_SCENE')
+    selected = Task.parse(spec['task_instruction_id']).color
+    with forbid_integration(mujoco):
+        model = mujoco.MjModel.from_binary_path(scene)
+
+        def describe(geom):
+            return dict(geom_id=geom, geom=mujoco.mj_id2name(model,mujoco.mjtObj.mjOBJ_GEOM,geom),
+                body=mujoco.mj_id2name(model,mujoco.mjtObj.mjOBJ_BODY,int(model.geom_bodyid[geom])),
+                geom_type=mujoco.mjtGeom(model.geom_type[geom]).name)
+
+        evidence = []
+        for contact in packet['contacts']:
+            a,b = (describe(contact[key]) for key in ('geom0','geom1'))
+            distance = contact['distance_m']
+            if not observer_permitted(a['geom'],b['geom'],distance,selected):
+                evidence.append(dict(geoms=[a,b],distance_m=distance,normal_force_N=float(contact['wrench'][0])))
+    if not evidence:
+        raise ValueError('RECORDED_ILLEGAL_CONTACT_HAS_NO_FORBIDDEN_PAIR_ON_SEALED_PACKET')
+    return evidence
+
+
+def audit_followup(root, spec_sha, *, start, limit):
+    from go2arx5_vla.world_model import sla_followup_native_v1 as followup
+    from go2arx5_vla.world_model.multitask_scope_v6 import read_pin
+
+    root = Path(root).resolve(strict=True)
+    spec = read_pin(dict(path=str(root/'EXECUTION_SPEC.json'),sha256=spec_sha))
+    stage = spec['evaluation_stage']
+    if (spec['scope'] != followup.SCOPE or spec['plan_commit'] != followup.PLAN or stage not in followup.CAPS
+            or spec['compiled_population']['sha256'] != followup.POPULATION_SHA
+            or Path(spec['registered_root']).resolve(strict=True) != root):
+        raise ValueError('ORIGINAL_D416_FROZEN_FOLLOWUP_REQUIRED')
+    registered = read_pin(spec['registered_panel'])
+    cards = [Path(path) for path in spec['cases']]
+    registered_by_id = {row['id']:row for row in registered}
+    if (len(registered_by_id) != len(registered) or any(not card.is_relative_to(root/'cases') for card in cards)
+            or any(card.parent.name not in registered_by_id for card in cards) or not 0 <= start < start+limit <= len(cards)):
+        raise ValueError('FOLLOWUP_MUST_AUDIT_ORIGINAL_REGISTERED_CASE_RANGE')
+    actual = read(root/'RECORDS.private.json')
+    local = {card.parent.name for card in cards}
+    seen = [row for row in actual if row['role'] == 'STUDENT' and row['id'] in local]
+    if [row['id'] for row in seen] != [card.parent.name for card in cards[:len(seen)]]:
+        raise ValueError('FOLLOWUP_RESULT_ORDER_CHANGED')
+    cases = []
+    for card, summary in zip(cards[start:start+limit],seen[start:start+limit],strict=False):
+        lease = read(card.parent/'control/LEASE.json')
+        case = read(card)
+        expected = registered_by_id[summary['id']]
+        result = card.parent/'RESULT.private.json'
+        if (lease['status'] != 'CLOSED' or lease['spec_sha256'] != digest(card)
+                or expected['arm'] != case['arm'] or expected['condition'] != case['mobile_condition']
+                or expected['instruction'] != case['task_instruction_id']):
+            raise ValueError('FOLLOWUP_RESULT_REQUIRES_THE_ORIGINAL_CLOSED_CASE')
+        raw = read_pin(dict(path=str(result),sha256=summary['result_sha256']))
+        row = case_result(card,raw)
+        if raw['source_sha'] != spec['source_sha'] or row['native_ticks'] != summary['native_ticks']:
+            raise ValueError('FOLLOWUP_COMPACT_RESULT_DISAGREES_WITH_CASE_TERMINAL')
+        row['contact_evidence'] = []
+        if (row['first_stop'] or {}).get('reason') == 'ILLEGAL_CONTACT':
+            row['contact_evidence'] = stopped_contact(card,row['first_stop'])
+        cases.append(row)
+    return dict(stage=stage,spec_sha256=spec_sha,source_sha=spec['source_sha'],
+        checked_case_window=[start,start+limit], planned_conditions=followup.CAPS[stage][0],
+        totals=summary_totals(cases,[]),cases=cases,new_generations=0,new_native_ticks=0,new_training_updates=0)
+
+
 def summarize_layouts(spec_file, spec_sha, artifacts):
     """Combine sealed evidence using the original case order and count raw effects."""
     if digest(spec_file) != spec_sha:
@@ -370,9 +448,14 @@ if __name__ == '__main__':
     parser.add_argument('--watch-remaining',type=Path)
     parser.add_argument('--summarize-layouts',type=Path,nargs='+')
     parser.add_argument('--spec-sha')
+    parser.add_argument('--followup', action='store_true')
     parser.add_argument('--deadline',type=float)
     args = parser.parse_args()
-    if args.summarize_layouts:
+    if args.followup:
+        if not args.spec_sha or args.summarize_layouts or args.watch_result or args.watch_remaining:
+            parser.error('followup requires --spec-sha and no watcher')
+        print(json.dumps(audit_followup(args.root,args.spec_sha,start=args.start,limit=args.limit),allow_nan=False))
+    elif args.summarize_layouts:
         if not args.spec_sha or args.watch_result or args.watch_remaining:
             parser.error('summary mode requires --spec-sha and no watcher')
         summary = summarize_layouts(args.root/'EXECUTION_SPEC.json',args.spec_sha,args.summarize_layouts)
