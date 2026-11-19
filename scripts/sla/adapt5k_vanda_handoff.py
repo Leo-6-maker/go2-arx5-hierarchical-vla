@@ -19,7 +19,7 @@ from scripts.sla.train_adapt5k import first_nonzero_gate
 from scripts.wm02.multisource_d4_vanda import pin
 
 
-TRAIN_LIMITS = (250, 500, 1000, 1500, 2000)
+TRAIN_LIMITS = tuple(range(250, contract.SWITCH_PHASE + 1, 250))
 ORIGINAL_RUNTIME = '1432c8dc88c57adf39e8fa363f5438c5e63aa8fd'
 RUNTIME_MEMBERS = ('SOURCE_SHA.private', 'scripts/sla/train_adapt5k.py', 'scripts/sla/evaluate_adapt5k.py',
                    'src/go2arx5_vla/sla_adapter/adapt5k_checkpoint.py',
