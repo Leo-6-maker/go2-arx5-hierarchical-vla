@@ -2,6 +2,7 @@
 from collections import Counter
 import json
 from pathlib import Path
+import time
 
 import numpy as np
 
@@ -12,6 +13,41 @@ from go2arx5_vla.world_model.storage import digest
 
 def read(path):
     return json.loads(path.read_bytes())
+
+
+def measured_query_times(directory):
+    started, previous_end = None, None
+    values, unmeasured = [], 0
+    for folder in sorted(directory.iterdir()):
+        artifacts = [folder/name for name in ('INPUT_META.private.json','MODEL_REQUEST.private.json','MODEL_RETURN.private.json')]
+        if not all(path.is_file() for path in artifacts):
+            unmeasured += 1
+            continue
+        meta, request, returned = map(read, artifacts)
+        response = returned['response']
+        clock = (meta['observation_available_monotonic'],meta['input_ready_monotonic'],
+                 request['created_monotonic'],returned['wall_end_monotonic'])
+        if len(response.get('branch_wall_s', ())) != 1 or 'worker_wall_s' not in response:
+            unmeasured += 1
+            continue
+        provider = response['branch_wall_s'][0]
+        if (not np.isfinite([*clock,provider,response['worker_wall_s']]).all()
+                or tuple(sorted(clock)) != clock or request['request_id'] != response['request_id']
+                or (previous_end is not None and previous_end > clock[0])):
+            raise ValueError('ORIGINAL_QUERY_TIMING_LEDGER_NOT_CAUSAL')
+        if started is None:
+            started = clock[0]
+        previous_end = clock[-1]
+        values.append((clock[1]-clock[0],clock[2]-clock[1],clock[3]-clock[2],provider,response['worker_wall_s']))
+    fields = ('observation_to_RGB_input','input_ready_to_request','request_to_reply',
+              'provider_inside_worker','worker_inside_request_to_reply')
+    summary = {}
+    for label, bins in zip(fields,zip(*values),strict=False):
+        summary[label] = dict(total_wall_s=float(sum(bins)),p50_s=float(np.quantile(bins,.5)),
+                              p95_s=float(np.quantile(bins,.95)),first_s=float(bins[0]))
+    return dict(observed_model_replies=len(values),queries_without_complete_timing=unmeasured,timing_s=summary,
+                first_observation_to_last_reply_wall_s=previous_end-started if values else None,
+                worker_and_provider_are_nested=True,compiler_and_storage_not_independently_timed=True)
 
 
 def query_records(directory):
@@ -74,7 +110,9 @@ def case_result(case_file, actual):
         recorded_controller_mount=detail.get('initial_mount'),
         terminal_full_score=terminal, trace=(actual.get('trace_audit') or {}).get('status'),
         STOP_after_ticks=(actual.get('trace_audit') or {}).get('integrations_after_first_STOP'),
-        wall_s=actual['wall_s'], CPU_s=actual['CPU_s'], queries=queries)
+        wall_s=actual['wall_s'], CPU_s=actual['CPU_s'],
+        timing=measured_query_times(directory/'g7-queries') if (directory/'g7-queries').is_dir() else None,
+        queries=queries)
 
 
 def paired_results(records):
@@ -85,6 +123,12 @@ def paired_results(records):
 
     def max_delta(a, b):
         return float(np.max(np.abs(np.asarray(a)-np.asarray(b))))
+
+    def pose_delta(a,b):
+        a,b = (np.asarray(x) for x in (a,b))
+        delta = a[:3,:3].T@b[:3,:3]
+        radians = float(np.arccos(np.clip((np.trace(delta)-1)/2,-1,1)))
+        return dict(translation_m=float(np.linalg.norm(a[:3,3]-b[:3,3])),rotation_deg=float(np.degrees(radians)))
 
     results = []
     for (layout, instruction), entries in pairs.items():
@@ -102,7 +146,22 @@ def paired_results(records):
                                 for color in ('red','blue')}
             mounts = a['recorded_controller_mount'], b['recorded_controller_mount']
             deltas['controller_mount'] = max_delta(*mounts) if None not in mounts else None
+            positions = dict(TCP=pose_delta(initial_a['TCP'],initial_b['TCP']),
+                             x5_mount_from_state=pose_delta(initial_a['base'],initial_b['base']))
+            for color in ('red','blue'):
+                positions[color] = pose_delta(initial_a['objects'][color],initial_b['objects'][color])
+            if None not in mounts:
+                positions['controller_mount'] = pose_delta(*mounts)
+            qat, qbt = (np.asarray(state['qpos']) for state in (initial_a,initial_b))
+            qa, qb = qat[3:7], qbt[3:7]
+            if np.isclose(np.linalg.norm(qa),1.) and np.isclose(np.linalg.norm(qb),1.):
+                angle = 2*np.arccos(np.clip(abs(qa@qb),0,1))
+                positions['Go2_root_free_joint'] = dict(translation_m=float(np.linalg.norm(qat[:3]-qbt[:3])),
+                                                       rotation_deg=float(np.degrees(angle)))
+        else:
+            positions = None
         results.append(dict(layout=layout,instruction=instruction,initial_max_abs_difference=deltas,
+                            initial_pose_difference=positions,
                             stop_A=a['STOP'],stop_B=b['STOP'],
                             science_A=a['terminal_full_score'].get('score'),
                             science_B=b['terminal_full_score'].get('score')))
@@ -131,12 +190,50 @@ def audit(root, *, start=0, limit=12):
                 checked_case_window=[start,start+limit], new_generations=0, new_native_ticks=0, new_training_updates=0)
 
 
+def watch_first_wave(root, spec_sha, result, deadline):
+    from go2arx5_vla.world_model.mfree_unattended_runtime_v1 import unit_state
+    from scripts.pi0292.durable import write
+
+    spec_file = root/'EXECUTION_SPEC.json'
+    if digest(spec_file) != spec_sha or result.exists():
+        raise ValueError('D4_EXACT_EXISTING_CAMPAIGN_AND_NEW_REPORT_REQUIRED')
+    campaign = read(spec_file)
+    child = Path(campaign['cases'][11]).parent
+    until = min(deadline,campaign['deadline_epoch']-120)
+    status = 'AUDIT_TIME_BOUNDARY'
+    while time.time() < until and not (result.parent/'STOP.json').exists():
+        if (child/'RESULT.private.json').is_file() and read(child/'control/LEASE.json')['status'] == 'CLOSED':
+            status = 'OBSERVED_FIRST_TWELVE_CLOSED'
+            break
+        unit = unit_state('wm02-'+root.name)
+        lease = read(root/'control/LEASE.json')
+        if lease['spec_sha256'] != spec_sha:
+            raise ValueError('D4_OBSERVED_OWNER_LEASE_CHANGED')
+        if lease['status'] == 'CLOSED' or not unit['pid']:
+            status = 'ORIGINAL_CAMPAIGN_STOPPED_BEFORE_FIRST_WAVE'
+            break
+        write(result.parent/'WATCH_PROGRESS.private.json',dict(epoch=time.time(),phase='WAIT_FIRST_WAVE',
+              watched_MainPID=unit['pid'],spec_sha256=spec_sha,native_requests=0))
+        time.sleep(25)
+    actual = audit(root)
+    write(result,dict(actual,phase=status,source_spec_sha256=spec_sha,observed_epoch=time.time()))
+    return actual
+
+
 if __name__ == '__main__':
     import argparse
 
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('root')
+    parser.add_argument('root',type=Path)
     parser.add_argument('--start', type=int, default=0)
     parser.add_argument('--limit', type=int, default=12)
+    parser.add_argument('--watch-result',type=Path)
+    parser.add_argument('--spec-sha')
+    parser.add_argument('--deadline',type=float)
     args = parser.parse_args()
-    print(json.dumps(audit(args.root,start=args.start,limit=args.limit), allow_nan=False))
+    if args.watch_result:
+        if not args.spec_sha or not args.deadline:
+            parser.error('watch mode requires --spec-sha and --deadline')
+        watch_first_wave(args.root,args.spec_sha,args.watch_result,args.deadline)
+    else:
+        print(json.dumps(audit(args.root,start=args.start,limit=args.limit), allow_nan=False))

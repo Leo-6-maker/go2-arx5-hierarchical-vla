@@ -30,7 +30,7 @@ def manifest_contract(manifest):
         raise ValueError('PREREGISTERED_D416_G7_PACKAGE_REQUIRED')
 
 
-def endpoint(arm, package, result, restore, *, core_replay=None, source_restore=None):
+def trained_endpoint(arm, package, result, restore, *, source_restore=None):
     from .multitask_scope_v6 import read_pin
 
     if arm == CONTROL:
@@ -39,7 +39,7 @@ def endpoint(arm, package, result, restore, *, core_replay=None, source_restore=
         raise ValueError('PREREGISTERED_D416_ENDPOINT_REQUIRED')
     manifest = read_pin(dict(path=str(Path(package['path'])/'MANIFEST.private.json'), sha256=package['sha256']))
     manifest_contract(manifest)
-    actual, rgb, core = (read_pin(pin) for pin in (result, restore, core_replay))
+    actual, rgb = (read_pin(pin) for pin in (result, restore))
     visits = 4000 if arm == 'J1' else 0
     if (actual['arm'] != arm or actual['exit_code'] or actual['package']['sha256'] != package['sha256']
             or manifest['bindings']['arm'] != arm or actual['last_checkpoint']['sha256'] != manifest['original_complete_sha256']
@@ -48,12 +48,9 @@ def endpoint(arm, package, result, restore, *, core_replay=None, source_restore=
             or not actual['full_restore']['bit_exact'] or actual['new_integrations']
             or rgb['package']['sha256'] != package['sha256'] or rgb['exit_code'] or not rgb['passed']
             or rgb['actual_generations'] != 16 or len(rgb['observations']) != 16
-            or not all(r['normalized_exact'] and r['EEF10_exact'] for r in rgb['observations'])
-            or core['arm'] != arm or core['package_sha256'] != package['sha256']
-            or core['actual_generations'] != 16 or core['normalized_bit_exact'] != 16
-            or not core['original_H40_seam_decisions_match']
-            or core['native_requests'] or core['native_integrations']):
-        raise ValueError('D416_FIXED500_AND_BOTH_ORDINARY_RGB_RESTORES_REQUIRED')
+            or rgb['new_native_requests']
+            or not all(r['normalized_exact'] and r['EEF10_exact'] for r in rgb['observations'])):
+        raise ValueError('D416_FIXED500_AND_VANDA_ORDINARY_RGB_RESTORE_REQUIRED')
     if arm in JOINT_ARMS:
         native_source = read_pin(source_restore)
         if (native_source['exit_code'] or not native_source['passed'] or not native_source['full_restore']['bit_exact']
@@ -63,6 +60,20 @@ def endpoint(arm, package, result, restore, *, core_replay=None, source_restore=
                 or actual['source_actual']['ordinary_RGB_generations'] != 96
                 or actual['source_actual']['completed_training_visits'] != visits):
             raise ValueError('D416_JOINT_REQUIRES_SEALED_SOURCE_DEV_AND_INDEPENDENT_RESTORE')
+    return manifest, actual
+
+
+def endpoint(arm, package, result, restore, *, core_replay=None, source_restore=None):
+    from .multitask_scope_v6 import read_pin
+
+    manifest, actual = trained_endpoint(arm, package, result, restore, source_restore=source_restore)
+    if arm != CONTROL:
+        core = read_pin(core_replay)
+        if (core['arm'] != arm or core['package_sha256'] != package['sha256']
+                or core['actual_generations'] != 16 or core['normalized_bit_exact'] != 16
+                or not core['original_H40_seam_decisions_match']
+                or core['native_requests'] or core['native_integrations']):
+            raise ValueError('D416_CORE_RGB_REPLAY_REQUIRED')
     return manifest, actual
 
 

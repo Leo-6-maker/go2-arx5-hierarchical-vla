@@ -57,6 +57,7 @@ def replay(spec, progress):
     root = Path(spec['root'])
     mode, arms, provider_class = registered_providers(spec)
     contexts = read_pin(spec['portable_evaluation']) if mode != 'D4' else None
+    references = Path(spec.get('reference_root',str(root/'reference')))
     if contexts is not None and contexts['C20_manifest_sha256'] != dataset.manifest_sha:
         raise ValueError('EXACT_FROZEN_C20_RGB_EVALUATION_CONTEXT_REQUIRED')
     for arm in arms:
@@ -76,7 +77,7 @@ def replay(spec, progress):
                     != (restored['episode'], restored['anchor'], restored['previous_reference'])):
                 raise ValueError('ARCHIVED_CURRENT_RGB_AND_ACTUAL_PREVIOUS_COMMAND_REQUIRED')
             frame = dataset.frames[episode['id']]['T_policy_from_mount']
-            archive = root/'reference'/arm/f'{index:04d}-{noise}.npz'
+            archive = references/arm/f'{index:04d}-{noise}.npz'
             if sha(archive) != restored['output']['sha256']:
                 raise ValueError('ARCHIVED_RGB_PREDICTION_CHANGED')
             progress['attempts'] += 1
