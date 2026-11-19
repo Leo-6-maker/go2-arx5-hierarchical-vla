@@ -58,5 +58,59 @@
     "phase": "WAIT_SHARED_GPU_RESOURCE",
     "completed_cases": 2,
     "worker_PID": 3825538
+  },
+  "first_native_case_readback": {
+    "case": "J_SCREEN48-F1-1-HOLD-red-J0",
+    "case_spec_sha256": "b8593506b26a4a371d8b84564f4f12107336d81783d6cbae330ef299fcedbdf2",
+    "active_parent_spec_sha256": "e80ca90c07af71eafca37172eda48d644dcbe69cffd4a4ebeba5741062764581",
+    "source_sha": "b405fb173c91a32a1ad5b86aa9e87418cd0d0d56",
+    "actual_parent": {
+      "MainPID": "3825536",
+      "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-d416-j-screen48-20261119-01.service",
+      "ActiveState": "active"
+    },
+    "active_child": 3829252,
+    "registered_first_case_index": 0,
+    "executing_requests": 1,
+    "sealed_requests": 0,
+    "observed_simulator_tick_lower_bound": 7258,
+    "observed_completed_queries": [
+      {
+        "query": 0,
+        "native_start_step": 5703,
+        "confirmed_atoms": 10,
+        "full_H40_compiled": true
+      },
+      {
+        "query": 1,
+        "native_start_step": 5953,
+        "confirmed_atoms": 10,
+        "full_H40_compiled": true
+      },
+      {
+        "query": 2,
+        "native_start_step": 6203,
+        "confirmed_atoms": 10,
+        "full_H40_compiled": true
+      },
+      {
+        "query": 3,
+        "native_start_step": 6453,
+        "confirmed_atoms": 10,
+        "full_H40_compiled": true
+      },
+      {
+        "query": 4,
+        "native_start_step": 6703,
+        "confirmed_atoms": 10,
+        "full_H40_compiled": true
+      },
+      {
+        "query": 5,
+        "native_start_step": 6953,
+        "confirmed_atoms": 10,
+        "full_H40_compiled": true
+      }
+    ]
   }
 }
