@@ -97,7 +97,42 @@
       "score_reconciled_native_tail_ticks": 11,
       "simulator_processes_closed_cleanly": true,
       "post_exit_process_rescan": "EXACT_OWNED_SIMULATOR_PID_REQUIRED",
-      "receipt_sha256": "6a33d1c846f16f351492a9aa313e7ce9d561843c4d1c6b3da0e6d354526393ff"
+      "receipt_sha256": "6a33d1c846f16f351492a9aa313e7ce9d561843c4d1c6b3da0e6d354526393ff",
+      "terminal_contacts": [
+        {
+          "geom_ids": [
+            66,
+            1
+          ],
+          "geoms": [
+            null,
+            "task_table"
+          ],
+          "bodies": [
+            "x5_link2",
+            "world"
+          ],
+          "penetration_m": 6.257516523798523e-06,
+          "normal_force_N": 7.965199562829678
+        },
+        {
+          "geom_ids": [
+            66,
+            1
+          ],
+          "geoms": [
+            null,
+            "task_table"
+          ],
+          "bodies": [
+            "x5_link2",
+            "world"
+          ],
+          "penetration_m": 6.257516523798523e-06,
+          "normal_force_N": 7.965199562829678
+        }
+      ],
+      "terminal_contacts_receipt_sha256": "13b3044dbee92642265715670e9c20b088cb66860c413bd5bfd24086a852f41e"
     }
   },
   "core_RGB32": {
@@ -122,26 +157,30 @@
     "integration_ticks": 0
   },
   "d5": {
-    "observed": "2026-11-19T13:58:37+08:00",
+    "observed": "2026-11-19T14:02:39+08:00",
     "PBS_id": "1591464.stdct-mgmt-02",
     "state": "R",
     "actual": {
       "D5-W": {
-        "optimizer_updates": 197,
-        "target_visits": 6304,
+        "updates": 220,
+        "target_visits": 7040,
         "source_visits": 0,
-        "training_full_H40_generations": 788
+        "training_H40_generations": 880,
+        "initial_sha256": "441f8a57e397abc2531eb7bffc6f220654109dec1171e5aa1c811e4f09d2e470"
       },
       "D5-T": {
-        "optimizer_updates": 0,
+        "updates": 0,
         "target_visits": 0,
         "source_visits": 0,
-        "training_full_H40_generations": 0
+        "training_H40_generations": 0,
+        "initial_sha256": null
       }
     },
-    "wall": "00:36:16",
+    "wall": "00:40:16",
     "native_requests": 0,
-    "readback_sha256": "baf2a581fe0e508e6caff187d58224fc3cde49133ef04ebda51df3d6983e9872"
+    "readback_sha256": "4a4aeaf91a7b0f2bf28c2107f1742d68616e2cc2a5182b9e84df64d7a5fc1338",
+    "current_PBS_state": "R",
+    "PBS_enforced_deadline": "2026-11-19T19:18:55+08:00"
   },
   "joint": {
     "CPU_evidence_sha256": "ff0beb0f406ed0bfc1ae164ab9b1e1765eaebd2d21e15a15aa7336f18c6d8bfd",
@@ -164,20 +203,22 @@
     "PBS_state": "R",
     "source_sha": "15cb5568cd1f1fa7cfd06b2c53d1813dfd8eec68",
     "spec_sha256": "01da2c9da4bae0db3573126b2b7ed6980193c24d4b7cba7e80090fea4b1bb0e1",
-    "observed": "2026-11-19T13:58:37+08:00",
+    "observed": "2026-11-19T14:02:39+08:00",
     "stage_deadline": "2026-11-20T01:20:47+08:00",
     "actual": {
       "J0": {
-        "optimizer_updates": 0,
-        "target_visits": 0,
+        "updates": 9,
+        "target_visits": 288,
         "source_visits": 0,
-        "training_full_H40_generations": 0
+        "training_H40_generations": 36,
+        "initial_sha256": "f3145b0814205c73d2948ad93ccf3ba9973c9ba73721055e38d12bdb24ad95e3"
       },
       "J1": {
-        "optimizer_updates": 0,
+        "updates": 0,
         "target_visits": 0,
         "source_visits": 0,
-        "training_full_H40_generations": 0
+        "training_H40_generations": 0,
+        "initial_sha256": null
       }
     },
     "source_custody_sha256": "a80136ddd9fc419a9a45cc133624459d871c2579adfd8f11834a595400d6ccf8",
@@ -189,7 +230,11 @@
       "bytes": 8723922557,
       "completed": true
     },
-    "native_requests": 0
+    "native_requests": 0,
+    "wall": "00:03:59",
+    "current_PBS_state": "R",
+    "PBS_enforced_deadline": "2026-11-19T19:56:22+08:00",
+    "readback_sha256": "4a4aeaf91a7b0f2bf28c2107f1742d68616e2cc2a5182b9e84df64d7a5fc1338"
   },
   "E0_core_interfaces": {
     "unit": "wm02-sla-d4-core-e0-interfaces-20261119-01",
