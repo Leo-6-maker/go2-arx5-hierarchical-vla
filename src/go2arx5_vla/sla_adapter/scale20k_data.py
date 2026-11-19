@@ -40,7 +40,11 @@ def readers(plan, resize_with_pad):
 def bank_for(datasets):
     target,source,libero = (datasets[domain] for domain in DOMAINS)
     counts = Counter(row['id'] for row,_ in target.rows)
-    target_rows = [dict(episode=row['id'],task=row['task'],split=row['split'],admitted=True,window_count=counts[row['id']])
+    # Balance HOLD and PLACE as skills. With only three PLACE recordings,
+    # treating each PLACE wording as a separate sampling task would make
+    # these three recordings the majority of target updates.
+    target_rows = [dict(episode=row['id'],task='PLACE' if row['task'].startswith('PLACE-') else row['task'],
+                        split=row['split'],admitted=True,window_count=counts[row['id']])
                    for row in target.manifest['episodes']]
     source_rows = [dict(episode=row['id'],task=row['task'],split=row['split'],admitted=row['valid'],window_count=row['windows'])
                    for row in source.episodes.values()]
