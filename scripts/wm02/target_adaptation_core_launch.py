@@ -68,8 +68,8 @@ def run(config, *, launch):
                 or config['previous_world_result']['path'] != str(Path(previous['registered_root'])/'RESULT.private.json')):
             raise ValueError('The prior native world owner must be reconciled before launch')
         scope = config.get('scope',adaptation.SCOPE)
-        if scope in (adaptation.SECOND_SCOPE,adaptation.RELEASE_SCOPE):
-            prior_scope = adaptation.SCOPE if scope == adaptation.SECOND_SCOPE else adaptation.SECOND_SCOPE
+        if scope in adaptation.PREVIOUS_COLLECTION:
+            prior_scope = adaptation.PREVIOUS_COLLECTION[scope]
             authority = read_pin(config['authority'])
             first = [row for row in terminal['records'] if row['role'] == 'EXPERT']
             new_population = read_pin(config['population'])

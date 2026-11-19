@@ -1,4 +1,4 @@
-"""Fixed first six TRAIN-only PLACE conditions for the SCALE adaptation review."""
+"""Fixed, disjoint TRAIN conditions for the SCALE adaptation research."""
 
 PLAN = 'cc96f1709170e47298463337d050c79a24b7c7d9'
 SCOPE = 'SLA_SCALE_TARGET_ADAPTATION_TEACHER'
@@ -12,6 +12,9 @@ RELEASE_STAGE = 'ADAPTATION_TRAIN_PLACE_RELEASE_OFFSET'
 RELEASE_CELL = ('F2', 'PLACE-blue-left')
 RELEASE_OFFSET_XY_M = (0., .008)
 SECOND_STAGE = 'ADAPTATION_TRAIN_PLACE_SECOND6'
+HOLD_SCOPE = 'SLA_SCALE_TARGET_ADAPTATION_HOLD_PAIR'
+HOLD_STAGE = 'ADAPTATION_TRAIN_HOLD_PAIR'
+HOLD_CELLS = (('F1','HOLD-red'),('F2','HOLD-blue'))
 CELLS = (
     ('F1', 'PLACE-red-left'), ('F1', 'PLACE-blue-right'),
     ('F2', 'PLACE-red-left'), ('F2', 'PLACE-blue-right'),
@@ -19,15 +22,17 @@ CELLS = (
 )
 NATIVE_TICK_CAP = 50703*len(CELLS)
 SCOPES = {SCOPE: (PLAN, AUTHORITY_SOURCE, STAGE), SECOND_SCOPE: (SECOND_PLAN, SECOND_AUTHORITY, SECOND_STAGE),
-          RELEASE_SCOPE: (SECOND_PLAN, SECOND_AUTHORITY, RELEASE_STAGE)}
+          RELEASE_SCOPE: (SECOND_PLAN, SECOND_AUTHORITY, RELEASE_STAGE),
+          HOLD_SCOPE: (SECOND_PLAN, SECOND_AUTHORITY, HOLD_STAGE)}
+PREVIOUS_COLLECTION = {SECOND_SCOPE:SCOPE,RELEASE_SCOPE:SECOND_SCOPE,HOLD_SCOPE:RELEASE_SCOPE}
 
 
 def batch_cells(scope):
-    return (RELEASE_CELL,) if scope == RELEASE_SCOPE else CELLS
+    return {RELEASE_SCOPE:(RELEASE_CELL,),HOLD_SCOPE:HOLD_CELLS}.get(scope,CELLS)
 
 
 def tick_cap(scope):
-    return 50703*len(batch_cells(scope))
+    return sum(35703 if task.startswith('HOLD-') else 50703 for _,task in batch_cells(scope))
 
 
 def conditions(population, scope=SCOPE):

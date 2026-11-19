@@ -42,7 +42,7 @@ def population(cards, history, catalog, *, scope=adaptation.SCOPE):
         else:
             raise ValueError(f'No unused geometry for {family} {instruction}')
         occupied.add(identity)
-        reset = {adaptation.SCOPE:731000,adaptation.SECOND_SCOPE:731100,adaptation.RELEASE_SCOPE:731200}[scope] + index
+        reset = {adaptation.SCOPE:731000,adaptation.SECOND_SCOPE:731100,adaptation.RELEASE_SCOPE:731200,adaptation.HOLD_SCOPE:731300}[scope] + index
         if reset in resets:
             raise ValueError('TRAIN reset overlaps a registered condition')
         cluster = f'{stage}-{family}-{index+1:02}'
@@ -67,10 +67,19 @@ def prepare(spec):
         prior = read(pinned(spec['first_train_population']))
         adaptation.conditions(prior)
         histories.append(prior)
-    if scope == adaptation.RELEASE_SCOPE:
+    if scope in (adaptation.RELEASE_SCOPE,adaptation.HOLD_SCOPE):
         prior = read(pinned(spec['second_train_population']))
         adaptation.conditions(prior,adaptation.SECOND_SCOPE)
         histories.append(prior)
+    if scope == adaptation.HOLD_SCOPE:
+        release = read(pinned(spec['release_train_population']))
+        adaptation.conditions(release,adaptation.RELEASE_SCOPE)
+        histories.append(release)
+        from scripts.sla.prepare_adapt5k_native_population import validate
+
+        evaluation = read(pinned(spec['ADAPT5K_evaluation_population']))
+        validate(evaluation)
+        histories.append(evaluation)
     catalog = read(pinned(split['C20_scene_catalog']))
     v52 = read(pinned(split['V52_split']))
     protected = set(split['protected_scene_hashes'])
@@ -88,7 +97,8 @@ def prepare(spec):
         raise ValueError('New TRAIN geometry overlaps a historical compiled scene')
     result = dict(status={adaptation.SCOPE:'COLD_TRAIN_PLACE_FIRST6_COMPILED',
                          adaptation.SECOND_SCOPE:'COLD_TRAIN_PLACE_SECOND6_COMPILED',
-                         adaptation.RELEASE_SCOPE:'COLD_TRAIN_PLACE_RELEASE_OFFSET_COMPILED'}[scope],
+                         adaptation.RELEASE_SCOPE:'COLD_TRAIN_PLACE_RELEASE_OFFSET_COMPILED',
+                         adaptation.HOLD_SCOPE:'COLD_TRAIN_HOLD_PAIR_COMPILED'}[scope],
                   plan=plan, source_sha=spec['execution_source_sha'],
                   split_inventory_sha256=spec['split_inventory']['sha256'],
                   compiled_population_sha256=start['population_sha256'],

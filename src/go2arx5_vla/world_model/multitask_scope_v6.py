@@ -95,7 +95,8 @@ def validate(spec):
     if (spec.get('scope')!=scope or spec['plan_commit']!=plan
             or spec['mobile_experiment_version']!=VERSION or role not in ('INTERFACE','EXPERT','STUDENT')
             or (scope in (d4.SCOPE, followup.SCOPE, scale.SCOPE) and not student) or (scope == d4.E0_SCOPE and not interface)
-            or (scope in adaptation.SCOPES and (role != 'EXPERT' or task.operation != 'PLACE'))
+            or (scope in adaptation.SCOPES and (role != 'EXPERT'
+                or (condition['family'],task.instruction) not in adaptation.batch_cells(scope)))
             or spec['native_backend']!='MUJOCO_ONLY' or spec['hardware_connections_allowed'] is not False
             or spec['execution_clock_profile']!='SIM_PAUSED_NATIVE' or spec['physics'] is not True
             or spec['WBC_changes'] is not False or spec['safety_changes'] is not False
@@ -118,9 +119,6 @@ def validate(spec):
     if scope in adaptation.SCOPES and (authority['native_request_cap'] != len(adaptation.batch_cells(scope))
             or authority['native_tick_cap'] != adaptation.tick_cap(scope)):
         raise PermissionError('FIXED_FIRST6_TRAIN_ADAPTATION_BUDGET_REQUIRED')
-
-    if scope == adaptation.RELEASE_SCOPE and (condition['family'],task.instruction) != adaptation.RELEASE_CELL:
-        raise ValueError('EXPECTED_THE_SINGLE_F2_BLUE_LEFT_RELEASE_OFFSET_CONDITION')
 
     validate_frozen_assets(spec)
     manifest=read_pin(spec['registered_panel'])

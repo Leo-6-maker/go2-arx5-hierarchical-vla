@@ -1,4 +1,4 @@
-"""Audit and export only successful sealed target-adaptation PLACE demonstrations."""
+"""Audit and export only successful sealed target-adaptation demonstrations."""
 import argparse
 import json
 from pathlib import Path

@@ -22,7 +22,8 @@ def main():
                   and (spec['plan_commit'], spec['scope']) in (
                       ('cc96f1709170e47298463337d050c79a24b7c7d9','SLA_SCALE_TARGET_ADAPTATION_TEACHER'),
                       ('5734a73cbda5c333cc3d7d7e0f032e679a4c08b6','SLA_SCALE_TARGET_ADAPTATION_EXPERT_BATCH2'),
-                      ('5734a73cbda5c333cc3d7d7e0f032e679a4c08b6','SLA_SCALE_TARGET_ADAPTATION_RELEASE_OFFSET')))
+                      ('5734a73cbda5c333cc3d7d7e0f032e679a4c08b6','SLA_SCALE_TARGET_ADAPTATION_RELEASE_OFFSET'),
+                      ('5734a73cbda5c333cc3d7d7e0f032e679a4c08b6','SLA_SCALE_TARGET_ADAPTATION_HOLD_PAIR')))
     if not (d4 or e0 or followup or scale or adaptation) and (spec['plan_commit']!='ae3d3c0dceade437b0104a150cd0402fef650052'or spec['scope']not in('SLA_SOURCE_NATIVE_SHARED_V6','SLA_V6_TARGET_NATIVE','SLA_V6_MULTITASK_NATIVE')):
         raise PermissionError('FIXED_V6_PLAN_AND_EXPLICIT_NEW_SCOPE_REQUIRED')
     if Path(__file__).resolve()!=source/'scripts/wm02/v6_bootstrap.py':raise PermissionError('EXACT_NEW_V6_BOOTSTRAP')
