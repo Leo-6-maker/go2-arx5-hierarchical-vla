@@ -1,3 +1,15 @@
+# 最新优先级：SCALE20K多源后训练
+
+2026-11-19用户追加决策：规模化联合后训练作为下一主线，现役D4/D5/J500步按原固定身份完成，作为并行诊断；不再要求小模型先达到高抓取成功率才允许大训练。
+
+- [SCALE20K主线、官方规模依据与数据/参数计划](docs/protocols/SLA_SCALE20K_DIRECTION_20261119.md)
+- [规模机读设计](docs/protocols/SLA_SCALE20K_DIRECTION_20261119.json)
+- [SCALE20K Codex启动prompt](docs/handover/2026-11-19/START_SLA_SCALE20K.md)
+
+本增补仅改变未来研究优先级；PR417正在执行的固定计划cf9d1acbf72e96b1bd158322ff8cbaf8fe28fabb不被热改。当前规模计划新训练/下载/生成/原生执行为0。
+
+---
+
 # SLA D4 后继：闭环抓持、物理时序监督与多源联合后训练
 
 2026-11-19（新加坡时间）。本入口发布计划，当前新增训练、模型生成、原生请求和积分均为 0。
