@@ -149,6 +149,9 @@ def build_cards(config, root, job_id, gpu, window):
         XLA_PYTHON_CLIENT_MEM_FRACTION=str(common['JAX_memory_fraction']),
         XLA_PYTHON_CLIENT_PREALLOCATE='false', HF_HUB_OFFLINE='1', OMP_NUM_THREADS='1',
         OPENBLAS_NUM_THREADS='1', MKL_NUM_THREADS='1', PYTHONDONTWRITEBYTECODE='1')
+    recovery = config.get('recover_J0')
+    if recovery and not joint:
+        raise ValueError('ONLY_J_CAN_RECOVER_A_FIXED_ENDPOINT')
     cards = []
     for arm in arms:
         folder = root/arm
@@ -156,7 +159,8 @@ def build_cards(config, root, job_id, gpu, window):
         (folder/'data').mkdir()
         (folder/'logs').mkdir()
         card = folder/'EXECUTION_SPEC.json'
-        write(card,dict(common,arm=arm,registered_root=str(folder),
+        fields = dict(recover_J0=recovery) if recovery and arm=='J0' else {}
+        write(card,dict(common,arm=arm,registered_root=str(folder),**fields,
                        S1000_transfer_result=base['S1000_transfer_result'] if arm=='D4-B' else None))
         cards.append(card)
     return cards, env
@@ -197,21 +201,26 @@ def run(config):
             row=dict(arm=folder.name)
             records.append(row)
             stages = [('train','RESULT.private.json'), ('restore','RESTORE.private.json')]
+            recover_J0 = config.get('recover_J0') and folder.name=='J0'
             if config['scope'] == J_SCOPE:
                 stages += [('restore_source','SOURCE_RESTORE.private.json')]
             for kind,out in stages:
                 if time.time() >= window['deadline_epoch']-300 or (root/'STOP.json').exists():
                     raise TimeoutError('D4_PBS_FINITE_STOP_OR_DEADLINE')
 
+                action = 'recover_J0' if kind=='train' and recover_J0 else kind
+
                 def execute():
                     with (folder/'logs'/f'{kind}.log').open('xb') as log:
                         proc=subprocess.Popen([sys.executable,'-B','-m','scripts.wm02.multisource_d4_vanda',
-                                               kind,str(card)],env=env,stdout=log,stderr=subprocess.STDOUT)
+                                               action,str(card)],env=env,stdout=log,stderr=subprocess.STDOUT)
                         write(root/'ACTIVE_CHILD.private.json',dict(epoch=time.time(),arm=folder.name,kind=kind,pid=proc.pid))
                         result=proc.wait()
                     proof=read(folder/out)
-                    return dict(exit_code=result,result=pin(folder/out),new_updates=proof.get('new_updates'),
-                        new_visits=proof.get('new_visits'),actual_generations=proof.get('actual_generations'),
+                    recovered = proof.get('recovery')
+                    return dict(exit_code=result,result=pin(folder/out),recovered_existing_endpoint=bool(recovered),
+                        new_updates=0 if recovered else proof.get('new_updates'),
+                        new_visits=0 if recovered else proof.get('new_visits'),actual_generations=proof.get('actual_generations'),
                         new_source_visits=proof.get('new_source_visits'))
 
                 row[kind]=journal.once(folder.name+'-'+kind,pin(card),execute)
@@ -234,15 +243,15 @@ if __name__ == '__main__':
     mode, path = sys.argv[1:]
     if mode=='pair':
         raise SystemExit(run(read(path)))
-    if mode not in ('train','restore','restore_source') or not os.environ.get('PBS_JOBID'):
+    if mode not in ('train','recover_J0','restore','restore_source') or not os.environ.get('PBS_JOBID'):
         raise SystemExit('D4_PBS_CHILD_MODE_REQUIRED')
     spec = read(path)
     if spec['scope'] == J_SCOPE:
         from scripts.sla.train_joint_source_d4 import run as joint_child
 
         raise SystemExit(joint_child(spec, mode=mode))
-    if mode == 'restore_source':
-        raise SystemExit('SOURCE_RESTORE_REQUIRES_JOINT_SCOPE')
+    if mode in ('recover_J0','restore_source'):
+        raise SystemExit('SOURCE_OR_J0_RECOVERY_REQUIRES_JOINT_SCOPE')
     if spec['scope'] == D5_SCOPE:
         from scripts.sla.train_grasp_supervision_d5 import run as child
     else:

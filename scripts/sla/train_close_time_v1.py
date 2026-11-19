@@ -49,6 +49,10 @@ def evaluate(engine,spec,*,archived_contexts=None):
             records.append(record)
     write(root/'TRAIN48_PREDICTIONS.private.json',records)
     write(root/'ENDPOINT_RGB16.private.json',[records[2*j+n]for j in (0,4,8,12,16,20,28,36)for n in (0,1)])
+    return summarize_target_panel(records)
+
+
+def summarize_target_panel(records):
     return dict(predictions=len(records),CLOSE_count=sum(r['phase']=='CLOSE'for r in records),
         CLOSE_pass=sum(r['phase']=='CLOSE'and r['envelope']['original_full_H40_pass']for r in records),
         nonCLOSE_count=sum(r['phase']!='CLOSE'for r in records),
