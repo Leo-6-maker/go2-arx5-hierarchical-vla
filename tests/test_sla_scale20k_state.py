@@ -167,3 +167,52 @@ def test_scale_native_worker_binds_checkpoint_stage_and_never_takes_source_weigh
         package.Pool(wrong)
     with pytest.raises(PermissionError, match='NONINTEGRATING'):
         package.Pool(dict(kwargs, physics=True))
+
+
+def test_scale_native_keeps_dev_and_final_confirmation_conditions_distinct():
+    from scripts.wm02.multitask_panel_suffix import budgets
+    from go2arx5_vla.world_model import scale20k_native as scale
+    from go2arx5_vla.world_model.multitask_score_v6 import INSTRUCTIONS
+
+    clusters, rows = [], {}
+    for stage in scale.CAPS:
+        rows[stage] = []
+        for index,family in enumerate(('F1','F1','F2','F2')):
+            name, reset = f'{stage}-{index}', len(clusters)
+            clusters.append(dict(stage=stage,id=name,family=family,reset=reset,scene={'sha256':name}))
+            rows[stage].extend(dict(id=f'{name}-{instruction}', cluster=name, family=family,
+                                    reset=reset, instruction=instruction) for instruction in INSTRUCTIONS)
+    population = dict(schema=scale.POPULATION_SCHEMA,plan=scale.PLAN,clusters=clusters,conditions=rows,
+                      scene_instruction_independent=True,old_TEST_reused=False)
+    controls = [scale.conditions(population,scale.DEV,{arm}) for arm in scale.ENDPOINTS]
+    assert all(budgets(cases)==scale.CAPS[scale.DEV] for cases in controls)
+    assert all([r for r,_ in cases]==rows[scale.DEV] for cases in controls)
+    confirmation = scale.conditions(population,scale.CONFIRM,{'SCALE-MIX20K'})
+    assert {r['cluster'] for r,_ in confirmation}.isdisjoint(r['cluster'] for r in rows[scale.DEV])
+    with pytest.raises(ValueError,match='ONE_FROZEN_ENDPOINT'):
+        scale.conditions(population,scale.CONFIRM,{'SCALE-MIX5K'})
+    with pytest.raises(ValueError,match='ONE_FROZEN_ENDPOINT'):
+        scale.conditions(population,scale.DEV,set(scale.ENDPOINTS))
+
+
+def test_scale_native_does_not_admit_core_replay_with_altered_physical_output(monkeypatch):
+    from go2arx5_vla.world_model import scale20k_native as scale
+    from go2arx5_vla.world_model import multitask_scope_v6 as scope
+
+    recorded = [dict(ordinal=i,index=i,noise_id=i+10,normalized_sha256='n',decoded_sha256='p')
+                for i in range(96)]
+    evaluation = dict(exit_code=0,status='ENDPOINT_PREDICTIONS_SEALED',arm='SCALE-MIX20K',step=5000,optimization_updates=0,
+        checkpoint={'sha256':'ck'},panel={'sha256':'panel'},
+        new_model_generations=288,rows=dict(target=recorded),old_TEST_access=False,new_native_requests=0)
+    core = dict(schema=scale.RGB_SCHEMA,arm='SCALE-MIX5K',exit_code=0,passed=True,package_sha256='pkg',
+        evaluation_sha256='eval',site=dict(host='corelab-4080s'),new_model_generations=16,new_native_requests=0,
+        new_native_ticks=0,optimizer_updates=0,rows=[dict(recorded[i],same_original_H40_and_seam_decision=True)
+                                                     for i in scale.RESTORE_ORDINALS])
+    manifest = dict(arm='SCALE-MIX20K',step=5000,offline_evaluation_sha256='eval',checkpoint_sha256='ck',panel_sha256='panel')
+    monkeypatch.setattr(scope,'read_pin',lambda pin: {'eval':evaluation,'core':core}[pin['sha256']])
+    monkeypatch.setattr(scale,'read_package',lambda _path,_sha:manifest)
+    identity = ('SCALE-MIX5K',dict(path='package',sha256='pkg'),dict(sha256='eval'),dict(sha256='core'))
+    assert scale.endpoint(*identity)==(manifest,evaluation)
+    core['rows'][0]['decoded_sha256'] = 'changed'
+    with pytest.raises(ValueError,match='OUTPUT_OR_ORIGINAL_GUARD_CHANGED'):
+        scale.endpoint(*identity)

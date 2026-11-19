@@ -9,14 +9,12 @@ from .checkpoint_v1 import sha
 from .codec_v1 import pad32, rigid, roundtrip_error
 from .dense_g7_v6 import label_margin_report
 from .runtime_v1 import read_pin
-from .scale20k_contract import DOMAINS, PLAN
+from .scale20k_contract import DOMAINS, OFFLINE_PER_DOMAIN as PER_DOMAIN, PLAN, RESTORE_ORDINALS as RESTORE
 from .scale20k_data import readers
 
 
 SCHEMA = 'SLA_SCALE20K_OFFLINE_PANEL_V1'
 SPLITS = dict(target='TRAIN', robodojo='SOURCE_DEV', libero='SOURCE_DEV')
-PER_DOMAIN = 96
-RESTORE = tuple(6*index + index % 6 for index in range(16))
 
 
 def data_sha(spec):

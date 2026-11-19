@@ -12,6 +12,8 @@ RECIPE = 'SLA_SCALE20K_DOMAIN_ISOLATED_V1'
 PARENT_REVISION = '5bbdf3012ab643554aa2eb83ddeae9ace3dce476'
 DOMAINS = ('target', 'robodojo', 'libero')
 HORIZONS = dict(zip(DOMAINS, (40, 50, 10), strict=True))
+OFFLINE_PER_DOMAIN = 96
+RESTORE_ORDINALS = tuple(6*index + index % 6 for index in range(16))
 BATCH = {
     'SCALE-MIX20K': dict(zip(DOMAINS, (32, 48, 48), strict=True)),
     'SCALE-TGT5K': dict(zip(DOMAINS, (32, 0, 0), strict=True)),

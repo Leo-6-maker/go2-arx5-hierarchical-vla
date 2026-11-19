@@ -3,6 +3,7 @@ from pathlib import Path
 
 from .multisource_d4_native import SCOPE as D4_SCOPE
 from .sla_followup_native_v1 import SCOPE as D416_SCOPE
+from .scale20k_native import SCOPE as SCALE_SCOPE
 from scripts.pi0292.durable import write
 from go2arx5_vla.sla_adapter.dense_g7_v6 import label_margin_report
 from .mfree_expert_capture_v1 import initialize
@@ -37,7 +38,7 @@ def consume_prefix(adapter, prepared, program, query, action, speed):
     adapter.mobile_program_start_step = start
     intervals, acks = [], []
     reference = None
-    is_d4 = adapter.spec.get('scope') in (D4_SCOPE, D416_SCOPE)
+    archive_gripper = adapter.spec.get('scope') in (D4_SCOPE, D416_SCOPE, SCALE_SCOPE)
     try:
         for atom in range(meta['available_prefix_atoms']):
             adapter.guard()
@@ -55,7 +56,7 @@ def consume_prefix(adapter, prepared, program, query, action, speed):
             reference, witness = boundary(adapter)
             adapter.reference_history[-1]['pose'] = reference.copy()
             interval['accepted_boundary'] = witness
-            if is_d4:
+            if archive_gripper:
                 emitted = adapter.close_previous_reference
                 interval.update(emitted_gripper_width_m=emitted['width_m'],
                                 emitted_gripper_source_native_s=emitted['source_native_s'],
@@ -72,7 +73,7 @@ def consume_prefix(adapter, prepared, program, query, action, speed):
             native_start_step=start,terminal_native_step=terminal,unconfirmed_native_ticks=remaining,
             partial_native_ticks=None if remaining is None else remaining%25,mock_consumption=False,
             controller_selected_reference='UNKNOWN')
-        if is_d4:
+        if archive_gripper:
             record['previous_actual_gripper_command'] = prepared['previous_reference']
         write(folder/'QUERY_ACTUAL.private.json', record)
     return reference, len(intervals)

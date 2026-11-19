@@ -8,6 +8,7 @@ from go2arx5_vla.sla_adapter.multitask_contract_v6 import ARMS, NATIVE_METHOD, N
 from .multitask_score_v6 import Task
 from . import multisource_d4_native as d4
 from . import sla_followup_native_v1 as followup
+from . import scale20k_native as scale
 from .sim_only_scope_v51 import BINARIES, INTERFACE_TICKS
 from .storage import digest
 
@@ -23,6 +24,8 @@ def scope_identity(spec):
         return d4.SCOPE, d4.PLAN, d4.ARMS, d4.AUTHORITY_SOURCE
     if spec.get('scope') == followup.SCOPE:
         return followup.SCOPE, followup.PLAN, followup.ARMS, followup.AUTHORITY_SOURCE
+    if spec.get('scope') == scale.SCOPE:
+        return scale.SCOPE, scale.PLAN, scale.ENDPOINTS, scale.AUTHORITY_SOURCE
     return SCOPE, PLAN, ARMS, 'CURRENT_USER_EXPLICIT_FIXED_SLA_V6_PLAN'
 
 
@@ -57,6 +60,8 @@ def student_package(spec):
     elif scope == followup.SCOPE:
         followup.endpoint(arm, package, spec['d4_endpoint'], spec['ordinary_RGB_restore'],
                           core_replay=spec.get('core_RGB_restore'), source_restore=spec.get('source_RGB_restore'))
+    elif scope == scale.SCOPE:
+        scale.endpoint(arm, package, spec['scale_offline_endpoint'], spec['ordinary_RGB_restore'])
     else:
         manifest = read_pin(dict(path=str(Path(package['path'])/'MANIFEST.private.json'),sha256=package['sha256']))
         contract(manifest)
@@ -85,7 +90,7 @@ def validate(spec):
     scope, plan, _, authority_source = scope_identity(spec)
     if (spec.get('scope')!=scope or spec['plan_commit']!=plan
             or spec['mobile_experiment_version']!=VERSION or role not in ('INTERFACE','EXPERT','STUDENT')
-            or (scope in (d4.SCOPE, followup.SCOPE) and not student) or (scope == d4.E0_SCOPE and not interface)
+            or (scope in (d4.SCOPE, followup.SCOPE, scale.SCOPE) and not student) or (scope == d4.E0_SCOPE and not interface)
             or spec['native_backend']!='MUJOCO_ONLY' or spec['hardware_connections_allowed'] is not False
             or spec['execution_clock_profile']!='SIM_PAUSED_NATIVE' or spec['physics'] is not True
             or spec['WBC_changes'] is not False or spec['safety_changes'] is not False
