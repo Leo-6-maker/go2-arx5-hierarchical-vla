@@ -1,5 +1,6 @@
-"""Run the first fixed SCALE target segment inside its own VANDA PBS allocation."""
+"""Run the first SCALE target segment or its step-500 continuation on VANDA."""
 import argparse
+import json
 import math
 import os
 from pathlib import Path
@@ -9,8 +10,10 @@ import subprocess
 import sys
 import time
 
+from go2arx5_vla.sla_adapter.checkpoint_v1 import sha
 from go2arx5_vla.sla_adapter.runtime_v1 import read_pin
-from go2arx5_vla.sla_adapter.scale20k_contract import DOMAINS, PLAN, RECIPE
+from go2arx5_vla.sla_adapter.scale20k_checkpoint import read_complete
+from go2arx5_vla.sla_adapter.scale20k_contract import DOMAINS, PLAN, RECIPE, cursors
 from go2arx5_vla.sla_adapter.scale20k_model import parent_asset
 from scripts.pi0292.durable import OwnerLock, write
 from scripts.wm02.multisource_d4_vanda import GIB, actual_gpu, pbs_job, pin
@@ -18,6 +21,69 @@ from scripts.wm02.multisource_d4_vanda import GIB, actual_gpu, pbs_job, pin
 
 ARM = 'SCALE-TGT5K'
 WALL = 10800
+
+
+def completed_prefix(config, root):
+    """Bind the original training card, full checkpoint and original worker to step 200."""
+    continuation = config.get('continuation')
+    if continuation is None:
+        return None, None
+    prior = continuation['train_result']
+    result_path = Path(prior['path']).resolve(strict=True)
+    previous = result_path.parent.parent
+    if (result_path != previous/'train/RESULT.private.json' or previous == root
+            or previous.stat().st_uid != os.getuid()):
+        raise ValueError('SCALE_TARGET_PREFIX_MUST_BE_AN_OWNED_TERMINAL_RUN')
+    old_job = continuation['job_id']
+    status = subprocess.check_output(['/opt/pbs/bin/qstat','-x','-f','-F','json',old_job],
+                                     text=True,timeout=20)
+    job = json.loads(status)['Jobs'][old_job]
+    if (job['job_state'] != 'F' or job.get('Exit_status') != 0 or old_job == config.get('job_id')
+            or job['Job_Owner'].split('@')[0] != config['user'] or job['project'] != config['project']
+            or job['Job_Name'] != 'slatgt20k'):
+        raise PermissionError('SCALE_TARGET_ORIGINAL_PBS_PREFIX_MUST_HAVE_FINISHED_SUCCESSFULLY')
+    parent = read_pin(continuation['campaign_result'])
+    if (pin(previous/'RESULT.private.json') != continuation['campaign_result']
+            or parent['PBS_JOBID'] != old_job or parent['stages'].get('train') != prior):
+        raise ValueError('SCALE_TARGET_ORIGINAL_PBS_TERMINAL_MUST_BIND_TRAIN_RESULT')
+    training_sha = parent['source_sha']
+    old_spec = read_pin(continuation['training_spec'])
+    if pin(previous/'train/SPEC.private.json') != continuation['training_spec']:
+        raise ValueError('SCALE_TARGET_ORIGINAL_PREFIX_TRAIN_CARD_CHANGED')
+    result = read_pin(prior)
+    expected = dict(scope=RECIPE,mode='train',arm=ARM,source_sha=training_sha,exit_code=0,
+        status='FIXED_SEGMENT_SAVED',global_step=200,global_cursors=cursors(ARM,200),new_updates=200,
+        new_visits=cursors(ARM,200),new_model_generations=800,new_native_requests=0,new_native_ticks=0)
+    if (any(result[key] != value for key,value in expected.items()) or old_spec['source_sha'] != training_sha
+            or old_spec['arm'] != ARM or old_spec['global_stop_step'] != 200
+            or old_spec['microbatch'] != dict.fromkeys(DOMAINS,1)):
+        raise ValueError('SCALE_TARGET_EXACT_200_UPDATE_PREFIX_REQUIRED')
+    with (previous/'train/UPDATES.private.jsonl').open('rb') as ledger:
+        rows = ledger.readlines()
+    if len(rows) != 200 or any(not line.endswith(b'\n') for line in rows):
+        raise ValueError('SCALE_TARGET_PREFIX_REQUIRES_200_DURABLE_ROWS')
+    for step, line in enumerate(rows,1):
+        row = json.loads(line)
+        if (row['step'] != step or row['cursors'] != cursors(ARM,step)
+                or set(row['domains']) != {'target'} or row['domains']['target']['training_full_generations'] != 4):
+            raise ValueError('SCALE_TARGET_PREFIX_DURABLE_VISITS_OR_GENERATIONS_CHANGED')
+    pin_state = result['checkpoint']
+    model = read_pin(continuation['model_at_start'])
+    if pin(previous/'train/MODEL_AT_START.private.json') != continuation['model_at_start']:
+        raise ValueError('SCALE_TARGET_PREFIX_STARTING_IDENTITY_CHANGED')
+    checkpoint, manifest = read_complete(pin_state,ARM,model['binding'])
+    if checkpoint != previous/'train/step00200' or manifest['step'] != 200 or len(manifest['arrays']) != 140:
+        raise ValueError('SCALE_TARGET_PREFIX_COMPLETE_200_STATE_REQUIRED')
+    worker = Path(continuation['worker_root']).resolve(strict=True)
+    members = read_pin(continuation['worker_files'])
+    if ((worker/'SOURCE_SHA.private').read_text().strip() != training_sha
+            or not {'scripts/sla/train_scale20k.py','src/go2arx5_vla/sla_adapter/scale20k_training.py'}.issubset(members)):
+        raise ValueError('SCALE_TARGET_PREFIX_REQUIRES_ORIGINAL_TRAINER_SOURCE')
+    for relative,digest in members.items():
+        path = (worker/relative).resolve(strict=True)
+        if not path.is_relative_to(worker) or sha(path) != digest:
+            raise ValueError('SCALE_TARGET_PREFIX_ORIGINAL_TRAINER_BYTES_CHANGED:'+relative)
+    return prior, (worker,old_spec)
 
 
 def run(config):
@@ -32,6 +98,7 @@ def run(config):
     status = 'PBS_PREFLIGHT_FAILED_NO_WORKER_START'
     current = None
     failure = None
+    training_source_sha = config['source_sha']
     stop = root/'STOP.json'
     cancelled = False
 
@@ -56,6 +123,14 @@ def run(config):
                 or data_proof['status'] != 'VANDA_MATCHED_TARGET_CPU_DATA_VERIFIED'):
             raise ValueError('SCALE_TARGET_REQUIRES_MATCHED_CROSS_SITE_DATA_PROOF')
         parent_asset(custody['parent_manifest'], custody['parent_params'])
+        prior, resume = completed_prefix(config, root)
+        worker = source
+        if resume is not None:
+            worker, old_spec = resume
+            if any(old_spec[key] != custody[key] for key in ('data','parent_manifest','optimizer','tokenizer',
+                                                             'visit_bank_sha256','learning_rates_sha256')):
+                raise ValueError('SCALE_TARGET_PREFIX_IMMUTABLE_INPUTS_CHANGED')
+            training_source_sha = old_spec['source_sha']
 
         uuid, name, capacity, free = actual_gpu()
         fraction = .65
@@ -79,16 +154,19 @@ def run(config):
         env = dict(os.environ,CUDA_VISIBLE_DEVICES=uuid,JAX_PLATFORMS='cuda',
                    XLA_PYTHON_CLIENT_MEM_FRACTION=str(fraction),XLA_PYTHON_CLIENT_PREALLOCATE='false',
                    XLA_FLAGS=config['XLA_FLAGS'],HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1')
-        common = dict(arm=ARM,plan_sha=PLAN,recipe=RECIPE,source_sha=config['source_sha'],
-            global_stop_step=200,microbatch=dict.fromkeys(DOMAINS,1),deadline_epoch=deadline,
+        if resume is not None:
+            inherited = [value for value in env.get('PYTHONPATH','').split(os.pathsep) if value
+                         and not Path(value).resolve().is_relative_to(source)]
+            env['PYTHONPATH'] = os.pathsep.join([str(worker),str(worker/'src'),*inherited])
+        common = dict(arm=ARM,plan_sha=PLAN,recipe=RECIPE,source_sha=training_source_sha,
+            global_stop_step=500 if resume else 200,microbatch=dict.fromkeys(DOMAINS,1),deadline_epoch=deadline,
             max_walltime_s=WALL,max_gpu_hours=3,save_and_exit_on_limit=True,save_reserve_s=300,
             model_service_timeout_s=1800,RPC_timeout_s=1800,hardware_allowed=False,physics=False,
             new_native_requests_cap=0,STOP_path=str(stop),neural_owner_lock=str(root/'GPU_WORKER.lock'),
             GPU_uuid=uuid,JAX_memory_fraction=fraction,site_binding=pin(site),**paths,
             **{key:custody[key] for key in ('data','parent_manifest','optimizer','tokenizer',
                                            'visit_bank_sha256','learning_rates_sha256')})
-        prior = None
-        for mode in ('qualify','train'):
+        for mode in (('train',) if resume else ('qualify','train')):
             if cancelled or stop.exists() or time.time()+600 >= deadline:
                 status = 'STOPPED_AT_COMPLETED_STAGE'
                 return 75
@@ -101,7 +179,7 @@ def run(config):
             current = mode
             with (stage/'worker.log').open('x') as log:
                 child = subprocess.Popen([sys.executable,'-B','-m','scripts.sla.train_scale20k',mode,
-                    spec['path'],spec['sha256']],cwd=source,env=env,stdout=log,stderr=subprocess.STDOUT)
+                    spec['path'],spec['sha256']],cwd=worker,env=env,stdout=log,stderr=subprocess.STDOUT)
                 write(root/'PROGRESS.private.json',dict(stage=mode,child_PID=child.pid,job_id=job_id,
                                                        spec_sha256=spec['sha256'],epoch=time.time()))
                 while child.poll() is None:
@@ -126,7 +204,7 @@ def run(config):
     finally:
         write(root/'RESULT.private.json',dict(status=status,stages=stages,last_stage=current,
             first_failure=failure,source_sha=config['source_sha'],PBS_JOBID=os.environ.get('PBS_JOBID'),
-            new_native_requests=0,new_native_ticks=0))
+            training_source_sha=training_source_sha,new_native_requests=0,new_native_ticks=0))
         lock.close()
 
 

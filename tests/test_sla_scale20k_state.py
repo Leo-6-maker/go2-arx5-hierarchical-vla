@@ -130,6 +130,65 @@ def test_core_offline_does_not_consume_formal_budget_on_the_technical_prefix(tmp
         offline.offline_endpoint(config, tmp_path/'evaluation')
 
 
+def test_vanda_continuation_requires_the_original_complete_pbs_prefix(tmp_path, monkeypatch):
+    import json
+
+    from scripts.pi0292.durable import write
+    from scripts.sla import scale20k_vanda_prefix as vanda
+
+    old = tmp_path/'prefix'
+    stage = old/'train'
+    state = stage/'step00200'
+    state.mkdir(parents=True)
+    worker = tmp_path/'old-source'
+    files = {}
+    for relative in ('scripts/sla/train_scale20k.py','src/go2arx5_vla/sla_adapter/scale20k_training.py'):
+        f = worker/relative
+        f.parent.mkdir(parents=True)
+        f.write_text(relative)
+        files[relative] = vanda.sha(f)
+    source = 'a'*40
+    (worker/'SOURCE_SHA.private').write_text(source+'\n')
+    files_path = tmp_path/'SOURCE_FILES.json'
+    write(files_path, files)
+    job_id = '123.server'
+    mode = 'R'
+
+    def qstat(*_args, **_kwargs):
+        return json.dumps(dict(Jobs={job_id:dict(job_state=mode,Exit_status=0,Job_Owner='worker@site',
+                                                 project='project',Job_Name='slatgt20k')}))
+
+    monkeypatch.setattr(vanda.subprocess, 'check_output', qstat)
+    model_path = stage/'MODEL_AT_START.private.json'
+    write(model_path,dict(binding={'fixed':True}))
+    monkeypatch.setattr(vanda, 'read_complete', lambda *args: (state,dict(step=200,arrays=[None]*140)))
+    spec = stage/'SPEC.private.json'
+    write(spec,dict(source_sha=source,arm=vanda.ARM,global_stop_step=200,microbatch=dict.fromkeys(DOMAINS,1)))
+    worker_result = stage/'RESULT.private.json'
+    expected = cursors(vanda.ARM,200)
+    write(worker_result,dict(scope=RECIPE,mode='train',arm=vanda.ARM,source_sha=source,exit_code=0,
+        status='FIXED_SEGMENT_SAVED',global_step=200,global_cursors=expected,new_updates=200,
+        new_visits=expected,new_model_generations=800,new_native_requests=0,new_native_ticks=0,
+        checkpoint=dict(path=str(state),sha256='4'*64)))
+    parent = old/'RESULT.private.json'
+    result_pin = vanda.pin(worker_result)
+    write(parent,dict(PBS_JOBID=job_id,source_sha=source,stages=dict(train=result_pin)))
+    receipt = dict(train_result=result_pin,campaign_result=vanda.pin(parent),training_spec=vanda.pin(spec),
+        model_at_start=vanda.pin(model_path),worker_root=str(worker),worker_files=vanda.pin(files_path),job_id=job_id)
+    config = dict(user='worker',project='project',job_id='124.server',continuation=receipt)
+    ledger = stage/'UPDATES.private.jsonl'
+    ledger.write_text(''.join(json.dumps(dict(step=k,cursors=cursors(vanda.ARM,k),
+        domains=dict(target=dict(training_full_generations=4))))+'\n' for k in range(1,201)))
+    new = tmp_path/'next'
+    with pytest.raises(PermissionError,match='MUST_HAVE_FINISHED'):
+        vanda.completed_prefix(config,new)
+    mode = 'F'
+    assert vanda.completed_prefix(config,new)[0] == result_pin
+    f.write_text('changed training worker')
+    with pytest.raises(ValueError,match='ORIGINAL_TRAINER_BYTES_CHANGED'):
+        vanda.completed_prefix(config,new)
+
+
 def test_core_successor_imports_verified_original_worker_and_uses_original_cache(tmp_path):
     import os
     from go2arx5_vla.sla_adapter.checkpoint_v1 import sha
