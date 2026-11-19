@@ -76,3 +76,9 @@
 - [完整计划](../../../docs/protocols/SLA_MULTISOURCE_EMBODIMENT_AUTONOMOUS_V1_20261119.md)
 - [机读任务与预算](../../../docs/protocols/SLA_MULTISOURCE_EMBODIMENT_AUTONOMOUS_V1_20261119.json)
 - [Codex启动prompt](../../../docs/handover/2026-11-19/START_SLA_MULTISOURCE_EMBODIMENT_AUTONOMOUS_V1.md)
+
+## 2026-11-19 晚间：后台队列与并行Eval交接增补
+
+用户明确授权将长程训练接续部署为Corelab/VANDA站点后台排队机制，不要求Codex实时监督进度，Eval可独立并行。本版新增[Scheduler-First运行规范](../../../docs/protocols/SLA_SCHEDULER_FIRST_ASYNC_EVAL_V1_20261119.md)，并同步更新主计划、机读任务、Codex交接和统一入口。上述“发布文件指纹”仅属于前一版固定提交`5734a73cbda5c333cc3d7d7e0f032e679a4c08b6`，**不是本次修改后的文件哈希**；本次以新的完整commit SHA与逐文件GitHub readback作为身份。
+
+服务器端真实部署需Codex在现有合法执行环境执行并产出`SCHEDULER_FIRST_DEPLOYMENT_ACTUAL`，不得将此GitHub文档写入误称为systemd任务或PBS作业注册。PBS依赖语法与额外A40资源都以现场探测为准。原SCALE/ADAPT预算所有计数不变，仅改变依赖方式、事件报告和Eval资源排程；本次文档写入新增服务器作业/模型更新/生成/native请求均0。取消此前未来的每6小时主动状态摘要，改为checkpoint/任务终态事件记录；无ChatGPT新自动化任务。

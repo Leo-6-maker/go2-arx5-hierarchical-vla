@@ -4,10 +4,13 @@
 
 ## 当前计划
 
+- [最新：Corelab/VANDA后台排队接续＋并行Eval](docs/protocols/SLA_SCHEDULER_FIRST_ASYNC_EVAL_V1_20261119.md)
 - [完整自主推进V1：两站调度、数据、训练与闭环](docs/protocols/SLA_MULTISOURCE_EMBODIMENT_AUTONOMOUS_V1_20261119.md)
 - [机读任务、课程与精确预算](docs/protocols/SLA_MULTISOURCE_EMBODIMENT_AUTONOMOUS_V1_20261119.json)
 - [Codex完整启动prompt](docs/handover/2026-11-19/START_SLA_MULTISOURCE_EMBODIMENT_AUTONOMOUS_V1.md)
 - [证据与发布核验](reports/WM02/sla-autonomous-longrun-plan-20261119/REVIEW_AND_VALIDATION.md)
+
+**最新调度决定：由站点后台依赖链接续训练，Codex不用实时监控step，Eval在独立GPU可用时并行，不能抢占训练GPU或Core唯一world。** 计划已更新，实际部署仍以真实systemd/PBS回执为准。
 
 继续现役MIX20k/TGT5k；当前有限world段结束后优先新增目标TRAIN采集；新数据可用即从封存MIX端点fork一个64T/32R/32L的连续ADAPT5K。Teacher全格、D5成功、J全48和N2都不是扩训练前置。两站GPU、CPU数据准备和world轮转并行，普通工程自主修复，实际allocation和owner继续核实。
 

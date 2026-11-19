@@ -2,6 +2,7 @@
 
 日期：2026-11-19，Asia/Singapore。状态：研究执行计划；本次发布没有提交服务器作业或产生训练、生成、原生积分。
 
+- [后台排队接续与并行 Eval（最新用户调度决定）](SLA_SCHEDULER_FIRST_ASYNC_EVAL_V1_20261119.md)
 - [机读任务与预算](SLA_MULTISOURCE_EMBODIMENT_AUTONOMOUS_V1_20261119.json)
 - [Codex 启动 prompt](../handover/2026-11-19/START_SLA_MULTISOURCE_EMBODIMENT_AUTONOMOUS_V1.md)
 - [证据、算术与发布核验](../../reports/WM02/sla-autonomous-longrun-plan-20261119/REVIEW_AND_VALIDATION.md)
@@ -282,7 +283,7 @@ ADAPT5k先按当前128窗口配方量级预留约50–64GPU小时，但H40/H50�
 
 ## 12. 汇报与仓库交付
 
-执行端复用现有发布分支/报告机制，不为每个checkpoint另开永久分支。每个正式端点、新数据版本、原生批次或技术终态发布一次简洁ACTUAL；长期运行期间在既有监督机制中至少每6小时发布状态变化摘要，终态及时发布。该约定由现有执行者实现，本次不创建新的自动化任务。
+执行端复用现有发布分支/报告机制，不为每个checkpoint另开永久分支。每个正式端点、新数据版本、原生批次或技术终态发布一次简洁ACTUAL；长程任务交由Corelab用户级后台服务与VANDA PBS队列/已核验的事件后继独立运行；不依赖Codex SSH会话或每6小时实时状态轮询。只有后台作业真实注册、正式检查点封存、独立Eval终态、技术阻断及训练谱系终态时，才由既有合法发布机制发布简洁ACTUAL；GitHub不可用不阻断健康训练。本次文档不创建自动化任务。
 
 每次汇报只列真实step/完整端点、三域优化访问、训练/离线/native生成、实际native分母/成功/首失败、合格完整/局部示范数、GPU与world占用、下一可执行动作。使用Asia/Singapore；观测时间与提交时间分开。
 
@@ -317,3 +318,13 @@ ADAPT5k先按当前128窗口配方量级预留约50–64GPU小时，但H40/H50�
 
 [LATEST_TRAIN]: https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/39d8f6e341d2c974aa2baed31588b115e0c2c463/reports/WM02/sla-scale20k-20261119/SCALE_OPTIMIZER_AND_MICROBATCH_READINESS_ACTUAL.md
 [FIRST6_WAIT]: https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/39d8f6e341d2c974aa2baed31588b115e0c2c463/reports/WM02/sla-scale20k-20261119/TARGET_ADAPTATION_FIRST6_DETACHED_WAIT_ACTUAL.md
+
+## 13. 2026-11-19晚间后续决定：Scheduler-first 训练链与 Eval 并行
+
+用户明确要求Codex将长程接续训练**挂载到Corelab/VANDA后台**，无需实时查看训练step，Eval可以并行。执行细节、真实站点验收、状态机、任务依赖、截止与STOP详见[Scheduler-First协议](SLA_SCHEDULER_FIRST_ASYNC_EVAL_V1_20261119.md)。此最新决定替换第12节旧“每6小时摘要”要求，保留server自身训练/失败日志，不建立常驻LLM/SSH轮询。
+
+- Core：使用已存在的用户级systemd/after500冷态接续，核对真实当前unit与owner后按封存端点success事件串接有限后继；只允许一个同谱系训练owner。旧有限窗已过期时按现场新授权绑定，不重复旧服务。
+- VANDA：在实际PBS支持且配额/凭证有效的前提下，预挂载带`afterok`等真实依赖的有限后继作业；否则采用既有可验证的站点终态事件提交一次。必须回读JobID/状态/依赖；不为尚未分配的未来6小时窗口伪造队列成功。
+- Eval：正式checkpoint seal同时触发下一训练段与独立离线Eval，不使训练等待评价成绩；优先独立可用A40，若没有空闲GPU则Eval独立排队。Native Eval依然需要Core唯一world，不能因为允许并行而与另一个native作业竞争。
+- ADAPT与原MIX/TGT分别排队；ADAPT仍只在D1数据真实准入、父MIX正式端点及独立GPU allocation成立后启动。计划中的更新/访问/生成/native总上界不变，排队与checkpoint转移不额外生成模型调用。
+- Codex须输出两个站点的**实际登记回执**及独立Eval claim，明确REGISTERED/QUEUED与PLANNED/BLOCKED；发布文档本身不是任务挂载成功。
