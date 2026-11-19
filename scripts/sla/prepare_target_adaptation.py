@@ -6,19 +6,13 @@ import json
 from pathlib import Path
 
 from go2arx5_vla.world_model.storage import digest
+from go2arx5_vla.world_model.target_adaptation_teacher import CELLS, PLAN as REVIEW_PLAN, STAGE
 from scripts.pi0292.durable import read, write
 from scripts.wm02.multitask_binding_audit_v6 import pinned
 from scripts.wm02.multitask_d2_population import position_id
 from scripts.wm02.multitask_population_v6 import compile_population
 
 
-REVIEW_PLAN = 'cc96f1709170e47298463337d050c79a24b7c7d9'
-STAGE = 'ADAPTATION_TRAIN_PLACE_FIRST6'
-CELLS = (
-    ('F1', 'PLACE-red-left'), ('F1', 'PLACE-blue-right'),
-    ('F2', 'PLACE-red-left'), ('F2', 'PLACE-blue-right'),
-    ('F2', 'PLACE-blue-left'), ('F2', 'PLACE-red-right'),
-)
 OFFSETS_MM = sorted(product((-13, -8, -3, 2, 7, 12), repeat=2),
                     key=lambda offset: (sum(axis**2 for axis in offset), offset))
 

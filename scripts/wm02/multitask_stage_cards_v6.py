@@ -11,6 +11,7 @@ from go2arx5_vla.world_model.multitask_scope_v6 import PLAN, SCOPE, read_pin, va
 from go2arx5_vla.world_model import multisource_d4_native as d4
 from go2arx5_vla.world_model import sla_followup_native_v1 as followup
 from go2arx5_vla.world_model import scale20k_native as scale
+from go2arx5_vla.world_model import target_adaptation_teacher as adaptation
 from go2arx5_vla.world_model.multitask_score_v6 import Task
 from go2arx5_vla.world_model.storage import digest
 from .sim_only_campaign_v51 import fatal_control_violation
@@ -250,7 +251,7 @@ def prepare_cards(spec, *, teacher_stop=None):
     root = Path(spec['registered_root'])
     now = time.time()
     identity = (spec['scope'], spec['plan_commit'])
-    allowed = {(SCOPE, PLAN)} if teacher_stop is not None else {
+    allowed = {(SCOPE, PLAN), (adaptation.SCOPE, adaptation.PLAN)} if teacher_stop is not None else {
         (SCOPE, PLAN), (d4.SCOPE, d4.PLAN), (followup.SCOPE, followup.PLAN), (scale.SCOPE, scale.PLAN)}
     if (not now+1980 < spec['deadline_epoch'] <= min(now+43200,spec['campaign_deadline_epoch'],spec['allocation_deadline_epoch']-60)
             or identity not in allowed
@@ -264,13 +265,19 @@ def prepare_cards(spec, *, teacher_stop=None):
     if (unit['pid'] or unit['cgroup_pids'] or lease['status']!='CLOSED'
             or lease['spec_sha256']!=spec['interface_predecessor']['sha256']):
         raise ValueError('M_INTERFACE_OWNER_MUST_HAVE_REACHED_COLD_TERMINAL')
-    if spec['scope'] in (followup.SCOPE, scale.SCOPE):
+    if spec['scope'] in (followup.SCOPE, scale.SCOPE, adaptation.SCOPE):
         interface_records(interface,spec['mobile_world_lock'],identity=(d4.E0_SCOPE,d4.E0_PLAN))
     else:
         interface_records(interface,spec['mobile_world_lock'])
     templates = {case['mobile_condition']['family']:case for case in map(read,interface['cases'])}
     population = read_pin(spec['compiled_population'])
-    if teacher_stop is not None:
+    if spec['scope'] == adaptation.SCOPE:
+        if teacher_stop != len(adaptation.CELLS) or spec.get('previous_teacher_results'):
+            raise ValueError('NEW_EXPERT_CASES_REQUIRE_THE_ORIGINAL_SIX_TRAIN_CONDITIONS')
+        prefix = []
+        selected = [(row,None) for row in adaptation.conditions(population)]
+        role = 'EXPERT'
+    elif teacher_stop is not None:
         prefix = verified_teacher_prefix(spec['previous_teacher_results'],spec['compiled_population'],
                                           world_lock=spec['mobile_world_lock'])
         selected = [(row,None) for row in teacher_slice(population,prefix,teacher_stop)]
