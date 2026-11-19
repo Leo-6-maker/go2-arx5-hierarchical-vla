@@ -22,17 +22,18 @@ WALL = 10800
 SCHEMA = 'SLA_ADAPT5K_VANDA_BOUNDED_PHASE_ACTUAL_V1'
 
 
+def pbs_history(job):
+    text = subprocess.check_output(['/opt/pbs/bin/qstat','-xf','-F','json',job],
+        stderr=subprocess.PIPE,text=True,timeout=20)
+    return json.loads(text)['Jobs'][job]
+
+
 def require_previous_qualification(config):
     prior = read_pin(config['previous_scope'])
     job = prior['PBS_JOBID']
 
-    def finished_job():
-        text = subprocess.check_output(['/opt/pbs/bin/qstat','-xf','-F','json',job],
-            stderr=subprocess.PIPE,text=True,timeout=20)
-        return json.loads(text)['Jobs'][job]
-
-    actual = read_pbs_with_auth_retry(finished_job)
-    if (prior['schema'] != SCHEMA or prior['role'] != 'qualify' or prior['exit_code']
+    actual = read_pbs_with_auth_retry(pbs_history,job)
+    if (prior['schema'] != SCHEMA or prior['role'] not in ('qualify','recover0') or prior['exit_code']
             or prior['new_updates'] or prior['qualification_gradient_windows'] != contract.BATCH
             or prior['parent_checkpoint'] != config['parent_checkpoint']
             or prior['data_contract'] != config['data_contract'] or prior['source_sha'] != config['source_sha']
@@ -40,6 +41,23 @@ def require_previous_qualification(config):
             or actual['Job_Owner'].split('@')[0] != config['user'] or actual['project'] != config['project']):
         raise ValueError('ADAPT_FIRST_25_REQUIRES_REAL_COLD_PHASE_ZERO_RECEIPTS')
     return prior
+
+
+def require_cold_save_failure(config, lineage):
+    evidence = config['failed_zero_scope']
+    prior = read_pin(evidence)
+    job = prior['PBS_JOBID']
+    actual = read_pbs_with_auth_retry(pbs_history,job)
+    if (Path(evidence['path']) != lineage/'qualify/RESULT.private.json'
+            or prior['schema'] != SCHEMA or prior['role'] != 'qualify' or prior['exit_code'] != 1
+            or prior['status'] != 'ADAPT_TECHNICAL_TERMINAL_RECONCILE_BEFORE_REPLAY'
+            or prior['attempted_roles'] != ['qualify'] or set(prior['completed_roles']) != {'qualify'}
+            or prior['new_updates'] or prior['model_generations'] != 4 or prior['native_requests']
+            or prior['data_contract'] != config['data_contract'] or prior['parent_checkpoint'] != config['parent_checkpoint']
+            or actual['job_state'] != 'F' or actual['Exit_status'] != 1
+            or actual['Job_Owner'].split('@')[0] != config['user'] or actual['project'] != config['project']):
+        raise ValueError('ADAPT5K_RECOVERY_REQUIRES_COLD_EXACT_TECHNICAL_ZERO_PARENT')
+    return prior['completed_roles']['qualify']
 
 
 def pbs_site(config, root):
@@ -79,7 +97,7 @@ def run(config):
     role = config['role']
     if (root.stat().st_uid != os.getuid() or lineage.stat().st_uid != os.getuid() or root.parent != lineage
             or (root/'RESULT.private.json').exists() or (source/'SOURCE_SHA.private').read_text().strip() != config['source_sha']
-            or config['plan'] != contract.PLAN or role not in ('qualify','prefix25')):
+            or config['plan'] != contract.PLAN or role not in ('qualify','recover0','prefix25')):
         raise PermissionError('ADAPT5K_NEW_FINITE_PBS_ROLE_AND_SINGLE_LINEAGE_REQUIRED')
     result = dict(schema=SCHEMA,role=role,source_sha=config['source_sha'],
         PBS_JOBID=os.environ.get('PBS_JOBID'),data_contract=config['data_contract'],
@@ -119,7 +137,8 @@ def run(config):
         if (cpu['core'] != cpu['vanda'] or cpu['vanda']['parent_checkpoint_sha256'] != config['parent_checkpoint']['sha256']
                 or read_pin(evidence['panel'])['old_TEST_access'] or sum(len(x) for x in cpu['vanda']['inputs'].values()) != 22):
             raise ValueError('ADAPT5K_SITE_TRAIN_INPUTS_REQUIRE_ACTUAL_CROSS_SITE_READER_PROOF')
-        old = None if role == 'qualify' else require_previous_qualification(config)
+        old = require_previous_qualification(config) if role == 'prefix25' else None
+        failed = require_cold_save_failure(config,lineage) if role == 'recover0' else None
         common,env,job = pbs_site(config,root)
         convention = dict(common,parent_manifest=config['parent_manifest'],tokenizer=config['tokenizer'])
         train = dict(convention,data=training['data'],train_data_proof=assets['train_proof'],
@@ -158,11 +177,16 @@ def run(config):
 
         if old is None:
             terminal='qualify'
-            measured=execute(terminal,'scripts.sla.train_adapt5k','qualify',
-                dict(train,previous_train_or_qualification=None))
+            mode = 'recover-zero' if failed else 'qualify'
+            spec = dict(train,previous_train_or_qualification=None)
+            if failed:
+                spec['previous_failed_qualification'] = failed
+            measured=execute(terminal,'scripts.sla.train_adapt5k',mode,spec)
             if measured is None:
                 return result['exit_code']
-            result['qualification_gradient_windows']=measured['gradient_inputs']
+            result['qualification_gradient_windows']=measured['qualified_gradient_windows']
+            if failed:
+                result['reused_qualification']=measured['reused_qualification']
             eval_roles=('formal','formal-restore')
             panel=read_pin(evidence['panel'])
             caps=(288+len(panel['phase_train']),48)

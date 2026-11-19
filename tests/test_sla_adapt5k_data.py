@@ -91,9 +91,9 @@ def test_phase_checkpoint_restores_full_state_and_pins_d2_invariants(tmp_path):
     marker = 'a'*64
     binding = dict.fromkeys(('parent_checkpoint_sha256','parent_training_spec_sha256',
         'target_state_sha256','target_D1_sha256','optimizer_sha256','tokenizer_sha256',
-        'partition_sha256','parent_manifest_sha256','source_sha256','R200_membership_sha256',
+        'partition_sha256','parent_manifest_sha256','R200_membership_sha256',
         'LIBERO_membership_sha256','stage_target_data_sha256'), marker)
-    binding.update(plan=contract.PLAN, recipe=phase_checkpoint.RECIPE, parent_step=500,
+    binding.update(plan=contract.PLAN, recipe=phase_checkpoint.RECIPE, parent_step=500, source_revision='b'*40,
         learning_rates_sha256=bank_sha256(contract.phase_rates()), stage_start=0, stage_stop=2000,
         stage_bank_sha256=dict.fromkeys(contract.DOMAINS,marker),
         frozen_C20_action_statistics_sha256=C20_STATISTICS)
@@ -102,6 +102,8 @@ def test_phase_checkpoint_restores_full_state_and_pins_d2_invariants(tmp_path):
     optimizer = {d:{str(i):np.array([i+1],dtype=np.float32) for i in range(23)} for d in groups}
     state = dict(parameters=parameters, optimizer=optimizer, rng=jax.random.PRNGKey(9))
     original = phase_checkpoint.save(tmp_path/'phase00025',phase_step=25,binding=binding,**state)
+    with pytest.raises(ValueError,match='FULL_GIT_SOURCE_REVISION'):
+        phase_checkpoint.identity(dict(binding,source_revision=marker),25)
     restored,clocks = phase_checkpoint.restore(original,binding=binding,**state)
     assert clocks['parent_global_step'] == 500 and clocks['lineage_total_updates'] == 525
     assert clocks['phase_cursors'] == dict(target=1600,robodojo=800,libero=800)

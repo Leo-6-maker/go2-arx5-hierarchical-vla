@@ -18,9 +18,12 @@ TECHNICAL_CHECKPOINT = 25
 def identity(binding, step):
     for name in ('parent_checkpoint_sha256','parent_training_spec_sha256',
                  'target_state_sha256','target_D1_sha256','optimizer_sha256','tokenizer_sha256',
-                 'partition_sha256','parent_manifest_sha256','source_sha256'):
+                 'partition_sha256','parent_manifest_sha256'):
         if not shared.is_digest(binding[name]):
             raise ValueError(f'ADAPT5K_CHECKPOINT_MISSING_PINNED_IDENTITY:{name}')
+    revision = binding['source_revision']
+    if not isinstance(revision,str) or len(revision) != 40 or any(c not in '0123456789abcdef' for c in revision):
+        raise ValueError('ADAPT5K_CHECKPOINT_REQUIRES_FULL_GIT_SOURCE_REVISION')
     stages = ((0, contract.SWITCH_PHASE),(contract.SWITCH_PHASE,contract.UPDATES))
     start, stop = binding['stage_start'], binding['stage_stop']
     if (binding['plan'] != contract.PLAN or binding['recipe'] != RECIPE or (start, stop) not in stages

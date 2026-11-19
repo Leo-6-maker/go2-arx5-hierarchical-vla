@@ -22,6 +22,10 @@ from go2arx5_vla.sla_adapter.site_v2 import validate as validate_site
 from scripts.pi0292.durable import OwnerLock, write
 
 
+FAILED_ZERO_SOURCE = '15aea3b2f7fa078ed18685d2545c60211a4ccfe6'
+FAILED_ZERO_EXCEPTION = 'ValueError: ADAPT5K_CHECKPOINT_MISSING_PINNED_IDENTITY:source_sha256'
+
+
 def inputs(spec, resize_with_pad):
     proof = read_pin(spec['train_data_proof'])
     if (proof['schema'] != 'SLA_ADAPT5K_MATCHED_TRAIN_READERS_V1' or proof['core'] != proof['vanda']
@@ -46,7 +50,7 @@ def inputs(spec, resize_with_pad):
 def stage_binding(spec, original, model):
     data = spec['data']
     target = data['target']
-    return dict(plan=contract.PLAN,recipe=checkpoint.RECIPE,source_sha256=spec['source_sha'],
+    return dict(plan=contract.PLAN,recipe=checkpoint.RECIPE,source_revision=spec['source_sha'],
         parent_checkpoint_sha256=spec['parent_checkpoint']['sha256'],parent_step=spec['parent_step'],
         parent_training_spec_sha256=spec['parent_training_spec']['sha256'],
         parent_manifest_sha256=model['parent_manifest_sha256'],partition_sha256=original['partition_sha256'],
@@ -163,6 +167,36 @@ def first_nonzero_gate(spec):
         raise ValueError('ADAPT5K_UPDATE_26_REQUIRES_THE_FIXED_PHASE25_OUTPUT_RESTORE')
 
 
+def reuse_pre_save_qualification(spec, binding):
+    """The pinned old executable reached seal only after its finite gradient checks."""
+    pin = spec['previous_failed_qualification']
+    old = read_pin(pin)
+    expected = {k:v for k,v in binding.items() if k != 'source_revision'}
+    expected['source_sha256'] = FAILED_ZERO_SOURCE
+    if (old['scope'] != checkpoint.RECIPE or old['mode'] != 'qualify'
+            or old['source_sha'] != FAILED_ZERO_SOURCE or old['binding'] != expected
+            or old['status'] != 'ADAPT_TECHNICAL_TERMINAL_RECONCILE_BEFORE_REPLAY' or old['exit_code'] != 1
+            or old.get('checkpoint') is not None or old.get('last_complete_checkpoint') is not None
+            or old['start_phase'] or old['end_phase'] or old['new_updates'] or any(old['optimization_visits'].values())
+            or old['gradient_inputs'] != contract.BATCH or old['complete_H40_generations'] != 4
+            or old['attempted_H40_generations'] != 4 or old['native_requests'] or old['native_ticks']
+            or not old['failure'].rstrip().endswith(FAILED_ZERO_EXCEPTION)
+            or 'latest = seal()' not in old['failure']):
+        raise ValueError('ADAPT5K_REUSE_REQUIRES_EXACT_COMPLETED_GRADIENT_BEFORE_KNOWN_SAVE_FAILURE')
+    return dict(original_worker=pin,original_gradient_inputs=old['gradient_inputs'],
+                original_H40_generations=old['complete_H40_generations'],weighted_norm_gate_passed=True,
+                original_weighted_norm_value=None,repeated_gradient_windows=0)
+
+
+def match_unmodified_parent(parent, sealed, binding):
+    root = Path(parent['path'])
+    old = read_pin(dict(path=str(root/'COMPLETE.json'),sha256=parent['sha256']))
+    _, new = checkpoint.read_complete(sealed,binding)
+    if old['arrays'] != new['arrays']:
+        raise ValueError('ADAPT5K_RECOVERED_PHASE_ZERO_MUST_PRESERVE_ALL_MIX_OPTIMIZER_ARRAY_HASHES')
+    return len(new['arrays'])
+
+
 def run(spec, mode):
     import jax
     import optax
@@ -172,7 +206,8 @@ def run(spec, mode):
     deadline,reserve = spec['deadline_epoch'],spec['save_reserve_s']
     if (root.stat().st_uid != os.getuid() or any(root.iterdir()) or spec['plan'] != contract.PLAN
             or spec['physics'] is not False or spec['hardware_allowed'] is not False or not 300 <= reserve
-            or deadline-time.time() <= reserve or (mode == 'qualify') != (spec['previous_train_or_qualification'] is None)):
+            or deadline-time.time() <= reserve
+            or (mode in ('qualify','recover-zero')) != (spec['previous_train_or_qualification'] is None)):
         raise PermissionError('ADAPT5K_FRESH_FINITE_NONPHYSICAL_TRAINING_SCOPE_REQUIRED')
     site = validate_site(spec)
     if jax.default_backend() != 'gpu' or len(jax.devices()) != 1:
@@ -204,6 +239,7 @@ def run(spec, mode):
         engine,binding = restored_engine(spec,datasets,banks,progress)
         result['binding'] = binding
         start = engine.step
+        checkpoint.identity(binding,start)
 
         def seal():
             return checkpoint.save(root/f'phase{engine.step:05d}',phase_step=engine.step,parameters=engine.parameters,
@@ -217,9 +253,17 @@ def run(spec, mode):
             if not 0 < norm < float('inf') or engine.gradient_windows != contract.BATCH or engine.completed_aux != 4:
                 raise ValueError('ADAPT5K_REAL_FINITE_WEIGHTED_128_GRADIENT_AND_FOUR_AUX_REQUIRED')
             del gradient
+            result.update(qualification=receipt,weighted_gradient_norm=norm,qualified_gradient_windows=engine.gradient_windows)
             latest = seal()
+            result.update(status='ACTUAL_ADAPT_ZERO_GRADIENTS_SEALED',exit_code=0,checkpoint=latest)
+        elif mode == 'recover-zero':
+            result['reused_qualification'] = reuse_pre_save_qualification(spec,binding)
+            progress('SEALING_UNCHANGED_ZERO_WITH_ORIGINAL_GRADIENT_PROOF')
+            guard()
+            latest = seal()
+            result['unchanged_parent_state_arrays'] = match_unmodified_parent(spec['parent_checkpoint'],latest,binding)
             result.update(status='ACTUAL_ADAPT_ZERO_GRADIENTS_SEALED',exit_code=0,checkpoint=latest,
-                          qualification=receipt,weighted_gradient_norm=norm)
+                          qualified_gradient_windows=result['reused_qualification']['original_gradient_inputs'])
         elif mode == 'restore25':
             prior, count = verify_nonzero_restore(spec,engine,binding)
             result.update(status='ADAPT_PHASE25_INDEPENDENT_STATE_RESTORED_EXACT',
@@ -267,7 +311,7 @@ def run(spec, mode):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('mode',choices=('qualify','restore25','train'))
+    parser.add_argument('mode',choices=('qualify','recover-zero','restore25','train'))
     parser.add_argument('spec')
     parser.add_argument('sha256')
     args = parser.parse_args()
