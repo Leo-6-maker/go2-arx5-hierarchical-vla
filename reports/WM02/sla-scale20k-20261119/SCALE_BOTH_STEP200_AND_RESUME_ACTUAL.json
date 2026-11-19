@@ -1,0 +1,116 @@
+{
+  "prefixes": [
+    {
+      "observed_SGT": "2026-11-19 19:51:43 +08",
+      "arm": "SCALE-MIX20K",
+      "step": 200,
+      "visits": {
+        "target": 6400,
+        "robodojo": 9600,
+        "libero": 9600
+      },
+      "optimizer_updates": 200,
+      "full_H40": 800,
+      "checkpoint_sha256": "d8b0a9c3fd6cdc2e7c794a5ef58aacff3b361d886e7456d22991fb3e1d045e0d",
+      "initial_checkpoint_sha256": "8e84e7fddc905dbd62c6b4a31265e15e2afe5560c56c152e29ce66f1b7e78d6f",
+      "array_groups": {
+        "optimizer": 94,
+        "parameters": 45,
+        "rng": 1
+      },
+      "array_digests_changed": {
+        "optimizer": 94,
+        "parameters": 45,
+        "rng": 0
+      },
+      "terminal_result_sha256": "f15657d5d84a7de7824a32f8a1aea69767b2dbb317409c6ac84df0a3ff74f7d0",
+      "source_sha": "31076fc7a64302b0705ae4d7e526c4341209a100",
+      "updates_added_here": 0,
+      "model_generations_added_here": 0,
+      "native_requests": 0
+    },
+    {
+      "observed_SGT": "2026-11-19 19:51:43 +08",
+      "arm": "SCALE-TGT5K",
+      "step": 200,
+      "visits": {
+        "target": 6400,
+        "robodojo": 0,
+        "libero": 0
+      },
+      "optimizer_updates": 200,
+      "full_H40": 800,
+      "checkpoint_sha256": "48d92d0fa9f4e1b8110264cf228fe32a48f6f7b26f0e1b924c45d8c6b730ff67",
+      "initial_checkpoint_sha256": "c9bb29fc64e099fbe05341932f3a1c42fb00a781fd1e2cd1d3af05f6915c0c40",
+      "array_groups": {
+        "optimizer": 94,
+        "parameters": 45,
+        "rng": 1
+      },
+      "array_digests_changed": {
+        "optimizer": 60,
+        "parameters": 29,
+        "rng": 0
+      },
+      "terminal_result_sha256": "dffb7804fda5e832a6df4a22fe525b889a68ff5ef373d6dc2115e5741226cf7d",
+      "source_sha": "ea7f609426677d5812dd27daa5b391d545269d0d",
+      "updates_added_here": 0,
+      "model_generations_added_here": 0,
+      "native_requests": 0
+    }
+  ],
+  "successor_live": [
+    {
+      "observed_SGT": "2026-11-19 19:55:46 +08",
+      "arm": "SCALE-MIX20K",
+      "phase": "RESTORED_COMPLETE_STATE",
+      "updates_added": 0,
+      "first_global_step": null,
+      "latest_global_step": 200,
+      "last_cursors": {
+        "target": 6400,
+        "robodojo": 9600,
+        "libero": 9600
+      },
+      "original_checkpoint_sha256": "d8b0a9c3fd6cdc2e7c794a5ef58aacff3b361d886e7456d22991fb3e1d045e0d",
+      "complete_restore": true,
+      "native_requests": 0,
+      "source_sha": "31076fc7a64302b0705ae4d7e526c4341209a100"
+    },
+    {
+      "observed_SGT": "2026-11-19 19:55:46 +08",
+      "arm": "SCALE-TGT5K",
+      "phase": "COMMITTED_OPTIMIZER_UPDATE",
+      "updates_added": 10,
+      "first_global_step": 201,
+      "latest_global_step": 210,
+      "last_cursors": {
+        "target": 6720,
+        "robodojo": 0,
+        "libero": 0
+      },
+      "original_checkpoint_sha256": "48d92d0fa9f4e1b8110264cf228fe32a48f6f7b26f0e1b924c45d8c6b730ff67",
+      "complete_restore": true,
+      "native_requests": 0,
+      "source_sha": "ea7f609426677d5812dd27daa5b391d545269d0d"
+    }
+  ],
+  "Core_successor": {
+    "unit": "wm02-sla-scale20k-mix-core-first500-20261119-01.service",
+    "deadline_epoch": 1795103373.8555467,
+    "schedule_sha256": "4131bd820690d5a9183bf9003e30aaeba14c0a2469a950244f4a5b4a1c1b161b",
+    "launcher_sha": "ac874acb9bade7f9a765023ce20e5d243958340a",
+    "training_sha": "31076fc7a64302b0705ae4d7e526c4341209a100"
+  },
+  "VANDA_successor": {
+    "job": "1592745.stdct-mgmt-02",
+    "submit_observed_state": "Q",
+    "observed_running": true,
+    "registered_global_limit": 500,
+    "execution_sha256": "14d1c351b102bbccad4be82458be7f03db717aa2cd1c08ad3cb8b0fb21e85413",
+    "launcher_sha": "d81583801e8e42170009935a13ec5b1dd0af8074",
+    "training_sha": "ea7f609426677d5812dd27daa5b391d545269d0d"
+  },
+  "evaluation_model_generations": 0,
+  "evaluation_native_requests": 0
+}
