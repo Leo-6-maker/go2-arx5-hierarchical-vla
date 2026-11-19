@@ -1,0 +1,180 @@
+{
+  "schema": "SLA_ADAPT_R200_AND_D1_PANEL_ACTUAL_V1",
+  "recorded_SGT": "2026-11-20T01:10:00+08:00",
+  "plan": "5734a73cbda5c333cc3d7d7e0f032e679a4c08b6",
+  "prior_evidence_commit": "a4222b7c663e124c2714cb94b8b4c914e9afe1eb",
+  "code": {
+    "reader_revision": "5aca6a6593c293477954b7d8d39ed0e819b02f77",
+    "train_and_checkpoint_revision": "35ca7fef67e21dfacbd76c9cd8faf8d1b091e674",
+    "evaluation_worker": "4adbcd644bda8746459d8dfe5752f4be803cac82",
+    "local_targeted_tests": 25,
+    "runtime_gpu_qualified": false
+  },
+  "actual_Core_INPUT": {
+    "fixed_spec_sha256": "20c7eded89b024e687d2beb4a19db09ce4e41fa18a22df47830d0e461a7f4b0b",
+    "proof_sha256": "8fcb9f7b7d8bb57699fae87040e95b57d64bd8b4a1b1839aed36f590717a4dd2",
+    "parent_step": 500,
+    "parent_checkpoint_sha256": "4f4ade751809b375a484a9ba4e4bcb5ad899edfbbe2135b4ac62c41631b76093",
+    "target_state_sha256": "a9db709b66df6f267107d5d4d8458fd4a4e4604be2d427e78d922b3f4aed4b35",
+    "inherited_R48_statistics_sha256": "c8afc74108b66b497122502e3b9b1d27cfc9565855fec88f4e01c3ebcb34f269",
+    "diagnostic_R200_statistics_sha256": "6bab2cca65b3c746ebc4e4a7901d1dc119ec90dd59f9afc26505ca9336965a09",
+    "total_windows": {
+      "target": 1892,
+      "robodojo": 210398,
+      "libero": 209146
+    },
+    "independent_episodes": {
+      "target": 24,
+      "robodojo": 200,
+      "libero": 1261
+    },
+    "new_target_episodes": 1,
+    "source_tasks": {
+      "cover_blocks": 34,
+      "insert_tubes": 34,
+      "make_bread": 33,
+      "make_food": 33,
+      "pack_and_pour_fruit": 33,
+      "store_in_safe": 33
+    },
+    "bank_digests": {
+      "target": "4ede6275594e2873965e15b3ea5d9bdbd6fc0354175281a9e9e200aab50e67a0",
+      "robodojo": "f7a3066e0bad70f7cb0809e275d990011ba329fa47b7cd032a02ae39e78a9c47",
+      "libero": "7a01ec264d427b8ade6c22d82b3ed52917aa0b42f00cffc644fa1916c8588f74"
+    },
+    "target_bank_report": {
+      "new_visits": 8000,
+      "old_visits": 120000,
+      "critical_requested": 64000,
+      "critical_from_event": 64000,
+      "critical_backfilled": 0,
+      "sha256": "4ede6275594e2873965e15b3ea5d9bdbd6fc0354175281a9e9e200aab50e67a0",
+      "new_quota_per_update": 4,
+      "independent_new_episodes": 1,
+      "stage_start": 0,
+      "phase_stop": 2000,
+      "seed": 2026112004
+    },
+    "banks_windows": {
+      "target": 128000,
+      "robodojo": 64000,
+      "libero": 64000
+    },
+    "input_sha256": "1812283b099ffa1db4f70b519a497f678b80fa7aa651eecfab3a7482b0107615",
+    "optimizer_updates": 0,
+    "optimization_visits": 0,
+    "model_generations": 0,
+    "native_requests": 0,
+    "TEST_access": false,
+    "decoded_real_inputs": {
+      "target": 4,
+      "robodojo": 12,
+      "libero": 6
+    }
+  },
+  "actual_D1_CORE_panel": {
+    "formal": {
+      "target": 96,
+      "robodojo": 96,
+      "libero": 96
+    },
+    "phase_train": {
+      "P10_DUE_CLOSE": {
+        "requested": 32,
+        "available_windows": 24,
+        "selected": 24,
+        "independent_episodes": 24
+      },
+      "NOT_DUE_CLOSE": {
+        "requested": 32,
+        "available_windows": 48,
+        "selected": 32,
+        "independent_episodes": 24
+      },
+      "APPROACH": {
+        "requested": 16,
+        "available_windows": 1312,
+        "selected": 16,
+        "independent_episodes": 16
+      },
+      "RELEASE_OR_RECOVERY": {
+        "requested": 16,
+        "available_windows": 129,
+        "selected": 16,
+        "independent_episodes": 4
+      }
+    },
+    "phase_train_total": 88,
+    "independent_restore_ordinals": 16,
+    "phase25_pair_count": 24,
+    "optimizer_updates": 0,
+    "model_generations": 0,
+    "native_requests": 0,
+    "sha256": "3136404c06f890a9dd830b2cf5f40e487ef436ede16e805e14ffc0cb06b5eefd",
+    "config_sha256": "4471ce16885183e50aed252c802b94470b14bf440ce71ec9ed349cf703c9318a"
+  },
+  "R200_VANDA": {
+    "state": "LIVE_RELAY_NOT_FULL_CUSTODY",
+    "manifest_sha256": "e09f90169d988e8dbe39921aaa10611babf5d7227a7088ddf6d88a5e4b3d558b",
+    "transfer_plan_sha256": "0f2d766839bb52aba19b8502b87d6e0faba4c44a43b04cd042231a9a734511e8",
+    "needed_bytes": 27480874350,
+    "previously_verified_raw_reused": 48,
+    "planned_additional_raw": 152,
+    "planned_members": 353,
+    "last_site_observation_SGT_approx": "2026-11-20T01:03:00+08:00",
+    "new_hash_verified_raw": 29,
+    "total_SHA_verified_files_including_numeric_and_stat": 230,
+    "new_SHA_verified_bytes": 5302240954,
+    "all_200_at_site": false,
+    "SOURCE_DEV_raw": 0,
+    "old_TEST_access": false
+  },
+  "matched_A40_variants": {
+    "baseline_job": "1593682.stdct-mgmt-02",
+    "known_baseline_last_training_updates": 28,
+    "known_baseline_snapshot_SGT_approx": "2026-11-20T01:03:00+08:00",
+    "baseline_adoption_qualified": false,
+    "observed_site_job_terminal_at_publication": false,
+    "potential_continues": [
+      {
+        "n": 2,
+        "job_ID": "1593796.stdct-mgmt-02",
+        "site_dependency": "afterok:1593682.stdct-mgmt-02@stdct-mgmt-02",
+        "state_at_submission": "H",
+        "actual_hold": "d",
+        "spec_sha256": "a6b960321199a7836653576dfa317002b560143e3dae7801530928ed76ba2017",
+        "updates": 0,
+        "cap": 30
+      },
+      {
+        "n": 4,
+        "job_ID": "1593797.stdct-mgmt-02",
+        "site_dependency": "afterok:1593682.stdct-mgmt-02@stdct-mgmt-02",
+        "state_at_submission": "H",
+        "actual_hold": "d",
+        "spec_sha256": "b58f4bb51afaf7779b0ab68404952f396aec56a6622bbad3cb1afe1a952eae18",
+        "updates": 0,
+        "cap": 30
+      }
+    ],
+    "global_variant_deadline_SGT": "2026-11-20T08:58:31+08:00",
+    "source_sha": "fb22c2bf943e0c5ccc5226957972610b9f487dae",
+    "common_contract_sha256": "c89cffbb5202ac4d3c70660781113a6b1d2d629f6e6a73d44f526c1cbdb9d911",
+    "science_updates_from_engineering": 0,
+    "new_native_requests": 0
+  },
+  "core_MIX_status_readback": "ACTIVE",
+  "core_MIX_handoff_status_readback": "ARMED",
+  "ADAPT": {
+    "new_updates": 0,
+    "optimization_visits": 0,
+    "offline_generations": 0,
+    "native_requests": 0,
+    "needs": [
+      "R200 all files and cross-site production-reader proof",
+      "actual single-A40 allocation",
+      "real 128 gradient pass, ADAPT0 formal predictions, independent restore"
+    ],
+    "actual_gpu_job_dispatched": false
+  }
+}
