@@ -4,9 +4,8 @@ from pathlib import Path
 
 from .checkpoint_v1 import sha
 from .libero_scale20k import LiberoDataset
-from .multisource_d4 import C20G7Dataset
-from .runtime_v1 import read_pin
 from .scale20k_contract import DOMAINS, bank_sha256, visits
+from .scale20k_target import ScaleTargetDataset
 from .source_native_v6 import SourceDataset
 
 
@@ -32,15 +31,7 @@ def readers(plan, resize_with_pad):
     if set(plan) != set(DOMAINS):
         raise ValueError('SCALE20K_REQUIRES_REAL_DATA_IN_ALL_THREE_DOMAINS')
     target,rd,libero = (plan[domain] for domain in DOMAINS)
-    target_receipt = read_pin(target['admission'])
-    if (target_receipt['schema'] != 'SLA_SCALE20K_TARGET_C20_BOOTSTRAP_V1'
-            or target_receipt['C20_manifest_sha256'] != target['manifest']['sha256']
-            or target_receipt['place_admitted'] != 0):
-        raise ValueError('SCALE20K_EXPLICIT_TARGET_BOOTSTRAP_IDENTITY_REQUIRED')
-    d4 = C20G7Dataset(target['root'],time_audit=target['time_audit'],resize_with_pad=resize_with_pad)
-    if (Path(target['manifest']['path']).resolve(strict=True) != (Path(target['root'])/'MANIFEST.private.json').resolve(strict=True)
-            or d4.manifest_sha != target['manifest']['sha256']):
-        raise ValueError('SCALE20K_TARGET_LOADER_MUST_BIND_THE_ADMITTED_MANIFEST')
+    d4 = ScaleTargetDataset(target, resize_with_pad=resize_with_pad)
     source = RobodojoDataset(rd['root'],rd['manifest'],split='TRAIN',resize_with_pad=resize_with_pad)
     library = LiberoDataset(libero['root'],libero['manifest'],split='TRAIN',resize_with_pad=resize_with_pad)
     return dict(zip(DOMAINS,(d4,source,library),strict=True))
