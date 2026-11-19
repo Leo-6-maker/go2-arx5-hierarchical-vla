@@ -1,0 +1,325 @@
+{
+  "plan_sha": "cf9d1acbf72e96b1bd158322ff8cbaf8fe28fabb",
+  "execution_source_sha": "b405fb173c91a32a1ad5b86aa9e87418cd0d0d56",
+  "spec_sha256": "e80ca90c07af71eafca37172eda48d644dcbe69cffd4a4ebeba5741062764581",
+  "closed_science_denominator": 10,
+  "planned_science_denominator": 48,
+  "matched_config": {
+    "scene_sha256": "aab9f053f3607bd6eb7642e3e3f3b424c60ae7c1deb22c9e3d8c04018be45b26",
+    "instruction": "PLACE-blue-left",
+    "reset": 702000,
+    "noise_seed": 2037343904
+  },
+  "observed_initial_TCP_difference_mm": 0.01651612631827587,
+  "matched_pair": [
+    {
+      "case": "J_SCREEN48-F1-1-PLACE-blue-left-J0",
+      "arm": "J0",
+      "native_result_sha256": "047e18df86bd9833ef9d769c1cdcb34a2f7c42648804dce7db0f347489d56f9d",
+      "native_ticks": 50703,
+      "native_request": 1,
+      "first_failure": "FIXED_TASK_BUDGET_EXHAUSTED",
+      "STOP": false,
+      "first_stop": null,
+      "STOP_after_ticks": null,
+      "measured_min_width_m": 0.0417655104104192,
+      "emitted_min_width_m": 0.04179652870336828,
+      "terminal_partial_ticks": 0,
+      "score_cache_differences": {},
+      "consumed": {
+        "H40_pass": 180,
+        "installed": 180,
+        "full_P10": 180,
+        "confirmed_atoms": 1800,
+        "H40_closure_first": {
+          "no_crossing": 180
+        }
+      },
+      "simulator_terminal_contacts": [],
+      "native_geometry": {
+        "case": "J_SCREEN48-F1-1-PLACE-blue-left-J0",
+        "instruction": "PLACE-blue-left",
+        "arm": "J0",
+        "target_color": "blue",
+        "native_result_sha256": "047e18df86bd9833ef9d769c1cdcb34a2f7c42648804dce7db0f347489d56f9d",
+        "sample_2ms_count": 45001,
+        "closest": {
+          "red_pad_midpoint": {
+            "distance_mm": 96.33084119838509,
+            "native_tick": 8831
+          },
+          "red_tcp": {
+            "distance_mm": 95.48514257434232,
+            "native_tick": 8831
+          },
+          "blue_pad_midpoint": {
+            "distance_mm": 62.408078552456736,
+            "native_tick": 23234
+          },
+          "blue_tcp": {
+            "distance_mm": 62.15288383779316,
+            "native_tick": 23234
+          }
+        },
+        "terminal_distance_mm": {
+          "red_pad_midpoint": 184.4068647746622,
+          "red_tcp": 182.85216044344637,
+          "blue_pad_midpoint": 114.52207631663507,
+          "blue_tcp": 113.45370534490203
+        },
+        "cube_contact_sample_count": {
+          "red": {
+            "any_hand_samples": 0,
+            "at_least_one_pad_samples": 0,
+            "both_pads_samples": 0
+          },
+          "blue": {
+            "any_hand_samples": 0,
+            "at_least_one_pad_samples": 0,
+            "both_pads_samples": 0
+          }
+        }
+      },
+      "score": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "PLACE-blue-left",
+        "task_success": false,
+        "native_step": 50703,
+        "base_directional_motion_m": 0.17224177035890803,
+        "lift_m": 0.0,
+        "inside_selected_region": false,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": true,
+        "gripper_open_fraction": 0.9544435327392771,
+        "TCP_retreat_m": 0.11345370534490204,
+        "stable_release_condition": false,
+        "states": 45001,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 13333,
+            "native_time_s": 26.6659999999961
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "wall_s": 785.527901571244,
+      "cpu_s": 439.47907372400005,
+      "readback_sha256": "b1016d598d3bcfda538ed7cf03221d7a8c283a9d3cec0f7b40a11cb2b9da10d8",
+      "geometry_readback_sha256": "f7b1f28f0bbd7766f1251206396a40c4725a43da70b67795f14cdc94ea0e1a33"
+    },
+    {
+      "case": "J_SCREEN48-F1-1-PLACE-blue-left-J1",
+      "arm": "J1",
+      "native_result_sha256": "865b71ad947edda0fb17ab587b861b26376e89554e665169c1259e908533e45e",
+      "native_ticks": 46713,
+      "native_request": 1,
+      "first_failure": "ILLEGAL_CONTACT",
+      "STOP": true,
+      "first_stop": {
+        "kind": "stop",
+        "reason": "ILLEGAL_CONTACT",
+        "steps": 46713
+      },
+      "STOP_after_ticks": 0,
+      "measured_min_width_m": 0.04196635919568992,
+      "emitted_min_width_m": 0.04197589224800541,
+      "terminal_partial_ticks": 10,
+      "score_cache_differences": {
+        "native_step": {
+          "cached": 46703,
+          "full": 46713
+        },
+        "base_directional_motion_m": {
+          "cached": 0.23061583172728617,
+          "full": 0.23062789349987997
+        },
+        "gripper_open_fraction": {
+          "cached": 0.9543465453269322,
+          "full": 0.9544146266513821
+        },
+        "TCP_retreat_m": {
+          "cached": 0.199941650524939,
+          "full": 0.1999493568486563
+        },
+        "states": {
+          "cached": 41001,
+          "full": 41011
+        },
+        "unsafe_states": {
+          "cached": 0,
+          "full": 1
+        }
+      },
+      "consumed": {
+        "H40_pass": 165,
+        "installed": 165,
+        "full_P10": 164,
+        "confirmed_atoms": 1640,
+        "H40_closure_first": {
+          "no_crossing": 165
+        }
+      },
+      "simulator_terminal_contacts": [
+        {
+          "geoms": [
+            {
+              "geom_id": 66,
+              "geom": null,
+              "body": "x5_link2",
+              "geom_type": "mjGEOM_CAPSULE"
+            },
+            {
+              "geom_id": 1,
+              "geom": "task_table",
+              "body": "world",
+              "geom_type": "mjGEOM_BOX"
+            }
+          ],
+          "distance_m": -2.164082544393875e-06,
+          "normal_force_N": 1.131854061353217
+        },
+        {
+          "geoms": [
+            {
+              "geom_id": 66,
+              "geom": null,
+              "body": "x5_link2",
+              "geom_type": "mjGEOM_CAPSULE"
+            },
+            {
+              "geom_id": 1,
+              "geom": "task_table",
+              "body": "world",
+              "geom_type": "mjGEOM_BOX"
+            }
+          ],
+          "distance_m": -2.164082544393875e-06,
+          "normal_force_N": 1.131854061353217
+        }
+      ],
+      "native_geometry": {
+        "case": "J_SCREEN48-F1-1-PLACE-blue-left-J1",
+        "instruction": "PLACE-blue-left",
+        "arm": "J1",
+        "target_color": "blue",
+        "native_result_sha256": "865b71ad947edda0fb17ab587b861b26376e89554e665169c1259e908533e45e",
+        "sample_2ms_count": 41011,
+        "closest": {
+          "red_pad_midpoint": {
+            "distance_mm": 99.17559204026578,
+            "native_tick": 8607
+          },
+          "red_tcp": {
+            "distance_mm": 98.20722385514946,
+            "native_tick": 8608
+          },
+          "blue_pad_midpoint": {
+            "distance_mm": 56.77985653682076,
+            "native_tick": 17110
+          },
+          "blue_tcp": {
+            "distance_mm": 56.480895781781236,
+            "native_tick": 17110
+          }
+        },
+        "terminal_distance_mm": {
+          "red_pad_midpoint": 276.20513270054,
+          "red_tcp": 274.67859678221913,
+          "blue_pad_midpoint": 201.2542769634002,
+          "blue_tcp": 199.9493568486563
+        },
+        "cube_contact_sample_count": {
+          "red": {
+            "any_hand_samples": 0,
+            "at_least_one_pad_samples": 0,
+            "both_pads_samples": 0
+          },
+          "blue": {
+            "any_hand_samples": 0,
+            "at_least_one_pad_samples": 0,
+            "both_pads_samples": 0
+          }
+        }
+      },
+      "score": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "PLACE-blue-left",
+        "task_success": false,
+        "native_step": 46713,
+        "base_directional_motion_m": 0.23062789349987997,
+        "lift_m": 0.0,
+        "inside_selected_region": false,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": true,
+        "gripper_open_fraction": 0.9544146266513821,
+        "TCP_retreat_m": 0.1999493568486563,
+        "stable_release_condition": false,
+        "states": 41011,
+        "missing_native_intervals": 0,
+        "unsafe_states": 1,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 10793,
+            "native_time_s": 21.585999999998915
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "wall_s": 726.9632246848196,
+      "cpu_s": 402.98966825400004,
+      "readback_sha256": "11506901fac8e8cfb8cb0bf44ea75aa9fd47be4d422eaa0c1cf4757af46f1953",
+      "geometry_readback_sha256": "e77c6165c4824d1c7fb838b224f44cdd280cdb4d22425b11eeb34ea24a54025c"
+    }
+  ],
+  "cumulative_actual": {
+    "terminal_cases": 10,
+    "verified_cases": 10,
+    "evidence_errors": 0,
+    "scored_cases": 10,
+    "native_requests": 10,
+    "native_ticks": 417689,
+    "model_generations": 1446,
+    "complete_success": 0,
+    "correct_grasp": 0,
+    "lift20mm": 0,
+    "observed_safety_STOP": 5,
+    "observed_illegal_contact_STOP": 5,
+    "observed_integrations_after_STOP": 0,
+    "safety_STOP_with_unknown_post_stop_ticks": 0,
+    "observed_technical_failures": 0,
+    "confirmed_atoms_observed": 14424,
+    "observed_wall_s": 6472.712225708179,
+    "observed_CPU_s": 3565.3797561470005
+  },
+  "cumulative_first_failures": {
+    "FIXED_TASK_BUDGET_EXHAUSTED": 5,
+    "ILLEGAL_CONTACT": 5
+  },
+  "cumulative_H40_crossing": {
+    "P10": 0,
+    "tail30": 0,
+    "none": 1446
+  },
+  "readback_new_training_updates": 0,
+  "readback_new_model_generations": 0,
+  "readback_new_native_requests": 0,
+  "readback_new_native_ticks": 0
+}
