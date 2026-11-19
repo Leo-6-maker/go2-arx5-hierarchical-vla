@@ -1,0 +1,422 @@
+{
+  "schema": "SLA_SCHEDULER_FIRST_DEPLOYMENT_ACTUAL_V1",
+  "observed_SGT": "2026-11-20T00:47:09+08:00",
+  "scheduler_plan_sha": "ed41d796738b46939a28f4ccb0a34d9410e38a20",
+  "training_plan_sha": "926226914a0c08ee1ebb143e0edea1434728107b",
+  "handoff_source": "2d32a51a0bb25390727d4cd262feb679459885eb",
+  "core": {
+    "status": "ARMED",
+    "watcher": "wm02-sla-scale20k-core-scheduler-handoff-20261120-01.service",
+    "PID": 4047502,
+    "cgroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-scale20k-core-scheduler-handoff-20261120-01.service",
+    "invocation_id": "544ecd9e623d423bb336153ebf9f8198",
+    "config_sha256": "fe161ebe197b9bef5097ceae17bce516260f22e0f42d1bbbc67bf83c7b1aa1d1",
+    "systemd_linger": true,
+    "observed_kernel_wait": "poll_schedule_timeout.constprop.0",
+    "independent_connection": true,
+    "active_predecessor": "wm02-sla-scale20k-mix-core-after500-20261119-01.service",
+    "predecessor_PID": 3957773,
+    "watched_train_deadline_SGT": "2026-11-20T03:05:32+08:00",
+    "wait_until_SGT": "2026-11-20T03:15:32+08:00",
+    "successor_latest_end_SGT": "2026-11-20T07:14:32+08:00",
+    "successor_name_reserved": "wm02-sla-scale20k-mix-core-cold-next-20261120-01.service",
+    "successor_running": false,
+    "next_formal_target": 2000,
+    "max_next_window_s": 14340,
+    "last_verified_formal_checkpoint_step": 500,
+    "last_verified_formal_checkpoint_sha256": "4f4ade751809b375a484a9ba4e4bcb5ad899edfbbe2135b4ac62c41631b76093",
+    "array_count": 140,
+    "stop_entry": "sla-scale20k-core-scheduler-handoff-20261120-01/STOP.json",
+    "train_stop_entry": "sla-scale20k-mix-core-cold-next-20261120-01/STOP.json",
+    "log": "sla-scale20k-core-scheduler-handoff-20261120-01/watch.log"
+  },
+  "vanda": {
+    "status": "REGISTERED_DEPENDENCY_HOLDS",
+    "independent_connection": true,
+    "active_predecessor": {
+      "job": "1593003.stdct-mgmt-02",
+      "state": "R",
+      "exec_vnode": "(GN-A40-039[0]:ncpus=36:mem=240gb:ngpus=1)"
+    },
+    "last_verified_formal_checkpoint_step": 500,
+    "last_verified_formal_checkpoint_sha256": "bb9e64867ec4d5b692fe32b77054aa3c2d31b22f7c53bc011ccacda6641eb59f",
+    "max_total_nominal_reserved_GPU_hours": 15,
+    "chain_deadline_SGT": "2026-11-21T00:45:58+08:00",
+    "chain_stop": "sla-scale20k-vanda-scheduler-tgt-20261120-01/STOP.json",
+    "jobs": [
+      {
+        "job_id": "1593718.stdct-mgmt-02",
+        "role": "train",
+        "nominal_step": 3500,
+        "recorded_state": "H",
+        "hold_types": "d",
+        "dependency_as_read_back": "afterany:1593003.stdct-mgmt-02@stdct-mgmt-02,beforeany:1593720.stdct-mgmt-02@stdct-mgmt-02",
+        "queue": "batch_gpu",
+        "walltime": "06:00:00",
+        "config_sha256": "912e13a160c2b8407e3f27a3a34ab91062c30938893747e3bc8c7770727bc3dd",
+        "stop_entry": "sla-scale20k-vanda-scheduler-tgt-20261120-01-slatgt35/STOP.json",
+        "stdout": "sla-scale20k-vanda-scheduler-tgt-20261120-01-slatgt35/pbs-output.private.log",
+        "stderr": "sla-scale20k-vanda-scheduler-tgt-20261120-01-slatgt35/pbs-error.private.log",
+        "actual_updates": 0,
+        "actual_generations": 0,
+        "native_requests": 0
+      },
+      {
+        "job_id": "1593719.stdct-mgmt-02",
+        "role": "eval",
+        "nominal_step": 2000,
+        "recorded_state": "H",
+        "hold_types": "d",
+        "dependency_as_read_back": "afterany:1593003.stdct-mgmt-02@stdct-mgmt-02",
+        "queue": "batch_gpu",
+        "walltime": "01:30:00",
+        "config_sha256": "cecb880f4041574f72bb112feba33d429a6bc1b3ed923ebe99855706b24343b2",
+        "stop_entry": "sla-scale20k-vanda-scheduler-tgt-20261120-01-slatgt2ev/STOP.json",
+        "stdout": "sla-scale20k-vanda-scheduler-tgt-20261120-01-slatgt2ev/pbs-output.private.log",
+        "stderr": "sla-scale20k-vanda-scheduler-tgt-20261120-01-slatgt2ev/pbs-error.private.log",
+        "actual_updates": 0,
+        "actual_generations": 0,
+        "native_requests": 0
+      },
+      {
+        "job_id": "1593720.stdct-mgmt-02",
+        "role": "train",
+        "nominal_step": 5000,
+        "recorded_state": "H",
+        "hold_types": "d",
+        "dependency_as_read_back": "afterany:1593718.stdct-mgmt-02@stdct-mgmt-02,beforeany:1593721.stdct-mgmt-02@stdct-mgmt-02",
+        "queue": "batch_gpu",
+        "walltime": "06:00:00",
+        "config_sha256": "3ea588792a573d8cdf786669ddc8d7fc45dcdc1cc04bddc815a72d978367bcc1",
+        "stop_entry": "sla-scale20k-vanda-scheduler-tgt-20261120-01-slatgt50/STOP.json",
+        "stdout": "sla-scale20k-vanda-scheduler-tgt-20261120-01-slatgt50/pbs-output.private.log",
+        "stderr": "sla-scale20k-vanda-scheduler-tgt-20261120-01-slatgt50/pbs-error.private.log",
+        "actual_updates": 0,
+        "actual_generations": 0,
+        "native_requests": 0
+      },
+      {
+        "job_id": "1593721.stdct-mgmt-02",
+        "role": "eval",
+        "nominal_step": 5000,
+        "recorded_state": "H",
+        "hold_types": "d",
+        "dependency_as_read_back": "afterany:1593720.stdct-mgmt-02@stdct-mgmt-02",
+        "queue": "batch_gpu",
+        "walltime": "01:30:00",
+        "config_sha256": "ef8fdf5e8bec821028928200721f9c83a22cbcb4203ec2c1d4dabb7b0df2643b",
+        "stop_entry": "sla-scale20k-vanda-scheduler-tgt-20261120-01-slatgt5ev/STOP.json",
+        "stdout": "sla-scale20k-vanda-scheduler-tgt-20261120-01-slatgt5ev/pbs-output.private.log",
+        "stderr": "sla-scale20k-vanda-scheduler-tgt-20261120-01-slatgt5ev/pbs-error.private.log",
+        "actual_updates": 0,
+        "actual_generations": 0,
+        "native_requests": 0
+      }
+    ],
+    "afterany_note": "Hardware scheduling may occur after any terminal. Nothing may activate the model before the verified saved-segment gate. Exit 75 is allowed for verified time-limited training; evaluation requires the exact formal endpoint saved with exit 0.",
+    "afterok_execution_verified": false
+  },
+  "observed_formal_training": {
+    "core": {
+      "observed_SGT": "2026-11-20T00:47:09+08:00",
+      "updates": 655,
+      "visits": {
+        "target": 20960,
+        "robodojo": 31440,
+        "libero": 31440
+      },
+      "total_visits": 83840,
+      "cataloged_H40": 2620,
+      "warmp50_s": 36.033280100207776,
+      "allocator_bytes": 21172529408,
+      "training_spec_sha": "32ce0fffbe947738c235eaff0fc0b2da8035706c592034d03ca369cf9ce8ea2e",
+      "trainer_source_sha": "31076fc7a64302b0705ae4d7e526c4341209a100",
+      "optimizer": {
+        "beta1": 0.9,
+        "beta2": 0.95,
+        "eps": 1e-08,
+        "weight_decay": 1e-05,
+        "clip_norm": 1.0
+      }
+    },
+    "vanda": {
+      "observed_SGT": "2026-11-20T00:47:09+08:00",
+      "updates": 1477,
+      "visits": {
+        "target": 47264,
+        "robodojo": 0,
+        "libero": 0
+      },
+      "total_visits": 47264,
+      "cataloged_H40": 5908,
+      "warmp50_s": 14.154436552897096,
+      "allocator_bytes": 20857615360,
+      "training_spec_sha": "01fd55847e2edfc7458838796746737a3668b405b84574da45310ff665327813",
+      "trainer_source_sha": "ea7f609426677d5812dd27daa5b391d545269d0d",
+      "optimizer": {
+        "beta1": 0.9,
+        "beta2": 0.95,
+        "eps": 1e-08,
+        "weight_decay": 1e-05,
+        "clip_norm": 1.0
+      }
+    }
+  },
+  "exact_target_bank_LR_common_prefix": {
+    "matched_steps": 655,
+    "first": 1,
+    "last": 655,
+    "target_visits": 20960,
+    "exact_common_prefix_sha256": "4a0a7f0c592ea8ed0650a867b2d59cfeafbdba32b3143e46f6ed4490f2740b82"
+  },
+  "preflight": {
+    "actual_readback_and_full_MIX500_array_hashes": 140,
+    "controlled_gate_checks": 4,
+    "unknown_launch_auto_retries": 0,
+    "output_commit_does_not_control_scheduling": true,
+    "new_SCHEDULER_optimization_updates": 0,
+    "new_SCHEDULER_generations": 0,
+    "new_SCHEDULER_native": 0
+  },
+  "r48_A40_inputs": {
+    "train_episodes": 48,
+    "train_windows": 50979,
+    "bytes_of_missing_raw_members": 2155034518,
+    "raw_hardlinks_verified": 36,
+    "new_raw_members": 12,
+    "manifest_sha256": "57e9836d62bf0775bca7c7b7396ab4251d299a6d23116de66771af0fd3960991",
+    "verified_files": 97,
+    "core_vanda_matched_real_RGB_windows": 12,
+    "test_access": 0
+  },
+  "incremental_benchmark": {
+    "PBS_job": "1593682.stdct-mgmt-02",
+    "actual_allocation": "(GN-A40-031[0]:ncpus=36:mem=240gb:ngpus=1)",
+    "source_sha": "fb22c2bf943e0c5ccc5226957972610b9f487dae",
+    "configuration_sha": "6bbb5c086b4f3bf40f4afbb368964e1ac6fb95042d7a9f308d370e664bf1bd12",
+    "registered_update_cap": 30,
+    "confirmed_updates_at_0047_SGT": 10,
+    "examples": 1280,
+    "training_aux_H40": 40,
+    "scientific_optimizer_updates": 0,
+    "resume_parent_sha256": "4f4ade751809b375a484a9ba4e4bcb5ad899edfbbe2135b4ac62c41631b76093",
+    "terminal_seen": false
+  },
+  "native_collection": {
+    "verified_expert_requests": 6,
+    "historical_interface_carried": 2,
+    "scientific_ticks": 158187,
+    "ticks_including_carried": 170093,
+    "successful_complete": 1,
+    "correct_grasp": 2,
+    "lift20mm": 2,
+    "hard_STOP": 5,
+    "real_hardware_requests": 0,
+    "opt_updates": 0,
+    "student_model_generations": 0,
+    "source_sha": "1fe037cb1aea6c1ca7796a309aea13df33c497bb",
+    "parent_result_sha": "046614048094051c88316fa07f13512a88585e437654d54ac6d90d22b56237b1",
+    "independent_scores": [
+      {
+        "condition": "ADAPTATION_TRAIN_PLACE_FIRST6-F1-01-PLACE-red-left",
+        "ticks": 20686,
+        "original_terminal_sha256": "44238b3192902a7b75db92a3ef949ff1c418120bb1b203d8d962f9a6543f3664",
+        "stop": "ILLEGAL_CONTACT",
+        "post_STOP_integrations": 0,
+        "scientific_success": false,
+        "correct_grasp": false,
+        "lift20mm": false,
+        "max_lift_mm": 0.0,
+        "independent_scorer_events": {
+          "base80mm": {
+            "native_step": 9965,
+            "native_time_s": 19.929999999999833
+          }
+        },
+        "final_inside_selected_region": false,
+        "final_tcp_retreat_mm": 12.871254152048351,
+        "consumed_atoms_in_successful_run": null
+      },
+      {
+        "condition": "ADAPTATION_TRAIN_PLACE_FIRST6-F1-02-PLACE-blue-right",
+        "ticks": 18407,
+        "original_terminal_sha256": "54ad9e1e337ef05d798677267b163ce9d933e1400aa24ba1bfc16892ec74abbf",
+        "stop": "ILLEGAL_CONTACT",
+        "post_STOP_integrations": 0,
+        "scientific_success": false,
+        "correct_grasp": false,
+        "lift20mm": false,
+        "max_lift_mm": 0.004955366995074151,
+        "independent_scorer_events": {
+          "base80mm": {
+            "native_step": 11186,
+            "native_time_s": 22.37199999999848
+          }
+        },
+        "final_inside_selected_region": false,
+        "final_tcp_retreat_mm": 11.929843800568051,
+        "consumed_atoms_in_successful_run": null
+      },
+      {
+        "condition": "ADAPTATION_TRAIN_PLACE_FIRST6-F2-03-PLACE-red-left",
+        "ticks": 18766,
+        "original_terminal_sha256": "bffb9d9fff180b2c1f558c543edcf9c1dbb2e7879627b46d85c267273725a19f",
+        "stop": "ILLEGAL_CONTACT",
+        "post_STOP_integrations": 0,
+        "scientific_success": false,
+        "correct_grasp": false,
+        "lift20mm": false,
+        "max_lift_mm": 0.0,
+        "independent_scorer_events": {
+          "base80mm": {
+            "native_step": 15362,
+            "native_time_s": 30.72399999999385
+          },
+          "wrong_object_contact": {
+            "native_step": 18766,
+            "native_time_s": 37.531999999999904
+          }
+        },
+        "final_inside_selected_region": false,
+        "final_tcp_retreat_mm": 37.073257873553935,
+        "consumed_atoms_in_successful_run": null
+      },
+      {
+        "condition": "ADAPTATION_TRAIN_PLACE_FIRST6-F2-04-PLACE-blue-right",
+        "ticks": 42369,
+        "original_terminal_sha256": "a2a616d85361f7844ea7247ab72b180dfe9d5fa54d37d97caa7bb23bfcbb03d5",
+        "stop": "ILLEGAL_CONTACT",
+        "post_STOP_integrations": 0,
+        "scientific_success": false,
+        "correct_grasp": true,
+        "lift20mm": true,
+        "max_lift_mm": 53.82495846352553,
+        "independent_scorer_events": {
+          "base80mm": {
+            "native_step": 10717,
+            "native_time_s": 21.433999999999
+          },
+          "target_grasp": {
+            "native_step": 20520,
+            "native_time_s": 41.04000000000419
+          },
+          "target_lift20mm": {
+            "native_step": 22868,
+            "native_time_s": 45.73600000000993
+          }
+        },
+        "final_inside_selected_region": false,
+        "final_tcp_retreat_mm": 25.232262594740256,
+        "consumed_atoms_in_successful_run": null
+      },
+      {
+        "condition": "ADAPTATION_TRAIN_PLACE_FIRST6-F2-05-PLACE-blue-left",
+        "ticks": 36703,
+        "original_terminal_sha256": "ac2e547e2f4530c900f238eccf9dd1a9a7890f9d5a7fc4efd2ff0af48b1a9ba7",
+        "stop": null,
+        "post_STOP_integrations": null,
+        "scientific_success": true,
+        "correct_grasp": true,
+        "lift20mm": true,
+        "max_lift_mm": 24.657860018588273,
+        "independent_scorer_events": {
+          "base80mm": {
+            "native_step": 10608,
+            "native_time_s": 21.21599999999912
+          },
+          "target_grasp": {
+            "native_step": 19269,
+            "native_time_s": 38.538000000001134
+          },
+          "target_lift20mm": {
+            "native_step": 21593,
+            "native_time_s": 43.186000000006814
+          },
+          "correct_region": {
+            "native_step": 28899,
+            "native_time_s": 57.79800000002467
+          },
+          "released": {
+            "native_step": 32945,
+            "native_time_s": 65.89000000002784
+          },
+          "retreated50mm": {
+            "native_step": 35960,
+            "native_time_s": 71.92000000001379
+          }
+        },
+        "final_inside_selected_region": true,
+        "final_tcp_retreat_mm": 57.97321153351285,
+        "consumed_atoms_in_successful_run": 1240
+      },
+      {
+        "condition": "ADAPTATION_TRAIN_PLACE_FIRST6-F2-06-PLACE-red-right",
+        "ticks": 21256,
+        "original_terminal_sha256": "02b50fd54ba45a9010f73fe19c766ed8805c793c74df8d9e4d915c50997563d5",
+        "stop": "ILLEGAL_CONTACT",
+        "post_STOP_integrations": 0,
+        "scientific_success": false,
+        "correct_grasp": false,
+        "lift20mm": false,
+        "max_lift_mm": 0.0,
+        "independent_scorer_events": {
+          "base80mm": {
+            "native_step": 19690,
+            "native_time_s": 39.38000000000216
+          },
+          "wrong_object_contact": {
+            "native_step": 21256,
+            "native_time_s": 42.51200000000599
+          }
+        },
+        "final_inside_selected_region": false,
+        "final_tcp_retreat_mm": 37.71540727149365,
+        "consumed_atoms_in_successful_run": null
+      }
+    ]
+  },
+  "D1": {
+    "go2_episodes": 24,
+    "go2_windows": 1892,
+    "admitted_episode": 1,
+    "admitted_windows": 124,
+    "manifest_sha256": "f882cd95cef7f10ec9548c7ffc11f7a0af635696f4604a0210a68154db4b35ca",
+    "admission_receipt_sha256": "f380e0f2e46762a710a4bdd10353d91955214c5b748f89091db550c22d688ec4",
+    "state_stats_sha256": "a9db709b66df6f267107d5d4d8458fd4a4e4604be2d427e78d922b3f4aed4b35",
+    "frozen_action_stats_sha256": "f28d50e6eeea09b332d4bd159eca4333bbe23b185f95f1d336d45311e364ab3e",
+    "freeze_sha256": "1dff547d07fc59faf8b752dda625795801514a23f6760d34fc04514f243a99a9",
+    "parent_step": 500,
+    "parent_sha256": "4f4ade751809b375a484a9ba4e4bcb5ad899edfbbe2135b4ac62c41631b76093",
+    "payload_files": 14,
+    "payload_bytes": 49517769,
+    "real_cross_site_windows_equal": 6,
+    "updates": 0,
+    "generations": 0,
+    "native_requests": 0,
+    "pending": [
+      "VANDA full R200 TRAIN custody and real readback",
+      "ADAPT phase-0 real gradient and output/restore qualification",
+      "unique ADAPT PBS allocation"
+    ]
+  },
+  "completed_formal_eval_reused": {
+    "MIX500": {
+      "job": "1593546.stdct-mgmt-02",
+      "ordinary": 288,
+      "restore": 48,
+      "restore_exact": 48
+    },
+    "TGT500": {
+      "job": "1593099.stdct-mgmt-02",
+      "ordinary": 288,
+      "restore": 48,
+      "restore_exact": 48
+    }
+  },
+  "retained_failures": {
+    "old_J": 12,
+    "old_J_success": 0,
+    "old_J_deferred": 36,
+    "old_RP8_carried": true
+  }
+}
