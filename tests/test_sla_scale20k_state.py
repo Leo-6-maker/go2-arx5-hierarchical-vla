@@ -84,6 +84,98 @@ def test_shared_learning_rate_table_and_only_admitted_training_across_cursors():
         visits([rows[0],dict(rows[1],split='SOURCE_DEV')],'target')
 
 
+def test_scale_microbatch_grouping_preserves_inputs_and_auxiliary_exposure(monkeypatch):
+    from types import SimpleNamespace
+
+    jax = pytest.importorskip('jax')
+    jnp = pytest.importorskip('jax.numpy')
+    pytest.importorskip('optax')
+    from go2arx5_vla.sla_adapter import scale20k_training as training
+
+    arm = 'SCALE-MIX20K'
+    batch = training.BATCH[arm]
+    camera = dict.fromkeys(training.CAMERAS, np.zeros((1, 1, 3), dtype=np.uint8))
+    masks = dict.fromkeys(training.CAMERAS, True)
+
+    class Windows:
+        def __init__(self, domain):
+            self.domain = domain
+            self.rows = [(dict(id='episode'), index) for index in range(19)]
+            self.labels = {'episode': {'nominal_policy_H40': np.full((19, 40, 10), .5)}}
+            self.statistics = {'actions': None}
+
+        def __len__(self):
+            return len(self.rows)
+
+        def __getitem__(self, index):
+            state = np.zeros(32, dtype=np.float32)
+            state[0] = index + 1
+            return dict(prompt=str(index), state=state, image=camera, image_mask=masks, image_padding_mask=masks,
+                        actions=np.zeros((training.HORIZONS[self.domain], 32), dtype=np.float32))
+
+        def reference(self, index):
+            return dict(width_m=.04, source_native_s=1.0, query_native_s=1.05)
+
+    def tokenize(prompt, state, *, use_discrete_state_format):
+        assert use_discrete_state_format
+        return np.asarray([int(prompt), state is None]), np.ones(2, dtype=bool)
+
+    def trace(observation, noise, flow_time=None):
+        rows = zip(observation['tokenized_prompt'], np.asarray(noise), strict=True)
+        noise_and_tokens = [(tuple(tokens), row.tobytes()) for tokens, row in rows]
+        return noise_and_tokens, None if flow_time is None else np.asarray(flow_time).tobytes()
+
+    datasets = {d: Windows(d) for d in DOMAINS}
+    banks = {d: (np.arange(20000 * batch[d], dtype=np.int32) * 7 + k) % len(datasets[d])
+             for k, d in enumerate(DOMAINS)}
+    tokenizer = SimpleNamespace(delegate=SimpleNamespace(tokenize=tokenize))
+    params = {d: jnp.asarray([.5], dtype=jnp.float32) for d in ('shared', *DOMAINS)}
+    optimizer = dict(beta1=.9, beta2=.95, eps=1e-8, weight_decay=1e-5, clip_norm=1.)
+    recorded_fm, recorded_aux = {}, []
+
+    def model_loss(domain):
+        def loss(active, frozen, observation, actions, noise, flow_time):
+            samples, times = trace(observation, noise, flow_time)
+            previous_samples, previous_times = recorded_fm.get(domain, ([], b''))
+            recorded_fm[domain] = previous_samples + samples, previous_times + times
+            scalar = jnp.mean(observation['state'][:, 0]) + jnp.mean(flow_time)
+            return scalar, jax.tree.map(lambda param: param * scalar, active)
+        return loss
+
+    def aux_factory(graph, quantiles):
+        def loss(active, frozen, observation, noise, previous_width, label_width):
+            samples, _ = trace(observation, noise)
+            recorded_aux.extend(samples)
+            return jnp.mean(label_width), jax.tree.map(lambda param: param * jnp.mean(previous_width), active)
+        return loss
+
+    monkeypatch.setattr(training.batch_v2, 'device_batch', lambda row: (row['observation'], row['actions']))
+    monkeypatch.setattr(training, 'domain_loss', model_loss)
+    monkeypatch.setattr(training, 'target_auxiliary', aux_factory)
+
+    def collect(size):
+        recorded_fm.clear()
+        recorded_aux.clear()
+        engine = training.Engine(arm, dict(zip(DOMAINS, DOMAINS, strict=True)), params, {}, datasets, banks,
+                                 tokenizer, dict.fromkeys(DOMAINS, size), optimizer, rng=jax.random.PRNGKey(123))
+        engine.step = 203
+        results = {d: engine.domain_gradient(d, lambda: None) for d in DOMAINS}
+        assert engine.gradient_windows == batch and engine.completed_aux == engine.attempted_aux == 4
+        assert all(metrics['backward_calls'] == batch[d] // size for d, (_, metrics) in results.items())
+        return recorded_fm.copy(), recorded_aux.copy(), results
+
+    original_fm, original_aux, original = collect(1)
+    for size in (2, 4):
+        fm, aux, results = collect(size)
+        assert fm == original_fm and aux == original_aux
+        for domain, (gradient, metrics) in results.items():
+            original_gradient, original_metrics = original[domain]
+            assert metrics['visit_slice_sha256'] == original_metrics['visit_slice_sha256']
+            np.testing.assert_allclose(metrics['FM32'], original_metrics['FM32'], rtol=1e-6)
+            for key in gradient:
+                np.testing.assert_allclose(gradient[key], original_gradient[key], rtol=1e-6)
+
+
 def test_private_moments_and_decay_and_next_update_survive_checkpoint(tmp_path):
     jax = pytest.importorskip('jax')
     jnp = pytest.importorskip('jax.numpy')
