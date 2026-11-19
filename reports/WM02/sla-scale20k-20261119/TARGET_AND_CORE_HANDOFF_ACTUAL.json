@@ -1,6 +1,6 @@
 {
   "schema": "SLA_SCALE20K_TARGET_AND_CORE_HANDOFF_ACTUAL_V1",
-  "status": "CORE_MANAGED_QUEUE_HEARTBEAT_VERIFIED_TRAINING_NOT_STARTED",
+  "status": "D4_SEALED_BOUNDARY_PAUSED_SCALE_GPU_MODEL_LOADING",
   "plan_sha": "926226914a0c08ee1ebb143e0edea1434728107b",
   "source_sha": "df1e35a2424830cbb0d4ba76e64184d685fc19b9",
   "schedule_sha256": "c475583a784b1e216569fbcd9230d456d9bd77c5d6a064e834b75a0676b23f41",
@@ -227,17 +227,20 @@
   "GPU_site": {
     "unit": "wm02-sla-scale20k-mix-core-prefix-20261119-01.service",
     "pid": 3575425,
-    "latest_verified_phase": "WAIT_GPU_CAPACITY_AND_EXISTING_OWNER",
-    "verified_epoch": 1795078502.18848,
+    "latest_verified_phase": "LOADING_PINNED_SLA_BASE",
+    "verified_epoch": 1795078633.3063326,
     "GPU0_total_MiB": 32760,
-    "GPU0_free_MiB": 21733,
+    "GPU0_free_MiB": 29929,
     "JAX_fraction": 0.76,
     "GPU_headroom_GiB": 2,
     "host_memory_limit_GiB": 24,
     "deadline_SGT": "2026-11-19T20:54:01.169580+08:00",
     "finite_planned_prefix_update_cap": 200,
     "linger": true,
-    "automatic_retries": 0
+    "automatic_retries": 0,
+    "active_gpu_child_pid": 3577100,
+    "qualify_spec_sha256": "b685ba03865ed265b75ed5a2519da51ecb9655b19a3589ea60f7ed6e2cba43ba",
+    "cgroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-scale20k-mix-core-prefix-20261119-01.service"
   },
   "first_two_admission_attempts": [
     "NATIVE_PYTHON_ENV_MISSING_SCIPY",
@@ -248,5 +251,33 @@
   "new_source_optimization_visits": 0,
   "new_model_generations": 0,
   "new_native_requests": 0,
-  "new_native_ticks": 0
+  "new_native_ticks": 0,
+  "D4_original_pause": {
+    "student_attempts": 28,
+    "student_task_success": 0,
+    "unstarted_cases": 20,
+    "native_ticks": 1081081,
+    "unresolved_case_launches": 0,
+    "new_verified_native_requests": 28,
+    "verified_native_requests": 30,
+    "new_updates": 0,
+    "new_optimization_visits": 0,
+    "state": "failed",
+    "owner_lease": "CLOSED",
+    "result_sha256": "eda51166e59acfc4cfe03a73990f32940aa565ad2fd2e76cf489f13ca6bd4add",
+    "case_result_sha256": "e4440d39d6c9b0fcad2ef63c79ea591a2fc9815898ed771f23c71420dec146ab",
+    "after_case_index": 27,
+    "spec_sha256": "a25383aea633117056de01c76d5dde1a5f408c3469663347b17b085f1b61e947",
+    "grasp": 0,
+    "lift20mm": 0,
+    "student_native_ticks": 1069175,
+    "student_generations": 3646,
+    "first_failure_counts": {
+      "task_budget": 19,
+      "full_H40": 3,
+      "previous_command_speed": 3,
+      "contact_STOP": 3
+    },
+    "post_STOP_ticks": 0
+  }
 }
