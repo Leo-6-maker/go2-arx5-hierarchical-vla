@@ -11,11 +11,13 @@ from .source_native_v6 import SourceDataset
 
 
 class RobodojoDataset(SourceDataset):
+    RECIPE = 'SLA_SCALE20K_ROBODOJO_TRAIN48_DEV12_V1'
+
     def __init__(self, root, manifest, *, raw_binding=None, **kwargs):
         if Path(manifest['path']).resolve(strict=True) != (Path(root)/'MANIFEST.private.json').resolve(strict=True):
             raise ValueError('SCALE20K_ROBODOJO_MANIFEST_PATH_INCONSISTENT')
         super().__init__(root,manifest['sha256'],**kwargs)
-        if self.manifest['recipe'] != 'SLA_SCALE20K_ROBODOJO_TRAIN48_DEV12_V1' or self.manifest['TEST_labels_read']:
+        if self.manifest['recipe'] != self.RECIPE or self.manifest['TEST_labels_read']:
             raise ValueError('SCALE20K_ROBODOJO_TYPED_TRAIN_DEV_ONLY_REQUIRED')
         self.raw_binding = None
         if raw_binding is not None:

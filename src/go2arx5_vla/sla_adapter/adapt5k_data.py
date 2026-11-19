@@ -5,12 +5,43 @@ import numpy as np
 
 from .codec_v1 import Quantiles
 from .dense_g7_v6 import VERSION
+from .libero_scale20k import LiberoDataset
 from .multitask_data_v6 import C20_STATISTICS, TeacherDataset, reference
 from .runtime_v1 import read_pin
+from .scale20k_contract import DOMAINS, bank_sha256, visits
+from .scale20k_data import RobodojoDataset
 from .scale20k_target import ScaleTargetDataset
+from .source_native_v6 import Quantiles14
+
+from . import adapt5k_contract as contract
 
 CAPTURE_SCHEMA = 'SLA_TARGET_ADAPTATION_NEW_EXPERTS_V1'
 STATS_SCHEMA = 'SLA_ADAPT5K_TARGET_STATE_STATISTICS_V2'
+R48_MANIFEST = '57e9836d62bf0775bca7c7b7396ab4251d299a6d23116de66771af0fd3960991'
+R48_STATS = 'c8afc74108b66b497122502e3b9b1d27cfc9565855fec88f4e01c3ebcb34f269'
+LIBERO_MANIFEST = 'ba86ee2f88803fff79bda950ee54add91dcefaa105575ac22dade5d650b3fa8a'
+
+
+class AdaptRobodojoDataset(RobodojoDataset):
+    """R200 membership with the exact original R48 numerical representation."""
+    RECIPE = 'SLA_TARGET_ADAPTATION_ROBODOJO_TRAIN200_DEV12_V1'
+
+    def __init__(self, spec, *, resize_with_pad):
+        stats = spec['inherited_statistics']
+        if stats['sha256'] != R48_STATS:
+            raise ValueError('ADAPT5K_REQUIRES_THE_ORIGINAL_R48_SOURCE_STATISTICS')
+        self.manifest_sha = spec['manifest']['sha256']
+        super().__init__(spec['root'], spec['manifest'], raw_binding=spec.get('raw_binding'),
+                         split='TRAIN', resize_with_pad=resize_with_pad)
+        if (self.manifest['original_manifest_sha256'] != R48_MANIFEST
+                or self.manifest['target_commands'] is not False
+                or self.manifest['nominal_frequency_Hz'] != 30 or self.manifest['horizon'] != 50
+                or len(self.episodes) != 200 or len(self) != 210398
+                or len({row['raw_sha256'] for row in self.episodes.values()}) != 200):
+            raise ValueError('ADAPT5K_REQUIRES_TYPED_R200_TRAIN_MEMBERSHIP_WITHOUT_TARGET_COMMANDS')
+        inherited = read_pin(stats)
+        self.statistics = {name: Quantiles14(inherited[name]) for name in ('state','actions')}
+        self.statistics_sha = stats['sha256']
 
 
 class CompletePlanBatch(TeacherDataset):
@@ -141,3 +172,33 @@ class AdaptTargetDataset:
         if member is self.members[0]:
             return member.reference(local)
         return reference(member.contexts[local])
+
+
+def readers(data, resize_with_pad):
+    if set(data) != set(DOMAINS) or data['libero']['manifest']['sha256'] != LIBERO_MANIFEST:
+        raise ValueError('ADAPT5K_REQUIRES_D1_R200_AND_FIXED_LIBERO_TRAIN')
+    target, source, libero = (data[domain] for domain in DOMAINS)
+    target_reader = AdaptTargetDataset(target['legacy'], target['captures'], resize_with_pad=resize_with_pad)
+    target_reader.bind_state(target['statistics'])
+    source_reader = AdaptRobodojoDataset(source, resize_with_pad=resize_with_pad)
+    libero_reader = LiberoDataset(libero['root'], libero['manifest'], split='TRAIN', resize_with_pad=resize_with_pad)
+    if len(libero_reader.episodes) != 1261 or len(libero_reader) != 209146:
+        raise ValueError('ADAPT5K_REQUIRES_ALL_ORIGINAL_LIBERO_TRAIN_MEMBERS')
+    return dict(zip(DOMAINS, (target_reader, source_reader, libero_reader), strict=True))
+
+
+def banks_for(datasets, *, stage_start, stage_stop, target_seed):
+    target, source, libero = (datasets[domain] for domain in DOMAINS)
+    target_rows, target_report = contract.target_bank(target, stage_start=stage_start,
+                                                       phase_stop=stage_stop, seed=target_seed)
+    source_rows = [dict(episode=row['id'], task=row['task'], split=row['split'],
+                        admitted=row['valid'], window_count=row['windows'])
+                   for row in source.episodes.values()]
+    source_catalogues = dict(robodojo=source_rows, libero=list(libero.episodes.values()))
+    banks = dict(target=target_rows)
+    for domain, catalogue in source_catalogues.items():
+        if sum(row['window_count'] for row in catalogue) != len(datasets[domain]):
+            raise ValueError('ADAPT5K_SOURCE_BANK_AND_READER_INDEX_MUST_MATCH')
+        width = contract.BATCH[domain]
+        banks[domain] = visits(catalogue, domain)[stage_start*width:stage_stop*width]
+    return banks, {domain:bank_sha256(bank) for domain,bank in banks.items()}, target_report
