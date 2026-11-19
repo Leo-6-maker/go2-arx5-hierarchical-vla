@@ -1,0 +1,500 @@
+{
+  "plan_sha": "cf9d1acbf72e96b1bd158322ff8cbaf8fe28fabb",
+  "source_sha": "b405fb173c91a32a1ad5b86aa9e87418cd0d0d56",
+  "spec_sha256": "e80ca90c07af71eafca37172eda48d644dcbe69cffd4a4ebeba5741062764581",
+  "closed_science_denominator": 6,
+  "registered_science_denominator": 48,
+  "completed_pair_count": 3,
+  "actual_initial_TCP_difference_mm": 0.1741790016919833,
+  "matched_place_pair": [
+    {
+      "case": "J_SCREEN48-F1-1-PLACE-red-left-J0",
+      "arm": "J0",
+      "instruction": "PLACE-red-left",
+      "layout": "J_SCREEN48-F1-1",
+      "reset": 702000,
+      "noise_seed": 2037343902,
+      "scene_sha256": "aab9f053f3607bd6eb7642e3e3f3b424c60ae7c1deb22c9e3d8c04018be45b26",
+      "native_request": 1,
+      "native_ticks": 36063,
+      "source_sha": "b405fb173c91a32a1ad5b86aa9e87418cd0d0d56",
+      "native_result_sha256": "4fd8b6b88b171c3613fb6fadd5e2b10a0eb46e257bbb6a63567eaa81f9dc8a6e",
+      "generations": 122,
+      "query_rows": 122,
+      "query_counts": {
+        "no_crossing": 122
+      },
+      "confirmed_atoms": 1214,
+      "emitted_min_width_m": 0.04195960644797474,
+      "measured_min_width_m": 0.041959596277839614,
+      "first_failure": "ILLEGAL_CONTACT",
+      "first_stop": {
+        "kind": "stop",
+        "reason": "ILLEGAL_CONTACT",
+        "steps": 36063
+      },
+      "technical_failure": false,
+      "STOP": true,
+      "trace": "RECORDED_TRACE_CHECKS_PASS",
+      "STOP_after_ticks": 0,
+      "wall_s": 579.646101671271,
+      "CPU_s": 307.299604858,
+      "contact_evidence": [
+        {
+          "geoms": [
+            {
+              "geom_id": 73,
+              "geom": null,
+              "body": "x5_link6",
+              "geom_type": "mjGEOM_CAPSULE"
+            },
+            {
+              "geom_id": 79,
+              "geom": "task_blue_cube_geom",
+              "body": "task_blue_cube",
+              "geom_type": "mjGEOM_BOX"
+            }
+          ],
+          "distance_m": -0.00015472723368161953,
+          "normal_force_N": 6.6482204351711065
+        }
+      ],
+      "task_score": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "PLACE-red-left",
+        "task_success": false,
+        "native_step": 36063,
+        "base_directional_motion_m": 0.11892607151499818,
+        "lift_m": 0.0,
+        "inside_selected_region": false,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": true,
+        "released": true,
+        "gripper_open_fraction": 0.95440308614275,
+        "TCP_retreat_m": 0.09925725174014094,
+        "stable_release_condition": false,
+        "states": 30361,
+        "missing_native_intervals": 0,
+        "unsafe_states": 1,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 13851,
+            "native_time_s": 27.701999999995525
+          },
+          "wrong_object_contact": {
+            "native_step": 36063,
+            "native_time_s": 72.1260000000133
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "final_partial_atom_ticks": 10,
+      "audit_sha256": "8178f583d4bdec540acbac86edd2e72caec40c24bf7b0f98e36cf3a23caa91fa",
+      "geometry_sha256": "fe1dd6cd98edb28e6f11fef52a82dd6858c04f61e23569fc2c06ba995c5b0ac1",
+      "measured_geometry": {
+        "spec_sha256": "e80ca90c07af71eafca37172eda48d644dcbe69cffd4a4ebeba5741062764581",
+        "native_result_sha256": "4fd8b6b88b171c3613fb6fadd5e2b10a0eb46e257bbb6a63567eaa81f9dc8a6e",
+        "samples_2ms": 30361,
+        "minimum": {
+          "red_TCP": {
+            "distance_mm": 87.16220807707073,
+            "native_tick": 8368
+          },
+          "red_pad_midpoint": {
+            "distance_mm": 87.91046440254839,
+            "native_tick": 8367
+          },
+          "blue_TCP": {
+            "distance_mm": 47.83918431674308,
+            "native_tick": 36063
+          },
+          "blue_pad_midpoint": {
+            "distance_mm": 47.78286026677907,
+            "native_tick": 36063
+          }
+        },
+        "terminal_distance_mm": {
+          "red_TCP": 99.25725174014094,
+          "red_pad_midpoint": 100.66909342637477,
+          "blue_TCP": 47.83918431674308,
+          "blue_pad_midpoint": 47.78286026677907
+        },
+        "cube_contact_frame_counts": {
+          "red": {
+            "hand": 0,
+            "pad_any": 0,
+            "both_pads": 0
+          },
+          "blue": {
+            "hand": 1,
+            "pad_any": 0,
+            "both_pads": 0
+          }
+        },
+        "consumed_atom_alignment": {
+          "case": "J_SCREEN48-F1-1-PLACE-red-left-J0",
+          "arm": "J0",
+          "family": "F1",
+          "native_result_sha256": "4fd8b6b88b171c3613fb6fadd5e2b10a0eb46e257bbb6a63567eaa81f9dc8a6e",
+          "native_ticks": 36063,
+          "model_generations": 122,
+          "matched_atoms": 1214,
+          "native_rows_outside_confirmed_atoms": 0,
+          "metrics": {
+            "reanchor_mm": {
+              "min": 21.22004763166359,
+              "p50": 24.696359607240538,
+              "p95": 26.047555849493172,
+              "max": 29.22496190101559
+            },
+            "tracking_mm": {
+              "min": 20.877931813408857,
+              "p50": 24.86138825267419,
+              "p95": 26.859554999877773,
+              "max": 50.28777190998455
+            },
+            "installed_vs_receiver_mm": {
+              "min": 6.447811864390283e-07,
+              "p50": 1.7344533453040346e-05,
+              "p95": 2.9787511795030138e-05,
+              "max": 0.015676441682055325
+            },
+            "actual_vs_nominal_mm": {
+              "min": 0.03731028028224059,
+              "p50": 0.8094020798161885,
+              "p95": 3.5332731911565376,
+              "max": 34.96874113053093
+            },
+            "nominal_to_object_mm": {
+              "min": 91.40623548074639,
+              "p50": 96.12994929168687,
+              "p95": 124.95577233602467,
+              "max": 133.673974512433
+            },
+            "receiver_to_object_mm": {
+              "min": 108.19944916679394,
+              "p50": 116.02391653888803,
+              "p95": 133.67285419287853,
+              "max": 144.54165837507767
+            },
+            "actual_to_object_mm": {
+              "min": 88.57769968222928,
+              "p50": 95.99635185427584,
+              "p95": 125.9339082257891,
+              "max": 137.60856071765633
+            },
+            "receiver_minus_nominal_target_distance_mm": {
+              "min": 8.157809199500164,
+              "p50": 18.180839328571167,
+              "p95": 23.154638833720966,
+              "max": 24.14580182016053
+            },
+            "actual_minus_nominal_target_distance_mm": {
+              "min": -31.17787741782405,
+              "p50": -0.1143741526271711,
+              "p95": 1.0538035195962367,
+              "max": 6.372381808467381
+            }
+          },
+          "selected_MPC_reference": "UNKNOWN"
+        },
+        "native_ticks_added": 0,
+        "GPU_generations_added": 0,
+        "updates_added": 0
+      },
+      "terminal_stage": {
+        "grasp": false,
+        "lifted_20mm": false,
+        "entered_region": false,
+        "released_after_lift": false,
+        "retreated_after_lift": false
+      }
+    },
+    {
+      "case": "J_SCREEN48-F1-1-PLACE-red-left-J1",
+      "arm": "J1",
+      "instruction": "PLACE-red-left",
+      "layout": "J_SCREEN48-F1-1",
+      "reset": 702000,
+      "noise_seed": 2037343902,
+      "scene_sha256": "aab9f053f3607bd6eb7642e3e3f3b424c60ae7c1deb22c9e3d8c04018be45b26",
+      "native_request": 1,
+      "native_ticks": 47084,
+      "source_sha": "b405fb173c91a32a1ad5b86aa9e87418cd0d0d56",
+      "native_result_sha256": "850acb2d07e56a8103dcd5f45ab802c598f33a25178239486c833c2596e5a7c6",
+      "generations": 166,
+      "query_rows": 166,
+      "query_counts": {
+        "no_crossing": 166
+      },
+      "confirmed_atoms": 1655,
+      "emitted_min_width_m": 0.04197202769037925,
+      "measured_min_width_m": 0.041951086751008025,
+      "first_failure": "ILLEGAL_CONTACT",
+      "first_stop": {
+        "kind": "stop",
+        "reason": "ILLEGAL_CONTACT",
+        "steps": 47084
+      },
+      "technical_failure": false,
+      "STOP": true,
+      "trace": "RECORDED_TRACE_CHECKS_PASS",
+      "STOP_after_ticks": 0,
+      "wall_s": 731.458551555872,
+      "CPU_s": 404.862542064,
+      "contact_evidence": [
+        {
+          "geoms": [
+            {
+              "geom_id": 1,
+              "geom": "task_table",
+              "body": "world",
+              "geom_type": "mjGEOM_BOX"
+            },
+            {
+              "geom_id": 75,
+              "geom": "task_left_pad",
+              "body": "x5_link7",
+              "geom_type": "mjGEOM_BOX"
+            }
+          ],
+          "distance_m": -6.376911754656274e-05,
+          "normal_force_N": 1.790988179138441
+        },
+        {
+          "geoms": [
+            {
+              "geom_id": 1,
+              "geom": "task_table",
+              "body": "world",
+              "geom_type": "mjGEOM_BOX"
+            },
+            {
+              "geom_id": 75,
+              "geom": "task_left_pad",
+              "body": "x5_link7",
+              "geom_type": "mjGEOM_BOX"
+            }
+          ],
+          "distance_m": -3.318586245923563e-05,
+          "normal_force_N": 1.2169640781681623
+        }
+      ],
+      "task_score": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "PLACE-red-left",
+        "task_success": false,
+        "native_step": 47084,
+        "base_directional_motion_m": 0.2012178732938263,
+        "lift_m": 0.0,
+        "inside_selected_region": false,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": true,
+        "gripper_open_fraction": 0.9529850044066777,
+        "TCP_retreat_m": 0.2373422200466479,
+        "stable_release_condition": false,
+        "states": 41382,
+        "missing_native_intervals": 0,
+        "unsafe_states": 1,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 13545,
+            "native_time_s": 27.089999999995864
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "final_partial_atom_ticks": 6,
+      "audit_sha256": "669c14df14576a1046ff5c8c796dbbcdee563d3adc3c7eca78179987b36d15eb",
+      "geometry_sha256": "b9cef86ba75a66566b33220768f93bd0ac564f999a67b35818dbc541867b44bf",
+      "measured_geometry": {
+        "spec_sha256": "e80ca90c07af71eafca37172eda48d644dcbe69cffd4a4ebeba5741062764581",
+        "native_result_sha256": "850acb2d07e56a8103dcd5f45ab802c598f33a25178239486c833c2596e5a7c6",
+        "samples_2ms": 41382,
+        "minimum": {
+          "red_TCP": {
+            "distance_mm": 90.0515107536047,
+            "native_tick": 8349
+          },
+          "red_pad_midpoint": {
+            "distance_mm": 90.93101337423421,
+            "native_tick": 8348
+          },
+          "blue_TCP": {
+            "distance_mm": 50.84055139720072,
+            "native_tick": 23278
+          },
+          "blue_pad_midpoint": {
+            "distance_mm": 50.76105217562829,
+            "native_tick": 23277
+          }
+        },
+        "terminal_distance_mm": {
+          "red_TCP": 237.3422200466479,
+          "red_pad_midpoint": 238.93360753821463,
+          "blue_TCP": 156.843694466063,
+          "blue_pad_midpoint": 158.27249560728507
+        },
+        "cube_contact_frame_counts": {
+          "red": {
+            "hand": 0,
+            "pad_any": 0,
+            "both_pads": 0
+          },
+          "blue": {
+            "hand": 0,
+            "pad_any": 0,
+            "both_pads": 0
+          }
+        },
+        "observed_pad_clearance_near_STOP": {
+          "47034": {
+            "left_pad_vertical_gap_to_table_top_mm": 12.446286652205485,
+            "actual_TCP_height_m": 0.632743178315032
+          },
+          "47059": {
+            "left_pad_vertical_gap_to_table_top_mm": 7.208844753462729,
+            "actual_TCP_height_m": 0.6275760162268502
+          },
+          "47074": {
+            "left_pad_vertical_gap_to_table_top_mm": 1.8568801301156457,
+            "actual_TCP_height_m": 0.6227694900745568
+          },
+          "47083": {
+            "left_pad_vertical_gap_to_table_top_mm": -0.12753823509314977,
+            "actual_TCP_height_m": 0.621190103774113
+          },
+          "47084": {
+            "left_pad_vertical_gap_to_table_top_mm": -0.23684172268667592,
+            "actual_TCP_height_m": 0.6211170923416222
+          }
+        },
+        "consumed_atom_alignment": {
+          "case": "J_SCREEN48-F1-1-PLACE-red-left-J1",
+          "arm": "J1",
+          "family": "F1",
+          "native_result_sha256": "850acb2d07e56a8103dcd5f45ab802c598f33a25178239486c833c2596e5a7c6",
+          "native_ticks": 47084,
+          "model_generations": 166,
+          "matched_atoms": 1655,
+          "native_rows_outside_confirmed_atoms": 0,
+          "metrics": {
+            "reanchor_mm": {
+              "min": 4.186232216813216,
+              "p50": 22.783429272220786,
+              "p95": 25.704058169997865,
+              "max": 30.855942998131198
+            },
+            "tracking_mm": {
+              "min": 3.2156901199735395,
+              "p50": 23.257813591203263,
+              "p95": 26.427350614149653,
+              "max": 46.96415305588902
+            },
+            "installed_vs_receiver_mm": {
+              "min": 1.229021974971319e-06,
+              "p50": 1.804082231992485e-05,
+              "p95": 2.9645149643307397e-05,
+              "max": 3.278189748676451e-05
+            },
+            "actual_vs_nominal_mm": {
+              "min": 0.12248433636934256,
+              "p50": 1.3679740498089061,
+              "p95": 9.958760494343844,
+              "max": 36.72146510124734
+            },
+            "nominal_to_object_mm": {
+              "min": 95.88282368461469,
+              "p50": 122.32230094836805,
+              "p95": 206.9577204490653,
+              "max": 230.82004730830934
+            },
+            "receiver_to_object_mm": {
+              "min": 114.5477574208454,
+              "p50": 139.8741013626652,
+              "p95": 220.36991495462345,
+              "max": 231.1911048749928
+            },
+            "actual_to_object_mm": {
+              "min": 90.29588906586476,
+              "p50": 121.26044541715869,
+              "p95": 206.16960310198866,
+              "max": 235.9022034929177
+            },
+            "receiver_minus_nominal_target_distance_mm": {
+              "min": -4.494798210564113,
+              "p50": 16.376119520369954,
+              "p95": 23.136736121439643,
+              "max": 23.85748889066754
+            },
+            "actual_minus_nominal_target_distance_mm": {
+              "min": -26.7903851650684,
+              "p50": -0.533831265028823,
+              "p95": 3.590878717068272,
+              "max": 26.170022494261588
+            }
+          },
+          "selected_MPC_reference": "UNKNOWN"
+        },
+        "native_ticks_added": 0,
+        "GPU_generations_added": 0,
+        "updates_added": 0
+      },
+      "terminal_stage": {
+        "grasp": false,
+        "lifted_20mm": false,
+        "entered_region": false,
+        "released_after_lift": false,
+        "retreated_after_lift": false
+      }
+    }
+  ],
+  "cumulative_actual": {
+    "terminal_cases": 6,
+    "verified_cases": 6,
+    "evidence_errors": 0,
+    "scored_cases": 6,
+    "native_requests": 6,
+    "native_ticks": 219994,
+    "model_generations": 745,
+    "complete_success": 0,
+    "correct_grasp": 0,
+    "lift20mm": 0,
+    "observed_safety_STOP": 3,
+    "observed_illegal_contact_STOP": 3,
+    "observed_integrations_after_STOP": 0,
+    "safety_STOP_with_unknown_post_stop_ticks": 0,
+    "observed_technical_failures": 0,
+    "confirmed_atoms_observed": 7430,
+    "observed_wall_s": 3403.092961152084,
+    "observed_CPU_s": 1855.9497813420003
+  },
+  "first_failures": {
+    "FIXED_TASK_BUDGET_EXHAUSTED": 3,
+    "ILLEGAL_CONTACT": 3
+  },
+  "cumulative_H40_crossings": {
+    "P10": 0,
+    "tail30": 0,
+    "no_crossing": 745
+  },
+  "optimizer_updates_added": 0,
+  "GPU_generations_added": 0,
+  "native_integrations_added": 0,
+  "arm_selection_performed": false
+}
