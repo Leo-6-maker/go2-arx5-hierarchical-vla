@@ -1,0 +1,326 @@
+{
+  "observed_epoch": 1795095078.30058,
+  "PBS": "1593099.stdct-mgmt-02",
+  "state": "F",
+  "exit_code": 0,
+  "resources_used": {
+    "cpupercent": 80,
+    "cput": "00:06:25",
+    "gpu_usage": "GN-A40-093(cuda.0.energyConsumed=2067J, cuda.0.lowUtilizationTime=0.000s, cuda.0.maxGpuMemoryUsed=16672.000MB, cuda.0.memoryClock_min=0MHz, cuda.0.memoryClock_max=7251MHz, cuda.0.memoryClock_avg=7251MHz, cuda.0.memoryUtilization_min=0%, cuda.0.memoryUtilization_max=90%, cuda.0.memoryUtilization_avg=15%, cuda.0.overallHealth=20, cuda.0.powerViolationTime=9453.094s, cuda.0.reliabilityViolationTime=0.000s, cuda.0.thermalViolationTime=0.000s, cuda.0.wallTime=274s, cuda.0.usagePerc=3.722%, cuda.0.memUsagePerc=36.190%)",
+    "mem": "9704724kb",
+    "ncpus": 36,
+    "ngpus": 0,
+    "vmem": "50482996kb",
+    "walltime": "00:05:58"
+  },
+  "source_sha": "823e3a14965e36c9de89e6697507b0f7965dc2bb",
+  "panel_sha256": "7dc3383b6ea091b0fbb1e90903f9199ad5e4a180c17f60daf4a357a93d8d9473",
+  "checkpoint_sha256": "bb9e64867ec4d5b692fe32b77054aa3c2d31b22f7c53bc011ccacda6641eb59f",
+  "case_result_sha256": "ce590fef527c642462dda767baa9c87f2b7e2d0a905ec340c9f1c1cb70163d1f",
+  "stages": {
+    "evaluate": {
+      "status": "ENDPOINT_PREDICTIONS_SEALED",
+      "real_generations": 288,
+      "attempts": 288,
+      "summary": {
+        "target": {
+          "windows": 96,
+          "groups": {
+            "HOLD": 48,
+            "PLACE": 48
+          },
+          "normalized_active_mae": 0.2099230442351351,
+          "normalized_padding_rms": 0.004386697165803828,
+          "normalized_action_motion": 0.010768485279792609,
+          "label_action_motion": 0.009751490271203997,
+          "HOLD": {
+            "H40_and_seam_pass": 46,
+            "predictions": 48,
+            "label_closure_events": 1,
+            "missed_closures": 1,
+            "width_MAE_m": 0.0005615913645378297
+          },
+          "PLACE": {
+            "H40_and_seam_pass": 41,
+            "predictions": 48,
+            "label_closure_events": 0,
+            "missed_closures": 0,
+            "width_MAE_m": 0.0004226372016662367
+          },
+          "all": {
+            "H40_and_seam_pass": 87,
+            "predictions": 96,
+            "label_closure_events": 1,
+            "missed_closures": 1,
+            "width_MAE_m": 0.0004921142831020331
+          }
+        },
+        "robodojo": {
+          "windows": 96,
+          "groups": {
+            "cover_blocks": 16,
+            "insert_tubes": 16,
+            "make_bread": 16,
+            "make_food": 16,
+            "pack_and_pour_fruit": 16,
+            "store_in_safe": 16
+          },
+          "normalized_active_mae": 0.14777176943607628,
+          "normalized_padding_rms": 0.0028934903057233896,
+          "normalized_action_motion": 0.009698036066159451,
+          "label_action_motion": 0.006854101041729639
+        },
+        "libero": {
+          "windows": 96,
+          "groups": {
+            "pick up the black bowl between the plate and the ramekin and place it on the plate": 10,
+            "pick up the black bowl from table center and place it on the plate": 10,
+            "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate": 10,
+            "pick up the black bowl next to the cookie box and place it on the plate": 10,
+            "pick up the black bowl next to the plate and place it on the plate": 10,
+            "pick up the black bowl next to the ramekin and place it on the plate": 10,
+            "pick up the black bowl on the cookie box and place it on the plate": 9,
+            "pick up the black bowl on the ramekin and place it on the plate": 9,
+            "pick up the black bowl on the stove and place it on the plate": 9,
+            "pick up the black bowl on the wooden cabinet and place it on the plate": 9
+          },
+          "normalized_active_mae": 0.4869326623156667,
+          "normalized_padding_rms": 0.004673659968830179,
+          "normalized_action_motion": 0.010151824137816826,
+          "label_action_motion": 0.0436815844392792
+        }
+      },
+      "wall_s": 200.75876398500986,
+      "result_sha256": "5460b47eb72ce6a7b2fd258c680d624067e658f3e00b0a66e7ace7fa161d5391"
+    },
+    "restore": {
+      "status": "FRESH_RGB48_RESTORED_EXACT",
+      "real_generations": 48,
+      "attempts": 48,
+      "summary": {
+        "target": {
+          "windows": 16,
+          "groups": {
+            "HOLD": 8,
+            "PLACE": 8
+          },
+          "normalized_active_mae": 0.24579516425728798,
+          "normalized_padding_rms": 0.004574382823193446,
+          "normalized_action_motion": 0.010482135257916525,
+          "label_action_motion": 0.00987595743208658,
+          "HOLD": {
+            "H40_and_seam_pass": 8,
+            "predictions": 8,
+            "label_closure_events": 0,
+            "missed_closures": 0,
+            "width_MAE_m": 4.63941425453264e-06
+          },
+          "PLACE": {
+            "H40_and_seam_pass": 4,
+            "predictions": 8,
+            "label_closure_events": 0,
+            "missed_closures": 0,
+            "width_MAE_m": 0.0024513656045818187
+          },
+          "all": {
+            "H40_and_seam_pass": 12,
+            "predictions": 16,
+            "label_closure_events": 0,
+            "missed_closures": 0,
+            "width_MAE_m": 0.001228002509418176
+          }
+        },
+        "robodojo": {
+          "windows": 16,
+          "groups": {
+            "cover_blocks": 3,
+            "insert_tubes": 3,
+            "make_bread": 3,
+            "make_food": 3,
+            "pack_and_pour_fruit": 2,
+            "store_in_safe": 2
+          },
+          "normalized_active_mae": 0.17565418500453234,
+          "normalized_padding_rms": 0.00281294145679567,
+          "normalized_action_motion": 0.010007000033510849,
+          "label_action_motion": 0.0077840595913585275
+        },
+        "libero": {
+          "windows": 16,
+          "groups": {
+            "pick up the black bowl between the plate and the ramekin and place it on the plate": 2,
+            "pick up the black bowl on the ramekin and place it on the plate": 2,
+            "pick up the black bowl next to the plate and place it on the plate": 2,
+            "pick up the black bowl from table center and place it on the plate": 2,
+            "pick up the black bowl on the stove and place it on the plate": 1,
+            "pick up the black bowl next to the ramekin and place it on the plate": 1,
+            "pick up the black bowl on the cookie box and place it on the plate": 2,
+            "pick up the black bowl next to the cookie box and place it on the plate": 2,
+            "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate": 1,
+            "pick up the black bowl on the wooden cabinet and place it on the plate": 1
+          },
+          "normalized_active_mae": 0.46642208471894264,
+          "normalized_padding_rms": 0.004814178260858171,
+          "normalized_action_motion": 0.010021758906077594,
+          "label_action_motion": 0.042540391339571215
+        }
+      },
+      "wall_s": 68.20822711405344,
+      "result_sha256": "05b7df117d7eedc9faa3f663a06b0743e77c67caa27988f2365a705c832bc06e"
+    }
+  },
+  "physical_and_normalized_exact": 48,
+  "optimizer_updates": 0,
+  "optimizer_visits": 0,
+  "native_requests": 0,
+  "native_ticks": 0,
+  "old_TEST_access": false,
+  "target_envelope_and_seam_failures": [
+    {
+      "ordinal": 6,
+      "group": "HOLD",
+      "envelope": null,
+      "seam_exceeded": true,
+      "first_seam_speed_m_s": 0.4311380506534354
+    },
+    {
+      "ordinal": 7,
+      "group": "PLACE",
+      "envelope": {
+        "path": "nominal",
+        "channel": "finger_velocity",
+        "k": 14,
+        "time_s": 0.7000000000000001,
+        "region": "SUFFIX",
+        "first_ratio": 1.8969231143456458,
+        "peak_ratio": 1.8969231143456458,
+        "order": 2
+      },
+      "seam_exceeded": true,
+      "first_seam_speed_m_s": 0.3332771653318057
+    },
+    {
+      "ordinal": 43,
+      "group": "PLACE",
+      "envelope": {
+        "path": "nominal",
+        "channel": "linear_acceleration",
+        "k": 28,
+        "time_s": 1.4000000000000001,
+        "region": "SUFFIX",
+        "first_ratio": 1.0670562117991182,
+        "peak_ratio": 1.1639406156113856,
+        "order": 3
+      },
+      "seam_exceeded": false,
+      "first_seam_speed_m_s": 0.0008899837769565759
+    },
+    {
+      "ordinal": 51,
+      "group": "PLACE",
+      "envelope": {
+        "path": "nominal",
+        "channel": "linear_acceleration",
+        "k": 36,
+        "time_s": 1.8,
+        "region": "SUFFIX",
+        "first_ratio": 1.4464844429550057,
+        "peak_ratio": 1.5768777562602172,
+        "order": 3
+      },
+      "seam_exceeded": false,
+      "first_seam_speed_m_s": 0.006842393936261088
+    },
+    {
+      "ordinal": 57,
+      "group": "PLACE",
+      "envelope": null,
+      "seam_exceeded": true,
+      "first_seam_speed_m_s": 0.10498881787699102
+    },
+    {
+      "ordinal": 60,
+      "group": "HOLD",
+      "envelope": null,
+      "seam_exceeded": true,
+      "first_seam_speed_m_s": 0.41610361034513793
+    },
+    {
+      "ordinal": 85,
+      "group": "PLACE",
+      "envelope": {
+        "path": "nominal",
+        "channel": "linear_acceleration",
+        "k": 24,
+        "time_s": 1.2000000000000002,
+        "region": "SUFFIX",
+        "first_ratio": 1.686162425853521,
+        "peak_ratio": 1.686162425853521,
+        "order": 3
+      },
+      "seam_exceeded": false,
+      "first_seam_speed_m_s": 0.008228534104057598
+    },
+    {
+      "ordinal": 87,
+      "group": "PLACE",
+      "envelope": {
+        "path": "nominal",
+        "channel": "linear_acceleration",
+        "k": 31,
+        "time_s": 1.55,
+        "region": "SUFFIX",
+        "first_ratio": 1.08569955893393,
+        "peak_ratio": 1.08569955893393,
+        "order": 3
+      },
+      "seam_exceeded": false,
+      "first_seam_speed_m_s": 0.0019662654595881037
+    },
+    {
+      "ordinal": 93,
+      "group": "PLACE",
+      "envelope": {
+        "path": "nominal",
+        "channel": "linear_acceleration",
+        "k": 29,
+        "time_s": 1.4500000000000002,
+        "region": "SUFFIX",
+        "first_ratio": 1.0044692397017214,
+        "peak_ratio": 1.0044692397017214,
+        "order": 3
+      },
+      "seam_exceeded": false,
+      "first_seam_speed_m_s": 0.010915265499394774
+    }
+  ],
+  "number_of_H40_only_rejects": 6,
+  "original_order_first_gate": {
+    "previous_command_gripper_speed": 3,
+    "finger_velocity": 1,
+    "linear_acceleration": 5
+  },
+  "target_closure_events": [
+    {
+      "ordinal": 20,
+      "group": "HOLD",
+      "width": {
+        "width_MAE_m": 0.019495751096235116,
+        "terminal_width_error_m": 0.03998944568380501,
+        "predicted_width_change_m": -8.137330063939796e-08,
+        "expert_width_change_m": -0.039993982031250055,
+        "expert_crossing_in_window": 20,
+        "predicted_first_crossing": null,
+        "crossing_error_s": null,
+        "missed_in_window_crossing": true,
+        "peak_finger_speed_m_s": 1.2224647045061543e-05
+      },
+      "full_H40_and_seam_pass": true
+    }
+  ],
+  "terminal_readback_sha256": "8f6a965295a261927ea195bd1aa6a8785b5fde5c13511439840cba7fe4cd2fd4",
+  "first_failed_job": "1593048.stdct-mgmt-02",
+  "first_failed_job_generation_count": 0,
+  "first_failed_job_first_cause": "PBS qstat errno 15019 before GPU effects",
+  "plan_sha": "926226914a0c08ee1ebb143e0edea1434728107b"
+}
