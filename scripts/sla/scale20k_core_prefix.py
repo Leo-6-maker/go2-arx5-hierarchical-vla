@@ -63,6 +63,34 @@ def closed_predecessor(config, root):
     return prior, worker_source, step
 
 
+def training_launch_context(config, launcher_source, worker_source, prior, env):
+    launcher_source, worker_source = launcher_source.resolve(strict=True), worker_source.resolve(strict=True)
+    if prior:
+        members = config['training_source_files']
+        if not {'scripts/sla/train_scale20k.py', 'src/go2arx5_vla/sla_adapter/scale20k_training.py'}.issubset(members):
+            raise ValueError('SCALE20K_CONTINUATION_REQUIRES_ORIGINAL_TRAINER_SOURCE_MEMBERS')
+        for member, expected in members.items():
+            path = (worker_source/member).resolve(strict=True)
+            if not path.is_relative_to(worker_source) or sha(path) != expected:
+                raise ValueError('SCALE20K_CONTINUATION_ORIGINAL_WORKER_SOURCE_CHANGED:'+member)
+    # A different cwd does not override PYTHONPATH for the src-layout package.
+    extra = [p for p in env.get('PYTHONPATH', '').split(os.pathsep) if p and not any(
+        Path(p).resolve().is_relative_to(root) for root in (launcher_source,worker_source))]
+    search = os.pathsep.join([str(worker_source), str(worker_source/'src'), *extra])
+    cache = Path(config['root'])/'cache'
+    if prior:
+        previous_stage = Path(prior['path']).parent
+        previous = read(previous_stage/'SPEC.private.json')
+        previous_scope = previous_stage.parent
+        latest = read(previous_scope/'PROGRESS.private.json')
+        previous_cache = Path(previous['compilation_cache_dir'])
+        if (latest['spec_sha256'] == sha(previous_stage/'SPEC.private.json')
+                and previous['source_sha'] == config['source_sha'] and previous['GPU_uuid'] == config['GPU_uuid']
+                and previous_cache.is_dir() and previous_cache.stat().st_uid == os.getuid()):
+            cache = previous_cache
+    return dict(env, PYTHONPATH=search), cache.resolve(strict=True)
+
+
 def run(config):
     root = Path(config['root']).resolve(strict=True)
     deadline = config['deadline_epoch']
@@ -79,7 +107,9 @@ def run(config):
             or root.stat().st_uid != os.getuid()):
         raise PermissionError('SCALE20K_EXACT_FINITE_DETACHED_CORE_UNIT_REQUIRED')
     prior, worker_source, initial_step = closed_predecessor(config,root)
-    worker_source = worker_source or Path(__file__).resolve().parents[2]
+    launcher_source = Path(__file__).resolve().parents[2]
+    worker_source = worker_source or launcher_source
+    worker_env,cache = training_launch_context(config,launcher_source,worker_source,prior,os.environ)
     limit = config.get('global_stop_step',200)
     end = CHECKPOINTS[config['arm']][-1] if initial_step else 200
     if type(limit) is not int or not initial_step < limit <= end:
@@ -122,7 +152,7 @@ def run(config):
             return 75
         paths = dict(parent_params=str(Path(config['parent_params']).resolve(strict=True)),
             dataset=str(Path(config['data']['target']['root']).resolve(strict=True)),
-            compilation_cache_dir=str((root/'cache').resolve(strict=True)))
+            compilation_cache_dir=str(cache))
         site = dict(schema='SLA_SINGLE_GPU_EXISTING_SITE_V2',host=config['host'],uid=config['uid'],
             GPU_uuid=uuid,GPU_name=capacity['name'],GPU_headroom_bytes=2*GIB,allocator_limit_bytes=share,
             allocation_deadline_epoch=deadline,host_headroom_bytes=27*GIB,paths=paths,allocation=allocation)
@@ -148,7 +178,7 @@ def run(config):
             write(progress,dict(phase=mode.upper(),epoch=time.time(),stage=str(stage),spec_sha256=sha(path)))
             command = [sys.executable,'-B','-m','scripts.sla.train_scale20k',mode,str(path),sha(path)]
             with (stage/'worker.log').open('x') as log:
-                child = subprocess.Popen(command,stdout=log,stderr=subprocess.STDOUT,cwd=worker_source)
+                child = subprocess.Popen(command,stdout=log,stderr=subprocess.STDOUT,cwd=worker_source,env=worker_env)
                 while child.poll() is None:
                     if cancelled and not stop.exists():
                         write(stop,dict(reason='OPERATOR_STOP'))

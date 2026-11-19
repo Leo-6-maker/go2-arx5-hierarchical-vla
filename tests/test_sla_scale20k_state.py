@@ -98,6 +98,38 @@ def test_core_successor_binds_only_a_closed_hash_verified_training_segment(tmp_p
         core.closed_predecessor(config,tmp_path/'new')
 
 
+def test_core_successor_imports_verified_original_worker_and_uses_original_cache(tmp_path):
+    import os
+    from go2arx5_vla.sla_adapter.checkpoint_v1 import sha
+    from scripts.pi0292.durable import write
+    from scripts.sla.scale20k_core_prefix import training_launch_context
+
+    previous = tmp_path/'old'
+    worker, launcher, cache = previous/'source', tmp_path/'new/source', previous/'cache'
+    stage = previous/'train'
+    for folder in (worker, launcher, cache, stage):
+        folder.mkdir(parents=True, exist_ok=True)
+    spec = stage/'SPEC.private.json'
+    cfg = dict(root=str(launcher.parent), source_sha='0'*40, GPU_uuid='same-GPU')
+    write(spec, dict(cfg, compilation_cache_dir=str(cache)))
+    write(previous/'PROGRESS.private.json', {'spec_sha256':sha(spec)})
+    files = ('scripts/sla/train_scale20k.py','src/go2arx5_vla/sla_adapter/scale20k_training.py')
+    for name in files:
+        member = worker/name
+        member.parent.mkdir(parents=True, exist_ok=True)
+        member.write_text(name)
+    cfg['training_source_files'] = {name:sha(worker/name) for name in files}
+    prior = {'path':str(stage/'RESULT.private.json')}
+    extra = tmp_path/'unmodified_site_dependencies'
+    env = dict(PYTHONPATH=os.pathsep.join(map(str,(launcher, launcher/'src',extra))), CUDA_VISIBLE_DEVICES='same-GPU')
+    child, selected_cache = training_launch_context(cfg, launcher, worker, prior, env)
+    assert child['PYTHONPATH'].split(os.pathsep) == list(map(str,(worker,worker/'src',extra)))
+    assert child['CUDA_VISIBLE_DEVICES'] == env['CUDA_VISIBLE_DEVICES'] and selected_cache == cache
+    (worker/files[0]).write_text('changed')
+    with pytest.raises(ValueError,match='ORIGINAL_WORKER_SOURCE_CHANGED'):
+        training_launch_context(cfg, launcher, worker, prior, env)
+
+
 def test_scale_native_worker_binds_checkpoint_stage_and_never_takes_source_weights(tmp_path, monkeypatch):
     from go2arx5_vla.sla_adapter import scale20k_package as package
 
