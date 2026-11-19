@@ -1,0 +1,165 @@
+{
+  "plan_sha": "926226914a0c08ee1ebb143e0edea1434728107b",
+  "snapshot": {
+    "core": {
+      "observed_epoch": 1795094737.4502144,
+      "arm": "SCALE-MIX20K",
+      "unit": "wm02-sla-scale20k-mix-core-first500-20261119-01.service",
+      "owner": {
+        "MainPID": "3763767",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-scale20k-mix-core-first500-20261119-01.service",
+        "ActiveState": "active"
+      },
+      "source_sha": "31076fc7a64302b0705ae4d7e526c4341209a100",
+      "optimizer": {
+        "beta1": 0.9,
+        "beta2": 0.95,
+        "eps": 1e-08,
+        "weight_decay": 1e-05,
+        "clip_norm": 1.0
+      },
+      "training_spec_sha256": "7e2b0dbb63939f49105575b52f23c976a83a36e80a785dc08a224b56e249cbdc",
+      "segment_start": 201,
+      "segment_updates": 136,
+      "global_step": 336,
+      "cursors": {
+        "target": 10752,
+        "robodojo": 16128,
+        "libero": 16128
+      },
+      "recorded_segment_train_H40": 544,
+      "latest50_seconds_per_update_median": 36.355524248443544,
+      "formal_500_sealed": false,
+      "native": {
+        "planned": 48,
+        "sealed": 3,
+        "running_case": "J_SCREEN48-F1-1-HOLD-blue-J0",
+        "child_PID": 3854884
+      }
+    },
+    "vanda": {
+      "observed_epoch": 1795094738.166869,
+      "source_sha": "ea7f609426677d5812dd27daa5b391d545269d0d",
+      "training_spec_sha256": "01fd55847e2edfc7458838796746737a3668b405b84574da45310ff665327813",
+      "owner": {
+        "id": "1593003.stdct-mgmt-02",
+        "state": "R",
+        "exit_code": null,
+        "exec_host": "GN-A40-039/0*36",
+        "runtime": "00:22:16",
+        "walltime": "06:00:00"
+      },
+      "optimizer": {
+        "beta1": 0.9,
+        "beta2": 0.95,
+        "eps": 1e-08,
+        "weight_decay": 1e-05,
+        "clip_norm": 1.0
+      },
+      "resume_checkpoint_sha256": "bb9e64867ec4d5b692fe32b77054aa3c2d31b22f7c53bc011ccacda6641eb59f",
+      "segment_start": 501,
+      "global_step": 592,
+      "segment_updates": 92,
+      "cursors": {
+        "target": 18944,
+        "robodojo": 0,
+        "libero": 0
+      },
+      "recorded_segment_train_H40": 368,
+      "latest50_seconds_per_update_median": 13.191640041419305,
+      "offline": {
+        "first": {
+          "id": "1593048.stdct-mgmt-02",
+          "state": "F",
+          "exit_code": 1,
+          "exec_host": "GN-A40-028/0*36",
+          "runtime": "00:00:05",
+          "walltime": "01:30:00"
+        },
+        "technical_successor": {
+          "id": "1593099.stdct-mgmt-02",
+          "state": "R",
+          "exit_code": null,
+          "exec_host": "GN-A40-093/0*36",
+          "runtime": "00:00:48",
+          "walltime": "01:30:00"
+        },
+        "progress": {
+          "PROGRESS.private.json": {
+            "role": "evaluate"
+          },
+          "PBS_ALLOCATION_OBSERVED.private.json": {
+            "deadline_epoch": 1795099965.0,
+            "job_id": "1593099.stdct-mgmt-02",
+            "host": "GN-A40-093",
+            "PID": 159677
+          },
+          "DISPATCH_ACTUAL.private.json": {
+            "source_sha": "823e3a14965e36c9de89e6697507b0f7965dc2bb",
+            "spec_sha256": "cb2a3adb809548aadb1c162359b79b4b24c159f71f577ab9da264c056d45f98c",
+            "CPU_model_inputs_equal": 288
+          }
+        }
+      }
+    }
+  },
+  "fixed_panel_inputs": {
+    "panel_sha256": "7dc3383b6ea091b0fbb1e90903f9199ad5e4a180c17f60daf4a357a93d8d9473",
+    "fingerprint_file_sha256": "1a6c868273f5205d544afab87ac04e050cd81e998472b18e5de5e383c2d02a9e",
+    "exact_counts_by_domain": {
+      "target": 96,
+      "robodojo": 96,
+      "libero": 96
+    },
+    "vanda_verified_files": 55,
+    "vanda_verified_bytes": 2391412288,
+    "source_TEST_access": false,
+    "cpu_optimizer_updates": 0,
+    "cpu_GPU_generations": 0
+  },
+  "offline": {
+    "initial_failure": "qstat errno 15019 before CUDA or model entry",
+    "original_result_sha256": "d25619649a92d2b780baeef73ca4dc3ef91cb93018b6389da884540eaac267e6",
+    "first_job_generations": 0,
+    "technical_successor": {
+      "held": {
+        "job": "1593099.stdct-mgmt-02",
+        "state": "H",
+        "queue": "auto",
+        "wall": "01:30:00"
+      },
+      "released": {
+        "job": "1593099.stdct-mgmt-02",
+        "state": "Q",
+        "queue": "batch_gpu",
+        "wall": "01:30:00"
+      },
+      "source_sha": "823e3a14965e36c9de89e6697507b0f7965dc2bb",
+      "spec_sha256": "cb2a3adb809548aadb1c162359b79b4b24c159f71f577ab9da264c056d45f98c",
+      "checkpoint_sha256": "bb9e64867ec4d5b692fe32b77054aa3c2d31b22f7c53bc011ccacda6641eb59f",
+      "panel_sha256": "7dc3383b6ea091b0fbb1e90903f9199ad5e4a180c17f60daf4a357a93d8d9473",
+      "CPU_model_inputs_equal": 288,
+      "submitted_job_count": 1,
+      "offline_generation_cap": 336,
+      "native_requests": 0,
+      "optimizer_updates": 0
+    },
+    "planned_generations": {
+      "diagnostic": 288,
+      "independent_restore": 48
+    },
+    "announced_gpu_model_results": 0,
+    "optimizer_updates": 0,
+    "native_requests": 0,
+    "native_ticks": 0
+  },
+  "robodojo_CORE_source_transfer": {
+    "first_batch_status": "TIMEOUT_ORIGINAL_ARCHIVE_INCOMPLETE",
+    "retained_verified_new_files": 119,
+    "missing_files": 33,
+    "bytes_in_bounded_suffix": 4613330189,
+    "suffix_status": "IN_PROGRESS",
+    "active_training_data_manifest_changed": false
+  },
+  "target_native_new_training_admissions": 0
+}
