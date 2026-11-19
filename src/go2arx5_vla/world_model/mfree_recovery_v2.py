@@ -42,7 +42,7 @@ class RecoveryLedger(Ledger):
                 pending['technical_successor']=row['id'];v['attempts'].append(row);return copy.deepcopy(row)
         return super().claim(worker,now=now)
 
-def launch_service(spec,unit,operation):
+def launch_service(spec,unit,operation,*,bootstrap='mfree_recovery_bootstrap_v2.py'):
     import os,subprocess
     root=Path(spec['registered_root']);duration=max(1,int(spec['deadline_epoch']-time.time()))
     cmd=['systemd-run','--user','--unit='+unit,'--property=Restart=no','--property=RuntimeMaxSec='+str(duration),'--property=KillMode=control-group','--property=TimeoutStopSec=180','--property=StandardInput=null','--property=CPUAffinity='+' '.join(map(str,spec['cpus'])),'--property=StandardOutput=append:'+str(root/'logs/supervisor.log'),'--property=StandardError=append:'+str(root/'logs/supervisor.log')]
@@ -50,7 +50,7 @@ def launch_service(spec,unit,operation):
     for key in ('HTTP_PROXY','HTTPS_PROXY','ALL_PROXY','http_proxy','https_proxy','all_proxy','SSH_AUTH_SOCK','DISPLAY'):env[key]=''
     if operation=='--diagnostic':env.update(spec['diagnostic_environment'])
     for key,value in env.items():cmd.append('--setenv='+key+'='+str(value))
-    cmd.extend([spec['python'],'-B',str(Path(spec['source_root'])/'scripts/wm02/mfree_recovery_bootstrap_v2.py'),operation,str(root/'EXECUTION_SPEC.json')])
+    cmd.extend([spec['python'],'-B',str(Path(spec['source_root'])/'scripts/wm02'/bootstrap),operation,str(root/'EXECUTION_SPEC.json')])
     r=subprocess.run(cmd,capture_output=True,text=True,timeout=30);receipt=dict(unit=unit,exit=r.returncode,out=r.stdout,err=r.stderr,epoch=time.time());write(root/'LAUNCH_ACTUAL.private.json',receipt)
     if r.returncode:raise RuntimeError('LAUNCH_UNKNOWN_REQUIRES_RECONCILIATION:'+str(receipt))
     return receipt
