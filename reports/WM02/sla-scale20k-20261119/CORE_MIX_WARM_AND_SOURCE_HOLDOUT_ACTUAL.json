@@ -1,0 +1,84 @@
+{
+  "observed_SGT": "2026-11-19 18:54:55 +08",
+  "source_sha": "31076fc7a64302b0705ae4d7e526c4341209a100",
+  "optimizer": {
+    "beta1": 0.9,
+    "beta2": 0.95,
+    "eps": 1e-08,
+    "weight_decay": 1e-05,
+    "clip_norm": 1.0
+  },
+  "optimizer_sha256": "0525ea130eaf21f1895b5d2a0e61db1def5516d1a9fd32558fc5f4fd311e8b44",
+  "learning_rates_sha256": "0549317fe533a6fead0cdff380e5d0aa85a16e2529f1a68d348a06a236cdf1ae",
+  "microbatch": {
+    "target": 1,
+    "robodojo": 1,
+    "libero": 1
+  },
+  "windows": {
+    "first_step": 62,
+    "last_step": 111,
+    "n": 50,
+    "p50_wall_s": 45.76520444871858,
+    "p90_wall_s": 46.344778906926514,
+    "mean_wall_s": 45.83424026390538,
+    "total_wall_s": 2291.712013195269,
+    "data_wait_s_total_by_domain": {
+      "target": 54.912133793346584,
+      "robodojo": 124.44128133635968,
+      "libero": 85.83368977997452
+    },
+    "first_update_wall_s": 125.22103551961482,
+    "global_grad_norm_median": 0.6074327826499939,
+    "global_clip_exceed_count": 16,
+    "H40_train_generations_actual": 200,
+    "FM_backward_calls_actual": 6400,
+    "JAX_peak_bytes": 21029214208,
+    "data_wait_ratio": 0.11571571968152226
+  },
+  "real_updates": 111,
+  "cursors": {
+    "target": 3552,
+    "robodojo": 5328,
+    "libero": 5328
+  },
+  "last_lr": 4.440000000000001e-06,
+  "real_training_generations": 444,
+  "qualification_generation_separate": 4,
+  "native_requests": 0,
+  "nonzero_complete_checkpoints": 0,
+  "robodojo": {
+    "original_manifest_sha256": "7954a6637564ad39a88f3e173c47687d66c39c50bbaccd9a2ad5f1a361667ab5",
+    "original_source_map_sha256": "d22bf910c4e6e03ac76952abf054f5d0244b80d646d791b360d15cbff2ce2da6",
+    "expansion_admission_sha256": "190cfabc71f373b1c3889920bc75aa972643570b470822a65138d4faca11c2af",
+    "HF_revision": "1127bda94f172d757386945af3eb3a6754d1a4e6",
+    "new_TRAIN": 12,
+    "scope": {
+      "TRAIN": {
+        "original_episodes": 36,
+        "archive_path_overlap": [],
+        "raw_SHA256_overlap": []
+      },
+      "SOURCE_DEV": {
+        "original_episodes": 12,
+        "archive_path_overlap": [],
+        "raw_SHA256_overlap": []
+      },
+      "SOURCE_TEST": {
+        "original_episodes": 12,
+        "archive_path_overlap": [],
+        "raw_SHA256_overlap": []
+      },
+      "ALL_ORIGINAL": {
+        "original_episodes": 60,
+        "archive_path_overlap": [],
+        "raw_SHA256_overlap": []
+      }
+    },
+    "opened_TEST_HDF5": false,
+    "opened_TEST_label": false
+  },
+  "audit_new_optimization": 0,
+  "audit_new_generations": 0,
+  "audit_new_native": 0
+}
