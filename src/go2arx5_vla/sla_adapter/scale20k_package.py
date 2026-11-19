@@ -138,6 +138,21 @@ def read_weights(package, rows, template):
 
 
 class Provider:
+    @staticmethod
+    def read_manifest(root, manifest_sha256):
+        return read_package(root,manifest_sha256)
+
+    @staticmethod
+    def load_statistics(root, manifest):
+        from .codec_v1 import Quantiles
+        from .multitask_data_v6 import C20_STATISTICS
+        from .runtime_v1 import read_pin
+
+        stats = read_pin(dict(path=str(root/'STATISTICS.json'),sha256=C20_STATISTICS))
+        if manifest['statistics_sha256'] != C20_STATISTICS:
+            raise ValueError('SCALE20K_TARGET_DEPLOYMENT_C20_STATISTICS_CHANGED')
+        return {key:Quantiles(stats[key]['q01'],stats[key]['q99']) for key in ('state','actions')}
+
     def __init__(self, package, *, manifest_sha256, parent_params, parent_manifest_path=None):
         import flax.nnx as nnx
         import jax
@@ -145,21 +160,17 @@ class Provider:
         from openpi_client.image_tools import resize_with_pad
         from scripts.sla.mfree_c20_vectorfield_v3 import extracted_fields
         from . import batch_v2, full_h40_v6, scale20k_model
-        from .codec_v1 import Quantiles
         from .model_v1 import Tokenizer
-        from .multitask_data_v6 import C20_STATISTICS
-        from .runtime_v1 import read_pin
         from .scale20k_contract import canonical_hash
 
         root = Path(package).resolve(strict=True)
-        self.manifest = manifest = read_package(root, manifest_sha256)
+        self.manifest = manifest = self.read_manifest(root,manifest_sha256)
         if jax.default_backend() != 'gpu' or len(jax.devices()) != 1:
             raise ValueError('SCALE20K_TARGET_DEPLOYMENT_REQUIRES_EXACT_SINGLE_GPU')
-        stats = read_pin(dict(path=str(root/'STATISTICS.json'), sha256=C20_STATISTICS))
         token = root/'paligemma_tokenizer.model'
-        if manifest['statistics_sha256'] != C20_STATISTICS or sha(token) != manifest['tokenizer_sha256']:
-            raise ValueError('SCALE20K_TARGET_DEPLOYMENT_C20_STATISTICS_AND_TOKENIZER_CHANGED')
-        self.statistics = {key: Quantiles(stats[key]['q01'], stats[key]['q99']) for key in ('state', 'actions')}
+        if sha(token) != manifest['tokenizer_sha256']:
+            raise ValueError('SCALE20K_TARGET_DEPLOYMENT_TOKENIZER_CHANGED')
+        self.statistics = self.load_statistics(root,manifest)
         self.tokenizer, self.resize = Tokenizer(token), resize_with_pad
         parent = manifest['parent_manifest']
         if parent_manifest_path is not None:
