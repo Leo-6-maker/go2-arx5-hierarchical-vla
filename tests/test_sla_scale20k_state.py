@@ -8,6 +8,28 @@ from go2arx5_vla.sla_adapter.scale20k_contract import (
 )
 
 
+def test_vanda_offline_retries_only_bounded_scheduler_authentication(monkeypatch):
+    import subprocess
+    from unittest.mock import Mock
+    from scripts.sla import scale20k_vanda_offline as runner
+
+    pauses = Mock()
+    monkeypatch.setattr(runner.time,'sleep',pauses)
+    auth = subprocess.CalledProcessError(255,['/opt/pbs/bin/qstat'],stderr='errno=15019')
+    query = Mock(side_effect=[auth,auth,auth,auth])
+    with pytest.raises(subprocess.CalledProcessError):
+        runner.read_pbs_with_auth_retry(query,'fixed-job')
+    assert query.call_count == 4
+    assert [call.args[0] for call in pauses.call_args_list] == [4,8,12]
+    query = Mock(side_effect=[auth,{'state':'R'}])
+    assert runner.read_pbs_with_auth_retry(query,'fixed-job') == {'state':'R'}
+    unrelated = subprocess.CalledProcessError(255,['/opt/pbs/bin/qstat'],stderr='unknown job')
+    query = Mock(side_effect=unrelated)
+    with pytest.raises(subprocess.CalledProcessError):
+        runner.read_pbs_with_auth_retry(query,'fixed-job')
+    query.assert_called_once_with('fixed-job')
+
+
 def test_shared_learning_rate_table_and_only_admitted_training_across_cursors():
     rates = learning_rates()
     assert len(rates) == 20000 and rates[499] == 2e-5 and rates[-1] == 2e-6

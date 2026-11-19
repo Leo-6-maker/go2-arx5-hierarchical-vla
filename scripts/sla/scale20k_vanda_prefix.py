@@ -36,7 +36,7 @@ def completed_prefix(config, root):
         raise ValueError('SCALE_TARGET_PREFIX_MUST_BE_AN_OWNED_TERMINAL_RUN')
     old_job = continuation['job_id']
     status = subprocess.check_output(['/opt/pbs/bin/qstat','-x','-f','-F','json',old_job],
-                                     text=True,timeout=20)
+                                     text=True,stderr=subprocess.PIPE,timeout=20)
     job = json.loads(status)['Jobs'][old_job]
     if (job['job_state'] != 'F' or job.get('Exit_status') not in (0,75) or old_job == config.get('job_id')
             or job['Job_Owner'].split('@')[0] != config['user'] or job['project'] != config['project']):

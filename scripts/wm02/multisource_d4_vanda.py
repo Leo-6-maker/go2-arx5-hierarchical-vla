@@ -42,7 +42,8 @@ def allocation_window(job, *, campaign_deadline, earliest_start_margin=120):
 
 def pbs_job(config):
     job_id = os.environ['PBS_JOBID']
-    text = subprocess.check_output(['/opt/pbs/bin/qstat','-f','-F','json',job_id], text=True, timeout=20)
+    text = subprocess.check_output(['/opt/pbs/bin/qstat','-f','-F','json',job_id],
+                                   text=True, stderr=subprocess.PIPE, timeout=20)
     job = json.loads(text)['Jobs'][job_id]
     hosts = {item.split('/')[0].split('.')[0] for item in job['exec_host'].split('+')}
     user = os.environ['USER']

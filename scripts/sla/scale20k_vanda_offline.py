@@ -19,6 +19,22 @@ from scripts.wm02.multisource_d4_vanda import GIB, actual_gpu, pbs_job, pin
 WALL = 5400
 
 
+def read_pbs_with_auth_retry(query, *args):
+    """Retry transient server authentication errors before any device work."""
+    for attempt in range(4):
+        try:
+            return query(*args)
+        except subprocess.CalledProcessError as error:
+            if (error.returncode != 255 or not error.cmd or error.cmd[0] != '/opt/pbs/bin/qstat'
+                    or 'errno=15019' not in (error.stderr or '')):
+                raise
+            print(f'PBS qstat authentication failure on attempt {attempt+1}/4: {error.stderr.strip()}',
+                  file=sys.stderr, flush=True)
+            if attempt == 3:
+                raise
+            time.sleep(4*(attempt+1))
+
+
 def run(config):
     root = Path(config['root']).resolve(strict=True)
     source = Path(__file__).resolve().parents[2]
@@ -30,13 +46,21 @@ def run(config):
     stop = root/'STOP.json'
     stages = {}
     result = dict(source_sha=config['source_sha'],PBS_JOBID=os.environ.get('PBS_JOBID'),
-                  panel=config['panel'],stages=stages,native_requests=0,native_ticks=0,updates=0)
+                  panel=config['panel'],stages=stages,offline_generations=0,
+                  native_requests=0,native_ticks=0,updates=0)
     try:
-        job, allocation = pbs_job(config)
+        cpu = read_pin(config['CPU_match'])
+        match = cpu['core']
+        if (match != cpu['vanda'] or match['panel_sha256'] != config['panel']['sha256']
+                or set(match['fingerprints']) != set(DOMAINS)
+                or any(len(rows) != PER_DOMAIN for rows in match['fingerprints'].values())
+                or any(match[key] != 0 for key in ('GPU_generations','optimizer_updates','native_requests'))):
+            raise ValueError('SCALE_VANDA_OFFLINE_REQUIRES_MATCHED_FIXED_PANEL_CPU_INPUTS')
+        job, allocation = read_pbs_with_auth_retry(pbs_job,config)
         deadline = allocation['deadline_epoch']
         if not 600 < deadline-time.time() <= WALL or allocation['PBS_wall_s'] > WALL:
             raise PermissionError('SCALE_VANDA_OFFLINE_REQUIRES_FINITE_EXISTING_PBS_WINDOW')
-        checkpoint_result, _ = completed_prefix(config,root)
+        checkpoint_result, _ = read_pbs_with_auth_retry(completed_prefix,config,root)
         terminal = read_pin(checkpoint_result)
         if terminal['global_step'] != config['step'] or terminal['exit_code'] != 0:
             raise ValueError('SCALE_VANDA_OFFLINE_REQUIRES_ORIGINAL_COMPLETE_MILESTONE')
@@ -71,6 +95,7 @@ def run(config):
             GPU_uuid=uuid,JAX_memory_fraction=fraction,neural_owner_lock=str(root/'GPU_WORKER.lock'),
             deadline_epoch=deadline-60,max_walltime_s=WALL,max_gpu_hours=WALL/3600,save_and_exit_on_limit=True,
             model_service_timeout_s=1800,RPC_timeout_s=1800,STOP_path=str(stop),**paths)
+        sealed_generations = 0
         for mode,count in (('evaluate',PER_DOMAIN),('restore',len(RESTORE))):
             if stop.exists() or time.time()+300 >= deadline:
                 result.update(status='STOPPED_AT_COMPLETED_OFFLINE_STAGE',exit_code=75)
@@ -85,6 +110,7 @@ def run(config):
             write(card,spec)
             write(root/'PROGRESS.private.json',dict(role=mode,spec_sha256=pin(card)['sha256'],epoch=time.time(),job_id=job))
             with (root/(mode+'.log')).open('x') as log:
+                result['offline_generations'] = None
                 child = subprocess.run([sys.executable,'-B','-m','scripts.sla.evaluate_scale20k',
                     mode,str(card),pin(card)['sha256']],cwd=source,env=env,stdout=log,stderr=subprocess.STDOUT,
                     timeout=max(1,deadline-time.time()))
@@ -94,6 +120,8 @@ def run(config):
                 return result['exit_code']
             stages[mode] = pin(stage)
             readback = read_pin(stages[mode])
+            sealed_generations += readback['new_model_generations']
+            result['offline_generations'] = sealed_generations
             code = child.returncode or readback['exit_code']
             result.update(status=readback['status'],exit_code=code,first_failure=readback.get('failure'))
             if code:
