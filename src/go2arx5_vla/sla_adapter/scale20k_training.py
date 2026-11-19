@@ -95,8 +95,6 @@ def target_auxiliary(graph, quantiles):
 
 class Engine:
     def __init__(self, arm, graphs, parameters, frozen, datasets, banks, tokenizer, microbatch, optimizer, *, rng):
-        import jax
-
         self.arm,self.parameters,self.frozen = arm,parameters,frozen
         self.datasets,self.banks,self.tokenizer = datasets,banks,tokenizer
         self.batch_size,self.rng,self.step = BATCH[arm],rng,0
@@ -108,26 +106,27 @@ class Engine:
             raise ValueError('SCALE20K_PER_DOMAIN_FULL_BATCH_VISIT_BANK_REQUIRED')
         self.microbatch = microbatch
         self.rates = learning_rates()
-        self.grad = {d:domain_loss(graph) for d,graph in graphs.items()}
-        self.draw = {d:frozen_draws(d,BATCH['SCALE-MIX20K'][d]) for d in DOMAINS}
-        self.aux = target_auxiliary(graphs['target'],datasets['target'].statistics['actions'])
+        self._setup_gradient_functions(graphs,BATCH['SCALE-MIX20K'])
         initialize,self.apply = make_adamw(**optimizer)
         self.states = initialize(parameters)
+
+    def _setup_gradient_functions(self, graphs, draw_sizes):
+        import jax
+
+        self.grad = {d:domain_loss(graph) for d,graph in graphs.items()}
+        self.draw = {d:frozen_draws(d,draw_sizes[d]) for d in DOMAINS}
+        self.aux = target_auxiliary(graphs['target'],self.datasets['target'].statistics['actions'])
         self.add = jax.jit(lambda total,part,weight:jax.tree.map(lambda a,b:a+b*weight,total,part),donate_argnums=(0,))
         self.attempted_aux = self.completed_aux = 0
         self.gradient_windows = dict.fromkeys(DOMAINS,0)
 
-    def domain_gradient(self, domain, guard):
+    def _fm_gradient(self, domain, indices, cursor, active, guard):
         import jax
         import jax.numpy as jnp
-        import optax
 
-        cursor = cursors(self.arm,self.step)[domain]
         size,micro = self.batch_size[domain],self.microbatch[domain]
-        indices = self.banks[domain][cursor:cursor+size]
         draws = self.draw[domain](self.rng,cursor)
         dataset = self.datasets[domain]
-        active = dict(shared=self.parameters['shared'],private=self.parameters[domain])
         accumulator = jax.tree.map(jnp.zeros_like,active)
         totals = dict(FM32=0.,auxiliary=0.,backward_calls=0,training_full_generations=0,data_wait_s=0.)
         for offset in range(0,size,micro):
@@ -141,28 +140,49 @@ class Engine:
             totals['FM32'] += float(value)*micro/size
             totals['backward_calls'] += 1
             self.gradient_windows[domain] += micro
+        return accumulator,totals
+
+    def _add_target_auxiliary(self, indices, cursor, active, accumulator, totals, slots, guard):
+        import jax
+        import jax.numpy as jnp
+
+        dataset = self.datasets['target']
+        for slot in slots:
+            guard()
+            index = int(indices[slot]); absolute = cursor+slot
+            obs,_ = host_batch(dataset,self.tokenizer,'target',[absolute],[index])
+            episode,anchor = dataset.rows[index]
+            label = dataset.labels[episode['id']]['nominal_policy_H40'][anchor,:,9]
+            width = dense_g7_v6.previous_command_context(dataset.reference(index))
+            noise = jax.random.normal(jax.random.fold_in(jax.random.fold_in(self.rng,37),absolute),(1,40,32))
+            self.attempted_aux += 1
+            value,grad = self.aux(active,self.frozen,obs,noise,jnp.asarray([width],jnp.float32),
+                                  jnp.asarray((.002+.040*label)[None,:],jnp.float32))
+            accumulator = self.add(accumulator,grad,.25)
+            totals['auxiliary'] += float(value)*.25
+            self.completed_aux += 1
+            totals['training_full_generations'] += 1
+        return accumulator
+
+    def domain_gradient(self, domain, guard):
+        cursor = cursors(self.arm,self.step)[domain]
+        indices = self.banks[domain][cursor:cursor+self.batch_size[domain]]
+        active = dict(shared=self.parameters['shared'],private=self.parameters[domain])
+        accumulator,totals = self._fm_gradient(domain,indices,cursor,active,guard)
         if domain=='target':
-            for slot in full_h40_v6.aux_slots(self.step):
-                guard()
-                index = int(indices[slot]); absolute = cursor+slot
-                obs,_ = host_batch(dataset,self.tokenizer,domain,[absolute],[index])
-                episode,anchor = dataset.rows[index]
-                label = dataset.labels[episode['id']]['nominal_policy_H40'][anchor,:,9]
-                width = dense_g7_v6.previous_command_context(dataset.reference(index))
-                noise = jax.random.normal(jax.random.fold_in(jax.random.fold_in(self.rng,37),absolute),(1,40,32))
-                self.attempted_aux += 1
-                value,grad = self.aux(active,self.frozen,obs,noise,jnp.asarray([width],jnp.float32),
-                                      jnp.asarray((.002+.040*label)[None,:],jnp.float32))
-                accumulator = self.add(accumulator,grad,.25)
-                totals['auxiliary'] += float(value)*.25
-                self.completed_aux += 1
-                totals['training_full_generations'] += 1
+            accumulator = self._add_target_auxiliary(indices,cursor,active,accumulator,totals,full_h40_v6.aux_slots(self.step),guard)
+        self._record_gradient(accumulator, totals, indices)
+        return accumulator,totals
+
+    @staticmethod
+    def _record_gradient(accumulator, totals, indices):
+        import optax
+
         totals['shared_gradient_norm'] = float(optax.global_norm(accumulator['shared']))
         totals['private_gradient_norm'] = float(optax.global_norm(accumulator['private']))
         if not all(np.isfinite(x) for x in totals.values()) or min(totals['shared_gradient_norm'],totals['private_gradient_norm']) <= 0.:
             raise ValueError('SCALE20K_EACH_DOMAIN_REQUIRES_FINITE_EFFECTIVE_SHARED_AND_PRIVATE_GRADIENT')
         totals['visit_slice_sha256'] = hashlib.sha256(indices.tobytes()).hexdigest()
-        return accumulator,totals
 
     def update(self, guard):
         import jax

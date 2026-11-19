@@ -8,6 +8,7 @@ from go2arx5_vla.sla_adapter.checkpoint_v1 import sha
 from go2arx5_vla.sla_adapter.codec_v1 import Quantiles
 from go2arx5_vla.sla_adapter.dense_g7_v6 import VERSION
 from go2arx5_vla.sla_adapter.multitask_data_v6 import C20_STATISTICS
+from go2arx5_vla.sla_adapter import adapt5k_contract as contract
 
 
 def test_new_complete_plan_reader_preserves_plan_and_p10_masks(tmp_path):
@@ -51,3 +52,32 @@ def test_new_complete_plan_reader_preserves_plan_and_p10_masks(tmp_path):
     invalid = record('short.json', dict(outcome, cases=[dict(actual, confirmed_P10_atoms=9)]))
     with pytest.raises(ValueError, match='ORIGINAL_P10'):
         CompletePlanBatch(manifest, invalid, **kwargs)
+
+
+def test_adapt5k_phase_clocks_and_auxiliary_weights_keep_independent_meanings():
+    jax = pytest.importorskip('jax')
+    rates = contract.phase_rates()
+    assert rates[0] == 5e-6 and rates[-1] == 1e-6 and np.all(np.diff(rates) < 0)
+    assert [slot for update in range(16) for slot in contract.auxiliary_slots(update)] == list(range(64))
+    before = contract.progress(500, 2000)
+    switched = contract.progress(500, 2000, 2000)
+    assert switched['stage_local_cursors'] == dict.fromkeys(contract.DOMAINS, 0)
+    assert switched['lineage_cursors'] == before['lineage_cursors']
+    assert before['lineage_total_updates'] == 2500
+
+    fm = {'target': {'shared': 1., 'private': 2.}, 'robodojo': {'shared': 3., 'private': 4.},
+          'libero': {'shared': 5., 'private': 6.}}
+    out = contract.joint_gradient(fm, {'shared': 7., 'private': 8.}, tree_map=jax.tree.map)
+    assert out == {'shared': 17., 'target': 12., 'robodojo': 4., 'libero': 6.}
+
+
+def test_due_close_requires_a_consumed_crossing_at_or_after_the_seam():
+    label = np.ones((40, 10))
+    label[9:, 9] = .4
+    p10 = np.arange(40) < 10
+    assert contract.due_close(label, p10, .04)
+    label[9, 9] = 1.
+    assert not contract.due_close(label, p10, .04)
+    label[:, 9] = .4
+    assert contract.due_close(label, p10, .04)
+    assert not contract.due_close(label, p10, .019)
