@@ -63,6 +63,7 @@ def audit(config):
                 or native['physical_requests'] != 1 or native['model_generations'] or native['optimizer_updates']):
             raise ValueError('Exact sealed native expert evidence required: '+condition['id'])
         summary = dict(id=condition['id'],instruction=condition['instruction'],native_result_sha256=row['result_sha256'],
+                       scene_sha256=row['scene_sha256'],reset=condition['reset'],
                        native_ticks=native['actual_native_integrations'],first_failure=row['first_failure'],
                        admitted=False)
         if row['completed'] and row['task_and_mobile_success'] and not row['hard_STOP'] and not row['technical_failure']:
@@ -85,6 +86,8 @@ def audit(config):
                 episodes.append(dict(id=condition['id'],split='TRAIN',task=condition['instruction'],
                     family=condition['family'],language=case['language'],windows=manifest['queries'],
                     mount=dict(T_policy_from_mount=frame.tolist()),scene_sha256=row['scene_sha256'],
+                    reset=condition['reset'],label_kind='expert_query_plan_H40',
+                    expert_stage_audit_only=data['phase'].tolist(),
                     labels=dict(file=str(labels.relative_to(target)),sha256=digest(labels)),
                     frame_shards=rgb,native_result_sha256=row['result_sha256'],individual_pass=True))
                 summary.update(admitted=True,windows=manifest['queries'],confirmed_P10_atoms=10*manifest['queries'])
