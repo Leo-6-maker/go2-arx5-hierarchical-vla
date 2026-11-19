@@ -53,6 +53,18 @@ def prepare(old_root, expansion_root, expansion_receipt, output):
                    for row,state,actions in numeric)):
         raise ValueError('SCALE20K_ROBODOJO_TYPED_EPISODES_REQUIRE_DISTINCT_IDENTITIES')
 
+    rows, stats = write_numeric(output,numeric,admission='SCALE20K_ARX_X5_NATIVE_H50_VERIFIED')
+    summary = dict(schema=SCHEMA,recipe='SLA_SCALE20K_ROBODOJO_TRAIN48_DEV12_V1',coordinates=COORDINATES,
+        HF_revision=REVISION,horizon=HORIZON,nominal_frequency_Hz=30,TEST_labels_read=False,
+        original_manifest_sha256=SOURCE_MANIFEST,expansion_manifest_sha256=sha(expansion_receipt),
+        episodes=rows,statistics=dict(file=stats.name,sha256=sha(stats)),target_commands=False)
+    write(output/'MANIFEST.private.json',summary)
+    return dict(TRAIN=48,SOURCE_DEV=12,protected_SOURCE_TEST=12,statistics_sha256=sha(stats),
+                manifest_sha256=sha(output/'MANIFEST.private.json'),
+                train_windows=sum(row['windows'] for row in rows if row['split']=='TRAIN'),new_optimizer_updates=0)
+
+
+def write_numeric(output, numeric, *, admission=None):
     output.mkdir(mode=0o700)
     storage = output/'numeric'
     storage.mkdir()
@@ -64,7 +76,7 @@ def prepare(old_root, expansion_root, expansion_receipt, output):
         q = np.quantile(values,[.01,.25,.75,.99],axis=0)
         statistics[field] = dict(q01=q[0].tolist(),q99=q[3].tolist(),IQR=(q[2]-q[1]).tolist(),samples=len(values))
     stats = output/'STATISTICS.json'
-    write(stats,dict(**statistics,split='TRAIN',episodes=48,horizon=HORIZON,nominal_frequency_Hz=30))
+    write(stats,dict(**statistics,split='TRAIN',episodes=len(train),horizon=HORIZON,nominal_frequency_Hz=30))
     rows = []
     for index,(row,state,action) in enumerate(numeric):
         path = storage/f'{index:03d}.npz'
@@ -75,16 +87,11 @@ def prepare(old_root, expansion_root, expansion_receipt, output):
         future_span_dynamic = np.any(abs(delta)>threshold,axis=-1)
         with path.open('xb') as handle:
             np.savez(handle,state=state,actions=action,dynamic=dynamic,future_span_dynamic=future_span_dynamic)
-        rows.append(dict(row, arrays=dict(file=str(path.relative_to(output)),sha256=sha(path)),
-                         admission='SCALE20K_ARX_X5_NATIVE_H50_VERIFIED'))
-    summary = dict(schema=SCHEMA,recipe='SLA_SCALE20K_ROBODOJO_TRAIN48_DEV12_V1',coordinates=COORDINATES,
-        HF_revision=REVISION,horizon=HORIZON,nominal_frequency_Hz=30,TEST_labels_read=False,
-        original_manifest_sha256=SOURCE_MANIFEST,expansion_manifest_sha256=sha(expansion_receipt),
-        episodes=rows,statistics=dict(file=stats.name,sha256=sha(stats)),target_commands=False)
-    write(output/'MANIFEST.private.json',summary)
-    return dict(TRAIN=48,SOURCE_DEV=12,protected_SOURCE_TEST=12,statistics_sha256=sha(stats),
-                manifest_sha256=sha(output/'MANIFEST.private.json'),
-                train_windows=sum(row['windows'] for row in rows if row['split']=='TRAIN'),new_optimizer_updates=0)
+        episode = dict(row,arrays=dict(file=str(path.relative_to(output)),sha256=sha(path)))
+        if admission is not None:
+            episode['admission'] = admission
+        rows.append(episode)
+    return rows, stats
 
 
 def main():
