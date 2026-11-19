@@ -1,0 +1,89 @@
+{
+  "scope_spec_sha256": "b66e80aadd046bd13cb8bbc3c56a0df5725bd3c20af586c86b8f4885b232357a",
+  "source_sha": "b405fb173c91a32a1ad5b86aa9e87418cd0d0d56",
+  "newly_read_terminal_cases": [
+    {
+      "case": "D5_GRASP24-F1-1-HOLD-blue-D4-B",
+      "arm": "D4-B",
+      "native_result_sha256": "48c7e11e69c8a4eccac9c3e3c841aca29bac39cad95078e9a4ca0cd4bb620b31",
+      "native_ticks": 35703,
+      "generations": 120,
+      "query_counts": {
+        "no_crossing": 120
+      },
+      "confirmed_atoms": 1200,
+      "first_failure": "FIXED_TASK_BUDGET_EXHAUSTED",
+      "contact_evidence": [],
+      "STOP_after_ticks": null,
+      "measured_min_width_m": 0.04196571584101175,
+      "wall_s": 528.4620944242924,
+      "CPU_s": 286.436012518,
+      "scored_states": 30001,
+      "final_partial_atom_ticks": 0,
+      "missing_native_intervals": 0,
+      "correct_grasp": false,
+      "lift20mm": false,
+      "task_success": false,
+      "base_directional_motion_m": 0.1788144167341838
+    },
+    {
+      "case": "D5_GRASP24-F2-1-HOLD-red-D5-T",
+      "arm": "D5-T",
+      "native_result_sha256": "200ec6c201f334f823220d6ecccde7de012464494bf59ae01744aebfa8079f13",
+      "native_ticks": 23957,
+      "generations": 74,
+      "query_counts": {
+        "no_crossing": 74
+      },
+      "confirmed_atoms": 730,
+      "first_failure": "ILLEGAL_CONTACT",
+      "contact_evidence": [
+        {
+          "geoms": [
+            {
+              "geom_id": 73,
+              "geom": null,
+              "body": "x5_link6",
+              "geom_type": "mjGEOM_CAPSULE"
+            },
+            {
+              "geom_id": 79,
+              "geom": "task_blue_cube_geom",
+              "body": "task_blue_cube",
+              "geom_type": "mjGEOM_BOX"
+            }
+          ],
+          "distance_m": -0.00015479690117367953,
+          "normal_force_N": 5.671057057635382
+        }
+      ],
+      "STOP_after_ticks": 0,
+      "measured_min_width_m": 0.04197949915672493,
+      "wall_s": 336.25993871316314,
+      "CPU_s": 176.517378194,
+      "scored_states": 18255,
+      "final_partial_atom_ticks": 4,
+      "missing_native_intervals": 0,
+      "correct_grasp": false,
+      "lift20mm": false,
+      "task_success": false,
+      "base_directional_motion_m": 0.06556908362187369
+    }
+  ],
+  "cumulative": {
+    "sealed": 7,
+    "ticks": 221363,
+    "H40": 729,
+    "task_success": 0,
+    "contacts": 4,
+    "ticks_after_STOP": 0,
+    "site_service": {
+      "MainPID": "3619057",
+      "ActiveState": "active"
+    }
+  },
+  "observed_SGT": "2026-11-19T18:34:53.201004+08:00",
+  "never_crossing_22mm_in_H40": 729,
+  "independent_audit_added_predictions": 0,
+  "independent_audit_added_native_ticks": 0
+}
