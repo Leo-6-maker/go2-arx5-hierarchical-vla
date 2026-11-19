@@ -200,5 +200,102 @@
   "new_optimizer_updates": 0,
   "new_model_generations": 0,
   "new_native_requests": 0,
-  "new_native_ticks": 0
+  "new_native_ticks": 0,
+  "geometry_readback_sha256": "644c7bff0c6a9ca4ea601ec47d6d6dbcbb2bddcf3fef9b7ac589211ae515affe",
+  "measured_native_geometry": {
+    "spec_sha256": "e80ca90c07af71eafca37172eda48d644dcbe69cffd4a4ebeba5741062764581",
+    "cases": [
+      {
+        "case": "J_SCREEN48-F1-1-PLACE-red-right-J1",
+        "instruction": "PLACE-red-right",
+        "arm": "J1",
+        "target_color": "red",
+        "native_result_sha256": "fedbb3902632f0c7674d0cb89b5a9985cc741419bd89c481e6c8e1ab175d1b2b",
+        "sample_2ms_count": 45001,
+        "closest": {
+          "red_pad_midpoint": {
+            "distance_mm": 94.65500832126396,
+            "native_tick": 11092
+          },
+          "red_tcp": {
+            "distance_mm": 93.68754573160727,
+            "native_tick": 11092
+          },
+          "blue_pad_midpoint": {
+            "distance_mm": 55.23367821867626,
+            "native_tick": 23602
+          },
+          "blue_tcp": {
+            "distance_mm": 55.305731743046415,
+            "native_tick": 23602
+          }
+        },
+        "terminal_distance_mm": {
+          "red_pad_midpoint": 225.3648702993116,
+          "red_tcp": 223.86888405353028,
+          "blue_pad_midpoint": 155.06603711091577,
+          "blue_tcp": 153.9123667575929
+        },
+        "cube_contact_sample_count": {
+          "red": {
+            "any_hand_samples": 0,
+            "at_least_one_pad_samples": 0,
+            "both_pads_samples": 0
+          },
+          "blue": {
+            "any_hand_samples": 0,
+            "at_least_one_pad_samples": 0,
+            "both_pads_samples": 0
+          }
+        }
+      },
+      {
+        "case": "J_SCREEN48-F1-1-PLACE-red-right-J0",
+        "instruction": "PLACE-red-right",
+        "arm": "J0",
+        "target_color": "red",
+        "native_result_sha256": "f1ed7e9fec99d7762e099fea3a567b16ae34c94bdf887086a17d8754d03484be",
+        "sample_2ms_count": 43874,
+        "closest": {
+          "red_pad_midpoint": {
+            "distance_mm": 83.93323478774123,
+            "native_tick": 24512
+          },
+          "red_tcp": {
+            "distance_mm": 82.66829236592761,
+            "native_tick": 39690
+          },
+          "blue_pad_midpoint": {
+            "distance_mm": 46.91125372740339,
+            "native_tick": 47895
+          },
+          "blue_tcp": {
+            "distance_mm": 47.3605898955978,
+            "native_tick": 47895
+          }
+        },
+        "terminal_distance_mm": {
+          "red_pad_midpoint": 92.82515129365171,
+          "red_tcp": 91.54389656073513,
+          "blue_pad_midpoint": 47.8640836574218,
+          "blue_tcp": 48.18358728053361
+        },
+        "cube_contact_sample_count": {
+          "red": {
+            "any_hand_samples": 0,
+            "at_least_one_pad_samples": 0,
+            "both_pads_samples": 0
+          },
+          "blue": {
+            "any_hand_samples": 1,
+            "at_least_one_pad_samples": 0,
+            "both_pads_samples": 0
+          }
+        }
+      }
+    ],
+    "new_native_ticks": 0,
+    "optimizer_updates": 0,
+    "model_generations": 0
+  }
 }
