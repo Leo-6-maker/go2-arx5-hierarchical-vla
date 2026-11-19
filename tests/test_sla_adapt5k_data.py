@@ -9,6 +9,8 @@ from go2arx5_vla.sla_adapter.codec_v1 import Quantiles
 from go2arx5_vla.sla_adapter.dense_g7_v6 import VERSION
 from go2arx5_vla.sla_adapter.multitask_data_v6 import C20_STATISTICS
 from go2arx5_vla.sla_adapter import adapt5k_contract as contract
+from go2arx5_vla.sla_adapter import adapt5k_checkpoint as phase_checkpoint
+from go2arx5_vla.sla_adapter.scale20k_contract import bank_sha256
 
 
 def test_new_complete_plan_reader_preserves_plan_and_p10_masks(tmp_path):
@@ -81,3 +83,30 @@ def test_due_close_requires_a_consumed_crossing_at_or_after_the_seam():
     label[:, 9] = .4
     assert contract.due_close(label, p10, .04)
     assert not contract.due_close(label, p10, .019)
+
+
+def test_phase_checkpoint_restores_full_state_and_pins_d2_invariants(tmp_path):
+    jax = pytest.importorskip('jax')
+    groups = ('shared', *contract.DOMAINS)
+    marker = 'a'*64
+    binding = dict.fromkeys(('parent_checkpoint_sha256','parent_training_spec_sha256',
+        'target_state_sha256','target_D1_sha256','optimizer_sha256','tokenizer_sha256',
+        'partition_sha256','parent_manifest_sha256','source_sha256','R200_membership_sha256',
+        'LIBERO_membership_sha256','stage_target_data_sha256'), marker)
+    binding.update(plan=contract.PLAN, recipe=phase_checkpoint.RECIPE, parent_step=500,
+        learning_rates_sha256=bank_sha256(contract.phase_rates()), stage_start=0, stage_stop=2000,
+        stage_bank_sha256=dict.fromkeys(contract.DOMAINS,marker),
+        frozen_C20_action_statistics_sha256=C20_STATISTICS)
+    parameters = {d:{str(i):np.array([i, i+.5],dtype=np.float32) for i in range(12-(d=='libero'))}
+                  for d in groups}
+    optimizer = {d:{str(i):np.array([i+1],dtype=np.float32) for i in range(23)} for d in groups}
+    state = dict(parameters=parameters, optimizer=optimizer, rng=jax.random.PRNGKey(9))
+    original = phase_checkpoint.save(tmp_path/'phase00025',phase_step=25,binding=binding,**state)
+    restored,clocks = phase_checkpoint.restore(original,binding=binding,**state)
+    assert clocks['parent_global_step'] == 500 and clocks['lineage_total_updates'] == 525
+    assert clocks['phase_cursors'] == dict(target=1600,robodojo=800,libero=800)
+    assert all(np.array_equal(a,b) for a,b in zip(jax.tree.leaves(restored),jax.tree.leaves(state),strict=True))
+    following = dict(binding,stage_start=2000,stage_stop=5000,stage_target_data_sha256='b'*64)
+    assert phase_checkpoint.next_stage_binding(binding,following,2000) == following
+    with pytest.raises(ValueError,match='SINGLE_COLD_2K'):
+        phase_checkpoint.next_stage_binding(binding,dict(following,target_state_sha256='c'*64),2000)

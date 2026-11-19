@@ -35,15 +35,20 @@ def training_tree(parameters, optimizer, rng):
 
 
 def save(path, *, arm, step, parameters, optimizer, rng, binding):
+    binding_check(arm,binding)
+    committed = cursors(arm,step)
+    metadata = dict(schema=SCHEMA,binding=binding,step=step,cursors=committed,arrays=None,
+                    training_full_generations=step*4,physics=False)
+    return seal_arrays(path,training_tree(parameters,optimizer,rng),metadata)
+
+
+def seal_arrays(path, tree, metadata):
     import jax
 
     path = Path(path)
-    binding_check(arm,binding)
-    committed = cursors(arm,step)
     if path.exists():
         raise FileExistsError(path)
     staging = Path(tempfile.mkdtemp(prefix=path.name+'.pending.',dir=path.parent))
-    tree = training_tree(parameters,optimizer,rng)
     leaves,_ = jax.tree_util.tree_flatten_with_path(tree)
     records = []
     for index,(key,leaf) in enumerate(leaves):
@@ -57,8 +62,7 @@ def save(path, *, arm, step, parameters, optimizer, rng, binding):
             output.flush()
             os.fsync(output.fileno())
         records.append(dict(key=jax.tree_util.keystr(key),file=name,dtype=str(value.dtype),shape=list(value.shape),sha256=sha(file)))
-    complete = dict(schema=SCHEMA,binding=binding,step=step,cursors=committed,arrays=records,
-                    training_full_generations=step*4,physics=False)
+    complete = dict(metadata,arrays=records)
     write(staging/'COMPLETE.json',complete)
     os.rename(staging,path)
     fd = os.open(path.parent,os.O_RDONLY|os.O_DIRECTORY)
@@ -101,13 +105,17 @@ def verified_arrays(root, receipt, leaves):
 
 
 def restore(pin, *, arm, parameters, optimizer, rng, binding):
-    import jax
-
     root, receipt = read_complete(pin, arm, binding)
     theory = training_tree(parameters,optimizer,rng)
-    leaves,structure = jax.tree_util.tree_flatten_with_path(theory)
+    return restore_arrays(root, receipt, theory),receipt['step'],receipt['cursors']
+
+
+def restore_arrays(root, receipt, template):
+    import jax
+
+    leaves,structure = jax.tree_util.tree_flatten_with_path(template)
     restored = [jax.device_put(value) for _,value in verified_arrays(root, receipt, leaves)]
-    return jax.tree_util.tree_unflatten(structure,restored),receipt['step'],receipt['cursors']
+    return jax.tree_util.tree_unflatten(structure,restored)
 
 
 def restore_inference(pin, *, arm, parameters, abstract_optimizer, rng, binding):

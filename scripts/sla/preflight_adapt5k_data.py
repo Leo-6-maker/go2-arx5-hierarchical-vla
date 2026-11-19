@@ -31,9 +31,10 @@ def source_examples(source):
 
 
 def preflight(spec, resize_with_pad):
-    if (spec['plan'] != contract.PLAN or spec['stage_start'] != 0 or spec['stage_stop'] != contract.SWITCH_PHASE
+    stages = ((0, contract.SWITCH_PHASE), (contract.SWITCH_PHASE, contract.UPDATES))
+    if (spec['plan'] != contract.PLAN or (spec['stage_start'], spec['stage_stop']) not in stages
             or type(spec['target_seed']) is not int):
-        raise ValueError('ADAPT5K_FIRST_STAGE_AND_FIXED_MANUAL_SEED_REQUIRED')
+        raise ValueError('ADAPT5K_BOUNDED_STAGE_AND_FIXED_SEED_REQUIRED')
     if spec['parent_step'] not in contract.FORMAL_PARENTS:
         raise ValueError('ADAPT5K_FIRST_STAGE_REQUIRES_A_FORMAL_PARENT')
     datasets = adapt5k_data.readers(spec['data'], resize_with_pad)
@@ -47,6 +48,7 @@ def preflight(spec, resize_with_pad):
                for i in picks[d]] for d in DOMAINS}
     return dict(schema='SLA_ADAPT5K_ACTUAL_TRAIN_READERS_V1',
         parent_step=spec['parent_step'], parent_checkpoint_sha256=spec['parent_checkpoint_sha256'],
+        stage_start=spec['stage_start'], stage_stop=spec['stage_stop'],
         target_state_sha256=spec['data']['target']['statistics']['sha256'],
         inherited_R48_statistics_sha256=source.statistics_sha,
         diagnostic_R200_statistics_sha256=source.manifest['statistics']['sha256'],
