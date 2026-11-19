@@ -6,7 +6,9 @@
     "vanda_training_and_recovery": "2026-11-20 01:52:06 SGT",
     "replay": "2026-11-20 01:53:08 SGT",
     "core_runtime": "2026-11-20 01:53:03 SGT",
-    "core_native_inflight": "2026-11-20 01:48:54 SGT"
+    "core_native_inflight": "2026-11-20 01:48:54 SGT",
+    "core_native_followup": "2026-11-20 01:56:43 SGT",
+    "VANDA_phase25_followup": "2026-11-20 01:57:36 SGT"
   },
   "durable_formal_training": {
     "core": {
@@ -186,10 +188,16 @@
     "prerequisite_job": "1593913.stdct-mgmt-02",
     "pbs_allocation_sha256": "77bb10841cce56d9aa155013a2466931a1df2927d0a79414709d8b062b4f9676",
     "pid": 3471924,
-    "current_worker": "LOADING_FROZEN_SLA_BACKBONE",
-    "observed_updates": 0,
-    "observed_optimization_visits": 0,
-    "independently_restored_phase25": false
+    "current_worker": "DURABLE_ADAPT_UPDATE",
+    "observed_updates": 4,
+    "observed_optimization_visits": {
+      "target": 256,
+      "robodojo": 128,
+      "libero": 128
+    },
+    "independently_restored_phase25": false,
+    "latest_update_sha256": "4e42ecfd73227244d0d4a1ec8d486ad967cee5dd43730f99cb40c96029fcf6e3",
+    "observed_site_walltime": "00:05:00"
   },
   "A40_engineering": {
     "source_revision": "f3fd3e4d5abce0184021fd77ba03e7d56ec9b6bf",
@@ -792,9 +800,9 @@
     "execution_spec_sha256": "67cf8c3dd3eeefadc1e66e544f1e073ad57c6d6e5b8cea4707907a2fe9b0a5f1",
     "deadline": "2026-11-20 04:58:28 SGT",
     "planned": 6,
-    "started_at_least": 4,
-    "terminal": 3,
-    "terminal_native_ticks": 105192,
+    "started_at_least": 5,
+    "terminal": 4,
+    "terminal_native_ticks": 150447,
     "separately_carried_interface_requests": 2,
     "separately_carried_interface_ticks": 11906,
     "full_placement": 0,
@@ -926,12 +934,61 @@
         },
         "hard_STOP": true,
         "integrations_after_STOP": 0
+      },
+      {
+        "id": "ADAPTATION_TRAIN_PLACE_SECOND6-F2-04-PLACE-blue-right",
+        "sha256": "6b81ce7fe5be555045d7e80429dd26f41bc139f45beeceafd07133ab7d7318a8",
+        "native_ticks": 45255,
+        "new_native_requests": 1,
+        "task_success": false,
+        "technical_failure": false,
+        "first_failure": "ILLEGAL_CONTACT_HELD_BLUE_ON_RED",
+        "terminal_phase": null,
+        "hard_STOP": true,
+        "integrations_after_STOP": 0,
+        "illegal_contacts": [
+          {
+            "geoms": [
+              "task_cube_geom",
+              "task_blue_cube_geom"
+            ],
+            "bodies": [
+              "task_cube",
+              "task_blue_cube"
+            ],
+            "normal_N": 6.930176530958039,
+            "distance_m": -1.0685664658508648e-05
+          }
+        ],
+        "last_score": {
+          "events": {
+            "base80mm": {
+              "native_step": 12209,
+              "native_time_s": 24.417999999997345
+            },
+            "target_grasp": {
+              "native_step": 21522,
+              "native_time_s": 43.04400000000664
+            },
+            "target_lift20mm": {
+              "native_step": 23893,
+              "native_time_s": 47.786000000012436
+            }
+          },
+          "inside_selected_region": false,
+          "released": false,
+          "task_success": false,
+          "maximum_lift_m": 0.05493765628386815,
+          "ever_target_grasp": true,
+          "ever_target_lift20mm": true,
+          "native_step": 45203
+        }
       }
     ],
     "last_measured_inflight": [
       {
-        "id": "ADAPTATION_TRAIN_PLACE_SECOND6-F2-04-PLACE-blue-right",
-        "ticks": 26475
+        "id": "ADAPTATION_TRAIN_PLACE_SECOND6-F2-05-PLACE-blue-left",
+        "ticks": null
       }
     ]
   },
