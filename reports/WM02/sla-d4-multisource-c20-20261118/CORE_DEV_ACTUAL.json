@@ -1,0 +1,46 @@
+{
+  "schema": "D4_CORE_DEV_OBSERVED",
+  "observed": "2026-11-19T12:21:17+08:00",
+  "source_sha": "56b096101fb1d52a0b4458a136d696a284699bfe",
+  "execution_spec_sha256": "a25383aea633117056de01c76d5dde1a5f408c3469663347b17b085f1b61e947",
+  "deadline": "2026-11-20T00:12:04+08:00",
+  "unit": "wm02-sla-d4-native-paired-20261119-01",
+  "service_state": "active",
+  "main_pid": 3300943,
+  "lease": "ACTIVE",
+  "server_managed": true,
+  "planned": {
+    "matched_pairs": 24,
+    "cases": {
+      "D4-A": 24,
+      "D4-B": 24
+    },
+    "caps": {
+      "native_requests": 48,
+      "native_ticks": 2193744,
+      "model_generations": 7680,
+      "training_updates": 0
+    }
+  },
+  "verified": {
+    "portable_files": 67,
+    "frozen_native_files": 29,
+    "prior_interface_requests_reused": 2,
+    "population_sha256": "4a601d1ed2126e7acf6e522b10da569098bda37be0c206baf7069a47c783b746"
+  },
+  "actual": {
+    "sealed_native_requests": 0,
+    "sealed_native_ticks": 0,
+    "current_case": "D4-DEV-F1-1-HOLD-red-D4-A",
+    "current_case_observed_tick": 8528,
+    "gpu_models_loaded": true,
+    "gpu_parent_loads": 1,
+    "gpu_adapters": 2,
+    "recorded_model_generations": 12,
+    "training_updates": 0,
+    "hardware_requests": 0,
+    "terminal": false,
+    "first_verified_full_P10_queries": 3,
+    "first_verified_consumed_atoms": 30
+  }
+}
