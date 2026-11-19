@@ -60,12 +60,12 @@ def require_cold_save_failure(config, lineage):
     return prior['completed_roles']['qualify']
 
 
-def pbs_site(config, root):
+def pbs_site(config, root, *, wall=WALL):
     job, window = read_pbs_with_auth_retry(pbs_job,config)
     deadline = window['deadline_epoch']
     uuid,name,total,free = actual_gpu()
     fraction = .80
-    if window['PBS_wall_s'] > WALL or not 1800 < deadline-time.time() <= WALL or free <= (fraction*total)+2*GIB:
+    if not 1800 < wall <= 21600 or window['PBS_wall_s'] > wall or not 1800 < deadline-time.time() <= wall or free <= (fraction*total)+2*GIB:
         raise PermissionError('ADAPT5K_REQUIRES_A_REAL_RESERVED_FINITE_A40_WITH_HEADROOM')
     cache = Path(os.environ['TMPDIR']).resolve(strict=True)/'sla-adapt5k-compile'
     cache.mkdir()
@@ -83,11 +83,36 @@ def pbs_site(config, root):
         XLA_PYTHON_CLIENT_MEM_FRACTION=str(fraction),XLA_PYTHON_CLIENT_PREALLOCATE='false',
         HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1')
     common = dict(plan=contract.PLAN,source_sha=config['source_sha'],site_binding=pin(site),GPU_uuid=uuid,
-        JAX_memory_fraction=fraction,deadline_epoch=deadline-60,max_walltime_s=WALL,max_gpu_hours=WALL/3600,
+        JAX_memory_fraction=fraction,deadline_epoch=deadline-60,max_walltime_s=wall,max_gpu_hours=wall/3600,
         save_and_exit_on_limit=True,model_service_timeout_s=1800,RPC_timeout_s=1800,save_reserve_s=300,
         STOP_path=str(root/'STOP.json'),hardware_allowed=False,physics=False,
         neural_owner_lock=str(root/'DEVICE_WORKER.lock'),**paths)
     return common,env,job
+
+
+def site_inputs(config):
+    custody_pin = config['MIX_parent_custody']
+    custody = read_pin(custody_pin)
+    if (custody != local_custody(Path(custody_pin['path']).parent,custody['transfer'])
+            or custody['checkpoint'] != config['parent_checkpoint'] or custody['step'] != config['parent_step']
+            or custody['training_spec'] != config['parent_training_spec']):
+        raise ValueError('ADAPT5K_NEEDS_BYTE_COMPLETE_ORIGINAL_FORMAL_MIX_PARENT')
+    assets = read_pin(config['data_contract'])
+    custody = read_pin(assets['R200_custody'])
+    if custody['train_episodes'] != 200 or custody['train_windows'] != 210398 or custody['SOURCE_TEST_access']:
+        raise ValueError('ADAPT5K_REFUSES_PARTIAL_R200_CUSTODY')
+    training = read_pin(assets['train_input'])
+    evidence = read_pin(assets['eval_input'])
+    if (training['data']['robodojo'] != custody['data']
+            or training['data']['target'] != evidence['target_D1']
+            or training['parent_checkpoint_sha256'] != config['parent_checkpoint']['sha256']
+            or evidence['D1_freeze_sha256'] != config['D1_freeze_sha256']):
+        raise ValueError('ADAPT5K_SITE_TRAIN_AND_EVAL_ASSETS_REQUIRE_THE_SAME_FROZEN_D1')
+    cpu = read_pin(assets['train_proof'])
+    if (cpu['core'] != cpu['vanda'] or cpu['vanda']['parent_checkpoint_sha256'] != config['parent_checkpoint']['sha256']
+            or read_pin(evidence['panel'])['old_TEST_access'] or sum(len(x) for x in cpu['vanda']['inputs'].values()) != 22):
+        raise ValueError('ADAPT5K_SITE_TRAIN_INPUTS_REQUIRE_ACTUAL_CROSS_SITE_READER_PROOF')
+    return assets,training,evidence,cpu
 
 
 def run(config):
@@ -116,27 +141,7 @@ def run(config):
     try:
         if (lineage/'STOP.json').exists() or stop.exists():
             raise PermissionError('ADAPT5K_LINEAGE_OR_ROLE_STOPPED')
-        custody_pin = config['MIX_parent_custody']
-        custody = read_pin(custody_pin)
-        if (custody != local_custody(Path(custody_pin['path']).parent,custody['transfer'])
-                or custody['checkpoint'] != config['parent_checkpoint'] or custody['step'] != config['parent_step']
-                or custody['training_spec'] != config['parent_training_spec']):
-            raise ValueError('ADAPT5K_NEEDS_BYTE_COMPLETE_ORIGINAL_FORMAL_MIX_PARENT')
-        assets = read_pin(config['data_contract'])
-        custody = read_pin(assets['R200_custody'])
-        if custody['train_episodes'] != 200 or custody['train_windows'] != 210398 or custody['SOURCE_TEST_access']:
-            raise ValueError('ADAPT5K_REFUSES_PARTIAL_R200_CUSTODY')
-        training = read_pin(assets['train_input'])
-        evidence = read_pin(assets['eval_input'])
-        if (training['data']['robodojo'] != custody['data']
-                or training['data']['target'] != evidence['target_D1']
-                or training['parent_checkpoint_sha256'] != config['parent_checkpoint']['sha256']
-                or evidence['D1_freeze_sha256'] != config['D1_freeze_sha256']):
-            raise ValueError('ADAPT5K_SITE_TRAIN_AND_EVAL_ASSETS_REQUIRE_THE_SAME_FROZEN_D1')
-        cpu = read_pin(assets['train_proof'])
-        if (cpu['core'] != cpu['vanda'] or cpu['vanda']['parent_checkpoint_sha256'] != config['parent_checkpoint']['sha256']
-                or read_pin(evidence['panel'])['old_TEST_access'] or sum(len(x) for x in cpu['vanda']['inputs'].values()) != 22):
-            raise ValueError('ADAPT5K_SITE_TRAIN_INPUTS_REQUIRE_ACTUAL_CROSS_SITE_READER_PROOF')
+        assets,training,evidence,cpu = site_inputs(config)
         old = require_previous_qualification(config) if role == 'prefix25' else None
         failed = require_cold_save_failure(config,lineage) if role == 'recover0' else None
         common,env,job = pbs_site(config,root)
