@@ -191,17 +191,20 @@ def test_core_offline_does_not_consume_formal_budget_on_the_technical_prefix(tmp
         offline.offline_endpoint(config, tmp_path/'evaluation')
 
 
-def test_scale_portable_transport_keeps_original_training_card_and_checks_all_arrays(tmp_path, monkeypatch):
+@pytest.mark.parametrize('core',[False,True])
+def test_scale_portable_transport_keeps_original_training_card_and_checks_all_arrays(tmp_path, monkeypatch, core):
     import io
+    import json
+    import os
 
     from scripts.pi0292.durable import write
     from scripts.sla import scale20k_portable_endpoint as transport
 
-    source = tmp_path/'vanda'
+    source = tmp_path/'original'
     stage = source/'train'
     state = stage/'step00500'
     state.mkdir(parents=True)
-    arm, step, ident = transport.ARM, 500, 'a'*64
+    arm, step, ident = (transport.CORE_ARM if core else transport.ARM), 500, 'a'*64
     job, launcher, train_source = '123.site', 'b'*40, 'c'*40
     binding = dict(recipe=RECIPE,plan_sha=PLAN,arm=arm,learning_rates_sha256=bank_sha256(learning_rates()),
         parent_manifest_sha256=ident,partition_sha256=ident,initial_state_sha256=ident,optimizer_sha256=ident,
@@ -220,24 +223,54 @@ def test_scale_portable_transport_keeps_original_training_card_and_checks_all_ar
     write(stage/'SPEC.private.json',dict(arm=arm,source_sha=train_source,plan_sha=PLAN,recipe=RECIPE,
         global_stop_step=step,physics=False,hardware_allowed=False,dataset='/original/vanda/dataset'))
     terminal = stage/'RESULT.private.json'
+    before, after = cursors(arm,200), cursors(arm,500)
     write(terminal,dict(arm=arm,scope=RECIPE,mode='train',source_sha=train_source,exit_code=0,
-        status='FIXED_SEGMENT_SAVED',global_step=step,global_cursors=cursors(arm,step),
+        status='FIXED_SEGMENT_SAVED',global_step=step,global_cursors=after,
+        new_updates=300,new_model_generations=1200,new_visits={d:after[d]-before[d] for d in DOMAINS},
         new_native_requests=0,new_native_ticks=0,checkpoint=endpoint))
     write(source/'RESULT.private.json',dict(source_sha=launcher,training_source_sha=train_source,
         status='FIXED_SEGMENT_SAVED',PBS_JOBID=job,stages=dict(train=transport.pin(terminal))))
-    write(source/'EXECUTION.private.json',dict(arm=arm,plan_sha=PLAN,source_sha=launcher,job_id=job,root=str(source)))
-    monkeypatch.setattr(transport,'scheduler_terminal',lambda cfg:dict(id=job,state='F',exit_code=0))
+    if core:
+        unit = 'wm02-original'
+        write(source/'SCHEDULE.private.json',dict(arm=arm,plan=PLAN,source_sha=train_source,unit=unit,
+            global_stop_step=step,deadline_epoch=1234,root=str(source),host=os.uname().nodename,uid=os.getuid()))
+        lease = source/'control/LEASE.json'
+        lease.parent.mkdir()
+        write(lease,dict(unit=unit+'.service',status='CLOSED',deadline_epoch=1234))
+        with (stage/'UPDATES.private.jsonl').open('x') as stream:
+            for n in range(201,501):
+                json.dump(dict(step=n,cursors=cursors(arm,n),
+                    domains=dict(target=dict(training_full_generations=4),robodojo={},libero={})),stream)
+                stream.write('\n')
+        site = dict(unit=unit+'.service',ActiveState='inactive',pid=0,cgroup_pids=[123])
+        monkeypatch.setattr(transport,'unit_state',lambda _:site)
+        rejected = io.BytesIO()
+        with pytest.raises(PermissionError,match='STILL_OWNED'):
+            transport.export_bundle(source,rejected,core=True)
+        assert rejected.getvalue() == b''
+        site['cgroup_pids'] = []
+    else:
+        write(source/'EXECUTION.private.json',dict(arm=arm,plan_sha=PLAN,source_sha=launcher,job_id=job,root=str(source)))
+        monkeypatch.setattr(transport,'scheduler_terminal',lambda cfg:dict(id=job,state='F',exit_code=0))
     stream = io.BytesIO()
-    transport.export_bundle(source,stream)
-    destination = tmp_path/'core'
+    transport.export_bundle(source,stream,core=core)
+    destination = tmp_path/'receiver'
     custody = transport.receive_bundle(destination,io.BytesIO(stream.getvalue()))
     assert custody['checkpoint']['sha256'] == endpoint['sha256']
     assert (destination/'train/SPEC.private.json').read_bytes() == (stage/'SPEC.private.json').read_bytes()
     assert transport.local_custody(destination,custody['transfer']) == custody
+    if core:
+        from scripts.sla import scale20k_vanda_offline as offline
+        config = dict(arm=arm,step=500,portable_custody=transport.pin(destination/'CUSTODY.private.json'))
+        assert offline.offline_endpoint(config,tmp_path/'evaluation') == (custody['checkpoint'],custody['training_spec'])
+        with (destination/'train/UPDATES.private.jsonl').open('a') as output:
+            output.write('{}\n')
+        with pytest.raises(ValueError,match='LEASE_OR_LEDGER_CHANGED'):
+            offline.offline_endpoint(config,tmp_path/'evaluation')
     (state/'000001.npy').write_bytes(b'damaged')
     rejected = io.BytesIO()
     with pytest.raises(ValueError,match='TRANSFER_INPUT_HASH_MISMATCH'):
-        transport.export_bundle(source,rejected)
+        transport.export_bundle(source,rejected,core=core)
     assert rejected.getvalue() == b''
 
 

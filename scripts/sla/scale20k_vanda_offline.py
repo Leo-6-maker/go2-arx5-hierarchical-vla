@@ -1,4 +1,4 @@
-"""Evaluate and independently restore a sealed SCALE-TGT milestone on an allocated A40."""
+"""Evaluate and independently restore a sealed SCALE milestone on an allocated A40."""
 import argparse
 import math
 import os
@@ -12,6 +12,7 @@ from go2arx5_vla.sla_adapter.scale20k_contract import CHECKPOINTS, DOMAINS, PLAN
 from go2arx5_vla.sla_adapter.scale20k_evaluation import PER_DOMAIN, RESTORE
 from scripts.pi0292.durable import OwnerLock, write
 from scripts.sla.evaluate_scale20k import evidence_spec, relocated_training
+from scripts.sla.scale20k_portable_endpoint import CORE_ARM, local_custody
 from scripts.sla.scale20k_vanda_prefix import ARM, completed_prefix
 from scripts.wm02.multisource_d4_vanda import GIB, actual_gpu, pbs_job, pin
 
@@ -35,12 +36,31 @@ def read_pbs_with_auth_retry(query, *args):
             time.sleep(4*(attempt+1))
 
 
+def offline_endpoint(config, root):
+    if config['arm'] == CORE_ARM:
+        portable = config['portable_custody']
+        held = read_pin(portable)
+        custody_root = Path(portable['path']).resolve(strict=True).parent
+        if (custody_root == root or custody_root.stat().st_uid != os.getuid()
+                or held['arm'] != CORE_ARM or held['step'] != config['step']
+                or local_custody(custody_root,held['transfer']) != held):
+            raise ValueError('SCALE_VANDA_OFFLINE_REQUIRES_VERIFIED_COLD_CORE_MIX500_CUSTODY')
+        return held['checkpoint'], held['training_spec']
+    checkpoint_result, _ = read_pbs_with_auth_retry(completed_prefix,config,root)
+    terminal = read_pin(checkpoint_result)
+    if terminal['global_step'] != config['step'] or terminal['exit_code'] != 0:
+        raise ValueError('SCALE_VANDA_OFFLINE_REQUIRES_ORIGINAL_COMPLETE_MILESTONE')
+    return terminal['checkpoint'], config['continuation']['training_spec']
+
+
 def run(config):
     root = Path(config['root']).resolve(strict=True)
     source = Path(__file__).resolve().parents[2]
     if (root.stat().st_uid != os.getuid() or (root/'RESULT.private.json').exists()
             or (source/'SOURCE_SHA.private').read_text().strip() != config['source_sha']
-            or config['plan'] != PLAN or config['arm'] != ARM or config['step'] not in CHECKPOINTS[ARM]):
+            or config['plan'] != PLAN
+            or not ((config['arm'] == ARM and config['step'] in CHECKPOINTS[ARM])
+                    or (config['arm'] == CORE_ARM and config['step'] == 500))):
         raise PermissionError('SCALE_VANDA_OFFLINE_REQUIRES_FRESH_OWNED_MILESTONE_SCOPE')
     lock = OwnerLock(root/'PBS_OWNER.lock')
     stop = root/'STOP.json'
@@ -60,12 +80,7 @@ def run(config):
         deadline = allocation['deadline_epoch']
         if not 600 < deadline-time.time() <= WALL or allocation['PBS_wall_s'] > WALL:
             raise PermissionError('SCALE_VANDA_OFFLINE_REQUIRES_FINITE_EXISTING_PBS_WINDOW')
-        checkpoint_result, _ = read_pbs_with_auth_retry(completed_prefix,config,root)
-        terminal = read_pin(checkpoint_result)
-        if terminal['global_step'] != config['step'] or terminal['exit_code'] != 0:
-            raise ValueError('SCALE_VANDA_OFFLINE_REQUIRES_ORIGINAL_COMPLETE_MILESTONE')
-        checkpoint = terminal['checkpoint']
-        training = config['continuation']['training_spec']
+        checkpoint, training = offline_endpoint(config,root)
         assets = read_pin(config['site_assets'])
         relocated = relocated_training(read_pin(training), assets)
         result.update(checkpoint=checkpoint,training_spec=training,site_assets=config['site_assets'])
@@ -89,7 +104,7 @@ def run(config):
         env = dict(os.environ,CUDA_VISIBLE_DEVICES=uuid,JAX_PLATFORMS='cuda',
                    XLA_PYTHON_CLIENT_MEM_FRACTION=str(fraction),XLA_PYTHON_CLIENT_PREALLOCATE='false',
                    XLA_FLAGS=config['XLA_FLAGS'],HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1')
-        common = dict(plan=PLAN,arm=ARM,step=config['step'],source_sha=config['source_sha'],
+        common = dict(plan=PLAN,arm=config['arm'],step=config['step'],source_sha=config['source_sha'],
             checkpoint=checkpoint,training_spec=training,site_assets=config['site_assets'],panel=config['panel'],
             site_binding=pin(site),physics=False,hardware_allowed=False,updates_cap=0,native_request_cap=0,
             GPU_uuid=uuid,JAX_memory_fraction=fraction,neural_owner_lock=str(root/'GPU_WORKER.lock'),
