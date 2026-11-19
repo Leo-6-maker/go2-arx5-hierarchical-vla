@@ -1,0 +1,86 @@
+{
+  "step500": {
+    "job": "F",
+    "exit": 0,
+    "complete_state_footer": true,
+    "terminal": true,
+    "step500": {
+      "global_step": 500,
+      "global_cursors": {
+        "target": 16000,
+        "robodojo": 0,
+        "libero": 0
+      },
+      "new_updates": 300,
+      "new_visits": {
+        "target": 9600,
+        "robodojo": 0,
+        "libero": 0
+      },
+      "new_model_generations": 1200,
+      "new_native_requests": 0,
+      "new_native_ticks": 0,
+      "source_sha": "ea7f609426677d5812dd27daa5b391d545269d0d",
+      "status": "FIXED_SEGMENT_SAVED",
+      "exit_code": 0,
+      "wall_s": 4017.746220253175
+    },
+    "checkpoint_sha256": "bb9e64867ec4d5b692fe32b77054aa3c2d31b22f7c53bc011ccacda6641eb59f",
+    "state_array_count": 140,
+    "training_terminal_sha256": "0fd9f44f2cd64f35fc124ca92489daad859caa9e15395a92f4188accf007f4b3",
+    "campaign_terminal_sha256": "726dc5e6f4169dc914074b25643fc289b54cb9d90bcb852cd079bed019e724ca",
+    "durable_update_rows": 300
+  },
+  "observed_changes_vs_step200": {
+    "changed_arrays": {
+      "optimizer": 60,
+      "parameters": 29
+    },
+    "arrays_total": 140,
+    "binding_equal": true,
+    "step": 500,
+    "cursors": {
+      "target": 16000,
+      "robodojo": 0,
+      "libero": 0
+    },
+    "generation_count_in_footer": 2000
+  },
+  "successor": {
+    "held": {
+      "job": "1593003.stdct-mgmt-02",
+      "state": "H",
+      "queue": "auto",
+      "wall": "06:00:00",
+      "exit_status": null
+    },
+    "released": {
+      "job": "1593003.stdct-mgmt-02",
+      "state": "Q",
+      "queue": "batch_gpu",
+      "wall": "06:00:00",
+      "exit_status": null
+    },
+    "launcher_sha": "4adde3359faae06499126d37bcbe7bbf03c76f4d",
+    "training_sha": "ea7f609426677d5812dd27daa5b391d545269d0d",
+    "old_job": {
+      "job": "1592745.stdct-mgmt-02",
+      "state": "F",
+      "queue": "batch_gpu",
+      "wall": "03:00:00",
+      "exit_status": 0
+    },
+    "execution_sha256": "856f3ffe21eac82220acee2a1ba708b48e09b32bd61960a2e640486cc7b130be",
+    "outer_deadline_epoch": 1795122120.4761784,
+    "registered_global_limit": 2000,
+    "prior_training_result_sha256": "0fd9f44f2cd64f35fc124ca92489daad859caa9e15395a92f4188accf007f4b3"
+  },
+  "initial_expired_session_precheck_effects": {
+    "submitted_jobs": 0,
+    "training_updates": 0,
+    "native_requests": 0
+  },
+  "checkpoint_transfer_state": "IN_PROGRESS",
+  "offline_generations": 0,
+  "physical_native_requests": 0
+}
