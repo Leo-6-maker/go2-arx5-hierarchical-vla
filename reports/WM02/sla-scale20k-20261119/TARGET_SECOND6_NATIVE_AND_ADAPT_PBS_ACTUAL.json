@@ -1,0 +1,176 @@
+{
+  "schema": "SLA_ADAPT_NATIVE_SECOND6_AND_ADAPT_PBS_ENTRY_ACTUAL_V1",
+  "observation_SGT": "2026-11-20T01:25:49+08:00",
+  "bound_goal_plan": "5734a73cbda5c333cc3d7d7e0f032e679a4c08b6",
+  "core_source_sha": "7a77fc9817fed86424863df247aa03ca02b018bc",
+  "spec_sha256": "67cf8c3dd3eeefadc1e66e544f1e073ad57c6d6e5b8cea4707907a2fe9b0a5f1",
+  "scheduled_first_batch_prior_sha256": "046614048094051c88316fa07f13512a88585e437654d54ac6d90d22b56237b1",
+  "compiled_population_sha256": "0ab2251f91f91c4d5b76a4e861cef27d3f9b5632a2b66910c5876c1ab61b214a",
+  "historical_scene_hashes_checked": 208,
+  "historical_populations_checked": 7,
+  "robot_fingerprints": [
+    "67d4b804c438beabec9790ecf40b60584d2b45ec0c5f1799f377bf784f316bc8"
+  ],
+  "ordered_new_conditions": [
+    {
+      "family": "F1",
+      "instruction": "PLACE-red-left",
+      "reset": 731100,
+      "offset_mm": [
+        2,
+        -3
+      ],
+      "scene_sha256": "683d852bbfe34c60b078f7843920281fb541e11e8dd57b4c0688f3dd271f79e0"
+    },
+    {
+      "family": "F1",
+      "instruction": "PLACE-blue-right",
+      "reset": 731101,
+      "offset_mm": [
+        -3,
+        -3
+      ],
+      "scene_sha256": "1c34952424e9a201e46ad48bed39f02751d95bc5d0e9e6131e4589d1a7076088"
+    },
+    {
+      "family": "F2",
+      "instruction": "PLACE-red-left",
+      "reset": 731102,
+      "offset_mm": [
+        2,
+        7
+      ],
+      "scene_sha256": "c253158bbb3c11e04d36c1f5ee42c4819f2bc130ab0a0e15cbce5a87b2d05377"
+    },
+    {
+      "family": "F2",
+      "instruction": "PLACE-blue-right",
+      "reset": 731103,
+      "offset_mm": [
+        7,
+        2
+      ],
+      "scene_sha256": "162841f251cb7cd50178bd7f7ca9fd490bf4e61e92cbd88e7e7cf1521b0c17e7"
+    },
+    {
+      "family": "F2",
+      "instruction": "PLACE-blue-left",
+      "reset": 731104,
+      "offset_mm": [
+        -3,
+        7
+      ],
+      "scene_sha256": "f92f3f5790540ed6891f70b7f12a53930508105e6f2e3bc335b612f6dcdfd650"
+    },
+    {
+      "family": "F2",
+      "instruction": "PLACE-red-right",
+      "reset": 731105,
+      "offset_mm": [
+        7,
+        -3
+      ],
+      "scene_sha256": "54214a5cd1e6f1e3ea0bd2fe0a2be01400bb27e516f07369507413aa1a2e4d6c"
+    }
+  ],
+  "measured_host_available_bytes_before_registration": 44494540800,
+  "latest_deadline_SGT": "2026-11-20T04:58:28+08:00",
+  "budget_for_this_batch": {
+    "new_native_requests": 6,
+    "per_case_native_ticks": 50703,
+    "all_native_ticks": 304218,
+    "student_generations": 0,
+    "optimizer_updates": 0
+  },
+  "independently_verified_owner": {
+    "MainPID": "4080484",
+    "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-scale-target-adaptation-second6-native-20261120-01.service",
+    "ActiveState": "active",
+    "InvocationID": "284e5f9f56d641ce8c8f7fe1ac730220"
+  },
+  "independently_verified_MIX": {
+    "MainPID": "3957773",
+    "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-scale20k-mix-core-after500-20261119-01.service",
+    "ActiveState": "active",
+    "InvocationID": "0df8adf6dee3468a816576548e8d9088"
+  },
+  "live_effects": {
+    "native_started": 1,
+    "closed_requests": 0,
+    "native_ticks_as_of_observation": 32420,
+    "real_robot_requests": 0,
+    "operator_local_process_dependency": false,
+    "rows": [
+      {
+        "condition": "ADAPTATION_TRAIN_PLACE_SECOND6-F1-01-PLACE-red-left",
+        "raw_observed_native_tick": 32420,
+        "raw_observed_native_time_s": 64.84000000003029,
+        "native_request_started": true,
+        "terminal": false,
+        "raw_packet_SHA": "9ffd51dc53e3a5b5ecfc28fe490fec4690b8dbdb14406f0afbcda5466061a14a",
+        "last_consumed_score": {
+          "native_step": 32203,
+          "task_success": false,
+          "ever_target_grasp": true,
+          "ever_target_lift20mm": true,
+          "maximum_lift_m": 0.05959933719082522,
+          "inside_selected_region": false,
+          "events": {
+            "base80mm": {
+              "native_step": 9977,
+              "native_time_s": 19.95399999999982
+            },
+            "target_grasp": {
+              "native_step": 21017,
+              "native_time_s": 42.034000000005406
+            },
+            "target_lift20mm": {
+              "native_step": 23388,
+              "native_time_s": 46.7760000000112
+            }
+          },
+          "missing_native_intervals": 0,
+          "unsafe_states": 0
+        },
+        "native_first_integration_receipt_sha256": "02881ca24a2f2ea4871dcbd889d2ebc16f541582cd50e6214fb1eb555a124cc9"
+      }
+    ]
+  },
+  "automatic_strict_admission_on_real_terminal": {
+    "observer": {
+      "MainPID": "4084487",
+      "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-scale-target-adaptation-second6-admission-20261120-01.service",
+      "ActiveState": "active",
+      "InvocationID": "d2222e69e9624c6e9803845b4419d0a4"
+    },
+    "observer_sha256": "7e6ca935197ebe801f797e8dfd774d79e5f86a1826da8807e08d75994ce1fc3d",
+    "spec_sha256": "929c14d169e04a00f11602b3b2048d0a14e53358d39fd45e2a1133e4f76a7fa7",
+    "watch_deadline_SGT": "2026-11-20T05:01:28+08:00",
+    "lingering": "yes",
+    "current_admissions": 0,
+    "adds_new_data_to_active_D1_or_running_training": false
+  },
+  "core_native_stop_entry": "sla-scale-target-adaptation-second6-native-20261120-01/STOP.json",
+  "cpu_admission_stop_entry": "sla-scale-target-adaptation-second6-admission-20261120-01/STOP.json",
+  "ADAPT_PBS_qualification": {
+    "source": "15aea3b2f7fa078ed18685d2545c60211a4ccfe6",
+    "real_Core_reader_samples": 22,
+    "rechecked_total_training_windows": {
+      "target": 1892,
+      "robodojo": 210398,
+      "libero": 209146
+    },
+    "rechecked_core_input_hash": "1812283b099ffa1db4f70b519a497f678b80fa7aa651eecfab3a7482b0107615",
+    "required_single_GPU_type": "NVIDIA A40",
+    "PBS_job_submission_verified": false,
+    "optimizer_updates": 0,
+    "model_generations": 0,
+    "real_gradient_windows": 0,
+    "native_requests": 0,
+    "readiness_block": "Need confirmed full R200 payload custody and matched VANDA production reader"
+  },
+  "validated_tests": {
+    "targeted_native_tests": 15,
+    "original_SLA_checkpoint_and_ADAPT_tests": 25
+  }
+}
