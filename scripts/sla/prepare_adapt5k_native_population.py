@@ -6,10 +6,10 @@ import json
 from pathlib import Path
 import time
 
-from go2arx5_vla.sla_adapter.checkpoint_v1 import sha
-from go2arx5_vla.sla_adapter.runtime_v1 import read_pin
 from go2arx5_vla.world_model.multitask_score_v6 import INSTRUCTIONS
+from go2arx5_vla.world_model.storage import digest
 from scripts.pi0292.durable import write
+from scripts.wm02.multitask_binding_audit_v6 import pinned
 from scripts.wm02.multitask_d2_population import position_id
 from scripts.wm02.multitask_population_v6 import compile_population
 
@@ -20,7 +20,11 @@ STAGES = {'ADAPT_DEV': ((10,18),(-18,7)), 'ADAPT_CONFIRM': ((18,4),(-7,-18))}
 
 
 def pin(path):
-    return dict(path=str(path),sha256=sha(path))
+    return dict(path=str(path),sha256=digest(path))
+
+
+def read_pin(descriptor):
+    return json.loads(pinned(descriptor).read_bytes())
 
 
 def scene_identity(cluster):
