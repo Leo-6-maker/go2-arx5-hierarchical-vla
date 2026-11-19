@@ -14,8 +14,7 @@ from go2arx5_vla.sla_adapter.site_v2 import validate
 DEPENDENCY_LOCK = '31888931603422e1451e25b909dd615db459f6d2d998632444345933f6dcc82f'
 
 
-def preflight(spec, site):
-    verify_history(spec)
+def historical_operator_environment(spec, site):
     if site['GPU_name'] != 'NVIDIA A40':
         raise ValueError('D5_REQUIRES_MATCHED_HISTORICAL_A40_OPERATOR_ENVIRONMENT')
     dependency = spec['historical_dependency_lock']
@@ -25,10 +24,16 @@ def preflight(spec, site):
     versions['torch'] = '2.7.1+cpu'
     if any(version(name) != value for name, value in versions.items()):
         raise ValueError('D5_DEPENDENCY_VERSION_DIFFERS_FROM_HISTORICAL_B')
+    return dict(runtime_packages_verified=len(versions), GPU=site['GPU_name'])
+
+
+def preflight(spec, site):
+    verify_history(spec)
+    runtime = historical_operator_environment(spec, site)
     from scripts.wm02.sla_followup_population_v1 import validate_frozen
 
     validate_frozen(read_pin(spec['sealed_followup_population']))
-    return dict(runtime_packages_verified=len(versions), GPU=site['GPU_name'])
+    return runtime
 
 
 def run(spec, *, restore):

@@ -21,6 +21,9 @@ class FullTrajectoryEngine(DeviceResidentEngine):
     """Shared fixed32 update with four full-trajectory auxiliary samples."""
     auxiliary_metric = 'full_H40_loss'
 
+    def combine_gradient(self, accumulator):
+        return accumulator, {}
+
     def update(self):
         import jax,jax.numpy as jnp
         from .batch_v2 import prepared_batches,device_batch
@@ -40,6 +43,7 @@ class FullTrajectoryEngine(DeviceResidentEngine):
         finally:batches.close()
         if aux_obs is None:raise ValueError('FOUR_FIXED_IN_BATCH_AUX_ANCHORS_REQUIRED')
         accumulator,aux=self._aux_four(aux_obs,self.cursor+first,accumulator)
+        accumulator,domain_metrics=self.combine_gradient(accumulator)
         norm=float(self.gradient_norm(accumulator));value=np.asarray(metrics)
         if not np.isfinite(value).all()or not np.isfinite(norm)or norm<=0:raise ValueError('FINITE_REAL_EFFECTIVE32_PLUS_AUX_GRADIENT_REQUIRED')
         self.counts['completed_forward_backward']+=8;self.counts['completed_training_visits']+=32;count('optimizer_update_attempts')
@@ -49,6 +53,7 @@ class FullTrajectoryEngine(DeviceResidentEngine):
             aux=aux,micro=logs,grad_norm_before_clip=norm,
             used_lr=self.learning_rate_values[self.step-1],wall_s=time.perf_counter()-started,GPU_memory=jax.devices()[0].memory_stats())
         row[self.auxiliary_metric]=float(np.mean([x['loss']for x in aux]))
+        row.update(domain_metrics)
         with(self.output/'updates.private.jsonl').open('a')as f:f.write(json.dumps(row)+'\n');f.flush()
         return row
 

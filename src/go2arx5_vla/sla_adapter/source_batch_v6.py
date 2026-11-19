@@ -16,7 +16,7 @@ class SourceTokenizer(Tokenizer):
         return self.delegate.tokenize(prompt,None if drop_state else state[:14],use_discrete_state_format=True)
 
 
-def host_batch(dataset,tokenizer,visit_map,start,microbatch,*,on_read=None):
+def host_batch(dataset,tokenizer,visit_map,start,microbatch,*,on_read=None,dropper=drop_state):
     accumulation_steps(microbatch);began=time.perf_counter();rows=[];tokens=[];masks=[];drops=[]
     indices=[int(i)for i in visit_map[start:start+microbatch]]
     if len(indices)!=microbatch:raise ValueError('COMPLETE_SOURCE_MICROBATCH_REQUIRED')
@@ -24,7 +24,7 @@ def host_batch(dataset,tokenizer,visit_map,start,microbatch,*,on_read=None):
         if on_read:on_read('host_window_read_attempts')
         item=dataset[index]
         if on_read:on_read('host_window_reads')
-        drop=drop_state(start+offset);token,mask=tokenizer(item['prompt'],item['state'],drop_state=drop)
+        drop=dropper(start+offset);token,mask=tokenizer(item['prompt'],item['state'],drop_state=drop)
         rows.append(item);tokens.append(token);masks.append(mask);drops.append(drop)
     obs=dict(image={k:np.stack([r['image'][k]for r in rows])for k in CAMERAS},
         image_mask={k:np.asarray([r['image_mask'][k]for r in rows],bool)for k in CAMERAS},
@@ -49,11 +49,15 @@ def prepared_batches(dataset,tokenizer,visit_map,cursor,microbatch,*,executor=No
             yield dict(batch,host_wait_s=wait)
 
 
-def draw_bank(rng,cursors):
+def draws(rng,cursors):
     import jax,jax.numpy as jnp
-    if cursors.shape!=(32,):raise ValueError('SOURCE_FIXED32_ABSOLUTE_CURSOR_BANK_REQUIRED')
     keys=jax.vmap(lambda i:jax.random.fold_in(rng,i))(jnp.asarray(cursors,jnp.uint32))
     parts=jax.vmap(lambda k:jax.random.split(k,3))(keys)
     noise=jax.vmap(lambda k:jax.random.normal(k,(1,50,32)))(parts[:,1])[:,0]
     tau=jax.vmap(lambda k:jax.random.beta(k,1.5,1,(1,)))(parts[:,2])[:,0]
     return noise,tau*.999+.001
+
+
+def draw_bank(rng,cursors):
+    if cursors.shape!=(32,):raise ValueError('SOURCE_FIXED32_ABSOLUTE_CURSOR_BANK_REQUIRED')
+    return draws(rng,cursors)

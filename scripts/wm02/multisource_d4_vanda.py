@@ -19,6 +19,7 @@ from go2arx5_vla.sla_adapter.runtime_v1 import read_pin
 
 GIB = 1024**3
 D5_SCOPE = 'SLA_D5_MATCHED_PHYSICAL_GRASP_V1'
+J_SCOPE = 'SLA_J_SOURCE_MATCHED_VANDA_PBS_V1'
 
 
 def pin(path):
@@ -79,7 +80,8 @@ def build_cards(config, root, job_id, gpu, window):
     base = portable['spec']
     source = Path(config['source_root'])
     d5 = config['scope'] == D5_SCOPE
-    assets = Path(config['historical_assets_root']) if d5 else root
+    joint = config['scope'] == J_SCOPE
+    assets = Path(config['historical_assets_root']) if d5 or joint else root
     foundation = assets/'foundation'/portable['model_manifest_filename']
     dataset = (assets/'C20').resolve(strict=True)
     sidecar = pin(assets/'sealed/INPUTS.private.json')
@@ -128,6 +130,20 @@ def build_cards(config, root, job_id, gpu, window):
                       historical_B_initial=config['historical_B_initial'],
                       historical_dependency_lock=config['historical_dependency_lock'],
                       sealed_followup_population=config['sealed_followup_population'])
+    if joint:
+        from go2arx5_vla.sla_adapter import joint_source_d4 as successor
+
+        custody = read_pin(config['source_custody'])
+        if not custody['completed'] or (custody['TRAIN'], custody['SOURCE_DEV'], custody['SOURCE_TEST']) != (36, 12, 0):
+            raise ValueError('JOINT_REQUIRES_VERIFIED_TRAIN_DEV_ONLY_SOURCE_CUSTODY')
+        source_data = Path(custody['root'])
+        arms = successor.ARMS
+        common.update(plan_commit=successor.PLAN, operation=successor.RECIPE,
+                      historical_dependency_lock=config['historical_dependency_lock'],
+                      sealed_followup_population=config['sealed_followup_population'],
+                      B500_package=config['B500_package'], source_dataset=str(source_data/'dataset'),
+                      source_raw_root=str(source_data/'raw'), source_visit_bank=str(source_data/'VISITS4000.npy'),
+                      S1000_source_checkpoint=dict(path=str(source_data/'S1000'), sha256=successor.SOURCE_CHECKPOINT))
     env = dict(os.environ, CUDA_VISIBLE_DEVICES=identity, JAX_PLATFORMS='cuda',
         JAX_COMPILATION_CACHE_DIR=str(cache), XLA_FLAGS=portable['XLA_FLAGS'],
         XLA_PYTHON_CLIENT_MEM_FRACTION=str(common['JAX_memory_fraction']),
@@ -156,7 +172,7 @@ def run(config):
         for member,digest in config['source_files'].items():
             if sha(Path(config['source_root'])/member)!=digest:
                 raise ValueError('D4_PBS_IMMUTABLE_SOURCE_MEMBER_CHANGED:'+member)
-        if config['scope'] == D5_SCOPE:
+        if config['scope'] in (D5_SCOPE, J_SCOPE):
             from go2arx5_vla.sla_adapter.grasp_supervision_d5 import PLAN as D5_PLAN
             from .sla_followup_population_v1 import validate_frozen
 
@@ -180,7 +196,10 @@ def run(config):
             folder=card.parent
             row=dict(arm=folder.name)
             records.append(row)
-            for kind,out in (('train','RESULT.private.json'),('restore','RESTORE.private.json')):
+            stages = [('train','RESULT.private.json'), ('restore','RESTORE.private.json')]
+            if config['scope'] == J_SCOPE:
+                stages += [('restore_source','SOURCE_RESTORE.private.json')]
+            for kind,out in stages:
                 if time.time() >= window['deadline_epoch']-300 or (root/'STOP.json').exists():
                     raise TimeoutError('D4_PBS_FINITE_STOP_OR_DEADLINE')
 
@@ -192,7 +211,8 @@ def run(config):
                         result=proc.wait()
                     proof=read(folder/out)
                     return dict(exit_code=result,result=pin(folder/out),new_updates=proof.get('new_updates'),
-                        new_visits=proof.get('new_visits'),actual_generations=proof.get('actual_generations'))
+                        new_visits=proof.get('new_visits'),actual_generations=proof.get('actual_generations'),
+                        new_source_visits=proof.get('new_source_visits'))
 
                 row[kind]=journal.once(folder.name+'-'+kind,pin(card),execute)
                 if row[kind]['exit_code']:
@@ -214,9 +234,15 @@ if __name__ == '__main__':
     mode, path = sys.argv[1:]
     if mode=='pair':
         raise SystemExit(run(read(path)))
-    if mode not in ('train','restore') or not os.environ.get('PBS_JOBID'):
+    if mode not in ('train','restore','restore_source') or not os.environ.get('PBS_JOBID'):
         raise SystemExit('D4_PBS_CHILD_MODE_REQUIRED')
     spec = read(path)
+    if spec['scope'] == J_SCOPE:
+        from scripts.sla.train_joint_source_d4 import run as joint_child
+
+        raise SystemExit(joint_child(spec, mode=mode))
+    if mode == 'restore_source':
+        raise SystemExit('SOURCE_RESTORE_REQUIRES_JOINT_SCOPE')
     if spec['scope'] == D5_SCOPE:
         from scripts.sla.train_grasp_supervision_d5 import run as child
     else:
