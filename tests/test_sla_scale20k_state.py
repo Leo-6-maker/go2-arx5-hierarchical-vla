@@ -170,6 +170,79 @@ def test_core_successor_binds_only_a_closed_hash_verified_training_segment(tmp_p
         core.closed_predecessor(config,tmp_path/'new')
 
 
+def test_core_continuity_preserves_a_bounded_resume_and_chooses_the_next_formal_step(tmp_path, monkeypatch):
+    import json
+
+    from go2arx5_vla.sla_adapter.checkpoint_v1 import sha
+    from scripts.pi0292.durable import write
+    from scripts.sla import scale20k_core_continuity as continuation, scale20k_core_prefix as core
+
+    def pin(path):
+        return dict(path=str(path),sha256=sha(path))
+
+    arm, source_sha, digest = 'SCALE-MIX20K', 'd'*40, 'e'*64
+    first, last = 500, 503
+    parent = tmp_path/'previous'
+    training = parent/'train'
+    endpoint = training/'step00503'
+    endpoint.mkdir(parents=True)
+    for folder in (parent/'control',parent/'source'):
+        folder.mkdir()
+    members = {}
+    for name in ('scripts/sla/train_scale20k.py','src/go2arx5_vla/sla_adapter/scale20k_training.py'):
+        f = parent/'source'/name
+        f.parent.mkdir(parents=True,exist_ok=True)
+        f.write_text(name)
+        members[name] = sha(f)
+    bindings = dict(arm=arm,source_sha=source_sha,GPU_uuid='GPU-test',data={},optimizer={},
+        parent_manifest={},tokenizer={},visit_bank_sha256={})
+    write(parent/'SCHEDULE.private.json',dict(bindings,plan=PLAN,unit='wm02-previous',root=str(parent),
+        global_stop_step=2000,deadline_epoch=123,training_source_files=members))
+    earlier = tmp_path/'earlier.json'
+    write(earlier,dict(arm=arm,source_sha=source_sha,global_step=first))
+    write(training/'SPEC.private.json',dict(bindings,plan_sha=PLAN,recipe=RECIPE,
+        physics=False,hardware_allowed=False,global_stop_step=2000,resume_from_closed_segment=pin(earlier)))
+    model_binding = dict(recipe=RECIPE,plan_sha=PLAN,arm=arm,learning_rates_sha256=bank_sha256(learning_rates()),
+        parent_manifest_sha256=digest,partition_sha256=digest,initial_state_sha256=digest,optimizer_sha256=digest,
+        data_manifest_sha256=dict.fromkeys(DOMAINS,digest),visit_bank_sha256=dict.fromkeys(DOMAINS,digest))
+    arrays = []
+    for i in range(140):
+        path = endpoint/f'{i:06d}.npy'
+        np.save(path,np.array([i],np.int32),allow_pickle=False)
+        arrays.append(dict(file=path.name,sha256=sha(path)))
+    write(training/'MODEL_AT_START.private.json',dict(binding=model_binding))
+    manifest = endpoint/'COMPLETE.json'
+    write(manifest,dict(schema=checkpoint.SCHEMA,binding=model_binding,step=last,cursors=cursors(arm,last),
+                        training_full_generations=4*last,physics=False,arrays=arrays))
+    result = training/'RESULT.private.json'
+    write(result,dict(scope=RECIPE,source_sha=source_sha,arm=arm,mode='train',status='BOUNDED_SAVED_PREFIX',
+        exit_code=75,global_step=last,global_cursors=cursors(arm,last),new_native_requests=0,new_native_ticks=0,
+        new_updates=3,new_visits=dict(target=96,robodojo=144,libero=144),new_model_generations=13,
+        checkpoint=dict(path=str(endpoint),sha256=sha(manifest))))
+    write(parent/'RESULT.private.json',dict(status='BOUNDED_SAVED_PREFIX',stages=dict(train=pin(result))))
+    write(parent/'control/LEASE.json',dict(status='CLOSED',unit='wm02-previous.service'))
+    ledger = training/'UPDATES.private.jsonl'
+    with ledger.open('w') as out:
+        for i in range(first+1,last+1):
+            print(json.dumps(dict(step=i,cursors=cursors(arm,i),
+                domains=dict(target=dict(training_full_generations=4),robodojo={},libero={}))),file=out)
+    monkeypatch.setattr(continuation,'unit_state',lambda _:dict(pid=0,cgroup_pids=[],ActiveState='failed'))
+    monkeypatch.setattr(core.subprocess,'check_output',lambda *args,**kwargs:'0\n')
+    destination = tmp_path/'fresh'
+    actual = continuation.prepare(parent,destination)
+    assert actual['steps']==[500,503] and actual['next_formal_step']==2000
+    assert actual['verified_checkpoint_arrays']==140 and actual['verified_source_members']==2
+    assert actual['draft']['previous_train_result']==pin(result) and 'deadline_epoch' not in actual['draft']
+    assert not destination.exists() and actual['launched_training_units']==0
+    monkeypatch.setattr(continuation,'unit_state',lambda _:dict(pid=0,cgroup_pids=[59],ActiveState='failed'))
+    with pytest.raises(PermissionError,match='STILL_OWNS'):
+        continuation.prepare(parent,destination)
+    monkeypatch.setattr(continuation,'unit_state',lambda _:dict(pid=0,cgroup_pids=[],ActiveState='inactive'))
+    ledger.write_bytes(ledger.read_bytes()[:-1])
+    with pytest.raises(ValueError,match='DURABLE_UPDATES'):
+        continuation.prepare(parent,destination)
+
+
 def test_core_offline_does_not_consume_formal_budget_on_the_technical_prefix(tmp_path, monkeypatch):
     from scripts.pi0292.durable import write
     from scripts.sla import scale20k_core_offline as offline
