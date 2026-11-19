@@ -59,3 +59,28 @@ def test_promotion_requires_full_screen_and_generation_reconciliation():
     assert not summarize(dict(result,model_service=dict(worker,attempted_generations=193)),spec,end)['passed']
     end['M-BASE']['TRAIN96']['original_H40_and_G7_seam_pass'] = 95
     assert summarize(result,spec,end)['selected_arm']=='M-SRC'
+
+
+def test_d4_uses_both_sealed_arms_in_original_pair_order():
+    from go2arx5_vla.world_model import multisource_d4_native as d4
+
+    population = screen_population()
+    rows = population.pop('conditions')['SCREEN']
+    clusters = {}
+    for row in rows:
+        family = row['family']
+        cluster = row['cluster']
+        clusters[cluster] = dict(id=cluster, family=family, reset=0, scene=dict(sha256=cluster))
+        row.update(reset=0, arm_order=d4.ARMS if row['arm_order'] == ARMS else d4.ARMS[::-1])
+    population.update(clusters=list(clusters.values()), conditions={d4.STAGE: rows},
+        historical_TEST_reused=False, scene_instruction_independent=True, new_science_request_planned=48)
+    planned = expected_conditions(population, d4.STAGE, set(d4.ARMS))
+    assert len(planned) == d4.REQUEST_CAP
+    assert [arm for _, arm in planned[:4]] == ['D4-A', 'D4-B', 'D4-B', 'D4-A']
+    assert sum(120 if row['instruction'].startswith('HOLD') else 180 for row, _ in planned) == d4.GENERATION_CAP
+    assert sum(35703 if row['instruction'].startswith('HOLD') else 50703 for row, _ in planned) == d4.TICK_CAP
+    with pytest.raises(ValueError, match='BOTH_SEALED_ARMS'):
+        expected_conditions(population, d4.STAGE, {'D4-A'})
+    rows[-1] = rows[-2]
+    with pytest.raises(ValueError, match='ORIGINAL_MATCHED'):
+        expected_conditions(population, d4.STAGE, set(d4.ARMS))

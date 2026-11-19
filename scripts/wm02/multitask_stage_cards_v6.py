@@ -8,6 +8,7 @@ import time
 from scripts.pi0292.durable import write
 from go2arx5_vla.world_model.mfree_unattended_runtime_v1 import dirs, unit_state
 from go2arx5_vla.world_model.multitask_scope_v6 import PLAN, SCOPE, read_pin, validate
+from go2arx5_vla.world_model import multisource_d4_native as d4
 from go2arx5_vla.world_model.multitask_score_v6 import Task
 from go2arx5_vla.world_model.storage import digest
 from .sim_only_campaign_v51 import fatal_control_violation
@@ -113,7 +114,7 @@ def case_card(spec, template, item, panel_pin):
                 'allocation_deadline_epoch','campaign_deadline_epoch','deadline_epoch','sim_only_project_authorization'):
         case[key] = spec[key]
     case.update(registered_root=str(folder),mobile_group=str(root),campaign_root=str(root),role=role,
-        scope=SCOPE,sim_only_role=item['role'],registered_panel=panel_pin,panel_entry_id=item['id'],
+        scope=spec['scope'],sim_only_role=item['role'],registered_panel=panel_pin,panel_entry_id=item['id'],
         task_instruction_id=task.instruction,mobile_condition=item['condition'],multitask_geometry=item['geometry'],
         language=language_for(task.instruction),wall_limit_s=1800,max_ticks=cap,policy_queries=(cap-5703)//250,
         new_physical_requests_budget=1,model_service_timeout_s=30,expert_training_eligible=expert,
@@ -134,6 +135,8 @@ def case_card(spec, template, item, panel_pin):
         arm = item['arm']
         case.update(arm=arm,packages=spec['packages'],G7_package=spec['packages'][arm],
             ordinary_RGB_restore=spec['ordinary_RGB_restores'][arm],resident_server_spec=spec['resident_server_spec'])
+        if spec['scope'] == d4.SCOPE:
+            case['d4_endpoint'] = spec['endpoints'][arm]
     return folder, case
 
 
@@ -168,6 +171,9 @@ def bind_gpu(spec, child, folder):
     env = {key:value for key,value in template['native_environment'].items() if key!='PYTHONPATH'}
     child['native_environment'].update(env,TMPDIR=str(folder/'tmp'),XDG_CACHE_HOME=str(folder/'cache'),
                                        JAX_COMPILATION_CACHE_DIR=str(folder/'cache'))
+    if spec['scope'] == d4.SCOPE:
+        child['native_environment']['PYTHONPATH'] = ':'.join((
+            spec['source_root'], spec['source_root']+'/src', template['native_environment']['PYTHONPATH']))
     base['allocation']['campaign_root'] = spec['registered_root']
     base['paths'] = {key:str(Path(child[key]).resolve(strict=True)) for key in ('parent_params','dataset','compilation_cache_dir')}
     write(folder/'SITE_BINDING.private.json',base)
@@ -181,7 +187,10 @@ def student_worker(spec, panel):
     root = Path(spec['registered_root'])
     folder = root/'worker'
     dataset = read_pin(spec['multitask_dataset'])
-    if dataset['state']!='committed' or dataset['compiled_population_sha256']!=spec['compiled_population']['sha256']:
+    is_d4 = spec['scope'] == d4.SCOPE
+    if dataset['state'] != 'committed' or (
+            dataset['split'] != 'TRAIN' if is_d4
+            else dataset['compiled_population_sha256'] != spec['compiled_population']['sha256']):
         raise ValueError('M_WORKER_REQUIRES_COMMITTED_MATCHED_TARGET_POPULATION')
     manifests = {arm:read_pin(dict(path=str(Path(package['path'])/'MANIFEST.private.json'),sha256=package['sha256']))
                  for arm, package in spec['packages'].items()}
@@ -191,7 +200,7 @@ def student_worker(spec, panel):
                 or manifest['statistics_sha256']!=stats or manifest['bindings']['arm']!=arm):
             raise ValueError('M_WORKER_REQUIRES_SHARED_SEALED_TARGET_DATA_AND_STATISTICS')
     requests = sum(120 if Task.parse(row['instruction']).operation=='HOLD' else 180 for row in panel)
-    if not 0 < requests <= 34560:
+    if (is_d4 and requests != d4.GENERATION_CAP) or not 0 < requests <= 34560:
         raise ValueError('M_WORKER_REQUIRES_FINITE_REGISTERED_STUDENT_QUERY_CAP')
     dirs(folder)
     ipc = folder/'ipc'
@@ -204,10 +213,14 @@ def student_worker(spec, panel):
     child['native_environment'] = dict(spec['native_environment'])
     child['request_bindings_by_arm'] = {arm:dict(arm=arm,policy_package_sha256=spec['packages'][arm]['sha256'],
         statistics_sha256=manifest['statistics_sha256'],codec=NATIVE_METHOD,source_sha=spec['source_sha'],
-        plan_commit=PLAN,compiled_population_sha256=spec['compiled_population']['sha256'])
+        plan_commit=spec['plan_commit'],compiled_population_sha256=spec['compiled_population']['sha256'])
         for arm, manifest in manifests.items()}
     bind_gpu(spec,child,folder)
-    if any(manifest['parent_manifest']!=child['parent_manifest'] for manifest in manifests.values()):
+    if is_d4:
+        parent = child['parent_manifest']
+        if parent['sha256'] != d4.PARENT_SHA or digest(parent['path']) != d4.PARENT_SHA:
+            raise ValueError('D4_CORE_PARENT_BYTES_MUST_MATCH_THE_SEALED_VANDA_PARENT')
+    elif any(manifest['parent_manifest']!=child['parent_manifest'] for manifest in manifests.values()):
         raise ValueError('M_WORKER_REQUIRES_THE_ACTUAL_SHARED_OFFICIAL_PARENT')
     child['gpu_environment'] = dict(child['native_environment'])
     # The native case preflight reads this immutable file. The existing
@@ -222,8 +235,10 @@ def prepare_cards(spec, *, teacher_stop=None):
 
     root = Path(spec['registered_root'])
     now = time.time()
+    identity = (spec['scope'], spec['plan_commit'])
+    allowed = {(SCOPE, PLAN)} if teacher_stop is not None else {(SCOPE, PLAN), (d4.SCOPE, d4.PLAN)}
     if (not now+1980 < spec['deadline_epoch'] <= min(now+43200,spec['campaign_deadline_epoch'],spec['allocation_deadline_epoch']-60)
-            or spec['scope'] != SCOPE or spec['plan_commit'] != PLAN
+            or identity not in allowed
             or (root/'EXECUTION_SPEC.json').exists() or (root/'control'/'LEASE.json').exists()
             or (root/'STOP.json').exists()):
         raise PermissionError('NEW_OWNED_CARDS_REQUIRE_LIVE_FINITE_STAGE_WINDOW')
@@ -280,7 +295,7 @@ def register_student_panel(spec):
     root = Path(spec['registered_root'])
     if root.exists():
         raise PermissionError('NEW_OWNED_CARDS_REQUIRE_UNOPENED_STUDENT_ROOT')
-    spec = dict(spec,role='SLA_V6_M_STUDENT_'+spec['evaluation_stage'],registry_scope=SCOPE)
+    spec = dict(spec,role='SLA_V6_M_STUDENT_'+spec['evaluation_stage'],registry_scope=spec['scope'])
     parent, entries = prepare_cards(spec)
     register(parent,[(root,parent),*entries])
     return pin(root/'EXECUTION_SPEC.json')

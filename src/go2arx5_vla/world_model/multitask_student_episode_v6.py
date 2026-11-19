@@ -1,6 +1,7 @@
 """Shared HOLD/PLACE policy on the owned clock, original install and P10."""
 from pathlib import Path
 
+from .multisource_d4_native import SCOPE as D4_SCOPE
 from scripts.pi0292.durable import write
 from go2arx5_vla.sla_adapter.dense_g7_v6 import label_margin_report
 from .mfree_expert_capture_v1 import initialize
@@ -35,6 +36,7 @@ def consume_prefix(adapter, prepared, program, query, action, speed):
     adapter.mobile_program_start_step = start
     intervals, acks = [], []
     reference = None
+    is_d4 = adapter.spec.get('scope') == D4_SCOPE
     try:
         for atom in range(meta['available_prefix_atoms']):
             adapter.guard()
@@ -52,18 +54,26 @@ def consume_prefix(adapter, prepared, program, query, action, speed):
             reference, witness = boundary(adapter)
             adapter.reference_history[-1]['pose'] = reference.copy()
             interval['accepted_boundary'] = witness
+            if is_d4:
+                emitted = adapter.close_previous_reference
+                interval.update(emitted_gripper_width_m=emitted['width_m'],
+                                emitted_gripper_source_native_s=emitted['source_native_s'],
+                                measured_gripper_width_m=float(sample['finger_q'].mean()))
     finally:
         try:
             terminal = adapter.observe()['step']
         except Exception:
             terminal = None
         remaining = None if terminal is None else terminal-start-25*len(intervals)
-        write(folder/'QUERY_ACTUAL.private.json', dict(query=query,action=action,actual_model_generations=1,
+        record = dict(query=query,action=action,actual_model_generations=1,
             full_H40_compiled=True,original_gripper_speed=speed,install_ACKs=acks,confirmed_intervals=intervals,
             confirmed_atoms=len(intervals),full_P10=len(intervals)==10,requested_atoms=meta['available_prefix_atoms'],
             native_start_step=start,terminal_native_step=terminal,unconfirmed_native_ticks=remaining,
             partial_native_ticks=None if remaining is None else remaining%25,mock_consumption=False,
-            controller_selected_reference='UNKNOWN'))
+            controller_selected_reference='UNKNOWN')
+        if is_d4:
+            record['previous_actual_gripper_command'] = prepared['previous_reference']
+        write(folder/'QUERY_ACTUAL.private.json', record)
     return reference, len(intervals)
 
 

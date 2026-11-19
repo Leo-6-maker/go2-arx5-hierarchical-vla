@@ -6,12 +6,19 @@ from pathlib import Path
 
 from go2arx5_vla.sla_adapter.multitask_contract_v6 import ARMS, NATIVE_METHOD, NATIVE_VERSION, contract
 from .multitask_score_v6 import Task
+from . import multisource_d4_native as d4
 from .sim_only_scope_v51 import BINARIES, INTERFACE_TICKS
 from .storage import digest
 
 PLAN = 'ae3d3c0dceade437b0104a150cd0402fef650052'
 SCOPE = 'SLA_V6_MULTITASK_NATIVE'
 VERSION = NATIVE_VERSION
+
+
+def scope_identity(spec):
+    if spec.get('scope') == d4.SCOPE:
+        return d4.SCOPE, d4.PLAN, d4.ARMS, d4.AUTHORITY_SOURCE
+    return SCOPE, PLAN, ARMS, 'CURRENT_USER_EXPLICIT_FIXED_SLA_V6_PLAN'
 
 
 def read_pin(pin):
@@ -26,28 +33,33 @@ def query_identity(spec):
     task = Task.parse(spec['task_instruction_id'])
     cap = 35703 if task.operation == 'HOLD' else 50703
     arm = spec['arm']
-    if (spec.get('scope') != SCOPE or spec.get('plan_commit') != PLAN
+    scope, plan, arms, _ = scope_identity(spec)
+    if (spec.get('scope') != scope or spec.get('plan_commit') != plan
             or spec.get('mobile_experiment_version') != VERSION or spec['sim_only_role'] != 'STUDENT'
             or spec['execution_clock_profile'] != 'SIM_PAUSED_NATIVE' or spec['physics_dt_s'] != .002
             or condition['method'] != NATIVE_METHOD or condition['mode'] != 'M_FREE'
             or condition['family'] not in ('F1','F2') or spec['max_ticks'] != cap
-            or spec['policy_queries'] != (cap-5703)//250 or arm not in ARMS
+            or spec['policy_queries'] != (cap-5703)//250 or arm not in arms
             or spec['G7_package'] != spec['packages'][arm]):
         raise ValueError('EXACT_V6_STUDENT_ARM_AND_NATIVE_SCOPE_REQUIRED')
 
 
 def student_package(spec):
     arm, package = spec['arm'], spec['G7_package']
-    manifest = read_pin(dict(path=str(Path(package['path'])/'MANIFEST.private.json'),sha256=package['sha256']))
-    contract(manifest)
-    restored = read_pin(spec['ordinary_RGB_restore'])
-    if (manifest['bindings']['arm'] != arm or restored['package'] != package or restored['exit_code']
-            or not restored['passed'] or restored['actual_generations'] != 16 or restored['new_optimizer_updates']
-            or restored['new_native_requests'] or len(restored['comparisons']) != 16
-            or not all(row['normalized_exact'] and row['EEF10_exact'] for row in restored['comparisons'])):
-        raise ValueError('INDEPENDENT_ACTUAL_G7_RGB16_RESTORE_REQUIRED')
+    scope, plan, _, _ = scope_identity(spec)
+    if scope == d4.SCOPE:
+        d4.endpoint(arm, package, spec['d4_endpoint'], spec['ordinary_RGB_restore'])
+    else:
+        manifest = read_pin(dict(path=str(Path(package['path'])/'MANIFEST.private.json'),sha256=package['sha256']))
+        contract(manifest)
+        restored = read_pin(spec['ordinary_RGB_restore'])
+        if (manifest['bindings']['arm'] != arm or restored['package'] != package or restored['exit_code']
+                or not restored['passed'] or restored['actual_generations'] != 16 or restored['new_optimizer_updates']
+                or restored['new_native_requests'] or len(restored['comparisons']) != 16
+                or not all(row['normalized_exact'] and row['EEF10_exact'] for row in restored['comparisons'])):
+            raise ValueError('INDEPENDENT_ACTUAL_G7_RGB16_RESTORE_REQUIRED')
     server = read_pin(spec['resident_server_spec'])
-    if (server['scope'] != SCOPE or server['plan_commit'] != PLAN or server['physics']
+    if (server['scope'] != scope or server['plan_commit'] != plan or server['physics']
             or server['source_sha'] != spec['source_sha'] or server['selected_combo'] != NATIVE_METHOD
             or server['packages'] != spec['packages'] or server['campaign_root'] != spec['mobile_group']
             or server['request_bindings_by_arm'][arm]['policy_package_sha256'] != package['sha256']):
@@ -62,8 +74,10 @@ def validate(spec):
     cap=INTERFACE_TICKS if interface else 35703 if task.operation=='HOLD' else 50703
     expected_method='SIM_INTERFACE_HOLD' if interface else NATIVE_METHOD if student else 'EXPERT'
     env=spec['native_environment']
-    if (spec.get('scope')!=SCOPE or spec['plan_commit']!=PLAN
+    scope, plan, _, authority_source = scope_identity(spec)
+    if (spec.get('scope')!=scope or spec['plan_commit']!=plan
             or spec['mobile_experiment_version']!=VERSION or role not in ('INTERFACE','EXPERT','STUDENT')
+            or (scope == d4.SCOPE and not student)
             or spec['native_backend']!='MUJOCO_ONLY' or spec['hardware_connections_allowed'] is not False
             or spec['execution_clock_profile']!='SIM_PAUSED_NATIVE' or spec['physics'] is not True
             or spec['WBC_changes'] is not False or spec['safety_changes'] is not False
@@ -78,8 +92,8 @@ def validate(spec):
             or spec['ROS_DOMAIN_ID'] not in range(192,200)):
         raise PermissionError('FIXED_V6_MFREE_MULTITASK_MUJOCO_LIMITS')
     authority=read_pin(spec['sim_only_project_authorization'])
-    if (authority.get('source')!='CURRENT_USER_EXPLICIT_FIXED_SLA_V6_PLAN'
-            or authority.get('plan_commit')!=PLAN or authority.get('source_sha')!=spec['source_sha']
+    if (authority.get('source')!=authority_source
+            or authority.get('plan_commit')!=plan or authority.get('source_sha')!=spec['source_sha']
             or authority.get('hardware_allowed') is not False or time.time()>=spec['deadline_epoch']
             or spec['deadline_epoch']>min(authority['deadline_epoch'],spec['allocation_deadline_epoch'])):
         raise PermissionError('ACTUAL_FINITE_V6_MULTITASK_AUTHORITY_REQUIRED')
