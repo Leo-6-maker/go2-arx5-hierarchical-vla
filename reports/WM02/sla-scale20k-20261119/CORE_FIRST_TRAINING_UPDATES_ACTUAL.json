@@ -1,0 +1,416 @@
+{
+  "schema": "SLA_SCALE20K_CORE_COMMITTED_PREFIX_ACTUAL_V1",
+  "scope": "LIVE_FIXED_PREFIX_SNAPSHOT",
+  "source_sha": "31076fc7a64302b0705ae4d7e526c4341209a100",
+  "schedule_sha256": "93bf6dfeb3ebf00c9f25ad1f9cd42bf4e5b203086275678aa1723e3589b1cf73",
+  "observed_epoch": 1795080758.4186018,
+  "deadline_SGT": "2026-11-19T20:54:01.169580+08:00",
+  "unit": "wm02-sla-scale20k-mix-core-prefix-20261119-02.service",
+  "main_pid": 3588479,
+  "actual_optimizer_updates": 7,
+  "prefix_cap": 200,
+  "target_visits": 224,
+  "source_optimization_visits": {
+    "robodojo": 336,
+    "libero": 336
+  },
+  "committed_ledger_prefix_sha256": "6e12d784e1c02cb2066a010ad5d2aef29bfb7459097b285be60cbf0fd9d54082",
+  "actual_H40_training_complete_generations": 28,
+  "qualification_complete_generations": 4,
+  "independent_step_zero_sha256": "8e84e7fddc905dbd62c6b4a31265e15e2afe5560c56c152e29ce66f1b7e78d6f",
+  "independent_step_zero_state_restored": true,
+  "committed_updates": [
+    {
+      "step": 1,
+      "cursors": {
+        "target": 32,
+        "robodojo": 48,
+        "libero": 48
+      },
+      "learning_rate": 4e-08,
+      "grad_norm": 1.0768566131591797,
+      "domains": {
+        "target": {
+          "FM32": 0.06411834730533883,
+          "auxiliary": 27.859676363701904,
+          "backward_calls": 32,
+          "training_full_generations": 4,
+          "data_wait_s": 0.9997641034424305,
+          "shared_gradient_norm": 0.28190913796424866,
+          "private_gradient_norm": 0.18156512081623077,
+          "visit_slice_sha256": "d9a0369c0a94f4146a6b0185ff25b8d690a45139d610bd0888bb101fef45bef7"
+        },
+        "robodojo": {
+          "FM32": 0.02394146832133023,
+          "auxiliary": 0.0,
+          "backward_calls": 48,
+          "training_full_generations": 0,
+          "data_wait_s": 66.66689479723573,
+          "shared_gradient_norm": 0.1092880368232727,
+          "private_gradient_norm": 0.06438667327165604,
+          "visit_slice_sha256": "ce233ab1c28e7ef7558b05cb7ed2593d7884f841d00145fd074252c0f1065d60"
+        },
+        "libero": {
+          "FM32": 0.16419155239903677,
+          "auxiliary": 0.0,
+          "backward_calls": 48,
+          "training_full_generations": 0,
+          "data_wait_s": 2.727795868180692,
+          "shared_gradient_norm": 0.5216536521911621,
+          "private_gradient_norm": 0.41599535942077637,
+          "visit_slice_sha256": "7c957bdc96008c0f1c3b644616e382c30322d9f89d7006e9f6ec8397d727db0c"
+        }
+      },
+      "actual_GPU_memory_stats": {
+        "num_allocs": 14029,
+        "bytes_in_use": 13591783936,
+        "peak_bytes_in_use": 20573652224,
+        "largest_alloc_size": 3327295744,
+        "bytes_limit": 25683712742,
+        "bytes_reserved": 0,
+        "peak_bytes_reserved": 0,
+        "largest_free_block_bytes": 0,
+        "pool_bytes": 25683712512,
+        "peak_pool_bytes": 25683712512
+      },
+      "wall_s": 125.22103551961482
+    },
+    {
+      "step": 2,
+      "cursors": {
+        "target": 64,
+        "robodojo": 96,
+        "libero": 96
+      },
+      "learning_rate": 8e-08,
+      "grad_norm": 0.8103846907615662,
+      "domains": {
+        "target": {
+          "FM32": 0.07189447892596945,
+          "auxiliary": 27.87833786271579,
+          "backward_calls": 32,
+          "training_full_generations": 4,
+          "data_wait_s": 1.9742378452792764,
+          "shared_gradient_norm": 0.293414443731308,
+          "private_gradient_norm": 0.18113724887371063,
+          "visit_slice_sha256": "5f0f270664fe6dbd1ab688ad5ed63a6084ef289db8e121a986fbd39aa0174487"
+        },
+        "robodojo": {
+          "FM32": 0.022833270219659123,
+          "auxiliary": 0.0,
+          "backward_calls": 48,
+          "training_full_generations": 0,
+          "data_wait_s": 19.487337618134916,
+          "shared_gradient_norm": 0.11472275108098984,
+          "private_gradient_norm": 0.06911949813365936,
+          "visit_slice_sha256": "58ec31279c11c7629b7f7523c5df37dda49cb5982623b0c8ecb3abe95c93ce12"
+        },
+        "libero": {
+          "FM32": 0.16614110457400486,
+          "auxiliary": 0.0,
+          "backward_calls": 48,
+          "training_full_generations": 0,
+          "data_wait_s": 1.8040991947054863,
+          "shared_gradient_norm": 0.36441388726234436,
+          "private_gradient_norm": 0.2982635200023651,
+          "visit_slice_sha256": "9d9b9413610fbf510067fd1931d6a48a369c57bac4c0185e4f7675d1583f266e"
+        }
+      },
+      "actual_GPU_memory_stats": {
+        "num_allocs": 22440,
+        "bytes_in_use": 13606721536,
+        "peak_bytes_in_use": 20585193984,
+        "largest_alloc_size": 3327295744,
+        "bytes_limit": 25683712742,
+        "bytes_reserved": 0,
+        "peak_bytes_reserved": 0,
+        "largest_free_block_bytes": 0,
+        "pool_bytes": 25683712512,
+        "peak_pool_bytes": 25683712512
+      },
+      "wall_s": 63.962089703418314
+    },
+    {
+      "step": 3,
+      "cursors": {
+        "target": 96,
+        "robodojo": 144,
+        "libero": 144
+      },
+      "learning_rate": 1.2000000000000002e-07,
+      "grad_norm": 4.292189121246338,
+      "domains": {
+        "target": {
+          "FM32": 0.05864378483965993,
+          "auxiliary": 9.105450637955894,
+          "backward_calls": 32,
+          "training_full_generations": 4,
+          "data_wait_s": 1.52478560898453,
+          "shared_gradient_norm": 3.146359920501709,
+          "private_gradient_norm": 2.7080302238464355,
+          "visit_slice_sha256": "32bef8efa4fccda0f2eb50e80b937552dff2e550e506bd4a002e4d73ee6a2550"
+        },
+        "robodojo": {
+          "FM32": 0.02476656364888185,
+          "auxiliary": 0.0,
+          "backward_calls": 48,
+          "training_full_generations": 0,
+          "data_wait_s": 12.437714382074773,
+          "shared_gradient_norm": 0.21024613082408905,
+          "private_gradient_norm": 0.08610720187425613,
+          "visit_slice_sha256": "4a62d58185441f1f8f2db92f0b8a6b59703410af47230d9ffba1fb0904d1ab43"
+        },
+        "libero": {
+          "FM32": 0.14885636954568326,
+          "auxiliary": 0.0,
+          "backward_calls": 48,
+          "training_full_generations": 0,
+          "data_wait_s": 2.486885767430067,
+          "shared_gradient_norm": 0.3535955846309662,
+          "private_gradient_norm": 0.31728294491767883,
+          "visit_slice_sha256": "93a391d4900f26028722515ab725fc553b1a9b4e95c3a2acd026e64862fb21af"
+        }
+      },
+      "actual_GPU_memory_stats": {
+        "num_allocs": 30851,
+        "bytes_in_use": 13652147200,
+        "peak_bytes_in_use": 20682483200,
+        "largest_alloc_size": 3327295744,
+        "bytes_limit": 25683712742,
+        "bytes_reserved": 0,
+        "peak_bytes_reserved": 0,
+        "largest_free_block_bytes": 0,
+        "pool_bytes": 25683712512,
+        "peak_pool_bytes": 25683712512
+      },
+      "wall_s": 56.94983433838934
+    },
+    {
+      "step": 4,
+      "cursors": {
+        "target": 128,
+        "robodojo": 192,
+        "libero": 192
+      },
+      "learning_rate": 1.6e-07,
+      "grad_norm": 0.9904336333274841,
+      "domains": {
+        "target": {
+          "FM32": 0.06476190441753715,
+          "auxiliary": 9.092578895902847,
+          "backward_calls": 32,
+          "training_full_generations": 4,
+          "data_wait_s": 1.2906674183905125,
+          "shared_gradient_norm": 0.20370016992092133,
+          "private_gradient_norm": 0.14970222115516663,
+          "visit_slice_sha256": "c8d1153522ee1e993915c9ede41fac1428f2240438894d764fc77b42f622c7b6"
+        },
+        "robodojo": {
+          "FM32": 0.023335588281042874,
+          "auxiliary": 0.0,
+          "backward_calls": 48,
+          "training_full_generations": 0,
+          "data_wait_s": 3.861334721557796,
+          "shared_gradient_norm": 0.14198996126651764,
+          "private_gradient_norm": 0.06490542739629745,
+          "visit_slice_sha256": "e31ba0570da5ae5325f10d174dd4299a74535f5ffd66e1259a1c284f382b3267"
+        },
+        "libero": {
+          "FM32": 0.20261084249553588,
+          "auxiliary": 0.0,
+          "backward_calls": 48,
+          "training_full_generations": 0,
+          "data_wait_s": 1.5088236788287759,
+          "shared_gradient_norm": 0.46015465259552,
+          "private_gradient_norm": 0.3995935618877411,
+          "visit_slice_sha256": "b694f96df5f040e111cff4d4b6f16be599983555fdb6b1526069d9b864304bc0"
+        }
+      },
+      "actual_GPU_memory_stats": {
+        "num_allocs": 39262,
+        "bytes_in_use": 13507036928,
+        "peak_bytes_in_use": 20825939200,
+        "largest_alloc_size": 3327295744,
+        "bytes_limit": 25683712742,
+        "bytes_reserved": 0,
+        "peak_bytes_reserved": 0,
+        "largest_free_block_bytes": 0,
+        "pool_bytes": 25683712512,
+        "peak_pool_bytes": 25683712512
+      },
+      "wall_s": 47.37652596645057
+    },
+    {
+      "step": 5,
+      "cursors": {
+        "target": 160,
+        "robodojo": 240,
+        "libero": 240
+      },
+      "learning_rate": 2.0000000000000002e-07,
+      "grad_norm": 1.1430376768112183,
+      "domains": {
+        "target": {
+          "FM32": 0.05802580126328394,
+          "auxiliary": 18.711653771581915,
+          "backward_calls": 32,
+          "training_full_generations": 4,
+          "data_wait_s": 1.4267217358574271,
+          "shared_gradient_norm": 0.20995639264583588,
+          "private_gradient_norm": 0.15610602498054504,
+          "visit_slice_sha256": "60220ce0a7ea4fcade964fd68c789f791fa2290d7aee96782b7dd3be8e03d117"
+        },
+        "robodojo": {
+          "FM32": 0.018774819337219622,
+          "auxiliary": 0.0,
+          "backward_calls": 48,
+          "training_full_generations": 0,
+          "data_wait_s": 1.5921253031119704,
+          "shared_gradient_norm": 0.14004892110824585,
+          "private_gradient_norm": 0.0672534927725792,
+          "visit_slice_sha256": "376f2c9d52569d9076a734d810cbb485b9245aadd6ebec57b4efaa877f0ae490"
+        },
+        "libero": {
+          "FM32": 0.16519470648684856,
+          "auxiliary": 0.0,
+          "backward_calls": 48,
+          "training_full_generations": 0,
+          "data_wait_s": 1.5279496535658836,
+          "shared_gradient_norm": 0.5513474345207214,
+          "private_gradient_norm": 0.4258290231227875,
+          "visit_slice_sha256": "e724a12e34e041ebfc37dd1afc39f2bbdd3e147a60ca25e1dfd6cd794d304b95"
+        }
+      },
+      "actual_GPU_memory_stats": {
+        "num_allocs": 47673,
+        "bytes_in_use": 13714137600,
+        "peak_bytes_in_use": 20825939200,
+        "largest_alloc_size": 3327295744,
+        "bytes_limit": 25683712742,
+        "bytes_reserved": 0,
+        "peak_bytes_reserved": 0,
+        "largest_free_block_bytes": 0,
+        "pool_bytes": 25683712512,
+        "peak_pool_bytes": 25683712512
+      },
+      "wall_s": 45.28980769123882
+    },
+    {
+      "step": 6,
+      "cursors": {
+        "target": 192,
+        "robodojo": 288,
+        "libero": 288
+      },
+      "learning_rate": 2.4000000000000003e-07,
+      "grad_norm": 1.040268063545227,
+      "domains": {
+        "target": {
+          "FM32": 0.0709652318037115,
+          "auxiliary": 18.6018266730327,
+          "backward_calls": 32,
+          "training_full_generations": 4,
+          "data_wait_s": 1.3099022014066577,
+          "shared_gradient_norm": 0.28944000601768494,
+          "private_gradient_norm": 0.18159924447536469,
+          "visit_slice_sha256": "a4c0bf844dd1c5fd96ba26a5e732a2ac3c977d9f8f8bebd349b051554f6c9d32"
+        },
+        "robodojo": {
+          "FM32": 0.024168468206577618,
+          "auxiliary": 0.0,
+          "backward_calls": 48,
+          "training_full_generations": 0,
+          "data_wait_s": 4.389203801751137,
+          "shared_gradient_norm": 0.1865311563014984,
+          "private_gradient_norm": 0.07073225826025009,
+          "visit_slice_sha256": "c7a2c65ae747d88477f69a2d66bd0a7ccc44ddba2c5ad3dfddccee58f961be40"
+        },
+        "libero": {
+          "FM32": 0.17642638939044747,
+          "auxiliary": 0.0,
+          "backward_calls": 48,
+          "training_full_generations": 0,
+          "data_wait_s": 1.536939169280231,
+          "shared_gradient_norm": 0.4458647668361664,
+          "private_gradient_norm": 0.41305044293403625,
+          "visit_slice_sha256": "1d5fe72a328790a6942f5bf64b79f1336de24573ccf2f8bd0343c1ba95b813a3"
+        }
+      },
+      "actual_GPU_memory_stats": {
+        "num_allocs": 56084,
+        "bytes_in_use": 13479161856,
+        "peak_bytes_in_use": 20825939200,
+        "largest_alloc_size": 3327295744,
+        "bytes_limit": 25683712742,
+        "bytes_reserved": 0,
+        "peak_bytes_reserved": 0,
+        "largest_free_block_bytes": 0,
+        "pool_bytes": 25683712512,
+        "peak_pool_bytes": 25683712512
+      },
+      "wall_s": 48.030722885392606
+    },
+    {
+      "step": 7,
+      "cursors": {
+        "target": 224,
+        "robodojo": 336,
+        "libero": 336
+      },
+      "learning_rate": 2.8e-07,
+      "grad_norm": 1.0561010837554932,
+      "domains": {
+        "target": {
+          "FM32": 0.05349274113541469,
+          "auxiliary": 1.0486224555350532e-08,
+          "backward_calls": 32,
+          "training_full_generations": 4,
+          "data_wait_s": 1.2424136269837618,
+          "shared_gradient_norm": 0.1450149416923523,
+          "private_gradient_norm": 0.13273991644382477,
+          "visit_slice_sha256": "0094ab3fc4f2176efaa84d0c3a9cb69dbc3e1488cc479e654d0aaa2799f6a5d9"
+        },
+        "robodojo": {
+          "FM32": 0.028121370552980803,
+          "auxiliary": 0.0,
+          "backward_calls": 48,
+          "training_full_generations": 0,
+          "data_wait_s": 1.6007876601070166,
+          "shared_gradient_norm": 0.2299051433801651,
+          "private_gradient_norm": 0.07409334182739258,
+          "visit_slice_sha256": "e9511f0fbc4014137c90524eec729be1124fabc928d0b03e796463e047594950"
+        },
+        "libero": {
+          "FM32": 0.17087972272808358,
+          "auxiliary": 0.0,
+          "backward_calls": 48,
+          "training_full_generations": 0,
+          "data_wait_s": 1.5380664058029652,
+          "shared_gradient_norm": 0.44180017709732056,
+          "private_gradient_norm": 0.41440117359161377,
+          "visit_slice_sha256": "57eabe31524a6add5dd4fddb33531f2e7710e99cece121bfdf6dfebd8fb5b2b3"
+        }
+      },
+      "actual_GPU_memory_stats": {
+        "num_allocs": 64495,
+        "bytes_in_use": 13542920192,
+        "peak_bytes_in_use": 20825939200,
+        "largest_alloc_size": 3327295744,
+        "bytes_limit": 25683712742,
+        "bytes_reserved": 0,
+        "peak_bytes_reserved": 0,
+        "largest_free_block_bytes": 0,
+        "pool_bytes": 25683712512,
+        "peak_pool_bytes": 25683712512
+      },
+      "wall_s": 45.186963262967765
+    }
+  ],
+  "new_native_requests": 0,
+  "new_native_ticks": 0,
+  "recorded_GPU_peak_GiB": 19.39566731452942,
+  "warm_update_median_s": 46.333166828844696,
+  "warm_update_sample_n": 4,
+  "measured_training_update_wall_s": 432.01697936747223,
+  "prefix_checkpoint_at_snapshot": false
+}
