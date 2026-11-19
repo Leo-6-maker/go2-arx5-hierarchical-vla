@@ -4,6 +4,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import subprocess
 import time
 
 from go2arx5_vla.world_model import multisource_d4_native as d4
@@ -13,8 +14,7 @@ from go2arx5_vla.world_model.multitask_scope_v6 import read_pin
 from go2arx5_vla.world_model.storage import digest
 from scripts.pi0292.durable import OwnerLock, write
 
-from .d416_core_native_launch import cold_owner, output
-from .multitask_stage_cards_v6 import pin, prepare_cards
+from .multitask_stage_cards_v6 import cold_native_owner, pin, prepare_cards
 from .multitask_teacher_campaign_v6 import interface_records, preflight
 
 
@@ -22,7 +22,7 @@ def prepare(config):
     root = Path(config['root'])
     source = Path(config['source_root']).resolve(strict=True)
     authority = read_pin(config['authority'])
-    interface = cold_owner(config['interface_predecessor'])
+    interface = cold_native_owner(config['interface_predecessor'])
     interface_records(interface,interface['mobile_world_lock'],identity=(d4.E0_SCOPE,d4.E0_PLAN))
     if (root.exists() or root.parent.stat().st_uid != os.getuid()
             or os.getuid() != interface['uid'] or os.uname().nodename != interface['host']
@@ -58,14 +58,15 @@ def prepare(config):
 def run(config, *, launch):
     if launch:
         interface = read_pin(config['interface_predecessor'])
-        previous = cold_owner(config['previous_world_owner'])
+        previous = cold_native_owner(config['previous_world_owner'])
         terminal = read_pin(config['previous_world_result'])
         if (previous['mobile_world_lock'] != interface['mobile_world_lock']
                 or terminal['unresolved_case_launches'] or terminal['failure']
                 or terminal['source_sha'] != previous['source_sha']
                 or config['previous_world_result']['path'] != str(Path(previous['registered_root'])/'RESULT.private.json')):
             raise ValueError('The prior native world owner must be reconciled before launch')
-        if output('loginctl','show-user',str(os.getuid()),'-p','Linger') != 'Linger=yes':
+        linger = subprocess.check_output(['loginctl','show-user',str(os.getuid()),'-p','Linger'],text=True,timeout=20)
+        if linger.strip() != 'Linger=yes':
             raise PermissionError('Core user services require actual linger')
         lock = OwnerLock(interface['mobile_world_lock'])
         lock.close()
@@ -73,6 +74,8 @@ def run(config, *, launch):
     root = Path(parent['registered_root'])
     preflight(parent,prepared_cases=(case for _,case in entries))
     if launch:
+        if time.time() + parent['case_lead_s'] >= parent['deadline_epoch']:
+            raise TimeoutError('First-six launch missed its finite native case start window')
         register(parent,[(root,parent),*entries])
     else:
         for folder,case in entries:

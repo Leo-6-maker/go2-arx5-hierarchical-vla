@@ -14,23 +14,12 @@ from go2arx5_vla.world_model.mfree_recovery_v2 import launch_service
 from go2arx5_vla.world_model.multitask_scope_v6 import read_pin
 from scripts.pi0292.durable import OwnerLock, read, write
 from .d416_core_replay_launch import output
-from .multitask_stage_cards_v6 import pin, register_student_panel
+from .multitask_stage_cards_v6 import cold_native_owner as cold_owner, pin, register_student_panel
 from .multitask_student_campaign_v6 import endpoint_records, preflight
 from .multitask_teacher_campaign_v6 import interface_records
 
 
 GIB = 1024**3
-
-
-def cold_owner(spec_pin):
-    spec = read_pin(spec_pin)
-    folder = Path(spec['registered_root'])
-    observed = unit_state('wm02-'+folder.name)
-    lease = read(folder/'control/LEASE.json')
-    if (lease['spec_sha256'] != spec_pin['sha256'] or lease['status'] != 'CLOSED'
-            or observed['pid'] or observed['cgroup_pids']):
-        raise PermissionError('D416_EXISTING_WORLD_OWNER_HAS_NOT_REACHED_COLD_TERMINAL')
-    return spec
 
 
 def build(config):

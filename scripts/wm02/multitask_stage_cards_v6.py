@@ -25,6 +25,17 @@ def pin(path):
     return dict(path=str(path),sha256=digest(path))
 
 
+def cold_native_owner(spec_pin):
+    spec = read_pin(spec_pin)
+    folder = Path(spec['registered_root'])
+    observed = unit_state('wm02-'+folder.name)
+    lease = read(folder/'control/LEASE.json')
+    if (lease['spec_sha256'] != spec_pin['sha256'] or lease['status'] != 'CLOSED'
+            or observed['pid'] or observed['cgroup_pids']):
+        raise PermissionError('D416_EXISTING_WORLD_OWNER_HAS_NOT_REACHED_COLD_TERMINAL')
+    return spec
+
+
 def language_for(instruction):
     task = Task.parse(instruction)
     if task.operation == 'HOLD':
