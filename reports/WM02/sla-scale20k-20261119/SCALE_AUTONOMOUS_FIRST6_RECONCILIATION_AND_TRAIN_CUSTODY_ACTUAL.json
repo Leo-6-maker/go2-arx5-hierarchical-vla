@@ -1,0 +1,263 @@
+{
+  "plan_sha": "5734a73cbda5c333cc3d7d7e0f032e679a4c08b6",
+  "source_sha": "1fe037cb1aea6c1ca7796a309aea13df33c497bb",
+  "unit": "wm02-sla-scale-target-adaptation-first6-native-20261119-02.service",
+  "PID": 4000490,
+  "cgroup_unit": "wm02-sla-scale-target-adaptation-first6-native-20261119-02.service",
+  "source_spec_sha256": "3b1a041739cae93ea6933afa74da363271e95f0e73c9161d35e850ab65ddbb2f",
+  "observed_epoch": 1795104563.4565628,
+  "deadline_epoch": 1795110888.4136703,
+  "allocation_deadline_epoch": 1795111068.4136703,
+  "old_handoff": {
+    "launch_calls": 1,
+    "native_requests": 0,
+    "first_failure": "INIT_IMPORT_SCIPY_BEFORE_REGISTRATION"
+  },
+  "cold_predecessor_J": {
+    "science": 12,
+    "unresolved_cases": 0,
+    "scheduled_suffix": 36
+  },
+  "prior_registered_candidate_executions": 0,
+  "currently_sealed_native": 3,
+  "planned_native": 6,
+  "cases": [
+    {
+      "id": "ADAPTATION_TRAIN_PLACE_FIRST6-F1-01-PLACE-red-left",
+      "result_sha256": "44238b3192902a7b75db92a3ef949ff1c418120bb1b203d8d962f9a6543f3664",
+      "native_requests": 1,
+      "ticks": 20686,
+      "first_STOP": [
+        {
+          "kind": "stop",
+          "reason": "ILLEGAL_CONTACT",
+          "steps": 20686
+        }
+      ],
+      "STOP_after_ticks": 0,
+      "technical_failure": false,
+      "successful": false,
+      "contacts": [
+        {
+          "geom1": [
+            "task_table",
+            "world"
+          ],
+          "geom2": [
+            "task_right_pad",
+            "x5_link8"
+          ],
+          "force_N": 16.152661699654555
+        }
+      ],
+      "captured_expert_queries": 60,
+      "confirmed_atoms": 599,
+      "last_expert_phase": "DESCEND",
+      "partial_interval_ticks": 8,
+      "cached_or_returned_score_before_partial": {
+        "task_success": false,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "inside_selected_region": false,
+        "stable_release_condition": false,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 9965,
+            "native_time_s": 19.929999999999833
+          }
+        },
+        "native_step": 20453
+      },
+      "actor_wall_s": 282.19115859176964
+    },
+    {
+      "id": "ADAPTATION_TRAIN_PLACE_FIRST6-F1-02-PLACE-blue-right",
+      "result_sha256": "54ad9e1e337ef05d798677267b163ce9d933e1400aa24ba1bfc16892ec74abbf",
+      "native_requests": 1,
+      "ticks": 18407,
+      "first_STOP": [
+        {
+          "kind": "stop",
+          "reason": "ILLEGAL_CONTACT",
+          "steps": 18407
+        }
+      ],
+      "STOP_after_ticks": 0,
+      "technical_failure": false,
+      "successful": false,
+      "contacts": [],
+      "captured_expert_queries": 51,
+      "confirmed_atoms": 508,
+      "last_expert_phase": "DESCEND",
+      "partial_interval_ticks": 4,
+      "cached_or_returned_score_before_partial": {
+        "task_success": false,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "inside_selected_region": false,
+        "stable_release_condition": false,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 11186,
+            "native_time_s": 22.37199999999848
+          }
+        },
+        "native_step": 18203
+      },
+      "actor_wall_s": 248.40918919444084
+    },
+    {
+      "id": "ADAPTATION_TRAIN_PLACE_FIRST6-F2-03-PLACE-red-left",
+      "result_sha256": "bffb9d9fff180b2c1f558c543edcf9c1dbb2e7879627b46d85c267273725a19f",
+      "native_requests": 1,
+      "ticks": 18766,
+      "first_STOP": [
+        {
+          "kind": "stop",
+          "reason": "ILLEGAL_CONTACT",
+          "steps": 18766
+        }
+      ],
+      "STOP_after_ticks": 0,
+      "technical_failure": false,
+      "successful": false,
+      "contacts": [],
+      "captured_expert_queries": 53,
+      "confirmed_atoms": 522,
+      "last_expert_phase": "DESCEND",
+      "partial_interval_ticks": 13,
+      "cached_or_returned_score_before_partial": {
+        "task_success": false,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "inside_selected_region": false,
+        "stable_release_condition": false,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 15362,
+            "native_time_s": 30.72399999999385
+          }
+        },
+        "native_step": 18703
+      },
+      "actor_wall_s": 254.53642479516566
+    }
+  ],
+  "admitted_new_episodes": 0,
+  "native_ticks": 57859,
+  "actual_expert_plan_queries": 164,
+  "confirmed_atoms": 1629,
+  "model_generations": 0,
+  "optimizer_updates": 0,
+  "LIBERO_TRAIN_CUSTODY": {
+    "manifest_sha256": "ba86ee2f88803fff79bda950ee54add91dcefaa105575ac22dade5d650b3fa8a",
+    "episodes": 1261,
+    "files": 365,
+    "bytes": 1569500969,
+    "CPU_readback": {
+      "rows": 209146,
+      "episodes": 1261,
+      "samples": [
+        {
+          "identity": {
+            "episode": 0,
+            "anchor": 0,
+            "supervised_indices": [
+              0,
+              9
+            ],
+            "native_fps": 10,
+            "task": "put the white mug on the left plate and put the yellow and white mug on the right plate",
+            "suite": "libero_10",
+            "current_observation_index": 0
+          },
+          "sha256": "8dc74a33ec702cd52113e4dd67107ca56d6165ff566060185e3a7dfdf48283da"
+        },
+        {
+          "identity": {
+            "episode": 378,
+            "anchor": 242,
+            "supervised_indices": [
+              242,
+              251
+            ],
+            "native_fps": 10,
+            "task": "put both the cream cheese box and the butter in the basket",
+            "suite": "libero_10",
+            "current_observation_index": 242
+          },
+          "sha256": "72e5cd7c8b69fa08dd3301eab1e59a57ac7e7c1c337fcad01b740cb6fd8be71f"
+        },
+        {
+          "identity": {
+            "episode": 379,
+            "anchor": 0,
+            "supervised_indices": [
+              0,
+              9
+            ],
+            "native_fps": 10,
+            "task": "put the bowl on the plate",
+            "suite": "libero_goal",
+            "current_observation_index": 0
+          },
+          "sha256": "68d229e2b268d58231599d312c4c4226b07a9c6291a750baba21a4c15b979e94"
+        },
+        {
+          "identity": {
+            "episode": 806,
+            "anchor": 82,
+            "supervised_indices": [
+              82,
+              91
+            ],
+            "native_fps": 10,
+            "task": "put the bowl on the plate",
+            "suite": "libero_goal",
+            "current_observation_index": 82
+          },
+          "sha256": "a5af77624b95bad898f2027d7bac29123fbeaf506067cfcbb1c14fdebe2003bb"
+        },
+        {
+          "identity": {
+            "episode": 807,
+            "anchor": 0,
+            "supervised_indices": [
+              0,
+              9
+            ],
+            "native_fps": 10,
+            "task": "pick up the orange juice and place it in the basket",
+            "suite": "libero_object",
+            "current_observation_index": 0
+          },
+          "sha256": "996928335541136397c1456c1331ff0306d2ac0acddb513cd6c20006ac8af9bb"
+        },
+        {
+          "identity": {
+            "episode": 1260,
+            "anchor": 142,
+            "supervised_indices": [
+              142,
+              151
+            ],
+            "native_fps": 10,
+            "task": "pick up the ketchup and place it in the basket",
+            "suite": "libero_object",
+            "current_observation_index": 142
+          },
+          "sha256": "0af7ae292b36abb54f31014765044c22b00669198277e668ac8505a3639a0c2c"
+        }
+      ],
+      "new_updates": 0,
+      "model_generations": 0,
+      "native_requests": 0
+    }
+  }
+}

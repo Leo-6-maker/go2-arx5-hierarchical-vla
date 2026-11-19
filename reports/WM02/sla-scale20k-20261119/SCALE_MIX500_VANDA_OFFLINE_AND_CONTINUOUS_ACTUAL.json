@@ -1,0 +1,325 @@
+{
+  "epoch": 1795104734.356041,
+  "source_sha": "ed0ce4251f0207d50c97706b6ce2e6ae55cefe14",
+  "job": "1593546.stdct-mgmt-02",
+  "PBS_state": "F",
+  "PBS_exit": 0,
+  "wall": "00:04:17",
+  "panel_sha256": "7dc3383b6ea091b0fbb1e90903f9199ad5e4a180c17f60daf4a357a93d8d9473",
+  "checkpoint_sha256": "4f4ade751809b375a484a9ba4e4bcb5ad899edfbbe2135b4ac62c41631b76093",
+  "result_sha256": "f7d6b39c04d24d2117434f994897c4d90655f71ab1b90ea8d9afc48454153f01",
+  "stages": {
+    "evaluate": {
+      "status": "ENDPOINT_PREDICTIONS_SEALED",
+      "actual_generations": 288,
+      "wall_s": 142.91764025087468,
+      "sha256": "3d94d342dad8363051f39220986f3a6763a8c9601411ac6a4408750a26fe9249",
+      "summary": {
+        "target": {
+          "windows": 96,
+          "groups": {
+            "HOLD": 48,
+            "PLACE": 48
+          },
+          "normalized_active_mae": 0.24568942344437042,
+          "normalized_padding_rms": 0.003841310191395072,
+          "normalized_action_motion": 0.008528668307311213,
+          "label_action_motion": 0.009751490271203997,
+          "HOLD": {
+            "H40_and_seam_pass": 45,
+            "predictions": 48,
+            "label_closure_events": 1,
+            "missed_closures": 1,
+            "width_MAE_m": 0.0012782504005511264
+          },
+          "PLACE": {
+            "H40_and_seam_pass": 45,
+            "predictions": 48,
+            "label_closure_events": 0,
+            "missed_closures": 0,
+            "width_MAE_m": 0.0008988415497005313
+          },
+          "all": {
+            "H40_and_seam_pass": 90,
+            "predictions": 96,
+            "label_closure_events": 1,
+            "missed_closures": 1,
+            "width_MAE_m": 0.001088545975125829
+          }
+        },
+        "robodojo": {
+          "windows": 96,
+          "groups": {
+            "cover_blocks": 16,
+            "insert_tubes": 16,
+            "make_bread": 16,
+            "make_food": 16,
+            "pack_and_pour_fruit": 16,
+            "store_in_safe": 16
+          },
+          "normalized_active_mae": 0.08691785189633568,
+          "normalized_padding_rms": 0.0018954553658356115,
+          "normalized_action_motion": 0.0076161617374358075,
+          "label_action_motion": 0.006854101041729639
+        },
+        "libero": {
+          "windows": 96,
+          "groups": {
+            "pick up the black bowl between the plate and the ramekin and place it on the plate": 10,
+            "pick up the black bowl from table center and place it on the plate": 10,
+            "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate": 10,
+            "pick up the black bowl next to the cookie box and place it on the plate": 10,
+            "pick up the black bowl next to the plate and place it on the plate": 10,
+            "pick up the black bowl next to the ramekin and place it on the plate": 10,
+            "pick up the black bowl on the cookie box and place it on the plate": 9,
+            "pick up the black bowl on the ramekin and place it on the plate": 9,
+            "pick up the black bowl on the stove and place it on the plate": 9,
+            "pick up the black bowl on the wooden cabinet and place it on the plate": 9
+          },
+          "normalized_active_mae": 0.24926381457286576,
+          "normalized_padding_rms": 0.0027803050664563975,
+          "normalized_action_motion": 0.03884852514602244,
+          "label_action_motion": 0.0436815844392792
+        }
+      }
+    },
+    "restore": {
+      "status": "FRESH_RGB48_RESTORED_EXACT",
+      "actual_generations": 48,
+      "wall_s": 46.241921356879175,
+      "sha256": "3c72d465aca28999971dc2e1ddeb95cac9db8b65f4e8eda50bc36acb5fe01ee0",
+      "summary": {
+        "target": {
+          "windows": 16,
+          "groups": {
+            "HOLD": 8,
+            "PLACE": 8
+          },
+          "normalized_active_mae": 0.2753280815668404,
+          "normalized_padding_rms": 0.003898452880093828,
+          "normalized_action_motion": 0.008496542548527941,
+          "label_action_motion": 0.00987595743208658,
+          "HOLD": {
+            "H40_and_seam_pass": 8,
+            "predictions": 8,
+            "label_closure_events": 0,
+            "missed_closures": 0,
+            "width_MAE_m": 3.900041773806438e-06
+          },
+          "PLACE": {
+            "H40_and_seam_pass": 6,
+            "predictions": 8,
+            "label_closure_events": 0,
+            "missed_closures": 0,
+            "width_MAE_m": 0.005184992885962088
+          },
+          "all": {
+            "H40_and_seam_pass": 14,
+            "predictions": 16,
+            "label_closure_events": 0,
+            "missed_closures": 0,
+            "width_MAE_m": 0.0025944464638679465
+          }
+        },
+        "robodojo": {
+          "windows": 16,
+          "groups": {
+            "cover_blocks": 3,
+            "insert_tubes": 3,
+            "make_bread": 3,
+            "make_food": 3,
+            "pack_and_pour_fruit": 2,
+            "store_in_safe": 2
+          },
+          "normalized_active_mae": 0.124875569017604,
+          "normalized_padding_rms": 0.0018745940760709345,
+          "normalized_action_motion": 0.0076130122324684635,
+          "label_action_motion": 0.0077840595913585275
+        },
+        "libero": {
+          "windows": 16,
+          "groups": {
+            "pick up the black bowl between the plate and the ramekin and place it on the plate": 2,
+            "pick up the black bowl on the ramekin and place it on the plate": 2,
+            "pick up the black bowl next to the plate and place it on the plate": 2,
+            "pick up the black bowl from table center and place it on the plate": 2,
+            "pick up the black bowl on the stove and place it on the plate": 1,
+            "pick up the black bowl next to the ramekin and place it on the plate": 1,
+            "pick up the black bowl on the cookie box and place it on the plate": 2,
+            "pick up the black bowl next to the cookie box and place it on the plate": 2,
+            "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate": 1,
+            "pick up the black bowl on the wooden cabinet and place it on the plate": 1
+          },
+          "normalized_active_mae": 0.23267316864803433,
+          "normalized_padding_rms": 0.0028793880774173886,
+          "normalized_action_motion": 0.0377856440609321,
+          "label_action_motion": 0.042540391339571215
+        }
+      }
+    }
+  },
+  "verified_output_files": 336,
+  "restored_exact": 48,
+  "comparison": {
+    "target": {
+      "pair_count": 96,
+      "MIX_normalized_active_MAE": 0.24568942344437042,
+      "TGT_normalized_active_MAE": 0.2099230442351351
+    },
+    "robodojo": {
+      "pair_count": 96,
+      "MIX_normalized_active_MAE": 0.08691785189633568,
+      "TGT_normalized_active_MAE": 0.14777176943607628
+    },
+    "libero": {
+      "pair_count": 96,
+      "MIX_normalized_active_MAE": 0.24926381457286576,
+      "TGT_normalized_active_MAE": 0.4869326623156667
+    }
+  },
+  "target_rejections": [
+    {
+      "ordinal": 6,
+      "group": "HOLD",
+      "H40": true,
+      "first_H40": null,
+      "seam_exceeded": true,
+      "first_seam_speed_m_s": 0.37233730988079833
+    },
+    {
+      "ordinal": 7,
+      "group": "PLACE",
+      "H40": true,
+      "first_H40": null,
+      "seam_exceeded": true,
+      "first_seam_speed_m_s": 0.3569952488766863
+    },
+    {
+      "ordinal": 30,
+      "group": "HOLD",
+      "H40": false,
+      "first_H40": {
+        "path": "nominal",
+        "channel": "linear_acceleration",
+        "k": 33,
+        "time_s": 1.6500000000000001,
+        "region": "SUFFIX",
+        "first_ratio": 1.1090725848740992,
+        "peak_ratio": 1.1090725848740992,
+        "order": 3
+      },
+      "seam_exceeded": false,
+      "first_seam_speed_m_s": 0.0045023431528114395
+    },
+    {
+      "ordinal": 57,
+      "group": "PLACE",
+      "H40": true,
+      "first_H40": null,
+      "seam_exceeded": true,
+      "first_seam_speed_m_s": 0.092801129481071
+    },
+    {
+      "ordinal": 60,
+      "group": "HOLD",
+      "H40": true,
+      "first_H40": null,
+      "seam_exceeded": true,
+      "first_seam_speed_m_s": 0.3624641953534875
+    },
+    {
+      "ordinal": 75,
+      "group": "PLACE",
+      "H40": false,
+      "first_H40": {
+        "path": "nominal",
+        "channel": "linear_acceleration",
+        "k": 36,
+        "time_s": 1.8,
+        "region": "SUFFIX",
+        "first_ratio": 1.1900381228754464,
+        "peak_ratio": 1.1900381228754464,
+        "order": 3
+      },
+      "seam_exceeded": false,
+      "first_seam_speed_m_s": 0.010188687106632635
+    }
+  ],
+  "target_closure": [
+    {
+      "ordinal": 20,
+      "group": "HOLD",
+      "width": {
+        "width_MAE_m": 0.019496636916720555,
+        "terminal_width_error_m": 0.039990881815986534,
+        "predicted_width_change_m": 5.2424964924746575e-08,
+        "expert_width_change_m": -0.039993982031250055,
+        "expert_crossing_in_window": 20,
+        "predicted_first_crossing": null,
+        "crossing_error_s": null,
+        "missed_in_window_crossing": true,
+        "peak_finger_speed_m_s": 1.2027763757749277e-05
+      },
+      "target_gates": true
+    }
+  ],
+  "updates": 0,
+  "optimization_visits": 0,
+  "native_requests": 0,
+  "native_ticks": 0,
+  "old_TEST_access": false,
+  "fixed_goal_sha": "5734a73cbda5c333cc3d7d7e0f032e679a4c08b6",
+  "training_source_sha": "31076fc7a64302b0705ae4d7e526c4341209a100",
+  "training_spec_sha256": "7e2b0dbb63939f49105575b52f23c976a83a36e80a785dc08a224b56e249cbdc",
+  "transport_manifest_sha256": "2669a989b5aa59c5b24cbecd345321d8545acf795329c9ca61312778731d6377",
+  "mix_original_updates": 500,
+  "mix_original_visits": {
+    "target": 16000,
+    "robodojo": 24000,
+    "libero": 24000
+  },
+  "mix_training_H40": 2000,
+  "initial_dispatch_import_failed_before_qsub": true,
+  "verified_no_PBS_duplicate": true,
+  "live": {
+    "core": {
+      "observed_epoch": 1795104756.1766994,
+      "global_step": 597,
+      "cursors": {
+        "target": 19104,
+        "robodojo": 28656,
+        "libero": 28656
+      },
+      "update_wall_seconds": {
+        "p50": 36.11526966281235,
+        "p90": 36.989219220541415,
+        "min": 35.91369506996125,
+        "max": 60.07154016662389
+      },
+      "allocator_peak_bytes_observed": 21172529408
+    },
+    "vanda": {
+      "observed_epoch": 1795104756.145755,
+      "global_step": 1324,
+      "cursors": {
+        "target": 42368,
+        "robodojo": 0,
+        "libero": 0
+      },
+      "update_wall_seconds": {
+        "p50": 13.317772298119962,
+        "p90": 14.000152017385698,
+        "min": 13.174261164851487,
+        "max": 14.038606756133959
+      },
+      "allocator_peak_bytes_observed": 20857615360
+    }
+  },
+  "common_target_prefix": {
+    "matched_steps": 597,
+    "first": 1,
+    "last": 597,
+    "target_visits": 19104,
+    "exact_common_prefix_sha256": "343bdc0c5f23e8b6acc5e9856b398bf7b80c1501b151c6a85b29e254d6eeb9fa"
+  }
+}
