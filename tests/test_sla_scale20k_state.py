@@ -130,6 +130,78 @@ def test_core_offline_does_not_consume_formal_budget_on_the_technical_prefix(tmp
         offline.offline_endpoint(config, tmp_path/'evaluation')
 
 
+def test_scale_portable_transport_keeps_original_training_card_and_checks_all_arrays(tmp_path, monkeypatch):
+    import io
+
+    from scripts.pi0292.durable import write
+    from scripts.sla import scale20k_portable_endpoint as transport
+
+    source = tmp_path/'vanda'
+    stage = source/'train'
+    state = stage/'step00500'
+    state.mkdir(parents=True)
+    arm, step, ident = transport.ARM, 500, 'a'*64
+    job, launcher, train_source = '123.site', 'b'*40, 'c'*40
+    binding = dict(recipe=RECIPE,plan_sha=PLAN,arm=arm,learning_rates_sha256=bank_sha256(learning_rates()),
+        parent_manifest_sha256=ident,partition_sha256=ident,initial_state_sha256=ident,optimizer_sha256=ident,
+        data_manifest_sha256=dict.fromkeys(DOMAINS,ident),visit_bank_sha256=dict.fromkeys(DOMAINS,ident))
+    rows = []
+    for i in range(140):
+        name = f'{i:06d}.npy'
+        file = state/name
+        np.save(file,np.array([i],np.int32),allow_pickle=False)
+        rows.append(dict(file=name,sha256=transport.pin(file)['sha256']))
+    complete = state/'COMPLETE.json'
+    write(complete,dict(schema=checkpoint.SCHEMA,binding=binding,step=step,cursors=cursors(arm,step),
+                        training_full_generations=step*4,physics=False,arrays=rows))
+    endpoint = dict(path=str(state),sha256=transport.pin(complete)['sha256'])
+    write(stage/'MODEL_AT_START.private.json',dict(binding=binding))
+    write(stage/'SPEC.private.json',dict(arm=arm,source_sha=train_source,plan_sha=PLAN,recipe=RECIPE,
+        global_stop_step=step,physics=False,hardware_allowed=False,dataset='/original/vanda/dataset'))
+    terminal = stage/'RESULT.private.json'
+    write(terminal,dict(arm=arm,scope=RECIPE,mode='train',source_sha=train_source,exit_code=0,
+        status='FIXED_SEGMENT_SAVED',global_step=step,global_cursors=cursors(arm,step),
+        new_native_requests=0,new_native_ticks=0,checkpoint=endpoint))
+    write(source/'RESULT.private.json',dict(source_sha=launcher,training_source_sha=train_source,
+        status='FIXED_SEGMENT_SAVED',PBS_JOBID=job,stages=dict(train=transport.pin(terminal))))
+    write(source/'EXECUTION.private.json',dict(arm=arm,plan_sha=PLAN,source_sha=launcher,job_id=job,root=str(source)))
+    monkeypatch.setattr(transport,'scheduler_terminal',lambda cfg:dict(id=job,state='F',exit_code=0))
+    stream = io.BytesIO()
+    transport.export_bundle(source,stream)
+    destination = tmp_path/'core'
+    custody = transport.receive_bundle(destination,io.BytesIO(stream.getvalue()))
+    assert custody['checkpoint']['sha256'] == endpoint['sha256']
+    assert (destination/'train/SPEC.private.json').read_bytes() == (stage/'SPEC.private.json').read_bytes()
+    assert transport.local_custody(destination,custody['transfer']) == custody
+    (state/'000001.npy').write_bytes(b'damaged')
+    rejected = io.BytesIO()
+    with pytest.raises(ValueError,match='TRANSFER_INPUT_HASH_MISMATCH'):
+        transport.export_bundle(source,rejected)
+    assert rejected.getvalue() == b''
+
+
+def test_scale_relocated_training_requires_clock_and_all_dataset_pins():
+    from copy import deepcopy
+
+    from scripts.sla.evaluate_scale20k import relocated_training
+
+    def pin(digest):
+        return dict(path='original',sha256=digest*64)
+
+    domains = {domain:dict(manifest=pin('a')) for domain in DOMAINS}
+    domains['target'].update(admission=pin('b'),time_audit=pin('c'))
+    train = dict(data=domains,parent_manifest=pin('d'),tokenizer=pin('e'),parent_params='origin',
+                 dataset='origin',optimizer=dict(beta1=.9))
+    site = deepcopy(train)
+    site['dataset'] = 'core'
+    site['optimizer']['beta1'] = .5
+    assert relocated_training(train,site)['optimizer'] == dict(beta1=.9)
+    assert relocated_training(train,site)['dataset'] == 'core'
+    site['data']['target']['time_audit']['sha256'] = '0'*64
+    with pytest.raises(ValueError,match='RELOCATED_ASSET_HASH'):
+        relocated_training(train,site)
+
+
 def test_vanda_continuation_requires_the_original_complete_pbs_prefix(tmp_path, monkeypatch):
     import json
 

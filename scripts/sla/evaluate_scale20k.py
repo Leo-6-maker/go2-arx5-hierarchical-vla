@@ -19,6 +19,14 @@ from go2arx5_vla.sla_adapter.scale20k_training import host_batch
 from scripts.pi0292.durable import OwnerLock, write
 
 
+def relocated_training(training, assets):
+    """Resolve site-local assets while retaining the original training identities."""
+    if (data_sha(assets['data']) != data_sha(training['data'])
+            or any(assets[key]['sha256'] != training[key]['sha256'] for key in ('parent_manifest','tokenizer'))):
+        raise ValueError('SCALE20K_OFFLINE_RELOCATED_ASSET_HASH_DOES_NOT_MATCH_TRAINING')
+    return dict(training, **{key:assets[key] for key in ('data','parent_manifest','parent_params','dataset','tokenizer')})
+
+
 def evidence_spec(spec, mode):
     training = read_pin(spec['training_spec'])
     arm, step = spec['arm'], spec['step']
@@ -37,6 +45,8 @@ def evidence_spec(spec, mode):
             or spec['physics'] is not False or spec['hardware_allowed'] is not False
             or spec['updates_cap'] != 0 or spec['native_request_cap'] != 0):
         raise ValueError('SCALE20K_FORMAL_NONPHYSICAL_ENDPOINT_AND_BOUNDED_ROLE_REQUIRED')
+    if spec.get('site_assets') is not None:
+        training = relocated_training(training, read_pin(spec['site_assets']))
     for key in ('parent_params', 'dataset'):
         if Path(spec[key]).resolve(strict=True) != Path(training[key]).resolve(strict=True):
             raise ValueError('SCALE20K_OFFLINE_SITE_MODEL_AND_DATA_MUST_MATCH_TRAINING')
@@ -90,6 +100,7 @@ def run(spec, mode):
         prior = read_pin(spec['evaluation_result'])
         if (prior['status'] != 'ENDPOINT_PREDICTIONS_SEALED' or prior['checkpoint'] != spec['checkpoint']
                 or prior['panel'] != spec['panel'] or prior['source_sha'] != spec['source_sha']
+                or prior.get('site_assets') != spec.get('site_assets')
                 or any(len(prior['rows'][d]) != PER_DOMAIN for d in DOMAINS)
                 or prior['new_model_generations'] != len(DOMAINS)*PER_DOMAIN):
             raise ValueError('SCALE20K_OFFLINE_FRESH_RESTORE_REQUIRES_ORIGINAL_COMPLETE_DIAGNOSTIC')
@@ -109,7 +120,8 @@ def run(spec, mode):
 
     rows = {d: [] for d in DOMAINS}
     actual = dict(source_sha=spec['source_sha'], arm=spec['arm'], step=spec['step'], mode=mode,
-        checkpoint=spec['checkpoint'], panel=spec['panel'], rows=rows, optimization_updates=0, optimization_visits=0,
+        checkpoint=spec['checkpoint'], panel=spec['panel'], site_assets=spec.get('site_assets'),
+        rows=rows, optimization_updates=0, optimization_visits=0,
         new_model_generations=0, generation_attempts=0, new_native_requests=0, new_native_ticks=0, old_TEST_access=False)
     began = time.monotonic()
 

@@ -13,8 +13,9 @@ from go2arx5_vla.sla_adapter.runtime_v1 import read_pin
 from go2arx5_vla.sla_adapter.scale20k_contract import CHECKPOINTS, DOMAINS, PLAN
 from go2arx5_vla.sla_adapter.scale20k_evaluation import PER_DOMAIN, RESTORE
 from scripts.pi0292.durable import OwnerLock, write
-from scripts.sla.evaluate_scale20k import evidence_spec
+from scripts.sla.evaluate_scale20k import evidence_spec, relocated_training
 from scripts.sla.scale20k_core_prefix import GIB, closed_predecessor, resources
+from scripts.sla.scale20k_portable_endpoint import local_custody
 
 
 WALL = 5400
@@ -25,6 +26,19 @@ def pin(path):
 
 
 def offline_endpoint(config, root):
+    if config.get('portable_custody') is not None:
+        custody_pin = config['portable_custody']
+        custody = read_pin(custody_pin)
+        source = Path(custody_pin['path']).resolve(strict=True).parent
+        if (source == root or source.stat().st_uid != os.getuid() or not config.get('site_assets')
+                or local_custody(source, custody['transfer']) != custody
+                or custody['arm'] != config['arm'] or custody['step'] != config['step']
+                or custody['training_source_sha'] != config['training_source_sha']
+                or custody['training_spec'] != config['training_spec']):
+            raise ValueError('SCALE20K_OFFLINE_REQUIRES_VERIFIED_PORTABLE_ENDPOINT_AND_TRAINING_CARD')
+        return custody['checkpoint'], custody['training_spec']
+    if config.get('site_assets') is not None:
+        raise ValueError('SCALE20K_OFFLINE_ASSET_RELOCATION_REQUIRES_PORTABLE_CUSTODY')
     prior, _, step = closed_predecessor(dict(config, source_sha=config['training_source_sha']), root)
     if prior is None or step != config['step'] or step not in CHECKPOINTS[config['arm']]:
         raise ValueError('SCALE20K_FORMAL_OFFLINE_REQUIRES_SEALED_FORMAL_TRAINING_STEP')
@@ -52,6 +66,9 @@ def run(config):
         raise PermissionError('SCALE20K_OFFLINE_REQUIRES_FRESH_OWNED_FINITE_SITE_SERVICE')
     checkpoint, training = offline_endpoint(config, root)
     training_card = read_pin(training)
+    site_assets = config.get('site_assets')
+    if site_assets is not None:
+        training_card = relocated_training(training_card, read_pin(site_assets))
     panel = read_pin(config['panel'])
     if any(len(panel['rows'][d]) != PER_DOMAIN for d in DOMAINS):
         raise ValueError('SCALE20K_OFFLINE_REQUIRES_FROZEN_COMPLETE_THREE_DOMAIN_ROWS')
@@ -92,7 +109,7 @@ def run(config):
             allocator_limit_bytes=reserve,GPU_headroom_bytes=2*GIB,host_headroom_bytes=27*GIB,paths=paths,
             allocation=dict(kind='EXISTING_USER_SERVICE',campaign_root=str(root),neural_owner_lock=worker_lock,unit=unit)))
         common = dict(plan=PLAN,arm=config['arm'],step=config['step'],source_sha=config['source_sha'],
-            checkpoint=checkpoint,training_spec=training,panel=config['panel'],site_binding=pin(site),
+            checkpoint=checkpoint,training_spec=training,panel=config['panel'],site_binding=pin(site),site_assets=site_assets,
             physics=False,hardware_allowed=False,updates_cap=0,native_request_cap=0,GPU_uuid=gpu,
             JAX_memory_fraction=fraction,neural_owner_lock=worker_lock,deadline_epoch=deadline-60,
             max_walltime_s=WALL,max_gpu_hours=WALL/3600,save_and_exit_on_limit=True,
