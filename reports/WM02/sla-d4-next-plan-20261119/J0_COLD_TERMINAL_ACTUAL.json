@@ -1,0 +1,87 @@
+{
+  "source_sha": "9e7442e752324ad5fec18341b36640a5bbecc70e",
+  "job": "1592217.stdct-mgmt-02",
+  "scheduler_state": "R",
+  "elapsed": "00:05:01",
+  "observed_SGT": "2026-11-19T17:58:09.550339+08:00",
+  "J0": {
+    "arm": "J0",
+    "checkpoint_sha256": "9b3bab333cd33c69d2cf688134c4f0d68bbd42a2ce8b0e67d4d9ca9a996afcfd",
+    "restored_state_arrays": 87,
+    "restored_bit_exact": true,
+    "original_updates": 500,
+    "original_target_visits": 16000,
+    "original_source_visits": 0,
+    "recovery_added_updates": 0,
+    "target_TRAIN96": {
+      "predictions": 96,
+      "CLOSE_count": 20,
+      "CLOSE_pass": 19,
+      "nonCLOSE_count": 76,
+      "nonCLOSE_pass": 76,
+      "terminal_width_MAE_m": 0.006488889424001082,
+      "maximum_terminal_width_error_m": 0.033737447686643086,
+      "annotated_terminal_width_error_max_m": 0.033737447686643086,
+      "physical_admission": false,
+      "original_H40_and_gripper_speed_pass": 85,
+      "gripper_speed_reject": 11
+    },
+    "source_DEV96": {
+      "all": {
+        "count": 96,
+        "normalized_reference_error": 0.07786844430218179,
+        "persistence_error": 0.13895841614915214,
+        "predicted_motion": 0.16584271911573412,
+        "target_motion": 0.13895841614915214,
+        "better_than_persistence": true
+      },
+      "dynamic": {
+        "count": 48,
+        "normalized_reference_error": 0.07729835205652345,
+        "persistence_error": 0.17394071980821404,
+        "predicted_motion": 0.1926424635037717,
+        "target_motion": 0.17394071980821404,
+        "better_than_persistence": true
+      },
+      "low_change_anchor": {
+        "count": 48,
+        "normalized_reference_error": 0.07843853654784015,
+        "persistence_error": 0.10397611249009016,
+        "predicted_motion": 0.13904297472769647,
+        "target_motion": 0.10397611249009016,
+        "better_than_persistence": true
+      }
+    },
+    "target_restore16": 16,
+    "source_restore16": 16,
+    "source_private_bit_exact": true,
+    "sha256": {
+      "result": "2883261c91f2f54d6c75f5c0c73027d6734c85538a2432ba20679129a5c029e4",
+      "target_restore": "6b90b8900785364a2faf099fc0554067b9867e0259d73225659f8c57fdf4a5c0",
+      "source_restore": "ef54ecd562251eb1348ef6d59a021230ee8fb1baa57faeff0dc5ca741e363c89",
+      "source_evaluation": "d531d6db775245bfaba85629b537e8d8f5130e0a6f91b8e5c362179d1349cfda"
+    },
+    "new_original_recovery_target_generations": 0,
+    "new_recovery_source_generations": 96,
+    "new_native_requests": 0
+  },
+  "J1": {
+    "child_arm": "J1",
+    "child_mode": "train",
+    "child_pid": 2870199,
+    "execution_spec_sha256": "b6d31f5dfe63125197a144cd5b9d58e122af2e3b7d9a234125a117ece2b7abf0",
+    "result_exists": false,
+    "training_readback": {
+      "job": "1592217.stdct-mgmt-02",
+      "scheduler": "R",
+      "observed_SGT": "2026-11-19T18:06:11.456800+08:00",
+      "last_durable_row": 34,
+      "progress_updates": 30,
+      "target_visits": 960,
+      "source_visits": 240,
+      "training_H40": 120,
+      "result_exists": false,
+      "ledger_sha256": "b1c0605f4eb50c6d6380b1db17256785da8c9e463a813931280864ff41b1f673"
+    }
+  }
+}
