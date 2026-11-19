@@ -1,0 +1,60 @@
+"""Build the three SCALE20K dataset readers and a reproducible common bank."""
+from collections import Counter
+from pathlib import Path
+
+from .checkpoint_v1 import sha
+from .libero_scale20k import LiberoDataset
+from .multisource_d4 import C20G7Dataset
+from .runtime_v1 import read_pin
+from .scale20k_contract import DOMAINS, bank_sha256, visits
+from .source_native_v6 import SourceDataset
+
+
+class RobodojoDataset(SourceDataset):
+    def __init__(self, root, manifest, **kwargs):
+        if Path(manifest['path']).resolve(strict=True) != (Path(root)/'MANIFEST.private.json').resolve(strict=True):
+            raise ValueError('SCALE20K_ROBODOJO_MANIFEST_PATH_INCONSISTENT')
+        super().__init__(root,manifest['sha256'],**kwargs)
+        if self.manifest['recipe'] != 'SLA_SCALE20K_ROBODOJO_TRAIN48_DEV12_V1' or self.manifest['TEST_labels_read']:
+            raise ValueError('SCALE20K_ROBODOJO_TYPED_TRAIN_DEV_ONLY_REQUIRED')
+        self.verified_raw = set()
+
+    def raw_path(self,episode):
+        path = super().raw_path(episode)
+        if episode not in self.verified_raw:
+            if sha(path) != self.episodes[episode]['raw_sha256']:
+                raise ValueError('SCALE20K_ROBODOJO_PINNED_RGB_FILE_BYTES_CHANGED')
+            self.verified_raw.add(episode)
+        return path
+
+
+def readers(plan, resize_with_pad):
+    if set(plan) != set(DOMAINS):
+        raise ValueError('SCALE20K_REQUIRES_REAL_DATA_IN_ALL_THREE_DOMAINS')
+    target,rd,libero = (plan[domain] for domain in DOMAINS)
+    target_receipt = read_pin(target['admission'])
+    if (target_receipt['schema'] != 'SLA_SCALE20K_TARGET_C20_BOOTSTRAP_V1'
+            or target_receipt['C20_manifest_sha256'] != target['manifest']['sha256']
+            or target_receipt['place_admitted'] != 0):
+        raise ValueError('SCALE20K_EXPLICIT_TARGET_BOOTSTRAP_IDENTITY_REQUIRED')
+    d4 = C20G7Dataset(target['root'],time_audit=target['time_audit'],resize_with_pad=resize_with_pad)
+    if (Path(target['manifest']['path']).resolve(strict=True) != (Path(target['root'])/'MANIFEST.private.json').resolve(strict=True)
+            or d4.manifest_sha != target['manifest']['sha256']):
+        raise ValueError('SCALE20K_TARGET_LOADER_MUST_BIND_THE_ADMITTED_MANIFEST')
+    source = RobodojoDataset(rd['root'],rd['manifest'],split='TRAIN',resize_with_pad=resize_with_pad)
+    library = LiberoDataset(libero['root'],libero['manifest'],split='TRAIN',resize_with_pad=resize_with_pad)
+    return dict(zip(DOMAINS,(d4,source,library),strict=True))
+
+
+def bank_for(datasets):
+    target,source,libero = (datasets[domain] for domain in DOMAINS)
+    counts = Counter(row['id'] for row,_ in target.rows)
+    target_rows = [dict(episode=row['id'],task=row['task'],split=row['split'],admitted=True,window_count=counts[row['id']])
+                   for row in target.manifest['episodes']]
+    source_rows = [dict(episode=row['id'],task=row['task'],split=row['split'],admitted=row['valid'],window_count=row['windows'])
+                   for row in source.episodes.values()]
+    each = dict(zip(DOMAINS,(target_rows,source_rows,list(libero.episodes.values())),strict=True))
+    if any(sum(r['window_count'] for r in each[d]) != len(datasets[d]) for d in DOMAINS):
+        raise ValueError('SCALE20K_VISIT_BANK_AND_READER_INDEX_MUST_MATCH')
+    banks = {domain:visits(each[domain],domain) for domain in DOMAINS}
+    return banks,{domain:bank_sha256(bank) for domain,bank in banks.items()}
