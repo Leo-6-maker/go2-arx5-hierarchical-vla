@@ -283,8 +283,8 @@ def prepare_cards(spec, *, teacher_stop=None):
     templates = {case['mobile_condition']['family']:case for case in map(read,interface['cases'])}
     population = read_pin(spec['compiled_population'])
     if spec['scope'] in adaptation.SCOPES:
-        if teacher_stop != len(adaptation.CELLS) or spec.get('previous_teacher_results'):
-            raise ValueError('NEW_EXPERT_CASES_REQUIRE_THE_ORIGINAL_SIX_TRAIN_CONDITIONS')
+        if teacher_stop != len(adaptation.batch_cells(spec['scope'])) or spec.get('previous_teacher_results'):
+            raise ValueError('NEW_EXPERT_CASES_REQUIRE_THE_REGISTERED_TARGET_TRAIN_BATCH')
         prefix = []
         selected = [(row,None) for row in adaptation.conditions(population, spec['scope'])]
         role = 'EXPERT'

@@ -31,8 +31,8 @@ def prepare(config):
             or source != Path(__file__).resolve().parents[2]
             or authority['source'] != authorized_by or authority['plan_commit'] != plan
             or authority['source_sha'] != config['source_sha'] or authority['hardware_allowed'] is not False
-            or authority['native_request_cap'] != len(adaptation.CELLS)
-            or authority['native_tick_cap'] != adaptation.NATIVE_TICK_CAP
+            or authority['native_request_cap'] != len(adaptation.batch_cells(scope))
+            or authority['native_tick_cap'] != adaptation.tick_cap(scope)
             or authority['compiled_population_sha256'] != config['population']['sha256']):
         raise PermissionError('EXACT_FINITE_SITE_AND_TARGET_TRAIN_AUTHORITY_REQUIRED')
     source_files = {str(path.relative_to(source)):digest(path)
@@ -53,7 +53,7 @@ def prepare(config):
         frontend_dependency=False,sim_only_project_authorization=config['authority'],
         interface_predecessor=config['interface_predecessor'],compiled_population=config['population'],
         previous_teacher_results=[])
-    parent,entries = prepare_cards(spec,teacher_stop=len(adaptation.CELLS))
+    parent,entries = prepare_cards(spec,teacher_stop=len(adaptation.batch_cells(scope)))
     return parent,entries
 
 
@@ -67,14 +67,16 @@ def run(config, *, launch):
                 or terminal['source_sha'] != previous['source_sha']
                 or config['previous_world_result']['path'] != str(Path(previous['registered_root'])/'RESULT.private.json')):
             raise ValueError('The prior native world owner must be reconciled before launch')
-        if config.get('scope') == adaptation.SECOND_SCOPE:
+        scope = config.get('scope',adaptation.SCOPE)
+        if scope in (adaptation.SECOND_SCOPE,adaptation.RELEASE_SCOPE):
+            prior_scope = adaptation.SCOPE if scope == adaptation.SECOND_SCOPE else adaptation.SECOND_SCOPE
             authority = read_pin(config['authority'])
             first = [row for row in terminal['records'] if row['role'] == 'EXPERT']
             new_population = read_pin(config['population'])
             prior_population = read_pin(previous['compiled_population'])
-            new_cases = adaptation.conditions(new_population,adaptation.SECOND_SCOPE)
-            old_cases = adaptation.conditions(prior_population)
-            if (previous['scope'] != adaptation.SCOPE or previous['plan_commit'] != adaptation.PLAN
+            new_cases = adaptation.conditions(new_population,scope)
+            old_cases = adaptation.conditions(prior_population,prior_scope)
+            if (previous['scope'] != prior_scope or previous['plan_commit'] != adaptation.SCOPES[prior_scope][0]
                     or authority['previous_result_sha256'] != config['previous_world_result']['sha256']
                     or terminal['new_verified_native_requests'] != len(old_cases)
                     or [row['id'] for row in first] != [row['id'] for row in old_cases]
@@ -83,7 +85,17 @@ def run(config, *, launch):
                     or {row['reset'] for row in new_cases} & {row['reset'] for row in old_cases}
                     or {row['scene']['sha256'] for row in new_population['clusters']}
                         & {row['scene']['sha256'] for row in prior_population['clusters']}):
-                raise ValueError('A_SEPARATE_SECOND_TRAIN_BATCH_REQUIRES_THE_COMPLETE_FIRST_SIX_RECEIPTS')
+                raise ValueError('A_NEW_TARGET_TRAIN_BATCH_REQUIRES_COMPLETE_COLD_PRIOR_RECEIPTS')
+            if scope == adaptation.RELEASE_SCOPE:
+                audit = read_pin(authority['static_release_audit'])
+                row = next(result for case,result in zip(old_cases,first,strict=True)
+                           if (case['family'],case['instruction']) == adaptation.RELEASE_CELL)
+                audited = audit['rows']['F2-05-PLACE-blue-left']['audit']['offsets']
+                chosen = next(item for item in audited if item['offset_mm']==[0,8])
+                if (not row['hard_STOP'] or row['task_success'] or audit['new_requests'] or audit['native_integrations']
+                        or not chosen['within_zone'] or not chosen['verdict']['passed']
+                        or authority['release_offset_xy_m'] != list(adaptation.RELEASE_OFFSET_XY_M)):
+                    raise ValueError('RELEASE_OFFSET_REQUIRES_THE_ARCHIVED_OPEN_FAILURE_AND_FIXED_GEOMETRY_EVIDENCE')
         linger = subprocess.check_output(['loginctl','show-user',str(os.getuid()),'-p','Linger'],text=True,timeout=20)
         if linger.strip() != 'Linger=yes':
             raise PermissionError('Core user services require actual linger')

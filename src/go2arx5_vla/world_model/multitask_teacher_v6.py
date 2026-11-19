@@ -58,6 +58,7 @@ class MultitaskTeacher(BudgetTeacher):
         self.distal_clearance_evidence = None
         self.landing = F1_LANDING.get(instruction) if condition['family'] == 'F1' else None
         self.landing_rotation = None
+        self.release_zone_offset_xy_m = None
 
     def distal_carry_goal(self, sample, zone, tcp, obj):
         actual_rotation = np.asarray(sample['tcp'])[:3, :3]
@@ -145,6 +146,8 @@ class MultitaskTeacher(BudgetTeacher):
                 return grasp_goal
             self.stage = 'CARRY'
         zone = np.asarray(self.geometry['zones'][self.task.destination]['center_world_XY'])
+        if self.release_zone_offset_xy_m is not None:
+            zone = zone + self.release_zone_offset_xy_m
         if self.landing is not None and self.distal_clearance is not None:
             zone = zone + self.landing[1]
         if self.stage == 'CARRY':
@@ -192,6 +195,9 @@ class MultitaskTeacher(BudgetTeacher):
                    if self.f1_red_grasp_clearance else 'MFREE_MULTITASK_TEACHER_V6_TRANSFER_CLEARANCE')
         if self.distal_clearance is not None:
             version = 'MFREE_MULTITASK_TEACHER_V6_F1_ORIENTED_LANDING'
+        if self.release_zone_offset_xy_m is not None:
+            version = 'MFREE_MULTITASK_TEACHER_V6_F2_BLUE_LEFT_RELEASE_OFFSET'
+            evidence['release_zone_offset_xy_m'] = self.release_zone_offset_xy_m
         evidence.update(teacher_version=version,
                         instruction=self.task.instruction, release_start_step=self.open_start,
                         teacher_carry_footprint_overlap=self.carry_footprint_overlap,

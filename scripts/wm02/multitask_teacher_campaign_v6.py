@@ -115,7 +115,7 @@ def preflight(spec, *, prepared_cases=None):
     if spec['scope'] in adaptation.SCOPES:
         candidates = adaptation.conditions(population, spec['scope'])
         if start != 0 or stop != len(candidates) or spec.get('previous_teacher_results'):
-            raise ValueError('EXPECTED_ALL_SIX_NEW_TRAIN_CONDITIONS_IN_ORDER')
+            raise ValueError('EXPECTED_ALL_REGISTERED_TARGET_TRAIN_CONDITIONS_IN_ORDER')
         previous = []
     else:
         candidates = population['conditions']['TEACHER']
@@ -182,7 +182,7 @@ def run(path, spec):
     def coverage(rows):
         if spec['scope'] in adaptation.SCOPES:
             return sum(row['role']=='EXPERT' and row['task_and_mobile_success']
-                       and not row['technical_failure'] and not row['hard_STOP'] for row in rows) == len(adaptation.CELLS)
+                       and not row['technical_failure'] and not row['hard_STOP'] for row in rows) == len(adaptation.batch_cells(spec['scope']))
         return teacher_coverage(previous+rows)['passes_task_counts']
 
     return run_campaign(path, preflight=lambda _:carried,

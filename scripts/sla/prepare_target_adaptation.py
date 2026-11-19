@@ -28,7 +28,7 @@ def population(cards, history, catalog, *, scope=adaptation.SCOPE):
     clusters, rows = [], []
     plan, _, stage = adaptation.SCOPES[scope]
     lineage = plan + ':' + stage
-    for index, (family, instruction) in enumerate(adaptation.CELLS):
+    for index, (family, instruction) in enumerate(adaptation.batch_cells(scope)):
         for dx, dy in considered[family]:
             if (family, (dx, dy)) in offsets:
                 continue
@@ -42,7 +42,7 @@ def population(cards, history, catalog, *, scope=adaptation.SCOPE):
         else:
             raise ValueError(f'No unused geometry for {family} {instruction}')
         occupied.add(identity)
-        reset = (731000 if scope == adaptation.SCOPE else 731100) + index
+        reset = {adaptation.SCOPE:731000,adaptation.SECOND_SCOPE:731100,adaptation.RELEASE_SCOPE:731200}[scope] + index
         if reset in resets:
             raise ValueError('TRAIN reset overlaps a registered condition')
         cluster = f'{stage}-{family}-{index+1:02}'
@@ -63,9 +63,13 @@ def prepare(spec):
     split = read(pinned(spec['split_inventory']))
     histories = [read(pinned(binding)) for binding in (
         *split['original_populations'], split['new_evaluation_population'])]
-    if scope == adaptation.SECOND_SCOPE:
+    if scope != adaptation.SCOPE:
         prior = read(pinned(spec['first_train_population']))
         adaptation.conditions(prior)
+        histories.append(prior)
+    if scope == adaptation.RELEASE_SCOPE:
+        prior = read(pinned(spec['second_train_population']))
+        adaptation.conditions(prior,adaptation.SECOND_SCOPE)
         histories.append(prior)
     catalog = read(pinned(split['C20_scene_catalog']))
     v52 = read(pinned(split['V52_split']))
@@ -82,8 +86,9 @@ def prepare(spec):
     compiled = read(root/'COMPILED_POPULATION.private.json')
     if any(c['scene']['sha256'] in protected for c in compiled['clusters']):
         raise ValueError('New TRAIN geometry overlaps a historical compiled scene')
-    result = dict(status='COLD_TRAIN_PLACE_FIRST6_COMPILED' if scope == adaptation.SCOPE
-                  else 'COLD_TRAIN_PLACE_SECOND6_COMPILED',
+    result = dict(status={adaptation.SCOPE:'COLD_TRAIN_PLACE_FIRST6_COMPILED',
+                         adaptation.SECOND_SCOPE:'COLD_TRAIN_PLACE_SECOND6_COMPILED',
+                         adaptation.RELEASE_SCOPE:'COLD_TRAIN_PLACE_RELEASE_OFFSET_COMPILED'}[scope],
                   plan=plan, source_sha=spec['execution_source_sha'],
                   split_inventory_sha256=spec['split_inventory']['sha256'],
                   compiled_population_sha256=start['population_sha256'],

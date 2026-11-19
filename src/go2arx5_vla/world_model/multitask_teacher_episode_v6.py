@@ -10,6 +10,7 @@ from .multitask_camera_v6 import TwoObjectCameraSession
 from .multitask_score_v6 import Score
 from .multitask_state_v6 import TwoObjectState, score_through
 from .multitask_teacher_v6 import MultitaskTeacher
+from .target_adaptation_teacher import RELEASE_OFFSET_XY_M, RELEASE_SCOPE
 from .native_collection_performance_v1 import measure
 
 
@@ -38,6 +39,8 @@ def episode(adapter, *, placement_teacher=None):
     reader = TwoObjectState(adapter.actual_state.model,adapter.task.color)
     teacher = (MultitaskTeacher(initial,condition,geometry,instruction) if placement_teacher is None
                else placement_teacher(initial,condition,geometry,instruction,adapter.actual_state.model))
+    if adapter.spec['scope'] == RELEASE_SCOPE:
+        teacher.release_zone_offset_xy_m = RELEASE_OFFSET_XY_M
     if placement_teacher is None and teacher.landing is not None:
         from .multitask_carry_geometry_v6 import DistalCarryGeometry
 

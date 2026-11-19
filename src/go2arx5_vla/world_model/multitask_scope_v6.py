@@ -115,9 +115,12 @@ def validate(spec):
             or authority.get('hardware_allowed') is not False or time.time()>=spec['deadline_epoch']
             or spec['deadline_epoch']>min(authority['deadline_epoch'],spec['allocation_deadline_epoch'])):
         raise PermissionError('ACTUAL_FINITE_V6_MULTITASK_AUTHORITY_REQUIRED')
-    if scope in adaptation.SCOPES and (authority['native_request_cap'] != len(adaptation.CELLS)
-            or authority['native_tick_cap'] != adaptation.NATIVE_TICK_CAP):
+    if scope in adaptation.SCOPES and (authority['native_request_cap'] != len(adaptation.batch_cells(scope))
+            or authority['native_tick_cap'] != adaptation.tick_cap(scope)):
         raise PermissionError('FIXED_FIRST6_TRAIN_ADAPTATION_BUDGET_REQUIRED')
+
+    if scope == adaptation.RELEASE_SCOPE and (condition['family'],task.instruction) != adaptation.RELEASE_CELL:
+        raise ValueError('EXPECTED_THE_SINGLE_F2_BLUE_LEFT_RELEASE_OFFSET_CONDITION')
 
     validate_frozen_assets(spec)
     manifest=read_pin(spec['registered_panel'])
