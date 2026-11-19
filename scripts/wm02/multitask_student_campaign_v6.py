@@ -16,6 +16,7 @@ from go2arx5_vla.world_model.multitask_score_v6 import INSTRUCTIONS
 from go2arx5_vla.world_model.multitask_state_v6 import packets
 from go2arx5_vla.world_model.storage import digest
 from .multitask_teacher_campaign_v6 import interface_records
+from .multitask_panel_suffix import budgets, verified_prefix
 from .sim_only_campaign_v51 import compact_case, fatal_control_violation, run as run_campaign
 
 STAGE_SIZE = dict(SCREEN=24, CONFIRM=24, DEV=60, TEST=60, D4_DEV=24, J_SCREEN48=24)
@@ -126,6 +127,14 @@ def preflight(spec):
     endpoints = endpoint_records(spec)
     population = read_pin(spec['compiled_population'])
     expected = expected_conditions(population,stage,arms)
+    staged = spec['scope'] in (d4.SCOPE,followup.SCOPE)
+    carried = []
+    if staged:
+        full_budget = (d4.REQUEST_CAP,d4.TICK_CAP,d4.GENERATION_CAP) if spec['scope'] == d4.SCOPE else followup.CAPS[stage]
+        if budgets(expected) != full_budget:
+            raise ValueError('FIXED_NATIVE_PANEL_CONDITION_BUDGET_CHANGED')
+        carried = verified_prefix(spec,expected)
+        expected = expected[len(carried):]
     panel = read_pin(spec['registered_panel'])
     cases = spec['cases']
     if len(panel) != len(cases) or len(panel) != len(expected) or len(panel) != spec['new_physical_requests_budget']:
@@ -152,15 +161,17 @@ def preflight(spec):
     if (worker['new_complete_generations_budget'] != requests or worker['unified_requests_budget'] != requests
             or worker['new_optimizer_updates_budget'] or requests > 34560):
         raise ValueError('M_MODEL_REQUEST_BUDGET_MUST_MATCH_ACTUAL_HOLD_PLACE_CAPS')
-    if stage == d4.STAGE and (len(cases) != d4.REQUEST_CAP or requests != d4.GENERATION_CAP
-            or sum(read(path)['max_ticks'] for path in cases) != d4.TICK_CAP):
-        raise ValueError('D4_FIXED_48_REQUEST_7680_GENERATION_AND_TICK_CAPS_REQUIRED')
+    if staged:
+        actual_caps = len(cases),sum(read(path)['max_ticks'] for path in cases),requests
+        if actual_caps != budgets(expected) or (
+                spec.get('new_native_tick_budget',actual_caps[1]),spec['new_model_generations_budget']) != actual_caps[1:]:
+            raise ValueError('ONLY_THE_FINITE_UNDISPATCHED_NATIVE_TICK_AND_GENERATION_CAPS_ARE_AVAILABLE')
     interface = read_pin(spec['interface_predecessor'])
     if spec['scope'] == followup.SCOPE:
-        if (len(cases), sum(read(path)['max_ticks'] for path in cases), requests) != followup.CAPS[stage]:
-            raise ValueError('D416_FIXED_NATIVE_TICK_AND_GENERATION_CAPS_REQUIRED')
-        return interface_records(interface,spec['mobile_world_lock'],identity=(d4.E0_SCOPE,d4.E0_PLAN)), endpoints
-    return interface_records(interface,spec['mobile_world_lock']), endpoints
+        interfaces = interface_records(interface,spec['mobile_world_lock'],identity=(d4.E0_SCOPE,d4.E0_PLAN))
+    else:
+        interfaces = interface_records(interface,spec['mobile_world_lock'])
+    return interfaces+carried, endpoints
 
 
 def student_row(spec,result):
@@ -236,13 +247,16 @@ def summarize(result, spec, endpoints):
     is_followup = spec.get('scope') == followup.SCOPE
     arms = followup.arms_for(spec) if is_followup else d4.ARMS if is_d4 else ARMS
     students = [row for row in result['records'] if row['role']=='STUDENT']
+    remaining = spec['new_physical_requests_budget']
+    full = followup.CAPS[stage][0] if is_followup else d4.REQUEST_CAP if is_d4 else remaining
+    current = students[full-remaining:]
     if is_followup and stage != followup.JOINT:
         from go2arx5_vla.world_model.d5_grasp_decision import grasp_panel
 
         bank = read_pin(spec['compiled_population'])
         chosen = arms[-1] if stage == followup.CONFIRM else None
         decision = grasp_panel(students, bank['conditions'][stage], stage=stage, candidate=chosen)
-        generation_count = sum(r['actual_model_generations'] for r in students)
+        generation_count = sum(r['actual_model_generations'] for r in current)
         worker = result['model_service']
         reconciled = (worker is not None and not worker['exit_code']
                       and worker['attempted_generations'] == worker['completed_generations'] == generation_count)
@@ -251,8 +265,10 @@ def summarize(result, spec, endpoints):
         selected = decision['selected_arm']
         return dict(decision, population_sha256=spec['compiled_population']['sha256'],
                     selected_package_sha256=None if selected is None else spec['packages'][selected]['sha256'],
-                    new_native_requests=sum(r['actual_native_requests'] for r in students),
-                    new_native_ticks=sum(r['native_ticks'] for r in students),
+                    new_native_requests=sum(r['actual_native_requests'] for r in current),
+                    total_panel_native_requests=sum(r['actual_native_requests'] for r in students),
+                    new_native_ticks=sum(r['native_ticks'] for r in current),
+                    total_panel_native_ticks=sum(r['native_ticks'] for r in students),
                     attributed_case_generations=generation_count, generations_reconciled=reconciled,
                     worker_result=worker, unresolved_case_launches=result['unresolved_case_launches'])
     totals = {arm:arm_totals([r for r in students if r['arm']==arm],stage,ep['TRAIN96']) for arm,ep in endpoints.items()}
@@ -269,12 +285,12 @@ def summarize(result, spec, endpoints):
         paired.append(dict(cluster=cluster, instruction=instruction, actual_initial_difference_max_abs=delta,
             **{key: int(rows[arms[1]]['task_and_mobile_success'])-int(rows[arms[0]]['task_and_mobile_success'])}))
     candidates = [arm for arm, row in totals.items() if row['passed']]
-    generations = sum(row['actual_model_generations'] for row in students)
+    generations = sum(row['actual_model_generations'] for row in current)
     worker = result['model_service']
     reconciled = (worker is not None and not worker['exit_code']
                   and worker['attempted_generations']==worker['completed_generations']==generations)
     complete = (not result['exit_code'] and not result['unresolved_case_launches']
-                and len(students)==spec['new_physical_requests_budget']
+                and len(students)==full
                 and reconciled
                 and not any(fatal_control_violation(row) for row in students))
     selected = None
@@ -287,8 +303,10 @@ def summarize(result, spec, endpoints):
     return dict(stage=stage,passed=selected is not None,complete_panel=complete,selected_arm=selected,
         selected_package=None if selected is None else spec['packages'][selected],
         population_sha256=spec['compiled_population']['sha256'],arms=totals,paired_conditions=paired,
-        new_native_requests=(sum(r['actual_native_requests'] for r in students) if is_d4 or is_followup else len(students)),
-        new_native_ticks=sum(r['native_ticks'] for r in students),
+        new_native_requests=(sum(r['actual_native_requests'] for r in current) if is_d4 or is_followup else len(students)),
+        new_native_ticks=sum(r['native_ticks'] for r in current),
+        total_panel_native_requests=(sum(r['actual_native_requests'] for r in students) if is_d4 or is_followup else len(students)),
+        total_panel_native_ticks=sum(r['native_ticks'] for r in students),
         attributed_case_generations=generations,generations_reconciled=reconciled,
         worker_result=worker,unresolved_case_launches=result['unresolved_case_launches'],
         original_WBC_frozen=True,hardware_requests=0,new_optimizer_updates=0)
@@ -318,13 +336,14 @@ def run(path,spec):
         close(spec,1)
         return 1
     is_followup = spec['scope'] == followup.SCOPE
+    matched_native = spec['scope'] in (d4.SCOPE,followup.SCOPE)
     code = run_campaign(path,preflight=lambda _:interfaces,load_carried=lambda rows:rows,compact=student_row,
-        bootstrap='v6_bootstrap.py',expected_count=len(spec['cases'])+2,
+        bootstrap='v6_bootstrap.py',expected_count=len(spec['cases'])+len(interfaces),
         result_schema=('SLA_D416_NATIVE_FOLLOWUP_ACTUAL' if is_followup else
                        'SLA_D4_MATCHED_DEV_ACTUAL' if spec['evaluation_stage'] == d4.STAGE
                        else 'SLA_V6_MULTITASK_STUDENT_PANEL_ACTUAL'),
         pilot_evaluate=lambda _:False,case_lead_s=1980,
-        condition_group=len(spec['packages']) if is_followup else 1)
+        condition_group=len(spec['packages']) if matched_native else 1)
     file = root/'RESULT.private.json'
     actual = summarize(read(file),spec,endpoints)
     actual['campaign_result'] = dict(path=str(file),sha256=digest(file))

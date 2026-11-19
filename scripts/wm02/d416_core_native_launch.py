@@ -116,6 +116,8 @@ def build(config):
         source_RGB_restores=source_restores)
     if stage == plan.CONFIRM:
         spec['screen_decision'] = config['screen_decision']
+    if config.get('previous_panel_segments'):
+        spec['previous_panel_segments'] = config['previous_panel_segments']
     plan.arms_for(spec)
     endpoint_records(spec)
     observed = dict(GPU_free_bytes=free_bytes,host_available_bytes=host_bytes,cpus=cpus,linger=True)

@@ -102,7 +102,8 @@ def arms_for(spec):
         state = unit_state('wm02-'+root.name)
         chosen = screen['selected_arm']
         if (screen['stage'] != GRASP or not screen['complete_comparable'] or chosen not in CANDIDATES
-                or result['exit_code'] or result['new_verified_native_requests'] != CAPS[GRASP][0]
+                or result['exit_code'] or screen['total_panel_native_requests'] != CAPS[GRASP][0]
+                or result['student_attempts'] != CAPS[GRASP][0]
                 or screen['population_sha256'] != POPULATION_SHA or lease['status'] != 'CLOSED'
                 or state['pid'] or state['cgroup_pids']
                 or screen['selected_package_sha256'] != spec['packages'][chosen]['sha256']):

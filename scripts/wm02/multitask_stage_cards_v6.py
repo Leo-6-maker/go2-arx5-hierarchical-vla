@@ -205,8 +205,8 @@ def student_worker(spec, panel):
                 or manifest['statistics_sha256']!=stats or manifest['bindings']['arm']!=arm):
             raise ValueError('M_WORKER_REQUIRES_SHARED_SEALED_TARGET_DATA_AND_STATISTICS')
     requests = sum(120 if Task.parse(row['instruction']).operation=='HOLD' else 180 for row in panel)
-    if ((is_d4 and requests != d4.GENERATION_CAP)
-            or (is_followup and requests != followup.CAPS[spec['evaluation_stage']][2]) or not 0 < requests <= 34560):
+    fixed = (spec['new_model_generations_budget'] if is_d4 or is_followup else 34560)
+    if (not 0 < requests <= fixed or ((is_d4 or is_followup) and requests != fixed)):
         raise ValueError('M_WORKER_REQUIRES_FINITE_REGISTERED_STUDENT_QUERY_CAP')
     dirs(folder)
     ipc = folder/'ipc'
@@ -273,6 +273,14 @@ def prepare_cards(spec, *, teacher_stop=None):
         arms = student_arms(spec)
         endpoint_records(spec)
         selected = expected_conditions(population,spec['evaluation_stage'],arms)
+        if spec['scope'] in (d4.SCOPE,followup.SCOPE):
+            from .multitask_panel_suffix import budgets, verified_prefix
+
+            prefix = verified_prefix(spec, selected)
+            selected = selected[len(prefix):]
+            requests, ticks, generations = budgets(selected)
+            spec = dict(spec,new_physical_requests_budget=requests,
+                        new_model_generations_budget=generations,new_native_tick_budget=ticks)
         role = 'STUDENT'
     panel = panel_cards(population,selected,templates,role=role)
     require_unstarted_cases(spec['registry'],{row['id'] for row in panel})

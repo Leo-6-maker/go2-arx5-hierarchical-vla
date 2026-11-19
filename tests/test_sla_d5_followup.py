@@ -32,3 +32,58 @@ def test_fresh_populations_balance_arm_positions_and_resets():
         assert max(positions.values())-min(positions.values()) <= 1
     with pytest.raises(ValueError, match='OVERLAPS_AN_ARCHIVED'):
         population(cards, [bank])
+
+
+def test_resume_only_the_cold_counted_suffix(tmp_path, monkeypatch):
+    from pathlib import Path
+
+    from go2arx5_vla.world_model.storage import digest
+    from scripts.pi0292.durable import write
+    from scripts.wm02 import multitask_panel_suffix as suffix
+
+    arms = ('J0','J1')
+    conditions = [(dict(id=f'condition{i}',instruction='HOLD-red'),arm)
+                  for i in (0,1) for arm in arms]
+    root = tmp_path/'initial'
+
+    def pinned(path, value):
+        path.parent.mkdir(parents=True,exist_ok=True)
+        write(path,value)
+        return dict(path=str(path),sha256=digest(path))
+
+    cards, rows = [], []
+    for i,(condition,arm) in enumerate(conditions):
+        name = condition['id']+'-'+arm
+        parent = root/'cases'/name
+        card = pinned(parent/'EXECUTION_SPEC.json',dict(arm=arm))
+        cards.append(card['path'])
+        if i >= 2:
+            continue
+        source = pinned(parent/'RESULT.private.json',dict(physical_requests=1,actual_native_integrations=5953,
+                       model_generations=1,technical_failure=False,source_sha='first'))
+        pinned(parent/'control/LEASE.json',dict(status='CLOSED',spec_sha256=card['sha256']))
+        rows.append(dict(id=name,role='STUDENT',result_sha256=source['sha256'],native_ticks=5953,
+                         actual_model_generations=1,technical_failure=False,integrations_after_STOP=0,
+                         score=dict(native_step=5953,missing_native_intervals=0)))
+    spec = dict(scope='D416',plan_commit='plan',evaluation_stage='J_SCREEN48',compiled_population='bank',
+                packages={arm:arm for arm in arms},interface_predecessor='interface',mobile_world_lock='lock',
+                ROS_DOMAIN_ID=198,owner='owner')
+    prev = pinned(root/'EXECUTION_SPEC.json',dict(spec,registered_root=str(root),source_sha='first',cases=cards))
+    pinned(root/'control/LEASE.json',dict(status='CLOSED',spec_sha256=prev['sha256']))
+    pinned(root/'PROGRESS.private.json',dict(phase='FINITE_STOP_OR_DEADLINE'))
+    result = dict(source_sha='first',exit_code=1,unresolved_case_launches=0,failure=None,records=rows,
+                  attempted_case_launches=2,new_verified_native_requests=2,
+                  model_service=dict(exit_code=0,attempted_generations=2,completed_generations=2))
+    actual = pinned(root/'RESULT.private.json',result)
+    spec['previous_panel_segments'] = [dict(spec=prev,result=actual)]
+    monkeypatch.setattr(suffix,'unit_state',lambda _:dict(pid=0,cgroup_pids=[]))
+    assert suffix.verified_prefix(spec,conditions) == rows
+    assert suffix.budgets(conditions[len(rows):]) == (2,71406,240)
+    monkeypatch.setattr(suffix,'unit_state',lambda _:dict(pid=42,cgroup_pids=[42]))
+    with pytest.raises(ValueError,match='ONLY_CLOSED_RECONCILED'):
+        suffix.verified_prefix(spec,conditions)
+    monkeypatch.setattr(suffix,'unit_state',lambda _:dict(pid=0,cgroup_pids=[]))
+    part = pinned(Path(actual['path']),dict(result,records=rows[:1],attempted_case_launches=1,new_verified_native_requests=1))
+    spec['previous_panel_segments'] = [dict(spec=prev,result=part)]
+    with pytest.raises(ValueError,match='EXACT_MATCHED_CONDITION_PREFIX'):
+        suffix.verified_prefix(spec,conditions)
