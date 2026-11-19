@@ -1,0 +1,341 @@
+{
+  "schema": "SLA_ADAPT0_DISPATCH_R200_AND_A40_BENCHMARK_ACTUAL_V1",
+  "observed_SGT": "2026-11-20T01:36:52+08:00",
+  "inherited_plan": "5734a73cbda5c333cc3d7d7e0f032e679a4c08b6",
+  "R200_train_custody": {
+    "site": "VANDA",
+    "source_manifest_sha256": "e09f90169d988e8dbe39921aaa10611babf5d7227a7088ddf6d88a5e4b3d558b",
+    "train_episodes": 200,
+    "train_windows": 210398,
+    "received_members": 353,
+    "received_bytes": 27480874350,
+    "reused_R48_raw": 48,
+    "raw_binding_sha256": "fb2e6c580074b462022ccef2522c61391d639bb4667d89b53f5f6327a22cf0ee",
+    "inherited_statistics_sha256": "c8afc74108b66b497122502e3b9b1d27cfc9565855fec88f4e01c3ebcb34f269",
+    "diagnostic_R200_statistics_sha256": "6bab2cca65b3c746ebc4e4a7901d1dc119ec90dd59f9afc26505ca9336965a09",
+    "SOURCE_DEV_raw_access": 0,
+    "SOURCE_TEST_access": 0,
+    "optimization_updates": 0,
+    "model_generations": 0,
+    "native_requests": 0
+  },
+  "ADAPT0": {
+    "role": "ZERO_UPDATE_GRADIENT_AND_INDEPENDENT_RGB_RESTORE",
+    "job": "1593869.stdct-mgmt-02",
+    "source_sha": "15aea3b2f7fa078ed18685d2545c60211a4ccfe6",
+    "execution_sha256": "97680b02a54151c07166a52f6972fa2bf3e32888b530f5a25996f7a7bf398cc8",
+    "site_data_SHA256": "54f7abb2eaa2d475d1259f60c22855b384e13c58bcf81ab7c232f4da6580c31c",
+    "site_proof_sha256": "51de10cb6765e63f86ee74dcb161e01500eea486082c06558a35c8a36e858c1d",
+    "real_input_hash": "1812283b099ffa1db4f70b519a497f678b80fa7aa651eecfab3a7482b0107615",
+    "cross_site_bitwise_equal_real_samples": {
+      "target": 4,
+      "robodojo": 12,
+      "libero": 6
+    },
+    "train_windows": {
+      "target": 1892,
+      "robodojo": 210398,
+      "libero": 209146
+    },
+    "PBS_verified": {
+      "job_state": "R",
+      "Hold_Types": "n",
+      "exec_vnode": "(GN-A40-021[1]:ncpus=36:mem=240gb:ngpus=1)",
+      "depend": "beforeok:1593877.stdct-mgmt-02@stdct-mgmt-02",
+      "Exit_status": null
+    },
+    "PBS_walltime": "03:00:00",
+    "outer_start_window_end_SGT": "2026-11-20T13:34:23+08:00",
+    "profiling_state": {
+      "status": "MEASURING_FULL_128_REAL_GRADIENT_NO_ADAM_APPLY",
+      "epoch": 1795109750.4080358
+    },
+    "actual_device_allocated": true,
+    "detached_verified": true,
+    "optimizer_updates": 0,
+    "optimization_visits": 0,
+    "native_requests": 0,
+    "closed_gradient_receipt": false,
+    "planned_qualification_gradient_windows": {
+      "target": 64,
+      "robodojo": 32,
+      "libero": 32
+    },
+    "pending_endpoint_outputs_and_independent_restore": true
+  },
+  "phase25": {
+    "job": "1593877.stdct-mgmt-02",
+    "parent_job": "1593869.stdct-mgmt-02",
+    "source_sha": "15aea3b2f7fa078ed18685d2545c60211a4ccfe6",
+    "spec_sha256": "c64bf0ec77d14a048082a5ccc7f882dbd4cc805f56622b6078c40f6811178dce",
+    "resolved_actual_PBS_dependency": {
+      "job_state": "H",
+      "Hold_Types": "d",
+      "exec_vnode": null,
+      "depend": "afterok:1593869.stdct-mgmt-02@stdct-mgmt-02",
+      "Exit_status": null
+    },
+    "optimizer_updates": 0,
+    "offline_generations": 0,
+    "native_requests": 0,
+    "first_phase_target": 25,
+    "try_if_exact_successful_phasezero_only": true
+  },
+  "performance": {
+    "compare_source": "1c611d5dfa77f1f1d754fd69ad213752784b8a48",
+    "measured_job_stages": "29d2581d793190572d5f4f1d21b3f6f303d4b88a7ac5115b3fa597b5c243a400",
+    "common_exact_update_input_prefix_sha256": "5ed5b63aa3fb4943b94691d8a42fe929f68569889b4afce7812b95d661be2c39",
+    "total_engineering_updates": 90,
+    "total_engineering_visits": {
+      "target": 2880,
+      "robodojo": 4320,
+      "libero": 4320
+    },
+    "total_full_H40_during_benchmark": 360,
+    "confirmed_A40_closed_jobs": 3,
+    "results": [
+      {
+        "variant": "a40_microbatch_1",
+        "PBS": "1593682.stdct-mgmt-02",
+        "durable_update_ledger_sha256": "e6c1621b1abc849fb9f8fef867507d6815b9d7460d09b2819a111e4a914a15b7",
+        "actual_updates": 30,
+        "visits": {
+          "target": 960,
+          "robodojo": 1440,
+          "libero": 1440
+        },
+        "H40_generations": 120,
+        "exact_checkpoint_array_hashes_vs_mb1": 140,
+        "checkpoint_state_array_denominator": 140,
+        "measured_20": {
+          "update_wall": {
+            "p50": 50.081965024466626,
+            "p90": 50.28250690237619
+          },
+          "data_wait": {
+            "p50": 10.50907510262914,
+            "p90": 10.685488381888717
+          },
+          "fm_backward": {
+            "p50": 36.41561481542885,
+            "p90": 36.42664650278166
+          },
+          "h40_aux_backward": {
+            "p50": 2.877413004054688,
+            "p90": 2.8788919248152522
+          },
+          "optimizer": {
+            "p50": 0.06411257607396692,
+            "p90": 0.06573233369272202
+          }
+        },
+        "wall_s_for_30_updates": 1629.703955031,
+        "save_s": 80.40950851305388,
+        "parent_restore_s": 23.433047275058925,
+        "allocator_peak_bytes": 20956400128,
+        "max_grad_norm_delta": 0.0,
+        "warm_p50_speedup_vs_mb1": 1.0,
+        "reached_15pct_wall_speedup": false,
+        "eligible_for_adoption": false,
+        "checkpoint_sha256": "f1eb276d847386a4904a3bad6902c8f23e2a4c26fe5b1133562f279b7fd4bef6",
+        "PBS_terminal": {
+          "state": "F",
+          "exit_code": 0,
+          "node": "(GN-A40-031[0]:ncpus=36:mem=240gb:ngpus=1)"
+        }
+      },
+      {
+        "variant": "a40_microbatch_2",
+        "PBS": "1593796.stdct-mgmt-02",
+        "durable_update_ledger_sha256": "0d968792736ce7df66bd644cf472e219d4d488666098455f921db589cd1a3526",
+        "actual_updates": 30,
+        "visits": {
+          "target": 960,
+          "robodojo": 1440,
+          "libero": 1440
+        },
+        "H40_generations": 120,
+        "exact_checkpoint_array_hashes_vs_mb1": 5,
+        "checkpoint_state_array_denominator": 140,
+        "measured_20": {
+          "update_wall": {
+            "p50": 44.261546827619895,
+            "p90": 47.667840157891625
+          },
+          "data_wait": {
+            "p50": 7.427511026384309,
+            "p90": 10.88499017301947
+          },
+          "fm_backward": {
+            "p50": 33.69415058149025,
+            "p90": 33.70915909076575
+          },
+          "h40_aux_backward": {
+            "p50": 2.880608450504951,
+            "p90": 2.8824418314499782
+          },
+          "optimizer": {
+            "p50": 0.06296942650806159,
+            "p90": 0.06482838108204306
+          }
+        },
+        "wall_s_for_30_updates": 1479.0461906152777,
+        "save_s": 91.69895422901027,
+        "parent_restore_s": 26.041573349852115,
+        "allocator_peak_bytes": 20956400128,
+        "max_grad_norm_delta": 361.31654566526413,
+        "warm_p50_speedup_vs_mb1": 1.131500560057578,
+        "reached_15pct_wall_speedup": false,
+        "eligible_for_adoption": false,
+        "checkpoint_sha256": "e1bddc2680a1b99450c2436ce9eafc1be9844274a5aeeb2efcad793bacfac4d2",
+        "PBS_terminal": {
+          "state": "F",
+          "exit_code": 0,
+          "node": "(GN-A40-024[1]:ncpus=36:mem=240gb:ngpus=1)"
+        }
+      },
+      {
+        "variant": "a40_microbatch_4",
+        "PBS": "1593797.stdct-mgmt-02",
+        "durable_update_ledger_sha256": "cccd5861bd2fe5d6125529f0feef799a2454a8225db5eebcc104c17808e2a2b6",
+        "actual_updates": 30,
+        "visits": {
+          "target": 960,
+          "robodojo": 1440,
+          "libero": 1440
+        },
+        "H40_generations": 120,
+        "exact_checkpoint_array_hashes_vs_mb1": 5,
+        "checkpoint_state_array_denominator": 140,
+        "measured_20": {
+          "update_wall": {
+            "p50": 35.125579025945626,
+            "p90": 35.179270215542054
+          },
+          "data_wait": {
+            "p50": 3.0827258492354304,
+            "p90": 3.1331689103972167
+          },
+          "fm_backward": {
+            "p50": 28.98373177461326,
+            "p90": 28.998652992164715
+          },
+          "h40_aux_backward": {
+            "p50": 2.872891977778636,
+            "p90": 2.8748741826741027
+          },
+          "optimizer": {
+            "p50": 0.05727717699483037,
+            "p90": 0.05761938539799303
+          }
+        },
+        "wall_s_for_30_updates": 1148.231692928588,
+        "save_s": 69.4918891240377,
+        "parent_restore_s": 19.138955167029053,
+        "allocator_peak_bytes": 21096906496,
+        "max_grad_norm_delta": 170.45712280273438,
+        "warm_p50_speedup_vs_mb1": 1.4257975644322736,
+        "reached_15pct_wall_speedup": true,
+        "eligible_for_adoption": false,
+        "checkpoint_sha256": "fb0b6aef3afc91b4a7b0734fba0ac4e1cc4ddda33d7442c55c57b810d6206fd5",
+        "PBS_terminal": {
+          "state": "F",
+          "exit_code": 0,
+          "node": "(GN-A40-029[0]:ncpus=36:mem=240gb:ngpus=1)"
+        }
+      }
+    ],
+    "output_compatibility_verified": false,
+    "formal_candidate_adoption": false,
+    "new_model_replay_calls": 0
+  },
+  "new_native": {
+    "observed_SGT": "2026-11-20T01:35:01+08:00",
+    "closed": [
+      {
+        "id": "ADAPTATION_TRAIN_PLACE_SECOND6-F1-01-PLACE-red-left",
+        "native_ticks": 32458,
+        "hard_STOP": true,
+        "integrations_after_STOP": 0,
+        "task_and_mobile_success": false,
+        "technical_failure": false,
+        "result_sha256": "39fa7254bc97051c4ec6853fc496e184d2ca35a528ae848f9082ce1937acf440"
+      }
+    ],
+    "inflight": [
+      [
+        "ADAPTATION_TRAIN_PLACE_SECOND6-F1-02-PLACE-blue-right",
+        40453
+      ]
+    ],
+    "total_observed_ticks": 72911,
+    "new_demonstrations_confirmed_in_this_batch": 0,
+    "first_F1_red_left_closed": {
+      "result_sha256": "39fa7254bc97051c4ec6853fc496e184d2ca35a528ae848f9082ce1937acf440",
+      "native_ticks": 32458,
+      "first_failure": "ILLEGAL_CONTACT",
+      "condition": "ADAPTATION_TRAIN_PLACE_SECOND6-F1-01-PLACE-red-left",
+      "end_query_phase": "CARRY",
+      "last_query_native_step": 32453,
+      "forbidden_contacts": [
+        {
+          "geom_pair": [
+            null,
+            "task_blue_cube_geom"
+          ],
+          "distance_mm": -0.2549278021550805,
+          "normal_force_N": 14.105589018897918
+        }
+      ],
+      "score": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "PLACE-red-left",
+        "task_success": false,
+        "native_step": 32458,
+        "base_directional_motion_m": 0.1795023524186265,
+        "lift_m": 0.023233904405894124,
+        "inside_selected_region": false,
+        "target_grasp": false,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": true,
+        "released": false,
+        "gripper_open_fraction": 0.43348673363362683,
+        "TCP_retreat_m": 0.018742766356600025,
+        "stable_release_condition": false,
+        "states": 26756,
+        "missing_native_intervals": 0,
+        "unsafe_states": 1,
+        "ever_target_grasp": true,
+        "ever_target_lift20mm": true,
+        "maximum_lift_m": 0.05959933719082522,
+        "longest_grasp_lift_hold_s": 13.654000000016687,
+        "longest_stable_released_retreat_s": 0.0,
+        "events": {
+          "base80mm": {
+            "native_step": 9977,
+            "native_time_s": 19.95399999999982
+          },
+          "target_grasp": {
+            "native_step": 21017,
+            "native_time_s": 42.034000000005406
+          },
+          "target_lift20mm": {
+            "native_step": 23388,
+            "native_time_s": 46.7760000000112
+          },
+          "wrong_object_contact": {
+            "native_step": 32458,
+            "native_time_s": 64.91600000003011
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "expert_queries": 108,
+      "confirmed_P10_atoms": 1070,
+      "native_requests": 1,
+      "added_native_ticks_by_readback": 0,
+      "optimizer_updates": 0
+    }
+  }
+}
