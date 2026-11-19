@@ -96,3 +96,42 @@ def test_core_successor_binds_only_a_closed_hash_verified_training_segment(tmp_p
     monkeypatch.setattr(core.subprocess,'check_output',lambda *args,**kwargs:'975\n')
     with pytest.raises(PermissionError,match='STILL_OWNED'):
         core.closed_predecessor(config,tmp_path/'new')
+
+
+def test_scale_native_worker_binds_checkpoint_stage_and_never_takes_source_weights(tmp_path, monkeypatch):
+    from go2arx5_vla.sla_adapter import scale20k_package as package
+
+    digest = 'd'*64
+    arm, step = 'SCALE-MIX20K', 5000
+    keys = ("['parameters']['shared']['expert']", "['parameters']['target']['io']",
+            "['parameters']['robodojo']['io']", "['optimizer']['shared']")
+    rows = [dict(key=key, file=f'{i:06d}.npy', dtype='float32', sha256=digest) for i, key in enumerate(keys)]
+    target = package.checkpoint_parameters(dict(arrays=rows))
+    target = [dict(row, file='parameters/'+row['file']) for row in target]
+    assert [row['key'] for row in target] == list(keys[:2])
+    meta = dict.fromkeys(('checkpoint_sha256','offline_evaluation_sha256','offline_restore_sha256','statistics_sha256',
+        'tokenizer_sha256','frozen_fingerprint','partition_sha256','initial_state_sha256','panel_sha256',
+        'target_data_manifest_sha256','target_admission_sha256'), digest)
+    manifest = dict(meta, schema=package.SCHEMA, plan_sha=PLAN, recipe=RECIPE, arm=arm, step=step,
+        cursors=cursors(arm, step), codec=package.CODEC, arrays=target, parent_manifest=dict(sha256=digest, path='parent'),
+        inference=dict(sampler='ten_cached_flow_steps', matmul='highest', cameras='body_and_left_wrist',
+                       horizon=40, interval_s=.05, state_token_dropout=False), hardware_allowed=False,
+        native_admission=False, optimizer_required=False, source_data_required=False, teacher_required=False)
+    package.contract(manifest)
+    with pytest.raises(ValueError, match='GO2_ONLY'):
+        package.contract(dict(manifest, step=200, cursors=cursors(arm, 200)))
+    with pytest.raises(ValueError, match='GO2_ONLY'):
+        package.contract(dict(manifest, arrays=[*target, dict(rows[2], file='parameters/'+rows[2]['file'])]))
+
+    monkeypatch.setattr(package, 'read_package', lambda *a: manifest)
+    name = 'SCALE-MIX5K'
+    kwargs = dict(scope=package.SCOPE, plan_commit=PLAN, physics=False, new_physical_requests_budget=0,
+        packages={name: dict(path=str(tmp_path), sha256=digest)}, parent_manifest=manifest['parent_manifest'],
+        parent_params='parent/model/params', request_bindings_by_arm={name: dict(arm=name, policy_package_sha256=digest,
+                                                                                 statistics_sha256=digest)})
+    wrong = dict(kwargs, packages={arm: kwargs['packages'][name]},
+        request_bindings_by_arm={arm: dict(kwargs['request_bindings_by_arm'][name], arm=arm)})
+    with pytest.raises(ValueError, match='ENDPOINT_AND_REQUEST_BINDING'):
+        package.Pool(wrong)
+    with pytest.raises(PermissionError, match='NONINTEGRATING'):
+        package.Pool(dict(kwargs, physics=True))

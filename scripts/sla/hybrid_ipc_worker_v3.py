@@ -34,8 +34,9 @@ def run(spec):
     from go2arx5_vla.sla_adapter.compilation_cache_binding_v1 import bind_declared_cache
     from go2arx5_vla.world_model.multisource_d4_native import SCOPE as D4_SCOPE
     from go2arx5_vla.world_model.sla_followup_native_v1 import SCOPE as D416_SCOPE
+    from go2arx5_vla.sla_adapter.scale20k_package import SCOPE as SCALE_SCOPE
     cache_binding=bind_declared_cache(spec,jax.config)
-    start=time.monotonic();scope=spec.get('scope');g7=scope in ('SLA_V6_MULTITASK_NATIVE', D4_SCOPE, D416_SCOPE)
+    start=time.monotonic();scope=spec.get('scope');g7=scope in ('SLA_V6_MULTITASK_NATIVE', D4_SCOPE, D416_SCOPE, SCALE_SCOPE)
     if g7:
         from go2arx5_vla.sla_adapter.multitask_contract_v6 import NATIVE_METHOD
         if spec['selected_combo']!=NATIVE_METHOD:raise ValueError('EXACT_G7_SINGLE_H40_GENERATION')
@@ -43,7 +44,9 @@ def run(spec):
     pool=g7 or scope in ('SLA_MOBILE_F2_V52','SLA_V6_TARGET_NATIVE')
     if pool:
         if not single:raise ValueError('V52_ONE_SHIFT7_ARCHITECTURE_PER_REQUEST')
-        if g7:
+        if scope==SCALE_SCOPE:
+            from go2arx5_vla.sla_adapter.scale20k_package import Pool
+        elif g7:
             from go2arx5_vla.sla_adapter.multitask_pool_v6 import Pool
         elif scope=='SLA_V6_TARGET_NATIVE':
             from go2arx5_vla.sla_adapter.target_pool_v6 import Pool

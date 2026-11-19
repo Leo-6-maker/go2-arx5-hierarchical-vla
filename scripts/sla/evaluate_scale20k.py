@@ -12,12 +12,11 @@ from go2arx5_vla.sla_adapter import batch_v2, full_h40_v6, scale20k_checkpoint, 
 from go2arx5_vla.sla_adapter.checkpoint_v1 import sha
 from go2arx5_vla.sla_adapter.model_v1 import Tokenizer
 from go2arx5_vla.sla_adapter.runtime_v1 import read_pin
-from go2arx5_vla.sla_adapter.scale20k_contract import CHECKPOINTS, DOMAINS, HORIZONS, PLAN, RECIPE, make_adamw
+from go2arx5_vla.sla_adapter.scale20k_contract import CHECKPOINTS, DOMAINS, HORIZONS, PLAN, RECIPE, canonical_hash, make_adamw
 from go2arx5_vla.sla_adapter.scale20k_data import readers
 from go2arx5_vla.sla_adapter.scale20k_evaluation import PER_DOMAIN, RESTORE, bytes_sha, data_sha, measure, prepare, validate
 from go2arx5_vla.sla_adapter.scale20k_training import host_batch
 from scripts.pi0292.durable import OwnerLock, write
-from scripts.sla.train_scale20k import canonical_hash
 
 
 def evidence_spec(spec, mode):

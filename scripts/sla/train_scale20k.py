@@ -1,6 +1,5 @@
 """Bounded SCALE20K worker. The allocated site supplies the pinned spec."""
 import argparse
-import hashlib
 import json
 import os
 from pathlib import Path
@@ -13,13 +12,9 @@ from go2arx5_vla.sla_adapter import scale20k_data, scale20k_model, scale20k_trai
 from go2arx5_vla.sla_adapter.checkpoint_v1 import sha
 from go2arx5_vla.sla_adapter.model_v1 import Tokenizer
 from go2arx5_vla.sla_adapter.runtime_v1 import read_pin
-from go2arx5_vla.sla_adapter.scale20k_contract import CHECKPOINTS, DOMAINS, PLAN, RECIPE, bank_sha256, cursors
+from go2arx5_vla.sla_adapter.scale20k_contract import CHECKPOINTS, DOMAINS, PLAN, RECIPE, bank_sha256, canonical_hash, cursors
 from go2arx5_vla.sla_adapter.site_v2 import validate
 from scripts.pi0292.durable import OwnerLock, write
-
-
-def canonical_hash(value):
-    return hashlib.sha256(json.dumps(value,sort_keys=True,allow_nan=False).encode()).hexdigest()
 
 
 def run(spec, mode):

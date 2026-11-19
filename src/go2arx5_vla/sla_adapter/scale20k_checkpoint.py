@@ -69,9 +69,7 @@ def save(path, *, arm, step, parameters, optimizer, rng, binding):
     return dict(path=str(path),sha256=sha(path/'COMPLETE.json'))
 
 
-def restore(pin, *, arm, parameters, optimizer, rng, binding):
-    import jax
-
+def read_complete(pin, arm, binding):
     binding_check(arm,binding)
     root = Path(pin['path']).resolve(strict=True)
     file = root/'COMPLETE.json'
@@ -83,6 +81,13 @@ def restore(pin, *, arm, parameters, optimizer, rng, binding):
     if (receipt['schema'] != SCHEMA or receipt['binding'] != binding or receipt['cursors'] != expected
             or receipt['training_full_generations'] != step*4 or receipt['physics'] is not False):
         raise ValueError('SCALE20K_CHECKPOINT_GLOBAL_STEP_OR_DOMAIN_CURSOR_MISMATCH')
+    return root,receipt
+
+
+def restore(pin, *, arm, parameters, optimizer, rng, binding):
+    import jax
+
+    root, receipt = read_complete(pin, arm, binding)
     theory = training_tree(parameters,optimizer,rng)
     leaves,structure = jax.tree_util.tree_flatten_with_path(theory)
     restored = []
@@ -97,4 +102,4 @@ def restore(pin, *, arm, parameters, optimizer, rng, binding):
                 or value.dtype != template.dtype or not np.isfinite(value).all()):
             raise ValueError('SCALE20K_CHECKPOINT_ARRAY_SHAPE_DTYPE_OR_FINITE_MISMATCH')
         restored.append(jax.device_put(value))
-    return jax.tree_util.tree_unflatten(structure,restored),step,expected
+    return jax.tree_util.tree_unflatten(structure,restored),receipt['step'],receipt['cursors']

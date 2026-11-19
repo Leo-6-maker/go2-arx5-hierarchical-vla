@@ -1,6 +1,7 @@
 """Immutable data, recipe, and optimizer routing for the SCALE20K arms."""
 from collections import defaultdict
 import hashlib
+import json
 import math
 
 import numpy as np
@@ -37,6 +38,10 @@ def learning_rates():
 
 def bank_sha256(values):
     return hashlib.sha256(np.ascontiguousarray(values).tobytes()).hexdigest()
+
+
+def canonical_hash(value):
+    return hashlib.sha256(json.dumps(value, sort_keys=True, allow_nan=False).encode()).hexdigest()
 
 
 def cursors(arm, step):
