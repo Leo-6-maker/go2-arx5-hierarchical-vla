@@ -42,10 +42,12 @@ class RecoveryLedger(Ledger):
                 pending['technical_successor']=row['id'];v['attempts'].append(row);return copy.deepcopy(row)
         return super().claim(worker,now=now)
 
-def launch_service(spec,unit,operation,*,bootstrap='mfree_recovery_bootstrap_v2.py'):
+def launch_service(spec,unit,operation,*,bootstrap='mfree_recovery_bootstrap_v2.py',memory_max_bytes=None):
     import os,subprocess
     root=Path(spec['registered_root']);duration=max(1,int(spec['deadline_epoch']-time.time()))
     cmd=['systemd-run','--user','--unit='+unit,'--property=Restart=no','--property=RuntimeMaxSec='+str(duration),'--property=KillMode=control-group','--property=TimeoutStopSec=180','--property=StandardInput=null','--property=CPUAffinity='+' '.join(map(str,spec['cpus'])),'--property=StandardOutput=append:'+str(root/'logs/supervisor.log'),'--property=StandardError=append:'+str(root/'logs/supervisor.log')]
+    if memory_max_bytes is not None:
+        cmd.append('--property=MemoryMax='+str(memory_max_bytes))
     env=dict(spec['native_environment']);env.update(CUDA_VISIBLE_DEVICES='',PYTHONDONTWRITEBYTECODE='1',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1',HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1')
     for key in ('HTTP_PROXY','HTTPS_PROXY','ALL_PROXY','http_proxy','https_proxy','all_proxy','SSH_AUTH_SOCK','DISPLAY'):env[key]=''
     if operation=='--diagnostic':env.update(spec['diagnostic_environment'])

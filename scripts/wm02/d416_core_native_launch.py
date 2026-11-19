@@ -33,6 +33,24 @@ def cold_owner(spec_pin):
     return spec
 
 
+def verify_shared_host(host_bytes, sharing):
+    # Count an already-running job's unused cgroup allowance before claiming
+    # host memory for a second GPU. Neither unit changes the other's limit.
+    unit = sharing['protected_unit']
+    if output('systemctl','--user','show',unit,'-p','ActiveState','--value') == 'active':
+        cap = int(output('systemctl','--user','show',unit,'-p','MemoryMax','--value'))
+        used = int(output('systemctl','--user','show',unit,'-p','MemoryCurrent','--value'))
+        if cap != sharing['protected_memory_max_bytes']:
+            raise PermissionError('D416_SHARED_HOST_PROTECTED_CAP_CHANGED')
+        reserved = max(0,cap-used)
+    else:
+        reserved = 0
+    limit = sharing['scope_memory_max_bytes']
+    if type(limit) is not int or limit <= 0 or host_bytes <= reserved + limit + 4*GIB:
+        raise PermissionError('D416_SHARED_HOST_MUST_PRESERVE_ACTIVE_SERVICE_AND_OS_HEADROOM')
+    return dict(protected_unit=unit,unused_reserved_host_bytes=reserved,scope_memory_max_bytes=limit)
+
+
 def build(config):
     root = Path(config['root'])
     source = Path(config['source_root']).resolve(strict=True)
@@ -76,6 +94,8 @@ def build(config):
             or shutil.disk_usage(root.parent).free <= 100*GIB
             or output('loginctl','show-user',str(os.getuid()),'-p','Linger') != 'Linger=yes'):
         raise PermissionError('D416_ACTUAL_CORE_SITE_HEADROOM_AND_LINGER_REQUIRED')
+    shared_host = auth.get('shared_host')
+    shared_observed = verify_shared_host(host_bytes, shared_host) if shared_host else None
     custody = read_pin(config['custody'])
     replay = read_pin(config['Core_RGB_result'])
     if (custody['mode'] != modes[stage] or not replay['passed'] or replay['completed'] != 32
@@ -120,7 +140,8 @@ def build(config):
         spec['previous_panel_segments'] = config['previous_panel_segments']
     plan.arms_for(spec)
     endpoint_records(spec)
-    observed = dict(GPU_free_bytes=free_bytes,host_available_bytes=host_bytes,cpus=cpus,linger=True)
+    observed = dict(GPU_free_bytes=free_bytes,host_available_bytes=host_bytes,cpus=cpus,linger=True,
+                    shared_host=shared_observed)
     return spec,gpu,gpu_site,observed
 
 
@@ -146,7 +167,9 @@ def launch(config):
         raise
     unit = 'wm02-'+root.name
     write(launch/'PRE_DISPATCH.private.json',dict(spec=spec_pin,site=observed,native_requests=0))
-    receipt = launch_service(registered,unit,'--multitask-student-panel',bootstrap='v6_bootstrap.py')
+    shared = observed['shared_host']
+    receipt = launch_service(registered,unit,'--multitask-student-panel',bootstrap='v6_bootstrap.py',
+                             memory_max_bytes=shared['scope_memory_max_bytes'] if shared else None)
     actual = unit_state(unit)
     if not actual['pid'] or actual['pid'] not in actual['cgroup_pids']:
         raise RuntimeError('D416_NATIVE_UNKNOWN_START_REQUIRES_ONSITE_RECONCILIATION')
