@@ -1,0 +1,112 @@
+{
+  "source_sha": "b405fb173c91a32a1ad5b86aa9e87418cd0d0d56",
+  "scope_spec_sha256": "b66e80aadd046bd13cb8bbc3c56a0df5725bd3c20af586c86b8f4885b232357a",
+  "cases": [
+    {
+      "id": "D5_GRASP24-F1-2-HOLD-blue-D5-T",
+      "arm": "D5-T",
+      "native_requests": 1,
+      "native_ticks": 35703,
+      "H40": 120,
+      "confirmed_P10_atoms": 1200,
+      "first_failure": "FIXED_TASK_BUDGET_EXHAUSTED",
+      "emitted_min_width_m": 0.04198022651717949,
+      "measured_min_width_m": 0.041964097422522634,
+      "target_grasp": false,
+      "lift20mm": false,
+      "success": false,
+      "native_result_sha256": "0b87749d366f3fbc52569e8b3b5554e4dafa21c677305ddba91cce9a2e4e7406",
+      "contact": [],
+      "ticks_after_STOP": null
+    },
+    {
+      "id": "D5_GRASP24-F1-2-HOLD-blue-D4-B",
+      "arm": "D4-B",
+      "native_requests": 1,
+      "native_ticks": 35703,
+      "H40": 120,
+      "confirmed_P10_atoms": 1200,
+      "first_failure": "FIXED_TASK_BUDGET_EXHAUSTED",
+      "emitted_min_width_m": 0.04195837882765962,
+      "measured_min_width_m": 0.04195475616976488,
+      "target_grasp": false,
+      "lift20mm": false,
+      "success": false,
+      "native_result_sha256": "95f0c600c1d4b44fe3546cf139149f2409b664ae1bac4714f1c1f5463a277c01",
+      "contact": [],
+      "ticks_after_STOP": null
+    },
+    {
+      "id": "D5_GRASP24-F1-2-HOLD-blue-D5-W",
+      "arm": "D5-W",
+      "native_requests": 1,
+      "native_ticks": 29813,
+      "H40": 97,
+      "confirmed_P10_atoms": 964,
+      "first_failure": "ILLEGAL_CONTACT",
+      "emitted_min_width_m": 0.041995597336224946,
+      "measured_min_width_m": 0.041984982944914095,
+      "target_grasp": false,
+      "lift20mm": false,
+      "success": false,
+      "native_result_sha256": "0d8c8b54f141997549c341ba6ed1e6f5d83ecdd4434fc25e71d3ddd1ee4c5d26",
+      "contact": [
+        {
+          "geoms": [
+            {
+              "geom_id": 66,
+              "geom": null,
+              "body": "x5_link2",
+              "geom_type": "mjGEOM_CAPSULE"
+            },
+            {
+              "geom_id": 1,
+              "geom": "task_table",
+              "body": "world",
+              "geom_type": "mjGEOM_BOX"
+            }
+          ],
+          "distance_m": -3.371689651732179e-05,
+          "normal_force_N": 39.43820723196986
+        },
+        {
+          "geoms": [
+            {
+              "geom_id": 66,
+              "geom": null,
+              "body": "x5_link2",
+              "geom_type": "mjGEOM_CAPSULE"
+            },
+            {
+              "geom_id": 1,
+              "geom": "task_table",
+              "body": "world",
+              "geom_type": "mjGEOM_BOX"
+            }
+          ],
+          "distance_m": -3.371689651732179e-05,
+          "normal_force_N": 39.43820723196986
+        }
+      ],
+      "ticks_after_STOP": 0
+    }
+  ],
+  "cumulative": {
+    "sealed": 18,
+    "planned": 24,
+    "native_ticks": 561230,
+    "H40": 1842,
+    "never_crossing_22mm": 1842,
+    "correct_grasp": 0,
+    "lift20mm": 0,
+    "task_success": 0,
+    "contacts": 9,
+    "ticks_after_STOP": 0,
+    "technical_failures": 0
+  },
+  "remaining_fixed_conditions": 6,
+  "confirm32_released": false,
+  "audit_new_generations": 0,
+  "audit_new_integrations": 0,
+  "audit_new_updates": 0
+}
