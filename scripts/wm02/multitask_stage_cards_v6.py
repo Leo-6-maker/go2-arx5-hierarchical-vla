@@ -262,7 +262,7 @@ def prepare_cards(spec, *, teacher_stop=None):
     root = Path(spec['registered_root'])
     now = time.time()
     identity = (spec['scope'], spec['plan_commit'])
-    allowed = {(SCOPE, PLAN), (adaptation.SCOPE, adaptation.PLAN)} if teacher_stop is not None else {
+    allowed = {(SCOPE, PLAN), *((scope, values[0]) for scope, values in adaptation.SCOPES.items())} if teacher_stop is not None else {
         (SCOPE, PLAN), (d4.SCOPE, d4.PLAN), (followup.SCOPE, followup.PLAN), (scale.SCOPE, scale.PLAN)}
     if (not now+1980 < spec['deadline_epoch'] <= min(now+43200,spec['campaign_deadline_epoch'],spec['allocation_deadline_epoch']-60)
             or identity not in allowed
@@ -276,17 +276,17 @@ def prepare_cards(spec, *, teacher_stop=None):
     if (unit['pid'] or unit['cgroup_pids'] or lease['status']!='CLOSED'
             or lease['spec_sha256']!=spec['interface_predecessor']['sha256']):
         raise ValueError('M_INTERFACE_OWNER_MUST_HAVE_REACHED_COLD_TERMINAL')
-    if spec['scope'] in (followup.SCOPE, scale.SCOPE, adaptation.SCOPE):
+    if spec['scope'] in (followup.SCOPE, scale.SCOPE, *adaptation.SCOPES):
         interface_records(interface,spec['mobile_world_lock'],identity=(d4.E0_SCOPE,d4.E0_PLAN))
     else:
         interface_records(interface,spec['mobile_world_lock'])
     templates = {case['mobile_condition']['family']:case for case in map(read,interface['cases'])}
     population = read_pin(spec['compiled_population'])
-    if spec['scope'] == adaptation.SCOPE:
+    if spec['scope'] in adaptation.SCOPES:
         if teacher_stop != len(adaptation.CELLS) or spec.get('previous_teacher_results'):
             raise ValueError('NEW_EXPERT_CASES_REQUIRE_THE_ORIGINAL_SIX_TRAIN_CONDITIONS')
         prefix = []
-        selected = [(row,None) for row in adaptation.conditions(population)]
+        selected = [(row,None) for row in adaptation.conditions(population, spec['scope'])]
         role = 'EXPERT'
     elif teacher_stop is not None:
         prefix = verified_teacher_prefix(spec['previous_teacher_results'],spec['compiled_population'],

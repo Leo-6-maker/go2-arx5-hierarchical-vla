@@ -130,3 +130,22 @@ def test_student_registration_binds_the_worker_and_all_fixed_cases(tmp_path, mon
     assert not (Path(worker['registered_root'])/'READY.private.json').exists()
     with pytest.raises(PermissionError,match='NEW_OWNED_CARDS'):
         cards.register_student_panel(spec)
+def test_adaptation_batch_two_registers_a_disjoint_target_population():
+    from scripts.sla.prepare_target_adaptation import population
+    from scripts.wm02.multitask_d2_population import position_id
+    from go2arx5_vla.world_model import target_adaptation_teacher as adaptation
+
+    cards = {name:dict(object_positions_world={'red':[.4,.1,.2],'blue':[.7,.1,.2]}) for name in ('F1','F2')}
+    first = population(cards,[],[])
+    for number, cluster in enumerate(first['clusters']):
+        cluster['scene'] = dict(sha256=f'{number:064x}')
+    next_batch = population(cards,[first],[],scope=adaptation.SECOND_SCOPE)
+    for number, cluster in enumerate(next_batch['clusters'],len(first['clusters'])):
+        cluster['scene'] = dict(sha256=f'{number:064x}')
+    first_geometry = {(c['family'],position_id(c['card'])) for c in first['clusters']}
+    second_geometry = {(c['family'],position_id(c['card'])) for c in next_batch['clusters']}
+    assert not first_geometry & second_geometry
+    before = adaptation.conditions(first)
+    after = adaptation.conditions(next_batch,adaptation.SECOND_SCOPE)
+    assert not {row['reset'] for row in before} & {row['reset'] for row in after}
+    assert [(row['family'],row['instruction']) for row in before] == [(row['family'],row['instruction']) for row in after]

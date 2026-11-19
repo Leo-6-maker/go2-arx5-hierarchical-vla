@@ -103,7 +103,8 @@ def preflight(spec, *, prepared_cases=None):
     from .multitask_stage_cards_v6 import verified_teacher_prefix
 
     identity = spec['scope'], spec['plan_commit']
-    if (identity not in ((SCOPE,PLAN),(adaptation.SCOPE,adaptation.PLAN)) or not spec['physics']
+    allowed = {(SCOPE,PLAN), *((scope, values[0]) for scope, values in adaptation.SCOPES.items())}
+    if (identity not in allowed or not spec['physics']
             or spec['new_optimizer_updates_budget'] or spec['new_model_generations_budget']
             or spec.get('resident_server_spec') is not None or spec['case_lead_s'] < 1980):
         raise PermissionError('FINITE_TEACHER_ONLY_SCOPE_REQUIRED')
@@ -111,8 +112,8 @@ def preflight(spec, *, prepared_cases=None):
     panel = read_pin(spec['registered_panel'])
     start = spec['teacher_start_index']
     stop = start + spec['new_physical_requests_budget']
-    if spec['scope'] == adaptation.SCOPE:
-        candidates = adaptation.conditions(population)
+    if spec['scope'] in adaptation.SCOPES:
+        candidates = adaptation.conditions(population, spec['scope'])
         if start != 0 or stop != len(candidates) or spec.get('previous_teacher_results'):
             raise ValueError('EXPECTED_ALL_SIX_NEW_TRAIN_CONDITIONS_IN_ORDER')
         previous = []
@@ -158,7 +159,7 @@ def run(path, spec):
     try:
         previous = preflight(spec)
         interface = wait_interfaces(spec)
-        identity = (d4.E0_SCOPE,d4.E0_PLAN) if spec['scope'] == adaptation.SCOPE else (SCOPE,PLAN)
+        identity = (d4.E0_SCOPE,d4.E0_PLAN) if spec['scope'] in adaptation.SCOPES else (SCOPE,PLAN)
         carried = interface_records(interface,spec['mobile_world_lock'],identity=identity)
         free = shutil.disk_usage(root)
         available = int(next(line.split()[1] for line in Path('/proc/meminfo').read_text().splitlines()
@@ -179,7 +180,7 @@ def run(path, spec):
         close(spec,1)
         return 1
     def coverage(rows):
-        if spec['scope'] == adaptation.SCOPE:
+        if spec['scope'] in adaptation.SCOPES:
             return sum(row['role']=='EXPERT' and row['task_and_mobile_success']
                        and not row['technical_failure'] and not row['hard_STOP'] for row in rows) == len(adaptation.CELLS)
         return teacher_coverage(previous+rows)['passes_task_counts']

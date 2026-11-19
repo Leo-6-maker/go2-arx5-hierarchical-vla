@@ -22,17 +22,19 @@ def prepare(config):
     root = Path(config['root'])
     source = Path(config['source_root']).resolve(strict=True)
     authority = read_pin(config['authority'])
+    scope = config.get('scope',adaptation.SCOPE)
+    plan, authorized_by, _ = adaptation.SCOPES[scope]
     interface = cold_native_owner(config['interface_predecessor'])
     interface_records(interface,interface['mobile_world_lock'],identity=(d4.E0_SCOPE,d4.E0_PLAN))
     if (root.exists() or root.parent.stat().st_uid != os.getuid()
             or os.getuid() != interface['uid'] or os.uname().nodename != interface['host']
             or source != Path(__file__).resolve().parents[2]
-            or authority['source'] != adaptation.AUTHORITY_SOURCE or authority['plan_commit'] != adaptation.PLAN
+            or authority['source'] != authorized_by or authority['plan_commit'] != plan
             or authority['source_sha'] != config['source_sha'] or authority['hardware_allowed'] is not False
             or authority['native_request_cap'] != len(adaptation.CELLS)
             or authority['native_tick_cap'] != adaptation.NATIVE_TICK_CAP
             or authority['compiled_population_sha256'] != config['population']['sha256']):
-        raise PermissionError('EXACT_FINITE_SITE_AND_FIRST6_TRAIN_AUTHORITY_REQUIRED')
+        raise PermissionError('EXACT_FINITE_SITE_AND_TARGET_TRAIN_AUTHORITY_REQUIRED')
     source_files = {str(path.relative_to(source)):digest(path)
                     for folder in ('src','scripts') for path in sorted((source/folder).rglob('*.py'))}
     if any(source_files[key] != expected for key,expected in config['source_members'].items()):
@@ -41,8 +43,8 @@ def prepare(config):
     env = dict(interface['native_environment'],PYTHONPATH=':'.join((
         str(source),str(source/'src'),interface['native_environment']['PYTHONPATH'])),
         ROS_LOCALHOST_ONLY='1',ROS_AUTOMATIC_DISCOVERY_RANGE='LOCALHOST',CUDA_VISIBLE_DEVICES='')
-    spec = dict(interface,scope=adaptation.SCOPE,registry_scope=adaptation.SCOPE,
-        role='SLA_SCALE_TARGET_ADAPTATION_EXPERT_PANEL',plan_commit=adaptation.PLAN,goal_plan_sha=adaptation.PLAN,
+    spec = dict(interface,scope=scope,registry_scope=scope,
+        role='SLA_SCALE_TARGET_ADAPTATION_EXPERT_PANEL',plan_commit=plan,goal_plan_sha=plan,
         source_sha=config['source_sha'],source_root=str(source),source_seal=source_seal,source_files=source_files,
         native_environment=env,registered_root=str(root),campaign_root=str(root),physics=True,
         new_optimizer_updates_budget=0,new_training_visits_budget=0,new_model_generations_budget=0,
@@ -65,6 +67,23 @@ def run(config, *, launch):
                 or terminal['source_sha'] != previous['source_sha']
                 or config['previous_world_result']['path'] != str(Path(previous['registered_root'])/'RESULT.private.json')):
             raise ValueError('The prior native world owner must be reconciled before launch')
+        if config.get('scope') == adaptation.SECOND_SCOPE:
+            authority = read_pin(config['authority'])
+            first = [row for row in terminal['records'] if row['role'] == 'EXPERT']
+            new_population = read_pin(config['population'])
+            prior_population = read_pin(previous['compiled_population'])
+            new_cases = adaptation.conditions(new_population,adaptation.SECOND_SCOPE)
+            old_cases = adaptation.conditions(prior_population)
+            if (previous['scope'] != adaptation.SCOPE or previous['plan_commit'] != adaptation.PLAN
+                    or authority['previous_result_sha256'] != config['previous_world_result']['sha256']
+                    or terminal['new_verified_native_requests'] != len(old_cases)
+                    or [row['id'] for row in first] != [row['id'] for row in old_cases]
+                    or any(row['technical_failure'] or row['actual_native_requests'] != 1
+                           or (row['hard_STOP'] and row['integrations_after_STOP'] != 0) for row in first)
+                    or {row['reset'] for row in new_cases} & {row['reset'] for row in old_cases}
+                    or {row['scene']['sha256'] for row in new_population['clusters']}
+                        & {row['scene']['sha256'] for row in prior_population['clusters']}):
+                raise ValueError('A_SEPARATE_SECOND_TRAIN_BATCH_REQUIRES_THE_COMPLETE_FIRST_SIX_RECEIPTS')
         linger = subprocess.check_output(['loginctl','show-user',str(os.getuid()),'-p','Linger'],text=True,timeout=20)
         if linger.strip() != 'Linger=yes':
             raise PermissionError('Core user services require actual linger')

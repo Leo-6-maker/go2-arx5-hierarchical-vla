@@ -27,8 +27,9 @@ def scope_identity(spec):
         return followup.SCOPE, followup.PLAN, followup.ARMS, followup.AUTHORITY_SOURCE
     if spec.get('scope') == scale.SCOPE:
         return scale.SCOPE, scale.PLAN, scale.ENDPOINTS, scale.AUTHORITY_SOURCE
-    if spec.get('scope') == adaptation.SCOPE:
-        return adaptation.SCOPE, adaptation.PLAN, (), adaptation.AUTHORITY_SOURCE
+    if spec.get('scope') in adaptation.SCOPES:
+        plan, authority, _ = adaptation.SCOPES[spec['scope']]
+        return spec['scope'], plan, (), authority
     return SCOPE, PLAN, ARMS, 'CURRENT_USER_EXPLICIT_FIXED_SLA_V6_PLAN'
 
 
@@ -94,7 +95,7 @@ def validate(spec):
     if (spec.get('scope')!=scope or spec['plan_commit']!=plan
             or spec['mobile_experiment_version']!=VERSION or role not in ('INTERFACE','EXPERT','STUDENT')
             or (scope in (d4.SCOPE, followup.SCOPE, scale.SCOPE) and not student) or (scope == d4.E0_SCOPE and not interface)
-            or (scope == adaptation.SCOPE and (role != 'EXPERT' or task.operation != 'PLACE'))
+            or (scope in adaptation.SCOPES and (role != 'EXPERT' or task.operation != 'PLACE'))
             or spec['native_backend']!='MUJOCO_ONLY' or spec['hardware_connections_allowed'] is not False
             or spec['execution_clock_profile']!='SIM_PAUSED_NATIVE' or spec['physics'] is not True
             or spec['WBC_changes'] is not False or spec['safety_changes'] is not False
@@ -114,7 +115,7 @@ def validate(spec):
             or authority.get('hardware_allowed') is not False or time.time()>=spec['deadline_epoch']
             or spec['deadline_epoch']>min(authority['deadline_epoch'],spec['allocation_deadline_epoch'])):
         raise PermissionError('ACTUAL_FINITE_V6_MULTITASK_AUTHORITY_REQUIRED')
-    if scope == adaptation.SCOPE and (authority['native_request_cap'] != len(adaptation.CELLS)
+    if scope in adaptation.SCOPES and (authority['native_request_cap'] != len(adaptation.CELLS)
             or authority['native_tick_cap'] != adaptation.NATIVE_TICK_CAP):
         raise PermissionError('FIXED_FIRST6_TRAIN_ADAPTATION_BUDGET_REQUIRED')
 
