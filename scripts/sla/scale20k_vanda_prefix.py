@@ -1,4 +1,4 @@
-"""Run the first SCALE target segment or its step-500 continuation on VANDA."""
+"""Run one finite segment of the continuous SCALE target arm on VANDA."""
 import argparse
 import json
 import math
@@ -13,7 +13,7 @@ import time
 from go2arx5_vla.sla_adapter.checkpoint_v1 import sha
 from go2arx5_vla.sla_adapter.runtime_v1 import read_pin
 from go2arx5_vla.sla_adapter.scale20k_checkpoint import read_complete
-from go2arx5_vla.sla_adapter.scale20k_contract import DOMAINS, PLAN, RECIPE, cursors
+from go2arx5_vla.sla_adapter.scale20k_contract import CHECKPOINTS, DOMAINS, PLAN, RECIPE, cursors
 from go2arx5_vla.sla_adapter.scale20k_model import parent_asset
 from scripts.pi0292.durable import OwnerLock, write
 from scripts.wm02.multisource_d4_vanda import GIB, actual_gpu, pbs_job, pin
@@ -24,7 +24,7 @@ WALL = 10800
 
 
 def completed_prefix(config, root):
-    """Bind the original training card, full checkpoint and original worker to step 200."""
+    """Verify completed updates since the exact previous checkpoint."""
     continuation = config.get('continuation')
     if continuation is None:
         return None, None
@@ -38,33 +38,45 @@ def completed_prefix(config, root):
     status = subprocess.check_output(['/opt/pbs/bin/qstat','-x','-f','-F','json',old_job],
                                      text=True,timeout=20)
     job = json.loads(status)['Jobs'][old_job]
-    if (job['job_state'] != 'F' or job.get('Exit_status') != 0 or old_job == config.get('job_id')
-            or job['Job_Owner'].split('@')[0] != config['user'] or job['project'] != config['project']
-            or job['Job_Name'] != 'slatgt20k'):
-        raise PermissionError('SCALE_TARGET_ORIGINAL_PBS_PREFIX_MUST_HAVE_FINISHED_SUCCESSFULLY')
+    if (job['job_state'] != 'F' or job.get('Exit_status') not in (0,75) or old_job == config.get('job_id')
+            or job['Job_Owner'].split('@')[0] != config['user'] or job['project'] != config['project']):
+        raise PermissionError('SCALE_TARGET_ORIGINAL_PBS_PREFIX_MUST_HAVE_FINISHED_AND_SAVED')
     parent = read_pin(continuation['campaign_result'])
-    if (pin(previous/'RESULT.private.json') != continuation['campaign_result']
+    if (pin(previous/'RESULT.private.json') != continuation['campaign_result'] or parent.get('first_failure')
             or parent['PBS_JOBID'] != old_job or parent['stages'].get('train') != prior):
         raise ValueError('SCALE_TARGET_ORIGINAL_PBS_TERMINAL_MUST_BIND_TRAIN_RESULT')
-    training_sha = parent['source_sha']
+    training_sha = parent.get('training_source_sha',parent['source_sha'])
     old_spec = read_pin(continuation['training_spec'])
     if pin(previous/'train/SPEC.private.json') != continuation['training_spec']:
         raise ValueError('SCALE_TARGET_ORIGINAL_PREFIX_TRAIN_CARD_CHANGED')
     result = read_pin(prior)
-    expected = dict(scope=RECIPE,mode='train',arm=ARM,source_sha=training_sha,exit_code=0,
-        status='FIXED_SEGMENT_SAVED',global_step=200,global_cursors=cursors(ARM,200),new_updates=200,
-        new_visits=cursors(ARM,200),new_model_generations=800,new_native_requests=0,new_native_ticks=0)
+    ancestor = old_spec.get('resume_from_closed_segment')
+    start = read_pin(ancestor)['global_step'] if ancestor is not None else 0
+    step = result['global_step']
+    limit = old_spec['global_stop_step']
+    if (not 0 <= start < step <= limit <= CHECKPOINTS[ARM][-1] or (not start and limit != 200)
+            or (result['status'],result['exit_code'],job['Exit_status']) not in (
+                ('FIXED_SEGMENT_SAVED',0,0),('BOUNDED_SAVED_PREFIX',75,75))
+            or (result['exit_code'] == 0 and step != limit)):
+        raise ValueError('SCALE_TARGET_REQUIRES_A_BOUNDED_SAVED_TRAINING_SEGMENT')
+    before, after = cursors(ARM,start), cursors(ARM,step)
+    expected = dict(scope=RECIPE,mode='train',arm=ARM,source_sha=training_sha,global_cursors=after,
+        new_updates=step-start,new_visits={d:after[d]-before[d] for d in DOMAINS},
+        new_native_requests=0,new_native_ticks=0)
+    completed_generation_floor = 4*(step-start)
+    extra_generations = 4 if result['exit_code'] == 75 else 0
     if (any(result[key] != value for key,value in expected.items()) or old_spec['source_sha'] != training_sha
-            or old_spec['arm'] != ARM or old_spec['global_stop_step'] != 200
+            or old_spec['arm'] != ARM
+            or not completed_generation_floor <= result['new_model_generations'] <= completed_generation_floor+extra_generations
             or old_spec['microbatch'] != dict.fromkeys(DOMAINS,1)):
-        raise ValueError('SCALE_TARGET_EXACT_200_UPDATE_PREFIX_REQUIRED')
+        raise ValueError('SCALE_TARGET_COMPLETE_TRAINING_EFFECTS_MUST_RECONCILE')
     with (previous/'train/UPDATES.private.jsonl').open('rb') as ledger:
         rows = ledger.readlines()
-    if len(rows) != 200 or any(not line.endswith(b'\n') for line in rows):
-        raise ValueError('SCALE_TARGET_PREFIX_REQUIRES_200_DURABLE_ROWS')
-    for step, line in enumerate(rows,1):
+    if len(rows) != step-start or any(not line.endswith(b'\n') for line in rows):
+        raise ValueError('SCALE_TARGET_PREFIX_REQUIRES_ALL_DURABLE_ROWS')
+    for expected_step, line in enumerate(rows,start+1):
         row = json.loads(line)
-        if (row['step'] != step or row['cursors'] != cursors(ARM,step)
+        if (row['step'] != expected_step or row['cursors'] != cursors(ARM,expected_step)
                 or set(row['domains']) != {'target'} or row['domains']['target']['training_full_generations'] != 4):
             raise ValueError('SCALE_TARGET_PREFIX_DURABLE_VISITS_OR_GENERATIONS_CHANGED')
     pin_state = result['checkpoint']
@@ -72,8 +84,8 @@ def completed_prefix(config, root):
     if pin(previous/'train/MODEL_AT_START.private.json') != continuation['model_at_start']:
         raise ValueError('SCALE_TARGET_PREFIX_STARTING_IDENTITY_CHANGED')
     checkpoint, manifest = read_complete(pin_state,ARM,model['binding'])
-    if checkpoint != previous/'train/step00200' or manifest['step'] != 200 or len(manifest['arrays']) != 140:
-        raise ValueError('SCALE_TARGET_PREFIX_COMPLETE_200_STATE_REQUIRED')
+    if checkpoint != previous/'train'/f'step{step:05d}' or manifest['step'] != step or len(manifest['arrays']) != 140:
+        raise ValueError('SCALE_TARGET_PREFIX_COMPLETE_CHECKPOINT_REQUIRED')
     worker = Path(continuation['worker_root']).resolve(strict=True)
     members = read_pin(continuation['worker_files'])
     if ((worker/'SOURCE_SHA.private').read_text().strip() != training_sha
@@ -94,6 +106,7 @@ def run(config):
             or config['plan_sha'] != PLAN or config['arm'] != ARM):
         raise PermissionError('SCALE_TARGET_FRESH_PBS_EXECUTION_IDENTITY_REQUIRED')
     lock = OwnerLock(root/'PBS_OWNER.lock')
+    wall_limit = config.get('max_walltime_s',WALL)
     stages = {}
     status = 'PBS_PREFLIGHT_FAILED_NO_WORKER_START'
     current = None
@@ -111,7 +124,9 @@ def run(config):
     try:
         job_id, window = pbs_job(config)
         deadline = window['deadline_epoch']
-        if cancelled or stop.exists() or window['PBS_wall_s'] > WALL or not 900 < deadline-time.time() <= WALL:
+        if (type(wall_limit) is not int or not WALL <= wall_limit <= 21600
+                or cancelled or stop.exists() or window['PBS_wall_s'] > wall_limit
+                or not 900 < deadline-time.time() <= wall_limit):
             status = 'PBS_FINITE_START_WINDOW_ELAPSED_NO_WORKER_START'
             return 75
         custody = read_pin(config['data_custody'])
@@ -124,6 +139,11 @@ def run(config):
             raise ValueError('SCALE_TARGET_REQUIRES_MATCHED_CROSS_SITE_DATA_PROOF')
         parent_asset(custody['parent_manifest'], custody['parent_params'])
         prior, resume = completed_prefix(config, root)
+        first_step = read_pin(prior)['global_step'] if prior else 0
+        stop_step = config.get('global_stop_step',500 if resume else 200)
+        if (type(stop_step) is not int or not first_step < stop_step <= CHECKPOINTS[ARM][-1]
+                or (not resume and stop_step != 200)):
+            raise ValueError('SCALE_TARGET_FINITE_ABSOLUTE_STOP_STEP_REQUIRED')
         worker = source
         if resume is not None:
             worker, old_spec = resume
@@ -159,8 +179,8 @@ def run(config):
                          and not Path(value).resolve().is_relative_to(source)]
             env['PYTHONPATH'] = os.pathsep.join([str(worker),str(worker/'src'),*inherited])
         common = dict(arm=ARM,plan_sha=PLAN,recipe=RECIPE,source_sha=training_source_sha,
-            global_stop_step=500 if resume else 200,microbatch=dict.fromkeys(DOMAINS,1),deadline_epoch=deadline,
-            max_walltime_s=WALL,max_gpu_hours=3,save_and_exit_on_limit=True,save_reserve_s=300,
+            global_stop_step=stop_step,microbatch=dict.fromkeys(DOMAINS,1),deadline_epoch=deadline,
+            max_walltime_s=wall_limit,max_gpu_hours=wall_limit/3600,save_and_exit_on_limit=True,save_reserve_s=300,
             model_service_timeout_s=1800,RPC_timeout_s=1800,hardware_allowed=False,physics=False,
             new_native_requests_cap=0,STOP_path=str(stop),neural_owner_lock=str(root/'GPU_WORKER.lock'),
             GPU_uuid=uuid,JAX_memory_fraction=fraction,site_binding=pin(site),**paths,

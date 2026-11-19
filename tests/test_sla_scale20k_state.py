@@ -202,7 +202,8 @@ def test_scale_relocated_training_requires_clock_and_all_dataset_pins():
         relocated_training(train,site)
 
 
-def test_vanda_continuation_requires_the_original_complete_pbs_prefix(tmp_path, monkeypatch):
+@pytest.mark.parametrize('first,last,pbs_exit',[(0,200,0),(200,500,0),(500,873,75)])
+def test_vanda_continuation_requires_the_original_complete_pbs_prefix(tmp_path, monkeypatch, first,last,pbs_exit):
     import json
 
     from scripts.pi0292.durable import write
@@ -210,7 +211,7 @@ def test_vanda_continuation_requires_the_original_complete_pbs_prefix(tmp_path, 
 
     old = tmp_path/'prefix'
     stage = old/'train'
-    state = stage/'step00200'
+    state = stage/f'step{last:05d}'
     state.mkdir(parents=True)
     worker = tmp_path/'old-source'
     files = {}
@@ -227,35 +228,47 @@ def test_vanda_continuation_requires_the_original_complete_pbs_prefix(tmp_path, 
     mode = 'R'
 
     def qstat(*_args, **_kwargs):
-        return json.dumps(dict(Jobs={job_id:dict(job_state=mode,Exit_status=0,Job_Owner='worker@site',
-                                                 project='project',Job_Name='slatgt20k')}))
+        return json.dumps(dict(Jobs={job_id:dict(job_state=mode,Exit_status=pbs_exit,Job_Owner='worker@site',
+                                                 project='project',Job_Name='slatgt500' if first else 'slatgt20k')}))
 
     monkeypatch.setattr(vanda.subprocess, 'check_output', qstat)
     model_path = stage/'MODEL_AT_START.private.json'
     write(model_path,dict(binding={'fixed':True}))
-    monkeypatch.setattr(vanda, 'read_complete', lambda *args: (state,dict(step=200,arrays=[None]*140)))
+    monkeypatch.setattr(vanda, 'read_complete', lambda *args: (state,dict(step=last,arrays=[None]*140)))
     spec = stage/'SPEC.private.json'
-    write(spec,dict(source_sha=source,arm=vanda.ARM,global_stop_step=200,microbatch=dict.fromkeys(DOMAINS,1)))
+    ancestor = None
+    if first:
+        earlier = tmp_path/'previous-result.json'
+        write(earlier,dict(global_step=first))
+        ancestor = vanda.pin(earlier)
+    write(spec,dict(source_sha=source,arm=vanda.ARM,global_stop_step=last if not pbs_exit else last+1,
+                    microbatch=dict.fromkeys(DOMAINS,1),resume_from_closed_segment=ancestor))
     worker_result = stage/'RESULT.private.json'
-    expected = cursors(vanda.ARM,200)
-    write(worker_result,dict(scope=RECIPE,mode='train',arm=vanda.ARM,source_sha=source,exit_code=0,
-        status='FIXED_SEGMENT_SAVED',global_step=200,global_cursors=expected,new_updates=200,
-        new_visits=expected,new_model_generations=800,new_native_requests=0,new_native_ticks=0,
+    write(worker_result,dict(scope=RECIPE,mode='train',arm=vanda.ARM,source_sha=source,exit_code=pbs_exit,
+        status='BOUNDED_SAVED_PREFIX' if pbs_exit else 'FIXED_SEGMENT_SAVED',
+        global_step=last,global_cursors=cursors(vanda.ARM,last),new_updates=last-first,
+        new_visits=cursors(vanda.ARM,last-first),new_model_generations=4*(last-first)+bool(pbs_exit),
+        new_native_requests=0,new_native_ticks=0,
         checkpoint=dict(path=str(state),sha256='4'*64)))
     parent = old/'RESULT.private.json'
     result_pin = vanda.pin(worker_result)
-    write(parent,dict(PBS_JOBID=job_id,source_sha=source,stages=dict(train=result_pin)))
+    write(parent,dict(PBS_JOBID=job_id,source_sha='b'*40,training_source_sha=source,stages=dict(train=result_pin)))
     receipt = dict(train_result=result_pin,campaign_result=vanda.pin(parent),training_spec=vanda.pin(spec),
         model_at_start=vanda.pin(model_path),worker_root=str(worker),worker_files=vanda.pin(files_path),job_id=job_id)
     config = dict(user='worker',project='project',job_id='124.server',continuation=receipt)
     ledger = stage/'UPDATES.private.jsonl'
     ledger.write_text(''.join(json.dumps(dict(step=k,cursors=cursors(vanda.ARM,k),
-        domains=dict(target=dict(training_full_generations=4))))+'\n' for k in range(1,201)))
+        domains=dict(target=dict(training_full_generations=4))))+'\n' for k in range(first+1,last+1)))
     new = tmp_path/'next'
     with pytest.raises(PermissionError,match='MUST_HAVE_FINISHED'):
         vanda.completed_prefix(config,new)
     mode = 'F'
     assert vanda.completed_prefix(config,new)[0] == result_pin
+    saved_rows = ledger.read_text()
+    ledger.write_text(saved_rows.split('\n',1)[1])
+    with pytest.raises(ValueError,match='ALL_DURABLE_ROWS'):
+        vanda.completed_prefix(config,new)
+    ledger.write_text(saved_rows)
     f.write_text('changed training worker')
     with pytest.raises(ValueError,match='ORIGINAL_TRAINER_BYTES_CHANGED'):
         vanda.completed_prefix(config,new)
