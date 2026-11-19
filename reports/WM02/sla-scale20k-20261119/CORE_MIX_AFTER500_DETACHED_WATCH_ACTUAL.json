@@ -1,0 +1,53 @@
+{
+  "source_sha": "5febebc741617dfbef4b1cd7c17c42ba6cf1b1a9",
+  "spec_sha256": "15197966d259c57ba66d42204d1e48b29804a0182afc2a2f34c416d7df2659b1",
+  "watcher_unit": "wm02-sla-scale20k-mix-after500-handoff-20261119-01.service",
+  "state": {
+    "MainPID": "3874724",
+    "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-scale20k-mix-after500-handoff-20261119-01.service",
+    "LoadState": "loaded",
+    "ActiveState": "active",
+    "InvocationID": "d8a4ad36825b466995c94414d15df482"
+  },
+  "predecessor_state": {
+    "MainPID": "3763767",
+    "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-scale20k-mix-core-first500-20261119-01.service",
+    "LoadState": "loaded",
+    "ActiveState": "active",
+    "InvocationID": "2ae5f131806247e4b9e3a31c7e42b200"
+  },
+  "staged_successor_state": {
+    "MainPID": "0",
+    "ControlGroup": "",
+    "LoadState": "not-found",
+    "ActiveState": "inactive",
+    "InvocationID": ""
+  },
+  "registered_deadline_epoch": 1795103373.8555467,
+  "observed_epoch": 1795095761.810924,
+  "last_independent_heartbeat": {
+    "status": "WAIT_ORIGINAL_OWNER_COLD",
+    "old_pid": 3763767,
+    "step": 363,
+    "epoch": 1795095748.6496098,
+    "PID": 3874724
+  },
+  "last_training_progress": 364,
+  "trained_cursors": {
+    "target": 11648,
+    "robodojo": 17472,
+    "libero": 17472
+  },
+  "new_training_launches": 0,
+  "stop_entry": "STOP.json",
+  "log": "watch.log",
+  "detach_core_linger": true,
+  "readback_sha256": "7ed7288a0e00b21a7dec12861117badc3acb211ae8e848d5d67ba29656f85f46",
+  "frozen_plan_sha": "926226914a0c08ee1ebb143e0edea1434728107b",
+  "stop_scope": "WATCHER_ONLY",
+  "watcher_GPU_generations": 0,
+  "watcher_optimizer_updates": 0,
+  "watcher_native_requests": 0,
+  "healthy_original_owner_retained": true,
+  "cpu_regression_checks_passed": 17
+}
