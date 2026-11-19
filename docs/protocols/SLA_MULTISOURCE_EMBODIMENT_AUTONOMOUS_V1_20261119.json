@@ -1,0 +1,679 @@
+{
+  "schema": "SLA_MULTISOURCE_EMBODIMENT_AUTONOMOUS_V1",
+  "date_SGT": "2026-11-19",
+  "timezone": "Asia/Singapore",
+  "status": "PLAN_PUBLISHED_NOT_SITE_EXECUTION",
+  "scope": "Continue active SCALE; acquire target data; one ADAPT5K curriculum; bounded performance/native parallel engineering",
+  "evidence": {
+    "plan_parent_sha": "cc96f1709170e47298463337d050c79a24b7c7d9",
+    "execution_PR418_sha": "39d8f6e341d2c974aa2baed31588b115e0c2c463",
+    "execution_PR417_sha": "4c9ccb9cc1db2dd5187152259762739bdbd98ee9",
+    "latest_published": {
+      "MIX": {
+        "updates": 452,
+        "observed_SGT": "2026-11-19T22:36:12+08:00",
+        "durable_formal_endpoint": 200,
+        "target_visits": 14464,
+        "robodojo_visits": 21696,
+        "libero_visits": 21696,
+        "training_H40": 1808
+      },
+      "TGT": {
+        "updates": 898,
+        "observed_SGT": "2026-11-19T22:36:12+08:00",
+        "durable_formal_endpoint": 500,
+        "target_visits": 28736,
+        "training_H40": 3592
+      },
+      "TGT500": {
+        "formal_predictions": 288,
+        "independent_restore_predictions": 48,
+        "restored_exact": 48,
+        "native_requests": 0
+      },
+      "J": {
+        "sealed_scientific_requests": 10,
+        "planned_scientific_requests": 48,
+        "ticks": 417689,
+        "H40": 1446,
+        "task_successes": 0
+      },
+      "D5_GRASP24": {
+        "sealed_scientific_requests": 24,
+        "correct_grasp": 0,
+        "H40": 2406,
+        "P10_threshold_crossings": 0
+      },
+      "target_new_admitted_episodes": 0,
+      "target_initial_episodes": 23,
+      "target_initial_windows": 1768,
+      "R200": {
+        "TRAIN_episodes": 200,
+        "windows": 210398,
+        "Core_verified_inputs": 304,
+        "current_scale_uses_this_version": false
+      },
+      "first6_waiter": {
+        "state": "WAIT_PREVIOUS_WORLD_OWNER",
+        "actual_native_requests": 0,
+        "new_demonstrations": 0,
+        "latest_start_SGT": "2026-11-19T23:39:04+08:00",
+        "original_collection_end_SGT": "2026-11-20T00:12:04+08:00",
+        "site_end_SGT": "2026-11-20T00:15:04+08:00"
+      }
+    },
+    "freshness_rule": "Published observations are not live site state; re-read owner, scheduler, checkpoint and counters at execution.",
+    "initial_execution_audit": {
+      "PR418": "93b3165f785a4c14a27c432f18b454c52571178a",
+      "PR417": "afaf35970e56a0827afb092654ce6731f4723fe2"
+    }
+  },
+  "inherited_contracts": {
+    "SCALE": "926226914a0c08ee1ebb143e0edea1434728107b",
+    "D4_D5_J": "cf9d1acbf72e96b1bd158322ff8cbaf8fe28fabb",
+    "SCALE_caps_total_not_remaining": {
+      "optimizer_updates": 25000,
+      "target_visits": 800000,
+      "robodojo_visits": 960000,
+      "libero_visits": 960000,
+      "total_optimization_visits": 2720000,
+      "training_model_generations": 100000,
+      "offline_model_generations": 2760,
+      "native_model_generations": 15360,
+      "all_model_generations": 118120,
+      "science_native_requests": 96,
+      "interface_native_requests": 2,
+      "total_native_requests": 98,
+      "native_ticks": 4399394
+    },
+    "legacy_D4_D5_J_M2_separate": true
+  },
+  "not_start_prerequisites": [
+    "Teacher full matrix",
+    "D5 winner/confirmation",
+    "J all48 complete",
+    "N2 qualified",
+    "24 or120 new target demonstrations",
+    "high TRAIN/H40/native success",
+    "MIX20k completed"
+  ],
+  "resources": {
+    "Core_GPU0": {
+      "reported_name": "RTX 4080 SUPER",
+      "reported_total_MiB": 32760,
+      "default": "One continuous MIX lineage",
+      "current_free_memory_must_be_observed": true
+    },
+    "Core_GPU1": {
+      "reported_name": "RTX 4080 SUPER",
+      "reported_total_MiB": 16376,
+      "default": "Native inference and deployment qualification",
+      "dense_SCALE_inference_fit_not_assumed": true
+    },
+    "Core_world": {
+      "currently_qualified_parallel_worlds": 1,
+      "default_backend": "LEGACY_N1",
+      "priority_after_existing_bounded_segment_cold": [
+        "first6_target_TRAIN",
+        "ready_formal_native_batch",
+        "target_collection_batch_max12",
+        "legacy_J_undispatched_suffix",
+        "N2_engineering"
+      ],
+      "fairness": "After two collection batches, give the next batch to a ready formal evaluation. Keep each started population/order/backend identity."
+    },
+    "VANDA_A40_primary": {
+      "default": "Finish continuous TGT5K",
+      "actual_scheduler_allocation_required": true
+    },
+    "VANDA_A40_additional": {
+      "default": "ADAPT5K; short offline evaluations; bounded benchmark",
+      "new_GPU_count_assumed": 0,
+      "request_under_existing_permissions": true
+    },
+    "CPU": {
+      "prefetch_depth_initial": 2,
+      "decode_workers_candidates": [
+        2,
+        4
+      ],
+      "respect_cgroup_and_native_affinity": true,
+      "no_AMD_login_compute": true
+    },
+    "same_lineage_active_optimizer_owners_max": 1,
+    "same_GPU_training_processes_max": 1,
+    "cross_site_WAN_gradient_sync": false,
+    "extra_optimizer_as_data_parallel": false,
+    "storage": "Measure checkpoint and pilot raw-log sizes; retain historical data; no autonomous cleanup/deletion.",
+    "VANDA_TRAIN_readiness": "SOURCE_DEV55 files do not prove full TRAIN readiness. Before ADAPT or MIX benchmark, verify full D1/R200/LIBERO1261 manifests, inherited statistics, model and actual CPU samples using bounded incremental transfer of missing members.",
+    "dense_Core_inference_fallback": {
+      "via_existing_handoff_not_new_scheduler": true,
+      "reconcile_after500_watcher": true,
+      "options": [
+        "At natural CoreGPU0 cold boundary run a fixed native block then resume latest formal checkpoint",
+        "Qualified same-recipe cold MIX migration to actually allocated A40 frees CoreGPU0"
+      ],
+      "stop_healthy_training": false,
+      "unverified_WAN_realtime_inference": false
+    }
+  },
+  "resume": {
+    "reuse_existing_owner_Journal_onceIO": true,
+    "new_scheduler_or_approval_framework": false,
+    "non_milestone_cold_save_allowed": true,
+    "allocation_end_save_margin": "Measured save/close p95 plus margin within actual deadline",
+    "save_fields": [
+      "model",
+      "Adam",
+      "RNG",
+      "parent_checkpoint_sha",
+      "parent_global_step",
+      "phase_step",
+      "lineage_total_updates",
+      "domain_total_cursors",
+      "stage_local_cursors",
+      "visit_bank_hashes",
+      "LR_table_and_index",
+      "source_and_statistics_identity",
+      "update_ledger"
+    ],
+    "unknown_submit_result": "Reconcile actual runID/PID/PBS effects before retry",
+    "fresh_Adam_every_segment": false,
+    "published_historical_deadlines_not_new_grants": {
+      "Core_first500": "2026-11-19T23:49:33+08:00",
+      "J_current": "2026-11-20T00:12:04+08:00",
+      "TGT_outer": "2026-11-20T05:02:00+08:00"
+    },
+    "first6_existing_waiter_rule": "Reconcile existing waiter; do not create duplicate. If its finite window expires before launch, seal actual effects and rebind only unexecuted cards at a real cold boundary to a newly obtained finite slot; never extend old timestamps."
+  },
+  "target_collection": {
+    "first_batch_goal_episodes": [
+      24,
+      40
+    ],
+    "first_batch_goal_is_launch_gate": false,
+    "new_TRAIN_episode_goal": 120,
+    "complete_PLACE_goal": 80,
+    "HOLD_goal": 20,
+    "verified_recovery_goal": 20,
+    "PLACE_cells": 8,
+    "PLACE_goal_per_cell": 10,
+    "first_six_cells": [
+      "F1-red-left",
+      "F1-blue-right",
+      "F2-red-left",
+      "F2-red-right",
+      "F2-blue-left",
+      "F2-blue-right"
+    ],
+    "max_native_attempts": 240,
+    "first6_included": true,
+    "max_ticks_per_attempt": 50703,
+    "max_expert_queries_per_attempt": 180,
+    "max_ticks": 12168720,
+    "max_expert_plan_queries": 43200,
+    "SLA_student_model_queries_in_collection": 0,
+    "producer_choices": [
+      "existing qualified per-episode Teacher",
+      "executable planner",
+      "actual available human teleoperation",
+      "verified correction on new TRAIN scenes"
+    ],
+    "local_stop_rule": "Two same first-failure outcomes in same cell/producer configuration stop unchanged repeats; inspect and repair/version or change producer; independent training continues.",
+    "minimum_new_independent_episodes_for_D1": 1,
+    "label_kinds": [
+      "expert_query_plan_H40",
+      "executed_future_command_H40",
+      "partial_verified_recovery"
+    ],
+    "label_layer": "nominal_policy_H40 / matching nominal continuous command stream",
+    "separate_from_label": [
+      "installed_reference",
+      "received_reference",
+      "MPC_selected_reference",
+      "measured_TCP",
+      "measured_gripper"
+    ],
+    "unconsumed_suffix_is_executed": false,
+    "partial_masks": "FM and labeled-width losses use valid masks; predicted full H40 feasibility remains complete. Quarantine partial rows until this real path is verified.",
+    "old_DEV_TEST_into_TRAIN": false,
+    "split_before_windowing": true,
+    "privileged_phase_or_object_GT_in_student": false,
+    "real_hardware_requests": 0,
+    "E_new_eligibility": "Independent episodes admitted as actual D1/D2 training members by current reader/schema and label/mask path; quarantined partial, preflight-only and failure diagnostics excluded."
+  },
+  "ADAPT5K": {
+    "arms": 1,
+    "phase_optimizer_updates": 5000,
+    "parent": "Latest independently restored formal MIX endpoint available when D1 is frozen: 5000 then2000 then500; no DEV-score parent selection",
+    "parameter_scope": "frozen vision, VLM LoRA, full action expert, per-domain private I/O",
+    "precision": "inherit explicitly pinned current mixed precision; no silent dtype or output-map change",
+    "state_token_dropout": 0.25,
+    "EMA": false,
+    "new_alignment": false,
+    "memory": false,
+    "raw_endpoint": true,
+    "batch": {
+      "target": 64,
+      "robodojo": 32,
+      "libero": 32
+    },
+    "effective_batch": 128,
+    "FM_coefficients": {
+      "target": 2.0,
+      "robodojo": 1.0,
+      "libero": 1.0
+    },
+    "FM_coefficient_sum": 4.0,
+    "auxiliary": "Original target XYZ, grip-speed and D5-W physical-width definitions and absolute coefficients; no delta; four full10-step H40 per update",
+    "auxiliary_generations_per_update": 4,
+    "auxiliary_slot_schedule": "4*(phase_step mod16)+[0,1,2,3]; freeze and shuffle batch with fixed keys; cover all64 slots",
+    "gradient_implementation": "Separate FM and aux; shared and target-private both weight FM_T by2 while aux stays1; source-private only own FM; inactive params/moments/decay unchanged",
+    "AdamW": {
+      "b1": 0.9,
+      "b2": 0.95,
+      "eps": 1e-08,
+      "weight_decay": 1e-05,
+      "global_clip": 1.0,
+      "inherit_compatible_state": true
+    },
+    "LR": {
+      "kind": "explicit_phase_cosine_no_warmup",
+      "initial": 5e-06,
+      "final": 1e-06,
+      "steps": 5000,
+      "formula": "1e-6+0.5*(5e-6-1e-6)*(1+cos(pi*j/4999)), j=0..4999",
+      "restart_at_D2": false
+    },
+    "initial_target": "old23 + all admitted new TRAIN in D1",
+    "source": "RoboDojo200 + fixed LIBERO1261 TRAIN",
+    "statistics": {
+      "target_state": "fit D1 target TRAIN only; fixed during this5k",
+      "target_actions": "retain inherited C20 action statistics and codec",
+      "robodojo_state_and_actions": "retain inherited R48 statistics while explicitly using R200 membership; new R200 stats diagnostic only",
+      "libero": "retain inherited statistics",
+      "action_stats_change_requires_new_representation": true
+    },
+    "target_new_quota": "min(48,4*E_new), E_new independent episodes; old replay=64-new_quota",
+    "target_stage_sampling": {
+      "whole_trajectory_fraction": 0.5,
+      "critical_event_fraction": 0.5,
+      "insufficient_events": "backfill valid whole-trajectory rows and report actual distribution"
+    },
+    "source_sampling": "task then episode then native window",
+    "curriculum": {
+      "stages": [
+        {
+          "phase_start_inclusive": 0,
+          "phase_end_exclusive": 2000,
+          "data": "D1"
+        },
+        {
+          "phase_start_inclusive": 2000,
+          "phase_end_exclusive": 5000,
+          "data": "D2 if admitted and sealed at one cold boundary; else D1"
+        }
+      ],
+      "switch_decision_depends_on_DEV_score": false,
+      "wait_for_evaluation_result": false,
+      "max_data_switches": 1,
+      "change_stats_codec_LR_Adam_at_switch": false,
+      "stage_local_cursor_separate_from_lifetime_cursor": true
+    },
+    "technical_nonzero_checkpoint": 25,
+    "technical_training_prefix_included_in_5000": true,
+    "formal_endpoints": [
+      0,
+      500,
+      2000,
+      5000
+    ],
+    "zero_endpoint": "Inherited weights under new state/preprocessing contract, not relabeled original MIX old-input output",
+    "interpretation": "Overall target adaptation curriculum result; not a pure source/step causal ablation",
+    "auxiliary_internal_reductions": "Preserve original full-trajectory max penalties for XYZ acceleration and grip speed (including seam); original width mean-squared reduction or valid-point normalized mask; average four generated sample auxiliaries. No blanket mean40 replacing maxima.",
+    "qualification_zero_update": "L3 real128 gradient/routing/merge checks and step-zero independent restore, zero Adam updates; first apply is L4 phase1 and nonzero restore atphase25, both included in5000."
+  },
+  "evaluation": {
+    "ADAPT_formal_endpoints": [
+      0,
+      500,
+      2000,
+      5000
+    ],
+    "formal_per_endpoint": {
+      "target_TRAIN": 96,
+      "R_SOURCE_DEV": 96,
+      "L_SOURCE_DEV": 96,
+      "independent_restore_each_domain": 16,
+      "total": 336
+    },
+    "phase_TRAIN_panel": {
+      "max_conditions": 96,
+      "P10_due_close_positive_goal": 32,
+      "not_due_close_negative_goal": 32,
+      "approach_goal": 16,
+      "release_or_recovery_goal": 16,
+      "freeze_from_D1": true,
+      "independent_episode_denominator_required": true,
+      "no_duplicate_padding_to_reach_goal": true,
+      "not_DEV_generalization": true,
+      "freeze_before": "First ADAPT0 prediction",
+      "identity_fields": [
+        "window_id",
+        "label_kind",
+        "phase_bucket",
+        "noise_seed"
+      ],
+      "one_bucket_per_window": true,
+      "same_noise_across_endpoints": true,
+      "timing_diagnostic": "P10 due from expert original command clock; original first22mm crossing-time difference, <=100ms; missing crossing=failure, never zero error"
+    },
+    "nonzero_phase25_restore_generations": 48,
+    "Core_package_endpoints": [
+      0,
+      2000,
+      5000
+    ],
+    "Core_replay_per_endpoint": 16,
+    "ADAPT_native": {
+      "DEV_layouts": 4,
+      "instructions_per_layout": 6,
+      "DEV_endpoints": [
+        0,
+        2000,
+        5000
+      ],
+      "fresh_confirmation_layouts": 4,
+      "fresh_confirmation_endpoint": 5000,
+      "HOLD_per24": 8,
+      "PLACE_per24": 16,
+      "ticks_per24": 1096872,
+      "model_queries_per24": 3840,
+      "total_science_requests": 96,
+      "total_science_ticks": 4387488,
+      "total_science_model_generations": 15360,
+      "choose_best_DEV_checkpoint": false,
+      "fixed5k_confirmation_even_low_DEV_if_deploy_qualified": true
+    },
+    "interface_reserve": {
+      "requests": 2,
+      "ticks_total": 11906,
+      "model_generations_max": 2,
+      "condition": "Only changed-package/native seam requires original F1/F2 check; one H40 per request or scripted0"
+    },
+    "old_TEST_read": false,
+    "full_task_uses_original_score": true,
+    "legacy_formal_endpoint_duplicate_across_sites": false,
+    "technical_generation_reserve": 336,
+    "scientific_failure_retry": false,
+    "offline_native_evidence_separation": "Offline joint metrics cover timing/H40/previous-command seam only; new prediction consumption/contact/lift/task require its own native query/episode. Expert historical execution is label provenance."
+  },
+  "performance_engineering": {
+    "max_variants": 4,
+    "updates_per_variant": 30,
+    "same_frozen_parent": true,
+    "batch": {
+      "target": 32,
+      "robodojo": 48,
+      "libero": 48
+    },
+    "aux_per_update": 4,
+    "extra_replay_generations_per_variant_max": 96,
+    "priority": [
+      "reuse Core measured baseline",
+      "same MIX on A40 microbatch1",
+      "A40 microbatch2",
+      "A40 microbatch4"
+    ],
+    "timers": [
+      "data_wait",
+      "FM_backward",
+      "full_H40_aux_backward",
+      "optimizer",
+      "save_restore",
+      "GPU_utilization_memory",
+      "CPU_IO"
+    ],
+    "numeric_contract_fixed_before_measurement": true,
+    "old_strict_failures_retained": true,
+    "benchmark_weights_used_as_formal_parent": false,
+    "adopt_if": "Compatible numerical/execution contract, actual memory margin, warm net throughput >=15% better; new cold execution version; otherwise keep current implementation",
+    "automatic_unverified_multigpu_training": false,
+    "adoption_resume": "latest_cold_formal_checkpoint_at_handoff_not_benchmark_parent",
+    "baseline_reuse_requires": "same pinned parent, samples and timer definitions; otherwise use fourth variant as Core microbatch1 matched baseline",
+    "timing_window": {
+      "compile_warmup_updates": 10,
+      "measured_updates": 20,
+      "per_variant_total_updates": 30,
+      "p50_p90_and_save_cost": true,
+      "unaccounted_optimization_updates": false
+    },
+    "already_done_CPU_only": "Actual host_batch/domain_gradient interfaces with lightweight controlled loss verified microbatch1/2/4; not full-model GPU proof; reuse unchanged validation."
+  },
+  "N2_engineering": {
+    "max_native_requests": 24,
+    "max_ticks_per_request": 10703,
+    "max_ticks_total": 256872,
+    "model_generations": 0,
+    "allocation": {
+      "N1_matching": 8,
+      "N2_matching": 8,
+      "STOP_two_directions_pair_requests": 4,
+      "transient_diagnostic_reserve": 4
+    },
+    "pass_requirements": [
+      "all original state tolerances",
+      "F2 transient cause and selected-reference trace",
+      "both STOP directions have live peer continuing ticks while stopped world adds0",
+      "independent CPU/ROS/temp/cache/output/owner/STOP scopes"
+    ],
+    "relax_original_tolerance": false,
+    "unqualified_fallback": "LEGACY_N1 continues science",
+    "enable_only_new_cold_population_or_collection_batch": true
+  },
+  "work_packages": [
+    {
+      "id": "L0",
+      "priority": "P0",
+      "depends_on": [],
+      "done": "Fresh site identity and no duplicate owner"
+    },
+    {
+      "id": "L1",
+      "priority": "P0",
+      "depends_on": [
+        "L0"
+      ],
+      "done": "Original MIX20k/TGT5k endpoints and curves"
+    },
+    {
+      "id": "L2",
+      "priority": "P0",
+      "depends_on": [
+        "L0"
+      ],
+      "done": "New verified target demonstrations and coverage"
+    },
+    {
+      "id": "L3",
+      "priority": "P0",
+      "depends_on": [
+        "L0"
+      ],
+      "done": "Real128 gradient/routing/merge and step-zero independent restore, zero optimization updates; nonzero phase25 belongs to L4."
+    },
+    {
+      "id": "L4",
+      "priority": "P1",
+      "depends_on": [
+        "L2_first_admitted_D1",
+        "L3",
+        "actual_allocation"
+      ],
+      "done": "Continuous ADAPT5K"
+    },
+    {
+      "id": "L5",
+      "priority": "P1",
+      "depends_on": [
+        "corresponding_sealed_endpoint",
+        "actual_GPU_or_world_as_needed"
+      ],
+      "done": "Fixed offline and native denominators"
+    },
+    {
+      "id": "L6",
+      "priority": "engineering",
+      "depends_on": [
+        "sealed_parent",
+        "spare_actual_allocation"
+      ],
+      "done": "Measured throughput and numerical comparison"
+    },
+    {
+      "id": "L7",
+      "priority": "engineering",
+      "depends_on": [
+        "cold_world",
+        "bounded_original_reference_cards"
+      ],
+      "done": "N2 pass or retained N1 with specific failure"
+    },
+    {
+      "id": "L8",
+      "priority": "continuous",
+      "depends_on": [],
+      "done": "Actual reports, final findings and explicit next bounded proposal"
+    }
+  ],
+  "new_budget_categories": [
+    {
+      "id": "ADAPT5K",
+      "optimizer_updates": 5000,
+      "optimization_visits": {
+        "target": 320000,
+        "robodojo": 160000,
+        "libero": 160000
+      },
+      "training_model_generations": 20000
+    },
+    {
+      "id": "PERFORMANCE_MAX4_X30",
+      "optimizer_updates": 120,
+      "optimization_visits": {
+        "target": 3840,
+        "robodojo": 5760,
+        "libero": 5760
+      },
+      "training_model_generations": 480,
+      "offline_model_generations": 384
+    },
+    {
+      "id": "ADAPT_GRADIENT_QUALIFICATION",
+      "gradient_windows_no_optimizer_step": 128,
+      "offline_model_generations": 4
+    },
+    {
+      "id": "ADAPT_FORMAL_OFFLINE",
+      "offline_model_generations": 1344
+    },
+    {
+      "id": "ADAPT_PHASE_TRAIN_PANEL",
+      "offline_model_generations": 384
+    },
+    {
+      "id": "ADAPT_PHASE25_RESTORE",
+      "offline_model_generations": 48
+    },
+    {
+      "id": "ADAPT_CORE_PACKAGE_REPLAY",
+      "offline_model_generations": 48
+    },
+    {
+      "id": "TECHNICAL_FAILURE_RESERVE",
+      "offline_model_generations": 336
+    },
+    {
+      "id": "ADAPT_SCIENCE_NATIVE",
+      "science_native_requests": 96,
+      "native_ticks": 4387488,
+      "native_model_generations": 15360
+    },
+    {
+      "id": "ADAPT_CONDITIONAL_INTERFACE",
+      "interface_native_requests": 2,
+      "native_ticks": 11906,
+      "native_model_generations": 2
+    },
+    {
+      "id": "TARGET_COLLECTION",
+      "collection_native_requests": 240,
+      "native_ticks": 12168720,
+      "expert_plan_queries": 43200,
+      "student_model_generations": 0
+    },
+    {
+      "id": "N2_ENGINEERING",
+      "engineering_native_requests": 24,
+      "native_ticks": 256872,
+      "native_model_generations": 0
+    }
+  ],
+  "new_caps_total_not_actual": {
+    "optimizer_updates": 5120,
+    "optimization_visits": {
+      "target": 323840,
+      "robodojo": 165760,
+      "libero": 165760
+    },
+    "gradient_windows_no_optimizer_step": 128,
+    "training_model_generations": 20480,
+    "offline_model_generations": 2548,
+    "native_model_generations": 15362,
+    "expert_plan_queries": 43200,
+    "science_native_requests": 96,
+    "interface_native_requests": 2,
+    "collection_native_requests": 240,
+    "engineering_native_requests": 24,
+    "native_ticks": 16824986,
+    "total_optimization_visits": 655360,
+    "all_model_generations": 38390,
+    "total_native_requests": 362
+  },
+  "stopping_rules": {
+    "scientific_low_success_stops_healthy_scheduled_training": false,
+    "stop_affected_lineage_on": [
+      "nonfinite numerics",
+      "wrong gradient routing",
+      "data/split semantic violation",
+      "unrecoverable state",
+      "expired actual allocation"
+    ],
+    "native_STOP_followup_ticks": 0,
+    "same_symptom_no_new_evidence": "stop unchanged repetition and change diagnosis/implementation; continue independent work",
+    "per_minor_change_user_GO": false,
+    "real_hardware_or_WBC_changes_in_scope": false
+  },
+  "reporting": {
+    "use_existing_execution_publisher": true,
+    "milestones": [
+      "formal checkpoint",
+      "new dataset version",
+      "native batch",
+      "technical terminal"
+    ],
+    "running_summary_target_hours": 6,
+    "creates_new_automation": false,
+    "timezone": "Asia/Singapore",
+    "actual_counts_not_queued_jobs": true
+  },
+  "publication_effects": {
+    "optimizer_updates": 0,
+    "optimization_visits": 0,
+    "model_generations": 0,
+    "native_requests": 0,
+    "native_ticks": 0,
+    "site_jobs_submitted": 0,
+    "hardware_requests": 0
+  }
+}
