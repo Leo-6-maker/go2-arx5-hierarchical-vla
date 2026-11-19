@@ -8,6 +8,7 @@ import numpy as np
 
 from scripts.pi0292.durable import write
 from go2arx5_vla.sla_adapter.multitask_contract_v6 import ARMS, NATIVE_METHOD, contract
+from go2arx5_vla.world_model import multisource_d4_native as d4
 from go2arx5_vla.world_model.mfree_unattended_runtime_v1 import close
 from go2arx5_vla.world_model.multitask_scope_v6 import PLAN, SCOPE, read_pin, validate
 from go2arx5_vla.world_model.multitask_score_v6 import INSTRUCTIONS
@@ -16,7 +17,7 @@ from go2arx5_vla.world_model.storage import digest
 from .multitask_teacher_campaign_v6 import interface_records
 from .sim_only_campaign_v51 import compact_case, fatal_control_violation, run as run_campaign
 
-STAGE_SIZE = dict(SCREEN=24, CONFIRM=24, DEV=60, TEST=60)
+STAGE_SIZE = dict(SCREEN=24, CONFIRM=24, DEV=60, TEST=60, D4_DEV=24)
 PREDECESSOR = dict(CONFIRM='SCREEN',DEV='CONFIRM',TEST='DEV')
 
 
@@ -25,6 +26,10 @@ def read(path):
 
 
 def expected_conditions(population, stage, arms):
+    if stage == d4.STAGE:
+        if arms != set(d4.ARMS):
+            raise ValueError('D4_REQUIRES_BOTH_SEALED_ARMS')
+        return d4.conditions(population)
     rows = population['conditions'][stage]
     size = STAGE_SIZE[stage]
     if len(rows) != size or len({row['id'] for row in rows}) != size:
@@ -43,9 +48,13 @@ def expected_conditions(population, stage, arms):
 
 def endpoint_records(spec):
     records = {}
-    if set(spec['endpoints']) != set(spec['packages']):
+    if (set(spec['endpoints']) != set(spec['packages'])
+            or (spec.get('scope') == d4.SCOPE and set(spec['ordinary_RGB_restores']) != set(spec['packages']))):
         raise ValueError('EVERY_FROZEN_G7_ARM_REQUIRES_THE_ACTUAL_ENDPOINT')
     for arm, pin in spec['endpoints'].items():
+        if spec.get('scope') == d4.SCOPE:
+            _, records[arm] = d4.endpoint(arm, spec['packages'][arm], pin, spec['ordinary_RGB_restores'][arm])
+            continue
         actual = read_pin(pin)
         package = spec['packages'][arm]
         manifest = read_pin(dict(path=str(Path(package['path'])/'MANIFEST.private.json'),sha256=package['sha256']))
@@ -78,7 +87,13 @@ def previous_panel(spec, stage):
 def student_arms(spec):
     stage = spec['evaluation_stage']
     arms = set(spec['packages'])
-    if (stage not in STAGE_SIZE or spec['scope'] != SCOPE or spec['plan_commit'] != PLAN
+    if spec['scope'] == d4.SCOPE:
+        if (stage != d4.STAGE or spec['plan_commit'] != d4.PLAN or spec['physics'] is not True
+                or spec['new_optimizer_updates_budget'] or spec['new_training_visits_budget']
+                or arms != set(d4.ARMS) or spec['compiled_population']['sha256'] != d4.POPULATION_SHA):
+            raise PermissionError('FIXED_D4_MATCHED_DEV_WITH_ZERO_TRAINING_REQUIRED')
+        return arms
+    if (stage not in STAGE_SIZE or stage == d4.STAGE or spec['scope'] != SCOPE or spec['plan_commit'] != PLAN
             or not spec['physics'] or spec['new_optimizer_updates_budget'] or not arms.issubset(ARMS) or not arms):
         raise PermissionError('FIXED_FINITE_V6_MULTITASK_STUDENT_PANEL_ONLY')
     if stage == 'SCREEN' and arms != set(ARMS):
@@ -126,6 +141,9 @@ def preflight(spec):
     if (worker['new_complete_generations_budget'] != requests or worker['unified_requests_budget'] != requests
             or worker['new_optimizer_updates_budget'] or requests > 34560):
         raise ValueError('M_MODEL_REQUEST_BUDGET_MUST_MATCH_ACTUAL_HOLD_PLACE_CAPS')
+    if stage == d4.STAGE and (len(cases) != d4.REQUEST_CAP or requests != d4.GENERATION_CAP
+            or sum(read(path)['max_ticks'] for path in cases) != d4.TICK_CAP):
+        raise ValueError('D4_FIXED_48_REQUEST_7680_GENERATION_AND_TICK_CAPS_REQUIRED')
     interface = read_pin(spec['interface_predecessor'])
     return interface_records(interface,spec['mobile_world_lock']), endpoints
 
@@ -180,6 +198,8 @@ def arm_totals(rows, stage, diagnostic):
 
 def summarize(result, spec, endpoints):
     stage = spec['evaluation_stage']
+    is_d4 = stage == d4.STAGE
+    arms = d4.ARMS if is_d4 else ARMS
     students = [row for row in result['records'] if row['role']=='STUDENT']
     totals = {arm:arm_totals([r for r in students if r['arm']==arm],stage,ep['TRAIN96']) for arm,ep in endpoints.items()}
     pairs = {}
@@ -187,12 +207,13 @@ def summarize(result, spec, endpoints):
         pairs.setdefault((row['cluster'],row['instruction']),{})[row['arm']] = row
     paired = []
     for (cluster,instruction), rows in pairs.items():
-        if set(rows)!=set(ARMS):
+        if set(rows)!=set(arms):
             continue
-        a,b = (rows[arm]['initial_native_state'] for arm in ARMS)
+        a,b = (rows[arm]['initial_native_state'] for arm in arms)
         delta = None if a is None or b is None else {key:float(np.max(np.abs(np.asarray(a[key])-b[key]))) for key in a}
-        paired.append(dict(cluster=cluster,instruction=instruction,actual_initial_difference_max_abs=delta,
-            G7_M_SRC_minus_M_BASE_success=int(rows['M-SRC']['task_and_mobile_success'])-int(rows['M-BASE']['task_and_mobile_success'])))
+        key = 'D4_B_minus_A_success' if is_d4 else 'G7_M_SRC_minus_M_BASE_success'
+        paired.append(dict(cluster=cluster, instruction=instruction, actual_initial_difference_max_abs=delta,
+            **{key: int(rows[arms[1]]['task_and_mobile_success'])-int(rows[arms[0]]['task_and_mobile_success'])}))
     candidates = [arm for arm, row in totals.items() if row['passed']]
     generations = sum(row['actual_model_generations'] for row in students)
     worker = result['model_service']
@@ -203,16 +224,17 @@ def summarize(result, spec, endpoints):
                 and reconciled
                 and not any(fatal_control_violation(row) for row in students))
     selected = None
-    if complete and candidates:
+    if complete and candidates and not is_d4:
         def rank(arm):
             row = totals[arm]
             return (-row['task_successes'],-min(row['success_by_instruction'].values()),row['hard_STOP'],
-                    row['H40_or_seam_rejections'],row['success_median_task_ticks'],ARMS.index(arm))
+                    row['H40_or_seam_rejections'],row['success_median_task_ticks'],arms.index(arm))
         selected = min(candidates,key=rank)
     return dict(stage=stage,passed=selected is not None,complete_panel=complete,selected_arm=selected,
         selected_package=None if selected is None else spec['packages'][selected],
         population_sha256=spec['compiled_population']['sha256'],arms=totals,paired_conditions=paired,
-        new_native_requests=len(students),new_native_ticks=sum(r['native_ticks'] for r in students),
+        new_native_requests=(sum(r['actual_native_requests'] for r in students) if is_d4 else len(students)),
+        new_native_ticks=sum(r['native_ticks'] for r in students),
         attributed_case_generations=generations,generations_reconciled=reconciled,
         worker_result=worker,unresolved_case_launches=result['unresolved_case_launches'],
         original_WBC_frozen=True,hardware_requests=0,new_optimizer_updates=0)
@@ -243,7 +265,9 @@ def run(path,spec):
         return 1
     code = run_campaign(path,preflight=lambda _:interfaces,load_carried=lambda rows:rows,compact=student_row,
         bootstrap='v6_bootstrap.py',expected_count=len(spec['cases'])+2,
-        result_schema='SLA_V6_MULTITASK_STUDENT_PANEL_ACTUAL',pilot_evaluate=lambda _:False,case_lead_s=1980)
+        result_schema=('SLA_D4_MATCHED_DEV_ACTUAL' if spec['evaluation_stage'] == d4.STAGE
+                       else 'SLA_V6_MULTITASK_STUDENT_PANEL_ACTUAL'),
+        pilot_evaluate=lambda _:False,case_lead_s=1980)
     file = root/'RESULT.private.json'
     actual = summarize(read(file),spec,endpoints)
     actual['campaign_result'] = dict(path=str(file),sha256=digest(file))

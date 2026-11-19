@@ -13,8 +13,8 @@ def shared_key(key):
             and key.rsplit("']", 1)[0].endswith(('lora_a','lora_b')))
 
 
-def sealed_source(campaign_pin, official_parent):
-    campaign = read_pin(campaign_pin)
+def sealed_source(campaign_pin, official_parent, *, locate_pin=lambda pin: pin):
+    campaign = read_pin(locate_pin(campaign_pin))
     gate = campaign['transfer_gate']
     if (campaign['exit_code'] or campaign['new_updates'] != 1000 or campaign['new_visits'] != 32000
             or campaign['new_native_requests'] or not gate['passed'] or not gate['finite'] or not gate['reloadable']
@@ -28,7 +28,7 @@ def sealed_source(campaign_pin, official_parent):
     for role, row in roles.items():
         if row['result_exit'] or row['process_exit']:
             raise ValueError('SOURCE_CHILD_TERMINAL_FAILURE_PRECLUDES_TRANSFER')
-        records[role] = read_pin(dict(path=row['result_path'], sha256=row['result_sha256']))
+        records[role] = read_pin(locate_pin(dict(path=row['result_path'], sha256=row['result_sha256'])))
     for role in ('RESTORE-S0','RESTORE-S1000'):
         restore = records[role]
         if (restore['endpoint'] != role.removeprefix('RESTORE-') or not restore['passed']
@@ -38,10 +38,10 @@ def sealed_source(campaign_pin, official_parent):
     train = records['S1000']
     if train['new_updates'] != 1000 or train['new_visits'] != 32000 or not train['full_restore']['bit_exact']:
         raise ValueError('ACTUAL_S1000_MODEL_ADAM_RNG_RESTORE_REQUIRED')
-    families = read_pin(train['shared_lora'])
+    families = read_pin(locate_pin(train['shared_lora']))
     endpoint = train['last_checkpoint']
     root = Path(endpoint['path'])
-    ckpt = read_pin(dict(path=str(root/'COMPLETE.json'), sha256=endpoint['sha256']))
+    ckpt = read_pin(locate_pin(dict(path=str(root/'COMPLETE.json'), sha256=endpoint['sha256'])))
     if (families['source_checkpoint'] != endpoint or ckpt['step'] != 1000 or ckpt['cursor'] != 32000
             or ckpt['bindings']['recipe'] != SOURCE_RECIPE
             or ckpt['bindings']['parent_manifest']['sha256'] != official_parent['sha256']):
@@ -50,7 +50,8 @@ def sealed_source(campaign_pin, official_parent):
     rows = families['arrays']
     if len(expected) != 20 or len(rows) != len(expected) or {row['key']:row for row in rows} != expected:
         raise ValueError('EXACT_TWENTY_SHARED_LORA_NAMES_SHAPES_AND_SHAS_REQUIRED')
-    return rows, dict(source_campaign=campaign_pin, source_checkpoint=endpoint,
+    located = [dict(row,path=locate_pin(dict(path=row['path'],sha256=row['sha256']))['path']) for row in rows]
+    return located, dict(source_campaign=campaign_pin, source_checkpoint=endpoint,
         source_lora_manifest=train['shared_lora'], DEV_dynamic_relative_error_reduction=gate['DEV_dynamic_relative_error_reduction'],
         source_updates=1000, source_visits=32000, source_IO_norm_optimizer_copied=False)
 
@@ -83,7 +84,7 @@ def transplant(active, source_rows):
     return initialized, dict(shared_rows=source_rows, target_IO_original_keys=target_io)
 
 
-def match_initial_checkpoints(base_pin, source_pin, source_rows):
+def match_initial_checkpoints(base_pin, source_pin, source_rows, *, arms=('M-BASE', 'M-SRC')):
     """Prove identical target I/O, Adam and RNG at the two step-zero boundaries."""
     base, src = (read_pin(dict(path=str(Path(pin['path'])/'COMPLETE.json'), sha256=pin['sha256']))
                  for pin in (base_pin, source_pin))
@@ -94,7 +95,7 @@ def match_initial_checkpoints(base_pin, source_pin, source_rows):
                        'recipe','codec_version','derived_statistics_sha256','full_XYZ_lambda','full_gripper_speed_lambda')
     if (any(value['step'] or value['cursor'] for value in (base,src))
             or set(left) != set(right) or len(left) != 87 or len(changed_keys) != 20
-            or base['bindings']['arm'] != 'M-BASE' or src['bindings']['arm'] != 'M-SRC'
+            or (base['bindings']['arm'], src['bindings']['arm']) != arms
             or base['bindings']['source_initialization'] is not None
             or any(base['bindings'][key] != src['bindings'][key] for key in common_bindings)
             or set(changed_keys) != {key for key in right if shared_key(key)}):

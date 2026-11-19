@@ -32,8 +32,9 @@ def run(spec):
     from go2arx5_vla.sla_adapter.site_v2 import validate
     root=Path(spec['registered_root']);bus=Path(spec['ipc_root']);live=Path(spec.get('live_root',root));site=validate(spec)
     from go2arx5_vla.sla_adapter.compilation_cache_binding_v1 import bind_declared_cache
+    from go2arx5_vla.world_model.multisource_d4_native import SCOPE as D4_SCOPE
     cache_binding=bind_declared_cache(spec,jax.config)
-    start=time.monotonic();scope=spec.get('scope');g7=scope=='SLA_V6_MULTITASK_NATIVE'
+    start=time.monotonic();scope=spec.get('scope');g7=scope in ('SLA_V6_MULTITASK_NATIVE', D4_SCOPE)
     if g7:
         from go2arx5_vla.sla_adapter.multitask_contract_v6 import NATIVE_METHOD
         if spec['selected_combo']!=NATIVE_METHOD:raise ValueError('EXACT_G7_SINGLE_H40_GENERATION')

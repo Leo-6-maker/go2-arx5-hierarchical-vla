@@ -1,0 +1,310 @@
+{
+  "schema": "SLA_D4_C20_ACTUAL_V1",
+  "observed_at": "2026-11-18T20:08:35+08:00",
+  "execution_phase": "WAIT_RESOURCE",
+  "source_sha": "32fae139c9c2c18d9a1dc01fc8490aa9723deafb",
+  "source_seal": "2e6b4ff1c3351d1ba681a23e3d98223fc184d8377d6ce1616706c177f2e2ca79",
+  "execution_spec_sha256": "8b407f232dae76df94d71aca6a9d30e35927ddeb8b6620fdab8c4ed2087304c0",
+  "plan_sha256": "2b52adc2d7958c37bf2bee1a0c3efb7947dffb65e806a5ed5745cdccddc7f19c",
+  "inherited_site_binding_sha256": "606532a2b79d5a4c4c7838917b789084c5c024f08b870eb8d629a7f301654852",
+  "verified_inputs": {
+    "C20_manifest": "4bcc5ffcd8920d874599a54cca73792c50a49ea6013d65ca7826817a9f80d7de",
+    "C20_statistics": "f28d50e6eeea09b332d4bd159eca4333bbe23b185f95f1d336d45311e364ab3e",
+    "C20_episodes": 20,
+    "C20_windows": 1376,
+    "known_previous_command_clocks": 1376,
+    "C20_native_speed_violations": 0,
+    "C20_training_speed_margin_violations": 0,
+    "C20_max_width_speed_m_s": 0.03743754687500017,
+    "fixed_C20_TRAIN48_sha256": "467c9939039f8e5d0d0f9fb2c1a907a02cffc02a997aa07754f1cdb517926afc",
+    "foundation_manifest": "232442c8a8c934118cbcdb890c6f307d7fc857819d7e45c2286ed8e8e5d5f3a3",
+    "tokenizer": "8986bb4f423f07f8c7f70d0dbe3526fb2316056c17bae71b1ea975e77a168fc6",
+    "S1000_result": "005c2d628df3929723443e30416f4704ac5f509325c4e6ee753773d9a0077f28",
+    "S1000_checkpoint": "c08e919b5151ccafdfd5b427e02710f1a8e9f9189ca227314f72e5ec0296ab6d",
+    "S1000_shared_lora_index": "6a829b6c4e62824dcacc6c7161aae01e95c51cf7c235664cb083297ccddeb301",
+    "shared_lora_leaves": 20,
+    "checked_source_bytes": 199952896,
+    "source_transfer_gate_passed": true
+  },
+  "input_audit_wall_s": 12.4779395153746,
+  "fixed_bank_cpu_preflight": {
+    "windows": 1376,
+    "planned_visits": 16000,
+    "first_batch_indices": [
+      941,
+      1369,
+      1231,
+      865
+    ],
+    "visits_sha256": "a151bfca90511a5fee70398aa50616472f989cbf41cdd899ca93d569a24040af",
+    "unique_windows": 1374,
+    "C20_context": {
+      "width_m": 0.041999999999999996,
+      "source_native_s": 38.85600000000152,
+      "query_native_s": 38.90600000000158
+    },
+    "source_loRA_leaves": 20,
+    "new_updates": 0,
+    "model_generations": 0,
+    "native_requests": 0
+  },
+  "scheduler": {
+    "controller_verified": true,
+    "lease": "ACTIVE",
+    "unit_active": "active",
+    "prior_confirmed_heartbeat": "2026-11-18T20:04:08+08:00",
+    "renewed_heartbeat": "2026-11-18T20:08:08+08:00",
+    "linger": true,
+    "independent_of_frontend": true,
+    "shared_GPU_allowed": true,
+    "bound_GPU_index": 0,
+    "free_MiB": 10163,
+    "minimum_exclusive_free_MiB": 25600,
+    "free_host_bytes": 38781538304,
+    "latest_pair_start": "2026-11-18T23:46:23+08:00",
+    "deadline": "2026-11-19T02:46:23+08:00"
+  },
+  "arms": [
+    {
+      "arm": "D4-A",
+      "started": false,
+      "updates": 0,
+      "target_visits": 0,
+      "source_visits": 0,
+      "restore": 0
+    },
+    {
+      "arm": "D4-B",
+      "started": false,
+      "updates": 0,
+      "target_visits": 0,
+      "source_visits": 0,
+      "restore": 0
+    }
+  ],
+  "D4_actual_effects": {
+    "updates": 0,
+    "visits": 0,
+    "model_generations": 0,
+    "native_requests": 0,
+    "native_integrations": 0
+  },
+  "historical_PLACE": {
+    "C20_statistics": "f28d50e6eeea09b332d4bd159eca4333bbe23b185f95f1d336d45311e364ab3e",
+    "historical_native_prefix": 18,
+    "historical_complete_PLACE_examined": 3,
+    "historical_complete_PLACE_individual_pass": 3,
+    "rows": [
+      {
+        "id": "M-TEACHER-F1-0-PLACE-blue-left",
+        "instruction": "PLACE-blue-left",
+        "scene_lineage": "MFREE_C20-F1-TRAIN-T0",
+        "native_ticks": 39953,
+        "RGB_H40": 137,
+        "confirmed_P10_atoms": 1370,
+        "stage_events": {
+          "base80mm": {
+            "native_step": 10545,
+            "native_time_s": 21.08999999999919
+          },
+          "target_grasp": {
+            "native_step": 21766,
+            "native_time_s": 43.53200000000724
+          },
+          "target_lift20mm": {
+            "native_step": 24135,
+            "native_time_s": 48.27000000001303
+          },
+          "correct_region": {
+            "native_step": 30228,
+            "native_time_s": 60.45600000002792
+          },
+          "released": {
+            "native_step": 35446,
+            "native_time_s": 70.89200000001618
+          },
+          "retreated50mm": {
+            "native_step": 39382,
+            "native_time_s": 78.76399999999784
+          }
+        },
+        "result_sha256": "b3cc05fa20f78bad3a4614c78f2da8a0a34a06dc633d9a9ba58faafb5a9ec3d8",
+        "scene_sha256": "f69cff6ed63bcc344cb3ac1914794b1a26d7214e59ac18f717b9b01e03d832ec",
+        "shards": 9,
+        "FP32": {
+          "xyz_m": 2.370070917301348e-09,
+          "so3_rad": 2.2425159215771868e-09,
+          "gripper": 1.0986323295547606e-07
+        },
+        "training_margin_rejected_windows": 0,
+        "original_speed_rejected_windows": 0,
+        "individual_pass": true
+      },
+      {
+        "id": "M-TEACHER-F1-1-PLACE-red-right",
+        "instruction": "PLACE-red-right",
+        "scene_lineage": "MFREE_C20-F1-TRAIN-T0",
+        "native_ticks": 37453,
+        "RGB_H40": 127,
+        "confirmed_P10_atoms": 1270,
+        "stage_events": {
+          "base80mm": {
+            "native_step": 9511,
+            "native_time_s": 19.022000000000336
+          },
+          "target_grasp": {
+            "native_step": 19053,
+            "native_time_s": 38.106000000000606
+          },
+          "target_lift20mm": {
+            "native_step": 19875,
+            "native_time_s": 39.750000000002615
+          },
+          "correct_region": {
+            "native_step": 26710,
+            "native_time_s": 53.42000000001932
+          },
+          "released": {
+            "native_step": 33193,
+            "native_time_s": 66.38600000002668
+          },
+          "retreated50mm": {
+            "native_step": 36769,
+            "native_time_s": 73.53800000001002
+          }
+        },
+        "result_sha256": "02f1502f4bb508c52d3673c2f1b31b313b5eed2541c3b43181c2db77b8c5757b",
+        "scene_sha256": "e99d44a4e8f6d3a1e9e9ce14e26952f7c038835dd627ebef19d7096fb4f83358",
+        "shards": 8,
+        "FP32": {
+          "xyz_m": 2.0806785183680176e-09,
+          "so3_rad": 2.273160333947551e-09,
+          "gripper": 1.0986323295547606e-07
+        },
+        "training_margin_rejected_windows": 0,
+        "original_speed_rejected_windows": 0,
+        "individual_pass": true
+      },
+      {
+        "id": "M-TEACHER-F1-1-PLACE-blue-left",
+        "instruction": "PLACE-blue-left",
+        "scene_lineage": "MFREE_C20-F1-TRAIN-T0",
+        "native_ticks": 37703,
+        "RGB_H40": 128,
+        "confirmed_P10_atoms": 1280,
+        "stage_events": {
+          "base80mm": {
+            "native_step": 10419,
+            "native_time_s": 20.83799999999933
+          },
+          "target_grasp": {
+            "native_step": 19268,
+            "native_time_s": 38.53600000000113
+          },
+          "target_lift20mm": {
+            "native_step": 21554,
+            "native_time_s": 43.10800000000672
+          },
+          "correct_region": {
+            "native_step": 28649,
+            "native_time_s": 57.29800000002406
+          },
+          "released": {
+            "native_step": 33193,
+            "native_time_s": 66.38600000002668
+          },
+          "retreated50mm": {
+            "native_step": 37031,
+            "native_time_s": 74.0620000000088
+          }
+        },
+        "result_sha256": "3f2ab8090a139977f9d47ab63d9e4a85a013051631519b6d98d15d90be3617f1",
+        "scene_sha256": "e99d44a4e8f6d3a1e9e9ce14e26952f7c038835dd627ebef19d7096fb4f83358",
+        "shards": 8,
+        "FP32": {
+          "xyz_m": 2.3386095282518227e-09,
+          "so3_rad": 2.167561074824142e-09,
+          "gripper": 1.0986323295547606e-07
+        },
+        "training_margin_rejected_windows": 0,
+        "original_speed_rejected_windows": 0,
+        "individual_pass": true
+      }
+    ],
+    "new_MODEL_generations": 0,
+    "new_native_ticks": 0,
+    "used_in_D4_AB_training": 0,
+    "receipt_scope": "PER_CAPTURE_PLUS_C20_FP32_NO_NEW_DEV_LEAKAGE_CLAIM"
+  },
+  "historical_PLACE_read_wall_s": 0.9977517491206527,
+  "native_DEV_geometry": {
+    "status": "COLD_D4_DEV_POPULATION_SEALED",
+    "exit_code": 0,
+    "compiled_clusters": 4,
+    "actual_scene_bytes": 297882404,
+    "registered_condition_counts": {
+      "D4_DEV": 24
+    },
+    "first_teacher_feasibility": 0,
+    "protection_fingerprints": [
+      "67d4b804c438beabec9790ecf40b60584d2b45ec0c5f1799f377bf784f316bc8"
+    ],
+    "population_sha256": "4a601d1ed2126e7acf6e522b10da569098bda37be0c206baf7069a47c783b746",
+    "native_dispatch_qualified": false,
+    "prior_clusters_checked": 120,
+    "independent_pairs": 24,
+    "planned_scientific_requests": 48,
+    "predictions": 0,
+    "clusters": [
+      {
+        "id": "D4-DEV-F1-1",
+        "family": "F1",
+        "sha256": "bb214e3978cd56aa6c368523e55d9e377fc125c16b72272dcabc36318ac59aa1",
+        "reset": 690000
+      },
+      {
+        "id": "D4-DEV-F1-2",
+        "family": "F1",
+        "sha256": "be9562080b7742a5a03908e3056742b5b8ab2617b29a4a8234090197443bc6db",
+        "reset": 690001
+      },
+      {
+        "id": "D4-DEV-F2-1",
+        "family": "F2",
+        "sha256": "aeba188b73bb5ee356882d6cc46279ef6676fc808961403240f0f7a1b25ee4f2",
+        "reset": 690010
+      },
+      {
+        "id": "D4-DEV-F2-2",
+        "family": "F2",
+        "sha256": "20d36e3218ebce03ed81a3a49b05ae1468a9d4549e79a004178e9ca1f3b16bb1",
+        "reset": 690011
+      }
+    ],
+    "wall_s": 1.9047094732522964,
+    "CPU_s": 2.2862731619999996,
+    "native_requests": 0,
+    "integrations": 0,
+    "generations": 0,
+    "updates": 0,
+    "source_sha": "d48fd2b2e662a72cd98ca3a28202ccb475c815b5",
+    "source_members": {
+      "scripts/wm02/multisource_d4_population.py": "e3da4a65eb16f4c35ea272b1761b03eb0ee0e4a646c58de9a4e2c0e2b91a98b9",
+      "scripts/wm02/multitask_d2_population.py": "b32aa22be497d72c481f6425311e51474b169b3c78db9a7d758a0b9e22bd5f30",
+      "scripts/wm02/multitask_population_v6.py": "da83417de89fd24eb5b260f3c675f7b0fb17cb1898871501d9b526612f0dd532"
+    },
+    "independent_cpu_affinity": [
+      8,
+      9
+    ],
+    "node_local": true,
+    "compiled_population_sha256": "4a601d1ed2126e7acf6e522b10da569098bda37be0c206baf7069a47c783b746"
+  },
+  "first_execution_blocker": "GPU0 free memory remained below the inherited validated threshold",
+  "preserved_zero_effect_preflights": [
+    "two read-only input import failures before certified C20/S1000 readback",
+    "one staging overlay import failure before registration",
+    "one historical PLACE audit import failure",
+    "two DEV compiler preflight import/API errors before native effects"
+  ]
+}

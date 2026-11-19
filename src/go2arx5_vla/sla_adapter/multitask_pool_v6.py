@@ -12,17 +12,18 @@ from .resident_close_pair_v1 import shared_contract
 from .runtime_v1 import read_pin
 
 
-def attach(parent, pin):
+def attach(parent, pin, *, check=contract, training_keys=('dataset_manifest_sha256', 'compiled_population_sha256',
+                                                           'visit_map_sha256', 'lr_sha256')):
     import jax
 
     root = Path(pin['path'])
     manifest = read_pin(dict(path=str(root/'MANIFEST.private.json'),sha256=pin['sha256']))
-    contract(manifest)
+    check(manifest)
     shared_contract(parent.manifest,manifest)
-    for key in ('dataset_manifest_sha256','compiled_population_sha256','visit_map_sha256','lr_sha256'):
+    for key in training_keys:
         if parent.manifest['bindings'][key] != manifest['bindings'][key]:
             raise ValueError('EXACT_SHARED_G7_TRAINING_IDENTITY:'+key)
-    other = Provider.__new__(Provider)
+    other = type(parent).__new__(type(parent))
     other.__dict__ = dict(parent.__dict__,package=root,manifest=manifest)
     for file, key in (('STATISTICS.json','statistics_sha256'),('paligemma_tokenizer.model','tokenizer_sha256')):
         if sha(root/file) != manifest[key]:
@@ -44,14 +45,27 @@ def attach(parent, pin):
 
 class Pool:
     def __init__(self,spec):
+        from go2arx5_vla.world_model import multisource_d4_native as d4
+
+        is_d4 = spec.get('scope') == d4.SCOPE
+        arms, provider_cls, attach_options = ARMS, Provider, {}
+        if is_d4:
+            from .multisource_d4 import Provider as D4Provider, package_contract
+
+            arms, provider_cls = d4.ARMS, D4Provider
+            attach_options = dict(check=package_contract,
+                                  training_keys=('dataset_manifest_sha256', 'visit_map_sha256', 'lr_sha256'))
         packages = spec['packages']
-        if not packages or not set(packages).issubset(ARMS) or set(packages)!=set(spec['request_bindings_by_arm']):
+        if (not packages or not set(packages).issubset(arms) or set(packages)!=set(spec['request_bindings_by_arm'])
+                or (is_d4 and (set(packages) != set(arms)
+                              or any(packages[a]['sha256'] != d4.SEALED[a]['package'] for a in arms)))):
             raise ValueError('EXPLICIT_PREREGISTERED_G7_ARMS_REQUIRED')
-        first = next(arm for arm in ARMS if arm in packages)
+        first = next(arm for arm in arms if arm in packages)
         pin = packages[first]
-        parent = Provider(pin['path'],manifest_sha256=pin['sha256'],parent_params=spec['parent_params'],
-                          parent_manifest_path=spec['parent_manifest']['path'])
-        self.providers = {arm:parent if arm==first else attach(parent,package) for arm,package in packages.items()}
+        parent = provider_cls(pin['path'],manifest_sha256=pin['sha256'],parent_params=spec['parent_params'],
+                              parent_manifest_path=spec['parent_manifest']['path'])
+        self.providers = {arm:parent if arm==first else attach(parent, package, **attach_options)
+                          for arm,package in packages.items()}
         for arm, provider in self.providers.items():
             request = spec['request_bindings_by_arm'][arm]
             if (provider.manifest['bindings']['arm']!=arm or request['arm']!=arm
