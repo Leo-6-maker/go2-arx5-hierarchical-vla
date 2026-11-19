@@ -168,12 +168,13 @@ def paired_results(records):
     return results
 
 
-def audit(root, *, start=0, limit=12):
+def audit(root, *, start=0, limit=12, preserve_errors=False):
     root = Path(root)
     campaign = read(root/'EXECUTION_SPEC.json')
     if campaign['compiled_population']['sha256'] != POPULATION_SHA:
         raise ValueError('ORIGINAL_D4_COMPARISON_REQUIRED')
     records = []
+    errors = []
     if not 0 <= start < start+limit <= len(campaign['cases']) or start % 2:
         raise ValueError('D4_AUDIT_REQUIRES_A_REGISTERED_PAIR_ALIGNED_WINDOW')
     for name in campaign['cases'][start:start+limit]:
@@ -185,8 +186,16 @@ def audit(root, *, start=0, limit=12):
             break
         if case_lease['spec_sha256'] != digest(case):
             raise ValueError('D4_ORIGINAL_CLOSED_CASE_SPEC_CHANGED')
-        records.append(case_result(case, read(result)))
-    return dict(cases=records, paired=paired_results(records), planned_first_wave=12,
+        archived = read(result)
+        try:
+            records.append(case_result(case, archived))
+        except (KeyError, ValueError, OSError) as error:
+            if not preserve_errors:
+                raise
+            errors.append(dict(case=case.parent.name,native_result_sha256=digest(result),
+                native_requests=archived['physical_requests'],native_ticks=archived['actual_native_integrations'],
+                generations=archived['model_generations'],audit_error=str(error)))
+    return dict(cases=records, audit_errors=errors, paired=paired_results(records), planned_first_wave=12,
                 checked_case_window=[start,start+limit], new_generations=0, new_native_ticks=0, new_training_updates=0)
 
 
@@ -220,6 +229,52 @@ def watch_first_wave(root, spec_sha, result, deadline):
     return actual
 
 
+def watch_remaining_layouts(root, spec_sha, output, deadline):
+    """Seal each remaining layout from the original, already running panel."""
+    from go2arx5_vla.world_model.mfree_unattended_runtime_v1 import unit_state
+    from scripts.pi0292.durable import write
+
+    wrapper = root/'EXECUTION_SPEC.json'
+    if digest(wrapper) != spec_sha or (output/'RESULT.private.json').exists():
+        raise ValueError('WATCH_REQUIRES_THE_ORIGINAL_D4_SPEC_AND_NEW_OUTPUT')
+    spec = read(wrapper)
+    if spec['compiled_population']['sha256'] != POPULATION_SHA or len(spec['cases']) != 48:
+        raise ValueError('WATCH_REQUIRES_ORIGINAL_48_CASE_POPULATION')
+    result = dict(source_spec_sha256=spec_sha,new_generations=0,new_native_ticks=0,new_training_updates=0,layouts=[])
+    for begin in (12,24,36):
+        stop = begin+12
+        artifact = output/f'CASES-{begin+1:02d}-{stop:02d}.private.json'
+        if artifact.exists():
+            raise FileExistsError('DO_NOT_REPLACE_EARLIER_LAYOUT_RECEIPTS')
+        last = Path(spec['cases'][stop-1]).parent
+        status = 'OBSERVER_FINITE_EXIT'
+        while time.time() < deadline and not (output/'STOP.json').exists():
+            if ((last/'RESULT.private.json').is_file()
+                    and read(last/'control/LEASE.json')['status'] == 'CLOSED'):
+                status = 'ORIGINAL_LAYOUT_CLOSED'
+                break
+            lease = read(root/'control/LEASE.json')
+            state = unit_state('wm02-'+root.name)
+            if lease['spec_sha256'] != spec_sha:
+                raise ValueError('ORIGINAL_D4_OWNER_CHANGED_DURING_OBSERVATION')
+            if lease['status'] == 'CLOSED':
+                status = 'ORIGINAL_CAPSULE_TERMINAL'
+                break
+            if not state['pid']:
+                status = 'OWNER_EFFECT_REQUIRES_RECONCILIATION'
+                break
+            write(output/'WATCH_PROGRESS.private.json',dict(epoch=time.time(),phase='WAIT_D4_LAYOUT',
+                  case_interval=[begin,stop],watched_MainPID=state['pid'],spec_sha256=spec_sha,native_requests=0))
+            time.sleep(30)
+        recorded = audit(root,start=begin,limit=12,preserve_errors=True)
+        write(artifact,dict(recorded,phase=status,source_spec_sha256=spec_sha,observed_epoch=time.time()))
+        result['layouts'].append(dict(case_interval=[begin,stop],phase=status,sha256=digest(artifact),
+                                     verified_cases=len(recorded['cases']),audit_errors=recorded['audit_errors']))
+        if status != 'ORIGINAL_LAYOUT_CLOSED':
+            break
+    write(output/'RESULT.private.json',dict(result,observed_epoch=time.time()))
+
+
 if __name__ == '__main__':
     import argparse
 
@@ -228,12 +283,18 @@ if __name__ == '__main__':
     parser.add_argument('--start', type=int, default=0)
     parser.add_argument('--limit', type=int, default=12)
     parser.add_argument('--watch-result',type=Path)
+    parser.add_argument('--watch-remaining',type=Path)
     parser.add_argument('--spec-sha')
     parser.add_argument('--deadline',type=float)
     args = parser.parse_args()
-    if args.watch_result:
+    if args.watch_result or args.watch_remaining:
         if not args.spec_sha or not args.deadline:
             parser.error('watch mode requires --spec-sha and --deadline')
-        watch_first_wave(args.root,args.spec_sha,args.watch_result,args.deadline)
+        if args.watch_result and args.watch_remaining:
+            parser.error('select one watch mode')
+        if args.watch_result:
+            watch_first_wave(args.root,args.spec_sha,args.watch_result,args.deadline)
+        else:
+            watch_remaining_layouts(args.root,args.spec_sha,args.watch_remaining,args.deadline)
     else:
         print(json.dumps(audit(args.root,start=args.start,limit=args.limit), allow_nan=False))
