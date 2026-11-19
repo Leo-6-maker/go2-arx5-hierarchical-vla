@@ -52,9 +52,10 @@ def restore_engine(training, binding, pin):
                                                                  model['common_private_fingerprint']])):
         raise ValueError('SCALE20K_OFFLINE_RESTORED_PARENT_AND_PARAMETER_PARTITION_CHANGED')
     initialize, _ = make_adamw(**training['optimizer'])
-    tree, _, _ = scale20k_checkpoint.restore(pin, arm=training['arm'], parameters=parameters,
-        optimizer=initialize(parameters), rng=jax.random.PRNGKey(scale20k_model.INITIAL_SEED), binding=binding)
-    return graphs, tree['parameters'], frozen
+    restored = scale20k_checkpoint.restore_inference(pin, arm=training['arm'], parameters=parameters,
+        abstract_optimizer=jax.eval_shape(initialize, parameters),
+        rng=jax.random.PRNGKey(scale20k_model.INITIAL_SEED), binding=binding)
+    return graphs, restored, frozen
 
 
 def summarize(rows, domain):

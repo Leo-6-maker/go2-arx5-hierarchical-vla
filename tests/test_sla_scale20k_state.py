@@ -48,10 +48,21 @@ def test_private_moments_and_decay_and_next_update_survive_checkpoint(tmp_path):
     right = apply(restored['parameters'],restored['optimizer'],gradient,2e-6)[:2]
     for a,b in zip(jax.tree.leaves(left),jax.tree.leaves(right),strict=True):
         np.testing.assert_array_equal(a,b)
-    member = tmp_path/'ready/000000.npy'
+    from go2arx5_vla.sla_adapter.runtime_v1 import read_pin
+
+    inference_args = dict(arm=arm, parameters=params, abstract_optimizer=jax.eval_shape(init, params),
+                          rng=rng, binding=binding)
+    weights = checkpoint.restore_inference(pin, **inference_args)
+    for expected, observed in zip(jax.tree.leaves(active), jax.tree.leaves(weights), strict=True):
+        np.testing.assert_array_equal(expected, observed)
+    manifest = read_pin(dict(path=str(tmp_path/'ready/COMPLETE.json'), sha256=pin['sha256']))
+    optimizer_row = next(record for record in manifest['arrays'] if record['key'].startswith("['optimizer']"))
+    member = tmp_path/'ready'/optimizer_row['file']
     member.write_bytes(member.read_bytes()+b'changed')
     with pytest.raises(ValueError,match='ARRAY_IDENTITY_MISMATCH'):
         checkpoint.restore(pin,arm=arm,parameters=params,optimizer=optimizer,rng=rng,binding=binding)
+    with pytest.raises(ValueError,match='ARRAY_IDENTITY_MISMATCH'):
+        checkpoint.restore_inference(pin, **inference_args)
 
 
 def test_upstream_mlp_lora_members_are_active_alongside_attention_lora():

@@ -84,13 +84,9 @@ def read_complete(pin, arm, binding):
     return root,receipt
 
 
-def restore(pin, *, arm, parameters, optimizer, rng, binding):
+def verified_arrays(root, receipt, leaves):
     import jax
 
-    root, receipt = read_complete(pin, arm, binding)
-    theory = training_tree(parameters,optimizer,rng)
-    leaves,structure = jax.tree_util.tree_flatten_with_path(theory)
-    restored = []
     for index,((key,template),row) in enumerate(zip(leaves,receipt['arrays'],strict=True)):
         name = f'{index:06d}.npy'
         member = root/name
@@ -101,5 +97,28 @@ def restore(pin, *, arm, parameters, optimizer, rng, binding):
         if (row['dtype'] != str(value.dtype) or row['shape'] != list(value.shape) or value.shape != template.shape
                 or value.dtype != template.dtype or not np.isfinite(value).all()):
             raise ValueError('SCALE20K_CHECKPOINT_ARRAY_SHAPE_DTYPE_OR_FINITE_MISMATCH')
-        restored.append(jax.device_put(value))
+        yield key, value
+
+
+def restore(pin, *, arm, parameters, optimizer, rng, binding):
+    import jax
+
+    root, receipt = read_complete(pin, arm, binding)
+    theory = training_tree(parameters,optimizer,rng)
+    leaves,structure = jax.tree_util.tree_flatten_with_path(theory)
+    restored = [jax.device_put(value) for _,value in verified_arrays(root, receipt, leaves)]
     return jax.tree_util.tree_unflatten(structure,restored),receipt['step'],receipt['cursors']
+
+
+def restore_inference(pin, *, arm, parameters, abstract_optimizer, rng, binding):
+    """Verify the whole state and put only trained parameter arrays on the inference device."""
+    import jax
+
+    root, receipt = read_complete(pin, arm, binding)
+    theory = training_tree(parameters, abstract_optimizer, rng)
+    leaves, _ = jax.tree_util.tree_flatten_with_path(theory)
+    _, structure = jax.tree_util.tree_flatten(parameters)
+    parameter_key = jax.tree_util.DictKey('parameters')
+    restored = [jax.device_put(value) for key, value in verified_arrays(root, receipt, leaves)
+                if key[0] == parameter_key]
+    return jax.tree_util.tree_unflatten(structure, restored)
