@@ -14,7 +14,7 @@ STATE_CHANNELS = dict(zip(DOMAINS,(7,14,8),strict=True))
 ACTION_CHANNELS = dict(zip(DOMAINS,(7,14,7),strict=True))
 
 
-def host_batch(dataset, tokenizer, domain, positions, indices):
+def host_batch(dataset, tokenizer, domain, positions, indices, *, training=True):
     """Tokenize actual state dimensions and keep raw domain action semantics."""
     rows,token_ids,token_masks = [],[],[]
     for cursor,index in zip(positions,indices,strict=True):
@@ -24,7 +24,7 @@ def host_batch(dataset, tokenizer, domain, positions, indices):
                 or np.any(state[STATE_CHANNELS[domain]:]) or np.any(item['actions'][...,ACTION_CHANNELS[domain]:])
                 or not np.isfinite(state).all() or not np.isfinite(item['actions']).all()):
             raise ValueError('SCALE20K_TYPED_NATIVE_DOMAIN_STATE_AND_ACTION_REQUIRED:'+domain)
-        dropped = batch_v2.drop_state(int(cursor)+DOMAINS.index(domain)*1000000)
+        dropped = training and batch_v2.drop_state(int(cursor)+DOMAINS.index(domain)*1000000)
         state_tokens = None if dropped else state[:STATE_CHANNELS[domain]]
         tokens,mask = tokenizer.delegate.tokenize(item['prompt'],state_tokens,use_discrete_state_format=True)
         rows.append(item)

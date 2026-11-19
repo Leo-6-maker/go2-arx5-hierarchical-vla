@@ -27,13 +27,13 @@ class RobodojoDataset(SourceDataset):
         return path
 
 
-def readers(plan, resize_with_pad):
+def readers(plan, resize_with_pad, *, source_split='TRAIN'):
     if set(plan) != set(DOMAINS):
         raise ValueError('SCALE20K_REQUIRES_REAL_DATA_IN_ALL_THREE_DOMAINS')
     target,rd,libero = (plan[domain] for domain in DOMAINS)
     d4 = ScaleTargetDataset(target, resize_with_pad=resize_with_pad)
-    source = RobodojoDataset(rd['root'],rd['manifest'],split='TRAIN',resize_with_pad=resize_with_pad)
-    library = LiberoDataset(libero['root'],libero['manifest'],split='TRAIN',resize_with_pad=resize_with_pad)
+    source = RobodojoDataset(rd['root'],rd['manifest'],split=source_split,resize_with_pad=resize_with_pad)
+    library = LiberoDataset(libero['root'],libero['manifest'],split=source_split,resize_with_pad=resize_with_pad)
     return dict(zip(DOMAINS,(d4,source,library),strict=True))
 
 
