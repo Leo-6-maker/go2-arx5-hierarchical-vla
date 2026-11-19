@@ -77,7 +77,8 @@ def load(manifest, params):
                 raise ValueError('SCALE20K_MISSING_DENSE_PARENT_WEIGHT:'+str(path))
             seed = int.from_bytes(hashlib.sha256('/'.join(path).encode()).digest()[:4],'little')
             key = jax.random.fold_in(jax.random.PRNGKey(INITIAL_SEED),seed)
-            leaf = jnp.zeros(reference.shape,jnp.float32) if path[-1]=='lora_b' else jax.random.normal(key,reference.shape)*.01
+            leaf = (jnp.zeros(reference.shape,jnp.float32) if path[-1].endswith('lora_b')
+                    else jax.random.normal(key,reference.shape)*.01)
         jax.block_until_ready(leaf)
         initialized[path] = leaf
         group = next(group for group,paths in partition.items() if path in paths)

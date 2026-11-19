@@ -22,6 +22,12 @@ PRIVATE_ROOTS = frozenset(('action_in_proj', 'action_out_proj', 'time_mlp_in', '
 LORA_NAMES = frozenset(('lora_a', 'lora_b'))
 
 
+def is_lora_parameter(name):
+    # Attention layers use separate fields. The upstream MLP stores both
+    # factors alongside the original einsum under compound field names.
+    return name in LORA_NAMES or name.endswith(('_lora_a', '_lora_b'))
+
+
 def learning_rates():
     peak, final, warmup, total = 2e-5, 2e-6, 500, 20000
     return np.asarray([peak*k/warmup if k <= warmup else
@@ -85,11 +91,11 @@ def parameter_partition(paths):
         elif path[:2] == ('PaliGemma','llm'):
             if any(part.endswith('_1') for part in path[2:]):
                 group = 'action_expert'
-            elif any(part in LORA_NAMES for part in path[2:]):
+            elif is_lora_parameter(path[-1]):
                 group = 'vlm_lora'
         groups[group].append(path)
     if (not all(groups.values()) or {p[0] for p in groups['domain_template']} != PRIVATE_ROOTS
-            or not any(not any(part in LORA_NAMES for part in p) for p in groups['action_expert'])):
+            or not any(not is_lora_parameter(p[-1]) for p in groups['action_expert'])):
         raise ValueError('SCALE20K_REQUIRES_FROZEN_VISION_VLM_LORA_DENSE_EXPERT_AND_PRIVATE_IO')
     return {group:tuple(sorted(members)) for group,members in groups.items()}
 

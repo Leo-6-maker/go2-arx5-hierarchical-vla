@@ -4,7 +4,7 @@ import pytest
 
 from go2arx5_vla.sla_adapter import scale20k_checkpoint as checkpoint
 from go2arx5_vla.sla_adapter.scale20k_contract import (
-    DOMAINS, PLAN, RECIPE, bank_sha256, cursors, learning_rates, make_adamw, visits,
+    DOMAINS, PLAN, PRIVATE_ROOTS, RECIPE, bank_sha256, cursors, learning_rates, make_adamw, parameter_partition, visits,
 )
 
 
@@ -52,3 +52,16 @@ def test_private_moments_and_decay_and_next_update_survive_checkpoint(tmp_path):
     member.write_bytes(member.read_bytes()+b'changed')
     with pytest.raises(ValueError,match='ARRAY_IDENTITY_MISMATCH'):
         checkpoint.restore(pin,arm=arm,parameters=params,optimizer=optimizer,rng=rng,binding=binding)
+
+
+def test_upstream_mlp_lora_members_are_active_alongside_attention_lora():
+    llm = ('PaliGemma','llm','layers')
+    mlp = [(*llm,'mlp',name) for name in ('gating_einsum_lora_a','gating_einsum_lora_b','linear_lora_a','linear_lora_b')]
+    attention = (*llm,'attn','q_einsum','lora_b')
+    full_expert = (*llm,'mlp_1','linear')
+    frozen = [(*llm,'mlp','linear'),('PaliGemma','img','kernel')]
+    private = [(root,'kernel') for root in PRIVATE_ROOTS]
+    groups = parameter_partition([*frozen,*mlp,attention,full_expert,*private])
+    assert set(groups['vlm_lora']) == {*mlp,attention}
+    assert groups['action_expert'] == (full_expert,)
+    assert set(groups['frozen']) == set(frozen)
