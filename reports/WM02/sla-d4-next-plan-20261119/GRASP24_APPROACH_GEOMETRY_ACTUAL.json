@@ -1,0 +1,1417 @@
+{
+  "spec_sha256": "b66e80aadd046bd13cb8bbc3c56a0df5725bd3c20af586c86b8f4885b232357a",
+  "source_sha": "b405fb173c91a32a1ad5b86aa9e87418cd0d0d56",
+  "cases": [
+    {
+      "case": "D5_GRASP24-F1-1-HOLD-red-D4-B",
+      "arm": "D4-B",
+      "instruction": "HOLD-red",
+      "target": "red",
+      "distractor": "blue",
+      "task_packets": 30001,
+      "terminal_tick": 35703,
+      "closest": {
+        "red_pad_midpoint_m": {
+          "tick": 12767,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.10729709285149407,
+              "tcp_m": 0.10604990314379079
+            },
+            "blue": {
+              "pad_midpoint_m": 0.06977379156815479,
+              "tcp_m": 0.06994158028143455
+            }
+          },
+          "gripper_open_fraction": 0.954368281542848
+        },
+        "red_tcp_m": {
+          "tick": 12769,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.10731269222069784,
+              "tcp_m": 0.10602949891553598
+            },
+            "blue": {
+              "pad_midpoint_m": 0.06939503377080111,
+              "tcp_m": 0.06956133061490305
+            }
+          },
+          "gripper_open_fraction": 0.954382780410528
+        },
+        "blue_pad_midpoint_m": {
+          "tick": 19650,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.10887894401957335,
+              "tcp_m": 0.10754612344758775
+            },
+            "blue": {
+              "pad_midpoint_m": 0.06459471302439244,
+              "tcp_m": 0.06461782544850311
+            }
+          },
+          "gripper_open_fraction": 0.9544806709140286
+        },
+        "blue_tcp_m": {
+          "tick": 19650,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.10887894401957335,
+              "tcp_m": 0.10754612344758775
+            },
+            "blue": {
+              "pad_midpoint_m": 0.06459471302439244,
+              "tcp_m": 0.06461782544850311
+            }
+          },
+          "gripper_open_fraction": 0.9544806709140286
+        }
+      },
+      "robot_contact_packets": {
+        "red": 0,
+        "blue": 0
+      },
+      "first_robot_contacts": {},
+      "terminal_geometry": {
+        "tick": 35703,
+        "objects_m": {
+          "red": {
+            "pad_midpoint_m": 0.11686495269769293,
+            "tcp_m": 0.1155081401553737
+          },
+          "blue": {
+            "pad_midpoint_m": 0.07406953613517067,
+            "tcp_m": 0.07402057478567509
+          }
+        },
+        "gripper_open_fraction": 0.9544593778456609
+      },
+      "terminal_contact_STOP": false,
+      "case_spec_sha256": "6a7e1ce258d7caa9f598394e1b387efb19b961a706b980fa421f6d362cd10b5b",
+      "scene_sha256": "8b20548a20225d48010e613b9e9fb25bf5c8d4aa772376380d07c643af86f213",
+      "result_sha256": "fb6e93913ecb9d84d039cc8a936381a821a7f4575aaf93e37091a35527c72a21"
+    },
+    {
+      "case": "D5_GRASP24-F1-1-HOLD-red-D5-W",
+      "arm": "D5-W",
+      "instruction": "HOLD-red",
+      "target": "red",
+      "distractor": "blue",
+      "task_packets": 21304,
+      "terminal_tick": 27006,
+      "closest": {
+        "red_pad_midpoint_m": {
+          "tick": 26637,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.09646001751288012,
+              "tcp_m": 0.09491267580765303
+            },
+            "blue": {
+              "pad_midpoint_m": 0.041125242522694574,
+              "tcp_m": 0.04118190030311138
+            }
+          },
+          "gripper_open_fraction": 0.9544794058618299
+        },
+        "red_tcp_m": {
+          "tick": 26637,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.09646001751288012,
+              "tcp_m": 0.09491267580765303
+            },
+            "blue": {
+              "pad_midpoint_m": 0.041125242522694574,
+              "tcp_m": 0.04118190030311138
+            }
+          },
+          "gripper_open_fraction": 0.9544794058618299
+        },
+        "blue_pad_midpoint_m": {
+          "tick": 27006,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.09654066615211561,
+              "tcp_m": 0.09515816467097851
+            },
+            "blue": {
+              "pad_midpoint_m": 0.03719457138431873,
+              "tcp_m": 0.03718638547604914
+            }
+          },
+          "gripper_open_fraction": 0.9544610203884922
+        },
+        "blue_tcp_m": {
+          "tick": 27006,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.09654066615211561,
+              "tcp_m": 0.09515816467097851
+            },
+            "blue": {
+              "pad_midpoint_m": 0.03719457138431873,
+              "tcp_m": 0.03718638547604914
+            }
+          },
+          "gripper_open_fraction": 0.9544610203884922
+        }
+      },
+      "robot_contact_packets": {
+        "red": 0,
+        "blue": 1
+      },
+      "first_robot_contacts": {
+        "blue": {
+          "tick": 27006,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.09654066615211561,
+              "tcp_m": 0.09515816467097851
+            },
+            "blue": {
+              "pad_midpoint_m": 0.03719457138431873,
+              "tcp_m": 0.03718638547604914
+            }
+          },
+          "gripper_open_fraction": 0.9544610203884922
+        }
+      },
+      "terminal_geometry": {
+        "tick": 27006,
+        "objects_m": {
+          "red": {
+            "pad_midpoint_m": 0.09654066615211561,
+            "tcp_m": 0.09515816467097851
+          },
+          "blue": {
+            "pad_midpoint_m": 0.03719457138431873,
+            "tcp_m": 0.03718638547604914
+          }
+        },
+        "gripper_open_fraction": 0.9544610203884922
+      },
+      "terminal_contact_STOP": true,
+      "case_spec_sha256": "6b75a42d47ec423ecb7b1c5f04568f4a6c7dec0edfee23628895f65970a3a4fe",
+      "scene_sha256": "8b20548a20225d48010e613b9e9fb25bf5c8d4aa772376380d07c643af86f213",
+      "result_sha256": "633f92942b00deac0f7dbdabc1648befac3a26a26d115e6ce7dcf1b8e2409d98"
+    },
+    {
+      "case": "D5_GRASP24-F1-1-HOLD-red-D5-T",
+      "arm": "D5-T",
+      "instruction": "HOLD-red",
+      "target": "red",
+      "distractor": "blue",
+      "task_packets": 25782,
+      "terminal_tick": 31484,
+      "closest": {
+        "red_pad_midpoint_m": {
+          "tick": 8596,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.10494612279179796,
+              "tcp_m": 0.10381545445394302
+            },
+            "blue": {
+              "pad_midpoint_m": 0.07424685790190567,
+              "tcp_m": 0.07455389424078494
+            }
+          },
+          "gripper_open_fraction": 0.954434162510635
+        },
+        "red_tcp_m": {
+          "tick": 8597,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.10494894423252227,
+              "tcp_m": 0.1038154341128388
+            },
+            "blue": {
+              "pad_midpoint_m": 0.07405587094108028,
+              "tcp_m": 0.07436070478359012
+            }
+          },
+          "gripper_open_fraction": 0.9544287528985482
+        },
+        "blue_pad_midpoint_m": {
+          "tick": 20340,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.1247636469243177,
+              "tcp_m": 0.12338999837929795
+            },
+            "blue": {
+              "pad_midpoint_m": 0.0640359094649851,
+              "tcp_m": 0.06355507777342802
+            }
+          },
+          "gripper_open_fraction": 0.9543534342341534
+        },
+        "blue_tcp_m": {
+          "tick": 20340,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.1247636469243177,
+              "tcp_m": 0.12338999837929795
+            },
+            "blue": {
+              "pad_midpoint_m": 0.0640359094649851,
+              "tcp_m": 0.06355507777342802
+            }
+          },
+          "gripper_open_fraction": 0.9543534342341534
+        }
+      },
+      "robot_contact_packets": {
+        "red": 0,
+        "blue": 1
+      },
+      "first_robot_contacts": {
+        "blue": {
+          "tick": 31484,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.1398213264761022,
+              "tcp_m": 0.13846841171908442
+            },
+            "blue": {
+              "pad_midpoint_m": 0.07107214005857478,
+              "tcp_m": 0.07030154275524036
+            }
+          },
+          "gripper_open_fraction": 0.9544034746240598
+        }
+      },
+      "terminal_geometry": {
+        "tick": 31484,
+        "objects_m": {
+          "red": {
+            "pad_midpoint_m": 0.1398213264761022,
+            "tcp_m": 0.13846841171908442
+          },
+          "blue": {
+            "pad_midpoint_m": 0.07107214005857478,
+            "tcp_m": 0.07030154275524036
+          }
+        },
+        "gripper_open_fraction": 0.9544034746240598
+      },
+      "terminal_contact_STOP": true,
+      "case_spec_sha256": "bd3ef13b5a479ef2ff32645901546de02618508b8f9dd932e33ac947b286d607",
+      "scene_sha256": "8b20548a20225d48010e613b9e9fb25bf5c8d4aa772376380d07c643af86f213",
+      "result_sha256": "1fd3a0b954384429f1d066e316db1b0f51e600e5406f2045a0a5c589618283f2"
+    },
+    {
+      "case": "D5_GRASP24-F1-1-HOLD-blue-D5-W",
+      "arm": "D5-W",
+      "instruction": "HOLD-blue",
+      "target": "blue",
+      "distractor": "red",
+      "task_packets": 26105,
+      "terminal_tick": 31807,
+      "closest": {
+        "blue_pad_midpoint_m": {
+          "tick": 15861,
+          "objects_m": {
+            "blue": {
+              "pad_midpoint_m": 0.058286767930557704,
+              "tcp_m": 0.05769495915606597
+            },
+            "red": {
+              "pad_midpoint_m": 0.12631211496090988,
+              "tcp_m": 0.12508997948226439
+            }
+          },
+          "gripper_open_fraction": 0.9543842847939915
+        },
+        "blue_tcp_m": {
+          "tick": 15862,
+          "objects_m": {
+            "blue": {
+              "pad_midpoint_m": 0.05829434464680436,
+              "tcp_m": 0.05769462370146939
+            },
+            "red": {
+              "pad_midpoint_m": 0.1264421897659656,
+              "tcp_m": 0.12521061434538028
+            }
+          },
+          "gripper_open_fraction": 0.9543955479318019
+        },
+        "red_pad_midpoint_m": {
+          "tick": 7853,
+          "objects_m": {
+            "blue": {
+              "pad_midpoint_m": 0.08326713044317424,
+              "tcp_m": 0.08342557248721164
+            },
+            "red": {
+              "pad_midpoint_m": 0.11580016881552539,
+              "tcp_m": 0.11471291433940776
+            }
+          },
+          "gripper_open_fraction": 0.9545114199145701
+        },
+        "red_tcp_m": {
+          "tick": 7853,
+          "objects_m": {
+            "blue": {
+              "pad_midpoint_m": 0.08326713044317424,
+              "tcp_m": 0.08342557248721164
+            },
+            "red": {
+              "pad_midpoint_m": 0.11580016881552539,
+              "tcp_m": 0.11471291433940776
+            }
+          },
+          "gripper_open_fraction": 0.9545114199145701
+        }
+      },
+      "robot_contact_packets": {
+        "blue": 0,
+        "red": 0
+      },
+      "first_robot_contacts": {},
+      "terminal_geometry": {
+        "tick": 31807,
+        "objects_m": {
+          "blue": {
+            "pad_midpoint_m": 0.17306365789094064,
+            "tcp_m": 0.17167554240798918
+          },
+          "red": {
+            "pad_midpoint_m": 0.2416107352320038,
+            "tcp_m": 0.23979239639855052
+          }
+        },
+        "gripper_open_fraction": 0.9547706910293767
+      },
+      "terminal_contact_STOP": true,
+      "case_spec_sha256": "f4e808665353d9c449aa8aa45ef28a4915706c88b8a892124e07bd01eda24a3d",
+      "scene_sha256": "8b20548a20225d48010e613b9e9fb25bf5c8d4aa772376380d07c643af86f213",
+      "result_sha256": "67219019679bc572871b986cb9c7d7136859e6b0e0266a1c204938f5addebd0e"
+    },
+    {
+      "case": "D5_GRASP24-F1-1-HOLD-blue-D5-T",
+      "arm": "D5-T",
+      "instruction": "HOLD-blue",
+      "target": "blue",
+      "distractor": "red",
+      "task_packets": 30001,
+      "terminal_tick": 35703,
+      "closest": {
+        "blue_pad_midpoint_m": {
+          "tick": 15847,
+          "objects_m": {
+            "blue": {
+              "pad_midpoint_m": 0.05729699560485383,
+              "tcp_m": 0.05671545876375721
+            },
+            "red": {
+              "pad_midpoint_m": 0.12379065759273189,
+              "tcp_m": 0.12245701913558678
+            }
+          },
+          "gripper_open_fraction": 0.9543949428835766
+        },
+        "blue_tcp_m": {
+          "tick": 15847,
+          "objects_m": {
+            "blue": {
+              "pad_midpoint_m": 0.05729699560485383,
+              "tcp_m": 0.05671545876375721
+            },
+            "red": {
+              "pad_midpoint_m": 0.12379065759273189,
+              "tcp_m": 0.12245701913558678
+            }
+          },
+          "gripper_open_fraction": 0.9543949428835766
+        },
+        "red_pad_midpoint_m": {
+          "tick": 7847,
+          "objects_m": {
+            "blue": {
+              "pad_midpoint_m": 0.0844574578397621,
+              "tcp_m": 0.08470398503566816
+            },
+            "red": {
+              "pad_midpoint_m": 0.11334266782579462,
+              "tcp_m": 0.11227337074289716
+            }
+          },
+          "gripper_open_fraction": 0.9544094351395754
+        },
+        "red_tcp_m": {
+          "tick": 7847,
+          "objects_m": {
+            "blue": {
+              "pad_midpoint_m": 0.0844574578397621,
+              "tcp_m": 0.08470398503566816
+            },
+            "red": {
+              "pad_midpoint_m": 0.11334266782579462,
+              "tcp_m": 0.11227337074289716
+            }
+          },
+          "gripper_open_fraction": 0.9544094351395754
+        }
+      },
+      "robot_contact_packets": {
+        "blue": 0,
+        "red": 0
+      },
+      "first_robot_contacts": {},
+      "terminal_geometry": {
+        "tick": 35703,
+        "objects_m": {
+          "blue": {
+            "pad_midpoint_m": 0.135676001163834,
+            "tcp_m": 0.1343163586579272
+          },
+          "red": {
+            "pad_midpoint_m": 0.2136214694413339,
+            "tcp_m": 0.21203618860055734
+          }
+        },
+        "gripper_open_fraction": 0.9542676253598442
+      },
+      "terminal_contact_STOP": false,
+      "case_spec_sha256": "2e907961fce36a40cf5618c651c4a15427d11fe1075bd1f9fe63744360ab5102",
+      "scene_sha256": "8b20548a20225d48010e613b9e9fb25bf5c8d4aa772376380d07c643af86f213",
+      "result_sha256": "e6955f982e1d8c392e15c184ff30c2c8df8f6a103996bb6557abf9d007541016"
+    },
+    {
+      "case": "D5_GRASP24-F1-1-HOLD-blue-D4-B",
+      "arm": "D4-B",
+      "instruction": "HOLD-blue",
+      "target": "blue",
+      "distractor": "red",
+      "task_packets": 30001,
+      "terminal_tick": 35703,
+      "closest": {
+        "blue_pad_midpoint_m": {
+          "tick": 31766,
+          "objects_m": {
+            "blue": {
+              "pad_midpoint_m": 0.07821105697736634,
+              "tcp_m": 0.07752100897470666
+            },
+            "red": {
+              "pad_midpoint_m": 0.14577668086049497,
+              "tcp_m": 0.14453730029797493
+            }
+          },
+          "gripper_open_fraction": 0.9544167039242878
+        },
+        "blue_tcp_m": {
+          "tick": 31767,
+          "objects_m": {
+            "blue": {
+              "pad_midpoint_m": 0.07821828060168765,
+              "tcp_m": 0.0775170443615022
+            },
+            "red": {
+              "pad_midpoint_m": 0.14594666537184547,
+              "tcp_m": 0.14469429438648207
+            }
+          },
+          "gripper_open_fraction": 0.9543995584575603
+        },
+        "red_pad_midpoint_m": {
+          "tick": 7099,
+          "objects_m": {
+            "blue": {
+              "pad_midpoint_m": 0.09121014663985137,
+              "tcp_m": 0.09151830081931532
+            },
+            "red": {
+              "pad_midpoint_m": 0.11517042488226693,
+              "tcp_m": 0.114185549471003
+            }
+          },
+          "gripper_open_fraction": 0.9544987011850475
+        },
+        "red_tcp_m": {
+          "tick": 7099,
+          "objects_m": {
+            "blue": {
+              "pad_midpoint_m": 0.09121014663985137,
+              "tcp_m": 0.09151830081931532
+            },
+            "red": {
+              "pad_midpoint_m": 0.11517042488226693,
+              "tcp_m": 0.114185549471003
+            }
+          },
+          "gripper_open_fraction": 0.9544987011850475
+        }
+      },
+      "robot_contact_packets": {
+        "blue": 0,
+        "red": 0
+      },
+      "first_robot_contacts": {},
+      "terminal_geometry": {
+        "tick": 35703,
+        "objects_m": {
+          "blue": {
+            "pad_midpoint_m": 0.10510977707266535,
+            "tcp_m": 0.1042147228818364
+          },
+          "red": {
+            "pad_midpoint_m": 0.16989524555621416,
+            "tcp_m": 0.1683902011851923
+          }
+        },
+        "gripper_open_fraction": 0.954454326740883
+      },
+      "terminal_contact_STOP": false,
+      "case_spec_sha256": "0d908702242098fed25b6060c76d84ac4526e906bbcdf2d844a3006cda45c436",
+      "scene_sha256": "8b20548a20225d48010e613b9e9fb25bf5c8d4aa772376380d07c643af86f213",
+      "result_sha256": "48c7e11e69c8a4eccac9c3e3c841aca29bac39cad95078e9a4ca0cd4bb620b31"
+    },
+    {
+      "case": "D5_GRASP24-F2-1-HOLD-red-D5-T",
+      "arm": "D5-T",
+      "instruction": "HOLD-red",
+      "target": "red",
+      "distractor": "blue",
+      "task_packets": 18255,
+      "terminal_tick": 23957,
+      "closest": {
+        "red_pad_midpoint_m": {
+          "tick": 23957,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.042239144115758506,
+              "tcp_m": 0.04248064884443797
+            },
+            "blue": {
+              "pad_midpoint_m": 0.08619601582984417,
+              "tcp_m": 0.0862986693233907
+            }
+          },
+          "gripper_open_fraction": 0.9544936453632015
+        },
+        "red_tcp_m": {
+          "tick": 23957,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.042239144115758506,
+              "tcp_m": 0.04248064884443797
+            },
+            "blue": {
+              "pad_midpoint_m": 0.08619601582984417,
+              "tcp_m": 0.0862986693233907
+            }
+          },
+          "gripper_open_fraction": 0.9544936453632015
+        },
+        "blue_pad_midpoint_m": {
+          "tick": 20532,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.06255020221635453,
+              "tcp_m": 0.0630003724888324
+            },
+            "blue": {
+              "pad_midpoint_m": 0.0747626627597785,
+              "tcp_m": 0.07514643507192031
+            }
+          },
+          "gripper_open_fraction": 0.9542966848260742
+        },
+        "blue_tcp_m": {
+          "tick": 20532,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.06255020221635453,
+              "tcp_m": 0.0630003724888324
+            },
+            "blue": {
+              "pad_midpoint_m": 0.0747626627597785,
+              "tcp_m": 0.07514643507192031
+            }
+          },
+          "gripper_open_fraction": 0.9542966848260742
+        }
+      },
+      "robot_contact_packets": {
+        "red": 0,
+        "blue": 1
+      },
+      "first_robot_contacts": {
+        "blue": {
+          "tick": 23957,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.042239144115758506,
+              "tcp_m": 0.04248064884443797
+            },
+            "blue": {
+              "pad_midpoint_m": 0.08619601582984417,
+              "tcp_m": 0.0862986693233907
+            }
+          },
+          "gripper_open_fraction": 0.9544936453632015
+        }
+      },
+      "terminal_geometry": {
+        "tick": 23957,
+        "objects_m": {
+          "red": {
+            "pad_midpoint_m": 0.042239144115758506,
+            "tcp_m": 0.04248064884443797
+          },
+          "blue": {
+            "pad_midpoint_m": 0.08619601582984417,
+            "tcp_m": 0.0862986693233907
+          }
+        },
+        "gripper_open_fraction": 0.9544936453632015
+      },
+      "terminal_contact_STOP": true,
+      "case_spec_sha256": "33fffccc88cedb6b91c2109e7137ede3f3625541d6ea57a19e05a173da9977df",
+      "scene_sha256": "b1e5179682a16240cac9dd5f11ba0963b754eb7bf179d6dd819a2f5a9f1b02f3",
+      "result_sha256": "200ec6c201f334f823220d6ecccde7de012464494bf59ae01744aebfa8079f13"
+    },
+    {
+      "case": "D5_GRASP24-F2-1-HOLD-red-D4-B",
+      "arm": "D4-B",
+      "instruction": "HOLD-red",
+      "target": "red",
+      "distractor": "blue",
+      "task_packets": 21501,
+      "terminal_tick": 27203,
+      "closest": {
+        "red_pad_midpoint_m": {
+          "tick": 27203,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.05887521238445505,
+              "tcp_m": 0.060322273157742634
+            },
+            "blue": {
+              "pad_midpoint_m": 0.10515311946556319,
+              "tcp_m": 0.10596494410799465
+            }
+          },
+          "gripper_open_fraction": 0.9154231693577007
+        },
+        "red_tcp_m": {
+          "tick": 27203,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.05887521238445505,
+              "tcp_m": 0.060322273157742634
+            },
+            "blue": {
+              "pad_midpoint_m": 0.10515311946556319,
+              "tcp_m": 0.10596494410799465
+            }
+          },
+          "gripper_open_fraction": 0.9154231693577007
+        },
+        "blue_pad_midpoint_m": {
+          "tick": 21025,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.07627789731518048,
+              "tcp_m": 0.07747269012852923
+            },
+            "blue": {
+              "pad_midpoint_m": 0.09544252539063289,
+              "tcp_m": 0.0964016756941759
+            }
+          },
+          "gripper_open_fraction": 0.9546604914802199
+        },
+        "blue_tcp_m": {
+          "tick": 21025,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.07627789731518048,
+              "tcp_m": 0.07747269012852923
+            },
+            "blue": {
+              "pad_midpoint_m": 0.09544252539063289,
+              "tcp_m": 0.0964016756941759
+            }
+          },
+          "gripper_open_fraction": 0.9546604914802199
+        }
+      },
+      "robot_contact_packets": {
+        "red": 893,
+        "blue": 0
+      },
+      "first_robot_contacts": {
+        "red": {
+          "tick": 21148,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.06517393050324351,
+              "tcp_m": 0.06640368111549895
+            },
+            "blue": {
+              "pad_midpoint_m": 0.10584723226048275,
+              "tcp_m": 0.10660738879982791
+            }
+          },
+          "gripper_open_fraction": 0.9536287508685204
+        }
+      },
+      "terminal_geometry": {
+        "tick": 27203,
+        "objects_m": {
+          "red": {
+            "pad_midpoint_m": 0.05887521238445505,
+            "tcp_m": 0.060322273157742634
+          },
+          "blue": {
+            "pad_midpoint_m": 0.10515311946556319,
+            "tcp_m": 0.10596494410799465
+          }
+        },
+        "gripper_open_fraction": 0.9154231693577007
+      },
+      "terminal_contact_STOP": false,
+      "case_spec_sha256": "82c103309e08ec2d2b0a2b9347f6b40e5489d6a5620306a2f28e7fd18e1490cd",
+      "scene_sha256": "b1e5179682a16240cac9dd5f11ba0963b754eb7bf179d6dd819a2f5a9f1b02f3",
+      "result_sha256": "52fc513c2eb2675fd8236722210a0c82b529880ea128bea240e6df32dab84ce6"
+    },
+    {
+      "case": "D5_GRASP24-F2-1-HOLD-red-D5-W",
+      "arm": "D5-W",
+      "instruction": "HOLD-red",
+      "target": "red",
+      "distractor": "blue",
+      "task_packets": 18303,
+      "terminal_tick": 24005,
+      "closest": {
+        "red_pad_midpoint_m": {
+          "tick": 24005,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.0557049021749252,
+              "tcp_m": 0.05616116248342804
+            },
+            "blue": {
+              "pad_midpoint_m": 0.09127147234189743,
+              "tcp_m": 0.09153833944216476
+            }
+          },
+          "gripper_open_fraction": 0.9351546928699626
+        },
+        "red_tcp_m": {
+          "tick": 24005,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.0557049021749252,
+              "tcp_m": 0.05616116248342804
+            },
+            "blue": {
+              "pad_midpoint_m": 0.09127147234189743,
+              "tcp_m": 0.09153833944216476
+            }
+          },
+          "gripper_open_fraction": 0.9351546928699626
+        },
+        "blue_pad_midpoint_m": {
+          "tick": 20695,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.05910517096131935,
+              "tcp_m": 0.060177392901865225
+            },
+            "blue": {
+              "pad_midpoint_m": 0.08560901774475878,
+              "tcp_m": 0.08633942281451253
+            }
+          },
+          "gripper_open_fraction": 0.9545339197816481
+        },
+        "blue_tcp_m": {
+          "tick": 20695,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.05910517096131935,
+              "tcp_m": 0.060177392901865225
+            },
+            "blue": {
+              "pad_midpoint_m": 0.08560901774475878,
+              "tcp_m": 0.08633942281451253
+            }
+          },
+          "gripper_open_fraction": 0.9545339197816481
+        }
+      },
+      "robot_contact_packets": {
+        "red": 3313,
+        "blue": 1
+      },
+      "first_robot_contacts": {
+        "red": {
+          "tick": 20686,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.05912151695811439,
+              "tcp_m": 0.060193698783768165
+            },
+            "blue": {
+              "pad_midpoint_m": 0.08561380697473565,
+              "tcp_m": 0.08634437318786291
+            }
+          },
+          "gripper_open_fraction": 0.954474084761242
+        },
+        "blue": {
+          "tick": 24005,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.0557049021749252,
+              "tcp_m": 0.05616116248342804
+            },
+            "blue": {
+              "pad_midpoint_m": 0.09127147234189743,
+              "tcp_m": 0.09153833944216476
+            }
+          },
+          "gripper_open_fraction": 0.9351546928699626
+        }
+      },
+      "terminal_geometry": {
+        "tick": 24005,
+        "objects_m": {
+          "red": {
+            "pad_midpoint_m": 0.0557049021749252,
+            "tcp_m": 0.05616116248342804
+          },
+          "blue": {
+            "pad_midpoint_m": 0.09127147234189743,
+            "tcp_m": 0.09153833944216476
+          }
+        },
+        "gripper_open_fraction": 0.9351546928699626
+      },
+      "terminal_contact_STOP": true,
+      "case_spec_sha256": "246d50cb47f0366d6773f2a7e78be60642f1d234ae879c95c3e9138d099955db",
+      "scene_sha256": "b1e5179682a16240cac9dd5f11ba0963b754eb7bf179d6dd819a2f5a9f1b02f3",
+      "result_sha256": "c84aa6ba31fd2c53569eccc1ec353914edeff7e81bb5a6bd1436c1d4068abe5b"
+    },
+    {
+      "case": "D5_GRASP24-F2-1-HOLD-blue-D4-B",
+      "arm": "D4-B",
+      "instruction": "HOLD-blue",
+      "target": "blue",
+      "distractor": "red",
+      "task_packets": 30001,
+      "terminal_tick": 35703,
+      "closest": {
+        "blue_pad_midpoint_m": {
+          "tick": 29267,
+          "objects_m": {
+            "blue": {
+              "pad_midpoint_m": 0.07207767916108064,
+              "tcp_m": 0.07118644928157684
+            },
+            "red": {
+              "pad_midpoint_m": 0.09133271740747101,
+              "tcp_m": 0.09064006362321315
+            }
+          },
+          "gripper_open_fraction": 0.9545441875794621
+        },
+        "blue_tcp_m": {
+          "tick": 29267,
+          "objects_m": {
+            "blue": {
+              "pad_midpoint_m": 0.07207767916108064,
+              "tcp_m": 0.07118644928157684
+            },
+            "red": {
+              "pad_midpoint_m": 0.09133271740747101,
+              "tcp_m": 0.09064006362321315
+            }
+          },
+          "gripper_open_fraction": 0.9545441875794621
+        },
+        "red_pad_midpoint_m": {
+          "tick": 28967,
+          "objects_m": {
+            "blue": {
+              "pad_midpoint_m": 0.07652125052608859,
+              "tcp_m": 0.07596821880941029
+            },
+            "red": {
+              "pad_midpoint_m": 0.07940212719555999,
+              "tcp_m": 0.0788790976548475
+            }
+          },
+          "gripper_open_fraction": 0.9541923164209934
+        },
+        "red_tcp_m": {
+          "tick": 28968,
+          "objects_m": {
+            "blue": {
+              "pad_midpoint_m": 0.07651379461315429,
+              "tcp_m": 0.07594763206268093
+            },
+            "red": {
+              "pad_midpoint_m": 0.07940797273276683,
+              "tcp_m": 0.07887238861091238
+            }
+          },
+          "gripper_open_fraction": 0.9542093853161147
+        }
+      },
+      "robot_contact_packets": {
+        "blue": 0,
+        "red": 0
+      },
+      "first_robot_contacts": {},
+      "terminal_geometry": {
+        "tick": 35703,
+        "objects_m": {
+          "blue": {
+            "pad_midpoint_m": 0.08893597036397087,
+            "tcp_m": 0.08808837710600169
+          },
+          "red": {
+            "pad_midpoint_m": 0.10801332887334764,
+            "tcp_m": 0.10731905324391307
+          }
+        },
+        "gripper_open_fraction": 0.9544346922875183
+      },
+      "terminal_contact_STOP": false,
+      "case_spec_sha256": "96ccbc23b3ab3c1bae3701b9ed5249bc6a933498e935371b854b96080559f599",
+      "scene_sha256": "b1e5179682a16240cac9dd5f11ba0963b754eb7bf179d6dd819a2f5a9f1b02f3",
+      "result_sha256": "f5ff42c1d24639ea23dc009b6e5a2e1a5e847e1c9d69428706aa807fe0799ca2"
+    },
+    {
+      "case": "D5_GRASP24-F2-1-HOLD-blue-D5-W",
+      "arm": "D5-W",
+      "instruction": "HOLD-blue",
+      "target": "blue",
+      "distractor": "red",
+      "task_packets": 30001,
+      "terminal_tick": 35703,
+      "closest": {
+        "blue_pad_midpoint_m": {
+          "tick": 15854,
+          "objects_m": {
+            "blue": {
+              "pad_midpoint_m": 0.06861220032300683,
+              "tcp_m": 0.06902862822164244
+            },
+            "red": {
+              "pad_midpoint_m": 0.08480213897671547,
+              "tcp_m": 0.08512207222495835
+            }
+          },
+          "gripper_open_fraction": 0.954466443105771
+        },
+        "blue_tcp_m": {
+          "tick": 15854,
+          "objects_m": {
+            "blue": {
+              "pad_midpoint_m": 0.06861220032300683,
+              "tcp_m": 0.06902862822164244
+            },
+            "red": {
+              "pad_midpoint_m": 0.08480213897671547,
+              "tcp_m": 0.08512207222495835
+            }
+          },
+          "gripper_open_fraction": 0.954466443105771
+        },
+        "red_pad_midpoint_m": {
+          "tick": 20443,
+          "objects_m": {
+            "blue": {
+              "pad_midpoint_m": 0.07429636116333785,
+              "tcp_m": 0.07421248380585392
+            },
+            "red": {
+              "pad_midpoint_m": 0.048090148598438735,
+              "tcp_m": 0.04794254310878044
+            }
+          },
+          "gripper_open_fraction": 0.9545153298575378
+        },
+        "red_tcp_m": {
+          "tick": 20444,
+          "objects_m": {
+            "blue": {
+              "pad_midpoint_m": 0.07427341890501987,
+              "tcp_m": 0.07418393211708174
+            },
+            "red": {
+              "pad_midpoint_m": 0.048096365650464115,
+              "tcp_m": 0.04793985425837508
+            }
+          },
+          "gripper_open_fraction": 0.9545165535118517
+        }
+      },
+      "robot_contact_packets": {
+        "blue": 0,
+        "red": 0
+      },
+      "first_robot_contacts": {},
+      "terminal_geometry": {
+        "tick": 35703,
+        "objects_m": {
+          "blue": {
+            "pad_midpoint_m": 0.18139191576891614,
+            "tcp_m": 0.18044720580896803
+          },
+          "red": {
+            "pad_midpoint_m": 0.12387291404661482,
+            "tcp_m": 0.12244039092505977
+          }
+        },
+        "gripper_open_fraction": 0.9544483703449872
+      },
+      "terminal_contact_STOP": false,
+      "case_spec_sha256": "76f0c35d81f44f3f1c30ee1a4307c85f0a6d4ea3593a38f21c021249f41bebed",
+      "scene_sha256": "b1e5179682a16240cac9dd5f11ba0963b754eb7bf179d6dd819a2f5a9f1b02f3",
+      "result_sha256": "dde493768ddef8fb083bab11759885463abbfed053ef3aef80b2a640870060b0"
+    },
+    {
+      "case": "D5_GRASP24-F2-1-HOLD-blue-D5-T",
+      "arm": "D5-T",
+      "instruction": "HOLD-blue",
+      "target": "blue",
+      "distractor": "red",
+      "task_packets": 24046,
+      "terminal_tick": 29748,
+      "closest": {
+        "blue_pad_midpoint_m": {
+          "tick": 20443,
+          "objects_m": {
+            "blue": {
+              "pad_midpoint_m": 0.06514902535632404,
+              "tcp_m": 0.06480528054090418
+            },
+            "red": {
+              "pad_midpoint_m": 0.08494686621852135,
+              "tcp_m": 0.08467153229019786
+            }
+          },
+          "gripper_open_fraction": 0.9541761252023951
+        },
+        "blue_tcp_m": {
+          "tick": 20443,
+          "objects_m": {
+            "blue": {
+              "pad_midpoint_m": 0.06514902535632404,
+              "tcp_m": 0.06480528054090418
+            },
+            "red": {
+              "pad_midpoint_m": 0.08494686621852135,
+              "tcp_m": 0.08467153229019786
+            }
+          },
+          "gripper_open_fraction": 0.9541761252023951
+        },
+        "red_pad_midpoint_m": {
+          "tick": 27355,
+          "objects_m": {
+            "blue": {
+              "pad_midpoint_m": 0.06934456019277593,
+              "tcp_m": 0.0688032318149686
+            },
+            "red": {
+              "pad_midpoint_m": 0.06864718981391199,
+              "tcp_m": 0.06810223771348478
+            }
+          },
+          "gripper_open_fraction": 0.9540931520410545
+        },
+        "red_tcp_m": {
+          "tick": 27355,
+          "objects_m": {
+            "blue": {
+              "pad_midpoint_m": 0.06934456019277593,
+              "tcp_m": 0.0688032318149686
+            },
+            "red": {
+              "pad_midpoint_m": 0.06864718981391199,
+              "tcp_m": 0.06810223771348478
+            }
+          },
+          "gripper_open_fraction": 0.9540931520410545
+        }
+      },
+      "robot_contact_packets": {
+        "blue": 0,
+        "red": 1
+      },
+      "first_robot_contacts": {
+        "red": {
+          "tick": 29748,
+          "objects_m": {
+            "blue": {
+              "pad_midpoint_m": 0.08104720019969258,
+              "tcp_m": 0.07998593301181556
+            },
+            "red": {
+              "pad_midpoint_m": 0.07218368161196805,
+              "tcp_m": 0.07100054313533936
+            }
+          },
+          "gripper_open_fraction": 0.9543577479651973
+        }
+      },
+      "terminal_geometry": {
+        "tick": 29748,
+        "objects_m": {
+          "blue": {
+            "pad_midpoint_m": 0.08104720019969258,
+            "tcp_m": 0.07998593301181556
+          },
+          "red": {
+            "pad_midpoint_m": 0.07218368161196805,
+            "tcp_m": 0.07100054313533936
+          }
+        },
+        "gripper_open_fraction": 0.9543577479651973
+      },
+      "terminal_contact_STOP": true,
+      "case_spec_sha256": "bb1244eb18731c851b7dac6e3fea84dfb87abc9c87f9c55c6bb36c366d531c1d",
+      "scene_sha256": "b1e5179682a16240cac9dd5f11ba0963b754eb7bf179d6dd819a2f5a9f1b02f3",
+      "result_sha256": "47a823c50df77891b4699551ddd2ff1c1637e29b03837aaee468d53d0bc4951f"
+    },
+    {
+      "case": "D5_GRASP24-F1-2-HOLD-red-D5-W",
+      "arm": "D5-W",
+      "instruction": "HOLD-red",
+      "target": "red",
+      "distractor": "blue",
+      "task_packets": 18278,
+      "terminal_tick": 23980,
+      "closest": {
+        "red_pad_midpoint_m": {
+          "tick": 21712,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.09878546183750282,
+              "tcp_m": 0.09737830479743244
+            },
+            "blue": {
+              "pad_midpoint_m": 0.057799037884395894,
+              "tcp_m": 0.058017206316238815
+            }
+          },
+          "gripper_open_fraction": 0.9544918438687224
+        },
+        "red_tcp_m": {
+          "tick": 21711,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.09878621021902244,
+              "tcp_m": 0.09737650304035203
+            },
+            "blue": {
+              "pad_midpoint_m": 0.05780499682585521,
+              "tcp_m": 0.05802370358500804
+            }
+          },
+          "gripper_open_fraction": 0.9544849233953523
+        },
+        "blue_pad_midpoint_m": {
+          "tick": 23980,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.10036546263056173,
+              "tcp_m": 0.09890337539382997
+            },
+            "blue": {
+              "pad_midpoint_m": 0.05153883951400091,
+              "tcp_m": 0.051617659406473955
+            }
+          },
+          "gripper_open_fraction": 0.9544959314308501
+        },
+        "blue_tcp_m": {
+          "tick": 23980,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.10036546263056173,
+              "tcp_m": 0.09890337539382997
+            },
+            "blue": {
+              "pad_midpoint_m": 0.05153883951400091,
+              "tcp_m": 0.051617659406473955
+            }
+          },
+          "gripper_open_fraction": 0.9544959314308501
+        }
+      },
+      "robot_contact_packets": {
+        "red": 0,
+        "blue": 1
+      },
+      "first_robot_contacts": {
+        "blue": {
+          "tick": 23980,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.10036546263056173,
+              "tcp_m": 0.09890337539382997
+            },
+            "blue": {
+              "pad_midpoint_m": 0.05153883951400091,
+              "tcp_m": 0.051617659406473955
+            }
+          },
+          "gripper_open_fraction": 0.9544959314308501
+        }
+      },
+      "terminal_geometry": {
+        "tick": 23980,
+        "objects_m": {
+          "red": {
+            "pad_midpoint_m": 0.10036546263056173,
+            "tcp_m": 0.09890337539382997
+          },
+          "blue": {
+            "pad_midpoint_m": 0.05153883951400091,
+            "tcp_m": 0.051617659406473955
+          }
+        },
+        "gripper_open_fraction": 0.9544959314308501
+      },
+      "terminal_contact_STOP": true,
+      "case_spec_sha256": "6ed265ca7e6996015b7063b45d962b18e6b3ac97fecece411be7d82605d8efdf",
+      "scene_sha256": "865f746d42d05ede81869ec83999213e7e1091e9619966e7444165314817fa27",
+      "result_sha256": "822425e42d31bb16fb1224a38a1cc78cd3306bef0e5742c7733b60b84ae4fffb"
+    },
+    {
+      "case": "D5_GRASP24-F1-2-HOLD-red-D5-T",
+      "arm": "D5-T",
+      "instruction": "HOLD-red",
+      "target": "red",
+      "distractor": "blue",
+      "task_packets": 20901,
+      "terminal_tick": 26603,
+      "closest": {
+        "red_pad_midpoint_m": {
+          "tick": 9593,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.10145434342683061,
+              "tcp_m": 0.10056492886939619
+            },
+            "blue": {
+              "pad_midpoint_m": 0.08771405358769734,
+              "tcp_m": 0.0882255258791684
+            }
+          },
+          "gripper_open_fraction": 0.9544211490435444
+        },
+        "red_tcp_m": {
+          "tick": 9594,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.10145699917738152,
+              "tcp_m": 0.10056125303723752
+            },
+            "blue": {
+              "pad_midpoint_m": 0.0875762825887215,
+              "tcp_m": 0.08808908761446904
+            }
+          },
+          "gripper_open_fraction": 0.9544295132467258
+        },
+        "blue_pad_midpoint_m": {
+          "tick": 21777,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.11740762277800822,
+              "tcp_m": 0.11604290896868653
+            },
+            "blue": {
+              "pad_midpoint_m": 0.05833195497886325,
+              "tcp_m": 0.05796996953183253
+            }
+          },
+          "gripper_open_fraction": 0.9542919981098961
+        },
+        "blue_tcp_m": {
+          "tick": 21777,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.11740762277800822,
+              "tcp_m": 0.11604290896868653
+            },
+            "blue": {
+              "pad_midpoint_m": 0.05833195497886325,
+              "tcp_m": 0.05796996953183253
+            }
+          },
+          "gripper_open_fraction": 0.9542919981098961
+        }
+      },
+      "robot_contact_packets": {
+        "red": 0,
+        "blue": 1
+      },
+      "first_robot_contacts": {
+        "blue": {
+          "tick": 26603,
+          "objects_m": {
+            "red": {
+              "pad_midpoint_m": 0.11951865270337618,
+              "tcp_m": 0.11811681361597291
+            },
+            "blue": {
+              "pad_midpoint_m": 0.06154540604140132,
+              "tcp_m": 0.06115311998717528
+            }
+          },
+          "gripper_open_fraction": 0.9546594149407058
+        }
+      },
+      "terminal_geometry": {
+        "tick": 26603,
+        "objects_m": {
+          "red": {
+            "pad_midpoint_m": 0.11951865270337618,
+            "tcp_m": 0.11811681361597291
+          },
+          "blue": {
+            "pad_midpoint_m": 0.06154540604140132,
+            "tcp_m": 0.06115311998717528
+          }
+        },
+        "gripper_open_fraction": 0.9546594149407058
+      },
+      "terminal_contact_STOP": true,
+      "case_spec_sha256": "b66126ab7cd7a0cb7b3c706141d72acd10f9c5ee8a5d7081e0590056bf1cdcbd",
+      "scene_sha256": "865f746d42d05ede81869ec83999213e7e1091e9619966e7444165314817fa27",
+      "result_sha256": "e9ebba14f57c0fad26a1c8dd35a0130db6d1303fd360fb1b7c2cc73ee33f015b"
+    }
+  ],
+  "read_only": true,
+  "new_integrations": 0,
+  "new_model_generations": 0,
+  "new_optimizer_updates": 0,
+  "observed_wall_s": 95.32619666401297,
+  "summary": {
+    "cases": 14,
+    "task_packets": 344480,
+    "target_center_to_pad_minimum_m": {
+      "min": 0.042239144115758506,
+      "median": 0.07034493974204373,
+      "max": 0.10729709285149407
+    },
+    "cases_with_target_hand_contact": 2,
+    "cases_with_distractor_hand_contact": 7,
+    "distractor_closer_at_first_distractor_contact": 5
+  }
+}
