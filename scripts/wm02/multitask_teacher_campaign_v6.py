@@ -37,10 +37,10 @@ def wait_interfaces(spec):
     raise TimeoutError('FINITE_TEACHER_INTERFACE_DEPENDENCY_WINDOW')
 
 
-def interface_records(interface, world_lock):
+def interface_records(interface, world_lock, *, identity=(SCOPE, PLAN)):
     prior = Path(interface['registered_root'])
     terminal = read(prior/'RESULT.private.json')
-    if (interface['scope'] != SCOPE or interface['plan_commit'] != PLAN or
+    if ((interface['scope'],interface['plan_commit']) != identity or
             interface['mobile_world_lock'] != world_lock or len(interface['cases']) != 2
             or terminal['exit_code'] or terminal['unresolved_case_launches']
             or terminal['new_verified_native_requests'] != 2):

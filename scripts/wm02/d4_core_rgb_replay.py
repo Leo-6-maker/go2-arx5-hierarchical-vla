@@ -14,6 +14,36 @@ from go2arx5_vla.sla_adapter.runtime_v1 import read_pin
 from scripts.pi0292.durable import OwnerLock, write
 
 
+def registered_providers(spec):
+    mode = spec.get('stage', 'D4')
+    if mode == 'D4':
+        arms, provider = ARMS, Provider
+    elif mode == 'D5':
+        from go2arx5_vla.sla_adapter.grasp_supervision_d5 import ARMS as arms, Provider as provider
+    elif mode == 'J':
+        from go2arx5_vla.sla_adapter.joint_source_d4 import ARMS as arms, Provider as provider
+    else:
+        raise ValueError('UNKNOWN_CORE_MATCHED_RGB_PANEL')
+    if set(arms) != set(spec['arms']):
+        raise ValueError('EXACT_TWO_MATCHED_CORE_RGB_ENDPOINTS_REQUIRED')
+    return mode, arms, provider
+
+
+def original_decision(state, old, new, context, previous):
+    from go2arx5_vla.sla_adapter.dense_g7_v6 import label_margin_report
+    from go2arx5_vla.world_model.mfree_query_diagnostics_v2 import analyze
+    from scripts.sla.export_mfree_c20_v1 import _reference
+
+    decisions = []
+    for h40 in (old, new):
+        envelope = analyze(h40, state, np.asarray(context['policy_from_world']), _reference(context))
+        first = envelope['first_temporal_exceedance']
+        reason = tuple(first[k] for k in ('k','path','channel')) if first is not None else None
+        speed = label_margin_report(h40, previous)['original_execution_speed_exceeded']
+        decisions.append((envelope['original_full_H40_pass'], reason, speed))
+    return decisions[0] == decisions[1]
+
+
 def replay(spec, progress):
     import jax
     from openpi_client.image_tools import resize_with_pad
@@ -25,12 +55,16 @@ def replay(spec, progress):
     dataset = C20G7Dataset(spec['dataset'], time_audit=spec['time_codec_audit'],
                            resize_with_pad=resize_with_pad, max_cache_bytes=128*1024**2)
     root = Path(spec['root'])
-    for arm in ARMS:
+    mode, arms, provider_class = registered_providers(spec)
+    contexts = read_pin(spec['portable_evaluation']) if mode != 'D4' else None
+    if contexts is not None and contexts['C20_manifest_sha256'] != dataset.manifest_sha:
+        raise ValueError('EXACT_FROZEN_C20_RGB_EVALUATION_CONTEXT_REQUIRED')
+    for arm in arms:
         endpoint = spec['arms'][arm]
         cases = read_pin(endpoint['cases'])
         if len(cases) != 16 or len({(row['index'], row['noise']) for row in cases}) != 16:
             raise ValueError('FIXED_UNIQUE_ENDPOINT_RGB16_REQUIRED')
-        provider = Provider(endpoint['package']['path'], manifest_sha256=endpoint['package']['sha256'],
+        provider = provider_class(endpoint['package']['path'], manifest_sha256=endpoint['package']['sha256'],
                             parent_params=spec['parent_params'], parent_manifest_path=spec['parent_manifest_path'])
         for restored in cases:
             if time.time() >= spec['deadline_epoch']-30 or (root/'STOP.json').exists():
@@ -63,6 +97,12 @@ def replay(spec, progress):
                               normalized_sha256=hashlib.sha256(normalized.tobytes()).hexdigest(),
                               physical_sha256=hashlib.sha256(physical.tobytes()).hexdigest(),
                               grip_speed=result['G7_gripper_speed'])
+                if contexts is not None:
+                    context = contexts['windows'][str(index)]
+                    if (context['episode'], context['anchor']) != (episode['id'], anchor):
+                        raise ValueError('EVALUATION_COMPILER_CONTEXT_DOES_NOT_MATCH_ORIGINAL_RGB')
+                    merged['same_original_compiler_and_seam_decision'] = original_decision(
+                        state, old['physical_H40'], physical, context, restored['previous_reference'])
             with (root/'predictions'/f'{arm}-{index:04d}-{noise}.npz').open('xb') as handle:
                 np.savez(handle, normalized=normalized, physical_H40=physical)
             progress['rows'].append(merged)
@@ -70,6 +110,15 @@ def replay(spec, progress):
             progress['GPU_memory'] = jax.devices()[0].memory_stats()
             progress['epoch'] = time.time()
             write(root/'PROGRESS.private.json', progress)
+        if contexts is not None:
+            rows = [row for row in progress['rows'] if row['arm'] == arm]
+            write(root/f'{arm}-CORE_RGB16.private.json', dict(arm=arm, source_sha=spec['source_sha'],
+                package_sha256=endpoint['package']['sha256'], actual_generations=len(rows),
+                original_H40_seam_decisions_match=all(row['same_original_compiler_and_seam_decision'] for row in rows),
+                normalized_bit_exact=sum(row['normalized_exact'] for row in rows),
+                physical_bit_exact=sum(row['physical_exact'] for row in rows),
+                max_physical_abs=max(row['max_physical_abs'] for row in rows),native_requests=0,native_integrations=0,
+                rows=rows))
         del provider
         jax.clear_caches()
 
@@ -90,8 +139,12 @@ def main():
         lock = OwnerLock(spec['gpu_owner_lock'])
         replay(spec, progress)
         exact = sum(row['normalized_exact'] and row['physical_exact'] for row in progress['rows'])
-        result = dict(progress, both_bit_exact=exact, passed=exact == 32,
-                      status='CORE_RGB32_MEASURED', exit_code=int(exact != 32))
+        normalized_given = sum(row['normalized_exact'] for row in progress['rows'])
+        same_guards = sum(row.get('same_original_compiler_and_seam_decision', False) for row in progress['rows'])
+        passed = exact == 32 if spec.get('stage', 'D4') == 'D4' else normalized_given == same_guards == 32
+        result = dict(progress, both_bit_exact=exact, normalized_bit_exact=normalized_given,
+                      original_H40_and_seam_decisions_identical=same_guards, passed=passed,
+                      status='CORE_RGB32_MEASURED', exit_code=int(not passed))
     except Exception:
         result = dict(progress, passed=False, status='CORE_RGB32_STOPPED',
                       exit_code=1, first_failure=traceback.format_exc())

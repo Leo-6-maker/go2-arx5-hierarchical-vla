@@ -9,6 +9,7 @@ from scripts.pi0292.durable import write
 from go2arx5_vla.world_model.mfree_unattended_runtime_v1 import dirs, unit_state
 from go2arx5_vla.world_model.multitask_scope_v6 import PLAN, SCOPE, read_pin, validate
 from go2arx5_vla.world_model import multisource_d4_native as d4
+from go2arx5_vla.world_model import sla_followup_native_v1 as followup
 from go2arx5_vla.world_model.multitask_score_v6 import Task
 from go2arx5_vla.world_model.storage import digest
 from .sim_only_campaign_v51 import fatal_control_violation
@@ -135,8 +136,11 @@ def case_card(spec, template, item, panel_pin):
         arm = item['arm']
         case.update(arm=arm,packages=spec['packages'],G7_package=spec['packages'][arm],
             ordinary_RGB_restore=spec['ordinary_RGB_restores'][arm],resident_server_spec=spec['resident_server_spec'])
-        if spec['scope'] == d4.SCOPE:
+        if spec['scope'] in (d4.SCOPE, followup.SCOPE):
             case['d4_endpoint'] = spec['endpoints'][arm]
+        if spec['scope'] == followup.SCOPE:
+            case['core_RGB_restore'] = spec['core_RGB_restores'].get(arm)
+            case['source_RGB_restore'] = spec.get('source_RGB_restores', {}).get(arm)
     return folder, case
 
 
@@ -171,7 +175,7 @@ def bind_gpu(spec, child, folder):
     env = {key:value for key,value in template['native_environment'].items() if key!='PYTHONPATH'}
     child['native_environment'].update(env,TMPDIR=str(folder/'tmp'),XDG_CACHE_HOME=str(folder/'cache'),
                                        JAX_COMPILATION_CACHE_DIR=str(folder/'cache'))
-    if spec['scope'] == d4.SCOPE:
+    if spec['scope'] in (d4.SCOPE, followup.SCOPE):
         child['native_environment']['PYTHONPATH'] = ':'.join((
             spec['source_root'], spec['source_root']+'/src', template['native_environment']['PYTHONPATH']))
     base['allocation']['campaign_root'] = spec['registered_root']
@@ -188,8 +192,9 @@ def student_worker(spec, panel):
     folder = root/'worker'
     dataset = read_pin(spec['multitask_dataset'])
     is_d4 = spec['scope'] == d4.SCOPE
+    is_followup = spec['scope'] == followup.SCOPE
     if dataset['state'] != 'committed' or (
-            dataset['split'] != 'TRAIN' if is_d4
+            dataset['split'] != 'TRAIN' if is_d4 or is_followup
             else dataset['compiled_population_sha256'] != spec['compiled_population']['sha256']):
         raise ValueError('M_WORKER_REQUIRES_COMMITTED_MATCHED_TARGET_POPULATION')
     manifests = {arm:read_pin(dict(path=str(Path(package['path'])/'MANIFEST.private.json'),sha256=package['sha256']))
@@ -200,7 +205,8 @@ def student_worker(spec, panel):
                 or manifest['statistics_sha256']!=stats or manifest['bindings']['arm']!=arm):
             raise ValueError('M_WORKER_REQUIRES_SHARED_SEALED_TARGET_DATA_AND_STATISTICS')
     requests = sum(120 if Task.parse(row['instruction']).operation=='HOLD' else 180 for row in panel)
-    if (is_d4 and requests != d4.GENERATION_CAP) or not 0 < requests <= 34560:
+    if ((is_d4 and requests != d4.GENERATION_CAP)
+            or (is_followup and requests != followup.CAPS[spec['evaluation_stage']][2]) or not 0 < requests <= 34560):
         raise ValueError('M_WORKER_REQUIRES_FINITE_REGISTERED_STUDENT_QUERY_CAP')
     dirs(folder)
     ipc = folder/'ipc'
@@ -216,7 +222,7 @@ def student_worker(spec, panel):
         plan_commit=spec['plan_commit'],compiled_population_sha256=spec['compiled_population']['sha256'])
         for arm, manifest in manifests.items()}
     bind_gpu(spec,child,folder)
-    if is_d4:
+    if is_d4 or is_followup:
         parent = child['parent_manifest']
         if parent['sha256'] != d4.PARENT_SHA or digest(parent['path']) != d4.PARENT_SHA:
             raise ValueError('D4_CORE_PARENT_BYTES_MUST_MATCH_THE_SEALED_VANDA_PARENT')
@@ -236,7 +242,8 @@ def prepare_cards(spec, *, teacher_stop=None):
     root = Path(spec['registered_root'])
     now = time.time()
     identity = (spec['scope'], spec['plan_commit'])
-    allowed = {(SCOPE, PLAN)} if teacher_stop is not None else {(SCOPE, PLAN), (d4.SCOPE, d4.PLAN)}
+    allowed = {(SCOPE, PLAN)} if teacher_stop is not None else {
+        (SCOPE, PLAN), (d4.SCOPE, d4.PLAN), (followup.SCOPE, followup.PLAN)}
     if (not now+1980 < spec['deadline_epoch'] <= min(now+43200,spec['campaign_deadline_epoch'],spec['allocation_deadline_epoch']-60)
             or identity not in allowed
             or (root/'EXECUTION_SPEC.json').exists() or (root/'control'/'LEASE.json').exists()
@@ -249,7 +256,10 @@ def prepare_cards(spec, *, teacher_stop=None):
     if (unit['pid'] or unit['cgroup_pids'] or lease['status']!='CLOSED'
             or lease['spec_sha256']!=spec['interface_predecessor']['sha256']):
         raise ValueError('M_INTERFACE_OWNER_MUST_HAVE_REACHED_COLD_TERMINAL')
-    interface_records(interface,spec['mobile_world_lock'])
+    if spec['scope'] == followup.SCOPE:
+        interface_records(interface,spec['mobile_world_lock'],identity=(d4.E0_SCOPE,d4.E0_PLAN))
+    else:
+        interface_records(interface,spec['mobile_world_lock'])
     templates = {case['mobile_condition']['family']:case for case in map(read,interface['cases'])}
     population = read_pin(spec['compiled_population'])
     if teacher_stop is not None:

@@ -12,7 +12,10 @@ def main():
     e0 = (spec['plan_commit'] == 'cf9d1acbf72e96b1bd158322ff8cbaf8fe28fabb'
           and spec['scope'] == 'SLA_D4_CORE_NATIVE_INTERFACES'
           and operation in ('--case', '--multitask-interface'))
-    if not (d4 or e0) and (spec['plan_commit']!='ae3d3c0dceade437b0104a150cd0402fef650052'or spec['scope']not in('SLA_SOURCE_NATIVE_SHARED_V6','SLA_V6_TARGET_NATIVE','SLA_V6_MULTITASK_NATIVE')):
+    followup = (spec['plan_commit'] == 'cf9d1acbf72e96b1bd158322ff8cbaf8fe28fabb'
+                and spec['scope'] == 'SLA_D416_GRASP_AND_JOINT_NATIVE'
+                and operation in ('--case', '--worker', '--multitask-student-panel'))
+    if not (d4 or e0 or followup) and (spec['plan_commit']!='ae3d3c0dceade437b0104a150cd0402fef650052'or spec['scope']not in('SLA_SOURCE_NATIVE_SHARED_V6','SLA_V6_TARGET_NATIVE','SLA_V6_MULTITASK_NATIVE')):
         raise PermissionError('FIXED_V6_PLAN_AND_EXPLICIT_NEW_SCOPE_REQUIRED')
     if Path(__file__).resolve()!=source/'scripts/wm02/v6_bootstrap.py':raise PermissionError('EXACT_NEW_V6_BOOTSTRAP')
     for name,pin in spec['source_files'].items():
