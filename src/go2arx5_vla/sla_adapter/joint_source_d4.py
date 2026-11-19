@@ -5,6 +5,22 @@ import time
 
 import numpy as np
 
+from .fixed500_contract import (
+    J_PLAN as PLAN,
+    J_RECIPE as RECIPE,
+    J_SCHEMA as SCHEMA,
+    J_ARMS as ARMS,
+    J_B_PACKAGE as B_PACKAGE,
+    J_B_CHECKPOINT as B_CHECKPOINT,
+    J_SOURCE_CHECKPOINT as SOURCE_CHECKPOINT,
+    J_SOURCE_MANIFEST as SOURCE_MANIFEST,
+    J_SOURCE_BANK as SOURCE_BANK,
+    J_SOURCE_STATS as SOURCE_STATS,
+    J_SOURCE_SEED as SOURCE_SEED,
+    J_SOURCE_BATCH as SOURCE_BATCH,
+    J_SOURCE_WEIGHT as SOURCE_WEIGHT,
+    joint_package_contract as package_contract,
+)
 from . import batch_v2, multisource_d4, source_batch_v6
 from .checkpoint_v1 import sha
 from .config_v1 import SEED, trainable
@@ -16,19 +32,6 @@ from .runtime_v1 import read_pin
 from .source_native_v6 import SourceDataset
 from .source_training_v6 import RECIPE as S1000_RECIPE
 
-PLAN = 'cf9d1acbf72e96b1bd158322ff8cbaf8fe28fabb'
-RECIPE = 'SLA_J_C20_B500_ROBODOJO_H50_MATCHED_500'
-SCHEMA = 'SLA_J_C20_G7_RGB_PACKAGE_V1'
-ARMS = ('J0', 'J1')
-B_PACKAGE = 'db2f4c31165dd442b712f286e8589ee2f86ff91f968fdcef1cd7e12d8f74e290'
-B_CHECKPOINT = '13f70f1f4e7d9f42e535ebced0e3a0540dfbc12c13bdbf0795d9dcc2ecceb793'
-SOURCE_CHECKPOINT = 'c08e919b5151ccafdfd5b427e02710f1a8e9f9189ca227314f72e5ec0296ab6d'
-SOURCE_MANIFEST = '7954a6637564ad39a88f3e173c47687d66c39c50bbaccd9a2ad5f1a361667ab5'
-SOURCE_BANK = 'a23fb4e46f86c5ea6f1d17748b913bcdcd5565cc1d36c2c04f5508a047b396af'
-SOURCE_STATS = 'a94e1567bb002621d5841150a8e677e38fa6d02b51af22e4ab6f301317ebd521'
-SOURCE_SEED = 2026111907
-SOURCE_BATCH = 8
-SOURCE_WEIGHT = .25
 
 
 def source_dropout(cursor):
@@ -295,19 +298,6 @@ class Engine(multisource_d4.TransferEngine):
                 or any(original[key] != initial[key] for key in fields)):
             raise ValueError('J0_J1_FRESH_ADAM_RNG_AND_ALL_MODEL_BYTES_MUST_MATCH')
         initial['matched_J0_state_array_count'] = len(control['arrays'])
-
-
-def package_contract(value):
-    multisource_d4.package_contract(value, schema=SCHEMA, recipe=RECIPE, arms=ARMS, source_arm=None)
-    b = value['bindings']
-    batch = SOURCE_BATCH if b['arm'] == 'J1' else 0
-    if (b['goal_plan_sha'] != PLAN or b['B500_package_sha256'] != B_PACKAGE
-            or b['B500_checkpoint_sha256'] != B_CHECKPOINT or b['S1000_checkpoint_sha256'] != SOURCE_CHECKPOINT
-            or b['joint_source_batch'] != batch or b['joint_source_weight'] != (SOURCE_WEIGHT if batch else 0.)
-            or b['joint_source_rng_seed'] != SOURCE_SEED or b['joint_source_MANIFEST_sha256'] != SOURCE_MANIFEST
-            or b['joint_source_statistics_sha256'] != SOURCE_STATS
-            or b['joint_source_visit_bank_sha256'] != SOURCE_BANK or len(b['joint_source_frozen_leaves']) != 8):
-        raise ValueError('FIXED_J_ENDPOINT_CONTRACT_REQUIRED')
 
 
 def export(package, checkpoint, *, engine):

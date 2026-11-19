@@ -5,6 +5,7 @@ from pathlib import Path
 
 import numpy as np
 
+from .fixed500_contract import C20_MANIFEST, C20_STATISTICS
 from .checkpoint_v1 import sha
 from .codec_v1 import Quantiles
 from .config_v1 import SEED
@@ -16,8 +17,6 @@ from .mixed_visits_v4 import Catalog
 from .runtime_v1 import read_pin
 from go2arx5_vla.world_model.multitask_score_v6 import INSTRUCTIONS
 
-C20_MANIFEST = '4bcc5ffcd8920d874599a54cca73792c50a49ea6013d65ca7826817a9f80d7de'
-C20_STATISTICS = 'f28d50e6eeea09b332d4bd159eca4333bbe23b185f95f1d336d45311e364ab3e'
 SCHEMA = 'SLA_V6_G7_TARGET_TRAIN_V1'
 
 

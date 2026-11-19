@@ -4,17 +4,20 @@ from pathlib import Path
 
 import numpy as np
 
+from .fixed500_contract import (
+    D5_PLAN as PLAN,
+    D5_RECIPE as RECIPE,
+    D5_SCHEMA as SCHEMA,
+    D5_ARMS as ARMS,
+    D5_STEP_ZERO as STEP_ZERO,
+    d5_package_contract as package_contract,
+)
 from . import batch_v2, dense_g7_v6, multisource_d4
 from .checkpoint_v1 import restore
 from .provider_multitask_v6 import export_payload
 from .runtime_v1 import read_pin
 
-PLAN = 'cf9d1acbf72e96b1bd158322ff8cbaf8fe28fabb'
-RECIPE = 'SLA_D5_FROM_HISTORICAL_B_STEP_ZERO_G7'
-SCHEMA = 'SLA_D5_C20_G7_RGB_PACKAGE_V1'
-ARMS = ('D5-W', 'D5-T')
 HISTORICAL_INITIAL = '515e5200a2e756e7ddcf7e415c3f8d6177485ec897d6b345ec3f10b5751975e3'
-STEP_ZERO = 'f9134574a0bf357d64852fc6d626eafb2e90d4de5b068d7d59354aa0969f0eaa'
 VISIT_BANK = 'a151bfca90511a5fee70398aa50616472f989cbf41cdd899ca93d569a24040af'
 DROPOUT = '84f34962c986e6eb046547940acdd49e0ef44b102ac00a844faa870cba765a7c'
 
@@ -88,14 +91,6 @@ class Engine(multisource_d4.TransferEngine):
         width, delta = width_losses(.002+.040*sigmoid(latent), target_width, previous_width, xp=xp)
         return original + width + self.delta_weight*delta, dict(detail, physical_width_loss=width,
                                                                 physical_delta_loss=delta)
-
-
-def package_contract(manifest):
-    multisource_d4.package_contract(manifest, schema=SCHEMA, recipe=RECIPE, arms=ARMS, source_arm=None)
-    binding = manifest['bindings']
-    if (binding['goal_plan_sha'] != PLAN or binding['historical_B_step_zero_sha256'] != STEP_ZERO
-            or binding['physical_width_lambda'] != 1. or binding['physical_delta_lambda'] != (binding['arm'] == ARMS[1])):
-        raise ValueError('D5_ENDPOINT_REQUIRES_THE_PREDECLARED_HISTORICAL_START_AND_LOSS')
 
 
 def export(package, checkpoint, *, engine):

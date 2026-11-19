@@ -17,15 +17,17 @@ CAPS = {GRASP:(24, 856872, 2880), CONFIRM:(32, 1142496, 3840), JOINT:(48, 219374
 
 
 def manifest_contract(manifest):
-    from go2arx5_vla.sla_adapter import grasp_supervision_d5, joint_source_d4, multisource_d4
+    from go2arx5_vla.sla_adapter.fixed500_contract import (
+        d4_package_contract, d5_package_contract, joint_package_contract,
+    )
 
     arm = manifest['bindings']['arm']
     if arm == CONTROL:
-        multisource_d4.package_contract(manifest)
+        d4_package_contract(manifest)
     elif arm in CANDIDATES:
-        grasp_supervision_d5.package_contract(manifest)
+        d5_package_contract(manifest)
     elif arm in JOINT_ARMS:
-        joint_source_d4.package_contract(manifest)
+        joint_package_contract(manifest)
     else:
         raise ValueError('PREREGISTERED_D416_G7_PACKAGE_REQUIRED')
 

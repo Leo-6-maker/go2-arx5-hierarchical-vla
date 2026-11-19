@@ -316,7 +316,7 @@ def run(path,spec):
     root = Path(spec['registered_root'])
     try:
         interfaces,endpoints = preflight(spec)
-    except (KeyError, FileNotFoundError, ValueError, PermissionError) as error:
+    except (KeyError, FileNotFoundError, ImportError, ValueError, PermissionError) as error:
         paths = [*spec['cases'], spec['resident_server_spec']['path']]
         for pinned in paths:
             file = Path(pinned)
