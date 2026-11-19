@@ -65,3 +65,34 @@ def test_upstream_mlp_lora_members_are_active_alongside_attention_lora():
     assert set(groups['vlm_lora']) == {*mlp,attention}
     assert groups['action_expert'] == (full_expert,)
     assert set(groups['frozen']) == set(frozen)
+
+
+def test_core_successor_binds_only_a_closed_hash_verified_training_segment(tmp_path, monkeypatch):
+    from go2arx5_vla.sla_adapter.checkpoint_v1 import sha
+    from scripts.pi0292.durable import write
+    from scripts.sla import scale20k_core_prefix as core
+
+    arm = 'SCALE-MIX20K'
+    previous = tmp_path/'old'
+    checkpoint_root = previous/'train/step00200'
+    checkpoint_root.mkdir(parents=True)
+    manifest = checkpoint_root/'COMPLETE.json'
+    write(manifest, dict(step=200))
+    result_file = previous/'train/RESULT.private.json'
+    write(result_file,dict(scope=RECIPE,source_sha='f'*40,arm=arm,mode='train',status='FIXED_SEGMENT_SAVED',
+        exit_code=0,global_step=200,global_cursors=cursors(arm,200),new_native_requests=0,new_native_ticks=0,
+        checkpoint=dict(path=str(checkpoint_root),sha256=sha(manifest))))
+    prior = dict(path=str(result_file),sha256=sha(result_file))
+    (previous/'control').mkdir()
+    lease = previous/'control/LEASE.json'
+    write(lease,dict(status='CLOSED',unit='wm02-old.service'))
+    source = previous/'source'
+    (source/'scripts/sla').mkdir(parents=True)
+    (source/'scripts/sla/train_scale20k.py').touch()
+    write(previous/'RESULT.private.json',dict(stages=dict(train=prior)))
+    config = dict(arm=arm,source_sha='f'*40,previous_train_result=prior)
+    monkeypatch.setattr(core.subprocess,'check_output',lambda *args,**kwargs:'0\n')
+    assert core.closed_predecessor(config,tmp_path/'new') == (prior,source,200)
+    monkeypatch.setattr(core.subprocess,'check_output',lambda *args,**kwargs:'975\n')
+    with pytest.raises(PermissionError,match='STILL_OWNED'):
+        core.closed_predecessor(config,tmp_path/'new')

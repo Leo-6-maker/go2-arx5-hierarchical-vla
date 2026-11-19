@@ -1,4 +1,4 @@
-"""Run the single authorized SCALE20K Core gradient check and first prefix."""
+"""Run one authorized SCALE20K Core segment or its first qualification."""
 import argparse
 import math
 import os
@@ -11,7 +11,7 @@ import time
 
 from go2arx5_vla.sla_adapter.checkpoint_v1 import sha
 from go2arx5_vla.sla_adapter.runtime_v1 import read_pin
-from go2arx5_vla.sla_adapter.scale20k_contract import DOMAINS, PLAN, RECIPE, bank_sha256, learning_rates
+from go2arx5_vla.sla_adapter.scale20k_contract import CHECKPOINTS, DOMAINS, PLAN, RECIPE, bank_sha256, cursors, learning_rates
 from scripts.pi0292.durable import OwnerLock, read, write
 
 GIB = 1024**3
@@ -28,8 +28,43 @@ def resources(uuid):
     return dict(name=name,total_bytes=int(total)*1024**2,free_bytes=int(available)*1024**2,host_bytes=host)
 
 
+def closed_predecessor(config, root):
+    prior = config.get('previous_train_result')
+    if prior is None:
+        return None, None, 0
+    result_file = Path(prior['path']).resolve(strict=True)
+    old_root = result_file.parent.parent
+    parent = read(old_root/'RESULT.private.json')
+    lease = read(old_root/'control/LEASE.json')
+    old_unit = lease['unit']
+    if (result_file != old_root/'train/RESULT.private.json' or old_root == root
+            or old_root.stat().st_uid != os.getuid() or lease['status'] != 'CLOSED'
+            or old_unit != 'wm02-'+old_root.name+'.service' or parent['stages'].get('train') != prior):
+        raise ValueError('SCALE20K_PRIOR_RESULT_REQUIRES_A_SEALED_CLOSED_SEGMENT')
+    status = subprocess.check_output(['systemctl','--user','show',old_unit,'--value','-p','MainPID'],
+                                     text=True,timeout=10).strip()
+    if status != '0':
+        raise PermissionError('SCALE20K_PRIOR_SERVICE_STILL_OWNED_OR_UNKNOWN')
+    result = read_pin(prior)
+    step = result['global_step']
+    if (result['scope'] != RECIPE or result['source_sha'] != config['source_sha'] or result['arm'] != config['arm']
+            or result['mode'] != 'train' or (result['status'],result['exit_code']) not in (
+                ('FIXED_SEGMENT_SAVED',0),('BOUNDED_SAVED_PREFIX',75))
+            or step <= 0 or result['global_cursors'] != cursors(config['arm'],step)
+            or not result['checkpoint'] or result['new_native_requests'] or result['new_native_ticks']):
+        raise ValueError('SCALE20K_PRIOR_TRAIN_EFFECT_NOT_SAFE_TO_RESUME')
+    checkpoint = Path(result['checkpoint']['path']).resolve(strict=True)
+    if (checkpoint.parent != result_file.parent
+            or sha(checkpoint/'COMPLETE.json') != result['checkpoint']['sha256']):
+        raise ValueError('SCALE20K_PREDECESSOR_CHECKPOINT_MUST_BE_OWNED_AND_HASH_VERIFIED')
+    worker_source = Path(parent.get('training_source_root',old_root/'source')).resolve(strict=True)
+    if not (worker_source/'scripts/sla/train_scale20k.py').is_file():
+        raise ValueError('SCALE20K_ORIGINAL_TRAINING_WORKER_UNAVAILABLE')
+    return prior, worker_source, step
+
+
 def run(config):
-    root = Path(config['root'])
+    root = Path(config['root']).resolve(strict=True)
     deadline = config['deadline_epoch']
     lock_path = config['neural_owner_lock']
     uuid = config['GPU_uuid']
@@ -38,11 +73,17 @@ def run(config):
                                      text=True,timeout=10).strip()
     linger = subprocess.check_output(['loginctl','show-user',str(os.getuid()),'-p','Linger','--value'],
                                      text=True,timeout=10).strip()
-    if (config['plan'] != PLAN or config['arm'] != 'SCALE-MIX20K' or os.uname().nodename != config['host']
+    if (config['plan'] != PLAN or config['arm'] not in CHECKPOINTS or os.uname().nodename != config['host']
             or os.getuid() != config['uid'] or actual != str(os.getpid()) or linger != 'yes'
             or os.environ['CUDA_VISIBLE_DEVICES'] != uuid or not time.time() < deadline < time.time()+14400
             or root.stat().st_uid != os.getuid()):
         raise PermissionError('SCALE20K_EXACT_FINITE_DETACHED_CORE_UNIT_REQUIRED')
+    prior, worker_source, initial_step = closed_predecessor(config,root)
+    worker_source = worker_source or Path(__file__).resolve().parents[2]
+    limit = config.get('global_stop_step',200)
+    end = CHECKPOINTS[config['arm']][-1] if initial_step else 200
+    if type(limit) is not int or not initial_step < limit <= end:
+        raise ValueError('SCALE20K_FINITE_SEGMENT_REQUIRES_FORWARD_STEP_LIMIT')
     stop = root/'STOP.json'
     progress,terminal = root/'PROGRESS.private.json',root/'RESULT.private.json'
     lease = root/'control'/'LEASE.json'
@@ -91,12 +132,12 @@ def run(config):
             hardware_allowed=False,physics=False,new_native_requests_cap=0,save_reserve_s=300,STOP_path=str(stop),
             deadline_epoch=deadline-60,max_walltime_s=14400,max_gpu_hours=4,save_and_exit_on_limit=True,
             model_service_timeout_s=1800,RPC_timeout_s=1800,site_binding=dict(path=str(sitepath),sha256=sha(sitepath)),
-            GPU_uuid=uuid,neural_owner_lock=lock_path,global_stop_step=200,
+            GPU_uuid=uuid,neural_owner_lock=lock_path,global_stop_step=limit,
             microbatch=dict.fromkeys(DOMAINS,1),learning_rates_sha256=bank_sha256(learning_rates()),
             **paths,**{key:config[key] for key in ('JAX_memory_fraction','data','parent_manifest','optimizer',
                                                    'visit_bank_sha256','tokenizer')})
-        prior = None
-        for mode in ('qualify','train'):
+        stages_to_run = ('train',) if prior else ('qualify','train')
+        for mode in stages_to_run:
             if cancelled or stop.exists() or time.time()+600 >= deadline:
                 status = 'STOPPED_AT_COMPLETED_STAGE'
                 return 75
@@ -107,7 +148,7 @@ def run(config):
             write(progress,dict(phase=mode.upper(),epoch=time.time(),stage=str(stage),spec_sha256=sha(path)))
             command = [sys.executable,'-B','-m','scripts.sla.train_scale20k',mode,str(path),sha(path)]
             with (stage/'worker.log').open('x') as log:
-                child = subprocess.Popen(command,stdout=log,stderr=subprocess.STDOUT)
+                child = subprocess.Popen(command,stdout=log,stderr=subprocess.STDOUT,cwd=worker_source)
                 while child.poll() is None:
                     if cancelled and not stop.exists():
                         write(stop,dict(reason='OPERATOR_STOP'))
@@ -124,7 +165,8 @@ def run(config):
                 return child.returncode or 1
         return 0
     finally:
-        write(terminal,dict(status=status,stages=stages,new_native_requests=0,new_native_ticks=0))
+        write(terminal,dict(status=status,stages=stages,training_source_root=str(worker_source),
+                            new_native_requests=0,new_native_ticks=0))
         write(lease,dict(owner='EXISTING_LOCAL_PC',status='CLOSED',deadline_epoch=deadline,main_pid=os.getpid(),unit=unit))
 
 
