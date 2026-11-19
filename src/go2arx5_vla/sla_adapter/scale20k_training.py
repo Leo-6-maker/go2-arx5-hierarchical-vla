@@ -115,6 +115,7 @@ class Engine:
         self.states = initialize(parameters)
         self.add = jax.jit(lambda total,part,weight:jax.tree.map(lambda a,b:a+b*weight,total,part),donate_argnums=(0,))
         self.attempted_aux = self.completed_aux = 0
+        self.gradient_windows = dict.fromkeys(DOMAINS,0)
 
     def domain_gradient(self, domain, guard):
         import jax
@@ -139,6 +140,7 @@ class Engine:
             accumulator = self.add(accumulator,grad,micro/size)
             totals['FM32'] += float(value)*micro/size
             totals['backward_calls'] += 1
+            self.gradient_windows[domain] += micro
         if domain=='target':
             for slot in full_h40_v6.aux_slots(self.step):
                 guard()

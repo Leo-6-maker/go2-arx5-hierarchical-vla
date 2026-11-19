@@ -41,6 +41,10 @@ def run(spec, mode):
         raise PermissionError('SCALE20K_ACTUALLY_ALLOCATED_SINGLE_GPU_REQUIRED')
     jax.config.update('jax_compilation_cache_dir',spec['compilation_cache_dir'])
     stopped = False
+    heartbeat = root/'PROGRESS.private.json'
+
+    def progress(phase, **detail):
+        write(heartbeat,dict(phase=phase,mode=mode,epoch=time.time(),**detail))
 
     def signal_stop(_signum,_frame):
         nonlocal stopped
@@ -50,7 +54,7 @@ def run(spec, mode):
         signal.signal(sig,signal_stop)
 
     def guard():
-        if stopped or (root/'STOP.json').exists() or time.time() >= deadline-reserve:
+        if stopped or (root/'STOP.json').exists() or Path(spec['STOP_path']).exists() or time.time() >= deadline-reserve:
             raise TimeoutError('SCALE20K_SAVE_EXIT_AT_FINITE_SITE_BOUNDARY')
 
     lock = OwnerLock(spec['neural_owner_lock'])
@@ -63,6 +67,7 @@ def run(spec, mode):
                   started_epoch=time.time(),source_sha=spec['source_sha'])
     try:
         guard()
+        progress('VALIDATING_FROZEN_DATA')
         datasets = scale20k_data.readers(spec['data'],resize_with_pad)
         banks, bank_digests = scale20k_data.bank_for(datasets)
         if bank_digests != spec['visit_bank_sha256']:
@@ -70,10 +75,12 @@ def run(spec, mode):
         token = spec['tokenizer']
         if sha(token['path']) != token['sha256']:
             raise ValueError('SCALE20K_ORIGINAL_TOKENIZER_BYTES_REQUIRED')
+        progress('LOADING_PINNED_SLA_BASE')
         graphs,parameters,frozen,receipt = scale20k_model.load(spec['parent_manifest'],spec['parent_params'])
         optimizer = spec['optimizer']
         engine = scale20k_training.Engine(arm,graphs,parameters,frozen,datasets,banks,Tokenizer(token['path']),
                                            spec['microbatch'],optimizer,rng=jax.random.PRNGKey(scale20k_model.INITIAL_SEED))
+        del parameters
         binding = dict(recipe=RECIPE,plan_sha=PLAN,arm=arm,source_sha=spec['source_sha'],
             parent_manifest_sha256=receipt['parent_manifest_sha256'],partition_sha256=canonical_hash(receipt['inventory']),
             initial_state_sha256=canonical_hash([receipt['common_shared_fingerprint'],receipt['common_private_fingerprint']]),
@@ -92,11 +99,13 @@ def run(spec, mode):
             measured = {}
             for domain in DOMAINS:
                 if engine.batch_size[domain]:
+                    progress('MEASURING_REAL_GPU_GRADIENTS',domain=domain,completed_domains=list(measured))
                     gradient,measured[domain] = engine.domain_gradient(domain,guard)
                     del gradient
+            progress('SAVING_COMPLETE_STEP_ZERO',completed_domains=list(measured))
             latest = seal('step00000')
             return dict(result,exit_code=0,status='ACTUAL_GPU_GRADIENTS_SEALED_NO_UPDATES',checkpoint=latest,
-                        receipt=measured,new_updates=0,new_visits=cursors(arm,0),
+                        receipt=measured,gradient_input_windows=engine.gradient_windows,new_updates=0,new_visits=cursors(arm,0),
                         new_model_generations=engine.completed_aux,attempted_model_generations=engine.attempted_aux,
                         wall_s=time.monotonic()-start)
 
@@ -104,6 +113,7 @@ def run(spec, mode):
         if prior['arm'] != arm or prior['exit_code'] not in (0,75) or not prior['checkpoint']:
             raise ValueError('SCALE20K_RESUME_NEEDS_A_COLD_RESOLVED_PRIOR_EFFECT')
         latest = prior['checkpoint']
+        progress('RESTORING_COMPLETE_STATE',prior=latest['sha256'])
         state,engine.step,positions = checkpoint.restore(latest,arm=arm,parameters=engine.parameters,
                                                          optimizer=engine.states,rng=engine.rng,binding=binding)
         if prior['global_step'] != engine.step or prior['global_cursors'] != positions:
@@ -116,6 +126,7 @@ def run(spec, mode):
         engine.parameters,engine.states,engine.rng = state['parameters'],state['optimizer'],state['rng']
         del state
         first_step = engine.step
+        progress('RESTORED_COMPLETE_STATE',step=engine.step,cursors=positions,checkpoint_sha256=latest['sha256'])
         limit = spec['global_stop_step']
         if type(limit) is not int or not first_step < limit <= CHECKPOINTS[arm][-1] or (not first_step and limit>200):
             raise ValueError('SCALE20K_FIRST_TECHNICAL_PREFIX_AND_FINITE_SEGMENT_REQUIRED')
@@ -128,6 +139,7 @@ def run(spec, mode):
                 except TimeoutError:
                     code = 75
                     break
+                progress('COMMITTED_OPTIMIZER_UPDATE',step=engine.step,cursors=row['cursors'])
                 journal.write(json.dumps(row,allow_nan=False)+'\n')
                 journal.flush()
                 os.fsync(journal.fileno())
@@ -147,7 +159,8 @@ def run(spec, mode):
     return dict(result,global_step=step,global_cursors=end,new_updates=step-first_step,
                 new_visits={d:end[d]-before[d] for d in DOMAINS},wall_s=time.monotonic()-start,
                 new_model_generations=(engine.completed_aux-initial_counts['complete_generations']) if engine else 0,
-                attempted_model_generations=(engine.attempted_aux-initial_counts['attempts']) if engine else 0)
+                attempted_model_generations=(engine.attempted_aux-initial_counts['attempts']) if engine else 0,
+                gradient_input_windows=engine.gradient_windows if engine else dict.fromkeys(DOMAINS,0))
 
 
 def main():
