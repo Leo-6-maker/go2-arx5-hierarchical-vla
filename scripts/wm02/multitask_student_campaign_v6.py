@@ -193,7 +193,7 @@ def student_row(spec,result):
                 break
     row.update(instruction=spec['task_instruction_id'],cluster=spec['mobile_condition']['layout'],
         score=score,initial_native_state=initial,actual_model_generations=result['model_generations'])
-    rejection = detail.get('rejection') or {}
+    rejection = detail.get('valid_policy_rejection') or {}
     if row['valid_policy_rejection']:
         row['kind'] = rejection.get('kind', row['first_failure'])
     if replay is not None:
