@@ -112,6 +112,13 @@ def run(spec, mode):
         checkpoint=spec['checkpoint'], panel=spec['panel'], rows=rows, optimization_updates=0, optimization_visits=0,
         new_model_generations=0, generation_attempts=0, new_native_requests=0, new_native_ticks=0, old_TEST_access=False)
     began = time.monotonic()
+
+    def progress(pending):
+        write(root/'PROGRESS.private.json', dict(mode=mode, arm=spec['arm'], step=spec['step'],
+            pending=pending, generation_attempts=actual['generation_attempts'],
+            new_model_generations=actual['new_model_generations'], sealed_rows={d:len(rows[d]) for d in DOMAINS},
+            epoch=time.time(), new_native_requests=0))
+
     lock = OwnerLock(spec['neural_owner_lock'])
     try:
         try:
@@ -142,7 +149,7 @@ def run(spec, mode):
                     shape = (1, HORIZONS[domain], 32)
                     noise = jax.random.normal(jax.random.PRNGKey(row['noise_id']), shape)
                     actual['generation_attempts'] += 1
-                    write(root/'PROGRESS.private.json', dict(actual, pending=[domain, ordinal]))
+                    progress([domain, ordinal])
                     sampled = np.asarray(sample(state, frozen, obs, noise))
                     if sampled.shape != shape or not np.isfinite(sampled).all():
                         raise ValueError('SCALE20K_OFFLINE_FINITE_FULL_NATIVE_HORIZON_REQUIRED')
@@ -165,7 +172,7 @@ def run(spec, mode):
                             raise ValueError(f'SCALE20K_OFFLINE_REFERENCE_OUTPUT_CHANGED:{domain}:{ordinal}')
                         if any(reference[key] != record[key] for key in (*row, 'ordinal', 'normalized_sha256', 'decoded_sha256')):
                             raise ValueError(f'SCALE20K_OFFLINE_FRESH_PREDICTION_CHANGED:{domain}:{ordinal}')
-                    write(root/'PROGRESS.private.json', dict(actual, pending=None))
+                    progress(None)
             actual.update(status='ENDPOINT_PREDICTIONS_SEALED' if prior is None else 'FRESH_RGB48_RESTORED_EXACT',
                           summary={d: summarize(rows[d], d) for d in DOMAINS}, exit_code=0)
         except (Exception, KeyboardInterrupt) as error:
