@@ -1,0 +1,113 @@
+{
+  "observed_SGT": "2026-11-20T20:42:50+08:00",
+  "plan_sha": "1b2a25b7c1720051a2627d30831fb18130462374",
+  "live": {
+    "MIX": {
+      "step": 1394,
+      "cursors": [
+        44608,
+        66912,
+        66912
+      ],
+      "pid": 892030,
+      "site_deadline_SGT": "2026-11-21T00:30:27+08:00",
+      "last_sealed": 1380
+    },
+    "ADAPT": {
+      "step": 1443,
+      "cursors": [
+        92352,
+        46176,
+        46176
+      ],
+      "job": "1594212.stdct-mgmt-02",
+      "state": "R",
+      "last_sealed": 1250
+    }
+  },
+  "core": {
+    "site_deadline_SGT": "2026-11-21T04:21:44+08:00",
+    "finalizer": {
+      "roles": 34,
+      "spec_sha256": "547ec2a554b85ac697ffd3e09c13be4042c9d4c7c4888527b2b9b5d11684d9cd",
+      "persistent": true,
+      "stop_path_active": true
+    },
+    "ADAPT0_DEV_tail": {
+      "unit": "sla-observer-adapt0-goal-v2-dev-tail-resource-20261120-02.service",
+      "pid": 901108,
+      "invocation_id": "49c20748c2b64d9c8e634f0362061fd0",
+      "source_sha": "a7d4807f62b3ff28fbc950a2e5b27453634412f1",
+      "spec_sha256": "301ab22ab4a65901fb0f79d661ab079eb743cf5dfa03ecad01bda03531b8c647",
+      "last_start_SGT": "2026-11-21T03:45:44+08:00",
+      "state": "WAIT_ORIGINAL_ADAPT0_NATIVE_RESOURCES",
+      "carried_native_requests": 6,
+      "worker_PIDs": [
+        0,
+        0,
+        0
+      ],
+      "new_native_requests": 0,
+      "new_native_ticks": 0,
+      "failed_unchanged_checks": [
+        "gpu_free",
+        "gpu_idle"
+      ],
+      "GPU_free_bytes": 14706278400,
+      "GPU_exclusive_requirement_bytes": 15884668109,
+      "psi_avg10": 0,
+      "stop": "STOP.json",
+      "log": "watch.log"
+    },
+    "MIX_suffix": {
+      "unit": "sla-observer-mix-remaining-site-window-20261120-01.service",
+      "pid": 904454,
+      "invocation_id": "e47153513ead41dbb61dd1f22b6a12d6",
+      "source_sha": "68f60c1cd44f395186f2fa54df808d6aa5a365ed",
+      "spec_sha256": "f3ee60121c3b6df18c62d589384a53439c42da8de496453fbf14c3bc753805db",
+      "state": "WAIT_OWNED_TRAINING_PREFIX",
+      "waited_PID": 892030,
+      "worker_PID": 0,
+      "stop": "STOP.json",
+      "log": "watch.log"
+    },
+    "MIX2K_eval": {
+      "unit": "sla-observer-mix2000-eval-20261120-05.service",
+      "pid": 904458,
+      "invocation_id": "653503c6ed484770ba17ccd654b8338c",
+      "source_sha": "68f60c1cd44f395186f2fa54df808d6aa5a365ed",
+      "spec_sha256": "89239b3a4c9947d4be00e116dead6ab2f51e670cfa75a56fecbb9372166b2919",
+      "state": "WAITING_EXACT_MIX2000",
+      "ordinary": 288,
+      "independent_restore": 48,
+      "worker_PID": 0,
+      "stop": "STOP.json",
+      "log": "watch.log"
+    }
+  },
+  "vanda": {
+    "successor_graph_terminal_without_started_jobs": true,
+    "finalizer_job": "1597930.stdct-mgmt-02",
+    "finalizer_state": "F_WITHOUT_START_OR_EXIT_STATUS",
+    "finalizer_mtime_SGT": "2026-11-20T20:31:04+08:00",
+    "removal_source_known": false,
+    "new_submissions": 0,
+    "exact_2k": false,
+    "D2_switched": false,
+    "independent_5k_eval_started": false,
+    "CLOCK_triggered": false
+  },
+  "delta": {
+    "optimizer_updates": 23,
+    "optimization_visits": 2944,
+    "training_H40": 92,
+    "new_independent_offline_generations": 0,
+    "new_native_requests": 0,
+    "new_native_ticks": 0,
+    "new_admitted_target_episodes": 0
+  },
+  "local_tests": {
+    "passed": 29,
+    "skipped_no_jax": 4
+  }
+}
