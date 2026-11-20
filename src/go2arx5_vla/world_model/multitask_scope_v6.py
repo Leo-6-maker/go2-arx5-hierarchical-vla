@@ -28,6 +28,8 @@ def scope_identity(spec):
         return followup.SCOPE, followup.PLAN, followup.ARMS, followup.AUTHORITY_SOURCE
     if spec.get('scope') == scale.SCOPE:
         return scale.SCOPE, scale.PLAN, scale.ENDPOINTS, scale.AUTHORITY_SOURCE
+    if spec.get('scope') == adapt.SCOPE:
+        return adapt.SCOPE, adapt.PLAN, adapt.ENDPOINTS, adapt.AUTHORITY_SOURCE
     if spec.get('scope') == adaptation.SCOPE:
         return adaptation.SCOPE, adaptation.PLAN, (), adaptation.AUTHORITY_SOURCE
     return SCOPE, PLAN, ARMS, 'CURRENT_USER_EXPLICIT_FIXED_SLA_V6_PLAN'
