@@ -1,0 +1,59 @@
+{
+  "schema": "SLA_GOAL_V2_HOLD4_BACKGROUND_ACTUAL_V1",
+  "plan": "1b2a25b7c1720051a2627d30831fb18130462374",
+  "observed": "2026-11-20T18:54:24.260471+08:00",
+  "observer": {
+    "unit": "sla-observer-goal-v2-train-hold4-20261120-03.service",
+    "pid": 797478,
+    "cgroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/sla-observer-goal-v2-train-hold4-20261120-03.service",
+    "invocation_id": "be5d62281a8a4dddb7f48a6c4a6ce5ca",
+    "source_sha": "cb48d7c17757669aafbd7febb1452288d14fc277",
+    "source_archive_sha256": "30d6d48599ebba88c320f8c43ba7d5b25693c7006a07f14424cb4ee0c5b1999e",
+    "spec_sha256": "10d738c1a8be4738ecc68943edf045d57f9bdf4d92f7f48a10461498c28c6b59",
+    "state": "WAITING_ORIGINAL_STUDENT_ROTATION",
+    "linger": true,
+    "stop": "STOP.json"
+  },
+  "dependencies": [
+    "sla-observer-mix-after-adapt0-block2-20261120-01.service",
+    "wm02-sla-scale20k-mix-core-after-adapt0-block2-20261120-01.service",
+    "sla-observer-tgt5k-native-after-rotation-20261120-01.service",
+    "wm02-sla-tgt5k-goal-v2-native-first6-20261120-01.service"
+  ],
+  "collector": {
+    "unit": "wm02-sla-goal-v2-train-hold4-native-20261120-01.service",
+    "pid": 0,
+    "started": false,
+    "source_sha": "55030f539c448728133d8ce7cf8dcc5afa4be725",
+    "population_sha256": "297b21cc67baa4b2cbdd78af68d244b550337b4cb9213fd27b26818e3958bec0",
+    "cap": {"requests":4,"ticks":142812,"expert_queries":480},
+    "latest_dispatch_epoch": 1795203764.665899,
+    "site_deadline_epoch": 1795206104.665899,
+    "stop": "STOP.json"
+  },
+  "logs": ["watch.log","native_dispatch.log","admission.log"],
+  "campaign_finalizer": {
+    "spec_sha256": "8653564132fc103f223d1dcfbe3114632a03ef86391db69d362ed48bd9a8f618",
+    "registered_owners": 16,
+    "timer_active": true,
+    "stop_trigger_active": true
+  },
+  "preserved_zero_effect_engineering_terminals": [
+    {"cause":"MISSING_SCIPY_ON_FIRST_OBSERVER_START",
+      "log_sha256":"7b546c4d5c86a22f16eded5272d51018493e9c5c0086474e83533990199c2d41"},
+    {"cause":"OPERATOR_STOP_BEFORE_COLLECTOR_TO_BIND_ACTUAL_TGT_PROCESS_RECEIPT",
+      "result_sha256":"f69189408956aa07fc0e4c7ba78d50e2cbe6a6ffed0fa61fdb2d5f8a424833c8"}
+  ],
+  "original_training_live": {
+    "MIX": {"step":1236,"visits":[39552,59328,59328]},
+    "ADAPT": {"step":1311,"visits":[83904,41952,41952],"job":"1594212.stdct-mgmt-02","state":"R"}
+  },
+  "original_training_since_prior_report": {"updates":25,"visits":3200,"training_H40":100},
+  "new_optimizer_updates": 0,
+  "new_optimization_visits": 0,
+  "new_model_generations": 0,
+  "new_native_requests": 0,
+  "new_native_ticks": 0,
+  "new_admitted_episodes": 0,
+  "new_admitted_windows": 0
+}
