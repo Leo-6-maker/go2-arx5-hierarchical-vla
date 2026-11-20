@@ -175,6 +175,23 @@ def watch(spec):
             raise PermissionError('MIX_ROTATION_WRONG_ADAPT_OBSERVER_OWNER')
         deadline = min(spec['site_deadline_epoch']-1860,campaign['deadline_epoch']-1860)
         write(root/'READY.private.json',dict(report,unit=state,depends_on=blocker,observe_until_epoch=deadline))
+        if 'stopped_legacy_launcher' in spec:
+            legacy = spec['stopped_legacy_launcher']
+            legacy_root = Path(legacy['root']).resolve(strict=True)
+            recorded_stop = read_pin(legacy['stop'])
+            if (Path(legacy['stop']['path'])!=legacy_root/'STOP.json'
+                    or recorded_stop['reason']!='OWNED_SUCCESSOR_IMPORTED_LEGACY_LAUNCHER_ZERO_STATE_QUALIFY'
+                    or not recorded_stop['before_any_update'] or legacy['owner']['unit']!='wm02-'+legacy_root.name+'.service'):
+                raise PermissionError('MIX_ROTATION_LEGACY_STOP_NOT_FROM_OWNED_ZERO_UPDATE_LAUNCH')
+            name = legacy['owner']['unit']
+            current = unit_state(name)
+            if current['pid'] and any(current[k]!=legacy['owner'][k] for k in ('pid','proc_start','ControlGroup','InvocationID')):
+                raise PermissionError('MIX_ROTATION_LEGACY_OWNER_CHANGED')
+            report['legacy_owner_terminal'] = await_cold(name,current,deadline=deadline,stopped=stopped)
+            legacy_result = read(legacy_root/'RESULT.private.json')
+            if ('train' in legacy_result['stages'] or (legacy_root/'train').exists()
+                    or read(legacy_root/'control/LEASE.json')['status']!='CLOSED'):
+                raise PermissionError('MIX_ROTATION_LEGACY_LAUNCH_REQUIRES_TRAINING_EFFECT_RECONCILIATION')
         report['block_observer_terminal'] = await_cold(spec['block_observer_unit'],blocker,deadline=deadline,stopped=stopped)
         handoff = read(block_watch/'RESULT.private.json')
         fallback = 'unstarted_student_resource_refusal' in spec
@@ -234,7 +251,7 @@ def watch(spec):
                 raise PermissionError('MIX_ROTATION_SUCCESSOR_ALREADY_CLAIMED')
             env = dict(spec['trainer_environment'],TMPDIR=str(successor/'tmp'),XDG_CACHE_HOME=str(successor/'cache'))
             check = [spec['python'],'-B','-c',
-                     'from scripts.sla import scale20k_core_prefix as m; print(m.__file__)']
+                     'from importlib.util import find_spec; print(find_spec("scripts.sla.scale20k_core_prefix").origin)']
             loaded = subprocess.check_output(check,cwd=launcher_source,env=dict(os.environ,**env),text=True,timeout=15).strip()
             if Path(loaded).resolve()!=launcher_path:
                 raise ValueError('MIX_ROTATION_WORKER_COMMAND_WOULD_IMPORT_A_DIFFERENT_WRAPPER')
