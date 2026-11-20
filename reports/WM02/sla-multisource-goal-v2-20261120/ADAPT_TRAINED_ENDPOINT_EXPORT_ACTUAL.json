@@ -1,0 +1,64 @@
+{
+  "schema": "SLA_ADAPT_TRAINED_ENDPOINT_PBS_ACTUAL_V1",
+  "goal": "1b2a25b7c1720051a2627d30831fb18130462374",
+  "source_sha": "a97deb7e76acc754142ee9daff16163825bc1f5d",
+  "source_archive_sha256": "daa50c4cc13e24c27ab6ce53aaa6b01afe9dbf4f6efc68b5d325fd7b4dd6e56a",
+  "observed": "2026-11-20T18:22:36.515168+08:00",
+  "formal_runtime": "1432c8dc88c57adf39e8fa363f5438c5e63aa8fd",
+  "archived_validation": {
+    "job": "1594084.stdct-mgmt-02",
+    "checkpoint_sha256": "e5b796170e47dfc649f5430512bad741b94c8d4042d828db82653da759b27653",
+    "formal_sha256": "1adce9193d0bb7a2177cf73291ac7b527f4713454516373d634271f67a0ea77a",
+    "restore_sha256": "b8d59148cfa1784435a559a44d17f9f757f6517c4db9a25a9b965ab12e54e93e",
+    "archived_RGB": 16,
+    "rejected_as_ADAPT2000": true,
+    "new_generations": 0
+  },
+  "CPU_tests_passed": 5,
+  "member_walltime_limit_s": 600,
+  "member_CPU_count": 1,
+  "member_GPU_count": 0,
+  "members": [
+    {
+      "phase": 2000,
+      "eval_job": "1594215.stdct-mgmt-02",
+      "export_job": "1598414.stdct-mgmt-02",
+      "export_state": "H",
+      "dependency": "afterany:1594215.stdct-mgmt-02@stdct-mgmt-02",
+      "export_spec_sha256": "b5be181155abe1bb69813e6739f8e71f97721d9db76993410dfa7222eb4b2a5d",
+      "expiry_job": "1598415.stdct-mgmt-02",
+      "expiry_state": "W",
+      "expiry_spec_sha256": "189bd180f37ebe922c3d03aff4278e39299cccb5c98d999ba07523d5b5a33ebd",
+      "deadline": "2026-11-22T08:33:10.248482+08:00",
+      "export_terminal": false,
+      "custody_sealed": false
+    },
+    {
+      "phase": 5000,
+      "eval_job": "1597845.stdct-mgmt-02",
+      "export_job": "1598416.stdct-mgmt-02",
+      "export_state": "H",
+      "dependency": "afterany:1597845.stdct-mgmt-02@stdct-mgmt-02",
+      "export_spec_sha256": "f61ac1b3b4d24468a518c66b1fb9aa2322b3455f2ce84c39435a381179a7c2b7",
+      "expiry_job": "1598417.stdct-mgmt-02",
+      "expiry_state": "W",
+      "expiry_spec_sha256": "b8f1147749a4e3773c19f6e55e4f2f56c700b11b6992a9bcfc5012da3b478894",
+      "deadline": "2026-11-24T09:35:31+08:00",
+      "export_terminal": false,
+      "custody_sealed": false
+    }
+  ],
+  "simultaneous_original_training": {
+    "MIX": {"step": 1183, "visits": {"target": 37856, "robodojo": 56784, "libero": 56784}},
+    "ADAPT": {"step": 1271, "visits": {"target": 81344, "robodojo": 40672, "libero": 40672},
+      "job": "1594212.stdct-mgmt-02", "state": "R"}
+  },
+  "stop": "STOP.json",
+  "new_optimizer_updates": 0,
+  "new_optimization_visits": 0,
+  "new_model_generations": 0,
+  "new_native_requests": 0,
+  "new_native_ticks": 0,
+  "core_custody_verified": false,
+  "core_deployment_qualification": "PENDING_EXACT_ENDPOINT_AND_CORE_ALLOCATION"
+}
