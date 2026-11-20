@@ -286,7 +286,7 @@ def prepare_cards(spec, *, teacher_stop=None):
     if (unit['pid'] or unit['cgroup_pids'] or lease['status']!='CLOSED'
             or lease['spec_sha256']!=spec['interface_predecessor']['sha256']):
         raise ValueError('M_INTERFACE_OWNER_MUST_HAVE_REACHED_COLD_TERMINAL')
-    if spec['scope'] in (followup.SCOPE, scale.SCOPE, adaptation.SCOPE):
+    if spec['scope'] in (followup.SCOPE, scale.SCOPE, adapt.SCOPE, adaptation.SCOPE):
         interface_records(interface,spec['mobile_world_lock'],identity=(d4.E0_SCOPE,d4.E0_PLAN))
     else:
         interface_records(interface,spec['mobile_world_lock'])
