@@ -81,10 +81,11 @@ def run(spec):
                     or card['unit']!=rotation_spec['successor_unit']
                     or registration['deadline_epoch']>spec['site_deadline_epoch']):
                 raise PermissionError('TGT5K_REQUIRES_ORIGINAL_ROTATION_OWNER_CLOSURE')
-            actual['mix_worker_terminal'] = cold(card['unit']+'.service',registration['unit'],deadline=deadline,stopped=stopped)
+            trainer_unit = card['unit']+'.service'
+            actual['mix_worker_terminal'] = cold(trainer_unit,registration['unit'],deadline=deadline,stopped=stopped)
             result = read(successor/'RESULT.private.json')
             lease = read(successor/'control/LEASE.json')
-            if lease['status']!='CLOSED' or lease['unit']!=card['unit']:
+            if lease['status']!='CLOSED' or lease['unit']!=trainer_unit:
                 raise PermissionError('TGT5K_ROTATED_MIX_LEASE_NOT_COLD')
             actual['mix_seal'] = verify_seal(result['stages']['train'])
         elif report['status']!='ORIGINAL_MIX_MILESTONE_ALREADY_SEALED':
