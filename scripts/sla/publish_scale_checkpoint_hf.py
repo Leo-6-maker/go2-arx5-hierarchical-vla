@@ -97,6 +97,32 @@ def verify_remote(public, revision, prefix, inventory, cache):
             raise ValueError('PUBLIC_RELEASE_REMOTE_MEMBER_DIGEST_CHANGED')
 
 
+def require_cold_producer(config, producer, train):
+    if config.get('producer_site','Corelab')=='Corelab':
+        lease = json.loads((producer/'control/LEASE.json').read_bytes())
+        live = subprocess.check_output(['systemctl','--user','show',lease['unit'],'-p','MainPID','--value'],
+                                       text=True,timeout=12).strip()
+        if lease['status']!='CLOSED' or live!='0':
+            raise PermissionError('PUBLICATION_REQUIRES_COLD_CORELAB_TRAINING')
+        return
+    if config['producer_site']!='VANDA' or os.environ.get('PBS_JOBID')!=config['job_id']:
+        raise PermissionError('PUBLICATION_REQUIRES_EXACT_VANDA_PBS_OWNER')
+    own_id, prior_id = config['job_id'],config['producer_job']
+    rows = json.loads(subprocess.check_output(['/opt/pbs/bin/qstat','-xf','-F','json',own_id,prior_id],
+                                               text=True,stderr=subprocess.PIPE,timeout=25))['Jobs']
+    own, prior = rows[own_id],rows[prior_id]
+    result_path = Path(config['producer_result']['path']).resolve(strict=True)
+    receipt = checked(result_path,config['producer_result']['sha256'])
+    hosts = {value.split('/')[0].split('.')[0] for value in own['exec_host'].split('+')}
+    if (config['uid']!=os.getuid() or producer.stat().st_uid!=os.getuid() or own_id==prior_id
+            or any(job['project']!=config['project'] or job['Job_Owner'].split('@')[0]!=config['user'] for job in (own,prior))
+            or own['job_state']!='R' or int(own['Resource_List'].get('ngpus',0))
+            or os.uname().nodename.split('.')[0] not in hosts or prior['job_state']!='F' or prior['Exit_status']!=0
+            or result_path!=producer/'RESULT.private.json' or receipt['PBS_JOBID']!=prior_id
+            or receipt['status']!='FIXED_SEGMENT_SAVED' or receipt['stages']['train']!=train):
+        raise PermissionError('PUBLICATION_REQUIRES_OWN_CPU_PBS_AND_EXACT_COLD_VANDA_SEAL')
+
+
 def run(config):
     root = Path(config['root']).resolve(strict=True)
     if root.stat().st_uid!=os.getuid() or config['repo']!=REPO or (root/'RESULT.private.json').exists():
@@ -108,12 +134,10 @@ def run(config):
         train_path = Path(pin['path']).resolve(strict=True)
         result = checked(train_path,pin['sha256'])
         producer = train_path.parent.parent
-        lease = json.loads((producer/'control/LEASE.json').read_bytes())
-        live = subprocess.check_output(['systemctl','--user','show',lease['unit'],'-p','MainPID','--value'],
-                                       text=True,timeout=12).strip()
+        require_cold_producer(config,producer,pin)
         checkpoint = Path(result['checkpoint']['path']).resolve(strict=True)
         if (result['exit_code']!=0 or result['status']!='FIXED_SEGMENT_SAVED' or result['global_step']!=config['step']
-                or result['arm']!=config['arm'] or lease['status']!='CLOSED' or live!='0'
+                or result['arm']!=config['arm']
                 or checkpoint!=train_path.parent/f"step{config['step']:05d}"):
             raise PermissionError('PUBLICATION_REQUIRES_THE_EXACT_COLD_FORMAL_TRAINING_SEAL')
         complete = result['checkpoint']['sha256']
@@ -123,11 +147,14 @@ def run(config):
         if (root/'STOP.json').exists() or time.time()+120>=config['deadline_epoch']:
             raise TimeoutError('PUBLICATION_STOP_OR_FINITE_WINDOW')
         os.environ.update(HF_HUB_OFFLINE='0',HF_HUB_DISABLE_XET='1',HF_HUB_ENABLE_HF_TRANSFER='0')
-        from huggingface_hub import HfApi,CommitOperationAdd
+        from huggingface_hub import HfApi,CommitOperationAdd,get_token
 
         public = HfApi(token=False)
         info = public.repo_info(REPO,repo_type='dataset',timeout=15)
-        api = HfApi(token=Path(config['credential_path']).read_text().strip())
+        credential = Path(config['credential_path']).read_text().strip() if 'credential_path' in config else get_token()
+        if not credential:
+            raise PermissionError('PUBLICATION_REQUIRES_CONFIGURED_SITE_HF_TOKEN')
+        api = HfApi(token=credential)
         if info.private is not False or api.whoami()['name']!='leoyuer':
             raise PermissionError('PUBLICATION_REQUIRES_EXPECTED_PUBLIC_REPO_AND_OWNER')
         prefix = f"{config['arm']}/step-{config['step']:05d}-{complete[:12]}"
