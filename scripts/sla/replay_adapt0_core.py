@@ -1,5 +1,6 @@
 """Qualify the sealed ADAPT0 package on exactly sixteen saved Core RGB inputs."""
 import argparse
+import hashlib
 import math
 import os
 from pathlib import Path
@@ -21,6 +22,22 @@ from scripts.sla.replay_scale20k_core import guard_signature
 
 def pin(path):
     return dict(path=str(path),sha256=sha(path))
+
+
+def capture_fingerprints(provider, jax, rows):
+    """Observe the real device inputs without altering the pinned Provider."""
+    infer = provider.infer
+
+    def digest(value):
+        array = np.asarray(value)
+        return hashlib.sha256(str((array.shape,str(array.dtype))).encode()+array.tobytes()).hexdigest()
+
+    def capture(active, frozen, observation, noise):
+        leaves,_ = jax.tree_util.tree_flatten_with_path(observation)
+        rows.update(input_sha256={jax.tree_util.keystr(k):digest(v) for k,v in leaves},noise_sha256=digest(noise))
+        return infer(active,frozen,observation,noise)
+
+    provider.infer = capture
 
 
 def run(spec):
@@ -46,6 +63,7 @@ def run(spec):
     result = dict(source_sha=spec['source_sha'],package=spec['package']['sha256'],phase=0,
                   generation_attempts=0,model_generations=0,optimizer_updates=0,optimization_visits=0,
                   native_requests=0,native_ticks=0,rows=[],exit_code=1)
+    compat = spec.get('deployment_compat_v2')
     lock = OwnerLock(spec['neural_owner_lock'])
     lease = root/'control/LEASE.json'
     ownership = dict(owner='EXISTING_LOCAL_PC',deadline_epoch=deadline,main_pid=os.getpid(),unit=unit)
@@ -82,9 +100,38 @@ def run(spec):
             raise ValueError('ADAPT0_CORE_REPLAY_REQUIRES_EXACT_FIXED_D1_PANEL_AND_VANDA_OUTPUT_EVIDENCE')
         data = AdaptTargetDataset(target['legacy'],target['captures'],resize_with_pad=resize_with_pad)
         data.bind_state(target['statistics'])
+        if compat is not None:
+            import jaxlib
+            from scripts.sla.adapt0_deploy_compat_v2 import LIMITS, ROLES, SCHEMA
+
+            declaration = read_pin(compat)
+            strict = read_pin(declaration['strict_failure'])
+            role = spec['compat_role']
+            if (declaration['schema'] != SCHEMA or declaration['limits'] != LIMITS
+                    or declaration['generation_cap'] != 32 or declaration['spent_generated_attempts']+32 > 336
+                    or role not in ROLES or declaration['panel_sha256'] != spec['panel']['sha256']
+                    or declaration['checkpoint_sha256'] != manifest['ADAPT0_sha256']
+                    or declaration['ordinary_A40_formal_sha256'] != spec['evaluation']['sha256']
+                    or strict['status'] != 'CORE_ADAPT0_RGB16_OUTPUT_GATE_FAILED' or strict['model_generations'] != 16):
+                raise ValueError('ADAPT0_COMPAT_V2_REQUIRES_EXACT_PREDECLARED_CONTRACT_AND_OLD_FAILURE')
+            if role == 'restore':
+                prior = read_pin(spec['ordinary'])
+                if (prior['status'] != 'CORE_ADAPT0_COMPAT_V2_ARRAYS_SEALED' or prior['compat_role'] != 'ordinary'
+                        or prior['model_generations'] != 16 or prior['package'] != result['package']
+                        or prior['deployment_compat_v2'] != compat):
+                    raise ValueError('ADAPT0_COMPAT_V2_RESTORE_REQUIRES_COLD_SEALED_ORDINARY')
+            result.update(deployment_compat_v2=compat,compat_role=role,
+                environment=dict(source=spec['source_sha'],platform=jax.default_backend(),jax=jax.__version__,
+                    jaxlib=jaxlib.__version__,numpy=np.__version__,GPU_uuid=gpu,xla=os.environ.get('XLA_FLAGS'),
+                    dtype_recipe=manifest['partition_sha256']),
+                process_identity=dict(pid=os.getpid(),start=Path('/proc/self/stat').read_text().rsplit(')',1)[1].split()[19]))
+            (root/'outputs').mkdir()
         result['stage'] = 'LOADING_REAL_TARGET_PACKAGE'
         write(root/'PROGRESS.private.json',result)
         provider = adapt5k_package.Provider(package['path'],manifest_sha256=package['sha256'],parent_params=paths['parent_params'])
+        fingerprints = {}
+        if compat is not None:
+            capture_fingerprints(provider,jax,fingerprints)
         for ordinal in RESTORE:
             if stop.exists() or time.time()+60 >= deadline:
                 raise TimeoutError('ADAPT0_CORE_REPLAY_STOP_OR_EXPIRED')
@@ -101,6 +148,7 @@ def run(spec):
             result['stage'] = 'RUNNING_FIXED_RGB16'
             result['generation_attempts'] += 1
             write(root/'PROGRESS.private.json',dict(result,pending_ordinal=ordinal))
+            fingerprints.clear()
             out = provider.predict(state,images,prompt,frame,noise_id=fixed['noise_id'],previous_reference=previous)
             result['model_generations'] += 1
             action = out['physical_H40']
@@ -109,10 +157,23 @@ def run(spec):
                           guard_signature(expected['metrics']['envelope'],expected['metrics']['gripper_seam'])]
             row = dict(ordinal=ordinal,index=index,normalized_exact=bytes_sha(out['normalized'][0])==expected['normalized_sha256'],
                 physical_exact=bytes_sha(action)==expected['decoded_sha256'],guard_exact=signatures[0]==signatures[1])
+            if compat is not None:
+                file = root/'outputs'/f'{ordinal:03d}.npz'
+                with file.open('xb') as stream:
+                    np.savez(stream,normalized=out['normalized'][0],decoded=action)
+                    stream.flush()
+                    os.fsync(stream.fileno())
+                row.update(identity=fixed['identity'],noise_id=fixed['noise_id'],previous_actual_command=previous,
+                           output=pin(file),normalized_sha256=bytes_sha(out['normalized'][0]),decoded_sha256=bytes_sha(action),
+                           guard_signature=signatures[0],original_envelope=envelope,gripper_seam=out['G7_gripper_speed'],
+                           **fingerprints)
             result['rows'].append(row)
-        passed = all(r['normalized_exact'] and r['physical_exact'] and r['guard_exact'] for r in result['rows'])
-        result.update(status='CORE_ADAPT0_RGB16_EXACT' if passed else 'CORE_ADAPT0_RGB16_OUTPUT_GATE_FAILED',
-                      exit_code=0 if passed else 1,passed=passed)
+        if compat is None:
+            passed = all(r['normalized_exact'] and r['physical_exact'] and r['guard_exact'] for r in result['rows'])
+            result.update(status='CORE_ADAPT0_RGB16_EXACT' if passed else 'CORE_ADAPT0_RGB16_OUTPUT_GATE_FAILED',
+                          exit_code=0 if passed else 1,passed=passed)
+        else:
+            result.update(status='CORE_ADAPT0_COMPAT_V2_ARRAYS_SEALED',exit_code=0,native_admission=False)
     except Exception as error:
         result.update(status='CORE_ADAPT0_RGB16_TECHNICAL_TERMINAL',first_failure=f'{type(error).__name__}: {error}')
     finally:
