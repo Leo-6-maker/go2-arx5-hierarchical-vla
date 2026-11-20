@@ -12,6 +12,7 @@ import time
 from go2arx5_vla.sla_adapter import adapt5k_checkpoint as checkpoint, adapt5k_contract as contract
 from go2arx5_vla.sla_adapter.runtime_v1 import read_pin
 from scripts.pi0292.durable import OwnerLock, write
+from scripts.sla import adapt5k_curriculum
 from scripts.sla.adapt5k_vanda import SCHEMA, pbs_history, pbs_site, site_inputs
 from scripts.sla.evaluate_adapt5k import restore_proof
 from scripts.sla.scale20k_vanda_offline import read_pbs_with_auth_retry
@@ -19,7 +20,7 @@ from scripts.sla.train_adapt5k import first_nonzero_gate
 from scripts.wm02.multisource_d4_vanda import pin
 
 
-TRAIN_LIMITS = tuple(range(250, contract.SWITCH_PHASE + 1, 250))
+TRAIN_LIMITS = tuple(range(250, contract.UPDATES + 1, 250))
 ORIGINAL_RUNTIME = '1432c8dc88c57adf39e8fa363f5438c5e63aa8fd'
 RUNTIME_MEMBERS = ('SOURCE_SHA.private', 'scripts/sla/train_adapt5k.py', 'scripts/sla/evaluate_adapt5k.py',
                    'src/go2arx5_vla/sla_adapter/adapt5k_checkpoint.py',
@@ -32,11 +33,12 @@ def verify_train_result(training_pin, parent):
     saved = actual['checkpoint']
     root, marker = checkpoint.read_complete(saved, actual['binding'])
     step, start = marker['phase_step'], actual['start_phase']
+    stage = actual['binding']['stage_start']
     updates = step - start
     if ((actual['status'],actual['exit_code']) not in
             (('ADAPT_FIXED_SEGMENT_SAVED',0),('ADAPT_BOUNDED_SAVED_PREFIX',75))
             or actual['source_sha'] != ORIGINAL_RUNTIME or actual['binding']['source_revision'] != ORIGINAL_RUNTIME
-            or not 0 <= start < step <= contract.SWITCH_PHASE or actual['end_phase'] != step
+            or not stage <= start < step <= actual['binding']['stage_stop'] or actual['end_phase'] != step
             or actual['binding']['parent_checkpoint_sha256'] != parent['sha256']
             or actual['new_updates'] != updates or actual['native_requests'] or actual['native_ticks']
             or not 4*updates <= actual['complete_H40_generations'] <= 4*(updates+1)
@@ -51,7 +53,7 @@ def verify_train_result(training_pin, parent):
     rates = contract.phase_rates()
     for expected, line in enumerate(lines, start+1):
         row = json.loads(line)
-        clocks = contract.progress(actual['binding']['parent_step'],expected)
+        clocks = contract.progress(actual['binding']['parent_step'],expected,stage)
         if (any(row[key] != value for key,value in clocks.items()) or row['learning_rate'] != rates[expected-1]
                 or not math.isfinite(row['grad_norm'])
                 or row['domains']['target']['training_full_generations'] != 4
@@ -91,6 +93,21 @@ def cold_predecessor(spec, base, previous):
     return train, detail, seal, gates
 
 
+def boundary_evaluation_registered(spec, base, lineage):
+    root = lineage/'slaadp2kev-01'
+    registration = read_pin(spec['independent_eval2000'])
+    job = registration['released']['job']
+    card = read_pin(registration['spec'])
+    status = read_pbs_with_auth_retry(pbs_history,job)
+    if (Path(spec['independent_eval2000']['path']) != root/'SUBMISSION.private.json'
+            or registration['role'] != 'eval' or registration['step'] != contract.SWITCH_PHASE
+            or card['job_id'] != job or card['role'] != 'eval' or card['step'] != contract.SWITCH_PHASE
+            or card['previous_job'] != spec['previous_job'] or job == spec['job_id']
+            or status['project'] != base['project'] or status['Job_Owner'].split('@')[0] != base['user']
+            or status['job_state'] not in ('H','Q','R','E','F')):
+        raise ValueError('ADAPT5K_REQUIRES_THE_REGISTERED_INDEPENDENT_2000_EVAL_EDGE')
+
+
 def run(spec):
     root, previous, lineage, runtime = (Path(spec[k]).resolve(strict=True) for k in ('root','previous','lineage','runtime'))
     source = Path(__file__).resolve().parents[2]
@@ -100,7 +117,7 @@ def run(spec):
             or previous.parent != lineage or root.stat().st_uid != os.getuid() or lineage.stat().st_uid != os.getuid()
             or (source/'SOURCE_SHA.private').read_text().strip() != spec['source_sha']
             or (root/'RESULT.private.json').exists() or (root/'ACTIVATED.private.json').exists()
-            or role not in ('train','eval') or limit not in (TRAIN_LIMITS if role == 'train' else (500,2000))):
+            or role not in ('train','eval') or limit not in (TRAIN_LIMITS if role == 'train' else (500,2000,5000))):
         raise PermissionError('ADAPT5K_HANDOFF_REQUIRES_FRESH_BOUNDED_PBS_ROLE')
     stop_files = (stop, lineage/'STOP.json', previous/'STOP.json')
     lock_path = lineage/'LINEAGE_OWNER.lock' if role == 'train' else lineage/f'EVAL_PHASE{limit:05d}.lock'
@@ -131,6 +148,20 @@ def run(spec):
             raise ValueError('ADAPT5K_HANDOFF_REQUIRES_FORWARD_TRAINING_OR_EXACT_FORMAL_EVAL_ENDPOINT')
         config = dict(base,job_id=spec['job_id'],deadline_epoch=spec['deadline_epoch'])
         assets,training,evidence,cpu = site_inputs(config)
+        proof = assets['train_proof']
+        if limit > contract.SWITCH_PHASE:
+            if seal['step'] == contract.SWITCH_PHASE:
+                boundary_evaluation_registered(spec,base,lineage)
+            decision,training,cpu = adapt5k_curriculum.select(spec,lineage,training,detail,seal)
+            selected = read_pin(decision)
+            proof = selected['train_proof']
+            if seal['step'] > contract.SWITCH_PHASE:
+                prior_scope = read_pin(pin(previous/'RESULT.private.json'))
+                if (prior_scope.get('stage2_curriculum') != decision
+                        or detail['binding']['stage_bank_sha256'] != selected['stage2_bank_sha256']
+                        or detail['binding']['stage_start'] != contract.SWITCH_PHASE):
+                    raise ValueError('ADAPT5K_HANDOFF_STAGE2_PREDECESSOR_USED_A_DIFFERENT_CURRICULUM')
+            result['stage2_curriculum'] = decision
         wall = 21600 if role == 'train' else 5400
         common,env,_ = pbs_site(config,root,wall=wall)
         paths = [str(runtime),str(runtime/'src'),*spec['dependencies']]
@@ -164,7 +195,7 @@ def run(spec):
 
         if role == 'train':
             data = run_worker('train','scripts.sla.train_adapt5k','train',dict(
-                data=training['data'],train_data_proof=assets['train_proof'],target_D1_sha256=base['D1_freeze_sha256'],
+                data=training['data'],train_data_proof=proof,target_D1_sha256=base['D1_freeze_sha256'],
                 parent_checkpoint=base['parent_checkpoint'],parent_training_spec=base['parent_training_spec'],
                 parent_step=base['parent_step'],stage_start=training['stage_start'],stage_stop=training['stage_stop'],
                 target_seed=training['target_seed'],stage_bank_sha256=cpu['vanda']['bank_digests'],
@@ -187,9 +218,9 @@ def run(spec):
             if restored['exit_code']:
                 result.update(status=restored['status'],failure=restored.get('failure'))
                 return result['exit_code']
-            proof = root/'OUTPUT_RESTORE_ACTUAL.private.json'
-            write(proof,restore_proof(before,restored))
-            result.update(status='ADAPT_FORMAL_EVALUATION_COMPLETE',output_restore_proof=pin(proof),exit_code=0)
+            restored_outputs = root/'OUTPUT_RESTORE_ACTUAL.private.json'
+            write(restored_outputs,restore_proof(before,restored))
+            result.update(status='ADAPT_FORMAL_EVALUATION_COMPLETE',output_restore_proof=pin(restored_outputs),exit_code=0)
         return result['exit_code']
     except (Exception, KeyboardInterrupt) as error:
         result.update(status='ADAPT_HANDOFF_NEEDS_RECONCILIATION',failure=f'{type(error).__name__}: {error}',exit_code=1)
