@@ -68,6 +68,41 @@ def compare_remaining(baseline, effects):
         engineering_only=True,eligible_as_formal_parent=False,native_requests=0)
 
 
+def batch_output_roles(root, source, common, env, spec, panel, actual, variant, effect):
+    roles = actual['offline_roles'][variant] = {}
+    for role in ('ordinary','restore'):
+        name = f'{variant}-{role}'
+        remaining = common['deadline_epoch']-time.time()
+        if Path(common['STOP_path']).exists() or remaining<=180:
+            raise TimeoutError('ADAPT_BATCH_OFFLINE_FINITE_SITE_WINDOW')
+        child = root/name
+        child.mkdir()
+        card = root/(name+'.SPEC.private.json')
+        write(card,dict(common,source_sha=spec['source_sha'],registered_root=str(child),generation_cap=48,
+            engineering_effect=effect,training_card=spec['training_card'],fixed_output_panel=panel,
+            ordinary_result=roles.get('ordinary')))
+        actual['unresolved_role'] = name
+        tail, counts = child/'RESULT.private.json', child/'COUNTS.private.json'
+        try:
+            with (root/(name+'.log')).open('x') as log:
+                worker = subprocess.run([sys.executable,'-B','-m','scripts.sla.evaluate_adapt5k_performance',role,
+                    str(card),pin(card)['sha256']],timeout=remaining,env=env,cwd=source,stdout=log,stderr=subprocess.STDOUT)
+        finally:
+            counter = tail if tail.is_file() else counts
+            if counter.is_file():
+                observed = read_pin(pin(counter))
+                actual['offline_attempted'] += observed['attempted']
+                actual['offline_generated'] += observed['generated']
+        if not tail.is_file():
+            raise RuntimeError(f'ADAPT_BATCH_OFFLINE_{name}_EXIT_{worker.returncode}_WITHOUT_TERMINAL')
+        roles[role] = pin(tail)
+        outcome = read_pin(roles[role])
+        if worker.returncode!=outcome['exit_code'] or outcome['exit_code']:
+            raise RuntimeError(f'ADAPT_BATCH_OFFLINE_EFFECT_FAILED:{name}:{outcome.get("failure")}')
+        actual['unresolved_role'] = None
+    return roles
+
+
 def batch_outputs(root, source, common, env, spec, plan, actual, comparison):
     from scripts.sla.evaluate_adapt5k_performance import compare_outputs
 
@@ -76,37 +111,7 @@ def batch_outputs(root, source, common, env, spec, plan, actual, comparison):
     actual['offline_generated'] = actual['offline_attempted'] = 0
     reference = None
     for variant,effect in actual['completed'].items():
-        roles = actual['offline_roles'][variant] = {}
-        for role in ('ordinary','restore'):
-            name = f'{variant}-{role}'
-            remaining = common['deadline_epoch']-time.time()
-            if Path(common['STOP_path']).exists() or remaining<=180:
-                raise TimeoutError('ADAPT_BATCH_OFFLINE_FINITE_SITE_WINDOW')
-            child = root/name
-            child.mkdir()
-            card = root/(name+'.SPEC.private.json')
-            write(card,dict(common,source_sha=spec['source_sha'],registered_root=str(child),generation_cap=48,
-                engineering_effect=effect,training_card=spec['training_card'],fixed_output_panel=panel,
-                ordinary_result=roles.get('ordinary')))
-            actual['unresolved_role'] = name
-            with (root/(name+'.log')).open('x') as log:
-                worker = subprocess.run([sys.executable,'-B','-m','scripts.sla.evaluate_adapt5k_performance',role,
-                    str(card),pin(card)['sha256']],timeout=remaining,env=env,cwd=source,stdout=log,stderr=subprocess.STDOUT)
-            tail = child/'RESULT.private.json'
-            if not tail.is_file():
-                counts = child/'COUNTS.private.json'
-                if counts.is_file():
-                    counter = read_pin(pin(counts))
-                    actual['offline_attempted'] += counter['attempted']
-                    actual['offline_generated'] += counter['generated']
-                raise RuntimeError(f'ADAPT_BATCH_OFFLINE_{name}_EXIT_{worker.returncode}_WITHOUT_TERMINAL')
-            roles[role] = pin(tail)
-            outcome = read_pin(roles[role])
-            actual['offline_attempted'] += outcome['attempted']
-            actual['offline_generated'] += outcome['generated']
-            actual['unresolved_role'] = None
-            if worker.returncode!=outcome['exit_code'] or outcome['exit_code']:
-                raise RuntimeError(f'ADAPT_BATCH_OFFLINE_EFFECT_FAILED:{name}:{outcome.get("failure")}')
+        roles = batch_output_roles(root,source,common,env,spec,panel,actual,variant,effect)
         ordinary = read_pin(roles['ordinary'])
         if reference is None:
             reference = ordinary

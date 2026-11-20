@@ -3,6 +3,48 @@ import numpy as np
 import pytest
 
 
+def test_pair_worker_binds_only_the_two_pbs_uuids_with_reference_first(tmp_path, monkeypatch):
+    from datetime import datetime
+    import json
+    import os
+    import time
+    from zoneinfo import ZoneInfo
+
+    from scripts.sla import benchmark_adapt5k_pair_vanda as pair
+
+    home = tmp_path/'tmp'
+    home.mkdir()
+    monkeypatch.setenv('TMPDIR',str(home))
+    monkeypatch.setenv('PBS_JOBID','19.site')
+    start = datetime.now(ZoneInfo('Asia/Singapore')).strftime('%a %b %d %H:%M:%S %Y')
+    job = dict(job_state='R',project='mine',Job_Owner='student@site',stime=start,
+               Resource_List=dict(ngpus=2,walltime='03:00:00'))
+    monkeypatch.setattr(pair,'read_pbs_with_auth_retry',lambda *args:job)
+    monkeypatch.setattr(pair.adapt5k_pair_site,'visible_cuda_uuids',lambda:['second','primary'])
+    host = os.uname().nodename
+    config = dict(project='mine',user='student',uid=os.getuid(),parent_params=str(home),dataset=str(home),XLA_FLAGS='')
+    reference = dict(device=dict(host=host,GPU_uuid='primary'))
+    spec = dict(job_id='19.site',deadline_epoch=time.time()+8900,source_sha='a'*40)
+
+    def validate_in_fresh_process(argv, *, input, env, **kwargs):
+        received = json.loads(input)
+        with open(received['pair_site_binding']['path']) as stream:
+            body = json.load(stream)
+        assert env['CUDA_VISIBLE_DEVICES']=='primary,second'
+        assert body['GPU_uuids']==['primary','second'] and body['deadline_epoch']==received['deadline_epoch']
+        return json.dumps(dict(topology='observed',devices=[dict(GPU_bytes=48*1024**3)]*2,GPU_name='NVIDIA A40'))
+
+    monkeypatch.setattr(pair.subprocess,'check_output',validate_in_fresh_process)
+    common,env,bound,observed = pair.site_inputs(spec,config,reference,tmp_path,dict(checkpoint=dict(sha256='b'*64)))
+    assert env['CUDA_VISIBLE_DEVICES']=='primary,second'
+    assert common['GPU_uuid']=='primary' and common['deadline_epoch']==bound['deadline_epoch']
+    with open(observed['path']) as stream:
+        assert json.load(stream)['allocated_GPU_uuids']==['primary','second']
+    monkeypatch.setattr(pair.adapt5k_pair_site,'visible_cuda_uuids',lambda:['other','second'])
+    with pytest.raises(PermissionError,match='MISSING_REFERENCE_CARD'):
+        pair.site_inputs(spec,config,reference,tmp_path,dict(checkpoint=dict(sha256='b'*64)))
+
+
 def test_two_device_local_accumulation_and_single_global_adam():
     jax = pytest.importorskip('jax')
     import jax.numpy as jnp
