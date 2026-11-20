@@ -142,3 +142,49 @@ def test_clock_prefix_checks_original_lr_slots_and_actual_d2_bank_bytes(tmp_path
     ledger.write_text(json.dumps(row)+'\n')
     with pytest.raises(ValueError,match='UNMATCHED_SAMPLE_CLOCK'):
         validate_ledger(pin(ledger),2000,2001,banks=banks,parent_step=500)
+def test_clock_go2_export_is_atomic_and_cannot_be_read_as_adapt(tmp_path):
+    import pytest
+    from go2arx5_vla.sla_adapter import adapt5k_package, clock500_package
+    from go2arx5_vla.sla_adapter.clock500 import ARMS, ENDPOINT, PARENT, PLAN
+    from go2arx5_vla.sla_adapter.multitask_contract_v6 import C20_STATISTICS
+    from scripts.sla import clock500_export as export
+
+    root = tmp_path/'job'
+    root.mkdir()
+    files, rows = {}, []
+    for index in range(29):
+        source = tmp_path/f'{index:06d}.npy'
+        source.write_bytes(str(index).encode())
+        name = f'parameters/{source.name}'
+        record = export.pin(source)
+        files[f'package/{name}'] = record
+        domain = 'shared' if index < 14 else 'target'
+        rows.append(dict(key=f"['parameters']['{domain}']['w{index}']",file=name,sha256=record['sha256'],
+                         dtype='float32',shape=[1]))
+    assets = [f'archive/{i:03d}.npz' for i in export.RESTORE]
+    assets += ['package/D1_STATE_STATISTICS.json','package/C20_ACTION_STATISTICS.json',
+               'package/paligemma_tokenizer.model','archive/FORMAL.private.json',
+               'archive/RESTORE_PROOF.private.json','archive/PANEL.private.json']
+    for name in assets:
+        source = tmp_path/name.replace('/','-')
+        source.write_bytes(name.encode())
+        files[name] = export.pin(source)
+    identity = dict.fromkeys(('checkpoint_sha256','comparison_sha256','parent_state_sha256','D2_sha256',
+        'MIX_sha256','D1_freeze_sha256','state_statistics_sha256','tokenizer_sha256','partition_sha256',
+        'frozen_fingerprint','initial_state_sha256','evaluation_sha256','restore_sha256','panel_sha256',
+        'native_population_sha256'),'b'*64)
+    manifest = dict(identity,schema=clock500_package.SCHEMA,plan=PLAN,arm=ARMS[0],phase=ENDPOINT,parent_phase=PARENT,
+        branch_updates=500,parent_manifest={'sha256':'a'*64},action_statistics_sha256=C20_STATISTICS,arrays=rows,
+        physics=False,hardware_allowed=False,native_admission=False,formal_ADAPT_parent_eligible=False)
+    changed = tmp_path/'000000.npy'
+    changed.write_bytes(b'corrupt')
+    with pytest.raises(ValueError,match='MEMBER_BYTES_CHANGED'):
+        export.archive(root,manifest,files,{},(),lambda:None)
+    assert not list(root.iterdir())
+    changed.write_bytes(b'0')
+    proof = export.read_pin(export.archive(root,manifest,files,{},(),lambda:None))
+    path = root/'sealed/package'
+    assert clock500_package.Provider.read_manifest(path,proof['package_sha256']) == manifest
+    assert proof['arm'] == ARMS[0] and len(proof['members']) == 52
+    with pytest.raises(ValueError,match='SEALED_NONPHYSICAL'):
+        adapt5k_package.Provider.read_manifest(path,proof['package_sha256'])
