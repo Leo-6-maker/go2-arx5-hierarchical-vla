@@ -288,15 +288,15 @@
     "AdamW": {
       "b1": 0.9,
       "b2": 0.95,
-      "eps": 1e-8,
-      "weight_decay": 0.00001,
+      "eps": 1e-08,
+      "weight_decay": 1e-05,
       "global_clip": 1,
       "inherit_compatible_state": true
     },
     "LR": {
       "kind": "explicit_phase_cosine_no_warmup",
-      "initial": 0.000005,
-      "final": 0.000001,
+      "initial": 5e-06,
+      "final": 1e-06,
       "steps": 5000,
       "formula": "1e-6+0.5*(5e-6-1e-6)*(1+cos(pi*j/4999)), j=0..4999",
       "restart_at_D2": false
@@ -787,6 +787,13 @@
     "document": "SLA_LONGRUN_ADJUSTMENT_20261120.md",
     "date_SGT": "2026-11-20",
     "instruction": "Read the amendment first for current progress, crash recovery, D2/stage2 dispatch and prospective deployment compatibility. This original evidence snapshot remains historical; numeric total caps are unchanged."
+  },
+  "latest_goal_v2": {
+    "protocol": "docs/protocols/SLA_MULTISOURCE_CLOSED_LOOP_GOAL_V2_20261120.md",
+    "json": "docs/protocols/SLA_MULTISOURCE_CLOSED_LOOP_GOAL_V2_20261120.json",
+    "prompt": "docs/handover/2026-11-20/START_SLA_MULTISOURCE_CLOSED_LOOP_GOAL_V2.md",
+    "status": "PUBLISHED_NOT_SITE_EXECUTION",
+    "previous_amendment_retained": true,
+    "old_budget_reset": false
   }
 }
-

@@ -1,3 +1,5 @@
+> 2026-11-20 最新后继：[Goal V2](SLA_MULTISOURCE_CLOSED_LOOP_GOAL_V2_20261120.md) / [JSON](SLA_MULTISOURCE_CLOSED_LOOP_GOAL_V2_20261120.json)。V2复用已完成恢复/准入，补后台接续与学生闭环，并显式新增有限性能和条件时序实验；本页历史配方、旧预算和实际身份保留。
+
 # SLA 多源后训练与 Go2+ARX5 本体适配：长程自主推进 V1
 
 > 2026-11-20更新：接续先读[实验审核与计划调整](SLA_LONGRUN_ADJUSTMENT_20261120.md)及其[机读清单](SLA_LONGRUN_ADJUSTMENT_20261120.json)。本页11月19日状态是历史截面；新调整明确MIX异常恢复、D2双站读取和2001–5000编排、部署兼容V2与学生native优先级。原预算和现役训练配方保持。
@@ -330,4 +332,5 @@ ADAPT5k先按当前128窗口配方量级预留约50–64GPU小时，但H40/H50�
 - Eval：正式checkpoint seal同时触发下一训练段与独立离线Eval，不使训练等待评价成绩；优先独立可用A40，若没有空闲GPU则Eval独立排队。Native Eval依然需要Core唯一world，不能因为允许并行而与另一个native作业竞争。
 - ADAPT与原MIX/TGT分别排队；ADAPT仍只在D1数据真实准入、父MIX正式端点及独立GPU allocation成立后启动。计划中的更新/访问/生成/native总上界不变，排队与checkpoint转移不额外生成模型调用。
 - Codex须输出两个站点的**实际登记回执**及独立Eval claim，明确REGISTERED/QUEUED与PLANNED/BLOCKED；发布文档本身不是任务挂载成功。
+
 
