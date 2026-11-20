@@ -17,6 +17,14 @@ DIGEST = re.compile(r'[0-9a-f]{64}')
 DOMAINS = {'target','robodojo','libero'}
 BINDING_HASHES = {'parent_manifest_sha256','partition_sha256','initial_state_sha256',
                   'optimizer_sha256','learning_rates_sha256','target_admission_sha256','tokenizer_sha256'}
+ADAPT_ARM = 'ADAPT5K'
+ADAPT_SCHEMA = 'SLA_ADAPT5K_COMPLETE_PHASE_STATE_V1'
+ADAPT_BINDING_HASHES = {
+    'parent_checkpoint_sha256', 'parent_training_spec_sha256', 'parent_manifest_sha256',
+    'partition_sha256', 'optimizer_sha256', 'tokenizer_sha256', 'target_state_sha256',
+    'target_D1_sha256', 'stage_target_data_sha256', 'R200_membership_sha256',
+    'LIBERO_membership_sha256', 'learning_rates_sha256', 'frozen_C20_action_statistics_sha256',
+}
 
 
 def sha(path):
@@ -31,12 +39,38 @@ def checked(path, digest):
     return json.loads(data)
 
 
-def inventory(checkpoint, complete, *, step):
-    path = checkpoint/'COMPLETE.json'
-    state = checked(path,complete)
+def adapt_inventory_binding(state, step):
+    binding = state['binding']
+    if (set(state) != {'schema', 'binding', 'phase_step', 'progress', 'training_generations',
+                       'raw_endpoint', 'physics', 'arrays'}
+            or state['schema'] != ADAPT_SCHEMA or state['phase_step'] != step
+            or state['training_generations'] != 4 * step or state['raw_endpoint'] is not True
+            or set(binding) != ADAPT_BINDING_HASHES | {'plan', 'recipe', 'source_revision',
+                   'parent_step', 'stage_start', 'stage_stop', 'stage_bank_sha256'}
+            or binding['recipe'] != 'SLA_ADAPT5K_REAL_R200_TARGET_ANCHOR_V1'
+            or any(not re.fullmatch(r'[0-9a-f]{40}', binding[k]) for k in ('plan', 'source_revision'))
+            or any(not DIGEST.fullmatch(binding[k]) for k in ADAPT_BINDING_HASHES)
+            or set(binding['stage_bank_sha256']) != DOMAINS
+            or any(not DIGEST.fullmatch(value) for value in binding['stage_bank_sha256'].values())
+            or binding['parent_step'] != 500
+            or (binding['stage_start'], binding['stage_stop']) not in ((0, 2000), (2000, 5000))
+            or not binding['stage_start'] <= step <= binding['stage_stop']):
+        raise ValueError('PUBLIC_ADAPT_RELEASE_REQUIRES_A_SEALED_PHASE_WITH_HASH_ONLY_BINDINGS')
+    mix_slots = {'target': 32, 'robodojo': 48, 'libero': 48}
+    adapt_slots = {'target': 64, 'robodojo': 32, 'libero': 32}
+    phase = {name: step * slots for name, slots in adapt_slots.items()}
+    expected = dict(parent_global_step=500, phase_step=step, lineage_total_updates=500 + step,
+                    stage_start=binding['stage_start'], phase_cursors=phase,
+                    lineage_cursors={k: phase[k] + 500 * mix_slots[k] for k in DOMAINS},
+                    stage_local_cursors={k: (step - binding['stage_start']) * adapt_slots[k] for k in DOMAINS})
+    if state['progress'] != expected:
+        raise ValueError('PUBLIC_ADAPT_RELEASE_PHASE_COUNTERS_DO_NOT_MATCH_THE_RECIPE')
+
+
+def scale_inventory_binding(state, step):
     if (set(state)!={'schema','binding','step','cursors','arrays','training_full_generations','physics'}
-            or state['schema']!=SCHEMA or state['step']!=step or state['physics'] is not False
-            or state['training_full_generations']!=step*4 or len(state['arrays'])!=sum(GROUPS.values())
+            or state['schema']!=SCHEMA or state['step']!=step
+            or state['training_full_generations']!=step*4
             or set(state['cursors'])!=DOMAINS or any(type(v) is not int or v<0 for v in state['cursors'].values())):
         raise ValueError('PUBLIC_RELEASE_REQUIRES_A_SEALED_TRAINING_ONLY_STATE')
     binding = state['binding']
@@ -48,6 +82,17 @@ def inventory(checkpoint, complete, *, step):
             or any(set(binding[k])!=DOMAINS or not all(DIGEST.fullmatch(v) for v in binding[k].values())
                    for k in ('data_manifest_sha256','visit_bank_sha256'))):
         raise ValueError('PUBLIC_RELEASE_BINDING_MAY_CONTAIN_ONLY_ORIGINAL_HASHES')
+
+
+def inventory(checkpoint, complete, *, step, arm=None):
+    path = checkpoint/'COMPLETE.json'
+    state = checked(path,complete)
+    if state['physics'] is not False or len(state['arrays']) != sum(GROUPS.values()):
+        raise ValueError('PUBLIC_RELEASE_REQUIRES_A_SEALED_TRAINING_ONLY_STATE')
+    if arm == ADAPT_ARM:
+        adapt_inventory_binding(state, step)
+    else:
+        scale_inventory_binding(state, step)
     inventory = {'COMPLETE.json':dict(sha256=complete,bytes=path.stat().st_size)}
     groups = Counter()
     for i,row in enumerate(state['arrays']):
@@ -114,18 +159,25 @@ def require_cold_producer(config, producer, train):
     result_path = Path(config['producer_result']['path']).resolve(strict=True)
     receipt = checked(result_path,config['producer_result']['sha256'])
     hosts = {value.split('/')[0].split('.')[0] for value in own['exec_host'].split('+')}
+    if config['arm'] == ADAPT_ARM:
+        receipt_matches = (receipt['status'] == 'ADAPT_FIXED_SEGMENT_SAVED'
+                           and receipt['completed_roles']['train'] == train
+                           and receipt['phase_limit'] == config['step'] and receipt['exit_code'] == 0)
+    else:
+        receipt_matches = receipt['status'] == 'FIXED_SEGMENT_SAVED' and receipt['stages']['train'] == train
     if (config['uid']!=os.getuid() or producer.stat().st_uid!=os.getuid() or own_id==prior_id
             or any(job['project']!=config['project'] or job['Job_Owner'].split('@')[0]!=config['user'] for job in (own,prior))
             or own['job_state']!='R' or int(own['Resource_List'].get('ngpus',0))
             or os.uname().nodename.split('.')[0] not in hosts or prior['job_state']!='F' or prior['Exit_status']!=0
             or result_path!=producer/'RESULT.private.json' or receipt['PBS_JOBID']!=prior_id
-            or receipt['status']!='FIXED_SEGMENT_SAVED' or receipt['stages']['train']!=train):
+            or not receipt_matches):
         raise PermissionError('PUBLICATION_REQUIRES_OWN_CPU_PBS_AND_EXACT_COLD_VANDA_SEAL')
 
 
 def run(config):
     root = Path(config['root']).resolve(strict=True)
-    if root.stat().st_uid!=os.getuid() or config['repo']!=REPO or (root/'RESULT.private.json').exists():
+    if (root.stat().st_uid!=os.getuid() or config['repo']!=REPO or (root/'RESULT.private.json').exists()
+            or (config['arm'] == ADAPT_ARM and config.get('producer_site') != 'VANDA')):
         raise PermissionError('PUBLIC_RELEASE_REQUIRES_FRESH_APPROVED_PUBLICATION_SCOPE')
     status = dict(status='PUBLIC_CHECKPOINT_NOT_VERIFIED',repo=REPO,step=config['step'],
                   source_sha=config['source_sha'],optimizer_updates=0,native_requests=0,native_ticks=0,model_generations=0)
@@ -136,16 +188,31 @@ def run(config):
         producer = train_path.parent.parent
         require_cold_producer(config,producer,pin)
         checkpoint = Path(result['checkpoint']['path']).resolve(strict=True)
-        phase_states = {(0,'FIXED_SEGMENT_SAVED')}
-        if config.get('allow_bounded_Core_prefix') is True and config.get('producer_site','Corelab')=='Corelab':
-            phase_states.add((75,'BOUNDED_SAVED_PREFIX'))
-        if ((result['exit_code'],result['status']) not in phase_states or result['global_step']!=config['step']
-                or result['arm']!=config['arm']
-                or checkpoint!=train_path.parent/f"step{config['step']:05d}"):
+        step = config['step']
+        arm = config['arm']
+        if arm == ADAPT_ARM:
+            formal_end = (result['status'] == 'ADAPT_FIXED_SEGMENT_SAVED' and result['exit_code'] == 0
+                          and result['end_phase'] == step and checkpoint == train_path.parent/f'phase{step:05d}')
+        else:
+            phase_states = {(0,'FIXED_SEGMENT_SAVED')}
+            if config.get('allow_bounded_Core_prefix') is True and config.get('producer_site','Corelab')=='Corelab':
+                phase_states.add((75,'BOUNDED_SAVED_PREFIX'))
+            formal_end = ((result['exit_code'],result['status']) in phase_states and result['global_step'] == step
+                          and result['arm'] == arm and checkpoint == train_path.parent/f'step{step:05d}')
+        if not formal_end:
             raise PermissionError('PUBLICATION_REQUIRES_THE_EXACT_COLD_FORMAL_TRAINING_SEAL')
         complete = result['checkpoint']['sha256']
-        state, members = inventory(checkpoint,complete,step=config['step'])
-        if state['binding']['arm']!=config['arm'] or state['cursors']!=result['global_cursors']:
+        state, members = inventory(checkpoint, complete, step=step, arm=arm)
+        if arm == ADAPT_ARM:
+            updates = step - result['start_phase']
+            agrees = (state['binding'] == result['binding'] and updates == result['new_updates'] > 0
+                      and result['native_requests'] == result['native_ticks'] == 0
+                      and result['complete_H40_generations'] == 4 * updates
+                      and result['optimization_visits'] == {'target': 64 * updates, 'robodojo': 32 * updates,
+                                                            'libero': 32 * updates})
+        else:
+            agrees = state['binding']['arm'] == arm and state['cursors'] == result['global_cursors']
+        if not agrees:
             raise ValueError('PUBLIC_RELEASE_STATE_AND_TERMINAL_EFFECTS_DISAGREE')
         if (root/'STOP.json').exists() or time.time()+120>=config['deadline_epoch']:
             raise TimeoutError('PUBLICATION_STOP_OR_FINITE_WINDOW')
