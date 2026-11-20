@@ -47,10 +47,60 @@
       "deadline_epoch": 1795179921.479736,
       "observed_active": true,
       "threads": 1,
-      "remote_fixed_revision_verified": false,
-      "bytes_uploaded_verified": 0,
+      "remote_fixed_revision_verified": true,
+      "bytes_uploaded_verified": 5547651888,
       "log": "publish.log",
-      "stop": "STOP.json"
+      "stop": "STOP.json",
+      "terminal_state": "SUCCESS",
+      "revision": "58a7d0c25ca959904a6d0947b1d80a87e4ee6eb0",
+      "remote_hashes_verified": 141
+    },
+    "independent_VANDA_anonymous_receiver": {
+      "manifest_sha256": "54e98287d5df6897298fded5057c0ff8f45b806320d885d63401f4eced179399",
+      "step": 1000,
+      "files": 141
+    },
+    "VANDA_TGT5K": {
+      "source_sha": "e123b906d268b6a631b8ba18fdb47e3a7a924268",
+      "job": "1598725.stdct-mgmt-02",
+      "expiry": "1598726.stdct-mgmt-02",
+      "producer_job": "1593720.stdct-mgmt-02",
+      "spec_sha256": "fc5ed1d09a2d2e4c9f02bda7054f4fd66f6ea4f44f5b08f8a8f2cc9669190d96",
+      "used_preexisting_token": true,
+      "state": "R",
+      "gpu_count": 0,
+      "step": 5000,
+      "source_checkpoint_sha256": "9eb71c0da7c0f34373d53c7b6c6b6dd3491e5a36dfd94d6ae0eb4d799fbdff08",
+      "prefix": "SCALE-TGT5K/step-05000-9eb71c0da7c0",
+      "files": 141,
+      "bytes": 5547651881,
+      "deadline_epoch": 1795182615.7151568,
+      "stop": "STOP.json",
+      "log_files": [
+        "stdout.private.log",
+        "stderr.private.log"
+      ]
+    },
+    "Core_next_cold_publisher": {
+      "unit": "sla-observer-core-mix-next-cold-public-hf-20261120-01.service",
+      "owner": {
+        "MainPID": "870042",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/sla-observer-core-mix-next-cold-public-hf-20261120-01.service",
+        "Id": "sla-observer-core-mix-next-cold-public-hf-20261120-01.service",
+        "ActiveState": "active",
+        "InvocationID": "d7250e6df2184e48b38abc6dc16c8c3f"
+      },
+      "source_sha": "35d06dc3e7073251269a9cf789b3a3ce4023f742",
+      "spec_sha256": "a3b35e2c77e140d7e5003e6fd76430fff09b2a5cc91f9ccec603ed8b32d5e65e",
+      "predecessor": "wm02-sla-scale20k-mix-core-after1000-20261120-02.service",
+      "previous_owner_deadline": 1795177653.448896,
+      "site_deadline_epoch": 1795182453.448896,
+      "state": "WAITING_KNOWN_MIX_PREFIX_TO_CLOSE",
+      "finalizer_sha256": "e33bf0f51ffb1734a4a817bdfd053a3a7893e2498d794090555056a7f8bb63fb",
+      "owner_count": 23,
+      "stop": "STOP.json",
+      "log": "upload.log",
+      "bytes_published": 0
     }
   },
   "vanda_qualification": {
@@ -158,6 +208,43 @@
       "RoboDojo_train_numeric_052_present": true,
       "RoboDojo_raw_binding_present": true,
       "LIBERO_manifest_match": true
+    },
+    "all_domains": {
+      "source_sha": "1b296d4c029e77706b6cb8afe9b29015edd4cc81",
+      "trainer_sha": "31076fc7a64302b0705ae4d7e526c4341209a100",
+      "full_state_result_sha256": "521eb18f7d1a196804fb27d21dacfc13ee8a50965da2422bf63b9ca33f3a28d5",
+      "cpu": {
+        "job": "1598712.stdct-mgmt-02",
+        "spec_sha256": "28f23901e0eb1129eba03d9230c26ce7bc5dd3dc8e5e55446a1e41fe7cbfd5f7",
+        "terminal": "F",
+        "exit_code": 0,
+        "reads": {
+          "target": 32,
+          "robodojo": 48,
+          "libero": 48
+        },
+        "wall_s": 76
+      },
+      "a40": {
+        "job": "1598713.stdct-mgmt-02",
+        "spec_sha256": "93daff9506a5f7c45c4e4798c118c90038e0e9b7d0f75b0c4ec425f3202d37fc",
+        "terminal": "F",
+        "exit_code": 0,
+        "exact_arrays": 140,
+        "gradient_inputs": {
+          "target": 32,
+          "robodojo": 48,
+          "libero": 48
+        },
+        "optimizer_updates": 0,
+        "optimization_visits": 0,
+        "training_H40": 4,
+        "native_requests": 0,
+        "native_ticks": 0,
+        "wall_s": 191,
+        "peak_device_bytes": 20573715200
+      },
+      "expiry": "1598714.stdct-mgmt-02"
     }
   },
   "site_training_restarted": false,
@@ -170,5 +257,5 @@
     "robodojo": 0,
     "libero": 0
   },
-  "new_a40_training_H40": 4
+  "new_a40_training_H40": 8
 }
