@@ -80,7 +80,7 @@ def await_cold(name, observed, *, deadline, stopped):
     raise PermissionError('MIX_ROTATION_PREDECESSOR_DID_NOT_CLOSE_ITS_PROCESS_GROUP')
 
 
-def resources(root, draft, stopped):
+def resources(root, draft, stopped, *, own_gpu_only=False):
     from scripts.pi0292.durable import write
     from scripts.sla.scale20k_core_prefix import resources as gpu_read
 
@@ -100,18 +100,45 @@ def resources(root, draft, stopped):
         '--no-legend','--plain','wm02-*.service'],text=True,timeout=15).splitlines()
     cuda = subprocess.check_output(['nvidia-smi','--query-compute-apps=gpu_uuid,pid',
         '--format=csv,noheader'],text=True,timeout=15).splitlines()
+    conflicting_cuda = [row for row in cuda if row.split(',')[0].strip()==draft['GPU_uuid']] if own_gpu_only else cuda
     available = gpu_read(draft['GPU_uuid'])
     reserve = math.ceil(available['total_bytes']*draft['JAX_memory_fraction'])+2*GIB
     disk = shutil.disk_usage(root).free
     checks = dict(gpu=available['free_bytes']>reserve,host=available['host_bytes']>42*GIB,
-        psi=max(pressure.values())<=.1,project_workers=not roster,compute_owners=not cuda,disk=disk>32*GIB,
+        psi=max(pressure.values())<=.1,project_workers=not roster,compute_owners=not conflicting_cuda,disk=disk>32*GIB,
         stop_clear=not stopped())
     write(root/'RESOURCE.private.json',dict(GPU=available,checks=checks,pressure_samples=samples,
-        running=roster,gpu_owners=cuda,disk=disk,requirements=dict(GPU_bytes=reserve,host_bytes=42*GIB,
+        running=roster,gpu_owners=cuda,conflicting_gpu_owners=conflicting_cuda,disk=disk,requirements=dict(GPU_bytes=reserve,host_bytes=42*GIB,
         disk_bytes=32*GIB,max_pressure_avg10=.1)))
     failures = [key for key,passed in checks.items() if not passed]
     if failures:
         raise PermissionError('MIX_ROTATION_RESOURCE_REJECT:'+','.join(failures))
+
+
+def verify_unstarted_student_block(spec, block_scope, handoff, native_root, training_gpu):
+    from go2arx5_vla.sla_adapter.runtime_v1 import read_pin
+    from go2arx5_vla.world_model.mfree_unattended_runtime_v1 import unit_state
+
+    failure = 'PermissionError: ADAPT_NATIVE_SITE_RESOURCE_OR_LOCK_UNAVAILABLE'
+    witness = read_pin(spec['unstarted_student_resource_refusal'])
+    expected_resource = native_root.with_name(native_root.name+'-launch')/'RESOURCE.private.json'
+    has_later_owner = unit_state(block_scope['next_unit']+'.service')
+    prior = read_pin(handoff['first_block']['result'])
+    student_gpu = witness['GPU_uuid']
+    apps = subprocess.check_output(['nvidia-smi','--query-compute-apps=gpu_uuid,pid',
+        '--format=csv,noheader'],text=True,timeout=15).splitlines()
+    occupants = [row for row in apps if row.split(',')[0].strip()==student_gpu]
+    if (handoff['status']!='ADAPT_NEXT_BLOCK_REQUIRES_RECONCILIATION'
+            or handoff['first_failure']!=failure or 'result' in handoff
+            or any(handoff[field]!=0 for field in ('native_requests_started','native_ticks','model_generations','optimizer_updates'))
+            or prior['new_verified_native_requests']!=6 or prior['unresolved_case_launches'] or prior['failure']
+            or Path(spec['unstarted_student_resource_refusal']['path'])!=expected_resource
+            or witness['native_requests']!=0 or witness['checks']['gpu_idle']
+            or student_gpu==training_gpu or not occupants or native_root.exists()
+            or has_later_owner['pid'] or has_later_owner['cgroup_pids']):
+        raise PermissionError('MIX_ROTATION_REQUIRES_A_RECONCILED_UNSTARTED_STUDENT_BLOCK_AND_CURRENT_GPU_CONFLICT')
+    return dict(status='ADAPT0_ROWS_7_TO_12_UNSTARTED_RESOURCE_REJECTION',requests=0,observed_gpu_owners=occupants,
+                resource=spec['unstarted_student_resource_refusal'],prior=handoff['first_block'])
 
 
 def watch(spec):
@@ -150,25 +177,29 @@ def watch(spec):
         write(root/'READY.private.json',dict(report,unit=state,depends_on=blocker,observe_until_epoch=deadline))
         report['block_observer_terminal'] = await_cold(spec['block_observer_unit'],blocker,deadline=deadline,stopped=stopped)
         handoff = read(block_watch/'RESULT.private.json')
-        if handoff['status']!='ADAPT0_BLOCK2_DISPATCHED':
-            raise ValueError('MIX_ROTATION_ADAPT_BLOCK2_WAS_NOT_RECONCILED')
-        native = handoff['result']
-        native_unit = block_scope['next_unit']+'.service'
-        observed = unit_state(native_unit)
-        if (not native['started'] or native['deadline_epoch']>spec['site_deadline_epoch']
-                or observed['pid'] and any(observed[k]!=native['actual'][k] for k in ('pid','proc_start','ControlGroup'))):
-            raise PermissionError('MIX_ROTATION_NATIVE_OWNER_DOES_NOT_MATCH_HANDOFF')
-        write(root/'PROGRESS.private.json',dict(status='WAITING_FIXED_NATIVE_BLOCK2',native_owner=observed))
-        report['native_terminal'] = await_cold(native_unit,observed,deadline=deadline,stopped=stopped)
-        native_spec = read_pin(native['spec'])
-        native_env = dict(os.environ,PYTHONPATH=native_spec['native_environment']['PYTHONPATH'],
-                          OPENBLAS_NUM_THREADS='1',OMP_NUM_THREADS='1',CUDA_VISIBLE_DEVICES='',JAX_PLATFORMS='cpu')
-        native_path = Path(native_spec['source_root']).resolve(strict=True)
-        if native_spec['source_sha']!=NATIVE_SOURCE or not native_path.is_relative_to(root.parent):
-            raise PermissionError('MIX_ROTATION_ORIGINAL_NATIVE_RUNTIME_REQUIRED')
-        command = [native_spec['python'],'-B',__file__,'--native',str(block_watch/'RESULT.private.json'),str(native_root)]
-        checked = subprocess.check_output(command,cwd=native_path,env=native_env,text=True,timeout=90)
-        report['fixed_native_block'] = json.loads(checked)
+        fallback = 'unstarted_student_resource_refusal' in spec
+        if fallback:
+            report['unstarted_student_block'] = verify_unstarted_student_block(spec,block_scope,handoff,native_root,previous['GPU_uuid'])
+        else:
+            if handoff['status']!='ADAPT0_BLOCK2_DISPATCHED':
+                raise ValueError('MIX_ROTATION_ADAPT_BLOCK2_WAS_NOT_RECONCILED')
+            native = handoff['result']
+            native_unit = block_scope['next_unit']+'.service'
+            observed = unit_state(native_unit)
+            if (not native['started'] or native['deadline_epoch']>spec['site_deadline_epoch']
+                    or observed['pid'] and any(observed[k]!=native['actual'][k] for k in ('pid','proc_start','ControlGroup'))):
+                raise PermissionError('MIX_ROTATION_NATIVE_OWNER_DOES_NOT_MATCH_HANDOFF')
+            write(root/'PROGRESS.private.json',dict(status='WAITING_FIXED_NATIVE_BLOCK2',native_owner=observed))
+            report['native_terminal'] = await_cold(native_unit,observed,deadline=deadline,stopped=stopped)
+            native_spec = read_pin(native['spec'])
+            native_env = dict(os.environ,PYTHONPATH=native_spec['native_environment']['PYTHONPATH'],
+                              OPENBLAS_NUM_THREADS='1',OMP_NUM_THREADS='1',CUDA_VISIBLE_DEVICES='',JAX_PLATFORMS='cpu')
+            native_path = Path(native_spec['source_root']).resolve(strict=True)
+            if native_spec['source_sha']!=NATIVE_SOURCE or not native_path.is_relative_to(root.parent):
+                raise PermissionError('MIX_ROTATION_ORIGINAL_NATIVE_RUNTIME_REQUIRED')
+            command = [native_spec['python'],'-B',__file__,'--native',str(block_watch/'RESULT.private.json'),str(native_root)]
+            checked = subprocess.check_output(command,cwd=native_path,env=native_env,text=True,timeout=90)
+            report['fixed_native_block'] = json.loads(checked)
 
         mix_unit = previous['unit']+'.service'
         owner = unit_state(mix_unit)
@@ -186,7 +217,9 @@ def watch(spec):
             return 0
 
         def release():
-            resources(root,draft,stopped)
+            resources(root,draft,stopped,own_gpu_only=fallback)
+            if fallback:
+                verify_unstarted_student_block(spec,block_scope,handoff,native_root,draft['GPU_uuid'])
             owner_check = OwnerLock(draft['neural_owner_lock'])
             owner_check.close()
             end = min(time.time()+14340,spec['site_deadline_epoch'],campaign['deadline_epoch'])
