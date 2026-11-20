@@ -47,6 +47,43 @@ def native_terminal(target, card, owner, *, deadline, stopped):
     return terminal,effect,outcome
 
 
+def sealed_adapt0_panel(dependency, campaign_pin, previous_hold, *, deadline, stopped):
+    tail = read_pin(dependency['spec'])
+    if (tail['campaign']!=campaign_pin or tail['hold_observer']!=previous_hold
+            or 'block2_resource_refusal' not in tail or tail['unit']!=dependency['owner']['unit']):
+        raise PermissionError('HOLD4_REQUIRES_ORIGINAL_ADAPT0_TAIL_BOUND_TO_THE_ZERO_EFFECT_PREDECESSOR')
+    terminal = cold(tail['unit'],dependency['owner'],deadline=deadline,stopped=stopped)
+    path = Path(tail['root'])/'RESULT.private.json'
+    if (path.parent/'STOP.json').exists():
+        raise InterruptedError('HOLD4_ORIGINAL_ADAPT0_TAIL_OPERATOR_STOP')
+    effect = pin(path)
+    result = read_pin(effect)
+    if (result['status'] not in ('ADAPT0_ORIGINAL_DEV24_SEALED','ADAPT0_TAIL_STOP_OR_SITE_BOUNDARY')
+            or result['source_sha']!=tail['source_sha'] or result['carried_native_requests']!=6
+            or not 1<=result['native_requests']<=18):
+        raise PermissionError('HOLD4_RESOURCE_RECOVERY_REQUIRES_ACTUAL_RECONCILED_ADAPT0_CONDITIONS')
+    cursor = 6
+    for row in result['results']:
+        limit = next(boundary for boundary in (12,18,24) if boundary>cursor)
+        target = Path(tail['targets'][str(limit)])
+        segment = row['effect']
+        spec, response = read_pin(segment['spec']),read_pin(segment['result'])
+        closed = unit_state('wm02-'+target.name+'.service')
+        lease = read(target/'control/LEASE.json')
+        if (row['start']!=cursor or not cursor<row['stop']<=limit
+                or Path(segment['spec']['path'])!=target/'EXECUTION_SPEC.json' or spec['condition_stop']!=limit
+                or Path(segment['result']['path'])!=target/'RESULT.private.json'
+                or lease['spec_sha256']!=segment['spec']['sha256'] or lease['status']!='CLOSED'
+                or response['unresolved_case_launches'] or response['failure']
+                or closed['pid'] or closed['cgroup_pids'] or response['new_verified_native_requests']!=row['stop']-cursor):
+            raise PermissionError('HOLD4_ORIGINAL_ADAPT0_RANGE_NOT_RECONCILED_COLD')
+        cursor = row['stop']
+    if cursor!=6+result['native_requests']:
+        raise ValueError('HOLD4_ORIGINAL_ADAPT0_COUNTS_CHANGED')
+    return dict(terminal=terminal,effect=effect,carried_requests=6,remaining_completed=cursor-6,
+                native_ticks=result['native_ticks'],model_generations=result['model_generations'])
+
+
 def run(spec):
     root = Path(spec['root']).resolve(strict=True)
     target = Path(spec['target'])
@@ -57,12 +94,14 @@ def run(spec):
     source = Path(old_input['source_root']).resolve(strict=True)
     base = read_pin(prepared['receipt']['spec'])
     end = min(spec['site_deadline_epoch'],campaign['deadline_epoch'])
+    restored = spec.get('recovered_student_tail')
     if (os.getuid()!=2009 or root.stat().st_uid!=os.getuid() or os.uname().nodename!='corelab-4080s'
             or owner['pid']!=os.getpid() or owner['pid'] not in owner['cgroup_pids']
             or spec['source_sha']!=(Path(__file__).resolve().parents[2]/'SOURCE_SHA.private').read_text().strip()
             or campaign['plan_sha']!=train.GOAL_HOLD_PLAN or campaign['deadline_epoch']!=campaign['t0_epoch']+14*86400
             or rotation['campaign']!=spec['campaign'] or tgt['campaign']!=spec['campaign']
-            or tgt['rotation_spec']!=spec['rotation'] or rotation['site_deadline_epoch']!=spec['site_deadline_epoch']
+            or (not restored and tgt['rotation_spec']!=spec['rotation'])
+            or rotation['site_deadline_epoch']!=spec['site_deadline_epoch']
             or base['compiled_population']!=old_input['population'] or base['scope']!=train.GOAL_HOLD_SCOPE
             or base['source_sha']!=old_input['source_sha'] or base['source_sha']!=HOLD_SOURCE
             or source.joinpath('SOURCE_SHA.private').read_text().strip()!=HOLD_SOURCE
@@ -78,6 +117,22 @@ def run(spec):
         latest = end-base['case_lead_s']-360
         write(root/'READY.private.json',dict(result,owner=owner,latest_start_epoch=latest,
                                             original_mix=spec['rotation_owner'],tgt=spec['tgt_owner']))
+        if restored:
+            old = read_pin(restored['previous_hold'])
+            o = cold(old['unit'],restored['previous_hold_owner'],deadline=latest,stopped=stopped)
+            previous_hold_root = Path(old['root'])
+            prior = read(previous_hold_root/'RESULT.private.json')
+            if (old['campaign']!=spec['campaign'] or old['target']!=str(target) or old['preflight']!=spec['preflight']
+                    or old['tgt_observer']!=spec['tgt_observer'] or old['prepared_inputs']!=spec['prepared_inputs']
+                    or old['site_deadline_epoch']!=spec['site_deadline_epoch']
+                    or prior['collector_started'] or prior['native_requests'] or prior['native_ticks']
+                    or prior['first_failure']!='ValueError: HOLD4_MIX_ROTATION_REQUIRES_RECONCILIATION:MIX_ROTATION_REQUIRES_RECONCILIATION'
+                    or (previous_hold_root/'NATIVE_INPUT.private.json').exists() or (previous_hold_root/'STOP.json').exists()):
+                raise PermissionError('HOLD4_ORIGINAL_COLLECTION_MAY_ALREADY_HAVE_EXECUTED')
+            result['previous_hold_terminal'] = o
+            write(root/'PROGRESS.private.json',dict(result,status='WAITING_RECOVERED_ADAPT0_FIXED_DEV24'))
+            result['prior_ADAPT0_block'] = sealed_adapt0_panel(restored['tail'],spec['campaign'],
+                restored['previous_hold'],deadline=latest,stopped=stopped)
         result['mix_handoff_terminal'] = cold(rotation['unit'],spec['rotation_owner'],deadline=latest,stopped=stopped)
         mix = read(Path(rotation['root'])/'RESULT.private.json')
         if mix['status']=='MIX_SUCCESSOR_REGISTERED':
@@ -94,7 +149,8 @@ def run(spec):
                 raise ValueError('HOLD4_MIX_PREDECESSOR_REQUIRES_RECONCILIATION')
         elif mix['status']!='ORIGINAL_MIX_MILESTONE_ALREADY_SEALED':
             raise ValueError('HOLD4_MIX_ROTATION_REQUIRES_RECONCILIATION:'+mix['status'])
-        result['prior_ADAPT0_block'] = mix['fixed_native_block']
+        if not restored:
+            result['prior_ADAPT0_block'] = mix['fixed_native_block']
         result['tgt_handoff_terminal'] = cold(tgt['unit'],spec['tgt_owner'],deadline=latest,stopped=stopped)
         tgt_report = read(Path(tgt['root'])/'RESULT.private.json')
         if tgt_report['status']=='TGT5K_FIRST6_DISPATCHED':
