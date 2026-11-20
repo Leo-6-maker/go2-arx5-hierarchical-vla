@@ -1,0 +1,441 @@
+{
+  "schema": "SLA_LONGRUN_ADJUSTMENT_20261120_V1",
+  "date_SGT": "2026-11-20",
+  "timezone": "Asia/Singapore",
+  "status": "REVIEW_AND_PLAN_ONLY_NOT_SERVER_EXECUTION",
+  "user_snapshot_SGT": "2026-11-20T11:40:00+08:00",
+  "parent_plan_sha": "ed41d796738b46939a28f4ccb0a34d9410e38a20",
+  "inspected_execution_report_sha": "3670aaca2640449b456bf1ab527c4635a9feeb23",
+  "public_latest_observation_SGT": "2026-11-20T02:36:00+08:00",
+  "evidence_boundary": {
+    "private_receipts_independently_read": false,
+    "live_server_access": false,
+    "user_receipt_names": [
+      "CORE_TARGET_HOLD_PAIR_EVIDENCE05.private.json",
+      "VANDA_ADAPT_D2_HOLD_CUSTODY01.private.json"
+    ],
+    "public_report_is_not_live_status": true,
+    "user_snapshot_is_not_this_turn_execution": true
+  },
+  "user_reported": {
+    "expert_hold": {
+      "requests": 2,
+      "students": 0,
+      "hardware_requests": 0,
+      "ticks": 46156,
+      "successes": 2,
+      "H40_windows": 139,
+      "confirmed_P10_actions": 1390,
+      "rows": [
+        {
+          "condition": "F1-HOLD-red",
+          "base_motion_mm": 111,
+          "max_lift_mm": 25.09,
+          "held_lift_s": 1.266,
+          "ticks": 23703,
+          "windows": 72
+        },
+        {
+          "condition": "F2-HOLD-blue",
+          "base_motion_mm": 82.7,
+          "max_lift_mm": 25.12,
+          "held_lift_s": 1.22,
+          "ticks": 22453,
+          "windows": 67
+        }
+      ]
+    },
+    "D2_custody": {
+      "file_hashes_matched": 14,
+      "file_count": 14,
+      "reader_consistency": "NOT_YET_REPORTED",
+      "curriculum_switch": false
+    },
+    "TGT": {
+      "sealed_steps": [
+        2000,
+        3500
+      ],
+      "latest_running_step": 4324,
+      "cumulative_target_visits": 138368,
+      "checkpoint_2000_sha_prefix": "f51300df",
+      "checkpoint_2000_full_sha": null,
+      "checkpoint_2000_arrays_verified": 140,
+      "jobs": {
+        "at_2000": "1593003.stdct-mgmt-02",
+        "to_3500": "1593718.stdct-mgmt-02",
+        "to_5000": "1593720.stdct-mgmt-02"
+      },
+      "eval_2000": {
+        "job": "1593719.stdct-mgmt-02",
+        "formal_predictions": 288,
+        "restore_predictions": 48,
+        "restore_exact": 48,
+        "target_joint_guard_pass": 93,
+        "target_windows": 96,
+        "due_close_cases": 1,
+        "due_close_missed": 1,
+        "native_requests": 0
+      }
+    },
+    "ADAPT": {
+      "latest_sealed_phase": 750,
+      "running_phase_limit": 1000
+    },
+    "MIX": {
+      "trainer_checkpoint_step": 869,
+      "outer_terminated_by": "systemd-oomd",
+      "outer_receipt_missing": true,
+      "full_state_eligibility": "REQUIRES_SITE_RECONCILIATION"
+    }
+  },
+  "independently_verified_findings": {
+    "scoring": {
+      "lift_m": 0.02,
+      "hold_s": 1,
+      "base_motion_m": 0.08
+    },
+    "ADAPT_D1": {
+      "episodes": 24,
+      "windows": 1892,
+      "new_independent_episodes": 1,
+      "parent": "MIX500"
+    },
+    "ADAPT_phase_panel": {
+      "windows": 88,
+      "due_close_positives": 24,
+      "A0_timely_P10_close": 10,
+      "A0_timely_P10_close_and_guards": 0,
+      "replace_on_D2": false
+    },
+    "ADAPT_native_population_sha256": "cdcd114a712739315d06ee923fe8221142d911ab6b60a64f30eac1b619eec2e0",
+    "ADAPT0_Core_strict_replay": {
+      "generations": 16,
+      "normalized_exact": 0,
+      "physical_exact": 0,
+      "guard_exact": 16,
+      "GPU_numeric_arrays_saved_by_runner": false,
+      "original_verdict": "FAIL_PRESERVED"
+    },
+    "TGT_dependency": "afterany plus complete-seal worker gate",
+    "ADAPT_handoff_max_phase_in_inspected_code": 2000,
+    "Core_old_successor_latest_end_SGT": "2026-11-20T07:14:32+08:00",
+    "runtime_sources": {
+      "ADAPT_worker": "1432c8dc88c57adf39e8fa363f5438c5e63aa8fd",
+      "ADAPT_handoff": "2d81436be0e4dc02bf67a180ea1cf00e818e29df",
+      "ADAPT0_Core_replay": "f0d3bc1a53bc5066d3590e6022ef2fc6c0cb9116"
+    },
+    "report_head_contains_all_runtime_files": false,
+    "A40_microbatch4": {
+      "throughput_ratio": 1.426,
+      "physical_criteria_pass": 27,
+      "physical_criteria_total": 32,
+      "eligible": false
+    }
+  },
+  "tasks": [
+    {
+      "id": "R0_KEEP_HEALTHY",
+      "priority": "P0",
+      "action": "Reconcile existing PBS identities and keep TGT5K/ADAPT healthy segments running; no duplicate submission"
+    },
+    {
+      "id": "R1_MIX_RECOVER",
+      "priority": "P0",
+      "action": "Crash reconciliation, original recipe host-memory repair, one finite successor from latest verified complete prefix",
+      "science_steps_added": 0
+    },
+    {
+      "id": "R2_D2_READ",
+      "priority": "P0_CPU",
+      "action": "Per-new-episode cross-site production reader fingerprints plus all139 new-window label/clock/mask audit"
+    },
+    {
+      "id": "R3_STAGE2_QUEUE",
+      "priority": "P0",
+      "action": "Implement orchestration through5000 and Eval5000 using immutable existing worker; prepare D2 and D1-fallback stage2; late-bind actual checkpoint at2000"
+    },
+    {
+      "id": "R4_DEPLOY_COMPAT",
+      "priority": "P0_P1",
+      "action": "Inventory old arrays, predeclare new compatibilityV2, bounded32-generation evidence repair from existing reserve"
+    },
+    {
+      "id": "R5_NATIVE",
+      "priority": "P1",
+      "action": "Execute original ADAPT0 DEV24 order, first6 as prefix, then remaining18; preserve2k/5k/confirm populations"
+    },
+    {
+      "id": "R6_COLLECTION",
+      "priority": "P1",
+      "action": "Prepare next at-most12 TRAIN attempts with new producer evidence for repeated failures"
+    },
+    {
+      "id": "R7_PERF_N2",
+      "priority": "P2",
+      "action": "Keep mb4 rejected; N2 remains engineering only until all existing criteria pass"
+    }
+  ],
+  "recovery": {
+    "expected_from_step_if_verified": 869,
+    "expected_next_update": 870,
+    "checks": [
+      "dead old PID/cgroup",
+      "lineage-global owner released",
+      "final COMPLETE not pending",
+      "all140 arrays",
+      "durable UPDATES",
+      "model/Adam/RNG",
+      "original worker hashes",
+      "data/statistics/banks",
+      "LR and cursors",
+      "STOP absent",
+      "new real finite allocation"
+    ],
+    "new_receipt_separate_from_failed_attempt": true,
+    "forged_old_exit_zero": false,
+    "incomplete_or_ahead_ledger": "Record unrecoverable tail and actual compute; do not label replay exact continuation",
+    "replay_budget_rule": "Charge all recovery qualification and replay updates/visits/generations to original remaining lineage budget; no borrowing. If insufficient for original endpoint, seal reachable prefix, report incomplete endpoint, and scope any increment separately in a successor version.",
+    "expected_500_to_869_arithmetic": {
+      "updates": 369,
+      "target_visits": 11808,
+      "robodojo_visits": 17712,
+      "libero_visits": 17712
+    },
+    "expected_869_cumulative_visits": {
+      "target": 27808,
+      "robodojo": 41712,
+      "libero": 41712
+    },
+    "attempted_generation_count_from_actual_records": true,
+    "oom_diagnosis": "Read journal/cgroup PSI/memory events and concurrent host load; oomd is not evidence of CUDA OOM",
+    "disable_host_oomd": false,
+    "remove_host_memory_limits": false,
+    "microbatch4_auto_adopt": false,
+    "on_core_capacity_failure": "Qualified same-recipe cold migration to actually allocated A40 with sufficient host RAM and one lineage owner"
+  },
+  "D2": {
+    "conditional_on_only_reported_two_new_episodes": true,
+    "original_episodes": 23,
+    "original_windows": 1768,
+    "D1_new_episodes": 1,
+    "D1_new_windows": 124,
+    "new_HOLD_episodes": 2,
+    "new_HOLD_windows": 139,
+    "candidate_episodes": 26,
+    "candidate_windows": 2031,
+    "candidate_HOLD": 22,
+    "candidate_PLACE": 4,
+    "E_new_relative_legacy23": 3,
+    "target_batch": 64,
+    "new_target_quota": 12,
+    "legacy_target_quota": 52,
+    "robodojo_batch": 32,
+    "libero_batch": 32,
+    "formula": "min(48,4*E_new)",
+    "file_hash_equality_is_not_reader_equality": true,
+    "per_episode_samples": [
+      "first",
+      "before closure",
+      "P10 due closure",
+      "last"
+    ],
+    "deduplicate_samples": true,
+    "all_new_windows_semantic_audit": 139,
+    "production_reader_match": [
+      "RGB",
+      "padding/masks",
+      "state",
+      "action",
+      "language/tokenization",
+      "previous actual command",
+      "clock",
+      "window/episode identity"
+    ],
+    "freeze": [
+      "D1 target state stats",
+      "C20 action stats/codec",
+      "R48 stats",
+      "LIBERO stats",
+      "parent MIX500",
+      "Adam",
+      "RNG",
+      "LR",
+      "parameter scope",
+      "original worker"
+    ],
+    "switch_at_phase": 2000,
+    "first_D2_update": 2001,
+    "switch_decision": {
+      "if_ready": "Use admitted D2 stage2 banks at2001",
+      "if_not_ready": "Use D1 members with stage2 bank/cursors immediately",
+      "if_already_past_boundary": "No rollback or hot switch; D2 deferred to next version"
+    },
+    "waits_for_eval_score": false,
+    "changes_allowed": [
+      "stage_start",
+      "stage_stop",
+      "stage_target_data_sha256",
+      "stage_bank_sha256"
+    ],
+    "fixed_evaluation_D1_panel_unchanged": true
+  },
+  "deployment_compatibility_V2": {
+    "applies_prospectively": true,
+    "prior_strict_failure_preserved": true,
+    "new_fixed_panel_selection": false,
+    "source_of_numeric_upper_bounds": "f3fd3e4d5abce0184021fd77ba03e7d56ec9b6bf/scripts/sla/benchmark_scale20k_outputs.py",
+    "previous_benchmark_is_not_prior_deployment_qualification": true,
+    "record_contract_before_missing_numeric_measurement": true,
+    "max_new_generations": 32,
+    "budget_group": "existing technical reserve336 after actual-use reconciliation",
+    "ordinary_inputs": 16,
+    "independent_Core_restore_inputs": 16,
+    "existing_deployment16_not_erased": true,
+    "require_same_weight_input_statistics_codec_noise_identity": true,
+    "require_same_Core_restore_bitwise": true,
+    "Core_independent_restore_scope": "One ADAPT0 qualification for fixed backend/worker/dtype/environment; later endpoints reuse only unchanged environment qualification, with full checkpoint verification and each endpoint A40 independent restore.",
+    "later_Core_replays_from_original_budget": {"phase2000": 16, "phase5000": 16},
+    "environment_change_requires_separately_registered_bounded_requalification": true,
+    "criteria": {
+      "xyz_m": 0.001,
+      "so3_rad": 0.01,
+      "gripper_m": 0.0005,
+      "crossing_s": 0.05,
+      "guard_signature_equal": true,
+      "crossing_presence_equal": true,
+      "P10_inside_outside_equal": true,
+      "all_criteria_required": true
+    },
+    "save_full_arrays_and_hashes": true,
+    "record_first_reject_and_margins": true,
+    "no_H40_seam_STOP_score_relaxation": true,
+    "CPU_injected_prediction_not_GPU_proof": true,
+    "failed_numeric_result": "Repair or qualified original environment; no post-hoc threshold increase"
+  },
+  "evaluation": {
+    "existing_jobs": {
+      "TGT5000_eval": "1593721.stdct-mgmt-02",
+      "ADAPT500_eval": "1594084.stdct-mgmt-02",
+      "ADAPT2000_eval": "1594215.stdct-mgmt-02"
+    },
+    "reconcile_before_submit": true,
+    "no_repeat_completed_TGT2000": true,
+    "no_extra_TGT3500_formal_eval": true,
+    "offline_ADAPT": {
+      "formal": 288,
+      "restore": 48,
+      "phase_train": 88,
+      "endpoints": [
+        0,
+        500,
+        2000,
+        5000
+      ]
+    },
+    "native_ADAPT": {
+      "DEV_per_endpoint": 24,
+      "DEV_endpoints": [
+        0,
+        2000,
+        5000
+      ],
+      "confirm": 24,
+      "confirm_endpoint": 5000,
+      "total_scientific_requests": 96,
+      "first6_are_existing_prefix": true,
+      "select_checkpoint_from_DEV": false
+    },
+    "native_TGT5000": "Original SCALE DEV24 and separate original budget",
+    "eval_key": [
+      "lineage",
+      "checkpoint_sha",
+      "panel_sha",
+      "recipe_sha",
+      "noise_sha"
+    ],
+    "training_waits_eval_scores": false,
+    "separate_GPU_and_host_memory": true,
+    "worlds": 1,
+    "no_real_time_Codex_polling": true
+  },
+  "next_collection": {
+    "attempts_max": 12,
+    "HOLD_planned": 4,
+    "PLACE_planned": 6,
+    "recovery_planned": 2,
+    "max_ticks_per_attempt": 50703,
+    "max_expert_queries_per_attempt": 180,
+    "max_ticks": 608436,
+    "max_expert_queries": 2160,
+    "parent_budget": "existing240 target attempts",
+    "scene_and_order_freeze_before_launch": true,
+    "HOLD_priority": [
+      "F1-blue",
+      "F2-red",
+      "independent perturbations"
+    ],
+    "PLACE_requires_evidenced_repair_of_same_first_failure": true,
+    "recovery_requires_actual_producer": true,
+    "unready_slots_remain_unlaunched": true,
+    "repeated_unchanged_same_cell_producer_first_cause_limit": 2,
+    "failed_partial_not_complete_D2_demonstration": true,
+    "native_evaluation_fairness": "The two historical collection batches already satisfy the rule. Once ADAPT0 deployment/GPU/host RAM/world are ready, the next cold world block runs the existing DEV24 first6; do not reset the count and collect two new batches first."
+  },
+  "budgets": {
+    "changed": false,
+    "inherited_SCALE": {
+      "optimizer_updates": 25000,
+      "target_visits": 800000,
+      "robodojo_visits": 960000,
+      "libero_visits": 960000,
+      "total_optimization_visits": 2720000,
+      "training_model_generations": 100000,
+      "offline_model_generations": 2760,
+      "native_model_generations": 15360,
+      "all_model_generations": 118120,
+      "science_native_requests": 96,
+      "interface_native_requests": 2,
+      "total_native_requests": 98,
+      "native_ticks": 4399394
+    },
+    "longrun_totals": {
+      "optimizer_updates": 5120,
+      "optimization_visits": 655360,
+      "model_generations": 38390,
+      "native_requests": 362,
+      "native_ticks": 16824986,
+      "expert_queries": 43200
+    },
+    "technical_reserve_total": 336,
+    "technical_reserve_remaining": "RECONCILE_ACTUAL_USAGE",
+    "carried_interfaces": {
+      "origin_plan": "cf9d1acbf72e96b1bd158322ff8cbaf8fe28fabb",
+      "scope": "SLA_D4_CORE_NATIVE_INTERFACES",
+      "requests": 2,
+      "ticks": 11906,
+      "model_generations": 0,
+      "recount_as_new": false
+    },
+    "conditional_collection_reconciliation": {
+      "assumes_no_other_attempts_and_user_HOLD_verified": true,
+      "requests": 15,
+      "ticks": 439744,
+      "complete_successes": 3,
+      "contact_STOP": 11,
+      "budget_exhausted": 1,
+      "old_interfaces_excluded": true
+    }
+  },
+  "publication_this_turn": {
+    "server_jobs_submitted": 0,
+    "optimizer_updates": 0,
+    "optimization_visits": 0,
+    "model_generations": 0,
+    "native_requests": 0,
+    "native_ticks": 0,
+    "hardware_requests": 0,
+    "automations_changed": 0
+  }
+}
+
