@@ -60,3 +60,63 @@ def test_clock_decision_distinguishes_nonzero_semantic_failure_and_execution_rea
     monkeypatch.setattr(trigger,'label_proof',lambda *_: {'labels_verified':88})
     assert trigger.decision(dict(curriculum_decision=str(tmp_path/'unset')),receipt)=='BLOCKED_ARTIFACT'
     assert receipt['scientific_trigger'] and receipt['joint_numerator']==0
+
+
+def test_clock_branch_saves_all_state_and_rejects_cross_arm_or_formal_resume(tmp_path):
+    jax = pytest.importorskip('jax')
+    from go2arx5_vla.sla_adapter import adapt5k_checkpoint, clock500_checkpoint
+    from go2arx5_vla.sla_adapter.clock500 import ARMS, PLAN
+    from go2arx5_vla.sla_adapter.multitask_data_v6 import C20_STATISTICS
+    from go2arx5_vla.sla_adapter.scale20k_contract import bank_sha256
+
+    marker = 'a'*64
+    contract = dict.fromkeys(('parent_checkpoint_sha256','parent_training_spec_sha256','target_state_sha256',
+        'target_D1_sha256','optimizer_sha256','tokenizer_sha256','partition_sha256','parent_manifest_sha256',
+        'R200_membership_sha256','LIBERO_membership_sha256','stage_target_data_sha256'),marker)
+    contract.update(plan=adapt.PLAN,recipe=adapt5k_checkpoint.RECIPE,parent_step=500,source_revision='b'*40,
+        learning_rates_sha256=bank_sha256(adapt.phase_rates()),stage_start=2000,stage_stop=5000,
+        stage_bank_sha256=dict.fromkeys(adapt.DOMAINS,marker),frozen_C20_action_statistics_sha256=C20_STATISTICS)
+    binding = dict(plan=PLAN,arm=ARMS[1],parent_phase=2000,original_adapt_contract=contract,
+                   **{key:dict(path=key,sha256=marker) for key in ('parent_state','D2','comparison')})
+    keys = ('shared',*adapt.DOMAINS)
+    parameters = {d:{str(i):np.array([i],np.float32) for i in range(12-(d=='libero'))} for d in keys}
+    optimizer = {d:{str(i):np.array([i+1],np.float32) for i in range(23)} for d in keys}
+    named = dict(parameters=parameters,optimizer=optimizer,rng=jax.random.PRNGKey(9))
+    cp = clock500_checkpoint.save(tmp_path/'phase02250',phase=2250,binding=binding,**named)
+    _,sealed = clock500_checkpoint.read_complete(cp,binding)
+    assert sealed['branch_updates']==250 and sealed['branch_training_H40']==1000
+    assert sealed['formal_ADAPT_parent_eligible'] is False and len(sealed['arrays'])==140
+    restored,phase = clock500_checkpoint.restore(cp,binding,**named)
+    assert phase==2250
+    for observed,expected in zip(jax.tree.leaves(restored),jax.tree.leaves(named),strict=True):
+        np.testing.assert_array_equal(observed,expected)
+    with pytest.raises(ValueError,match='IDENTITY_OR_140'):
+        clock500_checkpoint.read_complete(cp,dict(binding,arm=ARMS[0]))
+    with pytest.raises(ValueError,match='COMPLETE_OPTIMIZER_RNG_AND_PHASE_CLOCK'):
+        adapt5k_checkpoint.read_complete(cp,contract)
+    with pytest.raises(ValueError,match='PINNED_PARENT_D2_AND_ARM'):
+        clock500_checkpoint.boundary(binding,2501)
+
+
+def test_clock_prefix_checks_original_lr_slots_and_actual_d2_bank_bytes(tmp_path):
+    import hashlib
+    import json
+    from scripts.sla.train_clock500 import validate_ledger
+    from scripts.wm02.multisource_d4_vanda import pin
+
+    phase = 2001
+    banks = {d:np.arange(n,dtype='<i8') for d,n in adapt.BATCH.items()}
+    row = adapt.progress(500,phase,2000)
+    rows = {d:dict(visit_slice_sha256=hashlib.sha256(a.tobytes()).hexdigest()) for d,a in banks.items()}
+    rows['target'].update(auxiliary_slots=adapt.auxiliary_slots(phase-1),training_full_generations=4)
+    row.update(domains=rows,grad_norm=.5,learning_rate=adapt.phase_rates()[phase-1])
+    ledger = tmp_path/'UPDATES.jsonl'
+    ledger.write_text(json.dumps(row)+'\n')
+    validate_ledger(pin(ledger),2000,2001,banks=banks,parent_step=500)
+    changed = dict(banks,target=banks['target'][::-1])
+    with pytest.raises(ValueError,match='UNMATCHED_BANK_SLICE:2001:target'):
+        validate_ledger(pin(ledger),2000,2001,banks=changed,parent_step=500)
+    row['learning_rate'] = adapt.phase_rates()[0]
+    ledger.write_text(json.dumps(row)+'\n')
+    with pytest.raises(ValueError,match='UNMATCHED_SAMPLE_CLOCK'):
+        validate_ledger(pin(ledger),2000,2001,banks=banks,parent_step=500)
