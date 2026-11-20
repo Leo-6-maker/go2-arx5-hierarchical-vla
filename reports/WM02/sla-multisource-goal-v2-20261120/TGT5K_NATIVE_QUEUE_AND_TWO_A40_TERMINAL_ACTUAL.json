@@ -1,0 +1,194 @@
+{
+  "schema": "SLA_GOAL_V2_TGT5K_NATIVE_QUEUE_AND_TWO_A40_TERMINAL_ACTUAL_V1",
+  "plan_sha": "1b2a25b7c1720051a2627d30831fb18130462374",
+  "observed": "2026-11-20T17:59:52.013971+08:00",
+  "readbacks_sha256": {
+    "Core": "75f2c800a4820d6834abc7e2ce342edc58082c3a0ca31b5365ef26b3c6889fe8",
+    "observer": "928f7942889ed436c110acba845793089137930d9dc17fe9ade5342f93a43cdc",
+    "VANDA": "8915c81f6e8c655ff74ef58ab82184899613944695ecc66f77d634c15b5ae6fd",
+    "core_finalizer": "bd8ac12e2c8f4df6b39d500189145071415eb0ce836ce58b5d5a47daddf0a150"
+  },
+  "core_TGT5k_observer": {
+    "unit": "sla-observer-tgt5k-native-after-rotation-20261120-01.service",
+    "pid": 744616,
+    "cgroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/sla-observer-tgt5k-native-after-rotation-20261120-01.service",
+    "Linger": "yes",
+    "source_sha": "d929c80f6972ab7035f0a8627f389f64eb1e70a9",
+    "spec_sha256": "a9174b168726f20b2dfab5415d2e3148b6cefe7dbd1a97c0522c07b4cee14350",
+    "native_config_sha256": "e2a39e9217ade03d05a89d31704acdb3883bb65a90b6a8e36586f9ab1e8aa73b",
+    "dependencies": [
+      "sla-observer-tgt5k-rgb16-after-mix-20261120-01.service",
+      "sla-observer-mix-after-adapt0-block2-20261120-01.service"
+    ],
+    "status": "WAITING_STRICT_RGB16",
+    "site_deadline": "2026-11-21T04:21:44.665899+08:00",
+    "observer_deadline": "2026-11-21T04:19:44.665899+08:00",
+    "future_unit": "wm02-sla-tgt5k-goal-v2-native-first6-20261120-01.service",
+    "future_pid": 0,
+    "first_block_caps": {
+      "native_requests": 6,
+      "ticks": 274218,
+      "generations": 960
+    },
+    "original_strict_RGB16_required": true,
+    "stops": [
+      "observer STOP.json",
+      "future native STOP.json"
+    ],
+    "observer_log": "watch.log",
+    "native_log": "logs/supervisor.log",
+    "finalizer_members": 11,
+    "finalizer_spec_sha256": "e7da1cadfcfc21b5df08b19285f164166c30bec9e8af3d317743b598a579e17e",
+    "native_requests": 0,
+    "native_ticks": 0
+  },
+  "double_A40_terminal": {
+    "source_sha": "2caa24b2447e41f6a64323fadc1a428c72d583db",
+    "committed_ledger_updates": 1,
+    "FM_gradient_windows": {
+      "target": 128,
+      "robodojo": 32,
+      "libero": 32
+    },
+    "attempted_H40": 6,
+    "completed_H40": 4,
+    "failure": "ValueError: RESOURCE_EXHAUSTED: Out of memory while trying to allocate 5124037576 bytes.: while running replica 0 and partition 0 of a replicated computation (other replicas may have failed as well).",
+    "wall_s": 193.47406685119495,
+    "load_and_restore_s": 72.39948489214294,
+    "result_sha256": "21046f80f9eea162e82ae3f66b6aa3abb8cddb8a1063a191354fcc96a63cef70",
+    "training_result_sha256": "9b804bc209ba81f2e9f5fe9dbdd39722b8ce84f0cb76a21d135a84d42fdf45da",
+    "ordinary": 0,
+    "memory_first_committed": [
+      {
+        "bytes_in_use": 28668727552,
+        "peak_bytes_in_use": 34242870784,
+        "pool_bytes": 34361835520,
+        "peak_pool_bytes": 34361835520
+      },
+      {
+        "bytes_in_use": 15247926528,
+        "peak_bytes_in_use": 17948308736,
+        "pool_bytes": 34361835520,
+        "peak_pool_bytes": 34361835520
+      }
+    ],
+    "pbs_wall": "00:03:25",
+    "new_native_requests": 0,
+    "new_native_ticks": 0,
+    "full_engineering_checkpoint_created": false,
+    "PBS": {
+      "job_state": "F",
+      "Exit_status": 1,
+      "depend": "afterany:1598060.stdct-mgmt-02@stdct-mgmt-02",
+      "session_id": 900620,
+      "stime": "Fri Nov 20 17:44:40 2026"
+    },
+    "engineering_only": true,
+    "ordinary_expected": 48,
+    "independent_restored": 0,
+    "restore_expected": 48,
+    "timed": 0,
+    "timed_expected": 12,
+    "already_reported_committed_visits": [
+      64,
+      32,
+      32
+    ],
+    "gradient_inputs_not_applied": [
+      64,
+      0,
+      0
+    ],
+    "unfinished_H40_attempts_not_applied": 2,
+    "PBS_wall_allocated_GPU_hours": 0.11388888888888889,
+    "automatic_repeat": false
+  },
+  "formal": {
+    "MIX": {
+      "committed": 1145,
+      "cursors": {
+        "target": 36640,
+        "robodojo": 54960,
+        "libero": 54960
+      },
+      "last_verified_seal": 1000
+    },
+    "TGT": {
+      "committed": 5000,
+      "last_verified_seal": 5000
+    },
+    "ADAPT": {
+      "sealed": {
+        "step": 1250,
+        "visits": {
+          "target": 80000,
+          "robodojo": 40000,
+          "libero": 40000
+        },
+        "exit": 0,
+        "endpoint": 1250,
+        "array_count": 140,
+        "terminal_sha": "41cc3edc5113cb7481f6d74f1226c88f72d273e73ab1479c75466766c43c2565",
+        "checkpoint_sha": "b3a2722777368e58d7b7a3b5c8614511d3a6c57c0084dc567d1bde629353a577",
+        "phase": null
+      },
+      "followup": {
+        "job_state": "R",
+        "Exit_status": null,
+        "depend": "beforeany:1594213.stdct-mgmt-02@stdct-mgmt-02",
+        "session_id": 3629577,
+        "stime": "Fri Nov 20 17:59:07 2026"
+      },
+      "followup_committed_updates": 0
+    },
+    "pbs_other_dependencies": {
+      "1594214.stdct-mgmt-02": {
+        "job_state": "H",
+        "Exit_status": null,
+        "depend": "afterany:1594213.stdct-mgmt-02@stdct-mgmt-02,beforeany:1594215.stdct-mgmt-02@stdct-mgmt-02:1597833.stdct-mgmt-02@stdct-mgmt-02",
+        "session_id": null,
+        "stime": null
+      },
+      "1594215.stdct-mgmt-02": {
+        "job_state": "H",
+        "Exit_status": null,
+        "depend": "afterany:1594214.stdct-mgmt-02@stdct-mgmt-02,beforeany:1598095.stdct-mgmt-02@stdct-mgmt-02",
+        "session_id": null,
+        "stime": null
+      },
+      "1597845.stdct-mgmt-02": {
+        "job_state": "H",
+        "Exit_status": null,
+        "depend": "afterany:1597844.stdct-mgmt-02@stdct-mgmt-02",
+        "session_id": null,
+        "stime": null
+      },
+      "1598095.stdct-mgmt-02": {
+        "job_state": "H",
+        "Exit_status": null,
+        "depend": "afterany:1594215.stdct-mgmt-02@stdct-mgmt-02",
+        "session_id": null,
+        "stime": null
+      }
+    }
+  },
+  "new_effects_since_preceding_experiment_report": {
+    "formal_updates": 35,
+    "visits": [
+      1568,
+      1456,
+      1456
+    ],
+    "train_H40": 140,
+    "engineering_updates": 0,
+    "uncommitted_engineering_gradient_inputs": [
+      64,
+      0,
+      0
+    ],
+    "uncompleted_engineering_H40": 2,
+    "offline_generations": 0,
+    "native_requests": 0,
+    "native_ticks": 0
+  }
+}
