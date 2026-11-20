@@ -1,0 +1,35 @@
+{
+  "schema": "SLA_CLOCK500_CORE_INTAKE_ACTUAL_V1",
+  "goal": "1b2a25b7c1720051a2627d30831fb18130462374",
+  "observed": "2026-11-20T19:09:52.997069+08:00",
+  "source_sha": "f9dbbedf8d046d5538027d2b4d7d1eeac11a01d2",
+  "source_archive_sha256": "4788b5bed094e7b2b948ded71849a362faf64281f2fb07b40c5ec8635be2c323",
+  "core_staging_receipt_sha256": "5be6bcb1443d50d354350b3dd65f1ba429aff5fb1e6fe7e389f6e13dbcea0a97",
+  "frozen_population_sha256": "f80d61a58c2ad20e2d2f59ccba645bf0c5a61cfc8a19d3f53862651e5c76d353",
+  "fixed_D1_panel_sha256": "3136404c06f890a9dd830b2cf5f40e487ef436ede16e805e14ffc0cb06b5eefd",
+  "fixed_RGB_ordinals": [0,7,14,21,28,35,36,43,50,57,64,71,72,79,86,93],
+  "scene_files_hash_verified": 8,
+  "frozen_native": {"DEV_paired_conditions":24,"DEV_A":24,"DEV_B":24,"fixed_B_confirmation":24,
+    "total_requests":72,"ticks_cap":3290616,"model_generations_cap":11520},
+  "local_CPU_tests_passed": 8,
+  "old_ADAPT0_admission_reverified": true,
+  "old_ADAPT0_rejected_as_CLOCK": true,
+  "opposite_arm_archive_rejected_on_CPU": true,
+  "arrived_CLOCK_packages": 0,
+  "qualified_CLOCK_arms": 0,
+  "CLOCK_export_jobs": [
+    {"job":"1598593.stdct-mgmt-02","state":"H"},
+    {"job":"1598594.stdct-mgmt-02","state":"H"}],
+  "CLOCK_trigger": {"job":"1598095.stdct-mgmt-02","state":"H","outcome":null},
+  "original_training": {
+    "MIX":{"step":1262,"visits":[40384,60576,60576]},
+    "ADAPT":{"step":1329,"visits":[85056,42528,42528],"job":"1594212.stdct-mgmt-02","state":"R"}
+  },
+  "original_training_since_previous": {"optimizer_updates":20,"optimization_visits":2560,"training_H40":80},
+  "new_site_jobs": 0,
+  "new_optimizer_updates": 0,
+  "new_optimization_visits": 0,
+  "new_model_generations": 0,
+  "new_native_requests": 0,
+  "new_native_ticks": 0
+}
