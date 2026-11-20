@@ -170,15 +170,21 @@ def benchmark(spec):
                 raise ValueError('ADAPT_ENGINEERING_STATE_MUST_INCLUDE_ALL_140_LEAVES')
             result['matched_exposure_sha256'] = exposure_fingerprint(rows)
             result['throughput'] = timing_summary(rows[WARMUP:WARMUP+TIMED])
+            write(root/'MATCHED_INTERVAL.private.json',dict(result,committed_ledger_updates=len(rows),
+                  actual_optimizer_updates=engine.step-start,FM_gradient_windows=engine.gradient_windows,
+                  attempted_H40=engine.attempted_aux,completed_H40=engine.completed_aux))
             if variant=='serial':
                 trace = root/'trace'
-                with jax.profiler.trace(str(trace),create_perfetto_trace=True):
+                capture = (jax.profiler.trace(str(trace),create_perfetto_trace=True)
+                           if plan.get('capture_cuda_trace',True) else nullcontext())
+                with capture:
                     for _ in range(PROFILE):
                         guard()
                         engine.update_breakdown = UpdateBreakdown()
                         append(ledger,'synchronized_profile',engine.update(guard))
                 result['profiled_updates'] = len(rows)-WARMUP-TIMED
                 result['profile_stage_seconds'] = [r['synchronized_intervals_s'] for r in rows[-PROFILE:]]
+                result['cuda_trace_requested'] = plan.get('capture_cuda_trace',True)
         result.update(status='ADAPT_ENGINEERING_PROBE_COMPLETE',exit_code=0)
     except TimeoutError as error:
         result.update(status='ADAPT_ENGINEERING_BOUNDED_STOP',exit_code=75,failure=str(error))

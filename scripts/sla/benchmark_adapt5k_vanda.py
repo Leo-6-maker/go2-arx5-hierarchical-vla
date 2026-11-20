@@ -11,7 +11,7 @@ from go2arx5_vla.sla_adapter.adapt5k_contract import PLAN
 from go2arx5_vla.sla_adapter.runtime_v1 import read_pin
 from scripts.pi0292.durable import OwnerLock, write
 from scripts.sla.adapt5k_vanda import pbs_history, pbs_site
-from scripts.sla.benchmark_adapt5k import SCOPE, VARIANTS, compare, phase_window
+from scripts.sla.benchmark_adapt5k import SCOPE, VARIANTS, compare, exposure_fingerprint, phase_window
 from scripts.sla.scale20k_vanda_offline import read_pbs_with_auth_retry
 from scripts.wm02.multisource_d4_vanda import pin
 
@@ -66,7 +66,24 @@ def run(spec):
             with (root/(name+'.log')).open('x') as log:
                 worker = subprocess.run([sys.executable,'-B','-m','scripts.sla.benchmark_adapt5k',str(card),pin(card)['sha256']],
                                         timeout=remaining,env=env,stdout=log,stderr=subprocess.STDOUT,cwd=source)
-            effect_pin = pin(work/'RESULT.private.json')
+            terminal = work/'RESULT.private.json'
+            if not terminal.is_file():
+                ledger = work/'UPDATES.private.jsonl'
+                if ledger.is_file():
+                    from json import loads
+
+                    raw = ledger.read_bytes()
+                    durable = [loads(row) for row in raw.splitlines(keepends=True) if row.endswith(b'\n')]
+                    exposure = exposure_fingerprint(durable)
+                    actual['optimizer_updates'] += len(durable)
+                    actual['unsealed_ledger_prefix'] = dict(ledger=pin(ledger),updates=len(durable),
+                        visit_slice_sha256=exposure,completed_H40=4*len(durable),
+                        child_exit=worker.returncode,role=name)
+                    interval = work/'MATCHED_INTERVAL.private.json'
+                    if interval.is_file():
+                        actual['unsealed_ledger_prefix']['matched_interval'] = pin(interval)
+                raise RuntimeError(f'ADAPT_PROFILE_{name}_EXIT_{worker.returncode}_WITHOUT_TERMINAL')
+            effect_pin = pin(terminal)
             effect = read_pin(effect_pin)
             if worker.returncode!=effect['exit_code']:
                 raise ValueError('ADAPT_PROFILE_WORKER_EXIT_DOES_NOT_MATCH_ITS_EFFECT_LEDGER')
