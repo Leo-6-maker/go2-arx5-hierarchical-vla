@@ -24,7 +24,7 @@ SITE_MARGIN_S = 180
 
 
 def next_boundary(cursor):
-    if not 6 < cursor < 24:
+    if not 6 <= cursor < 24:
         raise ValueError('ADAPT0_TAIL_REQUIRES_THE_RECONCILED_SECOND_BLOCK')
     return next(end for end in BOUNDARIES if end > cursor)
 
@@ -93,16 +93,70 @@ def verified_hold_terminal(config, requested_stop, latest):
     return result_card
 
 
+def verified_unstarted_block2(config, block, hold, first_segment):
+    root = Path(block['root'])
+    target = Path(block['next_root'])
+    result_card = pin(root/'RESULT.private.json')
+    result = read_pin(result_card)
+    capacity = read_pin(config['block2_resource_refusal'])
+    hold_root = Path(hold['root'])
+    hold_card = pin(hold_root/'RESULT.private.json')
+    hold_result = read_pin(hold_card)
+    hold_target = Path(hold['target'])
+    abandoned = (block['unit'], block['next_unit']+'.service', hold['unit'],
+                 'wm02-'+hold_target.name+'.service')
+    cold = all(not state['pid'] and not state['cgroup_pids'] and state['ActiveState'] in ('failed', 'inactive')
+               for state in map(unit_state, abandoned))
+    if (not cold or result['status'] != 'ADAPT_NEXT_BLOCK_REQUIRES_RECONCILIATION' or 'result' in result
+            or result['first_failure'] != 'PermissionError: ADAPT_NATIVE_SITE_RESOURCE_OR_LOCK_UNAVAILABLE'
+            or result['first_block'] != first_segment or any(result[key] for key in (
+                'native_requests_started', 'native_ticks', 'model_generations', 'optimizer_updates'))
+            or Path(config['block2_resource_refusal']['path']) != target.with_name(target.name+'-launch')/'RESOURCE.private.json'
+            or capacity['native_requests'] or all(capacity['checks'].values())
+            or hold_result['source_sha'] != hold['source_sha'] or hold_result['collector_started']
+            or hold_result['first_failure'] != 'ValueError: HOLD4_MIX_ROTATION_REQUIRES_RECONCILIATION:MIX_ROTATION_REQUIRES_RECONCILIATION'
+            or hold_result['native_requests'] or hold_result['native_ticks']
+            or any(path.exists() for path in (target, hold_target, root/'STOP.json',
+                                              hold_root/'STOP.json', hold_root/'NATIVE_INPUT.private.json'))):
+        raise PermissionError('ADAPT0_TAIL_REQUIRES_EXACT_UNSTARTED_ADAPT0_AND_HOLD4_RECEIPTS')
+    return dict(ADAPT0=result_card, HOLD4=hold_card, RESOURCE=config['block2_resource_refusal'])
+
+
+def wait_original_resources(original, root, target, deadline, first_launch_deadline, stop):
+    from scripts.wm02.adapt5k_core_native_launch import resources
+
+    native, gpu = (read_pin(original[key]) for key in ('native_reference', 'gpu_reference'))
+    deployment = read_pin(original['deployment'])
+    replay = read_pin(deployment['proof']['restore'])['environment']
+    auth = dict(allocation_deadline_epoch=deadline+SITE_MARGIN_S)
+    while time.time() < first_launch_deadline:
+        stop()
+        _, observed = resources(auth, native, gpu, replay, target)
+        write(root/'RESOURCE.private.json', dict(observed, epoch=time.time(), condition_stop=target.name))
+        checks = observed['checks']
+        if (not checks['linger'] or not checks['uuid']
+                or observed['allocator_limit_bytes']+observed['headroom_bytes'] >= observed['GPU_total_bytes']):
+            raise PermissionError('ADAPT0_TAIL_REGISTERED_DEVICE_CAN_NOT_MEET_ORIGINAL_SITE_REQUIREMENTS')
+        if all(checks.values()):
+            return
+        time.sleep(min(30, max(0, first_launch_deadline-time.time())))
+    raise TimeoutError('ADAPT0_TAIL_ORIGINAL_RESOURCES_DID_NOT_BECOME_READY')
+
+
 def wait_shared_eval(config, original, requested_stop, latest):
     observer = read_pin(config['mix_eval_observer'])
     gpu = read_pin(original['gpu_reference'])
     if observer['GPU_uuid'] != gpu['GPU_uuid']:
         return None
+    target = Path(observer['evaluation_root'])
+    worker = 'wm02-'+target.name+'.service'
+    if 'block2_resource_refusal' in config and not (target/'SCHEDULE.private.json').exists():
+        state = unit_state(worker)
+        if not state['pid'] and not state['cgroup_pids'] and state['ActiveState'] == 'inactive':
+            return None
     expected_cold(observer['unit'], config['mix_eval_owner'], deadline=latest, stop=requested_stop)
     result_card = pin(Path(observer['root'])/'RESULT.private.json')
     result = read_pin(result_card)
-    target = Path(observer['evaluation_root'])
-    worker = 'wm02-'+target.name+'.service'
     if result['eval_started']:
         effect = result['evaluation']
         expected_cold(worker, effect['unit'], deadline=latest, stop=requested_stop)
@@ -214,21 +268,32 @@ def run(config):
     try:
         first_segment = dict(spec=config['first_scope'], result=pin(Path(first['registered_root'])/'RESULT.private.json'))
         segments = [first_segment]
-        if len(verified_prefix(dict(first, previous_panel_segments=segments), conditions)) != 6:
+        cursor = len(verified_prefix(dict(first, previous_panel_segments=segments), conditions))
+        if cursor != 6:
             raise ValueError('ADAPT0_TAIL_REQUIRES_THE_SIX_ORIGINAL_TERMINALS')
         write(root/'READY.private.json', dict(report, verified_prefix=6, latest_launch_epoch=latest))
-        report['hold_result'] = verified_hold_terminal(config, stopped, latest)
+        fallback = 'block2_resource_refusal' in config
+        if fallback:
+            report['unstarted_predecessors'] = verified_unstarted_block2(config, block2, hold, first_segment)
+        else:
+            report['hold_result'] = verified_hold_terminal(config, stopped, latest)
+            previous = read(Path(block2['root'])/'RESULT.private.json')
+            if previous['status'] != 'ADAPT0_BLOCK2_DISPATCHED' or not previous['result']['started']:
+                raise ValueError('ADAPT0_TAIL_REQUIRES_AN_ACTUAL_SECOND_BLOCK')
+            second = Path(block2['next_root'])
+            cursor = len(reconcile(first, segments, conditions, previous['result'], second))
         report['shared_mix_eval_result'] = wait_shared_eval(config, original, stopped, latest)
-        previous = read(Path(block2['root'])/'RESULT.private.json')
-        if previous['status'] != 'ADAPT0_BLOCK2_DISPATCHED' or not previous['result']['started']:
-            raise ValueError('ADAPT0_TAIL_REQUIRES_AN_ACTUAL_SECOND_BLOCK')
-        second = Path(block2['next_root'])
-        cursor = len(reconcile(first, segments, conditions, previous['result'], second))
         report['carried_native_requests'] = cursor
         while cursor < len(conditions):
             stopped()
             if time.time() >= latest:
                 raise TimeoutError('ADAPT0_TAIL_REMAINING_SITE_WINDOW_BELOW_ORIGINAL_CASE_LEAD')
+            if fallback:
+                target = Path(config['targets'][str(next_boundary(cursor))])
+                report.update(status='WAIT_ORIGINAL_ADAPT0_NATIVE_RESOURCES', next_cursor=cursor)
+                write(root/'PROGRESS.private.json', report)
+                wait_original_resources(original, root, target, deadline, latest, stopped)
+                stopped()
             active = schedule(config, root, first, original, environment, segments, conditions, cursor, deadline)
             target, launch = active
             report.update(status='ADAPT0_TAIL_NATIVE_DISPATCHED', active=launch)

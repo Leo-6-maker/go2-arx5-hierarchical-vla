@@ -8,8 +8,40 @@ from go2arx5_vla.sla_adapter.checkpoint_v1 import sha
 from go2arx5_vla.world_model import adapt5k_native
 from scripts.sla import adapt5k_endpoint_transport as transport
 from scripts.sla import adapt5k_export_endpoint as export
+from scripts.sla import goal_v2_adapt0_dev_tail as dev_tail
 from scripts.sla import goal_v2_adapt_trained_replay_watch as replay_watch
 from scripts.wm02.adapt5k_core_native_launch import deployment_replay
+
+
+def test_tail_can_resume_at_six_only_after_zero_native_resource_refusal(tmp_path, monkeypatch):
+    first = {'spec': 'original', 'result': 'original'}
+    block, hold = (tmp_path/name for name in ('block-observer', 'hold-observer'))
+    next_root, hold_target = (tmp_path/name for name in ('block-next', 'hold-next'))
+    for path in (block, hold, tmp_path/'block-next-launch'):
+        path.mkdir()
+    witness = tmp_path/'block-next-launch/RESOURCE.private.json'
+    witness.write_text(json.dumps(dict(native_requests=0, checks={'gpu_idle': False})))
+    block_result = dict(status='ADAPT_NEXT_BLOCK_REQUIRES_RECONCILIATION', first_block=first,
+        first_failure='PermissionError: ADAPT_NATIVE_SITE_RESOURCE_OR_LOCK_UNAVAILABLE',
+        native_requests_started=0, native_ticks=0, model_generations=0, optimizer_updates=0)
+    effect = block/'RESULT.private.json'
+    effect.write_text(json.dumps(block_result))
+    (hold/'RESULT.private.json').write_text(json.dumps(dict(source_sha='source', collector_started=False,
+        first_failure='ValueError: HOLD4_MIX_ROTATION_REQUIRES_RECONCILIATION:MIX_ROTATION_REQUIRES_RECONCILIATION',
+        native_requests=0, native_ticks=0)))
+    monkeypatch.setattr(dev_tail, 'unit_state', lambda _: dict(pid=0, cgroup_pids=[], ActiveState='failed'))
+    args = (dict(block2_resource_refusal=dev_tail.pin(witness)),
+            dict(root=str(block), next_root=str(next_root), unit='block.service', next_unit='wm02-block'),
+            dict(root=str(hold), target=str(hold_target), unit='hold.service', source_sha='source'), first)
+    assert dev_tail.verified_unstarted_block2(*args)['ADAPT0'] == dev_tail.pin(effect)
+    assert [dev_tail.next_boundary(start) for start in (6, 12, 18)] == [12, 18, 24]
+    effect.write_text(json.dumps(dict(block_result, native_requests_started=1)))
+    with pytest.raises(PermissionError, match='UNSTARTED_ADAPT0'):
+        dev_tail.verified_unstarted_block2(*args)
+    effect.write_text(json.dumps(block_result))
+    next_root.mkdir()
+    with pytest.raises(PermissionError, match='UNSTARTED_ADAPT0'):
+        dev_tail.verified_unstarted_block2(*args)
 
 
 def test_native_launcher_uses_each_endpoint_own_replay_shape(tmp_path):
