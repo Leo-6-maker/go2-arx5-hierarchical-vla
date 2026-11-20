@@ -1,0 +1,91 @@
+{
+  "observed_sgt": "2026-11-21T00:39:03+08:00",
+  "mix": {
+    "checkpoint_step": 1768,
+    "checkpoint_sha256": "de6648b27c7f55c031176200402bb2fd5eef5c0a47b08163073651b305c9bd22",
+    "state_arrays": 140,
+    "preceding_segment_updates": 388,
+    "preceding_segment_exit": 75,
+    "active_step": 1778,
+    "active_cursors": {"target": 56896, "robodojo": 85344, "libero": 85344},
+    "unit": "wm02-sla-scale20k-mix-core-remaining-site-window-20261120-01.service",
+    "pid": 1106988,
+    "stop_sgt": "2026-11-21T04:21:44+08:00",
+    "public_hf_revision": "5d483cdcd1ecfdd5b728cfd606e5ae67c6aa5596",
+    "public_hf_bytes": 5547651888,
+    "anonymous_verified_files": 141,
+    "vanda_anonymous_manifest_verified": true,
+    "independent_2k_eval_observer_pid": 904458,
+    "next_hf_observer": {
+      "unit": "sla-observer-core-mix-after1768-cold-public-hf-20261121-01.service",
+      "pid": 1119749,
+      "cgroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/sla-observer-core-mix-after1768-cold-public-hf-20261121-01.service",
+      "invocation_id": "978570ed4c924443971d3e6c09806634",
+      "source_sha": "d5bc6fdd76dfdc6f0a703de5e3086949537b0462",
+      "spec_sha256": "f88f1be4e5ce669925943352652904e3e56efd8b6991d79c47769497885de083",
+      "published_bytes": 0
+    }
+  },
+  "adapt": {
+    "active_phase": 1542,
+    "phase_cursors": {"target": 98688, "robodojo": 49344, "libero": 49344},
+    "latest_sealed_phase": 1500,
+    "job": "1599363.stdct-mgmt-02",
+    "state": "R",
+    "last20_wall_mean_seconds": 50.12,
+    "D2_decided": false,
+    "trained_deploy_package_exported": false,
+    "phases": {
+      "2000": {
+        "producer_job": "1599364",
+        "independent_eval_job": "1599365",
+        "hf_public_job": "1599425",
+        "hf_spec_sha256": "4d2c6479e5c0969750e1f370a2edf03d07421c96bb4f34d9873c8035233ea738",
+        "export_job": "1599418",
+        "export_spec_sha256": "26bd965e3164c6c879c9bcb6a0dcc9bebdbae965818ccf3d0506e31af67b3d2b",
+        "export_expiry_job": "1599419",
+        "deadline_sgt": "2026-11-22T08:33:10+08:00"
+      },
+      "5000": {
+        "producer_job": "1599378",
+        "independent_eval_job": "1599379",
+        "hf_public_job": "1599426",
+        "hf_spec_sha256": "1e7a3ee278cce427a17d1953ef89c9d1e786edac3676b149c074b7fa30b7b195",
+        "export_job": "1599420",
+        "export_spec_sha256": "00681062b9065fd43c7484e4e1f6d9dadff82a73d1338dd83c26b50e36f32abe",
+        "export_expiry_job": "1599421",
+        "deadline_sgt": "2026-11-24T09:35:31+08:00"
+      }
+    },
+    "hf_source_sha": "f67fc29238b7be076acdcd1d8b3b494814eaaf03",
+    "export_source_sha": "a97deb7e76acc754142ee9daff16163825bc1f5d"
+  },
+  "native": {
+    "new_requests": 0,
+    "new_ticks": 0,
+    "new_deployment_generations": 0,
+    "tgt5k_first_block_dispatched": false,
+    "adapt0_existing_successes": 0,
+    "adapt0_existing_requests": 6,
+    "adapt0_tail_observer_pid": 901108,
+    "hold4_observer_pid": 920117,
+    "adapt2k_rgb16_observer_pid": 836397,
+    "adapt2k_rgb16_latest_dispatch_sgt": "2026-11-21T04:05:44+08:00",
+    "gpu1_free_mib": 14025,
+    "gpu1_required_free_mib_strictly_above": 15148.8,
+    "D3_new_admissions": 0
+  },
+  "delta_from_previous_public_read": {
+    "applied_updates": 84,
+    "visits": 10752,
+    "training_h40": 336
+  },
+  "two_a40_readonly_review": {
+    "job": "1598205",
+    "failed_replica": 0,
+    "requested_bytes": 5124037576,
+    "pbs_whole_job_peak_reported_MB": [33222, 33212],
+    "completed_engineering_updates": 1,
+    "new_engineering_updates": 0
+  }
+}
