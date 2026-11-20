@@ -70,7 +70,7 @@ def domain_loss(graph):
     return jax.jit(jax.value_and_grad(loss))
 
 
-def target_auxiliary(graph, quantiles):
+def target_auxiliary(graph, quantiles, *, event_weighted=False):
     import jax
     import jax.numpy as jnp
     from flax.nnx import State
@@ -81,13 +81,18 @@ def target_auxiliary(graph, quantiles):
     sampler = full_h40_v6.make_sampler(graph,fields,rematerialize=True,precision='highest')
     lo,hi = (jnp.asarray(getattr(quantiles,key),jnp.float32) for key in ('q01','q99'))
 
-    def loss(active,frozen,observation,noise,previous_width,label_width):
+    def loss(active,frozen,observation,noise,previous_width,label_width,weights=None):
         joined = State.merge(active['shared'],active['private'])
         prediction = sampler(joined,frozen,observation,noise)
         original,_ = dense_g7_v6.full_objective(prediction,lo,hi,previous_width,xp=jnp,sigmoid=jax.nn.sigmoid)
         latent = .5*(prediction[...,6]+1)*(hi[6]-lo[6]+1e-6)+lo[6]
         physical_width = .002+.040*jax.nn.sigmoid(latent)
-        width,_ = width_losses(physical_width,label_width,previous_width,xp=jnp)
+        if event_weighted:
+            from .clock500 import event_weighted_width_loss
+
+            width = event_weighted_width_loss(physical_width,label_width,weights,xp=jnp)
+        else:
+            width,_ = width_losses(physical_width,label_width,previous_width,xp=jnp)
         return original+width
 
     return jax.jit(jax.value_and_grad(loss))
@@ -117,10 +122,13 @@ class Engine:
 
         self.grad = {d:domain_loss(graph) for d,graph in graphs.items()}
         self.draw = {d:frozen_draws(d,draw_sizes[d]) for d in DOMAINS}
-        self.aux = target_auxiliary(graphs['target'],self.datasets['target'].statistics['actions'])
+        self.aux = self._target_auxiliary(graphs['target'],self.datasets['target'].statistics['actions'])
         self.add = jax.jit(lambda total,part,weight:jax.tree.map(lambda a,b:a+b*weight,total,part),donate_argnums=(0,))
         self.attempted_aux = self.completed_aux = 0
         self.gradient_windows = dict.fromkeys(DOMAINS,0)
+
+    def _target_auxiliary(self, graph, quantiles):
+        return target_auxiliary(graph,quantiles)
 
     def _fm_gradient(self, domain, indices, cursor, active, guard):
         import jax
@@ -167,15 +175,16 @@ class Engine:
             label = dataset.labels[episode['id']]['nominal_policy_H40'][anchor,:,9]
             width = dense_g7_v6.previous_command_context(dataset.reference(index))
             noise = jax.random.normal(jax.random.fold_in(jax.random.fold_in(self.rng,37),absolute),(1,40,32))
+            extra = self._training_only_auxiliary_inputs(dataset,index,width)
             width = jnp.asarray([width],jnp.float32)
             label_width = jnp.asarray((.002+.040*label)[None,:],jnp.float32)
             if self.profile_timing:
-                jax.block_until_ready((obs,noise,width,label_width))
+                jax.block_until_ready((obs,noise,width,label_width,extra))
                 ready = time.monotonic()
                 totals['auxiliary_input_s'] += ready-started
                 started = ready
             self.attempted_aux += 1
-            value,grad = self.aux(active,self.frozen,obs,noise,width,label_width)
+            value,grad = self.aux(active,self.frozen,obs,noise,width,label_width,*extra)
             accumulator = self.add(accumulator,grad,.25)
             totals['auxiliary'] += float(value)*.25
             if self.profile_timing:
@@ -184,6 +193,9 @@ class Engine:
             self.completed_aux += 1
             totals['training_full_generations'] += 1
         return accumulator
+
+    def _training_only_auxiliary_inputs(self, dataset, index, previous):
+        return ()
 
     def domain_gradient(self, domain, guard):
         cursor = cursors(self.arm,self.step)[domain]

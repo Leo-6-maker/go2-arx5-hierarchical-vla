@@ -44,17 +44,9 @@ def phase_rows(target):
         phase = str(data['phase'][anchor])
         previous = target.reference(index)['width_m']
         label = data['nominal_policy_H40'][anchor]
-        if contract.due_close(label,data['consumed_mask'][anchor],previous):
-            bucket = 'P10_DUE_CLOSE'
-        elif phase in contract.APPROACH:
-            bucket = 'APPROACH'
-        elif phase in contract.RELEASE_OR_RECOVERY:
-            bucket = 'RELEASE_OR_RECOVERY'
-        elif previous >= .022 and np.all((.002+.040*label[:10,9]) >= .022):
-            bucket = 'NOT_DUE_CLOSE'
-        else:
-            continue
-        groups[bucket][eid].append(index)
+        bucket = contract.phase_bucket(label,data['consumed_mask'][anchor],previous,phase)
+        if bucket in groups:
+            groups[bucket][eid].append(index)
 
     rng = np.random.default_rng(2026112007)
     def take(bucket):

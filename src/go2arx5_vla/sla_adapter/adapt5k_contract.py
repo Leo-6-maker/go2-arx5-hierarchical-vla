@@ -46,6 +46,19 @@ def due_close(label, consumed, previous_width):
     return bool(np.any(crossing[:10] & np.asarray(consumed, dtype=bool)[:10]))
 
 
+def phase_bucket(label, consumed, previous_width, phase):
+    """Original ADAPT phase classification, independent of how the panel is sampled."""
+    if due_close(label,consumed,previous_width):
+        return 'P10_DUE_CLOSE'
+    if phase in APPROACH:
+        return 'APPROACH'
+    if phase in RELEASE_OR_RECOVERY:
+        return 'RELEASE_OR_RECOVERY'
+    if previous_width>=.022 and np.all((.002+.040*label[:10,9])>=.022):
+        return 'NOT_DUE_CLOSE'
+    return 'OTHER'
+
+
 def grouped_episodes(dataset):
     """Expose task, episode and stage without adding these fields to observations."""
     episodes = {}
