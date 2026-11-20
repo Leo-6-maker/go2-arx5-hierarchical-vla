@@ -1,0 +1,121 @@
+{
+  "schema": "SLA_OVERNIGHT_SERVER_QUEUE_V1",
+  "as_of_source": "USER_REPORTED_2026-11-21T01:59:00+08:00",
+  "public_evidence_as_of": "2026-11-21T00:39:00+08:00",
+  "status": "GITHUB_HANDOFF_ONLY_SERVER_NEW_JOBS_NOT_SUBMITTED_BY_THIS_UPDATE",
+  "repo": "Leo-6-maker/go2-arx5-hierarchical-vla",
+  "protocol": "docs/protocols/SLA_OVERNIGHT_SERVER_QUEUE_V1_20261121.md",
+  "prompt": "docs/handover/2026-11-21/START_SLA_OVERNIGHT_SERVER_QUEUE_V1.md",
+  "existing_backend_independent_of_laptop": true,
+  "current_user_report": {
+    "mix": {
+      "lineage": "SCALE-MIX20K",
+      "ledger": 1908,
+      "visits": [
+        61056,
+        91584,
+        91584
+      ],
+      "last_public_complete": 1768,
+      "next_formal": 2000
+    },
+    "adapt": {
+      "lineage": "ADAPT5K",
+      "ledger": 1644,
+      "visits": [
+        105216,
+        52608,
+        52608
+      ],
+      "last_full_complete": 1500,
+      "existing_jobs": {
+        "train_1750": "1599363",
+        "train_2000": "1599364",
+        "eval_2000": "1599365",
+        "stage2_first": "1599367",
+        "stage2_end": "1599378",
+        "eval_5000": "1599379",
+        "clock_decision": "1599382",
+        "clock_activation": "1599385",
+        "clock_ab": [
+          "1599386",
+          "1599387",
+          "1599388",
+          "1599389",
+          "1599390",
+          "1599391"
+        ]
+      },
+      "next_formal": 2000
+    },
+    "tgt": {
+      "complete": 5000,
+      "native_first6_started": 0,
+      "strict_core_rgb16_pending": true
+    },
+    "native": {
+      "F1_sealed": 6,
+      "F2_sealed": 5,
+      "F2_sixth_status": "RUNNING_UNSEALED_AT_USER_SNAPSHOT",
+      "F2_sixth_observed_native_ticks": 28201,
+      "sealed_total": 11,
+      "sealed_total_success": 0,
+      "F2_first5_native_ticks": 104749,
+      "F2_first5_generations": 307,
+      "do_not_duplicate": true
+    },
+    "D2": {
+      "TRAIN_episodes": 26,
+      "windows": 2031,
+      "new_episode_count": 3,
+      "stage2_target_slots_new": 12,
+      "stage2_target_slots_replay": 52,
+      "robodojo_slots": 32,
+      "libero_slots": 32,
+      "selected": false
+    }
+  },
+  "site_windows_from_previous_receipts": {
+    "core_deadline_sgt": "2026-11-21T04:21:44+08:00",
+    "vanda_short_deadline_sgt": "2026-11-22T08:33:10+08:00",
+    "vanda_stage2_deadline_sgt": "2026-11-24T09:35:31+08:00",
+    "goal_deadline_sgt": "2026-12-04T15:29:58+08:00"
+  },
+  "safety": {
+    "native_world_one_owner": true,
+    "stop_after_contact_no_further_ticks": true,
+    "no_healthy_train_preemption": true,
+    "no_unknown_job_resubmit": true,
+    "no_hot_worker_change": true,
+    "do_not_touch_old_TEST": true,
+    "do_not_change_WBC_or_original_guard": true
+  },
+  "core_dag": [
+    "F2_current_to_real_terminal",
+    "MIX_active_to_exact2K_or_closed_prefix",
+    "MIX_2K_seal_to_offline_eval",
+    "student_existing_frozen_tail_then_TGT_strict_RGB16_then_heldout_train_capture_when_eligible"
+  ],
+  "vanda_dag": [
+    "1599363",
+    "1599364",
+    "seal_ADAPT2K_then_D2_decision_and_independent_1599365_eval",
+    "1599367..1599378",
+    "1599379",
+    "1599382_then_1599385_then_1599386..1599391_only_if_gates"
+  ],
+  "receipt_required": "OVERNIGHT_SERVER_MOUNT_ACTUAL.md/json",
+  "chatgpt_new_server_jobs": 0,
+  "chatgpt_new_native_requests": 0,
+  "chatgpt_new_optimizer_updates": 0,
+  "new_science_budget": 0,
+  "publish_events": [
+    "native_terminal",
+    "checkpoint_sealed",
+    "formal_eval_terminal",
+    "D2_decision",
+    "CLOCK_trigger",
+    "site_deadline_or_failure"
+  ],
+  "real_backend_execution_requires_site_access": true
+}

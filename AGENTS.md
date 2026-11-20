@@ -1,3 +1,11 @@
+## 2026-11-20 · SLA 多数据集后训练与本体闭环 Goal V2
+
+最新用户任务见 [SLA 当前入口](SLA_D4_CLOSED_LOOP_NEXT_START.md) 和 [Goal V2](docs/protocols/SLA_MULTISOURCE_CLOSED_LOOP_GOAL_V2_20261120.md)。按其固定提交读取JSON、启动prompt与实际执行manifest。继续已授权MIX20k/TGT5k/ADAPT5k；复用已完成MIX869恢复与D2准入，补后台后继、部署资源逐项证据和固定学生闭环。2k仅一次D2切换，不热改现役worker/loss。新性能工程和条件CLOCK500的配方、预算、人口与旧实验分开。
+
+本任务优先于以下历史下一步安排；WBC、科学评分、原安全门、旧失败/TEST、真实站点权限/owner及现役capsule不变。普通项目用户态修复与有界后台接续自主执行，不每项再请求GO。凭证过期须合法认证，不绕过；其他独立工作继续。发布本文不是服务器启动或能力实绩，不创建实时监控或修改ChatGPT自动化。
+
+以下为保留的项目历史规范。
+
 # GR00T + WBC agent entry · native camera / public ARX5 pilot
 
 ## Latest bounded first-round mandate · 2026-11-11
@@ -64,3 +72,4 @@ Verify actual local Core code/environment/libraries/model/data/cache/control/log
 Log minimal run identity, scientific inputs, actual effects, terminal score and usage. Keep negative results and required provenance; no blanket multi-layer receipt expansion. Issue #11 is science; #47 operations. Report real updates/endpoints, valid model conditions/successes, qualified full demos/all generation attempts and first failure mechanisms. Check counts or merged PRs are not capability claims. Keep root entry concise.
 
 No subagent, paused automation, server experiment or Codex session is automatically started by this file. Authority is for the existing executing agent in its actual permitted environment. Earlier AGENTS text is retained in Git at `fad5d0296084a656fb970b02b025c7b13af849af`; V7 changes workflow priorities, not historical facts or infrastructure permissions.
+

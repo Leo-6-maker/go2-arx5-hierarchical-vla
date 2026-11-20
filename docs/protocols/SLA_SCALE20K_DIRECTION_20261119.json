@@ -1,0 +1,238 @@
+{
+  "schema": "SLA_SCALE20K_RESEARCH_DIRECTION_V1",
+  "date_SGT": "2026-11-19",
+  "status": "DESIGN_AND_PREPARATION_NOT_EXECUTED",
+  "priority": "Main next research line; no small-model success prerequisite",
+  "predecessor_plan": "cf9d1acbf72e96b1bd158322ff8cbaf8fe28fabb",
+  "latest_execution_evidence": "dd7d90deb1c0ab257c4b9b7bbe43d587b842c791",
+  "publication_changes_running_jobs": false,
+  "latest_observed": {
+    "D4_closed_prefix": 10,
+    "D4_prefix_planned": 12,
+    "D4_total_planned": 48,
+    "D4_grasp": 0,
+    "D4_success": 0,
+    "D4_ticks": 441541,
+    "D4_model_generations": 1539,
+    "D4_H40_without_22mm_crossing": 1539,
+    "D4_min_measured_width_m": 0.03838,
+    "D5_W_updates": 298,
+    "J0_updates": 88,
+    "J1_source_visits": 0,
+    "note": "Published PR417 snapshot, not a live SSH observation"
+  },
+  "start_conditions": [
+    "At least two admitted public source datasets with native semantics and one target dataset version; episode/task/scene inventory and TRAIN splits frozen",
+    "Real batches forward/backward to declared trainable leaves; finite effective gradients; no domain-I/O cross-update",
+    "Full model/optimizer/RNG/each-domain cursor and schedule recovery demonstrated on same lineage",
+    "Actual authorized compute, storage, owner and finite allocation bound"
+  ],
+  "not_start_prerequisites": [
+    "Teacher 12-cell/QUAL48 pass",
+    "D4 AB48 completion or success",
+    "D5 confirmation success",
+    "TRAIN96 96/96",
+    "N2 qualification",
+    "100 target demonstrations",
+    "Cross-embodiment source command equivalence"
+  ],
+  "data": {
+    "target_bootstrap": "New version using C20 plus individually admitted historical complete PLACE; reject any member conflicting with held-out scene or collection lineage",
+    "target_initial_max_episodes": 23,
+    "target_growth_goal_episodes": [
+      100,
+      300
+    ],
+    "target_growth_not_launch_gate": true,
+    "source_datasets": [
+      "RoboDojo-Real expanded TRAIN",
+      "LIBERO TRAIN"
+    ],
+    "source_pool_engineering_goal_episodes": [
+      1000,
+      5000
+    ],
+    "source_pool_engineering_goal_tasks_min": 20,
+    "source_goal_is_not_success_guarantee": true,
+    "source_36_only_plus_C20_is_not_large_scale": true,
+    "minimum_to_start": "Two actual admitted public sources and recorded task/episode coverage; may begin formal prefix while the predeclared version is smaller than goal, report actual scale honestly",
+    "source_goal_accounting": "Frozen inventory must show unique episode, task, scene and per-domain windows, not just visits",
+    "preserve_old_source_DEV_TEST": "Preserve original splits/identity; DEV evaluation only, old TEST unused",
+    "preserve_old_target_DEV_TEST": "Preserve original splits/identity; DEV evaluation only, old TEST unused",
+    "domain_semantics": {
+      "Go2": "G7/H40/50ms; prior actual command; original decoder/safety",
+      "RoboDojo": "Audited ARX X5 subset: native bimanual H50/30Hz future logged reference and original valid-window rule. New embodiment/collection requires independent clock/frame/action-state alignment contract (official sources include25/30Hz); do not inherit evidence blindly.",
+      "LIBERO": "Official native observation/action/clock; separate domain I/O and TRAIN-only statistics; no unproved physical retargeting"
+    },
+    "midrun_change": "No silent dataset changes. New target/source data enters a separately named curriculum version at a recorded checkpoint; do not call mixed-version results a pure compute scaling curve",
+    "third_source_downloads_in_first_version": false
+  },
+  "training": {
+    "parent": "Verified official SLA_base, with new common initialization; no B500 endpoint or old optimizer as default parent",
+    "common_initialization": "Identical shared parameters and target I/O for both arms; domain-private I/O derived from matching base shapes or a frozen common seeded initializer before any update",
+    "target_statistics": "Reuse C20 statistics for audited C20/PLACE bootstrap when original validity checks pass; otherwise declare a new target statistics version before launch",
+    "trainable": {
+      "vision_encoder": "frozen in first scale recipe",
+      "VLM": "LoRA",
+      "action_expert": "full action expert trainable",
+      "domain_IO": "trainable only from their own domain losses"
+    },
+    "note": "Project scaling recipe inspired by official parameter scope, not an exact official reproduction; no mandatory full VLM unfreezing",
+    "arms": [
+      {
+        "id": "SCALE-MIX20K",
+        "optimizer_updates": 20000,
+        "target_batch": 32,
+        "robodojo_batch": 48,
+        "libero_batch": 48,
+        "effective_batch": 128,
+        "target_visits": 640000,
+        "robodojo_visits": 960000,
+        "libero_visits": 960000,
+        "total_visits": 2560000,
+        "training_full_generations": 80000,
+        "checkpoints": [
+          500,
+          2000,
+          5000,
+          10000,
+          20000
+        ]
+      },
+      {
+        "id": "SCALE-TGT5K",
+        "optimizer_updates": 5000,
+        "target_batch": 32,
+        "robodojo_batch": 0,
+        "libero_batch": 0,
+        "effective_batch": 32,
+        "target_visits": 160000,
+        "robodojo_visits": 0,
+        "libero_visits": 0,
+        "total_visits": 160000,
+        "training_full_generations": 20000,
+        "checkpoints": [
+          500,
+          2000,
+          5000
+        ]
+      }
+    ],
+    "target_loss": "Original FM32 +0.1 XYZ +0.1 gripper-speed +1.0 physical-width L_w (D5-W definition); no delta term in first scale recipe",
+    "mixture_loss": "L_target +1.5 mean(L_RoboDojo_FM) +1.5 mean(L_LIBERO_FM); each domain mean before weighting; one combined update",
+    "target_aux": "Four full 10-step generated target H40 per optimizer update; mean40 then mean4; same target auxiliary and target RNG stream in both arms",
+    "mixed_target_exposure_matched_control_at_step": 5000,
+    "comparison_limit": "MIX20K vs TGT5K is not a matched source-only causal contrast; MIX5K vs TGT5K is matched updates/target exposure, with unequal compute",
+    "microbatch": "Choose from measured memory; gradient accumulation to exact effective batches; do not change effective batch silently",
+    "precision": "Explicitly version dtype/FP32 highest contracts and backend before start; no implicit BF16 fallback to bypass historical failures",
+    "schedule": {
+      "global_updates": 20000,
+      "bank_frozen_before_first_update": true,
+      "control_uses_exact_first_5000_entries": true,
+      "suggested_peak_lr": 2e-05,
+      "suggested_warmup_updates": 500,
+      "suggested_final_lr": 2e-06,
+      "note": "Proposed conservative cosine schedule; freeze exact table after technical gradient/throughput inspection, before optimizing formal first update; no tuning on native DEV"
+    },
+    "technical_prefix_updates": 200,
+    "technical_prefix_included_in_20000": true,
+    "technical_prefix_is_not_success_gate": true,
+    "resume": "Same model/Adam/RNG/global LR step/each-domain cursor across finite allocations; never reset fresh Adam every500",
+    "spatial_alignment_in_first_recipe": false,
+    "spatial_alignment_followup": "Separate official-style alignment comparison, not a new prerequisite",
+    "memory_in_first_recipe": false,
+    "forty_k_automatic_extension": false,
+    "common_target_data_prefix": "Identical target manifest/version, sample bank and any preregistered data evolution in both arms through update5000; default fixed common data",
+    "parameter_partition": "Mutually exclusive shared/target/each-source parameter lists before first update; no duplicate ownership",
+    "inactive_domain_update": "No parameter, optimizer moment or AdamW decay update for inactive domain I/O; zero gradient alone insufficient"
+  },
+  "evaluations": {
+    "endpoint_offline": {
+      "target_TRAIN": 96,
+      "source_DEV_RoboDojo": 96,
+      "source_DEV_LIBERO": 96,
+      "restore_per_domain": 16,
+      "domains": 3
+    },
+    "evaluation_endpoints": 8,
+    "qualification_complete_generations": 24,
+    "Core_restore_complete_generations": 48,
+    "offline_complete_generations_cap": 2760,
+    "science_DEV": {
+      "layouts": 4,
+      "instructions_per_layout": 6,
+      "endpoints": [
+        "SCALE-TGT5K",
+        "SCALE-MIX5K",
+        "SCALE-MIX20K"
+      ],
+      "requests": 72,
+      "ticks": 3290616,
+      "model_generations": 11520,
+      "interpretation": "Repeated DEV learning curve, never relabel as TEST; no gate on high success before training continues"
+    },
+    "fresh_confirmation": {
+      "layouts": 4,
+      "instructions_per_layout": 6,
+      "endpoints": [
+        "SCALE-MIX20K"
+      ],
+      "requests": 24,
+      "ticks": 1096872,
+      "model_generations": 3840,
+      "condition": "Frozen endpoint and finite deployment admission; separate new scenes; no claim of held-out randomized causal treatment effect"
+    },
+    "interface_reserve": {
+      "requests": 2,
+      "ticks": 11906,
+      "model_generations": 0,
+      "condition": "Only if changed scale package/native route requires same original F1/F2 non-contact seam"
+    },
+    "total_native_requests_cap": 98,
+    "total_native_ticks_cap": 4399394,
+    "total_native_model_generations_cap": 15360,
+    "native_backend": "LEGACY_N1",
+    "old_TEST_access": false,
+    "evaluation_does_not_block_training": true
+  },
+  "caps": {
+    "optimizer_updates": 25000,
+    "target_visits": 800000,
+    "source_visits": 1920000,
+    "total_visits": 2720000,
+    "training_complete_generations": 100000,
+    "offline_complete_generations": 2760,
+    "native_model_generations": 15360,
+    "all_complete_generations": 118120,
+    "native_requests": 98,
+    "native_ticks": 4399394,
+    "hardware_requests": 0
+  },
+  "operations": {
+    "existing_D5_and_J": "Finish under original500-update recipes and existing finite leases; no hotpatch, extension or cancellation by this publication",
+    "scope": "New scale recipe/checkpoint/package/resource identity; old D4/D5/J/M2 contracts preserved",
+    "allocation": "Actual finite scheduler allocation required; segment by full durable checkpoint; no automatic quota extension",
+    "compute_estimate_reference": "Old D4 ~10.89sec/update yields20k~60.5h at old recipe only; mixed128/full-action-expert cost must be measured",
+    "resource_plan": "Measure first technical prefix wall/step, VRAM, CPU, data wait, save/restore and total GPU-hours; do not multiply by fictional available GPUs",
+    "stop_on": [
+      "nonfinite/diverging numerics",
+      "bad labels or split leakage",
+      "wrong gradient routing",
+      "corrupt/irreproducible recovery",
+      "expired allocation",
+      "native safety/evidence violation for the affected evaluation"
+    ],
+    "five_k_low_success_alone_stops_training": false,
+    "five_k_review": "Inspect TRAIN fitting, independent DEV, per-domain progress, output diversity and closure; fixed recipe may continue when numerically healthy even at low native success",
+    "twenty_k_review": "Choose better data/capacity/loss if plateau; optional40k only as separately frozen continuation with its LR and resources",
+    "WBC_and_hard_gates": "Unchanged; no BASE head, no output shaping/selection, no real hardware"
+  },
+  "current_new_effects": {
+    "optimizer_updates": 0,
+    "target_visits": 0,
+    "source_visits": 0,
+    "model_generations": 0,
+    "native_requests": 0,
+    "native_ticks": 0
+  }
+}
