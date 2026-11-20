@@ -1,0 +1,152 @@
+{
+  "schema": "SLA_GOAL_V2_PUBLIC_HF_AND_A40_RESTORE_ACTUAL",
+  "hf": {
+    "repo": "leoyuer/sla-goal-v2-checkpoints",
+    "public_verified": true,
+    "initial_revision": "ae4bc898186018a19c2537bf405bdf421c5eca3c",
+    "checkpoint_step": 1000,
+    "checkpoint_sha256": "54e98287d5df6897298fded5057c0ff8f45b806320d885d63401f4eced179399",
+    "public_file_count": 141,
+    "public_byte_count": 5547651888,
+    "payload": {
+      "complete_manifest": 1,
+      "trainable_parameters": 45,
+      "optimizer": 94,
+      "rng": 1
+    },
+    "first": {
+      "unit": "sla-observer-public-hf-mix1000-20261120-01.service",
+      "owner": {
+        "MainPID": "849786",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/sla-observer-public-hf-mix1000-20261120-01.service",
+        "Id": "sla-observer-public-hf-mix1000-20261120-01.service",
+        "LoadState": "loaded",
+        "ActiveState": "active",
+        "InvocationID": "cb40931c1d2a45b29b3e6238055aa52e"
+      },
+      "source_sha": "ad05485469ec0a3eee1e987d29db38b15360a891",
+      "spec_sha256": "1c39c4196df67a3ea0378ad59b075e4f926bc150a06fb4e11e4634a308d67ce4",
+      "deadline_epoch": 1795179921.479736,
+      "terminal": "OOM_KILL",
+      "cgroup_peak_bytes": 4294967296,
+      "anonymous_remote_unchanged": true,
+      "checkpoint_registered_files": 0
+    },
+    "successor": {
+      "unit": "sla-observer-public-hf-mix1000-20261120-02.service",
+      "owner": {
+        "MainPID": "854078",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/sla-observer-public-hf-mix1000-20261120-02.service",
+        "Id": "sla-observer-public-hf-mix1000-20261120-02.service",
+        "LoadState": "loaded",
+        "ActiveState": "active",
+        "InvocationID": "e639d46695104e7c86984dc14f3e3a22"
+      },
+      "source_sha": "96cba8e2b63f8c8cdf5a320dd14b5342382c7c4e",
+      "spec_sha256": "4d5333096d233c4e0bbd262e6f9bec132a650d1f3942ee37110a5045cf47a7ef",
+      "deadline_epoch": 1795179921.479736,
+      "observed_active": true,
+      "threads": 1,
+      "remote_fixed_revision_verified": false,
+      "bytes_uploaded_verified": 0,
+      "log": "publish.log",
+      "stop": "STOP.json"
+    }
+  },
+  "vanda_qualification": {
+    "initial": {
+      "job": {
+        "job": "1598673.stdct-mgmt-02",
+        "name": "slamixst500",
+        "state": "Q",
+        "queue": "batch_gpu",
+        "wall": "00:30:00",
+        "gpus": 1,
+        "not_before": null
+      },
+      "expiry": {
+        "job": "1598674.stdct-mgmt-02",
+        "name": "slamixstexp",
+        "state": "W",
+        "queue": "auto",
+        "wall": "00:10:00",
+        "gpus": 0,
+        "not_before": "Fri Nov 20 21:50:16 2026"
+      },
+      "source_sha": "ad05485469ec0a3eee1e987d29db38b15360a891",
+      "trainer_sha": "31076fc7a64302b0705ae4d7e526c4341209a100",
+      "spec_sha256": "91619e7a5388fb4f98b77f8c1c22044daa99ac6f3fa4b926fb9700fecc8687a5",
+      "expiry_spec_sha256": "962e5b18c2a84a3217dfcc24ef75cb09d59d5e0d964ac9b1c8e9463e482ed9e9",
+      "deadline_epoch": 1795182615.7151568,
+      "terminal_state": "F",
+      "exit_code": 1,
+      "first_failure": "CORE_ABSOLUTE_CLOCK_AUDIT_PATH_UNAVAILABLE",
+      "training_gradients": 0,
+      "training_full_generations": 0,
+      "optimizer_updates": 0
+    },
+    "successor": {
+      "job": {
+        "job": "1598687.stdct-mgmt-02",
+        "name": "slamixrd500",
+        "state": "Q",
+        "queue": "batch_gpu",
+        "wall": "00:30:00",
+        "gpus": 1,
+        "not_before": null
+      },
+      "expiry": {
+        "job": "1598688.stdct-mgmt-02",
+        "name": "slamixrdexp",
+        "state": "W",
+        "queue": "auto",
+        "wall": "00:10:00",
+        "gpus": 0,
+        "not_before": "Fri Nov 20 21:50:16 2026"
+      },
+      "source_sha": "96cba8e2b63f8c8cdf5a320dd14b5342382c7c4e",
+      "trainer_sha": "31076fc7a64302b0705ae4d7e526c4341209a100",
+      "spec_sha256": "11636f41697e32020b03944dcbacd5d1ab1be08e09650a85d8137fc1335bcad8",
+      "expiry_spec_sha256": "3dfa4c6918b81348da4fc06ed962b2ada66b49da9859a8ce2893ead127e64a2a",
+      "deadline_epoch": 1795182615.7151568,
+      "observed_state": "R",
+      "portable_reader_commit": "a956030b85deb050e38c86f602288d9c80b2a552",
+      "portable_reader_sha256": "93a64720e98331e2fcb2651088abc3ea6459818df4a8d09d48a39e1d219e15ed",
+      "CPU_readers": {
+        "target": 1768,
+        "robodojo": 50979,
+        "libero": 209146
+      },
+      "original_banks_match": true,
+      "checkpoint": {
+        "checkpoint_sha": "4f4ade751809b375a484a9ba4e4bcb5ad899edfbbe2135b4ac62c41631b76093",
+        "step": 500,
+        "arrays": 140,
+        "new_training": 0,
+        "model_generations": 0,
+        "native_requests": 0
+      },
+      "limits": {
+        "optimizer_updates": 0,
+        "gradient_windows": {
+          "target": 32,
+          "robodojo": 48,
+          "libero": 48
+        },
+        "training_H40": 4,
+        "native_requests": 0
+      },
+      "stop": "STOP.json",
+      "logs": [
+        "stdout.private.log",
+        "stderr.private.log"
+      ]
+    },
+    "scientific_parent_changed": false
+  },
+  "site_training_restarted": false,
+  "new_applied_updates": 0,
+  "new_optimization_visits": 0,
+  "new_native_requests": 0,
+  "new_native_ticks": 0
+}
