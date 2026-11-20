@@ -72,7 +72,7 @@ def watch(config):
             or config['source_sha']!=(source/'SOURCE_SHA.private').read_text().strip()
             or campaign['plan_sha']!=PLAN or campaign['deadline_epoch']!=campaign['t0_epoch']+14*86400
             or schedule['unit']+'.service'!=expected['unit'] or schedule['source_sha']!=TRAINER
-            or schedule['arm']!=ARM or schedule['global_stop_step']!=STOP or schedule['deadline_epoch']>=end
+            or schedule['arm']!=ARM or schedule['global_stop_step']!=STOP or schedule['deadline_epoch']>end
             or (root/'READY.private.json').exists() or (root/'RESULT.private.json').exists()):
         raise PermissionError('MIX_HF_WATCH_REQUIRES_OWNED_ORIGINAL_FINITE_SEGMENT')
     stops = root/'STOP.json',Path(campaign['stop'])
