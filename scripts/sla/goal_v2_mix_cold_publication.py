@@ -1,4 +1,4 @@
-"""Publish one actual post-1000 cold Core segment under the original site window."""
+"""Publish one actual cold Core segment under the original site window."""
 import argparse
 import json
 import os
@@ -14,33 +14,44 @@ from scripts.sla.publish_scale_checkpoint_hf import REPO, run as publish, sha
 
 
 ARM = 'SCALE-MIX20K'
-START = 1000
 STOP = 2000
 
 
 def verified_effect(predecessor, schedule):
+    parent_pin = schedule['previous_train_result']
+    parent = read_pin(parent_pin)
+    first = parent['global_step']
+    if (not 1000 <= first < STOP or parent['arm']!=ARM or parent['source_sha']!=TRAINER
+            or parent['mode']!='train' or parent['global_cursors']!=cursors(ARM,first)
+            or (parent['exit_code'],parent['status']) not in ((0,'FIXED_SEGMENT_SAVED'),(75,'BOUNDED_SAVED_PREFIX'))
+            or not parent['checkpoint'] or parent.get('failure')):
+        raise ValueError('MIX_HF_NEXT_PREFIX_REQUIRES_THE_PINNED_RESUME_PARENT')
+    worker = read(predecessor/'train/SPEC.private.json')
+    if worker['resume_from_closed_segment']!=parent_pin or worker['source_sha']!=TRAINER:
+        raise ValueError('MIX_HF_NEXT_PREFIX_WORKER_PARENT_CHANGED')
     outer = read(predecessor/'RESULT.private.json')
     pinned = outer['stages']['train']
     effect = read_pin(pinned)
     step = effect['global_step']
-    before, after = cursors(ARM,START), cursors(ARM,step)
+    before, after = cursors(ARM,first), cursors(ARM,step)
     absolute_phase = (effect['exit_code'],effect['status'])
     if (Path(pinned['path'])!=predecessor/'train/RESULT.private.json' or outer['status']!=effect['status']
             or effect['source_sha']!=TRAINER or effect['arm']!=ARM or effect['mode']!='train'
-            or not START<step<=STOP or effect['global_cursors']!=after or effect['new_updates']!=step-START
+            or not first<step<=STOP or effect['global_cursors']!=after or effect['new_updates']!=step-first
             or effect['new_visits']!={d:after[d]-before[d] for d in DOMAINS}
             or (step<STOP and absolute_phase!=(75,'BOUNDED_SAVED_PREFIX'))
             or (step==STOP and absolute_phase!=(0,'FIXED_SEGMENT_SAVED'))
             or effect['new_native_requests'] or effect['new_native_ticks'] or outer.get('first_failure')):
         raise ValueError('MIX_HF_NEXT_PREFIX_REQUIRES_THE_AUTHORITATIVE_COLD_RESULT')
     lease = read(predecessor/'control/LEASE.json')
-    if lease['status']!='CLOSED' or lease['unit']!=schedule['unit']+'.service':
+    if (lease['status']!='CLOSED' or lease['unit']!=schedule['unit']+'.service'
+            or lease['deadline_epoch']!=schedule['deadline_epoch']):
         raise PermissionError('MIX_HF_NEXT_PREFIX_REQUIRES_CLOSED_TRAINING_LEASE')
     path = predecessor/'train/UPDATES.private.jsonl'
     raw = path.read_bytes().splitlines(keepends=True)
-    if len(raw)!=step-START:
+    if len(raw)!=step-first:
         raise ValueError('MIX_HF_NEXT_PREFIX_DURABLE_LEDGER_COUNT_CHANGED')
-    for index,line in enumerate(raw,START+1):
+    for index,line in enumerate(raw,first+1):
         row = json.loads(line)
         if (not line.endswith(b'\n') or row['step']!=index or row['cursors']!=cursors(ARM,index)
                 or row['domains']['target']['training_full_generations']!=4):
