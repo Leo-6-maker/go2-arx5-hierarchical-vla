@@ -10,7 +10,7 @@ import time
 
 import numpy as np
 
-from go2arx5_vla.sla_adapter import scale20k_checkpoint, scale20k_data, scale20k_model, scale20k_training
+from go2arx5_vla.sla_adapter import scale20k_checkpoint, scale20k_data, scale20k_model, scale20k_target, scale20k_training
 from go2arx5_vla.sla_adapter.checkpoint_v1 import sha
 from go2arx5_vla.sla_adapter.model_v1 import Tokenizer
 from go2arx5_vla.sla_adapter.runtime_v1 import read_pin
@@ -22,6 +22,7 @@ from scripts.wm02.multisource_d4_vanda import GIB, actual_gpu, pbs_job
 
 GOAL = '1b2a25b7c1720051a2627d30831fb18130462374'
 TRAINER = '31076fc7a64302b0705ae4d7e526c4341209a100'
+PORTABLE_READER_SHA = '93a64720e98331e2fcb2651088abc3ea6459818df4a8d09d48a39e1d219e15ed'
 CHECKPOINT = '4f4ade751809b375a484a9ba4e4bcb5ad899edfbbe2135b4ac62c41631b76093'
 ARM = 'SCALE-MIX20K'
 STEP = 500
@@ -80,12 +81,14 @@ def run(config):
             or config['arm']!=ARM or config['step']!=STEP or config['worker_sha']!=TRAINER
             or (source/'SOURCE_SHA.private').read_text().strip()!=TRAINER
             or not Path(scale20k_training.__file__).resolve().is_relative_to(source)
+            or Path(scale20k_target.__file__).resolve()!=source/'src/go2arx5_vla/sla_adapter/scale20k_target.py'
+            or sha(Path(scale20k_target.__file__))!=PORTABLE_READER_SHA
             or sha(Path(__file__))!=config['program_sha256']):
         raise PermissionError('MIX_A40_RESTORE_REQUIRES_FRESH_ORIGINAL_TRAINING_SOURCE')
     lock = OwnerLock(root/'PBS_OWNER.lock')
     start = time.monotonic()
     terminal = dict(schema='SLA_GOAL_V2_MIX_A40_FULL_STATE_RESTORE_V1', job=config['job_id'],
-        source_sha=config['source_sha'], trainer_sha=TRAINER, optimizer_updates=0,
+        source_sha=config['source_sha'], trainer_sha=TRAINER, portable_reader_sha256=PORTABLE_READER_SHA, optimizer_updates=0,
         optimization_visits=0, training_full_generations=0, native_requests=0, native_ticks=0,
         status='MIX_A40_RESTORE_NOT_QUALIFIED', graduation_scope='MIX500_WITNESS_ONLY', exit_code=1)
     engine = None
