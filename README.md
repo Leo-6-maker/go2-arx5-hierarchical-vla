@@ -1,5 +1,7 @@
 # Go2 + ARX5 + GR00T + frozen WBC
 
+[Project overview in English](docs/PROJECT_OVERVIEW.md) · 仿真平台、策略与控制接口、已验证结果及源码。
+
 研究目标：让视觉语言策略通过可审计的 EEF 轨迹接口控制完整 Go2＋ARX5，在冻结 WBC、腿策略和原生安全条件下完成操作任务。
 
 ## 当前工作：原生相机与公开 ARX5 迁移
