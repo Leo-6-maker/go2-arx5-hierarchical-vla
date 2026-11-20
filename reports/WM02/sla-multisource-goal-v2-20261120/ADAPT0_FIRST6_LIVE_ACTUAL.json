@@ -1,0 +1,116 @@
+{
+  "plan_sha": "1b2a25b7c1720051a2627d30831fb18130462374",
+  "observed_SGT": "2026-11-20T16:02:23+08:00",
+  "native": {
+    "unit": "wm02-sla-adapt0-goal-v2-dev-first6-20261120-03.service",
+    "source_sha": "df50e453c8b3f117d1af0c1a5036f06053126be4",
+    "spec_sha256": "db240811059dc8b32c7ae45ac9fb287b39649ab76d6224a23ecd40434994f2f6",
+    "pid": 632661,
+    "worker_pid": 632727,
+    "blue_child_pid": 638713,
+    "cgroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-adapt0-goal-v2-dev-first6-20261120-03.service",
+    "site_deadline_epoch": 1795174814.665899,
+    "fixed_conditions": [
+      "ADAPT_DEV-F1-1-HOLD-red",
+      "ADAPT_DEV-F1-1-HOLD-blue",
+      "ADAPT_DEV-F1-1-PLACE-red-left",
+      "ADAPT_DEV-F1-1-PLACE-red-right",
+      "ADAPT_DEV-F1-1-PLACE-blue-left",
+      "ADAPT_DEV-F1-1-PLACE-blue-right"
+    ],
+    "scientific_native_requests_started": 2,
+    "terminal": 1,
+    "success": 0,
+    "generated": 68,
+    "terminal_tick_count": 20719,
+    "live_score_tick_count": 7203,
+    "red": {
+      "result_sha256": "2addd42db16efa6c93e101f698cbe92ab6eb9ce210cce9ae7052e7cc64aeeb76",
+      "ticks": 20719,
+      "models": 61,
+      "original_H40_compiled": 61,
+      "ACKs": 121,
+      "full_P10": 60,
+      "confirmed_P10_atoms": 600,
+      "maximum_lift_m": 0.0020923710651730154,
+      "effective_base_motion_m": 0.1306402546350179,
+      "target_grasp": false,
+      "task_success": false,
+      "first_failure": "ILLEGAL_CONTACT",
+      "STOP_tick": 20719,
+      "ticks_after_STOP": 0
+    }
+  },
+  "MIX": {
+    "handoff_unit": "wm02-sla-multisource-v2-mix1000-after-adapt0-first6-20261120-02.service",
+    "pid": 633330,
+    "cgroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-multisource-v2-mix1000-after-adapt0-first6-20261120-02.service",
+    "spec_sha256": "ca6d4a4f3e11d9697c1cf4dba4cf52229a8d5c4bd3c0416ff036ffc653263c30",
+    "dependency": "wm02-sla-adapt0-goal-v2-dev-first6-20261120-03",
+    "waiting": true,
+    "training_worker_started": false,
+    "first_update": 1001,
+    "upper": 2000,
+    "observer_deadline_epoch": 1795175024.665899
+  },
+  "TGT": {
+    "package_sha256": "7684fa1da1792b268351edae10eb93ab940ecbafc527534d7edf7f8f26f05c1c",
+    "checkpoint_sha256": "9eb71c0da7c0f34373d53c7b6c6b6dd3491e5a36dfd94d6ae0eb4d799fbdff08",
+    "arrays": 29,
+    "verified_files": 53,
+    "verified_bytes": 1838245799,
+    "CPU_input_rows": 16,
+    "CPU_input_result_sha256": "d2947ad4acd445c5e81f80530e7779b96bae5124ffe7a3e27d93a172251851b0",
+    "new_TGT_GPU_generations": 0
+  },
+  "ADAPT": {
+    "job": "1594211.stdct-mgmt-02",
+    "state": "R",
+    "sealed_updates": 1000,
+    "durable_updates": 1095,
+    "phase_visits": [
+      70080,
+      35040,
+      35040
+    ],
+    "Eval2K": "1594215.stdct-mgmt-02",
+    "Eval5K": "1597845.stdct-mgmt-02"
+  },
+  "engineering": {
+    "job": "1597847.stdct-mgmt-02",
+    "exit": 1,
+    "owner_cold": true,
+    "source_sha": "e98f58d51e599384a5eee7652a7e600a7dc77ce0",
+    "first_failure": "CUDA_ERROR_LAUNCH_FAILED_DURING_STREAM_CAPTURE",
+    "durable_updates": 8,
+    "visits": [
+      512,
+      256,
+      256
+    ],
+    "complete_training_H40": 32,
+    "p50_seconds_per_update": 60.52654225192964,
+    "FM_windows_per_second": 2.147372674462722,
+    "prefetch_updates": 0,
+    "deferred_updates": 0,
+    "matched_state_sealed": false,
+    "partial_compute_unreconciled": true
+  },
+  "delta_from_1541": {
+    "scientific_updates": 28,
+    "scientific_visits": [
+      1792,
+      896,
+      896
+    ],
+    "engineering_updates": 8,
+    "engineering_visits": [
+      512,
+      256,
+      256
+    ],
+    "confirmed_generations": 212,
+    "native_requests_started": 2,
+    "native_tick_lower_bound": 27922
+  }
+}
