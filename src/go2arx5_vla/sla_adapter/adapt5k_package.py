@@ -4,11 +4,9 @@ from pathlib import Path
 import tempfile
 
 from scripts.pi0292.durable import write
-from . import adapt5k_checkpoint as adapt, adapt5k_contract, scale20k_checkpoint, scale20k_package
-from .adapt5k_data import STATS_SCHEMA
+from . import adapt5k_contract, scale20k_checkpoint, scale20k_package
 from .checkpoint_v1 import sha
-from .codec_v1 import Quantiles
-from .multitask_data_v6 import C20_STATISTICS
+from .multitask_contract_v6 import C20_STATISTICS
 from .runtime_v1 import read_pin
 
 
@@ -35,6 +33,9 @@ class Provider(scale20k_package.Provider):
 
     @staticmethod
     def load_statistics(root, manifest):
+        from .adapt5k_data import STATS_SCHEMA
+        from .codec_v1 import Quantiles
+
         state = read_pin(dict(path=str(root/'D1_STATE_STATISTICS.json'),sha256=manifest['state_statistics_sha256']))
         actions = read_pin(dict(path=str(root/'C20_ACTION_STATISTICS.json'),sha256=C20_STATISTICS))
         if (state['schema'] != STATS_SCHEMA or state['split'] != 'TRAIN'
@@ -46,6 +47,9 @@ class Provider(scale20k_package.Provider):
 
 def export(path, spec):
     """Materialize ADAPT0 locally from its independently proven identical MIX arrays."""
+    from . import adapt5k_checkpoint as adapt
+    from .adapt5k_data import STATS_SCHEMA
+
     trained = read_pin(spec['MIX_model_at_start'])
     binding = trained['binding']
     mix_root,mix = scale20k_checkpoint.read_complete(spec['MIX_checkpoint'],'SCALE-MIX20K',binding)
