@@ -121,8 +121,9 @@
         "compiled_mb2",
         "compiled_mb4"
       ],
-      "required_updates_for_future_matched_probe": 24,
-      "currently_authorized_gpu_attempts": 0,
+      "registered_batch_updates_per_variant": 16,
+      "registered_batch_timed_updates_per_variant": 12,
+      "batch_GPU_attempts_at_snapshot": 0,
       "CPU_tests_passed": 26,
       "fixed_FM_per_update": {
         "target": 64,
@@ -510,5 +511,98 @@
     "native_ticks": 104633,
     "native_requests": 4,
     "real_robot_requests": 0
+  },
+  "followup_readback": {
+    "VANDA_observed": "2026-11-20T16:35:17.198232+08:00",
+    "scientific_step": 1140,
+    "scientific_visits": {
+      "target": 72960,
+      "robodojo": 36480,
+      "libero": 36480
+    },
+    "scientific_last5_median_s": 43.95720738498494,
+    "same_A40_engineering": {
+      "PBS_job": "1597888.stdct-mgmt-02",
+      "state": "R",
+      "roles": {
+        "prefetch": {
+          "ledger_sha256": "95dc3450c11c6d8ee503d6ce3d40574fc0edf6dc7edce208ff1d1bf6b6b311ac",
+          "count": 8,
+          "visits": {
+            "target": 512,
+            "robodojo": 256,
+            "libero": 256
+          },
+          "H40_aux": 32,
+          "timed_count": 5,
+          "timed_p50": 53.09625135315582,
+          "timed_windows_per_second": 2.4209268442831724,
+          "independent_effect_sealed": true,
+          "state_arrays_fingerprinted": 140,
+          "matched_exposure_sha256": "0985c244aa89062df44c9338cd3ae4898482dd6598acf6c41a2ab260a2bf2c6f",
+          "engineering_checkpoint_sha256": "eb8e1d6902f284745b0fd9e67767cf099f54cdf4478768cc0ecb77316ffd0fb2"
+        },
+        "prefetch_deferred": {
+          "ledger_sha256": "86200a3c7aca845e0c7e2052753d9c0a3c87ed80e156ba7e0d63e7e3966aafd3",
+          "count": 2,
+          "visits": {
+            "target": 128,
+            "robodojo": 64,
+            "libero": 64
+          },
+          "H40_aux": 8,
+          "timed_count": 0,
+          "timed_p50": null,
+          "timed_windows_per_second": null,
+          "independent_effect_sealed": false,
+          "state_arrays_fingerprinted": 0
+        }
+      },
+      "prefetch_throughput_ratio_vs_archived_serial": 1.1273901698916302,
+      "serial_array_equivalence": null,
+      "total_new_updates": 10
+    },
+    "batch_panel_CPU": {
+      "source": "48ad24211580b794ed36db65f72c46f6828bcedf",
+      "observed": "2026-11-20T16:35:30.340553+08:00",
+      "counts": {
+        "target": 32,
+        "robodojo": 8,
+        "libero": 8
+      },
+      "panel_sha256": "068b73058d28b741c9ddeba6bcc0997e5ffb1453ceb349a7e4c2baa5f2bf4f57",
+      "noise_artifact_sha256": "f2d34fd80fb83e3b856f94b3e39c20ee7bf145cbee894632b39104f94a570193",
+      "ordered_input_and_noise_sha256": "7611a26bac16653086dd6cf67e5d617e53842a81d8d6eada37525959ac3c5302",
+      "updates": 0,
+      "generations": 0,
+      "native_requests": 0
+    },
+    "batch_plan": {
+      "single_GPU_modes": [
+        "mb1",
+        "mb2",
+        "mb4"
+      ],
+      "same_node_two_GPU_mode": "mb2",
+      "warmup_per_variant": 4,
+      "timed_per_variant": 12,
+      "updates_per_variant": 16,
+      "max_updates": 64,
+      "ordinary_outputs_per_variant": 48,
+      "independent_restore_outputs_per_variant": 48,
+      "offline_GPU_generations": 0,
+      "optimization_updates": 0
+    },
+    "Corelab_MIX": {
+      "observed": "2026-11-20T16:35:11.081264+08:00",
+      "global_step": 1005,
+      "committed_after_1000": 5,
+      "optimization_visits": {
+        "target": 160,
+        "robodojo": 240,
+        "libero": 240
+      },
+      "training_H40": 20
+    }
   }
 }
