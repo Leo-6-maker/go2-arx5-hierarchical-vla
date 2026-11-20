@@ -79,6 +79,8 @@ def inspect(entry, config, *, stop=False):
     own_root = spec.get('registered_root',spec.get('root'))
     if own_root != str(root):
         raise PermissionError('GOAL_FINALIZER_CARD_ROOT_MISMATCH')
+    if entry.get('expected_source') and spec.get('source_sha') != entry['expected_source']:
+        raise PermissionError('GOAL_FINALIZER_DEFERRED_SOURCE_CHANGED')
     if live and (str(card) not in unit.get('ExecStart','')
                  or not unit['ControlGroup'] or unit['ActiveState'] != 'active'):
         raise PermissionError('GOAL_FINALIZER_SYSTEMD_OWNER_CHANGED')
