@@ -1,0 +1,319 @@
+{
+  "schema": "SLA_GOAL_V2_TWO_A40_ACTIVATION_AND_TGT_NATIVE_BINDING_V1",
+  "plan": "1b2a25b7c1720051a2627d30831fb18130462374",
+  "observed": "2026-11-20T17:48:41.595972+08:00",
+  "pinned_private_receipts_sha256": {
+    "VANDA_G6_PAIR_ACTIVE_ACTUAL02": "e60c629e6dd3743aa85736e0f83fd197df92f2db7027b196024c09c742d5a9d5",
+    "VANDA_G6_SAME_HOST_PAIR_REGISTERED01": "17a943d48792a4e62c2c850bdccb19f4d6fdfc49e17019cf4bf8aecb5210c67a",
+    "VANDA_G6_PAIR_EXPIRY_ACTUAL01": "226621d052c6d2d46da0848e4ca8afa2704d687ba0a2ccc520945284b1854a36",
+    "VANDA_G6_PAIR_READBACK01": "3d4533639c86528ffc4d42a692327d9bd8531a26319c19a0c8ba5c9be4dcdf05",
+    "CORE_GOAL_V2_PAIR_CUTOVER_READBACK01": "0d987fcf3098a6b15296fc43f0f97bbd8857ced0b9186a624d1589ce77e616a8",
+    "CORE_TGT5K_SCALE96_COLD_BINDING01": "27efe79413460c8f345a4448104fa14e0572c1c914d796bc7cd46b93810645bd",
+    "CORE_GOAL_V2_MIX_AFTER_ADAPT0_BLOCK2_ACTUAL01": "5d2bb93e4177678beba8eeb4d1f65057a862721c979348e0ee22da0bf3eef194",
+    "CORE_GOAL_V2_FINALIZER_EXTENSION03": "3d957857849f19b64250979ef1bf81bd9b3d6d8cbd9b4138f84348f5cb7e268d"
+  },
+  "Vanda_pair": {
+    "observed": "2026-11-20T17:48:41.595972+08:00",
+    "phase": "REAL_PAIR_ALLOCATED",
+    "allocation_sha256": "17329b2dd1b257b23795f2dab7f2dd295850318162abff0c7969fb351c566fab",
+    "activated_sha256": "eb53a9b1df841ba2fa05b656babe3dac715209449037aa14e60f578bb387d3a9",
+    "spec_sha256": "8c13108243894851f517090ec613cbfb95abf05781a5d1910cc942257b949049",
+    "scheduler": {
+      "1598205.stdct-mgmt-02": {
+        "job_state": "F",
+        "exec_vnode": "(GN-A40-018[0]:ncpus=36:mem=240gb:ngpus=1)+(GN-A40-018[1]:ncpus=36:mem=240gb:ngpus=1)",
+        "stime": "Fri Nov 20 17:44:40 2026",
+        "Exit_status": 1,
+        "Execution_Time": null,
+        "session_id": 900620
+      },
+      "1598215.stdct-mgmt-02": {
+        "job_state": "W",
+        "exec_vnode": null,
+        "stime": null,
+        "Exit_status": null,
+        "Execution_Time": "Sat Nov 21 04:07:31 2026",
+        "session_id": null
+      }
+    },
+    "updates": 1,
+    "global_visits": {
+      "target": 64,
+      "robodojo": 32,
+      "libero": 32
+    },
+    "completed_H40": 4,
+    "latency_s": [
+      101.86964774900116
+    ],
+    "warmup": 1,
+    "ordinary": 0,
+    "restored": 0,
+    "scientific_updates": 0,
+    "native": 0,
+    "last_phase": 1001,
+    "last_gradient_partition_norms": {
+      "target": [
+        [
+          0.03952796384692192,
+          0.03861595690250397
+        ],
+        [
+          0.025143926963210106,
+          0.03015289083123207
+        ]
+      ],
+      "robodojo": [
+        [
+          0.031048055738210678,
+          0.03000866249203682
+        ],
+        [
+          0.030424220487475395,
+          0.022638384252786636
+        ]
+      ],
+      "libero": [
+        [
+          0.06229081004858017,
+          0.073349729180336
+        ],
+        [
+          0.043816398829221725,
+          0.05247938260436058
+        ]
+      ]
+    },
+    "registration": {
+      "job_id": "1598205.stdct-mgmt-02",
+      "source_sha256": "2caa24b2447e41f6a64323fadc1a428c72d583db",
+      "predecessor_job": "1598060.stdct-mgmt-02",
+      "parent_checkpoint_sha256": "01f9a4c52f2b621539872213c91afec2340fca2c2b09d34dc5ab40b402759776",
+      "fixed_panel_sha256": "068b73058d28b741c9ddeba6bcc0997e5ffb1453ceb349a7e4c2baa5f2bf4f57",
+      "training_card_sha256": "2346c95f23bf7961506292b9cb3606178a42f4cfd6753f300523ddf97985c2eb",
+      "stop_entry": "STOP.json in owned job root",
+      "log_names": [
+        "training.log",
+        "pbs-output.private.log",
+        "pbs-error.private.log"
+      ]
+    },
+    "allocation": {
+      "host": "GN-A40-018",
+      "owner_pid": 900620,
+      "stop_at": "2026-11-20T20:42:40+08:00",
+      "same_host_vnodes": [
+        "GN-A40-018[0]",
+        "GN-A40-018[1]"
+      ],
+      "scheduler_wall_s": 10800,
+      "memory": [
+        {
+          "GPU_bytes": 48305799168,
+          "free_bytes": 47695527936
+        },
+        {
+          "GPU_bytes": 48305799168,
+          "free_bytes": 47695527936
+        }
+      ],
+      "exact_single_mb2_primary_UUID": true,
+      "topology": "SYS"
+    },
+    "cap": {
+      "optimizer_updates": 16,
+      "training_H40": 64,
+      "ordinary": 48,
+      "restore": 48
+    },
+    "engineering_only": true,
+    "eligible_as_formal_parent": false,
+    "output_qualification": "PENDING",
+    "expiry": {
+      "job": "1598215.stdct-mgmt-02",
+      "state": "W",
+      "execution_time": "Sat Nov 21 04:07:31 2026",
+      "GPU_count": 0,
+      "spec_sha256": "37abdcaf998a41df65668ce8ee1d972b89100fa4e34cbe91e8ef8e7efe89be23",
+      "outer_deadline_sgt": "2026-11-21T04:07:30.567329+08:00"
+    }
+  },
+  "Core": {
+    "observed": "2026-11-20T17:47:11.822764+08:00",
+    "MIX_step": 1124,
+    "MIX_cursors": {
+      "target": 35968,
+      "robodojo": 53952,
+      "libero": 53952
+    },
+    "latest_seal_exists": false,
+    "MIX_deadline": 1795177653.448896,
+    "units": {
+      "wm02-sla-scale20k-mix-core-after1000-20261120-02": {
+        "MainPID": "665212",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-scale20k-mix-core-after1000-20261120-02.service",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "sla-observer-tgt5k-rgb16-after-mix-20261120-01": {
+        "MainPID": "647547",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/sla-observer-tgt5k-rgb16-after-mix-20261120-01.service",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "sla-observer-adapt0-goal-v2-block2-20261120-02": {
+        "MainPID": "654958",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/sla-observer-adapt0-goal-v2-block2-20261120-02.service",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "sla-observer-mix-after-adapt0-block2-20261120-01": {
+        "MainPID": "708946",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/sla-observer-mix-after-adapt0-block2-20261120-01.service",
+        "ActiveState": "active",
+        "SubState": "running"
+      }
+    },
+    "next_MIX_watcher_phase": "WAIT_BLOCK2",
+    "next_MIX_watcher_sha": "fb59ec39fdbb8c83b54c73e0f9441470ded07482a8c1ea7632060ed07bf9f9ca",
+    "next_MIX_worker": {
+      "MainPID": "0",
+      "ControlGroup": "",
+      "ActiveState": "inactive",
+      "SubState": "dead"
+    },
+    "finalizer_members": 9,
+    "next_MIX_worker_deadline": "2026-11-21T04:21:44.665899+08:00",
+    "stop_entry": "STOP.json per owning unit"
+  },
+  "TGT5K_scale_native": {
+    "state": "WAIT_TGT5K_CORE_RGB16",
+    "obs_pid": 647547,
+    "obs_unit": "sla-observer-tgt5k-rgb16-after-mix-20261120-01.service",
+    "obs_spec_sha": "088c4381d0dcc06256ec7c5ef7db60b4a41daefccd5667b0fa873d0e4ddddbcb",
+    "observer_deadline": 1795191524.665899,
+    "package_sha": "7684fa1da1792b268351edae10eb93ab940ecbafc527534d7edf7f8f26f05c1c",
+    "checkpoint_sha": "9eb71c0da7c0f34373d53c7b6c6b6dd3491e5a36dfd94d6ae0eb4d799fbdff08",
+    "population_sha": "86ad22180a0e1fd937fdff28302e190fef65928c0d8b724de282b6c8e0eb0c4a",
+    "eval_sha": "7181d6ec2f55ee776d42cf31bc822133ef92a6dc6a8bae3fd502376c11246e58",
+    "first6_ids": [
+      "SCALE_DEV-F1-1-HOLD-red-SCALE-TGT5K",
+      "SCALE_DEV-F1-1-HOLD-blue-SCALE-TGT5K",
+      "SCALE_DEV-F1-1-PLACE-red-left-SCALE-TGT5K",
+      "SCALE_DEV-F1-1-PLACE-red-right-SCALE-TGT5K",
+      "SCALE_DEV-F1-1-PLACE-blue-left-SCALE-TGT5K",
+      "SCALE_DEV-F1-1-PLACE-blue-right-SCALE-TGT5K"
+    ],
+    "first6_budget": [
+      6,
+      274218,
+      960
+    ],
+    "panel_caps": [
+      24,
+      1096872,
+      3840
+    ],
+    "verified_scenes": 4,
+    "original_interfaces": 2,
+    "old_interface_ticks": 11906,
+    "live_worker_PID": 0,
+    "new_updates": 0,
+    "new_model_generations": 0,
+    "new_native_requests": 0,
+    "new_native_ticks": 0,
+    "epoch": 1795168000.8652773,
+    "native_registration": "NOT_STARTED",
+    "observer_deadline_sgt": "2026-11-21T00:18:44.665899+08:00"
+  },
+  "Vanda_formal": {
+    "observed": "2026-11-20T17:47:12.201509+08:00",
+    "ADAPT_step": 1236,
+    "ADAPT_cursors": {
+      "target": 79104,
+      "robodojo": 39552,
+      "libero": 39552
+    },
+    "scope1250_sealed": false,
+    "jobs": {
+      "1598205": {
+        "job_state": "R",
+        "exec_vnode": "(GN-A40-018[0]:ncpus=36:mem=240gb:ngpus=1)+(GN-A40-018[1]:ncpus=36:mem=240gb:ngpus=1)",
+        "Exit_status": null,
+        "depend": "afterany:1598060.stdct-mgmt-02@stdct-mgmt-02",
+        "Execution_Time": null,
+        "stime": "Fri Nov 20 17:44:40 2026"
+      },
+      "1598215": {
+        "job_state": "W",
+        "exec_vnode": null,
+        "Exit_status": null,
+        "depend": null,
+        "Execution_Time": "Sat Nov 21 04:07:31 2026",
+        "stime": null
+      },
+      "1594211": {
+        "job_state": "R",
+        "exec_vnode": "(GN-A40-034[1]:ncpus=36:mem=240gb:ngpus=1)",
+        "Exit_status": null,
+        "depend": "beforeany:1594212.stdct-mgmt-02@stdct-mgmt-02",
+        "Execution_Time": null,
+        "stime": "Fri Nov 20 14:43:36 2026"
+      },
+      "1594214": {
+        "job_state": "H",
+        "exec_vnode": null,
+        "Exit_status": null,
+        "depend": "afterany:1594213.stdct-mgmt-02@stdct-mgmt-02,beforeany:1594215.stdct-mgmt-02@stdct-mgmt-02:1597833.stdct-mgmt-02@stdct-mgmt-02",
+        "Execution_Time": null,
+        "stime": null
+      },
+      "1594215": {
+        "job_state": "H",
+        "exec_vnode": null,
+        "Exit_status": null,
+        "depend": "afterany:1594214.stdct-mgmt-02@stdct-mgmt-02,beforeany:1598095.stdct-mgmt-02@stdct-mgmt-02",
+        "Execution_Time": null,
+        "stime": null
+      },
+      "1597845": {
+        "job_state": "H",
+        "exec_vnode": null,
+        "Exit_status": null,
+        "depend": "afterany:1597844.stdct-mgmt-02@stdct-mgmt-02",
+        "Execution_Time": null,
+        "stime": null
+      },
+      "1598095": {
+        "job_state": "H",
+        "exec_vnode": null,
+        "Exit_status": null,
+        "depend": "afterany:1594215.stdct-mgmt-02@stdct-mgmt-02",
+        "Execution_Time": null,
+        "stime": null
+      }
+    },
+    "pair_has_active_receipt": true,
+    "pair_has_terminal": false,
+    "pair_has_ledger": true
+  },
+  "deltas": {
+    "formal_train_updates": 35,
+    "formal_visits": [
+      1664,
+      1408,
+      1408
+    ],
+    "formal_training_generations": 140,
+    "pair_engineering_updates": 1,
+    "pair_engineering_visits": [
+      64,
+      32,
+      32
+    ],
+    "pair_training_generations": 4,
+    "new_offline_generations": 0,
+    "new_native_requests": 0,
+    "new_native_ticks": 0
+  }
+}
