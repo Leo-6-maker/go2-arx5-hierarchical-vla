@@ -1,4 +1,6 @@
 """SCALE20K training core over three independently admitted native readers."""
+from collections import deque
+from contextlib import closing, nullcontext
 import hashlib
 import time
 
@@ -14,7 +16,7 @@ STATE_CHANNELS = dict(zip(DOMAINS,(7,14,8),strict=True))
 ACTION_CHANNELS = dict(zip(DOMAINS,(7,14,7),strict=True))
 
 
-def host_batch(dataset, tokenizer, domain, positions, indices, *, training=True):
+def prepare_host_batch(dataset, tokenizer, domain, positions, indices, *, training=True):
     """Tokenize actual state dimensions and keep raw domain action semantics."""
     rows,token_ids,token_masks = [],[],[]
     for cursor,index in zip(positions,indices,strict=True):
@@ -36,7 +38,49 @@ def host_batch(dataset, tokenizer, domain, positions, indices, *, training=True)
         if any(set(row[key]) != set(CAMERAS) for row in rows):
             raise ValueError('SCALE20K_PINNED_ACTUAL_CAMERA_SLOTS_REQUIRED')
         observations[key] = {camera:np.stack([row[key][camera] for row in rows]) for camera in CAMERAS}
-    return batch_v2.device_batch(dict(observation=observations,actions=np.stack([row['actions'] for row in rows])))
+    return dict(observation=observations,actions=np.stack([row['actions'] for row in rows]))
+
+
+def host_batch(dataset, tokenizer, domain, positions, indices, *, training=True):
+    return batch_v2.device_batch(prepare_host_batch(dataset,tokenizer,domain,positions,indices,training=training))
+
+
+def prefetch_host_batches(executor, offsets, prepare):
+    """One dataset thread, two pending batches, and the original visit order."""
+    offsets = iter(offsets)
+    pending = deque()
+    try:
+        for _ in range(2):
+            first = next(offsets,None)
+            if first is not None:
+                pending.append(executor.submit(prepare,first))
+        while pending:
+            batch = pending.popleft().result()
+            next_offset = next(offsets,None)
+            if next_offset is not None:
+                pending.append(executor.submit(prepare,next_offset))
+            yield batch
+    finally:
+        for future in pending:
+            future.cancel()
+
+
+class UpdateBreakdown:
+    """Synchronized diagnostic intervals, separate from throughput timing."""
+    def __init__(self):
+        self.seconds = {}
+
+    def run(self, name, action, *, wait=False):
+        import jax
+
+        before = time.monotonic()
+        with jax.profiler.TraceAnnotation(name):
+            value = action()
+            if wait:
+                jax.block_until_ready(value)
+        elapsed = time.monotonic()-before
+        self.seconds[name] = self.seconds.get(name,0.) + elapsed
+        return value
 
 
 def frozen_draws(domain, size):
@@ -95,6 +139,9 @@ def target_auxiliary(graph, quantiles):
 
 class Engine:
     profile_timing = False
+    update_breakdown = None
+    input_executor = None
+    defer_fm_loss = False
 
     def __init__(self, arm, graphs, parameters, frozen, datasets, banks, tokenizer, microbatch, optimizer, *, rng):
         self.arm,self.parameters,self.frozen = arm,parameters,frozen
@@ -130,26 +177,59 @@ class Engine:
         draws = self.draw[domain](self.rng,cursor)
         dataset = self.datasets[domain]
         accumulator = jax.tree.map(jnp.zeros_like,active)
+        profile = self.update_breakdown
         totals = dict(FM32=0.,auxiliary=0.,backward_calls=0,training_full_generations=0,data_wait_s=0.)
         if self.profile_timing:
             totals.update(FM_backward_s=0.,auxiliary_input_s=0.,auxiliary_backward_s=0.)
-        for offset in range(0,size,micro):
-            guard()
+        if profile is not None:
+            profile.run(f'{domain}/FM_noise_and_accumulator_ready',lambda:(draws,accumulator),wait=True)
+
+        def prepare(offset):
             end = offset+micro
-            started = time.monotonic()
-            obs,actions = host_batch(dataset,self.tokenizer,domain,range(cursor+offset,cursor+end),indices[offset:end])
-            if self.profile_timing:
-                jax.block_until_ready((obs,actions,draws))
-            input_ready = time.monotonic()
-            totals['data_wait_s'] += input_ready-started
-            value,grad = self.grad[domain](active,self.frozen,obs,actions,draws[0][offset:end],draws[1][offset:end])
-            accumulator = self.add(accumulator,grad,micro/size)
-            totals['FM32'] += float(value)*micro/size
-            if self.profile_timing:
-                jax.block_until_ready(accumulator)
-                totals['FM_backward_s'] += time.monotonic()-input_ready
-            totals['backward_calls'] += 1
-            self.gradient_windows[domain] += micro
+            return prepare_host_batch(dataset,self.tokenizer,domain,range(cursor+offset,cursor+end),indices[offset:end])
+
+        offsets = range(0,size,micro)
+        batches = closing(prefetch_host_batches(self.input_executor,offsets,prepare)) if self.input_executor else nullcontext()
+        values = []
+        with batches as prefetched:
+            for offset in offsets:
+                guard()
+                end = offset+micro
+                started = time.monotonic()
+                if prefetched is not None:
+                    obs,actions = batch_v2.device_batch(next(prefetched))
+                elif profile is not None:
+                    packed = profile.run(f'{domain}/FM_host_prepare',lambda:prepare(offset))
+                    obs,actions = profile.run(f'{domain}/FM_device_input_ready',lambda:batch_v2.device_batch(packed),wait=True)
+                else:
+                    obs,actions = host_batch(dataset,self.tokenizer,domain,range(cursor+offset,cursor+end),indices[offset:end])
+                if self.profile_timing:
+                    jax.block_until_ready((obs,actions,draws))
+                input_ready = time.monotonic()
+                totals['data_wait_s'] += input_ready-started
+                inputs = (active,self.frozen,obs,actions,draws[0][offset:end],draws[1][offset:end])
+                if profile is not None:
+                    value,grad = profile.run(f'{domain}/FM_forward_backward',lambda:self.grad[domain](*inputs),wait=True)
+                    accumulator = profile.run(f'{domain}/FM_gradient_accumulation',lambda:self.add(accumulator,grad,micro/size),wait=True)
+                    totals['FM32'] += profile.run(f'{domain}/FM_loss_readback',lambda:float(value))*micro/size
+                else:
+                    value,grad = self.grad[domain](*inputs)
+                    accumulator = self.add(accumulator,grad,micro/size)
+                    if self.defer_fm_loss:
+                        values.append(value)
+                        # Keep a short device queue while the input thread works ahead.
+                        if len(values) > 2:
+                            jax.block_until_ready(values[-3])
+                    else:
+                        totals['FM32'] += float(value)*micro/size
+                if self.profile_timing:
+                    jax.block_until_ready(accumulator)
+                    totals['FM_backward_s'] += time.monotonic()-input_ready
+                totals['backward_calls'] += 1
+                self.gradient_windows[domain] += micro
+        if values:
+            for value in jax.device_get(jnp.stack(values)):
+                totals['FM32'] += float(value)*micro/size
         return accumulator,totals
 
     def _add_target_auxiliary(self, indices, cursor, active, accumulator, totals, slots, guard):
@@ -157,27 +237,35 @@ class Engine:
         import jax.numpy as jnp
 
         dataset = self.datasets['target']
+        profile = self.update_breakdown
         for slot in slots:
             guard()
             if self.profile_timing:
                 started = time.monotonic()
             index = int(indices[slot]); absolute = cursor+slot
-            obs,_ = host_batch(dataset,self.tokenizer,'target',[absolute],[index])
-            episode,anchor = dataset.rows[index]
-            label = dataset.labels[episode['id']]['nominal_policy_H40'][anchor,:,9]
-            width = dense_g7_v6.previous_command_context(dataset.reference(index))
-            noise = jax.random.normal(jax.random.fold_in(jax.random.fold_in(self.rng,37),absolute),(1,40,32))
-            width = jnp.asarray([width],jnp.float32)
-            label_width = jnp.asarray((.002+.040*label)[None,:],jnp.float32)
+            def auxiliary_input():
+                obs,_ = host_batch(dataset,self.tokenizer,'target',[absolute],[index])
+                episode,anchor = dataset.rows[index]
+                label = dataset.labels[episode['id']]['nominal_policy_H40'][anchor,:,9]
+                width = dense_g7_v6.previous_command_context(dataset.reference(index))
+                noise = jax.random.normal(jax.random.fold_in(jax.random.fold_in(self.rng,37),absolute),(1,40,32))
+                return obs,noise,jnp.asarray([width],jnp.float32),jnp.asarray((.002+.040*label)[None,:],jnp.float32)
+
+            args = profile.run('target/H40_input_ready',auxiliary_input,wait=True) if profile else auxiliary_input()
             if self.profile_timing:
-                jax.block_until_ready((obs,noise,width,label_width))
+                jax.block_until_ready(args)
                 ready = time.monotonic()
                 totals['auxiliary_input_s'] += ready-started
                 started = ready
             self.attempted_aux += 1
-            value,grad = self.aux(active,self.frozen,obs,noise,width,label_width)
-            accumulator = self.add(accumulator,grad,.25)
-            totals['auxiliary'] += float(value)*.25
+            if profile is not None:
+                value,grad = profile.run('target/H40_complete_sampling_and_backward',lambda:self.aux(active,self.frozen,*args),wait=True)
+                accumulator = profile.run('target/H40_gradient_accumulation',lambda:self.add(accumulator,grad,.25),wait=True)
+                totals['auxiliary'] += profile.run('target/H40_loss_readback',lambda:float(value))*.25
+            else:
+                value,grad = self.aux(active,self.frozen,*args)
+                accumulator = self.add(accumulator,grad,.25)
+                totals['auxiliary'] += float(value)*.25
             if self.profile_timing:
                 jax.block_until_ready(accumulator)
                 totals['auxiliary_backward_s'] += time.monotonic()-started

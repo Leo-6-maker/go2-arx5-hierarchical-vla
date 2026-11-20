@@ -46,14 +46,21 @@ class AdaptEngine(Engine):
         indices = self.banks[domain][local:local+self.batch_size[domain]]
         active = dict(shared=self.parameters['shared'],private=self.parameters[domain])
         fm,metrics = self._fm_gradient(domain,indices,absolute,active,guard)
-        self._record_gradient(fm,metrics,indices)
+        profile = self.update_breakdown
+        if profile is None:
+            self._record_gradient(fm,metrics,indices)
+        else:
+            profile.run(f'{domain}/FM_gradient_norms',lambda:self._record_gradient(fm,metrics,indices))
         aux = None
         if domain == 'target':
             auxiliary = jax.tree.map(jnp.zeros_like,active)
             slots = contract.auxiliary_slots(self.step)
             aux = self._add_target_auxiliary(indices,absolute,active,auxiliary,metrics,slots,guard)
-            metrics['auxiliary_shared_gradient_norm'] = float(optax.global_norm(aux['shared']))
-            metrics['auxiliary_private_gradient_norm'] = float(optax.global_norm(aux['private']))
+            def auxiliary_norms():
+                return float(optax.global_norm(aux['shared'])),float(optax.global_norm(aux['private']))
+
+            norms = profile.run('target/H40_gradient_norms',auxiliary_norms) if profile else auxiliary_norms()
+            metrics['auxiliary_shared_gradient_norm'],metrics['auxiliary_private_gradient_norm'] = norms
             if not all(np.isfinite(metrics[key]) for key in ('auxiliary','auxiliary_shared_gradient_norm',
                                                             'auxiliary_private_gradient_norm')):
                 raise ValueError('ADAPT5K_AUXILIARY_REQUIRES_FINITE_TARGET_GRADIENTS')
@@ -69,7 +76,9 @@ class AdaptEngine(Engine):
             fm[d],term,metrics[d] = self.domain_gradient(d,guard)
             if d == 'target':
                 aux = term
-        return self.combine(fm,aux),metrics
+        profile = self.update_breakdown
+        gradient = profile.run('ADAPT/domain_gradient_merge',lambda:self.combine(fm,aux),wait=True) if profile else self.combine(fm,aux)
+        return gradient,metrics
 
     def update(self, guard):
         import jax
@@ -78,10 +87,19 @@ class AdaptEngine(Engine):
         gradient,metrics = self.measure_gradient(guard)
         guard()
         lr = float(self.rates[self.step])
-        parameters,states,norm = self.apply(self.parameters,self.states,gradient,lr)
-        jax.block_until_ready((parameters,states))
+        profile = self.update_breakdown
+        if profile is None:
+            parameters,states,norm = self.apply(self.parameters,self.states,gradient,lr)
+            jax.block_until_ready((parameters,states))
+        else:
+            parameters,states,norm = profile.run('ADAPT/global_clip_AdamW',
+                lambda:self.apply(self.parameters,self.states,gradient,lr),wait=True)
         self.parameters,self.states = parameters,states
         self.step += 1
-        return dict(**contract.progress(self.parent_step,self.step,self.stage_start),learning_rate=lr,
-                    grad_norm=norm,domains=metrics,wall_s=time.monotonic()-before,
-                    actual_GPU_memory_stats=jax.devices()[0].memory_stats())
+        row = dict(**contract.progress(self.parent_step,self.step,self.stage_start),learning_rate=lr,
+                   grad_norm=norm,domains=metrics,wall_s=time.monotonic()-before,
+                   actual_GPU_memory_stats=jax.devices()[0].memory_stats())
+        if profile is not None:
+            row['synchronized_intervals_s'] = profile.seconds.copy()
+            row['unattributed_wall_s'] = row['wall_s']-sum(profile.seconds.values())
+        return row

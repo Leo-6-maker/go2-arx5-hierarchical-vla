@@ -199,6 +199,45 @@ def test_scale_microbatch_grouping_preserves_inputs_and_auxiliary_exposure(monke
             for key in gradient:
                 np.testing.assert_allclose(gradient[key], original_gradient[key], rtol=1e-6)
 
+    # The ADAPT pipeline must keep mb1 gradient arithmetic and sample order,
+    # including the four H40 slots and one global Adam update.
+    from concurrent.futures import ThreadPoolExecutor
+    from go2arx5_vla.sla_adapter import adapt5k_contract as adapt
+    from go2arx5_vla.sla_adapter.adapt5k_training import AdaptEngine
+
+    initialize,_ = make_adamw(**optimizer)
+    phase_banks = {d:banks[d][:2000*adapt.BATCH[d]] for d in DOMAINS}
+
+    def adapt_update(executor=None, deferred=False, profile=False):
+        recorded_fm.clear()
+        recorded_aux.clear()
+        engine = AdaptEngine(dict(zip(DOMAINS,DOMAINS,strict=True)),params,{},datasets,phase_banks,tokenizer,dict.fromkeys(DOMAINS,1),
+            restored_adam=initialize(params),restored_rng=jax.random.PRNGKey(321),parent_step=500,phase_step=73,
+            stage_start=0,stage_stop=2000)
+        engine.input_executor = executor
+        engine.defer_fm_loss = deferred
+        engine.update_breakdown = training.UpdateBreakdown() if profile else None
+        row = engine.update(lambda: None)
+        assert row['phase_step']==74 and engine.gradient_windows==adapt.BATCH and engine.completed_aux==4
+        return engine, row, recorded_fm.copy(), recorded_aux.copy()
+
+    base = adapt_update()
+    with ThreadPoolExecutor(max_workers=1) as executor:
+        candidates = (adapt_update(executor),adapt_update(executor,deferred=True),adapt_update(profile=True))
+    for engine,row,fm,aux in candidates:
+        assert fm==base[2] and aux==base[3]
+        for domain in DOMAINS:
+            for k in ('FM32','auxiliary','backward_calls','training_full_generations','visit_slice_sha256'):
+                assert row['domains'][domain][k]==base[1]['domains'][domain][k]
+        assert row['grad_norm']==base[1]['grad_norm']
+        for actual,serial in zip(jax.tree.leaves((engine.parameters,engine.states,engine.rng)),
+                                 jax.tree.leaves((base[0].parameters,base[0].states,base[0].rng)),strict=True):
+            np.testing.assert_array_equal(actual,serial)
+    intervals = candidates[-1][1]['synchronized_intervals_s']
+    assert all(v>=0 for v in intervals.values())
+    assert {'target/FM_host_prepare','target/FM_device_input_ready','target/FM_gradient_accumulation',
+            'target/H40_complete_sampling_and_backward','ADAPT/domain_gradient_merge','ADAPT/global_clip_AdamW'}<=set(intervals)
+
 
 def test_private_moments_and_decay_and_next_update_survive_checkpoint(tmp_path):
     jax = pytest.importorskip('jax')
