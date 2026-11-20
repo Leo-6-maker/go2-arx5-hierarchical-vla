@@ -18,4 +18,6 @@ VANDA CPU `1598712` 在 1 分 16 秒内实际读通原下一个批次的 **32／
 
 VANDA 使用该站原有 token，CPU `1598725` 自 **20:07:13 SGT** 起运行，发布已封存的 TGT5K，阶段生产作业 `1593720` 已核对 F/0。执行卡 `fc5ed1d09a2d2e4c9f02bda7054f4fd66f6ea4f44f5b08f8a8f2cc9669190d96`。TGT 完整状态 SHA `9eb71c0da7c0f34373d53c7b6c6b6dd3491e5a36dfd94d6ae0eb4d799fbdff08`，发布清单 141 文件、5,547,651,881 字节。到期作业 `1598726` 已登记为 W，截止 **21:50:16 SGT**。本作业的调度、上传和核验均在站点执行，使用 `STOP.json`、`stdout.private.log` 和 `stderr.private.log`。
 
+`1598725` 实际 **F/0**，墙钟 7 分 27 秒。固定 revision `924f34439976fd0022afc1e76309fd9b6cae6d5e` 的 **141/141** 文件全部校验。Corelab 独立匿名下载 `COMPLETE.json`，回验 SHA、5,000 步和文件数一致。两站都已用各自预配置的 token 完成一次实际公开发布，并在对站验证匿名读取。 [TGT5K 固定 revision](https://huggingface.co/datasets/leoyuer/sla-goal-v2-checkpoints/tree/924f34439976fd0022afc1e76309fd9b6cae6d5e/SCALE-TGT5K/step-05000-9eb71c0da7c0)
+
 Core 下一段冷态发布服务 `sla-observer-core-mix-next-cold-public-hf-20261120-01.service` 已由独立连接确认运行，PID **870042** 属于单元 cgroup。执行卡 `a3b35e2c77e140d7e5003e6fd76430fff09b2a5cc91f9ccec603ed8b32d5e65e`，站点截止 **21:47:33 SGT**。服务等待当前 Core MIX 的精确 owner 退出，核对已关闭的租约、退出码 75 的完整前缀或精确 2k 封存、逐更新访问和文件哈希。独立核对时该服务已发布 **0 字节**，新训练也为 **0**。全局 finalizer 已包含这一角色，停止入口 `STOP.json`，日志 `upload.log`。
