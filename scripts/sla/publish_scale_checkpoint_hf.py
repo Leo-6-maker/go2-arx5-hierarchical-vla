@@ -174,6 +174,32 @@ def require_cold_producer(config, producer, train):
         raise PermissionError('PUBLICATION_REQUIRES_OWN_CPU_PBS_AND_EXACT_COLD_VANDA_SEAL')
 
 
+def bind_future_adapt_seal(config):
+    """Bind a queued publication to the two receipts from its exact PBS predecessor."""
+    if (config['arm'] != ADAPT_ARM or config['producer_site'] != 'VANDA'
+            or config['step'] not in (2000, 5000) or config['job_id'] != os.environ.get('PBS_JOBID')
+            or time.time() + 120 >= config['deadline_epoch']):
+        raise PermissionError('PUBLICATION_REQUIRES_OWN_UNEXPIRED_ADAPT_ENDPOINT_JOB')
+    pin = config['producer_card']
+    card_path = Path(pin['path']).resolve(strict=True)
+    card = checked(card_path, pin['sha256'])
+    producer = card_path.parent
+    if (card['job_id'] != config['producer_job'] or card['root'] != str(producer)
+            or card_path.name != 'DEPENDENCY.private.json' or producer.stat().st_uid != os.getuid()
+            or card['step'] != config['step'] or card['role'] != 'train'
+            or card['deadline_epoch'] != config['deadline_epoch']):
+        raise PermissionError('PUBLICATION_REQUIRES_THE_REGISTERED_EXACT_ADAPT_PRODUCER_CARD')
+    receipt_path = producer/'RESULT.private.json'
+    receipt_pin = dict(path=str(receipt_path), sha256=sha(receipt_path))
+    receipt = checked(receipt_path, receipt_pin['sha256'])
+    train = receipt['completed_roles']['train']
+    if (receipt['source_sha'] != card['source_sha'] or receipt['PBS_JOBID'] != card['job_id']
+            or receipt['phase_limit'] != card['step'] or receipt['status'] != 'ADAPT_FIXED_SEGMENT_SAVED'
+            or receipt['exit_code'] or Path(train['path']) != producer/'train'/'RESULT.private.json'):
+        raise PermissionError('PUBLICATION_REQUIRES_THE_EXACT_COLD_ADAPT_ENDPOINT_RECEIPT')
+    return dict(config, train=train, producer_result=receipt_pin)
+
+
 def run(config):
     root = Path(config['root']).resolve(strict=True)
     if (root.stat().st_uid!=os.getuid() or config['repo']!=REPO or (root/'RESULT.private.json').exists()
@@ -182,6 +208,11 @@ def run(config):
     status = dict(status='PUBLIC_CHECKPOINT_NOT_VERIFIED',repo=REPO,step=config['step'],
                   source_sha=config['source_sha'],optimizer_updates=0,native_requests=0,native_ticks=0,model_generations=0)
     try:
+        if 'producer_card' in config:
+            config = bind_future_adapt_seal(config)
+            write_once(root/'PRODUCER_READBACK.private.json',
+                       dict(producer_card=config['producer_card'], producer_result=config['producer_result'],
+                            train=config['train'], step=config['step']))
         pin = config['train']
         train_path = Path(pin['path']).resolve(strict=True)
         result = checked(train_path,pin['sha256'])
