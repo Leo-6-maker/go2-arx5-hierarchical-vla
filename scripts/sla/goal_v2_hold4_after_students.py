@@ -100,7 +100,7 @@ def run(spec):
         if tgt_report['status']=='TGT5K_FIRST6_DISPATCHED':
             registration = tgt_report['registration']
             t = Path(read_pin(tgt['native_config'])['root'])
-            terminal,effect,r = native_terminal(t,registration['spec'],registration['unit'],
+            terminal,effect,r = native_terminal(t,registration['spec'],registration['actual'],
                                                deadline=latest,stopped=stopped)
             if not 1<=r['new_verified_native_requests']<=6 or any(
                     e['technical_failure'] for e in r['records'] if e['role']=='STUDENT'):
