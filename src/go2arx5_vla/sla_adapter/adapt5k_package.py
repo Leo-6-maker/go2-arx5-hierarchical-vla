@@ -1,4 +1,4 @@
-"""Export ADAPT0's real target parameters with separate D1 state and C20 action statistics."""
+"""ADAPT Go2 inference packages with separate D1 state and C20 action statistics."""
 import os
 from pathlib import Path
 import tempfile
@@ -10,6 +10,8 @@ from .multitask_contract_v6 import C20_STATISTICS
 
 
 SCHEMA = 'SLA_ADAPT0_TARGET_RGB_PACKAGE_V1'
+TRAINED_SCHEMA = 'SLA_ADAPT_TRAINED_TARGET_RGB_PACKAGE_V1'
+TRAINED_PHASES = (2000, 5000)
 
 
 class Provider(scale20k_package.Provider):
@@ -17,17 +19,22 @@ class Provider(scale20k_package.Provider):
     def read_manifest(root, manifest_sha256):
         manifest = read_pin(dict(path=str(root/'MANIFEST.private.json'),sha256=manifest_sha256))
         rows = manifest['arrays']
-        if (manifest['schema'] != SCHEMA or manifest['plan'] != adapt5k_contract.PLAN or manifest['phase'] != 0
+        schema, phase = manifest['schema'], manifest['phase']
+        legacy = schema == SCHEMA and phase == 0
+        trained = schema == TRAINED_SCHEMA and phase in TRAINED_PHASES
+        checkpoint_key = 'ADAPT0_sha256' if legacy else 'checkpoint_sha256'
+        if (not (legacy or trained) or manifest['plan'] != adapt5k_contract.PLAN
                 or manifest['physics'] is not False or manifest['hardware_allowed'] is not False
                 or manifest['native_admission'] is not False or manifest['action_statistics_sha256'] != C20_STATISTICS
-                or not all(scale20k_checkpoint.is_digest(manifest[k]) for k in ('ADAPT0_sha256','MIX_sha256',
+                or not all(scale20k_checkpoint.is_digest(manifest[k]) for k in (checkpoint_key,'MIX_sha256',
                     'D1_freeze_sha256','state_statistics_sha256','tokenizer_sha256','partition_sha256',
                     'frozen_fingerprint','initial_state_sha256','evaluation_sha256','restore_sha256','panel_sha256'))
+                or trained and not scale20k_checkpoint.is_digest(manifest['parent_manifest']['sha256'])
                 or len(rows) != 29 or len({r['key'] for r in rows}) != 29 or len({r['file'] for r in rows}) != 29
                 or any(not r['key'].startswith(scale20k_package.TARGET_PREFIXES) or r['dtype'] != 'float32'
                        or not scale20k_checkpoint.is_digest(r['sha256'])
                        or Path(r['file']).parts != ('parameters',Path(r['file']).name) for r in rows)):
-            raise ValueError('ADAPT0_TARGET_PACKAGE_REQUIRES_SEALED_NONPHYSICAL_IDENTITY')
+            raise ValueError('ADAPT_TARGET_PACKAGE_REQUIRES_SEALED_NONPHYSICAL_IDENTITY')
         return manifest
 
     @staticmethod
