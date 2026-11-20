@@ -5,9 +5,8 @@ import tempfile
 
 from scripts.pi0292.durable import write
 from . import adapt5k_contract, scale20k_checkpoint, scale20k_package
-from .checkpoint_v1 import sha
+from .checkpoint_v1 import read_pin, sha
 from .multitask_contract_v6 import C20_STATISTICS
-from .runtime_v1 import read_pin
 
 
 SCHEMA = 'SLA_ADAPT0_TARGET_RGB_PACKAGE_V1'

@@ -6,18 +6,11 @@ import time
 import os
 import numpy as np
 
-from .checkpoint_v1 import save, restore, sha
+from .checkpoint_v1 import read_pin, save, restore, sha
 from .codec_v1 import Quantiles
 from .config_v1 import SEED, learning_rates, visits
 from .dataset_v1 import TargetDataset
 from .model_v1 import load_parent, observation, Tokenizer, frozen_fingerprint
-
-
-def read_pin(pin):
-    p = Path(pin['path'])
-    if sha(p) != pin['sha256']:
-        raise ValueError('SLA_RUNTIME_INPUT_PIN_CHANGED')
-    return json.loads(p.read_bytes())
 
 
 def data(spec):

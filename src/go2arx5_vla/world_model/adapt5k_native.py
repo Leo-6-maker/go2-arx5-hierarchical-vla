@@ -3,7 +3,7 @@ from pathlib import Path
 
 from go2arx5_vla.sla_adapter.adapt5k_contract import PLAN
 from go2arx5_vla.sla_adapter.adapt5k_package import Provider
-from go2arx5_vla.sla_adapter.runtime_v1 import read_pin
+from go2arx5_vla.sla_adapter.checkpoint_v1 import read_pin
 from go2arx5_vla.sla_adapter.scale20k_contract import RESTORE_ORDINALS
 
 SCOPE = 'SLA_ADAPT5K_NATIVE_G7'

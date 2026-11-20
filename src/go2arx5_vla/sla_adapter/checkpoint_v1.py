@@ -17,6 +17,13 @@ def sha(path):
     return h.hexdigest()
 
 
+def read_pin(pin):
+    p = Path(pin['path'])
+    if sha(p) != pin['sha256']:
+        raise ValueError('SLA_RUNTIME_INPUT_PIN_CHANGED')
+    return json.loads(p.read_bytes())
+
+
 def save(path, tree, *, step, cursor, bindings):
     import jax
     path = Path(path)
