@@ -27,6 +27,7 @@ WARMUP, TIMED, PROFILE = 3, 5, 2
 BATCH_WARMUP, BATCH_TIMED = 4, 12
 VARIANTS = ('serial','prefetch','prefetch_deferred')
 BATCH_VARIANTS = {'compiled_mb1': 1, 'compiled_mb2': 2, 'compiled_mb4': 4}
+TWO_GPU_VARIANT = 'compiled_two_gpu_mb2'
 
 
 def probe_variants(scope):
@@ -38,10 +39,10 @@ def probe_variants(scope):
 
 
 def phase_window(variant, scope=SCOPE):
+    if scope==BATCH_SCOPE and (variant in BATCH_VARIANTS or variant==TWO_GPU_VARIANT):
+        return BATCH_WARMUP+BATCH_TIMED
     if variant not in probe_variants(scope):
         raise ValueError('EXPECTED_ADAPT_ENGINEERING_VARIANT')
-    if scope == BATCH_SCOPE:
-        return BATCH_WARMUP+BATCH_TIMED
     return WARMUP+TIMED+(PROFILE if variant=='serial' else 0)
 
 
@@ -63,11 +64,21 @@ def timing_summary(rows, *, timed=TIMED):
     wall = [row['wall_s'] for row in rows]
     count = sum(contract.BATCH.values())
     memory = [row.get('actual_GPU_memory_stats') or {} for row in rows]
+    devices = {row.get('devices',1) for row in rows}
+    if len(devices)!=1:
+        raise ValueError('ADAPT_TIMED_ROWS_MUST_USE_THE_SAME_GPU_COUNT')
+    count_devices, = devices
+    per_device_peak = []
+    if count_devices==2:
+        for device_rows in zip(*(row['per_device_memory_stats'] for row in rows),strict=True):
+            per_device_peak.append(max((entry['peak_bytes_in_use'] for entry in device_rows
+                                        if entry and 'peak_bytes_in_use' in entry),default=None))
     return dict(updates=len(rows),total_step_wall_s=sum(wall),update_p50_s=statistics.median(wall),
                 update_p90_s=statistics.quantiles(wall,n=10,method='inclusive')[8],
-                FM_windows_per_second=len(rows)*count/sum(wall),GPU_hours_for_timed_updates=sum(wall)/3600,
+                FM_windows_per_second=len(rows)*count/sum(wall),GPU_hours_for_timed_updates=sum(wall)*count_devices/3600,
                 GPU_peak_bytes_in_use=max((m['peak_bytes_in_use'] for m in memory if 'peak_bytes_in_use' in m),default=None),
-                GPU_peak_pool_bytes=max((m['peak_pool_bytes'] for m in memory if 'peak_pool_bytes' in m),default=None))
+                GPU_peak_pool_bytes=max((m['peak_pool_bytes'] for m in memory if 'peak_pool_bytes' in m),default=None),
+                per_device_peak_bytes_in_use=per_device_peak)
 
 
 def exposure_fingerprint(rows, *, fm_microbatch=1):
@@ -100,6 +111,27 @@ def require_batched_output_panel(plan):
             or plan.get('export_matched_engineering') is not True):
         raise ValueError('ADAPT_BATCH_REQUIRES_PINNED_48_OUTPUTS_AND_INDEPENDENT_RESTORE')
     return pin
+
+
+def paired_reference(spec, prior, panel):
+    from scripts.sla.adapt5k_vanda import pbs_history
+    from scripts.sla.scale20k_vanda_offline import read_pbs_with_auth_retry
+
+    scope = read_pin(spec['paired_single_scope'])
+    job = read_pbs_with_auth_retry(pbs_history,scope['job_id'])
+    pin = scope['completed']['compiled_mb2']
+    reference = read_pin(pin)
+    if (scope['scope']!=BATCH_SCOPE or scope['exit_code'] or not scope['engineering_only']
+            or job['job_state']!='F' or job.get('Exit_status')!=0
+            or job['project']!=spec['project'] or job['Job_Owner'].split('@')[0]!=os.environ.get('USER')
+            or reference['variant']!='compiled_mb2' or reference['fm_microbatch']!=2
+            or reference['exit_code'] or reference['actual_optimizer_updates']!=16
+            or reference['throughput']['updates']!=12 or reference['fixed_output_panel']!=panel
+            or reference['parent_checkpoint_sha256']!=prior['checkpoint']['sha256']
+            or reference['source_training_card_sha256']!=spec['training_card']['sha256']
+            or reference['phase_start']!=prior['end_phase']):
+        raise ValueError('ADAPT_PAIR_REQUIRES_COLD_SAME_ROUND_SINGLE_A40_MB2_REFERENCE')
+    return pin,reference
 
 
 def compare(receipts):
@@ -145,7 +177,8 @@ def benchmark(spec):
     source = Path(__file__).resolve().parents[2]
     variant,scope = spec['variant'],spec['scope']
     count = phase_window(variant,scope)
-    microbatch = BATCH_VARIANTS.get(variant,1)
+    parallel = variant==TWO_GPU_VARIANT
+    microbatch = 2 if parallel else BATCH_VARIANTS.get(variant,1)
     compiled = scope == BATCH_SCOPE
     warmup,timed = (BATCH_WARMUP,BATCH_TIMED) if compiled else (WARMUP,TIMED)
     card = read_pin(spec['training_card'])
@@ -158,6 +191,7 @@ def benchmark(spec):
             or plan['scope']!=scope or plan['parent_checkpoint_sha256']!=prior['checkpoint']['sha256']
             or plan['training_card_sha256']!=spec['training_card']['sha256'] or plan['update_limit'][variant]!=count
             or prior['exit_code'] or prior['status']!='ADAPT_FIXED_SEGMENT_SAVED' or prior['native_requests']
+            or (parallel and spec['expected_pair_parent_sha256']!=prior['checkpoint']['sha256'])
             or card['stage_start']!=prior['binding']['stage_start'] or card['stage_stop']!=prior['binding']['stage_stop']
             or not card['stage_start']<start<start+count<=card['stage_stop']
             or card['microbatch']!=dict.fromkeys(contract.DOMAINS,1)):
@@ -170,7 +204,7 @@ def benchmark(spec):
     engine = None
     rows = []
     result = dict(scope=scope,variant=variant,source_sha=spec['source_sha'],engineering_only=True,
-                  fm_microbatch=microbatch,compiled_fm_accumulation=compiled,
+                  fm_microbatch=microbatch,compiled_fm_accumulation=compiled,allocated_GPU_count=2 if parallel else 1,
                   eligible_as_formal_parent=False,parent_checkpoint_sha256=prior['checkpoint']['sha256'],
                   source_training_card_sha256=spec['training_card']['sha256'],engineering_contract=spec['engineering_contract'],
                   phase_start=start,scientific_updates=0,native_requests=0,native_ticks=0,exit_code=1)
@@ -196,9 +230,19 @@ def benchmark(spec):
 
     try:
         guard()
-        site = validate(spec)
-        if len(jax.devices())!=1 or jax.default_backend()!='gpu':
-            raise PermissionError('ADAPT_BENCHMARK_REQUIRES_ONE_ACTUALLY_ALLOCATED_GPU')
+        if parallel:
+            from go2arx5_vla.sla_adapter.adapt5k_pair_site import validate as validate_pair
+
+            site = validate_pair(spec)
+            reference_pin,reference = paired_reference(spec,prior,output_panel)
+            if any(site[key]!=reference['device'][key] for key in ('GPU_uuid','GPU_name','host')):
+                raise PermissionError('ADAPT_PAIR_REFERENCE_A40_MUST_BE_THE_PRIMARY_DEVICE')
+            result['pair_site'] = site
+            result['paired_single_mb2'] = reference_pin
+        else:
+            site = validate(spec)
+        if len(jax.local_devices())!=result['allocated_GPU_count'] or jax.default_backend()!='gpu':
+            raise PermissionError('ADAPT_BENCHMARK_REQUIRES_THE_ACTUALLY_ALLOCATED_GPUS')
         result['device'] = {key:site[key] for key in ('GPU_name','GPU_uuid','host')}
         jax.config.update('jax_compilation_cache_dir',spec['compilation_cache_dir'])
         datasets,banks = inputs(card,resize_with_pad)
@@ -214,16 +258,29 @@ def benchmark(spec):
         with (root/'UPDATES.private.jsonl').open('x') as ledger,executor as input_executor:
             engine.input_executor = input_executor
             engine.defer_fm_loss = variant=='prefetch_deferred' or compiled
-            if compiled:
+            update = engine.update
+            if parallel:
+                from go2arx5_vla.sla_adapter.adapt5k_parallel_gradients import ParallelAdaptUpdate
+
+                update = ParallelAdaptUpdate(engine,jax.local_devices()).update
+            elif compiled:
                 engine.batched_fm_accumulation = {domain:compile_fm_accumulation(gradient)
                                                  for domain,gradient in engine.grad.items()}
             for i in range(warmup+timed):
-                append(ledger,'warmup' if i<warmup else 'timed',engine.update(guard))
+                append(ledger,'warmup' if i<warmup else 'timed',update(guard))
             result['matched_end_state'] = state_fingerprint(engine)
             if len(result['matched_end_state'])!=140:
                 raise ValueError('ADAPT_ENGINEERING_STATE_MUST_INCLUDE_ALL_140_LEAVES')
             result['matched_exposure_sha256'] = exposure_fingerprint(rows,fm_microbatch=microbatch)
             result['throughput'] = timing_summary(rows[warmup:],timed=timed)
+            if parallel:
+                if result['matched_exposure_sha256']!=reference['matched_exposure_sha256']:
+                    raise ValueError('ADAPT_PAIR_EXPOSURE_CHANGED_FROM_MATCHED_SINGLE_MB2')
+                single = reference['throughput']
+                scaling = result['throughput']['FM_windows_per_second']/single['FM_windows_per_second']
+                gpu_hours = result['throughput']['GPU_hours_for_timed_updates']/single['GPU_hours_for_timed_updates']
+                result['strong_scaling'] = dict(throughput_ratio=scaling,GPU_hours_ratio=gpu_hours,
+                    timed_thresholds_met=scaling>=1.5 and gpu_hours<=4/3,output_qualification_pending=True)
             if plan.get('export_matched_engineering') is True:
                 from go2arx5_vla.sla_adapter.scale20k_checkpoint import seal_arrays, training_tree
 

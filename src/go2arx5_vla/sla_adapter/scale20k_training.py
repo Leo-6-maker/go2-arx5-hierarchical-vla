@@ -45,6 +45,17 @@ def host_batch(dataset, tokenizer, domain, positions, indices, *, training=True)
     return batch_v2.device_batch(prepare_host_batch(dataset,tokenizer,domain,positions,indices,training=training))
 
 
+def target_auxiliary_context(dataset, rng, absolute, index):
+    import jax
+    import jax.numpy as jnp
+
+    episode, anchor = dataset.rows[index]
+    label = dataset.labels[episode['id']]['nominal_policy_H40'][anchor,:,9]
+    width = dense_g7_v6.previous_command_context(dataset.reference(index))
+    noise = jax.random.normal(jax.random.fold_in(jax.random.fold_in(rng,37),absolute),(1,40,32))
+    return noise,jnp.asarray([width],jnp.float32),jnp.asarray((.002+.040*label)[None,:],jnp.float32)
+
+
 def prefetch_host_batches(executor, offsets, prepare):
     """One dataset thread, two pending batches, and the original visit order."""
     offsets = iter(offsets)
@@ -250,7 +261,6 @@ class Engine:
 
     def _add_target_auxiliary(self, indices, cursor, active, accumulator, totals, slots, guard):
         import jax
-        import jax.numpy as jnp
 
         dataset = self.datasets['target']
         profile = self.update_breakdown
@@ -261,11 +271,7 @@ class Engine:
             index = int(indices[slot]); absolute = cursor+slot
             def auxiliary_input():
                 obs,_ = host_batch(dataset,self.tokenizer,'target',[absolute],[index])
-                episode,anchor = dataset.rows[index]
-                label = dataset.labels[episode['id']]['nominal_policy_H40'][anchor,:,9]
-                width = dense_g7_v6.previous_command_context(dataset.reference(index))
-                noise = jax.random.normal(jax.random.fold_in(jax.random.fold_in(self.rng,37),absolute),(1,40,32))
-                return obs,noise,jnp.asarray([width],jnp.float32),jnp.asarray((.002+.040*label)[None,:],jnp.float32)
+                return (obs,*target_auxiliary_context(dataset,self.rng,absolute,index))
 
             args = profile.run('target/H40_input_ready',auxiliary_input,wait=True) if profile else auxiliary_input()
             if self.profile_timing:
