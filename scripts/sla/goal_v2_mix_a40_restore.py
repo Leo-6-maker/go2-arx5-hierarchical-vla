@@ -2,10 +2,12 @@
 import argparse
 import hashlib
 import io
+import json
 import math
 import os
 from pathlib import Path
 import signal
+import subprocess
 import time
 
 import numpy as np
@@ -14,15 +16,16 @@ from go2arx5_vla.sla_adapter import scale20k_checkpoint, scale20k_data, scale20k
 from go2arx5_vla.sla_adapter.checkpoint_v1 import sha
 from go2arx5_vla.sla_adapter.model_v1 import Tokenizer
 from go2arx5_vla.sla_adapter.runtime_v1 import read_pin
-from go2arx5_vla.sla_adapter.scale20k_contract import DOMAINS, PLAN, RECIPE, bank_sha256, cursors
+from go2arx5_vla.sla_adapter.scale20k_contract import BATCH, DOMAINS, PLAN, RECIPE, bank_sha256, cursors
 from scripts.pi0292.durable import OwnerLock, write
 from scripts.sla.train_scale20k import canonical_hash
-from scripts.wm02.multisource_d4_vanda import GIB, actual_gpu, pbs_job
+from scripts.wm02.multisource_d4_vanda import GIB, actual_gpu, allocation_window, pbs_job
 
 
 GOAL = '1b2a25b7c1720051a2627d30831fb18130462374'
 TRAINER = '31076fc7a64302b0705ae4d7e526c4341209a100'
 PORTABLE_READER_SHA = '93a64720e98331e2fcb2651088abc3ea6459818df4a8d09d48a39e1d219e15ed'
+SOURCE_READER_SHA = 'e42ad5e82260e9dac2547f93d06417edbacf39aa288d2bbc0b2babb2d1140c80'
 CHECKPOINT = '4f4ade751809b375a484a9ba4e4bcb5ad899edfbbe2135b4ac62c41631b76093'
 ARM = 'SCALE-MIX20K'
 STEP = 500
@@ -73,7 +76,7 @@ def exact_device_arrays(state, manifest):
     return count
 
 
-def run(config):
+def require_scope(config):
     root = Path(config['root']).resolve(strict=True)
     source = Path(config['worker_root']).resolve(strict=True)
     if (root.stat().st_uid!=os.getuid() or (root/'RESULT.private.json').exists()
@@ -83,8 +86,93 @@ def run(config):
             or not Path(scale20k_training.__file__).resolve().is_relative_to(source)
             or Path(scale20k_target.__file__).resolve()!=source/'src/go2arx5_vla/sla_adapter/scale20k_target.py'
             or sha(Path(scale20k_target.__file__))!=PORTABLE_READER_SHA
+            or Path(scale20k_data.__file__).resolve()!=source/'src/go2arx5_vla/sla_adapter/scale20k_data.py'
+            or sha(Path(scale20k_data.__file__))!=SOURCE_READER_SHA
             or sha(Path(__file__))!=config['program_sha256']):
         raise PermissionError('MIX_A40_RESTORE_REQUIRES_FRESH_ORIGINAL_TRAINING_SOURCE')
+    return root
+
+
+def job_row(job):
+    return json.loads(subprocess.check_output(['/opt/pbs/bin/qstat','-xf','-F','json',job],
+        text=True,stderr=subprocess.PIPE,timeout=25))['Jobs'][job]
+
+
+def reads_for_next_batch(banks):
+    start = cursors(ARM,STEP)
+    return {d:banks[d][start[d]:start[d]+BATCH[ARM][d]] for d in DOMAINS}
+
+
+def read_data(training, binding):
+    from openpi_client.image_tools import resize_with_pad
+
+    datasets = scale20k_data.readers(training['data'],resize_with_pad)
+    banks, digests = scale20k_data.bank_for(datasets)
+    token = training['tokenizer']
+    if digests!=binding['visit_bank_sha256'] or sha(token['path'])!=binding['tokenizer_sha256']:
+        raise ValueError('MIX_A40_RESTORE_ORIGINAL_BANK_OR_TOKENIZER_CHANGED')
+    return datasets, banks, Tokenizer(token['path'])
+
+
+def preflight(config):
+    root = require_scope(config)
+    observed = job_row(config['job_id'])
+    hosts = {item.split('/')[0].split('.')[0] for item in observed['exec_host'].split('+')}
+    if (observed['job_state']!='R' or int(observed['Resource_List'].get('ngpus',0))
+            or observed['Job_Owner'].split('@')[0]!=config['user'] or observed['project']!=config['project']
+            or os.uname().nodename.split('.')[0] not in hosts or os.getuid()!=config['uid']):
+        raise PermissionError('MIX_TRAIN_DATA_PREFLIGHT_REQUIRES_OWN_CPU_ALLOCATION')
+    allocation = allocation_window(observed,campaign_deadline=config['deadline_epoch'])
+    deadline = allocation['deadline_epoch']
+    result = dict(schema='MIX_ORIGINAL_TRAIN_INPUT_PREFLIGHT_V1',job_id=config['job_id'],exit_code=1,
+                  site_assets=config['site_assets'],source_sha=config['source_sha'],checkpoint=CHECKPOINT,
+                  data_only_window_reads=dict.fromkeys(DOMAINS,0),optimizer_updates=0,
+                  optimization_visits=0,model_generations=0,native_requests=0,native_ticks=0)
+    try:
+        import jax
+
+        if jax.default_backend()!='cpu' or allocation['PBS_wall_s']>1200:
+            raise PermissionError('MIX_TRAIN_DATA_PREFLIGHT_REQUIRES_BOUNDED_CPU_ONLY_BACKEND')
+        _, training, manifest = archived_inputs(config)
+        datasets, banks, tokenizer = read_data(training,manifest['binding'])
+        next_batch = reads_for_next_batch(banks)
+        for domain, indices in next_batch.items():
+            for row,index in enumerate(indices):
+                if time.time()+30>=deadline or any(Path(p).exists() for p in config['stop_files']):
+                    raise TimeoutError('MIX_TRAIN_DATA_PREFLIGHT_STOP_OR_SITE_WINDOW')
+                offset = manifest['cursors'][domain]+row
+                observation, action = scale20k_training.host_batch(datasets[domain],tokenizer,domain,[offset],[index])
+                jax.block_until_ready((observation,action))
+                result['data_only_window_reads'][domain] += 1
+        result.update(exit_code=0,status='EXACT_NEXT_BATCH_ALL_TRAIN_INPUTS_READ',
+                      batch_index_sha256={d:bank_sha256(rows) for d,rows in next_batch.items()})
+        return 0
+    except Exception as error:
+        result.update(status='MIX_TRAIN_INPUT_PREFLIGHT_FAILED',first_failure=f'{type(error).__name__}: {error}')
+        return 1
+    finally:
+        write(root/'RESULT.private.json',result)
+
+
+def preflight_result(config, next_batch):
+    proof = read_pin(config['data_preflight'])
+    stored = Path(proof['root'])/'RESULT.private.json'
+    terminal = job_row(proof['job_id'])
+    result = json.loads(stored.read_bytes())
+    if (terminal['job_state']!='F' or terminal['Exit_status']!=0
+            or terminal['Job_Owner'].split('@')[0]!=config['user'] or terminal['project']!=config['project']
+            or proof['site_assets']!=config['site_assets'] or proof['source_sha']!=config['source_sha']
+            or result['status']!='EXACT_NEXT_BATCH_ALL_TRAIN_INPUTS_READ' or result['exit_code']!=0
+            or result['job_id']!=proof['job_id'] or result['site_assets']!=config['site_assets']
+            or result['source_sha']!=config['source_sha'] or result['checkpoint']!=CHECKPOINT
+            or result['data_only_window_reads']!=BATCH[ARM]
+            or result['batch_index_sha256']!={d:bank_sha256(rows) for d,rows in next_batch.items()}):
+        raise ValueError('MIX_A40_PREDECESSOR_MUST_PROVE_ALL_ORIGINAL_TRAIN_INPUTS')
+    return dict(path=str(stored),sha256=sha(stored))
+
+
+def run(config):
+    root = require_scope(config)
     lock = OwnerLock(root/'PBS_OWNER.lock')
     start = time.monotonic()
     terminal = dict(schema='SLA_GOAL_V2_MIX_A40_FULL_STATE_RESTORE_V1', job=config['job_id'],
@@ -129,8 +217,6 @@ def run(config):
             HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1')
 
         import jax
-        from openpi_client.image_tools import resize_with_pad
-
         if len(jax.devices())!=1 or jax.default_backend()!='gpu':
             raise PermissionError('MIX_A40_RESTORE_REQUIRES_THE_ASSIGNED_JAX_DEVICE')
         cache = Path(os.environ['TMPDIR'])/'sla-mix-a40-restore-compile'
@@ -139,17 +225,14 @@ def run(config):
         terminal.update(checkpoint=checkpoint, prior_step=STEP, allocation=allocation,GPU_uuid=gpu,GPU_name=name,
             GPU_total_bytes=total,GPU_free_bytes=free,allocator_bytes=reserve,deadline_epoch=deadline)
         progress('READING_ORIGINAL_TRAIN_ASSETS')
-        data = scale20k_data.readers(training['data'],resize_with_pad)
-        banks, digests = scale20k_data.bank_for(data)
-        token = training['tokenizer']
-        if digests!=binding['visit_bank_sha256'] or sha(token['path'])!=binding['tokenizer_sha256']:
-            raise ValueError('MIX_A40_RESTORE_ORIGINAL_BANK_OR_TOKENIZER_CHANGED')
+        data,banks,tokenizer = read_data(training,binding)
+        terminal['data_preflight'] = preflight_result(config,reads_for_next_batch(banks))
         graphs, parameters, frozen, receipt = scale20k_model.load(training['parent_manifest'],training['parent_params'])
         if (binding['partition_sha256']!=canonical_hash(receipt['inventory'])
                 or binding['initial_state_sha256']!=canonical_hash([receipt['common_shared_fingerprint'],
                                                                     receipt['common_private_fingerprint']])):
             raise ValueError('MIX_A40_RESTORE_ORIGINAL_PARENT_OR_PARTITION_CHANGED')
-        engine = scale20k_training.Engine(ARM,graphs,parameters,frozen,data,banks,Tokenizer(token['path']),
+        engine = scale20k_training.Engine(ARM,graphs,parameters,frozen,data,banks,tokenizer,
             training['microbatch'],training['optimizer'],rng=jax.random.PRNGKey(scale20k_model.INITIAL_SEED))
         del parameters
         if bank_sha256(engine.rates)!=binding['learning_rates_sha256']:
@@ -194,6 +277,8 @@ if __name__=='__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('spec')
     parser.add_argument('sha256')
+    parser.add_argument('--preflight',action='store_true')
     args = parser.parse_args()
     os.umask(0o077)
-    raise SystemExit(run(read_pin(dict(path=args.spec,sha256=args.sha256))))
+    config = read_pin(dict(path=args.spec,sha256=args.sha256))
+    raise SystemExit(preflight(config) if args.preflight else run(config))

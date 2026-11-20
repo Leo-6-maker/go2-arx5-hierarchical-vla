@@ -677,7 +677,8 @@ def test_scale_native_does_not_admit_core_replay_with_altered_physical_output(mo
         scale.endpoint(*identity)
 
 
-def test_offline_robodojo_relocation_preserves_frozen_dev_raw_sha(tmp_path):
+@pytest.mark.parametrize('split,other_split',[('SOURCE_DEV','TRAIN'),('TRAIN','SOURCE_DEV')])
+def test_robodojo_relocation_preserves_frozen_split_raw_sha(tmp_path, split, other_split):
     from go2arx5_vla.sla_adapter.checkpoint_v1 import sha
     from go2arx5_vla.sla_adapter.scale20k_data import RobodojoDataset
     from scripts.pi0292.durable import write
@@ -690,19 +691,19 @@ def test_offline_robodojo_relocation_preserves_frozen_dev_raw_sha(tmp_path):
     raw = tmp_path/'sample.hdf5'
     raw.write_bytes(b'original source record')
     manifest = tmp_path/'MANIFEST.private.json'
-    episode = dict(id='source-dev',split='SOURCE_DEV',valid=True,windows=4,
+    episode = dict(id='source-record',split=split,valid=True,windows=4,
                    raw_path='/unavailable/source-record.hdf5',raw_sha256=sha(raw))
     write(manifest,dict(schema='SLA_SOURCE_FUTURE_LOGGED_REFERENCE_V1',coordinates='SOURCE_ARM_LOCAL_V1',
                         recipe='SLA_SCALE20K_ROBODOJO_TRAIN48_DEV12_V1',TEST_labels_read=False,
                         statistics=dict(file=stats.name,sha256=sha(stats)),episodes=[episode]))
     binding = tmp_path/'RAW_BINDING.json'
     write(binding,dict(manifest_sha256=sha(manifest),
-                       raw={'source-dev':dict(file=raw.name,sha256=sha(raw))}))
-    reader = RobodojoDataset(tmp_path,pin(manifest),split='SOURCE_DEV',resize_with_pad=None,raw_binding=pin(binding))
-    assert reader.raw_path('source-dev') == raw
-    with pytest.raises(ValueError,match='ORIGINAL_DEV_BYTES'):
-        RobodojoDataset(tmp_path,pin(manifest),split='TRAIN',resize_with_pad=None,raw_binding=pin(binding))
+                       raw={'source-record':dict(file=raw.name,sha256=sha(raw))}))
+    reader = RobodojoDataset(tmp_path,pin(manifest),split=split,resize_with_pad=None,raw_binding=pin(binding))
+    assert reader.raw_path('source-record') == raw
+    with pytest.raises(ValueError,match='ORIGINAL_SPLIT_BYTES'):
+        RobodojoDataset(tmp_path,pin(manifest),split=other_split,resize_with_pad=None,raw_binding=pin(binding))
     raw.write_bytes(b'changed source record')
-    fresh = RobodojoDataset(tmp_path,pin(manifest),split='SOURCE_DEV',resize_with_pad=None,raw_binding=pin(binding))
+    fresh = RobodojoDataset(tmp_path,pin(manifest),split=split,resize_with_pad=None,raw_binding=pin(binding))
     with pytest.raises(ValueError,match='PINNED_RGB_FILE_BYTES_CHANGED'):
-        fresh.raw_path('source-dev')
+        fresh.raw_path('source-record')
