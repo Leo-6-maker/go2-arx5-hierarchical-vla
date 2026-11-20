@@ -14,8 +14,9 @@ from go2arx5_vla.sla_adapter import scale20k_checkpoint, scale20k_data, scale20k
 from go2arx5_vla.sla_adapter.checkpoint_v1 import sha
 from go2arx5_vla.sla_adapter.model_v1 import Tokenizer
 from go2arx5_vla.sla_adapter.runtime_v1 import read_pin
-from go2arx5_vla.sla_adapter.scale20k_contract import DOMAINS, PLAN, RECIPE, bank_sha256, canonical_hash, cursors
+from go2arx5_vla.sla_adapter.scale20k_contract import DOMAINS, PLAN, RECIPE, bank_sha256, cursors
 from scripts.pi0292.durable import OwnerLock, write
+from scripts.sla.train_scale20k import canonical_hash
 from scripts.wm02.multisource_d4_vanda import GIB, actual_gpu, pbs_job
 
 
@@ -50,7 +51,7 @@ def archived_inputs(config):
     if any(binding[k]!=value for k,value in expected.items()):
         raise ValueError('MIX_A40_RESTORE_BINDING_NOT_FROM_ORIGINAL_RECIPE')
     local = {key:assets[key] for key in ('data','parent_manifest','parent_params','dataset','tokenizer')}
-    return checkpoint, dict(spec, **local), binding
+    return checkpoint, dict(spec, **local), complete
 
 
 def exact_device_arrays(state, manifest):
@@ -110,9 +111,10 @@ def run(config):
         if allocation['PBS_wall_s']>WALL or not 450<deadline-time.time()<=WALL:
             raise PermissionError('MIX_A40_RESTORE_REQUIRES_CURRENT_BOUNDED_PBS_WINDOW')
         guard()
-        checkpoint, training, binding = archived_inputs(config)
-        _, manifest = scale20k_checkpoint.read_complete(checkpoint,ARM,binding)
-        if len(manifest['arrays'])!=140 or training['microbatch']!=dict.fromkeys(DOMAINS,1):
+        checkpoint, training, manifest = archived_inputs(config)
+        binding = manifest['binding']
+        if (manifest['step']!=STEP or manifest['cursors']!=cursors(ARM,STEP)
+                or len(manifest['arrays'])!=140 or training['microbatch']!=dict.fromkeys(DOMAINS,1)):
             raise ValueError('MIX_A40_RESTORE_REQUIRES_ALL_140_ORIGINAL_ARRAYS_AND_MICROBATCH')
         gpu,name,total,free = actual_gpu()
         fraction = .65
