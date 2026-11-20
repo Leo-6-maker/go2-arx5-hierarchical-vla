@@ -1,0 +1,196 @@
+{
+  "scope": "SLA_GOAL_V2_CLOCK500_CONDITIONAL_PBS_GRAPH_ACTUAL_V1",
+  "plan": "1b2a25b7c1720051a2627d30831fb18130462374",
+  "evidence_sha256": {
+    "VANDA_site_readback": "a344ec45bb9fff4838d7a3fa143e2fd04dd335ae6d4c76bef1cc50ef7679e9c8",
+    "VANDA_submission": "e27ab07f80b725e7fd67863e4396d7a5a698137dcb239278b1409d87846f52cf",
+    "Core_site_readback": "0650df25049ac39cba14694aad3937ca2762b33367ab94486d5dd52c3ceddf8f"
+  },
+  "registered": {
+    "observed": "2026-11-20T18:09:59.908006+08:00",
+    "source_sha": "5ea508b41893cce81b29e4640c032212dbc3e4c2",
+    "jobs": [
+      {
+        "job": "1598251.stdct-mgmt-02",
+        "name": "slaclkact",
+        "state": "H",
+        "dependency": "afterany:1598095.stdct-mgmt-02@stdct-mgmt-02,beforeok:1598257.stdct-mgmt-02@stdct-mgmt-02:1598256.stdct-mgmt-02@stdct-mgmt-02:1598255.stdct-mgmt-02@stdct-mgmt-02:1598254.stdct-mgmt-02@stdct-mgmt-02:1598253.stdct-mgmt-02@stdct-mgmt-02:1598252.stdct-mgmt-02@stdct-mgmt-02",
+        "spec_sha256": "703494167cb5a93150b4e2efc286fca2502a8a2c39baa34516f83aeccfd5345b",
+        "role": "activation",
+        "arm": null,
+        "phase": null,
+        "GPU_count": 0,
+        "deadline": 1795484131.0,
+        "wall": "00:30:00",
+        "logfile": "pbs-output.private.log",
+        "stop": "STOP.json",
+        "planned_not_before": null
+      },
+      {
+        "job": "1598252.stdct-mgmt-02",
+        "name": "slaclka2250",
+        "state": "H",
+        "dependency": "afterok:1598251.stdct-mgmt-02@stdct-mgmt-02,beforeany:1598253.stdct-mgmt-02@stdct-mgmt-02",
+        "spec_sha256": "38f4b2f04d2c6e8e491d1621a0e511b9f71fc8642b7b5ebbb231ee38b5e75f72",
+        "role": "train",
+        "arm": "CLOCK-A-original-width",
+        "phase": 2250,
+        "GPU_count": 1,
+        "deadline": 1795484131.0,
+        "wall": "06:00:00",
+        "logfile": "pbs-output.private.log",
+        "stop": "STOP.json",
+        "planned_not_before": null
+      },
+      {
+        "job": "1598253.stdct-mgmt-02",
+        "name": "slaclka2500",
+        "state": "H",
+        "dependency": "afterok:1598251.stdct-mgmt-02@stdct-mgmt-02,afterany:1598252.stdct-mgmt-02@stdct-mgmt-02,beforeany:1598254.stdct-mgmt-02@stdct-mgmt-02",
+        "spec_sha256": "bb2cc5daeb581de37b74fc7de17a56e13d9d0e61679f66c1b09fb3bf44dd776a",
+        "role": "train",
+        "arm": "CLOCK-A-original-width",
+        "phase": 2500,
+        "GPU_count": 1,
+        "deadline": 1795484131.0,
+        "wall": "06:00:00",
+        "logfile": "pbs-output.private.log",
+        "stop": "STOP.json",
+        "planned_not_before": null
+      },
+      {
+        "job": "1598254.stdct-mgmt-02",
+        "name": "slaclkaev",
+        "state": "H",
+        "dependency": "afterok:1598251.stdct-mgmt-02@stdct-mgmt-02,afterany:1598253.stdct-mgmt-02@stdct-mgmt-02",
+        "spec_sha256": "e360cceb8382829bf3a3d5fda00042a8b4430c24146eb923fadd76130b58246e",
+        "role": "eval",
+        "arm": "CLOCK-A-original-width",
+        "phase": 2500,
+        "GPU_count": 1,
+        "deadline": 1795484131.0,
+        "wall": "01:30:00",
+        "logfile": "pbs-output.private.log",
+        "stop": "STOP.json",
+        "planned_not_before": null
+      },
+      {
+        "job": "1598255.stdct-mgmt-02",
+        "name": "slaclkb2250",
+        "state": "H",
+        "dependency": "afterok:1598251.stdct-mgmt-02@stdct-mgmt-02,beforeany:1598256.stdct-mgmt-02@stdct-mgmt-02",
+        "spec_sha256": "c6d915769f11b3618b861608b243ba32f90dfcfd27a677390ea845a8d52577f1",
+        "role": "train",
+        "arm": "CLOCK-B-event-weighted-width",
+        "phase": 2250,
+        "GPU_count": 1,
+        "deadline": 1795484131.0,
+        "wall": "06:00:00",
+        "logfile": "pbs-output.private.log",
+        "stop": "STOP.json",
+        "planned_not_before": null
+      },
+      {
+        "job": "1598256.stdct-mgmt-02",
+        "name": "slaclkb2500",
+        "state": "H",
+        "dependency": "afterok:1598251.stdct-mgmt-02@stdct-mgmt-02,afterany:1598255.stdct-mgmt-02@stdct-mgmt-02,beforeany:1598257.stdct-mgmt-02@stdct-mgmt-02",
+        "spec_sha256": "eaa682c4fd9c6ddb763703934485dac57590cd578b0a39729ac502ae5e20c773",
+        "role": "train",
+        "arm": "CLOCK-B-event-weighted-width",
+        "phase": 2500,
+        "GPU_count": 1,
+        "deadline": 1795484131.0,
+        "wall": "06:00:00",
+        "logfile": "pbs-output.private.log",
+        "stop": "STOP.json",
+        "planned_not_before": null
+      },
+      {
+        "job": "1598257.stdct-mgmt-02",
+        "name": "slaclkbev",
+        "state": "H",
+        "dependency": "afterok:1598251.stdct-mgmt-02@stdct-mgmt-02,afterany:1598256.stdct-mgmt-02@stdct-mgmt-02",
+        "spec_sha256": "cc252ef31ad07c9701e60540c06968f623abe4ba65b2699af3a3254201a19faf",
+        "role": "eval",
+        "arm": "CLOCK-B-event-weighted-width",
+        "phase": 2500,
+        "GPU_count": 1,
+        "deadline": 1795484131.0,
+        "wall": "01:30:00",
+        "logfile": "pbs-output.private.log",
+        "stop": "STOP.json",
+        "planned_not_before": null
+      },
+      {
+        "job": "1598258.stdct-mgmt-02",
+        "name": "slaclkexp",
+        "state": "W",
+        "dependency": null,
+        "spec_sha256": "a61908fb98b909f869d446d1c44cd87853bf7cd87c6e4d414dc6b771d3527b2e",
+        "role": "expiry",
+        "arm": null,
+        "phase": null,
+        "GPU_count": 0,
+        "deadline": 1795484131.0,
+        "wall": "00:10:00",
+        "logfile": "pbs-output.private.log",
+        "stop": "STOP.json",
+        "planned_not_before": "Tue Nov 24 09:35:31 2026"
+      }
+    ],
+    "site_deadline_epoch": 1795484131.0,
+    "trigger_job": "1598095.stdct-mgmt-02",
+    "trigger_state": "H",
+    "actual_scientific_trigger": null,
+    "official_ADAPT": 1257,
+    "official_ADAPT_cursors": {
+      "target": 80448,
+      "robodojo": 40224,
+      "libero": 40224
+    },
+    "official_ADAPT_PBS_state": "R",
+    "fixed_native_population_sha256": "f80d61a58c2ad20e2d2f59ccba645bf0c5a61cfc8a19d3f53862651e5c76d353",
+    "clock_updates": 0,
+    "clock_model_generations": 0,
+    "clock_native_requests": 0,
+    "clock_native_ticks": 0
+  },
+  "site_reserved_GPU_wall_hours": 27,
+  "actual_clock_GPU_allocations": 0,
+  "clock_caps": {
+    "arms": [
+      "CLOCK-A-original-width",
+      "CLOCK-B-event-weighted-width"
+    ],
+    "updates_per_arm": 500,
+    "H40_total": 4000,
+    "ordinary_per_arm": 376,
+    "restore_per_arm": 48,
+    "registered_native_cases": 72
+  },
+  "Core": {
+    "MIX_step": 1162,
+    "MIX_cursors": {
+      "target": 37184,
+      "robodojo": 55776,
+      "libero": 55776
+    },
+    "TGT_native_observer_PID": 744616,
+    "TGT_native_observer_status": "WAITING_STRICT_RGB16",
+    "TGT_native_dispatched": false
+  },
+  "actual_new_effects": {
+    "formal_updates": 24,
+    "formal_visits": [
+      992,
+      1040,
+      1040
+    ],
+    "training_H40": 96,
+    "clock_optimizer_updates": 0,
+    "clock_model_generations": 0,
+    "native_requests": 0,
+    "native_ticks": 0
+  }
+}

@@ -1,4 +1,4 @@
-"""Qualify the sealed ADAPT0 package on exactly sixteen saved Core RGB inputs."""
+"""Qualify one sealed ADAPT endpoint on the original sixteen Core RGB inputs."""
 import argparse
 import hashlib
 import math
@@ -16,12 +16,50 @@ from go2arx5_vla.sla_adapter.checkpoint_v1 import sha
 from go2arx5_vla.sla_adapter.runtime_v1 import read_pin
 from go2arx5_vla.sla_adapter.scale20k_evaluation import RESTORE, bytes_sha
 from scripts.pi0292.durable import OwnerLock, write
+from scripts.sla import adapt5k_endpoint_transport as transport
 from scripts.sla.freeze_adapt5k_panels import bindings
 from scripts.sla.replay_scale20k_core import guard_signature
 
 
 def pin(path):
     return dict(path=str(path),sha256=sha(path))
+
+
+def trained_inputs(spec, manifest, evaluation):
+    """Resolve VANDA output pins against the immutable local receipt."""
+    routed = read_pin(spec['core_custody'])
+    package = spec['package']
+    bundle = Path(spec['core_custody']['path']).resolve(strict=True).parent
+    clock = spec['phase']==transport.CLOCK_PHASE
+    arm = spec['arm'] if clock else None
+    if (routed['schema']!=(transport.CLOCK_RECEIPT if clock else transport.RECEIPT_SCHEMA)
+            or routed['goal'] != transport.GOAL or arm!=routed.get('arm')
+            or routed['phase'] != manifest['phase'] or routed['phase'] != spec['phase']
+            or routed['checkpoint_sha256'] != manifest['checkpoint_sha256']
+            or routed['package_sha256'] != package['sha256'] or Path(package['path']).resolve() != bundle/'package'
+            or spec['evaluation'] != pin(bundle/'archive/FORMAL.private.json')
+            or spec['panel'] != pin(bundle/'archive/PANEL.private.json')
+            or spec['parent_manifest']['sha256'] != manifest['parent_manifest']['sha256']
+            or evaluation['phase'] != routed['phase'] or evaluation['model_generations'] != 376
+            or evaluation['status'] != 'ADAPT_OFFLINE_RESULTS_SEALED' or evaluation['role'] != 'formal'
+            or evaluation['old_TEST_access'] or evaluation['exit_code'] or evaluation['new_updates']
+            or evaluation['optimization_visits'] or evaluation['native_requests']):
+        raise ValueError('ADAPT_TRAINED_REPLAY_REQUIRES_LOCAL_CUSTODY_AND_EXACT_FORMAL_EVAL')
+    if clock and (arm not in transport.CLOCK_ARMS or manifest['arm']!=arm or evaluation['arm']!=arm
+            or evaluation['comparison']['sha256']!=manifest['comparison_sha256']
+            or routed['comparison_sha256']!=manifest['comparison_sha256']):
+        raise ValueError('CLOCK500_CORE_REPLAY_ARM_OR_PAIRED_COMPARISON_CHANGED')
+    custody = transport.read_custody((bundle/transport.CUSTODY).read_bytes(),routed['export_custody_sha256'],
+                                     routed['phase'],arm=arm)
+    if (routed['archived'] != transport.validate_package(bundle,custody) or len(routed['archived']) != len(RESTORE)
+            or sha(bundle/'archive/RESTORE_PROOF.private.json') != manifest['restore_sha256']):
+        raise ValueError('ADAPT_TRAINED_REPLAY_ARCHIVE_OR_RESTORE_CHANGED')
+    for ordinal in RESTORE:
+        archived = routed['archived'][str(ordinal)]
+        expected = evaluation['rows']['target'][ordinal]['output']['sha256']
+        if archived['sha256'] != expected or sha(bundle/archived['path']) != expected:
+            raise ValueError(f'ADAPT_TRAINED_REPLAY_ARCHIVED_OUTPUT_CHANGED:{ordinal}')
+    return evaluation['checkpoint']['sha256']
 
 
 def capture_fingerprints(provider, jax, rows):
@@ -49,18 +87,21 @@ def run(spec):
 
     root = Path(spec['root']).resolve(strict=True)
     source = Path(__file__).resolve().parents[2]
+    phase = spec.get('phase',0)
+    clock = phase==transport.CLOCK_PHASE
     unit = 'wm02-'+root.name+'.service'
     deadline, gpu = spec['deadline_epoch'],spec['GPU_uuid']
     stop = root/'STOP.json'
     pid = subprocess.check_output(['systemctl','--user','show',unit,'-p','MainPID','--value'],text=True,timeout=10).strip()
-    if (spec['plan'] != adapt5k_contract.PLAN or spec['source_sha'] != (source/'SOURCE_SHA.private').read_text().strip()
+    if (spec['plan']!=(transport.GOAL if clock else adapt5k_contract.PLAN)
+            or spec['source_sha'] != (source/'SOURCE_SHA.private').read_text().strip()
             or spec['generation_cap'] != len(RESTORE) or spec['physics'] is not False or spec['hardware_allowed'] is not False
             or root.stat().st_uid != os.getuid() or os.uname().nodename != 'corelab-4080s'
             or str(os.getpid()) != pid or os.environ['CUDA_VISIBLE_DEVICES'] != gpu
             or (root/'RESULT.private.json').exists() or (root/'PROGRESS.private.json').exists()
             or stop.exists() or not 600 < deadline-time.time() <= 3600):
         raise PermissionError('ADAPT0_CORE_REPLAY_REQUIRES_OWNED_FINITE_NONPHYSICAL_SERVICE')
-    result = dict(source_sha=spec['source_sha'],package=spec['package']['sha256'],phase=0,
+    result = dict(source_sha=spec['source_sha'],package=spec['package']['sha256'],phase=phase,
                   generation_attempts=0,model_generations=0,optimizer_updates=0,optimization_visits=0,
                   native_requests=0,native_ticks=0,rows=[],exit_code=1)
     compat = spec.get('deployment_compat_v2')
@@ -74,7 +115,10 @@ def run(spec):
         fraction = spec['JAX_memory_fraction']
         reserved = math.ceil(capacity['total_bytes']*fraction)
         headroom = 2*1024**3
-        if capacity['free_bytes'] <= reserved+headroom or capacity['host_bytes'] <= 30*1024**3:
+        result['resource_check'] = dict(capacity,phase=phase,reserved_bytes=reserved,headroom_bytes=headroom,
+            GPU_capacity_pass=capacity['free_bytes']>reserved+headroom,
+            host_capacity_pass=capacity['host_bytes']>30*1024**3)
+        if not all(result['resource_check'][k] for k in ('GPU_capacity_pass','host_capacity_pass')):
             raise PermissionError('ADAPT0_CORE_REPLAY_ACTUAL_GPU_OR_HOST_HEADROOM_UNAVAILABLE')
         paths = {k:str(Path(spec[k]).resolve(strict=True)) for k in ('parent_params','dataset','compilation_cache_dir')}
         site = root/'SITE.private.json'
@@ -88,10 +132,30 @@ def run(spec):
             max_walltime_s=3600,max_gpu_hours=1,save_and_exit_on_limit=True,model_service_timeout_s=1800,RPC_timeout_s=1800))
         jax.config.update('jax_compilation_cache_dir',paths['compilation_cache_dir'])
         package = spec['package']
-        manifest = adapt5k_package.Provider.read_manifest(Path(package['path']),package['sha256'])
+        provider_class = adapt5k_package.Provider
+        if clock:
+            from go2arx5_vla.sla_adapter import clock500_package
+
+            provider_class = clock500_package.Provider
+        manifest = provider_class.read_manifest(Path(package['path']),package['sha256'])
         data_spec,evaluation,panel = map(read_pin,(spec['eval_input'],spec['evaluation'],spec['panel']))
+        if clock or (phase in adapt5k_package.TRAINED_PHASES and manifest['schema']==adapt5k_package.TRAINED_SCHEMA):
+            if compat is not None:
+                raise ValueError('THE_TRAINED_ENDPOINTS_USE_ONLY_THEIR_REGISTERED_STRICT_RGB16')
+            checkpoint = trained_inputs(spec,manifest,evaluation)
+            result.update(schema=transport.CLOCK_RGB if clock else transport.RGB_SCHEMA,checkpoint_sha256=checkpoint,
+                core_custody=spec['core_custody'],evaluation=spec['evaluation'],panel=spec['panel'],
+                hardware_allowed=False,physics=False)
+            if clock:
+                result.update(arm=spec['arm'],comparison_sha256=manifest['comparison_sha256'],
+                    environment=dict(GPU_uuid=gpu,backend=jax.default_backend(),jax=jax.__version__,
+                                     precision='highest',xla=os.environ.get('XLA_FLAGS')))
+        elif phase == 0 and manifest['schema'] == adapt5k_package.SCHEMA:
+            checkpoint = manifest['ADAPT0_sha256']
+        else:
+            raise ValueError('ADAPT_CORE_REPLAY_PHASE_OR_GENERATION_CONTRACT_CHANGED')
         target = data_spec['target_D1']
-        if (spec['evaluation']['sha256'] != manifest['evaluation_sha256'] or evaluation['checkpoint']['sha256'] != manifest['ADAPT0_sha256']
+        if (spec['evaluation']['sha256'] != manifest['evaluation_sha256'] or evaluation['checkpoint']['sha256'] != checkpoint
                 or evaluation['panel']['sha256'] != spec['panel']['sha256'] or manifest['panel_sha256'] != spec['panel']['sha256']
                 or panel['old_TEST_access'] or panel['bindings'] != bindings(data_spec)
                 or data_spec['D1_freeze_sha256'] != manifest['D1_freeze_sha256']
@@ -128,7 +192,9 @@ def run(spec):
             (root/'outputs').mkdir()
         result['stage'] = 'LOADING_REAL_TARGET_PACKAGE'
         write(root/'PROGRESS.private.json',result)
-        provider = adapt5k_package.Provider(package['path'],manifest_sha256=package['sha256'],parent_params=paths['parent_params'])
+        parent_override = spec['parent_manifest']['path'] if phase else None
+        provider = provider_class(package['path'],manifest_sha256=package['sha256'],
+            parent_params=paths['parent_params'],parent_manifest_path=parent_override)
         fingerprints = {}
         if compat is not None:
             capture_fingerprints(provider,jax,fingerprints)
@@ -157,6 +223,9 @@ def run(spec):
                           guard_signature(expected['metrics']['envelope'],expected['metrics']['gripper_seam'])]
             row = dict(ordinal=ordinal,index=index,normalized_exact=bytes_sha(out['normalized'][0])==expected['normalized_sha256'],
                 physical_exact=bytes_sha(action)==expected['decoded_sha256'],guard_exact=signatures[0]==signatures[1])
+            if phase:
+                row.update(noise_id=fixed['noise_id'],identity=fixed['identity'],
+                           normalized_sha256=bytes_sha(out['normalized'][0]),decoded_sha256=bytes_sha(action))
             if compat is not None:
                 file = root/'outputs'/f'{ordinal:03d}.npz'
                 with file.open('xb') as stream:
@@ -170,7 +239,8 @@ def run(spec):
             result['rows'].append(row)
         if compat is None:
             passed = all(r['normalized_exact'] and r['physical_exact'] and r['guard_exact'] for r in result['rows'])
-            result.update(status='CORE_ADAPT0_RGB16_EXACT' if passed else 'CORE_ADAPT0_RGB16_OUTPUT_GATE_FAILED',
+            prefix = 'CORE_CLOCK500_RGB16' if clock else 'CORE_ADAPT_TRAINED_RGB16' if phase else 'CORE_ADAPT0_RGB16'
+            result.update(status=prefix+('_EXACT' if passed else '_OUTPUT_GATE_FAILED'),
                           exit_code=0 if passed else 1,passed=passed)
         else:
             result.update(status='CORE_ADAPT0_COMPAT_V2_ARRAYS_SEALED',exit_code=0,native_admission=False)

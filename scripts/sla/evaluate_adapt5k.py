@@ -88,7 +88,7 @@ def load(spec, marker, root):
     return graphs, jax.tree_util.tree_unflatten(treedef,selected), frozen
 
 
-def evaluate(spec, role):
+def evaluate(spec, role, *, clock_branch=False):
     import flax.nnx as nnx
     import jax
     from openpi.models import pi0
@@ -98,12 +98,26 @@ def evaluate(spec, role):
     root = Path(spec['registered_root']).resolve(strict=True)
     run = read_pin(spec['sealed_training_actual'])
     cp = run['checkpoint']
-    path,marker = checkpoint.read_complete(cp, run['binding'])
+    if clock_branch:
+        from go2arx5_vla.sla_adapter import clock500_checkpoint as clock_state
+        from go2arx5_vla.sla_adapter.clock500 import ENDPOINT, PLAN
+        from scripts.sla.train_clock500 import SCOPE as TRAIN_SCOPE, validate_ledger
+
+        path,marker = clock_state.read_complete(cp,run['binding'])
+        if (run['scope']!=TRAIN_SCOPE or run['arm']!=spec['arm'] or run['native_requests'] or run['native_ticks']
+                or run['binding']['comparison']!=spec['comparison'] or spec['plan']!=PLAN
+                or role not in ('formal','formal-restore') or marker['phase_step']!=ENDPOINT):
+            raise ValueError('CLOCK500_OFFLINE_REQUIRES_ITS_OWN_EXACT_FINISHED_BRANCH')
+        validate_ledger(run['ledger'],run['start_phase'],run['end_phase'])
+        marker = dict(marker,binding=marker['binding']['original_adapt_contract'])
+    else:
+        path,marker = checkpoint.read_complete(cp, run['binding'])
     phase = marker['phase_step']
-    if (spec['plan'] != contract.PLAN or spec['hardware_allowed'] is not False or spec['physics'] is not False
+    wrong_formal_phase = not clock_branch and (spec['plan']!=contract.PLAN or
+        (phase!=25 if role.startswith('phase25') else phase not in checkpoint.ENDPOINTS))
+    if (wrong_formal_phase or spec['hardware_allowed'] is not False or spec['physics'] is not False
             or root.stat().st_uid != os.getuid() or any(root.iterdir()) or phase != run['end_phase']
-            or run['exit_code'] != 0 or cp != spec['checkpoint']
-            or (phase != 25 if role.startswith('phase25') else phase not in checkpoint.ENDPOINTS)):
+            or run['exit_code'] != 0 or cp != spec['checkpoint']):
         raise PermissionError('ADAPT5K_OFFLINE_REQUIRES_FRESH_ROLE_AND_REAL_SEALED_PHASE')
     panel = read_pin(spec['panel'])
     queues = selections(panel,role)
@@ -134,19 +148,31 @@ def evaluate(spec, role):
     signal.signal(signal.SIGINT,receive_stop)
 
     def guard():
-        if flag or Path(spec['STOP_path']).exists() or time.time() >= spec['deadline_epoch']-60:
+        if (flag or Path(spec['STOP_path']).exists() or (clock_branch and Path(spec['campaign_stop']).exists())
+                or time.time() >= spec['deadline_epoch']-60):
             raise TimeoutError('ADAPT5K_OFFLINE_BOUNDED_STOP')
 
     rows = {d:[] for d in queues}
     actual = dict(role=role,phase=phase,checkpoint=cp,panel=spec['panel'],source_sha=spec['source_sha'],rows=rows,
                   new_updates=0,optimization_visits=0,native_requests=0,old_TEST_access=False,
                   generation_attempts=0,model_generations=0,matched_output_pairs=0)
+    if clock_branch:
+        from scripts.sla.audit_adapt_archived_timing import PANEL_SHA256
+
+        if spec['panel']['sha256']!=PANEL_SHA256:
+            raise ValueError('CLOCK500_EVAL_MUST_REUSE_THE_FIXED_D1_PANEL')
+        actual.update(scope='SLA_CLOCK500_BRANCH_OFFLINE_V1',arm=spec['arm'],comparison=spec['comparison'])
     lock = OwnerLock(spec['neural_owner_lock'])
     try:
         guard()
         actual['site'] = validate_site(spec)
         if jax.default_backend() != 'gpu' or len(jax.devices()) != 1:
             raise PermissionError('ADAPT5K_OFFLINE_REQUIRES_ONE_ACTUAL_GPU')
+        if clock_branch:
+            runtime = read_pin(spec['comparison'])['runtime']
+            if (runtime['GPU_uuid']!=actual['site']['GPU_uuid'] or runtime['jax_version']!=jax.__version__
+                    or runtime['XLA_FLAGS']!=os.environ.get('XLA_FLAGS')):
+                raise PermissionError('CLOCK500_BOTH_ARMS_AND_RESTORE_REQUIRE_MATCHED_EVAL_RUNTIME')
         jax.config.update('jax_compilation_cache_dir',spec['compilation_cache_dir'])
         datasets = panels.datasets(spec,resize_with_pad)
         if panel_rows(datasets) != panel['formal'] or panels.phase_rows(datasets['target'])[0] != panel['phase_train']:
@@ -227,15 +253,24 @@ def main():
     parser.add_argument('role', choices=(*ROLES,'proof'))
     parser.add_argument('spec')
     parser.add_argument('sha256')
+    parser.add_argument('--clock-branch',action='store_true')
     args = parser.parse_args()
     spec = read_pin(dict(path=args.spec,sha256=args.sha256))
     if args.role == 'proof':
         output = Path(spec['output'])
         if output.exists():
             raise FileExistsError(output)
-        write(output,restore_proof(read_pin(spec['ordinary']),read_pin(spec['independent_restore'])))
+        first,second = (read_pin(spec[key]) for key in ('ordinary','independent_restore'))
+        proof = restore_proof(first,second)
+        if args.clock_branch:
+            if (any(r.get('scope')!='SLA_CLOCK500_BRANCH_OFFLINE_V1' for r in (first,second))
+                    or first['arm']!=second['arm'] or first['comparison']!=second['comparison']
+                    or first['model_generations']!=376 or proof['phase_train_predictions']!=88):
+                raise ValueError('CLOCK500_RESTORE_REQUIRES_376_ORDINARY_PLUS_48_MATCHED_FOR_OWN_BRANCH')
+            proof.update(schema='SLA_CLOCK500_BRANCH_OUTPUT_RESTORE_PROOF_V1',arm=first['arm'],comparison=first['comparison'])
+        write(output,proof)
     else:
-        raise SystemExit(evaluate(spec,args.role))
+        raise SystemExit(evaluate(spec,args.role,clock_branch=args.clock_branch))
 
 
 if __name__ == '__main__':

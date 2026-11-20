@@ -1,0 +1,37 @@
+{
+  "schema": "SLA_CLOCK500_ENDPOINT_EXPORT_PBS_ACTUAL_V1",
+  "goal": "1b2a25b7c1720051a2627d30831fb18130462374",
+  "observed": "2026-11-20T19:03:02.245741+08:00",
+  "export_source_sha": "5eacdc3c4305c6ea05843ca69b10608a42b7e0af",
+  "export_source_archive_sha256": "ea8a3dee27a46f32d9ae80087b96f8d78a92d3ba4fcbb901ea307d7c650219bb",
+  "training_and_eval_source_sha": "5ea508b41893cce81b29e4640c032212dbc3e4c2",
+  "native_population_sha256": "f80d61a58c2ad20e2d2f59ccba645bf0c5a61cfc8a19d3f53862651e5c76d353",
+  "site_deadline_epoch": 1795484131.0,
+  "archive_cap_bytes_per_arm": 3221225472,
+  "cpu_jobs": {"per_job_seconds":600,"per_job_cores":1,"per_job_GPUs":0},
+  "roles": [
+    {"arm":"CLOCK-A-original-width","job":"1598593.stdct-mgmt-02","state":"H","evaluation":"1598254.stdct-mgmt-02",
+     "dependency":"afterany:1598254.stdct-mgmt-02@stdct-mgmt-02","spec_sha256":"b8905c50421bcc198d5c7d1c05faafe04490326ba2830900a0b45d1f95605f88"},
+    {"arm":"CLOCK-B-event-weighted-width","job":"1598594.stdct-mgmt-02","state":"H","evaluation":"1598257.stdct-mgmt-02",
+     "dependency":"afterany:1598257.stdct-mgmt-02@stdct-mgmt-02","spec_sha256":"e360fe164bd53c4d94d4718c1d3d9af31cdc4602584367e619a48b7ce1e1e457"},
+    {"role":"expiry","job":"1598595.stdct-mgmt-02","state":"W","scheduled_SGT":"2026-11-24T09:35:31+08:00",
+     "spec_sha256":"10f6456bac13010fa7b893a4df8f73ff220025a80efb8021a34fe362f334ed5d"}
+  ],
+  "stop_file": "STOP.json",
+  "station_allocation": {"prior_token_expired_before_any_qsub":true,"legitimate_relogin_verified":true},
+  "paired_trigger": {"decision_job":"1598095.stdct-mgmt-02","decision_state":"H",
+    "activation_job":"1598251.stdct-mgmt-02","activation_state":"H","scientific_outcome":null},
+  "original_live": {
+    "MIX":{"step":1250,"visits":[40000,60000,60000]},
+    "ADAPT":{"step":1321,"visits":[84544,42272,42272],"job":"1594212.stdct-mgmt-02","state":"R"}
+  },
+  "original_since_prior": {"optimizer_updates":24,"optimization_visits":3072,"training_H40":96},
+  "cpu_tests_passed": 7,
+  "sealed_clock_packages": 0,
+  "core_package_arrivals": 0,
+  "new_optimizer_updates": 0,
+  "new_training_visits": 0,
+  "new_model_generations": 0,
+  "new_native_requests": 0,
+  "new_native_ticks": 0
+}

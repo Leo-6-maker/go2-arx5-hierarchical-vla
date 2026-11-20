@@ -64,7 +64,7 @@ def stage_binding(spec, original, model):
         stage_bank_sha256=spec['stage_bank_sha256'],frozen_C20_action_statistics_sha256=C20_STATISTICS)
 
 
-def restored_engine(spec, datasets, banks, progress):
+def restored_engine(spec, datasets, banks, progress, *, engine_class=AdaptEngine):
     import jax
 
     parent_training = read_pin(spec['parent_training_spec'])
@@ -116,7 +116,7 @@ def restored_engine(spec, datasets, banks, progress):
         if clocks['phase_step'] != phase:
             raise ValueError('ADAPT5K_ACTUAL_PRIOR_PHASE_CHANGED')
     del template,parameters
-    engine = AdaptEngine(graphs,state['parameters'],frozen,datasets,banks,Tokenizer(spec['tokenizer']['path']),
+    engine = engine_class(graphs,state['parameters'],frozen,datasets,banks,Tokenizer(spec['tokenizer']['path']),
         spec['microbatch'],restored_adam=state['optimizer'],restored_rng=state['rng'],
         parent_step=spec['parent_step'],phase_step=phase,stage_start=spec['stage_start'],stage_stop=spec['stage_stop'])
     return engine,binding

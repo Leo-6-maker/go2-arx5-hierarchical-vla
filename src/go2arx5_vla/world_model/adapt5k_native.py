@@ -2,9 +2,10 @@
 from pathlib import Path
 
 from go2arx5_vla.sla_adapter.adapt5k_contract import PLAN
-from go2arx5_vla.sla_adapter.adapt5k_package import Provider
+from go2arx5_vla.sla_adapter.adapt5k_package import Provider, SCHEMA as ZERO_SCHEMA, TRAINED_SCHEMA
 from go2arx5_vla.sla_adapter.checkpoint_v1 import read_pin
 from go2arx5_vla.sla_adapter.scale20k_contract import RESTORE_ORDINALS
+from scripts.sla import adapt5k_endpoint_transport as transport
 
 SCOPE = 'SLA_ADAPT5K_NATIVE_G7'
 GOAL = '1b2a25b7c1720051a2627d30831fb18130462374'
@@ -44,14 +45,47 @@ def next_block(spec, expected, consumed):
 
 
 def package_manifest(arm, package):
-    if arm != 'ADAPT0':
-        raise PermissionError('ADAPT_NATIVE_ENDPOINT_PACKAGE_NOT_YET_ADMITTED')
-    return Provider.read_manifest(Path(package['path']),package['sha256'])
+    manifest = Provider.read_manifest(Path(package['path']),package['sha256'])
+    schema = ZERO_SCHEMA if arm == 'ADAPT0' else TRAINED_SCHEMA
+    if manifest['schema'] != schema or manifest['phase'] != ENDPOINTS[arm]:
+        raise PermissionError('ADAPT_NATIVE_ENDPOINT_PACKAGE_PHASE_CHANGED')
+    return manifest
+
+
+def trained_endpoint(manifest, package, evaluation, formal, replay, gpu_uuid):
+    phase, checkpoint = manifest['phase'], manifest['checkpoint_sha256']
+    custody = read_pin(replay['core_custody'])
+    if (formal['phase'] != phase or formal['checkpoint']['sha256'] != checkpoint
+            or formal['status'] != 'ADAPT_OFFLINE_RESULTS_SEALED' or formal['role'] != 'formal'
+            or formal['exit_code'] or formal['old_TEST_access'] or formal['new_updates'] or formal['native_requests']
+            or formal['model_generations'] != 376 or manifest['evaluation_sha256'] != evaluation['sha256']
+            or formal['panel']['sha256'] != manifest['panel_sha256']
+            or custody['goal'] != GOAL or custody['schema'] != transport.RECEIPT_SCHEMA
+            or custody['phase'] != phase or custody['package_sha256'] != package['sha256']
+            or custody['checkpoint_sha256'] != checkpoint
+            or replay['schema'] != transport.RGB_SCHEMA or replay['status'] != 'CORE_ADAPT_TRAINED_RGB16_EXACT'
+            or replay['exit_code'] or replay['passed'] is not True or replay['phase'] != phase
+            or replay['site']['host'] != 'corelab-4080s' or replay['site']['GPU_uuid'] != gpu_uuid
+            or replay['package'] != package['sha256'] or replay['checkpoint_sha256'] != checkpoint
+            or replay['evaluation'] != evaluation or replay['panel']['sha256'] != manifest['panel_sha256']
+            or replay['generation_attempts'] != replay['model_generations'] or replay['model_generations'] != 16
+            or replay['physics'] is not False or replay['hardware_allowed'] is not False
+            or any(replay[k] for k in ('optimizer_updates','optimization_visits','native_requests','native_ticks'))
+            or tuple(r['ordinal'] for r in replay['rows']) != RESTORE_ORDINALS):
+        raise PermissionError('ADAPT_NATIVE_REQUIRES_OWN_EXACT_TRAINED_RGB16_DEPLOYMENT')
+    for row in replay['rows']:
+        before = formal['rows']['target'][row['ordinal']]
+        if (not all(row[k] is True for k in ('normalized_exact','physical_exact','guard_exact'))
+                or any(row[k] != before[k] for k in ('index','identity','noise_id','normalized_sha256','decoded_sha256'))):
+            raise PermissionError('ADAPT_NATIVE_TRAINED_RGB16_EFFECT_CHANGED')
+    return manifest,formal
 
 
 def endpoint(arm, package, evaluation, deployment, *, gpu_uuid):
     manifest = package_manifest(arm,package)
     formal, actual = read_pin(evaluation),read_pin(deployment)
+    if arm != 'ADAPT0':
+        return trained_endpoint(manifest,package,evaluation,formal,actual,gpu_uuid)
     proof = actual['proof']
     declaration = read_pin(proof['declaration'])
     ordinary, restore = (read_pin(proof[k]) for k in ('ordinary','restore'))
