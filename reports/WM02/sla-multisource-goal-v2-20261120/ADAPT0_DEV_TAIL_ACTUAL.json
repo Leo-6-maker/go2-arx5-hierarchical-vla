@@ -1,0 +1,174 @@
+{
+  "schema": "SLA_GOAL_V2_ADAPT0_DEV_TAIL_REGISTRATION_ACTUAL_V1",
+  "observed": "2026-11-20T19:26:50.482239+08:00",
+  "source_sha": "c8b1429ac49bc6a2926f357c2189454c2ef4c736",
+  "native_source_sha": "df50e453c8b3f117d1af0c1a5036f06053126be4",
+  "registered_spec_sha256": "a1f508707325700a908b1768ed2a31cd2d527ca0cb37c3bc150a511bbc79155d",
+  "observed_receipt_sha256": "5bc528ff1ef15bf2a3659d2a2b2826363781a8bfc795aafeb4091c0aba9c5398",
+  "source_archive_sha256": "6981fe82fcad67274fc2d7a1beb77fc395ac9b057b1624093c52b73448630b49",
+  "population_sha256": "cdcd114a712739315d06ee923fe8221142d911ab6b60a64f30eac1b619eec2e0",
+  "observer": {
+    "Id": "sla-observer-adapt0-goal-v2-dev-tail-20261120-01.service",
+    "MainPID": "825751",
+    "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/sla-observer-adapt0-goal-v2-dev-tail-20261120-01.service",
+    "InvocationID": "0037495d09ff4f1780a8d25eed358d0a"
+  },
+  "linger": true,
+  "verified_original_terminal_prefix": 6,
+  "earlier_native": {
+    "requests": 6,
+    "ticks": 132555,
+    "model_generations": 396,
+    "task_successes": 0
+  },
+  "predecessor_units": [
+    "sla-observer-goal-v2-train-hold4-20261120-03.service",
+    "sla-observer-mix2000-eval-20261120-01.service",
+    "sla-observer-adapt0-goal-v2-block2-20261120-02.service"
+  ],
+  "target_units": {
+    "12": "wm02-sla-adapt0-goal-v2-dev-tail-to12-20261120-01.service",
+    "18": "wm02-sla-adapt0-goal-v2-dev-tail-to18-20261120-01.service",
+    "24": "wm02-sla-adapt0-goal-v2-dev-tail-to24-20261120-01.service"
+  },
+  "target_pid": {
+    "12": "0",
+    "18": "0",
+    "24": "0"
+  },
+  "upper_caps_by_original_block": [
+    {
+      "rows": [
+        7,
+        12
+      ],
+      "native_requests": 6,
+      "native_ticks": 274218,
+      "model_generations": 960,
+      "condition_ids": [
+        "ADAPT_DEV-F2-1-HOLD-red",
+        "ADAPT_DEV-F2-1-HOLD-blue",
+        "ADAPT_DEV-F2-1-PLACE-red-left",
+        "ADAPT_DEV-F2-1-PLACE-red-right",
+        "ADAPT_DEV-F2-1-PLACE-blue-left",
+        "ADAPT_DEV-F2-1-PLACE-blue-right"
+      ]
+    },
+    {
+      "rows": [
+        13,
+        18
+      ],
+      "native_requests": 6,
+      "native_ticks": 274218,
+      "model_generations": 960,
+      "condition_ids": [
+        "ADAPT_DEV-F1-2-HOLD-red",
+        "ADAPT_DEV-F1-2-HOLD-blue",
+        "ADAPT_DEV-F1-2-PLACE-red-left",
+        "ADAPT_DEV-F1-2-PLACE-red-right",
+        "ADAPT_DEV-F1-2-PLACE-blue-left",
+        "ADAPT_DEV-F1-2-PLACE-blue-right"
+      ]
+    },
+    {
+      "rows": [
+        19,
+        24
+      ],
+      "native_requests": 6,
+      "native_ticks": 274218,
+      "model_generations": 960,
+      "condition_ids": [
+        "ADAPT_DEV-F2-2-HOLD-red",
+        "ADAPT_DEV-F2-2-HOLD-blue",
+        "ADAPT_DEV-F2-2-PLACE-red-left",
+        "ADAPT_DEV-F2-2-PLACE-red-right",
+        "ADAPT_DEV-F2-2-PLACE-blue-left",
+        "ADAPT_DEV-F2-2-PLACE-blue-right"
+      ]
+    }
+  ],
+  "readiness": "WAITING_ORIGINAL_STUDENT_ROTATION_AND_HOLD4",
+  "latest_launch_epoch": 1795203944.665899,
+  "site_deadline_epoch": 1795206104.665899,
+  "stop_file": "STOP.json",
+  "watcher_log": "watch.log",
+  "native_stop_file": "STOP.json",
+  "finalizer": {
+    "sha256": "cd2f8dac71137ea3bbf472de12deed04b1d2d83eb2c89b501e165ed67ac5ce78",
+    "registered_owner_count": 20,
+    "active_timer": true,
+    "active_STOP_path": true
+  },
+  "current_work": {
+    "Core_MIX": {
+      "step": 1290,
+      "cursors": {
+        "target": 41280,
+        "robodojo": 61920,
+        "libero": 61920
+      },
+      "unit": "wm02-sla-scale20k-mix-core-after1000-20261120-02.service",
+      "pid": 665212,
+      "deadline_epoch": 1795177653.448896,
+      "previous_observed_step": 1279,
+      "added_updates": 11,
+      "added_visits": {
+        "target": 352,
+        "robodojo": 528,
+        "libero": 528
+      },
+      "added_train_H40": 44
+    },
+    "VANDA_ADAPT": {
+      "step": 1350,
+      "job": "1594212.stdct-mgmt-02",
+      "state": "R",
+      "cursors": {
+        "target": 86400,
+        "robodojo": 43200,
+        "libero": 43200
+      },
+      "previous_observed_step": 1341,
+      "added_updates": 9,
+      "added_visits": {
+        "target": 576,
+        "robodojo": 288,
+        "libero": 288
+      },
+      "added_train_H40": 36
+    },
+    "VANDA_ADAPT_2K_EVAL": {
+      "job": "1594215.stdct-mgmt-02",
+      "state": "H"
+    },
+    "VANDA_ADAPT_5K_TRAIN_START": {
+      "job": "1597833.stdct-mgmt-02",
+      "state": "H"
+    },
+    "VANDA_ADAPT_5K_EVAL": {
+      "job": "1597845.stdct-mgmt-02",
+      "state": "H"
+    },
+    "VANDA_TGT_5K": {
+      "job": "1593720.stdct-mgmt-02",
+      "stage": "FORMAL_5000",
+      "state": "F",
+      "exit_code": 0
+    },
+    "VANDA_TGT_5K_EVAL": {
+      "job": "1593721.stdct-mgmt-02",
+      "state": "F",
+      "exit_code": 0
+    },
+    "CLOCK_GPU_RELEASED": false
+  },
+  "new_observer_effects": {
+    "optimizer_updates": 0,
+    "optimization_visits": 0,
+    "native_requests": 0,
+    "native_ticks": 0,
+    "model_generations": 0
+  }
+}
