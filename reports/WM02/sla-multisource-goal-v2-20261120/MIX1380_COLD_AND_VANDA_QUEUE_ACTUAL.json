@@ -1,0 +1,187 @@
+{
+  "observed_SGT": "2026-11-20T20:34:10+08:00",
+  "plan_sha": "1b2a25b7c1720051a2627d30831fb18130462374",
+  "mix_closed": {
+    "step": 1380,
+    "worker_exit_code": 75,
+    "lease": "CLOSED",
+    "checkpoint_sha256": "aefd0f0cd67c5b071f3e1d7f8153c7ffa5fcd5848a72658057f16cc39e018979",
+    "arrays": 140,
+    "cursors": {
+      "target": 44160,
+      "robodojo": 66240,
+      "libero": 66240
+    },
+    "segment_updates": 380,
+    "segment_training_H40": 1524,
+    "segment_unapplied_H40": 4,
+    "ledger_sha256": "3173f819d8619c34a3bdca4254154c17d578940e3bfa39f6f7a6c2c30d781fd3",
+    "hf": {
+      "repo": "leoyuer/sla-goal-v2-checkpoints",
+      "revision": "14db33bb467458490b4627cc843c108b2a5908dc",
+      "prefix": "SCALE-MIX20K/step-01380-aefd0f0cd67c",
+      "verified_files": 141,
+      "bytes": 5547651888,
+      "vanda_anonymous_manifest_read_verified": true
+    }
+  },
+  "mix_live": {
+    "launcher_source_sha": "4c4f968489d8a1389547f09079a02d0cc343e4b8",
+    "learner_source_sha": "31076fc7a64302b0705ae4d7e526c4341209a100",
+    "fixed_resume_wrapper_file_sha256": "c1d0b9bd6bc761fb04a239f3206ec87e800e636b30c58bcced4d4de8313a0d7a",
+    "parent_result_sha256": "f2310595ae3c2a16db6cef147a4cb0652b4a89f3507f5c520ca52350d544e635",
+    "unit": "wm02-sla-scale20k-mix-core-after-resource-refusal-20261120-02.service",
+    "pid": 892030,
+    "invocation_id": "cd7b9c213dea40ca8b02e7ea4b8427a9",
+    "cgroup_verified": true,
+    "execution_sha256": "09da7b4290305821115f6b0004759d3101967eacbd5bd5af1ab00e87e1bcc47e",
+    "deadline_SGT": "2026-11-21T00:30:27+08:00",
+    "restored_step": 1380,
+    "phase": "RESTORED_COMPLETE_STATE",
+    "stop": "STOP.json",
+    "logs": [
+      "logs/queue.log",
+      "train/worker.log"
+    ],
+    "legacy_technical_effect": {
+      "closed": true,
+      "updates": 0,
+      "training_H40": 0,
+      "gradient_inputs": [
+        0,
+        0,
+        0
+      ],
+      "native_requests": 0,
+      "reason": "Working directory caused import of a legacy step-zero wrapper. It was stopped before any gradient/update."
+    }
+  },
+  "mix_independent_eval": {
+    "watcher_unit": "sla-observer-mix2000-eval-20261120-04.service",
+    "pid": 890209,
+    "invocation_id": "72c686387e6644e9901e3866593e2482",
+    "execution_sha256": "3926a42f9e24cf037545a3bc8b495330dcb46255cb78aa3f738a5ea220484f66",
+    "site_deadline_SGT": "2026-11-21T04:21:44+08:00",
+    "gpu_eval_started": false,
+    "fixed_ordinary": 288,
+    "fixed_independent_restore": 48,
+    "stop": "STOP.json",
+    "log": "watch.log"
+  },
+  "core_finalizer": {
+    "owners": 30,
+    "spec_sha256": "493c9cd6db3581f8b756d90b02d387635d68dfc392c70ad7a337c0da9c9c32d5",
+    "persistent_timer_verified": true,
+    "stop_path_verified": true
+  },
+  "native": {
+    "A0_first6": {
+      "requests": 6,
+      "grasp": 0,
+      "lift20mm": 0,
+      "task_success": 0,
+      "first_failure": "ILLEGAL_CONTACT"
+    },
+    "A0_rows_7_12": {
+      "requests": 0,
+      "ticks": 0,
+      "first_failure": "ADAPT_NATIVE_SITE_RESOURCE_OR_LOCK_UNAVAILABLE",
+      "gpu_available_bytes": 14706278400,
+      "gpu_required_bytes_exclusive": 15884668109,
+      "psi_avg10": 2.74,
+      "psi_limit": 0.1,
+      "failed_checks": [
+        "gpu_free",
+        "psi",
+        "gpu_idle"
+      ]
+    },
+    "TGT5K": {
+      "RGB16_generations": 0,
+      "native_requests": 0,
+      "native_ticks": 0,
+      "first_failure": "TGT_RGB16_RESOURCE_REJECT:gpu,psi,gpu_unoccupied"
+    },
+    "HOLD4": {
+      "native_requests": 0,
+      "native_ticks": 0,
+      "admitted_episodes": 0,
+      "admitted_windows": 0
+    }
+  },
+  "vanda_public_custody": {
+    "job": "1598751.stdct-mgmt-02",
+    "job_state": "E",
+    "session_id": 1146002,
+    "CPU_walltime_s": 1800,
+    "source_sha": "83fc0c1f4b23576a2f3a4dcdff3563648c76bf82",
+    "spec_sha256": "4d2e7f371c1cd97f5118928b264eeef56318a3a7ed625671bc1ebfa21523d608",
+    "stop": "STOP.json",
+    "log": "stdout.private.log",
+    "validated_files_at_20_31": 126,
+    "planned_original_train_window_reads": [
+      32,
+      48,
+      48
+    ],
+    "optimization_visits": 0,
+    "expiry_job": "1598752.stdct-mgmt-02",
+    "expiry_scheduler_state": "F_WITHOUT_START_OR_EXIT_STATUS",
+    "execution_deadline_SGT": "2026-11-20T21:50:16+08:00",
+    "exit_status": 0,
+    "actual_walltime_s": 671,
+    "result_sha256": "dc6797dcefe3edf7526638025c0d52cffa9a1a580ae88a221a79b7268bd9adf3",
+    "actual_verified_files": 141,
+    "actual_verified_bytes": 5547651888,
+    "actual_data_only_windows": [
+      32,
+      48,
+      48
+    ]
+  },
+  "vanda_adapt": {
+    "live_job": "1594212.stdct-mgmt-02",
+    "state": "R",
+    "session_id": 3629577,
+    "latest_step": 1432,
+    "cursors": [
+      91648,
+      45824,
+      45824
+    ],
+    "latest_exact_seal": 1250,
+    "successors_observed_F_without_start_or_exit": [
+      "1594213",
+      "1594214",
+      "1594215",
+      "1597833",
+      "1597844",
+      "1597845",
+      "1598095",
+      "1598251",
+      "1598414",
+      "1598416"
+    ],
+    "terminal_since_SGT": "2026-11-20T20:30:21+08:00",
+    "removal_initiator_confirmed": false,
+    "independent_eval_2000_started": false,
+    "independent_eval_5000_started": false,
+    "D2_switched": false,
+    "clock_trigger_decided": false,
+    "replacement_submitted": false
+  },
+  "delta_vs_previous_reference": {
+    "reference_MIX": 1365,
+    "reference_ADAPT": 1406,
+    "at_observed_MIX": 1380,
+    "at_observed_ADAPT": 1432,
+    "optimizer_updates": 41,
+    "optimization_sample_visits": 5248,
+    "committed_training_H40": 164,
+    "unapplied_training_H40": 4,
+    "independent_offline_generations": 0,
+    "new_native_requests": 0,
+    "new_native_ticks": 0,
+    "new_target_admissions": 0
+  }
+}
