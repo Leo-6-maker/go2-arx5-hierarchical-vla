@@ -199,6 +199,45 @@ def test_scale_microbatch_grouping_preserves_inputs_and_auxiliary_exposure(monke
             for key in gradient:
                 np.testing.assert_allclose(gradient[key], original_gradient[key], rtol=1e-6)
 
+    # The ADAPT pipeline must keep mb1 gradient arithmetic and sample order,
+    # including the four H40 slots and one global Adam update.
+    from concurrent.futures import ThreadPoolExecutor
+    from go2arx5_vla.sla_adapter import adapt5k_contract as adapt
+    from go2arx5_vla.sla_adapter.adapt5k_training import AdaptEngine
+
+    initialize,_ = make_adamw(**optimizer)
+    phase_banks = {d:banks[d][:2000*adapt.BATCH[d]] for d in DOMAINS}
+
+    def adapt_update(executor=None, deferred=False, profile=False):
+        recorded_fm.clear()
+        recorded_aux.clear()
+        engine = AdaptEngine(dict(zip(DOMAINS,DOMAINS,strict=True)),params,{},datasets,phase_banks,tokenizer,dict.fromkeys(DOMAINS,1),
+            restored_adam=initialize(params),restored_rng=jax.random.PRNGKey(321),parent_step=500,phase_step=73,
+            stage_start=0,stage_stop=2000)
+        engine.input_executor = executor
+        engine.defer_fm_loss = deferred
+        engine.update_breakdown = training.UpdateBreakdown() if profile else None
+        row = engine.update(lambda: None)
+        assert row['phase_step']==74 and engine.gradient_windows==adapt.BATCH and engine.completed_aux==4
+        return engine, row, recorded_fm.copy(), recorded_aux.copy()
+
+    base = adapt_update()
+    with ThreadPoolExecutor(max_workers=1) as executor:
+        candidates = (adapt_update(executor),adapt_update(executor,deferred=True),adapt_update(profile=True))
+    for engine,row,fm,aux in candidates:
+        assert fm==base[2] and aux==base[3]
+        for domain in DOMAINS:
+            for k in ('FM32','auxiliary','backward_calls','training_full_generations','visit_slice_sha256'):
+                assert row['domains'][domain][k]==base[1]['domains'][domain][k]
+        assert row['grad_norm']==base[1]['grad_norm']
+        for actual,serial in zip(jax.tree.leaves((engine.parameters,engine.states,engine.rng)),
+                                 jax.tree.leaves((base[0].parameters,base[0].states,base[0].rng)),strict=True):
+            np.testing.assert_array_equal(actual,serial)
+    intervals = candidates[-1][1]['synchronized_intervals_s']
+    assert all(v>=0 for v in intervals.values())
+    assert {'target/FM_host_prepare','target/FM_device_input_ready','target/FM_gradient_accumulation',
+            'target/H40_complete_sampling_and_backward','ADAPT/domain_gradient_merge','ADAPT/global_clip_AdamW'}<=set(intervals)
+
 
 def test_private_moments_and_decay_and_next_update_survive_checkpoint(tmp_path):
     jax = pytest.importorskip('jax')
@@ -240,6 +279,76 @@ def test_private_moments_and_decay_and_next_update_survive_checkpoint(tmp_path):
         checkpoint.restore(pin,arm=arm,parameters=params,optimizer=optimizer,rng=rng,binding=binding)
     with pytest.raises(ValueError,match='ARRAY_IDENTITY_MISMATCH'):
         checkpoint.restore_inference(pin, **inference_args)
+
+
+def test_compiled_adapt_fm_preserves_matched_windows_and_full_weighted_update():
+    from go2arx5_vla.sla_adapter import adapt5k_contract as adapt
+    from go2arx5_vla.sla_adapter.scale20k_training import compile_fm_accumulation
+    from scripts.sla.benchmark_adapt5k import BATCH_SCOPE, BATCH_VARIANTS, exposure_fingerprint, phase_window
+
+    jax = pytest.importorskip('jax')
+    jnp = pytest.importorskip('jax.numpy')
+    pytest.importorskip('optax')
+
+    @jax.jit
+    @jax.value_and_grad
+    def loss(params, x):
+        return jnp.mean(jnp.square(x - params['shared'])) + jnp.mean(jnp.square(x - params['private']))
+
+    params = {key: jnp.array(.125, dtype=jnp.float32) for key in ('shared', *DOMAINS)}
+    accumulate = compile_fm_accumulation(loss)
+    init,apply = make_adamw(beta1=.9,beta2=.95,eps=1e-8,weight_decay=1e-5,clip_norm=1.)
+
+    def run(micro):
+        fm,domains = {},{}
+        for index, domain in enumerate(DOMAINS):
+            size = adapt.BATCH[domain]
+            samples = jnp.arange(size, dtype=jnp.float32)/128 + index
+            active = dict(shared=params['shared'],private=params[domain])
+            total = jax.tree.map(jnp.zeros_like,active)
+            for offset in range(0,size,micro):
+                _,total = accumulate(total,micro/size,active,samples[offset:offset+micro])
+            _,exact = loss(active,samples)
+            for actual,expected in zip(jax.tree.leaves(total),jax.tree.leaves(exact),strict=True):
+                np.testing.assert_allclose(actual,expected,rtol=2e-6)
+            fm[domain] = total
+            domains[domain] = dict(backward_calls=size//micro,visit_slice_sha256=domain,
+                                   training_full_generations=4 if domain=='target' else 0)
+        domains['target']['auxiliary_slots'] = adapt.auxiliary_slots(1010)
+        row = dict(domains=domains,phase_step=1011,learning_rate=3e-6,
+                   lineage_cursors=adapt.progress(500,1011)['lineage_cursors'])
+        aux = dict(shared=jnp.asarray(.125),private=jnp.asarray(-.25))
+        gradient = adapt.joint_gradient(fm,aux,tree_map=jax.tree.map)
+        return exposure_fingerprint([row],fm_microbatch=micro), apply(params,init(params),gradient,3e-6)
+
+    assert all(phase_window(name,BATCH_SCOPE) == 16 for name in BATCH_VARIANTS)
+    baseline,reference = run(1)
+    for micro in (2,4):
+        declared, candidate = run(micro)
+        assert declared == baseline
+        for actual,expected in zip(jax.tree.leaves(candidate),jax.tree.leaves(reference),strict=True):
+            np.testing.assert_allclose(actual,expected,rtol=2e-6,atol=2e-8)
+
+
+def test_performance_compatibility_keeps_individual_guards_and_p10_crossing():
+    from scripts.sla.evaluate_adapt5k_performance import target_difference
+
+    original = np.zeros((40,10))
+    original[:,3],original[:,7],original[:,9] = 1,1,.5
+    perturbed = original.copy()
+    perturbed[:,0] = .0009
+
+    def metrics(crossing, translation_exceeded=False):
+        return dict(envelope=dict(original_full_H40_pass=False,paths=dict(nominal=dict(channels=dict(
+                    linear_velocity=dict(exceedance_indices=[5] if translation_exceeded else []))))),
+                    gripper_seam=dict(original_execution_speed_exceeded=True),
+                    phase=dict(predicted_first_crossing_index=crossing,predicted_P10_due_close=crossing<10))
+
+    assert target_difference(original,perturbed,metrics(7),metrics(8))['compatible']
+    assert not target_difference(original,perturbed,metrics(9),metrics(10))['compatible']
+    assert not target_difference(original,perturbed,metrics(7),metrics(7,True))['compatible']
+    perturbed[:,0] = .0011
+    assert not target_difference(original,perturbed,metrics(7),metrics(7))['compatible']
 
 
 def test_upstream_mlp_lora_members_are_active_alongside_attention_lora():
