@@ -1,0 +1,347 @@
+{
+  "schema": "SLA_LONGRUN_CORE_MIX_AND_D2_ACTUAL_V1",
+  "plan": "acac286c3b7a78fe24afa3f41539b1a9a8be328c",
+  "observed": "2026-11-20 12:49:41 SGT",
+  "MIX_recovery": {
+    "source_sha": "2bb3ba25c39868bdc351fb289c757964d38ddfa9",
+    "worker_source_sha": "31076fc7a64302b0705ae4d7e526c4341209a100",
+    "scope_spec_sha256": "40bab97087ca8542533491ec5cb06dfcea652d2eb1b972c02c17205bf9d4e31a",
+    "historical_oom_event": "SYSTEMD_OOMD_SIGKILL",
+    "historical_outer_result_missing": true,
+    "old_owner_clear": true,
+    "working_state_sha256": "87fa5e50062777c8a3efb5128d044bb18eafff57b25c43969918e89fad60a123",
+    "crash_reconciliation_sha256": "2763ad2780d7a4a5b9bd9241ad9014048b0af8f77c291db5c02b340cd6e52371",
+    "arrays": 140,
+    "original_source_files": 3669,
+    "original_durable_updates": 369,
+    "discarded_unapplied_H40": 4,
+    "discarded_unapplied_gradient_windows": {
+      "target": 32,
+      "robodojo": 48,
+      "libero": 27
+    },
+    "lost_optimizer_updates": 0,
+    "unit": "wm02-sla-scale20k-mix-core-crash869-20261120-01.service",
+    "pid": "466385",
+    "linger": true,
+    "deadline": "2026-11-20 14:39:09 SGT",
+    "first_actual_resumed_update": 870,
+    "late_update_snapshot": 875,
+    "new_updates": 6,
+    "cumulative_visits": {
+      "target": 28000,
+      "robodojo": 42000,
+      "libero": 42000
+    },
+    "resumed_training_generations": 24,
+    "new_checkpoint_sealed": false,
+    "max_step": 1000,
+    "native_requests": 0
+  },
+  "HOLD": {
+    "expert_requests": 2,
+    "ticks": 46156,
+    "admitted_windows": 139,
+    "confirmed_P10_atoms": 1390,
+    "student_requests": 0,
+    "historical_interface_requests": 2,
+    "cases": [
+      {
+        "instruction": "HOLD-red",
+        "family": "F1",
+        "native_ticks": 23703,
+        "directional_base_motion_m": 0.11102265066577155,
+        "maximum_lift_m": 0.025088783046618546,
+        "hold_s": 1.2660000000015472,
+        "result_sha256": "e1cd5ba249972a46c2a1fede70083b1bdf814709ecf4f5d7b69cecdbaf057c11"
+      },
+      {
+        "instruction": "HOLD-blue",
+        "family": "F2",
+        "native_ticks": 22453,
+        "directional_base_motion_m": 0.0827233842721068,
+        "maximum_lift_m": 0.025120436619678665,
+        "hold_s": 1.220000000001491,
+        "result_sha256": "4216dd610c3138f000be528faeaadb57bffd91c25669c2de4f99db4822c83711"
+      }
+    ]
+  },
+  "D2": {
+    "files_exact": 14,
+    "windows_audited": 139,
+    "independent_episodes": 26,
+    "total_windows": 2031,
+    "new_independent_episodes": 3,
+    "per_update_new_slots": 12,
+    "target_old_slots": 52,
+    "source_slots": [
+      32,
+      32
+    ],
+    "tokens_masks_and_context_samples_by_episode": [
+      {
+        "FAMILY": "F1",
+        "samples": 4,
+        "due_close_anchors": [
+          60
+        ],
+        "labels_sha256": "6ce5fc7eb98a2325e05ef12d1aa35d8e7727e9ce0b926ad4bd2d8251c0a3c661"
+      },
+      {
+        "FAMILY": "F2",
+        "samples": 4,
+        "due_close_anchors": [
+          55
+        ],
+        "labels_sha256": "faef342c501dc072dd43ccf519898c69e81e2dcbd30b0182e5964cee679907d8"
+      }
+    ],
+    "bank_digests": {
+      "target": "c370c1914eaaa17648171fefe0e4cdc2d42e88b9126fdd04bca1dbf2fee96b69",
+      "robodojo": "30bca6842ad9067763618185ffb9b1a38844ac8f848ae6f2e559996cbd9f29ee",
+      "libero": "545483608ad4118c33b79539bdaff421c7351a7a5bc354df734c8f16e6edc298"
+    },
+    "stage_bank_windows": {
+      "target": 192000,
+      "robodojo": 96000,
+      "libero": 96000
+    },
+    "selector_source_sha": "f9c8457bbe47c35c54d173abfc619500320b1ad2",
+    "read_proof_sha256": "c7ae1186163147390ddd8c1803f6586393556606b6602052532911e7e239c7e9",
+    "ready_sha256": "78f5775e00e044de0c9936745131c9fe42cb7df319c7c009dd86f270517cd057",
+    "selected": false
+  },
+  "VANDA": {
+    "observed_epoch": 1795150182.0139399,
+    "jobs": {
+      "1593003.stdct-mgmt-02": {
+        "Job_Name": "slatgt2k",
+        "job_state": "F",
+        "Exit_status": 0,
+        "stime": "Thu Nov 19 21:02:07 2026",
+        "obittime": "Fri Nov 20 02:47:17 2026",
+        "depend": "beforeany:1593718.stdct-mgmt-02@stdct-mgmt-02:1593719.stdct-mgmt-02@stdct-mgmt-02"
+      },
+      "1593718.stdct-mgmt-02": {
+        "Job_Name": "slatgt35",
+        "job_state": "F",
+        "Exit_status": 0,
+        "stime": "Fri Nov 20 02:47:34 2026",
+        "obittime": "Fri Nov 20 08:30:12 2026",
+        "depend": "beforeany:1593720.stdct-mgmt-02@stdct-mgmt-02"
+      },
+      "1593719.stdct-mgmt-02": {
+        "Job_Name": "slatgt2ev",
+        "job_state": "F",
+        "Exit_status": 0,
+        "stime": "Fri Nov 20 02:47:34 2026",
+        "obittime": "Fri Nov 20 02:52:25 2026"
+      },
+      "1593720.stdct-mgmt-02": {
+        "Job_Name": "slatgt50",
+        "job_state": "R",
+        "stime": "Fri Nov 20 08:30:19 2026",
+        "depend": "beforeany:1593721.stdct-mgmt-02@stdct-mgmt-02"
+      },
+      "1593721.stdct-mgmt-02": {
+        "Job_Name": "slatgt5ev",
+        "job_state": "H",
+        "depend": "afterany:1593720.stdct-mgmt-02@stdct-mgmt-02"
+      },
+      "1594084.stdct-mgmt-02": {
+        "Job_Name": "slaadp5ev",
+        "job_state": "F",
+        "Exit_status": 0,
+        "stime": "Fri Nov 20 08:31:36 2026",
+        "obittime": "Fri Nov 20 08:35:54 2026"
+      },
+      "1594209.stdct-mgmt-02": {
+        "Job_Name": "slaadp750",
+        "job_state": "F",
+        "Exit_status": 0,
+        "stime": "Fri Nov 20 08:31:36 2026",
+        "obittime": "Fri Nov 20 11:37:57 2026",
+        "depend": "beforeany:1594210.stdct-mgmt-02@stdct-mgmt-02"
+      },
+      "1594210.stdct-mgmt-02": {
+        "Job_Name": "slaadp1000",
+        "job_state": "R",
+        "stime": "Fri Nov 20 11:37:58 2026",
+        "depend": "beforeany:1594211.stdct-mgmt-02@stdct-mgmt-02"
+      },
+      "1594214.stdct-mgmt-02": {
+        "Job_Name": "slaadp2000",
+        "job_state": "H",
+        "depend": "afterany:1594213.stdct-mgmt-02@stdct-mgmt-02,beforeany:1594215.stdct-mgmt-02@stdct-mgmt-02"
+      },
+      "1594215.stdct-mgmt-02": {
+        "Job_Name": "slaadp2kev",
+        "job_state": "H",
+        "depend": "afterany:1594214.stdct-mgmt-02@stdct-mgmt-02"
+      }
+    },
+    "TGT2000": {
+      "global_step": 2000,
+      "global_cursors": {
+        "target": 64000,
+        "robodojo": 0,
+        "libero": 0
+      },
+      "new_updates": 1500,
+      "new_visits": {
+        "target": 48000,
+        "robodojo": 0,
+        "libero": 0
+      },
+      "new_model_generations": 6000,
+      "checkpoint_sha256": "f51300dffb323eb2da6dc79763fea41bf47956e5cdc70161120e10c20cb48083",
+      "receipt_sha256": "45fa6af02b54310b3ea15b5cda9bfbee11e764e6644ce5bb69f6ebd605ff18ae"
+    },
+    "TGT3500": {
+      "global_step": 3500,
+      "global_cursors": {
+        "target": 112000,
+        "robodojo": 0,
+        "libero": 0
+      },
+      "new_updates": 1500,
+      "new_visits": {
+        "target": 48000,
+        "robodojo": 0,
+        "libero": 0
+      },
+      "new_model_generations": 6000,
+      "checkpoint_sha256": "d47d577fdfd04220dfbd6a6c2e27b959080ceeb5163a08cb408782f732693927",
+      "receipt_sha256": "935aa36c5dff0ed51d439893eee6c857d0b0312b8e02c1f97df9284fe0c6ecbe"
+    },
+    "TGT_running": {
+      "step": 4629,
+      "cursors": {
+        "target": 148128,
+        "robodojo": 0,
+        "libero": 0
+      }
+    },
+    "TGT500_Eval": {
+      "status": "FRESH_RGB48_RESTORED_EXACT",
+      "checkpoint_sha256": "bb9e64867ec4d5b692fe32b77054aa3c2d31b22f7c53bc011ccacda6641eb59f",
+      "panel_sha256": "7dc3383b6ea091b0fbb1e90903f9199ad5e4a180c17f60daf4a357a93d8d9473",
+      "ordinary": 288,
+      "restore": 48,
+      "both": 87,
+      "denominator": 96,
+      "due_close": 1,
+      "missed": 1,
+      "native_requests": 0,
+      "receipt_sha256": "ce590fef527c642462dda767baa9c87f2b7e2d0a905ec340c9f1c1cb70163d1f"
+    },
+    "TGT2000_Eval": {
+      "status": "FRESH_RGB48_RESTORED_EXACT",
+      "checkpoint_sha256": "f51300dffb323eb2da6dc79763fea41bf47956e5cdc70161120e10c20cb48083",
+      "panel_sha256": "7dc3383b6ea091b0fbb1e90903f9199ad5e4a180c17f60daf4a357a93d8d9473",
+      "ordinary": 288,
+      "restore": 48,
+      "both": 93,
+      "denominator": 96,
+      "due_close": 1,
+      "missed": 1,
+      "native_requests": 0,
+      "receipt_sha256": "f73a065607e9e6d03676d80c8934ad9ea3252ad2301d783a1f9119089376a67b"
+    },
+    "ADAPT_running": {
+      "phase_step": 844,
+      "phase_cursors": {
+        "target": 54016,
+        "robodojo": 27008,
+        "libero": 27008
+      }
+    },
+    "ADAPT0_Eval": {
+      "phase": 0,
+      "checkpoint_sha256": "205aacaafe78c7715d16cacf7c0f2513a6bc373f4ed5998895ae52faa08c92c0",
+      "panel_sha256": "3136404c06f890a9dd830b2cf5f40e487ef436ede16e805e14ffc0cb06b5eefd",
+      "model_generations": 376,
+      "restore": 48,
+      "ordinary": {
+        "H40": 96,
+        "both": 92,
+        "total": 96
+      },
+      "all_phase": {
+        "H40": 84,
+        "both": 45,
+        "total": 88
+      },
+      "due": {
+        "windows": 24,
+        "P10": 10,
+        "timely": 10,
+        "joint": 0,
+        "missed": 12
+      },
+      "readback_sha256": "d05f424493f5a89b202861058ef4f410ef8311d12c56208b48a476eca52cea29"
+    },
+    "ADAPT500_Eval": {
+      "phase": 500,
+      "checkpoint_sha256": "e5b796170e47dfc649f5430512bad741b94c8d4042d828db82653da759b27653",
+      "panel_sha256": "3136404c06f890a9dd830b2cf5f40e487ef436ede16e805e14ffc0cb06b5eefd",
+      "model_generations": 376,
+      "restore": 48,
+      "ordinary": {
+        "H40": 94,
+        "both": 89,
+        "total": 96
+      },
+      "all_phase": {
+        "H40": 57,
+        "both": 43,
+        "total": 88
+      },
+      "due": {
+        "windows": 24,
+        "P10": 24,
+        "timely": 2,
+        "joint": 0,
+        "missed": 0
+      },
+      "readback_sha256": "1adce9193d0bb7a2177cf73291ac7b527f4713454516373d634271f67a0ea77a"
+    },
+    "stage2_pointer_published": true,
+    "stage2_decision_exists": false,
+    "stage2_new_PBS_jobs": 0
+  },
+  "ADAPT_stage2": {
+    "state": "PREPARED_BLOCKED_AMGR_EXPIRED",
+    "new_PBS_jobs": 0,
+    "predecessor": "1594214.stdct-mgmt-02",
+    "independent_Eval2000": "1594215.stdct-mgmt-02",
+    "boundaries": [
+      2250,
+      2500,
+      2750,
+      3000,
+      3250,
+      3500,
+      3750,
+      4000,
+      4250,
+      4500,
+      4750,
+      5000
+    ],
+    "prepared_Eval5000": true
+  },
+  "ADAPT0_compatibility_V2": {
+    "state": "SERVER_UNIT_ARMED_WAIT_FOR_MIX_COLD",
+    "unit": "wm02-sla-adapt0-deployv2-cold-wait-20261120-01.service",
+    "PID": "473021",
+    "source_sha": "71881dcf10d2887b9dbfb31e012b0d1c1ad55c33",
+    "spec_sha256": "9f82377df318f5031555effb3d7e8bd84cd606740d79a9d0057cf2955c943b47",
+    "declaration_sha256": "4d18a3fc186add64f21c6446f3aadfe9fd9c28dca8b50a12e15f6997b362eae3",
+    "allowed_generations": 32,
+    "generations": 0,
+    "student_native_requests": 0,
+    "deadline": "2026-11-20 15:35:09 SGT",
+    "strict_v1_failure_retained": true
+  }
+}
