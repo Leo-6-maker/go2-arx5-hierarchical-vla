@@ -1,0 +1,56 @@
+{
+  "schema": "SLA_GOAL_V2_MIX2000_INDEPENDENT_EVAL_ACTUAL_V1",
+  "goal_sha": "1b2a25b7c1720051a2627d30831fb18130462374",
+  "source_sha": "943d070f91e9c7c28cc62c281e767af8268e57d4",
+  "source_archive_sha256": "a55cbbb21bb962a2ce2999afff43f92ba2f6b9a59d1f4b693eecd3201ba10a80",
+  "observer_spec_sha256": "b0632a5ba2fed52d9ee5d9524a7f651941641741df18f8b1801dfe6eebca14f0",
+  "training_source_sha": "31076fc7a64302b0705ae4d7e526c4341209a100",
+  "panel_sha256": "7dc3383b6ea091b0fbb1e90903f9199ad5e4a180c17f60daf4a357a93d8d9473",
+  "observed": "2026-11-20T18:38:22.179795+08:00",
+  "observer": {
+    "unit": "sla-observer-mix2000-eval-20261120-01.service",
+    "pid": 781205,
+    "cgroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/sla-observer-mix2000-eval-20261120-01.service",
+    "invocation": "5caf000643e240739f8b1cdddc2e9477",
+    "linger": true,
+    "active": true,
+    "status": "WAITING_EXACT_MIX2000",
+    "stop": "STOP.json",
+    "log": "watch.log"
+  },
+  "dependencies": [
+    "wm02-sla-scale20k-mix-core-after1000-20261120-02.service",
+    "sla-observer-mix-after-adapt0-block2-20261120-01.service",
+    "wm02-sla-scale20k-mix-core-after-adapt0-block2-20261120-01.service"
+  ],
+  "evaluation": {
+    "unit": "wm02-sla-scale20k-mix2000-core-offline-20261120-01.service",
+    "pid": 0,
+    "started": false,
+    "gpu_index": 1,
+    "ordinary_cap": 288,
+    "restore_cap": 48,
+    "exact_step": 2000,
+    "required_train_exit": 0,
+    "max_walltime_s": 5400,
+    "stop": "STOP.json",
+    "log": "supervisor.log"
+  },
+  "site_deadline_epoch": 1795206104.665899,
+  "latest_evaluation_start_epoch": 1795204304.665899,
+  "finalizer_spec_sha256": "90c67f620ef4faa9a8447886a831c74d3f2bf6ede2a0f5b27ce304bac242126d",
+  "campaign_finalizer_owners": 13,
+  "campaign_timer_active": true,
+  "campaign_stop_trigger_active": true,
+  "CPU_tests_passed": 4,
+  "simultaneous_original_training": {
+    "MIX": {"observed": "2026-11-20T18:38:45.512761+08:00", "step": 1210, "visits": [38720, 58080, 58080]},
+    "ADAPT": {"observed": "2026-11-20T18:38:56.985269+08:00", "step": 1291, "visits": [82624, 41312, 41312], "job": "1594212.stdct-mgmt-02", "state": "R"}
+  },
+  "since_prior_report": {"optimizer_updates": 19, "optimization_visits": 2432, "training_model_generations": 76},
+  "new_observer_optimizer_updates": 0,
+  "new_observer_optimization_visits": 0,
+  "new_observer_model_generations": 0,
+  "new_observer_native_requests": 0,
+  "new_observer_native_ticks": 0
+}
