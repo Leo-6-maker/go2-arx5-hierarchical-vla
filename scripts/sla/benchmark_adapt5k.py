@@ -170,6 +170,15 @@ def benchmark(spec):
                 raise ValueError('ADAPT_ENGINEERING_STATE_MUST_INCLUDE_ALL_140_LEAVES')
             result['matched_exposure_sha256'] = exposure_fingerprint(rows)
             result['throughput'] = timing_summary(rows[WARMUP:WARMUP+TIMED])
+            if plan.get('export_matched_engineering') is True:
+                from go2arx5_vla.sla_adapter.scale20k_checkpoint import seal_arrays, training_tree
+
+                result['engineering_checkpoint'] = seal_arrays(
+                    root/'engineering_state',training_tree(engine.parameters,engine.states,engine.rng),
+                    dict(schema='SLA_ADAPT_ENGINEERING_MATCHED_STATE_V1',eligible_as_formal_parent=False,
+                         parent=prior['checkpoint'],variant=variant,phase_step=engine.step,
+                         matched_exposure_sha256=result['matched_exposure_sha256'],
+                         source_sha=spec['source_sha'],physics=False))
             write(root/'MATCHED_INTERVAL.private.json',dict(result,committed_ledger_updates=len(rows),
                   actual_optimizer_updates=engine.step-start,FM_gradient_windows=engine.gradient_windows,
                   attempted_H40=engine.attempted_aux,completed_H40=engine.completed_aux))
