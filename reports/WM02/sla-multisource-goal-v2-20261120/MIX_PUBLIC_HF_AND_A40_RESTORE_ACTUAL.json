@@ -140,13 +140,35 @@
       "logs": [
         "stdout.private.log",
         "stderr.private.log"
-      ]
+      ],
+      "terminal_state": "F",
+      "exit_code": 1,
+      "actual_device_arrays_exact": 140,
+      "actual_gradient_windows": {
+        "target": 32,
+        "robodojo": 0,
+        "libero": 0
+      },
+      "actual_training_H40": 4,
+      "first_failure": "OFFLINE_SITE_ROBODOJO_NUMERIC_052_NOT_PRESENT"
     },
-    "scientific_parent_changed": false
+    "scientific_parent_changed": false,
+    "VANDA_training_archive_readback": {
+      "RoboDojo_manifest_match": true,
+      "RoboDojo_train_numeric_052_present": true,
+      "RoboDojo_raw_binding_present": true,
+      "LIBERO_manifest_match": true
+    }
   },
   "site_training_restarted": false,
   "new_applied_updates": 0,
   "new_optimization_visits": 0,
   "new_native_requests": 0,
-  "new_native_ticks": 0
+  "new_native_ticks": 0,
+  "new_a40_gradient_input_windows": {
+    "target": 32,
+    "robodojo": 0,
+    "libero": 0
+  },
+  "new_a40_training_H40": 4
 }
