@@ -94,16 +94,22 @@ def cold_predecessor(spec, base, previous):
 
 
 def boundary_evaluation_registered(spec, base, lineage):
-    root = lineage/'slaadp2kev-01'
-    registration = read_pin(spec['independent_eval2000'])
-    job = registration['released']['job']
+    registration_pin = spec['independent_eval2000']
+    registration_path = Path(registration_pin['path']).resolve(strict=True)
+    registration = read_pin(registration_pin)
+    job = registration['job'] if 'job' in registration else registration['released']['job']
     card = read_pin(registration['spec'])
     status = read_pbs_with_auth_retry(pbs_history,job)
-    if (Path(spec['independent_eval2000']['path']) != root/'SUBMISSION.private.json'
-            or registration['role'] != 'eval' or registration['step'] != contract.SWITCH_PHASE
+    if (registration_path not in {
+            lineage/'slaadp2kev-01'/'SUBMISSION.private.json',
+            lineage/'slaadp2kev-02'/'SUBMISSION.private.json',
+            }
+            or Path(card['root']).resolve(strict=True) != registration_path.parent
+            or Path(registration['spec']['path']).resolve(strict=True) != registration_path.with_name('DEPENDENCY.private.json')
             or card['job_id'] != job or card['role'] != 'eval' or card['step'] != contract.SWITCH_PHASE
             or card['previous_job'] != spec['previous_job'] or job == spec['job_id']
             or status['project'] != base['project'] or status['Job_Owner'].split('@')[0] != base['user']
+            or status['Job_Name'] != 'slaadp2kev'
             or status['job_state'] not in ('H','Q','R','E','F')):
         raise ValueError('ADAPT5K_REQUIRES_THE_REGISTERED_INDEPENDENT_2000_EVAL_EDGE')
 
