@@ -1,0 +1,95 @@
+{
+  "schema": "SLA_CLOCK500_CPU_TRIGGER_AND_POPULATION_ACTUAL_V1",
+  "plan": "1b2a25b7c1720051a2627d30831fb18130462374",
+  "site_observation": "2026-11-20T17:00:51.309841+08:00",
+  "trigger_CPU": {
+    "job": "1598095.stdct-mgmt-02",
+    "PBS_state": "H",
+    "GPUs": 0,
+    "dependency": "afterany:1594215.stdct-mgmt-02@stdct-mgmt-02",
+    "source_sha": "32f75963ba05caac7819914d4d65260bbe36db4a",
+    "spec_sha256": "581aa6cca2dc941eb9cbdedce123a7cd06934dd364b41d8354347fe683fbcc63",
+    "site_deadline": "2026-11-22T08:33:10.248482+08:00",
+    "stop_file": "STOP.json",
+    "result_file": "RESULT.private.json"
+  },
+  "exact_2K_training_job": "1594214.stdct-mgmt-02",
+  "independent_2K_Eval_job": "1594215.stdct-mgmt-02",
+  "G3": {
+    "preflight_sha256": "dcccc12ec66f9da74830dfa8a4971107b26548d8642b93b213dd0ab38be9aec4",
+    "labels": 88,
+    "due": 24,
+    "codec_maximum": {
+      "xyz_m": 2.220446049250313e-16,
+      "so3_rad": 1.058283758874079e-16,
+      "gripper": 0.00010000000000000017
+    }
+  },
+  "Core_cold_population": {
+    "source_sha": "1ae877aa8c24f7f7778cf1427f07d42823b49c4e",
+    "population_sha256": "f80d61a58c2ad20e2d2f59ccba645bf0c5a61cfc8a19d3f53862651e5c76d353",
+    "receipt_sha256": "36d6b60dac2ffb0adf10f5c4a15df3cfe489322ae0b39cbac6a3ad20d8c0792a",
+    "scenes": 8,
+    "DEV_per_arm": 24,
+    "B_confirmation": 24,
+    "case_order": 72,
+    "V52_or_old_TEST_cases_executed": 0,
+    "compiled_bytes": 595764808,
+    "original_robot_fingerprint": "67d4b804c438beabec9790ecf40b60584d2b45ec0c5f1799f377bf784f316bc8",
+    "protected_scene_hashes": 223,
+    "protected_geometry": 169,
+    "technical_first_compile": "MISSING_SCIPY_BEFORE_ANY_LAYOUT_COMPILE",
+    "remote_custody_exact": true
+  },
+  "CLOCK_status": "WAITING_FOR_FORMAL_2K_AND_ACTUAL_INDEPENDENT_FIXED_EVAL",
+  "CLOCK_joint_numerator": null,
+  "CLOCK_updates": 0,
+  "CLOCK_model_generations": 0,
+  "CLOCK_native_requests": 0,
+  "CLOCK_native_ticks": 0,
+  "heldouts_status": "COLD_COMPILED_NO_NATIVE_DISPATCH",
+  "concurrent": {
+    "Core_MIX": {
+      "step": 1048,
+      "after_step1000": 48
+    },
+    "VANDA_ADAPT": {
+      "step": 1174,
+      "cursors": {
+        "target": 75136,
+        "robodojo": 37568,
+        "libero": 37568
+      }
+    },
+    "A40_batch": {
+      "job": "1598060.stdct-mgmt-02",
+      "mb1": 16,
+      "mb2": 2,
+      "mb4": 0,
+      "gpu_outputs": 0
+    }
+  },
+  "delta_from_previous_report": {
+    "Core_updates": 24,
+    "Core_visits": {
+      "target": 768,
+      "robodojo": 1152,
+      "libero": 1152
+    },
+    "van_ADAPT_updates": 19,
+    "van_ADAPT_visits": {
+      "target": 1216,
+      "robodojo": 608,
+      "libero": 608
+    },
+    "batch_engineering_updates": 16,
+    "batch_engineering_visits": {
+      "target": 1024,
+      "robodojo": 512,
+      "libero": 512
+    },
+    "native_requests": 0,
+    "native_ticks": 0,
+    "training_H40": 236
+  }
+}
