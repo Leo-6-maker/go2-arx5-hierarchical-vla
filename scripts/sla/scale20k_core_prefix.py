@@ -29,6 +29,10 @@ def resources(uuid):
 
 
 def closed_predecessor(config, root):
+    if 'crash_reconciliation' in config:
+        from scripts.sla.scale20k_core_crash import resolve
+
+        return resolve(config,root)
     prior = config.get('previous_train_result')
     if prior is None:
         return None, None, 0
@@ -131,10 +135,13 @@ def run(config):
     status = 'CAPACITY_OR_OWNER_WAIT_ENDED_NO_GPU_EFFECT'
     stages = {}
     try:
+        host_headroom_gib = 27
+        if 'crash_reconciliation' in config:
+            host_headroom_gib = 40
         while not cancelled and not stop.exists() and time.time()+1800 < deadline:
             capacity = resources(uuid)
             share = math.ceil(config['JAX_memory_fraction']*capacity['total_bytes'])
-            can_start = (capacity['free_bytes'] > share+2*GIB and capacity['host_bytes'] > 27*GIB
+            can_start = (capacity['free_bytes'] > share+2*GIB and capacity['host_bytes'] > host_headroom_gib*GIB
                          and shutil.disk_usage(root).free > 24*GIB)
             owner = False
             if can_start:
@@ -155,7 +162,7 @@ def run(config):
             compilation_cache_dir=str(cache))
         site = dict(schema='SLA_SINGLE_GPU_EXISTING_SITE_V2',host=config['host'],uid=config['uid'],
             GPU_uuid=uuid,GPU_name=capacity['name'],GPU_headroom_bytes=2*GIB,allocator_limit_bytes=share,
-            allocation_deadline_epoch=deadline,host_headroom_bytes=27*GIB,paths=paths,allocation=allocation)
+            allocation_deadline_epoch=deadline,host_headroom_bytes=host_headroom_gib*GIB,paths=paths,allocation=allocation)
         sitepath = root/'SITE.private.json'
         write(sitepath,site)
         common = dict(plan_sha=PLAN,recipe=RECIPE,source_sha=config['source_sha'],arm=config['arm'],
