@@ -330,6 +330,27 @@ def test_compiled_adapt_fm_preserves_matched_windows_and_full_weighted_update():
             np.testing.assert_allclose(actual,expected,rtol=2e-6,atol=2e-8)
 
 
+def test_performance_compatibility_keeps_individual_guards_and_p10_crossing():
+    from scripts.sla.evaluate_adapt5k_performance import target_difference
+
+    original = np.zeros((40,10))
+    original[:,3],original[:,7],original[:,9] = 1,1,.5
+    perturbed = original.copy()
+    perturbed[:,0] = .0009
+
+    def metrics(crossing, translation_exceeded=False):
+        return dict(envelope=dict(original_full_H40_pass=False,paths=dict(nominal=dict(channels=dict(
+                    linear_velocity=dict(exceedance_indices=[5] if translation_exceeded else []))))),
+                    gripper_seam=dict(original_execution_speed_exceeded=True),
+                    phase=dict(predicted_first_crossing_index=crossing,predicted_P10_due_close=crossing<10))
+
+    assert target_difference(original,perturbed,metrics(7),metrics(8))['compatible']
+    assert not target_difference(original,perturbed,metrics(9),metrics(10))['compatible']
+    assert not target_difference(original,perturbed,metrics(7),metrics(7,True))['compatible']
+    perturbed[:,0] = .0011
+    assert not target_difference(original,perturbed,metrics(7),metrics(7))['compatible']
+
+
 def test_upstream_mlp_lora_members_are_active_alongside_attention_lora():
     llm = ('PaliGemma','llm','layers')
     mlp = [(*llm,'mlp',name) for name in ('gating_einsum_lora_a','gating_einsum_lora_b','linear_lora_a','linear_lora_b')]

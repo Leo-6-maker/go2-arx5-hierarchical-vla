@@ -232,6 +232,7 @@ def benchmark(spec):
                     dict(schema='SLA_ADAPT_ENGINEERING_MATCHED_STATE_V1',eligible_as_formal_parent=False,
                          parent=prior['checkpoint'],variant=variant,phase_step=engine.step,
                          matched_exposure_sha256=result['matched_exposure_sha256'],
+                         training_binding=binding,scope=scope,
                          source_sha=spec['source_sha'],physics=False))
             write(root/'MATCHED_INTERVAL.private.json',dict(result,committed_ledger_updates=len(rows),
                   actual_optimizer_updates=engine.step-start,FM_gradient_windows=engine.gradient_windows,

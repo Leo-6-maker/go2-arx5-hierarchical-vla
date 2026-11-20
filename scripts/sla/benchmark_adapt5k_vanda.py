@@ -12,8 +12,8 @@ from go2arx5_vla.sla_adapter.adapt5k_contract import PLAN
 from go2arx5_vla.sla_adapter.runtime_v1 import read_pin
 from scripts.pi0292.durable import OwnerLock, write
 from scripts.sla.adapt5k_vanda import pbs_history, pbs_site
-from scripts.sla.benchmark_adapt5k import (BATCH_VARIANTS, SCOPE, VARIANTS, compare, exposure_fingerprint,
-                                        phase_window, probe_variants, timing_summary)
+from scripts.sla.benchmark_adapt5k import (BATCH_SCOPE, BATCH_VARIANTS, SCOPE, VARIANTS, compare, exposure_fingerprint,
+                                        phase_window, probe_variants, require_batched_output_panel, timing_summary)
 from scripts.sla.scale20k_vanda_offline import read_pbs_with_auth_retry
 from scripts.wm02.multisource_d4_vanda import pin
 
@@ -68,6 +68,54 @@ def compare_remaining(baseline, effects):
         engineering_only=True,eligible_as_formal_parent=False,native_requests=0)
 
 
+def batch_outputs(root, source, common, env, spec, plan, actual, comparison):
+    from scripts.sla.evaluate_adapt5k_performance import compare_outputs
+
+    panel = require_batched_output_panel(plan)
+    actual['offline_roles'] = {}
+    actual['offline_generated'] = actual['offline_attempted'] = 0
+    reference = None
+    for variant,effect in actual['completed'].items():
+        roles = actual['offline_roles'][variant] = {}
+        for role in ('ordinary','restore'):
+            name = f'{variant}-{role}'
+            remaining = common['deadline_epoch']-time.time()
+            if Path(common['STOP_path']).exists() or remaining<=180:
+                raise TimeoutError('ADAPT_BATCH_OFFLINE_FINITE_SITE_WINDOW')
+            child = root/name
+            child.mkdir()
+            card = root/(name+'.SPEC.private.json')
+            write(card,dict(common,source_sha=spec['source_sha'],registered_root=str(child),generation_cap=48,
+                engineering_effect=effect,training_card=spec['training_card'],fixed_output_panel=panel,
+                ordinary_result=roles.get('ordinary')))
+            actual['unresolved_role'] = name
+            with (root/(name+'.log')).open('x') as log:
+                worker = subprocess.run([sys.executable,'-B','-m','scripts.sla.evaluate_adapt5k_performance',role,
+                    str(card),pin(card)['sha256']],timeout=remaining,env=env,cwd=source,stdout=log,stderr=subprocess.STDOUT)
+            tail = child/'RESULT.private.json'
+            if not tail.is_file():
+                counts = child/'COUNTS.private.json'
+                if counts.is_file():
+                    counter = read_pin(pin(counts))
+                    actual['offline_attempted'] += counter['attempted']
+                    actual['offline_generated'] += counter['generated']
+                raise RuntimeError(f'ADAPT_BATCH_OFFLINE_{name}_EXIT_{worker.returncode}_WITHOUT_TERMINAL')
+            roles[role] = pin(tail)
+            outcome = read_pin(roles[role])
+            actual['offline_attempted'] += outcome['attempted']
+            actual['offline_generated'] += outcome['generated']
+            actual['unresolved_role'] = None
+            if worker.returncode!=outcome['exit_code'] or outcome['exit_code']:
+                raise RuntimeError(f'ADAPT_BATCH_OFFLINE_EFFECT_FAILED:{name}:{outcome.get("failure")}')
+        ordinary = read_pin(roles['ordinary'])
+        if reference is None:
+            reference = ordinary
+        check = comparison['candidate_checks'][variant]
+        check['outputs'] = compare_outputs(reference,ordinary,read_pin(roles['restore']))
+        check['meets_single_GPU_throughput_threshold'] = check['speedup_vs_compiled_mb1']>=1.15
+        check['compatible_and_faster'] = check['meets_single_GPU_throughput_threshold'] and check['outputs']['physical_target_compatible']
+
+
 def run(spec):
     root = Path(spec['root']).resolve(strict=True)
     source = Path(__file__).resolve().parents[2]
@@ -106,7 +154,10 @@ def run(spec):
 
     try:
         baseline = archived_serial(plan,spec,config) if 'archived_serial' in plan else None
-        common,env,_ = pbs_site(dict(config,job_id=spec['job_id'],deadline_epoch=spec['deadline_epoch']),root,wall=5400)
+        if scope==BATCH_SCOPE:
+            require_batched_output_panel(plan)
+        common,env,_ = pbs_site(dict(config,job_id=spec['job_id'],deadline_epoch=spec['deadline_epoch']),root,
+                                wall=10800 if scope==BATCH_SCOPE else 5400)
         if baseline is not None and (common['GPU_uuid'] != baseline['GPU_uuid']
                                      or os.uname().nodename != baseline['host']):
             raise PermissionError('ADAPT_REMAINING_ROLES_REQUIRE_THE_ORIGINAL_PHYSICAL_A40')
@@ -154,7 +205,11 @@ def run(spec):
                 return actual['exit_code']
         comparison = root/'COMPARISON.private.json'
         effects = [read_pin(actual['completed'][name]) for name in variants]
-        write(comparison,compare(effects) if baseline is None else compare_remaining(baseline,effects))
+        outcome = compare(effects) if baseline is None else compare_remaining(baseline,effects)
+        if scope==BATCH_SCOPE:
+            write(root/'TIMING_COMPARISON.private.json',outcome)
+            batch_outputs(root,source,common,env,spec,plan,actual,outcome)
+        write(comparison,outcome)
         status = ('ADAPT_PROFILE_MATCHED_ENGINEERING_COMPLETE' if baseline is None else
                   'ADAPT_PROFILE_REMAINING_ROLES_COMPLETE_SERIAL_FINGERPRINT_UNAVAILABLE')
         actual.update(status=status,comparison=pin(comparison),exit_code=0)
