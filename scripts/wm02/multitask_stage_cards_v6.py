@@ -11,6 +11,7 @@ from go2arx5_vla.world_model.multitask_scope_v6 import PLAN, SCOPE, read_pin, va
 from go2arx5_vla.world_model import multisource_d4_native as d4
 from go2arx5_vla.world_model import sla_followup_native_v1 as followup
 from go2arx5_vla.world_model import scale20k_native as scale
+from go2arx5_vla.world_model import adapt5k_native as adapt
 from go2arx5_vla.world_model import target_adaptation_teacher as adaptation
 from go2arx5_vla.world_model.multitask_score_v6 import Task
 from go2arx5_vla.world_model.storage import digest
@@ -156,6 +157,9 @@ def case_card(spec, template, item, panel_pin):
             case['source_RGB_restore'] = spec.get('source_RGB_restores', {}).get(arm)
         if spec['scope'] == scale.SCOPE:
             case['scale_offline_endpoint'] = spec['endpoints'][arm]
+        if spec['scope'] == adapt.SCOPE:
+            case['adapt_offline_endpoint'] = spec['endpoints'][arm]
+            case['adapt_GPU_uuid'] = spec['adapt_GPU_uuid']
     return folder, case
 
 
@@ -190,7 +194,7 @@ def bind_gpu(spec, child, folder):
     env = {key:value for key,value in template['native_environment'].items() if key!='PYTHONPATH'}
     child['native_environment'].update(env,TMPDIR=str(folder/'tmp'),XDG_CACHE_HOME=str(folder/'cache'),
                                        JAX_COMPILATION_CACHE_DIR=str(folder/'cache'))
-    if spec['scope'] in (d4.SCOPE, followup.SCOPE, scale.SCOPE):
+    if spec['scope'] in (d4.SCOPE, followup.SCOPE, scale.SCOPE, adapt.SCOPE):
         child['native_environment']['PYTHONPATH'] = ':'.join((
             spec['source_root'], spec['source_root']+'/src', template['native_environment']['PYTHONPATH']))
     base['allocation']['campaign_root'] = spec['registered_root']
@@ -207,7 +211,8 @@ def student_worker(spec, panel):
     folder = root/'worker'
     dataset = read_pin(spec['multitask_dataset'])
     is_scale = spec['scope'] == scale.SCOPE
-    staged = spec['scope'] in (d4.SCOPE, followup.SCOPE, scale.SCOPE)
+    is_adapt = spec['scope'] == adapt.SCOPE
+    staged = spec['scope'] in (d4.SCOPE, followup.SCOPE, scale.SCOPE, adapt.SCOPE)
     if dataset['state'] != 'committed' or (
             dataset['split'] != 'TRAIN' if staged
             else dataset['compiled_population_sha256'] != spec['compiled_population']['sha256']):
@@ -216,13 +221,18 @@ def student_worker(spec, panel):
                  for arm, package in spec['packages'].items()}
     stats = dataset['statistics']['sha256']
     for arm, manifest in manifests.items():
-        if is_scale:
+        if is_adapt:
+            adapt.package_manifest(arm,spec['packages'][arm])
+            matches = (manifest['D1_freeze_sha256'] == spec['adapt_D1_sha256']
+                       and manifest['state_statistics_sha256'] == spec['adapt_state_statistics_sha256'])
+        elif is_scale:
             matches = (manifest['target_data_manifest_sha256'] == spec['multitask_dataset']['sha256']
                        and (manifest['arm'],manifest['step']) == scale.ENDPOINTS[arm])
         else:
             matches = (manifest['bindings']['dataset_manifest_sha256'] == spec['multitask_dataset']['sha256']
                        and manifest['bindings']['arm'] == arm)
-        if not matches or manifest['statistics_sha256'] != stats:
+        action_sha = manifest['action_statistics_sha256'] if is_adapt else manifest['statistics_sha256']
+        if not matches or action_sha != stats:
             raise ValueError('M_WORKER_REQUIRES_SHARED_SEALED_TARGET_DATA_AND_STATISTICS')
     requests = sum(120 if Task.parse(row['instruction']).operation=='HOLD' else 180 for row in panel)
     fixed = spec['new_model_generations_budget'] if staged else 34560
@@ -238,7 +248,7 @@ def student_worker(spec, panel):
         new_complete_generations_budget=requests,new_model_generations_budget=requests,unified_requests_budget=requests)
     child['native_environment'] = dict(spec['native_environment'])
     child['request_bindings_by_arm'] = {arm:dict(arm=arm,policy_package_sha256=spec['packages'][arm]['sha256'],
-        statistics_sha256=manifest['statistics_sha256'],codec=NATIVE_METHOD,source_sha=spec['source_sha'],
+        statistics_sha256=manifest['action_statistics_sha256' if is_adapt else 'statistics_sha256'],codec=NATIVE_METHOD,source_sha=spec['source_sha'],
         plan_commit=spec['plan_commit'],compiled_population_sha256=spec['compiled_population']['sha256'])
         for arm, manifest in manifests.items()}
     bind_gpu(spec,child,folder)
@@ -263,7 +273,7 @@ def prepare_cards(spec, *, teacher_stop=None):
     now = time.time()
     identity = (spec['scope'], spec['plan_commit'])
     allowed = {(SCOPE, PLAN), (adaptation.SCOPE, adaptation.PLAN)} if teacher_stop is not None else {
-        (SCOPE, PLAN), (d4.SCOPE, d4.PLAN), (followup.SCOPE, followup.PLAN), (scale.SCOPE, scale.PLAN)}
+        (SCOPE, PLAN), (d4.SCOPE, d4.PLAN), (followup.SCOPE, followup.PLAN), (scale.SCOPE, scale.PLAN), (adapt.SCOPE, adapt.PLAN)}
     if (not now+1980 < spec['deadline_epoch'] <= min(now+43200,spec['campaign_deadline_epoch'],spec['allocation_deadline_epoch']-60)
             or identity not in allowed
             or (root/'EXECUTION_SPEC.json').exists() or (root/'control'/'LEASE.json').exists()
@@ -299,11 +309,12 @@ def prepare_cards(spec, *, teacher_stop=None):
         arms = student_arms(spec)
         endpoint_records(spec)
         selected = expected_conditions(population,spec['evaluation_stage'],arms)
-        if spec['scope'] in (d4.SCOPE,followup.SCOPE,scale.SCOPE):
+        if spec['scope'] in (d4.SCOPE,followup.SCOPE,scale.SCOPE,adapt.SCOPE):
             from .multitask_panel_suffix import budgets, verified_prefix
 
             prefix = verified_prefix(spec, selected)
-            selected = selected[len(prefix):]
+            selected = (adapt.next_block(spec,selected,len(prefix)) if spec['scope']==adapt.SCOPE
+                        else selected[len(prefix):])
             requests, ticks, generations = budgets(selected)
             spec = dict(spec,new_physical_requests_budget=requests,
                         new_model_generations_budget=generations,new_native_tick_budget=ticks)

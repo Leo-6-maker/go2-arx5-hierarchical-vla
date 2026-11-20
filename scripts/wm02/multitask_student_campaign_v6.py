@@ -11,6 +11,7 @@ from go2arx5_vla.sla_adapter.multitask_contract_v6 import ARMS, NATIVE_METHOD, c
 from go2arx5_vla.world_model import multisource_d4_native as d4
 from go2arx5_vla.world_model import sla_followup_native_v1 as followup
 from go2arx5_vla.world_model import scale20k_native as scale
+from go2arx5_vla.world_model import adapt5k_native as adapt
 from go2arx5_vla.world_model.mfree_unattended_runtime_v1 import close
 from go2arx5_vla.world_model.multitask_scope_v6 import PLAN, SCOPE, read_pin, validate
 from go2arx5_vla.world_model.multitask_score_v6 import INSTRUCTIONS
@@ -20,7 +21,7 @@ from .multitask_teacher_campaign_v6 import interface_records
 from .multitask_panel_suffix import budgets, verified_prefix
 from .sim_only_campaign_v51 import compact_case, fatal_control_violation, run as run_campaign
 
-STAGE_SIZE = dict(SCREEN=24, CONFIRM=24, DEV=60, TEST=60, D4_DEV=24, J_SCREEN48=24, **dict.fromkeys(scale.CAPS,24))
+STAGE_SIZE = dict(SCREEN=24, CONFIRM=24, DEV=60, TEST=60, D4_DEV=24, J_SCREEN48=24, **dict.fromkeys((*scale.CAPS,*adapt.CAPS),24))
 PREDECESSOR = dict(CONFIRM='SCREEN',DEV='CONFIRM',TEST='DEV')
 
 
@@ -29,6 +30,8 @@ def read(path):
 
 
 def expected_conditions(population, stage, arms):
+    if stage in adapt.CAPS:
+        return adapt.conditions(population,stage,arms)
     if stage in scale.CAPS:
         return scale.conditions(population,stage,arms)
     if stage in followup.CAPS:
@@ -56,9 +59,13 @@ def expected_conditions(population, stage, arms):
 def endpoint_records(spec):
     records = {}
     if (set(spec['endpoints']) != set(spec['packages'])
-            or (spec.get('scope') in (d4.SCOPE,scale.SCOPE) and set(spec['ordinary_RGB_restores']) != set(spec['packages']))):
+            or (spec.get('scope') in (d4.SCOPE,scale.SCOPE,adapt.SCOPE) and set(spec['ordinary_RGB_restores']) != set(spec['packages']))):
         raise ValueError('EVERY_FROZEN_G7_ARM_REQUIRES_THE_ACTUAL_ENDPOINT')
     for arm, pin in spec['endpoints'].items():
+        if spec['scope'] == adapt.SCOPE:
+            _, records[arm] = adapt.endpoint(arm,spec['packages'][arm],pin,spec['ordinary_RGB_restores'][arm],
+                                            gpu_uuid=spec['adapt_GPU_uuid'])
+            continue
         if spec['scope'] == scale.SCOPE:
             _, records[arm] = scale.endpoint(arm,spec['packages'][arm],pin,spec['ordinary_RGB_restores'][arm])
             continue
@@ -105,6 +112,8 @@ def student_arms(spec):
     arms = set(spec['packages'])
     if spec['scope'] == scale.SCOPE:
         return scale.arms_for(spec)
+    if spec['scope'] == adapt.SCOPE:
+        return adapt.arms_for(spec)
     if spec['scope'] == followup.SCOPE:
         return set(followup.arms_for(spec))
     if spec['scope'] == d4.SCOPE:
@@ -135,10 +144,12 @@ def preflight(spec):
     endpoints = endpoint_records(spec)
     population = read_pin(spec['compiled_population'])
     expected = expected_conditions(population,stage,arms)
-    staged = spec['scope'] in (d4.SCOPE,followup.SCOPE,scale.SCOPE)
+    staged = spec['scope'] in (d4.SCOPE,followup.SCOPE,scale.SCOPE,adapt.SCOPE)
     carried = []
     if staged:
-        if spec['scope'] == scale.SCOPE:
+        if spec['scope'] == adapt.SCOPE:
+            full_budget = adapt.CAPS[stage]
+        elif spec['scope'] == scale.SCOPE:
             full_budget = scale.CAPS[stage]
         elif spec['scope'] == d4.SCOPE:
             full_budget = (d4.REQUEST_CAP,d4.TICK_CAP,d4.GENERATION_CAP)
@@ -147,7 +158,8 @@ def preflight(spec):
         if budgets(expected) != full_budget:
             raise ValueError('FIXED_NATIVE_PANEL_CONDITION_BUDGET_CHANGED')
         carried = verified_prefix(spec,expected)
-        expected = expected[len(carried):]
+        expected = (adapt.next_block(spec,expected,len(carried)) if spec['scope']==adapt.SCOPE
+                    else expected[len(carried):])
     panel = read_pin(spec['registered_panel'])
     cases = spec['cases']
     if len(panel) != len(cases) or len(panel) != len(expected) or len(panel) != spec['new_physical_requests_budget']:
@@ -176,11 +188,16 @@ def preflight(spec):
         raise ValueError('M_MODEL_REQUEST_BUDGET_MUST_MATCH_ACTUAL_HOLD_PLACE_CAPS')
     if staged:
         actual_caps = len(cases),sum(read(path)['max_ticks'] for path in cases),requests
+        if spec['scope'] == adapt.SCOPE:
+            authority = read_pin(spec['sim_only_project_authorization'])
+            if (tuple(authority[k] for k in ('native_request_cap','tick_cap','generation_cap')) != actual_caps
+                    or authority['condition_stop'] != spec['condition_stop']):
+                raise ValueError('ADAPT_BLOCK_REQUIRES_EXACT_REQUEST_TICK_AND_GENERATION_AUTHORITY')
         if actual_caps != budgets(expected) or (
                 spec.get('new_native_tick_budget',actual_caps[1]),spec['new_model_generations_budget']) != actual_caps[1:]:
             raise ValueError('ONLY_THE_FINITE_UNDISPATCHED_NATIVE_TICK_AND_GENERATION_CAPS_ARE_AVAILABLE')
     interface = read_pin(spec['interface_predecessor'])
-    if spec['scope'] in (followup.SCOPE,scale.SCOPE):
+    if spec['scope'] in (followup.SCOPE,scale.SCOPE,adapt.SCOPE):
         interfaces = interface_records(interface,spec['mobile_world_lock'],identity=(d4.E0_SCOPE,d4.E0_PLAN))
     else:
         interfaces = interface_records(interface,spec['mobile_world_lock'])
@@ -196,7 +213,7 @@ def student_row(spec,result):
     if score is None and recorded.exists():
         score = read(recorded)
     replay = None
-    if spec.get('scope') in (d4.SCOPE, followup.SCOPE, scale.SCOPE):
+    if spec.get('scope') in (d4.SCOPE, followup.SCOPE, scale.SCOPE, adapt.SCOPE):
         last_tick = result['actual_native_integrations']
         if score is None or score['native_step'] != last_tick or score['missing_native_intervals']:
             from go2arx5_vla.world_model.multitask_terminal_audit_v1 import replay as audit_terminal
@@ -261,11 +278,17 @@ def summarize(result, spec, endpoints):
     is_d4 = stage == d4.STAGE
     is_followup = spec.get('scope') == followup.SCOPE
     is_scale = spec.get('scope') == scale.SCOPE
-    arms = tuple(scale.arms_for(spec)) if is_scale else followup.arms_for(spec) if is_followup else d4.ARMS if is_d4 else ARMS
+    is_adapt = spec.get('scope') == adapt.SCOPE
+    if is_adapt:
+        arms = tuple(adapt.arms_for(spec))
+    else:
+        arms = tuple(scale.arms_for(spec)) if is_scale else followup.arms_for(spec) if is_followup else d4.ARMS if is_d4 else ARMS
     students = [row for row in result['records'] if row['role']=='STUDENT']
     remaining = spec['new_physical_requests_budget']
-    full = scale.CAPS[stage][0] if is_scale else followup.CAPS[stage][0] if is_followup else d4.REQUEST_CAP if is_d4 else remaining
-    current = students[full-remaining:]
+    full = (adapt.CAPS[stage][0] if is_adapt else scale.CAPS[stage][0] if is_scale
+            else followup.CAPS[stage][0] if is_followup else d4.REQUEST_CAP if is_d4 else remaining)
+    end = spec['condition_stop'] if is_adapt else full
+    current = students[end-remaining:]
     if is_followup and stage != followup.JOINT:
         from go2arx5_vla.world_model.d5_grasp_decision import grasp_panel
 
@@ -287,14 +310,14 @@ def summarize(result, spec, endpoints):
                     total_panel_native_ticks=sum(r['native_ticks'] for r in students),
                     attributed_case_generations=generation_count, generations_reconciled=reconciled,
                     worker_result=worker, unresolved_case_launches=result['unresolved_case_launches'])
-    totals = {arm:arm_totals([r for r in students if r['arm']==arm],stage,None if is_scale else ep['TRAIN96'])
+    totals = {arm:arm_totals([r for r in students if r['arm']==arm],stage,None if is_scale or is_adapt else ep['TRAIN96'])
               for arm,ep in endpoints.items()}
     pairs = {}
     for row in students:
         pairs.setdefault((row['cluster'],row['instruction']),{})[row['arm']] = row
     paired = []
     for (cluster,instruction), rows in pairs.items():
-        if is_scale or set(rows)!=set(arms):
+        if is_scale or is_adapt or set(rows)!=set(arms):
             continue
         a,b = (rows[arm]['initial_native_state'] for arm in arms)
         delta = None if a is None or b is None else {key:float(np.max(np.abs(np.asarray(a[key])-b[key]))) for key in a}
@@ -311,14 +334,14 @@ def summarize(result, spec, endpoints):
                 and reconciled
                 and not any(fatal_control_violation(row) for row in students))
     selected = None
-    if complete and candidates and not (is_d4 or is_followup or is_scale):
+    if complete and candidates and not (is_d4 or is_followup or is_scale or is_adapt):
         def rank(arm):
             row = totals[arm]
             return (-row['task_successes'],-min(row['success_by_instruction'].values()),row['hard_STOP'],
                     row['H40_or_seam_rejections'],row['success_median_task_ticks'],arms.index(arm))
         selected = min(candidates,key=rank)
-    count_requests = is_d4 or is_followup or is_scale
-    return dict(stage=stage,passed=None if is_scale else selected is not None,complete_panel=complete,selected_arm=selected,
+    count_requests = is_d4 or is_followup or is_scale or is_adapt
+    return dict(stage=stage,passed=None if is_scale or is_adapt else selected is not None,complete_panel=complete,selected_arm=selected,
         selected_package=None if selected is None else spec['packages'][selected],
         population_sha256=spec['compiled_population']['sha256'],arms=totals,paired_conditions=paired,
         new_native_requests=(sum(r['actual_native_requests'] for r in current) if count_requests else len(students)),
@@ -354,10 +377,11 @@ def run(path,spec):
         close(spec,1)
         return 1
     is_followup = spec['scope'] == followup.SCOPE
-    matched_native = spec['scope'] in (d4.SCOPE,followup.SCOPE,scale.SCOPE)
+    matched_native = spec['scope'] in (d4.SCOPE,followup.SCOPE,scale.SCOPE,adapt.SCOPE)
     code = run_campaign(path,preflight=lambda _:interfaces,load_carried=lambda rows:rows,compact=student_row,
         bootstrap='v6_bootstrap.py',expected_count=len(spec['cases'])+len(interfaces),
-        result_schema=('SLA_SCALE20K_NATIVE_PANEL_ACTUAL' if spec['scope'] == scale.SCOPE else
+        result_schema=('SLA_ADAPT5K_NATIVE_PANEL_ACTUAL' if spec['scope'] == adapt.SCOPE else
+                       'SLA_SCALE20K_NATIVE_PANEL_ACTUAL' if spec['scope'] == scale.SCOPE else
                        'SLA_D416_NATIVE_FOLLOWUP_ACTUAL' if is_followup else
                        'SLA_D4_MATCHED_DEV_ACTUAL' if spec['evaluation_stage'] == d4.STAGE
                        else 'SLA_V6_MULTITASK_STUDENT_PANEL_ACTUAL'),

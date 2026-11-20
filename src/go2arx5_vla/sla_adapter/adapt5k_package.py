@@ -112,3 +112,35 @@ def export(path, spec):
     finally:
         os.close(fd)
     return dict(path=str(path),sha256=digest)
+
+
+
+class Pool:
+    """Serve the one registered ADAPT checkpoint through the original G7 IPC."""
+    def __init__(self, spec):
+        from go2arx5_vla.world_model import adapt5k_native as native
+        from .multitask_contract_v6 import NATIVE_METHOD
+
+        packages, bindings = spec['packages'],spec['request_bindings_by_arm']
+        if (spec['scope'] != native.SCOPE or spec['plan_commit'] != native.PLAN
+                or spec['goal_plan_sha'] != native.GOAL or spec['physics'] is not False
+                or spec['new_physical_requests_budget'] or set(packages) != set(bindings) or len(packages) != 1
+                or spec['GPU_uuid'] != spec['adapt_GPU_uuid']):
+            raise PermissionError('ADAPT_NATIVE_G7_REQUIRES_ONE_NONINTEGRATING_SEALED_WORKER')
+        arm, = packages
+        package = packages[arm]
+        manifest, _ = native.endpoint(arm,package,spec['endpoints'][arm],spec['ordinary_RGB_restores'][arm],
+                                      gpu_uuid=spec['GPU_uuid'])
+        binding = bindings[arm]
+        if (binding['arm'] != arm or binding['policy_package_sha256'] != package['sha256']
+                or binding['statistics_sha256'] != manifest['action_statistics_sha256']
+                or binding['codec'] != NATIVE_METHOD or binding['compiled_population_sha256'] != native.POPULATION_SHA
+                or spec['parent_manifest']['sha256'] != manifest['parent_manifest']['sha256']):
+            raise PermissionError('ADAPT_NATIVE_G7_WORKER_IDENTITY_CHANGED')
+        self.providers = {arm:Provider(package['path'],manifest_sha256=package['sha256'],
+                                       parent_params=spec['parent_params'],
+                                       parent_manifest_path=spec['parent_manifest']['path'])}
+        self.selected = None
+
+    select = scale20k_package.Pool.select
+    predict = scale20k_package.Pool.predict

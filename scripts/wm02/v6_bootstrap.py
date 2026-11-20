@@ -18,10 +18,14 @@ def main():
     scale = (spec['plan_commit'] == '926226914a0c08ee1ebb143e0edea1434728107b'
              and spec['scope'] == 'SLA_SCALE20K_NATIVE_G7'
              and operation in ('--case', '--worker', '--multitask-student-panel'))
+    adapt_student = (spec['plan_commit'] == '5734a73cbda5c333cc3d7d7e0f032e679a4c08b6'
+                     and spec.get('goal_plan_sha') == '1b2a25b7c1720051a2627d30831fb18130462374'
+                     and spec['scope'] == 'SLA_ADAPT5K_NATIVE_G7'
+                     and operation in ('--case', '--worker', '--multitask-student-panel'))
     adaptation = (spec['plan_commit'] == 'cc96f1709170e47298463337d050c79a24b7c7d9'
                   and spec['scope'] == 'SLA_SCALE_TARGET_ADAPTATION_TEACHER'
                   and operation in ('--case', '--multitask-teacher'))
-    if not (d4 or e0 or followup or scale or adaptation) and (spec['plan_commit']!='ae3d3c0dceade437b0104a150cd0402fef650052'or spec['scope']not in('SLA_SOURCE_NATIVE_SHARED_V6','SLA_V6_TARGET_NATIVE','SLA_V6_MULTITASK_NATIVE')):
+    if not (d4 or e0 or followup or scale or adaptation or adapt_student) and (spec['plan_commit']!='ae3d3c0dceade437b0104a150cd0402fef650052'or spec['scope']not in('SLA_SOURCE_NATIVE_SHARED_V6','SLA_V6_TARGET_NATIVE','SLA_V6_MULTITASK_NATIVE')):
         raise PermissionError('FIXED_V6_PLAN_AND_EXPLICIT_NEW_SCOPE_REQUIRED')
     if Path(__file__).resolve()!=source/'scripts/wm02/v6_bootstrap.py':raise PermissionError('EXACT_NEW_V6_BOOTSTRAP')
     for name,pin in spec['source_files'].items():
