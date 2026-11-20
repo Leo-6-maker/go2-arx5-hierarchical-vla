@@ -122,7 +122,7 @@ def run(config):
             raise ValueError('PUBLIC_RELEASE_STATE_AND_TERMINAL_EFFECTS_DISAGREE')
         if (root/'STOP.json').exists() or time.time()+120>=config['deadline_epoch']:
             raise TimeoutError('PUBLICATION_STOP_OR_FINITE_WINDOW')
-        os.environ['HF_HUB_OFFLINE']='0'
+        os.environ.update(HF_HUB_OFFLINE='0',HF_HUB_DISABLE_XET='1',HF_HUB_ENABLE_HF_TRANSFER='0')
         from huggingface_hub import HfApi,CommitOperationAdd
 
         public = HfApi(token=False)
@@ -141,7 +141,8 @@ def run(config):
             raise InterruptedError('PUBLICATION_STOP_BEFORE_EXTERNAL_WRITE')
         ops = [CommitOperationAdd(path_in_repo=prefix+'/'+name,path_or_fileobj=str(checkpoint/name)) for name in members]
         commit = api.create_commit(REPO,repo_type='dataset',parent_commit=info.sha,
-                                  commit_message=f"Publish {config['arm']} sealed step {config['step']}",operations=ops)
+                                  commit_message=f"Publish {config['arm']} sealed step {config['step']}",
+                                  operations=ops,num_threads=1)
         status['revision'] = commit.oid
         write_once(root/'HF_COMMIT.private.json',dict(intent,revision=commit.oid))
         verify_remote(public,commit.oid,prefix,members,root/'cache')
