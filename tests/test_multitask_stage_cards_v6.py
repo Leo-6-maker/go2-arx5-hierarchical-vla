@@ -39,6 +39,57 @@ def test_registry_prior_scientific_failure_cannot_be_replaced(tmp_path):
         require_unstarted_cases(registry,{prior.name})
 
 
+def test_scale_block_carries_exact_closed_scientific_prefix(tmp_path, monkeypatch):
+    from go2arx5_vla.world_model import scale20k_native as scale
+    from scripts.wm02 import multitask_panel_suffix as suffix
+    from scripts.wm02 import sim_only_campaign_v51 as sim
+
+    arm = 'SCALE-TGT5K'
+    ordered = [(dict(id=f'tgt{i}',instruction='HOLD-red'),arm) for i in range(24)]
+    assert scale.next_block(dict(condition_stop=6),ordered,0)==ordered[:6]
+    assert scale.next_block(dict(condition_stop=12),ordered,6)==ordered[6:12]
+    with pytest.raises(ValueError,match='FIXED_BLOCK'):
+        scale.next_block(dict(condition_stop=13),ordered,6)
+    root = tmp_path/'scope'
+    (root/'control').mkdir(parents=True)
+    monkeypatch.setattr(suffix,'unit_state',lambda name:dict(pid=0,cgroup_pids=[]))
+    monkeypatch.setattr(sim,'fatal_control_violation',lambda row:False)
+    sealed = []
+    paths = []
+    for row,_ in ordered[:6]:
+        name = f"{row['id']}-{arm}"
+        case = root/'cases'/name
+        (case/'control').mkdir(parents=True)
+        child = case/'EXECUTION_SPEC.json'
+        write(child,dict(id=name))
+        paths.append(str(child))
+        write(case/'control/LEASE.json',dict(status='CLOSED',spec_sha256=cards.pin(child)['sha256']))
+        effects = case/'RESULT.private.json'
+        write(effects,dict(source_sha='source',physical_requests=1,actual_native_integrations=5705,
+                           model_generations=1,technical_failure=False))
+        sealed.append(dict(id=name,role='STUDENT',actual_model_generations=1,native_ticks=5705,
+            result_sha256=cards.pin(effects)['sha256'],technical_failure=False,task_success=False,
+            score=dict(missing_native_intervals=0,native_step=5705)))
+    spec = root/'EXECUTION_SPEC.json'
+    parent = dict(scope=scale.SCOPE,plan_commit=scale.PLAN,evaluation_stage=scale.DEV,
+        compiled_population={},packages={arm:{}},interface_predecessor={},mobile_world_lock='lock',ROS_DOMAIN_ID=194,
+        owner='owner',source_sha='source',registered_root=str(root),condition_stop=6,cases=paths)
+    write(spec,parent)
+    write(root/'control/LEASE.json',dict(status='CLOSED',spec_sha256=cards.pin(spec)['sha256']))
+    terminal = root/'RESULT.private.json'
+    result = dict(source_sha='source',exit_code=0,unresolved_case_launches=0,failure=None,
+        records=sealed,attempted_case_launches=6,new_verified_native_requests=6,
+        model_service=dict(exit_code=0,attempted_generations=6,completed_generations=6))
+    write(terminal,result)
+    pending = dict(parent,condition_stop=12,
+        previous_panel_segments=[dict(spec=cards.pin(spec),result=cards.pin(terminal))])
+    assert suffix.verified_prefix(pending,ordered)==sealed
+    write(terminal,dict(result,new_verified_native_requests=5))
+    pending['previous_panel_segments'][0]['result']=cards.pin(terminal)
+    with pytest.raises(ValueError,match='RECONCILED_FINITE'):
+        suffix.verified_prefix(pending,ordered)
+
+
 def test_student_registration_binds_the_worker_and_all_fixed_cases(tmp_path, monkeypatch):
     def sealed(path, data):
         write(path,data)

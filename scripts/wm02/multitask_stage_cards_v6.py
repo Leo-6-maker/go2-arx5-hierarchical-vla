@@ -303,7 +303,8 @@ def prepare_cards(spec, *, teacher_stop=None):
             from .multitask_panel_suffix import budgets, verified_prefix
 
             prefix = verified_prefix(spec, selected)
-            selected = selected[len(prefix):]
+            selected = (scale.next_block(spec,selected,len(prefix)) if spec['scope']==scale.SCOPE
+                        else selected[len(prefix):])
             requests, ticks, generations = budgets(selected)
             spec = dict(spec,new_physical_requests_budget=requests,
                         new_model_generations_budget=generations,new_native_tick_budget=ticks)

@@ -12,6 +12,17 @@ POPULATION_SCHEMA = 'SLA_SCALE20K_FROZEN_TARGET_EVALUATION_V1'
 RGB_SCHEMA = 'SLA_SCALE20K_CORE_TARGET_RGB16_ACTUAL_V1'
 DEV, CONFIRM = 'SCALE_DEV', 'SCALE_CONFIRM'
 CAPS = {stage: (24, 1096872, 3840) for stage in (DEV, CONFIRM)}
+BLOCK_LIMIT = 6
+
+
+def next_block(spec, ordered, carried):
+    """Select the next contiguous block of the already frozen endpoint population."""
+    if 'condition_stop' not in spec:
+        return ordered[carried:]
+    end = spec['condition_stop']
+    if type(carried) is not int or type(end) is not int or not 0 <= carried < end <= min(len(ordered),carried+BLOCK_LIMIT):
+        raise ValueError('SCALE20K_REQUIRES_THE_NEXT_FIXED_BLOCK_OF_AT_MOST_SIX')
+    return ordered[carried:end]
 
 
 def stage_arm(stage, arms):

@@ -147,7 +147,8 @@ def preflight(spec):
         if budgets(expected) != full_budget:
             raise ValueError('FIXED_NATIVE_PANEL_CONDITION_BUDGET_CHANGED')
         carried = verified_prefix(spec,expected)
-        expected = expected[len(carried):]
+        expected = (scale.next_block(spec,expected,len(carried)) if spec['scope']==scale.SCOPE
+                    else expected[len(carried):])
     panel = read_pin(spec['registered_panel'])
     cases = spec['cases']
     if len(panel) != len(cases) or len(panel) != len(expected) or len(panel) != spec['new_physical_requests_budget']:
@@ -179,6 +180,12 @@ def preflight(spec):
         if actual_caps != budgets(expected) or (
                 spec.get('new_native_tick_budget',actual_caps[1]),spec['new_model_generations_budget']) != actual_caps[1:]:
             raise ValueError('ONLY_THE_FINITE_UNDISPATCHED_NATIVE_TICK_AND_GENERATION_CAPS_ARE_AVAILABLE')
+        if spec['scope']==scale.SCOPE and 'condition_stop' in spec:
+            authority = read_pin(spec['sim_only_project_authorization'])
+            if (tuple(authority[k] for k in ('native_request_cap','tick_cap','generation_cap')) != actual_caps
+                    or authority['condition_stop'] != spec['condition_stop']
+                    or authority['compiled_population_sha256'] != scale.POPULATION_SHA):
+                raise ValueError('SCALE20K_BLOCK_REQUIRES_EXACT_REQUEST_TICK_AND_GENERATION_AUTHORITY')
     interface = read_pin(spec['interface_predecessor'])
     if spec['scope'] in (followup.SCOPE,scale.SCOPE):
         interfaces = interface_records(interface,spec['mobile_world_lock'],identity=(d4.E0_SCOPE,d4.E0_PLAN))
@@ -265,7 +272,7 @@ def summarize(result, spec, endpoints):
     students = [row for row in result['records'] if row['role']=='STUDENT']
     remaining = spec['new_physical_requests_budget']
     full = scale.CAPS[stage][0] if is_scale else followup.CAPS[stage][0] if is_followup else d4.REQUEST_CAP if is_d4 else remaining
-    current = students[full-remaining:]
+    current = students[spec.get('condition_stop',full)-remaining:] if is_scale else students[full-remaining:]
     if is_followup and stage != followup.JOINT:
         from go2arx5_vla.world_model.d5_grasp_decision import grasp_panel
 

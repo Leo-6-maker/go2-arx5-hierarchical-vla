@@ -2,6 +2,7 @@
 from pathlib import Path
 
 from go2arx5_vla.world_model.mfree_unattended_runtime_v1 import unit_state
+from go2arx5_vla.world_model import scale20k_native as scale
 from go2arx5_vla.world_model.multitask_scope_v6 import read_pin
 from go2arx5_vla.world_model.multitask_score_v6 import Task
 from go2arx5_vla.world_model.storage import digest
@@ -31,14 +32,18 @@ def verified_prefix(spec, conditions):
         root = Path(parent['registered_root'])
         lease = read(root/'control/LEASE.json')
         state = unit_state('wm02-'+root.name)
+        block = parent['scope'] == scale.SCOPE and 'condition_stop' in parent
+        end = len(prefix)+len(scale.next_block(parent,conditions,len(prefix))) if block else len(conditions)
+        bounded_stop = (prior['exit_code'] == 1
+                        and read(root/'PROGRESS.private.json')['phase'] == 'FINITE_STOP_OR_DEADLINE')
+        complete_block = block and prior['exit_code'] == 0 and prior['new_verified_native_requests'] == end-len(prefix)
         if (root in roots or item['result']['path'] != str(root/'RESULT.private.json')
                 or item['spec']['path'] != str(root/'EXECUTION_SPEC.json')
                 or any(parent[key] != spec[key] for key in immutable)
                 or parent.get('previous_panel_segments', []) != segments[:index]
                 or lease['status'] != 'CLOSED' or lease['spec_sha256'] != item['spec']['sha256']
                 or state['pid'] or state['cgroup_pids'] or prior['source_sha'] != parent['source_sha']
-                or prior['exit_code'] != 1 or prior['unresolved_case_launches'] or prior['failure']
-                or read(root/'PROGRESS.private.json')['phase'] != 'FINITE_STOP_OR_DEADLINE'):
+                or not (bounded_stop or complete_block) or prior['unresolved_case_launches'] or prior['failure']):
             raise ValueError('ONLY_CLOSED_RECONCILED_FINITE_PANEL_SEGMENTS_MAY_BE_CARRIED')
         roots.add(root)
         known = [row for row in prior['records'] if row['role'] == 'STUDENT']
@@ -48,7 +53,7 @@ def verified_prefix(spec, conditions):
         case_paths = [Path(path) for path in parent['cases']]
         if (not added or len(added) % group or len(known) >= len(conditions)
                 or [r['id'] for r in known] != expected_ids[:len(known)]
-                or [p.parent.name for p in case_paths] != expected_ids[len(prefix):]
+                or [p.parent.name for p in case_paths] != expected_ids[len(prefix):end]
                 or prior['attempted_case_launches'] != len(added)
                 or prior['new_verified_native_requests'] != len(added)):
             raise ValueError('RESUME_REQUIRES_THE_EXACT_MATCHED_CONDITION_PREFIX')
