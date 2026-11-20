@@ -15,7 +15,7 @@ def budgets(conditions):
     return len(conditions), 5703*len(conditions)+250*query_count, query_count
 
 
-def verified_prefix(spec, conditions):
+def verified_prefix(spec, conditions, *, allow_complete=False):
     """Read the cold parents and their actual case receipts in frozen order."""
     from .sim_only_campaign_v51 import fatal_control_violation
 
@@ -55,7 +55,8 @@ def verified_prefix(spec, conditions):
             raise ValueError('EARLIER_STUDENT_TERMINALS_MUST_REMAIN_IDENTICAL')
         added = known[len(prefix):]
         case_paths = [Path(path) for path in parent['cases']]
-        if (not added or len(added) % group or len(known) >= len(conditions)
+        if (not added or len(added) % group or len(known) > len(conditions)
+                or (len(known) == len(conditions) and not allow_complete)
                 or [r['id'] for r in known] != expected_ids[:len(known)]
                 or [p.parent.name for p in case_paths] != expected_ids[len(prefix):end]
                 or prior['attempted_case_launches'] != len(added)
