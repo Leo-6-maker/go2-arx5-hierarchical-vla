@@ -146,7 +146,7 @@ def watch(spec):
     from go2arx5_vla.world_model.mfree_unattended_runtime_v1 import unit_state
     from scripts.pi0292.durable import OwnerLock, read, write
     from scripts.pi0294.e1.journal import Journal
-    from scripts.sla.scale20k_core_prefix import closed_predecessor
+    from scripts.sla import scale20k_core_prefix as launcher
     from scripts.sla.scale20k_scheduled_handoff import pin, verify_seal
 
     root = Path(spec['root']).resolve(strict=True)
@@ -208,9 +208,13 @@ def watch(spec):
         prior = read(prior_root/'RESULT.private.json')['stages']['train']
         successor = Path(spec['successor_root']).resolve(strict=True)
         draft = dict(previous,root=str(successor),unit=spec['successor_unit'],previous_train_result=prior)
-        readback,original,step = closed_predecessor(draft,successor)
+        readback,original,step = launcher.closed_predecessor(draft,successor)
         if readback!=prior or str(original)!=spec['training_source'] or not 1000<step<=draft['global_stop_step']:
             raise ValueError('MIX_ROTATION_REQUIRES_ORIGINAL_FORWARD_TRAINING_PREFIX')
+        launcher_path = Path(launcher.__file__).resolve()
+        launcher_source = launcher_path.parents[2]
+        if 'training_launcher' in spec and pin(launcher_path)!=spec['training_launcher']:
+            raise ValueError('MIX_ROTATION_REQUIRES_EXACT_CONTINUATION_WRAPPER')
         report['seal'] = verify_seal(prior)
         if step==draft['global_stop_step']:
             report['status'] = 'ORIGINAL_MIX_MILESTONE_ALREADY_SEALED'
@@ -228,12 +232,17 @@ def watch(spec):
             card = successor/'SCHEDULE.private.json'
             if card.exists() or unit_state(draft['unit']+'.service')['pid']:
                 raise PermissionError('MIX_ROTATION_SUCCESSOR_ALREADY_CLAIMED')
-            write(card,dict(draft,deadline_epoch=end))
             env = dict(spec['trainer_environment'],TMPDIR=str(successor/'tmp'),XDG_CACHE_HOME=str(successor/'cache'))
+            check = [spec['python'],'-B','-c',
+                     'from scripts.sla import scale20k_core_prefix as m; print(m.__file__)']
+            loaded = subprocess.check_output(check,cwd=launcher_source,env=dict(os.environ,**env),text=True,timeout=15).strip()
+            if Path(loaded).resolve()!=launcher_path:
+                raise ValueError('MIX_ROTATION_WORKER_COMMAND_WOULD_IMPORT_A_DIFFERENT_WRAPPER')
+            write(card,dict(draft,deadline_epoch=end))
             command = ['systemd-run','--user','--unit='+draft['unit'],'--property=Restart=no','--property=UMask=0077',
                 '--property=KillMode=control-group','--property=CPUAffinity=12 13 14 15','--property=MemoryMax=24G',
                 '--property=StandardInput=null','--property=TimeoutStopSec=90',
-                '--property=RuntimeMaxSec='+str(math.ceil(end-time.time())+30),'--property=WorkingDirectory='+str(original),
+                '--property=RuntimeMaxSec='+str(math.ceil(end-time.time())+30),'--property=WorkingDirectory='+str(launcher_source),
                 '--property=StandardOutput=append:'+str(successor/'logs/queue.log'),
                 '--property=StandardError=append:'+str(successor/'logs/queue.log')]
             command.extend('--setenv='+key+'='+value for key,value in env.items())
