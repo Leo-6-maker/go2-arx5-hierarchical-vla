@@ -1,0 +1,968 @@
+{
+  "schema": "A0_FIRST6_STOP_CAUSAL_AUDIT_V1",
+  "source_sha": "df50e453c8b3f117d1af0c1a5036f06053126be4",
+  "registered_result_sha256": "31c94319f629edbceb83f6040586075ca64f2ccc6b2ab9e63229fc6a49c4213e",
+  "registered_panel_prefix": "F1-1 rows 1-6, original order",
+  "sealed_scope_includes_previously_run_interfaces": {
+    "native_requests": 2,
+    "ticks": 11906
+  },
+  "private_reconstruction_sha256": "d1f4091cc5b216cabd5137051c2dc82e4ef60466d5fb86be6d89cd7de9f17a2c",
+  "read_only_analysis_script_sha256": "788990ad33b2285d57a6b2684e38b12c56c35bcc3c4a8c973a2957015db28f7a",
+  "wire_pose_definition": "Interpolation of installed wire poses, distinct from unexported MPC selection",
+  "contact_clock": "pre-step contact at journal post-step time minus 2 ms",
+  "new_native_requests": 0,
+  "new_native_ticks": 0,
+  "new_optimizer_updates": 0,
+  "new_optimization_visits": 0,
+  "new_model_generations": 0,
+  "actual": {
+    "ticks": 132555,
+    "task_ticks": 98337,
+    "recorded_task_states": 98343,
+    "generation_queries": 396,
+    "H40_compiled": 396,
+    "any_install_ACK_queries": 396,
+    "full_P10": 390,
+    "confirmed_atoms": 3930,
+    "measured_at_or_below_22mm_ticks": 0,
+    "stop_after_ticks": 0,
+    "first_illegal_contact_cases": 6,
+    "scored_native_requests": 6,
+    "correct_grasp": 0,
+    "lift20mm": 0,
+    "task_success": 0,
+    "incomplete_last_atom_ticks": 87,
+    "H40_with_at_or_below_22mm": 0,
+    "full_layouts": 1,
+    "moved_direction_ge80mm": 6
+  },
+  "cases": [
+    {
+      "instruction": "HOLD-red",
+      "scene_sha256": "5c9f2c3a06677c062ac7b1484b63870981fa3c78c6e8e2dd348566a574751069",
+      "case_spec_sha256": "11b815d9a4d5c95d8b9949ccbc15cd50ab64af56b3a346fb09c91537b1b888f9",
+      "result_sha256": "2addd42db16efa6c93e101f698cbe92ab6eb9ce210cce9ae7052e7cc64aeeb76",
+      "archived_artifacts_sha256": {
+        "physics.jsonl": "23e24441f65f5354d335a41110d96dcfae2fc2facfd72d0ee0044c24c63ca129",
+        "state.bin.journal": "a6940d932b0235e85728ab5d50761995fae71a68c2fee05c86dffc2af4da462f",
+        "COMMANDS.private.jsonl": "723ecf00a3bddf0598eff91bbce56d60fe886ebd9304e29f85016f0d44302c55",
+        "CLOCK_RESUME_REQUESTS.jsonl": "1f39d662a28cbb25ebef5175f0feb1d32a9daa387db5b29fa9f3d01cda18d239",
+        "control.jsonl": "a475ed936421630e160b4d22294731182c18adfd2711e1e31551285e0334206e",
+        "gripper.bin": "966b1870642f3a15c85cc83b926a041325b0f9c1f0a3f56f8e7204663bd597dc",
+        "MULTITASK_SCORE_PROGRESS.private.json": "2036d2f59ffa5c05f212826c7ee81e5e076cec80a9ef39bdf4694d4b78f43ebd"
+      },
+      "ticks": 20719,
+      "task_ticks": 15016,
+      "recorded_task_states": 15017,
+      "stop_kind": "ILLEGAL_CONTACT",
+      "stop_after_ticks": 0,
+      "first_object_contact": {
+        "red_right_object_contact": 18463,
+        "red_hand_contact": 18463
+      },
+      "generation_queries": 61,
+      "H40_compiled": 61,
+      "any_install_ACK_queries": 61,
+      "full_P10": 60,
+      "confirmed_atoms": 600,
+      "all_nominal_closure_categories": {
+        "no_crossing": 61
+      },
+      "measured_width_min_m": 0.041984518602905474,
+      "measured_at_or_below_22mm_ticks": 0,
+      "emitted_width_min_full_atoms_m": 0.04198955045541094,
+      "loaded_identity_after_stop_reason": "EXACT_OWNED_SIMULATOR_PID_REQUIRED",
+      "first_illegal_contact": {
+        "tick": 20719,
+        "contact_time_s": 41.436000000004675,
+        "contacts": [
+          {
+            "geom": [
+              {
+                "id": 73,
+                "name": null,
+                "body": "x5_link6"
+              },
+              {
+                "id": 79,
+                "name": "task_blue_cube_geom",
+                "body": "task_blue_cube"
+              }
+            ],
+            "distance_m": -7.251363561520952e-07,
+            "normal_force_N": 0.0372115452337823
+          },
+          {
+            "geom": [
+              {
+                "id": 73,
+                "name": null,
+                "body": "x5_link6"
+              },
+              {
+                "id": 79,
+                "name": "task_blue_cube_geom",
+                "body": "task_blue_cube"
+              }
+            ],
+            "distance_m": -7.251363561520952e-07,
+            "normal_force_N": 0.0372115452337823
+          }
+        ]
+      },
+      "terminal": {
+        "TCP_xyz_m": [
+          0.38949881867261604,
+          0.013582255482370522,
+          0.6582264780068859
+        ],
+        "base_mount_xyz_m": [
+          0.07575806209733002,
+          0.024490182511916227,
+          0.43008762819744384
+        ],
+        "mean_measured_finger_width_m": 0.04273988306643688,
+        "object_color_xyz_m": {
+          "red": [
+            0.36982931791171664,
+            -0.04356281642515473,
+            0.621985627053873
+          ],
+          "blue": [
+            0.36650023483003336,
+            0.045499889885456606,
+            0.6198931355788597
+          ]
+        },
+        "arm_mode": "WBC"
+      },
+      "nominal_and_receiver": {
+        "zero_based_index": 60,
+        "start_tick": 20703,
+        "partial_atom": 0,
+        "partial_ticks": 16,
+        "partial_start_tick": 20703,
+        "partial_requested_end_tick": 20728,
+        "nominal_P10_width_mm": [
+          41.99684522697794,
+          41.99682460052138,
+          41.996783450730454,
+          41.99701139976196,
+          41.99671314059295,
+          41.99696137586167,
+          41.99666751859196,
+          41.996370181375795,
+          41.99645547027207,
+          41.996697986158566
+        ],
+        "nominal_width_H40_min_m": 0.04199533870546449,
+        "nominal_world_xyz_m": [
+          0.38999979716942856,
+          0.012886857818086128,
+          0.6579270011052583
+        ],
+        "wire_interpolated_at_post_step_time_xyz_m": [
+          0.39650422930718177,
+          0.025969047099344368,
+          0.6528054904937821
+        ],
+        "wire_age_at_contact_ms": 30.000000004676508,
+        "wire_reference_minus_post_step_TCP_m": [
+          0.007005410634565723,
+          0.012386791616973846,
+          -0.005420987513103825
+        ],
+        "archived_final_gripper": {
+          "sequence": 728,
+          "source_native_s": 41.40600000000464,
+          "expiry_native_s": 41.80600000000464,
+          "width_m": 0.041996845226977934
+        },
+        "action_sha256": "6eee4bb558003651c5bd05f51b75b7085b83259e95bdcb4446d84f983d7b2ded",
+        "install_ACKs": [
+          {
+            "atom": 0,
+            "wire_sha256": "152e6cb7b991bfd7948d27da413d6ee21f1cecdecf24848b7ab4c2d8206e9cae",
+            "source_native_s": 41.406
+          }
+        ]
+      },
+      "outcome": {
+        "task_success": false,
+        "base_directional_motion_m": 0.1306435308848863,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0020923710651730154,
+        "longest_grasp_lift_hold_s": 0.0,
+        "inside_selected_region": null,
+        "stable_release_condition": false,
+        "wrong_object_contact_ever": false
+      },
+      "selected_MPC_reference_known": false
+    },
+    {
+      "instruction": "HOLD-blue",
+      "scene_sha256": "5c9f2c3a06677c062ac7b1484b63870981fa3c78c6e8e2dd348566a574751069",
+      "case_spec_sha256": "17980e7d7825cfc76ca44bc6823399e0cbb3522af938d8dc88ef8fa568d5ece1",
+      "result_sha256": "2a0def7165f1754b9685eddbb0146663ca069fa34049220e7e319fe2deddf1c6",
+      "archived_artifacts_sha256": {
+        "physics.jsonl": "002bd8e9ef581eda8d7aa27d0bc3a2ef08af2682eb8a0ea7459d5653144e65f3",
+        "state.bin.journal": "3366fc73848af9ddef673e1206c8d7ce21c4a185898507ae7e7214faf117b168",
+        "COMMANDS.private.jsonl": "608f2bb64ba066d751f44e620319fb48983d3d4611c825fde34e3d4d63680f4d",
+        "CLOCK_RESUME_REQUESTS.jsonl": "63a05d41ece70afa572119ef14ba2a7f2f772b2cfbd390ed7a04559b4e2e1a3c",
+        "control.jsonl": "5842c02bb997110453faa98e2bb8ff3220992a49d801c0e598ed3913bd87a247",
+        "gripper.bin": "c10e21c59b51edef9a6f6ed45ed97094cf6352909d4d108e89b3cef03ca3221c",
+        "MULTITASK_SCORE_PROGRESS.private.json": "6508da00e201660c4a28344b192726fb73b735bebb976503f800bf67bb3d51ef"
+      },
+      "ticks": 18374,
+      "task_ticks": 12671,
+      "recorded_task_states": 12672,
+      "stop_kind": "ILLEGAL_CONTACT",
+      "stop_after_ticks": 0,
+      "first_object_contact": {
+        "blue_hand_contact": 18374
+      },
+      "generation_queries": 51,
+      "H40_compiled": 51,
+      "any_install_ACK_queries": 51,
+      "full_P10": 50,
+      "confirmed_atoms": 506,
+      "all_nominal_closure_categories": {
+        "no_crossing": 51
+      },
+      "measured_width_min_m": 0.04196153517136081,
+      "measured_at_or_below_22mm_ticks": 0,
+      "emitted_width_min_full_atoms_m": 0.04198635582910409,
+      "loaded_identity_after_stop_reason": "EXACT_OWNED_SIMULATOR_PID_REQUIRED",
+      "first_illegal_contact": {
+        "tick": 18374,
+        "contact_time_s": 36.74599999999894,
+        "contacts": [
+          {
+            "geom": [
+              {
+                "id": 73,
+                "name": null,
+                "body": "x5_link6"
+              },
+              {
+                "id": 79,
+                "name": "task_blue_cube_geom",
+                "body": "task_blue_cube"
+              }
+            ],
+            "distance_m": -0.000147407457626713,
+            "normal_force_N": 3.5481680973521605
+          }
+        ]
+      },
+      "terminal": {
+        "TCP_xyz_m": [
+          0.40470311021377836,
+          0.041757639993030074,
+          0.6595029570620082
+        ],
+        "base_mount_xyz_m": [
+          0.09222882251166002,
+          0.0501896047085127,
+          0.41078729299154004
+        ],
+        "mean_measured_finger_width_m": 0.042001474108307096,
+        "object_color_xyz_m": {
+          "red": [
+            0.36650000000000005,
+            -0.0445,
+            0.6198932559886999
+          ],
+          "blue": [
+            0.3665146606406364,
+            0.04551916349813485,
+            0.619895922136048
+          ]
+        },
+        "arm_mode": "WBC"
+      },
+      "nominal_and_receiver": {
+        "zero_based_index": 50,
+        "start_tick": 18203,
+        "partial_atom": 6,
+        "partial_ticks": 21,
+        "partial_start_tick": 18353,
+        "partial_requested_end_tick": 18378,
+        "nominal_P10_width_mm": [
+          41.997492202537494,
+          41.9973163353239,
+          41.99763566441802,
+          41.99803964173987,
+          41.99764366137942,
+          41.99770008002939,
+          41.99782178208925,
+          41.99771743700638,
+          41.9978449032661,
+          41.9975302039502
+        ],
+        "nominal_width_H40_min_m": 0.04199582591191604,
+        "nominal_world_xyz_m": [
+          0.3905976380293049,
+          0.03736626088925102,
+          0.6730050513296537
+        ],
+        "wire_interpolated_at_post_step_time_xyz_m": [
+          0.4009594619274161,
+          0.048121456503867954,
+          0.690792522430421
+        ],
+        "wire_age_at_contact_ms": 339.9999999989447,
+        "wire_reference_minus_post_step_TCP_m": [
+          -0.0037436482863622556,
+          0.00636381651083788,
+          0.031289565368412764
+        ],
+        "archived_final_gripper": {
+          "sequence": 634,
+          "source_native_s": 36.705999999998895,
+          "expiry_native_s": 37.10599999999889,
+          "width_m": 0.04199782178208924
+        },
+        "action_sha256": "df08339eb96d291d688112c76bc0acb849fd31e615717e50e43cd01e70dc3af9",
+        "install_ACKs": [
+          {
+            "atom": 0,
+            "wire_sha256": "f8881cfb08998f380f485f4b5f6dcd11b8eb3bc1717229731b051cab7b68fe3b",
+            "source_native_s": 36.406
+          }
+        ]
+      },
+      "outcome": {
+        "task_success": false,
+        "base_directional_motion_m": 0.14713674945889013,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 2.6661473481182085e-06,
+        "longest_grasp_lift_hold_s": 0.0,
+        "inside_selected_region": null,
+        "stable_release_condition": false,
+        "wrong_object_contact_ever": false
+      },
+      "selected_MPC_reference_known": false
+    },
+    {
+      "instruction": "PLACE-red-left",
+      "scene_sha256": "5c9f2c3a06677c062ac7b1484b63870981fa3c78c6e8e2dd348566a574751069",
+      "case_spec_sha256": "7957390be105c7a2a3beeb4a92656fe82015ebdf934b6e79e9095dc2ed503965",
+      "result_sha256": "073605411dd44e7bd6f0cd1fefbbbfa66e75b8e0135973caec49231a8bafe9b1",
+      "archived_artifacts_sha256": {
+        "physics.jsonl": "128e7c68a267efbef98aee8a22beeabcb1132751e913d8e4810aa7727f66c2c3",
+        "state.bin.journal": "7a1754995ccecafda1c864e72a2363f28469c1ab5598503a3ea0fb5b7b539316",
+        "COMMANDS.private.jsonl": "8ec450debb29098e667ddeb97b74122a0af01a3dad6dd86bd20d78289177d03e",
+        "CLOCK_RESUME_REQUESTS.jsonl": "813630c5014ab89f9ab1a4a244678137ae94c32c71188d2eb521568b84c95053",
+        "control.jsonl": "7911a8cb0faf0aa6899434bf153a8a69378d4c7a0f72cb53f7a6064e6e73a674",
+        "gripper.bin": "ef5d80ccfa1eb177d7fde4f9feea04048bbf94c6e12b1156c8c67ed537686fef",
+        "MULTITASK_SCORE_PROGRESS.private.json": "250546f8fecaad89875419a9ec52d921a7cfa85bfd1b450ae4ebfdd3400cffdc"
+      },
+      "ticks": 22673,
+      "task_ticks": 16970,
+      "recorded_task_states": 16971,
+      "stop_kind": "ILLEGAL_CONTACT",
+      "stop_after_ticks": 0,
+      "first_object_contact": {
+        "red_right_object_contact": 19710,
+        "red_hand_contact": 19710,
+        "blue_hand_contact": 22673
+      },
+      "generation_queries": 68,
+      "H40_compiled": 68,
+      "any_install_ACK_queries": 68,
+      "full_P10": 67,
+      "confirmed_atoms": 678,
+      "all_nominal_closure_categories": {
+        "no_crossing": 68
+      },
+      "measured_width_min_m": 0.04196084600994686,
+      "measured_at_or_below_22mm_ticks": 0,
+      "emitted_width_min_full_atoms_m": 0.041985877855337854,
+      "loaded_identity_after_stop_reason": "EXACT_OWNED_SIMULATOR_PID_REQUIRED",
+      "first_illegal_contact": {
+        "tick": 22673,
+        "contact_time_s": 45.34400000000945,
+        "contacts": [
+          {
+            "geom": [
+              {
+                "id": 73,
+                "name": null,
+                "body": "x5_link6"
+              },
+              {
+                "id": 79,
+                "name": "task_blue_cube_geom",
+                "body": "task_blue_cube"
+              }
+            ],
+            "distance_m": -7.247565930151856e-06,
+            "normal_force_N": 0.2094133719762614
+          }
+        ]
+      },
+      "terminal": {
+        "TCP_xyz_m": [
+          0.38633934917972496,
+          0.031635053312557004,
+          0.6580079578848794
+        ],
+        "base_mount_xyz_m": [
+          0.07164872184202553,
+          0.03716400715859234,
+          0.42902547775369265
+        ],
+        "mean_measured_finger_width_m": 0.041996790702125204,
+        "object_color_xyz_m": {
+          "red": [
+            0.36651852428520737,
+            -0.04449002823277502,
+            0.6198932559886999
+          ],
+          "blue": [
+            0.3665005414535544,
+            0.04549994277225108,
+            0.6198929469985763
+          ]
+        },
+        "arm_mode": "WBC"
+      },
+      "nominal_and_receiver": {
+        "zero_based_index": 67,
+        "start_tick": 22453,
+        "partial_atom": 8,
+        "partial_ticks": 20,
+        "partial_start_tick": 22653,
+        "partial_requested_end_tick": 22678,
+        "nominal_P10_width_mm": [
+          41.99634965669211,
+          41.9964276787726,
+          41.996550128800855,
+          41.99659267755561,
+          41.99700668441924,
+          41.9966332455927,
+          41.996213629242554,
+          41.996415594720794,
+          41.99672644339572,
+          41.99664775510756
+        ],
+        "nominal_width_H40_min_m": 0.041995937947814956,
+        "nominal_world_xyz_m": [
+          0.3877206487357948,
+          0.03226246716334388,
+          0.6587319269169347
+        ],
+        "wire_interpolated_at_post_step_time_xyz_m": [
+          0.39302894473079475,
+          0.045674867182954576,
+          0.665499770641303
+        ],
+        "wire_age_at_contact_ms": 88.00000000945118,
+        "wire_reference_minus_post_step_TCP_m": [
+          0.0066895955510697935,
+          0.014039813870397572,
+          0.0074918127564235215
+        ],
+        "archived_final_gripper": {
+          "sequence": 806,
+          "source_native_s": 45.306000000009405,
+          "expiry_native_s": 45.7060000000094,
+          "width_m": 0.041996726443395714
+        },
+        "action_sha256": "35c06fef46418c4751e9e35e4cb045e8a8490667b7d0beda6e4f5a59ee489928",
+        "install_ACKs": [
+          {
+            "atom": 0,
+            "wire_sha256": "cf951fca55202052d01baf52acdd31407b8048fcdbe77143bf18129b8b08621a",
+            "source_native_s": 44.906
+          },
+          {
+            "atom": 7,
+            "wire_sha256": "96cc252571aac9a9049df1f7d06a39720434c0601f2ba330210fb903f63b4ef9",
+            "source_native_s": 45.256
+          }
+        ]
+      },
+      "outcome": {
+        "task_success": false,
+        "base_directional_motion_m": 0.12656025420525477,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 5.715632353309186e-05,
+        "longest_grasp_lift_hold_s": 0.0,
+        "inside_selected_region": false,
+        "stable_release_condition": false,
+        "wrong_object_contact_ever": true
+      },
+      "selected_MPC_reference_known": false
+    },
+    {
+      "instruction": "PLACE-red-right",
+      "scene_sha256": "5c9f2c3a06677c062ac7b1484b63870981fa3c78c6e8e2dd348566a574751069",
+      "case_spec_sha256": "f8907c5117d098d7f833c2e8a10c4333f8ff289039bb3061a72043980f7c2bdf",
+      "result_sha256": "2bcaa38dac10217b97278072b9cacd40249e5f2f1bd45739daa871a24e86615e",
+      "archived_artifacts_sha256": {
+        "physics.jsonl": "2ac17d678e709b986c5c4dc616c28efaaedae86495e4e700623790f6eea2e4ce",
+        "state.bin.journal": "53d8d9fd6f6c8e1edfc76d501afb5060b329ee299482e3da7cc3e148be1a63d6",
+        "COMMANDS.private.jsonl": "b101c099c884e690cd2afb5fa82f330d08e27e73657b076e83fd65486634ac37",
+        "CLOCK_RESUME_REQUESTS.jsonl": "25881bc122531a12f645ba4a0782ce13cca9c8cd857ff9492ea21cbdb95bbd77",
+        "control.jsonl": "d2c020e04a72bb839fedffa0566d302342b84878fc3dae550e2ddf2877279811",
+        "gripper.bin": "931575cb52ba2415dcc8c31697b16b05dd80499328a12c3b973587ea1113213c",
+        "MULTITASK_SCORE_PROGRESS.private.json": "25a78263295b8c0203277072165ec3c82172ff09537dac895b185992e052cc4a"
+      },
+      "ticks": 23355,
+      "task_ticks": 17652,
+      "recorded_task_states": 17653,
+      "stop_kind": "ILLEGAL_CONTACT",
+      "stop_after_ticks": 0,
+      "first_object_contact": {
+        "red_right_object_contact": 20243,
+        "red_hand_contact": 20243,
+        "blue_hand_contact": 23355
+      },
+      "generation_queries": 71,
+      "H40_compiled": 71,
+      "any_install_ACK_queries": 71,
+      "full_P10": 70,
+      "confirmed_atoms": 706,
+      "all_nominal_closure_categories": {
+        "no_crossing": 71
+      },
+      "measured_width_min_m": 0.04150293735863818,
+      "measured_at_or_below_22mm_ticks": 0,
+      "emitted_width_min_full_atoms_m": 0.041984137762891637,
+      "loaded_identity_after_stop_reason": "EXACT_OWNED_SIMULATOR_PID_REQUIRED",
+      "first_illegal_contact": {
+        "tick": 23355,
+        "contact_time_s": 46.70800000001112,
+        "contacts": [
+          {
+            "geom": [
+              {
+                "id": 73,
+                "name": null,
+                "body": "x5_link6"
+              },
+              {
+                "id": 79,
+                "name": "task_blue_cube_geom",
+                "body": "task_blue_cube"
+              }
+            ],
+            "distance_m": -1.8803256413315456e-05,
+            "normal_force_N": 1.0646566927971253
+          },
+          {
+            "geom": [
+              {
+                "id": 73,
+                "name": null,
+                "body": "x5_link6"
+              },
+              {
+                "id": 79,
+                "name": "task_blue_cube_geom",
+                "body": "task_blue_cube"
+              }
+            ],
+            "distance_m": -1.8803256413315456e-05,
+            "normal_force_N": 1.0646566927971253
+          }
+        ]
+      },
+      "terminal": {
+        "TCP_xyz_m": [
+          0.38880057899526077,
+          0.013096951114060765,
+          0.6583739703074906
+        ],
+        "base_mount_xyz_m": [
+          0.0737617575760539,
+          0.027646784826818652,
+          0.4174204418321157
+        ],
+        "mean_measured_finger_width_m": 0.042036175658652794,
+        "object_color_xyz_m": {
+          "red": [
+            0.3699245094357399,
+            -0.04406780864687621,
+            0.6220774465901948
+          ],
+          "blue": [
+            0.36652426342131167,
+            0.045516884630237155,
+            0.6199102216533942
+          ]
+        },
+        "arm_mode": "WBC"
+      },
+      "nominal_and_receiver": {
+        "zero_based_index": 70,
+        "start_tick": 23203,
+        "partial_atom": 6,
+        "partial_ticks": 2,
+        "partial_start_tick": 23353,
+        "partial_requested_end_tick": 23378,
+        "nominal_P10_width_mm": [
+          41.99664525158537,
+          41.996124224069064,
+          41.99595776178201,
+          41.995697907188436,
+          41.99624630155649,
+          41.99643335312426,
+          41.99641509098855,
+          41.99581917487213,
+          41.99576129009257,
+          41.99569278445396
+        ],
+        "nominal_width_H40_min_m": 0.04199556285122185,
+        "nominal_world_xyz_m": [
+          0.38225356120308907,
+          0.012246381061193704,
+          0.6617484005320255
+        ],
+        "wire_interpolated_at_post_step_time_xyz_m": [
+          0.39229252338424103,
+          0.023515506833833764,
+          0.6679896712303666
+        ],
+        "wire_age_at_contact_ms": 302.0000000111196,
+        "wire_reference_minus_post_step_TCP_m": [
+          0.0034919443889802615,
+          0.010418555719773,
+          0.009615700922876003
+        ],
+        "archived_final_gripper": {
+          "sequence": 834,
+          "source_native_s": 46.706000000011116,
+          "expiry_native_s": 47.106000000011115,
+          "width_m": 0.041996415090988545
+        },
+        "action_sha256": "5114795ef106f41ba8260226a83e861ce8eee66b4b562e58741986b46155dc39",
+        "install_ACKs": [
+          {
+            "atom": 0,
+            "wire_sha256": "7b0608e10318fde0449982f84473cd3c1282a69f90005c53f834c0d5e63107ab",
+            "source_native_s": 46.406
+          }
+        ]
+      },
+      "outcome": {
+        "task_success": false,
+        "base_directional_motion_m": 0.12867051008550537,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0025008225524119077,
+        "longest_grasp_lift_hold_s": 0.0,
+        "inside_selected_region": false,
+        "stable_release_condition": false,
+        "wrong_object_contact_ever": true
+      },
+      "selected_MPC_reference_known": false
+    },
+    {
+      "instruction": "PLACE-blue-left",
+      "scene_sha256": "5c9f2c3a06677c062ac7b1484b63870981fa3c78c6e8e2dd348566a574751069",
+      "case_spec_sha256": "54b303ef624f5d0c0b92efb63e75e8898d4ded0e2ab29c2bb83265092813e221",
+      "result_sha256": "38facfb596c1e94e7377b80769bd457bdbb4d6ce462c328c2fd71ef811b7820c",
+      "archived_artifacts_sha256": {
+        "physics.jsonl": "29b989f5bfc83a72952ff372321803e3d40463fe516e8a736862080093ad06d7",
+        "state.bin.journal": "11d30947c290d636018014911cc2bc386690de36792f7712221a908bce3cc951",
+        "COMMANDS.private.jsonl": "06aca78b906ed1013deeba92d200e9ea68bf61ffb20be95d5e94dacbb9839070",
+        "CLOCK_RESUME_REQUESTS.jsonl": "f5f6da2ee557ee749be47a8e1e8ffb96df64bdf44fccc747253d8f418a82ec6f",
+        "control.jsonl": "31ebb4f83cb1b5e5a3816870d670b03e90ca9c68ec84a45c02dde023875508b3",
+        "gripper.bin": "f485836402738085a6b54f868c896e30a11976ad2f7241086a2fa336f165dfd1",
+        "MULTITASK_SCORE_PROGRESS.private.json": "2aa047569dd0338b9b632a75bc674b2788e495eee0f673eb5eb5face85eb69f8"
+      },
+      "ticks": 23195,
+      "task_ticks": 17492,
+      "recorded_task_states": 17493,
+      "stop_kind": "ILLEGAL_CONTACT",
+      "stop_after_ticks": 0,
+      "first_object_contact": {
+        "blue_hand_contact": 23195
+      },
+      "generation_queries": 70,
+      "H40_compiled": 70,
+      "any_install_ACK_queries": 70,
+      "full_P10": 69,
+      "confirmed_atoms": 699,
+      "all_nominal_closure_categories": {
+        "no_crossing": 70
+      },
+      "measured_width_min_m": 0.04197187941131516,
+      "measured_at_or_below_22mm_ticks": 0,
+      "emitted_width_min_full_atoms_m": 0.041979420901951434,
+      "loaded_identity_after_stop_reason": "EXACT_OWNED_SIMULATOR_PID_REQUIRED",
+      "first_illegal_contact": {
+        "tick": 23195,
+        "contact_time_s": 46.38800000001073,
+        "contacts": [
+          {
+            "geom": [
+              {
+                "id": 73,
+                "name": null,
+                "body": "x5_link6"
+              },
+              {
+                "id": 79,
+                "name": "task_blue_cube_geom",
+                "body": "task_blue_cube"
+              }
+            ],
+            "distance_m": -6.762356049951762e-05,
+            "normal_force_N": 5.525090326354258
+          }
+        ]
+      },
+      "terminal": {
+        "TCP_xyz_m": [
+          0.38458222779577406,
+          0.04898671947813127,
+          0.6572349823114331
+        ],
+        "base_mount_xyz_m": [
+          0.06476476592093913,
+          0.05345026821573968,
+          0.42125493463092045
+        ],
+        "mean_measured_finger_width_m": 0.041992713710190574,
+        "object_color_xyz_m": {
+          "red": [
+            0.36650000000000005,
+            -0.0445,
+            0.6198932559886999
+          ],
+          "blue": [
+            0.36650594576853207,
+            0.04550391565924416,
+            0.6198860255431924
+          ]
+        },
+        "arm_mode": "WBC"
+      },
+      "nominal_and_receiver": {
+        "zero_based_index": 69,
+        "start_tick": 22953,
+        "partial_atom": 9,
+        "partial_ticks": 17,
+        "partial_start_tick": 23178,
+        "partial_requested_end_tick": 23203,
+        "nominal_P10_width_mm": [
+          41.9965137531167,
+          41.996081594723535,
+          41.99586318312104,
+          41.995561272668944,
+          41.996102342996,
+          41.99626590722046,
+          41.996239008602394,
+          41.995677161327755,
+          41.99556649825907,
+          41.9954940286264
+        ],
+        "nominal_width_H40_min_m": 0.04199537041621027,
+        "nominal_world_xyz_m": [
+          0.3869875030455038,
+          0.05026093097209638,
+          0.6597091144508769
+        ],
+        "wire_interpolated_at_post_step_time_xyz_m": [
+          0.3902026867867812,
+          0.06328672587875923,
+          0.6704908633232267
+        ],
+        "wire_age_at_contact_ms": 132.0000000107271,
+        "wire_reference_minus_post_step_TCP_m": [
+          0.00562045899100716,
+          0.014300006400627965,
+          0.013255881011793647
+        ],
+        "archived_final_gripper": {
+          "sequence": 827,
+          "source_native_s": 46.35600000001069,
+          "expiry_native_s": 46.75600000001069,
+          "width_m": 0.041995494028626394
+        },
+        "action_sha256": "300616d3ae88762d498702ea4d9a0d5f2f7833844f5d3f89fc413c1eafb27048",
+        "install_ACKs": [
+          {
+            "atom": 0,
+            "wire_sha256": "46217865113a2cc2411882a48e736c2e6f4a723851e1c55a7c66018601ffaafd",
+            "source_native_s": 45.906
+          },
+          {
+            "atom": 7,
+            "wire_sha256": "bb2e29e4100f13c724fa9db31bd15dc51116d4e76c44627b8152a27a55c57c4f",
+            "source_native_s": 46.256
+          }
+        ]
+      },
+      "outcome": {
+        "task_success": false,
+        "base_directional_motion_m": 0.12096937698035824,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "inside_selected_region": false,
+        "stable_release_condition": false,
+        "wrong_object_contact_ever": false
+      },
+      "selected_MPC_reference_known": false
+    },
+    {
+      "instruction": "PLACE-blue-right",
+      "scene_sha256": "5c9f2c3a06677c062ac7b1484b63870981fa3c78c6e8e2dd348566a574751069",
+      "case_spec_sha256": "ba4a06d27d996810b6010b34308963c92801b841067c9950f0975bb406f20432",
+      "result_sha256": "f24edff8a169685b23ae7a6a12ff130ad25111979ae9b3f032fa3840cd73c3fb",
+      "archived_artifacts_sha256": {
+        "physics.jsonl": "c906a182ebfb9d2fb9b3a5229bc95c3abfe3b6371784b388aa95602dcad45421",
+        "state.bin.journal": "18aa49728cff6c276eecdbfca58fb126daae75196dd57f19863f1849865f8308",
+        "COMMANDS.private.jsonl": "16b99ba473f3f425f0e642c7513bca42552dc0a390002b3041f3909117fcb437",
+        "CLOCK_RESUME_REQUESTS.jsonl": "54e56be057253903f0b272ba4351ee9763fb95dcb390953de54f447db057d5dd",
+        "control.jsonl": "9d1697a972948a78423f6b32a9cc21d005bf9e1527880e83f5b44bef63137220",
+        "gripper.bin": "66b4b5a991c3cb45b5251e3f2f6a7b209af56237dcc12d176ec4d7e4408f73a5",
+        "MULTITASK_SCORE_PROGRESS.private.json": "ee758da6bff7c2567c4aeecb1224279836cf2643ac6dfaaa88b68f5adb41ef99"
+      },
+      "ticks": 24239,
+      "task_ticks": 18536,
+      "recorded_task_states": 18537,
+      "stop_kind": "ILLEGAL_CONTACT",
+      "stop_after_ticks": 0,
+      "first_object_contact": {
+        "blue_hand_contact": 24239
+      },
+      "generation_queries": 75,
+      "H40_compiled": 75,
+      "any_install_ACK_queries": 75,
+      "full_P10": 74,
+      "confirmed_atoms": 741,
+      "all_nominal_closure_categories": {
+        "no_crossing": 75
+      },
+      "measured_width_min_m": 0.04187120607099899,
+      "measured_at_or_below_22mm_ticks": 0,
+      "emitted_width_min_full_atoms_m": 0.041872818909343384,
+      "loaded_identity_after_stop_reason": "EXACT_OWNED_SIMULATOR_PID_REQUIRED",
+      "first_illegal_contact": {
+        "tick": 24239,
+        "contact_time_s": 48.47600000001328,
+        "contacts": [
+          {
+            "geom": [
+              {
+                "id": 73,
+                "name": null,
+                "body": "x5_link6"
+              },
+              {
+                "id": 79,
+                "name": "task_blue_cube_geom",
+                "body": "task_blue_cube"
+              }
+            ],
+            "distance_m": -5.77936099480196e-05,
+            "normal_force_N": 6.219823855234861
+          }
+        ]
+      },
+      "terminal": {
+        "TCP_xyz_m": [
+          0.40024504377464143,
+          0.039191972746647985,
+          0.6605422183466643
+        ],
+        "base_mount_xyz_m": [
+          0.09107460214149532,
+          0.04862163069985847,
+          0.42733191370585855
+        ],
+        "mean_measured_finger_width_m": 0.041991119428009996,
+        "object_color_xyz_m": {
+          "red": [
+            0.36650000000000005,
+            -0.0445,
+            0.6198932559886999
+          ],
+          "blue": [
+            0.36651101428837873,
+            0.04550471753142677,
+            0.6198822082491527
+          ]
+        },
+        "arm_mode": "WBC"
+      },
+      "nominal_and_receiver": {
+        "zero_based_index": 74,
+        "start_tick": 24203,
+        "partial_atom": 1,
+        "partial_ticks": 11,
+        "partial_start_tick": 24228,
+        "partial_requested_end_tick": 24253,
+        "nominal_P10_width_mm": [
+          41.99679641975331,
+          41.99707459162071,
+          41.99684795503432,
+          41.996803298794944,
+          41.99697621802468,
+          41.99696498992687,
+          41.996862441915404,
+          41.99698067641058,
+          41.99674785735985,
+          41.997003422679825
+        ],
+        "nominal_width_H40_min_m": 0.041996227827258786,
+        "nominal_world_xyz_m": [
+          0.39850669960258545,
+          0.040960129881670124,
+          0.6631297617635246
+        ],
+        "wire_interpolated_at_post_step_time_xyz_m": [
+          0.4008536231517598,
+          0.057197536975096344,
+          0.6688599586486884
+        ],
+        "wire_age_at_contact_ms": 70.00000001328033,
+        "wire_reference_minus_post_step_TCP_m": [
+          0.00060857937711839,
+          0.01800556422844836,
+          0.008317740302024146
+        ],
+        "archived_final_gripper": {
+          "sequence": 869,
+          "source_native_s": 48.456000000013255,
+          "expiry_native_s": 48.85600000001325,
+          "width_m": 0.0419970745916207
+        },
+        "action_sha256": "db817f7f41d85409a289c82e89d80808cc0eef4ae45eeaf81b9e5679fa425406",
+        "install_ACKs": [
+          {
+            "atom": 0,
+            "wire_sha256": "e239b55a1feee20df7ba8c108c393ea9d2d0c5cd62306508f2dc4f8a4e672c38",
+            "source_native_s": 48.406
+          }
+        ]
+      },
+      "outcome": {
+        "task_success": false,
+        "base_directional_motion_m": 0.1472555725096668,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0.0,
+        "longest_grasp_lift_hold_s": 0.0,
+        "inside_selected_region": false,
+        "stable_release_condition": false,
+        "wrong_object_contact_ever": false
+      },
+      "selected_MPC_reference_known": false
+    }
+  ],
+  "mujoco_version": "3.2.7",
+  "first_illegal_contact_definition": "First contact forbidden by the original two-object contact predicate in recorded 2 ms packet",
+  "observed_sgt": "2026-11-20T17:30:00+08:00"
+}

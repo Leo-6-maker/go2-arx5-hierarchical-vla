@@ -1,0 +1,485 @@
+{
+  "schema": "EMBODIMENT_NEXT_DATA_AND_EVAL_DECISION_V1",
+  "plan_sha": "1b2a25b7c1720051a2627d30831fb18130462374",
+  "a0_archived_result_sha256": "31c94319f629edbceb83f6040586075ca64f2ccc6b2ab9e63229fc6a49c4213e",
+  "a0_sealed_audit_sha256": "a49fc283a030c6128287e2bc93a1aa04b7930016a960207d74843e01beb6c154",
+  "experts_closed_timing": {
+    "panel_sha256": "3136404c06f890a9dd830b2cf5f40e487ef436ede16e805e14ffc0cb06b5eefd",
+    "labels": 88,
+    "due_close": 24,
+    "expert_H40_and_seam_pass": 88,
+    "checkpoint_results": {
+      "0": {
+        "formal_checkpoint_sha256": "205aacaafe78c7715d16cacf7c0f2513a6bc373f4ed5998895ae52faa08c92c0",
+        "due_close": {
+          "windows": 24,
+          "episodes": 24,
+          "categories": {
+            "missing": 12,
+            "timely_P10": 10,
+            "late": 2
+          },
+          "intersection": {
+            "missing|H40_True|seam_False": 12,
+            "timely_P10|H40_True|seam_False": 8,
+            "late|H40_False|seam_False": 2,
+            "H40_first_suffix": 4,
+            "timely_P10|H40_False|seam_False": 2
+          },
+          "h40": 20,
+          "seam": 0,
+          "both": 0,
+          "P10_close": 10,
+          "suffix_close": 2,
+          "P10_open": 0,
+          "timely_joint": 0
+        },
+        "not_due_close": {
+          "windows": 32,
+          "episodes": 24,
+          "categories": {},
+          "intersection": {},
+          "h40": 32,
+          "seam": 14,
+          "both": 14,
+          "P10_close": 0,
+          "suffix_close": 0,
+          "P10_open": 0,
+          "timely_joint": 0
+        },
+        "all_phase_windows": {
+          "windows": 88,
+          "episodes": 24,
+          "categories": {
+            "missing": 12,
+            "timely_P10": 10,
+            "late": 2
+          },
+          "intersection": {
+            "missing|H40_True|seam_False": 12,
+            "timely_P10|H40_True|seam_False": 8,
+            "late|H40_False|seam_False": 2,
+            "H40_first_suffix": 4,
+            "timely_P10|H40_False|seam_False": 2
+          },
+          "h40": 84,
+          "seam": 45,
+          "both": 45,
+          "P10_close": 10,
+          "suffix_close": 2,
+          "P10_open": 0,
+          "timely_joint": 0
+        }
+      },
+      "500": {
+        "formal_checkpoint_sha256": "e5b796170e47dfc649f5430512bad741b94c8d4042d828db82653da759b27653",
+        "due_close": {
+          "windows": 24,
+          "episodes": 24,
+          "categories": {
+            "late": 22,
+            "timely_P10": 2
+          },
+          "intersection": {
+            "late|H40_False|seam_False": 19,
+            "H40_first_prefix": 21,
+            "late|H40_True|seam_False": 3,
+            "timely_P10|H40_False|seam_False": 2
+          },
+          "h40": 3,
+          "seam": 0,
+          "both": 0,
+          "P10_close": 24,
+          "suffix_close": 0,
+          "P10_open": 0,
+          "timely_joint": 0
+        },
+        "not_due_close": {
+          "windows": 32,
+          "episodes": 24,
+          "categories": {},
+          "intersection": {
+            "H40_first_prefix": 9
+          },
+          "h40": 23,
+          "seam": 13,
+          "both": 13,
+          "P10_close": 5,
+          "suffix_close": 4,
+          "P10_open": 0,
+          "timely_joint": 0
+        },
+        "all_phase_windows": {
+          "windows": 88,
+          "episodes": 24,
+          "categories": {
+            "late": 22,
+            "timely_P10": 2
+          },
+          "intersection": {
+            "late|H40_False|seam_False": 19,
+            "H40_first_prefix": 30,
+            "late|H40_True|seam_False": 3,
+            "timely_P10|H40_False|seam_False": 2,
+            "H40_first_suffix": 1
+          },
+          "h40": 57,
+          "seam": 43,
+          "both": 43,
+          "P10_close": 29,
+          "suffix_close": 4,
+          "P10_open": 0,
+          "timely_joint": 0
+        }
+      }
+    }
+  },
+  "d2_train_coverage": {
+    "cohorts": {
+      "C20": {
+        "sha256": "4bcc5ffcd8920d874599a54cca73792c50a49ea6013d65ca7826817a9f80d7de",
+        "episodes": 20,
+        "windows": 1376,
+        "task_family": {
+          "F1/PICK_HOLD": {
+            "episodes": 10,
+            "windows": 683
+          },
+          "F2/PICK_HOLD": {
+            "episodes": 10,
+            "windows": 693
+          }
+        },
+        "known_scene_lineages": 10,
+        "known_scene_sha256": 0,
+        "stage_windows": {
+          "PREGRASP": 594,
+          "DESCEND": 501,
+          "CLOSE": 60,
+          "LIFT": 181,
+          "HOLD": 40
+        },
+        "all_red_language": true
+      },
+      "legacy_PLACE": {
+        "sha256": "4d07b8ee9c85b0a78f598ae1643cbc4bf4ee98ecebd92ad50d6891a7d1dea7f6",
+        "episodes": 3,
+        "windows": 392,
+        "task_family": {
+          "F1/PLACE-blue-left": {
+            "episodes": 2,
+            "windows": 265
+          },
+          "F1/PLACE-red-right": {
+            "episodes": 1,
+            "windows": 127
+          }
+        },
+        "known_scene_lineages": 0,
+        "known_scene_sha256": 0,
+        "stage_windows": {
+          "PREGRASP": 91,
+          "DESCEND": 74,
+          "CLOSE": 9,
+          "LIFT": 21,
+          "CARRY": 96,
+          "LOWER": 42,
+          "OPEN": 12,
+          "WITHDRAW": 47
+        }
+      },
+      "D1_extra_PLACE": {
+        "sha256": "f882cd95cef7f10ec9548c7ffc11f7a0af635696f4604a0210a68154db4b35ca",
+        "episodes": 1,
+        "windows": 124,
+        "task_family": {
+          "F2/PLACE-blue-left": {
+            "episodes": 1,
+            "windows": 124
+          }
+        },
+        "known_scene_lineages": 0,
+        "known_scene_sha256": 1,
+        "stage_windows": {
+          "PREGRASP": 30,
+          "DESCEND": 22,
+          "CLOSE": 3,
+          "LIFT": 9,
+          "CARRY": 32,
+          "LOWER": 11,
+          "OPEN": 4,
+          "WITHDRAW": 13
+        }
+      },
+      "D2_new_HOLD": {
+        "sha256": "cf065636926a3a948e70967348cc430f4f693ac57b66c33b8a819386d3d92e99",
+        "episodes": 2,
+        "windows": 139,
+        "task_family": {
+          "F1/HOLD-red": {
+            "episodes": 1,
+            "windows": 72
+          },
+          "F2/HOLD-blue": {
+            "episodes": 1,
+            "windows": 67
+          }
+        },
+        "known_scene_lineages": 0,
+        "known_scene_sha256": 2,
+        "stage_windows": {
+          "PREGRASP": 64,
+          "DESCEND": 47,
+          "CLOSE": 6,
+          "LIFT": 18,
+          "HOLD": 4
+        }
+      }
+    },
+    "ready_sha256": "78f5775e00e044de0c9936745131c9fe42cb7df319c7c009dd86f270517cd057",
+    "target_bank_report": {
+      "new_visits": 36000,
+      "old_visits": 156000,
+      "critical_requested": 96000,
+      "critical_from_event": 96000,
+      "critical_backfilled": 0,
+      "sha256": "c370c1914eaaa17648171fefe0e4cdc2d42e88b9126fdd04bca1dbf2fee96b69",
+      "new_quota_per_update": 12,
+      "independent_new_episodes": 3,
+      "stage_start": 2000,
+      "phase_stop": 5000,
+      "seed": 2026112026
+    },
+    "bank_digests": {
+      "target": "c370c1914eaaa17648171fefe0e4cdc2d42e88b9126fdd04bca1dbf2fee96b69",
+      "robodojo": "30bca6842ad9067763618185ffb9b1a38844ac8f848ae6f2e559996cbd9f29ee",
+      "libero": "545483608ad4118c33b79539bdaff421c7351a7a5bc354df734c8f16e6edc298"
+    },
+    "total_windows": {
+      "target": 2031,
+      "robodojo": 210398,
+      "libero": 209146
+    },
+    "independent_episodes": {
+      "target": 26,
+      "robodojo": 200,
+      "libero": 1261
+    },
+    "new_model_generations": 0,
+    "new_updates": 0,
+    "new_optimization_visits": 0,
+    "new_native_requests": 0,
+    "new_ticks": 0
+  },
+  "d2_coverage_receipt_sha256": "99f166fe3c33695de6ee356ca099a73915e7a3e58695b6cc43d7d4636db79b1f",
+  "d2_width_support": {
+    "first_500_target_visits_audited": 32000,
+    "target_new_visits_audited": 6000,
+    "target_original_visits_audited": 26000,
+    "auxiliary_label_reads": 2000,
+    "distinct_auxiliary_episodes": 26,
+    "label_buckets": {
+      "OTHER": 256,
+      "P10_DUE_CLOSE": 351,
+      "RELEASE_OR_RECOVERY": 527,
+      "APPROACH": 732,
+      "NOT_DUE_CLOSE": 134
+    },
+    "weighted_points_per_auxiliary": {
+      "0": 1515,
+      "4": 351,
+      "10": 134
+    },
+    "ordered_auxiliary_weight_sha256": "1365b7cba53d0bfb34c64365ff6bd0f50597c3a6a3222df4600a389f2566d94d",
+    "all_40_points_supervised": true
+  },
+  "next_TRAIN_recommendation": {
+    "scope": "Original unspent finite slots only. D3 for a later version. No new submissions in this audit.",
+    "maximum_existing_batch_attempts": 12,
+    "hold": 4,
+    "place": 6,
+    "recovery": 2,
+    "hold_priority": [
+      "two independent F1 blue settings",
+      "two independent F2 red settings",
+      "retain dual RGB, compare obstacle separation and opposite pad enclosure across settings"
+    ],
+    "place_priorities": [
+      "red-left and blue-right across F1/F2 where original registered eligible geometries permit",
+      "right-place support/release with verified non-target clearance",
+      "separate intact approach and carry/release failures"
+    ],
+    "recovery_priority": [
+      "safe near-distractor realignment or open retreat under an authorized TRAIN condition",
+      "capture actual expert command and measured state, never use failed student actions as positives"
+    ],
+    "evidence_per_episode": [
+      "independent scene/reset and commanded color/side",
+      "complete actual action/consumption and timestamps",
+      "actual base trajectory, link6 and pad clearance, allowed contact and finger width",
+      "opposing grasp, 20mm lift and stable HOLD or full PLACE",
+      "closed or safe re-open/re-align where applicable with measured truth for audit only"
+    ],
+    "admission": [
+      "Keep TRAIN/DEV/TEST separated. Preserve frozen decoder, G7/H40/P10, WBC and contact stops.",
+      "No failed or unconsumed row treated as an executable label. No new data appended within current 5k.",
+      "Recovery supervision requires verified actual valid executed labels and mask path."
+    ]
+  },
+  "evaluation": {
+    "fixed_optimizer_milestones": [
+      2000,
+      5000
+    ],
+    "fixed_panels": {
+      "ordinary_per_domain": 96,
+      "phase_diagnostic_target": 88,
+      "due_close_diagnostic": 24,
+      "not_due_diagnostic": 32,
+      "independent_restore": 48,
+      "native_DEV_per_endpoint": 24,
+      "native_DEV_HOLD": 8,
+      "native_DEV_PLACE": 16,
+      "registered_A5k_confirmation": 24
+    },
+    "critical": [
+      "closure onset and previous emitted command clock, miss/early/late, H40 and seam joint 24 denominator",
+      "non-due false closing and H40 prefix/suffix failures with magnitudes",
+      "native generated/compiled/ACK/partial or complete P10, actual finger response",
+      "selected and distractor contacts by exact geom, valid bilateral grasp, >=20mm lift and hold/placement stages",
+      "movement, stop type, first bad tick, zero post-STOP integrations, matching held-out condition identities",
+      "domain-specific native-unit errors and persistence/zero baselines, exact 48 restore"
+    ],
+    "attribution": "One-family first-six results identify a repeated observed failure. D2 and optimizer exposure co-vary across ADAPT2k/5k."
+  },
+  "CLOCK500": {
+    "trigger_PBS": "1598095",
+    "dependency": "afterany:1594215",
+    "scientific_trigger": "Exact ADAPT2k timely P10 + both original gates equals 0/24 and expert semantic audit is valid",
+    "existing_arms": [
+      "CLOCK-A",
+      "CLOCK-B"
+    ],
+    "new_candidates": 0,
+    "runtime_change": false,
+    "existing_fixed_pair_unchanged": true,
+    "per_arm_max_updates": 500,
+    "supervision_change": "Only width MSE fixed registered event weighting in B.",
+    "PBS_observed_state": "H"
+  },
+  "new_optimizer_updates": 0,
+  "new_optimization_visits": 0,
+  "new_model_generations": 0,
+  "new_native_requests": 0,
+  "new_native_ticks": 0,
+  "VANDA_efficiency_existing_job_readback": {
+    "observed": "2026-11-20T17:34:26.169328+08:00",
+    "job_id": "1598060.stdct-mgmt-02",
+    "job_exit": 0,
+    "actual_engineering_updates": 48,
+    "training_visits": {
+      "target": 3072,
+      "robodojo": 1536,
+      "libero": 1536
+    },
+    "H40_training": 192,
+    "offline": 288,
+    "native": 0,
+    "result_sha256": "8cdb1976cb042be09e6f38ce9ff65d3cf14af37d6764fa90db99591f5dad5ff0",
+    "comparison_sha256": "6b8fd1ecf06be740929d2b3ce35e68aa1e4d01392fcff778ccb4c0cbc8705a0f",
+    "source_sha": "48b26d5bbfad723821942dc1e7c7ccbbbf1ffa36",
+    "rows": {
+      "compiled_mb1": {
+        "updates": 12,
+        "total_step_wall_s": 503.5713837011717,
+        "update_p50_s": 41.29873358050827,
+        "update_p90_s": 44.06487486332189,
+        "FM_windows_per_second": 3.0502130377438004,
+        "GPU_hours_for_timed_updates": 0.13988093991699216,
+        "GPU_peak_bytes_in_use": 22903566592,
+        "GPU_peak_pool_bytes": 34361835520,
+        "speedup": 1.0,
+        "independent_restore": 48,
+        "target_phys_compatible": 32,
+        "fails": [],
+        "failure_kinds": {},
+        "maximum_XYZ_mm": 0.0,
+        "maximum_width_mm": 0.0,
+        "timing_gate": false,
+        "adopt": false
+      },
+      "compiled_mb2": {
+        "updates": 12,
+        "total_step_wall_s": 460.63342666998506,
+        "update_p50_s": 37.92581802804489,
+        "update_p90_s": 39.21776815901976,
+        "FM_windows_per_second": 3.33453872660537,
+        "GPU_hours_for_timed_updates": 0.1279537296305514,
+        "GPU_peak_bytes_in_use": 22903566592,
+        "GPU_peak_pool_bytes": 34361835520,
+        "speedup": 1.093215026407428,
+        "independent_restore": 48,
+        "target_phys_compatible": 29,
+        "fails": [
+          2,
+          12,
+          25
+        ],
+        "failure_kinds": {
+          "gate_and_P10_equal": 2,
+          "gripper_m": 1
+        },
+        "maximum_XYZ_mm": 0.18699318430481782,
+        "maximum_width_mm": 0.6959296786772051,
+        "timing_gate": false,
+        "adopt": false
+      },
+      "compiled_mb4": {
+        "updates": 12,
+        "total_step_wall_s": 415.8625383512117,
+        "update_p50_s": 33.97647043049801,
+        "update_p90_s": 36.81668442287482,
+        "FM_windows_per_second": 3.6935281694038755,
+        "GPU_hours_for_timed_updates": 0.11551737176422547,
+        "GPU_peak_bytes_in_use": 22903566592,
+        "GPU_peak_pool_bytes": 34361835520,
+        "speedup": 1.2109082623736755,
+        "independent_restore": 48,
+        "target_phys_compatible": 19,
+        "fails": [
+          2,
+          4,
+          6,
+          8,
+          12,
+          19,
+          23,
+          24,
+          26,
+          27,
+          29,
+          30,
+          31
+        ],
+        "failure_kinds": {
+          "gate_and_P10_equal": 6,
+          "gripper_m": 8
+        },
+        "maximum_XYZ_mm": 0.16524475815848927,
+        "maximum_width_mm": 0.7267426615781503,
+        "timing_gate": true,
+        "adopt": false
+      }
+    },
+    "active_science_step": 1219,
+    "active_science_cursors": {
+      "target": 78016,
+      "robodojo": 39008,
+      "libero": 39008
+    },
+    "pbs_walltime": "00:49:24",
+    "private_readback_sha256": "2f64de9e0ce839bd673fc54911b2ce37fdd6c02d18c45cbeafc8d904e4b606b8",
+    "production_runtime_switched": false,
+    "new_jobs_submitted_by_audit": 0
+  }
+}
