@@ -114,6 +114,18 @@ def domain_loss(graph):
     return jax.jit(jax.value_and_grad(loss))
 
 
+def compile_fm_accumulation(gradient):
+    """Run a microbatch backward and add its weighted gradient on-device."""
+    import jax
+
+    def backward_and_add(accumulator, weight, *inputs):
+        value, partial = gradient(*inputs)
+        accumulator = jax.tree.map(lambda total, leaf: total + leaf * weight, accumulator, partial)
+        return value, accumulator
+
+    return jax.jit(backward_and_add, donate_argnums=(0,))
+
+
 def target_auxiliary(graph, quantiles):
     import jax
     import jax.numpy as jnp
@@ -142,6 +154,7 @@ class Engine:
     update_breakdown = None
     input_executor = None
     defer_fm_loss = False
+    batched_fm_accumulation = None
 
     def __init__(self, arm, graphs, parameters, frozen, datasets, banks, tokenizer, microbatch, optimizer, *, rng):
         self.arm,self.parameters,self.frozen = arm,parameters,frozen
@@ -213,8 +226,11 @@ class Engine:
                     accumulator = profile.run(f'{domain}/FM_gradient_accumulation',lambda:self.add(accumulator,grad,micro/size),wait=True)
                     totals['FM32'] += profile.run(f'{domain}/FM_loss_readback',lambda:float(value))*micro/size
                 else:
-                    value,grad = self.grad[domain](*inputs)
-                    accumulator = self.add(accumulator,grad,micro/size)
+                    if self.batched_fm_accumulation is None:
+                        value,grad = self.grad[domain](*inputs)
+                        accumulator = self.add(accumulator,grad,micro/size)
+                    else:
+                        value,accumulator = self.batched_fm_accumulation[domain](accumulator,micro/size,*inputs)
                     if self.defer_fm_loss:
                         values.append(value)
                         # Keep a short device queue while the input thread works ahead.

@@ -281,6 +281,55 @@ def test_private_moments_and_decay_and_next_update_survive_checkpoint(tmp_path):
         checkpoint.restore_inference(pin, **inference_args)
 
 
+def test_compiled_adapt_fm_preserves_matched_windows_and_full_weighted_update():
+    from go2arx5_vla.sla_adapter import adapt5k_contract as adapt
+    from go2arx5_vla.sla_adapter.scale20k_training import compile_fm_accumulation
+    from scripts.sla.benchmark_adapt5k import BATCH_SCOPE, BATCH_VARIANTS, exposure_fingerprint, phase_window
+
+    jax = pytest.importorskip('jax')
+    jnp = pytest.importorskip('jax.numpy')
+    pytest.importorskip('optax')
+
+    @jax.jit
+    @jax.value_and_grad
+    def loss(params, x):
+        return jnp.mean(jnp.square(x - params['shared'])) + jnp.mean(jnp.square(x - params['private']))
+
+    params = {key: jnp.array(.125, dtype=jnp.float32) for key in ('shared', *DOMAINS)}
+    accumulate = compile_fm_accumulation(loss)
+    init,apply = make_adamw(beta1=.9,beta2=.95,eps=1e-8,weight_decay=1e-5,clip_norm=1.)
+
+    def run(micro):
+        fm,domains = {},{}
+        for index, domain in enumerate(DOMAINS):
+            size = adapt.BATCH[domain]
+            samples = jnp.arange(size, dtype=jnp.float32)/128 + index
+            active = dict(shared=params['shared'],private=params[domain])
+            total = jax.tree.map(jnp.zeros_like,active)
+            for offset in range(0,size,micro):
+                _,total = accumulate(total,micro/size,active,samples[offset:offset+micro])
+            _,exact = loss(active,samples)
+            for actual,expected in zip(jax.tree.leaves(total),jax.tree.leaves(exact),strict=True):
+                np.testing.assert_allclose(actual,expected,rtol=2e-6)
+            fm[domain] = total
+            domains[domain] = dict(backward_calls=size//micro,visit_slice_sha256=domain,
+                                   training_full_generations=4 if domain=='target' else 0)
+        domains['target']['auxiliary_slots'] = adapt.auxiliary_slots(1010)
+        row = dict(domains=domains,phase_step=1011,learning_rate=3e-6,
+                   lineage_cursors=adapt.progress(500,1011)['lineage_cursors'])
+        aux = dict(shared=jnp.asarray(.125),private=jnp.asarray(-.25))
+        gradient = adapt.joint_gradient(fm,aux,tree_map=jax.tree.map)
+        return exposure_fingerprint([row],fm_microbatch=micro), apply(params,init(params),gradient,3e-6)
+
+    assert all(phase_window(name,BATCH_SCOPE) == 8 for name in BATCH_VARIANTS)
+    baseline,reference = run(1)
+    for micro in (2,4):
+        declared, candidate = run(micro)
+        assert declared == baseline
+        for actual,expected in zip(jax.tree.leaves(candidate),jax.tree.leaves(reference),strict=True):
+            np.testing.assert_allclose(actual,expected,rtol=2e-6,atol=2e-8)
+
+
 def test_upstream_mlp_lora_members_are_active_alongside_attention_lora():
     llm = ('PaliGemma','llm','layers')
     mlp = [(*llm,'mlp',name) for name in ('gating_einsum_lora_a','gating_einsum_lora_b','linear_lora_a','linear_lora_b')]

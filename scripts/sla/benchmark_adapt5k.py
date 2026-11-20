@@ -15,19 +15,29 @@ import numpy as np
 from go2arx5_vla.sla_adapter import adapt5k_checkpoint as checkpoint, adapt5k_contract as contract
 from go2arx5_vla.sla_adapter.runtime_v1 import read_pin
 from go2arx5_vla.sla_adapter.scale20k_contract import canonical_hash
-from go2arx5_vla.sla_adapter.scale20k_training import UpdateBreakdown
+from go2arx5_vla.sla_adapter.scale20k_training import UpdateBreakdown, compile_fm_accumulation
 from go2arx5_vla.sla_adapter.site_v2 import validate
 from scripts.pi0292.durable import OwnerLock, write
 from scripts.sla.train_adapt5k import inputs, restored_engine
 
 
 SCOPE = 'ADAPT5K_MB1_THROUGHPUT_PROBE_V1'
+BATCH_SCOPE = 'ADAPT5K_BATCH_THROUGHPUT_PROBE_V1'
 WARMUP, TIMED, PROFILE = 3, 5, 2
 VARIANTS = ('serial','prefetch','prefetch_deferred')
+BATCH_VARIANTS = {'compiled_mb1': 1, 'compiled_mb2': 2, 'compiled_mb4': 4}
 
 
-def phase_window(variant):
-    if variant not in VARIANTS:
+def probe_variants(scope):
+    if scope == SCOPE:
+        return VARIANTS
+    if scope == BATCH_SCOPE:
+        return tuple(BATCH_VARIANTS)
+    raise ValueError('EXPECTED_ADAPT_ENGINEERING_SCOPE')
+
+
+def phase_window(variant, scope=SCOPE):
+    if variant not in probe_variants(scope):
         raise ValueError('EXPECTED_ADAPT_ENGINEERING_VARIANT')
     return WARMUP+TIMED+(PROFILE if variant=='serial' else 0)
 
@@ -49,17 +59,21 @@ def timing_summary(rows):
         raise ValueError('ADAPT_THROUGHPUT_REQUIRES_THE_FIXED_UNPROFILED_MATCHED_WINDOWS')
     wall = [row['wall_s'] for row in rows]
     count = sum(contract.BATCH.values())
+    memory = [row.get('actual_GPU_memory_stats') or {} for row in rows]
     return dict(updates=len(rows),total_step_wall_s=sum(wall),update_p50_s=statistics.median(wall),
                 update_p90_s=statistics.quantiles(wall,n=10,method='inclusive')[8],
-                FM_windows_per_second=len(rows)*count/sum(wall),GPU_hours_for_timed_updates=sum(wall)/3600)
+                FM_windows_per_second=len(rows)*count/sum(wall),GPU_hours_for_timed_updates=sum(wall)/3600,
+                GPU_peak_bytes_in_use=max((m['peak_bytes_in_use'] for m in memory if 'peak_bytes_in_use' in m),default=None),
+                GPU_peak_pool_bytes=max((m['peak_pool_bytes'] for m in memory if 'peak_pool_bytes' in m),default=None))
 
 
-def exposure_fingerprint(rows):
+def exposure_fingerprint(rows, *, fm_microbatch=1):
     checks = []
     for row in rows:
         domains = row['domains']
         phase = row['phase_step']
-        if (set(domains)!=set(contract.DOMAINS) or any(domains[d]['backward_calls']!=contract.BATCH[d] for d in contract.DOMAINS)
+        if (set(domains)!=set(contract.DOMAINS) or any(domains[d]['backward_calls']*fm_microbatch!=contract.BATCH[d]
+                                                      for d in contract.DOMAINS)
                 or domains['target']['training_full_generations']!=4 or tuple(domains['target']['auxiliary_slots'])!=contract.auxiliary_slots(phase-1)):
             raise ValueError('ADAPT_PROBE_UPDATE_EXPOSURE_CHANGED')
         checks.append(dict(phase=phase,learning_rate=row['learning_rate'],cursors=row['lineage_cursors'],
@@ -69,28 +83,35 @@ def exposure_fingerprint(rows):
 
 
 def compare(receipts):
-    if len(receipts)!=len(VARIANTS) or {row['variant'] for row in receipts}!=set(VARIANTS):
+    if not receipts:
+        raise ValueError('ADAPT_THROUGHPUT_REQUIRES_COMPLETE_RECEIPTS')
+    scope = receipts[0]['scope']
+    variants = probe_variants(scope)
+    if len(receipts)!=len(variants) or {row['variant'] for row in receipts}!=set(variants):
         raise ValueError('ADAPT_THROUGHPUT_REQUIRES_ONE_COMPLETE_RECEIPT_PER_VARIANT')
     runs = {row['variant']:row for row in receipts}
-    serial = runs['serial']
+    reference = runs[variants[0]]
     identity = ('source_sha','parent_checkpoint_sha256','source_training_card_sha256','engineering_contract',
                 'phase_start','device','matched_exposure_sha256')
     checks = {}
     for name, row in runs.items():
-        count = phase_window(name)
+        count = phase_window(name,scope)
         expected = {d:count*n for d,n in contract.BATCH.items()}
-        if (row['scope']!=SCOPE or row['status']!='ADAPT_ENGINEERING_PROBE_COMPLETE' or row['exit_code']
+        if (row['scope']!=scope or row['status']!='ADAPT_ENGINEERING_PROBE_COMPLETE' or row['exit_code']
                 or row['actual_optimizer_updates']!=count or row['committed_ledger_updates']!=count
                 or row['FM_gradient_windows']!=expected or row['attempted_H40']!=4*count or row['completed_H40']!=4*count
                 or row['scientific_updates'] or row['native_requests'] or row['native_ticks']
-                or row['throughput']['updates']!=TIMED or any(row[k]!=serial[k] for k in identity)
-                or set(row['matched_end_state'])!=set(serial['matched_end_state']) or len(row['matched_end_state'])!=140):
+                or row['throughput']['updates']!=TIMED or any(row[k]!=reference[k] for k in identity)
+                or set(row['matched_end_state'])!=set(reference['matched_end_state']) or len(row['matched_end_state'])!=140
+                or (scope==BATCH_SCOPE and (row['fm_microbatch']!=BATCH_VARIANTS[name] or not row['compiled_fm_accumulation']))):
             raise ValueError(f'ADAPT_THROUGHPUT_UNMATCHED_ENGINEERING_RECEIPT:{name}')
-        differences = [k for k,v in row['matched_end_state'].items() if serial['matched_end_state'][k]!=v]
-        speedup = row['throughput']['FM_windows_per_second']/serial['throughput']['FM_windows_per_second']
-        checks[name] = dict(throughput=row['throughput'],speedup_vs_serial=speedup,state_identical=not differences,
+        differences = [k for k,v in row['matched_end_state'].items() if reference['matched_end_state'][k]!=v]
+        speedup = row['throughput']['FM_windows_per_second']/reference['throughput']['FM_windows_per_second']
+        speedup_key = 'speedup_vs_serial' if scope == SCOPE else 'speedup_vs_compiled_mb1'
+        checks[name] = dict(throughput=row['throughput'],**{speedup_key:speedup},state_identical=not differences,
                             states_verified=140,first_differing_leaves=differences[:12])
-    return dict(scope=SCOPE,engineering_only=True,matched_exposure_sha256=serial['matched_exposure_sha256'],
+    return dict(scope=scope,engineering_only=True,eligible_as_formal_parent=False,
+                matched_exposure_sha256=reference['matched_exposure_sha256'],
                 candidate_checks=checks,new_optimizer_updates=0,new_native_requests=0)
 
 
@@ -100,16 +121,18 @@ def benchmark(spec):
 
     root = Path(spec['registered_root']).resolve(strict=True)
     source = Path(__file__).resolve().parents[2]
-    variant = spec['variant']
-    count = phase_window(variant)
+    variant,scope = spec['variant'],spec['scope']
+    count = phase_window(variant,scope)
+    microbatch = BATCH_VARIANTS.get(variant,1)
+    compiled = scope == BATCH_SCOPE
     card = read_pin(spec['training_card'])
     prior = read_pin(spec['sealed_predecessor'])
     plan = read_pin(spec['engineering_contract'])
     start = prior['end_phase']
     if (root.stat().st_uid!=os.getuid() or any(root.iterdir()) or spec['plan']!=contract.PLAN
-            or spec['scope']!=SCOPE or spec['physics'] is not False or spec['hardware_allowed'] is not False
+            or spec['physics'] is not False or spec['hardware_allowed'] is not False
             or (source/'SOURCE_SHA.private').read_text().strip()!=spec['source_sha']
-            or plan['scope']!=SCOPE or plan['parent_checkpoint_sha256']!=prior['checkpoint']['sha256']
+            or plan['scope']!=scope or plan['parent_checkpoint_sha256']!=prior['checkpoint']['sha256']
             or plan['training_card_sha256']!=spec['training_card']['sha256'] or plan['update_limit'][variant]!=count
             or prior['exit_code'] or prior['status']!='ADAPT_FIXED_SEGMENT_SAVED' or prior['native_requests']
             or card['stage_start']!=prior['binding']['stage_start'] or card['stage_stop']!=prior['binding']['stage_stop']
@@ -122,7 +145,8 @@ def benchmark(spec):
     stopped = False
     engine = None
     rows = []
-    result = dict(scope=SCOPE,variant=variant,source_sha=spec['source_sha'],engineering_only=True,
+    result = dict(scope=scope,variant=variant,source_sha=spec['source_sha'],engineering_only=True,
+                  fm_microbatch=microbatch,compiled_fm_accumulation=compiled,
                   eligible_as_formal_parent=False,parent_checkpoint_sha256=prior['checkpoint']['sha256'],
                   source_training_card_sha256=spec['training_card']['sha256'],engineering_contract=spec['engineering_contract'],
                   phase_start=start,scientific_updates=0,native_requests=0,native_ticks=0,exit_code=1)
@@ -155,20 +179,24 @@ def benchmark(spec):
         def progress(stage, **detail):
             write(root/'PROGRESS.private.json',dict(stage=stage,**detail))
 
-        engine,binding = restored_engine(dict(card,previous_train_or_qualification=spec['sealed_predecessor']),datasets,banks,progress)
+        engine,binding = restored_engine(dict(card,previous_train_or_qualification=spec['sealed_predecessor'],
+                                              microbatch=dict.fromkeys(contract.DOMAINS,microbatch)),datasets,banks,progress)
         if engine.step!=start or binding!=prior['binding']:
             raise ValueError('ADAPT_BENCHMARK_MUST_RESTORE_THE_ORIGINAL_MODEL_ADAM_RNG_AND_CURSORS')
         result['load_and_restore_s'] = time.monotonic()-started
         executor = nullcontext() if variant=='serial' else ThreadPoolExecutor(max_workers=1,thread_name_prefix='adapt-reader')
         with (root/'UPDATES.private.jsonl').open('x') as ledger,executor as input_executor:
             engine.input_executor = input_executor
-            engine.defer_fm_loss = variant=='prefetch_deferred'
+            engine.defer_fm_loss = variant=='prefetch_deferred' or compiled
+            if compiled:
+                engine.batched_fm_accumulation = {domain:compile_fm_accumulation(gradient)
+                                                 for domain,gradient in engine.grad.items()}
             for i in range(WARMUP+TIMED):
                 append(ledger,'warmup' if i<WARMUP else 'timed',engine.update(guard))
             result['matched_end_state'] = state_fingerprint(engine)
             if len(result['matched_end_state'])!=140:
                 raise ValueError('ADAPT_ENGINEERING_STATE_MUST_INCLUDE_ALL_140_LEAVES')
-            result['matched_exposure_sha256'] = exposure_fingerprint(rows)
+            result['matched_exposure_sha256'] = exposure_fingerprint(rows,fm_microbatch=microbatch)
             result['throughput'] = timing_summary(rows[WARMUP:WARMUP+TIMED])
             if plan.get('export_matched_engineering') is True:
                 from go2arx5_vla.sla_adapter.scale20k_checkpoint import seal_arrays, training_tree

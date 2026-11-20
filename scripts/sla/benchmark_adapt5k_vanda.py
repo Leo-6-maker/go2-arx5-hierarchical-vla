@@ -12,7 +12,8 @@ from go2arx5_vla.sla_adapter.adapt5k_contract import PLAN
 from go2arx5_vla.sla_adapter.runtime_v1 import read_pin
 from scripts.pi0292.durable import OwnerLock, write
 from scripts.sla.adapt5k_vanda import pbs_history, pbs_site
-from scripts.sla.benchmark_adapt5k import SCOPE, VARIANTS, compare, exposure_fingerprint, phase_window, timing_summary
+from scripts.sla.benchmark_adapt5k import (BATCH_VARIANTS, SCOPE, VARIANTS, compare, exposure_fingerprint,
+                                        phase_window, probe_variants, timing_summary)
 from scripts.sla.scale20k_vanda_offline import read_pbs_with_auth_retry
 from scripts.wm02.multisource_d4_vanda import pin
 
@@ -70,8 +71,10 @@ def compare_remaining(baseline, effects):
 def run(spec):
     root = Path(spec['root']).resolve(strict=True)
     source = Path(__file__).resolve().parents[2]
+    scope = spec['scope']
+    variants = probe_variants(scope)
     if (root.stat().st_uid!=os.getuid() or (root/'RESULT.private.json').exists()
-            or (root/'ACTIVATED.private.json').exists() or spec['scope']!=SCOPE or spec['plan']!=PLAN
+            or (root/'ACTIVATED.private.json').exists() or spec['plan']!=PLAN
             or spec['job_id']!=os.environ.get('PBS_JOBID')
             or spec['source_sha']!=(source/'SOURCE_SHA.private').read_text().strip()
             or spec['hardware_allowed'] is not False or spec['physics'] is not False):
@@ -85,12 +88,13 @@ def run(spec):
             or previous['data_contract']!=config['data_contract'] or previous['parent_checkpoint']!=config['parent_checkpoint']
             or previous['PBS_JOBID']==spec['job_id'] or receipt['job_state']!='F' or receipt.get('Exit_status')!=0
             or receipt['project']!=config['project'] or receipt['Job_Owner'].split('@')[0]!=config['user']
-            or plan['update_limit']!={name:phase_window(name) for name in VARIANTS} or plan['scope']!=SCOPE
+            or plan['update_limit']!={name:phase_window(name,scope) for name in variants} or plan['scope']!=scope
+            or ('archived_serial' in plan and scope!=SCOPE)
             or plan['parent_checkpoint_sha256']!=cold['checkpoint']['sha256']):
         raise PermissionError('ADAPT_PROFILE_REQUIRES_COLD_EXISTING_CHECKPOINT_AND_FIXED_ENGINEERING_PANEL')
     stop = root/'STOP.json'
     lock = OwnerLock(root/'OWNER.lock')
-    actual = dict(scope=SCOPE,engineering_only=True,job_id=spec['job_id'],source_sha=spec['source_sha'],
+    actual = dict(scope=scope,engineering_only=True,job_id=spec['job_id'],source_sha=spec['source_sha'],
                   optimizer_updates=0,native_requests=0,native_ticks=0,completed={},exit_code=1)
 
     def receive_stop(*_):
@@ -107,7 +111,8 @@ def run(spec):
                                      or os.uname().nodename != baseline['host']):
             raise PermissionError('ADAPT_REMAINING_ROLES_REQUIRE_THE_ORIGINAL_PHYSICAL_A40')
         write(root/'ACTIVATED.private.json',dict(engineering_only=True,job=spec['job_id'],checkpoint=cold['checkpoint']))
-        variants = VARIANTS[1:] if baseline is not None else VARIANTS
+        if baseline is not None:
+            variants = VARIANTS[1:]
         for name in variants:
             remaining = common['deadline_epoch']-time.time()
             if stop.exists() or remaining<=360:
@@ -115,7 +120,7 @@ def run(spec):
             work = root/name
             work.mkdir()
             card = root/(name+'.SPEC.private.json')
-            write(card,dict(common,scope=SCOPE,source_sha=spec['source_sha'],registered_root=str(work),variant=name,
+            write(card,dict(common,scope=scope,source_sha=spec['source_sha'],registered_root=str(work),variant=name,
                             training_card=spec['training_card'],sealed_predecessor=spec['sealed_predecessor'],
                             engineering_contract=spec['engineering_contract']))
             actual['unresolved_role'] = name
@@ -128,7 +133,7 @@ def run(spec):
                 if ledger.is_file():
                     raw = ledger.read_bytes()
                     durable = [json.loads(row) for row in raw.splitlines(keepends=True) if row.endswith(b'\n')]
-                    exposure = exposure_fingerprint(durable)
+                    exposure = exposure_fingerprint(durable,fm_microbatch=BATCH_VARIANTS.get(name,1))
                     actual['optimizer_updates'] += len(durable)
                     actual['unsealed_ledger_prefix'] = dict(ledger=pin(ledger),updates=len(durable),
                         visit_slice_sha256=exposure,completed_H40=4*len(durable),
