@@ -20,6 +20,40 @@ def guard_signature(envelope, seam):
     return envelope['original_full_H40_pass'],reason,seam['original_execution_speed_exceeded']
 
 
+def replay_assets(spec, evaluation, panel, training):
+    """Use identical archived bytes when a sealed endpoint moved between sites."""
+    portable = spec.get('portable_custody')
+    if portable is None:
+        if evaluation['panel'] != spec['panel']:
+            raise ValueError('SCALE20K_REPLAY_PANEL_CHANGED')
+        return training['data']['target'], {i: evaluation['rows']['target'][i]['output']
+                                           for i in RESTORE_ORDINALS}
+    custody = read_pin(portable)
+    root = Path(portable['path']).resolve(strict=True).parent
+    expected = {'SOURCE_EVAL.private.json':spec['evaluation'], 'PANEL.private.json':spec['panel'],
+                'TRAIN_SOURCE_SPEC.private.json':spec['training_spec']}
+    members = custody['sealed_members']
+    if (custody['status'] != 'TGT5K_CORE_CUSTODY_VERIFIED' or spec['arm'] != 'SCALE-TGT5K'
+            or custody['package_sha256'] != spec['package']['sha256']
+            or custody['checkpoint_sha256'] != evaluation['checkpoint']['sha256']
+            or Path(spec['package']['path']).resolve(strict=True) != root/'package'
+            or custody['archive_ordinals'] != sorted(RESTORE_ORDINALS)
+            or evaluation['panel']['sha256'] != spec['panel']['sha256']
+            or any(members[key] != pin['sha256'] or Path(pin['path']).resolve(strict=True) != root/key
+                   for key,pin in expected.items())):
+        raise ValueError('SCALE20K_REPLAY_REQUIRES_SEALED_PORTABLE_ENDPOINT_AND_FIXED_PANEL')
+    local = read_pin(spec['core_training_spec'])
+    if data_sha(local['data']) != data_sha(training['data']) or panel['data'] != data_sha(local['data']):
+        raise ValueError('SCALE20K_PORTABLE_CORE_READER_DATA_IDENTITY_CHANGED')
+    archived = {}
+    for i in RESTORE_ORDINALS:
+        name = f'archive/{i:03}.npz'
+        if members[name] != evaluation['rows']['target'][i]['output']['sha256']:
+            raise ValueError('SCALE20K_PORTABLE_ARCHIVE_MEMBER_CHANGED')
+        archived[i] = dict(path=str(root/name),sha256=members[name])
+    return local['data']['target'],archived
+
+
 def run(spec):
     import jax
     from openpi_client.image_tools import resize_with_pad
@@ -48,12 +82,12 @@ def run(spec):
         jax.config.update('jax_compilation_cache_dir',spec['compilation_cache_dir'])
         manifest = read_package(package['path'],package['sha256'])
         evaluation, panel, training = map(read_pin,(spec['evaluation'],spec['panel'],spec['training_spec']))
-        target = training['data']['target']
+        target, archives = replay_assets(spec,evaluation,panel,training)
         if ((manifest['arm'],manifest['step']) != scale.ENDPOINTS[arm]
                 or (evaluation['arm'],evaluation['step']) != scale.ENDPOINTS[arm]
                 or evaluation['status'] != 'ENDPOINT_PREDICTIONS_SEALED' or evaluation['exit_code']
                 or spec['evaluation']['sha256'] != manifest['offline_evaluation_sha256']
-                or evaluation['panel'] != spec['panel'] or spec['panel']['sha256'] != manifest['panel_sha256']
+                or spec['panel']['sha256'] != manifest['panel_sha256']
                 or panel['data'] != data_sha(training['data']) or panel['old_TEST_access'] is not False
                 or target['manifest']['sha256'] != manifest['target_data_manifest_sha256']
                 or target['admission']['sha256'] != manifest['target_admission_sha256']
@@ -70,9 +104,10 @@ def run(spec):
             fixed = panel['rows']['target'][ordinal]
             index, noise = fixed['index'], fixed['noise_id']
             context = panel['target_contexts'][str(index)]
+            output = archives[ordinal]
             if (any(archived[k] != v for k,v in fixed.items()) or fixed['identity'] != data.identity(index)
                     or context['previous_command'] != data.reference(index)
-                    or sha(archived['output']['path']) != archived['output']['sha256']):
+                    or sha(output['path']) != output['sha256']):
                 raise ValueError('SCALE20K_CORE_RGB16_INPUT_OR_ARCHIVED_OUTPUT_CHANGED')
             state, _, images, prompt = data.raw(index)
             frame = data.codecs[fixed['identity']['episode_id']].T_policy_from_mount
