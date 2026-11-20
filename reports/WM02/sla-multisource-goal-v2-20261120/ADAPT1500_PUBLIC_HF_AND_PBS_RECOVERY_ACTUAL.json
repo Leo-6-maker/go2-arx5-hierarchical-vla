@@ -1,0 +1,70 @@
+{
+  "observed_sgt": "2026-11-21T00:04:28+08:00",
+  "publication": {
+    "repo_type": "dataset",
+    "repo": "leoyuer/sla-goal-v2-checkpoints",
+    "revision": "f39030655f2643e866253b041f0d21f61f703e97",
+    "path_in_repo": "ADAPT5K/step-01500-65e96b87175b",
+    "complete_sha256": "65e96b87175b7ad8079fa24ea342fc91b9973ac2d8f573ceb0e01818452f253c",
+    "members_anonymously_verified": 141,
+    "bytes": 5547652640,
+    "corelab_anonymous_manifest_verified": true,
+    "pbs_job": "1599361.stdct-mgmt-02",
+    "pbs_exit": 0,
+    "pbs_wall_seconds": 439,
+    "gpus": 0,
+    "source_sha": "e91f69ac0bd10aeec21bc27b9167b28f1881052c",
+    "spec_sha256": "ab93492a35fd37310b4fc80861610690a9e8680200a88758d9fe09a5d4cbf1ed"
+  },
+  "adapt_seal": {
+    "producer_job": "1594212.stdct-mgmt-02",
+    "producer_pbs_exit": 0,
+    "parent_mix_updates": 500,
+    "phase_updates": 1500,
+    "phase_visits": {"target": 96000, "robodojo": 48000, "libero": 48000},
+    "last_segment_updates": 250,
+    "last_segment_visits": {"target": 16000, "robodojo": 8000, "libero": 8000},
+    "last_segment_training_generations": 1000,
+    "native_requests": 0,
+    "native_ticks": 0
+  },
+  "recovery": {
+    "old_pbs_never_started": ["1594213", "1594214", "1594215", "1597930", "1597833–1597845", "1598095", "the former conditional CLOCK graph"],
+    "old_removal_cause": null,
+    "short_chain_source_sha": "2d81436be0e4dc02bf67a180ea1cf00e818e29df",
+    "short_chain_deadline_sgt": "2026-11-22T08:33:10+08:00",
+    "short_chain": [
+      {"job": "1599363", "role": "ADAPT1750", "depends_on": "1594212", "state": "R", "spec_sha256": "0d3da2a2cdb07b9003720e2ce98193f9b032e39057f4b0b1060326d2924e4ce9"},
+      {"job": "1599364", "role": "ADAPT2000", "depends_on": "1599363", "state": "H", "spec_sha256": "5b0c0d06309fa6776bbe8d7424b9d378dd3411d5b064d0817f8bf43168a4ef5b"},
+      {"job": "1599365", "role": "ADAPT2000 independent Eval", "depends_on": "1599364", "state": "H", "spec_sha256": "842da782de201e801af6eaadc3baa3a196aae6643e00698b3ac530eedccd2c46"}
+    ],
+    "training_phase_updates_observed": 1502,
+    "short_chain_finalizer": {"job": "1599366", "state": "W", "deadline_sgt": "2026-12-04T15:29:58+08:00", "roles": 3},
+    "stage2_train_jobs_ordered": [1599367, 1599368, 1599369, 1599370, 1599371, 1599372, 1599373, 1599374, 1599375, 1599376, 1599377, 1599378],
+    "stage2_source_sha": "124af5eca57d0713714c2c74ed7f7456ec0b10d6",
+    "stage2_first_dependency": "afterok:1599364.stdct-mgmt-02",
+    "worker_source_sha": "1432c8dc88c57adf39e8fa363f5438c5e63aa8fd",
+    "independent_5000_eval_job": "1599379",
+    "clock_cpu_trigger": "1599382",
+    "clock_cpu_activation": "1599385",
+    "clock_conditional_gpu_jobs": [1599386, 1599387, 1599388, 1599389, 1599390, 1599391],
+    "clock_updates": 0,
+    "stage2_and_clock_finalizer": {"job": "1599392", "state": "W", "deadline_sgt": "2026-11-24T09:35:31+08:00", "roles": 21}
+  },
+  "corelab": {
+    "mix_active_step": 1734,
+    "mix_visits": {"target": 55488, "robodojo": 83232, "libero": 83232},
+    "latest_public_mix_step": 1380,
+    "hold_expert_successes": 2,
+    "hold_expert_requests": 2,
+    "hold_expert_ticks": 46156,
+    "admitted_hold_windows": 139,
+    "D2_episodes": 26,
+    "D2_windows": 2031,
+    "D2_selected_at_2000": false,
+    "historical_adapt0_student_successes": 0,
+    "historical_adapt0_student_requests": 6,
+    "new_native_requests": 0,
+    "new_native_ticks": 0
+  }
+}
