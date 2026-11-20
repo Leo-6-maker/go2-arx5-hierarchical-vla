@@ -142,11 +142,15 @@ def test_clock_prefix_checks_original_lr_slots_and_actual_d2_bank_bytes(tmp_path
     ledger.write_text(json.dumps(row)+'\n')
     with pytest.raises(ValueError,match='UNMATCHED_SAMPLE_CLOCK'):
         validate_ledger(pin(ledger),2000,2001,banks=banks,parent_step=500)
-def test_clock_go2_export_is_atomic_and_cannot_be_read_as_adapt(tmp_path):
-    import pytest
+
+
+def test_clock_go2_export_and_transport_keep_arm_and_checkpoint(tmp_path, monkeypatch):
+    import io
+    import json
+
     from go2arx5_vla.sla_adapter import adapt5k_package, clock500_package
     from go2arx5_vla.sla_adapter.clock500 import ARMS, ENDPOINT, PARENT, PLAN
-    from go2arx5_vla.sla_adapter.multitask_contract_v6 import C20_STATISTICS
+    from scripts.sla import adapt5k_endpoint_transport as transport
     from scripts.sla import clock500_export as export
 
     root = tmp_path/'job'
@@ -173,8 +177,28 @@ def test_clock_go2_export_is_atomic_and_cannot_be_read_as_adapt(tmp_path):
         'MIX_sha256','D1_freeze_sha256','state_statistics_sha256','tokenizer_sha256','partition_sha256',
         'frozen_fingerprint','initial_state_sha256','evaluation_sha256','restore_sha256','panel_sha256',
         'native_population_sha256'),'b'*64)
+
+    def replace_record(name, payload):
+        path = tmp_path/name.replace('/','-')
+        path.write_text(json.dumps(payload))
+        files[name] = export.pin(path)
+        return files[name]
+
+    panel = replace_record('archive/PANEL.private.json',dict(old_TEST_access=False,restore_ordinals=export.RESTORE))
+    checkpoint = dict(sha256=identity['checkpoint_sha256'],path='cold-checkpoint')
+    labelled = dict(arm=ARMS[0],comparison={'sha256':identity['comparison_sha256']},phase=ENDPOINT,
+                    checkpoint=checkpoint,panel=panel)
+    restore = dict(labelled,schema='SLA_CLOCK500_BRANCH_OUTPUT_RESTORE_PROOF_V1',ordinary_predictions=288,
+                   independent_restore_exact=48,phase_train_predictions=88)
+    formal = dict(labelled,scope='SLA_CLOCK500_BRANCH_OFFLINE_V1',status='ADAPT_OFFLINE_RESULTS_SEALED',
+                  role='formal',exit_code=0,model_generations=376,old_TEST_access=False,
+                  rows={'target':[dict(ordinal=i,output=files.get(f'archive/{i:03d}.npz')) for i in range(96)]})
+    replace_record('archive/FORMAL.private.json',formal)
+    replace_record('archive/RESTORE_PROOF.private.json',restore)
+    identity.update({key:files[name]['sha256'] for name,key in transport.NAMES.items()})
+    monkeypatch.setattr(clock500_package,'C20_STATISTICS',identity['action_statistics_sha256'])
     manifest = dict(identity,schema=clock500_package.SCHEMA,plan=PLAN,arm=ARMS[0],phase=ENDPOINT,parent_phase=PARENT,
-        branch_updates=500,parent_manifest={'sha256':'a'*64},action_statistics_sha256=C20_STATISTICS,arrays=rows,
+        branch_updates=500,parent_manifest={'sha256':'a'*64},arrays=rows,
         physics=False,hardware_allowed=False,native_admission=False,formal_ADAPT_parent_eligible=False)
     changed = tmp_path/'000000.npy'
     changed.write_bytes(b'corrupt')
@@ -182,9 +206,20 @@ def test_clock_go2_export_is_atomic_and_cannot_be_read_as_adapt(tmp_path):
         export.archive(root,manifest,files,{},(),lambda:None)
     assert not list(root.iterdir())
     changed.write_bytes(b'0')
-    proof = export.read_pin(export.archive(root,manifest,files,{},(),lambda:None))
+    sealed = export.archive(root,manifest,files,{},(),lambda:None)
+    proof = export.read_pin(sealed)
     path = root/'sealed/package'
     assert clock500_package.Provider.read_manifest(path,proof['package_sha256']) == manifest
     assert proof['arm'] == ARMS[0] and len(proof['members']) == 52
     with pytest.raises(ValueError,match='SEALED_NONPHYSICAL'):
         adapt5k_package.Provider.read_manifest(path,proof['package_sha256'])
+    archive = io.BytesIO()
+    transport.send(root/'sealed',archive,ENDPOINT,sealed['sha256'],arm=ARMS[0])
+    core = tmp_path/'core'
+    with pytest.raises(ValueError,match='UNEXPECTED_ARCHIVE_MEMBERS_OR_PHASE'):
+        transport.receive(core,io.BytesIO(archive.getvalue()),ENDPOINT,sealed['sha256'],arm=ARMS[1])
+    assert not core.exists()
+    receipt = export.read_pin(transport.receive(core,io.BytesIO(archive.getvalue()),ENDPOINT,sealed['sha256'],arm=ARMS[0]))
+    assert receipt['schema'] == transport.CLOCK_RECEIPT
+    assert receipt['arm'] == ARMS[0] and receipt['comparison_sha256'] == identity['comparison_sha256']
+    assert receipt['files'] == 52 and len(receipt['archived']) == 16

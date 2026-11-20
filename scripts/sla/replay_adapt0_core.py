@@ -30,7 +30,10 @@ def trained_inputs(spec, manifest, evaluation):
     routed = read_pin(spec['core_custody'])
     package = spec['package']
     bundle = Path(spec['core_custody']['path']).resolve(strict=True).parent
-    if (routed['schema'] != transport.RECEIPT_SCHEMA or routed['goal'] != transport.GOAL
+    clock = spec['phase']==transport.CLOCK_PHASE
+    arm = spec['arm'] if clock else None
+    if (routed['schema']!=(transport.CLOCK_RECEIPT if clock else transport.RECEIPT_SCHEMA)
+            or routed['goal'] != transport.GOAL or arm!=routed.get('arm')
             or routed['phase'] != manifest['phase'] or routed['phase'] != spec['phase']
             or routed['checkpoint_sha256'] != manifest['checkpoint_sha256']
             or routed['package_sha256'] != package['sha256'] or Path(package['path']).resolve() != bundle/'package'
@@ -42,8 +45,12 @@ def trained_inputs(spec, manifest, evaluation):
             or evaluation['old_TEST_access'] or evaluation['exit_code'] or evaluation['new_updates']
             or evaluation['optimization_visits'] or evaluation['native_requests']):
         raise ValueError('ADAPT_TRAINED_REPLAY_REQUIRES_LOCAL_CUSTODY_AND_EXACT_FORMAL_EVAL')
-    custody = transport.read_custody((bundle/transport.CUSTODY).read_bytes(),
-                                     routed['export_custody_sha256'],routed['phase'])
+    if clock and (arm not in transport.CLOCK_ARMS or manifest['arm']!=arm or evaluation['arm']!=arm
+            or evaluation['comparison']['sha256']!=manifest['comparison_sha256']
+            or routed['comparison_sha256']!=manifest['comparison_sha256']):
+        raise ValueError('CLOCK500_CORE_REPLAY_ARM_OR_PAIRED_COMPARISON_CHANGED')
+    custody = transport.read_custody((bundle/transport.CUSTODY).read_bytes(),routed['export_custody_sha256'],
+                                     routed['phase'],arm=arm)
     if (routed['archived'] != transport.validate_package(bundle,custody) or len(routed['archived']) != len(RESTORE)
             or sha(bundle/'archive/RESTORE_PROOF.private.json') != manifest['restore_sha256']):
         raise ValueError('ADAPT_TRAINED_REPLAY_ARCHIVE_OR_RESTORE_CHANGED')
@@ -80,18 +87,20 @@ def run(spec):
 
     root = Path(spec['root']).resolve(strict=True)
     source = Path(__file__).resolve().parents[2]
+    phase = spec.get('phase',0)
+    clock = phase==transport.CLOCK_PHASE
     unit = 'wm02-'+root.name+'.service'
     deadline, gpu = spec['deadline_epoch'],spec['GPU_uuid']
     stop = root/'STOP.json'
     pid = subprocess.check_output(['systemctl','--user','show',unit,'-p','MainPID','--value'],text=True,timeout=10).strip()
-    if (spec['plan'] != adapt5k_contract.PLAN or spec['source_sha'] != (source/'SOURCE_SHA.private').read_text().strip()
+    if (spec['plan']!=(transport.GOAL if clock else adapt5k_contract.PLAN)
+            or spec['source_sha'] != (source/'SOURCE_SHA.private').read_text().strip()
             or spec['generation_cap'] != len(RESTORE) or spec['physics'] is not False or spec['hardware_allowed'] is not False
             or root.stat().st_uid != os.getuid() or os.uname().nodename != 'corelab-4080s'
             or str(os.getpid()) != pid or os.environ['CUDA_VISIBLE_DEVICES'] != gpu
             or (root/'RESULT.private.json').exists() or (root/'PROGRESS.private.json').exists()
             or stop.exists() or not 600 < deadline-time.time() <= 3600):
         raise PermissionError('ADAPT0_CORE_REPLAY_REQUIRES_OWNED_FINITE_NONPHYSICAL_SERVICE')
-    phase = spec.get('phase',0)
     result = dict(source_sha=spec['source_sha'],package=spec['package']['sha256'],phase=phase,
                   generation_attempts=0,model_generations=0,optimizer_updates=0,optimization_visits=0,
                   native_requests=0,native_ticks=0,rows=[],exit_code=1)
@@ -123,12 +132,24 @@ def run(spec):
             max_walltime_s=3600,max_gpu_hours=1,save_and_exit_on_limit=True,model_service_timeout_s=1800,RPC_timeout_s=1800))
         jax.config.update('jax_compilation_cache_dir',paths['compilation_cache_dir'])
         package = spec['package']
-        manifest = adapt5k_package.Provider.read_manifest(Path(package['path']),package['sha256'])
+        provider_class = adapt5k_package.Provider
+        if clock:
+            from go2arx5_vla.sla_adapter import clock500_package
+
+            provider_class = clock500_package.Provider
+        manifest = provider_class.read_manifest(Path(package['path']),package['sha256'])
         data_spec,evaluation,panel = map(read_pin,(spec['eval_input'],spec['evaluation'],spec['panel']))
-        if phase in adapt5k_package.TRAINED_PHASES and manifest['schema'] == adapt5k_package.TRAINED_SCHEMA and compat is None:
+        if clock or (phase in adapt5k_package.TRAINED_PHASES and manifest['schema']==adapt5k_package.TRAINED_SCHEMA):
+            if compat is not None:
+                raise ValueError('THE_TRAINED_ENDPOINTS_USE_ONLY_THEIR_REGISTERED_STRICT_RGB16')
             checkpoint = trained_inputs(spec,manifest,evaluation)
-            result.update(schema=transport.RGB_SCHEMA,checkpoint_sha256=checkpoint,core_custody=spec['core_custody'],
-                          evaluation=spec['evaluation'],panel=spec['panel'],hardware_allowed=False,physics=False)
+            result.update(schema=transport.CLOCK_RGB if clock else transport.RGB_SCHEMA,checkpoint_sha256=checkpoint,
+                core_custody=spec['core_custody'],evaluation=spec['evaluation'],panel=spec['panel'],
+                hardware_allowed=False,physics=False)
+            if clock:
+                result.update(arm=spec['arm'],comparison_sha256=manifest['comparison_sha256'],
+                    environment=dict(GPU_uuid=gpu,backend=jax.default_backend(),jax=jax.__version__,
+                                     precision='highest',xla=os.environ.get('XLA_FLAGS')))
         elif phase == 0 and manifest['schema'] == adapt5k_package.SCHEMA:
             checkpoint = manifest['ADAPT0_sha256']
         else:
@@ -172,7 +193,7 @@ def run(spec):
         result['stage'] = 'LOADING_REAL_TARGET_PACKAGE'
         write(root/'PROGRESS.private.json',result)
         parent_override = spec['parent_manifest']['path'] if phase else None
-        provider = adapt5k_package.Provider(package['path'],manifest_sha256=package['sha256'],
+        provider = provider_class(package['path'],manifest_sha256=package['sha256'],
             parent_params=paths['parent_params'],parent_manifest_path=parent_override)
         fingerprints = {}
         if compat is not None:
@@ -218,7 +239,7 @@ def run(spec):
             result['rows'].append(row)
         if compat is None:
             passed = all(r['normalized_exact'] and r['physical_exact'] and r['guard_exact'] for r in result['rows'])
-            prefix = 'CORE_ADAPT_TRAINED_RGB16' if phase else 'CORE_ADAPT0_RGB16'
+            prefix = 'CORE_CLOCK500_RGB16' if clock else 'CORE_ADAPT_TRAINED_RGB16' if phase else 'CORE_ADAPT0_RGB16'
             result.update(status=prefix+('_EXACT' if passed else '_OUTPUT_GATE_FAILED'),
                           exit_code=0 if passed else 1,passed=passed)
         else:

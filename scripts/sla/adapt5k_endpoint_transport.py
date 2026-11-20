@@ -18,6 +18,12 @@ EXPORT_SCHEMA = 'SLA_ADAPT_GO2_ENDPOINT_EXPORT_ACTUAL_V1'
 PACKAGE_SCHEMA = 'SLA_ADAPT_TRAINED_TARGET_RGB_PACKAGE_V1'
 RECEIPT_SCHEMA = 'SLA_ADAPT_GO2_CORE_CUSTODY_V1'
 RGB_SCHEMA = 'SLA_ADAPT_TRAINED_CORE_RGB16_STRICT_V1'
+CLOCK_PHASE = 2500
+CLOCK_ARMS = ('CLOCK-A-original-width','CLOCK-B-event-weighted-width')
+CLOCK_EXPORT = 'SLA_CLOCK500_GO2_CUSTODY_ACTUAL_V1'
+CLOCK_PACKAGE = 'SLA_CLOCK500_GO2_TARGET_PACKAGE_V1'
+CLOCK_RECEIPT = 'SLA_CLOCK500_GO2_CORE_CUSTODY_V1'
+CLOCK_RGB = 'SLA_CLOCK500_CORE_RGB16_STRICT_V1'
 CUSTODY = 'CUSTODY.private.json'
 MANIFEST = 'package/MANIFEST.private.json'
 MAX_BYTES = 3 * 1024**3
@@ -41,7 +47,7 @@ def pin(path):
     return dict(path=str(path),sha256=sha(path))
 
 
-def read_custody(data, expected, phase):
+def read_custody(data, expected, phase, *, arm=None):
     if len(data) > MAX_CUSTODY_BYTES or hashlib.sha256(data).hexdigest() != expected:
         raise ValueError('ADAPT_TRANSPORT_REQUIRES_PINNED_EXPORT_CUSTODY')
     manifest = json.loads(data)
@@ -49,7 +55,10 @@ def read_custody(data, expected, phase):
     ordinals = [6*i+i%6 for i in range(16)]
     files = {*NAMES,MANIFEST,*(f'archive/{i:03d}.npz' for i in ordinals)}
     arrays = set(members)-files
-    if (manifest['schema'] != EXPORT_SCHEMA or manifest['goal'] != GOAL or phase not in PHASES
+    clock = phase==CLOCK_PHASE and arm in CLOCK_ARMS
+    valid = clock or (phase in PHASES and arm is None)
+    if (not valid or manifest['schema']!=(CLOCK_EXPORT if clock else EXPORT_SCHEMA)
+            or manifest.get('arm')!=arm or manifest['goal'] != GOAL
             or manifest['phase'] != phase or manifest['archived_rgb_ordinals'] != ordinals
             or not files <= members.keys() or len(arrays) != 29
             or any(not re.fullmatch(r'package/parameters/[0-9]{6}\.npy',name) for name in arrays)
@@ -69,10 +78,12 @@ def validate_package(root, custody):
         for name in ('FORMAL.private.json','RESTORE_PROOF.private.json','PANEL.private.json')
     )
     phase, checkpoint = custody['phase'],custody['checkpoint']
+    arm = custody.get('arm')
+    clock = phase==CLOCK_PHASE
     rows = package['arrays']
     exported = {f"package/{row['file']}":row['sha256'] for row in rows}
     landed = {name:meta['sha256'] for name,meta in members.items() if name.startswith('package/parameters/')}
-    if (package['schema'] != PACKAGE_SCHEMA or package['phase'] != phase
+    if (package['schema']!=(CLOCK_PACKAGE if clock else PACKAGE_SCHEMA) or package['phase']!=phase
             or any(package[k] is not False for k in ('physics','hardware_allowed','native_admission'))
             or package['checkpoint_sha256'] != checkpoint or len(rows) != 29 or exported != landed
             or custody['package_sha256'] != members[MANIFEST]['sha256']
@@ -86,6 +97,13 @@ def validate_package(root, custody):
             or restore['phase_train_predictions'] != 88 or panel['old_TEST_access']
             or panel['restore_ordinals'] != custody['archived_rgb_ordinals']):
         raise ValueError('ADAPT_TRANSPORT_FORMAL_ENDPOINT_AND_DEPLOYMENT_PACKAGE_DISAGREE')
+    if clock and (package['arm']!=arm or arm not in CLOCK_ARMS or package['plan']!=GOAL
+            or package['formal_ADAPT_parent_eligible'] is not False or package['parent_phase']!=2000
+            or package['branch_updates']!=500 or package['comparison_sha256']!=custody['comparison']
+            or formal['scope']!='SLA_CLOCK500_BRANCH_OFFLINE_V1'
+            or restore['schema']!='SLA_CLOCK500_BRANCH_OUTPUT_RESTORE_PROOF_V1'
+            or any(r['arm']!=arm or r['comparison']['sha256']!=custody['comparison'] for r in (formal,restore))):
+        raise ValueError('CLOCK_TRANSPORT_PACKAGE_AND_INDEPENDENT_EVAL_ARM_CHANGED')
     index = {}
     for ordinal in custody['archived_rgb_ordinals']:
         row = formal['rows']['target'][ordinal]
@@ -96,9 +114,9 @@ def validate_package(root, custody):
     return index
 
 
-def send(root, stream, phase, expected):
+def send(root, stream, phase, expected, *, arm=None):
     data = (root/CUSTODY).read_bytes()
-    custody = read_custody(data,expected,phase)
+    custody = read_custody(data,expected,phase,arm=arm)
     with tarfile.open(fileobj=stream,mode='w|',bufsize=1024**2) as archive:
         record = tarfile.TarInfo(CUSTODY)
         record.size,record.mode = len(data),0o600
@@ -112,7 +130,7 @@ def send(root, stream, phase, expected):
                 archive.addfile(member,handle)
 
 
-def receive(destination, stream, phase, expected):
+def receive(destination, stream, phase, expected, *, arm=None):
     if destination.exists():
         raise FileExistsError(destination)
     with tempfile.TemporaryDirectory(prefix='.adapt-incoming-',dir=destination.parent) as tmp:
@@ -123,7 +141,7 @@ def receive(destination, stream, phase, expected):
             if meta is None or meta.name != CUSTODY or not meta.isfile() or not 0 < meta.size <= MAX_CUSTODY_BYTES:
                 raise ValueError('ADAPT_TRANSPORT_CUSTODY_MUST_BE_FIRST_BOUNDED_MEMBER')
             data = archive.extractfile(meta).read()
-            custody = read_custody(data,expected,phase)
+            custody = read_custody(data,expected,phase,arm=arm)
             seen = set()
             for member in iter(archive.next,None):
                 name = member.name
@@ -153,6 +171,8 @@ def receive(destination, stream, phase, expected):
             checkpoint_sha256=custody['checkpoint'],files=len(seen),bytes=sum(r['bytes'] for r in custody['members'].values()),
             package_sha256=custody['package_sha256'],archived=archived,
             optimizer_updates=0,model_generations=0,native_requests=0,native_ticks=0)
+        if arm is not None:
+            receipt.update(schema=CLOCK_RECEIPT,arm=arm,comparison_sha256=custody['comparison'])
         write(root/'CORE_CUSTODY.private.json',receipt)
         for directory in (root/'package/parameters',root/'package',root/'archive',root):
             sync(directory)
@@ -177,11 +197,12 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('operation',choices=('send','receive'))
     parser.add_argument('path',type=Path)
-    parser.add_argument('phase',type=int,choices=PHASES)
+    parser.add_argument('phase',type=int,choices=(*PHASES,CLOCK_PHASE))
+    parser.add_argument('--arm',choices=CLOCK_ARMS)
     parser.add_argument('custody_sha256')
     args = parser.parse_args()
     os.umask(0o077)
     if args.operation == 'send':
-        send(args.path,sys.stdout.buffer,args.phase,args.custody_sha256)
+        send(args.path,sys.stdout.buffer,args.phase,args.custody_sha256,arm=args.arm)
     else:
-        print(json.dumps(receive(args.path,sys.stdin.buffer,args.phase,args.custody_sha256)))
+        print(json.dumps(receive(args.path,sys.stdin.buffer,args.phase,args.custody_sha256,arm=args.arm)))
