@@ -136,7 +136,10 @@ def run(config):
         producer = train_path.parent.parent
         require_cold_producer(config,producer,pin)
         checkpoint = Path(result['checkpoint']['path']).resolve(strict=True)
-        if (result['exit_code']!=0 or result['status']!='FIXED_SEGMENT_SAVED' or result['global_step']!=config['step']
+        phase_states = {(0,'FIXED_SEGMENT_SAVED')}
+        if config.get('allow_bounded_Core_prefix') is True and config.get('producer_site','Corelab')=='Corelab':
+            phase_states.add((75,'BOUNDED_SAVED_PREFIX'))
+        if ((result['exit_code'],result['status']) not in phase_states or result['global_step']!=config['step']
                 or result['arm']!=config['arm']
                 or checkpoint!=train_path.parent/f"step{config['step']:05d}"):
             raise PermissionError('PUBLICATION_REQUIRES_THE_EXACT_COLD_FORMAL_TRAINING_SEAL')
