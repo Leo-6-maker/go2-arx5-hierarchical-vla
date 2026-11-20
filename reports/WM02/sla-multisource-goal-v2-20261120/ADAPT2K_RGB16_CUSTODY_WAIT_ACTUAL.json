@@ -1,0 +1,111 @@
+{
+  "schema": "SLA_GOAL_V2_ADAPT2K_RGB16_CUSTODY_WAIT_ACTUAL_V1",
+  "observed": "2026-11-20T19:37:03.420442+08:00",
+  "source_sha": "998219db39146fb752043150b677ffbca87692da",
+  "spec_sha256": "331abbf398fb5f7d9ab7dce7c0e46b23c9e71fb1d1a03e3c62034b6bea75bb71",
+  "receipt_sha256": "2789ec41321c85601a1b2bd40f5a8c90b53fbbad75611c50424c3de99cb20d7b",
+  "fixed_panel_sha256": "3136404c06f890a9dd830b2cf5f40e487ef436ede16e805e14ffc0cb06b5eefd",
+  "observer": {
+    "MainPID": "836397",
+    "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/sla-observer-adapt2k-core-rgb16-after-custody-20261120-01.service",
+    "Id": "sla-observer-adapt2k-core-rgb16-after-custody-20261120-01.service",
+    "ActiveState": "active",
+    "InvocationID": "406a9b2dabd0495297b6070c0a02ce3f"
+  },
+  "dependency": "sla-observer-adapt0-goal-v2-dev-tail-20261120-01.service",
+  "ready": "WAITING_EXACT_VANDA_CUSTODY",
+  "linger": true,
+  "GPU_worker": {
+    "MainPID": "0",
+    "Id": "wm02-sla-adapt2k-core-rgb16-goal-v2-20261120-01.service",
+    "LoadState": "not-found",
+    "ActiveState": "inactive"
+  },
+  "registered_generation_cap": 16,
+  "latest_launch_epoch": 1795205144.665899,
+  "site_deadline_epoch": 1795206104.665899,
+  "stop_file": "STOP.json",
+  "watcher_log": "watch.log",
+  "worker_stop_file": "STOP.json",
+  "worker_log": "replay.log",
+  "finalizer": {
+    "sha256": "8ec1f11ac4d4864bac1cee45a73a047a9eb2e4d20f1482da76aac648a9f9beb9",
+    "registered_owners": 22,
+    "persistent_timer": true,
+    "active_stop_path": true
+  },
+  "transfer": {
+    "actual_endpoints_exported": 0,
+    "actual_endpoints_received": 0,
+    "direct_Core_to_VANDA": "PINNED_HOST_USER_AUTH_REFUSED",
+    "dual_connection_route": "PREVIOUSLY_TESTED_WAITING_EXACT_EXPORT"
+  },
+  "VANDA": {
+    "observed": "2026-11-20T19:37:03.146017+08:00",
+    "ADAPT": {
+      "job": "1594212.stdct-mgmt-02",
+      "state": "R",
+      "step": 1362,
+      "visits": {
+        "target": 87168,
+        "robodojo": 43584,
+        "libero": 43584
+      }
+    },
+    "endpoints": [
+      {
+        "phase": 2000,
+        "eval": "1594215.stdct-mgmt-02",
+        "export": "1598414.stdct-mgmt-02",
+        "eval_state": "H",
+        "export_state": "H"
+      },
+      {
+        "phase": 5000,
+        "eval": "1597845.stdct-mgmt-02",
+        "export": "1598416.stdct-mgmt-02",
+        "eval_state": "H",
+        "export_state": "H"
+      }
+    ],
+    "clock": {
+      "trigger": "1598095.stdct-mgmt-02",
+      "activation": "1598251.stdct-mgmt-02",
+      "state": "H"
+    }
+  },
+  "Core_MIX": {
+    "unit": {
+      "MainPID": "665212",
+      "Id": "wm02-sla-scale20k-mix-core-after1000-20261120-02.service",
+      "ActiveState": "active"
+    },
+    "step": 1307,
+    "cursors": {
+      "target": 41824,
+      "robodojo": 62736,
+      "libero": 62736
+    },
+    "H40_delta_since_1295": 48
+  },
+  "preexisting_live_training_delta": {
+    "MIX_updates": 12,
+    "ADAPT_updates": 9,
+    "total_updates": 21,
+    "visits": {
+      "target": 960,
+      "robodojo": 864,
+      "libero": 864
+    },
+    "H40_training": 84
+  },
+  "CPU_tests_passed": 6,
+  "GPU_worker_started": false,
+  "new_effects": {
+    "optimizer_updates": 0,
+    "optimization_visits": 0,
+    "model_generations": 0,
+    "native_requests": 0,
+    "native_ticks": 0
+  }
+}
