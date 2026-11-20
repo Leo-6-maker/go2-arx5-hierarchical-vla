@@ -24,6 +24,11 @@ from .multitask_teacher_campaign_v6 import interface_records
 GIB = 1024**3
 
 
+def deployment_replay(config):
+    qualified = read_pin(config['deployment'])
+    return read_pin(qualified['proof']['restore']) if config['arm']=='ADAPT0' else qualified
+
+
 def resources(auth, native, gpu, check, root):
     require = ['nvidia-smi','--id='+gpu['GPU_uuid'],'--query-gpu=uuid,name,memory.total,memory.free','--format=csv,noheader,nounits']
     uuid,name,total,free = (s.strip() for s in subprocess.check_output(require,text=True,timeout=15).strip().split(','))
@@ -82,8 +87,7 @@ def build(config):
         raise ValueError('ADAPT_SYSTEMD_UNIT_MUST_NAME_ITS_OWN_CAPSULE')
     arm = config['arm']
     manifest = adapt.package_manifest(arm,config['package'])
-    qualified = read_pin(config['deployment'])
-    replay = read_pin(qualified['proof']['restore'])
+    replay = deployment_replay(config)
     code_files = {str(p.relative_to(source)):pin(p)['sha256'] for directory in ('src','scripts')
                   for p in (source/directory).rglob('*.py')}
     if any(code_files.get(path) != expected for path,expected in config['source_members'].items()):
@@ -140,7 +144,7 @@ def launch(config, *, start=False):
     try:
         preflight(registered)
         worker = read_pin(registered['resident_server_spec'])
-        replay = read_pin(read_pin(config['deployment'])['proof']['restore'])
+        replay = deployment_replay(config)
         cache_source = Path(replay['site']['paths']['compilation_cache_dir']).resolve(strict=True)
         cache = Path(worker['compilation_cache_dir']).resolve(strict=True)
         for member in sorted(cache_source.iterdir()):

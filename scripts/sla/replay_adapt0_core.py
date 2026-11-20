@@ -128,7 +128,9 @@ def run(spec):
         if phase in adapt5k_package.TRAINED_PHASES and manifest['schema'] == adapt5k_package.TRAINED_SCHEMA and compat is None:
             checkpoint = trained_inputs(spec,manifest,evaluation)
             result.update(schema=transport.RGB_SCHEMA,checkpoint_sha256=checkpoint,core_custody=spec['core_custody'],
-                          evaluation=spec['evaluation'],panel=spec['panel'],hardware_allowed=False,physics=False)
+                evaluation=spec['evaluation'],panel=spec['panel'],hardware_allowed=False,physics=False,
+                environment=dict(GPU_uuid=gpu,backend=jax.default_backend(),jax=jax.__version__,
+                                 precision='highest',xla=os.environ.get('XLA_FLAGS')))
         elif phase == 0 and manifest['schema'] == adapt5k_package.SCHEMA:
             checkpoint = manifest['ADAPT0_sha256']
         else:

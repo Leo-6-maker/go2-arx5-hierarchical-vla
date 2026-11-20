@@ -8,6 +8,19 @@ from go2arx5_vla.sla_adapter.checkpoint_v1 import sha
 from go2arx5_vla.world_model import adapt5k_native
 from scripts.sla import adapt5k_endpoint_transport as transport
 from scripts.sla import adapt5k_export_endpoint as export
+from scripts.wm02.adapt5k_core_native_launch import deployment_replay
+
+
+def test_native_launcher_uses_each_endpoint_own_replay_shape(tmp_path):
+    replay = tmp_path/'RGB16.json'
+    replay.write_text(json.dumps(dict(environment={'GPU_uuid':'GPU-test'},rows=16)))
+    expected = json.loads(replay.read_bytes())
+    direct = export.pin(replay)
+    wrapped = tmp_path/'deployment.json'
+    wrapped.write_text(json.dumps(dict(proof={'restore':direct})))
+    assert deployment_replay(dict(arm='ADAPT0',deployment=export.pin(wrapped))) == expected
+    for arm in ('ADAPT2K','ADAPT5K'):
+        assert deployment_replay(dict(arm=arm,deployment=direct)) == expected
 
 
 def test_go2_export_is_atomic_and_keeps_the_exact_endpoint_identity(tmp_path, monkeypatch):
