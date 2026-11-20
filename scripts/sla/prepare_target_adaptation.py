@@ -1,4 +1,4 @@
-"""Cold-register six missing Go2 PLACE cells for the next TRAIN version."""
+"""Cold-register disjoint Go2 TRAIN conditions on the original collector."""
 import argparse
 from copy import deepcopy
 from itertools import product
@@ -28,7 +28,14 @@ def population(cards, history, catalog, *, scope=adaptation.SCOPE):
     clusters, rows = [], []
     plan, _, stage = adaptation.SCOPES[scope]
     lineage = plan + ':' + stage
+    reset_base = {adaptation.SCOPE:731000,adaptation.SECOND_SCOPE:731100,adaptation.RELEASE_SCOPE:731200,
+                  adaptation.HOLD_SCOPE:731300,adaptation.GOAL_HOLD_SCOPE:731400}[scope]
     for index, (family, instruction) in enumerate(adaptation.batch_cells(scope)):
+        obstacle = {}
+        if scope == adaptation.GOAL_HOLD_SCOPE:
+            distractor = 'blue' if instruction == 'HOLD-red' else 'red'
+            shift = -8 if index < 2 else 8
+            obstacle = dict(distractor=distractor,distractor_delta_y_mm=shift)
         for dx, dy in considered[family]:
             if (family, (dx, dy)) in offsets:
                 continue
@@ -36,18 +43,20 @@ def population(cards, history, catalog, *, scope=adaptation.SCOPE):
             for xyz in card['object_positions_world'].values():
                 xyz[0] += dx / 1000
                 xyz[1] += dy / 1000
+            if obstacle:
+                card['object_positions_world'][distractor][1] += shift / 1000
             identity = family, position_id(card)
             if identity not in occupied:
                 break
         else:
             raise ValueError(f'No unused geometry for {family} {instruction}')
         occupied.add(identity)
-        reset = {adaptation.SCOPE:731000,adaptation.SECOND_SCOPE:731100,adaptation.RELEASE_SCOPE:731200,adaptation.HOLD_SCOPE:731300}[scope] + index
+        reset = reset_base + index
         if reset in resets:
             raise ValueError('TRAIN reset overlaps a registered condition')
         cluster = f'{stage}-{family}-{index+1:02}'
         clusters.append(dict(id=cluster, stage=stage, split='TRAIN', family=family, card=card,
-                             reset=reset, offset_mm=[dx, dy], collection_lineage=lineage))
+                             reset=reset, offset_mm=[dx, dy], collection_lineage=lineage,**obstacle))
         rows.append(dict(id=f'{cluster}-{instruction}', cluster=cluster, instruction=instruction,
                          family=family, reset=reset, noise_seed=2026111900+16*reset))
     return dict(schema='SLA_SCALE_TARGET_ADAPTATION_POPULATION_V1', plan=plan,
@@ -67,11 +76,11 @@ def prepare(spec):
         prior = read(pinned(spec['first_train_population']))
         adaptation.conditions(prior)
         histories.append(prior)
-    if scope in (adaptation.RELEASE_SCOPE,adaptation.HOLD_SCOPE):
+    if scope in (adaptation.RELEASE_SCOPE,adaptation.HOLD_SCOPE,adaptation.GOAL_HOLD_SCOPE):
         prior = read(pinned(spec['second_train_population']))
         adaptation.conditions(prior,adaptation.SECOND_SCOPE)
         histories.append(prior)
-    if scope == adaptation.HOLD_SCOPE:
+    if scope in (adaptation.HOLD_SCOPE,adaptation.GOAL_HOLD_SCOPE):
         release = read(pinned(spec['release_train_population']))
         adaptation.conditions(release,adaptation.RELEASE_SCOPE)
         histories.append(release)
@@ -80,6 +89,15 @@ def prepare(spec):
         evaluation = read(pinned(spec['ADAPT5K_evaluation_population']))
         validate(evaluation)
         histories.append(evaluation)
+    if scope == adaptation.GOAL_HOLD_SCOPE:
+        d2 = read(pinned(spec['previous_hold_train_population']))
+        adaptation.conditions(d2,adaptation.HOLD_SCOPE)
+        histories.append(d2)
+        for key, identity in (('SCALE_evaluation_population','86ad22180a0e1fd937fdff28302e190fef65928c0d8b724de282b6c8e0eb0c4a'),
+                              ('CLOCK_evaluation_population','f80d61a58c2ad20e2d2f59ccba645bf0c5a61cfc8a19d3f53862651e5c76d353')):
+            if spec[key]['sha256'] != identity:
+                raise ValueError('Expected the fixed SCALE and CLOCK protected populations')
+            histories.append(read(pinned(spec[key])))
     catalog = read(pinned(split['C20_scene_catalog']))
     v52 = read(pinned(split['V52_split']))
     protected = set(split['protected_scene_hashes'])
@@ -98,7 +116,8 @@ def prepare(spec):
     result = dict(status={adaptation.SCOPE:'COLD_TRAIN_PLACE_FIRST6_COMPILED',
                          adaptation.SECOND_SCOPE:'COLD_TRAIN_PLACE_SECOND6_COMPILED',
                          adaptation.RELEASE_SCOPE:'COLD_TRAIN_PLACE_RELEASE_OFFSET_COMPILED',
-                         adaptation.HOLD_SCOPE:'COLD_TRAIN_HOLD_PAIR_COMPILED'}[scope],
+                         adaptation.HOLD_SCOPE:'COLD_TRAIN_HOLD_PAIR_COMPILED',
+                         adaptation.GOAL_HOLD_SCOPE:'COLD_GOAL_V2_TRAIN_HOLD4_COMPILED'}[scope],
                   plan=plan, source_sha=spec['execution_source_sha'],
                   split_inventory_sha256=spec['split_inventory']['sha256'],
                   compiled_population_sha256=start['population_sha256'],
@@ -111,6 +130,9 @@ def prepare(spec):
                               for c, r in zip(compiled['clusters'], compiled['conditions'][stage], strict=True)],
                   old_TEST_rollouts_read=False, native_requests=0, native_ticks=0, model_generations=0,
                   optimizer_updates=0, admitted_demonstrations=0, native_dispatch_qualified=False)
+    if scope == adaptation.GOAL_HOLD_SCOPE:
+        for row, cluster in zip(result['conditions'],compiled['clusters'],strict=True):
+            row.update(distractor=cluster['distractor'],distractor_delta_y_mm=cluster['distractor_delta_y_mm'])
     write(root/'ACTUAL.private.json',result)
     return result
 
