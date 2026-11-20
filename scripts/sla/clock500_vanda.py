@@ -11,6 +11,7 @@ from go2arx5_vla.sla_adapter.clock500 import ARMS, ENDPOINT, PARENT, PLAN
 from go2arx5_vla.sla_adapter.runtime_v1 import read_pin
 from scripts.pi0292.durable import OwnerLock, write
 from scripts.sla.adapt5k_vanda import pbs_site
+from scripts.sla.clock500_activation import activated_comparison
 from scripts.sla.clock500_trigger import owned_job, pbs
 from scripts.sla.evaluate_adapt5k import restore_proof
 from scripts.sla.train_clock500 import SCOPE, comparison_inputs
@@ -66,7 +67,7 @@ def run(spec):
     role = spec['role']
     stop = root/'STOP.json'
     result = dict(scope=WRAPPER,role=role,arm=spec['arm'],job_id=job,source_sha=spec['source_sha'],
-                  comparison=spec['comparison'],effects={},optimizer_updates=0,model_generations=0,
+                  comparison=spec.get('comparison'),effects={},optimizer_updates=0,model_generations=0,
                   native_requests=0,native_ticks=0,exit_code=1)
 
     def interrupted(*_):
@@ -79,6 +80,9 @@ def run(spec):
     try:
         if stop.exists() or Path(spec['campaign_stop']).exists():
             raise PermissionError('CLOCK500_SITE_SCOPE_STOPPED')
+        if 'activation' in spec:
+            spec = dict(spec,comparison=activated_comparison(spec))
+            result['comparison'] = spec['comparison']
         pair,data,anchor = comparison_inputs(spec)
         if (pair['branch_roots'][spec['arm']]!=str(lineage) or spec['deadline_epoch']>pair['deadline_epoch']
                 or pair['campaign_stop']!=spec['campaign_stop']):

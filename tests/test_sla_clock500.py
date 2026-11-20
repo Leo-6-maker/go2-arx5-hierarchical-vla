@@ -62,6 +62,28 @@ def test_clock_decision_distinguishes_nonzero_semantic_failure_and_execution_rea
     assert receipt['scientific_trigger'] and receipt['joint_numerator']==0
 
 
+def test_clock_queued_arm_admission_preserves_negative_and_semantic_block():
+    from scripts.sla import clock500_activation as activation
+    from scripts.sla.clock500_trigger import SCOPE
+
+    registered = dict(job_id='1598095',source_sha='source')
+    actual = dict(registered,scope=SCOPE,scientific_trigger=False,status='NOT_TRIGGERED',
+                  optimizer_updates=0,model_generations=0,native_requests=0,native_ticks=0)
+    assert activation.trigger_status(actual,registered)=='NOT_TRIGGERED'
+    assert activation.trigger_status(dict(actual,scientific_trigger=None,status='BLOCKED_DIAGNOSIS_OR_SEMANTICS'),
+                                     registered)=='BLOCKED_DIAGNOSIS_OR_SEMANTICS'
+    semantic = dict(labels_verified=88,due_experts_verified=24,original_H40_and_seam_verified=88)
+    ready = dict(actual,scientific_trigger=True,status='TRIGGERED_AWAITING_EXECUTION_READINESS',joint_numerator=0,
+                 eligible_windows=24,semantic_audit=semantic)
+    assert activation.trigger_status(ready,registered)==activation.ACTIVE
+    missing = dict(ready,status='BLOCKED_ARTIFACT',first_failure='MISSING_COLD_D2_CURRICULUM_DECISION')
+    assert activation.trigger_status(missing,registered)==activation.ACTIVE
+    invalid = dict(missing,first_failure='COLD_D2_CURRICULUM_INELIGIBLE_OR_MISMATCHED')
+    assert activation.trigger_status(invalid,registered)=='BLOCKED_ARTIFACT'
+    with pytest.raises(ValueError,match='ZERO_OF_24'):
+        activation.trigger_status(dict(ready,joint_numerator=1),registered)
+
+
 def test_clock_branch_saves_all_state_and_rejects_cross_arm_or_formal_resume(tmp_path):
     jax = pytest.importorskip('jax')
     from go2arx5_vla.sla_adapter import adapt5k_checkpoint, clock500_checkpoint
