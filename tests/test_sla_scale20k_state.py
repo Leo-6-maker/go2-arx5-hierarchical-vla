@@ -321,7 +321,7 @@ def test_compiled_adapt_fm_preserves_matched_windows_and_full_weighted_update():
         gradient = adapt.joint_gradient(fm,aux,tree_map=jax.tree.map)
         return exposure_fingerprint([row],fm_microbatch=micro), apply(params,init(params),gradient,3e-6)
 
-    assert all(phase_window(name,BATCH_SCOPE) == 8 for name in BATCH_VARIANTS)
+    assert all(phase_window(name,BATCH_SCOPE) == 16 for name in BATCH_VARIANTS)
     baseline,reference = run(1)
     for micro in (2,4):
         declared, candidate = run(micro)

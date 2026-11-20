@@ -24,6 +24,7 @@ from scripts.sla.train_adapt5k import inputs, restored_engine
 SCOPE = 'ADAPT5K_MB1_THROUGHPUT_PROBE_V1'
 BATCH_SCOPE = 'ADAPT5K_BATCH_THROUGHPUT_PROBE_V1'
 WARMUP, TIMED, PROFILE = 3, 5, 2
+BATCH_WARMUP, BATCH_TIMED = 4, 12
 VARIANTS = ('serial','prefetch','prefetch_deferred')
 BATCH_VARIANTS = {'compiled_mb1': 1, 'compiled_mb2': 2, 'compiled_mb4': 4}
 
@@ -39,6 +40,8 @@ def probe_variants(scope):
 def phase_window(variant, scope=SCOPE):
     if variant not in probe_variants(scope):
         raise ValueError('EXPECTED_ADAPT_ENGINEERING_VARIANT')
+    if scope == BATCH_SCOPE:
+        return BATCH_WARMUP+BATCH_TIMED
     return WARMUP+TIMED+(PROFILE if variant=='serial' else 0)
 
 
@@ -54,8 +57,8 @@ def state_fingerprint(engine):
     return records
 
 
-def timing_summary(rows):
-    if len(rows)!=TIMED or any('synchronized_intervals_s' in row for row in rows):
+def timing_summary(rows, *, timed=TIMED):
+    if len(rows)!=timed or any('synchronized_intervals_s' in row for row in rows):
         raise ValueError('ADAPT_THROUGHPUT_REQUIRES_THE_FIXED_UNPROFILED_MATCHED_WINDOWS')
     wall = [row['wall_s'] for row in rows]
     count = sum(contract.BATCH.values())
@@ -82,11 +85,29 @@ def exposure_fingerprint(rows, *, fm_microbatch=1):
     return canonical_hash(checks)
 
 
+def require_batched_output_panel(plan):
+    from scripts.sla import freeze_adapt5k_performance_panel as frozen
+    from go2arx5_vla.sla_adapter.checkpoint_v1 import sha
+
+    pin = plan['fixed_output_panel']
+    panel = read_pin(pin)
+    if (panel['schema'] != frozen.SCHEMA or panel['plan'] != contract.PLAN or panel['old_TEST_access']
+            or panel['counts'] != frozen.COUNTS or canonical_hash(panel['rows']) != panel['input_and_noise_sha256']
+            or len({row['noise_key'] for rows in panel['rows'].values() for row in rows}) != 48
+            or {d:len(rows) for d,rows in panel['rows'].items()} != frozen.COUNTS
+            or panel['ordinary_per_variant'] != 48 or panel['independent_restore_per_variant'] != 48
+            or sha(panel['noise']['path']) != panel['noise']['sha256']
+            or plan.get('export_matched_engineering') is not True):
+        raise ValueError('ADAPT_BATCH_REQUIRES_PINNED_48_OUTPUTS_AND_INDEPENDENT_RESTORE')
+    return pin
+
+
 def compare(receipts):
     if not receipts:
         raise ValueError('ADAPT_THROUGHPUT_REQUIRES_COMPLETE_RECEIPTS')
     scope = receipts[0]['scope']
     variants = probe_variants(scope)
+    timed = BATCH_TIMED if scope == BATCH_SCOPE else TIMED
     if len(receipts)!=len(variants) or {row['variant'] for row in receipts}!=set(variants):
         raise ValueError('ADAPT_THROUGHPUT_REQUIRES_ONE_COMPLETE_RECEIPT_PER_VARIANT')
     runs = {row['variant']:row for row in receipts}
@@ -101,9 +122,10 @@ def compare(receipts):
                 or row['actual_optimizer_updates']!=count or row['committed_ledger_updates']!=count
                 or row['FM_gradient_windows']!=expected or row['attempted_H40']!=4*count or row['completed_H40']!=4*count
                 or row['scientific_updates'] or row['native_requests'] or row['native_ticks']
-                or row['throughput']['updates']!=TIMED or any(row[k]!=reference[k] for k in identity)
+                or row['throughput']['updates']!=timed or any(row[k]!=reference[k] for k in identity)
                 or set(row['matched_end_state'])!=set(reference['matched_end_state']) or len(row['matched_end_state'])!=140
-                or (scope==BATCH_SCOPE and (row['fm_microbatch']!=BATCH_VARIANTS[name] or not row['compiled_fm_accumulation']))):
+                or (scope==BATCH_SCOPE and (row['fm_microbatch']!=BATCH_VARIANTS[name] or not row['compiled_fm_accumulation']
+                                            or row['fixed_output_panel']!=reference['fixed_output_panel']))):
             raise ValueError(f'ADAPT_THROUGHPUT_UNMATCHED_ENGINEERING_RECEIPT:{name}')
         differences = [k for k,v in row['matched_end_state'].items() if reference['matched_end_state'][k]!=v]
         speedup = row['throughput']['FM_windows_per_second']/reference['throughput']['FM_windows_per_second']
@@ -125,6 +147,7 @@ def benchmark(spec):
     count = phase_window(variant,scope)
     microbatch = BATCH_VARIANTS.get(variant,1)
     compiled = scope == BATCH_SCOPE
+    warmup,timed = (BATCH_WARMUP,BATCH_TIMED) if compiled else (WARMUP,TIMED)
     card = read_pin(spec['training_card'])
     prior = read_pin(spec['sealed_predecessor'])
     plan = read_pin(spec['engineering_contract'])
@@ -140,6 +163,7 @@ def benchmark(spec):
             or card['microbatch']!=dict.fromkeys(contract.DOMAINS,1)):
         raise PermissionError('ADAPT_BENCHMARK_REQUIRES_FRESH_BOUNDED_MATCHED_NONPHYSICAL_SCOPE')
     checkpoint.read_complete(prior['checkpoint'],prior['binding'])
+    output_panel = require_batched_output_panel(plan) if compiled else None
     lock = OwnerLock(spec['neural_owner_lock'])
     started = time.monotonic()
     stopped = False
@@ -150,6 +174,8 @@ def benchmark(spec):
                   eligible_as_formal_parent=False,parent_checkpoint_sha256=prior['checkpoint']['sha256'],
                   source_training_card_sha256=spec['training_card']['sha256'],engineering_contract=spec['engineering_contract'],
                   phase_start=start,scientific_updates=0,native_requests=0,native_ticks=0,exit_code=1)
+    if output_panel is not None:
+        result['fixed_output_panel'] = output_panel
 
     def receive_stop(*_):
         nonlocal stopped
@@ -191,13 +217,13 @@ def benchmark(spec):
             if compiled:
                 engine.batched_fm_accumulation = {domain:compile_fm_accumulation(gradient)
                                                  for domain,gradient in engine.grad.items()}
-            for i in range(WARMUP+TIMED):
-                append(ledger,'warmup' if i<WARMUP else 'timed',engine.update(guard))
+            for i in range(warmup+timed):
+                append(ledger,'warmup' if i<warmup else 'timed',engine.update(guard))
             result['matched_end_state'] = state_fingerprint(engine)
             if len(result['matched_end_state'])!=140:
                 raise ValueError('ADAPT_ENGINEERING_STATE_MUST_INCLUDE_ALL_140_LEAVES')
             result['matched_exposure_sha256'] = exposure_fingerprint(rows,fm_microbatch=microbatch)
-            result['throughput'] = timing_summary(rows[WARMUP:WARMUP+TIMED])
+            result['throughput'] = timing_summary(rows[warmup:],timed=timed)
             if plan.get('export_matched_engineering') is True:
                 from go2arx5_vla.sla_adapter.scale20k_checkpoint import seal_arrays, training_tree
 
