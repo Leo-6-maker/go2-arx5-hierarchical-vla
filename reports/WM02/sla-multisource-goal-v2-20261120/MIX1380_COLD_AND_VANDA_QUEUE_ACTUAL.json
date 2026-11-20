@@ -1,5 +1,5 @@
 {
-  "observed_SGT": "2026-11-20T20:34:10+08:00",
+  "observed_SGT": "2026-11-20T20:34:46+08:00",
   "plan_sha": "1b2a25b7c1720051a2627d30831fb18130462374",
   "mix_closed": {
     "step": 1380,
@@ -37,7 +37,7 @@
     "execution_sha256": "09da7b4290305821115f6b0004759d3101967eacbd5bd5af1ab00e87e1bcc47e",
     "deadline_SGT": "2026-11-21T00:30:27+08:00",
     "restored_step": 1380,
-    "phase": "RESTORED_COMPLETE_STATE",
+    "phase": "COMMITTED_OPTIMIZER_UPDATE",
     "stop": "STOP.json",
     "logs": [
       "logs/queue.log",
@@ -54,7 +54,13 @@
       ],
       "native_requests": 0,
       "reason": "Working directory caused import of a legacy step-zero wrapper. It was stopped before any gradient/update."
-    }
+    },
+    "committed_step": 1381,
+    "cursors": [
+      44192,
+      66288,
+      66288
+    ]
   },
   "mix_independent_eval": {
     "watcher_unit": "sla-observer-mix2000-eval-20261120-04.service",
@@ -111,7 +117,7 @@
   },
   "vanda_public_custody": {
     "job": "1598751.stdct-mgmt-02",
-    "job_state": "E",
+    "job_state": "F",
     "session_id": 1146002,
     "CPU_walltime_s": 1800,
     "source_sha": "83fc0c1f4b23576a2f3a4dcdff3563648c76bf82",
@@ -143,11 +149,11 @@
     "live_job": "1594212.stdct-mgmt-02",
     "state": "R",
     "session_id": 3629577,
-    "latest_step": 1432,
+    "latest_step": 1433,
     "cursors": [
-      91648,
-      45824,
-      45824
+      91712,
+      45856,
+      45856
     ],
     "latest_exact_seal": 1250,
     "successors_observed_F_without_start_or_exit": [
@@ -173,11 +179,11 @@
   "delta_vs_previous_reference": {
     "reference_MIX": 1365,
     "reference_ADAPT": 1406,
-    "at_observed_MIX": 1380,
-    "at_observed_ADAPT": 1432,
-    "optimizer_updates": 41,
-    "optimization_sample_visits": 5248,
-    "committed_training_H40": 164,
+    "at_observed_MIX": 1381,
+    "at_observed_ADAPT": 1433,
+    "optimizer_updates": 43,
+    "optimization_sample_visits": 5504,
+    "committed_training_H40": 172,
     "unapplied_training_H40": 4,
     "independent_offline_generations": 0,
     "new_native_requests": 0,
