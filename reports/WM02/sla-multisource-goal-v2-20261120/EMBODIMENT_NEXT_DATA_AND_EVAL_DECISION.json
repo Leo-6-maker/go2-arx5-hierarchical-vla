@@ -2,7 +2,7 @@
   "schema": "EMBODIMENT_NEXT_DATA_AND_EVAL_DECISION_V1",
   "plan_sha": "1b2a25b7c1720051a2627d30831fb18130462374",
   "a0_archived_result_sha256": "31c94319f629edbceb83f6040586075ca64f2ccc6b2ab9e63229fc6a49c4213e",
-  "a0_sealed_audit_sha256": "a49fc283a030c6128287e2bc93a1aa04b7930016a960207d74843e01beb6c154",
+  "a0_sealed_audit_sha256": "aa256d12033e8466c0ee9faa2077a96d09d2266cb0d315599bbab4f0ac3a241a",
   "experts_closed_timing": {
     "panel_sha256": "3136404c06f890a9dd830b2cf5f40e487ef436ede16e805e14ffc0cb06b5eefd",
     "labels": 88,
@@ -301,7 +301,7 @@
     "recovery": 2,
     "hold_priority": [
       "two independent F1 blue settings",
-      "two independent F2 red settings",
+      "two independent two-object F2 red settings with verified distractor geometry, extending the ten existing C20 F2 red episodes",
       "retain dual RGB, compare obstacle separation and opposite pad enclosure across settings"
     ],
     "place_priorities": [
@@ -350,7 +350,13 @@
       "movement, stop type, first bad tick, zero post-STOP integrations, matching held-out condition identities",
       "domain-specific native-unit errors and persistence/zero baselines, exact 48 restore"
     ],
-    "attribution": "One-family first-six results identify a repeated observed failure. D2 and optimizer exposure co-vary across ADAPT2k/5k."
+    "attribution": "One-family first-six results identify a repeated observed failure. D2 and optimizer exposure co-vary across ADAPT2k/5k.",
+    "first6_failure_stage_readout": {
+      "after_first_selected_pad": "Record valid opposing pad contact, measured closure, correct grasp and 20 mm lift after the first target pad contact.",
+      "link6_before_any_selected_pad": "Record link6 versus target and distractor separately, and whether the first target pad contact precedes any illegal contact.",
+      "width_clock": "Log first nominal, first actually consumed, and first physically measured closure independently using the existing width definition and native time.",
+      "score": "Use the original per-task native score and denominators."
+    }
   },
   "CLOCK500": {
     "trigger_PBS": "1598095",
@@ -481,5 +487,17 @@
     "private_readback_sha256": "2f64de9e0ce839bd673fc54911b2ce37fdd6c02d18c45cbeafc8d904e4b606b8",
     "production_runtime_switched": false,
     "new_jobs_submitted_by_audit": 0
+  },
+  "a0_precontact_classes": {
+    "TARGET_SINGLE_PAD_BEFORE_DISTRACTOR_LINK6_CONTACT": 3,
+    "TARGET_LINK6_CONTACT_BEFORE_ANY_TARGET_PAD": 3
+  },
+  "target_train_language_episode_counts": {
+    "HOLD_red": 21,
+    "HOLD_blue": 1,
+    "PLACE_red_left": 0,
+    "PLACE_red_right": 1,
+    "PLACE_blue_left": 3,
+    "PLACE_blue_right": 0
   }
 }
