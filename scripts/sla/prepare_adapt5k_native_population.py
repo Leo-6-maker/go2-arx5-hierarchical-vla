@@ -31,14 +31,14 @@ def scene_identity(cluster):
     return cluster['family'],position_id(cluster['card'])
 
 
-def population(prototypes, banks):
+def layout_population(prototypes, banks, *, stages, reset_base, plan):
     if set(prototypes) != {'F1','F2'}:
         raise ValueError('ADAPT5K_NATIVE_REQUIRES_BOTH_FROZEN_FAMILIES')
     occupied = {scene_identity(row) for bank in banks for row in bank['clusters']}
     resets = {row['reset'] for bank in banks for row in bank['clusters']}
     seeds = {row['noise_seed'] for bank in banks for rows in bank['conditions'].values() for row in rows}
     conditions, clusters = {}, []
-    for stage_index, (stage, offsets) in enumerate(STAGES.items()):
+    for stage_index, (stage, offsets) in enumerate(stages.items()):
         conditions[stage] = []
         for layout_index, (dx,dy) in enumerate(offsets):
             for family_index,family in enumerate(('F1','F2')):
@@ -46,10 +46,10 @@ def population(prototypes, banks):
                 for place in card['object_positions_world'].values():
                     place[0] += dx/1000
                     place[1] += dy/1000
-                reset = 732000 + 1000*stage_index + 10*layout_index + family_index
+                reset = reset_base + 1000*stage_index + 10*layout_index + family_index
                 cluster = dict(id=f'{stage}-{family}-{layout_index+1}',stage=stage,family=family,card=card,
-                               reset=reset,split='DEV' if stage == 'ADAPT_DEV' else 'CONFIRM',
-                               collection_lineage=f'{PLAN}:{stage}')
+                               reset=reset,split='DEV' if stage_index==0 else 'CONFIRM',
+                               collection_lineage=f'{plan}:{stage}')
                 key = scene_identity(cluster)
                 if reset in resets or key in occupied:
                     raise ValueError('ADAPT5K_NATIVE_GEOMETRY_OR_RESET_OVERLAPS_AN_EXISTING_SPLIT')
@@ -63,6 +63,11 @@ def population(prototypes, banks):
                     seeds.add(seed)
                     conditions[stage].append(dict(id=f"{cluster['id']}-{instruction}",cluster=cluster['id'],
                         instruction=instruction,family=family,reset=reset,noise_seed=seed))
+    return conditions,clusters
+
+
+def population(prototypes, banks):
+    conditions,clusters = layout_population(prototypes,banks,stages=STAGES,reset_base=732000,plan=PLAN)
     return dict(schema=SCHEMA,plan=PLAN,conditions=conditions,clusters=clusters,
                 dev_phase_steps=[0,2000,5000],confirm_phase_step=5000,
                 scene_instruction_independent=True,assignment_uses_outcomes=False,old_TEST_reused=False,
