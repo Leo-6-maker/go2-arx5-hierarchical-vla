@@ -1,0 +1,41 @@
+{
+  "schema": "SLA_ADAPT_TRAINED_CORE_CUSTODY_ACTUAL_V1",
+  "plan_sha": "1b2a25b7c1720051a2627d30831fb18130462374",
+  "observed": "2026-11-20T18:32:14.195419+08:00",
+  "site_source_sha": "e443cde405cfa349331773dce9ef29d13330a449",
+  "site_archive_sha256": "beb93c284bcc303288a0b27ba2186a2fdebe60c25ece78e98b5045a396e08ee6",
+  "site_CPU_stage_receipt_sha256": "f17b75a71e725b484c4380014b310306378a6fa5b12082e1fe4f4a928c308848",
+  "fixed_panel_sha256": "3136404c06f890a9dd830b2cf5f40e487ef436ede16e805e14ffc0cb06b5eefd",
+  "RGB_ordinals": [0, 7, 14, 21, 28, 35, 36, 43, 50, 57, 64, 71, 72, 79, 86, 93],
+  "physical_RGB_pairs_read": 16,
+  "legacy_ADAPT0_proof": {
+    "package_sha256": "86a65c937ee671b0c732e50d29a78cc6f0c0a91c2e8b188ed33ea97bccf04663",
+    "deployment_sha256": "404f7264edbd5ebd8438f2ed219e78edc4418969f6ce580d1cde3b038cb2d76b",
+    "verified": true,
+    "rejected_as_ADAPT2K_and_ADAPT5K": true
+  },
+  "local_CPU_tests_passed": 5,
+  "original_strict_Core_generation_cap_per_trained_endpoint": 16,
+  "transport": {
+    "Core_to_VANDA": "PINNED_HOST_REACHED_NONINTERACTIVE_USER_AUTH_DENIED",
+    "VANDA_to_campus_relay": "TCP_CONNECT_TIMEOUT",
+    "existing_dual_connection_relay_status": "BOTH_SITES_AND_RECEIVING_SPACE_VERIFIED",
+    "custody_arrivals": 0
+  },
+  "exports": [
+    {"phase": 2000, "original_eval_job": "1594215.stdct-mgmt-02", "export_job": "1598414.stdct-mgmt-02",
+      "export_state": "H", "expiry_job": "1598415.stdct-mgmt-02", "expiry_state": "W", "sealed": false},
+    {"phase": 5000, "original_eval_job": "1597845.stdct-mgmt-02", "export_job": "1598416.stdct-mgmt-02",
+      "export_state": "H", "expiry_job": "1598417.stdct-mgmt-02", "expiry_state": "W", "sealed": false}
+  ],
+  "original_MIX": {"updates": 1199, "visits": [38368, 57552, 57552]},
+  "original_ADAPT": {"updates": 1283, "visits": [82112, 41056, 41056], "job": "1594212.stdct-mgmt-02", "state": "R"},
+  "since_prior_actual": {"updates": 28, "visits": 3584, "training_H40": 112},
+  "actual_new_jobs": 0,
+  "actual_model_loads": 0,
+  "actual_optimizer_updates": 0,
+  "actual_optimization_visits": 0,
+  "actual_model_generations": 0,
+  "actual_native_requests": 0,
+  "actual_native_ticks": 0
+}
