@@ -1,0 +1,119 @@
+{
+  "schema": "SLA_CLOCK500_BRANCH_AND_D2_WEIGHT_SUPPORT_ACTUAL_V1",
+  "plan": "1b2a25b7c1720051a2627d30831fb18130462374",
+  "source_sha": "7b32007e8d5438491b65b427aa745adf988530c7",
+  "preflight_receipt_sha256": "ba1d56b27070218ef0a2059c16073f454796e4d9f97b487407cb0a70ce9d4353",
+  "preflight": {
+    "schema": "SLA_CLOCK500_ACTUAL_D2_WIDTH_SUPPORT_PREFLIGHT_V1",
+    "plan": "1b2a25b7c1720051a2627d30831fb18130462374",
+    "D2_ready": "78f5775e00e044de0c9936745131c9fe42cb7df319c7c009dd86f270517cd057",
+    "stage_bank_sha256": {
+      "target": "c370c1914eaaa17648171fefe0e4cdc2d42e88b9126fdd04bca1dbf2fee96b69",
+      "robodojo": "30bca6842ad9067763618185ffb9b1a38844ac8f848ae6f2e559996cbd9f29ee",
+      "libero": "545483608ad4118c33b79539bdaff421c7351a7a5bc354df734c8f16e6edc298"
+    },
+    "first_500_target_visits_audited": 32000,
+    "target_new_visits_audited": 6000,
+    "target_original_visits_audited": 26000,
+    "auxiliary_label_reads": 2000,
+    "distinct_auxiliary_episodes": 26,
+    "label_buckets": {
+      "OTHER": 256,
+      "P10_DUE_CLOSE": 351,
+      "RELEASE_OR_RECOVERY": 527,
+      "APPROACH": 732,
+      "NOT_DUE_CLOSE": 134
+    },
+    "weighted_points_per_auxiliary": {
+      "0": 1515,
+      "4": 351,
+      "10": 134
+    },
+    "ordered_auxiliary_weight_sha256": "1365b7cba53d0bfb34c64365ff6bd0f50597c3a6a3222df4600a389f2566d94d",
+    "all_40_points_supervised": true,
+    "optimizer_updates": 0,
+    "optimization_visits": 0,
+    "model_generations": 0,
+    "native_requests": 0,
+    "native_ticks": 0,
+    "old_TEST_access": false
+  },
+  "branch": {
+    "state": "CODE_AND_LOCAL_STATE_RECOVERY_TESTED_CONDITIONAL_ON_COLD_2K",
+    "CPU_tests": 30,
+    "formal_ADAPT_parent_eligible": false,
+    "optimizer_updates": 0,
+    "model_generations": 0,
+    "native_requests": 0,
+    "native_ticks": 0
+  },
+  "scheduled_trigger_job": "1598095.stdct-mgmt-02",
+  "trigger_job_state": "H",
+  "trigger_parent_eval": "1594215.stdct-mgmt-02",
+  "snapshot": "2026-11-20T17:12:59.253605+08:00",
+  "live": {
+    "Core_MIX": {
+      "step": 1068,
+      "after_seal1000": 68
+    },
+    "VANDA_ADAPT": {
+      "step": 1191,
+      "cursors": {
+        "target": 76224,
+        "robodojo": 38112,
+        "libero": 38112
+      }
+    },
+    "batch_engineering": {
+      "PBS": "1598060.stdct-mgmt-02",
+      "mb1": 16,
+      "mb2": 16,
+      "mb4": 0,
+      "independent_outputs": 0,
+      "mb1_timing": {
+        "updates": 12,
+        "total_step_wall_s": 503.5713837011717,
+        "update_p50_s": 41.29873358050827,
+        "update_p90_s": 44.06487486332189,
+        "FM_windows_per_second": 3.0502130377438004,
+        "GPU_hours_for_timed_updates": 0.13988093991699216,
+        "GPU_peak_bytes_in_use": 22903566592,
+        "GPU_peak_pool_bytes": 34361835520
+      },
+      "mb2_timing": {
+        "updates": 12,
+        "total_step_wall_s": 460.63342666998506,
+        "update_p50_s": 37.92581802804489,
+        "update_p90_s": 39.21776815901976,
+        "FM_windows_per_second": 3.33453872660537,
+        "GPU_hours_for_timed_updates": 0.1279537296305514,
+        "GPU_peak_bytes_in_use": 22903566592,
+        "GPU_peak_pool_bytes": 34361835520
+      },
+      "ratio": 1.093215026407428
+    }
+  },
+  "delta": {
+    "MIX_updates": 20,
+    "MIX_visits": {
+      "target": 640,
+      "robodojo": 960,
+      "libero": 960
+    },
+    "ADAPT_updates": 17,
+    "ADAPT_visits": {
+      "target": 1088,
+      "robodojo": 544,
+      "libero": 544
+    },
+    "batch_engineering_updates": 14,
+    "batch_visits": {
+      "target": 896,
+      "robodojo": 448,
+      "libero": 448
+    },
+    "training_H40": 204,
+    "native_requests": 0,
+    "native_ticks": 0
+  }
+}
