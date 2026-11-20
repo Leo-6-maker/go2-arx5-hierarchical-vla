@@ -166,13 +166,17 @@ def watch(spec):
     stops = (root/'STOP.json',prior_root/'STOP.json',native_root/'STOP.json',Path(campaign['stop']))
     stopped = lambda: any(path.exists() for path in stops)
     lock = OwnerLock(root/'OWNER.lock')
-    report = dict(status='WAIT_BLOCK2',optimizer_updates=0,model_generations=0,native_requests=0,native_ticks=0,
+    forward = spec.get('live_mix_predecessor')
+    report = dict(status='WAIT_OWNED_TRAINING_PREFIX' if forward else 'WAIT_BLOCK2',
+                  optimizer_updates=0,model_generations=0,native_requests=0,native_ticks=0,
                   successor_started=False)
     try:
-        blocker = unit_state(spec['block_observer_unit'])
-        expected = spec['block_observer_owner']
-        if blocker['pid'] and any(blocker[k]!=expected[k] for k in ('pid','proc_start','ControlGroup')):
-            raise PermissionError('MIX_ROTATION_WRONG_ADAPT_OBSERVER_OWNER')
+        name = previous['unit']+'.service' if forward else spec['block_observer_unit']
+        expected = forward or spec['block_observer_owner']
+        blocker = unit_state(name)
+        if (forward and (forward['unit']!=name or previous['deadline_epoch']>=spec['site_deadline_epoch'])
+                or blocker['pid'] and any(blocker[k]!=expected[k] for k in ('pid','proc_start','ControlGroup','InvocationID'))):
+            raise PermissionError('MIX_ROTATION_WRONG_PREDECESSOR_OWNER')
         deadline = min(spec['site_deadline_epoch']-1860,campaign['deadline_epoch']-1860)
         write(root/'READY.private.json',dict(report,unit=state,depends_on=blocker,observe_until_epoch=deadline))
         if 'stopped_legacy_launcher' in spec:
@@ -192,12 +196,16 @@ def watch(spec):
             if ('train' in legacy_result['stages'] or (legacy_root/'train').exists()
                     or read(legacy_root/'control/LEASE.json')['status']!='CLOSED'):
                 raise PermissionError('MIX_ROTATION_LEGACY_LAUNCH_REQUIRES_TRAINING_EFFECT_RECONCILIATION')
-        report['block_observer_terminal'] = await_cold(spec['block_observer_unit'],blocker,deadline=deadline,stopped=stopped)
-        handoff = read(block_watch/'RESULT.private.json')
+        report['predecessor_terminal'] = await_cold(name,blocker,deadline=deadline,stopped=stopped)
         fallback = 'unstarted_student_resource_refusal' in spec
-        if fallback:
+        if forward:
+            if fallback or 'stopped_legacy_launcher' in spec:
+                raise ValueError('MIX_ROTATION_SCOPE_MIXES_INDEPENDENT_PREDECESSORS')
+        elif fallback:
+            handoff = read(block_watch/'RESULT.private.json')
             report['unstarted_student_block'] = verify_unstarted_student_block(spec,block_scope,handoff,native_root,previous['GPU_uuid'])
         else:
+            handoff = read(block_watch/'RESULT.private.json')
             if handoff['status']!='ADAPT0_BLOCK2_DISPATCHED':
                 raise ValueError('MIX_ROTATION_ADAPT_BLOCK2_WAS_NOT_RECONCILED')
             native = handoff['result']
@@ -222,7 +230,14 @@ def watch(spec):
         owner = unit_state(mix_unit)
         if owner['pid'] or owner['cgroup_pids']:
             raise PermissionError('MIX_ROTATION_ORIGINAL_TRAINER_IS_NOT_COLD')
-        prior = read(prior_root/'RESULT.private.json')['stages']['train']
+        outer = read(prior_root/'RESULT.private.json')
+        prior = outer['stages']['train']
+        if forward:
+            result = read_pin(prior)
+            if (outer['status']!=result['status'] or outer.get('first_failure') or result.get('failure')
+                    or previous['global_stop_step']!=2000
+                    or previous['deadline_epoch']!=read(prior_root/'control/LEASE.json')['deadline_epoch']):
+                raise PermissionError('MIX_ROTATION_FORWARD_SEGMENT_NOT_TERMINAL_AT_OWNED_BOUNDARY')
         successor = Path(spec['successor_root']).resolve(strict=True)
         draft = dict(previous,root=str(successor),unit=spec['successor_unit'],previous_train_result=prior)
         readback,original,step = launcher.closed_predecessor(draft,successor)
@@ -238,7 +253,7 @@ def watch(spec):
             return 0
 
         def release():
-            resources(root,draft,stopped,own_gpu_only=fallback)
+            resources(root,draft,stopped,own_gpu_only=bool(fallback or forward))
             if fallback:
                 verify_unstarted_student_block(spec,block_scope,handoff,native_root,draft['GPU_uuid'])
             owner_check = OwnerLock(draft['neural_owner_lock'])

@@ -94,11 +94,37 @@ def run(spec):
         optimization_visits=0,model_generations=0,native_requests=0,native_ticks=0,eval_started=False)
     lock = OwnerLock(root/'OWNER.lock')
     try:
+        worker_source, worker_sha = source, spec['source_sha']
         latest_start = end-1800
         write(root/'READY.private.json',dict(result,owner=state,latest_start_epoch=latest_start,
                                             initial=spec['initial_training_owner'],rotation=spec['rotation_owner']))
         a = after_segment(initial,spec['initial_training_unit'],spec['initial_training_owner'],latest_start,stopped)
         result['initial'] = a
+        preceding_eval = spec.get('preceding_eval_observer')
+        if preceding_eval:
+            previous = read_pin(preceding_eval['spec'])
+            name = previous['unit']
+            owner = unit_state(name)
+            expected = preceding_eval['owner']
+            if (previous['campaign']!=spec['campaign'] or previous['evaluation_root']!=spec['evaluation_root']
+                    or previous['panel']!=spec['panel'] or previous['site_deadline_epoch']!=spec['site_deadline_epoch']
+                    or name!=expected['unit'] or name==spec['unit']
+                    or owner['pid'] and any(owner[k]!=expected[k] for k in ('pid','proc_start','ControlGroup','InvocationID'))):
+                raise PermissionError('MIX2000_EVAL_PRECEDING_OBSERVER_IDENTITY_OR_PANEL_CHANGED')
+            await_cold(name,owner,deadline=latest_start,stopped=stopped)
+            preceding_result = pin(Path(previous['root'])/'RESULT.private.json')
+            preceding = read_pin(preceding_result)
+            result['preceding_eval'] = preceding_result
+            if preceding['eval_started'] or preceding['status']!='COLD_PREFIX_BELOW_2000_NO_EVAL':
+                result.update(status='MIX2000_EVAL_PRECEDING_OBSERVER_TERMINAL_PRESERVED',
+                              preceding_status=preceding['status'])
+                return 0
+            runtime = spec['evaluation_runtime']
+            worker_source = Path(runtime['path']).resolve(strict=True).parents[2]
+            worker_sha = previous['source_sha']
+            if (pin(worker_source/'scripts/sla/scale20k_core_offline.py')!=runtime
+                    or (worker_source/'SOURCE_SHA.private').read_text().strip()!=worker_sha):
+                raise PermissionError('MIX2000_EVAL_ORIGINAL_OFFLINE_RUNTIME_CHANGED')
         exact = a
         if not a['exact']:
             rotation_owner = unit_state(spec['rotation_unit'])
@@ -128,7 +154,7 @@ def run(spec):
             raise ValueError('MIX2000_EVAL_EXACT_SEAL_OR_PANEL_BINDING_CHANGED')
         result['sealed'] = seal
         cfg = dict(root=str(target),host=os.uname().nodename,uid=os.getuid(),plan=SCALE_PLAN,arm=ARM,step=step,
-            training_source_sha=TRAINER,source_sha=spec['source_sha'],panel=spec['panel'],
+            training_source_sha=TRAINER,source_sha=worker_sha,panel=spec['panel'],
             previous_train_result=train,training_spec=training,GPU_uuid=spec['GPU_uuid'],
             JAX_memory_fraction=.8,neural_owner_lock=spec['neural_owner_lock'])
         offline_endpoint(cfg,target)
@@ -151,7 +177,7 @@ def run(spec):
             args = ['systemd-run','--user','--unit='+eval_unit,'--property=Restart=no',
                 '--property=UMask=0077','--property=KillMode=control-group','--property=CPUAffinity=16 17',
                 '--property=MemoryMax=22G','--property=TimeoutStopSec=90','--property=StandardInput=null',
-                '--property=WorkingDirectory='+str(source),
+                '--property=WorkingDirectory='+str(worker_source),
                 '--property=RuntimeMaxSec='+str(math.ceil(deadline-time.time())+30),
                 '--property=StandardOutput=append:'+str(target/'supervisor.log'),
                 '--property=StandardError=append:'+str(target/'supervisor.log')]
