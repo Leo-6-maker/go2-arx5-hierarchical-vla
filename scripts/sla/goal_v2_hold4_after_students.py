@@ -156,9 +156,11 @@ def run(spec):
         admit = root/'ADMISSION_INPUT.private.json'
         write(admit,dict(campaign_spec=activated['spec'],campaign_result=effect,
                          C20_statistics=spec['C20_statistics'],output=str(root/'admitted')))
+        admission_env = dict(env,PYTHONPATH=spec['admission_PYTHONPATH'])
         with (root/'admission.log').open('x') as log:
-            subprocess.run([python,'-B','-m','scripts.sla.admit_target_adaptation',str(admit),pin(admit)['sha256']],
-                cwd=source,env=env,stdout=log,stderr=subprocess.STDOUT,check=True,timeout=min(240,end-time.time()))
+            subprocess.run([spec['admission_python'],'-B','-m','scripts.sla.admit_target_adaptation',
+                str(admit),pin(admit)['sha256']],cwd=source,env=admission_env,stdout=log,stderr=subprocess.STDOUT,
+                check=True,timeout=min(240,end-time.time()))
         admitted = pin(root/'admitted/ACTUAL.private.json')
         evidence = read_pin(admitted)
         result.update(status='HOLD4_NATIVE_AND_LABEL_ADMISSION_SEALED',admission=admitted,
