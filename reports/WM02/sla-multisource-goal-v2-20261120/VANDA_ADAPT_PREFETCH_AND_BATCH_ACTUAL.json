@@ -1,0 +1,112 @@
+{
+  "schema": "SLA_GOAL_V2_ADAPT_PERFORMANCE_AND_REAL_BATCH_PBS_ACTUAL",
+  "plan_sha": "1b2a25b7c1720051a2627d30831fb18130462374",
+  "profile_observed": "2026-11-20T16:41:41.996931+08:00",
+  "batch_observed": "2026-11-20T16:46:35.167560+08:00",
+  "profile_job": "1597888.stdct-mgmt-02",
+  "profile_source": "f86955bab424f5500b20bbdaaead3596b24d3593",
+  "profile_state": "F",
+  "profile_exit": 0,
+  "preserved_serial_job": "1597847.stdct-mgmt-02",
+  "preserved_serial_exit": 1,
+  "serial_committed_updates": 8,
+  "original_CUDA_trace_error": "CUDA_ERROR_LAUNCH_FAILED",
+  "state_identity_between_prefetch_candidates": 140,
+  "serial_state_identity": null,
+  "comparison_sha256": "682f40630c1ac703642d139af7abeb5fd323ecb7d780eb07ce3d8fca55318def",
+  "once_new_updates": 16,
+  "once_new_visits": {
+    "target": 1024,
+    "robodojo": 512,
+    "libero": 512
+  },
+  "once_H40": 64,
+  "available_complete_profile_cost": {
+    "total_archived_updates": 24,
+    "T": 1536,
+    "R": 768,
+    "L": 768,
+    "H40": 96
+  },
+  "native_requests": 0,
+  "native_ticks": 0,
+  "PR419_optional_offline_outputs": 0,
+  "timed_roles": {
+    "serial": {
+      "updates": 5,
+      "total_step_wall_s": 298.0386253448669,
+      "update_p50_s": 60.52654225192964,
+      "update_p90_s": 63.56743193110451,
+      "FM_windows_per_second": 2.147372674462722,
+      "GPU_hours_for_timed_updates": 0.08278850704024081
+    },
+    "prefetch": {
+      "updates": 5,
+      "total_step_wall_s": 264.36156115634367,
+      "update_p50_s": 53.09625135315582,
+      "update_p90_s": 56.172617642767726,
+      "FM_windows_per_second": 2.4209268442831724,
+      "GPU_hours_for_timed_updates": 0.07343376698787324,
+      "speedup": 1.1273901698916302
+    },
+    "prefetch_deferred": {
+      "updates": 5,
+      "total_step_wall_s": 218.47083119605668,
+      "update_p50_s": 41.782703990116715,
+      "update_p90_s": 47.54303384707309,
+      "FM_windows_per_second": 2.9294528541691736,
+      "GPU_hours_for_timed_updates": 0.06068634199890463,
+      "speedup": 1.3642032838580895
+    }
+  },
+  "batch": {
+    "PBS_job": "1598060.stdct-mgmt-02",
+    "state": "R",
+    "actual_allocation_host": "GN-A40-018",
+    "pid": 887662,
+    "source": "48b26d5bbfad723821942dc1e7c7ccbbbf1ffa36",
+    "spec_sha256": "679054033db3606de56e8c8d33a118afc0caaa76fe93aad3aea57aa5b7a42722",
+    "depends_on": "afterany:1597888.stdct-mgmt-02@stdct-mgmt-02",
+    "deadline": "2026-11-20T19:42:14+08:00",
+    "parent_checkpoint_sha256": "01f9a4c52f2b621539872213c91afec2340fca2c2b09d34dc5ab40b402759776",
+    "STOP_file": "STOP.json",
+    "cap_engineering_updates": 48,
+    "cap_offline_outputs_including_restores": 288,
+    "engineering_updates": 2,
+    "engineering_visits": {
+      "target": 128,
+      "robodojo": 64,
+      "libero": 64
+    },
+    "completed_H40": 8,
+    "outputs": 0
+  },
+  "two_device": {
+    "source": "d4ee2891",
+    "status": "IMPLEMENTED_CPU_QUALIFIED_NOT_DISPATCHED",
+    "CPU_tests_passed": 29,
+    "future_real_updates": 0,
+    "native_requests": 0,
+    "single_mb2_reference_job": "1598060.stdct-mgmt-02"
+  },
+  "concurrent_VANDA_science": {
+    "step": 1155,
+    "cursors": {
+      "target": 73920,
+      "robodojo": 36960,
+      "libero": 36960
+    }
+  },
+  "concurrent_Core_MIX": {
+    "observed": "2026-11-20T16:46:35.474615+08:00",
+    "step": 1024,
+    "new_from_seal": 24,
+    "visits": {
+      "target": 768,
+      "robodojo": 1152,
+      "libero": 1152
+    },
+    "H40": 96,
+    "native_requests": 0
+  }
+}
