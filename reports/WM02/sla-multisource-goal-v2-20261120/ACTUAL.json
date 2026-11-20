@@ -1,0 +1,952 @@
+{
+  "schema": "SLA_MULTISOURCE_CLOSED_LOOP_GOAL_V2_ACTUAL_V1",
+  "plan_sha": "1b2a25b7c1720051a2627d30831fb18130462374",
+  "observation_time": "2026-11-20T15:41:01.712027+08:00",
+  "T0": "2026-11-20T15:29:58.885715+08:00",
+  "deadline": "2026-12-04T15:29:58.885715+08:00",
+  "campaign_sha256": "f0c55f42d659a7199a10c7fbf9c1b5a13607612cc5d044cf416ddac327e87a00",
+  "pipeline_complete": false,
+  "capability_demonstrated": false,
+  "optimizer_and_visits": {
+    "reference": "2026-11-20 14:08 SGT",
+    "training_updates_delta": 138,
+    "delta_visits": {
+      "target": 8064,
+      "robodojo": 3648,
+      "libero": 3648
+    },
+    "verified_completed_training_H40": 552,
+    "independent_TGT_eval": 336,
+    "Core_deployment": 32,
+    "verified_completed_generation_delta": 920,
+    "new_native_requests": 0,
+    "new_native_ticks": 0
+  },
+  "training": {
+    "TGT": {
+      "sealed": 5000,
+      "arrays_verified": 140,
+      "visits": [
+        160000,
+        0,
+        0
+      ],
+      "job": "1593720.stdct-mgmt-02",
+      "exit": 0,
+      "checkpoint_sha256": "9eb71c0da7c0f34373d53c7b6c6b6dd3491e5a36dfd94d6ae0eb4d799fbdff08"
+    },
+    "MIX": {
+      "sealed": 1000,
+      "arrays_verified": 140,
+      "source_files_verified": 3669,
+      "visits": [
+        32000,
+        48000,
+        48000
+      ],
+      "checkpoint_sha256": "54e98287d5df6897298fded5057c0ff8f45b806320d885d63401f4eced179399",
+      "handoff_unit": "wm02-sla-multisource-v2-mix1000-cold-handoff-20261120-01.service",
+      "handoff_spec_sha256": "fd9d6a0201caca44e4a0e671731618fa9ee4e56168f121e3533402a3164e442d",
+      "handoff_status": "CORE_COLD_WINDOW_RESERVED_FOR_A0_FIRST6",
+      "successor_GPU_owner": false
+    },
+    "ADAPT": {
+      "sealed": 1000,
+      "arrays_verified": 140,
+      "durable_ledger_step": 1067,
+      "visits": [
+        68288,
+        34144,
+        34144
+      ],
+      "live_job": "1594211.stdct-mgmt-02",
+      "PBS_session": 2725141,
+      "original_worker": "1432c8dc88c57adf39e8fa363f5438c5e63aa8fd",
+      "checkpoint_sha256": "01f9a4c52f2b621539872213c91afec2340fca2c2b09d34dc5ab40b402759776",
+      "independent_eval_2000": "1594215.stdct-mgmt-02",
+      "existing_predecessor": "1594214.stdct-mgmt-02",
+      "stage2_source_sha": "f9c8457bbe47c35c54d173abfc619500320b1ad2",
+      "stage2_site_deadline_epoch": 1795484131.0,
+      "stage2_scheduler_graph": [
+        {
+          "phase": 2250,
+          "role": "train",
+          "job_id": "1597833.stdct-mgmt-02",
+          "state": "H",
+          "dependency": "afterany:1594214.stdct-mgmt-02@stdct-mgmt-02,beforeany:1597834.stdct-mgmt-02@stdct-mgmt-02",
+          "wall": "06:00:00",
+          "spec_sha256": "e666a656554f28318e23aeb3a46805c930c87be279256d23833e0372f2d904f4"
+        },
+        {
+          "phase": 2500,
+          "role": "train",
+          "job_id": "1597834.stdct-mgmt-02",
+          "state": "H",
+          "dependency": "afterany:1597833.stdct-mgmt-02@stdct-mgmt-02,beforeany:1597835.stdct-mgmt-02@stdct-mgmt-02",
+          "wall": "06:00:00",
+          "spec_sha256": "a8e842e36d20d8e538f8e74848042f2ff0a650d06a595e5e6a1a87f73dfc98e3"
+        },
+        {
+          "phase": 2750,
+          "role": "train",
+          "job_id": "1597835.stdct-mgmt-02",
+          "state": "H",
+          "dependency": "afterany:1597834.stdct-mgmt-02@stdct-mgmt-02,beforeany:1597836.stdct-mgmt-02@stdct-mgmt-02",
+          "wall": "06:00:00",
+          "spec_sha256": "098248bb76c8a25cbf6c8b6f34cfcaee48eb481aa95dcc11eca31fa752484b5a"
+        },
+        {
+          "phase": 3000,
+          "role": "train",
+          "job_id": "1597836.stdct-mgmt-02",
+          "state": "H",
+          "dependency": "afterany:1597835.stdct-mgmt-02@stdct-mgmt-02,beforeany:1597837.stdct-mgmt-02@stdct-mgmt-02",
+          "wall": "06:00:00",
+          "spec_sha256": "fa942bf22ca366347b5c085ba4603ce0c80f6a084507a894c93ad6295df5cd19"
+        },
+        {
+          "phase": 3250,
+          "role": "train",
+          "job_id": "1597837.stdct-mgmt-02",
+          "state": "H",
+          "dependency": "afterany:1597836.stdct-mgmt-02@stdct-mgmt-02,beforeany:1597838.stdct-mgmt-02@stdct-mgmt-02",
+          "wall": "06:00:00",
+          "spec_sha256": "d3f407c525f22eb998699d09855176e1b7f63e401c3582689f7a46e6058cf9e8"
+        },
+        {
+          "phase": 3500,
+          "role": "train",
+          "job_id": "1597838.stdct-mgmt-02",
+          "state": "H",
+          "dependency": "afterany:1597837.stdct-mgmt-02@stdct-mgmt-02,beforeany:1597839.stdct-mgmt-02@stdct-mgmt-02",
+          "wall": "06:00:00",
+          "spec_sha256": "e2989c14cac31b3a0c33c9152da097f2c719816ecc1f26db0764d4d8a5840802"
+        },
+        {
+          "phase": 3750,
+          "role": "train",
+          "job_id": "1597839.stdct-mgmt-02",
+          "state": "H",
+          "dependency": "afterany:1597838.stdct-mgmt-02@stdct-mgmt-02,beforeany:1597840.stdct-mgmt-02@stdct-mgmt-02",
+          "wall": "06:00:00",
+          "spec_sha256": "38b13227a93cbc5d7b9ab530575bf10e554939ae3d6a22f9af8b7519d5f3ff16"
+        },
+        {
+          "phase": 4000,
+          "role": "train",
+          "job_id": "1597840.stdct-mgmt-02",
+          "state": "H",
+          "dependency": "afterany:1597839.stdct-mgmt-02@stdct-mgmt-02,beforeany:1597841.stdct-mgmt-02@stdct-mgmt-02",
+          "wall": "06:00:00",
+          "spec_sha256": "4839ded3b7a373b854dae53752171703709f68e35ea03423ec465ac5ec754b18"
+        },
+        {
+          "phase": 4250,
+          "role": "train",
+          "job_id": "1597841.stdct-mgmt-02",
+          "state": "H",
+          "dependency": "afterany:1597840.stdct-mgmt-02@stdct-mgmt-02,beforeany:1597842.stdct-mgmt-02@stdct-mgmt-02",
+          "wall": "06:00:00",
+          "spec_sha256": "ac629a29d5f4f89ea90f72d20fd1a3b56cb9f1779c1462209e912fb40eb8806a"
+        },
+        {
+          "phase": 4500,
+          "role": "train",
+          "job_id": "1597842.stdct-mgmt-02",
+          "state": "H",
+          "dependency": "afterany:1597841.stdct-mgmt-02@stdct-mgmt-02,beforeany:1597843.stdct-mgmt-02@stdct-mgmt-02",
+          "wall": "06:00:00",
+          "spec_sha256": "c9e2ad713644a6237ea149eec63b0e38346cfcbfa542d6b4b73d6ff2157f8a62"
+        },
+        {
+          "phase": 4750,
+          "role": "train",
+          "job_id": "1597843.stdct-mgmt-02",
+          "state": "H",
+          "dependency": "afterany:1597842.stdct-mgmt-02@stdct-mgmt-02,beforeany:1597844.stdct-mgmt-02@stdct-mgmt-02",
+          "wall": "06:00:00",
+          "spec_sha256": "33d591c2a86d6f1e139ac7c4a399e60b92ec7a120d57e94ee4e5cda73dda8da4"
+        },
+        {
+          "phase": 5000,
+          "role": "train",
+          "job_id": "1597844.stdct-mgmt-02",
+          "state": "H",
+          "dependency": "afterany:1597843.stdct-mgmt-02@stdct-mgmt-02,beforeany:1597845.stdct-mgmt-02@stdct-mgmt-02",
+          "wall": "06:00:00",
+          "spec_sha256": "e53966501284dabc8356c76db47e295e9ea5b3bcc372fcd00806a140a7529b16"
+        },
+        {
+          "phase": 5000,
+          "role": "eval",
+          "job_id": "1597845.stdct-mgmt-02",
+          "state": "H",
+          "dependency": "afterany:1597844.stdct-mgmt-02@stdct-mgmt-02",
+          "wall": "01:30:00",
+          "spec_sha256": "6c52f26c00876f4afda37476e0fdfdc177fea760cdb40d001f88a9c766ecb9c6"
+        }
+      ]
+    }
+  },
+  "evaluation": {
+    "TGT5K": {
+      "job": "1593721.stdct-mgmt-02",
+      "domains": {
+        "target": 96,
+        "robodojo": 96,
+        "libero": 96
+      },
+      "independent_restore_exact": 48,
+      "H40_and_seam": 86,
+      "closure_label_atom": 20,
+      "closure_predicted_atom": 27
+    },
+    "archive_audit": {
+      "panel_sha256": "3136404c06f890a9dd830b2cf5f40e487ef436ede16e805e14ffc0cb06b5eefd",
+      "formal_result_sha256": [
+        "d05f424493f5a89b202861058ef4f410ef8311d12c56208b48a476eca52cea29",
+        "1adce9193d0bb7a2177cf73291ac7b527f4713454516373d634271f67a0ea77a"
+      ],
+      "expert_spec_sha256": "893a78c4c0e75b93fafae9573dc1c098ee93d6b18ae2d1256ce336a6e0c298b0",
+      "new_updates": 0,
+      "new_visits": 0,
+      "new_generations": 0,
+      "native_requests": 0,
+      "native_ticks": 0,
+      "phases": [
+        {
+          "phase": 0,
+          "checkpoint_sha256": "205aacaafe78c7715d16cacf7c0f2513a6bc373f4ed5998895ae52faa08c92c0",
+          "target_phase": {
+            "windows": 88,
+            "episodes": 24,
+            "categories": {
+              "missing": 12,
+              "timely_P10": 10,
+              "late": 2
+            },
+            "intersection": {
+              "missing|H40_True|seam_False": 12,
+              "timely_P10|H40_True|seam_False": 8,
+              "late|H40_False|seam_False": 2,
+              "H40_first_suffix": 4,
+              "timely_P10|H40_False|seam_False": 2
+            },
+            "h40": 84,
+            "seam": 45,
+            "both": 45,
+            "P10_close": 10,
+            "suffix_close": 2,
+            "P10_open": 0,
+            "timely_joint": 0
+          },
+          "by_bucket": {
+            "APPROACH": {
+              "windows": 16,
+              "episodes": 16,
+              "categories": {},
+              "intersection": {},
+              "h40": 16,
+              "seam": 16,
+              "both": 16,
+              "P10_close": 0,
+              "suffix_close": 0,
+              "P10_open": 0,
+              "timely_joint": 0
+            },
+            "NOT_DUE_CLOSE": {
+              "windows": 32,
+              "episodes": 24,
+              "categories": {},
+              "intersection": {},
+              "h40": 32,
+              "seam": 14,
+              "both": 14,
+              "P10_close": 0,
+              "suffix_close": 0,
+              "P10_open": 0,
+              "timely_joint": 0
+            },
+            "P10_DUE_CLOSE": {
+              "windows": 24,
+              "episodes": 24,
+              "categories": {
+                "missing": 12,
+                "timely_P10": 10,
+                "late": 2
+              },
+              "intersection": {
+                "missing|H40_True|seam_False": 12,
+                "timely_P10|H40_True|seam_False": 8,
+                "late|H40_False|seam_False": 2,
+                "H40_first_suffix": 4,
+                "timely_P10|H40_False|seam_False": 2
+              },
+              "h40": 20,
+              "seam": 0,
+              "both": 0,
+              "P10_close": 10,
+              "suffix_close": 2,
+              "P10_open": 0,
+              "timely_joint": 0
+            },
+            "RELEASE_OR_RECOVERY": {
+              "windows": 16,
+              "episodes": 4,
+              "categories": {},
+              "intersection": {},
+              "h40": 16,
+              "seam": 15,
+              "both": 15,
+              "P10_close": 0,
+              "suffix_close": 0,
+              "P10_open": 0,
+              "timely_joint": 0
+            }
+          },
+          "source": {
+            "robodojo": {
+              "all": {
+                "windows": 96,
+                "episodes": 12,
+                "normalized_active_mae": 0.08691785189633568,
+                "normalized_persistence_mae": 0.13604570329524557,
+                "dynamic_windows": 76
+              },
+              "per_task": {
+                "cover_blocks": {
+                  "windows": 16,
+                  "episodes": 2,
+                  "normalized_active_mae": 0.07338720478583127,
+                  "normalized_persistence_mae": 0.06869761692953717,
+                  "dynamic_windows": 11
+                },
+                "insert_tubes": {
+                  "windows": 16,
+                  "episodes": 2,
+                  "normalized_active_mae": 0.052798885270021856,
+                  "normalized_persistence_mae": 0.12250882193927587,
+                  "dynamic_windows": 13
+                },
+                "make_bread": {
+                  "windows": 16,
+                  "episodes": 2,
+                  "normalized_active_mae": 0.13771162321791053,
+                  "normalized_persistence_mae": 0.17446616123041242,
+                  "dynamic_windows": 13
+                },
+                "make_food": {
+                  "windows": 16,
+                  "episodes": 2,
+                  "normalized_active_mae": 0.08952245372347534,
+                  "normalized_persistence_mae": 0.10789546375556706,
+                  "dynamic_windows": 14
+                },
+                "pack_and_pour_fruit": {
+                  "windows": 16,
+                  "episodes": 2,
+                  "normalized_active_mae": 0.07047432125546038,
+                  "normalized_persistence_mae": 0.11219269750852016,
+                  "dynamic_windows": 11
+                },
+                "store_in_safe": {
+                  "windows": 16,
+                  "episodes": 2,
+                  "normalized_active_mae": 0.09761262312531471,
+                  "normalized_persistence_mae": 0.23051345840816068,
+                  "dynamic_windows": 14
+                }
+              }
+            },
+            "libero": {
+              "all": {
+                "windows": 96,
+                "episodes": 96,
+                "normalized_active_mae": 0.24926381457286576,
+                "normalized_zero_mae": 0.4086558655835688,
+                "native_channel_mae": [
+                  0.22251809275864312,
+                  0.17252501193434,
+                  0.2498398584042055,
+                  0.03170303454680834,
+                  0.06452418060022562,
+                  0.04462270703030905,
+                  0.21305976856092457
+                ]
+              },
+              "per_task": {
+                "pick up the black bowl between the plate and the ramekin and place it on the plate": {
+                  "windows": 10,
+                  "episodes": 10,
+                  "normalized_active_mae": 0.30877259373664856,
+                  "normalized_zero_mae": 0.4580420255661011,
+                  "native_channel_mae": [
+                    0.2799300391227007,
+                    0.15411094352602958,
+                    0.2890077538788319,
+                    0.03670412553474307,
+                    0.06524475086480379,
+                    0.07117665540426969,
+                    0.40336983148008587
+                  ]
+                },
+                "pick up the black bowl from table center and place it on the plate": {
+                  "windows": 10,
+                  "episodes": 10,
+                  "normalized_active_mae": 0.2205386683344841,
+                  "normalized_zero_mae": 0.3940189749002457,
+                  "native_channel_mae": [
+                    0.18325188905000686,
+                    0.13859742861241103,
+                    0.127168869972229,
+                    0.029505918407812713,
+                    0.07068345230072737,
+                    0.03753290558233857,
+                    0.23771746237762273
+                  ]
+                },
+                "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate": {
+                  "windows": 10,
+                  "episodes": 10,
+                  "normalized_active_mae": 0.23236936926841736,
+                  "normalized_zero_mae": 0.3890228867530823,
+                  "native_channel_mae": [
+                    0.17504315376281737,
+                    0.20054082050919533,
+                    0.2707788124680519,
+                    0.03604009780101478,
+                    0.06345029976218938,
+                    0.04982905462384224,
+                    0.05376821174286306
+                  ]
+                },
+                "pick up the black bowl next to the cookie box and place it on the plate": {
+                  "windows": 10,
+                  "episodes": 10,
+                  "normalized_active_mae": 0.23042992800474166,
+                  "normalized_zero_mae": 0.3842916518449783,
+                  "native_channel_mae": [
+                    0.22017572149634362,
+                    0.1391487080603838,
+                    0.2724108811467886,
+                    0.025673011457547544,
+                    0.0600124922581017,
+                    0.03391094617545605,
+                    0.20993892452679574
+                  ]
+                },
+                "pick up the black bowl next to the plate and place it on the plate": {
+                  "windows": 10,
+                  "episodes": 10,
+                  "normalized_active_mae": 0.2074197970330715,
+                  "normalized_zero_mae": 0.4266351193189621,
+                  "native_channel_mae": [
+                    0.19042020440101623,
+                    0.1564833763986826,
+                    0.20782827585935593,
+                    0.02901983675546944,
+                    0.059631118830293414,
+                    0.042083379440009595,
+                    0.08292523697018624
+                  ]
+                },
+                "pick up the black bowl next to the ramekin and place it on the plate": {
+                  "windows": 10,
+                  "episodes": 10,
+                  "normalized_active_mae": 0.27033425197005273,
+                  "normalized_zero_mae": 0.36668486297130587,
+                  "native_channel_mae": [
+                    0.24083019122481347,
+                    0.10158594995737076,
+                    0.2695602713152766,
+                    0.019674752559512853,
+                    0.0901229752227664,
+                    0.038070930540561675,
+                    0.36619455041363835
+                  ]
+                },
+                "pick up the black bowl on the cookie box and place it on the plate": {
+                  "windows": 9,
+                  "episodes": 9,
+                  "normalized_active_mae": 0.16766805946826935,
+                  "normalized_zero_mae": 0.42651573816935223,
+                  "native_channel_mae": [
+                    0.13460982632305887,
+                    0.1027875163902839,
+                    0.1449931189417839,
+                    0.03391815059714847,
+                    0.042903133668005466,
+                    0.020035799799693957,
+                    0.14130364787868327
+                  ]
+                },
+                "pick up the black bowl on the ramekin and place it on the plate": {
+                  "windows": 9,
+                  "episodes": 9,
+                  "normalized_active_mae": 0.3028172337346607,
+                  "normalized_zero_mae": 0.457404891649882,
+                  "native_channel_mae": [
+                    0.38168494155009586,
+                    0.23870020856459936,
+                    0.37465200821558636,
+                    0.03125623530811734,
+                    0.07090178080317047,
+                    0.04505870822403166,
+                    0.1399426570472618
+                  ]
+                },
+                "pick up the black bowl on the stove and place it on the plate": {
+                  "windows": 9,
+                  "episodes": 9,
+                  "normalized_active_mae": 0.2762875565224224,
+                  "normalized_zero_mae": 0.3623526179128223,
+                  "native_channel_mae": [
+                    0.2947855492432912,
+                    0.2832443681028154,
+                    0.29722424927685,
+                    0.03359125187206599,
+                    0.04325189415572418,
+                    0.03969787319915162,
+                    0.2564241529131929
+                  ]
+                },
+                "pick up the black bowl on the wooden cabinet and place it on the plate": {
+                  "windows": 9,
+                  "episodes": 9,
+                  "normalized_active_mae": 0.2788582742214203,
+                  "normalized_zero_mae": 0.42528318365414935,
+                  "native_channel_mae": [
+                    0.12950022891163826,
+                    0.22612667083740234,
+                    0.25169481916560066,
+                    0.043158127926290035,
+                    0.07659546306563748,
+                    0.06828996958211064,
+                    0.23061794290939966
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "phase": 500,
+          "checkpoint_sha256": "e5b796170e47dfc649f5430512bad741b94c8d4042d828db82653da759b27653",
+          "target_phase": {
+            "windows": 88,
+            "episodes": 24,
+            "categories": {
+              "late": 22,
+              "timely_P10": 2
+            },
+            "intersection": {
+              "late|H40_False|seam_False": 19,
+              "H40_first_prefix": 30,
+              "late|H40_True|seam_False": 3,
+              "timely_P10|H40_False|seam_False": 2,
+              "H40_first_suffix": 1
+            },
+            "h40": 57,
+            "seam": 43,
+            "both": 43,
+            "P10_close": 29,
+            "suffix_close": 4,
+            "P10_open": 0,
+            "timely_joint": 0
+          },
+          "by_bucket": {
+            "APPROACH": {
+              "windows": 16,
+              "episodes": 16,
+              "categories": {},
+              "intersection": {},
+              "h40": 16,
+              "seam": 16,
+              "both": 16,
+              "P10_close": 0,
+              "suffix_close": 0,
+              "P10_open": 0,
+              "timely_joint": 0
+            },
+            "NOT_DUE_CLOSE": {
+              "windows": 32,
+              "episodes": 24,
+              "categories": {},
+              "intersection": {
+                "H40_first_prefix": 9
+              },
+              "h40": 23,
+              "seam": 13,
+              "both": 13,
+              "P10_close": 5,
+              "suffix_close": 4,
+              "P10_open": 0,
+              "timely_joint": 0
+            },
+            "P10_DUE_CLOSE": {
+              "windows": 24,
+              "episodes": 24,
+              "categories": {
+                "late": 22,
+                "timely_P10": 2
+              },
+              "intersection": {
+                "late|H40_False|seam_False": 19,
+                "H40_first_prefix": 21,
+                "late|H40_True|seam_False": 3,
+                "timely_P10|H40_False|seam_False": 2
+              },
+              "h40": 3,
+              "seam": 0,
+              "both": 0,
+              "P10_close": 24,
+              "suffix_close": 0,
+              "P10_open": 0,
+              "timely_joint": 0
+            },
+            "RELEASE_OR_RECOVERY": {
+              "windows": 16,
+              "episodes": 4,
+              "categories": {},
+              "intersection": {
+                "H40_first_suffix": 1
+              },
+              "h40": 15,
+              "seam": 14,
+              "both": 14,
+              "P10_close": 0,
+              "suffix_close": 0,
+              "P10_open": 0,
+              "timely_joint": 0
+            }
+          },
+          "source": {
+            "robodojo": {
+              "all": {
+                "windows": 96,
+                "episodes": 12,
+                "normalized_active_mae": 0.08411503261110435,
+                "normalized_persistence_mae": 0.13604570329524557,
+                "dynamic_windows": 76
+              },
+              "per_task": {
+                "cover_blocks": {
+                  "windows": 16,
+                  "episodes": 2,
+                  "normalized_active_mae": 0.07077569561079144,
+                  "normalized_persistence_mae": 0.06869761692953717,
+                  "dynamic_windows": 11
+                },
+                "insert_tubes": {
+                  "windows": 16,
+                  "episodes": 2,
+                  "normalized_active_mae": 0.049167930032126606,
+                  "normalized_persistence_mae": 0.12250882193927587,
+                  "dynamic_windows": 13
+                },
+                "make_bread": {
+                  "windows": 16,
+                  "episodes": 2,
+                  "normalized_active_mae": 0.13453014753758907,
+                  "normalized_persistence_mae": 0.17446616123041242,
+                  "dynamic_windows": 13
+                },
+                "make_food": {
+                  "windows": 16,
+                  "episodes": 2,
+                  "normalized_active_mae": 0.08509859896730632,
+                  "normalized_persistence_mae": 0.10789546375556706,
+                  "dynamic_windows": 14
+                },
+                "pack_and_pour_fruit": {
+                  "windows": 16,
+                  "episodes": 2,
+                  "normalized_active_mae": 0.07194597204215825,
+                  "normalized_persistence_mae": 0.11219269750852016,
+                  "dynamic_windows": 11
+                },
+                "store_in_safe": {
+                  "windows": 16,
+                  "episodes": 2,
+                  "normalized_active_mae": 0.09317185147665441,
+                  "normalized_persistence_mae": 0.23051345840816068,
+                  "dynamic_windows": 14
+                }
+              }
+            },
+            "libero": {
+              "all": {
+                "windows": 96,
+                "episodes": 96,
+                "normalized_active_mae": 0.22246780820811787,
+                "normalized_zero_mae": 0.4086558655835688,
+                "native_channel_mae": [
+                  0.2046643390591877,
+                  0.15294328182547665,
+                  0.22213896786949286,
+                  0.030560001148842275,
+                  0.05701980723824818,
+                  0.04112766588756737,
+                  0.16584245720878243
+                ]
+              },
+              "per_task": {
+                "pick up the black bowl between the plate and the ramekin and place it on the plate": {
+                  "windows": 10,
+                  "episodes": 10,
+                  "normalized_active_mae": 0.28262497782707213,
+                  "normalized_zero_mae": 0.4580420255661011,
+                  "native_channel_mae": [
+                    0.27313918247818947,
+                    0.14549339488148688,
+                    0.23569035716354847,
+                    0.03760151956230402,
+                    0.06120152920484543,
+                    0.06463479585945606,
+                    0.3351271337363869
+                  ]
+                },
+                "pick up the black bowl from table center and place it on the plate": {
+                  "windows": 10,
+                  "episodes": 10,
+                  "normalized_active_mae": 0.1794108584523201,
+                  "normalized_zero_mae": 0.3940189749002457,
+                  "native_channel_mae": [
+                    0.17862694039940835,
+                    0.10783855319023132,
+                    0.11326416730880737,
+                    0.02795092868618667,
+                    0.06518279574811459,
+                    0.029263078491203486,
+                    0.07975733764469624
+                  ]
+                },
+                "pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate": {
+                  "windows": 10,
+                  "episodes": 10,
+                  "normalized_active_mae": 0.20748939067125322,
+                  "normalized_zero_mae": 0.3890228867530823,
+                  "native_channel_mae": [
+                    0.1584183856844902,
+                    0.18816417530179025,
+                    0.26473657190799715,
+                    0.035116635356098415,
+                    0.05115746408700943,
+                    0.047112305834889415,
+                    0.010583584872074425
+                  ]
+                },
+                "pick up the black bowl next to the cookie box and place it on the plate": {
+                  "windows": 10,
+                  "episodes": 10,
+                  "normalized_active_mae": 0.20277280062437059,
+                  "normalized_zero_mae": 0.3842916518449783,
+                  "native_channel_mae": [
+                    0.193770869076252,
+                    0.11675433479249478,
+                    0.21218321099877357,
+                    0.026910702767781913,
+                    0.049444653047248724,
+                    0.030005651898682116,
+                    0.20635817819274963
+                  ]
+                },
+                "pick up the black bowl next to the plate and place it on the plate": {
+                  "windows": 10,
+                  "episodes": 10,
+                  "normalized_active_mae": 0.1862323522567749,
+                  "normalized_zero_mae": 0.4266351193189621,
+                  "native_channel_mae": [
+                    0.1810554314404726,
+                    0.1298859965056181,
+                    0.2234418898820877,
+                    0.02581799770705402,
+                    0.050642972625792024,
+                    0.03943679388612509,
+                    0.04830871694721282
+                  ]
+                },
+                "pick up the black bowl next to the ramekin and place it on the plate": {
+                  "windows": 10,
+                  "episodes": 10,
+                  "normalized_active_mae": 0.2433839589357376,
+                  "normalized_zero_mae": 0.36668486297130587,
+                  "native_channel_mae": [
+                    0.1921503458172083,
+                    0.09364923443645239,
+                    0.2329207457602024,
+                    0.019870831351727247,
+                    0.07939826902002096,
+                    0.03643421791493893,
+                    0.35465063876472414
+                  ]
+                },
+                "pick up the black bowl on the cookie box and place it on the plate": {
+                  "windows": 9,
+                  "episodes": 9,
+                  "normalized_active_mae": 0.14447236557801565,
+                  "normalized_zero_mae": 0.42651573816935223,
+                  "native_channel_mae": [
+                    0.1236970064540704,
+                    0.1220084134903219,
+                    0.1344292066577408,
+                    0.03488105432026916,
+                    0.03814563310394684,
+                    0.01693534664809704,
+                    0.012223784087432755
+                  ]
+                },
+                "pick up the black bowl on the ramekin and place it on the plate": {
+                  "windows": 9,
+                  "episodes": 9,
+                  "normalized_active_mae": 0.28081878357463413,
+                  "normalized_zero_mae": 0.457404891649882,
+                  "native_channel_mae": [
+                    0.3632839421431224,
+                    0.1965913027524948,
+                    0.35192980286147857,
+                    0.0295021574323376,
+                    0.06926865596324205,
+                    0.04168591989825169,
+                    0.11821134781671895
+                  ]
+                },
+                "pick up the black bowl on the stove and place it on the plate": {
+                  "windows": 9,
+                  "episodes": 9,
+                  "normalized_active_mae": 0.22663959529664782,
+                  "normalized_zero_mae": 0.3623526179128223,
+                  "native_channel_mae": [
+                    0.25353870706425774,
+                    0.2036034646961424,
+                    0.20822428560091388,
+                    0.026578509274663195,
+                    0.03595014433893892,
+                    0.03601201333933406,
+                    0.26073007515838575
+                  ]
+                },
+                "pick up the black bowl on the wooden cabinet and place it on the plate": {
+                  "windows": 9,
+                  "episodes": 9,
+                  "normalized_active_mae": 0.27448772225115037,
+                  "normalized_zero_mae": 0.42528318365414935,
+                  "native_channel_mae": [
+                    0.1346097888631953,
+                    0.24054105952382088,
+                    0.2501913143528832,
+                    0.04249094074798955,
+                    0.06814941743181811,
+                    0.06974310748693016,
+                    0.22805923632242614
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "expert_by_bucket": {
+        "P10_DUE_CLOSE": {
+          "windows": 24,
+          "original_gate_and_seam_pass": 24,
+          "independent_episodes": 24
+        },
+        "NOT_DUE_CLOSE": {
+          "windows": 32,
+          "original_gate_and_seam_pass": 32,
+          "independent_episodes": 24
+        },
+        "APPROACH": {
+          "windows": 16,
+          "original_gate_and_seam_pass": 16,
+          "independent_episodes": 16
+        },
+        "RELEASE_OR_RECOVERY": {
+          "windows": 16,
+          "original_gate_and_seam_pass": 16,
+          "independent_episodes": 4
+        }
+      }
+    }
+  },
+  "native": {
+    "new_student_requests": 0,
+    "new_ticks": 0,
+    "ADAPT96_planned": 96,
+    "SCALE96_planned": 96,
+    "historical_two_HOLD": {
+      "requests": 2,
+      "successes": 2,
+      "ticks": 46156,
+      "expert_plans": 139,
+      "confirmed_P10_atoms": 1390
+    },
+    "ADAPT0_deploy": {
+      "generated": 32,
+      "ordinary": 16,
+      "independent_restore": 16,
+      "restored_bitwise": 16,
+      "guard_signature_equal": 16,
+      "cross_site_maxima": {
+        "xyz_m": 0.00023976314432994084,
+        "so3_rad": 0.00012833868108447474,
+        "gripper_m": 0.0002463841298981248,
+        "closing_s": null
+      },
+      "comparison_sha256": "404f7264edbd5ebd8438f2ed219e78edc4418969f6ce580d1cde3b038cb2d76b",
+      "prior_technical_refusal": {
+        "first_failure": "psi_some,psi_full",
+        "observed_avg10": [
+          0.3,
+          0.3
+        ],
+        "threshold": 0.1,
+        "restore_generations": 0
+      },
+      "restore_unit": "wm02-sla-adapt0-deployv2-g2-restore-20261120-03.service",
+      "restore_wrapper_sha256": "547b5bd81f70b07f5f3d7ab1a0c30dab0295e16b75fea5c807fb0c1399836450",
+      "restore_spec_sha256": "1955b0f47f67ba892a4c474fd946893291263b9a8718033f440181ce433c41bd"
+    }
+  },
+  "curriculum": {
+    "D2_ready_sha256": "78f5775e00e044de0c9936745131c9fe42cb7df319c7c009dd86f270517cd057",
+    "episodes": 26,
+    "windows": 2031,
+    "stage2_decision": null,
+    "batch_slots": [
+      12,
+      52,
+      32,
+      32
+    ]
+  },
+  "throughput": {
+    "job": "1597847.stdct-mgmt-02",
+    "PBS_session": 876056,
+    "state": "R",
+    "source_sha": "e98f58d51e599384a5eee7652a7e600a7dc77ce0",
+    "spec_sha256": "70e10162a9f225954acd7797378782dd1852eacea3413477ca3a2f013cf90645",
+    "deadline_epoch": 1795203412.05353,
+    "optimizer_updates_committed_at_observation": 0,
+    "optimizer_update_cap": 26,
+    "base_checkpoint_sha256": "01f9a4c52f2b621539872213c91afec2340fca2c2b09d34dc5ab40b402759776",
+    "engineering_only": true,
+    "comparison": [
+      "serial",
+      "prefetch",
+      "prefetch_deferred"
+    ],
+    "two_gpu_qualified": false
+  },
+  "pending": [
+    "A0 fixed DEV first six",
+    "MIX1001 training worker registration",
+    "SCALE96 other endpoint packages and native runs",
+    "ADAPT96 native runs",
+    "PR419 efficiency and state qualification",
+    "same-node two-GPU qualification",
+    "exact 2k CLOCK trigger",
+    "automatic campaign finalizer"
+  ]
+}
