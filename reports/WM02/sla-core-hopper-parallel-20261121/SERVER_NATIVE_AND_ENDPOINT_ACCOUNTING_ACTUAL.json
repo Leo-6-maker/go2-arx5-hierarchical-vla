@@ -1,0 +1,1756 @@
+{
+  "plan": "171b5bedb290258954aac140157743e92e3b152e",
+  "T0": "2026-11-21T12:41:52+08:00",
+  "deadline": "2026-12-05T12:41:52+08:00",
+  "account": {
+    "at": "2026-11-21T18:53:35.606944+08:00",
+    "project": "CFP04-CF-007",
+    "member": true,
+    "active": true,
+    "covers_hopper": true,
+    "valid_through": "2027-03-12",
+    "available_for_six_hours": true
+  },
+  "training": {
+    "at": "2026-11-21T18:57:28.362260+08:00",
+    "job": "727394.hopper-m-02",
+    "source": "b9581196d0acd02fb748222988e5a5543ce1f232",
+    "phase_updates": 401,
+    "phase_budget": 20000,
+    "actual_by_job": {
+      "727341.hopper-m-02": 100,
+      "727394.hopper-m-02": 301
+    },
+    "visits": {
+      "target": 25664,
+      "robodojo": 12832,
+      "libero": 12832
+    },
+    "training_full_H40": 1604,
+    "full_parent": "2bff547b6f2c3aca0e7e2fd8a790ce6b30ef1c5f33b004c6897e3083647358d5",
+    "parent_HF_revision": "5c460f195f6509f2f4da55dea32c356b45e00d37",
+    "assets_inventory_sha256": "a951f4f8ff7662198f4a3f1826a5bc7a6ad920b71f65be8dbc395f514555cf22",
+    "frozen_bank_sha256": "c3c308dfc00517894735c0f7386dc2e79385e86717fa33f4e817b44fc0afadb0",
+    "segment": [
+      100,
+      867
+    ],
+    "restored": "4b922442d4cc1ac9d33529cba7667b73acad6882300d2a37c8d915dc5906bef0",
+    "seal": {
+      "phase": 400,
+      "arrays": 140,
+      "checkpoint": "94a1a0e5fcb84ddff35db8f86b14af54337b32270b9ec9d3be4b32df43efe8e2",
+      "receipt": "ca4f8a09617e5075d2bd55a1788901d64faf03d26fce3c218196503e28946d95"
+    },
+    "pbs": {
+      "at": "2026-11-21T18:55:37.079370+08:00",
+      "job": "727394.hopper-m-02",
+      "state": "R",
+      "project": "CFP04-CF-007",
+      "host": "hopper-17",
+      "gpu": 1,
+      "model": "1:ngpus=1:gpu_model=H200:ncpus=12:mem=225GB",
+      "used": "01:16:30",
+      "limit": "06:00:00"
+    },
+    "settled_H200": {
+      "001": {
+        "GPU_seconds": 23,
+        "exit": 1,
+        "group": "engineering",
+        "job": "727303.hopper-m-02",
+        "pbs_used_wall": "00:00:20"
+      },
+      "002": {
+        "GPU_seconds": 1536,
+        "exit": 0,
+        "group": "engineering",
+        "job": "727311.hopper-m-02",
+        "pbs_used_wall": "00:25:33"
+      },
+      "003": {
+        "GPU_seconds": 1736,
+        "exit": 0,
+        "group": "training",
+        "job": "727341.hopper-m-02",
+        "pbs_used_wall": "00:28:52"
+      },
+      "004": {
+        "GPU_seconds": 108,
+        "exit": 0,
+        "group": "reference",
+        "job": "727376.hopper-m-02",
+        "pbs_used_wall": "00:01:35"
+      }
+    },
+    "campaign_hours_cap": 320,
+    "completed_H200_seconds": 3403,
+    "course_ready": 0,
+    "control_triggered": false
+  },
+  "core": {
+    "snapshot_cutoff": "2026-11-21T18:57:27.898125+08:00",
+    "confirmed": {
+      "TRAIN": {
+        "started": 31,
+        "terminated": 30,
+        "admitted": 11,
+        "ticks": 861521
+      },
+      "VAL": {
+        "started": 24,
+        "terminated": 24,
+        "admitted": 8,
+        "ticks": 678919
+      }
+    },
+    "terminal_scores": {
+      "TRAIN": {
+        "closed": 30,
+        "requests": 30,
+        "ticks": 861521,
+        "grasp": 20,
+        "lift": 20,
+        "success": 11,
+        "admitted": 11,
+        "failure_or_success": {
+          "TASK_SUCCESS": 11,
+          "ILLEGAL_CONTACT": 17,
+          "TASK_BUDGET_EXHAUSTED_IN_CARRY": 2
+        },
+        "hard_STOP": 17,
+        "post_STOP_ticks": 0
+      },
+      "VAL": {
+        "closed": 24,
+        "requests": 24,
+        "ticks": 678919,
+        "grasp": 15,
+        "lift": 15,
+        "success": 8,
+        "admitted": 8,
+        "failure_or_success": {
+          "TASK_SUCCESS": 8,
+          "ILLEGAL_CONTACT": 15,
+          "TASK_BUDGET_EXHAUSTED_IN_CARRY": 1
+        },
+        "hard_STOP": 15,
+        "post_STOP_ticks": 0
+      }
+    },
+    "latest_complete_place": {
+      "condition": "CHV1-TRAIN-F1-PLACE-red-right-02",
+      "terminal": "db511275bcd165a6e135601cbe06f7f6c841e12d0a54a3ae453b41e0da5cfcc8",
+      "requests": 1,
+      "ticks": 35703,
+      "queries": 120,
+      "grasp": true,
+      "lift20": true,
+      "maximum_lift_mm": 27.171142144222003,
+      "hold_s": 8.6740000000106,
+      "base_directional_mm": 196.27638945624386,
+      "success": true,
+      "events": {
+        "base80mm": {
+          "native_step": 10104,
+          "native_time_s": 20.20799999999968
+        },
+        "target_grasp": {
+          "native_step": 19525,
+          "native_time_s": 39.05000000000176
+        },
+        "target_lift20mm": {
+          "native_step": 21846,
+          "native_time_s": 43.69200000000743
+        },
+        "correct_region": {
+          "native_step": 27957,
+          "native_time_s": 55.91400000002237
+        },
+        "released": {
+          "native_step": 32695,
+          "native_time_s": 65.390000000029
+        },
+        "retreated50mm": {
+          "native_step": 34967,
+          "native_time_s": 69.93400000001841
+        }
+      },
+      "score_at": 35703
+    },
+    "snapshot": {
+      "windows": 661,
+      "episodes": 8,
+      "supervised": 26440,
+      "confirmed": 6610,
+      "bytes": 263855137,
+      "files": 56,
+      "task_windows": {
+        "HOLD-blue": 286,
+        "PLACE-red-right": 242,
+        "HOLD-red": 133
+      }
+    },
+    "units": {
+      "wm02-sla-core-hopper-v1-expert-chain-20261121-02.service": {
+        "MainPID": "1746282",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-hopper-v1-expert-chain-20261121-02.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "InvocationID": "a9ea6c147a90458885362b8204a56407"
+      },
+      "wm02-sla-core-hopper-v1-train-snapshots-20261121-01.service": {
+        "MainPID": "1775736",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-hopper-v1-train-snapshots-20261121-01.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "InvocationID": "bb853c71c6724d808c751f1ede27f2de"
+      }
+    },
+    "world": {
+      "at": "2026-11-21T18:57:27.909964+08:00",
+      "observed_locks": [
+        {
+          "pid": "1746282",
+          "type": "FLOCK",
+          "identity": "103:04:57039644",
+          "fd_match": true
+        }
+      ],
+      "roles": [
+        {
+          "role": "sla-core-hopper-v1-expert-chain-20261121-02",
+          "pid": "1746282",
+          "active": "active",
+          "phase": "DISPATCH",
+          "current": "CHV1-TRAIN-F1-HOLD-blue-03",
+          "live_case": "CHV1-TRAIN-F1-HOLD-blue-03",
+          "case_pid": 2089601,
+          "tick": null
+        },
+        {
+          "role": "sla-core-hopper-v1-blue-right-pilot-20261121-01",
+          "pid": "1973911",
+          "active": "active",
+          "phase": "WAIT_WORLD",
+          "current": "CHV1-TRAIN-F2-PLACE-blue-right-02",
+          "live_case": null,
+          "case_pid": null,
+          "tick": null
+        },
+        {
+          "role": "sla-core-hopper-v1-red-hold-pilot-20261121-01",
+          "pid": "2035299",
+          "active": "active",
+          "phase": "WAIT_WORLD",
+          "current": "CHV1-TRAIN-F2-HOLD-red-02",
+          "live_case": null,
+          "case_pid": null,
+          "tick": null
+        }
+      ]
+    },
+    "repair_pilots": [
+      {
+        "condition": "CHV1-TRAIN-F2-PLACE-blue-right-02",
+        "stage": "WAIT_WORLD",
+        "closed": 0,
+        "started": 0,
+        "ticks": 0
+      },
+      {
+        "condition": "CHV1-TRAIN-F2-HOLD-red-02",
+        "stage": "WAIT_WORLD",
+        "closed": 0,
+        "started": 0,
+        "ticks": 0
+      }
+    ],
+    "student": {
+      "phase": 0,
+      "status": "ENDPOINT_NATIVE_HELD",
+      "core_strict_RGB16_exact": 0,
+      "generated": 16,
+      "DEV_requests": 0,
+      "CONF_requests": 0,
+      "ticks": 0
+    }
+  },
+  "daily_reports": {
+    "core": {
+      "unit": "wm02-sla-core-hopper-v1-native-readout-20261121-01.service",
+      "timer": "wm02-sla-core-hopper-v1-native-readout-20261121-01.timer",
+      "source": "d5cf2b7d51aa51664d17a9feae947942d3930109",
+      "spec_sha256": "3b46efca558587cec4021729d3c4ff150d089df921e9a509b5a9a0ef1a9e59bd",
+      "unit_sha256": "c253d31157f32a04f77c709427a46975a8261a2b8a4ad775e51081639b4c9a0e",
+      "timer_sha256": "7ce09d76cd60ec13237a5612761279b0e15b4921673df6d238731e664913a53e",
+      "calendar_epochs": [
+        1795257954,
+        1795322517,
+        1795408917,
+        1795495317,
+        1795581717,
+        1795668117,
+        1795754517,
+        1795840917,
+        1795927317,
+        1796013717,
+        1796100117,
+        1796186517,
+        1796272917,
+        1796359317,
+        1796445417
+      ],
+      "enabled": "enabled",
+      "linger": "yes",
+      "timer_readback": {
+        "NextElapseUSecRealtime": "Sun 2026-11-22 12:41:57 +08",
+        "LastTriggerUSec": "Sat 2026-11-21 18:45:54 +08",
+        "ActiveState": "active",
+        "SubState": "waiting",
+        "InvocationID": "28b59f3d4149494cac1e76b477e33032"
+      },
+      "receipt_sha256": "cf364d09812eb80ba2c5b3dd975c8d5e4c7c00e692c1d1481c207b6222695caf",
+      "service_invocation": "39aa9e66b9a84a4a89401b1be8215736",
+      "pid": 2078031,
+      "read_end": 1795257954.8709793,
+      "results": {
+        "CONF": {
+          "STOP_with_tick_evidence": 0,
+          "admitted": 0,
+          "confirmed_requests": 0,
+          "first_outcomes": {},
+          "hard_STOP": 0,
+          "native_terminals": 0,
+          "post_STOP_ticks": 0,
+          "reconciled": 0,
+          "scored": 0,
+          "success": 0,
+          "terminal_model_generations": 0,
+          "terminal_ticks": 0,
+          "unreconciled_cases": 0
+        },
+        "DEV": {
+          "STOP_with_tick_evidence": 0,
+          "admitted": 0,
+          "confirmed_requests": 0,
+          "first_outcomes": {},
+          "hard_STOP": 0,
+          "native_terminals": 0,
+          "post_STOP_ticks": 0,
+          "reconciled": 0,
+          "scored": 0,
+          "success": 0,
+          "terminal_model_generations": 0,
+          "terminal_ticks": 0,
+          "unreconciled_cases": 0
+        },
+        "TRAIN": {
+          "STOP_with_tick_evidence": 17,
+          "admitted": 9,
+          "base80": 28,
+          "confirmed_requests": 29,
+          "correct_region": 6,
+          "expert_queries": 2578,
+          "expert_queries_measured_terminals": 28,
+          "first_outcomes": {
+            "ILLEGAL_CONTACT": 17,
+            "TASK_BUDGET_EXHAUSTED_IN_CARRY": 2,
+            "TASK_SUCCESS": 9
+          },
+          "grasp": 18,
+          "hard_STOP": 17,
+          "hold1s": 18,
+          "launched_pending_request_evidence": 0,
+          "lift20": 18,
+          "native_terminals": 28,
+          "open_confirmed_requests": 1,
+          "post_STOP_ticks": 0,
+          "reconciled": 28,
+          "release": 3,
+          "retreat50": 2,
+          "score_ends_before_terminal": 17,
+          "score_through_terminal": 11,
+          "scored": 28,
+          "success": 9,
+          "terminal_model_generations": 0,
+          "terminal_ticks": 802115,
+          "unreconciled_cases": 1
+        },
+        "VAL": {
+          "STOP_with_tick_evidence": 15,
+          "admitted": 8,
+          "base80": 22,
+          "confirmed_requests": 24,
+          "correct_region": 6,
+          "expert_queries": 2177,
+          "expert_queries_measured_terminals": 24,
+          "first_outcomes": {
+            "ILLEGAL_CONTACT": 15,
+            "TASK_BUDGET_EXHAUSTED_IN_CARRY": 1,
+            "TASK_SUCCESS": 8
+          },
+          "grasp": 15,
+          "hard_STOP": 15,
+          "hold1s": 15,
+          "lift20": 15,
+          "native_terminals": 24,
+          "post_STOP_ticks": 0,
+          "reconciled": 24,
+          "release": 4,
+          "retreat50": 3,
+          "score_ends_before_terminal": 14,
+          "score_through_terminal": 10,
+          "scored": 24,
+          "success": 8,
+          "terminal_model_generations": 0,
+          "terminal_ticks": 678919,
+          "unreconciled_cases": 0
+        }
+      },
+      "cells": {
+        "TRAIN/F1/HOLD-blue": {
+          "STOP_with_tick_evidence": 1,
+          "admitted": 2,
+          "base80": 3,
+          "confirmed_requests": 3,
+          "correct_region": 0,
+          "expert_queries": 201,
+          "expert_queries_measured_terminals": 3,
+          "first_outcomes": {
+            "ILLEGAL_CONTACT": 1,
+            "TASK_SUCCESS": 2
+          },
+          "grasp": 2,
+          "hard_STOP": 1,
+          "hold1s": 2,
+          "lift20": 2,
+          "native_terminals": 3,
+          "post_STOP_ticks": 0,
+          "reconciled": 3,
+          "release": 0,
+          "retreat50": 0,
+          "score_ends_before_terminal": 1,
+          "score_through_terminal": 2,
+          "scored": 3,
+          "success": 2,
+          "terminal_model_generations": 0,
+          "terminal_ticks": 67287,
+          "unreconciled_cases": 0
+        },
+        "TRAIN/F1/HOLD-red": {
+          "STOP_with_tick_evidence": 0,
+          "admitted": 3,
+          "base80": 3,
+          "confirmed_requests": 3,
+          "correct_region": 0,
+          "expert_queries": 201,
+          "expert_queries_measured_terminals": 3,
+          "first_outcomes": {
+            "TASK_SUCCESS": 3
+          },
+          "grasp": 3,
+          "hard_STOP": 0,
+          "hold1s": 3,
+          "lift20": 3,
+          "native_terminals": 3,
+          "post_STOP_ticks": 0,
+          "reconciled": 3,
+          "release": 0,
+          "retreat50": 0,
+          "score_ends_before_terminal": 0,
+          "score_through_terminal": 3,
+          "scored": 3,
+          "success": 3,
+          "terminal_model_generations": 0,
+          "terminal_ticks": 67359,
+          "unreconciled_cases": 0
+        },
+        "TRAIN/F1/PLACE-blue-left": {
+          "STOP_with_tick_evidence": 2,
+          "admitted": 0,
+          "base80": 2,
+          "confirmed_requests": 2,
+          "correct_region": 0,
+          "expert_queries": 108,
+          "expert_queries_measured_terminals": 2,
+          "first_outcomes": {
+            "ILLEGAL_CONTACT": 2
+          },
+          "grasp": 0,
+          "hard_STOP": 2,
+          "hold1s": 0,
+          "lift20": 0,
+          "native_terminals": 2,
+          "post_STOP_ticks": 0,
+          "reconciled": 2,
+          "release": 0,
+          "retreat50": 0,
+          "score_ends_before_terminal": 2,
+          "score_through_terminal": 0,
+          "scored": 2,
+          "success": 0,
+          "terminal_model_generations": 0,
+          "terminal_ticks": 38178,
+          "unreconciled_cases": 0
+        },
+        "TRAIN/F1/PLACE-blue-right": {
+          "STOP_with_tick_evidence": 2,
+          "admitted": 0,
+          "base80": 3,
+          "confirmed_requests": 3,
+          "correct_region": 2,
+          "expert_queries": 450,
+          "expert_queries_measured_terminals": 3,
+          "first_outcomes": {
+            "ILLEGAL_CONTACT": 2,
+            "TASK_BUDGET_EXHAUSTED_IN_CARRY": 1
+          },
+          "grasp": 3,
+          "hard_STOP": 2,
+          "hold1s": 3,
+          "lift20": 3,
+          "native_terminals": 3,
+          "post_STOP_ticks": 0,
+          "reconciled": 3,
+          "release": 0,
+          "retreat50": 0,
+          "score_ends_before_terminal": 2,
+          "score_through_terminal": 1,
+          "scored": 3,
+          "success": 0,
+          "terminal_model_generations": 0,
+          "terminal_ticks": 129295,
+          "unreconciled_cases": 0
+        },
+        "TRAIN/F1/PLACE-red-left": {
+          "STOP_with_tick_evidence": 2,
+          "admitted": 0,
+          "base80": 3,
+          "confirmed_requests": 3,
+          "correct_region": 1,
+          "expert_queries": 335,
+          "expert_queries_measured_terminals": 3,
+          "first_outcomes": {
+            "ILLEGAL_CONTACT": 2,
+            "TASK_BUDGET_EXHAUSTED_IN_CARRY": 1
+          },
+          "grasp": 2,
+          "hard_STOP": 2,
+          "hold1s": 2,
+          "lift20": 2,
+          "native_terminals": 3,
+          "post_STOP_ticks": 0,
+          "reconciled": 3,
+          "release": 0,
+          "retreat50": 0,
+          "score_ends_before_terminal": 2,
+          "score_through_terminal": 1,
+          "scored": 3,
+          "success": 0,
+          "terminal_model_generations": 0,
+          "terminal_ticks": 100569,
+          "unreconciled_cases": 0
+        },
+        "TRAIN/F1/PLACE-red-right": {
+          "STOP_with_tick_evidence": 0,
+          "admitted": 2,
+          "base80": 2,
+          "confirmed_requests": 2,
+          "correct_region": 2,
+          "expert_queries": 242,
+          "expert_queries_measured_terminals": 2,
+          "first_outcomes": {
+            "TASK_SUCCESS": 2
+          },
+          "grasp": 2,
+          "hard_STOP": 0,
+          "hold1s": 2,
+          "lift20": 2,
+          "native_terminals": 2,
+          "post_STOP_ticks": 0,
+          "reconciled": 2,
+          "release": 2,
+          "retreat50": 2,
+          "score_ends_before_terminal": 0,
+          "score_through_terminal": 2,
+          "scored": 2,
+          "success": 2,
+          "terminal_model_generations": 0,
+          "terminal_ticks": 71906,
+          "unreconciled_cases": 0
+        },
+        "TRAIN/F2/HOLD-blue": {
+          "STOP_with_tick_evidence": 0,
+          "admitted": 2,
+          "base80": 2,
+          "confirmed_requests": 3,
+          "correct_region": 0,
+          "expert_queries": 142,
+          "expert_queries_measured_terminals": 2,
+          "first_outcomes": {
+            "TASK_SUCCESS": 2
+          },
+          "grasp": 2,
+          "hard_STOP": 0,
+          "hold1s": 2,
+          "launched_pending_request_evidence": 0,
+          "lift20": 2,
+          "native_terminals": 2,
+          "open_confirmed_requests": 1,
+          "post_STOP_ticks": 0,
+          "reconciled": 2,
+          "release": 0,
+          "retreat50": 0,
+          "score_ends_before_terminal": 0,
+          "score_through_terminal": 2,
+          "scored": 2,
+          "success": 2,
+          "terminal_model_generations": 0,
+          "terminal_ticks": 46906,
+          "unreconciled_cases": 1
+        },
+        "TRAIN/F2/HOLD-red": {
+          "STOP_with_tick_evidence": 2,
+          "admitted": 0,
+          "base80": 2,
+          "confirmed_requests": 2,
+          "correct_region": 0,
+          "expert_queries": 118,
+          "expert_queries_measured_terminals": 2,
+          "first_outcomes": {
+            "ILLEGAL_CONTACT": 2
+          },
+          "grasp": 0,
+          "hard_STOP": 2,
+          "hold1s": 0,
+          "lift20": 0,
+          "native_terminals": 2,
+          "post_STOP_ticks": 0,
+          "reconciled": 2,
+          "release": 0,
+          "retreat50": 0,
+          "score_ends_before_terminal": 2,
+          "score_through_terminal": 0,
+          "scored": 2,
+          "success": 0,
+          "terminal_model_generations": 0,
+          "terminal_ticks": 40596,
+          "unreconciled_cases": 0
+        },
+        "TRAIN/F2/PLACE-blue-left": {
+          "STOP_with_tick_evidence": 2,
+          "admitted": 0,
+          "base80": 2,
+          "confirmed_requests": 2,
+          "correct_region": 1,
+          "expert_queries": 260,
+          "expert_queries_measured_terminals": 2,
+          "first_outcomes": {
+            "ILLEGAL_CONTACT": 2
+          },
+          "grasp": 2,
+          "hard_STOP": 2,
+          "hold1s": 2,
+          "lift20": 2,
+          "native_terminals": 2,
+          "post_STOP_ticks": 0,
+          "reconciled": 2,
+          "release": 1,
+          "retreat50": 0,
+          "score_ends_before_terminal": 2,
+          "score_through_terminal": 0,
+          "scored": 2,
+          "success": 0,
+          "terminal_model_generations": 0,
+          "terminal_ticks": 76137,
+          "unreconciled_cases": 0
+        },
+        "TRAIN/F2/PLACE-blue-right": {
+          "STOP_with_tick_evidence": 2,
+          "admitted": 0,
+          "base80": 2,
+          "confirmed_requests": 2,
+          "correct_region": 0,
+          "expert_queries": 267,
+          "expert_queries_measured_terminals": 2,
+          "first_outcomes": {
+            "ILLEGAL_CONTACT": 2
+          },
+          "grasp": 2,
+          "hard_STOP": 2,
+          "hold1s": 2,
+          "lift20": 2,
+          "native_terminals": 2,
+          "post_STOP_ticks": 0,
+          "reconciled": 2,
+          "release": 0,
+          "retreat50": 0,
+          "score_ends_before_terminal": 2,
+          "score_through_terminal": 0,
+          "scored": 2,
+          "success": 0,
+          "terminal_model_generations": 0,
+          "terminal_ticks": 77915,
+          "unreconciled_cases": 0
+        },
+        "TRAIN/F2/PLACE-red-left": {
+          "STOP_with_tick_evidence": 2,
+          "admitted": 0,
+          "base80": 2,
+          "confirmed_requests": 2,
+          "correct_region": 0,
+          "expert_queries": 127,
+          "expert_queries_measured_terminals": 2,
+          "first_outcomes": {
+            "ILLEGAL_CONTACT": 2
+          },
+          "grasp": 0,
+          "hard_STOP": 2,
+          "hold1s": 0,
+          "lift20": 0,
+          "native_terminals": 2,
+          "post_STOP_ticks": 0,
+          "reconciled": 2,
+          "release": 0,
+          "retreat50": 0,
+          "score_ends_before_terminal": 2,
+          "score_through_terminal": 0,
+          "scored": 2,
+          "success": 0,
+          "terminal_model_generations": 0,
+          "terminal_ticks": 43075,
+          "unreconciled_cases": 0
+        },
+        "TRAIN/F2/PLACE-red-right": {
+          "STOP_with_tick_evidence": 2,
+          "admitted": 0,
+          "base80": 2,
+          "confirmed_requests": 2,
+          "correct_region": 0,
+          "expert_queries": 127,
+          "expert_queries_measured_terminals": 2,
+          "first_outcomes": {
+            "ILLEGAL_CONTACT": 2
+          },
+          "grasp": 0,
+          "hard_STOP": 2,
+          "hold1s": 0,
+          "lift20": 0,
+          "native_terminals": 2,
+          "post_STOP_ticks": 0,
+          "reconciled": 2,
+          "release": 0,
+          "retreat50": 0,
+          "score_ends_before_terminal": 2,
+          "score_through_terminal": 0,
+          "scored": 2,
+          "success": 0,
+          "terminal_model_generations": 0,
+          "terminal_ticks": 42892,
+          "unreconciled_cases": 0
+        },
+        "VAL/F1/HOLD-blue": {
+          "STOP_with_tick_evidence": 1,
+          "admitted": 1,
+          "base80": 2,
+          "confirmed_requests": 2,
+          "correct_region": 0,
+          "expert_queries": 132,
+          "expert_queries_measured_terminals": 2,
+          "first_outcomes": {
+            "ILLEGAL_CONTACT": 1,
+            "TASK_SUCCESS": 1
+          },
+          "grasp": 1,
+          "hard_STOP": 1,
+          "hold1s": 1,
+          "lift20": 1,
+          "native_terminals": 2,
+          "post_STOP_ticks": 0,
+          "reconciled": 2,
+          "release": 0,
+          "retreat50": 0,
+          "score_ends_before_terminal": 1,
+          "score_through_terminal": 1,
+          "scored": 2,
+          "success": 1,
+          "terminal_model_generations": 0,
+          "terminal_ticks": 44219,
+          "unreconciled_cases": 0
+        },
+        "VAL/F1/HOLD-red": {
+          "STOP_with_tick_evidence": 0,
+          "admitted": 2,
+          "base80": 2,
+          "confirmed_requests": 2,
+          "correct_region": 0,
+          "expert_queries": 130,
+          "expert_queries_measured_terminals": 2,
+          "first_outcomes": {
+            "TASK_SUCCESS": 2
+          },
+          "grasp": 2,
+          "hard_STOP": 0,
+          "hold1s": 2,
+          "lift20": 2,
+          "native_terminals": 2,
+          "post_STOP_ticks": 0,
+          "reconciled": 2,
+          "release": 0,
+          "retreat50": 0,
+          "score_ends_before_terminal": 0,
+          "score_through_terminal": 2,
+          "scored": 2,
+          "success": 2,
+          "terminal_model_generations": 0,
+          "terminal_ticks": 43906,
+          "unreconciled_cases": 0
+        },
+        "VAL/F1/PLACE-blue-left": {
+          "STOP_with_tick_evidence": 1,
+          "admitted": 1,
+          "base80": 2,
+          "confirmed_requests": 2,
+          "correct_region": 1,
+          "expert_queries": 189,
+          "expert_queries_measured_terminals": 2,
+          "first_outcomes": {
+            "ILLEGAL_CONTACT": 1,
+            "TASK_SUCCESS": 1
+          },
+          "grasp": 1,
+          "hard_STOP": 1,
+          "hold1s": 1,
+          "lift20": 1,
+          "native_terminals": 2,
+          "post_STOP_ticks": 0,
+          "reconciled": 2,
+          "release": 1,
+          "retreat50": 1,
+          "score_ends_before_terminal": 1,
+          "score_through_terminal": 1,
+          "scored": 2,
+          "success": 1,
+          "terminal_model_generations": 0,
+          "terminal_ticks": 58462,
+          "unreconciled_cases": 0
+        },
+        "VAL/F1/PLACE-blue-right": {
+          "STOP_with_tick_evidence": 1,
+          "admitted": 0,
+          "base80": 2,
+          "confirmed_requests": 2,
+          "correct_region": 1,
+          "expert_queries": 320,
+          "expert_queries_measured_terminals": 2,
+          "first_outcomes": {
+            "ILLEGAL_CONTACT": 1,
+            "TASK_BUDGET_EXHAUSTED_IN_CARRY": 1
+          },
+          "grasp": 2,
+          "hard_STOP": 1,
+          "hold1s": 2,
+          "lift20": 2,
+          "native_terminals": 2,
+          "post_STOP_ticks": 0,
+          "reconciled": 2,
+          "release": 0,
+          "retreat50": 0,
+          "score_ends_before_terminal": 1,
+          "score_through_terminal": 1,
+          "scored": 2,
+          "success": 0,
+          "terminal_model_generations": 0,
+          "terminal_ticks": 91166,
+          "unreconciled_cases": 0
+        },
+        "VAL/F1/PLACE-red-left": {
+          "STOP_with_tick_evidence": 2,
+          "admitted": 0,
+          "base80": 2,
+          "confirmed_requests": 2,
+          "correct_region": 1,
+          "expert_queries": 189,
+          "expert_queries_measured_terminals": 2,
+          "first_outcomes": {
+            "ILLEGAL_CONTACT": 2
+          },
+          "grasp": 1,
+          "hard_STOP": 2,
+          "hold1s": 1,
+          "lift20": 1,
+          "native_terminals": 2,
+          "post_STOP_ticks": 0,
+          "reconciled": 2,
+          "release": 0,
+          "retreat50": 0,
+          "score_ends_before_terminal": 1,
+          "score_through_terminal": 1,
+          "scored": 2,
+          "success": 0,
+          "terminal_model_generations": 0,
+          "terminal_ticks": 58442,
+          "unreconciled_cases": 0
+        },
+        "VAL/F1/PLACE-red-right": {
+          "STOP_with_tick_evidence": 0,
+          "admitted": 2,
+          "base80": 2,
+          "confirmed_requests": 2,
+          "correct_region": 2,
+          "expert_queries": 246,
+          "expert_queries_measured_terminals": 2,
+          "first_outcomes": {
+            "TASK_SUCCESS": 2
+          },
+          "grasp": 2,
+          "hard_STOP": 0,
+          "hold1s": 2,
+          "lift20": 2,
+          "native_terminals": 2,
+          "post_STOP_ticks": 0,
+          "reconciled": 2,
+          "release": 2,
+          "retreat50": 2,
+          "score_ends_before_terminal": 0,
+          "score_through_terminal": 2,
+          "scored": 2,
+          "success": 2,
+          "terminal_model_generations": 0,
+          "terminal_ticks": 72906,
+          "unreconciled_cases": 0
+        },
+        "VAL/F2/HOLD-blue": {
+          "STOP_with_tick_evidence": 0,
+          "admitted": 2,
+          "base80": 2,
+          "confirmed_requests": 2,
+          "correct_region": 0,
+          "expert_queries": 133,
+          "expert_queries_measured_terminals": 2,
+          "first_outcomes": {
+            "TASK_SUCCESS": 2
+          },
+          "grasp": 2,
+          "hard_STOP": 0,
+          "hold1s": 2,
+          "lift20": 2,
+          "native_terminals": 2,
+          "post_STOP_ticks": 0,
+          "reconciled": 2,
+          "release": 0,
+          "retreat50": 0,
+          "score_ends_before_terminal": 0,
+          "score_through_terminal": 2,
+          "scored": 2,
+          "success": 2,
+          "terminal_model_generations": 0,
+          "terminal_ticks": 44656,
+          "unreconciled_cases": 0
+        },
+        "VAL/F2/HOLD-red": {
+          "STOP_with_tick_evidence": 2,
+          "admitted": 0,
+          "base80": 1,
+          "confirmed_requests": 2,
+          "correct_region": 0,
+          "expert_queries": 124,
+          "expert_queries_measured_terminals": 2,
+          "first_outcomes": {
+            "ILLEGAL_CONTACT": 2
+          },
+          "grasp": 0,
+          "hard_STOP": 2,
+          "hold1s": 0,
+          "lift20": 0,
+          "native_terminals": 2,
+          "post_STOP_ticks": 0,
+          "reconciled": 2,
+          "release": 0,
+          "retreat50": 0,
+          "score_ends_before_terminal": 2,
+          "score_through_terminal": 0,
+          "scored": 2,
+          "success": 0,
+          "terminal_model_generations": 0,
+          "terminal_ticks": 42067,
+          "unreconciled_cases": 0
+        },
+        "VAL/F2/PLACE-blue-left": {
+          "STOP_with_tick_evidence": 2,
+          "admitted": 0,
+          "base80": 2,
+          "confirmed_requests": 2,
+          "correct_region": 1,
+          "expert_queries": 202,
+          "expert_queries_measured_terminals": 2,
+          "first_outcomes": {
+            "ILLEGAL_CONTACT": 2
+          },
+          "grasp": 2,
+          "hard_STOP": 2,
+          "hold1s": 2,
+          "lift20": 2,
+          "native_terminals": 2,
+          "post_STOP_ticks": 0,
+          "reconciled": 2,
+          "release": 1,
+          "retreat50": 0,
+          "score_ends_before_terminal": 2,
+          "score_through_terminal": 0,
+          "scored": 2,
+          "success": 0,
+          "terminal_model_generations": 0,
+          "terminal_ticks": 61660,
+          "unreconciled_cases": 0
+        },
+        "VAL/F2/PLACE-blue-right": {
+          "STOP_with_tick_evidence": 2,
+          "admitted": 0,
+          "base80": 2,
+          "confirmed_requests": 2,
+          "correct_region": 0,
+          "expert_queries": 279,
+          "expert_queries_measured_terminals": 2,
+          "first_outcomes": {
+            "ILLEGAL_CONTACT": 2
+          },
+          "grasp": 2,
+          "hard_STOP": 2,
+          "hold1s": 2,
+          "lift20": 2,
+          "native_terminals": 2,
+          "post_STOP_ticks": 0,
+          "reconciled": 2,
+          "release": 0,
+          "retreat50": 0,
+          "score_ends_before_terminal": 2,
+          "score_through_terminal": 0,
+          "scored": 2,
+          "success": 0,
+          "terminal_model_generations": 0,
+          "terminal_ticks": 80927,
+          "unreconciled_cases": 0
+        },
+        "VAL/F2/PLACE-red-left": {
+          "STOP_with_tick_evidence": 2,
+          "admitted": 0,
+          "base80": 2,
+          "confirmed_requests": 2,
+          "correct_region": 0,
+          "expert_queries": 120,
+          "expert_queries_measured_terminals": 2,
+          "first_outcomes": {
+            "ILLEGAL_CONTACT": 2
+          },
+          "grasp": 0,
+          "hard_STOP": 2,
+          "hold1s": 0,
+          "lift20": 0,
+          "native_terminals": 2,
+          "post_STOP_ticks": 0,
+          "reconciled": 2,
+          "release": 0,
+          "retreat50": 0,
+          "score_ends_before_terminal": 2,
+          "score_through_terminal": 0,
+          "scored": 2,
+          "success": 0,
+          "terminal_model_generations": 0,
+          "terminal_ticks": 41203,
+          "unreconciled_cases": 0
+        },
+        "VAL/F2/PLACE-red-right": {
+          "STOP_with_tick_evidence": 2,
+          "admitted": 0,
+          "base80": 1,
+          "confirmed_requests": 2,
+          "correct_region": 0,
+          "expert_queries": 113,
+          "expert_queries_measured_terminals": 2,
+          "first_outcomes": {
+            "ILLEGAL_CONTACT": 2
+          },
+          "grasp": 0,
+          "hard_STOP": 2,
+          "hold1s": 0,
+          "lift20": 0,
+          "native_terminals": 2,
+          "post_STOP_ticks": 0,
+          "reconciled": 2,
+          "release": 0,
+          "retreat50": 0,
+          "score_ends_before_terminal": 2,
+          "score_through_terminal": 0,
+          "scored": 2,
+          "success": 0,
+          "terminal_model_generations": 0,
+          "terminal_ticks": 39305,
+          "unreconciled_cases": 0
+        }
+      },
+      "producers": {
+        "sla-core-hopper-v1-blue-right-pilot-20261121-01": {
+          "owner_terminal": false,
+          "source": "e4e95b4f8f16f0a45091de9bac789e5e6ce68540",
+          "spec_sha256": "b29a56c7c083208408fddbcf34023d8af9374ef1b4cda20e0f90dc57df3c0aa3"
+        },
+        "sla-core-hopper-v1-expert-chain-20261121-02": {
+          "owner_terminal": false,
+          "source": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+          "spec_sha256": "89f058d5cd3a69cae8f68eb6a63f63a040f20151d07daf0d88e6a0ec5c3f8ffe"
+        },
+        "sla-core-hopper-v1-red-hold-pilot-20261121-01": {
+          "owner_terminal": false,
+          "source": "26d10c56362c7fa6879f10a394ff5b9fcec505e3",
+          "spec_sha256": "deaa9a88dc1426a8a74a46a026a7c9f7ee190bca3256ba301ff98c0b1f9920dc"
+        }
+      },
+      "train_seal": {
+        "count": 8,
+        "sha256": "3ed2445b37e6f6e703a7c0bf8e1118faa08022675862fdf3075ea7e9517ef96b",
+        "windows": 661
+      },
+      "gates": {
+        "MAIN-phase00000": {
+          "checkpoint": "d7949c75ecc33253bea605a3aed738df4ecdc473d8737848a1bca787ab253c18",
+          "exact": 0,
+          "results": {
+            "CONF": {
+              "STOP_with_tick_evidence": 0,
+              "admitted": 0,
+              "confirmed_requests": 0,
+              "first_outcomes": {},
+              "hard_STOP": 0,
+              "native_terminals": 0,
+              "post_STOP_ticks": 0,
+              "reconciled": 0,
+              "scored": 0,
+              "success": 0,
+              "terminal_model_generations": 0,
+              "terminal_ticks": 0,
+              "unreconciled_cases": 0
+            },
+            "DEV": {
+              "STOP_with_tick_evidence": 0,
+              "admitted": 0,
+              "confirmed_requests": 0,
+              "first_outcomes": {},
+              "hard_STOP": 0,
+              "native_terminals": 0,
+              "post_STOP_ticks": 0,
+              "reconciled": 0,
+              "scored": 0,
+              "success": 0,
+              "terminal_model_generations": 0,
+              "terminal_ticks": 0,
+              "unreconciled_cases": 0
+            }
+          },
+          "status": "ENDPOINT_NATIVE_HELD"
+        }
+      }
+    },
+    "vanda": {
+      "job": "1602241.stdct-mgmt-02",
+      "config_sha256": "b42785e01f7114ea863b4776694303c6b78ba9dd797ccc83e3df02b287e54007",
+      "source": "f4a734c6519da4cf10dcd636d70147d3caab408a",
+      "grant_end": 1804867200,
+      "receipt_sha256": "255e77b50e0f15fa353bdf71d65c4306a1b10dbc5bec11680ffa9e1ff7799caf",
+      "readback": "2026-11-21T18:52:25.177712+08:00",
+      "jobs": {
+        "1602241.stdct-mgmt-02": {
+          "state": "F",
+          "project": "CFP04-CF-007",
+          "ncpu": 1,
+          "gpu": 0,
+          "wall": "00:10:00",
+          "used": "00:00:08",
+          "exit": 0,
+          "dependency": null,
+          "due": null,
+          "comment": "Job run at Sat Nov 21 at 18:51 on (GN-A40-074[0]:ncpus=1:mem=6gb) and finished"
+        },
+        "1602245.stdct-mgmt-02": {
+          "state": "W",
+          "project": "CFP04-CF-007",
+          "ncpu": 1,
+          "gpu": 0,
+          "wall": "00:10:00",
+          "used": null,
+          "exit": null,
+          "dependency": "afterok:1602241.stdct-mgmt-02@stdct-mgmt-02",
+          "due": "Sun Nov 22 12:41:57 2026",
+          "comment": null
+        }
+      },
+      "actual": {
+        "day_slot": 0,
+        "endpoints": {
+          "MAIN-phase00000": {
+            "checkpoint": "d7949c75ecc33253bea605a3aed738df4ecdc473d8737848a1bca787ab253c18",
+            "job": "1601959.stdct-mgmt-02",
+            "metrics_sha256": "b549fbc52242de01b53704847e5aa16bd25da420094350e840b6aa21ee96ddc5",
+            "source_MAE": {
+              "libero": 0.20778183491590121,
+              "robodojo": 0.0785656048101373
+            },
+            "source_MAE_change_from_phase0": {
+              "libero": 0,
+              "robodojo": 0
+            },
+            "status": "FORMAL_424_SEALED",
+            "terminal_sha256": "9b5d0509cfe0662b8b2d3d54e52299c513620825fba34fe43c2c23760cf32cbe"
+          }
+        },
+        "job": "1602241.stdct-mgmt-02",
+        "native_requests": 0,
+        "new_generations": 0,
+        "new_optimizer_updates": 0,
+        "pid": 4104540,
+        "plan": "171b5bedb290258954aac140157743e92e3b152e",
+        "read_end": 1795258289.233831,
+        "read_start": 1795258288.245648,
+        "scope": "VANDA_VERIFIED_CUSTODY_AND_FORMAL_EVAL",
+        "source": "f4a734c6519da4cf10dcd636d70147d3caab408a",
+        "verified_prefix": {
+          "MAIN": {
+            "bytes": 5547651587,
+            "checkpoint": "f911ef7932ba475079ae5d419f73f85590ff338fb91e2944f0e767c74aaf3a31",
+            "phase": 300,
+            "role_updates": 300,
+            "role_visits": {
+              "libero": 9600,
+              "robodojo": 9600,
+              "target": 19200
+            },
+            "source": "b9581196d0acd02fb748222988e5a5543ce1f232",
+            "training_H40": 1200
+          }
+        }
+      },
+      "successor": {
+        "afterok": "1602241.stdct-mgmt-02",
+        "day_slot": 1,
+        "job": "1602245.stdct-mgmt-02",
+        "scheduled_epoch": 1795322517
+      },
+      "site_run_count": 11,
+      "user_resubmissions": 0,
+      "site_startup_root_cause": "unobserved",
+      "max_cpu_slots": 15,
+      "ncpus_per_job": 1,
+      "ngpus_per_job": 0,
+      "max_wall_seconds_per_job": 600
+    }
+  },
+  "train_contact_audit": {
+    "observer": "7e305c296ba2706ae0d546048d6f4c46a6a65ac374d43afd537eebf029daf272",
+    "mujoco": "3.2.7",
+    "scope": "SCHEDULED_DAY0_TRAIN_CONTACT_STOPS",
+    "rows": [
+      {
+        "id": "CHV1-TRAIN-F1-HOLD-blue-01",
+        "source": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+        "scene": "9ae3232754c5ef287239801fc10230199872f1526c78c099b746f0d7ad088507",
+        "terminal": "59ab3285e8ebeb629ade2f0525923baebb3beed7d0dc910f72419b7d383ce172",
+        "stop": 19881,
+        "last_query": 19703,
+        "last_query_phase": "DESCEND",
+        "minimum_signed_mm": -0.0830060979021708,
+        "geom_pairs": [
+          [
+            "task_right_pad",
+            "task_table"
+          ]
+        ],
+        "body_pairs": [
+          [
+            "world",
+            "x5_link8"
+          ]
+        ]
+      },
+      {
+        "id": "CHV1-TRAIN-F1-PLACE-blue-left-00",
+        "source": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+        "scene": "19368138aa85927c9482e2a69f4a9bc7aa35c8a171969d35db7d72a6f1797635",
+        "terminal": "6c5c9d1b98636d1513c20ebf6155b4c04b39d7b81b802a44bc6a8d5b5220983a",
+        "stop": 18307,
+        "last_query": 18203,
+        "last_query_phase": "DESCEND",
+        "minimum_signed_mm": -0.19164946430064514,
+        "geom_pairs": [
+          [
+            "",
+            "task_blue_cube_geom"
+          ]
+        ],
+        "body_pairs": [
+          [
+            "task_blue_cube",
+            "x5_link6"
+          ]
+        ]
+      },
+      {
+        "id": "CHV1-TRAIN-F1-PLACE-blue-left-01",
+        "source": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+        "scene": "9ae3232754c5ef287239801fc10230199872f1526c78c099b746f0d7ad088507",
+        "terminal": "6ee84b7ef897ba0b7640e0c71406bef7eae127e3e5d1d14a990a7348a13ca61d",
+        "stop": 19871,
+        "last_query": 19703,
+        "last_query_phase": "DESCEND",
+        "minimum_signed_mm": -0.02145734976129708,
+        "geom_pairs": [
+          [
+            "task_right_pad",
+            "task_table"
+          ]
+        ],
+        "body_pairs": [
+          [
+            "world",
+            "x5_link8"
+          ]
+        ]
+      },
+      {
+        "id": "CHV1-TRAIN-F1-PLACE-blue-right-00",
+        "source": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+        "scene": "19368138aa85927c9482e2a69f4a9bc7aa35c8a171969d35db7d72a6f1797635",
+        "terminal": "12bfb9c46f8dbd288a0a1b04d3afdafabd8cc5d858ef5ea3fc08c397a91d7fee",
+        "stop": 39290,
+        "last_query": 39203,
+        "last_query_phase": "CARRY",
+        "minimum_signed_mm": -0.01362916167411271,
+        "geom_pairs": [
+          [
+            "",
+            "task_table"
+          ]
+        ],
+        "body_pairs": [
+          [
+            "world",
+            "x5_link2"
+          ]
+        ]
+      },
+      {
+        "id": "CHV1-TRAIN-F1-PLACE-blue-right-02",
+        "source": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+        "scene": "ba55a65ce2d5a57917ec4f1d49ee38af15c4e495d10a5b8781d06ce6e787f723",
+        "terminal": "130f169d5c02b0c805a1ca2d1fc5b8c3e6e5b96085295e69b82c874162186105",
+        "stop": 39302,
+        "last_query": 39203,
+        "last_query_phase": "CARRY",
+        "minimum_signed_mm": -0.010790927598154643,
+        "geom_pairs": [
+          [
+            "",
+            "task_table"
+          ]
+        ],
+        "body_pairs": [
+          [
+            "world",
+            "x5_link2"
+          ]
+        ]
+      },
+      {
+        "id": "CHV1-TRAIN-F1-PLACE-red-left-01",
+        "source": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+        "scene": "9ae3232754c5ef287239801fc10230199872f1526c78c099b746f0d7ad088507",
+        "terminal": "cc0831ca34547385d1900f4b9dba9dc7ef8f2e8d326cb88885c002e42cffdfd9",
+        "stop": 30225,
+        "last_query": 30203,
+        "last_query_phase": "CARRY",
+        "minimum_signed_mm": -0.04928376936527007,
+        "geom_pairs": [
+          [
+            "",
+            "task_blue_cube_geom"
+          ]
+        ],
+        "body_pairs": [
+          [
+            "task_blue_cube",
+            "x5_link6"
+          ]
+        ]
+      },
+      {
+        "id": "CHV1-TRAIN-F1-PLACE-red-left-02",
+        "source": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+        "scene": "ba55a65ce2d5a57917ec4f1d49ee38af15c4e495d10a5b8781d06ce6e787f723",
+        "terminal": "d777eb414e80402ad1675bbd4643fbadba5f3b6183a451f41e5e342f604091b6",
+        "stop": 19641,
+        "last_query": 19453,
+        "last_query_phase": "DESCEND",
+        "minimum_signed_mm": -0.06671056792713521,
+        "geom_pairs": [
+          [
+            "task_right_pad",
+            "task_table"
+          ]
+        ],
+        "body_pairs": [
+          [
+            "world",
+            "x5_link8"
+          ]
+        ]
+      },
+      {
+        "id": "CHV1-TRAIN-F2-HOLD-red-00",
+        "source": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+        "scene": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+        "terminal": "7cf3c54b92773d696295fc69d8826bb3a4ceb4d54a1d781ad5d370ac9df38a36",
+        "stop": 19955,
+        "last_query": 19953,
+        "last_query_phase": "DESCEND",
+        "minimum_signed_mm": -0.08547308692904293,
+        "geom_pairs": [
+          [
+            "",
+            "task_blue_cube_geom"
+          ]
+        ],
+        "body_pairs": [
+          [
+            "task_blue_cube",
+            "x5_link6"
+          ]
+        ]
+      },
+      {
+        "id": "CHV1-TRAIN-F2-HOLD-red-01",
+        "source": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+        "scene": "0b493698c6d5dd4ce4b585f8f35bc3a8077b24a45a36c9556cb7523401dcf908",
+        "terminal": "54d7f9796176065882fd9d2350a4454daecf2019ed71d83e522a54dc8065f646",
+        "stop": 20641,
+        "last_query": 20453,
+        "last_query_phase": "DESCEND",
+        "minimum_signed_mm": -0.1395829194751272,
+        "geom_pairs": [
+          [
+            "",
+            "task_blue_cube_geom"
+          ]
+        ],
+        "body_pairs": [
+          [
+            "task_blue_cube",
+            "x5_link6"
+          ]
+        ]
+      },
+      {
+        "id": "CHV1-TRAIN-F2-PLACE-blue-left-00",
+        "source": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+        "scene": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+        "terminal": "8cbaa7e19445e32afd6e9979bbfb7e1646da18d90125ca8ede3849727a7a3e5c",
+        "stop": 39584,
+        "last_query": 39453,
+        "last_query_phase": "CARRY",
+        "minimum_signed_mm": -0.10690318886803471,
+        "geom_pairs": [
+          [
+            "task_blue_cube_geom",
+            "task_cube_geom"
+          ]
+        ],
+        "body_pairs": [
+          [
+            "task_blue_cube",
+            "task_cube"
+          ]
+        ]
+      },
+      {
+        "id": "CHV1-TRAIN-F2-PLACE-blue-left-01",
+        "source": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+        "scene": "0b493698c6d5dd4ce4b585f8f35bc3a8077b24a45a36c9556cb7523401dcf908",
+        "terminal": "91f9c2b54f1d80aa05407aa6c5c4c417473af47f371e73a2ece4e437ec608a9d",
+        "stop": 36553,
+        "last_query": 36453,
+        "last_query_phase": "OPEN",
+        "minimum_signed_mm": -0.0016132840517694203,
+        "geom_pairs": [
+          [
+            "task_cube_geom",
+            "task_right_pad"
+          ]
+        ],
+        "body_pairs": [
+          [
+            "task_cube",
+            "x5_link8"
+          ]
+        ]
+      },
+      {
+        "id": "CHV1-TRAIN-F2-PLACE-blue-right-00",
+        "source": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+        "scene": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+        "terminal": "edeff403418a23c9ac1bbe42d6301c682d73d7f87125a09f4f2ec219584ad05a",
+        "stop": 40492,
+        "last_query": 40453,
+        "last_query_phase": "CARRY",
+        "minimum_signed_mm": -0.10530089953255696,
+        "geom_pairs": [
+          [
+            "task_blue_cube_geom",
+            "task_cube_geom"
+          ]
+        ],
+        "body_pairs": [
+          [
+            "task_blue_cube",
+            "task_cube"
+          ]
+        ]
+      },
+      {
+        "id": "CHV1-TRAIN-F2-PLACE-blue-right-01",
+        "source": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+        "scene": "0b493698c6d5dd4ce4b585f8f35bc3a8077b24a45a36c9556cb7523401dcf908",
+        "terminal": "7b2ac47ba3475186323b481d54cd38374da67b9d8b6de1939c3a8ef6f15546d3",
+        "stop": 37423,
+        "last_query": 37203,
+        "last_query_phase": "CARRY",
+        "minimum_signed_mm": -0.2775012769755742,
+        "geom_pairs": [
+          [
+            "task_blue_cube_geom",
+            "task_cube_geom"
+          ]
+        ],
+        "body_pairs": [
+          [
+            "task_blue_cube",
+            "task_cube"
+          ]
+        ]
+      },
+      {
+        "id": "CHV1-TRAIN-F2-PLACE-red-left-00",
+        "source": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+        "scene": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+        "terminal": "8b545ef8a3a94d57cf619dacedcbadbf589ad5bf5f8708f6b34fe15d5b7e894f",
+        "stop": 21625,
+        "last_query": 21453,
+        "last_query_phase": "DESCEND",
+        "minimum_signed_mm": -0.03218550511811455,
+        "geom_pairs": [
+          [
+            "",
+            "task_blue_cube_geom"
+          ]
+        ],
+        "body_pairs": [
+          [
+            "task_blue_cube",
+            "x5_link6"
+          ]
+        ]
+      },
+      {
+        "id": "CHV1-TRAIN-F2-PLACE-red-left-01",
+        "source": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+        "scene": "0b493698c6d5dd4ce4b585f8f35bc3a8077b24a45a36c9556cb7523401dcf908",
+        "terminal": "59f2763f8910826f7d784c4ab908f75bfca894c0ee487f031f63ad366c01f457",
+        "stop": 21450,
+        "last_query": 21203,
+        "last_query_phase": "DESCEND",
+        "minimum_signed_mm": -0.004402596132116465,
+        "geom_pairs": [
+          [
+            "",
+            "task_blue_cube_geom"
+          ]
+        ],
+        "body_pairs": [
+          [
+            "task_blue_cube",
+            "x5_link6"
+          ]
+        ]
+      },
+      {
+        "id": "CHV1-TRAIN-F2-PLACE-red-right-00",
+        "source": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+        "scene": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+        "terminal": "664d8db4a198b6f461517f98ca726ad5dc28c7bb990fbf6f75cd598bfafa4783",
+        "stop": 20614,
+        "last_query": 20453,
+        "last_query_phase": "DESCEND",
+        "minimum_signed_mm": -0.0013836685844523244,
+        "geom_pairs": [
+          [
+            "",
+            "task_blue_cube_geom"
+          ]
+        ],
+        "body_pairs": [
+          [
+            "task_blue_cube",
+            "x5_link6"
+          ]
+        ]
+      },
+      {
+        "id": "CHV1-TRAIN-F2-PLACE-red-right-01",
+        "source": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+        "scene": "0b493698c6d5dd4ce4b585f8f35bc3a8077b24a45a36c9556cb7523401dcf908",
+        "terminal": "63e2793c49f0728c4a3824f34f67644778f0cb6169ddb4f112ee334f82be84de",
+        "stop": 22278,
+        "last_query": 22203,
+        "last_query_phase": "DESCEND",
+        "minimum_signed_mm": -0.0008930768567866343,
+        "geom_pairs": [
+          [
+            "",
+            "task_blue_cube_geom"
+          ]
+        ],
+        "body_pairs": [
+          [
+            "task_blue_cube",
+            "x5_link6"
+          ]
+        ]
+      }
+    ],
+    "phase_counts": {
+      "DESCEND": 10,
+      "CARRY": 6,
+      "OPEN": 1
+    },
+    "pair_counts": {
+      "world/x5_link8 task_right_pad/task_table": 3,
+      "task_blue_cube/x5_link6 /task_blue_cube_geom": 8,
+      "world/x5_link2 /task_table": 2,
+      "task_blue_cube/task_cube task_blue_cube_geom/task_cube_geom": 3,
+      "task_cube/x5_link8 task_cube_geom/task_right_pad": 1
+    },
+    "method": {
+      "scene_format": "frozen MJB",
+      "source": "e4e95b4f8f16f0a45091de9bac789e5e6ce68540",
+      "integrations": 0,
+      "model_generations": 0,
+      "opt_updates": 0
+    }
+  },
+  "vanda_roles": {
+    "at": "2026-11-21T18:57:51.401671+08:00",
+    "roles": {
+      "1601905.stdct-mgmt-02": {
+        "state": "R",
+        "name": "slachv1rc01",
+        "project": "CFP04-CF-007",
+        "wall": "06:00:00",
+        "gpus": 0,
+        "dependency": null
+      },
+      "1601870.stdct-mgmt-02": {
+        "state": "R",
+        "name": "slachv1bk01",
+        "project": "CFP04-CF-007",
+        "wall": "06:00:00",
+        "gpus": 0,
+        "dependency": null
+      },
+      "1601890.stdct-mgmt-02": {
+        "state": "R",
+        "name": "slachv1hf01",
+        "project": "CFP04-CF-007",
+        "wall": "06:00:00",
+        "gpus": 0,
+        "dependency": null
+      },
+      "1601955.stdct-mgmt-02": {
+        "state": "R",
+        "name": "slachv1ef01",
+        "project": "CFP04-CF-007",
+        "wall": "06:00:00",
+        "gpus": 0,
+        "dependency": null
+      },
+      "1601552.stdct-mgmt-02": {
+        "state": "R",
+        "name": "chv1trainrelay",
+        "project": "CFP04-CF-007",
+        "wall": "06:00:00",
+        "gpus": 0,
+        "dependency": "beforeok:1602101.stdct-mgmt-02@stdct-mgmt-02"
+      },
+      "1602101.stdct-mgmt-02": {
+        "state": "H",
+        "name": "slachv1tr01",
+        "project": "CFP04-CF-007",
+        "wall": "06:00:00",
+        "gpus": 0,
+        "dependency": "afterok:1601552.stdct-mgmt-02@stdct-mgmt-02"
+      },
+      "1602245.stdct-mgmt-02": {
+        "state": "W",
+        "name": "schv1sum01",
+        "project": "CFP04-CF-007",
+        "wall": "00:10:00",
+        "gpus": 0,
+        "dependency": "afterok:1602241.stdct-mgmt-02@stdct-mgmt-02"
+      }
+    }
+  },
+  "snapshot_relay": {
+    "VANDA_to_Hopper": "direct",
+    "core_RGB_private_ingress": "not verified",
+    "hf_public": "model checkpoint only"
+  },
+  "next_formal_phase": 2000,
+  "vanda_custody": {
+    "at": "2026-11-21T19:01:19.168035+08:00",
+    "backup": [
+      {
+        "phase": 0,
+        "arrays": 140,
+        "checkpoint": "d7949c75ecc33253bea605a3aed738df4ecdc473d8737848a1bca787ab253c18",
+        "bytes": 5547651566,
+        "event_sha256": "5fd6c09d4cb81f1abdc3bf4fb06642054723e0b926182d316768e4d1e18e32c3"
+      },
+      {
+        "phase": 100,
+        "arrays": 140,
+        "checkpoint": "4b922442d4cc1ac9d33529cba7667b73acad6882300d2a37c8d915dc5906bef0",
+        "bytes": 5547651584,
+        "event_sha256": "2c97a7bdb163b3746131418f07ba10f2b558e92f3c46d260a9c0e503e76ef822"
+      },
+      {
+        "phase": 200,
+        "arrays": 140,
+        "checkpoint": "1847a7fdcfa4f64f1e973db03e22c0875cbc6da6fb027abdf34cba70977ce0f1",
+        "bytes": 5547651586,
+        "event_sha256": "74dbc0f56b768cf363b3ec223ad66667e0d4332e84f261f7132a3f4e0b6d9d68"
+      },
+      {
+        "phase": 300,
+        "arrays": 140,
+        "checkpoint": "f911ef7932ba475079ae5d419f73f85590ff338fb91e2944f0e767c74aaf3a31",
+        "bytes": 5547651587,
+        "event_sha256": "3cb27281b33a5e232dc34b9e8b5ea9fd8a9d60e80d5d87cf9680c62fc5c6c87a"
+      },
+      {
+        "phase": 400,
+        "arrays": 140,
+        "checkpoint": "94a1a0e5fcb84ddff35db8f86b14af54337b32270b9ec9d3be4b32df43efe8e2",
+        "bytes": 5547651591,
+        "event_sha256": "ca4f8a09617e5075d2bd55a1788901d64faf03d26fce3c218196503e28946d95"
+      }
+    ],
+    "job": "1601870.stdct-mgmt-02"
+  }
+}
