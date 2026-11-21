@@ -5,6 +5,8 @@ import json
 import os
 from pathlib import Path
 import tempfile
+import subprocess
+import time
 
 from hopper_pbs import charged, native
 from scripts.pi0292.durable import OwnerLock
@@ -22,10 +24,10 @@ def settle(root, config_sha):
         raise ValueError('Unbound project allocation')
     job = ticket['job']
     line = Path(cfg['lineage'])
+    row = native(job)
+    if row['job_state'] != 'F':
+        return dict(job=job,state=row['job_state'],settled=False)
     with closing(OwnerLock(line/'submit.lock')):
-        row = native(job)
-        if row['job_state'] != 'F':
-            return dict(job=job,state=row['job_state'],settled=False)
         reservation = dict(job=job,group='deployment_diagnostic',reserved_seconds=cfg['wall_seconds'])
         seconds = charged(row,os.environ['USER'],reservation)
         if row.get('stime') and row.get('Exit_status') is None:
@@ -52,5 +54,22 @@ if __name__ == '__main__':
     cli=argparse.ArgumentParser(description=__doc__)
     cli.add_argument('diagnostic_root',type=Path)
     cli.add_argument('config_sha')
+    cli.add_argument('--observe',action='store_true')
     args=cli.parse_args()
-    print(json.dumps(settle(args.diagnostic_root,args.config_sha)))
+    root=args.diagnostic_root
+    result=settle(root,args.config_sha)
+    if args.observe:
+        cfg=json.loads((root/'CONFIG.json').read_bytes())
+        result['ordinary']=(root/'ordinary2/RESULT.json').is_file()
+        result['trace']=(root/'trace2/RESULT.json').is_file()
+        if (result.get('state')=='Q' and time.time()>=cfg['deadline']
+                and not (root/'QUEUE_EXPIRY_REQUEST.json').is_file()):
+            row=native(result['job'])
+            if (row['job_state']=='Q' and not row.get('stime') and not (root/'AWARD.json').exists()
+                    and row['Job_Name']=='slanum2p0b' and row['project']=='CFP04-CF-007'
+                    and row['Job_Owner'].split('@')[0]==os.environ['USER']):
+                write_once(root/'QUEUE_EXPIRY_REQUEST.json',dict(job=result['job'],config=args.config_sha,
+                    reason='Registered diagnostic window expired without a GPU award'))
+                subprocess.run([str(Path(cfg['qstat']).parent/'qdel'),result['job']+'@'+os.environ['PBS_SERVER']],
+                               check=True,timeout=40)
+    print(json.dumps(result))
