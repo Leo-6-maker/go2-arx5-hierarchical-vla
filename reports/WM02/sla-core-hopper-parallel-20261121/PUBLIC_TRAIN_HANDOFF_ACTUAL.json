@@ -1,0 +1,440 @@
+{
+  "plan": "171b5bedb290258954aac140157743e92e3b152e",
+  "T0": "2026-11-21T12:41:52+08:00",
+  "deadline": "2026-12-05T12:41:52+08:00",
+  "authorization": "Project owner explicitly authorized public HF storage of the new project TRAIN demonstrations on 2026-11-21; credentials configured at each site.",
+  "repository": {
+    "repository": "leoyuer/sla-core-hopper-train-v1",
+    "private": false,
+    "initial_revision": "ffcb1beb864146b7b7b9a36ceb74a39fdec73b45"
+  },
+  "public_source": "0501dbefb11fd3fbbd7098ab2856a7f13000d6f1",
+  "source_members": {
+    "scripts/sla/core_hopper_hf_train.py": "cb9b7044cf9e2fbcf0cf53247389399b3b4493a7f424c9ab0a5be867e93d3db2",
+    "scripts/sla/hopper_snapshot_producers.py": "0862047fafdf84d81549597d186eb55dfd6acfc2daf63916e9ad0eb0b9c58f35",
+    "scripts/sla/hopper_snapshot_relay.py": "4cba14923d14015dd311dbbadfaa4b843f6763556411022b445fe382df56e1fa",
+    "scripts/sla/hopper_parent_custody.py": "ed1e1ba173534bb6e5c9961d71aa2ead3e9bad2cda0047a77c74e533e49ab442",
+    "scripts/sla/hopper_site.py": "c0d799680f80c12e320f53c1569f45b3dfd2673c4545559bdaaf4fdcf20dc2e6",
+    "scripts/sla/hopper_vanda_dispatch.py": "26d5bbc597aea8d29c1e18739fe74f7070d4f70cf83b56ff7fefa08b024978e8",
+    "scripts/pi0292/durable.py": "95bc84c1f44be664f799b92442fcc944724604243477b8453f420b2dbddb1d83",
+    "scripts/pi0294/e1/journal.py": "faddcb8d8e23978542699026eed7182106a433a9aa0d6fc97de71fd2ebd7ac0a"
+  },
+  "core_publisher": {
+    "mount": {
+      "unit": "wm02-sla-core-hopper-v1-public-train-uplink-20261121-01.service",
+      "config": "f34825e2ea90c22fb9bc9324fb7f894a5c1282f4129dd0478f77d19dd91228ba",
+      "unit_sha": "ced92dd56213712abd8200332a36427dda1dcf5ffa058e4fda4b5862bf0dc4de",
+      "owner": {
+        "MainPID": "2112058",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-hopper-v1-public-train-uplink-20261121-01.service",
+        "ActiveState": "active",
+        "InvocationID": "18b9a911b0d84ea48bb8655a23e9bfb1"
+      },
+      "linger": "yes"
+    },
+    "readback": {
+      "at": "2026-11-21T19:22:55.913673+08:00",
+      "service": {
+        "MainPID": "2112058",
+        "Result": "success",
+        "SubState": "running"
+      },
+      "heartbeat": {
+        "status": "WAIT_SEAL",
+        "epoch": 1795260133.788129,
+        "pid": 2112058
+      },
+      "rows": [
+        {
+          "bytes": 132926268,
+          "count": 4,
+          "files": 30,
+          "key": "TRAIN-004",
+          "repository": "leoyuer/sla-core-hopper-train-v1",
+          "revision": "13239cea6334a2cf90bc03373a61559944347df8",
+          "seal": "b79c95233fe8fc98cae2b4d39f17da141090a756d95c65b75e8fec95eca41a4b",
+          "windows": 333
+        },
+        {
+          "bytes": 263855137,
+          "count": 8,
+          "files": 56,
+          "key": "TRAIN-008",
+          "repository": "leoyuer/sla-core-hopper-train-v1",
+          "revision": "c2f3483a86627fb50164edee81db07bf84c098f2",
+          "seal": "3ed2445b37e6f6e703a7c0bf8e1118faa08022675862fdf3075ea7e9517ef96b",
+          "windows": 661
+        },
+        {
+          "bytes": 396780276,
+          "count": 12,
+          "files": 83,
+          "key": "TRAIN-012",
+          "repository": "leoyuer/sla-core-hopper-train-v1",
+          "revision": "e17ec4825889fe712c6616e6cd756dbbb19d0863",
+          "seal": "04b0e4bbe182d438b06940caacc91a24bcd280e8205aff54f9efdbfc3bcb9a27",
+          "windows": 994
+        }
+      ],
+      "error": ""
+    }
+  },
+  "vanda_ingress": {
+    "mount": {
+      "job": "1602334.stdct-mgmt-02",
+      "config": "540214926f35b2d0193cd6d1bbf8aa7bb809b6eb138e790c7723e2ed0d2a561d",
+      "registration": "1e55bf2a16df9d4ccb09410606d52e174d1915063047bb3a33e9770e01e1b4ab",
+      "driver": "26d5bbc597aea8d29c1e18739fe74f7070d4f70cf83b56ff7fefa08b024978e8",
+      "grant_end": 1804867200
+    },
+    "readback": {
+      "at": "2026-11-21T19:22:56.020679+08:00",
+      "job": "1602334.stdct-mgmt-02",
+      "state": "R",
+      "project": "CFP04-CF-007",
+      "cpu": 1,
+      "gpu": 0,
+      "pid": 4107601,
+      "heartbeat": {
+        "job": "1602334.stdct-mgmt-02",
+        "epoch": 1795260098.798272,
+        "polls": 5,
+        "hopper": {
+          "status": "WAIT_SEAL"
+        }
+      },
+      "rows": [
+        {
+          "bytes": 132926268,
+          "count": 4,
+          "files": 30,
+          "key": "TRAIN-004",
+          "repository": "leoyuer/sla-core-hopper-train-v1",
+          "revision": "13239cea6334a2cf90bc03373a61559944347df8",
+          "seal": "b79c95233fe8fc98cae2b4d39f17da141090a756d95c65b75e8fec95eca41a4b",
+          "status": "VANDA_INBOX_VERIFIED",
+          "windows": 333
+        },
+        {
+          "bytes": 263855137,
+          "count": 8,
+          "files": 56,
+          "key": "TRAIN-008",
+          "repository": "leoyuer/sla-core-hopper-train-v1",
+          "revision": "e17ec4825889fe712c6616e6cd756dbbb19d0863",
+          "seal": "3ed2445b37e6f6e703a7c0bf8e1118faa08022675862fdf3075ea7e9517ef96b",
+          "status": "VANDA_INBOX_VERIFIED",
+          "windows": 661
+        },
+        {
+          "bytes": 396780276,
+          "count": 12,
+          "files": 83,
+          "key": "TRAIN-012",
+          "repository": "leoyuer/sla-core-hopper-train-v1",
+          "revision": "e17ec4825889fe712c6616e6cd756dbbb19d0863",
+          "seal": "04b0e4bbe182d438b06940caacc91a24bcd280e8205aff54f9efdbfc3bcb9a27",
+          "status": "VANDA_INBOX_VERIFIED",
+          "windows": 994
+        }
+      ],
+      "relay": [
+        {
+          "count": 4,
+          "windows": 333,
+          "seal_sha256": "b79c95233fe8fc98cae2b4d39f17da141090a756d95c65b75e8fec95eca41a4b",
+          "bytes": 132926268
+        },
+        {
+          "count": 8,
+          "windows": 661,
+          "seal_sha256": "3ed2445b37e6f6e703a7c0bf8e1118faa08022675862fdf3075ea7e9517ef96b",
+          "bytes": 263855137
+        },
+        {
+          "count": 12,
+          "windows": 994,
+          "seal_sha256": "04b0e4bbe182d438b06940caacc91a24bcd280e8205aff54f9efdbfc3bcb9a27",
+          "bytes": 396780276
+        }
+      ],
+      "error": ""
+    },
+    "PBS": {
+      "at": "2026-11-21T19:22:56.107041+08:00",
+      "jobs": {
+        "1602334.stdct-mgmt-02": {
+          "state": "R",
+          "project": "CFP04-CF-007",
+          "wall": "06:00:00",
+          "gpu": 0,
+          "cpu": 1,
+          "dependency": null,
+          "used": "00:04:50",
+          "queue": "batch_cpu"
+        },
+        "1601552.stdct-mgmt-02": {
+          "state": "R",
+          "project": "CFP04-CF-007",
+          "wall": "06:00:00",
+          "gpu": 0,
+          "cpu": 1,
+          "dependency": "beforeok:1602101.stdct-mgmt-02@stdct-mgmt-02",
+          "used": "05:08:54",
+          "queue": "batch_cpu"
+        },
+        "1602101.stdct-mgmt-02": {
+          "state": "H",
+          "project": "CFP04-CF-007",
+          "wall": "06:00:00",
+          "gpu": 0,
+          "cpu": 1,
+          "dependency": "afterok:1601552.stdct-mgmt-02@stdct-mgmt-02",
+          "used": null,
+          "queue": "batch_cpu"
+        }
+      }
+    }
+  },
+  "independent_train012": {
+    "core": {
+      "ready": true,
+      "at": "2026-11-21T19:19:34.177257+08:00",
+      "files": 83,
+      "bytes": 396780276,
+      "inventory_sha256": "469359cca48a585c845a1d0f8eb979b458e8e4d8dbeca11c6a02e4edf8077d3f",
+      "seal": "04b0e4bbe182d438b06940caacc91a24bcd280e8205aff54f9efdbfc3bcb9a27",
+      "manifest": "a67ab3ed8e7bba2483114bf7b9999331a82fcbbb6c683dbde18eaa20e3b25bc5"
+    },
+    "anonymous_hub": {
+      "repository": "leoyuer/sla-core-hopper-train-v1",
+      "private": false,
+      "revision": "e17ec4825889fe712c6616e6cd756dbbb19d0863",
+      "key": "TRAIN-012",
+      "count": 12,
+      "windows": 994,
+      "files": 83,
+      "seal": "04b0e4bbe182d438b06940caacc91a24bcd280e8205aff54f9efdbfc3bcb9a27",
+      "index_sha256": "c7d7c730296afd7af7f07b8c171549e027d8d701deacaa06ed89bac7bff9b64f"
+    },
+    "public_index_digest": {
+      "files": 83,
+      "inventory_sha256": "469359cca48a585c845a1d0f8eb979b458e8e4d8dbeca11c6a02e4edf8077d3f",
+      "index_sha256": "c7d7c730296afd7af7f07b8c171549e027d8d701deacaa06ed89bac7bff9b64f",
+      "seal": "04b0e4bbe182d438b06940caacc91a24bcd280e8205aff54f9efdbfc3bcb9a27"
+    },
+    "vanda": {
+      "ready": true,
+      "at": "2026-11-21T19:19:37.507122+08:00",
+      "files": 83,
+      "bytes": 396780276,
+      "inventory_sha256": "469359cca48a585c845a1d0f8eb979b458e8e4d8dbeca11c6a02e4edf8077d3f",
+      "seal": "04b0e4bbe182d438b06940caacc91a24bcd280e8205aff54f9efdbfc3bcb9a27",
+      "manifest": "a67ab3ed8e7bba2483114bf7b9999331a82fcbbb6c683dbde18eaa20e3b25bc5"
+    },
+    "hopper": {
+      "ready": true,
+      "at": "2026-11-21T19:20:16.437196+08:00",
+      "files": 83,
+      "bytes": 396780276,
+      "inventory_sha256": "469359cca48a585c845a1d0f8eb979b458e8e4d8dbeca11c6a02e4edf8077d3f",
+      "seal": "04b0e4bbe182d438b06940caacc91a24bcd280e8205aff54f9efdbfc3bcb9a27",
+      "manifest": "a67ab3ed8e7bba2483114bf7b9999331a82fcbbb6c683dbde18eaa20e3b25bc5"
+    }
+  },
+  "actual_training_catalog": {
+    "visible": [
+      {
+        "count": 4,
+        "seal_sha256": "b79c95233fe8fc98cae2b4d39f17da141090a756d95c65b75e8fec95eca41a4b"
+      },
+      {
+        "count": 8,
+        "seal_sha256": "3ed2445b37e6f6e703a7c0bf8e1118faa08022675862fdf3075ea7e9517ef96b"
+      },
+      {
+        "count": 12,
+        "seal_sha256": "04b0e4bbe182d438b06940caacc91a24bcd280e8205aff54f9efdbfc3bcb9a27"
+      }
+    ],
+    "boundaries": [
+      2000,
+      5000,
+      10000,
+      15000
+    ],
+    "decisions": [],
+    "control": false,
+    "new_optimizer_updates": 0,
+    "new_generations": 0
+  },
+  "formal_training": {
+    "time": "2026-11-21T19:22:43.057010+08:00",
+    "job": "727394.hopper-m-02",
+    "segment": [
+      100,
+      867
+    ],
+    "resume_sha": "4b922442d4cc1ac9d33529cba7667b73acad6882300d2a37c8d915dc5906bef0",
+    "actual_by_job": {
+      "727341.hopper-m-02": 100,
+      "727394.hopper-m-02": 401
+    },
+    "committed": 501,
+    "visits": {
+      "target": 32064,
+      "robodojo": 16032,
+      "libero": 16032
+    },
+    "h40": 2004,
+    "at": "2026-11-21T19:22:42.417919+08:00",
+    "host": "hopper-17",
+    "source": "b9581196d0acd02fb748222988e5a5543ce1f232",
+    "progress": 501,
+    "seal": 500,
+    "seal_receipt": "1df5aa906e982bf4bf053f097e1c861b2a8b6752850585f48a1cc145103f1fb0",
+    "checkpoint_sha": "fecd2d02be4e214900e9acea2fb32c9bedf1e5048e1cdc41197893588bfb3330",
+    "arrays": 140,
+    "ready_folders": [
+      "TRAIN-012",
+      "TRAIN-004",
+      "TRAIN-008"
+    ],
+    "control_triggered": false,
+    "parent_sha256": "2bff547b6f2c3aca0e7e2fd8a790ce6b30ef1c5f33b004c6897e3083647358d5",
+    "initial_data_inventory_sha256": "a951f4f8ff7662198f4a3f1826a5bc7a6ad920b71f65be8dbc395f514555cf22",
+    "source_bank_sha256": "c3c308dfc00517894735c0f7386dc2e79385e86717fa33f4e817b44fc0afadb0",
+    "new_train_snapshot_optimization_visits": 0,
+    "latest_VANDA_checkpoint_at_cutoff": {
+      "phase": 400,
+      "arrays": 140,
+      "checkpoint": "94a1a0e5fcb84ddff35db8f86b14af54337b32270b9ec9d3be4b32df43efe8e2",
+      "bytes": 5547651591,
+      "event_sha256": "ca4f8a09617e5075d2bd55a1788901d64faf03d26fce3c218196503e28946d95"
+    }
+  },
+  "core_expert": {
+    "at": "2026-11-21T19:22:42.748869+08:00",
+    "denominators": {
+      "TRAIN": {
+        "started": 35,
+        "terminated": 34,
+        "admitted": 14,
+        "ticks": 970375
+      },
+      "VAL": {
+        "started": 24,
+        "terminated": 24,
+        "admitted": 8,
+        "ticks": 678919
+      }
+    },
+    "closed_outcomes": {
+      "TRAIN": {
+        "closed": 34,
+        "requests": 34,
+        "ticks": 970375,
+        "grasp": 24,
+        "lift": 24,
+        "success": 14,
+        "admitted": 14,
+        "failure_or_success": {
+          "TASK_SUCCESS": 14,
+          "ILLEGAL_CONTACT": 18,
+          "TASK_BUDGET_EXHAUSTED_IN_CARRY": 2
+        },
+        "hard_STOP": 18,
+        "post_STOP_ticks": 0
+      },
+      "VAL": {
+        "closed": 24,
+        "requests": 24,
+        "ticks": 678919,
+        "grasp": 15,
+        "lift": 15,
+        "success": 8,
+        "admitted": 8,
+        "failure_or_success": {
+          "TASK_SUCCESS": 8,
+          "ILLEGAL_CONTACT": 15,
+          "TASK_BUDGET_EXHAUSTED_IN_CARRY": 1
+        },
+        "hard_STOP": 15,
+        "post_STOP_ticks": 0
+      }
+    },
+    "world": {
+      "at": "2026-11-21T19:22:42.761965+08:00",
+      "observed_locks": [
+        {
+          "pid": "1746282",
+          "type": "FLOCK",
+          "identity": "103:04:57039644",
+          "fd_match": true
+        }
+      ],
+      "roles": [
+        {
+          "role": "sla-core-hopper-v1-expert-chain-20261121-02",
+          "pid": "1746282",
+          "active": "active",
+          "phase": "DISPATCH",
+          "current": "CHV1-TRAIN-F1-PLACE-red-right-03",
+          "live_case": "CHV1-TRAIN-F1-PLACE-red-right-03",
+          "case_pid": 2118032,
+          "tick": null
+        },
+        {
+          "role": "sla-core-hopper-v1-blue-right-pilot-20261121-01",
+          "pid": "1973911",
+          "active": "active",
+          "phase": "WAIT_WORLD",
+          "current": "CHV1-TRAIN-F2-PLACE-blue-right-02",
+          "live_case": null,
+          "case_pid": null,
+          "tick": null
+        },
+        {
+          "role": "sla-core-hopper-v1-red-hold-pilot-20261121-01",
+          "pid": "2035299",
+          "active": "active",
+          "phase": "WAIT_WORLD",
+          "current": "CHV1-TRAIN-F2-HOLD-red-02",
+          "live_case": null,
+          "case_pid": null,
+          "tick": null
+        }
+      ]
+    },
+    "pilots": [
+      {
+        "condition": "CHV1-TRAIN-F2-PLACE-blue-right-02",
+        "stage": "WAIT_WORLD",
+        "closed": 0,
+        "started": 0,
+        "ticks": 0
+      },
+      {
+        "condition": "CHV1-TRAIN-F2-HOLD-red-02",
+        "stage": "WAIT_WORLD",
+        "closed": 0,
+        "started": 0,
+        "ticks": 0
+      }
+    ]
+  },
+  "student": {
+    "phase0": "ENDPOINT_NATIVE_HELD",
+    "strict_RGB16_action_exact": 0,
+    "actual_RGB16": 16,
+    "DEV_requests": 0,
+    "CONF_requests": 0,
+    "native_ticks": 0
+  },
+  "exchange_new_science": {
+    "optimizer_updates": 0,
+    "model_generations": 0,
+    "native_requests": 0,
+    "integrations": 0
+  }
+}

@@ -1,0 +1,409 @@
+{
+  "cutoff_sgt": "2026-11-21T13:32:46+08:00",
+  "plan": "171b5bedb290258954aac140157743e92e3b152e",
+  "t0": "2026-11-21T12:41:52+08:00",
+  "deadline": "2026-12-05T12:41:52+08:00",
+  "prior_sealed_results": "EXPERIMENT_PROGRESS_1246.json",
+  "core": {
+    "at_sgt": "2026-11-21T13:32:44.420075+08:00",
+    "units": {
+      "wm02-sla-core-hopper-v1-expert-chain-20261121-02.service": {
+        "MainPID": "1746282",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-hopper-v1-expert-chain-20261121-02.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "InvocationID": "a9ea6c147a90458885362b8204a56407"
+      },
+      "wm02-sla-core-hopper-v1-train-snapshots-20261121-01.service": {
+        "MainPID": "1775736",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-hopper-v1-train-snapshots-20261121-01.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "InvocationID": "bb853c71c6724d808c751f1ede27f2de"
+      }
+    },
+    "records": [
+      {
+        "condition": "CHV1-TRAIN-F1-HOLD-blue-00",
+        "requests": 1,
+        "ticks": 23953,
+        "admitted": true,
+        "hard_STOP": false,
+        "first_failure": "TASK_SUCCESS",
+        "result_sha256": "bbfcd4b49fbac2bf1f819b3d65a728748ad08cf0f8ec5425225bec74f8d3816f",
+        "post_stop_ticks": null,
+        "grasp": true,
+        "lift20": true,
+        "lift_mm": 25.081524169843995,
+        "hold_s": 1.1280000000013786,
+        "base_directional_mm": 117.93547587137823,
+        "events": {
+          "base80mm": {
+            "native_step": 10695,
+            "native_time_s": 21.389999999999024
+          },
+          "target_grasp": {
+            "native_step": 21016,
+            "native_time_s": 42.032000000005404
+          },
+          "target_lift20mm": {
+            "native_step": 23389,
+            "native_time_s": 46.778000000011204
+          }
+        },
+        "success": true,
+        "episode": {
+          "sha256": "53d92aba420ad1d30428713c776259ff4609b4a412e658f7df7ebf7e483019b5",
+          "windows": 73,
+          "confirmed_P10_atoms": 730,
+          "split": "TRAIN"
+        }
+      },
+      {
+        "condition": "CHV1-TRAIN-F2-HOLD-red-00",
+        "requests": 1,
+        "ticks": 19955,
+        "admitted": false,
+        "hard_STOP": true,
+        "first_failure": "ILLEGAL_CONTACT",
+        "result_sha256": "7cf3c54b92773d696295fc69d8826bb3a4ceb4d54a1d781ad5d370ac9df38a36",
+        "post_stop_ticks": 0,
+        "grasp": false,
+        "lift20": false,
+        "lift_mm": 0,
+        "hold_s": 0,
+        "base_directional_mm": 95.14703886273122,
+        "events": {
+          "base80mm": {
+            "native_step": 14197,
+            "native_time_s": 28.393999999995142
+          }
+        },
+        "success": false,
+        "added_contact_at_stop": {
+          "ids": [
+            73,
+            79
+          ],
+          "bodies": [
+            "x5_link6",
+            "task_blue_cube"
+          ]
+        }
+      },
+      {
+        "condition": "CHV1-TRAIN-F1-PLACE-red-left-00",
+        "requests": 1,
+        "ticks": 50703,
+        "admitted": false,
+        "hard_STOP": false,
+        "first_failure": "TASK_BUDGET_EXHAUSTED_IN_CARRY",
+        "result_sha256": "55fbd83b68b690ff7970bdf7857b5023adbdbd83de06a0000e6e28c9ba966017",
+        "post_stop_ticks": null,
+        "grasp": true,
+        "lift20": true,
+        "lift_mm": 65.99194126713748,
+        "hold_s": 26.715999999937736,
+        "base_directional_mm": 217.23753321914535,
+        "events": {
+          "base80mm": {
+            "native_step": 9343,
+            "native_time_s": 18.686000000000522
+          },
+          "target_grasp": {
+            "native_step": 21775,
+            "native_time_s": 43.55000000000726
+          },
+          "target_lift20mm": {
+            "native_step": 24152,
+            "native_time_s": 48.30400000001307
+          },
+          "correct_region": {
+            "native_step": 37394,
+            "native_time_s": 74.7880000000071
+          }
+        },
+        "success": false
+      },
+      {
+        "condition": "CHV1-TRAIN-F2-PLACE-blue-right-00",
+        "requests": 1,
+        "ticks": 40492,
+        "admitted": false,
+        "hard_STOP": true,
+        "first_failure": "ILLEGAL_CONTACT",
+        "result_sha256": "edeff403418a23c9ac1bbe42d6301c682d73d7f87125a09f4f2ec219584ad05a",
+        "post_stop_ticks": 0,
+        "grasp": true,
+        "lift20": true,
+        "lift_mm": 51.08691056490366,
+        "hold_s": 34.73399999998238,
+        "base_directional_mm": 110.52514323587883,
+        "events": {
+          "base80mm": {
+            "native_step": 11064,
+            "native_time_s": 22.127999999998615
+          },
+          "target_grasp": {
+            "native_step": 20766,
+            "native_time_s": 41.53200000000479
+          },
+          "target_lift20mm": {
+            "native_step": 23086,
+            "native_time_s": 46.17200000001046
+          }
+        },
+        "success": false,
+        "added_contact_at_stop": {
+          "ids": [
+            78,
+            79
+          ],
+          "bodies": [
+            "task_cube",
+            "task_blue_cube"
+          ]
+        }
+      }
+    ],
+    "in_flight": [
+      {
+        "condition": "CHV1-TRAIN-F1-PLACE-blue-right-00",
+        "last_score_tick": 15203,
+        "grasp": false,
+        "lift20": false
+      }
+    ],
+    "heartbeat": {
+      "pid": 1775736,
+      "epoch": 1795239141.1386461,
+      "admitted": 1,
+      "published": 0,
+      "next_six_hour_epoch": 1795257712,
+      "terminal": false
+    },
+    "population": {
+      "TRAIN": 240,
+      "VAL": 24
+    },
+    "started": {
+      "TRAIN": 5,
+      "VAL": 0
+    },
+    "terminated": 4,
+    "terminal_ticks": 135103,
+    "correct_grasp": 3,
+    "lift20": 3,
+    "task_success": 1,
+    "admitted": 1,
+    "HOLD_success": [
+      1,
+      2
+    ],
+    "PLACE_success": [
+      0,
+      2
+    ],
+    "sealed_snapshots": 0,
+    "new_student_native": 0,
+    "native_source": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+    "snapshot_source": "06a048ed43ad974ed131e8a8301dfb66f4967cb9"
+  },
+  "vanda": {
+    "at_sgt": "2026-11-21T13:32:45.207109+08:00",
+    "jobs": {
+      "1599368.stdct-mgmt-02": {
+        "Job_Name": "slaadp2500",
+        "job_state": "F",
+        "Exit_status": 0,
+        "depend": "beforeany:1599369.stdct-mgmt-02@stdct-mgmt-02",
+        "queue": "batch_gpu",
+        "walltime": "03:07:28"
+      },
+      "1599369.stdct-mgmt-02": {
+        "Job_Name": "slaadp2750",
+        "job_state": "R",
+        "Exit_status": null,
+        "depend": "beforeany:1599370.stdct-mgmt-02@stdct-mgmt-02",
+        "queue": "batch_gpu",
+        "walltime": "00:44:25"
+      },
+      "1599370.stdct-mgmt-02": {
+        "Job_Name": "slaadp3000",
+        "job_state": "H",
+        "Exit_status": null,
+        "depend": "afterany:1599369.stdct-mgmt-02@stdct-mgmt-02,beforeany:1599371.stdct-mgmt-02@stdct-mgmt-02",
+        "queue": "batch_gpu",
+        "walltime": null
+      },
+      "1599379.stdct-mgmt-02": {
+        "Job_Name": "slaadp5kev",
+        "job_state": "H",
+        "Exit_status": null,
+        "depend": "afterany:1599378.stdct-mgmt-02@stdct-mgmt-02,beforeany:1599420.stdct-mgmt-02@stdct-mgmt-02",
+        "queue": "batch_gpu",
+        "walltime": null
+      },
+      "1601442.stdct-mgmt-02": {
+        "Job_Name": "chv1runtime",
+        "job_state": "F",
+        "Exit_status": 0,
+        "depend": null,
+        "queue": "batch_cpu",
+        "walltime": "00:08:40"
+      },
+      "1601447.stdct-mgmt-02": {
+        "Job_Name": "chv1banks",
+        "job_state": "F",
+        "Exit_status": 1,
+        "depend": null,
+        "queue": "batch_cpu",
+        "walltime": "00:00:30"
+      },
+      "1601472.stdct-mgmt-02": {
+        "Job_Name": "chv1evalbytes",
+        "job_state": "F",
+        "Exit_status": 0,
+        "depend": null,
+        "queue": "batch_cpu",
+        "walltime": "00:00:25"
+      },
+      "1601481.stdct-mgmt-02": {
+        "Job_Name": "chv1cpurestore",
+        "job_state": "F",
+        "Exit_status": 0,
+        "depend": null,
+        "queue": "batch_cpu",
+        "walltime": "00:01:14"
+      }
+    },
+    "last": {
+      "phase_step": 2552,
+      "lineage_total_updates": 3052,
+      "parent_global_step": 500,
+      "phase_cursors": {
+        "target": 163328,
+        "robodojo": 81664,
+        "libero": 81664
+      },
+      "lineage_cursors": {
+        "target": 179328,
+        "robodojo": 105664,
+        "libero": 105664
+      },
+      "wall_s": 46.69105308689177
+    },
+    "p50_last25": 46.57468976499513,
+    "restore": {
+      "adam_counts": {
+        "libero": 2500,
+        "robodojo": 2500,
+        "shared": 2500,
+        "target": 2500
+      },
+      "ancestor": {
+        "lineage_cursors": {
+          "libero": 88000,
+          "robodojo": 88000,
+          "target": 144000
+        },
+        "lineage_total_updates": 2500,
+        "parent_global_step": 500,
+        "phase_cursors": {
+          "libero": 64000,
+          "robodojo": 64000,
+          "target": 128000
+        },
+        "phase_step": 2000,
+        "stage_local_cursors": {
+          "libero": 64000,
+          "robodojo": 64000,
+          "target": 128000
+        },
+        "stage_start": 0
+      },
+      "banks_sha256": "c3c308dfc00517894735c0f7386dc2e79385e86717fa33f4e817b44fc0afadb0",
+      "device_readback_exact": 140,
+      "frozen_model_fingerprint": "0dd1c1c02ea11a3f1277219dfb1e3d3e7ea7504a0fa8778ec9a4c7090ae09538",
+      "generations": 0,
+      "job": "1601481.stdct-mgmt-02",
+      "last_actual_lr": 0.0000036187511679612913,
+      "native": 0,
+      "optimization_visits": 0,
+      "optimizer_updates": 0,
+      "parent": "2bff547b6f2c3aca0e7e2fd8a790ce6b30ef1c5f33b004c6897e3083647358d5",
+      "plan": "171b5bedb290258954aac140157743e92e3b152e",
+      "project": "CFP04-CF-007",
+      "rates_sha256": "e4c221930516bc9b974dd05144a1e9dcf06aebfdc9736edba1a8f6fbac0d8145",
+      "receiver_device_restore": false,
+      "restored_arrays": 140,
+      "runtime_archive_sha256": "1d3bdb0055aca690f1aeadaa240850848c3fe32c3c5a1f44a61c599e19bdc39d",
+      "sample_readback": {
+        "counts": {
+          "libero": 6,
+          "robodojo": 12,
+          "target": 8
+        },
+        "episodes": {
+          "libero": 1261,
+          "robodojo": 200,
+          "target": 26
+        },
+        "sample_sha256": "5f2a684748760759a240a9eff9e4c3105f98dc6fed3d585956069fcbd4d72884",
+        "windows": {
+          "libero": 209146,
+          "robodojo": 210398,
+          "target": 2031
+        }
+      },
+      "scope": "VANDA CPU using sealed runtime and parent",
+      "source_revision": "767453fa3b111d7c0242fde07de36d63254d79d1",
+      "status": "SOURCE_CPU_COLD_RESTORE_EXACT",
+      "training_ready": false,
+      "wall_s": 55.32681488501839
+    },
+    "restore_receipt_sha256": "f7759f70eaed6681ae2663bfd068a47779eb0db5ddabb766ebaeddfb177935f2",
+    "eval_assets": {
+      "bytes": 2391854732,
+      "engineering_panel": "068b73058d28b741c9ddeba6bcc0997e5ffb1453ceb349a7e4c2baa5f2bf4f57",
+      "formal_panel": "3136404c06f890a9dd830b2cf5f40e487ef436ede16e805e14ffc0cb06b5eefd",
+      "independent_restores": 0,
+      "job": "1601472.stdct-mgmt-02",
+      "manifest_sha256": "dc3aec5b9e5e9dee07ec51599c6082d4550e03ad8ea91b7e9dda1e18dc81fa18",
+      "members": 59,
+      "native": 0,
+      "new_predictions": 0,
+      "optimizer_updates": 0,
+      "plan": "171b5bedb290258954aac140157743e92e3b152e",
+      "source_revision": "a4c56310ab1e372ab45558d99729f99c2682c41e",
+      "status": "EVAL_INPUT_BYTES_VERIFIED"
+    },
+    "eval_receipt_sha256": "2ab76fdedc827fd7572d85b46e53ad1663425187e75fb6dac555846102f0e635"
+  },
+  "hopper": {
+    "receiver_eval_receipt_sha256": "2ab76fdedc827fd7572d85b46e53ad1663425187e75fb6dac555846102f0e635",
+    "runtime_job": "1601442.stdct-mgmt-02",
+    "runtime_bytes": 6574981120,
+    "bank_job": "1601447.stdct-mgmt-02",
+    "original_bank_exit": 1,
+    "bank_resolution": "all incoming bytes reverified and directory sealed without regenerating",
+    "banks_sha256": "c3c308dfc00517894735c0f7386dc2e79385e86717fa33f4e817b44fc0afadb0",
+    "pbs_queue_query_succeeded": true,
+    "project_balance_verification": "amgr session expired (15006)",
+    "gpu_job": null,
+    "engine_qualified": false,
+    "H200_gpu_hours": 0,
+    "new_updates": 0,
+    "optimization_visits": 0,
+    "generations": 0,
+    "native_requests": 0
+  },
+  "detach": {
+    "core_collection": true,
+    "core_snapshot_clock": true,
+    "vanda_A40_training": true,
+    "vanda_to_hopper_staging_verified": true,
+    "core_to_vanda_persistent_path_verified": false,
+    "all_roles_mounted": false
+  }
+}

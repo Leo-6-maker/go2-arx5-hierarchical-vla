@@ -1,0 +1,538 @@
+{
+  "plan": "171b5bedb290258954aac140157743e92e3b152e",
+  "t0_sgt": "2026-11-21T12:41:52+08:00",
+  "deadline_sgt": "2026-12-05T12:41:52+08:00",
+  "h200_hours_limit": 320,
+  "site": {
+    "basis": {
+      "at": "2026-11-21T21:12:02.207919+08:00",
+      "job": "727738.hopper-m-02",
+      "source_sha": "98340b9b7da1672b00b35c0336ea797a70a248d66862ebee484581bbe56b8cd5",
+      "basis": "1e3d7d2e474f21148c80bf217781beb315b06a273b17ec1e96c3509a4c83fdb2",
+      "cl": "hopper-m-02",
+      "proj": "CFP04-CF-007",
+      "member_valid_at": 1795266717.0338168,
+      "period_expiry": 1804867200,
+      "rate": 100,
+      "acquired": [
+        [
+          "gpu_hrs",
+          "600.0",
+          "2026-11-21",
+          "20:59:29.881804"
+        ],
+        [
+          "su",
+          "600.0",
+          "2026-11-21",
+          "20:59:29.881804"
+        ]
+      ]
+    },
+    "held": {
+      "at": "2026-11-21T21:14:25.276953+08:00",
+      "job": "1602700.stdct-mgmt-02",
+      "state": "H",
+      "dependency": "afterok:1602479.stdct-mgmt-02@stdct-mgmt-02",
+      "name": "schv1mixr01",
+      "project": "CFP04-CF-007",
+      "owner_verified": true,
+      "current_gpu_job": "727738.hopper-m-02",
+      "resources": {
+        "ncpus": 2,
+        "ngpus": 0,
+        "mem": "13gb",
+        "walltime": "06:00:00"
+      },
+      "prior": "1602479.stdct-mgmt-02"
+    },
+    "handoff_sha256": "5f648547738d2ddeaf3b6e23478fc92dfc0eb70b3682fc0f9eb9f3cc61b12a1f",
+    "preflight": {
+      "receipt": "c6e0e2de717695c66635d5d6b73a506cf0792af6c667df36c5a6f063f7e8ea14",
+      "job_state": "R",
+      "queue_rate": 1,
+      "source": "SITE_PBS_PROJECT_AWARD_REQUIRED",
+      "project": "CFP04-CF-007",
+      "reads": {
+        "20": [
+          "b69a924e64e964d8bcc4c257403860344a8d19ee",
+          "cb1cea1a3ee47e26549f680a6403112e3c88fde8568e2792089ce7990cdfc044"
+        ],
+        "24": [
+          "b69a924e64e964d8bcc4c257403860344a8d19ee",
+          "53b5a6418078646b6da7aca4c2b9200574c60d9a915a3e8e55612e8e06d3f1c1"
+        ]
+      },
+      "job": "727738.hopper-m-02",
+      "basis": "1e3d7d2e474f21148c80bf217781beb315b06a273b17ec1e96c3509a4c83fdb2"
+    },
+    "scheduler_source": "2f94d90b269cfcd089f4d12549a008ef9f37526e",
+    "hopper_scheduler_manifest": "98340b9b7da1672b00b35c0336ea797a70a248d66862ebee484581bbe56b8cd5",
+    "vanda_manifest": "45726849b3e35ed86918d7e7d5fd09b5ee954fb3cbb93ba9efef0245e058f1cf",
+    "vanda_config": "ba9285a4d3fc9bd793d723963b913e9753d60eb513dd02038109fae24f8df3dd",
+    "observed_at": "2026-11-21T21:21:06.122241+08:00",
+    "pbs": {
+      "old": {
+        "job_state": "F",
+        "Exit_status": 0,
+        "exec_host": "GN-A40-075/1*2",
+        "depend": ",beforeok:1602700.stdct-mgmt-02@stdct-mgmt-02",
+        "stime": "Sat Nov 21 20:11:05 2026",
+        "comment": "Job run at Sat Nov 21 at 20:11 on (GN-A40-075[1]:ncpus=2:mem=13gb) and finished",
+        "job": "1602479.stdct-mgmt-02",
+        "owner_verified": true,
+        "last": {
+          "job": "1602479.stdct-mgmt-02",
+          "epoch": 1795266805.6309114,
+          "polls": 22,
+          "hopper": {
+            "status": "WAIT_PBS",
+            "job": "727738.hopper-m-02",
+            "state": "R"
+          }
+        },
+        "start": {
+          "epoch": 1795263066.894477,
+          "grant_end": 1796445712,
+          "job": "1602479.stdct-mgmt-02",
+          "node": "GN-A40-075",
+          "pid": 1484208,
+          "site_end": 1795284665
+        },
+        "data": {
+          "stage": "WAIT_NEXT_MIXED_INTAKE",
+          "job": "1602479.stdct-mgmt-02",
+          "epoch": 1795266877.1492317,
+          "pid": 1484264
+        },
+        "result": {
+          "status": "STOP_LIMIT_OR_DEADLINE"
+        },
+        "interrupted": null,
+        "hold": false
+      },
+      "new": {
+        "job_state": "R",
+        "Exit_status": null,
+        "exec_host": "GN-A40-074/9*2",
+        "depend": null,
+        "stime": "Sat Nov 21 21:17:39 2026",
+        "comment": "Job run at Sat Nov 21 at 21:17 on (GN-A40-074[0]:ncpus=2:mem=13gb)",
+        "job": "1602700.stdct-mgmt-02",
+        "owner_verified": true,
+        "last": {
+          "job": "1602700.stdct-mgmt-02",
+          "epoch": 1795267258.0157838,
+          "polls": 2,
+          "hopper": {
+            "status": "WAIT_PBS",
+            "job": "727738.hopper-m-02",
+            "state": "R"
+          }
+        },
+        "start": {
+          "epoch": 1795267068.629643,
+          "grant_end": 1796445712,
+          "job": "1602700.stdct-mgmt-02",
+          "node": "GN-A40-074",
+          "pid": 4123002,
+          "site_end": 1795288659
+        },
+        "data": {
+          "stage": "WAIT_NEXT_MIXED_INTAKE",
+          "job": "1602700.stdct-mgmt-02",
+          "epoch": 1795267248.987882,
+          "pid": 4123058
+        },
+        "result": null,
+        "interrupted": null,
+        "hold": false
+      }
+    },
+    "handoff_inherited": {
+      "mixed-sent": {
+        "TRAIN-020.json": true,
+        "TRAIN-024.json": true
+      },
+      "mixed-checked": {
+        "TRAIN-024.json": true
+      }
+    },
+    "observed_main_heartbeats": [
+      {
+        "job": "1602700.stdct-mgmt-02",
+        "epoch": 1795267090.8633142,
+        "polls": 1,
+        "hopper": {
+          "status": "WAIT_PBS",
+          "job": "727738.hopper-m-02",
+          "state": "R"
+        }
+      },
+      {
+        "job": "1602700.stdct-mgmt-02",
+        "epoch": 1795267258.0157838,
+        "polls": 2,
+        "hopper": {
+          "status": "WAIT_PBS",
+          "job": "727738.hopper-m-02",
+          "state": "R"
+        }
+      }
+    ],
+    "prior_gpu_job_unchanged": true,
+    "new_GPU_jobs_for_handoff": 0,
+    "new_compute_side_proofs_from_post_handoff_allocations": 0,
+    "new_compute_side_proof_due": "next separately admitted allocation"
+  },
+  "training": {
+    "observed_at": "2026-11-21T21:21:06.182141+08:00",
+    "previous_backup": {
+      "arrays": 140,
+      "bytes": 5547651591,
+      "checkpoint": "61e7c7ac45b4c0c672fa473a20c293d599ba11f646daeacd93d73e897f28a3d9",
+      "deployment_due": false,
+      "eval_due": false,
+      "event_sha256": "67bff4b05ae39486d61fd44fa1b2ae306acfd27cc8ff29393ff99cd032fdb4d5",
+      "parent": "2bff547b6f2c3aca0e7e2fd8a790ce6b30ef1c5f33b004c6897e3083647358d5",
+      "phase": 900,
+      "plan": "171b5bedb290258954aac140157743e92e3b152e",
+      "role": "MAIN"
+    },
+    "main_updates": 937,
+    "visits": {
+      "target": 59968,
+      "robodojo": 29984,
+      "libero": 29984
+    },
+    "training_H40": 3748,
+    "per_job": {
+      "727341.hopper-m-02": 100,
+      "727394.hopper-m-02": 767,
+      "727738.hopper-m-02": 70
+    },
+    "checkpoint": {
+      "phase": 900,
+      "checkpoint": "61e7c7ac45b4c0c672fa473a20c293d599ba11f646daeacd93d73e897f28a3d9",
+      "event": "67bff4b05ae39486d61fd44fa1b2ae306acfd27cc8ff29393ff99cd032fdb4d5",
+      "arrays": 140,
+      "full": true
+    },
+    "input_inventory": "a951f4f8ff7662198f4a3f1826a5bc7a6ad920b71f65be8dbc395f514555cf22",
+    "input_banks": "c3c308dfc00517894735c0f7386dc2e79385e86717fa33f4e817b44fc0afadb0",
+    "learning_source": "b9581196d0acd02fb748222988e5a5543ce1f232",
+    "control_trigger": false,
+    "course_changes": 0
+  },
+  "new_reader": {
+    "source": "05adf473c0057eba60bf57fb3bcf302740b35eda",
+    "data": "TRAIN-020",
+    "vanda_job": "1602593.stdct-mgmt-02",
+    "vanda": {
+      "at": "2026-11-21T21:17:40.602830+08:00",
+      "status": {
+        "job_state": "F",
+        "Exit_status": 0,
+        "resources_used": {
+          "cpupercent": 62,
+          "cput": "00:00:08",
+          "mem": "344868kb",
+          "ncpus": 2,
+          "ngpus": 0,
+          "vmem": "0kb",
+          "walltime": "00:00:09"
+        },
+        "comment": "Job run at Sat Nov 21 at 21:16 on (GN-A40-074[0]:ncpus=2:mem=13gb) and finished",
+        "stime": "Sat Nov 21 21:16:14 2026",
+        "exec_host": "GN-A40-074/9*2"
+      },
+      "receipt": "0485d6fc50dd4c0eecdc9039a093563fd18a97df0c05b44e5718901f74c85211",
+      "windows": 1767,
+      "consumed": 17670,
+      "cpu": 8.409865835,
+      "error": ""
+    }
+  },
+  "native": {
+    "observed_at": "2026-11-21T21:20:10.391140+08:00",
+    "per_split": {
+      "TRAIN": {
+        "paid": 52,
+        "closed": 51,
+        "ticks": 1463831,
+        "grasp": 39,
+        "lift": 39,
+        "success": 27,
+        "admit": 27,
+        "post_stop": 0,
+        "reasons": {
+          "TASK_SUCCESS": 27,
+          "ILLEGAL_CONTACT": 20,
+          "TASK_BUDGET_EXHAUSTED_IN_CARRY": 2,
+          "TASK_BUDGET_EXHAUSTED_IN_HOLD": 2
+        },
+        "live": [
+          {
+            "id": "CHV1-TRAIN-F2-HOLD-blue-07",
+            "score_tick": 7703
+          }
+        ]
+      },
+      "VAL": {
+        "paid": 24,
+        "closed": 24,
+        "ticks": 678919,
+        "grasp": 15,
+        "lift": 15,
+        "success": 8,
+        "admit": 8,
+        "post_stop": 0,
+        "reasons": {
+          "TASK_SUCCESS": 8,
+          "ILLEGAL_CONTACT": 15,
+          "TASK_BUDGET_EXHAUSTED_IN_CARRY": 1
+        },
+        "live": []
+      }
+    },
+    "registered_service_red_pair": {
+      "source": "d3933e5d93baf9ef2617bf7d14f3d8c6b2124db5",
+      "spec": "73a7e59b8c0061f42013f45730f35d573518f659ed1e4bc29ff202296f0ab947",
+      "unit": "wm02-sla-core-hopper-v1-red-place-pair-20261121-01.service",
+      "pid": "2195540",
+      "at": "2026-11-21T21:21:05.580574+08:00",
+      "status": {
+        "stage": "WAIT_WORLD",
+        "epoch": 1795267261.4116979,
+        "completed": 0,
+        "actual_requests": 0,
+        "closed_ticks": 0,
+        "admitted_train": 0,
+        "current": "CHV1-TRAIN-F2-PLACE-red-left-02"
+      }
+    },
+    "published": {
+      "bytes": 841457381,
+      "count": 24,
+      "files": 171,
+      "key": "TRAIN-024",
+      "repository": "leoyuer/sla-core-hopper-train-v1",
+      "revision": "ee6deb079266ecc9198f2438b85e970b776d1d16",
+      "seal": "be7150617706304b1ae2a62e25abf53b21f6555a7dcb607fada87bea62198de0",
+      "windows": 2108
+    },
+    "latest_train_optimization_visits_from_public_snapshot": 0,
+    "student_requests": 0,
+    "student_ticks": 0,
+    "phase0_rgb16_bit_exact": 0,
+    "phase0_rgb16_denominator": 16
+  },
+  "hold_audit": {
+    "interface_during_qualified_hold": {
+      "CHV1-TRAIN-F2-HOLD-blue-05": {
+        "commands_sha": "775c41dba6b7064aadbd0f730255d076a54b8274d644de922c5374361d4b9287",
+        "samples_sha": "718b98ef97aff11f6b3ab21e4cdb7719f896e9e3b0db393fdc4c3506d2258c17",
+        "planner_sha": "658f533bee945f8ff47205ba605337bc9a237af0cab20328823dc5660d604d5d",
+        "from_query_tick": 25203,
+        "score_interval": [
+          25347,
+          25453
+        ],
+        "queries": 2,
+        "M_FREE": 2,
+        "external_base_reference": 0,
+        "proposal_dims": [
+          7
+        ],
+        "installed": 2,
+        "installed_knot_dims": [
+          7
+        ],
+        "atoms": 5,
+        "first_last_atom_ticks": [
+          25328,
+          25453
+        ],
+        "selected_reference": {
+          "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED": 5
+        }
+      },
+      "CHV1-TRAIN-F2-HOLD-blue-06": {
+        "commands_sha": "2fad1d54ef71538cb66451bbf724a963cee8a672c424dc0dcbc121666b5dcae1",
+        "samples_sha": "79d473657f49f1767130913eb6c8b1ec7787d0f89d55233a6b16e813c3e5e134",
+        "planner_sha": "eb184ae7e57af0186cf1cf0c6174de661862b79f5931379c5d4f04a3ba821db7",
+        "from_query_tick": 25378,
+        "score_interval": [
+          25408,
+          35703
+        ],
+        "queries": 83,
+        "M_FREE": 83,
+        "external_base_reference": 0,
+        "proposal_dims": [
+          7
+        ],
+        "installed": 83,
+        "installed_knot_dims": [
+          7
+        ],
+        "atoms": 412,
+        "first_last_atom_ticks": [
+          25403,
+          35703
+        ],
+        "selected_reference": {
+          "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED": 412
+        }
+      },
+      "CHV1-TRAIN-F1-HOLD-blue-07": {
+        "commands_sha": "420c37ad90f4a57b31c8abcd304fde7b72a4d90c21325f9998798161fc672361",
+        "samples_sha": "782266b2265067872185b525a9ebd22260b09c589031c12c3df15029aade3138",
+        "planner_sha": "6004b6affe24f3b495fc1fbf4dace7623256d5fb271b5032b69c435c7f510383",
+        "from_query_tick": 21953,
+        "score_interval": [
+          21964,
+          35703
+        ],
+        "queries": 110,
+        "M_FREE": 110,
+        "external_base_reference": 0,
+        "proposal_dims": [
+          7
+        ],
+        "installed": 110,
+        "installed_knot_dims": [
+          7
+        ],
+        "atoms": 550,
+        "first_last_atom_ticks": [
+          21953,
+          35703
+        ],
+        "selected_reference": {
+          "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED": 550
+        }
+      }
+    },
+    "source": "7cc40ced58f0fb69cfb57e178158cb7749c13071",
+    "script_sha256": "c3c20a743ede4e0a37ca7196b69166e0dcca74b68d28b5221d7e080bf7f75858",
+    "original_scorer_frozen": true,
+    "cases": {
+      "CHV1-TRAIN-F2-HOLD-blue-05": {
+        "sha256": "f61cc2a08943eb5e50651f683783228b762b91dabfee08268124ce375bbfa84c",
+        "actual": {
+          "base_gate_m": 0.08,
+          "best_qualified_hold": {
+            "motion_m": 0.08948844695490087,
+            "tick": 25453
+          },
+          "cached_sha256": "8a158d152ca013d1811c5eabbf05057d15c063ed293bdf98ff203319ae01f992",
+          "condition": "CHV1-TRAIN-F2-HOLD-blue-05",
+          "cpu_s": 4.39409722,
+          "eligible_ticks": {
+            "base": 12793,
+            "both": 107,
+            "qualified_hold": 107
+          },
+          "first_qualified_hold_tick": 25347,
+          "hold_gate_s": 1,
+          "journal_sha256": "1a22ecedeb1c24b10ddc84e8eae9326194504c66cb26d91fbd2c7a9626ce88ff",
+          "last_base_tick": 25453,
+          "longest_hold_s": 1.2120000000014812,
+          "model_generations": 0,
+          "native_result": "804aee7dc1b7c1f769d74956c88bc505c50b423c8ecf95018ff612a8078f195d",
+          "new_integrations": 0,
+          "optimizer_updates": 0,
+          "scene_sha256": "897e8ca77229af2289169eced332efbc737012a864556077fab47a683cbf75cf",
+          "scored_states": 19751,
+          "scorer_source": "04be0e46e71114f932f8b42ac25fba448e4d07e3201f83c08aa7b385a78fb4b0",
+          "success": true,
+          "task_ticks": [
+            5703,
+            25453
+          ],
+          "terminal_base_m": 0.08948844695490087
+        }
+      },
+      "CHV1-TRAIN-F2-HOLD-blue-06": {
+        "sha256": "b569d27eb530da438d68755481bdda8894d245fc08cc280b549dbe817c5f48a0",
+        "actual": {
+          "base_gate_m": 0.08,
+          "best_qualified_hold": {
+            "motion_m": 0.0724629498556271,
+            "tick": 26426
+          },
+          "cached_sha256": "2293203da900165cd91ec354b799ae2b161f958a5fd700b5f7fc02b6f05f5eee",
+          "condition": "CHV1-TRAIN-F2-HOLD-blue-06",
+          "cpu_s": 6.347944994,
+          "eligible_ticks": {
+            "base": 2337,
+            "both": 0,
+            "qualified_hold": 10296
+          },
+          "first_qualified_hold_tick": 25408,
+          "hold_gate_s": 1,
+          "journal_sha256": "3cf5f7368786c27ccb705d0c00ff8f501b0c1388a4fce54b0a0fcb11da9d6bf9",
+          "last_base_tick": 15277,
+          "longest_hold_s": 21.590000000000067,
+          "model_generations": 0,
+          "native_result": "bca480c697bdf9977812d2336178b6c668052b8e7560d81295c628dbf3051543",
+          "new_integrations": 0,
+          "optimizer_updates": 0,
+          "scene_sha256": "7c771964f2e5db535570a7e92f9e754230dba0d94e855f55cdf647231fef6a9d",
+          "scored_states": 30001,
+          "scorer_source": "04be0e46e71114f932f8b42ac25fba448e4d07e3201f83c08aa7b385a78fb4b0",
+          "success": false,
+          "task_ticks": [
+            5703,
+            35703
+          ],
+          "terminal_base_m": 0.0720060165749752
+        }
+      },
+      "CHV1-TRAIN-F1-HOLD-blue-07": {
+        "actual": {
+          "base_gate_m": 0.08,
+          "best_qualified_hold": {
+            "motion_m": 0.07764273633358315,
+            "tick": 26826
+          },
+          "cached_sha256": "49047f55c049baf5651aaeac366785a1caf276a1b72b13914b5f34a9ba951ec3",
+          "condition": "CHV1-TRAIN-F1-HOLD-blue-07",
+          "cpu_s": 6.389271919,
+          "eligible_ticks": {
+            "base": 7647,
+            "both": 0,
+            "qualified_hold": 13740
+          },
+          "first_qualified_hold_tick": 21964,
+          "hold_gate_s": 1,
+          "journal_sha256": "584eac2878ba71918c937262c7584b80add15adfbd730dcd6874dd6a1e7fd23f",
+          "last_base_tick": 18389,
+          "longest_hold_s": 28.478000000008485,
+          "model_generations": 0,
+          "native_result": "f2e0bde9d927ed012eebd9caf7f9502169685ea40679981ac81f6582381478e0",
+          "new_integrations": 0,
+          "optimizer_updates": 0,
+          "scene_sha256": "6b1a6736b55341f14ffad2891fc73d1c9dbd4e71e803001624cdc6993efc2f30",
+          "scored_states": 30001,
+          "scorer_source": "04be0e46e71114f932f8b42ac25fba448e4d07e3201f83c08aa7b385a78fb4b0",
+          "success": false,
+          "task_ticks": [
+            5703,
+            35703
+          ],
+          "terminal_base_m": 0.07752950670192686
+        },
+        "sha256": "0f332d38bff68cdffc4e660397482c7e8d2bce2b7953e2f7a7a400657e6fbe66"
+      }
+    },
+    "core_units": [
+      "wm02-sla-core-hopper-v1-hold-overlap-20261121-01.service",
+      "wm02-sla-core-hopper-v1-hold-overlap-f1-20261121-01.service"
+    ],
+    "new_scientific_integrations": 0,
+    "new_model_generations": 0,
+    "new_optimizer_updates": 0
+  }
+}

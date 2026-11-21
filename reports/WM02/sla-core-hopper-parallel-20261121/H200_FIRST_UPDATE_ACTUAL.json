@@ -1,0 +1,208 @@
+{
+  "observed_sgt": "2026-11-21T16:20:32.637249+08:00",
+  "plan": "171b5bedb290258954aac140157743e92e3b152e",
+  "campaign": {
+    "t0_sgt": "2026-11-21T12:41:52+08:00",
+    "deadline_sgt": "2026-12-05T12:41:52+08:00",
+    "H200_max_hours": 320,
+    "engineering_max_hours": 8
+  },
+  "hopper": {
+    "project": "CFP04-CF-007",
+    "site_grant_end_date": "2027-03-12",
+    "source": "b9581196d0acd02fb748222988e5a5543ce1f232",
+    "registration_source": "d8e6c1026dedbb5312617156e82df36507d2ad34",
+    "scheduler_source": "bcebd6684801719ce41d3c893d3a6346cd117a64",
+    "first_failed": {
+      "GPU_seconds": 23,
+      "exit": 1,
+      "group": "engineering",
+      "job": "727303.hopper-m-02",
+      "pbs_used_wall": "00:00:20"
+    },
+    "first_failure": "foundation/model directory alias absent at receiver; exception before model load, optimizer, or generation",
+    "first_updates": 0,
+    "first_optimizer_visits": 0,
+    "first_generations": 0,
+    "job": "727311.hopper-m-02",
+    "batch_pid": 2881349,
+    "worker_pid": 2881571,
+    "site": {
+      "deadline": 1795270615,
+      "gpu_name": "NVIDIA H200",
+      "gpu_uuid": "GPU-6e4785f0-652c-3903-a3d9-b1f131c1266a",
+      "host": "hopper-27",
+      "job": "727311.hopper-m-02",
+      "wall_s": 21600
+    },
+    "arrays_device_exact": 140,
+    "parent": "2bff547b6f2c3aca0e7e2fd8a790ce6b30ef1c5f33b004c6897e3083647358d5",
+    "mount_sha256": "69e89705b4f49dfe1e3fd769360809f0fa61b29dedc2331df03715223f5f22e5",
+    "foundation_manifest": "232442c8a8c934118cbcdb890c6f307d7fc857819d7e45c2286ed8e8e5d5f3a3",
+    "assets_inventory_sha256": "a951f4f8ff7662198f4a3f1826a5bc7a6ad920b71f65be8dbc395f514555cf22",
+    "banks": "c3c308dfc00517894735c0f7386dc2e79385e86717fa33f4e817b44fc0afadb0",
+    "samples": {
+      "go2": 2031,
+      "robodojo": 210398,
+      "libero": 209146
+    },
+    "role": "ENGINEERING_E1",
+    "committed_updates": 1,
+    "begun": 2,
+    "committed_visits": {
+      "target": 64,
+      "robodojo": 32,
+      "libero": 32
+    },
+    "committed_training_H40": 4,
+    "first_step": {
+      "passed": true,
+      "inputs_equal": true,
+      "reference_sha256": null
+    },
+    "update": {
+      "phase_step": 1,
+      "grad_norm": 1.0883221626281738,
+      "learning_rate": 0.0000036187511679612913,
+      "wall_s": 101.8874532498885
+    },
+    "actual_current_GPU_seconds_as_observed": 217,
+    "ordinary_outputs": 0,
+    "independent_restore_outputs": 0,
+    "main_updates": 0,
+    "control_updates": 0,
+    "student_native": 0
+  },
+  "core": {
+    "at": "2026-11-21T16:19:48.095585+08:00",
+    "summary": {
+      "TRAIN": {
+        "closed": 17,
+        "requests": 17,
+        "ticks": 515505,
+        "grasp": 11,
+        "lift": 11,
+        "success": 4,
+        "admitted": 4,
+        "failure_or_success": {
+          "TASK_SUCCESS": 4,
+          "ILLEGAL_CONTACT": 11,
+          "TASK_BUDGET_EXHAUSTED_IN_CARRY": 2
+        },
+        "hard_STOP": 11,
+        "post_STOP_ticks": 0
+      },
+      "VAL": {
+        "closed": 12,
+        "requests": 12,
+        "ticks": 346115,
+        "grasp": 8,
+        "lift": 8,
+        "success": 4,
+        "admitted": 4,
+        "failure_or_success": {
+          "TASK_SUCCESS": 4,
+          "ILLEGAL_CONTACT": 8
+        },
+        "hard_STOP": 8,
+        "post_STOP_ticks": 0
+      }
+    },
+    "active": [
+      {
+        "condition": "CHV1-TRAIN-F2-PLACE-red-left-01",
+        "last_score_tick": 9703,
+        "grasp": false,
+        "lift20": false
+      }
+    ],
+    "snapshot": {
+      "pid": 1775736,
+      "epoch": 1795249161.4984827,
+      "admitted": 4,
+      "published": 4,
+      "next_six_hour_epoch": 1795263111.3774765,
+      "terminal": false
+    },
+    "units": {
+      "wm02-sla-core-hopper-v1-expert-chain-20261121-02.service": {
+        "MainPID": "1746282",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-hopper-v1-expert-chain-20261121-02.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "InvocationID": "a9ea6c147a90458885362b8204a56407"
+      },
+      "wm02-sla-core-hopper-v1-train-snapshots-20261121-01.service": {
+        "MainPID": "1775736",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-hopper-v1-train-snapshots-20261121-01.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "InvocationID": "bb853c71c6724d808c751f1ede27f2de"
+      }
+    }
+  },
+  "vanda": {
+    "at": "2026-11-21T16:19:47.938814+08:00",
+    "jobs": {
+      "1599369.stdct-mgmt-02": {
+        "job_state": "F",
+        "queue": "batch_gpu",
+        "exec_host": "GN-A40-019/1*36",
+        "Exit_status": 0
+      },
+      "1599370.stdct-mgmt-02": {
+        "job_state": "R",
+        "queue": "batch_gpu",
+        "exec_host": "GN-A40-018/0*36",
+        "Exit_status": null
+      },
+      "1601862.stdct-mgmt-02": {
+        "job_state": "R",
+        "queue": "batch_cpu",
+        "exec_host": "GN-A40-075/8",
+        "Exit_status": null
+      }
+    },
+    "progress": {
+      "slaadp3000-02": 2754,
+      "slaadp2750-02": 2750
+    },
+    "seals": [
+      [
+        "phase02750",
+        "457164fadc425527f303c2f2e10d4bcad2d9e11dfbfed94536deadf6702a501d"
+      ]
+    ],
+    "dispatch": {
+      "HEARTBEAT.json": {
+        "job": "1601862.stdct-mgmt-02",
+        "epoch": 1795249176.9293263,
+        "polls": 1,
+        "hopper": {
+          "status": "WAIT_PBS",
+          "job": "727311.hopper-m-02",
+          "state": "R"
+        }
+      },
+      "START.json": {
+        "epoch": 1795249149.2086234,
+        "grant_end": 1796445712,
+        "job": "1601862.stdct-mgmt-02",
+        "node": "GN-A40-075",
+        "pid": 1458540,
+        "site_end": 1795270746
+      }
+    }
+  },
+  "transport": {
+    "core_raw_data_published": false,
+    "core_to_vanda_dataset_transfers": 0,
+    "vanda_to_hopper_training_asset_bytes": 50906886875,
+    "checkpoint_hf_revision": "5c460f195f6509f2f4da55dea32c356b45e00d37"
+  },
+  "outstanding": [
+    "H200 candidate numerical, throughput and 48+48 cold-output qualification",
+    "MAIN starting from original ADAPT2K; conditional CONTROL only on adopted target snapshot",
+    "independent formal output, deployment RGB16 and new student DEV/CONF have no new executed endpoints"
+  ]
+}

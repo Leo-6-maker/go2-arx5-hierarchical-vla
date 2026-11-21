@@ -8,6 +8,12 @@
 - [完整 Codex 启动 prompt](docs/handover/2026-11-21/START_SLA_CORE_HOPPER_PARALLEL_V1.md)
 - [源证据与实现缺口](reports/WM02/sla-core-hopper-parallel-20261121/AUDIT_AND_PLAN.md)
 
+## VANDA 资源安排（2026-11-22）
+
+后续在 VANDA 新申请的作业必须有实际 GPU 计算负载，例如训练或模型推理。数值比较、队列轮询、归档和回执整理使用本地或 Corelab CPU。VANDA 上已封存的小型结果可直接通过 SSH 读取。本次 phase 0 双样本比较已完成，勿重投。
+
+11 月 22 日 01:37 SGT 已确认，旧日报、备份、评估调度、Hopper 训练调度、公开模型交换、新训练数据接收和快照中转七条纯 CPU 链均已停止，后继登记数为 0。当前 GPU 作业继续运行；原调度器负责的下一段训练及传输可能延后。[七条链的 PBS 终态和停止回执](reports/WM02/sla-core-hopper-parallel-20261121/VANDA_SEVEN_CPU_CHAINS_STOP_ACTUAL.json)
+
 ## 第一次挂载应做什么
 
 1. 同时准备 Core 新 scope/人口和 VANDA→Hopper 完整 ADAPT2K＋D2/R200/LIBERO 直传。父端点固定HF revision `5c460f195f6509f2f4da55dea32c356b45e00d37`、`ADAPT5K/step-02000-2bff547b6f2c`，完整hash从该seal取得。

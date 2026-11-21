@@ -1,0 +1,186 @@
+{
+  "plan": "171b5bedb290258954aac140157743e92e3b152e",
+  "cutoff_sgt": "2026-11-21T18:35:11.809965+08:00",
+  "core_readback": {
+    "actual_reference_age_s": [
+      0.04999999999988347,
+      0.05000000000006111
+    ],
+    "checked_new_windows": 661,
+    "course_switches": 0,
+    "d2_identities": 2031,
+    "elapsed_s": 5.0994017124176025,
+    "go2_episodes": 34,
+    "go2_windows": 2692,
+    "hypothetical_phase2000": {
+      "bank_sha256": "e6b8176551171c2e06c248b10102d92e4084d3291efdd54ad7047d7a0395cfe9",
+      "blocks": 18000,
+      "nonlegacy_per_block": 44,
+      "seed": 2026112026,
+      "simulated_slots": {
+        "core_new": 488281,
+        "d2_additions": 303719,
+        "legacy": 360000
+      },
+      "slots_per_block": 64
+    },
+    "input_catalog_sha256": "6664b108a4b1f431d5ee5d0b66f19baae24e774f516954ed6eef12d0122fbf92",
+    "input_digest": "ed5bff6dd16e1ab1ee1caa0ca12b82df9134b5f85a318aae4fc09a5c48c2d326",
+    "model_generations": 0,
+    "native_requests": 0,
+    "native_ticks": 0,
+    "optimization_visits": 0,
+    "optimizer_updates": 0,
+    "plan": "171b5bedb290258954aac140157743e92e3b152e",
+    "previous_seal_sha256": "b79c95233fe8fc98cae2b4d39f17da141090a756d95c65b75e8fec95eca41a4b",
+    "seal_sha256": "3ed2445b37e6f6e703a7c0bf8e1118faa08022675862fdf3075ea7e9517ef96b",
+    "source_members": {
+      "scripts/sla/hopper_curriculum.py": "142b105abf874550fb084c97ebaddafea944f70b45dda5f4c3021cf80d8d5f8b",
+      "scripts/sla/hopper_inputs.py": "9bca26876aef3f4d960284ad788ecea276027f63801c63b7330972d84eb82d7d",
+      "scripts/sla/hopper_snapshot_relay.py": "334454129bc4bddc70a2d86e28442273dd1631c2cae81be3999ca71357e9a4d3",
+      "scripts/sla/preflight_adapt5k_data.py": "601c668e8e69a43548b94386d3c49bb46f8b66a695c5960773f3b03013210b31",
+      "src/go2arx5_vla/sla_adapter/adapt5k_contract.py": "f161750da924426b4f9155bc5ce2e9fbfc2ec122c51f1c1833252a9e3954e22a",
+      "src/go2arx5_vla/sla_adapter/adapt5k_data.py": "1ee7a5345fd9bc3aa345fe1a78e6ec745f5f45561c1e87f98975c481a17b9e80",
+      "src/go2arx5_vla/sla_adapter/multitask_data_v6.py": "e6c77504b721d03966bcb6b6dd8ef894a46233a931213e8a332f2dab431935ab",
+      "src/go2arx5_vla/sla_adapter/scale20k_target.py": "93a64720e98331e2fcb2651088abc3ea6459818df4a8d09d48a39e1d219e15ed"
+    },
+    "start_epoch": 1795257104.2064857,
+    "status": "CORE_TRAIN_CPU_READBACK",
+    "unchanged_prior_full_inputs": 333,
+    "windows_by_core_episode": {
+      "CHV1-TRAIN-F1-HOLD-blue-00": 73,
+      "CHV1-TRAIN-F1-HOLD-blue-02": 71,
+      "CHV1-TRAIN-F1-HOLD-red-00": 71,
+      "CHV1-TRAIN-F1-HOLD-red-01": 62,
+      "CHV1-TRAIN-F1-PLACE-red-right-00": 117,
+      "CHV1-TRAIN-F1-PLACE-red-right-01": 125,
+      "CHV1-TRAIN-F2-HOLD-blue-00": 72,
+      "CHV1-TRAIN-F2-HOLD-blue-01": 70
+    },
+    "terminal_sha256": "f2ab8d3275e64dfaeae433125e505ab60710791e92f55283161c68404d277f2b",
+    "program_source": "6c3d1d6aa5fa4121c5181f4586d1415b3c42daeb",
+    "config_sha256": "fe9e3b3af426f710cab2b7e21269f7995517ee34eb22bd7d9cc05035d5042366",
+    "unit": "wm02-sla-core-hopper-v1-train008-course-readback-20261121-01.service",
+    "observed_pid": "2062749",
+    "invocation": "521faec77f854953a5e4bf024cafa5df"
+  },
+  "snapshot": {
+    "windows": 661,
+    "episodes": 8,
+    "supervised": 26440,
+    "confirmed": 6610,
+    "bytes": 263855137,
+    "files": 56,
+    "task_windows": {
+      "HOLD-red": 133,
+      "PLACE-red-right": 242,
+      "HOLD-blue": 286
+    },
+    "q_masks_actual": {
+      "supervision_mask": 26440,
+      "consumed_mask": 6610
+    }
+  },
+  "main": {
+    "at": "2026-11-21T18:35:11.809965+08:00",
+    "n": 311,
+    "job": "727394.hopper-m-02",
+    "actual_by_domain": {
+      "target": 19904,
+      "robodojo": 9952,
+      "libero": 9952
+    },
+    "h40": 1244,
+    "warm_median_100_s": 15.453254426945932,
+    "warm_p90_100_s": 15.867707023164257,
+    "seal": 300,
+    "seal_sha256": "f911ef7932ba475079ae5d419f73f85590ff338fb91e2944f0e767c74aaf3a31",
+    "source": "b9581196d0acd02fb748222988e5a5543ce1f232"
+  },
+  "vanda_backup": {
+    "at": "2026-11-21T18:35:11.367610+08:00",
+    "backup": [
+      {
+        "phase": 0,
+        "arrays": 140,
+        "checkpoint": "d7949c75ecc33253bea605a3aed738df4ecdc473d8737848a1bca787ab253c18",
+        "bytes": 5547651566,
+        "event_sha256": "5fd6c09d4cb81f1abdc3bf4fb06642054723e0b926182d316768e4d1e18e32c3"
+      },
+      {
+        "phase": 100,
+        "arrays": 140,
+        "checkpoint": "4b922442d4cc1ac9d33529cba7667b73acad6882300d2a37c8d915dc5906bef0",
+        "bytes": 5547651584,
+        "event_sha256": "2c97a7bdb163b3746131418f07ba10f2b558e92f3c46d260a9c0e503e76ef822"
+      },
+      {
+        "phase": 200,
+        "arrays": 140,
+        "checkpoint": "1847a7fdcfa4f64f1e973db03e22c0875cbc6da6fb027abdf34cba70977ce0f1",
+        "bytes": 5547651586,
+        "event_sha256": "74dbc0f56b768cf363b3ec223ad66667e0d4332e84f261f7132a3f4e0b6d9d68"
+      },
+      {
+        "phase": 300,
+        "arrays": 140,
+        "checkpoint": "f911ef7932ba475079ae5d419f73f85590ff338fb91e2944f0e767c74aaf3a31",
+        "bytes": 5547651587,
+        "event_sha256": "3cb27281b33a5e232dc34b9e8b5ea9fd8a9d60e80d5d87cf9680c62fc5c6c87a"
+      }
+    ],
+    "job": "1601870.stdct-mgmt-02"
+  },
+  "experts": {
+    "at": "2026-11-21T18:35:11.090351+08:00",
+    "TRAIN": {
+      "started": 27,
+      "terminated": 26,
+      "admitted": 8,
+      "ticks": 740110
+    },
+    "VAL": {
+      "started": 24,
+      "terminated": 24,
+      "admitted": 8,
+      "ticks": 678919
+    },
+    "active": [
+      {
+        "id": "CHV1-TRAIN-F1-PLACE-blue-right-02",
+        "tick": 28953
+      }
+    ],
+    "repair_pilots": [
+      {
+        "condition": "CHV1-TRAIN-F2-PLACE-blue-right-02",
+        "stage": "WAIT_WORLD",
+        "closed": 0,
+        "started": 0,
+        "ticks": 0
+      },
+      {
+        "condition": "CHV1-TRAIN-F2-HOLD-red-02",
+        "stage": "WAIT_WORLD",
+        "closed": 0,
+        "started": 0,
+        "ticks": 0
+      }
+    ]
+  },
+  "first_leg": {
+    "at": "2026-11-21T18:35:51.220652+08:00",
+    "vanda_inbox_snapshots": 0,
+    "original_relay": "R",
+    "successor": "H",
+    "successor_dependency": "afterok:1601552.stdct-mgmt-02@stdct-mgmt-02",
+    "hopper_visible_snapshots": 0,
+    "course_switches": 0,
+    "control_triggered": false
+  },
+  "phase0_student": {
+    "status": "ENDPOINT_NATIVE_HELD",
+    "native_requests": 0,
+    "native_ticks": 0
+  }
+}

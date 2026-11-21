@@ -1,0 +1,639 @@
+{
+  "plan": "171b5bedb290258954aac140157743e92e3b152e",
+  "scope": "CPU_READBACK_AND_FIXED_TRAIN_PROJECTION",
+  "reset": {
+    "source": {
+      "unit": "wm02-sla-core-hopper-v1-train012-reset-20261121-01.service",
+      "source": "35959b8f4b9173ea01f290039f003277ce625176",
+      "members": {
+        "scripts/sla/core_hopper_reset_readback.py": "b03a832dd000b00fd40701a6a0572716107374f9c4d22efffe1e13e8e3a58d09",
+        "scripts/sla/core_hopper_expert.py": "4d80540884d361b112bda64017b32561812231c926fad6854320f236a2352c0f",
+        "scripts/sla/hopper_parent_custody.py": "ed1e1ba173534bb6e5c9961d71aa2ead3e9bad2cda0047a77c74e533e49ab442",
+        "scripts/sla/hopper_site.py": "c0d799680f80c12e320f53c1569f45b3dfd2673c4545559bdaaf4fdcf20dc2e6"
+      },
+      "catalog_sha256": "0c0a0a2fcf1d9e43f61e69750074c6e55343d973ef890b4fe3cc33f2dcdbfaa1",
+      "train_count": 12,
+      "seal": "04b0e4bbe182d438b06940caacc91a24bcd280e8205aff54f9efdbfc3bcb9a27",
+      "first": {
+        "MainPID": "2099902",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-hopper-v1-train012-reset-20261121-01.service",
+        "ActiveState": "active",
+        "InvocationID": "dc03c9e974084f998bd275ee993d9774"
+      },
+      "mount_sha256": "d81d5090290735349c47973255287c58f6c7a640c007891a068a840357a6a163"
+    },
+    "readback": {
+      "at": "2026-11-21T19:06:41.989629+08:00",
+      "sha": "c56ed991b6f9fb002760b03cd19aa6ae94a98d90da8c166ce0dcc8a6c8a6c58a",
+      "running_data": {
+        "population": "d92fe34f122637bb6dc29bb93d9f7a3d60464f65c5474b00962432bbc07b4914",
+        "seal": "04b0e4bbe182d438b06940caacc91a24bcd280e8205aff54f9efdbfc3bcb9a27",
+        "sealed_episodes": 12,
+        "sealed_windows": 994,
+        "sealed_scenes": 7,
+        "sealed_instruction_counts": {
+          "HOLD-blue": 6,
+          "HOLD-red": 3,
+          "PLACE-red-right": 3
+        },
+        "zero_request_terminals": [],
+        "producer_ledger_hashes": {
+          "89f058d5cd3a69cae8f68eb6a63f63a040f20151d07daf0d88e6a0ec5c3f8ffe": "71222ce92141e4b1930c98bdddec61e63dfd499f4a1c55adb407638103cb82d0"
+        },
+        "scenes": {
+          "CHV1-TRAIN-F1-G00": {
+            "admitted": 3,
+            "instructions": [
+              "HOLD-blue",
+              "HOLD-red",
+              "PLACE-blue-left",
+              "PLACE-blue-right",
+              "PLACE-red-left",
+              "PLACE-red-right"
+            ],
+            "reset": 4040679645,
+            "scene_seed": 282559920,
+            "scene_sha256": "19368138aa85927c9482e2a69f4a9bc7aa35c8a171969d35db7d72a6f1797635",
+            "sealed": 3,
+            "split": "TRAIN",
+            "state_sha256": [
+              "a451f6ad7463e071bb40160b9eb5ce58ab3ad165fbaf11643eba37756bb2a377"
+            ]
+          },
+          "CHV1-TRAIN-F1-G01": {
+            "admitted": 2,
+            "instructions": [
+              "HOLD-blue",
+              "HOLD-red",
+              "PLACE-blue-left",
+              "PLACE-blue-right",
+              "PLACE-red-left",
+              "PLACE-red-right"
+            ],
+            "reset": 951014759,
+            "scene_seed": 3942284822,
+            "scene_sha256": "9ae3232754c5ef287239801fc10230199872f1526c78c099b746f0d7ad088507",
+            "sealed": 2,
+            "split": "TRAIN",
+            "state_sha256": [
+              "529be5bcb163c8f6a74b261d72c2a1f30e8d494f0c022ba1ccae6d0d8051319e"
+            ]
+          },
+          "CHV1-TRAIN-F1-G02": {
+            "admitted": 3,
+            "instructions": [
+              "HOLD-blue",
+              "HOLD-red",
+              "PLACE-blue-right",
+              "PLACE-red-left",
+              "PLACE-red-right"
+            ],
+            "reset": 1135139899,
+            "scene_seed": 2906954883,
+            "scene_sha256": "ba55a65ce2d5a57917ec4f1d49ee38af15c4e495d10a5b8781d06ce6e787f723",
+            "sealed": 3,
+            "split": "TRAIN",
+            "state_sha256": [
+              "48abb6cc94c4c552322f1d67bb3aa80ed0d0cb6b98ea663ede76ab66b45b7e14"
+            ]
+          },
+          "CHV1-TRAIN-F1-G03": {
+            "admitted": 1,
+            "instructions": [
+              "HOLD-blue"
+            ],
+            "reset": 1721046573,
+            "scene_seed": 13883282,
+            "scene_sha256": "30ddc30db168df862036b38e72dc0ec1af8188a47d26aa4e0757679a0f1e2e13",
+            "sealed": 1,
+            "split": "TRAIN",
+            "state_sha256": [
+              "87471e8113547763da078e8f9c84f9b82fbce1262f88f4ee06ce2665415012af"
+            ]
+          },
+          "CHV1-TRAIN-F2-G00": {
+            "admitted": 1,
+            "instructions": [
+              "HOLD-blue",
+              "HOLD-red",
+              "PLACE-blue-left",
+              "PLACE-blue-right",
+              "PLACE-red-left",
+              "PLACE-red-right"
+            ],
+            "reset": 1114246411,
+            "scene_seed": 554368900,
+            "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+            "sealed": 1,
+            "split": "TRAIN",
+            "state_sha256": [
+              "c855b9f01dbe95597b47be2a7688d0bdce8f7a5377c2668795cf575c7ccc9a2c"
+            ]
+          },
+          "CHV1-TRAIN-F2-G01": {
+            "admitted": 1,
+            "instructions": [
+              "HOLD-blue",
+              "HOLD-red",
+              "PLACE-blue-left",
+              "PLACE-blue-right",
+              "PLACE-red-left",
+              "PLACE-red-right"
+            ],
+            "reset": 2627487594,
+            "scene_seed": 1763467013,
+            "scene_sha256": "0b493698c6d5dd4ce4b585f8f35bc3a8077b24a45a36c9556cb7523401dcf908",
+            "sealed": 1,
+            "split": "TRAIN",
+            "state_sha256": [
+              "7eee0b836ce3381be823314f364ab51c4cfbfa55c42fdcbac293c284bee68d55"
+            ]
+          },
+          "CHV1-TRAIN-F2-G02": {
+            "admitted": 1,
+            "instructions": [
+              "HOLD-blue"
+            ],
+            "reset": 943530236,
+            "scene_seed": 225999308,
+            "scene_sha256": "9bf333de0c825720de884e965781f525bb431bf24ee222341a9af3c58e84ca07",
+            "sealed": 1,
+            "split": "TRAIN",
+            "state_sha256": [
+              "071f6ec0c5624f23ba02caa3affe4a31cdaea5a1ab078405eabfcc43fe304d38"
+            ]
+          },
+          "CHV1-VAL-F1-G00": {
+            "admitted": 3,
+            "instructions": [
+              "HOLD-blue",
+              "HOLD-red",
+              "PLACE-blue-left",
+              "PLACE-blue-right",
+              "PLACE-red-left",
+              "PLACE-red-right"
+            ],
+            "reset": 1906835703,
+            "scene_seed": 1652880597,
+            "scene_sha256": "35bf64daebd9e71a94952babde45f9ed23c1d2dccafe037fd511320313b9ab82",
+            "sealed": 0,
+            "split": "VAL",
+            "state_sha256": [
+              "862e10b76c0bccb44852f8ec6fe776e0d1fe2cfdf44c2800bb9b649cfd52eae4"
+            ]
+          },
+          "CHV1-VAL-F1-G01": {
+            "admitted": 3,
+            "instructions": [
+              "HOLD-blue",
+              "HOLD-red",
+              "PLACE-blue-left",
+              "PLACE-blue-right",
+              "PLACE-red-left",
+              "PLACE-red-right"
+            ],
+            "reset": 9352341,
+            "scene_seed": 2866008207,
+            "scene_sha256": "2b6c28cfa851b254091833eb1d49ec569edc0cead172fd77ac3f458f6e817b78",
+            "sealed": 0,
+            "split": "VAL",
+            "state_sha256": [
+              "66198ed345805b9884cfa6d249cf65ae4576ff527c3f2235b07ed7b2e97c5096"
+            ]
+          },
+          "CHV1-VAL-F2-G00": {
+            "admitted": 1,
+            "instructions": [
+              "HOLD-blue",
+              "HOLD-red",
+              "PLACE-blue-left",
+              "PLACE-blue-right",
+              "PLACE-red-left",
+              "PLACE-red-right"
+            ],
+            "reset": 453479527,
+            "scene_seed": 1033252799,
+            "scene_sha256": "df305f35b4456bbb040d46d646d5dc23c10de1ad065d176374266ad124ba78a5",
+            "sealed": 0,
+            "split": "VAL",
+            "state_sha256": [
+              "9e59146c00f4b7103bbbe114a29f12d349da83550b299b8dffb9b1ad72e7eff0"
+            ]
+          },
+          "CHV1-VAL-F2-G01": {
+            "admitted": 1,
+            "instructions": [
+              "HOLD-blue",
+              "HOLD-red",
+              "PLACE-blue-left",
+              "PLACE-blue-right",
+              "PLACE-red-left",
+              "PLACE-red-right"
+            ],
+            "reset": 1329507802,
+            "scene_seed": 1494885676,
+            "scene_sha256": "9b60991b7af616817be79841c1765140f8f007762d4a511adaee09b607966f6c",
+            "sealed": 0,
+            "split": "VAL",
+            "state_sha256": [
+              "d76836dfb33ea044994eb286be51110b14f44d864c629f80f72d075d63b6859a"
+            ]
+          }
+        },
+        "optimizer_updates": 0,
+        "model_generations": 0,
+        "new_native_requests": 0,
+        "new_integrations": 0
+      },
+      "by_split": {
+        "TRAIN": {
+          "episodes": 31,
+          "scenes": 7,
+          "admitted": 12,
+          "admitted_scenes": 7,
+          "full_six": 4,
+          "repeated": 5,
+          "matched_repeated": 5,
+          "distinct_measured_states": 7
+        },
+        "VAL": {
+          "episodes": 24,
+          "scenes": 4,
+          "admitted": 8,
+          "admitted_scenes": 4,
+          "full_six": 4,
+          "repeated": 4,
+          "matched_repeated": 4,
+          "distinct_measured_states": 4
+        }
+      }
+    }
+  },
+  "training_reader": {
+    "source": {
+      "unit": "wm02-sla-core-hopper-v1-train012-course-readback-20261121-01.service",
+      "config": "731681b58ffa26b5dee589d1233dfdc76c6e9ba7ce447d0e6192bc9dcb8c5f6f",
+      "worker_source": "6c3d1d6aa5fa4121c5181f4586d1415b3c42daeb",
+      "worker_sha256": "9798d538df3e08c98039b9b55e1e48b469c0b821693356c79cf96c6b7c12f48c",
+      "reader_members": {
+        "scripts/sla/hopper_curriculum.py": "142b105abf874550fb084c97ebaddafea944f70b45dda5f4c3021cf80d8d5f8b",
+        "scripts/sla/hopper_inputs.py": "9bca26876aef3f4d960284ad788ecea276027f63801c63b7330972d84eb82d7d",
+        "scripts/sla/hopper_snapshot_relay.py": "334454129bc4bddc70a2d86e28442273dd1631c2cae81be3999ca71357e9a4d3",
+        "scripts/sla/preflight_adapt5k_data.py": "601c668e8e69a43548b94386d3c49bb46f8b66a695c5960773f3b03013210b31",
+        "src/go2arx5_vla/sla_adapter/adapt5k_contract.py": "f161750da924426b4f9155bc5ce2e9fbfc2ec122c51f1c1833252a9e3954e22a",
+        "src/go2arx5_vla/sla_adapter/adapt5k_data.py": "1ee7a5345fd9bc3aa345fe1a78e6ec745f5f45561c1e87f98975c481a17b9e80",
+        "src/go2arx5_vla/sla_adapter/multitask_data_v6.py": "e6c77504b721d03966bcb6b6dd8ef894a46233a931213e8a332f2dab431935ab",
+        "src/go2arx5_vla/sla_adapter/scale20k_target.py": "93a64720e98331e2fcb2651088abc3ea6459818df4a8d09d48a39e1d219e15ed"
+      },
+      "first": {
+        "MainPID": "2101300",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-hopper-v1-train012-course-readback-20261121-01.service",
+        "ActiveState": "active",
+        "InvocationID": "1d8cc17006614d02a2ad19facfe253e5"
+      }
+    },
+    "actual": {
+      "actual_reference_age_s": [
+        0.04999999999988347,
+        0.05000000000006111
+      ],
+      "checked_new_windows": 994,
+      "course_switches": 0,
+      "d2_identities": 2031,
+      "elapsed_s": 7.115159749984741,
+      "go2_episodes": 38,
+      "go2_windows": 3025,
+      "hypothetical_phase2000": {
+        "bank_sha256": "12795000afbbc06debf7f40b3d13a6f970f8208905b1dd7e3523664ffc965e73",
+        "blocks": 18000,
+        "nonlegacy_per_block": 48,
+        "seed": 2026112026,
+        "simulated_slots": {
+          "core_new": 562514,
+          "d2_additions": 301486,
+          "legacy": 288000
+        },
+        "slots_per_block": 64
+      },
+      "input_catalog_sha256": "9349e2fd8fd216461d6b4e224d9b6372903e7e5b4b086e761df76d7dffaa7b46",
+      "input_digest": "6d155dd55d3ec4dea8793886a424bd290c0ed42934c00485aa775a01ef3d6ed9",
+      "model_generations": 0,
+      "native_requests": 0,
+      "native_ticks": 0,
+      "optimization_visits": 0,
+      "optimizer_updates": 0,
+      "plan": "171b5bedb290258954aac140157743e92e3b152e",
+      "previous_seal_sha256": "3ed2445b37e6f6e703a7c0bf8e1118faa08022675862fdf3075ea7e9517ef96b",
+      "seal_sha256": "04b0e4bbe182d438b06940caacc91a24bcd280e8205aff54f9efdbfc3bcb9a27",
+      "source_members": {
+        "scripts/sla/hopper_curriculum.py": "142b105abf874550fb084c97ebaddafea944f70b45dda5f4c3021cf80d8d5f8b",
+        "scripts/sla/hopper_inputs.py": "9bca26876aef3f4d960284ad788ecea276027f63801c63b7330972d84eb82d7d",
+        "scripts/sla/hopper_snapshot_relay.py": "334454129bc4bddc70a2d86e28442273dd1631c2cae81be3999ca71357e9a4d3",
+        "scripts/sla/preflight_adapt5k_data.py": "601c668e8e69a43548b94386d3c49bb46f8b66a695c5960773f3b03013210b31",
+        "src/go2arx5_vla/sla_adapter/adapt5k_contract.py": "f161750da924426b4f9155bc5ce2e9fbfc2ec122c51f1c1833252a9e3954e22a",
+        "src/go2arx5_vla/sla_adapter/adapt5k_data.py": "1ee7a5345fd9bc3aa345fe1a78e6ec745f5f45561c1e87f98975c481a17b9e80",
+        "src/go2arx5_vla/sla_adapter/multitask_data_v6.py": "e6c77504b721d03966bcb6b6dd8ef894a46233a931213e8a332f2dab431935ab",
+        "src/go2arx5_vla/sla_adapter/scale20k_target.py": "93a64720e98331e2fcb2651088abc3ea6459818df4a8d09d48a39e1d219e15ed"
+      },
+      "start_epoch": 1795259248.4245136,
+      "status": "CORE_TRAIN_CPU_READBACK",
+      "unchanged_prior_full_inputs": 661,
+      "windows_by_core_episode": {
+        "CHV1-TRAIN-F1-HOLD-blue-00": 73,
+        "CHV1-TRAIN-F1-HOLD-blue-02": 71,
+        "CHV1-TRAIN-F1-HOLD-blue-03": 73,
+        "CHV1-TRAIN-F1-HOLD-red-00": 71,
+        "CHV1-TRAIN-F1-HOLD-red-01": 62,
+        "CHV1-TRAIN-F1-HOLD-red-02": 68,
+        "CHV1-TRAIN-F1-PLACE-red-right-00": 117,
+        "CHV1-TRAIN-F1-PLACE-red-right-01": 125,
+        "CHV1-TRAIN-F1-PLACE-red-right-02": 120,
+        "CHV1-TRAIN-F2-HOLD-blue-00": 72,
+        "CHV1-TRAIN-F2-HOLD-blue-01": 70,
+        "CHV1-TRAIN-F2-HOLD-blue-02": 72
+      }
+    },
+    "result_sha256": "6e6e8186ff4cfc0bd87f0c4f48913d726b93e3b0169e83031fc047c7f64b6359"
+  },
+  "masks": {
+    "seal_sha": "04b0e4bbe182d438b06940caacc91a24bcd280e8205aff54f9efdbfc3bcb9a27",
+    "windows": 994,
+    "supervised_atoms": 39760,
+    "consumed_atoms": 9940,
+    "suffix_consumed": 0,
+    "windows_by_task": {
+      "HOLD-blue": 431,
+      "HOLD-red": 201,
+      "PLACE-red-right": 362
+    },
+    "files": 83,
+    "bytes": 396780276
+  },
+  "paired_red_place": {
+    "source": {
+      "unit": "wm02-sla-core-hopper-v1-red-place-projection-20261121-01.service",
+      "source": "340332ec4d7cb7434b2a5fd355e241c4418cc237",
+      "frozen_geometry": "26d10c56362c7fa6879f10a394ff5b9fcec505e3",
+      "members": {
+        "scripts/sla/core_hopper_red_place_projection.py": "695821144effc30792048d414bda49040c728d0e820b01eeec22f0376c2f6d99",
+        "scripts/sla/hopper_parent_custody.py": "ed1e1ba173534bb6e5c9961d71aa2ead3e9bad2cda0047a77c74e533e49ab442",
+        "scripts/sla/core_hopper_red_approach_audit.py": "868a4c2c37015897f879647241d70908d675703f983bd4c8e99e7418b0cb3aef",
+        "scripts/sla/core_hopper_carry_audit.py": "e09f0b680b26d420ea959052694c8dbbc33bd039ecda6eed37f61fac282a4b1a",
+        "scripts/sla/core_hopper_red_approach.py": "92929fdafaacd73335f396badfc1733039fd4ba1615e35b282efaf6ad0cf6704"
+      },
+      "owner": {
+        "MainPID": "2106490",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-hopper-v1-red-place-projection-20261121-01.service",
+        "InvocationID": "5711099c037a494c9e5e8dc73d355d04"
+      }
+    },
+    "readback": {
+      "VAL_inputs": 0,
+      "admitted_new_episodes": 0,
+      "candidate_world_pitch_deg": 20,
+      "cpu_seconds": 1.296302629,
+      "measurements": {
+        "left": {
+          "rows": [
+            {
+              "closing_projection": {
+                "0": {
+                  "both_pads_intersect_red": true,
+                  "first_touch_slide_mm": [
+                    19.247018150819244,
+                    19.788908072019503
+                  ],
+                  "forbidden_min_gap_mm": {
+                    "other_cube": -16.228144562143424,
+                    "selected_nonpad": 14.96265478187804,
+                    "table": 10.264391822790756
+                  }
+                },
+                "20": {
+                  "both_pads_intersect_red": true,
+                  "first_touch_slide_mm": [
+                    19.247018150819244,
+                    19.788908072019503
+                  ],
+                  "forbidden_min_gap_mm": {
+                    "other_cube": 6.698298039663403,
+                    "selected_nonpad": 18.44778377275927,
+                    "table": 10.13924161901883
+                  }
+                }
+              },
+              "condition": "CHV1-TRAIN-F2-PLACE-red-left-00",
+              "descend_queries": 17,
+              "native_result_sha256": "8b545ef8a3a94d57cf619dacedcbadbf589ad5bf5f8708f6b34fe15d5b7e894f",
+              "queries_sha256": "7979c192ba6504905604b8e03278e0429a3f974b6c083889b94f6fba59c160f7",
+              "query_count": 64,
+              "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+              "summary": {
+                "0": {
+                  "bilateral_pad_intersection": true,
+                  "minimum_forbidden_gap_mm": -16.228144562143424
+                },
+                "20": {
+                  "bilateral_pad_intersection": true,
+                  "minimum_forbidden_gap_mm": 6.698298039663403
+                }
+              },
+              "table_shift_mm": [
+                -24.00000000000002,
+                -2.0000000000000018,
+                0
+              ],
+              "terminal_contact_mm": -0.03218550511811455,
+              "terminal_tick": 21625
+            },
+            {
+              "closing_projection": {
+                "0": {
+                  "both_pads_intersect_red": true,
+                  "first_touch_slide_mm": [
+                    19.247267172205138,
+                    19.788697818798084
+                  ],
+                  "forbidden_min_gap_mm": {
+                    "other_cube": -16.21011518151834,
+                    "selected_nonpad": 14.964070432948777,
+                    "table": 10.261828722210149
+                  }
+                },
+                "20": {
+                  "both_pads_intersect_red": true,
+                  "first_touch_slide_mm": [
+                    19.247267172205138,
+                    19.788697818798084
+                  ],
+                  "forbidden_min_gap_mm": {
+                    "other_cube": 6.714860064748092,
+                    "selected_nonpad": 18.45132515042832,
+                    "table": 10.141190496868179
+                  }
+                }
+              },
+              "condition": "CHV1-TRAIN-F2-PLACE-red-left-01",
+              "descend_queries": 20,
+              "native_result_sha256": "59f2763f8910826f7d784c4ab908f75bfca894c0ee487f031f63ad366c01f457",
+              "queries_sha256": "5d0ce7ab9b9f29ab76f3016df8db8cbf7e6fcff6c5dd7fef5d4ef6989530fd5b",
+              "query_count": 63,
+              "scene_sha256": "0b493698c6d5dd4ce4b585f8f35bc3a8077b24a45a36c9556cb7523401dcf908",
+              "summary": {
+                "0": {
+                  "bilateral_pad_intersection": true,
+                  "minimum_forbidden_gap_mm": -16.21011518151834
+                },
+                "20": {
+                  "bilateral_pad_intersection": true,
+                  "minimum_forbidden_gap_mm": 6.714860064748092
+                }
+              },
+              "table_shift_mm": [
+                -4.0000000000000036,
+                -2.0000000000000018,
+                0
+              ],
+              "terminal_contact_mm": -0.004402596132116465,
+              "terminal_tick": 21450
+            }
+          ],
+          "scene_sha256": "9bf333de0c825720de884e965781f525bb431bf24ee222341a9af3c58e84ca07",
+          "unopened_condition": "CHV1-TRAIN-F2-PLACE-red-left-02"
+        },
+        "right": {
+          "rows": [
+            {
+              "closing_projection": {
+                "0": {
+                  "both_pads_intersect_red": true,
+                  "first_touch_slide_mm": [
+                    19.24729011412164,
+                    19.788580776204995
+                  ],
+                  "forbidden_min_gap_mm": {
+                    "other_cube": -16.216782047608692,
+                    "selected_nonpad": 14.963571289337361,
+                    "table": 10.263719659882259
+                  }
+                },
+                "20": {
+                  "both_pads_intersect_red": true,
+                  "first_touch_slide_mm": [
+                    19.24729011412164,
+                    19.788580776204995
+                  ],
+                  "forbidden_min_gap_mm": {
+                    "other_cube": 6.708675383460191,
+                    "selected_nonpad": 18.450031192719617,
+                    "table": 10.139140551242251
+                  }
+                }
+              },
+              "condition": "CHV1-TRAIN-F2-PLACE-red-right-00",
+              "descend_queries": 18,
+              "native_result_sha256": "664d8db4a198b6f461517f98ca726ad5dc28c7bb990fbf6f75cd598bfafa4783",
+              "queries_sha256": "90a30ceb6ad4cd53669b609ab64188027ae28e5d2fdd34f66127e8a2c159219b",
+              "query_count": 60,
+              "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+              "summary": {
+                "0": {
+                  "bilateral_pad_intersection": true,
+                  "minimum_forbidden_gap_mm": -16.216782047608692
+                },
+                "20": {
+                  "bilateral_pad_intersection": true,
+                  "minimum_forbidden_gap_mm": 6.708675383460191
+                }
+              },
+              "table_shift_mm": [
+                -24.00000000000002,
+                -2.0000000000000018,
+                0
+              ],
+              "terminal_contact_mm": -0.0013836685844523244,
+              "terminal_tick": 20614
+            },
+            {
+              "closing_projection": {
+                "0": {
+                  "both_pads_intersect_red": true,
+                  "first_touch_slide_mm": [
+                    19.247163363995174,
+                    19.788791084990425
+                  ],
+                  "forbidden_min_gap_mm": {
+                    "other_cube": -16.2082016566111,
+                    "selected_nonpad": 14.964233569975324,
+                    "table": 10.261815662571722
+                  }
+                },
+                "20": {
+                  "both_pads_intersect_red": true,
+                  "first_touch_slide_mm": [
+                    19.247163363995174,
+                    19.788791084990425
+                  ],
+                  "forbidden_min_gap_mm": {
+                    "other_cube": 6.716604358090176,
+                    "selected_nonpad": 18.4517116319578,
+                    "table": 10.140654875167154
+                  }
+                }
+              },
+              "condition": "CHV1-TRAIN-F2-PLACE-red-right-01",
+              "descend_queries": 20,
+              "native_result_sha256": "63e2793c49f0728c4a3824f34f67644778f0cb6169ddb4f112ee334f82be84de",
+              "queries_sha256": "dcb9df810fd69ee4a18b4033327a415ddf35498fa2973cd497db86b9eca09c4e",
+              "query_count": 67,
+              "scene_sha256": "0b493698c6d5dd4ce4b585f8f35bc3a8077b24a45a36c9556cb7523401dcf908",
+              "summary": {
+                "0": {
+                  "bilateral_pad_intersection": true,
+                  "minimum_forbidden_gap_mm": -16.2082016566111
+                },
+                "20": {
+                  "bilateral_pad_intersection": true,
+                  "minimum_forbidden_gap_mm": 6.716604358090176
+                }
+              },
+              "table_shift_mm": [
+                -4.0000000000000036,
+                -2.0000000000000018,
+                0
+              ],
+              "terminal_contact_mm": -0.0008930768567866343,
+              "terminal_tick": 22278
+            }
+          ],
+          "scene_sha256": "9bf333de0c825720de884e965781f525bb431bf24ee222341a9af3c58e84ca07",
+          "unopened_condition": "CHV1-TRAIN-F2-PLACE-red-right-02"
+        }
+      },
+      "model_generations": 0,
+      "native_integrations": 0,
+      "native_requests": 0,
+      "optimizer_updates": 0,
+      "source_producer": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+      "status": "SAVED_PLACE_APPROACH_GEOMETRY"
+    },
+    "full_result_sha256": "438026277d214041adb3bb27a663220523a245f59e967c6854386624d420a9df"
+  },
+  "jobs": {
+    "wm02-sla-core-hopper-v1-train012-reset-20261121-01.service": {
+      "journal_cpu": null,
+      "failures": [],
+      "has_actual": true
+    },
+    "wm02-sla-core-hopper-v1-train012-course-readback-20261121-01.service": {
+      "journal_cpu": "wm02-sla-core-hopper-v1-train012-course-readback-20261121-01.service: Consumed 6.947s CPU time, 2.4M memory peak, 0B memory swap peak.",
+      "failures": [],
+      "has_actual": true
+    },
+    "wm02-sla-core-hopper-v1-red-place-projection-20261121-01.service": {
+      "journal_cpu": "wm02-sla-core-hopper-v1-red-place-projection-20261121-01.service: Consumed 1.485s CPU time, 3.0M memory peak, 0B memory swap peak.",
+      "failures": [],
+      "has_actual": true
+    }
+  }
+}

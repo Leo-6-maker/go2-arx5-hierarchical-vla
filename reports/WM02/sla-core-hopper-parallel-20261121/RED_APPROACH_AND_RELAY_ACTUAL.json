@@ -1,0 +1,859 @@
+{
+  "plan": "171b5bedb290258954aac140157743e92e3b152e",
+  "as_of_sgt": "2026-11-21T18:09:38.487977+08:00",
+  "TRAIN_only_geometry": {
+    "yaw": {
+      "worker": "f61b6ebaba6a40a43dcd838dc60b1c85e4dd17b2",
+      "receipt": "e43684792dcdbd86fb1770ae12c707c0df90b593545cd354d3571c39d25319e9",
+      "metadata": {
+        "VAL_inputs": 0,
+        "cpu_seconds": 0.765230091,
+        "distinct_scenes": 2,
+        "model_generations": 0,
+        "native_requests": 0,
+        "optimizer_updates": 0,
+        "pregrasp_turn_spacing_deg": 5,
+        "remaining_path_sample_spacing_mm": 1,
+        "simulation_integrations": 0,
+        "source_expert": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+        "status": "STATIC_SAVED_TRAIN_DISTAL_GEOMETRY",
+        "wall_seconds": 0.6359095182269812,
+        "yaw_degrees": [
+          -90,
+          -60,
+          -30,
+          0,
+          30,
+          60,
+          90
+        ]
+      },
+      "cases": [
+        {
+          "condition": "CHV1-TRAIN-F2-HOLD-red-00",
+          "descend_queries": 16,
+          "native_result_sha256": "7cf3c54b92773d696295fc69d8826bb3a4ceb4d54a1d781ad5d370ac9df38a36",
+          "queries_sha256": "683aaa5cfea7952a94ff48487ecd905f7bee5735913b3c2d3236a8e2532a5d60",
+          "query_count": 58,
+          "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+          "terminal_contact_mm": -0.08547308692904293,
+          "terminal_tick": 19955,
+          "minima": {
+            "0": {
+              "descend": {
+                "other_cube": 0.21,
+                "selected_nonpad": 12.12,
+                "selected_pad": 13.06,
+                "table": 17.7
+              },
+              "pregrasp": {
+                "other_cube": 20.96,
+                "selected_nonpad": 48.26,
+                "selected_pad": 19.73,
+                "table": 37.65
+              },
+              "remaining_to_goal": {
+                "other_cube": -16.45,
+                "selected_nonpad": 12.05,
+                "selected_pad": 19.81,
+                "table": 10.3
+              }
+            },
+            "30": {
+              "descend": {
+                "other_cube": 7.6,
+                "selected_nonpad": 7.8,
+                "selected_pad": 6.18,
+                "table": 17.7
+              },
+              "pregrasp": {
+                "other_cube": 20.59,
+                "selected_nonpad": 46.78,
+                "selected_pad": 18.73,
+                "table": 37.65
+              },
+              "remaining_to_goal": {
+                "other_cube": -6.8,
+                "selected_nonpad": 7.28,
+                "selected_pad": 6.18,
+                "table": 10.3
+              }
+            },
+            "60": {
+              "descend": {
+                "other_cube": 9.93,
+                "selected_nonpad": 13.74,
+                "selected_pad": 4,
+                "table": 17.7
+              },
+              "pregrasp": {
+                "other_cube": 18.73,
+                "selected_nonpad": 44.24,
+                "selected_pad": 18.73,
+                "table": 37.65
+              },
+              "remaining_to_goal": {
+                "other_cube": 4.4,
+                "selected_nonpad": 10.13,
+                "selected_pad": 4,
+                "table": 10.3
+              }
+            },
+            "90": {
+              "descend": {
+                "other_cube": 27.31,
+                "selected_nonpad": 20.74,
+                "selected_pad": 7.81,
+                "table": 17.7
+              },
+              "pregrasp": {
+                "other_cube": 18.73,
+                "selected_nonpad": 42.51,
+                "selected_pad": 18.73,
+                "table": 37.65
+              },
+              "remaining_to_goal": {
+                "other_cube": 19.16,
+                "selected_nonpad": 16.58,
+                "selected_pad": 13.6,
+                "table": 10.3
+              }
+            },
+            "-30": {
+              "descend": {
+                "other_cube": 8.34,
+                "selected_nonpad": 8.01,
+                "selected_pad": 7.02,
+                "table": 17.7
+              },
+              "pregrasp": {
+                "other_cube": 20.96,
+                "selected_nonpad": 45.84,
+                "selected_pad": 19.73,
+                "table": 37.65
+              },
+              "remaining_to_goal": {
+                "other_cube": -8.46,
+                "selected_nonpad": 6.92,
+                "selected_pad": 7.02,
+                "table": 10.3
+              }
+            },
+            "-60": {
+              "descend": {
+                "other_cube": 9.64,
+                "selected_nonpad": 14.55,
+                "selected_pad": 3.2,
+                "table": 17.7
+              },
+              "pregrasp": {
+                "other_cube": 20.96,
+                "selected_nonpad": 44.24,
+                "selected_pad": 19.73,
+                "table": 37.65
+              },
+              "remaining_to_goal": {
+                "other_cube": 6.25,
+                "selected_nonpad": 7.19,
+                "selected_pad": 3.2,
+                "table": 10.3
+              }
+            },
+            "-90": {
+              "descend": {
+                "other_cube": 19.47,
+                "selected_nonpad": 21.39,
+                "selected_pad": 9.13,
+                "table": 17.7
+              },
+              "pregrasp": {
+                "other_cube": 18.47,
+                "selected_nonpad": 42,
+                "selected_pad": 19.73,
+                "table": 37.65
+              },
+              "remaining_to_goal": {
+                "other_cube": 23.21,
+                "selected_nonpad": 13.31,
+                "selected_pad": 9.13,
+                "table": 10.3
+              }
+            }
+          }
+        },
+        {
+          "condition": "CHV1-TRAIN-F2-HOLD-red-01",
+          "descend_queries": 14,
+          "native_result_sha256": "54d7f9796176065882fd9d2350a4454daecf2019ed71d83e522a54dc8065f646",
+          "queries_sha256": "1ba3f2b40090748c45dcda70d4d6f3875953f31f17135dd0a8e7ec7a24f3c34e",
+          "query_count": 60,
+          "scene_sha256": "0b493698c6d5dd4ce4b585f8f35bc3a8077b24a45a36c9556cb7523401dcf908",
+          "terminal_contact_mm": -0.1395829194751272,
+          "terminal_tick": 20641,
+          "minima": {
+            "0": {
+              "descend": {
+                "other_cube": 6.55,
+                "selected_nonpad": 18.05,
+                "selected_pad": 11.97,
+                "table": 20.74
+              },
+              "pregrasp": {
+                "other_cube": 22.99,
+                "selected_nonpad": 45.66,
+                "selected_pad": 17.67,
+                "table": 36.63
+              },
+              "remaining_to_goal": {
+                "other_cube": -16.06,
+                "selected_nonpad": 14.66,
+                "selected_pad": 10.95,
+                "table": 10.14
+              }
+            },
+            "30": {
+              "descend": {
+                "other_cube": 11.88,
+                "selected_nonpad": 15.73,
+                "selected_pad": 9.62,
+                "table": 20.74
+              },
+              "pregrasp": {
+                "other_cube": 17.67,
+                "selected_nonpad": 43.76,
+                "selected_pad": 17.67,
+                "table": 36.63
+              },
+              "remaining_to_goal": {
+                "other_cube": -6.16,
+                "selected_nonpad": 9.23,
+                "selected_pad": 4.53,
+                "table": 10.14
+              }
+            },
+            "60": {
+              "descend": {
+                "other_cube": 26.13,
+                "selected_nonpad": 22.6,
+                "selected_pad": 8.78,
+                "table": 20.74
+              },
+              "pregrasp": {
+                "other_cube": 17.67,
+                "selected_nonpad": 43.49,
+                "selected_pad": 17.67,
+                "table": 36.63
+              },
+              "remaining_to_goal": {
+                "other_cube": 4.38,
+                "selected_nonpad": 10.28,
+                "selected_pad": 5.04,
+                "table": 10.14
+              }
+            },
+            "90": {
+              "descend": {
+                "other_cube": 14.17,
+                "selected_nonpad": 28.89,
+                "selected_pad": 7.53,
+                "table": 20.74
+              },
+              "pregrasp": {
+                "other_cube": 17.67,
+                "selected_nonpad": 43.49,
+                "selected_pad": 16.68,
+                "table": 36.63
+              },
+              "remaining_to_goal": {
+                "other_cube": 9.58,
+                "selected_nonpad": 16.61,
+                "selected_pad": 10.1,
+                "table": 10.14
+              }
+            },
+            "-30": {
+              "descend": {
+                "other_cube": 10.86,
+                "selected_nonpad": 12.99,
+                "selected_pad": 8.81,
+                "table": 20.74
+              },
+              "pregrasp": {
+                "other_cube": 20.11,
+                "selected_nonpad": 43.82,
+                "selected_pad": 17.67,
+                "table": 36.63
+              },
+              "remaining_to_goal": {
+                "other_cube": -8.6,
+                "selected_nonpad": 8.13,
+                "selected_pad": 7.78,
+                "table": 10.14
+              }
+            },
+            "-60": {
+              "descend": {
+                "other_cube": 10.79,
+                "selected_nonpad": 14.93,
+                "selected_pad": 8.1,
+                "table": 20.74
+              },
+              "pregrasp": {
+                "other_cube": 20.11,
+                "selected_nonpad": 43.64,
+                "selected_pad": 17.67,
+                "table": 36.63
+              },
+              "remaining_to_goal": {
+                "other_cube": 6.21,
+                "selected_nonpad": 7.17,
+                "selected_pad": 8.08,
+                "table": 10.14
+              }
+            },
+            "-90": {
+              "descend": {
+                "other_cube": 33,
+                "selected_nonpad": 20.85,
+                "selected_pad": 5.52,
+                "table": 20.74
+              },
+              "pregrasp": {
+                "other_cube": 19.55,
+                "selected_nonpad": 42.58,
+                "selected_pad": 17.67,
+                "table": 36.63
+              },
+              "remaining_to_goal": {
+                "other_cube": 23.24,
+                "selected_nonpad": 13.35,
+                "selected_pad": 5.52,
+                "table": 10.14
+              }
+            }
+          }
+        }
+      ]
+    },
+    "pitch": {
+      "worker": "6bd417462e4f4cd21d72632056496bdc26983da6",
+      "receipt": "291c289c42506421a6caa708f1a77330bc6aa2edfc5833a1acb2bd667019d828",
+      "metadata": {
+        "VAL_inputs": 0,
+        "angles_degrees": [
+          -20,
+          -10,
+          0,
+          10,
+          15,
+          20
+        ],
+        "axis": "pitch",
+        "cpu_seconds": 0.731829043,
+        "distinct_scenes": 2,
+        "model_generations": 0,
+        "native_requests": 0,
+        "optimizer_updates": 0,
+        "pregrasp_turn_spacing_deg": 5,
+        "remaining_path_sample_spacing_mm": 1,
+        "simulation_integrations": 0,
+        "source_expert": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+        "status": "STATIC_SAVED_TRAIN_DISTAL_GEOMETRY",
+        "wall_seconds": 0.5775756482034922
+      },
+      "cases": [
+        {
+          "condition": "CHV1-TRAIN-F2-HOLD-red-00",
+          "descend_queries": 16,
+          "native_result_sha256": "7cf3c54b92773d696295fc69d8826bb3a4ceb4d54a1d781ad5d370ac9df38a36",
+          "queries_sha256": "683aaa5cfea7952a94ff48487ecd905f7bee5735913b3c2d3236a8e2532a5d60",
+          "query_count": 58,
+          "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+          "terminal_contact_mm": -0.08547308692904293,
+          "terminal_tick": 19955,
+          "angles": {
+            "0": {
+              "approach_mm": {
+                "other_cube": -16.448,
+                "table": 10.304,
+                "selected_nonpad": 12.045,
+                "selected_pad": 13.062
+              },
+              "closing": {
+                "both_pads_intersect_red": true,
+                "first_touch_slide_mm": [
+                  19.30990818825546,
+                  19.728878839875534
+                ],
+                "forbidden_min_gap_mm": {
+                  "other_cube": -16.448270283670677,
+                  "selected_nonpad": 14.944440381597056,
+                  "table": 10.304016217273219
+                }
+              }
+            },
+            "10": {
+              "approach_mm": {
+                "other_cube": -4.733,
+                "table": 10.094,
+                "selected_nonpad": 16.003,
+                "selected_pad": 12.78
+              },
+              "closing": {
+                "both_pads_intersect_red": true,
+                "first_touch_slide_mm": [
+                  19.30990818825546,
+                  19.728878839875534
+                ],
+                "forbidden_min_gap_mm": {
+                  "other_cube": -4.732994479450203,
+                  "selected_nonpad": 16.313710145107482,
+                  "table": 10.09396346808486
+                }
+              }
+            },
+            "15": {
+              "approach_mm": {
+                "other_cube": 0.899,
+                "table": 10.101,
+                "selected_nonpad": 17.277,
+                "selected_pad": 12.74
+              },
+              "closing": {
+                "both_pads_intersect_red": true,
+                "first_touch_slide_mm": [
+                  19.30990818825546,
+                  19.728878839875534
+                ],
+                "forbidden_min_gap_mm": {
+                  "other_cube": 0.8991878155675987,
+                  "selected_nonpad": 17.27723112026625,
+                  "table": 10.10115621390772
+                }
+              }
+            },
+            "20": {
+              "approach_mm": {
+                "other_cube": 6.496,
+                "table": 10.183,
+                "selected_nonpad": 18.404,
+                "selected_pad": 12.769
+              },
+              "closing": {
+                "both_pads_intersect_red": true,
+                "first_touch_slide_mm": [
+                  19.30990818825546,
+                  19.728878839875534
+                ],
+                "forbidden_min_gap_mm": {
+                  "other_cube": 6.496133366435175,
+                  "selected_nonpad": 18.403618464017654,
+                  "table": 10.183278944838229
+                }
+              }
+            },
+            "-10": {
+              "approach_mm": {
+                "other_cube": -28.578,
+                "table": 10.807,
+                "selected_nonpad": 7.006,
+                "selected_pad": 12.851
+              },
+              "closing": {
+                "both_pads_intersect_red": true,
+                "first_touch_slide_mm": [
+                  19.30990818825546,
+                  19.728878839875534
+                ],
+                "forbidden_min_gap_mm": {
+                  "other_cube": -28.577914606453906,
+                  "selected_nonpad": 14.405359562212414,
+                  "table": 10.807054845911047
+                }
+              }
+            },
+            "-20": {
+              "approach_mm": {
+                "other_cube": -29.917,
+                "table": -12.527,
+                "selected_nonpad": 2.936,
+                "selected_pad": 9.866
+              },
+              "closing": {
+                "both_pads_intersect_red": true,
+                "first_touch_slide_mm": [
+                  19.30990818825546,
+                  19.728878839875534
+                ],
+                "forbidden_min_gap_mm": {
+                  "other_cube": -23.63410780635906,
+                  "selected_nonpad": 13.634107806359028,
+                  "table": -12.527065773076881
+                }
+              }
+            }
+          }
+        },
+        {
+          "condition": "CHV1-TRAIN-F2-HOLD-red-01",
+          "descend_queries": 14,
+          "native_result_sha256": "54d7f9796176065882fd9d2350a4454daecf2019ed71d83e522a54dc8065f646",
+          "queries_sha256": "1ba3f2b40090748c45dcda70d4d6f3875953f31f17135dd0a8e7ec7a24f3c34e",
+          "query_count": 60,
+          "scene_sha256": "0b493698c6d5dd4ce4b585f8f35bc3a8077b24a45a36c9556cb7523401dcf908",
+          "terminal_contact_mm": -0.1395829194751272,
+          "terminal_tick": 20641,
+          "angles": {
+            "0": {
+              "approach_mm": {
+                "other_cube": -16.061,
+                "table": 10.143,
+                "selected_nonpad": 14.658,
+                "selected_pad": 10.952
+              },
+              "closing": {
+                "both_pads_intersect_red": true,
+                "first_touch_slide_mm": [
+                  19.25425531610969,
+                  19.791945250099243
+                ],
+                "forbidden_min_gap_mm": {
+                  "other_cube": -16.060989884306245,
+                  "selected_nonpad": 14.97584524419534,
+                  "table": 10.142627097869035
+                }
+              }
+            },
+            "10": {
+              "approach_mm": {
+                "other_cube": -4.369,
+                "table": 9.915,
+                "selected_nonpad": 16.37,
+                "selected_pad": 10.952
+              },
+              "closing": {
+                "both_pads_intersect_red": true,
+                "first_touch_slide_mm": [
+                  19.25425531610969,
+                  19.791945250099243
+                ],
+                "forbidden_min_gap_mm": {
+                  "other_cube": -4.369284435649965,
+                  "selected_nonpad": 16.370064907187537,
+                  "table": 9.914732846765016
+                }
+              }
+            },
+            "15": {
+              "approach_mm": {
+                "other_cube": 1.257,
+                "table": 9.915,
+                "selected_nonpad": 17.345,
+                "selected_pad": 10.952
+              },
+              "closing": {
+                "both_pads_intersect_red": true,
+                "first_touch_slide_mm": [
+                  19.25425531610969,
+                  19.791945250099243
+                ],
+                "forbidden_min_gap_mm": {
+                  "other_cube": 1.2571977987530791,
+                  "selected_nonpad": 17.344528846636084,
+                  "table": 9.915019450917523
+                }
+              }
+            },
+            "20": {
+              "approach_mm": {
+                "other_cube": 6.852,
+                "table": 9.992,
+                "selected_nonpad": 18.481,
+                "selected_pad": 10.952
+              },
+              "closing": {
+                "both_pads_intersect_red": true,
+                "first_touch_slide_mm": [
+                  19.25425531610969,
+                  19.791945250099243
+                ],
+                "forbidden_min_gap_mm": {
+                  "other_cube": 6.851830452383897,
+                  "selected_nonpad": 18.480660163013905,
+                  "table": 9.991652653336459
+                }
+              }
+            },
+            "-10": {
+              "approach_mm": {
+                "other_cube": -28.181,
+                "table": 10.668,
+                "selected_nonpad": 11.391,
+                "selected_pad": 8.135
+              },
+              "closing": {
+                "both_pads_intersect_red": true,
+                "first_touch_slide_mm": [
+                  19.25425531610969,
+                  19.791945250099243
+                ],
+                "forbidden_min_gap_mm": {
+                  "other_cube": -28.181301798987228,
+                  "selected_nonpad": 14.409180056369097,
+                  "table": 10.668410955148772
+                }
+              }
+            },
+            "-20": {
+              "approach_mm": {
+                "other_cube": -30.332,
+                "table": -12.759,
+                "selected_nonpad": 6.434,
+                "selected_pad": 6.464
+              },
+              "closing": {
+                "both_pads_intersect_red": true,
+                "first_touch_slide_mm": [
+                  19.25425531610969,
+                  19.791945250099243
+                ],
+                "forbidden_min_gap_mm": {
+                  "other_cube": -23.688335526039616,
+                  "selected_nonpad": 13.688335526039582,
+                  "table": -12.758788700395547
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "red_pilot": {
+    "at": "2026-11-21T18:09:38.232695+08:00",
+    "unit": "wm02-sla-core-hopper-v1-red-hold-pilot-20261121-01.service",
+    "state": {
+      "MainPID": "2035299",
+      "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-hopper-v1-red-hold-pilot-20261121-01.service",
+      "ActiveState": "active",
+      "SubState": "running",
+      "InvocationID": "c9848c5a555044d5bdd2812d82ed50d0"
+    },
+    "linger": "Linger=yes",
+    "source": "26d10c56362c7fa6879f10a394ff5b9fcec505e3",
+    "source_manifest": "9172e6f0af874713b9425709268e522cb1dd3760e95094f435a7689832b16146",
+    "spec": "deaa9a88dc1426a8a74a46a026a7c9f7ee190bca3256ba301ff98c0b1f9920dc",
+    "static_receipt": "f617f0fe9d655ff42e8d64168b6bdbd39497d47dfd71fe4ffc60fa5db20bfab6",
+    "h40_receipt": "83459c859c284f01ce944fffe9f7e8311687c6fd85f514d6a5e8349f725964d0",
+    "first_queries": {
+      "rows": [
+        {
+          "condition": "CHV1-TRAIN-F2-HOLD-red-00",
+          "native_step": 5703,
+          "old_nominal_max_error": 0,
+          "old_installed_max_error": 0,
+          "gate": "ORIGINAL_FULL40_DESIRED_AND_REFERENCE_CHECK_RETURNED",
+          "teacher_version": "F2_RED_HOLD_PITCH",
+          "native_consumption": 0
+        },
+        {
+          "condition": "CHV1-TRAIN-F2-HOLD-red-01",
+          "native_step": 5703,
+          "old_nominal_max_error": 0,
+          "old_installed_max_error": 0,
+          "gate": "ORIGINAL_FULL40_DESIRED_AND_REFERENCE_CHECK_RETURNED",
+          "teacher_version": "F2_RED_HOLD_PITCH",
+          "native_consumption": 0
+        }
+      ],
+      "native_requests": 0,
+      "integrations": 0,
+      "student_model_generations": 0
+    },
+    "preflight": {
+      "validated_cards": 1,
+      "native_requests": 0,
+      "source_sha": "26d10c56362c7fa6879f10a394ff5b9fcec505e3",
+      "population_sha256": "d92fe34f122637bb6dc29bb93d9f7a3d60464f65c5474b00962432bbc07b4914",
+      "plan": "171b5bedb290258954aac140157743e92e3b152e"
+    },
+    "progress": {
+      "stage": "WAIT_ORIGINAL_FIRST48",
+      "epoch": 1795255756.515614,
+      "completed": 0,
+      "actual_requests": 0,
+      "closed_ticks": 0,
+      "admitted_train": 0,
+      "current": null
+    },
+    "pilot": "CHV1-TRAIN-F2-HOLD-red-02",
+    "geometry": "9bf333de0c825720de884e965781f525bb431bf24ee222341a9af3c58e84ca07",
+    "shifts": [
+      [
+        -24.00000000000002,
+        -2.0000000000000018,
+        0
+      ],
+      [
+        -4.0000000000000036,
+        -2.0000000000000018,
+        0
+      ]
+    ],
+    "min_clearance_mm": 6.496133366435071,
+    "ideal_turn_s": 17.453292519943293
+  },
+  "VANDA_relay": {
+    "at": "2026-11-21T18:09:38.487977+08:00",
+    "jobs": {
+      "1601552.stdct-mgmt-02": {
+        "state": "R",
+        "project": "CFP04-CF-007",
+        "job_name": "chv1trainrelay",
+        "owner_verified": true,
+        "dependency": "beforeok:1602101.stdct-mgmt-02@stdct-mgmt-02",
+        "ncpu": 1,
+        "ngpus": 0,
+        "wall": "06:00:00"
+      },
+      "1602101.stdct-mgmt-02": {
+        "state": "H",
+        "project": "CFP04-CF-007",
+        "job_name": "slachv1tr01",
+        "owner_verified": true,
+        "dependency": "afterok:1601552.stdct-mgmt-02@stdct-mgmt-02",
+        "ncpu": 1,
+        "ngpus": 0,
+        "wall": "06:00:00"
+      }
+    },
+    "heartbeat": {
+      "job": "1601552.stdct-mgmt-02",
+      "pid": 4066327,
+      "epoch": 1795255740.2599626,
+      "received": 0,
+      "sent_in_job": 0
+    },
+    "ingress_count": 0,
+    "config": "5e9ebc843dfcb5816a1e23dd35c329898ea363ff7ccead3857cf3fde3c8f531e",
+    "source": "ac6d0562b6c98411221495e78abffb9d7d750318f332a178647e6e0b4c02cfc6",
+    "receipt": {
+      "job": "1602101.stdct-mgmt-02",
+      "number": 1,
+      "plan": "171b5bedb290258954aac140157743e92e3b152e",
+      "previous": "1601552.stdct-mgmt-02",
+      "script_sha256": "9da390a3bbba5bc155f9ea74bd3e047a35e59d131e43c4bf20065275d354d675"
+    },
+    "source_revision": "15185a9613a1ebce2d40247495d06f62aae8d156",
+    "original_GPU_or_native_work": 0,
+    "new_snapshots_transferred": 0
+  },
+  "expert_at_cutoff": {
+    "at": "2026-11-21T18:09:38.237626+08:00",
+    "summary": {
+      "TRAIN": {
+        "closed": 24,
+        "requests": 24,
+        "ticks": 697016,
+        "grasp": 15,
+        "lift": 15,
+        "success": 7,
+        "admitted": 7,
+        "failure_or_success": {
+          "TASK_SUCCESS": 7,
+          "ILLEGAL_CONTACT": 15,
+          "TASK_BUDGET_EXHAUSTED_IN_CARRY": 2
+        },
+        "hard_STOP": 15,
+        "post_STOP_ticks": 0
+      },
+      "VAL": {
+        "closed": 22,
+        "requests": 22,
+        "ticks": 615715,
+        "grasp": 13,
+        "lift": 13,
+        "success": 7,
+        "admitted": 7,
+        "failure_or_success": {
+          "TASK_SUCCESS": 7,
+          "ILLEGAL_CONTACT": 14,
+          "TASK_BUDGET_EXHAUSTED_IN_CARRY": 1
+        },
+        "hard_STOP": 14,
+        "post_STOP_ticks": 0
+      }
+    },
+    "active": [
+      {
+        "condition": "CHV1-VAL-F1-PLACE-red-right-01",
+        "last_score_tick": 23453,
+        "grasp": true,
+        "lift20": true
+      }
+    ],
+    "snapshot": {
+      "pid": 1775736,
+      "epoch": 1795255761.6153345,
+      "admitted": 7,
+      "published": 4,
+      "next_six_hour_epoch": 1795263111.3774765,
+      "terminal": false
+    },
+    "units": {
+      "wm02-sla-core-hopper-v1-expert-chain-20261121-02.service": {
+        "MainPID": "1746282",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-hopper-v1-expert-chain-20261121-02.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "InvocationID": "a9ea6c147a90458885362b8204a56407"
+      },
+      "wm02-sla-core-hopper-v1-train-snapshots-20261121-01.service": {
+        "MainPID": "1775736",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-hopper-v1-train-snapshots-20261121-01.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "InvocationID": "bb853c71c6724d808c751f1ede27f2de"
+      }
+    }
+  },
+  "training_at_cutoff": {
+    "time": "2026-11-21T18:09:38.694048+08:00",
+    "job": "727394.hopper-m-02",
+    "segment": [
+      100,
+      867
+    ],
+    "resume_sha": "4b922442d4cc1ac9d33529cba7667b73acad6882300d2a37c8d915dc5906bef0",
+    "actual_by_job": {
+      "727341.hopper-m-02": 100,
+      "727394.hopper-m-02": 112
+    },
+    "committed": 212,
+    "visits": {
+      "target": 13568,
+      "robodojo": 6784,
+      "libero": 6784
+    },
+    "h40": 848,
+    "start": {
+      "epoch": 1795253919.822644,
+      "job": "727394.hopper-m-02",
+      "site": {
+        "deadline": 1795275510,
+        "gpu_name": "NVIDIA H200",
+        "gpu_uuid": "GPU-667673ca-6081-280c-44ec-c857f823eb5d",
+        "host": "hopper-17",
+        "job": "727394.hopper-m-02",
+        "wall_s": 21600
+      },
+      "source": "b9581196d0acd02fb748222988e5a5543ce1f232"
+    }
+  },
+  "students": {
+    "phase0": "ENDPOINT_NATIVE_HELD",
+    "native_requests": 0,
+    "native_ticks": 0
+  },
+  "cumulative_H200_seconds_settled": 3403
+}

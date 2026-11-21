@@ -1,0 +1,623 @@
+{
+  "at": "2026-11-21T14:00:10.714096+08:00",
+  "plan": "171b5bedb290258954aac140157743e92e3b152e",
+  "T0": "2026-11-21T12:41:52+08:00",
+  "deadline": "2026-12-05T12:41:52+08:00",
+  "core": {
+    "at_sgt": "2026-11-21T14:00:10.714096+08:00",
+    "units": {
+      "wm02-sla-core-hopper-v1-expert-chain-20261121-02.service": {
+        "MainPID": "1746282",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-hopper-v1-expert-chain-20261121-02.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "InvocationID": "a9ea6c147a90458885362b8204a56407"
+      },
+      "wm02-sla-core-hopper-v1-train-snapshots-20261121-01.service": {
+        "MainPID": "1775736",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-hopper-v1-train-snapshots-20261121-01.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "InvocationID": "bb853c71c6724d808c751f1ede27f2de"
+      }
+    },
+    "records": [
+      {
+        "condition": "CHV1-TRAIN-F1-HOLD-blue-00",
+        "requests": 1,
+        "ticks": 23953,
+        "admitted": true,
+        "hard_STOP": false,
+        "first_failure": "TASK_SUCCESS",
+        "result_sha256": "bbfcd4b49fbac2bf1f819b3d65a728748ad08cf0f8ec5425225bec74f8d3816f",
+        "post_stop_ticks": null,
+        "grasp": true,
+        "lift20": true,
+        "lift_mm": 25.081524169843995,
+        "hold_s": 1.1280000000013786,
+        "base_directional_mm": 117.93547587137823,
+        "events": {
+          "base80mm": {
+            "native_step": 10695,
+            "native_time_s": 21.389999999999024
+          },
+          "target_grasp": {
+            "native_step": 21016,
+            "native_time_s": 42.032000000005404
+          },
+          "target_lift20mm": {
+            "native_step": 23389,
+            "native_time_s": 46.778000000011204
+          }
+        },
+        "success": true,
+        "episode": {
+          "sha256": "53d92aba420ad1d30428713c776259ff4609b4a412e658f7df7ebf7e483019b5",
+          "windows": 73,
+          "confirmed_P10_atoms": 730,
+          "split": "TRAIN"
+        }
+      },
+      {
+        "condition": "CHV1-TRAIN-F2-HOLD-red-00",
+        "requests": 1,
+        "ticks": 19955,
+        "admitted": false,
+        "hard_STOP": true,
+        "first_failure": "ILLEGAL_CONTACT",
+        "result_sha256": "7cf3c54b92773d696295fc69d8826bb3a4ceb4d54a1d781ad5d370ac9df38a36",
+        "post_stop_ticks": 0,
+        "grasp": false,
+        "lift20": false,
+        "lift_mm": 0,
+        "hold_s": 0,
+        "base_directional_mm": 95.14703886273122,
+        "events": {
+          "base80mm": {
+            "native_step": 14197,
+            "native_time_s": 28.393999999995142
+          }
+        },
+        "success": false,
+        "stop_added_geometry": {
+          "ids": [
+            [
+              73,
+              79
+            ]
+          ],
+          "bodies": [
+            [
+              "x5_link6",
+              "task_blue_cube"
+            ]
+          ]
+        }
+      },
+      {
+        "condition": "CHV1-TRAIN-F1-PLACE-red-left-00",
+        "requests": 1,
+        "ticks": 50703,
+        "admitted": false,
+        "hard_STOP": false,
+        "first_failure": "TASK_BUDGET_EXHAUSTED_IN_CARRY",
+        "result_sha256": "55fbd83b68b690ff7970bdf7857b5023adbdbd83de06a0000e6e28c9ba966017",
+        "post_stop_ticks": null,
+        "grasp": true,
+        "lift20": true,
+        "lift_mm": 65.99194126713748,
+        "hold_s": 26.715999999937736,
+        "base_directional_mm": 217.23753321914535,
+        "events": {
+          "base80mm": {
+            "native_step": 9343,
+            "native_time_s": 18.686000000000522
+          },
+          "target_grasp": {
+            "native_step": 21775,
+            "native_time_s": 43.55000000000726
+          },
+          "target_lift20mm": {
+            "native_step": 24152,
+            "native_time_s": 48.30400000001307
+          },
+          "correct_region": {
+            "native_step": 37394,
+            "native_time_s": 74.7880000000071
+          }
+        },
+        "success": false
+      },
+      {
+        "condition": "CHV1-TRAIN-F2-PLACE-blue-right-00",
+        "requests": 1,
+        "ticks": 40492,
+        "admitted": false,
+        "hard_STOP": true,
+        "first_failure": "ILLEGAL_CONTACT",
+        "result_sha256": "edeff403418a23c9ac1bbe42d6301c682d73d7f87125a09f4f2ec219584ad05a",
+        "post_stop_ticks": 0,
+        "grasp": true,
+        "lift20": true,
+        "lift_mm": 51.08691056490366,
+        "hold_s": 34.73399999998238,
+        "base_directional_mm": 110.52514323587883,
+        "events": {
+          "base80mm": {
+            "native_step": 11064,
+            "native_time_s": 22.127999999998615
+          },
+          "target_grasp": {
+            "native_step": 20766,
+            "native_time_s": 41.53200000000479
+          },
+          "target_lift20mm": {
+            "native_step": 23086,
+            "native_time_s": 46.17200000001046
+          }
+        },
+        "success": false,
+        "stop_added_geometry": {
+          "ids": [
+            [
+              78,
+              79
+            ]
+          ],
+          "bodies": [
+            [
+              "task_cube",
+              "task_blue_cube"
+            ]
+          ]
+        }
+      },
+      {
+        "condition": "CHV1-TRAIN-F1-PLACE-blue-right-00",
+        "requests": 1,
+        "ticks": 39290,
+        "admitted": false,
+        "hard_STOP": true,
+        "first_failure": "ILLEGAL_CONTACT",
+        "result_sha256": "12bfb9c46f8dbd288a0a1b04d3afdafabd8cc5d858ef5ea3fc08c397a91d7fee",
+        "post_stop_ticks": 0,
+        "grasp": true,
+        "lift20": true,
+        "lift_mm": 73.48876630042756,
+        "hold_s": 13.072000000015976,
+        "base_directional_mm": 231.34039895136095,
+        "events": {
+          "base80mm": {
+            "native_step": 11009,
+            "native_time_s": 22.017999999998676
+          },
+          "target_grasp": {
+            "native_step": 21017,
+            "native_time_s": 42.034000000005406
+          },
+          "target_lift20mm": {
+            "native_step": 23387,
+            "native_time_s": 46.7740000000112
+          },
+          "correct_region": {
+            "native_step": 37350,
+            "native_time_s": 74.70000000000731
+          }
+        },
+        "success": false,
+        "stop_added_geometry": {
+          "ids": [
+            [
+              66,
+              1
+            ]
+          ],
+          "bodies": [
+            [
+              "x5_link2",
+              "world"
+            ]
+          ]
+        }
+      },
+      {
+        "condition": "CHV1-TRAIN-F2-PLACE-red-left-00",
+        "requests": 1,
+        "ticks": 21625,
+        "admitted": false,
+        "hard_STOP": true,
+        "first_failure": "ILLEGAL_CONTACT",
+        "result_sha256": "8b545ef8a3a94d57cf619dacedcbadbf589ad5bf5f8708f6b34fe15d5b7e894f",
+        "post_stop_ticks": 0,
+        "grasp": false,
+        "lift20": false,
+        "lift_mm": 0,
+        "hold_s": 0,
+        "base_directional_mm": 95.72261010612755,
+        "events": {
+          "base80mm": {
+            "native_step": 13339,
+            "native_time_s": 26.677999999996093
+          }
+        },
+        "success": false,
+        "stop_added_geometry": {
+          "ids": [
+            [
+              73,
+              79
+            ]
+          ],
+          "bodies": [
+            [
+              "x5_link6",
+              "task_blue_cube"
+            ]
+          ]
+        }
+      },
+      {
+        "condition": "CHV1-TRAIN-F1-HOLD-red-00",
+        "requests": 1,
+        "ticks": 23453,
+        "admitted": true,
+        "hard_STOP": false,
+        "first_failure": "TASK_SUCCESS",
+        "result_sha256": "3435c1edccdb6429d0d575539df7f7bf33078c2f44615adf1d930bf70cd30623",
+        "post_stop_ticks": null,
+        "grasp": true,
+        "lift20": true,
+        "lift_mm": 25.152414438089465,
+        "hold_s": 1.2140000000014837,
+        "base_directional_mm": 123.98228796386628,
+        "events": {
+          "base80mm": {
+            "native_step": 9765,
+            "native_time_s": 19.530000000000054
+          },
+          "target_grasp": {
+            "native_step": 20521,
+            "native_time_s": 41.042000000004194
+          },
+          "target_lift20mm": {
+            "native_step": 22846,
+            "native_time_s": 45.69200000000988
+          }
+        },
+        "success": true,
+        "episode": {
+          "sha256": "917c078a3079320845c999a80174c6ab657eeb3df53d3ca3470d7561fd25589e",
+          "windows": 71,
+          "confirmed_P10_atoms": 710,
+          "split": "TRAIN"
+        }
+      },
+      {
+        "condition": "CHV1-TRAIN-F2-HOLD-blue-00",
+        "requests": 1,
+        "ticks": 23703,
+        "admitted": true,
+        "hard_STOP": false,
+        "first_failure": "TASK_SUCCESS",
+        "result_sha256": "79491ddc5937da265852c3807b242f3b4850742e4874328e10ae1c7630db4f4b",
+        "post_stop_ticks": null,
+        "grasp": true,
+        "lift20": true,
+        "lift_mm": 25.216554401669367,
+        "hold_s": 1.2460000000015228,
+        "base_directional_mm": 96.81188478459195,
+        "events": {
+          "base80mm": {
+            "native_step": 10925,
+            "native_time_s": 21.84999999999877
+          },
+          "target_grasp": {
+            "native_step": 20767,
+            "native_time_s": 41.534000000004795
+          },
+          "target_lift20mm": {
+            "native_step": 23080,
+            "native_time_s": 46.16000000001045
+          }
+        },
+        "success": true,
+        "episode": {
+          "sha256": "e059b15b3ee64b722621ec59daf93af58209416112971256b6baf9c96417a58d",
+          "windows": 72,
+          "confirmed_P10_atoms": 720,
+          "split": "TRAIN"
+        }
+      },
+      {
+        "condition": "CHV1-TRAIN-F1-PLACE-blue-left-00",
+        "requests": 1,
+        "ticks": 18307,
+        "admitted": false,
+        "hard_STOP": true,
+        "first_failure": "ILLEGAL_CONTACT",
+        "result_sha256": "6c5c9d1b98636d1513c20ebf6155b4c04b39d7b81b802a44bc6a8d5b5220983a",
+        "post_stop_ticks": 0,
+        "grasp": false,
+        "lift20": false,
+        "lift_mm": 0,
+        "hold_s": 0,
+        "base_directional_mm": 128.51097711875323,
+        "events": {
+          "base80mm": {
+            "native_step": 10688,
+            "native_time_s": 21.37599999999903
+          }
+        },
+        "success": false
+      }
+    ],
+    "in_flight": [
+      {
+        "condition": "CHV1-TRAIN-F2-PLACE-red-right-00",
+        "last_score_tick": 8703,
+        "grasp": false,
+        "lift20": false
+      }
+    ],
+    "heartbeat": {
+      "pid": 1775736,
+      "epoch": 1795240791.1634014,
+      "admitted": 3,
+      "published": 0,
+      "next_six_hour_epoch": 1795257712,
+      "terminal": false
+    }
+  },
+  "selector": {
+    "source": "89be324a2ad1d0d00333c92f41d110b334d1b5fa",
+    "spec_sha256": "3b4bf28e751d9752dd9b315b8d846906858cad8d2137c72c5bb244e5faed5023",
+    "earlier": {
+      "at": "2026-11-21T13:59:26.291293+08:00",
+      "unit": "wm02-sla-core-hopper-v1-val-selector-20261121-01.service",
+      "site": {
+        "MainPID": "1805456",
+        "Result": "success",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-hopper-v1-val-selector-20261121-01.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "InvocationID": "6f5e644f30f64faebec090dc34cd46fd"
+      },
+      "pulse": {
+        "epoch": 1795240754.7623515,
+        "pid": 1805456,
+        "registered": 24,
+        "processed": 0,
+        "deadline_epoch": 1795408912
+      },
+      "linger": "Linger=yes",
+      "failed": false
+    },
+    "independent": {
+      "at": "2026-11-21T14:00:10.707984+08:00",
+      "unit": "wm02-sla-core-hopper-v1-val-selector-20261121-01.service",
+      "site": {
+        "MainPID": "1805456",
+        "Result": "success",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-hopper-v1-val-selector-20261121-01.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "InvocationID": "6f5e644f30f64faebec090dc34cd46fd"
+      },
+      "pulse": {
+        "epoch": 1795240799.762827,
+        "pid": 1805456,
+        "registered": 24,
+        "processed": 0,
+        "deadline_epoch": 1795408912
+      },
+      "linger": "Linger=yes",
+      "failed": false
+    },
+    "stop": "STOP.json",
+    "log": "selector.log"
+  },
+  "restart_and_graphs": {
+    "state": "F",
+    "exit": 0,
+    "cpu": 8,
+    "gpus": 0,
+    "allocated_wall": "00:02:05",
+    "result_sha256": "815c14c5b143d8eb8ffdba2f8ea0e15808cee5ef2a449b0374e4e90b60f230de",
+    "result": {
+      "status": "SOURCE_CPU_RESTART_AND_SHAPES_VERIFIED",
+      "plan": "171b5bedb290258954aac140157743e92e3b152e",
+      "source_revision": "883624c504cdecdd7337da7126d1583f346f0f44",
+      "job": "1601509.stdct-mgmt-02",
+      "wall_s": 110.29331774706952,
+      "restart": {
+        "clocks": {
+          "lineage_cursors": {
+            "libero": 88000,
+            "robodojo": 88000,
+            "target": 144000
+          },
+          "lineage_updates": 2500,
+          "phase_step": 0,
+          "role_training_full_generations": 0,
+          "role_updates": 0,
+          "role_visits": {
+            "libero": 0,
+            "robodojo": 0,
+            "target": 0
+          },
+          "target_bank_cursor": 0
+        },
+        "cross_role_rejected": true,
+        "exact_arrays": 140,
+        "seal": "f5996fd79d238773995eec438808e0b3b7892aedbcf57b8070d4cae3c3493349"
+      },
+      "restart_receipt_sha256": "e7e92b0f0dacec1a7f7b74efde05158e378ff6a4b779a86504c337de929bc68c",
+      "abstract_kernel_shapes": {
+        "libero_FM_mb1": [
+          32,
+          29
+        ],
+        "libero_FM_mb16": [
+          32,
+          29
+        ],
+        "libero_FM_mb4": [
+          32,
+          29
+        ],
+        "libero_FM_mb8": [
+          32,
+          29
+        ],
+        "robodojo_FM_mb1": [
+          32,
+          29
+        ],
+        "robodojo_FM_mb16": [
+          32,
+          29
+        ],
+        "robodojo_FM_mb4": [
+          32,
+          29
+        ],
+        "robodojo_FM_mb8": [
+          32,
+          29
+        ],
+        "target_FM_mb1": [
+          64,
+          29
+        ],
+        "target_FM_mb16": [
+          64,
+          29
+        ],
+        "target_FM_mb4": [
+          64,
+          29
+        ],
+        "target_FM_mb8": [
+          64,
+          29
+        ],
+        "target_aux_mb1": [
+          4,
+          29
+        ],
+        "target_aux_mb2": [
+          4,
+          29
+        ],
+        "target_aux_mb4": [
+          4,
+          29
+        ]
+      },
+      "graph_execution": false,
+      "receiver_device_restore": false,
+      "restored_arrays": 140,
+      "optimizer_updates": 0,
+      "optimization_visits": 0,
+      "generations": 0,
+      "native": 0
+    }
+  },
+  "panel_input_readback": {
+    "state": "F",
+    "exit": 0,
+    "cpu": 4,
+    "gpus": 0,
+    "allocated_wall": "00:00:47",
+    "result_sha256": "2289346053d39705292acccda67460bcbb23c2288d2ba9bc662fb8d341f70082",
+    "result": {
+      "status": "SOURCE_CPU_RECEIVER_LAYOUT_INPUTS_VERIFIED",
+      "plan": "171b5bedb290258954aac140157743e92e3b152e",
+      "source": "bb20535e8587501641c586f031daab08670d1d75",
+      "job": "1601529.stdct-mgmt-02",
+      "wall_s": 35.50389763596468,
+      "inputs": {
+        "engineering": {
+          "identity_and_noise_sha256": "a426d6f0a6171d49925b64b89d828f7a04a7760bb15d6b63a9927231c43ff87b",
+          "rows": {
+            "libero": 8,
+            "robodojo": 8,
+            "target": 32
+          }
+        },
+        "formal": {
+          "identity_and_noise_sha256": "53605956ebca9b2f09f4ef2de6edf6a610b0045ccfb42ce5d1bf02162521b45e",
+          "rows": {
+            "libero": 96,
+            "robodojo": 96,
+            "target": 96,
+            "target_phase": 88
+          }
+        },
+        "formal-restore": {
+          "identity_and_noise_sha256": "545f6a1edeaf762be342d55073d0983d4fe4567cb21e1ae5473153b3a56d8835",
+          "rows": {
+            "libero": 16,
+            "robodojo": 16,
+            "target": 16
+          }
+        }
+      },
+      "mirrored_members": {
+        "eval": 59,
+        "train": 1155
+      },
+      "optimizer_updates": 0,
+      "optimization_visits": 0,
+      "model_generations": 0,
+      "native": 0
+    }
+  },
+  "vanda_existing": {
+    "at": "2026-11-21T14:00:10.687282+08:00",
+    "job": "1599369.stdct-mgmt-02",
+    "state": "R",
+    "progress": {
+      "status": "DURABLE_ADAPT_UPDATE",
+      "epoch": 1795240800.172212,
+      "phase_step": 2587,
+      "cursors": {
+        "target": 165568,
+        "robodojo": 82784,
+        "libero": 82784
+      }
+    }
+  },
+  "hopper_entry": {
+    "result_sha256": "9694bc90ab56b4a69e5d1bb6fd8939f94648a353259f5af5536c579337d81a15",
+    "status": "WORKER_ENTRY_AND_SOURCE_VERIFIED",
+    "source": "03231ceee6b0b89618d9cc13cb97305aeef3907e",
+    "archive_sha256": "f7d136f10d4cf19185f67a16f20860cd04e2fdaf1efa350dbb0526cec9e9f7a9",
+    "members": 948,
+    "exit_code": 0,
+    "H200_gpu_hours": 0,
+    "new_updates": 0,
+    "native": 0,
+    "epoch": 1795240121.4488807
+  },
+  "hopper_combined_entry": {
+    "source": "ade89d81dcf4d820c55b6a3782c6625c5e396394",
+    "archive_sha": "ab9fae1df183636ded0bb833c1fb75b07a861ef62be5cdb78850cf3551570225",
+    "modules": 950,
+    "entry_receipt_sha256": "89a47428289e5b67b4b0c18ee2c1900caa42b0489d163d5df9a135141ccd60a2",
+    "entry_help_exit": {
+      "engineering": 0,
+      "main_and_control": 0
+    },
+    "H200_job": null,
+    "H200_hours": 0,
+    "new_optimization_updates": 0,
+    "visits": 0,
+    "generations": 0
+  },
+  "remaining": [
+    "Hopper account project, credits and expiry confirmation required by station",
+    "H200 qualification, formal jobs, asynchronous evaluation and deployment have no allocation",
+    "Core to VANDA persistent input transport not verified; VANDA to Hopper direct transfer previously verified"
+  ]
+}
