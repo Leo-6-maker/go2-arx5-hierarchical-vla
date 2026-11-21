@@ -1,0 +1,156 @@
+{
+  "schema": "PHASE0_CROSS_DEVICE_NUMERIC_V2_PREREGISTRATION",
+  "plan": "171b5bedb290258954aac140157743e92e3b152e",
+  "base": "ef84b1dba4c0a40a96464b25a865f08c498c5dd1",
+  "endpoint": "MAIN-phase00000",
+  "checkpoint": "d7949c75ecc33253bea605a3aed738df4ecdc473d8737848a1bca787ab253c18",
+  "package": "fdf58d6078f3b8259892e5f6d991c7737071b543254a64b865393063a85baa01",
+  "panel": "3136404c06f890a9dd830b2cf5f40e487ef436ede16e805e14ffc0cb06b5eefd",
+  "original_strict_core_result": "f934791b64896c1660d508242232c150003d0a6295d45e8b5eaba6a98fc87666",
+  "diagnostic_ordinals": [
+    0,
+    7,
+    14,
+    21,
+    28,
+    35,
+    36,
+    43,
+    50,
+    57,
+    64,
+    71,
+    72,
+    79,
+    86,
+    93
+  ],
+  "sites": [
+    "Hopper H200",
+    "Core RTX 4080 SUPER"
+  ],
+  "diagnostic": {
+    "pilot": [
+      0,
+      7
+    ],
+    "sequence": [
+      "independent cold ordinary2 with unchanged historical sampler",
+      "new cold traced2 only after both ordinary outputs match the saved device-specific V1 bytes",
+      "freeze method and compare both sites before ordinary16"
+    ],
+    "attempts_per_site": {
+      "pilot_ordinary": 2,
+      "pilot_traced": 2,
+      "ordinary16": 16,
+      "conditional_confirmation": 12
+    },
+    "all_sites_max_new_generations": 64,
+    "budget": "charge failed/interrupted deployment technical reserve (128 total) for all diagnostic starts, including incomplete attempts, within original 320 total H200 hours; no training, no native allocation",
+    "private": [
+      "model observation and noise",
+      "prefix and KV tensors",
+      "10 Euler outputs",
+      "raw trajectories"
+    ],
+    "scientific_stop": "If observation/noise identity differs, or original same-site cold repeat is unstable, hold deployment. A trace that changes final production bytes cannot localize the production operator. Do not fit tolerances to measurements."
+  },
+  "confirmation": {
+    "selection": "first original target formal ordinal of each episode disjoint from all strict RGB16 episodes, in fixed ordinal order; comparative cross-device traces withheld; original A40 formal panel has previously been scored, no claim of a new TEST population",
+    "rows": [
+      {
+        "ordinal": 2,
+        "index": 105,
+        "noise_id": 1536177150,
+        "episode": "F1-T0-r2"
+      },
+      {
+        "ordinal": 4,
+        "index": 141,
+        "noise_id": 1061650202,
+        "episode": "F1-T1-r1"
+      },
+      {
+        "ordinal": 8,
+        "index": 300,
+        "noise_id": 1332520860,
+        "episode": "F1-T2-r1"
+      },
+      {
+        "ordinal": 12,
+        "index": 421,
+        "noise_id": 4135319180,
+        "episode": "F1-T3-r1"
+      },
+      {
+        "ordinal": 16,
+        "index": 603,
+        "noise_id": 865080432,
+        "episode": "F1-T4-r1"
+      },
+      {
+        "ordinal": 18,
+        "index": 657,
+        "noise_id": 1674134808,
+        "episode": "F1-T4-r2"
+      },
+      {
+        "ordinal": 20,
+        "index": 741,
+        "noise_id": 924916190,
+        "episode": "F2-T0-r1"
+      },
+      {
+        "ordinal": 22,
+        "index": 804,
+        "noise_id": 3340102573,
+        "episode": "F2-T0-r2"
+      },
+      {
+        "ordinal": 26,
+        "index": 913,
+        "noise_id": 586582254,
+        "episode": "F2-T1-r2"
+      },
+      {
+        "ordinal": 30,
+        "index": 1095,
+        "noise_id": 1692696370,
+        "episode": "F2-T2-r2"
+      },
+      {
+        "ordinal": 34,
+        "index": 1175,
+        "noise_id": 3707831428,
+        "episode": "F2-T3-r2"
+      },
+      {
+        "ordinal": 38,
+        "index": 1355,
+        "noise_id": 3237571912,
+        "episode": "F2-T4-r2"
+      }
+    ]
+  },
+  "equivalence": {
+    "status": "CANDIDATE_FROZEN_BEFORE_DIAGNOSTIC; NOT_A_NATIVE_CERTIFICATE",
+    "finite": true,
+    "all_input_noise_weight_codec_statistic_identities_exact": true,
+    "same_device_independent_cold_exact": true,
+    "raw_H40_and_P10": "Compare active decoded 40x10, SO(3) relative rotation, physical aperture in metres. Prefix k=0..9; velocities fully inside prefix have indices 0..8, acceleration at k9 uses the full original H40 stencil. Report join separately. Never add an artificial rest at P10.",
+    "per_point_absolute_limits": {
+      "translation_m": 0.00000625,
+      "orientation_rad": 0.000025,
+      "width_m": 0.00002,
+      "linear_velocity_m_s": 0.0005,
+      "angular_velocity_rad_s": 0.0025,
+      "finger_velocity_m_s": 0.0004,
+      "linear_acceleration_m_s2": 0.0025,
+      "angular_acceleration_rad_s2": 0.01,
+      "seam_velocity_m_s": 0.0004
+    },
+    "basis": "One percent of original rate and acceleration budgets; pose displacement takes the smaller of rate*dt and acceleration*dt^2 for dt=.05 s. Width from 40 mm/s and 50 ms, using the original 40 mm command range. Translation bound is also below one thousandth of the original 20 mm lift. These are conservative fidelity bounds, not uncertainty estimates or modified controller limits.",
+    "signed_margin": "Every actual nominal and installed reference sample and seam must have identical over-limit decisions and guard signatures; magnitude difference <= 10% of smaller absolute original margin for each finite guarded sample. A zero margin permits only equal magnitudes. Original unsafe proposals remain rejected.",
+    "held_native": "A certificate needs all fixed calibration and independent confirmation inputs, original site limits, immutable path/endpoint/scene bindings and successful verification of every per-row artifact. No conversion of an old failure into a success."
+  }
+}
