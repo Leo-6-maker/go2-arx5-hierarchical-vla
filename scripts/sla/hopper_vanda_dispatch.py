@@ -32,7 +32,8 @@ def submit(root,n,previous=None):
     cfg=read(root/'CONFIG.json')
     if n>MAX_SLOTS or cfg['plan']!=PLAN or time.time()>=min(DEADLINE,cfg['grant_end'])-240 or (root/'STOP').exists():
         raise PermissionError('Dispatcher limit reached')
-    name=('slachv1bk' if cfg.get('local_backup') else 'slachv1ctl')+f'{n:02d}'
+    prefix='slachv1ev' if cfg.get('local_formal') else ('slachv1bk' if cfg.get('local_backup') else 'slachv1ctl')
+    name=prefix+f'{n:02d}'
     jobfile=slot/'JOB.json'
     journal=Journal(slot/'journal',slot.name)
     body='\n'.join(['#!/bin/bash','#PBS -N '+name,'#PBS -P '+PROJECT,'#PBS -q auto',
@@ -93,7 +94,9 @@ def run(root,n):
         attempts=0
         while not stopped() and time.time()<end-540:
             # Arguments and identity are fixed at registration. Only scheduling and status cross this SSH connection.
-            if cfg.get('local_backup'):
+            if cfg.get('local_formal'):
+                command=[sys.executable,'-B',str(root/'queue.py'),'tick',str(root)]
+            elif cfg.get('local_backup'):
                 command=[sys.executable,'-B',str(root/'backup.py'),'tick',str(root)]
             else:
                 command=[*SSH,HOST,cfg['hopper_command']]
