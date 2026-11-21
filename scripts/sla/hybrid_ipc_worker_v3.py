@@ -36,7 +36,7 @@ def run(spec):
     from go2arx5_vla.world_model.sla_followup_native_v1 import SCOPE as D416_SCOPE
     from go2arx5_vla.sla_adapter.scale20k_package import SCOPE as SCALE_SCOPE
     cache_binding=bind_declared_cache(spec,jax.config)
-    start=time.monotonic();scope=spec.get('scope');g7=scope in ('SLA_V6_MULTITASK_NATIVE', D4_SCOPE, D416_SCOPE, SCALE_SCOPE, 'SLA_CORE_HOPPER_V1_STUDENT')
+    start=time.monotonic();scope=spec.get('scope');g7=scope in ('SLA_V6_MULTITASK_NATIVE', D4_SCOPE, D416_SCOPE, SCALE_SCOPE, 'SLA_CORE_HOPPER_V1_STUDENT', 'SLA_CORE_CANONICAL_EVAL_V1')
     if g7:
         from go2arx5_vla.sla_adapter.multitask_contract_v6 import NATIVE_METHOD
         if spec['selected_combo']!=NATIVE_METHOD:raise ValueError('EXACT_G7_SINGLE_H40_GENERATION')
@@ -46,6 +46,8 @@ def run(spec):
         if not single:raise ValueError('V52_ONE_SHIFT7_ARCHITECTURE_PER_REQUEST')
         if scope=='SLA_CORE_HOPPER_V1_STUDENT':
             from scripts.sla.core_hopper_native_model import Pool
+        elif scope=='SLA_CORE_CANONICAL_EVAL_V1':
+            from scripts.sla.core_canonical_ipc import Pool
         elif scope==SCALE_SCOPE:
             from go2arx5_vla.sla_adapter.scale20k_package import Pool
         elif g7:
