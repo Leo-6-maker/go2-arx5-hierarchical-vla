@@ -17,7 +17,7 @@ from scripts.pi0294.e1.journal import Journal
 from scripts.wm02.multitask_stage_cards_v6 import case_card, cold_native_owner, pin, require_unstarted_cases
 from scripts.wm02.multitask_teacher_campaign_v6 import interface_records, teacher_row
 from scripts.wm02.sim_only_campaign_v51 import fatal_control_violation
-from scripts.sla.core_hopper_expert import order
+from scripts.sla.core_hopper_expert import order, repair_rows
 
 def read(path):
     return json.loads(Path(path).read_bytes())
@@ -67,12 +67,14 @@ def run(spec):
     streak, paused = {}, set()
     code, failure = 1, None
     pending = None
+    repair=spec.get('carry_repair')
+    original=Path(read_pin(repair['original_producer'])['registered_root']) if repair else root
     def state(stage, **extra):
         write(root/'PROGRESS.private.json', dict(stage=stage,epoch=time.time(),completed=len(records),
               actual_requests=sum(r['requests'] for r in records),closed_ticks=sum(r['ticks'] for r in records),
               admitted_train=len(admitted),current=pending,**extra))
     def stopped():
-        return (root/'STOP.json').exists() or time.time()+1980 >= spec['deadline_epoch']
+        return (root/'STOP.json').exists() or (original/'STOP.json').exists() or time.time()+1980 >= spec['deadline_epoch']
     def run_one(row,world):
         item = panel[row['id']]
         family = row['family']
@@ -87,6 +89,8 @@ def run(spec):
         case.update(registry_scope=spec['scope'],collection_split=row['split'],compiled_population=spec['compiled_population'],
                     expert_training_eligible=row['split']=='TRAIN',site_world_lease=pin(site_lease),
                     allocation_deadline_epoch=lease_end,deadline_epoch=lease_end-60)
+        if repair:
+            case['carry_repair']=repair
         require_unstarted_cases(case['registry'],{row['id']})
         validate(case)
         dirs(folder)
@@ -106,13 +110,26 @@ def run(spec):
 
     try:
         write(root/'SUPERVISOR.private.json',dict(pid=os.getpid(),source_sha=spec['source_sha'],epoch=time.time()))
-        write(root/'VAL_PRODUCER.private.json',dict(source=authority['frozen_producer'],source_seal=spec['source_seal'],
-                                                    before_first_native=True))
-        for row in order(pop):
+        if repair:
+            rows=repair_rows(pop,repair)
+            first48=[r['id'] for r in order(pop)[:48]]
+            while not stopped():
+                records0=read(original/'RECORDS.private.json')
+                if [r['condition'] for r in records0[:48]]==first48:
+                    break
+                if (original/'RESULT.private.json').is_file():
+                    raise ValueError('Original first 48 closed without the registered prefix')
+                state('WAIT_ORIGINAL_FIRST48')
+                time.sleep(30)
+        else:
+            rows=order(pop)
+            write(root/'VAL_PRODUCER.private.json',dict(source=authority['frozen_producer'],source_seal=spec['source_seal'],
+                                                        before_first_native=True))
+        for row in rows:
             cell = row['family'],row['instruction']
             if row['split']=='TRAIN' and cell in paused:
                 continue
-            while not stopped() and (not capacity(root) or (root/'STUDENT_TURN_READY.private.json').exists()):
+            while not stopped() and (not capacity(root) or (original/'STUDENT_TURN_READY.private.json').exists()):
                 state('WAIT_CAPACITY_OR_STUDENT_HANDOFF')
                 time.sleep(20)
             if stopped():

@@ -157,6 +157,9 @@ def validate_frozen_assets(spec):
 def episode(adapter):
     if adapter.spec['sim_only_role']=='EXPERT':
         from .multitask_teacher_episode_v6 import episode as teacher
+        if adapter.spec.get('scope')=='SLA_CORE_HOPPER_V1_EXPERT' and adapter.spec.get('carry_repair'):
+            from scripts.sla.core_hopper_blue_carry import BlueRightCarry
+            return teacher(adapter,placement_teacher=BlueRightCarry)
         return teacher(adapter)
     if adapter.spec['sim_only_role']=='STUDENT':
         from .multitask_student_episode_v6 import episode as student

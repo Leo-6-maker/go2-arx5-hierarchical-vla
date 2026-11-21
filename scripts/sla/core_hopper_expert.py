@@ -27,18 +27,45 @@ def order(pop):
     return t[:12] + v[:12] + t[12:24] + v[12:] + t[24:]
 
 
+def repair_rows(pop,repair):
+    from go2arx5_vla.world_model.multitask_scope_v6 import read_pin
+    from scripts.sla.core_hopper_blue_carry import PILOT, PRIOR
+    audit=read_pin(repair['audit'])
+    prior=read_pin(repair['original_producer'])
+    if (audit['status']!='TRAIN_STATIC_CARRY_BYPASS_VERIFIED' or audit['pilot']!=PILOT
+            or audit['prior']!=PRIOR or prior['source_sha']!=audit['producer']
+            or prior['scope']!=SCOPE or prior['compiled_population']['sha256']!=POP
+            or audit['new_native_requests'] or audit['validation_outcomes_used']
+            or min(audit['pilot_two_leg_centered_clearance_mm'])<=8.):
+        raise ValueError('Unqualified carry repair or original owner')
+    row=next(r for r in pop['conditions']['TRAIN'] if r['id']==PILOT)
+    cluster=next(c for c in pop['clusters'] if c['id']==row['scene_family'])
+    if row['split']!='TRAIN' or cluster['scene']['sha256']!=audit['pilot_scene_sha256']:
+        raise ValueError('Unexpected unopened training scene')
+    return [row]
+
+
 def validate_member(case, authority):
     from go2arx5_vla.world_model.multitask_scope_v6 import read_pin
     ref = case['compiled_population']
     if (ref['sha256'] != POP or authority['compiled_population_sha256'] != POP
             or case['owner'] != OWNER or case['registry_scope'] != SCOPE
             or case['sim_only_role'] != 'EXPERT' or case['resident_server_spec'] is not None
-            or authority['native_request_cap'] != 264 or authority['native_tick_cap'] != 12065592
             or authority['T0_epoch']+14*86400 != authority['deadline_epoch']
             or case['source_sha'] != authority['frozen_producer']
             or case['new_model_generations_budget'] != 0):
         raise PermissionError('Exact Core/Hopper expert scope, producer and budgets required')
     population = read_pin(ref)
+    repair=authority.get('carry_repair')
+    if repair!=case.get('carry_repair'):
+        raise PermissionError('Teacher version and authority disagree')
+    if repair:
+        only,=repair_rows(population,repair)
+        if (case['panel_entry_id']!=only['id'] or authority['native_request_cap']!=1
+                or authority['native_tick_cap']!=only['native_max_ticks']):
+            raise PermissionError('One unopened TRAIN pilot per carry repair')
+    elif authority['native_request_cap']!=264 or authority['native_tick_cap']!=12065592:
+        raise PermissionError('Original expert population and budget required')
     row = next(r for r in order(population) if r['condition_id'] == case['panel_entry_id'])
     cluster = next(c for c in population['clusters'] if c['id'] == row['scene_family'])
     condition = case['mobile_condition']

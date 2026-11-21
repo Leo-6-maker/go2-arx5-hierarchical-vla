@@ -15,7 +15,7 @@ from go2arx5_vla.world_model.storage import digest
 from scripts.pi0292.durable import OwnerLock, write
 from scripts.wm02.multitask_stage_cards_v6 import case_card, cold_native_owner, panel_cards, pin, require_unstarted_cases
 from scripts.wm02.multitask_teacher_campaign_v6 import interface_records
-from scripts.sla.core_hopper_expert import AUTHORITY, OWNER, PLAN, POP, SCOPE, order
+from scripts.sla.core_hopper_expert import AUTHORITY, OWNER, PLAN, POP, SCOPE, order, repair_rows
 
 
 def prepare(config):
@@ -31,10 +31,12 @@ def prepare(config):
     interface_records(interface,interface['mobile_world_lock'],identity=(d4.E0_SCOPE,d4.E0_PLAN))
     if subprocess.check_output(['loginctl','show-user','2009','-p','Linger'],text=True).strip()!='Linger=yes':
         raise PermissionError('User service persistence unverified')
-    lock=OwnerLock(interface['mobile_world_lock']); lock.close()
+    repair=config.get('carry_repair')
+    if not repair:
+        lock=OwnerLock(interface['mobile_world_lock']); lock.close()
     if config['population']['sha256']!=POP:
         raise ValueError('Geometry seal mismatch')
-    pop=read_pin(config['population']); rows=order(pop)
+    pop=read_pin(config['population']); rows=repair_rows(pop,repair) if repair else order(pop)
     closure=read_pin(config['source_members'])
     if any(digest(source/name)!=expected for name,expected in closure.items()):
         raise ValueError('Source closure changed')
@@ -47,7 +49,7 @@ def prepare(config):
     write(authority,dict(source=AUTHORITY,plan_commit=PLAN,source_sha=source_sha,frozen_producer=source_sha,
         compiled_population_sha256=POP,hardware_allowed=False,native_request_cap=len(rows),
         native_tick_cap=sum(row['native_max_ticks'] for row in rows),T0_epoch=mount['T0_epoch'],
-        deadline_epoch=end,owner=OWNER,sim_only=True))
+        deadline_epoch=end,owner=OWNER,sim_only=True,**({'carry_repair':repair} if repair else {})))
     templates={s['mobile_condition']['family']:s for s in (read_pin(pin(Path(p))) for p in interface['cases'])}
     planned=[(dict(r,noise_seed=r['scene_seed']),None) for r in rows]
     panel=panel_cards(pop,planned,templates,role='EXPERT')
@@ -73,11 +75,15 @@ def prepare(config):
     subprocess.run([spec['python'],'-B','-c','import scripts.sla.core_hopper_collection'],
                    cwd=source,env=dict(os.environ,**env),check=True)
     spec.update({k:str(root/k) for k in ('logs','cache','tmp','data')})
+    if repair:
+        spec['carry_repair']=repair
     for item,row in zip(panel,rows,strict=True):
         _,case=case_card(spec,templates[row['family']],item,spec['registered_panel'])
         case.update(registry_scope=SCOPE,collection_split=row['split'],compiled_population=config['population'],
                     allocation_deadline_epoch=min(end,time.time()+2160),deadline_epoch=min(end,time.time()+1980),
                     expert_training_eligible=row['split']=='TRAIN')
+        if repair:
+            case['carry_repair']=repair
         validate(case)
     write(root/'PREFLIGHT.private.json',dict(validated_cards=len(rows),native_requests=0,source_sha=source_sha,
                                              population_sha256=POP,plan=PLAN))
