@@ -20,9 +20,13 @@ int main(int argc, char** argv)
             eprosima::fastrtps::types::ReturnCode_t::RETCODE_OK) {
         return 3;
     }
+    // Fast DDS applies the XML defaults when it initializes the factory.
+    factory->load_profiles();
     const auto qos = factory->get_default_participant_qos();
     const auto& transport = qos.transport();
     if (transport.use_builtin_transports || transport.user_transports.size() != 1) {
+        std::cerr << "builtin_transports=" << transport.use_builtin_transports
+                  << " user_transports=" << transport.user_transports.size() << std::endl;
         return 4;
     }
     const auto udp = std::dynamic_pointer_cast<UDPv4TransportDescriptor>(

@@ -124,9 +124,13 @@ def probe(root, control, domains, profile_check):
     profile=root/'LOOPBACK.xml'
     topic='/sla_core_dds_probe_'+uuid4().hex
     profile.write_text(PROFILE)
-    parsed=subprocess.check_output([str(profile_check),str(profile)],text=True,timeout=5).strip()
-    if parsed!='VERIFIED_UDP4_LOOPBACK_ONLY':
-        raise PermissionError('Fast DDS did not parse the isolated loopback profile')
+    profile_env=dict(os.environ,FASTDDS_DEFAULT_PROFILES_FILE=str(profile),
+                     FASTRTPS_DEFAULT_PROFILES_FILE=str(profile))
+    checked=subprocess.run([str(profile_check),str(profile)],env=profile_env,
+                           text=True,capture_output=True,timeout=5)
+    parsed=checked.stdout.strip()
+    if checked.returncode or parsed!='VERIFIED_UDP4_LOOPBACK_ONLY':
+        raise PermissionError(f'Fast DDS loopback profile preflight {checked.returncode}: {checked.stderr.strip()}')
     with ExitStack() as hold:
         for domain in domains:
             lock=control/f'ros-{domain}.lock'
