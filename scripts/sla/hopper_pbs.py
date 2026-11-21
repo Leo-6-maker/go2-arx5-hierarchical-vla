@@ -108,7 +108,7 @@ def batch_text(run,source,runtime,name,group,wall):
     return '\n'.join(directives+env)+'\n'
 
 
-def register(root,custody,source_folder,number,group,seconds,segment=None):
+def register(root,custody,source_folder,number,group,seconds,segment=None,recovery=None):
     if number<1 or number>999 or not 900<seconds<=21600 or time.time()>=DEADLINE-900 or (custody/'STOP.json').exists():
         raise PermissionError('Campaign stop or invalid capsule allowance')
     if bool(segment)!=(group=='training'):
@@ -137,6 +137,18 @@ def register(root,custody,source_folder,number,group,seconds,segment=None):
         tag='e' if group=='engineering' else 't'
         name=f'slachv1{tag}{number:02d}'
         total,eng=previous_cost(root,run)
+        engineering_root = root/'engineering'
+        if recovery:
+            rec = read(recovery)
+            first = read(allocations/'001'/'PBS_FINISHED.json')
+            if (recovery != custody/'TECHNICAL_RECOVERY.json' or rec['custody'] != str(custody)
+                    or rec['source'] != core['source'] or rec['plan'] != PLAN or rec['job'] != first['job']
+                    or first['group'] != 'engineering' or first['exit'] == 0 or number < 2
+                    or rec['technical_reserve_groups'] != 1
+                    or any(rec[k] != 0 for k in ('updates','optimization_visits','generations','native'))
+                    or rec['engineering_root'] != str(root/'engineering-recovery-01')):
+                raise ValueError('Technical reserve requires a reconciled, charged, pre-update interruption')
+            engineering_root = Path(rec['engineering_root'])
         if total+seconds>320*3600 or (group=='engineering' and eng+seconds>8*3600):
             raise PermissionError('Remaining actual GPU budget exhausted')
         grantfile=run/'GRANT.json'
@@ -157,6 +169,8 @@ def register(root,custody,source_folder,number,group,seconds,segment=None):
             raise ValueError('Registered batch program changed')
         request=dict(plan=PLAN,project=PROJECT,name=name,group=group,wall_seconds=seconds,source=core['source'],
                      pbs=pin(script),grant=pin(grantfile),science_request=pin(segment) if segment else None)
+        if recovery:
+            request['technical_recovery']=pin(recovery)
         if not intent.exists():
             ids=subprocess.check_output([str(PBS/'qselect'),'-u',grant['account'],'-N',name,
                     '-q','@'+os.environ['PBS_SERVER']],text=True,timeout=45).split()
@@ -181,7 +195,7 @@ def register(root,custody,source_folder,number,group,seconds,segment=None):
         write_once(run/'RESERVATION.json',reservation)
         m=dict(plan=PLAN,T0_epoch=T0,deadline_epoch=DEADLINE,uid=os.getuid(),project=PROJECT,job=job,
                qstat=str(PBS/'qstat'),source_revision=core['source'],custody=str(custody),lineage=str(root),
-               engineering_root=str(root/'engineering'),compilation_cache_dir=str(root/'compilation-cache'),
+               engineering_root=str(engineering_root),compilation_cache_dir=str(root/'compilation-cache'),
                eval_assets=str(custody/'sla-core-hopper-v1-eval-inputs-20261121-01/inputs.verified'),
                gpu_reservation=pin(run/'RESERVATION.json'),site_grant=pin(grantfile))
         if segment:
@@ -211,6 +225,7 @@ if __name__=='__main__':
     p.add_argument('root',type=Path);p.add_argument('custody',type=Path);p.add_argument('source_folder',type=Path)
     p.add_argument('number',type=int);p.add_argument('group',choices=['engineering','training'])
     p.add_argument('seconds',type=int);p.add_argument('--segment',type=Path)
+    p.add_argument('--technical-recovery',type=Path)
     args=p.parse_args()
     os.umask(0o077)
-    print(register(args.root,args.custody,args.source_folder,args.number,args.group,args.seconds,args.segment),flush=True)
+    print(register(args.root,args.custody,args.source_folder,args.number,args.group,args.seconds,args.segment,args.technical_recovery),flush=True)
