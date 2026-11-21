@@ -7,7 +7,7 @@ from scripts.pi0292.durable import OwnerLock, read
 from scripts.sla.hopper_parent_custody import PLAN, digest, write_once
 from scripts.sla.hopper_site import pinned
 from scripts.sla.hopper_snapshot_relay import receive, verified
-from hopper_reader_compat import READER, compare
+from hopper_reader_compat import reader_identity, compare
 
 
 def promote(view, original, reader, population, report):
@@ -20,8 +20,9 @@ def promote(view, original, reader, population, report):
     stage = view.resolve().parent/'mixed-verified'/name
     # The repaired foundation view and its train-ready link share the original custody root.
     ready = (view/'train-ready').resolve(strict=True)
+    _, qualified_revision = reader_identity(reader/'source')
     if (stage.parent.parent != ready.parent or Path(dest['folder'])!=stage or proof['plan']!=PLAN
-            or proof['status']!='MIXED_TRAIN_VANDA_READ_AND_HOPPER_STAGED' or proof['qualified_reader']!=READER
+            or proof['status']!='MIXED_TRAIN_VANDA_READ_AND_HOPPER_STAGED' or proof['qualified_reader']!=qualified_revision
             or (proof['original_prefix_windows'],data['mixed'],data['seal'],data['manifest']) !=
                (1317,True,seal,dest['manifest_sha256']) or n!=data['episodes'] or data['windows']!=dest['windows']
             or any(proof[k] for k in ('optimizer_updates','model_generations','native_requests','course_switches'))):

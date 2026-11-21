@@ -10,7 +10,7 @@ import subprocess
 import time
 
 from core_hopper_mixed_readback import inputs, LEGACY
-from hopper_reader_compat import READER, READER_MANIFEST
+from hopper_reader_compat import READER_MANIFEST, reader_identity
 from scripts.pi0292.durable import OwnerLock, read, write
 from scripts.sla.hopper_parent_custody import PLAN, digest, write_once
 from scripts.sla.hopper_site import DEADLINE, site_epoch, wall_seconds
@@ -37,6 +37,9 @@ def qualify_one(root, cfg, file, old, stop):
     entry, folder, mixed = actual_input(root,cfg,file.stem)
     if not mixed or entry['membership'][:old['episodes']]!=old['member_sha256']:
         raise ValueError('Mixed TRAIN no longer extends the verified reference')
+    manifest,revision = reader_identity(Path(cfg['capsule'])/'candidate')
+    if manifest!=cfg.get('reader_manifest',READER_MANIFEST):
+        raise ValueError('Qualified reader differs from this registered CPU capsule')
     info = inputs(dict(cfg,mode='candidate'),entry,old)
     if not info['mixed']:
         raise ValueError('The actual receipt lacks per-episode provenance')
@@ -50,7 +53,7 @@ def qualify_one(root, cfg, file, old, stop):
     if reply['manifest_sha256']!=info['manifest'] or reply['count']!=info['episodes']:
         raise ValueError('Hopper staging and actual VANDA reader disagree')
     return dict(plan=PLAN,status='MIXED_TRAIN_VANDA_READ_AND_HOPPER_STAGED',
-        qualified_reader=READER, original_prefix_windows=old['windows'], actual=info,
+        qualified_reader=revision, original_prefix_windows=old['windows'], actual=info,
         destination=reply, revision=read(file)['revision'], job=os.environ['PBS_JOBID'],
         optimizer_updates=0,model_generations=0,native_requests=0,course_switches=0)
 
@@ -58,7 +61,7 @@ def qualify_one(root, cfg, file, old, stop):
 def stage(root, cfg, stop):
     if Path(cfg['relay']['hopper_ready']).name != 'mixed-verified':
         raise ValueError('Cold validation must use the separate Hopper staging directory')
-    if digest(Path(cfg['capsule'])/'candidate/SOURCE_BINDING.private.json')!=READER_MANIFEST:
+    if digest(Path(cfg['capsule'])/'candidate/SOURCE_BINDING.private.json')!=cfg.get('reader_manifest',READER_MANIFEST):
         raise ValueError('VANDA reader bundle differs from the registered H200 bundle')
     legacy = root/'LEGACY.json'
     if not legacy.exists():

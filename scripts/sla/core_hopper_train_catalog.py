@@ -14,7 +14,9 @@ from core_hopper_snapshot import publish
 
 def sources(cfg):
     roots = {}
-    if set(cfg['producers']) != {ORIGINAL, *REPAIRS}:
+    all_specs = {ORIGINAL,*REPAIRS}
+    before_red_place = all_specs-{'73a7e59b8c0061f42013f45730f35d573518f659ed1e4bc29ff202296f0ab947'}
+    if set(cfg['producers']) not in (before_red_place,all_specs):
         raise ValueError('Missing or unregistered TRAIN source')
     for sha, folder in cfg['producers'].items():
         root = Path(folder)
