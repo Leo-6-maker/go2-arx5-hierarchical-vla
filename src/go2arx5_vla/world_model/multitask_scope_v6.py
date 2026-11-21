@@ -17,9 +17,13 @@ PLAN = 'ae3d3c0dceade437b0104a150cd0402fef650052'
 SCOPE = 'SLA_V6_MULTITASK_NATIVE'
 VERSION = NATIVE_VERSION
 N1_SCOPE = 'SLA_CORE_MULTIENV_V1_N1_ENGINEERING'
+RED_HOLD_REPAIR_SCOPE = 'SLA_CORE_MULTIENV_V1_EXPERT_REPAIR'
 
 
 def scope_identity(spec):
+    if spec.get('scope') == RED_HOLD_REPAIR_SCOPE:
+        from scripts.sla import core_multienv_scope as me
+        return RED_HOLD_REPAIR_SCOPE, me.PLAN, (), me.AUTHORITY
     if spec.get('scope') == N1_SCOPE:
         from scripts.sla.core_multienv_n1 import PLAN, SCOPE, AUTHORITY
         return SCOPE, PLAN, (), AUTHORITY
@@ -141,6 +145,9 @@ def validate(spec):
     if scope == 'SLA_CORE_MULTIENV_V1_EXPERT':
         from scripts.sla.core_multienv_scope import validate_member
         validate_member(spec, authority)
+    if scope == RED_HOLD_REPAIR_SCOPE:
+        from scripts.sla.core_multienv_red_hold_pilot import validate_member
+        validate_member(spec, authority)
     if scope == N1_SCOPE:
         from scripts.sla.core_multienv_n1 import validate_member
         validate_member(spec, authority)
@@ -182,6 +189,9 @@ def episode(adapter):
         return probe(adapter)
     if adapter.spec['sim_only_role']=='EXPERT':
         from .multitask_teacher_episode_v6 import episode as teacher
+        if adapter.spec.get('scope') == RED_HOLD_REPAIR_SCOPE:
+            from scripts.sla.core_multienv_red_hold_teacher import RedHoldDetour
+            return teacher(adapter,placement_teacher=RedHoldDetour)
         if adapter.spec.get('scope') in ('SLA_CORE_HOPPER_V1_EXPERT',N1_SCOPE) and adapter.spec.get('carry_repair'):
             repair=adapter.spec['carry_repair']
             if repair.get('kind'):
