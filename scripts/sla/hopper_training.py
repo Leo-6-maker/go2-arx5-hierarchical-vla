@@ -10,6 +10,7 @@ from scripts.pi0292.durable import OwnerLock, write
 from scripts.pi0294.e1.journal import Journal
 from scripts.sla import hopper_checkpoint as checkpoint
 from scripts.sla.hopper_cold_restore import restore
+from scripts.sla.hopper_course_decision import catalog
 from scripts.sla.hopper_curriculum import WithCoreTrain, bank_at_boundary
 from scripts.sla.hopper_engine import HopperEngine
 from scripts.sla.hopper_inputs import BATCH, PARENT, PLAN, STEPS, D2_SPEC, SPEC_NAME
@@ -100,7 +101,7 @@ def initial_state(root, cfg, start, stop):
     return engine, bound
 
 
-def train_segment(run, line, cfg, engine, bound, guard, *, matched_endpoint):
+def train_segment(run, line, cfg, engine, bound, guard, *, matched_endpoint, ready_root=None):
     start, stop = engine.step, engine.segment_stop
     last = cfg['previous']
     last_phase = start
@@ -121,6 +122,9 @@ def train_segment(run, line, cfg, engine, bound, guard, *, matched_endpoint):
                      binding=bound, cursors=checkpoint.progress(bound, phase), course=cfg['course'],
                      eval_due=deployment, deployment_due=deployment, backup_due=True,
                      offline_status='OFFLINE_EVAL_PENDING' if deployment else 'NOT_A_FORMAL_ENDPOINT')
+        if bound['role'] == 'MAIN' and phase in checkpoint.BOUNDARIES:
+            event['train_ready_at_boundary'] = catalog(ready_root)
+            event['sealed_epoch_ns'] = time.time_ns()
         write_once(events/f'phase{phase:05d}.json', event)
         last, last_phase, saved_at = pin, phase, time.monotonic()
 
@@ -180,6 +184,13 @@ def worker(run, mount_sha256):
     line = Path(mount['lineage'])/role
     line.mkdir(exist_ok=True)
     start, stop = cfg['start'], cfg['stop']
+    if role == 'MAIN' and start in checkpoint.BOUNDARIES:
+        decision = pinned(cfg['boundary_decision'])
+        if (decision['plan'] != PLAN or decision['phase'] != start or decision['common_parent'] != cfg['previous']
+                or decision['next_course'] != cfg['course']
+                or decision['first_control_trigger'] != cfg.get('first_control_trigger')
+                or cfg['boundary_decision']['path'] != str((line.parent/'curriculum'/f'phase{start:05d}.json').resolve())):
+            raise ValueError('Continuation differs from the sealed data-course decision')
     matched_endpoint = None
     if cfg.get('first_control_trigger'):
         pair = pinned(cfg['first_control_trigger'])
@@ -205,7 +216,8 @@ def worker(run, mount_sha256):
         import jax
         jax.config.update('jax_compilation_cache_dir', mount['compilation_cache_dir'])
         engine, bound = initial_state(root, cfg, start, stop)
-        result = train_segment(run, line, cfg, engine, bound, guard, matched_endpoint=matched_endpoint)
+        result = train_segment(run, line, cfg, engine, bound, guard, matched_endpoint=matched_endpoint,
+                               ready_root=root/'train-ready')
         write_once(run/'RESULT.private.json', dict(result, site=site, source=cfg['source'], role=role))
 
 
