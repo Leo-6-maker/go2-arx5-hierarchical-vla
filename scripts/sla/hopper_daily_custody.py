@@ -1,13 +1,10 @@
 """Publish bounded, CPU-only daily receipts using VANDA's private endpoint copies."""
 import argparse
 from contextlib import closing
-from datetime import datetime, timedelta, timezone
 import math
 import os
 from pathlib import Path
-import re
 import shlex
-import subprocess
 import time
 
 from scripts.pi0292.durable import OwnerLock, read
@@ -15,9 +12,8 @@ from scripts.pi0294.e1.journal import Journal
 from scripts.sla.hopper_formal_metrics import summarize
 from scripts.sla.hopper_parent_custody import PARENT, PLAN, digest, write_once
 from scripts.sla.hopper_site import DEADLINE, T0, pinned, wall_seconds
-from scripts.sla.hopper_vanda_dispatch import PBS, PROJECT, job_row
+from scripts.sla.hopper_vanda_dispatch import PROJECT, job_row
 
-SGT = timezone(timedelta(hours=8))
 WALL = 600
 
 
@@ -103,7 +99,8 @@ def submit(root, cfg, config_sha, n, predecessor=None):
     if not 0<=n<=14 or time.time()>=min(DEADLINE,cfg['grant_end'])-180 or (root/'STOP').exists():
         raise PermissionError('Daily report registration window closed')
     slot = root/f'{n:02d}'
-    slot.mkdir(exist_ok=True)
+    if not (slot/'journal/submit.json').is_file():
+        raise PermissionError('New CPU-only VANDA report jobs are disabled')
     name = f'schv1sum{n:02d}'
     script = slot/'batch.pbs'
     body = '\n'.join(['#!/bin/bash','#PBS -N '+name,'#PBS -P '+PROJECT,'#PBS -q auto',
@@ -112,25 +109,14 @@ def submit(root, cfg, config_sha, n, predecessor=None):
         'cd '+shlex.quote(str(root)),'export PYTHONPATH='+shlex.quote(str(root/'source')),
         'export CUDA_VISIBLE_DEVICES="" OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1',
         'exec '+shlex.join([cfg['python'],'-B','-m','scripts.sla.hopper_daily_custody',str(root),config_sha,'run',str(n)])])+'\n'
-    if not script.exists():
-        with script.open('x') as f:
-            f.write(body)
     if script.read_text()!=body:
         raise ValueError('Registered report batch changed')
     payload = dict(name=name,config=config_sha,pbs=digest(script),predecessor=predecessor,
                    scheduled_epoch=due(n) if n else None)
-    def enqueue():
-        old = subprocess.check_output([str(PBS/'qselect'),'-u',os.environ['USER'],'-N',name],text=True,timeout=25)
-        if old.strip():
-            raise RuntimeError('Reconcile an already registered report job')
-        opts = ['-W','depend=afterok:'+predecessor,'-a',datetime.fromtimestamp(due(n),SGT).strftime('%Y%m%d%H%M.%S')] if predecessor else []
-        job = subprocess.check_output([str(PBS/'qsub'),*opts,str(script)],text=True,timeout=60,
-                                      env=dict(os.environ,TZ='Asia/Singapore')).strip()
-        if not re.fullmatch(r'\d+\.stdct-mgmt-02',job):
-            raise RuntimeError('Ambiguous report JobID')
-        write_once(slot/'JOB.json',dict(payload,job=job))
-        return job
-    return Journal(slot/'journal',name).once('submit',payload,enqueue)
+    result=Journal(slot/'journal',name).completed('submit',payload)
+    if result is None:
+        raise PermissionError('No previously registered VANDA report job')
+    return result
 
 
 def run(root,cfg,sha,n):
@@ -157,7 +143,8 @@ def run(root,cfg,sha,n):
         write_once(slot/'ACTUAL.json',dict(actual,job=job,pid=os.getpid(),read_start=start,read_end=time.time(),
                                           source=cfg['source'],day_slot=n))
         after = max(n+1,math.floor((time.time()-T0)/86400)+1)
-        if after<=14 and time.time()<due(after)<end and not (root/'STOP').exists():
+        if (after<=14 and time.time()<due(after)<end and not (root/'STOP').exists()
+                and (root/f'{after:02d}'/'journal/submit.json').is_file()):
             child=submit(root,cfg,sha,after,job)
             write_once(slot/'SUCCESSOR.json',dict(job=child,day_slot=after,afterok=job,scheduled_epoch=due(after)))
 

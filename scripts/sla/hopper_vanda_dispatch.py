@@ -29,7 +29,8 @@ def job_row(job):
 
 def submit(root,n,previous=None):
     slot=root/f'{n:02d}'
-    slot.mkdir(exist_ok=True)
+    if not (slot/'JOB.json').is_file() and not (slot/'journal/submit.json').is_file():
+        raise PermissionError('New CPU-only VANDA dispatch jobs are disabled')
     cfg=read(root/'CONFIG.json')
     if n>MAX_SLOTS or cfg['plan']!=PLAN or time.time()>=min(DEADLINE,cfg['grant_end'])-240 or (root/'STOP').exists():
         raise PermissionError('Dispatcher limit reached')
@@ -63,29 +64,18 @@ def submit(root,n,previous=None):
         'export PYTHONPATH='+shlex.quote(str(root/'source')),
         'exec /usr/bin/python3 -B driver.py run '+shlex.quote(str(root))+' '+str(n)])+'\n'
     script=slot/'dispatcher.pbs'
-    if not script.exists():
-        with script.open('x') as f:
-            f.write(body)
     if script.read_text()!=body:
         raise ValueError('VANDA dispatcher batch file changed')
-    deps=['-W','depend=afterok:'+previous] if previous else []
     request=dict(plan=PLAN,number=n,previous=previous,script_sha256=hashlib.sha256(body.encode()).hexdigest())
-    def enqueue():
-        if not previous or n==1:
-            owned=subprocess.check_output([str(PBS/'qselect'),'-N',name,'-u',os.environ['USER']],text=True,timeout=30)
-            if owned.strip():
-                raise RuntimeError('Existing scheduler identity requires reconciliation')
-        job=subprocess.check_output([str(PBS/'qsub'),*deps,str(script)],text=True,timeout=90).strip()
-        if not re.fullmatch(r'\d+\.stdct-mgmt-02',job):
-            raise RuntimeError('Indeterminate VANDA submission')
-        write_once(jobfile,dict(job=job,**request))
-        return job
     if jobfile.exists():
         receipt=read(jobfile)
         if any(receipt[k]!=v for k,v in request.items()):
             raise ValueError('Changed dispatcher dependency')
         return receipt['job']
-    return journal.once('submit',request,enqueue)
+    result=journal.completed('submit',request)
+    if result is None:
+        raise PermissionError('No previously registered VANDA dispatch job')
+    return result
 
 
 @contextmanager
@@ -216,11 +206,12 @@ def run(root,n):
                 write_once(slot/'RESULT.json',state)
                 return
             time.sleep(min(1 if state['status']=='COPIED' else 150,max(0,end-window-time.time())))
-        if not stopped() and n<MAX_SLOTS:
+        if not stopped() and n<MAX_SLOTS and (root/f'{n+1:02d}'/'JOB.json').is_file():
             successor=submit(root,n+1,job)
             write_once(slot/'SUCCESSOR.json',dict(job=successor,afterok=job))
         else:
-            write_once(slot/'RESULT.json',dict(status='STOP_LIMIT_OR_DEADLINE'))
+            reason='STOP_LIMIT_OR_DEADLINE' if stopped() or n>=MAX_SLOTS else 'VANDA_CPU_ONLY_SUCCESSOR_DISABLED'
+            write_once(slot/'RESULT.json',dict(status=reason))
 
 
 if __name__=='__main__':
