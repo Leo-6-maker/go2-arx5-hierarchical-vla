@@ -33,6 +33,8 @@ def submit(root,n,previous=None):
     if n>MAX_SLOTS or cfg['plan']!=PLAN or time.time()>=min(DEADLINE,cfg['grant_end'])-240 or (root/'STOP').exists():
         raise PermissionError('Dispatcher limit reached')
     prefix='slachv1ev' if cfg.get('local_formal') else ('slachv1bk' if cfg.get('local_backup') else 'slachv1ctl')
+    if cfg.get('local_exchange'):
+        prefix='slachv1hf'
     if cfg.get('cold_predecessor'):
         prefix='slachv1rf'
         if n==1:
@@ -105,7 +107,9 @@ def run(root,n):
         attempts=0
         while not stopped() and time.time()<end-540:
             # Arguments and identity are fixed at registration. Only scheduling and status cross this SSH connection.
-            if cfg.get('local_formal'):
+            if cfg.get('local_exchange'):
+                command=[cfg['hub_python'],'-B',str(root/'exchange.py'),'tick',str(root)]
+            elif cfg.get('local_formal'):
                 command=[sys.executable,'-B',str(root/'queue.py'),'tick',str(root)]
             elif cfg.get('local_backup'):
                 command=[sys.executable,'-B',str(root/'backup.py'),'tick',str(root)]
