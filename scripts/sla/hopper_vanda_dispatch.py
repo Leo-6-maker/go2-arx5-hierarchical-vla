@@ -32,7 +32,7 @@ def submit(root,n,previous=None):
     cfg=read(root/'CONFIG.json')
     if n>MAX_SLOTS or cfg['plan']!=PLAN or time.time()>=min(DEADLINE,cfg['grant_end'])-240 or (root/'STOP').exists():
         raise PermissionError('Dispatcher limit reached')
-    name=f'slachv1ctl{n:02d}'
+    name=('slachv1bk' if cfg.get('local_backup') else 'slachv1ctl')+f'{n:02d}'
     jobfile=slot/'JOB.json'
     journal=Journal(slot/'journal',slot.name)
     body='\n'.join(['#!/bin/bash','#PBS -N '+name,'#PBS -P '+PROJECT,'#PBS -q auto',
@@ -93,7 +93,11 @@ def run(root,n):
         attempts=0
         while not stopped() and time.time()<end-540:
             # Arguments and identity are fixed at registration. Only scheduling and status cross this SSH connection.
-            proc=subprocess.run([*SSH,HOST,cfg['hopper_command']],text=True,capture_output=True,timeout=420)
+            if cfg.get('local_backup'):
+                command=[sys.executable,'-B',str(root/'backup.py'),'tick',str(root)]
+            else:
+                command=[*SSH,HOST,cfg['hopper_command']]
+            proc=subprocess.run(command,text=True,capture_output=True,timeout=480)
             if proc.returncode:
                 write_once(slot/'INTERRUPTION.json',dict(job=job,returncode=proc.returncode,epoch=time.time(),
                            reason=proc.stderr[-1800:]))
@@ -101,10 +105,10 @@ def run(root,n):
             state=json.loads(proc.stdout)
             attempts+=1
             write(slot/'HEARTBEAT.json',dict(job=job,epoch=time.time(),polls=attempts,hopper=state))
-            if state['status'] not in ('WAIT_PBS','SUBMITTED','SELECTION_RECONCILED'):
+            if state['status'] not in ('WAIT_PBS','SUBMITTED','SELECTION_RECONCILED','COPIED','WAIT_SEAL'):
                 write_once(slot/'RESULT.json',state)
                 return
-            time.sleep(min(150,max(0,end-540-time.time())))
+            time.sleep(min(1 if state['status']=='COPIED' else 150,max(0,end-540-time.time())))
         if not stopped() and n<MAX_SLOTS:
             successor=submit(root,n+1,job)
             write_once(slot/'SUCCESSOR.json',dict(job=successor,afterok=job))
