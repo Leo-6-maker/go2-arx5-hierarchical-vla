@@ -30,11 +30,14 @@ def main():
     core_multienv_expert = (spec['plan_commit'] == '4fe2c8cf1b69c168b2e3079e061bb7c702089cd3'
                             and spec['scope'] == 'SLA_CORE_MULTIENV_V1_EXPERT'
                             and operation in ('--case', '--core-hopper-collection'))
+    core_multienv_n1 = (spec['plan_commit'] == '4fe2c8cf1b69c168b2e3079e061bb7c702089cd3'
+                        and spec['scope'] == 'SLA_CORE_MULTIENV_V1_N1_ENGINEERING'
+                        and operation in ('--case', '--core-multienv-n1'))
     core_hopper_expert = core_hopper_expert or core_multienv_expert
     core_hopper_student = (spec['plan_commit'] == '171b5bedb290258954aac140157743e92e3b152e'
                            and spec['scope'] == 'SLA_CORE_HOPPER_V1_STUDENT'
                            and operation in ('--case','--worker','--core-hopper-students'))
-    if not (d4 or e0 or followup or scale or adaptation or core_hopper_expert or core_hopper_student) and (spec['plan_commit']!='ae3d3c0dceade437b0104a150cd0402fef650052'or spec['scope']not in('SLA_SOURCE_NATIVE_SHARED_V6','SLA_V6_TARGET_NATIVE','SLA_V6_MULTITASK_NATIVE')):
+    if not (d4 or e0 or followup or scale or adaptation or core_hopper_expert or core_hopper_student or core_multienv_n1) and (spec['plan_commit']!='ae3d3c0dceade437b0104a150cd0402fef650052'or spec['scope']not in('SLA_SOURCE_NATIVE_SHARED_V6','SLA_V6_TARGET_NATIVE','SLA_V6_MULTITASK_NATIVE')):
         raise PermissionError('FIXED_V6_PLAN_AND_EXPLICIT_NEW_SCOPE_REQUIRED')
     if Path(__file__).resolve()!=source/'scripts/wm02/v6_bootstrap.py':raise PermissionError('EXACT_NEW_V6_BOOTSTRAP')
     for name,pin in spec['source_files'].items():
@@ -59,7 +62,10 @@ def main():
     if operation == '--core-hopper-collection' and core_hopper_expert:
         from scripts.sla.core_hopper_collection import run
         raise SystemExit(run(spec))
-    if operation == '--case' and core_hopper_expert:
+    if operation == '--core-multienv-n1' and core_multienv_n1:
+        from scripts.sla.core_multienv_n1 import run
+        raise SystemExit(run(spec))
+    if operation == '--case' and (core_hopper_expert or core_multienv_n1):
         from scripts.sla.core_hopper_expert import check_world_lease
         check_world_lease(spec, int(sys.argv[sys.argv.index('--world-lock-fd')+1]))
     if operation=='--case':
