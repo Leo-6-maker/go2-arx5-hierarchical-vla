@@ -11,11 +11,10 @@ from go2arx5_vla.trajectory.so3 import quat_to_matrix
 from go2arx5_vla.world_model.multitask_scope_v6 import read_pin
 from go2arx5_vla.world_model.multitask_teacher_v6 import MultitaskTeacher
 from go2arx5_vla.world_model.native_replay import forbid_integration
-from scripts.sla.core_hopper_expert import repair_rows
 from scripts.sla.core_hopper_red_approach import RedPlacePitch, PLACE_KIND
 
 
-def base_hold(folder, reference):
+def recorded_knot(folder, reference):
     with (folder/'planner.jsonl').open() as log:
         for line in log:
             event=json.loads(line)
@@ -24,14 +23,23 @@ def base_hold(folder, reference):
                 continue
             k=reference['receiver_knot_index']
             pose=event['poses'][k]
-            if (event['times'][k]!=reference['receiver_knot_time_s'] or len(pose)!=14
+            if (event['times'][k]!=reference['receiver_knot_time_s'] or len(pose) not in (7,14)
                     or pose[:7]!=reference['accepted_pose7']):
-                raise ValueError('Saved first reference differs from the receiver knot')
-            return pose[7:]
-    raise ValueError('Initial constant BASE hold not recorded')
+                raise ValueError('Saved reference differs from the receiver knot')
+            return pose
+    raise ValueError('Accepted receiver knot not recorded')
+
+
+def base_hold(folder, reference):
+    pose=recorded_knot(folder,reference)
+    if len(pose)!=14:
+        raise ValueError('Initial constant BASE hold not recorded')
+    return pose[7:]
 
 
 def check(config):
+    from scripts.sla.core_hopper_expert import repair_rows
+
     repair=config['carry_repair']
     rows=repair_rows(read_pin(config['population']),repair)
     prior=Path(read_pin(repair['original_producer'])['registered_root'])
