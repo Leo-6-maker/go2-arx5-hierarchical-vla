@@ -1,0 +1,566 @@
+{
+  "plan": "4fe2c8cf1b69c168b2e3079e061bb7c702089cd3",
+  "observed_sgt": "2026-11-22T04:05:16.197+08:00",
+  "wave": {
+    "started": 3,
+    "terminal": 2,
+    "admitted": 1,
+    "verified_closed_ticks": 46793,
+    "val_started": 0,
+    "terminal_receipts": [
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-HOLD-blue",
+        "requests": 1,
+        "ticks": 25453,
+        "admitted": true,
+        "first_failure": "TASK_SUCCESS",
+        "hard_STOP": false,
+        "post_STOP_ticks": null
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-HOLD-red",
+        "requests": 1,
+        "ticks": 21340,
+        "admitted": false,
+        "first_failure": "ILLEGAL_CONTACT",
+        "hard_STOP": true,
+        "post_STOP_ticks": 0
+      }
+    ],
+    "in_flight": {
+      "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-red-left",
+      "tick_lower_bound": 43528
+    },
+    "second_contact": [
+      "ILLEGAL_CONTACT",
+      "DESCEND",
+      [
+        [
+          "task_blue_cube",
+          "x5_link6"
+        ]
+      ]
+    ],
+    "second_native_result": "1852d281138cdac76bf9bad070742dc5713e23646e78c8b04eb75e9df5c02b27"
+  },
+  "core_catalog": {
+    "source_commit": "1469ed514d5c9b2737cecfd6f01ed9692870b958",
+    "closure": {
+      "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-train-catalog-source-1469ed51/SOURCE_MEMBERS.json",
+      "sha256": "1e09cd4bd854333acc46a9547821b968e9fcd43d3dbadb76aba692d359b474ff"
+    },
+    "config": "1526af0a44bb1fc1ea480a12ea163b8e3c83b46b2a86ee39a89a241185d246c4",
+    "state": {
+      "MainPID": "2668452",
+      "Result": "success",
+      "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-train-catalog-20261122-01.service",
+      "ActiveState": "active",
+      "SubState": "running",
+      "InvocationID": "8ad1c781a64c4ab2bf2a994f95a1ccbb"
+    },
+    "heartbeat": {
+      "epoch": 1795291430.3802133,
+      "pid": 2668452,
+      "paid_TRAIN": 2,
+      "new_admitted": 1,
+      "sealed_new_members": 0,
+      "producer_closed": false,
+      "probe_only": false,
+      "source": "eccd8e2e2089bb2505c50043f959959d07094d56",
+      "latest": {
+        "count": 59,
+        "epoch": 1795289721.4578907
+      },
+      "new_training_visits": 0
+    },
+    "deadline_sgt": "2026-11-29T02:52:28.000+08:00",
+    "stop": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-train-catalog-20261122-01/STOP",
+    "probe": {
+      "receipt": {
+        "aggregate": true,
+        "count": 60,
+        "epoch": 1795290618.3286598,
+        "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-train-catalog-probe-20261122-01/snapshots/TRAIN-060/SEALED.private.json",
+        "sha256": "1348bc842a2666bb9f05d19cd6b62e5deee1cef1a407b4ca171346b1d5886dc6",
+        "windows": 5233
+      },
+      "config": {
+        "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-train-catalog-probe-20261122-01/CONFIG.json",
+        "sha256": "510a75c8145d1daa52746824046c513ecf2dc5fa0b346459d7057526f52328d8"
+      },
+      "scope": "PRIVATE_NOT_PUBLISHED"
+    },
+    "reader": {
+      "config": "0f1d61823955f2143f5c241811097f6c3982e039e886e3cd82a99dc911503875",
+      "source": "323bb2bce49419c601be2daf1de379824dcdbb1aea71658fa452a1feead753ce",
+      "result": {
+        "actual": {
+          "consumed_atoms": 52330,
+          "d2_windows": 2031,
+          "episodes": 60,
+          "manifest": "e77eea7894abd1bc5a7052bd201af4872cc7c16b8c83d099f70cac9733326dde",
+          "mixed": true,
+          "seal": "1348bc842a2666bb9f05d19cd6b62e5deee1cef1a407b4ca171346b1d5886dc6",
+          "supervised_atoms": 209320,
+          "windows": 5233
+        },
+        "at": 1795290710.424154,
+        "model_generations": 0,
+        "native_requests": 0,
+        "new_cases": [
+          "MEV1-TRAIN-F1-NEAR_NEG-00-HOLD-blue"
+        ],
+        "old_prefix_episodes": 59,
+        "old_prefix_windows": 5154,
+        "probe_only": true,
+        "status": "CORE_REAL_READER_PASS",
+        "updates": 0
+      }
+    }
+  },
+  "cross_site": {
+    "source_commit": "3988eb4ae7aaca3e0bab917eeb5f80ef4621ed38",
+    "publisher": {
+      "unit": "wm02-sla-core-multienv-train-public-uplink-20261122-02.service",
+      "spec": "15f00128bc8f9e75f7ede88c04fdec8ef8b31556e85e5e62465472e5f0a920e4",
+      "source_closure": "d0f64cdb7c731c4754d278f14731377f6c29f3798c7032a25f3b03b784f0fa65",
+      "stop": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-train-public-uplink-20261122-02/STOP",
+      "deadline_sgt": "2026-11-29T02:52:28.000+08:00",
+      "state": {
+        "MainPID": "2681921",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-train-public-uplink-20261122-02.service",
+        "ActiveState": "active",
+        "InvocationID": "57256e40837442a09d476b56aa12f782"
+      },
+      "heartbeat": {
+        "status": "WAIT_CATALOG_SEAL",
+        "epoch": 1795291200.662383,
+        "pid": 2681921
+      }
+    },
+    "hopper_actual_intake": {
+      "exit": 0,
+      "stdout": "{\"status\": \"WAIT_PUBLIC_SEAL\"}\n",
+      "error": "",
+      "actual_Hopper_receipt": {
+        "path": "/scratch/e1192548/Projects/GR00T-WBC/runs/WM02/sla-core-hopper-v1-custody-20261121-01/wave-a-train-staging-3988eb4a/CONFIG.json",
+        "sha256": "aad1cc27056b17e84b228e619cc8e0b7dc2c2b3dbc414e2486e679294e04c9c0"
+      },
+      "source_closure": {
+        "path": "/scratch/e1192548/Projects/GR00T-WBC/runs/WM02/sla-core-hopper-v1-custody-20261121-01/wave-a-train-staging-3988eb4a/SOURCE_MEMBERS.json",
+        "sha256": "37b3155b2f29cd62438f048ad465e3d64b1a0c8e5e769aa4d095dfa963bf9d57"
+      },
+      "new_CPU_jobs": 0,
+      "new_gpu_jobs": 0
+    },
+    "formal_new_snapshots": 0,
+    "new_cross_site_objects": 0,
+    "new_training_visits": 0
+  },
+  "teacher_projection": {
+    "receipt": "1758c637f785a2c631f92213aaf5c8c1c40529f5f860921e4fdf7c2f866337d3",
+    "source_commit": "9bb01997128084c11e785fa72aaf411e106b4f70",
+    "status": "SAVED_TRAIN_GEOMETRY_ONLY",
+    "angles_deg": [
+      0,
+      20
+    ],
+    "result": {
+      "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-HOLD-red",
+      "native_result_sha256": "1852d281138cdac76bf9bad070742dc5713e23646e78c8b04eb75e9df5c02b27",
+      "scene_sha256": "c6d32401caaa36fdac50370da49e14139c6ea779e513aefd19c6ba488b8d0d5c",
+      "queries_sha256": "67a4f8d4dec52f86049648683092bf1f49465f8e014cec59a705efabbeeec4ee",
+      "terminal_tick": 21340,
+      "terminal_contact_mm": -0.09853079334998238,
+      "query_count": 63,
+      "descend_queries": 13,
+      "by_angle_deg": {
+        "0": {
+          "pregrasp": {
+            "other_cube": {
+              "gap_mm": 23.024255102284094,
+              "geom_id": 75,
+              "body": "x5_link7",
+              "native_step": 9953
+            },
+            "table": {
+              "gap_mm": 35.87868938842716,
+              "geom_id": 77,
+              "body": "x5_link8",
+              "native_step": 11703
+            },
+            "selected_nonpad": {
+              "gap_mm": 44.834003279276324,
+              "geom_id": 73,
+              "body": "x5_link6",
+              "native_step": 16953
+            },
+            "selected_pad": {
+              "gap_mm": 16.863557883457407,
+              "geom_id": 75,
+              "body": "x5_link7",
+              "native_step": 11703
+            }
+          },
+          "descend": {
+            "other_cube": {
+              "gap_mm": 12.015990726011637,
+              "geom_id": 73,
+              "body": "x5_link6",
+              "native_step": 21203
+            },
+            "table": {
+              "gap_mm": 24.126644231625555,
+              "geom_id": 77,
+              "body": "x5_link8",
+              "native_step": 21203
+            },
+            "selected_nonpad": {
+              "gap_mm": 23.114375753733736,
+              "geom_id": 73,
+              "body": "x5_link6",
+              "native_step": 21203
+            },
+            "selected_pad": {
+              "gap_mm": 12.004878547596821,
+              "geom_id": 75,
+              "body": "x5_link7",
+              "native_step": 19953
+            }
+          },
+          "remaining_to_goal": {
+            "other_cube": {
+              "gap_mm": -16.99028169270157,
+              "geom_id": 73,
+              "body": "x5_link6",
+              "native_step": 21203
+            },
+            "table": {
+              "gap_mm": 10.229654829142863,
+              "geom_id": 77,
+              "body": "x5_link8",
+              "native_step": 21203
+            },
+            "selected_nonpad": {
+              "gap_mm": 14.970044183297997,
+              "geom_id": 73,
+              "body": "x5_link6",
+              "native_step": 21203
+            },
+            "selected_pad": {
+              "gap_mm": 21.26469638097589,
+              "geom_id": 75,
+              "body": "x5_link7",
+              "native_step": 21203
+            }
+          }
+        },
+        "20": {
+          "pregrasp": {
+            "other_cube": {
+              "gap_mm": 18.402329026990717,
+              "geom_id": 75,
+              "body": "x5_link7",
+              "native_step": 10703
+            },
+            "table": {
+              "gap_mm": 33.87279662155603,
+              "geom_id": 77,
+              "body": "x5_link8",
+              "native_step": 11703
+            },
+            "selected_nonpad": {
+              "gap_mm": 44.834003279276324,
+              "geom_id": 73,
+              "body": "x5_link6",
+              "native_step": 16953
+            },
+            "selected_pad": {
+              "gap_mm": 15.59839697966728,
+              "geom_id": 75,
+              "body": "x5_link7",
+              "native_step": 11703
+            }
+          },
+          "descend": {
+            "other_cube": {
+              "gap_mm": 22.560242680761018,
+              "geom_id": 77,
+              "body": "x5_link8",
+              "native_step": 21203
+            },
+            "table": {
+              "gap_mm": 24.034333943882547,
+              "geom_id": 77,
+              "body": "x5_link8",
+              "native_step": 21203
+            },
+            "selected_nonpad": {
+              "gap_mm": 36.724262379431075,
+              "geom_id": 73,
+              "body": "x5_link6",
+              "native_step": 21203
+            },
+            "selected_pad": {
+              "gap_mm": 11.69922851551728,
+              "geom_id": 75,
+              "body": "x5_link7",
+              "native_step": 19953
+            }
+          },
+          "remaining_to_goal": {
+            "other_cube": {
+              "gap_mm": -95.70700024640846,
+              "geom_id": 77,
+              "body": "x5_link8",
+              "native_step": 21203
+            },
+            "table": {
+              "gap_mm": 10.137344541399855,
+              "geom_id": 77,
+              "body": "x5_link8",
+              "native_step": 21203
+            },
+            "selected_nonpad": {
+              "gap_mm": 18.489682277267757,
+              "geom_id": 73,
+              "body": "x5_link6",
+              "native_step": 21203
+            },
+            "selected_pad": {
+              "gap_mm": 21.300715548408927,
+              "geom_id": 75,
+              "body": "x5_link7",
+              "native_step": 21203
+            }
+          }
+        }
+      },
+      "closing_projection": {
+        "0": {
+          "both_pads_intersect_red": true,
+          "first_touch_slide_mm": [
+            19.23188579299857,
+            19.803532738822117
+          ],
+          "forbidden_min_gap_mm": {
+            "other_cube": -16.99028169270157,
+            "table": 10.229654829142863,
+            "selected_nonpad": 14.979537576252227
+          }
+        },
+        "20": {
+          "both_pads_intersect_red": true,
+          "first_touch_slide_mm": [
+            19.23188579299857,
+            19.803532738822117
+          ],
+          "forbidden_min_gap_mm": {
+            "other_cube": 5.1746326119007025,
+            "table": 10.137344541399855,
+            "selected_nonpad": 18.489682277267757
+          }
+        }
+      },
+      "table_shift_mm": [
+        0,
+        0,
+        0
+      ]
+    },
+    "requests": 0,
+    "integrations": 0,
+    "model_generations": 0,
+    "optimizer_updates": 0,
+    "VAL_inputs": 0,
+    "repair_native": "NOT_RUN"
+  },
+  "canonical_eval": {
+    "old_zero_generation_terminals": {
+      "cold": {
+        "COLD_TERMINAL.json": {
+          "attempts": 0,
+          "completed": 0,
+          "first_failure": "TimeoutError: No qualified Core GPU capacity in the registered window",
+          "native_requests": 0,
+          "status": "COLD_STAGE_INTERRUPTED",
+          "updates": 0
+        }
+      },
+      "ipc": {
+        "TERMINAL.json": {
+          "arms": {
+            "MAIN-phase00000": "NOT_RUN_NO_SEALED_MATCH",
+            "MAIN-phase02000": "NOT_RUN_NO_SEALED_MATCH"
+          },
+          "epoch": 1795290689.4175477,
+          "native_requests": 0,
+          "updates": 0
+        }
+      },
+      "DEV": {
+        "HEARTBEAT.json": {
+          "state": "WAIT_IPC",
+          "epoch": 1795290675.0456567,
+          "pid": 2622065,
+          "arm": "MAIN-phase00000"
+        },
+        "TERMINAL.json": {
+          "epoch": 1795290690.063752,
+          "native_requests": 0,
+          "outcomes": {
+            "MAIN-phase00000": "NOT_RUN",
+            "MAIN-phase02000": "NOT_RUN"
+          }
+        }
+      }
+    },
+    "repairs_zero_cost": [
+      "IPC imported the cold closure in the restarted service",
+      "DEV used the exact prior numeric interpreter and import paths"
+    ],
+    "cold": {
+      "unit": "wm02-sla-core-multienv-canonical-cold-20261122-03.service",
+      "state": {
+        "MainPID": "2672172",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-canonical-cold-20261122-03.service",
+        "ActiveState": "active",
+        "InvocationID": "155678e1a4144b4882e1704856f6b1a1"
+      },
+      "config": {
+        "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-canonical-20261122-03/CONFIG.json",
+        "sha256": "55f3ba24bca87d18a8a775b7ecf01ebdf59711b02e1c9f70accc8663b9b8c6a0"
+      },
+      "deadline_sgt": "2026-11-28T14:52:28.000+08:00"
+    },
+    "IPC": {
+      "mount": {
+        "unit": "wm02-sla-core-multienv-canonical-ipc-20261122-04.service",
+        "receipt": "Running as unit: wm02-sla-core-multienv-canonical-ipc-20261122-04.service; invocation ID: 90ead2b7966c453aabb0591b28d77034\n",
+        "spec": {
+          "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-canonical-ipc-20261122-04/CONFIG.json",
+          "sha256": "a3ffcc7a8e403d0515d92bacc194dfedf1dac1226d87cea22c275e21ffac7cb1"
+        },
+        "state": {
+          "MainPID": "2681028",
+          "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-canonical-ipc-20261122-04.service",
+          "ActiveState": "active",
+          "InvocationID": "90ead2b7966c453aabb0591b28d77034"
+        },
+        "deadline": 1795855948
+      },
+      "deadline_sgt": "2026-11-28T16:52:28.000+08:00"
+    },
+    "DEV": {
+      "mount": {
+        "unit": "wm02-sla-core-multienv-canonical-dev-20261122-04.service",
+        "receipt": "Running as unit: wm02-sla-core-multienv-canonical-dev-20261122-04.service; invocation ID: 97a26da1aabc49838136c9a0ac20804d\n",
+        "spec": {
+          "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-canonical-dev-20261122-04/CONFIG.json",
+          "sha256": "3d5d25a16ddb61cc598c27d62e58b3eb337d28dce8cd5427caefe3fa2af23f31"
+        },
+        "state": {
+          "MainPID": "2681043",
+          "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-canonical-dev-20261122-04.service",
+          "ActiveState": "active",
+          "InvocationID": "97a26da1aabc49838136c9a0ac20804d"
+        },
+        "deadline": 1795891948
+      },
+      "deadline_sgt": "2026-11-29T02:52:28.000+08:00"
+    },
+    "resources": {
+      "at": 1795291526.1326559,
+      "host_available_GiB": 26.413108825683594,
+      "host_threshold_GiB": 36,
+      "gpu_free_MiB": 15838,
+      "both": [
+        {
+          "unit": "wm02-sla-core-multienv-canonical-cold-20261122-03.service",
+          "state": {
+            "MainPID": "2672172",
+            "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-canonical-cold-20261122-03.service",
+            "ActiveState": "active",
+            "SubState": "running",
+            "InvocationID": "155678e1a4144b4882e1704856f6b1a1"
+          },
+          "owner": true,
+          "gpu_awarded": false,
+          "attempts": 0,
+          "completed": 0,
+          "sealed": {}
+        },
+        {
+          "unit": "wm02-sla-core-multienv-canonical-ipc-20261122-04.service",
+          "state": {
+            "MainPID": "2681028",
+            "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-canonical-ipc-20261122-04.service",
+            "ActiveState": "active",
+            "SubState": "running",
+            "InvocationID": "90ead2b7966c453aabb0591b28d77034"
+          },
+          "owner": true,
+          "gpu_awarded": false,
+          "attempts": 0,
+          "completed": 0,
+          "sealed": {}
+        }
+      ]
+    },
+    "phase0_DEV": {
+      "native_requests": 0,
+      "status": "NOT_RUN"
+    },
+    "MAIN2K_DEV": {
+      "native_requests": 0,
+      "status": "NOT_RUN"
+    }
+  },
+  "hopper": {
+    "previous_active": {
+      "at": 1795291516.308495,
+      "last": {
+        "step": 2210,
+        "job": "728156.hopper-m-02"
+      },
+      "seal": {
+        "step": 2200,
+        "sha": "cc1b459a1b58320365c3662819fa5e40762a5d84b488a21c209e47c053a54025"
+      },
+      "visits_since_2000": {
+        "target": 13440,
+        "robodojo": 6720,
+        "libero": 6720
+      }
+    },
+    "continued": {
+      "state": "H",
+      "hold": "s",
+      "depends": "afterok:728156.hopper-m-02@hopper-m-02.cm.cluster",
+      "start": null,
+      "nGPU": 1,
+      "gpu_model": null,
+      "project": "CFP04-CF-007",
+      "user": "e1192548",
+      "job": "728212.hopper-m-02",
+      "release": {
+        "dependency": "afterok:728156.hopper-m-02",
+        "epoch": 1795291377.7946317,
+        "job": "728212.hopper-m-02",
+        "pbs_name": "slachv1t09"
+      },
+      "scope": "ONE_H200_6_HOURS",
+      "reserved_GPU_seconds": 21600,
+      "source_commit": "4917e2b995600955d41f1b5ca1cd772bdb6bd710",
+      "source_sha": "9f54ee22e1f198b4ab68abd78688b0717c70fbac5f6f0aa2254a831be5dbffff",
+      "training_updates": 0,
+      "dependency_runtime": "NOT_RUN",
+      "absolute_deadline_sgt": "2026-12-05T12:41:52.000+08:00",
+      "stop": "The existing per-capsule STOP.json and site PBS owner"
+    },
+    "new_VANDA_PBS_jobs": 0
+  },
+  "N1_engineering": "NOT_RUN",
+  "N2": "NOT_RUN",
+  "N4": "NOT_RUN"
+}
