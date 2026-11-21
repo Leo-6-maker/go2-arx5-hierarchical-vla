@@ -44,3 +44,19 @@ def admit(root, condition, case, native, result_sha, stats_path):
     tmp.rename(folder)
     return dict(path=str(folder/'EPISODE.private.json'),sha256=digest(folder/'EPISODE.private.json'),
                 windows=manifest['queries'],confirmed_P10_atoms=10*manifest['queries'],split=split)
+
+
+if __name__ == '__main__':
+    import json
+    import sys
+    filename, sha = sys.argv[1:]
+    request = read_pin(dict(path=filename,sha256=sha))
+    case = read_pin(request['case'])
+    native = read_pin(request['native'])
+    try:
+        ref = admit(Path(case['campaign_root']), request['condition'], case, native,
+                    request['native']['sha256'], request['statistics'])
+        result = dict(admitted=True, episode=ref)
+    except (KeyError,ValueError) as error:
+        result = dict(admitted=False, first_failure=str(error))
+    print(json.dumps(result))

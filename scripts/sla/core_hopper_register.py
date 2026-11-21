@@ -63,11 +63,15 @@ def prepare(config):
               mobile_group=str(root),collection_root=str(root/'admission'),unattended_control=str(root/'control'),
               native_environment=env,role=SCOPE,compiled_population=config['population'],
               registered_panel=pin(pf),interface_predecessor=config['interface'],sim_only_project_authorization=pin(authority),
-              C20_statistics_path=config['statistics'],physics=True,hardware_connections_allowed=False,
+              admission_python=config['admission_python'],C20_statistics_path=config['statistics'],physics=True,hardware_connections_allowed=False,
               resident_server_spec=None,new_optimizer_updates_budget=0,new_training_visits_budget=0,
               new_model_generations_budget=0,new_physical_requests_budget=len(rows),allocation_deadline_epoch=None,
               campaign_deadline_epoch=end,deadline_epoch=end,automatic_retry=False,frontend_dependency=False,
               cases=[str(root/'cases'/r['id']/'EXECUTION_SPEC.json') for r in rows])
+    subprocess.run([spec['admission_python'],'-B','-c','import scripts.sla.core_hopper_admission'],
+                   cwd=source,env=dict(os.environ,**env),check=True)
+    subprocess.run([spec['python'],'-B','-c','import scripts.sla.core_hopper_collection'],
+                   cwd=source,env=dict(os.environ,**env),check=True)
     spec.update({k:str(root/k) for k in ('logs','cache','tmp','data')})
     for item,row in zip(panel,rows,strict=True):
         _,case=case_card(spec,templates[row['family']],item,spec['registered_panel'])

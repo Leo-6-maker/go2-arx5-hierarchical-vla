@@ -17,7 +17,6 @@ from scripts.pi0294.e1.journal import Journal
 from scripts.wm02.multitask_stage_cards_v6 import case_card, cold_native_owner, pin, require_unstarted_cases
 from scripts.wm02.multitask_teacher_campaign_v6 import interface_records, teacher_row
 from scripts.wm02.sim_only_campaign_v51 import fatal_control_violation
-from scripts.sla.core_hopper_admission import admit
 from scripts.sla.core_hopper_expert import order
 
 def read(path):
@@ -149,11 +148,15 @@ def run(spec):
                     or (outcome['hard_STOP'] and rec['post_STOP_ticks'] != 0) or outcome['technical_failure']):
                 raise RuntimeError('Preserve terminal for technical or control review: '+row['id'])
             if outcome['task_and_mobile_success'] and outcome['completed'] and not outcome['hard_STOP']:
-                try:
-                    rec['episode']=admit(root,row,case,native,receipt['result']['sha256'],spec['C20_statistics_path'])
-                    rec['admitted']=True
-                except (ValueError,KeyError) as exc:
-                    rec['first_failure']='ADMISSION: '+str(exc)
+                request=Path(case['registered_root'])/'ADMISSION_INPUT.private.json'
+                write(request,dict(case=receipt['spec'],native=receipt['result'],condition=row,statistics=spec['C20_statistics_path']))
+                output=subprocess.check_output([spec['admission_python'],'-B','-m','scripts.sla.core_hopper_admission',
+                        str(request),digest(request)],cwd=spec['source_root'],env=dict(os.environ,**spec['native_environment']),text=True)
+                verdict=json.loads(output)
+                if verdict['admitted']:
+                    rec.update(admitted=True,episode=verdict['episode'])
+                else:
+                    rec['first_failure']='ADMISSION: '+verdict['first_failure']
             if row['split']=='TRAIN':
                 if rec['admitted']:
                     admitted.append(rec['episode']);streak.pop(cell,None)
