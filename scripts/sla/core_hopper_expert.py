@@ -32,6 +32,20 @@ def repair_rows(pop,repair):
     from scripts.sla.core_hopper_blue_carry import PILOT, PRIOR
     audit=read_pin(repair['audit'])
     prior=read_pin(repair['original_producer'])
+    if repair.get('kind'):
+        from scripts.sla.core_hopper_red_approach import CELL, KIND, PILOT as RED_PILOT, PITCH_DEGREES
+        if (repair['kind']!=KIND or audit['status']!='PILOT_PITCH_GEOMETRY_VERIFIED'
+                or audit['pilot']!=RED_PILOT or audit['prior']!=[CELL+'-00',CELL+'-01']
+                or audit['pitch_deg']!=PITCH_DEGREES or audit['minimum_forbidden_gap_mm']<=0
+                or any(audit[k] for k in ('VAL_inputs','native_requests','simulation_integrations','model_generations'))
+                or prior['source_sha']!=audit['source_expert'] or prior['scope']!=SCOPE
+                or prior['compiled_population']['sha256']!=POP or audit['distinct_scenes']!=2):
+            raise ValueError('Pitch pilot requires its two original TRAIN stops and a verified registered scene')
+        row=next(r for r in pop['conditions']['TRAIN'] if r['id']==RED_PILOT)
+        cluster=next(c for c in pop['clusters'] if c['id']==row['scene_family'])
+        if row['split']!='TRAIN' or cluster['scene']['sha256']!=audit['pilot_scene_sha256']:
+            raise ValueError('Pitch pilot numerical scene differs')
+        return [row]
     if (audit['status']!='TRAIN_STATIC_CARRY_BYPASS_VERIFIED' or audit['pilot']!=PILOT
             or audit['prior']!=PRIOR or prior['source_sha']!=audit['producer']
             or prior['scope']!=SCOPE or prior['compiled_population']['sha256']!=POP
