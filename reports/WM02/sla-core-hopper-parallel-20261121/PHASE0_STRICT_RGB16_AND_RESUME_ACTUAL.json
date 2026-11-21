@@ -1,0 +1,569 @@
+{
+  "plan": "171b5bedb290258954aac140157743e92e3b152e",
+  "as_of_sgt": "2026-11-21T17:50:14.305825+08:00",
+  "project": {
+    "name": "CFP04-CF-007",
+    "amgr_member": true,
+    "amgr_active": true,
+    "amgr_hopper": true,
+    "grant_end": "2027-03-12",
+    "balance_covers_live_six_hour_job": true,
+    "checked_sgt": "2026-11-21 17:48 SGT",
+    "campaign_T0_sgt": "2026-11-21 12:41:52",
+    "campaign_deadline_sgt": "2026-12-05 12:41:52",
+    "max_H200_hours": 320
+  },
+  "parent": "2bff547b6f2c3aca0e7e2fd8a790ce6b30ef1c5f33b004c6897e3083647358d5",
+  "training": {
+    "time": "2026-11-21T17:50:14.305825+08:00",
+    "job": "727394.hopper-m-02",
+    "segment": [
+      100,
+      867
+    ],
+    "resume_sha": "4b922442d4cc1ac9d33529cba7667b73acad6882300d2a37c8d915dc5906bef0",
+    "actual_by_job": {
+      "727341.hopper-m-02": 100,
+      "727394.hopper-m-02": 38
+    },
+    "committed": 138,
+    "visits": {
+      "target": 8832,
+      "robodojo": 4416,
+      "libero": 4416
+    },
+    "h40": 552,
+    "start": {
+      "epoch": 1795253919.822644,
+      "job": "727394.hopper-m-02",
+      "site": {
+        "deadline": 1795275510,
+        "gpu_name": "NVIDIA H200",
+        "gpu_uuid": "GPU-667673ca-6081-280c-44ec-c857f823eb5d",
+        "host": "hopper-17",
+        "job": "727394.hopper-m-02",
+        "wall_s": 21600
+      },
+      "source": "b9581196d0acd02fb748222988e5a5543ce1f232"
+    }
+  },
+  "dispatch": {
+    "at": "2026-11-21T17:50:14.296187+08:00",
+    "training": {
+      "job": "1601905.stdct-mgmt-02",
+      "epoch": 1795254448.9907677,
+      "polls": 18,
+      "hopper": {
+        "status": "WAIT_PBS",
+        "job": "727394.hopper-m-02",
+        "state": "R"
+      }
+    },
+    "interrupted": null,
+    "pub": {
+      "job": "1601890.stdct-mgmt-02",
+      "epoch": 1795254576.782758,
+      "polls": 28,
+      "hopper": {
+        "status": "WAIT_SEAL",
+        "published": 1
+      }
+    },
+    "proof": {
+      "epoch": 1795251018.7564387,
+      "grant_end": 1796445712,
+      "job": "1601905.stdct-mgmt-02",
+      "node": "CN-148",
+      "pid": 143231,
+      "site_end": 1795272617
+    }
+  },
+  "reference": {
+    "terminal": {
+      "attempted": 16,
+      "checkpoint": "d7949c75ecc33253bea605a3aed738df4ecdc473d8737848a1bca787ab253c18",
+      "complete": 16,
+      "native": 0,
+      "package": "fdf58d6078f3b8259892e5f6d991c7737071b543254a64b865393063a85baa01",
+      "site": {
+        "deadline": 1795257147,
+        "gpu_name": "NVIDIA H200",
+        "gpu_uuid": "GPU-908b3cd3-5b36-1e35-ab1a-b07b61e090b3",
+        "host": "hopper-28",
+        "job": "727376.hopper-m-02",
+        "wall_s": 3600
+      },
+      "status": "HOPPER_REF16_SEALED",
+      "updates": 0,
+      "result_sha": "577d1e5a4c4d51b596ea235cf6216f926e3ba40488c5c26996a8359919a14017"
+    },
+    "allocation": {
+      "GPU_seconds": 108,
+      "exit": 0,
+      "group": "reference",
+      "job": "727376.hopper-m-02",
+      "pbs_used_wall": "00:01:35"
+    },
+    "all_settled_H200_seconds": 3403,
+    "new_job": "727394.hopper-m-02"
+  },
+  "checkpoint_publication": {
+    "arrays": 29,
+    "bytes": 1831892085,
+    "checkpoint": "d7949c75ecc33253bea605a3aed738df4ecdc473d8737848a1bca787ab253c18",
+    "manifest": "fdf58d6078f3b8259892e5f6d991c7737071b543254a64b865393063a85baa01",
+    "plan": "171b5bedb290258954aac140157743e92e3b152e",
+    "prefix": "HOPPER-ADAPT20K-V1/Go2/MAIN-phase00000-fdf58d6078f3",
+    "repository": "leoyuer/sla-goal-v2-checkpoints",
+    "revision": "d5542460abd57533b27a7ede06cda5cb652c1162",
+    "receipt_sha256": "044986ae4fd5aebd95ddc740bcfef84db37ec56a73167fab0bc4fc3ebcf7fa8d"
+  },
+  "core_receive": {
+    "arrays": 29,
+    "checkpoint": "d7949c75ecc33253bea605a3aed738df4ecdc473d8737848a1bca787ab253c18",
+    "manifest": "fdf58d6078f3b8259892e5f6d991c7737071b543254a64b865393063a85baa01",
+    "prefix": "HOPPER-ADAPT20K-V1/Go2/MAIN-phase00000-fdf58d6078f3",
+    "received_epoch": 1795253978.0092769,
+    "repository": "leoyuer/sla-goal-v2-checkpoints",
+    "revision": "d5542460abd57533b27a7ede06cda5cb652c1162"
+  },
+  "strict_rgb16": {
+    "attempts": 16,
+    "checkpoint": "d7949c75ecc33253bea605a3aed738df4ecdc473d8737848a1bca787ab253c18",
+    "completed": 16,
+    "exact": 0,
+    "first_mismatch": 0,
+    "manifest": "fdf58d6078f3b8259892e5f6d991c7737071b543254a64b865393063a85baa01",
+    "matched": {
+      "decoded_sha256": 0,
+      "input_sha256": 16,
+      "normalized_sha256": 0,
+      "original_guard_sha256": 16
+    },
+    "native_requests": 0,
+    "native_ticks": 0,
+    "status": "CORE_RGB16_EXACT_GATE_FAILED",
+    "updates": 0,
+    "receipt_sha256": "f934791b64896c1660d508242232c150003d0a6295d45e8b5eaba6a98fc87666",
+    "Core_start_to_result_s": 366.2428550720215,
+    "gate_receipt_sha256": "7522cfb06241aae3fa7ddab1cd8f8889d67dcc8eed7c9fadf4a3fdc4bba22d1d",
+    "gate": "ENDPOINT_NATIVE_HELD",
+    "scientific_retries": 0,
+    "student_native_requests": 0,
+    "student_native_ticks": 0
+  },
+  "cold_runtime_audit": {
+    "matched_module_sha256": {
+      "scripts/sla/hopper_reference.py": "a46be6d840ba10568e408dedf32de1debb8fffa531e75c546e122115be5f0a66",
+      "go2arx5_vla/sla_adapter/scale20k_package.py": "3ec774cc7b27784d8487ebd379cc15ba3a9214338ae43f0785510b350366c56a",
+      "go2arx5_vla/sla_adapter/full_h40_v6.py": "8917492c2d65c771bdc0ea52b70f4dc2c60f26c63230bacf363bdc5583ad5eef",
+      "go2arx5_vla/sla_adapter/scale20k_model.py": "323b9bf630ce66fe1dee1309effa56d55c37803c6e0517d56dfee63716b12726",
+      "go2arx5_vla/sla_adapter/model_v1.py": "4838509edb2ef9584f26e3f511f91047b31b2476ac955a5226d06c70ffd2eea5",
+      "go2arx5_vla/sla_adapter/dataset_v1.py": "a49e34564e381d6a8a1ff29ab01532bb9adb4c26129515b88ff4a35daf693e7c",
+      "go2arx5_vla/sla_adapter/batch_v2.py": "ffaca1d7a85cd5e080e73291d1a1b5d9b780f6b74166a1f879c4360087a56ba0",
+      "go2arx5_vla/sla_adapter/codec_v1.py": "3370f02f1abbfba164f8e62be595446346dde513fbcf76c2b5614f79b249ba9e",
+      "scripts/sla/mfree_c20_vectorfield_v3.py": "e961854be9e980a21781f23ad99ffc59cd2a89af2b99b18fa17526743c83fa4b",
+      "openpi/models/pi0.py": "24b32d7c6ed5e409459afa8ca5af96a4dae09c2dcdf48e828907e411f4f12342",
+      "openpi_client/image_tools.py": "0c40a902cf495089ed7b96ec159e48e5ed609b820b6f0e465c65a27ec566e4c9",
+      "go2arx5_vla/sla_adapter/adapt5k_data.py": "1ee7a5345fd9bc3aa345fe1a78e6ec745f5f45561c1e87f98975c481a17b9e80"
+    },
+    "matched_installed_distribution_ids": [
+      "flax-0.10.2.dist-info",
+      "jax-0.5.3.dist-info",
+      "jax_cuda12_pjrt-0.5.3.dist-info",
+      "jax_cuda12_plugin-0.5.3.dist-info",
+      "jaxlib-0.5.3.dist-info",
+      "numpy-1.26.4.dist-info",
+      "nvidia_cublas_cu12-12.9.3.13.dist-info",
+      "nvidia_cudnn_cu12-9.28.1.4.dist-info",
+      "pillow-11.3.0.dist-info",
+      "sentencepiece-0.2.0.dist-info"
+    ],
+    "Core_inherited_XLA_FLAGS": "--xla_gpu_autotune_level=0 --xla_gpu_deterministic_ops=true --xla_gpu_exclude_nondeterministic_ops=true",
+    "Core_OMP_NUM_THREADS": 1,
+    "Hopper_job_exports_OMP_NUM_THREADS": 2,
+    "Hopper_job_explicitly_exports_XLA_FLAGS": false,
+    "Hopper_effective_process_XLA_FLAGS": "not recorded",
+    "numerical_difference_magnitude": "unavailable from H200 and Core output digests",
+    "first_diverging_recorded_quantity": "normalized_sha256",
+    "read_only_A40_comparison": {
+      "job": "1601959.stdct-mgmt-02",
+      "checkpoint": "d7949c75ecc33253bea605a3aed738df4ecdc473d8737848a1bca787ab253c18",
+      "ordinary_receipt_sha256": "82244c6aee71c30404d4b7c127eafc7839447f8ab054270aa14af502dd08e8b2",
+      "restore_receipt_sha256": "7629739c63feb60f02aaf79c72bfc90f9400a04c25d3f1586285de4cc10cecdc",
+      "rows": 16,
+      "comparison_role": "context only; independent formal evaluator",
+      "new_generations": 0
+    },
+    "rows": [
+      {
+        "ordinal": 0,
+        "noise_id": 493863079,
+        "index": 21,
+        "input_sha256": "d7d95f83f3475678f0fea4f1dab36e8ba70d64d133d89ee1ac6ddb614838ea14",
+        "original_guard_sha256": "e96346aa44d86fc435d575c4f999798b3eb13e4917ec5565c1cc9e906dc0f024",
+        "normalized_sha256": {
+          "H200": "463f0d7fa9381ce7deb963e0ed3348e33e52d16fa60b8167c74c470f7046960c",
+          "RTX4080S": "487cff5eeedf2fb843634f68f364931028a05307c1c89b2ad42507e2f2c56410",
+          "A40": "4d61e9187d842e5889b6d106ba9ab800754b9a7cfbce63b42e6d1e34683ec361"
+        },
+        "decoded_sha256": {
+          "H200": "65f992f3ce01931546c93b1741349622b2c9c4039d341b803ddbfcade2190c34",
+          "RTX4080S": "cbb1bc3d4d048894161fe12c9a26b120b869ce8c39130f5cb4f0413318742dab",
+          "A40": "fe46b58bca77e5fc6b58a394c90663d19cf550f8a72f32139834b13bc2f80a4b"
+        }
+      },
+      {
+        "ordinal": 7,
+        "noise_id": 2560098613,
+        "index": 1536,
+        "input_sha256": "db43de5ac2af12cc4f6a8e169c876b32aaa8e172663fa763518947b3c6680420",
+        "original_guard_sha256": "e96346aa44d86fc435d575c4f999798b3eb13e4917ec5565c1cc9e906dc0f024",
+        "normalized_sha256": {
+          "H200": "9f64e1fc0f73eb239c68cdcc7f2808d9d9c11929b875155e06e4e19ef31e2e1b",
+          "RTX4080S": "26d79d07b31771cf5a7966790fea82dff03b66c478ac5725e4ba5365b2aabf7f",
+          "A40": "e1f0e537c2a4ccf9465b7470c9c7695a37692861cc074424005fc0c5c0a71974"
+        },
+        "decoded_sha256": {
+          "H200": "01e4dd1c76ee555d0eb23b076bb579eb161eb7b277cec70af5b367c4218bd6db",
+          "RTX4080S": "8a65acecca8a196cc1295845e5b373658c7637526158365a31a70e9db7c0e6b7",
+          "A40": "328fa5b473ee628703465d171fe3b1b3ee572564340b04959c78fcee5abe1668"
+        }
+      },
+      {
+        "ordinal": 14,
+        "noise_id": 2092860847,
+        "index": 526,
+        "input_sha256": "d10dae6e7e59451cbb9f25bec6e58679f6ceea082a98bba579953bb95afa6ae3",
+        "original_guard_sha256": "e96346aa44d86fc435d575c4f999798b3eb13e4917ec5565c1cc9e906dc0f024",
+        "normalized_sha256": {
+          "H200": "867ca53e810c601f9dc3e6ace89b887c9134b37352e6af774ba43846b9b150fd",
+          "RTX4080S": "70eaa9e0df0f0545f17604fff64c84e6a342c1fba428c586d46216a1fd96d658",
+          "A40": "a498aa66e405971c63f2427a7a2155dc8808cf889dba345dc15db2b994c5bb36"
+        },
+        "decoded_sha256": {
+          "H200": "e5b5e84840134e3a6a6af4159d9d4cff9bafb595fc7490e79101553e7df9ef9d",
+          "RTX4080S": "532e9d517d74f2f5477c7ced5a217dfc95507f543da80a81dc71f130355924ba",
+          "A40": "d0ec1da4993bdf6dc35056bcb719b43da9e510855abc55235a510c5fd86f2b78"
+        }
+      },
+      {
+        "ordinal": 21,
+        "noise_id": 2266722042,
+        "index": 1756,
+        "input_sha256": "7767509143a21a25c6bdb36898b0b9ec4cd3950370fa2f3b283bd98bf7592506",
+        "original_guard_sha256": "e96346aa44d86fc435d575c4f999798b3eb13e4917ec5565c1cc9e906dc0f024",
+        "normalized_sha256": {
+          "H200": "062f3687ad3878563fec50ed968f309ad877b21e31f1e6098ea9b4f6c81bdc80",
+          "RTX4080S": "f2d86590ff64b1717ea3fe0bb9924363b9017a74bba214f69715e4741990194d",
+          "A40": "fd698999752fc7435ec9fbb41efb3847dc79f60fba63680f5f66f3a3e456fb6e"
+        },
+        "decoded_sha256": {
+          "H200": "b133a396397da23c0191e7d4269be4de96ede330337c9cc76d5126ba52a3f8a9",
+          "RTX4080S": "eede19cec64622d2cc51468eb1bf23cacfe61a8b22b04b8bc54ee84a1e12e50c",
+          "A40": "7b6d8d3832cf50cb1e679dfb3d87a5d1f26065e5e35906aad2ebcf052a9a8619"
+        }
+      },
+      {
+        "ordinal": 28,
+        "noise_id": 1676717458,
+        "index": 963,
+        "input_sha256": "5347640b2fe8fc56acb98fa60cd7bc9a091541d9f48b250da229def00666d703",
+        "original_guard_sha256": "e96346aa44d86fc435d575c4f999798b3eb13e4917ec5565c1cc9e906dc0f024",
+        "normalized_sha256": {
+          "H200": "f89f5b6eb372cd61ed03a7fb140fe5e0e41dba46894c0ac4e523d25329a0d065",
+          "RTX4080S": "83d120d34133f67252a0dad7d9daa9a6b2f9e7ed153a8bd673469bc60c4adc2f",
+          "A40": "97275b1c19d13dd3cc01e8bbdc7d64160f149cb8a8dd39556cea5acb61f9f63e"
+        },
+        "decoded_sha256": {
+          "H200": "a04686d3752cfded503e78af29a63952867f82cf3b57658648b5911df3fbfdc3",
+          "RTX4080S": "66e72329658f2a126021d81cf57427bded08198ed5ea8aaacdf205d53e3c9234",
+          "A40": "df485aee779f4b66622f989473629282e7010e740b4a33a33062a9ab8d880b96"
+        }
+      },
+      {
+        "ordinal": 35,
+        "noise_id": 2872737140,
+        "index": 1452,
+        "input_sha256": "efcb8828779e0d80bcb090bd5dfbef9775cf8d99721a687b92bed0e40d3c99ae",
+        "original_guard_sha256": "e96346aa44d86fc435d575c4f999798b3eb13e4917ec5565c1cc9e906dc0f024",
+        "normalized_sha256": {
+          "H200": "c0a064712d12a9dd48b851982c96f74bd034008293a5a6243588648fdab565f2",
+          "RTX4080S": "bb6016aa25bb9e5c6815ebcdeec28d824f69490e72d0e7f0bb4e03cc3ab03b32",
+          "A40": "ca58f5fd46cb7f812469457d6a9a6c7a6d918f7a3c80a35f98761924158d48f8"
+        },
+        "decoded_sha256": {
+          "H200": "3485b8f7111ba5ef034a4485bc4f2884f7832fe4bc5c1b29cb26eff42555ae3e",
+          "RTX4080S": "9c29c4950ddbd3555bc7f78652baae5e4172cbe72983e5299b558847c5ec4397",
+          "A40": "397536a3be9bde4227ac2b6be5ff5c75fd627f33a8ccdc2bd8ce2edd88988cbb"
+        }
+      },
+      {
+        "ordinal": 36,
+        "noise_id": 4272238264,
+        "index": 1279,
+        "input_sha256": "2da488ae6cf8ed461f9e0d37504d64de4a74f71595fe72555de244b2964d2214",
+        "original_guard_sha256": "e96346aa44d86fc435d575c4f999798b3eb13e4917ec5565c1cc9e906dc0f024",
+        "normalized_sha256": {
+          "H200": "0c155bde7f01d12809ddecf729c8d7dc8c89bd00f26cf2159b773f75e1f261ba",
+          "RTX4080S": "91b16918f4ac97d2cff3cee1ffdd00b6997280fc28dd18ad29c642fe78b538b9",
+          "A40": "5e6524aaf1e429e33a4f9a44f63106c713701a44bd38b7e887911ffcb7c0a1c0"
+        },
+        "decoded_sha256": {
+          "H200": "f9a953a3506eced33171bf8fca6b01d43bcf98e5894287283fa23eaa9863eb33",
+          "RTX4080S": "18a1d1f353ef689035df4c2110c3a27879c2129ff39d768d82515b7c5e4e8321",
+          "A40": "6eafc07a31576b627fc95804c06a432d077a970d8ed82a4210c3734038f7f416"
+        }
+      },
+      {
+        "ordinal": 43,
+        "noise_id": 410292612,
+        "index": 1485,
+        "input_sha256": "cdfb4e753aefd5c222c0bff776af9899fb1e85b56ee338950634846a269f8e31",
+        "original_guard_sha256": "e96346aa44d86fc435d575c4f999798b3eb13e4917ec5565c1cc9e906dc0f024",
+        "normalized_sha256": {
+          "H200": "dd2123c1a063c1fc370e89661a5b3b219b84facf2fba338776e84a012e87f595",
+          "RTX4080S": "c0569725ef97cc7e4d93fdc154db5092766c000128722b080a4e105de98ae9e0",
+          "A40": "8b65888fd844bf2265e57d7da0519f15eab3d23153e5c49cb1e997c1726b9885"
+        },
+        "decoded_sha256": {
+          "H200": "d4abe484e6847c7988e78662a539fbef8dc08dc912a3a9004daecb8636183630",
+          "RTX4080S": "38e1629d2dc992d36be03c08ac06742b6cb4bea04d5094f1b957b3e3865ef0f3",
+          "A40": "fbb096171adc76acc3af02da4ed8c42033bdf3e0315f7f635ed15d271f6f3ccf"
+        }
+      },
+      {
+        "ordinal": 50,
+        "noise_id": 4026284442,
+        "index": 382,
+        "input_sha256": "48c8e277f4e39fb4101f1a86f967dbb9c5d9cd606787e17178371811cb130d71",
+        "original_guard_sha256": "e96346aa44d86fc435d575c4f999798b3eb13e4917ec5565c1cc9e906dc0f024",
+        "normalized_sha256": {
+          "H200": "a51d594d04b7cb7f5fe786910ee5478e8ad38ffff976c3bb0b88fee522e46624",
+          "RTX4080S": "349bb55a4bb3a19415648e58ada18194bdae7c7adc8d9fb6bb1cb419510b1ecc",
+          "A40": "949ea80ffe796e29b1b59cb6b13370632185681ce185164d874fa780f2a91ddc"
+        },
+        "decoded_sha256": {
+          "H200": "dfd5c0bcbaba9fa9fcc7f516b082dd0e3ae3adfe20dafa61bce91c6f5ab02848",
+          "RTX4080S": "213e796e4db1cf75328a787713f9b0a98a31f98efda3890e8daa8086296b299e",
+          "A40": "cc32cb10df5be1e5307ac21aee79a890dbe3a6db68cb215004a7f797561faedb"
+        }
+      },
+      {
+        "ordinal": 57,
+        "noise_id": 1101217157,
+        "index": 1771,
+        "input_sha256": "d5fa95dc3fdd2be06ba8fd7205dd2f993b11b47cc90da1b12e9d2178c873887b",
+        "original_guard_sha256": "e96346aa44d86fc435d575c4f999798b3eb13e4917ec5565c1cc9e906dc0f024",
+        "normalized_sha256": {
+          "H200": "6a3ce58e5379dd68ab7e97ab147f18004964baa61cf53e27d8e2540d2a564b97",
+          "RTX4080S": "42c91f6e1d794e2e252f1b37dd9cf9b0c0a490fb2500b72f41e80d4515297965",
+          "A40": "8f2cccc44da0e73a960bb8f12d7b3c9c12cad81faa3a2b512176b4a0cd229020"
+        },
+        "decoded_sha256": {
+          "H200": "7d7837e449bdd1653818af3d72e1b62ddceaf378dc907a192c5f38a340d5fef7",
+          "RTX4080S": "df7db54f8a882d46bb21f42b01fe9ac9f7afdcc9ef82b2822fe6b99e9271195c",
+          "A40": "6826d90692a57c993599a573341fd6abe8e46730be70ba603dc407fe6875b0b3"
+        }
+      },
+      {
+        "ordinal": 64,
+        "noise_id": 1109925350,
+        "index": 836,
+        "input_sha256": "52f1ef561748b03ef340d7cfeff0ba4f68fde82eae8468f502563112aceefce7",
+        "original_guard_sha256": "e96346aa44d86fc435d575c4f999798b3eb13e4917ec5565c1cc9e906dc0f024",
+        "normalized_sha256": {
+          "H200": "bfbf671c25f6f2a53f993a5aade867653e656cc1709a5dcb9311bfbe730521a7",
+          "RTX4080S": "a1acfdc0a6473e70cff381cd110e6ea989e26615f310a77d826ca2a73c28ec26",
+          "A40": "b34e17e2c51cecac0bf766ec220781fd995d95a03b81110e200cf60236e22efc"
+        },
+        "decoded_sha256": {
+          "H200": "bb77290e72918489b61eca645165ccfb069b3dce97b5f707d52d98b4649c7daa",
+          "RTX4080S": "f2be97f59d3b7c365fc8f28665b2d534707f8681477af829a491a9183243b8e0",
+          "A40": "d4aaffa5905f58867bbd7e75c64df4ec472c32a34f17da161bdec5fca6ae8ef1"
+        }
+      },
+      {
+        "ordinal": 71,
+        "noise_id": 986385252,
+        "index": 1605,
+        "input_sha256": "447e7c826264a8afca5bce15f6867d7609f245320d33122d84e02368e2272481",
+        "original_guard_sha256": "e96346aa44d86fc435d575c4f999798b3eb13e4917ec5565c1cc9e906dc0f024",
+        "normalized_sha256": {
+          "H200": "76059790f4acf99ce5f134e8ec0b6ffbb22ff28c268f46c8717f9ada88950ad5",
+          "RTX4080S": "43e7cbbbc571eb878615893483d58abc06734ad3ea01416f0f93c47df1eb3c0d",
+          "A40": "931d71c630926efe4be5ff10b59e811647d653f2c98fe03589b7aa4a33cb0e8d"
+        },
+        "decoded_sha256": {
+          "H200": "2e5c5de0f30f770001662a66e2cdaaa9ff6dd340156eaee9f562f8783e67497b",
+          "RTX4080S": "49630d936a21c7a070d21b762ed20b94afc9b3aba4f48ec480b5db7469cd79e2",
+          "A40": "5b7fd9148277da5346501763f268c13f99426cf76badd128a2c3573cdee7d69b"
+        }
+      },
+      {
+        "ordinal": 72,
+        "noise_id": 3492713690,
+        "index": 1113,
+        "input_sha256": "2ad9a106a48a388c1ccce72d793c600665374053cdc6227057f5f909348ba642",
+        "original_guard_sha256": "e96346aa44d86fc435d575c4f999798b3eb13e4917ec5565c1cc9e906dc0f024",
+        "normalized_sha256": {
+          "H200": "c3ca9f1b7ea137f0b14245e216f916be74a9ec46dc4b10e6a3637657edea1f80",
+          "RTX4080S": "42bd60cd2bb894879ea43a670b86044a4d0eea4bc61b49b501b609848ea1e40b",
+          "A40": "3694b8981994797d5daa13463c78615394f92cb4496ce45970f3c6082b6e3fa5"
+        },
+        "decoded_sha256": {
+          "H200": "041ec4d1c13eb8bc6c4659b5845be4b6b72d47c57cc286f980b48b9f22632752",
+          "RTX4080S": "efc371abfbafb4da00da1eed4c0532612383b01b302f4fa3c22ed949785e3a64",
+          "A40": "adcd30d2d9cca80da4d6cf54059848fdc998231e20a00ab0a12ecf5723ad10f8"
+        }
+      },
+      {
+        "ordinal": 79,
+        "noise_id": 4067229032,
+        "index": 1589,
+        "input_sha256": "724cc80c05380aa08c21add68cf5fff9410f3a3d0321841ff91b5d3563e8a421",
+        "original_guard_sha256": "e96346aa44d86fc435d575c4f999798b3eb13e4917ec5565c1cc9e906dc0f024",
+        "normalized_sha256": {
+          "H200": "36bb447b7cebd52c307f2b59c59df35e1447e1a8ef2a21767917c87bc4275c88",
+          "RTX4080S": "7480edb64d9cfd6c27b5f0ff5c8c415df1a77a702c49f16c5eab1fc4892ac29c",
+          "A40": "c699f6285a64a51354a65195e39b394442ab37aa742d93fb71eaa52919535c44"
+        },
+        "decoded_sha256": {
+          "H200": "1026c742311a8c3b383e1b34c643bcd2dba53e4c9fbdf9dccefab23d2b870f9f",
+          "RTX4080S": "7a927744f23e06408e39b0e047e439e981852584735dfd646c5ec672495c35ca",
+          "A40": "977eab9450d42e2e6b9e00ad3760f364b1bc9676fc70401618b9ab69a8449f99"
+        }
+      },
+      {
+        "ordinal": 86,
+        "noise_id": 2064560126,
+        "index": 223,
+        "input_sha256": "a74b2ece01f5dd549749abf2afad4433387470a03426e5116e9a2bb662f5c140",
+        "original_guard_sha256": "e96346aa44d86fc435d575c4f999798b3eb13e4917ec5565c1cc9e906dc0f024",
+        "normalized_sha256": {
+          "H200": "0cd8f1f0e586ce910a18b9ee2d0f340103a9ea1d9b77e39e744929a2858f051b",
+          "RTX4080S": "e266986867f9848e080457d3a942dfe0db3b83516c00a43351da76f6c492434c",
+          "A40": "3818b9a9d191a9c3a7463faee2997d5f5bd107a83613a7484a13b0d00cb668c4"
+        },
+        "decoded_sha256": {
+          "H200": "0df10c058b417e5183400f278c8d61573ad6b577b9cec43bca29261965fe6dc0",
+          "RTX4080S": "c239a2d7df970b7b98a9dbea83d05d8274d0f0f5babd2f2e41b3cd88cee9d227",
+          "A40": "91a13ec62d6c9e557eb115b25673c89e6ccd3ab39c3117b39c738c0fa0b78716"
+        }
+      },
+      {
+        "ordinal": 93,
+        "noise_id": 3848587031,
+        "index": 1670,
+        "input_sha256": "05326f9a28d2c8f30d72157972accb6f718f82401e6d96bb6982945fa0ceacd3",
+        "original_guard_sha256": "e96346aa44d86fc435d575c4f999798b3eb13e4917ec5565c1cc9e906dc0f024",
+        "normalized_sha256": {
+          "H200": "7fa901d332da48dfdfd10e9f6381e77cb10887bc0ed659c83c718d41ca5bd869",
+          "RTX4080S": "2b74ab1f421aab64a58e455c5936fcd46708760da729ebfd150b13dea223c745",
+          "A40": "e5943a5674b10e60c2c050fef429683253e0d3023066be0396b023cc472e4dae"
+        },
+        "decoded_sha256": {
+          "H200": "53fcb774c31e0820bf94ed4ff60115396af3fbe3e1715c43b90f683515275708",
+          "RTX4080S": "56e81b37600beebd2b9594b8254e565dbb813b8066d93672e08dcac2ad89ceb4",
+          "A40": "4e7a7557b8f7675a2638f60201537352ce4689567014ecb12243835f65c4aed1"
+        }
+      }
+    ]
+  },
+  "native_owner": {
+    "service": "wm02-sla-core-hopper-v1-native-students-20261121-01.service",
+    "unit": {
+      "MainPID": "2007686",
+      "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-hopper-v1-native-students-20261121-01.service",
+      "ActiveState": "active",
+      "SubState": "running",
+      "InvocationID": "fbe8284ff0af418a96e0b2f6b1d81a85"
+    },
+    "cfg_sha": "5ac09397a3ef298e04582bac62c36bcb45277f48b6922740a6cf0360121c623c",
+    "source": "b51fa2c102ee9c146b17bae29905db917f475eb2",
+    "manifest_sha": "9c0db9656318082ceb90ed31695d658dcb9bd26f752b55d621bde6932d2cfa48",
+    "archive_sha": "20bf1f2bea864f46da1c14a9c911dd42a5277376217989a5e6332e93d66b03f6",
+    "heartbeat": {
+      "status": "WAIT_QUALIFIED_ENDPOINT_OR_NEXT_SEAL",
+      "pid": 2007686,
+      "epoch": 1795254514.845538
+    },
+    "blocks": 0,
+    "stop_path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-hopper-v1-native-students-20261121-01/STOP"
+  },
+  "experts": {
+    "at": "2026-11-21T17:50:14.516443+08:00",
+    "summary": {
+      "TRAIN": {
+        "closed": 24,
+        "requests": 24,
+        "ticks": 697016,
+        "grasp": 15,
+        "lift": 15,
+        "success": 7,
+        "admitted": 7,
+        "failure_or_success": {
+          "TASK_SUCCESS": 7,
+          "ILLEGAL_CONTACT": 15,
+          "TASK_BUDGET_EXHAUSTED_IN_CARRY": 2
+        },
+        "hard_STOP": 15,
+        "post_STOP_ticks": 0
+      },
+      "VAL": {
+        "closed": 19,
+        "requests": 19,
+        "ticks": 537272,
+        "grasp": 11,
+        "lift": 11,
+        "success": 5,
+        "admitted": 5,
+        "failure_or_success": {
+          "TASK_SUCCESS": 5,
+          "ILLEGAL_CONTACT": 13,
+          "TASK_BUDGET_EXHAUSTED_IN_CARRY": 1
+        },
+        "hard_STOP": 13,
+        "post_STOP_ticks": 0
+      }
+    },
+    "active": [
+      {
+        "condition": "CHV1-VAL-F2-HOLD-blue-01",
+        "last_score_tick": 17203,
+        "grasp": false,
+        "lift20": false
+      }
+    ],
+    "snapshot": {
+      "pid": 1775736,
+      "epoch": 1795254591.5936363,
+      "admitted": 7,
+      "published": 4,
+      "next_six_hour_epoch": 1795263111.3774765,
+      "terminal": false
+    },
+    "units": {
+      "wm02-sla-core-hopper-v1-expert-chain-20261121-02.service": {
+        "MainPID": "1746282",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-hopper-v1-expert-chain-20261121-02.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "InvocationID": "a9ea6c147a90458885362b8204a56407"
+      },
+      "wm02-sla-core-hopper-v1-train-snapshots-20261121-01.service": {
+        "MainPID": "1775736",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-hopper-v1-train-snapshots-20261121-01.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "InvocationID": "bb853c71c6724d808c751f1ede27f2de"
+      }
+    }
+  },
+  "next": [
+    "Hold MAIN phase 0 native evaluation and preserve its original failure",
+    "Keep MAIN segment, expert collection and frozen independent evaluation on existing owners",
+    "Freeze Core VAL on the registered event and continue the next due endpoint at phase 2000",
+    "Private Core TRAIN snapshot requires authorized cross-site ingress to become READY on Hopper"
+  ]
+}
