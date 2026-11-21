@@ -1,3 +1,15 @@
+# 当前任务优先入口 · SLA Core/Hopper 并行 V1 · 2026-11-21
+
+用户要求制定可无人值守的 Corelab 本体数据采集与 Hopper H200 高效率多源后训练计划，供现场 Codex 按启动指令实际执行；VANDA↔Hopper 可直传。首先读 [SLA_CORE_HOPPER_NEXT_START.md](SLA_CORE_HOPPER_NEXT_START.md)、[新计划](docs/protocols/SLA_CORE_HOPPER_PARALLEL_V1_20261121.md) 和其 JSON。新的 HOPPER-ADAPT20K-V1 从精确已封存 ADAPT2K＋D2 启动，不等旧 A40／Core 训练、旧 Eval、HOLD4 或新增数据。Core 单 world 逐条采集准入；固定边界有新快照就接入，没有就继续。
+
+本次提交是计划发布，服务器新作业实绩仍为0。具备现场连接的执行 Codex 应在真实资源与 owner 范围内自主修复用户空间入口、恢复和 PBS 接续并实际挂载，不因本文档下方历史“本轮不启动 Hopper／新大GPU”条款再次询问 GO。该最新用户任务覆盖旧任务的未来优先级；不伪造站点 grant、不改活动 capsule、不抢占未知资源、不迁移旧预算或重写失败。
+
+遵守新 Goal 的14天、H200320GPU小时、完整更新／访问／生成／原生人口上限；以真实现场更早限制为准。WBC、腿、动力学、原H40／接缝／STOP／评分和旧TEST保持。新训练入口必须版本化，旧29数组推理包不可恢复140数组训练状态。只发布代码与脱敏结果，不公开原始私有数据、凭据或模型。使用现有Journal／onceIO、PBS和owner，不新建大型调度框架。
+
+以下是保留的历史任务入口，仅在不与上述新任务冲突处适用。
+
+---
+
 # GR00T + WBC agent entry · native camera / public ARX5 pilot
 
 ## Latest bounded first-round mandate · 2026-11-11
@@ -64,3 +76,4 @@ Verify actual local Core code/environment/libraries/model/data/cache/control/log
 Log minimal run identity, scientific inputs, actual effects, terminal score and usage. Keep negative results and required provenance; no blanket multi-layer receipt expansion. Issue #11 is science; #47 operations. Report real updates/endpoints, valid model conditions/successes, qualified full demos/all generation attempts and first failure mechanisms. Check counts or merged PRs are not capability claims. Keep root entry concise.
 
 No subagent, paused automation, server experiment or Codex session is automatically started by this file. Authority is for the existing executing agent in its actual permitted environment. Earlier AGENTS text is retained in Git at `fad5d0296084a656fb970b02b025c7b13af849af`; V7 changes workflow priorities, not historical facts or infrastructure permissions.
+

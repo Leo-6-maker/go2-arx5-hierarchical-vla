@@ -1,3 +1,18 @@
+# 当前入口 · Corelab 采集 × Hopper H200 · 2026-11-21
+
+最新用户任务：采集和高效多源训练并行，不等A40或Corelab旧训练；VANDA与Hopper直接交接封存数据。**当前提交完成计划发布，尚未提交新的现场作业。**
+
+1. [一页启动入口](SLA_CORE_HOPPER_NEXT_START.md)。
+2. [完整协议](docs/protocols/SLA_CORE_HOPPER_PARALLEL_V1_20261121.md)、[机器计划](docs/protocols/SLA_CORE_HOPPER_PARALLEL_V1_20261121.json)、[固定逻辑人口](docs/protocols/SLA_CORE_HOPPER_PARALLEL_V1_POPULATIONS_20261121.json)。
+3. [Codex启动指令](docs/handover/2026-11-21/START_SLA_CORE_HOPPER_PARALLEL_V1.md)。
+4. [审计依据与尚待现场补齐的内容](reports/WM02/sla-core-hopper-parallel-20261121/AUDIT_AND_PLAN.md)。
+
+从精确ADAPT2K父状态与现有D2开H200新20K谱系；Core最多240条TRAIN尝试，逐条准入并固定边界接入；健康训练不等Eval成绩。新范围覆盖下方历史未来工作优先级，保留旧事实与安全／权限。执行源SHA与计划SHA分列，不把main文档发布当作H200执行实现已合入。
+
+---
+
+## 保留的历史入口
+
 # 当前入口 · 2026-11-11
 
 ## 先读什么
@@ -26,3 +41,4 @@
 - [V2 文档 PR #372](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/pull/372)；[V3/V3.1 文档 PR #373](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/pull/373)
 
 上述历史用于追溯，不应被当作当前机器状态或本轮已取得的实验结果。
+
