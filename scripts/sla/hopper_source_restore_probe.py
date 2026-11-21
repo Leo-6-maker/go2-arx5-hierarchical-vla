@@ -9,8 +9,7 @@ from scripts.sla.hopper_cold_restore import restore
 from scripts.sla.hopper_parent_custody import PLAN, write_once
 
 
-def run(root):
-    cfg=json.loads((root/'MOUNT.private.json').read_bytes())
+def cpu_allocation(root, cfg):
     job=os.environ.get('PBS_JOBID')
     if job!=cfg['job'] or cfg['plan']!=PLAN or time.time()>=cfg['deadline_epoch'] or (root/'STOP').exists():
         raise PermissionError('Wrong CPU allocation')
@@ -22,6 +21,12 @@ def run(root):
     import jax
     if jax.default_backend()!='cpu' or len(jax.devices())!=1:
         raise PermissionError('Unexpected compute backend')
+    return job,active
+
+
+def run(root):
+    cfg=json.loads((root/'MOUNT.private.json').read_bytes())
+    job,active=cpu_allocation(root,cfg)
     start=time.monotonic()
     restored=restore(root/'inputs',cfg['bank_sha256'],check_device_arrays=True)
     readback=restored[-1]

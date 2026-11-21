@@ -28,6 +28,7 @@ def build(revision, entries, output):
     if git('rev-parse',revision).decode().strip() != revision:
         raise ValueError('Use a full immutable source revision')
     origins = dict.fromkeys(files(BASE),BASE)
+    origins['scripts/sla/freeze_adapt5k_performance_panel.py'] = PERFORMANCE
     origins[KERNEL] = PERFORMANCE
     origins[SERIAL] = BASE
     new = {p for p in files(revision) if p.startswith('scripts/sla/hopper_')}

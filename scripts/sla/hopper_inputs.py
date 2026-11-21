@@ -22,18 +22,20 @@ COUNTS = dict(target=2031, robodojo=210398, libero=209146)
 BATCH = adapt5k_contract.BATCH
 
 
-def locations(spec, base):
-    """Remap working paths only. Archived Core pin names are portable-map lookup keys."""
-    def relocate(value):
-        if isinstance(value, dict):
-            return {k:relocate(v) for k,v in value.items()}
-        if isinstance(value, list):
-            return [relocate(v) for v in value]
-        if isinstance(value, str) and Path(value).is_relative_to(BASE):
-            return str(base / Path(value).relative_to(BASE))
-        return value
+def relocate(value, base):
+    """Move archived VANDA paths to an immutable local mount; preserve lookup keys."""
+    if isinstance(value, dict):
+        return {k: relocate(v, base) for k, v in value.items()}
+    if isinstance(value, list):
+        return [relocate(v, base) for v in value]
+    if isinstance(value, str) and Path(value).is_relative_to(BASE):
+        return str(base / Path(value).relative_to(BASE))
+    return value
 
-    return {key:relocate(spec[key]) for key in ('data','train_data_proof','parent_manifest','tokenizer','parent_params')}
+
+def locations(spec, base):
+    return {key: relocate(spec[key], base) for key in
+            ('data', 'train_data_proof', 'parent_manifest', 'tokenizer', 'parent_params')}
 
 
 def inputs(base):
