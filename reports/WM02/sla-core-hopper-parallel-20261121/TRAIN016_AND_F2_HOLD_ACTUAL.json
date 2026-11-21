@@ -1,0 +1,516 @@
+{
+  "plan": "171b5bedb290258954aac140157743e92e3b152e",
+  "as_of_SGT": "2026-11-21T19:48:57.625253+08:00",
+  "public_train_readback": {
+    "revision": "1511e5bd0db23159551f9e0f0b70317512121ac6",
+    "anonymous": true,
+    "files": 110,
+    "content_files": 107,
+    "count": 16,
+    "windows": 1317,
+    "seal": "ab60d9da64e63812528ae1df6c1fdf82c470559676753da6d2ed1008b125db2d",
+    "index_member_sha256": "f354c274c8261e76f858a10e329cf0cc42af0e339da944a8480d18cfa54d6988"
+  },
+  "core": {
+    "at": "2026-11-21T19:41:45.716967+08:00",
+    "count": 16,
+    "windows": 1317,
+    "seal": "ab60d9da64e63812528ae1df6c1fdf82c470559676753da6d2ed1008b125db2d",
+    "manifest": "cac0aa5b65c61e64c546df108d5711ea34b8468ec2598bb967138412e21ce96d",
+    "admission": "8fa35518c0a6b530aaa429b4e5da85db8202de6b5c835026ba96df69b8190bf0",
+    "prior": "04b0e4bbe182d438b06940caacc91a24bcd280e8205aff54f9efdbfc3bcb9a27",
+    "prefix12": true,
+    "confirmed": 13170,
+    "supervised_capacity": 52680,
+    "episodes_by_instruction": {
+      "HOLD-blue": 7,
+      "HOLD-red": 5,
+      "PLACE-red-right": 4
+    },
+    "windows_by_instruction": {
+      "HOLD-blue": 498,
+      "HOLD-red": 341,
+      "PLACE-red-right": 478
+    },
+    "physical_scenes": 9,
+    "additions": [
+      {
+        "id": "CHV1-TRAIN-F1-HOLD-red-03",
+        "task": "HOLD-red",
+        "windows": 67,
+        "result": "32eb44978c6c3bb19f79f1e0f7c2eda9b382d76eae4a7f04788fe12646796183"
+      },
+      {
+        "id": "CHV1-TRAIN-F2-HOLD-blue-03",
+        "task": "HOLD-blue",
+        "windows": 67,
+        "result": "b25999a7f6372a6313f89ce74d61f4871c6891b2b3fc097a68f988834f705cb5"
+      },
+      {
+        "id": "CHV1-TRAIN-F1-PLACE-red-right-03",
+        "task": "PLACE-red-right",
+        "windows": 116,
+        "result": "b89d9aafedcade38564f7b1944a115c4a8f5524d3c1f2d4182d4a7b9d7f11d5d"
+      },
+      {
+        "id": "CHV1-TRAIN-F1-HOLD-red-04",
+        "task": "HOLD-red",
+        "windows": 73,
+        "result": "bdcea624024a1da5912264998f8f6ea92f6e86fc6539e6528834e5a43c4f1c17"
+      }
+    ],
+    "bytes": 525714891,
+    "files": 110,
+    "producer": "89f058d5cd3a69cae8f68eb6a63f63a040f20151d07daf0d88e6a0ec5c3f8ffe"
+  },
+  "label_masks": {
+    "files": 16,
+    "windows": 1317,
+    "supervised": 52680,
+    "consumed": 13170,
+    "suffix_consumed": 0
+  },
+  "core_vanda": [
+    {
+      "at": "2026-11-21T19:45:52.166222+08:00",
+      "service": {
+        "MainPID": "2112058",
+        "Result": "success",
+        "SubState": "running"
+      },
+      "last": {
+        "bytes": 525714891,
+        "count": 16,
+        "files": 110,
+        "key": "TRAIN-016",
+        "repository": "leoyuer/sla-core-hopper-train-v1",
+        "revision": "1511e5bd0db23159551f9e0f0b70317512121ac6",
+        "seal": "ab60d9da64e63812528ae1df6c1fdf82c470559676753da6d2ed1008b125db2d",
+        "windows": 1317
+      }
+    },
+    {
+      "at": "2026-11-21T19:45:52.422592+08:00",
+      "job": "1602334.stdct-mgmt-02",
+      "project": "CFP04-CF-007",
+      "state": "R",
+      "transfer": {
+        "count": 16,
+        "windows": 1317,
+        "seal_sha256": "ab60d9da64e63812528ae1df6c1fdf82c470559676753da6d2ed1008b125db2d",
+        "bytes": 525714891
+      },
+      "last": {
+        "bytes": 525714891,
+        "count": 16,
+        "files": 110,
+        "key": "TRAIN-016",
+        "repository": "leoyuer/sla-core-hopper-train-v1",
+        "revision": "1511e5bd0db23159551f9e0f0b70317512121ac6",
+        "seal": "ab60d9da64e63812528ae1df6c1fdf82c470559676753da6d2ed1008b125db2d",
+        "status": "VANDA_INBOX_VERIFIED",
+        "windows": 1317
+      }
+    }
+  ],
+  "hopper_ready": {
+    "at": "2026-11-21T19:45:41.258059+08:00",
+    "files": 110,
+    "bytes": 525714891,
+    "membership": "f354c274c8261e76f858a10e329cf0cc42af0e339da944a8480d18cfa54d6988",
+    "seal": "ab60d9da64e63812528ae1df6c1fdf82c470559676753da6d2ed1008b125db2d",
+    "manifest": "cac0aa5b65c61e64c546df108d5711ea34b8468ec2598bb967138412e21ce96d",
+    "windows": 1317,
+    "count": 16,
+    "ready_seals": [
+      "TRAIN-004",
+      "TRAIN-008",
+      "TRAIN-012",
+      "TRAIN-016"
+    ]
+  },
+  "site_state": {
+    "time": "2026-11-21T19:48:57.625253+08:00",
+    "main": {
+      "job": "727394.hopper-m-02",
+      "committed": 605,
+      "visits": {
+        "target": 38720,
+        "robodojo": 19360,
+        "libero": 19360
+      },
+      "full_H40": 2420,
+      "actual_by_job": {
+        "727341.hopper-m-02": 100,
+        "727394.hopper-m-02": 505
+      }
+    },
+    "sealed": {
+      "phase": 600,
+      "sha256": "2f4243e04078e2f2c8983d1f8f486fae6efcb6b13a4492c082b8834c17d69376",
+      "event": "53867bc7638f71d1b97e553d6b6ce0ca8376b32aab10985a55ab9b651b3e4892",
+      "arrays": 140,
+      "cursors": {
+        "phase_step": 600,
+        "lineage_updates": 3100,
+        "role_updates": 600,
+        "role_visits": {
+          "target": 38400,
+          "robodojo": 19200,
+          "libero": 19200
+        },
+        "lineage_cursors": {
+          "target": 182400,
+          "robodojo": 107200,
+          "libero": 107200
+        },
+        "target_bank_cursor": 38400,
+        "role_training_full_generations": 2400
+      },
+      "source": "b9581196d0acd02fb748222988e5a5543ce1f232"
+    },
+    "backup": {
+      "phase": 500,
+      "arrays": 140,
+      "checkpoint": "fecd2d02be4e214900e9acea2fb32c9bedf1e5048e1cdc41197893588bfb3330",
+      "bytes": 5547651591,
+      "event_sha256": "1df5aa906e982bf4bf053f097e1c861b2a8b6752850585f48a1cc145103f1fb0"
+    },
+    "backup_job": "1601870.stdct-mgmt-02",
+    "core_at": "2026-11-21T19:48:56.778111+08:00",
+    "original": {
+      "TRAIN": {
+        "started": 37,
+        "terminated": 37,
+        "admitted": 16,
+        "ticks": 1048412
+      },
+      "VAL": {
+        "started": 24,
+        "terminated": 24,
+        "admitted": 8,
+        "ticks": 678919
+      }
+    },
+    "original_score": {
+      "TRAIN": {
+        "closed": 37,
+        "requests": 37,
+        "ticks": 1048412,
+        "grasp": 26,
+        "lift": 26,
+        "success": 16,
+        "admitted": 16,
+        "failure_or_success": {
+          "TASK_SUCCESS": 16,
+          "ILLEGAL_CONTACT": 19,
+          "TASK_BUDGET_EXHAUSTED_IN_CARRY": 2
+        },
+        "hard_STOP": 19,
+        "post_STOP_ticks": 0
+      },
+      "VAL": {
+        "closed": 24,
+        "requests": 24,
+        "ticks": 678919,
+        "grasp": 15,
+        "lift": 15,
+        "success": 8,
+        "admitted": 8,
+        "failure_or_success": {
+          "TASK_SUCCESS": 8,
+          "ILLEGAL_CONTACT": 15,
+          "TASK_BUDGET_EXHAUSTED_IN_CARRY": 1
+        },
+        "hard_STOP": 15,
+        "post_STOP_ticks": 0
+      }
+    },
+    "pilots": [
+      {
+        "condition": "CHV1-TRAIN-F2-PLACE-blue-right-02",
+        "stage": "DISPATCH",
+        "closed": 0,
+        "started": 1,
+        "ticks": 0
+      },
+      {
+        "condition": null,
+        "stage": "CASE_SEALED",
+        "closed": 1,
+        "started": 1,
+        "ticks": 27203
+      }
+    ],
+    "world": [
+      {
+        "role": "sla-core-hopper-v1-expert-chain-20261121-02",
+        "stage": "WAIT_WORLD",
+        "current": "CHV1-TRAIN-F2-HOLD-blue-04",
+        "tick": null
+      },
+      {
+        "role": "sla-core-hopper-v1-blue-right-pilot-20261121-01",
+        "stage": "DISPATCH",
+        "current": "CHV1-TRAIN-F2-PLACE-blue-right-02",
+        "tick": 8703
+      },
+      {
+        "role": "sla-core-hopper-v1-red-hold-pilot-20261121-01",
+        "stage": "CASE_SEALED",
+        "current": null,
+        "tick": null
+      }
+    ],
+    "cpu_pair": {
+      "job": "1602399.stdct-mgmt-02",
+      "state": "Q",
+      "ncpus": 2,
+      "ngpus": 0,
+      "limit": "00:20:00"
+    }
+  },
+  "h200_accounting": {
+    "at": "2026-11-21T19:43:35.523210+08:00",
+    "job": "727394.hopper-m-02",
+    "state": "R",
+    "project": "CFP04-CF-007",
+    "host": "hopper-17",
+    "gpu": 1,
+    "model": "1:ngpus=1:gpu_model=H200:ncpus=12:mem=225GB",
+    "used": "02:03:56",
+    "limit": "06:00:00",
+    "prior_settlements": [
+      {
+        "slot": "001",
+        "group": "engineering",
+        "seconds": 23
+      },
+      {
+        "slot": "002",
+        "group": "engineering",
+        "seconds": 1536
+      },
+      {
+        "slot": "003",
+        "group": "training",
+        "seconds": 1736
+      },
+      {
+        "slot": "004",
+        "group": "reference",
+        "seconds": 108
+      }
+    ]
+  },
+  "main_first_500": {
+    "phase": [
+      1,
+      500
+    ],
+    "readback_epoch": "2026-11-21T19:34:39.383003+08:00",
+    "job_updates": {
+      "727341.hopper-m-02": 100,
+      "727394.hopper-m-02": 400
+    },
+    "rows": 500,
+    "digest_chain_sha256": "b6af35c8b28e572e1dc00ebe092704c6087d799d38eefe7bf1f71a3f755593d8",
+    "checks": {
+      "target": 500,
+      "robodojo": 500,
+      "libero": 500
+    },
+    "optimization_visits": {
+      "target": 32000,
+      "robodojo": 16000,
+      "libero": 16000
+    },
+    "full_H40": 2000,
+    "window": [
+      401,
+      500
+    ],
+    "window_elapsed_s": 1500.2746164798737,
+    "update_p50_s": 14.98021166305989,
+    "update_p95_s": 15.365868357510772,
+    "actual_samples_per_s": 8.531771356655298,
+    "mean_FM_wall_s": {
+      "target": 6.502722729721572,
+      "robodojo": 3.987522282290738,
+      "libero": 3.6267132789152674
+    },
+    "mean_aux_s": 0.8427870856365189,
+    "mean_nested_data_wait_s": {
+      "target": 2.829109407674987,
+      "robodojo": 2.155463089568075,
+      "libero": 1.8252490666299126
+    },
+    "peak_jax_inuse_bytes": 26250018304
+  },
+  "red_hold": {
+    "at": "2026-11-21T19:47:41.127860+08:00",
+    "source": "26d10c56362c7fa6879f10a394ff5b9fcec505e3",
+    "spec_sha": "deaa9a88dc1426a8a74a46a026a7c9f7ee190bca3256ba301ff98c0b1f9920dc",
+    "state": null,
+    "latest_tick": 27203,
+    "score": {
+      "events": {
+        "base80mm": {
+          "native_step": 16340,
+          "native_time_s": 32.679999999993974
+        },
+        "target_grasp": {
+          "native_step": 24024,
+          "native_time_s": 48.048000000012756
+        },
+        "target_lift20mm": {
+          "native_step": 26483,
+          "native_time_s": 52.96600000001877
+        }
+      },
+      "ever_target_grasp": true,
+      "ever_target_lift20mm": true,
+      "maximum_lift_m": 0.025094054783897257,
+      "longest_grasp_lift_hold_s": 1.4400000000017599,
+      "base_directional_motion_m": 0.09363163926704327,
+      "task_success": true,
+      "gripper_open_fraction": 0.4335961170670632
+    },
+    "terminal": {
+      "hard_stops": [],
+      "native_requests": 1,
+      "ticks": 27203,
+      "WBC_changes": false,
+      "optimizer_updates": 0,
+      "model_generations": 0,
+      "sha256": "975ce5c6a3e78a8666312ee407eb301f49bb0d96d9978f6b357600c400c65061"
+    },
+    "closed": {
+      "condition": "CHV1-TRAIN-F2-HOLD-red-02",
+      "first_failure": "TASK_SUCCESS",
+      "requests": 1,
+      "ticks": 27203,
+      "admitted": true,
+      "hard_STOP": false,
+      "post_STOP_ticks": null
+    },
+    "positive": {
+      "sha256": "5db29ebc84fe687aebb8b5bddd4bb0bd216b1e139e94c404a1fb58190030529e",
+      "windows": 86,
+      "confirmed_P10_atoms": 860,
+      "split": "TRAIN"
+    },
+    "runner_terminal": true,
+    "prior_stop_ticks": [
+      19955,
+      20641
+    ],
+    "teacher_change_world_pitch_deg": 20
+  },
+  "paired_native_reset": {
+    "rows": {
+      "CHV1-TRAIN-F2-HOLD-blue-02": {
+        "start": {
+          "startup_file_sha256": "b7de7862af95fd67661d4b1d015a3c4c00d8131d2c217b7cebe931ef469ced64",
+          "initial_state_sha256": "071f6ec0c5624f23ba02caa3affe4a31cdaea5a1ab078405eabfcc43fe304d38",
+          "object_xyz": {
+            "red": [
+              0.3975,
+              0.08950000000000001,
+              0.62
+            ],
+            "blue": [
+              0.30750000000000005,
+              0.08950000000000001,
+              0.62
+            ]
+          }
+        },
+        "source": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+        "windows": 72,
+        "native_ticks": 23703,
+        "result_sha256": "0ceda2d4cf57de1f306e47397ebfe0a75fdf488fe4a23696931b6d763dacbffb",
+        "selected_object": "HOLD-blue",
+        "held_s": 1.1380000000013908,
+        "grasp": true,
+        "lift20": true
+      },
+      "CHV1-TRAIN-F2-HOLD-red-02": {
+        "start": {
+          "startup_file_sha256": "122012e32b33dd2baead03defb8511ff9ec9b3be2f40de0f0aa40b064fd83033",
+          "initial_state_sha256": "071f6ec0c5624f23ba02caa3affe4a31cdaea5a1ab078405eabfcc43fe304d38",
+          "object_xyz": {
+            "red": [
+              0.3975,
+              0.08950000000000001,
+              0.62
+            ],
+            "blue": [
+              0.30750000000000005,
+              0.08950000000000001,
+              0.62
+            ]
+          }
+        },
+        "source": "26d10c56362c7fa6879f10a394ff5b9fcec505e3",
+        "windows": 86,
+        "native_ticks": 27203,
+        "result_sha256": "975ce5c6a3e78a8666312ee407eb301f49bb0d96d9978f6b357600c400c65061",
+        "selected_object": "HOLD-red",
+        "held_s": 1.4400000000017599,
+        "grasp": true,
+        "lift20": true
+      }
+    },
+    "match": true,
+    "same_numerical_scene": true
+  },
+  "physical_counts": {
+    "train_started": 39,
+    "train_closed": 38,
+    "train_grasp": 27,
+    "train_lift20": 27,
+    "train_pass": 17,
+    "train_illegal": 19,
+    "train_carry_timeout": 2,
+    "train_closed_ticks": 1075615,
+    "val_closed": 24,
+    "val_pass": 8,
+    "val_closed_ticks": 678919,
+    "hard_stop": 34,
+    "post_stop_integrations": 0,
+    "student_native_requests": 0,
+    "student_native_ticks": 0
+  },
+  "course": {
+    "actual_adoptions": 0,
+    "control_triggers": 0,
+    "new_Core_optimization_visits": 0,
+    "next_boundary": 2000,
+    "mixed_snapshot_training_reader": "COLD_READER_QUALIFICATION_PENDING"
+  },
+  "paired_cpu_readback": {
+    "job": "1602399.stdct-mgmt-02",
+    "worker_sha": "297f81bfa3a1bac17e170780de3777a26993916e71e42209714196aa60d17a98",
+    "worker_source": "714cededca27beb9118cf6f6170794f080f45fa6",
+    "spec_sha256": "5819b9765d935a8b33ff024fd22c74bae266570ae44a7ae90ab2f618f2fc52e0",
+    "runtime_members": 952,
+    "prefix": 500,
+    "assumed_snapshot_for_diagnostic_only": 12,
+    "queue": "batch_cpu",
+    "state": "Q",
+    "site_reason": "User has reached queue batch_cpu running job limit.",
+    "optimizer_updates": 0,
+    "new_model_generations": 0
+  },
+  "student_phase0": {
+    "H200_REF": 16,
+    "core_generated": 16,
+    "normalized_byte_exact": 0,
+    "decoded_byte_exact": 0,
+    "guard_match": 16,
+    "first_mismatch_ordinal": 0,
+    "native_endpoint": "ENDPOINT_NATIVE_HELD"
+  },
+  "deadline_SGT": "2026-12-05T12:41:52+08:00"
+}
