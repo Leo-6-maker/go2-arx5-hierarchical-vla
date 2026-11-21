@@ -11,7 +11,7 @@ import sys
 import time
 from uuid import uuid4
 
-DOMAINS = (196,197)
+DOMAINS = tuple(range(192,198))
 MESSAGES = 32
 PROFILE = """<?xml version="1.0"?>
 <profiles xmlns="http://www.eprosima.com/XMLSchemas/fastRTPS_Profiles">
@@ -108,15 +108,15 @@ def actor(root, domain, role, topic):
         rclpy.shutdown()
 
 
-def probe(root, control):
+def probe(root, control, domains):
     if (os.getuid()!=2009 or os.uname().nodename!='corelab-4080s' or not root.is_dir()
-            or root.stat().st_uid!=os.getuid()):
+            or root.stat().st_uid!=os.getuid() or len(set(domains))!=2):
         raise PermissionError('Use the existing Core project owner')
     profile=root/'LOOPBACK.xml'
     topic='/sla_core_dds_probe_'+uuid4().hex
     profile.write_text(PROFILE)
     with ExitStack() as hold:
-        for domain in DOMAINS:
+        for domain in domains:
             lock=control/f'ros-{domain}.lock'
             if not lock.is_file() or lock.is_symlink() or lock.stat().st_uid!=os.getuid():
                 raise PermissionError('Expected an existing project ROS-domain lease')
@@ -124,11 +124,11 @@ def probe(root, control):
             fcntl.flock(fd,fcntl.LOCK_EX|fcntl.LOCK_NB)
         sockets=subprocess.check_output(['ss','-H','-lun'],text=True,timeout=4)
         ports={int(row.split()[3].rsplit(':',1)[-1]) for row in sockets.splitlines()}
-        if any(7400+250*d<=p<7400+250*(d+1) for p in ports for d in DOMAINS):
+        if any(7400+250*d<=p<7400+250*(d+1) for p in ports for d in domains):
             raise PermissionError('A reserved test domain already has a listening socket')
         children=[]
         try:
-            for domain in DOMAINS:
+            for domain in domains:
                 for role in ('receive','send'):
                     log=hold.enter_context((root/f'{domain}-{role}.log').open('xb'))
                     env=dict(os.environ,ROS_DOMAIN_ID=str(domain),ROS_LOCALHOST_ONLY='1',
@@ -148,11 +148,11 @@ def probe(root, control):
                     p.wait(timeout=3)
         rows={f.stem:json.loads(f.read_bytes()) for f in root.glob('[0-9]*.json') if '.READY.' not in f.name}
         if success and len(rows)==4:
-            for d in DOMAINS:
+            for d in domains:
                 if rows[f'{d}-receive']['values_sha']!=rows[f'{d}-send']['values_sha']:
                     raise ValueError('Delivered bytes differ between the two endpoints')
         result=dict(status='LOOPBACK_FIXTURE_PASS' if success and len(rows)==4 else 'LOOPBACK_FIXTURE_FAILED',
-                    scopes=list(DOMAINS),expected=MESSAGES*len(DOMAINS),results=rows,topic=topic,
+                    scopes=domains,expected=MESSAGES*len(domains),results=rows,topic=topic,
                     profile_sha256=hashlib.sha256(profile.read_bytes()).hexdigest(),new_native_requests=0,
                     simulation_integrations=0,optimizer_updates=0,model_generations=0,epoch=time.time())
         seal(root/'RESULT.json',result)
@@ -165,6 +165,7 @@ if __name__=='__main__':
     p=modes.add_parser('probe')
     p.add_argument('root',type=Path)
     p.add_argument('control',type=Path)
+    p.add_argument('domains',type=int,choices=DOMAINS,nargs=2)
     a=modes.add_parser('actor')
     a.add_argument('root',type=Path)
     a.add_argument('domain',type=int,choices=DOMAINS)
@@ -172,6 +173,6 @@ if __name__=='__main__':
     a.add_argument('topic')
     args=parser.parse_args()
     if args.mode=='probe':
-        probe(args.root,args.control)
+        probe(args.root,args.control,args.domains)
     else:
         actor(args.root,args.domain,args.role,args.topic)
