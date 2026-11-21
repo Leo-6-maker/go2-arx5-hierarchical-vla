@@ -1,0 +1,1053 @@
+{
+  "plan": "4fe2c8cf1b69c168b2e3079e061bb7c702089cd3",
+  "observed_at_sgt": "2026-11-22T04:23:05.032+08:00",
+  "production": {
+    "started": 6,
+    "closed": 5,
+    "admitted": 1,
+    "VAL_started": 0,
+    "pid": 2643171,
+    "unit": "wm02-sla-core-multienv-wave-a-20261122-02.service",
+    "verified_closed_ticks": 137530,
+    "records": [
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-HOLD-blue",
+        "ticks": 25453,
+        "requests": 1,
+        "admitted": true,
+        "first_failure": "TASK_SUCCESS",
+        "hard_STOP": false,
+        "post_STOP_ticks": null,
+        "first_failure_signature": null
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-HOLD-red",
+        "ticks": 21340,
+        "requests": 1,
+        "admitted": false,
+        "first_failure": "ILLEGAL_CONTACT",
+        "hard_STOP": true,
+        "post_STOP_ticks": 0,
+        "first_failure_signature": [
+          "ILLEGAL_CONTACT",
+          "DESCEND",
+          [
+            [
+              "task_blue_cube",
+              "x5_link6"
+            ]
+          ]
+        ]
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-red-left",
+        "ticks": 50703,
+        "requests": 1,
+        "admitted": false,
+        "first_failure": "TASK_BUDGET_EXHAUSTED_IN_CARRY",
+        "hard_STOP": false,
+        "post_STOP_ticks": null,
+        "first_failure_signature": null
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-blue-right",
+        "ticks": 20705,
+        "requests": 1,
+        "admitted": false,
+        "first_failure": "ILLEGAL_CONTACT",
+        "hard_STOP": true,
+        "post_STOP_ticks": 0,
+        "first_failure_signature": [
+          "ILLEGAL_CONTACT",
+          "DESCEND",
+          [
+            [
+              "world",
+              "x5_link8"
+            ]
+          ]
+        ]
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-blue-right",
+        "ticks": 19329,
+        "requests": 1,
+        "admitted": false,
+        "first_failure": "ILLEGAL_CONTACT",
+        "hard_STOP": true,
+        "post_STOP_ticks": 0,
+        "first_failure_signature": [
+          "ILLEGAL_CONTACT",
+          "DESCEND",
+          [
+            [
+              "world",
+              "x5_link8"
+            ]
+          ]
+        ]
+      }
+    ],
+    "current": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-red-left",
+    "current_tick": 4426,
+    "formal_new_snapshots": 0,
+    "publisher_state": "WAIT_CATALOG_SEAL"
+  },
+  "causal": {
+    "F1_place_terminal": {
+      "source": "eccd8e2e2089bb2505c50043f959959d07094d56",
+      "result": "44cc8c54c9a6a7a734d2a0e1f881fe3f624709bcbc2238411e9357552adca344",
+      "native": {
+        "physical_requests": 1,
+        "actual_native_integrations": 50703,
+        "wall_s": 999.1644922737032,
+        "model_generations": 0,
+        "optimizer_updates": 0
+      },
+      "verdict": {
+        "task_and_mobile_success": false,
+        "technical_failure": false,
+        "hard_STOP": false,
+        "post_STOP_ticks": null,
+        "first_failure": "TASK_BUDGET_EXHAUSTED_IN_CARRY",
+        "admitted": false
+      },
+      "score": {
+        "task_success": false,
+        "ever_target_grasp": true,
+        "ever_target_lift20mm": true,
+        "maximum_lift_m": 0.0700362541213394,
+        "base_directional_motion_m": 0.22386213952891257,
+        "inside_selected_region": true,
+        "stable_release_condition": false,
+        "released": false,
+        "longest_stable_released_retreat_s": 0,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0
+      },
+      "nquery": 180,
+      "stage_counts": {
+        "PREGRASP": 30,
+        "DESCEND": 27,
+        "CLOSE": 3,
+        "LIFT": 9,
+        "CARRY": 111
+      },
+      "terminal_last_query_tick": 50453,
+      "terminal_query_distance_center_m": 0.011305276113417452,
+      "latest_xy": [
+        0.4544579906493469,
+        0.05052992234243363
+      ],
+      "zone": [
+        0.4465,
+        0.042499999999999996
+      ],
+      "consumed": {
+        "base80mm": {
+          "native_step": 9097,
+          "native_time_s": 18.194000000000795
+        },
+        "target_grasp": {
+          "native_step": 20519,
+          "native_time_s": 41.03800000000419
+        },
+        "target_lift20mm": {
+          "native_step": 22879,
+          "native_time_s": 45.75800000000996
+        },
+        "correct_region": {
+          "native_step": 39545,
+          "native_time_s": 79.08999999999708
+        }
+      },
+      "terminal_trace_sha": "94fc6fb7202403df377b0d40f68c91baef132d0a1c4a14d13060928f4b5fcd84"
+    },
+    "release_gate": {
+      "at": 1795292166.549623,
+      "result": {
+        "captured_CARRY": 111,
+        "grasp_and_within_original_4mm": 41,
+        "conditions": {
+          "pose_support_nonpositive": 41,
+          "footprint_outside": 0,
+          "turn_unfinished": 0,
+          "all_three_allow": 0
+        },
+        "last": {
+          "stamp": 50453,
+          "own_residual_mm": 0.05157646865589882,
+          "support_gap_mm": -4.310250189125544,
+          "footprint": true,
+          "turn_ready": true,
+          "carry_gap_mm": 27.827042711458194
+        },
+        "static_neighbor_queries": [
+          {
+            "offset_mm": [
+              8,
+              8
+            ],
+            "support_gap_mm": -4.310250189125544,
+            "footprint": true
+          },
+          {
+            "offset_mm": [
+              8,
+              6
+            ],
+            "support_gap_mm": -6.0890607832061185,
+            "footprint": true
+          },
+          {
+            "offset_mm": [
+              6,
+              8
+            ],
+            "support_gap_mm": -5.073256299762526,
+            "footprint": true
+          },
+          {
+            "offset_mm": [
+              6,
+              6
+            ],
+            "support_gap_mm": -6.856609573115284,
+            "footprint": true
+          },
+          {
+            "offset_mm": [
+              4,
+              4
+            ],
+            "support_gap_mm": -9.39442660510801,
+            "footprint": true
+          },
+          {
+            "offset_mm": [
+              0,
+              0
+            ],
+            "support_gap_mm": -14.427732919709557,
+            "footprint": true
+          }
+        ],
+        "score_hash": "44cc8c54c9a6a7a734d2a0e1f881fe3f624709bcbc2238411e9357552adca344",
+        "new_integration_count": 0,
+        "physical_requests": 0
+      },
+      "error": "",
+      "rc": 0,
+      "script": "da58a90d3b19c015a98b1de90a049657438830a50d133d81e837bea9eddc2c21",
+      "receipt": "7ecf9e08fba5d38a5e3b24c6b39e599020dd3954454b0b0d1a697fd9cc7c9fab"
+    },
+    "contact_part": {
+      "at": 1795292428.6863928,
+      "exit": 0,
+      "script": "86cc965988e39ce1bfe285c5e1c2d29824a6e888af91cd28b47ee8686d8c73b3",
+      "actual": {
+        "tick": 50453,
+        "lowering_m": 0.05614547263600642,
+        "geom": "",
+        "body": "x5_link6",
+        "obstacle": "task_blue_cube_geom",
+        "signed_gap_mm": -4.310250189125544,
+        "fraction": 1,
+        "min_table_mm": 6.6192564839062555,
+        "min_other_cube_mm": -4.310250189125544,
+        "native_requests": 0,
+        "integrations": 0
+      },
+      "error": "",
+      "receipt": "0708cd2d277382171423bc6d7b33a796be5a74f503b739d69f5aa5bf1394ec27"
+    },
+    "fixed_orientation_offset_grid": {
+      "script_sha": "b87c27466fa9c42183ca1dcc64f1426fb35974f462cd913b630711489d936df5",
+      "result": {
+        "fixed_queries": [
+          48703,
+          48953,
+          49203,
+          49453,
+          49703,
+          49953,
+          50203,
+          50453
+        ],
+        "attempted_offsets": 49,
+        "inside_and_carry": 25,
+        "positive_lowering": 0,
+        "best": [
+          {
+            "offset_mm": [
+              8,
+              8
+            ],
+            "footprint_all": true,
+            "min_support_mm": -4.323215470674338,
+            "min_carry_mm": 27.750537522622547
+          },
+          {
+            "offset_mm": [
+              4,
+              8
+            ],
+            "footprint_all": true,
+            "min_support_mm": -5.846210708364829,
+            "min_carry_mm": 27.750537522622547
+          },
+          {
+            "offset_mm": [
+              0,
+              8
+            ],
+            "footprint_all": true,
+            "min_support_mm": -7.356667943646318,
+            "min_carry_mm": 27.750537522622547
+          }
+        ],
+        "original": {
+          "offset_mm": [
+            8,
+            8
+          ],
+          "footprint_all": true,
+          "min_support_mm": -4.323215470674338,
+          "min_carry_mm": 27.750537522622547
+        },
+        "dynamics": 0,
+        "native_requests": 0
+      },
+      "rc": 0,
+      "error": "",
+      "epoch": 1795292463.1456559,
+      "receipt": "59663b8ea8b6e42f29731ec2bb7b2727b8fbbdfb556eb7bf120741c04b0c5958"
+    },
+    "fixed_offset_yaw_grid": {
+      "script": "2f26e7fbf09c7abc6d5a1112e543e45fea153a6deee188863fb698702f1b72f7",
+      "result": {
+        "samples": 8,
+        "goal_offset_mm": [
+          8,
+          8
+        ],
+        "baseline_yaw_deg": -20,
+        "rows": [
+          {
+            "delta_deg": -20,
+            "inside_all": false,
+            "min_carry_mm": 27.750537522622547,
+            "min_lower_mm": 6.609436302334805
+          },
+          {
+            "delta_deg": -15,
+            "inside_all": false,
+            "min_carry_mm": 27.750537522622547,
+            "min_lower_mm": 6.609436302334805
+          },
+          {
+            "delta_deg": -10,
+            "inside_all": false,
+            "min_carry_mm": 27.750537522622547,
+            "min_lower_mm": 6.609436302334805
+          },
+          {
+            "delta_deg": -5,
+            "inside_all": false,
+            "min_carry_mm": 27.750537522622547,
+            "min_lower_mm": 1.5437445112201076
+          },
+          {
+            "delta_deg": 0,
+            "inside_all": true,
+            "min_carry_mm": 27.750537522622547,
+            "min_lower_mm": -4.323215470674338
+          },
+          {
+            "delta_deg": 5,
+            "inside_all": true,
+            "min_carry_mm": 23.88495936327753,
+            "min_lower_mm": -10.260037506967024
+          },
+          {
+            "delta_deg": 10,
+            "inside_all": true,
+            "min_carry_mm": 23.88495936327753,
+            "min_lower_mm": -16.045108477766536
+          },
+          {
+            "delta_deg": 15,
+            "inside_all": true,
+            "min_carry_mm": 23.88495936327753,
+            "min_lower_mm": -21.004214899653622
+          },
+          {
+            "delta_deg": 20,
+            "inside_all": true,
+            "min_carry_mm": 23.88495936327753,
+            "min_lower_mm": -22.855868898899466
+          }
+        ],
+        "new_dynamics": 0,
+        "requests": 0
+      },
+      "rc": 0,
+      "error": "",
+      "epoch": 1795292510.6220129,
+      "receipt": "b0b9831766cab2da6435adea6998649b5e01ebcb9a2eb9000aec03f009883e98"
+    },
+    "paired_geometry_screen": {
+      "script": "80fd7d55ca13337b4629f924dec0a84d42263f10c8ca5df1d8c31bd082b2743b",
+      "result": {
+        "samples": 8,
+        "count": 24,
+        "best": [
+          {
+            "offset_mm": [
+              6,
+              6
+            ],
+            "delta_deg": -15,
+            "inside_all": true,
+            "min_carry_mm": 24.18263977884365,
+            "min_lower_mm": 6.609436302334805
+          },
+          {
+            "offset_mm": [
+              4,
+              6
+            ],
+            "delta_deg": -15,
+            "inside_all": true,
+            "min_carry_mm": 27.750537522622547,
+            "min_lower_mm": 6.609436302334805
+          },
+          {
+            "offset_mm": [
+              6,
+              6
+            ],
+            "delta_deg": -10,
+            "inside_all": true,
+            "min_carry_mm": 24.18263977884365,
+            "min_lower_mm": 4.502784659247528
+          },
+          {
+            "offset_mm": [
+              4,
+              6
+            ],
+            "delta_deg": -10,
+            "inside_all": true,
+            "min_carry_mm": 27.750537522622547,
+            "min_lower_mm": 3.4768600256656486
+          }
+        ],
+        "passing": 4,
+        "new_dynamics": 0,
+        "requests": 0
+      },
+      "rc": 0,
+      "error": "",
+      "epoch": 1795292563.375915,
+      "receipt": "6c9a26cf292243fc6a3a28d4e82b5248395605053ca9c087d159427a34dad5dd"
+    },
+    "next_candidate": {
+      "additional_yaw_deg": -15,
+      "absolute_yaw_deg": -35,
+      "target_offset_mm": [
+        4,
+        6
+      ],
+      "scope": "STATIC_DISTAL_ONLY",
+      "native": "NOT_RUN"
+    },
+    "F2_blue_place_actual_contact": {
+      "actual": {
+        "tick": 20705,
+        "pairs": [
+          {
+            "geoms": [
+              "task_table",
+              "task_right_pad"
+            ],
+            "bodies": [
+              "world",
+              "x5_link8"
+            ],
+            "signed_distance_mm": -0.009069883114524654
+          }
+        ]
+      },
+      "t": 1795292528.7242353
+    }
+  },
+  "N1_production": {
+    "scope": "OBSERVATIONAL_ONLY",
+    "profile": {
+      "scope": "N1_PRODUCTION_OBSERVATION",
+      "samples": 227,
+      "cpu_core_seconds": 2686.592832,
+      "peak_pss_kib": 5271874,
+      "cgroup_peak_bytes": 9105563648,
+      "observed_seconds": 2286.275196313858,
+      "progress": {
+        "stage": "DISPATCH",
+        "epoch": 1795292150.365919,
+        "completed": 4,
+        "actual_requests": 4,
+        "closed_ticks": 118201,
+        "admitted_train": 1,
+        "current": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-blue-right"
+      },
+      "new_optimizer_updates": 0,
+      "new_physical_requests": 0,
+      "new_model_generations": 0
+    },
+    "profile_result_sha": "c987ecb58b1eaa9ea74aa704321f3519208bcff2b128e6a5d8dc92f533ec5378"
+  },
+  "engineering_fixtures": {
+    "status": "READ_ONLY_BINDING",
+    "short_input_proc": "d0ad0619e428574893fe450e05b6a0c0360095fd9f1be15599fd140b278b0073",
+    "short_source": "d33481ce7f09ad5d66c7a052225adde20f0db91d",
+    "short": [
+      {
+        "new_slot": "MEV1-ENG-N1-SHORT-00",
+        "name": "D2-E-LEGACY-N1-F1-STABLE-R1",
+        "sha256": "bc7c4f84efe9f15d04ce01b34a7e8d92608f16e316d3cd4b108ab85151784f7b",
+        "family": "F1",
+        "seed": 2026111890,
+        "mode": "STABLE",
+        "ticks": 10703,
+        "scene": "f69cff6ed63bcc344cb3ac1914794b1a26d7214e59ac18f717b9b01e03d832ec",
+        "same_wbc": {
+          "native_binary": true,
+          "controller_binary": true,
+          "solver_binary": true,
+          "observer_library": true,
+          "outer_library": true,
+          "trace_library": true
+        },
+        "json_config_fields": [
+          "d2_stage",
+          "d2_profile",
+          "d2_world_binding",
+          "d2_world_id",
+          "d2_probe_motion",
+          "d2_isolated_live_control"
+        ]
+      },
+      {
+        "new_slot": "MEV1-ENG-N1-SHORT-01",
+        "name": "D2-E-LEGACY-N1-F2-STABLE-R1",
+        "sha256": "340a98bf3960429ec62033cacf2e6c6bcffec0eb0ef175a79a2c952750e71916",
+        "family": "F2",
+        "seed": 2026111900,
+        "mode": "STABLE",
+        "ticks": 10703,
+        "scene": "e54f34ef6c24ec2fcf6ddca56285249a682fa794bf9cfa7f3d67f88ddee58fdf",
+        "same_wbc": {
+          "native_binary": true,
+          "controller_binary": true,
+          "solver_binary": true,
+          "observer_library": true,
+          "outer_library": true,
+          "trace_library": true
+        },
+        "json_config_fields": [
+          "d2_stage",
+          "d2_profile",
+          "d2_world_binding",
+          "d2_world_id",
+          "d2_probe_motion",
+          "d2_isolated_live_control"
+        ]
+      },
+      {
+        "new_slot": "MEV1-ENG-N1-SHORT-02",
+        "name": "D2-E-LEGACY-N1-F1-SMALL_EEF-R1",
+        "sha256": "5463abc856912a1b86b20f77c22ca89ad3a16876250e7017d9ef880b8bd65b5b",
+        "family": "F1",
+        "seed": 2026111891,
+        "mode": "SMALL_EEF",
+        "ticks": 10703,
+        "scene": "f69cff6ed63bcc344cb3ac1914794b1a26d7214e59ac18f717b9b01e03d832ec",
+        "same_wbc": {
+          "native_binary": true,
+          "controller_binary": true,
+          "solver_binary": true,
+          "observer_library": true,
+          "outer_library": true,
+          "trace_library": true
+        },
+        "json_config_fields": [
+          "d2_stage",
+          "d2_profile",
+          "d2_world_binding",
+          "d2_world_id",
+          "d2_probe_motion",
+          "d2_isolated_live_control"
+        ]
+      },
+      {
+        "new_slot": "MEV1-ENG-N1-SHORT-03",
+        "name": "D2-E-LEGACY-N1-F2-SMALL_EEF-R1",
+        "sha256": "e0024a78c612ba8384c36aba19b1c0fbef2654369abb3b005fde3c23666cc7ef",
+        "family": "F2",
+        "seed": 2026111901,
+        "mode": "SMALL_EEF",
+        "ticks": 10703,
+        "scene": "e54f34ef6c24ec2fcf6ddca56285249a682fa794bf9cfa7f3d67f88ddee58fdf",
+        "same_wbc": {
+          "native_binary": true,
+          "controller_binary": true,
+          "solver_binary": true,
+          "observer_library": true,
+          "outer_library": true,
+          "trace_library": true
+        },
+        "json_config_fields": [
+          "d2_stage",
+          "d2_profile",
+          "d2_world_binding",
+          "d2_world_id",
+          "d2_probe_motion",
+          "d2_isolated_live_control"
+        ]
+      },
+      {
+        "new_slot": "MEV1-ENG-N1-SHORT-04",
+        "name": "D2-E-LEGACY-N1-F2-SMALL_EEF-R2",
+        "sha256": "807cb21213990a1ce3260a4877ab7ca69c240f879ace57d93f76bf2195b560c1",
+        "family": "F2",
+        "seed": 2026111901,
+        "mode": "SMALL_EEF",
+        "ticks": 10703,
+        "scene": "e54f34ef6c24ec2fcf6ddca56285249a682fa794bf9cfa7f3d67f88ddee58fdf",
+        "same_wbc": {
+          "native_binary": true,
+          "controller_binary": true,
+          "solver_binary": true,
+          "observer_library": true,
+          "outer_library": true,
+          "trace_library": true
+        },
+        "json_config_fields": [
+          "d2_stage",
+          "d2_profile",
+          "d2_world_binding",
+          "d2_world_id",
+          "d2_probe_motion",
+          "d2_isolated_live_control"
+        ]
+      },
+      {
+        "new_slot": "MEV1-ENG-N1-SHORT-05",
+        "name": "D2-E-LEGACY-N1-F1-SMALL_EEF-R2",
+        "sha256": "7e2a2a7c36681482d1ab3319f851e348ac8c61b1d3b47866f64031c8b84a6315",
+        "family": "F1",
+        "seed": 2026111891,
+        "mode": "SMALL_EEF",
+        "ticks": 10703,
+        "scene": "f69cff6ed63bcc344cb3ac1914794b1a26d7214e59ac18f717b9b01e03d832ec",
+        "same_wbc": {
+          "native_binary": true,
+          "controller_binary": true,
+          "solver_binary": true,
+          "observer_library": true,
+          "outer_library": true,
+          "trace_library": true
+        },
+        "json_config_fields": [
+          "d2_stage",
+          "d2_profile",
+          "d2_world_binding",
+          "d2_world_id",
+          "d2_probe_motion",
+          "d2_isolated_live_control"
+        ]
+      },
+      {
+        "new_slot": "MEV1-ENG-N1-SHORT-06",
+        "name": "D2-E-LEGACY-N1-F2-STABLE-R2",
+        "sha256": "2075135fb1b2af4da4e2e00e7e0d484a31a9eb8d3ab660c8f784a02111f11942",
+        "family": "F2",
+        "seed": 2026111900,
+        "mode": "STABLE",
+        "ticks": 10703,
+        "scene": "e54f34ef6c24ec2fcf6ddca56285249a682fa794bf9cfa7f3d67f88ddee58fdf",
+        "same_wbc": {
+          "native_binary": true,
+          "controller_binary": true,
+          "solver_binary": true,
+          "observer_library": true,
+          "outer_library": true,
+          "trace_library": true
+        },
+        "json_config_fields": [
+          "d2_stage",
+          "d2_profile",
+          "d2_world_binding",
+          "d2_world_id",
+          "d2_probe_motion",
+          "d2_isolated_live_control"
+        ]
+      },
+      {
+        "new_slot": "MEV1-ENG-N1-SHORT-07",
+        "name": "D2-E-LEGACY-N1-F1-STABLE-R2",
+        "sha256": "42aae18fe0f3debfe728f02da87141edee18e094ea541d7e163c728d6d7c5d09",
+        "family": "F1",
+        "seed": 2026111890,
+        "mode": "STABLE",
+        "ticks": 10703,
+        "scene": "f69cff6ed63bcc344cb3ac1914794b1a26d7214e59ac18f717b9b01e03d832ec",
+        "same_wbc": {
+          "native_binary": true,
+          "controller_binary": true,
+          "solver_binary": true,
+          "observer_library": true,
+          "outer_library": true,
+          "trace_library": true
+        },
+        "json_config_fields": [
+          "d2_stage",
+          "d2_profile",
+          "d2_world_binding",
+          "d2_world_id",
+          "d2_probe_motion",
+          "d2_isolated_live_control"
+        ]
+      }
+    ],
+    "full": [
+      {
+        "new_slot": "MEV1-ENG-N1-FULL-00",
+        "id": "CHV1-TRAIN-F1-HOLD-red-18",
+        "source": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+        "spec": "c4a055c6c77033ab926fa5f694dc90caaf14b88a08070186bdd6b3cd89530c2c",
+        "result": "7f0dc4e75df009703f10e3e57b48d9a0f65a1720ab7acc38fa88fd4f0e5e18ca",
+        "scene": "f955e1a714c57db2c92cca85ddcff20c99e55f69cf39a1bcb5b6ecf2bfc4e711",
+        "instruction": "HOLD-red",
+        "family": "F1",
+        "max_ticks": 35703,
+        "repair": null,
+        "same_wbc": true,
+        "owner_closed": true
+      },
+      {
+        "new_slot": "MEV1-ENG-N1-FULL-01",
+        "id": "CHV1-TRAIN-F2-HOLD-blue-16",
+        "source": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+        "spec": "c0f91988c033421983ce527ea8c02bf3e029fe1176f0debe98c5fa9a4b79be01",
+        "result": "933708487668ad95a73bd323a33dc4cb8fd261e924abc47fe99f3a5b908d86f2",
+        "scene": "c04d76683ce7dbe2cc16d48bc54f4ec72d782cf7974d6772ef81d73a1afc49ef",
+        "instruction": "HOLD-blue",
+        "family": "F2",
+        "max_ticks": 35703,
+        "repair": null,
+        "same_wbc": true,
+        "owner_closed": true
+      },
+      {
+        "new_slot": "MEV1-ENG-N1-FULL-02",
+        "id": "CHV1-TRAIN-F1-PLACE-red-right-17",
+        "source": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+        "spec": "9abee507bdb105508af6ba976507fd8cf52805c343b809400eb5ce2f41aad122",
+        "result": "6e10bd150bd05c339cbdf2ca8508e4a90d8413651e4147b0e24214ff341b1ce5",
+        "scene": "ac848be74e5e82e5e3d73cf4e8f026504f39bea5ea688fe7d9cba1a628ac4948",
+        "instruction": "PLACE-red-right",
+        "family": "F1",
+        "max_ticks": 50703,
+        "repair": null,
+        "same_wbc": true,
+        "owner_closed": true
+      },
+      {
+        "new_slot": "MEV1-ENG-N1-FULL-03",
+        "id": "CHV1-TRAIN-F2-PLACE-blue-right-02",
+        "source": "e4e95b4f8f16f0a45091de9bac789e5e6ce68540",
+        "spec": "cd3e966d79769ede8c9fd18f7a40c430c96f29e992dc5a2cb30faf4d8fa34666",
+        "result": "cc98103d647c1b5273b9a1f05fc0a143cd685d2fe084b880b4bbca52aa474d85",
+        "scene": "9bf333de0c825720de884e965781f525bb431bf24ee222341a9af3c58e84ca07",
+        "instruction": "PLACE-blue-right",
+        "family": "F2",
+        "max_ticks": 50703,
+        "repair": null,
+        "same_wbc": true,
+        "owner_closed": true
+      }
+    ],
+    "tolerance_sha256": "6da63587addd8d9e35d36ce09191593de9dba46b2cee9b47266beeb71df0fc0a",
+    "engineering_requests": 0
+  },
+  "N2_transport": {
+    "fixture": {
+      "at": 1795292248.2459378,
+      "source_commit": "3ea0aaae4c8fbe9511dc4370fcdad274637ec8b1",
+      "sources": {
+        "scripts/sla/core_multienv_dds_profile_check.cpp": "dadda87b7997e40e255a2e59608dd18709bbc10f879b19dbed1cee0a3fe71b13",
+        "scripts/sla/core_multienv_transport_probe.py": "daa8457c72fdd24367737223e3a2b0860a1413feb26159516db5bb889c050291"
+      },
+      "compile_exit": 0,
+      "compile_stderr": "",
+      "exit": 0,
+      "error": "",
+      "probe": {
+        "epoch": 1795292250.1330526,
+        "expected": 64,
+        "mappings": {
+          "192-receive.MAPPINGS.json": {
+            "libs": [
+              "/opt/ros/jazzy/lib/libfastrtps.so.2.14.6",
+              "/opt/ros/jazzy/lib/librmw_fastrtps_cpp.so"
+            ],
+            "shm": [
+              "/dev/shm/lttng-ust-wait-8",
+              "/dev/shm/lttng-ust-wait-8-2009",
+              "/dev/shm/shm-event-notifier-error-accounting-1591 (deleted)"
+            ]
+          },
+          "192-send.MAPPINGS.json": {
+            "libs": [
+              "/opt/ros/jazzy/lib/libfastrtps.so.2.14.6",
+              "/opt/ros/jazzy/lib/librmw_fastrtps_cpp.so"
+            ],
+            "shm": [
+              "/dev/shm/lttng-ust-wait-8",
+              "/dev/shm/lttng-ust-wait-8-2009",
+              "/dev/shm/shm-event-notifier-error-accounting-1591 (deleted)"
+            ]
+          },
+          "196-receive.MAPPINGS.json": {
+            "libs": [
+              "/opt/ros/jazzy/lib/libfastrtps.so.2.14.6",
+              "/opt/ros/jazzy/lib/librmw_fastrtps_cpp.so"
+            ],
+            "shm": [
+              "/dev/shm/lttng-ust-wait-8",
+              "/dev/shm/lttng-ust-wait-8-2009",
+              "/dev/shm/shm-event-notifier-error-accounting-1591 (deleted)"
+            ]
+          },
+          "196-send.MAPPINGS.json": {
+            "libs": [
+              "/opt/ros/jazzy/lib/libfastrtps.so.2.14.6",
+              "/opt/ros/jazzy/lib/librmw_fastrtps_cpp.so"
+            ],
+            "shm": [
+              "/dev/shm/lttng-ust-wait-8",
+              "/dev/shm/lttng-ust-wait-8-2009",
+              "/dev/shm/shm-event-notifier-error-accounting-1591 (deleted)"
+            ]
+          }
+        },
+        "model_generations": 0,
+        "new_native_requests": 0,
+        "optimizer_updates": 0,
+        "parsed_profile": "VERIFIED_UDP4_LOOPBACK_ONLY",
+        "profile_sha256": "12135d6832dc6e833b52e15eb8ba196bed865b382480736d3294eb813cb94c06",
+        "results": {
+          "192-receive": {
+            "elapsed": 0.4893709421157837,
+            "maps": {
+              "libs": [
+                "/opt/ros/jazzy/lib/libfastrtps.so.2.14.6",
+                "/opt/ros/jazzy/lib/librmw_fastrtps_cpp.so"
+              ],
+              "shm": [
+                "/dev/shm/lttng-ust-wait-8",
+                "/dev/shm/lttng-ust-wait-8-2009",
+                "/dev/shm/shm-event-notifier-error-accounting-1591 (deleted)"
+              ]
+            },
+            "matched": 32,
+            "pid": 2716908,
+            "values_sha": "68e013ff40deb1a88577095f8e235a357c7bc09443e86c0f81b836e261a9c601"
+          },
+          "192-send": {
+            "elapsed": 0.1492614820599556,
+            "maps": {
+              "libs": [
+                "/opt/ros/jazzy/lib/libfastrtps.so.2.14.6",
+                "/opt/ros/jazzy/lib/librmw_fastrtps_cpp.so"
+              ],
+              "shm": [
+                "/dev/shm/lttng-ust-wait-8",
+                "/dev/shm/lttng-ust-wait-8-2009",
+                "/dev/shm/shm-event-notifier-error-accounting-1591 (deleted)"
+              ]
+            },
+            "matched": 32,
+            "pid": 2716909,
+            "values_sha": "68e013ff40deb1a88577095f8e235a357c7bc09443e86c0f81b836e261a9c601"
+          },
+          "196-receive": {
+            "elapsed": 0.5084154224023223,
+            "maps": {
+              "libs": [
+                "/opt/ros/jazzy/lib/libfastrtps.so.2.14.6",
+                "/opt/ros/jazzy/lib/librmw_fastrtps_cpp.so"
+              ],
+              "shm": [
+                "/dev/shm/lttng-ust-wait-8",
+                "/dev/shm/lttng-ust-wait-8-2009",
+                "/dev/shm/shm-event-notifier-error-accounting-1591 (deleted)"
+              ]
+            },
+            "matched": 32,
+            "pid": 2716910,
+            "values_sha": "5f6a8c853152adfbb404a067a4296c9a03625a0e67e57f2534551cee509c8d62"
+          },
+          "196-send": {
+            "elapsed": 0.08863144274801016,
+            "maps": {
+              "libs": [
+                "/opt/ros/jazzy/lib/libfastrtps.so.2.14.6",
+                "/opt/ros/jazzy/lib/librmw_fastrtps_cpp.so"
+              ],
+              "shm": [
+                "/dev/shm/lttng-ust-wait-8",
+                "/dev/shm/lttng-ust-wait-8-2009",
+                "/dev/shm/shm-event-notifier-error-accounting-1591 (deleted)"
+              ]
+            },
+            "matched": 32,
+            "pid": 2716911,
+            "values_sha": "5f6a8c853152adfbb404a067a4296c9a03625a0e67e57f2534551cee509c8d62"
+          }
+        },
+        "scopes": [
+          192,
+          196
+        ],
+        "simulation_integrations": 0,
+        "status": "LOOPBACK_FIXTURE_PASS",
+        "topic": "/sla_core_dds_probe_ecdb332f601e455caab19c8416aa7701"
+      },
+      "receipt": "7c5bc882fa9500593f6487bc18af73c062c0cc4c41105f649dbac2f7cdf39e0a",
+      "checker": "e8c0a75857bfb59b897bd01bf4e882bccd9a7ca62bf86664535282a7391ceb9e",
+      "domains": [
+        192,
+        196
+      ],
+      "logs": {
+        "196-receive.log": "",
+        "196-send.log": "",
+        "192-receive.log": "",
+        "192-send.log": ""
+      }
+    },
+    "host_shmmaps_observation": "No mapped Fast DDS transport SHM during this probe. Common LTTng maps remain.",
+    "initial_failures": [
+      "A reserved domain had a listening socket and no actor started",
+      "Jazzy LOCALHOST adds SHM and the actors stopped before sending",
+      "The checker initially linked the wrong library directory",
+      "The checker needed factory initialization to read parsed defaults"
+    ],
+    "xvfb_fixture": {
+      "at": 1795292369.3445382,
+      "tests": [
+        {
+          "case": "default",
+          "exit": 0,
+          "artifact": {
+            "pid": 2719827,
+            "display": ":210",
+            "mit_shm": true,
+            "surface_sha256": "e4250db14ed5dc3323f720321d978e43bdad91e9da1be547029c5d2c9010b75a",
+            "native_resolution": [
+              64,
+              64
+            ],
+            "shm_count": 0
+          },
+          "error": ""
+        },
+        {
+          "case": "disable_mit_shm",
+          "exit": 0,
+          "artifact": {
+            "pid": 2719855,
+            "display": ":210",
+            "mit_shm": false,
+            "surface_sha256": "e4250db14ed5dc3323f720321d978e43bdad91e9da1be547029c5d2c9010b75a",
+            "native_resolution": [
+              64,
+              64
+            ],
+            "shm_count": 0
+          },
+          "error": ""
+        }
+      ],
+      "requests": 0,
+      "integrations": 0,
+      "script_sha": "52d16f31656e929ab5e153b488893c79f4ec4aed8be19b3af94f293b12ffafaa",
+      "receipt": "ba8bc94b4127ae5124421620799f8b4db826a8f2a41e033f9cc32ab323fa6a17"
+    },
+    "roi_final_selected_ref": {
+      "validated_frozen_controller_sha": "9e8ce46837d09bc39ae04d4b49f1ce4dd8c8c2d31bea39eac56c5806d108c1f3",
+      "available_source": "Callback updates MRT policy and calls Evaluate. Visualizer trajectory publications do not provide consumed reference identity per tick.",
+      "actual_per_tick_selected_reference": "UNAVAILABLE"
+    },
+    "official": "NOT_RUN",
+    "requests": 0
+  },
+  "N4": {
+    "status": "NOT_RUN",
+    "requests": 0
+  },
+  "core_dev": {
+    "available_host_GiB": 21.20995330810547,
+    "required_host_GiB": 36,
+    "cold_intents": 0,
+    "ipc_intents": 0,
+    "phase0_dev6": "NOT_RUN",
+    "MAIN2K_dev6": "NOT_RUN",
+    "native_requests": 0
+  },
+  "hopper": {
+    "running": {
+      "at": 1795292584.8319337,
+      "last": {
+        "step": 2276,
+        "job": "728156.hopper-m-02"
+      },
+      "sealed": {
+        "step": 2200,
+        "sha": "cc1b459a1b58320365c3662819fa5e40762a5d84b488a21c209e47c053a54025"
+      }
+    },
+    "dependent": {
+      "INTENT.json": {
+        "predecessor": "728156.hopper-m-02",
+        "project": "CFP04-CF-007"
+      },
+      "JOB.json": {
+        "job": "728212.hopper-m-02"
+      },
+      "RESERVATION.json": {
+        "job": "728212.hopper-m-02",
+        "reserved_seconds": 21600
+      },
+      "RELEASE.json": {
+        "job": "728212.hopper-m-02",
+        "pbs_name": "slachv1t09",
+        "dependency": "afterok:728156.hopper-m-02"
+      },
+      "live": {
+        "state": "H",
+        "hold": "s",
+        "depends": "afterok:728156.hopper-m-02@hopper-m-02.cm.cluster",
+        "start": null,
+        "nGPU": 1,
+        "gpu_model": null,
+        "project": "CFP04-CF-007",
+        "user": "e1192548"
+      }
+    },
+    "dependent_actual_updates": 0,
+    "new_VANDA_jobs": 0
+  }
+}
