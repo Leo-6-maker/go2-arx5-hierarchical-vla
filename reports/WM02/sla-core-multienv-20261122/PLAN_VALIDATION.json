@@ -1,0 +1,305 @@
+{
+  "schema": "SLA_PLAN_STATIC_VALIDATION_V1",
+  "status": "PASS_STATIC_ONLY",
+  "at_sgt": "2026-11-22T02:44:03.402176+08:00",
+  "goal": "SLA-CORE-MULTIENV-DATA-V1",
+  "checks_passed": 50,
+  "checks": [
+    {
+      "name": "unique_native_condition_ids",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "unique_scene_ids",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "unique_scene_seeds",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "unique_reset_seeds",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "collection_scene_membership",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "scene_never_crosses_split",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "scene_never_crosses_family",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "six_instructions_each_scene",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "collection_population_counts",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "scene_split_counts",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "wave_counts",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "twelve_train_cells_balanced",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "twelve_val_cells_balanced",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "train_HOLD_PLACE",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "val_HOLD_PLACE",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "wave_A_yaw_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "train_wave_B_yaw_balance",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "numeric_population_not_claimed_bound",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "deterministic_candidate_bound",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "fixed_real_native_per_slot",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "collection_task_tick_bounds",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "collection_query_bounds",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "engineering_count_stages",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "N2_core_tick_sum",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "N4_tick_sum",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "engineering_bound",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "engineering_never_train",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "core_interface_bound",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "total_new_native_requests",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "total_new_native_ticks",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "TRAIN_budget",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "VAL_budget",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "core_eval_generation_budget",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "teacher_version_inflight_consistency",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "same_Core_qualification_not_all_proposals_safe",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "no_simultaneous_student_teacher_unqualified",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "targets_not_gates",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "training_budget_not_expanded",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "curriculum_boundaries_preserved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "fixed_batch",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "deadline_handoff",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "explicit_native_generation_update_zero",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "geometry_near_duplicate_independent_of_reset",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "new_reader_binding_explicit",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "main_AGENTS_history_preserved",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "human_machine_budget_match",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "startup_budget_match",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "old_generation_budget_absent",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "no_new_runtime_code_published",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "all_relative_document_links_resolve",
+      "passed": true,
+      "detail": {
+        "checked": 12,
+        "missing": []
+      }
+    }
+  ],
+  "manifest": {
+    "AGENTS.md": {
+      "bytes": 11412,
+      "sha256": "88b350b6710080d5597906850186790db23af6d97c8ee3f2cfa7deeb49bfc746",
+      "git_blob_sha1": "349f724fce81705817dd14caa93e7b99b61c0a4c"
+    },
+    "SLA_CORE_MULTIENV_NEXT_START.md": {
+      "bytes": 1321,
+      "sha256": "1f76709b06011b4eba5154c81281df2909be2f3861e3cc3edd9267433770f02b",
+      "git_blob_sha1": "887995a9a2e50b76e8471cd96f2c952c7cb6e618"
+    },
+    "docs/handover/2026-11-22/START_SLA_CORE_MULTIENV_COLLECTION_V1.md": {
+      "bytes": 5655,
+      "sha256": "7a612a96290a0ec96ed21bfb67827fa9f98c0203b4ed4ae90dd13a36cad17c38",
+      "git_blob_sha1": "f42c4b9bed9461dca2ce0109537448c20ae6054f"
+    },
+    "docs/protocols/SLA_CORE_MULTIENV_COLLECTION_V1_20261122.json": {
+      "bytes": 12055,
+      "sha256": "d6c0bf07b7c44b8fbf9a3219b6ef93dd5b648011d28d6be1df49b9d085e0fa7e",
+      "git_blob_sha1": "4e4568d91965dc8c64c73c1898be90606699e059"
+    },
+    "docs/protocols/SLA_CORE_MULTIENV_COLLECTION_V1_20261122.md": {
+      "bytes": 29353,
+      "sha256": "dbf9294ef5e72e55611bcecfe7fac8dfb95fc1c6076171a7a01c2142c36361d3",
+      "git_blob_sha1": "486837cfaedec2cdaf0027c03a8a769091afbacd"
+    },
+    "docs/protocols/SLA_CORE_MULTIENV_COLLECTION_V1_POPULATIONS_20261122.json": {
+      "bytes": 208555,
+      "sha256": "ceb8b60269625c5211ed2c572a10f2b34c3755a0b321f08e857bc10bde9449b5",
+      "git_blob_sha1": "1ce9c5798559eb29c55d76a0f89553a908ab19fc"
+    },
+    "reports/WM02/sla-core-multienv-20261122/AUDIT_AND_RESOURCE_PRIORITIES.md": {
+      "bytes": 7372,
+      "sha256": "d786a5da638cecca41d999981b9134998396c73564657446bcd4a50fb92e0c49",
+      "git_blob_sha1": "6bb18ac2f933e51315fb5181ed5ae3807f814ccd"
+    }
+  },
+  "native_or_GPU_or_runtime_tests": "NOT_RUN",
+  "server_jobs_submitted": 0,
+  "native_requests": 0,
+  "training_updates": 0,
+  "model_generations": 0,
+  "external_readback": "PENDING_GITHUB_PUBLICATION"
+}

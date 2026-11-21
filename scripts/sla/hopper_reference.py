@@ -72,9 +72,13 @@ def package(root,manifest_sha):
     return m
 
 
-def core_provider(root,manifest_sha,source,target,tokenizer):
+def core_provider(root,manifest_sha,source,target,tokenizer,*,canonical=False):
     from go2arx5_vla.sla_adapter.model_v1 import Tokenizer
-    manifest=package(root,manifest_sha)
+    if canonical:
+        from scripts.sla.core_canonical_package import validate
+        manifest=validate(root,manifest_sha)
+    else:
+        manifest=package(root,manifest_sha)
     if (source['parent_manifest']['sha256']!=manifest['foundation_sha256']
             or digest(Path(tokenizer))!=manifest['tokenizer_sha256'] or source['state_sha256']!=manifest['state_sha256']):
         raise ValueError('Local base or statistics differ from the sealed endpoint')
