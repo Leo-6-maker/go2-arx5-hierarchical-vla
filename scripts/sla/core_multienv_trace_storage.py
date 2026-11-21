@@ -29,28 +29,31 @@ def fingerprint(path):
     return s.st_dev, s.st_ino, s.st_size, s.st_mtime_ns
 
 
-def measure(path, temporary):
+def compress(path, packed):
     before = fingerprint(path)
     with path.open('rb') as original:
         original_sha = digest(original)
-    packed = temporary/'member.zst'
     tick = time.monotonic()
     subprocess.run(['zstd', '-q', '-T1', '-1', '-o', str(packed), '--', str(path)],
                    check=True, timeout=45)
     encoded_seconds = time.monotonic()-tick
-    try:
-        with tempfile.TemporaryFile() as messages:
-            with subprocess.Popen(['zstd', '-q', '-T1', '-d', '-c', '--', str(packed)],
-                                  stdout=subprocess.PIPE, stderr=messages) as decoded:
-                returned_sha = digest(decoded.stdout)
-                code = decoded.wait(timeout=10)
-            if code or returned_sha != original_sha or before != fingerprint(path):
-                raise ValueError(f'Unchanged, byte-identical original not established for {path.name}')
-        return dict(name=path.name, original_bytes=before[2], packed_bytes=packed.stat().st_size,
-                    original_sha256=original_sha, restored_sha256=returned_sha,
-                    encode_seconds=encoded_seconds, roundtrip_seconds=time.monotonic()-tick)
-    finally:
-        packed.unlink()
+    with tempfile.TemporaryFile() as messages:
+        with subprocess.Popen(['zstd', '-q', '-T1', '-d', '-c', '--', str(packed)],
+                              stdout=subprocess.PIPE, stderr=messages) as decoded:
+            returned_sha = digest(decoded.stdout)
+            code = decoded.wait(timeout=10)
+        if code or returned_sha != original_sha or before != fingerprint(path):
+            raise ValueError(f'Unchanged, byte-identical original not established for {path.name}')
+    return dict(name=path.name, original_bytes=before[2], packed_bytes=packed.stat().st_size,
+                original_sha256=original_sha, restored_sha256=returned_sha,
+                encode_seconds=encoded_seconds, roundtrip_seconds=time.monotonic()-tick)
+
+
+def measure(path, temporary):
+    packed = temporary/'member.zst'
+    result = compress(path, packed)
+    packed.unlink()
+    return result
 
 
 def benchmark(producer, scratch, selectors):
