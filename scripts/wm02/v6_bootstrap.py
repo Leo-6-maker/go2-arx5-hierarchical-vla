@@ -50,7 +50,7 @@ def main():
         if spec['physics'] or spec['new_physical_requests_budget'] or os.environ.get('CUDA_VISIBLE_DEVICES') != spec['GPU_uuid']:
             raise PermissionError('Expected the assigned nonintegrating Core inference worker')
         # Use the strict replay process's original import ordering for all numeric dependencies.
-        worker = source/'scripts/sla/hybrid_ipc_worker_v3.py'
+        worker = source/'scripts/sla/core_hopper_native_entry.py'
         os.execv(spec['python'],[spec['python'],'-B',str(worker),'--worker',path])
     if operation == '--core-hopper-collection' and core_hopper_expert:
         from scripts.sla.core_hopper_collection import run
