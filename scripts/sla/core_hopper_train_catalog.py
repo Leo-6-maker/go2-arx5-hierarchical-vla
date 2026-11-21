@@ -7,7 +7,7 @@ import time
 
 from scripts.pi0292.durable import OwnerLock, read, write
 from scripts.sla.hopper_parent_custody import PLAN, digest, write_once
-from scripts.sla.hopper_snapshot_producers import ORIGINAL, ORIGINAL_SOURCE, REPAIRS, check_case
+from scripts.sla.hopper_snapshot_producers import ORIGINAL, ORIGINAL_SOURCE, RED_PLACE_SPEC, REPAIRS, SERIES, check_case
 from scripts.sla.hopper_site import T0, DEADLINE, pinned
 from core_hopper_snapshot import publish
 
@@ -15,8 +15,8 @@ from core_hopper_snapshot import publish
 def sources(cfg):
     roots = {}
     all_specs = {ORIGINAL,*REPAIRS}
-    before_red_place = all_specs-{'73a7e59b8c0061f42013f45730f35d573518f659ed1e4bc29ff202296f0ab947'}
-    if set(cfg['producers']) not in (before_red_place,all_specs):
+    before_series = all_specs-set(SERIES)
+    if set(cfg['producers']) not in (before_series-{RED_PLACE_SPEC},before_series,all_specs):
         raise ValueError('Missing or unregistered TRAIN source')
     for sha, folder in cfg['producers'].items():
         root = Path(folder)
