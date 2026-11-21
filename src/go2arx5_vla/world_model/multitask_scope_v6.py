@@ -19,6 +19,9 @@ VERSION = NATIVE_VERSION
 
 
 def scope_identity(spec):
+    if spec.get('scope') == 'SLA_CORE_HOPPER_V1_STUDENT':
+        from scripts.sla import core_hopper_native_scope as student
+        return student.SCOPE, student.PLAN, student.ENDPOINTS, student.AUTHORITY
     if spec.get('scope') == 'SLA_CORE_HOPPER_V1_EXPERT':
         from scripts.sla.core_hopper_expert import SCOPE as ch_scope, PLAN as ch_plan, AUTHORITY
         return ch_scope, ch_plan, (), AUTHORITY
@@ -62,7 +65,10 @@ def query_identity(spec):
 def student_package(spec):
     arm, package = spec['arm'], spec['G7_package']
     scope, plan, _, _ = scope_identity(spec)
-    if scope == d4.SCOPE:
+    if scope == 'SLA_CORE_HOPPER_V1_STUDENT':
+        from scripts.sla.core_hopper_native_scope import validate_case
+        validate_case(spec)
+    elif scope == d4.SCOPE:
         d4.endpoint(arm, package, spec['d4_endpoint'], spec['ordinary_RGB_restore'])
     elif scope == followup.SCOPE:
         followup.endpoint(arm, package, spec['d4_endpoint'], spec['ordinary_RGB_restore'],
@@ -97,7 +103,7 @@ def validate(spec):
     scope, plan, _, authority_source = scope_identity(spec)
     if (spec.get('scope')!=scope or spec['plan_commit']!=plan
             or spec['mobile_experiment_version']!=VERSION or role not in ('INTERFACE','EXPERT','STUDENT')
-            or (scope in (d4.SCOPE, followup.SCOPE, scale.SCOPE) and not student) or (scope == d4.E0_SCOPE and not interface)
+            or (scope in (d4.SCOPE, followup.SCOPE, scale.SCOPE, 'SLA_CORE_HOPPER_V1_STUDENT') and not student) or (scope == d4.E0_SCOPE and not interface)
             or (scope in adaptation.SCOPES and (role != 'EXPERT'
                 or (condition['family'],task.instruction) not in adaptation.batch_cells(scope)))
             or spec['native_backend']!='MUJOCO_ONLY' or spec['hardware_connections_allowed'] is not False

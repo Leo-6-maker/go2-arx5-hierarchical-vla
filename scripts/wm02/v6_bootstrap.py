@@ -27,7 +27,10 @@ def main():
     core_hopper_expert = (spec['plan_commit'] == '171b5bedb290258954aac140157743e92e3b152e'
                           and spec['scope'] == 'SLA_CORE_HOPPER_V1_EXPERT'
                           and operation in ('--case', '--core-hopper-collection'))
-    if not (d4 or e0 or followup or scale or adaptation or core_hopper_expert) and (spec['plan_commit']!='ae3d3c0dceade437b0104a150cd0402fef650052'or spec['scope']not in('SLA_SOURCE_NATIVE_SHARED_V6','SLA_V6_TARGET_NATIVE','SLA_V6_MULTITASK_NATIVE')):
+    core_hopper_student = (spec['plan_commit'] == '171b5bedb290258954aac140157743e92e3b152e'
+                           and spec['scope'] == 'SLA_CORE_HOPPER_V1_STUDENT'
+                           and operation in ('--case','--worker','--core-hopper-students'))
+    if not (d4 or e0 or followup or scale or adaptation or core_hopper_expert or core_hopper_student) and (spec['plan_commit']!='ae3d3c0dceade437b0104a150cd0402fef650052'or spec['scope']not in('SLA_SOURCE_NATIVE_SHARED_V6','SLA_V6_TARGET_NATIVE','SLA_V6_MULTITASK_NATIVE')):
         raise PermissionError('FIXED_V6_PLAN_AND_EXPLICIT_NEW_SCOPE_REQUIRED')
     if Path(__file__).resolve()!=source/'scripts/wm02/v6_bootstrap.py':raise PermissionError('EXACT_NEW_V6_BOOTSTRAP')
     for name,pin in spec['source_files'].items():
@@ -39,6 +42,16 @@ def main():
         module.__path__=[str(source/rel),*list(module.__path__)]
     from scripts.wm02.mobile_boundary_runner_v1 import registered
     registered(spec,path)
+    if core_hopper_student and operation == '--core-hopper-students':
+        from scripts.sla.core_hopper_native_campaign import run_block
+        raise SystemExit(run_block(path,spec))
+    if core_hopper_student and operation == '--worker':
+        import os
+        if spec['physics'] or spec['new_physical_requests_budget'] or os.environ.get('CUDA_VISIBLE_DEVICES') != spec['GPU_uuid']:
+            raise PermissionError('Expected the assigned nonintegrating Core inference worker')
+        # Use the strict replay process's original import ordering for all numeric dependencies.
+        worker = source/'scripts/sla/hybrid_ipc_worker_v3.py'
+        os.execv(spec['python'],[spec['python'],'-B',str(worker),'--worker',path])
     if operation == '--core-hopper-collection' and core_hopper_expert:
         from scripts.sla.core_hopper_collection import run
         raise SystemExit(run(spec))
