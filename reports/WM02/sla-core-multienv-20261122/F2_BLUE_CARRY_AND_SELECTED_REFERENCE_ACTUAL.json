@@ -1,0 +1,974 @@
+{
+  "plan": "4fe2c8cf1b69c168b2e3079e061bb7c702089cd3",
+  "core_waveA": {
+    "epoch": 1795301490.9336767,
+    "progress": {
+      "stage": "DISPATCH",
+      "epoch": 1795301341.8211343,
+      "completed": 14,
+      "actual_requests": 14,
+      "closed_ticks": 373223,
+      "admitted_train": 6,
+      "current": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-red-left"
+    },
+    "current": {
+      "id": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-red-left",
+      "pid": 2891905,
+      "tick": 11953
+    },
+    "admitted": [
+      "MEV1-TRAIN-F1-NEAR_NEG-00-HOLD-blue",
+      "MEV1-TRAIN-F1-NEAR_NEG-00-HOLD-red",
+      "MEV1-TRAIN-F2-NEAR_NEG-00-HOLD-blue",
+      "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-blue-left",
+      "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-red-right",
+      "MEV1-TRAIN-F1-NEAR_NEG-01-HOLD-blue"
+    ],
+    "first_failure": {
+      "ILLEGAL_CONTACT": 7,
+      "TASK_BUDGET_EXHAUSTED_IN_CARRY": 1
+    },
+    "waves_total_STARTED": 15,
+    "last": [
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-HOLD-blue",
+        "requests": 1,
+        "ticks": 22203,
+        "admitted": true,
+        "first_failure": "TASK_SUCCESS",
+        "hard_STOP": false,
+        "post_STOP_ticks": null,
+        "capture": null,
+        "g7": null,
+        "result": {
+          "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-20261122-02/cases/MEV1-TRAIN-F1-NEAR_NEG-01-HOLD-blue/RESULT.private.json",
+          "sha256": "dc21208d578d7da3ad4d797feb81c9df1ee03ae091c1b8f5cd9aedabff66660f"
+        }
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-HOLD-red",
+        "requests": 1,
+        "ticks": 23144,
+        "admitted": false,
+        "first_failure": "ILLEGAL_CONTACT",
+        "hard_STOP": true,
+        "post_STOP_ticks": 0,
+        "capture": null,
+        "g7": null,
+        "result": {
+          "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-20261122-02/cases/MEV1-TRAIN-F2-NEAR_NEG-01-HOLD-red/RESULT.private.json",
+          "sha256": "f64d6e7f819f10569ed18a79e4f5d4e5b4b714803a42d7703046354c7fb162c9"
+        }
+      }
+    ],
+    "catalog": {
+      "paid_TRAIN": 14,
+      "new_admitted": 6,
+      "sealed_new_members": 4,
+      "new_training_visits": 0
+    },
+    "sealed": {
+      "count": 63,
+      "windows": 5498,
+      "sha256": "e233d5f8ce6be2e11467be73010645a6ea74669b6709578164ef636e72ea914d"
+    },
+    "n1_current": {
+      "status": "WAIT_WORLD",
+      "pid": 2745035,
+      "epoch": 1795301489.251375,
+      "paid_requests": 4,
+      "verified_ticks": 42812,
+      "current": "MEV1-ENG-N1-SHORT-04",
+      "production_completed": 14
+    },
+    "n1_rows": [
+      {
+        "id": "MEV1-ENG-N1-SHORT-00",
+        "ticks": 10703,
+        "measurement": {
+          "status": "OUTSIDE_FROZEN_STATE_TOLERANCE",
+          "matched_atoms": 200,
+          "paired_RGB": 20,
+          "limits": {
+            "EEF_translation_m": 0.0025152321752068725,
+            "EEF_angle_rad": 0.017453292519943295,
+            "mount_translation_m": 0.002185499738484875,
+            "mount_angle_rad": 0.017453292519943295,
+            "jaw_fraction": 0.001
+          },
+          "maximum": {
+            "EEF_translation_m": 0.004789083724584254,
+            "EEF_angle_rad": 0.0059011631855664295,
+            "mount_translation_m": 0.00572130899052724,
+            "mount_angle_rad": 0.008712410635944766,
+            "jaw_fraction": 0.0002871175374797863
+          },
+          "historical_recording_sha256": "6382cd20ee22e5ce70ed0bdc8f8677690c21ba6c035cf334cbefa516092511dd",
+          "controller_selected_reference": "NOT_EXPORTED_BY_FROZEN_CONTROLLER"
+        }
+      },
+      {
+        "id": "MEV1-ENG-N1-SHORT-01",
+        "ticks": 10703,
+        "measurement": {
+          "status": "WITHIN_FROZEN_STATE_TOLERANCE",
+          "matched_atoms": 200,
+          "paired_RGB": 20,
+          "limits": {
+            "EEF_translation_m": 0.005999447781465302,
+            "EEF_angle_rad": 0.0226721509438131,
+            "mount_translation_m": 0.011078147106107416,
+            "mount_angle_rad": 0.03166960249425338,
+            "jaw_fraction": 0.001
+          },
+          "maximum": {
+            "EEF_translation_m": 0.0009638139283978837,
+            "EEF_angle_rad": 0.0021908212221230434,
+            "mount_translation_m": 0.00021996556607854805,
+            "mount_angle_rad": 0.00019469068265136875,
+            "jaw_fraction": 1.995435241997079e-05
+          },
+          "historical_recording_sha256": "501f2e9e9f068d504737f0c50b3493b3bb3dd9d2cbffcaae75afaa9a41fc23cc",
+          "controller_selected_reference": "NOT_EXPORTED_BY_FROZEN_CONTROLLER"
+        }
+      },
+      {
+        "id": "MEV1-ENG-N1-SHORT-02",
+        "ticks": 10703,
+        "measurement": {
+          "status": "OUTSIDE_FROZEN_STATE_TOLERANCE",
+          "matched_atoms": 200,
+          "paired_RGB": 20,
+          "limits": {
+            "EEF_translation_m": 0.0040381210413138425,
+            "EEF_angle_rad": 0.017453292519943295,
+            "mount_translation_m": 0.0031203193680729565,
+            "mount_angle_rad": 0.017453292519943295,
+            "jaw_fraction": 0.001
+          },
+          "maximum": {
+            "EEF_translation_m": 0.005995658610346127,
+            "EEF_angle_rad": 0.008547075513186331,
+            "mount_translation_m": 0.0063226733858635096,
+            "mount_angle_rad": 0.009547678328881051,
+            "jaw_fraction": 0.00019344549008504242
+          },
+          "historical_recording_sha256": "41f8b4966626d145ae78b3517c768c9cdf68ee0024627b25f7545eb8c428122a",
+          "controller_selected_reference": "NOT_EXPORTED_BY_FROZEN_CONTROLLER"
+        }
+      },
+      {
+        "id": "MEV1-ENG-N1-SHORT-03",
+        "ticks": 10703,
+        "measurement": {
+          "status": "WITHIN_FROZEN_STATE_TOLERANCE",
+          "matched_atoms": 200,
+          "paired_RGB": 20,
+          "limits": {
+            "EEF_translation_m": 0.01017728480458699,
+            "EEF_angle_rad": 0.018870459958318493,
+            "mount_translation_m": 0.0077012046843688295,
+            "mount_angle_rad": 0.024521885853891402,
+            "jaw_fraction": 0.001
+          },
+          "maximum": {
+            "EEF_translation_m": 0.003461866177738247,
+            "EEF_angle_rad": 0.010730398529911313,
+            "mount_translation_m": 0.005218365470739968,
+            "mount_angle_rad": 0.015707269133784545,
+            "jaw_fraction": 0.0002944951836367782
+          },
+          "historical_recording_sha256": "130ee5e95cd87805629fd8a098cf8d1f4432152a9b74f8d7655d68eca45da314",
+          "controller_selected_reference": "NOT_EXPORTED_BY_FROZEN_CONTROLLER"
+        }
+      }
+    ],
+    "free_GiB": 285.03,
+    "producer_units": {
+      "wave": "active",
+      "catalog": "active",
+      "publisher": "active"
+    }
+  },
+  "f2_original_red_HOLD": [
+    {
+      "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-HOLD-red",
+      "ticks": 21340,
+      "admitted": false,
+      "episode": {},
+      "first_failure": "ILLEGAL_CONTACT",
+      "first_failure_signature": [
+        "ILLEGAL_CONTACT",
+        "DESCEND",
+        [
+          [
+            "task_blue_cube",
+            "x5_link6"
+          ]
+        ]
+      ],
+      "post_STOP_ticks": 0,
+      "result": {
+        "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-20261122-02/cases/MEV1-TRAIN-F2-NEAR_NEG-00-HOLD-red/RESULT.private.json",
+        "sha256": "1852d281138cdac76bf9bad070742dc5713e23646e78c8b04eb75e9df5c02b27"
+      }
+    },
+    {
+      "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-HOLD-red",
+      "ticks": 23144,
+      "admitted": false,
+      "episode": {},
+      "first_failure": "ILLEGAL_CONTACT",
+      "first_failure_signature": [
+        "ILLEGAL_CONTACT",
+        "DESCEND",
+        [
+          [
+            "task_blue_cube",
+            "x5_link6"
+          ]
+        ]
+      ],
+      "post_STOP_ticks": 0,
+      "result": {
+        "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-20261122-02/cases/MEV1-TRAIN-F2-NEAR_NEG-01-HOLD-red/RESULT.private.json",
+        "sha256": "f64d6e7f819f10569ed18a79e4f5d4e5b4b714803a42d7703046354c7fb162c9"
+      }
+    }
+  ],
+  "f2_blue_left": {
+    "result_pin": {
+      "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/p425-blue-left-carry-shadow-20261122-03/RESULT.private.json",
+      "sha256": "19e126b6f1124eb8f69c2d5e532c23eafc59822e706eea3228b7228d117a0027"
+    },
+    "source": {
+      "scripts/sla/core_multienv_blue_carry_shadow.py": "f648d28e7dac29c0d4c37965ac8a62d1ddfb883c5b1acaf97e889892290f5982",
+      "scripts/sla/core_multienv_place_sweep.py": "4adedb9fb4aab96ede579d5d683b7cb71275cf2ab4325d5ad317dfafafb30627"
+    },
+    "runtime_elapsed_s": 1.0753381662070751,
+    "attempts": [
+      {
+        "ordinal": 1,
+        "reason": "missing red-only approach import",
+        "native_requests": 0
+      },
+      {
+        "ordinal": 2,
+        "reason": "missing dataset producer import",
+        "native_requests": 0
+      }
+    ],
+    "cases": [
+      {
+        "layout": "original",
+        "query_tick": 23453,
+        "routes": {
+          "original_goal_straight": {
+            "passed": true,
+            "planned": 42,
+            "matched": 42,
+            "forbidden_waypoints": 0,
+            "minimum_held_box_gap_mm": 6.476926789270393,
+            "first_problem": null
+          },
+          "x_then_y": {
+            "passed": false,
+            "planned": 59,
+            "matched": 59,
+            "forbidden_waypoints": 25,
+            "minimum_held_box_gap_mm": -19.959223378397926,
+            "first_problem": "CONTACT"
+          },
+          "y_then_x": {
+            "passed": true,
+            "planned": 59,
+            "matched": 59,
+            "forbidden_waypoints": 0,
+            "minimum_held_box_gap_mm": 34.10461747894505,
+            "first_problem": null
+          }
+        }
+      },
+      {
+        "layout": "unopened",
+        "query_tick": 23453,
+        "routes": {
+          "original_goal_straight": {
+            "passed": true,
+            "planned": 42,
+            "matched": 42,
+            "forbidden_waypoints": 0,
+            "minimum_held_box_gap_mm": 3.1951431139227715,
+            "first_problem": null
+          },
+          "x_then_y": {
+            "passed": false,
+            "planned": 59,
+            "matched": 59,
+            "forbidden_waypoints": 27,
+            "minimum_held_box_gap_mm": -19.974953996902315,
+            "first_problem": "CONTACT"
+          },
+          "y_then_x": {
+            "passed": true,
+            "planned": 59,
+            "matched": 59,
+            "forbidden_waypoints": 0,
+            "minimum_held_box_gap_mm": 31.44569661952669,
+            "first_problem": null
+          }
+        }
+      },
+      {
+        "layout": "original",
+        "query_tick": 23703,
+        "routes": {
+          "original_goal_straight": {
+            "passed": true,
+            "planned": 41,
+            "matched": 41,
+            "forbidden_waypoints": 0,
+            "minimum_held_box_gap_mm": 5.9762833172653105,
+            "first_problem": null
+          },
+          "x_then_y": {
+            "passed": false,
+            "planned": 58,
+            "matched": 58,
+            "forbidden_waypoints": 24,
+            "minimum_held_box_gap_mm": -18.625821873227636,
+            "first_problem": "CONTACT"
+          },
+          "y_then_x": {
+            "passed": true,
+            "planned": 58,
+            "matched": 58,
+            "forbidden_waypoints": 0,
+            "minimum_held_box_gap_mm": 34.10738446172461,
+            "first_problem": null
+          }
+        }
+      },
+      {
+        "layout": "unopened",
+        "query_tick": 23703,
+        "routes": {
+          "original_goal_straight": {
+            "passed": true,
+            "planned": 41,
+            "matched": 41,
+            "forbidden_waypoints": 0,
+            "minimum_held_box_gap_mm": 3.0911071103898076,
+            "first_problem": null
+          },
+          "x_then_y": {
+            "passed": false,
+            "planned": 59,
+            "matched": 59,
+            "forbidden_waypoints": 26,
+            "minimum_held_box_gap_mm": -18.640158294379567,
+            "first_problem": "CONTACT"
+          },
+          "y_then_x": {
+            "passed": true,
+            "planned": 59,
+            "matched": 59,
+            "forbidden_waypoints": 0,
+            "minimum_held_box_gap_mm": 31.448394465281076,
+            "first_problem": null
+          }
+        }
+      },
+      {
+        "layout": "original",
+        "query_tick": 23953,
+        "routes": {
+          "original_goal_straight": {
+            "passed": true,
+            "planned": 41,
+            "matched": 41,
+            "forbidden_waypoints": 0,
+            "minimum_held_box_gap_mm": 6.418656228757598,
+            "first_problem": null
+          },
+          "x_then_y": {
+            "passed": false,
+            "planned": 57,
+            "matched": 57,
+            "forbidden_waypoints": 24,
+            "minimum_held_box_gap_mm": -18.42454153922146,
+            "first_problem": "CONTACT"
+          },
+          "y_then_x": {
+            "passed": true,
+            "planned": 57,
+            "matched": 57,
+            "forbidden_waypoints": 0,
+            "minimum_held_box_gap_mm": 34.11113431067543,
+            "first_problem": null
+          }
+        }
+      },
+      {
+        "layout": "unopened",
+        "query_tick": 23953,
+        "routes": {
+          "original_goal_straight": {
+            "passed": true,
+            "planned": 41,
+            "matched": 41,
+            "forbidden_waypoints": 0,
+            "minimum_held_box_gap_mm": 3.161684194431469,
+            "first_problem": null
+          },
+          "x_then_y": {
+            "passed": false,
+            "planned": 57,
+            "matched": 57,
+            "forbidden_waypoints": 26,
+            "minimum_held_box_gap_mm": -18.431419071920136,
+            "first_problem": "CONTACT"
+          },
+          "y_then_x": {
+            "passed": true,
+            "planned": 57,
+            "matched": 57,
+            "forbidden_waypoints": 0,
+            "minimum_held_box_gap_mm": 31.452593222657956,
+            "first_problem": null
+          }
+        }
+      },
+      {
+        "layout": "original",
+        "query_tick": 27203,
+        "routes": {
+          "original_goal_straight": {
+            "passed": true,
+            "planned": 26,
+            "matched": 26,
+            "forbidden_waypoints": 0,
+            "minimum_held_box_gap_mm": 5.250114370067969,
+            "first_problem": null
+          },
+          "x_then_y": {
+            "passed": false,
+            "planned": 36,
+            "matched": 36,
+            "forbidden_waypoints": 14,
+            "minimum_held_box_gap_mm": -9.84373145943276,
+            "first_problem": "CONTACT"
+          },
+          "y_then_x": {
+            "passed": true,
+            "planned": 36,
+            "matched": 36,
+            "forbidden_waypoints": 0,
+            "minimum_held_box_gap_mm": 18.47108429707953,
+            "first_problem": null
+          }
+        }
+      },
+      {
+        "layout": "unopened",
+        "query_tick": 27203,
+        "routes": {
+          "original_goal_straight": {
+            "passed": true,
+            "planned": 26,
+            "matched": 26,
+            "forbidden_waypoints": 0,
+            "minimum_held_box_gap_mm": 3.3837342998178745,
+            "first_problem": null
+          },
+          "x_then_y": {
+            "passed": false,
+            "planned": 36,
+            "matched": 36,
+            "forbidden_waypoints": 16,
+            "minimum_held_box_gap_mm": -9.837541086829907,
+            "first_problem": "CONTACT"
+          },
+          "y_then_x": {
+            "passed": true,
+            "planned": 36,
+            "matched": 36,
+            "forbidden_waypoints": 0,
+            "minimum_held_box_gap_mm": 16.07491966106907,
+            "first_problem": null
+          }
+        }
+      },
+      {
+        "layout": "original",
+        "query_tick": 27703,
+        "routes": {
+          "original_goal_straight": {
+            "passed": true,
+            "planned": 22,
+            "matched": 22,
+            "forbidden_waypoints": 0,
+            "minimum_held_box_gap_mm": 5.411363485841113,
+            "first_problem": null
+          },
+          "x_then_y": {
+            "passed": false,
+            "planned": 30,
+            "matched": 30,
+            "forbidden_waypoints": 10,
+            "minimum_held_box_gap_mm": -1.5906667367696636,
+            "first_problem": "CONTACT"
+          },
+          "y_then_x": {
+            "passed": true,
+            "planned": 31,
+            "matched": 31,
+            "forbidden_waypoints": 0,
+            "minimum_held_box_gap_mm": 11.677569289627627,
+            "first_problem": null
+          }
+        }
+      },
+      {
+        "layout": "unopened",
+        "query_tick": 27703,
+        "routes": {
+          "original_goal_straight": {
+            "passed": true,
+            "planned": 22,
+            "matched": 22,
+            "forbidden_waypoints": 0,
+            "minimum_held_box_gap_mm": 4.166855184330492,
+            "first_problem": null
+          },
+          "x_then_y": {
+            "passed": false,
+            "planned": 30,
+            "matched": 30,
+            "forbidden_waypoints": 12,
+            "minimum_held_box_gap_mm": -1.584476479264421,
+            "first_problem": "CONTACT"
+          },
+          "y_then_x": {
+            "passed": true,
+            "planned": 31,
+            "matched": 31,
+            "forbidden_waypoints": 0,
+            "minimum_held_box_gap_mm": 9.281430562381221,
+            "first_problem": null
+          }
+        }
+      },
+      {
+        "layout": "original",
+        "query_tick": 28203,
+        "routes": {
+          "original_goal_straight": {
+            "passed": true,
+            "planned": 20,
+            "matched": 20,
+            "forbidden_waypoints": 0,
+            "minimum_held_box_gap_mm": 5.185092952945128,
+            "first_problem": null
+          },
+          "x_then_y": {
+            "passed": true,
+            "planned": 28,
+            "matched": 28,
+            "forbidden_waypoints": 0,
+            "minimum_held_box_gap_mm": 1.3403451776904107,
+            "first_problem": null
+          },
+          "y_then_x": {
+            "passed": true,
+            "planned": 28,
+            "matched": 28,
+            "forbidden_waypoints": 0,
+            "minimum_held_box_gap_mm": 8.488247033636524,
+            "first_problem": null
+          }
+        }
+      },
+      {
+        "layout": "unopened",
+        "query_tick": 28203,
+        "routes": {
+          "original_goal_straight": {
+            "passed": true,
+            "planned": 20,
+            "matched": 20,
+            "forbidden_waypoints": 0,
+            "minimum_held_box_gap_mm": 4.2959712593722035,
+            "first_problem": null
+          },
+          "x_then_y": {
+            "passed": true,
+            "planned": 28,
+            "matched": 28,
+            "forbidden_waypoints": 0,
+            "minimum_held_box_gap_mm": 1.3465353974451353,
+            "first_problem": null
+          },
+          "y_then_x": {
+            "passed": true,
+            "planned": 28,
+            "matched": 28,
+            "forbidden_waypoints": 0,
+            "minimum_held_box_gap_mm": 6.092058045842754,
+            "first_problem": null
+          }
+        }
+      }
+    ],
+    "scope": {
+      "VAL_inputs": 0,
+      "case": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-blue-left",
+      "model_generations": 0,
+      "native_requests": 0,
+      "native_ticks": 0,
+      "optimizer_updates": 0,
+      "original_forbidden_pairs": [
+        {
+          "bodies": [
+            "task_cube",
+            "task_blue_cube"
+          ],
+          "geoms": [
+            "task_cube_geom",
+            "task_blue_cube_geom"
+          ],
+          "signed_distance_mm": -0.00447555802788089
+        }
+      ],
+      "original_scene_sha256": "c6d32401caaa36fdac50370da49e14139c6ea779e513aefd19c6ba488b8d0d5c",
+      "query_sha256": "76a8cdc0954d99de3a3722ce0d22bea189c68647f0bfb701392c311800894c3e",
+      "result_sha256": "04d946a480c3b5746ddc5aaf332cf93d8af949f7e397d72114e01192d9e1268c",
+      "rigid_contact_projection": true,
+      "status": "STATIC_F2_BLUE_LEFT_CARRY_SWEEP",
+      "stop_tick": 28437,
+      "unopened_case": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-blue-left",
+      "unopened_scene": {
+        "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-static-geometry-20261122-01/MEV1-TRAIN-F2-NEAR_NEG-01.mjb",
+        "sha256": "b2bbb276d0a0b7bbb65c93841e35e5b35168d57ac77f7c89abc545031d52629f"
+      }
+    },
+    "red_compatibility": {
+      "status": "EXACT_RED_COMPATIBILITY",
+      "same": true,
+      "sha256": {
+        "p425-blue-left-carry-shadow-20261122-03": "344a07b534bd891455e0dc4826f22dec75d4f8e4d95c46c1fc954b15163c142c",
+        "p425-red-shadow-compat-20261122-01": "344a07b534bd891455e0dc4826f22dec75d4f8e4d95c46c1fc954b15163c142c"
+      },
+      "actual_native_requests": 0
+    },
+    "production_trace": {
+      "carry_queries": 20,
+      "confirmed_P10_points": 199,
+      "final_partial_ticks": 9,
+      "matched_accepted_time_rows": 20,
+      "actual_selected_policy_rows": 0,
+      "last": {
+        "native_step": 28203,
+        "mask": 9,
+        "partial": 9,
+        "tcp_xyz": [
+          0.32872476935082184,
+          0.12025969243580488,
+          0.6649674084006958
+        ],
+        "object_xyz": [
+          0.338447267737066,
+          0.12223557839165447,
+          0.641333551601834
+        ],
+        "accepted_pose": [
+          0.33213040232658386,
+          0.13717226684093475,
+          0.6712484955787659,
+          0.013305037282407284,
+          0.05244894698262215,
+          -0.00647787656635046,
+          0.99851393699646
+        ],
+        "bound": 28203,
+        "index": 1,
+        "selected": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED",
+        "first_installed": [
+          0.33213040232658386,
+          0.13717226684093475,
+          0.6712484955787659
+        ],
+        "last_confirmed": [
+          0.3342116001324317,
+          0.1393140185129838,
+          0.6715337772719097
+        ],
+        "begin": {
+          "atom": 0,
+          "start_native_step": 28203,
+          "installed_reference_sha256": "39447b5f520eaef244d87f3ff523564242845a4d27b58733961e85c351db930e",
+          "confirmed_ticks": 25,
+          "end_native_step": 28228,
+          "boundary": {
+            "version": "MOBILE_ACCEPTED_BOUNDARY_050_V1",
+            "native_time_s": 56.45600000002303,
+            "receiver_knot_time_s": 56.455999999999996,
+            "receiver_knot_index": 1,
+            "accepted_wire_sha256": "39447b5f520eaef244d87f3ff523564242845a4d27b58733961e85c351db930e",
+            "solver_target_identity": "ae2f1ec443b82870d863fcec67448299e564af4bdc73464754af0a4440a5765b",
+            "receiver_bound_start_s": 56.406,
+            "receiver_observation_time_s": 56.406,
+            "accepted_pose7": [
+              0.33239123225212097,
+              0.1374393254518509,
+              0.671284019947052,
+              0.013303925283253193,
+              0.052475858479738235,
+              -0.0065004522912204266,
+              0.9985123872756958
+            ],
+            "initial_constant_BASE_hold": false,
+            "exact_receiver_knot": true,
+            "controller_selected_reference": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED",
+            "native_step": 28228
+          }
+        },
+        "end": {
+          "atom": 9,
+          "start_native_step": 28428,
+          "installed_reference_sha256": "6e2c906263e801e9675612f6d8d8851b8114a29271e8a4bcd84e634afa8082b3",
+          "confirmed_ticks": 0
+        }
+      },
+      "largest_accepted_target_to_TCP_mm": 18.359890117132185,
+      "last_accepted_target_minus_TCP_mm": [
+        3.4056329757620185,
+        16.912574405129874,
+        6.281087178070077
+      ]
+    },
+    "candidate_native": "NOT_RUN"
+  },
+  "frozen_reference": {
+    "controller_sha256": "9e8ce46837d09bc39ae04d4b49f1ce4dd8c8c2d31bea39eac56c5806d108c1f3",
+    "solver_sha256": "4a5f5aa6e0b9d4bde62f4d1da73135ef97e5268945a0cecf114d9190d3e04fd0",
+    "direct_calls": [
+      "28a468:\te8 33 ce 02 00       \tcall   2b72a0 <ocs2::MRT_BASE::updatePolicy()>",
+      "28a505:\te8 76 c6 02 00       \tcall   2b6b80 <ocs2::MRT_BASE::getPolicy() const>",
+      "28a584:\te8 f7 c6 02 00       \tcall   2b6c80 <ocs2::MRT_BASE::evaluatePolicy(double, Eigen::Matrix<double, -1, 1, 0, -1, 1> const&, Eigen::Matrix<double, -1, 1, 0, -1, 1>&, Eigen::Matrix<double, -1, 1, 0, -1, 1>&, unsigned long&)>",
+      "28a7a1:\te8 da c3 02 00       \tcall   2b6b80 <ocs2::MRT_BASE::getPolicy() const>",
+      "28a8e6:\te8 95 c2 02 00       \tcall   2b6b80 <ocs2::MRT_BASE::getPolicy() const>"
+    ],
+    "evaluate_calls": [
+      "2b6d04:\te8 a7 41 f1 ff       \tcall   1caeb0 <free@plt>",
+      "2b6ded:\te8 5e 51 f1 ff       \tcall   1cbf50 <malloc@plt>",
+      "2b6e04:\te8 f7 3e f1 ff       \tcall   1cad00 <memcpy@plt>",
+      "2b6e18:\te8 93 40 f1 ff       \tcall   1caeb0 <free@plt>",
+      "2b6eaa:\te8 01 53 f1 ff       \tcall   1cc1b0 <std::basic_ostream<char, std::char_traits<char> >& std::__ostream_insert<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*, long)@plt>",
+      "2b6eeb:\te8 c0 52 f1 ff       \tcall   1cc1b0 <std::basic_ostream<char, std::char_traits<char> >& std::__ostream_insert<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*, long)@plt>",
+      "2b6f04:\te8 a7 52 f1 ff       \tcall   1cc1b0 <std::basic_ostream<char, std::char_traits<char> >& std::__ostream_insert<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*, long)@plt>",
+      "2b6f4b:\te8 60 52 f1 ff       \tcall   1cc1b0 <std::basic_ostream<char, std::char_traits<char> >& std::__ostream_insert<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*, long)@plt>",
+      "2b6f5f:\te8 4c 52 f1 ff       \tcall   1cc1b0 <std::basic_ostream<char, std::char_traits<char> >& std::__ostream_insert<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*, long)@plt>",
+      "2b6f7c:\te8 2f 3e f1 ff       \tcall   1cadb0 <operator delete(void*, unsigned long)@plt>",
+      "2b6f99:\te8 12 3e f1 ff       \tcall   1cadb0 <operator delete(void*, unsigned long)@plt>",
+      "2b7191:\te8 ba 4d f1 ff       \tcall   1cbf50 <malloc@plt>",
+      "2b7200:\te8 2b 3f f1 ff       \tcall   1cb130 <__stack_chk_fail@plt>"
+    ],
+    "solver_publication": [
+      "000000000015b5a0 T ocs2::MPC_ROS_Interface::publisherWorker()",
+      "000000000021dbd0 W ocs2::ReferenceManager::getTargetTrajectories() const"
+    ],
+    "site_observation": {
+      "perf_event_paranoid": "4",
+      "ptrace_scope": "1",
+      "unprivileged_bpf_disabled": "2",
+      "/sys/kernel/tracing/uprobe_events": {
+        "status": "ACCESS_DENIED"
+      },
+      "/sys/kernel/debug/tracing/uprobe_events": {
+        "status": "ACCESS_DENIED"
+      }
+    },
+    "attached_processes": 0,
+    "recompiled_wbc_binaries": 0,
+    "native_requests": 0
+  },
+  "n2": "NOT_RUN",
+  "n4": "NOT_RUN",
+  "hopper": {
+    "site": {
+      "epoch": 1795301626.954212,
+      "job": {
+        "job_state": "R",
+        "stime": "Sun Nov 22 06:34:16 2026",
+        "exec_host": "hopper-16/2*12",
+        "resources_used.walltime": null,
+        "project": "CFP04-CF-007"
+      },
+      "actual": {
+        "job": "728212.hopper-m-02",
+        "phase": 2826,
+        "epoch": 1795301624.1788244,
+        "cursors": {
+          "target": 180864,
+          "robodojo": 90432,
+          "libero": 90432
+        }
+      },
+      "seal": {
+        "phase": 2800,
+        "checkpoint": {
+          "path": "/scratch/e1192548/Projects/GR00T-WBC/runs/WM02/sla-core-hopper-v1-custody-20261121-01/HOPPER-ADAPT20K-V1/MAIN/checkpoints/phase02800",
+          "sha256": "ae9a85269849798a6ba6b56ee7a6057ce5b806f7dbf1140c047ceb328b124721"
+        },
+        "backup_due": true,
+        "eval_due": false
+      },
+      "next_job_file": false
+    },
+    "deferred_010": {
+      "status": "QSUB_REPLY_UNKNOWN",
+      "reconciled": {
+        "epoch": 1795301124.16589,
+        "jobs": [],
+        "qselect_rc": 0,
+        "submission_recs": [
+          "GRANT.json",
+          "INTENT.json",
+          "job.pbs",
+          "journal"
+        ],
+        "current": {
+          "job_state": "R",
+          "Exit_status": null,
+          "exec_host": "hopper-16/2*12",
+          "stime": "Sun Nov 22 06:34:16 2026",
+          "resources_used.walltime": null
+        },
+        "progress": 2794
+      },
+      "new_PBS_jobs_confirmed": 0
+    },
+    "direct_backup_2800": {
+      "status": "HOPPER_VANDA_DIRECT_BACKUP_BYTE_MATCH",
+      "receipt": {
+        "plan": "171b5bedb290258954aac140157743e92e3b152e",
+        "role": "MAIN",
+        "phase": 2800,
+        "event_sha256": "21c29f1cbe3ca415e5526da3e733daf93c14db91e680a90686dd2b705b065a2b",
+        "checkpoint": "ae9a85269849798a6ba6b56ee7a6057ce5b806f7dbf1140c047ceb328b124721",
+        "custody": "/scratch/projects/CFP04/CFP04-CF-007/e1192548/GR00T-WBC/runs/WM02/sla-core-multienv-backup-main2800-20261122-01/MAIN/phase02800",
+        "arrays": 140,
+        "bytes": 5547651598,
+        "eval_due": false,
+        "deployment_due": false,
+        "parent": "2bff547b6f2c3aca0e7e2fd8a790ce6b30ef1c5f33b004c6897e3083647358d5"
+      },
+      "sha256": "2ff523e3746376b328491ef6434c303d3b4ac7251ef8ffa9145ea680fdf8e301",
+      "path": "/scratch/projects/CFP04/CFP04-CF-007/e1192548/GR00T-WBC/runs/WM02/sla-core-multienv-backup-main2800-20261122-01/receipts/MAIN-phase02800.json",
+      "finished": 1795301781.4169073,
+      "dependencies": "existing station-to-station SSH only"
+    },
+    "backup_independent_readback": {
+      "files": 141,
+      "arrays": 140,
+      "bytes": 5547651598,
+      "complete_sha": "ae9a85269849798a6ba6b56ee7a6057ce5b806f7dbf1140c047ceb328b124721",
+      "receipt_sha": "2ff523e3746376b328491ef6434c303d3b4ac7251ef8ffa9145ea680fdf8e301"
+    }
+  },
+  "n1_short_timeline": {
+    "scope": "ORIGINAL_N1_SHORT_ALIGN_END_TICK",
+    "out": [
+      {
+        "id": "MEV1-ENG-N1-SHORT-00",
+        "rows": 200,
+        "eef": {
+          "limit_mm": 2.5152321752068727,
+          "origin_mm": 1.2535684325317569,
+          "first_50ms_mm": 1.275062550490329,
+          "at_350ms_mm": 4.735614405795906,
+          "peak_mm": 4.789083724584254,
+          "peak_tick": 5853,
+          "first_over_tick": 5778
+        },
+        "mount": {
+          "limit_mm": 2.1854997384848747,
+          "origin_mm": 3.9987123757031777,
+          "first_50ms_mm": 4.015545972832008,
+          "at_350ms_mm": 4.88627059881962,
+          "peak_mm": 5.721308990527239,
+          "peak_tick": 5853,
+          "first_over_tick": 5728
+        }
+      },
+      {
+        "id": "MEV1-ENG-N1-SHORT-01",
+        "rows": 200,
+        "eef": {
+          "limit_mm": 5.999447781465302,
+          "origin_mm": 0.2802001154560294,
+          "first_50ms_mm": 0.2919290045981735,
+          "at_350ms_mm": 0.30507675319235267,
+          "peak_mm": 0.9638139283978837,
+          "peak_tick": 5803,
+          "first_over_tick": null
+        },
+        "mount": {
+          "limit_mm": 11.078147106107416,
+          "origin_mm": 0.08041966259603707,
+          "first_50ms_mm": 0.09448160033148349,
+          "at_350ms_mm": 0.13210805053124958,
+          "peak_mm": 0.21996556607854806,
+          "peak_tick": 5953,
+          "first_over_tick": null
+        }
+      },
+      {
+        "id": "MEV1-ENG-N1-SHORT-02",
+        "rows": 200,
+        "eef": {
+          "limit_mm": 4.038121041313842,
+          "origin_mm": 0.9055989299813406,
+          "first_50ms_mm": 0.9208960849063546,
+          "at_350ms_mm": 5.995658610346126,
+          "peak_mm": 5.995658610346126,
+          "peak_tick": 5878,
+          "first_over_tick": 5803
+        },
+        "mount": {
+          "limit_mm": 3.1203193680729564,
+          "origin_mm": 3.8702414140111463,
+          "first_50ms_mm": 3.8825790943332015,
+          "at_350ms_mm": 5.401334025232707,
+          "peak_mm": 6.322673385863509,
+          "peak_tick": 5853,
+          "first_over_tick": 5728
+        }
+      },
+      {
+        "id": "MEV1-ENG-N1-SHORT-03",
+        "rows": 200,
+        "eef": {
+          "limit_mm": 10.177284804586991,
+          "origin_mm": 1.0583388048157207,
+          "first_50ms_mm": 1.046843709649156,
+          "at_350ms_mm": 2.6851338000874434,
+          "peak_mm": 3.4618661777382473,
+          "peak_tick": 5803,
+          "first_over_tick": null
+        },
+        "mount": {
+          "limit_mm": 7.70120468436883,
+          "origin_mm": 3.1044881467715584,
+          "first_50ms_mm": 3.131047286956285,
+          "at_350ms_mm": 3.767302366424067,
+          "peak_mm": 5.218365470739968,
+          "peak_tick": 6528,
+          "first_over_tick": null
+        }
+      }
+    ],
+    "new_native_requests": 0
+  }
+}

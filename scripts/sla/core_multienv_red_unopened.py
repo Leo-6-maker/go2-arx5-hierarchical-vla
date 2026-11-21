@@ -8,7 +8,7 @@ import numpy as np
 from go2arx5_vla.world_model.native_replay import forbid_integration
 from scripts.pi0292.durable import read
 from scripts.sla.core_multienv_red_descent import CASES, CONFIGS, compare_path
-from scripts.sla.core_multienv_place_sweep import ArmShadow
+from scripts.sla.core_multienv_place_sweep import ArmShadow, scene_delta
 from scripts.sla.core_multienv_train import PRODUCER_SPEC
 from scripts.sla.hopper_parent_custody import digest, write_once
 from scripts.wm02.multitask_stage_cards_v6 import require_unstarted_cases
@@ -17,30 +17,6 @@ SCENE = 'MEV1-TRAIN-F2-NEAR_NEG-01'
 SCENE_SHA = 'b2bbb276d0a0b7bbb65c93841e35e5b35168d57ac77f7c89abc545031d52629f'
 PROOF_SHA = '92f3aae542bea55faf48e43739998b27a3e92dbda84942d52f45365db040f804'
 CONTROLS = ((0,0,0),(20,0,0))
-
-
-def scene_delta(old,new):
-    old_state,new_state = mujoco.MjData(old),mujoco.MjData(new)
-    for model,state in ((old,old_state),(new,new_state)):
-        mujoco.mj_fwdPosition(model,state)
-    for field in ('geom_size','geom_type','geom_bodyid','geom_pos','geom_quat',
-                  'jnt_qposadr','jnt_bodyid','jnt_range','body_mass','body_inertia','mesh_vert'):
-        if not np.array_equal(getattr(old,field),getattr(new,field)):
-            raise ValueError('Different arm, scene shapes or moving-body parameters')
-    result = []
-    for name in ('task_cube_geom','task_blue_cube_geom'):
-        i = new.geom(name).id
-        body = new.geom_bodyid[i]
-        joint = new.body_jntadr[body]
-        if new.body_parentid[body] or new.jnt_type[joint]!=mujoco.mjtJoint.mjJNT_FREE:
-            raise ValueError('Registered objects lack the original free-body channels')
-        off = new_state.geom_xpos[i]-old_state.geom_xpos[i]
-        if (not np.allclose(new_state.geom_xmat[i],old_state.geom_xmat[i],rtol=0,atol=1e-10)
-                or abs(off[2])>1e-8 or np.max(np.abs(off[:2]))>.026):
-            raise ValueError('Expected the two fixed new TRAIN XY translations')
-        a = new.jnt_qposadr[joint]
-        result.append((slice(a,a+3),off))
-    return result
 
 
 def run(root,saved):

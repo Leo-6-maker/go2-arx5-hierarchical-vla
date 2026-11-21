@@ -7,9 +7,9 @@ import numpy as np
 
 from go2arx5_vla.world_model.native_replay import forbid_integration
 from scripts.pi0292.durable import read
-from scripts.sla.core_multienv_place_sweep import ArmShadow, pose_path, site_pose
+from scripts.sla.core_multienv_place_sweep import ArmShadow, box_separation, pose_path, scene_delta, site_pose
 from scripts.sla.core_multienv_red_descent import CASES, compare_path
-from scripts.sla.core_multienv_red_unopened import PROOF_SHA, SCENE, SCENE_SHA, scene_delta
+from scripts.sla.core_multienv_red_unopened import PROOF_SHA, SCENE, SCENE_SHA
 from scripts.sla.core_multienv_train import PRODUCER_SPEC
 from scripts.sla.hopper_parent_custody import digest, write_once
 from scripts.wm02.multitask_stage_cards_v6 import require_unstarted_cases
@@ -17,25 +17,6 @@ from scripts.wm02.multitask_stage_cards_v6 import require_unstarted_cases
 CANDIDATE = (20,24,30)
 UNOPENED_PROOF = 'a92f17905638cecc17aeb463e34a1a20e1e8de61211c27522abf4e8a594d7add'
 LIFT_M = .026
-
-
-def box_separation(model,data,a,b):
-    """Return a separating-axis gap for two actual compiled boxes, or None."""
-    if any(model.geom_type[g]!=mujoco.mjtGeom.mjGEOM_BOX for g in (a,b)):
-        return None
-    ra,rb = [data.geom_xmat[g].reshape(3,3) for g in (a,b)]
-    offset = data.geom_xpos[b]-data.geom_xpos[a]
-    axes = [*ra.T,*rb.T,*(np.cross(x,y) for x in ra.T for y in rb.T)]
-    gaps = []
-    for axis in axes:
-        norm = np.linalg.norm(axis)
-        if norm<=1e-10:
-            continue
-        direction = axis/norm
-        support_a = model.geom_size[a] @ np.abs(ra.T @ direction)
-        support_b = model.geom_size[b] @ np.abs(rb.T @ direction)
-        gaps.append(abs(offset @ direction)-support_a-support_b)
-    return float(max(gaps))
 
 
 def check_distance_disagreement(shadow,waypoint):

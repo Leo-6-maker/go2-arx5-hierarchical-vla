@@ -61,11 +61,59 @@ def pose_path(a, b):
         yield row
 
 
+def box_separation(model,data,a,b):
+    """Return a separating-axis gap for two actual compiled boxes, or None."""
+    if any(model.geom_type[g]!=mujoco.mjtGeom.mjGEOM_BOX for g in (a,b)):
+        return None
+    ra,rb = [data.geom_xmat[g].reshape(3,3) for g in (a,b)]
+    offset = data.geom_xpos[b]-data.geom_xpos[a]
+    axes = [*ra.T,*rb.T,*(np.cross(x,y) for x in ra.T for y in rb.T)]
+    gaps = []
+    for axis in axes:
+        norm = np.linalg.norm(axis)
+        if norm<=1e-10:
+            continue
+        direction = axis/norm
+        support_a = model.geom_size[a] @ np.abs(ra.T @ direction)
+        support_b = model.geom_size[b] @ np.abs(rb.T @ direction)
+        gaps.append(abs(offset @ direction)-support_a-support_b)
+    return float(max(gaps))
+
+
+def scene_delta(old,new):
+    old_state,new_state = mujoco.MjData(old),mujoco.MjData(new)
+    for model,state in ((old,old_state),(new,new_state)):
+        mujoco.mj_fwdPosition(model,state)
+    for field in ('geom_size','geom_type','geom_bodyid','geom_pos','geom_quat',
+                  'jnt_qposadr','jnt_bodyid','jnt_range','body_mass','body_inertia','mesh_vert'):
+        if not np.array_equal(getattr(old,field),getattr(new,field)):
+            raise ValueError('Different arm, scene shapes or moving-body parameters')
+    result = []
+    for name in ('task_cube_geom','task_blue_cube_geom'):
+        i = new.geom(name).id
+        body = new.geom_bodyid[i]
+        joint = new.body_jntadr[body]
+        if new.body_parentid[body] or new.jnt_type[joint]!=mujoco.mjtJoint.mjJNT_FREE:
+            raise ValueError('Registered objects lack the original free-body channels')
+        off = new_state.geom_xpos[i]-old_state.geom_xpos[i]
+        if (not np.allclose(new_state.geom_xmat[i],old_state.geom_xmat[i],rtol=0,atol=1e-10)
+                or abs(off[2])>1e-8 or np.max(np.abs(off[:2]))>.026):
+            raise ValueError('Expected the two fixed new TRAIN XY translations')
+        a = new.jnt_qposadr[joint]
+        result.append((slice(a,a+3),off))
+    return result
+
+
 class ArmShadow:
-    def __init__(self, model):
+    def __init__(self, model, target_color='red'):
+        target_name, other_name = {
+            'red': ('task_cube_geom', 'task_blue_cube_geom'),
+            'blue': ('task_blue_cube_geom', 'task_cube_geom'),
+        }[target_color]
+        other_color = 'blue' if target_color == 'red' else 'red'
         self.model = model
         self.data = mujoco.MjData(model)
-        measured = TwoObjectState(model, 'red')
+        measured = TwoObjectState(model, target_color)
         self.site, self.fingers = measured.tcp, measured.finger_q
         root = model.body('x5_base_link').id
         arm = {i for i in range(model.nbody) if is_below(model, i, root)}
@@ -77,13 +125,13 @@ class ArmShadow:
         self.q = model.jnt_qposadr[joints]
         self.v = model.jnt_dofadr[joints]
         self.ranges = model.jnt_range[joints]
-        self.target = model.geom('task_cube_geom').id
-        self.other = model.geom('task_blue_cube_geom').id
+        self.target = model.geom(target_name).id
+        self.other = model.geom(other_name).id
         self.table = model.geom('task_table').id
         cube = model.geom_bodyid[self.target]
         free = model.body_jntadr[cube]
         if model.body_parentid[cube] != 0 or model.jnt_type[free] != mujoco.mjtJoint.mjJNT_FREE:
-            raise ValueError('Expected the original unparented red free body')
+            raise ValueError('Expected the original unparented target free body')
         self.free = model.jnt_qposadr[free]
         pads = {model.geom(name).id for name in ('task_left_pad', 'task_right_pad')}
         collision = [i for i in range(model.ngeom) if model.geom_bodyid[i] in arm
@@ -91,11 +139,11 @@ class ArmShadow:
         if not pads <= set(collision):
             raise ValueError('Missing frozen arm collision geoms or pads')
         self.pairs = {
-            'arm_to_blue': [(g, self.other) for g in collision],
+            f'arm_to_{other_color}': [(g, self.other) for g in collision],
             'arm_to_table': [(g, self.table) for g in collision],
-            'nonpad_arm_to_red': [(g, self.target) for g in collision if g not in pads],
-            'held_red_to_blue': [(self.target, self.other)],
-            'red_to_table': [(self.target, self.table)],
+            f'nonpad_arm_to_{target_color}': [(g, self.target) for g in collision if g not in pads],
+            f'held_{target_color}_to_{other_color}': [(self.target, self.other)],
+            f'{target_color}_to_table': [(self.target, self.table)],
         }
         self.jacp = np.zeros((3, model.nv))
         self.jacr = np.zeros((3, model.nv))
@@ -135,7 +183,8 @@ class ArmShadow:
                             for a, b in pairs)
             gaps[name] = dict(gap_mm=1000*gap, contact=[self.model.geom(i).name for i in (x, y)])
         contacts = [dict(geom1=int(c.geom1), geom2=int(c.geom2), dist=float(c.dist)) for c in data.contact]
-        return dict(fit=fit, gaps=gaps, forbidden=stopped_pairs(self.model, dict(contacts=contacts), 'task_cube_geom'))
+        return dict(fit=fit, gaps=gaps, forbidden=stopped_pairs(
+            self.model, dict(contacts=contacts), self.model.geom(self.target).name))
 
     def evaluate_one(self, sample, geometry, candidate):
         self.data.qpos[:] = sample['qpos']
