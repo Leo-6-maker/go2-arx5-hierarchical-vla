@@ -1,3 +1,13 @@
+# 当前任务优先入口 · SLA多环境本体数据采集 · 2026-11-22
+
+用户要求制定并发布Corelab多并行仿真采集与优先资源计划。先读 [SLA_CORE_MULTIENV_NEXT_START.md](SLA_CORE_MULTIENV_NEXT_START.md)、[协议](docs/protocols/SLA_CORE_MULTIENV_COLLECTION_V1_20261122.md)及其JSON；现场执行使用[启动任务](docs/handover/2026-11-22/START_SLA_CORE_MULTIENV_COLLECTION_V1.md)。Core负责canonical Eval及采集，Hopper H200继续既有多源训练；先修后台交接和学生评价，Teacher接触修复/相对几何与N2隔离并行开发，N1不等N2，N4条件启用。
+
+这是计划发布，新增服务器作业/原生/生成/训练均0，文档变更不等于现场已挂载。本新任务的未来优先级覆盖下方冲突旧条款；既有授权内的用户空间修复无须逐项再问GO。保持实际资源owner、活动capsule不可热改、WBC/2ms物理/H40/P10/STOP/评分与历史失败。新分支普通PR到main，不盲目合并执行栈；不删除数据、不伪造站点权限、不申请闲置GPU伪装纯CPU任务。旧七条VANDA CPU辅助链终态保留，新的纯CPU协调只在已有授权的合适服务运行。
+
+以下历史入口完整保留，未冲突部分继续适用。
+
+---
+
 # GR00T + WBC agent entry · native camera / public ARX5 pilot
 
 ## Latest bounded first-round mandate · 2026-11-11
@@ -64,3 +74,4 @@ Verify actual local Core code/environment/libraries/model/data/cache/control/log
 Log minimal run identity, scientific inputs, actual effects, terminal score and usage. Keep negative results and required provenance; no blanket multi-layer receipt expansion. Issue #11 is science; #47 operations. Report real updates/endpoints, valid model conditions/successes, qualified full demos/all generation attempts and first failure mechanisms. Check counts or merged PRs are not capability claims. Keep root entry concise.
 
 No subagent, paused automation, server experiment or Codex session is automatically started by this file. Authority is for the existing executing agent in its actual permitted environment. Earlier AGENTS text is retained in Git at `fad5d0296084a656fb970b02b025c7b13af849af`; V7 changes workflow priorities, not historical facts or infrastructure permissions.
+

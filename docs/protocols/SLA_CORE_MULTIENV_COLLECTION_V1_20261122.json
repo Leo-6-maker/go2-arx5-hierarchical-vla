@@ -1,0 +1,298 @@
+{
+  "schema": "SLA_CORE_MULTIENV_COLLECTION_PLAN_V1",
+  "goal": "SLA-CORE-MULTIENV-DATA-V1",
+  "date_sgt": "2026-11-22",
+  "timezone": "Asia/Singapore",
+  "status": "PLAN_PUBLISHED_NO_SERVER_EXECUTION",
+  "source": {
+    "main_base": "6843163d641eb24a29c3b1557f868765346ba66c",
+    "execution_audit": "1fee437d12d9a79deff8e2be0175da3f148dd48e",
+    "parent_plan": "171b5bedb290258954aac140157743e92e3b152e",
+    "old_parallel_report_commit_prefix": "4d597259"
+  },
+  "publication_actual": {
+    "new_jobs": 0,
+    "native_requests": 0,
+    "native_ticks": 0,
+    "model_generations": 0,
+    "optimization_updates": 0,
+    "file_deletions": 0
+  },
+  "goal_deadline": {
+    "activation": "FIRST_ACTUAL_MOUNT_PERSIST_ONCE",
+    "days": 7,
+    "absolute_not_after_sgt": "2026-12-05T12:41:52+08:00",
+    "earlier_site_or_grant_deadline_applies": true,
+    "restart_resets_deadline_or_counters": false,
+    "single_allocation_end": "ends current capsule only; legitimate successor may continue within Goal",
+    "H200_handoff_before_coordinator_exit_required": true
+  },
+  "priority": [
+    "P0_CONTINUATION_CUSTODY_AND_CORE_CANONICAL_EVAL",
+    "P1_TRAIN_CONTACT_REPAIR_AND_NEW_GEOMETRY",
+    "P1_N1_PROFILE_AND_N2_ISOLATION",
+    "P2_N2_PRODUCTION",
+    "P3_CONDITIONAL_N4"
+  ],
+  "non_dependencies": [
+    "all_teacher_cells_success",
+    "N2_or_N4_qualification_for_N1",
+    "student_success_for_training",
+    "new_data_ready_for_H200_training",
+    "old_A40_completion",
+    "cross_GPU_bitwise_equal_for_new_Core_canonical_eval"
+  ],
+  "unchanged": [
+    "WBC_weights_costs_gains_solver_leg_policy",
+    "physics_dt_0.002",
+    "action_dt_0.05",
+    "H40_P10",
+    "original_TTL_contact_STOP_H40_seam_limits",
+    "original_scorer",
+    "old_TEST_outcomes",
+    "existing_training_recipe_and_source_banks"
+  ],
+  "collection": {
+    "population_file": "docs/protocols/SLA_CORE_MULTIENV_COLLECTION_V1_POPULATIONS_20261122.json",
+    "train_attempts": 480,
+    "val_attempts": 48,
+    "train_scenes": 80,
+    "val_scenes": 8,
+    "instructions_per_scene": 6,
+    "waves": {
+      "A": {
+        "train": 96,
+        "val": 24,
+        "train_scenes": 16
+      },
+      "B": {
+        "train": 384,
+        "val": 24,
+        "train_scenes": 64
+      }
+    },
+    "full_admission_target": 240,
+    "min_HOLD_target": 80,
+    "min_PLACE_target": 160,
+    "min_per_family_instruction_target": 10,
+    "targets_are_training_or_wave_gates": false,
+    "wave_B_release": "Wave A terminals reconciled or explicitly unstarted/paused; causal TRAIN repair where needed, static geometry and resource binding valid; does not require all cells successful or N2.",
+    "old_TRAIN240": "separate original population, only genuinely unstarted and allowed conditions may continue, no old STOP rerun or budget transfer",
+    "max_new_teacher_versions_per_cell": 2,
+    "per_cell_inflight_max": 1,
+    "teacher_switch_requires_all_cell_inflight_sealed": true,
+    "pause_rule": "Two consecutive failures with same phase/contact-body mechanism pause that cell/version; all other failure types retain their own mechanism; fatal control error stops affected pool."
+  },
+  "geometry": {
+    "strata": [
+      "NEAR_NEG",
+      "NEAR_POS",
+      "FAR_NEG",
+      "FAR_POS"
+    ],
+    "common_xy_mm": [
+      -6,
+      6
+    ],
+    "relative_parallel_near_mm": [
+      -8,
+      -4
+    ],
+    "relative_parallel_far_mm": [
+      4,
+      8
+    ],
+    "relative_perp_negative_mm": [
+      -6,
+      -2
+    ],
+    "relative_perp_positive_mm": [
+      2,
+      6
+    ],
+    "object_shift": "red=c-d/2; blue=c+d/2 in original red-to-blue orthonormal basis",
+    "max_absolute_object_xy_shift_mm": 13,
+    "wave_A_yaw_degrees": 0,
+    "wave_B_zero_yaw_scenes": 32,
+    "wave_B_independent_yaw_scenes": 32,
+    "yaw_degrees_range": [
+      -10,
+      10
+    ],
+    "candidate_limit_per_scene": 64,
+    "candidate_generation_uses_outcomes": false,
+    "compile_all_splits_before_native": true,
+    "robot_physics_camera_properties_frozen": true,
+    "no_robot_new_initial_state_or_friction_randomization": true,
+    "near_duplicate_check": "within family, both objects position distance <=0.002m and SO3 angle <=2degrees means near duplicate, independent of reset/task; check all protected historical and newly compiled scene identities without TEST outcomes",
+    "geometry_duplicate_position_m": 0.002,
+    "geometry_duplicate_angle_degrees": 2,
+    "float_dtype": "float64",
+    "field_rng": "SHA256 UTF8(goal|scene_id|decimal_scene_seed|decimal_candidate_index|field); first8bytes unsigned big-endian /2**64, affine-map field range; indices0..63; no rounding",
+    "field_names": [
+      "common_world_x_mm",
+      "common_world_y_mm",
+      "relative_parallel_mm",
+      "relative_perp_mm",
+      "red_yaw_deg",
+      "blue_yaw_deg"
+    ],
+    "perp_basis": "(-parallel_y,parallel_x)"
+  },
+  "parallel": {
+    "default_worlds": 1,
+    "target_worlds": 2,
+    "conditional_max_worlds": 4,
+    "implementation": "separate OS process trees and world-scoped native contracts; no engine upgrade or shared mutable controller state",
+    "N2_requests": 36,
+    "N2_ticks": 645308,
+    "N4_additional_requests": 28,
+    "N4_additional_ticks": 429684,
+    "engineering_requests_total": 64,
+    "engineering_ticks_total": 1074992,
+    "old_tolerance_sha256": "6da63587addd8d9e35d36ce09191593de9dba46b2cee9b47266beeb71df0fc0a",
+    "N2_speedup_value_threshold": 1.5,
+    "N4_speedup_over_N2_value_threshold": 1.25,
+    "speedup_uses_equal_work_from_first_launch_to_last_seal": true,
+    "STOP_peer_min_continuing_ticks": 1000,
+    "STOP_after_ticks_required": 0,
+    "automatic_science_retry": false,
+    "simultaneous_student_teacher_native": false,
+    "cold_episode_start_retained": true,
+    "event_ready_optimization_in_this_qualification": false,
+    "MJX_Warp_engine_migration": false
+  },
+  "resources": {
+    "core_teacher_cpu": "disjoint real available cpusets; bind complete process trees; freeze WBC/internal thread configuration",
+    "core_eval": "original RTX4080S backend, actual GPU UUID and env binding, canonical N1, exclusive finite DEV6 block by default",
+    "core_background": "bounded existing user service; no laptop requirement; no new cluster CPU-only PBS watchers",
+    "VANDA_new_job_requires_actual_GPU_work": true,
+    "H200": "continue original MAIN20K training; no new training budget or new cross-device diagnostic jobs",
+    "global_reservation_required": true,
+    "disk_rule": "original capacity gate plus aggregate in-flight and next seal temporary write reserve",
+    "ram_rule": "measure full-episode peak/cgroup high water, reserve all admitted workers globally; do not multiply single-worker free-memory checks",
+    "renderer": "existing renderer/version/resolution/capture timing; isolated per-world current context",
+    "initial_offline_workers": 2,
+    "offline_workers_max": 4,
+    "writer_queue_per_world_max_captures": 2,
+    "on_backpressure": "pause new dispatch; preserve capture and command identity; no frame dropping"
+  },
+  "core_eval": {
+    "protocol": "SLA_CORE_CANONICAL_EVAL_V1",
+    "status": "NEW_PROTOCOL_REQUIRES_IMPLEMENTATION_AND_ACTUAL_QUALIFICATION",
+    "initial_endpoints": [
+      "MAIN-phase00000",
+      "MAIN-phase02000"
+    ],
+    "fixed_inputs": 16,
+    "cold_process_A": 16,
+    "cold_process_B": 16,
+    "actual_IPC_worker": 16,
+    "generations_per_endpoint": 48,
+    "initial_generations": 96,
+    "max_original_endpoints": 7,
+    "qualification_attempts_max": 384,
+    "qualification_budget_definition": "336 regular attempts plus at most48 evidence-driven repair attempts shared by the whole Goal, additional to old paid diagnostics; every real generation intent including failed/incomplete attempts counts",
+    "cross_GPU_original_failure_preserved": true,
+    "same_Core_input_noise_weight_identity_required": true,
+    "same_Core_normalized_decoded_and_guard_bitwise_required": true,
+    "all_model_proposals_need_to_pass_safety_for_eval_admission": false,
+    "production_every_proposal_original_safety_required": true,
+    "initial_native": "first original DEV6 per phase0 and MAIN2K; up to12 original requests, not new duplicate population",
+    "new_native_interface_requests": 2,
+    "interface_uses_frozen_H40_without_new_model_generation": true,
+    "new_native_interface_ticks": 21406,
+    "fairness": {
+      "student_block_max": 6,
+      "expert_terminal_threshold": 12,
+      "qualified_student_wait_minutes": 30,
+      "no_dispatchable_expert_causes_handoff": true,
+      "drain_running_conditions_without_kill": true,
+      "all_teacher_worlds_drained_for_exclusive_eval": true
+    }
+  },
+  "data_admission": {
+    "complete_positive": "original task plus mobile success, no technical failure or STOP, original G7 and observed RGB/H40/P10 provenance",
+    "failed_partial_as_complete_positive": false,
+    "H40_nominal_label_and_P10_consumed_mask_separate": true,
+    "unconsumed_H40_as_executed": false,
+    "writer": "per-world immutable episode; one append-only global catalog owner",
+    "snapshot": "4 new admitted episodes or6hours or role closure; immutable SHA manifest; no snapshot without new members",
+    "keep_all_failures_and_consumed_commands": true,
+    "VAL_not_TRAIN": true,
+    "snapshot_ready_not_equal_optimization_usage": true,
+    "new_population_reader_binding_requires_versioned_admission_catalog_relay_and_reader": true,
+    "union_keeps_D2_and_old_Core_members_and_original_provenance": true
+  },
+  "training_integration": {
+    "lineage": "HOPPER-ADAPT20K-V1",
+    "MAIN_updates_unchanged": 20000,
+    "H200_goal_gpu_hours_unchanged": 320,
+    "existing_absolute_deadline_sgt": "2026-12-05T12:41:52+08:00",
+    "curriculum_boundaries": [
+      2000,
+      5000,
+      10000,
+      15000
+    ],
+    "already_crossed_boundary": "do not rollback; adopt only at next unpassed boundary",
+    "batch": {
+      "go2": 64,
+      "robodojo": 32,
+      "libero": 32
+    },
+    "legacy_fixed_episodes": 23,
+    "new_quota": "min(48,4*N_nonlegacy_complete_episodes)",
+    "legacy_quota": "64-new_quota",
+    "data_missing": "continue prior sealed data; record NO_NEW_DATA_CONTINUE",
+    "source_RNG_and_sampling_banks_changed": false,
+    "control": "existing once-only2000-update matched control at first actual adoption; no extra control or main replay",
+    "late_after_15K": "seal and retain data; do not silently append another switch or20K training lineage",
+    "actual_usage_required": [
+      "checkpoint",
+      "dataset_sha",
+      "first_committed_update",
+      "sampling_bank_sha",
+      "per_version_optimization_visits"
+    ]
+  },
+  "new_native_budget": {
+    "TRAIN": {
+      "requests": 480,
+      "ticks": 21937440
+    },
+    "VAL": {
+      "requests": 48,
+      "ticks": 2193744
+    },
+    "parallel_engineering": {
+      "requests": 64,
+      "ticks": 1074992
+    },
+    "core_eval_technical": {
+      "requests": 2,
+      "ticks": 21406
+    },
+    "total_requests": 594,
+    "total_ticks": 25227582,
+    "student_DEV_CONF": "remain in original endpoint populations and budgets; no added scientific native condition",
+    "old_native_population": "account separately, no recycling"
+  },
+  "operational_stop": [
+    "earliest finite deadline or role cap",
+    "STOP_after_nonzero or world cross-talk or corrupt provenance => stop affected pool",
+    "resource reserve cannot cover new work => no new dispatch, bounded drain",
+    "unknown submit outcome => reconcile original identity, never blind duplicate",
+    "same TRAIN failure mechanism => pause only affected cell/version",
+    "N2/N4 quality/value failure => fall back to qualified lower concurrency; independent training and allowed N1 continue"
+  ],
+  "deliverables": [
+    "SITE_STATE_AND_CONTINUATION_ACTUAL",
+    "CORE_CANONICAL_EVAL_QUALIFICATION_ACTUAL",
+    "MULTIWORLD_N1_N2_QUALIFICATION_ACTUAL",
+    "CONDITIONAL_N4_ACTUAL_OR_NOT_RUN",
+    "COLLECTION_BY_CELL_AND_GEOMETRY_ACTUAL",
+    "SNAPSHOT_CUSTODY_AND_OPTIMIZATION_USAGE_ACTUAL",
+    "FINAL_TERMINAL_AND_UNSTARTED_POPULATION"
+  ]
+}
