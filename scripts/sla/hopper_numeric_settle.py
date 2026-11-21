@@ -66,7 +66,7 @@ if __name__ == '__main__':
                 and not (root/'QUEUE_EXPIRY_REQUEST.json').is_file()):
             row=native(result['job'])
             if (row['job_state']=='Q' and not row.get('stime') and not (root/'AWARD.json').exists()
-                    and row['Job_Name']=='slanum2p0b' and row['project']=='CFP04-CF-007'
+                    and row['Job_Name']==cfg.get('pbs_name','slanum2p0b') and row['project']=='CFP04-CF-007'
                     and row['Job_Owner'].split('@')[0]==os.environ['USER']):
                 write_once(root/'QUEUE_EXPIRY_REQUEST.json',dict(job=result['job'],config=args.config_sha,
                     reason='Registered diagnostic window expired without a GPU award'))

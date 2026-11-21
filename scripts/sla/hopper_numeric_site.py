@@ -46,19 +46,27 @@ def execute(root, cfg, config_hash, locks):
                                    gpu=src['gpu'],capacity=available))
     elif cfg['site']=='hopper':
         import hopper_project_admission as project
-        grant=project.project_period(cfg['project_basis'],Path(cfg['lineage']),cfg['wall_seconds'])
         job=env['PBS_JOBID']
         ticket=json.loads((root/'PBS_JOB.json').read_bytes())
-        if ticket['job']!=job or ticket['config']!=config_hash:
-            raise PermissionError('Unexpected PBS job or specification')
-        row=json.loads(subprocess.check_output([cfg['qstat'],'-f','-F','json',job],text=True,timeout=40))['Jobs'][job]
-        rate=project.allocation(row,grant['account'],cfg['wall_seconds'],'R')
-        host=os.uname().nodename.split('.')[0]
-        if host!=row['exec_host'].split('/')[0].split('.')[0]:
-            raise PermissionError('Unexpected PBS execution node')
-        end=min(end,site_epoch(row['stime'])+cfg['wall_seconds']-30,grant['expiry_epoch'])
-        once(root/'AWARD.json',dict(job=job,project=project.PROJECT,host=host,actual_site_start=row['stime'],
-                                   rate=rate,wall_seconds=cfg['wall_seconds'],remaining_seconds=end-time.time()))
+        mountfile=root/'MOUNT.private.json'
+        if (ticket['job']!=job or ticket['config']!=config_hash or
+                ticket['mount_sha256']!=digest(mountfile)):
+            raise PermissionError('Unexpected PBS job, site mount or specification')
+        mount=json.loads(mountfile.read_bytes())
+        if (mount['pbs_project_basis']!=cfg['project_basis'] or mount['lineage']!=cfg['lineage']
+                or mount['qstat']!=cfg['qstat'] or mount['uid']!=cfg['uid']):
+            raise PermissionError('Current site mount differs from the preregistered scope')
+        # Login-side project checks have already run before PBS release. Reuse the
+        # production compute-node verifier, including the live site billing cache.
+        project.running(root)
+        award=json.loads((root/'PBS_PROJECT_AWARD.json').read_bytes())
+        grant=pinned(mount['site_grant'])
+        if award['wall_seconds']!=cfg['wall_seconds']:
+            raise PermissionError('Unexpected duration on the assigned GPU')
+        end=min(end,site_epoch(award['site_start'])+cfg['wall_seconds']-30,grant['expiry_epoch'])
+        once(root/'AWARD.json',dict(job=job,project=project.PROJECT,host=award['host'],
+                                   actual_site_start=award['site_start'],rate=award['queue_rate'],
+                                   wall_seconds=cfg['wall_seconds'],remaining_seconds=end-time.time()))
     else:
         raise ValueError('Unknown site')
     once(root/'OWNER.json',dict(pid=os.getpid(),started=time.time(),end=end))
