@@ -15,7 +15,7 @@ from go2arx5_vla.world_model.storage import digest
 from scripts.pi0292.durable import OwnerLock, write
 from scripts.wm02.multitask_stage_cards_v6 import case_card, cold_native_owner, panel_cards, pin, require_unstarted_cases
 from scripts.wm02.multitask_teacher_campaign_v6 import interface_records
-from scripts.sla.core_hopper_expert import AUTHORITY, OWNER, PLAN, POP, SCOPE, order, repair_rows
+from scripts.sla.core_hopper_expert import AUTHORITY, OWNER, PLAN, POP, SCOPE, order
 
 
 def prepare(config):
@@ -55,8 +55,11 @@ def prepare(config):
         if pop['wave']!='A' or repair:
             raise ValueError('Expected the original Teacher on the fixed Wave A geometry')
         rows=me.order(pop)
+    elif repair:
+        from scripts.sla.core_hopper_expert import repair_rows
+        rows=repair_rows(pop,repair)
     else:
-        rows=repair_rows(pop,repair) if repair else order(pop)
+        rows=order(pop)
     closure=read_pin(config['source_members'])
     if any(digest(source/name)!=expected for name,expected in closure.items()):
         raise ValueError('Source closure changed')

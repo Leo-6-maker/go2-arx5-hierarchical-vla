@@ -17,7 +17,7 @@ from scripts.pi0294.e1.journal import Journal
 from scripts.wm02.multitask_stage_cards_v6 import case_card, cold_native_owner, pin, require_unstarted_cases
 from scripts.wm02.multitask_teacher_campaign_v6 import interface_records, teacher_row
 from scripts.wm02.sim_only_campaign_v51 import fatal_control_violation
-from scripts.sla.core_hopper_expert import order, repair_rows
+from scripts.sla.core_hopper_expert import order
 
 def read(path):
     return json.loads(Path(path).read_bytes())
@@ -132,6 +132,7 @@ def run(spec):
     try:
         write(root/'SUPERVISOR.private.json',dict(pid=os.getpid(),source_sha=spec['source_sha'],epoch=time.time()))
         if repair:
+            from scripts.sla.core_hopper_expert import repair_rows
             rows=repair_rows(pop,repair)
             first48=[r['id'] for r in order(pop)[:48]]
             while not stopped():
