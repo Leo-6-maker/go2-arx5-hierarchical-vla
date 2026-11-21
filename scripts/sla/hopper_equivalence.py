@@ -2,6 +2,7 @@
 import hashlib
 import json
 import math
+import os
 from pathlib import Path
 
 import numpy as np
@@ -56,7 +57,10 @@ class FirstStep:
             if actual.dtype!=np.float32 or not np.isfinite(actual).all():
                 raise ValueError('Expected finite FP32 gradient')
             if prior is None:
-                np.save(self.root/file,actual,allow_pickle=False)
+                with (self.root/file).open('xb') as out:
+                    np.save(out,actual,allow_pickle=False)
+                    out.flush()
+                    os.fsync(out.fileno())
                 row['sha256']=digest(self.root/file)
             else:
                 expected=prior['leaves'][i]

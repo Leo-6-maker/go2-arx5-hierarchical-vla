@@ -23,13 +23,18 @@ def run(root):
     if jax.default_backend()!='cpu' or len(jax.devices())!=1:
         raise PermissionError('Unexpected compute backend')
     start=time.monotonic()
-    readback=restore(root/'inputs',cfg['bank_sha256'],check_device_arrays=True)[-1]
+    restored=restore(root/'inputs',cfg['bank_sha256'],check_device_arrays=True)
+    readback=restored[-1]
     if readback['restored_arrays']!=140 or readback['device_readback_exact']!=140:
         raise ValueError('Incomplete source-side restore')
     result=dict(status='SOURCE_CPU_COLD_RESTORE_EXACT',scope='VANDA CPU using sealed runtime and parent',
                 receiver_device_restore=False,training_ready=False,job=job,project=active['project'],
                 source_revision=cfg['source_revision'],runtime_archive_sha256=cfg['runtime_archive_sha256'],
                 wall_s=time.monotonic()-start,**readback)
+    if cfg.get('diagnostic') == 'restart_and_shapes':
+        from scripts.sla.hopper_restart_probe import run as exercise_restart
+        result.update(exercise_restart(restored,cfg,root),status='SOURCE_CPU_RESTART_AND_SHAPES_VERIFIED')
+    result['wall_s']=time.monotonic()-start
     write_once(root/'RESULT.private.json',result)
 
 
