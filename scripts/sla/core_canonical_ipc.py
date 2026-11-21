@@ -138,8 +138,10 @@ def replay(spec,worker):
                    decoded=fingerprint(physical)['sha256']==expected['decoded_sha256'],
                    guard=canonical_hash(guard_signature(envelope,seam))==expected['original_guard_sha256'],
                    inputs=pinned(pin(root/f"{fixed['noise_id']}.input.json"))==expected['inputs'])
-        checks.append(dict(ordinal=ordinal,index=index,request=request['request_id'],bitwise=match,
-                           response=pin(folder/'RESPONSE.json')))
+        check=dict(ordinal=ordinal,index=index,request=request['request_id'],bitwise=match,
+                   response=pin(folder/'RESPONSE.json'))
+        write_once(folder/'MATCH.json',check)
+        checks.append(check)
     write(bus/'FINISH.json',dict(rows=len(checks)))
     tail=wait(root/'RESULT.private.json',120)
     if (len(checks)!=16 or tail['attempted_generations']!=16 or tail['completed_generations']!=16
@@ -149,3 +151,100 @@ def replay(spec,worker):
                  rows=checks,native_requests=0,updates=0)
     write_once(root/'IPC_COMPARISON.json',verdict)
     return verdict
+
+
+def launch(root,config_sha,arm):
+    """Run the actual worker in the same managed unit with its original resource verifier."""
+    from contextlib import closing
+    import math
+    import subprocess
+    import sys
+    from go2arx5_vla.world_model.mfree_unattended_runtime_v1 import dirs
+    from go2arx5_vla.sla_adapter.multitask_contract_v6 import NATIVE_METHOD
+    from scripts.pi0292.durable import OwnerLock
+    from scripts.sla.hopper_parent_custody import write_once
+
+    cfg=pinned(dict(path=str(root/'CONFIG.json'),sha256=config_sha))
+    source=Path(cfg['source'])
+    for member in cfg['code']:
+        if pin(source/member['path'])['sha256']!=member['sha256']:
+            raise ValueError('Pinned IPC module changed')
+    receiver=pinned(cfg['receiver'])
+    if (cfg['plan']!=CANONICAL_PLAN or cfg['protocol']!=PROTOCOL or arm not in INITIAL
+            or not os.environ.get('INVOCATION_ID') or os.getuid()!=receiver['uid']
+            or os.uname().nodename!=receiver['host'] or os.environ.get('CUDA_VISIBLE_DEVICES')!=receiver['gpu']
+            or not time.time()+660<cfg['deadline']<=receiver['deadline']):
+        raise PermissionError('Expected current finite Core IPC owner')
+    cold=pinned(cfg['cold_config'])
+    if cold['receiver']!=cfg['receiver']:
+        raise ValueError('Canonical IPC changed its cold receiver profile')
+    ready=Path(cfg['cold_config']['path']).parent/arm/'COLD_COMPARISON.json'
+    arm_spec=dict(receiver=cfg['receiver'],canonical_config=cfg['cold_config'],
+                  cold_comparison=pin(ready),arm=arm)
+    cold_pair(arm_spec)
+    with closing(OwnerLock(root/'owner.lock')):
+        write_once(root/'OWNER.json',dict(pid=os.getpid(),unit=os.environ['INVOCATION_ID'],epoch=time.time()))
+        worker=root/'worker'
+        dirs(worker)
+        bus=worker/'ipc'
+        bus.mkdir()
+        model=receiver['model']
+        gpu=receiver['gpu']
+        name,total=subprocess.check_output(['nvidia-smi','-i',gpu,'--query-gpu=name,memory.total',
+            '--format=csv,noheader,nounits'],text=True,timeout=15).strip().split(',')
+        allocator=math.ceil(int(total)*1024**2*receiver['memory_fraction'])
+        paths=dict(parent_params=model['parent_params'],dataset=cfg['dataset'],compilation_cache_dir=str(worker/'cache'))
+        site=dict(schema='SLA_SINGLE_GPU_EXISTING_SITE_V2',host=receiver['host'],uid=receiver['uid'],
+                  GPU_uuid=gpu,GPU_name=name,GPU_headroom_bytes=2*1024**3,host_headroom_bytes=36*1024**3,
+                  allocator_limit_bytes=allocator,allocation_deadline_epoch=cfg['deadline'],
+                  paths={k:str(Path(v).resolve(strict=True)) for k,v in paths.items()},
+                  allocation=dict(kind='EXISTING_USER_SERVICE',campaign_root=str(worker),
+                                  neural_owner_lock=receiver['gpu_lock']))
+        write_once(worker/'SITE.json',site)
+        end=cfg['deadline']-60
+        wall=math.ceil(end-time.time())
+        spec=dict(arm_spec,**paths,scope=PROTOCOL,registered_root=str(worker),campaign_root=str(worker),
+            ipc_root=str(bus),site_binding=pin(worker/'SITE.json'),new_optimizer_updates_budget=0,
+            new_training_visits_budget=0,new_physical_requests_budget=0,new_native_tick_budget=0,
+            new_complete_generations_budget=16,unified_requests_budget=16,physics=False,
+            selected_combo=NATIVE_METHOD,GPU_uuid=gpu,neural_owner_lock=receiver['gpu_lock'],
+            source_sha=cfg['source_revision'],goal_plan_sha=CANONICAL_PLAN,model_service_timeout_s=120,
+            RPC_timeout_s=120, JAX_memory_fraction=receiver['memory_fraction'],max_walltime_s=wall,
+            max_gpu_hours=(wall+60)/3600,allocator_limit_bytes=allocator,
+            minimum_host_available_bytes=36*1024**3,deadline_epoch=end,save_and_exit_on_limit=True)
+        spec['request_bindings_by_arm']={arm:dict(arm=arm,policy_package_sha256=cold['packages'][arm],
+            statistics_sha256=receiver['action']['sha256'],codec=NATIVE_METHOD,source_sha=spec['source_sha'],
+            plan_commit=CANONICAL_PLAN,compiled_population_sha256=cfg['original_population_sha256'])}
+        path=worker/'EXECUTION_SPEC.json'
+        write_once(path,spec)
+        write_once(worker/'control/LEASE.json',dict(status='ACTIVE',owner='EXISTING_LOCAL_PC',
+            deadline_epoch=end,spec_sha256=pin(path)['sha256']))
+        with (root/'worker.log').open('xb') as log:
+            proc=subprocess.Popen([sys.executable,'-B',str(source/'scripts/sla/hybrid_ipc_worker_v3.py'),
+                '--worker',str(path)],stdout=log,stderr=subprocess.STDOUT)
+            try:
+                result=replay(spec,proc)
+                if proc.wait(timeout=30)!=0:
+                    raise RuntimeError('Original IPC worker reported an unhealthy terminal')
+                return result
+            finally:
+                if proc.poll() is None:
+                    write_once(worker/'STOP.json',dict(reason='Canonical coordinator closed'))
+                    proc.wait(timeout=120)
+
+
+if __name__=='__main__':
+    import argparse
+    from scripts.sla.hopper_parent_custody import write_once
+    p=argparse.ArgumentParser(description=__doc__)
+    p.add_argument('root',type=Path)
+    p.add_argument('config_sha')
+    p.add_argument('arm')
+    args=p.parse_args()
+    os.umask(0o077)
+    try:
+        launch(args.root,args.config_sha,args.arm)
+    except Exception as exc:
+        write_once(args.root/'IPC_INTERRUPTED.json',dict(first_failure=f'{type(exc).__name__}: {exc}',
+                   native_requests=0,updates=0))
+        raise
