@@ -166,7 +166,9 @@ def episode(adapter):
         if adapter.spec.get('scope')=='SLA_CORE_HOPPER_V1_EXPERT' and adapter.spec.get('carry_repair'):
             repair=adapter.spec['carry_repair']
             if repair.get('kind'):
-                from scripts.sla.core_hopper_red_approach import KIND, RedHoldPitch
+                from scripts.sla.core_hopper_red_approach import KIND, PLACE_KIND, RedHoldPitch, RedPlacePitch
+                if repair['kind']==PLACE_KIND:
+                    return teacher(adapter,placement_teacher=RedPlacePitch)
                 if repair['kind']!=KIND:
                     raise ValueError('Unregistered expert repair')
                 return teacher(adapter,placement_teacher=RedHoldPitch)

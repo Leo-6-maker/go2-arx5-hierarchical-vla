@@ -32,6 +32,8 @@ def repair_rows(pop,repair):
     from scripts.sla.core_hopper_blue_carry import PILOT, PRIOR
     audit=read_pin(repair['audit'])
     prior=read_pin(repair['original_producer'])
+    if repair.get('kind') == 'F2_RED_PLACE_PITCH':
+        return red_place_rows(pop,repair,prior,audit)
     if repair.get('kind'):
         from scripts.sla.core_hopper_red_approach import CELL, KIND, PILOT as RED_PILOT, PITCH_DEGREES
         if (repair['kind']!=KIND or audit['status']!='PILOT_PITCH_GEOMETRY_VERIFIED'
@@ -59,6 +61,35 @@ def repair_rows(pop,repair):
     return [row]
 
 
+
+def red_place_rows(pop,repair,prior,audit):
+    from scripts.sla.core_hopper_red_approach import PITCH_DEGREES
+
+    if (repair['audit']['sha256']!='438026277d214041adb3bb27a663220523a245f59e967c6854386624d420a9df'
+            or repair['original_producer']['sha256']!='89f058d5cd3a69cae8f68eb6a63f63a040f20151d07daf0d88e6a0ec5c3f8ffe'
+            or prior['scope']!=SCOPE or prior['compiled_population']['sha256']!=POP
+            or prior['source_sha']!=audit['source_producer'] or audit['status']!='SAVED_PLACE_APPROACH_GEOMETRY'
+            or audit['candidate_world_pitch_deg']!=PITCH_DEGREES
+            or any(audit[k] for k in ('VAL_inputs','native_requests','native_integrations','model_generations','optimizer_updates'))):
+        raise ValueError('Expected the registered TRAIN-only wrist-contact projection')
+    conditions={r['id']:r for r in pop['conditions']['TRAIN']}
+    scenes={c['id']:c['scene']['sha256'] for c in pop['clusters']}
+    rows=[]
+    for side in ('left','right'):
+        cell='CHV1-TRAIN-F2-PLACE-red-'+side
+        row=conditions[cell+'-02']
+        test=audit['measurements'][side]
+        if (row['split']!='TRAIN' or row['instruction']!='PLACE-red-'+side or row['family']!='F2'
+                or test['unopened_condition']!=row['id'] or scenes[row['scene_family']]!=test['scene_sha256']
+                or [r['condition'] for r in test['rows']]!=[cell+'-00',cell+'-01']
+                or any(r['summary']['0']['minimum_forbidden_gap_mm']>=0 or
+                       r['summary']['20']['minimum_forbidden_gap_mm']<=0 or
+                       not r['summary']['20']['bilateral_pad_intersection'] for r in test['rows'])):
+            raise ValueError('Registered side, original contact pair or pitch projection differs')
+        rows.append(row)
+    return rows
+
+
 def validate_member(case, authority):
     from go2arx5_vla.world_model.multitask_scope_v6 import read_pin
     ref = case['compiled_population']
@@ -74,10 +105,10 @@ def validate_member(case, authority):
     if repair!=case.get('carry_repair'):
         raise PermissionError('Teacher version and authority disagree')
     if repair:
-        only,=repair_rows(population,repair)
-        if (case['panel_entry_id']!=only['id'] or authority['native_request_cap']!=1
-                or authority['native_tick_cap']!=only['native_max_ticks']):
-            raise PermissionError('One unopened TRAIN pilot per carry repair')
+        allowed=repair_rows(population,repair)
+        if (case['panel_entry_id'] not in {r['id'] for r in allowed} or authority['native_request_cap']!=len(allowed)
+                or authority['native_tick_cap']!=sum(r['native_max_ticks'] for r in allowed)):
+            raise PermissionError('Expected the registered TRAIN pilot membership and total tick budget')
     elif authority['native_request_cap']!=264 or authority['native_tick_cap']!=12065592:
         raise PermissionError('Original expert population and budget required')
     row = next(r for r in order(population) if r['condition_id'] == case['panel_entry_id'])
