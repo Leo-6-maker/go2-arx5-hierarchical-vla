@@ -1,0 +1,128 @@
+"""Run a small, bounded PBS scheduler on VANDA for a single Hopper lineage."""
+import argparse
+from contextlib import closing
+import hashlib
+import json
+import os
+from pathlib import Path
+import re
+import shlex
+import subprocess
+import sys
+import time
+
+from scripts.pi0292.durable import OwnerLock, read, write
+from scripts.pi0294.e1.journal import Journal
+from scripts.sla.hopper_parent_custody import PLAN, SSH, HOST, write_once
+from scripts.sla.hopper_site import DEADLINE, site_epoch, wall_seconds
+
+PBS=Path('/opt/pbs/bin')
+PROJECT='CFP04-CF-007'
+MAX_SLOTS=60
+WALL=21600
+
+
+def job_row(job):
+    return json.loads(subprocess.check_output([str(PBS/'qstat'),'-xf','-F','json',job],text=True,timeout=45))['Jobs'][job]
+
+
+def submit(root,n,previous=None):
+    slot=root/f'{n:02d}'
+    slot.mkdir(exist_ok=True)
+    cfg=read(root/'CONFIG.json')
+    if n>MAX_SLOTS or cfg['plan']!=PLAN or time.time()>=min(DEADLINE,cfg['grant_end'])-240 or (root/'STOP').exists():
+        raise PermissionError('Dispatcher limit reached')
+    name=f'slachv1ctl{n:02d}'
+    jobfile=slot/'JOB.json'
+    journal=Journal(slot/'journal',slot.name)
+    body='\n'.join(['#!/bin/bash','#PBS -N '+name,'#PBS -P '+PROJECT,'#PBS -q auto',
+        '#PBS -l select=1:ncpus=1:mem=1GB','#PBS -l walltime=06:00:00','#PBS -m n','#PBS -r n',
+        '#PBS -o '+str(slot/'stdout.log'),'#PBS -e '+str(slot/'stderr.log'),'set -eu','umask 077',
+        'cd '+shlex.quote(str(root)),'export CUDA_VISIBLE_DEVICES="" PYTHONDONTWRITEBYTECODE=1',
+        'export PYTHONPATH='+shlex.quote(str(root/'source')),
+        'exec /usr/bin/python3 -B driver.py run '+shlex.quote(str(root))+' '+str(n)])+'\n'
+    script=slot/'dispatcher.pbs'
+    if not script.exists():
+        with script.open('x') as f:
+            f.write(body)
+    if script.read_text()!=body:
+        raise ValueError('VANDA dispatcher batch file changed')
+    deps=['-W','depend=afterok:'+previous] if previous else []
+    request=dict(plan=PLAN,number=n,previous=previous,script_sha256=hashlib.sha256(body.encode()).hexdigest())
+    def enqueue():
+        if not previous:
+            owned=subprocess.check_output([str(PBS/'qselect'),'-N',name,'-u',os.environ['USER']],text=True,timeout=30)
+            if owned.strip():
+                raise RuntimeError('Existing scheduler identity requires reconciliation')
+        job=subprocess.check_output([str(PBS/'qsub'),*deps,str(script)],text=True,timeout=90).strip()
+        if not re.fullmatch(r'\d+\.stdct-mgmt-02',job):
+            raise RuntimeError('Indeterminate VANDA submission')
+        write_once(jobfile,dict(job=job,**request))
+        return job
+    if jobfile.exists():
+        receipt=read(jobfile)
+        if any(receipt[k]!=v for k,v in request.items()):
+            raise ValueError('Changed dispatcher dependency')
+        return receipt['job']
+    return journal.once('submit',request,enqueue)
+
+
+def run(root,n):
+    slot=root/f'{n:02d}'
+    cfg=read(root/'CONFIG.json')
+    job=os.environ['PBS_JOBID']
+    for _ in range(45):
+        if (slot/'JOB.json').is_file():
+            break
+        time.sleep(2)
+    if (read(slot/'JOB.json')['job']!=job or cfg['plan']!=PLAN
+            or hashlib.sha256(Path(__file__).read_bytes()).hexdigest()!=cfg['driver_sha256']):
+        raise PermissionError('Unbound VANDA dispatcher')
+    row=job_row(job)
+    if (row['job_state']!='R' or row['project']!=PROJECT or row['Job_Owner'].split('@')[0]!=os.environ['USER']
+            or int(row['Resource_List']['ncpus'])!=1 or int(row['Resource_List'].get('ngpus',0))!=0
+            or wall_seconds(row['Resource_List']['walltime'])!=WALL):
+        raise PermissionError('Unrecognized VANDA CPU allocation')
+    grant_limit=min(DEADLINE,cfg['grant_end'])
+    end=site_epoch(row['stime'])+WALL
+    def stopped():
+        return (root/'STOP').exists() or time.time()>=grant_limit-240
+    with closing(OwnerLock(root/'scheduler.lock')):
+        write_once(slot/'START.json',dict(job=job,pid=os.getpid(),node=os.uname().nodename,epoch=time.time(),
+                                           site_end=end,grant_end=grant_limit))
+        attempts=0
+        while not stopped() and time.time()<end-540:
+            # Arguments and identity are fixed at registration. Only scheduling and status cross this SSH connection.
+            proc=subprocess.run([*SSH,HOST,cfg['hopper_command']],text=True,capture_output=True,timeout=420)
+            if proc.returncode:
+                write_once(slot/'INTERRUPTION.json',dict(job=job,returncode=proc.returncode,epoch=time.time(),
+                           reason=proc.stderr[-1800:]))
+                return
+            state=json.loads(proc.stdout)
+            attempts+=1
+            write(slot/'HEARTBEAT.json',dict(job=job,epoch=time.time(),polls=attempts,hopper=state))
+            if state['status'] not in ('WAIT_PBS','SUBMITTED','SELECTION_RECONCILED'):
+                write_once(slot/'RESULT.json',state)
+                return
+            time.sleep(min(150,max(0,end-540-time.time())))
+        if not stopped() and n<MAX_SLOTS:
+            successor=submit(root,n+1,job)
+            write_once(slot/'SUCCESSOR.json',dict(job=successor,afterok=job))
+        else:
+            write_once(slot/'RESULT.json',dict(status='STOP_LIMIT_OR_DEADLINE'))
+
+
+if __name__=='__main__':
+    c=argparse.ArgumentParser()
+    c.add_argument('action',choices=['submit','run'])
+    c.add_argument('root',type=Path)
+    c.add_argument('number',type=int)
+    a=c.parse_args()
+    os.umask(0o077)
+    if a.action=='submit':
+        if a.number!=1:
+            raise ValueError('Only the first dispatcher can be submitted manually')
+        with closing(OwnerLock(a.root/'first-submit.lock')):
+            print(submit(a.root,1))
+    else:
+        run(a.root,a.number)
