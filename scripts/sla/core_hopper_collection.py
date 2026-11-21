@@ -68,6 +68,7 @@ def run(spec):
     code, failure = 1, None
     pending = None
     repair=spec.get('carry_repair')
+    series=bool(repair and 'completed_pilot' in repair)
     original=Path(read_pin(repair['original_producer'])['registered_root']) if repair else root
     def state(stage, **extra):
         write(root/'PROGRESS.private.json', dict(stage=stage,epoch=time.time(),completed=len(records),
@@ -138,6 +139,12 @@ def run(spec):
             while not stopped():
                 try:
                     world=OwnerLock(spec['mobile_world_lock'])
+                    if series and (stopped() or (original/'STUDENT_TURN_READY.private.json').exists()):
+                        world.close()
+                        state('WAIT_CAPACITY_OR_STUDENT_HANDOFF')
+                        if not stopped():
+                            time.sleep(20)
+                        continue
                     break
                 except BlockingIOError:
                     state('WAIT_WORLD'); time.sleep(20)
@@ -189,6 +196,11 @@ def run(spec):
             write(root/'RECORDS.private.json',records)
             pending=None
             state('CASE_SEALED',paused_train_cells=sorted(paused))
+            if series and not rec['admitted']:
+                paused.add(cell)
+                state('REPAIRED_CELL_CLOSED',paused_train_cells=sorted(paused),
+                      first_failure=rec['first_failure'])
+                break
         code=0
     except Exception:
         failure=traceback.format_exc()

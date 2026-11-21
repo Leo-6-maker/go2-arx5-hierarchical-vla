@@ -29,6 +29,9 @@ def order(pop):
 
 def repair_rows(pop,repair):
     from go2arx5_vla.world_model.multitask_scope_v6 import read_pin
+    if 'completed_pilot' in repair:
+        from scripts.sla.core_hopper_repair_series import qualified_prefix
+        return qualified_prefix(pop,repair)
     from scripts.sla.core_hopper_blue_carry import PILOT, PRIOR
     audit=read_pin(repair['audit'])
     prior=read_pin(repair['original_producer'])

@@ -40,6 +40,14 @@ def prepare(config):
     closure=read_pin(config['source_members'])
     if any(digest(source/name)!=expected for name,expected in closure.items()):
         raise ValueError('Source closure changed')
+    if repair and 'completed_pilot' in repair:
+        from scripts.sla.core_hopper_repair_series import identity
+        _,pilot=identity(repair['completed_pilot'])
+        base=pilot['source_files']
+        allowed={'scripts/sla/core_hopper_collection.py','scripts/sla/core_hopper_expert.py','scripts/sla/core_hopper_register.py'}
+        if (set(closure)!=set(base)|{'scripts/sla/core_hopper_repair_series.py'}
+                or any(closure[k]!=v for k,v in base.items() if k not in allowed)):
+            raise ValueError('Continued collection must preserve the successful pilot and its complete native stack')
     require_unstarted_cases(interface['registry'],{row['id'] for row in rows})
     dirs(root)
     (root/'cases').mkdir(); (root/'snapshots').mkdir()
