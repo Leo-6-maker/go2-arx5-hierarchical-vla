@@ -46,7 +46,8 @@ def project_grant(seconds):
 
 
 def native(job):
-    return json.loads(subprocess.check_output([str(PBS/'qstat'),'-x','-f','-F','json',job],
+    server=os.environ['PBS_SERVER']
+    return json.loads(subprocess.check_output([str(PBS/'qstat'),'-x','-f','-F','json',job+'@'+server],
                       text=True,timeout=45))['Jobs'][job]
 
 
@@ -109,7 +110,35 @@ def batch_text(run,source,runtime,name,group,wall):
     return '\n'.join(directives+env)+'\n'
 
 
-def register(root,custody,source_folder,number,group,seconds,segment=None,recovery=None):
+def mixed_reader(segment, original, candidate, custody):
+    from hopper_reader_compat import compare
+    from scripts.sla.hopper_site import pinned
+
+    record = read(segment)
+    if record['course'] is None:
+        return None
+    course = pinned(record['course'])
+    folder = Path(course['folder'])
+    if folder.parent.resolve() != custody.joinpath('train-ready').resolve() or digest(folder/'SEALED.private.json')!=course['seal_sha256']:
+        raise ValueError('Course does not point to the sealed Hopper TRAIN intake')
+    seal = read(folder/'SEALED.private.json')
+    proof = pinned(dict(path=str(folder/'ACTUAL.private.json'), sha256=seal['admission_sha256']))
+    if 'schema' not in proof:
+        return None
+    if candidate is None:
+        raise ValueError('Per-episode TRAIN provenance requires its cold input reader')
+    verdict = candidate/'certificates'/(course['seal_sha256']+'.json')
+    cert = read(verdict)
+    sources = compare(original,candidate/'source')
+    if (cert['plan']!=PLAN or cert['status']!='HOPPER_MIXED_TRAIN_APPROVED'
+            or cert['seal']!=course['seal_sha256'] or cert['manifest']!=course['manifest_sha256']
+            or cert['windows']!=seal['windows'] or cert['episodes']!=seal['count']
+            or cert['sources']!=sources or proof.get('producer_spec') is not None):
+        raise ValueError('Course receipt or verified input runtime does not match its certificate')
+    return dict(**sources, certificate=pin(verdict), source_directory=str(candidate/'source'))
+
+
+def register(root,custody,source_folder,number,group,seconds,segment=None,recovery=None,reader_source=None):
     if number<1 or number>999 or not 900<seconds<=21600 or time.time()>=DEADLINE-900 or (custody/'STOP.json').exists():
         raise PermissionError('Campaign stop or invalid capsule allowance')
     if bool(segment)!=(group in ('training','reference')):
@@ -139,6 +168,8 @@ def register(root,custody,source_folder,number,group,seconds,segment=None,recove
         if (core['source']!=manifest['new_revision'] or core['archive_sha256']!=digest(source_folder/'source.tar.gz')
                 or not all(digest(source/n)==v['sha256'] for n,v in manifest['modules'].items())):
             raise ValueError('Scientific source registration changed')
+        reader = mixed_reader(segment,source,reader_source,custody) if group=='training' else None
+        execution_source = Path(reader['source_directory']) if reader else source
         runtime=custody/'sla-core-hopper-v1-runtime-20261121-01/runtime.verified'
         if digest(custody/'parent.verified/COMPLETE.json')!=PARENT:
             raise ValueError('Original parent checkpoint changed')
@@ -169,7 +200,7 @@ def register(root,custody,source_folder,number,group,seconds,segment=None,recove
         jobfile=run/'JOB.json'
         wall=f'{seconds//3600:02d}:{seconds//60%60:02d}:{seconds%60:02d}'
         script=run/'job.pbs'
-        body=batch_text(run,source,runtime,name,group,wall)
+        body=batch_text(run,execution_source,runtime,name,group,wall)
         if not script.exists():
             with script.open('x') as f:
                 f.write(body);f.flush();os.fsync(f.fileno())
@@ -177,6 +208,8 @@ def register(root,custody,source_folder,number,group,seconds,segment=None,recove
             raise ValueError('Registered batch program changed')
         request=dict(plan=PLAN,project=PROJECT,name=name,group=group,wall_seconds=seconds,source=core['source'],
                      pbs=pin(script),grant=pin(grantfile),science_request=pin(segment) if segment else None)
+        if reader:
+            request['input_reader'] = reader
         if recovery:
             request['technical_recovery']=pin(recovery)
         if not intent.exists():
@@ -210,6 +243,11 @@ def register(root,custody,source_folder,number,group,seconds,segment=None,recove
             record=read(segment)
             if record['source']!=core['source'] or record['plan']!=PLAN or record['parent']!=PARENT:
                 raise ValueError('Invalid proposed scientific segment')
+            if reader:
+                m['qualified_training_revision'] = core['source']
+                m['actual_runtime_revision'] = reader['actual_reader_runtime_revision']
+                m['input_reader'] = reader
+                record = dict(record, input_reader=reader)
             write_once(run/'SEGMENT.json',dict(record,job=job))
             key='reference_request' if group=='reference' else 'training_segment'
             m[key]=pin(run/'SEGMENT.json')

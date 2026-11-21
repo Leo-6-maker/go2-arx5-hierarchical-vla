@@ -3,6 +3,7 @@ import argparse
 from contextlib import closing
 import json
 import math
+import subprocess
 from pathlib import Path
 import time
 
@@ -103,7 +104,7 @@ def next_reference(line, due):
     return next((f for f in due if str(f) not in consumed),None)
 
 
-def advance(line,view,source,population,reference_source=None):
+def advance(line,view,source,population,reference_source=None,reader_source=None):
     if digest(population)!=POPULATION:
         raise ValueError('Population changed')
     if time.time()>=DEADLINE-900 or any((p/'STOP.json').exists() for p in (view,line)):
@@ -113,9 +114,16 @@ def advance(line,view,source,population,reference_source=None):
         current=max((p for p in alloc.iterdir() if p.name.isdigit()),key=lambda p:int(p.name))
         if not (current/'RELEASE.json').exists():
             return dict(status='RECONCILE_REGISTRATION',allocation=current.name)
+        if reader_source is not None:
+            from hopper_mixed_promotion import promote
+            for result in sorted((reader_source/'verified-inputs').glob('TRAIN-???.json')):
+                promote(view,source,reader_source,population,pin(result))
         due=reference_queue(line) if reference_source else []
         prior=read(current/'RELEASE.json')['job']
-        row=native(prior)
+        try:
+            row=native(prior)
+        except subprocess.TimeoutExpired:
+            return dict(status='WAIT_PBS',job=prior,state='STATUS_READ_TIMEOUT')
         if row['job_state']!='F':
             return dict(status='WAIT_PBS',job=prior,state=row['job_state'])
         total,eng=previous_cost(line,None)
@@ -177,7 +185,7 @@ def advance(line,view,source,population,reference_source=None):
             requests.mkdir(exist_ok=True)
             request=requests/f'{number:03d}.json'
             write_once(request,record)
-        job=register(line,view,bundle,number,group,seconds,request,recovery if group!='reference' else None)
+        job=register(line,view,bundle,number,group,seconds,request,recovery if group!='reference' else None,reader_source)
         return dict(status='SUBMITTED',job=job,group=group,allocation=number)
 
 
@@ -186,5 +194,6 @@ if __name__=='__main__':
     for k in ('line','view','source','population'):
         cli.add_argument(k,type=Path)
     cli.add_argument('--reference-source',type=Path)
+    cli.add_argument('--reader-source',type=Path)
     args=cli.parse_args()
-    print(json.dumps(advance(args.line,args.view,args.source,args.population,args.reference_source)))
+    print(json.dumps(advance(args.line,args.view,args.source,args.population,args.reference_source,args.reader_source)))

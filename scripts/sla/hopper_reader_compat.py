@@ -26,6 +26,10 @@ def inventory(folder, expected, revision):
     if manifest['new_revision'] != revision:
         raise ValueError('Unexpected capsule source revision')
     rows = {n:v['sha256'] for n,v in manifest['modules'].items()}
+    allowed = {*rows, 'SOURCE_BINDING.private.json', 'population.json', 'code.sha256'}
+    if any(p.is_symlink() or (p.is_file() and p.relative_to(folder).as_posix() not in allowed)
+           for p in folder.rglob('*')):
+        raise ValueError('Unregistered file in the cold execution source')
     if any(sha(folder/n) != h for n,h in rows.items()):
         raise ValueError('Module content differs from the registered source manifest')
     return rows
