@@ -1,0 +1,116 @@
+{
+  "timestamp": "2026-11-21T12:46:41+08:00",
+  "visit_order": [
+    "Go2",
+    "RoboDojo",
+    "LIBERO"
+  ],
+  "TGT": {
+    "phase": 5000,
+    "sealed": 5000,
+    "visits": [
+      160000,
+      0,
+      0
+    ],
+    "per_endpoint_evaluations": [
+      288,
+      48
+    ],
+    "phase2k_full_h40": 95,
+    "phase5k_full_h40": 95,
+    "phase2k_both": 93,
+    "phase5k_both": 86,
+    "target_windows": 96,
+    "student_native": 0
+  },
+  "MIX": {
+    "phase": 2000,
+    "sealed": 2000,
+    "phase_budget": 20000,
+    "visits": [
+      64000,
+      96000,
+      96000
+    ],
+    "eval_completed": 0,
+    "eval_planned": 336,
+    "eval_status": "EXACT_MIX2000_EVAL_RESOURCE_REJECTED",
+    "seal": "89db8990f4c13e173d78f674dcfb8dabd4724a4ebb976b7ff0d0ee84a29eb8ac",
+    "HF_revision": "921bae7bae7169b77e2c0fdcbaa7d562c6405ede"
+  },
+  "ADAPT": {
+    "phase": 2500,
+    "ancestor": 500,
+    "phase_budget": 5000,
+    "sealed": 2500,
+    "visits": [
+      160000,
+      80000,
+      80000
+    ],
+    "checkpoint_arrays": 140,
+    "seal": "52e5ceb1663d586dd07ba89737803a893f8974456a34b57cefc39e80c7cf31e9",
+    "seal_job": "1599368.stdct-mgmt-02",
+    "seal_job_exit": 0,
+    "successor_job": "1599369.stdct-mgmt-02",
+    "successor_target": 2750,
+    "successor_state": "R",
+    "successor_updates_witnessed": 0,
+    "eval5k_job": "1599379.stdct-mgmt-02",
+    "eval5k_state": "H",
+    "recent_25_median_seconds": 43.71,
+    "decision_at_2000": "D2"
+  },
+  "ADAPT2K": {
+    "ordinary": 288,
+    "phase_train": 88,
+    "independent_restore": 48,
+    "exact_restore": 48,
+    "ordinary_target_full_h40": 93,
+    "ordinary_target_both": 92,
+    "ordinary_target_n": 96,
+    "closure_due_train_windows": 24,
+    "timely": 24,
+    "timely_and_h40_and_seam": 9,
+    "CLOCK500_trigger": false,
+    "CLOCK500_new_updates": 0,
+    "VANDA_Go2_inference_package": "GO2_ADAPT_TARGET_CUSTODY_SEALED",
+    "core_rgb16_generations": 0,
+    "native": 0
+  },
+  "D2": {
+    "episodes": 26,
+    "windows": 2031,
+    "hold": 22,
+    "place": 4,
+    "added_hold_episodes": 2,
+    "added_hold_windows": 139,
+    "added_hold_ticks": 46156,
+    "added_hold_consumed_actions": 1390,
+    "unused_HOLD4_attempts": 4,
+    "old_HOLD4_actual_native": 0
+  },
+  "ADAPT0": {
+    "native": 24,
+    "model_generations": 1741,
+    "ticks": 568442,
+    "correct_grasp": 0,
+    "lift20mm": 0,
+    "task_success": 0,
+    "illegal_contact_stops": 23,
+    "full_h40_rejections": 1,
+    "additional_interfaces": 2,
+    "additional_interface_ticks": 11906,
+    "F2_first_layout_blue_right": {
+      "ticks": 29025,
+      "generated": 94,
+      "compiled": 94,
+      "fully_consumed_p10": 93,
+      "maximum_lift_mm": 2.07,
+      "first_contact": "x5_link6 / target blue cube",
+      "post_stop_ticks": 0
+    }
+  },
+  "new_goal_receipt": "FIRST_MOUNT_ACTUAL.json"
+}
