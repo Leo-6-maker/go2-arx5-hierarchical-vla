@@ -21,12 +21,20 @@ def read_pinned(pin):
     return read(path)
 
 
-def object_file(source, expected, depot):
+def object_file(source, expected, depot, shared=None):
     obj=depot/expected
     if obj.is_file():
         if obj.stat().st_size!=source.stat().st_size or obj.stat().st_mode & 0o222:
             raise ValueError('Snapshot object changed')
         return obj
+    if shared is not None:
+        old=Path(shared)/expected
+        if old.is_file() and not old.is_symlink() and not old.stat().st_mode & 0o222:
+            if old.stat().st_size!=source.stat().st_size or digest(old)!=expected:
+                raise ValueError('Original snapshot object differs')
+            os.link(old,obj)
+            sync_dir(depot)
+            return obj
     with tempfile.NamedTemporaryFile(dir=depot,delete=False) as out:
         temp=Path(out.name)
         with source.open('rb') as f:
@@ -41,7 +49,7 @@ def object_file(source, expected, depot):
     return obj
 
 
-def publish(root, producer, rows, cfg):
+def publish(root, producer, rows, cfg, *, origins=None):
     n=len(rows)
     final=root/'snapshots'/f'TRAIN-{n:03d}'
     if final.exists():
@@ -51,11 +59,12 @@ def publish(root, producer, rows, cfg):
     cases=[]
     seen_results=set()
     seen_payloads=set()
-    location=producer/'admission/TRAIN'
     for row in rows:
         ref=row['episode']
         ep=read_pinned(ref)
         eid=ep['id']
+        folder=origins[eid]['root'] if origins is not None else producer
+        location=folder/'admission/TRAIN'
         epdir=location/eid
         if (epdir.resolve().parent!=location.resolve() or Path(ref['path'])!=epdir/'EPISODE.private.json'
                 or eid!=row['condition'] or ep['split']!='TRAIN' or ep['individual_pass'] is not True
@@ -66,6 +75,13 @@ def publish(root, producer, rows, cfg):
         native=read_pinned(row['result'])
         if native['physical_requests']!=1 or native['actual_native_integrations']!=row['ticks']:
             raise ValueError('Native denominator changed: '+eid)
+        if origins is not None:
+            metadata=origins[eid]
+            case=folder/'cases'/eid
+            if (Path(row['result']['path'])!=case/'RESULT.private.json'
+                    or native['source_sha']!=metadata['source'] or native['condition']['collection_episode']!=eid
+                    or read(case/'EXECUTION_SPEC.json')['source_sha']!=metadata['source']):
+                raise ValueError('Producer differs from the actual native case: '+eid)
         members=[ep['labels'],*ep['frame_shards']]
         payload=tuple(m['sha256'] for m in members)
         if ep['native_result_sha256'] in seen_results or payload in seen_payloads:
@@ -78,12 +94,14 @@ def publish(root, producer, rows, cfg):
             origin=location/rel
             if rel.parent!=Path(eid) or origin.is_symlink() or origin.resolve().parent!=epdir.resolve():
                 raise ValueError('Capture member outside admitted episode')
-            os.link(object_file(origin,m['sha256'],root/'objects'),stage/rel)
+            os.link(object_file(origin,m['sha256'],root/'objects',cfg.get('shared_objects')),stage/rel)
         sync_dir(stage/eid)
         episodes.append(ep)
         cases.append(dict(id=eid,instruction=ep['task'],windows=ep['windows'],confirmed_P10_atoms=ref['confirmed_P10_atoms'],
                    scene_sha256=ep['scene_sha256'],reset=ep['reset'],native_result_sha256=ep['native_result_sha256'],
                    episode_sha256=ref['sha256'],native_ticks=row['ticks'],admitted=True))
+        if origins is not None:
+            cases[-1].update(producer_spec=metadata['spec'],producer_source=metadata['source'])
     total=sum(ep['windows'] for ep in episodes)
     manifest=dict(schema='SLA_TARGET_ADAPTATION_NEW_EXPERTS_V1',plan=PLAN,source=cfg['source_revision'],
                   representation='DENSE_REFERENCE_G7_V6',state='committed',split='TRAIN',episodes=episodes,
@@ -91,8 +109,14 @@ def publish(root, producer, rows, cfg):
                   phase_input_to_student=False,teacher_memory_input=False,unconsumed_suffix_is_executed=False)
     write_once(stage/'MANIFEST.private.json',manifest)
     msha=digest(stage/'MANIFEST.private.json')
-    write_once(stage/'ACTUAL.private.json',dict(cases=cases,admitted_episodes=n,admitted_windows=total,
-               dataset_sha256=msha,producer_spec=cfg['producer_spec_sha256']))
+    proof=dict(cases=cases,admitted_episodes=n,admitted_windows=total,dataset_sha256=msha)
+    if origins is None:
+        proof['producer_spec']=cfg['producer_spec_sha256']
+    else:
+        from hopper_snapshot_producers import SCHEMA, ORIGINAL, check_admission_provenance
+        proof.update(schema=SCHEMA,original_campaign_spec=ORIGINAL)
+        check_admission_provenance(proof)
+    write_once(stage/'ACTUAL.private.json',proof)
     write_once(stage/'SEALED.private.json',dict(plan=PLAN,split='TRAIN',count=n,windows=total,
                manifest_sha256=msha,admission_sha256=digest(stage/'ACTUAL.private.json'),
                epoch=time.time(),episode_sha256=[r['episode']['sha256'] for r in rows]))

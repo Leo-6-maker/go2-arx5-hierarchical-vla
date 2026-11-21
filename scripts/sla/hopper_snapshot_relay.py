@@ -11,9 +11,9 @@ import time
 
 from scripts.pi0292.durable import OwnerLock, read, write
 from scripts.sla.hopper_parent_custody import HOST, PLAN, SSH, digest, remote, sync_dir, write_once
+from scripts.sla.hopper_snapshot_producers import check_admission_provenance
 
 POPULATION = '9e483c85eb90cc2e9d1da66b9f3f8dff6606c6173b66755bcffcc4c7e5f91279'
-PRODUCER_SPEC = '89f058d5cd3a69cae8f68eb6a63f63a040f20151d07daf0d88e6a0ec5c3f8ffe'
 C20 = 'f28d50e6eeea09b332d4bd159eca4333bbe23b185f95f1d336d45311e364ab3e'
 
 
@@ -31,7 +31,8 @@ def verified(folder, population, seal_sha, flush=False):
     manifest = pinned('MANIFEST.private.json', seal['manifest_sha256'])
     proof = pinned('ACTUAL.private.json', seal['admission_sha256'])
     episodes, cases, hashes = manifest['episodes'], proof['cases'], seal['episode_sha256']
-    if (seal['plan'] != PLAN or manifest['plan'] != PLAN or proof['producer_spec'] != PRODUCER_SPEC
+    check_admission_provenance(proof)
+    if (seal['plan'] != PLAN or manifest['plan'] != PLAN
             or manifest['statistics_sha256'] != C20 or manifest['state'] != 'committed'
             or manifest['schema'] != 'SLA_TARGET_ADAPTATION_NEW_EXPERTS_V1'
             or manifest['representation'] != 'DENSE_REFERENCE_G7_V6'
