@@ -36,7 +36,8 @@ def main():
     core_hopper_expert = core_hopper_expert or core_multienv_expert
     core_hopper_student = (spec['plan_commit'] == '171b5bedb290258954aac140157743e92e3b152e'
                            and spec['scope'] == 'SLA_CORE_HOPPER_V1_STUDENT'
-                           and operation in ('--case','--worker','--core-hopper-students'))
+                           and operation in ('--case','--worker','--core-hopper-students',
+                                             '--check-core-hopper-student-imports'))
     if not (d4 or e0 or followup or scale or adaptation or core_hopper_expert or core_hopper_student or core_multienv_n1) and (spec['plan_commit']!='ae3d3c0dceade437b0104a150cd0402fef650052'or spec['scope']not in('SLA_SOURCE_NATIVE_SHARED_V6','SLA_V6_TARGET_NATIVE','SLA_V6_MULTITASK_NATIVE')):
         raise PermissionError('FIXED_V6_PLAN_AND_EXPLICIT_NEW_SCOPE_REQUIRED')
     if Path(__file__).resolve()!=source/'scripts/wm02/v6_bootstrap.py':raise PermissionError('EXACT_NEW_V6_BOOTSTRAP')
@@ -48,6 +49,10 @@ def main():
     for module,rel in((go2arx5_vla.world_model,'src/go2arx5_vla/world_model'),(go2arx5_vla.sla_adapter,'src/go2arx5_vla/sla_adapter'),(scripts.wm02,'scripts/wm02'),(scripts.sla,'scripts/sla'),(scripts.pi0294,'scripts/pi0294')):
         module.__path__=[str(source/rel),*list(module.__path__)]
     from scripts.wm02.mobile_boundary_runner_v1 import registered
+    if core_hopper_student and operation == '--check-core-hopper-student-imports':
+        from scripts.sla.core_hopper_native_campaign import run_block
+        print('CORE_STUDENT_BOOTSTRAP_IMPORTS_READY')
+        return
     registered(spec,path)
     if core_hopper_student and operation == '--core-hopper-students':
         from scripts.sla.core_hopper_native_campaign import run_block

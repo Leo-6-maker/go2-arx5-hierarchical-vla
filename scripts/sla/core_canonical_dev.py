@@ -97,7 +97,8 @@ def coordinate(root,cfg):
                         task=prepare(cfg,pin(proof_path),arm,'DEV',0,folder,cap)
                         cmd=[task['python'],'-B',str(Path(cfg['source_root'])/'scripts/wm02/v6_bootstrap.py'),
                              '--core-hopper-students',str(folder/'EXECUTION_SPEC.json')]
-                        with (folder/'logs/block.log').open('xb') as log:
+                        log_path=folder/'logs/block.log'
+                        with log_path.open('xb') as log:
                             p=subprocess.Popen(cmd,env={**os.environ,**task['native_environment']},cwd=cfg['source_root'],
                                                stdout=log,stderr=subprocess.STDOUT)
                             while p.poll() is None:
@@ -105,6 +106,10 @@ def coordinate(root,cfg):
                                 if (root/'STOP').exists() and not (folder/'STOP.json').exists():
                                     write(folder/'STOP.json',dict(reason='Core canonical operator stop'))
                                 time.sleep(10)
+                        if not (folder/'RESULT.private.json').is_file():
+                            evidence=pin(log_path)
+                            raise RuntimeError(f'Native child exited {p.returncode} before a terminal result. '
+                                               f'Launch log SHA256 {evidence["sha256"]}')
                         actual=audit_block(folder)
                         write_once(folder/'RECONCILED.json',actual)
                         return actual
