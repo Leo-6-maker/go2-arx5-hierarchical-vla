@@ -35,6 +35,8 @@ def submit(root,n,previous=None):
     prefix='slachv1ev' if cfg.get('local_formal') else ('slachv1bk' if cfg.get('local_backup') else 'slachv1ctl')
     if cfg.get('local_exchange'):
         prefix='slachv1hf'
+    if cfg.get('local_train_ingress'):
+        prefix='schv1data'
     if cfg.get('reconciled_dispatch'):
         prefix='slachv1rc'
     if cfg.get('local_relay'):
@@ -134,9 +136,14 @@ def run(root,n):
                                            site_end=end,grant_end=grant_limit))
         attempts=0
         window=3600 if cfg.get('local_exchange') or cfg.get('local_relay') else 540
+        if cfg.get('local_train_ingress'):
+            window=900
         while not stopped() and time.time()<end-window:
             # Arguments and identity are fixed at registration. Only scheduling and status cross this SSH connection.
-            if cfg.get('local_relay'):
+            if cfg.get('local_train_ingress'):
+                command=[cfg['hub_python'],'-B','-m','scripts.sla.core_hopper_hf_train',str(root),'receive',
+                         cfg['local_train_ingress']]
+            elif cfg.get('local_relay'):
                 command=[sys.executable,'-B',str(root/'relay_tick.py'),str(root),str(n)]
             elif cfg.get('local_exchange'):
                 command=[cfg['hub_python'],'-B',str(root/'exchange.py'),'tick',str(root)]
