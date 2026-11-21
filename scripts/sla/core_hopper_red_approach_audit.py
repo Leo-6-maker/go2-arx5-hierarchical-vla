@@ -91,8 +91,8 @@ def registered_shift(geometry, pilot):
     return delta[geometry.table]-delta[geometry.target]
 
 
-def analyze_case(root, entry, angles, rotate, pilot=None):
-    witness = history(root, entry)
+def analyze_case(root, entry, angles, rotate, pilot=None, *, source=BASE):
+    witness = history(root, entry,source=source)
     if (witness['phase'] != 'DESCEND' or witness['last_query_native_grasp']
             or not witness['pairs'] or any(set(p['bodies']) != {'x5_link6', 'task_blue_cube'} for p in witness['pairs'])):
         raise ValueError('Requires the original wrist-to-other-cube STOP before grasp')

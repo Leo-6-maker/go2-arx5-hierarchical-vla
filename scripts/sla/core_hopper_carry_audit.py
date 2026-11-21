@@ -44,14 +44,14 @@ def stopped_pairs(model,row,target):
     return invalid
 
 
-def history(root,entry):
+def history(root,entry,*,source=BASE):
     name=entry['condition']
     folder=root/'cases'/name
     s=read(folder/'EXECUTION_SPEC.json')
     actual=read_pin(entry['result'])
     scene=Path(s['model_path'])
     observer=Path(s['observer_library']).with_suffix('.cpp')
-    if (s['collection_split']!='TRAIN' or s['source_sha']!=BASE or actual['source_sha']!=BASE
+    if (s['collection_split']!='TRAIN' or s['source_sha']!=source or actual['source_sha']!=source
             or digest(scene)!=s['frozen_files'][str(scene)] or digest(observer)!=OBSERVER
             or digest(Path(s['observer_library']))!=read_pin(s['compiled_observer_result'])['observer_candidate']['library_sha256']
             or entry['requests']!=1 or not entry['hard_STOP'] or entry['post_STOP_ticks']!=0):
