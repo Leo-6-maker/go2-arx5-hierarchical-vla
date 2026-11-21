@@ -8,10 +8,8 @@ import shutil
 import numpy as np
 from scripts.pi0292.durable import write
 from scripts.sla.close_goal_g1_v1 import wait_resource_owner
-from scripts.sla.hybrid_cn38_infer_v1 import load_pair
 from go2arx5_vla.world_model.hybrid_nonphysical_v3 import read, check_live, load_input
 from go2arx5_vla.world_model.storage import digest
-from go2arx5_vla.sla_adapter.hybrid_request_v1 import predict_request
 
 
 def poll_message(path):
@@ -62,7 +60,10 @@ def run(spec):
         package=spec['SHIFT7_package']
         one=Provider(package['path'],manifest_sha256=package['sha256'],parent_params=spec['parent_params'],parent_manifest_path=spec['parent_manifest']['path'])
         two=None
-    else:one,two=load_pair(spec)
+    else:
+        from scripts.sla.hybrid_cn38_infer_v1 import load_pair
+        from go2arx5_vla.sla_adapter.hybrid_request_v1 import predict_request
+        one,two=load_pair(spec)
     adapters=len(one.providers) if pool else 1 if single else 2
     write(root/'READY.private.json',dict(pid=os.getpid(),parent_loads=1,adapters=adapters,
         load_and_import_wall_s=time.monotonic()-start,GPU_memory=jax.devices()[0].memory_stats(),site=site,
