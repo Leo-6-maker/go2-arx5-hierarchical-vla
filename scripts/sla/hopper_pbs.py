@@ -111,15 +111,21 @@ def batch_text(run,source,runtime,name,group,wall):
 
 
 def mixed_reader(segment, original, candidate, custody):
-    from hopper_reader_compat import compare
     from scripts.sla.hopper_site import pinned
 
     record = read(segment)
     if record['course'] is None:
         return None
     course = pinned(record['course'])
-    folder = Path(course['folder'])
-    if folder.parent.resolve() != custody.joinpath('train-ready').resolve() or digest(folder/'SEALED.private.json')!=course['seal_sha256']:
+    return certified_reader(Path(course['folder']),course['seal_sha256'],course['manifest_sha256'],
+                            original,candidate,custody)
+
+
+def certified_reader(folder, seal_sha, manifest_sha, original, candidate, custody):
+    from hopper_reader_compat import compare
+    from scripts.sla.hopper_site import pinned
+
+    if folder.parent.resolve() != custody.joinpath('train-ready').resolve() or digest(folder/'SEALED.private.json')!=seal_sha:
         raise ValueError('Course does not point to the sealed Hopper TRAIN intake')
     seal = read(folder/'SEALED.private.json')
     proof = pinned(dict(path=str(folder/'ACTUAL.private.json'), sha256=seal['admission_sha256']))
@@ -127,7 +133,7 @@ def mixed_reader(segment, original, candidate, custody):
         return None
     # Existing mixed courses keep the reader which certified their original intake.
     candidates = candidate if isinstance(candidate,(tuple,list)) else ([candidate] if candidate else [])
-    name = course['seal_sha256']+'.json'
+    name = seal_sha+'.json'
     matches = [c for c in candidates if (c/'certificates'/name).is_file()]
     if len(matches)!=1:
         raise ValueError('A mixed course must have one registered cold reader certificate')
@@ -136,7 +142,7 @@ def mixed_reader(segment, original, candidate, custody):
     cert = read(verdict)
     sources = compare(original,candidate/'source')
     if (cert['plan']!=PLAN or cert['status']!='HOPPER_MIXED_TRAIN_APPROVED'
-            or cert['seal']!=course['seal_sha256'] or cert['manifest']!=course['manifest_sha256']
+            or cert['seal']!=seal_sha or cert['manifest']!=manifest_sha
             or cert['windows']!=seal['windows'] or cert['episodes']!=seal['count']
             or cert['sources']!=sources or proof.get('producer_spec') is not None):
         raise ValueError('Course receipt or verified input runtime does not match its certificate')
