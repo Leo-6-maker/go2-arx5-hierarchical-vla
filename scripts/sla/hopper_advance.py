@@ -122,7 +122,7 @@ def promote_registered(view,source,readers,population):
                 break
 
 
-def advance(line,view,source,population,reference_source=None,reader_source=None):
+def advance(line,view,source,population,reference_source=None,reader_source=None,project_basis=None):
     if digest(population)!=POPULATION:
         raise ValueError('Population changed')
     if time.time()>=DEADLINE-900 or any((p/'STOP.json').exists() for p in (view,line)):
@@ -202,7 +202,7 @@ def advance(line,view,source,population,reference_source=None,reader_source=None
             requests.mkdir(exist_ok=True)
             request=requests/f'{number:03d}.json'
             write_once(request,record)
-        job=register(line,view,bundle,number,group,seconds,request,recovery if group!='reference' else None,reader_source)
+        job=register(line,view,bundle,number,group,seconds,request,recovery if group!='reference' else None,reader_source,project_basis)
         return dict(status='SUBMITTED',job=job,group=group,allocation=number)
 
 
@@ -212,5 +212,7 @@ if __name__=='__main__':
         cli.add_argument(k,type=Path)
     cli.add_argument('--reference-source',type=Path)
     cli.add_argument('--reader-source',type=Path,action='append')
+    cli.add_argument('--pbs-project-basis',nargs=2,metavar=('RECEIPT','SHA256'))
     args=cli.parse_args()
-    print(json.dumps(advance(args.line,args.view,args.source,args.population,args.reference_source,args.reader_source)))
+    basis=dict(zip(('path','sha256'),args.pbs_project_basis)) if args.pbs_project_basis else None
+    print(json.dumps(advance(args.line,args.view,args.source,args.population,args.reference_source,args.reader_source,basis)))

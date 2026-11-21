@@ -49,9 +49,9 @@ def submit(root,n,previous=None):
         if n==1:
             previous=cfg['cold_predecessor']['job']
     if cfg.get('mixed_dispatch'):
-        prefix='schv1mix'
+        prefix='schv1mixr' if cfg.get('cold_predecessor') else 'schv1mix'
         if n==1:
-            previous=cfg['reconciled_dispatch']['job']
+            previous=(cfg.get('cold_predecessor') or cfg['reconciled_dispatch'])['job']
     resource='select=1:ncpus=2:mem=10GB' if cfg.get('mixed_dispatch') else 'select=1:ncpus=1:mem=1GB'
     name=prefix+f'{n:02d}'
     jobfile=slot/'JOB.json'
@@ -136,6 +136,23 @@ def run(root,n):
                 or read(old/'STOP').get('successor')!=job or job_row(prior['job'])['job_state']!='F'
                 or read(old/'01/RESULT.json')['status']!='STOP_LIMIT_OR_DEADLINE'):
             raise PermissionError('Prior scheduler has not completed the registered cold handoff')
+        if cfg.get('mixed_dispatch'):
+            old_settings=read(old/'CONFIG.json')['mixed_dispatch']
+            if old_settings!=cfg['mixed_dispatch']:
+                raise ValueError('Cold scheduler handoff changed the existing data route')
+            for name in ('mixed-sent','mixed-checked'):
+                target=root/name
+                target.mkdir(exist_ok=True)
+                for f in sorted((old/name).glob('TRAIN-???.json')):
+                    if f.is_symlink() or not re.fullmatch(r'TRAIN-\d{3}\.json',f.name):
+                        raise ValueError('Unexpected prior mixed-data receipt')
+                    try:
+                        os.link(f,target/f.name)
+                    except FileExistsError:
+                        if not f.samefile(target/f.name):
+                            raise ValueError('Conflict with an inherited mixed-data receipt')
+            if (old/'MIXED_HOLD.json').is_file():
+                write_once(root/'MIXED_HOLD.json',read(old/'MIXED_HOLD.json'))
     if n==1 and cfg.get('reconciled_dispatch'):
         prior=cfg['reconciled_dispatch']
         slot0=Path(prior['folder'])/'01'

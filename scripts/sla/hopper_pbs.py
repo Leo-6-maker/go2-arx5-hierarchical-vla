@@ -26,10 +26,20 @@ def pin(path):
     return dict(path=str(path.resolve(strict=True)),sha256=digest(path))
 
 
+class BalanceLoginExpired(Exception):
+    """The separate interactive account-report session expired before returning project data."""
+
+
 def project_grant(seconds):
     account = os.environ['USER']
     amgr = '/opt/am/python/bin/amgr'
-    records=json.loads(subprocess.check_output([amgr,'ls','project','--name',PROJECT,'--json-info'],text=True,timeout=30))
+    lookup=subprocess.run([amgr,'ls','project','--name',PROJECT,'--json-info'],
+                          text=True,capture_output=True,timeout=30)
+    message=(lookup.stdout+'\n'+lookup.stderr).strip()
+    if re.fullmatch(r'Code\s*:\s*15006\s+Message\s*:\s*The token has expired\.\s*Please login\.?',message):
+        raise BalanceLoginExpired('Interactive project-report login expired before membership lookup')
+    lookup.check_returncode()
+    records=json.loads(lookup.stdout)
     balance=ast.literal_eval(subprocess.check_output([amgr,'checkbalance','project','--name',PROJECT],text=True,timeout=30))
     tariff=json.loads(subprocess.check_output([amgr,'ls','cluster','--name','hopper-m-02','--formula','--json-info'],
                                               text=True,timeout=30))
@@ -106,7 +116,7 @@ def previous_cost(root,current):
     return total,engineering
 
 
-def batch_text(run,source,runtime,name,group,wall):
+def batch_text(run,source,runtime,name,group,wall,project_verifier=None):
     module={'engineering':'scripts.sla.hopper_engineering_batch','training':'scripts.sla.hopper_training',
             'reference':'scripts.sla.hopper_reference'}[group]
     python=runtime/'interpreter/bin/python3.12'
@@ -120,8 +130,12 @@ def batch_text(run,source,runtime,name,group,wall):
     env=['set -euo pipefail','umask 077','cd '+shlex.quote(str(run)),
          'export PBS_SERVER='+shlex.quote(os.environ['PBS_SERVER']),
          'export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 OMP_NUM_THREADS=2',
-         'export JAX_PLATFORMS=cuda PYTHONPATH='+shlex.quote(paths),'sha256sum --status -c MOUNT.sha256',
-         'exec '+command]
+         'export JAX_PLATFORMS=cuda PYTHONPATH='+shlex.quote(paths),'sha256sum --status -c MOUNT.sha256']
+    if project_verifier:
+        check=project_verifier['sha256']+'  '+project_verifier['path']
+        env.extend(['printf "%s\\n" '+shlex.quote(check)+' | sha256sum --status -c -',
+                    shlex.join([str(python),'-B',project_verifier['path'],'running',str(run)])])
+    env.append('exec '+command)
     return '\n'.join(directives+env)+'\n'
 
 
@@ -164,7 +178,7 @@ def certified_reader(folder, seal_sha, manifest_sha, original, candidate, custod
     return dict(**sources, certificate=pin(verdict), source_directory=str(candidate/'source'))
 
 
-def register(root,custody,source_folder,number,group,seconds,segment=None,recovery=None,reader_source=None):
+def register(root,custody,source_folder,number,group,seconds,segment=None,recovery=None,reader_source=None,project_basis=None):
     if number<1 or number>999 or not 900<seconds<=21600 or time.time()>=DEADLINE-900 or (custody/'STOP.json').exists():
         raise PermissionError('Campaign stop or invalid capsule allowance')
     if bool(segment)!=(group in ('training','reference')):
@@ -217,8 +231,19 @@ def register(root,custody,source_folder,number,group,seconds,segment=None,recove
         if total+seconds>320*3600 or (group=='engineering' and eng+seconds>8*3600):
             raise PermissionError('Remaining actual GPU budget exhausted')
         grantfile=run/'GRANT.json'
+        project_verifier=None
+        if project_basis:
+            from hopper_project_admission import project_period
+            period=project_period(project_basis,root,seconds)
+            project_verifier=pin(Path(__file__).with_name('hopper_project_admission.py'))
         if not grantfile.exists():
-            write_once(grantfile,project_grant(seconds))
+            try:
+                observed=project_grant(seconds)
+            except BalanceLoginExpired:
+                if not project_basis:
+                    raise
+                observed=period
+            write_once(grantfile,observed)
         grant=read(grantfile)
         if time.time()>=grant['expiry_epoch']:
             raise PermissionError('Site grant ended')
@@ -226,7 +251,7 @@ def register(root,custody,source_folder,number,group,seconds,segment=None,recove
         jobfile=run/'JOB.json'
         wall=f'{seconds//3600:02d}:{seconds//60%60:02d}:{seconds%60:02d}'
         script=run/'job.pbs'
-        body=batch_text(run,execution_source,runtime,name,group,wall)
+        body=batch_text(run,execution_source,runtime,name,group,wall,project_verifier)
         if not script.exists():
             with script.open('x') as f:
                 f.write(body);f.flush();os.fsync(f.fileno())
@@ -236,6 +261,9 @@ def register(root,custody,source_folder,number,group,seconds,segment=None,recove
                      pbs=pin(script),grant=pin(grantfile),science_request=pin(segment) if segment else None)
         if reader:
             request['input_reader'] = reader
+        if project_basis:
+            request['pbs_project_basis']=project_basis
+            request['pbs_project_verifier']=project_verifier
         if recovery:
             request['technical_recovery']=pin(recovery)
         if not intent.exists():
@@ -257,6 +285,9 @@ def register(root,custody,source_folder,number,group,seconds,segment=None,recove
                 or row['Job_Name']!=name or row['Resource_List']['select']!='1:ngpus=1:gpu_model=H200:ncpus=12:mem=225GB'
                 or wall_seconds(row['Resource_List']['walltime'])!=seconds):
             raise PermissionError('Wrong held job or prior release effect requires reconciliation')
+        if project_basis:
+            from hopper_project_admission import allocation
+            allocation(row,grant['account'],seconds,'H')
         if 'required_units_at_queue_rate_one' in grant:
             queue_rate=float(row['Resource_List']['queue_charge_rate'])
             charge=grant['required_units_at_queue_rate_one']*queue_rate
@@ -284,6 +315,8 @@ def register(root,custody,source_folder,number,group,seconds,segment=None,recove
             write_once(run/'SEGMENT.json',dict(record,job=job))
             key='reference_request' if group=='reference' else 'training_segment'
             m[key]=pin(run/'SEGMENT.json')
+        if project_basis:
+            m['pbs_project_basis']=project_basis
         write_once(run/'MOUNT.private.json',m)
         check=run/'MOUNT.sha256'
         expected=digest(run/'MOUNT.private.json')+'  MOUNT.private.json\n'
