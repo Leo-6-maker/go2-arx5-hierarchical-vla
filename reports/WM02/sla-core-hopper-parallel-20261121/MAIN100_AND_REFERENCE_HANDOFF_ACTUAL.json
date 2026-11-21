@@ -1,0 +1,258 @@
+{
+  "plan": "171b5bedb290258954aac140157743e92e3b152e",
+  "cutoff_sgt": "2026-11-21 17:29:35",
+  "project": {
+    "name": "CFP04-CF-007",
+    "active": true,
+    "cluster": "hopper-m-02",
+    "grant_end_date": "2027-03-12",
+    "source": "Hopper amgr ls project and checkbalance project",
+    "goal_h200_cap_hours": 320,
+    "goal_deadline_sgt": "2026-12-05 12:41:52"
+  },
+  "main": {
+    "at": "2026-11-21T17:29:30.589932+08:00",
+    "job": "727341.hopper-m-02",
+    "site": {
+      "deadline": 1795273061,
+      "gpu_name": "NVIDIA H200",
+      "gpu_uuid": "GPU-cc3c1107-26b1-3e75-569e-6ac690a770cc",
+      "host": "hopper-19",
+      "job": "727341.hopper-m-02",
+      "wall_s": 21600
+    },
+    "source": "b9581196d0acd02fb748222988e5a5543ce1f232",
+    "actual_updates": 100,
+    "visits": {
+      "target": 6400,
+      "robodojo": 3200,
+      "libero": 3200
+    },
+    "training_h40": 400,
+    "learning_rate": 0.0000036185928321821635,
+    "final_gradient_norm": 1.5697544813156128,
+    "first_update_s": 40.89231336105149,
+    "warm_median_s": 15.278932215063833,
+    "warm_p90_s": 16.065740091959015,
+    "end_update_receipt_sha256": "8ffb49136b8097ec42e8a474cc14e8ae0d1dfccc93813add94d9fae1c84e34e4",
+    "endpoint": {
+      "checkpoint_sha256": "4b922442d4cc1ac9d33529cba7667b73acad6882300d2a37c8d915dc5906bef0",
+      "arrays": 140,
+      "receipt_sha256": "2c97a7bdb163b3746131418f07ba10f2b558e92f3c46d260a9c0e503e76ef822",
+      "eval_due": false,
+      "deployment_due": false,
+      "cursors": {
+        "lineage_cursors": {
+          "libero": 91200,
+          "robodojo": 91200,
+          "target": 150400
+        },
+        "lineage_updates": 2600,
+        "phase_step": 100,
+        "role_training_full_generations": 400,
+        "role_updates": 100,
+        "role_visits": {
+          "libero": 3200,
+          "robodojo": 3200,
+          "target": 6400
+        },
+        "target_bank_cursor": 6400
+      }
+    },
+    "terminal": {
+      "sha256": "586fbf687b0bdceac9f8b5c6934773d585b795974606de29fef32a138d8713fd",
+      "fields": {
+        "phase": 100,
+        "role": "MAIN",
+        "start": 0,
+        "status": "SEGMENT_COMPLETE",
+        "updates": 100
+      }
+    },
+    "allocations": [
+      {
+        "allocation": "003",
+        "RESERVATION.json": {
+          "all_prior_seconds": 1559,
+          "group": "training",
+          "job": "727341.hopper-m-02",
+          "reserved_seconds": 21600
+        },
+        "RELEASE.json": {
+          "epoch": 1795251005.9255395,
+          "job": "727341.hopper-m-02"
+        },
+        "START.private.json": {
+          "epoch": 1795251471.3395948,
+          "job": "727341.hopper-m-02",
+          "source": "b9581196d0acd02fb748222988e5a5543ce1f232"
+        },
+        "PBS_FINISHED.json": {
+          "GPU_seconds": 1736,
+          "exit": 0,
+          "group": "training",
+          "job": "727341.hopper-m-02"
+        },
+        "RESULT.private.json": {
+          "source": "b9581196d0acd02fb748222988e5a5543ce1f232",
+          "status": "SEGMENT_COMPLETE"
+        }
+      },
+      {
+        "allocation": "004",
+        "RESERVATION.json": {
+          "all_prior_seconds": 3295,
+          "group": "reference",
+          "job": "727376.hopper-m-02",
+          "reserved_seconds": 3600
+        },
+        "RELEASE.json": {
+          "epoch": 1795253362.2931266,
+          "job": "727376.hopper-m-02"
+        }
+      }
+    ]
+  },
+  "reference": {
+    "status": "SUBMITTED",
+    "job": "727376.hopper-m-02",
+    "group": "reference",
+    "allocation": 4,
+    "site_as_of": "2026-11-21 17:29:35 SGT",
+    "state": "Q",
+    "first_wait_reason": "Insufficient amount of resource: ngpus",
+    "request_site": "hopper-l-01",
+    "submitted_by_vanda_pbs": "1601905.stdct-mgmt-02",
+    "publisher_job": "1601890.stdct-mgmt-02",
+    "worker_source": "b52f3fc7a319dfeba1f9388a219e9574b94c0a23",
+    "model_generations": 0,
+    "core_rgb16_requests": 0,
+    "HF_new_checkpoint_publications": 0
+  },
+  "core": {
+    "as_of": "2026-11-21T17:29:00.165692+08:00",
+    "expert": {
+      "TRAIN": {
+        "closed": 24,
+        "requests": 24,
+        "ticks": 697016,
+        "grasp": 15,
+        "lift": 15,
+        "success": 7,
+        "admitted": 7,
+        "failure_or_success": {
+          "TASK_SUCCESS": 7,
+          "ILLEGAL_CONTACT": 15,
+          "TASK_BUDGET_EXHAUSTED_IN_CARRY": 2
+        },
+        "hard_STOP": 15,
+        "post_STOP_ticks": 0
+      },
+      "VAL": {
+        "closed": 16,
+        "requests": 16,
+        "ticks": 445009,
+        "grasp": 9,
+        "lift": 9,
+        "success": 4,
+        "admitted": 4,
+        "failure_or_success": {
+          "TASK_SUCCESS": 4,
+          "ILLEGAL_CONTACT": 12
+        },
+        "hard_STOP": 12,
+        "post_STOP_ticks": 0
+      }
+    },
+    "active": [
+      {
+        "condition": "CHV1-VAL-F1-PLACE-blue-right-01",
+        "last_score_tick": 27703,
+        "grasp": true,
+        "lift20": true
+      }
+    ],
+    "snapshot": {
+      "pid": 1775736,
+      "epoch": 1795253331.571505,
+      "admitted": 7,
+      "published": 4,
+      "next_six_hour_epoch": 1795263111.3774765,
+      "terminal": false
+    },
+    "services": {
+      "wm02-sla-core-hopper-v1-checkpoint-rgb16-20261121-01.service": {
+        "MainPID": "1960000",
+        "ActiveState": "active",
+        "SubState": "running",
+        "InvocationID": "6447eb98717244a5b99c85b7576b1482",
+        "progress": {
+          "status": "WAIT_CHECKPOINT",
+          "received": 0,
+          "terminal": 0
+        }
+      },
+      "wm02-sla-core-hopper-v1-val-offline-20261121-01.service": {
+        "MainPID": "1987961",
+        "ActiveState": "active",
+        "SubState": "running",
+        "InvocationID": "0cb797ff7c004247b7b4d5a6816e3062",
+        "progress": {
+          "status": "WAIT_FIXED_VAL",
+          "completed": 0,
+          "epoch": 1795253284.96554
+        }
+      },
+      "wm02-sla-core-hopper-v1-student-gate-20261121-01.service": {
+        "MainPID": "1991786",
+        "ActiveState": "active",
+        "SubState": "running",
+        "InvocationID": "8d26dc55f1d645979a10e517c2c848df",
+        "progress": {
+          "status": "WAIT_FOR_ENDPOINT",
+          "processed": 0,
+          "epoch": 1795253239.4607463
+        }
+      },
+      "wm02-sla-core-hopper-v1-blue-right-pilot-20261121-01.service": {
+        "MainPID": "1973911",
+        "ActiveState": "active",
+        "SubState": "running",
+        "InvocationID": "0218bbafedcc4897b9bd24d997eba6bc",
+        "progress": {
+          "completed": 0,
+          "epoch": 1795253259.9672165
+        }
+      }
+    },
+    "student_native_requests": 0,
+    "student_native_ticks": 0
+  },
+  "core_held_out_eval": {
+    "source": "99df9019b884efda4e3cc2abb4f467799fa104bc",
+    "config_sha256": "26f4af128ae73ec883ad499cbeef75f5cf38c66630dae641b1d740988d004a88",
+    "preflight_episodes": 4,
+    "preflight_windows": 16,
+    "preflight_generations": 0,
+    "panel_frozen": false,
+    "actual_endpoint_generations": 0
+  },
+  "student_gate": {
+    "source": "427c074141bbb7bb1bbfe17697af57974610284e",
+    "config_sha256": "e29173bba924391f67f6e03c5ca6f0ee0bece75c73049994ceca384a0e7af0db",
+    "development_conditions": 24,
+    "final_confirmation_conditions": 24,
+    "queries_per_full_panel": 3840,
+    "ticks_per_full_panel": 1096872,
+    "site_status": "WAIT_FOR_ENDPOINT",
+    "native_runner_mounted": false
+  },
+  "next": [
+    "Hopper cold REF16 for phase 0",
+    "Publish the verified Go2 inference package",
+    "Strict Core RGB16",
+    "Advance MAIN from the phase-100 seal through the same server-side scheduler",
+    "Freeze Core VAL at the prespecified terminal/time cutoff and append held-out windows",
+    "Complete the separate native student runner and bind accepted packages before native dispatch"
+  ]
+}
