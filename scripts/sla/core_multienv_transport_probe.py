@@ -48,11 +48,21 @@ def seal(path, value):
 
 
 def mappings():
-    paths = [line.split(maxsplit=5)[-1] for line in Path('/proc/self/maps').read_text().splitlines()
-             if ' /dev/shm/' in line or ' /SYSV' in line]
-    toolkit = [line.split(maxsplit=5)[-1] for line in Path('/proc/self/maps').read_text().splitlines()
-               if 'libfastrtps.so.' in line or 'librmw_fastrtps_cpp.so' in line]
-    return dict(shm=sorted(set(paths)),libs=sorted(set(toolkit)))
+    maps = [line.split(maxsplit=5) for line in Path('/proc/self/maps').read_text().splitlines()]
+    files = {row[5]:int(row[4]) for row in maps if len(row)==6}
+    paths = sorted(p for p in files if p.startswith(('/dev/shm/', '/SYSV')))
+    toolkit = sorted(p for p in files if 'libfastrtps.so.' in p or 'librmw_fastrtps_cpp.so' in p)
+    realm = os.environ.get('SLA_MULTIWORLD_UST_REALM')
+    local = {p:inode for p,inode in files.items() if realm and p.startswith(realm+'/') and p.endswith('.wait')}
+    return dict(shm=paths,libs=toolkit,private_ust=local)
+
+
+def ust_separated(maps):
+    realm = os.environ.get('SLA_MULTIWORLD_UST_REALM')
+    if not realm:
+        return True
+    expected = {str(p):p.stat().st_ino for p in (Path(realm)/'user.wait', Path(realm)/'global.wait')}
+    return maps['private_ust']==expected and not any('/lttng-ust-' in f for f in maps['shm'])
 
 
 def expected(domain):
@@ -74,8 +84,13 @@ def actor(root, domain, role, topic):
     else:
         sub = node.create_subscription(String,topic,lambda msg: received.append(msg.data),64)
     before = mappings()
+    until = time.monotonic()+2
+    while not ust_separated(before) and time.monotonic()<until:
+        rclpy.spin_once(node,timeout_sec=.02)
+        before = mappings()
     seal(root/f'{domain}-{role}.MAPPINGS.json',before)
-    if any('/fastrtps_' in f for f in before['shm']) or get_rmw_implementation_identifier()!='rmw_fastrtps_cpp':
+    if (not ust_separated(before) or any('/fastrtps_' in f for f in before['shm'])
+            or get_rmw_implementation_identifier()!='rmw_fastrtps_cpp'):
         raise RuntimeError('The scoped XML did not select the intended transport')
     seal(root/f'{domain}-{role}.READY.json',dict(pid=os.getpid(),domain=domain,maps=before,epoch=time.time()))
     start = time.monotonic()
@@ -108,7 +123,7 @@ def actor(root, domain, role, topic):
                     samples=received[:]
                     break
         after=mappings()
-        if samples!=expected(domain) or any('/fastrtps_' in f for f in after['shm']):
+        if samples!=expected(domain) or not ust_separated(after) or any('/fastrtps_' in f for f in after['shm']):
             raise TimeoutError('The registered fixture sequence or transport changed')
         seal(root/f'{domain}-{role}.json',dict(pid=os.getpid(),matched=len(samples),values_sha=hashlib.sha256(
              json.dumps(samples).encode()).hexdigest(),elapsed=time.monotonic()-start,maps=after))
@@ -117,7 +132,7 @@ def actor(root, domain, role, topic):
         rclpy.shutdown()
 
 
-def probe(root, control, domains, profile_check):
+def probe(root, control, domains, profile_check, ust_library=None):
     if (os.getuid()!=2009 or os.uname().nodename!='corelab-4080s' or not root.is_dir()
             or root.stat().st_uid!=os.getuid() or len(set(domains))!=2):
         raise PermissionError('Use the existing Core project owner')
@@ -143,8 +158,15 @@ def probe(root, control, domains, profile_check):
         if any(7400+250*d<=p<7400+250*(d+1) for p in ports for d in domains):
             raise PermissionError('A reserved test domain already has a listening socket')
         children=[]
+        statuses=[]
         try:
             for domain in domains:
+                realm = root/f'ust-{domain}'
+                if ust_library:
+                    realm.mkdir(mode=0o700)
+                    for page in ('user.wait', 'global.wait'):
+                        with os.fdopen(os.open(realm/page,os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600),'wb') as f:
+                            f.truncate(os.sysconf('SC_PAGE_SIZE'))
                 for role in ('receive','send'):
                     log=hold.enter_context((root/f'{domain}-{role}.log').open('xb'))
                     # Jazzy adds a SHM transport under LOCALHOST even when the XML disables the defaults.
@@ -154,24 +176,45 @@ def probe(root, control, domains, profile_check):
                         FASTRTPS_DEFAULT_PROFILES_FILE=str(profile),CUDA_VISIBLE_DEVICES='')
                     env.pop('ROS_DISCOVERY_SERVER',None)
                     env.pop('ROS_LOCALHOST_ONLY',None)
+                    if ust_library:
+                        env.update(LD_PRELOAD=str(ust_library.resolve(strict=True)),LTTNG_HOME=str(realm),
+                                   SLA_MULTIWORLD_UST_REALM=str(realm),LTTNG_UST_REGISTER_TIMEOUT='0')
                     command=[sys.executable,'-B',str(Path(__file__).resolve()),'actor',
                              str(root),str(domain),role,topic]
                     children.append(subprocess.Popen(command,env=env,cwd=root,stdout=log,stderr=subprocess.STDOUT))
-            success=all(p.wait(timeout=16)==0 for p in children)
+            until = time.monotonic()+16
+            for child in children:
+                try:
+                    child.wait(timeout=max(.01,until-time.monotonic()))
+                except subprocess.TimeoutExpired:
+                    continue
         finally:
             for p in children:
                 if p.poll() is None:
                     p.terminate()
-                    p.wait(timeout=3)
+                    try:
+                        p.wait(timeout=3)
+                    except subprocess.TimeoutExpired:
+                        p.kill()
+                        p.wait(timeout=3)
+                statuses.append(dict(pid=p.pid,exit=p.returncode))
+        success = len(statuses)==4 and all(row['exit']==0 for row in statuses)
         rows={f.stem:json.loads(f.read_bytes()) for f in root.glob('[0-9]*.json') if len(f.name.split('.'))==2}
         observed={f.name:json.loads(f.read_bytes()) for f in root.glob('*.MAPPINGS.json')}
         if success and len(rows)==4:
             for d in domains:
                 if rows[f'{d}-receive']['values_sha']!=rows[f'{d}-send']['values_sha']:
                     raise ValueError('Delivered bytes differ between the two endpoints')
+            if ust_library:
+                mapped = [{name:rows[f'{domain}-{name}']['maps']['private_ust'] for name in ('send','receive')}
+                          for domain in domains]
+                if (any(x['send']!=x['receive'] or len(x['send'])!=2 for x in mapped)
+                        or set(mapped[0]['send'].values()) & set(mapped[1]['send'].values())):
+                    raise ValueError('LTTng wait pages are shared across the two fixture domains')
         result=dict(status='LOOPBACK_FIXTURE_PASS' if success and len(rows)==4 else 'LOOPBACK_FIXTURE_FAILED',
                     scopes=domains,expected=MESSAGES*len(domains),results=rows,topic=topic,
-                    parsed_profile=parsed,mappings=observed,
+                    parsed_profile=parsed,mappings=observed,child_exits=statuses,
+                    ust_probe_sha256=hashlib.sha256(ust_library.read_bytes()).hexdigest() if ust_library else None,
                     profile_sha256=hashlib.sha256(profile.read_bytes()).hexdigest(),new_native_requests=0,
                     simulation_integrations=0,optimizer_updates=0,model_generations=0,epoch=time.time())
         seal(root/'RESULT.json',result)
@@ -186,6 +229,7 @@ if __name__=='__main__':
     p.add_argument('control',type=Path)
     p.add_argument('domains',type=int,choices=DOMAINS,nargs=2)
     p.add_argument('--profile-check',type=Path,required=True)
+    p.add_argument('--ust-library',type=Path)
     a=modes.add_parser('actor')
     a.add_argument('root',type=Path)
     a.add_argument('domain',type=int,choices=DOMAINS)
@@ -193,6 +237,6 @@ if __name__=='__main__':
     a.add_argument('topic')
     args=parser.parse_args()
     if args.mode=='probe':
-        probe(args.root,args.control,args.domains,args.profile_check)
+        probe(args.root,args.control,args.domains,args.profile_check,args.ust_library)
     else:
         actor(args.root,args.domain,args.role,args.topic)

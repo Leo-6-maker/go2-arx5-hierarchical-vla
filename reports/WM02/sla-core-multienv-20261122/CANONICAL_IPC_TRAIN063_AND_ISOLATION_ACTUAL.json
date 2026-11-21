@@ -1,0 +1,836 @@
+{
+  "plan": "4fe2c8cf1b69c168b2e3079e061bb7c702089cd3",
+  "asof": "2026-11-22T05:16:03+08:00",
+  "canonical": {
+    "gpu_qualified": {
+      "cold_intent": 64,
+      "cold_completed": 64,
+      "ipc_intent": 32,
+      "ipc_completed": 32
+    },
+    "arms": {
+      "MAIN-phase00000": {
+        "generation_attempts": 48,
+        "IPC": {
+          "status": "IPC_MATCH",
+          "rows": 16,
+          "exact": 16,
+          "sha": "9cdaf782b53a0f48479225c7b4601859040a571fc202dede6438123bee23ae84"
+        },
+        "closed_worker": {
+          "deadline_epoch": 1795855888,
+          "owner": "EXISTING_LOCAL_PC",
+          "spec_sha256": "7803db23bda0f2f72eb832540f6318a4a3060bf42734d8dc737a7ee5e824666e",
+          "status": "CLOSED",
+          "worker_exit_code": 0,
+          "closed_epoch": 1795294704.9912417
+        },
+        "dev_actual_requests": 0,
+        "planned_DEV_first_block": 6
+      },
+      "MAIN-phase02000": {
+        "generation_attempts": 48,
+        "IPC": {
+          "status": "IPC_MATCH",
+          "rows": 16,
+          "exact": 16,
+          "sha": "19579cda1e40e01ea7cc6c143cea5d3c91cbe0691aaf914b03db6b28bff2518c"
+        },
+        "closed_worker": {
+          "deadline_epoch": 1795855888,
+          "owner": "EXISTING_LOCAL_PC",
+          "spec_sha256": "0b1def23aa72d54e91aa61cc34c8cfa9a99466157e1cc8a48f7581f2d5db4f22",
+          "status": "CLOSED",
+          "worker_exit_code": 0,
+          "closed_epoch": 1795294901.507501
+        },
+        "dev_actual_requests": 0,
+        "planned_DEV_first_block": 6
+      }
+    },
+    "preserved_dev_import_stage": {
+      "sha256": "9c3117bd4a7acc4fff3040e2693f1d61d1609446786c1a94b5600ddd1e535785",
+      "new_native_requests": 0,
+      "reason": "missing scripts.sla.hopper_endpoint_backup",
+      "unstarted_leases_closed": 6
+    },
+    "preserved_dev_loader_stage": {
+      "sha256": "82b343c764e9405a36accfaa0d7a2509a4f35ab8d00ad9b2d6b6dca9c5301331",
+      "new_native_requests": 0,
+      "reason": "native WBC libtorch_python.so shadowed the numerical venv at resident GPU import",
+      "new_student_requests": 0
+    },
+    "restored": {
+      "status": "MOUNTED",
+      "unit": "wm02-sla-core-multienv-canonical-dev-20261122-08.service",
+      "state": {
+        "state": "WAIT_ACTIVE_WORLD",
+        "epoch": 1795295758.4261596,
+        "pid": 2794896,
+        "arm": "MAIN-phase00000"
+      },
+      "config": {
+        "sha256": "d2eb00e533ec7be470ab7934e8364f486e82dc6516a39a4dc9af46b0752e30d7"
+      },
+      "source": "2a3f3fd9492c4cc2cd372163ae7bc97db0d15cff",
+      "deadline": 1795891948,
+      "preflight": {
+        "sha256": "797704f2f22a232359aef4475ae3a126dce0e1926114b96153baaee40ff3e8f4"
+      },
+      "prior": {
+        "sha256": "82b343c764e9405a36accfaa0d7a2509a4f35ab8d00ad9b2d6b6dca9c5301331"
+      },
+      "receipt": "Running as unit: wm02-sla-core-multienv-canonical-dev-20261122-08.service; invocation ID: 7c392919007e427d9456a5fdff98dfda\n",
+      "added": 1,
+      "epoch": 1795295727.0676749
+    },
+    "physical_effects_this_stage": 0,
+    "training_updates": 0
+  },
+  "wave": {
+    "started": 11,
+    "terminal": 10,
+    "admitted": 4,
+    "closed_ticks": 263236,
+    "first_full_place": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-blue-left",
+    "first_place_ticks": 38953,
+    "windows": 344,
+    "actual_atoms": 3440
+  },
+  "train063": {
+    "source_catalog": {
+      "aggregate": true,
+      "count": 63,
+      "epoch": 1795295035.6110659,
+      "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-train-catalog-20261122-01/snapshots/TRAIN-063/SEALED.private.json",
+      "sha256": "e233d5f8ce6be2e11467be73010645a6ea74669b6709578164ef636e72ea914d",
+      "windows": 5498
+    },
+    "HF": {
+      "key": "TRAIN-063",
+      "objects": 442,
+      "repo": "leoyuer/sla-core-hopper-train-v1",
+      "revision": "dab6bee8e3e188201558030b41a3ce7d14cd19c4",
+      "seal": "e233d5f8ce6be2e11467be73010645a6ea74669b6709578164ef636e72ea914d",
+      "status": "PUBLIC_TRAIN_SNAPSHOT_VERIFIED",
+      "windows": 5498
+    },
+    "core_reader": {
+      "at": 1795295531.5155854,
+      "model_generations": 0,
+      "native_requests": 0,
+      "new_cases": [
+        "MEV1-TRAIN-F1-NEAR_NEG-00-HOLD-blue",
+        "MEV1-TRAIN-F1-NEAR_NEG-00-HOLD-red",
+        "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-blue-left",
+        "MEV1-TRAIN-F2-NEAR_NEG-00-HOLD-blue"
+      ],
+      "old_prefix_episodes": 59,
+      "old_prefix_windows": 5154,
+      "probe_only": false,
+      "status": "CORE_REAL_READER_PASS",
+      "updates": 0,
+      "actual": {
+        "consumed_atoms": 54980,
+        "d2_windows": 2031,
+        "episodes": 63,
+        "manifest": "dd6f460683b0e8fe65b8bda9fe9b349a736e42dac21d458317ff3b1e2dfcc7b4",
+        "mixed": true,
+        "seal": "e233d5f8ce6be2e11467be73010645a6ea74669b6709578164ef636e72ea914d",
+        "supervised_atoms": 219920,
+        "windows": 5498
+      },
+      "case_count": 63,
+      "result_sha": "7014975b36ed2ca6e425d497d181906081162f5c5881e6c147ba990b5d091c89"
+    },
+    "hopper_intake": {
+      "status": "VERIFIED_LOCAL_PREFIX_REUSED",
+      "key": "TRAIN-063",
+      "local_donor": "d0f7269319b57a4edcc1cd7ca0b60904624831985d54fb6db72cf2b25e8c563b",
+      "HF_revision": "dab6bee8e3e188201558030b41a3ce7d14cd19c4",
+      "reusable_original_episodes": 59,
+      "local_new_hardlinks": 268,
+      "local_hardlink_bytes": 1387409704,
+      "prior_download_timeout_preserved": true,
+      "epoch": 1795295605.0370517,
+      "rc": 0
+    },
+    "hopper_stage": "HASH_VERIFIED_STAGED",
+    "optimizer_visits": 0,
+    "scheduler_ready": false,
+    "ready_blocker": "Active scheduler registered the Wave-A-incompatible legacy reader; new cold reader compatibility and promotion pending."
+  },
+  "N1": {
+    "paid": 3,
+    "ticks": 32109,
+    "within_frozen_tolerance": 1,
+    "outside": 2,
+    "planned": 12,
+    "outcomes": [
+      {
+        "id": "MEV1-ENG-N1-SHORT-00",
+        "kind": "SHORT",
+        "requests": 1,
+        "ticks": 10703,
+        "source": "efc3cb5472344a118717262488fe0a579c5b6f44",
+        "terminal": {
+          "sha256": "b35bf4f4d6eb35931044eb22938df8b1e0019ac55255f91277b28189d7b2afea"
+        },
+        "technical_failure": false,
+        "first_failure": null,
+        "hard_STOP": false,
+        "post_STOP_ticks": null,
+        "profile": {
+          "file": "PERFORMANCE.private.json",
+          "sha256": "4c8facdff3e8156c3fb9458dd26f193d46bcb2c67e66bcdde45cc0f384fe9654"
+        },
+        "task_and_mobile_success": false,
+        "measurement": {
+          "status": "OUTSIDE_FROZEN_STATE_TOLERANCE",
+          "matched_atoms": 200,
+          "paired_RGB": 20,
+          "limits": {
+            "EEF_translation_m": 0.0025152321752068725,
+            "EEF_angle_rad": 0.017453292519943295,
+            "mount_translation_m": 0.002185499738484875,
+            "mount_angle_rad": 0.017453292519943295,
+            "jaw_fraction": 0.001
+          },
+          "maximum": {
+            "EEF_translation_m": 0.004789083724584254,
+            "EEF_angle_rad": 0.0059011631855664295,
+            "mount_translation_m": 0.00572130899052724,
+            "mount_angle_rad": 0.008712410635944766,
+            "jaw_fraction": 0.0002871175374797863
+          },
+          "historical_recording_sha256": "6382cd20ee22e5ce70ed0bdc8f8677690c21ba6c035cf334cbefa516092511dd",
+          "controller_selected_reference": "NOT_EXPORTED_BY_FROZEN_CONTROLLER"
+        }
+      },
+      {
+        "id": "MEV1-ENG-N1-SHORT-01",
+        "kind": "SHORT",
+        "requests": 1,
+        "ticks": 10703,
+        "source": "efc3cb5472344a118717262488fe0a579c5b6f44",
+        "terminal": {
+          "sha256": "a80e8b4a88f4527706a871004061ffdd494e209c861e0491c427381bee3b0987"
+        },
+        "technical_failure": false,
+        "first_failure": null,
+        "hard_STOP": false,
+        "post_STOP_ticks": null,
+        "profile": {
+          "file": "PERFORMANCE.private.json",
+          "sha256": "cef4d805fd25acbf49b1958e117043d377abe7d801d5fd9a7cf3f211add3bb8e"
+        },
+        "task_and_mobile_success": false,
+        "measurement": {
+          "status": "WITHIN_FROZEN_STATE_TOLERANCE",
+          "matched_atoms": 200,
+          "paired_RGB": 20,
+          "limits": {
+            "EEF_translation_m": 0.005999447781465302,
+            "EEF_angle_rad": 0.0226721509438131,
+            "mount_translation_m": 0.011078147106107416,
+            "mount_angle_rad": 0.03166960249425338,
+            "jaw_fraction": 0.001
+          },
+          "maximum": {
+            "EEF_translation_m": 0.0009638139283978837,
+            "EEF_angle_rad": 0.0021908212221230434,
+            "mount_translation_m": 0.00021996556607854805,
+            "mount_angle_rad": 0.00019469068265136875,
+            "jaw_fraction": 0.00001995435241997079
+          },
+          "historical_recording_sha256": "501f2e9e9f068d504737f0c50b3493b3bb3dd9d2cbffcaae75afaa9a41fc23cc",
+          "controller_selected_reference": "NOT_EXPORTED_BY_FROZEN_CONTROLLER"
+        }
+      },
+      {
+        "id": "MEV1-ENG-N1-SHORT-02",
+        "kind": "SHORT",
+        "requests": 1,
+        "ticks": 10703,
+        "source": "efc3cb5472344a118717262488fe0a579c5b6f44",
+        "terminal": {
+          "sha256": "9fcd15094f2f6977638ff71e11aea916be4b0ebaa30e088896498b7f5ea0484e"
+        },
+        "technical_failure": false,
+        "first_failure": null,
+        "hard_STOP": false,
+        "post_STOP_ticks": null,
+        "profile": {
+          "file": "PERFORMANCE.private.json",
+          "sha256": "3f6a5b07a46f6177c92d131b84ed1efcf99fe7a57e0a30dff99a4efa31cbeb03"
+        },
+        "task_and_mobile_success": false,
+        "measurement": {
+          "status": "OUTSIDE_FROZEN_STATE_TOLERANCE",
+          "matched_atoms": 200,
+          "paired_RGB": 20,
+          "limits": {
+            "EEF_translation_m": 0.0040381210413138425,
+            "EEF_angle_rad": 0.017453292519943295,
+            "mount_translation_m": 0.0031203193680729565,
+            "mount_angle_rad": 0.017453292519943295,
+            "jaw_fraction": 0.001
+          },
+          "maximum": {
+            "EEF_translation_m": 0.005995658610346127,
+            "EEF_angle_rad": 0.008547075513186331,
+            "mount_translation_m": 0.0063226733858635096,
+            "mount_angle_rad": 0.009547678328881051,
+            "jaw_fraction": 0.00019344549008504242
+          },
+          "historical_recording_sha256": "41f8b4966626d145ae78b3517c768c9cdf68ee0024627b25f7545eb8c428122a",
+          "controller_selected_reference": "NOT_EXPORTED_BY_FROZEN_CONTROLLER"
+        }
+      }
+    ],
+    "N2": "NOT_RUN",
+    "N4": "NOT_RUN"
+  },
+  "isolation": {
+    "ust": {
+      "result": {
+        "scope": "LOCAL_LTTNG_LOADER_TRANSPORT_ONLY",
+        "epoch": 1795294959.7069812,
+        "pids": {
+          "world1": {
+            "pid": 2779486,
+            "global_session_connect_errno": 2,
+            "local_socket_roundtrip": true,
+            "maps": {
+              "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-ust-realm-probe-20261122-02/world1/user.wait": 17434520,
+              "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-ust-realm-probe-20261122-02/world1/global.wait": 17434519
+            },
+            "exit": 0
+          },
+          "world2": {
+            "pid": 2779487,
+            "global_session_connect_errno": 2,
+            "local_socket_roundtrip": true,
+            "maps": {
+              "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-ust-realm-probe-20261122-02/world2/user.wait": 17434523,
+              "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-ust-realm-probe-20261122-02/world2/global.wait": 17434522
+            },
+            "exit": 0
+          }
+        },
+        "same_original_objects_before_after": true,
+        "distinct_wait_inodes": true,
+        "daemon_active": true,
+        "source_sha256": "40f2fc210e6c5917ebad1417d797abefee5fb97e7151e4efdf15959b3b3d9c4a",
+        "library_sha256": "bf7bbeeb3760302c2d6b9300985f85d5bea140628c7e8e2f0ffa15cf2fe884f2",
+        "actual_lttng_sha256": "3dda3aff8ce04c7a1d5f1c5f20bd725d63e686a2042ee4834d8c25cde288f27b",
+        "requests": 0,
+        "ticks": 0,
+        "model_generations": 0,
+        "updates": 0
+      },
+      "sha": "a5aa6084ff45f60d6347178c832485064b3c50cba9ffa9ffd90715ca953ede1d"
+    },
+    "dds": {
+      "exit": 0,
+      "status": "LOOPBACK_FIXTURE_PASS",
+      "sha": "18129d259af6bd0c3979e6df58b5ed68d310102f93548bf37208b802c84c1834",
+      "rows": {
+        "192-receive": {
+          "matched": 32,
+          "pid": 2780117,
+          "maps": {
+            "libs": [
+              "/opt/ros/jazzy/lib/libfastrtps.so.2.14.6",
+              "/opt/ros/jazzy/lib/librmw_fastrtps_cpp.so"
+            ],
+            "private_ust": {
+              "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-ust-dds-combined-20261122-03/ust-192/global.wait": 17434532,
+              "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-ust-dds-combined-20261122-03/ust-192/user.wait": 17434531
+            },
+            "shm": []
+          }
+        },
+        "192-send": {
+          "matched": 32,
+          "pid": 2780119,
+          "maps": {
+            "libs": [
+              "/opt/ros/jazzy/lib/libfastrtps.so.2.14.6",
+              "/opt/ros/jazzy/lib/librmw_fastrtps_cpp.so"
+            ],
+            "private_ust": {
+              "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-ust-dds-combined-20261122-03/ust-192/global.wait": 17434532,
+              "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-ust-dds-combined-20261122-03/ust-192/user.wait": 17434531
+            },
+            "shm": []
+          }
+        },
+        "196-receive": {
+          "matched": 32,
+          "pid": 2780120,
+          "maps": {
+            "libs": [
+              "/opt/ros/jazzy/lib/libfastrtps.so.2.14.6",
+              "/opt/ros/jazzy/lib/librmw_fastrtps_cpp.so"
+            ],
+            "private_ust": {
+              "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-ust-dds-combined-20261122-03/ust-196/global.wait": 17434537,
+              "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-ust-dds-combined-20261122-03/ust-196/user.wait": 17434536
+            },
+            "shm": []
+          }
+        },
+        "196-send": {
+          "matched": 32,
+          "pid": 2780121,
+          "maps": {
+            "libs": [
+              "/opt/ros/jazzy/lib/libfastrtps.so.2.14.6",
+              "/opt/ros/jazzy/lib/librmw_fastrtps_cpp.so"
+            ],
+            "private_ust": {
+              "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-ust-dds-combined-20261122-03/ust-196/global.wait": 17434537,
+              "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-ust-dds-combined-20261122-03/ust-196/user.wait": 17434536
+            },
+            "shm": []
+          }
+        }
+      },
+      "source_sha": "e28187842fc25159109cd5a63d276d58966e189f1ac740f489d7c72d8bda95df",
+      "counts": {
+        "expected": 64,
+        "new_native_requests": 0,
+        "simulation_integrations": 0,
+        "optimizer_updates": 0,
+        "model_generations": 0
+      },
+      "tail": "",
+      "errors": {}
+    },
+    "first_combined_timeout_without_physics": {
+      "ready": 0
+    },
+    "second_combined_failed": {
+      "ready_actors": 3,
+      "matched_domain_196": 32,
+      "native_requests": 0
+    },
+    "egl": {
+      "sha": "6c1efc6516749b77dbf1cf600c482e27efebe452b21369f6a48ec4365bf84213",
+      "result": {
+        "status": "ACTUAL_EGL_REPLAY_PAIR_MATCH",
+        "sha": "cf3fb9f83c5e2cd226ab4ca44ac7f22e052925da9ccb84d513a442aafb84b222",
+        "serial": [
+          {
+            "pid": 2782084,
+            "scene": "f69cff6ed63bcc344cb3ac1914794b1a26d7214e59ac18f717b9b01e03d832ec",
+            "window": [
+              5064177.66846399,
+              5064178.889102574
+            ],
+            "ready": 5064177.487725861,
+            "fingerprint": [
+              {
+                "body": "2ac34f873b542bfed242d8cf5f7a742cdc9f2a88d5cbc1232de3a9a39e0117ec",
+                "wrist": "4587aa94b6fe9dcd89701b08958ac79edb51bc6a5452d75b2970eb412a2eec8f",
+                "clock": 11.406000000000478,
+                "shapes": [
+                  [
+                    256,
+                    256,
+                    3
+                  ],
+                  [
+                    256,
+                    256,
+                    3
+                  ]
+                ]
+              },
+              {
+                "body": "2ac34f873b542bfed242d8cf5f7a742cdc9f2a88d5cbc1232de3a9a39e0117ec",
+                "wrist": "4587aa94b6fe9dcd89701b08958ac79edb51bc6a5452d75b2970eb412a2eec8f",
+                "clock": 11.406000000000478,
+                "shapes": [
+                  [
+                    256,
+                    256,
+                    3
+                  ],
+                  [
+                    256,
+                    256,
+                    3
+                  ]
+                ]
+              },
+              {
+                "body": "2ac34f873b542bfed242d8cf5f7a742cdc9f2a88d5cbc1232de3a9a39e0117ec",
+                "wrist": "4587aa94b6fe9dcd89701b08958ac79edb51bc6a5452d75b2970eb412a2eec8f",
+                "clock": 11.406000000000478,
+                "shapes": [
+                  [
+                    256,
+                    256,
+                    3
+                  ],
+                  [
+                    256,
+                    256,
+                    3
+                  ]
+                ]
+              },
+              {
+                "body": "2ac34f873b542bfed242d8cf5f7a742cdc9f2a88d5cbc1232de3a9a39e0117ec",
+                "wrist": "4587aa94b6fe9dcd89701b08958ac79edb51bc6a5452d75b2970eb412a2eec8f",
+                "clock": 11.406000000000478,
+                "shapes": [
+                  [
+                    256,
+                    256,
+                    3
+                  ],
+                  [
+                    256,
+                    256,
+                    3
+                  ]
+                ]
+              }
+            ],
+            "native_step": 5703,
+            "backend": "EGL_SOFTWARE",
+            "shared": [],
+            "simulation_integrations": 0
+          },
+          {
+            "pid": 2782276,
+            "scene": "e54f34ef6c24ec2fcf6ddca56285249a682fa794bf9cfa7f3d67f88ddee58fdf",
+            "window": [
+              5064181.201859481,
+              5064182.448403951
+            ],
+            "ready": 5064181.020654702,
+            "fingerprint": [
+              {
+                "body": "3f4204fbce5de6587281c78d6a10241f191f17e894fd41c0a8ff5449d07cb89f",
+                "wrist": "a7621d7133942107f00f93073800ca1929d9519ddb7d745b666e9a360894bac0",
+                "clock": 11.406000000000478,
+                "shapes": [
+                  [
+                    256,
+                    256,
+                    3
+                  ],
+                  [
+                    256,
+                    256,
+                    3
+                  ]
+                ]
+              },
+              {
+                "body": "3f4204fbce5de6587281c78d6a10241f191f17e894fd41c0a8ff5449d07cb89f",
+                "wrist": "a7621d7133942107f00f93073800ca1929d9519ddb7d745b666e9a360894bac0",
+                "clock": 11.406000000000478,
+                "shapes": [
+                  [
+                    256,
+                    256,
+                    3
+                  ],
+                  [
+                    256,
+                    256,
+                    3
+                  ]
+                ]
+              },
+              {
+                "body": "3f4204fbce5de6587281c78d6a10241f191f17e894fd41c0a8ff5449d07cb89f",
+                "wrist": "a7621d7133942107f00f93073800ca1929d9519ddb7d745b666e9a360894bac0",
+                "clock": 11.406000000000478,
+                "shapes": [
+                  [
+                    256,
+                    256,
+                    3
+                  ],
+                  [
+                    256,
+                    256,
+                    3
+                  ]
+                ]
+              },
+              {
+                "body": "3f4204fbce5de6587281c78d6a10241f191f17e894fd41c0a8ff5449d07cb89f",
+                "wrist": "a7621d7133942107f00f93073800ca1929d9519ddb7d745b666e9a360894bac0",
+                "clock": 11.406000000000478,
+                "shapes": [
+                  [
+                    256,
+                    256,
+                    3
+                  ],
+                  [
+                    256,
+                    256,
+                    3
+                  ]
+                ]
+              }
+            ],
+            "native_step": 5703,
+            "backend": "EGL_SOFTWARE",
+            "shared": [],
+            "simulation_integrations": 0
+          }
+        ],
+        "paired": [
+          {
+            "pid": 2782298,
+            "scene": "f69cff6ed63bcc344cb3ac1914794b1a26d7214e59ac18f717b9b01e03d832ec",
+            "window": [
+              5064184.775239702,
+              5064186.020367659
+            ],
+            "ready": 5064184.654369225,
+            "fingerprint": [
+              {
+                "body": "2ac34f873b542bfed242d8cf5f7a742cdc9f2a88d5cbc1232de3a9a39e0117ec",
+                "wrist": "4587aa94b6fe9dcd89701b08958ac79edb51bc6a5452d75b2970eb412a2eec8f",
+                "clock": 11.406000000000478,
+                "shapes": [
+                  [
+                    256,
+                    256,
+                    3
+                  ],
+                  [
+                    256,
+                    256,
+                    3
+                  ]
+                ]
+              },
+              {
+                "body": "2ac34f873b542bfed242d8cf5f7a742cdc9f2a88d5cbc1232de3a9a39e0117ec",
+                "wrist": "4587aa94b6fe9dcd89701b08958ac79edb51bc6a5452d75b2970eb412a2eec8f",
+                "clock": 11.406000000000478,
+                "shapes": [
+                  [
+                    256,
+                    256,
+                    3
+                  ],
+                  [
+                    256,
+                    256,
+                    3
+                  ]
+                ]
+              },
+              {
+                "body": "2ac34f873b542bfed242d8cf5f7a742cdc9f2a88d5cbc1232de3a9a39e0117ec",
+                "wrist": "4587aa94b6fe9dcd89701b08958ac79edb51bc6a5452d75b2970eb412a2eec8f",
+                "clock": 11.406000000000478,
+                "shapes": [
+                  [
+                    256,
+                    256,
+                    3
+                  ],
+                  [
+                    256,
+                    256,
+                    3
+                  ]
+                ]
+              },
+              {
+                "body": "2ac34f873b542bfed242d8cf5f7a742cdc9f2a88d5cbc1232de3a9a39e0117ec",
+                "wrist": "4587aa94b6fe9dcd89701b08958ac79edb51bc6a5452d75b2970eb412a2eec8f",
+                "clock": 11.406000000000478,
+                "shapes": [
+                  [
+                    256,
+                    256,
+                    3
+                  ],
+                  [
+                    256,
+                    256,
+                    3
+                  ]
+                ]
+              }
+            ],
+            "native_step": 5703,
+            "backend": "EGL_SOFTWARE",
+            "shared": [],
+            "simulation_integrations": 0
+          },
+          {
+            "pid": 2782299,
+            "scene": "e54f34ef6c24ec2fcf6ddca56285249a682fa794bf9cfa7f3d67f88ddee58fdf",
+            "window": [
+              5064184.757019954,
+              5064185.981639256
+            ],
+            "ready": 5064184.636249696,
+            "fingerprint": [
+              {
+                "body": "3f4204fbce5de6587281c78d6a10241f191f17e894fd41c0a8ff5449d07cb89f",
+                "wrist": "a7621d7133942107f00f93073800ca1929d9519ddb7d745b666e9a360894bac0",
+                "clock": 11.406000000000478,
+                "shapes": [
+                  [
+                    256,
+                    256,
+                    3
+                  ],
+                  [
+                    256,
+                    256,
+                    3
+                  ]
+                ]
+              },
+              {
+                "body": "3f4204fbce5de6587281c78d6a10241f191f17e894fd41c0a8ff5449d07cb89f",
+                "wrist": "a7621d7133942107f00f93073800ca1929d9519ddb7d745b666e9a360894bac0",
+                "clock": 11.406000000000478,
+                "shapes": [
+                  [
+                    256,
+                    256,
+                    3
+                  ],
+                  [
+                    256,
+                    256,
+                    3
+                  ]
+                ]
+              },
+              {
+                "body": "3f4204fbce5de6587281c78d6a10241f191f17e894fd41c0a8ff5449d07cb89f",
+                "wrist": "a7621d7133942107f00f93073800ca1929d9519ddb7d745b666e9a360894bac0",
+                "clock": 11.406000000000478,
+                "shapes": [
+                  [
+                    256,
+                    256,
+                    3
+                  ],
+                  [
+                    256,
+                    256,
+                    3
+                  ]
+                ]
+              },
+              {
+                "body": "3f4204fbce5de6587281c78d6a10241f191f17e894fd41c0a8ff5449d07cb89f",
+                "wrist": "a7621d7133942107f00f93073800ca1929d9519ddb7d745b666e9a360894bac0",
+                "clock": 11.406000000000478,
+                "shapes": [
+                  [
+                    256,
+                    256,
+                    3
+                  ],
+                  [
+                    256,
+                    256,
+                    3
+                  ]
+                ]
+              }
+            ],
+            "native_step": 5703,
+            "backend": "EGL_SOFTWARE",
+            "shared": [],
+            "simulation_integrations": 0
+          }
+        ],
+        "interval_overlap_s": 1.2063995534554124,
+        "native_integrations": 0,
+        "requests": 0,
+        "model_generations": 0,
+        "optimizer_updates": 0,
+        "journal_sha": [
+          "9f887a664e4b4da74259ce82bd82a03cf64d4954c9212add2e8f94dc645288c9",
+          "5aaa56d549158086925eec551b61f3865d0311d0791cd054185303bd683a7855"
+        ]
+      }
+    },
+    "scene_cache": {
+      "sha": "31abffb0a760f5bea3cf0fdf5d8e49ce96bb3ebb1ddeb1026bfc225204e22663",
+      "cache": {
+        "requests": 0,
+        "new_native_ticks": 0,
+        "generation": 0,
+        "updates": 0,
+        "root_fstype": "ext4",
+        "members": [
+          {
+            "origin": "/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/sla-v6-multitask-static-scene-20261118-02/F1/SCENE.private.mjb",
+            "local": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-n1-readonly-scene-cache-20261122-01/f69cff6ed63bcc344cb3ac1914794b1a26d7214e59ac18f717b9b01e03d832ec.mjb",
+            "sha256": "f69cff6ed63bcc344cb3ac1914794b1a26d7214e59ac18f717b9b01e03d832ec",
+            "bytes": 74470601,
+            "transfer_and_full_readback_wall_s": 0.3372383015230298,
+            "cards": [
+              "MEV1-ENG-N1-SHORT-00",
+              "MEV1-ENG-N1-SHORT-02",
+              "MEV1-ENG-N1-SHORT-05",
+              "MEV1-ENG-N1-SHORT-07"
+            ],
+            "mode": "0o400"
+          },
+          {
+            "origin": "/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02/sla-v6-multitask-f2-regions-20261118-01/layout-03/SCENE.private.mjb",
+            "local": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-n1-readonly-scene-cache-20261122-01/e54f34ef6c24ec2fcf6ddca56285249a682fa794bf9cfa7f3d67f88ddee58fdf.mjb",
+            "sha256": "e54f34ef6c24ec2fcf6ddca56285249a682fa794bf9cfa7f3d67f88ddee58fdf",
+            "bytes": 74470601,
+            "transfer_and_full_readback_wall_s": 0.4844149835407734,
+            "cards": [
+              "MEV1-ENG-N1-SHORT-01",
+              "MEV1-ENG-N1-SHORT-03",
+              "MEV1-ENG-N1-SHORT-04",
+              "MEV1-ENG-N1-SHORT-06"
+            ],
+            "mode": "0o400"
+          }
+        ],
+        "epoch": 1795294633.6795144
+      }
+    },
+    "new_native_requests": 0,
+    "actual_selected_reference": "NOT_EXPORTED_BY_FROZEN_CONTROLLER"
+  },
+  "hopper": {
+    "active": {
+      "step": 2474,
+      "job": "728156.hopper-m-02"
+    },
+    "latest_complete": {
+      "step": 2400,
+      "sha": "194a8c4049a4017a31e89bc3004ab498b700fe6e85f6c6ca92c1491cf568e071"
+    },
+    "successor_job": "728212.hopper-m-02",
+    "state": {
+      "state": "H",
+      "hold": "s",
+      "depends": "afterok:728156.hopper-m-02@hopper-m-02.cm.cluster",
+      "start": null,
+      "nGPU": 1,
+      "gpu_model": null,
+      "project": "CFP04-CF-007",
+      "user": "e1192548"
+    }
+  }
+}
