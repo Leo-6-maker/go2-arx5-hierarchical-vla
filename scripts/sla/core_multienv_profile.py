@@ -34,11 +34,12 @@ def measure_process(pid):
 
 def sample(group, producer):
     processes = [measure_process(p) for p in (group/'cgroup.procs').read_text().split()]
+    group_io = group/'io.stat'
     return dict(epoch=time.time(), progress=read(producer/'PROGRESS.private.json'),
                 cpu_usec=int(fields(group/'cpu.stat')['usage_usec']),
                 memory_current=int((group/'memory.current').read_text()),
                 memory_peak=int((group/'memory.peak').read_text()),
-                io=(group/'io.stat').read_text(), processes=processes,
+                cgroup_io=group_io.read_text() if group_io.is_file() else None, processes=processes,
                 process_pss_kib=sum(p.get('pss_kib',0) for p in processes),
                 memory_available_kib=int(fields(Path('/proc/meminfo'))['MemAvailable'].split()[0]),
                 host_pressure={key:Path(f'/proc/pressure/{key}').read_text()
