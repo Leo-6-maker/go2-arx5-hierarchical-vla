@@ -31,6 +31,21 @@ def project_grant(seconds):
     amgr = '/opt/am/python/bin/amgr'
     records=json.loads(subprocess.check_output([amgr,'ls','project','--name',PROJECT,'--json-info'],text=True,timeout=30))
     balance=ast.literal_eval(subprocess.check_output([amgr,'checkbalance','project','--name',PROJECT],text=True,timeout=30))
+    tariff=json.loads(subprocess.check_output([amgr,'ls','cluster','--name','hopper-m-02','--formula','--json-info'],
+                                              text=True,timeout=30))
+    constants=tariff['constants']
+    expressions=tariff['formulas']
+    if (constants['ngpus']!='job.ngpus' or constants['queue_charge_rate']!='job.queue_charge_rate'
+            or constants['walltime']!='job.walltime' or float(constants['CONST_zero'])!=0
+            or float(constants['CONST_seconds'])!=3600 or float(constants['CONST_ncpus_rate'])!=1
+            or ''.join(expressions['gpu_hrs'].split())!='(ngpus*walltime/CONST_seconds)*(CONST_ngpus_rate*queue_charge_rate)'
+            or ''.join(expressions['su'].split())!='((ngpus==CONST_zero)and((ncpus*walltime/CONST_seconds)*(CONST_ncpus_rate*queue_charge_rate))orCONST_zero)+(ngpus*walltime/CONST_seconds)*CONST_ngpus_rate*queue_charge_rate'):
+        raise PermissionError('Unrecognized Hopper project tariff')
+    rate=float(constants['CONST_ngpus_rate'])
+    gpu,su=float(balance['gpu_hrs']),float(balance['su'])
+    if not all(math.isfinite(v) and v>0 for v in (rate,gpu,su)):
+        raise PermissionError('Invalid Hopper rate or project balance')
+    required=seconds*rate/3600
     if len(records)!=1:
         raise PermissionError('Missing unambiguous current project grant')
     p=records[0]
@@ -38,11 +53,11 @@ def project_grant(seconds):
     expiry=datetime.combine(date.fromisoformat(p['end_date'])+timedelta(days=1),datetime.min.time(),SGT).timestamp()
     now=time.time()
     if (p['name']!=PROJECT or p['active'] is not True or account not in p['users'] or 'hopper-m-02' not in p['cluster']
-            or not start<=now<expiry or not math.isfinite(float(balance['gpu_hrs']))
-            or float(balance['gpu_hrs'])*3600<seconds or float(balance['su'])<=0):
+            or not start<=now<expiry or min(gpu,su)<required):
         raise PermissionError('Insufficient current project grant on Hopper')
     return dict(project=PROJECT, account=account,valid_from_epoch=start,expiry_epoch=expiry,observed_epoch=now,
-                balance_gpu_hours=balance['gpu_hrs'],balance_su=balance['su'],source='HOPPER_AMGR_LS_AND_CHECKBALANCE')
+                balance_gpu_units=gpu,balance_su=su,units_per_gpu_hour_at_queue_rate_one=rate,
+                required_units_at_queue_rate_one=required,source='HOPPER_AMGR_MEMBERSHIP_BALANCE_AND_CLUSTER_FORMULA')
 
 
 def native(job):
@@ -242,6 +257,13 @@ def register(root,custody,source_folder,number,group,seconds,segment=None,recove
                 or row['Job_Name']!=name or row['Resource_List']['select']!='1:ngpus=1:gpu_model=H200:ncpus=12:mem=225GB'
                 or wall_seconds(row['Resource_List']['walltime'])!=seconds):
             raise PermissionError('Wrong held job or prior release effect requires reconciliation')
+        if 'required_units_at_queue_rate_one' in grant:
+            queue_rate=float(row['Resource_List']['queue_charge_rate'])
+            charge=grant['required_units_at_queue_rate_one']*queue_rate
+            if not math.isfinite(queue_rate) or queue_rate<=0 or charge>min(grant['balance_gpu_units'],grant['balance_su']):
+                raise PermissionError('Held job charge exceeds the verified project balance')
+            write_once(run/'SITE_CHARGE_ESTIMATE.json',dict(job=job,project=PROJECT,reserved_seconds=seconds,
+                       queue_rate=queue_rate,gpu_units=charge,su=charge,grant=pin(grantfile)))
         reservation=dict(plan=PLAN,job=job,group=group,reserved_gpu_count=1,reserved_seconds=seconds,
                          all_prior_seconds=total,engineering_prior_seconds=eng)
         write_once(run/'RESERVATION.json',reservation)
