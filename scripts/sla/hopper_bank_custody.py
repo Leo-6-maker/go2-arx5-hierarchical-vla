@@ -46,9 +46,10 @@ def run(root):
     remote('bash','-c','set -eu; umask 077; test ! -e "$2"; mkdir -- "$1"','bash',str(incoming),str(dest))
     subprocess.run(['rsync','-rt','--chmod=Fu=rw,Fgo=,Du=rwx,Dgo=','-e',shlex.join(SSH),
                     str(out)+'/',HOST+':'+str(incoming)+'/'],check=True)
-    check='set -eu; cd "$1"; test "$(sha256sum SHA256SUMS | cut -d" " -f1)" = "$3"; sha256sum -c SHA256SUMS >/dev/null; sync -f .; cd ..; test ! -e "$2"; mv -T "$1" "$2"; sync -f .; sha256sum "$2/BANKS.private.json"'
-    actual=remote('bash','-c',check,'bash',str(incoming),str(dest),hashlib.sha256(seal.encode()).hexdigest())
-    if actual.split()[0]!=digest(out/'BANKS.private.json'):
+    receiver=source/'scripts/sla/hopper_bank_receipt.py'
+    program='python3 -B - '+shlex.quote(str(dest))+' '+hashlib.sha256(seal.encode()).hexdigest()
+    actual=subprocess.check_output([*SSH,HOST,program],input=receiver.read_bytes()).decode().strip()
+    if actual!=digest(out/'BANKS.private.json'):
         raise ValueError('Hopper bank seal readback differs')
     write_once(root/'RESULT.private.json',dict(remote_banks_sha256=actual.split()[0],**result))
 
