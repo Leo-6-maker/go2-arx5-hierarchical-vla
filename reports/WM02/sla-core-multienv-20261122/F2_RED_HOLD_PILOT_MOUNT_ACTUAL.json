@@ -1,0 +1,552 @@
+{
+  "plan": "4fe2c8cf1b69c168b2e3079e061bb7c702089cd3",
+  "deployment": {
+    "rc": 0,
+    "launch": {
+      "unit": "wm02-sla-core-multienv-red-hold-pilot-20261122-01",
+      "exit": 0,
+      "out": "",
+      "err": "Running as unit: wm02-sla-core-multienv-red-hold-pilot-20261122-01.service; invocation ID: 62a7b8c302e444a28a7b5510bd6bc860\n",
+      "epoch": 1795303471.8190086
+    },
+    "error": null,
+    "change": {
+      "scripts/sla/core_hopper_red_approach.py": "3d858ff1dee80151429becafcf621f364c907737360227cb9833bbb94d8cdc0e",
+      "scripts/sla/core_multienv_red_hold_pilot.py": "41382580698a475142b9ce97b33d2ce61572525098a266a839831a730e364e9f",
+      "scripts/sla/core_multienv_red_hold_teacher.py": "d9686fb2354545fcba887939403484dadd0c0ca085dbdec7f02c9a1c7d327d30",
+      "scripts/wm02/v6_bootstrap.py": "4dbd6d5232e9c50f4d0a511625ad4fed9c9b4418097d5baaaacf85420cf82246",
+      "src/go2arx5_vla/world_model/multitask_scope_v6.py": "231d55b5a86921e733570dbb873c5e2a8f257743c5297b9683297f570f18981d"
+    },
+    "source_members": 3707,
+    "source_manifest": {
+      "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-red-hold-source-95230ade/SOURCE_MEMBERS.json",
+      "sha256": "4f3eac39ab1aba66e20a8310dbe97490a0de47d058b7a4db08ce6f806c6433b5"
+    },
+    "config": {
+      "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-red-hold-source-95230ade/CONFIG.private.json",
+      "sha256": "922eaa6ac4322a81ae2a7bd312a7aed904a71665b5f0a1266815298035dc4f1f"
+    }
+  },
+  "pilot_independent": {
+    "now": 1795303533.655682,
+    "unit": "wm02-sla-core-multienv-red-hold-pilot-20261122-01.service",
+    "observed": {
+      "RuntimeMaxUSec": "3h 59min 59s",
+      "MainPID": "2925958",
+      "Result": "success",
+      "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-red-hold-pilot-20261122-01.service",
+      "ActiveState": "active",
+      "SubState": "running",
+      "InvocationID": "62a7b8c302e444a28a7b5510bd6bc860"
+    },
+    "prior": {
+      "RuntimeMaxUSec": "3h 59min 59s",
+      "MainPID": "2925958",
+      "Result": "success",
+      "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-red-hold-pilot-20261122-01.service",
+      "ActiveState": "active",
+      "SubState": "running",
+      "InvocationID": "62a7b8c302e444a28a7b5510bd6bc860"
+    },
+    "prior_heartbeat": {
+      "epoch": 1795303512.1894288,
+      "pid": 2925958,
+      "stage": "WAIT_ORIGINAL_SLOT_HANDOFF",
+      "condition": "MEV1-TRAIN-F2-NEAR_POS-00-HOLD-red"
+    },
+    "heartbeat": {
+      "epoch": 1795303532.20063,
+      "pid": 2925958,
+      "stage": "WAIT_ORIGINAL_SLOT_HANDOFF",
+      "condition": "MEV1-TRAIN-F2-NEAR_POS-00-HOLD-red"
+    },
+    "lease": {
+      "status": "ACTIVE",
+      "owner": "SLA_CORE_HOPPER_V1_UID2009",
+      "spec_sha256": "b7ad7e5771093ebe1813b42e080c0c7509b8f62732ad5058ce6166fbcec4bde5",
+      "deadline_epoch": 1795317871.5882697
+    },
+    "pid_in_cgroup": true,
+    "linger": "Linger=yes",
+    "spec_sha": "b7ad7e5771093ebe1813b42e080c0c7509b8f62732ad5058ce6166fbcec4bde5",
+    "source": "95230adea5c8ce3d85419610093a33258eb67b00",
+    "scope": "SLA_CORE_MULTIENV_V1_EXPERT_REPAIR",
+    "preflight": {
+      "card": "MEV1-TRAIN-F2-NEAR_POS-00-HOLD-red",
+      "native_requests": 0,
+      "teacher_preflight": {
+        "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/p425-f2-red-hold-cold-preflight-20261122-03/RESULT.private.json",
+        "sha256": "444e49359b86fc4328278946799891444e1fe2c8acbdd6c73ba55d88a9fc2a23"
+      },
+      "geometry": {
+        "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-static-geometry-20261122-01/MEV1-TRAIN-F2-NEAR_POS-00.mjb",
+        "sha256": "4d5e050e945f5a533bf43044a704b8d98504fa9d05f938442b8952cd0e9e00ff"
+      },
+      "source_sha": "95230adea5c8ce3d85419610093a33258eb67b00",
+      "maximum_ticks": 35703,
+      "WBC_changes": false,
+      "safety_changes": false
+    },
+    "old_wave": {
+      "RuntimeMaxUSec": "6d 23h 17min 8s",
+      "MainPID": "2643171",
+      "Result": "success",
+      "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-wave-a-20261122-02.service",
+      "ActiveState": "active",
+      "SubState": "running",
+      "InvocationID": "818d3acfd2044d1f8edd4e5475d223b9"
+    },
+    "active_original_case": "MEV1-TRAIN-F1-NEAR_NEG-01-HOLD-red",
+    "available_disk_bytes": 4014073447,
+    "pilot_child_registered": false,
+    "deadline": 1795317871.5882697,
+    "stop": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-red-hold-pilot-20261122-01/STOP.json",
+    "log": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-red-hold-pilot-20261122-01/logs/supervisor.log"
+  },
+  "current": [
+    {
+      "epoch": 1795303579.2819834,
+      "wave": {
+        "stage": "DISPATCH",
+        "epoch": 1795303461.0426283,
+        "completed": 18,
+        "actual_requests": 18,
+        "closed_ticks": 525276,
+        "admitted_train": 6,
+        "current": "MEV1-TRAIN-F1-NEAR_NEG-01-HOLD-red"
+      },
+      "started_known": 19,
+      "roster": 19,
+      "case": "MEV1-TRAIN-F1-NEAR_NEG-01-HOLD-red",
+      "tick": 9826,
+      "last": [
+        {
+          "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-blue-right",
+          "requests": 1,
+          "ticks": 41071,
+          "admitted": false,
+          "first_failure": "ILLEGAL_CONTACT",
+          "hard_STOP": true,
+          "post_STOP_ticks": 0,
+          "capture": null,
+          "g7": null,
+          "result": {
+            "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-20261122-02/cases/MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-blue-right/RESULT.private.json",
+            "sha256": "7954eb11189077c1d6fc90410db409dae5f1e12fae6396ad198fd4619bbbb732"
+          }
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-blue-right",
+          "requests": 1,
+          "ticks": 38207,
+          "admitted": false,
+          "first_failure": "ILLEGAL_CONTACT",
+          "hard_STOP": true,
+          "post_STOP_ticks": 0,
+          "capture": null,
+          "g7": null,
+          "result": {
+            "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-20261122-02/cases/MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-blue-right/RESULT.private.json",
+            "sha256": "97535b8d1156937f28b7828997830981e2ea53b919ed3aa613bcd9f1ba0b6198"
+          }
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-red-left",
+          "requests": 1,
+          "ticks": 22072,
+          "admitted": false,
+          "first_failure": "ILLEGAL_CONTACT",
+          "hard_STOP": true,
+          "post_STOP_ticks": 0,
+          "capture": null,
+          "g7": null,
+          "result": {
+            "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-20261122-02/cases/MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-red-left/RESULT.private.json",
+            "sha256": "b32890d1a8353f9a695dd6d1aeca2708f1988201a25e53741c7691f2a8c69797"
+          }
+        }
+      ],
+      "total_failures": {
+        "ILLEGAL_CONTACT": 10,
+        "TASK_BUDGET_EXHAUSTED_IN_CARRY": 1,
+        "TASK_BUDGET_EXHAUSTED_IN_WITHDRAW": 1
+      },
+      "holding": {
+        "closed": 6,
+        "admitted": 4
+      },
+      "placing": {
+        "closed": 12,
+        "admitted": 2
+      },
+      "n1": {
+        "status": "WAIT_WORLD",
+        "pid": 2745035,
+        "epoch": 1795303577.3693335,
+        "paid_requests": 4,
+        "verified_ticks": 42812,
+        "current": "MEV1-ENG-N1-SHORT-04",
+        "production_completed": 18
+      },
+      "pilot": {
+        "epoch": 1795303572.2296603,
+        "pid": 2925958,
+        "stage": "WAIT_ORIGINAL_SLOT_HANDOFF",
+        "condition": "MEV1-TRAIN-F2-NEAR_POS-00-HOLD-red"
+      },
+      "catalog": {
+        "paid_TRAIN": 18,
+        "new_admitted": 6,
+        "sealed_new_members": 4,
+        "new_training_visits": 0
+      },
+      "latest": {
+        "count": 63,
+        "windows": 5498,
+        "sha256": "e233d5f8ce6be2e11467be73010645a6ea74669b6709578164ef636e72ea914d"
+      },
+      "publisher": "WAIT_CATALOG_SEAL"
+    },
+    {
+      "now": 1795303578.8752089,
+      "phase": 2948,
+      "epoch": 1795303573.2874718,
+      "cursors": {
+        "target": 188672,
+        "robodojo": 94336,
+        "libero": 94336
+      },
+      "queued": "728341.hopper-m-02",
+      "depends": "afterok:728212.hopper-m-02",
+      "seal": 2900,
+      "seal_SHA": "33e89fde2f34ecfdda436abcc92e9ca59fa922cc87206e37b9b893ff3c23ea75",
+      "ready_063": true
+    }
+  ],
+  "disk": {
+    "now": 1795303529.5877304,
+    "volumes": [
+      {
+        "root": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-20261122-02",
+        "file_system": "/      ext4",
+        "total": 1905283825664,
+        "free": 301998514176,
+        "fs_dev": 66308,
+        "has_existing_project_workspace": false,
+        "owned_project_writable": false,
+        "slack_after_15pct_8G_and_live_reserve": 3857909350
+      },
+      {
+        "root": "/mnt/local/hdd1",
+        "file_system": "/mnt/local/hdd1 fuseblk",
+        "total": 4000768323584,
+        "free": 582816378880,
+        "fs_dev": 2050,
+        "has_existing_project_workspace": true,
+        "owned_project_writable": true,
+        "slack_after_15pct_8G_and_live_reserve": -29646900633
+      }
+    ],
+    "measured_cases": [
+      {
+        "case": "MEV1-TRAIN-F1-NEAR_NEG-00-HOLD-blue",
+        "bytes": 699199488,
+        "split": "TRAIN",
+        "admitted": true
+      },
+      {
+        "case": "MEV1-TRAIN-F2-NEAR_NEG-00-HOLD-red",
+        "bytes": 579948544,
+        "split": "TRAIN",
+        "admitted": false
+      },
+      {
+        "case": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-red-left",
+        "bytes": 1426866176,
+        "split": "TRAIN",
+        "admitted": false
+      },
+      {
+        "case": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-blue-right",
+        "bytes": 560504832,
+        "split": "TRAIN",
+        "admitted": false
+      },
+      {
+        "case": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-blue-right",
+        "bytes": 521826304,
+        "split": "TRAIN",
+        "admitted": false
+      },
+      {
+        "case": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-red-left",
+        "bytes": 583610368,
+        "split": "TRAIN",
+        "admitted": false
+      },
+      {
+        "case": "MEV1-TRAIN-F1-NEAR_NEG-00-HOLD-red",
+        "bytes": 593678336,
+        "split": "TRAIN",
+        "admitted": true
+      },
+      {
+        "case": "MEV1-TRAIN-F2-NEAR_NEG-00-HOLD-blue",
+        "bytes": 650838016,
+        "split": "TRAIN",
+        "admitted": true
+      },
+      {
+        "case": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-blue-left",
+        "bytes": 1106087936,
+        "split": "TRAIN",
+        "admitted": true
+      },
+      {
+        "case": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-red-right",
+        "bytes": 555241472,
+        "split": "TRAIN",
+        "admitted": false
+      },
+      {
+        "case": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-red-right",
+        "bytes": 1012559872,
+        "split": "TRAIN",
+        "admitted": true
+      },
+      {
+        "case": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-blue-left",
+        "bytes": 780525568,
+        "split": "TRAIN",
+        "admitted": false
+      },
+      {
+        "case": "MEV1-TRAIN-F1-NEAR_NEG-01-HOLD-blue",
+        "bytes": 608817152,
+        "split": "TRAIN",
+        "admitted": true
+      },
+      {
+        "case": "MEV1-TRAIN-F2-NEAR_NEG-01-HOLD-red",
+        "bytes": 624848896,
+        "split": "TRAIN",
+        "admitted": false
+      },
+      {
+        "case": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-red-left",
+        "bytes": 1425518592,
+        "split": "TRAIN",
+        "admitted": false
+      },
+      {
+        "case": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-blue-right",
+        "bytes": 1147314176,
+        "split": "TRAIN",
+        "admitted": false
+      },
+      {
+        "case": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-blue-right",
+        "bytes": 1062207488,
+        "split": "TRAIN",
+        "admitted": false
+      },
+      {
+        "case": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-red-left",
+        "bytes": 600772608,
+        "split": "TRAIN",
+        "admitted": false
+      }
+    ]
+  },
+  "later_stops": {
+    "epoch": 1795303602.5351388,
+    "additional_failure_signatures": [
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-blue-right",
+        "ticks": 19329,
+        "outcome": "ILLEGAL_CONTACT",
+        "contact_signature": [
+          "ILLEGAL_CONTACT",
+          "DESCEND",
+          [
+            [
+              "world",
+              "x5_link8"
+            ]
+          ]
+        ],
+        "post_stop": 0,
+        "score_sha": "48816f5f9b2fe5d5fd7830620d6f966a05d4516ba44aea42134cfbfb203458ca",
+        "score": {
+          "ever_target_grasp": false,
+          "ever_target_lift20mm": false,
+          "maximum_lift_m": 0,
+          "inside_selected_region": false,
+          "released": true,
+          "task_success": false
+        }
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-red-left",
+        "ticks": 21657,
+        "outcome": "ILLEGAL_CONTACT",
+        "contact_signature": [
+          "ILLEGAL_CONTACT",
+          "DESCEND",
+          [
+            [
+              "task_blue_cube",
+              "x5_link6"
+            ]
+          ]
+        ],
+        "post_stop": 0,
+        "score_sha": "2412cf223aae6756a5c9f13aaa9bc5994e54ddacff64c3835226082d43b85d73",
+        "score": {
+          "ever_target_grasp": false,
+          "ever_target_lift20mm": false,
+          "maximum_lift_m": 7.671641100159832e-14,
+          "inside_selected_region": false,
+          "released": true,
+          "task_success": false
+        }
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-blue-right",
+        "ticks": 38207,
+        "outcome": "ILLEGAL_CONTACT",
+        "contact_signature": [
+          "ILLEGAL_CONTACT",
+          "CARRY",
+          [
+            [
+              "world",
+              "x5_link2"
+            ]
+          ]
+        ],
+        "post_stop": 0,
+        "score_sha": "1252c71a2c6e27dacfa949b7b2126228fe22d18887eff856d1882641827dcb80",
+        "score": {
+          "ever_target_grasp": true,
+          "ever_target_lift20mm": true,
+          "maximum_lift_m": 0.07167864022312642,
+          "inside_selected_region": true,
+          "released": false,
+          "task_success": false
+        }
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-red-left",
+        "ticks": 22072,
+        "outcome": "ILLEGAL_CONTACT",
+        "contact_signature": [
+          "ILLEGAL_CONTACT",
+          "DESCEND",
+          [
+            [
+              "task_blue_cube",
+              "x5_link6"
+            ]
+          ]
+        ],
+        "post_stop": 0,
+        "score_sha": "ee8491edf8e77c0b60cf37dd61318ed2afe23fb0d97c4d7d1fb4c0acd98f97db",
+        "score": {
+          "ever_target_grasp": false,
+          "ever_target_lift20mm": false,
+          "maximum_lift_m": 0,
+          "inside_selected_region": false,
+          "released": true,
+          "task_success": false
+        }
+      }
+    ],
+    "top_bytes": [
+      [
+        "ROS_CONSUMPTION.private.jsonl",
+        6640668672
+      ],
+      [
+        "init.trace",
+        3532668928
+      ],
+      [
+        "state.bin.journal",
+        1535315968
+      ],
+      [
+        "physics.jsonl",
+        852258816
+      ],
+      [
+        "init.trace.snapshots",
+        556965888
+      ],
+      [
+        "planner.jsonl",
+        256196608
+      ],
+      [
+        "COMMANDS.private.jsonl",
+        157519872
+      ],
+      [
+        "frames-000.npz",
+        113319936
+      ],
+      [
+        "frames-002.npz",
+        113319936
+      ],
+      [
+        "frames-001.npz",
+        113319936
+      ],
+      [
+        "frames-003.npz",
+        105455616
+      ],
+      [
+        "QUERIES.private.json",
+        91844608
+      ]
+    ]
+  },
+  "f1_contact_geometry": {
+    "tick": 38207,
+    "pairs": [
+      {
+        "geoms": [
+          "",
+          "task_table"
+        ],
+        "bodies": [
+          "x5_link2",
+          "world"
+        ],
+        "signed_distance_mm": -0.08617666797280932
+      },
+      {
+        "geoms": [
+          "",
+          "task_table"
+        ],
+        "bodies": [
+          "x5_link2",
+          "world"
+        ],
+        "signed_distance_mm": -0.08617666797280932
+      }
+    ],
+    "compiled_model_sha": "0cb262f32873f66f90869105bbb71b64cd2b44c8de56129a457f31851468fc76"
+  },
+  "additional_native_requests_from_pilot": 0,
+  "additional_native_ticks_from_pilot": 0,
+  "models_from_pilot": 0,
+  "training_from_pilot": 0,
+  "parallel_native": {
+    "N2": "NOT_RUN",
+    "N4": "NOT_RUN"
+  }
+}
