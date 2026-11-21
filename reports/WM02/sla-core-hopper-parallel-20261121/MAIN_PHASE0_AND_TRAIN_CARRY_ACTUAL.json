@@ -1,0 +1,582 @@
+{
+  "plan": "171b5bedb290258954aac140157743e92e3b152e",
+  "main": {
+    "at": "2026-11-21T17:12:59.696457+08:00",
+    "job": "727341.hopper-m-02",
+    "host": "hopper-19",
+    "phase": 49,
+    "visits": {
+      "target": 3136,
+      "robodojo": 1568,
+      "libero": 1568
+    },
+    "H40": 196,
+    "first_gradient": 1.0883221626281738,
+    "first_rate": 0.0000036187511679612913,
+    "source": "b9581196d0acd02fb748222988e5a5543ce1f232",
+    "phase0_sha256": "d7949c75ecc33253bea605a3aed738df4ecdc473d8737848a1bca787ab253c18",
+    "phase0_arrays": 140,
+    "ancestor_updates": 2500,
+    "first_update_receipt": "54dd0d0a77633c754133ffe9dc73ded9052e8170310668368e2075c8d0982662",
+    "sealed": [
+      "phase00000.json"
+    ],
+    "allocation_deadline": 1795273061
+  },
+  "parent": "2bff547b6f2c3aca0e7e2fd8a790ce6b30ef1c5f33b004c6897e3083647358d5",
+  "formal_A40": {
+    "job": "1601959.stdct-mgmt-02",
+    "host": "GN-A40-020",
+    "status": "F/0",
+    "pbs_wall_s": 243,
+    "prior_technical": {
+      "job": "1601940.stdct-mgmt-02",
+      "status": "F/1",
+      "conservative_charged_s": 16,
+      "generation_attempts": 0,
+      "reason": "queue.py in the scheduling directory shadowed the Python standard library before endpoint load"
+    },
+    "fresh_allocation_seconds": 3584,
+    "eval_science_source": "f45b868648ca3c89cb98d107afdd88e975951ac1",
+    "eval_scheduler_source": "6f2d10c4c87184aafc463e40e2866971cff246bd",
+    "new_supervisor": "1601955.stdct-mgmt-02",
+    "supervisor_pid": 145445,
+    "metrics": {
+      "phase": 0,
+      "checkpoint_sha256": "d7949c75ecc33253bea605a3aed738df4ecdc473d8737848a1bca787ab253c18",
+      "panel_sha256": "3136404c06f890a9dd830b2cf5f40e487ef436ede16e805e14ffc0cb06b5eefd",
+      "ordinary_receipt_sha256": "82244c6aee71c30404d4b7c127eafc7839447f8ab054270aa14af502dd08e8b2",
+      "ordinary_source_target_counts": {
+        "libero": 96,
+        "robodojo": 96,
+        "target": 96,
+        "target_phase": 88
+      },
+      "target_train": {
+        "count": 96,
+        "H40_and_seam_pass": 92,
+        "first_gate_failures": {
+          "finger_velocity": 3,
+          "actual_command_gripper_speed": 1
+        },
+        "phase_timing": {},
+        "mean_absolute_crossing_error_s_if_both_cross": null,
+        "paired_crossing_count": 0,
+        "per_window_peak_P10_speed_p95_m_s": 0.029155691694001208,
+        "per_window_peak_P10_acceleration_p95_m_s2": 0.524836360743935,
+        "mean_xyz_error_m": 0.004406758385415615
+      },
+      "phase_train": {
+        "count": 88,
+        "H40_and_seam_pass": 48,
+        "first_gate_failures": {
+          "finger_velocity": 40
+        },
+        "phase_timing": {
+          "expert_due": 24,
+          "predicted_due_on_expert_due": 24,
+          "timely_and_gates": 9
+        },
+        "mean_absolute_crossing_error_s_if_both_cross": 0.010416666666666666,
+        "paired_crossing_count": 24,
+        "per_window_peak_P10_speed_p95_m_s": 0.04538240102813624,
+        "per_window_peak_P10_acceleration_p95_m_s2": 0.5632588487889422,
+        "mean_xyz_error_m": 0.0033058640386453204
+      },
+      "phase_buckets": {
+        "APPROACH": {
+          "count": 16,
+          "H40_and_seam_pass": 16,
+          "first_gate_failures": {},
+          "phase_timing": {},
+          "mean_absolute_crossing_error_s_if_both_cross": null,
+          "paired_crossing_count": 0,
+          "per_window_peak_P10_speed_p95_m_s": 0.00011354943790863048,
+          "per_window_peak_P10_acceleration_p95_m_s2": 0.0023094769853876373,
+          "mean_xyz_error_m": 0.004950068345323091
+        },
+        "NOT_DUE_CLOSE": {
+          "count": 32,
+          "H40_and_seam_pass": 7,
+          "first_gate_failures": {
+            "finger_velocity": 25
+          },
+          "phase_timing": {},
+          "mean_absolute_crossing_error_s_if_both_cross": null,
+          "paired_crossing_count": 0,
+          "per_window_peak_P10_speed_p95_m_s": 0.047781627672964906,
+          "per_window_peak_P10_acceleration_p95_m_s2": 0.5143544059663728,
+          "mean_xyz_error_m": 0.002607391759414381
+        },
+        "P10_DUE_CLOSE": {
+          "count": 24,
+          "H40_and_seam_pass": 9,
+          "first_gate_failures": {
+            "finger_velocity": 15
+          },
+          "phase_timing": {
+            "expert_due": 24,
+            "predicted_due_on_expert_due": 24,
+            "timely_and_gates": 9
+          },
+          "mean_absolute_crossing_error_s_if_both_cross": 0.010416666666666666,
+          "paired_crossing_count": 24,
+          "per_window_peak_P10_speed_p95_m_s": 0.044563979840087836,
+          "per_window_peak_P10_acceleration_p95_m_s2": 0.7061834325317907,
+          "mean_xyz_error_m": 0.0021770494220295995
+        },
+        "RELEASE_OR_RECOVERY": {
+          "count": 16,
+          "H40_and_seam_pass": 16,
+          "first_gate_failures": {},
+          "phase_timing": {},
+          "mean_absolute_crossing_error_s_if_both_cross": null,
+          "paired_crossing_count": 0,
+          "per_window_peak_P10_speed_p95_m_s": 0.01922246622194676,
+          "per_window_peak_P10_acceleration_p95_m_s2": 0.40192849795535823,
+          "mean_xyz_error_m": 0.00475182621535301
+        }
+      },
+      "source_normalized_active_MAE": {
+        "robodojo": 0.0785656048101373,
+        "libero": 0.20778183491590121
+      },
+      "restore": {
+        "status": "SEALED",
+        "exact": 48,
+        "generated": {
+          "libero": 16,
+          "robodojo": 16,
+          "target": 16
+        },
+        "error": null,
+        "result_sha256": "7629739c63feb60f02aaf79c72bfc90f9400a04c25d3f1586285de4cc10cecdc"
+      }
+    }
+  },
+  "core": {
+    "at": "2026-11-21T17:13:00.005078+08:00",
+    "expert": {
+      "TRAIN": {
+        "closed": 24,
+        "requests": 24,
+        "ticks": 697016,
+        "grasp": 15,
+        "lift": 15,
+        "success": 7,
+        "admitted": 7,
+        "failure_or_success": {
+          "TASK_SUCCESS": 7,
+          "ILLEGAL_CONTACT": 15,
+          "TASK_BUDGET_EXHAUSTED_IN_CARRY": 2
+        },
+        "hard_STOP": 15,
+        "post_STOP_ticks": 0
+      },
+      "VAL": {
+        "closed": 14,
+        "requests": 14,
+        "ticks": 384980,
+        "grasp": 8,
+        "lift": 8,
+        "success": 4,
+        "admitted": 4,
+        "failure_or_success": {
+          "TASK_SUCCESS": 4,
+          "ILLEGAL_CONTACT": 10
+        },
+        "hard_STOP": 10,
+        "post_STOP_ticks": 0
+      }
+    },
+    "active": [
+      {
+        "condition": "CHV1-VAL-F1-PLACE-red-left-01",
+        "last_score_tick": 19203,
+        "grasp": false,
+        "lift20": false
+      }
+    ],
+    "snapshot_train": 4,
+    "student_requests": 0,
+    "student_ticks": 0,
+    "Hopper_REF16": 0,
+    "Core_RGB16": 0
+  },
+  "carry_pilot": {
+    "source": "e4e95b4f8f16f0a45091de9bac789e5e6ce68540",
+    "unit": "wm02-sla-core-hopper-v1-blue-right-pilot-20261121-01.service",
+    "pid": 1973911,
+    "invocation_id": "0218bbafedcc4897b9bd24d997eba6bc",
+    "state": "WAIT_ORIGINAL_FIRST48",
+    "new_requests": 0,
+    "high_level_waypoint_offset_mm_from_first_measured_TCP_in_two_archived_carry_states": [
+      [
+        0,
+        68.79,
+        26
+      ],
+      [
+        0,
+        67.52,
+        26
+      ]
+    ],
+    "audit_sha256": "3cd44f095ad1a8ea67f19a175108d3a947bda6f88e31eaeb6c8e208ae77c80f2",
+    "new_generations": 0,
+    "new_integrations": 0,
+    "new_native_requests": 0,
+    "observer_source_sha256": "7e305c296ba2706ae0d546048d6f4c46a6a65ac374d43afd537eebf029daf272",
+    "pilot": "CHV1-TRAIN-F2-PLACE-blue-right-02",
+    "pilot_scene_sha256": "9bf333de0c825720de884e965781f525bb431bf24ee222341a9af3c58e84ca07",
+    "pilot_two_leg_centered_clearance_mm": [
+      49.99999999999997,
+      25.49999999999999
+    ],
+    "prior": [
+      "CHV1-TRAIN-F2-PLACE-blue-right-00",
+      "CHV1-TRAIN-F2-PLACE-blue-right-01"
+    ],
+    "prior_rows": [
+      {
+        "condition": "CHV1-TRAIN-F2-HOLD-red-00",
+        "last_query_native_grasp": false,
+        "last_query_tick": 19953,
+        "pairs": [
+          {
+            "bodies": [
+              "x5_link6",
+              "task_blue_cube"
+            ],
+            "geoms": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "signed_distance_mm": -0.08547308692904293
+          }
+        ],
+        "phase": "DESCEND",
+        "post_STOP_ticks": 0,
+        "query_sha256": "683aaa5cfea7952a94ff48487ecd905f7bee5735913b3c2d3236a8e2532a5d60",
+        "result_sha256": "7cf3c54b92773d696295fc69d8826bb3a4ceb4d54a1d781ad5d370ac9df38a36",
+        "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+        "terminal_tick": 19955
+      },
+      {
+        "condition": "CHV1-TRAIN-F2-HOLD-red-01",
+        "last_query_native_grasp": false,
+        "last_query_tick": 20453,
+        "pairs": [
+          {
+            "bodies": [
+              "x5_link6",
+              "task_blue_cube"
+            ],
+            "geoms": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "signed_distance_mm": -0.1395829194751272
+          }
+        ],
+        "phase": "DESCEND",
+        "post_STOP_ticks": 0,
+        "query_sha256": "1ba3f2b40090748c45dcda70d4d6f3875953f31f17135dd0a8e7ec7a24f3c34e",
+        "result_sha256": "54d7f9796176065882fd9d2350a4454daecf2019ed71d83e522a54dc8065f646",
+        "scene_sha256": "0b493698c6d5dd4ce4b585f8f35bc3a8077b24a45a36c9556cb7523401dcf908",
+        "terminal_tick": 20641
+      },
+      {
+        "condition": "CHV1-TRAIN-F2-PLACE-blue-right-00",
+        "last_query_native_grasp": true,
+        "last_query_tick": 40453,
+        "original_swept_footprints_overlap": true,
+        "pairs": [
+          {
+            "bodies": [
+              "task_cube",
+              "task_blue_cube"
+            ],
+            "geoms": [
+              "task_cube_geom",
+              "task_blue_cube_geom"
+            ],
+            "signed_distance_mm": -0.07592775764576343
+          },
+          {
+            "bodies": [
+              "task_cube",
+              "task_blue_cube"
+            ],
+            "geoms": [
+              "task_cube_geom",
+              "task_blue_cube_geom"
+            ],
+            "signed_distance_mm": -0.10530089953255696
+          }
+        ],
+        "phase": "CARRY",
+        "post_STOP_ticks": 0,
+        "query_sha256": "e2cf2160eca494f15c9e969b93f9c740ba13c31e56b99aed5dab5b2dfca14080",
+        "query_to_stop_blue_center_drop_mm": 9.06205225276102,
+        "query_to_stop_ms": 78,
+        "result_sha256": "edeff403418a23c9ac1bbe42d6301c682d73d7f87125a09f4f2ec219584ad05a",
+        "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+        "terminal_tick": 40492,
+        "two_leg_bound_mm": [
+          51.11194598580863,
+          27.239120551490874
+        ]
+      },
+      {
+        "condition": "CHV1-TRAIN-F2-PLACE-blue-right-01",
+        "last_query_native_grasp": true,
+        "last_query_tick": 37203,
+        "original_swept_footprints_overlap": true,
+        "pairs": [
+          {
+            "bodies": [
+              "task_cube",
+              "task_blue_cube"
+            ],
+            "geoms": [
+              "task_cube_geom",
+              "task_blue_cube_geom"
+            ],
+            "signed_distance_mm": -0.2775012769755742
+          },
+          {
+            "bodies": [
+              "task_cube",
+              "task_blue_cube"
+            ],
+            "geoms": [
+              "task_cube_geom",
+              "task_blue_cube_geom"
+            ],
+            "signed_distance_mm": -0.1097887530916938
+          }
+        ],
+        "phase": "CARRY",
+        "post_STOP_ticks": 0,
+        "query_sha256": "815a48011d8897b1c77c2ff3e809aa6a8bb384817cef88848f2bf620f6777282",
+        "query_to_stop_blue_center_drop_mm": 8.654274620030321,
+        "query_to_stop_ms": 440,
+        "result_sha256": "7b2ac47ba3475186323b481d54cd38374da67b9d8b6de1939c3a8ef6f15546d3",
+        "scene_sha256": "0b493698c6d5dd4ce4b585f8f35bc3a8077b24a45a36c9556cb7523401dcf908",
+        "terminal_tick": 37423,
+        "two_leg_bound_mm": [
+          51.013743779808564,
+          27.208371570367635
+        ]
+      },
+      {
+        "condition": "CHV1-TRAIN-F2-PLACE-red-left-00",
+        "last_query_native_grasp": false,
+        "last_query_tick": 21453,
+        "pairs": [
+          {
+            "bodies": [
+              "x5_link6",
+              "task_blue_cube"
+            ],
+            "geoms": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "signed_distance_mm": -0.03218550511811455
+          }
+        ],
+        "phase": "DESCEND",
+        "post_STOP_ticks": 0,
+        "query_sha256": "7979c192ba6504905604b8e03278e0429a3f974b6c083889b94f6fba59c160f7",
+        "result_sha256": "8b545ef8a3a94d57cf619dacedcbadbf589ad5bf5f8708f6b34fe15d5b7e894f",
+        "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+        "terminal_tick": 21625
+      },
+      {
+        "condition": "CHV1-TRAIN-F2-PLACE-red-left-01",
+        "last_query_native_grasp": false,
+        "last_query_tick": 21203,
+        "pairs": [
+          {
+            "bodies": [
+              "x5_link6",
+              "task_blue_cube"
+            ],
+            "geoms": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "signed_distance_mm": -0.004402596132116465
+          }
+        ],
+        "phase": "DESCEND",
+        "post_STOP_ticks": 0,
+        "query_sha256": "5d0ce7ab9b9f29ab76f3016df8db8cbf7e6fcff6c5dd7fef5d4ef6989530fd5b",
+        "result_sha256": "59f2763f8910826f7d784c4ab908f75bfca894c0ee487f031f63ad366c01f457",
+        "scene_sha256": "0b493698c6d5dd4ce4b585f8f35bc3a8077b24a45a36c9556cb7523401dcf908",
+        "terminal_tick": 21450
+      },
+      {
+        "condition": "CHV1-TRAIN-F1-PLACE-blue-left-00",
+        "last_query_native_grasp": false,
+        "last_query_tick": 18203,
+        "pairs": [
+          {
+            "bodies": [
+              "x5_link6",
+              "task_blue_cube"
+            ],
+            "geoms": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "signed_distance_mm": -0.19164946430064514
+          }
+        ],
+        "phase": "DESCEND",
+        "post_STOP_ticks": 0,
+        "query_sha256": "91c9a312265f2aca3994b219927234266ecf3b41c76c258b5045bd64943bddfc",
+        "result_sha256": "6c5c9d1b98636d1513c20ebf6155b4c04b39d7b81b802a44bc6a8d5b5220983a",
+        "scene_sha256": "19368138aa85927c9482e2a69f4a9bc7aa35c8a171969d35db7d72a6f1797635",
+        "terminal_tick": 18307
+      },
+      {
+        "condition": "CHV1-TRAIN-F1-PLACE-blue-left-01",
+        "last_query_native_grasp": false,
+        "last_query_tick": 19703,
+        "pairs": [
+          {
+            "bodies": [
+              "world",
+              "x5_link8"
+            ],
+            "geoms": [
+              "task_table",
+              "task_right_pad"
+            ],
+            "signed_distance_mm": -0.02145734976129708
+          }
+        ],
+        "phase": "DESCEND",
+        "post_STOP_ticks": 0,
+        "query_sha256": "9685de8b136fe573dd320118afac89b196049542c588d5fa539d3df3a282c73a",
+        "result_sha256": "6ee84b7ef897ba0b7640e0c71406bef7eae127e3e5d1d14a990a7348a13ca61d",
+        "scene_sha256": "9ae3232754c5ef287239801fc10230199872f1526c78c099b746f0d7ad088507",
+        "terminal_tick": 19871
+      },
+      {
+        "condition": "CHV1-TRAIN-F2-PLACE-red-right-00",
+        "last_query_native_grasp": false,
+        "last_query_tick": 20453,
+        "pairs": [
+          {
+            "bodies": [
+              "x5_link6",
+              "task_blue_cube"
+            ],
+            "geoms": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "signed_distance_mm": -0.0013836685844523244
+          }
+        ],
+        "phase": "DESCEND",
+        "post_STOP_ticks": 0,
+        "query_sha256": "90a30ceb6ad4cd53669b609ab64188027ae28e5d2fdd34f66127e8a2c159219b",
+        "result_sha256": "664d8db4a198b6f461517f98ca726ad5dc28c7bb990fbf6f75cd598bfafa4783",
+        "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+        "terminal_tick": 20614
+      },
+      {
+        "condition": "CHV1-TRAIN-F2-PLACE-red-right-01",
+        "last_query_native_grasp": false,
+        "last_query_tick": 22203,
+        "pairs": [
+          {
+            "bodies": [
+              "x5_link6",
+              "task_blue_cube"
+            ],
+            "geoms": [
+              "",
+              "task_blue_cube_geom"
+            ],
+            "signed_distance_mm": -0.0008930768567866343
+          }
+        ],
+        "phase": "DESCEND",
+        "post_STOP_ticks": 0,
+        "query_sha256": "dcb9df810fd69ee4a18b4033327a415ddf35498fa2973cd497db86b9eca09c4e",
+        "result_sha256": "63e2793c49f0728c4a3824f34f67644778f0cb6169ddb4f112ee334f82be84de",
+        "scene_sha256": "0b493698c6d5dd4ce4b585f8f35bc3a8077b24a45a36c9556cb7523401dcf908",
+        "terminal_tick": 22278
+      },
+      {
+        "condition": "CHV1-TRAIN-F2-PLACE-blue-left-00",
+        "last_query_native_grasp": true,
+        "last_query_tick": 39453,
+        "pairs": [
+          {
+            "bodies": [
+              "task_cube",
+              "task_blue_cube"
+            ],
+            "geoms": [
+              "task_cube_geom",
+              "task_blue_cube_geom"
+            ],
+            "signed_distance_mm": -0.10690318886803471
+          },
+          {
+            "bodies": [
+              "task_cube",
+              "task_blue_cube"
+            ],
+            "geoms": [
+              "task_cube_geom",
+              "task_blue_cube_geom"
+            ],
+            "signed_distance_mm": -0.08060134701787598
+          }
+        ],
+        "phase": "CARRY",
+        "post_STOP_ticks": 0,
+        "query_sha256": "4cf20e010ec24b58590319b8041feb91d2c32100c60db482515a59c00e40dcd1",
+        "result_sha256": "8cbaa7e19445e32afd6e9979bbfb7e1646da18d90125ca8ede3849727a7a3e5c",
+        "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+        "terminal_tick": 39584
+      },
+      {
+        "condition": "CHV1-TRAIN-F2-PLACE-blue-left-01",
+        "last_query_native_grasp": false,
+        "last_query_tick": 36453,
+        "pairs": [
+          {
+            "bodies": [
+              "x5_link8",
+              "task_cube"
+            ],
+            "geoms": [
+              "task_right_pad",
+              "task_cube_geom"
+            ],
+            "signed_distance_mm": -0.0016132840517694203
+          }
+        ],
+        "phase": "OPEN",
+        "post_STOP_ticks": 0,
+        "query_sha256": "c61ee32d3bfe5c0a71cb1e00f790fcf4a7b2faffddf34a1688a59373891e027f",
+        "result_sha256": "91f9c2b54f1d80aa05407aa6c5c4c417473af47f371e73a2ece4e437ec608a9d",
+        "scene_sha256": "0b493698c6d5dd4ce4b585f8f35bc3a8077b24a45a36c9556cb7523401dcf908",
+        "terminal_tick": 36553
+      }
+    ],
+    "producer": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+    "status": "TRAIN_STATIC_CARRY_BYPASS_VERIFIED",
+    "target_cell": "CHV1-TRAIN-F2-PLACE-blue-right",
+    "validation_outcomes_used": 0
+  }
+}

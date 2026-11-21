@@ -1,0 +1,94 @@
+{
+  "at": "2026-11-21T13:03:45.740445+08:00",
+  "cases": [
+    {
+      "id": "CHV1-TRAIN-F1-HOLD-blue-00",
+      "scored": {
+        "native_step": 23953,
+        "ever_target_grasp": true,
+        "ever_target_lift20mm": true,
+        "maximum_lift_m": 0.025081524169843994,
+        "longest_grasp_lift_hold_s": 1.1280000000013786,
+        "task_success": true,
+        "base_directional_motion_m": 0.11793547587137823,
+        "unsafe_states": 0,
+        "events": {
+          "base80mm": {
+            "native_step": 10695,
+            "native_time_s": 21.389999999999024
+          },
+          "target_grasp": {
+            "native_step": 21016,
+            "native_time_s": 42.032000000005404
+          },
+          "target_lift20mm": {
+            "native_step": 23389,
+            "native_time_s": 46.778000000011204
+          }
+        }
+      },
+      "sealed": true,
+      "native_ticks": 23953,
+      "requests": 1,
+      "result_sha256": "bbfcd4b49fbac2bf1f819b3d65a728748ad08cf0f8ec5425225bec74f8d3816f",
+      "has_integration_record": true
+    },
+    {
+      "id": "CHV1-TRAIN-F2-HOLD-red-00",
+      "scored": {
+        "native_step": null,
+        "ever_target_grasp": null,
+        "ever_target_lift20mm": null,
+        "maximum_lift_m": null,
+        "longest_grasp_lift_hold_s": null,
+        "task_success": null,
+        "base_directional_motion_m": null,
+        "unsafe_states": null,
+        "events": null
+      },
+      "sealed": false,
+      "native_ticks": null,
+      "requests": null,
+      "result_sha256": null,
+      "has_integration_record": true
+    }
+  ],
+  "registered_records": [
+    {
+      "condition": "CHV1-TRAIN-F1-HOLD-blue-00",
+      "requests": 1,
+      "ticks": 23953,
+      "admitted": true,
+      "task_and_mobile_success": true,
+      "hard_STOP": false,
+      "post_STOP_ticks": null,
+      "first_failure": "TASK_SUCCESS",
+      "episode": {
+        "sha256": "53d92aba420ad1d30428713c776259ff4609b4a412e658f7df7ebf7e483019b5",
+        "windows": 73,
+        "confirmed_P10_atoms": 730,
+        "split": "TRAIN"
+      }
+    }
+  ],
+  "plan": "171b5bedb290258954aac140157743e92e3b152e",
+  "vanda": {
+    "observed_at": "2026-11-21T13:03:38+08:00",
+    "phase": 2515,
+    "phase_visits": {
+      "Go2": 160960,
+      "RoboDojo": 80480,
+      "LIBERO": 80480
+    },
+    "last_seal": 2500
+  },
+  "counts": {
+    "expert_requests_started": 2,
+    "expert_terminals": 1,
+    "expert_successes": 1,
+    "admitted_TRAIN": 1,
+    "VAL_started": 0,
+    "sealed_ticks": 23953,
+    "student_native_new": 0
+  }
+}

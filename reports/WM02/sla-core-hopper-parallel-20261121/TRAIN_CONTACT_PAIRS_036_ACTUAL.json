@@ -1,0 +1,481 @@
+{
+  "plan": "171b5bedb290258954aac140157743e92e3b152e",
+  "readback_source": "765e4169c5c0e14969c90c0c2848f22667f33c14",
+  "worker_sha256": "f75caeb05d975c7e0fcbe39f70cdf51f6a0ae22c56e80b5051dd4effcde343fc",
+  "unit": "wm02-sla-core-hopper-v1-contact-pairs36-20261121-02.service",
+  "result_sha256": "0f124fe6648bfe4d12de4f20daa138f4111e0aeaeb0266518989f0f99d8ffa81",
+  "cpu_seconds": 2.563,
+  "technical_setup": {
+    "unit": "wm02-sla-core-hopper-v1-contact-pairs36-20261121-01.service",
+    "exit": 1,
+    "issue": "Missing hopper_parent_custody module in the readback import path",
+    "physics": 0,
+    "updates": 0
+  },
+  "VAL_inputs": 0,
+  "cells": {
+    "CHV1-TRAIN-F1-PLACE-blue-left": {
+      "cases": [
+        {
+          "body_geom_pairs": [
+            [
+              [
+                "task_blue_cube",
+                "task_blue_cube_geom"
+              ],
+              [
+                "x5_link6",
+                ""
+              ]
+            ]
+          ],
+          "condition": "CHV1-TRAIN-F1-PLACE-blue-left-00",
+          "grasp_at_last_query": false,
+          "last_query_phase": "DESCEND",
+          "last_query_tick": 18203,
+          "post_STOP_ticks": 0,
+          "queries_sha256": "91c9a312265f2aca3994b219927234266ecf3b41c76c258b5045bd64943bddfc",
+          "result_sha256": "6c5c9d1b98636d1513c20ebf6155b4c04b39d7b81b802a44bc6a8d5b5220983a",
+          "stop_tick": 18307
+        },
+        {
+          "body_geom_pairs": [
+            [
+              [
+                "world",
+                "task_table"
+              ],
+              [
+                "x5_link8",
+                "task_right_pad"
+              ]
+            ]
+          ],
+          "condition": "CHV1-TRAIN-F1-PLACE-blue-left-01",
+          "grasp_at_last_query": false,
+          "last_query_phase": "DESCEND",
+          "last_query_tick": 19703,
+          "post_STOP_ticks": 0,
+          "queries_sha256": "9685de8b136fe573dd320118afac89b196049542c588d5fa539d3df3a282c73a",
+          "result_sha256": "6ee84b7ef897ba0b7640e0c71406bef7eae127e3e5d1d14a990a7348a13ca61d",
+          "stop_tick": 19871
+        }
+      ],
+      "same_last_query_phase": true,
+      "same_terminal_parts": false
+    },
+    "CHV1-TRAIN-F1-PLACE-blue-right": {
+      "cases": [
+        {
+          "body_geom_pairs": [
+            [
+              [
+                "world",
+                "task_table"
+              ],
+              [
+                "x5_link2",
+                ""
+              ]
+            ]
+          ],
+          "condition": "CHV1-TRAIN-F1-PLACE-blue-right-02",
+          "grasp_at_last_query": true,
+          "last_query_phase": "CARRY",
+          "last_query_tick": 39203,
+          "post_STOP_ticks": 0,
+          "queries_sha256": "d8cf5f9b582757af108b84b122fbbca1b1de686234bf45a96b470554681bfde7",
+          "result_sha256": "130f169d5c02b0c805a1ca2d1fc5b8c3e6e5b96085295e69b82c874162186105",
+          "stop_tick": 39302
+        },
+        {
+          "body_geom_pairs": [
+            [
+              [
+                "world",
+                "task_table"
+              ],
+              [
+                "x5_link2",
+                ""
+              ]
+            ]
+          ],
+          "condition": "CHV1-TRAIN-F1-PLACE-blue-right-03",
+          "grasp_at_last_query": true,
+          "last_query_phase": "CARRY",
+          "last_query_tick": 39953,
+          "post_STOP_ticks": 0,
+          "queries_sha256": "0933bc75a2f2ad3ce0c5ed7e32efb26fd1f70ec7fc0b0d26e5ded0636c8b209d",
+          "result_sha256": "7b58344de7eb4e9c79ed66f4a10b72bfaac3f68f7824fb4eb5f045a7d2eed3c7",
+          "stop_tick": 39995
+        }
+      ],
+      "same_last_query_phase": true,
+      "same_terminal_parts": true
+    },
+    "CHV1-TRAIN-F1-PLACE-red-left": {
+      "cases": [
+        {
+          "body_geom_pairs": [
+            [
+              [
+                "task_blue_cube",
+                "task_blue_cube_geom"
+              ],
+              [
+                "x5_link6",
+                ""
+              ]
+            ]
+          ],
+          "condition": "CHV1-TRAIN-F1-PLACE-red-left-01",
+          "grasp_at_last_query": true,
+          "last_query_phase": "CARRY",
+          "last_query_tick": 30203,
+          "post_STOP_ticks": 0,
+          "queries_sha256": "b372e474260edc98dc383e03ff48b89d1757ea544500bc2a14ad8f626714bb3c",
+          "result_sha256": "cc0831ca34547385d1900f4b9dba9dc7ef8f2e8d326cb88885c002e42cffdfd9",
+          "stop_tick": 30225
+        },
+        {
+          "body_geom_pairs": [
+            [
+              [
+                "world",
+                "task_table"
+              ],
+              [
+                "x5_link8",
+                "task_right_pad"
+              ]
+            ]
+          ],
+          "condition": "CHV1-TRAIN-F1-PLACE-red-left-02",
+          "grasp_at_last_query": false,
+          "last_query_phase": "DESCEND",
+          "last_query_tick": 19453,
+          "post_STOP_ticks": 0,
+          "queries_sha256": "bf4748744765104c35f4490de548f0d09f7cda0212512972d3e8028d2db3ff2e",
+          "result_sha256": "d777eb414e80402ad1675bbd4643fbadba5f3b6183a451f41e5e342f604091b6",
+          "stop_tick": 19641
+        }
+      ],
+      "same_last_query_phase": false,
+      "same_terminal_parts": false
+    },
+    "CHV1-TRAIN-F2-HOLD-red": {
+      "cases": [
+        {
+          "body_geom_pairs": [
+            [
+              [
+                "task_blue_cube",
+                "task_blue_cube_geom"
+              ],
+              [
+                "x5_link6",
+                ""
+              ]
+            ]
+          ],
+          "condition": "CHV1-TRAIN-F2-HOLD-red-00",
+          "grasp_at_last_query": false,
+          "last_query_phase": "DESCEND",
+          "last_query_tick": 19953,
+          "post_STOP_ticks": 0,
+          "queries_sha256": "683aaa5cfea7952a94ff48487ecd905f7bee5735913b3c2d3236a8e2532a5d60",
+          "result_sha256": "7cf3c54b92773d696295fc69d8826bb3a4ceb4d54a1d781ad5d370ac9df38a36",
+          "stop_tick": 19955
+        },
+        {
+          "body_geom_pairs": [
+            [
+              [
+                "task_blue_cube",
+                "task_blue_cube_geom"
+              ],
+              [
+                "x5_link6",
+                ""
+              ]
+            ]
+          ],
+          "condition": "CHV1-TRAIN-F2-HOLD-red-01",
+          "grasp_at_last_query": false,
+          "last_query_phase": "DESCEND",
+          "last_query_tick": 20453,
+          "post_STOP_ticks": 0,
+          "queries_sha256": "1ba3f2b40090748c45dcda70d4d6f3875953f31f17135dd0a8e7ec7a24f3c34e",
+          "result_sha256": "54d7f9796176065882fd9d2350a4454daecf2019ed71d83e522a54dc8065f646",
+          "stop_tick": 20641
+        }
+      ],
+      "same_last_query_phase": true,
+      "same_terminal_parts": true
+    },
+    "CHV1-TRAIN-F2-PLACE-blue-left": {
+      "cases": [
+        {
+          "body_geom_pairs": [
+            [
+              [
+                "task_blue_cube",
+                "task_blue_cube_geom"
+              ],
+              [
+                "task_cube",
+                "task_cube_geom"
+              ]
+            ]
+          ],
+          "condition": "CHV1-TRAIN-F2-PLACE-blue-left-00",
+          "grasp_at_last_query": true,
+          "last_query_phase": "CARRY",
+          "last_query_tick": 39453,
+          "post_STOP_ticks": 0,
+          "queries_sha256": "4cf20e010ec24b58590319b8041feb91d2c32100c60db482515a59c00e40dcd1",
+          "result_sha256": "8cbaa7e19445e32afd6e9979bbfb7e1646da18d90125ca8ede3849727a7a3e5c",
+          "stop_tick": 39584
+        },
+        {
+          "body_geom_pairs": [
+            [
+              [
+                "task_cube",
+                "task_cube_geom"
+              ],
+              [
+                "x5_link8",
+                "task_right_pad"
+              ]
+            ]
+          ],
+          "condition": "CHV1-TRAIN-F2-PLACE-blue-left-01",
+          "grasp_at_last_query": false,
+          "last_query_phase": "OPEN",
+          "last_query_tick": 36453,
+          "post_STOP_ticks": 0,
+          "queries_sha256": "c61ee32d3bfe5c0a71cb1e00f790fcf4a7b2faffddf34a1688a59373891e027f",
+          "result_sha256": "91f9c2b54f1d80aa05407aa6c5c4c417473af47f371e73a2ece4e437ec608a9d",
+          "stop_tick": 36553
+        }
+      ],
+      "same_last_query_phase": false,
+      "same_terminal_parts": false
+    },
+    "CHV1-TRAIN-F2-PLACE-blue-right": {
+      "cases": [
+        {
+          "body_geom_pairs": [
+            [
+              [
+                "task_blue_cube",
+                "task_blue_cube_geom"
+              ],
+              [
+                "task_cube",
+                "task_cube_geom"
+              ]
+            ]
+          ],
+          "condition": "CHV1-TRAIN-F2-PLACE-blue-right-00",
+          "grasp_at_last_query": true,
+          "last_query_phase": "CARRY",
+          "last_query_tick": 40453,
+          "post_STOP_ticks": 0,
+          "queries_sha256": "e2cf2160eca494f15c9e969b93f9c740ba13c31e56b99aed5dab5b2dfca14080",
+          "result_sha256": "edeff403418a23c9ac1bbe42d6301c682d73d7f87125a09f4f2ec219584ad05a",
+          "stop_tick": 40492
+        },
+        {
+          "body_geom_pairs": [
+            [
+              [
+                "task_blue_cube",
+                "task_blue_cube_geom"
+              ],
+              [
+                "task_cube",
+                "task_cube_geom"
+              ]
+            ]
+          ],
+          "condition": "CHV1-TRAIN-F2-PLACE-blue-right-01",
+          "grasp_at_last_query": true,
+          "last_query_phase": "CARRY",
+          "last_query_tick": 37203,
+          "post_STOP_ticks": 0,
+          "queries_sha256": "815a48011d8897b1c77c2ff3e809aa6a8bb384817cef88848f2bf620f6777282",
+          "result_sha256": "7b2ac47ba3475186323b481d54cd38374da67b9d8b6de1939c3a8ef6f15546d3",
+          "stop_tick": 37423
+        }
+      ],
+      "same_last_query_phase": true,
+      "same_terminal_parts": true
+    },
+    "CHV1-TRAIN-F2-PLACE-red-left": {
+      "cases": [
+        {
+          "body_geom_pairs": [
+            [
+              [
+                "task_blue_cube",
+                "task_blue_cube_geom"
+              ],
+              [
+                "x5_link6",
+                ""
+              ]
+            ]
+          ],
+          "condition": "CHV1-TRAIN-F2-PLACE-red-left-00",
+          "grasp_at_last_query": false,
+          "last_query_phase": "DESCEND",
+          "last_query_tick": 21453,
+          "post_STOP_ticks": 0,
+          "queries_sha256": "7979c192ba6504905604b8e03278e0429a3f974b6c083889b94f6fba59c160f7",
+          "result_sha256": "8b545ef8a3a94d57cf619dacedcbadbf589ad5bf5f8708f6b34fe15d5b7e894f",
+          "stop_tick": 21625
+        },
+        {
+          "body_geom_pairs": [
+            [
+              [
+                "task_blue_cube",
+                "task_blue_cube_geom"
+              ],
+              [
+                "x5_link6",
+                ""
+              ]
+            ]
+          ],
+          "condition": "CHV1-TRAIN-F2-PLACE-red-left-01",
+          "grasp_at_last_query": false,
+          "last_query_phase": "DESCEND",
+          "last_query_tick": 21203,
+          "post_STOP_ticks": 0,
+          "queries_sha256": "5d0ce7ab9b9f29ab76f3016df8db8cbf7e6fcff6c5dd7fef5d4ef6989530fd5b",
+          "result_sha256": "59f2763f8910826f7d784c4ab908f75bfca894c0ee487f031f63ad366c01f457",
+          "stop_tick": 21450
+        }
+      ],
+      "same_last_query_phase": true,
+      "same_terminal_parts": true
+    },
+    "CHV1-TRAIN-F2-PLACE-red-right": {
+      "cases": [
+        {
+          "body_geom_pairs": [
+            [
+              [
+                "task_blue_cube",
+                "task_blue_cube_geom"
+              ],
+              [
+                "x5_link6",
+                ""
+              ]
+            ]
+          ],
+          "condition": "CHV1-TRAIN-F2-PLACE-red-right-00",
+          "grasp_at_last_query": false,
+          "last_query_phase": "DESCEND",
+          "last_query_tick": 20453,
+          "post_STOP_ticks": 0,
+          "queries_sha256": "90a30ceb6ad4cd53669b609ab64188027ae28e5d2fdd34f66127e8a2c159219b",
+          "result_sha256": "664d8db4a198b6f461517f98ca726ad5dc28c7bb990fbf6f75cd598bfafa4783",
+          "stop_tick": 20614
+        },
+        {
+          "body_geom_pairs": [
+            [
+              [
+                "task_blue_cube",
+                "task_blue_cube_geom"
+              ],
+              [
+                "x5_link6",
+                ""
+              ]
+            ]
+          ],
+          "condition": "CHV1-TRAIN-F2-PLACE-red-right-01",
+          "grasp_at_last_query": false,
+          "last_query_phase": "DESCEND",
+          "last_query_tick": 22203,
+          "post_STOP_ticks": 0,
+          "queries_sha256": "dcb9df810fd69ee4a18b4033327a415ddf35498fa2973cd497db86b9eca09c4e",
+          "result_sha256": "63e2793c49f0728c4a3824f34f67644778f0cb6169ddb4f112ee334f82be84de",
+          "stop_tick": 22278
+        }
+      ],
+      "same_last_query_phase": true,
+      "same_terminal_parts": true
+    }
+  },
+  "matching_both": 5,
+  "model_generations": 0,
+  "native_requests": 0,
+  "native_ticks": 0,
+  "optimizer_updates": 0,
+  "paired_cells": 8,
+  "source": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+  "train_closed": 36,
+  "red_right_03": {
+    "condition": "CHV1-TRAIN-F1-PLACE-red-right-03",
+    "requests": 1,
+    "ticks": 34703,
+    "admitted": true,
+    "hard_STOP": false,
+    "first_failure": "TASK_SUCCESS",
+    "result_sha256": "b89d9aafedcade38564f7b1944a115c4a8f5524d3c1f2d4182d4a7b9d7f11d5d",
+    "post_stop_ticks": null,
+    "grasp": true,
+    "lift20": true,
+    "lift_mm": 28.1237015806145,
+    "hold_s": 6.376000000007792,
+    "base_directional_mm": 194.68684834158265,
+    "events": {
+      "base80mm": {
+        "native_step": 9542,
+        "native_time_s": 19.0840000000003
+      },
+      "target_grasp": {
+        "native_step": 18521,
+        "native_time_s": 37.041999999999305
+      },
+      "target_lift20mm": {
+        "native_step": 20840,
+        "native_time_s": 41.68000000000497
+      },
+      "correct_region": {
+        "native_step": 26772,
+        "native_time_s": 53.54400000001947
+      },
+      "released": {
+        "native_step": 31695,
+        "native_time_s": 63.390000000031506
+      },
+      "retreated50mm": {
+        "native_step": 34028,
+        "native_time_s": 68.05600000002279
+      }
+    },
+    "success": true,
+    "episode": {
+      "sha256": "3fb6cb3e265f7574ea3f7a385b6d5e2a41373a601882310494bd8616dc48f3b4",
+      "windows": 116,
+      "confirmed_P10_atoms": 1160,
+      "split": "TRAIN"
+    },
+    "terminal_score": {
+      "released": true,
+      "in_correct_region": true,
+      "open_fraction": 0.9545455072002618,
+      "tcp_retreat_m": 0.057122314232938586,
+      "stable_released_retreat_s": 1.3499999999968537
+    }
+  }
+}

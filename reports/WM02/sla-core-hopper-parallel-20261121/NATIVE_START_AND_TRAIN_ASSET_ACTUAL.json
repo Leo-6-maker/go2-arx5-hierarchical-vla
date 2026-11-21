@@ -1,0 +1,111 @@
+{
+  "site_readback_sgt": "2026-11-21T13:01:43+08:00",
+  "plan": "171b5bedb290258954aac140157743e92e3b152e",
+  "deadline_sgt": "2026-12-05T12:41:52+08:00",
+  "full_background_chain_verified": false,
+  "prior_science_snapshot": "EXPERIMENT_PROGRESS_1246.json",
+  "core": {
+    "unit": "wm02-sla-core-hopper-v1-expert-chain-20261121-02.service",
+    "invocation": "a9ea6c147a90458885362b8204a56407",
+    "main_pid": 1746282,
+    "case_pid": 1746401,
+    "uid": 2009,
+    "linger": true,
+    "cgroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-hopper-v1-expert-chain-20261121-02.service",
+    "unit_state": "active/running",
+    "source": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+    "spec_sha256": "89f058d5cd3a69cae8f68eb6a63f63a040f20151d07daf0d88e6a0ec5c3f8ffe",
+    "condition": "CHV1-TRAIN-F1-HOLD-blue-00",
+    "registered": {
+      "TRAIN": 240,
+      "VAL": 24
+    },
+    "started": {
+      "TRAIN": 1,
+      "VAL": 0
+    },
+    "completed": 0,
+    "admitted": 0,
+    "last_score_tick": 16703,
+    "base_directional_motion_m": 0.12904958299198716,
+    "ever_correct_grasp": false,
+    "ever_lift_20mm": false,
+    "task_success_at_tick": false,
+    "predecessor_01": {
+      "reason": "Missing SciPy while importing collection code",
+      "native": 0
+    }
+  },
+  "asset_transfer": {
+    "pbs": "1601422.stdct-mgmt-02",
+    "site": "VANDA",
+    "queue": "batch_cpu",
+    "exit": 0,
+    "wall_seconds": 520,
+    "members": 1155,
+    "bytes": 50906886875,
+    "source": "3ebe1b4bdd6370bc8cbf3c9b4162586bfd251b8e",
+    "inventory_sha256": "a951f4f8ff7662198f4a3f1826a5bc7a6ad920b71f65be8dbc395f514555cf22",
+    "source_and_receiver_receipt_sha256": "29320a381615841c09e37f807099ac0547ebbe54f14559670af99659cdcf73f0",
+    "verified_asset_episode_window_counts": {
+      "Go2": [
+        26,
+        2031
+      ],
+      "RoboDojo": [
+        200,
+        210398
+      ],
+      "LIBERO": [
+        1261,
+        209146
+      ]
+    }
+  },
+  "hopper": {
+    "parent_transfer_pbs": "1601402.stdct-mgmt-02",
+    "parent_seal_sha256": "2bff547b6f2c3aca0e7e2fd8a790ce6b30ef1c5f33b004c6897e3083647358d5",
+    "full_state_arrays": 140,
+    "data_status": "TRAIN_ASSET_BYTES_VERIFIED",
+    "training_ready": false,
+    "gpu_job": null,
+    "H200_hours": 0,
+    "new_updates": 0,
+    "optimization_visits": 0,
+    "generations": 0,
+    "native": 0,
+    "account_readback": "amgr project balance returned 15006 / expired; PBS server status timed out",
+    "pending": [
+      "production reader and full training restore",
+      "20K worker and H200 throughput qualification",
+      "H200 training allocation",
+      "independent evaluation and deployment"
+    ]
+  },
+  "vanda_adapt": {
+    "job": "1599369.stdct-mgmt-02",
+    "state": "R",
+    "phase_updates": 2513,
+    "ancestor_updates": 500,
+    "last_sealed_phase": 2500,
+    "sealed_by": "1599368.stdct-mgmt-02",
+    "seal_sha256": "52e5ceb1663d586dd07ba89737803a893f8974456a34b57cefc39e80c7cf31e9",
+    "target_phase": 2750,
+    "phase_visits": {
+      "Go2": 160832,
+      "RoboDojo": 80416,
+      "LIBERO": 80416
+    },
+    "median_update_seconds_first_13": 57.86070611607283,
+    "next_job": "1599370.stdct-mgmt-02",
+    "next_state": "H",
+    "eval_5k": "1599379.stdct-mgmt-02",
+    "eval_5k_state": "H"
+  },
+  "previous_endpoints": {
+    "TGT5k_rgb16_status": "TGT_RGB16_RESOURCE_REJECT:gpu,psi,gpu_unoccupied",
+    "ADAPT2k_rgb16_status": "STOP_OR_EXISTING_SITE_WINDOW",
+    "MIX2k_eval_status": "EXACT_MIX2000_EVAL_RESOURCE_REJECTED",
+    "new_generations_in_these_three_attempts": 0
+  }
+}

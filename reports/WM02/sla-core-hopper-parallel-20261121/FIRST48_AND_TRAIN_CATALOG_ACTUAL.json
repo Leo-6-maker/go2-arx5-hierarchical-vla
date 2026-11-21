@@ -1,0 +1,989 @@
+{
+  "plan": "171b5bedb290258954aac140157743e92e3b152e",
+  "cutoff_sgt": "2026-11-21T18:24:22.151431+08:00",
+  "project_grant": {
+    "observed": "2026-11-21T18:21:45.750462+08:00",
+    "name": "CFP04-CF-007",
+    "member": true,
+    "active": true,
+    "cluster_hopper": true,
+    "valid_through": "2027-03-12",
+    "positive_balance_verified": true,
+    "campaign_H200_hours_limit": 320
+  },
+  "main": {
+    "at": "2026-11-21T18:24:22.151431+08:00",
+    "pbs": {
+      "job": "727394.hopper-m-02",
+      "project": "CFP04-CF-007",
+      "state": "R",
+      "host": "hopper-17",
+      "gpus": 1,
+      "observed_walltime": "00:44:55",
+      "start_sgt": "2026-11-21 17:38:30"
+    },
+    "source": "b9581196d0acd02fb748222988e5a5543ce1f232",
+    "resumed_checkpoint": "4b922442d4cc1ac9d33529cba7667b73acad6882300d2a37c8d915dc5906bef0",
+    "phase_updates": 268,
+    "by_job": {
+      "727341.hopper-m-02": 100,
+      "727394.hopper-m-02": 168
+    },
+    "visits": {
+      "target": 17152,
+      "robodojo": 8576,
+      "libero": 8576
+    },
+    "generations_training_h40": 1072
+  },
+  "prefix": {
+    "exact_id_order": true,
+    "order_code": "0a38f0a09d360ef3a817526ba95d837c86cdda649a72f9dcd09ab58a18acd98c",
+    "population": "d92fe34f122637bb6dc29bb93d9f7a3d60464f65c5474b00962432bbc07b4914",
+    "plan": "171b5bedb290258954aac140157743e92e3b152e",
+    "STOP_checked": 30,
+    "after_STOP_ticks": 0,
+    "native_source": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+    "terminal": 48,
+    "by_split": {
+      "TRAIN": {
+        "requests": 24,
+        "ticks": 697016,
+        "grasp": 15,
+        "lift20": 15,
+        "success": 7,
+        "admitted": 7,
+        "hard_STOP": 15,
+        "reasons": {
+          "TASK_SUCCESS": 7,
+          "ILLEGAL_CONTACT": 15,
+          "TASK_BUDGET_EXHAUSTED_IN_CARRY": 2
+        },
+        "first_failed": {
+          "id": "CHV1-TRAIN-F2-HOLD-red-00",
+          "reason": "ILLEGAL_CONTACT",
+          "sha256": "7cf3c54b92773d696295fc69d8826bb3a4ceb4d54a1d781ad5d370ac9df38a36"
+        }
+      },
+      "VAL": {
+        "requests": 24,
+        "ticks": 678919,
+        "grasp": 15,
+        "lift20": 15,
+        "success": 8,
+        "admitted": 8,
+        "hard_STOP": 15,
+        "reasons": {
+          "TASK_SUCCESS": 8,
+          "ILLEGAL_CONTACT": 15,
+          "TASK_BUDGET_EXHAUSTED_IN_CARRY": 1
+        },
+        "first_failed": {
+          "id": "CHV1-VAL-F2-HOLD-red-00",
+          "reason": "ILLEGAL_CONTACT",
+          "sha256": "341c6496b4e5c074f5391151fb1ca33f52b03feacc749a871d42873875e12acf"
+        }
+      }
+    },
+    "ordered_native_results": [
+      {
+        "id": "CHV1-TRAIN-F1-HOLD-blue-00",
+        "ticks": 23953,
+        "result_sha256": "bbfcd4b49fbac2bf1f819b3d65a728748ad08cf0f8ec5425225bec74f8d3816f",
+        "reason": "TASK_SUCCESS"
+      },
+      {
+        "id": "CHV1-TRAIN-F2-HOLD-red-00",
+        "ticks": 19955,
+        "result_sha256": "7cf3c54b92773d696295fc69d8826bb3a4ceb4d54a1d781ad5d370ac9df38a36",
+        "reason": "ILLEGAL_CONTACT"
+      },
+      {
+        "id": "CHV1-TRAIN-F1-PLACE-red-left-00",
+        "ticks": 50703,
+        "result_sha256": "55fbd83b68b690ff7970bdf7857b5023adbdbd83de06a0000e6e28c9ba966017",
+        "reason": "TASK_BUDGET_EXHAUSTED_IN_CARRY"
+      },
+      {
+        "id": "CHV1-TRAIN-F2-PLACE-blue-right-00",
+        "ticks": 40492,
+        "result_sha256": "edeff403418a23c9ac1bbe42d6301c682d73d7f87125a09f4f2ec219584ad05a",
+        "reason": "ILLEGAL_CONTACT"
+      },
+      {
+        "id": "CHV1-TRAIN-F1-PLACE-blue-right-00",
+        "ticks": 39290,
+        "result_sha256": "12bfb9c46f8dbd288a0a1b04d3afdafabd8cc5d858ef5ea3fc08c397a91d7fee",
+        "reason": "ILLEGAL_CONTACT"
+      },
+      {
+        "id": "CHV1-TRAIN-F2-PLACE-red-left-00",
+        "ticks": 21625,
+        "result_sha256": "8b545ef8a3a94d57cf619dacedcbadbf589ad5bf5f8708f6b34fe15d5b7e894f",
+        "reason": "ILLEGAL_CONTACT"
+      },
+      {
+        "id": "CHV1-TRAIN-F1-HOLD-red-00",
+        "ticks": 23453,
+        "result_sha256": "3435c1edccdb6429d0d575539df7f7bf33078c2f44615adf1d930bf70cd30623",
+        "reason": "TASK_SUCCESS"
+      },
+      {
+        "id": "CHV1-TRAIN-F2-HOLD-blue-00",
+        "ticks": 23703,
+        "result_sha256": "79491ddc5937da265852c3807b242f3b4850742e4874328e10ae1c7630db4f4b",
+        "reason": "TASK_SUCCESS"
+      },
+      {
+        "id": "CHV1-TRAIN-F1-PLACE-blue-left-00",
+        "ticks": 18307,
+        "result_sha256": "6c5c9d1b98636d1513c20ebf6155b4c04b39d7b81b802a44bc6a8d5b5220983a",
+        "reason": "ILLEGAL_CONTACT"
+      },
+      {
+        "id": "CHV1-TRAIN-F2-PLACE-red-right-00",
+        "ticks": 20614,
+        "result_sha256": "664d8db4a198b6f461517f98ca726ad5dc28c7bb990fbf6f75cd598bfafa4783",
+        "reason": "ILLEGAL_CONTACT"
+      },
+      {
+        "id": "CHV1-TRAIN-F1-PLACE-red-right-00",
+        "ticks": 34953,
+        "result_sha256": "5e9f7877790cf330dd963858fe8e0a008ab56f5e318df65446a557f4612f8654",
+        "reason": "TASK_SUCCESS"
+      },
+      {
+        "id": "CHV1-TRAIN-F2-PLACE-blue-left-00",
+        "ticks": 39584,
+        "result_sha256": "8cbaa7e19445e32afd6e9979bbfb7e1646da18d90125ca8ede3849727a7a3e5c",
+        "reason": "ILLEGAL_CONTACT"
+      },
+      {
+        "id": "CHV1-VAL-F1-HOLD-blue-00",
+        "ticks": 24953,
+        "result_sha256": "9f98ec5c7f2cef44c8a7c18b9559624a2255a591ed4fb905349ae35208f29ab9",
+        "reason": "TASK_SUCCESS"
+      },
+      {
+        "id": "CHV1-VAL-F2-HOLD-red-00",
+        "ticks": 22468,
+        "result_sha256": "341c6496b4e5c074f5391151fb1ca33f52b03feacc749a871d42873875e12acf",
+        "reason": "ILLEGAL_CONTACT"
+      },
+      {
+        "id": "CHV1-VAL-F1-PLACE-red-left-00",
+        "ticks": 38703,
+        "result_sha256": "b71239a7b612783d6942fdd5f629f3da7aeebbbf89d4fa13a13120944570f884",
+        "reason": "ILLEGAL_CONTACT"
+      },
+      {
+        "id": "CHV1-VAL-F2-PLACE-blue-right-00",
+        "ticks": 40637,
+        "result_sha256": "2e0758be054892f28f8e42167eb47b92893125b6a4f97ab022479afc0f2a8021",
+        "reason": "ILLEGAL_CONTACT"
+      },
+      {
+        "id": "CHV1-VAL-F1-PLACE-blue-right-00",
+        "ticks": 40463,
+        "result_sha256": "dcce8cdde148c7e0a984303a262f761a2040c38db1feb72fc9e71cc717b41461",
+        "reason": "ILLEGAL_CONTACT"
+      },
+      {
+        "id": "CHV1-VAL-F2-PLACE-red-left-00",
+        "ticks": 21846,
+        "result_sha256": "2c5c022cde01240fc5cafd81655a16b7502bc82f6703a6ab51ac99f4d2b77a55",
+        "reason": "ILLEGAL_CONTACT"
+      },
+      {
+        "id": "CHV1-VAL-F1-HOLD-red-00",
+        "ticks": 21703,
+        "result_sha256": "efbbe052def726777c0a4f19c02f3f4d1e970d4e20bfbbc4db78890690af254f",
+        "reason": "TASK_SUCCESS"
+      },
+      {
+        "id": "CHV1-VAL-F2-HOLD-blue-00",
+        "ticks": 23203,
+        "result_sha256": "94643eb379a082f4bf66a7a4faca0a3a84ed333edfb2a976f2ff2d8e3ba5c507",
+        "reason": "TASK_SUCCESS"
+      },
+      {
+        "id": "CHV1-VAL-F1-PLACE-blue-left-00",
+        "ticks": 19259,
+        "result_sha256": "9f1c6f16ef98bf3bd674f9f3ce16c3d60e3238bc7770375c508cf1d7b9ec5351",
+        "reason": "ILLEGAL_CONTACT"
+      },
+      {
+        "id": "CHV1-VAL-F2-PLACE-red-right-00",
+        "ticks": 21518,
+        "result_sha256": "c0dc4f0e8a3722a160a9cc6579ccf621bbbe728fb78c8d5df8fa296651454212",
+        "reason": "ILLEGAL_CONTACT"
+      },
+      {
+        "id": "CHV1-VAL-F1-PLACE-red-right-00",
+        "ticks": 36703,
+        "result_sha256": "147b7d2aa3f5e7f5bb784e0a55eb36bd844b1af3814fb08986f6460ab1542752",
+        "reason": "TASK_SUCCESS"
+      },
+      {
+        "id": "CHV1-VAL-F2-PLACE-blue-left-00",
+        "ticks": 34659,
+        "result_sha256": "e89947aa81e3ce906cad1fe0b65075a313d5b45cb92d8cc0e93982513cf8b9c2",
+        "reason": "ILLEGAL_CONTACT"
+      },
+      {
+        "id": "CHV1-TRAIN-F1-HOLD-blue-01",
+        "ticks": 19881,
+        "result_sha256": "59ab3285e8ebeb629ade2f0525923baebb3beed7d0dc910f72419b7d383ce172",
+        "reason": "ILLEGAL_CONTACT"
+      },
+      {
+        "id": "CHV1-TRAIN-F2-HOLD-red-01",
+        "ticks": 20641,
+        "result_sha256": "54d7f9796176065882fd9d2350a4454daecf2019ed71d83e522a54dc8065f646",
+        "reason": "ILLEGAL_CONTACT"
+      },
+      {
+        "id": "CHV1-TRAIN-F1-PLACE-red-left-01",
+        "ticks": 30225,
+        "result_sha256": "cc0831ca34547385d1900f4b9dba9dc7ef8f2e8d326cb88885c002e42cffdfd9",
+        "reason": "ILLEGAL_CONTACT"
+      },
+      {
+        "id": "CHV1-TRAIN-F2-PLACE-blue-right-01",
+        "ticks": 37423,
+        "result_sha256": "7b2ac47ba3475186323b481d54cd38374da67b9d8b6de1939c3a8ef6f15546d3",
+        "reason": "ILLEGAL_CONTACT"
+      },
+      {
+        "id": "CHV1-TRAIN-F1-PLACE-blue-right-01",
+        "ticks": 50703,
+        "result_sha256": "2532af8786cb3a8440bd36acbd176661f9f7f94377121e9e590b11805f87e8cc",
+        "reason": "TASK_BUDGET_EXHAUSTED_IN_CARRY"
+      },
+      {
+        "id": "CHV1-TRAIN-F2-PLACE-red-left-01",
+        "ticks": 21450,
+        "result_sha256": "59f2763f8910826f7d784c4ab908f75bfca894c0ee487f031f63ad366c01f457",
+        "reason": "ILLEGAL_CONTACT"
+      },
+      {
+        "id": "CHV1-TRAIN-F1-HOLD-red-01",
+        "ticks": 21203,
+        "result_sha256": "9f83dd720de08ea7b779542c960cfad4d1aca847d5981aa7ce1eed052056e4c2",
+        "reason": "TASK_SUCCESS"
+      },
+      {
+        "id": "CHV1-TRAIN-F2-HOLD-blue-01",
+        "ticks": 23203,
+        "result_sha256": "558d61beeabc68aea2c98e66ec412ed6eb2239ec1fa4620d8a5a4bef4bfc1232",
+        "reason": "TASK_SUCCESS"
+      },
+      {
+        "id": "CHV1-TRAIN-F1-PLACE-blue-left-01",
+        "ticks": 19871,
+        "result_sha256": "6ee84b7ef897ba0b7640e0c71406bef7eae127e3e5d1d14a990a7348a13ca61d",
+        "reason": "ILLEGAL_CONTACT"
+      },
+      {
+        "id": "CHV1-TRAIN-F2-PLACE-red-right-01",
+        "ticks": 22278,
+        "result_sha256": "63e2793c49f0728c4a3824f34f67644778f0cb6169ddb4f112ee334f82be84de",
+        "reason": "ILLEGAL_CONTACT"
+      },
+      {
+        "id": "CHV1-TRAIN-F1-PLACE-red-right-01",
+        "ticks": 36953,
+        "result_sha256": "9ece5390c263382067023c65b7d585711d5611fe20f09fa5cb971ca97dd9a6ea",
+        "reason": "TASK_SUCCESS"
+      },
+      {
+        "id": "CHV1-TRAIN-F2-PLACE-blue-left-01",
+        "ticks": 36553,
+        "result_sha256": "91f9c2b54f1d80aa05407aa6c5c4c417473af47f371e73a2ece4e437ec608a9d",
+        "reason": "ILLEGAL_CONTACT"
+      },
+      {
+        "id": "CHV1-VAL-F1-HOLD-blue-01",
+        "ticks": 19266,
+        "result_sha256": "6b367a64b143734b27de24168b7f8e2fbb052130c7b2a2921e8c1b6d2e6f31b9",
+        "reason": "ILLEGAL_CONTACT"
+      },
+      {
+        "id": "CHV1-VAL-F2-HOLD-red-01",
+        "ticks": 19599,
+        "result_sha256": "e22f832f7451338c4c63798bf6b69f3aaa72bbf303681a848b906e017c8c6aa3",
+        "reason": "ILLEGAL_CONTACT"
+      },
+      {
+        "id": "CHV1-VAL-F1-PLACE-red-left-01",
+        "ticks": 19739,
+        "result_sha256": "4333f07df15124252c26d6ca68568b13aa4a70b6b79b535fb507f3f1d3694d8d",
+        "reason": "ILLEGAL_CONTACT"
+      },
+      {
+        "id": "CHV1-VAL-F2-PLACE-blue-right-01",
+        "ticks": 40290,
+        "result_sha256": "3dd535aa0089f05b41f0af691f0697deff6da4b0334367affcd0cd2a6e5fe2ef",
+        "reason": "ILLEGAL_CONTACT"
+      },
+      {
+        "id": "CHV1-VAL-F1-PLACE-blue-right-01",
+        "ticks": 50703,
+        "result_sha256": "035a6077affe03712971f61fc16aee41fe769cadc2a727b92119926b49a82247",
+        "reason": "TASK_BUDGET_EXHAUSTED_IN_CARRY"
+      },
+      {
+        "id": "CHV1-VAL-F2-PLACE-red-left-01",
+        "ticks": 19357,
+        "result_sha256": "2acfc988d55e681deb304d094c050655200e6601e10fd36f1f8b46bd7e99202b",
+        "reason": "ILLEGAL_CONTACT"
+      },
+      {
+        "id": "CHV1-VAL-F1-HOLD-red-01",
+        "ticks": 22203,
+        "result_sha256": "88c0472741ab2c6c447d361f868642ce2090986a0a63d137d4db73c1bd558dff",
+        "reason": "TASK_SUCCESS"
+      },
+      {
+        "id": "CHV1-VAL-F2-HOLD-blue-01",
+        "ticks": 21453,
+        "result_sha256": "5d24aee0fc452b20674f30ad961ee809d483e957fa23e269f082a64676b3e5c1",
+        "reason": "TASK_SUCCESS"
+      },
+      {
+        "id": "CHV1-VAL-F1-PLACE-blue-left-01",
+        "ticks": 39203,
+        "result_sha256": "b1de7888a8a29c083c997a3fe7805aba95a8a1e8c51441afdbb8ccf3a6f8d9ba",
+        "reason": "TASK_SUCCESS"
+      },
+      {
+        "id": "CHV1-VAL-F2-PLACE-red-right-01",
+        "ticks": 17787,
+        "result_sha256": "6c9d0f1c0244487698f29ce613d04b6ac774e68afc98a61a17615e6656cf322a",
+        "reason": "ILLEGAL_CONTACT"
+      },
+      {
+        "id": "CHV1-VAL-F1-PLACE-red-right-01",
+        "ticks": 36203,
+        "result_sha256": "0392aad9322f9b921e5be641c229958dcbeceac90940110409c2bca53aa5ba9f",
+        "reason": "TASK_SUCCESS"
+      },
+      {
+        "id": "CHV1-VAL-F2-PLACE-blue-left-01",
+        "ticks": 27001,
+        "result_sha256": "85811d8cf91f618ed77ea52dd339ad2f12d1bea726358e2d1a726601dfc53c89",
+        "reason": "ILLEGAL_CONTACT"
+      }
+    ]
+  },
+  "val_offline": {
+    "panel": {
+      "actual_terminal_by_freeze": 24,
+      "launched_observed": 24,
+      "admitted": 8,
+      "selected_windows": 32,
+      "freeze_trigger": "VAL24_TERMINAL",
+      "optimization_visits": 0,
+      "old_TEST_read": false
+    },
+    "criteria": {
+      "approach": {
+        "attempted": 8,
+        "h40_and_seam": 8,
+        "expert_due": 0,
+        "timely_and_gates": 0
+      },
+      "p10_due_close": {
+        "attempted": 8,
+        "h40_and_seam": 4,
+        "expert_due": 8,
+        "timely_and_gates": 4
+      },
+      "lift_or_carry": {
+        "attempted": 8,
+        "h40_and_seam": 4,
+        "expert_due": 0,
+        "timely_and_gates": 0
+      },
+      "hold_complete_or_release": {
+        "attempted": 8,
+        "h40_and_seam": 6,
+        "expert_due": 0,
+        "timely_and_gates": 0
+      }
+    },
+    "result": {
+      "attempted": 32,
+      "checkpoint": "d7949c75ecc33253bea605a3aed738df4ecdc473d8737848a1bca787ab253c18",
+      "expert_due": 8,
+      "generated": 32,
+      "h40_seam": 22,
+      "native_requests": 0,
+      "native_ticks": 0,
+      "panel": {
+        "sha256": "40a1b5502b5774cf986c0e54006544bbbf8c7a6c56487f558b8f5c3aad2363d8"
+      },
+      "status": "VAL_OFFLINE_SEALED",
+      "timely_and_gates": 4,
+      "updates": 0
+    },
+    "seal_sha": "db3898daeaa993b440c39ea3064c6505e9b51fedc1d21f321c44e2b3a19e2d0e",
+    "rows": [
+      {
+        "id": "CHV1-VAL-F1-HOLD-red-00",
+        "index": 0,
+        "criterion": "approach",
+        "passed": true,
+        "expert_due": false,
+        "on_time": false,
+        "first_envelope": null,
+        "first_temporal": null,
+        "seam_failed": false,
+        "receipt_sha256": "05b495a1e3364ecd1e16c8721b6875f841469a005bb01376f22f71ece2d1b801"
+      },
+      {
+        "id": "CHV1-VAL-F1-HOLD-red-00",
+        "index": 52,
+        "criterion": "p10_due_close",
+        "passed": false,
+        "expert_due": true,
+        "on_time": false,
+        "first_envelope": {
+          "channel": "finger_velocity",
+          "first_ratio": 1.0370253042934363,
+          "k": 0,
+          "order": 2,
+          "path": "nominal",
+          "peak_ratio": 1.0370253042934363,
+          "region": "P10",
+          "time_s": 0
+        },
+        "first_temporal": {
+          "channel": "finger_velocity",
+          "first_ratio": 1.0370253042934363,
+          "k": 0,
+          "order": 2,
+          "path": "nominal",
+          "peak_ratio": 1.0370253042934363,
+          "region": "P10",
+          "time_s": 0
+        },
+        "seam_failed": true,
+        "receipt_sha256": "604175a8eb0a6187a16486908e0b8399994c5d3d258ae0ff3db8f9d566b010cf"
+      },
+      {
+        "id": "CHV1-VAL-F1-HOLD-red-00",
+        "index": 53,
+        "criterion": "lift_or_carry",
+        "passed": false,
+        "expert_due": false,
+        "on_time": false,
+        "first_envelope": null,
+        "first_temporal": null,
+        "seam_failed": true,
+        "receipt_sha256": "d72affc44ffc6060e55434448306d4b43b1442d97e0e14c4110903f8c11393f4"
+      },
+      {
+        "id": "CHV1-VAL-F1-HOLD-red-00",
+        "index": 63,
+        "criterion": "hold_complete_or_release",
+        "passed": true,
+        "expert_due": false,
+        "on_time": false,
+        "first_envelope": null,
+        "first_temporal": null,
+        "seam_failed": false,
+        "receipt_sha256": "a6d76b1ef203fbcb727aa2f673f2677469681e4be001e5d7bbd804d26a8b279f"
+      },
+      {
+        "id": "CHV1-VAL-F1-HOLD-blue-00",
+        "index": 0,
+        "criterion": "approach",
+        "passed": true,
+        "expert_due": false,
+        "on_time": false,
+        "first_envelope": null,
+        "first_temporal": null,
+        "seam_failed": false,
+        "receipt_sha256": "bcb7f36bc3978e1ea30520fdef2f503aaa0a8f2ef97186404cf7936f8864a3fd"
+      },
+      {
+        "id": "CHV1-VAL-F1-HOLD-blue-00",
+        "index": 65,
+        "criterion": "p10_due_close",
+        "passed": false,
+        "expert_due": true,
+        "on_time": false,
+        "first_envelope": {
+          "channel": "finger_velocity",
+          "first_ratio": 1.0508108114799346,
+          "k": 1,
+          "order": 2,
+          "path": "nominal",
+          "peak_ratio": 1.0508108114799346,
+          "region": "P10",
+          "time_s": 0.05
+        },
+        "first_temporal": {
+          "channel": "finger_velocity",
+          "first_ratio": 1.0508108114799346,
+          "k": 1,
+          "order": 2,
+          "path": "nominal",
+          "peak_ratio": 1.0508108114799346,
+          "region": "P10",
+          "time_s": 0.05
+        },
+        "seam_failed": true,
+        "receipt_sha256": "ef03bab21c36878ead999cd675733a568403a0342a398a315ac7f12fa510f916"
+      },
+      {
+        "id": "CHV1-VAL-F1-HOLD-blue-00",
+        "index": 66,
+        "criterion": "lift_or_carry",
+        "passed": true,
+        "expert_due": false,
+        "on_time": false,
+        "first_envelope": null,
+        "first_temporal": null,
+        "seam_failed": false,
+        "receipt_sha256": "40ea67554b1ac23291ac1650c0a2f7d7d89d1d6aa55382db3e48109c008a46a0"
+      },
+      {
+        "id": "CHV1-VAL-F1-HOLD-blue-00",
+        "index": 76,
+        "criterion": "hold_complete_or_release",
+        "passed": true,
+        "expert_due": false,
+        "on_time": false,
+        "first_envelope": null,
+        "first_temporal": null,
+        "seam_failed": false,
+        "receipt_sha256": "4da567d2c6acc98be41b2a65af66a60bb5a70eabcfc80c3a151f53eb0bb69ea5"
+      },
+      {
+        "id": "CHV1-VAL-F1-PLACE-red-right-00",
+        "index": 0,
+        "criterion": "approach",
+        "passed": true,
+        "expert_due": false,
+        "on_time": false,
+        "first_envelope": null,
+        "first_temporal": null,
+        "seam_failed": false,
+        "receipt_sha256": "4762a9d79b70752e1b52680e58804b9403e0a565c631eb8a59b4dd0ec27af91c"
+      },
+      {
+        "id": "CHV1-VAL-F1-PLACE-red-right-00",
+        "index": 57,
+        "criterion": "p10_due_close",
+        "passed": false,
+        "expert_due": true,
+        "on_time": false,
+        "first_envelope": {
+          "channel": "finger_velocity",
+          "first_ratio": 1.0783658821255562,
+          "k": 0,
+          "order": 2,
+          "path": "nominal",
+          "peak_ratio": 1.0783658821255562,
+          "region": "P10",
+          "time_s": 0
+        },
+        "first_temporal": {
+          "channel": "finger_velocity",
+          "first_ratio": 1.0783658821255562,
+          "k": 0,
+          "order": 2,
+          "path": "nominal",
+          "peak_ratio": 1.0783658821255562,
+          "region": "P10",
+          "time_s": 0
+        },
+        "seam_failed": true,
+        "receipt_sha256": "9201edd06137748e4ec0f59d5633f86d33d9220662ccb5ae6dd870db4d60476f"
+      },
+      {
+        "id": "CHV1-VAL-F1-PLACE-red-right-00",
+        "index": 58,
+        "criterion": "lift_or_carry",
+        "passed": false,
+        "expert_due": false,
+        "on_time": false,
+        "first_envelope": null,
+        "first_temporal": null,
+        "seam_failed": true,
+        "receipt_sha256": "bbcc65dd69dc9d223a31e42ead4fccd42e182e5e079d0d1c7f5b26c9a7223f6f"
+      },
+      {
+        "id": "CHV1-VAL-F1-PLACE-red-right-00",
+        "index": 111,
+        "criterion": "hold_complete_or_release",
+        "passed": true,
+        "expert_due": false,
+        "on_time": false,
+        "first_envelope": null,
+        "first_temporal": null,
+        "seam_failed": false,
+        "receipt_sha256": "3c6f23decaa4cc9d3e35e173ed3d0af242d85b87934ecf6ae6d70a1016bc32c1"
+      },
+      {
+        "id": "CHV1-VAL-F2-HOLD-blue-00",
+        "index": 0,
+        "criterion": "approach",
+        "passed": true,
+        "expert_due": false,
+        "on_time": false,
+        "first_envelope": null,
+        "first_temporal": null,
+        "seam_failed": false,
+        "receipt_sha256": "300a1fba4d2c4a471162332ee3e77ca4bc51e1f35eaa812e980af82cd80b1874"
+      },
+      {
+        "id": "CHV1-VAL-F2-HOLD-blue-00",
+        "index": 58,
+        "criterion": "p10_due_close",
+        "passed": true,
+        "expert_due": true,
+        "on_time": true,
+        "first_envelope": null,
+        "first_temporal": null,
+        "seam_failed": false,
+        "receipt_sha256": "f691656c86ad873b8bebe737a94742cbdbd99e85c7755d8e73138e0a977010f8"
+      },
+      {
+        "id": "CHV1-VAL-F2-HOLD-blue-00",
+        "index": 59,
+        "criterion": "lift_or_carry",
+        "passed": true,
+        "expert_due": false,
+        "on_time": false,
+        "first_envelope": null,
+        "first_temporal": null,
+        "seam_failed": false,
+        "receipt_sha256": "40731322a875a1eada1b3690ff0520c4acb323f3419cfe0fbd8d1ba923de3c18"
+      },
+      {
+        "id": "CHV1-VAL-F2-HOLD-blue-00",
+        "index": 69,
+        "criterion": "hold_complete_or_release",
+        "passed": true,
+        "expert_due": false,
+        "on_time": false,
+        "first_envelope": null,
+        "first_temporal": null,
+        "seam_failed": false,
+        "receipt_sha256": "ec28d27cbc43fd6b8176c52989ecbfd8fe5bd5d86ac3b3d2e163e199eb03955f"
+      },
+      {
+        "id": "CHV1-VAL-F1-HOLD-red-01",
+        "index": 0,
+        "criterion": "approach",
+        "passed": true,
+        "expert_due": false,
+        "on_time": false,
+        "first_envelope": null,
+        "first_temporal": null,
+        "seam_failed": false,
+        "receipt_sha256": "0856e2f119ed5da4c87ced9856fcceb3bd3744bfd0e603da99e81975ff78e090"
+      },
+      {
+        "id": "CHV1-VAL-F1-HOLD-red-01",
+        "index": 54,
+        "criterion": "p10_due_close",
+        "passed": true,
+        "expert_due": true,
+        "on_time": true,
+        "first_envelope": null,
+        "first_temporal": null,
+        "seam_failed": false,
+        "receipt_sha256": "1830dda60c6568b57461ae0e2cf492198b3ccee1797c57e2400803fd53e83fed"
+      },
+      {
+        "id": "CHV1-VAL-F1-HOLD-red-01",
+        "index": 55,
+        "criterion": "lift_or_carry",
+        "passed": false,
+        "expert_due": false,
+        "on_time": false,
+        "first_envelope": null,
+        "first_temporal": null,
+        "seam_failed": true,
+        "receipt_sha256": "48d673da1b6a685938ee4984928208c0b02738988843379bfb72aeb5ba53298b"
+      },
+      {
+        "id": "CHV1-VAL-F1-HOLD-red-01",
+        "index": 65,
+        "criterion": "hold_complete_or_release",
+        "passed": true,
+        "expert_due": false,
+        "on_time": false,
+        "first_envelope": null,
+        "first_temporal": null,
+        "seam_failed": false,
+        "receipt_sha256": "71a5196517da37695d1e3b99447b2f3628348534122b1fd133e8a60d96d96ff3"
+      },
+      {
+        "id": "CHV1-VAL-F1-PLACE-red-right-01",
+        "index": 0,
+        "criterion": "approach",
+        "passed": true,
+        "expert_due": false,
+        "on_time": false,
+        "first_envelope": null,
+        "first_temporal": null,
+        "seam_failed": false,
+        "receipt_sha256": "213a2b127849a3d8bb5e5981816ec56e0a4645fd83e1a7242200bc363cef55f6"
+      },
+      {
+        "id": "CHV1-VAL-F1-PLACE-red-right-01",
+        "index": 53,
+        "criterion": "p10_due_close",
+        "passed": true,
+        "expert_due": true,
+        "on_time": true,
+        "first_envelope": null,
+        "first_temporal": null,
+        "seam_failed": false,
+        "receipt_sha256": "9ea358240bc85c7eb5c83df1f3254f6a8040a5370e646672d2e0e36ead53805c"
+      },
+      {
+        "id": "CHV1-VAL-F1-PLACE-red-right-01",
+        "index": 54,
+        "criterion": "lift_or_carry",
+        "passed": false,
+        "expert_due": false,
+        "on_time": false,
+        "first_envelope": null,
+        "first_temporal": null,
+        "seam_failed": true,
+        "receipt_sha256": "9f59c13775a04bcd6616b2ca7ff00f4ad28d75809ffa9d3b7ba3c2da160ba407"
+      },
+      {
+        "id": "CHV1-VAL-F1-PLACE-red-right-01",
+        "index": 109,
+        "criterion": "hold_complete_or_release",
+        "passed": false,
+        "expert_due": false,
+        "on_time": false,
+        "first_envelope": null,
+        "first_temporal": null,
+        "seam_failed": true,
+        "receipt_sha256": "9a5c60955f53ed8a293c53713e0eb05c22a432399857f676634b98c4f46b6556"
+      },
+      {
+        "id": "CHV1-VAL-F1-PLACE-blue-left-01",
+        "index": 0,
+        "criterion": "approach",
+        "passed": true,
+        "expert_due": false,
+        "on_time": false,
+        "first_envelope": null,
+        "first_temporal": null,
+        "seam_failed": false,
+        "receipt_sha256": "e955ad0f971e78152fae2ebd9b3adff4f51641ab80d9e226e71f56899b2e7673"
+      },
+      {
+        "id": "CHV1-VAL-F1-PLACE-blue-left-01",
+        "index": 65,
+        "criterion": "p10_due_close",
+        "passed": true,
+        "expert_due": true,
+        "on_time": true,
+        "first_envelope": null,
+        "first_temporal": null,
+        "seam_failed": false,
+        "receipt_sha256": "eb3da18bbccfe10d8259c1a93d2b0684e6f2ee56acf1c43109ace90b835b66a5"
+      },
+      {
+        "id": "CHV1-VAL-F1-PLACE-blue-left-01",
+        "index": 66,
+        "criterion": "lift_or_carry",
+        "passed": true,
+        "expert_due": false,
+        "on_time": false,
+        "first_envelope": null,
+        "first_temporal": null,
+        "seam_failed": false,
+        "receipt_sha256": "799c61da5b283eec34dd5ced1129fcc1cb15085e7d82e211b222b81bb6c2a2a8"
+      },
+      {
+        "id": "CHV1-VAL-F1-PLACE-blue-left-01",
+        "index": 115,
+        "criterion": "hold_complete_or_release",
+        "passed": false,
+        "expert_due": false,
+        "on_time": false,
+        "first_envelope": null,
+        "first_temporal": null,
+        "seam_failed": true,
+        "receipt_sha256": "ac3a1d110d9924867c0aa0d66346199f9bab2770d35113d7740b8e5c7749f60b"
+      },
+      {
+        "id": "CHV1-VAL-F2-HOLD-blue-01",
+        "index": 0,
+        "criterion": "approach",
+        "passed": true,
+        "expert_due": false,
+        "on_time": false,
+        "first_envelope": null,
+        "first_temporal": null,
+        "seam_failed": false,
+        "receipt_sha256": "59e28ba528abaa8df392bf5f302b8a11d1d3be592b16994208252c20d3790d72"
+      },
+      {
+        "id": "CHV1-VAL-F2-HOLD-blue-01",
+        "index": 51,
+        "criterion": "p10_due_close",
+        "passed": false,
+        "expert_due": true,
+        "on_time": false,
+        "first_envelope": {
+          "channel": "finger_velocity",
+          "first_ratio": 1.0404716339049054,
+          "k": 0,
+          "order": 2,
+          "path": "nominal",
+          "peak_ratio": 1.0404716339049054,
+          "region": "P10",
+          "time_s": 0
+        },
+        "first_temporal": {
+          "channel": "finger_velocity",
+          "first_ratio": 1.0404716339049054,
+          "k": 0,
+          "order": 2,
+          "path": "nominal",
+          "peak_ratio": 1.0404716339049054,
+          "region": "P10",
+          "time_s": 0
+        },
+        "seam_failed": true,
+        "receipt_sha256": "3b9c6bb202948e86a4bb1bccb5a149468d4b52036d45a265d568e2d76b20c239"
+      },
+      {
+        "id": "CHV1-VAL-F2-HOLD-blue-01",
+        "index": 52,
+        "criterion": "lift_or_carry",
+        "passed": true,
+        "expert_due": false,
+        "on_time": false,
+        "first_envelope": null,
+        "first_temporal": null,
+        "seam_failed": false,
+        "receipt_sha256": "65dc7f0f7146620d85e48339b08f7db98e977c468759a7d4051a70ab0d7b8627"
+      },
+      {
+        "id": "CHV1-VAL-F2-HOLD-blue-01",
+        "index": 62,
+        "criterion": "hold_complete_or_release",
+        "passed": true,
+        "expert_due": false,
+        "on_time": false,
+        "first_envelope": null,
+        "first_temporal": null,
+        "seam_failed": false,
+        "receipt_sha256": "284a18dc33bd16c3a523d98ac658caf20d2d477150623ff47a46b0b0e5faf3fc"
+      }
+    ],
+    "first_rejected": {
+      "id": "CHV1-VAL-F1-HOLD-red-00",
+      "index": 52,
+      "criterion": "p10_due_close",
+      "passed": false,
+      "expert_due": true,
+      "on_time": false,
+      "first_envelope": {
+        "channel": "finger_velocity",
+        "first_ratio": 1.0370253042934363,
+        "k": 0,
+        "order": 2,
+        "path": "nominal",
+        "peak_ratio": 1.0370253042934363,
+        "region": "P10",
+        "time_s": 0
+      },
+      "first_temporal": {
+        "channel": "finger_velocity",
+        "first_ratio": 1.0370253042934363,
+        "k": 0,
+        "order": 2,
+        "path": "nominal",
+        "peak_ratio": 1.0370253042934363,
+        "region": "P10",
+        "time_s": 0
+      },
+      "seam_failed": true,
+      "receipt_sha256": "604175a8eb0a6187a16486908e0b8399994c5d3d258ae0ff3db8f9d566b010cf"
+    },
+    "held_phase0_student_native_requests": 0,
+    "held_phase0_student_native_ticks": 0
+  },
+  "catalog": {
+    "unit": "wm02-sla-core-hopper-v1-train-catalog-20261121-01.service",
+    "prior": "not-found",
+    "config": "0c0a0a2fcf1d9e43f61e69750074c6e55343d973ef890b4fe3cc33f2dcdbfaa1",
+    "code": "ddd8e3751adf5d88e51f4d186784f94c3d68ffaf",
+    "member_sha": "9f55eb75cf2b6bf922976aa1fed32115d5b7195bee32911dd1112ec9216b7721",
+    "state": {
+      "MainPID": "2051441",
+      "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-hopper-v1-train-catalog-20261121-01.service",
+      "ActiveState": "active",
+      "SubState": "running",
+      "InvocationID": "30fc8865a2cb487cb6c688b11824fa6a"
+    },
+    "pid_cgroup_checked": true,
+    "linger": "yes",
+    "heartbeat": {
+      "epoch": 1795256573.9176867,
+      "pid": 2051441,
+      "closed": false,
+      "terminal_TRAIN_requests": 24,
+      "admitted": 7,
+      "published": 4,
+      "aggregate": false,
+      "registered_producer_admissions": {
+        "89f058d5cd3a69cae8f68eb6a63f63a040f20151d07daf0d88e6a0ec5c3f8ffe": 7,
+        "b29a56c7c083208408fddbcf34023d8af9374ef1b4cda20e0f90dc57df3c0aa3": 0,
+        "deaa9a88dc1426a8a74a46a026a7c9f7ee190bca3256ba301ff98c0b1f9920dc": 0
+      }
+    },
+    "original_seal": "b79c95233fe8fc98cae2b4d39f17da141090a756d95c65b75e8fec95eca41a4b",
+    "original_windows": 333,
+    "seal_count": 4,
+    "new_mixed_seals": 0,
+    "checked": "2026-11-21T18:22:56.478521+08:00"
+  },
+  "pilots": [
+    {
+      "service": "wm02-sla-core-hopper-v1-blue-right-pilot-20261121-01.service",
+      "stage": "WAIT_WORLD",
+      "registered_id": "CHV1-TRAIN-F2-PLACE-blue-right-02",
+      "paid_closed": 0,
+      "closed_ticks": 0
+    },
+    {
+      "service": "wm02-sla-core-hopper-v1-red-hold-pilot-20261121-01.service",
+      "stage": "WAIT_WORLD",
+      "registered_id": "CHV1-TRAIN-F2-HOLD-red-02",
+      "paid_closed": 0,
+      "closed_ticks": 0
+    }
+  ],
+  "private_relay": {
+    "ingress_count": 0,
+    "jobs": {
+      "1601552.stdct-mgmt-02": {
+        "state": "R",
+        "dependency": "beforeok:1602101.stdct-mgmt-02@stdct-mgmt-02"
+      },
+      "1602101.stdct-mgmt-02": {
+        "state": "H",
+        "dependency": "afterok:1601552.stdct-mgmt-02@stdct-mgmt-02"
+      }
+    },
+    "mixed_receipts_ready": 0,
+    "ingress_unconfirmed": true,
+    "cold_validation_required_before_mixed_release": true
+  }
+}

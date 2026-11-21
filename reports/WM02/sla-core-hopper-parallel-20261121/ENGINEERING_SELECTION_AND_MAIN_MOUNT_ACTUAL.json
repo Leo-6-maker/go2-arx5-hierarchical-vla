@@ -1,0 +1,279 @@
+{
+  "plan": "171b5bedb290258954aac140157743e92e3b152e",
+  "as_of_sgt": "2026-11-21T16:55:19+08:00",
+  "T0_sgt": "2026-11-21T12:41:52+08:00",
+  "deadline_sgt": "2026-12-05T12:41:52+08:00",
+  "project": "CFP04-CF-007",
+  "engineering": {
+    "job": "727311.hopper-m-02",
+    "source": "b9581196d0acd02fb748222988e5a5543ce1f232",
+    "parent": "2bff547b6f2c3aca0e7e2fd8a790ce6b30ef1c5f33b004c6897e3083647358d5",
+    "selection": "a7c846895b0f790fa916baa742c64933fab3ac17f99b8111edbf42dd874c5c54",
+    "winner": "E1",
+    "checkpoint": "0bb8862f57408546eb573f1f495d6ca0d145b94559483ad45dda7e95a0dbfcfe",
+    "candidates": [
+      {
+        "candidate": "E1",
+        "status": "QUALIFIED",
+        "qualified": true,
+        "updates": 16,
+        "H40_attempts": 64,
+        "panel_attempts": 96,
+        "first_step_sha256": "c79fae12e5577c62532ef0855c161f8993565ed3b8104d152ca7dc5a23d7dcac",
+        "inputs_equal": true,
+        "relative_gradient_L2": {
+          "aux": 0,
+          "libero": 0,
+          "robodojo": 0,
+          "target": 0,
+          "total": 0
+        },
+        "committed_visits": {
+          "libero": 512,
+          "robodojo": 512,
+          "target": 1024
+        }
+      },
+      {
+        "candidate": "E2",
+        "status": "NUMERICAL_REJECT",
+        "qualified": false,
+        "updates": 0,
+        "H40_attempts": 4,
+        "panel_attempts": 0,
+        "first_step_sha256": "078f1756899c28d270b7f737993dc89914df6306a24c8d2acb48c6b204281e94",
+        "inputs_equal": true,
+        "relative_gradient_L2": {
+          "aux": 0.0026883743865874746,
+          "libero": 0.03678819634459373,
+          "robodojo": 0.02721348377261712,
+          "target": 0.05995728992469124,
+          "total": 0.007890564983508439
+        },
+        "uncommitted_FM_visits": {
+          "libero": 32,
+          "robodojo": 32,
+          "target": 64
+        }
+      },
+      {
+        "candidate": "E3",
+        "status": "NUMERICAL_REJECT",
+        "qualified": false,
+        "updates": 0,
+        "H40_attempts": 4,
+        "panel_attempts": 0,
+        "first_step_sha256": "1c9cc82e93013ab7a0e9ecb33e431bd1010ac8a8e69b4f5d164cf6c46a64352d",
+        "inputs_equal": true,
+        "relative_gradient_L2": {
+          "aux": 0.0026883743865874746,
+          "libero": 0.034762909817316785,
+          "robodojo": 0.03009070889710155,
+          "target": 0.06197080078690848,
+          "total": 0.008063914952262633
+        },
+        "uncommitted_FM_visits": {
+          "libero": 32,
+          "robodojo": 32,
+          "target": 64
+        }
+      },
+      {
+        "candidate": "E4",
+        "status": "NUMERICAL_REJECT",
+        "qualified": false,
+        "updates": 0,
+        "H40_attempts": 4,
+        "panel_attempts": 0,
+        "first_step_sha256": "d842786bfa415f7699a55d0750f3539fe0df0f523cfe5c7f3d126a5428b5eb93",
+        "inputs_equal": true,
+        "relative_gradient_L2": {
+          "aux": 0.0026883743865874746,
+          "libero": 0.03659027952631542,
+          "robodojo": 0.03034651554674083,
+          "target": 0.0621072536652385,
+          "total": 0.008128101030170573
+        },
+        "uncommitted_FM_visits": {
+          "libero": 32,
+          "robodojo": 32,
+          "target": 64
+        }
+      },
+      {
+        "candidate": "E5",
+        "status": "NUMERICAL_REJECT",
+        "qualified": false,
+        "updates": 0,
+        "H40_attempts": 4,
+        "panel_attempts": 0,
+        "first_step_sha256": "6c92324cf6248ab8cd396300d8f897ed2419ccfb3129d1e40607a089af33134a",
+        "inputs_equal": true,
+        "relative_gradient_L2": {
+          "aux": 0.05435370334642956,
+          "libero": 0.0023776464076672712,
+          "robodojo": 0.002449750859958506,
+          "target": 0.004446102775213307,
+          "total": 0.053658339780219826
+        },
+        "uncommitted_FM_visits": {
+          "libero": 32,
+          "robodojo": 32,
+          "target": 64
+        }
+      },
+      {
+        "candidate": "E6",
+        "status": "NUMERICAL_REJECT",
+        "qualified": false,
+        "updates": 0,
+        "H40_attempts": 4,
+        "panel_attempts": 0,
+        "first_step_sha256": "60878dc0775326ccdc0c6f14863aba49cae488a37727de68fe290b6d3f8aa3ec",
+        "inputs_equal": true,
+        "relative_gradient_L2": {
+          "aux": 0.047317447649161036,
+          "libero": 0.0023776464076672712,
+          "robodojo": 0.002449750859958506,
+          "target": 0.004446102775213307,
+          "total": 0.046715364708596475
+        },
+        "uncommitted_FM_visits": {
+          "libero": 32,
+          "robodojo": 32,
+          "target": 64
+        }
+      }
+    ],
+    "committed_optimizer_updates": 16,
+    "committed_visits": 2048,
+    "uncommitted_first_step_inputs": 640,
+    "completed_or_attempted_training_H40": [
+      64,
+      84
+    ],
+    "ordinary_outputs": 48,
+    "independent_cold_exact": [
+      48,
+      48
+    ],
+    "target_H40_and_seam": [
+      13,
+      32
+    ],
+    "warm_update_p50_s": 16.260619336506352,
+    "warm_update_p95_s": 17.56303326045163,
+    "first_update_s": 101.8874532498885,
+    "prior_technical_job": "727303.hopper-m-02",
+    "gpu_seconds_by_allocation": [
+      23,
+      1536
+    ],
+    "charged_engineering_GPU_seconds": 1559
+  },
+  "main": {
+    "job": "727341.hopper-m-02",
+    "pbs": "Q",
+    "pbs_reason": "Insufficient amount of resource: ngpus",
+    "source": "b9581196d0acd02fb748222988e5a5543ce1f232",
+    "project": "CFP04-CF-007",
+    "gpu_count": 1,
+    "gpu": "H200",
+    "cpu": 12,
+    "host_GB": 225,
+    "wall_s": 21600,
+    "segment": [
+      0,
+      100
+    ],
+    "phase": 0,
+    "committed_updates": 0,
+    "optimizer_visits": 0,
+    "training_H40": 0,
+    "phase0_sealed": false,
+    "parent": "2bff547b6f2c3aca0e7e2fd8a790ce6b30ef1c5f33b004c6897e3083647358d5",
+    "data_files": 1155,
+    "data_bytes": 50906886875,
+    "data_sha256": "a951f4f8ff7662198f4a3f1826a5bc7a6ad920b71f65be8dbc395f514555cf22",
+    "bank_sha256": "c3c308dfc00517894735c0f7386dc2e79385e86717fa33f4e817b44fc0afadb0"
+  },
+  "core": {
+    "as_of_sgt": "2026-11-21T16:55:04.801584+08:00",
+    "expert": {
+      "TRAIN": {
+        "closed": 23,
+        "requests": 23,
+        "ticks": 660463,
+        "grasp": 14,
+        "lift": 14,
+        "success": 7,
+        "admitted": 7,
+        "failure_or_success": {
+          "TASK_SUCCESS": 7,
+          "ILLEGAL_CONTACT": 14,
+          "TASK_BUDGET_EXHAUSTED_IN_CARRY": 2
+        },
+        "hard_STOP": 14,
+        "post_STOP_ticks": 0
+      },
+      "VAL": {
+        "closed": 12,
+        "requests": 12,
+        "ticks": 346115,
+        "grasp": 8,
+        "lift": 8,
+        "success": 4,
+        "admitted": 4,
+        "failure_or_success": {
+          "TASK_SUCCESS": 4,
+          "ILLEGAL_CONTACT": 8
+        },
+        "hard_STOP": 8,
+        "post_STOP_ticks": 0
+      }
+    },
+    "active_native_requests": 1,
+    "active": [
+      {
+        "condition": "CHV1-TRAIN-F2-PLACE-blue-left-01",
+        "last_score_tick": 16703,
+        "grasp": false,
+        "lift20": false
+      }
+    ],
+    "admitted_train_snapshot": 4,
+    "expert_unit": "wm02-sla-core-hopper-v1-expert-chain-20261121-02.service",
+    "expert_pid": 1746282,
+    "checkpoint_receive_unit": "wm02-sla-core-hopper-v1-checkpoint-rgb16-20261121-01.service",
+    "checkpoint_receive_pid": 1960000,
+    "checkpoint_receive_invocation": "6447eb98717244a5b99c85b7576b1482",
+    "receiver_status": "WAIT_CHECKPOINT",
+    "receiver_code": "5aba39add07609752ed40093fb7b5b54ed3d1b26",
+    "user_linger": true
+  },
+  "schedulers": {
+    "controller": "1601905.stdct-mgmt-02",
+    "controller_pid": 143231,
+    "controller_source": "58ad158550e7cbe95760781a1bb4d48a684dd43d",
+    "prior_terminal_controller": "1601885.stdct-mgmt-02",
+    "prior_interruption": "Login-side job registration check before GPU submission",
+    "private_checkpoint_backup": "1601870.stdct-mgmt-02",
+    "formal_offline_eval_queue": "1601877.stdct-mgmt-02",
+    "public_Go2_checkpoint_publisher": "1601890.stdct-mgmt-02",
+    "pinned_reference_source": "b52f3fc7a319dfeba1f9388a219e9574b94c0a23"
+  },
+  "independent_A40": {
+    "at": "2026-11-21T16:53:41+08:00",
+    "job": "1599370.stdct-mgmt-02",
+    "phase": 2797,
+    "last_seal": 2750,
+    "last_seal_sha256": "457164fadc425527f303c2f2e10d4bcad2d9e11dfbfed94536deadf6702a501d"
+  },
+  "formal_outputs": 0,
+  "Hopper_REF16": 0,
+  "Core_RGB16": 0,
+  "student_native_requests": 0,
+  "student_native_ticks": 0,
+  "control_updates": 0,
+  "public_checkpoints_in_new_line": 0
+}

@@ -1,0 +1,147 @@
+{
+  "plan": "171b5bedb290258954aac140157743e92e3b152e",
+  "science_source": "b9581196d0acd02fb748222988e5a5543ce1f232",
+  "pr": 424,
+  "observed_sgt": "2026-11-21T16:25:23.422631+08:00",
+  "H200_job": "727311.hopper-m-02",
+  "training": {
+    "at": "2026-11-21T16:25:23.422631+08:00",
+    "updates": 16,
+    "visits": {
+      "target": 1024,
+      "robodojo": 512,
+      "libero": 512
+    },
+    "h40": 64,
+    "end": {
+      "status": 0,
+      "wall_s": 479.49436831474304
+    },
+    "train": {
+      "cp": "0bb8862f57408546eb573f1f495d6ca0d145b94559483ad45dda7e95a0dbfcfe",
+      "p50": 16.260619336506352,
+      "p95": 17.56303326045163,
+      "save": 14.664052380947396
+    },
+    "ordinary": {
+      "attempts": 0,
+      "completed": 0,
+      "sealed": false
+    },
+    "independent": {
+      "attempts": 0,
+      "completed": 0,
+      "sealed": false
+    },
+    "outcome": null,
+    "next_started": false,
+    "fail": null
+  },
+  "parameter_arrays": 140,
+  "first_failed_allocation_GPU_seconds": 23,
+  "engineering_first_attempts": 2,
+  "qualified_backends_at_observation": 0,
+  "main_updates": 0,
+  "main_visits": 0,
+  "control_updates": 0,
+  "formal_generations": 0,
+  "student_native_requests": 0,
+  "core_at": "2026-11-21T16:25:23.823604+08:00",
+  "core_expert": {
+    "TRAIN": {
+      "closed": 18,
+      "requests": 18,
+      "ticks": 536955,
+      "grasp": 11,
+      "lift": 11,
+      "success": 4,
+      "admitted": 4,
+      "failure_or_success": {
+        "TASK_SUCCESS": 4,
+        "ILLEGAL_CONTACT": 12,
+        "TASK_BUDGET_EXHAUSTED_IN_CARRY": 2
+      },
+      "hard_STOP": 12,
+      "post_STOP_ticks": 0
+    },
+    "VAL": {
+      "closed": 12,
+      "requests": 12,
+      "ticks": 346115,
+      "grasp": 8,
+      "lift": 8,
+      "success": 4,
+      "admitted": 4,
+      "failure_or_success": {
+        "TASK_SUCCESS": 4,
+        "ILLEGAL_CONTACT": 8
+      },
+      "hard_STOP": 8,
+      "post_STOP_ticks": 0
+    }
+  },
+  "core_active": [
+    {
+      "condition": "CHV1-TRAIN-F1-HOLD-red-01",
+      "last_score_tick": 12453,
+      "grasp": false,
+      "lift20": false
+    }
+  ],
+  "core_admitted_snapshot": 4,
+  "A40_last_seal": [
+    "phase02750",
+    "457164fadc425527f303c2f2e10d4bcad2d9e11dfbfed94536deadf6702a501d"
+  ],
+  "A40_current_step": 2761,
+  "A40_current_job": "1599370.stdct-mgmt-02",
+  "scheduler": {
+    "HEARTBEAT.json": {
+      "job": "1601862.stdct-mgmt-02",
+      "epoch": 1795249355.354756,
+      "polls": 2,
+      "hopper": {
+        "status": "WAIT_PBS",
+        "job": "727311.hopper-m-02",
+        "state": "R"
+      }
+    },
+    "START.json": {
+      "epoch": 1795249149.2086234,
+      "grant_end": 1796445712,
+      "job": "1601862.stdct-mgmt-02",
+      "node": "GN-A40-075",
+      "pid": 1458540,
+      "site_end": 1795270746
+    }
+  },
+  "backup": {
+    "JOB.json": {
+      "job": "1601870.stdct-mgmt-02",
+      "number": 1,
+      "plan": "171b5bedb290258954aac140157743e92e3b152e",
+      "previous": null,
+      "script_sha256": "f86e211beecc33a42f9b2e742ec5d15da74dae5b750d64f0662a8dcc142fa0ed"
+    },
+    "HEARTBEAT.json": {
+      "job": "1601870.stdct-mgmt-02",
+      "epoch": 1795249469.7257712,
+      "polls": 1,
+      "hopper": {
+        "status": "WAIT_SEAL",
+        "copied": 0
+      }
+    },
+    "START.json": {
+      "epoch": 1795249469.2698839,
+      "grant_end": 1796445712,
+      "job": "1601870.stdct-mgmt-02",
+      "node": "GN-A40-075",
+      "pid": 1459766,
+      "site_end": 1795271068
+    }
+  },
+  "backup_source": "9d4f9f38d075dc648af02e0a1ef732fa10602995",
+  "backup_direction": "Hopper sealed MAIN/CONTROL checkpoint to VANDA direct over SSH",
+  "elapsed_gpu_seconds_at_snapshot": 508
+}
