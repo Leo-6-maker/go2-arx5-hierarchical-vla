@@ -17,7 +17,7 @@ def world_pitch(angle):
 
 class RedHoldPitch(MultitaskTeacher):
     instructions = ('HOLD-red',)
-    version = KIND
+    repair_kind = KIND
 
     def __init__(self, initial, condition, geometry, instruction, model):
         if (condition['family'],condition['mode'])!=('F2','M_FREE') or instruction not in self.instructions:
@@ -27,10 +27,10 @@ class RedHoldPitch(MultitaskTeacher):
 
     def decide(self,sample,reference,base):
         program,evidence=super().decide(sample,reference,base)
-        evidence.update(teacher_version=self.version,grasp_world_pitch_change_deg=PITCH_DEGREES)
+        evidence.update(teacher_version=self.repair_kind,grasp_world_pitch_change_deg=PITCH_DEGREES)
         return program,evidence
 
 
 class RedPlacePitch(RedHoldPitch):
     instructions = ('PLACE-red-left','PLACE-red-right')
-    version = PLACE_KIND
+    repair_kind = PLACE_KIND
