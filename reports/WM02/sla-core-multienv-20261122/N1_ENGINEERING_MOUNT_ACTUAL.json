@@ -1,0 +1,93 @@
+{
+  "plan": "4fe2c8cf1b69c168b2e3079e061bb7c702089cd3",
+  "observed_at": "2026-11-22T04:37:30+08:00",
+  "engineering": {
+    "unit": "wm02-sla-core-multienv-n1-engineering-20261122-01.service",
+    "pid": 2745035,
+    "invocation": "0e473b01b3384a4683508edf033e2b3e",
+    "cgroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-n1-engineering-20261122-01.service",
+    "source": "efc3cb5472344a118717262488fe0a579c5b6f44",
+    "source_members_sha256": "1f799e32411c346f15593327f11a6db3704f9f9854f1ec7e4ffc9e583d9365a1",
+    "spec_sha256": "a76b564c936a5a22058b08a17b9fc1d1b6e4c010b7cbff9fd8100484b68261ea",
+    "fixtures_sha256": "0bbdf9b0bc7a2347e4d4277e1f94b22172e45c887084287af98b9e487a7a351d",
+    "preregistered_tolerance_sha256": "6da63587addd8d9e35d36ce09191593de9dba46b2cee9b47266beeb71df0fc0a",
+    "imported_unchanged_runner_sha256": "f6cc471a45388a72ad67e35ba236b2d5c7d5892edb6a55b8dd331243334c0fde",
+    "deadline_epoch": 1795891948,
+    "linger": true,
+    "max_requests": 12,
+    "max_ticks": 258436,
+    "started": 1,
+    "terminal": 0,
+    "live_ticks": 2503,
+    "current": {
+      "id": "MEV1-ENG-N1-SHORT-00",
+      "pid": 2746088,
+      "spec_sha256": "bae23329be7b1b44ecd7e7b35d7b70053ed79b8e02781467bb04553bc168ac5c",
+      "lease_deadline_epoch": 1795295529.1135275
+    },
+    "log": "logs/supervisor.log",
+    "stop": "STOP.json",
+    "model_generations": 0,
+    "optimizer_updates": 0,
+    "training_visits": 0,
+    "training_admissions": 0,
+    "n2": "NOT_RUN",
+    "n4": "NOT_RUN"
+  },
+  "wave_a": {
+    "id": "wm02-sla-core-multienv-wave-a-20261122-02.service",
+    "pid": 2643171,
+    "planned": 120,
+    "started": 7,
+    "closed": 7,
+    "closed_ticks": 180140,
+    "admitted_train": 2,
+    "admitted_windows": 140,
+    "confirmed_P10_atoms": 1400,
+    "place_success": 0,
+    "illegal_contact_stops": 4,
+    "post_stop_ticks": 0,
+    "task_budget_exhausted_in_carry": 1,
+    "official_snapshot": "TRAIN-059",
+    "new_actual_optimization_visits": 0,
+    "latest_admission": "MEV1-TRAIN-F1-NEAR_NEG-00-HOLD-red",
+    "latest_admission_ticks": 20953,
+    "latest_admission_windows": 61,
+    "latest_admission_actual_P10": 610
+  },
+  "canonical": {
+    "old_dev": {
+      "unit": "wm02-sla-core-multienv-canonical-dev-20261122-04.service",
+      "first_failure": "Missing systemd RuntimeDirectory before dispatch",
+      "original_DEV_requests": 0
+    },
+    "dev": {
+      "unit": "wm02-sla-core-multienv-canonical-dev-20261122-05.service",
+      "pid": 2736179,
+      "invocation": "8b850724360e4282aff67bcb195f0073",
+      "runtime_directory_verified": true,
+      "config_sha256": "e9add0702545921355b8062bd1334c637e3cbc103a5a437fc531bff4602af196",
+      "deadline_epoch": 1795891948,
+      "phase0_first_DEV6": "NOT_RUN",
+      "main2k_first_DEV6": "NOT_RUN"
+    },
+    "cold": {
+      "phase0_started": 16,
+      "phase0_completed": 16,
+      "measurement_scope": "first cold process at 04:37:11 SGT",
+      "full_cold_comparison": null
+    },
+    "ipc": {
+      "attempts": 0
+    }
+  },
+  "hopper": {
+    "active_job": "728156.hopper-m-02",
+    "observed_absolute_updates": 2329,
+    "latest_sealed_step": 2300,
+    "latest_seal_sha256": "957f66864e34dfda72072bfb577521d4921912fa1180cf77e1992ab6646a01d7",
+    "successor_job": "728212.hopper-m-02",
+    "successor_state": "H",
+    "dependency": "afterok:728156.hopper-m-02"
+  }
+}
