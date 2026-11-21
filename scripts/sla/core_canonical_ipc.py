@@ -220,8 +220,9 @@ def launch(root,config_sha,arm):
         write_once(worker/'control/LEASE.json',dict(status='ACTIVE',owner='EXISTING_LOCAL_PC',
             deadline_epoch=end,spec_sha256=pin(path)['sha256']))
         with (root/'worker.log').open('xb') as log:
-            proc=subprocess.Popen([sys.executable,'-B',str(source/'scripts/sla/hybrid_ipc_worker_v3.py'),
-                '--worker',str(path)],stdout=log,stderr=subprocess.STDOUT)
+            entry=source/'scripts/sla/core_hopper_native_entry.py'
+            proc=subprocess.Popen([sys.executable,'-B',str(entry),'--worker',str(path)],
+                env=dict(os.environ,SLA_CORE_CANONICAL_WORKER='1'),stdout=log,stderr=subprocess.STDOUT)
             try:
                 result=replay(spec,proc)
                 if proc.wait(timeout=30)!=0:
@@ -245,6 +246,7 @@ if __name__=='__main__':
     try:
         launch(args.root,args.config_sha,args.arm)
     except Exception as exc:
+        terminal=args.root/'worker/RESULT.private.json'
         write_once(args.root/'IPC_INTERRUPTED.json',dict(first_failure=f'{type(exc).__name__}: {exc}',
-                   native_requests=0,updates=0))
+                   worker_terminal=pin(terminal) if terminal.is_file() else None, native_requests=0,updates=0))
         raise
