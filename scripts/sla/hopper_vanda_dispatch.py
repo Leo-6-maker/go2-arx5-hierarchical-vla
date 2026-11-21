@@ -33,6 +33,10 @@ def submit(root,n,previous=None):
     if n>MAX_SLOTS or cfg['plan']!=PLAN or time.time()>=min(DEADLINE,cfg['grant_end'])-240 or (root/'STOP').exists():
         raise PermissionError('Dispatcher limit reached')
     prefix='slachv1ev' if cfg.get('local_formal') else ('slachv1bk' if cfg.get('local_backup') else 'slachv1ctl')
+    if cfg.get('cold_predecessor'):
+        prefix='slachv1rf'
+        if n==1:
+            previous=cfg['cold_predecessor']['job']
     name=prefix+f'{n:02d}'
     jobfile=slot/'JOB.json'
     journal=Journal(slot/'journal',slot.name)
@@ -51,7 +55,7 @@ def submit(root,n,previous=None):
     deps=['-W','depend=afterok:'+previous] if previous else []
     request=dict(plan=PLAN,number=n,previous=previous,script_sha256=hashlib.sha256(body.encode()).hexdigest())
     def enqueue():
-        if not previous:
+        if not previous or n==1:
             owned=subprocess.check_output([str(PBS/'qselect'),'-N',name,'-u',os.environ['USER']],text=True,timeout=30)
             if owned.strip():
                 raise RuntimeError('Existing scheduler identity requires reconciliation')
@@ -84,6 +88,13 @@ def run(root,n):
             or int(row['Resource_List']['ncpus'])!=1 or int(row['Resource_List'].get('ngpus',0))!=0
             or wall_seconds(row['Resource_List']['walltime'])!=WALL):
         raise PermissionError('Unrecognized VANDA CPU allocation')
+    if n==1 and cfg.get('cold_predecessor'):
+        prior=cfg['cold_predecessor']
+        old=Path(prior['folder'])
+        if (read(old/'01/JOB.json')['job']!=prior['job'] or (old/'01/SUCCESSOR.json').exists()
+                or read(old/'STOP').get('successor')!=job or job_row(prior['job'])['job_state']!='F'
+                or read(old/'01/RESULT.json')['status']!='STOP_LIMIT_OR_DEADLINE'):
+            raise PermissionError('Prior scheduler has not completed the registered cold handoff')
     grant_limit=min(DEADLINE,cfg['grant_end'])
     end=site_epoch(row['stime'])+WALL
     def stopped():

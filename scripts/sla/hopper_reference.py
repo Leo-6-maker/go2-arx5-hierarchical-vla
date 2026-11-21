@@ -186,7 +186,12 @@ def reference(run, mount_sha):
             result=dict(status='HOPPER_REF16_SEALED',checkpoint=record['checkpoint'],package=built,
                         attempted=16,complete=16,site=site,updates=0,native=0)
         except Exception as exc:
-            result=dict(status='REFERENCE_FAILED',phase=phase_name,first_failure=f'{type(exc).__name__}: {exc}',
+            common=('Endpoint and complete archived training state disagree','Frozen parent, tokenizer, statistics',
+                    'Frozen model or parameter partition differs','SCALE20K_CHECKPOINT_ARRAY_',
+                    'Checkpoint seal differs','Checkpoint role, configuration','Stored Adam, RNG')
+            shared=phase_name=='COMPLETE_STATE_RESTORE' and any(k in str(exc) for k in common)
+            result=dict(status='SHARED_INTEGRITY_FAILURE' if shared else 'REFERENCE_FAILED',
+                        phase=phase_name,first_failure=f'{type(exc).__name__}: {exc}',
                         attempted=len(list(out.glob('*.intent.json'))),complete=len(list(out.glob('*.generated.json'))),
                         site=site,updates=0,native=0)
         write_once(out/'RESULT.json',result)

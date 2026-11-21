@@ -91,11 +91,12 @@ def previous_cost(root,current):
 
 
 def batch_text(run,source,runtime,name,group,wall):
-    module='scripts.sla.hopper_engineering_batch' if group=='engineering' else 'scripts.sla.hopper_training'
+    module={'engineering':'scripts.sla.hopper_engineering_batch','training':'scripts.sla.hopper_training',
+            'reference':'scripts.sla.hopper_reference'}[group]
     python=runtime/'interpreter/bin/python3.12'
     paths=':'.join(str(p) for p in (source,source/'src',runtime/'data_dependencies',runtime/'upstream',runtime/'packages'))
     command=shlex.join([str(python),'-B','-m',module,str(run)])
-    if group=='training':
+    if group in ('training','reference'):
         command+=' "$(cut -d\' \' -f1 MOUNT.sha256)"'
     directives=['#!/bin/bash -l','#PBS -N '+name,'#PBS -P '+PROJECT,'#PBS -q auto',
         '#PBS -l select=1:ngpus=1:gpu_model=H200:ncpus=12:mem=225GB','#PBS -l walltime='+wall,
@@ -111,7 +112,7 @@ def batch_text(run,source,runtime,name,group,wall):
 def register(root,custody,source_folder,number,group,seconds,segment=None,recovery=None):
     if number<1 or number>999 or not 900<seconds<=21600 or time.time()>=DEADLINE-900 or (custody/'STOP.json').exists():
         raise PermissionError('Campaign stop or invalid capsule allowance')
-    if bool(segment)!=(group=='training'):
+    if bool(segment)!=(group in ('training','reference')):
         raise ValueError('Training requires a frozen segment request')
     if os.environ.get('PBS_JOBID'):
         raise PermissionError('Job registration must use the login-side scheduler')
@@ -134,7 +135,7 @@ def register(root,custody,source_folder,number,group,seconds,segment=None,recove
         runtime=custody/'sla-core-hopper-v1-runtime-20261121-01/runtime.verified'
         if digest(custody/'parent.verified/COMPLETE.json')!=PARENT:
             raise ValueError('Original parent checkpoint changed')
-        tag='e' if group=='engineering' else 't'
+        tag={'engineering':'e','training':'t','reference':'r'}[group]
         name=f'slachv1{tag}{number:02d}'
         total,eng=previous_cost(root,run)
         engineering_root = root/'engineering'
@@ -203,7 +204,8 @@ def register(root,custody,source_folder,number,group,seconds,segment=None,recove
             if record['source']!=core['source'] or record['plan']!=PLAN or record['parent']!=PARENT:
                 raise ValueError('Invalid proposed scientific segment')
             write_once(run/'SEGMENT.json',dict(record,job=job))
-            m['training_segment']=pin(run/'SEGMENT.json')
+            key='reference_request' if group=='reference' else 'training_segment'
+            m[key]=pin(run/'SEGMENT.json')
         write_once(run/'MOUNT.private.json',m)
         check=run/'MOUNT.sha256'
         expected=digest(run/'MOUNT.private.json')+'  MOUNT.private.json\n'
@@ -223,7 +225,7 @@ def register(root,custody,source_folder,number,group,seconds,segment=None,recove
 if __name__=='__main__':
     p=argparse.ArgumentParser()
     p.add_argument('root',type=Path);p.add_argument('custody',type=Path);p.add_argument('source_folder',type=Path)
-    p.add_argument('number',type=int);p.add_argument('group',choices=['engineering','training'])
+    p.add_argument('number',type=int);p.add_argument('group',choices=['engineering','training','reference'])
     p.add_argument('seconds',type=int);p.add_argument('--segment',type=Path)
     p.add_argument('--technical-recovery',type=Path)
     args=p.parse_args()

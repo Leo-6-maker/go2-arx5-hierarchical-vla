@@ -64,7 +64,46 @@ def segment(line, selection, population, view, science, seconds):
                 selection=selection,population_file=str(population))
 
 
-def advance(line,view,source,population):
+def reference_queue(line):
+    queue=line/'reference-pending'
+    queue.mkdir(exist_ok=True)
+    trigger=line/'curriculum/FIRST_CONTROL_TRIGGER.json'
+    pair=read(trigger) if trigger.is_file() else None
+    due=[]
+    for role in ('MAIN','CONTROL2000'):
+        for file in sorted((line/role/'sealed').glob('phase[0-9][0-9][0-9][0-9][0-9].json')):
+            event=read(file)
+            phase=event['phase']
+            matched=pair is not None and phase==pair['matched_endpoint']
+            expected=(role=='MAIN' and phase in (0,2000,5000,10000,20000)) or matched
+            if (event['plan']!=PLAN or event['binding']['parent']!=PARENT or event['role']!=role
+                    or file.name!=f'phase{phase:05d}.json' or event['deployment_due']!=expected):
+                raise ValueError('Sealed deployment event does not match the authorized panel')
+            if not expected:
+                continue
+            req=queue/f'{role}-phase{phase:05d}.json'
+            write_once(req,dict(plan=PLAN,role=role,phase=phase,event_sha256=digest(file),
+                                checkpoint=event['checkpoint']['sha256'],purpose='reference'))
+            due.append(req)
+    if len(due)>7:
+        raise ValueError('Deployment endpoint allowance exceeded')
+    return due
+
+
+def next_reference(line, due):
+    consumed=set()
+    for f in (line/'allocations').glob('[0-9][0-9][0-9]/MOUNT.private.json'):
+        m=read(f)
+        if 'reference_request' in m:
+            ticket=pinned(m['reference_request'])['ticket']
+            pinned(ticket)
+            if ticket['path'] in consumed:
+                raise ValueError('Duplicated reference request')
+            consumed.add(ticket['path'])
+    return next((f for f in due if str(f) not in consumed),None)
+
+
+def advance(line,view,source,population,reference_source=None):
     if digest(population)!=POPULATION:
         raise ValueError('Population changed')
     if time.time()>=DEADLINE-900 or any((p/'STOP.json').exists() for p in (view,line)):
@@ -74,18 +113,24 @@ def advance(line,view,source,population):
         current=max((p for p in alloc.iterdir() if p.name.isdigit()),key=lambda p:int(p.name))
         if not (current/'RELEASE.json').exists():
             return dict(status='RECONCILE_REGISTRATION',allocation=current.name)
+        due=reference_queue(line) if reference_source else []
         prior=read(current/'RELEASE.json')['job']
         row=native(prior)
         if row['job_state']!='F':
             return dict(status='WAIT_PBS',job=prior,state=row['job_state'])
         total,eng=previous_cost(line,None)
+        kind=read(current/'RESERVATION.json')['group']
+        if kind=='reference' and (int(row['Exit_status'])!=0 or not (current/'RESULT.private.json').exists()):
+            # An unexplained stop while reading common state requires evidence before release.
+            return dict(status='RECONCILE_REFERENCE_TERMINAL',job=prior,exit=row['Exit_status'])
         if int(row['Exit_status'])!=0 or not (current/'RESULT.private.json').exists():
             return dict(status='RECONCILE_TERMINAL',job=prior,exit=row['Exit_status'])
         recovery=view/'TECHNICAL_RECOVERY.json'
         engineering=Path(read(recovery)['engineering_root'])
         science=read(source/'SOURCE_READY.json')['source']
         result=read(current/'RESULT.private.json')
-        kind=read(current/'RESERVATION.json')['group']
+        if kind=='reference' and result['status'] not in ('HOPPER_REF16_SEALED','REFERENCE_FAILED'):
+            return dict(status='COMMON_CHECKPOINT_REVIEW',job=prior,evidence=pin(current/'RESULT.private.json'))
         if kind=='training' and result['status'] not in ('SEGMENT_COMPLETE','SAVED_AT_ALLOCATION_OR_STOP'):
             raise ValueError('Unrecognized completed training segment')
         seconds=min(21600,320*3600-total,math.floor(DEADLINE-time.time()))
@@ -111,10 +156,20 @@ def advance(line,view,source,population):
                                    qualified=False,status='NO_ENGINEERING_BUDGET',optimizer_updates=0,visits=0))
                 select(engineering,science)
                 return dict(status='SELECTION_RECONCILED')
-        if group=='training':
+        bundle=source
+        need=next_reference(line,due) if due else None
+        if group=='training' and need is not None:
+            group='reference'
+            bundle=reference_source
+            seconds=min(seconds,3600)
+            record=dict(plan=PLAN,parent=PARENT,source=read(bundle/'SOURCE_READY.json')['source'],
+                        training_source=science,ticket=pin(need))
+        elif group=='training':
             record=segment(line,pin(selection),population,view,science,seconds)
             if record is None:
                 return dict(status='TRAINING_COMPLETE')
+            if reference_source and record['role']=='MAIN' and record['start']==0:
+                record['stop']=min(record['stop'],100)
         number=int(current.name)+1
         request=None
         if record:
@@ -122,7 +177,7 @@ def advance(line,view,source,population):
             requests.mkdir(exist_ok=True)
             request=requests/f'{number:03d}.json'
             write_once(request,record)
-        job=register(line,view,source,number,group,seconds,request,recovery)
+        job=register(line,view,bundle,number,group,seconds,request,recovery if group!='reference' else None)
         return dict(status='SUBMITTED',job=job,group=group,allocation=number)
 
 
@@ -130,5 +185,6 @@ if __name__=='__main__':
     cli=argparse.ArgumentParser()
     for k in ('line','view','source','population'):
         cli.add_argument(k,type=Path)
+    cli.add_argument('--reference-source',type=Path)
     args=cli.parse_args()
-    print(json.dumps(advance(args.line,args.view,args.source,args.population)))
+    print(json.dumps(advance(args.line,args.view,args.source,args.population,args.reference_source)))
