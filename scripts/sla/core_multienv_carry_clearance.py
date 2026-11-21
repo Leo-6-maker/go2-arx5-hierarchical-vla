@@ -19,14 +19,18 @@ def contact_geometry(model, qpos, pairs):
     state.qpos[:] = qpos
     mujoco.mj_fwdPosition(model,state)
     return dict(table_gaps_mm=[1000*float(mujoco.mj_geomDistance(
-        model,state,link,table,.20,None)) for link,table in pairs],
+        model,state,link,table,.20,np.zeros(6))) for link,table in pairs],
         link_positions_world_mm=[[float(v*1000) for v in state.geom_xpos[link]] for link,_ in pairs])
 
 
 def audit(parent):
     if mujoco.__version__!='3.2.7' or mujoco.get_mjcb_control() is not None:
         raise PermissionError('Expected the original physics library without a controller')
-    forbid_integration()
+    with forbid_integration(mujoco):
+        return carry_readback(parent)
+
+
+def carry_readback(parent):
     records = json.loads((parent/'RECORDS.private.json').read_bytes())
     failed = [r for r in records if r['split']=='TRAIN' and r['condition'].startswith(CELL+'-')
               and r['first_failure']=='ILLEGAL_CONTACT']
@@ -45,7 +49,8 @@ def audit(parent):
         model = mujoco.MjModel.from_binary_path(model_file)
         link = model.body('x5_link2').id
         table = model.geom('task_table').id
-        links = np.where((model.geom_bodyid==link) & (model.geom_contype!=0))[0]
+        links = np.where((model.geom_bodyid==link)
+                         & ((model.geom_contype!=0) | (model.geom_conaffinity!=0)))[0]
         pairs = [(int(g),table) for g in links]
         if not pairs:
             raise ValueError('Missing the frozen collidable link2 and table')
