@@ -101,7 +101,11 @@ def prepare(cfg, proof_pin, arm, split, start, root, capacity):
              TMPDIR=str(worker_dir/'tmp'),XDG_CACHE_HOME=str(worker_dir/'cache'),
              PYTHONPATH=numeric['environment']['PYTHONPATH']+f':{source}:{source}/src')
     if canonical:
-        env['SLA_CORE_CANONICAL_WORKER']='1'
+        # The native supervisor carries the frozen WBC loader paths. The
+        # resident numerical process must inherit only its qualified loader.
+        env.update(SLA_CORE_CANONICAL_WORKER='1',
+                   LD_LIBRARY_PATH=numeric['environment'].get('LD_LIBRARY_PATH',''),
+                   LD_PRELOAD=numeric['environment'].get('LD_PRELOAD',''))
     gpu = dict(parent,**locations(worker_dir))
     for k in ('parent_params','parent_manifest','tokenizer','initial_function_rule','upstream_sha','dataset',
               'RPC_timeout_s','save_and_exit_on_limit','frame_cache_bytes'):
