@@ -26,6 +26,14 @@ PROFILE = """<?xml version="1.0"?>
     <rtps>
       <useBuiltinTransports>false</useBuiltinTransports>
       <userTransports><transport_id>core_loopback_udp</transport_id></userTransports>
+      <builtin>
+        <metatrafficUnicastLocatorList>
+          <locator><udpv4><address>127.0.0.1</address></udpv4></locator>
+        </metatrafficUnicastLocatorList>
+        <initialPeersList>
+          <locator><udpv4><address>127.0.0.1</address></udpv4></locator>
+        </initialPeersList>
+      </builtin>
     </rtps>
   </participant>
 </profiles>
@@ -66,6 +74,7 @@ def actor(root, domain, role, topic):
     else:
         sub = node.create_subscription(String,topic,lambda msg: received.append(msg.data),64)
     before = mappings()
+    seal(root/f'{domain}-{role}.MAPPINGS.json',before)
     if any('/fastrtps_' in f for f in before['shm']) or get_rmw_implementation_identifier()!='rmw_fastrtps_cpp':
         raise RuntimeError('The scoped XML did not select the intended transport')
     seal(root/f'{domain}-{role}.READY.json',dict(pid=os.getpid(),domain=domain,maps=before,epoch=time.time()))
@@ -108,13 +117,16 @@ def actor(root, domain, role, topic):
         rclpy.shutdown()
 
 
-def probe(root, control, domains):
+def probe(root, control, domains, profile_check):
     if (os.getuid()!=2009 or os.uname().nodename!='corelab-4080s' or not root.is_dir()
             or root.stat().st_uid!=os.getuid() or len(set(domains))!=2):
         raise PermissionError('Use the existing Core project owner')
     profile=root/'LOOPBACK.xml'
     topic='/sla_core_dds_probe_'+uuid4().hex
     profile.write_text(PROFILE)
+    parsed=subprocess.check_output([str(profile_check),str(profile)],text=True,timeout=5).strip()
+    if parsed!='VERIFIED_UDP4_LOOPBACK_ONLY':
+        raise PermissionError('Fast DDS did not parse the isolated loopback profile')
     with ExitStack() as hold:
         for domain in domains:
             lock=control/f'ros-{domain}.lock'
@@ -131,12 +143,13 @@ def probe(root, control, domains):
             for domain in domains:
                 for role in ('receive','send'):
                     log=hold.enter_context((root/f'{domain}-{role}.log').open('xb'))
-                    env=dict(os.environ,ROS_DOMAIN_ID=str(domain),ROS_LOCALHOST_ONLY='1',
-                        ROS_AUTOMATIC_DISCOVERY_RANGE='LOCALHOST',ROS_STATIC_PEERS='',
+                    # Jazzy adds a SHM transport under LOCALHOST even when the XML disables the defaults.
+                    env=dict(os.environ,ROS_DOMAIN_ID=str(domain),ROS_AUTOMATIC_DISCOVERY_RANGE='SYSTEM_DEFAULT',
+                        ROS_STATIC_PEERS='',FASTDDS_DEFAULT_PROFILES_FILE=str(profile),
                         RMW_IMPLEMENTATION='rmw_fastrtps_cpp',RMW_FASTRTPS_USE_QOS_FROM_XML='0',
                         FASTRTPS_DEFAULT_PROFILES_FILE=str(profile),CUDA_VISIBLE_DEVICES='')
                     env.pop('ROS_DISCOVERY_SERVER',None)
-                    env.pop('FASTDDS_DEFAULT_PROFILES_FILE',None)
+                    env.pop('ROS_LOCALHOST_ONLY',None)
                     command=[sys.executable,'-B',str(Path(__file__).resolve()),'actor',
                              str(root),str(domain),role,topic]
                     children.append(subprocess.Popen(command,env=env,cwd=root,stdout=log,stderr=subprocess.STDOUT))
@@ -146,13 +159,15 @@ def probe(root, control, domains):
                 if p.poll() is None:
                     p.terminate()
                     p.wait(timeout=3)
-        rows={f.stem:json.loads(f.read_bytes()) for f in root.glob('[0-9]*.json') if '.READY.' not in f.name}
+        rows={f.stem:json.loads(f.read_bytes()) for f in root.glob('[0-9]*.json') if len(f.name.split('.'))==2}
+        observed={f.name:json.loads(f.read_bytes()) for f in root.glob('*.MAPPINGS.json')}
         if success and len(rows)==4:
             for d in domains:
                 if rows[f'{d}-receive']['values_sha']!=rows[f'{d}-send']['values_sha']:
                     raise ValueError('Delivered bytes differ between the two endpoints')
         result=dict(status='LOOPBACK_FIXTURE_PASS' if success and len(rows)==4 else 'LOOPBACK_FIXTURE_FAILED',
                     scopes=domains,expected=MESSAGES*len(domains),results=rows,topic=topic,
+                    parsed_profile=parsed,mappings=observed,
                     profile_sha256=hashlib.sha256(profile.read_bytes()).hexdigest(),new_native_requests=0,
                     simulation_integrations=0,optimizer_updates=0,model_generations=0,epoch=time.time())
         seal(root/'RESULT.json',result)
@@ -166,6 +181,7 @@ if __name__=='__main__':
     p.add_argument('root',type=Path)
     p.add_argument('control',type=Path)
     p.add_argument('domains',type=int,choices=DOMAINS,nargs=2)
+    p.add_argument('--profile-check',type=Path,required=True)
     a=modes.add_parser('actor')
     a.add_argument('root',type=Path)
     a.add_argument('domain',type=int,choices=DOMAINS)
@@ -173,6 +189,6 @@ if __name__=='__main__':
     a.add_argument('topic')
     args=parser.parse_args()
     if args.mode=='probe':
-        probe(args.root,args.control,args.domains)
+        probe(args.root,args.control,args.domains,args.profile_check)
     else:
         actor(args.root,args.domain,args.role,args.topic)
