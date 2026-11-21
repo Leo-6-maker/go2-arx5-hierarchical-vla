@@ -13,50 +13,7 @@ from scripts.sla.hopper_checkpoint import BOUNDARIES
 from scripts.sla.hopper_inputs import D2_SPEC, PLAN, STEPS, BATCH, stage_target
 from scripts.sla.hopper_parent_custody import digest, sync_dir, write_once
 
-POPULATION = '9e483c85eb90cc2e9d1da66b9f3f8dff6606c6173b66755bcffcc4c7e5f91279'
-
-
-def pinned_file(path, expected):
-    if digest(path) != expected:
-        raise ValueError('Changed target curriculum input '+path.name)
-    return json.loads(path.read_bytes())
-
-
-def load_snapshot(folder, seal_sha, population):
-    rows = pinned_file(population, POPULATION)['populations']['TRAIN']
-    permitted = {r['condition_id']: r for r in rows}
-    seal = pinned_file(folder/'SEALED.private.json', seal_sha)
-    manifest = pinned_file(folder/'MANIFEST.private.json', seal['manifest_sha256'])
-    proof = pinned_file(folder/'ACTUAL.private.json', seal['admission_sha256'])
-    if (seal['plan'] != PLAN or manifest['plan'] != PLAN or seal['split'] != 'TRAIN'
-            or manifest['split'] != 'TRAIN' or proof['dataset_sha256'] != seal['manifest_sha256']
-            or not 0 < seal['count'] == len(manifest['episodes']) == len(proof['cases']) <= 240
-            or seal['windows'] != sum(ep['windows'] for ep in manifest['episodes'])):
-        raise ValueError('Incomplete cumulative TRAIN snapshot')
-    ids, native, content, scenes = set(), set(), set(), {}
-    for ep, admission, pin in zip(manifest['episodes'], proof['cases'], seal['episode_sha256'], strict=True):
-        eid = ep['id']
-        card = permitted[eid]
-        members = [ep['labels'], *ep['frame_shards']]
-        signature = tuple(member['sha256'] for member in members)
-        scene = scenes.setdefault(card['scene_family'], ep['scene_sha256'])
-        if (not admission['admitted'] or admission['id'] != eid or admission['episode_sha256'] != pin
-                or ep['split'] != 'TRAIN' or ep['family'] != card['family'] or ep['task'] != card['instruction']
-                or ep['reset'] != card['reset_seed'] or ep['scene_sha256'] != scene or eid in ids
-                or ep['native_result_sha256'] in native or signature in content
-                or not 0 < admission['native_ticks'] <= card['native_max_ticks']):
-            raise ValueError('Unregistered, duplicate or unqualified Core capture')
-        for member in members:
-            rel = Path(member['file'])
-            if (rel.parent != Path(eid) or not (folder/rel).resolve(strict=True).is_relative_to(folder.resolve())
-                    or digest(folder/rel) != member['sha256']):
-                raise ValueError('TRAIN payload membership or content mismatch')
-        ids.add(eid)
-        native.add(ep['native_result_sha256'])
-        content.add(signature)
-    if len(set(scenes.values())) != len(scenes):
-        raise ValueError('Registered scene families unexpectedly alias')
-    return seal, manifest
+from scripts.sla.hopper_snapshot_relay import verified
 
 
 class WithCoreTrain(AdaptTargetDataset):
@@ -64,7 +21,7 @@ class WithCoreTrain(AdaptTargetDataset):
     def __init__(self, d2, folder, seal_sha, population):
         from openpi_client.image_tools import resize_with_pad
 
-        seal, manifest = load_snapshot(folder, seal_sha, population)
+        seal, manifest, _ = verified(folder, population, seal_sha)
         old = d2.manifest['episodes']
         if len(old) != 26 or len(d2) != 2031 or d2.new_episodes != 3:
             raise ValueError('Construct cumulative views on the original D2 only')
