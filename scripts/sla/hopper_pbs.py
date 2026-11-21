@@ -125,9 +125,14 @@ def mixed_reader(segment, original, candidate, custody):
     proof = pinned(dict(path=str(folder/'ACTUAL.private.json'), sha256=seal['admission_sha256']))
     if 'schema' not in proof:
         return None
-    if candidate is None:
-        raise ValueError('Per-episode TRAIN provenance requires its cold input reader')
-    verdict = candidate/'certificates'/(course['seal_sha256']+'.json')
+    # Existing mixed courses keep the reader which certified their original intake.
+    candidates = candidate if isinstance(candidate,(tuple,list)) else ([candidate] if candidate else [])
+    name = course['seal_sha256']+'.json'
+    matches = [c for c in candidates if (c/'certificates'/name).is_file()]
+    if len(matches)!=1:
+        raise ValueError('A mixed course must have one registered cold reader certificate')
+    candidate = matches[0]
+    verdict = candidate/'certificates'/name
     cert = read(verdict)
     sources = compare(original,candidate/'source')
     if (cert['plan']!=PLAN or cert['status']!='HOPPER_MIXED_TRAIN_APPROVED'
