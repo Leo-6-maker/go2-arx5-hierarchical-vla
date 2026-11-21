@@ -1,12 +1,13 @@
 """Run a small, bounded PBS scheduler on VANDA for a single Hopper lineage."""
 import argparse
-from contextlib import closing
+from contextlib import closing, contextmanager, ExitStack
 import hashlib
 import json
 import os
 from pathlib import Path
 import re
 import shlex
+import signal
 import subprocess
 import sys
 import time
@@ -47,11 +48,16 @@ def submit(root,n,previous=None):
         prefix='slachv1ef' if cfg.get('local_formal') else 'slachv1rf'
         if n==1:
             previous=cfg['cold_predecessor']['job']
+    if cfg.get('mixed_dispatch'):
+        prefix='schv1mix'
+        if n==1:
+            previous=cfg['reconciled_dispatch']['job']
+    resource='select=1:ncpus=2:mem=10GB' if cfg.get('mixed_dispatch') else 'select=1:ncpus=1:mem=1GB'
     name=prefix+f'{n:02d}'
     jobfile=slot/'JOB.json'
     journal=Journal(slot/'journal',slot.name)
     body='\n'.join(['#!/bin/bash','#PBS -N '+name,'#PBS -P '+PROJECT,'#PBS -q auto',
-        '#PBS -l select=1:ncpus=1:mem=1GB','#PBS -l walltime=06:00:00','#PBS -m n','#PBS -r n',
+        '#PBS -l '+resource,'#PBS -l walltime=06:00:00','#PBS -m n','#PBS -r n',
         '#PBS -o '+str(slot/'stdout.log'),'#PBS -e '+str(slot/'stderr.log'),'set -eu','umask 077',
         'cd '+shlex.quote(str(root)),'export CUDA_VISIBLE_DEVICES="" PYTHONDONTWRITEBYTECODE=1',
         'export PYTHONPATH='+shlex.quote(str(root/'source')),
@@ -82,6 +88,31 @@ def submit(root,n,previous=None):
     return journal.once('submit',request,enqueue)
 
 
+@contextmanager
+def mixed_staging(root,slot,settings):
+    if not settings or (root/'MIXED_HOLD.json').exists():
+        yield
+        return
+    for name,sha in settings['members'].items():
+        if Path(name).name!=name or hashlib.sha256((root/name).read_bytes()).hexdigest()!=sha:
+            raise ValueError('Mixed reader executable differs from registration')
+    env=dict(os.environ,PYTHONPATH=settings['pythonpath'],JAX_PLATFORMS='cpu',CUDA_VISIBLE_DEVICES='',
+             OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1',PYTHONNOUSERSITE='1')
+    with (slot/'mixed.log').open('ab') as log:
+        proc=subprocess.Popen([settings['python'],'-B',str(root/'hopper_vanda_mixed_loop.py'),str(root),str(slot)],
+                              env=env,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+        try:
+            yield
+        finally:
+            if proc.poll() is None:
+                os.killpg(proc.pid,signal.SIGTERM)
+                try:
+                    proc.wait(timeout=10)
+                except subprocess.TimeoutExpired:
+                    os.killpg(proc.pid,signal.SIGKILL)
+                    proc.wait()
+
+
 def run(root,n):
     slot=root/f'{n:02d}'
     cfg=read(root/'CONFIG.json')
@@ -95,7 +126,7 @@ def run(root,n):
         raise PermissionError('Unbound VANDA dispatcher')
     row=job_row(job)
     if (row['job_state']!='R' or row['project']!=PROJECT or row['Job_Owner'].split('@')[0]!=os.environ['USER']
-            or int(row['Resource_List']['ncpus'])!=1 or int(row['Resource_List'].get('ngpus',0))!=0
+            or int(row['Resource_List']['ncpus'])!=(2 if cfg.get('mixed_dispatch') else 1) or int(row['Resource_List'].get('ngpus',0))!=0
             or wall_seconds(row['Resource_List']['walltime'])!=WALL):
         raise PermissionError('Unrecognized VANDA CPU allocation')
     if n==1 and cfg.get('cold_predecessor'):
@@ -131,9 +162,10 @@ def run(root,n):
         relay=cfg.get('local_relay')
         return ((root/'STOP').exists() or time.time()>=grant_limit-240 or
                 bool(relay and (Path(relay['mount']['path']).parent/'STOP.json').exists()))
-    with closing(OwnerLock(root/'scheduler.lock')):
+    with closing(OwnerLock(root/'scheduler.lock')), ExitStack() as children:
         write_once(slot/'START.json',dict(job=job,pid=os.getpid(),node=os.uname().nodename,epoch=time.time(),
                                            site_end=end,grant_end=grant_limit))
+        children.enter_context(mixed_staging(root,slot,cfg.get('mixed_dispatch')))
         attempts=0
         window=3600 if cfg.get('local_exchange') or cfg.get('local_relay') else 540
         if cfg.get('local_train_ingress'):

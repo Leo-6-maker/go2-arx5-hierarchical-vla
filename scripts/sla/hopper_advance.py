@@ -117,7 +117,18 @@ def advance(line,view,source,population,reference_source=None,reader_source=None
         if reader_source is not None:
             from hopper_mixed_promotion import promote
             for result in sorted((reader_source/'verified-inputs').glob('TRAIN-???.json')):
-                promote(view,source,reader_source,population,pin(result))
+                holds=reader_source/'staging-holds'
+                held=holds/result.name
+                if held.is_file():
+                    break
+                try:
+                    promote(view,source,reader_source,population,pin(result))
+                except (ValueError, RuntimeError, OSError, KeyError) as error:
+                    if (view/'train-ready'/result.stem).exists():
+                        raise
+                    holds.mkdir(exist_ok=True)
+                    write_once(held,dict(report=pin(result),reason=str(error),status='MIXED_INPUT_HELD'))
+                    break
         due=reference_queue(line) if reference_source else []
         prior=read(current/'RELEASE.json')['job']
         try:

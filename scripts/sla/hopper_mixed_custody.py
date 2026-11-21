@@ -33,6 +33,28 @@ def actual_input(root, cfg, name):
                 count=seal['count'], windows=seal['windows']), folder, mixed
 
 
+def qualify_one(root, cfg, file, old, stop):
+    entry, folder, mixed = actual_input(root,cfg,file.stem)
+    if not mixed or entry['membership'][:old['episodes']]!=old['member_sha256']:
+        raise ValueError('Mixed TRAIN no longer extends the verified reference')
+    info = inputs(dict(cfg,mode='candidate'),entry,old)
+    if not info['mixed']:
+        raise ValueError('The actual receipt lacks per-episode provenance')
+    for condition, registered in cfg['repairs'].items():
+        case = info['cases'].get(condition)
+        if case is not None and any(case[k]!=v for k,v in registered.items()):
+            raise ValueError('The repaired expert native or admission identity changed')
+    if not any(c in info['cases'] for c in cfg['repairs']):
+        raise ValueError('No original repaired admission in mixed custody')
+    reply = transfer(folder,Path(cfg['population']['path']),dict(cfg['relay'],deadline_epoch=stop),entry['sha256'])
+    if reply['manifest_sha256']!=info['manifest'] or reply['count']!=info['episodes']:
+        raise ValueError('Hopper staging and actual VANDA reader disagree')
+    return dict(plan=PLAN,status='MIXED_TRAIN_VANDA_READ_AND_HOPPER_STAGED',
+        qualified_reader=READER, original_prefix_windows=old['windows'], actual=info,
+        destination=reply, revision=read(file)['revision'], job=os.environ['PBS_JOBID'],
+        optimizer_updates=0,model_generations=0,native_requests=0,course_switches=0)
+
+
 def stage(root, cfg, stop):
     if Path(cfg['relay']['hopper_ready']).name != 'mixed-verified':
         raise ValueError('Cold validation must use the separate Hopper staging directory')
@@ -52,25 +74,8 @@ def stage(root, cfg, stop):
         for file in sorted(Path(cfg['intake_receipts']).glob('TRAIN-???.json')):
             if read(file)['status']!='MIXED_COLD_READER_REQUIRED':
                 continue
-            entry, folder, mixed = actual_input(root,cfg,file.stem)
-            if not mixed or entry['membership'][:old['episodes']]!=old['member_sha256']:
-                raise ValueError('Mixed TRAIN no longer extends the verified reference')
-            info = inputs(dict(cfg,mode='candidate'),entry,old)
-            if not info['mixed']:
-                raise ValueError('The actual receipt lacks per-episode provenance')
-            for condition, registered in cfg['repairs'].items():
-                case = info['cases'].get(condition)
-                if case is not None and any(case[k]!=v for k,v in registered.items()):
-                    raise ValueError('The repaired expert native or admission identity changed')
-            if not any(c in info['cases'] for c in cfg['repairs']):
-                raise ValueError('No original repaired admission in mixed custody')
-            reply = transfer(folder,Path(cfg['population']['path']),dict(cfg['relay'],deadline_epoch=stop),entry['sha256'])
-            if reply['manifest_sha256']!=info['manifest'] or reply['count']!=info['episodes']:
-                raise ValueError('Hopper staging and actual VANDA reader disagree')
-            write_once(root/'RESULT.json',dict(plan=PLAN,status='MIXED_TRAIN_VANDA_READ_AND_HOPPER_STAGED',
-                qualified_reader=READER, original_prefix_windows=old['windows'], actual=info,
-                destination=reply, revision=read(file)['revision'], job=os.environ['PBS_JOBID'],
-                optimizer_updates=0,model_generations=0,native_requests=0,course_switches=0))
+            result=qualify_one(root,cfg,file,old,stop)
+            write_once(root/'RESULT.json',result)
             return
         write(root/'HEARTBEAT.json',dict(job=os.environ['PBS_JOBID'],pid=os.getpid(),stage='WAIT_MIXED_INTAKE',epoch=time.time()))
         time.sleep(min(45,max(0,stop-300-time.time())))
