@@ -49,17 +49,29 @@ def register(root,cfg,path,key):
     run=root/'jobs'/key
     run.mkdir(exist_ok=True)
     jobfile=run/'JOB.json'
-    spec=dict(config=pin(root/'FORMAL.json'),endpoint=pin(path))
+    config=root/'FORMAL.json'
+    recovery=cfg.get('recovery')
+    if recovery and key==recovery['key']:
+        failure=read(Path(recovery['evidence']['path']))
+        if (digest(Path(recovery['evidence']['path']))!=recovery['evidence']['sha256']
+                or failure['checkpoint']!=read(path)['checkpoint'] or failure['status']!='FAILED'
+                or failure['attempted'] or failure['generated'] or failure['rows']
+                or 'cannot import name \'Queue\' from \'queue\'' not in failure['error']
+                or not 0<recovery['paid_seconds']<cfg['max_job_seconds']-900):
+            raise ValueError('Unproven pre-generation import interruption')
+        config=run/'RECOVERED_CONFIG.json'
+        write_once(config,dict(cfg,max_job_seconds=cfg['max_job_seconds']-recovery['paid_seconds']))
+    spec=dict(config=pin(config),endpoint=pin(path))
     write_once(run/'SPEC.json',spec)
     jobname='schvf'+('m' if key.startswith('MAIN-') else 'c')+key[-5:]
-    wall=cfg['max_job_seconds']
+    wall=read(config)['max_job_seconds']
     body='\n'.join(['#!/bin/bash -l','#PBS -N '+jobname,'#PBS -P '+cfg['project'],'#PBS -q auto',
         '#PBS -l select=1:ncpus=8:mem=112GB:ngpus=1:gpu_model=A40',
         '#PBS -l walltime='+f'{wall//3600:02d}:{wall//60%60:02d}:{wall%60:02d}',
         '#PBS -m n','#PBS -r n','#PBS -o '+str(run/'stdout.log'),'#PBS -e '+str(run/'stderr.log'),
         'set -eu','umask 077','cd '+shlex.quote(str(root)),'sha256sum --status -c SOURCE.sha256',
         'export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 JAX_PLATFORMS=cuda OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1',
-        'export PYTHONPATH='+shlex.quote(cfg['pythonpath']),'exec '+shlex.join([cfg['python'],'-B','-m',
+        'export PYTHONPATH='+shlex.quote(cfg['pythonpath']),'cd '+shlex.quote(str(run)),'exec '+shlex.join([cfg['python'],'-B','-m',
         'scripts.sla.hopper_formal_outputs',str(run),'batch'])])+'\n'
     script=run/'job.pbs'
     if not script.exists():

@@ -38,7 +38,7 @@ def submit(root,n,previous=None):
     if cfg.get('reconciled_dispatch'):
         prefix='slachv1rc'
     if cfg.get('cold_predecessor'):
-        prefix='slachv1rf'
+        prefix='slachv1ef' if cfg.get('local_formal') else 'slachv1rf'
         if n==1:
             previous=cfg['cold_predecessor']['job']
     name=prefix+f'{n:02d}'
@@ -121,7 +121,7 @@ def run(root,n):
             if cfg.get('local_exchange'):
                 command=[cfg['hub_python'],'-B',str(root/'exchange.py'),'tick',str(root)]
             elif cfg.get('local_formal'):
-                command=[sys.executable,'-B',str(root/'queue.py'),'tick',str(root)]
+                command=[sys.executable,'-B',str(root/'formal_scheduler.py'),'tick',str(root)]
             elif cfg.get('local_backup'):
                 command=[sys.executable,'-B',str(root/'backup.py'),'tick',str(root)]
             else:
