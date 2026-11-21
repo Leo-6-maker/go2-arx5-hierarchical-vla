@@ -50,3 +50,18 @@ def validate_member(case, authority):
             or case['frozen_files'][case['model_path']] != cluster['scene']['sha256']
             or case['expert_training_eligible'] != (row['split']=='TRAIN')):
         raise PermissionError('Expert case is not bound to its numerical scene, split and clocks')
+
+
+def check_world_lease(case, fd):
+    import os
+    import time
+    from go2arx5_vla.world_model.multitask_scope_v6 import read_pin
+    lease = read_pin(case['site_world_lease'])
+    held = os.fstat(fd)
+    if (case['owner'] != OWNER or lease['uid'] != os.getuid() or lease['owner_pid'] != os.getppid()
+            or lease['condition'] != case['panel_entry_id'] or lease['lock'] != case['mobile_world_lock']
+            or (held.st_dev, held.st_ino) != (lease['lock_device'], lease['lock_inode'])
+            or lease['deadline_epoch'] != case['allocation_deadline_epoch']
+            or not time.time() < case['deadline_epoch'] <= lease['deadline_epoch']
+            or lease['deadline_epoch'] - lease['acquired_epoch'] > 2160):
+        raise PermissionError('A live bounded single-world lease must precede the native child')

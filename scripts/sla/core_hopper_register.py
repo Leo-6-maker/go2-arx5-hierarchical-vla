@@ -65,13 +65,14 @@ def prepare(config):
               registered_panel=pin(pf),interface_predecessor=config['interface'],sim_only_project_authorization=pin(authority),
               C20_statistics_path=config['statistics'],physics=True,hardware_connections_allowed=False,
               resident_server_spec=None,new_optimizer_updates_budget=0,new_training_visits_budget=0,
-              new_model_generations_budget=0,new_physical_requests_budget=len(rows),allocation_deadline_epoch=end,
+              new_model_generations_budget=0,new_physical_requests_budget=len(rows),allocation_deadline_epoch=None,
               campaign_deadline_epoch=end,deadline_epoch=end,automatic_retry=False,frontend_dependency=False,
               cases=[str(root/'cases'/r['id']/'EXECUTION_SPEC.json') for r in rows])
     spec.update({k:str(root/k) for k in ('logs','cache','tmp','data')})
     for item,row in zip(panel,rows,strict=True):
         _,case=case_card(spec,templates[row['family']],item,spec['registered_panel'])
         case.update(registry_scope=SCOPE,collection_split=row['split'],compiled_population=config['population'],
+                    allocation_deadline_epoch=min(end,time.time()+2160),deadline_epoch=min(end,time.time()+1980),
                     expert_training_eligible=row['split']=='TRAIN')
         validate(case)
     write(root/'PREFLIGHT.private.json',dict(validated_cards=len(rows),native_requests=0,source_sha=source_sha,

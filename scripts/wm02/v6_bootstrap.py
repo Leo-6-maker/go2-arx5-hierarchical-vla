@@ -42,6 +42,9 @@ def main():
     if operation == '--core-hopper-collection' and core_hopper_expert:
         from scripts.sla.core_hopper_collection import run
         raise SystemExit(run(spec))
+    if operation == '--case' and core_hopper_expert:
+        from scripts.sla.core_hopper_expert import check_world_lease
+        check_world_lease(spec, int(sys.argv[sys.argv.index('--world-lock-fd')+1]))
     if operation=='--case':
         from scripts.wm02.mobile_boundary_runner_v1 import run_case
         fd=int(sys.argv[sys.argv.index('--world-lock-fd')+1])

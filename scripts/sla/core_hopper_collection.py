@@ -24,8 +24,8 @@ def read(path):
     return json.loads(Path(path).read_bytes())
 
 
-def capacity():
-    disk = shutil.disk_usage('.')
+def capacity(root):
+    disk = shutil.disk_usage(root)
     mem = int(next(x.split()[1] for x in Path('/proc/meminfo').read_text().splitlines()
                    if x.startswith('MemAvailable:'))) * 1024
     return mem >= 13*1024**3 and disk.free >= max(50*1024**3,int(.15*disk.total))+8*1024**3
@@ -78,8 +78,16 @@ def run(spec):
         item = panel[row['id']]
         family = row['family']
         folder,case = case_card(spec,templates[family],item,spec['registered_panel'])
+        acquired=time.time()
+        lease_end=min(spec['campaign_deadline_epoch'],acquired+2160)
+        site_lease=root/'control'/('world-'+row['id']+'.json')
+        inode=os.fstat(world.handle.fileno())
+        write(site_lease,dict(kind='CORELAB_LIVE_SINGLE_WORLD_LEASE',owner_pid=os.getpid(),uid=os.getuid(),
+              acquired_epoch=acquired,deadline_epoch=lease_end,lock=spec['mobile_world_lock'],
+              lock_inode=inode.st_ino,lock_device=inode.st_dev,condition=row['id']))
         case.update(registry_scope=spec['scope'],collection_split=row['split'],compiled_population=spec['compiled_population'],
-                    expert_training_eligible=row['split']=='TRAIN',deadline_epoch=min(spec['deadline_epoch'],time.time()+1980))
+                    expert_training_eligible=row['split']=='TRAIN',site_world_lease=pin(site_lease),
+                    allocation_deadline_epoch=lease_end,deadline_epoch=lease_end-60)
         require_unstarted_cases(case['registry'],{row['id']})
         validate(case)
         dirs(folder)
@@ -105,7 +113,7 @@ def run(spec):
             cell = row['family'],row['instruction']
             if row['split']=='TRAIN' and cell in paused:
                 continue
-            while not stopped() and (not capacity() or (root/'STUDENT_TURN_READY.private.json').exists()):
+            while not stopped() and (not capacity(root) or (root/'STUDENT_TURN_READY.private.json').exists()):
                 state('WAIT_CAPACITY_OR_STUDENT_HANDOFF')
                 time.sleep(20)
             if stopped():
