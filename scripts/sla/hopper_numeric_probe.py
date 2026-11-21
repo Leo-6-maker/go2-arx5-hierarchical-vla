@@ -1,5 +1,6 @@
 """Private, nonintegrating phase-zero measurements. No endpoint or student queue writes."""
 import argparse
+import dataclasses
 import hashlib
 import inspect
 import json
@@ -40,6 +41,19 @@ def signature(value):
     a = np.asarray(value)
     return dict(dtype=str(a.dtype), shape=list(a.shape),
                 sha256=hashlib.sha256(a.tobytes(order='C')).hexdigest())
+
+
+def observation_signatures(obs):
+    result = {}
+    for field in dataclasses.fields(obs):
+        value = getattr(obs, field.name)
+        if value is None:
+            result[field.name] = None
+            continue
+        items = value.items() if isinstance(value,dict) else [('',value)]
+        for key, tensor in items:
+            result[field.name+('/'+key if key else '')] = signature(tensor)
+    return result
 
 
 def instrument(sampler):
@@ -136,11 +150,7 @@ def measure(out, provider, data, panel, local, manifest, ordinal, tracer):
         raise ValueError('Raw observation, window or previous actual command changed')
     obsig, private = {}, {}
     def capture(active, frozen, obs, noise):
-        for field in ('image','image_mask','image_padding_mask','state','tokenized_prompt','tokenized_prompt_mask'):
-            value = getattr(obs, field)
-            items = value.items() if isinstance(value,dict) else [('',value)]
-            for name, a in items:
-                obsig[field+('/'+name if name else '')] = signature(a)
+        obsig.update(observation_signatures(obs))
         obsig['noise'] = signature(noise)
         obsig['key'] = signature(jax.random.PRNGKey(fixed['noise_id']))
         private['noise'] = np.asarray(noise)
