@@ -105,7 +105,8 @@ def run(root,n):
         write_once(slot/'START.json',dict(job=job,pid=os.getpid(),node=os.uname().nodename,epoch=time.time(),
                                            site_end=end,grant_end=grant_limit))
         attempts=0
-        while not stopped() and time.time()<end-540:
+        window=3600 if cfg.get('local_exchange') else 540
+        while not stopped() and time.time()<end-window:
             # Arguments and identity are fixed at registration. Only scheduling and status cross this SSH connection.
             if cfg.get('local_exchange'):
                 command=[cfg['hub_python'],'-B',str(root/'exchange.py'),'tick',str(root)]
@@ -115,7 +116,7 @@ def run(root,n):
                 command=[sys.executable,'-B',str(root/'backup.py'),'tick',str(root)]
             else:
                 command=[*SSH,HOST,cfg['hopper_command']]
-            proc=subprocess.run(command,text=True,capture_output=True,timeout=480)
+            proc=subprocess.run(command,text=True,capture_output=True,timeout=window-60)
             if proc.returncode:
                 write_once(slot/'INTERRUPTION.json',dict(job=job,returncode=proc.returncode,epoch=time.time(),
                            reason=proc.stderr[-1800:]))
@@ -126,7 +127,7 @@ def run(root,n):
             if state['status'] not in ('WAIT_PBS','SUBMITTED','SELECTION_RECONCILED','COPIED','WAIT_SEAL'):
                 write_once(slot/'RESULT.json',state)
                 return
-            time.sleep(min(1 if state['status']=='COPIED' else 150,max(0,end-540-time.time())))
+            time.sleep(min(1 if state['status']=='COPIED' else 150,max(0,end-window-time.time())))
         if not stopped() and n<MAX_SLOTS:
             successor=submit(root,n+1,job)
             write_once(slot/'SUCCESSOR.json',dict(job=successor,afterok=job))
