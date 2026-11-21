@@ -37,6 +37,10 @@ def submit(root,n,previous=None):
         prefix='slachv1hf'
     if cfg.get('reconciled_dispatch'):
         prefix='slachv1rc'
+    if cfg.get('local_relay'):
+        prefix='slachv1tr'
+        if n==1:
+            previous=cfg['local_relay']['job']
     if cfg.get('cold_predecessor'):
         prefix='slachv1ef' if cfg.get('local_formal') else 'slachv1rf'
         if n==1:
@@ -107,18 +111,34 @@ def run(root,n):
                 or (slot0/'SUCCESSOR.json').exists() or read(evidence)['job']!=prior['job']
                 or hashlib.sha256(evidence.read_bytes()).hexdigest()!=prior['evidence_sha256']):
             raise PermissionError('Unreconciled dispatcher interruption')
+    if n==1 and cfg.get('local_relay'):
+        old=cfg['local_relay']
+        target=Path(old['mount']['path']).parent
+        prior=job_row(old['job'])
+        terminal=read(target/'RESULT.private.json')
+        if (prior['job_state']!='F' or int(prior['Exit_status'])!=0 or prior['project']!=PROJECT
+                or read(target/'RELEASE.private.json')['job']!=old['job']
+                or terminal['job']!=old['job']):
+            raise PermissionError('First snapshot relay did not finish its natural allocation')
+        if terminal['stop'] or (target/'STOP.json').exists():
+            write_once(slot/'RESULT.json',dict(status='STOP_LIMIT_OR_DEADLINE'))
+            return
     grant_limit=min(DEADLINE,cfg['grant_end'])
     end=site_epoch(row['stime'])+WALL
     def stopped():
-        return (root/'STOP').exists() or time.time()>=grant_limit-240
+        relay=cfg.get('local_relay')
+        return ((root/'STOP').exists() or time.time()>=grant_limit-240 or
+                bool(relay and (Path(relay['mount']['path']).parent/'STOP.json').exists()))
     with closing(OwnerLock(root/'scheduler.lock')):
         write_once(slot/'START.json',dict(job=job,pid=os.getpid(),node=os.uname().nodename,epoch=time.time(),
                                            site_end=end,grant_end=grant_limit))
         attempts=0
-        window=3600 if cfg.get('local_exchange') else 540
+        window=3600 if cfg.get('local_exchange') or cfg.get('local_relay') else 540
         while not stopped() and time.time()<end-window:
             # Arguments and identity are fixed at registration. Only scheduling and status cross this SSH connection.
-            if cfg.get('local_exchange'):
+            if cfg.get('local_relay'):
+                command=[sys.executable,'-B',str(root/'relay_tick.py'),str(root),str(n)]
+            elif cfg.get('local_exchange'):
                 command=[cfg['hub_python'],'-B',str(root/'exchange.py'),'tick',str(root)]
             elif cfg.get('local_formal'):
                 command=[sys.executable,'-B',str(root/'formal_scheduler.py'),'tick',str(root)]
