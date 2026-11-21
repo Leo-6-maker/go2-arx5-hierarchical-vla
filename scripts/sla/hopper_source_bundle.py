@@ -12,6 +12,7 @@ import tarfile
 BASE = '1432c8dc88c57adf39e8fa363f5438c5e63aa8fd'
 PERFORMANCE = '2caa24b2447e41f6a64323fadc1a428c72d583db'
 KERNEL = 'src/go2arx5_vla/sla_adapter/scale20k_training.py'
+SERIAL = 'src/go2arx5_vla/sla_adapter/hopper_serial_reference.py'
 
 
 def git(*args):
@@ -28,6 +29,7 @@ def build(revision, entries, output):
         raise ValueError('Use a full immutable source revision')
     origins = dict.fromkeys(files(BASE),BASE)
     origins[KERNEL] = PERFORMANCE
+    origins[SERIAL] = BASE
     new = {p for p in files(revision) if p.startswith('scripts/sla/hopper_')}
     new.add('src/go2arx5_vla/sla_adapter/adapt5k_contract.py')
     origins.update(dict.fromkeys(new,revision))
@@ -36,12 +38,14 @@ def build(revision, entries, output):
         dotted=name.removeprefix('src/').removesuffix('.py').replace('/','.')
         mapping[dotted.removesuffix('.__init__')]=name
     pending = list(entries)
+    if 'scripts/sla/hopper_bank_custody.py' in entries:
+        pending.append('scripts/sla/hopper_bank_receipt.py')
     sources = {}
     while pending:
         name=pending.pop()
         if name in sources:
             continue
-        body=git('show',origins[name]+':'+name)
+        body=git('show',origins[name]+':'+(KERNEL if name==SERIAL else name))
         sources[name]=body
         dotted=name.removeprefix('src/').removesuffix('.py').replace('/','.')
         package=dotted.rpartition('.')[0]
