@@ -226,7 +226,8 @@ def run(root, cfg, mode):
             raise ValueError('Cold ordinary path differed from its historical bytes')
     out=root/mode
     out.mkdir()
-    ordinals=ORDINALS if mode=='ordinary16' else ORDINALS[:2]
+    ordinals={'ordinary2':ORDINALS[:2], 'trace2':ORDINALS[:2],
+              'ordinary14':ORDINALS[2:], 'ordinary16':ORDINALS}[mode]
     info=subprocess.check_output(['nvidia-smi','-i',os.environ['CUDA_VISIBLE_DEVICES'],
         '--query-gpu=name,uuid,driver_version','--format=csv,noheader'],text=True).strip()
     record(out/'ENV.json',dict(device=info,jax=jax.__version__,jaxlib=version('jaxlib'),
@@ -249,7 +250,7 @@ if __name__=='__main__':
     cli=argparse.ArgumentParser()
     cli.add_argument('root',type=Path)
     cli.add_argument('config_sha256')
-    cli.add_argument('mode',choices=('ordinary2','trace2','ordinary16'))
+    cli.add_argument('mode',choices=('ordinary2','trace2','ordinary14','ordinary16'))
     args=cli.parse_args()
     os.umask(0o077)
     config=pin(args.root/'CONFIG.json',args.config_sha256)

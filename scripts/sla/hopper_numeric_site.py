@@ -27,7 +27,7 @@ def execute(root, cfg, config_hash, locks):
     worker = root/'hopper_numeric_probe.py'
     if digest(worker)!=cfg['worker_sha256'] or digest(Path(__file__))!=cfg['driver_sha256']:
         raise ValueError('Cold execution files changed')
-    if cfg['modes'] not in (['ordinary2','trace2'],['ordinary16']):
+    if cfg['modes'] not in (['ordinary2','trace2'],['ordinary14'],['ordinary16']):
         raise ValueError('Unexpected diagnostic population')
     end = cfg['deadline']
     env = os.environ.copy()

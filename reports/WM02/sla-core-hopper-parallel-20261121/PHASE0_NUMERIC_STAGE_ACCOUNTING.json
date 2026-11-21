@@ -1,0 +1,19 @@
+{
+  "preregistration_sha256": "ce0a6cc2436304c9e5784a9490cfae8a4e714301872f02d84a1647c2437107b9",
+  "issued_before_cross_site_pilot_values": true,
+  "endpoint": "MAIN-phase00000",
+  "new_generation_attempt_cap": 64,
+  "initial_core_failed_attempts": 1,
+  "ordinary_pilot_per_site": 2,
+  "trace_pilot_per_site": 2,
+  "full_panel_after_paired_pilot_review": {
+    "reuse_ordinary_pilot_rows": [0, 7],
+    "new_ordinary_rows_per_site": [14, 21, 28, 35, 36, 43, 50, 57, 64, 71, 72, 79, 86, 93],
+    "require_fixed_site_and_checkpoint_bindings": true,
+    "require_unchanged_native_provider_and_identical_each_site_v1_results": true,
+    "trace_outputs_never_used_as_deployed_predictions": true
+  },
+  "independent_confirmation_if_eligible_per_site": 12,
+  "projected_attempts_including_first_engineering_failure": 61,
+  "training_or_native_grant": 0
+}

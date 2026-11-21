@@ -90,6 +90,12 @@ def compare_one(left, right, ordinal, bounds):
             gates[name][k]=dict(threshold=x['threshold'],left_peak_margin=x['margin'],right_peak_margin=y['margin'],
                 left_first=x['first_exceedance_k'],right_first=y['first_exceedance_k'],
                 same_exceeded_indices=x['exceedance_indices']==y['exceedance_indices'])
+    axes={}
+    for k,v in data.items():
+        if v.ndim==2:
+            prefix=9 if k.endswith('velocity') else 10
+            axes[k]={axis:dict(H40=distribution(np.abs(v[:,j])),P10=distribution(np.abs(v[:prefix,j])))
+                     for j,axis in enumerate(('x','y','z'))}
     trace={}
     for k in sorted(a.keys()|b.keys()):
         if k=='flow' or k=='prefix_tokens' or k.startswith('prefix_cache_'):
@@ -102,7 +108,7 @@ def compare_one(left, right, ordinal, bounds):
                 noise_error=distribution(np.abs(a['noise'].astype(float)-b['noise'].astype(float))),
                 normalized_error=dict(active7=distribution(normalized[:,:7]),padding25=distribution(normalized[:,7:])),
                 physical=results,guards_equal=ar['guard']==br['guard'],guards=[ar['guard'],br['guard']],
-                original_channels=gates,trace=trace,own_v1=[ar['own_v1'],br['own_v1']])
+                original_channels=gates,axis_errors=axes,trace=trace,own_v1=[ar['own_v1'],br['own_v1']])
 
 
 if __name__=='__main__':
@@ -111,12 +117,14 @@ if __name__=='__main__':
     cli.add_argument('right',type=Path)
     cli.add_argument('preregistration',type=Path)
     cli.add_argument('spec_sha')
-    cli.add_argument('mode',choices=['ordinary2','trace2','ordinary16'])
+    cli.add_argument('mode',choices=['ordinary2','trace2','ordinary14','ordinary16'])
+    cli.add_argument('--native-margins',nargs=2,type=Path,metavar=('HOPPER','CORE'))
     args=cli.parse_args()
     spec=pin(args.preregistration,args.spec_sha)
     if (spec['checkpoint'],spec['package'],spec['panel'])!=(CHECKPOINT,PACKAGE,PANEL):
         raise ValueError('Unexpected numeric scope')
-    ords=ORDINALS if args.mode=='ordinary16' else ORDINALS[:2]
+    ords={'ordinary2':ORDINALS[:2], 'trace2':ORDINALS[:2],
+          'ordinary14':ORDINALS[2:], 'ordinary16':ORDINALS}[args.mode]
     for p,site in [(args.left,'hopper'),(args.right,'core')]:
         cfg=json.loads((p/'CONFIG.json').read_bytes())
         if cfg['preregistration']!=args.spec_sha or cfg['site']!=site:
@@ -124,8 +132,25 @@ if __name__=='__main__':
         terminal=json.loads((p/args.mode/'RESULT.json').read_bytes())
         if terminal['completed']!=len(ords):
             raise ValueError('Missing measurements')
+    rows=[compare_one(args.left/args.mode,args.right/args.mode,i,
+                      spec['equivalence']['per_point_absolute_limits']) for i in ords]
+    if args.native_margins:
+        from numeric_native_margins import margin_comparison
+        margins=[]
+        for side,site,file in zip((args.left,args.right),('hopper','core'),args.native_margins,strict=True):
+            record=json.loads(file.read_bytes())
+            if (record['config_sha256']!=sha(side/'CONFIG.json') or record['mode']!=args.mode or
+                    record['site']!=site or set(record['rows'])!={str(n) for n in ords}):
+                raise ValueError('Unexpected native margin evidence')
+            for n in ords:
+                original=json.loads((side/args.mode/f'{n:03d}.json').read_bytes())
+                if (record['rows'][str(n)]['artifact']!=original['artifact_sha256'] or
+                        record['rows'][str(n)]['seam']!=original['seam']['first_seam_speed_m_s']):
+                    raise ValueError('Native margins belong to a different prediction')
+            margins.append(record)
+        for row in rows:
+            a,b=[side['rows'][str(row['ordinal'])] for side in margins]
+            row['per_point_margins']=margin_comparison(a['paths'],b['paths'],a['seam'],b['seam'])
     print(json.dumps(dict(schema='SLA_PHASE0_NUMERIC_MEASUREMENTS_V2',mode=args.mode,
         checkpoint=CHECKPOINT,preregistration=args.spec_sha,native_admission=False,
-        rows=[compare_one(args.left/args.mode,args.right/args.mode,i,
-                          spec['equivalence']['per_point_absolute_limits']) for i in ords]),
-        sort_keys=True,allow_nan=False))
+        rows=rows),sort_keys=True,allow_nan=False))
