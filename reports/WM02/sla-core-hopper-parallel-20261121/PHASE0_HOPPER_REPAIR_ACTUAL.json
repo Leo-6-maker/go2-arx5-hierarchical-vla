@@ -1,0 +1,394 @@
+{
+  "as_of_sgt": "2026-11-22T01:10:17+08:00",
+  "endpoint": "MAIN-phase00000",
+  "prereg_sha256": "ce0a6cc2436304c9e5784a9490cfae8a4e714301872f02d84a1647c2437107b9",
+  "diagnostic_source": "40ad37682f6fb2d5f560b1cfe339610ba6161b28",
+  "private_comparison_source": "49b29d3f3b6b59fccaa11549e3c49321ab605122",
+  "failed_h200": {
+    "job": "728017.hopper-m-02",
+    "job_state": "F",
+    "comment": "Job run at Sun Nov 22 at 00:56 on (hopper-19:ngpus=1:ncpus=12:mem=235929600kb) and failed",
+    "stime": "Sun Nov 22 00:56:58 2026",
+    "exec_host": "hopper-19/2*12",
+    "resources_used": {
+      "cpupercent": 3,
+      "cput": "00:00:00",
+      "mem": "18052kb",
+      "ncpus": 12,
+      "vmem": "0kb",
+      "walltime": "00:00:01"
+    },
+    "Exit_status": 1,
+    "estimated": null,
+    "receipt": "a2c15084cfd77d2c7b5d56f24f128fce313a01f6949385b7739d41eb6a9bfe62",
+    "attempts": 0,
+    "complete": 0,
+    "reason": "FileNotFoundError: [Errno 2] No such file or directory: '/etc/am.conf'",
+    "gpu_seconds_settled": 16,
+    "settlement_sha256": "c07e31b5edaf945c18612c368218e2e7f4e0aa8cc4eed5f20693e40aac2a1bbb"
+  },
+  "new_h200": {
+    "job": "728038.hopper-m-02",
+    "spec": "1c7b25cfdc89bbd6f74760776c2d48288f15ccea97f38f21b962250aa4374597",
+    "queue": {
+      "job_state": "Q",
+      "comment": "Not Running: Insufficient amount of resource: ngpus ",
+      "stime": null,
+      "exec_host": null,
+      "resources_used": null,
+      "Exit_status": null,
+      "estimated": null
+    },
+    "released": true,
+    "range": [
+      0,
+      7
+    ],
+    "requested_H200": 1,
+    "wall_s": 2700,
+    "latest_stop_sgt": "2026-11-22T02:41:13+08:00",
+    "attempts": 0,
+    "complete": 0
+  },
+  "comparison_cpu": {
+    "at": 1795280852.409448,
+    "job": "1603568.stdct-mgmt-02",
+    "state": "R",
+    "host": "GN-A40-074/7",
+    "account": "CFP04-CF-007",
+    "resources": {
+      "ngpus": 0,
+      "ncpus": 1,
+      "walltime": "02:00:00"
+    },
+    "status": {},
+    "comparison": false,
+    "spec": "306099f65d38198513eb205739aae4c94191a130729c4905247f3f77a9b52b8d",
+    "ordinary_only": true,
+    "gpu": 0,
+    "physics": 0,
+    "pilot_models_started_by_comparator": 0,
+    "transferred_private_files": 9,
+    "ordinary_self_tests": 2,
+    "consecutive_read_failures_before_stop": 3
+  },
+  "main_training": {
+    "at": "2026-11-22T01:07:08.454241+08:00",
+    "committed": 1663,
+    "visits": {
+      "target": 106432,
+      "robodojo": 53216,
+      "libero": 53216
+    },
+    "seal": {
+      "phase": 1634,
+      "checkpoint": "8596bed2e3e03e757d313a0785367aa63456a923447e4c1a5d473f2b4ce14ae5",
+      "event": "0fc53485249dff45c366fab4d86af2badf4e8a4797e74e0be0d2313faabbcbb2",
+      "arrays": 140,
+      "full": true
+    },
+    "queue": {
+      "job_state": "R",
+      "comment": "Job run at Sun Nov 22 at 00:56 on (hopper-17:ngpus=1:ncpus=12:mem=235929600kb)",
+      "stime": "Sun Nov 22 00:56:53 2026",
+      "exec_host": "hopper-17/0*12",
+      "resources_used": {
+        "cpupercent": 67,
+        "cput": "00:05:30",
+        "mem": "19111052kb",
+        "ncpus": 12,
+        "vmem": "146110708kb",
+        "walltime": "00:10:35"
+      },
+      "Exit_status": null,
+      "estimated": null
+    }
+  },
+  "auxiliary_A40_vs_core_native_margin": {
+    "0": {
+      "A40_original_guard": [
+        true,
+        null,
+        false
+      ],
+      "margin": {
+        "nominal": {
+          "linear_velocity": {
+            "limit": 0.05,
+            "minimum_signed_margin": [
+              0.043262682654875775,
+              0.04306484144864242
+            ],
+            "min_margin_after_difference": 0.003992922014186073,
+            "first_margin_violation": null,
+            "same_original_exceedance": true,
+            "within_reserved_margin": true
+          },
+          "linear_acceleration": {
+            "limit": 0.25,
+            "minimum_signed_margin": [
+              0.16934294104038874,
+              0.16555927881608856
+            ],
+            "min_margin_after_difference": 0.010282604532824053,
+            "first_margin_violation": null,
+            "same_original_exceedance": true,
+            "within_reserved_margin": true
+          },
+          "angular_velocity": {
+            "limit": 0.25,
+            "minimum_signed_margin": [
+              0.24286553936327215,
+              0.24286236516850113
+            ],
+            "min_margin_after_difference": 0.024040097535184934,
+            "first_margin_violation": null,
+            "same_original_exceedance": true,
+            "within_reserved_margin": true
+          },
+          "angular_acceleration": {
+            "limit": 1,
+            "minimum_signed_margin": [
+              0.8675322570432541,
+              0.8753252363035243
+            ],
+            "min_margin_after_difference": 0.0789602464440552,
+            "first_margin_violation": null,
+            "same_original_exceedance": true,
+            "within_reserved_margin": true
+          },
+          "finger_velocity": {
+            "limit": 0.04,
+            "minimum_signed_margin": [
+              0.03999171887739277,
+              0.03999060329919046
+            ],
+            "min_margin_after_difference": 0.0039973828427126955,
+            "first_margin_violation": null,
+            "same_original_exceedance": true,
+            "within_reserved_margin": true
+          }
+        },
+        "reference": {
+          "linear_velocity": {
+            "limit": 0.05,
+            "minimum_signed_margin": [
+              0.043262682654875775,
+              0.04306484144864362
+            ],
+            "min_margin_after_difference": 0.0039929220141859045,
+            "first_margin_violation": null,
+            "same_original_exceedance": true,
+            "within_reserved_margin": true
+          },
+          "linear_acceleration": {
+            "limit": 0.25,
+            "minimum_signed_margin": [
+              0.16934294104039874,
+              0.16555927881608856
+            ],
+            "min_margin_after_difference": 0.010282604532702383,
+            "first_margin_violation": null,
+            "same_original_exceedance": true,
+            "within_reserved_margin": true
+          },
+          "angular_velocity": {
+            "limit": 0.25,
+            "minimum_signed_margin": [
+              0.24286553936327177,
+              0.2428623651685001
+            ],
+            "min_margin_after_difference": 0.02404009753518551,
+            "first_margin_violation": null,
+            "same_original_exceedance": true,
+            "within_reserved_margin": true
+          },
+          "angular_acceleration": {
+            "limit": 1,
+            "minimum_signed_margin": [
+              0.8675322570432537,
+              0.8753252363035029
+            ],
+            "min_margin_after_difference": 0.07896024644407612,
+            "first_margin_violation": null,
+            "same_original_exceedance": true,
+            "within_reserved_margin": true
+          },
+          "finger_velocity": {
+            "limit": 0.04,
+            "minimum_signed_margin": [
+              0.03999171887739277,
+              0.03999060329919046
+            ],
+            "min_margin_after_difference": 0.0039973828427126955,
+            "first_margin_violation": null,
+            "same_original_exceedance": true,
+            "within_reserved_margin": true
+          }
+        },
+        "previous_actual_grip_seam": {
+          "limit": 0.04,
+          "minimum_signed_margin": [
+            0.039901945135111076,
+            0.03990159487761793
+          ],
+          "min_margin_after_difference": 0.003989809230268645,
+          "first_margin_violation": null,
+          "same_original_exceedance": true,
+          "within_reserved_margin": true
+        }
+      },
+      "source": "432d972293eeeb716fedf782e89d357f1745ed3868ff7224e36a5a3b75082c04"
+    },
+    "7": {
+      "A40_original_guard": [
+        true,
+        null,
+        false
+      ],
+      "margin": {
+        "nominal": {
+          "linear_velocity": {
+            "limit": 0.05,
+            "minimum_signed_margin": [
+              0.043544913171945136,
+              0.043420054975536
+            ],
+            "min_margin_after_difference": 0.004071198235172861,
+            "first_margin_violation": null,
+            "same_original_exceedance": true,
+            "within_reserved_margin": true
+          },
+          "linear_acceleration": {
+            "limit": 0.25,
+            "minimum_signed_margin": [
+              0.1503555233895416,
+              0.1493739302757176
+            ],
+            "min_margin_after_difference": 0.010857341064826258,
+            "first_margin_violation": null,
+            "same_original_exceedance": true,
+            "within_reserved_margin": true
+          },
+          "angular_velocity": {
+            "limit": 0.25,
+            "minimum_signed_margin": [
+              0.24472820410938176,
+              0.2444909886457285
+            ],
+            "min_margin_after_difference": 0.024211883400919596,
+            "first_margin_violation": null,
+            "same_original_exceedance": true,
+            "within_reserved_margin": true
+          },
+          "angular_acceleration": {
+            "limit": 1,
+            "minimum_signed_margin": [
+              0.9032800917426498,
+              0.9053646075900501
+            ],
+            "min_margin_after_difference": 0.08356975279674772,
+            "first_margin_violation": null,
+            "same_original_exceedance": true,
+            "within_reserved_margin": true
+          },
+          "finger_velocity": {
+            "limit": 0.04,
+            "minimum_signed_margin": [
+              0.03999248934892282,
+              0.03999237609066366
+            ],
+            "min_margin_after_difference": 0.0039978110234242074,
+            "first_margin_violation": null,
+            "same_original_exceedance": true,
+            "within_reserved_margin": true
+          }
+        },
+        "reference": {
+          "linear_velocity": {
+            "limit": 0.05,
+            "minimum_signed_margin": [
+              0.04354491317194358,
+              0.04342005497553446
+            ],
+            "min_margin_after_difference": 0.0040711982351724465,
+            "first_margin_violation": null,
+            "same_original_exceedance": true,
+            "within_reserved_margin": true
+          },
+          "linear_acceleration": {
+            "limit": 0.25,
+            "minimum_signed_margin": [
+              0.1503555233895416,
+              0.1493739302757266
+            ],
+            "min_margin_after_difference": 0.010857341064830283,
+            "first_margin_violation": null,
+            "same_original_exceedance": true,
+            "within_reserved_margin": true
+          },
+          "angular_velocity": {
+            "limit": 0.25,
+            "minimum_signed_margin": [
+              0.24472820410938242,
+              0.24449098864572824
+            ],
+            "min_margin_after_difference": 0.02421188340091863,
+            "first_margin_violation": null,
+            "same_original_exceedance": true,
+            "within_reserved_margin": true
+          },
+          "angular_acceleration": {
+            "limit": 1,
+            "minimum_signed_margin": [
+              0.9032800917426435,
+              0.9053646075900479
+            ],
+            "min_margin_after_difference": 0.0835697527967435,
+            "first_margin_violation": null,
+            "same_original_exceedance": true,
+            "within_reserved_margin": true
+          },
+          "finger_velocity": {
+            "limit": 0.04,
+            "minimum_signed_margin": [
+              0.03999248934892282,
+              0.03999237609066366
+            ],
+            "min_margin_after_difference": 0.0039978110234242074,
+            "first_margin_violation": null,
+            "same_original_exceedance": true,
+            "within_reserved_margin": true
+          }
+        },
+        "previous_actual_grip_seam": {
+          "limit": 0.04,
+          "minimum_signed_margin": [
+            0.039905077949899496,
+            0.03990454636639048
+          ],
+          "min_margin_after_difference": 0.003989923053130031,
+          "first_margin_violation": null,
+          "same_original_exceedance": true,
+          "within_reserved_margin": true
+        }
+      },
+      "source": "2d5931123f2c69af35b77a127e3f4fac1996aac702f1567118bcdb274acf0583"
+    }
+  },
+  "disk": {
+    "free": 326.57780838012695,
+    "floor": 274.1650756835937,
+    "time": 1795280987.6320844
+  },
+  "counts": {
+    "measurement_attempts": 5,
+    "ordinary_complete": 2,
+    "trace_complete": 2,
+    "successful_new_h200_core_pairs": 0,
+    "new_optimizer_updates": 0,
+    "native_requests": 0,
+    "scored": 0
+  },
+  "next": "Compare actual preprocessed tensors, noise and original predictions when H200 ordinary2 is sealed. Only a distinct, complete phase0 equivalence verdict could release the original first DEV6. The CPU job cannot generate or dispatch."
+}
