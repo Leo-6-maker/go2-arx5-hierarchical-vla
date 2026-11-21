@@ -27,6 +27,10 @@ def main():
     core_hopper_expert = (spec['plan_commit'] == '171b5bedb290258954aac140157743e92e3b152e'
                           and spec['scope'] == 'SLA_CORE_HOPPER_V1_EXPERT'
                           and operation in ('--case', '--core-hopper-collection'))
+    core_multienv_expert = (spec['plan_commit'] == '4fe2c8cf1b69c168b2e3079e061bb7c702089cd3'
+                            and spec['scope'] == 'SLA_CORE_MULTIENV_V1_EXPERT'
+                            and operation in ('--case', '--core-hopper-collection'))
+    core_hopper_expert = core_hopper_expert or core_multienv_expert
     core_hopper_student = (spec['plan_commit'] == '171b5bedb290258954aac140157743e92e3b152e'
                            and spec['scope'] == 'SLA_CORE_HOPPER_V1_STUDENT'
                            and operation in ('--case','--worker','--core-hopper-students'))

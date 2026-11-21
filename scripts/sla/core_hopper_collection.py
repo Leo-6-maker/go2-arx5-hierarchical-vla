@@ -43,9 +43,11 @@ def reason(row,native):
     return detail.get('terminal_reason') or row['first_failure'] or 'UNCLASSIFIED_TERMINAL'
 
 
-def snapshot(root, admitted, epoch):
-    value = dict(episodes=admitted, sealed_epoch=epoch, split='TRAIN', source='SLA_CORE_HOPPER_V1_EXPERT',
+def snapshot(root, admitted, epoch, spec):
+    value = dict(episodes=admitted, sealed_epoch=epoch, split='TRAIN', source=spec['scope'],
                  admitted_episodes=len(admitted),windows=sum(r['windows'] for r in admitted))
+    if spec.get('multienv'):
+        value.update(plan=spec['plan_commit'], producer=spec['source_sha'], population=spec['compiled_population'])
     path = root/'snapshots'/('TRAIN-%03d.private.json'%len(admitted))
     write(path,value)
     return pin(path)
@@ -67,15 +69,33 @@ def run(spec):
     streak, paused = {}, set()
     code, failure = 1, None
     pending = None
+    not_started = {}
+    multienv=spec.get('multienv')
+    if multienv:
+        from scripts.sla import core_multienv_scope as me
     repair=spec.get('carry_repair')
     series=bool(repair and 'completed_pilot' in repair)
     original=Path(read_pin(repair['original_producer'])['registered_root']) if repair else root
+    if multienv:
+        original=Path(read_pin(multienv['handoff_owner'])['registered_root'])
     def state(stage, **extra):
         write(root/'PROGRESS.private.json', dict(stage=stage,epoch=time.time(),completed=len(records),
               actual_requests=sum(r['requests'] for r in records),closed_ticks=sum(r['ticks'] for r in records),
               admitted_train=len(admitted),current=pending,**extra))
     def stopped():
         return (root/'STOP.json').exists() or (original/'STOP.json').exists() or time.time()+1980 >= spec['deadline_epoch']
+    def resources_ok():
+        if not multienv:
+            return capacity(root)
+        usage=shutil.disk_usage(root)
+        reserve=(multienv['trajectory_reserve_bytes']+multienv['snapshot_reserve_bytes']
+                 +multienv['transfer_reserve_bytes'])
+        mem=int(next(x.split()[1] for x in Path('/proc/meminfo').read_text().splitlines()
+                     if x.startswith('MemAvailable:')))*1024
+        floor=max(50*1024**3,int(.15*usage.total))+8*1024**3
+        write(root/'CAPACITY.private.json',dict(free_disk=usage.free,floor=floor,reserve=reserve,
+            available_host_memory=mem,min_host_memory=13*1024**3,epoch=time.time()))
+        return mem>=13*1024**3 and usage.free>=floor+reserve
     def run_one(row,world):
         item = panel[row['id']]
         family = row['family']
@@ -123,14 +143,15 @@ def run(spec):
                 state('WAIT_ORIGINAL_FIRST48')
                 time.sleep(30)
         else:
-            rows=order(pop)
+            rows=me.order(pop) if multienv else order(pop)
             write(root/'VAL_PRODUCER.private.json',dict(source=authority['frozen_producer'],source_seal=spec['source_seal'],
                                                         before_first_native=True))
         for row in rows:
             cell = row['family'],row['instruction']
             if row['split']=='TRAIN' and cell in paused:
+                not_started[row['id']]='PAUSED_REPEAT_CONTACT_MECHANISM'
                 continue
-            while not stopped() and (not capacity(root) or (original/'STUDENT_TURN_READY.private.json').exists()):
+            while not stopped() and (not resources_ok() or (original/'STUDENT_TURN_READY.private.json').exists()):
                 state('WAIT_CAPACITY_OR_STUDENT_HANDOFF')
                 time.sleep(20)
             if stopped():
@@ -139,7 +160,8 @@ def run(spec):
             while not stopped():
                 try:
                     world=OwnerLock(spec['mobile_world_lock'])
-                    if series and (stopped() or (original/'STUDENT_TURN_READY.private.json').exists()):
+                    if (series or multienv) and (stopped() or (original/'STUDENT_TURN_READY.private.json').exists()
+                            or (multienv and not resources_ok())):
                         world.close()
                         state('WAIT_CAPACITY_OR_STUDENT_HANDOFF')
                         if not stopped():
@@ -186,12 +208,15 @@ def run(spec):
                     admitted.append(rec['episode']);streak.pop(cell,None)
                 else:
                     last,n=streak.get(cell,(None,0))
-                    n=n+1 if last==rec['first_failure'] else 1
-                    streak[cell]=rec['first_failure'],n
+                    signature=me.failure_signature(case,rec) if multienv else rec['first_failure']
+                    n=n+1 if signature is not None and last==signature else 1
+                    streak[cell]=signature,n
+                    if multienv:
+                        rec['first_failure_signature']=signature
                     if n>=2:
                         paused.add(cell)
             if len(admitted)>last_snapshot and (len(admitted)-last_snapshot>=4 or time.time()-last_time>=21600):
-                snapshot(root,admitted,time.time())
+                snapshot(root,admitted,time.time(),spec)
                 last_snapshot=len(admitted);last_time=time.time()
             write(root/'RECORDS.private.json',records)
             pending=None
@@ -206,9 +231,16 @@ def run(spec):
         failure=traceback.format_exc()
     finally:
         if len(admitted)>last_snapshot:
-            snapshot(root,admitted,time.time())
+            snapshot(root,admitted,time.time(),spec)
+        detail = {}
+        if multienv:
+            attempted = {r['condition'] for r in records} | {pending}
+            for row in me.order(pop):
+                if row['id'] not in attempted:
+                    not_started.setdefault(row['id'],'UNSTARTED_AFTER_TECHNICAL_TERMINAL' if failure else 'UNSTARTED_AT_STOP_OR_DEADLINE')
+            detail.update(not_started=not_started,static_unbound=pop['unbound'])
         write(root/'RESULT.private.json',dict(exit_code=code,failure=failure,unreconciled=pending,records=records,
             paid_requests=sum(r['requests'] for r in records),verified_ticks=sum(r['ticks'] for r in records),
-            admitted_train=len(admitted),paused_train_cells=sorted(paused),source_sha=spec['source_sha']))
+            admitted_train=len(admitted),paused_train_cells=sorted(paused),source_sha=spec['source_sha'],**detail))
         close(spec,code)
     return code

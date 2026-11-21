@@ -22,6 +22,9 @@ def scope_identity(spec):
     if spec.get('scope') == 'SLA_CORE_HOPPER_V1_STUDENT':
         from scripts.sla import core_hopper_native_scope as student
         return student.SCOPE, student.PLAN, student.ENDPOINTS, student.AUTHORITY
+    if spec.get('scope') == 'SLA_CORE_MULTIENV_V1_EXPERT':
+        from scripts.sla import core_multienv_scope as me
+        return me.SCOPE, me.PLAN, (), me.AUTHORITY
     if spec.get('scope') == 'SLA_CORE_HOPPER_V1_EXPERT':
         from scripts.sla.core_hopper_expert import SCOPE as ch_scope, PLAN as ch_plan, AUTHORITY
         return ch_scope, ch_plan, (), AUTHORITY
@@ -127,6 +130,9 @@ def validate(spec):
         raise PermissionError('ACTUAL_FINITE_V6_MULTITASK_AUTHORITY_REQUIRED')
     if scope == 'SLA_CORE_HOPPER_V1_EXPERT':
         from scripts.sla.core_hopper_expert import validate_member
+        validate_member(spec, authority)
+    if scope == 'SLA_CORE_MULTIENV_V1_EXPERT':
+        from scripts.sla.core_multienv_scope import validate_member
         validate_member(spec, authority)
     if scope in adaptation.SCOPES and (authority['native_request_cap'] != len(adaptation.batch_cells(scope))
             or authority['native_tick_cap'] != adaptation.tick_cap(scope)):
