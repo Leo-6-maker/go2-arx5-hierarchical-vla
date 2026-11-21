@@ -1,0 +1,905 @@
+{
+  "plan": "4fe2c8cf1b69c168b2e3079e061bb7c702089cd3",
+  "site_sgt": "2026-11-22 06:12:41",
+  "fixed_source_replays": {
+    "receipt": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-red-full-arm-20261122-02/RESULT.private.json",
+    "sha256": "92f3aae542bea55faf48e43739998b27a3e92dbda84942d52f45365db040f804",
+    "source_sha": "3fa67d6b523e050ccbfc7d00b1a22eb61095040d30be05332965cd8db74f3d9e",
+    "elapsed": 1.217065836302936,
+    "anchors": 6,
+    "native_requests": 0,
+    "conditions": [
+      "MEV1-TRAIN-F2-NEAR_NEG-00-HOLD-red",
+      "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-red-left",
+      "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-red-right"
+    ],
+    "info": [
+      {
+        "config": [
+          0,
+          0,
+          0
+        ],
+        "p": 0,
+        "minima": {
+          "arm_to_blue": -17.29006654086246,
+          "arm_to_table": 10.249524145129174,
+          "nonpad_arm_to_red": 14.950885975619817
+        },
+        "touched": 6,
+        "attempts": 149,
+        "ik": 149,
+        "closure": 282,
+        "first": [
+          {
+            "pair": {
+              "bodies": [
+                "x5_link6",
+                "task_blue_cube"
+              ],
+              "geoms": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "signed_distance_mm": -0.3113583738660296
+            },
+            "reason": "FORBIDDEN_CONTACT",
+            "stage": "APPROACH",
+            "waypoint": 17
+          },
+          {
+            "pair": {
+              "bodies": [
+                "x5_link6",
+                "task_blue_cube"
+              ],
+              "geoms": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "signed_distance_mm": -0.34464890093924627
+            },
+            "reason": "FORBIDDEN_CONTACT",
+            "stage": "APPROACH",
+            "waypoint": 17
+          },
+          {
+            "pair": {
+              "bodies": [
+                "x5_link6",
+                "task_blue_cube"
+              ],
+              "geoms": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "signed_distance_mm": -0.21984229902081986
+            },
+            "reason": "FORBIDDEN_CONTACT",
+            "stage": "APPROACH",
+            "waypoint": 16
+          },
+          {
+            "pair": {
+              "bodies": [
+                "x5_link6",
+                "task_blue_cube"
+              ],
+              "geoms": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "signed_distance_mm": -2.3908738911431295
+            },
+            "reason": "FORBIDDEN_CONTACT",
+            "stage": "APPROACH",
+            "waypoint": 18
+          },
+          {
+            "pair": {
+              "bodies": [
+                "x5_link6",
+                "task_blue_cube"
+              ],
+              "geoms": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "signed_distance_mm": -0.34210657838248254
+            },
+            "reason": "FORBIDDEN_CONTACT",
+            "stage": "APPROACH",
+            "waypoint": 17
+          },
+          {
+            "pair": {
+              "bodies": [
+                "x5_link6",
+                "task_blue_cube"
+              ],
+              "geoms": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "signed_distance_mm": -0.287454391624014
+            },
+            "reason": "FORBIDDEN_CONTACT",
+            "stage": "APPROACH",
+            "waypoint": 17
+          }
+        ]
+      },
+      {
+        "config": [
+          20,
+          0,
+          0
+        ],
+        "p": 0,
+        "minima": {
+          "arm_to_blue": -93.99132143235317,
+          "arm_to_table": 10.148288424170174,
+          "nonpad_arm_to_red": 18.424416496778026
+        },
+        "touched": 6,
+        "attempts": 198,
+        "ik": 198,
+        "closure": 282,
+        "first": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "config": [
+          20,
+          8,
+          30
+        ],
+        "p": 0,
+        "minima": {
+          "arm_to_blue": -94.14707938992939,
+          "arm_to_table": 10.148312641527063,
+          "nonpad_arm_to_red": 18.424189587304735
+        },
+        "touched": 6,
+        "attempts": 204,
+        "ik": 204,
+        "closure": 282,
+        "first": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "config": [
+          20,
+          16,
+          30
+        ],
+        "p": 6,
+        "minima": {
+          "arm_to_blue": 4.882702681896327,
+          "arm_to_table": 10.147405791831162,
+          "nonpad_arm_to_red": 18.419301623384072
+        },
+        "touched": 6,
+        "attempts": 209,
+        "ik": 209,
+        "closure": 282,
+        "first": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "config": [
+          20,
+          24,
+          30
+        ],
+        "p": 6,
+        "minima": {
+          "arm_to_blue": 4.881985409316399,
+          "arm_to_table": 10.146603582336377,
+          "nonpad_arm_to_red": 18.416064762644755
+        },
+        "touched": 6,
+        "attempts": 227,
+        "ik": 227,
+        "closure": 282,
+        "first": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "config": [
+          20,
+          8,
+          45
+        ],
+        "p": 0,
+        "minima": {
+          "arm_to_blue": -92.50417647263187,
+          "arm_to_table": 10.148490648957148,
+          "nonpad_arm_to_red": 18.42587742002256
+        },
+        "touched": 6,
+        "attempts": 204,
+        "ik": 204,
+        "closure": 282,
+        "first": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "config": [
+          20,
+          16,
+          45
+        ],
+        "p": 0,
+        "minima": {
+          "arm_to_blue": -93.80985634100293,
+          "arm_to_table": 10.148064352620775,
+          "nonpad_arm_to_red": 18.422529856979917
+        },
+        "touched": 6,
+        "attempts": 210,
+        "ik": 210,
+        "closure": 282,
+        "first": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "config": [
+          20,
+          24,
+          45
+        ],
+        "p": 6,
+        "minima": {
+          "arm_to_blue": 4.882702681895792,
+          "arm_to_table": 10.147405791831158,
+          "nonpad_arm_to_red": 18.419301623384044
+        },
+        "touched": 6,
+        "attempts": 227,
+        "ik": 227,
+        "closure": 282,
+        "first": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
+    ]
+  },
+  "unopened_first_transfer_variant": {
+    "receipt": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-red-unopened-20261122-02/RESULT.private.json",
+    "sha256": "8703f68741e6d4d45dec573dfbe211009c8257434ed02d8a0e5ba1b5ac52ca00",
+    "source_sha": "8b7a6fde708303252a93d6a6d7af78598c4233b9c998c4aea6ade004aac511d1",
+    "source_proof": "92f3aae542bea55faf48e43739998b27a3e92dbda84942d52f45365db040f804",
+    "cards": [
+      "MEV1-TRAIN-F2-NEAR_NEG-01-HOLD-red",
+      "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-red-left",
+      "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-red-right"
+    ],
+    "scene": "b2bbb276d0a0b7bbb65c93841e35e5b35168d57ac77f7c89abc545031d52629f",
+    "configs": [
+      {
+        "config": [
+          0,
+          0,
+          0
+        ],
+        "p": 0,
+        "bilateral": 6,
+        "min_blue": -17.440764915551977,
+        "min_table": 10.248950297797714,
+        "min_nonpad_red": 14.885539070417925,
+        "attempted": 150,
+        "matched": 150
+      },
+      {
+        "config": [
+          20,
+          0,
+          0
+        ],
+        "p": 0,
+        "bilateral": 6,
+        "min_blue": -93.99857083321139,
+        "min_table": 10.148003814116496,
+        "min_nonpad_red": 18.422179928990396,
+        "attempted": 203,
+        "matched": 203
+      },
+      {
+        "config": [
+          20,
+          16,
+          30
+        ],
+        "p": 0,
+        "bilateral": 6,
+        "min_blue": -95.0903406903794,
+        "min_table": 10.147379561930055,
+        "min_nonpad_red": 18.418882648229705,
+        "attempted": 207,
+        "matched": 207
+      }
+    ],
+    "anchors": 6,
+    "translated_centres": [
+      [
+        -5.1272728138479495,
+        2.658584237513778,
+        0
+      ],
+      [
+        -2.7310344053917968,
+        2.6647751027323583,
+        0
+      ]
+    ],
+    "native_requests": 0,
+    "native_integrations": 0
+  },
+  "unopened_fixed_candidates": {
+    "receipt": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-red-unopened-20261122-03/RESULT.private.json",
+    "sha256": "a92f17905638cecc17aeb463e34a1a20e1e8de61211c27522abf4e8a594d7add",
+    "source_sha": "60e25178ead0d2490b9a06520ce33c4305b11c8b392e08912ce2aad2b6819925",
+    "source_proof": "92f3aae542bea55faf48e43739998b27a3e92dbda84942d52f45365db040f804",
+    "cards": [
+      "MEV1-TRAIN-F2-NEAR_NEG-01-HOLD-red",
+      "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-red-left",
+      "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-red-right"
+    ],
+    "scene": "b2bbb276d0a0b7bbb65c93841e35e5b35168d57ac77f7c89abc545031d52629f",
+    "configs": [
+      {
+        "config": [
+          0,
+          0,
+          0
+        ],
+        "p": 0,
+        "bilateral": 6,
+        "min_blue": -17.440764915551977,
+        "min_table": 10.248950297797714,
+        "min_nonpad_red": 14.885539070417925,
+        "attempted": 150,
+        "matched": 150,
+        "first": [
+          {
+            "pair": {
+              "bodies": [
+                "x5_link6",
+                "task_blue_cube"
+              ],
+              "geoms": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "signed_distance_mm": -0.49011908836094076
+            },
+            "reason": "FORBIDDEN_CONTACT",
+            "stage": "APPROACH",
+            "waypoint": 17
+          },
+          {
+            "pair": {
+              "bodies": [
+                "x5_link6",
+                "task_blue_cube"
+              ],
+              "geoms": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "signed_distance_mm": -0.5157816257399424
+            },
+            "reason": "FORBIDDEN_CONTACT",
+            "stage": "APPROACH",
+            "waypoint": 17
+          },
+          {
+            "pair": {
+              "bodies": [
+                "x5_link6",
+                "task_blue_cube"
+              ],
+              "geoms": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "signed_distance_mm": -0.39340388589503145
+            },
+            "reason": "FORBIDDEN_CONTACT",
+            "stage": "APPROACH",
+            "waypoint": 16
+          },
+          {
+            "pair": {
+              "bodies": [
+                "x5_link6",
+                "task_blue_cube"
+              ],
+              "geoms": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "signed_distance_mm": -0.7665621504749642
+            },
+            "reason": "FORBIDDEN_CONTACT",
+            "stage": "APPROACH",
+            "waypoint": 18
+          },
+          {
+            "pair": {
+              "bodies": [
+                "x5_link6",
+                "task_blue_cube"
+              ],
+              "geoms": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "signed_distance_mm": -0.5270540353892184
+            },
+            "reason": "FORBIDDEN_CONTACT",
+            "stage": "APPROACH",
+            "waypoint": 17
+          },
+          {
+            "pair": {
+              "bodies": [
+                "x5_link6",
+                "task_blue_cube"
+              ],
+              "geoms": [
+                "",
+                "task_blue_cube_geom"
+              ],
+              "signed_distance_mm": -0.46523716109162294
+            },
+            "reason": "FORBIDDEN_CONTACT",
+            "stage": "APPROACH",
+            "waypoint": 17
+          }
+        ],
+        "min_blue_locations": [
+          {
+            "link": "x5_link6",
+            "mm": -17.35553986271161,
+            "stage": "APPROACH",
+            "waypoint": 24
+          },
+          {
+            "link": "x5_link6",
+            "mm": -17.355377443219645,
+            "stage": "APPROACH",
+            "waypoint": 24
+          },
+          {
+            "link": "x5_link6",
+            "mm": -17.294159400407082,
+            "stage": "APPROACH",
+            "waypoint": 23
+          },
+          {
+            "link": "x5_link6",
+            "mm": -17.29354950342239,
+            "stage": "APPROACH",
+            "waypoint": 25
+          },
+          {
+            "link": "x5_link6",
+            "mm": -17.440764915551977,
+            "stage": "APPROACH",
+            "waypoint": 24
+          },
+          {
+            "link": "x5_link6",
+            "mm": -17.44053048935552,
+            "stage": "APPROACH",
+            "waypoint": 24
+          }
+        ]
+      },
+      {
+        "config": [
+          20,
+          0,
+          0
+        ],
+        "p": 0,
+        "bilateral": 6,
+        "min_blue": -93.99857083321139,
+        "min_table": 10.148003814116496,
+        "min_nonpad_red": 18.422179928990396,
+        "attempted": 203,
+        "matched": 203,
+        "first": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "min_blue_locations": [
+          {
+            "link": "x5_link8",
+            "mm": -91.54458188708234,
+            "stage": "APPROACH",
+            "waypoint": 27
+          },
+          {
+            "link": "x5_link8",
+            "mm": -92.43294423019978,
+            "stage": "APPROACH",
+            "waypoint": 26
+          },
+          {
+            "link": "x5_link8",
+            "mm": -92.03222489940332,
+            "stage": "APPROACH",
+            "waypoint": 27
+          },
+          {
+            "link": "x5_link8",
+            "mm": -92.75072160588967,
+            "stage": "APPROACH",
+            "waypoint": 27
+          },
+          {
+            "link": "x5_link8",
+            "mm": -93.99857083321139,
+            "stage": "APPROACH",
+            "waypoint": 26
+          },
+          {
+            "link": "x5_link8",
+            "mm": -92.32368301316643,
+            "stage": "APPROACH",
+            "waypoint": 27
+          }
+        ]
+      },
+      {
+        "config": [
+          20,
+          16,
+          30
+        ],
+        "p": 0,
+        "bilateral": 6,
+        "min_blue": -95.0903406903794,
+        "min_table": 10.147379561930055,
+        "min_nonpad_red": 18.418882648229705,
+        "attempted": 207,
+        "matched": 207,
+        "first": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "min_blue_locations": [
+          {
+            "link": "x5_link8",
+            "mm": -95.0374902743074,
+            "stage": "APPROACH",
+            "waypoint": 25
+          },
+          {
+            "link": "x5_link8",
+            "mm": -95.03713613537784,
+            "stage": "APPROACH",
+            "waypoint": 25
+          },
+          {
+            "link": "x5_link8",
+            "mm": -95.07995283178211,
+            "stage": "APPROACH",
+            "waypoint": 26
+          },
+          {
+            "link": "x5_link8",
+            "mm": -95.08523479027113,
+            "stage": "APPROACH",
+            "waypoint": 26
+          },
+          {
+            "link": "x5_link8",
+            "mm": -95.08873494938835,
+            "stage": "APPROACH",
+            "waypoint": 25
+          },
+          {
+            "link": "x5_link8",
+            "mm": -95.0903406903794,
+            "stage": "APPROACH",
+            "waypoint": 26
+          }
+        ]
+      },
+      {
+        "config": [
+          20,
+          24,
+          30
+        ],
+        "p": 6,
+        "bilateral": 6,
+        "min_blue": 4.268246908479586,
+        "min_table": 10.146599837602913,
+        "min_nonpad_red": 18.415738779708647,
+        "attempted": 222,
+        "matched": 222,
+        "first": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "min_blue_locations": [
+          {
+            "link": "x5_link6",
+            "mm": 4.350591613323587,
+            "stage": "APPROACH",
+            "waypoint": 36
+          },
+          {
+            "link": "x5_link6",
+            "mm": 4.35058943778488,
+            "stage": "APPROACH",
+            "waypoint": 36
+          },
+          {
+            "link": "x5_link6",
+            "mm": 4.41017340572264,
+            "stage": "APPROACH",
+            "waypoint": 36
+          },
+          {
+            "link": "x5_link6",
+            "mm": 4.410184639275768,
+            "stage": "APPROACH",
+            "waypoint": 36
+          },
+          {
+            "link": "x5_link6",
+            "mm": 4.268246908479586,
+            "stage": "APPROACH",
+            "waypoint": 36
+          },
+          {
+            "link": "x5_link6",
+            "mm": 4.268251111945877,
+            "stage": "APPROACH",
+            "waypoint": 36
+          }
+        ]
+      },
+      {
+        "config": [
+          20,
+          24,
+          45
+        ],
+        "p": 0,
+        "bilateral": 6,
+        "min_blue": -95.0903406903794,
+        "min_table": 10.147379561930055,
+        "min_nonpad_red": 18.41888264822978,
+        "attempted": 217,
+        "matched": 217,
+        "first": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "min_blue_locations": [
+          {
+            "link": "x5_link8",
+            "mm": -95.0374902743073,
+            "stage": "APPROACH",
+            "waypoint": 27
+          },
+          {
+            "link": "x5_link8",
+            "mm": -95.03713613537805,
+            "stage": "APPROACH",
+            "waypoint": 27
+          },
+          {
+            "link": "x5_link8",
+            "mm": -95.07995283178249,
+            "stage": "APPROACH",
+            "waypoint": 27
+          },
+          {
+            "link": "x5_link8",
+            "mm": -95.0852347902712,
+            "stage": "APPROACH",
+            "waypoint": 28
+          },
+          {
+            "link": "x5_link8",
+            "mm": -95.08873494938862,
+            "stage": "APPROACH",
+            "waypoint": 27
+          },
+          {
+            "link": "x5_link8",
+            "mm": -95.0903406903794,
+            "stage": "APPROACH",
+            "waypoint": 27
+          }
+        ]
+      }
+    ],
+    "anchors": 6,
+    "translated_centres": [
+      [
+        -5.1272728138479495,
+        2.658584237513778,
+        0
+      ],
+      [
+        -2.7310344053917968,
+        2.6647751027323583,
+        0
+      ]
+    ],
+    "native_requests": 0,
+    "native_integrations": 0
+  },
+  "selected_candidate": {
+    "pitch_deg": 20,
+    "detour_mm_away_from_blue": 24,
+    "waypoint_height_mm_above_grasp": 30,
+    "LIVE_TEACHER_PILOT": "NOT_RUN",
+    "prepared_on_train_only": true
+  },
+  "bootstrap_failures_retained": [
+    {
+      "name": "initial_readback",
+      "reason": "frozen history helper did not accept explicit producer revision"
+    },
+    {
+      "name": "initial_projection",
+      "reason": "read helper import from wrong module"
+    }
+  ],
+  "main2k": {
+    "registered": 6,
+    "started": 3,
+    "terminal": 2,
+    "successes": 0,
+    "row": {
+      "id": "CHV1-DEV-F1-HOLD-red-00-MAIN-phase02000",
+      "sha": "33372c43ecd4a641ac29c5d3cf883598bebc73d92e8b436bdae63af3ec066073",
+      "tick": 21203,
+      "generation": 63,
+      "atoms": 620,
+      "goal": false,
+      "unsafe": false,
+      "type": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+      "grasp": false,
+      "lift": 0.00014908445724293173,
+      "base_m": 0.10706936158694783,
+      "cause": {
+        "kind": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+        "original_gripper_speed": {
+          "first_seam_speed_m_s": 0.05421700137020771,
+          "maximum_speed_m_s": 0.05421700137020771,
+          "training_margin_exceeded": true,
+          "original_execution_speed_exceeded": true,
+          "labels_not_retimed": true,
+          "representation": "DENSE_REFERENCE_G7_V6"
+        },
+        "full_H40_compiled": true,
+        "query": 62,
+        "installed": false,
+        "full_H40_checked": true
+      }
+    },
+    "blue_hold": {
+      "sha": "c59bb2786f802ebee32edf2876fd0c2e4857063669338a1ad1fbc8cb3fca22c7",
+      "pair": [
+        {
+          "geoms": [
+            "",
+            "task_blue_cube_geom"
+          ],
+          "bodies": [
+            "x5_link6",
+            "task_blue_cube"
+          ],
+          "signed_distance_mm": -0.22606492986390614
+        }
+      ],
+      "tick": 17842,
+      "new_queries": 0,
+      "new_integrations": 0,
+      "after_STOP": 0,
+      "actual_model_generations": 49,
+      "consumed_atoms": 485,
+      "partial_ticks": 14,
+      "score": {
+        "base_directional_motion_m": 0.11402100623152372,
+        "ever_target_grasp": false,
+        "ever_target_lift20mm": false,
+        "maximum_lift_m": 0,
+        "task_success": false,
+        "wrong_object_contact_ever": false,
+        "missing_native_intervals": 0
+      }
+    },
+    "latest_observation_sgt": "2026-11-22 06:13:42"
+  },
+  "wave": {
+    "actual_terminal": 11,
+    "admitted": 5,
+    "disk_free_gib": 289.14
+  },
+  "hopper": {
+    "updates": 2686,
+    "seal_step": 2600,
+    "seal_sha": "53a1e6a845786ae2610244a67f75614080a821438677249359f8b0907db5de9d",
+    "job": "728156.hopper-m-02",
+    "successor": "728212.hopper-m-02",
+    "dependency": "afterok:728156.hopper-m-02@hopper-m-02.cm.cluster",
+    "state": "H",
+    "TRAIN063_optimizer_visits": 0
+  },
+  "native_requests_added_by_geometry": 0,
+  "native_integrations_added_by_geometry": 0,
+  "optimizer_updates_added_by_geometry": 0,
+  "model_generations_added_by_geometry": 0,
+  "VAL_inputs": 0,
+  "N2": "NOT_RUN",
+  "N4": "NOT_RUN"
+}
