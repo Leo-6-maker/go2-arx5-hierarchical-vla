@@ -114,8 +114,12 @@ def register(root,custody,source_folder,number,group,seconds,segment=None,recove
         raise PermissionError('Campaign stop or invalid capsule allowance')
     if bool(segment)!=(group in ('training','reference')):
         raise ValueError('Training requires a frozen segment request')
-    if os.environ.get('PBS_JOBID'):
-        raise PermissionError('Job registration must use the login-side scheduler')
+    host=os.uname().nodename.split('.')[0]
+    carried=os.environ.get('PBS_JOBID','')
+    external=os.environ.get('SLA_VANDA_CPU_DISPATCH','')
+    if (host!='hopper-l-01' or (carried and
+            (not re.fullmatch(r'\d+\.stdct-mgmt-02',external) or external!=carried))):
+        raise PermissionError(f'Expected the verified Hopper login node and submitting context: {host} {carried!r} {external!r}')
     root.mkdir(parents=True,exist_ok=True)
     allocations=root/'allocations'
     allocations.mkdir(exist_ok=True)
@@ -126,6 +130,9 @@ def register(root,custody,source_folder,number,group,seconds,segment=None,recove
             raise ValueError('Allocation order changed')
         if (run/'RELEASE.json').is_file():
             return read(run/'RELEASE.json')['job']
+        login=run/'SUBMIT_HOST.json'
+        if not login.is_file():
+            write_once(login,dict(host=host,cpu_dispatch=external or None,inherited_job=carried or None))
         core=read(source_folder/'SOURCE_READY.json')
         source=source_folder/'source'
         manifest=read(source/'SOURCE_BINDING.private.json')

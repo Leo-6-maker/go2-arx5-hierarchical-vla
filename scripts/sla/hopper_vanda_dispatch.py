@@ -35,6 +35,8 @@ def submit(root,n,previous=None):
     prefix='slachv1ev' if cfg.get('local_formal') else ('slachv1bk' if cfg.get('local_backup') else 'slachv1ctl')
     if cfg.get('local_exchange'):
         prefix='slachv1hf'
+    if cfg.get('reconciled_dispatch'):
+        prefix='slachv1rc'
     if cfg.get('cold_predecessor'):
         prefix='slachv1rf'
         if n==1:
@@ -97,6 +99,14 @@ def run(root,n):
                 or read(old/'STOP').get('successor')!=job or job_row(prior['job'])['job_state']!='F'
                 or read(old/'01/RESULT.json')['status']!='STOP_LIMIT_OR_DEADLINE'):
             raise PermissionError('Prior scheduler has not completed the registered cold handoff')
+    if n==1 and cfg.get('reconciled_dispatch'):
+        prior=cfg['reconciled_dispatch']
+        slot0=Path(prior['folder'])/'01'
+        evidence=slot0/'INTERRUPTION.json'
+        if (read(slot0/'JOB.json')['job']!=prior['job'] or job_row(prior['job'])['job_state']!='F'
+                or (slot0/'SUCCESSOR.json').exists() or read(evidence)['job']!=prior['job']
+                or hashlib.sha256(evidence.read_bytes()).hexdigest()!=prior['evidence_sha256']):
+            raise PermissionError('Unreconciled dispatcher interruption')
     grant_limit=min(DEADLINE,cfg['grant_end'])
     end=site_epoch(row['stime'])+WALL
     def stopped():
@@ -115,7 +125,9 @@ def run(root,n):
             elif cfg.get('local_backup'):
                 command=[sys.executable,'-B',str(root/'backup.py'),'tick',str(root)]
             else:
-                command=[*SSH,HOST,cfg['hopper_command']]
+                if not re.fullmatch(r'\d+\.stdct-mgmt-02',job):
+                    raise PermissionError('Missing VANDA scheduler identity')
+                command=[*SSH,HOST,'export SLA_VANDA_CPU_DISPATCH='+shlex.quote(job)+' && '+cfg['hopper_command']]
             proc=subprocess.run(command,text=True,capture_output=True,timeout=window-60)
             if proc.returncode:
                 write_once(slot/'INTERRUPTION.json',dict(job=job,returncode=proc.returncode,epoch=time.time(),
