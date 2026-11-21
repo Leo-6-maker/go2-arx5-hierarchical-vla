@@ -144,6 +144,7 @@ class HopperEngine(serial.Engine):
         for domain in DOMAINS:
             indices,cursor=self.indices(start,domain)
             active=dict(shared=self.parameters['shared'],private=self.parameters[domain])
+            fm_started=time.monotonic()
             if queued is None:
                 original=self.grad[domain]
                 if audit:
@@ -159,9 +160,11 @@ class HopperEngine(serial.Engine):
                 fm[domain],stats=self._batched_fm(domain,host,indices,cursor,active,guard,audit)
                 stats['data_wait_s']=waited
             self._record_gradient(fm[domain],stats,indices)
+            stats['fm_path_wall_s']=time.monotonic()-fm_started
             if audit:
                 audit.component(domain,stats['FM32'],fm[domain])
             if domain=='target':
+                aux_started=time.monotonic()
                 if queued is None:
                     original=self.aux
                     if audit:
@@ -177,6 +180,7 @@ class HopperEngine(serial.Engine):
                     raise ValueError('Nonfinite target auxiliary')
                 if audit:
                     audit.component('aux',stats['auxiliary'],aux)
+                stats['auxiliary_path_wall_s']=time.monotonic()-aux_started
                 stats['auxiliary_slots']=slots
             metrics[domain]=stats
         guard()
@@ -186,11 +190,15 @@ class HopperEngine(serial.Engine):
             if not audit.finish():
                 raise ArithmeticError('Candidate first-step numerical or input gate failed before Adam')
         rate=float(self.banks['rates'][start])
+        adam_started=time.monotonic()
         params,states,norm=self.apply(self.parameters,self.states,joint,rate)
+        submitted=time.monotonic()
         jax.block_until_ready((params,states))
+        synchronized=time.monotonic()
         self.parameters,self.states=params,states
         self.step+=1
         return dict(phase_step=self.step,ancestor_updates=self.proof['ancestor']['lineage_total_updates'],
                     phase_cursors={d:self.step*BATCH[d] for d in DOMAINS},learning_rate=rate,grad_norm=norm,
-                    domains=metrics,wall_s=time.monotonic()-begin,full_H40=4,
+                    domains=metrics,wall_s=synchronized-begin,full_H40=4,
+                    adam_call_s=submitted-adam_started,final_sync_s=synchronized-submitted,
                     memory=jax.local_devices()[0].memory_stats())

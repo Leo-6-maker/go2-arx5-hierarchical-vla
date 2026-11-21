@@ -13,6 +13,7 @@ from scripts.sla.hopper_cold_restore import restore
 from scripts.sla.hopper_course_decision import catalog
 from scripts.sla.hopper_curriculum import WithCoreTrain, bank_at_boundary
 from scripts.sla.hopper_engine import HopperEngine
+from scripts.sla.hopper_engineering_results import winner
 from scripts.sla.hopper_inputs import BATCH, PARENT, PLAN, STEPS, D2_SPEC, SPEC_NAME
 from scripts.sla.hopper_parent_custody import write_once
 from scripts.sla.hopper_site import live_h200, pinned
@@ -26,9 +27,14 @@ def qualified_backend(selection):
     if record['plan'] != PLAN or record['parent'] != PARENT or record['winner'] not in checkpoint.ENGINEERING:
         raise ValueError('Unrecognized engineering selection')
     outcome = pinned(record['candidates'][record['winner']])
+    if winner(record['candidates'], record['source']) != record['winner']:
+        raise ValueError('Registered winner differs from the complete H200 timing ledger')
+    restored = pinned(outcome['restore'])
     training = pinned(outcome['training'])
     if (outcome['role'] != record['winner'] or outcome['parent'] != PARENT or not outcome['qualified']
-            or outcome['ordinary'] or outcome['exact_restores'] != 48 or outcome['completed'] != 48
+            or restored['ordinary'] or restored['exact_restores'] != 48 or restored['completed'] != 48
+            or restored['training'] != outcome['training'] or restored['checkpoint'] != outcome['checkpoint']
+            or training['binding']['source'] != record['source']
             or training['optimizer_updates'] != 16 or training['checkpoint'] != outcome['checkpoint']):
         raise ValueError('The selected H200 backend lacks its independent full restore')
     return record['winner'], training['binding']

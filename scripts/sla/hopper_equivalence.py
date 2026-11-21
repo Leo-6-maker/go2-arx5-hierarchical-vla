@@ -87,6 +87,7 @@ class FirstStep:
             raise ValueError('First-step component or input readback incomplete')
         same=self.expected is None or self.inputs==self.expected['kernel_inputs']
         proof=dict(components=self.results,kernel_inputs=self.inputs,inputs_equal=same,
+                   reference_sha256=digest(self.reference/'COMPLETE.json') if self.reference else None,
                    passed=same and all(v['passed'] for v in self.results.values()))
         write_once(self.root/'COMPLETE.json',proof)
         return proof['passed']

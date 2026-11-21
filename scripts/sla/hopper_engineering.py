@@ -2,6 +2,8 @@
 import os
 from pathlib import Path
 import statistics
+import resource
+import time
 
 import numpy as np
 
@@ -74,9 +76,11 @@ def train(work, restored, bound, guard, reference=None):
         if not read(first)['passed']:
             raise ValueError('Failed component gradient or random-input comparison')
         state = dict(parameters=engine.parameters, optimizer=engine.states, rng=engine.rng)
+        save_start = time.monotonic()
         cp = checkpoint.save(work/'phase00016', state, phase=16, bound=bound, predecessor=PARENT)
         result = dict(role=role, parent=PARENT, binding=bound, checkpoint=cp, optimizer_updates=16,
                       visits=dict(engine.gradient_windows), completed_aux=engine.completed_aux,
+                      save_s=time.monotonic()-save_start, process_peak_RSS_KiB=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
                       attempted_aux=engine.attempted_aux, first_step_sha256=digest(first),
                       update_wall_s=timings, warm_p50_s=statistics.median(timings[4:]),
                       warm_p95_s=float(np.percentile(timings[4:], 95)), qualified=False)
