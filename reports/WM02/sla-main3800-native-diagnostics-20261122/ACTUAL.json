@@ -670,10 +670,15 @@
     "TRAIN": 24,
     "VAL": 16,
     "attempts": 0,
+    "config_sha256": "99707b222b362f0a76ddef9bcf5fe069c56db07f780ab801ee94d5b08b8d93c4",
+    "deadline_epoch": 1795381538.4120803,
     "first_attempt_generations": 0,
     "generations": 0,
+    "host_available_GiB": 27.3111,
+    "host_floor_GiB": 36,
     "max_generations": 120,
     "panel_sha256": "fe81874f86f2a2d05a12f7789a460a34310ff09b57c64398b5821f0ca7a2d40d",
+    "pid": 3523755,
     "status": "WAIT_ORIGINAL_RESOURCES",
     "unit": "wm02-sla-main3800-core-event-eval-20261122-02.service"
   },
@@ -816,7 +821,7 @@
   "new_updates": 0,
   "post_main_3800_paid_updates": 100,
   "prospective_auxiliary": {
-    "PBS_jobs": 0,
+    "PBS_jobs": 2,
     "actual_updates": 0,
     "counts": {
       "A": {
@@ -833,9 +838,25 @@
       }
     },
     "dry_run_sha256": "d327723706f8e926dd86252abcf0dfea4acb24940b87a67a9260014c0fcc80c3",
+    "jobs": {
+      "A": {
+        "job": "728992.hopper-m-02",
+        "mount_sha256": "67e4c1744e1d9028de9e9fe922b3da1f684289b4ea3a1d9ba711d4c45c1f3897",
+        "state": "Q"
+      },
+      "B": {
+        "afterok": "728992.hopper-m-02",
+        "job": "728996.hopper-m-02",
+        "mount_sha256": "b43b509d9ff6c7842147206d557b029f34fc8a88d8a6a75bdb5cdad592232982",
+        "state": "H"
+      }
+    },
+    "observed_training_visits": 0,
     "selected_intervention": "AUXILIARY_SLOT_SELECTION",
     "site_preflight": "IMPORT_AND_SEALED_ROSTER_VALIDATED",
-    "triggered": true
+    "site_source": "29373161026ea8e6126adfcbc656330125ff140d",
+    "triggered": true,
+    "wall_seconds_per_arm": 14400
   },
   "status": "MATCHED_NATIVE_COMPLETE"
 }
