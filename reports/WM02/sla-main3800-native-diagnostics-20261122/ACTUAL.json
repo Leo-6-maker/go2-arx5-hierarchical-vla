@@ -1195,6 +1195,33 @@
   },
   "post_main_3800_paid_updates": 100,
   "prospective_auxiliary": {
+    "A_midpoint_file_readback": {
+      "absolute_phase": 4050,
+      "arm": "A",
+      "bytes": 5547608728,
+      "counts": {
+        "libero": 6550,
+        "robodojo": 6550,
+        "shared": 6550,
+        "target": 6550
+      },
+      "job": "728992.hopper-m-02",
+      "members": {
+        "RNG": 1,
+        "optimizer": 94,
+        "parameters": 45
+      },
+      "new_generation_count": 0,
+      "new_native_count": 0,
+      "new_update_count": 0,
+      "observed_epoch": 1795345904.7317853,
+      "parent": "502d890d3ff314ac42f4c79c360942b9b626bf1fcc4b6fc488fbab15ba508361",
+      "relative_optimization_updates": 250,
+      "seconds": 9.662222024984658,
+      "sha256": "352de41ab2fc356bc183153d98a6fb57784ac179ba3ac4402ce0768d9156e57d",
+      "status": "REAL_MIDPOINT_ARRAYS_READ_BACK",
+      "verified_arrays": 140
+    },
     "PBS_jobs": 2,
     "actual_updates": 0,
     "counts": {
@@ -1212,6 +1239,85 @@
       }
     },
     "dry_run_sha256": "d327723706f8e926dd86252abcf0dfea4acb24940b87a67a9260014c0fcc80c3",
+    "first250_transition_exposure": {
+      "actual_A_auxiliary": 1000,
+      "actual_A_visits": {
+        "libero": 8000,
+        "robodojo": 8000,
+        "target": 16000
+      },
+      "actual_B_updates": 0,
+      "arms": {
+        "A": "728992.hopper-m-02",
+        "B": "728996.hopper-m-02"
+      },
+      "counts": {
+        "A_actual": {
+          "FIRST_REQUEST_AFTER_GRASP": {
+            "episodes": 5,
+            "updates_with_hit": 5,
+            "visits": 5
+          },
+          "GRASP_TO_LIFT20": {
+            "episodes": 21,
+            "updates_with_hit": 35,
+            "visits": 41
+          },
+          "P10_CLOSE_CROSSING": {
+            "episodes": 48,
+            "updates_with_hit": 131,
+            "visits": 170
+          }
+        },
+        "B_planned": {
+          "FIRST_REQUEST_AFTER_GRASP": {
+            "episodes": 36,
+            "updates_with_hit": 70,
+            "visits": 70
+          },
+          "GRASP_TO_LIFT20": {
+            "episodes": 40,
+            "updates_with_hit": 91,
+            "visits": 95
+          },
+          "P10_CLOSE_CROSSING": {
+            "episodes": 56,
+            "updates_with_hit": 250,
+            "visits": 371
+          }
+        },
+        "FM_same_bank": {
+          "FIRST_REQUEST_AFTER_GRASP": {
+            "episodes": 38,
+            "updates_with_hit": 71,
+            "visits": 81
+          },
+          "GRASP_TO_LIFT20": {
+            "episodes": 52,
+            "updates_with_hit": 231,
+            "visits": 628
+          },
+          "P10_CLOSE_CROSSING": {
+            "episodes": 58,
+            "updates_with_hit": 250,
+            "visits": 2513
+          }
+        }
+      },
+      "native_requests": 0,
+      "new_updates_created": 0,
+      "parent": "502d890d3ff314ac42f4c79c360942b9b626bf1fcc4b6fc488fbab15ba508361",
+      "planned_B_auxiliary_for_same_250": 1000,
+      "selection_sha256": "d327723706f8e926dd86252abcf0dfea4acb24940b87a67a9260014c0fcc80c3",
+      "slot_substitutions_histogram": {
+        "0": 27,
+        "1": 163,
+        "2": 60
+      },
+      "status": "A_ACTUAL_FIRST_250_VS_B_PRE_REGISTERED_SAME_SLICES",
+      "target_manifest": "e0c5c481a95972e4ba5c9b712e1c3a1240d462ad28222a2c0e041e307fb42278",
+      "verified_A_updates": 250
+    },
     "first_durable_live_observation": [
       {
         "arm": "A",
