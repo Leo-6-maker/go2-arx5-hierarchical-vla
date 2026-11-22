@@ -58,9 +58,27 @@ def coordinate(root,cfg):
     with closing(OwnerLock(root/'owner.lock')):
         cases = {row['id'] for arm in arms for row in roster_rows(arm,cfg['roster'],cfg['population'])}
         require_unstarted_cases(expert['registry'],cases)
-        proofs = {arm:publish(root/f'{arm}.proof.json',cfg,arm) for arm in arms}
         write_once(root/'OWNER.json',dict(pid=os.getpid(),invocation=os.environ['INVOCATION_ID'],deadline=deadline,
                    arms=arms,request_cap=len(cases),updates=0))
+        offline = pinned(cfg['offline_config'])
+        if offline['native_config'] != cfg['base_native_config']:
+            raise ValueError('The offline prerequisite must use the original Corelab config')
+        offline_root = Path(cfg['offline_config']['path']).parent
+        offline_terminal = offline_root/'TERMINAL.json'
+        while not offline_terminal.is_file():
+            if (offline_root/'REVIEW_REQUIRED.json').is_file():
+                raise RuntimeError('The fixed offline evaluation needs review')
+            if stopped(len(arms)) or time.time() >= offline['deadline']:
+                write_once(root/'TERMINAL.json',dict(status='OFFLINE_PREREQUISITE_UNAVAILABLE',native_requests=0,
+                           updates=0,visits=0,epoch=time.time()))
+                return
+            state('WAIT_OFFLINE_TERMINAL',offline_config=cfg['offline_config']['sha256'])
+            time.sleep(20)
+        terminal_pin = pin(offline_terminal)
+        if cfg.get('offline_terminal',terminal_pin) != terminal_pin:
+            raise ValueError('The fixed offline result changed')
+        cfg['offline_terminal'] = terminal_pin
+        proofs = {arm:publish(root/f'{arm}.proof.json',cfg,arm) for arm in arms}
         totals = {}
         for index,arm in enumerate(arms):
             remaining = len(arms)-index
