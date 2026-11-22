@@ -1370,6 +1370,181 @@
         "unit": "wm02-sla-main3800-cross-layout-ab-20261122-01.service"
       }
     },
+    "completed_pair_and_core_delivery": {
+      "arms": {
+        "A": {
+          "actual_event_slots": {
+            "FIRST_REQUEST_AFTER_GRASP_updates": 8,
+            "FIRST_REQUEST_AFTER_GRASP_visits": 8,
+            "P10_CLOSE_CROSSING_updates": 253,
+            "P10_CLOSE_CROSSING_visits": 322
+          },
+          "arm": "A",
+          "auxiliary_H40": 2000,
+          "complete_arrays": 140,
+          "exported_arrays": 29,
+          "job": "728992.hopper-m-02",
+          "manifest_sha256": "cc04e48e148a1b5a4d459b8ce26de386d15fe7ae10d2579cd2e3f64f0ac0927f",
+          "ordered_journal_sha256": "34c3aec14bffae7888916be5a664f4c9284dfa8db6d12caa4e32ec67356090dd",
+          "result_sha256": "d24edb050ee9691c0d4d560101ffacc488a4c9a6a62409fda2aa38fb413b6684",
+          "scheduler": {
+            "exit": 0,
+            "job": "728992.hopper-m-02",
+            "state": "F"
+          },
+          "training_state_sha256": "fb0943fded0026f21d4dddcb19b9d89bbd5e4957b625138b38eb63f4ca591424",
+          "updates": 500,
+          "visits": {
+            "libero": 16000,
+            "robodojo": 16000,
+            "target": 32000
+          }
+        },
+        "B": {
+          "actual_event_slots": {
+            "FIRST_REQUEST_AFTER_GRASP_updates": 135,
+            "FIRST_REQUEST_AFTER_GRASP_visits": 136,
+            "P10_CLOSE_CROSSING_updates": 500,
+            "P10_CLOSE_CROSSING_visits": 731
+          },
+          "arm": "B",
+          "auxiliary_H40": 2000,
+          "complete_arrays": 140,
+          "exported_arrays": 29,
+          "job": "728996.hopper-m-02",
+          "manifest_sha256": "13a6b45e691a40b36ed97c36cb68c1e8324db33b263320c4c96685e27be3049f",
+          "ordered_journal_sha256": "eeae5876f573fe12f2f77f1cb2c042557ac5712c9a94ad94b7c3fe53af93c9ae",
+          "result_sha256": "8b85d0e01a5ef9b8db2b1b1c12a875522f19a8b50a71aa07dd1e27cdc48f1994",
+          "scheduler": {
+            "exit": 0,
+            "job": "728996.hopper-m-02",
+            "state": "F"
+          },
+          "training_state_sha256": "535fd67de59e6a4b20756306eec142e5f8555972039b5dda8e1f625a720789c0",
+          "updates": 500,
+          "visits": {
+            "libero": 16000,
+            "robodojo": 16000,
+            "target": 32000
+          }
+        }
+      },
+      "core_cross_layout": {
+        "requests": 0,
+        "status": "WAIT_OFFLINE_TERMINAL"
+      },
+      "core_offline": {
+        "epoch": 1795357897.7216494,
+        "generated": 0,
+        "host_available_GiB": 30.06584930419922,
+        "min_host_available_GiB": 36,
+        "native": 0,
+        "status": "WAIT_ORIGINAL_RESOURCES"
+      },
+      "first_transfer": {
+        "bytes_observed": 2551562357,
+        "cutoff_seconds": 360,
+        "files_observed": 48,
+        "status": "TIMEOUT_PARTIAL_STAGING"
+      },
+      "paired_training": {
+        "actual_A_auxiliary": 2000,
+        "actual_A_visits": {
+          "libero": 16000,
+          "robodojo": 16000,
+          "target": 32000
+        },
+        "actual_B_auxiliary": 2000,
+        "actual_B_updates": 500,
+        "arms": {
+          "A": "728992.hopper-m-02",
+          "B": "728996.hopper-m-02"
+        },
+        "counts": {
+          "A_actual": {
+            "FIRST_REQUEST_AFTER_GRASP": {
+              "episodes": 8,
+              "updates_with_hit": 8,
+              "visits": 8
+            },
+            "GRASP_TO_LIFT20": {
+              "episodes": 41,
+              "updates_with_hit": 73,
+              "visits": 84
+            },
+            "P10_CLOSE_CROSSING": {
+              "episodes": 54,
+              "updates_with_hit": 253,
+              "visits": 322
+            }
+          },
+          "B_actual": {
+            "FIRST_REQUEST_AFTER_GRASP": {
+              "episodes": 47,
+              "updates_with_hit": 135,
+              "visits": 136
+            },
+            "GRASP_TO_LIFT20": {
+              "episodes": 50,
+              "updates_with_hit": 180,
+              "visits": 191
+            },
+            "P10_CLOSE_CROSSING": {
+              "episodes": 58,
+              "updates_with_hit": 500,
+              "visits": 731
+            }
+          },
+          "FM_same_bank": {
+            "FIRST_REQUEST_AFTER_GRASP": {
+              "episodes": 48,
+              "updates_with_hit": 136,
+              "visits": 156
+            },
+            "GRASP_TO_LIFT20": {
+              "episodes": 52,
+              "updates_with_hit": 470,
+              "visits": 1252
+            },
+            "P10_CLOSE_CROSSING": {
+              "episodes": 58,
+              "updates_with_hit": 500,
+              "visits": 5019
+            }
+          }
+        },
+        "matched_domain_slices": 1500,
+        "native_requests": 0,
+        "new_updates_created": 0,
+        "parent": "502d890d3ff314ac42f4c79c360942b9b626bf1fcc4b6fc488fbab15ba508361",
+        "selection_sha256": "d327723706f8e926dd86252abcf0dfea4acb24940b87a67a9260014c0fcc80c3",
+        "slot_substitutions_histogram": {
+          "0": 53,
+          "1": 332,
+          "2": 115
+        },
+        "status": "A_AND_B_ACTUAL_FULL_500_MATCHED_VISITS",
+        "target_manifest": "e0c5c481a95972e4ba5c9b712e1c3a1240d462ad28222a2c0e041e307fb42278",
+        "verified_A_updates": 500
+      },
+      "receipt": {
+        "arms": {
+          "A": "cc04e48e148a1b5a4d459b8ce26de386d15fe7ae10d2579cd2e3f64f0ac0927f",
+          "B": "13a6b45e691a40b36ed97c36cb68c1e8324db33b263320c4c96685e27be3049f"
+        },
+        "bytes": 3663771637,
+        "export_sha256": "40aca07538f4b7fddb81c1530e32bfbc05925d4113d71ab1fe550bd72fc7d001",
+        "files": 61,
+        "generations": 0,
+        "inference_arrays": 58,
+        "native_requests": 0,
+        "reused_bytes": 2295709813,
+        "reused_files": 47,
+        "status": "CORE_GO2_PAIR_VERIFIED",
+        "updates": 0
+      },
+      "transfer_source": "cc46ddcf1ee50d4e403c394ecc3adac05ad69676"
+    },
     "core_pair_event_queue": {
       "actual_generations": 0,
       "deadline_epoch": 1795381538.4120803,
