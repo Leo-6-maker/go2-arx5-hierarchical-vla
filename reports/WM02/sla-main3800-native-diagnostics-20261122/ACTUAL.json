@@ -1224,6 +1224,26 @@
     },
     "PBS_jobs": 2,
     "actual_updates": 0,
+    "core_pair_event_queue": {
+      "actual_generations": 0,
+      "deadline_epoch": 1795381538.4120803,
+      "delivered_production_endpoints": 0,
+      "generation_cap": 80,
+      "invocation_id": "4bf3f39b058a478fa26be75e69b5f856",
+      "linger": true,
+      "native_requests": 0,
+      "paired_windows_per_arm": {
+        "TRAIN": 24,
+        "VAL": 16
+      },
+      "pid": 3725195,
+      "source": "cdf88f1f2142bb5b7d55b02a5bd09427ea8c00e8",
+      "source_members_sha256": "4eeebe1c0cdbce683c273764ecfdd3f65865eb1dcfbe09061dcb992992ec1249",
+      "status": "WAIT_FOR_VERIFIED_AB_DELIVERY",
+      "training_updates": 0,
+      "unit": "wm02-sla-main3800-core-ab-event-eval-20261122-01.service",
+      "wait_sha256": "385929681aad3172e94f5f17573202af64beac0d6caddd9212c8da19d981380c"
+    },
     "counts": {
       "A": {
         "FIRST_REQUEST_AFTER_GRASP_updates": 8,
@@ -1367,16 +1387,16 @@
     },
     "latest_durable_live_observation": {
       "A": {
-        "auxiliary_full_H40": 440,
+        "auxiliary_full_H40": 1136,
         "inflight": [
-          3911
+          4085
         ],
-        "phase": 3910,
-        "updates": 110,
+        "phase": 4084,
+        "updates": 284,
         "visits": {
-          "libero": 3520,
-          "robodojo": 3520,
-          "target": 7040
+          "libero": 9088,
+          "robodojo": 9088,
+          "target": 18176
         }
       },
       "B": {
@@ -1390,7 +1410,7 @@
           "target": 0
         }
       },
-      "epoch": 1795343491.2447236,
+      "epoch": 1795346136.4686682,
       "native_requests": 0
     },
     "observed_training_visits": 0,
