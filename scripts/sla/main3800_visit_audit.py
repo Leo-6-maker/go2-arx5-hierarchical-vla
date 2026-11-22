@@ -76,6 +76,32 @@ def fold(selected, rows):
                     for tag,count in sorted(counts.items())} for source,counts in sorted(visits.items())}
 
 
+def auxiliary_design(bank, rows):
+    """Dry-run a possible paired curriculum with exactly two ordinary slots retained."""
+    public = dict(A=Counter(),B=Counter())
+    selections = []
+    for phase in range(3801,4301):
+        start = (phase-2001)*WIDTHS['target']
+        indices = bank[start:start+WIDTHS['target']]
+        shift = 4*((2000+phase-1)%16)
+        a = tuple(range(shift,shift+4))
+        positions = [(shift+i)%64 for i in range(64)]
+        keys = ('FIRST_REQUEST_AFTER_GRASP','P10_CLOSE_CROSSING')
+        first = next((i for i in positions if i not in a[1:] and keys[0] in rows[indices[i]][4]),a[0])
+        second = next((i for i in positions if i not in (first,*a[2:]) and keys[1] in rows[indices[i]][4]),a[1])
+        b = (first,second,*a[2:])
+        if len(set(b)) != 4:
+            raise ValueError('Event design lost an ordinary or unique slot')
+        selections.append(dict(update=phase,A=a,B=b,target_slice_sha256=digest(indices)))
+        for arm, slots in (('A',a),('B',b)):
+            for tag in keys:
+                hits = sum(tag in rows[indices[i]][4] for i in slots)
+                public[arm][tag+'_visits'] += hits
+                public[arm][tag+'_updates'] += bool(hits)
+    return dict(design_only=True,updates_per_arm=500,aux_per_arm=2000,target_FM_per_arm=32000,
+                source_FM_per_arm=16000,counts=public,selections=selections)
+
+
 def audit(root, custody, events):
     assets = custody/'assets.verified'
     banks_dir = custody/'banks.verified'
@@ -137,7 +163,8 @@ def audit(root, custody, events):
                     aux.update(indices[slots].tolist())
         spans.append(dict(first=first,last=last,journal_sha256=aggregate.hexdigest(),visits=output,
                           H40_auxiliary=sum(aux.values()),fm=fold(fm,rows),auxiliary=fold(aux,rows)))
-    return dict(spans=spans,adopted=TRAIN052,new_updates=0,new_generations=0,new_native=0)
+    return dict(spans=spans,adopted=TRAIN052,new_updates=0,new_generations=0,new_native=0,
+                possible_auxiliary_design=auxiliary_design(target,rows))
 
 
 if __name__ == '__main__':

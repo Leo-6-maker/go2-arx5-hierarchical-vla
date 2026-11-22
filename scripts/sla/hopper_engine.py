@@ -128,7 +128,7 @@ class HopperEngine(serial.Engine):
             return kernel(active,frozen,*args)
         return apply
 
-    def update(self, guard, *, audit=None):
+    def update(self, guard, *, audit=None, auxiliary_slots=None):
         import jax
         import jax.numpy as jnp
 
@@ -141,6 +141,10 @@ class HopperEngine(serial.Engine):
         fm,metrics={},{}
         # Continue the parent's 16-step rotation in the ADAPT phase clock.
         slots=adapt5k_contract.auxiliary_slots((self.proof['ancestor']['phase_step']+start)%16)
+        if auxiliary_slots is not None:
+            slots = tuple(auxiliary_slots)
+            if len(slots)!=4 or len(set(slots))!=4 or any(type(i) is not int or not 0<=i<BATCH['target'] for i in slots):
+                raise ValueError('Expected four distinct slots from the existing Go2 FM batch')
         for domain in DOMAINS:
             indices,cursor=self.indices(start,domain)
             active=dict(shared=self.parameters['shared'],private=self.parameters[domain])
