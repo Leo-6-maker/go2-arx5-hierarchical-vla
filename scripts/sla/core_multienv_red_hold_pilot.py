@@ -89,7 +89,7 @@ def validate_member(case, authority):
         raise PermissionError('Expected the one original F2 HOLD slot and shared single-world owner')
 
 
-def handoff(wave, proof, rows):
+def handoff(wave, proof, rows, *, drained=False):
     root = Path(wave['registered_root'])
     records = read(root/'RECORDS.private.json')
     by_id = {r['condition']: r for r in records}
@@ -104,8 +104,16 @@ def handoff(wave, proof, rows):
     terminal = root/'RESULT.private.json'
     if terminal.is_file():
         result = read(terminal)
+        paused = result['not_started'].get(SLOT) == 'PAUSED_REPEAT_CONTACT_MECHANISM'
+        if drained and not paused:
+            stop = root/'STOP.json'
+            # This clean disk cutover stopped before the loop could annotate slot 26.
+            paused = (digest(terminal) == '55bb24644b237fdb7f2118ff9e9809f97a910063cd34ef9e0d31eccbf0967c16'
+                      and result['not_started'].get(SLOT) == 'UNSTARTED_AT_STOP_OR_DEADLINE'
+                      and ['F2','HOLD-red'] in result['paused_train_cells'] and stop.is_file()
+                      and read(stop)['reason'] == 'PR425_WAVE_A_DISK_COLD_CATALOG_CUTOVER')
         if (result['source_sha'] != wave['source_sha'] or result['exit_code'] or result['unreconciled']
-                or result['not_started'].get(SLOT) != 'PAUSED_REPEAT_CONTACT_MECHANISM'):
+                or not paused):
             raise PermissionError('Closed Wave A did not explicitly surrender this slot')
         return dict(kind='ORIGINAL_WAVE_TERMINAL_PAUSE', receipt=pin(terminal))
     current_path = root/'CURRENT_CASE.private.json'
@@ -242,7 +250,7 @@ def prepare(config):
         old, _ = reopen_binding(reopen,wave)
         storage = config['payload_storage']
         if (storage['live_control'] != LOCAL_JOURNAL or not capacity(root.parent,storage,wave['multienv'])['passed']
-                or not handoff(wave,proof,order(population))):
+                or not handoff(wave,proof,order(population),drained=True)):
             raise PermissionError('The reopened pilot needs the original handoff and durable storage reserves')
         spec.update(reopen=reopen,multienv_payload_storage=storage)
         end = min(end,old['deadline_epoch'])
@@ -289,7 +297,7 @@ def run(spec):
     prefix = reopen_binding(reopen,wave)[1] if reopen else None
 
     def permission():
-        source = handoff(wave,proof,rows)
+        source = handoff(wave,proof,rows,drained=prefix is not None)
         if source is None or prefix is None:
             return source
         terminal = after_slot25(prefix,reopen['slot25'])
