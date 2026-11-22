@@ -11,7 +11,6 @@ import numpy as np
 
 from scripts.pi0292.durable import OwnerLock, write
 from scripts.sla.core_canonical_package import validate
-from scripts.sla.core_hopper_native_queue import capacity
 from scripts.sla.core_main3800_native_proof import load_manifest
 from scripts.sla.hopper_parent_custody import digest, write_once
 from scripts.sla.hopper_site import pinned
@@ -120,6 +119,8 @@ def endpoint_packages(cfg, comparison):
 
 
 def evaluate(root, config, panel):
+    from scripts.sla.core_hopper_native_queue import capacity
+
     cfg = pinned(config['native_config'])
     expert = pinned(cfg['expert'])
     receiver = pinned(cfg['receiver'])

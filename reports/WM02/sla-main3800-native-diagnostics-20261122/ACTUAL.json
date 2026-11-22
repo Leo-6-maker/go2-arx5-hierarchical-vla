@@ -686,6 +686,19 @@
   },
   "cross_layout_roster": {
     "cases": 6,
+    "isolated_runtime": {
+      "base_commit": "a3b376871916d1e0c2a1b933ce7014e30e169625",
+      "base_seal_sha256": "549bf3d281b4968c31577f1a820ba205c1583d9afe3e5fcc49e5dc31aa392d49",
+      "generations": 0,
+      "members": 3733,
+      "native_requests": 0,
+      "overlay_commit": "5c551c8fcdcac03e1a1f943457b3b3edef1e77d0",
+      "overlay_files": 9,
+      "source_seal_sha256": "fb5aeccf6fd9b1511cf978fc2c6d908d6bfef3cca6dd3742ea701bcc93feffdf",
+      "unit_started": false,
+      "updates": 0,
+      "verified_cpu_modules": 6
+    },
     "layouts": [
       "F1-G01",
       "F2-G00"
@@ -713,10 +726,46 @@
     "generations": 0,
     "host_available_GiB": 27.3111,
     "host_floor_GiB": 36,
+    "input_readback": {
+      "errors": 0,
+      "expert_TCP_vertical_P10_mm": {
+        "TRAIN": {
+          "BEFORE_LIFT20": [
+            3.181,
+            3.317,
+            3.227
+          ],
+          "FIRST_REQUEST_AFTER_GRASP": [
+            1.406,
+            1.278,
+            1.358
+          ]
+        },
+        "VAL": {
+          "BEFORE_LIFT20": [
+            3.296,
+            3.311
+          ],
+          "FIRST_REQUEST_AFTER_GRASP": [
+            1.416,
+            1.247
+          ]
+        }
+      },
+      "generations": 0,
+      "native_requests": 0,
+      "seconds": 2.174188216216862,
+      "status": "CPU_ACTUAL_40_INPUT_READBACK",
+      "updates": 0,
+      "verified": {
+        "TRAIN": 24,
+        "VAL": 16
+      }
+    },
     "latest_resource_observation": {
       "attempts": 0,
-      "available_GiB": 31.447467803955078,
-      "epoch": 1795342573.7442088,
+      "available_GiB": 23.41419219970703,
+      "epoch": 1795342934.2497406,
       "generations": 0,
       "status": "WAIT_ORIGINAL_RESOURCES"
     },
@@ -978,16 +1027,16 @@
     },
     "latest_durable_live_observation": {
       "A": {
-        "auxiliary_full_H40": 204,
+        "auxiliary_full_H40": 304,
         "inflight": [
-          3852
+          3877
         ],
-        "phase": 3851,
-        "updates": 51,
+        "phase": 3876,
+        "updates": 76,
         "visits": {
-          "libero": 1632,
-          "robodojo": 1632,
-          "target": 3264
+          "libero": 2432,
+          "robodojo": 2432,
+          "target": 4864
         }
       },
       "B": {
@@ -1001,7 +1050,7 @@
           "target": 0
         }
       },
-      "epoch": 1795342564.7931442,
+      "epoch": 1795342963.2130783,
       "native_requests": 0
     },
     "observed_training_visits": 0,
