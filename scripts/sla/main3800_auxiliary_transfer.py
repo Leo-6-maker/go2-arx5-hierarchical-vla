@@ -35,7 +35,7 @@ def verified_arm(root, arm, receipt):
     return manifest
 
 
-def pack(root, sha, output):
+def pack(root, sha, output, omit=()):
     receipts = pair_receipt(root, sha)
     files = ['EXPORT.json']
     for arm in ARMS:
@@ -43,23 +43,49 @@ def pack(root, sha, output):
         files.extend([f'{arm}/CHECKPOINT.json', *(f'{arm}/{row["file"]}' for row in manifest['arrays'])])
     if sum((root/name).stat().st_size for name in files) > MAX_BYTES:
         raise ValueError('The Go2 inference pair exceeds the transfer size limit')
+    if not set(omit) <= set(files):
+        raise ValueError('Resume requested an unexpected package member')
     with tarfile.open(fileobj=output, mode='w|', dereference=True) as stream:
         for name in files:
-            stream.add(root/name, arcname=name, recursive=False)
+            if name not in omit:
+                stream.add(root/name, arcname=name, recursive=False)
 
 
-def receive(destination, sha, source):
+def reusable_members(partial, sha):
+    receipts = pair_receipt(partial,sha)
+    expected = {'EXPORT.json':sha}
+    for arm in ARMS:
+        name = f'{arm}/CHECKPOINT.json'
+        manifest = pinned(dict(path=str(partial/name),sha256=receipts[arm]['manifest_sha256']))
+        names = [r['file'] for r in manifest['arrays']]
+        if len(names) != 29 or len(set(names)) != 29 or not set(names) <= PARAMETER_NAMES:
+            raise ValueError(f'Unexpected partial member inventory for {arm}')
+        expected[name] = receipts[arm]['manifest_sha256']
+        expected.update({f'{arm}/{r["file"]}':r['sha256'] for r in manifest['arrays']})
+    return {name:partial/name for name,want in expected.items()
+            if (partial/name).is_file() and not (partial/name).is_symlink()
+            and digest(partial/name)==want}
+
+
+def receive(destination, sha, source, partial=None):
     destination.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
     total_bytes = 0
     members = 0
     with closing(OwnerLock(destination.with_suffix('.lock'))):
         if destination.exists():
             raise FileExistsError('The transfer already has a destination to reconcile')
+        reused = reusable_members(partial,sha) if partial is not None else {}
         with TemporaryDirectory(prefix='.auxiliary-pair-', dir=destination.parent) as incoming:
             stage = Path(incoming)
             with tarfile.open(fileobj=source, mode='r|') as stream:
                 def copy(name):
                     nonlocal total_bytes, members
+                    if name in reused:
+                        handle = reused[name]
+                        os.link(handle,stage/name)
+                        total_bytes += handle.stat().st_size
+                        members += 1
+                        return
                     item = stream.next()
                     if (item is None or item.name != name or not item.isfile()
                             or item.size < 1 or total_bytes + item.size > MAX_BYTES
@@ -89,9 +115,13 @@ def receive(destination, sha, source):
                     sync_dir(stage/arm)
                 if stream.next() is not None:
                     raise ValueError('Unexpected additional transfer members')
+                if total_bytes > MAX_BYTES:
+                    raise ValueError('The reconstructed inference pair exceeds the transfer size limit')
             result = dict(status='CORE_GO2_PAIR_VERIFIED', export_sha256=sha, inference_arrays=58,
                           files=members, bytes=total_bytes, updates=0, generations=0, native_requests=0,
                           arms={arm:receipts[arm]['manifest_sha256'] for arm in ARMS})
+            if reused:
+                result.update(reused_files=len(reused),reused_bytes=sum(x.stat().st_size for x in reused.values()))
             write_once(stage/'DELIVERY.private.json', result)
             stage.rename(destination)
             sync_dir(destination.parent)
@@ -100,12 +130,17 @@ def receive(destination, sha, source):
 
 if __name__ == '__main__':
     cli = ArgumentParser(description=__doc__)
-    cli.add_argument('mode', choices=('pack','receive'))
+    cli.add_argument('mode', choices=('pack','receive','resume-plan'))
     cli.add_argument('directory', type=Path)
     cli.add_argument('export_sha256')
+    cli.add_argument('--omit', nargs='*', default=())
+    cli.add_argument('--resume-from',type=Path)
     args = cli.parse_args()
     os.umask(0o077)
     if args.mode == 'pack':
-        pack(args.directory, args.export_sha256, sys.stdout.buffer)
+        pack(args.directory,args.export_sha256,sys.stdout.buffer,args.omit)
+    elif args.mode == 'receive':
+        print(json.dumps(receive(args.directory,args.export_sha256,sys.stdin.buffer,args.resume_from),sort_keys=True))
     else:
-        print(json.dumps(receive(args.directory, args.export_sha256, sys.stdin.buffer), sort_keys=True))
+        members = reusable_members(args.directory,args.export_sha256)
+        print(json.dumps(dict(members=sorted(members),bytes=sum(p.stat().st_size for p in members.values())),sort_keys=True))
