@@ -976,6 +976,87 @@
   "native_unit": "wm02-sla-main3800-core-matched-native-dev6-20261122-01.service",
   "new_training_visits": 0,
   "new_updates": 0,
+  "original_main_paid_suffix_control_readback": {
+    "all_numeric_equal_updates": 100,
+    "archive_span_sha256": {
+      "A": "a076451fc997574509fe770512ff1237d844a5f1ec02bdb4fafea61e12980b9a",
+      "original": "4a3efc82844589cac677aaf1a567f3500045da78408192bdaf8c21dfeaa724c4"
+    },
+    "auxiliaries_per_line": 400,
+    "both_paid_updates": 200,
+    "control_job": "728992.hopper-m-02",
+    "expected_complete_arrays": 140,
+    "incomplete_3900_arrays": 127,
+    "kernel_loop_wall_seconds": {
+      "A": 1650.261,
+      "old": 1511.249
+    },
+    "max_absolute_deltas": {
+      "joint.grad_norm": 0,
+      "libero.FM32": 0,
+      "libero.auxiliary": 0,
+      "libero.private_gradient_norm": 0,
+      "libero.shared_gradient_norm": 0,
+      "robodojo.FM32": 0,
+      "robodojo.auxiliary": 0,
+      "robodojo.private_gradient_norm": 0,
+      "robodojo.shared_gradient_norm": 0,
+      "target.FM32": 0,
+      "target.auxiliary": 0,
+      "target.private_gradient_norm": 0,
+      "target.shared_gradient_norm": 0
+    },
+    "median_update_wall_s_excluding_first": {
+      "A": 15.755,
+      "old": 15.121
+    },
+    "new_model_generations": 0,
+    "new_native_requests": 0,
+    "new_training_updates": 0,
+    "numeric_equal_counts": {
+      "joint.grad_norm": 100,
+      "libero.FM32": 100,
+      "libero.auxiliary": 100,
+      "libero.private_gradient_norm": 100,
+      "libero.shared_gradient_norm": 100,
+      "robodojo.FM32": 100,
+      "robodojo.auxiliary": 100,
+      "robodojo.private_gradient_norm": 100,
+      "robodojo.shared_gradient_norm": 100,
+      "target.FM32": 100,
+      "target.auxiliary": 100,
+      "target.private_gradient_norm": 100,
+      "target.shared_gradient_norm": 100
+    },
+    "observed_epoch": 1795343666.4982786,
+    "old_complete_dirs": [
+      "phase00000",
+      "phase01000",
+      "phase02000",
+      "phase03000",
+      "phase03800"
+    ],
+    "old_job_ids": [
+      "728341.hopper-m-02"
+    ],
+    "original_PBS_terminal": {
+      "exit": 1,
+      "job": "728341.hopper-m-02",
+      "reported_job_walltime": "01:37:28",
+      "state": "F"
+    },
+    "parent_3800": "502d890d3ff314ac42f4c79c360942b9b626bf1fcc4b6fc488fbab15ba508361",
+    "private_receipt_sha256": "8ef097b1a2bf26136725bcac24f97b075729f053744066b9486eadb7340eed1e",
+    "same_auxiliary_slots": 100,
+    "same_updates": 100,
+    "same_visit_slices": 300,
+    "scope": "MAIN_3801_3900_MATCHED_CONTROL",
+    "visits_per_line": {
+      "libero": 3200,
+      "robodojo": 3200,
+      "target": 6400
+    }
+  },
   "post_grasp_observed_duration_ms": {
     "HOLD-blue": 208,
     "HOLD-red": 150,
