@@ -3,8 +3,6 @@ from hashlib import sha256
 import json
 import re
 
-from scripts.sla.hopper_snapshot_producers import SCHEMA as OLD_SCHEMA, check_admission_provenance
-
 SCHEMA = 'SLA_CORE_MULTIENV_TRAIN_PROVENANCE_V1'
 COLD_SCHEMA = 'SLA_CORE_MULTIENV_TRAIN_PROVENANCE_V2'
 COLD_AUTHORITY_SCHEMA = 'SLA_CORE_MULTIENV_WAVE_A_COLD_AUTHORITY_V1'
@@ -74,6 +72,8 @@ def cold_admissions(authority, old, new, cards, registry, trusted):
 
 
 def admitted_cards(proof, episodes, hashes):
+    from scripts.sla.hopper_snapshot_producers import SCHEMA as OLD_SCHEMA, check_admission_provenance
+
     check_prefix(episodes,proof['cases'],hashes)
     if proof['canonical_plan']!=PLAN or proof['prefix_seal']!=PREFIX_SEAL or 'producer_spec' in proof:
         raise ValueError('Unexpected Wave A data provenance')
