@@ -2048,6 +2048,817 @@
       "native_requests": 0
     },
     "observed_training_visits": 0,
+    "paired_final_attribution": {
+      "closure": {
+        "before_lift_xyz": {
+          "A-phase04300": [
+            [
+              3,
+              1.9828677706651507,
+              2.1093523108492884
+            ],
+            [
+              12,
+              2.225006358552506,
+              2.3022762613794283
+            ],
+            [
+              21,
+              2.3837998306938974,
+              2.575685702275091
+            ],
+            [
+              27,
+              1.6021280519845327,
+              1.8394987640399372
+            ],
+            [
+              36,
+              2.9793155518680914,
+              3.189260873017324
+            ]
+          ],
+          "B-phase04300": [
+            [
+              3,
+              1.4285420832365592,
+              1.5755375835349301
+            ],
+            [
+              12,
+              1.567121258284935,
+              1.6414358332333558
+            ],
+            [
+              21,
+              1.6134300569342057,
+              1.8508997145681314
+            ],
+            [
+              27,
+              0.9082780793744673,
+              1.1422244974196059
+            ],
+            [
+              36,
+              2.262621637680151,
+              2.500953860136602
+            ]
+          ]
+        },
+        "paired_closure": [
+          {
+            "A": {
+              "G7_speed": true,
+              "H40": true,
+              "aligned_P10_mm": 0.5223804925681,
+              "due": true,
+              "expert_crossing": 1,
+              "first_H40_exceedance": null,
+              "legal": true,
+              "maximum_finger_mm_s": 35.333017886512025,
+              "model_crossing": 1,
+              "model_up_P10_mm": -0.28718996491818605,
+              "seam_mm_s": 23.579447499452872,
+              "timely_and_legal": true
+            },
+            "B": {
+              "G7_speed": false,
+              "H40": false,
+              "aligned_P10_mm": 0.6361528344073214,
+              "due": true,
+              "expert_crossing": 1,
+              "first_H40_exceedance": {
+                "channel": "finger_velocity",
+                "first_ratio": 1.003406237540706,
+                "k": 5,
+                "order": 2,
+                "path": "nominal",
+                "peak_ratio": 1.003406237540706,
+                "region": "P10",
+                "time_s": 0.25
+              },
+              "legal": false,
+              "maximum_finger_mm_s": 40.1362495016282,
+              "model_crossing": 2,
+              "model_up_P10_mm": -0.4158825849241213,
+              "seam_mm_s": 23.277173731268697,
+              "timely_and_legal": false
+            },
+            "ordinal": 1,
+            "split": "TRAIN",
+            "tag": "P10_CLOSE_CROSSING"
+          },
+          {
+            "A": {
+              "G7_speed": true,
+              "H40": true,
+              "aligned_P10_mm": 0.43598061221576234,
+              "due": true,
+              "expert_crossing": 1,
+              "first_H40_exceedance": null,
+              "legal": true,
+              "maximum_finger_mm_s": 36.655333347079264,
+              "model_crossing": 1,
+              "model_up_P10_mm": -0.29318864896782343,
+              "seam_mm_s": 18.16037790348529,
+              "timely_and_legal": true
+            },
+            "B": {
+              "G7_speed": false,
+              "H40": false,
+              "aligned_P10_mm": 0.5447371472232476,
+              "due": true,
+              "expert_crossing": 1,
+              "first_H40_exceedance": {
+                "channel": "finger_velocity",
+                "first_ratio": 1.0224572152742342,
+                "k": 7,
+                "order": 2,
+                "path": "nominal",
+                "peak_ratio": 1.0224572152742342,
+                "region": "P10",
+                "time_s": 0.35000000000000003
+              },
+              "legal": false,
+              "maximum_finger_mm_s": 40.8982886109694,
+              "model_crossing": 2,
+              "model_up_P10_mm": -0.40279447542982305,
+              "seam_mm_s": 19.25310146428841,
+              "timely_and_legal": false
+            },
+            "ordinal": 10,
+            "split": "TRAIN",
+            "tag": "P10_CLOSE_CROSSING"
+          },
+          {
+            "A": {
+              "G7_speed": true,
+              "H40": true,
+              "aligned_P10_mm": 0.8020196686385173,
+              "due": true,
+              "expert_crossing": 1,
+              "first_H40_exceedance": null,
+              "legal": true,
+              "maximum_finger_mm_s": 34.79068833854348,
+              "model_crossing": 1,
+              "model_up_P10_mm": -0.4231752374908225,
+              "seam_mm_s": 23.924018356891175,
+              "timely_and_legal": true
+            },
+            "B": {
+              "G7_speed": false,
+              "H40": false,
+              "aligned_P10_mm": 0.943589863937873,
+              "due": true,
+              "expert_crossing": 1,
+              "first_H40_exceedance": {
+                "channel": "finger_velocity",
+                "first_ratio": 1.0042106479322888,
+                "k": 7,
+                "order": 2,
+                "path": "nominal",
+                "peak_ratio": 1.0042106479322888,
+                "region": "P10",
+                "time_s": 0.35000000000000003
+              },
+              "legal": false,
+              "maximum_finger_mm_s": 40.16842591729155,
+              "model_crossing": 2,
+              "model_up_P10_mm": -0.5102113249605438,
+              "seam_mm_s": 22.323021377299995,
+              "timely_and_legal": false
+            },
+            "ordinal": 19,
+            "split": "TRAIN",
+            "tag": "P10_CLOSE_CROSSING"
+          },
+          {
+            "A": {
+              "G7_speed": true,
+              "H40": true,
+              "aligned_P10_mm": 1.078544955127,
+              "due": true,
+              "expert_crossing": 1,
+              "first_H40_exceedance": null,
+              "legal": true,
+              "maximum_finger_mm_s": 39.59047515600816,
+              "model_crossing": 2,
+              "model_up_P10_mm": -0.03381590714284722,
+              "seam_mm_s": 0.6035070862808745,
+              "timely_and_legal": true
+            },
+            "B": {
+              "G7_speed": true,
+              "H40": true,
+              "aligned_P10_mm": 1.148175466442873,
+              "due": true,
+              "expert_crossing": 1,
+              "first_H40_exceedance": null,
+              "legal": true,
+              "maximum_finger_mm_s": 39.871503368431455,
+              "model_crossing": 2,
+              "model_up_P10_mm": -0.011370903310401151,
+              "seam_mm_s": 22.373472049298236,
+              "timely_and_legal": true
+            },
+            "ordinal": 25,
+            "split": "VAL",
+            "tag": "P10_CLOSE_CROSSING"
+          },
+          {
+            "A": {
+              "G7_speed": true,
+              "H40": true,
+              "aligned_P10_mm": 0.3464049363649264,
+              "due": true,
+              "expert_crossing": 1,
+              "first_H40_exceedance": null,
+              "legal": true,
+              "maximum_finger_mm_s": 38.17106761552204,
+              "model_crossing": 1,
+              "model_up_P10_mm": -0.02662932175583315,
+              "seam_mm_s": 14.68010313483717,
+              "timely_and_legal": true
+            },
+            "B": {
+              "G7_speed": false,
+              "H40": false,
+              "aligned_P10_mm": 0.43471544336333884,
+              "due": true,
+              "expert_crossing": 1,
+              "first_H40_exceedance": {
+                "channel": "finger_velocity",
+                "first_ratio": 1.021666414101184,
+                "k": 5,
+                "order": 2,
+                "path": "nominal",
+                "peak_ratio": 1.0759386034513247,
+                "region": "P10",
+                "time_s": 0.25
+              },
+              "legal": false,
+              "maximum_finger_mm_s": 43.037544138053,
+              "model_crossing": 3,
+              "model_up_P10_mm": -0.13650075113467922,
+              "seam_mm_s": 21.803373946181758,
+              "timely_and_legal": false
+            },
+            "ordinal": 34,
+            "split": "VAL",
+            "tag": "P10_CLOSE_CROSSING"
+          }
+        ]
+      },
+      "decision": {
+        "launch_C": false,
+        "launch_D": false,
+        "promote_B": false,
+        "resume_main": false
+      },
+      "forensic_results": {
+        "A": {
+          "CHV1-DEV-F1-HOLD-red-01": {
+            "contact": {
+              "arm_pairs": [
+                {
+                  "depth_mm": 0.0424986839491024,
+                  "pair": [
+                    "task_table",
+                    "task_right_pad"
+                  ]
+                }
+              ],
+              "time_s": 45.09600000000915
+            },
+            "events": [
+              "base80mm"
+            ],
+            "family": "F1",
+            "first_failure": "ILLEGAL_CONTACT",
+            "generations": 68,
+            "grasp": false,
+            "hold_seconds": 0,
+            "lift20": false,
+            "maximum_lift_mm": 0,
+            "ordinary_postgrasp": null,
+            "result_sha256": "f1dd0d09c1df406a6aea443d4f576527b9c8d0377a41985d1a68a45b0d797bc6",
+            "seam": null,
+            "success": false,
+            "task": "HOLD-red",
+            "technical": false,
+            "ticks": 22549
+          },
+          "CHV1-DEV-F1-PLACE-blue-left-01": {
+            "contact": null,
+            "events": [
+              "base80mm",
+              "target_grasp"
+            ],
+            "family": "F1",
+            "first_failure": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+            "generations": 74,
+            "grasp": true,
+            "hold_seconds": 0,
+            "lift20": false,
+            "maximum_lift_mm": 0.1479724966160223,
+            "ordinary_postgrasp": {
+              "confirmed_intervals_including_partial_first": 1,
+              "confirmed_new_query_ids_after_grasp": [],
+              "confirmed_ticks": 8,
+              "grasp_tick": 23945,
+              "rejected_tick": 23953
+            },
+            "result_sha256": "d6292f6d16642deba1fa7a9cf7808ccee1b7038972208ecf8f10aef4fd0c8d2d",
+            "seam": {
+              "action_sha256": "67060092ed5284331b1d9b337b88077a9dd6c96c044b753229d493e4ade883cd",
+              "age_native_ms": 50.00000000006111,
+              "confirmed_atoms": 0,
+              "first_exceedance": 0,
+              "first_seam_mm_s": 157.05333991301794,
+              "install_ACKs": 0,
+              "max_internal_mm_s": 26.195186843065223,
+              "measured_minus_previous_mm": 1.2135303895198581,
+              "measured_width_mm": 19.815278908516643,
+              "previous_P10_confirmed_atoms": 10,
+              "previous_command_mm": 18.601748518996786,
+              "proposal_first_mm": 10.749081523336292,
+              "proposal_minus_measured_mm": -9.06619738518035,
+              "proposal_minus_previous_mm": -7.852666995660493,
+              "query": 74,
+              "tick": 23953,
+              "time_native_s": 47.90600000001258
+            },
+            "success": false,
+            "task": "PLACE-blue-left",
+            "technical": false,
+            "ticks": 23953
+          },
+          "CHV1-DEV-F1-PLACE-red-right-01": {
+            "contact": {
+              "arm_pairs": [
+                {
+                  "depth_mm": 0.03389538329357129,
+                  "pair": [
+                    "task_table",
+                    "task_right_pad"
+                  ]
+                }
+              ],
+              "time_s": 42.11800000000551
+            },
+            "events": [
+              "base80mm"
+            ],
+            "family": "F1",
+            "first_failure": "ILLEGAL_CONTACT",
+            "generations": 62,
+            "grasp": false,
+            "hold_seconds": 0,
+            "lift20": false,
+            "maximum_lift_mm": 0,
+            "ordinary_postgrasp": null,
+            "result_sha256": "c14446eca5029862faf2e0fe14805241e5fdbeaebce925ec79a15486c44ff1fe",
+            "seam": null,
+            "success": false,
+            "task": "PLACE-red-right",
+            "technical": false,
+            "ticks": 21060
+          },
+          "CHV1-DEV-F2-HOLD-blue-00": {
+            "contact": {
+              "arm_pairs": [
+                {
+                  "depth_mm": 0.0031443954502143046,
+                  "pair": [
+                    "x5_link6",
+                    "task_blue_cube_geom"
+                  ]
+                }
+              ],
+              "time_s": 36.08799999999814
+            },
+            "events": [
+              "base80mm"
+            ],
+            "family": "F2",
+            "first_failure": "ILLEGAL_CONTACT",
+            "generations": 50,
+            "grasp": false,
+            "hold_seconds": 0,
+            "lift20": false,
+            "maximum_lift_mm": 0,
+            "ordinary_postgrasp": null,
+            "result_sha256": "f87f5034a71a2b7ce045c0e1c0f699a31e281410f0432c40c5850e6811bde172",
+            "seam": null,
+            "success": false,
+            "task": "HOLD-blue",
+            "technical": false,
+            "ticks": 18045
+          },
+          "CHV1-DEV-F2-PLACE-blue-right-00": {
+            "contact": {
+              "arm_pairs": [
+                {
+                  "depth_mm": 0.2151676394093853,
+                  "pair": [
+                    "x5_link6",
+                    "task_blue_cube_geom"
+                  ]
+                }
+              ],
+              "time_s": 34.047999999995646
+            },
+            "events": [
+              "base80mm"
+            ],
+            "family": "F2",
+            "first_failure": "ILLEGAL_CONTACT",
+            "generations": 46,
+            "grasp": false,
+            "hold_seconds": 0,
+            "lift20": false,
+            "maximum_lift_mm": 0,
+            "ordinary_postgrasp": null,
+            "result_sha256": "b7d7bb0f2b6823755b42f049c22a063a0fc1299be5192c0ca809e18c063345b4",
+            "seam": null,
+            "success": false,
+            "task": "PLACE-blue-right",
+            "technical": false,
+            "ticks": 17025
+          },
+          "CHV1-DEV-F2-PLACE-red-left-00": {
+            "contact": {
+              "arm_pairs": [
+                {
+                  "depth_mm": 0.004571846569819543,
+                  "pair": [
+                    "x5_link6",
+                    "task_blue_cube_geom"
+                  ]
+                }
+              ],
+              "time_s": 42.96400000000654
+            },
+            "events": [
+              "base80mm"
+            ],
+            "family": "F2",
+            "first_failure": "ILLEGAL_CONTACT",
+            "generations": 64,
+            "grasp": false,
+            "hold_seconds": 0,
+            "lift20": false,
+            "maximum_lift_mm": 0,
+            "ordinary_postgrasp": null,
+            "result_sha256": "7a6cbac74c7a5e5133847d45f5192b0b24a3ce85f2efeee65d11f3716364c97f",
+            "seam": null,
+            "success": false,
+            "task": "PLACE-red-left",
+            "technical": false,
+            "ticks": 21483
+          }
+        },
+        "B": {
+          "CHV1-DEV-F1-HOLD-red-01": {
+            "contact": null,
+            "events": [
+              "base80mm"
+            ],
+            "family": "F1",
+            "first_failure": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+            "generations": 58,
+            "grasp": false,
+            "hold_seconds": 0,
+            "lift20": false,
+            "maximum_lift_mm": 0,
+            "ordinary_postgrasp": null,
+            "result_sha256": "23ef57f87fea2b8ac82857ac1e31baece8a2b8ddb0311e3906d2707689e07152",
+            "seam": {
+              "action_sha256": "7009c1bdf5bdd5133c7ce49874f7fcd3aeb42403f0bdd3732e961099fe24d8e8",
+              "age_native_ms": 50.00000000006111,
+              "confirmed_atoms": 0,
+              "first_exceedance": 0,
+              "first_seam_mm_s": 56.98578073012094,
+              "install_ACKs": 0,
+              "max_internal_mm_s": 39.84696666582632,
+              "measured_minus_previous_mm": 0.21247918929283988,
+              "measured_width_mm": 32.302964841056976,
+              "previous_P10_confirmed_atoms": 10,
+              "previous_command_mm": 32.09048565176414,
+              "proposal_first_mm": 34.939774688273666,
+              "proposal_minus_measured_mm": 2.6368098472166897,
+              "proposal_minus_previous_mm": 2.8492890365095294,
+              "query": 58,
+              "tick": 19953,
+              "time_native_s": 39.906000000002805
+            },
+            "success": false,
+            "task": "HOLD-red",
+            "technical": false,
+            "ticks": 19953
+          },
+          "CHV1-DEV-F1-PLACE-blue-left-01": {
+            "contact": null,
+            "events": [
+              "base80mm"
+            ],
+            "family": "F1",
+            "first_failure": "ORIGINAL_FULL_H40_POLICY_REJECTED",
+            "generations": 60,
+            "grasp": false,
+            "hold_seconds": 0,
+            "lift20": false,
+            "maximum_lift_mm": 0,
+            "ordinary_postgrasp": null,
+            "reconstructed_original_H40": {
+              "first": {
+                "channel": "finger_velocity",
+                "first_ratio": 1.0160256106533954,
+                "k": 27,
+                "order": 2,
+                "path": "nominal",
+                "peak_ratio": 1.1464876566846154,
+                "region": "SUFFIX",
+                "time_s": 1.35
+              },
+              "original_first": {
+                "channel": "finger_velocity",
+                "first_ratio": 1.0160256106533954,
+                "k": 27,
+                "order": 2,
+                "path": "nominal",
+                "peak_ratio": 1.1464876566846154,
+                "region": "SUFFIX",
+                "time_s": 1.35
+              },
+              "other_failing_components": {
+                "nominal": [
+                  {
+                    "component": "finger_velocity",
+                    "k": 27,
+                    "peak_ratio": 1.1464876566846154
+                  }
+                ],
+                "reference": [
+                  {
+                    "component": "finger_velocity",
+                    "k": 27,
+                    "peak_ratio": 1.1464876566846154
+                  }
+                ]
+              },
+              "q": 60
+            },
+            "result_sha256": "998ee9230422ddea05465a2429991396fa2e0992973e8bfc14a54c0bd387ac29",
+            "seam": null,
+            "success": false,
+            "task": "PLACE-blue-left",
+            "technical": false,
+            "ticks": 20453
+          },
+          "CHV1-DEV-F1-PLACE-red-right-01": {
+            "contact": null,
+            "events": [
+              "base80mm"
+            ],
+            "family": "F1",
+            "first_failure": "ORIGINAL_FULL_H40_POLICY_REJECTED",
+            "generations": 71,
+            "grasp": false,
+            "hold_seconds": 0,
+            "lift20": false,
+            "maximum_lift_mm": 0,
+            "ordinary_postgrasp": null,
+            "reconstructed_original_H40": {
+              "first": {
+                "channel": "finger_velocity",
+                "first_ratio": 1.0193549567964892,
+                "k": 15,
+                "order": 2,
+                "path": "nominal",
+                "peak_ratio": 1.0193549567964892,
+                "region": "SUFFIX",
+                "time_s": 0.75
+              },
+              "original_first": {
+                "channel": "finger_velocity",
+                "first_ratio": 1.0193549567964892,
+                "k": 15,
+                "order": 2,
+                "path": "nominal",
+                "peak_ratio": 1.0193549567964892,
+                "region": "SUFFIX",
+                "time_s": 0.75
+              },
+              "other_failing_components": {
+                "nominal": [
+                  {
+                    "component": "finger_velocity",
+                    "k": 15,
+                    "peak_ratio": 1.0193549567964892
+                  }
+                ],
+                "reference": [
+                  {
+                    "component": "finger_velocity",
+                    "k": 15,
+                    "peak_ratio": 1.0193549567964892
+                  }
+                ]
+              },
+              "q": 71
+            },
+            "result_sha256": "72fb9ec7d45d0816584f7a55b591072eebe4b3e2ced86b1a06b60e2902414609",
+            "seam": null,
+            "success": false,
+            "task": "PLACE-red-right",
+            "technical": false,
+            "ticks": 23203
+          },
+          "CHV1-DEV-F2-HOLD-blue-00": {
+            "contact": {
+              "arm_pairs": [
+                {
+                  "depth_mm": 0.0006030922393186755,
+                  "pair": [
+                    "x5_link6",
+                    "task_blue_cube_geom"
+                  ]
+                }
+              ],
+              "time_s": 34.9079999999967
+            },
+            "events": [
+              "base80mm"
+            ],
+            "family": "F2",
+            "first_failure": "ILLEGAL_CONTACT",
+            "generations": 48,
+            "grasp": false,
+            "hold_seconds": 0,
+            "lift20": false,
+            "maximum_lift_mm": 0,
+            "ordinary_postgrasp": null,
+            "result_sha256": "39da83025db3b962308e630c38cfc5226dd8ecbe589b6190f5f56d6c33419113",
+            "seam": null,
+            "success": false,
+            "task": "HOLD-blue",
+            "technical": false,
+            "ticks": 17455
+          },
+          "CHV1-DEV-F2-PLACE-blue-right-00": {
+            "contact": {
+              "arm_pairs": [
+                {
+                  "depth_mm": 0.0005528477703235779,
+                  "pair": [
+                    "x5_link6",
+                    "task_blue_cube_geom"
+                  ]
+                }
+              ],
+              "time_s": 37.83000000000027
+            },
+            "events": [
+              "base80mm"
+            ],
+            "family": "F2",
+            "first_failure": "ILLEGAL_CONTACT",
+            "generations": 53,
+            "grasp": false,
+            "hold_seconds": 0,
+            "lift20": false,
+            "maximum_lift_mm": 0,
+            "ordinary_postgrasp": null,
+            "result_sha256": "6f0492e375b0a6bf5e29a4dda4414d423a3eea5ed0df5e3e59943a970676bbf8",
+            "seam": null,
+            "success": false,
+            "task": "PLACE-blue-right",
+            "technical": false,
+            "ticks": 18916
+          },
+          "CHV1-DEV-F2-PLACE-red-left-00": {
+            "contact": {
+              "arm_pairs": [
+                {
+                  "depth_mm": 0.004996846101005398,
+                  "pair": [
+                    "x5_link6",
+                    "task_blue_cube_geom"
+                  ]
+                }
+              ],
+              "time_s": 43.77800000000754
+            },
+            "events": [],
+            "family": "F2",
+            "first_failure": "ILLEGAL_CONTACT",
+            "generations": 65,
+            "grasp": false,
+            "hold_seconds": 0,
+            "lift20": false,
+            "maximum_lift_mm": 0,
+            "ordinary_postgrasp": null,
+            "result_sha256": "6f00496b8a113a5cd9989fe74555b24176dd2abff4feae4ef984ba3ce1999506",
+            "seam": null,
+            "success": false,
+            "task": "PLACE-red-left",
+            "technical": false,
+            "ticks": 21890
+          }
+        }
+      },
+      "gradient": {
+        "completed": 0,
+        "planned_backward_calls": 12,
+        "source": "88067ffd02cdc5cc0c6d51f9de193f9e21c532c3",
+        "spec": "636a6969e4a8875183468f1311eeb414f3dc5da2ac481913eee9d3f19b00606a",
+        "status": "WAIT_ORIGINAL_RESOURCES",
+        "train_updates": 0,
+        "unit": "wm02-sla-main3800-core-ab-gradient-audit-20261123-02.service"
+      },
+      "history_alias": {
+        "aperture_minus_previous_command_mm": {
+          "A": {
+            "max": 1.2135303895198581,
+            "max_abs": 1.2135303895198581,
+            "min": -0.02183760952564895,
+            "over_2mm": 0,
+            "p50": 0.00010430636397315562
+          },
+          "B": {
+            "max": 0.21247918929283988,
+            "max_abs": 0.21247918929283988,
+            "min": -0.052707369101741286,
+            "over_2mm": 0,
+            "p50": 9.316200164088961e-05
+          }
+        },
+        "new_model_generations": 0,
+        "new_native_requests": 0,
+        "new_updates": 0,
+        "queries": {
+          "A": 364,
+          "B": 355
+        },
+        "raw_observation": {
+          "command_diff_above_4mm": 0,
+          "duplicate_groups": 0,
+          "groups": 719,
+          "maximum_command_spread_mm": 0
+        },
+        "raw_observation_plus_noise": {
+          "command_diff_above_4mm": 0,
+          "duplicate_groups": 0,
+          "groups": 719,
+          "maximum_command_spread_mm": 0
+        },
+        "repeat_predictions": 0
+      },
+      "initial_comparison": {
+        "CHV1-DEV-F1-HOLD-red-01": {
+          "TCP_position_difference_mm": 0.8599505976128395,
+          "same_actuator_state": true,
+          "same_first_RGB": false,
+          "same_first_tick": true
+        },
+        "CHV1-DEV-F1-PLACE-blue-left-01": {
+          "TCP_position_difference_mm": 0.10484250425134918,
+          "same_actuator_state": true,
+          "same_first_RGB": false,
+          "same_first_tick": true
+        },
+        "CHV1-DEV-F1-PLACE-red-right-01": {
+          "TCP_position_difference_mm": 0.005527973938298476,
+          "same_actuator_state": true,
+          "same_first_RGB": false,
+          "same_first_tick": true
+        },
+        "CHV1-DEV-F2-HOLD-blue-00": {
+          "TCP_position_difference_mm": 0.028028889077287206,
+          "same_actuator_state": true,
+          "same_first_RGB": false,
+          "same_first_tick": true
+        },
+        "CHV1-DEV-F2-PLACE-blue-right-00": {
+          "TCP_position_difference_mm": 0.04611338811505227,
+          "same_actuator_state": true,
+          "same_first_RGB": false,
+          "same_first_tick": true
+        },
+        "CHV1-DEV-F2-PLACE-red-left-00": {
+          "TCP_position_difference_mm": 0.010750305458163785,
+          "same_actuator_state": true,
+          "same_first_RGB": false,
+          "same_first_tick": true
+        }
+      },
+      "native_terminal": {
+        "epoch": 1795363854.9110756,
+        "native_terminal_sha256": "334e624e88f0f9e00b8c46b8cb75b17d06a0b938430f895721bb371e4ad65e94"
+      }
+    },
     "readback_preflight": "HOPPER_CPU_IMPORT_OK_SYNTHETIC_MATCH_AND_NEGATIVE_TESTS_OK",
     "selected_intervention": "AUXILIARY_SLOT_SELECTION",
     "site_preflight": "IMPORT_AND_SEALED_ROSTER_VALIDATED",
