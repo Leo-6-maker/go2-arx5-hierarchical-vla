@@ -1545,6 +1545,319 @@
       },
       "transfer_source": "cc46ddcf1ee50d4e403c394ecc3adac05ad69676"
     },
+    "core_offline_and_native_A_actual": {
+      "native": {
+        "a_block": {
+          "block": {
+            "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-main3800-cross-layout-ab-20261122-01/blocks/A-phase04300-DEV-cross-layout/RESULT.private.json",
+            "sha256": "20b29e66a8b879db166e42f880b198f8029fe24129123f871d7f98b811de2bdc"
+          },
+          "generations": 364,
+          "records": [
+            "f1dd0d09c1df406a6aea443d4f576527b9c8d0377a41985d1a68a45b0d797bc6",
+            "d6292f6d16642deba1fa7a9cf7808ccee1b7038972208ecf8f10aef4fd0c8d2d",
+            "c14446eca5029862faf2e0fe14805241e5fdbeaebce925ec79a15486c44ff1fe",
+            "f87f5034a71a2b7ce045c0e1c0f699a31e281410f0432c40c5850e6811bde172",
+            "7a6cbac74c7a5e5133847d45f5192b0b24a3ce85f2efeee65d11f3716364c97f",
+            "b7d7bb0f2b6823755b42f049c22a063a0fc1299be5192c0ca809e18c063345b4"
+          ],
+          "requests": 6,
+          "success": 0,
+          "ticks": 124115
+        },
+        "b_requests": 0,
+        "case_results": [
+          {
+            "first_failure": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+            "generations": 74,
+            "grasp": true,
+            "hold": 0,
+            "id": "CHV1-DEV-F1-PLACE-blue-left-01-A-phase04300",
+            "lift": false,
+            "requests": 1,
+            "sha256": "d6292f6d16642deba1fa7a9cf7808ccee1b7038972208ecf8f10aef4fd0c8d2d",
+            "success": false,
+            "technical": false,
+            "ticks": 23953
+          },
+          {
+            "first_failure": "ILLEGAL_CONTACT",
+            "generations": 68,
+            "grasp": null,
+            "hold": null,
+            "id": "CHV1-DEV-F1-HOLD-red-01-A-phase04300",
+            "lift": null,
+            "requests": 1,
+            "sha256": "f1dd0d09c1df406a6aea443d4f576527b9c8d0377a41985d1a68a45b0d797bc6",
+            "success": false,
+            "technical": false,
+            "ticks": 22549
+          },
+          {
+            "first_failure": "ILLEGAL_CONTACT",
+            "generations": 46,
+            "grasp": null,
+            "hold": null,
+            "id": "CHV1-DEV-F2-PLACE-blue-right-00-A-phase04300",
+            "lift": null,
+            "requests": 1,
+            "sha256": "b7d7bb0f2b6823755b42f049c22a063a0fc1299be5192c0ca809e18c063345b4",
+            "success": false,
+            "technical": false,
+            "ticks": 17025
+          },
+          {
+            "first_failure": "ILLEGAL_CONTACT",
+            "generations": 50,
+            "grasp": null,
+            "hold": null,
+            "id": "CHV1-DEV-F2-HOLD-blue-00-A-phase04300",
+            "lift": null,
+            "requests": 1,
+            "sha256": "f87f5034a71a2b7ce045c0e1c0f699a31e281410f0432c40c5850e6811bde172",
+            "success": false,
+            "technical": false,
+            "ticks": 18045
+          },
+          {
+            "first_failure": "ILLEGAL_CONTACT",
+            "generations": 62,
+            "grasp": null,
+            "hold": null,
+            "id": "CHV1-DEV-F1-PLACE-red-right-01-A-phase04300",
+            "lift": null,
+            "requests": 1,
+            "sha256": "c14446eca5029862faf2e0fe14805241e5fdbeaebce925ec79a15486c44ff1fe",
+            "success": false,
+            "technical": false,
+            "ticks": 21060
+          },
+          {
+            "first_failure": "ILLEGAL_CONTACT",
+            "generations": 64,
+            "grasp": null,
+            "hold": null,
+            "id": "CHV1-DEV-F2-PLACE-red-left-00-A-phase04300",
+            "lift": null,
+            "requests": 1,
+            "sha256": "7a6cbac74c7a5e5133847d45f5192b0b24a3ce85f2efeee65d11f3716364c97f",
+            "success": false,
+            "technical": false,
+            "ticks": 21483
+          }
+        ],
+        "completed_total": 6,
+        "state": "WAIT_ORIGINAL_RESOURCES"
+      },
+      "offline": {
+        "changes": {
+          "TRAIN": {
+            "gains": [
+              2,
+              11,
+              16,
+              20
+            ],
+            "losses": [
+              1,
+              10,
+              19,
+              22
+            ]
+          },
+          "VAL": {
+            "gains": [
+              26
+            ],
+            "losses": [
+              24,
+              34
+            ]
+          }
+        },
+        "counts": {
+          "A-phase04300": {
+            "TRAIN": {
+              "before_lift": [
+                {
+                  "i": 3,
+                  "legal": true,
+                  "up_P10_mm": 1.983
+                },
+                {
+                  "i": 12,
+                  "legal": true,
+                  "up_P10_mm": 2.225
+                },
+                {
+                  "i": 21,
+                  "legal": true,
+                  "up_P10_mm": 2.384
+                }
+              ],
+              "close_due": 3,
+              "close_pass": 3,
+              "due": 3,
+              "finger_legal": 19,
+              "full_H40": 22,
+              "legal": 19,
+              "post_grasp": [
+                {
+                  "i": 2,
+                  "legal": false,
+                  "seam_mm_s": 82.985,
+                  "up_P10_mm": 2.621
+                },
+                {
+                  "i": 11,
+                  "legal": false,
+                  "seam_mm_s": 91.148,
+                  "up_P10_mm": 2.266
+                },
+                {
+                  "i": 20,
+                  "legal": false,
+                  "seam_mm_s": 90.911,
+                  "up_P10_mm": 2.531
+                }
+              ],
+              "timely_and_legal": 3,
+              "total": 24
+            },
+            "VAL": {
+              "before_lift": [
+                {
+                  "i": 27,
+                  "legal": true,
+                  "up_P10_mm": 1.602
+                },
+                {
+                  "i": 36,
+                  "legal": true,
+                  "up_P10_mm": 2.979
+                }
+              ],
+              "close_due": 2,
+              "close_pass": 2,
+              "due": 2,
+              "finger_legal": 13,
+              "full_H40": 15,
+              "legal": 13,
+              "post_grasp": [
+                {
+                  "i": 26,
+                  "legal": false,
+                  "seam_mm_s": 69.087,
+                  "up_P10_mm": 2.751
+                },
+                {
+                  "i": 35,
+                  "legal": false,
+                  "seam_mm_s": 57.192,
+                  "up_P10_mm": 1.016
+                }
+              ],
+              "timely_and_legal": 2,
+              "total": 16
+            }
+          },
+          "B-phase04300": {
+            "TRAIN": {
+              "before_lift": [
+                {
+                  "i": 3,
+                  "legal": true,
+                  "up_P10_mm": 1.429
+                },
+                {
+                  "i": 12,
+                  "legal": true,
+                  "up_P10_mm": 1.567
+                },
+                {
+                  "i": 21,
+                  "legal": true,
+                  "up_P10_mm": 1.613
+                }
+              ],
+              "close_due": 3,
+              "close_pass": 0,
+              "due": 3,
+              "finger_legal": 19,
+              "full_H40": 20,
+              "legal": 19,
+              "post_grasp": [
+                {
+                  "i": 2,
+                  "legal": true,
+                  "seam_mm_s": 14.164,
+                  "up_P10_mm": 1.823
+                },
+                {
+                  "i": 11,
+                  "legal": true,
+                  "seam_mm_s": 0.637,
+                  "up_P10_mm": 1.813
+                },
+                {
+                  "i": 20,
+                  "legal": true,
+                  "seam_mm_s": 27.763,
+                  "up_P10_mm": 2.135
+                }
+              ],
+              "timely_and_legal": 0,
+              "total": 24
+            },
+            "VAL": {
+              "before_lift": [
+                {
+                  "i": 27,
+                  "legal": true,
+                  "up_P10_mm": 0.908
+                },
+                {
+                  "i": 36,
+                  "legal": true,
+                  "up_P10_mm": 2.263
+                }
+              ],
+              "close_due": 2,
+              "close_pass": 1,
+              "due": 2,
+              "finger_legal": 12,
+              "full_H40": 13,
+              "legal": 12,
+              "post_grasp": [
+                {
+                  "i": 26,
+                  "legal": true,
+                  "seam_mm_s": 23.825,
+                  "up_P10_mm": 2.426
+                },
+                {
+                  "i": 35,
+                  "legal": false,
+                  "seam_mm_s": 44.797,
+                  "up_P10_mm": 0.598
+                }
+              ],
+              "timely_and_legal": 1,
+              "total": 16
+            }
+          }
+        },
+        "epoch": 1795358897.3804188,
+        "generations": 80,
+        "service": {
+          "ActiveState": "inactive",
+          "MainPID": "0",
+          "SubState": "dead"
+        },
+        "sha256": "f755abb287ad28a38def143b827f2dda5b82425fe979e395e5ac31df59e047a0",
+        "status": "COMPLETE"
+      }
+    },
     "core_pair_event_queue": {
       "actual_generations": 0,
       "deadline_epoch": 1795381538.4120803,
