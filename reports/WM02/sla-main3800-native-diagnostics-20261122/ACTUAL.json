@@ -786,8 +786,8 @@
     },
     "latest_resource_observation": {
       "attempts": 0,
-      "available_GiB": 22.502971649169922,
-      "epoch": 1795343204.6999815,
+      "available_GiB": 25.212589263916016,
+      "epoch": 1795343475.1214125,
       "generations": 0,
       "status": "WAIT_ORIGINAL_RESOURCES"
     },
@@ -981,6 +981,111 @@
     "HOLD-red": 150,
     "PLACE-red-left": 736
   },
+  "post_grasp_transition_readback": {
+    "expert": {
+      "TRAIN": {
+        "confirmed_first_atoms": 3,
+        "feedback_minus_previous_range_mm": [
+          12.025259718161113,
+          12.038758241012324
+        ],
+        "first_command_jump_mm": -1.1241039062500047,
+        "independent_layouts": 3,
+        "seam_speed_mm_s": 22.482078124972617
+      },
+      "VAL": {
+        "confirmed_first_atoms": 2,
+        "feedback_minus_previous_range_mm": [
+          12.05311427399253,
+          12.089201425843466
+        ],
+        "first_command_jump_mm": -1.1241039062500047,
+        "independent_layouts": 2,
+        "seam_speed_mm_s": 22.482078124972617
+      }
+    },
+    "expert_actual_readback_sha256": "7159be2b537dc5b73ea5867ee5bfdd48f1190ed072f7c70dc9915a697ae995aa",
+    "matched_student_expert_full_state": false,
+    "new_model_generations": 0,
+    "new_native_requests": 0,
+    "new_training_updates": 0,
+    "student_conditions": 18,
+    "student_confirmed_transitions": {
+      "MAIN-phase00000": {},
+      "MAIN-phase02000": {
+        "PLACE-blue-left": {
+          "age_native_ms": 50.00000000006111,
+          "confirmed_atoms": 0,
+          "confirmed_intervals_including_partial_first": 5,
+          "confirmed_new_query_ids_after_grasp": [],
+          "confirmed_ticks": 123,
+          "first_seam_mm_s": 140.9190887849823,
+          "grasp_tick": 18830,
+          "install_ACKs": 0,
+          "max_internal_mm_s": 4.27533217527933,
+          "measured_minus_previous_mm": 8.896954225618094,
+          "proposal_minus_measured_mm": -15.94290866487582,
+          "proposal_minus_previous_mm": -7.045954439257725,
+          "rejected_tick": 18953
+        }
+      },
+      "MAIN-phase03800": {
+        "HOLD-blue": {
+          "age_native_ms": 50.00000000006111,
+          "confirmed_atoms": 0,
+          "confirmed_intervals_including_partial_first": 5,
+          "confirmed_new_query_ids_after_grasp": [],
+          "confirmed_ticks": 104,
+          "first_seam_mm_s": 141.2522267668122,
+          "grasp_tick": 19099,
+          "install_ACKs": 0,
+          "max_internal_mm_s": 6.418849075649326,
+          "measured_minus_previous_mm": 8.18738881142045,
+          "proposal_minus_measured_mm": -15.250000149769694,
+          "proposal_minus_previous_mm": -7.0626113383492415,
+          "rejected_tick": 19203
+        },
+        "HOLD-red": {
+          "age_native_ms": 50.00000000006111,
+          "confirmed_atoms": 0,
+          "confirmed_intervals_including_partial_first": 3,
+          "confirmed_new_query_ids_after_grasp": [],
+          "confirmed_ticks": 75,
+          "first_seam_mm_s": 123.46460041788447,
+          "grasp_tick": 21378,
+          "install_ACKs": 0,
+          "max_internal_mm_s": 17.728481132532405,
+          "measured_minus_previous_mm": 5.466033386971625,
+          "proposal_minus_measured_mm": -11.639263407873393,
+          "proposal_minus_previous_mm": -6.1732300209017685,
+          "rejected_tick": 21453
+        },
+        "PLACE-red-left": {
+          "age_native_ms": 50.00000000006111,
+          "confirmed_atoms": 0,
+          "confirmed_intervals_including_partial_first": 15,
+          "confirmed_new_query_ids_after_grasp": [
+            60
+          ],
+          "confirmed_ticks": 368,
+          "first_seam_mm_s": 57.02508313235046,
+          "grasp_tick": 20335,
+          "install_ACKs": 0,
+          "max_internal_mm_s": 6.986792295734989,
+          "measured_minus_previous_mm": 12.964617458156122,
+          "proposal_minus_measured_mm": -15.81587161477713,
+          "proposal_minus_previous_mm": -2.8512541566210077,
+          "rejected_tick": 20703
+        }
+      }
+    },
+    "student_grasps": {
+      "MAIN-phase00000": 0,
+      "MAIN-phase02000": 1,
+      "MAIN-phase03800": 3
+    },
+    "student_native_readback_sha256": "689a6d29a3ba404f149d54a3641fa48e43b83ba5434edbedb4b510de3296f4a6"
+  },
   "post_main_3800_paid_updates": 100,
   "prospective_auxiliary": {
     "PBS_jobs": 2,
@@ -1049,16 +1154,16 @@
     },
     "latest_durable_live_observation": {
       "A": {
-        "auxiliary_full_H40": 368,
+        "auxiliary_full_H40": 440,
         "inflight": [
-          3893
+          3911
         ],
-        "phase": 3892,
-        "updates": 92,
+        "phase": 3910,
+        "updates": 110,
         "visits": {
-          "libero": 2944,
-          "robodojo": 2944,
-          "target": 5888
+          "libero": 3520,
+          "robodojo": 3520,
+          "target": 7040
         }
       },
       "B": {
@@ -1072,7 +1177,7 @@
           "target": 0
         }
       },
-      "epoch": 1795343214.9211419,
+      "epoch": 1795343491.2447236,
       "native_requests": 0
     },
     "observed_training_visits": 0,

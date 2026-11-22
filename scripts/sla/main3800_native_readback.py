@@ -43,15 +43,22 @@ def gripper(root, reject):
     action = here/'model-response/ACTION.npz'
     if sha(action) != record['action']['sha256']:
         raise ValueError('Action archive differs from the actual query response')
-    with np.load(here/'INPUT.npz',allow_pickle=False) as inp, np.load(action,allow_pickle=False) as proposal:
+    input_path = here/'INPUT.npz'
+    meta = load(here/'INPUT_META.private.json')
+    if meta['input']['sha256'] != sha(input_path) or meta['native_step'] != record['native_start_step']:
+        raise ValueError('The archived observation identity or native clock changed')
+    with np.load(input_path,allow_pickle=False) as inp, np.load(action,allow_pickle=False) as proposal:
         previous = float(inp['previous_width_m'])
         age = float(inp['query_native_s']-inp['previous_source_native_s'])
+        previous_time = float(inp['previous_source_native_s'])
         width = .002+.040*proposal['physical_H40'][:,9]
         elapsed = float(inp['query_native_s'])
         predicted_speed = abs(width[0]-previous)/age
     actual = load(past)['confirmed_intervals'][-1] if past.is_file() else None
     measured = None if actual is None else actual.get('measured_gripper_width_m')
-    if actual and previous!=actual['emitted_gripper_width_m']:
+    if actual and (previous!=actual['emitted_gripper_width_m']
+                   or previous_time!=actual['emitted_gripper_source_native_s']
+                   or actual['native_end_step']!=record['native_start_step']):
         raise ValueError('Previous command is different from the last physically emitted atom')
     if abs(predicted_speed-reject['original_gripper_speed']['first_seam_speed_m_s'])>1e-8:
         raise ValueError('Native seam score and physical command delta differ')
@@ -61,10 +68,35 @@ def gripper(root, reject):
                 confirmed_atoms=record['confirmed_atoms'],tick=record['native_start_step'],
                 age_native_ms=1000*age,time_native_s=elapsed,previous_command_mm=1000*previous,
                 measured_width_mm=None if measured is None else 1000*measured,proposal_first_mm=1000*width[0],
+                measured_minus_previous_mm=None if measured is None else 1000*(measured-previous),
+                proposal_minus_measured_mm=None if measured is None else 1000*(width[0]-measured),
+                proposal_minus_previous_mm=1000*(width[0]-previous),
                 first_seam_mm_s=1000*predicted_speed,max_internal_mm_s=float(jumps[1:].max()),
                 first_exceedance=int(first[0]) if first.size else None,
                 previous_P10_confirmed_atoms=len(load(past)['confirmed_intervals']) if past.is_file() else 0,
                 action_sha256=sha(action))
+
+
+def post_grasp_progress(root, grasp_tick, reject_query, reject_tick):
+    """Count only intervals confirmed by the receiver between grasp and STOP."""
+    positive = []
+    installed = []
+    for idx in range(reject_query-1,-1,-1):
+        row = load(root/f'{idx:04d}'/'QUERY_ACTUAL.private.json')
+        if row['terminal_native_step'] <= grasp_tick:
+            break
+        spans = [(max(grasp_tick,x['native_start_step']),x['native_end_step'])
+                 for x in row['confirmed_intervals'] if x['native_end_step']>grasp_tick]
+        positive.extend(spans)
+        if spans and row['native_start_step']>=grasp_tick and row['install_ACKs']:
+            installed.append(idx+1)
+    timeline = sorted(positive)
+    if (not timeline or timeline[0][0]!=grasp_tick or timeline[-1][1]!=reject_tick
+            or any(a[1]!=b[0] for a,b in zip(timeline,timeline[1:]))):
+        raise ValueError('Post-grasp interval receipts do not reconcile to the actual STOP tick')
+    return dict(grasp_tick=grasp_tick,rejected_tick=reject_tick,confirmed_ticks=reject_tick-grasp_tick,
+                confirmed_intervals_including_partial_first=len(timeline),
+                confirmed_new_query_ids_after_grasp=sorted(installed))
 
 
 def case(folder):
@@ -104,7 +136,12 @@ def case(folder):
                   result_sha256=sha(terminal))
     reject = detail.get('valid_policy_rejection')
     if reject and reject['kind']=='G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED':
-        result['gripper_rejection'] = gripper(native/'g7-queries',reject)
+        query_root = native/'g7-queries'
+        seam = gripper(query_root,reject)
+        result['gripper_rejection'] = seam
+        if 'target_grasp' in events:
+            result['post_grasp_progress'] = post_grasp_progress(query_root,events['target_grasp']['native_step'],
+                                                                reject['query'],seam['tick'])
     return result
 
 
