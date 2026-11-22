@@ -16,10 +16,11 @@ PREFIX_COUNT = 59
 PREFIX_SEAL = 'd0f7269319b57a4edcc1cd7ca0b60904624831985d54fb6db72cf2b25e8c563b'
 PREFIX_PROJECTION = '1c5d6da9a1d432d4ca5997bbd5adf0ad099a93bd4a3658b3136cd263c4728b70'
 MAX_COUNT = PREFIX_COUNT+96
-# The first cold handoff and the clean storage-timeout successor for slot 25.
+# Cold producers of the original Wave A suffix.
 COLD_AUTHORITIES = frozenset({
     'cabb42b53eea0e57f3e3666f8fbcb7e7301d7c70a7d218d92394bc163127d594',
     '9fd498462a71186e03c46d6b8a833424d661fdcf25e421703c1aa0cf7314ddcd',
+    '51d2a41177945c25ee1a0d6f221b1836f3a96f6c494562c5caaf064222288dd2',
 })
 
 
