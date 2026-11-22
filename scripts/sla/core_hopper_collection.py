@@ -125,7 +125,7 @@ def run(spec):
         family = row['family']
         folder,case = case_card(spec,templates[family],item,spec['registered_panel'])
         acquired=time.time()
-        lease_end=min(spec['campaign_deadline_epoch'],acquired+2160)
+        lease_end=min(spec['deadline_epoch'],spec['campaign_deadline_epoch'],acquired+2160)
         site_lease=root/'control'/('world-'+row['id']+'.json')
         inode=os.fstat(world.handle.fileno())
         write(site_lease,dict(kind='CORELAB_LIVE_SINGLE_WORLD_LEASE',owner_pid=os.getpid(),uid=os.getuid(),
