@@ -1,0 +1,753 @@
+{
+  "canonical_plan": "4fe2c8cf1b69c168b2e3079e061bb7c702089cd3",
+  "core": {
+    "preflight": {
+      "preflight": {
+        "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-catalog-cutover-20261122-02/PREFLIGHT.private.json",
+        "sha256": "1c075f123cf983b0319e861099042ea2806819e2a1af73efe0fdeb67cc607be4"
+      },
+      "actual": {
+        "conditions": [
+          "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-blue-left",
+          "MEV1-TRAIN-F1-NEAR_POS-00-HOLD-blue"
+        ],
+        "original_admitted": 10,
+        "original_paid": 23,
+        "remaining_admitted": 2,
+        "remaining_bytes": 102968480,
+        "status": "ORIGINAL_CUTOVER_PREFLIGHT",
+        "volumes": {
+          "local": {
+            "floor": 294382508441,
+            "free_disk": 297179697152,
+            "passed": true,
+            "reserve": 2684354560
+          },
+          "passed": true,
+          "payload": {
+            "floor": 608707700326,
+            "free_disk": 1360042917888,
+            "passed": true,
+            "reserve": 2147483648
+          }
+        }
+      },
+      "config": {
+        "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-catalog-cutover-20261122-02/CONFIG.json",
+        "sha256": "e4c73e9bef4f1248115c3c089a32a5dd2724c9eedb004d45f937091597b43713"
+      },
+      "source": {
+        "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-catalog-cutover-20261122-02/SOURCE_MEMBERS.json",
+        "sha256": "7bd776d18ef7da8654b2723670eec316daeabdf4a046fce059e0962671d7ba2d"
+      },
+      "owner": {
+        "wave": {
+          "MainPID": "2643171",
+          "ActiveState": "active",
+          "InvocationID": "818d3acfd2044d1f8edd4e5475d223b9"
+        },
+        "catalog": {
+          "MainPID": "2668452",
+          "ActiveState": "active",
+          "InvocationID": "8ad1c781a64c4ab2bf2a994f95a1ccbb"
+        },
+        "pilot": {
+          "MainPID": "2925958",
+          "ActiveState": "active",
+          "InvocationID": "62a7b8c302e444a28a7b5510bd6bc860"
+        }
+      }
+    },
+    "cutover": {
+      "unit": "wm02-sla-core-multienv-wave-a-catalog-cutover-20261122-02.service",
+      "config": "e4c73e9bef4f1248115c3c089a32a5dd2724c9eedb004d45f937091597b43713",
+      "source_members": "7bd776d18ef7da8654b2723670eec316daeabdf4a046fce059e0962671d7ba2d",
+      "service": {
+        "MainPID": "3011024",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-wave-a-catalog-cutover-20261122-02.service",
+        "ActiveState": "active",
+        "InvocationID": "c003b59ed21f4778873ab2b9794f6256"
+      },
+      "stderr": "Running as unit: wm02-sla-core-multienv-wave-a-catalog-cutover-20261122-02.service; invocation ID: c003b59ed21f4778873ab2b9794f6256",
+      "epoch": 1795308779.0440059,
+      "root": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-catalog-cutover-20261122-02"
+    },
+    "closed": {
+      "value": {
+        "catalog": {
+          "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-train-catalog-20261122-01/TERMINAL.json",
+          "sha256": "80a4bd62ccce5b69290bc76550ecd143f864d91854b1bc70c3819f3a0500eff1"
+        },
+        "pilot": {
+          "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-red-hold-pilot-20261122-01/RESULT.private.json",
+          "sha256": "a7e724c1378cd4d97d0c246c782d937e226754a0bb7253282c818f2445aba124"
+        },
+        "wave": {
+          "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-20261122-02/RESULT.private.json",
+          "sha256": "55bb24644b237fdb7f2118ff9e9809f97a910063cd34ef9e0d31eccbf0967c16"
+        }
+      },
+      "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-catalog-cutover-20261122-02/ORIGINAL_CLOSED.private.json",
+      "sha": "1a7131e9edd137a044f16d5be55c0b1978126379a001941cb9ac5ad36727b21e"
+    },
+    "closed_counts": {
+      "catalog": {
+        "producer_closed": true,
+        "paid_TRAIN": 23,
+        "sealed_new_members": 8
+      },
+      "pilot": {
+        "exit_code": 0,
+        "native_state": "NOT_RUN",
+        "native_requests": 0,
+        "condition": "MEV1-TRAIN-F2-NEAR_POS-00-HOLD-red"
+      },
+      "wave": {
+        "exit_code": 0,
+        "paid_requests": 23,
+        "verified_ticks": 668699,
+        "admitted_train": 10,
+        "unreconciled": null
+      },
+      "stamp": 1795309651.961231
+    },
+    "catalog_recovery": {
+      "unit": "wm02-sla-core-multienv-wave-a-catalog-cutover-20261122-02-seal.service",
+      "service": {
+        "MainPID": "3012066",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-wave-a-catalog-cutover-20261122-02-seal.service",
+        "ActiveState": "active",
+        "InvocationID": "2c3c4ce3036849218aedda9d2283847e"
+      },
+      "config_sha": "ba1bf4eb81839aab4f0e2c2adae66d2b5c4b309f7af4bd44d4cb6d91ac3f8f39",
+      "log": "Running as unit: wm02-sla-core-multienv-wave-a-catalog-cutover-20261122-02-seal.service; invocation ID: 2c3c4ce3036849218aedda9d2283847e",
+      "epoch": 1795308836.0194385
+    },
+    "seal": {
+      "unit": {
+        "MainPID": "0",
+        "ExecMainStatus": "0",
+        "ActiveState": "inactive"
+      },
+      "observed": 1795308878.830855,
+      "exists": true,
+      "terminal": {
+        "additional_admissions": 2,
+        "additional_bytes": 102968480,
+        "epoch": 1795308842.1257007,
+        "latest": {
+          "aggregate": true,
+          "count": 69,
+          "epoch": 1795308840.7376387,
+          "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-catalog-cutover-20261122-02/snapshots/TRAIN-069/SEALED.private.json",
+          "sha256": "5b97bd29ca3a4b32c4e16a64da3d7c1c3c6988f617fb3e6192305aed6428821f",
+          "windows": 6081,
+          "sealed_members": 69
+        },
+        "new_training_visits": 0,
+        "paid_TRAIN": 23,
+        "pid": 3012066,
+        "status": "FINAL_ORIGINAL_TRAIN_SEALED",
+        "volumes": {
+          "local": {
+            "floor": 294382508441,
+            "free_disk": 297178484736,
+            "passed": true,
+            "reserve": 2684354560
+          },
+          "passed": true,
+          "payload": {
+            "floor": 608707700326,
+            "free_disk": 1360042917888,
+            "passed": true,
+            "reserve": 2147483648
+          }
+        }
+      },
+      "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-catalog-cutover-20261122-02/TERMINAL.json",
+      "sha": "6b60320fd836221bc439e75a714251ccf03899e1e734a163b5c84817c4ae4d86"
+    },
+    "wave": {
+      "result": {
+        "unit": "wm02-sla-core-multienv-wave-a-cold-20261122-01",
+        "exit": 0,
+        "out": "",
+        "err": "Running as unit: wm02-sla-core-multienv-wave-a-cold-20261122-01.service; invocation ID: 2b30d3a1476242a59118af5350950cba\n",
+        "epoch": 1795309149.1706183
+      },
+      "source": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-cold-source-cab9fb5c",
+      "deploy": {
+        "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-cold-source-cab9fb5c/DEPLOYMENT.json",
+        "sha256": "ab1280d1826767bafdbaf7f9f7af1debbbd876c19b9d293e28aae5c16f8abd30"
+      },
+      "target": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-cold-20261122-01",
+      "source_members": {
+        "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-cold-source-cab9fb5c/SOURCE_MEMBERS.json",
+        "sha256": "0f5df5702c8416dd901112146c9f6ee732680cd2e32dc9414b1d32ae6610df24"
+      },
+      "actual_spec": {
+        "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-cold-20261122-01/EXECUTION_SPEC.json",
+        "sha256": "9dae4fe8021718b2b1d45115487ba2befe340442293e9b62f0aa6f9bd78718c0"
+      },
+      "epoch": 1795309149.1908336
+    },
+    "live_spec": {
+      "epoch": 1795309224.766201,
+      "wave": {
+        "MainPID": "3017221",
+        "ExecMainStatus": "0",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-wave-a-cold-20261122-01.service",
+        "ActiveState": "active",
+        "InvocationID": "2b30d3a1476242a59118af5350950cba"
+      },
+      "uplink": {
+        "MainPID": "0",
+        "ExecMainStatus": "0",
+        "ControlGroup": "",
+        "ActiveState": "inactive",
+        "InvocationID": ""
+      },
+      "terminal": null,
+      "summary": {
+        "stage": "DISPATCH",
+        "epoch": 1795309149.6341765,
+        "completed": 0,
+        "actual_requests": 0,
+        "closed_ticks": 0,
+        "admitted_train": 0,
+        "current": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-blue-left"
+      },
+      "capacity": {
+        "volumes": {
+          "passed": true,
+          "local": {
+            "free_disk": 297069187072,
+            "floor": 294382508441,
+            "reserve": 2684354560,
+            "passed": true
+          },
+          "payload": {
+            "free_disk": 1360041869312,
+            "floor": 608707700326,
+            "reserve": 2147483648,
+            "passed": true
+          }
+        },
+        "available_host_memory": 49130971136,
+        "min_host_memory": 13958643712,
+        "epoch": 1795309149.623582
+      },
+      "latest_upload": {
+        "epoch": 1795309129.3057055,
+        "key": "TRAIN-069",
+        "new_native_requests": 0,
+        "new_optimizer_updates": 0,
+        "objects": 488,
+        "repo": "leoyuer/sla-core-hopper-train-v1",
+        "revision": "df407ee5adfa0874422d7a21992970415ecc4df1",
+        "seal": "5b97bd29ca3a4b32c4e16a64da3d7c1c3c6988f617fb3e6192305aed6428821f",
+        "status": "PUBLIC_TRAIN_SNAPSHOT_VERIFIED",
+        "windows": 6081
+      },
+      "current": {
+        "id": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-blue-left",
+        "pid": 3017247,
+        "epoch": 1795309149.845335,
+        "spec": {
+          "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-cold-20261122-01/cases/MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-blue-left/EXECUTION_SPEC.json",
+          "sha256": "ecdff58ba32e60e1c9fd41b39a1fa4b237a0c6f338f0706eea0366bbe4ebb8f0"
+        }
+      },
+      "live_child": {
+        "id": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-blue-left",
+        "pid_exists": true,
+        "local_lease": {
+          "status": "ACTIVE",
+          "owner": "SLA_CORE_HOPPER_V1_UID2009",
+          "spec_sha256": "ecdff58ba32e60e1c9fd41b39a1fa4b237a0c6f338f0706eea0366bbe4ebb8f0",
+          "deadline_epoch": 1795311249.6520622
+        },
+        "target": "/home/liuyu-nfs/Projects/GR00T-WBC/runs/sla-core-multienv-wave-a-native-payload-20261122-01/MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-blue-left",
+        "active_trace": null,
+        "startup": {}
+      },
+      "linger": "Linger=yes"
+    },
+    "latest_native": {
+      "campaign_deadline": 1795316348.6205475,
+      "physical_requests_budget": 2,
+      "tick": 3565,
+      "physical_pid": 3017247,
+      "condition_deadline": 1795311249.6520622,
+      "raw_log_device": 112,
+      "local_control_device": 66308,
+      "old_frozen_WBC_sha": "9e8ce46837d09bc39ae04d4b49f1ce4dd8c8c2d31bea39eac56c5806d108c1f3",
+      "new_frozen_WBC_sha": "9e8ce46837d09bc39ae04d4b49f1ce4dd8c8c2d31bea39eac56c5806d108c1f3",
+      "epoch": 1795309778.3746784
+    },
+    "actual_tail": {
+      "epoch": 1795309651.976631,
+      "reader": {
+        "MainPID": "0",
+        "ExecMainStatus": "0",
+        "ActiveState": "inactive",
+        "InvocationID": ""
+      },
+      "catalog": {
+        "MainPID": "3022944",
+        "ExecMainStatus": "0",
+        "ActiveState": "active",
+        "InvocationID": "b74cf2b7745549a592b1b653745c6140"
+      },
+      "reader_start": {
+        "epoch": 1795309562.2423441,
+        "invocation": "ac43c1573aa1401a80fd882805f6af01",
+        "pid": 3025071
+      },
+      "catalog_beat": {
+        "epoch": 1795309636.6780148,
+        "pid": 3022944,
+        "paid_TRAIN": 23,
+        "new_admitted": 10,
+        "sealed_new_members": 10,
+        "producer_closed": false,
+        "probe_only": false,
+        "source": "cab9fb5c25e323fd147de97fc31cf7f64c733d99",
+        "latest": {
+          "count": 69,
+          "epoch": 1795308840.7376387,
+          "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-catalog-cutover-20261122-02/snapshots/TRAIN-069/SEALED.private.json"
+        },
+        "new_training_visits": 0
+      },
+      "catalog_terminal": null,
+      "native_parent": {
+        "stage": "DISPATCH",
+        "epoch": 1795309149.6341765,
+        "completed": 0,
+        "actual_requests": 0,
+        "closed_ticks": 0,
+        "admitted_train": 0,
+        "current": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-blue-left"
+      },
+      "reader_result": {
+        "status": "CORE_REAL_READER_PASS",
+        "seal": "5b97bd29ca3a4b32c4e16a64da3d7c1c3c6988f617fb3e6192305aed6428821f",
+        "new_cases": [
+          "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-blue-left",
+          "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-red-right"
+        ],
+        "old_prefix_windows": 5823,
+        "windows": 6081,
+        "d2": 2031,
+        "sha": "2988da02eb4018c79124029d7d63ca382a15db339ac89c2969412aa8e9bcebe9",
+        "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-train069-readback-20261122-03/RESULT.json"
+      },
+      "physics": {
+        "step": 2926,
+        "sim_time_s": 5.8519999999995775,
+        "kind": "sample",
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-blue-left"
+      }
+    },
+    "new_catalog": {
+      "unit": "wm02-sla-core-multienv-wave-a-cold-data-owner-20261122-01.service",
+      "service": {
+        "MainPID": "3022944",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-wave-a-cold-data-owner-20261122-01.service",
+        "ActiveState": "active",
+        "InvocationID": "b74cf2b7745549a592b1b653745c6140"
+      },
+      "storage": "/home/liuyu-nfs/Projects/GR00T-WBC/runs/sla-core-multienv-wave-a-cold-catalog-20261122-01",
+      "control": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-cold-data-owner-20261122-01",
+      "source_members": {
+        "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-cold-data-owner-20261122-01/SOURCE_MEMBERS.json",
+        "sha256": "49fe99e47576554a56fec2cab461d5948c0d0dc3558c22bfbce73c88ea66aa09"
+      },
+      "config": {
+        "path": "/home/liuyu-nfs/Projects/GR00T-WBC/runs/sla-core-multienv-wave-a-cold-catalog-20261122-01/CONFIG.json",
+        "sha256": "612b979a28954cb615a516b2837bacab0120ab3ba926e81ab625b905c674db17"
+      },
+      "epoch": 1795309452.6076593
+    },
+    "provenance": {
+      "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-cold-20261122-01/COLD_TRAIN_AUTHORITY.private.json",
+      "sha": "4b33032e515c5e2083cb2c3c279ebe846ad11c9262b0cc8856e97b3cd7f7a669",
+      "fingerprint": "cabb42b53eea0e57f3e3666f8fbcb7e7301d7c70a7d218d92394bc163127d594",
+      "value": {
+        "schema": "SLA_CORE_MULTIENV_WAVE_A_COLD_AUTHORITY_V1",
+        "plan": "4fe2c8cf1b69c168b2e3079e061bb7c702089cd3",
+        "original_spec": "45d949a883c7c10ec31c0caef9a40bdd0a4c51225d5417dac68c7b05432e870b",
+        "original_terminal": "55bb24644b237fdb7f2118ff9e9809f97a910063cd34ef9e0d31eccbf0967c16",
+        "original_records": "70a79e945388a63ebc009c9d18a6f3ca0cd16640d37000036cdf387c65cec73c",
+        "population": "d8762c633e7897ade790ecc736704e5304e01ba8c0a1853f1cd87054ad012774",
+        "spec": "9dae4fe8021718b2b1d45115487ba2befe340442293e9b62f0aa6f9bd78718c0",
+        "source": "cab9fb5c25e323fd147de97fc31cf7f64c733d99",
+        "prior_admissions": [
+          [
+            "MEV1-TRAIN-F1-NEAR_NEG-00-HOLD-blue",
+            "1df1601dae2200bc8a3b907b8e09de14ee3cb7d7f4e952f56ebf183361b54d44",
+            "c8998edd8f4d1f64db7941e21d2832ce10e91c36c820973b23ed5d12b168758b"
+          ],
+          [
+            "MEV1-TRAIN-F1-NEAR_NEG-00-HOLD-red",
+            "ecb313fb1ed38844566baea766e4ac0164504b3eb459a9cbe2fed6bd53f9f21b",
+            "69bbc346304cdfc585344d8b41655faea3ede3e2ba20dc34e25f121e2b50bb6d"
+          ],
+          [
+            "MEV1-TRAIN-F2-NEAR_NEG-00-HOLD-blue",
+            "e3f9dde5d75dcaf17f02bd3be01a93918d7d6e87c027ebfa307d09786c78f56a",
+            "aaccd60a488e099f289619bea2866d15018d2198ec33ff8370680b2549ec34de"
+          ],
+          [
+            "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-blue-left",
+            "a7e5d552cadb1c11104d318f25c64b77737d41d34b8a5101c4b4bac9321abc59",
+            "e63da8aefefcde287712120dae8251c455356856e6ccf835a504363eafa07d73"
+          ],
+          [
+            "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-red-right",
+            "11fd580f2807753c252f898fd3d3c130806067a5c302edd321571818d2e357bd",
+            "025f1a3a4b6125d99ee34e9d3ffd8bacc8cc573217430074f424c174c9f5f97c"
+          ],
+          [
+            "MEV1-TRAIN-F1-NEAR_NEG-01-HOLD-blue",
+            "ad3fc11fd840cd3adcb6252c37ae05d878bdefe7d13a01c475acfcf86ef12fa2",
+            "dc21208d578d7da3ad4d797feb81c9df1ee03ae091c1b8f5cd9aedabff66660f"
+          ],
+          [
+            "MEV1-TRAIN-F1-NEAR_NEG-01-HOLD-red",
+            "9d92d0c6c321a53fa68ec26d602b454f36d8b39854459ab23a11c4eda5cc0965",
+            "5c2708fced7b3714d439116cdbaf41431c70de0f68bd039d5c41f2395e9b484e"
+          ],
+          [
+            "MEV1-TRAIN-F2-NEAR_NEG-01-HOLD-blue",
+            "06b1b5af0db1c240c3f968076fa8ba2eae87f2513bc3af52d82272995b93f4ae",
+            "7dabdf0a31d9cb62aca1a86c249634e8960251e0e063ac3238727b082371c2b5"
+          ],
+          [
+            "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-blue-left",
+            "d009b4bd5a2ca2411c4725b7c904519efb537a84bd6b28b02a45ee45ad772e0d",
+            "01de852ffe760653e6f9116334e8fe0bdbd106cae742e7eede84893f5ae16769"
+          ],
+          [
+            "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-red-right",
+            "1c038a62d61c05f345ec710299b9bf065f5b33d13531db12aabf619bc9241cf3",
+            "e88be44ed6d0e4eda27f5cbad3489bf236ce1343995bee7fd29f833d7ba39471"
+          ]
+        ],
+        "conditions": [
+          "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-blue-left",
+          "MEV1-TRAIN-F1-NEAR_POS-00-HOLD-blue"
+        ]
+      }
+    },
+    "comparative_warmup": {
+      "metrics": {
+        "new_nfs": {
+          "start_tick": 25,
+          "end_tick": 2500,
+          "seconds": 390.84462993592024,
+          "ticks_per_wall_s": 6.332439569160209
+        },
+        "old_local_f2_place": {
+          "start_tick": 25,
+          "end_tick": 2500,
+          "seconds": 10.050747095607221,
+          "ticks_per_wall_s": 246.2503509895024
+        },
+        "old_local_f2_hold": {
+          "start_tick": 25,
+          "end_tick": 2500,
+          "seconds": 10.05602173320949,
+          "ticks_per_wall_s": 246.12118645551857
+        }
+      },
+      "epoch": 1795309700.2426817,
+      "native_case": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-blue-left",
+      "stage_before_task_queries": true,
+      "native_version_source": "cab9fb5c25e323fd147de97fc31cf7f64c733d99",
+      "new_native_requests": 0
+    },
+    "process_observation": {
+      "samples": 24,
+      "seconds": 6.048709447495639,
+      "processes": [
+        {
+          "pid": "3017221",
+          "comm": "python",
+          "exe": "python3.12",
+          "wchan": "do_wait",
+          "count": 24
+        },
+        {
+          "pid": "3017247",
+          "comm": "python",
+          "exe": "python3.12",
+          "wchan": "folio_wait_bit_common",
+          "count": 22
+        },
+        {
+          "pid": "3017247",
+          "comm": "python",
+          "exe": "python3.12",
+          "wchan": "rpc_wait_bit_killable",
+          "count": 2
+        },
+        {
+          "pid": "3017265",
+          "comm": "xvfb-run",
+          "exe": "dash",
+          "wchan": "do_wait",
+          "count": 24
+        },
+        {
+          "pid": "3017275",
+          "comm": "Xvfb",
+          "exe": "Xvfb",
+          "wchan": "ep_poll",
+          "count": 24
+        },
+        {
+          "pid": "3017278",
+          "comm": "rl_sim_mujoco",
+          "exe": "rl_sim_mujoco",
+          "wchan": "futex_do_wait",
+          "count": 17
+        },
+        {
+          "pid": "3017278",
+          "comm": "rl_sim_mujoco",
+          "exe": "rl_sim_mujoco",
+          "wchan": "hrtimer_nanosleep",
+          "count": 7
+        },
+        {
+          "pid": "3017391",
+          "comm": "mobile_manipula",
+          "exe": "mobile_manipulator_mpc_node",
+          "wchan": "futex_do_wait",
+          "count": 24
+        },
+        {
+          "pid": "3017446",
+          "comm": "go2_x5_ocs2_nod",
+          "exe": "go2_x5_ocs2_node",
+          "wchan": "0",
+          "count": 3
+        },
+        {
+          "pid": "3017446",
+          "comm": "go2_x5_ocs2_nod",
+          "exe": "go2_x5_ocs2_node",
+          "wchan": "futex_do_wait",
+          "count": 21
+        },
+        {
+          "pid": "3017460",
+          "comm": "python",
+          "exe": "python3.12",
+          "wchan": "0",
+          "count": 1
+        },
+        {
+          "pid": "3017460",
+          "comm": "python",
+          "exe": "python3.12",
+          "wchan": "futex_do_wait",
+          "count": 23
+        }
+      ],
+      "epoch": 1795309752.291455
+    },
+    "slots": {
+      "started": [
+        24
+      ],
+      "pending": [
+        25,
+        26
+      ],
+      "old_slot26_requests": 0
+    },
+    "new_g7_official": false,
+    "n2": "NOT_RUN",
+    "n4": "NOT_RUN"
+  },
+  "train069": {
+    "uplink": {
+      "unit": "wm02-sla-core-multienv-train069-uplink-20261122-01.service",
+      "root": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-train069-uplink-20261122-01",
+      "source": "c66a402b9b7304e24642c29ce516ebdb595e2676deeff0c87858f05c6e3e36db",
+      "service": {
+        "MainPID": "3016415",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-train069-uplink-20261122-01.service",
+        "ActiveState": "active",
+        "InvocationID": "d40b0865903c492a93842bea9b9c61e6"
+      },
+      "epoch": 1795309108.6450422
+    },
+    "published": {
+      "epoch": 1795309129.3057055,
+      "key": "TRAIN-069",
+      "new_native_requests": 0,
+      "new_optimizer_updates": 0,
+      "objects": 488,
+      "repo": "leoyuer/sla-core-hopper-train-v1",
+      "revision": "df407ee5adfa0874422d7a21992970415ecc4df1",
+      "seal": "5b97bd29ca3a4b32c4e16a64da3d7c1c3c6988f617fb3e6192305aed6428821f",
+      "status": "PUBLIC_TRAIN_SNAPSHOT_VERIFIED",
+      "windows": 6081
+    },
+    "core_reader": {
+      "root": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-train069-readback-20261122-03",
+      "unit": "wm02-sla-core-multienv-train069-readback-20261122-03.service",
+      "sha": "d6338c5c75e5d36bff11f3e3206ffe2d44c254dfffa2cdf72492cd54cb0be798",
+      "source": "57560a811e3051ef970c59d1d121ad8a4577b4b2f6c5b0fb1d703c55938695d9",
+      "pid": {
+        "MainPID": "3025071",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-train069-readback-20261122-03.service",
+        "ActiveState": "active",
+        "InvocationID": "ac43c1573aa1401a80fd882805f6af01"
+      },
+      "deadline": 1795309982.1273592,
+      "epoch": 1795309562.2019079
+    },
+    "core_verified": {
+      "status": "CORE_REAL_READER_PASS",
+      "seal": "5b97bd29ca3a4b32c4e16a64da3d7c1c3c6988f617fb3e6192305aed6428821f",
+      "new_cases": [
+        "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-blue-left",
+        "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-red-right"
+      ],
+      "old_prefix_windows": 5823,
+      "windows": 6081,
+      "d2": 2031,
+      "sha": "2988da02eb4018c79124029d7d63ca382a15db339ac89c2969412aa8e9bcebe9",
+      "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-train069-readback-20261122-03/RESULT.json"
+    },
+    "stage": {
+      "result": {
+        "status": "HOPPER_STAGED_READER_REQUIRED",
+        "key": "TRAIN-069",
+        "repo": "leoyuer/sla-core-hopper-train-v1",
+        "revision": "df407ee5adfa0874422d7a21992970415ecc4df1",
+        "seal": "5b97bd29ca3a4b32c4e16a64da3d7c1c3c6988f617fb3e6192305aed6428821f",
+        "folder": "/scratch/e1192548/Projects/GR00T-WBC/runs/WM02/sla-core-hopper-v1-custody-20261121-01/wave-a-train-staging-3988eb4a/staged/TRAIN-069",
+        "count": 69,
+        "windows": 6081
+      },
+      "path": "/scratch/e1192548/Projects/GR00T-WBC/runs/WM02/sla-core-hopper-v1-custody-20261121-01/wave-a-train-staging-3988eb4a/receipts/TRAIN-069.json",
+      "sha": "60da575a9b0d9995d0421c2ec93b8cbf28a194d6ecb0b05a979e5386107be067",
+      "script_sha": "a400665901e893d31edf040284e1558105b11bc14881fea93e32d181ed91b12c"
+    },
+    "promotion": {
+      "status": "HOPPER_WAVE_A_READY",
+      "ready": "/scratch/e1192548/Projects/GR00T-WBC/runs/WM02/sla-core-hopper-v1-custody-20261121-01/train-ready/TRAIN-069",
+      "groups": 488,
+      "summary_sha": "6e887df5adff79caca4bef4e733860c6ee45a90533851982a6112df5da0950aa",
+      "summary_path": "/scratch/e1192548/Projects/GR00T-WBC/runs/WM02/sla-core-hopper-v1-custody-20261121-01/wave-a-train069-core-promotion-20261122-02/RESULT.private.json",
+      "source_sha": "2269941f1bae9c46b337508f2429b530b46cd6c09467670041c7ae36055c6180",
+      "bytes": 2427408704,
+      "previous_windows": 5823,
+      "new_visits": 0,
+      "seal": "5b97bd29ca3a4b32c4e16a64da3d7c1c3c6988f617fb3e6192305aed6428821f",
+      "epoch": 1795309766.2426925
+    },
+    "independent": {
+      "status": "TRAIN069_READY_INDEPENDENT_HOPPER_READBACK",
+      "seal": "5b97bd29ca3a4b32c4e16a64da3d7c1c3c6988f617fb3e6192305aed6428821f",
+      "files": 488,
+      "bytes": 2427408704,
+      "live_step": 3339,
+      "current_job": "728212.hopper-m-02",
+      "epoch": 1795309799.3140323
+    },
+    "training_visits": 0,
+    "first_permitted_boundary": 5000
+  },
+  "hopper": {
+    "actual_step": 3339,
+    "job": "728212.hopper-m-02",
+    "next_job": "728341.hopper-m-02",
+    "course": "TRAIN-052",
+    "backup": {
+      "source": {
+        "event": "29356be15c3ea0aee9737bc5a28dc5b435bc1f037b233f0e5d19f590534ec95e",
+        "path": "/scratch/e1192548/Projects/GR00T-WBC/runs/WM02/sla-core-hopper-v1-custody-20261121-01/HOPPER-ADAPT20K-V1/MAIN/sealed/phase03300.json",
+        "backup_due": true,
+        "keys": [
+          "backup_due",
+          "binding",
+          "checkpoint",
+          "course",
+          "cursors",
+          "deployment_due",
+          "eval_due",
+          "offline_status",
+          "phase",
+          "plan",
+          "predecessor",
+          "role"
+        ],
+        "checkpoint": {
+          "path": "/scratch/e1192548/Projects/GR00T-WBC/runs/WM02/sla-core-hopper-v1-custody-20261121-01/HOPPER-ADAPT20K-V1/MAIN/checkpoints/phase03300",
+          "sha256": "b0b9f094739e7d257652077ac09daa50d3457258c930b6e612253940ccfac83d"
+        },
+        "cursors": {
+          "lineage_cursors": {
+            "libero": 193600,
+            "robodojo": 193600,
+            "target": 355200
+          },
+          "lineage_updates": 5800,
+          "phase_step": 3300,
+          "role_training_full_generations": 13200,
+          "role_updates": 3300,
+          "role_visits": {
+            "libero": 105600,
+            "robodojo": 105600,
+            "target": 211200
+          },
+          "target_bank_cursor": 83200
+        }
+      },
+      "direct": {
+        "status": "HOPPER_VANDA_DIRECT_BACKUP_BYTE_MATCH",
+        "receipt": {
+          "plan": "171b5bedb290258954aac140157743e92e3b152e",
+          "role": "MAIN",
+          "phase": 3300,
+          "event_sha256": "29356be15c3ea0aee9737bc5a28dc5b435bc1f037b233f0e5d19f590534ec95e",
+          "checkpoint": "b0b9f094739e7d257652077ac09daa50d3457258c930b6e612253940ccfac83d",
+          "custody": "/scratch/projects/CFP04/CFP04-CF-007/e1192548/GR00T-WBC/runs/WM02/sla-core-multienv-backup-main3300-20261122-01/MAIN/phase03300",
+          "arrays": 140,
+          "bytes": 5547651600,
+          "eval_due": false,
+          "deployment_due": false,
+          "parent": "2bff547b6f2c3aca0e7e2fd8a790ce6b30ef1c5f33b004c6897e3083647358d5"
+        },
+        "sha256": "db6628a5ebc8b248d21061993e709e1b5aef04dcce85fb6c046f296706d23311",
+        "path": "/scratch/projects/CFP04/CFP04-CF-007/e1192548/GR00T-WBC/runs/WM02/sla-core-multienv-backup-main3300-20261122-01/receipts/MAIN-phase03300.json",
+        "finished": 1795309394.7575324,
+        "dependencies": "existing station-to-station SSH only"
+      },
+      "independent": {
+        "status": "INDEPENDENT_VANDA_140_ARRAY_REHASH_MATCH",
+        "checkpoint": "b0b9f094739e7d257652077ac09daa50d3457258c930b6e612253940ccfac83d",
+        "arrays": 140,
+        "files": 141,
+        "bytes": 5547651600,
+        "epoch": 1795309498.0755205,
+        "seconds": 16.991644212044775
+      }
+    }
+  },
+  "costs": {
+    "new_native_requests": 1,
+    "new_closed_native_requests": 0,
+    "observed_native_tick": 3565,
+    "new_optimization_updates_from_cutover": 0,
+    "evaluation_generations_from_cutover": 0,
+    "pbs_jobs_from_cutover": 0
+  }
+}

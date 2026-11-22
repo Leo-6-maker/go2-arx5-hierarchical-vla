@@ -92,7 +92,8 @@ def freeze(root, prefix, population, manifest, proof, hashes, registry, rows, au
                 src = origin/rel
                 if rel.parent!=Path(ep['id']) or src.is_symlink() or digest(src)!=ref['sha256']:
                     raise ValueError('Missing or changed admitted episode object')
-                obj = src if origin in (prefix,retained) else object_file(src,ref['sha256'],root/'objects')
+                direct = origin in (prefix,retained) and src.stat().st_dev==incoming.stat().st_dev
+                obj = src if direct else object_file(src,ref['sha256'],root/'objects')
                 os.link(obj,incoming/rel)
             sync_dir(incoming/ep['id'])
         members = [episode for episode,_ in all_episodes]
@@ -173,6 +174,22 @@ def cold_catalog(config, producer, cards, registry, prior, population):
     return root, {cid:cards[cid] for cid in authority['conditions']}, authority, baseline
 
 
+def cold_snapshot_bytes(root, prefix, retained, manifest, rows):
+    required = {}
+    destination = root.stat().st_dev
+    episodes = [(ep,prefix) for ep in manifest['episodes']]
+    episodes.extend((ep,origin) for ep,_,origin in rows)
+    for ep,origin in episodes:
+        for ref in [ep['labels'],*ep['frame_shards']]:
+            sha = ref['sha256']
+            obj = root/'objects'/sha
+            file = origin/ref['file']
+            st = file.stat()
+            if not obj.is_file() and not (origin in (prefix,retained) and st.st_dev==destination):
+                required[sha]=st.st_size
+    return sum(required.values())
+
+
 def close_original(root, config, producer, cards, registry, prefix, population, manifest, proof, hashes):
     """Seal the retained producer's last batch after it and its old catalog have closed."""
     from scripts.sla.core_multienv_payload import capacity
@@ -235,7 +252,16 @@ def run(root, config, probe):
     proof = read(prefix/'ACTUAL.private.json')
     hashes = seal['episode_sha256']
     contract.check_prefix(manifest['episodes'],proof['cases'],hashes)
-    with closing(OwnerLock(root/'owner.lock')):
+    cold = config.get('cold')
+    lock_root = Path(cold['control_root']) if cold else root
+    if cold:
+        from scripts.sla.core_multienv_payload import payload_volume
+
+        if lock_root.stat().st_uid!=os.getuid() or not lock_root.is_relative_to(producer.parent) or lock_root.is_symlink():
+            raise PermissionError('The NFS catalog must retain a separate Core local owner lock')
+        storage = pinned(cold['producer'])['multienv_payload_storage']
+        payload_volume(lock_root,dict(storage,root=str(root)))
+    with closing(OwnerLock(lock_root/'owner.lock')):
         for name in ('catalog','snapshots','objects'):
             (root/name).mkdir(exist_ok=True)
         if config.get('close_original'):
@@ -244,7 +270,6 @@ def run(root, config, probe):
             result = close_original(root,config,producer,cards,registry,prefix,population,manifest,proof,hashes)
             write_once(root/'TERMINAL.json',dict(result,epoch=time.time(),pid=os.getpid(),new_training_visits=0))
             return
-        cold = config.get('cold')
         baseline = dict(count=contract.PREFIX_COUNT,epoch=config['started_at'],membership=hashes)
         retained = None
         if cold:
@@ -272,9 +297,12 @@ def run(root, config, probe):
                     break
                 if not probe:
                     disk = shutil.disk_usage(root)
-                    needed = sum((folder/ep['labels']['file']).stat().st_size +
-                                 sum((folder/f['file']).stat().st_size for f in ep['frame_shards'])
-                                 for ep,_,folder in rows[exposed:exposed+4])
+                    if cold:
+                        needed = cold_snapshot_bytes(root,prefix,retained,manifest,rows[:exposed+4])
+                    else:
+                        needed = sum((folder/ep['labels']['file']).stat().st_size +
+                                     sum((folder/f['file']).stat().st_size for f in ep['frame_shards'])
+                                     for ep,_,folder in rows[exposed:exposed+4])
                     floor = max(50*1024**3,int(.15*disk.total))+8*1024**3
                     if disk.free<floor+config['inflight_reserve_bytes']+needed:
                         break

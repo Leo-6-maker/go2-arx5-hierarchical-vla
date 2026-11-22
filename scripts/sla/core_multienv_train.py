@@ -16,8 +16,8 @@ PREFIX_COUNT = 59
 PREFIX_SEAL = 'd0f7269319b57a4edcc1cd7ca0b60904624831985d54fb6db72cf2b25e8c563b'
 PREFIX_PROJECTION = '1c5d6da9a1d432d4ca5997bbd5adf0ad099a93bd4a3658b3136cd263c4728b70'
 MAX_COUNT = PREFIX_COUNT+96
-# Rebind the portable verifier only after the predecessor and the new spec have sealed.
-COLD_AUTHORITIES = frozenset()
+# The closed Wave A ledger and second Core owner for original slots 24 and 25.
+COLD_AUTHORITIES = frozenset({'cabb42b53eea0e57f3e3666f8fbcb7e7301d7c70a7d218d92394bc163127d594'})
 
 
 def fingerprint(value):
