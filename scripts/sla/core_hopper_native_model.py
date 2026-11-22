@@ -11,6 +11,7 @@ class Pool:
         from scripts.sla.core_hopper_native_scope import accepted
         from scripts.sla.hopper_reference import core_provider
         from scripts.sla.core_canonical_proof import VERIFIED
+        from scripts.sla.core_main3800_native_proof import EXPLORATORY, load_manifest
         from scripts.sla.hopper_site import pinned
         from scripts.sla.hopper_parent_custody import digest
 
@@ -28,9 +29,14 @@ class Pool:
             raise ValueError('Frozen state or action statistics changed')
         data = AdaptTargetDataset(source['legacy'],source['captures'],resize_with_pad=resize_with_pad)
         data.bind_state(source['statistics'])
-        model, manifest = core_provider(Path(spec['packages'][arm]['path']),gate['manifest'],
-                                        site['model'],data,site['tokenizer']['path'],
-                                        canonical=gate['status']==VERIFIED)
+        path = Path(spec['packages'][arm]['path'])
+        if gate['status'] == EXPLORATORY:
+            from scripts.sla.hopper_reference import provider_from_manifest
+            manifest = load_manifest(gate['package'], gate['original_package'])
+            model = provider_from_manifest(path,manifest,site['model'],data,site['tokenizer']['path'])
+        else:
+            model, manifest = core_provider(path,gate['manifest'],site['model'],data,site['tokenizer']['path'],
+                                            canonical=gate['status']==VERIFIED)
         if manifest['checkpoint_sha256'] != gate['checkpoint'] or manifest['action_sha256'] != site['action']['sha256']:
             raise ValueError('Student endpoint differs from its exact replay')
         self.providers = {arm:model}
