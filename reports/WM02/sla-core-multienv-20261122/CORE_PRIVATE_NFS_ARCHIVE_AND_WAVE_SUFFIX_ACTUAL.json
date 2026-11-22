@@ -1,0 +1,1679 @@
+{
+  "canonical_plan": "4fe2c8cf1b69c168b2e3079e061bb7c702089cd3",
+  "actual_core_owner": {
+    "epoch": 1795307040.484016,
+    "progress": {
+      "stage": "WAIT_CAPACITY_OR_STUDENT_HANDOFF",
+      "epoch": 1795307022.2607934,
+      "completed": 23,
+      "actual_requests": 23,
+      "closed_ticks": 668699,
+      "admitted_train": 10,
+      "current": null
+    },
+    "units": {
+      "wave": {
+        "service": {
+          "MainPID": "2643171",
+          "ActiveState": "active"
+        },
+        "progress": {
+          "stage": "WAIT_CAPACITY_OR_STUDENT_HANDOFF",
+          "epoch": 1795307022.2607934,
+          "completed": 23,
+          "actual_requests": 23,
+          "closed_ticks": 668699,
+          "admitted_train": 10,
+          "current": null
+        }
+      },
+      "pilot": {
+        "service": {
+          "MainPID": "2925958",
+          "ActiveState": "active"
+        },
+        "progress": {
+          "epoch": 1795307034.0997455,
+          "pid": 2925958,
+          "stage": "WAIT_ORIGINAL_SLOT_HANDOFF",
+          "condition": "MEV1-TRAIN-F2-NEAR_POS-00-HOLD-red"
+        }
+      },
+      "catalog": {
+        "service": {
+          "MainPID": "2668452",
+          "ActiveState": "active"
+        },
+        "progress": {}
+      },
+      "uplink": {
+        "service": {
+          "MainPID": "2681921",
+          "ActiveState": "active"
+        },
+        "progress": {}
+      }
+    },
+    "capacity": {
+      "free_disk": 297310220288,
+      "floor": 294382508441,
+      "reserve": 3758096384,
+      "available_host_memory": 48627793920,
+      "min_host_memory": 13958643712,
+      "epoch": 1795307022.2504911
+    },
+    "shortfall_bytes": 830384537
+  },
+  "byte_preserving_sparse_audit": {
+    "status": "ORIGINAL_BINARY_TRACE_SPARSE_READONLY",
+    "byte_count": 7109664292,
+    "files": 69,
+    "block_bytes": 4096,
+    "safe_upper_bytes": 0,
+    "seconds": 3.243572296574712,
+    "epoch": 1795306552.6535048,
+    "evidence": [
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-HOLD-blue",
+        "file": "init.trace",
+        "sha256": "a3bc219e49a9e6e070fb9ec4e8365f68fe8b71fa8c3f30c00836e8dc4c38ede7",
+        "bytes": 183447616,
+        "allocated": 183455744,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-HOLD-blue",
+        "file": "init.trace.snapshots",
+        "sha256": "d111c18d53bf23bdbbf3345173729b0213f841e14e5f20344c609df233067f0d",
+        "bytes": 26987600,
+        "allocated": 26988544,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-HOLD-blue",
+        "file": "state.bin.journal",
+        "sha256": "47623870461d472bc2754d37f1822f04715c27fb7ea47c075337350864cf40a9",
+        "bytes": 71686708,
+        "allocated": 71692288,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-HOLD-red",
+        "file": "init.trace",
+        "sha256": "6389697381ec9f2887907abadbafd70942c67d77d8916d44b7207d0a919584bf",
+        "bytes": 154418896,
+        "allocated": 154423296,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-HOLD-red",
+        "file": "init.trace.snapshots",
+        "sha256": "1d9e0ae1391a0f05f8b227828f9404383a9e2bd33d8f975f7f314a69f8d81b9d",
+        "bytes": 22620400,
+        "allocated": 22626304,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-HOLD-red",
+        "file": "state.bin.journal",
+        "sha256": "8c8ee45515ffa58933de4376b6182c55a5b16085d26ec4339bebdbd403728cbc",
+        "bytes": 58617040,
+        "allocated": 58617856,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-red-left",
+        "file": "init.trace",
+        "sha256": "dc702748aad32e96ca26b2a0d37b85044d2ef0f693620aba90d16d89f88ed5d6",
+        "bytes": 361693096,
+        "allocated": 361697280,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-red-left",
+        "file": "init.trace.snapshots",
+        "sha256": "16a2bf5ffc8a4a6a115c6026d73ad7933c5d8336df8251394e954ec6b9887763",
+        "bytes": 53752600,
+        "allocated": 53760000,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-red-left",
+        "file": "state.bin.journal",
+        "sha256": "2a98b36312098b116976301a7da7c1085a7da5e856627783ec19c58e837c4c8a",
+        "bytes": 158649468,
+        "allocated": 158654464,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-blue-right",
+        "file": "init.trace",
+        "sha256": "7961e4f697c9ca20e65cc2c10bce47014c5691b2f09b737548492a434f7f4054",
+        "bytes": 148034056,
+        "allocated": 148041728,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-blue-right",
+        "file": "init.trace.snapshots",
+        "sha256": "7430dd9c53ed7c2ce38cab3f8fef396330813c9a2ad1b26f5ae33b006d14d669",
+        "bytes": 21952600,
+        "allocated": 21954560,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-blue-right",
+        "file": "state.bin.journal",
+        "sha256": "72219c33ae9b45d2e7278b3ae27a4934dcc07094b7da539bd52bf4a47aa698e8",
+        "bytes": 56825700,
+        "allocated": 56832000,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-blue-right",
+        "file": "init.trace",
+        "sha256": "3717e3010310c3ad5b6932860ae7b5cb96dab04fa6d7b9f73e385381587adf4e",
+        "bytes": 136471456,
+        "allocated": 136478720,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-blue-right",
+        "file": "init.trace.snapshots",
+        "sha256": "07bfc9fdb8cb456aa8cea943fdc2c59cc3a5b4a0019daed64f80abc5ba39d6df",
+        "bytes": 20489800,
+        "allocated": 20492288,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-blue-right",
+        "file": "state.bin.journal",
+        "sha256": "8bbac9b454e47d88ba1df061527670cb9ffdb2d4f81965d34e43471d6e581367",
+        "bytes": 53178244,
+        "allocated": 53182464,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-red-left",
+        "file": "init.trace",
+        "sha256": "647b37404c6ef625c5daa44d94b1f8df42d7e339ac4b4c09ba44edd8fb569c16",
+        "bytes": 152102176,
+        "allocated": 152109056,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-red-left",
+        "file": "init.trace.snapshots",
+        "sha256": "ab81590b1536915a6877685da0dd057b248c4a01a22f652385ed757e61074c1d",
+        "bytes": 22959600,
+        "allocated": 22966272,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-red-left",
+        "file": "state.bin.journal",
+        "sha256": "86ef5cc1b17462d802529b76198f0f8573bae1b1c3f85540f14cc4bcadb75427",
+        "bytes": 59448132,
+        "allocated": 59453440,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-HOLD-red",
+        "file": "init.trace",
+        "sha256": "ac28e212711523d631e36d5eb6707de9b2b12bed23531cba8d6c36311a242df3",
+        "bytes": 161920936,
+        "allocated": 161927168,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-HOLD-red",
+        "file": "init.trace.snapshots",
+        "sha256": "d20a27c3055652c215b0508a6f2a4b6e05de8948c27191aff14727d98c734bfa",
+        "bytes": 22217600,
+        "allocated": 22220800,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-HOLD-red",
+        "file": "state.bin.journal",
+        "sha256": "5dcdba557fb4f3fd09294de30ccf05c1d186e99cb85e74fd39032cbb5ea0d22a",
+        "bytes": 59606148,
+        "allocated": 59609088,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-HOLD-blue",
+        "file": "init.trace",
+        "sha256": "f3c82cdb087e4e6b66e8d442194d1fc1db3dea0f6ba428bb9bc34cdf3ede3f5b",
+        "bytes": 164177176,
+        "allocated": 164179968,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-HOLD-blue",
+        "file": "init.trace.snapshots",
+        "sha256": "5057571262365a35ed7875750f4b94ed9c50c53b190d2378a5866234a06273e7",
+        "bytes": 24867600,
+        "allocated": 24870912,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-HOLD-blue",
+        "file": "state.bin.journal",
+        "sha256": "5b3ac883aad9bc8e3e852940dc1e39c8a67c10b9af670f797a0138f200d50bbf",
+        "bytes": 66317108,
+        "allocated": 66322432,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-blue-left",
+        "file": "init.trace",
+        "sha256": "fb7c9f15b92f8e294049312527a28426af1bb69daea43fa029d2a188c95dc805",
+        "bytes": 269037736,
+        "allocated": 269045760,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-blue-left",
+        "file": "init.trace.snapshots",
+        "sha256": "6742ef9a68f17d45fc8889daff0671d5a28f9ce807815c7e22600254694383d6",
+        "bytes": 41297600,
+        "allocated": 41304064,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-blue-left",
+        "file": "state.bin.journal",
+        "sha256": "7ce4bbeb3bd6f4e5458fe5e8ef45e66060d1dd8367ef1f8d09fe00ecc749329e",
+        "bytes": 115583268,
+        "allocated": 115589120,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-red-right",
+        "file": "init.trace",
+        "sha256": "c3e76734c9e21fe796a2fee006d3c67191d11fb8debe940418c15475417402d1",
+        "bytes": 132103456,
+        "allocated": 132108288,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-red-right",
+        "file": "init.trace.snapshots",
+        "sha256": "f0e6a1f9a616ae826afe1557843da36e93914ba2ff2c02c15305e6872ffb8f08",
+        "bytes": 21931400,
+        "allocated": 21938176,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-red-right",
+        "file": "state.bin.journal",
+        "sha256": "e533a431f4ac754b4c941e2407696c0449acad5ade155360207d44b94ea4cf17",
+        "bytes": 56830440,
+        "allocated": 56832000,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-red-right",
+        "file": "init.trace",
+        "sha256": "11474e8063aa874cf3b73225a4b700353a0ff4f030566200bbea54a55939dd37",
+        "bytes": 233848456,
+        "allocated": 233852928,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-red-right",
+        "file": "init.trace.snapshots",
+        "sha256": "9f0c5701c9ade4e36ff67742100ef518cca6f390c683d7e0b374ba59ed985391",
+        "bytes": 38382600,
+        "allocated": 38383616,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-red-right",
+        "file": "state.bin.journal",
+        "sha256": "28b502ffa157e943d70f2733c57103e640dcb3c573fbac610145c3fbd2311d1e",
+        "bytes": 109270828,
+        "allocated": 109273088,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-blue-left",
+        "file": "init.trace",
+        "sha256": "e0681dc731d98ec0270858dc8f66c92ced6da16b8b6b09ef2f7a2491587c36d9",
+        "bytes": 179734816,
+        "allocated": 179740672,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-blue-left",
+        "file": "init.trace.snapshots",
+        "sha256": "3a72331d7e46ed5591c890823505a46e6207258e4cc7a6f0227f736ee497c7a3",
+        "bytes": 30146400,
+        "allocated": 30146560,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-blue-left",
+        "file": "state.bin.journal",
+        "sha256": "63d02ad393c12dd301f4dbbc5aee6d5e217d2efa9433fea5024639104c6e6e94",
+        "bytes": 82903732,
+        "allocated": 82907136,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-HOLD-blue",
+        "file": "init.trace",
+        "sha256": "008b4a5f05396abf1be16e471856f43550d21ab7162684701345447d42745468",
+        "bytes": 140629456,
+        "allocated": 140632064,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-HOLD-blue",
+        "file": "init.trace.snapshots",
+        "sha256": "f4cdea7b9d7ab863af6d34e65390336da42ae277fab321c2187bfec168e70e8b",
+        "bytes": 23542600,
+        "allocated": 23543808,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-HOLD-blue",
+        "file": "state.bin.journal",
+        "sha256": "7435a9f7fec974ef1e973231fa7c6af56dc12bbe7c1a2f9a0f96300864a098ba",
+        "bytes": 62934348,
+        "allocated": 62939136,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-HOLD-red",
+        "file": "init.trace",
+        "sha256": "cef7ee550e67c85cf4fad9c3d84a471bff80c22523896eabe8cf036076347dd6",
+        "bytes": 146964736,
+        "allocated": 146968576,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-HOLD-red",
+        "file": "init.trace.snapshots",
+        "sha256": "481d4b46e4bd6a8eadba379addbdadbc803481b54ecb75d78cf1695e41906d4f",
+        "bytes": 24539000,
+        "allocated": 24539136,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-HOLD-red",
+        "file": "state.bin.journal",
+        "sha256": "e7d3fcd584235d652e5653820c7173ac54bd1e7ec3c8d80e5b206ce5f8aff733",
+        "bytes": 63523744,
+        "allocated": 63528960,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-red-left",
+        "file": "init.trace",
+        "sha256": "aafd8aeb9de66ad2f7b686ca1d0aa08d39e19a8d4173d123ab37f2fb12051d44",
+        "bytes": 321966976,
+        "allocated": 321974272,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-red-left",
+        "file": "init.trace.snapshots",
+        "sha256": "d32e41356150241f69138cd2251d3c3e0376bb544a1f69667bcc38ea3cb52dea",
+        "bytes": 53752600,
+        "allocated": 53760000,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-red-left",
+        "file": "state.bin.journal",
+        "sha256": "4ded324096e9f54efe28c351a0162c167c1bcfb9a464e1a8be707716756808f7",
+        "bytes": 156233628,
+        "allocated": 156237824,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-blue-right",
+        "file": "init.trace",
+        "sha256": "bad61e4e43fcc8042482b5677c52d4f3995afc0469ce26bed8e51f50fe530fb9",
+        "bytes": 262838536,
+        "allocated": 262844416,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-blue-right",
+        "file": "init.trace.snapshots",
+        "sha256": "0445f1f7bdbcd9d24c65945b982f3c6efb8e7b463135f01572596b99141b58be",
+        "bytes": 43544800,
+        "allocated": 43552768,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-blue-right",
+        "file": "state.bin.journal",
+        "sha256": "2f8a11b6d87d671b4e4d5ac2e5a4b0a7615804ed17cf0052afb447b003155578",
+        "bytes": 126650236,
+        "allocated": 126656512,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-blue-right",
+        "file": "init.trace",
+        "sha256": "3bbd378e13db0c4502f54c9791ae949b2cc5f3305abb29c20e1d506e41b83d9c",
+        "bytes": 242111536,
+        "allocated": 242118656,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-blue-right",
+        "file": "init.trace.snapshots",
+        "sha256": "ab15e33a407b24d5e74f7fcd825ec025fd86a0590f5af94760f3e8a9fb146a2e",
+        "bytes": 40502600,
+        "allocated": 40509440,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-blue-right",
+        "file": "state.bin.journal",
+        "sha256": "50fff33df61fe894c7383ec96416aacbce72ff35b87142dc24a11a560b146a51",
+        "bytes": 116374012,
+        "allocated": 116379648,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-red-left",
+        "file": "init.trace",
+        "sha256": "bd4888faaba38cfd24d539c6e2965c28ed6a862184793fa95a5a94d5defef8c9",
+        "bytes": 141067096,
+        "allocated": 141070336,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-red-left",
+        "file": "init.trace.snapshots",
+        "sha256": "c3141221876324548bce9ded9504adb16bd806b970a0f4712dfafa5dc28ac671",
+        "bytes": 23404800,
+        "allocated": 23408640,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-red-left",
+        "file": "state.bin.journal",
+        "sha256": "7b818d65eaa2d706e559261d6006492569fb6c95a6b6a132c181ac15fb4552fc",
+        "bytes": 60605952,
+        "allocated": 60608512,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-HOLD-red",
+        "file": "init.trace",
+        "sha256": "ba80e4c75c4f478798d43a1a5311bce3956ff79cc34cf34916be13e90dbf51e1",
+        "bytes": 141317416,
+        "allocated": 141320192,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-HOLD-red",
+        "file": "init.trace.snapshots",
+        "sha256": "1901c351eebdbdfcc4bc96ea6318845bcbacfa0640ae2d183f5fd8a3f6fe0052",
+        "bytes": 23542600,
+        "allocated": 23543808,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-HOLD-red",
+        "file": "state.bin.journal",
+        "sha256": "2d9942d468874539828ffabbc6998089da25af69fc138a8749b331ca45fa013b",
+        "bytes": 63054348,
+        "allocated": 63062016,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-HOLD-blue",
+        "file": "init.trace",
+        "sha256": "f1defaf5734301732d7a7fa975531a0be0b21666e52c8f61c0a7acfa2772640c",
+        "bytes": 148707736,
+        "allocated": 148713472,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-HOLD-blue",
+        "file": "init.trace.snapshots",
+        "sha256": "df6d79176d08c52d11a7d3da53e2f00a7c5b5c3cac3844541ca53b4bddfcb8d5",
+        "bytes": 24867600,
+        "allocated": 24870912,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-HOLD-blue",
+        "file": "state.bin.journal",
+        "sha256": "a9195c4971fa9e940be236ebf9dd3d1f2415b5f96030ebd690d65037fb5cb803",
+        "bytes": 66244148,
+        "allocated": 66248704,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-blue-left",
+        "file": "init.trace",
+        "sha256": "0dd1d20311239b9e1e11f0394d8cadac9f5b2d21a8295398ec79f7ba3c08f860",
+        "bytes": 251643016,
+        "allocated": 251650048,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-blue-left",
+        "file": "init.trace.snapshots",
+        "sha256": "ada3a369da714f088426ee2fa6e0f52c0b21e6c5d2d083d3bd8e7f0165d847bd",
+        "bytes": 41827600,
+        "allocated": 41832448,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-blue-left",
+        "file": "state.bin.journal",
+        "sha256": "ae731fe29aa9435807aad9d9afa5d53715b2c85fba1a4d1ddff5dc8fcc01e4cf",
+        "bytes": 118076468,
+        "allocated": 118083584,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-red-right",
+        "file": "init.trace",
+        "sha256": "f1f3b48b5ec69dc28f840dda3a3d0dfd5acaa5d7e0f064c3f8e43c5c69f84cfb",
+        "bytes": 139119136,
+        "allocated": 139120640,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-red-right",
+        "file": "init.trace.snapshots",
+        "sha256": "f0fd906a1353787a489c36e15f0627d0d0c3347e7ec7d2d70dd39a4078ffecfc",
+        "bytes": 23182200,
+        "allocated": 23183360,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-red-right",
+        "file": "state.bin.journal",
+        "sha256": "735b08de3523d3d3d6b68fa743a6d6f7ccf36361c91d3ae1000a3f5bbc3a6758",
+        "bytes": 60030036,
+        "allocated": 60035072,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-red-right",
+        "file": "init.trace",
+        "sha256": "440f7b2170d9a605ebe66b2a30494993d8cfd357339d02d23fac8e10e71fe173",
+        "bytes": 234705256,
+        "allocated": 234713088,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-red-right",
+        "file": "init.trace.snapshots",
+        "sha256": "b19f1d59ab712f0ac4753818a0da0bc294dd2b990462c9cb97e7a3ebd109626b",
+        "bytes": 38647600,
+        "allocated": 38649856,
+        "zero_full_blocks": 0
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-red-right",
+        "file": "state.bin.journal",
+        "sha256": "32e5bf3c7c2aa54e449e7cc1dd8f91629465ffbb94d4afaee0b4c0dfb75c1569",
+        "bytes": 109999988,
+        "allocated": 110006272,
+        "zero_full_blocks": 0
+      }
+    ]
+  },
+  "nfs": {
+    "first_probe": "Independent child opened a read-only descriptor for an exclusive lock, so the check stopped before writing payload.",
+    "functional": {
+      "result": {
+        "status": "EXISTING_PRIVATE_PROJECT_NFS_IO_PREFLIGHT_PASS",
+        "epoch": 1795306701.0430403,
+        "owner": 2009,
+        "device": 112,
+        "mode": "0o700",
+        "filesystem_total_bytes": 4000785104896,
+        "filesystem_free_bytes": 1361230954496,
+        "original_floor_bytes": 608707700326,
+        "reserve_bytes": 3758096384,
+        "available_after_reserve_bytes": 748765157786,
+        "directory_fsync": true,
+        "close_then_atomic_rename": true,
+        "held_flock_child_result": 23,
+        "unheld_flock_child_result": 0,
+        "traced_payload_bytes": 16777216,
+        "trace_sha256": "456282012a9886eac4627e2b574a4ad7e001facaf9ee1f9aa232f2868771e915",
+        "trace_inode": 9176525,
+        "mmap": true,
+        "hardlinked": true,
+        "read_only_originals": true,
+        "quota": {
+          "error": "FileNotFoundError"
+        },
+        "native_requests": 0,
+        "native_ticks": 0,
+        "model_generations": 0,
+        "optimizer_updates": 0,
+        "local_copy_seconds": 0.8599518146365881
+      },
+      "path": "/home/liuyu-nfs/Projects/GR00T-WBC/runs/sla-core-multienv-nfs-preflight-20261122-02/RESULT.private.json",
+      "sha256": "7d81d0055ac1da5f54ac8bf16eb64105a00e5b22fed2390f437886d606003470"
+    },
+    "second_host_readback": {
+      "state": "INDEPENDENT_NFS_CONTENT_REHASH_MATCH",
+      "host": "corelab-amd-server",
+      "bytes": 16777216,
+      "trace": "456282012a9886eac4627e2b574a4ad7e001facaf9ee1f9aa232f2868771e915",
+      "receipt": "7d81d0055ac1da5f54ac8bf16eb64105a00e5b22fed2390f437886d606003470",
+      "epoch": 1795306802.2039597
+    },
+    "cross_host_locking": {
+      "status": "LOCAL_NFS_BACKING_HOST_LOCK_BEHAVIOR_READBACK",
+      "holder_live_after_peer": true,
+      "peer_seconds": 0.3195398060051957,
+      "peer_during": {
+        "flock": "ACQUIRED",
+        "lockf": 11
+      },
+      "peer_after": {
+        "flock": "ACQUIRED",
+        "lockf": "ACQUIRED"
+      },
+      "epoch": 1795307034.1491985
+    },
+    "actual_episode_archive": {
+      "status": "ACTUAL_CORE_TRACE_SEALED_ON_EXISTING_NFS",
+      "path": "/home/liuyu-nfs/Projects/GR00T-WBC/runs/sla-core-multienv-nfs-preflight-20261122-02/waveA-23-F1-red-right.sealed",
+      "manifest_sha": "ff20f32668f4bd3567902aee24fcfd70e72f2772e964a85e8eb8ea4129b4267d",
+      "source_sha": "ae2ae535ea3933ca6de4f1a7925c50e06fd4dd6fa1ce80e1d4745e5c2de803cf",
+      "old_result": "e88be44ed6d0e4eda27f5cbad3489bf236ce1343995bee7fd29f833d7ba39471",
+      "old_case": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-red-right",
+      "old_ticks": 36453,
+      "members": {
+        "COMMANDS.private.jsonl": {
+          "encode_seconds": 0.16449123341590166,
+          "name": "COMMANDS.private.jsonl",
+          "original_bytes": 11171686,
+          "original_sha256": "db9f23cbc0322818e50f3eaa2ad9b0959e64e3109e3ffa90114771e0d596abf4",
+          "packed_bytes": 1092908,
+          "packed_sha256": "221bae50b256b1ebc95f899f6e3600fd1bde6ca7c05acb1095c00b9028f42d20",
+          "restored_sha256": "db9f23cbc0322818e50f3eaa2ad9b0959e64e3109e3ffa90114771e0d596abf4",
+          "roundtrip_seconds": 0.22219396755099297
+        },
+        "MOBILE_SAFETY_TRACE.private.jsonl": {
+          "encode_seconds": 0.16411159094423056,
+          "name": "MOBILE_SAFETY_TRACE.private.jsonl",
+          "original_bytes": 483065,
+          "original_sha256": "fa651229bc43aff3d957fe8a571a9e97c20064eb282ef8f15636da944039f0db",
+          "packed_bytes": 117883,
+          "packed_sha256": "0ff4b1fd82d07a696322573730191c54e7aee4aff101abe47ec0876a7542a254",
+          "restored_sha256": "fa651229bc43aff3d957fe8a571a9e97c20064eb282ef8f15636da944039f0db",
+          "roundtrip_seconds": 0.18991074804216623
+        },
+        "MOBILE_SAMPLES.private.jsonl": {
+          "encode_seconds": 0.16431676875799894,
+          "name": "MOBILE_SAMPLES.private.jsonl",
+          "original_bytes": 6249867,
+          "original_sha256": "8d3b3c46452b85c000e75d9800d9816069b5fda7f877bf0a43e8b81b89f8d2ad",
+          "packed_bytes": 1606967,
+          "packed_sha256": "1f2f718e905d78daa66f1d96932817d16955f3dbcb6176b6686fd2760759288c",
+          "restored_sha256": "8d3b3c46452b85c000e75d9800d9816069b5fda7f877bf0a43e8b81b89f8d2ad",
+          "roundtrip_seconds": 0.23420434445142746
+        },
+        "ROS_CONSUMPTION.private.jsonl": {
+          "encode_seconds": 1.3180791214108467,
+          "name": "ROS_CONSUMPTION.private.jsonl",
+          "original_bytes": 475383047,
+          "original_sha256": "327bac3feb282a727029f5bf1b0a58bef09df198e240b236bee2577dcb5ed5a4",
+          "packed_bytes": 55242919,
+          "packed_sha256": "d4da8315c13fc20a4369dc3f808574e69fd3a35dc5671cb6202fac13a5322614",
+          "restored_sha256": "327bac3feb282a727029f5bf1b0a58bef09df198e240b236bee2577dcb5ed5a4",
+          "roundtrip_seconds": 2.559825518168509
+        },
+        "init.trace": {
+          "encode_seconds": 0.6157305603846908,
+          "name": "init.trace",
+          "original_bytes": 234705256,
+          "original_sha256": "440f7b2170d9a605ebe66b2a30494993d8cfd357339d02d23fac8e10e71fe173",
+          "packed_bytes": 30118682,
+          "packed_sha256": "0d815f7fcf004548f00de5326bd2c11ddb4a09efbd93b0a68c45460f8ab252fe",
+          "restored_sha256": "440f7b2170d9a605ebe66b2a30494993d8cfd357339d02d23fac8e10e71fe173",
+          "roundtrip_seconds": 1.4145440263673663
+        },
+        "init.trace.snapshots": {
+          "encode_seconds": 0.16495086625218391,
+          "name": "init.trace.snapshots",
+          "original_bytes": 38647600,
+          "original_sha256": "b19f1d59ab712f0ac4753818a0da0bc294dd2b990462c9cb97e7a3ebd109626b",
+          "packed_bytes": 1022273,
+          "packed_sha256": "1342e0573157f9059814a22b4fb6e0d4965f88118954f866d1b90d6962d54bf8",
+          "restored_sha256": "b19f1d59ab712f0ac4753818a0da0bc294dd2b990462c9cb97e7a3ebd109626b",
+          "roundtrip_seconds": 0.23226017504930496
+        },
+        "init.trace.summary": {
+          "encode_seconds": 0.06415222771465778,
+          "name": "init.trace.summary",
+          "original_bytes": 100,
+          "original_sha256": "0092d2733ac57958fd1b861624c7781ff458a77a3a9b2d1c534150acb772278e",
+          "packed_bytes": 99,
+          "packed_sha256": "c3d674b6311fca0dbd4264f489410fbda86dc39b2f0b2a90e8f97c7ed0d23084",
+          "restored_sha256": "0092d2733ac57958fd1b861624c7781ff458a77a3a9b2d1c534150acb772278e",
+          "roundtrip_seconds": 0.08984490111470222
+        },
+        "physics.jsonl": {
+          "encode_seconds": 0.5158320460468531,
+          "name": "physics.jsonl",
+          "original_bytes": 60324073,
+          "original_sha256": "6c294226e690b39613fe76fba4d21ea8253f0471b25286d0b621e07c9746a54e",
+          "packed_bytes": 17582735,
+          "packed_sha256": "49c7096cac1b98081fccde7b7605c6b0ef1729a12c4d1224abc4323d647a68c3",
+          "restored_sha256": "6c294226e690b39613fe76fba4d21ea8253f0471b25286d0b621e07c9746a54e",
+          "roundtrip_seconds": 1.0113264368847013
+        },
+        "planner.jsonl": {
+          "encode_seconds": 0.21473034378141165,
+          "name": "planner.jsonl",
+          "original_bytes": 17939071,
+          "original_sha256": "0dbb1a495dfbef407dfc2911bf781bcca0697fc5c67cab6a2798ef1e1dd4057f",
+          "packed_bytes": 1048265,
+          "packed_sha256": "d8755ebaa67c11a65f7994f9033ac9069d8eb9f1e3992f41e7e800b0b3567ea1",
+          "restored_sha256": "0dbb1a495dfbef407dfc2911bf781bcca0697fc5c67cab6a2798ef1e1dd4057f",
+          "roundtrip_seconds": 0.2744193831458688
+        },
+        "state.bin.journal": {
+          "encode_seconds": 0.816575295291841,
+          "name": "state.bin.journal",
+          "original_bytes": 109999988,
+          "original_sha256": "32e5bf3c7c2aa54e449e7cc1dd8f91629465ffbb94d4afaee0b4c0dfb75c1569",
+          "packed_bytes": 45888539,
+          "packed_sha256": "f864508458f82f71e449f8a056b794b3ba001a56025c4f5823e61ae588150209",
+          "restored_sha256": "32e5bf3c7c2aa54e449e7cc1dd8f91629465ffbb94d4afaee0b4c0dfb75c1569",
+          "roundtrip_seconds": 2.0430918131023645
+        }
+      },
+      "original_bytes": 954903753,
+      "packed_bytes": 153721270,
+      "original_files_rewritten": 0,
+      "seconds": 8.854794685728848
+    },
+    "native_reader_from_archive": {
+      "result": {
+        "status": "NFS_ARCHIVE_ORIGINAL_READERS_EVIDENCE_MATCH",
+        "matched_trace_fields": [
+          "status",
+          "native_step_records",
+          "STOP_observed",
+          "input_files_sha256",
+          "full_payload_records"
+        ],
+        "matched_metrics": 18,
+        "score_events": {
+          "base80mm": {
+            "native_step": 9845,
+            "native_time_s": 19.689999999999966
+          },
+          "target_grasp": {
+            "native_step": 19022,
+            "native_time_s": 38.04400000000053
+          },
+          "target_lift20mm": {
+            "native_step": 21403,
+            "native_time_s": 42.80600000000635
+          },
+          "correct_region": {
+            "native_step": 28608,
+            "native_time_s": 57.21600000002396
+          },
+          "released": {
+            "native_step": 33445,
+            "native_time_s": 66.89000000002551
+          },
+          "retreated50mm": {
+            "native_step": 35723,
+            "native_time_s": 71.44600000001489
+          }
+        },
+        "old_ticks": 36453,
+        "old_success": true,
+        "manifest_sha": "ff20f32668f4bd3567902aee24fcfd70e72f2772e964a85e8eb8ea4129b4267d",
+        "wall_s": 10.366033227182925,
+        "new_integrations": 0,
+        "new_native_requests": 0,
+        "members": 10,
+        "RAM_file_bytes": 954903753,
+        "packed_bytes": 153721270,
+        "mem_available_before": 48954482688,
+        "mem_available_after_unpack": 47370682368,
+        "decoded_disk_payload_bytes": 0
+      },
+      "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-nfs-real-archive-readback-20261122-02/RESULT.private.json",
+      "sha256": "e0c3b6c885cb58cafba4a3e3a07a65d0660849a2a25b9bb489ebd4f2eaed42ae",
+      "source_sha": "4c49d623a47fe909a7d9f88508a73de84bd00d5c6831059d1b7962564afb1160"
+    },
+    "site_production_owner": "NOT_RUN"
+  },
+  "wave_a_conservation": {
+    "result": {
+      "admitted_train": 10,
+      "cold_owner_registered": false,
+      "new_native_requests": 0,
+      "new_native_ticks": 0,
+      "original_paid_requests": 23,
+      "original_records_sha256": "70a79e945388a63ebc009c9d18a6f3ca0cd16640d37000036cdf387c65cec73c",
+      "original_running_progress": "WAIT_CAPACITY_OR_STUDENT_HANDOFF",
+      "original_spec": "45d949a883c7c10ec31c0caef9a40bdd0a4c51225d5417dac68c7b05432e870b",
+      "paid": [
+        {
+          "admitted": true,
+          "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-HOLD-blue",
+          "slot": 1,
+          "split": "TRAIN",
+          "ticks": 25453
+        },
+        {
+          "admitted": false,
+          "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-HOLD-red",
+          "slot": 2,
+          "split": "TRAIN",
+          "ticks": 21340
+        },
+        {
+          "admitted": false,
+          "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-red-left",
+          "slot": 3,
+          "split": "TRAIN",
+          "ticks": 50703
+        },
+        {
+          "admitted": false,
+          "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-blue-right",
+          "slot": 4,
+          "split": "TRAIN",
+          "ticks": 20705
+        },
+        {
+          "admitted": false,
+          "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-blue-right",
+          "slot": 5,
+          "split": "TRAIN",
+          "ticks": 19329
+        },
+        {
+          "admitted": false,
+          "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-red-left",
+          "slot": 6,
+          "split": "TRAIN",
+          "ticks": 21657
+        },
+        {
+          "admitted": true,
+          "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-HOLD-red",
+          "slot": 7,
+          "split": "TRAIN",
+          "ticks": 20953
+        },
+        {
+          "admitted": true,
+          "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-HOLD-blue",
+          "slot": 8,
+          "split": "TRAIN",
+          "ticks": 23453
+        },
+        {
+          "admitted": true,
+          "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-blue-left",
+          "slot": 9,
+          "split": "TRAIN",
+          "ticks": 38953
+        },
+        {
+          "admitted": false,
+          "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-red-right",
+          "slot": 10,
+          "split": "TRAIN",
+          "ticks": 20690
+        },
+        {
+          "admitted": true,
+          "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-red-right",
+          "slot": 11,
+          "split": "TRAIN",
+          "ticks": 36203
+        },
+        {
+          "admitted": false,
+          "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-blue-left",
+          "slot": 12,
+          "split": "TRAIN",
+          "ticks": 28437
+        },
+        {
+          "admitted": true,
+          "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-HOLD-blue",
+          "slot": 13,
+          "split": "TRAIN",
+          "ticks": 22203
+        },
+        {
+          "admitted": false,
+          "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-HOLD-red",
+          "slot": 14,
+          "split": "TRAIN",
+          "ticks": 23144
+        },
+        {
+          "admitted": false,
+          "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-red-left",
+          "slot": 15,
+          "split": "TRAIN",
+          "ticks": 50703
+        },
+        {
+          "admitted": false,
+          "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-blue-right",
+          "slot": 16,
+          "split": "TRAIN",
+          "ticks": 41071
+        },
+        {
+          "admitted": false,
+          "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-blue-right",
+          "slot": 17,
+          "split": "TRAIN",
+          "ticks": 38207
+        },
+        {
+          "admitted": false,
+          "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-red-left",
+          "slot": 18,
+          "split": "TRAIN",
+          "ticks": 22072
+        },
+        {
+          "admitted": true,
+          "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-HOLD-red",
+          "slot": 19,
+          "split": "TRAIN",
+          "ticks": 22203
+        },
+        {
+          "admitted": true,
+          "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-HOLD-blue",
+          "slot": 20,
+          "split": "TRAIN",
+          "ticks": 23453
+        },
+        {
+          "admitted": true,
+          "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-blue-left",
+          "slot": 21,
+          "split": "TRAIN",
+          "ticks": 39453
+        },
+        {
+          "admitted": false,
+          "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-red-right",
+          "slot": 22,
+          "split": "TRAIN",
+          "ticks": 21861
+        },
+        {
+          "admitted": true,
+          "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-red-right",
+          "slot": 23,
+          "split": "TRAIN",
+          "ticks": 36453
+        }
+      ],
+      "paid_ticks": 668699,
+      "paid_train": 23,
+      "paused": [
+        {
+          "condition": "MEV1-TRAIN-F2-NEAR_POS-00-HOLD-red",
+          "reason": "PAUSED_REPEAT_CONTACT_MECHANISM",
+          "slot": 26
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-NEAR_POS-00-PLACE-red-left",
+          "reason": "PAUSED_REPEAT_CONTACT_MECHANISM",
+          "slot": 30
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-NEAR_POS-00-PLACE-red-right",
+          "reason": "PAUSED_REPEAT_CONTACT_MECHANISM",
+          "slot": 34
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-NEAR_POS-01-HOLD-red",
+          "reason": "PAUSED_REPEAT_CONTACT_MECHANISM",
+          "slot": 38
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-NEAR_POS-01-PLACE-red-left",
+          "reason": "PAUSED_REPEAT_CONTACT_MECHANISM",
+          "slot": 42
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-NEAR_POS-01-PLACE-red-right",
+          "reason": "PAUSED_REPEAT_CONTACT_MECHANISM",
+          "slot": 46
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-FAR_NEG-00-HOLD-red",
+          "reason": "PAUSED_REPEAT_CONTACT_MECHANISM",
+          "slot": 50
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-FAR_NEG-00-PLACE-red-left",
+          "reason": "PAUSED_REPEAT_CONTACT_MECHANISM",
+          "slot": 54
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-FAR_NEG-00-PLACE-red-right",
+          "reason": "PAUSED_REPEAT_CONTACT_MECHANISM",
+          "slot": 58
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-FAR_NEG-01-HOLD-red",
+          "reason": "PAUSED_REPEAT_CONTACT_MECHANISM",
+          "slot": 62
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-FAR_NEG-01-PLACE-red-left",
+          "reason": "PAUSED_REPEAT_CONTACT_MECHANISM",
+          "slot": 66
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-FAR_NEG-01-PLACE-red-right",
+          "reason": "PAUSED_REPEAT_CONTACT_MECHANISM",
+          "slot": 70
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-FAR_POS-00-HOLD-red",
+          "reason": "PAUSED_REPEAT_CONTACT_MECHANISM",
+          "slot": 74
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-FAR_POS-00-PLACE-red-left",
+          "reason": "PAUSED_REPEAT_CONTACT_MECHANISM",
+          "slot": 78
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-FAR_POS-00-PLACE-red-right",
+          "reason": "PAUSED_REPEAT_CONTACT_MECHANISM",
+          "slot": 82
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-FAR_POS-01-HOLD-red",
+          "reason": "PAUSED_REPEAT_CONTACT_MECHANISM",
+          "slot": 86
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-FAR_POS-01-PLACE-red-left",
+          "reason": "PAUSED_REPEAT_CONTACT_MECHANISM",
+          "slot": 90
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-FAR_POS-01-PLACE-red-right",
+          "reason": "PAUSED_REPEAT_CONTACT_MECHANISM",
+          "slot": 94
+        }
+      ],
+      "pending": [
+        {
+          "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-blue-left",
+          "max_ticks": 50703,
+          "slot": 24,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-NEAR_POS-00-HOLD-blue",
+          "max_ticks": 35703,
+          "slot": 25,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-NEAR_POS-00-PLACE-red-left",
+          "max_ticks": 50703,
+          "slot": 27,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-NEAR_POS-00-PLACE-blue-right",
+          "max_ticks": 50703,
+          "slot": 28,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-NEAR_POS-00-PLACE-blue-right",
+          "max_ticks": 50703,
+          "slot": 29,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-NEAR_POS-00-HOLD-red",
+          "max_ticks": 35703,
+          "slot": 31,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-NEAR_POS-00-HOLD-blue",
+          "max_ticks": 35703,
+          "slot": 32,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-NEAR_POS-00-PLACE-blue-left",
+          "max_ticks": 50703,
+          "slot": 33,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-NEAR_POS-00-PLACE-red-right",
+          "max_ticks": 50703,
+          "slot": 35,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-NEAR_POS-00-PLACE-blue-left",
+          "max_ticks": 50703,
+          "slot": 36,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-NEAR_POS-01-HOLD-blue",
+          "max_ticks": 35703,
+          "slot": 37,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-NEAR_POS-01-PLACE-red-left",
+          "max_ticks": 50703,
+          "slot": 39,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-NEAR_POS-01-PLACE-blue-right",
+          "max_ticks": 50703,
+          "slot": 40,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-NEAR_POS-01-PLACE-blue-right",
+          "max_ticks": 50703,
+          "slot": 41,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-NEAR_POS-01-HOLD-red",
+          "max_ticks": 35703,
+          "slot": 43,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-NEAR_POS-01-HOLD-blue",
+          "max_ticks": 35703,
+          "slot": 44,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-NEAR_POS-01-PLACE-blue-left",
+          "max_ticks": 50703,
+          "slot": 45,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-NEAR_POS-01-PLACE-red-right",
+          "max_ticks": 50703,
+          "slot": 47,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-NEAR_POS-01-PLACE-blue-left",
+          "max_ticks": 50703,
+          "slot": 48,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-FAR_NEG-00-HOLD-blue",
+          "max_ticks": 35703,
+          "slot": 49,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-FAR_NEG-00-PLACE-red-left",
+          "max_ticks": 50703,
+          "slot": 51,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-FAR_NEG-00-PLACE-blue-right",
+          "max_ticks": 50703,
+          "slot": 52,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-FAR_NEG-00-PLACE-blue-right",
+          "max_ticks": 50703,
+          "slot": 53,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-FAR_NEG-00-HOLD-red",
+          "max_ticks": 35703,
+          "slot": 55,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-FAR_NEG-00-HOLD-blue",
+          "max_ticks": 35703,
+          "slot": 56,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-FAR_NEG-00-PLACE-blue-left",
+          "max_ticks": 50703,
+          "slot": 57,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-FAR_NEG-00-PLACE-red-right",
+          "max_ticks": 50703,
+          "slot": 59,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-FAR_NEG-00-PLACE-blue-left",
+          "max_ticks": 50703,
+          "slot": 60,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-FAR_NEG-01-HOLD-blue",
+          "max_ticks": 35703,
+          "slot": 61,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-FAR_NEG-01-PLACE-red-left",
+          "max_ticks": 50703,
+          "slot": 63,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-FAR_NEG-01-PLACE-blue-right",
+          "max_ticks": 50703,
+          "slot": 64,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-FAR_NEG-01-PLACE-blue-right",
+          "max_ticks": 50703,
+          "slot": 65,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-FAR_NEG-01-HOLD-red",
+          "max_ticks": 35703,
+          "slot": 67,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-FAR_NEG-01-HOLD-blue",
+          "max_ticks": 35703,
+          "slot": 68,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-FAR_NEG-01-PLACE-blue-left",
+          "max_ticks": 50703,
+          "slot": 69,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-FAR_NEG-01-PLACE-red-right",
+          "max_ticks": 50703,
+          "slot": 71,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-FAR_NEG-01-PLACE-blue-left",
+          "max_ticks": 50703,
+          "slot": 72,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-FAR_POS-00-HOLD-blue",
+          "max_ticks": 35703,
+          "slot": 73,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-FAR_POS-00-PLACE-red-left",
+          "max_ticks": 50703,
+          "slot": 75,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-FAR_POS-00-PLACE-blue-right",
+          "max_ticks": 50703,
+          "slot": 76,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-FAR_POS-00-PLACE-blue-right",
+          "max_ticks": 50703,
+          "slot": 77,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-FAR_POS-00-HOLD-red",
+          "max_ticks": 35703,
+          "slot": 79,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-FAR_POS-00-HOLD-blue",
+          "max_ticks": 35703,
+          "slot": 80,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-FAR_POS-00-PLACE-blue-left",
+          "max_ticks": 50703,
+          "slot": 81,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-FAR_POS-00-PLACE-red-right",
+          "max_ticks": 50703,
+          "slot": 83,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-FAR_POS-00-PLACE-blue-left",
+          "max_ticks": 50703,
+          "slot": 84,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-FAR_POS-01-HOLD-blue",
+          "max_ticks": 35703,
+          "slot": 85,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-FAR_POS-01-PLACE-red-left",
+          "max_ticks": 50703,
+          "slot": 87,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-FAR_POS-01-PLACE-blue-right",
+          "max_ticks": 50703,
+          "slot": 88,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-FAR_POS-01-PLACE-blue-right",
+          "max_ticks": 50703,
+          "slot": 89,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-FAR_POS-01-HOLD-red",
+          "max_ticks": 35703,
+          "slot": 91,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-FAR_POS-01-HOLD-blue",
+          "max_ticks": 35703,
+          "slot": 92,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-FAR_POS-01-PLACE-blue-left",
+          "max_ticks": 50703,
+          "slot": 93,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-FAR_POS-01-PLACE-red-right",
+          "max_ticks": 50703,
+          "slot": 95,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-FAR_POS-01-PLACE-blue-left",
+          "max_ticks": 50703,
+          "slot": 96,
+          "split": "TRAIN"
+        },
+        {
+          "condition": "MEV1-VAL-F1-NEAR_NEG-00-HOLD-blue",
+          "max_ticks": 35703,
+          "slot": 97,
+          "split": "VAL"
+        },
+        {
+          "condition": "MEV1-VAL-F2-NEAR_POS-00-HOLD-red",
+          "max_ticks": 35703,
+          "slot": 98,
+          "split": "VAL"
+        },
+        {
+          "condition": "MEV1-VAL-F1-NEAR_NEG-00-PLACE-red-left",
+          "max_ticks": 50703,
+          "slot": 99,
+          "split": "VAL"
+        },
+        {
+          "condition": "MEV1-VAL-F2-NEAR_POS-00-PLACE-blue-right",
+          "max_ticks": 50703,
+          "slot": 100,
+          "split": "VAL"
+        },
+        {
+          "condition": "MEV1-VAL-F1-NEAR_NEG-00-PLACE-blue-right",
+          "max_ticks": 50703,
+          "slot": 101,
+          "split": "VAL"
+        },
+        {
+          "condition": "MEV1-VAL-F2-NEAR_POS-00-PLACE-red-left",
+          "max_ticks": 50703,
+          "slot": 102,
+          "split": "VAL"
+        },
+        {
+          "condition": "MEV1-VAL-F1-NEAR_NEG-00-HOLD-red",
+          "max_ticks": 35703,
+          "slot": 103,
+          "split": "VAL"
+        },
+        {
+          "condition": "MEV1-VAL-F2-NEAR_POS-00-HOLD-blue",
+          "max_ticks": 35703,
+          "slot": 104,
+          "split": "VAL"
+        },
+        {
+          "condition": "MEV1-VAL-F1-NEAR_NEG-00-PLACE-blue-left",
+          "max_ticks": 50703,
+          "slot": 105,
+          "split": "VAL"
+        },
+        {
+          "condition": "MEV1-VAL-F2-NEAR_POS-00-PLACE-red-right",
+          "max_ticks": 50703,
+          "slot": 106,
+          "split": "VAL"
+        },
+        {
+          "condition": "MEV1-VAL-F1-NEAR_NEG-00-PLACE-red-right",
+          "max_ticks": 50703,
+          "slot": 107,
+          "split": "VAL"
+        },
+        {
+          "condition": "MEV1-VAL-F2-NEAR_POS-00-PLACE-blue-left",
+          "max_ticks": 50703,
+          "slot": 108,
+          "split": "VAL"
+        },
+        {
+          "condition": "MEV1-VAL-F1-FAR_NEG-00-HOLD-blue",
+          "max_ticks": 35703,
+          "slot": 109,
+          "split": "VAL"
+        },
+        {
+          "condition": "MEV1-VAL-F2-FAR_POS-00-HOLD-red",
+          "max_ticks": 35703,
+          "slot": 110,
+          "split": "VAL"
+        },
+        {
+          "condition": "MEV1-VAL-F1-FAR_NEG-00-PLACE-red-left",
+          "max_ticks": 50703,
+          "slot": 111,
+          "split": "VAL"
+        },
+        {
+          "condition": "MEV1-VAL-F2-FAR_POS-00-PLACE-blue-right",
+          "max_ticks": 50703,
+          "slot": 112,
+          "split": "VAL"
+        },
+        {
+          "condition": "MEV1-VAL-F1-FAR_NEG-00-PLACE-blue-right",
+          "max_ticks": 50703,
+          "slot": 113,
+          "split": "VAL"
+        },
+        {
+          "condition": "MEV1-VAL-F2-FAR_POS-00-PLACE-red-left",
+          "max_ticks": 50703,
+          "slot": 114,
+          "split": "VAL"
+        },
+        {
+          "condition": "MEV1-VAL-F1-FAR_NEG-00-HOLD-red",
+          "max_ticks": 35703,
+          "slot": 115,
+          "split": "VAL"
+        },
+        {
+          "condition": "MEV1-VAL-F2-FAR_POS-00-HOLD-blue",
+          "max_ticks": 35703,
+          "slot": 116,
+          "split": "VAL"
+        },
+        {
+          "condition": "MEV1-VAL-F1-FAR_NEG-00-PLACE-blue-left",
+          "max_ticks": 50703,
+          "slot": 117,
+          "split": "VAL"
+        },
+        {
+          "condition": "MEV1-VAL-F2-FAR_POS-00-PLACE-red-right",
+          "max_ticks": 50703,
+          "slot": 118,
+          "split": "VAL"
+        },
+        {
+          "condition": "MEV1-VAL-F1-FAR_NEG-00-PLACE-red-right",
+          "max_ticks": 50703,
+          "slot": 119,
+          "split": "VAL"
+        },
+        {
+          "condition": "MEV1-VAL-F2-FAR_POS-00-PLACE-blue-left",
+          "max_ticks": 50703,
+          "slot": 120,
+          "split": "VAL"
+        }
+      ],
+      "pending_tick_cap": 3615537,
+      "population": "d8762c633e7897ade790ecc736704e5304e01ba8c0a1853f1cd87054ad012774",
+      "retained_paused_cells": [
+        [
+          "F2",
+          "HOLD-red"
+        ],
+        [
+          "F2",
+          "PLACE-red-left"
+        ],
+        [
+          "F2",
+          "PLACE-red-right"
+        ]
+      ],
+      "status": "COLD_SUFFIX_LEDGER_RECONCILED"
+    },
+    "source": "20a4cd0f88862c2fb5182f681f22013a52a99f75567b55931464192669565814",
+    "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-suffix-20261122-02/RESULT.private.json",
+    "sha256": "57c74ea075912e22fd6cb187a9e5953723035cf49602a24abe6833fe825aec2d",
+    "epoch": 1795306827.866385
+  },
+  "training": {
+    "live": {
+      "9": {
+        "PROGRESS.private.json": {
+          "phase": 3168,
+          "cursors": {
+            "target": 202752,
+            "robodojo": 101376,
+            "libero": 101376
+          },
+          "epoch": 1795307070.2885516,
+          "job": "728212.hopper-m-02"
+        },
+        "DEPENDENCY_ACTUAL.json": {
+          "job": "728212.hopper-m-02",
+          "start": 2767,
+          "stop": 3534
+        },
+        "RELEASE.json": {
+          "dependency": "afterok:728156.hopper-m-02",
+          "epoch": 1795291377.7946317,
+          "job": "728212.hopper-m-02"
+        }
+      },
+      "10": {
+        "RELEASE.json": {
+          "dependency": "afterok:728212.hopper-m-02",
+          "epoch": 1795302662.29801,
+          "job": "728341.hopper-m-02"
+        }
+      },
+      "epoch": 1795307071.574979,
+      "step": 3169,
+      "raw_update": {},
+      "scheduler_query_status": "TimeoutExpired"
+    },
+    "last_full_checkpoint": 3100,
+    "active_course": "TRAIN-052",
+    "train_ready": "TRAIN-067",
+    "train_ready_demonstrations": 67,
+    "train_ready_windows": 5823,
+    "wave_a_accesses": 0
+  },
+  "new_costs": {
+    "native_requests": 0,
+    "native_ticks": 0,
+    "optimizer_updates": 0,
+    "training_visits": 0,
+    "model_generations": 0,
+    "new_pbs_jobs": 0,
+    "new_production_units": 0
+  },
+  "n2": "NOT_RUN",
+  "n4": "NOT_RUN"
+}
