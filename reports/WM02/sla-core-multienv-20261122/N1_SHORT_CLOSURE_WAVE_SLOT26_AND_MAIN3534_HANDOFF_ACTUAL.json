@@ -1,0 +1,217 @@
+{
+  "plan": "4fe2c8cf1b69c168b2e3079e061bb7c702089cd3",
+  "time_epoch": 1795313716.875394,
+  "wave_a": {
+    "total_registered": 120,
+    "terminal_attempts": 26,
+    "attempts_with_physics": 25,
+    "closed_ticks": 698544,
+    "g7_admissions": 10,
+    "slot25": {
+      "native_sha": "01ab1364239b8e8dc392a7ffa3cd02c36eb50a6b0defba311235589053e38d89",
+      "parent_sha": "7cf7c006b608fabb5defc1e12291596a41238d86a353b9cc4b06bb68f19e0281",
+      "requests": 1,
+      "ticks": 20578,
+      "registered_limit_wall_s": 1800,
+      "technical_failure": "WALL_CLOCK_LIMIT",
+      "known_grasped_atoms": 52,
+      "last_saved_score": {
+        "task_success": false,
+        "native_step": 20453,
+        "base_directional_motion_m": 0.08665041471458053,
+        "lift_m": 0.008106410928645835,
+        "target_grasp": true
+      },
+      "unsafe": false,
+      "admitted": false
+    },
+    "slot26": {
+      "native_sha": "741c8f3be10c3ecd4180ba80d9fcbeac97a2ab0d71165dd0fde54106a881ccbd",
+      "parent_sha": "3ff311fafd9030a329309f4f90e3e01caf9a3ef0ca9d079f2bade1d6e26efe43",
+      "journal_sha": "9ec1ddcdc1f31b2e92c23b05860925f0b5a2a8d6b8d59ca18565f6009900a8ff",
+      "request_attempts": 1,
+      "actual_native_ticks": 0,
+      "failure": "DEPLOYED_RUNNER_OMITTED_BOUND_PAYLOAD_OUTPUT_ROUTING",
+      "simulator_started": false,
+      "grasp_observation": null,
+      "old_attempt_reused": false,
+      "native_unit_outcome": "UNKNOWN_RECONCILE",
+      "prospective_fix_scope": "Explicit storage entry point is now required from the sealed runner at preflight."
+    },
+    "snapshot": "TRAIN-069",
+    "windows": 6081,
+    "optimizer_visits_wave_a": 0
+  },
+  "n1": {
+    "systemd": {
+      "MainPID": "3091962",
+      "ExecMainStatus": "0",
+      "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-n1-engineering-20261122-02.service",
+      "ActiveState": "active",
+      "InvocationID": "a23824d67fa646afb3ba0f6ab1184dc8"
+    },
+    "prior_parent_terminal": "aad5d0a7e632a2fb82748e7bd6ed2f2541992cc9bc853684375d8b1c1c09db6d",
+    "source": "454510270a6d35594c2ea1b4ecd7047b2f4ac7ff",
+    "source_spec": "2216ee091588d8414c1abd50c0d1d882693271f804f3aa771919a4e7c311c026",
+    "deadline": 1795342066.5377913,
+    "local_output_device": 66308,
+    "carried_requests": 6,
+    "carried_ticks": 64218,
+    "new_terminal_requests": 2,
+    "new_terminal_ticks": 21406,
+    "short_completed": 8,
+    "short_matching_frozen_tolerances": 4,
+    "in_flight": {
+      "id": "MEV1-ENG-N1-FULL-00",
+      "ticks": 7303,
+      "child_pid": 3097468,
+      "child_spec": "3d90b1129d3f5cfe76d4825312243ee4953aaf5c5391b4a5a57dc5337d1240f7"
+    },
+    "pid": 3091962,
+    "initially_unstarted": [
+      "MEV1-ENG-N1-SHORT-06",
+      "MEV1-ENG-N1-SHORT-07",
+      "MEV1-ENG-N1-FULL-00",
+      "MEV1-ENG-N1-FULL-01",
+      "MEV1-ENG-N1-FULL-02",
+      "MEV1-ENG-N1-FULL-03"
+    ],
+    "engineering_admissions": 0,
+    "training_visits": 0,
+    "short_06": {
+      "id": "MEV1-ENG-N1-SHORT-06",
+      "requests": 1,
+      "ticks": 10703,
+      "result": "b658d653ef5906a4fb1d0a7016fb50cc6863d174e710bc09340fbf8381bae462",
+      "observed": {
+        "status": "WITHIN_FROZEN_STATE_TOLERANCE",
+        "matched_atoms": 200,
+        "paired_RGB": 20,
+        "limits": {
+          "EEF_translation_m": 0.005999447781465302,
+          "EEF_angle_rad": 0.0226721509438131,
+          "mount_translation_m": 0.011078147106107416,
+          "mount_angle_rad": 0.03166960249425338,
+          "jaw_fraction": 0.001
+        },
+        "maximum": {
+          "EEF_translation_m": 0.0035588197841680204,
+          "EEF_angle_rad": 0.010467870184679628,
+          "mount_translation_m": 0.005388673834142239,
+          "mount_angle_rad": 0.015819335980369553,
+          "jaw_fraction": 0.00028362009613525085
+        },
+        "historical_recording_sha256": "c40e9957036f71cff0dfbd1319b79029f020d7f8d4874675c5c7d5c559caf72a",
+        "controller_selected_reference": "NOT_EXPORTED_BY_FROZEN_CONTROLLER"
+      },
+      "archive": {
+        "archive_witness": "eb0aec92f8469fadde0d1e42abda13be95455acf18f9f20d9e983006dae3bfb9",
+        "verified_files": 116,
+        "bytes": 264061720,
+        "tree_sha256": "b311b935f651d1db169f2152a7b0a19848016635eea40ef2495aff34dc9def74",
+        "no_duplicate": true
+      },
+      "wall_s": 131.19383399095386
+    },
+    "short_07": {
+      "id": "MEV1-ENG-N1-SHORT-07",
+      "requests": 1,
+      "ticks": 10703,
+      "result": "573b0732ff446a1b4bf26af487452caae74ffa4f381c135c4aeb5dfeb2bea80b",
+      "observed": {
+        "status": "OUTSIDE_FROZEN_STATE_TOLERANCE",
+        "matched_atoms": 200,
+        "paired_RGB": 20,
+        "limits": {
+          "EEF_translation_m": 0.0025152321752068725,
+          "EEF_angle_rad": 0.017453292519943295,
+          "mount_translation_m": 0.002185499738484875,
+          "mount_angle_rad": 0.017453292519943295,
+          "jaw_fraction": 0.001
+        },
+        "maximum": {
+          "EEF_translation_m": 0.004425165362077763,
+          "EEF_angle_rad": 0.009069078674242772,
+          "mount_translation_m": 0.005945008671891053,
+          "mount_angle_rad": 0.013302373716246346,
+          "jaw_fraction": 0.00030012965797399094
+        },
+        "historical_recording_sha256": "84d2bdc758a0cba5a5ee8cae6fc923efdce732a128f1fa5d0e36098379274ae9",
+        "controller_selected_reference": "NOT_EXPORTED_BY_FROZEN_CONTROLLER"
+      },
+      "archive": {
+        "archive_witness": "fd9e53dcfc618c45da17bd9dab0d48a4c1b171a9be0e0fadf5940c0e56678458",
+        "verified_files": 116,
+        "bytes": 264433235,
+        "tree_sha256": "d7824a920d1d637e11da6c63161c0a29ea0b490a1775a501abbff5357de048c3",
+        "no_duplicate": true
+      },
+      "wall_s": 130.80567315220833
+    },
+    "rehearsal": {
+      "ticks": 10703,
+      "files": 116,
+      "bytes": 291892857,
+      "tree_sha256": "e8c29db2af9796a87956b799442674d316110987f786a7db51312e96a2a76ef3"
+    },
+    "n2": "NOT_RUN",
+    "n4": "NOT_RUN"
+  },
+  "hopper": {
+    "actual_updates": 3571,
+    "source": "b9581196d0acd02fb748222988e5a5543ce1f232",
+    "phase3534_event": "4189b28425000af5056143b9347eb9ec6292a50c54084b466beee6ad0882b945",
+    "phase3534_cursors": {
+      "lineage_cursors": {
+        "libero": 201088,
+        "robodojo": 201088,
+        "target": 370176
+      },
+      "lineage_updates": 6034,
+      "phase_step": 3534,
+      "role_training_full_generations": 14136,
+      "role_updates": 3534,
+      "role_visits": {
+        "libero": 113088,
+        "robodojo": 113088,
+        "target": 226176
+      },
+      "target_bank_cursor": 98176
+    },
+    "boundary_checkpoint": "615927b095ebfd15b52448c037ee9a5d8493ac7f5dc68c4c5eb8723c6208a800",
+    "archive_receipt": "b22d888e458f3981985df15c7373885194a5636f56fa2b3373fd2826296f40fc",
+    "independent_vanda": {
+      "status": "INDEPENDENT_VANDA_140_ARRAY_REHASH_MATCH",
+      "checkpoint": "615927b095ebfd15b52448c037ee9a5d8493ac7f5dc68c4c5eb8723c6208a800",
+      "arrays": 140,
+      "files": 141,
+      "bytes": 5547651600,
+      "epoch": 1795313146.9737744,
+      "seconds": 8.925046349992044
+    },
+    "finished_job": {
+      "id": "728212.hopper-m-02",
+      "result_sha256": "421f93dd403f0a3f639a02e7450209d2014098d40edfe55aac10695b4a154f94",
+      "status": "SEGMENT_COMPLETE"
+    },
+    "active_job": {
+      "id": "728341.hopper-m-02",
+      "start": 3534,
+      "stop": 4301,
+      "dependency_receipt": "b3234f842aa047bde25254c41f528b44673f7da94886d4c9270aa57554a09b16"
+    },
+    "queued_job": {
+      "id": "728440.hopper-m-02",
+      "pbs_name": "slachv1t11",
+      "dependency": "afterok:728341.hopper-m-02",
+      "state": "H",
+      "reserved_seconds": 21600,
+      "reserved_gpu_count": 1,
+      "actual_updates": 0,
+      "conservative_earlier_reserved_seconds": 79950
+    },
+    "new_PBS_jobs": 1,
+    "new_cpu_only_PBS_jobs": 0,
+    "current_training_snapshot": "TRAIN-052"
+  }
+}
