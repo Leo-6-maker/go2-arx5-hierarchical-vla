@@ -2,6 +2,7 @@
 import hashlib
 import json
 import os
+import shutil
 import stat
 from pathlib import Path
 
@@ -70,12 +71,13 @@ def maximum_wall_seconds(spec, original_seconds):
 
 
 def initialize(adapter):
+    persistent = None
     if configuration(adapter.spec) is None:
         storage = adapter.spec.get('multienv_payload_storage')
         if not storage or 'live_control' not in storage:
             return
         from scripts.sla.core_multienv_payload import validate_live_control
-        validate_live_control(adapter.spec, Path(adapter.output))
+        persistent = validate_live_control(adapter.spec, Path(adapter.output))
     output = Path(adapter.output).resolve(strict=True)
     shm = Path('/dev/shm')
     mounts = Path('/proc/self/mountinfo').read_text().splitlines()
@@ -92,16 +94,25 @@ def initialize(adapter):
     root = parent / identity[:24]
     root.mkdir(mode=0o700)  # No adoption or overwrite of an unknown live world.
     adapter.live_control_output = root
+    journal = output / 'state.bin.journal'
+    journal_target = journal
+    journal_details = dict(journal='DURABLE_ORIGINAL_STATE_JOURNAL')
+    if persistent is not None:
+        journal_target, cap = persistent
+        adapter.local_state_journal = persistent
+        journal_details = dict(journal='DURABLE_LOCAL_STATE_JOURNAL',journal_live_path=str(journal_target),
+                               journal_max_bytes=cap)
+        journal.symlink_to(journal_target)
+    journal_target.open('xb').close()
     from .storage import write_json
     write_json(output / 'LIVE_CONTROL.private.json', dict(version=VERSION,
         output=str(output), live_output=str(root), output_identity_sha256=identity,
         files=list(FILES), max_bytes=MAX_BYTES, trace_max_bytes=TRACE_MAX_BYTES,
-        journal='DURABLE_ORIGINAL_STATE_JOURNAL',
+        **journal_details,
         trace_persistence='RAW_BYTES_ARCHIVED_AFTER_ALL_OWNED_CHILDREN_TERMINATE'))
     # The frozen native recorder derives this filename from state.bin. Keep
     # that append stream on the original disk, outside the bounded tmpfs set.
-    (output / 'state.bin.journal').open('xb').close()
-    (root / 'state.bin.journal').symlink_to(output / 'state.bin.journal')
+    (root / journal.name).symlink_to(journal_target)
     for name in FILES:
         (output / name).symlink_to(root / name)
 
@@ -113,6 +124,13 @@ def check(adapter):
     control_bytes = trace_bytes = 0
     for path in root.iterdir():
         if path.name == 'state.bin.journal':
+            persistent = getattr(adapter,'local_state_journal',None)
+            if persistent is not None:
+                journal, cap = persistent
+                info = journal.lstat()
+                if path.readlink() != journal or not stat.S_ISREG(info.st_mode) or info.st_size > cap:
+                    raise RuntimeError('BOUNDED_LOCAL_STATE_JOURNAL_CHANGED')
+                continue
             if not path.is_symlink() or path.resolve() != (Path(adapter.output) / path.name).resolve():
                 raise RuntimeError('ORIGINAL_DURABLE_JOURNAL_ROUTE_CHANGED')
             continue
@@ -135,6 +153,25 @@ def check(adapter):
             continue  # A same-directory atomic publication just completed.
     if control_bytes > MAX_BYTES or trace_bytes > TRACE_MAX_BYTES:
         raise MemoryError('BOUNDED_LIVE_CONTROL_BYTES_EXCEEDED')
+
+
+def archive_local_journal(source, destination):
+    from .storage import digest
+
+    if destination.readlink() != source:
+        raise RuntimeError('CANONICAL_DURABLE_JOURNAL_ALIAS_CHANGED')
+    expected = digest(source)
+    size = source.stat().st_size
+    temporary = destination.with_suffix('.journal.archive-pending')
+    with source.open('rb') as reader, temporary.open('xb') as writer:
+        os.fsync(reader.fileno())
+        shutil.copyfileobj(reader,writer,length=1024**2)
+        writer.flush()
+        os.fsync(writer.fileno())
+    if temporary.stat().st_size != size or digest(temporary) != expected:
+        raise IOError('LOCAL_STATE_JOURNAL_ARCHIVE_READBACK')
+    os.replace(temporary,destination)
+    return dict(name=destination.name,bytes=size,sha256=expected)
 
 
 def archive(adapter):
@@ -165,9 +202,22 @@ def archive(adapter):
             destination.unlink()
             rows.append(dict(name=name, absent_before_native_publication=True))
     from .storage import write_json
+    persistent = getattr(adapter,'local_state_journal',None)
+    if persistent is not None:
+        state_journal, _ = persistent
+        rows.append(archive_local_journal(state_journal,output/state_journal.name))
     write_json(output / 'LIVE_CONTROL_ARCHIVE.private.json', dict(version=VERSION,
-        children_terminal=True, files=rows, journal_retained_on_original_disk=True,
+        children_terminal=True, files=rows, journal_retained_on_original_disk=persistent is None,
         raw_trace_archived_without_reencoding=True))
+    if persistent is not None:
+        fd = os.open(output,os.O_RDONLY|os.O_DIRECTORY)
+        try:
+            os.fsync(fd)
+        finally:
+            os.close(fd)
+        state_journal.unlink()
+        state_journal.parent.rmdir()
+        adapter.local_state_journal = None
     # Leave tmpfs evidence intact if any archive step above failed.
     for path in root.iterdir():
         path.unlink()

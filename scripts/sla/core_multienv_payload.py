@@ -10,6 +10,7 @@ from scripts.sla.core_multienv_scope import PLAN, SCOPE
 GIB = 1024**3
 LOCAL_CASE_RESERVE = GIB
 LIVE_CONTROL = 'CORELAB_MULTIENV_V1_TMPFS_CONTROL_WITH_NFS_JOURNAL'
+LOCAL_JOURNAL = 'CORELAB_MULTIENV_V1_TMPFS_CONTROL_WITH_LOCAL_DURABLE_JOURNAL'
 
 
 def payload_volume(control, storage):
@@ -49,21 +50,35 @@ def case_volume(case, local):
     folder = Path(case['registered_root'])
     campaign = Path(case['campaign_root'])
     condition = case['panel_entry_id']
-    if (case['scope'] != SCOPE or case['goal_plan_sha'] != PLAN or case['sim_only_role'] != 'EXPERT'
+    storage = case['multienv_payload_storage']
+    if case['scope'] != SCOPE:
+        from .core_multienv_red_hold_pilot import SCOPE as REPAIR_SCOPE, SLOT, VERSION
+
+        if (case['scope'] != REPAIR_SCOPE or condition != SLOT or case.get('teacher_version') != VERSION
+                or storage.get('live_control') != LOCAL_JOURNAL):
+            raise PermissionError('Local journal repair must use the original unopened F2 HOLD card')
+    if (case['goal_plan_sha'] != PLAN or case['sim_only_role'] != 'EXPERT'
             or case['hardware_connections_allowed'] is not False or folder != campaign/'cases'/condition
             or folder.name != condition or local != folder/'native-01'):
         raise PermissionError('Payload storage is limited to one registered Core expert case')
-    return payload_volume(folder, case['multienv_payload_storage'])/condition
+    return payload_volume(folder, storage)/condition
 
 
 def validate_live_control(case, local):
     """Allow the existing bounded live files on tmpfs; keep the raw path on NFS."""
     storage = case['multienv_payload_storage']
     target = case_volume(case, local)
-    if (storage['live_control'] != LIVE_CONTROL or not local.is_symlink()
+    if (storage['live_control'] not in (LIVE_CONTROL,LOCAL_JOURNAL) or not local.is_symlink()
             or local.readlink() != target or target.resolve(strict=True) != target
             or not target.is_dir() or target.stat().st_uid != os.getuid()):
         raise PermissionError('Expected the registered private Wave A NFS raw output')
+    if storage['live_control'] == LOCAL_JOURNAL:
+        if not capacity(local.parent,storage,case['multienv'])['passed']:
+            raise PermissionError('The single-world local and NFS journal reserves must pass')
+        journal = local.parent/'durable-live-journal'
+        journal.mkdir(mode=0o700)
+        return journal/'state.bin.journal', LOCAL_CASE_RESERVE
+    return None
 
 
 def create_output(case, local):

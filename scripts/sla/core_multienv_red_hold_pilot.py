@@ -19,6 +19,7 @@ from go2arx5_vla.world_model.storage import digest
 from scripts.pi0292.durable import OwnerLock, read, write
 from scripts.pi0294.e1.journal import Journal
 from scripts.sla.core_hopper_collection import reason
+from scripts.sla.core_multienv_payload import LOCAL_JOURNAL, capacity
 from scripts.sla.core_multienv_scope import AUTHORITY, OWNER, PLAN, SCOPE as ORIGINAL_SCOPE, order
 from scripts.wm02.multitask_stage_cards_v6 import case_card, cold_native_owner, panel_cards, pin, require_unstarted_cases
 from scripts.wm02.multitask_teacher_campaign_v6 import interface_records, teacher_row
@@ -34,6 +35,9 @@ STOP_SIGNATURE = ['ILLEGAL_CONTACT', 'DESCEND', [['task_blue_cube', 'x5_link6']]
 SLOT_TICKS = 35703
 MAX_RUNTIME = 4 * 3600
 GIB = 1024**3
+PRIOR_PILOT = 'b7ad7e5771093ebe1813b42e080c0c7509b8f62732ad5058ce6166fbcec4bde5'
+SLOT25_SPEC = '761d75760d972dc1f6890be87aa84f0848ea82a7b83afdf67cd7cc1008315f0c'
+SLOT25 = 'MEV1-TRAIN-F1-NEAR_POS-00-HOLD-blue'
 
 
 def bind(spec):
@@ -124,12 +128,77 @@ def handoff(wave, proof, rows):
                 later_slot=here, pilot_slot=candidate, wave_unit=observed['unit'])
 
 
+def reopen_binding(reopen, wave):
+    """Verify the closed unpaid pilot and keep its original expiry."""
+    old, prefix = read_pin(reopen['pilot']), read_pin(reopen['slot25'])
+    root = Path(old['registered_root'])
+    prior = read_pin(reopen['pilot_terminal'])
+    lease = read(root/'control/LEASE.json')
+    status = unit_state('wm02-'+root.name)
+    if (reopen['pilot']['sha256'] != PRIOR_PILOT or reopen['slot25']['sha256'] != SLOT25_SPEC
+            or Path(reopen['pilot']['path']) != root/'EXECUTION_SPEC.json'
+            or Path(reopen['pilot_terminal']['path']) != root/'RESULT.private.json'
+            or lease['status'] != 'CLOSED' or lease['spec_sha256'] != PRIOR_PILOT
+            or status['ActiveState'] != 'inactive' or status['MainPID'] != '0'
+            or prior['source_sha'] != old['source_sha'] or prior['condition'] != SLOT
+            or prior['native_state'] != 'NOT_RUN' or prior['native_requests'] != 0 or prior['exit_code']
+            or (root/'cases'/SLOT).exists() or (root/'control'/'journal'/(SLOT+'.json')).exists()
+            or old['original_wave']['sha256'] != WAVE_SHA or old['teacher_preflight']['sha256'] != PREFLIGHT_SHA
+            or prefix['multienv_cold_handoff']['producer'] != old['original_wave']
+            or prefix['multienv_cold_handoff']['conditions'] != [SLOT25]
+            or any(prefix[key] != wave[key] for key in ('mobile_world_lock','registry','compiled_population'))):
+        raise PermissionError('The original F2 pilot must be closed and unpaid under the same Wave A authority')
+    return old, prefix
+
+
+def after_slot25(prefix, prefix_pin):
+    root = Path(prefix['registered_root'])
+    terminal = root/'RESULT.private.json'
+    status = unit_state('wm02-'+root.name)
+    if status['MainPID'] != '0' or not terminal.is_file():
+        return None
+    ledger = read(terminal)
+    rec, = ledger['records']
+    journal = Journal(root/'control/journal',root.name).completed(SLOT25,dict(
+        condition=SLOT25,population=prefix['compiled_population']['sha256'],source=prefix['source_sha']))
+    folder = root/'cases'/SLOT25
+    case, native = read_pin(journal['spec']), read_pin(journal['result'])
+    parent_lease, lease = (read(p/'control/LEASE.json') for p in (root,folder))
+    score = teacher_row(case,native)
+    if (status['ActiveState'] not in ('inactive','failed') or ledger['source_sha'] != prefix['source_sha']
+            or Path(prefix_pin['path']) != root/'EXECUTION_SPEC.json'
+            or parent_lease['status'] != 'CLOSED' or parent_lease['spec_sha256'] != prefix_pin['sha256']
+            or lease['status'] != 'CLOSED' or lease['spec_sha256'] != journal['spec']['sha256']
+            or Path(journal['spec']['path']) != folder/'EXECUTION_SPEC.json'
+            or Path(journal['result']['path']) != folder/'RESULT.private.json' or journal['result'] != rec['result']
+            or ledger['records'] != read(root/'RECORDS.private.json') or rec['condition'] != SLOT25
+            or case['panel_entry_id'] != SLOT25 or native['source_sha'] != prefix['source_sha']
+            or native['physical_requests'] != 1 or rec['requests'] != 1 or ledger['paid_requests'] != 1
+            or not 0 < rec['ticks'] <= case['max_ticks'] or native['actual_native_integrations'] != rec['ticks']
+            or rec['ticks'] != ledger['verified_ticks'] or fatal_control_violation(score)
+            or not native['shutdown_clean'] or native['trace_audit']['status'] != 'RECORDED_TRACE_CHECKS_PASS'):
+        raise PermissionError('Preserve slot 25 for terminal reconciliation before admitting a new world owner')
+    if score['technical_failure']:
+        if (ledger['unreconciled'] != SLOT25 or ledger['exit_code'] != 1 or native['unsafe']
+                or native['wall_s'] < case['wall_limit_s']
+                or not native['failure'].strip().endswith('TimeoutError: AUTO1_FINITE_ENDPOINT_OR_OPERATOR_STOP')
+                or any((p/'STOP.json').exists() for p in (root,folder,folder/'native-01'))):
+            raise PermissionError('Only the verified original wall limit can close a technical predecessor')
+    elif ledger['exit_code'] or ledger['unreconciled']:
+        raise PermissionError('The preceding native card must have settled before entering the F2 pilot')
+    return dict(spec=prefix_pin,terminal=pin(terminal),paid=1,ticks=rec['ticks'],admitted=bool(rec['admitted']))
+
+
 def available(spec):
     root = Path(spec['registered_root'])
     disk = shutil.disk_usage(root)
     memory = int(next(x.split()[1] for x in Path('/proc/meminfo').read_text().splitlines()
                       if x.startswith('MemAvailable:'))) * 1024
     limits = spec['multienv']
+    if 'multienv_payload_storage' in spec:
+        volumes = capacity(root,spec['multienv_payload_storage'],limits)
+        write(root/'CAPACITY.private.json',dict(epoch=time.time(),volumes=volumes,available_memory=memory))
+        return volumes['passed'] and memory >= 13 * GIB
     reserve = sum(limits[k] for k in ('trajectory_reserve_bytes','snapshot_reserve_bytes','transfer_reserve_bytes'))
     floor = max(50 * GIB, int(.15 * disk.total)) + 8 * GIB
     write(root/'CAPACITY.private.json', dict(epoch=time.time(), free=disk.free, floor=floor,
@@ -142,6 +211,8 @@ def make_case(spec, template, item, lease_end):
     case.update(registry_scope=SCOPE, collection_split='TRAIN', compiled_population=spec['compiled_population'],
                 expert_training_eligible=True, resident_server_spec=None, teacher_version=VERSION,
                 allocation_deadline_epoch=lease_end, deadline_epoch=lease_end-60)
+    if 'multienv_payload_storage' in spec:
+        case.update(multienv_payload_storage=spec['multienv_payload_storage'],multienv=spec['multienv'])
     return folder, case
 
 
@@ -166,6 +237,15 @@ def prepare(config):
     if not closure or any(digest(source/name) != d for name,d in closure.items()):
         raise ValueError('Pilot source closure changed')
     end = min(wave['deadline_epoch'], time.time()+MAX_RUNTIME)
+    reopen = config.get('reopen')
+    if reopen:
+        old, _ = reopen_binding(reopen,wave)
+        storage = config['payload_storage']
+        if (storage['live_control'] != LOCAL_JOURNAL or not capacity(root.parent,storage,wave['multienv'])['passed']
+                or not handoff(wave,proof,order(population))):
+            raise PermissionError('The reopened pilot needs the original handoff and durable storage reserves')
+        spec.update(reopen=reopen,multienv_payload_storage=storage)
+        end = min(end,old['deadline_epoch'])
     if end < time.time()+2160:
         raise PermissionError('Original finite window has ended')
     dirs(root)
@@ -205,6 +285,15 @@ def run(spec):
     template = next(c for p in read_pin(wave['interface_predecessor'])['cases'] if (c:=read(p))['mobile_condition']['family']=='F2')
     item, = read_pin(spec['registered_panel'])
     journal = Journal(root/'control/journal', root.name)
+    reopen = spec.get('reopen')
+    prefix = reopen_binding(reopen,wave)[1] if reopen else None
+
+    def permission():
+        source = handoff(wave,proof,rows)
+        if source is None or prefix is None:
+            return source
+        terminal = after_slot25(prefix,reopen['slot25'])
+        return dict(source, preceding_card=terminal) if terminal else None
 
     def progress(status, **extra):
         write(root/'PROGRESS.private.json', dict(epoch=time.time(), pid=os.getpid(), stage=status,
@@ -212,7 +301,7 @@ def run(spec):
 
     def stopped():
         return (time.time()+2160 >= spec['deadline_epoch'] or (root/'STOP.json').exists()
-                or (original/'STOP.json').exists() or (student/'STOP.json').exists())
+                or (prefix is None and (original/'STOP.json').exists()) or (student/'STOP.json').exists())
 
     def permitted():
         return not (student/'STUDENT_TURN_READY.private.json').exists() and available(spec) and not stopped()
@@ -245,21 +334,21 @@ def run(spec):
     write(root/'SUPERVISOR.private.json', dict(pid=os.getpid(), epoch=time.time(), source_sha=spec['source_sha']))
     try:
         while not stopped():
-            permission = handoff(wave, proof, rows)
-            if permission is None:
+            ready = permission()
+            if ready is None:
                 progress('WAIT_ORIGINAL_SLOT_HANDOFF')
             elif not permitted():
-                progress('WAIT_CAPACITY_OR_STUDENT_HANDOFF', handoff=permission)
+                progress('WAIT_CAPACITY_OR_STUDENT_HANDOFF', handoff=ready)
             else:
                 try:
                     lock = OwnerLock(spec['mobile_world_lock'])
                 except BlockingIOError:
-                    progress('WAIT_SHARED_WORLD', handoff=permission)
+                    progress('WAIT_SHARED_WORLD', handoff=ready)
                 else:
                     with closing(lock):
-                        if permitted() and (permission:=handoff(wave,proof,rows)):
-                            receipt = journal.once(SLOT, dict(handoff=permission, source=spec['source_sha']),
-                                                   lambda: launch(lock, permission))
+                        if permitted() and (ready:=permission()):
+                            receipt = journal.once(SLOT, dict(handoff=ready, source=spec['source_sha']),
+                                                   lambda: launch(lock, ready))
                             break
             time.sleep(20)
         else:
