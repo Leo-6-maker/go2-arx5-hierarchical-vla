@@ -1,0 +1,774 @@
+{
+  "plan": "4fe2c8cf1b69c168b2e3079e061bb7c702089cd3",
+  "source_before": "3be399dd5365c917ae6946c23ba59f2f5db90729",
+  "core": {
+    "epoch": 1795306307.9701238,
+    "producer": {
+      "stage": "WAIT_CAPACITY_OR_STUDENT_HANDOFF",
+      "epoch": 1795306301.5934334,
+      "completed": 23,
+      "actual_requests": 23,
+      "closed_ticks": 668699,
+      "admitted_train": 10,
+      "current": null
+    },
+    "units": {
+      "wave": {
+        "service": {
+          "MainPID": "2643171",
+          "ActiveState": "active"
+        },
+        "progress": {
+          "stage": "WAIT_CAPACITY_OR_STUDENT_HANDOFF",
+          "epoch": 1795306301.5934334,
+          "completed": 23,
+          "actual_requests": 23,
+          "closed_ticks": 668699,
+          "admitted_train": 10,
+          "current": null
+        }
+      },
+      "pilot": {
+        "service": {
+          "MainPID": "2925958",
+          "ActiveState": "active"
+        },
+        "progress": {
+          "epoch": 1795306293.72238,
+          "pid": 2925958,
+          "stage": "WAIT_ORIGINAL_SLOT_HANDOFF",
+          "condition": "MEV1-TRAIN-F2-NEAR_POS-00-HOLD-red"
+        }
+      },
+      "catalog": {
+        "service": {
+          "MainPID": "2668452",
+          "ActiveState": "active"
+        },
+        "progress": {}
+      },
+      "uplink": {
+        "service": {
+          "MainPID": "2681921",
+          "ActiveState": "active"
+        },
+        "progress": {}
+      }
+    },
+    "capacity": {
+      "free_disk": 297325432832,
+      "floor": 294382508441,
+      "reserve": 3758096384,
+      "available_host_memory": 49173291008,
+      "min_host_memory": 13958643712,
+      "epoch": 1795306301.5848758
+    },
+    "filesystems": [
+      {
+        "name": "active",
+        "block_total": 1905283825664,
+        "free_bytes": 297325432832
+      },
+      {
+        "name": "project-archive",
+        "block_total": 4000768323584,
+        "free_bytes": 582816378880
+      }
+    ],
+    "exact_cases": [
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-HOLD-blue",
+        "bytes": 699539456,
+        "ticks": 25453,
+        "admitted": true
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-HOLD-red",
+        "bytes": 580288512,
+        "ticks": 21340,
+        "admitted": false
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-red-left",
+        "bytes": 1427206144,
+        "ticks": 50703,
+        "admitted": false
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-blue-right",
+        "bytes": 560844800,
+        "ticks": 20705,
+        "admitted": false
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-blue-right",
+        "bytes": 522166272,
+        "ticks": 19329,
+        "admitted": false
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-red-left",
+        "bytes": 583950336,
+        "ticks": 21657,
+        "admitted": false
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-HOLD-red",
+        "bytes": 594018304,
+        "ticks": 20953,
+        "admitted": true
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-HOLD-blue",
+        "bytes": 651177984,
+        "ticks": 23453,
+        "admitted": true
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-blue-left",
+        "bytes": 1106427904,
+        "ticks": 38953,
+        "admitted": true
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-red-right",
+        "bytes": 555581440,
+        "ticks": 20690,
+        "admitted": false
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-red-right",
+        "bytes": 1012899840,
+        "ticks": 36203,
+        "admitted": true
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-blue-left",
+        "bytes": 780865536,
+        "ticks": 28437,
+        "admitted": false
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-HOLD-blue",
+        "bytes": 609157120,
+        "ticks": 22203,
+        "admitted": true
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-HOLD-red",
+        "bytes": 625188864,
+        "ticks": 23144,
+        "admitted": false
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-red-left",
+        "bytes": 1425858560,
+        "ticks": 50703,
+        "admitted": false
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-blue-right",
+        "bytes": 1147654144,
+        "ticks": 41071,
+        "admitted": false
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-blue-right",
+        "bytes": 1062547456,
+        "ticks": 38207,
+        "admitted": false
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-red-left",
+        "bytes": 601112576,
+        "ticks": 22072,
+        "admitted": false
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-HOLD-red",
+        "bytes": 602943488,
+        "ticks": 22203,
+        "admitted": true
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-HOLD-blue",
+        "bytes": 636661760,
+        "ticks": 23453,
+        "admitted": true
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-blue-left",
+        "bytes": 1099558912,
+        "ticks": 39453,
+        "admitted": true
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-red-right",
+        "bytes": 588795904,
+        "ticks": 21861,
+        "admitted": false
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-red-right",
+        "bytes": 1020096512,
+        "ticks": 36453,
+        "admitted": true
+      }
+    ],
+    "capacity_estimate": {
+      "totals": {
+        "HOLD": {
+          "n": 8,
+          "maximum": 699539456,
+          "mean": 624871936,
+          "bytes": 4998975488
+        },
+        "PLACE": {
+          "n": 15,
+          "maximum": 1427206144,
+          "mean": 899704422.4,
+          "bytes": 13495566336
+        }
+      },
+      "delta": 815171993,
+      "shortfall_gib": 0.7591880792751908,
+      "archive_deficit": 27.61082782689482,
+      "estimate_to_reach_slot26_gib": 2.7398742670193315
+    },
+    "slots": [
+      {
+        "ordinal": 24,
+        "id": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-blue-left",
+        "family": "F2",
+        "scene_sha256": "b2bbb276d0a0b7bbb65c93841e35e5b35168d57ac77f7c89abc545031d52629f",
+        "seed": 2719604671
+      },
+      {
+        "ordinal": 25,
+        "id": "MEV1-TRAIN-F1-NEAR_POS-00-HOLD-blue",
+        "family": "F1",
+        "scene_sha256": "fe31eb62bf57216a2357c142a41ef84dffa162b884eafacc62a04b193904a1c6",
+        "seed": 169335065
+      },
+      {
+        "ordinal": 26,
+        "id": "MEV1-TRAIN-F2-NEAR_POS-00-HOLD-red",
+        "family": "F2",
+        "scene_sha256": "4d5e050e945f5a533bf43044a704b8d98504fa9d05f938442b8952cd0e9e00ff",
+        "seed": 1569219445
+      }
+    ]
+  },
+  "teacher_place_readback": {
+    "result": {
+      "VAL_inputs": 0,
+      "anchors": 4,
+      "cases": {
+        "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-red-left": {
+          "paths": [
+            {
+              "anchors": [
+                {
+                  "attempted_waypoints": 25,
+                  "bilateral_pad_touch": true,
+                  "closing_samples": 47,
+                  "first_problem": {
+                    "pair": {
+                      "bodies": [
+                        "x5_link6",
+                        "task_blue_cube"
+                      ],
+                      "geoms": [
+                        "",
+                        "task_blue_cube_geom"
+                      ],
+                      "signed_distance_mm": -0.7180402849640555
+                    },
+                    "reason": "FORBIDDEN_CONTACT",
+                    "stage": "APPROACH",
+                    "waypoint": 17
+                  },
+                  "matched_waypoints": 25,
+                  "minima": {
+                    "arm_to_blue": {
+                      "link": "x5_link6",
+                      "mm": -17.45270812777273,
+                      "stage": "APPROACH",
+                      "waypoint": 24
+                    },
+                    "arm_to_table": {
+                      "link": "x5_link8",
+                      "mm": 10.284873692020964,
+                      "stage": "APPROACH",
+                      "waypoint": 24
+                    },
+                    "nonpad_arm_to_red": {
+                      "link": "x5_link6",
+                      "mm": 14.951269212196562,
+                      "stage": "APPROACH",
+                      "waypoint": 24
+                    }
+                  },
+                  "passed": false,
+                  "query_tick": 17953
+                },
+                {
+                  "attempted_waypoints": 24,
+                  "bilateral_pad_touch": true,
+                  "closing_samples": 47,
+                  "first_problem": {
+                    "pair": {
+                      "bodies": [
+                        "x5_link6",
+                        "task_blue_cube"
+                      ],
+                      "geoms": [
+                        "",
+                        "task_blue_cube_geom"
+                      ],
+                      "signed_distance_mm": -0.227678402469237
+                    },
+                    "reason": "FORBIDDEN_CONTACT",
+                    "stage": "APPROACH",
+                    "waypoint": 16
+                  },
+                  "matched_waypoints": 24,
+                  "minima": {
+                    "arm_to_blue": {
+                      "link": "x5_link6",
+                      "mm": -17.452877874316442,
+                      "stage": "APPROACH",
+                      "waypoint": 23
+                    },
+                    "arm_to_table": {
+                      "link": "x5_link8",
+                      "mm": 10.284772050434105,
+                      "stage": "APPROACH",
+                      "waypoint": 23
+                    },
+                    "nonpad_arm_to_red": {
+                      "link": "x5_link6",
+                      "mm": 14.950949133994841,
+                      "stage": "APPROACH",
+                      "waypoint": 23
+                    }
+                  },
+                  "passed": false,
+                  "query_tick": 18203
+                }
+              ],
+              "away_mm": 0,
+              "height_mm": 0,
+              "pitch_deg": 0
+            },
+            {
+              "anchors": [
+                {
+                  "attempted_waypoints": 38,
+                  "bilateral_pad_touch": true,
+                  "closing_samples": 47,
+                  "first_problem": null,
+                  "matched_waypoints": 38,
+                  "minima": {
+                    "arm_to_blue": {
+                      "link": "x5_link6",
+                      "mm": 4.254926767632485,
+                      "stage": "APPROACH",
+                      "waypoint": 37
+                    },
+                    "arm_to_table": {
+                      "link": "x5_link8",
+                      "mm": 10.149137454270138,
+                      "stage": "APPROACH",
+                      "waypoint": 37
+                    },
+                    "nonpad_arm_to_red": {
+                      "link": "x5_link6",
+                      "mm": 18.412582435761703,
+                      "stage": "APPROACH",
+                      "waypoint": 37
+                    }
+                  },
+                  "passed": true,
+                  "query_tick": 17953
+                },
+                {
+                  "attempted_waypoints": 38,
+                  "bilateral_pad_touch": true,
+                  "closing_samples": 47,
+                  "first_problem": null,
+                  "matched_waypoints": 38,
+                  "minima": {
+                    "arm_to_blue": {
+                      "link": "x5_link6",
+                      "mm": 4.254920769489905,
+                      "stage": "APPROACH",
+                      "waypoint": 37
+                    },
+                    "arm_to_table": {
+                      "link": "x5_link8",
+                      "mm": 10.14913683690332,
+                      "stage": "APPROACH",
+                      "waypoint": 37
+                    },
+                    "nonpad_arm_to_red": {
+                      "link": "x5_link6",
+                      "mm": 18.412586608446905,
+                      "stage": "APPROACH",
+                      "waypoint": 37
+                    }
+                  },
+                  "passed": true,
+                  "query_tick": 18203
+                }
+              ],
+              "away_mm": 24,
+              "height_mm": 30,
+              "pitch_deg": 20
+            }
+          ],
+          "witness": {
+            "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-red-left",
+            "last_query_native_grasp": false,
+            "last_query_tick": 21953,
+            "pairs": [
+              {
+                "bodies": [
+                  "x5_link6",
+                  "task_blue_cube"
+                ],
+                "geoms": [
+                  "",
+                  "task_blue_cube_geom"
+                ],
+                "signed_distance_mm": -0.0014518265762236693
+              }
+            ],
+            "phase": "DESCEND",
+            "post_STOP_ticks": 0,
+            "query_sha256": "a3930f3be809db2160a6d529abc1282f9ef5df47a849d1b42b969d8c8bca11cb",
+            "result_sha256": "b32890d1a8353f9a695dd6d1aeca2708f1988201a25e53741c7691f2a8c69797",
+            "scene_sha256": "b2bbb276d0a0b7bbb65c93841e35e5b35168d57ac77f7c89abc545031d52629f",
+            "terminal_tick": 22072
+          }
+        },
+        "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-red-right": {
+          "paths": [
+            {
+              "anchors": [
+                {
+                  "attempted_waypoints": 25,
+                  "bilateral_pad_touch": true,
+                  "closing_samples": 47,
+                  "first_problem": {
+                    "pair": {
+                      "bodies": [
+                        "x5_link6",
+                        "task_blue_cube"
+                      ],
+                      "geoms": [
+                        "",
+                        "task_blue_cube_geom"
+                      ],
+                      "signed_distance_mm": -0.6568981536498943
+                    },
+                    "reason": "FORBIDDEN_CONTACT",
+                    "stage": "APPROACH",
+                    "waypoint": 17
+                  },
+                  "matched_waypoints": 25,
+                  "minima": {
+                    "arm_to_blue": {
+                      "link": "x5_link6",
+                      "mm": -17.45338325487895,
+                      "stage": "APPROACH",
+                      "waypoint": 24
+                    },
+                    "arm_to_table": {
+                      "link": "x5_link8",
+                      "mm": 10.28421003319695,
+                      "stage": "APPROACH",
+                      "waypoint": 24
+                    },
+                    "nonpad_arm_to_red": {
+                      "link": "x5_link6",
+                      "mm": 14.94748106691287,
+                      "stage": "APPROACH",
+                      "waypoint": 24
+                    }
+                  },
+                  "passed": false,
+                  "query_tick": 17203
+                },
+                {
+                  "attempted_waypoints": 25,
+                  "bilateral_pad_touch": true,
+                  "closing_samples": 47,
+                  "first_problem": {
+                    "pair": {
+                      "bodies": [
+                        "x5_link6",
+                        "task_blue_cube"
+                      ],
+                      "geoms": [
+                        "",
+                        "task_blue_cube_geom"
+                      ],
+                      "signed_distance_mm": -0.6598376554507561
+                    },
+                    "reason": "FORBIDDEN_CONTACT",
+                    "stage": "APPROACH",
+                    "waypoint": 17
+                  },
+                  "matched_waypoints": 25,
+                  "minima": {
+                    "arm_to_blue": {
+                      "link": "x5_link6",
+                      "mm": -17.45308701544319,
+                      "stage": "APPROACH",
+                      "waypoint": 24
+                    },
+                    "arm_to_table": {
+                      "link": "x5_link8",
+                      "mm": 10.284398518741888,
+                      "stage": "APPROACH",
+                      "waypoint": 24
+                    },
+                    "nonpad_arm_to_red": {
+                      "link": "x5_link6",
+                      "mm": 14.948585466210544,
+                      "stage": "APPROACH",
+                      "waypoint": 24
+                    }
+                  },
+                  "passed": false,
+                  "query_tick": 17453
+                }
+              ],
+              "away_mm": 0,
+              "height_mm": 0,
+              "pitch_deg": 0
+            },
+            {
+              "anchors": [
+                {
+                  "attempted_waypoints": 37,
+                  "bilateral_pad_touch": true,
+                  "closing_samples": 47,
+                  "first_problem": null,
+                  "matched_waypoints": 37,
+                  "minima": {
+                    "arm_to_blue": {
+                      "link": "x5_link6",
+                      "mm": 4.25530769954352,
+                      "stage": "APPROACH",
+                      "waypoint": 36
+                    },
+                    "arm_to_table": {
+                      "link": "x5_link8",
+                      "mm": 10.149152761690312,
+                      "stage": "APPROACH",
+                      "waypoint": 36
+                    },
+                    "nonpad_arm_to_red": {
+                      "link": "x5_link6",
+                      "mm": 18.412715020101174,
+                      "stage": "APPROACH",
+                      "waypoint": 36
+                    }
+                  },
+                  "passed": true,
+                  "query_tick": 17203
+                },
+                {
+                  "attempted_waypoints": 37,
+                  "bilateral_pad_touch": true,
+                  "closing_samples": 47,
+                  "first_problem": null,
+                  "matched_waypoints": 37,
+                  "minima": {
+                    "arm_to_blue": {
+                      "link": "x5_link6",
+                      "mm": 4.255308831815463,
+                      "stage": "APPROACH",
+                      "waypoint": 36
+                    },
+                    "arm_to_table": {
+                      "link": "x5_link8",
+                      "mm": 10.149191206877946,
+                      "stage": "APPROACH",
+                      "waypoint": 36
+                    },
+                    "nonpad_arm_to_red": {
+                      "link": "x5_link6",
+                      "mm": 18.412745207968957,
+                      "stage": "APPROACH",
+                      "waypoint": 36
+                    }
+                  },
+                  "passed": true,
+                  "query_tick": 17453
+                }
+              ],
+              "away_mm": 24,
+              "height_mm": 30,
+              "pitch_deg": 20
+            }
+          ],
+          "witness": {
+            "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-red-right",
+            "last_query_native_grasp": false,
+            "last_query_tick": 21703,
+            "pairs": [
+              {
+                "bodies": [
+                  "x5_link6",
+                  "task_blue_cube"
+                ],
+                "geoms": [
+                  "",
+                  "task_blue_cube_geom"
+                ],
+                "signed_distance_mm": -0.0013341047528266092
+              }
+            ],
+            "phase": "DESCEND",
+            "post_STOP_ticks": 0,
+            "query_sha256": "a629f523732189890dda0290a33ef6443a5eb3ecef8b5f925f5020daa0b71aab",
+            "result_sha256": "b444fac8727d4789a2eeab72d3b9f5dfd0529304637d6f8ea96875372b8327c8",
+            "scene_sha256": "b2bbb276d0a0b7bbb65c93841e35e5b35168d57ac77f7c89abc545031d52629f",
+            "terminal_tick": 21861
+          }
+        }
+      },
+      "configs": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          20,
+          24,
+          30
+        ]
+      ],
+      "model_generations": 0,
+      "native_integrations": 0,
+      "native_requests": 0,
+      "optimizer_updates": 0,
+      "passed_anchor_counts": [
+        0,
+        4
+      ],
+      "status": "SAVED_TRAIN_FIXED_BASE_FULL_ARM_DESCENT_AND_CLOSURE",
+      "wall_s": 1.5375703712925315
+    },
+    "receipt": {
+      "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-f2-red-place-replication-20261122-02/RESULT.private.json",
+      "sha256": "060b82246e1fa2f51d2ac22234645bcffdff336c11f5db8edc8880dcd316e2ef"
+    },
+    "source": "60a81553188e2b05e7c4c68856cb0b29be62934c65bfdf3962395694a4352452",
+    "epoch": 1795306154.5032103,
+    "helper": "759bf5185dd77d91acc8282ed2ac21ecf07c26b072ef67ea3c0efa6696e6230d"
+  },
+  "main3100_custody": {
+    "direct": {
+      "status": "HOPPER_VANDA_DIRECT_BACKUP_BYTE_MATCH",
+      "receipt": {
+        "plan": "171b5bedb290258954aac140157743e92e3b152e",
+        "role": "MAIN",
+        "phase": 3100,
+        "event_sha256": "209203da671fe721471310d2323355c72dc08a2cb04ef1be26ed3b7afeb4118b",
+        "checkpoint": "6fa52e0e2a0da11c200f3d4dd1e2227c4ea89817d05a4204c7ce80db43d6868e",
+        "custody": "/scratch/projects/CFP04/CFP04-CF-007/e1192548/GR00T-WBC/runs/WM02/sla-core-multienv-backup-main3100-20261122-01/MAIN/phase03100",
+        "arrays": 140,
+        "bytes": 5547651598,
+        "eval_due": false,
+        "deployment_due": false,
+        "parent": "2bff547b6f2c3aca0e7e2fd8a790ce6b30ef1c5f33b004c6897e3083647358d5"
+      },
+      "sha256": "836f0fe93594fcac7191d9b02f287843461369a73b05d28fa1f17f4a9272146a",
+      "path": "/scratch/projects/CFP04/CFP04-CF-007/e1192548/GR00T-WBC/runs/WM02/sla-core-multienv-backup-main3100-20261122-01/receipts/MAIN-phase03100.json",
+      "finished": 1795306135.3469424,
+      "dependencies": "existing station-to-station SSH only"
+    },
+    "independent": {
+      "status": "INDEPENDENT_VANDA_140_ARRAY_REHASH_MATCH",
+      "checkpoint": "6fa52e0e2a0da11c200f3d4dd1e2227c4ea89817d05a4204c7ce80db43d6868e",
+      "arrays": 140,
+      "files": 141,
+      "bytes": 5547651598,
+      "epoch": 1795306226.055035,
+      "seconds": 8.936547609977424
+    }
+  },
+  "hopper": {
+    "9": {
+      "PROGRESS.private.json": {
+        "phase": 3122,
+        "cursors": {
+          "target": 199808,
+          "robodojo": 99904,
+          "libero": 99904
+        },
+        "epoch": 1795306344.2315116,
+        "job": "728212.hopper-m-02"
+      },
+      "DEPENDENCY_ACTUAL.json": {
+        "job": "728212.hopper-m-02",
+        "start": 2767,
+        "stop": 3534
+      },
+      "RELEASE.json": {
+        "dependency": "afterok:728156.hopper-m-02",
+        "epoch": 1795291377.7946317,
+        "job": "728212.hopper-m-02"
+      }
+    },
+    "10": {
+      "RELEASE.json": {
+        "dependency": "afterok:728212.hopper-m-02",
+        "epoch": 1795302662.29801,
+        "job": "728341.hopper-m-02"
+      }
+    },
+    "epoch": 1795306345.907938,
+    "step": 3123,
+    "raw_update": {},
+    "scheduler_query_status": "TimeoutExpired",
+    "scheduler_state": {
+      "728212.hopper-m-02": {
+        "job_state": "R",
+        "Hold_Types": "n",
+        "depend": "beforeok:728341.hopper-m-02@hopper-m-02.cm.cluster",
+        "exec_host": "hopper-16/2*12",
+        "Exit_status": null
+      },
+      "728341.hopper-m-02": {
+        "job_state": "H",
+        "Hold_Types": "s",
+        "depend": "afterok:728212.hopper-m-02@hopper-m-02.cm.cluster",
+        "exec_host": null,
+        "Exit_status": null
+      }
+    }
+  },
+  "train_data": {
+    "train_ready": "TRAIN-067",
+    "demonstrations": 67,
+    "windows": 5823,
+    "pending_admitted": 2,
+    "pending_windows": 258,
+    "actual_wave_a_optimization_visits": 0
+  },
+  "new_work": {
+    "physics_requests": 0,
+    "physics_ticks": 0,
+    "model_generations": 0,
+    "optimizer_updates": 0,
+    "vanda_pbs_jobs": 0
+  },
+  "n2": "NOT_RUN",
+  "n4": "NOT_RUN"
+}

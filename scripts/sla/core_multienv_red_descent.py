@@ -23,6 +23,12 @@ CASES = {
     'MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-red-right':
         '3ff9adb8b381f7ddc8b9feebf34f53e4257b9331e449b88cbb1ed304e468ca7e',
 }
+PLACE_REPLICATION_CASES = {
+    'MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-red-left':
+        'b32890d1a8353f9a695dd6d1aeca2708f1988201a25e53741c7691f2a8c69797',
+    'MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-red-right':
+        'b444fac8727d4789a2eeab72d3b9f5dfd0529304637d6f8ea96875372b8327c8',
+}
 # Distance away from the blue cube and waypoint height above the frozen grasp goal.
 DETOURS = ((8, 30), (16, 30), (24, 30), (8, 45), (16, 45), (24, 45))
 CONFIGS = ((0, 0, 0), (PITCH_DEGREES, 0, 0),
@@ -115,7 +121,7 @@ def compare_path(shadow, row, intent, candidate):
                     first is None and bilateral and all(v['mm']>0 for v in minimum.values())))
 
 
-def evaluate(root):
+def evaluate(root, cases=CASES, configs=CONFIGS):
     if (digest(root/'EXECUTION_SPEC.json')!=PRODUCER_SPEC
             or mujoco.__version__!='3.2.7' or mujoco.get_mjcb_control() is not None):
         raise PermissionError('Expected the original TRAIN scope and geometry-only MuJoCo')
@@ -123,7 +129,7 @@ def evaluate(root):
     rows = {r['condition']:r for r in json.loads((root/'RECORDS.private.json').read_bytes())}
     output = {}
     with forbid_integration(mujoco) as calls:
-        for cid,expected in CASES.items():
+        for cid,expected in cases.items():
             row = rows[cid]
             if row['result']['sha256'] != expected or row['post_STOP_ticks']!=0:
                 raise ValueError('Original STOP outcome changed')
@@ -145,12 +151,12 @@ def evaluate(root):
             output[cid] = dict(witness=witness,paths=[
                 dict(pitch_deg=cfg[0],away_mm=cfg[1],height_mm=cfg[2],
                      anchors=[compare_path(shadow,anchor,observed[i]['raw_intent'],cfg) for anchor in anchors])
-                for cfg in CONFIGS])
+                for cfg in configs])
         if calls:
             raise RuntimeError('Unexpected native integration')
     aggregate = [sum(a['passed'] for c in output.values() for a in c['paths'][i]['anchors'])
-                 for i in range(len(CONFIGS))]
-    return dict(status='SAVED_TRAIN_FIXED_BASE_FULL_ARM_DESCENT_AND_CLOSURE', configs=CONFIGS,
+                 for i in range(len(configs))]
+    return dict(status='SAVED_TRAIN_FIXED_BASE_FULL_ARM_DESCENT_AND_CLOSURE', configs=configs,
                 passed_anchor_counts=aggregate, anchors=2*len(output), cases=output,
                 native_requests=0, native_integrations=0, VAL_inputs=0,
                 model_generations=0, optimizer_updates=0, wall_s=time.monotonic()-started)
@@ -160,5 +166,11 @@ if __name__=='__main__':
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('producer',type=Path)
     p.add_argument('output',type=Path)
+    p.add_argument('--place-replication',action='store_true',
+                   help='Check only the original path and the fixed 20-degree detour on the two later PLACE stops.')
     args = p.parse_args()
-    write_once(args.output,evaluate(args.producer))
+    if args.place_replication:
+        result = evaluate(args.producer,PLACE_REPLICATION_CASES,((0,0,0),(PITCH_DEGREES,24,30)))
+    else:
+        result = evaluate(args.producer)
+    write_once(args.output,result)
