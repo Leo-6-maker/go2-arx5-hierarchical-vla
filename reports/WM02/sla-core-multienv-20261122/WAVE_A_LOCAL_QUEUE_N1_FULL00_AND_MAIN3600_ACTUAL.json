@@ -1,0 +1,198 @@
+{
+  "plan": "4fe2c8cf1b69c168b2e3079e061bb7c702089cd3",
+  "timestamp_epoch": 1795314535.637897,
+  "n1": {
+    "held_original_runtimes": 12,
+    "n1_closed_so_far": 9,
+    "n1_ticks": 108827,
+    "short_pass": 4,
+    "short_attempts": 8,
+    "full_closed": 1,
+    "full_attempts": 2,
+    "full_00": {
+      "id": "MEV1-ENG-N1-FULL-00",
+      "kind": "FULL",
+      "requests": 1,
+      "ticks": 23203,
+      "source": "454510270a6d35594c2ea1b4ecd7047b2f4ac7ff",
+      "terminal": {
+        "sha256": "7106011929d235f3ba9ff04c59da7c4c26fba8c9f519f63573e86098ea88d450"
+      },
+      "technical_failure": false,
+      "first_failure": "TASK_SUCCESS",
+      "hard_STOP": false,
+      "post_STOP_ticks": null,
+      "profile": {
+        "file": "PERFORMANCE.private.json",
+        "sha256": "f57a0f51c4c45f775f5ec432419b20f55c1e2edd0ab3d89a03abe1a0262e32f7"
+      },
+      "task_and_mobile_success": true,
+      "archive": {
+        "sha256": "5ca18811fdad65a364ce6408d027b4cb4cdb386817d4b603a8d9198b2e7fe0c0"
+      },
+      "measurement": {
+        "status": "G7_PASS",
+        "first_failure": null,
+        "windows": 70,
+        "actual_P10_atoms": 700,
+        "wall_s": 0.1743546472862363,
+        "training_admissions": 0
+      },
+      "archive_rehash": {
+        "archive_witness": "5ca18811fdad65a364ce6408d027b4cb4cdb386817d4b603a8d9198b2e7fe0c0",
+        "verified_files": 124,
+        "bytes": 638688791,
+        "tree_sha256": "f85539e6ce0e4da99f26ddf134c94b78f1e7432e69c40004ab83ef904754843c",
+        "no_duplicate": true
+      },
+      "raw_receipt": {
+        "physical_requests": 1,
+        "actual_native_integrations": 23203,
+        "shutdown_clean": true,
+        "technical_failure": false,
+        "failure": null,
+        "wall_s": 331.09867486637086
+      }
+    },
+    "current": {
+      "condition": "MEV1-ENG-N1-FULL-01",
+      "spec": "75629caf4d3378d3396a42a20df664336b5a8580e3a1a96a1da08cca584eca88",
+      "pid": 3107936,
+      "actual_tick": 18703
+    },
+    "training_admissions": 0,
+    "n2": "NOT_RUN",
+    "n4": "NOT_RUN"
+  },
+  "retained_catalog_probe": {
+    "epoch": 1795314454.8297458,
+    "independent_rehash": true,
+    "files": 433,
+    "bytes": 2120458297,
+    "old_probe_sha256": "c9e054ad9bbcd90a2b8713b105faff3733ffd642f5e48f31668b2b3c5966460d",
+    "manifest_sha256": "dce011bfcc66714f1dcfbbd15801221786018df08b2cdcd0a16ee8a6b6576dbf",
+    "archive_device": 112,
+    "native_requests": 0,
+    "actual_new_training_visits": 0,
+    "local_exclusive_released_by_inode_before": 31928320,
+    "jurisdiction": "CLOSED_CPU_ONLY_PROBE",
+    "canonical_path_preserved": true,
+    "original_training_members_removed": 0
+  },
+  "wave_A": {
+    "old_attempts": 26,
+    "closed_ticks": 698544,
+    "kept_admissions": 10,
+    "planned_total": 120,
+    "remaining_authorized_this_unit": [
+      {
+        "slot": 27,
+        "condition": "MEV1-TRAIN-F1-NEAR_POS-00-PLACE-red-left",
+        "split": "TRAIN",
+        "max_ticks": 50703
+      },
+      {
+        "slot": 28,
+        "condition": "MEV1-TRAIN-F2-NEAR_POS-00-PLACE-blue-right",
+        "split": "TRAIN",
+        "max_ticks": 50703
+      },
+      {
+        "slot": 29,
+        "condition": "MEV1-TRAIN-F1-NEAR_POS-00-PLACE-blue-right",
+        "split": "TRAIN",
+        "max_ticks": 50703
+      },
+      {
+        "slot": 31,
+        "condition": "MEV1-TRAIN-F1-NEAR_POS-00-HOLD-red",
+        "split": "TRAIN",
+        "max_ticks": 35703
+      },
+      {
+        "slot": 32,
+        "condition": "MEV1-TRAIN-F2-NEAR_POS-00-HOLD-blue",
+        "split": "TRAIN",
+        "max_ticks": 35703
+      },
+      {
+        "slot": 33,
+        "condition": "MEV1-TRAIN-F1-NEAR_POS-00-PLACE-blue-left",
+        "split": "TRAIN",
+        "max_ticks": 50703
+      }
+    ],
+    "attempts_in_this_unit": 0,
+    "integrations_in_this_unit": 0,
+    "status": "WAIT_CAPACITY_OR_STUDENT_HANDOFF",
+    "stage_preflight": "454414426de32275b63ed291026b15af75edcef9b0375c8eda2ec77e45f36bea",
+    "producer": {
+      "MainPID": "3109108",
+      "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-wave-a-cold-20261122-03.service",
+      "ActiveState": "active",
+      "InvocationID": "eda3582af7844633b49c5dd43fc93eeb"
+    },
+    "catalog": {
+      "MainPID": "3111722",
+      "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-wave-a-cold-data-owner-20261122-03.service",
+      "ActiveState": "active",
+      "InvocationID": "56a16029276c4a98b37ed41e8771c091"
+    },
+    "producer_scope": {
+      "sha256": "9566b7604edec97c3006ac5f951106b47d083ecf0fecdb02330975c25ca15ca6",
+      "source_sha": "93cf7f1000a20c869792c39202bf747a76a5404a",
+      "deadline_epoch": 1795328678.2598324,
+      "new_physical_requests_budget": 6
+    },
+    "catalog_config_sha256": "51a414c61f8c866234808d002b60703acabb0149b537a78c378819eb62aa269b",
+    "catalog_source": "afd5ab3387c5de5c2fb9076b986c7c2e3d0e9ee4",
+    "resource_ledger": {
+      "sha256": "4dd3a1111c7b8b1c2574eab21bea7470535f594ef4d7bcb62ef1c0434ee12953",
+      "volumes": {
+        "passed": false,
+        "local": {
+          "free_disk": 296596508672,
+          "floor": 294382508441,
+          "reserve": 2684354560,
+          "passed": false
+        },
+        "payload": {
+          "free_disk": 1354780114944,
+          "floor": 608707700326,
+          "reserve": 3221225472,
+          "passed": true
+        }
+      },
+      "available_host_memory": 46219296768,
+      "min_host_memory": 13958643712
+    },
+    "catalog_heartbeat": 1795314530.780412,
+    "raw_mode": "LOCAL_DURING_INTEGRATION_NFS_AFTER_OWNED_EXIT",
+    "refused_paid_reentry": true,
+    "active_training_catalog": "TRAIN-069",
+    "new_wave_training_visits": 0
+  },
+  "training": {
+    "h200_actual_minimum_updates": 3623,
+    "seal_event": "59f79a38082d72920ab1da9169f436c8301201e034afa98d27b3b6bf259a2ebd",
+    "checkpoint": "fde7b8c9390a578c50a4d0599b857517b8c9018320c2c0d6e3a6d20e323ed4b6",
+    "backup_receipt": "1e7a780e489dc60cc6141f3b3151513ac01660361be4971a363f819cc398fc21",
+    "total_visits_at_3600": {
+      "libero": 115200,
+      "robodojo": 115200,
+      "target": 230400
+    },
+    "independent_vanda": {
+      "status": "INDEPENDENT_VANDA_140_ARRAY_REHASH_MATCH",
+      "checkpoint": "fde7b8c9390a578c50a4d0599b857517b8c9018320c2c0d6e3a6d20e323ed4b6",
+      "arrays": 140,
+      "files": 141,
+      "bytes": 5547651601,
+      "epoch": 1795314499.7564995,
+      "seconds": 9.262265737983398
+    },
+    "new_PBS_jobs": 0,
+    "job_active": "728341.hopper-m-02",
+    "dependency_job": "728440.hopper-m-02"
+  }
+}
