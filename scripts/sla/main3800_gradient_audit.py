@@ -67,7 +67,7 @@ def alignment(left, right):
 
 
 def audit(root, spec):
-    from scripts.pi0292.durable import OwnerLock
+    from scripts.pi0292.durable import OwnerLock, write
     from scripts.sla.core_hopper_native_queue import capacity
     from scripts.sla.hopper_parent_custody import digest, write_once
     from scripts.sla.hopper_site import pinned
@@ -92,11 +92,20 @@ def audit(root, spec):
     if os.getuid()!=expert['uid'] or os.uname().nodename!=expert['host'] or not os.environ.get('INVOCATION_ID'):
         raise PermissionError('Expected the registered Corelab diagnostic service')
     cfg['root'] = str(root)
-    if capacity(cfg,expert) is None:
+    while time.time()+300 < spec['deadline'] and not (root/'STOP').exists():
+        if capacity(cfg,expert) is not None:
+            try:
+                lease = OwnerLock(receiver['gpu_lock'])
+                break
+            except BlockingIOError:
+                pass
+        write(root/'HEARTBEAT.json',dict(state='WAIT_ORIGINAL_RESOURCES',epoch=time.time(),pid=os.getpid()))
+        time.sleep(20)
+    else:
         write_once(root/'TERMINAL.json',dict(status='ORIGINAL_RESOURCES_UNAVAILABLE',
                    gradient_attempts=0,completed_gradients=0,model_generations=0,native_requests=0,updates=0))
         return
-    with closing(OwnerLock(receiver['gpu_lock'])):
+    with closing(lease):
         import jax
         import jax.numpy as jnp
         import numpy as np
