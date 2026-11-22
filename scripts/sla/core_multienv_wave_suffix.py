@@ -2,6 +2,7 @@
 import argparse
 import json
 from pathlib import Path
+import subprocess
 
 from go2arx5_vla.world_model.multitask_scope_v6 import read_pin
 from go2arx5_vla.world_model.storage import digest
@@ -46,7 +47,10 @@ def suffix(ordered, records):
                     paused.add(cell)
     if cursor != len(records):
         raise ValueError('Original ledger contains an unknown or already paused request')
+    checkpoints = [dict(family=cell[0], instruction=cell[1], signature=signature, count=n)
+                   for cell, (signature,n) in sorted(streak.items())]
     return dict(paid=paid, pending=pending, paused=skipped, retained_paused_cells=sorted(paused),
+                retained_contact_streak=checkpoints,
                 paid_ticks=sum(r['ticks'] for r in paid),
                 paid_train=sum(r['split']=='TRAIN' for r in paid),
                 admitted_train=sum(r['split']=='TRAIN' and r['admitted'] for r in paid),
@@ -86,6 +90,40 @@ def readback(root):
                 original_records_sha256=digest(records_path), population=spec['compiled_population']['sha256'],
                 original_running_progress=progress['stage'], original_paid_requests=len(records),
                 cold_owner_registered=False, new_native_requests=0, new_native_ticks=0, **manifest)
+
+
+def closed_handoff(spec):
+    """Verify a cold predecessor terminal before handing an original prefix to a new owner."""
+    refs = spec['multienv_cold_handoff']
+    origin = refs['producer']
+    previous = read_pin(origin)
+    root = Path(previous['registered_root'])
+    terminal = refs['terminal']
+    local = Path(spec['registered_root'])
+    frozen = ('compiled_population', 'registered_panel', 'registry', 'mobile_world_lock',
+              'goal_plan_sha', 'interface_predecessor', 'campaign_deadline_epoch', 'C20_statistics_path',
+              'owner', 'host', 'uid', 'cpus', 'ROS_DOMAIN_ID')
+    if (origin['sha256'] != PRODUCER_SPEC or Path(origin['path']) != root/'EXECUTION_SPEC.json'
+            or Path(terminal['path']) != root/'RESULT.private.json' or local == root
+            or spec['deadline_epoch'] > previous['deadline_epoch'] or not spec.get('multienv_payload_storage')
+            or any(spec[key] != previous[key] for key in frozen) or spec['multienv'] != previous['multienv']):
+        raise PermissionError('Cold continuation changed an original site or condition binding')
+    old = read_pin(terminal)
+    lease = read(root/'control'/'LEASE.json')
+    status = subprocess.check_output(['systemctl', '--user', 'show', 'wm02-'+root.name+'.service',
+                                      '-p', 'MainPID', '-p', 'ActiveState'], text=True)
+    state = dict(row.split('=',1) for row in status.splitlines())
+    if (state != {'MainPID':'0','ActiveState':'inactive'} or lease['status'] != 'CLOSED'
+            or lease['spec_sha256'] != PRODUCER_SPEC or old['exit_code'] or old['unreconciled']
+            or old['source_sha'] != PRODUCER_SOURCE or not (root/'STOP.json').is_file()
+            or old['records'] != read(root/'RECORDS.private.json')):
+        raise PermissionError('Expected a clean predecessor handoff and released original owner')
+    ledger = readback(root)
+    cards = refs['conditions']
+    if (not cards or cards != [row['condition'] for row in ledger['pending'][:len(cards)]]
+            or old['paid_requests'] != len(ledger['paid']) or old['verified_ticks'] != ledger['paid_ticks']):
+        raise PermissionError('Cold continuation must use the next qualified original conditions')
+    return ledger
 
 
 if __name__ == '__main__':

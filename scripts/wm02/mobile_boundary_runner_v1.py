@@ -197,7 +197,13 @@ def run_case(spec_path,lock_fd):
     elif spec.get('mobile_experiment_version')=='MFREE_SHIFT7_SIM_ONLY_V52':
         from go2arx5_vla.world_model.mobile_scope_v52 import validate
         validate(spec)
-    out=root/'native-01';out.mkdir();adapter=TargetSequentialAdapter(spec,out)
+    out=root/'native-01'
+    if 'multienv_payload_storage' in spec:
+        from scripts.sla.core_multienv_payload import create_output
+        create_output(spec,out)
+    else:
+        out.mkdir()
+    adapter=TargetSequentialAdapter(spec,out)
     profile=None
     if d2 or n1:
         from go2arx5_vla.world_model.multitask_profile_d2 import MobileProfile

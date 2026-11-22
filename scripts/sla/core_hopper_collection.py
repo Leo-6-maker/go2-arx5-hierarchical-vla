@@ -71,6 +71,24 @@ def run(spec):
     pending = None
     not_started = {}
     multienv=spec.get('multienv')
+    storage=spec.get('multienv_payload_storage')
+    if storage and not multienv:
+        raise PermissionError('Split payload storage is restricted to the PR425 collector')
+    continuation=spec.get('multienv_cold_handoff')
+    if continuation:
+        from scripts.sla.core_multienv_wave_suffix import closed_handoff
+        previous=closed_handoff(spec)
+        already_paid={r['condition'] for r in previous['paid']}
+        paused={tuple(cell) for cell in previous['retained_paused_cells']}
+        not_started={r['condition']:r['reason'] for r in previous['paused']}
+        for row in previous['retained_contact_streak']:
+            signature=row['signature']
+            if signature is not None:
+                reason_name, phase, pairs=signature
+                signature=(reason_name,phase,tuple(tuple(pair) for pair in pairs))
+            streak[row['family'],row['instruction']]=signature,row['count']
+    else:
+        already_paid=set()
     if multienv:
         from scripts.sla import core_multienv_scope as me
     repair=spec.get('carry_repair')
@@ -87,11 +105,17 @@ def run(spec):
     def resources_ok():
         if not multienv:
             return capacity(root)
+        mem=int(next(x.split()[1] for x in Path('/proc/meminfo').read_text().splitlines()
+                     if x.startswith('MemAvailable:')))*1024
+        if storage:
+            from scripts.sla.core_multienv_payload import capacity as payload_capacity
+            volumes=payload_capacity(root,storage,multienv)
+            write(root/'CAPACITY.private.json',dict(volumes=volumes,available_host_memory=mem,
+                  min_host_memory=13*1024**3,epoch=time.time()))
+            return volumes['passed'] and mem>=13*1024**3
         usage=shutil.disk_usage(root)
         reserve=(multienv['trajectory_reserve_bytes']+multienv['snapshot_reserve_bytes']
                  +multienv['transfer_reserve_bytes'])
-        mem=int(next(x.split()[1] for x in Path('/proc/meminfo').read_text().splitlines()
-                     if x.startswith('MemAvailable:')))*1024
         floor=max(50*1024**3,int(.15*usage.total))+8*1024**3
         write(root/'CAPACITY.private.json',dict(free_disk=usage.free,floor=floor,reserve=reserve,
             available_host_memory=mem,min_host_memory=13*1024**3,epoch=time.time()))
@@ -110,6 +134,8 @@ def run(spec):
         case.update(registry_scope=spec['scope'],collection_split=row['split'],compiled_population=spec['compiled_population'],
                     expert_training_eligible=row['split']=='TRAIN',site_world_lease=pin(site_lease),
                     allocation_deadline_epoch=lease_end,deadline_epoch=lease_end-60)
+        if storage:
+            case.update(multienv_payload_storage=storage,multienv=multienv)
         if repair:
             case['carry_repair']=repair
         require_unstarted_cases(case['registry'],{row['id']})
@@ -145,6 +171,10 @@ def run(spec):
                 time.sleep(30)
         else:
             rows=me.order(pop) if multienv else order(pop)
+            if continuation:
+                scheduled=set(continuation['conditions'])
+                rows=[row for row in rows if row['id'] in scheduled]
+                write(root/'PREDECESSOR_LEDGER.private.json',previous)
             write(root/'VAL_PRODUCER.private.json',dict(source=authority['frozen_producer'],source_seal=spec['source_seal'],
                                                         before_first_native=True))
         for row in rows:
@@ -235,7 +265,7 @@ def run(spec):
             snapshot(root,admitted,time.time(),spec)
         detail = {}
         if multienv:
-            attempted = {r['condition'] for r in records} | {pending}
+            attempted = already_paid | {r['condition'] for r in records} | {pending}
             for row in me.order(pop):
                 if row['id'] not in attempted:
                     not_started.setdefault(row['id'],'UNSTARTED_AFTER_TECHNICAL_TERMINAL' if failure else 'UNSTARTED_AT_STOP_OR_DEADLINE')
