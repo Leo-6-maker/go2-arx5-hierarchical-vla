@@ -8,10 +8,8 @@ import shutil
 import numpy as np
 from scripts.pi0292.durable import write
 from scripts.sla.close_goal_g1_v1 import wait_resource_owner
-from scripts.sla.hybrid_cn38_infer_v1 import load_pair
 from go2arx5_vla.world_model.hybrid_nonphysical_v3 import read, check_live, load_input
 from go2arx5_vla.world_model.storage import digest
-from go2arx5_vla.sla_adapter.hybrid_request_v1 import predict_request
 
 
 def poll_message(path):
@@ -36,7 +34,7 @@ def run(spec):
     from go2arx5_vla.world_model.sla_followup_native_v1 import SCOPE as D416_SCOPE
     from go2arx5_vla.sla_adapter.scale20k_package import SCOPE as SCALE_SCOPE
     cache_binding=bind_declared_cache(spec,jax.config)
-    start=time.monotonic();scope=spec.get('scope');g7=scope in ('SLA_V6_MULTITASK_NATIVE', D4_SCOPE, D416_SCOPE, SCALE_SCOPE, 'SLA_CORE_HOPPER_V1_STUDENT')
+    start=time.monotonic();scope=spec.get('scope');g7=scope in ('SLA_V6_MULTITASK_NATIVE', D4_SCOPE, D416_SCOPE, SCALE_SCOPE, 'SLA_CORE_HOPPER_V1_STUDENT', 'SLA_CORE_CANONICAL_EVAL_V1')
     if g7:
         from go2arx5_vla.sla_adapter.multitask_contract_v6 import NATIVE_METHOD
         if spec['selected_combo']!=NATIVE_METHOD:raise ValueError('EXACT_G7_SINGLE_H40_GENERATION')
@@ -46,6 +44,8 @@ def run(spec):
         if not single:raise ValueError('V52_ONE_SHIFT7_ARCHITECTURE_PER_REQUEST')
         if scope=='SLA_CORE_HOPPER_V1_STUDENT':
             from scripts.sla.core_hopper_native_model import Pool
+        elif scope=='SLA_CORE_CANONICAL_EVAL_V1':
+            from scripts.sla.core_canonical_ipc import Pool
         elif scope==SCALE_SCOPE:
             from go2arx5_vla.sla_adapter.scale20k_package import Pool
         elif g7:
@@ -60,7 +60,10 @@ def run(spec):
         package=spec['SHIFT7_package']
         one=Provider(package['path'],manifest_sha256=package['sha256'],parent_params=spec['parent_params'],parent_manifest_path=spec['parent_manifest']['path'])
         two=None
-    else:one,two=load_pair(spec)
+    else:
+        from scripts.sla.hybrid_cn38_infer_v1 import load_pair
+        from go2arx5_vla.sla_adapter.hybrid_request_v1 import predict_request
+        one,two=load_pair(spec)
     adapters=len(one.providers) if pool else 1 if single else 2
     write(root/'READY.private.json',dict(pid=os.getpid(),parent_loads=1,adapters=adapters,
         load_and_import_wall_s=time.monotonic()-start,GPU_memory=jax.devices()[0].memory_stats(),site=site,

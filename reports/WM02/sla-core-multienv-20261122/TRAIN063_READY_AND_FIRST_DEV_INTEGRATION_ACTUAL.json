@@ -1,0 +1,197 @@
+{
+  "plan": "4fe2c8cf1b69c168b2e3079e061bb7c702089cd3",
+  "numerical_source": "2a3f3fd9492c4cc2cd372163ae7bc97db0d15cff",
+  "observed_at_sgt": "2026-11-22T05:29:12+08:00",
+  "hopper_train063": {
+    "receipt": {
+      "path": "/scratch/e1192548/Projects/GR00T-WBC/runs/WM02/sla-core-hopper-v1-custody-20261121-01/scheduler-multienv-73617aa2/TRAIN-063_READY_ACTUAL.private.json",
+      "sha256": "a7c78be939d20d31947cab2aa40992abac79f696fb6fc11ad6509b0c4ebbb53c"
+    },
+    "status": "HOPPER_TRAIN063_READY_ACTUAL",
+    "job": "728212.hopper-m-02",
+    "job_state": "H",
+    "allocation": "009",
+    "source": "73617aa24b8e6c3a71ae4e8722751915c46786e8",
+    "training_reader": {
+      "qualified_training_revision": "b9581196d0acd02fb748222988e5a5543ce1f232",
+      "actual_reader_runtime_revision": "a2e8f7a0a8a9bed451e69cc16e448f0f4a5ef3fb",
+      "original_manifest_sha256": "411702baacce2d3c3ba5b362c47246328d1e2e98b25148323e287db72140afdf",
+      "reader_manifest_sha256": "4ce07b40b7cde67c0e87dca8d97837c2f48e4dee0fcb58f8825372dfed66ccc0",
+      "original_modules": 954,
+      "runtime_modules": 956,
+      "identical_modules": 953,
+      "added": {
+        "scripts/sla/core_multienv_train.py": "1b19744644688b0600e7a24a64f0032b13ea3cf8289d2b8d0ab069177e80a98f",
+        "scripts/sla/hopper_snapshot_producers.py": "e7d437bcea115982a5df59498379065bf22a57ef449fb971e6358f918fda5ed9"
+      },
+      "changed": {
+        "scripts/sla/hopper_snapshot_relay.py": {
+          "original": "334454129bc4bddc70a2d86e28442273dd1631c2cae81be3999ca71357e9a4d3",
+          "candidate": "d1023df91ad99c5f7951e0e87b7aac75f7c07d4cc49e4063ddaaac0ddb0a7c2b"
+        }
+      },
+      "certificate": {
+        "path": "/scratch/e1192548/Projects/GR00T-WBC/runs/WM02/sla-core-hopper-v1-custody-20261121-01/mixed-reader-multienv-a2e8f7a0-02/certificates/e233d5f8ce6be2e11467be73010645a6ea74669b6709578164ef636e72ea914d.json",
+        "sha256": "0b59a5d7f512d5e2f1373622f4353b5cd86c3c3ed26221fbbbaab080e2cf9af6"
+      },
+      "source_directory": "/scratch/e1192548/Projects/GR00T-WBC/runs/WM02/sla-core-hopper-v1-custody-20261121-01/mixed-reader-multienv-a2e8f7a0-02/source"
+    },
+    "episodes": 63,
+    "windows": 5498,
+    "manifest": "dd6f460683b0e8fe65b8bda9fe9b349a736e42dac21d458317ff3b1e2dfcc7b4",
+    "seal": "e233d5f8ce6be2e11467be73010645a6ea74669b6709578164ef636e72ea914d",
+    "members": 442,
+    "bytes": 2194693322,
+    "original_prefix_windows": 5154,
+    "ready": "/scratch/e1192548/Projects/GR00T-WBC/runs/WM02/sla-core-hopper-v1-custody-20261121-01/train-ready/TRAIN-063",
+    "core_result": "7014975b36ed2ca6e425d497d181906081162f5c5881e6c147ba990b5d091c89",
+    "hopper_cold_readback": "df766821bc999919afaedf5943493df52d39f9af66c0b4a053d5554d759a9978",
+    "data_proof": {
+      "path": "/scratch/e1192548/Projects/GR00T-WBC/runs/WM02/sla-core-hopper-v1-custody-20261121-01/mixed-reader-multienv-a2e8f7a0-02/verified-inputs/TRAIN-063.json",
+      "sha256": "1e55c3dc694fb4b9eefdec2bb8305642829c7ee3ee3830b097c63ae6c56651ef"
+    },
+    "elapsed_end": 1795296451.996776,
+    "submitted_jobs": 0,
+    "native_requests": 0,
+    "optimizer_updates": 0,
+    "optimization_visits": 0,
+    "scheduler_preflight": {
+      "sha256": "82a80aad25d2da999e6d34ebdf54a170c7911648295b00461e72eba72567bac3",
+      "observed_paths": {
+        "TRAIN-052": "b69a924e64e964d8bcc4c257403860344a8d19ee",
+        "TRAIN-059": "05adf473c0057eba60bf57fb3bcf302740b35eda"
+      },
+      "script_sha256": {
+        "hopper_advance.py": "cc563e55ee5c8d9f20570d250552bcb7ed6aa29226c8e6c85e81e4daae893d62",
+        "hopper_pbs.py": "3bd9f2492316051e7c13d3eef09939ce81513bf295dfd5d98ef0c86ca495c032",
+        "hopper_mixed_promotion.py": "a8ddc4b0c9610350eea510da6bf0343ac73ca4636f8b7acbf23c3719c4cfb800",
+        "hopper_reader_compat.py": "2d24e1eb8dfe69c692855368b70ae9700f155c04f5240528c7ff40a4e1f3f347",
+        "hopper_project_admission.py": "b64fc7bf8a566c9b9bec82e0b2f044457076c69f8d56ee4875670fd73febe5e5",
+        "hopper_deferred_segment.py": "9f54ee22e1f198b4ab68abd78688b0717c70fbac5f6f0aa2254a831be5dbffff"
+      },
+      "population_sha256": "9e483c85eb90cc2e9d1da66b9f3f8dff6606c6173b66755bcffcc4c7e5f91279"
+    },
+    "cold_readback": {
+      "d2_windows": 2031,
+      "supervised_atoms": 219920,
+      "confirmed_P10_atoms": 54980,
+      "new_windows": 344,
+      "old_windows_bitwise_match": 5154,
+      "hf_revision": "dab6bee8e3e188201558030b41a3ce7d14cd19c4"
+    },
+    "technical_preflight_failures": [
+      {
+        "stage": "scheduler_import",
+        "reason": "Runtime PYTHONPATH initially omitted its pinned NumPy packages",
+        "new_jobs": 0,
+        "optimizer_updates": 0,
+        "native_requests": 0
+      },
+      {
+        "stage": "readiness_publication",
+        "reason": "Non-interactive SSH lacked PBS_SERVER for the required owner readback. The already verified local staging receipt was reconciled before publication.",
+        "new_jobs": 0,
+        "optimizer_updates": 0,
+        "native_requests": 0
+      }
+    ],
+    "course_boundary": 5000,
+    "course_switch": "NOT_RUN",
+    "first_optimizer_update": null,
+    "bank_sha256": null
+  },
+  "h200_main": {
+    "updates": 2522,
+    "producer_job": "728156.hopper-m-02",
+    "last_complete_step": 2500,
+    "complete_checkpoint_sha256": "144afb6a80d0575ecbe240f6b7dea5142a9a1bf3772cf92ad1130ee21dcdf49a",
+    "seal_event_sha256": "24c5985aba36e4f6d0c3cb1875cb3f7241ad47e715d15e8f4a543b865d6cde73",
+    "arrays": 140,
+    "visits_after_MAIN2K": {
+      "target": 33408,
+      "robodojo": 16704,
+      "libero": 16704
+    },
+    "active_train": "TRAIN-052",
+    "dataset_sha256": "e0c5c481a95972e4ba5c9b712e1c3a1240d462ad28222a2c0e041e307fb42278",
+    "dependency": {
+      "job": "728212.hopper-m-02",
+      "predecessor": "728156.hopper-m-02",
+      "project": "CFP04-CF-007",
+      "state": "H",
+      "hold": "s",
+      "dependency": "afterok:728156.hopper-m-02@hopper-m-02.cm.cluster",
+      "reserved_seconds": 21600,
+      "actual_optimizer_updates": 0,
+      "started": false
+    },
+    "MAIN2500_cross_site_backup": "NOT_RUN_AT_THIS_CUT"
+  },
+  "core_native_dev": {
+    "id": "CHV1-DEV-F1-HOLD-red-00-MAIN-phase00000",
+    "unit": "wm02-sla-core-multienv-canonical-dev-20261122-08.service",
+    "pid": 2794896,
+    "invocation": "7c392919007e427d9456a5fdff98dfda",
+    "cgroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-canonical-dev-20261122-08.service",
+    "first_actual_integration_marker_sha256": "f04289db2b47e3e7251ff75d6ff81d8ecb10f575a0bad60be03f1b8ce66f7aaf",
+    "last_observed_tick": 10918,
+    "phase0": {
+      "started": 1,
+      "closed": 0,
+      "registered": 6
+    },
+    "MAIN2K": {
+      "started": 0,
+      "closed": 0,
+      "registered": 6
+    },
+    "WBC_changes": false,
+    "safety_changes": false
+  },
+  "core_wave_a": {
+    "registered": 120,
+    "started": 11,
+    "terminal": 11,
+    "ticks": 299439,
+    "admitted": 5,
+    "HOLD": {
+      "passed": 3,
+      "total": 4
+    },
+    "PLACE": {
+      "passed": 2,
+      "total": 7
+    },
+    "illegal_contact": 5,
+    "post_STOP_ticks": 0,
+    "carry_timeout": 1,
+    "sealed_new_members": 4,
+    "status": "WAIT_CAPACITY_OR_STUDENT_HANDOFF",
+    "last_admission": {
+      "id": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-red-right",
+      "native_ticks": 36203,
+      "certified_windows": 122,
+      "consumed_atoms": 1220,
+      "lift_m": 0.028960431670360998,
+      "hold_s": 5.27800000000645,
+      "base_path_m": 0.5619492703724307,
+      "task_and_required_motion_success": true
+    }
+  },
+  "n2_observer": {
+    "status": "READ_ONLY_SYMBOL_DISCOVERY",
+    "probed_controller_sha256": "9e8ce46837d09bc39ae04d4b49f1ce4dd8c8c2d31bea39eac56c5806d108c1f3",
+    "defined_symbols": [
+      "ocs2::MRT_BASE::evaluatePolicy",
+      "ocs2::MRT_BASE::updatePolicy",
+      "ocs2::MRT_BASE::getPolicy"
+    ],
+    "perf_event_paranoid": "4",
+    "ptrace_scope": "1",
+    "tracefs_uprobe_writable": false,
+    "actual_selected_reference": "NOT_OBSERVED",
+    "native_requests": 0,
+    "n2": "NOT_RUN",
+    "n4": "NOT_RUN"
+  }
+}

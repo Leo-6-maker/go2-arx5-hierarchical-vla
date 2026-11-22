@@ -26,8 +26,14 @@ def accepted(spec):
     gate = proof['gate']
     if (arm not in ENDPOINTS or spec['scope'] != SCOPE or spec['plan_commit'] != PLAN
             or proof['plan'] != PLAN or proof['compiled_population'] != spec['compiled_population']
-            or proof['core_profile'] != site['gpu'] or site['plan'] != PLAN or gate['status'] != 'ENDPOINT_RGB16_VERIFIED'
-            or gate['exact'] != 16 or proof['hardware_allowed'] or proof['physical_requests'] or proof['model_generations']):
+            or proof['core_profile'] != site['gpu'] or site['plan'] != PLAN or gate['exact'] != 16
+            or proof['hardware_allowed'] or proof['physical_requests']):
+        raise PermissionError('Missing endpoint qualification for the original student population')
+    from scripts.sla.core_canonical_proof import VERIFIED, check_native_binding
+    if gate['status'] == VERIFIED:
+        check_native_binding(spec,proof,gate,site)
+        return proof,gate,site
+    if gate['status'] != 'ENDPOINT_RGB16_VERIFIED' or proof['model_generations']:
         raise PermissionError('Missing original strict endpoint qualification')
     root = Path(spec['receiver']['path']).parent/'endpoints'/arm
     package = spec['packages'][arm]

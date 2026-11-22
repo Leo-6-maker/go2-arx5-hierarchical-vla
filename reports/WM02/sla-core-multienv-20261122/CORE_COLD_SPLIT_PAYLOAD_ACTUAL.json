@@ -1,0 +1,299 @@
+{
+  "fixed_plan": "4fe2c8cf1b69c168b2e3079e061bb7c702089cd3",
+  "cold_payload": {
+    "result": {
+      "status": "CORE_DUAL_VOLUME_COLD_ROUTE_REAL_PAYLOAD_RECONCILED",
+      "source_case": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-red-right",
+      "first_unstarted_unchanged": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-blue-left",
+      "original_native_ticks": 36453,
+      "original_task_success": true,
+      "metrics_matched": 18,
+      "score_events_matched": 6,
+      "files": {
+        "COMMANDS.private.jsonl": 11171686,
+        "MOBILE_SAFETY_TRACE.private.jsonl": 483065,
+        "MOBILE_SAMPLES.private.jsonl": 6249867,
+        "ROS_CONSUMPTION.private.jsonl": 475383047,
+        "init.trace": 234705256,
+        "init.trace.snapshots": 38647600,
+        "init.trace.summary": 100,
+        "physics.jsonl": 60324073,
+        "planner.jsonl": 17939071,
+        "state.bin.journal": 109999988
+      },
+      "nfs_payload_bytes": 954903753,
+      "original_control_dir": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-nfs-native-binding-probe-20261122-01/cases/MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-red-right",
+      "routed_output": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-nfs-native-binding-probe-20261122-01/cases/MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-red-right/native-01",
+      "payload": "/home/liuyu-nfs/Projects/GR00T-WBC/runs/sla-core-multienv-nfs-native-binding-probe-20261122-01/MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-red-right",
+      "capacity": {
+        "passed": true,
+        "local": {
+          "free_disk": 297307480064,
+          "floor": 294382508441,
+          "reserve": 2684354560,
+          "passed": true
+        },
+        "payload": {
+          "free_disk": 1361060036608,
+          "floor": 608707700326,
+          "reserve": 2147483648,
+          "passed": true
+        }
+      },
+      "duplicate_output_refused": true,
+      "native_requests": 0,
+      "new_native_ticks": 0,
+      "model_generations": 0,
+      "optimizer_updates": 0,
+      "seconds": 22.316381506621838
+    },
+    "receipt_path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-nfs-native-binding-probe-20261122-01/RESULT.private.json",
+    "receipt_sha": "4758994d4f2e4d0582b0cce2adce510e96046cea3f42b3c3e1566c4babbd4939",
+    "helper_sha": "b19fb7a612be0a2d5becf19bf01b1fea5b0bb01b6cb11e4724a980cc4fb6ea65",
+    "epoch": 1795307365.7716396
+  },
+  "independent_cold_payload": {
+    "status": "INDEPENDENT_COLD_NFS_PAYLOAD_REHASH",
+    "files": 10,
+    "total_bytes": 954903753,
+    "receipt": "4758994d4f2e4d0582b0cce2adce510e96046cea3f42b3c3e1566c4babbd4939",
+    "active_wave": {
+      "MainPID": "2643171",
+      "ActiveState": "active"
+    },
+    "core_progress": {
+      "stage": "WAIT_CAPACITY_OR_STUDENT_HANDOFF",
+      "epoch": 1795307542.8153095,
+      "completed": 23,
+      "actual_requests": 23,
+      "closed_ticks": 668699,
+      "admitted_train": 10,
+      "current": null
+    },
+    "local_storage_capacity": {
+      "free_disk": 297297481728,
+      "floor": 294382508441,
+      "reserve": 3758096384,
+      "available_host_memory": 49138384896,
+      "min_host_memory": 13958643712,
+      "epoch": 1795307542.8038037
+    },
+    "epoch": 1795307561.8291323
+  },
+  "original_next_case_contracts": {
+    "result": {
+      "status": "COLD_ORIGINAL_NEXT2_CASE_CONTRACT_VALIDATED",
+      "cases": [
+        {
+          "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-blue-left",
+          "instruction": "PLACE-blue-left",
+          "scene_sha": "b2bbb276d0a0b7bbb65c93841e35e5b35168d57ac77f7c89abc545031d52629f",
+          "tick_cap": 50703,
+          "reset": 421654648,
+          "condition_seed": 2719604671,
+          "registered_root": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-cold-contract-20261122-02/cases/MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-blue-left"
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-NEAR_POS-00-HOLD-blue",
+          "instruction": "HOLD-blue",
+          "scene_sha": "fe31eb62bf57216a2357c142a41ef84dffa162b884eafacc62a04b193904a1c6",
+          "tick_cap": 35703,
+          "reset": 1294271318,
+          "condition_seed": 169335065,
+          "registered_root": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-cold-contract-20261122-02/cases/MEV1-TRAIN-F1-NEAR_POS-00-HOLD-blue"
+        }
+      ],
+      "seals_bound": true,
+      "world_lock": "/var/cache/users/liuyu-nfs/Projects/GR00T-WBC/runs/PI0294/20261018T182956Z-localpc-pv1/control/wm02-auto1-20261104-01/control/corelab-world-owners-v3/ros-198.lock",
+      "new_native_requests": 0,
+      "new_native_ticks": 0
+    },
+    "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-cold-contract-20261122-02/RESULT.private.json",
+    "sha256": "05cf51e78f37b011827ac090b98d56673795965bc2b02ba1fee631f5a1323537"
+  },
+  "active_core": {
+    "stage": {
+      "stage": "WAIT_CAPACITY_OR_STUDENT_HANDOFF",
+      "epoch": 1795307542.8153095,
+      "completed": 23,
+      "actual_requests": 23,
+      "closed_ticks": 668699,
+      "admitted_train": 10,
+      "current": null
+    },
+    "owner": {
+      "MainPID": "2643171",
+      "ActiveState": "active"
+    },
+    "capacity": {
+      "free_disk": 297297481728,
+      "floor": 294382508441,
+      "reserve": 3758096384,
+      "available_host_memory": 49138384896,
+      "min_host_memory": 13958643712,
+      "epoch": 1795307542.8038037
+    },
+    "pilot": {
+      "epoch": 1795307154.15796,
+      "pid": 2925958,
+      "stage": "WAIT_ORIGINAL_SLOT_HANDOFF",
+      "condition": "MEV1-TRAIN-F2-NEAR_POS-00-HOLD-red"
+    },
+    "n1": {
+      "status": "WAIT_CAPACITY",
+      "pid": 2745035,
+      "epoch": 1795307165.4983306,
+      "paid_requests": 6,
+      "verified_ticks": 64218,
+      "current": "MEV1-ENG-N1-SHORT-06",
+      "free_disk": 297308700672,
+      "available_memory": 49123438592
+    }
+  },
+  "handoff_tests": {
+    "original_terminal_and_inactive_owner_required": true,
+    "original_contact_streaks_preserved": true,
+    "wrong_order_refused": true,
+    "live_or_active_lease_refused": true,
+    "positive_fixture": "logic only",
+    "first_contract_readback_failed": "Fixture passed a string where a Path was required. The exact Frozen Core inputs then passed in a separate read-only identity."
+  },
+  "production_cold_handoff": "NOT_RUN",
+  "g7_and_catalog_for_relocated_output": "NOT_RUN_AS_OFFICIAL_NEW_DATA",
+  "n2": "NOT_RUN",
+  "n4": "NOT_RUN",
+  "new_work": {
+    "native_requests": 0,
+    "native_ticks": 0,
+    "model_generations": 0,
+    "optimization_updates": 0,
+    "optimization_visits": 0,
+    "pbs_jobs": 0
+  },
+  "h200_live": {
+    "9": {
+      "PROGRESS.private.json": {
+        "phase": 3215,
+        "cursors": {
+          "target": 205760,
+          "robodojo": 102880,
+          "libero": 102880
+        },
+        "epoch": 1795307826.4624171,
+        "job": "728212.hopper-m-02"
+      },
+      "DEPENDENCY_ACTUAL.json": {
+        "job": "728212.hopper-m-02",
+        "start": 2767,
+        "stop": 3534
+      },
+      "RELEASE.json": {
+        "dependency": "afterok:728156.hopper-m-02",
+        "epoch": 1795291377.7946317,
+        "job": "728212.hopper-m-02"
+      }
+    },
+    "10": {
+      "RELEASE.json": {
+        "dependency": "afterok:728212.hopper-m-02",
+        "epoch": 1795302662.29801,
+        "job": "728341.hopper-m-02"
+      }
+    },
+    "epoch": 1795307841.187632,
+    "step": 3216,
+    "raw_update": {}
+  },
+  "main3200_custody": {
+    "source": {
+      "event": "c8e893486c26158acf7753ae6eeafae38c2dcdd6edc59cf1e4dc699f18e38ea0",
+      "path": "/scratch/e1192548/Projects/GR00T-WBC/runs/WM02/sla-core-hopper-v1-custody-20261121-01/HOPPER-ADAPT20K-V1/MAIN/sealed/phase03200.json",
+      "backup_due": true,
+      "keys": [
+        "backup_due",
+        "binding",
+        "checkpoint",
+        "course",
+        "cursors",
+        "deployment_due",
+        "eval_due",
+        "offline_status",
+        "phase",
+        "plan",
+        "predecessor",
+        "role"
+      ],
+      "checkpoint": {
+        "path": "/scratch/e1192548/Projects/GR00T-WBC/runs/WM02/sla-core-hopper-v1-custody-20261121-01/HOPPER-ADAPT20K-V1/MAIN/checkpoints/phase03200",
+        "sha256": "d4af87e9afcafbf8ce029145f161aa48eab389307f479a7defd9eeaedeaf7696"
+      },
+      "cursors": {
+        "lineage_cursors": {
+          "libero": 190400,
+          "robodojo": 190400,
+          "target": 348800
+        },
+        "lineage_updates": 5700,
+        "phase_step": 3200,
+        "role_training_full_generations": 12800,
+        "role_updates": 3200,
+        "role_visits": {
+          "libero": 102400,
+          "robodojo": 102400,
+          "target": 204800
+        },
+        "target_bank_cursor": 76800
+      }
+    },
+    "direct": {
+      "status": "HOPPER_VANDA_DIRECT_BACKUP_BYTE_MATCH",
+      "receipt": {
+        "plan": "171b5bedb290258954aac140157743e92e3b152e",
+        "role": "MAIN",
+        "phase": 3200,
+        "event_sha256": "c8e893486c26158acf7753ae6eeafae38c2dcdd6edc59cf1e4dc699f18e38ea0",
+        "checkpoint": "d4af87e9afcafbf8ce029145f161aa48eab389307f479a7defd9eeaedeaf7696",
+        "custody": "/scratch/projects/CFP04/CFP04-CF-007/e1192548/GR00T-WBC/runs/WM02/sla-core-multienv-backup-main3200-20261122-01/MAIN/phase03200",
+        "arrays": 140,
+        "bytes": 5547651600,
+        "eval_due": false,
+        "deployment_due": false,
+        "parent": "2bff547b6f2c3aca0e7e2fd8a790ce6b30ef1c5f33b004c6897e3083647358d5"
+      },
+      "sha256": "f8b958832be03e1d067a4affa92fa0522be719abb6777fb9e5b0a3bd3fe45894",
+      "path": "/scratch/projects/CFP04/CFP04-CF-007/e1192548/GR00T-WBC/runs/WM02/sla-core-multienv-backup-main3200-20261122-01/receipts/MAIN-phase03200.json",
+      "finished": 1795307777.4063084,
+      "dependencies": "existing station-to-station SSH only"
+    },
+    "independent": {
+      "status": "INDEPENDENT_VANDA_140_ARRAY_REHASH_MATCH",
+      "checkpoint": "d4af87e9afcafbf8ce029145f161aa48eab389307f479a7defd9eeaedeaf7696",
+      "arrays": 140,
+      "files": 141,
+      "bytes": 5547651600,
+      "epoch": 1795307825.0005326,
+      "seconds": 9.579553961986676
+    }
+  },
+  "g7_fixture_readback": {
+    "result": {
+      "status": "G7_REAL_SAVED_EVIDENCE_ROUTED_FIXTURE_EXACT",
+      "original_episode_sha": "1c038a62d61c05f345ec710299b9bf065f5b33d13531db12aabf619bc9241cf3",
+      "fixture_episode_sha": "1c038a62d61c05f345ec710299b9bf065f5b33d13531db12aabf619bc9241cf3",
+      "original_result_sha": "e88be44ed6d0e4eda27f5cbad3489bf236ce1343995bee7fd29f833d7ba39471",
+      "windows": 123,
+      "P10_atoms": 1230,
+      "frame_shards": 8,
+      "original_recording_and_admission_preserved": true,
+      "new_native_requests": 0,
+      "new_integrations": 0,
+      "official_admissions": 0,
+      "clock_reference_label_bytes_changed": 0,
+      "wall_s": 1.947288405150175
+    },
+    "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-cold-G7-fixture-20261122-01/RESULT.private.json",
+    "sha256": "53bdf9c7fdbde55369f3d62fa70403cde4b8d2054acee34ef862233c7c59f588",
+    "test_source_sha": "5eafea99381f8652dfea7707643158db180de897df96e9e9a3e6436738681fa9",
+    "epoch": 1795307758.0162568
+  }
+}

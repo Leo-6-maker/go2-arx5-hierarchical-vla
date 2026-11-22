@@ -31,13 +31,23 @@ def verified(folder, population, seal_sha, flush=False):
     manifest = pinned('MANIFEST.private.json', seal['manifest_sha256'])
     proof = pinned('ACTUAL.private.json', seal['admission_sha256'])
     episodes, cases, hashes = manifest['episodes'], proof['cases'], seal['episode_sha256']
-    check_admission_provenance(proof)
+    from scripts.sla import core_multienv_train as multienv
+
+    joined = proof.get('schema') in multienv.JOINED_SCHEMAS
+    if joined:
+        additions = multienv.admitted_cards(proof,episodes,hashes)
+        if cards.keys() & additions.keys():
+            raise ValueError('Wave A changed the previous population')
+        cards.update(additions)
+    else:
+        check_admission_provenance(proof)
+    limit = multienv.MAX_COUNT if joined else 240
     if (seal['plan'] != PLAN or manifest['plan'] != PLAN
             or manifest['statistics_sha256'] != C20 or manifest['state'] != 'committed'
             or manifest['schema'] != 'SLA_TARGET_ADAPTATION_NEW_EXPERTS_V1'
             or manifest['representation'] != 'DENSE_REFERENCE_G7_V6'
             or not seal['split'] == manifest['split'] == 'TRAIN'
-            or not 0 < len(episodes) == len(cases) == len(hashes) == seal['count'] == proof['admitted_episodes'] <= 240
+            or not 0 < len(episodes) == len(cases) == len(hashes) == seal['count'] == proof['admitted_episodes'] <= limit
             or not sum(ep['windows'] for ep in episodes) == seal['windows'] == proof['admitted_windows']
             or proof['dataset_sha256'] != seal['manifest_sha256']):
         raise ValueError('Wrong Core producer, TRAIN admission, statistics or data contract')
@@ -50,6 +60,7 @@ def verified(folder, population, seal_sha, flush=False):
         signature = tuple(row['sha256'] for row in members)
         scene = scenes.setdefault(card['scene_family'], ep['scene_sha256'])
         if (ep['split'] != 'TRAIN' or ep['individual_pass'] is not True or case['admitted'] is not True
+                or (joined and eid in additions and ep['scene_sha256'] != card['scene_sha256'])
                 or ep['label_kind'] != 'expert_query_plan_H40' or eid in ids or case['id'] != eid
                 or ep['native_result_sha256'] in native or signature in contents or scene != ep['scene_sha256']
                 or not ep['task'] == case['instruction'] == card['instruction'] or ep['family'] != card['family']

@@ -1,0 +1,134 @@
+{
+  "asof": "2026-11-22T04:55:08+08:00",
+  "cold": {
+    "MAIN-phase00000": {
+      "status": "COLD_MATCH",
+      "outputs": [
+        "64f82fb3abdbf72dd1e2e11b43c4ffb47b837eb6f47536b0e631abf72f96abab",
+        "64f82fb3abdbf72dd1e2e11b43c4ffb47b837eb6f47536b0e631abf72f96abab"
+      ],
+      "denominator": [
+        16,
+        16
+      ],
+      "IPC_intents": 0,
+      "IPC_ready": false,
+      "old_worker_closed": "CLOSED"
+    },
+    "MAIN-phase02000": {
+      "status": "COLD_MATCH",
+      "outputs": [
+        "1f44554135fc1cd6531a1e50e35a1da30a56a6dc95ac9ea28e608c46f3f9026b",
+        "1f44554135fc1cd6531a1e50e35a1da30a56a6dc95ac9ea28e608c46f3f9026b"
+      ],
+      "denominator": [
+        16,
+        16
+      ],
+      "IPC_intents": 0,
+      "IPC_ready": false,
+      "old_worker_closed": "CLOSED"
+    }
+  },
+  "cold_terminal": {
+    "attempts": 64,
+    "completed": 64,
+    "first_failure": null,
+    "native_requests": 0,
+    "status": "COLD_STAGE_FINISHED",
+    "updates": 0
+  },
+  "ipc_state": {
+    "MainPID": "2769742",
+    "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-canonical-ipc-20261122-05.service",
+    "ActiveState": "active",
+    "InvocationID": "5672ce4e391647f8a5e5a264300a3a7c"
+  },
+  "dev_state": {
+    "MainPID": "2769746",
+    "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-canonical-dev-20261122-06.service",
+    "ActiveState": "active",
+    "InvocationID": "173a567957114505b27b7c5ef899d242"
+  },
+  "dev_runtime_dir": true,
+  "dev_heartbeat": {
+    "state": "WAIT_IPC",
+    "epoch": 1795294504.481714,
+    "pid": 2769746,
+    "arm": "MAIN-phase00000"
+  },
+  "native_DEV_blocks": 0,
+  "N1": {
+    "status": "WAIT_WORLD",
+    "pid": 2745035,
+    "epoch": 1795294506.9051843,
+    "paid_requests": 1,
+    "verified_ticks": 10703,
+    "current": "MEV1-ENG-N1-SHORT-01",
+    "production_completed": 8
+  },
+  "wave": {
+    "stage": "DISPATCH",
+    "epoch": 1795294354.9923534,
+    "completed": 8,
+    "actual_requests": 8,
+    "closed_ticks": 203593,
+    "admitted_train": 3,
+    "current": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-blue-left"
+  },
+  "latest": [
+    {
+      "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-HOLD-red",
+      "ticks": 20953,
+      "admitted": true,
+      "first_failure": "TASK_SUCCESS",
+      "hard_STOP": false,
+      "post_STOP_ticks": null
+    },
+    {
+      "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-HOLD-blue",
+      "ticks": 23453,
+      "admitted": true,
+      "first_failure": "TASK_SUCCESS",
+      "hard_STOP": false,
+      "post_STOP_ticks": null
+    }
+  ],
+  "catalog": {
+    "new": 3,
+    "latest": 59,
+    "new_visits": 0
+  },
+  "plan": "4fe2c8cf1b69c168b2e3079e061bb7c702089cd3",
+  "ipc_source": "199f6d1e25762f10981a787e2a53e9e89276b74f",
+  "ipc_config_sha256": "54eaaece269258a551780a418c24a72d967f3229fd03f6ee061630922814b6d4",
+  "dev_config_sha256": "9c6076be79ef53f957811eadb24be6643505903ef7c1747342b6232ea0dedf65",
+  "ipc_fallback_sha256": "4059540ba075f7a1379948dae181d0b4f0741ad42de55ec43f594f735bba8cda",
+  "previous_ipc": {
+    "unit": "wm02-sla-core-multienv-canonical-ipc-20261122-04.service",
+    "first_failure": "Missing go2arx5_vla.sla_adapter.compilation_cache_binding_v1 in worker import closure",
+    "terminal_worker_sha256": "00e4c83ea5ffef4de0d3b79b6c38426f6f56ea640415dab99f67b12dd8f5895d",
+    "affected_arms": [
+      "MAIN-phase00000",
+      "MAIN-phase02000"
+    ],
+    "attempts": 0,
+    "completed": 0,
+    "native_requests": 0,
+    "ticks": 0
+  },
+  "old_dev": {
+    "unit": "wm02-sla-core-multienv-canonical-dev-20261122-05.service",
+    "native_requests": 0,
+    "results": [
+      "NOT_RUN",
+      "NOT_RUN"
+    ]
+  },
+  "current_ipc_deadline": 1795855948,
+  "current_dev_deadline": 1795891948,
+  "native_requests": 0,
+  "model_generations_new_IPC": 0,
+  "same_cold_inputs_retained": true,
+  "repeated_cold_jobs": 0
+}

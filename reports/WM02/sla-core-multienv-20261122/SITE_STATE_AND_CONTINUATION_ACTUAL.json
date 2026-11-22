@@ -1,0 +1,331 @@
+{
+  "plan": "4fe2c8cf1b69c168b2e3079e061bb7c702089cd3",
+  "original_execution": "1fee437d12d9a79deff8e2be0175da3f148dd48e",
+  "at_sgt": "2026-11-22T03:13:55.950+08:00",
+  "prior_gpu_segment": {
+    "job": "728000.hopper-m-02",
+    "exit": 0,
+    "final_phase": 2000,
+    "complete_checkpoint": "a050bec7b0d4bd8ee7fb79ab3e6e1d713d4d74d44236dc1762632cdd13ce2994",
+    "arrays": 140
+  },
+  "successor": {
+    "job": "728156.hopper-m-02",
+    "state": "R",
+    "host": "hopper-28/1*12",
+    "resource": "1 H200 6h",
+    "start": 2000,
+    "stop": 2767,
+    "depends_on_immutable_checkpoint": "a050bec7b0d4bd8ee7fb79ab3e6e1d713d4d74d44236dc1762632cdd13ce2994",
+    "next_pbs_id": null
+  },
+  "backup": {
+    "arrays": 140,
+    "manifest": "a050bec7b0d4bd8ee7fb79ab3e6e1d713d4d74d44236dc1762632cdd13ce2994",
+    "bytes": 5547651595,
+    "receipt": "28223b0473d5e86879d54a74642821f5a0ce066c1d3d2399cf331e6e6fd78792",
+    "route": "Hopper directly to VANDA"
+  },
+  "train052_usage": {
+    "at": 1795288435.9508114,
+    "first": {
+      "step": 2001,
+      "core052": 41,
+      "target": 64,
+      "visits": {
+        "target": 64,
+        "robodojo": 32,
+        "libero": 32
+      },
+      "job": "728156.hopper-m-02",
+      "sha": "ae06e732ce3adbf6424e2379045483c1478556f7819f786dbd0e513a23215f83"
+    },
+    "last": {
+      "step": 2019,
+      "core052": 39,
+      "target": 64,
+      "visits": {
+        "target": 64,
+        "robodojo": 32,
+        "libero": 32
+      },
+      "job": "728156.hopper-m-02",
+      "sha": "d67ba22f46836afb212654e046f69cf8ec8bd86a362432c86e17fbf4afb828a5"
+    },
+    "core052_total": 723,
+    "dataset_sha": "e0c5c481a95972e4ba5c9b712e1c3a1240d462ad28222a2c0e041e307fb42278",
+    "bank_sha": "5c0ab6f081ad09fc8fd7ab39f8e846667e7cb58fed0dcbe8c79a2e201de4d484",
+    "bound_course": "e259cb6f2dec2711a8f56bf50fa93f435d06f818e26a7fdeeeccbb374be60d00",
+    "registered_59_optimization_visits": 0
+  },
+  "train059": {
+    "ready": {
+      "certificate_sha": "9cb0ff461c4370186ad3c783c1c441b196703b144468f1f6257aa52be8c614f3",
+      "report_sha": "92e502b4e8f86d5ac26cfcb5f777c691e4f97e1a68f82bfd9199c89ea161c7ba",
+      "at": 1795288318.5840716,
+      "status": "HOPPER_MIXED_TRAIN_APPROVED",
+      "count": 59,
+      "windows": 5154,
+      "seal": "d0f7269319b57a4edcc1cd7ca0b60904624831985d54fb6db72cf2b25e8c563b",
+      "manifest": "317453594bb3557c00280c34fec3e400f1dbf7675d9c188f0fc2b041771c4b11",
+      "new_training_visits": 0
+    },
+    "core_reader": {
+      "root": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-train059-readback-20261122-01",
+      "unit": "wm02-sla-core-multienv-train059-readback-20261122-01.service",
+      "spec": "1fe0aa1bcee808bde550270c976dba0c083d31b3b6e9406189b03ffb4a38dcc3",
+      "worker": "ba0b32685e6d52ea5f6d22d903d0191b3cae94e09472d96dbc15272e54618d96"
+    },
+    "core_used_windows": 5154,
+    "consumed_P10_atoms": 51540,
+    "new_opt_visits": 0,
+    "downloaded_new_bytes": 230530744
+  },
+  "core_deployment_packages": {
+    "0": {
+      "phase": 0,
+      "checkpoint": "d7949c75ecc33253bea605a3aed738df4ecdc473d8737848a1bca787ab253c18",
+      "event": "5fd6c09d4cb81f1abdc3bf4fb06642054723e0b926182d316768e4d1e18e32c3",
+      "package": "773f6a5925c6665c80361ce3c25f16eb8795d615c7991913f10f42a156a542e9",
+      "complete_state_arrays": 140,
+      "exported_go2_arrays": 29,
+      "model_generations": 0,
+      "native_requests": 0
+    },
+    "2000": {
+      "phase": 2000,
+      "checkpoint": "a050bec7b0d4bd8ee7fb79ab3e6e1d713d4d74d44236dc1762632cdd13ce2994",
+      "event": "0456ac4f1177fdc124910c416891c563d873570f88f1940a52594f9de81ba310",
+      "package": "529b208e5e95053e33c30cc381680cf523f29f2a330d2801c99e65097839ee0a",
+      "complete_state_arrays": 140,
+      "exported_go2_arrays": 29,
+      "model_generations": 0,
+      "native_requests": 0
+    }
+  },
+  "canonical": {
+    "first_launch": {
+      "attempts": 0,
+      "completed": 0,
+      "receipt": "69dcf568746b4a12de3ea805bca7ee43b4cfb7035f65d29b947a90f54e11cc10",
+      "reason": "Service had not carried the original CUDA_VISIBLE_DEVICES setting"
+    },
+    "resumed": {
+      "unit": "wm02-sla-core-multienv-canonical-cold-20261122-02.service",
+      "pid": "2589749",
+      "invocation": "32d7af84adf248679a476197c7bd5328",
+      "cgroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-canonical-cold-20261122-02.service",
+      "spec": "267bb01b35f614d9283ac0625453fd1026cad0c80e01661d9b47b8f4423eaa3e",
+      "deadline_sgt": "2026-11-22T04:01:23.000+08:00"
+    },
+    "status": "SERVICE_MOUNTED_COLD_GENERATION_PENDING",
+    "ipc": "NOT_RUN",
+    "phase00000_dev": "NOT_RUN",
+    "phase02000_dev": "NOT_RUN"
+  },
+  "old_expert": {
+    "terminal_train": {
+      "terminal": 93,
+      "requests": 93,
+      "ticks": 2622539,
+      "grasp": 75,
+      "lift": 75,
+      "grasp_and_lift": 75,
+      "success": 60,
+      "admitted": 60,
+      "hard_stop": 27,
+      "technical": 0,
+      "after_stop": {
+        "0": 26,
+        "None": 1
+      },
+      "fail": {
+        "ILLEGAL_CONTACT": 25,
+        "TASK_BUDGET_EXHAUSTED_IN_CARRY": 2,
+        "TASK_BUDGET_EXHAUSTED_IN_HOLD": 4,
+        "NATIVE_ACTUATOR_EFFORT": 1,
+        "REGISTERED_JOINT_SAFETY": 1
+      }
+    },
+    "terminal_val": {
+      "terminal": 24,
+      "requests": 24,
+      "ticks": 678919,
+      "grasp": 15,
+      "lift": 15,
+      "grasp_and_lift": 15,
+      "success": 8,
+      "admitted": 8,
+      "hard_stop": 15,
+      "technical": 0,
+      "after_stop": {
+        "0": 15
+      },
+      "fail": {
+        "ILLEGAL_CONTACT": 15,
+        "TASK_BUDGET_EXHAUSTED_IN_CARRY": 1
+      }
+    },
+    "current": "STOPPED_ON_NATIVE_ACTUATOR_EFFORT",
+    "case": "CHV1-TRAIN-F2-HOLD-blue-18",
+    "ticks": 24016,
+    "terminal_trace_stops_latched": false,
+    "safety_file_clock_s": 48.032,
+    "actual_lease": "CLOSED"
+  },
+  "teacher_train_causal": {
+    "data": {
+      "unit": "wm02-sla-core-multienv-contact-readback-20261122-01.service",
+      "active": "inactive",
+      "total": 23,
+      "groups": [
+        {
+          "bodies": [
+            "world/x5_link8"
+          ],
+          "cell": "CHV1-TRAIN-F1-HOLD-blue",
+          "n": 3,
+          "phase": "DESCEND"
+        },
+        {
+          "bodies": [
+            "world/x5_link8",
+            "world/x5_link8"
+          ],
+          "cell": "CHV1-TRAIN-F1-HOLD-blue",
+          "n": 2,
+          "phase": "DESCEND"
+        },
+        {
+          "bodies": [
+            "task_blue_cube/x5_link6"
+          ],
+          "cell": "CHV1-TRAIN-F1-PLACE-blue-left",
+          "n": 1,
+          "phase": "DESCEND"
+        },
+        {
+          "bodies": [
+            "world/x5_link8"
+          ],
+          "cell": "CHV1-TRAIN-F1-PLACE-blue-left",
+          "n": 1,
+          "phase": "DESCEND"
+        },
+        {
+          "bodies": [
+            "world/x5_link2",
+            "world/x5_link2"
+          ],
+          "cell": "CHV1-TRAIN-F1-PLACE-blue-right",
+          "n": 3,
+          "phase": "CARRY"
+        },
+        {
+          "bodies": [
+            "task_blue_cube/x5_link6"
+          ],
+          "cell": "CHV1-TRAIN-F1-PLACE-red-left",
+          "n": 1,
+          "phase": "CARRY"
+        },
+        {
+          "bodies": [
+            "world/x5_link8"
+          ],
+          "cell": "CHV1-TRAIN-F1-PLACE-red-left",
+          "n": 1,
+          "phase": "DESCEND"
+        },
+        {
+          "bodies": [
+            "world/x5_link8"
+          ],
+          "cell": "CHV1-TRAIN-F2-HOLD-blue",
+          "n": 1,
+          "phase": "DESCEND"
+        },
+        {
+          "bodies": [
+            "task_blue_cube/x5_link6"
+          ],
+          "cell": "CHV1-TRAIN-F2-HOLD-red",
+          "n": 2,
+          "phase": "DESCEND"
+        },
+        {
+          "bodies": [
+            "task_blue_cube/task_cube",
+            "task_blue_cube/task_cube"
+          ],
+          "cell": "CHV1-TRAIN-F2-PLACE-blue-left",
+          "n": 1,
+          "phase": "CARRY"
+        },
+        {
+          "bodies": [
+            "task_cube/x5_link8"
+          ],
+          "cell": "CHV1-TRAIN-F2-PLACE-blue-left",
+          "n": 1,
+          "phase": "OPEN"
+        },
+        {
+          "bodies": [
+            "task_blue_cube/task_cube",
+            "task_blue_cube/task_cube"
+          ],
+          "cell": "CHV1-TRAIN-F2-PLACE-blue-right",
+          "n": 2,
+          "phase": "CARRY"
+        },
+        {
+          "bodies": [
+            "task_blue_cube/x5_link6"
+          ],
+          "cell": "CHV1-TRAIN-F2-PLACE-red-left",
+          "n": 2,
+          "phase": "DESCEND"
+        },
+        {
+          "bodies": [
+            "task_blue_cube/x5_link6"
+          ],
+          "cell": "CHV1-TRAIN-F2-PLACE-red-right",
+          "n": 2,
+          "phase": "DESCEND"
+        }
+      ],
+      "sha": "cd2fe661e67bb7fe92d04d3b5ca633888c556833f55b462817a5898a4ab65931"
+    },
+    "repair_candidate_native": "NOT_RUN"
+  },
+  "new_scenes": {
+    "outcomes": {
+      "COMPILED": 88,
+      "NEAR_DUPLICATE": 3
+    },
+    "full_scenes": {
+      "TRAIN-A": 16,
+      "TRAIN-B": 64,
+      "VAL-A": 4,
+      "VAL-B": 4
+    },
+    "fingerprints": [
+      "67d4b804c438beabec9790ecf40b60584d2b45ec0c5f1799f377bf784f316bc8"
+    ],
+    "protected": [],
+    "mjb_bytes": 6553412888,
+    "receipt": "9362f140cf28899e175993d859c02a0488f649eee55de89690e2169c66e70d1c",
+    "spec": "9027a0606f2fecc23e96145b7ecfc3594b288597977fbdce6e25906e5b5ff70d",
+    "native": "NOT_RUN"
+  },
+  "N1_profile": "NOT_RUN_PR425",
+  "N2": "NOT_RUN",
+  "N4": "NOT_RUN",
+  "new_scope_native_requests": 0,
+  "new_scope_integrations": 0,
+  "vanda_new_pbs": 0,
+  "stopped_vanda_cpu_chains": 7,
+  "interim_missing": "An independent owner for automatic submission after 728156 remains to be verified"
+}

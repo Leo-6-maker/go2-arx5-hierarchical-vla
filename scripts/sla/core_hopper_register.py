@@ -15,7 +15,7 @@ from go2arx5_vla.world_model.storage import digest
 from scripts.pi0292.durable import OwnerLock, write
 from scripts.wm02.multitask_stage_cards_v6 import case_card, cold_native_owner, panel_cards, pin, require_unstarted_cases
 from scripts.wm02.multitask_teacher_campaign_v6 import interface_records
-from scripts.sla.core_hopper_expert import AUTHORITY, OWNER, PLAN, POP, SCOPE, order, repair_rows
+from scripts.sla.core_hopper_expert import AUTHORITY, OWNER, PLAN, POP, SCOPE, order
 
 
 def prepare(config):
@@ -23,8 +23,15 @@ def prepare(config):
     if (os.getuid()!=2009 or os.uname().nodename!='corelab-4080s' or root.exists()
             or source!=Path(__file__).resolve().parents[2] or root.parent.stat().st_uid!=os.getuid()):
         raise PermissionError('Only an unopened Core role under the verified owner')
+    multienv=config.get('multienv')
+    if multienv:
+        from scripts.sla import core_multienv_scope as me
+        plan, scope, authority_source = me.PLAN, me.SCOPE, me.AUTHORITY
+    else:
+        plan, scope, authority_source = PLAN, SCOPE, AUTHORITY
     mount=read_pin(config['mount'])
-    if (mount['plan']!=PLAN or mount['T0_epoch']+14*86400!=mount['deadline_epoch']
+    if (mount['plan']!=plan or (multienv and mount['deadline_epoch']>mount['T0_epoch']+7*86400)
+            or (not multienv and mount['T0_epoch']+14*86400!=mount['deadline_epoch'])
             or time.time()+1980>=mount['deadline_epoch']):
         raise ValueError('Campaign deadline or registration mismatch')
     interface=cold_native_owner(config['interface'])
@@ -32,11 +39,27 @@ def prepare(config):
     if subprocess.check_output(['loginctl','show-user','2009','-p','Linger'],text=True).strip()!='Linger=yes':
         raise PermissionError('User service persistence unverified')
     repair=config.get('carry_repair')
-    if not repair:
+    if multienv:
+        previous = cold_native_owner(multienv['handoff_owner'])
+        if (previous['owner'] != OWNER or previous['scope'] != SCOPE or previous['plan_commit'] != PLAN
+                or previous['mobile_world_lock'] != interface['mobile_world_lock']
+                or previous['host'] != interface['host']
+                or not (Path(previous['registered_root'])/'RESULT.private.json').is_file()):
+            raise ValueError('Expected the closed Core owner and the original shared world lock')
+    elif not repair:
         lock=OwnerLock(interface['mobile_world_lock']); lock.close()
-    if config['population']['sha256']!=POP:
+    if not multienv and config['population']['sha256']!=POP:
         raise ValueError('Geometry seal mismatch')
-    pop=read_pin(config['population']); rows=repair_rows(pop,repair) if repair else order(pop)
+    pop=read_pin(config['population'])
+    if multienv:
+        if pop['wave']!='A' or repair:
+            raise ValueError('Expected the original Teacher on the fixed Wave A geometry')
+        rows=me.order(pop)
+    elif repair:
+        from scripts.sla.core_hopper_expert import repair_rows
+        rows=repair_rows(pop,repair)
+    else:
+        rows=order(pop)
     closure=read_pin(config['source_members'])
     if any(digest(source/name)!=expected for name,expected in closure.items()):
         raise ValueError('Source closure changed')
@@ -54,10 +77,12 @@ def prepare(config):
     source_sha=config['source_sha']
     end=mount['deadline_epoch']
     authority=root/'AUTHORITY.private.json'
-    write(authority,dict(source=AUTHORITY,plan_commit=PLAN,source_sha=source_sha,frozen_producer=source_sha,
-        compiled_population_sha256=POP,hardware_allowed=False,native_request_cap=len(rows),
+    extra = {} if not multienv else dict(wave='A',goal_start=mount['T0_epoch'],
+        compiled_population=config['population'],case_ids=[r['id'] for r in rows])
+    write(authority,dict(source=authority_source,plan_commit=plan,source_sha=source_sha,frozen_producer=source_sha,
+        compiled_population_sha256=config['population']['sha256'],hardware_allowed=False,native_request_cap=len(rows),
         native_tick_cap=sum(row['native_max_ticks'] for row in rows),T0_epoch=mount['T0_epoch'],
-        deadline_epoch=end,owner=OWNER,sim_only=True,**({'carry_repair':repair} if repair else {})))
+        deadline_epoch=end,owner=OWNER,sim_only=True,**extra,**({'carry_repair':repair} if repair else {})))
     templates={s['mobile_condition']['family']:s for s in (read_pin(pin(Path(p))) for p in interface['cases'])}
     planned=[(dict(r,noise_seed=r['scene_seed']),None) for r in rows]
     panel=panel_cards(pop,planned,templates,role='EXPERT')
@@ -68,10 +93,10 @@ def prepare(config):
         CUDA_VISIBLE_DEVICES='',ROS_LOCALHOST_ONLY='1',ROS_AUTOMATIC_DISCOVERY_RANGE='LOCALHOST')
     spec=dict(interface,source_sha=source_sha,source_root=str(source),source_files=closure,
               source_seal=hashlib.sha256(json.dumps(closure,sort_keys=True).encode()).hexdigest(),
-              owner=OWNER,scope=SCOPE,registry_scope=SCOPE,goal_plan_sha=PLAN,plan_commit=PLAN,
-              plan_name='SLA-CORE-HOPPER-PARALLEL-V1',registered_root=str(root),campaign_root=str(root),
+              owner=OWNER,scope=scope,registry_scope=scope,goal_plan_sha=plan,plan_commit=plan,
+              plan_name='SLA-CORE-MULTIENV-DATA-V1' if multienv else 'SLA-CORE-HOPPER-PARALLEL-V1',registered_root=str(root),campaign_root=str(root),
               mobile_group=str(root),collection_root=str(root/'admission'),unattended_control=str(root/'control'),
-              native_environment=env,role=SCOPE,compiled_population=config['population'],
+              native_environment=env,role=scope,compiled_population=config['population'],
               registered_panel=pin(pf),interface_predecessor=config['interface'],sim_only_project_authorization=pin(authority),
               admission_python=config['admission_python'],C20_statistics_path=config['statistics'],physics=True,hardware_connections_allowed=False,
               resident_server_spec=None,new_optimizer_updates_budget=0,new_training_visits_budget=0,
@@ -85,16 +110,18 @@ def prepare(config):
     spec.update({k:str(root/k) for k in ('logs','cache','tmp','data')})
     if repair:
         spec['carry_repair']=repair
+    if multienv:
+        spec['multienv']=multienv
     for item,row in zip(panel,rows,strict=True):
         _,case=case_card(spec,templates[row['family']],item,spec['registered_panel'])
-        case.update(registry_scope=SCOPE,collection_split=row['split'],compiled_population=config['population'],
+        case.update(registry_scope=scope,collection_split=row['split'],compiled_population=config['population'],
                     allocation_deadline_epoch=min(end,time.time()+2160),deadline_epoch=min(end,time.time()+1980),
                     expert_training_eligible=row['split']=='TRAIN')
         if repair:
             case['carry_repair']=repair
         validate(case)
     write(root/'PREFLIGHT.private.json',dict(validated_cards=len(rows),native_requests=0,source_sha=source_sha,
-                                             population_sha256=POP,plan=PLAN))
+                                             population_sha256=config['population']['sha256'],plan=plan))
     register(spec,[(root,spec)])
     launch=launch_service(spec,'wm02-'+root.name,'--core-hopper-collection',bootstrap='v6_bootstrap.py')
     print(json.dumps(launch))

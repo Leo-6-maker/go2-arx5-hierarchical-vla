@@ -14,6 +14,7 @@ from go2arx5_vla.world_model.mfree_unattended_runtime_v1 import dirs
 from go2arx5_vla.world_model.multitask_scope_v6 import read_pin, validate
 from scripts.pi0292.durable import read, write
 from scripts.sla.core_hopper_expert import PLAN, POP
+from scripts.sla.core_canonical_proof import VERIFIED
 from scripts.sla.core_hopper_native_scope import SCOPE, AUTHORITY, accepted
 from scripts.wm02.multitask_stage_cards_v6 import case_card, cold_native_owner, panel_cards, pin, require_unstarted_cases
 from scripts.wm02.multitask_student_campaign_v6 import student_row
@@ -48,7 +49,7 @@ def prepare(cfg, proof_pin, arm, split, start, root, capacity):
             or hashlib.sha256(json.dumps(actual,sort_keys=True).encode()).hexdigest()!=cfg['source_seal']):
         raise ValueError('Native code or registered expert binding changed')
     now=time.time()
-    allocation=min(cfg['deadline'],now+len(rows)*1980+1200)
+    allocation=min(cfg.get('dispatch_deadline',cfg['deadline']),cfg['deadline'],now+len(rows)*1980+1200)
     end=allocation-120
     if end-now < 1980:
         raise TimeoutError('Insufficient time for one original condition')
@@ -68,7 +69,8 @@ def prepare(cfg, proof_pin, arm, split, start, root, capacity):
     af=root/'AUTHORITY.private.json'
     write(af,authority)
     payload = Path(cfg['receiver']['path']).parent/'endpoints'/arm/'payload'
-    package = dict(path=str(payload),sha256=proof['manifest'])
+    canonical = proof['status']==VERIFIED
+    package = proof['package'] if canonical else dict(path=str(payload),sha256=proof['manifest'])
     parent=dict(interface,**locations(root))
     parent.update(owner=authority['owner'],source_sha=cfg['source'],source_root=str(source),source_files=actual,source_seal=cfg['source_seal'],
         scope=SCOPE,registry_scope=SCOPE,plan_commit=PLAN,goal_plan_sha=PLAN,registered_root=str(root),campaign_root=str(root),
@@ -98,6 +100,12 @@ def prepare(cfg, proof_pin, arm, split, start, root, capacity):
              XLA_PYTHON_CLIENT_MEM_FRACTION=str(receiver['memory_fraction']),HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1',
              TMPDIR=str(worker_dir/'tmp'),XDG_CACHE_HOME=str(worker_dir/'cache'),
              PYTHONPATH=numeric['environment']['PYTHONPATH']+f':{source}:{source}/src')
+    if canonical:
+        # The native supervisor carries the frozen WBC loader paths. The
+        # resident numerical process must inherit only its qualified loader.
+        env.update(SLA_CORE_CANONICAL_WORKER='1',
+                   LD_LIBRARY_PATH=numeric['environment'].get('LD_LIBRARY_PATH',''),
+                   LD_PRELOAD=numeric['environment'].get('LD_PRELOAD',''))
     gpu = dict(parent,**locations(worker_dir))
     for k in ('parent_params','parent_manifest','tokenizer','initial_function_rule','upstream_sha','dataset',
               'RPC_timeout_s','save_and_exit_on_limit','frame_cache_bytes'):
@@ -124,9 +132,10 @@ def prepare(cfg, proof_pin, arm, split, start, root, capacity):
     write(worker_dir/'SITE.json',site)
     gpu['site_binding']=pin(worker_dir/'SITE.json')
     cache=Path(cfg['receiver']['path']).parent/'jax-cache'
-    for entry in cache.iterdir():
-        if entry.is_file() and not entry.is_symlink():
-            shutil.copy2(entry,worker_dir/'cache'/entry.name)
+    if not canonical:
+        for entry in cache.iterdir():
+            if entry.is_file() and not entry.is_symlink():
+                shutil.copy2(entry,worker_dir/'cache'/entry.name)
     write(worker_dir/'EXECUTION_SPEC.json',gpu)
     parent['resident_server_spec']=pin(worker_dir/'EXECUTION_SPEC.json')
     children=[]

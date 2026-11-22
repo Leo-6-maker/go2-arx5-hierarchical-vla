@@ -1,0 +1,457 @@
+{
+  "plan": "4fe2c8cf1b69c168b2e3079e061bb7c702089cd3",
+  "wave": "A",
+  "observed_at_sgt": "2026-11-22T03:42:55.491+08:00",
+  "producer": {
+    "MainPID": "2643171",
+    "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-wave-a-20261122-02.service",
+    "ActiveState": "active",
+    "SubState": "running",
+    "InvocationID": "818d3acfd2044d1f8edd4e5475d223b9",
+    "unit": "wm02-sla-core-multienv-wave-a-20261122-02.service",
+    "source": "eccd8e2e2089bb2505c50043f959959d07094d56",
+    "scope": "SLA_CORE_MULTIENV_V1_EXPERT",
+    "spec": "45d949a883c7c10ec31c0caef9a40bdd0a4c51225d5417dac68c7b05432e870b",
+    "config": "233b2e88a3bec2b6489471300dfd6356b25915c006d194aae396d9e5a925552a",
+    "population": "d8762c633e7897ade790ecc736704e5304e01ba8c0a1853f1cd87054ad012774",
+    "authority": "8ed7f6d02120da8467d8c467da6b5a391781a4d8199eb45d0bc720de38768ec8",
+    "source_closure_count": 3704,
+    "source_seal": "160bf35ce5f9a99775c0c2af5c6359a1f03f5044e55969c242386f542c2885ef",
+    "uid": 2009,
+    "user_linger": true,
+    "frontend_dependency": false,
+    "same_exclusive_world_lock": true,
+    "deadline_sgt": "2026-11-29T02:52:28.000+08:00",
+    "stop": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-20261122-02/STOP.json",
+    "runtime_root": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-20261122-02",
+    "hardware_allowed": false,
+    "WBC_changes": false,
+    "safety_changes": false,
+    "allocation_world_count": 1
+  },
+  "registered": {
+    "TRAIN": 96,
+    "VAL": 24,
+    "maximum_native_requests": 120,
+    "maximum_ticks": 5484360
+  },
+  "wave_a": {
+    "native_started": 1,
+    "native_closed": 0,
+    "native_open": 1,
+    "in_flight_tick_lower_bound": 22951,
+    "TRAIN_admitted": 0,
+    "VAL_admitted": 0,
+    "model_generations": 0,
+    "optimizer_updates": 0,
+    "training_visits": 0,
+    "in_flight_condition": "MEV1-TRAIN-F1-NEAR_NEG-00-HOLD-blue",
+    "condition_PID": 2643358,
+    "spec": "25ff08d96ea4e3f0d0db4f4808b4706ae30ea381a708dc80b2dc422fa5305f87",
+    "first_failure": "PENDING_LIVE_TERMINAL",
+    "first_registration": {
+      "physical_requests": 0,
+      "reason": "Pinned original producer overlay did not expose an optional repair import"
+    }
+  },
+  "resource_profile": {
+    "MainPID": "2647649",
+    "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-wave-a-profile-20261122-02.service",
+    "ActiveState": "active",
+    "SubState": "running",
+    "InvocationID": "e97da18c62ba4d8ca3c4f750d1340184",
+    "unit": "wm02-sla-core-multienv-wave-a-profile-20261122-02.service",
+    "deadline_sgt": "2026-11-22T04:36:49.000+08:00",
+    "source": "79fab072d4c9763c6b61e7e3d98718de14731d78",
+    "config": "2347dfe2f092c74bb642de771475017d91ec019ea93e15774cb5bbc241d04aae",
+    "metrics": {
+      "epoch": 1795290168.411564,
+      "cpu_usec": 526125845,
+      "memory_peak": 4374114304,
+      "process_pss_kib": 3253988,
+      "memory_available_kib": 21848812,
+      "shared_memory_free_bytes": 33259859968
+    },
+    "scope": "N1_PRODUCTION_OBSERVATION_IN_PROGRESS",
+    "distinct_engineering_matrix": "NOT_RUN",
+    "initial_profile_registration": "Missing the optional cgroup io.stat file; no production side effects",
+    "previous_closed_reference_samples": [
+      {
+        "id": "CHV1-TRAIN-F1-HOLD-red-18",
+        "requests": 1,
+        "ticks": 22453,
+        "wall": 305.3334276173264,
+        "cpu_owner": 165.165576096,
+        "tree_allocated_bytes": 611815424,
+        "top": {
+          "ROS_CONSUMPTION.private.jsonl": 285683712,
+          "init.trace": 143597568,
+          "state.bin.journal": 63782912,
+          "physics.jsonl": 35880960
+        },
+        "command_count": 4,
+        "native_profile": []
+      },
+      {
+        "id": "CHV1-TRAIN-F1-PLACE-red-right-17",
+        "requests": 1,
+        "ticks": 36703,
+        "wall": 535.5555842863396,
+        "cpu_owner": 297.11208226,
+        "tree_allocated_bytes": 1036144640,
+        "top": {
+          "ROS_CONSUMPTION.private.jsonl": 487534592,
+          "init.trace": 238088192,
+          "state.bin.journal": 109760512,
+          "physics.jsonl": 60395520
+        },
+        "command_count": 4,
+        "native_profile": []
+      }
+    ]
+  },
+  "capacity": {
+    "mount_bytes": {
+      "free_disk": 324052541440,
+      "floor": 294382508441,
+      "reserve": 3758096384,
+      "available_host_memory": 30205173760,
+      "min_host_memory": 13958643712,
+      "epoch": 1795289721.4911823
+    },
+    "conservative_reserve": {
+      "trajectory_bytes": 2147483648,
+      "snapshot_bytes": 536870912,
+      "partial_transfer_bytes": 1073741824
+    },
+    "distinct_destination_logical_devices": {
+      "/var/tmp/sla-v6-core-uid2009-owned-20261118": {
+        "free": 323683954688,
+        "total": 1905283825664,
+        "writable": true,
+        "device": 66308
+      },
+      "/var/cache/users/liuyu-nfs": {
+        "free": 323683954688,
+        "total": 1905283825664,
+        "writable": true,
+        "device": 66308
+      },
+      "/mnt/local/hdd1/UserData/liuyu-nfs": {
+        "free": 582816378880,
+        "total": 4000768323584,
+        "writable": true,
+        "device": 2050
+      },
+      "/dev/shm": {
+        "free": 33259859968,
+        "total": 33322979328,
+        "writable": true,
+        "device": 29
+      }
+    },
+    "conservative_full_wave_peak_estimates": {
+      "floor_bytes": 294382508441,
+      "free_bytes": 324054892544,
+      "unit_max_trajectory_bytes": 2147483648,
+      "wave_A_max_trajectory_bytes": 257698037760,
+      "wave_B_max_trajectory_bytes": 876173328384
+    }
+  },
+  "canonical": {
+    "MainPID": "2622065",
+    "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-canonical-dev-20261122-02.service",
+    "ActiveState": "active",
+    "SubState": "running",
+    "InvocationID": "d3df4fc0acae46ab881d0cf5d9279ecf",
+    "unit": "wm02-sla-core-multienv-canonical-dev-20261122-02.service",
+    "config": "29d460e5f28ba296edc3c456416d489d4d249e24732fbd59f7e9b47782815f0f",
+    "state": "WAIT_IPC",
+    "cold_and_IPC": {
+      "at": 1795290175.5319169,
+      "host_available_GiB": 20.539260864257812,
+      "host_threshold_GiB": 36,
+      "gpu_free_MiB": 15838,
+      "both": [
+        {
+          "unit": "wm02-sla-core-multienv-canonical-cold-20261122-02.service",
+          "state": {
+            "MainPID": "2589749",
+            "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-canonical-cold-20261122-02.service",
+            "ActiveState": "active",
+            "SubState": "running",
+            "InvocationID": "32d7af84adf248679a476197c7bd5328"
+          },
+          "owner": true,
+          "gpu_awarded": false,
+          "attempts": 0,
+          "completed": 0,
+          "sealed": {}
+        },
+        {
+          "unit": "wm02-sla-core-multienv-canonical-ipc-20261122-02.service",
+          "state": {
+            "MainPID": "2607162",
+            "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-canonical-ipc-20261122-02.service",
+            "ActiveState": "active",
+            "SubState": "running",
+            "InvocationID": "f903261080e342f0b6e78916aab55dae"
+          },
+          "owner": true,
+          "gpu_awarded": false,
+          "attempts": 0,
+          "completed": 0,
+          "sealed": {}
+        }
+      ]
+    },
+    "phase0_DEV6": {
+      "status": "NOT_RUN",
+      "native_requests": 0
+    },
+    "MAIN2K_DEV6": {
+      "status": "NOT_RUN",
+      "native_requests": 0
+    }
+  },
+  "teacher_carry_readback": {
+    "scope": "ORIGINAL_F1_TRAIN_BLUE_RIGHT_CARRY",
+    "failed": 3,
+    "passed": 0,
+    "results": [
+      {
+        "id": "CHV1-TRAIN-F1-PLACE-blue-right-00",
+        "native_result": "12bfb9c46f8dbd288a0a1b04d3afdafabd8cc5d858ef5ea3fc08c397a91d7fee",
+        "scene": "19368138aa85927c9482e2a69f4a9bc7aa35c8a171969d35db7d72a6f1797635",
+        "queries": "de78a25c0e03042688c17b041a3d45cc393ffa6e1301dc5fde769db8018fa823",
+        "native_ticks": 39290,
+        "carry_queries": 64,
+        "admitted": false,
+        "sampled_carry_minimum_mm": 3.1564413155138125,
+        "last_carry_tick": 39203,
+        "last_carry": {
+          "table_gaps_mm": [
+            3.1564413155138125
+          ],
+          "link_positions_world_mm": [
+            [
+              83.41259226492032,
+              -153.47069364018583,
+              614.5226566457676
+            ]
+          ]
+        },
+        "link_geom_names": [
+          ""
+        ],
+        "max_gap_query_resolution_ms": 500,
+        "contacts_at_stop_mm": [
+          -0.01362916167411271
+        ],
+        "stop": {
+          "table_gaps_mm": [
+            -0.11980931378265808
+          ],
+          "link_positions_world_mm": [
+            [
+              88.43378470706627,
+              -153.91100845768497,
+              610.7654271411228
+            ]
+          ]
+        },
+        "last_carry_to_stop_ms": 174
+      },
+      {
+        "id": "CHV1-TRAIN-F1-PLACE-blue-right-02",
+        "native_result": "130f169d5c02b0c805a1ca2d1fc5b8c3e6e5b96085295e69b82c874162186105",
+        "scene": "ba55a65ce2d5a57917ec4f1d49ee38af15c4e495d10a5b8781d06ce6e787f723",
+        "queries": "d8cf5f9b582757af108b84b122fbbca1b1de686234bf45a96b470554681bfde7",
+        "native_ticks": 39302,
+        "carry_queries": 64,
+        "admitted": false,
+        "sampled_carry_minimum_mm": 1.7986186517047476,
+        "last_carry_tick": 39203,
+        "last_carry": {
+          "table_gaps_mm": [
+            1.7986186517047476
+          ],
+          "link_positions_world_mm": [
+            [
+              86.86006173012296,
+              -159.8831724691272,
+              610.3927512304725
+            ]
+          ]
+        },
+        "link_geom_names": [
+          ""
+        ],
+        "max_gap_query_resolution_ms": 500,
+        "contacts_at_stop_mm": [
+          -0.010790927598154643
+        ],
+        "stop": {
+          "table_gaps_mm": [
+            -0.030009710641112908
+          ],
+          "link_positions_world_mm": [
+            [
+              87.51003558328689,
+              -164.80858546330742,
+              612.5692139241726
+            ]
+          ]
+        },
+        "last_carry_to_stop_ms": 198
+      },
+      {
+        "id": "CHV1-TRAIN-F1-PLACE-blue-right-03",
+        "native_result": "7b58344de7eb4e9c79ed66f4a10b72bfaac3f68f7824fb4eb5f045a7d2eed3c7",
+        "scene": "30ddc30db168df862036b38e72dc0ec1af8188a47d26aa4e0757679a0f1e2e13",
+        "queries": "0933bc75a2f2ad3ce0c5ed7e32efb26fd1f70ec7fc0b0d26e5ded0636c8b209d",
+        "native_ticks": 39995,
+        "carry_queries": 66,
+        "admitted": false,
+        "sampled_carry_minimum_mm": 2.855856442257311,
+        "last_carry_tick": 39953,
+        "last_carry": {
+          "table_gaps_mm": [
+            2.855856442257311
+          ],
+          "link_positions_world_mm": [
+            [
+              85.2144910130695,
+              -151.59880482484846,
+              609.8102491272793
+            ]
+          ]
+        },
+        "link_geom_names": [
+          ""
+        ],
+        "max_gap_query_resolution_ms": 500,
+        "contacts_at_stop_mm": [
+          -0.04379326558182767
+        ],
+        "stop": {
+          "table_gaps_mm": [
+            -0.06961914388189938
+          ],
+          "link_positions_world_mm": [
+            [
+              87.9602585058826,
+              -152.59967330211893,
+              611.2289634927099
+            ]
+          ]
+        },
+        "last_carry_to_stop_ms": 84
+      }
+    ],
+    "VAL_cases": 0,
+    "native_requests": 0,
+    "native_integrations": 0,
+    "optimizer_updates": 0,
+    "model_generations": 0,
+    "source": "610f4fb736ba39b2932c63785e7b8452d7ce5b39",
+    "receipt": "4b675744b1dbbf9d1b00da5762460a9869969a7d40f5212c8190af5866b43759"
+  },
+  "N2": {
+    "status": "NOT_RUN",
+    "new_native_requests": 0,
+    "live_IPC": {
+      "python": {
+        "unique": 18,
+        "common": [
+          "/dev/shm/fastrtps_port7000",
+          "/dev/shm/lttng-ust-wait-8"
+        ]
+      },
+      "mobile_manipulator_mpc_node": {
+        "unique": 18,
+        "common": [
+          "/dev/shm/fastrtps_port7000",
+          "/dev/shm/lttng-ust-wait-8"
+        ]
+      },
+      "go2_x5_ocs2_node": {
+        "unique": 18,
+        "common": [
+          "/dev/shm/fastrtps_port7000",
+          "/dev/shm/lttng-ust-wait-8"
+        ]
+      },
+      "Xvfb": {
+        "unique": 1,
+        "common": [
+          "/SYSV00000000 (deleted)"
+        ]
+      },
+      "rl_sim_mujoco": {
+        "unique": 19,
+        "common": [
+          "/SYSV00000000 (deleted)",
+          "/dev/shm/fastrtps_port7000",
+          "/dev/shm/lttng-ust-wait-8"
+        ]
+      }
+    },
+    "namespace_tests": {
+      "unshare --user --map-root-user --ipc --mount true": {
+        "code": 1,
+        "error": "unshare: write failed /proc/self/uid_map: Operation not permitted"
+      },
+      "unshare --ipc true": {
+        "code": 1,
+        "error": "unshare: unshare failed: Operation not permitted"
+      }
+    },
+    "selected_reference_evidence": "MISSING",
+    "available_CPU_affinity": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19
+    ]
+  },
+  "N4": {
+    "status": "NOT_RUN",
+    "qualified": false,
+    "new_native_requests": 0
+  },
+  "H200": {
+    "actual_job": "728156.hopper-m-02",
+    "train_step": 2124,
+    "latest_seal": 2100,
+    "actual_visits_since_MAIN2K": {
+      "target": 7936,
+      "robodojo": 3968,
+      "libero": 3968
+    },
+    "TRAIN059_optimization_visits": 0,
+    "verified_next_segment_from_current": null
+  },
+  "next": [
+    "Continue active N1 and collect full closed native and G7 receipts",
+    "Validate new Wave A membership and keep TRAIN/VAL separate before transferring snapshots",
+    "Preserve the Core canonical memory reservation, continue from the existing finite service while eligible",
+    "Resolve application-selected reference identity and concrete IPC isolation before N2"
+  ]
+}

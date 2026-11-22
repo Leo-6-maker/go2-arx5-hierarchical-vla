@@ -1,0 +1,192 @@
+{
+  "plan": "4fe2c8cf1b69c168b2e3079e061bb7c702089cd3",
+  "observed_at_sgt": "2026-11-22T03:45:32.239+08:00",
+  "unit": "wm02-sla-core-multienv-wave-a-20261122-02.service",
+  "unit_state": {
+    "MainPID": "2643171",
+    "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-wave-a-20261122-02.service",
+    "ActiveState": "active",
+    "SubState": "running",
+    "InvocationID": "818d3acfd2044d1f8edd4e5475d223b9"
+  },
+  "native_started": 2,
+  "native_terminal": 1,
+  "native_verified_closed_ticks": 25453,
+  "TRAIN_admitted": 1,
+  "VAL_started": 0,
+  "TRAIN_windows": 79,
+  "first_terminal": {
+    "t": 1795290302.9333048,
+    "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-HOLD-blue",
+    "requests": 1,
+    "ticks": 25453,
+    "admitted": true,
+    "reason": "TASK_SUCCESS",
+    "lease": {
+      "status": "CLOSED",
+      "owner": "SLA_CORE_HOPPER_V1_UID2009",
+      "spec_sha256": "25ff08d96ea4e3f0d0db4f4808b4706ae30ea381a708dc80b2dc422fa5305f87",
+      "deadline_epoch": 1795291821.5243967,
+      "worker_exit_code": 0,
+      "closed_epoch": 1795290243.8015356
+    },
+    "digest": "c8998edd8f4d1f64db7941e21d2832ce10e91c36c820973b23ed5d12b168758b",
+    "ep": {
+      "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-20261122-02/admission/TRAIN/MEV1-TRAIN-F1-NEAR_NEG-00-HOLD-blue/EPISODE.private.json",
+      "sha256": "1df1601dae2200bc8a3b907b8e09de14ee3cb7d7f4e952f56ebf183361b54d44",
+      "windows": 79,
+      "confirmed_P10_atoms": 790,
+      "split": "TRAIN"
+    },
+    "captured_objects": 6,
+    "capture_bytes": 31529952,
+    "label_sha": "6212fd5708502267da21d19339026149a1346fb5440505efdc97a24599f7d657",
+    "score": {
+      "task_success": true,
+      "native_step": 25453,
+      "base_directional_motion_m": 0.11101473362246789,
+      "lift_m": 0.024668786733022863,
+      "inside_selected_region": null,
+      "target_grasp": true,
+      "wrong_object_grasp_ever": false,
+      "wrong_object_contact_ever": false,
+      "released": false,
+      "gripper_open_fraction": 0.4365909254714867,
+      "TCP_retreat_m": 0.019109686909786726,
+      "stable_release_condition": false,
+      "states": 19751,
+      "missing_native_intervals": 0,
+      "unsafe_states": 0,
+      "ever_target_grasp": true,
+      "ever_target_lift20mm": true,
+      "maximum_lift_m": 0.024668786733022863,
+      "longest_grasp_lift_hold_s": 1.0420000000012735,
+      "longest_stable_released_retreat_s": 0,
+      "task_privileged_truth_in_student_input": false
+    },
+    "score_keys": [
+      "schema",
+      "instruction",
+      "task_success",
+      "native_step",
+      "base_directional_motion_m",
+      "lift_m",
+      "inside_selected_region",
+      "target_grasp",
+      "wrong_object_grasp_ever",
+      "wrong_object_contact_ever",
+      "released",
+      "gripper_open_fraction",
+      "TCP_retreat_m",
+      "stable_release_condition",
+      "states",
+      "missing_native_intervals",
+      "unsafe_states",
+      "ever_target_grasp",
+      "ever_target_lift20mm",
+      "maximum_lift_m",
+      "longest_grasp_lift_hold_s",
+      "longest_stable_released_retreat_s",
+      "events",
+      "task_privileged_truth_in_student_input",
+      "clock"
+    ],
+    "training_eligible": true,
+    "teacher_source": "eccd8e2e2089bb2505c50043f959959d07094d56",
+    "wall": 515.6178656471893,
+    "snapshot_count": 0,
+    "new_model_generations": 0,
+    "training_updates": 0
+  },
+  "actual_masks": {
+    "shape": [
+      79,
+      40
+    ],
+    "dtype": "bool",
+    "supervised": 3160,
+    "consumed": 790,
+    "prefix": true,
+    "no_suffix": true
+  },
+  "allocated_bytes": {
+    "full_case": 699539456,
+    "admitted_episode": 31551488
+  },
+  "second_native": {
+    "id": "MEV1-TRAIN-F2-NEAR_NEG-00-HOLD-red",
+    "pid": 2657608,
+    "spec": "2b9f893fbbc063492d6b74c2151b559dff8839af275be54e853e20cf7db047ac",
+    "actual_tick_lower_bound": 5701,
+    "lease": {
+      "status": "ACTIVE",
+      "owner": "SLA_CORE_HOPPER_V1_UID2009",
+      "spec_sha256": "2b9f893fbbc063492d6b74c2151b559dff8839af275be54e853e20cf7db047ac",
+      "deadline_epoch": 1795292357.4776182
+    },
+    "state": "LIVE_PENDING_OUTCOME"
+  },
+  "new_snapshot": {
+    "status": "WAIT_ORIGINAL_CADENCE",
+    "published": 0,
+    "optimization_visits": 0
+  },
+  "io_compression_readonly": {
+    "protocol": "SLA_CORE_N1_CLOSED_TRACE_LOSSLESS_PROBE_V1",
+    "case": "CHV1-TRAIN-F1-PLACE-red-right-17",
+    "at": 1795290278.405438,
+    "options": [
+      "-1",
+      "-T1"
+    ],
+    "source_unchanged": true,
+    "result": [
+      {
+        "name": "ROS_CONSUMPTION.private.jsonl",
+        "original": 487528416,
+        "compressed": 57098993,
+        "seconds": 1.4079297548159957,
+        "sha256": "579d30f7f30a8c5ff9241f56d00f6aaf9a8a96a3991441b59c5e3e187b978163",
+        "decoded_same": true,
+        "created_archive": false
+      },
+      {
+        "name": "init.trace",
+        "original": 238082896,
+        "compressed": 30443201,
+        "seconds": 0.5481961956247687,
+        "sha256": "7c47df9b4746aee541ace9d252bbce2daee3e75335bd1ad2ad0000a2fcb5b5a7",
+        "decoded_same": true,
+        "created_archive": false
+      },
+      {
+        "name": "state.bin.journal",
+        "original": 109753628,
+        "compressed": 45619267,
+        "seconds": 0.6374145383015275,
+        "sha256": "137829080a6283fa1fb3db5d6c99bd607b964ec937396b6a954802b5dcf9391e",
+        "decoded_same": true,
+        "created_archive": false
+      }
+    ],
+    "new_native_requests": 0,
+    "record": "997bb02f2d980193dc73532d47a9358a1eb7dc1b51cd552c7cbf0d9e7a99c67f"
+  },
+  "H200_latest": {
+    "at": 1795290331.9685688,
+    "last": {
+      "step": 2137,
+      "job": "728156.hopper-m-02"
+    },
+    "sealed": {
+      "step": 2100,
+      "sha": "39348222093b816a7fa771489ae89f2f3134681f3858f8969be19ef615efe41f"
+    }
+  },
+  "statuses": {
+    "canonical_original_DEV6": "NOT_RUN",
+    "formal_N1_profile_matrix": "NOT_RUN",
+    "N2": "NOT_RUN",
+    "N4": "NOT_RUN"
+  }
+}

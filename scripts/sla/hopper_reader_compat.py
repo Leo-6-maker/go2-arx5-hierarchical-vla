@@ -10,9 +10,12 @@ ORIGINAL_MANIFEST = '411702baacce2d3c3ba5b362c47246328d1e2e98b25148323e287db7214
 READER_MANIFEST = '5f71601cee21571d7d66ec598f0e1a49a8973f88a4103b98c1fd7e324e75cc20'
 RED_PLACE_READER = '05adf473c0057eba60bf57fb3bcf302740b35eda'
 RED_PLACE_MANIFEST = '97b1429b803582edd5154c6586d9a814b4036584fef447866b725be9d0b14ef1'
-REVISIONS = {READER_MANIFEST:READER,RED_PLACE_MANIFEST:RED_PLACE_READER}
+MULTIENV_READER = 'a2e8f7a0a8a9bed451e69cc16e448f0f4a5ef3fb'
+MULTIENV_MANIFEST = '4ce07b40b7cde67c0e87dca8d97837c2f48e4dee0fcb58f8825372dfed66ccc0'
+REVISIONS = {READER_MANIFEST:READER,RED_PLACE_MANIFEST:RED_PLACE_READER,MULTIENV_MANIFEST:MULTIENV_READER}
 ADDED = 'scripts/sla/hopper_snapshot_producers.py'
 CHANGED = 'scripts/sla/hopper_snapshot_relay.py'
+MULTIENV_ADDED = 'scripts/sla/core_multienv_train.py'
 
 
 def sha(path):
@@ -49,13 +52,17 @@ def compare(original, candidate):
     old = inventory(original, ORIGINAL_MANIFEST, SCIENCE)
     manifest, revision = reader_identity(candidate)
     new = inventory(candidate, manifest, revision)
-    if (len(old)!=954 or len(new)!=955 or set(new)!=set(old)|{ADDED}
+    additions = {ADDED}
+    if manifest == MULTIENV_MANIFEST:
+        additions.add(MULTIENV_ADDED)
+    if (len(old)!=954 or len(new)!=len(old)+len(additions) or set(new)!=set(old)|additions
             or {k for k,v in old.items() if new[k]!=v} != {CHANGED}):
         raise ValueError('Reader extension changed another training module')
     return dict(qualified_training_revision=SCIENCE, actual_reader_runtime_revision=revision,
                 original_manifest_sha256=ORIGINAL_MANIFEST, reader_manifest_sha256=manifest,
                 original_modules=len(old), runtime_modules=len(new), identical_modules=len(old)-1,
-                added={ADDED:new[ADDED]}, changed={CHANGED:dict(original=old[CHANGED],candidate=new[CHANGED])})
+                added={name:new[name] for name in sorted(additions)},
+                changed={CHANGED:dict(original=old[CHANGED],candidate=new[CHANGED])})
 
 
 if __name__ == '__main__':

@@ -1,0 +1,1308 @@
+{
+  "plan": "4fe2c8cf1b69c168b2e3079e061bb7c702089cd3",
+  "asof": "2026-11-22T04:50:12+08:00",
+  "n1": {
+    "paid_requests": 1,
+    "terminal_ticks": 10703,
+    "pre_registered_requests": 12,
+    "source": "efc3cb5472344a118717262488fe0a579c5b6f44",
+    "first": {
+      "id": "MEV1-ENG-N1-SHORT-00",
+      "kind": "SHORT",
+      "requests": 1,
+      "ticks": 10703,
+      "source": "efc3cb5472344a118717262488fe0a579c5b6f44",
+      "terminal": {
+        "sha256": "b35bf4f4d6eb35931044eb22938df8b1e0019ac55255f91277b28189d7b2afea"
+      },
+      "technical_failure": false,
+      "first_failure": null,
+      "hard_STOP": false,
+      "post_STOP_ticks": null,
+      "profile": {
+        "file": "PERFORMANCE.private.json",
+        "sha256": "4c8facdff3e8156c3fb9458dd26f193d46bcb2c67e66bcdde45cc0f384fe9654"
+      },
+      "task_and_mobile_success": false,
+      "measurement": {
+        "status": "OUTSIDE_FROZEN_STATE_TOLERANCE",
+        "matched_atoms": 200,
+        "paired_RGB": 20,
+        "limits": {
+          "EEF_translation_m": 0.0025152321752068725,
+          "EEF_angle_rad": 0.017453292519943295,
+          "mount_translation_m": 0.002185499738484875,
+          "mount_angle_rad": 0.017453292519943295,
+          "jaw_fraction": 0.001
+        },
+        "maximum": {
+          "EEF_translation_m": 0.004789083724584254,
+          "EEF_angle_rad": 0.0059011631855664295,
+          "mount_translation_m": 0.00572130899052724,
+          "mount_angle_rad": 0.008712410635944766,
+          "jaw_fraction": 0.0002871175374797863
+        },
+        "historical_recording_sha256": "6382cd20ee22e5ce70ed0bdc8f8677690c21ba6c035cf334cbefa516092511dd",
+        "controller_selected_reference": "NOT_EXPORTED_BY_FROZEN_CONTROLLER"
+      }
+    },
+    "wall_s": 324.50860919896513,
+    "cgroup_cpu_s": 171.084107,
+    "phase_timing_s": {
+      "warmup": 228.868696591,
+      "first_FK_max_wall_span": 124.732558003,
+      "post_atom_fixed_spin_sum": 49.573607941,
+      "native_RGB_total": 7.895147415
+    },
+    "comparisons_6ms": {
+      "sha256": "bcce6a49eedbf2e32dfeb113ce65a7abc6c060228f6558da6c8360a54e0b9f1d",
+      "population": {
+        "archived_R1_R2": {
+          "recordings": [
+            "caec84a8065a62e7410018f4515fc9e43c99fb63d19694008e2c4a13ad82af5a",
+            "2973b03c1ddd69ace8112be1afcd3d567a70a0c2c4cd370b6ba5de843bb2be9d"
+          ],
+          "same_native_tick_records": 3568,
+          "first": {
+            "tick": 4,
+            "values": {
+              "tcp_xyz": 0.0000065239006677839505,
+              "qpos": 0.00034933165725157996,
+              "qvel": 0.08692949730608551,
+              "ctrl": 0.0003181545390663678,
+              "base_XYZ": 0.000002212093257224025
+            }
+          },
+          "by_phase": {
+            "before_WBC_mode": {
+              "tcp_xyz": {
+                "max": 0.00009969133286430579,
+                "peak_tick": 79,
+                "first_roundoff_exceeded": 4
+              },
+              "base_XYZ": {
+                "max": 0.000037799701028534615,
+                "peak_tick": 79,
+                "first_roundoff_exceeded": 4
+              },
+              "qpos": {
+                "max": 0.000942921925840745,
+                "peak_tick": 13,
+                "first_roundoff_exceeded": 4
+              },
+              "qvel": {
+                "max": 0.08692949730608551,
+                "peak_tick": 4,
+                "first_roundoff_exceeded": 4
+              },
+              "ctrl": {
+                "max": 0.8839127425974425,
+                "peak_tick": 28,
+                "first_roundoff_exceeded": 4
+              }
+            },
+            "WBC_mode_entry": {
+              "tcp_xyz": {
+                "max": 0.00004246298083272035,
+                "peak_tick": 2503,
+                "first_roundoff_exceeded": 2503
+              },
+              "base_XYZ": {
+                "max": 0.00002723583901410777,
+                "peak_tick": 2503,
+                "first_roundoff_exceeded": 2503
+              },
+              "qpos": {
+                "max": 0.0002182695379207219,
+                "peak_tick": 2503,
+                "first_roundoff_exceeded": 2503
+              },
+              "qvel": {
+                "max": 0.000008859566544515633,
+                "peak_tick": 2503,
+                "first_roundoff_exceeded": 2503
+              },
+              "ctrl": {
+                "max": 0.0039760293141904305,
+                "peak_tick": 2503,
+                "first_roundoff_exceeded": 2503
+              }
+            },
+            "measured_hold": {
+              "tcp_xyz": {
+                "max": 0.0028092170163424215,
+                "peak_tick": 2683,
+                "first_roundoff_exceeded": 2506
+              },
+              "base_XYZ": {
+                "max": 0.0021940350059465237,
+                "peak_tick": 2671,
+                "first_roundoff_exceeded": 2506
+              },
+              "qpos": {
+                "max": 0.03489332792104106,
+                "peak_tick": 2668,
+                "first_roundoff_exceeded": 2506
+              },
+              "qvel": {
+                "max": 1.1664463759140593,
+                "peak_tick": 2644,
+                "first_roundoff_exceeded": 2506
+              },
+              "ctrl": {
+                "max": 4.102038108789846,
+                "peak_tick": 2632,
+                "first_roundoff_exceeded": 2506
+              }
+            },
+            "task": {
+              "tcp_xyz": {
+                "max": 0.001262307924268706,
+                "peak_tick": 5851,
+                "first_roundoff_exceeded": 5704
+              },
+              "base_XYZ": {
+                "max": 0.00120863311839613,
+                "peak_tick": 5716,
+                "first_roundoff_exceeded": 5704
+              },
+              "qpos": {
+                "max": 0.017194911507622843,
+                "peak_tick": 5782,
+                "first_roundoff_exceeded": 5704
+              },
+              "qvel": {
+                "max": 2.090899793098224,
+                "peak_tick": 5776,
+                "first_roundoff_exceeded": 5704
+              },
+              "ctrl": {
+                "max": 2.26140338721287,
+                "peak_tick": 5779,
+                "first_roundoff_exceeded": 5704
+              }
+            }
+          },
+          "final_tick": 10702
+        },
+        "current_R1": {
+          "recordings": [
+            "caec84a8065a62e7410018f4515fc9e43c99fb63d19694008e2c4a13ad82af5a",
+            "a69d49a5f0bb17f22bd02c042c6f15feb3beaa0d3b511d1b4dd752976705f9ca"
+          ],
+          "same_native_tick_records": 3568,
+          "first": {
+            "tick": 178,
+            "values": {
+              "tcp_xyz": 2.4514562845407707e-7,
+              "qpos": 0.000006726771157745865,
+              "qvel": 0.0033637011736449255,
+              "ctrl": 0.10725036610144269,
+              "base_XYZ": 1.9706724300526487e-7
+            }
+          },
+          "by_phase": {
+            "before_WBC_mode": {
+              "tcp_xyz": {
+                "max": 0.000009842243345809064,
+                "peak_tick": 280,
+                "first_roundoff_exceeded": 178
+              },
+              "base_XYZ": {
+                "max": 0.000006976624237440305,
+                "peak_tick": 256,
+                "first_roundoff_exceeded": 178
+              },
+              "qpos": {
+                "max": 0.00009732004758356413,
+                "peak_tick": 253,
+                "first_roundoff_exceeded": 178
+              },
+              "qvel": {
+                "max": 0.0038777755360356924,
+                "peak_tick": 280,
+                "first_roundoff_exceeded": 178
+              },
+              "ctrl": {
+                "max": 0.10725036610144269,
+                "peak_tick": 178,
+                "first_roundoff_exceeded": 178
+              }
+            },
+            "WBC_mode_entry": {
+              "tcp_xyz": {
+                "max": 1.1960345398038266e-7,
+                "peak_tick": 2503,
+                "first_roundoff_exceeded": 2503
+              },
+              "base_XYZ": {
+                "max": 7.101128374801799e-8,
+                "peak_tick": 2503,
+                "first_roundoff_exceeded": 2503
+              },
+              "qpos": {
+                "max": 6.55786810263611e-7,
+                "peak_tick": 2503,
+                "first_roundoff_exceeded": 2503
+              },
+              "qvel": {
+                "max": 5.064330346371643e-7,
+                "peak_tick": 2503,
+                "first_roundoff_exceeded": 2503
+              },
+              "ctrl": {
+                "max": 0.00002152653588790397,
+                "peak_tick": 2503,
+                "first_roundoff_exceeded": 2503
+              }
+            },
+            "measured_hold": {
+              "tcp_xyz": {
+                "max": 0.0069507884540362065,
+                "peak_tick": 2668,
+                "first_roundoff_exceeded": 2506
+              },
+              "base_XYZ": {
+                "max": 0.0065457439145274465,
+                "peak_tick": 2650,
+                "first_roundoff_exceeded": 2506
+              },
+              "qpos": {
+                "max": 0.12320806678852433,
+                "peak_tick": 2635,
+                "first_roundoff_exceeded": 2506
+              },
+              "qvel": {
+                "max": 5.160149486833322,
+                "peak_tick": 2629,
+                "first_roundoff_exceeded": 2506
+              },
+              "ctrl": {
+                "max": 16.033901869748444,
+                "peak_tick": 2623,
+                "first_roundoff_exceeded": 2506
+              }
+            },
+            "task": {
+              "tcp_xyz": {
+                "max": 0.005169283353405462,
+                "peak_tick": 5866,
+                "first_roundoff_exceeded": 5704
+              },
+              "base_XYZ": {
+                "max": 0.005833370489970186,
+                "peak_tick": 5854,
+                "first_roundoff_exceeded": 5704
+              },
+              "qpos": {
+                "max": 0.1065207359460237,
+                "peak_tick": 5770,
+                "first_roundoff_exceeded": 5704
+              },
+              "qvel": {
+                "max": 7.65292479573852,
+                "peak_tick": 5773,
+                "first_roundoff_exceeded": 5704
+              },
+              "ctrl": {
+                "max": 9.191510041239049,
+                "peak_tick": 5776,
+                "first_roundoff_exceeded": 5704
+              }
+            }
+          },
+          "final_tick": 10702
+        },
+        "current_R2": {
+          "recordings": [
+            "2973b03c1ddd69ace8112be1afcd3d567a70a0c2c4cd370b6ba5de843bb2be9d",
+            "a69d49a5f0bb17f22bd02c042c6f15feb3beaa0d3b511d1b4dd752976705f9ca"
+          ],
+          "same_native_tick_records": 3568,
+          "first": {
+            "tick": 4,
+            "values": {
+              "tcp_xyz": 0.0000065239006677839505,
+              "qpos": 0.00034933165725157996,
+              "qvel": 0.08692949730608551,
+              "ctrl": 0.0003181545390663678,
+              "base_XYZ": 0.000002212093257224025
+            }
+          },
+          "by_phase": {
+            "before_WBC_mode": {
+              "tcp_xyz": {
+                "max": 0.00009969133286430574,
+                "peak_tick": 79,
+                "first_roundoff_exceeded": 4
+              },
+              "base_XYZ": {
+                "max": 0.00003779970102853456,
+                "peak_tick": 79,
+                "first_roundoff_exceeded": 4
+              },
+              "qpos": {
+                "max": 0.000942921925840745,
+                "peak_tick": 13,
+                "first_roundoff_exceeded": 4
+              },
+              "qvel": {
+                "max": 0.08692949730608551,
+                "peak_tick": 4,
+                "first_roundoff_exceeded": 4
+              },
+              "ctrl": {
+                "max": 0.883912742597443,
+                "peak_tick": 28,
+                "first_roundoff_exceeded": 4
+              }
+            },
+            "WBC_mode_entry": {
+              "tcp_xyz": {
+                "max": 0.00004257954541756276,
+                "peak_tick": 2503,
+                "first_roundoff_exceeded": 2503
+              },
+              "base_XYZ": {
+                "max": 0.000027291521388647057,
+                "peak_tick": 2503,
+                "first_roundoff_exceeded": 2503
+              },
+              "qpos": {
+                "max": 0.00021815050280050307,
+                "peak_tick": 2503,
+                "first_roundoff_exceeded": 2503
+              },
+              "qvel": {
+                "max": 0.000008996937239999997,
+                "peak_tick": 2503,
+                "first_roundoff_exceeded": 2503
+              },
+              "ctrl": {
+                "max": 0.003976651712556046,
+                "peak_tick": 2503,
+                "first_roundoff_exceeded": 2503
+              }
+            },
+            "measured_hold": {
+              "tcp_xyz": {
+                "max": 0.0053376020809831025,
+                "peak_tick": 2662,
+                "first_roundoff_exceeded": 2506
+              },
+              "base_XYZ": {
+                "max": 0.005295935732405859,
+                "peak_tick": 2647,
+                "first_roundoff_exceeded": 2506
+              },
+              "qpos": {
+                "max": 0.11934068426208,
+                "peak_tick": 2632,
+                "first_roundoff_exceeded": 2506
+              },
+              "qvel": {
+                "max": 4.994159302469193,
+                "peak_tick": 2629,
+                "first_roundoff_exceeded": 2506
+              },
+              "ctrl": {
+                "max": 12.9353796622409,
+                "peak_tick": 2623,
+                "first_roundoff_exceeded": 2506
+              }
+            },
+            "task": {
+              "tcp_xyz": {
+                "max": 0.0046752273149065484,
+                "peak_tick": 5869,
+                "first_roundoff_exceeded": 5704
+              },
+              "base_XYZ": {
+                "max": 0.005298522959968309,
+                "peak_tick": 5851,
+                "first_roundoff_exceeded": 5704
+              },
+              "qpos": {
+                "max": 0.10424270945364998,
+                "peak_tick": 5770,
+                "first_roundoff_exceeded": 5704
+              },
+              "qvel": {
+                "max": 7.72566824001885,
+                "peak_tick": 5773,
+                "first_roundoff_exceeded": 5704
+              },
+              "ctrl": {
+                "max": 9.125996129029318,
+                "peak_tick": 5776,
+                "first_roundoff_exceeded": 5704
+              }
+            }
+          },
+          "final_tick": 10702
+        }
+      }
+    },
+    "comparisons_2ms": {
+      "sha256": "1458f4dda9b77f700ceeebfaffc0fcb8481ece6ac25d398442ba72204ca920e7",
+      "native_packets_per_case": 10703,
+      "inputs": [
+        "026fb644fbcc29854dcf00a08964c0e7ac5a0c6d014d314bd90fa0c84d17fe25",
+        "9f887a664e4b4da74259ce82bd82a03cf64d4954c9212add2e8f94dc645288c9",
+        "07b8711eb2a6a4520d715b00dc571b234d50d96d1b0b8e8e74ad18338b83ebc0"
+      ],
+      "paired": {
+        "old_R1_vs_R2": {
+          "before_WBC": {
+            "first_over_roundoff": {
+              "qpos": 3,
+              "qvel": 3,
+              "ctrl": 3,
+              "base_XYZ": 3
+            },
+            "maxima": {
+              "qpos": [
+                0.0009520634089851158,
+                12
+              ],
+              "qvel": [
+                0.08803827605108314,
+                3
+              ],
+              "ctrl": [
+                0.9318155815966918,
+                3
+              ],
+              "base_XYZ": [
+                0.000037799701028534615,
+                79
+              ]
+            },
+            "fixed_ticks": {
+              "2499": {
+                "qpos": 0.00021825329227268523,
+                "qvel": 0.000004368968688121627,
+                "ctrl": 0.003977171490393995,
+                "base_XYZ": 0.000027235537493609932
+              },
+              "2500": {
+                "qpos": 0.00021825744523714378,
+                "qvel": 0.000004366197160188224,
+                "ctrl": 0.003977171490337242,
+                "base_XYZ": 0.000027235573050660844
+              }
+            }
+          },
+          "WBC_mode_entry": {
+            "first_over_roundoff": {
+              "qpos": 2501,
+              "qvel": 2501,
+              "ctrl": 2501,
+              "base_XYZ": 2501
+            },
+            "maxima": {
+              "qpos": [
+                0.0002182695379207219,
+                2503
+              ],
+              "qvel": [
+                0.000008859566544515633,
+                2503
+              ],
+              "ctrl": [
+                0.00397602951250738,
+                2501
+              ],
+              "base_XYZ": [
+                0.00002723583901410777,
+                2503
+              ]
+            },
+            "fixed_ticks": {
+              "2503": {
+                "qpos": 0.0002182695379207219,
+                "qvel": 0.000008859566544515633,
+                "ctrl": 0.0039760293141904305,
+                "base_XYZ": 0.00002723583901410777
+              }
+            }
+          },
+          "measured_hold": {
+            "first_over_roundoff": {
+              "qpos": 2504,
+              "qvel": 2504,
+              "ctrl": 2504,
+              "base_XYZ": 2504
+            },
+            "maxima": {
+              "qpos": [
+                0.03489332792104106,
+                2668
+              ],
+              "qvel": [
+                1.385716405522,
+                2643
+              ],
+              "ctrl": [
+                4.102040332315386,
+                2633
+              ],
+              "base_XYZ": [
+                0.002194684634749356,
+                2670
+              ]
+            },
+            "fixed_ticks": {
+              "2504": {
+                "qpos": 0.00022042703572762123,
+                "qvel": 0.008506106060919363,
+                "ctrl": 0.19325909567029356,
+                "base_XYZ": 0.000027170188691020625
+              },
+              "2505": {
+                "qpos": 0.00022851057173479467,
+                "qvel": 0.017002773499337306,
+                "ctrl": 0.19325909771488733,
+                "base_XYZ": 0.000027042353978315236
+              },
+              "2506": {
+                "qpos": 0.00024420280972194613,
+                "qvel": 0.02036217973121116,
+                "ctrl": 0.11167669718953517,
+                "base_XYZ": 0.000026891714615341952
+              },
+              "2623": {
+                "qpos": 0.0037357374583724197,
+                "qvel": 0.08994963465674945,
+                "ctrl": 3.750876392048993,
+                "base_XYZ": 0.00016852700698531298
+              },
+              "2668": {
+                "qpos": 0.03489332792104106,
+                "qvel": 0.19198695654939674,
+                "ctrl": 2.108704532576002,
+                "base_XYZ": 0.0021867107742072327
+              },
+              "5703": {
+                "qpos": 0.014270185861608251,
+                "qvel": 0.0028766897810349515,
+                "ctrl": 0.3381465901571077,
+                "base_XYZ": 0.0012073616146935215
+              }
+            }
+          },
+          "task": {
+            "first_over_roundoff": {
+              "qpos": 5704,
+              "qvel": 5704,
+              "ctrl": 5704,
+              "base_XYZ": 5704
+            },
+            "maxima": {
+              "qpos": [
+                0.017322581193173956,
+                5783
+              ],
+              "qvel": [
+                2.603228992120065,
+                5775
+              ],
+              "ctrl": [
+                2.2614300808008947,
+                5780
+              ],
+              "base_XYZ": [
+                0.00120863311839613,
+                5716
+              ]
+            },
+            "fixed_ticks": {
+              "5704": {
+                "qpos": 0.014269849298014307,
+                "qvel": 0.0021160456459726426,
+                "ctrl": 0.3411637259969878,
+                "base_XYZ": 0.0012073590601860197
+              }
+            }
+          }
+        },
+        "current_vs_R1": {
+          "before_WBC": {
+            "first_over_roundoff": {
+              "qpos": 178,
+              "qvel": 178,
+              "ctrl": 178,
+              "base_XYZ": 178
+            },
+            "maxima": {
+              "qpos": [
+                0.00009732004758356413,
+                253
+              ],
+              "qvel": [
+                0.00396963784589663,
+                278
+              ],
+              "ctrl": [
+                0.10725036610144269,
+                178
+              ],
+              "base_XYZ": [
+                0.000006976624237440305,
+                256
+              ]
+            },
+            "fixed_ticks": {
+              "2499": {
+                "qpos": 6.559636926654292e-7,
+                "qvel": 2.397047412622312e-7,
+                "ctrl": 0.000021859166527722542,
+                "base_XYZ": 7.103875561675794e-8
+              },
+              "2500": {
+                "qpos": 6.558878121176457e-7,
+                "qvel": 2.3551266309999163e-7,
+                "ctrl": 0.000021859170335960084,
+                "base_XYZ": 7.102649996335791e-8
+              }
+            }
+          },
+          "WBC_mode_entry": {
+            "first_over_roundoff": {
+              "qpos": 2501,
+              "qvel": 2501,
+              "ctrl": 2501,
+              "base_XYZ": 2501
+            },
+            "maxima": {
+              "qpos": [
+                6.558363507949661e-7,
+                2501
+              ],
+              "qvel": [
+                5.064330346371642e-7,
+                2503
+              ],
+              "ctrl": [
+                0.00002152659313997496,
+                2501
+              ],
+              "base_XYZ": [
+                7.101775289921082e-8,
+                2501
+              ]
+            },
+            "fixed_ticks": {
+              "2503": {
+                "qpos": 6.55786810263611e-7,
+                "qvel": 5.064330346371642e-7,
+                "ctrl": 0.00002152653588790397,
+                "base_XYZ": 7.101128374801799e-8
+              }
+            }
+          },
+          "measured_hold": {
+            "first_over_roundoff": {
+              "qpos": 2504,
+              "qvel": 2504,
+              "ctrl": 2504,
+              "base_XYZ": 2504
+            },
+            "maxima": {
+              "qpos": [
+                0.12391877698342792,
+                2634
+              ],
+              "qvel": [
+                5.295986996286899,
+                2628
+              ],
+              "ctrl": [
+                16.033901869748444,
+                2623
+              ],
+              "base_XYZ": [
+                0.0065513003680023225,
+                2651
+              ]
+            },
+            "fixed_ticks": {
+              "2504": {
+                "qpos": 0.000017076317618021382,
+                "qvel": 0.008507265410999693,
+                "ctrl": 0.19330632360439653,
+                "base_XYZ": 2.271672788954083e-7
+              },
+              "2505": {
+                "qpos": 0.00005106090419349697,
+                "qvel": 0.017006940005876298,
+                "ctrl": 0.1933063258045909,
+                "base_XYZ": 5.966220738167374e-7
+              },
+              "2506": {
+                "qpos": 0.00009176355621123375,
+                "qvel": 0.020367408697789295,
+                "ctrl": 0.11165815285527689,
+                "base_XYZ": 0.0000010606941543994563
+              },
+              "2623": {
+                "qpos": 0.03957336538930097,
+                "qvel": 3.8118374468187377,
+                "ctrl": 16.033901869748444,
+                "base_XYZ": 0.0011610497461537342
+              },
+              "2668": {
+                "qpos": 0.10446293729473813,
+                "qvel": 0.45683217121999115,
+                "ctrl": 3.3980480273398332,
+                "base_XYZ": 0.005565643326138311
+              },
+              "5703": {
+                "qpos": 0.06239974123827281,
+                "qvel": 0.001154108707721393,
+                "ctrl": 1.460423662500464,
+                "base_XYZ": 0.0048839818116936835
+              }
+            }
+          },
+          "task": {
+            "first_over_roundoff": {
+              "qpos": 5704,
+              "qvel": 5704,
+              "ctrl": 5704,
+              "base_XYZ": 5704
+            },
+            "maxima": {
+              "qpos": [
+                0.1065207359460237,
+                5770
+              ],
+              "qvel": [
+                9.281838440647148,
+                5775
+              ],
+              "ctrl": [
+                9.191553931751635,
+                5778
+              ],
+              "base_XYZ": [
+                0.005836153193419386,
+                5853
+              ]
+            },
+            "fixed_ticks": {
+              "5704": {
+                "qpos": 0.06239906534425511,
+                "qvel": 0.0022121894978715797,
+                "ctrl": 1.4580627051068953,
+                "base_XYZ": 0.004884017939912168
+              }
+            }
+          }
+        },
+        "current_vs_R2": {
+          "before_WBC": {
+            "first_over_roundoff": {
+              "qpos": 3,
+              "qvel": 3,
+              "ctrl": 3,
+              "base_XYZ": 3
+            },
+            "maxima": {
+              "qpos": [
+                0.0009520634089851158,
+                12
+              ],
+              "qvel": [
+                0.08803827605108314,
+                3
+              ],
+              "ctrl": [
+                0.9318155815966918,
+                3
+              ],
+              "base_XYZ": [
+                0.00003779970102853456,
+                79
+              ]
+            },
+            "fixed_ticks": {
+              "2499": {
+                "qpos": 0.00021813543677096277,
+                "qvel": 0.00000424336498446378,
+                "ctrl": 0.003979725920622922,
+                "base_XYZ": 0.000027291238906799237
+              },
+              "2500": {
+                "qpos": 0.0002181393909077282,
+                "qvel": 0.000004248263804473025,
+                "ctrl": 0.003979725921057056,
+                "base_XYZ": 0.000027291265108344955
+              }
+            }
+          },
+          "WBC_mode_entry": {
+            "first_over_roundoff": {
+              "qpos": 2501,
+              "qvel": 2501,
+              "ctrl": 2501,
+              "base_XYZ": 2501
+            },
+            "maxima": {
+              "qpos": [
+                0.00021815050280050307,
+                2503
+              ],
+              "qvel": [
+                0.000008996937239999997,
+                2503
+              ],
+              "ctrl": [
+                0.0039766519270110125,
+                2501
+              ],
+              "base_XYZ": [
+                0.000027291521388647057,
+                2503
+              ]
+            },
+            "fixed_ticks": {
+              "2503": {
+                "qpos": 0.00021815050280050307,
+                "qvel": 0.000008996937239999997,
+                "ctrl": 0.003976651712556046,
+                "base_XYZ": 0.000027291521388647057
+              }
+            }
+          },
+          "measured_hold": {
+            "first_over_roundoff": {
+              "qpos": 2504,
+              "qvel": 2504,
+              "ctrl": 2504,
+              "base_XYZ": 2504
+            },
+            "maxima": {
+              "qpos": [
+                0.12051778779185543,
+                2633
+              ],
+              "qvel": [
+                5.212963135211251,
+                2640
+              ],
+              "ctrl": [
+                12.9353796622409,
+                2623
+              ],
+              "base_XYZ": [
+                0.0053026569673987525,
+                2646
+              ]
+            },
+            "fixed_ticks": {
+              "2504": {
+                "qpos": 0.00021814361060498537,
+                "qvel": 0.000018486679113956163,
+                "ctrl": 0.003977001144088974,
+                "base_XYZ": 0.00002729221411833223
+              },
+              "2505": {
+                "qpos": 0.00021812633891217043,
+                "qvel": 0.00003158531105572051,
+                "ctrl": 0.0039770010667800415,
+                "base_XYZ": 0.000027293480072021498
+              },
+              "2506": {
+                "qpos": 0.00021810451602919892,
+                "qvel": 0.000038201620746561875,
+                "ctrl": 0.003968189743414333,
+                "base_XYZ": 0.000027295180274340624
+              },
+              "2623": {
+                "qpos": 0.0421558413779703,
+                "qvel": 3.757489226444271,
+                "ctrl": 12.9353796622409,
+                "base_XYZ": 0.0013178077675568447
+              },
+              "2668": {
+                "qpos": 0.07369536157944787,
+                "qvel": 0.5140685855775747,
+                "ctrl": 3.317011256573359,
+                "base_XYZ": 0.0034532579404956717
+              },
+              "5703": {
+                "qpos": 0.05088263632109994,
+                "qvel": 0.003227706546270208,
+                "ctrl": 1.1985480812244598,
+                "base_XYZ": 0.0036977164240862754
+              }
+            }
+          },
+          "task": {
+            "first_over_roundoff": {
+              "qpos": 5704,
+              "qvel": 5704,
+              "ctrl": 5704,
+              "base_XYZ": 5704
+            },
+            "maxima": {
+              "qpos": [
+                0.10424270945364998,
+                5770
+              ],
+              "qvel": [
+                8.448096108700224,
+                5774
+              ],
+              "ctrl": [
+                9.12604551889293,
+                5778
+              ],
+              "base_XYZ": [
+                0.005302068603955248,
+                5852
+              ]
+            },
+            "fixed_ticks": {
+              "5704": {
+                "qpos": 0.050882330694108364,
+                "qvel": 0.0032566703852776645,
+                "ctrl": 1.196575106451691,
+                "base_XYZ": 0.0036977611044188667
+              }
+            }
+          }
+        }
+      },
+      "native_requests": 0,
+      "new_integrations": 0
+    },
+    "new_qualification_status": "OUTSIDE_FROZEN_STATE_TOLERANCE",
+    "qualification_first_failure": "TCP and mount translation beyond frozen tolerance",
+    "next_card": "MEV1-ENG-N1-SHORT-01",
+    "actual_controller_selected_reference": "NOT_EXPORTED",
+    "N2": "NOT_RUN",
+    "N4": "NOT_RUN"
+  },
+  "teacher": {
+    "measurements_sha256": "397779d8133bdc3a3352ae07131169701c4d6ad2e3a4330e82ae2d28125149d7",
+    "scope": "F1_RED_LEFT_TRAIN_FIXED_BASE_SHADOW",
+    "native_requests": 0,
+    "native_integrations": 0,
+    "candidates": [
+      {
+        "offset_mm": [
+          8,
+          8
+        ],
+        "additional_yaw_deg": 0
+      },
+      {
+        "offset_mm": [
+          4,
+          6
+        ],
+        "additional_yaw_deg": -15
+      }
+    ],
+    "measured": {
+      "at": 1795294035.8016765,
+      "historical_stages": [
+        {
+          "stage": "PREGRASP",
+          "native_step": 5703
+        },
+        {
+          "stage": "DESCEND",
+          "native_step": 13203
+        },
+        {
+          "stage": "CLOSE",
+          "native_step": 19953
+        },
+        {
+          "stage": "LIFT",
+          "native_step": 20703
+        },
+        {
+          "stage": "CARRY",
+          "native_step": 22953
+        }
+      ],
+      "original_candidate_gaps": [
+        {
+          "footprint_pass": 8,
+          "IK_evaluated": 546,
+          "forbidden_waypoints": 232,
+          "minima": {
+            "arm_to_blue": [
+              -4.327906345758873,
+              "LOWER",
+              [
+                "",
+                "task_blue_cube_geom"
+              ]
+            ],
+            "arm_to_table": [
+              6.3535911763036355,
+              "OPEN",
+              [
+                "task_right_pad",
+                "task_table"
+              ]
+            ],
+            "nonpad_arm_to_red": [
+              13.519123059047706,
+              "CARRY_TURN",
+              [
+                "",
+                "task_cube_geom"
+              ]
+            ],
+            "held_red_to_blue": [
+              25.124938459182015,
+              "LOWER",
+              [
+                "task_cube_geom",
+                "task_blue_cube_geom"
+              ]
+            ],
+            "red_to_table": [
+              -0.24609345541842276,
+              "LOWER",
+              [
+                "task_cube_geom",
+                "task_table"
+              ]
+            ]
+          },
+          "max_joint_move_rad": 0.010438385193429656
+        },
+        {
+          "footprint_pass": 8,
+          "IK_evaluated": 602,
+          "forbidden_waypoints": 0,
+          "minima": {
+            "arm_to_blue": [
+              8.371742766047605,
+              "WITHDRAW",
+              [
+                "task_right_pad",
+                "task_blue_cube_geom"
+              ]
+            ],
+            "arm_to_table": [
+              6.354338110592684,
+              "OPEN",
+              [
+                "task_right_pad",
+                "task_table"
+              ]
+            ],
+            "nonpad_arm_to_red": [
+              13.576056363568144,
+              "LOWER",
+              [
+                "",
+                "task_cube_geom"
+              ]
+            ],
+            "held_red_to_blue": [
+              21.99661374425679,
+              "LOWER",
+              [
+                "task_cube_geom",
+                "task_blue_cube_geom"
+              ]
+            ],
+            "red_to_table": [
+              -0.24609345541841932,
+              "LOWER",
+              [
+                "task_cube_geom",
+                "task_table"
+              ]
+            ]
+          },
+          "max_joint_move_rad": 0.07495093740467829
+        }
+      ],
+      "result": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-red-left",
+      "original_phase_counts": {
+        "PREGRASP": 30,
+        "DESCEND": 27,
+        "CLOSE": 3,
+        "LIFT": 9
+      },
+      "prior_result_state": {
+        "schema": "SLA_V6_MULTITASK_NATIVE_SCORE",
+        "instruction": "PLACE-red-left",
+        "task_success": false,
+        "native_step": 50703,
+        "base_directional_motion_m": 0.22386213952891257,
+        "lift_m": 0.055955871335306995,
+        "inside_selected_region": true,
+        "target_grasp": true,
+        "wrong_object_grasp_ever": false,
+        "wrong_object_contact_ever": false,
+        "released": false,
+        "gripper_open_fraction": 0.43052437122599163,
+        "TCP_retreat_m": 0.018825982081800606,
+        "stable_release_condition": false,
+        "states": 45001,
+        "missing_native_intervals": 0,
+        "unsafe_states": 0,
+        "ever_target_grasp": true,
+        "ever_target_lift20mm": true,
+        "maximum_lift_m": 0.0700362541213394,
+        "longest_grasp_lift_hold_s": 23.430000000010196,
+        "longest_stable_released_retreat_s": 0,
+        "events": {
+          "base80mm": {
+            "native_step": 9097,
+            "native_time_s": 18.194000000000795
+          },
+          "target_grasp": {
+            "native_step": 20519,
+            "native_time_s": 41.03800000000419
+          },
+          "target_lift20mm": {
+            "native_step": 22879,
+            "native_time_s": 45.75800000000996
+          },
+          "correct_region": {
+            "native_step": 39545,
+            "native_time_s": 79.08999999999708
+          }
+        },
+        "task_privileged_truth_in_student_input": false,
+        "clock": "ACTUAL_2MS_NATIVE_STREAM"
+      },
+      "original_success": false
+    },
+    "disposition": "COLD_CANDIDATE_ONLY_NO_ACTIVE_PRODUCER_CHANGE"
+  },
+  "transport": {
+    "epoch": 1795294183.5488613,
+    "current_library": "/usr/lib/x86_64-linux-gnu/liblttng-ust.so.1.0.0",
+    "library_sha256": "3dda3aff8ce04c7a1d5f1c5f20bd725d63e686a2042ee4834d8c25cde288f27b",
+    "profile": {
+      "distinct_LTTNG_HOME": true,
+      "distinct_LTTNG_UST_APP_PATH": true,
+      "LTTNG_UST_REGISTER_TIMEOUT_s": 0
+    },
+    "observed": {
+      "world1": {
+        "pid": 2764136,
+        "shared_mappings": [
+          [
+            "00:1d",
+            "790075",
+            "/dev/shm/lttng-ust-wait-8-2009"
+          ],
+          [
+            "00:1d",
+            "2",
+            "/dev/shm/lttng-ust-wait-8"
+          ]
+        ],
+        "exit": 0,
+        "error": ""
+      },
+      "world2": {
+        "pid": 2764137,
+        "shared_mappings": [
+          [
+            "00:1d",
+            "790075",
+            "/dev/shm/lttng-ust-wait-8-2009"
+          ],
+          [
+            "00:1d",
+            "2",
+            "/dev/shm/lttng-ust-wait-8"
+          ]
+        ],
+        "exit": 0,
+        "error": ""
+      }
+    },
+    "preexisting_objects_same": true,
+    "shared_names_and_inodes_equal": true,
+    "native_requests": 0,
+    "integrations": 0,
+    "model_generations": 0,
+    "optimizer_updates": 0,
+    "sha256": "777b833eb450e1a9a449b3e655e511e4aebcad7deee7ed126628471fbb560947"
+  },
+  "wave": {
+    "closed": 7,
+    "registered": 120,
+    "started": 8,
+    "admitted_train": 2,
+    "admitted_windows": 140,
+    "confirmed_native_P10_atoms": 1400,
+    "closed_ticks": 180140,
+    "official_snapshot": "TRAIN-059",
+    "new_optimization_visits": 0
+  },
+  "canonical": {
+    "cold": {
+      "MAIN-phase00000": {
+        "intent": 32,
+        "completed": 32,
+        "cold": "COLD_MATCH",
+        "ipc": 0,
+        "ipc_comparison": false
+      },
+      "MAIN-phase02000": {
+        "intent": 25,
+        "completed": 24,
+        "cold": null,
+        "ipc": 0,
+        "ipc_comparison": false
+      }
+    },
+    "ipc": {
+      "MAIN-phase00000": {
+        "intent": 0,
+        "completed": 0,
+        "cold": null,
+        "ipc": 0,
+        "ipc_comparison": false
+      },
+      "MAIN-phase02000": {
+        "intent": 0,
+        "completed": 0,
+        "cold": null,
+        "ipc": 0,
+        "ipc_comparison": false
+      }
+    },
+    "initial_native_DEV": [
+      0,
+      0
+    ],
+    "cold_phase0_result_sha256": "64f82fb3abdbf72dd1e2e11b43c4ffb47b837eb6f47536b0e631abf72f96abab"
+  },
+  "hopper": {
+    "observed_update": 2377,
+    "current_job": "728156.hopper-m-02",
+    "latest_full": {
+      "step": 2300,
+      "sha": "957f66864e34dfda72072bfb577521d4921912fa1180cf77e1992ab6646a01d7"
+    },
+    "pbs_successor": {
+      "state": "H",
+      "hold": "s",
+      "depends": "afterok:728156.hopper-m-02@hopper-m-02.cm.cluster",
+      "start": null,
+      "nGPU": 1,
+      "gpu_model": null,
+      "project": "CFP04-CF-007",
+      "user": "e1192548"
+    },
+    "successor": "728212.hopper-m-02"
+  }
+}

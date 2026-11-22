@@ -16,12 +16,23 @@ from .storage import digest
 PLAN = 'ae3d3c0dceade437b0104a150cd0402fef650052'
 SCOPE = 'SLA_V6_MULTITASK_NATIVE'
 VERSION = NATIVE_VERSION
+N1_SCOPE = 'SLA_CORE_MULTIENV_V1_N1_ENGINEERING'
+RED_HOLD_REPAIR_SCOPE = 'SLA_CORE_MULTIENV_V1_EXPERT_REPAIR'
 
 
 def scope_identity(spec):
+    if spec.get('scope') == RED_HOLD_REPAIR_SCOPE:
+        from scripts.sla import core_multienv_scope as me
+        return RED_HOLD_REPAIR_SCOPE, me.PLAN, (), me.AUTHORITY
+    if spec.get('scope') == N1_SCOPE:
+        from scripts.sla.core_multienv_n1 import PLAN, SCOPE, AUTHORITY
+        return SCOPE, PLAN, (), AUTHORITY
     if spec.get('scope') == 'SLA_CORE_HOPPER_V1_STUDENT':
         from scripts.sla import core_hopper_native_scope as student
         return student.SCOPE, student.PLAN, student.ENDPOINTS, student.AUTHORITY
+    if spec.get('scope') == 'SLA_CORE_MULTIENV_V1_EXPERT':
+        from scripts.sla import core_multienv_scope as me
+        return me.SCOPE, me.PLAN, (), me.AUTHORITY
     if spec.get('scope') == 'SLA_CORE_HOPPER_V1_EXPERT':
         from scripts.sla.core_hopper_expert import SCOPE as ch_scope, PLAN as ch_plan, AUTHORITY
         return ch_scope, ch_plan, (), AUTHORITY
@@ -101,6 +112,9 @@ def validate(spec):
     expected_method='SIM_INTERFACE_HOLD' if interface else NATIVE_METHOD if student else 'EXPERT'
     env=spec['native_environment']
     scope, plan, _, authority_source = scope_identity(spec)
+    n1_probe = scope == N1_SCOPE and interface
+    if n1_probe:
+        cap = 10703
     if (spec.get('scope')!=scope or spec['plan_commit']!=plan
             or spec['mobile_experiment_version']!=VERSION or role not in ('INTERFACE','EXPERT','STUDENT')
             or (scope in (d4.SCOPE, followup.SCOPE, scale.SCOPE, 'SLA_CORE_HOPPER_V1_STUDENT') and not student) or (scope == d4.E0_SCOPE and not interface)
@@ -110,7 +124,7 @@ def validate(spec):
             or spec['execution_clock_profile']!='SIM_PAUSED_NATIVE' or spec['physics'] is not True
             or spec['WBC_changes'] is not False or spec['safety_changes'] is not False
             or spec['physics_dt_s']!=.002 or spec['max_ticks']!=cap or
-            spec['policy_queries']!=(0 if interface else (cap-5703)//250)
+            spec['policy_queries']!=(0 if interface and not n1_probe else (cap-5703)//250)
             or spec['new_physical_requests_budget']!=1
             or spec['new_model_generations_budget']!=(spec['policy_queries'] if student else 0)
             or spec['new_optimizer_updates_budget'] or spec['new_training_visits_budget']
@@ -127,6 +141,15 @@ def validate(spec):
         raise PermissionError('ACTUAL_FINITE_V6_MULTITASK_AUTHORITY_REQUIRED')
     if scope == 'SLA_CORE_HOPPER_V1_EXPERT':
         from scripts.sla.core_hopper_expert import validate_member
+        validate_member(spec, authority)
+    if scope == 'SLA_CORE_MULTIENV_V1_EXPERT':
+        from scripts.sla.core_multienv_scope import validate_member
+        validate_member(spec, authority)
+    if scope == RED_HOLD_REPAIR_SCOPE:
+        from scripts.sla.core_multienv_red_hold_pilot import validate_member
+        validate_member(spec, authority)
+    if scope == N1_SCOPE:
+        from scripts.sla.core_multienv_n1 import validate_member
         validate_member(spec, authority)
     if scope in adaptation.SCOPES and (authority['native_request_cap'] != len(adaptation.batch_cells(scope))
             or authority['native_tick_cap'] != adaptation.tick_cap(scope)):
@@ -161,9 +184,15 @@ def validate_frozen_assets(spec):
             raise PermissionError('ONLY_EXACT_COLD_COMPILED_MULTITASK_BINARIES')
 
 def episode(adapter):
+    if adapter.spec.get('scope')==N1_SCOPE and adapter.spec['sim_only_role']=='INTERFACE':
+        from .multitask_probe_d2 import episode as probe
+        return probe(adapter)
     if adapter.spec['sim_only_role']=='EXPERT':
         from .multitask_teacher_episode_v6 import episode as teacher
-        if adapter.spec.get('scope')=='SLA_CORE_HOPPER_V1_EXPERT' and adapter.spec.get('carry_repair'):
+        if adapter.spec.get('scope') == RED_HOLD_REPAIR_SCOPE:
+            from scripts.sla.core_multienv_red_hold_teacher import RedHoldDetour
+            return teacher(adapter,placement_teacher=RedHoldDetour)
+        if adapter.spec.get('scope') in ('SLA_CORE_HOPPER_V1_EXPERT',N1_SCOPE) and adapter.spec.get('carry_repair'):
             repair=adapter.spec['carry_repair']
             if repair.get('kind'):
                 from scripts.sla.core_hopper_red_approach import KIND, PLACE_KIND, RedHoldPitch, RedPlacePitch

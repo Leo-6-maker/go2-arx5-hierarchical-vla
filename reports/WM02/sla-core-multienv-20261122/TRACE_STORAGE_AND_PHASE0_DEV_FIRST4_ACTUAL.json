@@ -1,0 +1,398 @@
+{
+  "plan": "4fe2c8cf1b69c168b2e3079e061bb7c702089cd3",
+  "as_of_sgt": "2026-11-22 05:50:23",
+  "storage": {
+    "epoch": 1795297753.0921624,
+    "name": "sla-core-multienv-zstd-storage-20261122-01",
+    "receipt_sha": "fad397f22e0e13983812a8db535a3b3b32f8c0080f49659e847af7555ecbd610",
+    "intent": {
+      "epoch": 1795297747.1680555,
+      "script_sha": "4f290a8b3e0db4565c4e3196f2e750fae0f26e4f474820080f1e804d8b305fbf",
+      "conditions": [
+        "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-red-right",
+        "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-red-left",
+        "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-red-right"
+      ],
+      "maximum_input_bytes": 3221225472,
+      "physics": false
+    },
+    "original_bytes": 2801854348,
+    "packed_bytes": 450083525,
+    "seconds": 5.887914401479065,
+    "verified_files": 24,
+    "results": {
+      "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-red-right": {
+        "ticks": 36203,
+        "admitted": true,
+        "reason": "TASK_SUCCESS",
+        "traces": {
+          "ROS_CONSUMPTION.private.jsonl": [
+            471181963,
+            54787654,
+            true
+          ],
+          "init.trace": [
+            233848456,
+            30001175,
+            true
+          ],
+          "state.bin.journal": [
+            109270828,
+            45704130,
+            true
+          ],
+          "physics.jsonl": [
+            59908516,
+            17515192,
+            true
+          ],
+          "init.trace.snapshots": [
+            38382600,
+            1014050,
+            true
+          ],
+          "planner.jsonl": [
+            17801839,
+            1060027,
+            true
+          ],
+          "COMMANDS.private.jsonl": [
+            11107932,
+            1088280,
+            true
+          ],
+          "MOBILE_SAMPLES.private.jsonl": [
+            6205700,
+            1599534,
+            true
+          ]
+        }
+      },
+      "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-red-left": {
+        "ticks": 50703,
+        "admitted": false,
+        "reason": "TASK_BUDGET_EXHAUSTED_IN_CARRY",
+        "traces": {
+          "ROS_CONSUMPTION.private.jsonl": [
+            624231597,
+            73723714,
+            true
+          ],
+          "init.trace": [
+            361693096,
+            43079836,
+            true
+          ],
+          "state.bin.journal": [
+            158649468,
+            69546974,
+            true
+          ],
+          "physics.jsonl": [
+            85594807,
+            25541954,
+            true
+          ],
+          "init.trace.snapshots": [
+            53752600,
+            1424853,
+            true
+          ],
+          "planner.jsonl": [
+            24926445,
+            1718445,
+            true
+          ],
+          "COMMANDS.private.jsonl": [
+            15684641,
+            1591710,
+            true
+          ],
+          "MOBILE_SAMPLES.private.jsonl": [
+            8773516,
+            2330985,
+            true
+          ]
+        }
+      },
+      "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-red-right": {
+        "ticks": 20690,
+        "admitted": false,
+        "reason": "ILLEGAL_CONTACT",
+        "traces": {
+          "ROS_CONSUMPTION.private.jsonl": [
+            258249281,
+            28749395,
+            true
+          ],
+          "init.trace": [
+            132103456,
+            16874185,
+            true
+          ],
+          "state.bin.journal": [
+            56830440,
+            21114186,
+            true
+          ],
+          "physics.jsonl": [
+            32386612,
+            9136852,
+            true
+          ],
+          "init.trace.snapshots": [
+            21931400,
+            579622,
+            true
+          ],
+          "planner.jsonl": [
+            10000241,
+            529625,
+            true
+          ],
+          "COMMANDS.private.jsonl": [
+            6026305,
+            535532,
+            true
+          ],
+          "MOBILE_SAMPLES.private.jsonl": [
+            3312609,
+            835615,
+            true
+          ]
+        }
+      }
+    },
+    "independent_readback": {
+      "localtime": "2026-11-22 05:50:23",
+      "result_sha": "fad397f22e0e13983812a8db535a3b3b32f8c0080f49659e847af7555ecbd610",
+      "all_roundtrips": true,
+      "originals_rewritten": 0,
+      "leftover": [],
+      "free_GiB": 291.1845397949219,
+      "new_dispatch_headroom_GiB": 13.519464111886919,
+      "dev": {
+        "state": "STUDENT_BLOCK",
+        "epoch": 1795297815.925431,
+        "pid": 2794896,
+        "arm": "MAIN-phase00000",
+        "child": 2802215
+      }
+    },
+    "closed_wave_cases": 11,
+    "closed_wave_total_bytes": 8294100992,
+    "median_case_bytes": 594018304,
+    "compression_savings_fraction": 0.8393622690197028,
+    "production_integrated": false,
+    "production_disk_saved_bytes": 0,
+    "source_probe": {
+      "/var/tmp/sla-v6-core-uid2009-owned-20261118": {
+        "free_GiB": 291.492,
+        "total_GiB": 1774.434,
+        "device": 66308,
+        "owner_match": true,
+        "writable": true,
+        "mount": "ext4   /"
+      },
+      "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-20261122-02": {
+        "free_GiB": 291.492,
+        "total_GiB": 1774.434,
+        "device": 66308,
+        "owner_match": true,
+        "writable": true,
+        "mount": "ext4   /"
+      },
+      "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-canonical-dev-20261122-08": {
+        "free_GiB": 291.492,
+        "total_GiB": 1774.434,
+        "device": 66308,
+        "owner_match": true,
+        "writable": true,
+        "mount": "ext4   /"
+      },
+      "/mnt/local/hdd1/UserData/liuyu-nfs/Projects/GR00T-WBC/WM02": {
+        "free_GiB": 542.79,
+        "total_GiB": 3726.006,
+        "device": 2050,
+        "owner_match": false,
+        "writable": true,
+        "mount": "fuseblk /mnt/local/hdd1"
+      },
+      "/var/cache/users/liuyu-nfs/Projects/go2-arx5": {
+        "free_GiB": 291.492,
+        "total_GiB": 1774.434,
+        "device": 66308,
+        "owner_match": true,
+        "writable": true,
+        "mount": "ext4   /"
+      },
+      "/dev/shm": {
+        "free_GiB": 30.976,
+        "total_GiB": 31.034,
+        "device": 29,
+        "owner_match": false,
+        "writable": true,
+        "mount": "tmpfs  /dev/shm"
+      }
+    }
+  },
+  "dev": {
+    "phase0": {
+      "registered": 6,
+      "started": 5,
+      "terminal": 4,
+      "successes": 0,
+      "terminal_requests": 4,
+      "terminal_model_generations": 253,
+      "terminal_native_ticks": 85418,
+      "cases": [
+        {
+          "id": "CHV1-DEV-F1-HOLD-blue-00-MAIN-phase00000",
+          "started": true,
+          "terminal": true,
+          "ticks": 21203,
+          "requests": 1,
+          "queries": 63,
+          "installed": 620,
+          "grasp": false,
+          "lift": 0,
+          "success": false,
+          "unsafe": false,
+          "technical": false,
+          "first": "ORIGINAL_FULL_H40_POLICY_REJECTED",
+          "post_stop": null,
+          "hash": "bdabfe33b0ca77e679330aab89a3a8522c5041c5c064679547d7a8bf4b9ee1a6"
+        },
+        {
+          "id": "CHV1-DEV-F1-HOLD-red-00-MAIN-phase00000",
+          "started": true,
+          "terminal": true,
+          "ticks": 21203,
+          "requests": 1,
+          "queries": 63,
+          "installed": 620,
+          "grasp": false,
+          "lift": 0,
+          "success": false,
+          "unsafe": false,
+          "technical": false,
+          "first": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+          "post_stop": null,
+          "hash": "1cfaba5a817d9ac15f965d7f757b9723ae0f41aaa3b4205d31feefdd7fcd9da0"
+        },
+        {
+          "id": "CHV1-DEV-F1-PLACE-blue-left-00-MAIN-phase00000",
+          "started": true,
+          "terminal": false,
+          "ticks": null,
+          "requests": null,
+          "queries": null,
+          "installed": null,
+          "grasp": null,
+          "lift": null,
+          "success": null,
+          "unsafe": null,
+          "technical": null,
+          "first": "",
+          "post_stop": null,
+          "hash": null
+        },
+        {
+          "id": "CHV1-DEV-F1-PLACE-red-left-00-MAIN-phase00000",
+          "started": true,
+          "terminal": true,
+          "ticks": 21447,
+          "requests": 1,
+          "queries": 63,
+          "installed": 629,
+          "grasp": null,
+          "lift": null,
+          "success": null,
+          "unsafe": true,
+          "technical": false,
+          "first": "ILLEGAL_CONTACT",
+          "post_stop": 0,
+          "hash": "061fd288649e2e33429feb20c49828d038f1ee22772e5d78ad10fc00c973e47f"
+        },
+        {
+          "id": "CHV1-DEV-F1-PLACE-red-right-00-MAIN-phase00000",
+          "started": true,
+          "terminal": true,
+          "ticks": 21565,
+          "requests": 1,
+          "queries": 64,
+          "installed": 634,
+          "grasp": null,
+          "lift": null,
+          "success": null,
+          "unsafe": true,
+          "technical": false,
+          "first": "ILLEGAL_CONTACT",
+          "post_stop": 0,
+          "hash": "9a9bc1411ff1223e6321a77bef882291095f32ec13246876259760e55fc1764c"
+        }
+      ],
+      "red_right_stop": {
+        "scene": "edb8a89eea865f8b7fbb0f498a32568baf8e0b531f249e745fe3ff3218780a30",
+        "tick": 21565,
+        "post_stop_ticks": 0,
+        "pairs": [
+          {
+            "geoms": [
+              "task_left_pad",
+              "task_blue_cube_geom"
+            ],
+            "bodies": [
+              "x5_link7",
+              "task_blue_cube"
+            ],
+            "signed_distance_mm": -0.00022972884282899952
+          }
+        ],
+        "last_query": {
+          "query": 63,
+          "native_start_step": 21453,
+          "terminal_native_step": 21565,
+          "confirmed_atoms": 4,
+          "partial_native_ticks": 12,
+          "full_H40_compiled": true
+        },
+        "last_score": {
+          "native_step": 21453,
+          "task_success": false,
+          "ever_target_grasp": false,
+          "maximum_lift_m": 0,
+          "wrong_object_contact_ever": false
+        },
+        "actual_atoms": 634,
+        "grasped_atoms": 0,
+        "base_path_m": 0.32311656816545253,
+        "integration_calls": 0,
+        "model_generations": 0,
+        "native_requests": 0
+      }
+    },
+    "main2k": {
+      "registered": 6,
+      "started": 0,
+      "terminal": 0,
+      "status": "NOT_RUN"
+    }
+  },
+  "hopper": {
+    "main_updates": 2602,
+    "job": "728156.hopper-m-02",
+    "latest_seal": 2600,
+    "seal_sha": "53a1e6a845786ae2610244a67f75614080a821438677249359f8b0907db5de9d",
+    "successor": "728212.hopper-m-02",
+    "successor_state": "H",
+    "successor_dependency": "afterok:728156.hopper-m-02@hopper-m-02.cm.cluster",
+    "successor_actual_updates": 0,
+    "TRAIN063_optimization_visits": 0
+  },
+  "n2_native": "NOT_RUN",
+  "n4_native": "NOT_RUN",
+  "new_optimizer_updates": 0,
+  "new_native_requests": 0,
+  "new_model_generations": 0
+}

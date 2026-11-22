@@ -1,0 +1,126 @@
+{
+  "plan": "4fe2c8cf1b69c168b2e3079e061bb7c702089cd3",
+  "checked_epoch": 1795311498.712057,
+  "wave": {
+    "launched": 25,
+    "registered": 120,
+    "terminal": 24,
+    "verified_terminal_ticks": 677966,
+    "G7": 10,
+    "active_condition": "MEV1-TRAIN-F1-NEAR_POS-00-HOLD-blue",
+    "n2": "NOT_RUN",
+    "n4": "NOT_RUN"
+  },
+  "slot24": {
+    "native_pin": "65df87cf7e64ffb2fc119fbafe8a582c84cc8a5ba30b7c1b5012c492d66b36ba",
+    "producer_terminal_pin": "a38b13f6cf9c815fadeebd8f4563cbe6fd9e5de2e61696d6000ede80efa7f532",
+    "case_spec_pin": "ecdff58ba32e60e1c9fd41b39a1fa4b237a0c6f338f0706eea0366bbe4ebb8f0",
+    "requests": 1,
+    "ticks": 9267,
+    "sampled_physics_rows": 3089,
+    "sampled_final_tick": 9265,
+    "consumed_atoms": 142,
+    "grasped_atoms": 0,
+    "raw_safety_stop_events": 0,
+    "directional_mobile_motion_m": 0.025362186909855613,
+    "wall_s": 1804.5078395316377,
+    "first_failure": "EXISTING_1800_SECOND_WALL_LIMIT_WAITING_FOR_PAUSE_RECEIPT",
+    "all_four_processes_closed_zero": true,
+    "old_site_and_case_leases_closed": true,
+    "retained_no_reattempt": true
+  },
+  "slot25": {
+    "producer_systemd": {
+      "MainPID": "3055169",
+      "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-wave-a-cold-20261122-02.service",
+      "ActiveState": "active",
+      "InvocationID": "db383b5ab530445793339f2bbe6f53b2"
+    },
+    "child_pid": 3055208,
+    "producer_spec": "761d75760d972dc1f6890be87aa84f0848ea82a7b83afdf67cd7cc1008315f0c",
+    "child_spec": "de515b094cbd123387c823ee2ca9104909620b56c6105f47584eabeb79b7af1b",
+    "source": "a5ca7776bc8eea7860f16af8debfc3981a1eea9f",
+    "parent_deadline": 1795316348.6205475,
+    "child_deadline": 1795313351.532268,
+    "reservation": {
+      "passed": true,
+      "local": {
+        "free_disk": 297128624128,
+        "floor": 294382508441,
+        "reserve": 2684354560,
+        "passed": true
+      },
+      "payload": {
+        "free_disk": 1359384412160,
+        "floor": 608707700326,
+        "reserve": 2147483648,
+        "passed": true
+      }
+    },
+    "config_sha256": "9c54125f735d0c1b9dc6db921fd84a82d287919bbe2d8093b8526c73735cd3fc",
+    "live_control_receipt": "c946137b7d2b6e8734e3c62d89af1b22ff95cfc04b2afc5193b77c4283adaffc",
+    "nfs_journal_device": 112,
+    "first_2475_ticks_s": 59.903117656707764,
+    "previous_slot_first_2475_ticks_s": 391.4859597682953,
+    "timing_note": "Two different registered scenes. Timing sample is production warmup, without a matched full-episode performance comparison.",
+    "actual_ticks_at_readback": 4426,
+    "terminal": null,
+    "snapshot_admission": 0,
+    "safety_changes": false,
+    "stop_entry": "producer registered root STOP.json"
+  },
+  "catalog": {
+    "systemd": {
+      "MainPID": "3059395",
+      "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-wave-a-cold-data-owner-20261122-02.service",
+      "ActiveState": "active",
+      "InvocationID": "29ba85020078440b933edf69c8510b32"
+    },
+    "config": "d2a7e496c74dd1187dffdff49477a691863ab3d698153696a5f22c5533502fd5",
+    "source": "83b0488b8be4729c6bed8d75f8902ef6f461a82d",
+    "source_manifest": "6ac2f5ac8150e918b0fff3e95d4c7b34d16212ce367c91b64a38fbe094b62cf7",
+    "training_snapshot": "TRAIN-069",
+    "custody_cutoff": 1795316348.6205475,
+    "heartbeat_epoch": 1795311490.8177216,
+    "paid_train": 24,
+    "admitted": 10,
+    "new_training_visits": 0,
+    "stop_entry": "catalog root STOP"
+  },
+  "hopper": {
+    "phase3400_seal": "2f2ce8cb4132b3409b2da68d1f3f02cceef934b8465f8ede28dfea58cb6021ac",
+    "phase3400_cursors": {
+      "lineage_cursors": {
+        "libero": 196800,
+        "robodojo": 196800,
+        "target": 361600
+      },
+      "lineage_updates": 5900,
+      "phase_step": 3400,
+      "role_training_full_generations": 13600,
+      "role_updates": 3400,
+      "role_visits": {
+        "libero": 108800,
+        "robodojo": 108800,
+        "target": 217600
+      },
+      "target_bank_cursor": 89600
+    },
+    "checkpoint": "efad02008e3c57b6cb6365cf276e2b3a8edcd1e1bed895bfdc3c9b59a7f55c9e",
+    "backup_receipt": "e79b291c79de0f846219adb8000f815ae01af4d2838b8b88c96b5cf006a6a642",
+    "independent_vanda": {
+      "status": "INDEPENDENT_VANDA_140_ARRAY_REHASH_MATCH",
+      "checkpoint": "efad02008e3c57b6cb6365cf276e2b3a8edcd1e1bed895bfdc3c9b59a7f55c9e",
+      "arrays": 140,
+      "files": 141,
+      "bytes": 5547651600,
+      "epoch": 1795310956.96113,
+      "seconds": 9.187169247015845
+    },
+    "actual_minimum_updates": 3446,
+    "new_pbs_jobs": 0,
+    "no_new_offline_eval": true,
+    "current_train": "TRAIN-052",
+    "live_scheduler_query": "TIMED_OUT; COMPLETED_UPDATE_RECEIPT_RECHECKED"
+  }
+}

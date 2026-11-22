@@ -1,0 +1,195 @@
+{
+  "plan": "4fe2c8cf1b69c168b2e3079e061bb7c702089cd3",
+  "checked_epoch": 1795312614.7386823,
+  "wave": {
+    "registered": 120,
+    "launched": 25,
+    "terminal": 24,
+    "admissions": 10,
+    "training_snapshot": "TRAIN-069",
+    "training_windows": 6081,
+    "new_optimizer_visits": 0
+  },
+  "slot25": {
+    "world_pid": "3055169",
+    "native_ticks_at_readback": 15928,
+    "current_status": "ACTIVE",
+    "native_terminal": false,
+    "clock_intervals": {
+      "epoch": 1795312289.1346934,
+      "old_hold": {
+        "n": 276,
+        "median": 0.312475,
+        "p95": 1.81208,
+        "max": 3.14
+      },
+      "new_hold": {
+        "n": 276,
+        "median": 2.203935,
+        "p95": 3.72487,
+        "max": 9.57743
+      },
+      "range": [
+        5728,
+        12603
+      ],
+      "scope": "matched atom clock indices, different fixed F1-blue-HOLD layouts; includes ROS, Python and physical wait through next grant",
+      "native_requests_added": 0
+    },
+    "io_wait_sample": {
+      "folio_wait_bit_common": 25,
+      "rpc_wait_bit_killable": 1
+    }
+  },
+  "slot26": {
+    "epoch": 1795312602.2189183,
+    "unit": "wm02-sla-core-multienv-red-hold-pilot-20261122-02.service",
+    "ctl": {
+      "MainPID": "3070444",
+      "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-red-hold-pilot-20261122-02.service",
+      "ActiveState": "active",
+      "InvocationID": "2032560fd44d482b90bc4817a2a5e0f5"
+    },
+    "linger": "Linger=yes",
+    "spec": "5559d892531efc06e43f98848f70356303744613efc076310416dd2764af6894",
+    "lease": "ACTIVE",
+    "lease_spec": "5559d892531efc06e43f98848f70356303744613efc076310416dd2764af6894",
+    "source": "fa7322afde15eaf7bd6a0e5963a12e6abafc2ff1",
+    "deadline": 1795317871.5882697,
+    "native_request_cap": 1,
+    "last": {
+      "epoch": 1795312587.6372674,
+      "pid": 3070444,
+      "stage": "WAIT_ORIGINAL_SLOT_HANDOFF",
+      "condition": "MEV1-TRAIN-F2-NEAR_POS-00-HOLD-red"
+    },
+    "child_registered": false,
+    "intent": false,
+    "terminal": false,
+    "log": "logs/supervisor.log",
+    "stop": "STOP.json",
+    "previous_progress_epoch": 1795312447.537325,
+    "previous_role_native_requests": 0,
+    "actual_native_requests": 0,
+    "actual_native_ticks": 0,
+    "reserved_native_ticks": 35703,
+    "source_members": 3708,
+    "scope_cutoff_unchanged": true,
+    "native_status": "NOT_RUN",
+    "storage_preflight": {
+      "passed": true,
+      "local": {
+        "free_disk": 297107619840,
+        "floor": 294382508441,
+        "reserve": 2684354560,
+        "passed": true
+      },
+      "payload": {
+        "free_disk": 1358875852800,
+        "floor": 608707700326,
+        "reserve": 2147483648,
+        "passed": true
+      }
+    },
+    "exact_original_pause_reconciliation": true
+  },
+  "storage_probe": {
+    "files": 10,
+    "bytes": 383356076,
+    "replayed_ticks": 36453,
+    "archive_sha256": "37adb1a2461dff6980d879a214eb65fbb53e93d8fdc86c89b11e51dcf01fbe56",
+    "archive_seconds": 8.59441997576505,
+    "independent_rehash": true,
+    "source_hashes": {
+      "scripts/sla/core_multienv_payload.py": "360c611f3e297349adca3575723c5d4c99149f146bb8294ecfc17f60b1ef8103",
+      "src/go2arx5_vla/world_model/native_live_control_v3.py": "49ce34e4fd10fb24d430cba3540f3249c828a0ebaaf00c9a1ee50cc59b94afa6"
+    },
+    "append_flush_fixture": {
+      "local": {
+        "device": 66308,
+        "packets": 256,
+        "median_ms": 0.0014295,
+        "p95_ms": 0.002075,
+        "max_ms": 0.009795
+      },
+      "nfs": {
+        "device": 112,
+        "packets": 256,
+        "median_ms": 0.001318,
+        "p95_ms": 0.001747,
+        "max_ms": 0.063483
+      }
+    },
+    "read_guard_fixture": {
+      "epoch": 1795312187.1555119,
+      "result": {
+        "nfs": {
+          "count": 256,
+          "median_ms": 0.0563085,
+          "p95_ms": 0.059451,
+          "peak_ms": 0.857418
+        },
+        "local": {
+          "count": 256,
+          "median_ms": 0.0264845,
+          "p95_ms": 0.028211,
+          "peak_ms": 0.078162
+        }
+      },
+      "nfs_missing_STOP_metadata": {
+        "count": 128,
+        "median_ms": 0.0036420000000000003,
+        "p95_ms": 0.004381,
+        "peak_ms": 1.406499
+      },
+      "native_requests": 0,
+      "new_physical_ticks": 0,
+      "matched_members": 9,
+      "source": "fa7322afde15eaf7bd6a0e5963a12e6abafc2ff1",
+      "guard_real_function": true
+    },
+    "native_requests": 0,
+    "native_ticks": 0
+  },
+  "engineer": {
+    "n1_requests": 6,
+    "n1_ticks": 64218,
+    "n1_within_tolerance": 3,
+    "short_remaining": 2,
+    "full_remaining": 4,
+    "capacity_gap_bytes": 1037891993,
+    "n2": "NOT_RUN",
+    "n4": "NOT_RUN"
+  },
+  "training": {
+    "phase3500_seal": "1d01f2f9e3df544de277774db1b28fa6be0832182d970499c36d0323a3aaf4c3",
+    "checkpoint": "3fb6263090159668a5ed33d35e97682ecf691bd49a51404bef4c1ff356c484b6",
+    "backup_receipt_sha": "653d695d04042d69c72881ad41fee6967f8e597fcd755ca4a79f572512b94634",
+    "vanda": {
+      "status": "INDEPENDENT_VANDA_140_ARRAY_REHASH_MATCH",
+      "checkpoint": "3fb6263090159668a5ed33d35e97682ecf691bd49a51404bef4c1ff356c484b6",
+      "arrays": 140,
+      "files": 141,
+      "bytes": 5547651600,
+      "epoch": 1795312581.502781,
+      "seconds": 9.22454328398453
+    },
+    "phase3500_updates": 3500,
+    "phase3500_visits": {
+      "libero": 112000,
+      "robodojo": 112000,
+      "target": 224000
+    },
+    "latest_completed_updates": 3514,
+    "current_data": "TRAIN-052",
+    "next_data_eligible": "TRAIN-069",
+    "pbs": {
+      "current": "728212.hopper-m-02",
+      "current_state": "R",
+      "successor": "728341.hopper-m-02",
+      "successor_state": "H",
+      "dependency": "afterok"
+    },
+    "new_pbs_jobs": 0
+  }
+}

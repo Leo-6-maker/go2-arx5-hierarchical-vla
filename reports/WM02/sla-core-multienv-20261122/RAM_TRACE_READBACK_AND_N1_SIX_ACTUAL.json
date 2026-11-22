@@ -1,0 +1,1117 @@
+{
+  "plan": "4fe2c8cf1b69c168b2e3079e061bb7c702089cd3",
+  "storage": {
+    "production_actual_bytes_reclaimed": 0,
+    "decoded_payload_on_disk": 0
+  },
+  "core_memfd": {
+    "status": "ACTUAL_CORE_ARCHIVE_READBACK",
+    "proof": {
+      "cases": [
+        {
+          "RAM_file_bytes": 521097649,
+          "archive_sha": "fa5f0ac06d56f448cbbe7938ba1b1a74828174ff3e73a91ea0a9c46153af9e75",
+          "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-red-right",
+          "decoded_disk_payload_bytes": 0,
+          "matched_metrics": 18,
+          "matched_score_events": {
+            "base80mm": {
+              "native_step": 16733,
+              "native_time_s": 33.465999999994935
+            },
+            "wrong_object_contact": {
+              "native_step": 20690,
+              "native_time_s": 41.38000000000461
+            }
+          },
+          "mem_available_after_unpack": 46429192192,
+          "mem_available_before": 47006937088,
+          "members": 10,
+          "packed_bytes": 78420909,
+          "stop": {
+            "pairs": [
+              {
+                "bodies": [
+                  "x5_link6",
+                  "task_blue_cube"
+                ],
+                "geoms": [
+                  "",
+                  "task_blue_cube_geom"
+                ],
+                "signed_distance_mm": -0.30813115080277964
+              }
+            ],
+            "post_stop_ticks": 0,
+            "tick": 20690
+          },
+          "success": false,
+          "ticks": 20690
+        },
+        {
+          "RAM_file_bytes": 948187449,
+          "archive_sha": "6ee91c3a04bd576b05688c8028207a1df619afad9a26cddb0c08276591b5fb75",
+          "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-red-right",
+          "decoded_disk_payload_bytes": 0,
+          "matched_metrics": 18,
+          "matched_score_events": {
+            "base80mm": {
+              "native_step": 10059,
+              "native_time_s": 20.11799999999973
+            },
+            "correct_region": {
+              "native_step": 27237,
+              "native_time_s": 54.47400000002061
+            },
+            "released": {
+              "native_step": 33194,
+              "native_time_s": 66.38800000002668
+            },
+            "retreated50mm": {
+              "native_step": 35459,
+              "native_time_s": 70.91800000001612
+            },
+            "target_grasp": {
+              "native_step": 18771,
+              "native_time_s": 37.541999999999916
+            },
+            "target_lift20mm": {
+              "native_step": 21135,
+              "native_time_s": 42.270000000005695
+            }
+          },
+          "mem_available_after_unpack": 45878378496,
+          "mem_available_before": 46562537472,
+          "members": 10,
+          "packed_bytes": 152887544,
+          "stop": null,
+          "success": true,
+          "ticks": 36203
+        }
+      ],
+      "consumer_shas": {
+        "go2arx5_vla.world_model.init_trace_reader": "1936a06bccbf13908750f14bf91828c2310854db72196e87edc0826814d09699",
+        "go2arx5_vla.world_model.mobile_boundary_metrics_v1": "c4b21cc3315e5124b53cd9a8198cd13f2b896961f7941411da7a7332c979ee06",
+        "go2arx5_vla.world_model.multitask_terminal_audit_v1": "66aacf194d1832a99db3a29bf1f905a33e0471b98f6d9a0af55fb1692342aa70"
+      },
+      "model_generations": 0,
+      "native_integrations": 0,
+      "native_requests": 0,
+      "optimizer_updates": 0,
+      "original_files_rewritten": 0,
+      "seconds": 15.806429788470268,
+      "source_archives": "21ce84732bd67551f49bfe6a66111f1e89c7eda8eae2f813e855e8acbeef086e",
+      "status": "RAM_BACKED_ORIGINAL_TRACE_AND_SCORE_RECONCILED"
+    },
+    "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-trace-memfd-20261122-01/RESULT.private.json",
+    "proof_sha256": "50908cd85ade966fb21850a71a8f88f4428b520b76e7b8344fa270e1297764b6",
+    "files": {
+      "scripts/sla/core_multienv_trace_memfd.py": "5172af147f9119679acbd86fa2c407cf36a4c2b99137b5653c010c3cc62a2c32",
+      "scripts/sla/core_multienv_trace_archive.py": "ae2ae535ea3933ca6de4f1a7925c50e06fd4dd6fa1ce80e1d4745e5c2de803cf",
+      "scripts/sla/core_multienv_trace_storage.py": "5aea98af908ce5fb9dd59e0c5f55efad493a57a23064248c9c6c2cc400fd3ec3",
+      "scripts/sla/hopper_parent_custody.py": "ed1e1ba173534bb6e5c9961d71aa2ead3e9bad2cda0047a77c74e533e49ab442"
+    },
+    "epoch": 1795304003.6357198
+  },
+  "source_volume_readback": {
+    "epoch": 1795303841.0065038,
+    "roots": [
+      {
+        "root": "sla-core-hopper-v1-blue-carry-source-e4e95b4f8f16",
+        "manifest": "SOURCE_MEMBERS.private.json",
+        "members": 3702,
+        "allocated": 40595456
+      },
+      {
+        "root": "sla-core-hopper-v1-blue-series-source-b353b99d7149",
+        "manifest": "SOURCE_MEMBERS.private.json",
+        "members": 3703,
+        "allocated": 40607744
+      },
+      {
+        "root": "sla-core-hopper-v1-expert-source-08fcb08d2aad",
+        "manifest": "SOURCE_MEMBERS.private.json",
+        "members": 3700,
+        "allocated": 40583168
+      },
+      {
+        "root": "sla-core-hopper-v1-expert-source-7090e2ad238e",
+        "manifest": "SOURCE_MEMBERS.private.json",
+        "members": 3700,
+        "allocated": 40583168
+      },
+      {
+        "root": "sla-core-hopper-v1-red-pitch-source-26d10c56362c",
+        "manifest": "SOURCE_MEMBERS.private.json",
+        "members": 3709,
+        "allocated": 40652800
+      },
+      {
+        "root": "sla-core-hopper-v1-red-place-source-d3933e5d93ba",
+        "manifest": "SOURCE_MEMBERS.private.json",
+        "members": 3710,
+        "allocated": 40665088
+      },
+      {
+        "root": "sla-core-hopper-v1-red-series-source-b353b99d7149",
+        "manifest": "SOURCE_MEMBERS.private.json",
+        "members": 3710,
+        "allocated": 40665088
+      },
+      {
+        "root": "sla-core-hopper-v1-student-source-b0d9ad5d139f",
+        "manifest": "SOURCE_MEMBERS.private.json",
+        "members": 3706,
+        "allocated": 40632320
+      },
+      {
+        "root": "sla-core-hopper-v1-student-source-b51fa2c102ee",
+        "manifest": "SOURCE_MEMBERS.private.json",
+        "members": 3707,
+        "allocated": 40636416
+      },
+      {
+        "root": "sla-core-hopper-v1-train-catalog-20261121-01",
+        "manifest": "SOURCE_MEMBERS.json",
+        "members": 6,
+        "allocated": 40960
+      },
+      {
+        "root": "sla-core-multienv-canonical-dev-20261122-01",
+        "manifest": "SOURCE_MEMBERS.json",
+        "members": 3714,
+        "allocated": 40718336
+      },
+      {
+        "root": "sla-core-multienv-canonical-dev-20261122-02",
+        "manifest": "SOURCE_MEMBERS.json",
+        "members": 3715,
+        "allocated": 40730624
+      },
+      {
+        "root": "sla-core-multienv-canonical-dev-20261122-03",
+        "manifest": "SOURCE_MEMBERS.json",
+        "members": 3715,
+        "allocated": 40730624
+      },
+      {
+        "root": "sla-core-multienv-canonical-dev-20261122-04",
+        "manifest": "SOURCE_MEMBERS.json",
+        "members": 3715,
+        "allocated": 40730624
+      },
+      {
+        "root": "sla-core-multienv-canonical-dev-20261122-05",
+        "manifest": "SOURCE_MEMBERS.json",
+        "members": 3715,
+        "allocated": 40730624
+      },
+      {
+        "root": "sla-core-multienv-canonical-dev-20261122-06",
+        "manifest": "SOURCE_MEMBERS.json",
+        "members": 3715,
+        "allocated": 40730624
+      },
+      {
+        "root": "sla-core-multienv-canonical-dev-20261122-07",
+        "manifest": "SOURCE_MEMBERS.json",
+        "members": 3727,
+        "allocated": 40841216
+      },
+      {
+        "root": "sla-core-multienv-canonical-dev-20261122-08",
+        "manifest": "SOURCE_MEMBERS.json",
+        "members": 3727,
+        "allocated": 40845312
+      },
+      {
+        "root": "sla-core-multienv-n1-source-efc3cb54",
+        "manifest": "SOURCE_MEMBERS.json",
+        "members": 3706,
+        "allocated": 40652800
+      },
+      {
+        "root": "sla-core-multienv-red-hold-source-95230ade",
+        "manifest": "SOURCE_MEMBERS.json",
+        "members": 3707,
+        "allocated": 40660992
+      },
+      {
+        "root": "sla-core-multienv-train-public-uplink-20261122-01",
+        "manifest": "SOURCE_MEMBERS.json",
+        "members": 961,
+        "allocated": 11272192
+      },
+      {
+        "root": "sla-core-multienv-train-public-uplink-20261122-02",
+        "manifest": "SOURCE_MEMBERS.json",
+        "members": 961,
+        "allocated": 11272192
+      },
+      {
+        "root": "sla-core-multienv-wave-a-source-2213e10a",
+        "manifest": "SOURCE_MEMBERS.json",
+        "members": 3704,
+        "allocated": 40628224
+      },
+      {
+        "root": "sla-core-multienv-wave-a-source-eccd8e2e",
+        "manifest": "SOURCE_MEMBERS.json",
+        "members": 3704,
+        "allocated": 40628224
+      }
+    ],
+    "total_manifest_members": 79839,
+    "sampled_large_pinned_content": 0,
+    "duplicates": 0,
+    "possible_reclaim": 0,
+    "top": []
+  },
+  "wave": {
+    "epoch": 1795304076.0637414,
+    "wave": {
+      "stage": "DISPATCH",
+      "epoch": 1795304051.2545862,
+      "completed": 19,
+      "actual_requests": 19,
+      "closed_ticks": 547479,
+      "admitted_train": 7,
+      "current": "MEV1-TRAIN-F2-NEAR_NEG-01-HOLD-blue"
+    },
+    "latest": [
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-blue-right",
+        "requests": 1,
+        "ticks": 38207,
+        "admitted": false,
+        "first_failure": "ILLEGAL_CONTACT",
+        "hard_STOP": true,
+        "post_STOP_ticks": 0,
+        "capture": null,
+        "g7": null,
+        "result": {
+          "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-20261122-02/cases/MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-blue-right/RESULT.private.json",
+          "sha256": "97535b8d1156937f28b7828997830981e2ea53b919ed3aa613bcd9f1ba0b6198"
+        }
+      },
+      {
+        "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-red-left",
+        "requests": 1,
+        "ticks": 22072,
+        "admitted": false,
+        "first_failure": "ILLEGAL_CONTACT",
+        "hard_STOP": true,
+        "post_STOP_ticks": 0,
+        "capture": null,
+        "g7": null,
+        "result": {
+          "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-20261122-02/cases/MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-red-left/RESULT.private.json",
+          "sha256": "b32890d1a8353f9a695dd6d1aeca2708f1988201a25e53741c7691f2a8c69797"
+        }
+      },
+      {
+        "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-HOLD-red",
+        "requests": 1,
+        "ticks": 22203,
+        "admitted": true,
+        "first_failure": "TASK_SUCCESS",
+        "hard_STOP": false,
+        "post_STOP_ticks": null,
+        "capture": null,
+        "g7": null,
+        "result": {
+          "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-20261122-02/cases/MEV1-TRAIN-F1-NEAR_NEG-01-HOLD-red/RESULT.private.json",
+          "sha256": "5c2708fced7b3714d439116cdbaf41431c70de0f68bd039d5c41f2395e9b484e"
+        }
+      }
+    ],
+    "active": {
+      "roster": 20,
+      "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-HOLD-blue",
+      "pid": 2935933,
+      "tick": 3403
+    },
+    "catalog": {
+      "paid_TRAIN": 19,
+      "new_admitted": 7,
+      "sealed_new_members": 4,
+      "new_training_visits": 0
+    },
+    "sealed": {
+      "count": 63,
+      "windows": 5498,
+      "sha256": "e233d5f8ce6be2e11467be73010645a6ea74669b6709578164ef636e72ea914d"
+    },
+    "publication": "WAIT_CATALOG_SEAL",
+    "n1": {
+      "status": "YIELD_TO_WAVE_A",
+      "pid": 2745035,
+      "epoch": 1795304075.1619835,
+      "paid_requests": 6,
+      "verified_ticks": 64218,
+      "current": "MEV1-ENG-N1-SHORT-06",
+      "production_completed": 19
+    },
+    "pilot": {
+      "epoch": 1795304072.489464,
+      "pid": 2925958,
+      "stage": "WAIT_ORIGINAL_SLOT_HANDOFF",
+      "condition": "MEV1-TRAIN-F2-NEAR_POS-00-HOLD-red"
+    },
+    "live_free": 300926672896,
+    "cap": {
+      "free_disk": 300985597952,
+      "floor": 294382508441,
+      "reserve": 3758096384,
+      "available_host_memory": 49068052480,
+      "min_host_memory": 13958643712,
+      "epoch": 1795304051.245712
+    }
+  },
+  "n1": {
+    "epoch": 1795304104.4899464,
+    "n1": [
+      {
+        "id": "MEV1-ENG-N1-SHORT-00",
+        "ticks": 10703,
+        "requests": 1,
+        "group": "D2-E-LEGACY-N1-F1-STABLE-R1",
+        "measurement": {
+          "status": "OUTSIDE_FROZEN_STATE_TOLERANCE",
+          "matched_atoms": 200,
+          "paired_RGB": 20,
+          "limits": {
+            "EEF_translation_m": 0.0025152321752068725,
+            "EEF_angle_rad": 0.017453292519943295,
+            "mount_translation_m": 0.002185499738484875,
+            "mount_angle_rad": 0.017453292519943295,
+            "jaw_fraction": 0.001
+          },
+          "maximum": {
+            "EEF_translation_m": 0.004789083724584254,
+            "EEF_angle_rad": 0.0059011631855664295,
+            "mount_translation_m": 0.00572130899052724,
+            "mount_angle_rad": 0.008712410635944766,
+            "jaw_fraction": 0.0002871175374797863
+          },
+          "historical_recording_sha256": "6382cd20ee22e5ce70ed0bdc8f8677690c21ba6c035cf334cbefa516092511dd",
+          "controller_selected_reference": "NOT_EXPORTED_BY_FROZEN_CONTROLLER"
+        },
+        "clocks": {
+          "eef": {
+            "limit_mm": 2.5152321752068727,
+            "init_mm": 1.2535684325317569,
+            "peak_endpoints_mm": 4.789083724584254,
+            "at_350ms_mm": 4.735614405795906,
+            "first_over_tick": 5778
+          },
+          "mount": {
+            "limit_mm": 2.1854997384848747,
+            "init_mm": 3.9987123757031777,
+            "peak_endpoints_mm": 5.721308990527239,
+            "at_350ms_mm": 4.88627059881962,
+            "first_over_tick": 5728
+          }
+        },
+        "terminal": {
+          "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-n1-engineering-20261122-01/cases/MEV1-ENG-N1-SHORT-00/RESULT.private.json",
+          "sha256": "b35bf4f4d6eb35931044eb22938df8b1e0019ac55255f91277b28189d7b2afea"
+        }
+      },
+      {
+        "id": "MEV1-ENG-N1-SHORT-01",
+        "ticks": 10703,
+        "requests": 1,
+        "group": "D2-E-LEGACY-N1-F2-STABLE-R1",
+        "measurement": {
+          "status": "WITHIN_FROZEN_STATE_TOLERANCE",
+          "matched_atoms": 200,
+          "paired_RGB": 20,
+          "limits": {
+            "EEF_translation_m": 0.005999447781465302,
+            "EEF_angle_rad": 0.0226721509438131,
+            "mount_translation_m": 0.011078147106107416,
+            "mount_angle_rad": 0.03166960249425338,
+            "jaw_fraction": 0.001
+          },
+          "maximum": {
+            "EEF_translation_m": 0.0009638139283978837,
+            "EEF_angle_rad": 0.0021908212221230434,
+            "mount_translation_m": 0.00021996556607854805,
+            "mount_angle_rad": 0.00019469068265136875,
+            "jaw_fraction": 1.995435241997079e-05
+          },
+          "historical_recording_sha256": "501f2e9e9f068d504737f0c50b3493b3bb3dd9d2cbffcaae75afaa9a41fc23cc",
+          "controller_selected_reference": "NOT_EXPORTED_BY_FROZEN_CONTROLLER"
+        },
+        "clocks": {
+          "eef": {
+            "limit_mm": 5.999447781465302,
+            "init_mm": 0.2802001154560294,
+            "peak_endpoints_mm": 0.9638139283978837,
+            "at_350ms_mm": 0.30507675319235267,
+            "first_over_tick": null
+          },
+          "mount": {
+            "limit_mm": 11.078147106107416,
+            "init_mm": 0.08041966259603707,
+            "peak_endpoints_mm": 0.21996556607854806,
+            "at_350ms_mm": 0.13210805053124958,
+            "first_over_tick": null
+          }
+        },
+        "terminal": {
+          "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-n1-engineering-20261122-01/cases/MEV1-ENG-N1-SHORT-01/RESULT.private.json",
+          "sha256": "a80e8b4a88f4527706a871004061ffdd494e209c861e0491c427381bee3b0987"
+        }
+      },
+      {
+        "id": "MEV1-ENG-N1-SHORT-02",
+        "ticks": 10703,
+        "requests": 1,
+        "group": "D2-E-LEGACY-N1-F1-SMALL_EEF-R1",
+        "measurement": {
+          "status": "OUTSIDE_FROZEN_STATE_TOLERANCE",
+          "matched_atoms": 200,
+          "paired_RGB": 20,
+          "limits": {
+            "EEF_translation_m": 0.0040381210413138425,
+            "EEF_angle_rad": 0.017453292519943295,
+            "mount_translation_m": 0.0031203193680729565,
+            "mount_angle_rad": 0.017453292519943295,
+            "jaw_fraction": 0.001
+          },
+          "maximum": {
+            "EEF_translation_m": 0.005995658610346127,
+            "EEF_angle_rad": 0.008547075513186331,
+            "mount_translation_m": 0.0063226733858635096,
+            "mount_angle_rad": 0.009547678328881051,
+            "jaw_fraction": 0.00019344549008504242
+          },
+          "historical_recording_sha256": "41f8b4966626d145ae78b3517c768c9cdf68ee0024627b25f7545eb8c428122a",
+          "controller_selected_reference": "NOT_EXPORTED_BY_FROZEN_CONTROLLER"
+        },
+        "clocks": {
+          "eef": {
+            "limit_mm": 4.038121041313842,
+            "init_mm": 0.9055989299813406,
+            "peak_endpoints_mm": 5.995658610346126,
+            "at_350ms_mm": 5.995658610346126,
+            "first_over_tick": 5803
+          },
+          "mount": {
+            "limit_mm": 3.1203193680729564,
+            "init_mm": 3.8702414140111463,
+            "peak_endpoints_mm": 6.322673385863509,
+            "at_350ms_mm": 5.401334025232707,
+            "first_over_tick": 5728
+          }
+        },
+        "terminal": {
+          "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-n1-engineering-20261122-01/cases/MEV1-ENG-N1-SHORT-02/RESULT.private.json",
+          "sha256": "9fcd15094f2f6977638ff71e11aea916be4b0ebaa30e088896498b7f5ea0484e"
+        }
+      },
+      {
+        "id": "MEV1-ENG-N1-SHORT-03",
+        "ticks": 10703,
+        "requests": 1,
+        "group": "D2-E-LEGACY-N1-F2-SMALL_EEF-R1",
+        "measurement": {
+          "status": "WITHIN_FROZEN_STATE_TOLERANCE",
+          "matched_atoms": 200,
+          "paired_RGB": 20,
+          "limits": {
+            "EEF_translation_m": 0.01017728480458699,
+            "EEF_angle_rad": 0.018870459958318493,
+            "mount_translation_m": 0.0077012046843688295,
+            "mount_angle_rad": 0.024521885853891402,
+            "jaw_fraction": 0.001
+          },
+          "maximum": {
+            "EEF_translation_m": 0.003461866177738247,
+            "EEF_angle_rad": 0.010730398529911313,
+            "mount_translation_m": 0.005218365470739968,
+            "mount_angle_rad": 0.015707269133784545,
+            "jaw_fraction": 0.0002944951836367782
+          },
+          "historical_recording_sha256": "130ee5e95cd87805629fd8a098cf8d1f4432152a9b74f8d7655d68eca45da314",
+          "controller_selected_reference": "NOT_EXPORTED_BY_FROZEN_CONTROLLER"
+        },
+        "clocks": {
+          "eef": {
+            "limit_mm": 10.177284804586991,
+            "init_mm": 1.0583388048157207,
+            "peak_endpoints_mm": 3.4618661777382473,
+            "at_350ms_mm": 2.6851338000874434,
+            "first_over_tick": null
+          },
+          "mount": {
+            "limit_mm": 7.70120468436883,
+            "init_mm": 3.1044881467715584,
+            "peak_endpoints_mm": 5.218365470739968,
+            "at_350ms_mm": 3.767302366424067,
+            "first_over_tick": null
+          }
+        },
+        "terminal": {
+          "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-n1-engineering-20261122-01/cases/MEV1-ENG-N1-SHORT-03/RESULT.private.json",
+          "sha256": "fbb14ebe01a4e95f883e40aee1f228cba69cb435dafd743b42dc02ddafdf7e59"
+        }
+      },
+      {
+        "id": "MEV1-ENG-N1-SHORT-04",
+        "ticks": 10703,
+        "requests": 1,
+        "group": "D2-E-LEGACY-N1-F2-SMALL_EEF-R2",
+        "measurement": {
+          "status": "WITHIN_FROZEN_STATE_TOLERANCE",
+          "matched_atoms": 200,
+          "paired_RGB": 20,
+          "limits": {
+            "EEF_translation_m": 0.01017728480458699,
+            "EEF_angle_rad": 0.018870459958318493,
+            "mount_translation_m": 0.0077012046843688295,
+            "mount_angle_rad": 0.024521885853891402,
+            "jaw_fraction": 0.001
+          },
+          "maximum": {
+            "EEF_translation_m": 0.00490089988264232,
+            "EEF_angle_rad": 0.005382233912380546,
+            "mount_translation_m": 0.005670656508582249,
+            "mount_angle_rad": 0.008704529426258923,
+            "jaw_fraction": 0.00028100613383919004
+          },
+          "historical_recording_sha256": "6704320ce3c3cb64a4deaa360897d737d84b71568eded8ff184b31341969ce7d",
+          "controller_selected_reference": "NOT_EXPORTED_BY_FROZEN_CONTROLLER"
+        },
+        "clocks": {
+          "eef": {
+            "limit_mm": 10.177284804586991,
+            "init_mm": 1.2931411228326495,
+            "peak_endpoints_mm": 4.90089988264232,
+            "at_350ms_mm": 4.90089988264232,
+            "first_over_tick": null
+          },
+          "mount": {
+            "limit_mm": 7.70120468436883,
+            "init_mm": 4.0112465034579445,
+            "peak_endpoints_mm": 5.6706565085822485,
+            "at_350ms_mm": 4.812450094243562,
+            "first_over_tick": null
+          }
+        },
+        "terminal": {
+          "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-n1-engineering-20261122-01/cases/MEV1-ENG-N1-SHORT-04/RESULT.private.json",
+          "sha256": "78cc2225f2245eedd6a80ac9bbad574d19d81557d678ce13683eda8369df5567"
+        }
+      },
+      {
+        "id": "MEV1-ENG-N1-SHORT-05",
+        "ticks": 10703,
+        "requests": 1,
+        "group": "D2-E-LEGACY-N1-F1-SMALL_EEF-R2",
+        "measurement": {
+          "status": "OUTSIDE_FROZEN_STATE_TOLERANCE",
+          "matched_atoms": 200,
+          "paired_RGB": 20,
+          "limits": {
+            "EEF_translation_m": 0.0040381210413138425,
+            "EEF_angle_rad": 0.017453292519943295,
+            "mount_translation_m": 0.0031203193680729565,
+            "mount_angle_rad": 0.017453292519943295,
+            "jaw_fraction": 0.001
+          },
+          "maximum": {
+            "EEF_translation_m": 0.004651535064828762,
+            "EEF_angle_rad": 0.004512535790658364,
+            "mount_translation_m": 0.0053926216569871645,
+            "mount_angle_rad": 0.0070810995086533,
+            "jaw_fraction": 0.00028204778105556105
+          },
+          "historical_recording_sha256": "439bfb53f801680a3ba722d782eba8f37a7cd1e3ba450d7d089d3e8ff25fa267",
+          "controller_selected_reference": "NOT_EXPORTED_BY_FROZEN_CONTROLLER"
+        },
+        "clocks": {
+          "eef": {
+            "limit_mm": 4.038121041313842,
+            "init_mm": 1.0424608695507402,
+            "peak_endpoints_mm": 4.651535064828762,
+            "at_350ms_mm": 4.651535064828762,
+            "first_over_tick": 5803
+          },
+          "mount": {
+            "limit_mm": 3.1203193680729564,
+            "init_mm": 3.0644002821625236,
+            "peak_endpoints_mm": 5.392621656987164,
+            "at_350ms_mm": 4.4610862520990535,
+            "first_over_tick": 5753
+          }
+        },
+        "terminal": {
+          "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-n1-engineering-20261122-01/cases/MEV1-ENG-N1-SHORT-05/RESULT.private.json",
+          "sha256": "7079f2517ce7ea00b5c650e1f8d71595d0c35e8c88e786f2a4b97e701d5ccacc"
+        }
+      }
+    ],
+    "n1_tolerances": {
+      "OUTSIDE_FROZEN_STATE_TOLERANCE": 3,
+      "WITHIN_FROZEN_STATE_TOLERANCE": 3
+    },
+    "real_requests": 6,
+    "ticks": 64218,
+    "new_training_admission": {
+      "case": "MEV1-TRAIN-F1-NEAR_NEG-01-HOLD-red",
+      "episode": {
+        "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-20261122-02/admission/TRAIN/MEV1-TRAIN-F1-NEAR_NEG-01-HOLD-red/EPISODE.private.json",
+        "sha256": "9d92d0c6c321a53fa68ec26d602b454f36d8b39854459ab23a11c4eda5cc0965",
+        "windows": 66,
+        "confirmed_P10_atoms": 660,
+        "split": "TRAIN"
+      },
+      "ticks": 22203,
+      "admitted": true,
+      "lift_m": 0.025227436845139728,
+      "grasp_hold_s": 1.1960000000014617,
+      "success": true
+    }
+  },
+  "N2": "NOT_RUN",
+  "N4": "NOT_RUN",
+  "core_memfd_independent_cleanup": {
+    "receipt": "RESULT.private.json",
+    "receipt_bytes": 3044,
+    "decoded_directories_remaining": 0,
+    "retained_files": [
+      "RESULT.private.json",
+      "scripts"
+    ],
+    "swap_devices": 1
+  },
+  "main_checkpoint3000": {
+    "direct": {
+      "status": "HOPPER_VANDA_DIRECT_BACKUP_BYTE_MATCH",
+      "receipt": {
+        "plan": "171b5bedb290258954aac140157743e92e3b152e",
+        "role": "MAIN",
+        "phase": 3000,
+        "event_sha256": "e3f457f71c42b9db76f2b124edda5cefa11657a3decc5b6636f51eaa4bc8c4e2",
+        "checkpoint": "3c9474f349160bba946c7c407b30d8843c1f49f93fa04f88262f0c7afcf5be1f",
+        "custody": "/scratch/projects/CFP04/CFP04-CF-007/e1192548/GR00T-WBC/runs/WM02/sla-core-multienv-backup-main3000-20261122-01/MAIN/phase03000",
+        "arrays": 140,
+        "bytes": 5547651598,
+        "eval_due": false,
+        "deployment_due": false,
+        "parent": "2bff547b6f2c3aca0e7e2fd8a790ce6b30ef1c5f33b004c6897e3083647358d5"
+      },
+      "sha256": "50d86e6b67d1c66431a193b1bb0bd3a10709bdc3a0bddc575dafc20c32889894",
+      "path": "/scratch/projects/CFP04/CFP04-CF-007/e1192548/GR00T-WBC/runs/WM02/sla-core-multienv-backup-main3000-20261122-01/receipts/MAIN-phase03000.json",
+      "finished": 1795304557.9223256,
+      "dependencies": "existing station-to-station SSH only"
+    },
+    "independent": {
+      "checkpoint": "3c9474f349160bba946c7c407b30d8843c1f49f93fa04f88262f0c7afcf5be1f",
+      "receipt": "50d86e6b67d1c66431a193b1bb0bd3a10709bdc3a0bddc575dafc20c32889894",
+      "files": 141,
+      "arrays": 140,
+      "bytes": 5547651598
+    },
+    "observed": {
+      "now": 1795304937.123377,
+      "site_updates": 3033,
+      "clock": 1795304931.6933749,
+      "cursors": {
+        "lineage_cursors": {
+          "libero": 184000,
+          "robodojo": 184000,
+          "target": 336000
+        },
+        "lineage_updates": 5500,
+        "phase_step": 3000,
+        "role_training_full_generations": 12000,
+        "role_updates": 3000,
+        "role_visits": {
+          "libero": 96000,
+          "robodojo": 96000,
+          "target": 192000
+        },
+        "target_bank_cursor": 64000
+      },
+      "seals_3k": {
+        "manifest": "e3f457f71c42b9db76f2b124edda5cefa11657a3decc5b6636f51eaa4bc8c4e2",
+        "checkpoint": "3c9474f349160bba946c7c407b30d8843c1f49f93fa04f88262f0c7afcf5be1f",
+        "backup_due": true,
+        "eval_due": false
+      },
+      "cold_ready_link": "/scratch/e1192548/Projects/GR00T-WBC/runs/WM02/sla-core-hopper-v1-custody-20261121-01/train-ready",
+      "ready067": false,
+      "verified067": false
+    }
+  },
+  "train067": {
+    "publication": {
+      "key": "TRAIN-067",
+      "objects": 469,
+      "repo": "leoyuer/sla-core-hopper-train-v1",
+      "revision": "9353644a4c1ac45ff5da5d7e9d3f8887e9101fad",
+      "seal": "42364f6690206470e91a0f5da395f9b9647b8d638a50cf0eaa4e99d81f1c86b6",
+      "status": "PUBLIC_TRAIN_SNAPSHOT_VERIFIED",
+      "windows": 5823
+    },
+    "hopper_stage": {
+      "rc": 0,
+      "code_sha": "c3a1820455e1b286d761084e744572766833e577b6e7cbe60c15f1af4e8e247a",
+      "actual": {
+        "status": "HOPPER_STAGED_READER_REQUIRED",
+        "key": "TRAIN-067",
+        "repo": "leoyuer/sla-core-hopper-train-v1",
+        "revision": "9353644a4c1ac45ff5da5d7e9d3f8887e9101fad",
+        "seal": "42364f6690206470e91a0f5da395f9b9647b8d638a50cf0eaa4e99d81f1c86b6",
+        "folder": "/scratch/e1192548/Projects/GR00T-WBC/runs/WM02/sla-core-hopper-v1-custody-20261121-01/wave-a-train-staging-3988eb4a/staged/TRAIN-067",
+        "count": 67,
+        "windows": 5823
+      },
+      "error": null
+    },
+    "new_local": {
+      "at": 1795304441.4369905,
+      "wave": {
+        "stage": "DISPATCH",
+        "epoch": 1795304372.163215,
+        "completed": 20,
+        "actual_requests": 20,
+        "closed_ticks": 570932,
+        "admitted_train": 8,
+        "current": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-blue-left"
+      },
+      "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-PLACE-blue-left",
+      "tick": 6508,
+      "sealed": {
+        "count": 67,
+        "windows": 5823,
+        "sha256": "42364f6690206470e91a0f5da395f9b9647b8d638a50cf0eaa4e99d81f1c86b6",
+        "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-train-catalog-20261122-01/snapshots/TRAIN-067/SEALED.private.json"
+      },
+      "catalog": {
+        "paid_TRAIN": 20,
+        "new_admitted": 8,
+        "sealed_new_members": 8,
+        "new_training_visits": 0
+      },
+      "publisher": "WAIT_CATALOG_SEAL",
+      "n1": {
+        "status": "WAIT_WORLD",
+        "pid": 2745035,
+        "epoch": 1795304441.0147297,
+        "paid_requests": 6,
+        "verified_ticks": 64218,
+        "current": "MEV1-ENG-N1-SHORT-06",
+        "production_completed": 20
+      },
+      "pilot": {
+        "epoch": 1795304432.6852243,
+        "pid": 2925958,
+        "stage": "WAIT_ORIGINAL_SLOT_HANDOFF",
+        "condition": "MEV1-TRAIN-F2-NEAR_POS-00-HOLD-red"
+      },
+      "margin": 1882478183,
+      "case20": [
+        {
+          "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-HOLD-blue",
+          "admitted": true,
+          "first_failure": "TASK_SUCCESS",
+          "first_failure_signature": null,
+          "ticks": 23453,
+          "episode": {
+            "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-20261122-02/admission/TRAIN/MEV1-TRAIN-F2-NEAR_NEG-01-HOLD-blue/EPISODE.private.json",
+            "sha256": "06b1b5af0db1c240c3f968076fa8ba2eae87f2513bc3af52d82272995b93f4ae",
+            "windows": 71,
+            "confirmed_P10_atoms": 710,
+            "split": "TRAIN"
+          },
+          "result": {
+            "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-20261122-02/cases/MEV1-TRAIN-F2-NEAR_NEG-01-HOLD-blue/RESULT.private.json",
+            "sha256": "7dabdf0a31d9cb62aca1a86c249634e8960251e0e063ac3238727b082371c2b5"
+          },
+          "post_STOP_ticks": null
+        }
+      ]
+    },
+    "core": {
+      "status": "CORE_REAL_READER_PASS",
+      "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-train067-readback-20261122-02/RESULT.json",
+      "sha": "e0d893301c1ac21c15a4913661997886e8beb694b8014bd423f00a408841ce0e",
+      "start": {
+        "epoch": 1795304869.958532,
+        "invocation": "149a8c890cb04f05a7fdfd3691dac99d",
+        "pid": 2949770
+      },
+      "new_cases": [
+        "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-red-right",
+        "MEV1-TRAIN-F1-NEAR_NEG-01-HOLD-blue",
+        "MEV1-TRAIN-F1-NEAR_NEG-01-HOLD-red",
+        "MEV1-TRAIN-F2-NEAR_NEG-01-HOLD-blue"
+      ],
+      "old_prefix_windows": 5498,
+      "native_requests": 0
+    },
+    "mount": {
+      "unit": "wm02-sla-core-multienv-train067-readback-20261122-02.service",
+      "root": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-train067-readback-20261122-02",
+      "source": "d87e13897612153f0171429989b10800c2feb306d74c01f16f7fa5ad3eec7866",
+      "spec": "9c43d697001a856894031a3a962abf807a46063548b8d482dc04d923e93a6f81",
+      "entry": "bf06fe1510c7012cc8da0f6dd3273a99937fa30937f06b41403f9d997b9a5b61",
+      "stderr": "Running as unit: wm02-sla-core-multienv-train067-readback-20261122-02.service; invocation ID: 149a8c890cb04f05a7fdfd3691dac99d",
+      "deadline": 1795305289.7855015
+    },
+    "handoff": {
+      "rc": 0,
+      "actual": {
+        "status": "HOPPER_WAVE_A_READY",
+        "key": "TRAIN-067",
+        "certificate": {
+          "plan": "171b5bedb290258954aac140157743e92e3b152e",
+          "status": "HOPPER_MIXED_TRAIN_APPROVED",
+          "seal": "42364f6690206470e91a0f5da395f9b9647b8d638a50cf0eaa4e99d81f1c86b6",
+          "manifest": "ee65fe27ec91fa2fe5b2cbeb5fec52f5c851a3f1209cf858a001a15fc5a7da08",
+          "windows": 5823,
+          "episodes": 67,
+          "sources": {
+            "qualified_training_revision": "b9581196d0acd02fb748222988e5a5543ce1f232",
+            "actual_reader_runtime_revision": "a2e8f7a0a8a9bed451e69cc16e448f0f4a5ef3fb",
+            "original_manifest_sha256": "411702baacce2d3c3ba5b362c47246328d1e2e98b25148323e287db72140afdf",
+            "reader_manifest_sha256": "4ce07b40b7cde67c0e87dca8d97837c2f48e4dee0fcb58f8825372dfed66ccc0",
+            "original_modules": 954,
+            "runtime_modules": 956,
+            "identical_modules": 953,
+            "added": {
+              "scripts/sla/core_multienv_train.py": "1b19744644688b0600e7a24a64f0032b13ea3cf8289d2b8d0ab069177e80a98f",
+              "scripts/sla/hopper_snapshot_producers.py": "e7d437bcea115982a5df59498379065bf22a57ef449fb971e6358f918fda5ed9"
+            },
+            "changed": {
+              "scripts/sla/hopper_snapshot_relay.py": {
+                "original": "334454129bc4bddc70a2d86e28442273dd1631c2cae81be3999ca71357e9a4d3",
+                "candidate": "d1023df91ad99c5f7951e0e87b7aac75f7c07d4cc49e4063ddaaac0ddb0a7c2b"
+              }
+            }
+          },
+          "core_readback": {
+            "path": "/scratch/e1192548/Projects/GR00T-WBC/runs/WM02/sla-core-hopper-v1-custody-20261121-01/mixed-reader-multienv-a2e8f7a0-02/verified-inputs/TRAIN-067.json",
+            "sha256": "f35c8bd1881578a2017b9a392975d4e388ce6272e4fd5429e748efe7be18a957"
+          }
+        },
+        "ready": "/scratch/e1192548/Projects/GR00T-WBC/runs/WM02/sla-core-hopper-v1-custody-20261121-01/train-ready/TRAIN-067",
+        "confirmed_members": 469,
+        "bytes": 2324426980,
+        "previous_windows": 5498,
+        "updates": 0,
+        "optimization_visits": 0,
+        "new_CPU_jobs": 0,
+        "new_GPU_jobs": 0
+      },
+      "error": null,
+      "source": "4f150421943c9f26ae93dd29855895348f36d4ef64c2781aa094468704d4f03a"
+    },
+    "ready": {
+      "now": 1795305037.4676187,
+      "key": "TRAIN-067",
+      "ready": "/scratch/e1192548/Projects/GR00T-WBC/runs/WM02/sla-core-hopper-v1-custody-20261121-01/train-ready/TRAIN-067",
+      "certificate": "f92b40d6be33901cf7c4f15d2abf1a83baa0c403f6e9653191b3caaed9471752",
+      "core_proof": "f35c8bd1881578a2017b9a392975d4e388ce6272e4fd5429e748efe7be18a957",
+      "cold_result": "cf1ddcf61c7f4a8237dc81d6178d7e8f043e2bcf80b99572fc3a3197277ce588",
+      "confirmed_files": 469,
+      "windows": 5823,
+      "d2": 2031,
+      "supervised": 232920,
+      "P10": 58230,
+      "optimizer_visits": 0,
+      "current_course": {
+        "manifest_sha256": "e0c5c481a95972e4ba5c9b712e1c3a1240d462ad28222a2c0e041e307fb42278"
+      },
+      "current_step": 3039,
+      "successor": "728341.hopper-m-02",
+      "dependency": "afterok:728212.hopper-m-02"
+    },
+    "reused": {
+      "bytes_reused": 2194329496,
+      "key": "TRAIN-067",
+      "local_hardlinks": 439,
+      "revision": "9353644a4c1ac45ff5da5d7e9d3f8887e9101fad"
+    }
+  },
+  "latest_core": {
+    "at": 1795304937.5316772,
+    "producer": {
+      "stage": "DISPATCH",
+      "epoch": 1795304919.524011,
+      "completed": 21,
+      "actual_requests": 21,
+      "closed_ticks": 610385,
+      "admitted_train": 9,
+      "current": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-red-right"
+    },
+    "pilot": {
+      "epoch": 1795304932.9522977,
+      "pid": 2925958,
+      "stage": "WAIT_ORIGINAL_SLOT_HANDOFF",
+      "condition": "MEV1-TRAIN-F2-NEAR_POS-00-HOLD-red"
+    },
+    "G7": 9,
+    "sealed": 8,
+    "available_after_original_reserve": 820967015,
+    "F2_blue_HOLD": {
+      "task_success": true,
+      "maximum_lift_m": 0.02489515879240467,
+      "longest_grasp_lift_hold_s": 1.1560000000014128
+    }
+  },
+  "temporary_cache_audit": {
+    "time": 1795304964.9817874,
+    "roots": [
+      {
+        "root": "sla-adapt0-goal-v2-dev-first6-20261120-03",
+        "findings": [
+          {
+            "dir": "worker/cache",
+            "count": 3,
+            "bytes": 577536
+          }
+        ],
+        "active_systemd_units": [],
+        "terminal_members": [
+          "RESULT.private.json",
+          "WORKER_EXIT.private.json"
+        ],
+        "allocated": 577536
+      },
+      {
+        "root": "sla-adapt0-goal-v2-dev-tail-to12-20261120-01",
+        "findings": [
+          {
+            "dir": "worker/cache",
+            "count": 3,
+            "bytes": 577536
+          }
+        ],
+        "active_systemd_units": [],
+        "terminal_members": [
+          "RESULT.private.json",
+          "WORKER_EXIT.private.json"
+        ],
+        "allocated": 577536
+      },
+      {
+        "root": "sla-adapt0-goal-v2-dev-tail-to18-20261120-01",
+        "findings": [
+          {
+            "dir": "worker/cache",
+            "count": 3,
+            "bytes": 577536
+          }
+        ],
+        "active_systemd_units": [],
+        "terminal_members": [
+          "RESULT.private.json",
+          "WORKER_EXIT.private.json"
+        ],
+        "allocated": 577536
+      },
+      {
+        "root": "sla-adapt0-goal-v2-dev-tail-to24-20261120-01",
+        "findings": [
+          {
+            "dir": "worker/cache",
+            "count": 3,
+            "bytes": 577536
+          }
+        ],
+        "active_systemd_units": [],
+        "terminal_members": [
+          "RESULT.private.json",
+          "WORKER_EXIT.private.json"
+        ],
+        "allocated": 577536
+      },
+      {
+        "root": "sla-d4-native-paired-20261119-01",
+        "findings": [
+          {
+            "dir": "worker/cache",
+            "count": 3,
+            "bytes": 458752
+          }
+        ],
+        "active_systemd_units": [],
+        "terminal_members": [
+          "RESULT.private.json",
+          "WORKER_EXIT.private.json"
+        ],
+        "allocated": 458752
+      },
+      {
+        "root": "sla-d416-d5-grasp24-20261119-02",
+        "findings": [
+          {
+            "dir": "worker/cache",
+            "count": 1,
+            "bytes": 450560
+          }
+        ],
+        "active_systemd_units": [],
+        "terminal_members": [
+          "RESULT.private.json",
+          "WORKER_EXIT.private.json"
+        ],
+        "allocated": 450560
+      },
+      {
+        "root": "sla-d416-j-screen48-20261119-01",
+        "findings": [
+          {
+            "dir": "worker/cache",
+            "count": 1,
+            "bytes": 450560
+          }
+        ],
+        "active_systemd_units": [],
+        "terminal_members": [
+          "RESULT.private.json",
+          "WORKER_EXIT.private.json"
+        ],
+        "allocated": 450560
+      },
+      {
+        "root": "sla-core-hopper-v1-checkpoint-rgb16-20261121-01",
+        "findings": [
+          {
+            "dir": "jax-cache",
+            "count": 3,
+            "bytes": 294912
+          }
+        ],
+        "active_systemd_units": [
+          "wm02-sla-core-hopper-v1-checkpoint-rgb16-20261121-01.service"
+        ],
+        "terminal_members": [],
+        "allocated": 294912
+      },
+      {
+        "root": "sla-core-hopper-v1-val-offline-20261121-01",
+        "findings": [
+          {
+            "dir": "jax-cache",
+            "count": 1,
+            "bytes": 286720
+          }
+        ],
+        "active_systemd_units": [
+          "wm02-sla-core-hopper-v1-val-offline-20261121-01.service"
+        ],
+        "terminal_members": [],
+        "allocated": 286720
+      }
+    ],
+    "bytes": 4251648,
+    "found": 9
+  }
+}

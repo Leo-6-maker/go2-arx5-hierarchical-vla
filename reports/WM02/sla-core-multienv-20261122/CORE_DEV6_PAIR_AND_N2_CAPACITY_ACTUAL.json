@@ -1,0 +1,1638 @@
+{
+  "plan": "4fe2c8cf1b69c168b2e3079e061bb7c702089cd3",
+  "scope": "ACTUAL_CORE_DEV6_CHECKPOINT_PAIR",
+  "sgt": "2026-11-22 06:33:23",
+  "original_native_terminal": {
+    "epoch": 1795300315.8637311,
+    "native_requests": 12,
+    "outcomes": {
+      "MAIN-phase00000": {
+        "block": {
+          "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-canonical-dev-20261122-08/blocks/MAIN-phase00000-DEV-00/RESULT.private.json",
+          "sha256": "8635e8f52119a8df19b9a1c379a7ff448cfc69eac86becd9144ee167857e0936"
+        },
+        "generations": 366,
+        "records": [
+          "1cfaba5a817d9ac15f965d7f757b9723ae0f41aaa3b4205d31feefdd7fcd9da0",
+          "bdabfe33b0ca77e679330aab89a3a8522c5041c5c064679547d7a8bf4b9ee1a6",
+          "061fd288649e2e33429feb20c49828d038f1ee22772e5d78ad10fc00c973e47f",
+          "9a9bc1411ff1223e6321a77bef882291095f32ec13246876259760e55fc1764c",
+          "44719db98a1a450b5509e4750cd3a8523a4e2add46eac1efe952d30af33f0fab",
+          "047132a908e59c9959a3f5ec6244522088736100a9d1e098ddf45876cd2d02d4"
+        ],
+        "requests": 6,
+        "success": 0,
+        "ticks": 124634
+      },
+      "MAIN-phase02000": {
+        "block": {
+          "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-canonical-dev-20261122-08/blocks/MAIN-phase02000-DEV-00/RESULT.private.json",
+          "sha256": "09b80aa261b4651c44eab30c3f144e4b6e2cbae0e76a90e41e534468f3b31393"
+        },
+        "generations": 328,
+        "records": [
+          "33372c43ecd4a641ac29c5d3cf883598bebc73d92e8b436bdae63af3ec066073",
+          "c59bb2786f802ebee32edf2876fd0c2e4857063669338a1ad1fbc8cb3fca22c7",
+          "20f499ea5ab2fa4fae3f28772ee8700d70a64ccebdf8691feee7cc9646a0c6ad",
+          "f72a4c045623ba2f1a86a15ae961db213403dd5fed26ec2e823242da7270d789",
+          "3d42c6851972468943f8edc7cfc2d55f9235fdc33eb51e0747fc4afaf0ca6056",
+          "02d5b4f733f8ec01ad28f8c979abca030985701d490541638ec983913fb92b29"
+        ],
+        "requests": 6,
+        "success": 0,
+        "ticks": 115165
+      }
+    }
+  },
+  "comparison_unit": {
+    "unit": "wm02-sla-core-multienv-dev6-pair-audit-20261122-01.service",
+    "root": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-dev6-pair-audit-20261122-01",
+    "intent_sha": "08818d40576a4f6eebdd6e3233ceea5e5f8623894a4643dc6bf822ac1c4c681b",
+    "status": {
+      "MainPID": "2872692",
+      "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-dev6-pair-audit-20261122-01.service",
+      "ActiveState": "active",
+      "InvocationID": "f4e1bd66810140d7a9fae5de74bf1d54"
+    },
+    "native_requests": 0,
+    "observed_alive": {
+      "at": "2026-11-22 06:29:49",
+      "paired_unit": {
+        "MainPID": "2872692",
+        "Result": "success",
+        "ExecMainStatus": "0",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-dev6-pair-audit-20261122-01.service",
+        "ActiveState": "active",
+        "InvocationID": "f4e1bd66810140d7a9fae5de74bf1d54"
+      },
+      "pair_live": {
+        "state": "WAIT_ORIGINAL_CLOSEOUT",
+        "pid": 2872692,
+        "at": 1795300188.8234582
+      },
+      "pair_terminal": null,
+      "native_child": 2839636,
+      "original_block_reconciled": false,
+      "last_tick": 11453,
+      "last_grasp": false,
+      "last_closed": false
+    },
+    "readback": {
+      "at": "2026-11-22 06:33:23",
+      "terminal": {
+        "native_requests": 0,
+        "result_sha": "1dd50ce90990f67e04498bc911a1605db494894bd05dc1687c88497d7a5ac108",
+        "status": "CLOSED_ORIGINAL_CORE_DEV6_PAIR_RECONCILED"
+      },
+      "has_report": true,
+      "status": "CLOSED_ORIGINAL_CORE_DEV6_PAIR_RECONCILED",
+      "elapsed": 38.16178796067834,
+      "checkpoints": {
+        "MAIN-phase00000": "d7949c75ecc33253bea605a3aed738df4ecdc473d8737848a1bca787ab253c18",
+        "MAIN-phase02000": "a050bec7b0d4bd8ee7fb79ab3e6e1d713d4d74d44236dc1762632cdd13ce2994"
+      },
+      "blocks": {
+        "MAIN-phase00000": {
+          "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-canonical-dev-20261122-08/blocks/MAIN-phase00000-DEV-00/RESULT.private.json",
+          "sha256": "8635e8f52119a8df19b9a1c379a7ff448cfc69eac86becd9144ee167857e0936"
+        },
+        "MAIN-phase02000": {
+          "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-canonical-dev-20261122-08/blocks/MAIN-phase02000-DEV-00/RESULT.private.json",
+          "sha256": "09b80aa261b4651c44eab30c3f144e4b6e2cbae0e76a90e41e534468f3b31393"
+        }
+      },
+      "by_instruction": [
+        {
+          "instruction": "HOLD-red",
+          "scene": "edb8a89eea865f8b7fbb0f498a32568baf8e0b531f249e745fe3ff3218780a30",
+          "reset": 171683971,
+          "seed": 1763498094,
+          "result": [
+            {
+              "arm": "MAIN-phase00000",
+              "first_failure": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+              "ticks": 21203,
+              "model_generations": 63,
+              "confirmed_atoms": 620,
+              "contact_pairs": null,
+              "partial_ticks": 0,
+              "post_STOP_ticks": null,
+              "score": {
+                "base_directional_motion_m": 0.14127836204908994,
+                "ever_target_grasp": false,
+                "ever_target_lift20mm": false,
+                "inside_selected_region": null,
+                "longest_grasp_lift_hold_s": 0,
+                "maximum_lift_m": 0,
+                "missing_native_intervals": 0,
+                "released": true,
+                "stable_release_condition": false,
+                "task_success": false,
+                "unsafe_states": 0
+              },
+              "rejection": {
+                "full_H40_checked": true,
+                "full_H40_compiled": true,
+                "installed": false,
+                "kind": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+                "original_gripper_speed": {
+                  "first_seam_speed_m_s": 0.06129462034633479,
+                  "labels_not_retimed": true,
+                  "maximum_speed_m_s": 0.06129462034633479,
+                  "original_execution_speed_exceeded": true,
+                  "representation": "DENSE_REFERENCE_G7_V6",
+                  "training_margin_exceeded": true
+                },
+                "query": 62
+              },
+              "result_sha256": "1cfaba5a817d9ac15f965d7f757b9723ae0f41aaa3b4205d31feefdd7fcd9da0",
+              "journal_sha256": "306041464ddb7c5cef8d7867613e7845c50bd1f1a52460cdfc803a924d76217e"
+            },
+            {
+              "arm": "MAIN-phase02000",
+              "first_failure": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+              "ticks": 21203,
+              "model_generations": 63,
+              "confirmed_atoms": 620,
+              "contact_pairs": null,
+              "partial_ticks": 0,
+              "post_STOP_ticks": null,
+              "score": {
+                "base_directional_motion_m": 0.10706936158694783,
+                "ever_target_grasp": false,
+                "ever_target_lift20mm": false,
+                "inside_selected_region": null,
+                "longest_grasp_lift_hold_s": 0,
+                "maximum_lift_m": 0.00014908445724293173,
+                "missing_native_intervals": 0,
+                "released": false,
+                "stable_release_condition": false,
+                "task_success": false,
+                "unsafe_states": 0
+              },
+              "rejection": {
+                "full_H40_checked": true,
+                "full_H40_compiled": true,
+                "installed": false,
+                "kind": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+                "original_gripper_speed": {
+                  "first_seam_speed_m_s": 0.05421700137020771,
+                  "labels_not_retimed": true,
+                  "maximum_speed_m_s": 0.05421700137020771,
+                  "original_execution_speed_exceeded": true,
+                  "representation": "DENSE_REFERENCE_G7_V6",
+                  "training_margin_exceeded": true
+                },
+                "query": 62
+              },
+              "result_sha256": "33372c43ecd4a641ac29c5d3cf883598bebc73d92e8b436bdae63af3ec066073",
+              "journal_sha256": "68c1f197479119da703e41ee1a657ba9e9ae54d32292a35f52652f4d50ea922a"
+            }
+          ]
+        },
+        {
+          "instruction": "HOLD-blue",
+          "scene": "edb8a89eea865f8b7fbb0f498a32568baf8e0b531f249e745fe3ff3218780a30",
+          "reset": 171683971,
+          "seed": 1763498094,
+          "result": [
+            {
+              "arm": "MAIN-phase00000",
+              "first_failure": "ORIGINAL_FULL_H40_POLICY_REJECTED",
+              "ticks": 21203,
+              "model_generations": 63,
+              "confirmed_atoms": 620,
+              "contact_pairs": null,
+              "partial_ticks": 0,
+              "post_STOP_ticks": null,
+              "score": {
+                "base_directional_motion_m": 0.15918883058127278,
+                "ever_target_grasp": false,
+                "ever_target_lift20mm": false,
+                "inside_selected_region": null,
+                "longest_grasp_lift_hold_s": 0,
+                "maximum_lift_m": 0,
+                "missing_native_intervals": 0,
+                "released": true,
+                "stable_release_condition": false,
+                "task_success": false,
+                "unsafe_states": 0
+              },
+              "rejection": {
+                "full_H40_checked": true,
+                "full_H40_compiled": false,
+                "installed": false,
+                "kind": "ORIGINAL_FULL_H40_POLICY_REJECTED",
+                "query": 62,
+                "reason": "TASK_LEARNING_STUDENT_FULL_PROPOSAL_REJECTED: SLA_DENSE_ORIGINAL_FULL_H40_GATE:TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS"
+              },
+              "result_sha256": "bdabfe33b0ca77e679330aab89a3a8522c5041c5c064679547d7a8bf4b9ee1a6",
+              "journal_sha256": "d7a51f4b371a9883ed75e3af4887d73c3ea0757e41d9c73f36361c8168fae891"
+            },
+            {
+              "arm": "MAIN-phase02000",
+              "first_failure": "ILLEGAL_CONTACT",
+              "ticks": 17842,
+              "model_generations": 49,
+              "confirmed_atoms": 485,
+              "contact_pairs": [
+                {
+                  "bodies": [
+                    "x5_link6",
+                    "task_blue_cube"
+                  ],
+                  "geoms": [
+                    "",
+                    "task_blue_cube_geom"
+                  ],
+                  "signed_distance_mm": -0.22606492986390614
+                }
+              ],
+              "partial_ticks": 14,
+              "post_STOP_ticks": 0,
+              "score": {
+                "base_directional_motion_m": 0.11402100623152372,
+                "ever_target_grasp": false,
+                "ever_target_lift20mm": false,
+                "inside_selected_region": null,
+                "longest_grasp_lift_hold_s": 0,
+                "maximum_lift_m": 0,
+                "missing_native_intervals": 0,
+                "released": false,
+                "stable_release_condition": false,
+                "task_success": false,
+                "unsafe_states": 1
+              },
+              "rejection": null,
+              "result_sha256": "c59bb2786f802ebee32edf2876fd0c2e4857063669338a1ad1fbc8cb3fca22c7",
+              "journal_sha256": "71c9962b502ae8fc67a341d7f57a1997e183e454a8bc00fe14b49656b04ef490"
+            }
+          ]
+        },
+        {
+          "instruction": "PLACE-red-left",
+          "scene": "edb8a89eea865f8b7fbb0f498a32568baf8e0b531f249e745fe3ff3218780a30",
+          "reset": 171683971,
+          "seed": 1763498094,
+          "result": [
+            {
+              "arm": "MAIN-phase00000",
+              "first_failure": "ILLEGAL_CONTACT",
+              "ticks": 21447,
+              "model_generations": 63,
+              "confirmed_atoms": 629,
+              "contact_pairs": [
+                {
+                  "bodies": [
+                    "x5_link7",
+                    "task_blue_cube"
+                  ],
+                  "geoms": [
+                    "task_left_pad",
+                    "task_blue_cube_geom"
+                  ],
+                  "signed_distance_mm": -0.0003577207749148881
+                }
+              ],
+              "partial_ticks": 19,
+              "post_STOP_ticks": 0,
+              "score": {
+                "base_directional_motion_m": 0.10087758978482189,
+                "ever_target_grasp": false,
+                "ever_target_lift20mm": false,
+                "inside_selected_region": false,
+                "longest_grasp_lift_hold_s": 0,
+                "maximum_lift_m": 0,
+                "missing_native_intervals": 0,
+                "released": false,
+                "stable_release_condition": false,
+                "task_success": false,
+                "unsafe_states": 1
+              },
+              "rejection": null,
+              "result_sha256": "061fd288649e2e33429feb20c49828d038f1ee22772e5d78ad10fc00c973e47f",
+              "journal_sha256": "6aa00f203ed5d9b10f121574b9b87a404f06e1288933b05418eb080ccc53b67f"
+            },
+            {
+              "arm": "MAIN-phase02000",
+              "first_failure": "ILLEGAL_CONTACT",
+              "ticks": 20193,
+              "model_generations": 58,
+              "confirmed_atoms": 579,
+              "contact_pairs": [
+                {
+                  "bodies": [
+                    "x5_link7",
+                    "task_blue_cube"
+                  ],
+                  "geoms": [
+                    "task_left_pad",
+                    "task_blue_cube_geom"
+                  ],
+                  "signed_distance_mm": -0.013430836785657785
+                }
+              ],
+              "partial_ticks": 15,
+              "post_STOP_ticks": 0,
+              "score": {
+                "base_directional_motion_m": 0.10505978641701834,
+                "ever_target_grasp": false,
+                "ever_target_lift20mm": false,
+                "inside_selected_region": false,
+                "longest_grasp_lift_hold_s": 0,
+                "maximum_lift_m": 0,
+                "missing_native_intervals": 0,
+                "released": true,
+                "stable_release_condition": false,
+                "task_success": false,
+                "unsafe_states": 1
+              },
+              "rejection": null,
+              "result_sha256": "20f499ea5ab2fa4fae3f28772ee8700d70a64ccebdf8691feee7cc9646a0c6ad",
+              "journal_sha256": "26028e76b794f6cef641f70f1ca1bef81786526dd04880ea2f89b19e5b7a0907"
+            }
+          ]
+        },
+        {
+          "instruction": "PLACE-red-right",
+          "scene": "edb8a89eea865f8b7fbb0f498a32568baf8e0b531f249e745fe3ff3218780a30",
+          "reset": 171683971,
+          "seed": 1763498094,
+          "result": [
+            {
+              "arm": "MAIN-phase00000",
+              "first_failure": "ILLEGAL_CONTACT",
+              "ticks": 21565,
+              "model_generations": 64,
+              "confirmed_atoms": 634,
+              "contact_pairs": [
+                {
+                  "bodies": [
+                    "x5_link7",
+                    "task_blue_cube"
+                  ],
+                  "geoms": [
+                    "task_left_pad",
+                    "task_blue_cube_geom"
+                  ],
+                  "signed_distance_mm": -0.00022972884282899952
+                }
+              ],
+              "partial_ticks": 12,
+              "post_STOP_ticks": 0,
+              "score": {
+                "base_directional_motion_m": 0.11005840543066622,
+                "ever_target_grasp": false,
+                "ever_target_lift20mm": false,
+                "inside_selected_region": false,
+                "longest_grasp_lift_hold_s": 0,
+                "maximum_lift_m": 0,
+                "missing_native_intervals": 0,
+                "released": false,
+                "stable_release_condition": false,
+                "task_success": false,
+                "unsafe_states": 1
+              },
+              "rejection": null,
+              "result_sha256": "9a9bc1411ff1223e6321a77bef882291095f32ec13246876259760e55fc1764c",
+              "journal_sha256": "af63ac6cf16ff2b922b7557b9c4aa4f99f95bcb3c50d81cca7338bd934d71653"
+            },
+            {
+              "arm": "MAIN-phase02000",
+              "first_failure": "ILLEGAL_CONTACT",
+              "ticks": 18521,
+              "model_generations": 52,
+              "confirmed_atoms": 512,
+              "contact_pairs": [
+                {
+                  "bodies": [
+                    "x5_link6",
+                    "task_cube"
+                  ],
+                  "geoms": [
+                    "",
+                    "task_cube_geom"
+                  ],
+                  "signed_distance_mm": -0.031420138605586095
+                }
+              ],
+              "partial_ticks": 18,
+              "post_STOP_ticks": 0,
+              "score": {
+                "base_directional_motion_m": 0.11379762642427335,
+                "ever_target_grasp": false,
+                "ever_target_lift20mm": false,
+                "inside_selected_region": false,
+                "longest_grasp_lift_hold_s": 0,
+                "maximum_lift_m": 2.968913869449974e-05,
+                "missing_native_intervals": 0,
+                "released": false,
+                "stable_release_condition": false,
+                "task_success": false,
+                "unsafe_states": 1
+              },
+              "rejection": null,
+              "result_sha256": "f72a4c045623ba2f1a86a15ae961db213403dd5fed26ec2e823242da7270d789",
+              "journal_sha256": "94cdfeaaf6e86437fbfa13c20c78d98f8658d95f6b716e084e405e5fad602233"
+            }
+          ]
+        },
+        {
+          "instruction": "PLACE-blue-left",
+          "scene": "edb8a89eea865f8b7fbb0f498a32568baf8e0b531f249e745fe3ff3218780a30",
+          "reset": 171683971,
+          "seed": 1763498094,
+          "result": [
+            {
+              "arm": "MAIN-phase00000",
+              "first_failure": "ILLEGAL_CONTACT",
+              "ticks": 18013,
+              "model_generations": 50,
+              "confirmed_atoms": 492,
+              "contact_pairs": [
+                {
+                  "bodies": [
+                    "x5_link6",
+                    "task_blue_cube"
+                  ],
+                  "geoms": [
+                    "",
+                    "task_blue_cube_geom"
+                  ],
+                  "signed_distance_mm": -0.24218521368845822
+                }
+              ],
+              "partial_ticks": 10,
+              "post_STOP_ticks": 0,
+              "score": {
+                "base_directional_motion_m": 0.11611120198486738,
+                "ever_target_grasp": false,
+                "ever_target_lift20mm": false,
+                "inside_selected_region": false,
+                "longest_grasp_lift_hold_s": 0,
+                "maximum_lift_m": 0,
+                "missing_native_intervals": 0,
+                "released": false,
+                "stable_release_condition": false,
+                "task_success": false,
+                "unsafe_states": 1
+              },
+              "rejection": null,
+              "result_sha256": "44719db98a1a450b5509e4750cd3a8523a4e2add46eac1efe952d30af33f0fab",
+              "journal_sha256": "a721e335169d71a06912174667eae08a56fbfbff57e62dce3ca17ac0a8eb42a3"
+            },
+            {
+              "arm": "MAIN-phase02000",
+              "first_failure": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+              "ticks": 18953,
+              "model_generations": 54,
+              "confirmed_atoms": 530,
+              "contact_pairs": null,
+              "partial_ticks": 0,
+              "post_STOP_ticks": null,
+              "score": {
+                "base_directional_motion_m": 0.08317358459438416,
+                "ever_target_grasp": true,
+                "ever_target_lift20mm": false,
+                "inside_selected_region": false,
+                "longest_grasp_lift_hold_s": 0,
+                "maximum_lift_m": 0.0006165601623531192,
+                "missing_native_intervals": 0,
+                "released": false,
+                "stable_release_condition": false,
+                "task_success": false,
+                "unsafe_states": 0
+              },
+              "rejection": {
+                "full_H40_checked": true,
+                "full_H40_compiled": true,
+                "installed": false,
+                "kind": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+                "original_gripper_speed": {
+                  "first_seam_speed_m_s": 0.1409190887851545,
+                  "labels_not_retimed": true,
+                  "maximum_speed_m_s": 0.1409190887851545,
+                  "original_execution_speed_exceeded": true,
+                  "representation": "DENSE_REFERENCE_G7_V6",
+                  "training_margin_exceeded": true
+                },
+                "query": 53
+              },
+              "result_sha256": "3d42c6851972468943f8edc7cfc2d55f9235fdc33eb51e0747fc4afaf0ca6056",
+              "journal_sha256": "c19cb9a03d688b3062ac2bf93133f807cb51a8b1123a4444ea014c3f38a57960"
+            }
+          ]
+        },
+        {
+          "instruction": "PLACE-blue-right",
+          "scene": "edb8a89eea865f8b7fbb0f498a32568baf8e0b531f249e745fe3ff3218780a30",
+          "reset": 171683971,
+          "seed": 1763498094,
+          "result": [
+            {
+              "arm": "MAIN-phase00000",
+              "first_failure": "ORIGINAL_FULL_H40_POLICY_REJECTED",
+              "ticks": 21203,
+              "model_generations": 63,
+              "confirmed_atoms": 620,
+              "contact_pairs": null,
+              "partial_ticks": 0,
+              "post_STOP_ticks": null,
+              "score": {
+                "base_directional_motion_m": 0.09524017546398071,
+                "ever_target_grasp": false,
+                "ever_target_lift20mm": false,
+                "inside_selected_region": false,
+                "longest_grasp_lift_hold_s": 0,
+                "maximum_lift_m": 0.00014762391124334417,
+                "missing_native_intervals": 0,
+                "released": false,
+                "stable_release_condition": false,
+                "task_success": false,
+                "unsafe_states": 0
+              },
+              "rejection": {
+                "full_H40_checked": true,
+                "full_H40_compiled": false,
+                "installed": false,
+                "kind": "ORIGINAL_FULL_H40_POLICY_REJECTED",
+                "query": 62,
+                "reason": "TASK_LEARNING_STUDENT_FULL_PROPOSAL_REJECTED: SLA_DENSE_ORIGINAL_FULL_H40_GATE:TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS"
+              },
+              "result_sha256": "047132a908e59c9959a3f5ec6244522088736100a9d1e098ddf45876cd2d02d4",
+              "journal_sha256": "3a735b6624dd6c0111fab3a360c82283251788ba58f2dec76801f8fec7e0c394"
+            },
+            {
+              "arm": "MAIN-phase02000",
+              "first_failure": "ORIGINAL_FULL_H40_POLICY_REJECTED",
+              "ticks": 18453,
+              "model_generations": 52,
+              "confirmed_atoms": 510,
+              "contact_pairs": null,
+              "partial_ticks": 0,
+              "post_STOP_ticks": null,
+              "score": {
+                "base_directional_motion_m": 0.07982047003784823,
+                "ever_target_grasp": false,
+                "ever_target_lift20mm": false,
+                "inside_selected_region": false,
+                "longest_grasp_lift_hold_s": 0,
+                "maximum_lift_m": 0,
+                "missing_native_intervals": 0,
+                "released": true,
+                "stable_release_condition": false,
+                "task_success": false,
+                "unsafe_states": 0
+              },
+              "rejection": {
+                "full_H40_checked": true,
+                "full_H40_compiled": false,
+                "installed": false,
+                "kind": "ORIGINAL_FULL_H40_POLICY_REJECTED",
+                "query": 51,
+                "reason": "TASK_LEARNING_STUDENT_FULL_PROPOSAL_REJECTED: SLA_DENSE_ORIGINAL_FULL_H40_GATE:TASK_LEARNING_GRASP_ORIGINAL_FULL_PREVIEW_RATE_AND_ACCELERATION_LIMITS"
+              },
+              "result_sha256": "02d5b4f733f8ec01ad28f8c979abca030985701d490541638ec983913fb92b29",
+              "journal_sha256": "770e9a7cd194b56f2a0b4f178d35f2426aaff36e7390e302f7501c982ec2d47c"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "condition_bindings": {
+    "at": 1795299971.7251496,
+    "roles": [
+      "MAIN-phase00000-DEV-00",
+      "MAIN-phase02000-DEV-00"
+    ],
+    "comparison": [
+      {
+        "names": [
+          "CHV1-DEV-F1-HOLD-red-00-MAIN-phase00000",
+          "CHV1-DEV-F1-HOLD-red-00-MAIN-phase02000"
+        ],
+        "condition_differences": [],
+        "values": {
+          "policy_queries": true,
+          "max_ticks": true,
+          "task_instruction_id": true,
+          "mobile_wbc_boundary_v1": true,
+          "multitask_geometry": true
+        },
+        "scene_same": true,
+        "runtime_same": true
+      },
+      {
+        "names": [
+          "CHV1-DEV-F1-HOLD-blue-00-MAIN-phase00000",
+          "CHV1-DEV-F1-HOLD-blue-00-MAIN-phase02000"
+        ],
+        "condition_differences": [],
+        "values": {
+          "policy_queries": true,
+          "max_ticks": true,
+          "task_instruction_id": true,
+          "mobile_wbc_boundary_v1": true,
+          "multitask_geometry": true
+        },
+        "scene_same": true,
+        "runtime_same": true
+      },
+      {
+        "names": [
+          "CHV1-DEV-F1-PLACE-red-left-00-MAIN-phase00000",
+          "CHV1-DEV-F1-PLACE-red-left-00-MAIN-phase02000"
+        ],
+        "condition_differences": [],
+        "values": {
+          "policy_queries": true,
+          "max_ticks": true,
+          "task_instruction_id": true,
+          "mobile_wbc_boundary_v1": true,
+          "multitask_geometry": true
+        },
+        "scene_same": true,
+        "runtime_same": true
+      },
+      {
+        "names": [
+          "CHV1-DEV-F1-PLACE-red-right-00-MAIN-phase00000",
+          "CHV1-DEV-F1-PLACE-red-right-00-MAIN-phase02000"
+        ],
+        "condition_differences": [],
+        "values": {
+          "policy_queries": true,
+          "max_ticks": true,
+          "task_instruction_id": true,
+          "mobile_wbc_boundary_v1": true,
+          "multitask_geometry": true
+        },
+        "scene_same": true,
+        "runtime_same": true
+      },
+      {
+        "names": [
+          "CHV1-DEV-F1-PLACE-blue-left-00-MAIN-phase00000",
+          "CHV1-DEV-F1-PLACE-blue-left-00-MAIN-phase02000"
+        ],
+        "condition_differences": [],
+        "values": {
+          "policy_queries": true,
+          "max_ticks": true,
+          "task_instruction_id": true,
+          "mobile_wbc_boundary_v1": true,
+          "multitask_geometry": true
+        },
+        "scene_same": true,
+        "runtime_same": true
+      },
+      {
+        "names": [
+          "CHV1-DEV-F1-PLACE-blue-right-00-MAIN-phase00000",
+          "CHV1-DEV-F1-PLACE-blue-right-00-MAIN-phase02000"
+        ],
+        "condition_differences": [],
+        "values": {
+          "policy_queries": true,
+          "max_ticks": true,
+          "task_instruction_id": true,
+          "mobile_wbc_boundary_v1": true,
+          "multitask_geometry": true
+        },
+        "scene_same": true,
+        "runtime_same": true
+      }
+    ],
+    "seed_fields": [
+      "evaluation_split"
+    ]
+  },
+  "two_k_blue_left_native_proof": {
+    "at": 1795300123.7968855,
+    "receipt_sha": "3d42c6851972468943f8edc7cfc2d55f9235fdc33eb51e0747fc4afaf0ca6056",
+    "tick": 18953,
+    "query": 54,
+    "grasp": true,
+    "lift": 0.0006165601623531192,
+    "rejection": {
+      "kind": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+      "original_gripper_speed": {
+        "first_seam_speed_m_s": 0.1409190887851545,
+        "maximum_speed_m_s": 0.1409190887851545,
+        "training_margin_exceeded": true,
+        "original_execution_speed_exceeded": true,
+        "labels_not_retimed": true,
+        "representation": "DENSE_REFERENCE_G7_V6"
+      },
+      "full_H40_compiled": true,
+      "query": 53,
+      "installed": false,
+      "full_H40_checked": true
+    },
+    "consumed": 530,
+    "first_failed_query_consumed": 0,
+    "grasp_event": {
+      "native_step": 18830,
+      "native_time_s": 37.66000000000006
+    }
+  },
+  "two_k_blue_right_readback": {
+    "scope": "RECORDED_H40_READ_ONLY_RECONSTRUCTION",
+    "limits": {
+      "maximum_translation_speed_m_s": 0.05,
+      "maximum_angular_speed_rad_s": 0.25,
+      "maximum_finger_speed_m_s": 0.04,
+      "maximum_discrete_translation_acceleration_m_s2": 0.25,
+      "maximum_discrete_angular_acceleration_rad_s2": 1
+    },
+    "queries": [
+      {
+        "query": 50,
+        "input_sha": "6173b1db8348c39e92305c3154b54f1db469265bc122d9a73f9b45810f223a27",
+        "action_sha": "a56bd4091faa905edde9aecdfc02bf0e95e76e1a0412ea63abe6cfc84cbf308f",
+        "case_query_json_sha": "279d629c5db24c55bdc41e2caf83772fa94817d350c615a69495b15e113f6912",
+        "compiled": true,
+        "geometry": [
+          {
+            "lane": "desired",
+            "maxima": {
+              "maximum_translation_speed_m_s": 0.00444102680085496,
+              "maximum_angular_speed_rad_s": 0.0061234808624463,
+              "maximum_finger_speed_m_s": 0.0372213368258481,
+              "maximum_discrete_translation_acceleration_m_s2": 0.06898061833656104,
+              "maximum_discrete_angular_acceleration_rad_s2": 0.10192396455099345
+            },
+            "exceeded": {
+              "maximum_translation_speed_m_s": false,
+              "maximum_angular_speed_rad_s": false,
+              "maximum_finger_speed_m_s": false,
+              "maximum_discrete_translation_acceleration_m_s2": false,
+              "maximum_discrete_angular_acceleration_rad_s2": false
+            },
+            "translation_acceleration_over_limit_indices": [],
+            "finger_speed_over_limit_intervals": []
+          },
+          {
+            "lane": "transported",
+            "maxima": {
+              "maximum_translation_speed_m_s": 0.0044410268008550574,
+              "maximum_angular_speed_rad_s": 0.00612348084794183,
+              "maximum_finger_speed_m_s": 0.0372213368258481,
+              "maximum_discrete_translation_acceleration_m_s2": 0.06898061833652985,
+              "maximum_discrete_angular_acceleration_rad_s2": 0.10192396455097026
+            },
+            "exceeded": {
+              "maximum_translation_speed_m_s": false,
+              "maximum_angular_speed_rad_s": false,
+              "maximum_finger_speed_m_s": false,
+              "maximum_discrete_translation_acceleration_m_s2": false,
+              "maximum_discrete_angular_acceleration_rad_s2": false
+            },
+            "translation_acceleration_over_limit_indices": [],
+            "finger_speed_over_limit_intervals": []
+          }
+        ]
+      },
+      {
+        "query": 51,
+        "input_sha": "bac4d3af1acd58668c878bc2f81dbe484148b515000e6f212adde040caca0bfd",
+        "action_sha": "df061d0aab6bd1afd0ff13455a2cf8db78c822ffd55b78a60eed8a9590c0b9e2",
+        "case_query_json_sha": "e2cd547f765675c078ea8e31081b40d3782a2b03b4939b593a85da182be363ca",
+        "compiled": false,
+        "geometry": [
+          {
+            "lane": "desired",
+            "maxima": {
+              "maximum_translation_speed_m_s": 0.0033989639081365144,
+              "maximum_angular_speed_rad_s": 0.006419664923733482,
+              "maximum_finger_speed_m_s": 0.041166678020635936,
+              "maximum_discrete_translation_acceleration_m_s2": 0.07951772284668725,
+              "maximum_discrete_angular_acceleration_rad_s2": 0.1048472416766489
+            },
+            "exceeded": {
+              "maximum_translation_speed_m_s": false,
+              "maximum_angular_speed_rad_s": false,
+              "maximum_finger_speed_m_s": true,
+              "maximum_discrete_translation_acceleration_m_s2": false,
+              "maximum_discrete_angular_acceleration_rad_s2": false
+            },
+            "translation_acceleration_over_limit_indices": [],
+            "finger_speed_over_limit_intervals": [
+              3
+            ]
+          },
+          {
+            "lane": "transported",
+            "maxima": {
+              "maximum_translation_speed_m_s": 0.0033989639081361996,
+              "maximum_angular_speed_rad_s": 0.006419664937568758,
+              "maximum_finger_speed_m_s": 0.041166678020635936,
+              "maximum_discrete_translation_acceleration_m_s2": 0.0795177228466701,
+              "maximum_discrete_angular_acceleration_rad_s2": 0.1048472416766291
+            },
+            "exceeded": {
+              "maximum_translation_speed_m_s": false,
+              "maximum_angular_speed_rad_s": false,
+              "maximum_finger_speed_m_s": true,
+              "maximum_discrete_translation_acceleration_m_s2": false,
+              "maximum_discrete_angular_acceleration_rad_s2": false
+            },
+            "translation_acceleration_over_limit_indices": [],
+            "finger_speed_over_limit_intervals": [
+              3
+            ]
+          }
+        ]
+      }
+    ],
+    "model_generations": 0,
+    "physical_requests": 0,
+    "physics_ticks": 0,
+    "optimizer_updates": 0,
+    "geometry_module_sha256": "27db43d18c7b1a80764b930cce1f57247bb3c87af77dd2007c4656489ea2ca26"
+  },
+  "wave_a_resumption": {
+    "at": "2026-11-22 06:32:36",
+    "world_change": true,
+    "selected_case": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-blue-left",
+    "case_pid": 2875300,
+    "pid_alive": true,
+    "first_integration": true,
+    "case_not_ended": true,
+    "first_integration_sha": "924ba563f73520e754d9e1e9b27be71604305050384475c2b111842bed806ff5",
+    "new_physics_scope": "REGISTERED_SINGLE_WORLD",
+    "resources": {
+      "1": {
+        "disk_margin_bytes": 10214471271,
+        "memory_margin_bytes": 33871912960
+      },
+      "2": {
+        "disk_margin_bytes": 8066987623,
+        "memory_margin_bytes": 19913269248
+      },
+      "4": {
+        "disk_margin_bytes": 3772020327,
+        "memory_margin_bytes": -8004018176
+      }
+    },
+    "available_mem": 47830556672,
+    "free_disk": 308355076096
+  },
+  "resource_snapshot_for_parallel": {
+    "site_time": "2026-11-22 06:28:43",
+    "core_cpu": {
+      "0": {
+        "cap": 1024,
+        "max_khz": 5500000,
+        "physical": [
+          0,
+          0
+        ]
+      },
+      "1": {
+        "cap": 1012,
+        "max_khz": 5400000,
+        "physical": [
+          0,
+          4
+        ]
+      },
+      "2": {
+        "cap": 1012,
+        "max_khz": 5400000,
+        "physical": [
+          0,
+          16
+        ]
+      },
+      "3": {
+        "cap": 1012,
+        "max_khz": 5400000,
+        "physical": [
+          0,
+          20
+        ]
+      },
+      "4": {
+        "cap": 1024,
+        "max_khz": 5500000,
+        "physical": [
+          0,
+          24
+        ]
+      },
+      "5": {
+        "cap": 1012,
+        "max_khz": 5400000,
+        "physical": [
+          0,
+          28
+        ]
+      },
+      "6": {
+        "cap": 1012,
+        "max_khz": 5400000,
+        "physical": [
+          0,
+          40
+        ]
+      },
+      "7": {
+        "cap": 1012,
+        "max_khz": 5400000,
+        "physical": [
+          0,
+          44
+        ]
+      },
+      "8": {
+        "cap": 756,
+        "max_khz": 4600000,
+        "physical": [
+          0,
+          12
+        ]
+      },
+      "9": {
+        "cap": 756,
+        "max_khz": 4600000,
+        "physical": [
+          0,
+          13
+        ]
+      },
+      "10": {
+        "cap": 756,
+        "max_khz": 4600000,
+        "physical": [
+          0,
+          14
+        ]
+      },
+      "11": {
+        "cap": 756,
+        "max_khz": 4600000,
+        "physical": [
+          0,
+          15
+        ]
+      },
+      "12": {
+        "cap": 756,
+        "max_khz": 6500000,
+        "physical": [
+          0,
+          32
+        ]
+      },
+      "13": {
+        "cap": 756,
+        "max_khz": 6500000,
+        "physical": [
+          0,
+          33
+        ]
+      },
+      "14": {
+        "cap": 756,
+        "max_khz": 4600000,
+        "physical": [
+          0,
+          34
+        ]
+      },
+      "15": {
+        "cap": 756,
+        "max_khz": 4600000,
+        "physical": [
+          0,
+          35
+        ]
+      },
+      "16": {
+        "cap": 756,
+        "max_khz": 4600000,
+        "physical": [
+          0,
+          36
+        ]
+      },
+      "17": {
+        "cap": 756,
+        "max_khz": 4600000,
+        "physical": [
+          0,
+          37
+        ]
+      },
+      "18": {
+        "cap": 756,
+        "max_khz": 4600000,
+        "physical": [
+          0,
+          38
+        ]
+      },
+      "19": {
+        "cap": 756,
+        "max_khz": 4600000,
+        "physical": [
+          0,
+          39
+        ]
+      }
+    },
+    "existing_affinity": [
+      6,
+      7,
+      10,
+      11
+    ],
+    "same_profile_peer": [
+      1,
+      2,
+      8,
+      9
+    ],
+    "matching_peer_masks": 168,
+    "wave_spec": "45d949a883c7c10ec31c0caef9a40bdd0a4c51225d5417dac68c7b05432e870b",
+    "wave_memory_peak_bytes": 9105563648,
+    "available_memory_bytes": 42864889856,
+    "available_disk_bytes": 308714467328,
+    "reserves": {
+      "trajectory_reserve_bytes": 2147483648,
+      "snapshot_reserve_bytes": 536870912,
+      "transfer_reserve_bytes": 1073741824
+    },
+    "footprint": {
+      "1": {
+        "required_disk_bytes": 298140604825,
+        "required_available_memory_bytes": 13958643712,
+        "disk_spare_bytes": 10573862503,
+        "memory_spare_bytes": 28906246144
+      },
+      "2": {
+        "required_disk_bytes": 300288088473,
+        "required_available_memory_bytes": 27917287424,
+        "disk_spare_bytes": 8426378855,
+        "memory_spare_bytes": 14947602432
+      },
+      "4": {
+        "required_disk_bytes": 304583055769,
+        "required_available_memory_bytes": 55834574848,
+        "disk_spare_bytes": 4131411559,
+        "memory_spare_bytes": -12969684992
+      }
+    },
+    "student_exclusive_active": true,
+    "student_pid": 2794896,
+    "student_child": 2839636,
+    "updated_new_resource_leases": 0,
+    "new_physics": 0,
+    "N2": "NOT_RUN",
+    "N4": "NOT_RUN"
+  },
+  "parallel_worlds": {
+    "n1_engineering_paid": 4,
+    "n1_engineering_verified_ticks": 42812,
+    "N2": "NOT_RUN",
+    "N4": "NOT_RUN"
+  },
+  "hopper": {
+    "jobs": {
+      "8": {
+        "job": "728156.hopper-m-02",
+        "site": {
+          "job_state": "F",
+          "Exit_status": 0,
+          "Hold_Types": "n",
+          "depend": "beforeok:728212.hopper-m-02@hopper-m-02.cm.cluster",
+          "stime": "Sun Nov 22 03:05:55 2026",
+          "project": "CFP04-CF-007",
+          "exec_host": "hopper-28/1*12"
+        },
+        "terminal": {
+          "attempted_H40": 3068,
+          "completed_H40": 3068,
+          "last_checkpoint": {
+            "path": "/scratch/e1192548/Projects/GR00T-WBC/runs/WM02/sla-core-hopper-v1-custody-20261121-01/HOPPER-ADAPT20K-V1/MAIN/checkpoints/phase02767",
+            "sha256": "5acb85f2f67e861f69ac737fa5c5dbe0be70d0bc569e91010b6227ecbead0fb7"
+          },
+          "phase": 2767,
+          "role": "MAIN",
+          "site": {
+            "deadline": 1795309555,
+            "gpu_name": "NVIDIA H200",
+            "gpu_uuid": "GPU-91b63cde-4332-8e86-6435-f671f7bf4df0",
+            "host": "hopper-28",
+            "job": "728156.hopper-m-02",
+            "wall_s": 21600
+          },
+          "source": "b9581196d0acd02fb748222988e5a5543ce1f232",
+          "start": 2000,
+          "status": "SEGMENT_COMPLETE",
+          "updates": 767,
+          "visits": {
+            "libero": 24544,
+            "robodojo": 24544,
+            "target": 49088
+          }
+        },
+        "dependency_readback": null,
+        "latest_progress": {
+          "phase": 2767,
+          "cursors": {
+            "target": 177088,
+            "robodojo": 88544,
+            "libero": 88544
+          },
+          "epoch": 1795300442.7297044,
+          "job": "728156.hopper-m-02"
+        },
+        "has_mount": true,
+        "technical_review": false
+      },
+      "9": {
+        "job": "728212.hopper-m-02",
+        "site": {
+          "job_state": "R",
+          "Exit_status": null,
+          "Hold_Types": "n",
+          "depend": null,
+          "stime": "Sun Nov 22 06:34:16 2026",
+          "project": "CFP04-CF-007",
+          "exec_host": "hopper-16/2*12"
+        },
+        "terminal": null,
+        "dependency_readback": {
+          "actual_prior_GPU_seconds": 45886,
+          "checkpoint": {
+            "path": "/scratch/e1192548/Projects/GR00T-WBC/runs/WM02/sla-core-hopper-v1-custody-20261121-01/HOPPER-ADAPT20K-V1/MAIN/checkpoints/phase02767",
+            "sha256": "5acb85f2f67e861f69ac737fa5c5dbe0be70d0bc569e91010b6227ecbead0fb7"
+          },
+          "job": "728212.hopper-m-02",
+          "predecessor": "728156.hopper-m-02",
+          "predecessor_terminal": {
+            "path": "/scratch/e1192548/Projects/GR00T-WBC/runs/WM02/sla-core-hopper-v1-custody-20261121-01/HOPPER-ADAPT20K-V1/allocations/008/RESULT.private.json",
+            "sha256": "770ea330915446c63b048decfb223bf9d4918333a0c05e4f465d2e25bb3fde0b"
+          },
+          "start": 2767,
+          "stop": 3534
+        },
+        "latest_progress": null,
+        "has_mount": true,
+        "technical_review": false
+      }
+    },
+    "observed_009": {
+      "progress": {
+        "job": "728212.hopper-m-02",
+        "epoch": 1795300804.2295399,
+        "phase": 2775
+      },
+      "pbs": {
+        "Job_Name": "slachv1t09",
+        "job_state": "R",
+        "depend": null,
+        "Hold_Types": "n",
+        "Exit_status": null,
+        "exec_host": "hopper-16/2*12",
+        "project": "CFP04-CF-007",
+        "Submit_arguments": "-h -W depend=afterok:728156.hopper-m-02 /scratch/e1192548/Projects/GR00T-WBC/runs/WM02/sla-core-hopper-v1-custody-20261121-01/HOPPER-ADAPT20K-V1/allocations/009/job.pbs"
+      }
+    },
+    "training_data": "TRAIN-052",
+    "TRAIN063_optimization_visits": 0,
+    "next_dataset_boundary": 5000,
+    "backup": {
+      "status": "HOPPER_VANDA_DIRECT_BACKUP_BYTE_MATCH",
+      "receipt": {
+        "plan": "171b5bedb290258954aac140157743e92e3b152e",
+        "role": "MAIN",
+        "phase": 2767,
+        "event_sha256": "51bc3b2d00b4bef3b56a6940d0199aee26fa5cefc8c1a91e6b27b30a1361efd1",
+        "checkpoint": "5acb85f2f67e861f69ac737fa5c5dbe0be70d0bc569e91010b6227ecbead0fb7",
+        "custody": "/scratch/projects/CFP04/CFP04-CF-007/e1192548/GR00T-WBC/runs/WM02/sla-core-multienv-backup-main2767-20261122-01/MAIN/phase02767",
+        "arrays": 140,
+        "bytes": 5547651598,
+        "eval_due": false,
+        "deployment_due": false,
+        "parent": "2bff547b6f2c3aca0e7e2fd8a790ce6b30ef1c5f33b004c6897e3083647358d5"
+      },
+      "sha256": "73df525ad6a43b9d0f77e5dcea455cac082d63e00ceb531dd12b01e7f70b42be",
+      "path": "/scratch/projects/CFP04/CFP04-CF-007/e1192548/GR00T-WBC/runs/WM02/sla-core-multienv-backup-main2767-20261122-01/receipts/MAIN-phase02767.json",
+      "finished": 1795300815.1152673,
+      "dependencies": "existing station-to-station SSH only"
+    },
+    "observed_010": {
+      "status": "QSUB_REPLY_UNKNOWN",
+      "cause": "qsub timeout before a PBS JobID",
+      "next_action": "PBS reconciliation before any retry",
+      "PBS_job_confirmed": false,
+      "observations": {
+        "time": 1795300920.234361,
+        "rc": 0,
+        "ids": [],
+        "stderr": "",
+        "records": [
+          "GRANT.json",
+          "INTENT.json",
+          "job.pbs",
+          "journal"
+        ],
+        "journal": {
+          "journal/qsub.json": {
+            "sha256": "3b028122e974820449baab2d9d09d90cda40b1d3cf13d661daa4480a3c0519fd",
+            "tags": {
+              "status": "INTENT"
+            }
+          }
+        },
+        "active": {
+          "job": "728212.hopper-m-02",
+          "phase": 2782,
+          "epoch": 1795300918.7851748,
+          "cursors": {
+            "target": 178048,
+            "robodojo": 89024,
+            "libero": 89024
+          }
+        }
+      }
+    }
+  },
+  "wave_a_latest": {
+    "epoch": 1795300738.193918,
+    "production_registered": 120,
+    "physically_started": 13,
+    "physically_closed": 12,
+    "physics_ticks_closed": 327876,
+    "hold": {
+      "closed": 4,
+      "g7": 3
+    },
+    "place": {
+      "closed": 8,
+      "g7": 2
+    },
+    "first_failure_counts": {
+      "ILLEGAL_CONTACT": 6,
+      "TASK_BUDGET_EXHAUSTED_IN_CARRY": 1
+    },
+    "all_after_safety_STOP_ticks": 0,
+    "last_closed_case": {
+      "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-blue-left",
+      "requests": 1,
+      "ticks": 28437,
+      "admitted": false,
+      "first_failure": "ILLEGAL_CONTACT",
+      "hard_STOP": true,
+      "post_STOP_ticks": 0,
+      "capture": null,
+      "g7": null,
+      "result": {
+        "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-20261122-02/cases/MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-blue-left/RESULT.private.json",
+        "sha256": "04d946a480c3b5746ddc5aaf332cf93d8af949f7e397d72114e01192d9e1268c"
+      },
+      "frozen_model_sha256": "c6d32401caaa36fdac50370da49e14139c6ea779e513aefd19c6ba488b8d0d5c",
+      "recorded_score": {
+        "native_step": 28203,
+        "inside_selected_region": false,
+        "released": false,
+        "TCP_retreat_m": 0.02563182177236235,
+        "maximum_lift_m": 0.02231231607355444,
+        "longest_grasp_lift_hold_s": 7.578000000009261
+      },
+      "scoring_events": {
+        "base80mm": {
+          "native_step": 10639,
+          "native_time_s": 21.277999999999086
+        },
+        "target_grasp": {
+          "native_step": 21024,
+          "native_time_s": 42.04800000000542
+        },
+        "target_lift20mm": {
+          "native_step": 23436,
+          "native_time_s": 46.87200000001132
+        }
+      },
+      "terminal_trace_contacts": [
+        {
+          "geom1": 0,
+          "geom2": 37,
+          "dist": -0.0017296587734839455,
+          "force": [
+            85.00914082169326,
+            10.215206610356498,
+            13.855231758653941,
+            -0.4605910809257931,
+            -0.6069103451725875,
+            -0.3407059084506951
+          ]
+        },
+        {
+          "geom1": 0,
+          "geom2": 49,
+          "dist": -0.0015826906392366127,
+          "force": [
+            63.252440185152075,
+            -11.804646148400321,
+            -8.233955798739123,
+            -0.7984725349584716,
+            0.29191793330746413,
+            0.16128896471872622
+          ]
+        },
+        {
+          "geom1": 1,
+          "geom2": 78,
+          "dist": -5.337200565001289e-05,
+          "force": [
+            0.5245998365174702,
+            0.09157713983818376,
+            0.16804506206003145,
+            -0.0017722129799001463,
+            0,
+            0
+          ]
+        },
+        {
+          "geom1": 1,
+          "geom2": 78,
+          "dist": -5.337200565001286e-05,
+          "force": [
+            0.0339159572154679,
+            0.02027122873554216,
+            0.016617074735266368,
+            -0.00017524463481878247,
+            0,
+            0
+          ]
+        },
+        {
+          "geom1": 1,
+          "geom2": 78,
+          "dist": -5.3372005650011874e-05,
+          "force": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "geom1": 1,
+          "geom2": 78,
+          "dist": -5.337200565001184e-05,
+          "force": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "geom1": 75,
+          "geom2": 79,
+          "dist": -0.0003348408798909845,
+          "force": [
+            2.2809010620812735,
+            -0.07360344430452657,
+            -0.019196475053767918,
+            0.0008319857209882121,
+            0,
+            0
+          ]
+        },
+        {
+          "geom1": 75,
+          "geom2": 79,
+          "dist": -0.0002199406832739734,
+          "force": [
+            1.3899281833703865,
+            -0.15026653651011246,
+            -0.05073342935045546,
+            0.0007708249478549103,
+            0,
+            0
+          ]
+        },
+        {
+          "geom1": 75,
+          "geom2": 79,
+          "dist": -0.000193619018313925,
+          "force": [
+            1.2113381546591495,
+            -0.07517774794940014,
+            -0.06356561763919269,
+            0.0007611904122207685,
+            0,
+            0
+          ]
+        },
+        {
+          "geom1": 75,
+          "geom2": 79,
+          "dist": -0.00031498962047982887,
+          "force": [
+            2.1106802012452195,
+            -0.16063529088677583,
+            -0.020151576676591215,
+            0.0008189100134872562,
+            0,
+            0
+          ]
+        },
+        {
+          "geom1": 77,
+          "geom2": 79,
+          "dist": -0.0002892107154044865,
+          "force": [
+            1.8382454167201194,
+            0.22624220269617948,
+            0.013755309711593966,
+            -0.0008016961088484906,
+            0,
+            0
+          ]
+        },
+        {
+          "geom1": 77,
+          "geom2": 79,
+          "dist": -0.00023036873095569636,
+          "force": [
+            1.4021230259517974,
+            0.3016001039644772,
+            -0.02080584842370032,
+            -0.0007732009547306037,
+            0,
+            0
+          ]
+        },
+        {
+          "geom1": 77,
+          "geom2": 79,
+          "dist": -0.00024030780820639427,
+          "force": [
+            1.472942492376095,
+            0.21942046466130702,
+            -0.019725333866151478,
+            -0.0007774412684811119,
+            0,
+            0
+          ]
+        },
+        {
+          "geom1": 77,
+          "geom2": 79,
+          "dist": -0.0003023581528681214,
+          "force": [
+            1.9422647282894363,
+            0.3056661307324204,
+            0.02823295430215651,
+            -0.0008092510866773003,
+            0,
+            0
+          ]
+        },
+        {
+          "geom1": 78,
+          "geom2": 79,
+          "dist": -4.475558027880889e-06,
+          "force": [
+            0.41963294365110465,
+            -0.2442774400416409,
+            -0.21019651595527697,
+            0.002351158451332009,
+            0,
+            0
+          ]
+        }
+      ],
+      "illegal_contact": {
+        "geoms": [
+          "task_cube_geom",
+          "task_blue_cube_geom"
+        ],
+        "bodies": [
+          "task_cube",
+          "task_blue_cube"
+        ],
+        "signed_distance_mm": -0.004475558027880889
+      }
+    },
+    "in_progress": {
+      "condition": "MEV1-TRAIN-F1-NEAR_NEG-01-HOLD-blue",
+      "tick": 3028,
+      "pid": 2881536
+    },
+    "admissions": {
+      "paid_TRAIN": 12,
+      "new_admitted": 5,
+      "sealed_new_members": 4,
+      "new_training_visits": 0
+    },
+    "latest_sealed": {
+      "key": "TRAIN-063",
+      "count": 63,
+      "windows": 5498,
+      "sha": "e233d5f8ce6be2e11467be73010645a6ea74669b6709578164ef636e72ea914d"
+    },
+    "next_pending_admitted": {
+      "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-red-right",
+      "windows": 122
+    },
+    "active_worlds": 1,
+    "free_GiB": 286.45,
+    "independent_readback": {
+      "SGT": "2026-11-22 06:42:43",
+      "epoch": 1795300963.598252,
+      "wave": {
+        "stage": "DISPATCH",
+        "epoch": 1795300717.9439766,
+        "completed": 12,
+        "actual_requests": 12,
+        "closed_ticks": 327876,
+        "admitted_train": 5,
+        "current": "MEV1-TRAIN-F1-NEAR_NEG-01-HOLD-blue"
+      },
+      "current": {
+        "id": "MEV1-TRAIN-F1-NEAR_NEG-01-HOLD-blue",
+        "pid": 2881536,
+        "tick": 18052,
+        "lease": "ACTIVE"
+      },
+      "closed": [
+        {
+          "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-red-right",
+          "requests": 1,
+          "ticks": 20690,
+          "admitted": false,
+          "first_failure": "ILLEGAL_CONTACT",
+          "hard_STOP": true,
+          "post_STOP_ticks": 0,
+          "capture": null,
+          "g7": null,
+          "result": {
+            "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-20261122-02/cases/MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-red-right/RESULT.private.json",
+            "sha256": "3ff9adb8b381f7ddc8b9feebf34f53e4257b9331e449b88cbb1ed304e468ca7e"
+          }
+        },
+        {
+          "condition": "MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-red-right",
+          "requests": 1,
+          "ticks": 36203,
+          "admitted": true,
+          "first_failure": "TASK_SUCCESS",
+          "hard_STOP": false,
+          "post_STOP_ticks": null,
+          "capture": null,
+          "g7": null,
+          "result": {
+            "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-20261122-02/cases/MEV1-TRAIN-F1-NEAR_NEG-00-PLACE-red-right/RESULT.private.json",
+            "sha256": "025f1a3a4b6125d99ee34e9d3ffd8bacc8cc573217430074f424c174c9f5f97c"
+          }
+        },
+        {
+          "condition": "MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-blue-left",
+          "requests": 1,
+          "ticks": 28437,
+          "admitted": false,
+          "first_failure": "ILLEGAL_CONTACT",
+          "hard_STOP": true,
+          "post_STOP_ticks": 0,
+          "capture": null,
+          "g7": null,
+          "result": {
+            "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-core-multienv-wave-a-20261122-02/cases/MEV1-TRAIN-F2-NEAR_NEG-00-PLACE-blue-left/RESULT.private.json",
+            "sha256": "04d946a480c3b5746ddc5aaf332cf93d8af949f7e397d72114e01192d9e1268c"
+          }
+        }
+      ],
+      "admissions": {
+        "paid_TRAIN": 12,
+        "new_admitted": 5,
+        "sealed_new_members": 4,
+        "new_training_visits": 0
+      },
+      "snapshot": {
+        "key": "TRAIN-063",
+        "count": 63,
+        "windows": 5498,
+        "sha": "e233d5f8ce6be2e11467be73010645a6ea74669b6709578164ef636e72ea914d"
+      },
+      "free_GiB": 286.04,
+      "units": {
+        "wave": "active",
+        "catalog": "active",
+        "publisher": "active"
+      }
+    }
+  }
+}

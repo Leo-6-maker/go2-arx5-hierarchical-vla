@@ -1,0 +1,54 @@
+{
+  "plan": "4fe2c8cf1b69c168b2e3079e061bb7c702089cd3",
+  "time_sgt": "2026-11-22T03:18:20.277+08:00",
+  "code": "c12ecaac",
+  "scope": "SLA_CORE_CANONICAL_EVAL_V1",
+  "gpu_awarded": false,
+  "host_available_GiB": 31.638652801513672,
+  "host_threshold_GiB": 36,
+  "gpu_free_MiB": 15838,
+  "services": [
+    {
+      "unit": "wm02-sla-core-multienv-canonical-cold-20261122-02.service",
+      "state": {
+        "MainPID": "2589749",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-canonical-cold-20261122-02.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "InvocationID": "32d7af84adf248679a476197c7bd5328"
+      },
+      "owner": true,
+      "gpu_awarded": false,
+      "attempts": 0,
+      "completed": 0,
+      "sealed": {},
+      "spec": "267bb01b35f614d9283ac0625453fd1026cad0c80e01661d9b47b8f4423eaa3e",
+      "deadline_epoch": 1795291283
+    },
+    {
+      "unit": "wm02-sla-core-multienv-canonical-ipc-20261122-02.service",
+      "state": {
+        "MainPID": "2607162",
+        "ControlGroup": "/user.slice/user-2009.slice/user@2009.service/app.slice/wm02-sla-core-multienv-canonical-ipc-20261122-02.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "InvocationID": "f903261080e342f0b6e78916aab55dae"
+      },
+      "owner": true,
+      "gpu_awarded": false,
+      "attempts": 0,
+      "completed": 0,
+      "sealed": {},
+      "spec": "2193ba65f272ba1d727bd0cc7f4834d46f944c9f989cf6556c539cc4fbe94ee1",
+      "deadline_epoch": 1795295859
+    }
+  ],
+  "first_ipc_preflight": {
+    "state": "INTERRUPTED_BEFORE_UNIT_REGISTRATION",
+    "generation_attempts": 0,
+    "reason": "Unused dual-adapter dependencies were imported on the single-G7 path"
+  },
+  "native_requests": 0,
+  "native_ticks": 0,
+  "updates": 0
+}

@@ -1,0 +1,168 @@
+{
+  "plan": "4fe2c8cf1b69c168b2e3079e061bb7c702089cd3",
+  "as_of_sgt": "2026-11-22T05:36:24+08:00",
+  "backup": {
+    "status": "HOPPER_VANDA_DIRECT_BACKUP_BYTE_MATCH",
+    "receipt": {
+      "plan": "171b5bedb290258954aac140157743e92e3b152e",
+      "role": "MAIN",
+      "phase": 2500,
+      "event_sha256": "24c5985aba36e4f6d0c3cb1875cb3f7241ad47e715d15e8f4a543b865d6cde73",
+      "checkpoint": "144afb6a80d0575ecbe240f6b7dea5142a9a1bf3772cf92ad1130ee21dcdf49a",
+      "custody": "/scratch/projects/CFP04/CFP04-CF-007/e1192548/GR00T-WBC/runs/WM02/sla-core-multienv-backup-main2500-20261122-01/MAIN/phase02500",
+      "arrays": 140,
+      "bytes": 5547651598,
+      "eval_due": false,
+      "deployment_due": false,
+      "parent": "2bff547b6f2c3aca0e7e2fd8a790ce6b30ef1c5f33b004c6897e3083647358d5"
+    },
+    "sha256": "4db953a8fc880dbf5e588d665d2550f60467dd17aedf571b06c0c94ca9cb771d",
+    "path": "/scratch/projects/CFP04/CFP04-CF-007/e1192548/GR00T-WBC/runs/WM02/sla-core-multienv-backup-main2500-20261122-01/receipts/MAIN-phase02500.json",
+    "finished": 1795296962.4652557,
+    "dependencies": "existing station-to-station SSH only",
+    "independent_readback": {
+      "observed": 1795296974.2587922,
+      "host": "stdct-login-01",
+      "receipt_sha": "4db953a8fc880dbf5e588d665d2550f60467dd17aedf571b06c0c94ca9cb771d",
+      "complete_sha": "144afb6a80d0575ecbe240f6b7dea5142a9a1bf3772cf92ad1130ee21dcdf49a",
+      "files": 141,
+      "announced_arrays": 140,
+      "actual_bytes": 5547651598,
+      "incomplete": false
+    },
+    "procedure_sha256": "e44538e869ca704aefbe8ee0723471ca6b259402dcfa22835e3eb249a828a50f",
+    "new_pbs_jobs": 0,
+    "training_updates": 0,
+    "optimizer_visits": 0,
+    "model_generations": 0,
+    "native_requests": 0,
+    "prior_cpu_chain_unchanged": true
+  },
+  "live_h200": {
+    "step": 2549,
+    "job": "728156.hopper-m-02",
+    "latest_sealed": 2500,
+    "successor": "728212.hopper-m-02",
+    "successor_native_state": "H",
+    "successor_actual_updates": 0,
+    "successor_dependency": "afterok:728156.hopper-m-02@hopper-m-02.cm.cluster",
+    "train063_actual_optimizer_visits": 0
+  },
+  "phase0": {
+    "started": 2,
+    "terminal": 1,
+    "successes": 0,
+    "registered": 6,
+    "native_unit": "wm02-sla-core-multienv-canonical-dev-20261122-08.service",
+    "process": 2794896,
+    "source": "2a3f3fd9492c4cc2cd372163ae7bc97db0d15cff",
+    "conditions": [
+      {
+        "id": "CHV1-DEV-F1-HOLD-blue-00-MAIN-phase00000",
+        "started": true,
+        "terminal": false
+      },
+      {
+        "id": "CHV1-DEV-F1-HOLD-red-00-MAIN-phase00000",
+        "started": true,
+        "terminal": true,
+        "sha": "1cfaba5a817d9ac15f965d7f757b9723ae0f41aaa3b4205d31feefdd7fcd9da0",
+        "ticks": 21203,
+        "requests": 1,
+        "queries": 63,
+        "atoms": 620,
+        "grasp": false,
+        "lift": 0,
+        "success": false,
+        "reason": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+        "technical": false,
+        "unsafe": false,
+        "guard": {
+          "kind": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+          "original_gripper_speed": {
+            "first_seam_speed_m_s": 0.06129462034633479,
+            "maximum_speed_m_s": 0.06129462034633479,
+            "training_margin_exceeded": true,
+            "original_execution_speed_exceeded": true,
+            "labels_not_retimed": true,
+            "representation": "DENSE_REFERENCE_G7_V6"
+          },
+          "full_H40_compiled": true,
+          "query": 62,
+          "installed": false,
+          "full_H40_checked": true
+        },
+        "metrics": {
+          "actual_base_path_m": 0.3044350837125165,
+          "directional_motion": 0.14127836204908994,
+          "movement_demonstrated": true,
+          "all_sampled_contacts_valid": true
+        }
+      }
+    ],
+    "first_terminal_g7": {
+      "zero_based_query": 62,
+      "grip_limit_m_s": 0.04,
+      "delta_s": 0.05,
+      "first_attempted_seam_mm": 3.0647310173167392,
+      "installed": false,
+      "actual_atoms_on_rejected_query": 0,
+      "actual_speed_journal": [
+        {
+          "query": 61,
+          "full_H40_compiled": true,
+          "confirmed_atoms": 10,
+          "native_start_step": 20953,
+          "original_gripper_speed": {
+            "first_seam_speed_m_s": 0.020329623003872838,
+            "maximum_speed_m_s": 0.022102415528019448,
+            "training_margin_exceeded": false,
+            "original_execution_speed_exceeded": false,
+            "labels_not_retimed": true,
+            "representation": "DENSE_REFERENCE_G7_V6"
+          },
+          "previous_actual_gripper_command": {
+            "width_m": 0.04062970810479389,
+            "source_native_s": 41.85600000000519,
+            "query_native_s": 41.90600000000525
+          }
+        },
+        {
+          "query": 62,
+          "full_H40_compiled": true,
+          "confirmed_atoms": 0,
+          "native_start_step": 21203,
+          "rejection": {
+            "kind": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+            "original_gripper_speed": {
+              "first_seam_speed_m_s": 0.06129462034633479,
+              "maximum_speed_m_s": 0.06129462034633479,
+              "training_margin_exceeded": true,
+              "original_execution_speed_exceeded": true,
+              "labels_not_retimed": true,
+              "representation": "DENSE_REFERENCE_G7_V6"
+            },
+            "full_H40_compiled": true,
+            "query": 62,
+            "installed": false,
+            "full_H40_checked": true
+          }
+        }
+      ],
+      "source_sha256": "c9f35039a1fa43371bdaac49a6879f66d539030977d150aa055f5eb62c2a195a"
+    }
+  },
+  "main2k": {
+    "started": 0,
+    "terminal": 0,
+    "registered": 6
+  },
+  "n2": {
+    "native_requests": 0,
+    "status": "NOT_RUN"
+  },
+  "n4": {
+    "native_requests": 0,
+    "status": "NOT_RUN"
+  }
+}
