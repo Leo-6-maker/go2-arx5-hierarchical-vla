@@ -1,4 +1,4 @@
-"""Evaluate the fixed TRAIN/VAL event roster on the three real Core Go2 endpoints."""
+"""Evaluate the fixed TRAIN/VAL event roster on qualified Core Go2 endpoints."""
 from argparse import ArgumentParser
 from contextlib import closing
 import hashlib
@@ -15,6 +15,7 @@ from scripts.sla.core_hopper_native_queue import capacity
 from scripts.sla.core_main3800_native_proof import load_manifest
 from scripts.sla.hopper_parent_custody import digest, write_once
 from scripts.sla.hopper_site import pinned
+from scripts.sla.main3800_auxiliary_readback import ARMS, verify_package
 from scripts.sla.main3800_event_panel import SEED, TRAIN052
 
 
@@ -91,6 +92,33 @@ def measures(output, inputs, tag):
                 aligned_P10_mm=float(1000*displacement@actual_direction/length) if length>0 else None)
 
 
+def endpoint_packages(cfg, comparison):
+    if comparison is not None:
+        export = pinned(comparison)
+        if (export['status'] != 'MATCHED_PAIR_RECONCILED' or export['matched_FM_updates'] != 500
+                or set(export['arms']) != set(ARMS)):
+            raise ValueError('The two completed auxiliary arms must be verified together')
+        parent = Path(comparison['path']).parent
+        packages = []
+        for arm in ARMS:
+            receipt = export['arms'][arm]
+            folder = parent/arm
+            manifest = verify_package(folder,receipt['manifest_sha256'])
+            if (manifest['arm'] != arm or manifest['checkpoint_sha256'] != receipt['training_state_sha256']
+                    or manifest['training_result_sha256'] != receipt['result_sha256']):
+                raise ValueError('Core inference package does not match the reconciled training endpoint')
+            packages.append((f'{arm}-phase04300',folder,manifest))
+        return packages
+    original = Path(cfg['historic_run'])/'endpoints'
+    arms = ('MAIN-phase00000','MAIN-phase02000')
+    pkgs = [pinned(dict(path=str(original/(arm+'.json')),sha256=digest(original/(arm+'.json'))))['gate']['package']
+            for arm in arms]
+    packages = [(arm,Path(p['path']).resolve(strict=True),validate(Path(p['path']).resolve(strict=True),p['sha256']))
+                for arm,p in zip(arms,pkgs,strict=True)]
+    path = Path(cfg['package']['path']).resolve(strict=True)
+    return [*packages,('MAIN-phase03800',path,load_manifest(cfg['package'],pkgs[0]))]
+
+
 def evaluate(root, config, panel):
     cfg = pinned(config['native_config'])
     expert = pinned(cfg['expert'])
@@ -127,12 +155,7 @@ def evaluate(root, config, panel):
 
         if jax.default_backend()!='gpu' or len(jax.local_devices())!=1 or 'RTX 4080 SUPER' not in jax.local_devices()[0].device_kind:
             raise PermissionError('Original Core RTX numerical backend required')
-        original = Path(cfg['historic_run'])/'endpoints'
-        arms = ['MAIN-phase00000','MAIN-phase02000','MAIN-phase03800']
-        pkgs = [pinned(dict(path=str(original/(arm+'.json')),sha256=digest(original/(arm+'.json'))))['gate']['package']
-                for arm in arms[:2]] + [cfg['package']]
-        manifests = [validate(Path(p['path']).resolve(strict=True),p['sha256']) for p in pkgs[:2]]
-        manifests.append(load_manifest(pkgs[2],pkgs[0]))
+        packages = endpoint_packages(cfg,config.get('auxiliary_export'))
         inputs = [(split,row,observation(row)) for split,rows in panel['roster'].items() for row in rows]
         source = pinned(receiver['input'])['target_D1']
         data = AdaptTargetDataset(source['legacy'],source['captures'],resize_with_pad=resize_with_pad)
@@ -146,14 +169,14 @@ def evaluate(root, config, panel):
                or m['foundation_sha256']!=binding['parent_manifest']['sha256']
                or m['state_sha256']!=source['statistics']['sha256']
                or m['action_sha256']!=receiver['action']['sha256']
-               or m['tokenizer_sha256']!=digest(tokenizer) for m in manifests):
+               or m['tokenizer_sha256']!=digest(tokenizer) for _,_,m in packages):
             raise ValueError('The original model, target statistics or tokenizer changed')
         model = None
         totals = {}
-        for arm,pkg,manifest in zip(arms,pkgs,manifests,strict=True):
+        for arm,folder,manifest in packages:
             scope = root/arm
             scope.mkdir()
-            weights = scale20k_package.read_weights(Path(pkg['path']).resolve(strict=True),manifest['arrays'],template)
+            weights = scale20k_package.read_weights(folder,manifest['arrays'],template)
             if model is None:
                 model = TargetProvider(graphs['target'],frozen,weights,Tokenizer(str(tokenizer)),data.statistics)
             else:
@@ -172,7 +195,8 @@ def evaluate(root, config, panel):
                 write_once(scope/f'{i:03d}.result.json',result)
                 rows.append(result)
             totals[arm] = rows
-        write_once(root/'TERMINAL.json',dict(status='COMPLETE',attempts=120,generations=120,native_requests=0,
+        predictions = len(packages)*len(inputs)
+        write_once(root/'TERMINAL.json',dict(status='COMPLETE',attempts=predictions,generations=predictions,native_requests=0,
                    updates=0,visits=0,rows=totals,epoch=time.time()))
 
 

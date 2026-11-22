@@ -19,9 +19,14 @@ TARGET_PREFIXES = ("['parameters']['shared']", "['parameters']['target']")
 
 
 def rows(header):
-    arrays = header['arrays']
-    if header['schema'] != STATE_SCHEMA or len(arrays) != 140:
+    if header['schema'] != STATE_SCHEMA:
         raise ValueError('Export requires a full 140-array sealed training state')
+    return go2_rows(header['arrays'])
+
+
+def go2_rows(arrays):
+    if len(arrays) != 140:
+        raise ValueError('Export requires exactly 140 complete-state arrays')
     if [r['file'] for r in arrays] != [f'{i:06d}.npy' for i in range(len(arrays))]:
         raise ValueError('Unexpected complete-state array file order')
     chosen = [r for r in arrays if r['key'].startswith(TARGET_PREFIXES)]
