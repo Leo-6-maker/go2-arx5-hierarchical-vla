@@ -32,7 +32,7 @@ def producer_binding(config):
     return root, cards, card_registry
 
 
-def admission_rows(producer, cards):
+def admission_rows(producer, cards, spec_sha=contract.PRODUCER_SPEC, producer_source=contract.PRODUCER_SOURCE):
     rows = producer/'RECORDS.private.json'
     admissions = []
     paid = set()
@@ -58,9 +58,10 @@ def admission_rows(producer, cards):
                 or lease['status']!='CLOSED' or lease['worker_exit_code']
                 or lease['spec_sha256']!=digest(case/'EXECUTION_SPEC.json')
                 or not source['expert_training_eligible'] or source['collection_split']!='TRAIN'
-                or source['panel_entry_id']!=cid or source['source_sha']!=contract.PRODUCER_SOURCE
+                or source['panel_entry_id']!=cid or source['source_sha']!=producer_source
+                or source['campaign_root']!=str(producer) or source['goal_plan_sha']!=contract.PLAN
                 or source['frozen_files'][source['model_path']]!=card['scene_sha256']
-                or native['source_sha']!=contract.PRODUCER_SOURCE or native['physical_requests']!=1
+                or native['source_sha']!=producer_source or native['physical_requests']!=1
                 or native['condition']['collection_episode']!=cid or native['model_generations'] or native['optimizer_updates']
                 or native['actual_native_integrations']!=row['ticks'] or not 0<row['ticks']<=card['native_max_ticks']
                 or ep['id']!=cid or ep['split']!='TRAIN' or ep['individual_pass'] is not True
@@ -70,12 +71,12 @@ def admission_rows(producer, cards):
         proof = dict(id=cid,instruction=ep['task'],windows=ep['windows'],confirmed_P10_atoms=10*ep['windows'],
                      scene_sha256=ep['scene_sha256'],reset=ep['reset'],native_result_sha256=ep['native_result_sha256'],
                      episode_sha256=row['episode']['sha256'],native_ticks=row['ticks'],admitted=True,
-                     producer_spec=contract.PRODUCER_SPEC,producer_source=contract.PRODUCER_SOURCE)
+                     producer_spec=spec_sha,producer_source=producer_source)
         admissions.append((ep, proof, folder.parent))
     return admissions, len(paid)
 
 
-def freeze(root, prefix, population, manifest, proof, hashes, registry, rows):
+def freeze(root, prefix, population, manifest, proof, hashes, registry, rows, authority=None, retained=None):
     from scripts.sla.core_hopper_snapshot import object_file
 
     target = root/'snapshots'/f'TRAIN-{contract.PREFIX_COUNT+len(rows):03d}'
@@ -91,7 +92,7 @@ def freeze(root, prefix, population, manifest, proof, hashes, registry, rows):
                 src = origin/rel
                 if rel.parent!=Path(ep['id']) or src.is_symlink() or digest(src)!=ref['sha256']:
                     raise ValueError('Missing or changed admitted episode object')
-                obj = src if origin==prefix else object_file(src,ref['sha256'],root/'objects')
+                obj = src if origin in (prefix,retained) else object_file(src,ref['sha256'],root/'objects')
                 os.link(obj,incoming/rel)
             sync_dir(incoming/ep['id'])
         members = [episode for episode,_ in all_episodes]
@@ -102,6 +103,8 @@ def freeze(root, prefix, population, manifest, proof, hashes, registry, rows):
         audit = dict(proof,schema=contract.SCHEMA,canonical_plan=contract.PLAN,prefix_seal=contract.PREFIX_SEAL,
                      registered_producer=registry,cases=[*proof['cases'],*(case for _,case,_ in rows)],
                      admitted_episodes=len(selected),admitted_windows=windows,dataset_sha256=msha)
+        if authority is not None:
+            audit.update(schema=contract.COLD_SCHEMA,cold_continuation=authority)
         write_once(incoming/'ACTUAL.private.json',audit)
         write_once(incoming/'SEALED.private.json',dict(plan=PLAN,split='TRAIN',count=len(selected),windows=windows,
                    manifest_sha256=msha,admission_sha256=digest(incoming/'ACTUAL.private.json'),
@@ -115,10 +118,104 @@ def freeze(root, prefix, population, manifest, proof, hashes, registry, rows):
     seal = read(path)
     if seal['episode_sha256']!=selected:
         raise ValueError('Previously sealed Wave A ordinal has different members')
+    if authority is not None:
+        frozen = read(target/'ACTUAL.private.json')
+        if frozen['schema']!=contract.COLD_SCHEMA or frozen['cold_continuation']!=authority:
+            raise ValueError('Previously sealed Wave A ordinal has different producer provenance')
     receipt = dict(path=str(path),sha256=digest(path),count=seal['count'],windows=seal['windows'],
                    membership=selected,epoch=seal['epoch'],aggregate=True)
     write_once(root/'catalog'/(target.name+'.json'),receipt)
     return receipt
+
+
+def cold_catalog(config, producer, cards, registry, prior, population):
+    from scripts.sla.core_multienv_scope import order
+    from scripts.sla.core_multienv_wave_suffix import suffix
+
+    config = config['cold']
+    pin = config['producer']
+    spec = pinned(pin)
+    root = Path(spec['registered_root'])
+    handoff = spec['multienv_cold_handoff']
+    original_pin = handoff['producer']
+    original = pinned(original_pin)
+    terminal = pinned(handoff['terminal'])
+    records = producer/'RECORDS.private.json'
+    lease = read(root/'control'/'LEASE.json')
+    if (original_pin['sha256']!=contract.PRODUCER_SPEC or Path(original_pin['path'])!=producer/'EXECUTION_SPEC.json'
+            or Path(handoff['terminal']['path'])!=producer/'RESULT.private.json' or terminal['exit_code']
+            or terminal['source_sha']!=contract.PRODUCER_SOURCE or terminal['unreconciled']
+            or read(records)!=terminal['records'] or read(producer/'control'/'LEASE.json')['status']!='CLOSED'
+            or Path(pin['path'])!=root/'EXECUTION_SPEC.json' or not spec.get('multienv_payload_storage')
+            or any(spec[k]!=original[k] for k in ('scope','compiled_population','registered_panel','owner',
+                                                  'mobile_world_lock','registry','goal_plan_sha'))
+            or spec['deadline_epoch']>original['deadline_epoch']
+            or lease['status'] not in ('ACTIVE','CLOSED') or lease['spec_sha256']!=pin['sha256']
+            or lease['owner']!=original['owner']):
+        raise PermissionError('Expected an actual closed Wave A predecessor and registered continuation')
+    roster = suffix(order(pinned(original['compiled_population'])),terminal['records'])['pending']
+    scheduled = handoff['conditions']
+    if not scheduled or scheduled!=[r['condition'] for r in roster[:len(scheduled)]]:
+        raise ValueError('Cold producer changed the original next conditions')
+    authority = dict(schema=contract.COLD_AUTHORITY_SCHEMA,plan=contract.PLAN,
+        original_spec=contract.PRODUCER_SPEC,original_terminal=handoff['terminal']['sha256'],
+        original_records=digest(records),population=registry['population'],spec=pin['sha256'],source=spec['source_sha'],
+        prior_admissions=[[row[1][k] for k in ('id','episode_sha256','native_result_sha256')] for row in prior],
+        conditions=[cid for cid in scheduled if cid in cards])
+    if (authority!=pinned(config['authority']) or contract.fingerprint(authority) not in contract.COLD_AUTHORITIES):
+        raise PermissionError('Cold provenance is absent from the immutable verifier boundary')
+    before = config['baseline']
+    seal, _, _ = verified(Path(before['path']).parent,population,before['sha256'])
+    expected = [row[1]['episode_sha256'] for row in prior]
+    if Path(before['path']).name!='SEALED.private.json' or seal['episode_sha256'][contract.PREFIX_COUNT:]!=expected:
+        raise ValueError('The old collector must seal every original admission before continuing')
+    baseline = dict(count=seal['count'],epoch=seal['epoch'],membership=seal['episode_sha256'],path=before['path'])
+    return root, {cid:cards[cid] for cid in authority['conditions']}, authority, baseline
+
+
+def close_original(root, config, producer, cards, registry, prefix, population, manifest, proof, hashes):
+    """Seal the retained producer's last batch after it and its old catalog have closed."""
+    from scripts.sla.core_multienv_payload import capacity
+
+    bridge = config['close_original']
+    spec = pinned(config['producer'])
+    terminal = pinned(bridge['terminal'])
+    old_cfg = pinned(bridge['catalog'])
+    old_root = Path(old_cfg['root'])
+    old_catalog = pinned(bridge['catalog_terminal'])
+    if (config.get('cold') or Path(bridge['terminal']['path'])!=producer/'RESULT.private.json'
+            or read(producer/'control'/'LEASE.json')['status']!='CLOSED' or terminal['exit_code']
+            or terminal['unreconciled'] or terminal['source_sha']!=contract.PRODUCER_SOURCE
+            or terminal['records']!=read(producer/'RECORDS.private.json')
+            or old_cfg.get('probe_only') or old_cfg['producer']!=config['producer'] or root==old_root
+            or Path(bridge['catalog_terminal']['path'])!=old_root/'TERMINAL.json'
+            or not old_catalog['producer_closed']):
+        raise PermissionError('The original collector and catalog must close before the final TRAIN seal')
+    rows, paid = admission_rows(producer,cards)
+    latest = old_catalog['latest']
+    old_path = Path(latest['path'])
+    retained = old_root/'snapshots'/f"TRAIN-{latest['count']:03d}"
+    seal, _, _ = verified(retained,population,latest['sha256'])
+    count = seal['count']-contract.PREFIX_COUNT
+    expected = [*hashes,*(r[1]['episode_sha256'] for r in rows[:count])]
+    if (old_path!=retained/'SEALED.private.json' or count<0 or seal['episode_sha256']!=expected
+            or not 0 <= len(rows)-count <= 4 or paid!=old_catalog['paid_TRAIN']
+            or paid!=sum(r['requests'] for r in terminal['records'] if r['split']=='TRAIN')
+            or len(rows)!=terminal['admitted_train']):
+        raise ValueError('Final original TRAIN batch is not a contiguous extension of the old catalog')
+    if len(rows)==count:
+        return dict(status='ORIGINAL_TRAIN_ALREADY_COMPLETE',latest=latest,paid_TRAIN=paid)
+    volumes = capacity(root,bridge['payload_storage'],spec['multienv'])
+    extra = sum((origin/ref['file']).stat().st_size for ep,_,origin in rows[count:]
+                for ref in [ep['labels'],*ep['frame_shards']])
+    local = volumes['local']
+    if not volumes['passed'] or local['free_disk'] < local['floor']+local['reserve']+extra:
+        raise PermissionError('The split-volume reserves do not cover the last original TRAIN batch')
+    preserved = [(ep,witness,retained) for ep,witness,_ in rows[:count]]
+    latest = freeze(root,prefix,population,manifest,proof,hashes,registry,
+                    [*preserved,*rows[count:]],retained=retained)
+    return dict(status='FINAL_ORIGINAL_TRAIN_SEALED',latest=latest,paid_TRAIN=paid,
+                additional_admissions=len(rows)-count,additional_bytes=extra,volumes=volumes)
 
 
 def run(root, config, probe):
@@ -141,15 +238,33 @@ def run(root, config, probe):
     with closing(OwnerLock(root/'owner.lock')):
         for name in ('catalog','snapshots','objects'):
             (root/name).mkdir(exist_ok=True)
+        if config.get('close_original'):
+            if probe or (root/'STOP').exists() or time.time()>=config['deadline']:
+                raise PermissionError('Expected a live bounded catalog closure role')
+            result = close_original(root,config,producer,cards,registry,prefix,population,manifest,proof,hashes)
+            write_once(root/'TERMINAL.json',dict(result,epoch=time.time(),pid=os.getpid(),new_training_visits=0))
+            return
+        cold = config.get('cold')
+        baseline = dict(count=contract.PREFIX_COUNT,epoch=config['started_at'],membership=hashes)
+        retained = None
+        if cold:
+            original_rows, original_paid = admission_rows(producer,cards)
+            cold_root, cold_cards, authority, baseline = cold_catalog(config,producer,cards,registry,original_rows,population)
+            retained = Path(baseline['path']).parent
+            original_rows = [(ep,witness,retained) for ep,witness,_ in original_rows]
         while True:
-            rows, paid = admission_rows(producer,cards)
+            if cold:
+                rows, paid = admission_rows(cold_root,cold_cards,authority['spec'],authority['source'])
+                rows = [*original_rows,*rows]
+                paid += original_paid
+            else:
+                rows, paid = admission_rows(producer,cards)
             entries = sorted((root/'catalog').glob('TRAIN-???.json'))
-            latest = read(entries[-1]) if entries else dict(count=contract.PREFIX_COUNT,epoch=config['started_at'],
-                                                             membership=hashes)
+            latest = read(entries[-1]) if entries else baseline
             exposed = latest['count']-contract.PREFIX_COUNT
             if latest['membership'] != [*hashes,*(r[1]['episode_sha256'] for r in rows[:exposed])]:
                 raise ValueError('A previously sealed Wave A admission disappeared or moved')
-            closed = (producer/'RESULT.private.json').is_file()
+            closed = ((cold_root if cold else producer)/'RESULT.private.json').is_file()
             ended = closed or (root/'STOP').exists() or time.time()>=config['deadline']
             while exposed<len(rows):
                 pending = len(rows)-exposed
@@ -163,11 +278,13 @@ def run(root, config, probe):
                     floor = max(50*1024**3,int(.15*disk.total))+8*1024**3
                     if disk.free<floor+config['inflight_reserve_bytes']+needed:
                         break
-                latest = freeze(root,prefix,population,manifest,proof,hashes,registry,rows[:exposed+4])
+                latest = freeze(root,prefix,population,manifest,proof,hashes,registry,rows[:exposed+4],
+                                authority=authority if cold else None,retained=retained)
                 exposed = latest['count']-contract.PREFIX_COUNT
             status = dict(epoch=time.time(),pid=os.getpid(),paid_TRAIN=paid,new_admitted=len(rows),
                           sealed_new_members=exposed,producer_closed=closed,probe_only=probe,
-                          source=contract.PRODUCER_SOURCE,latest=latest,new_training_visits=0)
+                          source=authority['source'] if cold else contract.PRODUCER_SOURCE,
+                          latest=latest,new_training_visits=0)
             write(root/'HEARTBEAT.json',status)
             if ended or probe:
                 write_once(root/'TERMINAL.json',status)

@@ -69,7 +69,7 @@ def handoff(base, core_pin, stage_pin, previous_key):
     key = stage['key']
     seal = stage['seal']
     if (not re.fullmatch(r'TRAIN-[0-9]{3}', key) or not re.fullmatch(r'TRAIN-[0-9]{3}', previous_key)
-            or int(key[6:]) != int(previous_key[6:])+4
+            or not 1 <= int(key[6:])-int(previous_key[6:]) <= 4
             or core['status'] != 'CORE_REAL_READER_PASS' or core['probe_only']
             or any(core[key] for key in ('updates','native_requests','model_generations'))
             or stage['status'] != 'HOPPER_STAGED_READER_REQUIRED'

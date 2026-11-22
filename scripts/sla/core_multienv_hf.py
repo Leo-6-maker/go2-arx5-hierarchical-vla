@@ -20,6 +20,7 @@ from scripts.sla.hopper_snapshot_relay import verified
 
 LANE = 'multienv-snapshots-v1'
 SCHEMA = 'SLA_CORE_MULTIENV_PUBLIC_TRAIN_INDEX_V1'
+COLD_SCHEMA = 'SLA_CORE_MULTIENV_PUBLIC_TRAIN_INDEX_V2'
 NEW_EP = re.compile(r'MEV1-TRAIN-F[12]-(?:NEAR|FAR)_(?:NEG|POS)-\d{2}-(?:HOLD-(?:red|blue)|PLACE-(?:red|blue)-(?:left|right))/(?:LABELS|frames-\d{3})\.npz')
 
 
@@ -41,12 +42,15 @@ def public_path(key, name, sha):
 def full_index(folder, count, population, seal_sha):
     seal, _, sizes = verified(folder,population,seal_sha)
     proof = read(folder/'ACTUAL.private.json')
-    if (proof.get('schema')!=contract.SCHEMA or seal['count']!=count
+    if (proof.get('schema') not in contract.JOINED_SCHEMAS or seal['count']!=count
             or contract.fingerprint(proof['registered_producer'])!=contract.ALLOWED_REGISTRY):
         raise ValueError('An authorized new TRAIN union is required')
-    return dict(schema=SCHEMA,plan=contract.PLAN,key=f'TRAIN-{count:03d}',count=count,
-                windows=seal['windows'],seal=seal_sha,registry=contract.ALLOWED_REGISTRY,
-                files={n:digest(folder/n) for n in sizes})
+    index = dict(schema=SCHEMA,plan=contract.PLAN,key=f'TRAIN-{count:03d}',count=count,
+                 windows=seal['windows'],seal=seal_sha,registry=contract.ALLOWED_REGISTRY,
+                 files={n:digest(folder/n) for n in sizes})
+    if proof['schema']==contract.COLD_SCHEMA:
+        index.update(schema=COLD_SCHEMA,cold_authority=contract.fingerprint(proof['cold_continuation']))
+    return index
 
 
 def publish(root, catalog, population, api, head):
@@ -109,7 +113,9 @@ def stage(root, population, api, revision):
             continue
         p = f'{LANE}/{key}/INDEX.json'
         idx = read(download(p,revision,root/'cache'))
-        if (idx['schema']!=SCHEMA or idx['plan']!=contract.PLAN or idx['registry']!=contract.ALLOWED_REGISTRY
+        supported = ((idx['schema']==SCHEMA and 'cold_authority' not in idx)
+                     or (idx['schema']==COLD_SCHEMA and idx['cold_authority'] in contract.COLD_AUTHORITIES))
+        if (not supported or idx['plan']!=contract.PLAN or idx['registry']!=contract.ALLOWED_REGISTRY
                 or idx['key']!=key or idx['count']!=int(key[6:])
                 or not META<=idx['files'].keys() or idx['files']['SEALED.private.json']!=idx['seal']):
             raise ValueError('Wave A exchange index identity differs')

@@ -33,7 +33,7 @@ def verified(folder, population, seal_sha, flush=False):
     episodes, cases, hashes = manifest['episodes'], proof['cases'], seal['episode_sha256']
     from scripts.sla import core_multienv_train as multienv
 
-    joined = proof.get('schema') == multienv.SCHEMA
+    joined = proof.get('schema') in multienv.JOINED_SCHEMAS
     if joined:
         additions = multienv.admitted_cards(proof,episodes,hashes)
         if cards.keys() & additions.keys():
