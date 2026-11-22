@@ -1224,6 +1224,152 @@
     },
     "PBS_jobs": 2,
     "actual_updates": 0,
+    "cold_repair_actual": {
+      "A_final": {
+        "checkpoint_sha256": "fb0943fded0026f21d4dddcb19b9d89bbd5e4957b625138b38eb63f4ca591424",
+        "exact_arrays": 140,
+        "exit": 0,
+        "full_H40": 2000,
+        "result_sha256": "d24edb050ee9691c0d4d560101ffacc488a4c9a6a62409fda2aa38fb413b6684",
+        "updates": 500,
+        "visits": {
+          "libero": 16000,
+          "robodojo": 16000,
+          "target": 32000
+        }
+      },
+      "B_midpoint": {
+        "absolute_phase": 4050,
+        "arm": "B",
+        "bytes": 5547608728,
+        "counts": {
+          "libero": 6550,
+          "robodojo": 6550,
+          "shared": 6550,
+          "target": 6550
+        },
+        "job": "728996.hopper-m-02",
+        "members": {
+          "RNG": 1,
+          "optimizer": 94,
+          "parameters": 45
+        },
+        "new_generation_count": 0,
+        "new_native_count": 0,
+        "new_update_count": 0,
+        "observed_epoch": 1795353434.0194907,
+        "parent": "502d890d3ff314ac42f4c79c360942b9b626bf1fcc4b6fc488fbab15ba508361",
+        "relative_optimization_updates": 250,
+        "seconds": 10.079017139039934,
+        "sha256": "ec22da546796cdf0d9f9926b3db7457f7780baced382117f436e346edb3af6c1",
+        "status": "REAL_MIDPOINT_ARRAYS_READ_BACK",
+        "verified_arrays": 140
+      },
+      "actual_pair": {
+        "actual_A_auxiliary": 1000,
+        "actual_A_visits": {
+          "libero": 8000,
+          "robodojo": 8000,
+          "target": 16000
+        },
+        "actual_B_auxiliary": 1000,
+        "actual_B_updates": 250,
+        "arms": {
+          "A": "728992.hopper-m-02",
+          "B": "728996.hopper-m-02"
+        },
+        "counts": {
+          "A_actual": {
+            "FIRST_REQUEST_AFTER_GRASP": {
+              "episodes": 5,
+              "updates_with_hit": 5,
+              "visits": 5
+            },
+            "GRASP_TO_LIFT20": {
+              "episodes": 21,
+              "updates_with_hit": 35,
+              "visits": 41
+            },
+            "P10_CLOSE_CROSSING": {
+              "episodes": 48,
+              "updates_with_hit": 131,
+              "visits": 170
+            }
+          },
+          "B_actual": {
+            "FIRST_REQUEST_AFTER_GRASP": {
+              "episodes": 36,
+              "updates_with_hit": 70,
+              "visits": 70
+            },
+            "GRASP_TO_LIFT20": {
+              "episodes": 40,
+              "updates_with_hit": 91,
+              "visits": 95
+            },
+            "P10_CLOSE_CROSSING": {
+              "episodes": 56,
+              "updates_with_hit": 250,
+              "visits": 371
+            }
+          },
+          "FM_same_bank": {
+            "FIRST_REQUEST_AFTER_GRASP": {
+              "episodes": 38,
+              "updates_with_hit": 71,
+              "visits": 81
+            },
+            "GRASP_TO_LIFT20": {
+              "episodes": 52,
+              "updates_with_hit": 231,
+              "visits": 628
+            },
+            "P10_CLOSE_CROSSING": {
+              "episodes": 58,
+              "updates_with_hit": 250,
+              "visits": 2513
+            }
+          }
+        },
+        "matched_domain_slices": 750,
+        "native_requests": 0,
+        "new_updates_created": 0,
+        "parent": "502d890d3ff314ac42f4c79c360942b9b626bf1fcc4b6fc488fbab15ba508361",
+        "selection_sha256": "d327723706f8e926dd86252abcf0dfea4acb24940b87a67a9260014c0fcc80c3",
+        "slot_substitutions_histogram": {
+          "0": 27,
+          "1": 163,
+          "2": 60
+        },
+        "status": "A_AND_B_ACTUAL_FIRST_250_MATCHED_VISITS",
+        "target_manifest": "e0c5c481a95972e4ba5c9b712e1c3a1240d462ad28222a2c0e041e307fb42278",
+        "verified_A_updates": 250
+      },
+      "eval": {
+        "budget": 80,
+        "generations": 0,
+        "invocation": "17b08a6bd70148f8a82f38e0bb1a15f1",
+        "linger": true,
+        "models_delivered": 0,
+        "numeric_binding": "72d6d5d8eb6647f170aa7f215dfb323a9efb82015d770ec51768acafbc1d31c1",
+        "old_terminal_sha256": "ccdf44ec745ed0fdff1cdfdb615a5d84dbf45cdd64e3e0faeb99c552e208beb3",
+        "pid": 3912500,
+        "preflight": "87d69770261feda09f8af6ea2287e0383b7e984309887e1670d730d3881f97cd",
+        "source": "995c4c8fa63cd24322d711c5dbe7b0d1323ae061",
+        "spec_sha256": "348f16c8f70a910a0294d85eb22f37ec7d65a2ac5c121b4c969310d7acc65fec",
+        "unit": "wm02-sla-main3800-core-ab-event-eval-20261122-02.service"
+      },
+      "native": {
+        "invocation": "2fd4f22a186f4f3b87ff33a7d58d29d3",
+        "linger": true,
+        "native_actual": 0,
+        "native_cap": 12,
+        "pid": 3916214,
+        "source": "e03e9bae427f27c3249d635e3c144d461b7b016e",
+        "spec_sha256": "902313b031c641decc79ac1356594195aa9237c9011fe6770770f9163449f613",
+        "unit": "wm02-sla-main3800-cross-layout-ab-20261122-01.service"
+      }
+    },
     "core_pair_event_queue": {
       "actual_generations": 0,
       "deadline_epoch": 1795381538.4120803,
