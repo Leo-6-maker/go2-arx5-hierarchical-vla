@@ -9,6 +9,7 @@ from scripts.sla.core_multienv_scope import PLAN, SCOPE
 
 GIB = 1024**3
 LOCAL_CASE_RESERVE = GIB
+LIVE_CONTROL = 'CORELAB_MULTIENV_V1_TMPFS_CONTROL_WITH_NFS_JOURNAL'
 
 
 def payload_volume(control, storage):
@@ -44,9 +45,7 @@ def capacity(control, storage, limits):
     return dict(passed=local['passed'] and payload['passed'], local=local, payload=payload)
 
 
-def create_output(case, local):
-    """Create the raw directory before startup, keeping the registry and UNIX sockets local."""
-    storage = case['multienv_payload_storage']
+def case_volume(case, local):
     folder = Path(case['registered_root'])
     campaign = Path(case['campaign_root'])
     condition = case['panel_entry_id']
@@ -54,10 +53,26 @@ def create_output(case, local):
             or case['hardware_connections_allowed'] is not False or folder != campaign/'cases'/condition
             or folder.name != condition or local != folder/'native-01'):
         raise PermissionError('Payload storage is limited to one registered Core expert case')
-    root = payload_volume(folder, storage)
+    return payload_volume(folder, case['multienv_payload_storage'])/condition
+
+
+def validate_live_control(case, local):
+    """Allow the existing bounded live files on tmpfs; keep the raw path on NFS."""
+    storage = case['multienv_payload_storage']
+    target = case_volume(case, local)
+    if (storage['live_control'] != LIVE_CONTROL or not local.is_symlink()
+            or local.readlink() != target or target.resolve(strict=True) != target
+            or not target.is_dir() or target.stat().st_uid != os.getuid()):
+        raise PermissionError('Expected the registered private Wave A NFS raw output')
+
+
+def create_output(case, local):
+    """Create the raw directory before startup, keeping the registry and UNIX sockets local."""
+    storage = case['multienv_payload_storage']
+    target = case_volume(case, local)
+    campaign = Path(case['campaign_root'])
     if not capacity(campaign, storage, case['multienv'])['passed']:
         raise PermissionError('Both payload and local control volume reserves are required')
-    target = root/condition
     if os.path.lexists(local) or os.path.lexists(target):
         raise FileExistsError('The raw payload identity already exists')
     target.mkdir(mode=0o700)

@@ -1,0 +1,174 @@
+{
+  "plan": "4fe2c8cf1b69c168b2e3079e061bb7c702089cd3",
+  "runtime_preimage": "34bf59e34b68d46235d7f89e8cd4fb32d3a4c486acdf1d694e27a5e2e14c5a0d",
+  "status": "TMPFS_CONTROL_NFS_RAW_PASS_WITH_CLOSED_NATIVE_BYTES",
+  "native_requests": 0,
+  "native_ticks": 0,
+  "model_generations": 0,
+  "wall_s": 19.543984071351588,
+  "finished_epoch": 1795310435.9940393,
+  "archive_seconds": 5.440797010436654,
+  "actual_closed_reference_ticks": 36453,
+  "actual_journal_rows": 36453,
+  "trace": "RECORDED_TRACE_CHECKS_PASS",
+  "files": {
+    "state.bin": {
+      "expected": "361167f973f0f913d16885f3bc6d07b88377551ba4496b96910deb39e75b54bd",
+      "size": 2752,
+      "live_device": 29,
+      "after": {
+        "hash": "361167f973f0f913d16885f3bc6d07b88377551ba4496b96910deb39e75b54bd",
+        "size": 2752,
+        "device": 112,
+        "regular": true
+      }
+    },
+    "pause_ack.json": {
+      "expected": "b67d63dbc238a90018f9cb42375a18e5875389c068aa9472519bbeecabe7509d",
+      "size": 179,
+      "live_device": 29,
+      "after": {
+        "hash": "b67d63dbc238a90018f9cb42375a18e5875389c068aa9472519bbeecabe7509d",
+        "size": 179,
+        "device": 112,
+        "regular": true
+      }
+    },
+    "step_quota": {
+      "expected": "fc9c57c77fbc9bfa8308ae36514ec5eebc950d9c034caf3e87c708d735a71d0c",
+      "size": 6,
+      "live_device": 29,
+      "after": {
+        "hash": "fc9c57c77fbc9bfa8308ae36514ec5eebc950d9c034caf3e87c708d735a71d0c",
+        "size": 6,
+        "device": 112,
+        "regular": true
+      }
+    },
+    "quota.binding": {
+      "expected": "fe5fcd523fa0f0de319b94d0d32a91bacd1518a5f563088d9bee2f2f6eaf58fa",
+      "size": 107,
+      "live_device": 29,
+      "after": {
+        "hash": "fe5fcd523fa0f0de319b94d0d32a91bacd1518a5f563088d9bee2f2f6eaf58fa",
+        "size": 107,
+        "device": 112,
+        "regular": true
+      }
+    },
+    "gripper.bin": {
+      "expected": "f96f5c52f00263595d9b0a543138948ced80823f445879ce32de7af5f347d39f",
+      "size": 40,
+      "live_device": 29,
+      "after": {
+        "hash": "f96f5c52f00263595d9b0a543138948ced80823f445879ce32de7af5f347d39f",
+        "size": 40,
+        "device": 112,
+        "regular": true
+      }
+    },
+    "init.trace": {
+      "expected": "440f7b2170d9a605ebe66b2a30494993d8cfd357339d02d23fac8e10e71fe173",
+      "size": 234705256,
+      "live_device": 29,
+      "after": {
+        "hash": "440f7b2170d9a605ebe66b2a30494993d8cfd357339d02d23fac8e10e71fe173",
+        "size": 234705256,
+        "device": 112,
+        "regular": true
+      }
+    },
+    "init.trace.snapshots": {
+      "expected": "b19f1d59ab712f0ac4753818a0da0bc294dd2b990462c9cb97e7a3ebd109626b",
+      "size": 38647600,
+      "live_device": 29,
+      "after": {
+        "hash": "b19f1d59ab712f0ac4753818a0da0bc294dd2b990462c9cb97e7a3ebd109626b",
+        "size": 38647600,
+        "device": 112,
+        "regular": true
+      }
+    },
+    "init.trace.summary": {
+      "expected": "0092d2733ac57958fd1b861624c7781ff458a77a3a9b2d1c534150acb772278e",
+      "size": 100,
+      "live_device": 29,
+      "after": {
+        "hash": "0092d2733ac57958fd1b861624c7781ff458a77a3a9b2d1c534150acb772278e",
+        "size": 100,
+        "device": 112,
+        "regular": true
+      }
+    },
+    "trace_seal_request": {
+      "expected": "740000cd66c19ad18befffe93739577eafa4bb60e0d9df9ba2c128a8aabcec5c",
+      "size": 48,
+      "live_device": 29,
+      "after": {
+        "hash": "740000cd66c19ad18befffe93739577eafa4bb60e0d9df9ba2c128a8aabcec5c",
+        "size": 48,
+        "device": 112,
+        "regular": true
+      }
+    },
+    "state.bin.journal": {
+      "expected": "32e5bf3c7c2aa54e449e7cc1dd8f91629465ffbb94d4afaee0b4c0dfb75c1569",
+      "size": 109999988,
+      "live_device": 112,
+      "after": {
+        "hash": "32e5bf3c7c2aa54e449e7cc1dd8f91629465ffbb94d4afaee0b4c0dfb75c1569",
+        "size": 109999988,
+        "device": 112,
+        "regular": true
+      }
+    }
+  },
+  "nfs_device": 112,
+  "tmpfs_device": 29,
+  "legacy_default_unchanged": true,
+  "plain_bound": {
+    "wait": 20,
+    "wall_limit_s": 1800
+  },
+  "reject_invalid_mode": true,
+  "reject_owned_process_open": true,
+  "source_hashes": {
+    "scripts/sla/core_multienv_payload.py": "a08a731f48665cac3362a82f865103c81cfc7a38e6d96799432d3c0e3b955aae",
+    "src/go2arx5_vla/world_model/native_live_control_v3.py": "b9bb0bb078c31c672b33b2545ae41313b92c166fa3ef501a0c924144041c4384"
+  },
+  "independent_readback": {
+    "epoch": 1795310472.5410256,
+    "readback": true,
+    "files": {
+      "state.bin": 2752,
+      "pause_ack.json": 179,
+      "step_quota": 6,
+      "quota.binding": 107,
+      "gripper.bin": 40,
+      "init.trace": 234705256,
+      "init.trace.snapshots": 38647600,
+      "init.trace.summary": 100,
+      "trace_seal_request": 48,
+      "state.bin.journal": 109999988
+    },
+    "bytes": 383356076,
+    "result_sha256": "d434dfece4d3fbc23596da7d86a4ff0790d49429850515fb6f3fa386012f3141",
+    "bytes_left_on_tmpfs": 0,
+    "native_requests": 0
+  },
+  "production": {
+    "status": "UNMODIFIED_ACTIVE",
+    "current": {
+      "step": 7048,
+      "sim_time_s": 14.096000000001377,
+      "kind": "sample",
+      "condition": "MEV1-TRAIN-F2-NEAR_NEG-01-PLACE-blue-left"
+    },
+    "closed": 23,
+    "admitted": 10,
+    "new_train_visits": 0
+  },
+  "new_pbs_jobs": 0,
+  "control_physical_qualification": "NOT_RUN",
+  "first_probe_failure": "NamespacePath has no insert; exited before creating any NFS output"
+}
