@@ -710,6 +710,28 @@
       "new_requests": 0,
       "synthetic_wrong_checkpoint_refused": true
     },
+    "main_unit": {
+      "cgroup_confirmed": true,
+      "config_sha256": "15ff5e2eaf9b484cac36c93ab1177beb4fdfbe790fe9a8dab910312a3143671b",
+      "deadline_epoch": 1795891948,
+      "first_observed_heartbeat_epoch": 1795343214.7894804,
+      "heartbeat_epoch": 1795343234.8045144,
+      "invocation_id": "7656393c4d1245f19c646ee1545b3361",
+      "linger": true,
+      "native_requests": 0,
+      "pid": 3641466,
+      "preflight_inference_arrays_per_arm": 29,
+      "prerequisite_spec_sha256": "99707b222b362f0a76ddef9bcf5fe069c56db07f780ab801ee94d5b08b8d93c4",
+      "registry_unstarted_case_ids": 12,
+      "request_cap": 12,
+      "source": "71c5b17753171f76ef5451afd9b472ba1e01b6fa",
+      "source_seal_sha256": "4e33b15ffbcd897a3ab963d85be29088c71b283349fbc0dbdc2eb3c98a708d8d",
+      "status": "WAIT_OFFLINE_TERMINAL",
+      "unit": "wm02-sla-main3800-cross-layout-main-20261122-01.service",
+      "updates": 0,
+      "visits": 0,
+      "world_handoff_marker_owned": false
+    },
     "new_native_requests": 0,
     "query_cap_per_arm": 960,
     "sha256": "146a13948b2c08b9d27684ad9ba0dc834fef6eaf74099132b70894adce49e978",
@@ -764,8 +786,8 @@
     },
     "latest_resource_observation": {
       "attempts": 0,
-      "available_GiB": 23.41419219970703,
-      "epoch": 1795342934.2497406,
+      "available_GiB": 22.502971649169922,
+      "epoch": 1795343204.6999815,
       "generations": 0,
       "status": "WAIT_ORIGINAL_RESOURCES"
     },
@@ -1027,16 +1049,16 @@
     },
     "latest_durable_live_observation": {
       "A": {
-        "auxiliary_full_H40": 304,
+        "auxiliary_full_H40": 368,
         "inflight": [
-          3877
+          3893
         ],
-        "phase": 3876,
-        "updates": 76,
+        "phase": 3892,
+        "updates": 92,
         "visits": {
-          "libero": 2432,
-          "robodojo": 2432,
-          "target": 4864
+          "libero": 2944,
+          "robodojo": 2944,
+          "target": 5888
         }
       },
       "B": {
@@ -1050,7 +1072,7 @@
           "target": 0
         }
       },
-      "epoch": 1795342963.2130783,
+      "epoch": 1795343214.9211419,
       "native_requests": 0
     },
     "observed_training_visits": 0,
