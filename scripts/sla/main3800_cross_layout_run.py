@@ -82,6 +82,13 @@ def coordinate(root,cfg):
                 return
             state('WAIT_OFFLINE_TERMINAL',offline_config=(pending or cfg['offline_config'])['sha256'])
             time.sleep(20)
+        terminal_pin = pin(offline_terminal)
+        if cfg.get('offline_terminal',terminal_pin) != terminal_pin:
+            raise ValueError('The fixed offline result changed')
+        if pinned(terminal_pin)['status'] != 'COMPLETE':
+            write_once(root/'TERMINAL.json',dict(status='OFFLINE_PREREQUISITE_UNAVAILABLE',offline=terminal_pin,
+                       native_requests=0,updates=0,visits=0,epoch=time.time()))
+            return
         if pending is not None:
             evaluated = pin(offline_root/'CONFIG.json')
             verdict = pinned(evaluated)
@@ -89,9 +96,6 @@ def coordinate(root,cfg):
             if verdict != offline or Path(export['path']) != Path(wait['delivery'])/'EXPORT.json':
                 raise ValueError('The released A/B evaluation changed its fixed input or delivery')
             cfg['offline_config'] = evaluated
-        terminal_pin = pin(offline_terminal)
-        if cfg.get('offline_terminal',terminal_pin) != terminal_pin:
-            raise ValueError('The fixed offline result changed')
         cfg['offline_terminal'] = terminal_pin
         proofs = {arm:publish(root/f'{arm}.proof.json',cfg,arm) for arm in arms}
         totals = {}
