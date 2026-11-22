@@ -60,10 +60,18 @@ def coordinate(root,cfg):
         require_unstarted_cases(expert['registry'],cases)
         write_once(root/'OWNER.json',dict(pid=os.getpid(),invocation=os.environ['INVOCATION_ID'],deadline=deadline,
                    arms=arms,request_cap=len(cases),updates=0))
-        offline = pinned(cfg['offline_config'])
+        pending = cfg.get('offline_wait')
+        if pending is None:
+            offline = pinned(cfg['offline_config'])
+            offline_root = Path(cfg['offline_config']['path']).parent
+        else:
+            wait = pinned(pending)
+            offline_root = Path(pending['path']).parent
+            if cfg['cohort'] != 'auxiliary' or Path(wait['root']) != offline_root:
+                raise ValueError('Expected the registered Core A/B evaluation service')
+            offline = pinned(wait['event_config'])
         if offline['native_config'] != cfg['base_native_config']:
             raise ValueError('The offline prerequisite must use the original Corelab config')
-        offline_root = Path(cfg['offline_config']['path']).parent
         offline_terminal = offline_root/'TERMINAL.json'
         while not offline_terminal.is_file():
             if (offline_root/'REVIEW_REQUIRED.json').is_file():
@@ -72,8 +80,15 @@ def coordinate(root,cfg):
                 write_once(root/'TERMINAL.json',dict(status='OFFLINE_PREREQUISITE_UNAVAILABLE',native_requests=0,
                            updates=0,visits=0,epoch=time.time()))
                 return
-            state('WAIT_OFFLINE_TERMINAL',offline_config=cfg['offline_config']['sha256'])
+            state('WAIT_OFFLINE_TERMINAL',offline_config=(pending or cfg['offline_config'])['sha256'])
             time.sleep(20)
+        if pending is not None:
+            evaluated = pin(offline_root/'CONFIG.json')
+            verdict = pinned(evaluated)
+            export = verdict.pop('auxiliary_export')
+            if verdict != offline or Path(export['path']) != Path(wait['delivery'])/'EXPORT.json':
+                raise ValueError('The released A/B evaluation changed its fixed input or delivery')
+            cfg['offline_config'] = evaluated
         terminal_pin = pin(offline_terminal)
         if cfg.get('offline_terminal',terminal_pin) != terminal_pin:
             raise ValueError('The fixed offline result changed')
