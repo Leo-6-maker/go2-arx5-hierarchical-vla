@@ -194,14 +194,9 @@ def run(spec):
                 stdout=stream, stderr=subprocess.STDOUT, pass_fds=(world.handle.fileno(),))
         progress('NATIVE_RUNNING', child=child.pid, spec=pin(path))
         if storage:
-            from scripts.sla.core_multienv_payload import measure
+            from scripts.sla.core_multienv_n1_storage import wait_for_local_output
 
-            while child.poll() is None:
-                try:
-                    child.wait(timeout=2)
-                except subprocess.TimeoutExpired:
-                    if not measure(folder,spec['multienv']['snapshot_reserve_bytes'])['passed'] and not (folder/'STOP.json').exists():
-                        write(folder/'STOP.json',dict(reason='N1_LOCAL_RAW_RESERVE_CONSUMED',epoch=time.time()))
+            wait_for_local_output(child,folder,spec['multienv'])
         else:
             child.wait()
         return dict(spec=pin(path), result=pin(folder/'RESULT.private.json'), exit_code=child.returncode)

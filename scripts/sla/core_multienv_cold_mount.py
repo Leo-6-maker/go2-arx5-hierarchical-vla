@@ -32,11 +32,13 @@ def prepare(config):
     old = Path(original['registered_root'])
     closure = read_pin(config['source_members'])
     end = min(original['deadline_epoch'],config['deadline'])
+    chain = config.get('closed_storage_chain')
+    maximum_window = 6*3600 if chain else 3*3600
     if (os.getuid()!=2009 or os.uname().nodename!='corelab-4080s' or root.exists()
             or not root.name.startswith('sla-core-multienv-wave-a-cold-') or root.parent.stat().st_uid!=os.getuid()
             or config['original']['sha256']!=PRODUCER_SPEC or terminal['status']!='FINAL_ORIGINAL_TRAIN_SEALED'
             or sealed['count']!=expected['count'] or sealed['count']!=69 or sealed['windows']!=6081
-            or end-time.time() < 3600 or end-time.time() > 3*3600
+            or end-time.time() < 3600 or end-time.time() > maximum_window
             or not re.fullmatch('[0-9a-f]{40}',config['source_sha'])
             or set(original['source_files'])-closure.keys()
             or any(digest(source/name)!=d for name,d in closure.items())):
@@ -44,8 +46,8 @@ def prepare(config):
     if subprocess.check_output(['loginctl','show-user','2009','-p','Linger'],text=True).strip()!='Linger=yes':
         raise PermissionError('Core user service persistence is required')
     prior_timeout = config.get('closed_storage_predecessor')
-    maximum = 1 if prior_timeout else 2
-    if len(config['conditions'])!=maximum:
+    maximum = len(config['conditions']) if chain else 1 if prior_timeout else 2
+    if len(config['conditions'])!=maximum or not 1 <= maximum <= 12:
         raise ValueError('Only the bounded original conditions can be staged')
     spec = dict(original,source_sha=config['source_sha'],source_root=str(source),source_files=closure,
         source_seal=hashlib.sha256(json.dumps(closure,sort_keys=True).encode()).hexdigest(),registered_root=str(root),
@@ -56,10 +58,24 @@ def prepare(config):
                                    conditions=config['conditions']))
     if prior_timeout:
         spec['multienv_cold_handoff']['closed_storage_predecessor'] = prior_timeout
+    if chain:
+        spec['multienv_cold_handoff']['closed_storage_chain'] = chain
+        spec['multienv_local_archive'] = True
     ledger = closed_handoff(spec)
-    if terminal['paid_TRAIN']+int(prior_timeout is not None)!=ledger['paid_train']:
+    if terminal['paid_TRAIN']+(3 if chain else int(prior_timeout is not None))!=ledger['paid_train']:
         raise ValueError('Original ledger and final TRAIN catalog disagree')
-    if not capacity(root.parent,config['payload_storage'],original['multienv'])['passed']:
+    if chain:
+        from scripts.sla.core_multienv_n1_storage import capacity as archive_capacity
+        from scripts.sla.core_multienv_payload import measure
+
+        reserved = archive_capacity(root.parent,config['payload_storage'],original['multienv'])
+        # A waiting owner uses the small local parent reserve. Actual acquisition
+        # still requires both raw and archive reserves under the world lock.
+        can_register = reserved['payload']['passed'] and measure(root.parent,original['multienv']['snapshot_reserve_bytes'])['passed']
+    else:
+        reserved = capacity(root.parent,config['payload_storage'],original['multienv'])
+        can_register = reserved['passed']
+    if not can_register:
         raise PermissionError('Paired local and NFS disk reserves are insufficient')
     payload = payload_volume(root.parent,config['payload_storage'])
     admission = payload/'_admission'
@@ -89,15 +105,18 @@ def prepare(config):
         row=shaped[cid]
         folder, case = case_card(spec,templates[row['family']],cards[cid],spec['registered_panel'])
         case.update(registry_scope=spec['scope'],collection_split=row['split'],compiled_population=spec['compiled_population'],
-            expert_training_eligible=True,multienv=spec['multienv'],multienv_payload_storage=spec['multienv_payload_storage'],
+            expert_training_eligible=row['split']=='TRAIN',multienv=spec['multienv'],
             allocation_deadline_epoch=min(end,time.time()+2160),deadline_epoch=min(end,time.time()+2160)-60)
+        if not chain:
+            case['multienv_payload_storage'] = spec['multienv_payload_storage']
         validate(case)
         cases.append(str(folder/'EXECUTION_SPEC.json'))
     spec['cases']=cases
     require_unstarted_cases(spec['registry'],set(config['conditions']))
     register(spec,[(root,spec)])
     write(root/'PREFLIGHT.private.json',dict(plan=PLAN,previous=ledger['original_records_sha256'],first=config['conditions'],
-        baseline=expected['sha256'],native_requests=0,maximum_new_requests=maximum,source_sha=spec['source_sha']))
+        baseline=expected['sha256'],native_requests=0,maximum_new_requests=maximum,source_sha=spec['source_sha'],
+        reserved=reserved))
     return launch_service(spec,'wm02-'+root.name,'--core-hopper-collection',bootstrap='v6_bootstrap.py')
 
 

@@ -72,6 +72,7 @@ def run(spec):
     not_started = {}
     multienv=spec.get('multienv')
     storage=spec.get('multienv_payload_storage')
+    local_archive=spec.get('multienv_local_archive')
     if storage and not multienv:
         raise PermissionError('Split payload storage is restricted to the PR425 collector')
     continuation=spec.get('multienv_cold_handoff')
@@ -89,6 +90,8 @@ def run(spec):
             streak[row['family'],row['instruction']]=signature,row['count']
     else:
         already_paid=set()
+    if local_archive:
+        from scripts.sla.core_multienv_n1_storage import archive, capacity as local_capacity, wait_for_local_output
     if multienv:
         from scripts.sla import core_multienv_scope as me
     repair=spec.get('carry_repair')
@@ -109,7 +112,7 @@ def run(spec):
                      if x.startswith('MemAvailable:')))*1024
         if storage:
             from scripts.sla.core_multienv_payload import capacity as payload_capacity
-            volumes=payload_capacity(root,storage,multienv)
+            volumes=(local_capacity if local_archive else payload_capacity)(root,storage,multienv)
             write(root/'CAPACITY.private.json',dict(volumes=volumes,available_host_memory=mem,
                   min_host_memory=13*1024**3,epoch=time.time()))
             return volumes['passed'] and mem>=13*1024**3
@@ -134,7 +137,7 @@ def run(spec):
         case.update(registry_scope=spec['scope'],collection_split=row['split'],compiled_population=spec['compiled_population'],
                     expert_training_eligible=row['split']=='TRAIN',site_world_lease=pin(site_lease),
                     allocation_deadline_epoch=lease_end,deadline_epoch=lease_end-60)
-        if storage:
+        if storage and not local_archive:
             case.update(multienv_payload_storage=storage,multienv=multienv)
         if repair:
             case['carry_repair']=repair
@@ -149,7 +152,10 @@ def run(spec):
             child=subprocess.Popen(command,cwd=spec['source_root'],env=dict(os.environ,**case['native_environment']),
                 stdout=stream,stderr=subprocess.STDOUT,pass_fds=(world.handle.fileno(),))
         write(root/'CURRENT_CASE.private.json',dict(id=row['id'],pid=child.pid,epoch=time.time(),spec=pin(path)))
-        child.wait()
+        if local_archive:
+            wait_for_local_output(child,folder,multienv)
+        else:
+            child.wait()
         result=folder/'RESULT.private.json'
         if not result.is_file():
             raise RuntimeError('Child exited without terminal evidence: '+row['id'])
@@ -207,6 +213,13 @@ def run(spec):
                 state('DISPATCH')
                 receipt=journal.once(row['id'],dict(condition=row['id'],population=spec['compiled_population']['sha256'],
                                      source=spec['source_sha']),lambda:run_one(row,world))
+                archive_error = None
+                if local_archive:
+                    path = Path(receipt['spec']['path']).parent
+                    try:
+                        archive(path,storage,multienv)
+                    except (OSError,ValueError) as error:
+                        archive_error = error
             finally:
                 world.close()
             case,native=read_pin(receipt['spec']),read_pin(receipt['result'])
@@ -220,7 +233,11 @@ def run(spec):
                      hard_STOP=outcome['hard_STOP'],post_STOP_ticks=outcome['integrations_after_STOP'],
                      first_failure=reason(outcome,native),admitted=False)
             records.append(rec)
+            if local_archive and archive_error is None:
+                rec['archive'] = pin(Path(case['registered_root'])/'ARCHIVE.private.json')
             write(root/'RECORDS.private.json',records)
+            if archive_error is not None:
+                raise RuntimeError('Retain the paid case after its archive failure: '+row['id']) from archive_error
             if (rec['requests'] != 1 or rec['ticks'] > row['native_max_ticks'] or fatal_control_violation(outcome)
                     or (outcome['hard_STOP'] and rec['post_STOP_ticks'] != 0) or outcome['technical_failure']):
                 raise RuntimeError('Preserve terminal for technical or control review: '+row['id'])

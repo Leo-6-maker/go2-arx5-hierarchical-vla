@@ -4,6 +4,8 @@ import json
 import os
 from pathlib import Path
 import shutil
+import subprocess
+import time
 
 from go2arx5_vla.world_model.storage import digest
 from scripts.pi0292.durable import write
@@ -16,6 +18,16 @@ def capacity(control, storage, limits):
     local = measure(control, trajectory + limits['snapshot_reserve_bytes'])
     payload = measure(target, trajectory + limits['transfer_reserve_bytes'])
     return dict(passed=local['passed'] and payload['passed'], local=local, payload=payload)
+
+
+def wait_for_local_output(child, folder, limits):
+    stop = folder/'STOP.json'
+    while child.poll() is None:
+        try:
+            child.wait(timeout=2)
+        except subprocess.TimeoutExpired:
+            if not stop.exists() and not measure(folder,limits['snapshot_reserve_bytes'])['passed']:
+                write(stop,dict(reason='LOCAL_NATIVE_RAW_RESERVE_CONSUMED',epoch=time.time()))
 
 
 def inventory(root):

@@ -131,7 +131,7 @@ def freeze(root, prefix, population, manifest, proof, hashes, registry, rows, au
 
 def cold_catalog(config, producer, cards, registry, prior, population):
     from scripts.sla.core_multienv_scope import order
-    from scripts.sla.core_multienv_wave_suffix import closed_storage_timeout, suffix
+    from scripts.sla.core_multienv_wave_suffix import closed_storage_chain, closed_storage_timeout, suffix
 
     config = config['cold']
     pin = config['producer']
@@ -155,14 +155,18 @@ def cold_catalog(config, producer, cards, registry, prior, population):
             or lease['owner']!=original['owner']):
         raise PermissionError('Expected an actual closed Wave A predecessor and registered continuation')
     retained = terminal['records']
-    timeout = None
+    settled = []
+    if 'closed_storage_chain' in handoff:
+        if spec.get('multienv_local_archive') is not True or 'closed_storage_predecessor' in handoff:
+            raise ValueError('Expected a distinct local archive continuation after the paid technical stops')
+        settled = list(closed_storage_chain(original_pin,handoff['closed_storage_chain']))
     if 'closed_storage_predecessor' in handoff:
         timeout, next_case, deadline = closed_storage_timeout(original_pin,handoff['closed_storage_predecessor'])
         if handoff['conditions'] != [next_case] or spec['deadline_epoch'] > deadline:
             raise ValueError('Cold catalog must preserve the paid storage timeout and site window')
-        retained = [*retained,timeout]
-    roster = suffix(order(pinned(original['compiled_population'])),retained,
-                    storage_timeout=timeout['condition'] if timeout else None)['pending']
+        settled = [timeout]
+    roster = suffix(order(pinned(original['compiled_population'])),retained+settled,
+                    reconciled=[row['condition'] for row in settled])['pending']
     scheduled = handoff['conditions']
     if not scheduled or scheduled!=[r['condition'] for r in roster[:len(scheduled)]]:
         raise ValueError('Cold producer changed the original next conditions')
@@ -179,7 +183,7 @@ def cold_catalog(config, producer, cards, registry, prior, population):
     if Path(before['path']).name!='SEALED.private.json' or seal['episode_sha256'][contract.PREFIX_COUNT:]!=expected:
         raise ValueError('The old collector must seal every original admission before continuing')
     baseline = dict(count=seal['count'],epoch=seal['epoch'],membership=seal['episode_sha256'],path=before['path'])
-    return root, {cid:cards[cid] for cid in authority['conditions']}, authority, baseline, int(timeout is not None)
+    return root, {cid:cards[cid] for cid in authority['conditions']}, authority, baseline, len(settled)
 
 
 def cold_snapshot_bytes(root, prefix, retained, manifest, rows):

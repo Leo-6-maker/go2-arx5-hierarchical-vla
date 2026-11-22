@@ -16,14 +16,16 @@ def read(path):
     return json.loads(path.read_bytes())
 
 
-def suffix(ordered, records, *, storage_timeout=None):
+def suffix(ordered, records, *, storage_timeout=None, reconciled=()):
     """Replay the original family/instruction pause rule in roster order."""
+    technical = set(reconciled) | ({storage_timeout} if storage_timeout else set())
     cursor = 0
     streak, paid, paused, pending, skipped = {}, [], set(), [], []
     for slot, card in enumerate(ordered, 1):
         cid = card['id']
         cell = (card['family'], card['instruction'])
-        if card['split'] == 'TRAIN' and cell in paused:
+        settled = cursor < len(records) and records[cursor]['condition'] == cid and cid in technical
+        if card['split'] == 'TRAIN' and cell in paused and not settled:
             skipped.append(dict(slot=slot, condition=cid, reason='PAUSED_REPEAT_CONTACT_MECHANISM'))
             continue
         if cursor == len(records):
@@ -31,13 +33,13 @@ def suffix(ordered, records, *, storage_timeout=None):
             continue
         stored = records[cursor]
         if (stored['condition'] != cid or stored['split'] != card['split'] or stored['requests'] != 1
-                or not 0 < stored['ticks'] <= card['native_max_ticks']
-                or bool(stored['technical_failure']) != (cid == storage_timeout)
+                or not (0 if settled else 1) <= stored['ticks'] <= card['native_max_ticks']
+                or bool(stored['technical_failure']) != (cid in technical)
                 or (stored['hard_STOP'] and stored['post_STOP_ticks'] != 0)):
             raise ValueError('Original Wave ledger is not an ordered, reconciled prefix: '+cid)
         paid.append(dict(slot=slot, condition=cid, split=card['split'], ticks=stored['ticks'], admitted=stored['admitted']))
         cursor += 1
-        if card['split'] == 'TRAIN' and cid != storage_timeout:
+        if card['split'] == 'TRAIN' and cid not in technical:
             if stored['admitted']:
                 streak.pop(cell, None)
             else:
@@ -59,7 +61,7 @@ def suffix(ordered, records, *, storage_timeout=None):
                 pending_tick_cap=sum(x['max_ticks'] for x in pending))
 
 
-def readback(root, timeout=None):
+def readback(root, timeout=None, *, reconciled=()):
     spec_path = root/'EXECUTION_SPEC.json'
     spec = read(spec_path)
     if (digest(spec_path) != PRODUCER_SPEC or spec['registered_root'] != str(root)
@@ -74,8 +76,8 @@ def readback(root, timeout=None):
         raise RuntimeError('Original Wave A has an unreconciled condition')
     population = read_pin(spec['compiled_population'])
     ordered = order(population)
-    settled = [timeout] if timeout is not None else []
-    manifest = suffix(ordered, records+settled, storage_timeout=timeout['condition'] if timeout is not None else None)
+    settled = [*([timeout] if timeout is not None else []),*reconciled]
+    manifest = suffix(ordered, records+settled, reconciled=[row['condition'] for row in settled])
     allowed = {r['condition'] for r in manifest['pending'] + manifest['paused']}
     require_unstarted_cases(spec['registry'], allowed)
     for r in records:
@@ -146,6 +148,53 @@ def closed_storage_timeout(origin, refs):
     return records, next_case, previous['deadline_epoch']
 
 
+def closed_storage_chain(origin, refs):
+    """Settle the paid 24–26 prefix while retaining both timeouts and the launch failure."""
+    from go2arx5_vla.world_model.mfree_unattended_runtime_v1 import unit_state
+    from .core_multienv_red_hold_pilot import SLOT, SLOT25, SLOT25_SPEC, after_slot25
+
+    wave, pilot = read_pin(refs['wave25']), read_pin(refs['pilot'])
+    handoff = wave['multienv_cold_handoff']
+    if (refs['wave25']['sha256'] != SLOT25_SPEC or handoff['producer'] != origin
+            or handoff['conditions'] != [SLOT25] or pilot['reopen']['slot25'] != refs['wave25']):
+        raise PermissionError('Expected the exact Wave A slot 25 then slot 26 registration')
+    timeout, expected, _ = closed_storage_timeout(origin,handoff['closed_storage_predecessor'])
+    closed = after_slot25(wave,refs['wave25'])
+    last = read_pin(refs['wave25_terminal'])
+    catalog = read_pin(refs['wave25_catalog'])
+    if (expected != SLOT25 or not closed or closed['terminal'] != refs['wave25_terminal']
+            or closed['admitted'] or not last['records'][0]['technical_failure']
+            or not catalog['producer_closed'] or catalog['source'] != wave['source_sha']
+            or catalog['paid_TRAIN'] != 25 or catalog['new_admitted'] != 10
+            or catalog['sealed_new_members'] != 10 or catalog['latest']['count'] != 69):
+        raise PermissionError('The second timeout and its finished catalog must agree on the paid denominator')
+    root = Path(pilot['registered_root'])
+    case = root/'cases'/SLOT
+    terminal = read_pin(refs['pilot_terminal'])
+    result = terminal['result']
+    native = read_pin(result['native'])
+    journal = read(root/'control'/'journal'/(SLOT+'.json'))
+    lease, child_lease = (read(p/'control/LEASE.json') for p in (root,case))
+    state = unit_state('wm02-'+root.name)
+    if (refs['pilot']['sha256'] != '5559d892531efc06e43f98848f70356303744613efc076310416dd2764af6894'
+            or refs['pilot_terminal']['sha256'] != '3ff311fafd9030a329309f4f90e3e01caf9a3ef0ca9d079f2bade1d6e26efe43'
+            or Path(refs['pilot']['path']) != root/'EXECUTION_SPEC.json' or Path(refs['pilot_terminal']['path']) != root/'RESULT.private.json'
+            or state['MainPID'] != '0' or state['ActiveState'] != 'failed' or lease['status'] != 'CLOSED'
+            or lease['spec_sha256'] != refs['pilot']['sha256'] or child_lease['status'] != 'CLOSED'
+            or child_lease['spec_sha256'] != digest(case/'EXECUTION_SPEC.json') or journal['status'] != 'COMPLETE'
+            or journal['result']['native'] != result['native'] or journal['result']['exit'] != child_lease['worker_exit_code']
+            or Path(result['native']['path']) != case/'RESULT.private.json' or terminal['exit_code'] != 1
+            or terminal['condition'] != SLOT or result['admitted'] or terminal['native_requests'] != 1
+            or not native['technical_failure'] or native['unsafe'] or native['physical_requests'] != 1
+            or native['actual_native_integrations'] or native['owned_process_exits']
+            or (case/'native-01'/'physics.jsonl').exists() or (case/'native-01'/'LIVE_CONTROL.private.json').exists()
+            or not native['failure'].strip().endswith('PermissionError: Expected the registered private Wave A NFS raw output')):
+        raise PermissionError('Retain the paid slot 26 launch failure with independently verified zero physics')
+    failed_pilot = dict(condition=SLOT,split='TRAIN',requests=1,ticks=0,technical_failure=True,
+                        hard_STOP=False,post_STOP_ticks=None,admitted=False)
+    return timeout,last['records'][0],failed_pilot
+
+
 def closed_handoff(spec):
     """Verify a cold predecessor terminal before handing an original prefix to a new owner."""
     refs = spec['multienv_cold_handoff']
@@ -174,16 +223,22 @@ def closed_handoff(spec):
         raise PermissionError('Expected a clean predecessor handoff and released original owner')
     cards = refs['conditions']
     timeout = None
+    additional = ()
+    if 'closed_storage_chain' in refs:
+        if spec.get('multienv_local_archive') is not True or 'closed_storage_predecessor' in refs:
+            raise PermissionError('The settled suffix requires the verified local raw path')
+        timeout,*additional = closed_storage_chain(origin,refs['closed_storage_chain'])
     if 'closed_storage_predecessor' in refs:
         from .core_multienv_payload import LIVE_CONTROL
 
         timeout, next_case, deadline = closed_storage_timeout(origin,refs['closed_storage_predecessor'])
         if cards != [next_case] or spec['deadline_epoch'] > deadline or spec['multienv_payload_storage']['live_control'] != LIVE_CONTROL:
             raise PermissionError('Only the unopened second card and original time window can follow the storage timeout')
-    ledger = readback(root,timeout)
+    ledger = readback(root,timeout,reconciled=additional)
+    settled = [*([timeout] if timeout else []),*additional]
     if (not cards or cards != [row['condition'] for row in ledger['pending'][:len(cards)]]
-            or old['paid_requests']+int(timeout is not None) != len(ledger['paid'])
-            or old['verified_ticks']+(timeout['ticks'] if timeout is not None else 0) != ledger['paid_ticks']):
+            or old['paid_requests']+len(settled) != len(ledger['paid'])
+            or old['verified_ticks']+sum(row['ticks'] for row in settled) != ledger['paid_ticks']):
         raise PermissionError('Cold continuation must use the next qualified original conditions')
     return ledger
 
