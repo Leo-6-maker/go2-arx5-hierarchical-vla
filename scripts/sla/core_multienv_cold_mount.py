@@ -1,4 +1,4 @@
-"""Register the first two original Wave A cards with the existing Core owner."""
+"""Register the next original Wave A cards with the existing Core owner."""
 import argparse
 import hashlib
 import json
@@ -43,17 +43,21 @@ def prepare(config):
         raise PermissionError('Expected the final original TRAIN seal, finite Core authority and a complete cold source')
     if subprocess.check_output(['loginctl','show-user','2009','-p','Linger'],text=True).strip()!='Linger=yes':
         raise PermissionError('Core user service persistence is required')
+    prior_timeout = config.get('closed_storage_predecessor')
+    maximum = 1 if prior_timeout else 2
+    if len(config['conditions'])!=maximum:
+        raise ValueError('Only the bounded original conditions can be staged')
     spec = dict(original,source_sha=config['source_sha'],source_root=str(source),source_files=closure,
         source_seal=hashlib.sha256(json.dumps(closure,sort_keys=True).encode()).hexdigest(),registered_root=str(root),
         campaign_root=str(root),mobile_group=str(root),unattended_control=str(root/'control'),
         collection_root=str(root/'admission'),deadline_epoch=end,wall_limit_s=int(end-time.time()),
-        new_physical_requests_budget=2,multienv_payload_storage=config['payload_storage'],
+        new_physical_requests_budget=maximum,multienv_payload_storage=config['payload_storage'],
         multienv_cold_handoff=dict(producer=config['original'],terminal=config['original_terminal'],
                                    conditions=config['conditions']))
-    if len(config['conditions'])!=2:
-        raise ValueError('Only the next two original conditions are staged')
+    if prior_timeout:
+        spec['multienv_cold_handoff']['closed_storage_predecessor'] = prior_timeout
     ledger = closed_handoff(spec)
-    if terminal['paid_TRAIN']!=ledger['paid_train']:
+    if terminal['paid_TRAIN']+int(prior_timeout is not None)!=ledger['paid_train']:
         raise ValueError('Original ledger and final TRAIN catalog disagree')
     if not capacity(root.parent,config['payload_storage'],original['multienv'])['passed']:
         raise PermissionError('Paired local and NFS disk reserves are insufficient')
@@ -93,7 +97,7 @@ def prepare(config):
     require_unstarted_cases(spec['registry'],set(config['conditions']))
     register(spec,[(root,spec)])
     write(root/'PREFLIGHT.private.json',dict(plan=PLAN,previous=ledger['original_records_sha256'],first=config['conditions'],
-        baseline=expected['sha256'],native_requests=0,maximum_new_requests=2,source_sha=spec['source_sha']))
+        baseline=expected['sha256'],native_requests=0,maximum_new_requests=maximum,source_sha=spec['source_sha']))
     return launch_service(spec,'wm02-'+root.name,'--core-hopper-collection',bootstrap='v6_bootstrap.py')
 
 
