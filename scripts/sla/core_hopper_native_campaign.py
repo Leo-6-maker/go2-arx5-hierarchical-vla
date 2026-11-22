@@ -70,7 +70,8 @@ def prepare(cfg, proof_pin, arm, split, start, root, capacity):
     write(af,authority)
     payload = Path(cfg['receiver']['path']).parent/'endpoints'/arm/'payload'
     from scripts.sla.core_main3800_native_proof import EXPLORATORY
-    canonical = proof['status'] in (VERIFIED, EXPLORATORY)
+    from scripts.sla.main3800_cross_layout_proof import STATUS as CROSS_LAYOUT
+    canonical = proof['status'] in (VERIFIED, EXPLORATORY, CROSS_LAYOUT)
     package = proof['package'] if canonical else dict(path=str(payload),sha256=proof['manifest'])
     parent=dict(interface,**locations(root))
     parent.update(owner=authority['owner'],source_sha=cfg['source'],source_root=str(source),source_files=actual,source_seal=cfg['source_seal'],

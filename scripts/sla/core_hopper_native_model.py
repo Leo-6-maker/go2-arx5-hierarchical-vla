@@ -12,6 +12,7 @@ class Pool:
         from scripts.sla.hopper_reference import core_provider
         from scripts.sla.core_canonical_proof import VERIFIED
         from scripts.sla.core_main3800_native_proof import EXPLORATORY, load_manifest
+        from scripts.sla.main3800_cross_layout_proof import STATUS as CROSS_LAYOUT, manifest_for_gate
         from scripts.sla.hopper_site import pinned
         from scripts.sla.hopper_parent_custody import digest
 
@@ -30,9 +31,10 @@ class Pool:
         data = AdaptTargetDataset(source['legacy'],source['captures'],resize_with_pad=resize_with_pad)
         data.bind_state(source['statistics'])
         path = Path(spec['packages'][arm]['path'])
-        if gate['status'] == EXPLORATORY:
+        if gate['status'] in (EXPLORATORY,CROSS_LAYOUT):
             from scripts.sla.hopper_reference import provider_from_manifest
-            manifest = load_manifest(gate['package'], gate['original_package'])
+            manifest = (manifest_for_gate(gate) if gate['status']==CROSS_LAYOUT
+                        else load_manifest(gate['package'],gate['original_package']))
             model = provider_from_manifest(path,manifest,site['model'],data,site['tokenizer']['path'])
         else:
             model, manifest = core_provider(path,gate['manifest'],site['model'],data,site['tokenizer']['path'],

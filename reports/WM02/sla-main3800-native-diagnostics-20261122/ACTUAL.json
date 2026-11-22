@@ -672,6 +672,13 @@
       "F1-G01",
       "F2-G00"
     ],
+    "local_preflight": {
+      "actual_MAIN0_arrays": 29,
+      "actual_MAIN3800_arrays": 29,
+      "missing_event_terminal_refused": true,
+      "new_requests": 0,
+      "synthetic_wrong_checkpoint_refused": true
+    },
     "new_native_requests": 0,
     "query_cap_per_arm": 960,
     "sha256": "146a13948b2c08b9d27684ad9ba0dc834fef6eaf74099132b70894adce49e978",
@@ -952,5 +959,186 @@
     "triggered": true,
     "wall_seconds_per_arm": 14400
   },
-  "status": "MATCHED_NATIVE_COMPLETE"
+  "status": "MATCHED_NATIVE_COMPLETE",
+  "train_scope_readback": {
+    "052": {
+      "cells": {
+        "F1/HOLD-blue": {
+          "episodes": 6,
+          "labels": {
+            "CLOSE": 18,
+            "DESCEND": 171,
+            "HOLD": 12,
+            "LIFT": 55,
+            "PREGRASP": 178
+          },
+          "layouts": 6
+        },
+        "F1/HOLD-red": {
+          "episodes": 16,
+          "labels": {
+            "CLOSE": 48,
+            "DESCEND": 348,
+            "HOLD": 32,
+            "LIFT": 143,
+            "PREGRASP": 518
+          },
+          "layouts": 16
+        },
+        "F1/PLACE-red-right": {
+          "episodes": 15,
+          "labels": {
+            "CARRY": 428,
+            "CLOSE": 45,
+            "DESCEND": 327,
+            "LIFT": 132,
+            "LOWER": 209,
+            "OPEN": 60,
+            "PREGRASP": 467,
+            "WITHDRAW": 147
+          },
+          "layouts": 15
+        },
+        "F2/HOLD-blue": {
+          "episodes": 13,
+          "labels": {
+            "CLOSE": 39,
+            "DESCEND": 310,
+            "HOLD": 26,
+            "LIFT": 116,
+            "PREGRASP": 428
+          },
+          "layouts": 13
+        },
+        "F2/HOLD-red": {
+          "episodes": 1,
+          "labels": {
+            "CLOSE": 3,
+            "DESCEND": 22,
+            "HOLD": 2,
+            "LIFT": 10,
+            "PREGRASP": 49
+          },
+          "layouts": 1
+        },
+        "F2/PLACE-blue-right": {
+          "episodes": 1,
+          "labels": {
+            "CARRY": 70,
+            "CLOSE": 3,
+            "DESCEND": 25,
+            "LIFT": 9,
+            "LOWER": 12,
+            "OPEN": 4,
+            "PREGRASP": 34,
+            "WITHDRAW": 13
+          },
+          "layouts": 1
+        }
+      },
+      "episodes": 52,
+      "layout_count": 29,
+      "manifest_sha256": "e0c5c481a95972e4ba5c9b712e1c3a1240d462ad28222a2c0e041e307fb42278",
+      "windows": 4513
+    },
+    "069": {
+      "cells": {
+        "F1/HOLD-blue": {
+          "episodes": 8,
+          "labels": {
+            "CLOSE": 24,
+            "DESCEND": 221,
+            "HOLD": 16,
+            "LIFT": 73,
+            "PREGRASP": 245
+          },
+          "layouts": 8
+        },
+        "F1/HOLD-red": {
+          "episodes": 21,
+          "labels": {
+            "CLOSE": 63,
+            "DESCEND": 459,
+            "HOLD": 42,
+            "LIFT": 188,
+            "PREGRASP": 669
+          },
+          "layouts": 21
+        },
+        "F1/PLACE-blue-left": {
+          "episodes": 2,
+          "labels": {
+            "CARRY": 60,
+            "CLOSE": 6,
+            "DESCEND": 55,
+            "LIFT": 18,
+            "LOWER": 26,
+            "OPEN": 8,
+            "PREGRASP": 62,
+            "WITHDRAW": 33
+          },
+          "layouts": 2
+        },
+        "F1/PLACE-red-right": {
+          "episodes": 20,
+          "labels": {
+            "CARRY": 573,
+            "CLOSE": 60,
+            "DESCEND": 432,
+            "LIFT": 177,
+            "LOWER": 283,
+            "OPEN": 80,
+            "PREGRASP": 625,
+            "WITHDRAW": 197
+          },
+          "layouts": 20
+        },
+        "F2/HOLD-blue": {
+          "episodes": 16,
+          "labels": {
+            "CLOSE": 48,
+            "DESCEND": 380,
+            "HOLD": 32,
+            "LIFT": 143,
+            "PREGRASP": 527
+          },
+          "layouts": 16
+        },
+        "F2/HOLD-red": {
+          "episodes": 1,
+          "labels": {
+            "CLOSE": 3,
+            "DESCEND": 22,
+            "HOLD": 2,
+            "LIFT": 10,
+            "PREGRASP": 49
+          },
+          "layouts": 1
+        },
+        "F2/PLACE-blue-right": {
+          "episodes": 1,
+          "labels": {
+            "CARRY": 70,
+            "CLOSE": 3,
+            "DESCEND": 25,
+            "LIFT": 9,
+            "LOWER": 12,
+            "OPEN": 4,
+            "PREGRASP": 34,
+            "WITHDRAW": 13
+          },
+          "layouts": 1
+        }
+      },
+      "episodes": 69,
+      "layout_count": 37,
+      "manifest_sha256": "80876f04260377da07c20b547ac6c923751f5a84dbba8db6dbdb361ded164639",
+      "windows": 6081
+    },
+    "currently_trained_under_selected_course": "TRAIN-052",
+    "native_result_overlap": 52,
+    "new_generations": 0,
+    "new_jobs": 0,
+    "new_optimizer_updates": 0
+  }
 }
