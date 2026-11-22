@@ -247,6 +247,10 @@ def prepare(config):
     end = min(wave['deadline_epoch'], time.time()+MAX_RUNTIME)
     reopen = config.get('reopen')
     if reopen:
+        from scripts.wm02.mobile_boundary_runner_v1 import prepare_native_output
+
+        if Path(prepare_native_output.__code__.co_filename).resolve() != source/'scripts/wm02/mobile_boundary_runner_v1.py':
+            raise ImportError('Expected the sealed runner with the payload directory entry point')
         old, _ = reopen_binding(reopen,wave)
         storage = config['payload_storage']
         if (storage['live_control'] != LOCAL_JOURNAL or not capacity(root.parent,storage,wave['multienv'])['passed']

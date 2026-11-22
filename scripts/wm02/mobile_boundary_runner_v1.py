@@ -157,6 +157,15 @@ def episode(adapter):
         base_clear=cleared,cancel=cancelled)
 
 
+def prepare_native_output(spec, output):
+    if 'multienv_payload_storage' in spec:
+        from scripts.sla.core_multienv_payload import create_output
+
+        create_output(spec,output)
+    else:
+        output.mkdir()
+
+
 def run_case(spec_path,lock_fd):
     from go2arx5_vla.world_model.target_sequential import TargetSequentialAdapter
     from go2arx5_vla.world_model.native_replay import packets
@@ -198,11 +207,7 @@ def run_case(spec_path,lock_fd):
         from go2arx5_vla.world_model.mobile_scope_v52 import validate
         validate(spec)
     out=root/'native-01'
-    if 'multienv_payload_storage' in spec:
-        from scripts.sla.core_multienv_payload import create_output
-        create_output(spec,out)
-    else:
-        out.mkdir()
+    prepare_native_output(spec,out)
     adapter=TargetSequentialAdapter(spec,out)
     profile=None
     if d2 or n1:
