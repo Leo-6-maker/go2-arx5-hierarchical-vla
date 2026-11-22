@@ -118,6 +118,27 @@ def endpoint_packages(cfg, comparison):
     return [*packages,('MAIN-phase03800',path,load_manifest(cfg['package'],pkgs[0]))]
 
 
+def preflight_inputs(config, panel):
+    from openpi_client.image_tools import resize_with_pad
+    from go2arx5_vla.sla_adapter.adapt5k_data import AdaptTargetDataset
+
+    cfg = pinned(config['native_config'])
+    receiver = pinned(cfg['receiver'])
+    if (panel['training_manifest'] != TRAIN052 or panel['seed'] != SEED
+            or {k:len(v) for k,v in panel['roster'].items()} != {'TRAIN':24,'VAL':16}):
+        raise ValueError('Expected the sealed 24 TRAIN / 16 independent VAL windows')
+    inputs = [(split,row,observation(row)) for split,rows in panel['roster'].items() for row in rows]
+    source = pinned(receiver['input'])['target_D1']
+    model = receiver['model']
+    if (source['statistics']['sha256'] != model['state_sha256']
+            or any(digest(Path(ref['path'])) != ref['sha256']
+                   for ref in (receiver['action'],receiver['tokenizer'],model['parent_manifest']))):
+        raise ValueError('The bound foundation, tokenizer or target statistics changed')
+    data = AdaptTargetDataset(source['legacy'],source['captures'],resize_with_pad=resize_with_pad)
+    data.bind_state(source['statistics'])
+    return cfg,receiver,source,data,inputs
+
+
 def evaluate(root, config, panel):
     from scripts.sla.core_hopper_native_queue import capacity
 
@@ -127,8 +148,8 @@ def evaluate(root, config, panel):
     if (os.getuid()!=expert['uid'] or os.uname().nodename!=expert['host'] or not os.environ.get('INVOCATION_ID')
             or os.environ['CUDA_VISIBLE_DEVICES']!=receiver['gpu']) or panel['training_manifest']!=TRAIN052 or panel['seed']!=SEED:
         raise PermissionError('Expected the actual isolated Core evaluation resource and frozen event population')
-    if {k:len(v) for k,v in panel['roster'].items()} != {'TRAIN':24,'VAL':16}:
-        raise ValueError('Expected the sealed 24 TRAIN / 16 independent VAL windows')
+    cfg,receiver,source,data,inputs = preflight_inputs(config,panel)
+    packages = endpoint_packages(cfg,config.get('auxiliary_export'))
     native = Path(cfg['root'])
     cfg['root'] = str(root)
     while time.time()+1800 < config['deadline'] and not (root/'STOP').exists():
@@ -147,20 +168,13 @@ def evaluate(root, config, panel):
     with closing(lease):
         import jax
         from flax import nnx
-        from openpi_client.image_tools import resize_with_pad
         from go2arx5_vla.sla_adapter import scale20k_model, scale20k_package
-        from go2arx5_vla.sla_adapter.adapt5k_data import AdaptTargetDataset
         from go2arx5_vla.sla_adapter.model_v1 import Tokenizer
         from go2arx5_vla.sla_adapter.scale20k_contract import canonical_hash
         from scripts.sla.hopper_reference import TargetProvider
 
         if jax.default_backend()!='gpu' or len(jax.local_devices())!=1 or 'RTX 4080 SUPER' not in jax.local_devices()[0].device_kind:
             raise PermissionError('Original Core RTX numerical backend required')
-        packages = endpoint_packages(cfg,config.get('auxiliary_export'))
-        inputs = [(split,row,observation(row)) for split,rows in panel['roster'].items() for row in rows]
-        source = pinned(receiver['input'])['target_D1']
-        data = AdaptTargetDataset(source['legacy'],source['captures'],resize_with_pad=resize_with_pad)
-        data.bind_state(source['statistics'])
         binding = receiver['model']
         graphs,weights,frozen,identity = scale20k_model.load(binding['parent_manifest'],binding['parent_params'])
         template = {key:weights[key] for key in ('shared','target')}
@@ -192,6 +206,9 @@ def evaluate(root, config, panel):
                 start = time.monotonic()
                 output = model.predict(state,rgb,language,mount,noise_id=seed,previous_reference=previous)
                 write_once(scope/f'{i:03d}.generated.json',dict(ordinal=i,seconds=time.monotonic()-start))
+                trajectory = output['physical_H40']
+                if trajectory.shape != (40,10) or not np.isfinite(trajectory).all():
+                    raise ValueError('The prediction did not return the original finite physical H40')
                 result = dict(ordinal=i,split=split,tag=row['tag'],**measures(output,values,row['tag']))
                 write_once(scope/f'{i:03d}.result.json',result)
                 rows.append(result)
