@@ -29,7 +29,11 @@ def scope_identity(spec):
         return SCOPE, PLAN, (), AUTHORITY
     if spec.get('scope') == 'SLA_CORE_HOPPER_V1_STUDENT':
         from scripts.sla import core_hopper_native_scope as student
-        return student.SCOPE, student.PLAN, student.ENDPOINTS, student.AUTHORITY
+        arms = student.ENDPOINTS
+        if spec.get('arm') not in arms:
+            from scripts.sla.main3800_cross_layout_proof import AUXILIARY_ARMS
+            arms += ('MAIN-phase03800', *AUXILIARY_ARMS)  # Qualified separately in validate_case.
+        return student.SCOPE, student.PLAN, arms, student.AUTHORITY
     if spec.get('scope') == 'SLA_CORE_MULTIENV_V1_EXPERT':
         from scripts.sla import core_multienv_scope as me
         return me.SCOPE, me.PLAN, (), me.AUTHORITY

@@ -24,6 +24,14 @@ def accepted(spec):
     site = read_pin(spec['receiver'])
     proof = read_pin(spec['student_proof'])
     gate = proof['gate']
+    if gate['status'] == 'MAIN3800_CROSS_LAYOUT_CORE_READY_V1':
+        from scripts.sla.main3800_cross_layout_proof import check_binding
+        check_binding(spec, proof, gate, site)
+        return proof,gate,site
+    if arm == 'MAIN-phase03800':
+        from scripts.sla.core_main3800_native_proof import check_binding
+        check_binding(spec, proof, gate, site)
+        return proof,gate,site
     if (arm not in ENDPOINTS or spec['scope'] != SCOPE or spec['plan_commit'] != PLAN
             or proof['plan'] != PLAN or proof['compiled_population'] != spec['compiled_population']
             or proof['core_profile'] != site['gpu'] or site['plan'] != PLAN or gate['exact'] != 16
@@ -67,6 +75,9 @@ def validate_case(case):
             or sum(r['query_cap'] for r in block) != authority['generation_cap']):
         raise PermissionError('Student slice differs from its original order or budget')
     row, = (r for r in block if r['id']==case['panel_entry_id'])
+    if case['arm'] == 'MAIN-phase03800' and gate['status'] != 'MAIN3800_CROSS_LAYOUT_CORE_READY_V1':
+        from scripts.sla.core_main3800_native_proof import check_case
+        check_case(case, authority, proof)
     cond = case['mobile_condition']
     if (row['arm'] != case['arm'] or row['geometry'] != cond['layout'] or row['reset'] != cond['reset']
             or row['scene_seed'] != cond['seed'] or row['family'] != cond['family'] or row['instruction'] != case['task_instruction_id']

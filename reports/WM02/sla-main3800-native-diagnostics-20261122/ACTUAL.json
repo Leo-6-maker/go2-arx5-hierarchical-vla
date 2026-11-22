@@ -1,0 +1,3065 @@
+{
+  "TRAIN069_actual_visits": 0,
+  "arms": {
+    "MAIN-phase00000": [
+      {
+        "confirmed_start": true,
+        "contacts": null,
+        "events": {
+          "base80mm": {
+            "native_step": 9758,
+            "native_time_s": 19.516000000000062
+          }
+        },
+        "first_failure": "ORIGINAL_FULL_H40_POLICY_REJECTED",
+        "generations": 63,
+        "grasp": false,
+        "hold_s": 0.0,
+        "instruction": "HOLD-blue",
+        "lift20": false,
+        "lift_mm": 0.0,
+        "requests": 1,
+        "result_sha256": "bdabfe33b0ca77e679330aab89a3a8522c5041c5c064679547d7a8bf4b9ee1a6",
+        "success": false,
+        "terminal": true,
+        "ticks": 21203
+      },
+      {
+        "confirmed_start": true,
+        "contacts": null,
+        "events": {
+          "base80mm": {
+            "native_step": 10027,
+            "native_time_s": 20.053999999999764
+          }
+        },
+        "first_failure": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+        "generations": 63,
+        "grasp": false,
+        "gripper_rejection": {
+          "action_sha256": "f65384a94925a68c60ecca5aea8e4e150075902e2b284905aa09516ddd45df13",
+          "age_native_ms": 50.00000000006111,
+          "confirmed_atoms": 0,
+          "first_exceedance": 0,
+          "first_seam_mm_s": 61.294620346259876,
+          "install_ACKs": 0,
+          "max_internal_mm_s": 25.939868454015745,
+          "measured_width_mm": 34.23995977232345,
+          "previous_P10_confirmed_atoms": 10,
+          "previous_command_mm": 34.29993893949631,
+          "proposal_first_mm": 37.364669956813046,
+          "query": 63,
+          "tick": 21203,
+          "time_native_s": 42.40600000000586
+        },
+        "hold_s": 0.0,
+        "instruction": "HOLD-red",
+        "lift20": false,
+        "lift_mm": 0.0,
+        "requests": 1,
+        "result_sha256": "1cfaba5a817d9ac15f965d7f757b9723ae0f41aaa3b4205d31feefdd7fcd9da0",
+        "success": false,
+        "terminal": true,
+        "ticks": 21203
+      },
+      {
+        "confirmed_start": true,
+        "contacts": {
+          "arm_pairs": [
+            {
+              "depth_mm": 0.24218521368845822,
+              "pair": [
+                "x5_link6",
+                "task_blue_cube_geom"
+              ]
+            }
+          ],
+          "time_s": 36.02399999999806
+        },
+        "events": {
+          "base80mm": {
+            "native_step": 9593,
+            "native_time_s": 19.186000000000245
+          }
+        },
+        "first_failure": "ILLEGAL_CONTACT",
+        "generations": 50,
+        "grasp": false,
+        "hold_s": 0.0,
+        "instruction": "PLACE-blue-left",
+        "lift20": false,
+        "lift_mm": 0.0,
+        "requests": 1,
+        "result_sha256": "44719db98a1a450b5509e4750cd3a8523a4e2add46eac1efe952d30af33f0fab",
+        "success": false,
+        "terminal": true,
+        "ticks": 18013
+      },
+      {
+        "confirmed_start": true,
+        "contacts": null,
+        "events": {
+          "base80mm": {
+            "native_step": 10515,
+            "native_time_s": 21.029999999999223
+          }
+        },
+        "first_failure": "ORIGINAL_FULL_H40_POLICY_REJECTED",
+        "generations": 63,
+        "grasp": false,
+        "hold_s": 0.0,
+        "instruction": "PLACE-blue-right",
+        "lift20": false,
+        "lift_mm": 0.14762391124334417,
+        "requests": 1,
+        "result_sha256": "047132a908e59c9959a3f5ec6244522088736100a9d1e098ddf45876cd2d02d4",
+        "success": false,
+        "terminal": true,
+        "ticks": 21203
+      },
+      {
+        "confirmed_start": true,
+        "contacts": {
+          "arm_pairs": [
+            {
+              "depth_mm": 0.0003577207749148881,
+              "pair": [
+                "task_left_pad",
+                "task_blue_cube_geom"
+              ]
+            },
+            {
+              "depth_mm": 0.34200854864347396,
+              "pair": [
+                "task_right_pad",
+                "task_cube_geom"
+              ]
+            }
+          ],
+          "time_s": 42.892000000006455
+        },
+        "events": {
+          "base80mm": {
+            "native_step": 10138,
+            "native_time_s": 20.27599999999964
+          }
+        },
+        "first_failure": "ILLEGAL_CONTACT",
+        "generations": 63,
+        "grasp": false,
+        "hold_s": 0.0,
+        "instruction": "PLACE-red-left",
+        "lift20": false,
+        "lift_mm": 0.0,
+        "requests": 1,
+        "result_sha256": "061fd288649e2e33429feb20c49828d038f1ee22772e5d78ad10fc00c973e47f",
+        "success": false,
+        "terminal": true,
+        "ticks": 21447
+      },
+      {
+        "confirmed_start": true,
+        "contacts": {
+          "arm_pairs": [
+            {
+              "depth_mm": 0.00022972884282899952,
+              "pair": [
+                "task_left_pad",
+                "task_blue_cube_geom"
+              ]
+            },
+            {
+              "depth_mm": 0.32261310870914434,
+              "pair": [
+                "task_right_pad",
+                "task_cube_geom"
+              ]
+            }
+          ],
+          "time_s": 43.12800000000674
+        },
+        "events": {
+          "base80mm": {
+            "native_step": 10079,
+            "native_time_s": 20.157999999999706
+          }
+        },
+        "first_failure": "ILLEGAL_CONTACT",
+        "generations": 64,
+        "grasp": false,
+        "hold_s": 0.0,
+        "instruction": "PLACE-red-right",
+        "lift20": false,
+        "lift_mm": 0.0,
+        "requests": 1,
+        "result_sha256": "9a9bc1411ff1223e6321a77bef882291095f32ec13246876259760e55fc1764c",
+        "success": false,
+        "terminal": true,
+        "ticks": 21565
+      }
+    ],
+    "MAIN-phase02000": [
+      {
+        "confirmed_start": true,
+        "contacts": {
+          "arm_pairs": [
+            {
+              "depth_mm": 0.22606492986390614,
+              "pair": [
+                "x5_link6",
+                "task_blue_cube_geom"
+              ]
+            }
+          ],
+          "time_s": 35.68199999999764
+        },
+        "events": {
+          "base80mm": {
+            "native_step": 10981,
+            "native_time_s": 21.961999999998707
+          }
+        },
+        "first_failure": "ILLEGAL_CONTACT",
+        "generations": 49,
+        "grasp": false,
+        "hold_s": 0.0,
+        "instruction": "HOLD-blue",
+        "lift20": false,
+        "lift_mm": 0.0,
+        "requests": 1,
+        "result_sha256": "c59bb2786f802ebee32edf2876fd0c2e4857063669338a1ad1fbc8cb3fca22c7",
+        "success": false,
+        "terminal": true,
+        "ticks": 17842
+      },
+      {
+        "confirmed_start": true,
+        "contacts": null,
+        "events": {
+          "base80mm": {
+            "native_step": 10104,
+            "native_time_s": 20.20799999999968
+          }
+        },
+        "first_failure": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+        "generations": 63,
+        "grasp": false,
+        "gripper_rejection": {
+          "action_sha256": "44a732f1f5233aaf3090be511648d9e18c8917151e69ed403cef0ca69ffc3dec",
+          "age_native_ms": 50.00000000006111,
+          "confirmed_atoms": 0,
+          "first_exceedance": 0,
+          "first_seam_mm_s": 54.21700137014145,
+          "install_ACKs": 0,
+          "max_internal_mm_s": 34.1189054196199,
+          "measured_width_mm": 24.882254822243336,
+          "previous_P10_confirmed_atoms": 10,
+          "previous_command_mm": 24.183644617287754,
+          "proposal_first_mm": 21.47279454877737,
+          "query": 63,
+          "tick": 21203,
+          "time_native_s": 42.40600000000586
+        },
+        "hold_s": 0.0,
+        "instruction": "HOLD-red",
+        "lift20": false,
+        "lift_mm": 0.14908445724293173,
+        "requests": 1,
+        "result_sha256": "33372c43ecd4a641ac29c5d3cf883598bebc73d92e8b436bdae63af3ec066073",
+        "success": false,
+        "terminal": true,
+        "ticks": 21203
+      },
+      {
+        "confirmed_start": true,
+        "contacts": null,
+        "events": {
+          "base80mm": {
+            "native_step": 11240,
+            "native_time_s": 22.47999999999842
+          },
+          "target_grasp": {
+            "native_step": 18830,
+            "native_time_s": 37.66000000000006
+          }
+        },
+        "first_failure": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+        "generations": 54,
+        "grasp": true,
+        "gripper_rejection": {
+          "action_sha256": "0b7eaa5c27678fa5778ef7d7ec51d2ae2add45869d94f43302ca354668240099",
+          "age_native_ms": 50.00000000006111,
+          "confirmed_atoms": 0,
+          "first_exceedance": 0,
+          "first_seam_mm_s": 140.9190887849823,
+          "install_ACKs": 0,
+          "max_internal_mm_s": 4.27533217527933,
+          "measured_width_mm": 19.206047642456355,
+          "previous_P10_confirmed_atoms": 10,
+          "previous_command_mm": 10.309093416838262,
+          "proposal_first_mm": 3.2631389775805366,
+          "query": 54,
+          "tick": 18953,
+          "time_native_s": 37.90600000000036
+        },
+        "hold_s": 0.0,
+        "instruction": "PLACE-blue-left",
+        "lift20": false,
+        "lift_mm": 0.6165601623531192,
+        "requests": 1,
+        "result_sha256": "3d42c6851972468943f8edc7cfc2d55f9235fdc33eb51e0747fc4afaf0ca6056",
+        "success": false,
+        "terminal": true,
+        "ticks": 18953
+      },
+      {
+        "confirmed_start": true,
+        "contacts": null,
+        "events": {
+          "base80mm": {
+            "native_step": 11098,
+            "native_time_s": 22.195999999998577
+          }
+        },
+        "first_failure": "ORIGINAL_FULL_H40_POLICY_REJECTED",
+        "generations": 52,
+        "grasp": false,
+        "hold_s": 0.0,
+        "instruction": "PLACE-blue-right",
+        "lift20": false,
+        "lift_mm": 0.0,
+        "requests": 1,
+        "result_sha256": "02d5b4f733f8ec01ad28f8c979abca030985701d490541638ec983913fb92b29",
+        "success": false,
+        "terminal": true,
+        "ticks": 18453
+      },
+      {
+        "confirmed_start": true,
+        "contacts": {
+          "arm_pairs": [
+            {
+              "depth_mm": 0.013430836785657785,
+              "pair": [
+                "task_left_pad",
+                "task_blue_cube_geom"
+              ]
+            }
+          ],
+          "time_s": 40.38400000000339
+        },
+        "events": {
+          "base80mm": {
+            "native_step": 9065,
+            "native_time_s": 18.13000000000083
+          }
+        },
+        "first_failure": "ILLEGAL_CONTACT",
+        "generations": 58,
+        "grasp": false,
+        "hold_s": 0.0,
+        "instruction": "PLACE-red-left",
+        "lift20": false,
+        "lift_mm": 0.0,
+        "requests": 1,
+        "result_sha256": "20f499ea5ab2fa4fae3f28772ee8700d70a64ccebdf8691feee7cc9646a0c6ad",
+        "success": false,
+        "terminal": true,
+        "ticks": 20193
+      },
+      {
+        "confirmed_start": true,
+        "contacts": {
+          "arm_pairs": [
+            {
+              "depth_mm": 0.031420138605586095,
+              "pair": [
+                "x5_link6",
+                "task_cube_geom"
+              ]
+            }
+          ],
+          "time_s": 37.0399999999993
+        },
+        "events": {
+          "base80mm": {
+            "native_step": 9708,
+            "native_time_s": 19.416000000000118
+          }
+        },
+        "first_failure": "ILLEGAL_CONTACT",
+        "generations": 52,
+        "grasp": false,
+        "hold_s": 0.0,
+        "instruction": "PLACE-red-right",
+        "lift20": false,
+        "lift_mm": 0.0,
+        "requests": 1,
+        "result_sha256": "f72a4c045623ba2f1a86a15ae961db213403dd5fed26ec2e823242da7270d789",
+        "success": false,
+        "terminal": true,
+        "ticks": 18521
+      }
+    ],
+    "MAIN-phase03800": [
+      {
+        "confirmed_start": true,
+        "contacts": null,
+        "events": {
+          "base80mm": {
+            "native_step": 10598,
+            "native_time_s": 21.19599999999913
+          },
+          "target_grasp": {
+            "native_step": 19099,
+            "native_time_s": 38.19800000000072
+          }
+        },
+        "first_failure": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+        "generations": 55,
+        "grasp": true,
+        "gripper_rejection": {
+          "action_sha256": "1c1069a90797cd5ee82535f6a675fc76ebdf7edfe61d059d1a5e43ca7e2c082e",
+          "age_native_ms": 50.00000000006111,
+          "confirmed_atoms": 0,
+          "first_exceedance": 0,
+          "first_seam_mm_s": 141.2522267668122,
+          "install_ACKs": 0,
+          "max_internal_mm_s": 6.418849075649326,
+          "measured_width_mm": 19.229242146924257,
+          "previous_P10_confirmed_atoms": 10,
+          "previous_command_mm": 11.041853335503808,
+          "proposal_first_mm": 3.979241997154566,
+          "query": 55,
+          "tick": 19203,
+          "time_native_s": 38.40600000000097
+        },
+        "hold_s": 0.0,
+        "instruction": "HOLD-blue",
+        "lift20": false,
+        "lift_mm": 0.5956810766071241,
+        "requests": 1,
+        "result_sha256": "c729eefdace54cf8799ca101a4a0fdb9b825b01c22ee6026a72a62917c5bbadb",
+        "success": false,
+        "terminal": true,
+        "ticks": 19203
+      },
+      {
+        "confirmed_start": true,
+        "contacts": null,
+        "events": {
+          "base80mm": {
+            "native_step": 9789,
+            "native_time_s": 19.578000000000028
+          },
+          "target_grasp": {
+            "native_step": 21378,
+            "native_time_s": 42.75600000000629
+          }
+        },
+        "first_failure": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+        "generations": 64,
+        "grasp": true,
+        "gripper_rejection": {
+          "action_sha256": "2192fe765505dd7c6ed16759956062e0cde90034749c68ba6fa3d62f09f66874",
+          "age_native_ms": 50.00000000006111,
+          "confirmed_atoms": 0,
+          "first_exceedance": 0,
+          "first_seam_mm_s": 123.46460041788447,
+          "install_ACKs": 0,
+          "max_internal_mm_s": 17.728481132532405,
+          "measured_width_mm": 19.31644457070779,
+          "previous_P10_confirmed_atoms": 10,
+          "previous_command_mm": 13.850411183736167,
+          "proposal_first_mm": 7.677181162834398,
+          "query": 64,
+          "tick": 21453,
+          "time_native_s": 42.90600000000647
+        },
+        "hold_s": 0.0,
+        "instruction": "HOLD-red",
+        "lift20": false,
+        "lift_mm": 0.483660821350429,
+        "requests": 1,
+        "result_sha256": "4d3af0d91f6af1db0171ae91ce76621a8bea9fb89a28aa2af4b55bc70d322f98",
+        "success": false,
+        "terminal": true,
+        "ticks": 21453
+      },
+      {
+        "confirmed_start": true,
+        "contacts": null,
+        "events": {
+          "base80mm": {
+            "native_step": 11013,
+            "native_time_s": 22.02599999999867
+          }
+        },
+        "first_failure": "ORIGINAL_FULL_H40_POLICY_REJECTED",
+        "generations": 55,
+        "grasp": false,
+        "hold_s": 0.0,
+        "instruction": "PLACE-blue-left",
+        "lift20": false,
+        "lift_mm": 0.0,
+        "requests": 1,
+        "result_sha256": "b57809294a268acf513e25e8c11ce3de668b382441c2fb4a25f8fb3befacb579",
+        "success": false,
+        "terminal": true,
+        "ticks": 19203
+      },
+      {
+        "confirmed_start": true,
+        "contacts": null,
+        "events": {
+          "base80mm": {
+            "native_step": 11170,
+            "native_time_s": 22.339999999998497
+          }
+        },
+        "first_failure": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+        "generations": 55,
+        "grasp": false,
+        "gripper_rejection": {
+          "action_sha256": "354f478e3512d75bd1a4ee682c6501ad1ca901f7ebaec922514cb5d4097e157c",
+          "age_native_ms": 50.00000000006111,
+          "confirmed_atoms": 0,
+          "first_exceedance": 0,
+          "first_seam_mm_s": 41.95342416338559,
+          "install_ACKs": 0,
+          "max_internal_mm_s": 38.182097882920594,
+          "measured_width_mm": 23.69763321347756,
+          "previous_P10_confirmed_atoms": 10,
+          "previous_command_mm": 22.803620108173572,
+          "proposal_first_mm": 24.901291316345414,
+          "query": 55,
+          "tick": 19203,
+          "time_native_s": 38.40600000000097
+        },
+        "hold_s": 0.0,
+        "instruction": "PLACE-blue-right",
+        "lift20": false,
+        "lift_mm": 0.6152352669013261,
+        "requests": 1,
+        "result_sha256": "8654fde47b6a479df4618569b22cdc96e37a1d6e77806051cf7380f481acbf72",
+        "success": false,
+        "terminal": true,
+        "ticks": 19203
+      },
+      {
+        "confirmed_start": true,
+        "contacts": null,
+        "events": {
+          "base80mm": {
+            "native_step": 8944,
+            "native_time_s": 17.888000000000964
+          },
+          "target_grasp": {
+            "native_step": 20335,
+            "native_time_s": 40.67000000000374
+          }
+        },
+        "first_failure": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+        "generations": 61,
+        "grasp": true,
+        "gripper_rejection": {
+          "action_sha256": "a1bd9ca3955b5ef852fdb7c11f4c37c71c95b86fb9638371d0d04e48c2cbe0e7",
+          "age_native_ms": 50.00000000006111,
+          "confirmed_atoms": 0,
+          "first_exceedance": 0,
+          "first_seam_mm_s": 57.02508313235046,
+          "install_ACKs": 0,
+          "max_internal_mm_s": 6.986792295734989,
+          "measured_width_mm": 19.198302161957255,
+          "previous_P10_confirmed_atoms": 10,
+          "previous_command_mm": 6.233684703801131,
+          "proposal_first_mm": 3.382430547180124,
+          "query": 61,
+          "tick": 20703,
+          "time_native_s": 41.40600000000464
+        },
+        "hold_s": 0.0,
+        "instruction": "PLACE-red-left",
+        "lift20": false,
+        "lift_mm": 0.1570597650432104,
+        "requests": 1,
+        "result_sha256": "9f48b01671093cc813f084187866359a290712b981c1db9f8ecfb8b3b1a51f6d",
+        "success": false,
+        "terminal": true,
+        "ticks": 20703
+      },
+      {
+        "confirmed_start": true,
+        "contacts": null,
+        "events": {
+          "base80mm": {
+            "native_step": 9189,
+            "native_time_s": 18.378000000000693
+          }
+        },
+        "first_failure": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+        "generations": 63,
+        "grasp": false,
+        "gripper_rejection": {
+          "action_sha256": "517bec18e46b984978c1fe1a3ac26c457f8dcdc9894f50999b67ae742f4659af",
+          "age_native_ms": 50.00000000006111,
+          "confirmed_atoms": 0,
+          "first_exceedance": 0,
+          "first_seam_mm_s": 54.838491795967535,
+          "install_ACKs": 0,
+          "max_internal_mm_s": 34.87572025342764,
+          "measured_width_mm": 27.378922294525456,
+          "previous_P10_confirmed_atoms": 10,
+          "previous_command_mm": 27.316543844502654,
+          "proposal_first_mm": 24.574619254700927,
+          "query": 63,
+          "tick": 21203,
+          "time_native_s": 42.40600000000586
+        },
+        "hold_s": 0.0,
+        "instruction": "PLACE-red-right",
+        "lift20": false,
+        "lift_mm": 0.0,
+        "requests": 1,
+        "result_sha256": "e7146e847f5b23ce6bdc9477043f366d816a4636d4176236edf1f68201ec3b9b",
+        "success": false,
+        "terminal": true,
+        "ticks": 21203
+      }
+    ]
+  },
+  "component_visits": {
+    "2000": {
+      "auxiliary": 8000,
+      "journal_sha256": "1753b782f90f3c9b53f68c1df06d9fa954bcac344018ad2c43628720c65bb7f2",
+      "phase_start": 1,
+      "phase_stop": 2000,
+      "sealed_endpoint": true,
+      "visits": {
+        "libero": 64000,
+        "robodojo": 64000,
+        "target": 128000
+      }
+    },
+    "3800": {
+      "auxiliary": 7200,
+      "journal_sha256": "532927371791b7c9eb7fa4e2e96d506f80bb5ec182d00a760d9f028221684302",
+      "phase_start": 2001,
+      "phase_stop": 3800,
+      "sealed_endpoint": true,
+      "visits": {
+        "libero": 57600,
+        "robodojo": 57600,
+        "target": 115200
+      }
+    },
+    "3900": {
+      "auxiliary": 400,
+      "journal_sha256": "4a3efc82844589cac677aaf1a567f3500045da78408192bdaf8c21dfeaa724c4",
+      "phase_start": 3801,
+      "phase_stop": 3900,
+      "sealed_endpoint": false,
+      "visits": {
+        "libero": 3200,
+        "robodojo": 3200,
+        "target": 6400
+      }
+    }
+  },
+  "core_private_pair_transfer": {
+    "actual_production_bytes_transferred": 0,
+    "fixture_file_bytes": 14111,
+    "fixture_inference_array_members": 58,
+    "new_generations": 0,
+    "new_native_requests": 0,
+    "new_updates": 0,
+    "reference_single_endpoint_parameter_bytes": 1831874304,
+    "rejected_fixtures": [
+      "corrupted_parameter",
+      "truncated_archive",
+      "wrong_export_sha256"
+    ],
+    "source_sha256": "7c5d0db91b67994f9d3bf2214bd445f18bd7b8fff7e4a4f7a21a690ffeff0886",
+    "status": "SYNTHETIC_FIXTURE_VERIFIED_OVER_SITE_PATH",
+    "synthetic_export_sha256": "1bd48af57811325be7c188376350fca8e68964b8c07c9e6bcac7cead8dcfb2c1",
+    "synthetic_files_received": 61
+  },
+  "cross_layout_roster": {
+    "cases": 6,
+    "isolated_runtime": {
+      "base_commit": "a3b376871916d1e0c2a1b933ce7014e30e169625",
+      "base_seal_sha256": "549bf3d281b4968c31577f1a820ba205c1583d9afe3e5fcc49e5dc31aa392d49",
+      "generations": 0,
+      "members": 3733,
+      "native_requests": 0,
+      "overlay_commit": "5c551c8fcdcac03e1a1f943457b3b3edef1e77d0",
+      "overlay_files": 9,
+      "source_seal_sha256": "fb5aeccf6fd9b1511cf978fc2c6d908d6bfef3cca6dd3742ea701bcc93feffdf",
+      "unit_started": false,
+      "updates": 0,
+      "verified_cpu_modules": 6
+    },
+    "layouts": [
+      "F1-G01",
+      "F2-G00"
+    ],
+    "local_preflight": {
+      "actual_MAIN0_arrays": 29,
+      "actual_MAIN3800_arrays": 29,
+      "missing_event_terminal_refused": true,
+      "new_requests": 0,
+      "synthetic_wrong_checkpoint_refused": true
+    },
+    "main_unit": {
+      "case_card_CPU_preflight": {
+        "families": [
+          "F1",
+          "F2"
+        ],
+        "generations": 0,
+        "live_registry_writes": 0,
+        "native_requests": 0,
+        "physics_enabled_for_test": false,
+        "query_cap_per_arm": 960,
+        "source_seal_sha256": "4e33b15ffbcd897a3ab963d85be29088c71b283349fbc0dbdc2eb3c98a708d8d",
+        "synthetic_precondition": true,
+        "tick_cap_per_arm": 274218,
+        "updates": 0,
+        "verified_per_arm": {
+          "MAIN-phase00000": 6,
+          "MAIN-phase03800": 6
+        }
+      },
+      "cgroup_confirmed": true,
+      "config_sha256": "15ff5e2eaf9b484cac36c93ab1177beb4fdfbe790fe9a8dab910312a3143671b",
+      "deadline_epoch": 1795891948,
+      "first_observed_heartbeat_epoch": 1795343214.7894804,
+      "heartbeat_epoch": 1795343234.8045144,
+      "invocation_id": "7656393c4d1245f19c646ee1545b3361",
+      "linger": true,
+      "native_requests": 0,
+      "pid": 3641466,
+      "preflight_inference_arrays_per_arm": 29,
+      "prerequisite_spec_sha256": "99707b222b362f0a76ddef9bcf5fe069c56db07f780ab801ee94d5b08b8d93c4",
+      "registry_unstarted_case_ids": 12,
+      "request_cap": 12,
+      "source": "71c5b17753171f76ef5451afd9b472ba1e01b6fa",
+      "source_seal_sha256": "4e33b15ffbcd897a3ab963d85be29088c71b283349fbc0dbdc2eb3c98a708d8d",
+      "status": "WAIT_OFFLINE_TERMINAL",
+      "unit": "wm02-sla-main3800-cross-layout-main-20261122-01.service",
+      "updates": 0,
+      "visits": 0,
+      "world_handoff_marker_owned": false
+    },
+    "new_native_requests": 0,
+    "query_cap_per_arm": 960,
+    "sha256": "146a13948b2c08b9d27684ad9ba0dc834fef6eaf74099132b70894adce49e978",
+    "tick_cap_per_arm": 274218,
+    "unstarted_registry_ids_verified": 24
+  },
+  "event_eval": {
+    "TRAIN": 24,
+    "VAL": 16,
+    "attempts": 0,
+    "config_sha256": "99707b222b362f0a76ddef9bcf5fe069c56db07f780ab801ee94d5b08b8d93c4",
+    "deadline_epoch": 1795381538.4120803,
+    "first_attempt_generations": 0,
+    "generations": 0,
+    "host_available_GiB": 27.3111,
+    "host_floor_GiB": 36,
+    "input_readback": {
+      "errors": 0,
+      "expert_TCP_vertical_P10_mm": {
+        "TRAIN": {
+          "BEFORE_LIFT20": [
+            3.181,
+            3.317,
+            3.227
+          ],
+          "FIRST_REQUEST_AFTER_GRASP": [
+            1.406,
+            1.278,
+            1.358
+          ]
+        },
+        "VAL": {
+          "BEFORE_LIFT20": [
+            3.296,
+            3.311
+          ],
+          "FIRST_REQUEST_AFTER_GRASP": [
+            1.416,
+            1.247
+          ]
+        }
+      },
+      "generations": 0,
+      "native_requests": 0,
+      "seconds": 2.174188216216862,
+      "status": "CPU_ACTUAL_40_INPUT_READBACK",
+      "updates": 0,
+      "verified": {
+        "TRAIN": 24,
+        "VAL": 16
+      }
+    },
+    "latest_resource_observation": {
+      "attempts": 0,
+      "available_GiB": 25.212589263916016,
+      "epoch": 1795343475.1214125,
+      "generations": 0,
+      "status": "WAIT_ORIGINAL_RESOURCES"
+    },
+    "max_generations": 120,
+    "panel_sha256": "fe81874f86f2a2d05a12f7789a460a34310ff09b57c64398b5821f0ca7a2d40d",
+    "pid": 3523755,
+    "resource_ownership_readback": {
+      "capacity_changed_by_probe": false,
+      "host_available_GiB": 24.614654541015625,
+      "host_floor_GiB": 36,
+      "project_processes_over_1_GiB": 0,
+      "slaproject_anonymous_resident_GiB": 0.48
+    },
+    "status": "WAIT_ORIGINAL_RESOURCES",
+    "unit": "wm02-sla-main3800-core-event-eval-20261122-02.service"
+  },
+  "full_H40_original_first_failure": {
+    "channel": "finger_velocity",
+    "condition": "PLACE-blue-left",
+    "index": 3,
+    "peak_mm_s": 46.78032325086484,
+    "subpane": "P10"
+  },
+  "initial_first_query_compare": {
+    "HOLD-blue": {
+      "MAIN-phase00000": {
+        "TCP_distance_mm": 0.8751793106378755,
+        "actuator_match": true,
+        "finger_fraction_delta": 2.709262303390858e-07,
+        "rotation6_max_delta": 0.002777783845464371,
+        "same_RGB": false
+      },
+      "MAIN-phase02000": {
+        "TCP_distance_mm": 0.015410324828552372,
+        "actuator_match": true,
+        "finger_fraction_delta": 1.8801626799902493e-07,
+        "rotation6_max_delta": 1.2135010821534564e-05,
+        "same_RGB": false
+      }
+    },
+    "HOLD-red": {
+      "MAIN-phase00000": {
+        "TCP_distance_mm": 0.09617619088632118,
+        "actuator_match": true,
+        "finger_fraction_delta": 6.98557199640959e-07,
+        "rotation6_max_delta": 7.013959421213814e-05,
+        "same_RGB": false
+      },
+      "MAIN-phase02000": {
+        "TCP_distance_mm": 0.09859473006225217,
+        "actuator_match": true,
+        "finger_fraction_delta": 3.591979791384148e-08,
+        "rotation6_max_delta": 7.02403403565735e-05,
+        "same_RGB": false
+      }
+    },
+    "PLACE-blue-left": {
+      "MAIN-phase00000": {
+        "TCP_distance_mm": 0.861688481188493,
+        "actuator_match": true,
+        "finger_fraction_delta": 1.271202606512034e-07,
+        "rotation6_max_delta": 0.0028731074218961905,
+        "same_RGB": false
+      },
+      "MAIN-phase02000": {
+        "TCP_distance_mm": 0.04223337948705737,
+        "actuator_match": true,
+        "finger_fraction_delta": 6.535934804485777e-07,
+        "rotation6_max_delta": 0.00013306199184995315,
+        "same_RGB": false
+      }
+    },
+    "PLACE-blue-right": {
+      "MAIN-phase00000": {
+        "TCP_distance_mm": 0.041460891673304225,
+        "actuator_match": true,
+        "finger_fraction_delta": 1.4686673310837506e-07,
+        "rotation6_max_delta": 0.0001152079368587633,
+        "same_RGB": false
+      },
+      "MAIN-phase02000": {
+        "TCP_distance_mm": 0.012593027176053071,
+        "actuator_match": true,
+        "finger_fraction_delta": 1.9932364647701206e-07,
+        "rotation6_max_delta": 4.2080828517893076e-05,
+        "same_RGB": false
+      }
+    },
+    "PLACE-red-left": {
+      "MAIN-phase00000": {
+        "TCP_distance_mm": 0.007024039139471573,
+        "actuator_match": true,
+        "finger_fraction_delta": 7.877710251902315e-07,
+        "rotation6_max_delta": 2.769810292974073e-05,
+        "same_RGB": false
+      },
+      "MAIN-phase02000": {
+        "TCP_distance_mm": 0.8678838469658193,
+        "actuator_match": true,
+        "finger_fraction_delta": 2.425353405888231e-07,
+        "rotation6_max_delta": 0.002768318579010863,
+        "same_RGB": false
+      }
+    },
+    "PLACE-red-right": {
+      "MAIN-phase00000": {
+        "TCP_distance_mm": 0.8636502646184746,
+        "actuator_match": true,
+        "finger_fraction_delta": 5.00716147433522e-08,
+        "rotation6_max_delta": 0.0027665166505902892,
+        "same_RGB": false
+      },
+      "MAIN-phase02000": {
+        "TCP_distance_mm": 0.8622034622844196,
+        "actuator_match": true,
+        "finger_fraction_delta": 1.4626415056895326e-07,
+        "rotation6_max_delta": 0.0027687117180822166,
+        "same_RGB": false
+      }
+    }
+  },
+  "matched_historical_contact_exposure": {
+    "MAIN-phase00000": [
+      {
+        "compare_delta_ticks": 1190,
+        "instruction": "PLACE-blue-left",
+        "main3800_terminal_tick": 19203,
+        "old_stop_tick": 18013
+      },
+      {
+        "compare_delta_ticks": -744,
+        "instruction": "PLACE-red-left",
+        "main3800_terminal_tick": 20703,
+        "old_stop_tick": 21447
+      },
+      {
+        "compare_delta_ticks": -362,
+        "instruction": "PLACE-red-right",
+        "main3800_terminal_tick": 21203,
+        "old_stop_tick": 21565
+      }
+    ],
+    "MAIN-phase02000": [
+      {
+        "compare_delta_ticks": 1361,
+        "instruction": "HOLD-blue",
+        "main3800_terminal_tick": 19203,
+        "old_stop_tick": 17842
+      },
+      {
+        "compare_delta_ticks": 510,
+        "instruction": "PLACE-red-left",
+        "main3800_terminal_tick": 20703,
+        "old_stop_tick": 20193
+      },
+      {
+        "compare_delta_ticks": 2682,
+        "instruction": "PLACE-red-right",
+        "main3800_terminal_tick": 21203,
+        "old_stop_tick": 18521
+      }
+    ]
+  },
+  "native_commit": "a3b376871916d1e0c2a1b933ce7014e30e169625",
+  "native_decision": {
+    "block_result_sha256": "34ba6520ac0facffee523640356674ce63339df3fb0a0367f374909a25db01db",
+    "checkpoint_phase": 3800,
+    "contact_stops": 0,
+    "first_full_native_comparison": true,
+    "grasp": 3,
+    "lift20": 0,
+    "native_generations": 353,
+    "native_requests": 6,
+    "native_result_hashes": [
+      "c729eefdace54cf8799ca101a4a0fdb9b825b01c22ee6026a72a62917c5bbadb",
+      "4d3af0d91f6af1db0171ae91ce76621a8bea9fb89a28aa2af4b55bc70d322f98",
+      "b57809294a268acf513e25e8c11ce3de668b382441c2fb4a25f8fb3befacb579",
+      "8654fde47b6a479df4618569b22cdc96e37a1d6e77806051cf7380f481acbf72",
+      "9f48b01671093cc813f084187866359a290712b981c1db9f8ecfb8b3b1a51f6d",
+      "e7146e847f5b23ce6bdc9477043f366d816a4636d4176236edf1f68201ec3b9b"
+    ],
+    "native_terminal_sha256": "482415683e29ddc7e0d59b79c1e0790ecd113b4b42ea9937680d8c188b06ed54",
+    "native_ticks": 120968,
+    "no_hardware": true,
+    "parent": "502d890d3ff314ac42f4c79c360942b9b626bf1fcc4b6fc488fbab15ba508361",
+    "scientific_failure_retries": 0,
+    "seam_rejects": 5,
+    "selected_intervention": "AUXILIARY_SLOT_SELECTION",
+    "success": 0
+  },
+  "native_readback_sha256": "a5b60d551750c27406674d679ab86e86de6330d01f6a566392c20b7b74aa2ed1",
+  "native_spec_sha256": "8d37f6d98c2d26fd8579d74d65167570587d3282b5d9c70d67ac54954917bf80",
+  "native_unit": "wm02-sla-main3800-core-matched-native-dev6-20261122-01.service",
+  "new_training_visits": 0,
+  "new_updates": 0,
+  "original_main_paid_suffix_control_readback": {
+    "all_numeric_equal_updates": 100,
+    "archive_span_sha256": {
+      "A": "a076451fc997574509fe770512ff1237d844a5f1ec02bdb4fafea61e12980b9a",
+      "original": "4a3efc82844589cac677aaf1a567f3500045da78408192bdaf8c21dfeaa724c4"
+    },
+    "auxiliaries_per_line": 400,
+    "both_paid_updates": 200,
+    "control_job": "728992.hopper-m-02",
+    "expected_complete_arrays": 140,
+    "incomplete_3900_arrays": 127,
+    "kernel_loop_wall_seconds": {
+      "A": 1650.261,
+      "old": 1511.249
+    },
+    "max_absolute_deltas": {
+      "joint.grad_norm": 0,
+      "libero.FM32": 0,
+      "libero.auxiliary": 0,
+      "libero.private_gradient_norm": 0,
+      "libero.shared_gradient_norm": 0,
+      "robodojo.FM32": 0,
+      "robodojo.auxiliary": 0,
+      "robodojo.private_gradient_norm": 0,
+      "robodojo.shared_gradient_norm": 0,
+      "target.FM32": 0,
+      "target.auxiliary": 0,
+      "target.private_gradient_norm": 0,
+      "target.shared_gradient_norm": 0
+    },
+    "median_update_wall_s_excluding_first": {
+      "A": 15.755,
+      "old": 15.121
+    },
+    "new_model_generations": 0,
+    "new_native_requests": 0,
+    "new_training_updates": 0,
+    "numeric_equal_counts": {
+      "joint.grad_norm": 100,
+      "libero.FM32": 100,
+      "libero.auxiliary": 100,
+      "libero.private_gradient_norm": 100,
+      "libero.shared_gradient_norm": 100,
+      "robodojo.FM32": 100,
+      "robodojo.auxiliary": 100,
+      "robodojo.private_gradient_norm": 100,
+      "robodojo.shared_gradient_norm": 100,
+      "target.FM32": 100,
+      "target.auxiliary": 100,
+      "target.private_gradient_norm": 100,
+      "target.shared_gradient_norm": 100
+    },
+    "observed_epoch": 1795343666.4982786,
+    "old_complete_dirs": [
+      "phase00000",
+      "phase01000",
+      "phase02000",
+      "phase03000",
+      "phase03800"
+    ],
+    "old_job_ids": [
+      "728341.hopper-m-02"
+    ],
+    "original_PBS_terminal": {
+      "exit": 1,
+      "job": "728341.hopper-m-02",
+      "reported_job_walltime": "01:37:28",
+      "state": "F"
+    },
+    "parent_3800": "502d890d3ff314ac42f4c79c360942b9b626bf1fcc4b6fc488fbab15ba508361",
+    "private_receipt_sha256": "8ef097b1a2bf26136725bcac24f97b075729f053744066b9486eadb7340eed1e",
+    "same_auxiliary_slots": 100,
+    "same_updates": 100,
+    "same_visit_slices": 300,
+    "scope": "MAIN_3801_3900_MATCHED_CONTROL",
+    "visits_per_line": {
+      "libero": 3200,
+      "robodojo": 3200,
+      "target": 6400
+    }
+  },
+  "post_grasp_observed_duration_ms": {
+    "HOLD-blue": 208,
+    "HOLD-red": 150,
+    "PLACE-red-left": 736
+  },
+  "post_grasp_transition_readback": {
+    "expert": {
+      "TRAIN": {
+        "confirmed_first_atoms": 3,
+        "feedback_minus_previous_range_mm": [
+          12.025259718161113,
+          12.038758241012324
+        ],
+        "first_command_jump_mm": -1.1241039062500047,
+        "independent_layouts": 3,
+        "seam_speed_mm_s": 22.482078124972617
+      },
+      "VAL": {
+        "confirmed_first_atoms": 2,
+        "feedback_minus_previous_range_mm": [
+          12.05311427399253,
+          12.089201425843466
+        ],
+        "first_command_jump_mm": -1.1241039062500047,
+        "independent_layouts": 2,
+        "seam_speed_mm_s": 22.482078124972617
+      }
+    },
+    "expert_actual_readback_sha256": "7159be2b537dc5b73ea5867ee5bfdd48f1190ed072f7c70dc9915a697ae995aa",
+    "matched_student_expert_full_state": false,
+    "new_model_generations": 0,
+    "new_native_requests": 0,
+    "new_training_updates": 0,
+    "student_conditions": 18,
+    "student_confirmed_transitions": {
+      "MAIN-phase00000": {},
+      "MAIN-phase02000": {
+        "PLACE-blue-left": {
+          "age_native_ms": 50.00000000006111,
+          "confirmed_atoms": 0,
+          "confirmed_intervals_including_partial_first": 5,
+          "confirmed_new_query_ids_after_grasp": [],
+          "confirmed_ticks": 123,
+          "first_seam_mm_s": 140.9190887849823,
+          "grasp_tick": 18830,
+          "install_ACKs": 0,
+          "max_internal_mm_s": 4.27533217527933,
+          "measured_minus_previous_mm": 8.896954225618094,
+          "proposal_minus_measured_mm": -15.94290866487582,
+          "proposal_minus_previous_mm": -7.045954439257725,
+          "rejected_tick": 18953
+        }
+      },
+      "MAIN-phase03800": {
+        "HOLD-blue": {
+          "age_native_ms": 50.00000000006111,
+          "confirmed_atoms": 0,
+          "confirmed_intervals_including_partial_first": 5,
+          "confirmed_new_query_ids_after_grasp": [],
+          "confirmed_ticks": 104,
+          "first_seam_mm_s": 141.2522267668122,
+          "grasp_tick": 19099,
+          "install_ACKs": 0,
+          "max_internal_mm_s": 6.418849075649326,
+          "measured_minus_previous_mm": 8.18738881142045,
+          "proposal_minus_measured_mm": -15.250000149769694,
+          "proposal_minus_previous_mm": -7.0626113383492415,
+          "rejected_tick": 19203
+        },
+        "HOLD-red": {
+          "age_native_ms": 50.00000000006111,
+          "confirmed_atoms": 0,
+          "confirmed_intervals_including_partial_first": 3,
+          "confirmed_new_query_ids_after_grasp": [],
+          "confirmed_ticks": 75,
+          "first_seam_mm_s": 123.46460041788447,
+          "grasp_tick": 21378,
+          "install_ACKs": 0,
+          "max_internal_mm_s": 17.728481132532405,
+          "measured_minus_previous_mm": 5.466033386971625,
+          "proposal_minus_measured_mm": -11.639263407873393,
+          "proposal_minus_previous_mm": -6.1732300209017685,
+          "rejected_tick": 21453
+        },
+        "PLACE-red-left": {
+          "age_native_ms": 50.00000000006111,
+          "confirmed_atoms": 0,
+          "confirmed_intervals_including_partial_first": 15,
+          "confirmed_new_query_ids_after_grasp": [
+            60
+          ],
+          "confirmed_ticks": 368,
+          "first_seam_mm_s": 57.02508313235046,
+          "grasp_tick": 20335,
+          "install_ACKs": 0,
+          "max_internal_mm_s": 6.986792295734989,
+          "measured_minus_previous_mm": 12.964617458156122,
+          "proposal_minus_measured_mm": -15.81587161477713,
+          "proposal_minus_previous_mm": -2.8512541566210077,
+          "rejected_tick": 20703
+        }
+      }
+    },
+    "student_grasps": {
+      "MAIN-phase00000": 0,
+      "MAIN-phase02000": 1,
+      "MAIN-phase03800": 3
+    },
+    "student_native_readback_sha256": "689a6d29a3ba404f149d54a3641fa48e43b83ba5434edbedb4b510de3296f4a6"
+  },
+  "post_main_3800_paid_updates": 100,
+  "prospective_auxiliary": {
+    "A_midpoint_file_readback": {
+      "absolute_phase": 4050,
+      "arm": "A",
+      "bytes": 5547608728,
+      "counts": {
+        "libero": 6550,
+        "robodojo": 6550,
+        "shared": 6550,
+        "target": 6550
+      },
+      "job": "728992.hopper-m-02",
+      "members": {
+        "RNG": 1,
+        "optimizer": 94,
+        "parameters": 45
+      },
+      "new_generation_count": 0,
+      "new_native_count": 0,
+      "new_update_count": 0,
+      "observed_epoch": 1795345904.7317853,
+      "parent": "502d890d3ff314ac42f4c79c360942b9b626bf1fcc4b6fc488fbab15ba508361",
+      "relative_optimization_updates": 250,
+      "seconds": 9.662222024984658,
+      "sha256": "352de41ab2fc356bc183153d98a6fb57784ac179ba3ac4402ce0768d9156e57d",
+      "status": "REAL_MIDPOINT_ARRAYS_READ_BACK",
+      "verified_arrays": 140
+    },
+    "PBS_jobs": 2,
+    "actual_updates": 0,
+    "cold_repair_actual": {
+      "A_final": {
+        "checkpoint_sha256": "fb0943fded0026f21d4dddcb19b9d89bbd5e4957b625138b38eb63f4ca591424",
+        "exact_arrays": 140,
+        "exit": 0,
+        "full_H40": 2000,
+        "result_sha256": "d24edb050ee9691c0d4d560101ffacc488a4c9a6a62409fda2aa38fb413b6684",
+        "updates": 500,
+        "visits": {
+          "libero": 16000,
+          "robodojo": 16000,
+          "target": 32000
+        }
+      },
+      "B_midpoint": {
+        "absolute_phase": 4050,
+        "arm": "B",
+        "bytes": 5547608728,
+        "counts": {
+          "libero": 6550,
+          "robodojo": 6550,
+          "shared": 6550,
+          "target": 6550
+        },
+        "job": "728996.hopper-m-02",
+        "members": {
+          "RNG": 1,
+          "optimizer": 94,
+          "parameters": 45
+        },
+        "new_generation_count": 0,
+        "new_native_count": 0,
+        "new_update_count": 0,
+        "observed_epoch": 1795353434.0194907,
+        "parent": "502d890d3ff314ac42f4c79c360942b9b626bf1fcc4b6fc488fbab15ba508361",
+        "relative_optimization_updates": 250,
+        "seconds": 10.079017139039934,
+        "sha256": "ec22da546796cdf0d9f9926b3db7457f7780baced382117f436e346edb3af6c1",
+        "status": "REAL_MIDPOINT_ARRAYS_READ_BACK",
+        "verified_arrays": 140
+      },
+      "actual_pair": {
+        "actual_A_auxiliary": 1000,
+        "actual_A_visits": {
+          "libero": 8000,
+          "robodojo": 8000,
+          "target": 16000
+        },
+        "actual_B_auxiliary": 1000,
+        "actual_B_updates": 250,
+        "arms": {
+          "A": "728992.hopper-m-02",
+          "B": "728996.hopper-m-02"
+        },
+        "counts": {
+          "A_actual": {
+            "FIRST_REQUEST_AFTER_GRASP": {
+              "episodes": 5,
+              "updates_with_hit": 5,
+              "visits": 5
+            },
+            "GRASP_TO_LIFT20": {
+              "episodes": 21,
+              "updates_with_hit": 35,
+              "visits": 41
+            },
+            "P10_CLOSE_CROSSING": {
+              "episodes": 48,
+              "updates_with_hit": 131,
+              "visits": 170
+            }
+          },
+          "B_actual": {
+            "FIRST_REQUEST_AFTER_GRASP": {
+              "episodes": 36,
+              "updates_with_hit": 70,
+              "visits": 70
+            },
+            "GRASP_TO_LIFT20": {
+              "episodes": 40,
+              "updates_with_hit": 91,
+              "visits": 95
+            },
+            "P10_CLOSE_CROSSING": {
+              "episodes": 56,
+              "updates_with_hit": 250,
+              "visits": 371
+            }
+          },
+          "FM_same_bank": {
+            "FIRST_REQUEST_AFTER_GRASP": {
+              "episodes": 38,
+              "updates_with_hit": 71,
+              "visits": 81
+            },
+            "GRASP_TO_LIFT20": {
+              "episodes": 52,
+              "updates_with_hit": 231,
+              "visits": 628
+            },
+            "P10_CLOSE_CROSSING": {
+              "episodes": 58,
+              "updates_with_hit": 250,
+              "visits": 2513
+            }
+          }
+        },
+        "matched_domain_slices": 750,
+        "native_requests": 0,
+        "new_updates_created": 0,
+        "parent": "502d890d3ff314ac42f4c79c360942b9b626bf1fcc4b6fc488fbab15ba508361",
+        "selection_sha256": "d327723706f8e926dd86252abcf0dfea4acb24940b87a67a9260014c0fcc80c3",
+        "slot_substitutions_histogram": {
+          "0": 27,
+          "1": 163,
+          "2": 60
+        },
+        "status": "A_AND_B_ACTUAL_FIRST_250_MATCHED_VISITS",
+        "target_manifest": "e0c5c481a95972e4ba5c9b712e1c3a1240d462ad28222a2c0e041e307fb42278",
+        "verified_A_updates": 250
+      },
+      "eval": {
+        "budget": 80,
+        "generations": 0,
+        "invocation": "17b08a6bd70148f8a82f38e0bb1a15f1",
+        "linger": true,
+        "models_delivered": 0,
+        "numeric_binding": "72d6d5d8eb6647f170aa7f215dfb323a9efb82015d770ec51768acafbc1d31c1",
+        "old_terminal_sha256": "ccdf44ec745ed0fdff1cdfdb615a5d84dbf45cdd64e3e0faeb99c552e208beb3",
+        "pid": 3912500,
+        "preflight": "87d69770261feda09f8af6ea2287e0383b7e984309887e1670d730d3881f97cd",
+        "source": "995c4c8fa63cd24322d711c5dbe7b0d1323ae061",
+        "spec_sha256": "348f16c8f70a910a0294d85eb22f37ec7d65a2ac5c121b4c969310d7acc65fec",
+        "unit": "wm02-sla-main3800-core-ab-event-eval-20261122-02.service"
+      },
+      "native": {
+        "invocation": "2fd4f22a186f4f3b87ff33a7d58d29d3",
+        "linger": true,
+        "native_actual": 0,
+        "native_cap": 12,
+        "pid": 3916214,
+        "source": "e03e9bae427f27c3249d635e3c144d461b7b016e",
+        "spec_sha256": "902313b031c641decc79ac1356594195aa9237c9011fe6770770f9163449f613",
+        "unit": "wm02-sla-main3800-cross-layout-ab-20261122-01.service"
+      }
+    },
+    "completed_pair_and_core_delivery": {
+      "arms": {
+        "A": {
+          "actual_event_slots": {
+            "FIRST_REQUEST_AFTER_GRASP_updates": 8,
+            "FIRST_REQUEST_AFTER_GRASP_visits": 8,
+            "P10_CLOSE_CROSSING_updates": 253,
+            "P10_CLOSE_CROSSING_visits": 322
+          },
+          "arm": "A",
+          "auxiliary_H40": 2000,
+          "complete_arrays": 140,
+          "exported_arrays": 29,
+          "job": "728992.hopper-m-02",
+          "manifest_sha256": "cc04e48e148a1b5a4d459b8ce26de386d15fe7ae10d2579cd2e3f64f0ac0927f",
+          "ordered_journal_sha256": "34c3aec14bffae7888916be5a664f4c9284dfa8db6d12caa4e32ec67356090dd",
+          "result_sha256": "d24edb050ee9691c0d4d560101ffacc488a4c9a6a62409fda2aa38fb413b6684",
+          "scheduler": {
+            "exit": 0,
+            "job": "728992.hopper-m-02",
+            "state": "F"
+          },
+          "training_state_sha256": "fb0943fded0026f21d4dddcb19b9d89bbd5e4957b625138b38eb63f4ca591424",
+          "updates": 500,
+          "visits": {
+            "libero": 16000,
+            "robodojo": 16000,
+            "target": 32000
+          }
+        },
+        "B": {
+          "actual_event_slots": {
+            "FIRST_REQUEST_AFTER_GRASP_updates": 135,
+            "FIRST_REQUEST_AFTER_GRASP_visits": 136,
+            "P10_CLOSE_CROSSING_updates": 500,
+            "P10_CLOSE_CROSSING_visits": 731
+          },
+          "arm": "B",
+          "auxiliary_H40": 2000,
+          "complete_arrays": 140,
+          "exported_arrays": 29,
+          "job": "728996.hopper-m-02",
+          "manifest_sha256": "13a6b45e691a40b36ed97c36cb68c1e8324db33b263320c4c96685e27be3049f",
+          "ordered_journal_sha256": "eeae5876f573fe12f2f77f1cb2c042557ac5712c9a94ad94b7c3fe53af93c9ae",
+          "result_sha256": "8b85d0e01a5ef9b8db2b1b1c12a875522f19a8b50a71aa07dd1e27cdc48f1994",
+          "scheduler": {
+            "exit": 0,
+            "job": "728996.hopper-m-02",
+            "state": "F"
+          },
+          "training_state_sha256": "535fd67de59e6a4b20756306eec142e5f8555972039b5dda8e1f625a720789c0",
+          "updates": 500,
+          "visits": {
+            "libero": 16000,
+            "robodojo": 16000,
+            "target": 32000
+          }
+        }
+      },
+      "core_cross_layout": {
+        "requests": 0,
+        "status": "WAIT_OFFLINE_TERMINAL"
+      },
+      "core_offline": {
+        "epoch": 1795357897.7216494,
+        "generated": 0,
+        "host_available_GiB": 30.06584930419922,
+        "min_host_available_GiB": 36,
+        "native": 0,
+        "status": "WAIT_ORIGINAL_RESOURCES"
+      },
+      "first_transfer": {
+        "bytes_observed": 2551562357,
+        "cutoff_seconds": 360,
+        "files_observed": 48,
+        "status": "TIMEOUT_PARTIAL_STAGING"
+      },
+      "paired_training": {
+        "actual_A_auxiliary": 2000,
+        "actual_A_visits": {
+          "libero": 16000,
+          "robodojo": 16000,
+          "target": 32000
+        },
+        "actual_B_auxiliary": 2000,
+        "actual_B_updates": 500,
+        "arms": {
+          "A": "728992.hopper-m-02",
+          "B": "728996.hopper-m-02"
+        },
+        "counts": {
+          "A_actual": {
+            "FIRST_REQUEST_AFTER_GRASP": {
+              "episodes": 8,
+              "updates_with_hit": 8,
+              "visits": 8
+            },
+            "GRASP_TO_LIFT20": {
+              "episodes": 41,
+              "updates_with_hit": 73,
+              "visits": 84
+            },
+            "P10_CLOSE_CROSSING": {
+              "episodes": 54,
+              "updates_with_hit": 253,
+              "visits": 322
+            }
+          },
+          "B_actual": {
+            "FIRST_REQUEST_AFTER_GRASP": {
+              "episodes": 47,
+              "updates_with_hit": 135,
+              "visits": 136
+            },
+            "GRASP_TO_LIFT20": {
+              "episodes": 50,
+              "updates_with_hit": 180,
+              "visits": 191
+            },
+            "P10_CLOSE_CROSSING": {
+              "episodes": 58,
+              "updates_with_hit": 500,
+              "visits": 731
+            }
+          },
+          "FM_same_bank": {
+            "FIRST_REQUEST_AFTER_GRASP": {
+              "episodes": 48,
+              "updates_with_hit": 136,
+              "visits": 156
+            },
+            "GRASP_TO_LIFT20": {
+              "episodes": 52,
+              "updates_with_hit": 470,
+              "visits": 1252
+            },
+            "P10_CLOSE_CROSSING": {
+              "episodes": 58,
+              "updates_with_hit": 500,
+              "visits": 5019
+            }
+          }
+        },
+        "matched_domain_slices": 1500,
+        "native_requests": 0,
+        "new_updates_created": 0,
+        "parent": "502d890d3ff314ac42f4c79c360942b9b626bf1fcc4b6fc488fbab15ba508361",
+        "selection_sha256": "d327723706f8e926dd86252abcf0dfea4acb24940b87a67a9260014c0fcc80c3",
+        "slot_substitutions_histogram": {
+          "0": 53,
+          "1": 332,
+          "2": 115
+        },
+        "status": "A_AND_B_ACTUAL_FULL_500_MATCHED_VISITS",
+        "target_manifest": "e0c5c481a95972e4ba5c9b712e1c3a1240d462ad28222a2c0e041e307fb42278",
+        "verified_A_updates": 500
+      },
+      "receipt": {
+        "arms": {
+          "A": "cc04e48e148a1b5a4d459b8ce26de386d15fe7ae10d2579cd2e3f64f0ac0927f",
+          "B": "13a6b45e691a40b36ed97c36cb68c1e8324db33b263320c4c96685e27be3049f"
+        },
+        "bytes": 3663771637,
+        "export_sha256": "40aca07538f4b7fddb81c1530e32bfbc05925d4113d71ab1fe550bd72fc7d001",
+        "files": 61,
+        "generations": 0,
+        "inference_arrays": 58,
+        "native_requests": 0,
+        "reused_bytes": 2295709813,
+        "reused_files": 47,
+        "status": "CORE_GO2_PAIR_VERIFIED",
+        "updates": 0
+      },
+      "transfer_source": "cc46ddcf1ee50d4e403c394ecc3adac05ad69676"
+    },
+    "core_offline_and_native_A_actual": {
+      "native": {
+        "a_block": {
+          "block": {
+            "path": "/var/tmp/sla-v6-core-uid2009-owned-20261118/sla-main3800-cross-layout-ab-20261122-01/blocks/A-phase04300-DEV-cross-layout/RESULT.private.json",
+            "sha256": "20b29e66a8b879db166e42f880b198f8029fe24129123f871d7f98b811de2bdc"
+          },
+          "generations": 364,
+          "records": [
+            "f1dd0d09c1df406a6aea443d4f576527b9c8d0377a41985d1a68a45b0d797bc6",
+            "d6292f6d16642deba1fa7a9cf7808ccee1b7038972208ecf8f10aef4fd0c8d2d",
+            "c14446eca5029862faf2e0fe14805241e5fdbeaebce925ec79a15486c44ff1fe",
+            "f87f5034a71a2b7ce045c0e1c0f699a31e281410f0432c40c5850e6811bde172",
+            "7a6cbac74c7a5e5133847d45f5192b0b24a3ce85f2efeee65d11f3716364c97f",
+            "b7d7bb0f2b6823755b42f049c22a063a0fc1299be5192c0ca809e18c063345b4"
+          ],
+          "requests": 6,
+          "success": 0,
+          "ticks": 124115
+        },
+        "b_requests": 0,
+        "case_results": [
+          {
+            "first_failure": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+            "generations": 74,
+            "grasp": true,
+            "hold": 0,
+            "id": "CHV1-DEV-F1-PLACE-blue-left-01-A-phase04300",
+            "lift": false,
+            "requests": 1,
+            "sha256": "d6292f6d16642deba1fa7a9cf7808ccee1b7038972208ecf8f10aef4fd0c8d2d",
+            "success": false,
+            "technical": false,
+            "ticks": 23953
+          },
+          {
+            "first_failure": "ILLEGAL_CONTACT",
+            "generations": 68,
+            "grasp": null,
+            "hold": null,
+            "id": "CHV1-DEV-F1-HOLD-red-01-A-phase04300",
+            "lift": null,
+            "requests": 1,
+            "sha256": "f1dd0d09c1df406a6aea443d4f576527b9c8d0377a41985d1a68a45b0d797bc6",
+            "success": false,
+            "technical": false,
+            "ticks": 22549
+          },
+          {
+            "first_failure": "ILLEGAL_CONTACT",
+            "generations": 46,
+            "grasp": null,
+            "hold": null,
+            "id": "CHV1-DEV-F2-PLACE-blue-right-00-A-phase04300",
+            "lift": null,
+            "requests": 1,
+            "sha256": "b7d7bb0f2b6823755b42f049c22a063a0fc1299be5192c0ca809e18c063345b4",
+            "success": false,
+            "technical": false,
+            "ticks": 17025
+          },
+          {
+            "first_failure": "ILLEGAL_CONTACT",
+            "generations": 50,
+            "grasp": null,
+            "hold": null,
+            "id": "CHV1-DEV-F2-HOLD-blue-00-A-phase04300",
+            "lift": null,
+            "requests": 1,
+            "sha256": "f87f5034a71a2b7ce045c0e1c0f699a31e281410f0432c40c5850e6811bde172",
+            "success": false,
+            "technical": false,
+            "ticks": 18045
+          },
+          {
+            "first_failure": "ILLEGAL_CONTACT",
+            "generations": 62,
+            "grasp": null,
+            "hold": null,
+            "id": "CHV1-DEV-F1-PLACE-red-right-01-A-phase04300",
+            "lift": null,
+            "requests": 1,
+            "sha256": "c14446eca5029862faf2e0fe14805241e5fdbeaebce925ec79a15486c44ff1fe",
+            "success": false,
+            "technical": false,
+            "ticks": 21060
+          },
+          {
+            "first_failure": "ILLEGAL_CONTACT",
+            "generations": 64,
+            "grasp": null,
+            "hold": null,
+            "id": "CHV1-DEV-F2-PLACE-red-left-00-A-phase04300",
+            "lift": null,
+            "requests": 1,
+            "sha256": "7a6cbac74c7a5e5133847d45f5192b0b24a3ce85f2efeee65d11f3716364c97f",
+            "success": false,
+            "technical": false,
+            "ticks": 21483
+          }
+        ],
+        "completed_total": 6,
+        "state": "WAIT_ORIGINAL_RESOURCES"
+      },
+      "offline": {
+        "changes": {
+          "TRAIN": {
+            "gains": [
+              2,
+              11,
+              16,
+              20
+            ],
+            "losses": [
+              1,
+              10,
+              19,
+              22
+            ]
+          },
+          "VAL": {
+            "gains": [
+              26
+            ],
+            "losses": [
+              24,
+              34
+            ]
+          }
+        },
+        "counts": {
+          "A-phase04300": {
+            "TRAIN": {
+              "before_lift": [
+                {
+                  "i": 3,
+                  "legal": true,
+                  "up_P10_mm": 1.983
+                },
+                {
+                  "i": 12,
+                  "legal": true,
+                  "up_P10_mm": 2.225
+                },
+                {
+                  "i": 21,
+                  "legal": true,
+                  "up_P10_mm": 2.384
+                }
+              ],
+              "close_due": 3,
+              "close_pass": 3,
+              "due": 3,
+              "finger_legal": 19,
+              "full_H40": 22,
+              "legal": 19,
+              "post_grasp": [
+                {
+                  "i": 2,
+                  "legal": false,
+                  "seam_mm_s": 82.985,
+                  "up_P10_mm": 2.621
+                },
+                {
+                  "i": 11,
+                  "legal": false,
+                  "seam_mm_s": 91.148,
+                  "up_P10_mm": 2.266
+                },
+                {
+                  "i": 20,
+                  "legal": false,
+                  "seam_mm_s": 90.911,
+                  "up_P10_mm": 2.531
+                }
+              ],
+              "timely_and_legal": 3,
+              "total": 24
+            },
+            "VAL": {
+              "before_lift": [
+                {
+                  "i": 27,
+                  "legal": true,
+                  "up_P10_mm": 1.602
+                },
+                {
+                  "i": 36,
+                  "legal": true,
+                  "up_P10_mm": 2.979
+                }
+              ],
+              "close_due": 2,
+              "close_pass": 2,
+              "due": 2,
+              "finger_legal": 13,
+              "full_H40": 15,
+              "legal": 13,
+              "post_grasp": [
+                {
+                  "i": 26,
+                  "legal": false,
+                  "seam_mm_s": 69.087,
+                  "up_P10_mm": 2.751
+                },
+                {
+                  "i": 35,
+                  "legal": false,
+                  "seam_mm_s": 57.192,
+                  "up_P10_mm": 1.016
+                }
+              ],
+              "timely_and_legal": 2,
+              "total": 16
+            }
+          },
+          "B-phase04300": {
+            "TRAIN": {
+              "before_lift": [
+                {
+                  "i": 3,
+                  "legal": true,
+                  "up_P10_mm": 1.429
+                },
+                {
+                  "i": 12,
+                  "legal": true,
+                  "up_P10_mm": 1.567
+                },
+                {
+                  "i": 21,
+                  "legal": true,
+                  "up_P10_mm": 1.613
+                }
+              ],
+              "close_due": 3,
+              "close_pass": 0,
+              "due": 3,
+              "finger_legal": 19,
+              "full_H40": 20,
+              "legal": 19,
+              "post_grasp": [
+                {
+                  "i": 2,
+                  "legal": true,
+                  "seam_mm_s": 14.164,
+                  "up_P10_mm": 1.823
+                },
+                {
+                  "i": 11,
+                  "legal": true,
+                  "seam_mm_s": 0.637,
+                  "up_P10_mm": 1.813
+                },
+                {
+                  "i": 20,
+                  "legal": true,
+                  "seam_mm_s": 27.763,
+                  "up_P10_mm": 2.135
+                }
+              ],
+              "timely_and_legal": 0,
+              "total": 24
+            },
+            "VAL": {
+              "before_lift": [
+                {
+                  "i": 27,
+                  "legal": true,
+                  "up_P10_mm": 0.908
+                },
+                {
+                  "i": 36,
+                  "legal": true,
+                  "up_P10_mm": 2.263
+                }
+              ],
+              "close_due": 2,
+              "close_pass": 1,
+              "due": 2,
+              "finger_legal": 12,
+              "full_H40": 13,
+              "legal": 12,
+              "post_grasp": [
+                {
+                  "i": 26,
+                  "legal": true,
+                  "seam_mm_s": 23.825,
+                  "up_P10_mm": 2.426
+                },
+                {
+                  "i": 35,
+                  "legal": false,
+                  "seam_mm_s": 44.797,
+                  "up_P10_mm": 0.598
+                }
+              ],
+              "timely_and_legal": 1,
+              "total": 16
+            }
+          }
+        },
+        "epoch": 1795358897.3804188,
+        "generations": 80,
+        "service": {
+          "ActiveState": "inactive",
+          "MainPID": "0",
+          "SubState": "dead"
+        },
+        "sha256": "f755abb287ad28a38def143b827f2dda5b82425fe979e395e5ac31df59e047a0",
+        "status": "COMPLETE"
+      }
+    },
+    "core_pair_event_queue": {
+      "actual_generations": 0,
+      "deadline_epoch": 1795381538.4120803,
+      "delivered_production_endpoints": 0,
+      "generation_cap": 80,
+      "invocation_id": "4bf3f39b058a478fa26be75e69b5f856",
+      "linger": true,
+      "native_requests": 0,
+      "paired_windows_per_arm": {
+        "TRAIN": 24,
+        "VAL": 16
+      },
+      "pid": 3725195,
+      "source": "cdf88f1f2142bb5b7d55b02a5bd09427ea8c00e8",
+      "source_members_sha256": "4eeebe1c0cdbce683c273764ecfdd3f65865eb1dcfbe09061dcb992992ec1249",
+      "status": "WAIT_FOR_VERIFIED_AB_DELIVERY",
+      "training_updates": 0,
+      "unit": "wm02-sla-main3800-core-ab-event-eval-20261122-01.service",
+      "wait_sha256": "385929681aad3172e94f5f17573202af64beac0d6caddd9212c8da19d981380c"
+    },
+    "counts": {
+      "A": {
+        "FIRST_REQUEST_AFTER_GRASP_updates": 8,
+        "FIRST_REQUEST_AFTER_GRASP_visits": 8,
+        "P10_CLOSE_CROSSING_updates": 253,
+        "P10_CLOSE_CROSSING_visits": 322
+      },
+      "B": {
+        "FIRST_REQUEST_AFTER_GRASP_updates": 135,
+        "FIRST_REQUEST_AFTER_GRASP_visits": 136,
+        "P10_CLOSE_CROSSING_updates": 500,
+        "P10_CLOSE_CROSSING_visits": 731
+      }
+    },
+    "dry_run_sha256": "d327723706f8e926dd86252abcf0dfea4acb24940b87a67a9260014c0fcc80c3",
+    "first250_transition_exposure": {
+      "actual_A_auxiliary": 1000,
+      "actual_A_visits": {
+        "libero": 8000,
+        "robodojo": 8000,
+        "target": 16000
+      },
+      "actual_B_updates": 0,
+      "arms": {
+        "A": "728992.hopper-m-02",
+        "B": "728996.hopper-m-02"
+      },
+      "counts": {
+        "A_actual": {
+          "FIRST_REQUEST_AFTER_GRASP": {
+            "episodes": 5,
+            "updates_with_hit": 5,
+            "visits": 5
+          },
+          "GRASP_TO_LIFT20": {
+            "episodes": 21,
+            "updates_with_hit": 35,
+            "visits": 41
+          },
+          "P10_CLOSE_CROSSING": {
+            "episodes": 48,
+            "updates_with_hit": 131,
+            "visits": 170
+          }
+        },
+        "B_planned": {
+          "FIRST_REQUEST_AFTER_GRASP": {
+            "episodes": 36,
+            "updates_with_hit": 70,
+            "visits": 70
+          },
+          "GRASP_TO_LIFT20": {
+            "episodes": 40,
+            "updates_with_hit": 91,
+            "visits": 95
+          },
+          "P10_CLOSE_CROSSING": {
+            "episodes": 56,
+            "updates_with_hit": 250,
+            "visits": 371
+          }
+        },
+        "FM_same_bank": {
+          "FIRST_REQUEST_AFTER_GRASP": {
+            "episodes": 38,
+            "updates_with_hit": 71,
+            "visits": 81
+          },
+          "GRASP_TO_LIFT20": {
+            "episodes": 52,
+            "updates_with_hit": 231,
+            "visits": 628
+          },
+          "P10_CLOSE_CROSSING": {
+            "episodes": 58,
+            "updates_with_hit": 250,
+            "visits": 2513
+          }
+        }
+      },
+      "native_requests": 0,
+      "new_updates_created": 0,
+      "parent": "502d890d3ff314ac42f4c79c360942b9b626bf1fcc4b6fc488fbab15ba508361",
+      "planned_B_auxiliary_for_same_250": 1000,
+      "selection_sha256": "d327723706f8e926dd86252abcf0dfea4acb24940b87a67a9260014c0fcc80c3",
+      "slot_substitutions_histogram": {
+        "0": 27,
+        "1": 163,
+        "2": 60
+      },
+      "status": "A_ACTUAL_FIRST_250_VS_B_PRE_REGISTERED_SAME_SLICES",
+      "target_manifest": "e0c5c481a95972e4ba5c9b712e1c3a1240d462ad28222a2c0e041e307fb42278",
+      "verified_A_updates": 250
+    },
+    "first_durable_live_observation": [
+      {
+        "arm": "A",
+        "complete_updates": 1,
+        "epoch": 1795341764.9601924,
+        "full_H40": 4,
+        "inflight": [
+          3802
+        ],
+        "job": "728992.hopper-m-02",
+        "phase": 3801,
+        "status_proof": true,
+        "visits": {
+          "libero": 32,
+          "robodojo": 32,
+          "target": 64
+        }
+      },
+      {
+        "arm": "B",
+        "complete_updates": 0,
+        "epoch": 1795341764.9690628,
+        "full_H40": 0,
+        "inflight": [],
+        "job": "728996.hopper-m-02",
+        "phase": 3800,
+        "status_proof": false,
+        "visits": {
+          "libero": 0,
+          "robodojo": 0,
+          "target": 0
+        }
+      }
+    ],
+    "jobs": {
+      "A": {
+        "job": "728992.hopper-m-02",
+        "mount_sha256": "67e4c1744e1d9028de9e9fe922b3da1f684289b4ea3a1d9ba711d4c45c1f3897",
+        "state": "Q"
+      },
+      "B": {
+        "afterok": "728992.hopper-m-02",
+        "job": "728996.hopper-m-02",
+        "mount_sha256": "b43b509d9ff6c7842147206d557b029f34fc8a88d8a6a75bdb5cdad592232982",
+        "state": "H"
+      }
+    },
+    "latest_durable_live_observation": {
+      "A": {
+        "auxiliary_full_H40": 1136,
+        "inflight": [
+          4085
+        ],
+        "phase": 4084,
+        "updates": 284,
+        "visits": {
+          "libero": 9088,
+          "robodojo": 9088,
+          "target": 18176
+        }
+      },
+      "B": {
+        "auxiliary_full_H40": 0,
+        "phase": 3800,
+        "scheduler_depend": "afterok:728992.hopper-m-02",
+        "updates": 0,
+        "visits": {
+          "libero": 0,
+          "robodojo": 0,
+          "target": 0
+        }
+      },
+      "epoch": 1795346136.4686682,
+      "native_requests": 0
+    },
+    "observed_training_visits": 0,
+    "paired_final_attribution": {
+      "closure": {
+        "before_lift_xyz": {
+          "A-phase04300": [
+            [
+              3,
+              1.9828677706651507,
+              2.1093523108492884
+            ],
+            [
+              12,
+              2.225006358552506,
+              2.3022762613794283
+            ],
+            [
+              21,
+              2.3837998306938974,
+              2.575685702275091
+            ],
+            [
+              27,
+              1.6021280519845327,
+              1.8394987640399372
+            ],
+            [
+              36,
+              2.9793155518680914,
+              3.189260873017324
+            ]
+          ],
+          "B-phase04300": [
+            [
+              3,
+              1.4285420832365592,
+              1.5755375835349301
+            ],
+            [
+              12,
+              1.567121258284935,
+              1.6414358332333558
+            ],
+            [
+              21,
+              1.6134300569342057,
+              1.8508997145681314
+            ],
+            [
+              27,
+              0.9082780793744673,
+              1.1422244974196059
+            ],
+            [
+              36,
+              2.262621637680151,
+              2.500953860136602
+            ]
+          ]
+        },
+        "paired_closure": [
+          {
+            "A": {
+              "G7_speed": true,
+              "H40": true,
+              "aligned_P10_mm": 0.5223804925681,
+              "due": true,
+              "expert_crossing": 1,
+              "first_H40_exceedance": null,
+              "legal": true,
+              "maximum_finger_mm_s": 35.333017886512025,
+              "model_crossing": 1,
+              "model_up_P10_mm": -0.28718996491818605,
+              "seam_mm_s": 23.579447499452872,
+              "timely_and_legal": true
+            },
+            "B": {
+              "G7_speed": false,
+              "H40": false,
+              "aligned_P10_mm": 0.6361528344073214,
+              "due": true,
+              "expert_crossing": 1,
+              "first_H40_exceedance": {
+                "channel": "finger_velocity",
+                "first_ratio": 1.003406237540706,
+                "k": 5,
+                "order": 2,
+                "path": "nominal",
+                "peak_ratio": 1.003406237540706,
+                "region": "P10",
+                "time_s": 0.25
+              },
+              "legal": false,
+              "maximum_finger_mm_s": 40.1362495016282,
+              "model_crossing": 2,
+              "model_up_P10_mm": -0.4158825849241213,
+              "seam_mm_s": 23.277173731268697,
+              "timely_and_legal": false
+            },
+            "ordinal": 1,
+            "split": "TRAIN",
+            "tag": "P10_CLOSE_CROSSING"
+          },
+          {
+            "A": {
+              "G7_speed": true,
+              "H40": true,
+              "aligned_P10_mm": 0.43598061221576234,
+              "due": true,
+              "expert_crossing": 1,
+              "first_H40_exceedance": null,
+              "legal": true,
+              "maximum_finger_mm_s": 36.655333347079264,
+              "model_crossing": 1,
+              "model_up_P10_mm": -0.29318864896782343,
+              "seam_mm_s": 18.16037790348529,
+              "timely_and_legal": true
+            },
+            "B": {
+              "G7_speed": false,
+              "H40": false,
+              "aligned_P10_mm": 0.5447371472232476,
+              "due": true,
+              "expert_crossing": 1,
+              "first_H40_exceedance": {
+                "channel": "finger_velocity",
+                "first_ratio": 1.0224572152742342,
+                "k": 7,
+                "order": 2,
+                "path": "nominal",
+                "peak_ratio": 1.0224572152742342,
+                "region": "P10",
+                "time_s": 0.35000000000000003
+              },
+              "legal": false,
+              "maximum_finger_mm_s": 40.8982886109694,
+              "model_crossing": 2,
+              "model_up_P10_mm": -0.40279447542982305,
+              "seam_mm_s": 19.25310146428841,
+              "timely_and_legal": false
+            },
+            "ordinal": 10,
+            "split": "TRAIN",
+            "tag": "P10_CLOSE_CROSSING"
+          },
+          {
+            "A": {
+              "G7_speed": true,
+              "H40": true,
+              "aligned_P10_mm": 0.8020196686385173,
+              "due": true,
+              "expert_crossing": 1,
+              "first_H40_exceedance": null,
+              "legal": true,
+              "maximum_finger_mm_s": 34.79068833854348,
+              "model_crossing": 1,
+              "model_up_P10_mm": -0.4231752374908225,
+              "seam_mm_s": 23.924018356891175,
+              "timely_and_legal": true
+            },
+            "B": {
+              "G7_speed": false,
+              "H40": false,
+              "aligned_P10_mm": 0.943589863937873,
+              "due": true,
+              "expert_crossing": 1,
+              "first_H40_exceedance": {
+                "channel": "finger_velocity",
+                "first_ratio": 1.0042106479322888,
+                "k": 7,
+                "order": 2,
+                "path": "nominal",
+                "peak_ratio": 1.0042106479322888,
+                "region": "P10",
+                "time_s": 0.35000000000000003
+              },
+              "legal": false,
+              "maximum_finger_mm_s": 40.16842591729155,
+              "model_crossing": 2,
+              "model_up_P10_mm": -0.5102113249605438,
+              "seam_mm_s": 22.323021377299995,
+              "timely_and_legal": false
+            },
+            "ordinal": 19,
+            "split": "TRAIN",
+            "tag": "P10_CLOSE_CROSSING"
+          },
+          {
+            "A": {
+              "G7_speed": true,
+              "H40": true,
+              "aligned_P10_mm": 1.078544955127,
+              "due": true,
+              "expert_crossing": 1,
+              "first_H40_exceedance": null,
+              "legal": true,
+              "maximum_finger_mm_s": 39.59047515600816,
+              "model_crossing": 2,
+              "model_up_P10_mm": -0.03381590714284722,
+              "seam_mm_s": 0.6035070862808745,
+              "timely_and_legal": true
+            },
+            "B": {
+              "G7_speed": true,
+              "H40": true,
+              "aligned_P10_mm": 1.148175466442873,
+              "due": true,
+              "expert_crossing": 1,
+              "first_H40_exceedance": null,
+              "legal": true,
+              "maximum_finger_mm_s": 39.871503368431455,
+              "model_crossing": 2,
+              "model_up_P10_mm": -0.011370903310401151,
+              "seam_mm_s": 22.373472049298236,
+              "timely_and_legal": true
+            },
+            "ordinal": 25,
+            "split": "VAL",
+            "tag": "P10_CLOSE_CROSSING"
+          },
+          {
+            "A": {
+              "G7_speed": true,
+              "H40": true,
+              "aligned_P10_mm": 0.3464049363649264,
+              "due": true,
+              "expert_crossing": 1,
+              "first_H40_exceedance": null,
+              "legal": true,
+              "maximum_finger_mm_s": 38.17106761552204,
+              "model_crossing": 1,
+              "model_up_P10_mm": -0.02662932175583315,
+              "seam_mm_s": 14.68010313483717,
+              "timely_and_legal": true
+            },
+            "B": {
+              "G7_speed": false,
+              "H40": false,
+              "aligned_P10_mm": 0.43471544336333884,
+              "due": true,
+              "expert_crossing": 1,
+              "first_H40_exceedance": {
+                "channel": "finger_velocity",
+                "first_ratio": 1.021666414101184,
+                "k": 5,
+                "order": 2,
+                "path": "nominal",
+                "peak_ratio": 1.0759386034513247,
+                "region": "P10",
+                "time_s": 0.25
+              },
+              "legal": false,
+              "maximum_finger_mm_s": 43.037544138053,
+              "model_crossing": 3,
+              "model_up_P10_mm": -0.13650075113467922,
+              "seam_mm_s": 21.803373946181758,
+              "timely_and_legal": false
+            },
+            "ordinal": 34,
+            "split": "VAL",
+            "tag": "P10_CLOSE_CROSSING"
+          }
+        ]
+      },
+      "decision": {
+        "launch_C": false,
+        "launch_D": false,
+        "promote_B": false,
+        "resume_main": false
+      },
+      "forensic_results": {
+        "A": {
+          "CHV1-DEV-F1-HOLD-red-01": {
+            "contact": {
+              "arm_pairs": [
+                {
+                  "depth_mm": 0.0424986839491024,
+                  "pair": [
+                    "task_table",
+                    "task_right_pad"
+                  ]
+                }
+              ],
+              "time_s": 45.09600000000915
+            },
+            "events": [
+              "base80mm"
+            ],
+            "family": "F1",
+            "first_failure": "ILLEGAL_CONTACT",
+            "generations": 68,
+            "grasp": false,
+            "hold_seconds": 0,
+            "lift20": false,
+            "maximum_lift_mm": 0,
+            "ordinary_postgrasp": null,
+            "result_sha256": "f1dd0d09c1df406a6aea443d4f576527b9c8d0377a41985d1a68a45b0d797bc6",
+            "seam": null,
+            "success": false,
+            "task": "HOLD-red",
+            "technical": false,
+            "ticks": 22549
+          },
+          "CHV1-DEV-F1-PLACE-blue-left-01": {
+            "contact": null,
+            "events": [
+              "base80mm",
+              "target_grasp"
+            ],
+            "family": "F1",
+            "first_failure": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+            "generations": 74,
+            "grasp": true,
+            "hold_seconds": 0,
+            "lift20": false,
+            "maximum_lift_mm": 0.1479724966160223,
+            "ordinary_postgrasp": {
+              "confirmed_intervals_including_partial_first": 1,
+              "confirmed_new_query_ids_after_grasp": [],
+              "confirmed_ticks": 8,
+              "grasp_tick": 23945,
+              "rejected_tick": 23953
+            },
+            "result_sha256": "d6292f6d16642deba1fa7a9cf7808ccee1b7038972208ecf8f10aef4fd0c8d2d",
+            "seam": {
+              "action_sha256": "67060092ed5284331b1d9b337b88077a9dd6c96c044b753229d493e4ade883cd",
+              "age_native_ms": 50.00000000006111,
+              "confirmed_atoms": 0,
+              "first_exceedance": 0,
+              "first_seam_mm_s": 157.05333991301794,
+              "install_ACKs": 0,
+              "max_internal_mm_s": 26.195186843065223,
+              "measured_minus_previous_mm": 1.2135303895198581,
+              "measured_width_mm": 19.815278908516643,
+              "previous_P10_confirmed_atoms": 10,
+              "previous_command_mm": 18.601748518996786,
+              "proposal_first_mm": 10.749081523336292,
+              "proposal_minus_measured_mm": -9.06619738518035,
+              "proposal_minus_previous_mm": -7.852666995660493,
+              "query": 74,
+              "tick": 23953,
+              "time_native_s": 47.90600000001258
+            },
+            "success": false,
+            "task": "PLACE-blue-left",
+            "technical": false,
+            "ticks": 23953
+          },
+          "CHV1-DEV-F1-PLACE-red-right-01": {
+            "contact": {
+              "arm_pairs": [
+                {
+                  "depth_mm": 0.03389538329357129,
+                  "pair": [
+                    "task_table",
+                    "task_right_pad"
+                  ]
+                }
+              ],
+              "time_s": 42.11800000000551
+            },
+            "events": [
+              "base80mm"
+            ],
+            "family": "F1",
+            "first_failure": "ILLEGAL_CONTACT",
+            "generations": 62,
+            "grasp": false,
+            "hold_seconds": 0,
+            "lift20": false,
+            "maximum_lift_mm": 0,
+            "ordinary_postgrasp": null,
+            "result_sha256": "c14446eca5029862faf2e0fe14805241e5fdbeaebce925ec79a15486c44ff1fe",
+            "seam": null,
+            "success": false,
+            "task": "PLACE-red-right",
+            "technical": false,
+            "ticks": 21060
+          },
+          "CHV1-DEV-F2-HOLD-blue-00": {
+            "contact": {
+              "arm_pairs": [
+                {
+                  "depth_mm": 0.0031443954502143046,
+                  "pair": [
+                    "x5_link6",
+                    "task_blue_cube_geom"
+                  ]
+                }
+              ],
+              "time_s": 36.08799999999814
+            },
+            "events": [
+              "base80mm"
+            ],
+            "family": "F2",
+            "first_failure": "ILLEGAL_CONTACT",
+            "generations": 50,
+            "grasp": false,
+            "hold_seconds": 0,
+            "lift20": false,
+            "maximum_lift_mm": 0,
+            "ordinary_postgrasp": null,
+            "result_sha256": "f87f5034a71a2b7ce045c0e1c0f699a31e281410f0432c40c5850e6811bde172",
+            "seam": null,
+            "success": false,
+            "task": "HOLD-blue",
+            "technical": false,
+            "ticks": 18045
+          },
+          "CHV1-DEV-F2-PLACE-blue-right-00": {
+            "contact": {
+              "arm_pairs": [
+                {
+                  "depth_mm": 0.2151676394093853,
+                  "pair": [
+                    "x5_link6",
+                    "task_blue_cube_geom"
+                  ]
+                }
+              ],
+              "time_s": 34.047999999995646
+            },
+            "events": [
+              "base80mm"
+            ],
+            "family": "F2",
+            "first_failure": "ILLEGAL_CONTACT",
+            "generations": 46,
+            "grasp": false,
+            "hold_seconds": 0,
+            "lift20": false,
+            "maximum_lift_mm": 0,
+            "ordinary_postgrasp": null,
+            "result_sha256": "b7d7bb0f2b6823755b42f049c22a063a0fc1299be5192c0ca809e18c063345b4",
+            "seam": null,
+            "success": false,
+            "task": "PLACE-blue-right",
+            "technical": false,
+            "ticks": 17025
+          },
+          "CHV1-DEV-F2-PLACE-red-left-00": {
+            "contact": {
+              "arm_pairs": [
+                {
+                  "depth_mm": 0.004571846569819543,
+                  "pair": [
+                    "x5_link6",
+                    "task_blue_cube_geom"
+                  ]
+                }
+              ],
+              "time_s": 42.96400000000654
+            },
+            "events": [
+              "base80mm"
+            ],
+            "family": "F2",
+            "first_failure": "ILLEGAL_CONTACT",
+            "generations": 64,
+            "grasp": false,
+            "hold_seconds": 0,
+            "lift20": false,
+            "maximum_lift_mm": 0,
+            "ordinary_postgrasp": null,
+            "result_sha256": "7a6cbac74c7a5e5133847d45f5192b0b24a3ce85f2efeee65d11f3716364c97f",
+            "seam": null,
+            "success": false,
+            "task": "PLACE-red-left",
+            "technical": false,
+            "ticks": 21483
+          }
+        },
+        "B": {
+          "CHV1-DEV-F1-HOLD-red-01": {
+            "contact": null,
+            "events": [
+              "base80mm"
+            ],
+            "family": "F1",
+            "first_failure": "G7_ACTUAL_PREVIOUS_COMMAND_SPEED_REJECTED",
+            "generations": 58,
+            "grasp": false,
+            "hold_seconds": 0,
+            "lift20": false,
+            "maximum_lift_mm": 0,
+            "ordinary_postgrasp": null,
+            "result_sha256": "23ef57f87fea2b8ac82857ac1e31baece8a2b8ddb0311e3906d2707689e07152",
+            "seam": {
+              "action_sha256": "7009c1bdf5bdd5133c7ce49874f7fcd3aeb42403f0bdd3732e961099fe24d8e8",
+              "age_native_ms": 50.00000000006111,
+              "confirmed_atoms": 0,
+              "first_exceedance": 0,
+              "first_seam_mm_s": 56.98578073012094,
+              "install_ACKs": 0,
+              "max_internal_mm_s": 39.84696666582632,
+              "measured_minus_previous_mm": 0.21247918929283988,
+              "measured_width_mm": 32.302964841056976,
+              "previous_P10_confirmed_atoms": 10,
+              "previous_command_mm": 32.09048565176414,
+              "proposal_first_mm": 34.939774688273666,
+              "proposal_minus_measured_mm": 2.6368098472166897,
+              "proposal_minus_previous_mm": 2.8492890365095294,
+              "query": 58,
+              "tick": 19953,
+              "time_native_s": 39.906000000002805
+            },
+            "success": false,
+            "task": "HOLD-red",
+            "technical": false,
+            "ticks": 19953
+          },
+          "CHV1-DEV-F1-PLACE-blue-left-01": {
+            "contact": null,
+            "events": [
+              "base80mm"
+            ],
+            "family": "F1",
+            "first_failure": "ORIGINAL_FULL_H40_POLICY_REJECTED",
+            "generations": 60,
+            "grasp": false,
+            "hold_seconds": 0,
+            "lift20": false,
+            "maximum_lift_mm": 0,
+            "ordinary_postgrasp": null,
+            "reconstructed_original_H40": {
+              "first": {
+                "channel": "finger_velocity",
+                "first_ratio": 1.0160256106533954,
+                "k": 27,
+                "order": 2,
+                "path": "nominal",
+                "peak_ratio": 1.1464876566846154,
+                "region": "SUFFIX",
+                "time_s": 1.35
+              },
+              "original_first": {
+                "channel": "finger_velocity",
+                "first_ratio": 1.0160256106533954,
+                "k": 27,
+                "order": 2,
+                "path": "nominal",
+                "peak_ratio": 1.1464876566846154,
+                "region": "SUFFIX",
+                "time_s": 1.35
+              },
+              "other_failing_components": {
+                "nominal": [
+                  {
+                    "component": "finger_velocity",
+                    "k": 27,
+                    "peak_ratio": 1.1464876566846154
+                  }
+                ],
+                "reference": [
+                  {
+                    "component": "finger_velocity",
+                    "k": 27,
+                    "peak_ratio": 1.1464876566846154
+                  }
+                ]
+              },
+              "q": 60
+            },
+            "result_sha256": "998ee9230422ddea05465a2429991396fa2e0992973e8bfc14a54c0bd387ac29",
+            "seam": null,
+            "success": false,
+            "task": "PLACE-blue-left",
+            "technical": false,
+            "ticks": 20453
+          },
+          "CHV1-DEV-F1-PLACE-red-right-01": {
+            "contact": null,
+            "events": [
+              "base80mm"
+            ],
+            "family": "F1",
+            "first_failure": "ORIGINAL_FULL_H40_POLICY_REJECTED",
+            "generations": 71,
+            "grasp": false,
+            "hold_seconds": 0,
+            "lift20": false,
+            "maximum_lift_mm": 0,
+            "ordinary_postgrasp": null,
+            "reconstructed_original_H40": {
+              "first": {
+                "channel": "finger_velocity",
+                "first_ratio": 1.0193549567964892,
+                "k": 15,
+                "order": 2,
+                "path": "nominal",
+                "peak_ratio": 1.0193549567964892,
+                "region": "SUFFIX",
+                "time_s": 0.75
+              },
+              "original_first": {
+                "channel": "finger_velocity",
+                "first_ratio": 1.0193549567964892,
+                "k": 15,
+                "order": 2,
+                "path": "nominal",
+                "peak_ratio": 1.0193549567964892,
+                "region": "SUFFIX",
+                "time_s": 0.75
+              },
+              "other_failing_components": {
+                "nominal": [
+                  {
+                    "component": "finger_velocity",
+                    "k": 15,
+                    "peak_ratio": 1.0193549567964892
+                  }
+                ],
+                "reference": [
+                  {
+                    "component": "finger_velocity",
+                    "k": 15,
+                    "peak_ratio": 1.0193549567964892
+                  }
+                ]
+              },
+              "q": 71
+            },
+            "result_sha256": "72fb9ec7d45d0816584f7a55b591072eebe4b3e2ced86b1a06b60e2902414609",
+            "seam": null,
+            "success": false,
+            "task": "PLACE-red-right",
+            "technical": false,
+            "ticks": 23203
+          },
+          "CHV1-DEV-F2-HOLD-blue-00": {
+            "contact": {
+              "arm_pairs": [
+                {
+                  "depth_mm": 0.0006030922393186755,
+                  "pair": [
+                    "x5_link6",
+                    "task_blue_cube_geom"
+                  ]
+                }
+              ],
+              "time_s": 34.9079999999967
+            },
+            "events": [
+              "base80mm"
+            ],
+            "family": "F2",
+            "first_failure": "ILLEGAL_CONTACT",
+            "generations": 48,
+            "grasp": false,
+            "hold_seconds": 0,
+            "lift20": false,
+            "maximum_lift_mm": 0,
+            "ordinary_postgrasp": null,
+            "result_sha256": "39da83025db3b962308e630c38cfc5226dd8ecbe589b6190f5f56d6c33419113",
+            "seam": null,
+            "success": false,
+            "task": "HOLD-blue",
+            "technical": false,
+            "ticks": 17455
+          },
+          "CHV1-DEV-F2-PLACE-blue-right-00": {
+            "contact": {
+              "arm_pairs": [
+                {
+                  "depth_mm": 0.0005528477703235779,
+                  "pair": [
+                    "x5_link6",
+                    "task_blue_cube_geom"
+                  ]
+                }
+              ],
+              "time_s": 37.83000000000027
+            },
+            "events": [
+              "base80mm"
+            ],
+            "family": "F2",
+            "first_failure": "ILLEGAL_CONTACT",
+            "generations": 53,
+            "grasp": false,
+            "hold_seconds": 0,
+            "lift20": false,
+            "maximum_lift_mm": 0,
+            "ordinary_postgrasp": null,
+            "result_sha256": "6f0492e375b0a6bf5e29a4dda4414d423a3eea5ed0df5e3e59943a970676bbf8",
+            "seam": null,
+            "success": false,
+            "task": "PLACE-blue-right",
+            "technical": false,
+            "ticks": 18916
+          },
+          "CHV1-DEV-F2-PLACE-red-left-00": {
+            "contact": {
+              "arm_pairs": [
+                {
+                  "depth_mm": 0.004996846101005398,
+                  "pair": [
+                    "x5_link6",
+                    "task_blue_cube_geom"
+                  ]
+                }
+              ],
+              "time_s": 43.77800000000754
+            },
+            "events": [],
+            "family": "F2",
+            "first_failure": "ILLEGAL_CONTACT",
+            "generations": 65,
+            "grasp": false,
+            "hold_seconds": 0,
+            "lift20": false,
+            "maximum_lift_mm": 0,
+            "ordinary_postgrasp": null,
+            "result_sha256": "6f00496b8a113a5cd9989fe74555b24176dd2abff4feae4ef984ba3ce1999506",
+            "seam": null,
+            "success": false,
+            "task": "PLACE-red-left",
+            "technical": false,
+            "ticks": 21890
+          }
+        }
+      },
+      "gradient": {
+        "completed": 0,
+        "planned_backward_calls": 12,
+        "source": "88067ffd02cdc5cc0c6d51f9de193f9e21c532c3",
+        "spec": "636a6969e4a8875183468f1311eeb414f3dc5da2ac481913eee9d3f19b00606a",
+        "status": "WAIT_ORIGINAL_RESOURCES",
+        "train_updates": 0,
+        "unit": "wm02-sla-main3800-core-ab-gradient-audit-20261123-02.service"
+      },
+      "history_alias": {
+        "aperture_minus_previous_command_mm": {
+          "A": {
+            "max": 1.2135303895198581,
+            "max_abs": 1.2135303895198581,
+            "min": -0.02183760952564895,
+            "over_2mm": 0,
+            "p50": 0.00010430636397315562
+          },
+          "B": {
+            "max": 0.21247918929283988,
+            "max_abs": 0.21247918929283988,
+            "min": -0.052707369101741286,
+            "over_2mm": 0,
+            "p50": 9.316200164088961e-05
+          }
+        },
+        "new_model_generations": 0,
+        "new_native_requests": 0,
+        "new_updates": 0,
+        "queries": {
+          "A": 364,
+          "B": 355
+        },
+        "raw_observation": {
+          "command_diff_above_4mm": 0,
+          "duplicate_groups": 0,
+          "groups": 719,
+          "maximum_command_spread_mm": 0
+        },
+        "raw_observation_plus_noise": {
+          "command_diff_above_4mm": 0,
+          "duplicate_groups": 0,
+          "groups": 719,
+          "maximum_command_spread_mm": 0
+        },
+        "repeat_predictions": 0
+      },
+      "initial_comparison": {
+        "CHV1-DEV-F1-HOLD-red-01": {
+          "TCP_position_difference_mm": 0.8599505976128395,
+          "same_actuator_state": true,
+          "same_first_RGB": false,
+          "same_first_tick": true
+        },
+        "CHV1-DEV-F1-PLACE-blue-left-01": {
+          "TCP_position_difference_mm": 0.10484250425134918,
+          "same_actuator_state": true,
+          "same_first_RGB": false,
+          "same_first_tick": true
+        },
+        "CHV1-DEV-F1-PLACE-red-right-01": {
+          "TCP_position_difference_mm": 0.005527973938298476,
+          "same_actuator_state": true,
+          "same_first_RGB": false,
+          "same_first_tick": true
+        },
+        "CHV1-DEV-F2-HOLD-blue-00": {
+          "TCP_position_difference_mm": 0.028028889077287206,
+          "same_actuator_state": true,
+          "same_first_RGB": false,
+          "same_first_tick": true
+        },
+        "CHV1-DEV-F2-PLACE-blue-right-00": {
+          "TCP_position_difference_mm": 0.04611338811505227,
+          "same_actuator_state": true,
+          "same_first_RGB": false,
+          "same_first_tick": true
+        },
+        "CHV1-DEV-F2-PLACE-red-left-00": {
+          "TCP_position_difference_mm": 0.010750305458163785,
+          "same_actuator_state": true,
+          "same_first_RGB": false,
+          "same_first_tick": true
+        }
+      },
+      "native_terminal": {
+        "epoch": 1795363854.9110756,
+        "native_terminal_sha256": "334e624e88f0f9e00b8c46b8cb75b17d06a0b938430f895721bb371e4ad65e94"
+      }
+    },
+    "readback_preflight": "HOPPER_CPU_IMPORT_OK_SYNTHETIC_MATCH_AND_NEGATIVE_TESTS_OK",
+    "selected_intervention": "AUXILIARY_SLOT_SELECTION",
+    "site_preflight": "IMPORT_AND_SEALED_ROSTER_VALIDATED",
+    "site_source": "29373161026ea8e6126adfcbc656330125ff140d",
+    "storage_provider_readback": {
+      "bytes_deleted": 0,
+      "estimated_payload_four_states_bytes": 22190434912,
+      "hard_bytes": 1099511627776,
+      "headroom_bytes": 210809061376,
+      "kind": "CURRENT_SITE_PROVIDER_QUOTA",
+      "observed_epoch": 1795343999.40872,
+      "pending_new_checkpoints": 0,
+      "provider_age_seconds": 411.2984952926636,
+      "provider_epoch": 1795343588.11025,
+      "saved_by_this_probe": 0,
+      "sealed_A": [],
+      "used_bytes": 888702566400
+    },
+    "triggered": true,
+    "wall_seconds_per_arm": 14400
+  },
+  "status": "MATCHED_NATIVE_COMPLETE",
+  "train_scope_readback": {
+    "052": {
+      "cells": {
+        "F1/HOLD-blue": {
+          "episodes": 6,
+          "labels": {
+            "CLOSE": 18,
+            "DESCEND": 171,
+            "HOLD": 12,
+            "LIFT": 55,
+            "PREGRASP": 178
+          },
+          "layouts": 6
+        },
+        "F1/HOLD-red": {
+          "episodes": 16,
+          "labels": {
+            "CLOSE": 48,
+            "DESCEND": 348,
+            "HOLD": 32,
+            "LIFT": 143,
+            "PREGRASP": 518
+          },
+          "layouts": 16
+        },
+        "F1/PLACE-red-right": {
+          "episodes": 15,
+          "labels": {
+            "CARRY": 428,
+            "CLOSE": 45,
+            "DESCEND": 327,
+            "LIFT": 132,
+            "LOWER": 209,
+            "OPEN": 60,
+            "PREGRASP": 467,
+            "WITHDRAW": 147
+          },
+          "layouts": 15
+        },
+        "F2/HOLD-blue": {
+          "episodes": 13,
+          "labels": {
+            "CLOSE": 39,
+            "DESCEND": 310,
+            "HOLD": 26,
+            "LIFT": 116,
+            "PREGRASP": 428
+          },
+          "layouts": 13
+        },
+        "F2/HOLD-red": {
+          "episodes": 1,
+          "labels": {
+            "CLOSE": 3,
+            "DESCEND": 22,
+            "HOLD": 2,
+            "LIFT": 10,
+            "PREGRASP": 49
+          },
+          "layouts": 1
+        },
+        "F2/PLACE-blue-right": {
+          "episodes": 1,
+          "labels": {
+            "CARRY": 70,
+            "CLOSE": 3,
+            "DESCEND": 25,
+            "LIFT": 9,
+            "LOWER": 12,
+            "OPEN": 4,
+            "PREGRASP": 34,
+            "WITHDRAW": 13
+          },
+          "layouts": 1
+        }
+      },
+      "episodes": 52,
+      "layout_count": 29,
+      "manifest_sha256": "e0c5c481a95972e4ba5c9b712e1c3a1240d462ad28222a2c0e041e307fb42278",
+      "windows": 4513
+    },
+    "069": {
+      "cells": {
+        "F1/HOLD-blue": {
+          "episodes": 8,
+          "labels": {
+            "CLOSE": 24,
+            "DESCEND": 221,
+            "HOLD": 16,
+            "LIFT": 73,
+            "PREGRASP": 245
+          },
+          "layouts": 8
+        },
+        "F1/HOLD-red": {
+          "episodes": 21,
+          "labels": {
+            "CLOSE": 63,
+            "DESCEND": 459,
+            "HOLD": 42,
+            "LIFT": 188,
+            "PREGRASP": 669
+          },
+          "layouts": 21
+        },
+        "F1/PLACE-blue-left": {
+          "episodes": 2,
+          "labels": {
+            "CARRY": 60,
+            "CLOSE": 6,
+            "DESCEND": 55,
+            "LIFT": 18,
+            "LOWER": 26,
+            "OPEN": 8,
+            "PREGRASP": 62,
+            "WITHDRAW": 33
+          },
+          "layouts": 2
+        },
+        "F1/PLACE-red-right": {
+          "episodes": 20,
+          "labels": {
+            "CARRY": 573,
+            "CLOSE": 60,
+            "DESCEND": 432,
+            "LIFT": 177,
+            "LOWER": 283,
+            "OPEN": 80,
+            "PREGRASP": 625,
+            "WITHDRAW": 197
+          },
+          "layouts": 20
+        },
+        "F2/HOLD-blue": {
+          "episodes": 16,
+          "labels": {
+            "CLOSE": 48,
+            "DESCEND": 380,
+            "HOLD": 32,
+            "LIFT": 143,
+            "PREGRASP": 527
+          },
+          "layouts": 16
+        },
+        "F2/HOLD-red": {
+          "episodes": 1,
+          "labels": {
+            "CLOSE": 3,
+            "DESCEND": 22,
+            "HOLD": 2,
+            "LIFT": 10,
+            "PREGRASP": 49
+          },
+          "layouts": 1
+        },
+        "F2/PLACE-blue-right": {
+          "episodes": 1,
+          "labels": {
+            "CARRY": 70,
+            "CLOSE": 3,
+            "DESCEND": 25,
+            "LIFT": 9,
+            "LOWER": 12,
+            "OPEN": 4,
+            "PREGRASP": 34,
+            "WITHDRAW": 13
+          },
+          "layouts": 1
+        }
+      },
+      "episodes": 69,
+      "layout_count": 37,
+      "manifest_sha256": "80876f04260377da07c20b547ac6c923751f5a84dbba8db6dbdb361ded164639",
+      "windows": 6081
+    },
+    "currently_trained_under_selected_course": "TRAIN-052",
+    "native_result_overlap": 52,
+    "new_generations": 0,
+    "new_jobs": 0,
+    "new_optimizer_updates": 0
+  }
+}

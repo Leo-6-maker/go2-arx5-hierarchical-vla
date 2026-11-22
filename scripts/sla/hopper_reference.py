@@ -73,12 +73,17 @@ def package(root,manifest_sha):
 
 
 def core_provider(root,manifest_sha,source,target,tokenizer,*,canonical=False):
-    from go2arx5_vla.sla_adapter.model_v1 import Tokenizer
     if canonical:
         from scripts.sla.core_canonical_package import validate
         manifest=validate(root,manifest_sha)
     else:
         manifest=package(root,manifest_sha)
+    return provider_from_manifest(root,manifest,source,target,tokenizer),manifest
+
+
+def provider_from_manifest(root,manifest,source,target,tokenizer):
+    from go2arx5_vla.sla_adapter.model_v1 import Tokenizer
+
     if (source['parent_manifest']['sha256']!=manifest['foundation_sha256']
             or digest(Path(tokenizer))!=manifest['tokenizer_sha256'] or source['state_sha256']!=manifest['state_sha256']):
         raise ValueError('Local base or statistics differ from the sealed endpoint')
@@ -87,7 +92,7 @@ def core_provider(root,manifest_sha,source,target,tokenizer,*,canonical=False):
             canonical_hash(model['inventory'])!=manifest['partition_sha256']):
         raise ValueError('Bound model changed')
     parameters=scale20k_package.read_weights(root,manifest['arrays'],{k:template[k] for k in ('shared','target')})
-    return TargetProvider(graphs['target'],frozen,parameters,Tokenizer(str(tokenizer)),target.statistics),manifest
+    return TargetProvider(graphs['target'],frozen,parameters,Tokenizer(str(tokenizer)),target.statistics)
 
 
 def rgb16(provider,data,panel,out,guard,expected=None):
