@@ -17,6 +17,10 @@ def first_publication(seconds):
 class RevisionWire:
     """The epoch identifies the episode. Each segment keeps its own prediction and phase."""
 
+    @staticmethod
+    def protected_knot(last_install):
+        return 2 * last_install + 41
+
     def __init__(
         self, previous, previous_hash, next_hash, last_install, source, limits
     ):
@@ -29,7 +33,7 @@ class RevisionWire:
         self.prior_hash = previous_hash
         self.next_hash = next_hash
         # Each 10 Hz installation commits 41 points, plus one 50 ms join segment.
-        self.cut = 2 * last_install + 41
+        self.cut = self.protected_knot(last_install)
         boundary = previous.at(DT * np.array([self.cut - 1, self.cut]))[0]
         twist = np.stack([axis[0] for axis in vectors(boundary, DT)])
         self.compiler = Compiler(source, boundary[-1], twist, limits)
