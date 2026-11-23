@@ -1,0 +1,996 @@
+{
+  "episodes": {
+    "CHV1-TRAIN-F2-HOLD-blue-00": {
+      "fifo": {
+        "first_query_tick": 19453,
+        "original_install_count": 192,
+        "actual_prefix_installs": 24,
+        "prefix_sha256": "62b87bc8cc668fd75139105b0be21911c681c69c3570574d38dc5383fbb2a010",
+        "stop": {
+          "reason": "UNEXPECTED_CONTACT",
+          "pause_tick": 20778,
+          "observed_tick": 20764,
+          "contact": {
+            "ids": [
+              77,
+              79
+            ],
+            "geometries": [
+              "task_right_pad",
+              "task_blue_cube_geom"
+            ],
+            "bodies": [
+              "x5_link8",
+              "task_blue_cube"
+            ],
+            "normal_force_N": 0.6155050761897016,
+            "contact_time_s": 41.526000000004785
+          }
+        },
+        "original_terminal_tick": 29198,
+        "grant_tail_ticks": 14,
+        "stopped_effects": [
+          "policy_return",
+          "eef_install",
+          "gripper_issue",
+          "next_grant"
+        ],
+        "policy": {
+          "queries_started": [
+            "T13",
+            "T07",
+            "T01"
+          ],
+          "worker_returns_delivered": [
+            "T13",
+            "T07"
+          ],
+          "genuine_archived_late_returns_refused": [
+            "T01"
+          ],
+          "terminal_query_and_mailbox_closed": true
+        },
+        "receiver_hold": [
+          "HOLD"
+        ],
+        "receiver_cancel": [
+          "CANCEL"
+        ],
+        "receiver_trajectory_started_after_cancel": false,
+        "receiver_residual_trajectory": true,
+        "receiver_binding_and_deadline_cleared": true,
+        "receiver_pending_after_cancel": false,
+        "callback_publications_after_cancel": 0,
+        "installed_receipts_after_prefix": [],
+        "proposals": {
+          "T13": {
+            "original_status": "ADMITTED",
+            "observed_before_stop": true,
+            "return_before_stop": true,
+            "admitted_before_stop": true,
+            "original_first_source_tick": 21728,
+            "source_before_stop": false
+          },
+          "T07": {
+            "original_status": "ADMITTED",
+            "observed_before_stop": true,
+            "return_before_stop": true,
+            "admitted_before_stop": true,
+            "original_first_source_tick": 21978,
+            "source_before_stop": false
+          },
+          "T01": {
+            "original_status": "ADMITTED",
+            "observed_before_stop": true,
+            "return_before_stop": false,
+            "admitted_before_stop": false,
+            "original_first_source_tick": 23128,
+            "source_before_stop": false
+          }
+        }
+      },
+      "overlap": {
+        "first_query_tick": 19453,
+        "original_install_count": 176,
+        "actual_prefix_installs": 24,
+        "prefix_sha256": "62b87bc8cc668fd75139105b0be21911c681c69c3570574d38dc5383fbb2a010",
+        "stop": {
+          "reason": "UNEXPECTED_CONTACT",
+          "pause_tick": 20778,
+          "observed_tick": 20764,
+          "contact": {
+            "ids": [
+              77,
+              79
+            ],
+            "geometries": [
+              "task_right_pad",
+              "task_blue_cube_geom"
+            ],
+            "bodies": [
+              "x5_link8",
+              "task_blue_cube"
+            ],
+            "normal_force_N": 0.6155050761897016,
+            "contact_time_s": 41.526000000004785
+          }
+        },
+        "original_terminal_tick": 28398,
+        "grant_tail_ticks": 14,
+        "stopped_effects": [
+          "policy_return",
+          "eef_install",
+          "gripper_issue",
+          "next_grant"
+        ],
+        "policy": {
+          "queries_started": [
+            "T13",
+            "T07",
+            "T01"
+          ],
+          "worker_returns_delivered": [
+            "T13",
+            "T07"
+          ],
+          "genuine_archived_late_returns_refused": [
+            "T01"
+          ],
+          "terminal_query_and_mailbox_closed": true
+        },
+        "receiver_hold": [
+          "HOLD"
+        ],
+        "receiver_cancel": [
+          "CANCEL"
+        ],
+        "receiver_trajectory_started_after_cancel": false,
+        "receiver_residual_trajectory": true,
+        "receiver_binding_and_deadline_cleared": true,
+        "receiver_pending_after_cancel": false,
+        "callback_publications_after_cancel": 0,
+        "installed_receipts_after_prefix": [],
+        "proposals": {
+          "T13": {
+            "original_status": "ADMITTED",
+            "observed_before_stop": true,
+            "return_before_stop": true,
+            "admitted_before_stop": true,
+            "original_first_source_tick": 21728,
+            "source_before_stop": false
+          },
+          "T07": {
+            "original_status": "ADMITTED",
+            "observed_before_stop": true,
+            "return_before_stop": true,
+            "admitted_before_stop": true,
+            "original_first_source_tick": 21978,
+            "source_before_stop": false
+          },
+          "T01": {
+            "original_status": "ADMITTED",
+            "observed_before_stop": true,
+            "return_before_stop": false,
+            "admitted_before_stop": false,
+            "original_first_source_tick": 22353,
+            "source_before_stop": false
+          }
+        }
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-03": {
+      "fifo": {
+        "first_query_tick": 18953,
+        "original_install_count": 10,
+        "actual_prefix_installs": 9,
+        "prefix_sha256": "5fe7934186d42e463750ec48147b31f0d8049ab4bf42699883b378dfb103fc6f",
+        "stop": {
+          "reason": "UNEXPECTED_CONTACT",
+          "pause_tick": 19528,
+          "observed_tick": 19515,
+          "contact": {
+            "ids": [
+              77,
+              78
+            ],
+            "geometries": [
+              "task_right_pad",
+              "task_cube_geom"
+            ],
+            "bodies": [
+              "x5_link8",
+              "task_cube"
+            ],
+            "normal_force_N": 0.6513299568781263,
+            "contact_time_s": 39.02800000000173
+          }
+        },
+        "original_terminal_tick": 19603,
+        "grant_tail_ticks": 13,
+        "stopped_effects": [
+          "policy_return",
+          "eef_install",
+          "gripper_issue",
+          "next_grant"
+        ],
+        "policy": {
+          "queries_started": [
+            "T14",
+            "T08",
+            "T02"
+          ],
+          "worker_returns_delivered": [
+            "T14",
+            "T08"
+          ],
+          "genuine_archived_late_returns_refused": [
+            "T02"
+          ],
+          "terminal_query_and_mailbox_closed": true
+        },
+        "receiver_hold": [
+          "HOLD"
+        ],
+        "receiver_cancel": [
+          "CANCEL"
+        ],
+        "receiver_trajectory_started_after_cancel": false,
+        "receiver_residual_trajectory": true,
+        "receiver_binding_and_deadline_cleared": true,
+        "receiver_pending_after_cancel": false,
+        "callback_publications_after_cancel": 0,
+        "installed_receipts_after_prefix": [],
+        "proposals": {
+          "T14": {
+            "original_status": "ADMITTED",
+            "observed_before_stop": true,
+            "return_before_stop": true,
+            "admitted_before_stop": true,
+            "original_first_source_tick": null,
+            "source_before_stop": false
+          },
+          "T08": {
+            "original_status": "ADMITTED",
+            "observed_before_stop": true,
+            "return_before_stop": true,
+            "admitted_before_stop": true,
+            "original_first_source_tick": null,
+            "source_before_stop": false
+          },
+          "T02": {
+            "original_status": "REVISION_REJECTED",
+            "observed_before_stop": true,
+            "return_before_stop": false,
+            "admitted_before_stop": false,
+            "original_first_source_tick": null,
+            "source_before_stop": false
+          }
+        }
+      },
+      "overlap": {
+        "first_query_tick": 18953,
+        "original_install_count": 10,
+        "actual_prefix_installs": 9,
+        "prefix_sha256": "5fe7934186d42e463750ec48147b31f0d8049ab4bf42699883b378dfb103fc6f",
+        "stop": {
+          "reason": "UNEXPECTED_CONTACT",
+          "pause_tick": 19528,
+          "observed_tick": 19515,
+          "contact": {
+            "ids": [
+              77,
+              78
+            ],
+            "geometries": [
+              "task_right_pad",
+              "task_cube_geom"
+            ],
+            "bodies": [
+              "x5_link8",
+              "task_cube"
+            ],
+            "normal_force_N": 0.6513299568781263,
+            "contact_time_s": 39.02800000000173
+          }
+        },
+        "original_terminal_tick": 19603,
+        "grant_tail_ticks": 13,
+        "stopped_effects": [
+          "policy_return",
+          "eef_install",
+          "gripper_issue",
+          "next_grant"
+        ],
+        "policy": {
+          "queries_started": [
+            "T14",
+            "T08",
+            "T02"
+          ],
+          "worker_returns_delivered": [
+            "T14",
+            "T08"
+          ],
+          "genuine_archived_late_returns_refused": [
+            "T02"
+          ],
+          "terminal_query_and_mailbox_closed": true
+        },
+        "receiver_hold": [
+          "HOLD"
+        ],
+        "receiver_cancel": [
+          "CANCEL"
+        ],
+        "receiver_trajectory_started_after_cancel": false,
+        "receiver_residual_trajectory": true,
+        "receiver_binding_and_deadline_cleared": true,
+        "receiver_pending_after_cancel": false,
+        "callback_publications_after_cancel": 0,
+        "installed_receipts_after_prefix": [],
+        "proposals": {
+          "T14": {
+            "original_status": "ADMITTED",
+            "observed_before_stop": true,
+            "return_before_stop": true,
+            "admitted_before_stop": true,
+            "original_first_source_tick": null,
+            "source_before_stop": false
+          },
+          "T08": {
+            "original_status": "ADMITTED",
+            "observed_before_stop": true,
+            "return_before_stop": true,
+            "admitted_before_stop": true,
+            "original_first_source_tick": null,
+            "source_before_stop": false
+          },
+          "T02": {
+            "original_status": "REVISION_REJECTED",
+            "observed_before_stop": true,
+            "return_before_stop": false,
+            "admitted_before_stop": false,
+            "original_first_source_tick": null,
+            "source_before_stop": false
+          }
+        }
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-red-right-07": {
+      "fifo": {
+        "first_query_tick": 19453,
+        "original_install_count": 5,
+        "actual_prefix_installs": 4,
+        "prefix_sha256": "5f43c8f038d4febc3b244ebd568b13e276ec3d9715a451d0b3a2d0dc71bc6b33",
+        "stop": {
+          "reason": "UNEXPECTED_CONTACT",
+          "pause_tick": 19778,
+          "observed_tick": 19764,
+          "contact": {
+            "ids": [
+              77,
+              78
+            ],
+            "geometries": [
+              "task_right_pad",
+              "task_cube_geom"
+            ],
+            "bodies": [
+              "x5_link8",
+              "task_cube"
+            ],
+            "normal_force_N": 0.6641969889875121,
+            "contact_time_s": 39.52600000000234
+          }
+        },
+        "original_terminal_tick": 19853,
+        "grant_tail_ticks": 14,
+        "stopped_effects": [
+          "policy_return",
+          "eef_install",
+          "gripper_issue",
+          "next_grant"
+        ],
+        "policy": {
+          "queries_started": [
+            "T15",
+            "T09"
+          ],
+          "worker_returns_delivered": [
+            "T15"
+          ],
+          "genuine_archived_late_returns_refused": [
+            "T09"
+          ],
+          "terminal_query_and_mailbox_closed": true
+        },
+        "receiver_hold": [
+          "HOLD"
+        ],
+        "receiver_cancel": [
+          "CANCEL"
+        ],
+        "receiver_trajectory_started_after_cancel": false,
+        "receiver_residual_trajectory": true,
+        "receiver_binding_and_deadline_cleared": true,
+        "receiver_pending_after_cancel": false,
+        "callback_publications_after_cancel": 0,
+        "installed_receipts_after_prefix": [],
+        "proposals": {
+          "T15": {
+            "original_status": "ADMITTED",
+            "observed_before_stop": true,
+            "return_before_stop": true,
+            "admitted_before_stop": true,
+            "original_first_source_tick": null,
+            "source_before_stop": false
+          },
+          "T09": {
+            "original_status": "REVISION_REJECTED",
+            "observed_before_stop": true,
+            "return_before_stop": false,
+            "admitted_before_stop": false,
+            "original_first_source_tick": null,
+            "source_before_stop": false
+          },
+          "T03": {
+            "original_status": "NOT_REACHED",
+            "observed_before_stop": false,
+            "return_before_stop": false,
+            "admitted_before_stop": false,
+            "original_first_source_tick": null,
+            "source_before_stop": false
+          }
+        }
+      },
+      "overlap": {
+        "first_query_tick": 19453,
+        "original_install_count": 5,
+        "actual_prefix_installs": 4,
+        "prefix_sha256": "5f43c8f038d4febc3b244ebd568b13e276ec3d9715a451d0b3a2d0dc71bc6b33",
+        "stop": {
+          "reason": "UNEXPECTED_CONTACT",
+          "pause_tick": 19778,
+          "observed_tick": 19764,
+          "contact": {
+            "ids": [
+              77,
+              78
+            ],
+            "geometries": [
+              "task_right_pad",
+              "task_cube_geom"
+            ],
+            "bodies": [
+              "x5_link8",
+              "task_cube"
+            ],
+            "normal_force_N": 0.6641969889875121,
+            "contact_time_s": 39.52600000000234
+          }
+        },
+        "original_terminal_tick": 19853,
+        "grant_tail_ticks": 14,
+        "stopped_effects": [
+          "policy_return",
+          "eef_install",
+          "gripper_issue",
+          "next_grant"
+        ],
+        "policy": {
+          "queries_started": [
+            "T15",
+            "T09"
+          ],
+          "worker_returns_delivered": [
+            "T15"
+          ],
+          "genuine_archived_late_returns_refused": [
+            "T09"
+          ],
+          "terminal_query_and_mailbox_closed": true
+        },
+        "receiver_hold": [
+          "HOLD"
+        ],
+        "receiver_cancel": [
+          "CANCEL"
+        ],
+        "receiver_trajectory_started_after_cancel": false,
+        "receiver_residual_trajectory": true,
+        "receiver_binding_and_deadline_cleared": true,
+        "receiver_pending_after_cancel": false,
+        "callback_publications_after_cancel": 0,
+        "installed_receipts_after_prefix": [],
+        "proposals": {
+          "T15": {
+            "original_status": "ADMITTED",
+            "observed_before_stop": true,
+            "return_before_stop": true,
+            "admitted_before_stop": true,
+            "original_first_source_tick": null,
+            "source_before_stop": false
+          },
+          "T09": {
+            "original_status": "REVISION_REJECTED",
+            "observed_before_stop": true,
+            "return_before_stop": false,
+            "admitted_before_stop": false,
+            "original_first_source_tick": null,
+            "source_before_stop": false
+          },
+          "T03": {
+            "original_status": "NOT_REACHED",
+            "observed_before_stop": false,
+            "return_before_stop": false,
+            "admitted_before_stop": false,
+            "original_first_source_tick": null,
+            "source_before_stop": false
+          }
+        }
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-02": {
+      "fifo": {
+        "first_query_tick": 21453,
+        "original_install_count": 0,
+        "actual_prefix_installs": 0,
+        "prefix_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stop": {
+          "reason": "UNEXPECTED_CONTACT",
+          "pause_tick": 21453,
+          "observed_tick": 21453,
+          "contact": {
+            "ids": [
+              75,
+              78
+            ],
+            "geometries": [
+              "task_left_pad",
+              "task_cube_geom"
+            ],
+            "bodies": [
+              "x5_link7",
+              "task_cube"
+            ],
+            "normal_force_N": 2.7185667181004356,
+            "contact_time_s": 42.90400000000647
+          }
+        },
+        "original_terminal_tick": 21603,
+        "grant_tail_ticks": 0,
+        "stopped_effects": [
+          "policy_return",
+          "eef_install",
+          "gripper_issue",
+          "next_grant"
+        ],
+        "policy": {
+          "queries_started": [],
+          "worker_returns_delivered": [],
+          "genuine_archived_late_returns_refused": [],
+          "terminal_query_and_mailbox_closed": true
+        },
+        "receiver_hold": [
+          "HOLD"
+        ],
+        "receiver_cancel": [
+          "CANCEL"
+        ],
+        "receiver_trajectory_started_after_cancel": false,
+        "receiver_residual_trajectory": false,
+        "receiver_binding_and_deadline_cleared": true,
+        "receiver_pending_after_cancel": false,
+        "callback_publications_after_cancel": 0,
+        "installed_receipts_after_prefix": [],
+        "proposals": {
+          "T16": {
+            "original_status": "INITIAL_REJECTED",
+            "observed_before_stop": false,
+            "return_before_stop": false,
+            "admitted_before_stop": false,
+            "original_first_source_tick": null,
+            "source_before_stop": false
+          },
+          "T10": {
+            "original_status": "NOT_REACHED",
+            "observed_before_stop": false,
+            "return_before_stop": false,
+            "admitted_before_stop": false,
+            "original_first_source_tick": null,
+            "source_before_stop": false
+          },
+          "T04": {
+            "original_status": "NOT_REACHED",
+            "observed_before_stop": false,
+            "return_before_stop": false,
+            "admitted_before_stop": false,
+            "original_first_source_tick": null,
+            "source_before_stop": false
+          }
+        }
+      },
+      "overlap": {
+        "first_query_tick": 21453,
+        "original_install_count": 0,
+        "actual_prefix_installs": 0,
+        "prefix_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stop": {
+          "reason": "UNEXPECTED_CONTACT",
+          "pause_tick": 21453,
+          "observed_tick": 21453,
+          "contact": {
+            "ids": [
+              75,
+              78
+            ],
+            "geometries": [
+              "task_left_pad",
+              "task_cube_geom"
+            ],
+            "bodies": [
+              "x5_link7",
+              "task_cube"
+            ],
+            "normal_force_N": 2.7185667181004356,
+            "contact_time_s": 42.90400000000647
+          }
+        },
+        "original_terminal_tick": 21603,
+        "grant_tail_ticks": 0,
+        "stopped_effects": [
+          "policy_return",
+          "eef_install",
+          "gripper_issue",
+          "next_grant"
+        ],
+        "policy": {
+          "queries_started": [],
+          "worker_returns_delivered": [],
+          "genuine_archived_late_returns_refused": [],
+          "terminal_query_and_mailbox_closed": true
+        },
+        "receiver_hold": [
+          "HOLD"
+        ],
+        "receiver_cancel": [
+          "CANCEL"
+        ],
+        "receiver_trajectory_started_after_cancel": false,
+        "receiver_residual_trajectory": false,
+        "receiver_binding_and_deadline_cleared": true,
+        "receiver_pending_after_cancel": false,
+        "callback_publications_after_cancel": 0,
+        "installed_receipts_after_prefix": [],
+        "proposals": {
+          "T16": {
+            "original_status": "INITIAL_REJECTED",
+            "observed_before_stop": false,
+            "return_before_stop": false,
+            "admitted_before_stop": false,
+            "original_first_source_tick": null,
+            "source_before_stop": false
+          },
+          "T10": {
+            "original_status": "NOT_REACHED",
+            "observed_before_stop": false,
+            "return_before_stop": false,
+            "admitted_before_stop": false,
+            "original_first_source_tick": null,
+            "source_before_stop": false
+          },
+          "T04": {
+            "original_status": "NOT_REACHED",
+            "observed_before_stop": false,
+            "return_before_stop": false,
+            "admitted_before_stop": false,
+            "original_first_source_tick": null,
+            "source_before_stop": false
+          }
+        }
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-05": {
+      "fifo": {
+        "first_query_tick": 22453,
+        "original_install_count": 0,
+        "actual_prefix_installs": 0,
+        "prefix_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stop": {
+          "reason": "UNEXPECTED_CONTACT",
+          "pause_tick": 22453,
+          "observed_tick": 22453,
+          "contact": {
+            "ids": [
+              75,
+              78
+            ],
+            "geometries": [
+              "task_left_pad",
+              "task_cube_geom"
+            ],
+            "bodies": [
+              "x5_link7",
+              "task_cube"
+            ],
+            "normal_force_N": 2.742215493784281,
+            "contact_time_s": 44.904000000008914
+          }
+        },
+        "original_terminal_tick": 22603,
+        "grant_tail_ticks": 0,
+        "stopped_effects": [
+          "policy_return",
+          "eef_install",
+          "gripper_issue",
+          "next_grant"
+        ],
+        "policy": {
+          "queries_started": [],
+          "worker_returns_delivered": [],
+          "genuine_archived_late_returns_refused": [],
+          "terminal_query_and_mailbox_closed": true
+        },
+        "receiver_hold": [
+          "HOLD"
+        ],
+        "receiver_cancel": [
+          "CANCEL"
+        ],
+        "receiver_trajectory_started_after_cancel": false,
+        "receiver_residual_trajectory": false,
+        "receiver_binding_and_deadline_cleared": true,
+        "receiver_pending_after_cancel": false,
+        "callback_publications_after_cancel": 0,
+        "installed_receipts_after_prefix": [],
+        "proposals": {
+          "T11": {
+            "original_status": "INITIAL_REJECTED",
+            "observed_before_stop": false,
+            "return_before_stop": false,
+            "admitted_before_stop": false,
+            "original_first_source_tick": null,
+            "source_before_stop": false
+          },
+          "T05": {
+            "original_status": "NOT_REACHED",
+            "observed_before_stop": false,
+            "return_before_stop": false,
+            "admitted_before_stop": false,
+            "original_first_source_tick": null,
+            "source_before_stop": false
+          }
+        }
+      },
+      "overlap": {
+        "first_query_tick": 22453,
+        "original_install_count": 0,
+        "actual_prefix_installs": 0,
+        "prefix_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stop": {
+          "reason": "UNEXPECTED_CONTACT",
+          "pause_tick": 22453,
+          "observed_tick": 22453,
+          "contact": {
+            "ids": [
+              75,
+              78
+            ],
+            "geometries": [
+              "task_left_pad",
+              "task_cube_geom"
+            ],
+            "bodies": [
+              "x5_link7",
+              "task_cube"
+            ],
+            "normal_force_N": 2.742215493784281,
+            "contact_time_s": 44.904000000008914
+          }
+        },
+        "original_terminal_tick": 22603,
+        "grant_tail_ticks": 0,
+        "stopped_effects": [
+          "policy_return",
+          "eef_install",
+          "gripper_issue",
+          "next_grant"
+        ],
+        "policy": {
+          "queries_started": [],
+          "worker_returns_delivered": [],
+          "genuine_archived_late_returns_refused": [],
+          "terminal_query_and_mailbox_closed": true
+        },
+        "receiver_hold": [
+          "HOLD"
+        ],
+        "receiver_cancel": [
+          "CANCEL"
+        ],
+        "receiver_trajectory_started_after_cancel": false,
+        "receiver_residual_trajectory": false,
+        "receiver_binding_and_deadline_cleared": true,
+        "receiver_pending_after_cancel": false,
+        "callback_publications_after_cancel": 0,
+        "installed_receipts_after_prefix": [],
+        "proposals": {
+          "T11": {
+            "original_status": "INITIAL_REJECTED",
+            "observed_before_stop": false,
+            "return_before_stop": false,
+            "admitted_before_stop": false,
+            "original_first_source_tick": null,
+            "source_before_stop": false
+          },
+          "T05": {
+            "original_status": "NOT_REACHED",
+            "observed_before_stop": false,
+            "return_before_stop": false,
+            "admitted_before_stop": false,
+            "original_first_source_tick": null,
+            "source_before_stop": false
+          }
+        }
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-red-right-01": {
+      "fifo": {
+        "first_query_tick": 21953,
+        "original_install_count": 0,
+        "actual_prefix_installs": 0,
+        "prefix_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stop": {
+          "reason": "UNEXPECTED_CONTACT",
+          "pause_tick": 21953,
+          "observed_tick": 21953,
+          "contact": {
+            "ids": [
+              75,
+              78
+            ],
+            "geometries": [
+              "task_left_pad",
+              "task_cube_geom"
+            ],
+            "bodies": [
+              "x5_link7",
+              "task_cube"
+            ],
+            "normal_force_N": 2.8238744874358503,
+            "contact_time_s": 43.90400000000769
+          }
+        },
+        "original_terminal_tick": 22103,
+        "grant_tail_ticks": 0,
+        "stopped_effects": [
+          "policy_return",
+          "eef_install",
+          "gripper_issue",
+          "next_grant"
+        ],
+        "policy": {
+          "queries_started": [],
+          "worker_returns_delivered": [],
+          "genuine_archived_late_returns_refused": [],
+          "terminal_query_and_mailbox_closed": true
+        },
+        "receiver_hold": [
+          "HOLD"
+        ],
+        "receiver_cancel": [
+          "CANCEL"
+        ],
+        "receiver_trajectory_started_after_cancel": false,
+        "receiver_residual_trajectory": false,
+        "receiver_binding_and_deadline_cleared": true,
+        "receiver_pending_after_cancel": false,
+        "callback_publications_after_cancel": 0,
+        "installed_receipts_after_prefix": [],
+        "proposals": {
+          "T12": {
+            "original_status": "INITIAL_REJECTED",
+            "observed_before_stop": false,
+            "return_before_stop": false,
+            "admitted_before_stop": false,
+            "original_first_source_tick": null,
+            "source_before_stop": false
+          },
+          "T06": {
+            "original_status": "NOT_REACHED",
+            "observed_before_stop": false,
+            "return_before_stop": false,
+            "admitted_before_stop": false,
+            "original_first_source_tick": null,
+            "source_before_stop": false
+          }
+        }
+      },
+      "overlap": {
+        "first_query_tick": 21953,
+        "original_install_count": 0,
+        "actual_prefix_installs": 0,
+        "prefix_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stop": {
+          "reason": "UNEXPECTED_CONTACT",
+          "pause_tick": 21953,
+          "observed_tick": 21953,
+          "contact": {
+            "ids": [
+              75,
+              78
+            ],
+            "geometries": [
+              "task_left_pad",
+              "task_cube_geom"
+            ],
+            "bodies": [
+              "x5_link7",
+              "task_cube"
+            ],
+            "normal_force_N": 2.8238744874358503,
+            "contact_time_s": 43.90400000000769
+          }
+        },
+        "original_terminal_tick": 22103,
+        "grant_tail_ticks": 0,
+        "stopped_effects": [
+          "policy_return",
+          "eef_install",
+          "gripper_issue",
+          "next_grant"
+        ],
+        "policy": {
+          "queries_started": [],
+          "worker_returns_delivered": [],
+          "genuine_archived_late_returns_refused": [],
+          "terminal_query_and_mailbox_closed": true
+        },
+        "receiver_hold": [
+          "HOLD"
+        ],
+        "receiver_cancel": [
+          "CANCEL"
+        ],
+        "receiver_trajectory_started_after_cancel": false,
+        "receiver_residual_trajectory": false,
+        "receiver_binding_and_deadline_cleared": true,
+        "receiver_pending_after_cancel": false,
+        "callback_publications_after_cancel": 0,
+        "installed_receipts_after_prefix": [],
+        "proposals": {
+          "T12": {
+            "original_status": "INITIAL_REJECTED",
+            "observed_before_stop": false,
+            "return_before_stop": false,
+            "admitted_before_stop": false,
+            "original_first_source_tick": null,
+            "source_before_stop": false
+          },
+          "T06": {
+            "original_status": "NOT_REACHED",
+            "observed_before_stop": false,
+            "return_before_stop": false,
+            "admitted_before_stop": false,
+            "original_first_source_tick": null,
+            "source_before_stop": false
+          }
+        }
+      }
+    }
+  },
+  "closed_gripper_control": {
+    "first_tick": 2503,
+    "last_tick": 6503,
+    "observed_packets": 4001,
+    "verified_grants": 160,
+    "false_stops": 0,
+    "original_cap": {
+      "reason": "ORIGINAL_CAP",
+      "pause_tick": 6503
+    }
+  },
+  "native_starts": 0,
+  "new_forwards": 0,
+  "training_updates": 0
+}
