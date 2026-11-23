@@ -1,0 +1,253 @@
+{
+  "schema": "SLA_GO2_HIERARCHICAL_AUTONOMY_V16_PLAN",
+  "created_date": "2026-11-24",
+  "status": "PLAN_ONLY_NOT_AUTHORIZED",
+  "repository": "Leo-6-maker/go2-arx5-hierarchical-vla",
+  "base_parent_sha": "d6639cb03af1ff98519b2566cee2c9ee29627ba8",
+  "prev_pr": 439,
+  "closed_f2_pr": 437,
+  "frozen": {
+    "official_checkpoint": "haofuly/SLA_benchmark_ckpts/SLA_Memory_robodojo_real_ckpt",
+    "hf_revision": "7f6880569c3be777291e646fad1b4951245e8553",
+    "policy_source": "XPolicyLab/XPolicyLab@c1b205ec42b4ab2cac9c2159c8b4c2f723e5e454",
+    "checkpoint_files_confirmed": 19,
+    "source_output": "50x16, right arm last 8, official postinverse",
+    "backend": "OCS2/MPC+WBC MuJoCo; no RL-WBC Preview",
+    "no_backend_changes": true,
+    "safety_gate_immutable": true,
+    "legacy_science_denominator_immutable": true
+  },
+  "provenance": {
+    "O0": "checkpoint and 1s history verified on recorded Go2 frames; left inputs virtual OOD",
+    "O1": {
+      "windows": 16,
+      "original_task_valid": 0,
+      "continuous_task_valid": 0,
+      "preview_count": 1718,
+      "rejected_accel": 420,
+      "affected_windows": 16,
+      "lead_in_s": [
+        0.75,
+        0.8
+      ],
+      "first_P10_student_progress": 0,
+      "gripper_threshold_events_retained": 8
+    },
+    "O3": {
+      "student_owner_receipts": 0,
+      "windows": 16,
+      "prior_grasp_windows_proposed_open": 8,
+      "cpu_tests_passed": 55
+    },
+    "F2": {
+      "qualified_matched_static_pairs": 4,
+      "static_goal_position_tolerance_mm": 4,
+      "static_goal_angle_tolerance_deg": 2,
+      "dwell_s": 1,
+      "settling_s": [
+        9.8,
+        10
+      ],
+      "dynamic_qualified": false,
+      "contact_qualified": false
+    },
+    "new_student_native_grasps": 0,
+    "student_success_rate": null
+  },
+  "stages": [
+    {
+      "id": "V0",
+      "name": "evidence_baseline",
+      "resources": [
+        "CPU_READ_ONLY"
+      ],
+      "requires": [],
+      "state": "READY_CPU"
+    },
+    {
+      "id": "V1",
+      "name": "SE3_C2_dynamics_grip_event_preserving_compiler",
+      "resources": [
+        "CPU"
+      ],
+      "requires": [
+        "V0"
+      ],
+      "state": "READY_CPU"
+    },
+    {
+      "id": "V2",
+      "name": "student_owned_gripper_ledger",
+      "resources": [
+        "CPU",
+        "NATIVE_SEPARATE_APPROVAL"
+      ],
+      "requires": [
+        "V0"
+      ],
+      "state": "CPU_READY_NATIVE_BLOCKED"
+    },
+    {
+      "id": "V3",
+      "name": "A1_dynamic_no_contact_known_path",
+      "resources": [
+        "CPU",
+        "NATIVE_SEPARATE_APPROVAL"
+      ],
+      "requires": [
+        "V0",
+        "V1"
+      ],
+      "state": "CPU_READY_NATIVE_BLOCKED"
+    },
+    {
+      "id": "V4",
+      "name": "SLA_goal_stage_diagnostics",
+      "resources": [
+        "CPU",
+        "GPU_SEPARATE_APPROVAL"
+      ],
+      "requires": [
+        "V0"
+      ],
+      "state": "CPU_READY_GPU_BLOCKED"
+    },
+    {
+      "id": "V5",
+      "name": "frozen_SLA_noncontact_native",
+      "resources": [
+        "GPU_SEPARATE_APPROVAL",
+        "NATIVE_SEPARATE_APPROVAL"
+      ],
+      "requires": [
+        "V1",
+        "V2_native",
+        "V3_native"
+      ],
+      "state": "BLOCKED"
+    },
+    {
+      "id": "V6",
+      "name": "student_grasp_lift_place",
+      "resources": [
+        "NATIVE_SEPARATE_APPROVAL",
+        "GPU_SEPARATE_APPROVAL"
+      ],
+      "requires": [
+        "V5",
+        "contact_safety",
+        "motion_fault_stop"
+      ],
+      "state": "BLOCKED"
+    },
+    {
+      "id": "V7",
+      "name": "Go2_posttraining",
+      "resources": [
+        "GPU_SEPARATE_APPROVAL"
+      ],
+      "requires": [
+        "V4",
+        "successful_data_quality",
+        "demonstrated_target_domain_policy_gap"
+      ],
+      "state": "CONDITIONAL"
+    },
+    {
+      "id": "V8",
+      "name": "long_horizon_language_planning",
+      "resources": [
+        "GPU_SEPARATE_APPROVAL",
+        "NATIVE_SEPARATE_APPROVAL"
+      ],
+      "requires": [
+        "V6",
+        "V7_if_triggered"
+      ],
+      "state": "BLOCKED"
+    },
+    {
+      "id": "V9",
+      "name": "mobile_base_extension",
+      "resources": [
+        "NATIVE_SEPARATE_APPROVAL"
+      ],
+      "requires": [
+        "V8"
+      ],
+      "state": "FUTURE_SEPARATE"
+    }
+  ],
+  "interfaces": {
+    "observation": {
+      "real_cameras": [
+        "body",
+        "right_wrist"
+      ],
+      "virtual_left": "explicit OOD",
+      "body_fps": 20,
+      "head_memory_seconds": [
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "time_source": "actual MuJoCo tick"
+    },
+    "intent": {
+      "pose_frame": "world TCP after validated arm-base transform",
+      "positions": "N×3 metres",
+      "rotations": "N×quaternion xyzw",
+      "source_actions": "50×16",
+      "gripper_events": "path progress and target width, owner required"
+    },
+    "native": {
+      "window_points": 41,
+      "window_dt_s": 0.05,
+      "publish_period_s": 0.1,
+      "ttl_s": 0.4,
+      "state_dim_with_base": 14,
+      "command_owner": "epoch/sequence/native receipts"
+    },
+    "separate_gripper": {
+      "width_rate_m_s": 0.04,
+      "previous_width": "last truly consumed command not measured aperture"
+    },
+    "feedback": {
+      "f2_static_max_step_mm_per_100ms": 0.4,
+      "phase_type": "dwell qualified only"
+    }
+  },
+  "hard_gates": {
+    "compiler": "full trajectory continuous + original safety constraints + nontrivial SLA movement and preserved events",
+    "gripper": "student-owned reset + receiver ACK + native applied identity + no inherited grasp",
+    "dynamic": "actual measured dynamic track with preregistered task-dependent tolerance and failure stop",
+    "policy": "no visual oracle/grasp hindsight; identifiable SLA-originated goals; heldout episodes",
+    "deployment": "all preceding gates and independent resource lease"
+  },
+  "proposed_resources": {
+    "new_gpu_forwards_authorized": 0,
+    "new_native_requests_authorized": 0,
+    "new_physics_ticks_authorized": 0,
+    "training_updates_authorized": 0,
+    "future_native_caps": "UNSET_PENDING_SEPARATE_APPROVAL_AND_SOURCE_RECALC",
+    "future_gpu_caps": "UNSET_PENDING_SEPARATE_APPROVAL",
+    "real_hardware_runs_authorized": 0
+  },
+  "stop_conditions": [
+    "CLOCK_REWIND",
+    "INVALID_OR_STALE_RECEIPT",
+    "FROZEN_BINARY_CHANGED",
+    "GRIPPER_NO_OWNER_OR_ILLEGAL_OPEN",
+    "UNSAFE_CONTACT_OR_CONTACT_WITHOUT_QUALIFICATION",
+    "PHYSICAL_STOP",
+    "AFTER_STOP_INTEGRATION",
+    "RESOURCE_LEASE_CONFLICT",
+    "BUDGET_EXCEEDED",
+    "OVERRIDDEN_SLA_GOAL_BY_ORACLE"
+  ]
+}
