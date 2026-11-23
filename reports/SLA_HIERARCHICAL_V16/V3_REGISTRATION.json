@@ -1,0 +1,10 @@
+{
+  "stage": "V3_CPU_ARCHIVE",
+  "population": "All F1 (12 starts) and F2 (6 actual starts from roster of 12), all four pre-matched pairs, no replacement. Report remaining roster unstarted.",
+  "comparison": "Pair on registered control ID, check per-tick goal is identical; measure RMS absolute position and angle and initial-state-relative change error during transition (0..1s), known X/Z movement (1..2.9s), common first stopped second (2.9..3.9s). Report complete run and first dwell inside original 4 mm/2 deg for a continuous second; retain native stops and refusals.",
+  "decision": "Archive can characterize X/Z ramp and parking only. A later dynamic test must cover curve, orientation, intent revision and moving STOP. No native promotion by terminal hold.",
+  "resources": {
+    "new_native": 0,
+    "new_GPU": 0
+  }
+}
