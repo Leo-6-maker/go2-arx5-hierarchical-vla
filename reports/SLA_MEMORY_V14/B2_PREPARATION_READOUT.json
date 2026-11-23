@@ -1,0 +1,311 @@
+{
+  "base_commit": "b8d97b559c1c83c03f80954a4b71abaa87ffee4c",
+  "receipts_sha256": {
+    "CLOCK_GUARD_ACTUAL.json": "ea10f0fb038ac6da2decd98da275de28574db0141238419c25f887e7dbe6db90",
+    "HISTORICAL_TRACKING_ACTUAL.json": "71aaff6944bdb868b03ce6e813fccf477327cdf781c00be0209f97f294c3e7fb",
+    "B2_TECHNICAL_REGISTRATION.json": "3e07e809b912e040d2a713436e540c7d8cadf3b76b96afb4b209b737b7605643",
+    "TECHNICAL_SHADOW_ACTUAL.json": "7b2947ccb6c0b49fa8d22ab9c148e6e00319ead118c07e22ed057447c230d9ca"
+  },
+  "source_sha256": {
+    "clock_guard.py": "2c62a67d6cd79bf55b6883c6a4dfde66a292474fbc5d9929d849a934b80365ea",
+    "clock_replay.py": "8415e61275e1a3133c8c5f828728c6dac589a3fa72858d3b73f9c07e913be238",
+    "historical_tracking.py": "f0e402098203833e195a6be7c490227ca4b342c85c6f9c80f82ccfd4f718a7f0",
+    "technical_registration.py": "3aeaa35a212898ad95b0ce7be95a699b88df927f6ce18f1928a6572912f85184",
+    "technical_shadow.py": "0be5817c1214c194069bb93869b1ba3b282a2f16183bc720920967bf5dfc76d3",
+    "launch.py": "e113ba82e575943bbab2d47c41da9ca67272b56c94cfd7f80886af5a76296c71"
+  },
+  "cpu_guard": {
+    "cases": 12,
+    "HOLD_requested": 12,
+    "targets_published_after_fault": 0,
+    "physical_stop_ack": null,
+    "post_physical_stop_ticks": null,
+    "cold_receiver": {
+      "old_epoch_accepted": 0,
+      "new_epoch_accepted": 1,
+      "first_mpc_s": 9.82,
+      "assumptions": "Fresh isolated receiver and source streams, simulated disabled then enabled feedback"
+    }
+  },
+  "historical_panel": {
+    "registered": 12,
+    "attempted": 10,
+    "completed": 8,
+    "technical_failures": 1,
+    "safety_stops": 1,
+    "withheld": 2,
+    "integrations": 79607,
+    "rows": [
+      {
+        "condition": {
+          "axis": "+x",
+          "eef_mode": "WORLD_HOLD"
+        },
+        "status": "TECHNICAL_FAILURE",
+        "ticks": 2529,
+        "metrics": {}
+      },
+      {
+        "condition": {
+          "axis": "-x",
+          "eef_mode": "SMOOTH_5CM_TRANSLATION"
+        },
+        "status": "COMPLETED",
+        "ticks": 8703,
+        "metrics": {
+          "translation": {
+            "rms": 34.965014012395706,
+            "p95": 47.81842254392688,
+            "max": 60.4928343957699
+          },
+          "rotation": {
+            "rms": 0.04194231893615305,
+            "p95": 0.05512916106216323,
+            "max": 0.0630423296506427
+          },
+          "samples": 120
+        }
+      },
+      {
+        "condition": {
+          "axis": "-x",
+          "eef_mode": "WORLD_HOLD"
+        },
+        "status": "COMPLETED",
+        "ticks": 8703,
+        "metrics": {
+          "translation": {
+            "rms": 28.80676260487914,
+            "p95": 42.061705591371826,
+            "max": 52.286510199601985
+          },
+          "rotation": {
+            "rms": 0.044607545448972725,
+            "p95": 0.055348169348048,
+            "max": 0.06340865366981863
+          },
+          "samples": 120
+        }
+      },
+      {
+        "condition": {
+          "axis": "-y",
+          "eef_mode": "SMOOTH_5CM_TRANSLATION"
+        },
+        "status": "COMPLETED",
+        "ticks": 8703,
+        "metrics": {
+          "translation": {
+            "rms": 30.337969427509464,
+            "p95": 40.89720792521786,
+            "max": 51.511487036177414
+          },
+          "rotation": {
+            "rms": 0.052179011776662024,
+            "p95": 0.0623114180887433,
+            "max": 0.06698488739025023
+          },
+          "samples": 120
+        }
+      },
+      {
+        "condition": {
+          "axis": "-y",
+          "eef_mode": "WORLD_HOLD"
+        },
+        "status": "COMPLETED",
+        "ticks": 8703,
+        "metrics": {
+          "translation": {
+            "rms": 26.299912353618684,
+            "p95": 31.479040369688864,
+            "max": 44.92634580008155
+          },
+          "rotation": {
+            "rms": 0.056853146303667036,
+            "p95": 0.06409384843815628,
+            "max": 0.06953771383113468
+          },
+          "samples": 120
+        }
+      },
+      {
+        "condition": {
+          "axis": "-yaw",
+          "eef_mode": "SMOOTH_5CM_TRANSLATION"
+        },
+        "status": "WITHHELD_YAW_QUARANTINE",
+        "ticks": 0,
+        "metrics": null
+      },
+      {
+        "condition": {
+          "axis": "-yaw",
+          "eef_mode": "WORLD_HOLD"
+        },
+        "status": "WITHHELD_YAW_QUARANTINE",
+        "ticks": 0,
+        "metrics": null
+      },
+      {
+        "condition": {
+          "axis": "+x",
+          "eef_mode": "SMOOTH_5CM_TRANSLATION"
+        },
+        "status": "COMPLETED",
+        "ticks": 8703,
+        "metrics": {
+          "translation": {
+            "rms": 20.29788819880318,
+            "p95": 30.30335475022829,
+            "max": 34.22434375838687
+          },
+          "rotation": {
+            "rms": 0.05946313506170088,
+            "p95": 0.06505186037771904,
+            "max": 0.07544720738559675
+          },
+          "samples": 120
+        }
+      },
+      {
+        "condition": {
+          "axis": "+y",
+          "eef_mode": "SMOOTH_5CM_TRANSLATION"
+        },
+        "status": "COMPLETED",
+        "ticks": 8703,
+        "metrics": {
+          "translation": {
+            "rms": 28.227274424149776,
+            "p95": 41.37106619807996,
+            "max": 51.28735950448013
+          },
+          "rotation": {
+            "rms": 0.052476687531294586,
+            "p95": 0.05840778072914065,
+            "max": 0.0657213286367106
+          },
+          "samples": 120
+        }
+      },
+      {
+        "condition": {
+          "axis": "+y",
+          "eef_mode": "WORLD_HOLD"
+        },
+        "status": "COMPLETED",
+        "ticks": 8703,
+        "metrics": {
+          "translation": {
+            "rms": 26.92521503566471,
+            "p95": 40.08967871527247,
+            "max": 49.55820298299174
+          },
+          "rotation": {
+            "rms": 0.05489821934175192,
+            "p95": 0.059857724949088136,
+            "max": 0.06924061358006216
+          },
+          "samples": 120
+        }
+      },
+      {
+        "condition": {
+          "axis": "+yaw",
+          "eef_mode": "SMOOTH_5CM_TRANSLATION"
+        },
+        "status": "SAFETY_STOP",
+        "ticks": 7454,
+        "metrics": {
+          "translation": {
+            "rms": 25.798660720972947,
+            "p95": 34.82530680228295,
+            "max": 52.9694340977781
+          },
+          "rotation": {
+            "rms": 0.04894475591584332,
+            "p95": 0.06352892769459118,
+            "max": 0.06519708472992193
+          },
+          "samples": 70
+        }
+      },
+      {
+        "condition": {
+          "axis": "+yaw",
+          "eef_mode": "WORLD_HOLD"
+        },
+        "status": "COMPLETED",
+        "ticks": 8703,
+        "metrics": {
+          "translation": {
+            "rms": 26.509603198948934,
+            "p95": 41.515420122315646,
+            "max": 56.99045312664494
+          },
+          "rotation": {
+            "rms": 0.05048190390888596,
+            "p95": 0.0635629660087142,
+            "max": 0.06789256833765493
+          },
+          "samples": 120
+        }
+      }
+    ]
+  },
+  "proposed_cards": [
+    {
+      "id": "T0_STATIC_HOLD",
+      "initialization_tick_cap": 5703,
+      "after_initialization_tick_cap": 500,
+      "total_tick_cap": 6203,
+      "physics_dt_s": 0.002,
+      "wall_limit_s": 1800,
+      "reference": "world TCP from post-initialization measured pose, constant orientation, neutral held base reference",
+      "registration_only": true
+    },
+    {
+      "id": "T1_CLOCK_FAULT_STOP",
+      "initialization_tick_cap": 5703,
+      "after_initialization_tick_cap": 1000,
+      "total_tick_cap": 6703,
+      "physics_dt_s": 0.002,
+      "wall_limit_s": 1800,
+      "reference": "world TCP from post-initialization measured pose, constant orientation, neutral held base reference",
+      "registration_only": true
+    }
+  ],
+  "cpu_technical_replay": [
+    {
+      "card": "T0_STATIC_HOLD",
+      "targets": 10,
+      "points_per_target": 41,
+      "reference_width": 14,
+      "target_translation_change_m": 0.0,
+      "target_rotation_change_rad": 0.0,
+      "callback_hold_requests": 1,
+      "live_hold_ack": null,
+      "new_native_ticks": 0
+    },
+    {
+      "card": "T1_CLOCK_FAULT_STOP",
+      "targets": 20,
+      "points_per_target": 41,
+      "reference_width": 14,
+      "target_translation_change_m": 0.0,
+      "target_rotation_change_rad": 0.0,
+      "callback_hold_requests": 1,
+      "live_hold_ack": null,
+      "new_native_ticks": 0
+    }
+  ],
+  "new_native_requests": 0,
+  "new_physics_ticks": 0,
+  "new_training_updates": 0,
+  "new_GPU_forwards": 0,
+  "technical_interruptions": [
+    "History read initially treated pre-created but unissued first-batch directories as outcomes; second pass expected an end-of-run binary receipt for interrupted cards. Final replay checks actual batch membership and the latest available loaded-binary receipt.",
+    "The native Python environment lacked optional SciPy in the first technical shadow attempt. The final replay uses the pinned rotation conversion and native environment."
+  ]
+}
