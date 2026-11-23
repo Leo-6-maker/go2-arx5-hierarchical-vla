@@ -1,0 +1,650 @@
+{
+  "scope": "Discrete, robot arm vs frozen base/limbs and measured stationary objects. Sampled geometric overlap; dynamic, contact and clearance-margin qualification remain separate.",
+  "records": [
+    {
+      "id": "T01",
+      "methods": {
+        "C2_EXACT": {
+          "checked": 718,
+          "all_samples": 718,
+          "first_failure": null,
+          "minimum_joint_margin_rad": 0.24871547844201614,
+          "original_measured_contact_pair": null,
+          "active_pair_count": 175,
+          "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+          "pass": true,
+          "entry_sweep_samples": 59
+        },
+        "C2_BOUNDED": {
+          "checked": 810,
+          "all_samples": 810,
+          "first_failure": null,
+          "minimum_joint_margin_rad": 0.24871547844201614,
+          "original_measured_contact_pair": null,
+          "active_pair_count": 175,
+          "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+          "pass": true,
+          "entry_sweep_samples": 59
+        }
+      }
+    },
+    {
+      "id": "T02",
+      "methods": {
+        "C2_EXACT": {
+          "checked": 623,
+          "all_samples": 623,
+          "first_failure": null,
+          "minimum_joint_margin_rad": 0.27890311837409437,
+          "original_measured_contact_pair": null,
+          "active_pair_count": 175,
+          "scene_sha256": "30ddc30db168df862036b38e72dc0ec1af8188a47d26aa4e0757679a0f1e2e13",
+          "pass": true,
+          "entry_sweep_samples": 58
+        },
+        "C2_BOUNDED": {
+          "checked": 723,
+          "all_samples": 723,
+          "first_failure": null,
+          "minimum_joint_margin_rad": 0.27890311837409437,
+          "original_measured_contact_pair": null,
+          "active_pair_count": 175,
+          "scene_sha256": "30ddc30db168df862036b38e72dc0ec1af8188a47d26aa4e0757679a0f1e2e13",
+          "pass": true,
+          "entry_sweep_samples": 58
+        }
+      }
+    },
+    {
+      "id": "T03",
+      "methods": {
+        "C2_EXACT": {
+          "checked": 0,
+          "all_samples": 593,
+          "first_failure": {
+            "check": "CONTACT",
+            "time_s": -0.0,
+            "margin_rad": 0.4023945077995997,
+            "threshold": 0,
+            "geom_pair": [
+              "task_left_pad",
+              "task_cube_geom"
+            ]
+          },
+          "minimum_joint_margin_rad": 0.4023945077995997,
+          "original_measured_contact_pair": [
+            "task_left_pad",
+            "task_cube_geom"
+          ],
+          "active_pair_count": 175,
+          "scene_sha256": "6b1a6736b55341f14ffad2891fc73d1c9dbd4e71e803001624cdc6993efc2f30",
+          "pass": false,
+          "entry_sweep_samples": 58
+        },
+        "C2_BOUNDED": {
+          "checked": 0,
+          "all_samples": 593,
+          "first_failure": {
+            "check": "CONTACT",
+            "time_s": -0.0,
+            "margin_rad": 0.4023945077995997,
+            "threshold": 0,
+            "geom_pair": [
+              "task_left_pad",
+              "task_cube_geom"
+            ]
+          },
+          "minimum_joint_margin_rad": 0.4023945077995997,
+          "original_measured_contact_pair": [
+            "task_left_pad",
+            "task_cube_geom"
+          ],
+          "active_pair_count": 175,
+          "scene_sha256": "6b1a6736b55341f14ffad2891fc73d1c9dbd4e71e803001624cdc6993efc2f30",
+          "pass": false,
+          "entry_sweep_samples": 58
+        }
+      }
+    },
+    {
+      "id": "T04",
+      "methods": {
+        "C2_EXACT": {
+          "checked": 0,
+          "all_samples": 555,
+          "first_failure": {
+            "check": "CONTACT",
+            "time_s": -0.0,
+            "margin_rad": 0.4790346777003642,
+            "threshold": 0,
+            "geom_pair": [
+              "task_left_pad",
+              "task_cube_geom"
+            ]
+          },
+          "minimum_joint_margin_rad": 0.4790346777003642,
+          "original_measured_contact_pair": [
+            "task_left_pad",
+            "task_cube_geom"
+          ],
+          "active_pair_count": 175,
+          "scene_sha256": "ba55a65ce2d5a57917ec4f1d49ee38af15c4e495d10a5b8781d06ce6e787f723",
+          "pass": false,
+          "entry_sweep_samples": 54
+        },
+        "C2_BOUNDED": {
+          "checked": 0,
+          "all_samples": 555,
+          "first_failure": {
+            "check": "CONTACT",
+            "time_s": -0.0,
+            "margin_rad": 0.4790346777003642,
+            "threshold": 0,
+            "geom_pair": [
+              "task_left_pad",
+              "task_cube_geom"
+            ]
+          },
+          "minimum_joint_margin_rad": 0.4790346777003642,
+          "original_measured_contact_pair": [
+            "task_left_pad",
+            "task_cube_geom"
+          ],
+          "active_pair_count": 175,
+          "scene_sha256": "ba55a65ce2d5a57917ec4f1d49ee38af15c4e495d10a5b8781d06ce6e787f723",
+          "pass": false,
+          "entry_sweep_samples": 54
+        }
+      }
+    },
+    {
+      "id": "T05",
+      "methods": {
+        "C2_EXACT": {
+          "checked": 0,
+          "all_samples": 571,
+          "first_failure": {
+            "check": "CONTACT",
+            "time_s": -0.0,
+            "margin_rad": 0.4881553731253717,
+            "threshold": 0,
+            "geom_pair": [
+              "task_left_pad",
+              "task_cube_geom"
+            ]
+          },
+          "minimum_joint_margin_rad": 0.4881553731253717,
+          "original_measured_contact_pair": [
+            "task_left_pad",
+            "task_cube_geom"
+          ],
+          "active_pair_count": 175,
+          "scene_sha256": "76196c90890b1d1884d7486e5f8595592e2574fa5bbfb5c337575a34f3fbb796",
+          "pass": false,
+          "entry_sweep_samples": 54
+        },
+        "C2_BOUNDED": {
+          "checked": 0,
+          "all_samples": 571,
+          "first_failure": {
+            "check": "CONTACT",
+            "time_s": -0.0,
+            "margin_rad": 0.4881553731253717,
+            "threshold": 0,
+            "geom_pair": [
+              "task_left_pad",
+              "task_cube_geom"
+            ]
+          },
+          "minimum_joint_margin_rad": 0.4881553731253717,
+          "original_measured_contact_pair": [
+            "task_left_pad",
+            "task_cube_geom"
+          ],
+          "active_pair_count": 175,
+          "scene_sha256": "76196c90890b1d1884d7486e5f8595592e2574fa5bbfb5c337575a34f3fbb796",
+          "pass": false,
+          "entry_sweep_samples": 54
+        }
+      }
+    },
+    {
+      "id": "T06",
+      "methods": {
+        "C2_EXACT": {
+          "checked": 0,
+          "all_samples": 553,
+          "first_failure": {
+            "check": "CONTACT",
+            "time_s": -0.0,
+            "margin_rad": 0.4865466730659761,
+            "threshold": 0,
+            "geom_pair": [
+              "task_left_pad",
+              "task_cube_geom"
+            ]
+          },
+          "minimum_joint_margin_rad": 0.4865466730659761,
+          "original_measured_contact_pair": [
+            "task_left_pad",
+            "task_cube_geom"
+          ],
+          "active_pair_count": 175,
+          "scene_sha256": "9ae3232754c5ef287239801fc10230199872f1526c78c099b746f0d7ad088507",
+          "pass": false,
+          "entry_sweep_samples": 54
+        },
+        "C2_BOUNDED": {
+          "checked": 0,
+          "all_samples": 553,
+          "first_failure": {
+            "check": "CONTACT",
+            "time_s": -0.0,
+            "margin_rad": 0.4865466730659761,
+            "threshold": 0,
+            "geom_pair": [
+              "task_left_pad",
+              "task_cube_geom"
+            ]
+          },
+          "minimum_joint_margin_rad": 0.4865466730659761,
+          "original_measured_contact_pair": [
+            "task_left_pad",
+            "task_cube_geom"
+          ],
+          "active_pair_count": 175,
+          "scene_sha256": "9ae3232754c5ef287239801fc10230199872f1526c78c099b746f0d7ad088507",
+          "pass": false,
+          "entry_sweep_samples": 54
+        }
+      }
+    },
+    {
+      "id": "T07",
+      "methods": {
+        "C2_EXACT": {
+          "checked": 703,
+          "all_samples": 703,
+          "first_failure": null,
+          "minimum_joint_margin_rad": 0.26603101055656275,
+          "original_measured_contact_pair": null,
+          "active_pair_count": 175,
+          "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+          "pass": true,
+          "entry_sweep_samples": 58
+        },
+        "C2_BOUNDED": {
+          "checked": 865,
+          "all_samples": 865,
+          "first_failure": null,
+          "minimum_joint_margin_rad": 0.26603101055656275,
+          "original_measured_contact_pair": null,
+          "active_pair_count": 175,
+          "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+          "pass": true,
+          "entry_sweep_samples": 58
+        }
+      }
+    },
+    {
+      "id": "T08",
+      "methods": {
+        "C2_EXACT": {
+          "checked": 621,
+          "all_samples": 621,
+          "first_failure": null,
+          "minimum_joint_margin_rad": 0.2827541901778539,
+          "original_measured_contact_pair": null,
+          "active_pair_count": 175,
+          "scene_sha256": "30ddc30db168df862036b38e72dc0ec1af8188a47d26aa4e0757679a0f1e2e13",
+          "pass": true,
+          "entry_sweep_samples": 58
+        },
+        "C2_BOUNDED": {
+          "checked": 713,
+          "all_samples": 713,
+          "first_failure": null,
+          "minimum_joint_margin_rad": 0.2827541901778539,
+          "original_measured_contact_pair": null,
+          "active_pair_count": 175,
+          "scene_sha256": "30ddc30db168df862036b38e72dc0ec1af8188a47d26aa4e0757679a0f1e2e13",
+          "pass": true,
+          "entry_sweep_samples": 58
+        }
+      }
+    },
+    {
+      "id": "T09",
+      "methods": {
+        "C2_EXACT": {
+          "checked": 45,
+          "all_samples": 599,
+          "first_failure": {
+            "check": "CONTACT",
+            "time_s": -0.0,
+            "margin_rad": 0.29980809309312995,
+            "threshold": 0,
+            "geom_pair": [
+              "task_right_pad",
+              "task_cube_geom"
+            ]
+          },
+          "minimum_joint_margin_rad": 0.29980809309312995,
+          "original_measured_contact_pair": null,
+          "active_pair_count": 175,
+          "scene_sha256": "6b1a6736b55341f14ffad2891fc73d1c9dbd4e71e803001624cdc6993efc2f30",
+          "pass": false,
+          "entry_sweep_samples": 58
+        },
+        "C2_BOUNDED": {
+          "checked": 45,
+          "all_samples": 639,
+          "first_failure": {
+            "check": "CONTACT",
+            "time_s": -0.0,
+            "margin_rad": 0.29980809309312995,
+            "threshold": 0,
+            "geom_pair": [
+              "task_right_pad",
+              "task_cube_geom"
+            ]
+          },
+          "minimum_joint_margin_rad": 0.29980809309312995,
+          "original_measured_contact_pair": null,
+          "active_pair_count": 175,
+          "scene_sha256": "6b1a6736b55341f14ffad2891fc73d1c9dbd4e71e803001624cdc6993efc2f30",
+          "pass": false,
+          "entry_sweep_samples": 58
+        }
+      }
+    },
+    {
+      "id": "T10",
+      "methods": {
+        "C2_EXACT": {
+          "checked": 0,
+          "all_samples": 573,
+          "first_failure": {
+            "check": "CONTACT",
+            "time_s": -0.0,
+            "margin_rad": 0.46776062213208564,
+            "threshold": 0,
+            "geom_pair": [
+              "task_left_pad",
+              "task_cube_geom"
+            ]
+          },
+          "minimum_joint_margin_rad": 0.46776062213208564,
+          "original_measured_contact_pair": [
+            "task_left_pad",
+            "task_cube_geom"
+          ],
+          "active_pair_count": 175,
+          "scene_sha256": "ba55a65ce2d5a57917ec4f1d49ee38af15c4e495d10a5b8781d06ce6e787f723",
+          "pass": false,
+          "entry_sweep_samples": 56
+        },
+        "C2_BOUNDED": {
+          "checked": 0,
+          "all_samples": 573,
+          "first_failure": {
+            "check": "CONTACT",
+            "time_s": -0.0,
+            "margin_rad": 0.46776062213208564,
+            "threshold": 0,
+            "geom_pair": [
+              "task_left_pad",
+              "task_cube_geom"
+            ]
+          },
+          "minimum_joint_margin_rad": 0.46776062213208564,
+          "original_measured_contact_pair": [
+            "task_left_pad",
+            "task_cube_geom"
+          ],
+          "active_pair_count": 175,
+          "scene_sha256": "ba55a65ce2d5a57917ec4f1d49ee38af15c4e495d10a5b8781d06ce6e787f723",
+          "pass": false,
+          "entry_sweep_samples": 56
+        }
+      }
+    },
+    {
+      "id": "T11",
+      "methods": {
+        "C2_EXACT": {
+          "checked": 0,
+          "all_samples": 643,
+          "first_failure": {
+            "check": "CONTACT",
+            "time_s": -0.0,
+            "margin_rad": 0.4774510725069616,
+            "threshold": 0,
+            "geom_pair": [
+              "task_left_pad",
+              "task_cube_geom"
+            ]
+          },
+          "minimum_joint_margin_rad": 0.4774510725069616,
+          "original_measured_contact_pair": [
+            "task_left_pad",
+            "task_cube_geom"
+          ],
+          "active_pair_count": 175,
+          "scene_sha256": "76196c90890b1d1884d7486e5f8595592e2574fa5bbfb5c337575a34f3fbb796",
+          "pass": false,
+          "entry_sweep_samples": 56
+        },
+        "C2_BOUNDED": {
+          "checked": 0,
+          "all_samples": 643,
+          "first_failure": {
+            "check": "CONTACT",
+            "time_s": -0.0,
+            "margin_rad": 0.4774510725069616,
+            "threshold": 0,
+            "geom_pair": [
+              "task_left_pad",
+              "task_cube_geom"
+            ]
+          },
+          "minimum_joint_margin_rad": 0.4774510725069616,
+          "original_measured_contact_pair": [
+            "task_left_pad",
+            "task_cube_geom"
+          ],
+          "active_pair_count": 175,
+          "scene_sha256": "76196c90890b1d1884d7486e5f8595592e2574fa5bbfb5c337575a34f3fbb796",
+          "pass": false,
+          "entry_sweep_samples": 56
+        }
+      }
+    },
+    {
+      "id": "T12",
+      "methods": {
+        "C2_EXACT": {
+          "checked": 0,
+          "all_samples": 567,
+          "first_failure": {
+            "check": "CONTACT",
+            "time_s": -0.0,
+            "margin_rad": 0.475844583263331,
+            "threshold": 0,
+            "geom_pair": [
+              "task_left_pad",
+              "task_cube_geom"
+            ]
+          },
+          "minimum_joint_margin_rad": 0.475844583263331,
+          "original_measured_contact_pair": [
+            "task_left_pad",
+            "task_cube_geom"
+          ],
+          "active_pair_count": 175,
+          "scene_sha256": "9ae3232754c5ef287239801fc10230199872f1526c78c099b746f0d7ad088507",
+          "pass": false,
+          "entry_sweep_samples": 56
+        },
+        "C2_BOUNDED": {
+          "checked": 0,
+          "all_samples": 567,
+          "first_failure": {
+            "check": "CONTACT",
+            "time_s": -0.0,
+            "margin_rad": 0.475844583263331,
+            "threshold": 0,
+            "geom_pair": [
+              "task_left_pad",
+              "task_cube_geom"
+            ]
+          },
+          "minimum_joint_margin_rad": 0.475844583263331,
+          "original_measured_contact_pair": [
+            "task_left_pad",
+            "task_cube_geom"
+          ],
+          "active_pair_count": 175,
+          "scene_sha256": "9ae3232754c5ef287239801fc10230199872f1526c78c099b746f0d7ad088507",
+          "pass": false,
+          "entry_sweep_samples": 56
+        }
+      }
+    },
+    {
+      "id": "T13",
+      "methods": {
+        "C2_EXACT": {
+          "checked": 698,
+          "all_samples": 698,
+          "first_failure": null,
+          "minimum_joint_margin_rad": 0.2854708031389812,
+          "original_measured_contact_pair": null,
+          "active_pair_count": 175,
+          "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+          "pass": true,
+          "entry_sweep_samples": 57
+        },
+        "C2_BOUNDED": {
+          "checked": 798,
+          "all_samples": 798,
+          "first_failure": null,
+          "minimum_joint_margin_rad": 0.2854708031389812,
+          "original_measured_contact_pair": null,
+          "active_pair_count": 175,
+          "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+          "pass": true,
+          "entry_sweep_samples": 57
+        }
+      }
+    },
+    {
+      "id": "T14",
+      "methods": {
+        "C2_EXACT": {
+          "checked": 657,
+          "all_samples": 657,
+          "first_failure": null,
+          "minimum_joint_margin_rad": 0.2899327358680999,
+          "original_measured_contact_pair": null,
+          "active_pair_count": 175,
+          "scene_sha256": "30ddc30db168df862036b38e72dc0ec1af8188a47d26aa4e0757679a0f1e2e13",
+          "pass": true,
+          "entry_sweep_samples": 58
+        },
+        "C2_BOUNDED": {
+          "checked": 763,
+          "all_samples": 763,
+          "first_failure": null,
+          "minimum_joint_margin_rad": 0.2899327358680999,
+          "original_measured_contact_pair": null,
+          "active_pair_count": 175,
+          "scene_sha256": "30ddc30db168df862036b38e72dc0ec1af8188a47d26aa4e0757679a0f1e2e13",
+          "pass": true,
+          "entry_sweep_samples": 58
+        }
+      }
+    },
+    {
+      "id": "T15",
+      "methods": {
+        "C2_EXACT": {
+          "checked": 651,
+          "all_samples": 651,
+          "first_failure": null,
+          "minimum_joint_margin_rad": 0.26899952391393517,
+          "original_measured_contact_pair": null,
+          "active_pair_count": 175,
+          "scene_sha256": "6b1a6736b55341f14ffad2891fc73d1c9dbd4e71e803001624cdc6993efc2f30",
+          "pass": true,
+          "entry_sweep_samples": 58
+        },
+        "C2_BOUNDED": {
+          "checked": 759,
+          "all_samples": 759,
+          "first_failure": null,
+          "minimum_joint_margin_rad": 0.26899952391393517,
+          "original_measured_contact_pair": null,
+          "active_pair_count": 175,
+          "scene_sha256": "6b1a6736b55341f14ffad2891fc73d1c9dbd4e71e803001624cdc6993efc2f30",
+          "pass": true,
+          "entry_sweep_samples": 58
+        }
+      }
+    },
+    {
+      "id": "T16",
+      "methods": {
+        "C2_EXACT": {
+          "checked": 0,
+          "all_samples": 578,
+          "first_failure": {
+            "check": "CONTACT",
+            "time_s": -0.0,
+            "margin_rad": 0.45674048536973266,
+            "threshold": 0,
+            "geom_pair": [
+              "task_left_pad",
+              "task_cube_geom"
+            ]
+          },
+          "minimum_joint_margin_rad": 0.45674048536973266,
+          "original_measured_contact_pair": [
+            "task_left_pad",
+            "task_cube_geom"
+          ],
+          "active_pair_count": 175,
+          "scene_sha256": "ba55a65ce2d5a57917ec4f1d49ee38af15c4e495d10a5b8781d06ce6e787f723",
+          "pass": false,
+          "entry_sweep_samples": 57
+        },
+        "C2_BOUNDED": {
+          "checked": 0,
+          "all_samples": 578,
+          "first_failure": {
+            "check": "CONTACT",
+            "time_s": -0.0,
+            "margin_rad": 0.45674048536973266,
+            "threshold": 0,
+            "geom_pair": [
+              "task_left_pad",
+              "task_cube_geom"
+            ]
+          },
+          "minimum_joint_margin_rad": 0.45674048536973266,
+          "original_measured_contact_pair": [
+            "task_left_pad",
+            "task_cube_geom"
+          ],
+          "active_pair_count": 175,
+          "scene_sha256": "ba55a65ce2d5a57917ec4f1d49ee38af15c4e495d10a5b8781d06ce6e787f723",
+          "pass": false,
+          "entry_sweep_samples": 57
+        }
+      }
+    }
+  ],
+  "reader": "standalone MJB offsets, no simulator library",
+  "collision_library": "python-fcl 0.7.0.11",
+  "physics_ticks": 0
+}
