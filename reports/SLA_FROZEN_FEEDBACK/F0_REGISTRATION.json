@@ -14,10 +14,10 @@
     "min_linear_overlap_fraction": 0.8,
     "observability_reserve_mm": 1.8,
     "rotation_bound_deg": 2,
-    "max_corner_lever_mm": 55,
+    "max_corner_lever_mm": 57,
     "abs_position_bound_mm": 4,
     "hold_s": 1,
-    "derivation": "Aligned centered cube, open slides at 42 mm. Longitudinal overlap margin 8 mm, vertical 9.8 mm, tighter lateral inner-face clearance 20.738 mm. Reserve 1.8 mm for B2 TCP channel disagreement and 2*55*sin(1 degree) mm for pad-corner rotation. Floor the minimum remaining margin to 4 mm. Engineering allocation for no-contact qualification only. Require all samples in the hold, measured relative to task goal."
+    "derivation": "Aligned centered cube, open slides at 42 mm. Longitudinal overlap margin 8 mm, vertical 9.8 mm, tighter lateral inner-face clearance 20.738 mm. Reserve 1.8 mm for B2 TCP channel disagreement and 2*57*sin(1 degree) mm for pad-corner rotation. Floor the minimum remaining margin to 4 mm. Engineering allocation for no-contact qualification only. Require all samples in the hold, measured relative to task goal."
   },
   "intent": "Static previous world EEF/base target. F0 compares A0 continued hold and A1 static-goal feedback. Task goal and compiled reference have separate trajectories. No SLA/gripper handoff.",
   "controller": {
@@ -39,7 +39,7 @@
   },
   "analysis": {
     "inputs": "All 40 D1 starts, all 12 D3 cards. D3 split by historical B2 eligibility and family/rate. No performance-based exclusion.",
-    "model": "Forward through-origin lagged least squares over incremental X, Z in mm and world Y in degrees, outputs all 6 actual components. Balance per card; search 0..300 ms in 10 ms steps on training folds only, using translation mm and rotation at 55mm lever. Whole family and whole rate held out. Estimate rank, residuals, and domain exits. No 6DOF identification.",
+    "model": "Forward through-origin lagged least squares over incremental X, Z in mm and world Y in degrees, outputs all 6 actual components. Balance per card; search 0..300 ms in 10 ms steps on training folds only, using translation mm and rotation at 57mm lever. Whole family and whole rate held out. Estimate rank, residuals, and domain exits. No 6DOF identification.",
     "shadow": "24s static-goal deterministic counterfactual on each recorded D3 start with that card held out of fitting. Sensitivity: unexcited world Y translation and X/Z rotations have diagonal gains 0, 0.5, 1 (assumptions); fitted observed columns unchanged. Track historical coordinate-box and excitation-hull exits. No simulated success is a native result."
   },
   "admission": "F1 and F2 are independent native populations under PR 436. This F0 registration launches neither."
