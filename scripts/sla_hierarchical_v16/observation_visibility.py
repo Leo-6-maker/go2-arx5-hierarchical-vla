@@ -66,7 +66,7 @@ def visible(renderer, model, data, camera):
     return out
 
 
-def run(root, repo):
+def run(root, repo, *, on_query=None):
     from observation_stream import ObservationStream
     import mujoco
     from OpenGL import GL
@@ -190,6 +190,8 @@ def run(root, repo):
                             and digest(obs["images"]["cam_left_wrist"]) == left_rgb,
                             "stream differs from model-bound input",
                         )
+                    if on_query is not None:
+                        on_query(stream, w)
                     out.append(
                         dict(
                             id=w["id"],
