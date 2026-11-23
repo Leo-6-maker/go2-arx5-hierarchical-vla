@@ -28,6 +28,7 @@ def inputs(root):
     from d1_readiness import pinned
     from d1_factorial_reference_matrix import verify_initial
     from native_known import target
+    from fault_reference import motion_from_install
     from go2arx5_vla.world_model.init_trace_reader import audit_trace
     from scripts.wm02 import mobile_boundary_runner_v1 as mobile
     from verify_grip_card import states
@@ -37,7 +38,14 @@ def inputs(root):
         all(
             map(
                 callable,
-                [verify_initial, target, audit_trace, mobile.registered, states],
+                [
+                    verify_initial,
+                    target,
+                    motion_from_install,
+                    audit_trace,
+                    mobile.registered,
+                    states,
+                ],
             )
         ),
         "incomplete runtime",
