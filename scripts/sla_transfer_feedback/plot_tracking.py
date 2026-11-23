@@ -77,11 +77,11 @@ def main():
                 label=None if i else "A0 matched control",
             )
             draw("F2", r, label=None if i else "A1 feedback")
-        fig.suptitle(f"Known target tracking across {len(pairs)} matched pair(s)")
+        fig.suptitle(f"Known target tracking across {len(pairs)} matched pairs")
     else:
         for i, r in enumerate(a.values()):
             draw("F1", r, label=None if i else "A0 reference continuity")
-        fig.suptitle(f"Known target tracking across {len(a)} eligible A0 start(s)")
+        fig.suptitle(f"Known target tracking across {len(a)} eligible A0 starts")
     for axis in ax:
         axis.set_ylim(bottom=0)
     ax[0].legend(frameon=False, loc="upper right")
