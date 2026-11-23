@@ -1,0 +1,61 @@
+{
+  "scientific_endpoint": "CONTROLLER_TRACKING_BLOCKED",
+  "scope": "Standing simulated Go2 + ARX5, frozen OCS2/WBC, known paths starting at the old EEF/base world references.",
+  "evidence_sha256": {
+    "D1": "86e74ad94e00e1c029cdb99eadbd87e61e57a8e9f9df82222472f17206786eea",
+    "D3": "69d9004a2085a06eb025f6a1f362aa85c729bae4d9cfb9b821a963cfb83b3413",
+    "gripper": "2a8c29c021838a7451d4fa789fa257f2bee7a9d3dae40b2d70d6066a29e373b5",
+    "shadow": "b7a92e3d8755c661f78a7cf3a0febc968acb747731722a92ccb09159c6718b1a"
+  },
+  "D1": {
+    "starts": 40,
+    "status_counts": {
+      "COMPLETE": 18,
+      "SCREENED_OUT": 22
+    },
+    "complete_blocks": 4,
+    "native_ticks": 237120
+  },
+  "D3": {
+    "requests": 12,
+    "completed": 12,
+    "B2_matched_cards": 3,
+    "qualified_mode_pairs": 0,
+    "scheduled_mode_pairs": 6,
+    "absolute_position_RMS_mm_range": [
+      28.35924134638147,
+      30.679589256359623
+    ],
+    "incremental_position_RMS_mm_range": [
+      1.65616872714254,
+      3.974836052788488
+    ],
+    "native_ticks": 80436
+  },
+  "B3_native": {
+    "status": "NOT_RUN",
+    "new_native_requests": 0,
+    "reason": "Known-path precision insufficient in this workspace; student gripper ownership unqualified. The D3 known-path packets used the established mobile protocol."
+  },
+  "B4": {
+    "status": "NOT_RUN",
+    "new_native_requests": 0,
+    "new_SLA_forwards": 0,
+    "task_success_rate": null,
+    "reason": "The V1.5 scientific stop for persistent absolute tracking error applies; no independently verified student gripper handoff in any of 16 development windows."
+  },
+  "new_scope_totals": {
+    "native_requests": 52,
+    "native_ticks": 317556,
+    "post_initial_ticks": 21000,
+    "new_SLA_forwards": 0,
+    "optimizer_updates": 0,
+    "hardware_runs": 0
+  },
+  "original_closed_D1_excluded_from_new_scope": {
+    "native_requests": 1,
+    "native_ticks": 5703,
+    "test_ticks": 0
+  },
+  "interpretation": "EEF reset is the main trigger of the early downward motion in the matched cohort. The arm still has a substantial absolute tracking gap under known non-SLA paths. Frozen SLA grasp/place capability on this target remains unmeasured."
+}
