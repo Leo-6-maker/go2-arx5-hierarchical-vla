@@ -1,0 +1,13 @@
+{
+  "study": "Async policy return to query-time frame and native feedback",
+  "predecessor": "d043097cb23f2e891749216bb3239c6ec67d6d00",
+  "scope": "CPU transport qualification on existing data. No model sampling, actuator messages, simulation steps or change to original gates.",
+  "source": "Replay the exact archived input arrays and all 16 original primary 50x16 outputs against their frozen input/state, query frame and native time. Test 10 adjacent same-episode pairs with the old call delayed until the newer query boundary, i.e. exactly 250 native ticks. This is an injected delivery schedule; the archived inference was offline.",
+  "comparison": "At the injected arrival of each older result evaluate raw -> world TCP both using its own captured query frame and incorrectly using the later frame. Verify all 50 restored world poses against the previously sealed ABI. Report per-pair maximum translation and angle differences. Independently exercise newer-first completion, duplicate return, incorrect response identity and STOP during inference. Preserve native receipt provenance; an accepted return is a candidate for the original compiler, never proof of installation.",
+  "native": "Existing V2 gripper-only noncontact qualification. Reuse its independently checked native issuer/ACK/25-step/bilateral rows and match accepted reference, actual receiver installation, solver target echoes and measured native intervals. Summarize the intervals between 5703, 5903, 6103, 6303, and cap 6503. Distinguish mixed solver target generations and whether the frozen controller exports a selected policy identity. There are no SLA outputs on this V2 native trajectory.",
+  "resources": {
+    "new_forwards": 0,
+    "native_requests": 0,
+    "training_updates": 0
+  }
+}
