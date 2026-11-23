@@ -1,0 +1,21 @@
+{
+  "id": "V3-STOP-01",
+  "status": "PROSPECTIVE_NOT_LAUNCHED",
+  "purpose": "One noncontact H0 diagnostic. Can an expiring gripper packet during a moving known A0 target stop the complete native plant before another integration, despite outstanding grant? Retain any screened start, technical failure, stationary-at-fault or missing evidence.",
+  "scope": "One fixed fresh standing simulation, open student gripper, no object interaction, no GPU or training. No A1 dynamics, random replacement, or SLA success attribution.",
+  "ownership": "Requires a new stage-specific scientific allocation and an actually exclusive on-site world lease. Existing V2 leases are closed. A candidate registration is not a lease.",
+  "max_native_starts": 1,
+  "advertised_hard_cap_ticks": 6503,
+  "maximum_grant_end_tick": 6453,
+  "planned_stop_tick": 6439,
+  "physics_dt_s": 0.002,
+  "entry": "Use known F1/B2-matched startup under original tolerances and the old consumed world reference. Screen once before motion at 5703. Preserve either outcome in denominator. Use the original approved A0 4mm X/Z no-contact translation with 1s hold, unchanged sweep, 42mm actual width. Fixed moving STOP card alone cannot qualify both startup strata or dynamic A1.",
+  "command": "Hold gripper open throughout. At 6428 issue legal packet with expiry at 6438.5 ticks, then one normal 25-tick grant through 6453. No resume, corrective packet or later install. Existing receipt and achieved-motion checks must be operational before launch.",
+  "motion_criterion": "Before the first STOP compare measured world TCP at 6414 and 6439 directly from the native 2ms journal. Require displacement >0.10 mm and positive commanded path displacement over the same 50 ms. 0.10 mm exceeds twice the maximum historical inter-channel discrepancy (<0.05 mm). This operational test does not estimate independent sensor noise. Report last 2ms and 50ms speeds. As a CPU feasibility check take all four original admitted A0 and all four original admitted A1 at this fixed interval; no choice of fault tick after examining cases.",
+  "acceptance": [
+    "Frozen runtime and newly qualified receiver hash, fresh initialized epoch, sole owner, zero unsupported contacts and original safety; independently check full native step indices and final joint states.",
+    "Receive real command ACK at 6428. Exactly one REJECT_STOP at 6439, trace STOP with matching measured time, step token and command sequence. No physics STEP_AFTER after that trace event. Complete direct state journal ends at 6439. Account any advancement or missing evidence as failure.",
+    "Prove no new installation after STOP with a common monotonic clock or a complete pre-fault final-install list and its terminal count. All four owned processes and display child must be terminal, no orphaned native child, no active lease. Retain exact exit status, including any escalations. Separate cleanup from the timestamp of actuator STOP.",
+    "Preserve native request count, screening and technical interruptions; report actual ticks independently of the cap and signal codes."
+  ]
+}
