@@ -27,10 +27,23 @@ def cosine(a, b):
     return float(np.clip(a @ b / denom, -1, 1)) if denom else None
 
 
-def score_horizon(old, new, truth):
-    """Rows start at the same native boundary; only strictly future errors enter RMSE."""
+def path_errors(path, truth):
     from compiler import relative_angle
 
+    dp = (truth[-1, :3, 3] - truth[0, :3, 3]) * 1000
+    error = np.linalg.norm(path[1:, :3, 3] - truth[1:, :3, 3], axis=1) * 1000
+    rot = np.rad2deg(relative_angle(path[1:, :3, :3], truth[1:, :3, :3]))
+    return dict(
+        position_rmse_mm=float(np.sqrt(np.mean(error**2))),
+        rotation_rmse_deg=float(np.sqrt(np.mean(rot**2))),
+        endpoint_position_mm=float(error[-1]),
+        endpoint_rotation_deg=float(rot[-1]),
+        displacement_cosine=cosine(path[-1, :3, 3] - path[0, :3, 3], dp),
+    )
+
+
+def score_horizon(old, new, truth):
+    """Rows start at the same native boundary; only strictly future errors enter RMSE."""
     require(
         old.shape == new.shape == truth.shape
         and old.shape[1:] == (4, 4)
@@ -47,17 +60,7 @@ def score_horizon(old, new, truth):
         hold=np.broadcast_to(actual, truth.shape),
     )
     dp = (truth[-1, :3, 3] - actual[:3, 3]) * 1000
-    out = {}
-    for name, path in models.items():
-        error = np.linalg.norm(path[1:, :3, 3] - truth[1:, :3, 3], axis=1) * 1000
-        rot = np.rad2deg(relative_angle(path[1:, :3, :3], truth[1:, :3, :3]))
-        out[name] = dict(
-            position_rmse_mm=float(np.sqrt(np.mean(error**2))),
-            rotation_rmse_deg=float(np.sqrt(np.mean(rot**2))),
-            endpoint_position_mm=float(error[-1]),
-            endpoint_rotation_deg=float(rot[-1]),
-            displacement_cosine=cosine(path[-1, :3, 3] - path[0, :3, 3], dp),
-        )
+    out = {name: path_errors(path, truth) for name, path in models.items()}
     return dict(
         future_observations=len(truth) - 1,
         outcomes=out,
@@ -242,7 +245,7 @@ def contrasted(pairs, horizon, metric, first, second):
     )
 
 
-def main(root):
+def main(root, measurement_file=None):
     reg = read(REPORTS / "PAIRED_MOTION_REGISTRATION.json")
     roster = read(pin(REPORTS / "H1_REVISION_ACTUAL.json", reg["pair_roster_sha256"]))
     v4 = read(REPORTS / "V4_SLA_SKILL_AND_LONG_HORIZON_DIAGNOSTIC.json")
@@ -269,6 +272,7 @@ def main(root):
     )["inputs"]
     cap = root / "v12/A2_O2_DENSE_CAPTURE.json"
     meta = {r["id"]: r for r in read(pin(cap, pins[str(cap)]))["episodes"]}
+    cache = {}
     pairs = []
     sources = []
     for ep, cases_in_episode in sorted(groups.items()):
@@ -277,6 +281,18 @@ def main(root):
         sources.append(evidence)
         for a, b in zip(cs, cs[1:]):
             pairs.append(evaluate_pair(a, b, states, evidence["teacher_end_tick"]))
+            if measurement_file is not None:
+                t = b["window"]["tick"]
+                name = a["key"] + "_" + b["key"]
+                clock = np.asarray(
+                    [
+                        t + 50 * k
+                        for k in range(12)
+                        if t + 50 * k <= evidence["teacher_end_tick"]
+                    ]
+                )
+                cache[name + "_ticks"] = clock
+                cache[name + "_tcp"] = np.stack([states[tick]["tcp"] for tick in clock])
     require(
         len(data) == 16
         and len(groups) == 6
@@ -285,6 +301,10 @@ def main(root):
         == {(r["old"], r["new"]) for r in roster["pairs"]},
         "incomplete pair cohort",
     )
+
+    if measurement_file is not None:
+        with measurement_file.open("xb") as f:
+            np.savez(f, **cache)
 
     def summary(rows):
         return {
@@ -321,10 +341,15 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("root", type=Path)
     p.add_argument("out", type=Path)
+    p.add_argument(
+        "--measurements",
+        type=Path,
+        help="Save exact native time and TCP rows for subsequent offline comparisons",
+    )
     args = p.parse_args()
     root = args.root.resolve()
     configure_site(root, REPORTS.parents[1])
-    result = main(root)
+    result = main(root, args.measurements)
     with args.out.open("x") as f:
         json.dump(result, f, indent=2, allow_nan=False)
         f.write("\n")

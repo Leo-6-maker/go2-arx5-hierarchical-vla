@@ -154,7 +154,7 @@ def arm_diff(a, b):
     )
 
 
-def cpu_control(root, output):
+def official_action_codec(root):
     from checkpoint_inputs import configured_transforms
     from openpi import transforms
 
@@ -173,6 +173,13 @@ def cpu_control(root, output):
             *data.data_transforms.outputs,
         ]
     )
+    return cfg, encode, decode
+
+
+def cpu_control(root, output):
+    from openpi import transforms
+
+    cfg, encode, decode = official_action_codec(root)
     plans = inputs(root)
     pins = read(
         pin(
