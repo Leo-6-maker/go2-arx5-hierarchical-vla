@@ -23,7 +23,7 @@ def read(p):
     return json.loads(p.read_bytes())
 
 
-def run(root, out):
+def run(root, out, *, trace_mode=None):
     code = Path(__file__).resolve().parent
     reports = code.parents[1] / "reports/SLA_HIERARCHICAL_V16"
     frozen = read(reports / "V0_EVIDENCE_MATRIX_ACTUAL.json")["source_hashes"]
@@ -63,6 +63,13 @@ def run(root, out):
         if sha(p) != want:
             raise ValueError("changed input: " + p.name)
     out.mkdir(mode=0o700, parents=True, exist_ok=False)
+    writer = None
+    if trace_mode is not None:
+        from stop_trace_bridge import variant, score_trace
+
+        if trace_mode not in ("CONTROL", "BRIDGE"):
+            raise ValueError("unknown trace treatment")
+        receiver, writer = variant(root, out, spec, args, trace_mode == "BRIDGE")
     library = out / "librecorded_step.so"
     exe = out / "fault_probe"
     subprocess.run(
@@ -93,6 +100,7 @@ def run(root, out):
             str(receiver),
             str(library),
             str(engine),
+            *([str(writer)] if writer else []),
             "-ldl",
             "-Wl,-rpath," + str(engine.parent),
             "-o",
@@ -141,6 +149,13 @@ def run(root, out):
             V16_GRIP_STOP_TICK="6503",
             V3_REPLAY_JOURNAL=str(journal),
         )
+        if writer:
+            env.update(
+                V3_FROZEN_TRACE_WRITER=str(writer),
+                LD_PRELOAD=str(writer),
+                WM02_INIT_TRACE=str(d / "native.trace"),
+            )
+            env.pop("WM02_INIT_SEAL_REQUEST", None)
         proc = subprocess.run(
             [
                 str(exe),
@@ -149,6 +164,7 @@ def run(root, out):
                 str(scene),
                 str(reset_file),
                 method,
+                *(["RETURNING"] if writer else []),
             ],
             cwd=d,
             env=env,
@@ -159,6 +175,7 @@ def run(root, out):
         if [Path(v).resolve() for v in routes] != [
             receiver.resolve(),
             library.resolve(),
+            *([writer.resolve()] if writer else []),
         ]:
             raise ValueError("unverified call routing")
         calls = np.fromfile(d / "delivered_ticks.bin", dtype="<u8")
@@ -166,7 +183,7 @@ def run(root, out):
         events = [v for v in log if "STOP" in v[0]]
         limit = 6439 if stop else 6453
         if (
-            proc.returncode != (-signal.SIGINT if stop else 0)
+            proc.returncode != (-signal.SIGINT if stop and not writer else 0)
             or not np.array_equal(calls, np.arange(1, limit + 1))
             or len(events) != int(stop)
         ):
@@ -179,7 +196,8 @@ def run(root, out):
         if stop and (
             events[0][0] != "RECEIVER_REJECT_STOP"
             or int(events[0][2]) != limit
-            or (d / "reject.txt").read_text().strip() != "V16_GRIPPER_TERMINAL"
+            or (d / "reject.txt").read_text().splitlines()
+            != ["V16_GRIPPER_TERMINAL"] * (15 if writer else 1)
         ):
             raise ValueError("missing genuine receiver rejection")
         rows.append(
@@ -195,7 +213,19 @@ def run(root, out):
                 recorded_step_counter_sha256=sha(d / "delivered_ticks.bin"),
             )
         )
+        if writer:
+            signals = int((d / "signals.txt").read_text())
+            if signals != (15 if stop else 0):
+                raise ValueError("returning signal count")
+            rows[-1].update(
+                returning_signals=signals,
+                post_rejection_call_attempts=14 if stop else 0,
+                trace=score_trace(
+                    d / "native.trace", writer, int(stop and trace_mode == "BRIDGE")
+                ),
+            )
     return dict(
+        **({"frozen_trace_sha256": sha(writer)} if writer else {}),
         treatments=rows,
         receiver_sha256=sha(receiver),
         test_step_sha256=sha(library),

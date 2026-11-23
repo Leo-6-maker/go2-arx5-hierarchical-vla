@@ -1,0 +1,12 @@
+{
+  "stage": "V3 moving fault observability and persistence, CPU only",
+  "hypothesis": "The V2 receiver does latch its own rejection, but its failure path raises SIGINT. The actual simulator uses a returning signal handler; default SIGINT termination in the first offline probe does not establish what happens on re-entry. A single observation-only call from the first real receiver rejection should make its native STOP visible in the original frozen trace and continue to prevent any new delivery.",
+  "frozen": "Rebuild exact V2 control from its sealed source/header and command before a separate traced variant. Use the identical V2 native scene, frozen WM02 trace writer/decoder, historical F2-01 measured replay and the same 6428..6453 grant, 6439 STOP and two treatments. No simulator process or integration.",
+  "treatments": "Full crossed matrix: original and traced receiver, valid/expiry/over-rate, a returning SIGINT handler for all. For faults intentionally attempt 14 further next-step calls after the rejected first call to detect an unlatching receiver. The reader of recorded states counts every delivered state. Valid case must advance normally. Within each treatment the original and traced gripper journals (epoch held equal) and independently delivered tick bytes must be identical.",
+  "qualification": "New traced variant must emit exactly one real STOP in the separate frozen binary trace, at the 6439 native tick time, with the specific receiver event identity. Continue observing until normal child teardown, no premature trace seal. Old original is a control, report whatever it actually emits. Log returning signals and distinguish replay from multi-process native STOP. No fake STEP_AFTER events in WM02 trace.",
+  "resources": {
+    "native_requests": 0,
+    "physics_ticks": 0,
+    "new_model_forwards": 0
+  }
+}
