@@ -1,0 +1,14 @@
+{
+  "card": "V2-GRIP-01",
+  "campaign": "sla-v16-student-gripper-native-01",
+  "authorization": "User approved one conditional student-owned, noncontact simulation card. One actual launch only. No SLA inference, training or object contact.",
+  "denominator": "1 fixed fresh start; record any technical stop and all ticks; no replacement",
+  "physics_dt_s": 0.002,
+  "maximum_native_ticks": 6503,
+  "authority": "Fresh exclusive case lease and receiver-specific epoch from physical reset. Protected separate path. Before physical WBC activation the new receiver only holds its measured reset targets; retained generic gripper writes are not consumed. Start the command sequence from a separate witnessed receiver epoch reset at a paused real WBC boundary; retain physical absolute source and reset clocks independently.",
+  "frozen": "Unmodified simulator, OCS2/MPC, arm PD, leg law, geometry, original safety and quotas. Dedicated gripper-only receiver, original source rebuilt byte-identically as control. Original native delta clamp and gripper PD intact; added stricter noncontact, epoch and rate rejection.",
+  "schedule": "Original B2 fixed EEF/no-contact startup. Actual paused 2503, warm 128 50ms atoms holding 42mm. Then 8 x -0.50mm, hold 8 atoms, 8 x +0.50mm, hold 8 atoms. Commands each 25 ticks. Finish at tick 6503 with native receiver terminal STOP. Never resume after STOP.",
+  "qualify": "Independently joined grant/reset, each issued packet vs on-receiver ACK, each applied sequence vs bilateral limited targets and independent true state/contacts on every tick, original freezes, true terminal & zero subsequent ticks. Both slide coordinates must close >=2mm then reopen >=2mm and finish within 1mm of parked baseline. Assess median of last three atoms in each plateau. All non-support contacts prohibited.",
+  "resources": "1 new physics card; zero GPU, zero training; must obtain live exclusive world lease and all preflights.",
+  "scope": "Technical gripper interface only, known command sequence, no SLA skill, no heldout result."
+}
