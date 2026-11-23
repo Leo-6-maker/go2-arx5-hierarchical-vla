@@ -1,0 +1,13 @@
+{
+  "stage": "V3 STOP preflight, frozen receiver binary, CPU replay with zero new physics",
+  "archive": "F2-01 known X/Z path. Read native measured state from reset through tick 6453. One 25-tick granted interval 6428..6453. Report actual TCP motion across the boundary using the independent archived track.",
+  "treatments": [
+    "valid unchanged open packet, replay continues to tick 6453",
+    "packet at 6428 expires halfway between 6438 and 6439, expect reject at 6439 before next call",
+    "second ordered command at tick 6439 requests 2 mm change in 22 ms, above 40 mm/s; expect reject at 6439 before next call"
+  ],
+  "isolation": "Same registered student_grip.so as V2. In isolated CPU children, next step resolves only to a test reader of recorded qpos,qvel,time. Verify route before any call. No native simulator, WBC process, GPU, lease or physical integration. Stop evidence is the actual receiver's journal, child status, and independent next-call counter; never present this as whole-system moving STOP.",
+  "fresh_subjects": 0,
+  "new_native_requests": 0,
+  "new_physics_ticks": 0
+}
