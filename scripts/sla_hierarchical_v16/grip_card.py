@@ -38,13 +38,15 @@ def width(atom):
     return 0.042
 
 
-def emit(folder, epoch, atom, t):
-    payload = struct.pack(
-        "<8sQddd", b"GRTGRIP1", atom, t, width(atom) / 0.044, t + 0.399
-    )
+def emit(folder, epoch, atom, t, *, opening_m=None, expiry_s=None):
+    opening_m = width(atom) if opening_m is None else opening_m
+    expiry_s = t + 0.399 if expiry_s is None else expiry_s
+    payload = struct.pack("<8sQddd", b"GRTGRIP1", atom, t, opening_m / 0.044, expiry_s)
     raw = epoch.encode() + payload
     pending = folder / "command.pending"
-    with pending.open("xb") as f:
+    with os.fdopen(
+        os.open(pending, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600), "wb"
+    ) as f:
         f.write(raw)
         f.flush()
         os.fsync(f.fileno())
@@ -56,7 +58,7 @@ def emit(folder, epoch, atom, t):
                     sequence=atom,
                     tick=START + 25 * atom,
                     source_s=t,
-                    width_m=width(atom),
+                    width_m=opening_m,
                     packet_sha256=hashlib.sha256(payload).hexdigest(),
                 )
             )
