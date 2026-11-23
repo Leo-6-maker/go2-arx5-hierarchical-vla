@@ -86,6 +86,38 @@ def replay(folder, anchor, tcp, base, family, rate, mode):
     }
 
 
+def sweep_path(model, packet, parts, family, rate, guard):
+    import mujoco
+    import numpy as np
+    from d1_factorial_reference_matrix import check
+    from d1_geometry import sweep
+    from d3_known_path import poses_at
+    from go2arx5_vla.world_model.native_replay import forbid_integration
+
+    tcp, base = parts["old_ee"], parts["old_base"]
+    geometry = []
+    # Include the true joint state and all consecutive segments of the 50 ms reference.
+    with forbid_integration(mujoco) as calls:
+        waypoints = poses_at(tcp, family, rate, np.arange(41) * 0.05)
+        old = tcp
+        for pose in waypoints:
+            if geometry and np.array_equal(old, pose):
+                continue
+            geometry.append(
+                sweep(
+                    model,
+                    packet,
+                    dict(parts, old_ee=old),
+                    pose,
+                    base,
+                    guard,
+                )
+            )
+            old = pose
+    check(not calls, "unexpected integration")
+    return geometry
+
+
 def main():
     cli = argparse.ArgumentParser()
     cli.add_argument("root", type=Path)
@@ -96,10 +128,9 @@ def main():
     import mujoco
     import numpy as np
     from d1_factorial_reference_matrix import check
-    from d1_geometry import sweep
-    from d3_known_path import DURATIONS, FAMILIES, poses_at
+    from d3_known_path import DURATIONS, FAMILIES
     from go2arx5_vla.world_model.mobile_safety_profile_v1 import binding
-    from go2arx5_vla.world_model.native_replay import forbid_integration, packets
+    from go2arx5_vla.world_model.native_replay import packets
 
     out = args.output.resolve()
     out.mkdir(parents=True, exist_ok=False)
@@ -131,26 +162,7 @@ def main():
         for family in FAMILIES:
             for rate in DURATIONS:
                 name = card["card"] + "-" + family + "-" + rate
-                geometry = []
-                # Include the true joint state and all consecutive segments of the 50 ms reference.
-                with forbid_integration(mujoco) as calls:
-                    waypoints = poses_at(tcp, family, rate, np.arange(41) * 0.05)
-                    old = tcp
-                    for pose in waypoints:
-                        if geometry and np.array_equal(old, pose):
-                            continue
-                        geometry.append(
-                            sweep(
-                                model,
-                                packet,
-                                dict(parts, old_ee=old),
-                                pose,
-                                base,
-                                guard,
-                            )
-                        )
-                        old = pose
-                check(not calls, "unexpected integration")
+                geometry = sweep_path(model, packet, parts, family, rate, guard)
                 modes = [
                     replay(
                         out / (name + "-" + mode),

@@ -18,29 +18,43 @@ def require(ok, reason):
 def run_leased(
     case_dir, conditional_factor, base, runtime_pins, cohort_hash, reg, prior
 ):
-    from b2_owner import check_occupancy
     from d1_native_owner import run_case
+
+    fields = {
+        "scope": "D1_MATCHED_B2_STANDING_SIM_ONLY",
+        "d1_case": case_dir.name,
+        "d1_factor": conditional_factor,
+        "max_ticks": 6203,
+        "mobile_condition": {"conditional_on_matching": conditional_factor},
+    }
+    return with_case_lease(
+        case_dir,
+        base,
+        runtime_pins,
+        cohort_hash,
+        fields,
+        lambda spec, sp: run_case(spec, sp, reg, prior),
+    )
+
+
+def with_case_lease(case_dir, base, runtime_pins, cohort_hash, fields, execute):
+    from b2_owner import check_occupancy
 
     from scripts.pi0292.durable import OwnerLock, write
 
     for name in ("control", "tmp", "logs", "cache", "data"):
         (case_dir / name).mkdir(parents=True, mode=0o700)
     uid = case_dir.parent.name + "-" + case_dir.name
-    spec = dict(
-        base,
+    spec = dict(base, **fields)
+    spec.update(
         role=uid,
         owner=uid,
         registered_root=str(case_dir),
         mobile_group=str(case_dir.parent),
-        scope="D1_MATCHED_B2_STANDING_SIM_ONLY",
-        d1_case=case_dir.name,
-        d1_factor=conditional_factor,
         b2_card=case_dir.name,
         b2_code=runtime_pins,
-        max_ticks=6203,
         deadline_epoch=time.time() + base["wall_limit_s"],
         stage_identity_sha256=hashlib.sha256((cohort_hash + uid).encode()).hexdigest(),
-        mobile_condition={"conditional_on_matching": conditional_factor},
         **{k: str(case_dir / k) for k in ("logs", "tmp", "cache", "data")},
     )
     sp = case_dir / "EXECUTION_SPEC.json"
@@ -82,7 +96,7 @@ def run_leased(
         write(registry, db)
         write(lp, lease)
     try:
-        return run_case(spec, sp, reg, prior)
+        return execute(spec, sp)
     finally:
         write(lp, dict(lease, status="CLOSED", closed_epoch=time.time()))
 
