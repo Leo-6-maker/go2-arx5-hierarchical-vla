@@ -1,0 +1,856 @@
+{
+  "episodes": {
+    "CHV1-TRAIN-F2-HOLD-blue-00": {
+      "fifo": {
+        "rows": {
+          "T13": {
+            "id": "T13",
+            "capture_s": 0.0,
+            "queue_s": 0.0,
+            "return_s": 0.28240184765309095,
+            "publish": 3,
+            "status": "ADMITTED",
+            "current_knots": 86,
+            "first_nonzero_source_motion_s": 4.55,
+            "max_scheduled_source_phase_s": 0.006995884773662455,
+            "lookahead_contains_source_motion": true
+          },
+          "T07": {
+            "id": "T07",
+            "capture_s": 0.5,
+            "queue_s": 0.0,
+            "return_s": 2.5284738605841994,
+            "publish": 26,
+            "status": "ADMITTED",
+            "current_knots": 42,
+            "first_nonzero_source_motion_s": 4.55,
+            "max_scheduled_source_phase_s": 0.34032921810699585,
+            "lookahead_contains_source_motion": true,
+            "standalone_pair_admitted": true,
+            "revision": {
+              "cut": 85,
+              "width_alignment": {
+                "previous_width_mm": 39.79174993067612,
+                "proposed_first_width_mm": 39.78477668762207,
+                "continuous_peak_mm_s": 0.029055179391872934,
+                "available_s": 0.45000000000000007,
+                "rejections": []
+              },
+              "first_preview_source_counts": {
+                "83fec11677b5069775bfd53582029866fa9d9f03ae2edb774e1039a8009f06b0": 1,
+                "c6f22c14bec0955aa52f9a8541f13afb4ea29c458e56a66f8fd4d654eef200a3": 40
+              },
+              "first_preview_misattributed_with_single_parent": 0,
+              "h40_previews": 166,
+              "h40_refusals": {
+                "legacy": [],
+                "physical": []
+              },
+              "max_width_rate_mm_s": 1.0926690673827844,
+              "g7": true,
+              "events_preserved": true,
+              "source_events": [],
+              "geometry": {
+                "checked": 718,
+                "all_samples": 718,
+                "first_failure": null,
+                "minimum_joint_margin_rad": 0.2854708031389812,
+                "original_measured_contact_pair": null,
+                "active_pair_count": 175,
+                "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+                "pass": true,
+                "entry_sweep_samples": 57
+              },
+              "reason": null
+            }
+          },
+          "T01": {
+            "id": "T01",
+            "capture_s": 1.0,
+            "queue_s": 1.5284738605841994,
+            "return_s": 4.639358370564878,
+            "publish": 47,
+            "status": "ADMITTED",
+            "current_knots": 254,
+            "first_nonzero_source_motion_s": 6.3500000000000005,
+            "max_scheduled_source_phase_s": 1.6333333333333333,
+            "lookahead_contains_source_motion": true,
+            "standalone_pair_admitted": true,
+            "revision": {
+              "cut": 127,
+              "width_alignment": {
+                "previous_width_mm": 39.56463942704377,
+                "proposed_first_width_mm": 39.78477668762207,
+                "continuous_peak_mm_s": 0.635011328591242,
+                "available_s": 0.65,
+                "rejections": []
+              },
+              "first_preview_source_counts": {
+                "83fec11677b5069775bfd53582029866fa9d9f03ae2edb774e1039a8009f06b0": 40,
+                "8c51d2588b7b15e0a47cb75662a5fd282a9846f5cde7e19e9eaae20bd1f9b032": 1
+              },
+              "first_preview_misattributed_with_single_parent": 0,
+              "h40_previews": 192,
+              "h40_refusals": {
+                "legacy": [],
+                "physical": []
+              },
+              "max_width_rate_mm_s": 1.1375280074131522,
+              "g7": true,
+              "events_preserved": true,
+              "source_events": [],
+              "geometry": {
+                "checked": 820,
+                "all_samples": 820,
+                "first_failure": null,
+                "minimum_joint_margin_rad": 0.2854708031389812,
+                "original_measured_contact_pair": null,
+                "active_pair_count": 175,
+                "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+                "pass": true,
+                "entry_sweep_samples": 57
+              },
+              "reason": null
+            }
+          }
+        },
+        "stop": "END_OF_FINAL_REFERENCE",
+        "callback_installs": 192,
+        "protected_pair_receipt_matches": 21,
+        "terminal_hold": true,
+        "native_consumptions": 0,
+        "callback_sha256": "33abd72d36eadf77a648a82c2fcc65c2f4e2aa39b409cfd2b0ff9387bd71805a",
+        "revisions": 2
+      },
+      "overlap": {
+        "rows": {
+          "T13": {
+            "id": "T13",
+            "capture_s": 0.0,
+            "queue_s": 0.0,
+            "return_s": 0.28240184765309095,
+            "publish": 3,
+            "status": "ADMITTED",
+            "current_knots": 86,
+            "first_nonzero_source_motion_s": 4.55,
+            "max_scheduled_source_phase_s": 0.006995884773662455,
+            "lookahead_contains_source_motion": true
+          },
+          "T07": {
+            "id": "T07",
+            "capture_s": 0.5,
+            "queue_s": 0.0,
+            "return_s": 2.5284738605841994,
+            "publish": 26,
+            "status": "ADMITTED",
+            "current_knots": 12,
+            "first_nonzero_source_motion_s": 4.55,
+            "max_scheduled_source_phase_s": 0.03333333333333333,
+            "lookahead_contains_source_motion": true,
+            "standalone_pair_admitted": true,
+            "revision": {
+              "cut": 85,
+              "width_alignment": {
+                "previous_width_mm": 39.79174993067612,
+                "proposed_first_width_mm": 39.78477668762207,
+                "continuous_peak_mm_s": 0.029055179391872934,
+                "available_s": 0.45000000000000007,
+                "rejections": []
+              },
+              "first_preview_source_counts": {
+                "83fec11677b5069775bfd53582029866fa9d9f03ae2edb774e1039a8009f06b0": 1,
+                "c6f22c14bec0955aa52f9a8541f13afb4ea29c458e56a66f8fd4d654eef200a3": 40
+              },
+              "first_preview_misattributed_with_single_parent": 0,
+              "h40_previews": 166,
+              "h40_refusals": {
+                "legacy": [],
+                "physical": []
+              },
+              "max_width_rate_mm_s": 1.0926690673827844,
+              "g7": true,
+              "events_preserved": true,
+              "source_events": [],
+              "geometry": {
+                "checked": 718,
+                "all_samples": 718,
+                "first_failure": null,
+                "minimum_joint_margin_rad": 0.2854708031389812,
+                "original_measured_contact_pair": null,
+                "active_pair_count": 175,
+                "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+                "pass": true,
+                "entry_sweep_samples": 57
+              },
+              "reason": null
+            }
+          },
+          "T01": {
+            "id": "T01",
+            "capture_s": 1.0,
+            "queue_s": 0.0,
+            "return_s": 3.1108845099806786,
+            "publish": 32,
+            "status": "ADMITTED",
+            "current_knots": 253,
+            "first_nonzero_source_motion_s": 4.8,
+            "max_scheduled_source_phase_s": 1.6333333333333333,
+            "lookahead_contains_source_motion": true,
+            "standalone_pair_admitted": true,
+            "revision": {
+              "cut": 97,
+              "width_alignment": {
+                "previous_width_mm": 39.69104480743409,
+                "proposed_first_width_mm": 39.78477668762207,
+                "continuous_peak_mm_s": 0.2929121255874521,
+                "available_s": 0.6,
+                "rejections": []
+              },
+              "first_preview_source_counts": {
+                "83fec11677b5069775bfd53582029866fa9d9f03ae2edb774e1039a8009f06b0": 12,
+                "8c51d2588b7b15e0a47cb75662a5fd282a9846f5cde7e19e9eaae20bd1f9b032": 1,
+                "c6f22c14bec0955aa52f9a8541f13afb4ea29c458e56a66f8fd4d654eef200a3": 28
+              },
+              "first_preview_misattributed_with_single_parent": 28,
+              "h40_previews": 176,
+              "h40_refusals": {
+                "legacy": [],
+                "physical": []
+              },
+              "max_width_rate_mm_s": 1.137528007413291,
+              "g7": true,
+              "events_preserved": true,
+              "source_events": [],
+              "geometry": {
+                "checked": 758,
+                "all_samples": 758,
+                "first_failure": null,
+                "minimum_joint_margin_rad": 0.2854708031389812,
+                "original_measured_contact_pair": null,
+                "active_pair_count": 175,
+                "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+                "pass": true,
+                "entry_sweep_samples": 57
+              },
+              "reason": null
+            }
+          }
+        },
+        "stop": "END_OF_FINAL_REFERENCE",
+        "callback_installs": 176,
+        "protected_pair_receipt_matches": 6,
+        "terminal_hold": true,
+        "native_consumptions": 0,
+        "callback_sha256": "0aea496f912976c547a27fea922f6744a78ea5fa42f379b9913658428bba53f9",
+        "revisions": 2
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-03": {
+      "fifo": {
+        "rows": {
+          "T14": {
+            "id": "T14",
+            "capture_s": 0.0,
+            "queue_s": 0.0,
+            "return_s": 0.28294853027909994,
+            "publish": 3,
+            "status": "ADMITTED",
+            "current_knots": 20,
+            "first_nonzero_source_motion_s": null,
+            "max_scheduled_source_phase_s": 0.0,
+            "lookahead_contains_source_motion": false
+          },
+          "T08": {
+            "id": "T08",
+            "capture_s": 0.5,
+            "queue_s": 0.0,
+            "return_s": 0.7826426867395639,
+            "publish": 8,
+            "status": "ADMITTED",
+            "current_knots": 0,
+            "first_nonzero_source_motion_s": null,
+            "max_scheduled_source_phase_s": null,
+            "lookahead_contains_source_motion": false,
+            "standalone_pair_admitted": true,
+            "revision": {
+              "cut": 49,
+              "width_alignment": {
+                "previous_width_mm": 40.60374821600352,
+                "proposed_first_width_mm": 37.02599477767945,
+                "continuous_peak_mm_s": 4.472191797905084,
+                "available_s": 1.5000000000000002,
+                "rejections": []
+              },
+              "first_preview_source_counts": {
+                "17c1bd54785bd9b8b0599d2dfa900bb734ab8155f6e796ddf2f3f1b14e431bdc": 1,
+                "dff414c10bf8b7e33acf05e0947c9301268faa7f01af71f66be5b111a7ca8408": 40
+              },
+              "first_preview_misattributed_with_single_parent": 0,
+              "h40_previews": 139,
+              "h40_refusals": {
+                "legacy": [],
+                "physical": []
+              },
+              "max_width_rate_mm_s": 4.458958527162881,
+              "g7": true,
+              "events_preserved": true,
+              "source_events": [],
+              "geometry": {
+                "checked": 609,
+                "all_samples": 609,
+                "first_failure": null,
+                "minimum_joint_margin_rad": 0.2899327358680999,
+                "original_measured_contact_pair": null,
+                "active_pair_count": 175,
+                "scene_sha256": "30ddc30db168df862036b38e72dc0ec1af8188a47d26aa4e0757679a0f1e2e13",
+                "pass": true,
+                "entry_sweep_samples": 58
+              },
+              "reason": null
+            }
+          },
+          "T02": {
+            "id": "T02",
+            "capture_s": 1.0,
+            "queue_s": 0.0,
+            "return_s": 1.2853348478674889,
+            "publish": 13,
+            "status": "REVISION_REJECTED",
+            "current_knots": 0,
+            "first_nonzero_source_motion_s": null,
+            "max_scheduled_source_phase_s": null,
+            "lookahead_contains_source_motion": false,
+            "standalone_pair_admitted": false,
+            "revision": {
+              "cut": 59,
+              "width_alignment": {
+                "previous_width_mm": 39.85286169191081,
+                "proposed_first_width_mm": 23.66372299194336,
+                "continuous_peak_mm_s": 23.3497192787992,
+                "available_s": 1.3000000000000003,
+                "rejections": [
+                  "UNATTRIBUTED_THRESHOLD_CROSSING"
+                ]
+              },
+              "reason": "WIDTH_ALIGNMENT"
+            }
+          }
+        },
+        "stop": "REVISION_REJECTED",
+        "callback_installs": 10,
+        "protected_pair_receipt_matches": 5,
+        "terminal_hold": true,
+        "native_consumptions": 0,
+        "callback_sha256": "375e31ab5ec1d34cfce13e330915ed94ba6d431aa9b84b6f635aba889b672aa6",
+        "revisions": 1
+      },
+      "overlap": {
+        "rows": {
+          "T14": {
+            "id": "T14",
+            "capture_s": 0.0,
+            "queue_s": 0.0,
+            "return_s": 0.28294853027909994,
+            "publish": 3,
+            "status": "ADMITTED",
+            "current_knots": 20,
+            "first_nonzero_source_motion_s": null,
+            "max_scheduled_source_phase_s": 0.0,
+            "lookahead_contains_source_motion": false
+          },
+          "T08": {
+            "id": "T08",
+            "capture_s": 0.5,
+            "queue_s": 0.0,
+            "return_s": 0.7826426867395639,
+            "publish": 8,
+            "status": "ADMITTED",
+            "current_knots": 0,
+            "first_nonzero_source_motion_s": null,
+            "max_scheduled_source_phase_s": null,
+            "lookahead_contains_source_motion": false,
+            "standalone_pair_admitted": true,
+            "revision": {
+              "cut": 49,
+              "width_alignment": {
+                "previous_width_mm": 40.60374821600352,
+                "proposed_first_width_mm": 37.02599477767945,
+                "continuous_peak_mm_s": 4.472191797905084,
+                "available_s": 1.5000000000000002,
+                "rejections": []
+              },
+              "first_preview_source_counts": {
+                "17c1bd54785bd9b8b0599d2dfa900bb734ab8155f6e796ddf2f3f1b14e431bdc": 1,
+                "dff414c10bf8b7e33acf05e0947c9301268faa7f01af71f66be5b111a7ca8408": 40
+              },
+              "first_preview_misattributed_with_single_parent": 0,
+              "h40_previews": 139,
+              "h40_refusals": {
+                "legacy": [],
+                "physical": []
+              },
+              "max_width_rate_mm_s": 4.458958527162881,
+              "g7": true,
+              "events_preserved": true,
+              "source_events": [],
+              "geometry": {
+                "checked": 609,
+                "all_samples": 609,
+                "first_failure": null,
+                "minimum_joint_margin_rad": 0.2899327358680999,
+                "original_measured_contact_pair": null,
+                "active_pair_count": 175,
+                "scene_sha256": "30ddc30db168df862036b38e72dc0ec1af8188a47d26aa4e0757679a0f1e2e13",
+                "pass": true,
+                "entry_sweep_samples": 58
+              },
+              "reason": null
+            }
+          },
+          "T02": {
+            "id": "T02",
+            "capture_s": 1.0,
+            "queue_s": 0.0,
+            "return_s": 1.2853348478674889,
+            "publish": 13,
+            "status": "REVISION_REJECTED",
+            "current_knots": 0,
+            "first_nonzero_source_motion_s": null,
+            "max_scheduled_source_phase_s": null,
+            "lookahead_contains_source_motion": false,
+            "standalone_pair_admitted": false,
+            "revision": {
+              "cut": 59,
+              "width_alignment": {
+                "previous_width_mm": 39.85286169191081,
+                "proposed_first_width_mm": 23.66372299194336,
+                "continuous_peak_mm_s": 23.3497192787992,
+                "available_s": 1.3000000000000003,
+                "rejections": [
+                  "UNATTRIBUTED_THRESHOLD_CROSSING"
+                ]
+              },
+              "reason": "WIDTH_ALIGNMENT"
+            }
+          }
+        },
+        "stop": "REVISION_REJECTED",
+        "callback_installs": 10,
+        "protected_pair_receipt_matches": 5,
+        "terminal_hold": true,
+        "native_consumptions": 0,
+        "callback_sha256": "375e31ab5ec1d34cfce13e330915ed94ba6d431aa9b84b6f635aba889b672aa6",
+        "revisions": 1
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-red-right-07": {
+      "fifo": {
+        "rows": {
+          "T15": {
+            "id": "T15",
+            "capture_s": 0.0,
+            "queue_s": 0.0,
+            "return_s": 0.2832159260287881,
+            "publish": 3,
+            "status": "ADMITTED",
+            "current_knots": 10,
+            "first_nonzero_source_motion_s": null,
+            "max_scheduled_source_phase_s": 0.0,
+            "lookahead_contains_source_motion": false
+          },
+          "T09": {
+            "id": "T09",
+            "capture_s": 0.5,
+            "queue_s": 0.0,
+            "return_s": 0.7824971368536353,
+            "publish": 8,
+            "status": "REVISION_REJECTED",
+            "current_knots": 0,
+            "first_nonzero_source_motion_s": null,
+            "max_scheduled_source_phase_s": null,
+            "lookahead_contains_source_motion": false,
+            "standalone_pair_admitted": false,
+            "revision": {
+              "cut": 49,
+              "width_alignment": {
+                "previous_width_mm": 37.68810005124313,
+                "proposed_first_width_mm": 23.59803867340088,
+                "continuous_peak_mm_s": 15.540508872620128,
+                "available_s": 1.7000000000000002,
+                "rejections": [
+                  "UNATTRIBUTED_THRESHOLD_CROSSING"
+                ]
+              },
+              "reason": "WIDTH_ALIGNMENT"
+            }
+          },
+          "T03": {
+            "id": "T03",
+            "capture_s": 1.0,
+            "queue_s": 0.0,
+            "return_s": 1.2833529533818364,
+            "publish": 13,
+            "status": "NOT_REACHED",
+            "current_knots": 0,
+            "first_nonzero_source_motion_s": null,
+            "max_scheduled_source_phase_s": null,
+            "lookahead_contains_source_motion": false
+          }
+        },
+        "stop": "REVISION_REJECTED",
+        "callback_installs": 5,
+        "protected_pair_receipt_matches": 0,
+        "terminal_hold": true,
+        "native_consumptions": 0,
+        "callback_sha256": "073e2656e1f52dd1ebcabd7656eeb7b87585f2186515737bac25d4e2c2c8e40e",
+        "revisions": 0
+      },
+      "overlap": {
+        "rows": {
+          "T15": {
+            "id": "T15",
+            "capture_s": 0.0,
+            "queue_s": 0.0,
+            "return_s": 0.2832159260287881,
+            "publish": 3,
+            "status": "ADMITTED",
+            "current_knots": 10,
+            "first_nonzero_source_motion_s": null,
+            "max_scheduled_source_phase_s": 0.0,
+            "lookahead_contains_source_motion": false
+          },
+          "T09": {
+            "id": "T09",
+            "capture_s": 0.5,
+            "queue_s": 0.0,
+            "return_s": 0.7824971368536353,
+            "publish": 8,
+            "status": "REVISION_REJECTED",
+            "current_knots": 0,
+            "first_nonzero_source_motion_s": null,
+            "max_scheduled_source_phase_s": null,
+            "lookahead_contains_source_motion": false,
+            "standalone_pair_admitted": false,
+            "revision": {
+              "cut": 49,
+              "width_alignment": {
+                "previous_width_mm": 37.68810005124313,
+                "proposed_first_width_mm": 23.59803867340088,
+                "continuous_peak_mm_s": 15.540508872620128,
+                "available_s": 1.7000000000000002,
+                "rejections": [
+                  "UNATTRIBUTED_THRESHOLD_CROSSING"
+                ]
+              },
+              "reason": "WIDTH_ALIGNMENT"
+            }
+          },
+          "T03": {
+            "id": "T03",
+            "capture_s": 1.0,
+            "queue_s": 0.0,
+            "return_s": 1.2833529533818364,
+            "publish": 13,
+            "status": "NOT_REACHED",
+            "current_knots": 0,
+            "first_nonzero_source_motion_s": null,
+            "max_scheduled_source_phase_s": null,
+            "lookahead_contains_source_motion": false
+          }
+        },
+        "stop": "REVISION_REJECTED",
+        "callback_installs": 5,
+        "protected_pair_receipt_matches": 0,
+        "terminal_hold": true,
+        "native_consumptions": 0,
+        "callback_sha256": "073e2656e1f52dd1ebcabd7656eeb7b87585f2186515737bac25d4e2c2c8e40e",
+        "revisions": 0
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-02": {
+      "fifo": {
+        "rows": {
+          "T16": {
+            "id": "T16",
+            "capture_s": 0.0,
+            "queue_s": 0.0,
+            "return_s": 0.2833547256886959,
+            "publish": 3,
+            "status": "INITIAL_REJECTED",
+            "current_knots": 0,
+            "first_nonzero_source_motion_s": null,
+            "max_scheduled_source_phase_s": null,
+            "lookahead_contains_source_motion": false,
+            "first_width_evidence": {
+              "previous_width_mm": 2.0,
+              "proposed_first_width_mm": 19.07044243812561,
+              "continuous_peak_mm_s": 7.620733231306076,
+              "available_s": 4.2,
+              "rejections": [
+                "CONTACT_OR_GRASP_AT_HANDOFF"
+              ]
+            }
+          },
+          "T10": {
+            "id": "T10",
+            "capture_s": 0.5,
+            "queue_s": 0.0,
+            "return_s": 0.7829252919182181,
+            "publish": 8,
+            "status": "NOT_REACHED",
+            "current_knots": 0,
+            "first_nonzero_source_motion_s": null,
+            "max_scheduled_source_phase_s": null,
+            "lookahead_contains_source_motion": false
+          },
+          "T04": {
+            "id": "T04",
+            "capture_s": 1.0,
+            "queue_s": 0.0,
+            "return_s": 1.283347861841321,
+            "publish": 13,
+            "status": "NOT_REACHED",
+            "current_knots": 0,
+            "first_nonzero_source_motion_s": null,
+            "max_scheduled_source_phase_s": null,
+            "lookahead_contains_source_motion": false
+          }
+        },
+        "stop": "INITIAL_REJECTED",
+        "callback_installs": 0,
+        "protected_pair_receipt_matches": 0,
+        "terminal_hold": false,
+        "native_consumptions": 0
+      },
+      "overlap": {
+        "rows": {
+          "T16": {
+            "id": "T16",
+            "capture_s": 0.0,
+            "queue_s": 0.0,
+            "return_s": 0.2833547256886959,
+            "publish": 3,
+            "status": "INITIAL_REJECTED",
+            "current_knots": 0,
+            "first_nonzero_source_motion_s": null,
+            "max_scheduled_source_phase_s": null,
+            "lookahead_contains_source_motion": false,
+            "first_width_evidence": {
+              "previous_width_mm": 2.0,
+              "proposed_first_width_mm": 19.07044243812561,
+              "continuous_peak_mm_s": 7.620733231306076,
+              "available_s": 4.2,
+              "rejections": [
+                "CONTACT_OR_GRASP_AT_HANDOFF"
+              ]
+            }
+          },
+          "T10": {
+            "id": "T10",
+            "capture_s": 0.5,
+            "queue_s": 0.0,
+            "return_s": 0.7829252919182181,
+            "publish": 8,
+            "status": "NOT_REACHED",
+            "current_knots": 0,
+            "first_nonzero_source_motion_s": null,
+            "max_scheduled_source_phase_s": null,
+            "lookahead_contains_source_motion": false
+          },
+          "T04": {
+            "id": "T04",
+            "capture_s": 1.0,
+            "queue_s": 0.0,
+            "return_s": 1.283347861841321,
+            "publish": 13,
+            "status": "NOT_REACHED",
+            "current_knots": 0,
+            "first_nonzero_source_motion_s": null,
+            "max_scheduled_source_phase_s": null,
+            "lookahead_contains_source_motion": false
+          }
+        },
+        "stop": "INITIAL_REJECTED",
+        "callback_installs": 0,
+        "protected_pair_receipt_matches": 0,
+        "terminal_hold": false,
+        "native_consumptions": 0
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-05": {
+      "fifo": {
+        "rows": {
+          "T11": {
+            "id": "T11",
+            "capture_s": 0.0,
+            "queue_s": 0.0,
+            "return_s": 0.28296928759664297,
+            "publish": 3,
+            "status": "INITIAL_REJECTED",
+            "current_knots": 0,
+            "first_nonzero_source_motion_s": null,
+            "max_scheduled_source_phase_s": null,
+            "lookahead_contains_source_motion": false,
+            "first_width_evidence": {
+              "previous_width_mm": 2.0,
+              "proposed_first_width_mm": 18.957838535308838,
+              "continuous_peak_mm_s": 7.755109086269284,
+              "available_s": 4.1,
+              "rejections": [
+                "CONTACT_OR_GRASP_AT_HANDOFF"
+              ]
+            }
+          },
+          "T05": {
+            "id": "T05",
+            "capture_s": 0.5,
+            "queue_s": 0.0,
+            "return_s": 0.7827056059613824,
+            "publish": 8,
+            "status": "NOT_REACHED",
+            "current_knots": 0,
+            "first_nonzero_source_motion_s": null,
+            "max_scheduled_source_phase_s": null,
+            "lookahead_contains_source_motion": false
+          }
+        },
+        "stop": "INITIAL_REJECTED",
+        "callback_installs": 0,
+        "protected_pair_receipt_matches": 0,
+        "terminal_hold": false,
+        "native_consumptions": 0
+      },
+      "overlap": {
+        "rows": {
+          "T11": {
+            "id": "T11",
+            "capture_s": 0.0,
+            "queue_s": 0.0,
+            "return_s": 0.28296928759664297,
+            "publish": 3,
+            "status": "INITIAL_REJECTED",
+            "current_knots": 0,
+            "first_nonzero_source_motion_s": null,
+            "max_scheduled_source_phase_s": null,
+            "lookahead_contains_source_motion": false,
+            "first_width_evidence": {
+              "previous_width_mm": 2.0,
+              "proposed_first_width_mm": 18.957838535308838,
+              "continuous_peak_mm_s": 7.755109086269284,
+              "available_s": 4.1,
+              "rejections": [
+                "CONTACT_OR_GRASP_AT_HANDOFF"
+              ]
+            }
+          },
+          "T05": {
+            "id": "T05",
+            "capture_s": 0.5,
+            "queue_s": 0.0,
+            "return_s": 0.7827056059613824,
+            "publish": 8,
+            "status": "NOT_REACHED",
+            "current_knots": 0,
+            "first_nonzero_source_motion_s": null,
+            "max_scheduled_source_phase_s": null,
+            "lookahead_contains_source_motion": false
+          }
+        },
+        "stop": "INITIAL_REJECTED",
+        "callback_installs": 0,
+        "protected_pair_receipt_matches": 0,
+        "terminal_hold": false,
+        "native_consumptions": 0
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-red-right-01": {
+      "fifo": {
+        "rows": {
+          "T12": {
+            "id": "T12",
+            "capture_s": 0.0,
+            "queue_s": 0.0,
+            "return_s": 0.28326219599694014,
+            "publish": 3,
+            "status": "INITIAL_REJECTED",
+            "current_knots": 0,
+            "first_nonzero_source_motion_s": null,
+            "max_scheduled_source_phase_s": null,
+            "lookahead_contains_source_motion": false,
+            "first_width_evidence": {
+              "previous_width_mm": 2.0,
+              "proposed_first_width_mm": 19.159587144851685,
+              "continuous_peak_mm_s": 7.752825517252268,
+              "available_s": 4.1499999999999995,
+              "rejections": [
+                "CONTACT_OR_GRASP_AT_HANDOFF"
+              ]
+            }
+          },
+          "T06": {
+            "id": "T06",
+            "capture_s": 0.5,
+            "queue_s": 0.0,
+            "return_s": 0.7837827643379569,
+            "publish": 8,
+            "status": "NOT_REACHED",
+            "current_knots": 0,
+            "first_nonzero_source_motion_s": null,
+            "max_scheduled_source_phase_s": null,
+            "lookahead_contains_source_motion": false
+          }
+        },
+        "stop": "INITIAL_REJECTED",
+        "callback_installs": 0,
+        "protected_pair_receipt_matches": 0,
+        "terminal_hold": false,
+        "native_consumptions": 0
+      },
+      "overlap": {
+        "rows": {
+          "T12": {
+            "id": "T12",
+            "capture_s": 0.0,
+            "queue_s": 0.0,
+            "return_s": 0.28326219599694014,
+            "publish": 3,
+            "status": "INITIAL_REJECTED",
+            "current_knots": 0,
+            "first_nonzero_source_motion_s": null,
+            "max_scheduled_source_phase_s": null,
+            "lookahead_contains_source_motion": false,
+            "first_width_evidence": {
+              "previous_width_mm": 2.0,
+              "proposed_first_width_mm": 19.159587144851685,
+              "continuous_peak_mm_s": 7.752825517252268,
+              "available_s": 4.1499999999999995,
+              "rejections": [
+                "CONTACT_OR_GRASP_AT_HANDOFF"
+              ]
+            }
+          },
+          "T06": {
+            "id": "T06",
+            "capture_s": 0.5,
+            "queue_s": 0.0,
+            "return_s": 0.7837827643379569,
+            "publish": 8,
+            "status": "NOT_REACHED",
+            "current_knots": 0,
+            "first_nonzero_source_motion_s": null,
+            "max_scheduled_source_phase_s": null,
+            "lookahead_contains_source_motion": false
+          }
+        },
+        "stop": "INITIAL_REJECTED",
+        "callback_installs": 0,
+        "protected_pair_receipt_matches": 0,
+        "terminal_hold": false,
+        "native_consumptions": 0
+      }
+    }
+  },
+  "new_forwards": 0,
+  "new_native_starts": 0,
+  "training_updates": 0
+}

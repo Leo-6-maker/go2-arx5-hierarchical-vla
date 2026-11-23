@@ -66,3 +66,53 @@ def test_arrival_is_never_rounded_to_an_earlier_publication():
     assert first_publication(0.800001) == 9
     with pytest.raises(ValueError):
         first_publication(float("nan"))
+
+
+def test_third_return_preserves_both_earlier_sources_and_each_local_phase():
+    first = joined(0.73, 0.73)
+    second = RevisionWire(
+        first,
+        first.next_hash,
+        "third",
+        8,
+        first.compiler.source,
+        dict(
+            linear_velocity=0.05,
+            angular_velocity=0.25,
+            linear_acceleration=0.25,
+            angular_acceleration=1.0,
+        ),
+    )
+    knots = np.array(
+        [second.cut + 1, first.cut, second.cut, 0, first.cut + 1, first.cut + 1]
+    )
+    before = knots <= second.cut
+    t = knots * 0.05
+    assert second.source_hash_at(t).tolist() == [
+        "third",
+        "old-return",
+        "new-return",
+        "old-return",
+        "new-return",
+        "new-return",
+    ]
+    for result, old in zip(second.at(t), first.at(t)):
+        np.testing.assert_array_equal(result[before], old[before])
+    with pytest.raises(ValueError, match="installed source"):
+        RevisionWire(first, "wrong prior", "third", 8, first.compiler.source, {})
+
+
+def test_single_worker_preserves_original_capture_time_when_a_call_queues():
+    from continuous_revisions import timeline
+
+    calls = [
+        dict(id=k, tick=t, seconds=s)
+        for k, t, s in (("a", 500, 0.28), ("b", 750, 2.03), ("c", 1000, 2.1))
+    ]
+    worker = timeline(calls, True)
+    overlap = timeline(calls, False)
+    assert worker[-1]["capture_s"] == overlap[-1]["capture_s"] == 1.0
+    assert worker[-1]["queue_s"] == pytest.approx(1.53)
+    assert overlap[-1]["queue_s"] == 0
+    assert [r["publish"] for r in worker] == [3, 26, 47]
+    assert [r["publish"] for r in overlap] == [3, 26, 31]

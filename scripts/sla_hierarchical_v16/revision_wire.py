@@ -34,6 +34,10 @@ class RevisionWire:
         self.next_hash = next_hash
         # Each 10 Hz installation commits 41 points, plus one 50 ms join segment.
         self.cut = self.protected_knot(last_install)
+        if isinstance(previous, RevisionWire) and (
+            previous.next_hash != previous_hash or self.cut <= previous.cut
+        ):
+            raise ValueError("revision must extend the currently installed source")
         boundary = previous.at(DT * np.array([self.cut - 1, self.cut]))[0]
         twist = np.stack([axis[0] for axis in vectors(boundary, DT)])
         self.compiler = Compiler(source, boundary[-1], twist, limits)
@@ -41,17 +45,33 @@ class RevisionWire:
         self.future = WireProgram(self.identity, *self.compiler.at(ticks * DT))
         self.execution_times = [0, self.cut * DT + self.compiler.end]
 
-    def at(self, t):
+    def _sections(self, t):
+        """Route each global knot to the original source, including older protected prefixes."""
         t = np.atleast_1d(np.asarray(t, float))
         if t.ndim != 1 or not np.isfinite(t).all():
             raise ValueError("invalid revision clock")
-        original = self.previous.at(t)
-        k = np.rint(t / DT).astype(int) - self.cut
-        tail = self.future.at(np.maximum(k, 0) * DT)
-        return tuple(
-            np.where((k > 0).reshape((-1,) + (1,) * (old.ndim - 1)), new, old)
-            for old, new in zip(original, tail, strict=True)
-        )
+        knots = np.rint(t / DT).astype(int)
+        if np.any(knots < 0) or np.any(abs(t - DT * knots) > 1e-8):
+            raise ValueError("invalid wire clock")
+        remaining = np.arange(len(t))
+        plan = self
+        while len(remaining) and isinstance(plan, RevisionWire):
+            future = knots[remaining] > plan.cut
+            index = remaining[future]
+            if len(index):
+                yield index, plan.future, (knots[index] - plan.cut) * DT, plan.next_hash
+            remaining = remaining[~future]
+            previous_hash = plan.prior_hash
+            plan = plan.previous
+        if len(remaining):
+            yield remaining, plan, t[remaining], previous_hash
+
+    def at(self, t):
+        n = len(np.atleast_1d(t))
+        pose, width, phase = np.empty((n, 4, 4)), np.empty(n), np.empty(n)
+        for index, program, local, _ in self._sections(t):
+            pose[index], width[index], phase[index] = program.at(local)
+        return pose, width, phase
 
     def check_gripper_handoff(self):
         """Fail the join if it invents a source event or exceeds the target G7 speed."""
@@ -63,10 +83,10 @@ class RevisionWire:
             raise ValueError("revision gripper slew above 40 mm/s")
 
     def source_hash_at(self, t):
-        # at() enforces clock alignment. Use integer knots at the floating-point boundary.
-        t = np.atleast_1d(np.asarray(t, float))
-        self.previous.at(t)
-        return np.where(np.rint(t / DT) > self.cut, self.next_hash, self.prior_hash)
+        sources = np.empty(len(np.atleast_1d(t)), dtype=object)
+        for index, _, _, source_hash in self._sections(t):
+            sources[index] = source_hash
+        return sources.astype(str)
 
 
 class NewSourcePhaseView:
