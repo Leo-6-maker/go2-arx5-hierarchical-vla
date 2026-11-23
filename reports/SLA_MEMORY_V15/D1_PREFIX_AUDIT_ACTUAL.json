@@ -1,0 +1,450 @@
+{
+  "stage": "post-stop read-only initialization diagnosis",
+  "start_tick": 2504,
+  "end_tick": 5703,
+  "pairwise": [
+    {
+      "pair": [
+        "T0_STATIC_HOLD",
+        "T1_CLOCK_FAULT_STOP"
+      ],
+      "channels": {
+        "leg_target_deg": {
+          "threshold": 0.1,
+          "first_tick_above": 2511,
+          "max_first_200_ticks": 7.880358075658892,
+          "at_5703": 0.25554469760685705
+        },
+        "arm_target_deg": {
+          "threshold": 0.1,
+          "first_tick_above": 2504,
+          "max_first_200_ticks": 6.221100220587694,
+          "at_5703": 0.06926879035450743
+        },
+        "leg_actual_deg": {
+          "threshold": 0.1,
+          "first_tick_above": 2508,
+          "max_first_200_ticks": 0.826370020464527,
+          "at_5703": 0.3051109446674832
+        },
+        "arm_actual_deg": {
+          "threshold": 0.1,
+          "first_tick_above": 2505,
+          "max_first_200_ticks": 0.6106448438570542,
+          "at_5703": 0.03963859044031217
+        },
+        "base_origin_mm": {
+          "threshold": 1.0,
+          "first_tick_above": 2642,
+          "max_first_200_ticks": 1.5704214135086936,
+          "at_5703": 0.6375179908762635
+        }
+      },
+      "intra_tick_PD_change_either": 0,
+      "new_PD_callbacks_first_200_ticks": [
+        139,
+        136
+      ]
+    },
+    {
+      "pair": [
+        "T0_STATIC_HOLD",
+        "D1-OO"
+      ],
+      "channels": {
+        "leg_target_deg": {
+          "threshold": 0.1,
+          "first_tick_above": 2511,
+          "max_first_200_ticks": 13.264473254974883,
+          "at_5703": 1.4060764029171648
+        },
+        "arm_target_deg": {
+          "threshold": 0.1,
+          "first_tick_above": 2504,
+          "max_first_200_ticks": 0.33148620925449673,
+          "at_5703": 0.2365171779613767
+        },
+        "leg_actual_deg": {
+          "threshold": 0.1,
+          "first_tick_above": 2524,
+          "max_first_200_ticks": 5.614293084623871,
+          "at_5703": 1.518897891034242
+        },
+        "arm_actual_deg": {
+          "threshold": 0.1,
+          "first_tick_above": 2614,
+          "max_first_200_ticks": 0.3898697366746223,
+          "at_5703": 0.24439798594467205
+        },
+        "base_origin_mm": {
+          "threshold": 1.0,
+          "first_tick_above": 2616,
+          "max_first_200_ticks": 5.938744474343081,
+          "at_5703": 4.287435750659517
+        }
+      },
+      "intra_tick_PD_change_either": 0,
+      "new_PD_callbacks_first_200_ticks": [
+        139,
+        140
+      ]
+    },
+    {
+      "pair": [
+        "T1_CLOCK_FAULT_STOP",
+        "D1-OO"
+      ],
+      "channels": {
+        "leg_target_deg": {
+          "threshold": 0.1,
+          "first_tick_above": 2511,
+          "max_first_200_ticks": 21.144831330633775,
+          "at_5703": 1.3441334173343193
+        },
+        "arm_target_deg": {
+          "threshold": 0.1,
+          "first_tick_above": 2504,
+          "max_first_200_ticks": 6.2533967700780995,
+          "at_5703": 0.2601956295448126
+        },
+        "leg_actual_deg": {
+          "threshold": 0.1,
+          "first_tick_above": 2508,
+          "max_first_200_ticks": 5.72155361302424,
+          "at_5703": 1.6203778866423348
+        },
+        "arm_actual_deg": {
+          "threshold": 0.1,
+          "first_tick_above": 2505,
+          "max_first_200_ticks": 0.6172213682295932,
+          "at_5703": 0.2788048032563599
+        },
+        "base_origin_mm": {
+          "threshold": 1.0,
+          "first_tick_above": 2622,
+          "max_first_200_ticks": 7.297491428832577,
+          "at_5703": 4.918442422373487
+        }
+      },
+      "intra_tick_PD_change_either": 0,
+      "new_PD_callbacks_first_200_ticks": [
+        136,
+        140
+      ]
+    }
+  ],
+  "thresholds": "descriptive localization only: 0.1 degree joint-command/actual and 1 mm base-origin displacement difference",
+  "selected_MRT_policy": "UNOBSERVED",
+  "clock": "last PD_TARGET before STEP_BEFORE by monotonic time, paired by native after-step journal tick; mixed-step commands excluded",
+  "historical_panel": {
+    "registered": 12,
+    "cases": [
+      {
+        "condition": {
+          "axis": "+x",
+          "eef_mode": "WORLD_HOLD"
+        },
+        "historic_status": "TECHNICAL_FAILURE",
+        "historic_ticks": 2529,
+        "boundary": "NOT_REACHED"
+      },
+      {
+        "condition": {
+          "axis": "-x",
+          "eef_mode": "SMOOTH_5CM_TRANSLATION"
+        },
+        "historic_status": "COMPLETED",
+        "historic_ticks": 8703,
+        "boundary": "OBSERVED",
+        "matched": false,
+        "violations": {
+          "qpos_linear_m": {
+            "observed": 0.004611511533824052,
+            "limit": 0.0018674502044549526
+          },
+          "qpos_hinge_rad": {
+            "observed": 0.02819199216880086,
+            "limit": 0.01597557170495345
+          },
+          "free_quaternions": {
+            "observed": 0.003536282258213789,
+            "limit": 0.003328679076811513
+          },
+          "measured_base_m": {
+            "observed": 0.003908656767713891,
+            "limit": 0.0013156331484268648
+          },
+          "measured_base_rad": {
+            "observed": 0.00984455254208034,
+            "limit": 0.007272162700839245
+          }
+        },
+        "sample_sha256": "3d79ba6922ca8210e9393c117b70ad75028b7944d4c3af5cd84cca68daa6c5d1",
+        "state_sha256": "9e1d0fff234af073ff315bc46fa3cab0b4c42b9efcbf076e81a77c1258215af9",
+        "trace_sha256": "d79d67292fbf115b41eca89b09b61ea4c895c7139e4ec562ec89cb37d8014e7c"
+      },
+      {
+        "condition": {
+          "axis": "-x",
+          "eef_mode": "WORLD_HOLD"
+        },
+        "historic_status": "COMPLETED",
+        "historic_ticks": 8703,
+        "boundary": "OBSERVED",
+        "matched": false,
+        "violations": {
+          "qpos_linear_m": {
+            "observed": 0.0046159658251731656,
+            "limit": 0.0018674502044549526
+          },
+          "qpos_hinge_rad": {
+            "observed": 0.02819980748428763,
+            "limit": 0.01597557170495345
+          },
+          "free_quaternions": {
+            "observed": 0.003529152839237566,
+            "limit": 0.003328679076811513
+          },
+          "measured_base_m": {
+            "observed": 0.003908457004297992,
+            "limit": 0.0013156331484268648
+          },
+          "measured_base_rad": {
+            "observed": 0.009830961484958605,
+            "limit": 0.007272162700839245
+          }
+        },
+        "sample_sha256": "f859627d62056c855e6fd77ce8e5cd3cb4de6f17c0da3aecaaf4f489af8a1e1f",
+        "state_sha256": "1be7e6bed71af99c173e076c46a6c92a200b8bf95d8c0a87e8e0c3f074ae712a",
+        "trace_sha256": "9997ec13e1dae25b08091893e87352aa30798697c956f10f20732fd71c6d5466"
+      },
+      {
+        "condition": {
+          "axis": "-y",
+          "eef_mode": "SMOOTH_5CM_TRANSLATION"
+        },
+        "historic_status": "COMPLETED",
+        "historic_ticks": 8703,
+        "boundary": "OBSERVED",
+        "matched": true,
+        "violations": {},
+        "sample_sha256": "93721986370c38c6ce79740da1b0dd262f6389926c54b1a963f52a16f57a9e73",
+        "state_sha256": "59ff48a26427b47fb70d80c9e7f64f7eed5d5f10ac3250ef29bb23b4982bc85e",
+        "trace_sha256": "26644aca9dd10042881d109af9306642527aec1adb2c0fff017cd65607bd6ed1"
+      },
+      {
+        "condition": {
+          "axis": "-y",
+          "eef_mode": "WORLD_HOLD"
+        },
+        "historic_status": "COMPLETED",
+        "historic_ticks": 8703,
+        "boundary": "OBSERVED",
+        "matched": false,
+        "violations": {
+          "qpos_linear_m": {
+            "observed": 0.004616203297069318,
+            "limit": 0.0018674502044549526
+          },
+          "qpos_hinge_rad": {
+            "observed": 0.02822129859179434,
+            "limit": 0.01597557170495345
+          },
+          "free_quaternions": {
+            "observed": 0.0035308411517855237,
+            "limit": 0.003328679076811513
+          },
+          "measured_base_m": {
+            "observed": 0.00391040861617632,
+            "limit": 0.0013156331484268648
+          },
+          "measured_base_rad": {
+            "observed": 0.009833694994278394,
+            "limit": 0.007272162700839245
+          }
+        },
+        "sample_sha256": "c5953ca7a072252dc094cd0eccd71b36c25672bea3086f70b2cea05ccebdefde",
+        "state_sha256": "57a8d30e70e2203207d78dd6e5871dea01530b791dd329bea8f26656adc35e58",
+        "trace_sha256": "4f3b8ec792226ea2e0122b8dd228ca145893fdba9e5c82f71d3fb3e7afb5b5ce"
+      },
+      {
+        "condition": {
+          "axis": "-yaw",
+          "eef_mode": "SMOOTH_5CM_TRANSLATION"
+        },
+        "historic_status": "WITHHELD_YAW_QUARANTINE",
+        "historic_ticks": 0,
+        "boundary": "NOT_REACHED"
+      },
+      {
+        "condition": {
+          "axis": "-yaw",
+          "eef_mode": "WORLD_HOLD"
+        },
+        "historic_status": "WITHHELD_YAW_QUARANTINE",
+        "historic_ticks": 0,
+        "boundary": "NOT_REACHED"
+      },
+      {
+        "condition": {
+          "axis": "+x",
+          "eef_mode": "SMOOTH_5CM_TRANSLATION"
+        },
+        "historic_status": "COMPLETED",
+        "historic_ticks": 8703,
+        "boundary": "OBSERVED",
+        "matched": true,
+        "violations": {},
+        "sample_sha256": "b2fced3ff548cec56fdcc42c11817e7ea15d3b295960246bfdab1254495bdc98",
+        "state_sha256": "dab849f9ef2fa6e751bd46272deec94bb878d2ed35d0467507a8e99eb32b356b",
+        "trace_sha256": "89012bd0b25f84b1dd2c8371b519115c3b07abb708e9db0daaf8b5891b19ebb1"
+      },
+      {
+        "condition": {
+          "axis": "+y",
+          "eef_mode": "SMOOTH_5CM_TRANSLATION"
+        },
+        "historic_status": "COMPLETED",
+        "historic_ticks": 8703,
+        "boundary": "OBSERVED",
+        "matched": false,
+        "violations": {
+          "qpos_linear_m": {
+            "observed": 0.004616020336252984,
+            "limit": 0.0018674502044549526
+          },
+          "qpos_hinge_rad": {
+            "observed": 0.028163035656904145,
+            "limit": 0.01597557170495345
+          },
+          "free_quaternions": {
+            "observed": 0.0035323979011606713,
+            "limit": 0.003328679076811513
+          },
+          "measured_base_m": {
+            "observed": 0.0039058224970474477,
+            "limit": 0.0013156331484268648
+          },
+          "measured_base_rad": {
+            "observed": 0.009850946592005397,
+            "limit": 0.007272162700839245
+          }
+        },
+        "sample_sha256": "0015e383d70b1fe249ca9ada55ffa8d7fb41ed07003dd28a049dc92cbb993a66",
+        "state_sha256": "95e854b6a15f3c1efc790bb31f8f8d878add74fc43c1c93996aefd84b2063ac0",
+        "trace_sha256": "b67927d1228b2da7f3ffbdc863888369184b83be76f0fe43f0019133c0922553"
+      },
+      {
+        "condition": {
+          "axis": "+y",
+          "eef_mode": "WORLD_HOLD"
+        },
+        "historic_status": "COMPLETED",
+        "historic_ticks": 8703,
+        "boundary": "OBSERVED",
+        "matched": false,
+        "violations": {
+          "qpos_linear_m": {
+            "observed": 0.004671258651348995,
+            "limit": 0.0018674502044549526
+          },
+          "qpos_hinge_rad": {
+            "observed": 0.027999780130655294,
+            "limit": 0.01597557170495345
+          },
+          "free_quaternions": {
+            "observed": 0.0034793544202654557,
+            "limit": 0.003328679076811513
+          },
+          "measured_base_m": {
+            "observed": 0.003922352543878544,
+            "limit": 0.0013156331484268648
+          },
+          "measured_base_rad": {
+            "observed": 0.00979068462848299,
+            "limit": 0.007272162700839245
+          }
+        },
+        "sample_sha256": "43f87375d5dac1d0fe1e2b0069881e7cd7a0e9772ca2e32b06058bfa10ef733e",
+        "state_sha256": "a47a9738ea1bddde7dec96f5cbad2e12f1211c177f83a412e4b2c5dd40337536",
+        "trace_sha256": "6b5af57b6940ee8a783f620680fe52ea57c405c48ae0043a9a6f72fcde4db5d9"
+      },
+      {
+        "condition": {
+          "axis": "+yaw",
+          "eef_mode": "SMOOTH_5CM_TRANSLATION"
+        },
+        "historic_status": "SAFETY_STOP",
+        "historic_ticks": 7454,
+        "boundary": "OBSERVED",
+        "matched": false,
+        "violations": {
+          "qpos_linear_m": {
+            "observed": 0.0046162960102089055,
+            "limit": 0.0018674502044549526
+          },
+          "qpos_hinge_rad": {
+            "observed": 0.028173867132653352,
+            "limit": 0.01597557170495345
+          },
+          "free_quaternions": {
+            "observed": 0.0035308210903892516,
+            "limit": 0.003328679076811513
+          },
+          "measured_base_m": {
+            "observed": 0.003908373361563406,
+            "limit": 0.0013156331484268648
+          },
+          "measured_base_rad": {
+            "observed": 0.009837729071650219,
+            "limit": 0.007272162700839245
+          }
+        },
+        "sample_sha256": "7d7dd38c8889bcc5e0f00738dfbd16e4af296f203e804199e0efb6ad613bdc96",
+        "state_sha256": "55088f9a9f2d1769c6742b4f1e6d8e52adddf4795151a293166610d6e7dc10af",
+        "trace_sha256": "e0560990e71941fc79846a298356ac0835bb8a03e9a622407f16a8fc97373423"
+      },
+      {
+        "condition": {
+          "axis": "+yaw",
+          "eef_mode": "WORLD_HOLD"
+        },
+        "historic_status": "COMPLETED",
+        "historic_ticks": 8703,
+        "boundary": "OBSERVED",
+        "matched": false,
+        "violations": {
+          "qpos_linear_m": {
+            "observed": 0.004597802348321481,
+            "limit": 0.0018674502044549526
+          },
+          "qpos_hinge_rad": {
+            "observed": 0.028803118694110674,
+            "limit": 0.01597557170495345
+          },
+          "free_quaternions": {
+            "observed": 0.003502965215862694,
+            "limit": 0.003328679076811513
+          },
+          "measured_base_m": {
+            "observed": 0.0039189260638012365,
+            "limit": 0.0013156331484268648
+          },
+          "measured_base_rad": {
+            "observed": 0.009745432988483606,
+            "limit": 0.007272162700839245
+          }
+        },
+        "sample_sha256": "45a26be9307ea5461965803ba684ad304ae746df20f1e102aa4001a06d182a93",
+        "state_sha256": "fa3dfea9865695d51d618b19a1825ba774a465c70f60a2aca02c67ec29b7cef4",
+        "trace_sha256": "6f36d4cece50048c6ab38d90b261a21de2e6b117206a6ab462e668d357bd2c7a"
+      }
+    ],
+    "prior_manifest_sha256": "71aaff6944bdb868b03ce6e813fccf477327cdf781c00be0209f97f294c3e7fb",
+    "scope": "Historical M0 initial prefixes, original receiver. Heterogeneous panel. No D1 treatment and no change to D1 matching limits."
+  },
+  "new_native_requests": 0,
+  "new_ticks": 0,
+  "new_gpu_forwards": 0,
+  "new_optimizer_updates": 0
+}

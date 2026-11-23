@@ -1,0 +1,120 @@
+{
+  "schema": "D1_FACTORIAL_4X2_REGISTER",
+  "plan_sha256": "a4ff35963d273206ceadc9fe612c352650af726a075b9508abffdd6fbc04c465",
+  "historical_b2_public_sha256": "ed2d54421c6d2d2005f6c1b2f542fcd2bb7970f6a240f4dd196db6558e034ea9",
+  "historical_D0_sha256": "a97a1fc5c8ec72df77363d06c8a6f50322df72c9f9d03f86b8cfe759e4434ab0",
+  "roster": [
+    {
+      "wave": "wave_A",
+      "factor": "D1-OO",
+      "id": "wave_A-D1-OO",
+      "cap": 6203
+    },
+    {
+      "wave": "wave_A",
+      "factor": "D1-MO",
+      "id": "wave_A-D1-MO",
+      "cap": 6203
+    },
+    {
+      "wave": "wave_A",
+      "factor": "D1-OM",
+      "id": "wave_A-D1-OM",
+      "cap": 6203
+    },
+    {
+      "wave": "wave_A",
+      "factor": "D1-MM",
+      "id": "wave_A-D1-MM",
+      "cap": 6203
+    },
+    {
+      "wave": "wave_B",
+      "factor": "D1-OO",
+      "id": "wave_B-D1-OO",
+      "cap": 6203
+    },
+    {
+      "wave": "wave_B",
+      "factor": "D1-MO",
+      "id": "wave_B-D1-MO",
+      "cap": 6203
+    },
+    {
+      "wave": "wave_B",
+      "factor": "D1-OM",
+      "id": "wave_B-D1-OM",
+      "cap": 6203
+    },
+    {
+      "wave": "wave_B",
+      "factor": "D1-MM",
+      "id": "wave_B-D1-MM",
+      "cap": 6203
+    }
+  ],
+  "cap_per_wave": 24812,
+  "max_ticks": 49624,
+  "initialization_ticks": 5703,
+  "physics_dt_s": 0.002,
+  "prior_difference": {
+    "qpos_linear_m": 0.0006224834014849842,
+    "qpos_hinge_rad": 0.005325190568317817,
+    "free_quaternions": 0.0011095596922705044,
+    "qvel_linear_m_s": 0.00019123383060539706,
+    "qvel_angular_rad_s": 0.03878627645395298,
+    "arm_dq_rad_s": 0.03878627645395298,
+    "arm_pd_gap_rad": 0.00163769002197367,
+    "gripper_command": 0.0,
+    "old_ee_m": 2.3289821231853696e-07,
+    "old_ee_rad": 3.430504927999197e-07,
+    "old_base_m": 1.6867423170593744e-07,
+    "old_base_rad": 3.545098678282017e-07,
+    "measured_ee_m": 0.0007317844591177819,
+    "measured_ee_rad": 0.0020277441210893375,
+    "measured_base_m": 0.00043854438280895497,
+    "measured_base_rad": 0.0024240542336130817
+  },
+  "pairwise_initial_limits": {
+    "qpos_linear_m": 0.0018674502044549526,
+    "qpos_hinge_rad": 0.01597557170495345,
+    "free_quaternions": 0.003328679076811513,
+    "qvel_linear_m_s": 0.01,
+    "qvel_angular_rad_s": 0.11635882936185894,
+    "arm_dq_rad_s": 0.11635882936185894,
+    "arm_pd_gap_rad": 0.005,
+    "gripper_command": 1e-10,
+    "old_ee_m": 0.001,
+    "old_ee_rad": 0.004,
+    "old_base_m": 0.001,
+    "old_base_rad": 0.004,
+    "measured_ee_m": 0.0021953533773533453,
+    "measured_ee_rad": 0.006083232363268012,
+    "measured_base_m": 0.0013156331484268648,
+    "measured_base_rad": 0.007272162700839245
+  },
+  "prior_anchor_sha256": [
+    "d7e3ad5532fc62a2eed0a6f581308c253b82f290c7a1e81fc5578bd3f17e3f45",
+    "37dd3a8aae05d0f284e2ccc1559023ef47cfae912b0ac7de357d8b2388707ab6"
+  ],
+  "matching": "Each new reset must lie within every registered feature bound against both B2 anchors and every earlier D1 reset. Three times the archived two-reset difference or the fixed numeric floor, whichever is larger.",
+  "source_sha256": {
+    "d1_geometry.py": "8ec10239069f328eb2be32d8da54e388932f06c0584e3e23b20b795b42e14a7c",
+    "d1_factorial_reference_matrix.py": "44888f9b643f48bf4f58b1da4ad089553193f7751eb6ff911b8f98160e13f4d6",
+    "d1_readiness.py": "298972db7e7b91dac7179276ca9b8624c66c4c92536380e4861f34c5719ff906"
+  },
+  "estimands": {
+    "response": "signed world TCP delta Z 100ms and PD-FK delta Z 100ms",
+    "EEF_main": "0.5*((MO-OO)+(MM-OM))",
+    "base_main": "0.5*((OM-OO)+(MM-MO))",
+    "interaction": "MM-MO-OM+OO"
+  },
+  "descriptive_contrast_scale_mm": 5,
+  "owner": "fresh per physical wave",
+  "hardware": false,
+  "epoch": "new for every card",
+  "scene_sha256": "b5b066ea788ff8763f0757747ede61890281213c2637e9f54f757b245d111959",
+  "seed": "same frozen compiled scene and native reset with no per-card seed override; match recorded initial state",
+  "new_gpu_forwards": 0,
+  "new_optimizer_updates": 0
+}
