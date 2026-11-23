@@ -22,7 +22,7 @@ from identity import read, record
 
 END = 6503
 START = 2503
-PLAN = "V2_NATIVE_CARD_REGISTRATION.json"
+PLAN = "V2_NATIVE_REPAIR_REGISTRATION.json"
 
 
 def width(atom):
@@ -116,6 +116,7 @@ def execute(spec, sp, root, build):
         dict(card=case.name, episode=out.name, authorized_tick_cap=END),
     )
     try:
+        a.start()
         a.prepare_dynamic()
         paused(a, START)
         if a.latest["mode"].data != "WBC":
@@ -234,7 +235,7 @@ def main(root, mode):
         != build["student_header"]
     ):
         raise ValueError("unverified receiver")
-    if reg["maximum_native_ticks"] != END or reg["card"] != "V2-GRIP-01":
+    if reg["maximum_native_ticks"] != END or reg["card"] != "V2-GRIP-01B":
         raise ValueError("registration mismatch")
     dest = root / "v16" / reg["campaign"]
     os.umask(0o077)
