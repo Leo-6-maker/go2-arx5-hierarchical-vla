@@ -5,6 +5,40 @@ from pathlib import Path
 import sys
 
 
+def check_wire(scene, c, t, p, g):
+    import numpy as np
+    from scipy.spatial.transform import Rotation, Slerp
+
+    # Include intermediate states in the command-space handoff as well as wire interpolation.
+    actual = c["query"]["actual_state"]
+    tcp = np.asarray(actual["tcp"])
+    seed = np.array([tcp, p[0]])
+    d = np.linalg.norm(tcp[:3, 3] - p[0, :3, 3])
+    ang = Rotation.from_matrix(tcp[:3, :3] @ p[0, :3, :3].T).magnitude()
+    n = max(1, int(np.ceil(max(d / 0.0005, ang / np.deg2rad(0.1)))))
+    u = np.arange(n) / n
+    ix = np.arange(2 * len(t) - 1) * 0.025
+
+    def interp(clock, poses, query):
+        m = np.tile(np.eye(4), (len(query), 1, 1))
+        m[:, :3, 3] = np.stack(
+            [np.interp(query, clock, col) for col in poses[:, :3, 3].T], axis=1
+        )
+        m[:, :3, :3] = Slerp(clock, Rotation.from_matrix(poses[:, :3, :3]))(
+            query
+        ).as_matrix()
+        return m
+
+    track = np.concatenate(
+        (interp([0, 1], seed, u), interp(t, p, np.clip(ix, t[0], t[-1])))
+    )
+    before = float(c["grip"]["previous_command_m"])
+    widths = np.r_[np.full(n, before), 0.002 + 0.040 * np.interp(ix, t, g)]
+    evidence = scene.witness(c, np.r_[np.full(n, -0.0), ix], track, widths)
+    evidence["entry_sweep_samples"] = n
+    return evidence
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("root", type=Path)
@@ -18,7 +52,6 @@ def main():
     configure_site(root, repo)
     sys.path.insert(0, str(root / "v16/cpu-fcl"))
     import numpy as np
-    from scipy.spatial.transform import Rotation, Slerp
     from frozen_geometry import Scene
     from ablation import output
 
@@ -39,33 +72,7 @@ def main():
                 a.ablation / c["key"] / (mode + ".private.npz"), allow_pickle=False
             ) as z:
                 t, p, g = z["t"], z["poses"], z["grip"]
-            # Include intermediate states in the command-space handoff as well as wire interpolation.
-            actual = c["query"]["actual_state"]
-            tcp = np.asarray(actual["tcp"])
-            seed = np.array([tcp, p[0]])
-            d = np.linalg.norm(tcp[:3, 3] - p[0, :3, 3])
-            ang = Rotation.from_matrix(tcp[:3, :3] @ p[0, :3, :3].T).magnitude()
-            n = max(1, int(np.ceil(max(d / 0.0005, ang / np.deg2rad(0.1)))))
-            u = np.arange(n) / n
-            ix = np.arange(2 * len(t) - 1) * 0.025
-
-            def interp(clock, poses, query):
-                m = np.tile(np.eye(4), (len(query), 1, 1))
-                m[:, :3, 3] = np.stack(
-                    [np.interp(query, clock, col) for col in poses[:, :3, 3].T], axis=1
-                )
-                m[:, :3, :3] = Slerp(clock, Rotation.from_matrix(poses[:, :3, :3]))(
-                    query
-                ).as_matrix()
-                return m
-
-            track = np.concatenate(
-                (interp([0, 1], seed, u), interp(t, p, np.clip(ix, t[0], t[-1])))
-            )
-            before = float(c["grip"]["previous_command_m"])
-            widths = np.r_[np.full(n, before), 0.002 + 0.040 * np.interp(ix, t, g)]
-            evidence = scene.witness(c, np.r_[np.full(n, -0.0), ix], track, widths)
-            evidence["entry_sweep_samples"] = n
+            evidence = check_wire(scene, c, t, p, g)
             row["methods"][mode] = evidence
         records.append(row)
     output(

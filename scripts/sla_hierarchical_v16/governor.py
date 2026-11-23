@@ -5,6 +5,9 @@ from reference_manager_v2 import ReferenceManagerV2
 
 
 class PersistentReference(ReferenceManagerV2):
+    def protected_end(self, now):
+        return self.last - self.start + 2.05
+
     def revise(self, new, now, epoch):
         """Protect past and already installed lookahead, including one join segment.
 
@@ -23,9 +26,8 @@ class PersistentReference(ReferenceManagerV2):
         ):
             self.abort()
             raise ValueError("revision without current matching installation")
-        # The site commits an entire 41-point preview per installation. Protect the
-        # next segment too so interpolation on the last committed interval is stable.
-        stop = self.last - self.start + 2.05
+        # The original V1 governor protects a whole installed preview plus its join.
+        stop = self.protected_end(now)
         grid = np.arange(int(np.ceil(stop / 0.05 - 1e-10)) + 1) * 0.05
         old_batch = self.intent.at(grid)
         proposed = new.at(grid)

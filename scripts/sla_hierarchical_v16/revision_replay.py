@@ -71,14 +71,24 @@ def receipts(path):
                 pending = None
 
 
-def verify_revision(previous, revised, old_log, new_log, install_index, base, count):
+def verify_revision(
+    previous,
+    revised,
+    old_log,
+    new_log,
+    install_index,
+    base,
+    count,
+    *,
+    manager_type=None,
+):
     from governor import PersistentReference
     from ocs2_target_adapter import wire
 
     original = receipts(old_log)
     received = receipts(new_log)
     epoch = "C2_EXACT"
-    m = PersistentReference(previous, epoch, 30.0)
+    m = (manager_type or PersistentReference)(previous, epoch, 30.0)
     for sequence in range(count):
         now = 30.0 + sequence * 0.1
         a, b = next(received)

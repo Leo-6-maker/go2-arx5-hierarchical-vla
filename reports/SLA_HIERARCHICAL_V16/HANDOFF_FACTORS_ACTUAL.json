@@ -1,0 +1,4801 @@
+{
+  "initial": [
+    {
+      "id": "T01",
+      "grasp_or_contact": false,
+      "source_sha256": "8c51d2588b7b15e0a47cb75662a5fd282a9846f5cde7e19e9eaae20bd1f9b032",
+      "phase_proxy": false,
+      "raw_gates": {
+        "count": 166,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 44.30446624755849,
+        "g7": false,
+        "wire_events": []
+      },
+      "raw_geometry": {
+        "checked": 718,
+        "all_samples": 718,
+        "first_failure": null,
+        "minimum_joint_margin_rad": 0.24871547844201614,
+        "original_measured_contact_pair": null,
+        "active_pair_count": 175,
+        "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+        "pass": true,
+        "entry_sweep_samples": 59
+      },
+      "raw_qualified": false,
+      "alignment": {
+        "previous_width_mm": 41.99999999999999,
+        "proposed_first_width_mm": 39.78477668762207,
+        "continuous_peak_mm_s": 0.9439872069792293,
+        "available_s": 4.3999999999999995,
+        "rejections": []
+      },
+      "aligned_gates": {
+        "count": 166,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 1.137528007413291,
+        "g7": true,
+        "wire_events": []
+      },
+      "aligned_geometry": {
+        "checked": 718,
+        "all_samples": 718,
+        "first_failure": null,
+        "minimum_joint_margin_rad": 0.24871547844201614,
+        "original_measured_contact_pair": null,
+        "active_pair_count": 175,
+        "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+        "pass": true,
+        "entry_sweep_samples": 59
+      },
+      "aligned_qualified": true
+    },
+    {
+      "id": "T02",
+      "grasp_or_contact": false,
+      "source_sha256": "ddb8b19be4efb02bfac1544b44a48cb0e2d96134d1ecac0bae2c1fa9fada04ad",
+      "phase_proxy": false,
+      "raw_gates": {
+        "count": 142,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 29.223326263427968,
+        "g7": true,
+        "wire_events": [
+          {
+            "kind": "open",
+            "time": 10.67818470406783
+          }
+        ]
+      },
+      "raw_geometry": {
+        "checked": 623,
+        "all_samples": 623,
+        "first_failure": null,
+        "minimum_joint_margin_rad": 0.27890311837409437,
+        "original_measured_contact_pair": null,
+        "active_pair_count": 175,
+        "scene_sha256": "30ddc30db168df862036b38e72dc0ec1af8188a47d26aa4e0757679a0f1e2e13",
+        "pass": true,
+        "entry_sweep_samples": 58
+      },
+      "raw_qualified": true,
+      "alignment": {
+        "previous_width_mm": 23.87187734375,
+        "proposed_first_width_mm": 23.66372299194336,
+        "continuous_peak_mm_s": 0.08870213855396654,
+        "available_s": 4.3999999999999995,
+        "rejections": []
+      },
+      "aligned_gates": {
+        "count": 142,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 29.223326263427968,
+        "g7": true,
+        "wire_events": [
+          {
+            "kind": "open",
+            "time": 10.67818470406783
+          }
+        ]
+      },
+      "aligned_geometry": {
+        "checked": 623,
+        "all_samples": 623,
+        "first_failure": null,
+        "minimum_joint_margin_rad": 0.27890311837409437,
+        "original_measured_contact_pair": null,
+        "active_pair_count": 175,
+        "scene_sha256": "30ddc30db168df862036b38e72dc0ec1af8188a47d26aa4e0757679a0f1e2e13",
+        "pass": true,
+        "entry_sweep_samples": 58
+      },
+      "aligned_qualified": true
+    },
+    {
+      "id": "T03",
+      "grasp_or_contact": true,
+      "source_sha256": "cc9b4c243f1b6ecd47892c71af7c4af7f3f11ba2668332d6d6de651e9ef09373",
+      "phase_proxy": false,
+      "raw_gates": {
+        "count": 135,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 238.64784951019277,
+        "g7": false,
+        "wire_events": [
+          {
+            "kind": "open",
+            "time": 11.568932403998359
+          }
+        ]
+      },
+      "raw_geometry": {
+        "checked": 0,
+        "all_samples": 593,
+        "first_failure": {
+          "check": "CONTACT",
+          "time_s": -0.0,
+          "margin_rad": 0.4023945077995997,
+          "threshold": 0,
+          "geom_pair": [
+            "task_left_pad",
+            "task_cube_geom"
+          ]
+        },
+        "minimum_joint_margin_rad": 0.4023945077995997,
+        "original_measured_contact_pair": [
+          "task_left_pad",
+          "task_cube_geom"
+        ],
+        "active_pair_count": 175,
+        "scene_sha256": "6b1a6736b55341f14ffad2891fc73d1c9dbd4e71e803001624cdc6993efc2f30",
+        "pass": false,
+        "entry_sweep_samples": 58
+      },
+      "raw_qualified": false,
+      "alignment": {
+        "previous_width_mm": 7.264728906250004,
+        "proposed_first_width_mm": 19.197121381759644,
+        "continuous_peak_mm_s": 5.203078114321063,
+        "available_s": 4.3,
+        "rejections": [
+          "CONTACT_OR_GRASP_AT_HANDOFF"
+        ]
+      },
+      "aligned_qualified": false
+    },
+    {
+      "id": "T04",
+      "grasp_or_contact": true,
+      "source_sha256": "220f879fe33466e0ab63406993db747d4c8868efa491d2f3229dcdd2c1f77b26",
+      "phase_proxy": false,
+      "raw_gates": {
+        "count": 126,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 342.15953350067133,
+        "g7": false,
+        "wire_events": [
+          {
+            "kind": "open",
+            "time": 10.842213641670263
+          }
+        ]
+      },
+      "raw_geometry": {
+        "checked": 0,
+        "all_samples": 555,
+        "first_failure": {
+          "check": "CONTACT",
+          "time_s": -0.0,
+          "margin_rad": 0.4790346777003642,
+          "threshold": 0,
+          "geom_pair": [
+            "task_left_pad",
+            "task_cube_geom"
+          ]
+        },
+        "minimum_joint_margin_rad": 0.4790346777003642,
+        "original_measured_contact_pair": [
+          "task_left_pad",
+          "task_cube_geom"
+        ],
+        "active_pair_count": 175,
+        "scene_sha256": "ba55a65ce2d5a57917ec4f1d49ee38af15c4e495d10a5b8781d06ce6e787f723",
+        "pass": false,
+        "entry_sweep_samples": 54
+      },
+      "raw_qualified": false,
+      "alignment": {
+        "previous_width_mm": 2.0,
+        "proposed_first_width_mm": 19.10797667503357,
+        "continuous_peak_mm_s": 8.019364066421986,
+        "available_s": 4.0,
+        "rejections": [
+          "CONTACT_OR_GRASP_AT_HANDOFF"
+        ]
+      },
+      "aligned_qualified": false
+    },
+    {
+      "id": "T05",
+      "grasp_or_contact": true,
+      "source_sha256": "482871dcd34988714912d82ce6b6f0511dae4ba9cb4432468b0a4961c4addb49",
+      "phase_proxy": false,
+      "raw_gates": {
+        "count": 130,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 340.2828216552733,
+        "g7": false,
+        "wire_events": []
+      },
+      "raw_geometry": {
+        "checked": 0,
+        "all_samples": 571,
+        "first_failure": {
+          "check": "CONTACT",
+          "time_s": -0.0,
+          "margin_rad": 0.4881553731253717,
+          "threshold": 0,
+          "geom_pair": [
+            "task_left_pad",
+            "task_cube_geom"
+          ]
+        },
+        "minimum_joint_margin_rad": 0.4881553731253717,
+        "original_measured_contact_pair": [
+          "task_left_pad",
+          "task_cube_geom"
+        ],
+        "active_pair_count": 175,
+        "scene_sha256": "76196c90890b1d1884d7486e5f8595592e2574fa5bbfb5c337575a34f3fbb796",
+        "pass": false,
+        "entry_sweep_samples": 54
+      },
+      "raw_qualified": false,
+      "alignment": {
+        "previous_width_mm": 2.0,
+        "proposed_first_width_mm": 19.01414108276367,
+        "continuous_peak_mm_s": 8.076332792451106,
+        "available_s": 3.95,
+        "rejections": [
+          "CONTACT_OR_GRASP_AT_HANDOFF"
+        ]
+      },
+      "aligned_qualified": false
+    },
+    {
+      "id": "T06",
+      "grasp_or_contact": true,
+      "source_sha256": "f00e119c0545028931d57175ee7be556702762450621f703e5f5ab9bf3ce7780",
+      "phase_proxy": false,
+      "raw_gates": {
+        "count": 194,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 343.84858608245844,
+        "g7": false,
+        "wire_events": [
+          {
+            "kind": "open",
+            "time": 10.647001357256482
+          }
+        ]
+      },
+      "raw_geometry": {
+        "checked": 0,
+        "all_samples": 553,
+        "first_failure": {
+          "check": "CONTACT",
+          "time_s": -0.0,
+          "margin_rad": 0.4865466730659761,
+          "threshold": 0,
+          "geom_pair": [
+            "task_left_pad",
+            "task_cube_geom"
+          ]
+        },
+        "minimum_joint_margin_rad": 0.4865466730659761,
+        "original_measured_contact_pair": [
+          "task_left_pad",
+          "task_cube_geom"
+        ],
+        "active_pair_count": 175,
+        "scene_sha256": "9ae3232754c5ef287239801fc10230199872f1526c78c099b746f0d7ad088507",
+        "pass": false,
+        "entry_sweep_samples": 54
+      },
+      "raw_qualified": false,
+      "alignment": {
+        "previous_width_mm": 2.0,
+        "proposed_first_width_mm": 19.192429304122925,
+        "continuous_peak_mm_s": 7.959458011168021,
+        "available_s": 4.05,
+        "rejections": [
+          "CONTACT_OR_GRASP_AT_HANDOFF"
+        ]
+      },
+      "aligned_qualified": false
+    },
+    {
+      "id": "T07",
+      "grasp_or_contact": false,
+      "source_sha256": "83fec11677b5069775bfd53582029866fa9d9f03ae2edb774e1039a8009f06b0",
+      "phase_proxy": false,
+      "raw_gates": {
+        "count": 162,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 44.30446624755849,
+        "g7": false,
+        "wire_events": []
+      },
+      "raw_geometry": {
+        "checked": 703,
+        "all_samples": 703,
+        "first_failure": null,
+        "minimum_joint_margin_rad": 0.26603101055656275,
+        "original_measured_contact_pair": null,
+        "active_pair_count": 175,
+        "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+        "pass": true,
+        "entry_sweep_samples": 58
+      },
+      "raw_qualified": false,
+      "alignment": {
+        "previous_width_mm": 41.99999999999999,
+        "proposed_first_width_mm": 39.78477668762207,
+        "continuous_peak_mm_s": 0.9659403978392114,
+        "available_s": 4.3,
+        "rejections": []
+      },
+      "aligned_gates": {
+        "count": 162,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 1.0926690673827844,
+        "g7": true,
+        "wire_events": []
+      },
+      "aligned_geometry": {
+        "checked": 703,
+        "all_samples": 703,
+        "first_failure": null,
+        "minimum_joint_margin_rad": 0.26603101055656275,
+        "original_measured_contact_pair": null,
+        "active_pair_count": 175,
+        "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+        "pass": true,
+        "entry_sweep_samples": 58
+      },
+      "aligned_qualified": true
+    },
+    {
+      "id": "T08",
+      "grasp_or_contact": false,
+      "source_sha256": "17c1bd54785bd9b8b0599d2dfa900bb734ab8155f6e796ddf2f3f1b14e431bdc",
+      "phase_proxy": false,
+      "raw_gates": {
+        "count": 142,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 36.3418700714109,
+        "g7": true,
+        "wire_events": []
+      },
+      "raw_geometry": {
+        "checked": 621,
+        "all_samples": 621,
+        "first_failure": null,
+        "minimum_joint_margin_rad": 0.2827541901778539,
+        "original_measured_contact_pair": null,
+        "active_pair_count": 175,
+        "scene_sha256": "30ddc30db168df862036b38e72dc0ec1af8188a47d26aa4e0757679a0f1e2e13",
+        "pass": true,
+        "entry_sweep_samples": 58
+      },
+      "raw_qualified": true,
+      "alignment": {
+        "previous_width_mm": 38.84308828124999,
+        "proposed_first_width_mm": 37.02599477767945,
+        "continuous_peak_mm_s": 0.8016588986340641,
+        "available_s": 4.25,
+        "rejections": []
+      },
+      "aligned_gates": {
+        "count": 142,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 1.1126469820739449,
+        "g7": true,
+        "wire_events": []
+      },
+      "aligned_geometry": {
+        "checked": 621,
+        "all_samples": 621,
+        "first_failure": null,
+        "minimum_joint_margin_rad": 0.2827541901778539,
+        "original_measured_contact_pair": null,
+        "active_pair_count": 175,
+        "scene_sha256": "30ddc30db168df862036b38e72dc0ec1af8188a47d26aa4e0757679a0f1e2e13",
+        "pass": true,
+        "entry_sweep_samples": 58
+      },
+      "aligned_qualified": true
+    },
+    {
+      "id": "T09",
+      "grasp_or_contact": false,
+      "source_sha256": "b21e6620bca52d89e65c98118ebe70603733b8554acf6c03b0ab90be405bd322",
+      "phase_proxy": false,
+      "raw_gates": {
+        "count": 136,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 23.671113120184994,
+        "g7": true,
+        "wire_events": [
+          {
+            "kind": "open",
+            "time": 11.483354370089536
+          }
+        ]
+      },
+      "raw_geometry": {
+        "checked": 45,
+        "all_samples": 599,
+        "first_failure": {
+          "check": "CONTACT",
+          "time_s": -0.0,
+          "margin_rad": 0.29980809309312995,
+          "threshold": 0,
+          "geom_pair": [
+            "task_right_pad",
+            "task_cube_geom"
+          ]
+        },
+        "minimum_joint_margin_rad": 0.29980809309312995,
+        "original_measured_contact_pair": null,
+        "active_pair_count": 175,
+        "scene_sha256": "6b1a6736b55341f14ffad2891fc73d1c9dbd4e71e803001624cdc6993efc2f30",
+        "pass": false,
+        "entry_sweep_samples": 58
+      },
+      "raw_qualified": false,
+      "alignment": {
+        "previous_width_mm": 23.87187734375,
+        "proposed_first_width_mm": 23.59803867340088,
+        "continuous_peak_mm_s": 0.11803390963324221,
+        "available_s": 4.35,
+        "rejections": []
+      },
+      "aligned_gates": {
+        "count": 136,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 23.671113120184994,
+        "g7": true,
+        "wire_events": [
+          {
+            "kind": "open",
+            "time": 11.483354370089536
+          }
+        ]
+      },
+      "aligned_geometry": {
+        "checked": 45,
+        "all_samples": 599,
+        "first_failure": {
+          "check": "CONTACT",
+          "time_s": -0.0,
+          "margin_rad": 0.29980809309312995,
+          "threshold": 0,
+          "geom_pair": [
+            "task_right_pad",
+            "task_cube_geom"
+          ]
+        },
+        "minimum_joint_margin_rad": 0.29980809309312995,
+        "original_measured_contact_pair": null,
+        "active_pair_count": 175,
+        "scene_sha256": "6b1a6736b55341f14ffad2891fc73d1c9dbd4e71e803001624cdc6993efc2f30",
+        "pass": false,
+        "entry_sweep_samples": 58
+      },
+      "aligned_qualified": false
+    },
+    {
+      "id": "T10",
+      "grasp_or_contact": true,
+      "source_sha256": "dac9fd33665e36766e63357700936d213a6a10a32a95f05cdff56694db6a2c49",
+      "phase_proxy": false,
+      "raw_gates": {
+        "count": 130,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 341.9718503952027,
+        "g7": false,
+        "wire_events": [
+          {
+            "kind": "open",
+            "time": 11.374240637276168
+          }
+        ]
+      },
+      "raw_geometry": {
+        "checked": 0,
+        "all_samples": 573,
+        "first_failure": {
+          "check": "CONTACT",
+          "time_s": -0.0,
+          "margin_rad": 0.46776062213208564,
+          "threshold": 0,
+          "geom_pair": [
+            "task_left_pad",
+            "task_cube_geom"
+          ]
+        },
+        "minimum_joint_margin_rad": 0.46776062213208564,
+        "original_measured_contact_pair": [
+          "task_left_pad",
+          "task_cube_geom"
+        ],
+        "active_pair_count": 175,
+        "scene_sha256": "ba55a65ce2d5a57917ec4f1d49ee38af15c4e495d10a5b8781d06ce6e787f723",
+        "pass": false,
+        "entry_sweep_samples": 56
+      },
+      "raw_qualified": false,
+      "alignment": {
+        "previous_width_mm": 2.0,
+        "proposed_first_width_mm": 19.098592519760135,
+        "continuous_peak_mm_s": 7.725267704710904,
+        "available_s": 4.1499999999999995,
+        "rejections": [
+          "CONTACT_OR_GRASP_AT_HANDOFF"
+        ]
+      },
+      "aligned_qualified": false
+    },
+    {
+      "id": "T11",
+      "grasp_or_contact": true,
+      "source_sha256": "68922167408be5aa9f7df7f7c468bc9c7b001a6d28bbdb6e1cdd3bfadf5529f2",
+      "phase_proxy": true,
+      "raw_gates": {
+        "count": 148,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 339.15677070617664,
+        "g7": false,
+        "wire_events": []
+      },
+      "raw_geometry": {
+        "checked": 0,
+        "all_samples": 643,
+        "first_failure": {
+          "check": "CONTACT",
+          "time_s": -0.0,
+          "margin_rad": 0.4774510725069616,
+          "threshold": 0,
+          "geom_pair": [
+            "task_left_pad",
+            "task_cube_geom"
+          ]
+        },
+        "minimum_joint_margin_rad": 0.4774510725069616,
+        "original_measured_contact_pair": [
+          "task_left_pad",
+          "task_cube_geom"
+        ],
+        "active_pair_count": 175,
+        "scene_sha256": "76196c90890b1d1884d7486e5f8595592e2574fa5bbfb5c337575a34f3fbb796",
+        "pass": false,
+        "entry_sweep_samples": 56
+      },
+      "raw_qualified": false,
+      "alignment": {
+        "previous_width_mm": 2.0,
+        "proposed_first_width_mm": 18.957838535308838,
+        "continuous_peak_mm_s": 7.755109086269284,
+        "available_s": 4.1,
+        "rejections": [
+          "CONTACT_OR_GRASP_AT_HANDOFF"
+        ]
+      },
+      "aligned_qualified": false
+    },
+    {
+      "id": "T12",
+      "grasp_or_contact": true,
+      "source_sha256": "70f8775f47c3714ea4d871036e040a060a7e7ecc24b9176e836728c8753f593d",
+      "phase_proxy": false,
+      "raw_gates": {
+        "count": 129,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 343.19174289703363,
+        "g7": false,
+        "wire_events": [
+          {
+            "kind": "open",
+            "time": 11.040327907509193
+          }
+        ]
+      },
+      "raw_geometry": {
+        "checked": 0,
+        "all_samples": 567,
+        "first_failure": {
+          "check": "CONTACT",
+          "time_s": -0.0,
+          "margin_rad": 0.475844583263331,
+          "threshold": 0,
+          "geom_pair": [
+            "task_left_pad",
+            "task_cube_geom"
+          ]
+        },
+        "minimum_joint_margin_rad": 0.475844583263331,
+        "original_measured_contact_pair": [
+          "task_left_pad",
+          "task_cube_geom"
+        ],
+        "active_pair_count": 175,
+        "scene_sha256": "9ae3232754c5ef287239801fc10230199872f1526c78c099b746f0d7ad088507",
+        "pass": false,
+        "entry_sweep_samples": 56
+      },
+      "raw_qualified": false,
+      "alignment": {
+        "previous_width_mm": 2.0,
+        "proposed_first_width_mm": 19.159587144851685,
+        "continuous_peak_mm_s": 7.752825517252268,
+        "available_s": 4.1499999999999995,
+        "rejections": [
+          "CONTACT_OR_GRASP_AT_HANDOFF"
+        ]
+      },
+      "aligned_qualified": false
+    },
+    {
+      "id": "T13",
+      "grasp_or_contact": false,
+      "source_sha256": "c6f22c14bec0955aa52f9a8541f13afb4ea29c458e56a66f8fd4d654eef200a3",
+      "phase_proxy": false,
+      "raw_gates": {
+        "count": 161,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 43.92910003662098,
+        "g7": false,
+        "wire_events": []
+      },
+      "raw_geometry": {
+        "checked": 698,
+        "all_samples": 698,
+        "first_failure": null,
+        "minimum_joint_margin_rad": 0.2854708031389812,
+        "original_measured_contact_pair": null,
+        "active_pair_count": 175,
+        "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+        "pass": true,
+        "entry_sweep_samples": 57
+      },
+      "raw_qualified": false,
+      "alignment": {
+        "previous_width_mm": 41.99999999999999,
+        "proposed_first_width_mm": 39.803544998168945,
+        "continuous_peak_mm_s": 0.9805602686745756,
+        "available_s": 4.2,
+        "rejections": []
+      },
+      "aligned_gates": {
+        "count": 161,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 1.3553330927718044,
+        "g7": true,
+        "wire_events": []
+      },
+      "aligned_geometry": {
+        "checked": 698,
+        "all_samples": 698,
+        "first_failure": null,
+        "minimum_joint_margin_rad": 0.2854708031389812,
+        "original_measured_contact_pair": null,
+        "active_pair_count": 175,
+        "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+        "pass": true,
+        "entry_sweep_samples": 57
+      },
+      "aligned_qualified": true
+    },
+    {
+      "id": "T14",
+      "grasp_or_contact": false,
+      "source_sha256": "dff414c10bf8b7e33acf05e0947c9301268faa7f01af71f66be5b111a7ca8408",
+      "phase_proxy": false,
+      "raw_gates": {
+        "count": 151,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 43.55378150939934,
+        "g7": false,
+        "wire_events": []
+      },
+      "raw_geometry": {
+        "checked": 657,
+        "all_samples": 657,
+        "first_failure": null,
+        "minimum_joint_margin_rad": 0.2899327358680999,
+        "original_measured_contact_pair": null,
+        "active_pair_count": 175,
+        "scene_sha256": "30ddc30db168df862036b38e72dc0ec1af8188a47d26aa4e0757679a0f1e2e13",
+        "pass": true,
+        "entry_sweep_samples": 58
+      },
+      "raw_qualified": false,
+      "alignment": {
+        "previous_width_mm": 41.99999999999999,
+        "proposed_first_width_mm": 39.82231092453003,
+        "continuous_peak_mm_s": 0.9607451803543973,
+        "available_s": 4.25,
+        "rejections": []
+      },
+      "aligned_gates": {
+        "count": 151,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 1.5089476550067538,
+        "g7": true,
+        "wire_events": []
+      },
+      "aligned_geometry": {
+        "checked": 657,
+        "all_samples": 657,
+        "first_failure": null,
+        "minimum_joint_margin_rad": 0.2899327358680999,
+        "original_measured_contact_pair": null,
+        "active_pair_count": 175,
+        "scene_sha256": "30ddc30db168df862036b38e72dc0ec1af8188a47d26aa4e0757679a0f1e2e13",
+        "pass": true,
+        "entry_sweep_samples": 58
+      },
+      "aligned_qualified": true
+    },
+    {
+      "id": "T15",
+      "grasp_or_contact": false,
+      "source_sha256": "137f8153158e8d0cd28a731646a2c0170a51bc902401080f0064cf37ec9fffd5",
+      "phase_proxy": false,
+      "raw_gates": {
+        "count": 149,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 36.71723628234841,
+        "g7": true,
+        "wire_events": []
+      },
+      "raw_geometry": {
+        "checked": 651,
+        "all_samples": 651,
+        "first_failure": null,
+        "minimum_joint_margin_rad": 0.26899952391393517,
+        "original_measured_contact_pair": null,
+        "active_pair_count": 175,
+        "scene_sha256": "6b1a6736b55341f14ffad2891fc73d1c9dbd4e71e803001624cdc6993efc2f30",
+        "pass": true,
+        "entry_sweep_samples": 58
+      },
+      "raw_qualified": true,
+      "alignment": {
+        "previous_width_mm": 38.84308828124999,
+        "proposed_first_width_mm": 37.007226467132575,
+        "continuous_peak_mm_s": 0.8005211398767822,
+        "available_s": 4.3,
+        "rejections": []
+      },
+      "aligned_gates": {
+        "count": 149,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 1.0081509013233625,
+        "g7": true,
+        "wire_events": []
+      },
+      "aligned_geometry": {
+        "checked": 651,
+        "all_samples": 651,
+        "first_failure": null,
+        "minimum_joint_margin_rad": 0.26899952391393517,
+        "original_measured_contact_pair": null,
+        "active_pair_count": 175,
+        "scene_sha256": "6b1a6736b55341f14ffad2891fc73d1c9dbd4e71e803001624cdc6993efc2f30",
+        "pass": true,
+        "entry_sweep_samples": 58
+      },
+      "aligned_qualified": true
+    },
+    {
+      "id": "T16",
+      "grasp_or_contact": true,
+      "source_sha256": "d3980c338f2541fed43c5eef518dc0e628adaed7696511ace86add6576efdd74",
+      "phase_proxy": false,
+      "raw_gates": {
+        "count": 131,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 341.4088487625122,
+        "g7": false,
+        "wire_events": [
+          {
+            "kind": "open",
+            "time": 11.175896900748096
+          }
+        ]
+      },
+      "raw_geometry": {
+        "checked": 0,
+        "all_samples": 578,
+        "first_failure": {
+          "check": "CONTACT",
+          "time_s": -0.0,
+          "margin_rad": 0.45674048536973266,
+          "threshold": 0,
+          "geom_pair": [
+            "task_left_pad",
+            "task_cube_geom"
+          ]
+        },
+        "minimum_joint_margin_rad": 0.45674048536973266,
+        "original_measured_contact_pair": [
+          "task_left_pad",
+          "task_cube_geom"
+        ],
+        "active_pair_count": 175,
+        "scene_sha256": "ba55a65ce2d5a57917ec4f1d49ee38af15c4e495d10a5b8781d06ce6e787f723",
+        "pass": false,
+        "entry_sweep_samples": 57
+      },
+      "raw_qualified": false,
+      "alignment": {
+        "previous_width_mm": 2.0,
+        "proposed_first_width_mm": 19.07044243812561,
+        "continuous_peak_mm_s": 7.620733231306076,
+        "available_s": 4.2,
+        "rejections": [
+          "CONTACT_OR_GRASP_AT_HANDOFF"
+        ]
+      },
+      "aligned_qualified": false
+    }
+  ],
+  "pairs": [
+    {
+      "old": "T16",
+      "new": "T10",
+      "protection": "FULL",
+      "alignment": false,
+      "initial_qualified": false,
+      "outcome": "OFFLINE_CALLBACK_COMPLETE",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false,
+      "cut_knot": 49,
+      "first_changed_age_s": 2.3,
+      "new_source_motion_age_s": 3.8499999999999996,
+      "source_events": [
+        "open"
+      ],
+      "events_after_cut": [
+        "open"
+      ],
+      "handoff_brake_s": 0.1,
+      "handoff_align_s": 1.4500000000000002,
+      "handoff_translation_mm": 4.2060752960941095,
+      "expected_wire_events_s": [
+        [
+          "open",
+          11.224240637276168
+        ]
+      ],
+      "observed_wire_events_s": [
+        [
+          "open",
+          11.224240637276168
+        ]
+      ],
+      "events_and_grid_times_match": true,
+      "seam_pass": true,
+      "gates": {
+        "count": 129,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 341.4088487625122,
+        "g7": false,
+        "wire_events": [
+          {
+            "kind": "open",
+            "time": 11.224240637276168
+          }
+        ]
+      },
+      "pose_wire_sha256": "a1ca8ce89348f3453b8965d463a459ca0ee8fc9a82d45c2f2a2fcb9c63fe519a",
+      "native_consumptions": 0
+    },
+    {
+      "old": "T16",
+      "new": "T10",
+      "protection": "FULL",
+      "alignment": true,
+      "initial_qualified": false,
+      "outcome": "INITIAL_WIDTH_REJECTED",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false
+    },
+    {
+      "old": "T16",
+      "new": "T10",
+      "protection": "SOLVER",
+      "alignment": false,
+      "initial_qualified": false,
+      "outcome": "OFFLINE_CALLBACK_COMPLETE",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false,
+      "cut_knot": 31,
+      "first_changed_age_s": 1.4000000000000001,
+      "new_source_motion_age_s": 4.55,
+      "source_events": [
+        "open"
+      ],
+      "events_after_cut": [
+        "open"
+      ],
+      "handoff_brake_s": 0.1,
+      "handoff_align_s": 3.0500000000000003,
+      "handoff_translation_mm": 7.753548807967117,
+      "expected_wire_events_s": [
+        [
+          "open",
+          11.924240637276169
+        ]
+      ],
+      "observed_wire_events_s": [
+        [
+          "open",
+          11.924240637276169
+        ]
+      ],
+      "events_and_grid_times_match": true,
+      "seam_pass": true,
+      "gates": {
+        "count": 136,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 341.4088487625122,
+        "g7": false,
+        "wire_events": [
+          {
+            "kind": "open",
+            "time": 11.924240637276169
+          }
+        ]
+      },
+      "pose_wire_sha256": "ec1293e6345da285a298005bafafa5573e88c8b68ee0cc892e94162ca4411ff0",
+      "native_consumptions": 0
+    },
+    {
+      "old": "T16",
+      "new": "T10",
+      "protection": "SOLVER",
+      "alignment": true,
+      "initial_qualified": false,
+      "outcome": "INITIAL_WIDTH_REJECTED",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false
+    },
+    {
+      "old": "T10",
+      "new": "T04",
+      "protection": "FULL",
+      "alignment": false,
+      "initial_qualified": false,
+      "outcome": "OFFLINE_CALLBACK_COMPLETE",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false,
+      "cut_knot": 49,
+      "first_changed_age_s": 2.3,
+      "new_source_motion_age_s": 3.7,
+      "source_events": [
+        "open"
+      ],
+      "events_after_cut": [
+        "open"
+      ],
+      "handoff_brake_s": 0.1,
+      "handoff_align_s": 1.3,
+      "handoff_translation_mm": 3.4160223965109924,
+      "expected_wire_events_s": [
+        [
+          "open",
+          10.692213641670264
+        ]
+      ],
+      "observed_wire_events_s": [
+        [
+          "open",
+          10.692213641670264
+        ]
+      ],
+      "events_and_grid_times_match": true,
+      "seam_pass": true,
+      "gates": {
+        "count": 125,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 341.9718503952027,
+        "g7": false,
+        "wire_events": [
+          {
+            "kind": "open",
+            "time": 10.692213641670264
+          }
+        ]
+      },
+      "pose_wire_sha256": "7fc9eb75c6bfb9a5501f6d5cc06014b3d73a7d3fca9953c588f1b51faab900b1",
+      "native_consumptions": 0
+    },
+    {
+      "old": "T10",
+      "new": "T04",
+      "protection": "FULL",
+      "alignment": true,
+      "initial_qualified": false,
+      "outcome": "INITIAL_WIDTH_REJECTED",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false
+    },
+    {
+      "old": "T10",
+      "new": "T04",
+      "protection": "SOLVER",
+      "alignment": false,
+      "initial_qualified": false,
+      "outcome": "OFFLINE_CALLBACK_COMPLETE",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false,
+      "cut_knot": 31,
+      "first_changed_age_s": 1.4000000000000001,
+      "new_source_motion_age_s": 4.4,
+      "source_events": [
+        "open"
+      ],
+      "events_after_cut": [
+        "open"
+      ],
+      "handoff_brake_s": 0.1,
+      "handoff_align_s": 2.9000000000000004,
+      "handoff_translation_mm": 6.772737903386772,
+      "expected_wire_events_s": [
+        [
+          "open",
+          11.392213641670264
+        ]
+      ],
+      "observed_wire_events_s": [
+        [
+          "open",
+          11.392213641670264
+        ]
+      ],
+      "events_and_grid_times_match": true,
+      "seam_pass": true,
+      "gates": {
+        "count": 132,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 341.9718503952027,
+        "g7": false,
+        "wire_events": [
+          {
+            "kind": "open",
+            "time": 11.392213641670264
+          }
+        ]
+      },
+      "pose_wire_sha256": "c51b948a2ba34a7dda6f5a35df045fe0c66b265be6123cfc1aa4b56afa87b7dd",
+      "native_consumptions": 0
+    },
+    {
+      "old": "T10",
+      "new": "T04",
+      "protection": "SOLVER",
+      "alignment": true,
+      "initial_qualified": false,
+      "outcome": "INITIAL_WIDTH_REJECTED",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false
+    },
+    {
+      "old": "T14",
+      "new": "T08",
+      "protection": "FULL",
+      "alignment": false,
+      "initial_qualified": false,
+      "outcome": "OFFLINE_CALLBACK_COMPLETE",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false,
+      "cut_knot": 49,
+      "first_changed_age_s": 2.3,
+      "new_source_motion_age_s": 3.8,
+      "source_events": [],
+      "events_after_cut": [],
+      "handoff_brake_s": 0.1,
+      "handoff_align_s": 1.4000000000000001,
+      "handoff_translation_mm": 2.0156009964464108,
+      "expected_wire_events_s": [],
+      "observed_wire_events_s": [],
+      "events_and_grid_times_match": true,
+      "seam_pass": false,
+      "gates": {
+        "count": 139,
+        "envelopes": {
+          "legacy": [
+            {
+              "sequence": 6,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.061518955230712886,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 7,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.061518955230712886,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 8,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.061518955230712886,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 9,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.061518955230712886,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 10,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.061518955230712886,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 11,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.061518955230712886,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 12,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.061518955230712886,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 13,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.061518955230712886,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 14,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.061518955230712886,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 15,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.061518955230712886,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 16,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.061518955230712886,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 17,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.061518955230712886,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 18,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.061518955230712886,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 19,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.061518955230712886,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 20,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.061518955230712886,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 21,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.061518955230712886,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 22,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.061518955230712886,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 23,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.061518955230712886,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 24,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.061518955230712886,
+                  "limit": 0.04
+                }
+              }
+            }
+          ],
+          "physical": [
+            {
+              "sequence": 6,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.055926322937011594,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 7,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.055926322937011594,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 8,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.055926322937011594,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 9,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.055926322937011594,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 10,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.055926322937011594,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 11,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.055926322937011594,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 12,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.055926322937011594,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 13,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.055926322937011594,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 14,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.055926322937011594,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 15,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.055926322937011594,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 16,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.055926322937011594,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 17,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.055926322937011594,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 18,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.055926322937011594,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 19,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.055926322937011594,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 20,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.055926322937011594,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 21,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.055926322937011594,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 22,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.055926322937011594,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 23,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.055926322937011594,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 24,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.055926322937011594,
+                  "limit": 0.04
+                }
+              }
+            }
+          ]
+        },
+        "maximum_width_rate_mm_s": 55.926322937011605,
+        "g7": false,
+        "wire_events": []
+      },
+      "pose_wire_sha256": "3c8fe6ce3aa5191ca596d69fa49bfcc280abe77fc2f3f52ad4f76dc8fd541ba7",
+      "native_consumptions": 0
+    },
+    {
+      "old": "T14",
+      "new": "T08",
+      "protection": "FULL",
+      "alignment": true,
+      "initial_qualified": true,
+      "outcome": "OFFLINE_CALLBACK_COMPLETE",
+      "numeric_pass": true,
+      "geometric_and_numeric_pass": true,
+      "revision_entry": {
+        "previous_width_mm": 40.60374821600352,
+        "proposed_first_width_mm": 37.02599477767945,
+        "continuous_peak_mm_s": 4.472191797905084,
+        "available_s": 1.5000000000000002,
+        "rejections": []
+      },
+      "cut_knot": 49,
+      "first_changed_age_s": 2.3,
+      "new_source_motion_age_s": 3.8,
+      "source_events": [],
+      "events_after_cut": [],
+      "handoff_brake_s": 0.1,
+      "handoff_align_s": 1.4000000000000001,
+      "handoff_translation_mm": 2.0156009964464108,
+      "expected_wire_events_s": [],
+      "observed_wire_events_s": [],
+      "events_and_grid_times_match": true,
+      "seam_pass": true,
+      "gates": {
+        "count": 139,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 4.458958527162881,
+        "g7": true,
+        "wire_events": []
+      },
+      "pose_wire_sha256": "3c8fe6ce3aa5191ca596d69fa49bfcc280abe77fc2f3f52ad4f76dc8fd541ba7",
+      "native_consumptions": 0,
+      "revised_geometry": {
+        "checked": 609,
+        "all_samples": 609,
+        "first_failure": null,
+        "minimum_joint_margin_rad": 0.2899327358680999,
+        "original_measured_contact_pair": null,
+        "active_pair_count": 175,
+        "scene_sha256": "30ddc30db168df862036b38e72dc0ec1af8188a47d26aa4e0757679a0f1e2e13",
+        "pass": true,
+        "entry_sweep_samples": 58
+      }
+    },
+    {
+      "old": "T14",
+      "new": "T08",
+      "protection": "SOLVER",
+      "alignment": false,
+      "initial_qualified": false,
+      "outcome": "OFFLINE_CALLBACK_COMPLETE",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false,
+      "cut_knot": 31,
+      "first_changed_age_s": 1.4000000000000001,
+      "new_source_motion_age_s": 4.5,
+      "source_events": [],
+      "events_after_cut": [],
+      "handoff_brake_s": 0.1,
+      "handoff_align_s": 3.0,
+      "handoff_translation_mm": 4.484754309515915,
+      "expected_wire_events_s": [],
+      "observed_wire_events_s": [],
+      "events_and_grid_times_match": true,
+      "seam_pass": false,
+      "gates": {
+        "count": 146,
+        "envelopes": {
+          "legacy": [
+            {
+              "sequence": 5,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.061518955230712886,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 6,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.061518955230712886,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 7,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.061518955230712886,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 8,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.061518955230712886,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 9,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.061518955230712886,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 10,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.061518955230712886,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 11,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.061518955230712886,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 12,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.061518955230712886,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 13,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.061518955230712886,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 14,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.061518955230712886,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 15,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.061518955230712886,
+                  "limit": 0.04
+                }
+              }
+            }
+          ],
+          "physical": [
+            {
+              "sequence": 5,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.055926322937011594,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 6,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.055926322937011594,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 7,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.055926322937011594,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 8,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.055926322937011594,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 9,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.055926322937011594,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 10,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.055926322937011594,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 11,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.055926322937011594,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 12,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.055926322937011594,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 13,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.055926322937011594,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 14,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.055926322937011594,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 15,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.055926322937011594,
+                  "limit": 0.04
+                }
+              }
+            }
+          ]
+        },
+        "maximum_width_rate_mm_s": 55.926322937011605,
+        "g7": false,
+        "wire_events": []
+      },
+      "pose_wire_sha256": "21fb8d433af266a0581a46b7dd9791b8b9333f80e2980064755e03bc9fc0c7fc",
+      "native_consumptions": 0
+    },
+    {
+      "old": "T14",
+      "new": "T08",
+      "protection": "SOLVER",
+      "alignment": true,
+      "initial_qualified": true,
+      "outcome": "OFFLINE_CALLBACK_COMPLETE",
+      "numeric_pass": true,
+      "geometric_and_numeric_pass": true,
+      "revision_entry": {
+        "previous_width_mm": 41.43721110456507,
+        "proposed_first_width_mm": 37.02599477767945,
+        "continuous_peak_mm_s": 2.6680743912614666,
+        "available_s": 3.1,
+        "rejections": []
+      },
+      "cut_knot": 31,
+      "first_changed_age_s": 1.4000000000000001,
+      "new_source_motion_age_s": 4.5,
+      "source_events": [],
+      "events_after_cut": [],
+      "handoff_brake_s": 0.1,
+      "handoff_align_s": 3.0,
+      "handoff_translation_mm": 4.484754309515915,
+      "expected_wire_events_s": [],
+      "observed_wire_events_s": [],
+      "events_and_grid_times_match": true,
+      "seam_pass": true,
+      "gates": {
+        "count": 146,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 2.6662240676501856,
+        "g7": true,
+        "wire_events": []
+      },
+      "pose_wire_sha256": "21fb8d433af266a0581a46b7dd9791b8b9333f80e2980064755e03bc9fc0c7fc",
+      "native_consumptions": 0,
+      "revised_geometry": {
+        "checked": 637,
+        "all_samples": 637,
+        "first_failure": null,
+        "minimum_joint_margin_rad": 0.2899327358680999,
+        "original_measured_contact_pair": null,
+        "active_pair_count": 175,
+        "scene_sha256": "30ddc30db168df862036b38e72dc0ec1af8188a47d26aa4e0757679a0f1e2e13",
+        "pass": true,
+        "entry_sweep_samples": 58
+      }
+    },
+    {
+      "old": "T08",
+      "new": "T02",
+      "protection": "FULL",
+      "alignment": false,
+      "initial_qualified": true,
+      "outcome": "OFFLINE_CALLBACK_COMPLETE",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false,
+      "cut_knot": 49,
+      "first_changed_age_s": 2.3,
+      "new_source_motion_age_s": 3.95,
+      "source_events": [
+        "open"
+      ],
+      "events_after_cut": [
+        "close",
+        "open"
+      ],
+      "handoff_brake_s": 0.1,
+      "handoff_align_s": 1.55,
+      "handoff_translation_mm": 1.4730220428615073,
+      "expected_wire_events_s": [
+        [
+          "open",
+          10.37818470406783
+        ]
+      ],
+      "observed_wire_events_s": [
+        [
+          "close",
+          2.4987416922307495
+        ],
+        [
+          "open",
+          10.37818470406783
+        ]
+      ],
+      "events_and_grid_times_match": false,
+      "seam_pass": false,
+      "gates": {
+        "count": 139,
+        "envelopes": {
+          "legacy": [
+            {
+              "sequence": 6,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29396997928619384,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 7,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29396997928619384,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 8,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29396997928619384,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 9,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29396997928619384,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 10,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29396997928619384,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 11,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29396997928619384,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 12,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29396997928619384,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 13,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29396997928619384,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 14,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29396997928619384,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 15,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29396997928619384,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 16,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29396997928619384,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 17,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29396997928619384,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 18,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29396997928619384,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 19,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29396997928619384,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 20,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29396997928619384,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 21,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29396997928619384,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 22,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29396997928619384,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 23,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29396997928619384,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 24,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29396997928619384,
+                  "limit": 0.04
+                }
+              }
+            }
+          ],
+          "physical": [
+            {
+              "sequence": 6,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.2672454357147218,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 7,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.2672454357147218,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 8,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.2672454357147218,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 9,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.2672454357147218,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 10,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.2672454357147218,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 11,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.2672454357147218,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 12,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.2672454357147218,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 13,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.2672454357147218,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 14,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.2672454357147218,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 15,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.2672454357147218,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 16,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.2672454357147218,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 17,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.2672454357147218,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 18,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.2672454357147218,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 19,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.2672454357147218,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 20,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.2672454357147218,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 21,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.2672454357147218,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 22,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.2672454357147218,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 23,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.2672454357147218,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 24,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.2672454357147218,
+                  "limit": 0.04
+                }
+              }
+            }
+          ]
+        },
+        "maximum_width_rate_mm_s": 267.24543571472174,
+        "g7": false,
+        "wire_events": [
+          {
+            "kind": "close",
+            "time": 2.4987416922307495
+          },
+          {
+            "kind": "open",
+            "time": 10.37818470406783
+          }
+        ]
+      },
+      "pose_wire_sha256": "229085cd33a08dca097d776975d184640d71b6c95334582b619b0408474ca2d3",
+      "native_consumptions": 0
+    },
+    {
+      "old": "T08",
+      "new": "T02",
+      "protection": "FULL",
+      "alignment": true,
+      "initial_qualified": true,
+      "outcome": "REVISION_WIDTH_REJECTED",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false,
+      "revision_entry": {
+        "previous_width_mm": 37.678036725163516,
+        "proposed_first_width_mm": 23.66372299194336,
+        "continuous_peak_mm_s": 15.925356515022909,
+        "available_s": 1.6500000000000001,
+        "rejections": [
+          "UNATTRIBUTED_THRESHOLD_CROSSING"
+        ]
+      }
+    },
+    {
+      "old": "T08",
+      "new": "T02",
+      "protection": "SOLVER",
+      "alignment": false,
+      "initial_qualified": true,
+      "outcome": "OFFLINE_CALLBACK_COMPLETE",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false,
+      "cut_knot": 31,
+      "first_changed_age_s": 1.4000000000000001,
+      "new_source_motion_age_s": 4.65,
+      "source_events": [
+        "open"
+      ],
+      "events_after_cut": [
+        "close",
+        "open"
+      ],
+      "handoff_brake_s": 0.1,
+      "handoff_align_s": 3.1500000000000004,
+      "handoff_translation_mm": 4.28456058066895,
+      "expected_wire_events_s": [
+        [
+          "open",
+          11.07818470406783
+        ]
+      ],
+      "observed_wire_events_s": [
+        [
+          "close",
+          1.5987416922307494
+        ],
+        [
+          "open",
+          11.07818470406783
+        ]
+      ],
+      "events_and_grid_times_match": false,
+      "seam_pass": false,
+      "gates": {
+        "count": 146,
+        "envelopes": {
+          "legacy": [
+            {
+              "sequence": 5,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29396997928619384,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 6,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29396997928619384,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 7,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29396997928619384,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 8,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29396997928619384,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 9,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29396997928619384,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 10,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29396997928619384,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 11,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29396997928619384,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 12,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29396997928619384,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 13,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29396997928619384,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 14,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29396997928619384,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 15,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29396997928619384,
+                  "limit": 0.04
+                }
+              }
+            }
+          ],
+          "physical": [
+            {
+              "sequence": 5,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.2672454357147218,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 6,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.2672454357147218,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 7,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.2672454357147218,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 8,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.2672454357147218,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 9,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.2672454357147218,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 10,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.2672454357147218,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 11,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.2672454357147218,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 12,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.2672454357147218,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 13,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.2672454357147218,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 14,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.2672454357147218,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 15,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.2672454357147218,
+                  "limit": 0.04
+                }
+              }
+            }
+          ]
+        },
+        "maximum_width_rate_mm_s": 267.24543571472174,
+        "g7": false,
+        "wire_events": [
+          {
+            "kind": "close",
+            "time": 1.5987416922307494
+          },
+          {
+            "kind": "open",
+            "time": 11.07818470406783
+          }
+        ]
+      },
+      "pose_wire_sha256": "cd4d1ebe7c357a72826552eece61014e8bea7c5a8b471d3417fea3ec900b58bf",
+      "native_consumptions": 0
+    },
+    {
+      "old": "T08",
+      "new": "T02",
+      "protection": "SOLVER",
+      "alignment": true,
+      "initial_qualified": true,
+      "outcome": "REVISION_WIDTH_REJECTED",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false,
+      "revision_entry": {
+        "previous_width_mm": 38.37348954133083,
+        "proposed_first_width_mm": 23.66372299194336,
+        "continuous_peak_mm_s": 8.486403778492766,
+        "available_s": 3.2500000000000004,
+        "rejections": [
+          "UNATTRIBUTED_THRESHOLD_CROSSING"
+        ]
+      }
+    },
+    {
+      "old": "T11",
+      "new": "T05",
+      "protection": "FULL",
+      "alignment": false,
+      "initial_qualified": false,
+      "outcome": "OFFLINE_CALLBACK_COMPLETE",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false,
+      "cut_knot": 49,
+      "first_changed_age_s": 2.3,
+      "new_source_motion_age_s": 3.6500000000000004,
+      "source_events": [],
+      "events_after_cut": [],
+      "handoff_brake_s": 0.1,
+      "handoff_align_s": 1.25,
+      "handoff_translation_mm": 2.6393223175467244,
+      "expected_wire_events_s": [],
+      "observed_wire_events_s": [],
+      "events_and_grid_times_match": true,
+      "seam_pass": true,
+      "gates": {
+        "count": 129,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 339.15677070617664,
+        "g7": false,
+        "wire_events": []
+      },
+      "pose_wire_sha256": "af50a463820aec31f972792a81035f0cc7d5532508c230ab6a6e83d702911d42",
+      "native_consumptions": 0
+    },
+    {
+      "old": "T11",
+      "new": "T05",
+      "protection": "FULL",
+      "alignment": true,
+      "initial_qualified": false,
+      "outcome": "INITIAL_WIDTH_REJECTED",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false
+    },
+    {
+      "old": "T11",
+      "new": "T05",
+      "protection": "SOLVER",
+      "alignment": false,
+      "initial_qualified": false,
+      "outcome": "OFFLINE_CALLBACK_COMPLETE",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false,
+      "cut_knot": 31,
+      "first_changed_age_s": 1.4000000000000001,
+      "new_source_motion_age_s": 4.35,
+      "source_events": [],
+      "events_after_cut": [],
+      "handoff_brake_s": 0.1,
+      "handoff_align_s": 2.85,
+      "handoff_translation_mm": 4.010915863929334,
+      "expected_wire_events_s": [],
+      "observed_wire_events_s": [],
+      "events_and_grid_times_match": true,
+      "seam_pass": true,
+      "gates": {
+        "count": 136,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 339.15677070617664,
+        "g7": false,
+        "wire_events": []
+      },
+      "pose_wire_sha256": "69f7c98fe1f8c8c8e42c164a0ce4903398f8efd793060bec37fbc73d74bd4dec",
+      "native_consumptions": 0
+    },
+    {
+      "old": "T11",
+      "new": "T05",
+      "protection": "SOLVER",
+      "alignment": true,
+      "initial_qualified": false,
+      "outcome": "INITIAL_WIDTH_REJECTED",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false
+    },
+    {
+      "old": "T12",
+      "new": "T06",
+      "protection": "FULL",
+      "alignment": false,
+      "initial_qualified": false,
+      "outcome": "OFFLINE_CALLBACK_COMPLETE",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false,
+      "cut_knot": 49,
+      "first_changed_age_s": 2.3,
+      "new_source_motion_age_s": 3.75,
+      "source_events": [
+        "open"
+      ],
+      "events_after_cut": [
+        "open"
+      ],
+      "handoff_brake_s": 0.1,
+      "handoff_align_s": 1.35,
+      "handoff_translation_mm": 2.6936313200648168,
+      "expected_wire_events_s": [
+        [
+          "open",
+          10.497001357256483
+        ]
+      ],
+      "observed_wire_events_s": [
+        [
+          "open",
+          10.497001357256483
+        ]
+      ],
+      "events_and_grid_times_match": true,
+      "seam_pass": true,
+      "gates": {
+        "count": 124,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 343.19174289703363,
+        "g7": false,
+        "wire_events": [
+          {
+            "kind": "open",
+            "time": 10.497001357256483
+          }
+        ]
+      },
+      "pose_wire_sha256": "1ea352a54cec30b8072a545048872b12a1b27cfcfdfbc8019bbf86f0bdc41477",
+      "native_consumptions": 0
+    },
+    {
+      "old": "T12",
+      "new": "T06",
+      "protection": "FULL",
+      "alignment": true,
+      "initial_qualified": false,
+      "outcome": "INITIAL_WIDTH_REJECTED",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false
+    },
+    {
+      "old": "T12",
+      "new": "T06",
+      "protection": "SOLVER",
+      "alignment": false,
+      "initial_qualified": false,
+      "outcome": "OFFLINE_CALLBACK_COMPLETE",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false,
+      "cut_knot": 31,
+      "first_changed_age_s": 1.4000000000000001,
+      "new_source_motion_age_s": 4.45,
+      "source_events": [
+        "open"
+      ],
+      "events_after_cut": [
+        "open"
+      ],
+      "handoff_brake_s": 0.1,
+      "handoff_align_s": 2.95,
+      "handoff_translation_mm": 4.55723253225177,
+      "expected_wire_events_s": [
+        [
+          "open",
+          11.197001357256482
+        ]
+      ],
+      "observed_wire_events_s": [
+        [
+          "open",
+          11.197001357256482
+        ]
+      ],
+      "events_and_grid_times_match": true,
+      "seam_pass": true,
+      "gates": {
+        "count": 131,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 343.19174289703363,
+        "g7": false,
+        "wire_events": [
+          {
+            "kind": "open",
+            "time": 11.197001357256482
+          }
+        ]
+      },
+      "pose_wire_sha256": "a9255340cfb7ee9bb626d04547f0a5bfd9fff46f0d2dc6d8337396abe797a0cb",
+      "native_consumptions": 0
+    },
+    {
+      "old": "T12",
+      "new": "T06",
+      "protection": "SOLVER",
+      "alignment": true,
+      "initial_qualified": false,
+      "outcome": "INITIAL_WIDTH_REJECTED",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false
+    },
+    {
+      "old": "T15",
+      "new": "T09",
+      "protection": "FULL",
+      "alignment": false,
+      "initial_qualified": true,
+      "outcome": "OFFLINE_CALLBACK_COMPLETE",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false,
+      "cut_knot": 49,
+      "first_changed_age_s": 2.3,
+      "new_source_motion_age_s": 4.0,
+      "source_events": [
+        "open"
+      ],
+      "events_after_cut": [
+        "close",
+        "open"
+      ],
+      "handoff_brake_s": 0.1,
+      "handoff_align_s": 1.6,
+      "handoff_translation_mm": 4.3517985951076055,
+      "expected_wire_events_s": [
+        [
+          "open",
+          11.283354370089539
+        ]
+      ],
+      "observed_wire_events_s": [
+        [
+          "close",
+          2.498501171984529
+        ],
+        [
+          "open",
+          11.283354370089539
+        ]
+      ],
+      "events_and_grid_times_match": false,
+      "seam_pass": false,
+      "gates": {
+        "count": 134,
+        "envelopes": {
+          "legacy": [
+            {
+              "sequence": 6,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29500213146209714,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 7,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29500213146209714,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 8,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29500213146209714,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 9,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29500213146209714,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 10,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29500213146209714,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 11,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29500213146209714,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 12,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29500213146209714,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 13,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29500213146209714,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 14,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29500213146209714,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 15,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29500213146209714,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 16,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29500213146209714,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 17,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29500213146209714,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 18,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29500213146209714,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 19,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29500213146209714,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 20,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29500213146209714,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 21,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29500213146209714,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 22,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29500213146209714,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 23,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29500213146209714,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 24,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29500213146209714,
+                  "limit": 0.04
+                }
+              }
+            }
+          ],
+          "physical": [
+            {
+              "sequence": 6,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.26818375587463383,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 7,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.26818375587463383,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 8,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.26818375587463383,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 9,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.26818375587463383,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 10,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.26818375587463383,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 11,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.26818375587463383,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 12,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.26818375587463383,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 13,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.26818375587463383,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 14,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.26818375587463383,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 15,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.26818375587463383,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 16,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.26818375587463383,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 17,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.26818375587463383,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 18,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.26818375587463383,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 19,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.26818375587463383,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 20,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.26818375587463383,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 21,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.26818375587463383,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 22,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.26818375587463383,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 23,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.26818375587463383,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 24,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.26818375587463383,
+                  "limit": 0.04
+                }
+              }
+            }
+          ]
+        },
+        "maximum_width_rate_mm_s": 268.1837558746339,
+        "g7": false,
+        "wire_events": [
+          {
+            "kind": "close",
+            "time": 2.498501171984529
+          },
+          {
+            "kind": "open",
+            "time": 11.283354370089539
+          }
+        ]
+      },
+      "pose_wire_sha256": "e5f54bbd616c8c8696582f19a9f5a6510d1c9f6e80826ec17337839716c54ed6",
+      "native_consumptions": 0
+    },
+    {
+      "old": "T15",
+      "new": "T09",
+      "protection": "FULL",
+      "alignment": true,
+      "initial_qualified": true,
+      "outcome": "REVISION_WIDTH_REJECTED",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false,
+      "revision_entry": {
+        "previous_width_mm": 37.68810005124313,
+        "proposed_first_width_mm": 23.59803867340088,
+        "continuous_peak_mm_s": 15.540508872620128,
+        "available_s": 1.7000000000000002,
+        "rejections": [
+          "UNATTRIBUTED_THRESHOLD_CROSSING"
+        ]
+      }
+    },
+    {
+      "old": "T15",
+      "new": "T09",
+      "protection": "SOLVER",
+      "alignment": false,
+      "initial_qualified": true,
+      "outcome": "OFFLINE_CALLBACK_COMPLETE",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false,
+      "cut_knot": 31,
+      "first_changed_age_s": 1.4000000000000001,
+      "new_source_motion_age_s": 4.7,
+      "source_events": [
+        "open"
+      ],
+      "events_after_cut": [
+        "close",
+        "open"
+      ],
+      "handoff_brake_s": 0.1,
+      "handoff_align_s": 3.2,
+      "handoff_translation_mm": 9.452676685862265,
+      "expected_wire_events_s": [
+        [
+          "open",
+          11.983354370089536
+        ]
+      ],
+      "observed_wire_events_s": [
+        [
+          "close",
+          1.5985011719845292
+        ],
+        [
+          "open",
+          11.983354370089536
+        ]
+      ],
+      "events_and_grid_times_match": false,
+      "seam_pass": false,
+      "gates": {
+        "count": 141,
+        "envelopes": {
+          "legacy": [
+            {
+              "sequence": 5,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29500213146209714,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 6,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29500213146209714,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 7,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29500213146209714,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 8,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29500213146209714,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 9,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29500213146209714,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 10,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29500213146209714,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 11,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29500213146209714,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 12,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29500213146209714,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 13,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29500213146209714,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 14,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29500213146209714,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 15,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.29500213146209714,
+                  "limit": 0.04
+                }
+              }
+            }
+          ],
+          "physical": [
+            {
+              "sequence": 5,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.26818375587463383,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 6,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.26818375587463383,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 7,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.26818375587463383,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 8,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.26818375587463383,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 9,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.26818375587463383,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 10,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.26818375587463383,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 11,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.26818375587463383,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 12,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.26818375587463383,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 13,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.26818375587463383,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 14,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.26818375587463383,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 15,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.26818375587463383,
+                  "limit": 0.04
+                }
+              }
+            }
+          ]
+        },
+        "maximum_width_rate_mm_s": 268.1837558746339,
+        "g7": false,
+        "wire_events": [
+          {
+            "kind": "close",
+            "time": 1.5985011719845292
+          },
+          {
+            "kind": "open",
+            "time": 11.983354370089536
+          }
+        ]
+      },
+      "pose_wire_sha256": "b67eec01c4fd91112fc190b078c27596a4be7b04e670efeef5fab543cdee52a3",
+      "native_consumptions": 0
+    },
+    {
+      "old": "T15",
+      "new": "T09",
+      "protection": "SOLVER",
+      "alignment": true,
+      "initial_qualified": true,
+      "outcome": "REVISION_WIDTH_REJECTED",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false,
+      "revision_entry": {
+        "previous_width_mm": 38.38111489094476,
+        "proposed_first_width_mm": 23.59803867340088,
+        "continuous_peak_mm_s": 8.399475123604475,
+        "available_s": 3.3000000000000003,
+        "rejections": [
+          "UNATTRIBUTED_THRESHOLD_CROSSING"
+        ]
+      }
+    },
+    {
+      "old": "T09",
+      "new": "T03",
+      "protection": "FULL",
+      "alignment": false,
+      "initial_qualified": false,
+      "outcome": "OFFLINE_CALLBACK_COMPLETE",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false,
+      "cut_knot": 49,
+      "first_changed_age_s": 2.3,
+      "new_source_motion_age_s": 4.0,
+      "source_events": [
+        "open"
+      ],
+      "events_after_cut": [
+        "open"
+      ],
+      "handoff_brake_s": 0.1,
+      "handoff_align_s": 1.6,
+      "handoff_translation_mm": 5.677803005949054,
+      "expected_wire_events_s": [
+        [
+          "open",
+          11.41893240399836
+        ]
+      ],
+      "observed_wire_events_s": [
+        [
+          "open",
+          11.41893240399836
+        ]
+      ],
+      "events_and_grid_times_match": true,
+      "seam_pass": false,
+      "gates": {
+        "count": 133,
+        "envelopes": {
+          "legacy": [
+            {
+              "sequence": 6,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.09682018041610717,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 7,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.09682018041610717,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 8,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.09682018041610717,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 9,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.09682018041610717,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 10,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.09682018041610717,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 11,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.09682018041610717,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 12,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.09682018041610717,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 13,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.09682018041610717,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 14,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.09682018041610717,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 15,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.09682018041610717,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 16,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.09682018041610717,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 17,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.09682018041610717,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 18,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.09682018041610717,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 19,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.09682018041610717,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 20,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.09682018041610717,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 21,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.09682018041610717,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 22,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.09682018041610717,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 23,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.09682018041610717,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 24,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.09682018041610717,
+                  "limit": 0.04
+                }
+              }
+            }
+          ],
+          "physical": [
+            {
+              "sequence": 6,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.08801834583282477,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 7,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.08801834583282477,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 8,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.08801834583282477,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 9,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.08801834583282477,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 10,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.08801834583282477,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 11,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.08801834583282477,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 12,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.08801834583282477,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 13,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.08801834583282477,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 14,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.08801834583282477,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 15,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.08801834583282477,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 16,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.08801834583282477,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 17,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.08801834583282477,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 18,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.08801834583282477,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 19,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.08801834583282477,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 20,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.08801834583282477,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 21,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.08801834583282477,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 22,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.08801834583282477,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 23,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.08801834583282477,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 24,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.08801834583282477,
+                  "limit": 0.04
+                }
+              }
+            }
+          ]
+        },
+        "maximum_width_rate_mm_s": 88.01834583282472,
+        "g7": false,
+        "wire_events": [
+          {
+            "kind": "open",
+            "time": 11.41893240399836
+          }
+        ]
+      },
+      "pose_wire_sha256": "a3af490cda9c124f054f54d19481ec3f81bc2382872de429c374fe77daf4af0d",
+      "native_consumptions": 0
+    },
+    {
+      "old": "T09",
+      "new": "T03",
+      "protection": "FULL",
+      "alignment": true,
+      "initial_qualified": false,
+      "outcome": "REVISION_WIDTH_REJECTED",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false,
+      "revision_entry": {
+        "previous_width_mm": 23.702842959830647,
+        "proposed_first_width_mm": 19.197121381759644,
+        "continuous_peak_mm_s": 4.9695458581665495,
+        "available_s": 1.7000000000000002,
+        "rejections": [
+          "CONTACT_OR_GRASP_AT_HANDOFF"
+        ]
+      }
+    },
+    {
+      "old": "T09",
+      "new": "T03",
+      "protection": "SOLVER",
+      "alignment": false,
+      "initial_qualified": false,
+      "outcome": "OFFLINE_CALLBACK_COMPLETE",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false,
+      "cut_knot": 31,
+      "first_changed_age_s": 1.4000000000000001,
+      "new_source_motion_age_s": 4.7,
+      "source_events": [
+        "open"
+      ],
+      "events_after_cut": [
+        "open"
+      ],
+      "handoff_brake_s": 0.1,
+      "handoff_align_s": 3.2,
+      "handoff_translation_mm": 10.308318833159397,
+      "expected_wire_events_s": [
+        [
+          "open",
+          12.11893240399836
+        ]
+      ],
+      "observed_wire_events_s": [
+        [
+          "open",
+          12.11893240399836
+        ]
+      ],
+      "events_and_grid_times_match": true,
+      "seam_pass": false,
+      "gates": {
+        "count": 140,
+        "envelopes": {
+          "legacy": [
+            {
+              "sequence": 5,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.09682018041610717,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 6,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.09682018041610717,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 7,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.09682018041610717,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 8,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.09682018041610717,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 9,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.09682018041610717,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 10,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.09682018041610717,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 11,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.09682018041610717,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 12,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.09682018041610717,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 13,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.09682018041610717,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 14,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.09682018041610717,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 15,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.09682018041610717,
+                  "limit": 0.04
+                }
+              }
+            }
+          ],
+          "physical": [
+            {
+              "sequence": 5,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.08801834583282477,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 6,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.08801834583282477,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 7,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.08801834583282477,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 8,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.08801834583282477,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 9,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.08801834583282477,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 10,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.08801834583282477,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 11,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.08801834583282477,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 12,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.08801834583282477,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 13,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.08801834583282477,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 14,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.08801834583282477,
+                  "limit": 0.04
+                }
+              }
+            },
+            {
+              "sequence": 15,
+              "reason": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+              "limits_exceeded": {
+                "maximum_finger_speed_m_s": {
+                  "observed": 0.08801834583282477,
+                  "limit": 0.04
+                }
+              }
+            }
+          ]
+        },
+        "maximum_width_rate_mm_s": 88.01834583282472,
+        "g7": false,
+        "wire_events": [
+          {
+            "kind": "open",
+            "time": 12.11893240399836
+          }
+        ]
+      },
+      "pose_wire_sha256": "18a1f182c6acb9a7ea8ba4ae4a23e95ac4e192f49016598ec20e3653e71c15db",
+      "native_consumptions": 0
+    },
+    {
+      "old": "T09",
+      "new": "T03",
+      "protection": "SOLVER",
+      "alignment": true,
+      "initial_qualified": false,
+      "outcome": "REVISION_WIDTH_REJECTED",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false,
+      "revision_entry": {
+        "previous_width_mm": 23.804768764434893,
+        "proposed_first_width_mm": 19.197121381759644,
+        "continuous_peak_mm_s": 2.6179814674291206,
+        "available_s": 3.3000000000000003,
+        "rejections": [
+          "CONTACT_OR_GRASP_AT_HANDOFF"
+        ]
+      }
+    },
+    {
+      "old": "T13",
+      "new": "T07",
+      "protection": "FULL",
+      "alignment": false,
+      "initial_qualified": false,
+      "outcome": "OFFLINE_CALLBACK_COMPLETE",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false,
+      "cut_knot": 85,
+      "first_changed_age_s": 4.1,
+      "new_source_motion_age_s": 4.55,
+      "source_events": [],
+      "events_after_cut": [],
+      "handoff_brake_s": 0.1,
+      "handoff_align_s": 0.35000000000000003,
+      "handoff_translation_mm": 1.9797257649438351,
+      "expected_wire_events_s": [],
+      "observed_wire_events_s": [],
+      "events_and_grid_times_match": true,
+      "seam_pass": true,
+      "gates": {
+        "count": 166,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 43.92910003662098,
+        "g7": false,
+        "wire_events": []
+      },
+      "pose_wire_sha256": "111b52ece82d23f36fcd968c35a13a3a22fe489b40c7d3b05562dc0a4820eb7b",
+      "native_consumptions": 0
+    },
+    {
+      "old": "T13",
+      "new": "T07",
+      "protection": "FULL",
+      "alignment": true,
+      "initial_qualified": true,
+      "outcome": "OFFLINE_CALLBACK_COMPLETE",
+      "numeric_pass": true,
+      "geometric_and_numeric_pass": true,
+      "revision_entry": {
+        "previous_width_mm": 39.79174993067612,
+        "proposed_first_width_mm": 39.78477668762207,
+        "continuous_peak_mm_s": 0.029055179391872934,
+        "available_s": 0.45000000000000007,
+        "rejections": []
+      },
+      "cut_knot": 85,
+      "first_changed_age_s": 4.1,
+      "new_source_motion_age_s": 4.55,
+      "source_events": [],
+      "events_after_cut": [],
+      "handoff_brake_s": 0.1,
+      "handoff_align_s": 0.35000000000000003,
+      "handoff_translation_mm": 1.9797257649438351,
+      "expected_wire_events_s": [],
+      "observed_wire_events_s": [],
+      "events_and_grid_times_match": true,
+      "seam_pass": true,
+      "gates": {
+        "count": 166,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 1.0926690673827844,
+        "g7": true,
+        "wire_events": []
+      },
+      "pose_wire_sha256": "111b52ece82d23f36fcd968c35a13a3a22fe489b40c7d3b05562dc0a4820eb7b",
+      "native_consumptions": 0,
+      "revised_geometry": {
+        "checked": 718,
+        "all_samples": 718,
+        "first_failure": null,
+        "minimum_joint_margin_rad": 0.2854708031389812,
+        "original_measured_contact_pair": null,
+        "active_pair_count": 175,
+        "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+        "pass": true,
+        "entry_sweep_samples": 57
+      }
+    },
+    {
+      "old": "T13",
+      "new": "T07",
+      "protection": "SOLVER",
+      "alignment": false,
+      "initial_qualified": false,
+      "outcome": "OFFLINE_CALLBACK_COMPLETE",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false,
+      "cut_knot": 67,
+      "first_changed_age_s": 3.2,
+      "new_source_motion_age_s": 3.6000000000000005,
+      "source_events": [],
+      "events_after_cut": [],
+      "handoff_brake_s": 0.1,
+      "handoff_align_s": 0.30000000000000004,
+      "handoff_translation_mm": 1.771382796618251,
+      "expected_wire_events_s": [],
+      "observed_wire_events_s": [],
+      "events_and_grid_times_match": true,
+      "seam_pass": true,
+      "gates": {
+        "count": 157,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 43.92910003662098,
+        "g7": false,
+        "wire_events": []
+      },
+      "pose_wire_sha256": "284217f9723b430c3389fe8efc8948cbda73c79e9b7ab5d4522e06fe7aa2a517",
+      "native_consumptions": 0
+    },
+    {
+      "old": "T13",
+      "new": "T07",
+      "protection": "SOLVER",
+      "alignment": true,
+      "initial_qualified": true,
+      "outcome": "OFFLINE_CALLBACK_COMPLETE",
+      "numeric_pass": true,
+      "geometric_and_numeric_pass": true,
+      "revision_entry": {
+        "previous_width_mm": 39.93481591844968,
+        "proposed_first_width_mm": 39.78477668762207,
+        "continuous_peak_mm_s": 0.7033088945043969,
+        "available_s": 0.4,
+        "rejections": []
+      },
+      "cut_knot": 67,
+      "first_changed_age_s": 3.2,
+      "new_source_motion_age_s": 3.6000000000000005,
+      "source_events": [],
+      "events_after_cut": [],
+      "handoff_brake_s": 0.1,
+      "handoff_align_s": 0.30000000000000004,
+      "handoff_translation_mm": 1.771382796618251,
+      "expected_wire_events_s": [],
+      "observed_wire_events_s": [],
+      "events_and_grid_times_match": true,
+      "seam_pass": true,
+      "gates": {
+        "count": 157,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 1.0926690673827844,
+        "g7": true,
+        "wire_events": []
+      },
+      "pose_wire_sha256": "284217f9723b430c3389fe8efc8948cbda73c79e9b7ab5d4522e06fe7aa2a517",
+      "native_consumptions": 0,
+      "revised_geometry": {
+        "checked": 680,
+        "all_samples": 680,
+        "first_failure": null,
+        "minimum_joint_margin_rad": 0.2854708031389812,
+        "original_measured_contact_pair": null,
+        "active_pair_count": 175,
+        "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+        "pass": true,
+        "entry_sweep_samples": 57
+      }
+    },
+    {
+      "old": "T07",
+      "new": "T01",
+      "protection": "FULL",
+      "alignment": false,
+      "initial_qualified": false,
+      "outcome": "OFFLINE_CALLBACK_COMPLETE",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false,
+      "cut_knot": 51,
+      "first_changed_age_s": 4.2,
+      "new_source_motion_age_s": 5.6,
+      "source_events": [],
+      "events_after_cut": [],
+      "handoff_brake_s": 0.1,
+      "handoff_align_s": 1.3,
+      "handoff_translation_mm": 3.2287439045901185,
+      "expected_wire_events_s": [],
+      "observed_wire_events_s": [],
+      "events_and_grid_times_match": true,
+      "seam_pass": true,
+      "gates": {
+        "count": 161,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 44.30446624755849,
+        "g7": false,
+        "wire_events": []
+      },
+      "pose_wire_sha256": "0dd7fb05899a6e1c8d2928cc0897435456c9d1dbb5bef297af3059d232560791",
+      "native_consumptions": 0
+    },
+    {
+      "old": "T07",
+      "new": "T01",
+      "protection": "FULL",
+      "alignment": true,
+      "initial_qualified": true,
+      "outcome": "OFFLINE_CALLBACK_COMPLETE",
+      "numeric_pass": true,
+      "geometric_and_numeric_pass": true,
+      "revision_entry": {
+        "previous_width_mm": 40.51483543979571,
+        "proposed_first_width_mm": 39.78477668762207,
+        "continuous_peak_mm_s": 0.9777572573754127,
+        "available_s": 1.4000000000000001,
+        "rejections": []
+      },
+      "cut_knot": 51,
+      "first_changed_age_s": 4.2,
+      "new_source_motion_age_s": 5.6,
+      "source_events": [],
+      "events_after_cut": [],
+      "handoff_brake_s": 0.1,
+      "handoff_align_s": 1.3,
+      "handoff_translation_mm": 3.2287439045901185,
+      "expected_wire_events_s": [],
+      "observed_wire_events_s": [],
+      "events_and_grid_times_match": true,
+      "seam_pass": true,
+      "gates": {
+        "count": 161,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 1.1375280074131522,
+        "g7": true,
+        "wire_events": []
+      },
+      "pose_wire_sha256": "0dd7fb05899a6e1c8d2928cc0897435456c9d1dbb5bef297af3059d232560791",
+      "native_consumptions": 0,
+      "revised_geometry": {
+        "checked": 699,
+        "all_samples": 699,
+        "first_failure": null,
+        "minimum_joint_margin_rad": 0.26603101055656275,
+        "original_measured_contact_pair": null,
+        "active_pair_count": 175,
+        "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+        "pass": true,
+        "entry_sweep_samples": 58
+      }
+    },
+    {
+      "old": "T07",
+      "new": "T01",
+      "protection": "SOLVER",
+      "alignment": false,
+      "initial_qualified": false,
+      "outcome": "OFFLINE_CALLBACK_COMPLETE",
+      "numeric_pass": false,
+      "geometric_and_numeric_pass": false,
+      "cut_knot": 33,
+      "first_changed_age_s": 3.3000000000000003,
+      "new_source_motion_age_s": 6.300000000000001,
+      "source_events": [],
+      "events_after_cut": [],
+      "handoff_brake_s": 0.1,
+      "handoff_align_s": 2.9000000000000004,
+      "handoff_translation_mm": 7.215024693171548,
+      "expected_wire_events_s": [],
+      "observed_wire_events_s": [],
+      "events_and_grid_times_match": true,
+      "seam_pass": true,
+      "gates": {
+        "count": 168,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 44.30446624755849,
+        "g7": false,
+        "wire_events": []
+      },
+      "pose_wire_sha256": "91b9f88800edb48f739ae3ddb96e226bb1d65df4c6c9fee6fd7bc2cebf404b01",
+      "native_consumptions": 0
+    },
+    {
+      "old": "T07",
+      "new": "T01",
+      "protection": "SOLVER",
+      "alignment": true,
+      "initial_qualified": true,
+      "outcome": "OFFLINE_CALLBACK_COMPLETE",
+      "numeric_pass": true,
+      "geometric_and_numeric_pass": true,
+      "revision_entry": {
+        "previous_width_mm": 41.358227336169534,
+        "proposed_first_width_mm": 39.78477668762207,
+        "continuous_peak_mm_s": 0.983406655342164,
+        "available_s": 3.0000000000000004,
+        "rejections": []
+      },
+      "cut_knot": 33,
+      "first_changed_age_s": 3.3000000000000003,
+      "new_source_motion_age_s": 6.300000000000001,
+      "source_events": [],
+      "events_after_cut": [],
+      "handoff_brake_s": 0.1,
+      "handoff_align_s": 2.9000000000000004,
+      "handoff_translation_mm": 7.215024693171548,
+      "expected_wire_events_s": [],
+      "observed_wire_events_s": [],
+      "events_and_grid_times_match": true,
+      "seam_pass": true,
+      "gates": {
+        "count": 168,
+        "envelopes": {
+          "legacy": [],
+          "physical": []
+        },
+        "maximum_width_rate_mm_s": 1.1375280074131522,
+        "g7": true,
+        "wire_events": []
+      },
+      "pose_wire_sha256": "91b9f88800edb48f739ae3ddb96e226bb1d65df4c6c9fee6fd7bc2cebf404b01",
+      "native_consumptions": 0,
+      "revised_geometry": {
+        "checked": 727,
+        "all_samples": 727,
+        "first_failure": null,
+        "minimum_joint_margin_rad": 0.26603101055656275,
+        "original_measured_contact_pair": null,
+        "active_pair_count": 175,
+        "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+        "pass": true,
+        "entry_sweep_samples": 58
+      }
+    }
+  ],
+  "native_starts": 0,
+  "native_consumptions": 0,
+  "own_feedback_updates": 0,
+  "new_forwards": 0,
+  "training_updates": 0
+}
