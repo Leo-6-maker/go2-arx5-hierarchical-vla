@@ -2,6 +2,7 @@
 
 import csv
 import hashlib
+import itertools
 import json
 import math
 from pathlib import Path
@@ -27,14 +28,18 @@ def states(folder):
     from scripts.pi0294.task_state import parse_state
 
     with (folder / "state.bin.journal").open("rb") as f:
-        for i in range(1, 6505):
+        for i in itertools.count(1):
             size = f.read(4)
             if not size:
                 return
+            require(len(size) == 4, "incomplete state frame length")
             (n,) = struct.unpack("<I", size)
             require(40 <= n <= 2**20, "invalid state frame")
-            s = parse_state(f.read(n))
+            raw = f.read(n)
+            require(len(raw) == n, "incomplete state frame")
+            s = parse_state(raw)
             require(i == s["step"], "unobserved native step")
+            require(abs(s["time_s"] - i * 0.002) <= 1e-8, "native state clock")
             yield s
 
 
