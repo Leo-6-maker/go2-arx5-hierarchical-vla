@@ -1,0 +1,11 @@
+{
+  "id": "V4-NOMINAL-01",
+  "prerequisite": "V7-DATA-01 actual prepared CPU examples before looking at any paired prediction-vs-current-plan score.",
+  "population": "All 16 original Go2 frozen returns, six predefined TRAIN teacher episodes. Read-only; group by episode and query tick. Include all planned suffixes even for a near-end episode, explicitly as the current teacher plan. No comparison to unobserved future achieved motion.",
+  "arms": [
+    "actual absolute raw SLA return, convert by original query mount and calibrated flange-to-TCP, source k/30, unmodified G7 working interval for proposed width",
+    "hold query-time measured world TCP and last confirmed gripper command throughout, from original teacher native receipt"
+  ],
+  "reference": "Current teacher nominal (uncompensated) world TCP and nominal width mapped into G7 working interval, from the teacher's own H40 at the same query only.",
+  "stats": "Per query: vector position RMSE in mm, geodesic angular RMSE in degrees, width RMSE in mm at all 50 source rows; repeat position for first 15 source rows, within native granted time. Report paired wins and medians, no pooled-point success inference. Do not fit thresholds, act, retrain or tune on these windows."
+}
