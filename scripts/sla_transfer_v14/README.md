@@ -24,3 +24,11 @@ python3 -B launch.py technical_shadow "$TRANSFER_ROOT" "$OUTPUT/tech_shadow" --r
 ```
 
 The two approved B2 technical cards used this clock guard in separate native simulator sessions. The live run and its evidence are described in [the B2 result](../../reports/SLA_MEMORY_V14/B2_NATIVE_TECHNICAL_CARDS.md). On the registered Corelab site, `b2_owner.py preflight TRANSFER_ROOT` checks the frozen files and exercises the actual clock-fault callback offline. The finite `execute` entry also runs those checks and refuses to reuse an existing campaign. To audit the two closed cards, use `b2_readout.py GROUP NEW_OUTPUT_JSON`. Gripper ownership and stopping under continuous motion remain separate experiments.
+
+For B2-D0, run the passive reconstruction against the closed native group, its published B2 receipt and a new output path. The report describes the frame conventions, command matching and remaining policy identity gap.
+
+```bash
+python3 -B b2_static_bias.py "$GROUP" "$GROUP/B2_PUBLIC_READOUT.json" "$NEW_OUTPUT_JSON"
+```
+
+[B2 static bias attribution](../../reports/SLA_MEMORY_V14/B2_STATIC_BIAS_ATTRIBUTION.md)
