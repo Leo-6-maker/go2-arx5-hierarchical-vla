@@ -140,7 +140,7 @@ def run_model(root, out):
     import jax.numpy as jnp
     from p0_o0_runner import gpu_identity
     from XPolicyLab.policy.SLA_Memory.model import Model
-    from XPolicyLab.utils.process_data import pack_robot_state
+    from policy_query import frozen_predictor
 
     roster = inputs(root)
     cfg = verify_files(root)
@@ -170,12 +170,10 @@ def run_model(root, out):
             log, "FORWARD_ENTERED", id=key, input_sha256=info["input_sha256"], seed=seed
         )
         try:
-            result = retained_inference(model._policy, obs, capture)
-            absolute = np.stack(
-                [
-                    pack_robot_state({"state": a}, "ee", model._robot_action_dim_info)
-                    for a in model._from_openpi_actions(result["actions"])
-                ]
+            absolute = frozen_predictor(
+                model,
+                obs,
+                infer=lambda value: retained_inference(model._policy, value, capture),
             )
             require(
                 absolute.shape == (50, 16)

@@ -7,7 +7,8 @@ import numpy as np
 
 from compiler import SourceCurve
 from demonstrated_grip import pin, read, require
-from feedback_policy_panel import arm_diff, official_action_codec, tensor_sha, write_new
+from feedback_policy_panel import arm_diff, official_action_codec, write_new
+from policy_query import tensor_sha
 from paired_motion import REPORTS, contrasted, path_errors
 
 

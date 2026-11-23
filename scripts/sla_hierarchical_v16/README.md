@@ -45,3 +45,17 @@ a learned high-level planner.
 
 No student gripper/contact/native/GPU work is implicitly authorized by
 passing this check. All true held-out manipulation rates remain unmeasured.
+
+## Receiving a policy result after the plant has moved
+
+Use one `ObservationStream` per native receiver epoch. Pass the existing model to the worker with `partial(frozen_predictor, model)`. The worker receives only the snapshot returned by `begin_query`. The original owner keeps the accepted reference running and records actual 25-tick consumption.
+
+```python
+query_id, observation = stream.begin_query()
+future = executor.submit(policy_response, query_id, observation, partial(frozen_predictor, model))
+# On worker completion, dispatch the returned tuple to the same stream.
+stream.finish_query(*future.result())
+proposal = stream.take_for_compile(paused_tick, completed_intervals)
+```
+
+`completed_intervals` begins with the verified interval that ended at the query tick and ends at the owner's current paused tick. Form each entry with `completed_interval` from the native EEF receiver, solver echo, student gripper receiver and independent encoder evidence, and mark any observed terminal at that boundary. Use `proposal["curve"]` as input to the original compiler and `proposal["feedback"]["previous_student_command_m"]` for the previous-command seam. The owner retains its live lease, original admission and STOP handling before any publication. On a failed or cancelled worker call, release its key with `discard_query`. Deliver an actual receiver STOP to `stop` immediately, including during inference. The separate `take_proposal()` method supports analysis where native receipts are absent. [Validated replay and native receipt evidence](../../reports/SLA_HIERARCHICAL_V16/POLICY_RETURN_ACTUAL.md)

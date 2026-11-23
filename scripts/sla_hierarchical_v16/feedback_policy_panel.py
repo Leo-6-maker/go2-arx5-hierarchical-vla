@@ -9,6 +9,7 @@ from pathlib import Path
 import numpy as np
 from scipy.spatial.transform import Rotation
 
+from policy_query import input_identity, tensor_sha as tensor_sha
 from demonstrated_grip import events, pin, read, require, SOURCE_T
 
 REPORT = Path(__file__).resolve().parents[2] / "reports/SLA_HIERARCHICAL_V16"
@@ -21,14 +22,6 @@ def write_new(path, value):
     with path.open("x") as f:
         json.dump(value, f, indent=2, allow_nan=False)
         f.write("\n")
-
-
-def tensor_sha(value):
-    a = np.ascontiguousarray(value)
-    h = hashlib.sha256()
-    h.update(json.dumps([a.dtype.str, a.shape], separators=(",", ":")).encode() + b"\0")
-    h.update(a.tobytes())
-    return h.hexdigest()
 
 
 def inputs(root):
@@ -72,14 +65,7 @@ def inputs(root):
                 state=state,
                 prompt=str(z["prompt"]),
             )
-        fields = {k: tensor_sha(a) for k, a in obs["images"].items()}
-        fields.update(
-            state=tensor_sha(state),
-            prompt=hashlib.sha256(obs["prompt"].encode()).hexdigest(),
-        )
-        ident = hashlib.sha256(
-            json.dumps(fields, sort_keys=True, separators=(",", ":")).encode()
-        ).hexdigest()
+        ident, fields = input_identity(obs)
         prepared[key] = (
             obs,
             dict(
