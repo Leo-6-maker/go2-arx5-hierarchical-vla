@@ -19,6 +19,7 @@ int main(int argc,char** argv) {
  s.reset(argv[1],std::string(64,'7').c_str(),6503,x);
  unsigned long long tick;
  while(std::cin>>tick){
+   if(tick==6503){s.observed(tick,x,x);std::cout<<"terminal"<<std::endl;continue;}
    const bool ok=s.receive(tick,.002*tick,x,x);
    if(!ok)s.stop("RECEIVER_REJECT_STOP",tick,x,x);
    std::cout<<int(ok)<<std::endl;
@@ -109,3 +110,23 @@ def test_compiled_receipts(binary, tmp_path, variant):
     assert rows[0].startswith("PHYSICAL_RESET,")
     if variant != "ok":
         assert rows[-1].startswith("RECEIVER_REJECT_STOP,")
+
+
+def test_recorded_step_and_stop_latch(binary, tmp_path):
+    proc = subprocess.run(
+        [str(binary), str(tmp_path)],
+        input="6503\n6504\n",
+        text=True,
+        capture_output=True,
+        check=True,
+    )
+    assert proc.stdout.splitlines() == ["terminal", "0"]
+    events = [
+        r.split(",") for r in (tmp_path / "receiver.csv").read_text().splitlines()
+    ]
+    assert [r[0] for r in events] == [
+        "PHYSICAL_RESET",
+        "NATIVE_STEP",
+        "RECEIVER_STOP_AT_CAP",
+    ]
+    assert events[-1][2] == "6503" and list(map(float, events[-1][-4:])) == [0.042] * 4
