@@ -1,6 +1,7 @@
 """Independently qualified no-contact A1 controller paired to a scored A0 trajectory."""
 
 import json
+import struct
 from pathlib import Path
 
 import numpy as np
@@ -18,6 +19,20 @@ def measure(out, tick, sample):
         "safe": sample["safety_valid"] and sample["contact_valid"],
         "contact": sample["robot_object_contact"],
     }
+
+
+def verify_finger_file(out, end_tick, sequence):
+    magic, seq, source, width, expiry = struct.unpack(
+        "<8sQddd", (out / "gripper.bin").read_bytes()
+    )
+    require(
+        magic == b"GRTGRIP1"
+        and seq == sequence
+        and width == OPEN
+        and abs(source - (end_tick - 25) * 0.002) < 1e-8
+        and abs(expiry - source - 0.4) < 1e-9,
+        "PRIOR_FINGER_PACKET",
+    )
 
 
 def preflight(root, cfg):
@@ -125,6 +140,8 @@ def drive(adapter, folder, parts, sample, seq, receipt, old, config):
     from go2arx5_vla.world_model.native_replay import forbid_integration
     from scripts.wm02 import mobile_boundary_runner_v1 as mobile
 
+    from scripts.pi0294.task_contacts import allowed
+
     pair = read(folder / "INITIAL.private.json")["pair"]
     root = folder.parent.parent
     f1 = root / "sla-feedback-f1-a0-20261123-01" / pair
@@ -141,6 +158,7 @@ def drive(adapter, folder, parts, sample, seq, receipt, old, config):
     out = adapter.output
     model = adapter.actual_state.model
     data = mujoco.MjData(model)
+    names = [model.geom(i).name for i in range(model.ngeom)]
     tool = model.site("x5_ee").id
     guard = binding(adapter.spec["native_root"])
     manager = ReferenceManager(out.name, parts["old_ee"], config["controller"])
@@ -188,6 +206,7 @@ def drive(adapter, folder, parts, sample, seq, receipt, old, config):
                 "operator STOP",
             )
             mode = "A0" if status == "HOLD" else "A1"
+            verify_finger_file(out, tick, 127 + atoms)
             measured = measure(out, tick, sample)
             goal = desired[tick - START]
             try:
@@ -255,6 +274,7 @@ def drive(adapter, folder, parts, sample, seq, receipt, old, config):
                 sample, _ = mobile.consume(adapter, action, sequence=128 + atoms)
                 atoms += 1
                 last = read_line(out / "MOBILE_SAMPLES.private.jsonl")
+                verify_finger_file(out, tick + 25, 127 + atoms)
                 receipt = atom_receipt(out, last, sample, source, wire)
                 require(
                     last["gripper_command"]["sequence"] == 127 + atoms
@@ -269,6 +289,27 @@ def drive(adapter, folder, parts, sample, seq, receipt, old, config):
                         "2ms feedback grid",
                     )
                     T = tcp(model, data, tool, p)
+                    if reason is None:
+                        for contact in p["contacts"]:
+                            a, b = names[contact["geom0"]], names[contact["geom1"]]
+                            if not allowed(a, b) or (
+                                "task_cube_geom" in (a, b)
+                                and "task_table" not in (a, b)
+                            ):
+                                reason = "CONTACT"
+                                detection = step
+                                log.write(
+                                    json.dumps(
+                                        {
+                                            "tick": step,
+                                            "stop": reason,
+                                            "geoms": [a, b],
+                                            "distance_m": contact["distance_m"],
+                                        }
+                                    )
+                                    + "\n"
+                                )
+                                break
                     if reason is None:
                         status = observe(step - START, T)
                         if status not in ("HOLD", "CONTINUE"):

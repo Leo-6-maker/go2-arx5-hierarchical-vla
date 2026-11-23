@@ -167,7 +167,7 @@ def run_case(spec, sp, phase, anchors, limits, pair, frozen, gate):
             cancel["mode"] == "HOLD" and cancel["native_step"] == end, "terminal HOLD"
         )
         adapter.seal_trace(end)
-        if match["matched"]:
+        if match["matched"] and end > START:
             curve = folder / "TRACK.private.npz"
             result["tracking"] = readout(
                 out, old, adapter.actual_state.model, end, curve
@@ -326,15 +326,35 @@ def main():
     dest = root / "feedback" / plan["campaigns"][a.phase]
     controls = []
     cursor = 0
+    preflight_result = None
     if a.phase == "F2":
         from native_servo import preflight
 
-        preflight(root, cfg)
+        preflight_result = preflight(root, cfg)
         f1 = dest.parent / plan["campaigns"]["F1"]
         prev = read(f1 / "ACTUAL.json")
         require(
             prev["promote"] and prev["registration_sha256"] == sha(rp),
             "F1 control gate",
+        )
+        validated = read(root / "feedback" / "F1_VERIFIED.json")
+        require(
+            validated["stage_qualified"]
+            and validated["cohort_sha256"] == sha(f1 / "ACTUAL.json"),
+            "independent F1 physical readout",
+        )
+        for card in validated["records"]:
+            if card["outcome"] == "A0_COMPLETE":
+                cp = f1 / card["card"]
+                pinned(cp / "RESULT.private.json", card["result_sha256"])
+                pinned(cp / "INITIAL.private.json", card["initial_sha256"])
+                pinned(cp / "TRACK.private.npz", card["curve_sha256"])
+        offline = read(rdir / "F2_PREFLIGHT.json")
+        for source in ("native_servo.py", "feedback.py", "verify_native.py"):
+            pinned(Path(__file__).with_name(source), offline["source_sha256"][source])
+        require(
+            offline["fault_receipts"] == preflight_result,
+            "F2 negative controls drifted",
         )
         controls = [
             f1 / r["card"] for r in prev["records"] if r["outcome"] == "A0_COMPLETE"
@@ -349,6 +369,8 @@ def main():
             return
         dest.mkdir()
         record(dest / "REGISTRATION.json", plan)
+        if preflight_result is not None:
+            record(dest / "SERVO_PREFLIGHT.json", preflight_result)
         record(
             dest / "OWNER.json",
             {
