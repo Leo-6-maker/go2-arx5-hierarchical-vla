@@ -1,0 +1,217 @@
+{
+  "population": [
+    "T01",
+    "T02",
+    "T03",
+    "T04",
+    "T05",
+    "T06",
+    "T07",
+    "T08",
+    "T09",
+    "T10",
+    "T11",
+    "T12",
+    "T13",
+    "T14",
+    "T15",
+    "T16"
+  ],
+  "source_sha256": {
+    "V1_COMPILER_ABLATION_ACTUAL.json": "766965b3528f27b56feabc15ec70b6c346d101196832ea736c9fa359b6d01419",
+    "V1_REACH.json": "377a3584a249c73f7111be63032566d7a9f8ace8a1e9dd69551ba7096380a819",
+    "V1_PREFIX.json": "0a9c086696214a241bcd5098e41400a4fcac8540ed8e582bd03110d201d778da",
+    "V1_KNOT_EXCEEDANCES.json.gz": "190bc23037cdf1902b68a5ddf38bd424d14ec2a4c73a539109b8bcc3b6b0aee7",
+    "V1_REGISTRATION.json": "397fb32419f125214d9766bcff9b51a40b1eac351b8cff34bcaf702cbba2e40d"
+  },
+  "legacy_H40_G7": 0,
+  "legacy_C1_H40_G7": 2,
+  "methods": {
+    "RAW_H40_G7": {
+      "previews": 1718,
+      "rejected": 272,
+      "pose_pass": 0,
+      "boundary_pass": 0,
+      "g7_pass": 2,
+      "dynamic_pass": [],
+      "lifetime_s_min_max": [
+        1.6333333333333333,
+        1.6333333333333333
+      ],
+      "lead_s_min_max": [
+        0,
+        0
+      ],
+      "events_preserved_windows": 16,
+      "source_events": [
+        "open",
+        "open",
+        "open",
+        "open",
+        "open",
+        "open",
+        "open",
+        "open"
+      ]
+    },
+    "TIME_ONLY_V13_C1": {
+      "previews": 1718,
+      "rejected": 212,
+      "pose_pass": 2,
+      "boundary_pass": 0,
+      "g7_pass": 2,
+      "dynamic_pass": [],
+      "lifetime_s_min_max": [
+        6.65,
+        18.55
+      ],
+      "lead_s_min_max": [
+        0,
+        0
+      ],
+      "events_preserved_windows": 8,
+      "source_events": [
+        "open",
+        "open",
+        "open",
+        "open",
+        "open",
+        "open",
+        "open",
+        "open"
+      ]
+    },
+    "O1_CONTINUOUS": {
+      "previews": 1718,
+      "rejected": 420,
+      "pose_pass": 0,
+      "boundary_pass": 16,
+      "g7_pass": 4,
+      "dynamic_pass": [],
+      "lifetime_s_min_max": [
+        7.4,
+        19.3
+      ],
+      "lead_s_min_max": [
+        0.75,
+        0.8
+      ],
+      "events_preserved_windows": 16,
+      "source_events": [
+        "open",
+        "open",
+        "open",
+        "open",
+        "open",
+        "open",
+        "open",
+        "open"
+      ]
+    },
+    "C2_EXACT": {
+      "previews": 2332,
+      "rejected": 0,
+      "pose_pass": 16,
+      "boundary_pass": 16,
+      "g7_pass": 4,
+      "dynamic_pass": [
+        "T02",
+        "T08",
+        "T09",
+        "T15"
+      ],
+      "lifetime_s_min_max": [
+        12.450000000000006,
+        16.450000000000006
+      ],
+      "lead_s_min_max": [
+        3.95,
+        4.3999999999999995
+      ],
+      "events_preserved_windows": 16,
+      "source_events": [
+        "open",
+        "open",
+        "open",
+        "open",
+        "open",
+        "open",
+        "open",
+        "open"
+      ],
+      "geometry_pass": [
+        "T01",
+        "T02",
+        "T07",
+        "T08",
+        "T13",
+        "T14",
+        "T15"
+      ],
+      "all_numeric_and_geometry": [
+        "T02",
+        "T08",
+        "T15"
+      ],
+      "owner_qualified": [],
+      "prefix_installs": 2332,
+      "prefix_failures": 0,
+      "max_wire_model_distance_mm": 0.06104791077181011
+    },
+    "C2_BOUNDED": {
+      "previews": 2532,
+      "rejected": 0,
+      "pose_pass": 16,
+      "boundary_pass": 16,
+      "g7_pass": 4,
+      "dynamic_pass": [
+        "T02",
+        "T08",
+        "T09",
+        "T15"
+      ],
+      "lifetime_s_min_max": [
+        12.450000000000006,
+        20.15
+      ],
+      "lead_s_min_max": [
+        3.95,
+        4.3999999999999995
+      ],
+      "events_preserved_windows": 16,
+      "source_events": [
+        "open",
+        "open",
+        "open",
+        "open",
+        "open",
+        "open",
+        "open",
+        "open"
+      ],
+      "geometry_pass": [
+        "T01",
+        "T02",
+        "T07",
+        "T08",
+        "T13",
+        "T14",
+        "T15"
+      ],
+      "all_numeric_and_geometry": [
+        "T02",
+        "T08",
+        "T15"
+      ],
+      "owner_qualified": [],
+      "prefix_installs": 2532,
+      "prefix_failures": 0,
+      "max_wire_model_distance_mm": 0.49483408560772085
+    }
+  },
+  "decision": "V1_FULL_INTERFACE_BLOCKED",
+  "new_gpu_forwards": 0,
+  "new_physics_ticks": 0,
+  "student_task_attempts": 0,
+  "task_success_rate": null
+}
