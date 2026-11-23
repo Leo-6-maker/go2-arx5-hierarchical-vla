@@ -1,0 +1,28 @@
+{
+  "stage": "V1",
+  "parent": "23d9e09eba2e2648c98873685f0bab4a70f73049",
+  "subjects": "T01..T16, no replacement, original HF release and official inverse. Diagnostics on TRAIN only.",
+  "resources": {
+    "GPU_forwards": 0,
+    "native_requests": 0,
+    "physics_ticks": 0,
+    "training_updates": 0
+  },
+  "controls": [
+    "RAW_H40_G7",
+    "V13_C1_TIME_ONLY",
+    "O1_CONTINUOUS"
+  ],
+  "candidates": [
+    "C2_EXACT_PATH_STOP_AT_KNOTS",
+    "C2_BOUNDED_SPLINE"
+  ],
+  "motion": "Brake received boundary twist with a quintic velocity law, then interpolate in world to the first model pose. Use source phase per moving segment; phase never rewinds. Exact right flange position interpolation + shortest rotation + fixed tool.",
+  "bounded": "World cubic position and SO3 RotationSpline, <=6 original edges per block, interpolate every source knot. Check 24 subdivisions per source edge; split if deviation exceeds 0.5mm or 0.25deg. Event edge and its neighbors keep exact original path; all contact/grasp windows use exact geometry throughout.",
+  "timing": "Use the stricter of the original velocity limit and 50ms times the acceleration limit (rolling rest padding), with 0.90 factor as compiler design margin. Original admission limits are unchanged. Final original gate at every 10Hz publication for full duration including terminal dwell, at least the original per-window #439 count. No stopped solver or teacher target as model progress.",
+  "progress": "Report half-second intent opportunities on persistent execution clock and arc coverage, motion after entry, time to registered floor in V13, full-curve length. Events match source ordered direction and geometry; no invented grip events. Report predicted target and teacher-relative directions separately from compiler fidelity.",
+  "gripper": "Keep source-reported width schedule in source phase; no smoothing away first consumption seam, no ownership grant.",
+  "source_control": "RAW legacy exactly replayed; archived C1 retains its original gripper schedule and finite first H40. Additional ongoing projection of time-only C1 is a diagnostic.",
+  "reachable": "Use arm and scene source-backed analytical checks without MuJoCo integration. Mark full collision qualification unavailable where fixtures cannot certify. No native grants.",
+  "safety": "Time reversal, missed ACK/expired TTL or attempted overwrite stops the reference manager. Historical inputs and scientific denominators immutable."
+}
