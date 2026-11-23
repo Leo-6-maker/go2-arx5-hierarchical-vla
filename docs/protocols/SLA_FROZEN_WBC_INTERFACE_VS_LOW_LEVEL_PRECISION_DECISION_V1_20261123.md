@@ -8,7 +8,7 @@
 - **D3冻结OCS2已知路径**：12/12真实无接触MuJoCo卡完成；绝对TCP位置RMS=28.36–30.68mm，增量位置RMS=1.66–3.97mm；4mm X、4mm Z指令只得到约2.68–2.73mm和2.53–2.58mm，纯旋转1.75°得到约1.48–1.51°。说明冻结系统仍有响应，但不是单位增益或毫米级准确servo；曲线平移拟合增益≈0.35–0.37且延迟到300ms搜索边界时不能认定物理延迟就是300ms。
 - D3 3张B2匹配卡绝对RMS仍在28.71–30.05mm；**0/6个ONE/P10配对**通过初态资格，不能宣布两种更新策略性能等价。结束时关节命令FK与真实TCP高度差24.15–24.63mm；D2几何归因第3/4轴约16mm/8mm。D2全部1005个PD回调的电机力矩可以在正确传感器相位下精确重算，无电机限幅，显式重力前馈为零，但不能单凭这些证据证明增加重力前馈就能修复全部偏差。
 - V1.3原生SLA→旧H40/G7科学准入为0/16；B3长时域消息CPU回放仍有13/16意图存在至少一窗原包络问题。教师持物中有8/16个学生窗口要求打开夹爪；学生owner/ACK=0/16。**不能因D3完成而开放原B4**。用户已批准V1.5停止规则得到满足；本PR不是任何额外科学物理权限。
-- 既有D1+D3新科学资源52 requests / 317,556 ticks（原首波OO初始化另计），均已关闭，原B2历史租约不可复用。原始证据：[D1](../reports/SLA_MEMORY_D1_MATCHED/README.md) · [D3](../reports/SLA_MEMORY_D3_KNOWN_PATH/README.md) · [控制归因](../reports/SLA_MEMORY_V15/D2_POLICY_AND_PD_CLOSURE.md)。
+- 既有D1+D3新科学资源52 requests / 317,556 ticks（原首波OO初始化另计），均已关闭，原B2历史租约不可复用。原始证据：[D1](../../reports/SLA_MEMORY_D1_MATCHED/README.md) · [D3](../../reports/SLA_MEMORY_D3_KNOWN_PATH/README.md) · [控制归因](../../reports/SLA_MEMORY_V15/D2_POLICY_AND_PD_CLOSURE.md)。
 
 ## 2. 回答“是否一定要修改WBC”：预登记两条不可混淆的路线
 
