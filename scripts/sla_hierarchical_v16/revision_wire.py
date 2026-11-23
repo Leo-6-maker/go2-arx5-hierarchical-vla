@@ -22,7 +22,15 @@ class RevisionWire:
         return 2 * last_install + 41
 
     def __init__(
-        self, previous, previous_hash, next_hash, last_install, source, limits
+        self,
+        previous,
+        previous_hash,
+        next_hash,
+        last_install,
+        source,
+        limits,
+        *,
+        cruise_alignment=False,
     ):
         if last_install < 0 or type(last_install) is not int:
             raise ValueError("missing prior installation")
@@ -38,9 +46,17 @@ class RevisionWire:
             previous.next_hash != previous_hash or self.cut <= previous.cut
         ):
             raise ValueError("revision must extend the currently installed source")
-        boundary = previous.at(DT * np.array([self.cut - 1, self.cut]))[0]
+        boundary, widths, _ = previous.at(DT * np.array([self.cut - 1, self.cut]))
         twist = np.stack([axis[0] for axis in vectors(boundary, DT)])
-        self.compiler = Compiler(source, boundary[-1], twist, limits)
+        self.compiler = Compiler(
+            source,
+            boundary[-1],
+            twist,
+            limits,
+            cruise_from_width_m=(0.002 + 0.040 * widths[-1])
+            if cruise_alignment
+            else None,
+        )
         ticks = np.arange(round(self.compiler.end / DT) + 1)
         self.future = WireProgram(self.identity, *self.compiler.at(ticks * DT))
         self.execution_times = [0, self.cut * DT + self.compiler.end]
