@@ -1,0 +1,148 @@
+{
+  "status": "F0_CPU_REHEARSAL_COMPLETE",
+  "inputs": {
+    "D1_starts": 40,
+    "D1_eligible": 18,
+    "D3_cards": 12,
+    "D3_B2_matched": 3,
+    "D3_mode_pairs_qualified": 0
+  },
+  "historical_precision_by_group": {
+    "historical_B2": {
+      "actual_minus_ref_rms_mm": [
+        28.705764127423976,
+        30.046017727625603
+      ],
+      "fk_minus_actual_rms_mm": [
+        24.405019285187272,
+        24.773361912838624
+      ],
+      "fk_minus_ref_rms_mm": [
+        12.310764359258771,
+        13.536747126910893
+      ],
+      "world_base_only_rms_mm": [
+        0.7774043379051029,
+        1.307435692860016
+      ],
+      "arm_relative_in_world_rms_mm": [
+        1.3801378541218008,
+        2.765021449490376
+      ]
+    },
+    "outside_B2": {
+      "actual_minus_ref_rms_mm": [
+        28.35924134638147,
+        30.679589256359623
+      ],
+      "fk_minus_actual_rms_mm": [
+        24.40063586731089,
+        24.815553268591252
+      ],
+      "fk_minus_ref_rms_mm": [
+        12.23688871459416,
+        13.83484191702117
+      ],
+      "world_base_only_rms_mm": [
+        0.6823109129647271,
+        1.4707594498972798
+      ],
+      "arm_relative_in_world_rms_mm": [
+        1.395330062026179,
+        2.7072386744203945
+      ]
+    }
+  },
+  "A0_A1_control_sha256": "671a992881987dadca99d7edf5387a31f2ba668b703571a6845e626ffa0d5175",
+  "cpu_checks": {
+    "offline_first_windows": 24,
+    "receiver_knots": 984,
+    "geometry_poses": 4108,
+    "min_joint_margin_rad": 0.47349131277989487,
+    "fault_cases": 144,
+    "new_native_acks": 0
+  },
+  "identification": {
+    "heldout_mm": [
+      0.23862108914069471,
+      0.9442182364812368
+    ],
+    "heldout_deg": [
+      0.03617282180552208,
+      0.19732200790074975
+    ],
+    "identified_input_rank": 3,
+    "observed_input_columns": [
+      "world_X",
+      "world_Z",
+      "world_pitch"
+    ]
+  },
+  "model": {
+    "A0": 12,
+    "A1": 36,
+    "outcomes": {
+      "HOLD_COMPLETE": 36
+    },
+    "elapsed_ms": [
+      8500,
+      10400
+    ],
+    "max_command_excursion_mm": [
+      29.89276481611012,
+      36.26493653373211
+    ],
+    "counterexample_residual_bound_mm": [
+      23.68893949114516,
+      23.844257533328886
+    ]
+  },
+  "label_audit": {
+    "target_TRAIN_episodes": 6,
+    "teacher_atoms": 6038,
+    "strata": {
+      "WARMUP": {
+        "atoms": 768,
+        "rms_mm_deg": [
+          27.767261316445037,
+          2.7680919559601724
+        ],
+        "median_mm_deg": [
+          27.357964170986918,
+          2.749127022102736
+        ],
+        "p95_mm_deg": [
+          31.01689185388656,
+          2.9219608627962304
+        ]
+      },
+      "MOBILE_TASK": {
+        "atoms": 5270,
+        "rms_mm_deg": [
+          16.936649797460134,
+          4.545105661718809
+        ],
+        "median_mm_deg": [
+          13.865330644861773,
+          4.674179272507889
+        ],
+        "p95_mm_deg": [
+          27.63186165435949,
+          5.958321309087428
+        ]
+      }
+    },
+    "gripper_owner": "teacher"
+  },
+  "f0_new_native_requests": 0,
+  "f0_new_physics_ticks": 0,
+  "SLA_forwards": 0,
+  "training_updates": 0,
+  "artifacts": {
+    "F0_MODEL.json": "aeecd6fc690c76ec3dcbf285e9a59a8ce1ec31f5f55c8d72efb1f4717237e36a",
+    "F0_REGISTRATION.json": "115751e9734d827069c49baa8ee2041cedde61f8013237baab155c3ab9b5d7cf",
+    "F0_SITE.json": "7b43391d74e69ad938621dfebfd0d2c318a7592ddaef76ed9ce875d609cf52f8",
+    "F0_SUPPORT.json": "b60eb2f6673bfd648bfad0e2addb9c07ffd8cf6834499360d8957e61512f7c9a",
+    "F0_TEACHER.json": "5b6b4287cc97f4903a6da0b2db320f0dfd9f22068fd8e5dded4160a454c3b7c5"
+  }
+}
