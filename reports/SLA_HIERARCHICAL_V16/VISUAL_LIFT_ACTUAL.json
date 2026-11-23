@@ -1,0 +1,438 @@
+{
+  "predictions_sha256": "217ee61e67f5c10c0e84f53585d4d1921ce536359fbbc1f813ed4936cdbbeb1e",
+  "groups": {
+    "CHV1-TRAIN-F2-HOLD-blue-00": {
+      "task": "HOLD-blue",
+      "dense_checks": 58,
+      "policy_checks": 3,
+      "distractor": {
+        "color": "red",
+        "n": 72,
+        "status": {
+          "measured": 72
+        },
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 72,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 0
+        },
+        "position_abs_error_mm": {
+          "n": 72,
+          "median": 4.732871968144204,
+          "p95": 21.573575727978646,
+          "maximum": 24.090769479303457
+        },
+        "height_delta_abs_error_mm": {
+          "n": 72,
+          "median": 10.482008986319514,
+          "p95": 11.144658159663445,
+          "maximum": 11.313350007459588
+        },
+        "height_delta_median_signed_error_mm": -10.482008986319514,
+        "maximum_delta_mm": 0.780507085324178,
+        "maximum_actual_delta_mm": 0.0,
+        "first_visual_tick": null,
+        "first_physical_tick": null
+      },
+      "target": {
+        "color": "blue",
+        "n": 72,
+        "status": {
+          "ray_separation": 72
+        },
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 2,
+          "abstain_negative": 70
+        },
+        "position_abs_error_mm": null,
+        "height_delta_abs_error_mm": null,
+        "height_delta_median_signed_error_mm": null,
+        "maximum_delta_mm": null,
+        "maximum_actual_delta_mm": 23.682382081010477,
+        "first_visual_tick": null,
+        "first_physical_tick": 23203
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-03": {
+      "task": "HOLD-red",
+      "dense_checks": 56,
+      "policy_checks": 3,
+      "target": {
+        "color": "red",
+        "n": 67,
+        "status": {
+          "measured": 67
+        },
+        "confusion": {
+          "tp": 2,
+          "fp": 0,
+          "tn": 65,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 0
+        },
+        "position_abs_error_mm": {
+          "n": 67,
+          "median": 4.016492542576802,
+          "p95": 21.07853881699752,
+          "maximum": 23.688913220567418
+        },
+        "height_delta_abs_error_mm": {
+          "n": 67,
+          "median": 0.9094612453841577,
+          "p95": 9.791108442701045,
+          "maximum": 12.01490526462301
+        },
+        "height_delta_median_signed_error_mm": -0.46535642164957647,
+        "maximum_delta_mm": 23.02414986904111,
+        "maximum_actual_delta_mm": 23.92412164440183,
+        "first_visual_tick": 21953,
+        "first_physical_tick": 21953
+      },
+      "distractor": {
+        "color": "blue",
+        "n": 67,
+        "status": {
+          "ray_separation": 67
+        },
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 67
+        },
+        "position_abs_error_mm": null,
+        "height_delta_abs_error_mm": null,
+        "height_delta_median_signed_error_mm": null,
+        "maximum_delta_mm": null,
+        "maximum_actual_delta_mm": 0.0,
+        "first_visual_tick": null,
+        "first_physical_tick": null
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-red-right-07": {
+      "task": "PLACE-red-right",
+      "dense_checks": 58,
+      "policy_checks": 3,
+      "target": {
+        "color": "red",
+        "n": 125,
+        "status": {
+          "measured": 125
+        },
+        "confusion": {
+          "tp": 32,
+          "fp": 0,
+          "tn": 91,
+          "fn": 2,
+          "abstain_positive": 0,
+          "abstain_negative": 0
+        },
+        "position_abs_error_mm": {
+          "n": 125,
+          "median": 4.315285961070467,
+          "p95": 18.62453109789327,
+          "maximum": 23.95278020830648
+        },
+        "height_delta_abs_error_mm": {
+          "n": 125,
+          "median": 0.9232189061769702,
+          "p95": 9.396696752438725,
+          "maximum": 13.386682072997758
+        },
+        "height_delta_median_signed_error_mm": -0.4755740077541084,
+        "maximum_delta_mm": 28.50959981714729,
+        "maximum_actual_delta_mm": 29.91544123492296,
+        "first_visual_tick": 22203,
+        "first_physical_tick": 22203
+      },
+      "distractor": {
+        "color": "blue",
+        "n": 125,
+        "status": {
+          "ray_separation": 123,
+          "measured": 2
+        },
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 125
+        },
+        "position_abs_error_mm": {
+          "n": 2,
+          "median": 168.2537206237164,
+          "p95": 168.86807795846752,
+          "maximum": 168.936339884551
+        },
+        "height_delta_abs_error_mm": null,
+        "height_delta_median_signed_error_mm": null,
+        "maximum_delta_mm": null,
+        "maximum_actual_delta_mm": 0.0,
+        "first_visual_tick": null,
+        "first_physical_tick": null
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-02": {
+      "task": "HOLD-red",
+      "dense_checks": 66,
+      "policy_checks": 3,
+      "target": {
+        "color": "red",
+        "n": 68,
+        "status": {
+          "measured": 68
+        },
+        "confusion": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 66,
+          "fn": 1,
+          "abstain_positive": 0,
+          "abstain_negative": 0
+        },
+        "position_abs_error_mm": {
+          "n": 68,
+          "median": 4.196798613648172,
+          "p95": 21.362225550191074,
+          "maximum": 23.75693499691674
+        },
+        "height_delta_abs_error_mm": {
+          "n": 68,
+          "median": 1.3334656276154373,
+          "p95": 12.13020862318576,
+          "maximum": 18.98723522728374
+        },
+        "height_delta_median_signed_error_mm": -0.8447301140975805,
+        "maximum_delta_mm": 23.021333300989433,
+        "maximum_actual_delta_mm": 23.482854789703246,
+        "first_visual_tick": 22453,
+        "first_physical_tick": 22203
+      },
+      "distractor": {
+        "color": "blue",
+        "n": 68,
+        "status": {
+          "ray_separation": 68
+        },
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 68
+        },
+        "position_abs_error_mm": null,
+        "height_delta_abs_error_mm": null,
+        "height_delta_median_signed_error_mm": null,
+        "maximum_delta_mm": null,
+        "maximum_actual_delta_mm": 0.0,
+        "first_visual_tick": null,
+        "first_physical_tick": null
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-05": {
+      "task": "HOLD-red",
+      "dense_checks": 69,
+      "policy_checks": 2,
+      "target": {
+        "color": "red",
+        "n": 70,
+        "status": {
+          "measured": 70
+        },
+        "confusion": {
+          "tp": 2,
+          "fp": 0,
+          "tn": 68,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 0
+        },
+        "position_abs_error_mm": {
+          "n": 70,
+          "median": 4.2065552861143,
+          "p95": 21.106972327026043,
+          "maximum": 23.440810814078784
+        },
+        "height_delta_abs_error_mm": {
+          "n": 70,
+          "median": 1.5713266486239164,
+          "p95": 9.417074278376683,
+          "maximum": 12.711125372976472
+        },
+        "height_delta_median_signed_error_mm": -0.2726368500469696,
+        "maximum_delta_mm": 23.23716730356562,
+        "maximum_actual_delta_mm": 23.781134251891324,
+        "first_visual_tick": 22703,
+        "first_physical_tick": 22703
+      },
+      "distractor": {
+        "color": "blue",
+        "n": 70,
+        "status": {
+          "ray_separation": 70
+        },
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 70
+        },
+        "position_abs_error_mm": null,
+        "height_delta_abs_error_mm": null,
+        "height_delta_median_signed_error_mm": null,
+        "maximum_delta_mm": null,
+        "maximum_actual_delta_mm": 0.0,
+        "first_visual_tick": null,
+        "first_physical_tick": null
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-red-right-01": {
+      "task": "PLACE-red-right",
+      "dense_checks": 67,
+      "policy_checks": 2,
+      "target": {
+        "color": "red",
+        "n": 125,
+        "status": {
+          "measured": 125
+        },
+        "confusion": {
+          "tp": 30,
+          "fp": 0,
+          "tn": 93,
+          "fn": 2,
+          "abstain_positive": 0,
+          "abstain_negative": 0
+        },
+        "position_abs_error_mm": {
+          "n": 125,
+          "median": 4.088321919056367,
+          "p95": 19.6318169763916,
+          "maximum": 22.723395420151576
+        },
+        "height_delta_abs_error_mm": {
+          "n": 125,
+          "median": 0.9264532547442741,
+          "p95": 8.630146931605843,
+          "maximum": 14.71401529728844
+        },
+        "height_delta_median_signed_error_mm": -0.560938915326048,
+        "maximum_delta_mm": 25.64665880130712,
+        "maximum_actual_delta_mm": 26.90610751630418,
+        "first_visual_tick": 22203,
+        "first_physical_tick": 22203
+      },
+      "distractor": {
+        "color": "blue",
+        "n": 125,
+        "status": {
+          "ray_separation": 115,
+          "measured": 10
+        },
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 125
+        },
+        "position_abs_error_mm": {
+          "n": 10,
+          "median": 181.26840736115543,
+          "p95": 186.47978823439954,
+          "maximum": 187.12673957833977
+        },
+        "height_delta_abs_error_mm": null,
+        "height_delta_median_signed_error_mm": null,
+        "maximum_delta_mm": null,
+        "maximum_actual_delta_mm": 0.0,
+        "first_visual_tick": null,
+        "first_physical_tick": null
+      }
+    }
+  },
+  "totals": {
+    "target": {
+      "n": 527,
+      "status": {
+        "ray_separation": 72,
+        "measured": 455
+      },
+      "confusion": {
+        "tp": 67,
+        "fp": 0,
+        "tn": 383,
+        "fn": 5,
+        "abstain_positive": 2,
+        "abstain_negative": 70
+      },
+      "position_abs_error_mm": {
+        "n": 455,
+        "median": 4.192411258077857,
+        "p95": 20.731738081798763,
+        "maximum": 23.95278020830648
+      },
+      "height_delta_abs_error_mm": {
+        "n": 455,
+        "median": 1.003413818819297,
+        "p95": 10.00529381305715,
+        "maximum": 18.98723522728374
+      },
+      "height_delta_median_signed_error_mm": -0.5539542673328484,
+      "maximum_delta_mm": 28.50959981714729,
+      "maximum_actual_delta_mm": 29.91544123492296
+    },
+    "distractor": {
+      "n": 527,
+      "status": {
+        "measured": 84,
+        "ray_separation": 443
+      },
+      "confusion": {
+        "tp": 0,
+        "fp": 0,
+        "tn": 72,
+        "fn": 0,
+        "abstain_positive": 0,
+        "abstain_negative": 455
+      },
+      "position_abs_error_mm": {
+        "n": 84,
+        "median": 4.816225285946663,
+        "p95": 181.76577267929326,
+        "maximum": 187.12673957833977
+      },
+      "height_delta_abs_error_mm": {
+        "n": 72,
+        "median": 10.482008986319514,
+        "p95": 11.144658159663445,
+        "maximum": 11.313350007459588
+      },
+      "height_delta_median_signed_error_mm": -10.482008986319514,
+      "maximum_delta_mm": 0.780507085324178,
+      "maximum_actual_delta_mm": 0.0
+    }
+  },
+  "resource_counts": {
+    "new_native_starts": 0,
+    "new_gpu_forwards": 0,
+    "training_updates": 0
+  }
+}
