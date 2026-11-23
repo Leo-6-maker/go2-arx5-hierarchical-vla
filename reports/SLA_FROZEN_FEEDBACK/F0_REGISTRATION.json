@@ -1,0 +1,46 @@
+{
+  "protocol": "7561ffe73e113779c75533515a568209f0b32e4e",
+  "phase": "F0_CPU_ONLY",
+  "source_D1_sha256": "86e74ad94e00e1c029cdb99eadbd87e61e57a8e9f9df82222472f17206786eea",
+  "source_D3_sha256": "69d9004a2085a06eb025f6a1f362aa85c729bae4d9cfb9b821a963cfb83b3413",
+  "geometry": {
+    "scene_sha256": "b5b066ea788ff8763f0757747ede61890281213c2637e9f54f757b245d111959",
+    "cube_side_mm": 40,
+    "pad_half_size_mm": [
+      20,
+      3,
+      17
+    ],
+    "min_linear_overlap_fraction": 0.8,
+    "observability_reserve_mm": 1.8,
+    "rotation_bound_deg": 2,
+    "max_corner_lever_mm": 55,
+    "abs_position_bound_mm": 4,
+    "hold_s": 1,
+    "derivation": "Aligned centered cube, open slides at 42 mm. Longitudinal overlap margin 8 mm, vertical 9.8 mm, tighter lateral inner-face clearance 20.738 mm. Reserve 1.8 mm for B2 TCP channel disagreement and 2*55*sin(1 degree) mm for pad-corner rotation. Floor the minimum remaining margin to 4 mm. Engineering allocation for no-contact qualification only. Require all samples in the hold, measured relative to task goal."
+  },
+  "intent": "Static previous world EEF/base target. F0 compares A0 continued hold and A1 static-goal feedback. Task goal and compiled reference have separate trajectories. No SLA/gripper handoff.",
+  "controller": {
+    "cadence_ms": 100,
+    "atom_ms": 50,
+    "window_knots": 41,
+    "ttl_ms": 400,
+    "translation_gain_per_update": 0.1,
+    "rotation_gain_per_update": 0.1,
+    "max_step_mm": 0.4,
+    "max_step_deg": 0.06,
+    "max_translation_from_initial_ref_mm": 60,
+    "max_rotation_from_initial_ref_deg": 6,
+    "timeout_s": 24,
+    "stable_hold_s": 1,
+    "valid_observation_age_ticks": 0,
+    "anti_windup": "Each update starts at last consumed trajectory boundary. Clamp per-step norm. At the cumulative workspace cap stop; no unacknowledged state accumulation.",
+    "monitors": "Stop immediately on collision/safety, identity or timestamp failure and impossible command. Stop after 3 consecutive 1s intervals with <0.3 mm translation improvement while outside position tolerance or <0.08 deg rotation improvement while outside orientation tolerance, and upon 3 >1 mm or >0.3 deg alternating signed extrema along an axis while outside tolerance. Once both thresholds first satisfied, hold the acknowledged reference for one second and check every state. A failed hold is terminal."
+  },
+  "analysis": {
+    "inputs": "All 40 D1 starts, all 12 D3 cards. D3 split by historical B2 eligibility and family/rate. No performance-based exclusion.",
+    "model": "Forward through-origin lagged least squares over incremental X, Z in mm and world Y in degrees, outputs all 6 actual components. Balance per card; search 0..300 ms in 10 ms steps on training folds only, using translation mm and rotation at 55mm lever. Whole family and whole rate held out. Estimate rank, residuals, and domain exits. No 6DOF identification.",
+    "shadow": "24s static-goal deterministic counterfactual on each recorded D3 start with that card held out of fitting. Sensitivity: unexcited world Y translation and X/Z rotations have diagonal gains 0, 0.5, 1 (assumptions); fitted observed columns unchanged. Track historical coordinate-box and excitation-hull exits. No simulated success is a native result."
+  },
+  "admission": "F1 and F2 are independent native populations under PR 436. This F0 registration launches neither."
+}
