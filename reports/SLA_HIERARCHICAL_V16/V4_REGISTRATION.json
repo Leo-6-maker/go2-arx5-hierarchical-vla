@@ -1,0 +1,12 @@
+{
+  "stage": "V4_CPU_OFFLINE",
+  "population": "All T01..T16 sealed TRAIN windows. All source factorial rows from 6 windows/2 episodes. All original target forward returns, including two repeats. No new inference.",
+  "attribution": "First derive action signature without object or phase labels: event takes priority (ordered OPEN/CLOSE); else dominant Cartesian sign X/Y/Z or STILL (max excursion <1 mm). Only then join scoring labels. Descriptive signature contingency; no explicit model phase head.",
+  "metrics": "Use source world TCP path, first to last; distances to measured target and distractor at query; gt is scoring only. DESCEND requires net negative Z and >=1 mm approach to target; CLOSE requires a close and no open; LIFT requires +1 mm Z and no open; HOLD requires max excursion <=4 mm, angle<=2 deg, no open; CARRY requires +1 mm projected progress toward instructed zone and no open. Geometric signs separately. Single-window proxy only.",
+  "timing": "Median/p95 actual returned forward wall time, all, first and warm per cold launch; join ID/seed/output hash and retain repeats.",
+  "decision": "H0 known trajectory, H1 archived local proposal, H1 own-feedback rollout unmeasured, H2 phase output unobserved. No heldout or native success inferred.",
+  "resources": {
+    "GPU": 0,
+    "physics": 0
+  }
+}
