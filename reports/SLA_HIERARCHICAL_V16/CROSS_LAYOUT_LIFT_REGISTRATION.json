@@ -1,0 +1,13 @@
+{
+  "id": "V4-TRAIN-VIS-02",
+  "parent": "900e814d2eb5003b0e8373fb8fc1e00d0e19947e",
+  "roster": "Every TRAIN record in original producer RECORDS.private.json, SHA256 aca8606636db476df4d14f6e9532a05f8b3460ee6b3fced17c0717bed2a07ceb. Keep all 87, report the original six separately from 51 other admitted and 30 nonadmitted. Exclude VAL and TEST. No new observations or teacher launches.",
+  "freeze": "Use exact visual_objects.py 6cac1d53a2d5aa8fa97cefad7ea4c4a18ab55edf9864088b0176bdd7c1f7f15d, reject_spanning=True fixed by existing #461 control, both colors, no tuning. Same first sampled baseline, 20 mm and 15 mm ray bound; no imputation. Both colors estimated from RGB and recorded camera calibration only.",
+  "provenance": "Before predicting, pin the unique on-site native recording manifest for each original result, identify original producer linkage or a separately snapshot-pinned archive if result lacks capture. Verify case, query and RGB hashes. Keep all early exits/zero-query/missing recordings explicit. Seal predictions before reading target role and scoring actual object height.",
+  "primary": "Newly examined admitted F1 blue HOLD vs F2 blue HOLD and F1 red HOLD across available scene hashes, task associations descriptive. Target and distractor scored separately by condition. Report all frames with TP/FP/FN/TN and unknown on physically positive/negative; per episode detection of measured >=20mm (TP at some same tick), any early/false positive, all-unknown. Compare shared scene and seed if present; never label these held-out TEST.",
+  "counters": {
+    "new_physics_ticks": 0,
+    "new_policy_calls": 0,
+    "training_updates": 0
+  }
+}
