@@ -17,20 +17,12 @@ def digest(x):
     return hashlib.sha256(np.ascontiguousarray(x).tobytes()).hexdigest()
 
 
-def run(root, visibility):
+def inspection_tools(root):
     from XPolicyLab.policy.SLA_Memory.model import Model, _policy_config
-    from XPolicyLab.utils.process_data import decode_image_bit
     from openpi import transforms
     from openpi.models.tokenizer import PaligemmaTokenizer
     from openpi.training.checkpoints import load_norm_stats
 
-    repo = Path(__file__).resolve().parents[2]
-    pins = read(
-        pin(
-            root / "v13/run01/S0_ACTUAL.json",
-            "6917c8ce81dd237c2e54dca491bec3347ae3c5730546aadae69b12ee36ce21b9",
-        )
-    )["inputs"]
     e = root / "evidence"
     manifest = read(e / "SOURCE_AND_WEIGHT_MANIFEST.actual.json")
     vendor = root / "vendor/XPolicyLab"
@@ -103,6 +95,37 @@ def run(root, visibility):
             history_images_sha256=[digest(im) for im in final["extra_images"]],
         )
 
+    metadata = dict(
+        checkpoint_right_q01=low[7:].tolist(),
+        checkpoint_right_q99=high[7:].tolist(),
+        model_input_steps=[
+            type(t).__name__
+            for t in [
+                *data.data_transforms.inputs,
+                normalize,
+                *data.model_transforms.inputs,
+            ]
+        ],
+        discrete_state_input=tokenizer.discrete_state_input,
+        token_capacity=cfg.model.max_token_len,
+    )
+    return inspect, prepare, metadata
+
+
+def run(root, visibility):
+    from XPolicyLab.utils.process_data import decode_image_bit
+
+    inspect, prepare, metadata = inspection_tools(root)
+    low = np.asarray(metadata["checkpoint_right_q01"])
+    high = np.asarray(metadata["checkpoint_right_q99"])
+    e = root / "evidence"
+    repo = Path(__file__).resolve().parents[2]
+    pins = read(
+        pin(
+            root / "v13/run01/S0_ACTUAL.json",
+            "6917c8ce81dd237c2e54dca491bec3347ae3c5730546aadae69b12ee36ce21b9",
+        )
+    )["inputs"]
     capture_file = root / "v12/A2_O2_DENSE_CAPTURE.json"
     capture = read(pin(capture_file, pins[str(capture_file)]))["windows"]
     target = []
@@ -170,8 +193,8 @@ def run(root, visibility):
                     frames=len(coords),
                     minimum=coords.min(0).tolist(),
                     maximum=coords.max(0).tolist(),
-                    checkpoint_low_count=(coords < low[7:]).sum(0).tolist(),
-                    checkpoint_high_count=(coords > high[7:]).sum(0).tolist(),
+                    checkpoint_low_count=(coords < low).sum(0).tolist(),
+                    checkpoint_high_count=(coords > high).sum(0).tolist(),
                 )
             )
             for row in o0["source"]:
@@ -235,18 +258,7 @@ def run(root, visibility):
             "rotation_vector_z",
             "gripper",
         ],
-        checkpoint_right_q01=low[7:].tolist(),
-        checkpoint_right_q99=high[7:].tolist(),
-        model_input_steps=[
-            type(t).__name__
-            for t in [
-                *data.data_transforms.inputs,
-                normalize,
-                *data.model_transforms.inputs,
-            ]
-        ],
-        discrete_state_input=tokenizer.discrete_state_input,
-        token_capacity=cfg.model.max_token_len,
+        **metadata,
         new_forwards=0,
         native_integrations=0,
         training_updates=0,

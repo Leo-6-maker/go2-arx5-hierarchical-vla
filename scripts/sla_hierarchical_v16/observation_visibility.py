@@ -16,6 +16,36 @@ def digest(a):
     return hashlib.sha256(np.ascontiguousarray(a).tobytes()).hexdigest()
 
 
+def observe_packet(writer, stream, packet):
+    from dense_replay import pose
+
+    m, d, rr = writer.model, writer.data, writer.renderer
+    body, _, _, _ = writer.render(packet, audit_masks=False)
+    rr.update_scene(d, camera="wrist_rgb")
+    wrist = rr.render().copy()
+    fingers = [
+        m.jnt_qposadr[m.joint("task_" + k + "_slide").id] for k in ("left", "right")
+    ]
+    actual = d.qpos[fingers].copy()
+    arm, flange, tip = (
+        m.body("x5_base_link").id,
+        m.body("x5_link6").id,
+        m.site("x5_ee").id,
+    )
+    stream.observe(
+        stream.episode,
+        packet["step"],
+        packet["time_s"],
+        body,
+        wrist,
+        pose(d.xpos[arm], d.xmat[arm]),
+        pose(d.xpos[flange], d.xmat[flange]),
+        pose(d.site_xpos[tip], d.site_xmat[tip]),
+        actual,
+    )
+    return [digest(body), digest(wrist)], actual
+
+
 def visible(renderer, model, data, camera):
     import mujoco
 
@@ -43,7 +73,6 @@ def run(root, repo):
     from go2arx5_vla.world_model.multitask_camera_v6 import TwoObjectBodyRenderer
     from go2arx5_vla.world_model.multitask_state_v6 import packets
     from go2arx5_vla.world_model.native_replay import forbid_integration
-    from dense_replay import pose
 
     pins = read(
         pin(
@@ -113,33 +142,11 @@ def run(root, repo):
                 "llvmpipe" in driver.lower() or "softpipe" in driver.lower(),
                 "software renderer required",
             )
-            fingers = [
-                m.jnt_qposadr[m.joint("task_" + s + "_slide").id]
-                for s in ("left", "right")
-            ]
-            arm, flange = m.body("x5_base_link").id, m.body("x5_link6").id
-            tip = m.site("x5_ee").id
 
             def make_input(a):
                 tick = a["step"]
-                body, _, _, _ = writer.render(a, audit_masks=False)
-                rr.update_scene(d, camera="wrist_rgb")
-                wrist = rr.render().copy()
-                require(
-                    [digest(body), digest(wrist)] == frozen[tick]["rgb_sha256"],
-                    "different camera bytes",
-                )
-                stream.observe(
-                    name,
-                    tick,
-                    a["time_s"],
-                    body,
-                    wrist,
-                    pose(d.xpos[arm], d.xmat[arm]),
-                    pose(d.xpos[flange], d.xmat[flange]),
-                    pose(d.site_xpos[tip], d.site_xmat[tip]),
-                    d.qpos[fingers],
-                )
+                rgb, _ = observe_packet(writer, stream, a)
+                require(rgb == frozen[tick]["rgb_sha256"], "different camera bytes")
                 try:
                     rr.enable_segmentation_rendering()
                     masks[tick] = {

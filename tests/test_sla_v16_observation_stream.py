@@ -95,3 +95,17 @@ def test_bad_transform_keeps_last_observation_and_actual_width_can_refuse():
     sample(s, 5, 1, finger=0.045)
     with pytest.raises(ValueError, match="outside"):
         s.policy_input()
+
+
+def test_stop_prevents_another_query_even_without_a_new_camera_frame():
+    s = stream()
+    sample(s, 0, 0)
+    with pytest.raises(ValueError, match="wrong stop epoch"):
+        s.stop("other")
+    s.policy_input()
+    s.stop("episode")
+    s.stop("episode")
+    with pytest.raises(ValueError, match="episode stopped"):
+        s.policy_input()
+    with pytest.raises(ValueError, match="episode stopped"):
+        sample(s, 1, 0)

@@ -1,0 +1,191 @@
+{
+  "source_denominator": {
+    "registered_requests": 2,
+    "technical_stops_before_process_start": 1,
+    "actual_simulator_starts": 1,
+    "completed_noncontact_cards": 1,
+    "actual_student_SLA_tasks": 0
+  },
+  "source_files": {
+    "receiver.csv": "2a118fb1aacbf24325d443915bfa9f30e9705d9d77fd8223458fc518d68eefb2",
+    "issuer.jsonl": "1040756ebd1cb79bba7715d66b1b9a986c23ccfdd96388018ff745da506afd44",
+    "state.bin.journal": "122b28078fefc3580c284cfa046f07650bec134fd9b80c4a9304a68a4466a52b",
+    "RESULT.private.json": "9aba1d4f864a3fddf4ee32a0bc234408b46a89680ac0ef6c34b2bc9f7ffbef38",
+    "EXECUTION_SPEC.json": "92518645e7ce3c87fb56de92bbdfcced559c94329b850f1523819e2d0e1abac7",
+    "LEASE.json": "dd751734933dc5fac66b44ec6e6e45dbc5d79953d1492b6609ddfac59758f778"
+  },
+  "epoch": "75a11c5245c36efc08c8f8330dd3729975da6eec309b669cd5ad1b100a6121c8",
+  "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+  "scene_sha256": "b5b066ea788ff8763f0757747ede61890281213c2637e9f54f757b245d111959",
+  "rendered_states": 37,
+  "task_text": "Grasp the red cube, lift it, and hold it for one second while moving in the task direction.",
+  "task_text_provenance": "fixed T02 red HOLD task attached retrospectively",
+  "windows": [
+    {
+      "tick": 5703,
+      "boundary": "parked",
+      "file": "5703.npz",
+      "input_sha256": "05f389dfc6d21d2d0a7201aefc8f613fa38365199fb93f3c4126ba38ca3c1d6e",
+      "previous_sequence": 127,
+      "previous_width_mm": 42.0,
+      "previous_wire_sha256": "086199f61edc639061161b7a6eb577da0946d9157d2050902c09023d5c576abc",
+      "measured_slides_mm": [
+        41.94698047503464,
+        42.05355137277873
+      ],
+      "measured_input_fraction": 0.9545515179634094,
+      "newest_image_sha256": [
+        "09703bc9172d1c1acf67d3663374e0768e07b137995015bb9d51c6dc59f978af",
+        "38c07aaa0b8ac5f81bbbdde2c8f036d1aaf18273251e4c847c63034e999e541e"
+      ],
+      "head_ticks": [
+        0,
+        1703,
+        2203,
+        2703,
+        3203,
+        3703,
+        4203,
+        4703,
+        5203,
+        5703
+      ],
+      "normalized_gripper": 0.9868227752695178,
+      "gripper_bin": 254,
+      "tokens": 82,
+      "tokens_sha256": "bfbf0200d4cbab1fc8fcdde1e00748a05743bb55a8003b5b105e9292ce9a218b",
+      "network_image_sha256": {
+        "base_0_rgb": "2ac7c1dfe953c5110519ee2a292bc753b3059031e1ba05d5440becfdcfc81a20",
+        "left_wrist_0_rgb": "0a3f0ee9e3cbab26f89ed53b7b20e22cb985b650fd4c52ef57e4aeb27560d773",
+        "right_wrist_0_rgb": "b35667d05af3682b702a044b1e94961943b48b5672803bd3e1cb1b996d233f77"
+      },
+      "parked_width_only_counterfactual_changes_tokens": false
+    },
+    {
+      "tick": 5903,
+      "boundary": "close_finished",
+      "file": "5903.npz",
+      "input_sha256": "9a56fe29cc16e3097de4f92f26686097f650bd6cf19f88ad0b2429b30158ebec",
+      "previous_sequence": 135,
+      "previous_width_mm": 38.00000000000001,
+      "previous_wire_sha256": "548a109609165846dc0994d6f0d811277ec796768b6b399faeae8f2951da4fce",
+      "measured_slides_mm": [
+        37.89051915109743,
+        37.99715219600221
+      ],
+      "measured_input_fraction": 0.862359881401062,
+      "newest_image_sha256": [
+        "c8a1124428282c10d0e4ecae7c429854da92eb2f1dfb66c7d4921f3c546029d2",
+        "9517c655f0845cd19bb4389ce22a0299020610976d453e1d870aeca7f4956771"
+      ],
+      "head_ticks": [
+        0,
+        1903,
+        2403,
+        2903,
+        3403,
+        3903,
+        4403,
+        4903,
+        5403,
+        5903
+      ],
+      "normalized_gripper": 0.7949332441700825,
+      "gripper_bin": 229,
+      "tokens": 82,
+      "tokens_sha256": "5025dd425c6d1431a0a3f76b402628dfe43f2bdd79cac7d14a20f3acc35bd180",
+      "network_image_sha256": {
+        "base_0_rgb": "92492c75f973c404e39e5d8556f74b5934da91544166a7adf0bfb7ab4874baa2",
+        "left_wrist_0_rgb": "0a3f0ee9e3cbab26f89ed53b7b20e22cb985b650fd4c52ef57e4aeb27560d773",
+        "right_wrist_0_rgb": "62463c37691856399c9afbbf26da140d03f45e2e8203e3022a84a22a18507374"
+      },
+      "parked_width_only_counterfactual_changes_tokens": true
+    },
+    {
+      "tick": 6103,
+      "boundary": "closed_hold_finished",
+      "file": "6103.npz",
+      "input_sha256": "20a3f730d4d39633d2212f22d10267f707ad42641c892f31402d32d89a7e0c7c",
+      "previous_sequence": 143,
+      "previous_width_mm": 38.0,
+      "previous_wire_sha256": "b6250e1512cf95daf000f945f05417732a329116513015589bb96f1c87a8d990",
+      "measured_slides_mm": [
+        37.946626411843106,
+        38.05323530105364
+      ],
+      "measured_input_fraction": 0.8636347651481628,
+      "newest_image_sha256": [
+        "e7b282dc055ebc7957da257997cde2be7656340748e088aa8ce98c4f88f04128",
+        "62cec7a27f51170b12e6bafebc979b7891ed966141bcfc7c08624b1a9e0c3e31"
+      ],
+      "head_ticks": [
+        0,
+        2103,
+        2603,
+        3103,
+        3603,
+        4103,
+        4603,
+        5103,
+        5603,
+        6103
+      ],
+      "normalized_gripper": 0.7975868129053769,
+      "gripper_bin": 230,
+      "tokens": 82,
+      "tokens_sha256": "f17665cb0444fb6331fc23cacda935c3dd6528318e669452745f217c946b45dc",
+      "network_image_sha256": {
+        "base_0_rgb": "438de33ee8abbfc0d9127239827ac15ec4ac18ce1ceb95f2bd21efdb3615755c",
+        "left_wrist_0_rgb": "0a3f0ee9e3cbab26f89ed53b7b20e22cb985b650fd4c52ef57e4aeb27560d773",
+        "right_wrist_0_rgb": "9d8114a8282da815a7c5b4e46370d497de0c00e2991ae12897acfe3613c8bd87"
+      },
+      "parked_width_only_counterfactual_changes_tokens": true
+    },
+    {
+      "tick": 6303,
+      "boundary": "reopen_finished",
+      "file": "6303.npz",
+      "input_sha256": "b07c24fcd214820bcc4bf55bc833dc8cc3f28e7c88cd29b41e63f0462f5d7f84",
+      "previous_sequence": 151,
+      "previous_width_mm": 41.99999999999999,
+      "previous_wire_sha256": "46bdca9a968bceb4eef5af2933397b88cb2cffb2f08698df26cfa376d26c70c3",
+      "measured_slides_mm": [
+        42.0033408883296,
+        42.10936402026201
+      ],
+      "measured_input_fraction": 0.9558261632919312,
+      "newest_image_sha256": [
+        "bbdc900d5e3c53916f413260a488c39dee1510d433ff5dd7bd3a1f734eece571",
+        "f97f663c10b31bf4cd038174465f938fc7f26b86bbb7558e4ec7f54beb853c37"
+      ],
+      "head_ticks": [
+        0,
+        2303,
+        2803,
+        3303,
+        3803,
+        4303,
+        4803,
+        5303,
+        5803,
+        6303
+      ],
+      "normalized_gripper": 0.9894758477555747,
+      "gripper_bin": 254,
+      "tokens": 82,
+      "tokens_sha256": "bfbf0200d4cbab1fc8fcdde1e00748a05743bb55a8003b5b105e9292ce9a218b",
+      "network_image_sha256": {
+        "base_0_rgb": "20e25f72e9ee8f2950eafc1dc71ba8994b9d6ade27b092e301c980dabb267fa2",
+        "left_wrist_0_rgb": "0a3f0ee9e3cbab26f89ed53b7b20e22cb985b650fd4c52ef57e4aeb27560d773",
+        "right_wrist_0_rgb": "62ad3910db3a16e54ea676ebb81d90ce00dd3a0ff5a858bc62d378b8deb9f58c"
+      },
+      "parked_width_only_counterfactual_changes_tokens": false
+    }
+  ],
+  "terminal_tick": 6503,
+  "terminal_query_refused": true,
+  "original_policy_owned_actions": 0,
+  "new_forwards": 0,
+  "new_native_integrations": 0,
+  "token_capacity": 200
+}
