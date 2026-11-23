@@ -1,0 +1,4 @@
+{
+  "purpose": "Post-scheduling, independent observation-age control. For every admitted proposal that reaches nonzero scheduled source motion, compare its actual archived teacher state at query to the native state at the first such scheduled knot, using the program clock mapped to original ticks. Keep all 16 calls in each timing scenario and mark absent motion. No interpolation or new trajectory. No privileged data in scheduling.",
+  "measure": "Join the exact native consumed 25-tick end boundary to measured TCP, finger qpos and the instructed color's actual free-joint xyz. Check at the query against its recorded actual_state. Report displacement and height of that object and changes of gripper opening. Record both adjacent recorded 0.5 s teacher stages, target native grasp and hand contact around the later knot; do not interpolate these labels. Score relative to teacher history only, without assuming a policy would execute it."
+}
