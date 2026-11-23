@@ -1,0 +1,346 @@
+{
+  "id": "V4-NOMINAL-01",
+  "summary": {
+    "position_mm": {
+      "n": 16,
+      "frozen_lower": 8,
+      "tie": 0,
+      "median_frozen": 5.103574192384087,
+      "median_hold": 5.191316264131806,
+      "median_paired_frozen_minus_hold": -0.17583927348562756
+    },
+    "orientation_deg": {
+      "n": 16,
+      "frozen_lower": 0,
+      "tie": 0,
+      "median_frozen": 0.5171483330648501,
+      "median_hold": 0.1829563218622256,
+      "median_paired_frozen_minus_hold": 0.3688927146479957
+    },
+    "gripper_width_mm": {
+      "n": 16,
+      "frozen_lower": 3,
+      "tie": 0,
+      "median_frozen": 20.768763931162695,
+      "median_hold": 6.938893903907228e-15,
+      "median_paired_frozen_minus_hold": 8.929777435157572
+    },
+    "first_15_position_mm": {
+      "n": 16,
+      "frozen_lower": 3,
+      "tie": 0,
+      "median_frozen": 2.021111524056948,
+      "median_hold": 1.9236285482980107,
+      "median_paired_frozen_minus_hold": 0.1609913199196702
+    }
+  },
+  "windows": [
+    {
+      "id": "T01",
+      "episode": "CHV1-TRAIN-F2-HOLD-blue-00",
+      "phase": "DESCEND",
+      "raw_sha256": "8c51d2588b7b15e0a47cb75662a5fd282a9846f5cde7e19e9eaae20bd1f9b032",
+      "tick": 19953,
+      "frozen": {
+        "position_mm": 9.026576572508196,
+        "orientation_deg": 1.2766943877121881,
+        "gripper_width_mm": 2.5600946743247857,
+        "first_15_position_mm": 2.285770460773858
+      },
+      "hold": {
+        "position_mm": 3.690529399302379,
+        "orientation_deg": 0.19072633123145594,
+        "gripper_width_mm": 6.938893903907228e-15,
+        "first_15_position_mm": 1.8448528726555415
+      }
+    },
+    {
+      "id": "T02",
+      "episode": "CHV1-TRAIN-F1-HOLD-red-03",
+      "phase": "CLOSE",
+      "raw_sha256": "ddb8b19be4efb02bfac1544b44a48cb0e2d96134d1ecac0bae2c1fa9fada04ad",
+      "tick": 19453,
+      "frozen": {
+        "position_mm": 3.4031197797684927,
+        "orientation_deg": 0.5762648190768668,
+        "gripper_width_mm": 22.59943595238734,
+        "first_15_position_mm": 0.8120924570891078
+      },
+      "hold": {
+        "position_mm": 0.670048758462395,
+        "orientation_deg": 0.09727492496946614,
+        "gripper_width_mm": 18.73261345292662,
+        "first_15_position_mm": 0.24312004984781396
+      }
+    },
+    {
+      "id": "T03",
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-07",
+      "phase": "LIFT",
+      "raw_sha256": "cc9b4c243f1b6ecd47892c71af7c4af7f3f11ba2668332d6d6de651e9ef09373",
+      "tick": 19953,
+      "frozen": {
+        "position_mm": 3.868844205770347,
+        "orientation_deg": 0.605824660027493,
+        "gripper_width_mm": 18.934646924000646,
+        "first_15_position_mm": 0.8088952047141021
+      },
+      "hold": {
+        "position_mm": 5.304737361219433,
+        "orientation_deg": 0.0916566019852524,
+        "gripper_width_mm": 4.941914553146218,
+        "first_15_position_mm": 0.8222805550557656
+      }
+    },
+    {
+      "id": "T04",
+      "episode": "CHV1-TRAIN-F1-HOLD-red-02",
+      "phase": "LIFT",
+      "raw_sha256": "220f879fe33466e0ab63406993db747d4c8868efa491d2f3229dcdd2c1f77b26",
+      "tick": 21953,
+      "frozen": {
+        "position_mm": 4.64527961933207,
+        "orientation_deg": 0.3953857643073635,
+        "gripper_width_mm": 22.145623144170315,
+        "first_15_position_mm": 2.1074738095844827
+      },
+      "hold": {
+        "position_mm": 5.986151550171243,
+        "orientation_deg": 0.19100608380132209,
+        "gripper_width_mm": 0.0,
+        "first_15_position_mm": 2.053220740511401
+      }
+    },
+    {
+      "id": "T05",
+      "episode": "CHV1-TRAIN-F1-HOLD-red-05",
+      "phase": "HOLD",
+      "raw_sha256": "482871dcd34988714912d82ce6b6f0511dae4ba9cb4432468b0a4961c4addb49",
+      "tick": 22703,
+      "frozen": {
+        "position_mm": 3.496164825030249,
+        "orientation_deg": 0.4586480347972048,
+        "gripper_width_mm": 16.724626484832363,
+        "first_15_position_mm": 1.961804175297869
+      },
+      "hold": {
+        "position_mm": 4.099951944322268,
+        "orientation_deg": 0.17464064841070515,
+        "gripper_width_mm": 0.0,
+        "first_15_position_mm": 2.0040635057088916
+      }
+    },
+    {
+      "id": "T06",
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-01",
+      "phase": "CARRY",
+      "raw_sha256": "f00e119c0545028931d57175ee7be556702762450621f703e5f5ab9bf3ce7780",
+      "tick": 22203,
+      "frozen": {
+        "position_mm": 4.682919981087833,
+        "orientation_deg": 0.3753602645029633,
+        "gripper_width_mm": 21.254336941871593,
+        "first_15_position_mm": 1.72818707658792
+      },
+      "hold": {
+        "position_mm": 5.917716101990438,
+        "orientation_deg": 0.18795182838946287,
+        "gripper_width_mm": 0.0,
+        "first_15_position_mm": 1.6573035751538447
+      }
+    },
+    {
+      "id": "T07",
+      "episode": "CHV1-TRAIN-F2-HOLD-blue-00",
+      "phase": "DESCEND",
+      "raw_sha256": "83fec11677b5069775bfd53582029866fa9d9f03ae2edb774e1039a8009f06b0",
+      "tick": 19703,
+      "frozen": {
+        "position_mm": 10.43461275442339,
+        "orientation_deg": 1.3658938955074156,
+        "gripper_width_mm": 2.6348103366406685,
+        "first_15_position_mm": 2.507682699425428
+      },
+      "hold": {
+        "position_mm": 5.077895167044178,
+        "orientation_deg": 0.344616681848395,
+        "gripper_width_mm": 6.938893903907228e-15,
+        "first_15_position_mm": 2.0456372166888506
+      }
+    },
+    {
+      "id": "T08",
+      "episode": "CHV1-TRAIN-F1-HOLD-red-03",
+      "phase": "CLOSE",
+      "raw_sha256": "17c1bd54785bd9b8b0599d2dfa900bb734ab8155f6e796ddf2f3f1b14e431bdc",
+      "tick": 19203,
+      "frozen": {
+        "position_mm": 4.514261545745148,
+        "orientation_deg": 0.5154272042040262,
+        "gripper_width_mm": 25.49745368699537,
+        "first_15_position_mm": 1.543094478042843
+      },
+      "hold": {
+        "position_mm": 0.5406046276758325,
+        "orientation_deg": 0.19820868374932932,
+        "gripper_width_mm": 26.824764844315563,
+        "first_15_position_mm": 0.329373445746069
+      }
+    },
+    {
+      "id": "T09",
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-07",
+      "phase": "CLOSE",
+      "raw_sha256": "b21e6620bca52d89e65c98118ebe70603733b8554acf6c03b0ab90be405bd322",
+      "tick": 19703,
+      "frozen": {
+        "position_mm": 2.2251548417166322,
+        "orientation_deg": 0.4864940680681461,
+        "gripper_width_mm": 20.685627633829885,
+        "first_15_position_mm": 0.9155116337397115
+      },
+      "hold": {
+        "position_mm": 1.973046269395868,
+        "orientation_deg": 0.03133557351027403,
+        "gripper_width_mm": 18.73261345292662,
+        "first_15_position_mm": 1.02636295272546
+      }
+    },
+    {
+      "id": "T10",
+      "episode": "CHV1-TRAIN-F1-HOLD-red-02",
+      "phase": "LIFT",
+      "raw_sha256": "dac9fd33665e36766e63357700936d213a6a10a32a95f05cdff56694db6a2c49",
+      "tick": 21703,
+      "frozen": {
+        "position_mm": 5.47824707419371,
+        "orientation_deg": 0.3837389717327526,
+        "gripper_width_mm": 21.34260018390283,
+        "first_15_position_mm": 2.130422364175553
+      },
+      "hold": {
+        "position_mm": 6.836832856942355,
+        "orientation_deg": 0.1704894040032633,
+        "gripper_width_mm": 0.0,
+        "first_15_position_mm": 2.0552920377171224
+      }
+    },
+    {
+      "id": "T11",
+      "episode": "CHV1-TRAIN-F1-HOLD-red-05",
+      "phase": "LIFT",
+      "raw_sha256": "68922167408be5aa9f7df7f7c468bc9c7b001a6d28bbdb6e1cdd3bfadf5529f2",
+      "tick": 22453,
+      "frozen": {
+        "position_mm": 5.141664987965334,
+        "orientation_deg": 0.5188694619256738,
+        "gripper_width_mm": 16.553555951226297,
+        "first_15_position_mm": 2.0931270452841058
+      },
+      "hold": {
+        "position_mm": 5.755938262787401,
+        "orientation_deg": 0.17264289140865666,
+        "gripper_width_mm": 0.0,
+        "first_15_position_mm": 2.0558153753522634
+      }
+    },
+    {
+      "id": "T12",
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-01",
+      "phase": "LIFT",
+      "raw_sha256": "70f8775f47c3714ea4d871036e040a060a7e7ecc24b9176e836728c8753f593d",
+      "tick": 21953,
+      "frozen": {
+        "position_mm": 5.065483396802842,
+        "orientation_deg": 0.40355258052791365,
+        "gripper_width_mm": 20.851900228495502,
+        "first_15_position_mm": 2.302513072967635
+      },
+      "hold": {
+        "position_mm": 5.80326101880125,
+        "orientation_deg": 0.17796081533498834,
+        "gripper_width_mm": 0.0,
+        "first_15_position_mm": 2.055660759586725
+      }
+    },
+    {
+      "id": "T13",
+      "episode": "CHV1-TRAIN-F2-HOLD-blue-00",
+      "phase": "DESCEND",
+      "raw_sha256": "c6f22c14bec0955aa52f9a8541f13afb4ea29c458e56a66f8fd4d654eef200a3",
+      "tick": 19453,
+      "frozen": {
+        "position_mm": 11.104380678200972,
+        "orientation_deg": 1.211253425947804,
+        "gripper_width_mm": 2.554164471857781,
+        "first_15_position_mm": 2.4088957982497825
+      },
+      "hold": {
+        "position_mm": 5.87373076676899,
+        "orientation_deg": 0.4870903504400286,
+        "gripper_width_mm": 6.938893903907228e-15,
+        "first_15_position_mm": 2.00240422394048
+      }
+    },
+    {
+      "id": "T14",
+      "episode": "CHV1-TRAIN-F1-HOLD-red-03",
+      "phase": "CLOSE",
+      "raw_sha256": "dff414c10bf8b7e33acf05e0947c9301268faa7f01af71f66be5b111a7ca8408",
+      "tick": 18953,
+      "frozen": {
+        "position_mm": 6.137665506182846,
+        "orientation_deg": 0.6059179398702661,
+        "gripper_width_mm": 18.322629937307433,
+        "first_15_position_mm": 1.8560755930551915
+      },
+      "hold": {
+        "position_mm": 1.7995109051340705,
+        "orientation_deg": 0.21435908109129187,
+        "gripper_width_mm": 20.214255518705546,
+        "first_15_position_mm": 1.1402342255899798
+      }
+    },
+    {
+      "id": "T15",
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-07",
+      "phase": "CLOSE",
+      "raw_sha256": "137f8153158e8d0cd28a731646a2c0170a51bc902401080f0064cf37ec9fffd5",
+      "tick": 19453,
+      "frozen": {
+        "position_mm": 5.607824291004024,
+        "orientation_deg": 0.9389141434489433,
+        "gripper_width_mm": 25.45923586640646,
+        "first_15_position_mm": 1.6448472817703785
+      },
+      "hold": {
+        "position_mm": 2.0899932271856945,
+        "orientation_deg": 0.08552872466305747,
+        "gripper_width_mm": 26.824764844315563,
+        "first_15_position_mm": 0.6189692369447233
+      }
+    },
+    {
+      "id": "T16",
+      "episode": "CHV1-TRAIN-F1-HOLD-red-02",
+      "phase": "LIFT",
+      "raw_sha256": "d3980c338f2541fed43c5eef518dc0e628adaed7696511ace86add6576efdd74",
+      "tick": 21453,
+      "frozen": {
+        "position_mm": 5.659249433689216,
+        "orientation_deg": 0.4169767640972192,
+        "gripper_width_mm": 22.096320058303288,
+        "first_15_position_mm": 2.080418872816027
+      },
+      "hold": {
+        "position_mm": 7.0817106750706245,
+        "orientation_deg": 0.2057774274957605,
+        "gripper_width_mm": 0.0,
+        "first_15_position_mm": 2.0557393450958807
+      }
+    }
+  ],
+  "native_starts": 0,
+  "new_forwards": 0,
+  "training_updates": 0
+}
