@@ -1,0 +1,185 @@
+{
+  "scope": "MuJoCo B2 standing contact-free technical cards",
+  "authorized_requests": 2,
+  "actual_requests": 2,
+  "completed_cards": 2,
+  "authorized_ticks": 12906,
+  "actual_ticks": 12881,
+  "fresh_owner_lock_available_at_audit": true,
+  "frozen_sha256": {
+    "sim": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+    "solver": "4a5f5aa6e0b9d4bde62f4d1da73135ef97e5268945a0cecf114d9190d3e04fd0",
+    "controller": "9e8ce46837d09bc39ae04d4b49f1ce4dd8c8c2d31bea39eac56c5806d108c1f3"
+  },
+  "experiment_code_sha256": {
+    "b2_owner.py": "f1830bc8a016e1ce938d3f1cb401a8b0d3762ab95d845179d8e53efa5660150f",
+    "b2_native.py": "a83eab15d2c1e6e3efce8a0a0662280c3f7786853e39135954fe513ed44ad509",
+    "b2_receiver.py": "266a71d7bab58dde779748202eac53bd061799dd7c03fd611ad281a18d22c367",
+    "clock_guard.py": "2c62a67d6cd79bf55b6883c6a4dfde66a292474fbc5d9929d849a934b80365ea",
+    "identity.py": "0869cc81874571c315131612d30958a4cbdeb061deada70cb1d83205dc3d5b9a"
+  },
+  "training_updates": 0,
+  "model_forwards": 0,
+  "manipulation_episodes": 0,
+  "cards": [
+    {
+      "card": "T0_STATIC_HOLD",
+      "native_requests": 1,
+      "completed": true,
+      "cap": 6203,
+      "actual_ticks": 6203,
+      "initialization_ticks": 5703,
+      "test_seconds": 1.0,
+      "metrics": {
+        "atoms": 20,
+        "position_rms_mm": 22.427972070282024,
+        "position_peak_mm": 23.853306009244676,
+        "rotation_rms_deg": 3.313549485815167,
+        "rotation_peak_deg": 3.730882258300135,
+        "distinct_installs": 10,
+        "atoms_with_exact_solver_echo": 20,
+        "arm_requests": 197,
+        "base_commands": 197,
+        "valid_no_grasp_atoms": 20
+      },
+      "first_100ms_endpoint_errors_mm": [
+        6.342160841754639,
+        17.208498717184288
+      ],
+      "actual_minus_target_final_xyz_mm": [
+        -12.264179995367662,
+        -0.642360906204469,
+        -20.269346696299095
+      ],
+      "same_time_EE_state_vs_reconstructed_TCP": {
+        "exact_matches": 20,
+        "total_endpoints": 20,
+        "max_position_difference_mm": 0.1020985246362086
+      },
+      "native_windows_checked": 20,
+      "native_window_point_counts": {
+        "41": 10,
+        "80": 10
+      },
+      "max_native_EEF_target_position_difference_mm": 1.2068594081851987e-05,
+      "last_mode_transition": [
+        "WBC",
+        "HOLD"
+      ],
+      "native_safety_stops": 0,
+      "native_trace": {
+        "status": "RECORDED_TRACE_CHECKS_PASS",
+        "native_step_records": 6203,
+        "STOP_observed": false,
+        "integrations_after_first_STOP": null,
+        "errors": []
+      },
+      "mobile_guard_stop": false,
+      "closed_lease": true,
+      "clean_owned_process_exits": 4,
+      "clock_test": null,
+      "result_sha256": "723e99889f0a517a8fbe567564aa1c0384c3184f2349730380d18fa0c400685c",
+      "spec_sha256": "8bc61b0701d6bbf168cc3ad03059260694bbab5869670ac7dc8a66d990765f3a",
+      "evidence_sha256": {
+        "MOBILE_SAMPLES.private.jsonl": "c71851380a92ae80fc6d9a5f169f08303184a1d7e87039ba8bf422e9c4e2224d",
+        "CLOCK_RESUME_REQUESTS.jsonl": "4b3de97422d8f8261c61890f217900223585f7250bd919bf0dcf65ab6be4e957",
+        "ROS_CONSUMPTION.private.jsonl": "fbaaea89063804023c406d7f55330b1e44fc4f9170119be3401377b230f7462c",
+        "LOADED_EXECUTOR_00.private.json": "92854fd2108b8ba796d0feac4d9c5d44f55b7be609afaf1668c1848094f6fc5d",
+        "planner.jsonl": "4cecb095212bccb5120fb1c9f9ef34fab48b073553bc45fb253854362a52f547",
+        "GUARD_READY.json": "c251bbe84163d70b1300028435c4eb317d88bed3b280151700d9bd99e103bb13",
+        "pause_ack.json": "8c20004cfb787850d0bfd4307deb5248898c3d1fd64d941a60ba3f6671a41a45",
+        "init.trace": "a5383a3ae32714ff0309eba60b1334f7cb301ff67cedf18ebb7da011e9af46bc",
+        "init.trace.summary": "2b15575553b7b6e9861582246644d44a793987064b6d33c1e2f0cf4b1aa7ac81",
+        "state.bin.journal": "4f8ff36666c6b5cee492c703e7096b5bb73e0e8f1199c9c997bf4d99ddf401b2",
+        "physics.jsonl": "ef78362ecd09bf7e825a5661edd0395e598a459a9356e6020e929861d3ad8942"
+      }
+    },
+    {
+      "card": "T1_CLOCK_FAULT_STOP",
+      "native_requests": 1,
+      "completed": true,
+      "cap": 6703,
+      "actual_ticks": 6678,
+      "initialization_ticks": 5703,
+      "test_seconds": 1.95,
+      "metrics": {
+        "atoms": 39,
+        "position_rms_mm": 23.06697843635339,
+        "position_peak_mm": 23.993782512117676,
+        "rotation_rms_deg": 3.3079931139754737,
+        "rotation_peak_deg": 3.843570670058756,
+        "distinct_installs": 20,
+        "atoms_with_exact_solver_echo": 39,
+        "arm_requests": 383,
+        "base_commands": 383,
+        "valid_no_grasp_atoms": 39
+      },
+      "first_100ms_endpoint_errors_mm": [
+        3.9807244713396726,
+        15.856649987904932
+      ],
+      "actual_minus_target_final_xyz_mm": [
+        -12.55125498974169,
+        -0.45937662667920254,
+        -20.32726537698948
+      ],
+      "same_time_EE_state_vs_reconstructed_TCP": {
+        "exact_matches": 39,
+        "total_endpoints": 39,
+        "max_position_difference_mm": 1.7942125013256527
+      },
+      "native_windows_checked": 39,
+      "native_window_point_counts": {
+        "41": 20,
+        "80": 19
+      },
+      "max_native_EEF_target_position_difference_mm": 1.4158518034251521e-05,
+      "last_mode_transition": [
+        "WBC",
+        "HOLD"
+      ],
+      "native_safety_stops": 0,
+      "native_trace": {
+        "status": "RECORDED_TRACE_CHECKS_PASS",
+        "native_step_records": 6678,
+        "STOP_observed": false,
+        "integrations_after_first_STOP": null,
+        "errors": []
+      },
+      "mobile_guard_stop": false,
+      "closed_lease": true,
+      "clean_owned_process_exits": 4,
+      "clock_test": {
+        "callback_fault": {
+          "stream": "mpc",
+          "previous_s": 13.356,
+          "observed_s": 13.256,
+          "reason": "rewind"
+        },
+        "fault_tick": 6678,
+        "HOLD_state_tick": 6678,
+        "post_fault_native_steps": 0,
+        "references_invalidated": true,
+        "target_publications_after_fault": 0,
+        "quota_resume_requests_after_fault": 0
+      },
+      "result_sha256": "6b0109d722a695cc68178b6df3437c0627427e2c8315ce6a0b919562649e235a",
+      "spec_sha256": "b68203525a0a802ca2ccdc295d169bb71d9b6fd55111057015831eeb30585c2c",
+      "evidence_sha256": {
+        "MOBILE_SAMPLES.private.jsonl": "f4e13e5ac19fcb1209145174271c348fcd7bf99f97ead98b6667bb09e7cf500c",
+        "CLOCK_RESUME_REQUESTS.jsonl": "c8c3b64e4d3114b03c66ecd2a4c4443f7d45f081724333bcf20c3db3f2618671",
+        "ROS_CONSUMPTION.private.jsonl": "dbf37640781bad5e21ba2eefa6c7b996d46b6c41cdb8833c1db61afe8948cfe1",
+        "LOADED_EXECUTOR_00.private.json": "dc22d68527f41bd370afcb6d676dfcf2a829174758eedce04ca91876865326b5",
+        "planner.jsonl": "37e235d8fef0880be725a530b4f4c15cde34d7015ac7aa6367d66a774b076342",
+        "GUARD_READY.json": "17404f2ad9719eadca6d6a62e4bdf599a8c10b43867557b9385529da58090f79",
+        "pause_ack.json": "fae96d1c78114fcb387ae820289a66b8bf0297c29029723adecaeae3feb901cb",
+        "init.trace": "ffc48e7fd1e9850dcbb9c17e6d732958adbbf531672fd6c585cb693f81a67cc9",
+        "init.trace.summary": "8163798a4cf82bbbb38b8c4aaeba9340e1ea0e5e53c719bbe9635fd44ad4b561",
+        "state.bin.journal": "fe71096c0d765adc88ad913a4e1c083177a9f76808c141a3e63d641953b871de",
+        "physics.jsonl": "74af89806e8f21967a3e80755489e21f30cc0e16eff77f8a487a91691656596d",
+        "GUARD_TERMINAL.json": "cff00584620c5149c4d5ed684064fddc433918e4a3660085f7cd5fd2a28ac1a4",
+        "B2_REWIND_REQUEST.json": "67a1d5b1dac745b9a74a5375be6223deb7c748b838cafbfc2ee5307b757556c1"
+      }
+    }
+  ]
+}

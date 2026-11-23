@@ -23,4 +23,4 @@ python3 -B launch.py technical_registration "$TRANSFER_ROOT" "$OUTPUT/cards"
 python3 -B launch.py technical_shadow "$TRANSFER_ROOT" "$OUTPUT/tech_shadow" --registration "$OUTPUT/cards/B2_TECHNICAL_REGISTRATION.json"
 ```
 
-The clock guard candidate runs in this offline receiver harness. Live physical STOP and gripper command ownership need independent native evidence.
+The two approved B2 technical cards used this clock guard in separate native simulator sessions. The live run and its evidence are described in [the B2 result](../../reports/SLA_MEMORY_V14/B2_NATIVE_TECHNICAL_CARDS.md). On the registered Corelab site, `b2_owner.py preflight TRANSFER_ROOT` checks the frozen files and exercises the actual clock-fault callback offline. The finite `execute` entry also runs those checks and refuses to reuse an existing campaign. To audit the two closed cards, use `b2_readout.py GROUP NEW_OUTPUT_JSON`. Gripper ownership and stopping under continuous motion remain separate experiments.
