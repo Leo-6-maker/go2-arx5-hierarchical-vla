@@ -1,0 +1,6 @@
+{
+  "status": "Exploratory mechanism control on the same six teacher episodes, after baseline inspection; no independent validation.",
+  "motivation": "At 16/16 audited queries the largest blue component spans the entire body-image width and the entire wrist-image height. The independent geometry mask shows a smaller blue cube in both views at T01, T07 and T13 of the blue HOLD task.",
+  "change": "Apply the identical rule to both colors and both views: discard any color component whose bbox includes both opposite horizontal borders or both opposite vertical borders. A single image edge is allowed. Then select the largest remaining component with the original minimum area. All stereo, time, initial-height, 20 mm and scoring thresholds remain fixed. Preserve the original predictions; no additional variants in this panel.",
+  "outcomes": "Repeat all 527 queries and both roles. Compare 20 mm confusion, abstention and initial-to-first-crossing lag; audit both selectors' xyxy bbox intersection over union against independently stored geometry bbox on the original 16 model query windows. Geometry is available only to the scorer. In this panel red F1 versus blue F2 effects are confounded."
+}
