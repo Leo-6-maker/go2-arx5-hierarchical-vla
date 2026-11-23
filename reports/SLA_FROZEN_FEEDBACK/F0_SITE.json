@@ -1,0 +1,1080 @@
+{
+  "scope": "ARCHIVED_BOUNDARY_CPU_ONLY",
+  "scene_sha256": "b5b066ea788ff8763f0757747ede61890281213c2637e9f54f757b245d111959",
+  "site_audit_sha256": "4e971de0629a58ea40595f13688d8f718fe3ad63b874d3fce9d85e0c472b0707",
+  "control_sha256": "671a992881987dadca99d7edf5387a31f2ba668b703571a6845e626ffa0d5175",
+  "geometry": {
+    "pad_centers_in_tcp_mm": [
+      [
+        -5.551115123125783e-14,
+        47.30999999999999,
+        0.00010000000005838672
+      ],
+      [
+        -5.551115123125783e-14,
+        -43.738,
+        1.1102230246251565e-13
+      ]
+    ],
+    "open_inner_gap_mm": 85.04799999999999,
+    "centered_cube_lateral_margins_mm": [
+      24.309999999999988,
+      20.738
+    ],
+    "min_xz_overlap_margins_mm": [
+      7.999999999999945,
+      9.799899999999939
+    ],
+    "maximum_pad_corner_lever_mm": 56.74592055830977,
+    "net_tracking_allowance_mm": 4.210425666149625
+  },
+  "records": [
+    {
+      "id": "K01",
+      "old_wire_sha256": "9023981af09beed29a84fa49ce99112fccb8d650a3658fdb5b0f4435281da6c2",
+      "old_sequence": 18,
+      "checks": {
+        "A0": {
+          "original_gate": {
+            "xyz_min_m": [
+              0.27120776104862165,
+              -0.010055603815214571,
+              0.7327211991589129
+            ],
+            "xyz_max_m": [
+              0.27120776104862165,
+              -0.010055603815214571,
+              0.7327211991589129
+            ],
+            "max_anchor_distance_m": 0.02739897320826882,
+            "path_length_m": 0.0,
+            "max_anchor_rotation_rad": 0.047744154156012956,
+            "gripper_mechanical_fraction_min": 0.9545454545454545,
+            "gripper_mechanical_fraction_max": 0.9545454545454545,
+            "maximum_translation_speed_m_s": 0.0,
+            "maximum_angular_speed_rad_s": 0.0,
+            "maximum_finger_speed_m_s": 0.0,
+            "maximum_discrete_translation_acceleration_m_s2": 0.0,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.0
+          },
+          "geometry": {
+            "poses_checked": 170,
+            "minimum_joint_margin_rad": 0.4735848003334203,
+            "maximum_IK_component_residual": 1.4039033429114056e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "offline_receiver_knots": 41
+        },
+        "A1": {
+          "original_gate": {
+            "xyz_min_m": [
+              0.27120776104862165,
+              -0.010055603815214571,
+              0.7327211991589129
+            ],
+            "xyz_max_m": [
+              0.271388221934859,
+              -0.00999782917188922,
+              0.7330734717226005
+            ],
+            "max_anchor_distance_m": 0.027798973208268823,
+            "path_length_m": 0.0004000000000000058,
+            "max_anchor_rotation_rad": 0.048791351707207525,
+            "gripper_mechanical_fraction_min": 0.9545454545454545,
+            "gripper_mechanical_fraction_max": 0.9545454545454545,
+            "maximum_translation_speed_m_s": 0.004000000000001036,
+            "maximum_angular_speed_rad_s": 0.010471975502595054,
+            "maximum_finger_speed_m_s": 0.0,
+            "maximum_discrete_translation_acceleration_m_s2": 0.08000000000002072,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.20943951023932797
+          },
+          "geometry": {
+            "poses_checked": 172,
+            "minimum_joint_margin_rad": 0.4735848003334203,
+            "maximum_IK_component_residual": 1.4039033429114056e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "offline_receiver_knots": 41
+        },
+        "negative": {
+          "previous_atom_jump": "CONSUMED_SEAM",
+          "future_feedback": "WRONG_CLOCK",
+          "stale_feedback": "WRONG_CLOCK",
+          "fake_install": "UNVERIFIED_REFERENCE",
+          "missing_echo": "UNVERIFIED_REFERENCE",
+          "wrong_anchor": "ACK_ANCHOR_MISMATCH",
+          "expired_receipt": "WRONG_CLOCK",
+          "foreign_finger_owner": "GRIPPER_OWNERSHIP",
+          "seam_width": "GRIPPER_OWNERSHIP",
+          "contact": "CONTACT_OR_STOP",
+          "large_knot_jump": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+          "duplicate_consumption": "DUPLICATE_OR_SKIPPED_CONSUMPTION"
+        }
+      }
+    },
+    {
+      "id": "K02",
+      "old_wire_sha256": "68759224e6dedf7543bdc700399545e62afbea7d50edfb5ea971eebc63d7e04b",
+      "old_sequence": 18,
+      "checks": {
+        "A0": {
+          "original_gate": {
+            "xyz_min_m": [
+              0.27120701988458507,
+              -0.010048843843894194,
+              0.7327204907885403
+            ],
+            "xyz_max_m": [
+              0.27120701988458507,
+              -0.010048843843894194,
+              0.7327204907885403
+            ],
+            "max_anchor_distance_m": 0.0273954761593205,
+            "path_length_m": 0.0,
+            "max_anchor_rotation_rad": 0.04775972896557435,
+            "gripper_mechanical_fraction_min": 0.9545454545454545,
+            "gripper_mechanical_fraction_max": 0.9545454545454545,
+            "maximum_translation_speed_m_s": 0.0,
+            "maximum_angular_speed_rad_s": 0.0,
+            "maximum_finger_speed_m_s": 0.0,
+            "maximum_discrete_translation_acceleration_m_s2": 0.0,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.0
+          },
+          "geometry": {
+            "poses_checked": 170,
+            "minimum_joint_margin_rad": 0.4735770320775766,
+            "maximum_IK_component_residual": 1.4045839321630282e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "offline_receiver_knots": 41
+        },
+        "A1": {
+          "original_gate": {
+            "xyz_min_m": [
+              0.27120701988458507,
+              -0.010048843843894194,
+              0.7327204907885403
+            ],
+            "xyz_max_m": [
+              0.2713875143911029,
+              -0.009991066619708005,
+              0.7330727457040237
+            ],
+            "max_anchor_distance_m": 0.02779547615932051,
+            "path_length_m": 0.00040000000000001135,
+            "max_anchor_rotation_rad": 0.048806926516771904,
+            "gripper_mechanical_fraction_min": 0.9545454545454545,
+            "gripper_mechanical_fraction_max": 0.9545454545454545,
+            "maximum_translation_speed_m_s": 0.004000000000001342,
+            "maximum_angular_speed_rad_s": 0.010471975502595054,
+            "maximum_finger_speed_m_s": 0.0,
+            "maximum_discrete_translation_acceleration_m_s2": 0.08000000000002684,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.20943951023932678
+          },
+          "geometry": {
+            "poses_checked": 172,
+            "minimum_joint_margin_rad": 0.4735770320775766,
+            "maximum_IK_component_residual": 1.4045839321630282e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "offline_receiver_knots": 41
+        },
+        "negative": {
+          "previous_atom_jump": "CONSUMED_SEAM",
+          "future_feedback": "WRONG_CLOCK",
+          "stale_feedback": "WRONG_CLOCK",
+          "fake_install": "UNVERIFIED_REFERENCE",
+          "missing_echo": "UNVERIFIED_REFERENCE",
+          "wrong_anchor": "ACK_ANCHOR_MISMATCH",
+          "expired_receipt": "WRONG_CLOCK",
+          "foreign_finger_owner": "GRIPPER_OWNERSHIP",
+          "seam_width": "GRIPPER_OWNERSHIP",
+          "contact": "CONTACT_OR_STOP",
+          "large_knot_jump": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+          "duplicate_consumption": "DUPLICATE_OR_SKIPPED_CONSUMPTION"
+        }
+      }
+    },
+    {
+      "id": "K03",
+      "old_wire_sha256": "9d7f452a02f34259cada83739119afd020a05b37d7db32a811dad53b70433276",
+      "old_sequence": 18,
+      "checks": {
+        "A0": {
+          "original_gate": {
+            "xyz_min_m": [
+              0.27073232176498757,
+              -0.010059311370108433,
+              0.7326408200110636
+            ],
+            "xyz_max_m": [
+              0.27073232176498757,
+              -0.010059311370108433,
+              0.7326408200110636
+            ],
+            "max_anchor_distance_m": 0.02738614247207,
+            "path_length_m": 0.0,
+            "max_anchor_rotation_rad": 0.04809083068331028,
+            "gripper_mechanical_fraction_min": 0.9545454545454545,
+            "gripper_mechanical_fraction_max": 0.9545454545454545,
+            "maximum_translation_speed_m_s": 0.0,
+            "maximum_angular_speed_rad_s": 0.0,
+            "maximum_finger_speed_m_s": 0.0,
+            "maximum_discrete_translation_acceleration_m_s2": 0.0,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.0
+          },
+          "geometry": {
+            "poses_checked": 170,
+            "minimum_joint_margin_rad": 0.47894234213548714,
+            "maximum_IK_component_residual": 1.3978931169278397e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "offline_receiver_knots": 41
+        },
+        "A1": {
+          "original_gate": {
+            "xyz_min_m": [
+              0.27073232176498757,
+              -0.010059311370108433,
+              0.7326408200110636
+            ],
+            "xyz_max_m": [
+              0.27091651839453096,
+              -0.01001233258475917,
+              0.7329927640341581
+            ],
+            "max_anchor_distance_m": 0.027786142472070036,
+            "path_length_m": 0.00040000000000003813,
+            "max_anchor_rotation_rad": 0.04913802823450672,
+            "gripper_mechanical_fraction_min": 0.9545454545454545,
+            "gripper_mechanical_fraction_max": 0.9545454545454545,
+            "maximum_translation_speed_m_s": 0.0040000000000003835,
+            "maximum_angular_speed_rad_s": 0.010471975511076533,
+            "maximum_finger_speed_m_s": 0.0,
+            "maximum_discrete_translation_acceleration_m_s2": 0.08000000000000766,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.20943951023931726
+          },
+          "geometry": {
+            "poses_checked": 172,
+            "minimum_joint_margin_rad": 0.47894234213548714,
+            "maximum_IK_component_residual": 1.3978931169278397e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "offline_receiver_knots": 41
+        },
+        "negative": {
+          "previous_atom_jump": "CONSUMED_SEAM",
+          "future_feedback": "WRONG_CLOCK",
+          "stale_feedback": "WRONG_CLOCK",
+          "fake_install": "UNVERIFIED_REFERENCE",
+          "missing_echo": "UNVERIFIED_REFERENCE",
+          "wrong_anchor": "ACK_ANCHOR_MISMATCH",
+          "expired_receipt": "WRONG_CLOCK",
+          "foreign_finger_owner": "GRIPPER_OWNERSHIP",
+          "seam_width": "GRIPPER_OWNERSHIP",
+          "contact": "CONTACT_OR_STOP",
+          "large_knot_jump": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+          "duplicate_consumption": "DUPLICATE_OR_SKIPPED_CONSUMPTION"
+        }
+      }
+    },
+    {
+      "id": "K04",
+      "old_wire_sha256": "4f2b09d89c4147c52bd104f0350b67260815b3c762fbe15b6776760b0e869c39",
+      "old_sequence": 18,
+      "checks": {
+        "A0": {
+          "original_gate": {
+            "xyz_min_m": [
+              0.27120697960795603,
+              -0.01004895042930721,
+              0.7327204919461563
+            ],
+            "xyz_max_m": [
+              0.27120697960795603,
+              -0.01004895042930721,
+              0.7327204919461563
+            ],
+            "max_anchor_distance_m": 0.02737288784711863,
+            "path_length_m": 0.0,
+            "max_anchor_rotation_rad": 0.04768239074945535,
+            "gripper_mechanical_fraction_min": 0.9545454545454545,
+            "gripper_mechanical_fraction_max": 0.9545454545454545,
+            "maximum_translation_speed_m_s": 0.0,
+            "maximum_angular_speed_rad_s": 0.0,
+            "maximum_finger_speed_m_s": 0.0,
+            "maximum_discrete_translation_acceleration_m_s2": 0.0,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.0
+          },
+          "geometry": {
+            "poses_checked": 170,
+            "minimum_joint_margin_rad": 0.4735505021475833,
+            "maximum_IK_component_residual": 1.405613385796478e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "offline_receiver_knots": 41
+        },
+        "A1": {
+          "original_gate": {
+            "xyz_min_m": [
+              0.27120697960795603,
+              -0.01004895042930721,
+              0.7327204919461563
+            ],
+            "xyz_max_m": [
+              0.27138778638546646,
+              -0.009991051017000104,
+              0.7330725666076428
+            ],
+            "max_anchor_distance_m": 0.027772887847118653,
+            "path_length_m": 0.0004000000000000187,
+            "max_anchor_rotation_rad": 0.04872958830064873,
+            "gripper_mechanical_fraction_min": 0.9545454545454545,
+            "gripper_mechanical_fraction_max": 0.9545454545454545,
+            "maximum_translation_speed_m_s": 0.004000000000000189,
+            "maximum_angular_speed_rad_s": 0.010471975511076533,
+            "maximum_finger_speed_m_s": 0.0,
+            "maximum_discrete_translation_acceleration_m_s2": 0.08000000000000379,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.20943951023932164
+          },
+          "geometry": {
+            "poses_checked": 172,
+            "minimum_joint_margin_rad": 0.4735505021475833,
+            "maximum_IK_component_residual": 1.405613385796478e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "offline_receiver_knots": 41
+        },
+        "negative": {
+          "previous_atom_jump": "CONSUMED_SEAM",
+          "future_feedback": "WRONG_CLOCK",
+          "stale_feedback": "WRONG_CLOCK",
+          "fake_install": "UNVERIFIED_REFERENCE",
+          "missing_echo": "UNVERIFIED_REFERENCE",
+          "wrong_anchor": "ACK_ANCHOR_MISMATCH",
+          "expired_receipt": "WRONG_CLOCK",
+          "foreign_finger_owner": "GRIPPER_OWNERSHIP",
+          "seam_width": "GRIPPER_OWNERSHIP",
+          "contact": "CONTACT_OR_STOP",
+          "large_knot_jump": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+          "duplicate_consumption": "DUPLICATE_OR_SKIPPED_CONSUMPTION"
+        }
+      }
+    },
+    {
+      "id": "K05",
+      "old_wire_sha256": "1581237b7d28e225fdc17bba4f099831f4cdd8147fdae07423a2e12157cd3c34",
+      "old_sequence": 18,
+      "checks": {
+        "A0": {
+          "original_gate": {
+            "xyz_min_m": [
+              0.27120637475734094,
+              -0.010048809862000076,
+              0.7327205564284152
+            ],
+            "xyz_max_m": [
+              0.27120637475734094,
+              -0.010048809862000076,
+              0.7327205564284152
+            ],
+            "max_anchor_distance_m": 0.02743499143628625,
+            "path_length_m": 0.0,
+            "max_anchor_rotation_rad": 0.047837925468964794,
+            "gripper_mechanical_fraction_min": 0.9545454545454545,
+            "gripper_mechanical_fraction_max": 0.9545454545454545,
+            "maximum_translation_speed_m_s": 0.0,
+            "maximum_angular_speed_rad_s": 0.0,
+            "maximum_finger_speed_m_s": 0.0,
+            "maximum_discrete_translation_acceleration_m_s2": 0.0,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.0
+          },
+          "geometry": {
+            "poses_checked": 170,
+            "minimum_joint_margin_rad": 0.4735043694944264,
+            "maximum_IK_component_residual": 1.4025421002372696e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "offline_receiver_knots": 41
+        },
+        "A1": {
+          "original_gate": {
+            "xyz_min_m": [
+              0.27120637475734094,
+              -0.010048809862000076,
+              0.7327205564284152
+            ],
+            "xyz_max_m": [
+              0.27138725446218565,
+              -0.009989867698387911,
+              0.7330724205409984
+            ],
+            "max_anchor_distance_m": 0.02783499143628624,
+            "path_length_m": 0.0003999999999999911,
+            "max_anchor_rotation_rad": 0.048885123020168404,
+            "gripper_mechanical_fraction_min": 0.9545454545454545,
+            "gripper_mechanical_fraction_max": 0.9545454545454545,
+            "maximum_translation_speed_m_s": 0.003999999999999911,
+            "maximum_angular_speed_rad_s": 0.010471975511076533,
+            "maximum_finger_speed_m_s": 0.0,
+            "maximum_discrete_translation_acceleration_m_s2": 0.07999999999999821,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.2094395102393227
+          },
+          "geometry": {
+            "poses_checked": 172,
+            "minimum_joint_margin_rad": 0.4735043694944264,
+            "maximum_IK_component_residual": 1.4025421002372696e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "offline_receiver_knots": 41
+        },
+        "negative": {
+          "previous_atom_jump": "CONSUMED_SEAM",
+          "future_feedback": "WRONG_CLOCK",
+          "stale_feedback": "WRONG_CLOCK",
+          "fake_install": "UNVERIFIED_REFERENCE",
+          "missing_echo": "UNVERIFIED_REFERENCE",
+          "wrong_anchor": "ACK_ANCHOR_MISMATCH",
+          "expired_receipt": "WRONG_CLOCK",
+          "foreign_finger_owner": "GRIPPER_OWNERSHIP",
+          "seam_width": "GRIPPER_OWNERSHIP",
+          "contact": "CONTACT_OR_STOP",
+          "large_knot_jump": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+          "duplicate_consumption": "DUPLICATE_OR_SKIPPED_CONSUMPTION"
+        }
+      }
+    },
+    {
+      "id": "K06",
+      "old_wire_sha256": "3aa0c44852beb4ba99dddd07a9668f1942aadb6a0e9b1eb92fcf378a7d76b263",
+      "old_sequence": 18,
+      "checks": {
+        "A0": {
+          "original_gate": {
+            "xyz_min_m": [
+              0.2707260394924389,
+              -0.010051950703182069,
+              0.7326346175974243
+            ],
+            "xyz_max_m": [
+              0.2707260394924389,
+              -0.010051950703182069,
+              0.7326346175974243
+            ],
+            "max_anchor_distance_m": 0.027371352689610454,
+            "path_length_m": 0.0,
+            "max_anchor_rotation_rad": 0.04813936951493776,
+            "gripper_mechanical_fraction_min": 0.9545454545454545,
+            "gripper_mechanical_fraction_max": 0.9545454545454545,
+            "maximum_translation_speed_m_s": 0.0,
+            "maximum_angular_speed_rad_s": 0.0,
+            "maximum_finger_speed_m_s": 0.0,
+            "maximum_discrete_translation_acceleration_m_s2": 0.0,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.0
+          },
+          "geometry": {
+            "poses_checked": 170,
+            "minimum_joint_margin_rad": 0.4788977769674313,
+            "maximum_IK_component_residual": 1.3916781648193322e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "offline_receiver_knots": 41
+        },
+        "A1": {
+          "original_gate": {
+            "xyz_min_m": [
+              0.2707260394924389,
+              -0.010051950703182069,
+              0.7326346175974243
+            ],
+            "xyz_max_m": [
+              0.27091108924026236,
+              -0.010006624244970737,
+              0.7329863306950145
+            ],
+            "max_anchor_distance_m": 0.027771352689610448,
+            "path_length_m": 0.00039999999999999595,
+            "max_anchor_rotation_rad": 0.04918656706613677,
+            "gripper_mechanical_fraction_min": 0.9545454545454545,
+            "gripper_mechanical_fraction_max": 0.9545454545454545,
+            "maximum_translation_speed_m_s": 0.004000000000000679,
+            "maximum_angular_speed_rad_s": 0.010471975502595054,
+            "maximum_finger_speed_m_s": 0.0,
+            "maximum_discrete_translation_acceleration_m_s2": 0.08000000000001359,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.20943951023933127
+          },
+          "geometry": {
+            "poses_checked": 172,
+            "minimum_joint_margin_rad": 0.4788977769674313,
+            "maximum_IK_component_residual": 1.3916781648193322e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "offline_receiver_knots": 41
+        },
+        "negative": {
+          "previous_atom_jump": "CONSUMED_SEAM",
+          "future_feedback": "WRONG_CLOCK",
+          "stale_feedback": "WRONG_CLOCK",
+          "fake_install": "UNVERIFIED_REFERENCE",
+          "missing_echo": "UNVERIFIED_REFERENCE",
+          "wrong_anchor": "ACK_ANCHOR_MISMATCH",
+          "expired_receipt": "WRONG_CLOCK",
+          "foreign_finger_owner": "GRIPPER_OWNERSHIP",
+          "seam_width": "GRIPPER_OWNERSHIP",
+          "contact": "CONTACT_OR_STOP",
+          "large_knot_jump": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+          "duplicate_consumption": "DUPLICATE_OR_SKIPPED_CONSUMPTION"
+        }
+      }
+    },
+    {
+      "id": "K07",
+      "old_wire_sha256": "2b4c52799f0036d08dc709c68866c13582e4a3f7f87ad2aa4487ee22f70d5afd",
+      "old_sequence": 18,
+      "checks": {
+        "A0": {
+          "original_gate": {
+            "xyz_min_m": [
+              0.2712069700036569,
+              -0.0100492046503656,
+              0.7327205542538588
+            ],
+            "xyz_max_m": [
+              0.2712069700036569,
+              -0.0100492046503656,
+              0.7327205542538588
+            ],
+            "max_anchor_distance_m": 0.02734217837028557,
+            "path_length_m": 0.0,
+            "max_anchor_rotation_rad": 0.04758072952625415,
+            "gripper_mechanical_fraction_min": 0.9545454545454545,
+            "gripper_mechanical_fraction_max": 0.9545454545454545,
+            "maximum_translation_speed_m_s": 0.0,
+            "maximum_angular_speed_rad_s": 0.0,
+            "maximum_finger_speed_m_s": 0.0,
+            "maximum_discrete_translation_acceleration_m_s2": 0.0,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.0
+          },
+          "geometry": {
+            "poses_checked": 170,
+            "minimum_joint_margin_rad": 0.47356743148781877,
+            "maximum_IK_component_residual": 1.4059014605827258e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "offline_receiver_knots": 41
+        },
+        "A1": {
+          "original_gate": {
+            "xyz_min_m": [
+              0.2712069700036569,
+              -0.0100492046503656,
+              0.7327205542538588
+            ],
+            "xyz_max_m": [
+              0.2713879528525701,
+              -0.009991227293094282,
+              0.7330725256084363
+            ],
+            "max_anchor_distance_m": 0.027742178370285545,
+            "path_length_m": 0.0003999999999999749,
+            "max_anchor_rotation_rad": 0.04862792707745181,
+            "gripper_mechanical_fraction_min": 0.9545454545454545,
+            "gripper_mechanical_fraction_max": 0.9545454545454545,
+            "maximum_translation_speed_m_s": 0.003999999999999751,
+            "maximum_angular_speed_rad_s": 0.010471975511076533,
+            "maximum_finger_speed_m_s": 0.0,
+            "maximum_discrete_translation_acceleration_m_s2": 0.07999999999999502,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.2094395102393226
+          },
+          "geometry": {
+            "poses_checked": 172,
+            "minimum_joint_margin_rad": 0.47356743148781877,
+            "maximum_IK_component_residual": 1.4059014605827258e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "offline_receiver_knots": 41
+        },
+        "negative": {
+          "previous_atom_jump": "CONSUMED_SEAM",
+          "future_feedback": "WRONG_CLOCK",
+          "stale_feedback": "WRONG_CLOCK",
+          "fake_install": "UNVERIFIED_REFERENCE",
+          "missing_echo": "UNVERIFIED_REFERENCE",
+          "wrong_anchor": "ACK_ANCHOR_MISMATCH",
+          "expired_receipt": "WRONG_CLOCK",
+          "foreign_finger_owner": "GRIPPER_OWNERSHIP",
+          "seam_width": "GRIPPER_OWNERSHIP",
+          "contact": "CONTACT_OR_STOP",
+          "large_knot_jump": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+          "duplicate_consumption": "DUPLICATE_OR_SKIPPED_CONSUMPTION"
+        }
+      }
+    },
+    {
+      "id": "K08",
+      "old_wire_sha256": "9a67eac22f423f83cd8e8d72a2acf761c1901882bb3d62f07037476e2c9b15a1",
+      "old_sequence": 18,
+      "checks": {
+        "A0": {
+          "original_gate": {
+            "xyz_min_m": [
+              0.2707316014331088,
+              -0.010052442749925278,
+              0.7326401029656041
+            ],
+            "xyz_max_m": [
+              0.2707316014331088,
+              -0.010052442749925278,
+              0.7326401029656041
+            ],
+            "max_anchor_distance_m": 0.027412583968436707,
+            "path_length_m": 0.0,
+            "max_anchor_rotation_rad": 0.048191034028384906,
+            "gripper_mechanical_fraction_min": 0.9545454545454545,
+            "gripper_mechanical_fraction_max": 0.9545454545454545,
+            "maximum_translation_speed_m_s": 0.0,
+            "maximum_angular_speed_rad_s": 0.0,
+            "maximum_finger_speed_m_s": 0.0,
+            "maximum_discrete_translation_acceleration_m_s2": 0.0,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.0
+          },
+          "geometry": {
+            "poses_checked": 170,
+            "minimum_joint_margin_rad": 0.4789397673524266,
+            "maximum_IK_component_residual": 1.3972325323408086e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "offline_receiver_knots": 41
+        },
+        "A1": {
+          "original_gate": {
+            "xyz_min_m": [
+              0.2707316014331088,
+              -0.010052442749925278,
+              0.7326401029656041
+            ],
+            "xyz_max_m": [
+              0.2709156465121571,
+              -0.010005524899118101,
+              0.7329921343905561
+            ],
+            "max_anchor_distance_m": 0.027812583968436687,
+            "path_length_m": 0.00039999999999998283,
+            "max_anchor_rotation_rad": 0.04923823157957745,
+            "gripper_mechanical_fraction_min": 0.9545454545454545,
+            "gripper_mechanical_fraction_max": 0.9545454545454545,
+            "maximum_translation_speed_m_s": 0.004000000000000547,
+            "maximum_angular_speed_rad_s": 0.010471975511076533,
+            "maximum_finger_speed_m_s": 0.0,
+            "maximum_discrete_translation_acceleration_m_s2": 0.08000000000001095,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.2094395102393209
+          },
+          "geometry": {
+            "poses_checked": 172,
+            "minimum_joint_margin_rad": 0.4789397673524266,
+            "maximum_IK_component_residual": 1.3972325323408086e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "offline_receiver_knots": 41
+        },
+        "negative": {
+          "previous_atom_jump": "CONSUMED_SEAM",
+          "future_feedback": "WRONG_CLOCK",
+          "stale_feedback": "WRONG_CLOCK",
+          "fake_install": "UNVERIFIED_REFERENCE",
+          "missing_echo": "UNVERIFIED_REFERENCE",
+          "wrong_anchor": "ACK_ANCHOR_MISMATCH",
+          "expired_receipt": "WRONG_CLOCK",
+          "foreign_finger_owner": "GRIPPER_OWNERSHIP",
+          "seam_width": "GRIPPER_OWNERSHIP",
+          "contact": "CONTACT_OR_STOP",
+          "large_knot_jump": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+          "duplicate_consumption": "DUPLICATE_OR_SKIPPED_CONSUMPTION"
+        }
+      }
+    },
+    {
+      "id": "K09",
+      "old_wire_sha256": "80677c87d3a9071f070cd5e5993122a3922f26b6413648252e10a170c86fefde",
+      "old_sequence": 18,
+      "checks": {
+        "A0": {
+          "original_gate": {
+            "xyz_min_m": [
+              0.27120696790787385,
+              -0.010048938320062166,
+              0.7327204790276974
+            ],
+            "xyz_max_m": [
+              0.27120696790787385,
+              -0.010048938320062166,
+              0.7327204790276974
+            ],
+            "max_anchor_distance_m": 0.027529841614385018,
+            "path_length_m": 0.0,
+            "max_anchor_rotation_rad": 0.048148296040814324,
+            "gripper_mechanical_fraction_min": 0.9545454545454545,
+            "gripper_mechanical_fraction_max": 0.9545454545454545,
+            "maximum_translation_speed_m_s": 0.0,
+            "maximum_angular_speed_rad_s": 0.0,
+            "maximum_finger_speed_m_s": 0.0,
+            "maximum_discrete_translation_acceleration_m_s2": 0.0,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.0
+          },
+          "geometry": {
+            "poses_checked": 173,
+            "minimum_joint_margin_rad": 0.47349131277989487,
+            "maximum_IK_component_residual": 1.3508315724886089e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "offline_receiver_knots": 41
+        },
+        "A1": {
+          "original_gate": {
+            "xyz_min_m": [
+              0.27120696790787385,
+              -0.010048938320062166,
+              0.7327204790276974
+            ],
+            "xyz_max_m": [
+              0.2713869732137455,
+              -0.009990170304032016,
+              0.7330728203538996
+            ],
+            "max_anchor_distance_m": 0.027929841614385015,
+            "path_length_m": 0.00039999999999999563,
+            "max_anchor_rotation_rad": 0.04919549359200978,
+            "gripper_mechanical_fraction_min": 0.9545454545454545,
+            "gripper_mechanical_fraction_max": 0.9545454545454545,
+            "maximum_translation_speed_m_s": 0.004000000000000684,
+            "maximum_angular_speed_rad_s": 0.010471975511076533,
+            "maximum_finger_speed_m_s": 0.0,
+            "maximum_discrete_translation_acceleration_m_s2": 0.08000000000001369,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.20943951023931812
+          },
+          "geometry": {
+            "poses_checked": 173,
+            "minimum_joint_margin_rad": 0.47349131277989487,
+            "maximum_IK_component_residual": 1.3582635695064127e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "offline_receiver_knots": 41
+        },
+        "negative": {
+          "previous_atom_jump": "CONSUMED_SEAM",
+          "future_feedback": "WRONG_CLOCK",
+          "stale_feedback": "WRONG_CLOCK",
+          "fake_install": "UNVERIFIED_REFERENCE",
+          "missing_echo": "UNVERIFIED_REFERENCE",
+          "wrong_anchor": "ACK_ANCHOR_MISMATCH",
+          "expired_receipt": "WRONG_CLOCK",
+          "foreign_finger_owner": "GRIPPER_OWNERSHIP",
+          "seam_width": "GRIPPER_OWNERSHIP",
+          "contact": "CONTACT_OR_STOP",
+          "large_knot_jump": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+          "duplicate_consumption": "DUPLICATE_OR_SKIPPED_CONSUMPTION"
+        }
+      }
+    },
+    {
+      "id": "K10",
+      "old_wire_sha256": "967fe967b5d8d94ecdd9de52ec47b3e5c364fee2272a5f65c73c439161e55a02",
+      "old_sequence": 18,
+      "checks": {
+        "A0": {
+          "original_gate": {
+            "xyz_min_m": [
+              0.27111709977445636,
+              -0.010081103829449989,
+              0.732719937318706
+            ],
+            "xyz_max_m": [
+              0.27111709977445636,
+              -0.010081103829449989,
+              0.732719937318706
+            ],
+            "max_anchor_distance_m": 0.027355183874205036,
+            "path_length_m": 0.0,
+            "max_anchor_rotation_rad": 0.047606375017411606,
+            "gripper_mechanical_fraction_min": 0.9545454545454545,
+            "gripper_mechanical_fraction_max": 0.9545454545454545,
+            "maximum_translation_speed_m_s": 0.0,
+            "maximum_angular_speed_rad_s": 0.0,
+            "maximum_finger_speed_m_s": 0.0,
+            "maximum_discrete_translation_acceleration_m_s2": 0.0,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.0
+          },
+          "geometry": {
+            "poses_checked": 170,
+            "minimum_joint_margin_rad": 0.4735553528227384,
+            "maximum_IK_component_residual": 1.4054131198815156e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "offline_receiver_knots": 41
+        },
+        "A1": {
+          "original_gate": {
+            "xyz_min_m": [
+              0.27111709977445636,
+              -0.010081103829449989,
+              0.732719937318706
+            ],
+            "xyz_max_m": [
+              0.27129815362374804,
+              -0.01002306976515977,
+              0.7330718628094546
+            ],
+            "max_anchor_distance_m": 0.027755183874205048,
+            "path_length_m": 0.0004000000000000084,
+            "max_anchor_rotation_rad": 0.0486535725686031,
+            "gripper_mechanical_fraction_min": 0.9545454545454545,
+            "gripper_mechanical_fraction_max": 0.9545454545454545,
+            "maximum_translation_speed_m_s": 0.004000000000001058,
+            "maximum_angular_speed_rad_s": 0.010471975511076533,
+            "maximum_finger_speed_m_s": 0.0,
+            "maximum_discrete_translation_acceleration_m_s2": 0.08000000000002117,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.20943951023932322
+          },
+          "geometry": {
+            "poses_checked": 172,
+            "minimum_joint_margin_rad": 0.4735553528227384,
+            "maximum_IK_component_residual": 1.4054131198815156e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "offline_receiver_knots": 41
+        },
+        "negative": {
+          "previous_atom_jump": "CONSUMED_SEAM",
+          "future_feedback": "WRONG_CLOCK",
+          "stale_feedback": "WRONG_CLOCK",
+          "fake_install": "UNVERIFIED_REFERENCE",
+          "missing_echo": "UNVERIFIED_REFERENCE",
+          "wrong_anchor": "ACK_ANCHOR_MISMATCH",
+          "expired_receipt": "WRONG_CLOCK",
+          "foreign_finger_owner": "GRIPPER_OWNERSHIP",
+          "seam_width": "GRIPPER_OWNERSHIP",
+          "contact": "CONTACT_OR_STOP",
+          "large_knot_jump": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+          "duplicate_consumption": "DUPLICATE_OR_SKIPPED_CONSUMPTION"
+        }
+      }
+    },
+    {
+      "id": "K11",
+      "old_wire_sha256": "a5049d4bc5ed8869a597641f5465f4b05b96e1fe2beb64ad7561786128420f23",
+      "old_sequence": 18,
+      "checks": {
+        "A0": {
+          "original_gate": {
+            "xyz_min_m": [
+              0.2712071195173124,
+              -0.010048858665163838,
+              0.7327205027569405
+            ],
+            "xyz_max_m": [
+              0.2712071195173124,
+              -0.010048858665163838,
+              0.7327205027569405
+            ],
+            "max_anchor_distance_m": 0.027388256178568292,
+            "path_length_m": 0.0,
+            "max_anchor_rotation_rad": 0.04773108682135384,
+            "gripper_mechanical_fraction_min": 0.9545454545454545,
+            "gripper_mechanical_fraction_max": 0.9545454545454545,
+            "maximum_translation_speed_m_s": 0.0,
+            "maximum_angular_speed_rad_s": 0.0,
+            "maximum_finger_speed_m_s": 0.0,
+            "maximum_discrete_translation_acceleration_m_s2": 0.0,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.0
+          },
+          "geometry": {
+            "poses_checked": 170,
+            "minimum_joint_margin_rad": 0.473569160647188,
+            "maximum_IK_component_residual": 1.4047875076528271e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "offline_receiver_knots": 41
+        },
+        "A1": {
+          "original_gate": {
+            "xyz_min_m": [
+              0.2712071195173124,
+              -0.010048858665163838,
+              0.7327205027569405
+            ],
+            "xyz_max_m": [
+              0.27138771788515154,
+              -0.009991025393340633,
+              0.7330726952358552
+            ],
+            "max_anchor_distance_m": 0.02778825617856832,
+            "path_length_m": 0.00040000000000003,
+            "max_anchor_rotation_rad": 0.048778284372547116,
+            "gripper_mechanical_fraction_min": 0.9545454545454545,
+            "gripper_mechanical_fraction_max": 0.9545454545454545,
+            "maximum_translation_speed_m_s": 0.004000000000000303,
+            "maximum_angular_speed_rad_s": 0.010471975511076533,
+            "maximum_finger_speed_m_s": 0.0,
+            "maximum_discrete_translation_acceleration_m_s2": 0.08000000000000605,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.2094395102393317
+          },
+          "geometry": {
+            "poses_checked": 172,
+            "minimum_joint_margin_rad": 0.473569160647188,
+            "maximum_IK_component_residual": 1.4047875076528271e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "offline_receiver_knots": 41
+        },
+        "negative": {
+          "previous_atom_jump": "CONSUMED_SEAM",
+          "future_feedback": "WRONG_CLOCK",
+          "stale_feedback": "WRONG_CLOCK",
+          "fake_install": "UNVERIFIED_REFERENCE",
+          "missing_echo": "UNVERIFIED_REFERENCE",
+          "wrong_anchor": "ACK_ANCHOR_MISMATCH",
+          "expired_receipt": "WRONG_CLOCK",
+          "foreign_finger_owner": "GRIPPER_OWNERSHIP",
+          "seam_width": "GRIPPER_OWNERSHIP",
+          "contact": "CONTACT_OR_STOP",
+          "large_knot_jump": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+          "duplicate_consumption": "DUPLICATE_OR_SKIPPED_CONSUMPTION"
+        }
+      }
+    },
+    {
+      "id": "K12",
+      "old_wire_sha256": "aec188736e8ac5f3df012bebe1a8bc998c5b183f3f6e3210fb35dac01d731838",
+      "old_sequence": 18,
+      "checks": {
+        "A0": {
+          "original_gate": {
+            "xyz_min_m": [
+              0.27120750943184135,
+              -0.01005557641869179,
+              0.7327211549212945
+            ],
+            "xyz_max_m": [
+              0.27120750943184135,
+              -0.01005557641869179,
+              0.7327211549212945
+            ],
+            "max_anchor_distance_m": 0.02734636805449346,
+            "path_length_m": 0.0,
+            "max_anchor_rotation_rad": 0.047603133031546105,
+            "gripper_mechanical_fraction_min": 0.9545454545454545,
+            "gripper_mechanical_fraction_max": 0.9545454545454545,
+            "maximum_translation_speed_m_s": 0.0,
+            "maximum_angular_speed_rad_s": 0.0,
+            "maximum_finger_speed_m_s": 0.0,
+            "maximum_discrete_translation_acceleration_m_s2": 0.0,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.0
+          },
+          "geometry": {
+            "poses_checked": 170,
+            "minimum_joint_margin_rad": 0.4735842697495519,
+            "maximum_IK_component_residual": 1.4056452576349798e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "offline_receiver_knots": 41
+        },
+        "A1": {
+          "original_gate": {
+            "xyz_min_m": [
+              0.27120750943184135,
+              -0.01005557641869179,
+              0.7327211549212945
+            ],
+            "xyz_max_m": [
+              0.27138844795259937,
+              -0.009997696119358872,
+              0.7330731650385568
+            ],
+            "max_anchor_distance_m": 0.02774636805449341,
+            "path_length_m": 0.0003999999999999526,
+            "max_anchor_rotation_rad": 0.04865033058274143,
+            "gripper_mechanical_fraction_min": 0.9545454545454545,
+            "gripper_mechanical_fraction_max": 0.9545454545454545,
+            "maximum_translation_speed_m_s": 0.003999999999999779,
+            "maximum_angular_speed_rad_s": 0.010471975494113574,
+            "maximum_finger_speed_m_s": 0.0,
+            "maximum_discrete_translation_acceleration_m_s2": 0.07999999999999557,
+            "maximum_discrete_angular_acceleration_rad_s2": 0.20943951023931967
+          },
+          "geometry": {
+            "poses_checked": 172,
+            "minimum_joint_margin_rad": 0.4735842697495519,
+            "maximum_IK_component_residual": 1.4056452576349798e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "offline_receiver_knots": 41
+        },
+        "negative": {
+          "previous_atom_jump": "CONSUMED_SEAM",
+          "future_feedback": "WRONG_CLOCK",
+          "stale_feedback": "WRONG_CLOCK",
+          "fake_install": "UNVERIFIED_REFERENCE",
+          "missing_echo": "UNVERIFIED_REFERENCE",
+          "wrong_anchor": "ACK_ANCHOR_MISMATCH",
+          "expired_receipt": "WRONG_CLOCK",
+          "foreign_finger_owner": "GRIPPER_OWNERSHIP",
+          "seam_width": "GRIPPER_OWNERSHIP",
+          "contact": "CONTACT_OR_STOP",
+          "large_knot_jump": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+          "duplicate_consumption": "DUPLICATE_OR_SKIPPED_CONSUMPTION"
+        }
+      }
+    }
+  ],
+  "physics_ticks": 0,
+  "native_requests": 0,
+  "receiver_source_sha256": "2c62a67d6cd79bf55b6883c6a4dfde66a292474fbc5d9929d849a934b80365ea"
+}

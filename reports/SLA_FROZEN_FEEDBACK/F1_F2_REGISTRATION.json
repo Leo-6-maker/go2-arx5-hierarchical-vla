@@ -1,0 +1,53 @@
+{
+  "plan": "7561ffe73e113779c75533515a568209f0b32e4e",
+  "authorization": "User confirmed fixed 12-start F1 and independent conditional F2 on 2026-11-23. Simulation only.",
+  "f0_pins": {
+    "F0_MODEL.json": "aeecd6fc690c76ec3dcbf285e9a59a8ce1ec31f5f55c8d72efb1f4717237e36a",
+    "F0_SITE.json": "7b43391d74e69ad938621dfebfd0d2c318a7592ddaef76ed9ce875d609cf52f8",
+    "F0_TEACHER.json": "5b6b4287cc97f4903a6da0b2db320f0dfd9f22068fd8e5dded4160a454c3b7c5",
+    "F0_SUPPORT.json": "b60eb2f6673bfd648bfad0e2addb9c07ffd8cf6834499360d8957e61512f7c9a"
+  },
+  "fixed_start_slots_per_population": 12,
+  "campaigns": {
+    "F1": "sla-feedback-f1-a0-20261123-01",
+    "F2": "sla-feedback-f2-a1-20261123-01"
+  },
+  "caps": {
+    "startup_tick": 5703,
+    "task_ticks": 12000,
+    "max_ticks_per_enrolled_start": 17703,
+    "dt_s": 0.002
+  },
+  "seed": "One fixed TRAIN01 compiled scene/reset, no sampled layout. Compare exact compiled bytes, saved startup input, and first journal qpos/qvel across paired trials. No numeric internal MRT RNG exported.",
+  "scene_sha256": "b5b066ea788ff8763f0757747ede61890281213c2637e9f54f757b245d111959",
+  "scene_receipt_sha256": "f086bb4739d562e06ef09745725d0fa56fa22bcce091ba332aeb4f56113e6b91",
+  "fixed_reset_input_sha256": "a0efcb6530d5f1c0a704f677fe526f33c7f10f3326dc91e368e6e76ff98bf7ce",
+  "eligibility": "F1 compare to both original B2 anchors and earlier admitted F1s using original 16 feature tolerances. F2 independent 12-start maximum, compare to both B2 anchors, all prior admitted F2 and the next F1 eligible control in original order. Advance the control cursor only after a matched complete scientific comparison. Stop when every F1 control paired or cap reached. Report unmatched controls and all screened, technical and unstarted slots. No replacement after technical or scientific STOP.",
+  "target": "Standing. First 1 s continue old world EEF and base with no preview of motion. From t=1 s use D3 slow positive world X 4 mm then Z 4 mm (1.9 s). Hold the resulting goal to t=24 s. For a pair, F2 uses the exact F1 desired world path and task clock, continuing its own prior ACK for commands. Fixed working open with simulation episode ownership.",
+  "F1_gate": {
+    "require_min_enrolled": 1,
+    "require_all_enrolled": true,
+    "clean_traces_and_every_ack": true,
+    "reference": "Historical matched OO and translation D3 with 1.8 mm inter-channel allowance; values rounded outwards to 0.1 mm.",
+    "max_abs_z_first_100ms_mm": 1.9,
+    "hold_abs_rms_mm": [
+      25.7,
+      29.5
+    ],
+    "motion_abs_rms_mm": [
+      26.5,
+      30.6
+    ],
+    "achieved_x_during_motion_mm": [
+      0.8,
+      4.6
+    ],
+    "achieved_z_during_motion_mm": [
+      0.7,
+      4.4
+    ],
+    "metrics": "Hold 0..1s; motion RMS over 1..3s; per-axis actual displacement between 1s and 3s. 2 ms post-initialization samples."
+  },
+  "F2_gate": "Preflight the original full40 & G7/owner seam, workspace/collision on proposed path, receiver, finite deadline, clocks, synthetic failure stops before opening a fresh lease. Use F0-registered gains/limits; on a new 2ms measurement reach 4mm/2deg at a command boundary after the final task target exists then hold 1s. Use 2ms journal for scoring and detecting first scientific stop, stop at the first available 50ms consumption boundary. Log the detection/hold boundary separately. Read and enforce physical safety through the unchanged native safety owner. NO_PROGRESS/OSCILLATION, lost HOLD, contact, cap or deadline closes F2. No gain tuning or replacing a stopped sample. A task-precision pass requires all eligible controls paired and all paired A1s successful. Technical failure, no qualified pairs or incomplete coverage are inconclusive.",
+  "F2_comparison": "Report task-relative absolute and incremental position and rotation RMS at the same times, separately from reference-to-actual gap. Include F1 value over F2 dwell or terminal interval. Native precision and gripper handoff are separate gates."
+}
