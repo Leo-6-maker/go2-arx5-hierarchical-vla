@@ -1,0 +1,50 @@
+{
+  "id": "V4-FEEDBACK-01",
+  "version": 1,
+  "predecessor": "956d1daba8b8ff05a1618de094b19fd9f611a705",
+  "feedback_sha256": "2fa3977bc94c5b2a8139e4f5c1d95d7c57a9deeb95eafbaf5535b4aed49e4c93",
+  "cohort": [
+    [
+      "PARKED",
+      5703,
+      "observed"
+    ],
+    [
+      "CLOSED",
+      5903,
+      "observed"
+    ],
+    [
+      "CLOSED_HOLD",
+      6103,
+      "observed"
+    ],
+    [
+      "REOPEN",
+      6303,
+      "observed"
+    ],
+    [
+      "CLOSED_PARKED_WIDTH",
+      5903,
+      "parked_width"
+    ],
+    [
+      "HOLD_PARKED_WIDTH",
+      6103,
+      "parked_width"
+    ]
+  ],
+  "seed": [
+    0,
+    0
+  ],
+  "max_forwards": 6,
+  "max_training_updates": 0,
+  "max_physics_ticks": 0,
+  "source": "Original owned-feedback02 rebuild in #456. All 4 input archive SHA256s must match the published V2 feedback file. For the last two counterfactuals change just right raw state[15] to the measured tick-5703 value. Canonically hash tensor contents, dtypes, shapes and task before inference. Never query at STOP.",
+  "model": "Frozen XPolicyLab c1b205ec42b4ab2cac9c2159c8b4c2f723e5e454 / SLA_Memory_robodojo_real_ckpt 7f6880569c3be777291e646fad1b4951245e8553, train_robodojo_real, extra_frames_first=false. Reuse original deployed loader, input/output transforms, same fresh PRNG before each invocation. Capture actual sampler output before inverse normalization and final absolute arms. No training, integration, command, task success or own-SLA closed-loop claim.",
+  "analysis": "Compare CLOSED and CLOSED_HOLD vs each exact same-image/same-seed parked-width counterpart. Report max/RMS signed and absolute right opening differences in source units and mm under registered 2+40g coding, rotation geodesics, position and events across all 50 native knots at 30 Hz. Full actual-observation contrasts also include EEF and image changes; do not isolate width using those. Equal raw and final arrays or zero events are legitimate outcomes. Assess bit differences, 2 mm width and 1 mm pose RMS as descriptive scales only. Do not infer task success from sensitivity. Register total entered, returned, distinct inputs and all technical failures without replacement.",
+  "output_control": "On CPU use the official input/output transformations and the 16 original archived right+left action returns. Invert absolute outputs to normalized action representations, check roundtrip error, then keep every action fixed and vary the state width only. Record all 800 knots and whether the decoder itself creates a width difference. These reconstructed arrays are offline controls, not retained neural latents. Separately verify the expected new query input hashes and changed state/tokens.",
+  "resources": "Prospective GPU part requires independently authorized site allocation for these six scientific calls plus actual shared GPU0 lock, matching GPU UUID, unchanged allowed desktop occupancy, known host, wall deadline and sufficient memory. Max six entered, stop on any failure. The CPU decoder and dispatch preflight are permitted now. No native start and no writes to WBC."
+}

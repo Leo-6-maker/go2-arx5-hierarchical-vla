@@ -17,10 +17,8 @@ def digest(x):
     return hashlib.sha256(np.ascontiguousarray(x).tobytes()).hexdigest()
 
 
-def inspection_tools(root):
+def configured_transforms(root):
     from XPolicyLab.policy.SLA_Memory.model import Model, _policy_config
-    from openpi import transforms
-    from openpi.models.tokenizer import PaligemmaTokenizer
     from openpi.training.checkpoints import load_norm_stats
 
     e = root / "evidence"
@@ -44,6 +42,14 @@ def inspection_tools(root):
     statsfile = ckpt / "assets" / data.asset_id / "norm_stats.json"
     pin(statsfile, "cf6ddf4f89180e762e5e6210881a763f8e29d3499fb1cc69a440de7aa585d276")
     stats = load_norm_stats(ckpt / "assets", data.asset_id)
+    return cfg, data, stats
+
+
+def inspection_tools(root):
+    from openpi import transforms
+    from openpi.models.tokenizer import PaligemmaTokenizer
+
+    cfg, data, stats = configured_transforms(root)
     normalize = transforms.Normalize(stats, use_quantiles=data.use_quantile_norm)
     prepare = transforms.compose(
         [transforms.InjectDefaultPrompt(None), *data.data_transforms.inputs]
