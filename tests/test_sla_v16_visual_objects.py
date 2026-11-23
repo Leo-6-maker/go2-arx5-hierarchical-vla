@@ -85,3 +85,31 @@ def test_first_anchor_cannot_shift_after_a_missing_first_color():
     )
     with pytest.raises(ValueError, match="chronological"):
         state.observe(1.5, obs(None, 0))
+
+
+def test_opposite_borders_rejected_while_single_edge_remains_visible():
+    from visual_objects import color_component
+
+    image = np.zeros((256, 256, 3), dtype=np.int16)
+    image[:20, :, 2] = 255
+    image[80:96, :30, 2] = 180
+    assert color_component(image, 2, reject_spanning=False)["bbox_xyxy"] == [
+        0,
+        0,
+        255,
+        19,
+    ]
+    assert color_component(image, 2, reject_spanning=True)["bbox_xyxy"] == [
+        0,
+        80,
+        29,
+        95,
+    ]
+
+
+def test_bbox_iou_distinguishes_missing_from_disjoint():
+    from visual_lift_panel import bbox_iou
+
+    assert bbox_iou(None, [0, 0, 1, 1]) is None
+    assert bbox_iou([0, 0, 0, 0], [1, 1, 1, 1]) == 0
+    assert bbox_iou([0, 0, 1, 1], [1, 1, 1, 1]) == 0.25

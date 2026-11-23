@@ -63,7 +63,7 @@ def panel(root):
         yield ep, info, native, receipt, windows
 
 
-def predict(root):
+def predict(root, *, reject_spanning=False):
     result = {}
     for ep, info, queries, receipt, windows in panel(root):
         name = info["id"]
@@ -125,7 +125,9 @@ def predict(root):
                             "actual frozen-policy image disagreement",
                         )
                     verified_policy += 1
-                objects = estimate_objects(*pair, cal, t)
+                objects = estimate_objects(
+                    *pair, cal, t, reject_spanning=reject_spanning
+                )
                 records.append(
                     dict(
                         tick=tick,
@@ -270,22 +272,84 @@ def score(root, predictions):
     )
 
 
+def bbox_iou(a, b):
+    if a is None or b is None:
+        return None
+    lo = np.maximum(a[:2], b[:2])
+    hi = np.minimum(a[2:], b[2:])
+    intersection = np.prod(np.maximum(hi - lo + 1, 0))
+
+    def area(box):
+        return (box[2] - box[0] + 1) * (box[3] - box[1] + 1)
+
+    return float(intersection / (area(a) + area(b) - intersection))
+
+
+def mask_audit(predictions):
+    path = (
+        Path(__file__).resolve().parents[2]
+        / "reports/SLA_HIERARCHICAL_V16/OBSERVATION_VISIBILITY_ACTUAL.json"
+    )
+    reference = read(
+        pin(path, "f41b2a9a368220dd3ff491401c23dd01404accc9f5d545b47a1dabdd3f619e39")
+    )["target"]
+    require(
+        len({r["id"] for r in reference}) == len(reference) == 16,
+        "independent mask window count",
+    )
+    index = {
+        (name, q["tick"]): q for name, e in predictions.items() for q in e["queries"]
+    }
+    rows = []
+    for r in reference:
+        obs = index[r["episode"], r["tick"]]["objects"]
+        for color in COLORS:
+            for view, ref in (
+                ("body_rgb", r["body_history"][-1]),
+                ("wrist_rgb", r["wrist"]),
+            ):
+                actual = ref[color]["bbox_xyxy"]
+                selector = obs[color]["views"][view]
+                bbox = None if selector is None else selector["bbox_xyxy"]
+                rows.append(
+                    dict(
+                        id=r["id"],
+                        color=color,
+                        view=view,
+                        visible=actual is not None,
+                        selected=bbox is not None,
+                        iou=bbox_iou(bbox, actual),
+                    )
+                )
+    return rows
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("mode", choices=["predict", "score"])
+    parser.add_argument("mode", choices=["predict", "score", "mask"])
     parser.add_argument("root", type=Path)
     parser.add_argument("predictions", type=Path)
+    parser.add_argument(
+        "--reject-spanning",
+        action="store_true",
+        help="use exploratory component selection when predicting",
+    )
     parser.add_argument("--sealed-sha256")
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     root = args.root.resolve()
     if args.mode == "predict":
-        write_new(args.predictions, predict(root))
+        write_new(args.predictions, predict(root, reject_spanning=args.reject_spanning))
         print(sha256(args.predictions.read_bytes()))
     else:
         if not args.sealed_sha256 or not args.output:
             parser.error("scoring requires --sealed-sha256 and --output")
-        result = score(root, read(pin(args.predictions, args.sealed_sha256)))
+        predictions = read(pin(args.predictions, args.sealed_sha256))
+        result = (
+            score(root, predictions)
+            if args.mode == "score"
+            else dict(mask_audit=mask_audit(predictions))
+        )
         write_new(args.output, dict(predictions_sha256=args.sealed_sha256, **result))
 
 

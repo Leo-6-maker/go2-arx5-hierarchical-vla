@@ -10,7 +10,7 @@ COLORS = ("red", "blue")
 VIEWS = ("body_rgb", "wrist_rgb")
 
 
-def color_component(rgb, channel):
+def color_component(rgb, channel, *, reject_spanning):
     dominant = rgb[:, :, channel]
     other = np.maximum(rgb[:, :, 1], rgb[:, :, 2 - channel])
     mask = (dominant - other >= 25) & (10 * dominant >= 13 * other)
@@ -18,6 +18,11 @@ def color_component(rgb, channel):
     if count == 0:
         return None
     sizes = np.bincount(labels.ravel(), minlength=count + 1)[1:]
+    if reject_spanning:
+        # This exploratory small-object selector excludes frame-spanning components.
+        for first, last in ((labels[0], labels[-1]), (labels[:, 0], labels[:, -1])):
+            spanning = np.intersect1d(first, last)
+            sizes[spanning[spanning > 0] - 1] = 0
     index = int(np.argmax(sizes))
     if sizes[index] < 16:
         return None
@@ -71,13 +76,18 @@ def triangulate(body, wrist):
     return dict(**result, status="measured")
 
 
-def estimate_objects(body_rgb, wrist_rgb, calibration, timestamp):
+def estimate_objects(
+    body_rgb, wrist_rgb, calibration, timestamp, *, reject_spanning=False
+):
     """Both centers from simultaneous pixels and calibrated optical poses only."""
     frames = [optical_frame(calibration[k], timestamp) for k in VIEWS]
     rgb = [camera(image).astype(np.int16) for image in (body_rgb, wrist_rgb)]
     result = {}
     for color, channel in zip(COLORS, (0, 2)):
-        components = [color_component(view, channel) for view in rgb]
+        components = [
+            color_component(view, channel, reject_spanning=reject_spanning)
+            for view in rgb
+        ]
         diagnostics = dict(zip(VIEWS, components))
         if any(c is None for c in components):
             missing = [v for v, c in diagnostics.items() if c is None]
