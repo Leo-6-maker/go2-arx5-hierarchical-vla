@@ -1,6 +1,6 @@
 # Go2 + ARX5 + GR00T + frozen WBC
 
-[Project overview in English](docs/PROJECT_OVERVIEW.md) · 仿真平台、策略与控制接口、已验证结果及源码。
+[Project overview and demos](docs/PROJECT_OVERVIEW.md) · [SLA 移动抓取](docs/PROJECT_OVERVIEW.md#mobile-grasp-with-sla-shift7) · [GR00T 站立抓取](docs/PROJECT_OVERVIEW.md#standing-grasp-with-gr00t) · [实验进展](docs/PROJECT_OVERVIEW.md#experimental-progress)
 
 研究目标：让视觉语言策略通过可审计的 EEF 轨迹接口控制完整 Go2＋ARX5，在冻结 WBC、腿策略和原生安全条件下完成操作任务。
 
