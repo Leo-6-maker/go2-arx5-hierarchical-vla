@@ -1,0 +1,194 @@
+{
+  "schema": "SLA_CORE_HOPPER_PLAN_STATIC_VALIDATION_V1",
+  "status": "PASS",
+  "scope": "plan arithmetic, identities, dependency semantics and publication links only; not GPU or native qualification",
+  "date_sgt": "2026-11-21",
+  "checks_passed": 40,
+  "checks": [
+    {
+      "name": "population_lengths",
+      "passed": true,
+      "detail": {
+        "TRAIN": 240,
+        "VAL": 24,
+        "DEV": 24,
+        "CONF": 24,
+        "TECH": 2
+      }
+    },
+    {
+      "name": "unique_logical_conditions",
+      "passed": true
+    },
+    {
+      "name": "split_scene_family_names_disjoint",
+      "passed": true
+    },
+    {
+      "name": "TRAIN_balanced_cells",
+      "passed": true
+    },
+    {
+      "name": "VAL_balanced_cells",
+      "passed": true
+    },
+    {
+      "name": "DEV_balanced_cells",
+      "passed": true
+    },
+    {
+      "name": "CONF_balanced_cells",
+      "passed": true
+    },
+    {
+      "name": "six_instruction_same_scene_reset",
+      "passed": true
+    },
+    {
+      "name": "native_slots_include_started_technical_failures",
+      "passed": true
+    },
+    {
+      "name": "no_producer_revision_request_reset",
+      "passed": true
+    },
+    {
+      "name": "TRAIN_native_tick_budget",
+      "passed": true
+    },
+    {
+      "name": "VAL_native_tick_budget",
+      "passed": true
+    },
+    {
+      "name": "student_192_tick_budget",
+      "passed": true
+    },
+    {
+      "name": "student_generation_budget",
+      "passed": true
+    },
+    {
+      "name": "all_native_requests",
+      "passed": true
+    },
+    {
+      "name": "all_native_ticks",
+      "passed": true
+    },
+    {
+      "name": "actual_updates_sum",
+      "passed": true
+    },
+    {
+      "name": "visits_go2",
+      "passed": true
+    },
+    {
+      "name": "visits_robodojo",
+      "passed": true
+    },
+    {
+      "name": "visits_libero",
+      "passed": true
+    },
+    {
+      "name": "all_optimizer_visits",
+      "passed": true
+    },
+    {
+      "name": "all_generation_attempts",
+      "passed": true
+    },
+    {
+      "name": "expert_query_budget",
+      "passed": true
+    },
+    {
+      "name": "uncommitted_not_counted_as_Adam",
+      "passed": true
+    },
+    {
+      "name": "matched_endpoints_and_stable_2k_intervals",
+      "passed": true
+    },
+    {
+      "name": "eval_generation_arithmetic",
+      "passed": true
+    },
+    {
+      "name": "fixed_parent_and_full_state",
+      "passed": true
+    },
+    {
+      "name": "full_parent_hash_not_invented",
+      "passed": true
+    },
+    {
+      "name": "code_sha_lengths",
+      "passed": true
+    },
+    {
+      "name": "hard_DAG_acyclic",
+      "passed": true
+    },
+    {
+      "name": "old_training_absent_from_hard_DAG",
+      "passed": true
+    },
+    {
+      "name": "data_and_eval_nonblocking",
+      "passed": true
+    },
+    {
+      "name": "goal_and_capsule_deadlines_separate",
+      "passed": true
+    },
+    {
+      "name": "source_banks_and_reduction_locked",
+      "passed": true
+    },
+    {
+      "name": "VAL_early_and_not_tuned",
+      "passed": true
+    },
+    {
+      "name": "history_preserved_AGENTS.md",
+      "passed": true
+    },
+    {
+      "name": "history_preserved_START_HERE.md",
+      "passed": true
+    },
+    {
+      "name": "history_preserved_CURRENT_SCIENCE_STATUS.md",
+      "passed": true
+    },
+    {
+      "name": "all_new_relative_links_exist",
+      "passed": true,
+      "detail": {
+        "checked": 25
+      }
+    },
+    {
+      "name": "publication_has_no_execution_claim",
+      "passed": true
+    }
+  ],
+  "actual_server_jobs": 0,
+  "actual_optimizer_updates": 0,
+  "actual_model_generations": 0,
+  "actual_native_requests": 0,
+  "file_hashes": {
+    "AGENTS.md": "135fd169311989ed1d8b6f5e57899263a09c58662c467c5fe24cd85fa15604bc",
+    "CURRENT_SCIENCE_STATUS.md": "f66a22675ce98393ba8f0002ee95eb09d1453fec70acf8b90b54bbd11f09d545",
+    "SLA_CORE_HOPPER_NEXT_START.md": "8ea2b6e4209ac2c4a9f18c6419795925eff45cf78648c67362c822493251e690",
+    "START_HERE.md": "8bf69cde626c7c4324ec61ab1cd739d8d949bd584b07314e8c3674dd7c18352f",
+    "docs/handover/2026-11-21/START_SLA_CORE_HOPPER_PARALLEL_V1.md": "9e969a065cb4b72ff070e4a10f9f0de462f8e59f8abf5a43face282990a8a913",
+    "docs/protocols/SLA_CORE_HOPPER_PARALLEL_V1_20261121.json": "3a0ccf2dcc58b74ce178c33a00058613c52cc8ca95d7819c829043874ed600e1",
+    "docs/protocols/SLA_CORE_HOPPER_PARALLEL_V1_20261121.md": "ee0056a2e37cfc2c7533655b71e48192aa3ecbf0cc0d6ffca67cb61d47c4c618",
+    "docs/protocols/SLA_CORE_HOPPER_PARALLEL_V1_POPULATIONS_20261121.json": "9e483c85eb90cc2e9d1da66b9f3f8dff6606c6173b66755bcffcc4c7e5f91279",
+    "reports/WM02/sla-core-hopper-parallel-20261121/AUDIT_AND_PLAN.md": "95b42b03556e6b1e49f77cb241ff5f86318858390e516971469629ba47225ac2"
+  }
+}

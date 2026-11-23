@@ -1,0 +1,563 @@
+{
+  "schema": "SLA_CORE_HOPPER_LONGRUN_PLAN_V1",
+  "goal": "SLA-CORE-HOPPER-PARALLEL-V1",
+  "date_sgt": "2026-11-21",
+  "status": "PUBLISHED_PLAN_NOT_SERVER_EXECUTION",
+  "timezone": "Asia/Singapore",
+  "human_request": "Corelab collection and efficient Hopper H200 training in parallel; no wait for A40 or Corelab training; direct Hopper-VANDA transfer",
+  "new_jobs_submitted_by_this_plan_publication": 0,
+  "non_dependencies": [
+    "old_A40_training_completion",
+    "old_Core_training_completion",
+    "old_MIX_eval",
+    "new_Core_data_arrival",
+    "all_teacher_cells_qualified",
+    "student_success",
+    "old_CLOCK",
+    "old_HOLD4"
+  ],
+  "scope": {
+    "native_simulation": true,
+    "real_hardware_motion": false,
+    "WBC_changed": false,
+    "legs_dynamics_safety_scoring_changed": false,
+    "old_TEST_read_for_outcomes": false,
+    "new_public_model_or_raw_data_upload": false,
+    "automatic_main_merge": false
+  },
+  "deadline": {
+    "T0": "FIRST_ACTUAL_MOUNT_PERSIST_ONCE",
+    "goal_days": 14,
+    "max_H200_gpu_hours_all_new_roles": 320,
+    "engineering_H200_gpu_hours": 8,
+    "goal_deadline": "T0+14d",
+    "capsule_deadline": "min(goal_deadline, current_actual_allocation_deadline, segment_deadline)",
+    "allocation_end": "save and exit this capsule; successor continues in a new genuine allocation",
+    "longrun_stop": [
+      "goal_deadline",
+      "total_compute_budget",
+      "actual_project_grant_expiry_or_withdrawal",
+      "role_complete"
+    ],
+    "gpu_hours_meter": "actual allocated GPU count times walltime, including compilation, restore, save and idle while holding allocation",
+    "restart_resets_T0_or_budgets": false
+  },
+  "source_pins": {
+    "publication_base_main": "6843163d641eb24a29c3b1557f868765346ba66c",
+    "scale_execution_and_reports": "c8642aa602d3e34dd4dcda5a55ff6ae7c7c53ae6",
+    "adapt_actual_worker": "1432c8dc88c57adf39e8fa363f5438c5e63aa8fd",
+    "adapt_transport_and_site": "124af5eca57d0713714c2c74ed7f7456ec0b10d6",
+    "performance_branch": "2caa24b2447e41f6a64323fadc1a428c72d583db",
+    "known_expert_producer": "55030f539c448728133d8ce7cf8dcc5afa4be725",
+    "old_goal_v2_reference_only": "1b2a25b7c1720051a2627d30831fb18130462374"
+  },
+  "parent": {
+    "lineage": "ADAPT5K",
+    "phase": 2000,
+    "hf_repository": "datasets/leoyuer/sla-goal-v2-checkpoints",
+    "hf_revision": "5c460f195f6509f2f4da55dea32c356b45e00d37",
+    "hf_subdir": "ADAPT5K/step-02000-2bff547b6f2c",
+    "full_checkpoint_sha256": null,
+    "hash_resolution": "resolve exact full SHA from this sealed manifest once; bind before restore; 12-char directory prefix is not a full hash",
+    "required_state_arrays": 140,
+    "required": [
+      "model_tree",
+      "Adam_moments_and_step",
+      "RNG",
+      "sampling_cursors",
+      "frozen_SLA_base",
+      "tokenizer",
+      "statistics",
+      "data_identity"
+    ],
+    "allow_inference_only_29_array_package": false,
+    "allow_silent_parent_substitution": false,
+    "reset_Adam": false,
+    "separate_ancestral_and_new_counters": true
+  },
+  "transfer": {
+    "initial_route": [
+      "VANDA_sealed_asset_store",
+      "Hopper_incoming",
+      "Hopper_READY"
+    ],
+    "new_target_route": [
+      "Core_sealed_TRAIN",
+      "approved_VANDA_custody",
+      "Hopper_READY"
+    ],
+    "checkpoint_backup_route": [
+      "Hopper_sealed",
+      "VANDA_custody"
+    ],
+    "direct_VANDA_Hopper": true,
+    "requires_VANDA_GPU_job_end": false,
+    "mechanism": "existing approved authenticated direct transfer, exact size/SHA member checks, fsync and same-filesystem atomic READY",
+    "scheduler_owned_CPU_staging": true,
+    "laptop_or_interactive_nohup_required": false,
+    "read_mutable_latest": false,
+    "delete_sync": false
+  },
+  "initial_data": {
+    "go2": {
+      "version": "D2",
+      "episodes": 26,
+      "windows": 2031,
+      "legacy_episodes": 23,
+      "nonlegacy_episodes": 3,
+      "initial_batch_legacy": 52,
+      "initial_batch_nonlegacy": 12
+    },
+    "robodojo": {
+      "version": "R200_SOURCE_NATIVE",
+      "episodes": 200,
+      "windows": 210398
+    },
+    "libero": {
+      "episodes": 1261,
+      "windows": 209146
+    },
+    "all_content_hashes": "BIND_FROM_EXISTING_SEALED_MANIFESTS_BEFORE_START",
+    "statistics": "frozen original D1-state/C20-action and source-native per-domain statistics",
+    "failed_or_unconsumed_actions_as_expert_labels": false
+  },
+  "training": {
+    "lineage": "HOPPER-ADAPT20K-V1",
+    "phase_steps": 20000,
+    "fm_batch": {
+      "go2": 64,
+      "robodojo": 32,
+      "libero": 32
+    },
+    "fm_domain_mean_weights": {
+      "go2": 2,
+      "robodojo": 1,
+      "libero": 1
+    },
+    "aux_H40_per_update": 4,
+    "aux_denoising_steps": 10,
+    "full_aux_backward": true,
+    "clip_once_globally": true,
+    "Adam_once_per_update": true,
+    "frozen_weights_dtype": "bfloat16",
+    "trainable_grad_optimizer_dtype": "float32",
+    "state_token_dropout": 0.25,
+    "trainable_scope": "existing VLM LoRA, full action expert, independent domain IO",
+    "lr": {
+      "start": "exact last actual parent LR",
+      "end": 1e-06,
+      "formula": "1e-6 + 0.5*(lr_start-1e-6)*(1+cos(pi*(phase-1)/19999))",
+      "freeze_full_sequence_before_updates": true
+    },
+    "allowed_backend": "single H200",
+    "fp8": false,
+    "multi_GPU": false,
+    "new_loss": false,
+    "PBS_max_segment_hours": 6,
+    "save_exit_margin_minutes": 15,
+    "periodic_state_seal": {
+      "every_updates": 100,
+      "or_minutes": 30,
+      "whichever_first": true
+    },
+    "phase_boundaries_always_sealed": true,
+    "progress_does_not_wait_for_eval_score": true
+  },
+  "engineering": {
+    "candidates": [
+      {
+        "id": "E1",
+        "fm_microbatch": 1,
+        "aux_microbatch": 1
+      },
+      {
+        "id": "E2",
+        "fm_microbatch": 4,
+        "aux_microbatch": 1
+      },
+      {
+        "id": "E3",
+        "fm_microbatch": 8,
+        "aux_microbatch": 1
+      },
+      {
+        "id": "E4",
+        "fm_microbatch": 16,
+        "aux_microbatch": 1
+      },
+      {
+        "id": "E5",
+        "fm_microbatch": "fastest_qualified",
+        "aux_microbatch": 2
+      },
+      {
+        "id": "E6",
+        "fm_microbatch": "fastest_qualified",
+        "aux_microbatch": 4
+      }
+    ],
+    "updates_per_candidate": 16,
+    "warmup_updates": 4,
+    "timed_updates": 12,
+    "technical_extra_groups": 1,
+    "max_updates_all_groups": 112,
+    "panel_generations_per_group": 48,
+    "independent_restore_per_group": 48,
+    "max_panel_generations": 672,
+    "same_H200_restore_exact_required": 48,
+    "reference": "E1 original serial H200 computation; cache already computed first-step per-component loss and gradients; no extra reference backward",
+    "E1_uses_original_serial_sync_order": true,
+    "E2_to_E6_prefetch_and_deferred_readback": "registered backend combination; do not attribute total speedup solely to microbatch",
+    "first_step_loss_relative_error_max": 0.0001,
+    "loss_relative_denominator_floor": 1e-12,
+    "first_step_gradient_relative_L2_error_max": 0.001,
+    "gradient_relative_denominator_floor": 1e-12,
+    "qualify_all_H40_model_proposals": false,
+    "require_A40_bitwise_longrun_equivalence": false,
+    "input_and_per_example_random_identity_required": true,
+    "compare_components": [
+      "go2_FM",
+      "robodojo_FM",
+      "libero_FM",
+      "aux",
+      "total_gradient"
+    ],
+    "FM_microbatch_mean_weight": "actual_microbatch_m / domain_batch_B",
+    "aux_microbatch_mean_weight": "actual_microbatch_m / 4; retain existing external auxiliary coefficient",
+    "retain_original_remat": true,
+    "candidate_selection": "lowest full-update warm-state p50 among qualified candidates",
+    "target_speedup_over_H200_E1": 1.5,
+    "target_speedup_is_hard_gate": false,
+    "fallback": "qualified H200 E1",
+    "formal_restart_from_original_parent": true,
+    "prefetch": {
+      "workers_initial": 4,
+      "workers_max": 8,
+      "global_batches_buffer_initial": 2,
+      "global_batches_buffer_max": 4,
+      "fixed_order_and_resumable_cursor": true
+    }
+  },
+  "collection": {
+    "population_file": "SLA_CORE_HOPPER_PARALLEL_V1_POPULATIONS_20261121.json",
+    "native_worlds": 1,
+    "max_train_attempts": 240,
+    "max_val_attempts": 24,
+    "qualified_complete_episode_target": 120,
+    "target_min_HOLD": 40,
+    "target_min_PLACE": 80,
+    "target_min_per_F_instruction_cell": 5,
+    "target_is_training_start_gate": false,
+    "max_same_mechanism_consecutive_failures_before_cell_pause": 2,
+    "max_new_producer_versions_per_cell": 2,
+    "repairs_use_unstarted_conditions_and_same_total_budget": true,
+    "admission": "original complete TASK_SUCCESS plus G7, RGB/H40/P10 consumed masks, clock/frame/statistics/split proofs",
+    "failed_episodes_as_positive_BC": false,
+    "fairness": {
+      "collection_conditions_per_turn_max": 12,
+      "ready_student_conditions_per_turn_max": 6
+    },
+    "early_expert_schedule": [
+      "TRAIN12",
+      "VAL12",
+      "TRAIN12",
+      "VAL12"
+    ],
+    "TRAIN_target_completion_does_not_cancel_VAL": true,
+    "VAL_producer_frozen_before_first_VAL": true,
+    "VAL_outcomes_used_for_producer_tuning": false,
+    "snapshot": {
+      "new_qualified_episodes": 4,
+      "or_hours": 6,
+      "publish_only_if_new_members": true,
+      "immutable_cumulative": true
+    }
+  },
+  "curriculum": {
+    "decision_phase_steps": [
+      2000,
+      5000,
+      10000,
+      15000
+    ],
+    "start": "D2",
+    "select": "latest complete compatible TRAIN READY at boundary",
+    "no_new_snapshot_action": "NO_NEW_DATA_CONTINUE",
+    "start_waits_for_new_data": false,
+    "boundary_waits_for_transfer": false,
+    "new_quota_formula": "min(48,4*N_nonlegacy_complete_episodes)",
+    "legacy_quota_formula": "64-new_quota",
+    "legacy_set_fixed_count": 23,
+    "source_quota_each": 32,
+    "min_legacy_slots": 16,
+    "source_20k_indices_noise_cursor_banks_frozen_before_start": true,
+    "target_bank_rebuild_changes_source_RNG_or_samples": false,
+    "sampler": "existing task/episode/critical-and-ordinary phase/window hierarchy",
+    "numeric_identity_scene_and_episode_counts_separate": true,
+    "incompatible_data_action": "quarantine proven incompatible members or reject snapshot; continue prior version",
+    "silent_statistics_or_decoder_change": false
+  },
+  "conditional_control": {
+    "trigger": "first actual new Core TRAIN snapshot adoption at one registered boundary",
+    "max_triggers": 1,
+    "max_updates": 2000,
+    "common_parent": "main complete state at boundary b before data switch",
+    "control_target_data": "pre-switch target snapshot",
+    "main_target_data": "first switched snapshot for matched b+1 through b+2000",
+    "matched_main_checkpoint": "b+2000",
+    "rerun_main_prefix": false,
+    "matched": [
+      "H200_backend",
+      "phase_LR",
+      "source_examples",
+      "per_example_random_rule",
+      "global_batch",
+      "loss_definition"
+    ],
+    "source_reuse": "byte-identical main b+1..b+2000 source index, noise and cursor records",
+    "estimand": "new target data plus registered sampling curriculum",
+    "main_waits_for_control": false,
+    "can_run_after_main_on_single_H200": true,
+    "no_new_data_by_15000": "NOT_TRIGGERED_NO_NEW_SNAPSHOT",
+    "incomplete_pair": "MISSING_NOT_AN_EQUAL_EXPOSURE_COMPARISON"
+  },
+  "evaluation": {
+    "main_phase_endpoints": [
+      0,
+      2000,
+      5000,
+      10000,
+      20000
+    ],
+    "extra_matched_endpoints_max": 2,
+    "formal_endpoints_max": 7,
+    "per_endpoint": {
+      "ordinary_three_domain": 288,
+      "phase_TRAIN_diagnostics": 88,
+      "independent_restore": 48,
+      "new_VAL_windows_max": 96,
+      "Hopper_RGB_reference": 16,
+      "Core_RGB_repeat": 16
+    },
+    "VAL": {
+      "expert_attempts": 24,
+      "windows_per_complete_episode_max": 4,
+      "freeze_at": "min(all VAL24 terminal, T0+48h)",
+      "never_fill_missing_with_TRAIN": true,
+      "missing_VAL_does_not_block_training": true,
+      "window_selector": [
+        "first valid APPROACH capture",
+        "first P10 containing labeled due-close event",
+        "first valid lift/carry capture",
+        "first valid HOLD completion or PLACE release event capture"
+      ],
+      "selection_uses_only_expert_labels_and_native_stage_events": true,
+      "freeze_selector_source_hash_and_manifest_before_model_predictions": true,
+      "missing_or_duplicate_capture_phase": "omit without replacement; earliest capture resolves ties"
+    },
+    "model_selection_by_DEV": false,
+    "Core_deployment_gate": "new goal-bound package schema plus existing strict custody/RGB16 criteria; no forged old FORMAL424 receipt",
+    "Hopper_REF16": "independent cold restore of this complete sealed endpoint, fixed ordinal/input/noise, frozen-base/tokenizer/statistics binding",
+    "Core_deployment_waits_for_full_424_eval": false,
+    "incomplete_eval_status": "OFFLINE_EVAL_PENDING; do not claim source retention or 48/48 restore",
+    "shared_integrity_failure": "freeze all affected endpoints and dependent roles; independence does not ignore a known common defect",
+    "DEV24_main_models_max": 5,
+    "DEV24_matched_models_max": 2,
+    "CONF24_final_phase": 20000,
+    "CONF_substitute_earlier_endpoint": false,
+    "student_science_requests_max": 192,
+    "interface_student_requests_max": 2,
+    "old_TEST_used": false,
+    "close_width_22mm_is_success": false,
+    "success_scoring": "unchanged multitask_score_v6: task-specific grasp/lift/base/hold or complete supported-release-and-retreat PLACE"
+  },
+  "budget": {
+    "update_roles": {
+      "main": {
+        "max_logical_updates": 20000,
+        "max_committed_updates_without_replay": 20000,
+        "optimizer_visits": {
+          "go2": 1280000,
+          "robodojo": 640000,
+          "libero": 640000
+        },
+        "max_training_h40_generation_attempts": 80000
+      },
+      "conditional_control": {
+        "max_logical_updates": 2000,
+        "max_committed_updates_without_replay": 2000,
+        "optimizer_visits": {
+          "go2": 128000,
+          "robodojo": 64000,
+          "libero": 64000
+        },
+        "max_training_h40_generation_attempts": 8000
+      },
+      "engineering": {
+        "max_committed_updates_including_one_technical_group": 112,
+        "optimizer_visits": {
+          "go2": 7168,
+          "robodojo": 3584,
+          "libero": 3584
+        },
+        "max_training_h40_generation_attempts": 448
+      },
+      "lost_suffix_replay_reserve": {
+        "max_extra_committed_updates": 256,
+        "optimizer_visits": {
+          "go2": 16384,
+          "robodojo": 8192,
+          "libero": 8192
+        },
+        "max_training_h40_generation_attempts": 1024
+      }
+    },
+    "new_actual_committed_updates_max": 22368,
+    "new_optimizer_visits_max": {
+      "go2": 1431552,
+      "robodojo": 715776,
+      "libero": 715776,
+      "total": 2863104
+    },
+    "uncommitted_update_attempts_max": 32,
+    "uncommitted_extra_FM_input_attempts_max": {
+      "go2": 2048,
+      "robodojo": 1024,
+      "libero": 1024,
+      "total": 4096
+    },
+    "generation_attempts": {
+      "committed_training_all_roles": 89472,
+      "uncommitted_training": 128,
+      "engineering_panel_restore": 672,
+      "formal_original_panels": 2968,
+      "formal_new_VAL_max": 672,
+      "deployment_RGB": 224,
+      "native_science_student": 30720,
+      "native_interfaces_student": 240,
+      "additional_failed_eval_deploy_attempts": 128,
+      "total": 125224
+    },
+    "expert_planner_queries_max": 42240,
+    "native_requests": {
+      "TRAIN": 240,
+      "VAL": 24,
+      "student_science": 192,
+      "student_interfaces": 2,
+      "science_total": 456,
+      "all_total": 458
+    },
+    "native_ticks": {
+      "TRAIN": 10968720,
+      "VAL": 1096872,
+      "student_science": 8774976,
+      "student_interfaces": 71406,
+      "science_total": 20840568,
+      "all_total": 20911974
+    },
+    "reserve_rules": "never reset on process restart; preserve discarded committed suffixes and partial generations; no old-budget migration",
+    "old_science_budgets_migrated": false
+  },
+  "dag": {
+    "nodes": [
+      "HOPPER_CPU_ACCESS",
+      "H200_ALLOCATION",
+      "SITE_CORE",
+      "SEALED_PARENT_AND_D2",
+      "CPU_TRANSFER_READY",
+      "H200_QUAL",
+      "MAIN20K",
+      "CORE_SCOPE_AND_POPULATION",
+      "TRAIN240_VAL24",
+      "NEW_TRAIN_READY",
+      "OFFLINE_EVAL",
+      "HOPPER_REF16",
+      "CORE_RGB16",
+      "STUDENT_DEV_CONF",
+      "CONTROL2K"
+    ],
+    "hard_edges": [
+      [
+        "HOPPER_CPU_ACCESS",
+        "CPU_TRANSFER_READY"
+      ],
+      [
+        "SEALED_PARENT_AND_D2",
+        "CPU_TRANSFER_READY"
+      ],
+      [
+        "CPU_TRANSFER_READY",
+        "H200_QUAL"
+      ],
+      [
+        "H200_ALLOCATION",
+        "H200_QUAL"
+      ],
+      [
+        "H200_QUAL",
+        "MAIN20K"
+      ],
+      [
+        "SITE_CORE",
+        "CORE_SCOPE_AND_POPULATION"
+      ],
+      [
+        "CORE_SCOPE_AND_POPULATION",
+        "TRAIN240_VAL24"
+      ],
+      [
+        "TRAIN240_VAL24",
+        "NEW_TRAIN_READY"
+      ],
+      [
+        "MAIN20K",
+        "OFFLINE_EVAL"
+      ],
+      [
+        "MAIN20K",
+        "HOPPER_REF16"
+      ],
+      [
+        "HOPPER_REF16",
+        "CORE_RGB16"
+      ],
+      [
+        "CORE_RGB16",
+        "STUDENT_DEV_CONF"
+      ]
+    ],
+    "hard_edge_semantics": "MAIN20K emits each sealed endpoint independently to offline Eval and REF16 deployment; no wait for full 20K or 424 Eval completion; TRAIN240_VAL24 is a producer stream emitting incremental TRAIN seals, never requiring all TRAIN or any VAL completion",
+    "VAL_terminal_blocks_TRAIN_snapshot_transfer": false,
+    "conditional_nonblocking_edges": [
+      [
+        "NEW_TRAIN_READY",
+        "MAIN20K"
+      ],
+      [
+        "MAIN20K",
+        "CONTROL2K"
+      ]
+    ]
+  },
+  "autonomy": {
+    "new_per_small_fix_GO_required": false,
+    "persistent_scheduler_required": true,
+    "reuse_existing_Journal_onceIO_and_owner": true,
+    "new_scheduler_framework": false,
+    "submit_until_finite_terminal_without_local_monitor": true,
+    "actual_site_credentials_and_resource_ownership_required": true,
+    "unknown_effect_replayed_blindly": false,
+    "healthy_old_jobs_mutated": false,
+    "cross_site_live_heartbeat_required_for_training": false,
+    "mount_receipt_required": [
+      "actual_job_ids",
+      "dependencies",
+      "Core_owner",
+      "code_sha",
+      "parent_and_data_hashes",
+      "T0_and_deadline",
+      "survival_after_interactive_disconnect"
+    ],
+    "terminal": "seal actual prefix, stop only own new roles, close leases, release owners, report actual science and compute"
+  }
+}
