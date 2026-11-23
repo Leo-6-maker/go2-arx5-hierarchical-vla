@@ -1,0 +1,605 @@
+{
+  "source_gait_replay_sha256": "ef96a9c3385d5bf7da179f7538e1cace87307e4c208f4617c1adedf5cddc5aa0",
+  "scope": "all observed nonzero frequency events through the boundary fell in this transition; six-component source packets matched on the three planar/yaw channels entering the compiled threshold",
+  "observer_window": "from first to last native post-step in [4.9,5.42) simulation seconds or earlier historical stop; base messages have no simulation header",
+  "cases": [
+    {
+      "case": "T0_STATIC_HOLD",
+      "group": "B2 anchor",
+      "received_base_messages_in_window": 81,
+      "source_norm_at_or_above_point1": 5,
+      "observer_tick_range_above": [
+        2503,
+        2620
+      ],
+      "gait_input_matches": [
+        {
+          "leg_policy_token": 252,
+          "matched_integrations": 10,
+          "first_last_applied_tick": [
+            2511,
+            2520
+          ],
+          "max_PD_target_error_rad": 5.960464477539063e-08,
+          "sim_s": 5.0200000000000005,
+          "unscaled_command_norm": 0.1162335084957953,
+          "exact_three_channel_candidates": 1,
+          "observer_tick": 2510,
+          "observer_minus_inference_wall_ms": 5.834019742906094
+        },
+        {
+          "leg_policy_token": 263,
+          "matched_integrations": 10,
+          "first_last_applied_tick": [
+            2621,
+            2630
+          ],
+          "max_PD_target_error_rad": 5.960464477539063e-08,
+          "sim_s": 5.24,
+          "unscaled_command_norm": 0.10047703411557164,
+          "exact_three_channel_candidates": 1,
+          "observer_tick": 2620,
+          "observer_minus_inference_wall_ms": -0.6248876452445984
+        }
+      ],
+      "ROS_sha256": "fbaaea89063804023c406d7f55330b1e44fc4f9170119be3401377b230f7462c",
+      "trace_sha256": "a5383a3ae32714ff0309eba60b1334f7cb301ff67cedf18ebb7da011e9af46bc"
+    },
+    {
+      "case": "T1_CLOCK_FAULT_STOP",
+      "group": "B2 anchor",
+      "received_base_messages_in_window": 78,
+      "source_norm_at_or_above_point1": 1,
+      "observer_tick_range_above": [
+        2506,
+        2506
+      ],
+      "gait_input_matches": [],
+      "ROS_sha256": "dbf37640781bad5e21ba2eefa6c7b996d46b6c41cdb8833c1db61afe8948cfe1",
+      "trace_sha256": "ffc48e7fd1e9850dcbb9c17e6d732958adbbf531672fd6c585cb693f81a67cc9"
+    },
+    {
+      "case": "D1 OO",
+      "group": "D1 initial mismatch",
+      "received_base_messages_in_window": 82,
+      "source_norm_at_or_above_point1": 11,
+      "observer_tick_range_above": [
+        2503,
+        2620
+      ],
+      "gait_input_matches": [
+        {
+          "leg_policy_token": 261,
+          "matched_integrations": 10,
+          "first_last_applied_tick": [
+            2601,
+            2610
+          ],
+          "max_PD_target_error_rad": 5.21540641784668e-08,
+          "sim_s": 5.2,
+          "unscaled_command_norm": 0.10089367148991518,
+          "exact_three_channel_candidates": 1,
+          "observer_tick": 2600,
+          "observer_minus_inference_wall_ms": -13.66026047617197
+        },
+        {
+          "leg_policy_token": 262,
+          "matched_integrations": 10,
+          "first_last_applied_tick": [
+            2611,
+            2620
+          ],
+          "max_PD_target_error_rad": 5.21540641784668e-08,
+          "sim_s": 5.220000000000001,
+          "unscaled_command_norm": 0.101919093233473,
+          "exact_three_channel_candidates": 1,
+          "observer_tick": 2610,
+          "observer_minus_inference_wall_ms": -16.35139435529709
+        },
+        {
+          "leg_policy_token": 263,
+          "matched_integrations": 10,
+          "first_last_applied_tick": [
+            2621,
+            2630
+          ],
+          "max_PD_target_error_rad": 5.960464477539063e-08,
+          "sim_s": 5.24,
+          "unscaled_command_norm": 0.10125585811019226,
+          "exact_three_channel_candidates": 1,
+          "observer_tick": 2620,
+          "observer_minus_inference_wall_ms": -13.18977028131485
+        }
+      ],
+      "ROS_sha256": "b76d988328da6729e374c78e19d28c61d0c5a4cc556f1a1e17f56e994bb93ba9",
+      "trace_sha256": "37f95d0cc7cecc096a8d2ebe85104b1e13100de56620b4b88dfb99d00b77f928"
+    },
+    {
+      "case": "M0 +x WORLD_HOLD",
+      "group": "M0 stopped early",
+      "received_base_messages_in_window": 12,
+      "source_norm_at_or_above_point1": 2,
+      "observer_tick_range_above": [
+        2503,
+        2508
+      ],
+      "gait_input_matches": [],
+      "ROS_sha256": "3bff136bb95aebd6368b2e50946ee9abadc72a4eed53ccd0fa141ea9fc2d1ca4",
+      "trace_sha256": "3a3977ed29355af801c916e77b46f1e236a6a9b56221cc7e8827b5eb7fe659c6"
+    },
+    {
+      "case": "M0 -x SMOOTH_5CM_TRANSLATION",
+      "group": "M0 mismatched",
+      "received_base_messages_in_window": 81,
+      "source_norm_at_or_above_point1": 11,
+      "observer_tick_range_above": [
+        2503,
+        2620
+      ],
+      "gait_input_matches": [
+        {
+          "leg_policy_token": 261,
+          "matched_integrations": 10,
+          "first_last_applied_tick": [
+            2601,
+            2610
+          ],
+          "max_PD_target_error_rad": 4.470348358154297e-08,
+          "sim_s": 5.2,
+          "unscaled_command_norm": 0.10072032812962343,
+          "exact_three_channel_candidates": 1,
+          "observer_tick": 2600,
+          "observer_minus_inference_wall_ms": -11.524975299835205
+        },
+        {
+          "leg_policy_token": 262,
+          "matched_integrations": 10,
+          "first_last_applied_tick": [
+            2611,
+            2620
+          ],
+          "max_PD_target_error_rad": 5.960464477539063e-08,
+          "sim_s": 5.220000000000001,
+          "unscaled_command_norm": 0.10189815717346255,
+          "exact_three_channel_candidates": 1,
+          "observer_tick": 2610,
+          "observer_minus_inference_wall_ms": -13.978377915918827
+        },
+        {
+          "leg_policy_token": 263,
+          "matched_integrations": 10,
+          "first_last_applied_tick": [
+            2621,
+            2630
+          ],
+          "max_PD_target_error_rad": 2.9802322387695312e-08,
+          "sim_s": 5.24,
+          "unscaled_command_norm": 0.10133739051587624,
+          "exact_three_channel_candidates": 1,
+          "observer_tick": 2620,
+          "observer_minus_inference_wall_ms": -9.888731874525547
+        }
+      ],
+      "ROS_sha256": "914fbb67dbc047cc11c2f9e1208aec0c4191bd5d455f695087f34d27847b9a76",
+      "trace_sha256": "d79d67292fbf115b41eca89b09b61ea4c895c7139e4ec562ec89cb37d8014e7c"
+    },
+    {
+      "case": "M0 -x WORLD_HOLD",
+      "group": "M0 mismatched",
+      "received_base_messages_in_window": 82,
+      "source_norm_at_or_above_point1": 11,
+      "observer_tick_range_above": [
+        2503,
+        2620
+      ],
+      "gait_input_matches": [
+        {
+          "leg_policy_token": 261,
+          "matched_integrations": 10,
+          "first_last_applied_tick": [
+            2601,
+            2610
+          ],
+          "max_PD_target_error_rad": 5.960464477539063e-08,
+          "sim_s": 5.2,
+          "unscaled_command_norm": 0.10091782646626316,
+          "exact_three_channel_candidates": 1,
+          "observer_tick": 2600,
+          "observer_minus_inference_wall_ms": -6.99266605079174
+        },
+        {
+          "leg_policy_token": 262,
+          "matched_integrations": 10,
+          "first_last_applied_tick": [
+            2611,
+            2620
+          ],
+          "max_PD_target_error_rad": 4.1723251298364517e-08,
+          "sim_s": 5.220000000000001,
+          "unscaled_command_norm": 0.10197156733880716,
+          "exact_three_channel_candidates": 1,
+          "observer_tick": 2610,
+          "observer_minus_inference_wall_ms": -4.7877393662929535
+        },
+        {
+          "leg_policy_token": 263,
+          "matched_integrations": 10,
+          "first_last_applied_tick": [
+            2621,
+            2630
+          ],
+          "max_PD_target_error_rad": 5.960464477539063e-08,
+          "sim_s": 5.24,
+          "unscaled_command_norm": 0.10130851276389959,
+          "exact_three_channel_candidates": 1,
+          "observer_tick": 2620,
+          "observer_minus_inference_wall_ms": -10.511806234717369
+        }
+      ],
+      "ROS_sha256": "eb3ded5e161b8eb2d0f412bc19290483a7d9d8cc3f4d318093df46be77b4f7ff",
+      "trace_sha256": "9997ec13e1dae25b08091893e87352aa30798697c956f10f20732fd71c6d5466"
+    },
+    {
+      "case": "M0 -y SMOOTH_5CM_TRANSLATION",
+      "group": "M0 matched",
+      "received_base_messages_in_window": 82,
+      "source_norm_at_or_above_point1": 3,
+      "observer_tick_range_above": [
+        2500,
+        2507
+      ],
+      "gait_input_matches": [
+        {
+          "leg_policy_token": 251,
+          "matched_integrations": 10,
+          "first_last_applied_tick": [
+            2501,
+            2510
+          ],
+          "max_PD_target_error_rad": 3.427267070144069e-08,
+          "sim_s": 5.0,
+          "unscaled_command_norm": 0.12652430530054415,
+          "exact_three_channel_candidates": 1,
+          "observer_tick": 2500,
+          "observer_minus_inference_wall_ms": -1.0596970096230507
+        }
+      ],
+      "ROS_sha256": "d75cd06e7741f1c7762e9b0c99f0a7c6f61d0e63cb0bb36ad8916c78766d0e07",
+      "trace_sha256": "26644aca9dd10042881d109af9306642527aec1adb2c0fff017cd65607bd6ed1"
+    },
+    {
+      "case": "M0 -y WORLD_HOLD",
+      "group": "M0 mismatched",
+      "received_base_messages_in_window": 82,
+      "source_norm_at_or_above_point1": 10,
+      "observer_tick_range_above": [
+        2503,
+        2628
+      ],
+      "gait_input_matches": [
+        {
+          "leg_policy_token": 261,
+          "matched_integrations": 10,
+          "first_last_applied_tick": [
+            2601,
+            2610
+          ],
+          "max_PD_target_error_rad": 2.9802322387695312e-08,
+          "sim_s": 5.2,
+          "unscaled_command_norm": 0.10090266113694121,
+          "exact_three_channel_candidates": 1,
+          "observer_tick": 2600,
+          "observer_minus_inference_wall_ms": -9.754578582942486
+        },
+        {
+          "leg_policy_token": 262,
+          "matched_integrations": 10,
+          "first_last_applied_tick": [
+            2611,
+            2620
+          ],
+          "max_PD_target_error_rad": 2.9802322387695312e-08,
+          "sim_s": 5.220000000000001,
+          "unscaled_command_norm": 0.10191286596721662,
+          "exact_three_channel_candidates": 1,
+          "observer_tick": 2610,
+          "observer_minus_inference_wall_ms": -8.743454702198505
+        },
+        {
+          "leg_policy_token": 263,
+          "matched_integrations": 10,
+          "first_last_applied_tick": [
+            2621,
+            2630
+          ],
+          "max_PD_target_error_rad": 5.960464477539063e-08,
+          "sim_s": 5.24,
+          "unscaled_command_norm": 0.10117024578162251,
+          "exact_three_channel_candidates": 1,
+          "observer_tick": 2620,
+          "observer_minus_inference_wall_ms": -10.835638269782066
+        }
+      ],
+      "ROS_sha256": "b02efa372cb7aee310c0998935b267cde5212e42e257f95a31e2b44c54dde1fd",
+      "trace_sha256": "4f3b8ec792226ea2e0122b8dd228ca145893fdba9e5c82f71d3fb3e7afb5b5ce"
+    },
+    {
+      "case": "M0 -yaw SMOOTH_5CM_TRANSLATION",
+      "group": "withheld"
+    },
+    {
+      "case": "M0 -yaw WORLD_HOLD",
+      "group": "withheld"
+    },
+    {
+      "case": "M0 +x SMOOTH_5CM_TRANSLATION",
+      "group": "M0 matched",
+      "received_base_messages_in_window": 81,
+      "source_norm_at_or_above_point1": 13,
+      "observer_tick_range_above": [
+        2503,
+        2640
+      ],
+      "gait_input_matches": [
+        {
+          "leg_policy_token": 262,
+          "matched_integrations": 10,
+          "first_last_applied_tick": [
+            2611,
+            2620
+          ],
+          "max_PD_target_error_rad": 4.470348358154297e-08,
+          "sim_s": 5.220000000000001,
+          "unscaled_command_norm": 0.10209891785121042,
+          "exact_three_channel_candidates": 1,
+          "observer_tick": 2610,
+          "observer_minus_inference_wall_ms": -6.91169872879982
+        },
+        {
+          "leg_policy_token": 264,
+          "matched_integrations": 10,
+          "first_last_applied_tick": [
+            2631,
+            2640
+          ],
+          "max_PD_target_error_rad": 5.21540641784668e-08,
+          "sim_s": 5.260000000000001,
+          "unscaled_command_norm": 0.10095021247227798,
+          "exact_three_channel_candidates": 1,
+          "observer_tick": 2630,
+          "observer_minus_inference_wall_ms": -3.789294511079788
+        }
+      ],
+      "ROS_sha256": "3faa873924d70893d95bda5bebcbc5085d0afc40218f4340d31b6c497b59bc90",
+      "trace_sha256": "89012bd0b25f84b1dd2c8371b519115c3b07abb708e9db0daaf8b5891b19ebb1"
+    },
+    {
+      "case": "M0 +y SMOOTH_5CM_TRANSLATION",
+      "group": "M0 mismatched",
+      "received_base_messages_in_window": 81,
+      "source_norm_at_or_above_point1": 11,
+      "observer_tick_range_above": [
+        2503,
+        2620
+      ],
+      "gait_input_matches": [
+        {
+          "leg_policy_token": 261,
+          "matched_integrations": 10,
+          "first_last_applied_tick": [
+            2601,
+            2610
+          ],
+          "max_PD_target_error_rad": 5.960464477539063e-08,
+          "sim_s": 5.2,
+          "unscaled_command_norm": 0.10098249202397283,
+          "exact_three_channel_candidates": 1,
+          "observer_tick": 2600,
+          "observer_minus_inference_wall_ms": -8.739321492612362
+        },
+        {
+          "leg_policy_token": 262,
+          "matched_integrations": 10,
+          "first_last_applied_tick": [
+            2611,
+            2620
+          ],
+          "max_PD_target_error_rad": 4.842877388000488e-08,
+          "sim_s": 5.220000000000001,
+          "unscaled_command_norm": 0.10177620279200345,
+          "exact_three_channel_candidates": 1,
+          "observer_tick": 2610,
+          "observer_minus_inference_wall_ms": -6.006819196045399
+        },
+        {
+          "leg_policy_token": 263,
+          "matched_integrations": 10,
+          "first_last_applied_tick": [
+            2621,
+            2630
+          ],
+          "max_PD_target_error_rad": 5.960464477539063e-08,
+          "sim_s": 5.24,
+          "unscaled_command_norm": 0.10242286258827346,
+          "exact_three_channel_candidates": 1,
+          "observer_tick": 2620,
+          "observer_minus_inference_wall_ms": -8.948010392487049
+        }
+      ],
+      "ROS_sha256": "12d1e2e142ef9f5695ca18842445a180055e5fd69c76a4f05d6309647b4f7f60",
+      "trace_sha256": "b67927d1228b2da7f3ffbdc863888369184b83be76f0fe43f0019133c0922553"
+    },
+    {
+      "case": "M0 +y WORLD_HOLD",
+      "group": "M0 mismatched",
+      "received_base_messages_in_window": 82,
+      "source_norm_at_or_above_point1": 11,
+      "observer_tick_range_above": [
+        2503,
+        2620
+      ],
+      "gait_input_matches": [
+        {
+          "leg_policy_token": 261,
+          "matched_integrations": 10,
+          "first_last_applied_tick": [
+            2601,
+            2610
+          ],
+          "max_PD_target_error_rad": 5.960464477539063e-08,
+          "sim_s": 5.2,
+          "unscaled_command_norm": 0.10088668674781977,
+          "exact_three_channel_candidates": 1,
+          "observer_tick": 2600,
+          "observer_minus_inference_wall_ms": -6.421870552003384
+        },
+        {
+          "leg_policy_token": 262,
+          "matched_integrations": 10,
+          "first_last_applied_tick": [
+            2611,
+            2620
+          ],
+          "max_PD_target_error_rad": 2.9802322387695312e-08,
+          "sim_s": 5.220000000000001,
+          "unscaled_command_norm": 0.10043567909904501,
+          "exact_three_channel_candidates": 1,
+          "observer_tick": 2610,
+          "observer_minus_inference_wall_ms": -2.036820165812969
+        },
+        {
+          "leg_policy_token": 263,
+          "matched_integrations": 10,
+          "first_last_applied_tick": [
+            2621,
+            2630
+          ],
+          "max_PD_target_error_rad": 2.9802322387695312e-08,
+          "sim_s": 5.24,
+          "unscaled_command_norm": 0.1010699798333416,
+          "exact_three_channel_candidates": 1,
+          "observer_tick": 2620,
+          "observer_minus_inference_wall_ms": -6.453805603086948
+        }
+      ],
+      "ROS_sha256": "22d57b82a0250affec9d5e80210d3ac428225d45d728e30aab5a3b81eb29a6ba",
+      "trace_sha256": "6b5af57b6940ee8a783f620680fe52ea57c405c48ae0043a9a6f72fcde4db5d9"
+    },
+    {
+      "case": "M0 +yaw SMOOTH_5CM_TRANSLATION",
+      "group": "M0 mismatched",
+      "received_base_messages_in_window": 82,
+      "source_norm_at_or_above_point1": 12,
+      "observer_tick_range_above": [
+        2503,
+        2620
+      ],
+      "gait_input_matches": [
+        {
+          "leg_policy_token": 261,
+          "matched_integrations": 10,
+          "first_last_applied_tick": [
+            2601,
+            2610
+          ],
+          "max_PD_target_error_rad": 5.960464477539063e-08,
+          "sim_s": 5.2,
+          "unscaled_command_norm": 0.10145394214153648,
+          "exact_three_channel_candidates": 1,
+          "observer_tick": 2600,
+          "observer_minus_inference_wall_ms": -5.892538465559483
+        },
+        {
+          "leg_policy_token": 262,
+          "matched_integrations": 10,
+          "first_last_applied_tick": [
+            2611,
+            2620
+          ],
+          "max_PD_target_error_rad": 5.960464477539063e-08,
+          "sim_s": 5.220000000000001,
+          "unscaled_command_norm": 0.10177976779218632,
+          "exact_three_channel_candidates": 1,
+          "observer_tick": 2610,
+          "observer_minus_inference_wall_ms": -11.47487573325634
+        },
+        {
+          "leg_policy_token": 263,
+          "matched_integrations": 10,
+          "first_last_applied_tick": [
+            2621,
+            2630
+          ],
+          "max_PD_target_error_rad": 2.9802322387695312e-08,
+          "sim_s": 5.24,
+          "unscaled_command_norm": 0.10132431158160235,
+          "exact_three_channel_candidates": 1,
+          "observer_tick": 2620,
+          "observer_minus_inference_wall_ms": -10.947910137474537
+        }
+      ],
+      "ROS_sha256": "2a9cdcd7a30c21413baa163dc40a3a17d8cd91c7766843e9ab9395d4ef1c042c",
+      "trace_sha256": "e0560990e71941fc79846a298356ac0835bb8a03e9a622407f16a8fc97373423"
+    },
+    {
+      "case": "M0 +yaw WORLD_HOLD",
+      "group": "M0 mismatched",
+      "received_base_messages_in_window": 99,
+      "source_norm_at_or_above_point1": 20,
+      "observer_tick_range_above": [
+        2503,
+        2630
+      ],
+      "gait_input_matches": [
+        {
+          "leg_policy_token": 262,
+          "matched_integrations": 10,
+          "first_last_applied_tick": [
+            2611,
+            2620
+          ],
+          "max_PD_target_error_rad": 5.960464477539063e-08,
+          "sim_s": 5.220000000000001,
+          "unscaled_command_norm": 0.1004979354615378,
+          "exact_three_channel_candidates": 1,
+          "observer_tick": 2611,
+          "observer_minus_inference_wall_ms": 27.2796880453825
+        },
+        {
+          "leg_policy_token": 263,
+          "matched_integrations": 10,
+          "first_last_applied_tick": [
+            2621,
+            2630
+          ],
+          "max_PD_target_error_rad": 5.960464477539063e-08,
+          "sim_s": 5.24,
+          "unscaled_command_norm": 0.10206984193653662,
+          "exact_three_channel_candidates": 1,
+          "observer_tick": 2620,
+          "observer_minus_inference_wall_ms": 0.6397869437932968
+        },
+        {
+          "leg_policy_token": 264,
+          "matched_integrations": 10,
+          "first_last_applied_tick": [
+            2631,
+            2640
+          ],
+          "max_PD_target_error_rad": 2.9802322387695312e-08,
+          "sim_s": 5.260000000000001,
+          "unscaled_command_norm": 0.10125954421249053,
+          "exact_three_channel_candidates": 1,
+          "observer_tick": 2630,
+          "observer_minus_inference_wall_ms": 4.364626482129097
+        }
+      ],
+      "ROS_sha256": "93bdef15e44f6c5d4d65e407282f67b899261d84526145ea739633d8def29c1e",
+      "trace_sha256": "6f36d4cece50048c6ab38d90b261a21de2e6b117206a6ab462e668d357bd2c7a"
+    }
+  ],
+  "new_native_requests": 0,
+  "new_physics_ticks": 0,
+  "new_model_forwards": 0,
+  "new_updates": 0
+}

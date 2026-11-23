@@ -1,0 +1,1165 @@
+{
+  "registration_sha256": "c69cea0c14cf4390d369a5fec9efc44ec29ecfe273df44326f2f39fffb42578a",
+  "scope": "post-hoc comparison of every pair of retained 5703-tick boundaries using all unchanged D1 features; no eligibility or treatment assignment in this audit",
+  "groups": {
+    "T0_STATIC_HOLD": "B2 anchor",
+    "T1_CLOCK_FAULT_STOP": "B2 anchor",
+    "D1 OO": "D1 initial mismatch",
+    "M0 -x SMOOTH_5CM_TRANSLATION": "M0 mismatched",
+    "M0 -x WORLD_HOLD": "M0 mismatched",
+    "M0 -y SMOOTH_5CM_TRANSLATION": "M0 matched",
+    "M0 -y WORLD_HOLD": "M0 mismatched",
+    "M0 +x SMOOTH_5CM_TRANSLATION": "M0 matched",
+    "M0 +y SMOOTH_5CM_TRANSLATION": "M0 mismatched",
+    "M0 +y WORLD_HOLD": "M0 mismatched",
+    "M0 +yaw SMOOTH_5CM_TRANSLATION": "M0 mismatched",
+    "M0 +yaw WORLD_HOLD": "M0 mismatched"
+  },
+  "unavailable": [
+    "M0 +x WORLD_HOLD",
+    "M0 -yaw SMOOTH_5CM_TRANSLATION",
+    "M0 -yaw WORLD_HOLD"
+  ],
+  "pairs": [
+    {
+      "pair": [
+        "T0_STATIC_HOLD",
+        "T1_CLOCK_FAULT_STOP"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "T0_STATIC_HOLD",
+        "D1 OO"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.004004251174956563,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.026509769200145583,
+          "limit": 0.01597557170495345
+        },
+        "measured_base_m": {
+          "observed": 0.0034891312896055027,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.007639536205717287,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "T0_STATIC_HOLD",
+        "M0 -x SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.003989028132339068,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.026420832120530258,
+          "limit": 0.01597557170495345
+        },
+        "measured_base_m": {
+          "observed": 0.003475396483260445,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.0076204473618355535,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "T0_STATIC_HOLD",
+        "M0 -x WORLD_HOLD"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.003993482423688181,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.026428647436017028,
+          "limit": 0.01597557170495345
+        },
+        "measured_base_m": {
+          "observed": 0.003475051545915838,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.0076074956326722554,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "T0_STATIC_HOLD",
+        "M0 -y SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "T0_STATIC_HOLD",
+        "M0 -y WORLD_HOLD"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.003993719895584334,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.026450138543523738,
+          "limit": 0.01597557170495345
+        },
+        "measured_base_m": {
+          "observed": 0.0034771140441322364,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.007610021596577668,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "T0_STATIC_HOLD",
+        "M0 +x SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "T0_STATIC_HOLD",
+        "M0 +y SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.003993536934768,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.02639187560863354,
+          "limit": 0.01597557170495345
+        },
+        "measured_base_m": {
+          "observed": 0.003472406935041309,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.007628642184640156,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "T0_STATIC_HOLD",
+        "M0 +y WORLD_HOLD"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.004048775249864011,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.02622862008238469,
+          "limit": 0.01597557170495345
+        },
+        "measured_base_m": {
+          "observed": 0.0034865987517303672,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.0075784224982200915,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "T0_STATIC_HOLD",
+        "M0 +yaw SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.003993812608723921,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.02640270708438275,
+          "limit": 0.01597557170495345
+        },
+        "measured_base_m": {
+          "observed": 0.0034749988298275534,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.007614508089531878,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "T0_STATIC_HOLD",
+        "M0 +yaw WORLD_HOLD"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.003975318946836497,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.02703195864584007,
+          "limit": 0.01597557170495345
+        },
+        "measured_base_m": {
+          "observed": 0.003486394619608828,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.00752050208804332,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "T1_CLOCK_FAULT_STOP",
+        "D1 OO"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.004626734576441547,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.028280929248416187,
+          "limit": 0.01597557170495345
+        },
+        "free_quaternions": {
+          "observed": 0.0035397797380775486,
+          "limit": 0.003328679076811513
+        },
+        "measured_base_m": {
+          "observed": 0.003922285984227852,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.009863023020586807,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "T1_CLOCK_FAULT_STOP",
+        "M0 -x SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.004611511533824052,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.02819199216880086,
+          "limit": 0.01597557170495345
+        },
+        "free_quaternions": {
+          "observed": 0.003536282258213789,
+          "limit": 0.003328679076811513
+        },
+        "measured_base_m": {
+          "observed": 0.003908656767713891,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.00984455254208034,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "T1_CLOCK_FAULT_STOP",
+        "M0 -x WORLD_HOLD"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.0046159658251731656,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.02819980748428763,
+          "limit": 0.01597557170495345
+        },
+        "free_quaternions": {
+          "observed": 0.003529152839237566,
+          "limit": 0.003328679076811513
+        },
+        "measured_base_m": {
+          "observed": 0.003908457004297992,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.009830961484958605,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "T1_CLOCK_FAULT_STOP",
+        "M0 -y SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "T1_CLOCK_FAULT_STOP",
+        "M0 -y WORLD_HOLD"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.004616203297069318,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.02822129859179434,
+          "limit": 0.01597557170495345
+        },
+        "free_quaternions": {
+          "observed": 0.0035308411517855237,
+          "limit": 0.003328679076811513
+        },
+        "measured_base_m": {
+          "observed": 0.00391040861617632,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.009833694994278394,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "T1_CLOCK_FAULT_STOP",
+        "M0 +x SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "T1_CLOCK_FAULT_STOP",
+        "M0 +y SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.004616020336252984,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.028163035656904145,
+          "limit": 0.01597557170495345
+        },
+        "free_quaternions": {
+          "observed": 0.0035323979011606713,
+          "limit": 0.003328679076811513
+        },
+        "measured_base_m": {
+          "observed": 0.0039058224970474477,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.009850946592005397,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "T1_CLOCK_FAULT_STOP",
+        "M0 +y WORLD_HOLD"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.004671258651348995,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.027999780130655294,
+          "limit": 0.01597557170495345
+        },
+        "free_quaternions": {
+          "observed": 0.0034793544202654557,
+          "limit": 0.003328679076811513
+        },
+        "measured_base_m": {
+          "observed": 0.003922352543878544,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.00979068462848299,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "T1_CLOCK_FAULT_STOP",
+        "M0 +yaw SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.0046162960102089055,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.028173867132653352,
+          "limit": 0.01597557170495345
+        },
+        "free_quaternions": {
+          "observed": 0.0035308210903892516,
+          "limit": 0.003328679076811513
+        },
+        "measured_base_m": {
+          "observed": 0.003908373361563406,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.009837729071650219,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "T1_CLOCK_FAULT_STOP",
+        "M0 +yaw WORLD_HOLD"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.004597802348321481,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.028803118694110674,
+          "limit": 0.01597557170495345
+        },
+        "free_quaternions": {
+          "observed": 0.003502965215862694,
+          "limit": 0.003328679076811513
+        },
+        "measured_base_m": {
+          "observed": 0.0039189260638012365,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.009745432988483606,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "D1 OO",
+        "M0 -x SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "D1 OO",
+        "M0 -x WORLD_HOLD"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "D1 OO",
+        "M0 -y SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.004626648293679946,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.029484606512217515,
+          "limit": 0.01597557170495345
+        },
+        "free_quaternions": {
+          "observed": 0.0034067868632963435,
+          "limit": 0.003328679076811513
+        },
+        "measured_base_m": {
+          "observed": 0.003930788514891696,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.009551154251501935,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "D1 OO",
+        "M0 -y WORLD_HOLD"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "D1 OO",
+        "M0 +x SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.004368372660621807,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.027654183282422973,
+          "limit": 0.01597557170495345
+        },
+        "measured_base_m": {
+          "observed": 0.003831817594599105,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.00796931141106112,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "D1 OO",
+        "M0 +y SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "D1 OO",
+        "M0 +y WORLD_HOLD"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "D1 OO",
+        "M0 +yaw SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "D1 OO",
+        "M0 +yaw WORLD_HOLD"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "M0 -x SMOOTH_5CM_TRANSLATION",
+        "M0 -x WORLD_HOLD"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "M0 -x SMOOTH_5CM_TRANSLATION",
+        "M0 -y SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.004611425251062452,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.02939566943260219,
+          "limit": 0.01597557170495345
+        },
+        "free_quaternions": {
+          "observed": 0.0034032893834325837,
+          "limit": 0.003328679076811513
+        },
+        "measured_base_m": {
+          "observed": 0.0039171558664680625,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.009532984244103326,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "M0 -x SMOOTH_5CM_TRANSLATION",
+        "M0 -y WORLD_HOLD"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "M0 -x SMOOTH_5CM_TRANSLATION",
+        "M0 +x SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.004353149618004312,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.027565246202807647,
+          "limit": 0.01597557170495345
+        },
+        "measured_base_m": {
+          "observed": 0.00381819072624439,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.007950030662650579,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "M0 -x SMOOTH_5CM_TRANSLATION",
+        "M0 +y SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "M0 -x SMOOTH_5CM_TRANSLATION",
+        "M0 +y WORLD_HOLD"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "M0 -x SMOOTH_5CM_TRANSLATION",
+        "M0 +yaw SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "M0 -x SMOOTH_5CM_TRANSLATION",
+        "M0 +yaw WORLD_HOLD"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "M0 -x WORLD_HOLD",
+        "M0 -y SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.004615879542411565,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.02940348474808896,
+          "limit": 0.01597557170495345
+        },
+        "free_quaternions": {
+          "observed": 0.003396159964456361,
+          "limit": 0.003328679076811513
+        },
+        "measured_base_m": {
+          "observed": 0.003916939538806291,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.009519754730539197,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "M0 -x WORLD_HOLD",
+        "M0 -y WORLD_HOLD"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "M0 -x WORLD_HOLD",
+        "M0 +x SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.004357603909353426,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.027573061518294417,
+          "limit": 0.01597557170495345
+        },
+        "measured_base_m": {
+          "observed": 0.0038179935908639697,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.00793686910209217,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "M0 -x WORLD_HOLD",
+        "M0 +y SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "M0 -x WORLD_HOLD",
+        "M0 +y WORLD_HOLD"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "M0 -x WORLD_HOLD",
+        "M0 +yaw SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "M0 -x WORLD_HOLD",
+        "M0 +yaw WORLD_HOLD"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "M0 -y SMOOTH_5CM_TRANSLATION",
+        "M0 -y WORLD_HOLD"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.004616117014307718,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.02942497585559567,
+          "limit": 0.01597557170495345
+        },
+        "free_quaternions": {
+          "observed": 0.0033978482770043185,
+          "limit": 0.003328679076811513
+        },
+        "measured_base_m": {
+          "observed": 0.003918905227810532,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.00952268833693005,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "M0 -y SMOOTH_5CM_TRANSLATION",
+        "M0 +x SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "M0 -y SMOOTH_5CM_TRANSLATION",
+        "M0 +y SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.0046159340534913836,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.029366712920705473,
+          "limit": 0.01597557170495345
+        },
+        "free_quaternions": {
+          "observed": 0.003399405026379466,
+          "limit": 0.003328679076811513
+        },
+        "measured_base_m": {
+          "observed": 0.003914250505192578,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.009539971994095484,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "M0 -y SMOOTH_5CM_TRANSLATION",
+        "M0 +y WORLD_HOLD"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.0046711723685873945,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.029203457394456622,
+          "limit": 0.01597557170495345
+        },
+        "free_quaternions": {
+          "observed": 0.0033463615454842506,
+          "limit": 0.003328679076811513
+        },
+        "measured_base_m": {
+          "observed": 0.003930293357175747,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.009476882003057557,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "M0 -y SMOOTH_5CM_TRANSLATION",
+        "M0 +yaw SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.004616209727447305,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.02937754439645468,
+          "limit": 0.01597557170495345
+        },
+        "free_quaternions": {
+          "observed": 0.0033978282156080465,
+          "limit": 0.003328679076811513
+        },
+        "measured_base_m": {
+          "observed": 0.003916850748725186,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.009526791601465759,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "M0 -y SMOOTH_5CM_TRANSLATION",
+        "M0 +yaw WORLD_HOLD"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.00459771606555988,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.030006795957912002,
+          "limit": 0.01597557170495345
+        },
+        "free_quaternions": {
+          "observed": 0.0033699723410814887,
+          "limit": 0.003328679076811513
+        },
+        "measured_base_m": {
+          "observed": 0.003927757312129082,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.009430641800980438,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "M0 -y WORLD_HOLD",
+        "M0 +x SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.004357841381249578,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.027594552625801128,
+          "limit": 0.01597557170495345
+        },
+        "measured_base_m": {
+          "observed": 0.0038199432992659143,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.007939259164010202,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "M0 -y WORLD_HOLD",
+        "M0 +y SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "M0 -y WORLD_HOLD",
+        "M0 +y WORLD_HOLD"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "M0 -y WORLD_HOLD",
+        "M0 +yaw SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "M0 -y WORLD_HOLD",
+        "M0 +yaw WORLD_HOLD"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "M0 +x SMOOTH_5CM_TRANSLATION",
+        "M0 +y SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.004357658420433244,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.02753628969091093,
+          "limit": 0.01597557170495345
+        },
+        "measured_base_m": {
+          "observed": 0.0038153543304060753,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.00795787314685919,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "M0 +x SMOOTH_5CM_TRANSLATION",
+        "M0 +y WORLD_HOLD"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.004412896735529255,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.02737303416466208,
+          "limit": 0.01597557170495345
+        },
+        "measured_base_m": {
+          "observed": 0.0038319881453803286,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.0079097043436269,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "M0 +x SMOOTH_5CM_TRANSLATION",
+        "M0 +yaw SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.004357934094389166,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.027547121166660138,
+          "limit": 0.01597557170495345
+        },
+        "measured_base_m": {
+          "observed": 0.0038179085424919607,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.007943706909444188,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "M0 +x SMOOTH_5CM_TRANSLATION",
+        "M0 +yaw WORLD_HOLD"
+      ],
+      "compatible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.004339440432501741,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.02817637272811746,
+          "limit": 0.01597557170495345
+        },
+        "measured_base_m": {
+          "observed": 0.003828476914993896,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.00785222744514644,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "pair": [
+        "M0 +y SMOOTH_5CM_TRANSLATION",
+        "M0 +y WORLD_HOLD"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "M0 +y SMOOTH_5CM_TRANSLATION",
+        "M0 +yaw SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "M0 +y SMOOTH_5CM_TRANSLATION",
+        "M0 +yaw WORLD_HOLD"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "M0 +y WORLD_HOLD",
+        "M0 +yaw SMOOTH_5CM_TRANSLATION"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "M0 +y WORLD_HOLD",
+        "M0 +yaw WORLD_HOLD"
+      ],
+      "compatible": true,
+      "violations": {}
+    },
+    {
+      "pair": [
+        "M0 +yaw SMOOTH_5CM_TRANSLATION",
+        "M0 +yaw WORLD_HOLD"
+      ],
+      "compatible": true,
+      "violations": {}
+    }
+  ],
+  "new_native_requests": 0,
+  "new_physics_ticks": 0,
+  "new_model_forwards": 0,
+  "new_updates": 0
+}

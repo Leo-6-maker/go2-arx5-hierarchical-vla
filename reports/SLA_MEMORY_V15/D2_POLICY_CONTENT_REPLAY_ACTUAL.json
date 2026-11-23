@@ -1,0 +1,120 @@
+{
+  "scope": "post-hoc source-compatible decode of observed solver messages; IDs and actual internal selection unobserved",
+  "source_sha256": {
+    "go2_x5_ocs2_node.cpp": "1caf2f24fc18a6210d0ff7c81c46e10e9bf53623248e56d8e0a9ee4a50aa5e68",
+    "WbcBridgeCore.cpp": "bc21fd6d32754d3713479205a035e5377e5557c061d009770a28c7b5cf2b1f0e",
+    "wbc_bridge_core.hpp": "5ddf926e4105e973cc1c9e4c68585244f9bdc172bd2a420e14a90331da83d79e",
+    "FeedforwardController.cpp": "347c7e3746e9b7a476c0afe6c35148c419ee590447910cf24ff13fb0dddd9178",
+    "MRT_BASE.cpp": "fddfcd76f9a7b55d21c2b30f07ea625aff4d111ea7c3136e087f5558bc22fe27"
+  },
+  "controller_sha256": "9e8ce46837d09bc39ae04d4b49f1ce4dd8c8c2d31bea39eac56c5806d108c1f3",
+  "tolerance_q_rad_and_dq_rad_s": 2e-06,
+  "clock": "arm request ROS simulation stamp; solver initial observation time; receipt wall order retained separately",
+  "hypothesis": "q is six last state coordinates at +150ms, dq is 0.4 times serialized feedforward at +10ms; test all recorded time-admissible messages",
+  "cases": {
+    "T0_STATIC_HOLD": {
+      "start_sim_s": 11.406,
+      "end_sim_s": 12.406,
+      "requests": 197,
+      "solver_messages_examined": 391,
+      "eligible_message_request_pairs": 38181,
+      "requests_with_source_observation_at_request_stamp": 197,
+      "requests_with_position_match": 196,
+      "requests_with_velocity_match": 196,
+      "joint_matches_unique": 196,
+      "joint_matches_ambiguous": 0,
+      "joint_matches_missing": 1,
+      "unique_match_candidate_age_ms": {
+        "min": 2.000000000000668,
+        "median": 6.000000000000227,
+        "p95": 11.000000000001009,
+        "max": 16.000000000000014
+      },
+      "unique_receiver_observed_before_request": 196,
+      "max_unique_q_error_rad": 0.0,
+      "max_unique_dq_error_rad_s": 0.0,
+      "negative_control_any_joint_match_by_arm_preview": {
+        "10ms": 0,
+        "300ms": 0
+      },
+      "duplicate_stamp_secondary_sensitivity": [
+        {
+          "request_ordinal": 177,
+          "header_s": 12.316,
+          "previous_distinct_observation_s": 12.31,
+          "strict_header_matches": 0,
+          "exact_12_field_matches_at_previous_observation": [
+            {
+              "solver_ordinal": 370,
+              "age_at_observation_ms": 4.000000000001336
+            }
+          ]
+        },
+        {
+          "request_ordinal": 178,
+          "header_s": 12.316,
+          "previous_distinct_observation_s": 12.31,
+          "strict_header_matches": 1,
+          "exact_12_field_matches_at_previous_observation": []
+        }
+      ],
+      "source_ros_sha256": "fbaaea89063804023c406d7f55330b1e44fc4f9170119be3401377b230f7462c",
+      "selected_policy_id": null,
+      "full_private_match_sha256": "dd6fa892a1542f8ce7fb1de213763c1120a97ba553dfc414d9134c0962f52759"
+    },
+    "T1_CLOCK_FAULT_STOP": {
+      "start_sim_s": 11.406,
+      "end_sim_s": 13.356,
+      "requests": 383,
+      "solver_messages_examined": 575,
+      "eligible_message_request_pairs": 74031,
+      "requests_with_source_observation_at_request_stamp": 383,
+      "requests_with_position_match": 382,
+      "requests_with_velocity_match": 382,
+      "joint_matches_unique": 382,
+      "joint_matches_ambiguous": 0,
+      "joint_matches_missing": 1,
+      "unique_match_candidate_age_ms": {
+        "min": 1.9999999999988916,
+        "median": 6.000000000000227,
+        "p95": 14.000000000001123,
+        "max": 16.00000000000179
+      },
+      "unique_receiver_observed_before_request": 382,
+      "max_unique_q_error_rad": 0.0,
+      "max_unique_dq_error_rad_s": 0.0,
+      "negative_control_any_joint_match_by_arm_preview": {
+        "10ms": 0,
+        "300ms": 0
+      },
+      "duplicate_stamp_secondary_sensitivity": [
+        {
+          "request_ordinal": 249,
+          "header_s": 12.69,
+          "previous_distinct_observation_s": 12.686,
+          "strict_header_matches": 0,
+          "exact_12_field_matches_at_previous_observation": [
+            {
+              "solver_ordinal": 441,
+              "age_at_observation_ms": 6.000000000000227
+            }
+          ]
+        },
+        {
+          "request_ordinal": 250,
+          "header_s": 12.69,
+          "previous_distinct_observation_s": 12.686,
+          "strict_header_matches": 1,
+          "exact_12_field_matches_at_previous_observation": []
+        }
+      ],
+      "source_ros_sha256": "dbf37640781bad5e21ba2eefa6c7b996d46b6c41cdb8833c1db61afe8948cfe1",
+      "selected_policy_id": null,
+      "full_private_match_sha256": "499af88e588274c35a669473173d8605a63e2c9710da66d67e0779adb886921a"
+    }
+  },
+  "new_native_requests": 0,
+  "new_ticks": 0,
+  "new_model_forwards": 0,
+  "new_updates": 0
+}
