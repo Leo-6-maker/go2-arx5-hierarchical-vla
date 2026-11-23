@@ -1,0 +1,454 @@
+{
+  "card": "V3-STOP-01",
+  "controls": [
+    {
+      "card": "F1-01",
+      "eligible": false,
+      "original_outcome": "SCREENED_OUT"
+    },
+    {
+      "card": "F1-02",
+      "eligible": true,
+      "original_outcome": "A0_COMPLETE",
+      "source_sha256": {
+        "ROS_CONSUMPTION.private.jsonl": "2e128260e934a7eff555598b8fab0ac168d6a4cd0e98da4e4b78d91a9a27b1dc",
+        "state.bin.journal": "166751b23c25110765659e32761505d0c3f6b1270ca027c21e9e427255561e54",
+        "planner.jsonl": "d45031b540ce1e08052123a200024a2010748d4dc68ad471940373ab707d155b",
+        "MOBILE_SAMPLES.private.jsonl": "939390ded12178cf4365119b0f106739adb31f869a5669673e2a8d649feb10bf",
+        "init.trace": "25ebb844083749dd8f4b457944f15cfb74d239c2b21d9e677239846833021fb1"
+      },
+      "windows": {
+        "HOLD": {
+          "source_tick": 5903,
+          "first_measured_tick": 5914,
+          "last_measured_tick": 5939,
+          "wire_sha256": "918d9a9bdaa4f5ad974ac0c121e5b05b485cb3e8c11df496fe01b6a6f82658e7",
+          "installed_target_sha256": "d32447524c8de72db53d32bb9a623bc2335b3140c0cd47e1ee24f98e4c506c24",
+          "solver_echoes": 10,
+          "last_echo": {
+            "received_monotonic_s": 5218187.526148867,
+            "solver_observation_s": 11.856
+          },
+          "final_grant_monotonic_s": 5218187.673419308,
+          "installed_motion": {
+            "distance_mm": 0.0,
+            "mean_displacement_speed_mm_s": 0.0,
+            "last_step_speed_mm_s": 0.0
+          },
+          "controller_selection": "unobserved",
+          "achieved": {
+            "distance_mm": 0.02529375774681358,
+            "mean_displacement_speed_mm_s": 0.5058751549362716,
+            "last_step_speed_mm_s": 0.622919530827751
+          },
+          "analytic": {
+            "distance_mm": 0.0,
+            "mean_displacement_speed_mm_s": 0.0,
+            "last_step_speed_mm_s": 0.0
+          },
+          "commanded_motion_positive": false,
+          "meets_motion_pair": false,
+          "distinct_foot_sets": [
+            [
+              "FL",
+              "FR",
+              "RL",
+              "RR"
+            ]
+          ],
+          "four_feet_samples": 26,
+          "samples": 26
+        },
+        "MOVING": {
+          "source_tick": 6403,
+          "first_measured_tick": 6414,
+          "last_measured_tick": 6439,
+          "wire_sha256": "7a9148f81eece2ddf99c7fe334df785362ec1cbcb6e0b9ae6350f2bc247d3f48",
+          "installed_target_sha256": "167cc5f24d8677efba8154113821fae740e637b47ddb5960baa8d26c01692ee4",
+          "solver_echoes": 10,
+          "last_echo": {
+            "received_monotonic_s": 5218195.542615491,
+            "solver_observation_s": 12.856
+          },
+          "final_grant_monotonic_s": 5218195.687363551,
+          "installed_motion": {
+            "distance_mm": 0.3891432285308971,
+            "mean_displacement_speed_mm_s": 7.782864570617942,
+            "last_step_speed_mm_s": 7.880330085752174
+          },
+          "controller_selection": "unobserved",
+          "achieved": {
+            "distance_mm": 0.16769400685697097,
+            "mean_displacement_speed_mm_s": 3.353880137139419,
+            "last_step_speed_mm_s": 3.6961074643954004
+          },
+          "analytic": {
+            "distance_mm": 0.39127758679891045,
+            "mean_displacement_speed_mm_s": 7.825551735978209,
+            "last_step_speed_mm_s": 7.893593863050885
+          },
+          "commanded_motion_positive": true,
+          "meets_motion_pair": true,
+          "distinct_foot_sets": [
+            [
+              "FL",
+              "FR",
+              "RL",
+              "RR"
+            ]
+          ],
+          "four_feet_samples": 26,
+          "samples": 26
+        }
+      },
+      "negative_controls": {
+        "old_wire_reinstalled": "rejected",
+        "solver_echo_removed": "rejected",
+        "donor_wire_sha256": "779c2fb8a6c683aa59380306fd0361aabe7f98b61735df53bf1ec6326ed7d3a4"
+      }
+    },
+    {
+      "card": "F1-03",
+      "eligible": true,
+      "original_outcome": "A0_COMPLETE",
+      "source_sha256": {
+        "ROS_CONSUMPTION.private.jsonl": "d89bc621f025bbfe6a32e2be6d448e06042129749932a1b83566283b83c99600",
+        "state.bin.journal": "3842adbf13a18eeae4d1cca5fe021b75ce7d7328620d19dc4c1220f6ff4265b6",
+        "planner.jsonl": "0d1972ecbeb34d16cfa8deef6fbb8a9977c985c790394a1a062599afc61be599",
+        "MOBILE_SAMPLES.private.jsonl": "fab56b6706b254cb4ca33fe2af93d47560844ab6f8bedfc80b852fb387c8eab9",
+        "init.trace": "5685b53bcbd7ef17b9323215aef6e1b5f515c43b5f85498203c582000108d609"
+      },
+      "windows": {
+        "HOLD": {
+          "source_tick": 5903,
+          "first_measured_tick": 5914,
+          "last_measured_tick": 5939,
+          "wire_sha256": "7b914a6010fc385e0543ec06b461f7a656324f71eb438e334665d736f3160b5e",
+          "installed_target_sha256": "155daea47df28704aa154e6fead0975432eea4307335d1308b933ce741279afd",
+          "solver_echoes": 10,
+          "last_echo": {
+            "received_monotonic_s": 5218442.098369731,
+            "solver_observation_s": 11.856
+          },
+          "final_grant_monotonic_s": 5218442.246751911,
+          "installed_motion": {
+            "distance_mm": 0.0,
+            "mean_displacement_speed_mm_s": 0.0,
+            "last_step_speed_mm_s": 0.0
+          },
+          "controller_selection": "unobserved",
+          "achieved": {
+            "distance_mm": 0.025106133719345326,
+            "mean_displacement_speed_mm_s": 0.5021226743869065,
+            "last_step_speed_mm_s": 0.6439153992287772
+          },
+          "analytic": {
+            "distance_mm": 0.0,
+            "mean_displacement_speed_mm_s": 0.0,
+            "last_step_speed_mm_s": 0.0
+          },
+          "commanded_motion_positive": false,
+          "meets_motion_pair": false,
+          "distinct_foot_sets": [
+            [
+              "FL",
+              "FR",
+              "RL",
+              "RR"
+            ]
+          ],
+          "four_feet_samples": 26,
+          "samples": 26
+        },
+        "MOVING": {
+          "source_tick": 6403,
+          "first_measured_tick": 6414,
+          "last_measured_tick": 6439,
+          "wire_sha256": "28618fbd8f802757ba1706e8013b85800dfd2767e3c5eab2b110d0dbeba89871",
+          "installed_target_sha256": "a7758753e0564e8efb60e1c5f0c2e53c340925b829e79aa4a34a5fc3801e5a31",
+          "solver_echoes": 10,
+          "last_echo": {
+            "received_monotonic_s": 5218450.114040319,
+            "solver_observation_s": 12.856
+          },
+          "final_grant_monotonic_s": 5218450.25907131,
+          "installed_motion": {
+            "distance_mm": 0.3891432285308971,
+            "mean_displacement_speed_mm_s": 7.782864570617942,
+            "last_step_speed_mm_s": 7.880330085752174
+          },
+          "controller_selection": "unobserved",
+          "achieved": {
+            "distance_mm": 0.16981855475627305,
+            "mean_displacement_speed_mm_s": 3.396371095125461,
+            "last_step_speed_mm_s": 3.513749936338839
+          },
+          "analytic": {
+            "distance_mm": 0.39127758679891045,
+            "mean_displacement_speed_mm_s": 7.825551735978209,
+            "last_step_speed_mm_s": 7.893593863050885
+          },
+          "commanded_motion_positive": true,
+          "meets_motion_pair": true,
+          "distinct_foot_sets": [
+            [
+              "FL",
+              "FR",
+              "RL",
+              "RR"
+            ]
+          ],
+          "four_feet_samples": 26,
+          "samples": 26
+        }
+      },
+      "negative_controls": {
+        "old_wire_reinstalled": "rejected",
+        "solver_echo_removed": "rejected",
+        "donor_wire_sha256": "99a97b6a4d7442555f7ad3d295194ec67567dc13f435f24b821930286277ac64"
+      }
+    },
+    {
+      "card": "F1-04",
+      "eligible": false,
+      "original_outcome": "SCREENED_OUT"
+    },
+    {
+      "card": "F1-05",
+      "eligible": false,
+      "original_outcome": "SCREENED_OUT"
+    },
+    {
+      "card": "F1-06",
+      "eligible": false,
+      "original_outcome": "SCREENED_OUT"
+    },
+    {
+      "card": "F1-07",
+      "eligible": true,
+      "original_outcome": "A0_COMPLETE",
+      "source_sha256": {
+        "ROS_CONSUMPTION.private.jsonl": "d76402fac02906fc5c03594da14dd6f67638f0685079dbeeb7ae9ac279314c9c",
+        "state.bin.journal": "5fd6c4f038fd02c738307505283db55edc0be05377a8cc05efd485d6115f3ecb",
+        "planner.jsonl": "25a9d07fa5e47f4215549e858247ce643a8aa5c0d6624b48a0a2b7a4437e4989",
+        "MOBILE_SAMPLES.private.jsonl": "2d23ad0c75f5f4a7756027db500cbbf897599f39554b13648ca043fd1b460e07",
+        "init.trace": "ca680e9b74c3214de03887952ead540f2793f59cd67962d87a7c360ba1d3fb3b"
+      },
+      "windows": {
+        "HOLD": {
+          "source_tick": 5903,
+          "first_measured_tick": 5914,
+          "last_measured_tick": 5939,
+          "wire_sha256": "5f6e7c564e05217b3b8d64eae2565b1cf7691a4ce981d0e225769b591872a90e",
+          "installed_target_sha256": "928b79c826b11ac44e5416844de050cc3687296eb63eba7d7621b9d7ee387f29",
+          "solver_echoes": 10,
+          "last_echo": {
+            "received_monotonic_s": 5218859.988333012,
+            "solver_observation_s": 11.856
+          },
+          "final_grant_monotonic_s": 5218860.133116668,
+          "installed_motion": {
+            "distance_mm": 0.0,
+            "mean_displacement_speed_mm_s": 0.0,
+            "last_step_speed_mm_s": 0.0
+          },
+          "controller_selection": "unobserved",
+          "achieved": {
+            "distance_mm": 0.022524897600864985,
+            "mean_displacement_speed_mm_s": 0.4504979520172997,
+            "last_step_speed_mm_s": 0.44238721366394984
+          },
+          "analytic": {
+            "distance_mm": 0.0,
+            "mean_displacement_speed_mm_s": 0.0,
+            "last_step_speed_mm_s": 0.0
+          },
+          "commanded_motion_positive": false,
+          "meets_motion_pair": false,
+          "distinct_foot_sets": [
+            [
+              "FL",
+              "FR",
+              "RL",
+              "RR"
+            ]
+          ],
+          "four_feet_samples": 26,
+          "samples": 26
+        },
+        "MOVING": {
+          "source_tick": 6403,
+          "first_measured_tick": 6414,
+          "last_measured_tick": 6439,
+          "wire_sha256": "b20b762f93f91bca33be80ddc2e3479e73191173690639ffcae8be25268b0ac5",
+          "installed_target_sha256": "555b9e1b7616081e7e79a9a43918ee79d62b790f3591ca39c6f3c1394964e56b",
+          "solver_echoes": 10,
+          "last_echo": {
+            "received_monotonic_s": 5218867.988912718,
+            "solver_observation_s": 12.856
+          },
+          "final_grant_monotonic_s": 5218868.135379913,
+          "installed_motion": {
+            "distance_mm": 0.3891432285308971,
+            "mean_displacement_speed_mm_s": 7.782864570617942,
+            "last_step_speed_mm_s": 7.880330085752174
+          },
+          "controller_selection": "unobserved",
+          "achieved": {
+            "distance_mm": 0.17584110261733973,
+            "mean_displacement_speed_mm_s": 3.5168220523467943,
+            "last_step_speed_mm_s": 3.8719328489692377
+          },
+          "analytic": {
+            "distance_mm": 0.39127758679891045,
+            "mean_displacement_speed_mm_s": 7.825551735978209,
+            "last_step_speed_mm_s": 7.893593863050885
+          },
+          "commanded_motion_positive": true,
+          "meets_motion_pair": true,
+          "distinct_foot_sets": [
+            [
+              "FL",
+              "FR",
+              "RL",
+              "RR"
+            ]
+          ],
+          "four_feet_samples": 26,
+          "samples": 26
+        }
+      },
+      "negative_controls": {
+        "old_wire_reinstalled": "rejected",
+        "solver_echo_removed": "rejected",
+        "donor_wire_sha256": "5e1ca7d04cdbf09f0316ec003a47eadaafadd243e91db5c95ef32255475e05c3"
+      }
+    },
+    {
+      "card": "F1-08",
+      "eligible": false,
+      "original_outcome": "SCREENED_OUT"
+    },
+    {
+      "card": "F1-09",
+      "eligible": false,
+      "original_outcome": "SCREENED_OUT"
+    },
+    {
+      "card": "F1-10",
+      "eligible": false,
+      "original_outcome": "SCREENED_OUT"
+    },
+    {
+      "card": "F1-11",
+      "eligible": true,
+      "original_outcome": "A0_COMPLETE",
+      "source_sha256": {
+        "ROS_CONSUMPTION.private.jsonl": "606cb1a69a4a823850794bb30fc496be483f1300542472211f4372e49c9d53ea",
+        "state.bin.journal": "6d79a719100882ffd952e5ce5d88eb1d25a5cc0452752efc8eb6d22df25ff9aa",
+        "planner.jsonl": "08ae6c422cee1181a21162d59efb15517673f77da0516d3938423ef632229d1b",
+        "MOBILE_SAMPLES.private.jsonl": "702ec8c0952a20183805285d192f39f11b85c69875997e822c57546f5509b0f6",
+        "init.trace": "cd7f0b80ab8ab1e73dfdb7c4271f4c6357581ae32782567abe1bdd8ffc156fc7"
+      },
+      "windows": {
+        "HOLD": {
+          "source_tick": 5903,
+          "first_measured_tick": 5914,
+          "last_measured_tick": 5939,
+          "wire_sha256": "73cf4ce0bb500c3ab726c13680d8e865867f7b66e7e1c30cc0f7275cf98f1076",
+          "installed_target_sha256": "6e4098ea36b11e9886b75d761afc22f6a5db38b3d695852052610a9ab9c18156",
+          "solver_echoes": 10,
+          "last_echo": {
+            "received_monotonic_s": 5219276.574921369,
+            "solver_observation_s": 11.856
+          },
+          "final_grant_monotonic_s": 5219276.721580482,
+          "installed_motion": {
+            "distance_mm": 0.0,
+            "mean_displacement_speed_mm_s": 0.0,
+            "last_step_speed_mm_s": 0.0
+          },
+          "controller_selection": "unobserved",
+          "achieved": {
+            "distance_mm": 0.048330861204567144,
+            "mean_displacement_speed_mm_s": 0.9666172240913429,
+            "last_step_speed_mm_s": 0.5484634656180246
+          },
+          "analytic": {
+            "distance_mm": 0.0,
+            "mean_displacement_speed_mm_s": 0.0,
+            "last_step_speed_mm_s": 0.0
+          },
+          "commanded_motion_positive": false,
+          "meets_motion_pair": false,
+          "distinct_foot_sets": [
+            [
+              "FL",
+              "FR",
+              "RL",
+              "RR"
+            ]
+          ],
+          "four_feet_samples": 26,
+          "samples": 26
+        },
+        "MOVING": {
+          "source_tick": 6403,
+          "first_measured_tick": 6414,
+          "last_measured_tick": 6439,
+          "wire_sha256": "0f5f99f04e1bf1e98cb386114e9827875bcd622a2d64fb63c79c14caa6280b72",
+          "installed_target_sha256": "5dd4b0edcaa5789d1d010d57269f878674f0f35d231f75574717696e5340faaf",
+          "solver_echoes": 10,
+          "last_echo": {
+            "received_monotonic_s": 5219284.639282783,
+            "solver_observation_s": 12.856
+          },
+          "final_grant_monotonic_s": 5219284.78835318,
+          "installed_motion": {
+            "distance_mm": 0.38915991783144976,
+            "mean_displacement_speed_mm_s": 7.783198356628995,
+            "last_step_speed_mm_s": 7.880330085752174
+          },
+          "controller_selection": "unobserved",
+          "achieved": {
+            "distance_mm": 0.16608242119895136,
+            "mean_displacement_speed_mm_s": 3.321648423979027,
+            "last_step_speed_mm_s": 3.501229092519535
+          },
+          "analytic": {
+            "distance_mm": 0.39127758679891045,
+            "mean_displacement_speed_mm_s": 7.825551735978209,
+            "last_step_speed_mm_s": 7.893593863050885
+          },
+          "commanded_motion_positive": true,
+          "meets_motion_pair": true,
+          "distinct_foot_sets": [
+            [
+              "FL",
+              "FR",
+              "RL",
+              "RR"
+            ]
+          ],
+          "four_feet_samples": 26,
+          "samples": 26
+        }
+      },
+      "negative_controls": {
+        "old_wire_reinstalled": "rejected",
+        "solver_echo_removed": "rejected",
+        "donor_wire_sha256": "e1777fa49bb421b9f1de2cd097f122af7559a4d7d8fe2b7cf20ecc4a70d7d78c"
+      }
+    },
+    {
+      "card": "F1-12",
+      "eligible": false,
+      "original_outcome": "SCREENED_OUT"
+    }
+  ],
+  "archived_starts": 12,
+  "new_native_starts": 0,
+  "new_gpu_forwards": 0,
+  "training_updates": 0,
+  "whole_system_moving_STOP_qualified": false
+}

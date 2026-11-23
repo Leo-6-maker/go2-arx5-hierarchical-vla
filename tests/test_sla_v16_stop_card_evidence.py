@@ -86,3 +86,22 @@ def test_individual_missing_evidence_rejects(fault):
         v["audit"]["writer"]["dropped"] = 1
     with pytest.raises(ValueError):
         terminal_evidence(**v)
+
+
+def test_distinct_grounded_feet_at_native_contact_time():
+    from fault_reference import floor_feet
+
+    names = ("floor", "FL", "FR", "RL", "RR", "task_cube_geom", "task_table")
+    packet = {
+        "step": 6439,
+        "contact_time_s": 6438 * 0.002,
+        "contacts": [
+            {"geom0": a, "geom1": b}
+            for a, b in ((0, 1), (1, 0), (2, 0), (3, 0), (5, 6))
+        ],
+    }
+    assert floor_feet(names, packet) == ("FL", "FR", "RL")
+    with pytest.raises(ValueError, match="clock"):
+        floor_feet(names, {**packet, "contact_time_s": 6439 * 0.002})
+    with pytest.raises(ValueError, match="geometry"):
+        floor_feet(names, {**packet, "contacts": [{"geom0": -1, "geom1": 0}]})

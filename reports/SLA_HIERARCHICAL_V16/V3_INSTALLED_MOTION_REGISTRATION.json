@@ -1,0 +1,7 @@
+{
+  "id": "V3-STOP-INSTALLED-01",
+  "parent": "1c264aaea9ea3e9b1f1551afcf859dd6e72265f9",
+  "card": "The one existing V3-STOP-01 candidate, same original byte hash. Its original success criterion requires a moving actual TCP and a moving commanded trajectory at the fault. Read the latter from the installed EEF trajectory and independently join an actual solver policy echo before the final grant. No change to candidate population, reference, gripper or thresholds.",
+  "window": "At 6414..6439 use the new A0 reference published at 6403. Require the complete atom 6403..6428 and grant receipts to 6428 and 6453, same epoch, both 41-knot EEF and BASE targets, grid and TTL, no supersession before trace boundary. Interpolate installed EEF xyz on actual receiver time grid. Independently report 4 distinct named foot/floor contacts in the comparison window. Preserve existing mobile safety configuration; foot contact count alone cannot prove normal load or no slip.",
+  "controls": "Use all 12 historical F1 A0 starts, retain every screened start. On all admitted native traces check fixed stopped-clock comparison using STEP_AFTER(6439) as an audit cutoff only. Repeat at the same offsets at publication 5903, during registered 1s HOLD. Both windows use original solver logs/atom receipts, not generated reference motion. Original trace has no STOP at either comparison. Refuse a missing solver echo and a conflicting late wire. No new GPU forwards/native starts/training updates."
+}

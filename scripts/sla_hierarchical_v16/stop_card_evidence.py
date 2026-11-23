@@ -69,6 +69,7 @@ def terminal_evidence(trace, audit, last_grant, installs, exits, absent):
     )
     return dict(
         stop_tick=stop["token"],
+        stop_monotonic_ns=stop["monotonic_ns"],
         stop_simulation_s=stop["sim_time_s"],
         installs=len(installs),
         last_grant_end=last_grant["requested_step"],
@@ -81,6 +82,7 @@ def score(root, sp):
     import mujoco
     from go2arx5_vla.world_model.init_trace_reader import audit_trace, read_trace
     from native_known import tcp, target
+    from fault_reference import floor_feet, motion_from_install
     from receiver_fault_replay import sha, read
     from verify_grip_card import states, support
 
@@ -209,6 +211,7 @@ def score(root, sp):
     names = [model.geom(i).name for i in range(model.ngeom)]
     t = []
     xyz = []
+    feet_at_fault = []
     require(len(observed) == 6439, "incomplete or excess receiver steps")
     for s, row in zip(states(out), observed, strict=True):
         tick = s["step"]
@@ -236,13 +239,23 @@ def score(root, sp):
                 "student-applied open command differs",
             )
         if tick >= 6414:
+            feet_at_fault.append(floor_feet(names, s))
             t.append(tick)
             xyz.append(tcp(model, data, site, s)[:3, 3])
     ticks = np.array(t)
     achieved = displacement(np.array(xyz), ticks, 6439, 25)
-    anchor = np.array(read(case / "INITIAL.private.json")["features"]["old_ee"])
+    initial = read(case / "INITIAL.private.json")["features"]
+    anchor = np.array(initial["old_ee"])
     intended = target(anchor, (ticks - 5703) * 0.002)
-    goal = displacement(intended[:, :3, 3], ticks, 6439, 25)
+    programmed = displacement(intended[:, :3, 3], ticks, 6439, 25)
+    bound = motion_from_install(
+        out,
+        6403,
+        terminal["stop_monotonic_ns"] * 1e-9,
+        anchor,
+        np.asarray(initial["old_base"]),
+    )
+    goal = bound["installed_motion"]
     require(
         achieved["distance_mm"] > 0.10 and goal["distance_mm"] > 0,
         "stationary or unconfirmed fault",
@@ -254,6 +267,9 @@ def score(root, sp):
         terminal=terminal,
         achieved=achieved,
         desired=goal,
+        programmed=programmed,
+        installed_reference_evidence=bound,
+        distinct_floor_feet_at_motion_samples=feet_at_fault,
         acknowledged_commands=len(ack),
         actual_integrations=len(observed),
         native_sla_attempts=0,
