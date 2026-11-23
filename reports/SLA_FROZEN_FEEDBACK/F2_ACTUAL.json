@@ -1,0 +1,451 @@
+{
+  "phase": "F2",
+  "stage_qualified": true,
+  "registered": 12,
+  "started": 6,
+  "unstarted": 6,
+  "screened": 2,
+  "physics_ticks": 56018,
+  "test_ticks": 21800,
+  "records": [
+    {
+      "card": "F2-01",
+      "outcome": "HOLD_COMPLETE",
+      "eligible": true,
+      "ticks": 11103,
+      "reset_state_sha256": "98c1dfa5916b06916dd54d9f7e71316250cf8aaad3571f2c0f96f4af587a7701",
+      "initial_sha256": "3ce006fa991e21943ba7783aefbfc5026c20d56ba308b6ce3158bbc03e83e6c7",
+      "result_sha256": "3e536068343f67339ecd00ef5ed4a1ad663558959ac16d6633c787414293fecc",
+      "journal_sha256": "05ecf0f3c024466bcf9ae32d44b998908c7774359cd805fdadab10a35eda20d6",
+      "loaded_sha256": {
+        "sim": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+        "solver": "4a5f5aa6e0b9d4bde62f4d1da73135ef97e5268945a0cecf114d9190d3e04fd0",
+        "controller": "9e8ce46837d09bc39ae04d4b49f1ce4dd8c8c2d31bea39eac56c5806d108c1f3"
+      },
+      "violations": {},
+      "lease_closed": true,
+      "physics_stop": false,
+      "after_physical_stop_ticks": null,
+      "curve_sha256": "bf024eef6313bfe1340f3c4893a7e7b81aa49f6e3f92e7f24820bf71688c8af1",
+      "atoms": 216,
+      "installs": 108,
+      "post_init_ticks": 5400,
+      "task_tracking": {
+        "samples": 5400,
+        "abs_rms_mm": 16.841463585028606,
+        "delta_rms_mm": 14.633940705068051,
+        "abs_rms_deg": 1.0750852344279225,
+        "delta_rms_deg": 2.4503166288233107,
+        "end_error_mm_deg": [
+          3.3087421085766637,
+          0.12587294369104646
+        ],
+        "z_100ms_mm": 0.3314278662309107,
+        "hold_rms_mm": 25.827960777726766,
+        "motion_rms_mm": 23.297028156209354,
+        "motion_xyz_mm": [
+          3.5235682624032734,
+          1.0681087587318423,
+          5.912185027386272
+        ]
+      },
+      "max_last_second_mm_deg": [
+        3.7687204815774322,
+        0.12773007297304845
+      ],
+      "ticks_with_ambiguous_PD_phase": 0,
+      "fk_minus_actual_end_mm": [
+        0.2295673880089999,
+        -0.7061654959356691,
+        24.353275711139432
+      ],
+      "fk_minus_actual_rms_mm": 24.783761284521226,
+      "issued_minus_achieved_at_atom_end_rms_mm": 32.51783011979617,
+      "max_cmd_excursion_mm": 39.146137052916814,
+      "max_50ms_step_mm": 0.20000000000008727,
+      "prohibited_contact_records": 0,
+      "robot_cube_contact_records": 0,
+      "selected_MRT_policy_id": null,
+      "selected_policy_age": null,
+      "actual_solver_echo_atoms": 216,
+      "paired_control": {
+        "card": "F1-02",
+        "shared_ms": 10800,
+        "abs_rms_mm_deg": [
+          28.92784632003865,
+          2.6527277254327783
+        ],
+        "delta_rms_mm_deg": [
+          2.260105740829259,
+          0.1322144324655347
+        ],
+        "end_mm_deg": [
+          29.241588458052675,
+          2.6127256925495153
+        ],
+        "max_last_second_mm_deg": [
+          29.341364197534524,
+          2.634382984364972
+        ]
+      },
+      "first_scientific_decision_tick": 11103,
+      "ticks_between_decision_and_paused_boundary": 0,
+      "first_qualified_hold_tick": 10603,
+      "servo_ledger_sha256": "3ee4b4524c61dbfaeedf279b8969f11010d01ce370005a1957af2d28e94dedfe"
+    },
+    {
+      "card": "F2-02",
+      "outcome": "HOLD_COMPLETE",
+      "eligible": true,
+      "ticks": 11153,
+      "reset_state_sha256": "98c1dfa5916b06916dd54d9f7e71316250cf8aaad3571f2c0f96f4af587a7701",
+      "initial_sha256": "b0b8ff50f0117192f7eddf514d0bf63b5c940a3a07b05bf49e79ae11140a984b",
+      "result_sha256": "00277bffbd1f644cd029a24b4e977b31c00beec8c8c41e4b92ca00504d8a2e9e",
+      "journal_sha256": "ef0c90e12d8b7b9b4291feb99083e4ed30fdd0be167f0955abb732f6e8907efe",
+      "loaded_sha256": {
+        "sim": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+        "solver": "4a5f5aa6e0b9d4bde62f4d1da73135ef97e5268945a0cecf114d9190d3e04fd0",
+        "controller": "9e8ce46837d09bc39ae04d4b49f1ce4dd8c8c2d31bea39eac56c5806d108c1f3"
+      },
+      "violations": {},
+      "lease_closed": true,
+      "physics_stop": false,
+      "after_physical_stop_ticks": null,
+      "curve_sha256": "3f6c5a12ea986d40a594f3a29af3b2dae2204bbaf77362b8ff4d476497bbd7ab",
+      "atoms": 218,
+      "installs": 109,
+      "post_init_ticks": 5450,
+      "task_tracking": {
+        "samples": 5450,
+        "abs_rms_mm": 17.099761449706943,
+        "delta_rms_mm": 14.629981093186025,
+        "abs_rms_deg": 1.017333734139392,
+        "delta_rms_deg": 2.383765925927365,
+        "end_error_mm_deg": [
+          3.529651900254884,
+          0.1228206715509086
+        ],
+        "z_100ms_mm": 0.2153639038970141,
+        "hold_rms_mm": 26.139660940869085,
+        "motion_rms_mm": 23.617678422709155,
+        "motion_xyz_mm": [
+          3.6158231693680136,
+          1.0725381734927453,
+          5.745894738702077
+        ]
+      },
+      "max_last_second_mm_deg": [
+        3.974973123201548,
+        0.1284165505312034
+      ],
+      "ticks_with_ambiguous_PD_phase": 0,
+      "fk_minus_actual_end_mm": [
+        0.23194269661452882,
+        -0.7006831931880165,
+        24.349204191599693
+      ],
+      "fk_minus_actual_rms_mm": 24.782611545179105,
+      "issued_minus_achieved_at_atom_end_rms_mm": 32.67777522830538,
+      "max_cmd_excursion_mm": 39.545193830411996,
+      "max_50ms_step_mm": 0.20000000000008802,
+      "prohibited_contact_records": 0,
+      "robot_cube_contact_records": 0,
+      "selected_MRT_policy_id": null,
+      "selected_policy_age": null,
+      "actual_solver_echo_atoms": 218,
+      "paired_control": {
+        "card": "F1-03",
+        "shared_ms": 10900,
+        "abs_rms_mm_deg": [
+          29.15843274620228,
+          2.6337394001220646
+        ],
+        "delta_rms_mm_deg": [
+          2.3700320553665586,
+          0.11971214104003265
+        ],
+        "end_mm_deg": [
+          29.603727883153148,
+          2.618529332505557
+        ],
+        "max_last_second_mm_deg": [
+          29.603727883153148,
+          2.618529332505557
+        ]
+      },
+      "first_scientific_decision_tick": 11153,
+      "ticks_between_decision_and_paused_boundary": 0,
+      "first_qualified_hold_tick": 10653,
+      "servo_ledger_sha256": "e2d49e235a5920874deb9ef678c61e26bdb6ddc03e3bcb3c84f8426892fc91e5"
+    },
+    {
+      "card": "F2-03",
+      "outcome": "HOLD_COMPLETE",
+      "eligible": true,
+      "ticks": 11203,
+      "reset_state_sha256": "98c1dfa5916b06916dd54d9f7e71316250cf8aaad3571f2c0f96f4af587a7701",
+      "initial_sha256": "30745f0551f14a7aea743896ef18d548d1031f82259531a06e3a3bfc08ee1458",
+      "result_sha256": "b93f0dd384a23e6b311f09b21f6a8546b75717b582fb2ae20aa37842941f778a",
+      "journal_sha256": "2127b3982bc438a36a1901b06c85d4e311efc45bbb74cf9984123b1e321ecb07",
+      "loaded_sha256": {
+        "sim": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+        "solver": "4a5f5aa6e0b9d4bde62f4d1da73135ef97e5268945a0cecf114d9190d3e04fd0",
+        "controller": "9e8ce46837d09bc39ae04d4b49f1ce4dd8c8c2d31bea39eac56c5806d108c1f3"
+      },
+      "violations": {},
+      "lease_closed": true,
+      "physics_stop": false,
+      "after_physical_stop_ticks": null,
+      "curve_sha256": "3d28742c0330a607117aa57c70a30d68714a945e973d3d3149f1bd1e3482833b",
+      "atoms": 220,
+      "installs": 110,
+      "post_init_ticks": 5500,
+      "task_tracking": {
+        "samples": 5500,
+        "abs_rms_mm": 17.13083760434044,
+        "delta_rms_mm": 14.640137364574855,
+        "abs_rms_deg": 0.9705012202819377,
+        "delta_rms_deg": 2.3348580634280633,
+        "end_error_mm_deg": [
+          3.559956463121159,
+          0.10373116617254433
+        ],
+        "z_100ms_mm": 0.3088552615071194,
+        "hold_rms_mm": 26.16805541644418,
+        "motion_rms_mm": 23.697703229613236,
+        "motion_xyz_mm": [
+          3.624529696995353,
+          1.0509870445987204,
+          5.765422208462724
+        ]
+      },
+      "max_last_second_mm_deg": [
+        3.8975692820844623,
+        0.13233100258902156
+      ],
+      "ticks_with_ambiguous_PD_phase": 0,
+      "fk_minus_actual_end_mm": [
+        0.19981417268893908,
+        -0.7029072806846882,
+        24.476802033563615
+      ],
+      "fk_minus_actual_rms_mm": 24.782897039615527,
+      "issued_minus_achieved_at_atom_end_rms_mm": 32.58454661693295,
+      "max_cmd_excursion_mm": 39.94445849943046,
+      "max_50ms_step_mm": 0.20000000000009188,
+      "prohibited_contact_records": 0,
+      "robot_cube_contact_records": 0,
+      "selected_MRT_policy_id": null,
+      "selected_policy_age": null,
+      "actual_solver_echo_atoms": 220,
+      "paired_control": {
+        "card": "F1-07",
+        "shared_ms": 11000,
+        "abs_rms_mm_deg": [
+          29.097324371509917,
+          2.6338279909072506
+        ],
+        "delta_rms_mm_deg": [
+          2.2394802388206374,
+          0.12063177194269631
+        ],
+        "end_mm_deg": [
+          29.406078562909922,
+          2.5942303443204744
+        ],
+        "max_last_second_mm_deg": [
+          29.55024872199777,
+          2.6285275329525977
+        ]
+      },
+      "first_scientific_decision_tick": 11203,
+      "ticks_between_decision_and_paused_boundary": 0,
+      "first_qualified_hold_tick": 10703,
+      "servo_ledger_sha256": "8070728e0fcfe794ba31d6af004df7f53a0010cf48c339f1d9bbcb04fd5b64f3"
+    },
+    {
+      "card": "F2-04",
+      "outcome": "SCREENED_OUT",
+      "eligible": false,
+      "ticks": 5703,
+      "reset_state_sha256": "98c1dfa5916b06916dd54d9f7e71316250cf8aaad3571f2c0f96f4af587a7701",
+      "initial_sha256": "1334964fc9e713a62cfde35f685a47cde3264748758a0434d556d05e3d352a76",
+      "result_sha256": "c7f181ebebb75c4081f98fe4b960d260d8d9ebd5e14e72aabe4f58900127fc88",
+      "journal_sha256": "3b64690205b4306f720e1c0d2845ae23c3bc2574f13d53c97009cbf9b6e5acff",
+      "loaded_sha256": {
+        "sim": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+        "solver": "4a5f5aa6e0b9d4bde62f4d1da73135ef97e5268945a0cecf114d9190d3e04fd0",
+        "controller": "9e8ce46837d09bc39ae04d4b49f1ce4dd8c8c2d31bea39eac56c5806d108c1f3"
+      },
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.0046532918731586135,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.029196759467466138,
+          "limit": 0.01597557170495345
+        },
+        "free_quaternions": {
+          "observed": 0.0035368394307962237,
+          "limit": 0.003328679076811513
+        },
+        "measured_base_m": {
+          "observed": 0.003933336398734682,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.00989204469500642,
+          "limit": 0.007272162700839245
+        }
+      },
+      "lease_closed": true,
+      "physics_stop": false,
+      "after_physical_stop_ticks": null
+    },
+    {
+      "card": "F2-05",
+      "outcome": "SCREENED_OUT",
+      "eligible": false,
+      "ticks": 5703,
+      "reset_state_sha256": "98c1dfa5916b06916dd54d9f7e71316250cf8aaad3571f2c0f96f4af587a7701",
+      "initial_sha256": "d4540de1fecd22da581dfb43af4635bbc9b24ebb9181d182b849959c686e4f8e",
+      "result_sha256": "85db62f0d8b698deca3d2a13c775ddc9458485173153541ba98c7c4609d1b51b",
+      "journal_sha256": "b84720e1e725cfb3b5fc75fc362865251abf9238f2f32f3eb12adeaba2f08000",
+      "loaded_sha256": {
+        "sim": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+        "solver": "4a5f5aa6e0b9d4bde62f4d1da73135ef97e5268945a0cecf114d9190d3e04fd0",
+        "controller": "9e8ce46837d09bc39ae04d4b49f1ce4dd8c8c2d31bea39eac56c5806d108c1f3"
+      },
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.004840459987424384,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.030715040124295045,
+          "limit": 0.01597557170495345
+        },
+        "free_quaternions": {
+          "observed": 0.00349595904982778,
+          "limit": 0.003328679076811513
+        },
+        "measured_base_m": {
+          "observed": 0.004065983380575442,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.010044692687352993,
+          "limit": 0.007272162700839245
+        }
+      },
+      "lease_closed": true,
+      "physics_stop": false,
+      "after_physical_stop_ticks": null
+    },
+    {
+      "card": "F2-06",
+      "outcome": "HOLD_COMPLETE",
+      "eligible": true,
+      "ticks": 11153,
+      "reset_state_sha256": "98c1dfa5916b06916dd54d9f7e71316250cf8aaad3571f2c0f96f4af587a7701",
+      "initial_sha256": "2d9bd9107cd02844fcbeabb730b8908d42310021c2ed9a69c1f7d16ba2c3e008",
+      "result_sha256": "47c2d11338d22e138e7fc97e75326d8fb97605495ca1b8cecd293f7e28a2f1e4",
+      "journal_sha256": "19c46b092495be54b2562edc519a25a4507b7e83aa796261bd7fa21f3b146a0a",
+      "loaded_sha256": {
+        "sim": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+        "solver": "4a5f5aa6e0b9d4bde62f4d1da73135ef97e5268945a0cecf114d9190d3e04fd0",
+        "controller": "9e8ce46837d09bc39ae04d4b49f1ce4dd8c8c2d31bea39eac56c5806d108c1f3"
+      },
+      "violations": {},
+      "lease_closed": true,
+      "physics_stop": false,
+      "after_physical_stop_ticks": null,
+      "curve_sha256": "15e98eb259069ab1732df75c76effcc4092b7646f703d0a33b5aa9f3151c6b81",
+      "atoms": 218,
+      "installs": 109,
+      "post_init_ticks": 5450,
+      "task_tracking": {
+        "samples": 5450,
+        "abs_rms_mm": 17.08681678968869,
+        "delta_rms_mm": 14.565206275742685,
+        "abs_rms_deg": 1.0177066330483966,
+        "delta_rms_deg": 2.3779351889049205,
+        "end_error_mm_deg": [
+          3.570389445062095,
+          0.11326556170007201
+        ],
+        "z_100ms_mm": 0.22112401168715223,
+        "hold_rms_mm": 26.09895616966118,
+        "motion_rms_mm": 23.596948040628746,
+        "motion_xyz_mm": [
+          3.5873033332752584,
+          1.0568485526774953,
+          5.716273636976098
+        ]
+      },
+      "max_last_second_mm_deg": [
+        3.9855724471892935,
+        0.13181074573729346
+      ],
+      "ticks_with_ambiguous_PD_phase": 0,
+      "fk_minus_actual_end_mm": [
+        0.21756933184874372,
+        -0.702240581675187,
+        24.4356883277026
+      ],
+      "fk_minus_actual_rms_mm": 24.78838617808685,
+      "issued_minus_achieved_at_atom_end_rms_mm": 32.66514589005825,
+      "max_cmd_excursion_mm": 39.54621469255807,
+      "max_50ms_step_mm": 0.2000000000000854,
+      "prohibited_contact_records": 0,
+      "robot_cube_contact_records": 0,
+      "selected_MRT_policy_id": null,
+      "selected_policy_age": null,
+      "actual_solver_echo_atoms": 218,
+      "paired_control": {
+        "card": "F1-11",
+        "shared_ms": 10900,
+        "abs_rms_mm_deg": [
+          29.076927386633763,
+          2.6328334754829212
+        ],
+        "delta_rms_mm_deg": [
+          2.2286094625721042,
+          0.12072944347416271
+        ],
+        "end_mm_deg": [
+          29.40527602243162,
+          2.5977917472843317
+        ],
+        "max_last_second_mm_deg": [
+          29.512268251018867,
+          2.620159231654857
+        ]
+      },
+      "first_scientific_decision_tick": 11153,
+      "ticks_between_decision_and_paused_boundary": 0,
+      "first_qualified_hold_tick": 10653,
+      "servo_ledger_sha256": "ee13723266ec892203c734aebddae59fc662097eee078004d12800504f71a866"
+    }
+  ],
+  "planned_controls": 4,
+  "scientific_comparisons": 4,
+  "SLA_forwards": 0,
+  "training_updates": 0,
+  "registration_sha256": "f28478ae4a06b26360df89591f3ecbf56903397373914f1a51d8f24fcfdc4ec5",
+  "cohort_sha256": "8dc0ce80153350c8739c2db55ae27be88dba5b0d897b9ff83d71d749686053e6",
+  "audit_sha256": "e0f8a1351845135e892c0463d813fdb4fc2c4998b922b147d4866f27d069e41e",
+  "owner_code_sha256": {
+    "native_servo.py": "e578c70a68de8fcef5478b3bc98f924b2fa7ec2b6a99a96d0197e8e0e6d316f1",
+    "teacher_labels.py": "e65470f5295e52537c1466059a97b8236a3f87ab8916a8118dfd5812b8d407da",
+    "feedback.py": "671a992881987dadca99d7edf5387a31f2ba668b703571a6845e626ffa0d5175",
+    "qualify_servo.py": "89c0f96bb337e3acb900c372370b8e40c636f1d4492920577c8620509af881d3",
+    "support_bound.py": "01f94df32470698ae52b95730cbac1a8b714e4867709efc0bc9f603927632ea8",
+    "native_owner.py": "fe9f2adac7f9e0d34dcb487a6722ea0f8e0863b5e66344343a63c4d7ca13176a",
+    "analysis.py": "4d03397d1fbadbb50340acebf57f0b1d15a44faefe6de498043bf01f86b9114a",
+    "native_known.py": "f98b36df2de2eabb15f255a235e7cf326a69f806d0c0ab60bd708a0b18c974c0",
+    "verify_native.py": "e0f8a1351845135e892c0463d813fdb4fc2c4998b922b147d4866f27d069e41e",
+    "site_replay.py": "4e971de0629a58ea40595f13688d8f718fe3ad63b874d3fce9d85e0c472b0707"
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "phase": "F2_PRELAUNCH_CPU",
+  "fault_receipts": {
+    "static_bias": [
+      "NO_PROGRESS",
+      3000
+    ],
+    "oscillating": [
+      "OSCILLATION",
+      278
+    ],
+    "hold": [
+      "HOLD_COMPLETE",
+      1000
+    ],
+    "lost": [
+      "HOLD_LOST",
+      230
+    ],
+    "saturation": [
+      "WORKSPACE_CAP",
+      150
+    ]
+  },
+  "example": {
+    "card": "F1-02",
+    "outcome": "A0_COMPLETE",
+    "eligible": true,
+    "ticks": 17703,
+    "reset_state_sha256": "98c1dfa5916b06916dd54d9f7e71316250cf8aaad3571f2c0f96f4af587a7701",
+    "initial_sha256": "53dbb3135a0e75183980fb31b5320295b5c7ef3ab9802fadda6c1b740609a1c8",
+    "result_sha256": "08fefaf817a1f13a15db8fe8034a812111ca3f1e49bbc8dbfa31c46353eb034f",
+    "journal_sha256": "166751b23c25110765659e32761505d0c3f6b1270ca027c21e9e427255561e54",
+    "loaded_sha256": {
+      "sim": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+      "solver": "4a5f5aa6e0b9d4bde62f4d1da73135ef97e5268945a0cecf114d9190d3e04fd0",
+      "controller": "9e8ce46837d09bc39ae04d4b49f1ce4dd8c8c2d31bea39eac56c5806d108c1f3"
+    },
+    "violations": {},
+    "lease_closed": true,
+    "physics_stop": false,
+    "after_physical_stop_ticks": null,
+    "curve_sha256": "d9ae4ca9942f504f2f72282ed6cb1479902dd26fecff9be7f22d062079655661",
+    "atoms": 480,
+    "installs": 240,
+    "post_init_ticks": 12000,
+    "task_tracking": {
+      "samples": 12000,
+      "abs_rms_mm": 29.15151437370603,
+      "delta_rms_mm": 2.551892417209385,
+      "abs_rms_deg": 2.632632974731236,
+      "delta_rms_deg": 0.1458272189818652,
+      "end_error_mm_deg": [
+        29.38964246181676,
+        2.610972807769417
+      ],
+      "z_100ms_mm": 0.10046748760157698,
+      "hold_rms_mm": 27.440478288118324,
+      "motion_rms_mm": 28.440974317944885,
+      "motion_xyz_mm": [
+        2.6867822143906324,
+        0.7261853485435452,
+        2.534809701519066
+      ]
+    },
+    "max_last_second_mm_deg": [
+      29.461117303964812,
+      2.625975120123961
+    ],
+    "ticks_with_ambiguous_PD_phase": 0,
+    "fk_minus_actual_end_mm": [
+      1.4334621033670336,
+      -0.7417111299572159,
+      24.32384945891297
+    ],
+    "fk_minus_actual_rms_mm": 24.471546332505852,
+    "issued_minus_achieved_at_atom_end_rms_mm": 29.151079966895143,
+    "max_cmd_excursion_mm": 5.656854249492385,
+    "max_50ms_step_mm": 0.39400847865933564,
+    "prohibited_contact_records": 0,
+    "robot_cube_contact_records": 0,
+    "selected_MRT_policy_id": null,
+    "selected_policy_age": null,
+    "actual_solver_echo_atoms": 480,
+    "baseline_reproduced": null
+  },
+  "source_sha256": {
+    "native_servo.py": "e578c70a68de8fcef5478b3bc98f924b2fa7ec2b6a99a96d0197e8e0e6d316f1",
+    "teacher_labels.py": "e65470f5295e52537c1466059a97b8236a3f87ab8916a8118dfd5812b8d407da",
+    "feedback.py": "671a992881987dadca99d7edf5387a31f2ba668b703571a6845e626ffa0d5175",
+    "qualify_servo.py": "89c0f96bb337e3acb900c372370b8e40c636f1d4492920577c8620509af881d3",
+    "support_bound.py": "01f94df32470698ae52b95730cbac1a8b714e4867709efc0bc9f603927632ea8",
+    "native_owner.py": "5ab70bb34f8084d7ae53a98e8376cb8ce174fff42a033f44eb1bcedd18fabd25",
+    "analysis.py": "4d03397d1fbadbb50340acebf57f0b1d15a44faefe6de498043bf01f86b9114a",
+    "native_known.py": "f98b36df2de2eabb15f255a235e7cf326a69f806d0c0ab60bd708a0b18c974c0",
+    "verify_native.py": "e0f8a1351845135e892c0463d813fdb4fc2c4998b922b147d4866f27d069e41e",
+    "site_replay.py": "4e971de0629a58ea40595f13688d8f718fe3ad63b874d3fce9d85e0c472b0707"
+  },
+  "native_requests": 0,
+  "physics_ticks": 0
+}
