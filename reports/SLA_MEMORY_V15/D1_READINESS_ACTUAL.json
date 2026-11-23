@@ -1,0 +1,246 @@
+{
+  "schema": "D1_CPU_READINESS",
+  "registration_sha256": "c69cea0c14cf4390d369a5fec9efc44ec29ecfe273df44326f2f39fffb42578a",
+  "anchors": [
+    {
+      "source": "T0_STATIC_HOLD",
+      "spec_sha256": "8bc61b0701d6bbf168cc3ad03059260694bbab5869670ac7dc8a66d990765f3a",
+      "native_result_sha256": "723e99889f0a517a8fbe567564aa1c0384c3184f2349730380d18fa0c400685c",
+      "source_sha": "cf1e132618469331e1c366d523b33d13fd218652",
+      "parent_source_sha": "3232af4a42f0c1436980c5cd17a24a62ba2cb9ba",
+      "scene_sha256": "b5b066ea788ff8763f0757747ede61890281213c2637e9f54f757b245d111959",
+      "previous_wire_sha256": "b7bc8fbfbd51a229c1a29c425f3687607b1abc813c4493fa53f737fe8a20b645",
+      "private_anchor_sha256": "d7e3ad5532fc62a2eed0a6f581308c253b82f290c7a1e81fc5578bd3f17e3f45",
+      "source_evidence_sha256": {
+        "MOBILE_SAMPLES.private.jsonl": "c71851380a92ae80fc6d9a5f169f08303184a1d7e87039ba8bf422e9c4e2224d",
+        "CLOCK_RESUME_REQUESTS.jsonl": "4b3de97422d8f8261c61890f217900223585f7250bd919bf0dcf65ab6be4e957",
+        "ROS_CONSUMPTION.private.jsonl": "fbaaea89063804023c406d7f55330b1e44fc4f9170119be3401377b230f7462c",
+        "LOADED_EXECUTOR_00.private.json": "92854fd2108b8ba796d0feac4d9c5d44f55b7be609afaf1668c1848094f6fc5d",
+        "planner.jsonl": "4cecb095212bccb5120fb1c9f9ef34fab48b073553bc45fb253854362a52f547",
+        "GUARD_READY.json": "c251bbe84163d70b1300028435c4eb317d88bed3b280151700d9bd99e103bb13",
+        "pause_ack.json": "8c20004cfb787850d0bfd4307deb5248898c3d1fd64d941a60ba3f6671a41a45",
+        "init.trace": "a5383a3ae32714ff0309eba60b1334f7cb301ff67cedf18ebb7da011e9af46bc",
+        "init.trace.summary": "2b15575553b7b6e9861582246644d44a793987064b6d33c1e2f0cf4b1aa7ac81",
+        "state.bin.journal": "4f8ff36666c6b5cee492c703e7096b5bb73e0e8f1199c9c997bf4d99ddf401b2",
+        "physics.jsonl": "ef78362ecd09bf7e825a5661edd0395e598a459a9356e6020e929861d3ad8942"
+      },
+      "cases": [
+        {
+          "cell": "OO",
+          "reference_content_sha256": "8045a348eb02107b125671813e42e292a9c07c238f88554c16657af52a5c336f",
+          "geometry": {
+            "poses_checked": 173,
+            "minimum_joint_margin_rad": 0.4787669926785153,
+            "maximum_IK_component_residual": 1.3654299917398305e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "callback": {
+            "new_installs": 10,
+            "points_checked": 410,
+            "stale_reinstall_rejected": true,
+            "source_clock": "offline fixture",
+            "native_acks": 0
+          },
+          "fixed_root_shadow": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+          "full40_gate": true,
+          "max_anchor_distance_m": 0.02763977747945245
+        },
+        {
+          "cell": "MO",
+          "reference_content_sha256": "3f0e470a055b59319d274b8e10bc861a6edb988700c4370075f36c587d3ecacf",
+          "geometry": {
+            "poses_checked": 200,
+            "minimum_joint_margin_rad": 0.4787669926785153,
+            "maximum_IK_component_residual": 1.3746607623393382e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "callback": {
+            "new_installs": 10,
+            "points_checked": 410,
+            "stale_reinstall_rejected": true,
+            "source_clock": "offline fixture",
+            "native_acks": 0
+          },
+          "fixed_root_shadow": "ORIGINAL_CARTESIAN_RATE_REJECT_AT_ACTUAL_REFERENCE_JOIN",
+          "full40_gate": true,
+          "max_anchor_distance_m": 0.0
+        },
+        {
+          "cell": "OM",
+          "reference_content_sha256": "265866c2a4f7514b2bf7a863d49a702a65576e56557bc77ccf62639db2f7fd5f",
+          "geometry": {
+            "poses_checked": 214,
+            "minimum_joint_margin_rad": 0.47876687744755586,
+            "maximum_IK_component_residual": 1.537734211808295e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "callback": {
+            "new_installs": 10,
+            "points_checked": 410,
+            "stale_reinstall_rejected": true,
+            "source_clock": "offline fixture",
+            "native_acks": 0
+          },
+          "fixed_root_shadow": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+          "full40_gate": true,
+          "max_anchor_distance_m": 0.02763977747945245
+        },
+        {
+          "cell": "MM",
+          "reference_content_sha256": "d5ee84f6d42d3b1a5fc0de38ff47f0316ec5f24c62ca22a1421bb55ae52b4fd2",
+          "geometry": {
+            "poses_checked": 118,
+            "minimum_joint_margin_rad": 0.4787669926785153,
+            "maximum_IK_component_residual": 1.3796638286267537e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "callback": {
+            "new_installs": 10,
+            "points_checked": 410,
+            "stale_reinstall_rejected": true,
+            "source_clock": "offline fixture",
+            "native_acks": 0
+          },
+          "fixed_root_shadow": "ORIGINAL_CARTESIAN_RATE_REJECT_AT_ACTUAL_REFERENCE_JOIN",
+          "full40_gate": true,
+          "max_anchor_distance_m": 0.0
+        }
+      ]
+    },
+    {
+      "source": "T1_CLOCK_FAULT_STOP",
+      "spec_sha256": "b68203525a0a802ca2ccdc295d169bb71d9b6fd55111057015831eeb30585c2c",
+      "native_result_sha256": "6b0109d722a695cc68178b6df3437c0627427e2c8315ce6a0b919562649e235a",
+      "source_sha": "cf1e132618469331e1c366d523b33d13fd218652",
+      "parent_source_sha": "3232af4a42f0c1436980c5cd17a24a62ba2cb9ba",
+      "scene_sha256": "b5b066ea788ff8763f0757747ede61890281213c2637e9f54f757b245d111959",
+      "previous_wire_sha256": "501bb3cf6a537e6f915b069b357bf9674372db0b7201fe966d3085cb8bc7d598",
+      "private_anchor_sha256": "37dd3a8aae05d0f284e2ccc1559023ef47cfae912b0ac7de357d8b2388707ab6",
+      "source_evidence_sha256": {
+        "MOBILE_SAMPLES.private.jsonl": "f4e13e5ac19fcb1209145174271c348fcd7bf99f97ead98b6667bb09e7cf500c",
+        "CLOCK_RESUME_REQUESTS.jsonl": "c8c3b64e4d3114b03c66ecd2a4c4443f7d45f081724333bcf20c3db3f2618671",
+        "ROS_CONSUMPTION.private.jsonl": "dbf37640781bad5e21ba2eefa6c7b996d46b6c41cdb8833c1db61afe8948cfe1",
+        "LOADED_EXECUTOR_00.private.json": "dc22d68527f41bd370afcb6d676dfcf2a829174758eedce04ca91876865326b5",
+        "planner.jsonl": "37e235d8fef0880be725a530b4f4c15cde34d7015ac7aa6367d66a774b076342",
+        "GUARD_READY.json": "17404f2ad9719eadca6d6a62e4bdf599a8c10b43867557b9385529da58090f79",
+        "pause_ack.json": "fae96d1c78114fcb387ae820289a66b8bf0297c29029723adecaeae3feb901cb",
+        "init.trace": "ffc48e7fd1e9850dcbb9c17e6d732958adbbf531672fd6c585cb693f81a67cc9",
+        "init.trace.summary": "8163798a4cf82bbbb38b8c4aaeba9340e1ea0e5e53c719bbe9635fd44ad4b561",
+        "state.bin.journal": "fe71096c0d765adc88ad913a4e1c083177a9f76808c141a3e63d641953b871de",
+        "physics.jsonl": "74af89806e8f21967a3e80755489e21f30cc0e16eff77f8a487a91691656596d",
+        "GUARD_TERMINAL.json": "cff00584620c5149c4d5ed684064fddc433918e4a3660085f7cd5fd2a28ac1a4",
+        "B2_REWIND_REQUEST.json": "67a1d5b1dac745b9a74a5375be6223deb7c748b838cafbfc2ee5307b757556c1"
+      },
+      "cases": [
+        {
+          "cell": "OO",
+          "reference_content_sha256": "ab0cc42ad178994333a969c2692bd64259e6aa72bcf1f4410ac7a04ad907cf01",
+          "geometry": {
+            "poses_checked": 176,
+            "minimum_joint_margin_rad": 0.4786823999668094,
+            "maximum_IK_component_residual": 1.3092884441068264e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "callback": {
+            "new_installs": 10,
+            "points_checked": 410,
+            "stale_reinstall_rejected": true,
+            "source_clock": "offline fixture",
+            "native_acks": 0
+          },
+          "fixed_root_shadow": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+          "full40_gate": true,
+          "max_anchor_distance_m": 0.028218867460268613
+        },
+        {
+          "cell": "MO",
+          "reference_content_sha256": "a303019c4d48498683713bf6ad92c439ef009e078627c522f4257c3c46ea5a28",
+          "geometry": {
+            "poses_checked": 202,
+            "minimum_joint_margin_rad": 0.4786823999668094,
+            "maximum_IK_component_residual": 1.376376219433099e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "callback": {
+            "new_installs": 10,
+            "points_checked": 410,
+            "stale_reinstall_rejected": true,
+            "source_clock": "offline fixture",
+            "native_acks": 0
+          },
+          "fixed_root_shadow": "ORIGINAL_CARTESIAN_RATE_REJECT_AT_ACTUAL_REFERENCE_JOIN",
+          "full40_gate": true,
+          "max_anchor_distance_m": 0.0
+        },
+        {
+          "cell": "OM",
+          "reference_content_sha256": "91f19ec1d2d388f9502788564acf6a36edef09a2f4b0f4d51052cfa17867010a",
+          "geometry": {
+            "poses_checked": 217,
+            "minimum_joint_margin_rad": 0.4786823999668094,
+            "maximum_IK_component_residual": 1.5537724916157202e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "callback": {
+            "new_installs": 10,
+            "points_checked": 410,
+            "stale_reinstall_rejected": true,
+            "source_clock": "offline fixture",
+            "native_acks": 0
+          },
+          "fixed_root_shadow": "PASS_CLONED_NATIVE_REFERENCE_CERTIFICATE_NOT_DYNAMIC_WBC_PROOF",
+          "full40_gate": true,
+          "max_anchor_distance_m": 0.028218867460268613
+        },
+        {
+          "cell": "MM",
+          "reference_content_sha256": "d1a35365cfd2539cc735203ac33dc0abe2d857f60997f221aac5c83c97facfee",
+          "geometry": {
+            "poses_checked": 120,
+            "minimum_joint_margin_rad": 0.4786823999668094,
+            "maximum_IK_component_residual": 1.3092884441068264e-06,
+            "all_four_feet": true,
+            "forbidden_contacts": 0,
+            "scope": "discrete kinematic witness, 0.5 mm / 0.1 degree subdivisions; native dynamic guard remains necessary"
+          },
+          "callback": {
+            "new_installs": 10,
+            "points_checked": 410,
+            "stale_reinstall_rejected": true,
+            "source_clock": "offline fixture",
+            "native_acks": 0
+          },
+          "fixed_root_shadow": "ORIGINAL_CARTESIAN_RATE_REJECT_AT_ACTUAL_REFERENCE_JOIN",
+          "full40_gate": true,
+          "max_anchor_distance_m": 0.0
+        }
+      ]
+    }
+  ],
+  "frozen_sha256": {
+    "sim": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+    "solver": "4a5f5aa6e0b9d4bde62f4d1da73135ef97e5268945a0cecf114d9190d3e04fd0",
+    "controller": "9e8ce46837d09bc39ae04d4b49f1ce4dd8c8c2d31bea39eac56c5806d108c1f3"
+  },
+  "source_cards": 2,
+  "source_cells": 8,
+  "new_physical_requests": 0,
+  "new_ticks": 0,
+  "native_authority": "held only by actual owner after separate lease",
+  "dynamic_safety": "requires original live guard",
+  "cpu_ready": true
+}

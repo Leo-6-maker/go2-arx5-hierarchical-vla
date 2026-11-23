@@ -1,0 +1,91 @@
+{
+  "protocol": "D1_MATCHED_B2_V1",
+  "campaign": "sla-d1-matched-b2-20261123-01",
+  "fixed_start_slots": 40,
+  "eligibility": "At tick 5703 compare against both B2 anchors and all previously enrolled states, using the original 16 per-feature tolerances. Evaluate before selecting a reference. An ordinary clean mismatch consumes a start and no allocation.",
+  "treatment_sequence_by_eligible_block": [
+    [
+      "MM",
+      "OO",
+      "OM",
+      "MO"
+    ],
+    [
+      "MM",
+      "MO",
+      "OO",
+      "OM"
+    ],
+    [
+      "OO",
+      "MM",
+      "MO",
+      "OM"
+    ],
+    [
+      "OO",
+      "OM",
+      "MM",
+      "MO"
+    ],
+    [
+      "OM",
+      "MO",
+      "MM",
+      "OO"
+    ],
+    [
+      "OO",
+      "MO",
+      "MM",
+      "OM"
+    ],
+    [
+      "MO",
+      "OO",
+      "MM",
+      "OM"
+    ],
+    [
+      "OM",
+      "MO",
+      "MM",
+      "OO"
+    ],
+    [
+      "MM",
+      "MO",
+      "OO",
+      "OM"
+    ],
+    [
+      "OM",
+      "MO",
+      "OO",
+      "MM"
+    ]
+  ],
+  "assignment": "Sequential eligible index only. The conditional next treatment in a spec is applied only after the frozen match function returns true. A screened-out start has no treatment.",
+  "primary": "First complete 2x2 block; second complete block is independent confirmation. Report every additional complete block separately and every incomplete block/cell. No imputation or inference of population significance.",
+  "historical_basis": "Two of nine observable legacy M0 starts matched the anchors. Forty fixed start slots give roughly nine eligible starts at that historical fraction. This fraction is not assumed to hold prospectively.",
+  "stopping": "Exhaust the fixed list unless a technical/safety/identity/geometry/unknown-PD/ownership STOP occurs. Never replace a start; no extensions for low yield. Never use observed response to enroll, select or stop.",
+  "old_register_sha256": "c69cea0c14cf4390d369a5fec9efc44ec29ecfe273df44326f2f39fffb42578a",
+  "old_owner_sha256": "75efc46d6154d5338f80a0e83009ac88c927df0f261d88c65a9b6c6e3e8d95ca",
+  "physics_dt_s": 0.002,
+  "initial_ticks": 5703,
+  "test_ticks_if_enrolled": 500,
+  "max_total_ticks": 248120,
+  "refresh_s": 0.1,
+  "ttl_s": 0.4,
+  "responses": [
+    "Y_actual_z_100ms_mm",
+    "Y_PD_z_100ms_mm"
+  ],
+  "operators": {
+    "EEF_main": "0.5*((MO-OO)+(MM-OM))",
+    "base_main": "0.5*((OM-OO)+(MM-MO))",
+    "interaction": "MM-MO-OM+OO"
+  },
+  "new_model_forwards": 0,
+  "new_training_updates": 0
+}

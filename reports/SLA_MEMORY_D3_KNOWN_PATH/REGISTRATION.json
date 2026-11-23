@@ -1,0 +1,105 @@
+{
+  "protocol": "D3_STANDING_KNOWN_PATHS_V1",
+  "campaign": "sla-d3-known-paths-20261123-01",
+  "roster": [
+    {
+      "id": "K01",
+      "family": "translation",
+      "rate": "slow",
+      "mode": "ONE_SHOT_INTENT"
+    },
+    {
+      "id": "K02",
+      "family": "translation",
+      "rate": "slow",
+      "mode": "P10_REVISION"
+    },
+    {
+      "id": "K03",
+      "family": "rotation",
+      "rate": "slow",
+      "mode": "P10_REVISION"
+    },
+    {
+      "id": "K04",
+      "family": "rotation",
+      "rate": "slow",
+      "mode": "ONE_SHOT_INTENT"
+    },
+    {
+      "id": "K05",
+      "family": "curve",
+      "rate": "slow",
+      "mode": "ONE_SHOT_INTENT"
+    },
+    {
+      "id": "K06",
+      "family": "curve",
+      "rate": "slow",
+      "mode": "P10_REVISION"
+    },
+    {
+      "id": "K07",
+      "family": "translation",
+      "rate": "fast",
+      "mode": "P10_REVISION"
+    },
+    {
+      "id": "K08",
+      "family": "translation",
+      "rate": "fast",
+      "mode": "ONE_SHOT_INTENT"
+    },
+    {
+      "id": "K09",
+      "family": "rotation",
+      "rate": "fast",
+      "mode": "ONE_SHOT_INTENT"
+    },
+    {
+      "id": "K10",
+      "family": "rotation",
+      "rate": "fast",
+      "mode": "P10_REVISION"
+    },
+    {
+      "id": "K11",
+      "family": "curve",
+      "rate": "fast",
+      "mode": "P10_REVISION"
+    },
+    {
+      "id": "K12",
+      "family": "curve",
+      "rate": "fast",
+      "mode": "ONE_SHOT_INTENT"
+    }
+  ],
+  "scope": "Standing no-contact MuJoCo. Start at the old world EEF and base reference. Retain per-card measured initial state, original guards, explicit safe whole-path geometry from actual q, WBC mode, every ACK and 2 ms tick.",
+  "population": "Twelve independent planned starts, exactly one per cell. Report each safe natural start individually with its pre-treatment B2 match. The primary ONE/P10 paired comparison requires both starts to match B2 and each other under the original 16 tolerances. Unmatched pairs remain descriptive; no replacement, no pooling with D1.",
+  "eligibility": "D1 fixed cohort closed and independently reconciled, first two full D1 blocks and D2 low-level readout present. Native safety, current resource ownership, working receiver and exact D3 offline field/geometry evidence required.",
+  "start_pose": "old_ee and old_base world poses bound once at 5703, measured TCP is the baseline for achieved motion and absolute world tracking",
+  "path": "translation: 4 mm X then 4 mm Z; rotation: 1.75 deg world Y; curve: 5 mm radius quarter circle in world XZ and 1.75 deg world Y",
+  "motion_s": {
+    "slow": 1.9,
+    "fast": 1.35
+  },
+  "max_requests": 12,
+  "initial_ticks": 5703,
+  "post_initial_ticks": 1000,
+  "physics_dt_s": 0.002,
+  "max_ticks_per_card": 6703,
+  "max_native_ticks": 80436,
+  "transport_period_s": 0.1,
+  "atom_s": 0.05,
+  "ttl_s": 0.4,
+  "one_vs_p10": "Identical task geometry; ONE binds the whole path once; P10 regenerates the future on the original fixed world/clock every 0.5s. Test transport and physical repeatability, not corrections prompted by new observations.",
+  "metrics": "Every 2 ms compare TCP to the accepted linear/SLERP target at the source clock. Absolute translation and rotation RMS, incremental errors, endpoint signed component gains, gain and lag from lagged least squares on the full segment, P10 seam target/PD-FK/actual differences, base motion, target-to-command/achieved and receipts. Lag diagnostic 0..300 ms in 2 ms steps, report boundary minima. No B4 precision pass threshold is asserted.",
+  "stopping": "Sequential, fixed list. Any native STOP, missing/ambiguous identity, unsafe sweep or loss of expected consumption closes the panel; count every request and all unstarted slots. No change to a running card or repeated starts.",
+  "preview_sha256": "599d110a7bfdb316d5655db7d060a2450754321300de8398bda3f3946615385c",
+  "d1_registration_sha256": "6e97c79b59581b0cbd2ca6673387f4af9417c927b14c70e3c85cd4185b9f2a9c",
+  "d1_original_register_sha256": "c69cea0c14cf4390d369a5fec9efc44ec29ecfe273df44326f2f39fffb42578a",
+  "new_SLA_forwards": 0,
+  "training_updates": 0,
+  "d2_pd_sha256": "e249f441e7cc6dcd1f18556e4fbb0d18360dcc315b2e724249e8d082c1b1699a"
+}

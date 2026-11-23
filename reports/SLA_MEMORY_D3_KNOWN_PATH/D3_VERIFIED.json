@@ -1,0 +1,2068 @@
+{
+  "planned": 12,
+  "attempted": 12,
+  "complete": 12,
+  "native_ticks": 80436,
+  "test_ticks": 12000,
+  "records": [
+    {
+      "id": "K01",
+      "family": "translation",
+      "rate": "slow",
+      "mode": "ONE_SHOT_INTENT",
+      "status": "COMPLETE",
+      "native_ticks": 6703,
+      "result_sha256": "90f3b84306f0e162c51e250708a90642288317118fb678d3e565b136a85647ad",
+      "journal_sha256": "389fa007afb831be341bc2a02511a3d93e510be0b66c7236161104a037beff14",
+      "post_init_ticks": 1000,
+      "native_STOP": false,
+      "after_STOP_ticks": null,
+      "B2_anchor_matched": false,
+      "initial_sha256": "04bcd18e8a4b45472332e00f6cb45f3fa6bd9939e7201a017f2306d724ae8d5e",
+      "abs_position_RMS_mm": 28.375250609635884,
+      "abs_position_p95_mm": 29.308849194158498,
+      "abs_orientation_RMS_deg": 2.692117073732479,
+      "relative_position_RMS_mm": 1.65616872714254,
+      "relative_orientation_RMS_deg": 0.06858427133504509,
+      "end_absolute_error_mm": [
+        -13.67299889375978,
+        -3.0952665310295755,
+        -25.5502444511706
+      ],
+      "command_motion_mm": [
+        4.0000081062316895,
+        0.0,
+        4.0000081062316895
+      ],
+      "achieved_motion_mm": [
+        2.688105475340097,
+        0.8621485861789995,
+        2.579540358425225
+      ],
+      "endpoint_axis_gains": [
+        0.6720250069374224,
+        null,
+        0.6448837827119674
+      ],
+      "command_rotation_vector_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "achieved_rotation_vector_deg": [
+        -0.021206801319090536,
+        -0.13868676318487144,
+        -0.0266541366616533
+      ],
+      "endpoint_rotation_axis_gains": [
+        null,
+        null,
+        null
+      ],
+      "position_lag_fit": {
+        "lag_ms": 36,
+        "gain": 0.6123094531439977,
+        "residual_rms": 0.5562987927441829,
+        "at_search_boundary": false
+      },
+      "rotation_lag_fit": null,
+      "base_max_displacement_mm": 0.9288587023878946,
+      "base_max_rotation_deg": 0.15983280575804726,
+      "pd_fk_minus_actual_z_mm_start_end": [
+        24.37705987588723,
+        24.41182914799578
+      ],
+      "maximum_absolute_arm_ctrl_Nm": [
+        0.06571425581033542,
+        1.186356086676357,
+        5.705713289012113,
+        1.3414872754875726,
+        0.021451290288596016,
+        0.01128546871495159
+      ],
+      "contact_pairs_per_tick_min_max": [
+        8,
+        8
+      ],
+      "robot_object_contact_intervals": 0,
+      "exact_solver_echo_atoms": 40,
+      "wire_installs": 20,
+      "high_level_revisions": 0,
+      "p10_boundaries": [
+        {
+          "ms": 500,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.031173229217529297,
+            0.0,
+            0.0
+          ],
+          "PD_FK_delta_mm": [
+            -0.053072222923500334,
+            0.010442063833923654,
+            -0.1624121790733124
+          ],
+          "actual_delta_mm": [
+            0.016967062285655476,
+            0.00209911241727187,
+            -0.004111805252171585
+          ],
+          "max_joint_target_difference_deg": 0.020278831645767856,
+          "max_actual_joint_difference_deg": 0.004654010013280706
+        },
+        {
+          "ms": 1000,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.0,
+            0.0,
+            0.001583099365154439
+          ],
+          "PD_FK_delta_mm": [
+            0.04023383080564713,
+            -0.0013524990033625395,
+            0.09635620407300038
+          ],
+          "actual_delta_mm": [
+            0.002711767634500095,
+            0.0018600024719473557,
+            0.005850844162047508
+          ],
+          "max_joint_target_difference_deg": 0.0132300764223147,
+          "max_actual_joint_difference_deg": 0.002022180313926137
+        },
+        {
+          "ms": 1500,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.0,
+            0.0,
+            0.02980947494501951
+          ],
+          "PD_FK_delta_mm": [
+            0.0427701349395293,
+            -9.403987222787735e-05,
+            0.08754725425641485
+          ],
+          "actual_delta_mm": [
+            0.00032557519352716113,
+            0.0014417856481971358,
+            0.018602038528436893
+          ],
+          "max_joint_target_difference_deg": 0.012755378274998813,
+          "max_actual_joint_difference_deg": 0.0039055223538009987
+        }
+      ],
+      "maximum_shared_wire_field_change": 0.0,
+      "solver_first_echo": {
+        "observer_wall_ms_since_install": 13.440072536468506,
+        "latest_completed_tick_relative_ms": 10,
+        "policy_initial_observation_relative_ms": 4.0
+      },
+      "selected_MRT_policy_ID": null,
+      "selected_policy_age_ms": null,
+      "completion_fraction": 1,
+      "private_curve_sha256": "ca786be554d3771666883e1de8e5ec65cf181ab67f24c489b1d4dc9f50686938"
+    },
+    {
+      "id": "K02",
+      "family": "translation",
+      "rate": "slow",
+      "mode": "P10_REVISION",
+      "status": "COMPLETE",
+      "native_ticks": 6703,
+      "result_sha256": "36d9b16a5fd28e90158964715597df67dd1a1a2ae280e65daf247714b4b65746",
+      "journal_sha256": "c75fd235d012a3121ecba59b29f34d5180fb44f5c965cfaf74964cec955b9985",
+      "post_init_ticks": 1000,
+      "native_STOP": false,
+      "after_STOP_ticks": null,
+      "B2_anchor_matched": false,
+      "initial_sha256": "9cc04abbfff6886fa8fc2c7b7a4bcd4ced345d0e1dd47440acc1da60544182ef",
+      "abs_position_RMS_mm": 28.35924134638147,
+      "abs_position_p95_mm": 29.351915865096007,
+      "abs_orientation_RMS_deg": 2.689132662630685,
+      "relative_position_RMS_mm": 1.6631897649712906,
+      "relative_orientation_RMS_deg": 0.06724724447110839,
+      "end_absolute_error_mm": [
+        -13.674720367414073,
+        -3.093676078569467,
+        -25.581316121004114
+      ],
+      "command_motion_mm": [
+        3.9999783039093018,
+        0.0,
+        4.0000081062316895
+      ],
+      "achieved_motion_mm": [
+        2.687105015264868,
+        0.8634102644550344,
+        2.5441733148345858
+      ],
+      "endpoint_axis_gains": [
+        0.6717798975656137,
+        null,
+        0.6360420397326119
+      ],
+      "command_rotation_vector_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "achieved_rotation_vector_deg": [
+        -0.02192485089793317,
+        -0.13368551530951311,
+        -0.026612919143161815
+      ],
+      "endpoint_rotation_axis_gains": [
+        null,
+        null,
+        null
+      ],
+      "position_lag_fit": {
+        "lag_ms": 36,
+        "gain": 0.6103304370475575,
+        "residual_rms": 0.5564591653703471,
+        "at_search_boundary": false
+      },
+      "rotation_lag_fit": null,
+      "base_max_displacement_mm": 0.9272571271419596,
+      "base_max_rotation_deg": 0.15913920631935638,
+      "pd_fk_minus_actual_z_mm_start_end": [
+        24.40624657837831,
+        24.434946531926684
+      ],
+      "maximum_absolute_arm_ctrl_Nm": [
+        0.06525511229102686,
+        1.1431870969204596,
+        5.63231935270725,
+        1.3283642085580025,
+        0.020225820076825867,
+        0.008687434127233816
+      ],
+      "contact_pairs_per_tick_min_max": [
+        8,
+        8
+      ],
+      "robot_object_contact_intervals": 0,
+      "exact_solver_echo_atoms": 40,
+      "wire_installs": 20,
+      "high_level_revisions": 3,
+      "p10_boundaries": [
+        {
+          "ms": 500,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.031173229217529297,
+            0.0,
+            0.0
+          ],
+          "PD_FK_delta_mm": [
+            0.047323315266134536,
+            -0.0025260967746413426,
+            0.08972719105215798
+          ],
+          "actual_delta_mm": [
+            0.01299623938094685,
+            0.0019554684070836187,
+            -0.001676499111313845
+          ],
+          "max_joint_target_difference_deg": 0.013601467958434142,
+          "max_actual_joint_difference_deg": 0.003055528035738839
+        },
+        {
+          "ms": 1000,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.0,
+            0.0,
+            0.0015830993652654612
+          ],
+          "PD_FK_delta_mm": [
+            0.04336695891432596,
+            -0.0006747335172217761,
+            0.08823647649025546
+          ],
+          "actual_delta_mm": [
+            0.002272837675509898,
+            0.0019022115251253469,
+            0.004588973856800571
+          ],
+          "max_joint_target_difference_deg": 0.012854416017963997,
+          "max_actual_joint_difference_deg": 0.0023495939267242417
+        },
+        {
+          "ms": 1500,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.0,
+            0.0,
+            0.029807090759281785
+          ],
+          "PD_FK_delta_mm": [
+            0.03466410539954001,
+            -0.0016194039974149615,
+            0.09611411278465098
+          ],
+          "actual_delta_mm": [
+            0.0002404974401848392,
+            0.0013943284224039038,
+            0.021089892663805898
+          ],
+          "max_joint_target_difference_deg": 0.012683661288713679,
+          "max_actual_joint_difference_deg": 0.0040218977201871425
+        }
+      ],
+      "maximum_shared_wire_field_change": 0.0,
+      "solver_first_echo": {
+        "observer_wall_ms_since_install": 20.63021156936884,
+        "latest_completed_tick_relative_ms": 14,
+        "policy_initial_observation_relative_ms": 4.0
+      },
+      "selected_MRT_policy_ID": null,
+      "selected_policy_age_ms": null,
+      "completion_fraction": 1,
+      "private_curve_sha256": "1fb7d75e470ccdc23685a32e4cc93d2605580c087539719dffaf688729f875aa"
+    },
+    {
+      "id": "K03",
+      "family": "rotation",
+      "rate": "slow",
+      "mode": "P10_REVISION",
+      "status": "COMPLETE",
+      "native_ticks": 6703,
+      "result_sha256": "8be4044c02ef8a9d0a11d636eb0af7a0c592e7514e0d6d38cc996b87ccd8d7f8",
+      "journal_sha256": "44c8477d173bdcec74b83559c9b47249f5e72d15d5cf358e9effa7f7c886e3c5",
+      "post_init_ticks": 1000,
+      "native_STOP": false,
+      "after_STOP_ticks": null,
+      "B2_anchor_matched": true,
+      "initial_sha256": "b90938283612cd2ea7291cd02c6da5c8cb2fd2f482c0aa981e79b7c202b22ead",
+      "abs_position_RMS_mm": 28.808231387788155,
+      "abs_position_p95_mm": 29.738410954694267,
+      "abs_orientation_RMS_deg": 2.7132862926382155,
+      "relative_position_RMS_mm": 1.7876360989412725,
+      "relative_orientation_RMS_deg": 0.1452599280704333,
+      "end_absolute_error_mm": [
+        -13.76078288925009,
+        -2.331037364379512,
+        -26.12416675730389
+      ],
+      "command_motion_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "achieved_motion_mm": [
+        -1.149703410814662,
+        0.8853822229312209,
+        -2.028211011457004
+      ],
+      "endpoint_axis_gains": [
+        null,
+        null,
+        null
+      ],
+      "command_rotation_vector_deg": [
+        -1.0795985262594622e-07,
+        1.7499992259357946,
+        4.35679310369111e-08
+      ],
+      "achieved_rotation_vector_deg": [
+        -0.025165998752674407,
+        1.5030090682299442,
+        -0.009517378446226207
+      ],
+      "endpoint_rotation_axis_gains": [
+        null,
+        0.8588627045970406,
+        null
+      ],
+      "position_lag_fit": null,
+      "rotation_lag_fit": {
+        "lag_ms": 0,
+        "gain": 0.9014143607100971,
+        "residual_rms": 0.092279076815521,
+        "at_search_boundary": true
+      },
+      "base_max_displacement_mm": 0.7408271487951423,
+      "base_max_rotation_deg": 0.09289994771692558,
+      "pd_fk_minus_actual_z_mm_start_end": [
+        24.599452690767464,
+        24.150559567510776
+      ],
+      "maximum_absolute_arm_ctrl_Nm": [
+        0.07179230661186738,
+        1.0987498432166187,
+        5.6655913320806786,
+        1.3319785089700154,
+        0.022604953398692677,
+        0.012434241371436332
+      ],
+      "contact_pairs_per_tick_min_max": [
+        8,
+        8
+      ],
+      "robot_object_contact_intervals": 0,
+      "exact_solver_echo_atoms": 40,
+      "wire_installs": 20,
+      "high_level_revisions": 3,
+      "p10_boundaries": [
+        {
+          "ms": 500,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.0,
+            1.734723475976807e-15,
+            0.0
+          ],
+          "PD_FK_delta_mm": [
+            -0.07314164360505693,
+            0.01569069521576913,
+            -0.18350788004783958
+          ],
+          "actual_delta_mm": [
+            -0.000488692754541109,
+            0.0017097115626099613,
+            -0.010528129478992732
+          ],
+          "max_joint_target_difference_deg": 0.03211213438281495,
+          "max_actual_joint_difference_deg": 0.004453039067605168
+        },
+        {
+          "ms": 1000,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.0,
+            1.734723475976807e-15,
+            0.0
+          ],
+          "PD_FK_delta_mm": [
+            0.04040870675392494,
+            -0.003590032610641114,
+            0.05578636191827524
+          ],
+          "actual_delta_mm": [
+            -0.003366973747032098,
+            0.0019065270147819446,
+            -0.009930804381719227
+          ],
+          "max_joint_target_difference_deg": 0.013534019840380267,
+          "max_actual_joint_difference_deg": 0.009072803534347586
+        },
+        {
+          "ms": 1500,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.0,
+            1.734723475976807e-15,
+            0.0
+          ],
+          "PD_FK_delta_mm": [
+            -0.06436899309286703,
+            0.01131219621900055,
+            -0.13548341682589893
+          ],
+          "actual_delta_mm": [
+            0.004325668933213844,
+            0.0019307599262354674,
+            -0.013633805406421118
+          ],
+          "max_joint_target_difference_deg": 0.02118553925808705,
+          "max_actual_joint_difference_deg": 0.0022465835352229913
+        }
+      ],
+      "maximum_shared_wire_field_change": 0.0,
+      "solver_first_echo": {
+        "observer_wall_ms_since_install": 16.367096453905106,
+        "latest_completed_tick_relative_ms": 10,
+        "policy_initial_observation_relative_ms": 4.0
+      },
+      "selected_MRT_policy_ID": null,
+      "selected_policy_age_ms": null,
+      "completion_fraction": 1,
+      "private_curve_sha256": "c43c5ee296fe5ee4bfef44e85bb7e018d12c1d74b8f74a3ffcdbae1851c8e0fe"
+    },
+    {
+      "id": "K04",
+      "family": "rotation",
+      "rate": "slow",
+      "mode": "ONE_SHOT_INTENT",
+      "status": "COMPLETE",
+      "native_ticks": 6703,
+      "result_sha256": "f6ab857ccaf37a03238dfb58f6c543e49bb3f5e2ac9fe78aa3c0eedbb443cc54",
+      "journal_sha256": "59e5e69776d10c0833d82947ec72a2970cf8198ae9c3e6e3f96cc6396f497af9",
+      "post_init_ticks": 1000,
+      "native_STOP": false,
+      "after_STOP_ticks": null,
+      "B2_anchor_matched": false,
+      "initial_sha256": "1cbcb73b81adbda88a6d142c5bca3d2d2c936461a4d052fe3a23a2a1262079e9",
+      "abs_position_RMS_mm": 28.745824279174215,
+      "abs_position_p95_mm": 29.647039573665577,
+      "abs_orientation_RMS_deg": 2.684999516792543,
+      "relative_position_RMS_mm": 1.7414641006621994,
+      "relative_orientation_RMS_deg": 0.14356562756668978,
+      "end_absolute_error_mm": [
+        -13.445897786800831,
+        -3.1593603047836063,
+        -26.144343601500086
+      ],
+      "command_motion_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "achieved_motion_mm": [
+        -1.0728933045627276,
+        0.8028253322604814,
+        -2.0510907206302553
+      ],
+      "endpoint_axis_gains": [
+        null,
+        null,
+        null
+      ],
+      "command_rotation_vector_deg": [
+        3.752693111361823e-08,
+        1.7500001364786104,
+        -5.085925388890411e-08
+      ],
+      "achieved_rotation_vector_deg": [
+        -0.025757412035538874,
+        1.5085216379662125,
+        -0.011338111025327616
+      ],
+      "endpoint_rotation_axis_gains": [
+        null,
+        0.8620122973256983,
+        null
+      ],
+      "position_lag_fit": null,
+      "rotation_lag_fit": {
+        "lag_ms": 0,
+        "gain": 0.8996603968724295,
+        "residual_rms": 0.08703745446720487,
+        "at_search_boundary": true
+      },
+      "base_max_displacement_mm": 0.6908374897984447,
+      "base_max_rotation_deg": 0.07810047636760413,
+      "pd_fk_minus_actual_z_mm_start_end": [
+        24.37423651055626,
+        24.22795349365292
+      ],
+      "maximum_absolute_arm_ctrl_Nm": [
+        0.06406088367186491,
+        1.0700872613477788,
+        5.627925814640239,
+        1.3203220596157033,
+        0.02082249604609823,
+        0.009503730770726443
+      ],
+      "contact_pairs_per_tick_min_max": [
+        8,
+        8
+      ],
+      "robot_object_contact_intervals": 0,
+      "exact_solver_echo_atoms": 40,
+      "wire_installs": 20,
+      "high_level_revisions": 0,
+      "p10_boundaries": [
+        {
+          "ms": 500,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.0,
+            1.734723475976807e-15,
+            0.0
+          ],
+          "PD_FK_delta_mm": [
+            0.03784480639595911,
+            -0.0016858220293035353,
+            0.06805830899647702
+          ],
+          "actual_delta_mm": [
+            -0.0055677682510024695,
+            0.0015703428545652681,
+            -0.002936845270973265
+          ],
+          "max_joint_target_difference_deg": 0.01419996328445651,
+          "max_actual_joint_difference_deg": 0.00794638240242862
+        },
+        {
+          "ms": 1000,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.0,
+            1.734723475976807e-15,
+            0.0
+          ],
+          "PD_FK_delta_mm": [
+            0.04220224637740966,
+            -0.00034058095762026785,
+            0.054001428291372555
+          ],
+          "actual_delta_mm": [
+            -0.003693661331682918,
+            0.0016667899643760253,
+            -0.009645728825447009
+          ],
+          "max_joint_target_difference_deg": 0.013383755678639985,
+          "max_actual_joint_difference_deg": 0.009274941538893902
+        },
+        {
+          "ms": 1500,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.0,
+            1.734723475976807e-15,
+            0.0
+          ],
+          "PD_FK_delta_mm": [
+            0.04250510051900802,
+            0.00035194453397099923,
+            0.06174211902898463
+          ],
+          "actual_delta_mm": [
+            -0.0016336693045015949,
+            0.0014545885780384293,
+            0.0032167922124903825
+          ],
+          "max_joint_target_difference_deg": 0.01145764233269639,
+          "max_actual_joint_difference_deg": 0.0035482542371400834
+        }
+      ],
+      "maximum_shared_wire_field_change": 0.0,
+      "solver_first_echo": {
+        "observer_wall_ms_since_install": 16.61872211843729,
+        "latest_completed_tick_relative_ms": 10,
+        "policy_initial_observation_relative_ms": 4.0
+      },
+      "selected_MRT_policy_ID": null,
+      "selected_policy_age_ms": null,
+      "completion_fraction": 1,
+      "private_curve_sha256": "cbc5453135631dd8c75313c2d7b5ee6befa0ba211375f6f44a83f0651e6c8b9e"
+    },
+    {
+      "id": "K05",
+      "family": "curve",
+      "rate": "slow",
+      "mode": "ONE_SHOT_INTENT",
+      "status": "COMPLETE",
+      "native_ticks": 6703,
+      "result_sha256": "c6b2721d7125c6aebdd47b444f1e350447ba69a7d2b6ba000f24ac96f28f7b19",
+      "journal_sha256": "c40830eec77c8d7a052711fb2d984c9222e505b893382f3f5eb5a326a96cae07",
+      "post_init_ticks": 1000,
+      "native_STOP": false,
+      "after_STOP_ticks": null,
+      "B2_anchor_matched": false,
+      "initial_sha256": "86b16a9724025ece458a5e7c3a336f74a1b17d72fb2ccedbce42004118244172",
+      "abs_position_RMS_mm": 30.056446892763667,
+      "abs_position_p95_mm": 32.06724088973628,
+      "abs_orientation_RMS_deg": 2.6116425700788457,
+      "relative_position_RMS_mm": 3.421839869247022,
+      "relative_orientation_RMS_deg": 0.2351357879078206,
+      "end_absolute_error_mm": [
+        -15.136836560135759,
+        -3.098088560777262,
+        -27.83830537629528
+      ],
+      "command_motion_mm": [
+        4.999995231628418,
+        0.0,
+        4.999995231628418
+      ],
+      "achieved_motion_mm": [
+        2.269245734449976,
+        0.9446062247670042,
+        1.2951595905336122
+      ],
+      "endpoint_axis_gains": [
+        0.4538495797146829,
+        null,
+        0.2590321651390455
+      ],
+      "command_rotation_vector_deg": [
+        -1.8978594503493355e-09,
+        1.7500001295985146,
+        2.834900838597165e-08
+      ],
+      "achieved_rotation_vector_deg": [
+        -0.0362547587123297,
+        1.327382520702604,
+        -0.021868490870539
+      ],
+      "endpoint_rotation_axis_gains": [
+        null,
+        0.758504241372332,
+        null
+      ],
+      "position_lag_fit": {
+        "lag_ms": 300,
+        "gain": 0.37439812012622253,
+        "residual_rms": 0.6603382812527168,
+        "at_search_boundary": true
+      },
+      "rotation_lag_fit": {
+        "lag_ms": 0,
+        "gain": 0.8097741260083523,
+        "residual_rms": 0.0919562416243151,
+        "at_search_boundary": true
+      },
+      "base_max_displacement_mm": 1.1476247754951563,
+      "base_max_rotation_deg": 0.1914219042123688,
+      "pd_fk_minus_actual_z_mm_start_end": [
+        24.422198789000316,
+        24.26530121102055
+      ],
+      "maximum_absolute_arm_ctrl_Nm": [
+        0.06480041729654039,
+        1.1251374339966862,
+        5.650068529838004,
+        1.3255799398008674,
+        0.02038852192182202,
+        0.009849585453800875
+      ],
+      "contact_pairs_per_tick_min_max": [
+        8,
+        8
+      ],
+      "robot_object_contact_intervals": 0,
+      "exact_solver_echo_atoms": 40,
+      "wire_installs": 20,
+      "high_level_revisions": 0,
+      "p10_boundaries": [
+        {
+          "ms": 500,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.01829743385317606,
+            0.0,
+            0.003485679626491489
+          ],
+          "PD_FK_delta_mm": [
+            0.050396457041079756,
+            -0.0028271960568100607,
+            0.09017102572972391
+          ],
+          "actual_delta_mm": [
+            0.003969604050302333,
+            0.0017564847919118026,
+            -0.004451228236779237
+          ],
+          "max_joint_target_difference_deg": 0.01756041635610278,
+          "max_actual_joint_difference_deg": 0.006983695792911433
+        },
+        {
+          "ms": 1000,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.02000331878659889,
+            0.0,
+            0.023345947265607236
+          ],
+          "PD_FK_delta_mm": [
+            0.02664665631452179,
+            -0.005107973429757662,
+            0.11822641710468318
+          ],
+          "actual_delta_mm": [
+            0.00805088639804774,
+            0.0018055729837165857,
+            0.00443106575565011
+          ],
+          "max_joint_target_difference_deg": 0.018619095677454758,
+          "max_actual_joint_difference_deg": 0.009409493655856372
+        },
+        {
+          "ms": 1500,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.001466274261452405,
+            0.0,
+            0.01362085342404562
+          ],
+          "PD_FK_delta_mm": [
+            0.02508742731532898,
+            -0.003023167611663699,
+            0.10981708904622689
+          ],
+          "actual_delta_mm": [
+            0.0032187433617325567,
+            0.002137576004009392,
+            0.008143748002842344
+          ],
+          "max_joint_target_difference_deg": 0.013639887772515463,
+          "max_actual_joint_difference_deg": 0.004770030206847272
+        }
+      ],
+      "maximum_shared_wire_field_change": 0.0,
+      "solver_first_echo": {
+        "observer_wall_ms_since_install": 21.564329974353313,
+        "latest_completed_tick_relative_ms": 14,
+        "policy_initial_observation_relative_ms": 4.0
+      },
+      "selected_MRT_policy_ID": null,
+      "selected_policy_age_ms": null,
+      "completion_fraction": 1,
+      "private_curve_sha256": "303fb387ddf2e0ce0cae8bb49d48d9d072261c08a6de83ec52582f0045420457"
+    },
+    {
+      "id": "K06",
+      "family": "curve",
+      "rate": "slow",
+      "mode": "P10_REVISION",
+      "status": "COMPLETE",
+      "native_ticks": 6703,
+      "result_sha256": "4033a25037513bb84fa73fd6c8b7b4975d801d5190e6afd57c7e03b20534f5d1",
+      "journal_sha256": "8809a568793ea834a159d1acad09260792e8db3d12fa35df49fb80ae53d02e91",
+      "post_init_ticks": 1000,
+      "native_STOP": false,
+      "after_STOP_ticks": null,
+      "B2_anchor_matched": true,
+      "initial_sha256": "5c4d6714ace5631bae5501ef453d0ad1da21d5489318122eb5482406c5483083",
+      "abs_position_RMS_mm": 30.046017727625603,
+      "abs_position_p95_mm": 32.07886133742018,
+      "abs_orientation_RMS_deg": 2.634874060881181,
+      "relative_position_RMS_mm": 3.4416812144765636,
+      "relative_orientation_RMS_deg": 0.22963649724897936,
+      "end_absolute_error_mm": [
+        -15.355232368462035,
+        -2.112552250741634,
+        -27.990712094851155
+      ],
+      "command_motion_mm": [
+        5.000025033950806,
+        0.0,
+        4.999995231628418
+      ],
+      "achieved_motion_mm": [
+        2.3074330595708736,
+        0.9890638247837622,
+        1.076427615797959
+      ],
+      "endpoint_axis_gains": [
+        0.46148430135911517,
+        null,
+        0.21528572847206176
+      ],
+      "command_rotation_vector_deg": [
+        1.9726555765794764e-08,
+        1.7499994151796923,
+        3.996204371935666e-08
+      ],
+      "achieved_rotation_vector_deg": [
+        -0.03446830380802275,
+        1.3629929306526996,
+        -0.021769576860526947
+      ],
+      "endpoint_rotation_axis_gains": [
+        null,
+        0.7788533635096933,
+        null
+      ],
+      "position_lag_fit": {
+        "lag_ms": 300,
+        "gain": 0.3711073368960533,
+        "residual_rms": 0.6924479497166128,
+        "at_search_boundary": true
+      },
+      "rotation_lag_fit": {
+        "lag_ms": 0,
+        "gain": 0.8151925073320014,
+        "residual_rms": 0.09235533846385309,
+        "at_search_boundary": true
+      },
+      "base_max_displacement_mm": 1.1543457817011953,
+      "base_max_rotation_deg": 0.1979406276685796,
+      "pd_fk_minus_actual_z_mm_start_end": [
+        24.364633438411552,
+        24.39039880892735
+      ],
+      "maximum_absolute_arm_ctrl_Nm": [
+        0.06941978622690728,
+        1.1628633520834681,
+        5.635421128615526,
+        1.3284686780617756,
+        0.02196805317637934,
+        0.01092287800506998
+      ],
+      "contact_pairs_per_tick_min_max": [
+        8,
+        8
+      ],
+      "robot_object_contact_intervals": 0,
+      "exact_solver_echo_atoms": 40,
+      "wire_installs": 20,
+      "high_level_revisions": 3,
+      "p10_boundaries": [
+        {
+          "ms": 500,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.018297433853120548,
+            0.0,
+            0.003485679626491489
+          ],
+          "PD_FK_delta_mm": [
+            0.05226958059162401,
+            -0.001964546285364299,
+            0.06837512180324357
+          ],
+          "actual_delta_mm": [
+            0.004270799720540452,
+            0.0018275129068569956,
+            -0.0044223217754435495
+          ],
+          "max_joint_target_difference_deg": 0.016109001157475072,
+          "max_actual_joint_difference_deg": 0.006930901868587514
+        },
+        {
+          "ms": 1000,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.020004510879523263,
+            0.0,
+            0.023345947265607236
+          ],
+          "PD_FK_delta_mm": [
+            -0.06111868935998466,
+            0.008318243685209378,
+            -0.136904912212632
+          ],
+          "actual_delta_mm": [
+            0.013055921791405023,
+            0.0021928257134800483,
+            -0.00956959468179086
+          ],
+          "max_joint_target_difference_deg": 0.03365661090888408,
+          "max_actual_joint_difference_deg": 0.006280737637424421
+        },
+        {
+          "ms": 1500,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.0014674663543767785,
+            0.0,
+            0.01362085342404562
+          ],
+          "PD_FK_delta_mm": [
+            0.04167546563155211,
+            1.8285858726513338e-05,
+            0.07066384537679493
+          ],
+          "actual_delta_mm": [
+            0.00329930973613779,
+            0.001910880615125024,
+            0.017348598200794818
+          ],
+          "max_joint_target_difference_deg": 0.012171397100962723,
+          "max_actual_joint_difference_deg": 0.004412109249486321
+        }
+      ],
+      "maximum_shared_wire_field_change": 0.0,
+      "solver_first_echo": {
+        "observer_wall_ms_since_install": 17.56022870540619,
+        "latest_completed_tick_relative_ms": 10,
+        "policy_initial_observation_relative_ms": 4.0
+      },
+      "selected_MRT_policy_ID": null,
+      "selected_policy_age_ms": null,
+      "completion_fraction": 1,
+      "private_curve_sha256": "d041cc055ba5bf4fd58f57b8c6ddf881b1245ee2845fc386f9345c4de030c1e4"
+    },
+    {
+      "id": "K07",
+      "family": "translation",
+      "rate": "fast",
+      "mode": "P10_REVISION",
+      "status": "COMPLETE",
+      "native_ticks": 6703,
+      "result_sha256": "b71283336df21d87a7f35582231cd6986c1aaeb4639292410d2a940b8935a663",
+      "journal_sha256": "61db188c7e54015ce24aeb7def8d55c760ca38d139b32a0115b4f7b06b746b84",
+      "post_init_ticks": 1000,
+      "native_STOP": false,
+      "after_STOP_ticks": null,
+      "B2_anchor_matched": false,
+      "initial_sha256": "a4d8c45fa17e7e6485b4106ef447a94f5807e61d5beac40c2dcea01d25e15513",
+      "abs_position_RMS_mm": 28.638183807983395,
+      "abs_position_p95_mm": 29.406039562014833,
+      "abs_orientation_RMS_deg": 2.6685066330470892,
+      "relative_position_RMS_mm": 1.879498589731565,
+      "relative_orientation_RMS_deg": 0.0844720638955879,
+      "end_absolute_error_mm": [
+        -13.637584017361482,
+        -3.0685834288913303,
+        -25.48323590913848
+      ],
+      "command_motion_mm": [
+        4.0000081062316895,
+        0.0,
+        4.0000081062316895
+      ],
+      "achieved_motion_mm": [
+        2.733592410797514,
+        0.8944849892824486,
+        2.5759307134235465
+      ],
+      "endpoint_axis_gains": [
+        0.683396717756346,
+        null,
+        0.6439813732903328
+      ],
+      "command_rotation_vector_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "achieved_rotation_vector_deg": [
+        -0.02239140013217041,
+        -0.13023058126241693,
+        -0.027861142255716186
+      ],
+      "endpoint_rotation_axis_gains": [
+        null,
+        null,
+        null
+      ],
+      "position_lag_fit": {
+        "lag_ms": 38,
+        "gain": 0.6113910930402467,
+        "residual_rms": 0.5809071469478596,
+        "at_search_boundary": false
+      },
+      "rotation_lag_fit": null,
+      "base_max_displacement_mm": 0.961199097418664,
+      "base_max_rotation_deg": 0.16480294296591624,
+      "pd_fk_minus_actual_z_mm_start_end": [
+        24.32021933368178,
+        24.62954258889716
+      ],
+      "maximum_absolute_arm_ctrl_Nm": [
+        0.06650879640467643,
+        1.1454005098581048,
+        5.661290184354172,
+        1.3327185090092772,
+        0.021386822683453703,
+        0.00944237754539922
+      ],
+      "contact_pairs_per_tick_min_max": [
+        8,
+        8
+      ],
+      "robot_object_contact_intervals": 0,
+      "exact_solver_echo_atoms": 40,
+      "wire_installs": 20,
+      "high_level_revisions": 3,
+      "p10_boundaries": [
+        {
+          "ms": 500,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.026032924652086287,
+            0.0,
+            -1.1102230246251565e-13
+          ],
+          "PD_FK_delta_mm": [
+            -0.048626781090632676,
+            0.011487849811208511,
+            -0.18222924977917554
+          ],
+          "actual_delta_mm": [
+            0.015545715207954114,
+            0.0022739399248711267,
+            -0.006092047807548795
+          ],
+          "max_joint_target_difference_deg": 0.020286088721760995,
+          "max_actual_joint_difference_deg": 0.0037887422942605746
+        },
+        {
+          "ms": 1000,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.0,
+            0.0,
+            0.043680667877188384
+          ],
+          "PD_FK_delta_mm": [
+            0.03772405629065556,
+            -0.0009831978155551424,
+            0.09339543792064031
+          ],
+          "actual_delta_mm": [
+            0.0023490459012953657,
+            0.0017399011674416182,
+            0.02008712788992284
+          ],
+          "max_joint_target_difference_deg": 0.013301793408599832,
+          "max_actual_joint_difference_deg": 0.0042999151216748235
+        },
+        {
+          "ms": 1500,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "PD_FK_delta_mm": [
+            0.0433156437779636,
+            0.0004783179144082772,
+            0.07071926588730904
+          ],
+          "actual_delta_mm": [
+            0.001103584166550764,
+            0.0020256214105437986,
+            0.0025919813343433518
+          ],
+          "max_joint_target_difference_deg": 0.01075071775360007,
+          "max_actual_joint_difference_deg": 0.001084759730911946
+        }
+      ],
+      "maximum_shared_wire_field_change": 0.0,
+      "solver_first_echo": {
+        "observer_wall_ms_since_install": 15.910250134766102,
+        "latest_completed_tick_relative_ms": 12,
+        "policy_initial_observation_relative_ms": 4.0
+      },
+      "selected_MRT_policy_ID": null,
+      "selected_policy_age_ms": null,
+      "completion_fraction": 1,
+      "private_curve_sha256": "eacea9387cbb5ea07d54978659133b0b83070a7d7845903b33a9884d49a04dee"
+    },
+    {
+      "id": "K08",
+      "family": "translation",
+      "rate": "fast",
+      "mode": "ONE_SHOT_INTENT",
+      "status": "COMPLETE",
+      "native_ticks": 6703,
+      "result_sha256": "ce82ed4eb1afa5bae0284e3a17e9f39d7a72d95124fffbfe6814be47554fa435",
+      "journal_sha256": "e2ceb4ebff7f3e095284f963a3c3c218812e8705c329d8bd0a7a4541b169c08e",
+      "post_init_ticks": 1000,
+      "native_STOP": false,
+      "after_STOP_ticks": null,
+      "B2_anchor_matched": true,
+      "initial_sha256": "24590d46758c351f43eb1ac9fd31bb880326049e2c47b80089166f921320543c",
+      "abs_position_RMS_mm": 28.705764127423976,
+      "abs_position_p95_mm": 29.521872325012005,
+      "abs_orientation_RMS_deg": 2.6952312441443764,
+      "relative_position_RMS_mm": 1.9068477485573676,
+      "relative_orientation_RMS_deg": 0.09035129567506833,
+      "end_absolute_error_mm": [
+        -13.934882979448115,
+        -2.2318385741316,
+        -25.595694535295976
+      ],
+      "command_motion_mm": [
+        4.0000081062316895,
+        0.0,
+        4.0000081062316895
+      ],
+      "achieved_motion_mm": [
+        2.677999790954788,
+        0.9835104373102522,
+        2.5295256999186
+      ],
+      "endpoint_axis_gains": [
+        0.6694985909610235,
+        null,
+        0.6323801434246604
+      ],
+      "command_rotation_vector_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "achieved_rotation_vector_deg": [
+        -0.025892102165010058,
+        -0.12331502685213619,
+        -0.027783991493409696
+      ],
+      "endpoint_rotation_axis_gains": [
+        null,
+        null,
+        null
+      ],
+      "position_lag_fit": {
+        "lag_ms": 32,
+        "gain": 0.6064198846221234,
+        "residual_rms": 0.6266622758574737,
+        "at_search_boundary": false
+      },
+      "rotation_lag_fit": null,
+      "base_max_displacement_mm": 0.9542039229297011,
+      "base_max_rotation_deg": 0.18082565420886557,
+      "pd_fk_minus_actual_z_mm_start_end": [
+        24.359579684298804,
+        24.4466102503631
+      ],
+      "maximum_absolute_arm_ctrl_Nm": [
+        0.07420616320779946,
+        1.1108408683501811,
+        5.647694385630395,
+        1.3324713002516526,
+        0.023032146110193268,
+        0.010142020215354083
+      ],
+      "contact_pairs_per_tick_min_max": [
+        8,
+        8
+      ],
+      "robot_object_contact_intervals": 0,
+      "exact_solver_echo_atoms": 40,
+      "wire_installs": 20,
+      "high_level_revisions": 0,
+      "p10_boundaries": [
+        {
+          "ms": 500,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.026031732559217424,
+            1.734723475976807e-15,
+            -1.1102230246251565e-13
+          ],
+          "PD_FK_delta_mm": [
+            -0.03548330937042099,
+            0.019693393403779486,
+            -0.20616219358138288
+          ],
+          "actual_delta_mm": [
+            0.015709220290704984,
+            0.0020886229310235205,
+            -0.004802351206034672
+          ],
+          "max_joint_target_difference_deg": 0.02013539767319759,
+          "max_actual_joint_difference_deg": 0.003901610192086182
+        },
+        {
+          "ms": 1000,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.0,
+            1.734723475976807e-15,
+            0.043680667877188384
+          ],
+          "PD_FK_delta_mm": [
+            0.031089286975816144,
+            -0.005884598076053363,
+            0.13469755665607153
+          ],
+          "actual_delta_mm": [
+            0.0007418303352713096,
+            0.001683763905954705,
+            0.026955950256479788
+          ],
+          "max_joint_target_difference_deg": 0.016208038900440258,
+          "max_actual_joint_difference_deg": 0.004987396702614125
+        },
+        {
+          "ms": 1500,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.0,
+            1.734723475976807e-15,
+            0.0
+          ],
+          "PD_FK_delta_mm": [
+            0.04131051500566585,
+            -0.0030219750241020082,
+            0.07352932088844355
+          ],
+          "actual_delta_mm": [
+            0.0012460158538285526,
+            0.0021052587797186495,
+            0.002290665161996941
+          ],
+          "max_joint_target_difference_deg": 0.01080663992742955,
+          "max_actual_joint_difference_deg": 0.0011639121801559572
+        }
+      ],
+      "maximum_shared_wire_field_change": 0.0,
+      "solver_first_echo": {
+        "observer_wall_ms_since_install": 21.33543323725462,
+        "latest_completed_tick_relative_ms": 12,
+        "policy_initial_observation_relative_ms": 4.0
+      },
+      "selected_MRT_policy_ID": null,
+      "selected_policy_age_ms": null,
+      "completion_fraction": 1,
+      "private_curve_sha256": "0648c2539ecccbd53137b5f832f254ab7c3b03dd6c3ae7306fcc42bee0a3ccc0"
+    },
+    {
+      "id": "K09",
+      "family": "rotation",
+      "rate": "fast",
+      "mode": "ONE_SHOT_INTENT",
+      "status": "COMPLETE",
+      "native_ticks": 6703,
+      "result_sha256": "11a6acff5da57554580b932e10662a315f1ff4c9d17d1edf67855443d7b24f85",
+      "journal_sha256": "049590e8fdb40f9580864ae3370c95d83ab08c86bb948f3937afbadfbd0f47d7",
+      "post_init_ticks": 1000,
+      "native_STOP": false,
+      "after_STOP_ticks": null,
+      "B2_anchor_matched": false,
+      "initial_sha256": "f897d7b1b670eb9c9cd40df8b2ac69e814392521155e98aa6808d8668fe7907e",
+      "abs_position_RMS_mm": 29.070328736703328,
+      "abs_position_p95_mm": 29.7512498251006,
+      "abs_orientation_RMS_deg": 2.6492104453963092,
+      "relative_position_RMS_mm": 1.8693722556113395,
+      "relative_orientation_RMS_deg": 0.2028358447006172,
+      "end_absolute_error_mm": [
+        -13.51103423575023,
+        -3.2158531884786417,
+        -26.092981178709508
+      ],
+      "command_motion_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "achieved_motion_mm": [
+        -1.1222332594209572,
+        0.828832581026822,
+        -1.8432136747086325
+      ],
+      "endpoint_axis_gains": [
+        null,
+        null,
+        null
+      ],
+      "command_rotation_vector_deg": [
+        -9.240543688359892e-08,
+        1.7499992855497057,
+        -2.3782089396983397e-09
+      ],
+      "achieved_rotation_vector_deg": [
+        -0.026909617213463216,
+        1.4808924492085298,
+        -0.012924292384563236
+      ],
+      "endpoint_rotation_axis_gains": [
+        null,
+        0.846224602167969,
+        null
+      ],
+      "position_lag_fit": null,
+      "rotation_lag_fit": {
+        "lag_ms": 0,
+        "gain": 0.8665176555572256,
+        "residual_rms": 0.09462689073947649,
+        "at_search_boundary": true
+      },
+      "base_max_displacement_mm": 0.706823757516234,
+      "base_max_rotation_deg": 0.08130882716079954,
+      "pd_fk_minus_actual_z_mm_start_end": [
+        24.54613200827549,
+        24.21758555726583
+      ],
+      "maximum_absolute_arm_ctrl_Nm": [
+        0.06374038711110891,
+        1.0886365065454988,
+        5.680012836188431,
+        1.3279975906185377,
+        0.020497886920466942,
+        0.010274150762374316
+      ],
+      "contact_pairs_per_tick_min_max": [
+        8,
+        8
+      ],
+      "robot_object_contact_intervals": 0,
+      "exact_solver_echo_atoms": 40,
+      "wire_installs": 20,
+      "high_level_revisions": 0,
+      "p10_boundaries": [
+        {
+          "ms": 500,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "PD_FK_delta_mm": [
+            0.039111204501729446,
+            -0.0012874779545431203,
+            0.04723632677094969
+          ],
+          "actual_delta_mm": [
+            -0.006157627088276829,
+            0.0016660724985774478,
+            -0.012620059818058138
+          ],
+          "max_joint_target_difference_deg": 0.01502983126861306,
+          "max_actual_joint_difference_deg": 0.012182939885416296
+        },
+        {
+          "ms": 1000,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "PD_FK_delta_mm": [
+            0.02233875088764048,
+            -0.004066428798969041,
+            0.09996635694553557
+          ],
+          "actual_delta_mm": [
+            -0.000719057515696786,
+            0.00163004636681216,
+            -0.0022442399295607984
+          ],
+          "max_joint_target_difference_deg": 0.01277586884250885,
+          "max_actual_joint_difference_deg": 0.005510600314952424
+        },
+        {
+          "ms": 1500,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "PD_FK_delta_mm": [
+            0.031132516912224517,
+            -0.0026631532873602065,
+            0.078850620194304
+          ],
+          "actual_delta_mm": [
+            -0.0018188314649947301,
+            0.0018114188633580608,
+            -0.006730355426309842
+          ],
+          "max_joint_target_difference_deg": 0.010556057362254706,
+          "max_actual_joint_difference_deg": 0.0025479756607070967
+        }
+      ],
+      "maximum_shared_wire_field_change": 0.0,
+      "solver_first_echo": {
+        "observer_wall_ms_since_install": 18.848112784326077,
+        "latest_completed_tick_relative_ms": 14,
+        "policy_initial_observation_relative_ms": 4.0
+      },
+      "selected_MRT_policy_ID": null,
+      "selected_policy_age_ms": null,
+      "completion_fraction": 1,
+      "private_curve_sha256": "766359162a16ca2e7658ea37e0b2ac58ba20169b1de8c1a456c607dba5567b09"
+    },
+    {
+      "id": "K10",
+      "family": "rotation",
+      "rate": "fast",
+      "mode": "P10_REVISION",
+      "status": "COMPLETE",
+      "native_ticks": 6703,
+      "result_sha256": "33a6ed9e9342da2d3418f2977813376952c440dca9842e79780bc1741e58f659",
+      "journal_sha256": "7a974ce071a7223d4809363f6aea9aa0edcfb10cc68a5736f84be9e44e4a292b",
+      "post_init_ticks": 1000,
+      "native_STOP": false,
+      "after_STOP_ticks": null,
+      "B2_anchor_matched": false,
+      "initial_sha256": "7ef6b59e2e7916dec9cdeeb2a930b535580149a78c1735bcd7ea84a89ae368c4",
+      "abs_position_RMS_mm": 29.06058958459217,
+      "abs_position_p95_mm": 29.715732326924623,
+      "abs_orientation_RMS_deg": 2.6499980320350405,
+      "relative_position_RMS_mm": 2.0061828930609518,
+      "relative_orientation_RMS_deg": 0.187663372791075,
+      "end_absolute_error_mm": [
+        -13.470198163004765,
+        -3.132396748779055,
+        -26.070194845812633
+      ],
+      "command_motion_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "achieved_motion_mm": [
+        -1.0883034123027047,
+        0.8364343268439187,
+        -2.0027080623782334
+      ],
+      "endpoint_axis_gains": [
+        null,
+        null,
+        null
+      ],
+      "command_rotation_vector_deg": [
+        2.0698553325008933e-08,
+        1.750000348637949,
+        -2.4073825422408334e-08
+      ],
+      "achieved_rotation_vector_deg": [
+        -0.027195188832060412,
+        1.5048586191017983,
+        -0.012774058354366458
+      ],
+      "endpoint_rotation_axis_gains": [
+        null,
+        0.8599190396007932,
+        null
+      ],
+      "position_lag_fit": null,
+      "rotation_lag_fit": {
+        "lag_ms": 0,
+        "gain": 0.8874774506323472,
+        "residual_rms": 0.11107807046331872,
+        "at_search_boundary": true
+      },
+      "base_max_displacement_mm": 0.7064700162317696,
+      "base_max_rotation_deg": 0.08284093977778154,
+      "pd_fk_minus_actual_z_mm_start_end": [
+        24.357074548711278,
+        24.17846080067376
+      ],
+      "maximum_absolute_arm_ctrl_Nm": [
+        0.06443781975690288,
+        1.0761157107301182,
+        5.695339299765779,
+        1.3338597536803802,
+        0.02038656333104688,
+        0.008783329295378235
+      ],
+      "contact_pairs_per_tick_min_max": [
+        8,
+        8
+      ],
+      "robot_object_contact_intervals": 0,
+      "exact_solver_echo_atoms": 40,
+      "wire_installs": 20,
+      "high_level_revisions": 3,
+      "p10_boundaries": [
+        {
+          "ms": 500,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            -5.551115123125783e-14,
+            1.734723475976807e-15,
+            0.0
+          ],
+          "PD_FK_delta_mm": [
+            -0.08084435984051508,
+            0.008952995548731565,
+            -0.18740240577208578
+          ],
+          "actual_delta_mm": [
+            -0.001324190439577766,
+            0.0020954559673668632,
+            -0.021870884239216792
+          ],
+          "max_joint_target_difference_deg": 0.039189917910240665,
+          "max_actual_joint_difference_deg": 0.009601479827366591
+        },
+        {
+          "ms": 1000,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            -5.551115123125783e-14,
+            1.734723475976807e-15,
+            0.0
+          ],
+          "PD_FK_delta_mm": [
+            0.0437747166040503,
+            8.831274664333755e-05,
+            0.059997974243719554
+          ],
+          "actual_delta_mm": [
+            -0.0009365715193943025,
+            0.0018731307203975062,
+            -0.004078558457298875
+          ],
+          "max_joint_target_difference_deg": 0.012157736722622697,
+          "max_actual_joint_difference_deg": 0.0061916731354124425
+        },
+        {
+          "ms": 1500,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            -5.551115123125783e-14,
+            1.734723475976807e-15,
+            0.0
+          ],
+          "PD_FK_delta_mm": [
+            0.038861463374340044,
+            3.56739084748231e-05,
+            0.07005239343405023
+          ],
+          "actual_delta_mm": [
+            -0.0009871487408608104,
+            0.0018457243309913385,
+            0.0005793316498747814
+          ],
+          "max_joint_target_difference_deg": 0.010576547929764745,
+          "max_actual_joint_difference_deg": 0.0016650727925356693
+        }
+      ],
+      "maximum_shared_wire_field_change": 0.0,
+      "solver_first_echo": {
+        "observer_wall_ms_since_install": 17.028039321303368,
+        "latest_completed_tick_relative_ms": 14,
+        "policy_initial_observation_relative_ms": 4.0
+      },
+      "selected_MRT_policy_ID": null,
+      "selected_policy_age_ms": null,
+      "completion_fraction": 1,
+      "private_curve_sha256": "404d0e14f452b5aacae60d9f40813fa3ba257a8bae20e14f65cd165b3c42a942"
+    },
+    {
+      "id": "K11",
+      "family": "curve",
+      "rate": "fast",
+      "mode": "P10_REVISION",
+      "status": "COMPLETE",
+      "native_ticks": 6703,
+      "result_sha256": "ccb63fb805ea9aea9b8224cc844f292dc2a8dc28f82946b96de582c9599fe40a",
+      "journal_sha256": "bf60690b166a456d9d08cc8b43a0addd1dc6ae48d681dc55c0345fec1413d0d7",
+      "post_init_ticks": 1000,
+      "native_STOP": false,
+      "after_STOP_ticks": null,
+      "B2_anchor_matched": false,
+      "initial_sha256": "1b6b56b5b4333d85d1a254b7120121c4aee9a53c2fc5f0cdee4c45c08e9435f0",
+      "abs_position_RMS_mm": 30.679589256359623,
+      "abs_position_p95_mm": 32.28927068517693,
+      "abs_orientation_RMS_deg": 2.553987423866674,
+      "relative_position_RMS_mm": 3.959511020892411,
+      "relative_orientation_RMS_deg": 0.2967364143148342,
+      "end_absolute_error_mm": [
+        -14.981796163680006,
+        -2.9292630668639688,
+        -27.92797923771284
+      ],
+      "command_motion_mm": [
+        4.999995231628418,
+        0.0,
+        4.999995231628418
+      ],
+      "achieved_motion_mm": [
+        2.3838894549864653,
+        1.0306179377545885,
+        1.1868520990004905
+      ],
+      "endpoint_axis_gains": [
+        0.476778345688556,
+        null,
+        0.23737064617438683
+      ],
+      "command_rotation_vector_deg": [
+        -4.907501675800963e-08,
+        1.7500001386713435,
+        1.5884993574642263e-08
+      ],
+      "achieved_rotation_vector_deg": [
+        -0.03838322683485494,
+        1.353944721208898,
+        -0.024241352871822067
+      ],
+      "endpoint_rotation_axis_gains": [
+        null,
+        0.7736826365264499,
+        null
+      ],
+      "position_lag_fit": {
+        "lag_ms": 284,
+        "gain": 0.3524660709143761,
+        "residual_rms": 0.7533923085013667,
+        "at_search_boundary": false
+      },
+      "rotation_lag_fit": {
+        "lag_ms": 0,
+        "gain": 0.7958052705565225,
+        "residual_rms": 0.11285380391018224,
+        "at_search_boundary": true
+      },
+      "base_max_displacement_mm": 1.2405478960957494,
+      "base_max_rotation_deg": 0.2060557829284719,
+      "pd_fk_minus_actual_z_mm_start_end": [
+        24.395812780984127,
+        24.34032347546966
+      ],
+      "maximum_absolute_arm_ctrl_Nm": [
+        0.06471493038927612,
+        1.2017061026896823,
+        5.7226485020441515,
+        1.3366969597311722,
+        0.020503430651762664,
+        0.009844458993479886
+      ],
+      "contact_pairs_per_tick_min_max": [
+        8,
+        8
+      ],
+      "robot_object_contact_intervals": 0,
+      "exact_solver_echo_atoms": 40,
+      "wire_installs": 20,
+      "high_level_revisions": 3,
+      "p10_boundaries": [
+        {
+          "ms": 500,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.03443241119382989,
+            1.734723475976807e-15,
+            0.015552043914679459
+          ],
+          "PD_FK_delta_mm": [
+            0.03488855094385679,
+            -0.004905333784499533,
+            0.10455251591012793
+          ],
+          "actual_delta_mm": [
+            0.01068537347742593,
+            0.0018993046080884035,
+            -0.006683483155911496
+          ],
+          "max_joint_target_difference_deg": 0.019448963661611307,
+          "max_actual_joint_difference_deg": 0.010691361781175218
+        },
+        {
+          "ms": 1000,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.004705190658593761,
+            1.734723475976807e-15,
+            0.02524614334109554
+          ],
+          "PD_FK_delta_mm": [
+            -0.05511490733456359,
+            0.010585221721775076,
+            -0.17077533037257453
+          ],
+          "actual_delta_mm": [
+            0.011165600603046943,
+            0.002471860591841263,
+            -0.00016484327269861154
+          ],
+          "max_joint_target_difference_deg": 0.026379898121881747,
+          "max_actual_joint_difference_deg": 0.004572630284032325
+        },
+        {
+          "ms": 1500,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.0,
+            1.734723475976807e-15,
+            0.0
+          ],
+          "PD_FK_delta_mm": [
+            0.03834410674186106,
+            -0.002607888593197244,
+            0.11080157112253186
+          ],
+          "actual_delta_mm": [
+            0.0023546423278952844,
+            0.002558633565246868,
+            0.0024335250647933293
+          ],
+          "max_joint_target_difference_deg": 0.013694529285875565,
+          "max_actual_joint_difference_deg": 0.0013785835520224248
+        }
+      ],
+      "maximum_shared_wire_field_change": 0.0,
+      "solver_first_echo": {
+        "observer_wall_ms_since_install": 20.30305564403534,
+        "latest_completed_tick_relative_ms": 14,
+        "policy_initial_observation_relative_ms": 4.0
+      },
+      "selected_MRT_policy_ID": null,
+      "selected_policy_age_ms": null,
+      "completion_fraction": 1,
+      "private_curve_sha256": "bc5835bd7bb24f4bd2e60ec385692ad33957e8369d8346da9bfcd7a16d0a1641"
+    },
+    {
+      "id": "K12",
+      "family": "curve",
+      "rate": "fast",
+      "mode": "ONE_SHOT_INTENT",
+      "status": "COMPLETE",
+      "native_ticks": 6703,
+      "result_sha256": "32ad487f6ef13b49309c87c4bb403fc97c847799367b6306e65be27adec41099",
+      "journal_sha256": "cc6d0d3dda72e29ed82a18ef480f27691c17ec9a248d10fe2f6c9b0c508660db",
+      "post_init_ticks": 1000,
+      "native_STOP": false,
+      "after_STOP_ticks": null,
+      "B2_anchor_matched": false,
+      "initial_sha256": "b7a62dbea9caebea6784dc7b59d783807f95e2b10a50188382277281be780e0d",
+      "abs_position_RMS_mm": 30.662768738833925,
+      "abs_position_p95_mm": 32.241005432080335,
+      "abs_orientation_RMS_deg": 2.551424303909791,
+      "relative_position_RMS_mm": 3.974836052788488,
+      "relative_orientation_RMS_deg": 0.2939369622715131,
+      "end_absolute_error_mm": [
+        -14.995337791019136,
+        -2.9313934623739177,
+        -27.837302515912654
+      ],
+      "command_motion_mm": [
+        4.999995231628418,
+        0.0,
+        4.999995231628418
+      ],
+      "achieved_motion_mm": [
+        2.374687893496874,
+        1.0256464268506535,
+        1.2281832797406134
+      ],
+      "endpoint_axis_gains": [
+        0.47493803163557746,
+        null,
+        0.24563689020571602
+      ],
+      "command_rotation_vector_deg": [
+        -6.978983931779608e-09,
+        1.7500001680245945,
+        -3.2045703273455464e-08
+      ],
+      "achieved_rotation_vector_deg": [
+        -0.03753962066100072,
+        1.345902000422752,
+        -0.02459884435377316
+      ],
+      "endpoint_rotation_axis_gains": [
+        null,
+        0.7690867835412898,
+        null
+      ],
+      "position_lag_fit": {
+        "lag_ms": 294,
+        "gain": 0.35296874394257577,
+        "residual_rms": 0.7633038498509127,
+        "at_search_boundary": false
+      },
+      "rotation_lag_fit": {
+        "lag_ms": 0,
+        "gain": 0.7987493481977225,
+        "residual_rms": 0.11505540401926044,
+        "at_search_boundary": true
+      },
+      "base_max_displacement_mm": 1.2363356161938437,
+      "base_max_rotation_deg": 0.20506097277568486,
+      "pd_fk_minus_actual_z_mm_start_end": [
+        24.34762824427783,
+        24.48317535647382
+      ],
+      "maximum_absolute_arm_ctrl_Nm": [
+        0.06559189853382291,
+        1.1245561073355674,
+        5.694351179358311,
+        1.3293974243973399,
+        0.021258520221132955,
+        0.011037772817107161
+      ],
+      "contact_pairs_per_tick_min_max": [
+        8,
+        8
+      ],
+      "robot_object_contact_intervals": 0,
+      "exact_solver_echo_atoms": 40,
+      "wire_installs": 20,
+      "high_level_revisions": 0,
+      "p10_boundaries": [
+        {
+          "ms": 500,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.03443241119382989,
+            0.0,
+            0.015552043914790481
+          ],
+          "PD_FK_delta_mm": [
+            0.05514227345659872,
+            -0.0018421038274450685,
+            0.0793568615559126
+          ],
+          "actual_delta_mm": [
+            0.009123417022138813,
+            0.001714094346920783,
+            -0.0019726752642501566
+          ],
+          "max_joint_target_difference_deg": 0.020678397712213605,
+          "max_actual_joint_difference_deg": 0.011215512914756434
+        },
+        {
+          "ms": 1000,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.00470519065853825,
+            0.0,
+            0.025248527526833264
+          ],
+          "PD_FK_delta_mm": [
+            0.056094805582107554,
+            -0.0016055172109875893,
+            0.09545506847907781
+          ],
+          "actual_delta_mm": [
+            0.005497531491427399,
+            0.001821508591555096,
+            0.015108293059951095
+          ],
+          "max_joint_target_difference_deg": 0.018714718325834937,
+          "max_actual_joint_difference_deg": 0.006853609034955443
+        },
+        {
+          "ms": 1500,
+          "interval_ms": 4,
+          "reference_delta_mm": [
+            0.0,
+            0.0,
+            -1.1102230246251565e-13
+          ],
+          "PD_FK_delta_mm": [
+            0.043804055611718073,
+            0.0014489127913366873,
+            0.06533588575496907
+          ],
+          "actual_delta_mm": [
+            0.0017023690307982342,
+            0.002574785017519718,
+            0.00371642705720987
+          ],
+          "max_joint_target_difference_deg": 0.01031700074130426,
+          "max_actual_joint_difference_deg": 0.0015712017677958182
+        }
+      ],
+      "maximum_shared_wire_field_change": 0.0,
+      "solver_first_echo": {
+        "observer_wall_ms_since_install": 31.57404065132141,
+        "latest_completed_tick_relative_ms": 10,
+        "policy_initial_observation_relative_ms": 4.0
+      },
+      "selected_MRT_policy_ID": null,
+      "selected_policy_age_ms": null,
+      "completion_fraction": 1,
+      "private_curve_sha256": "e8358461174956d7ad59c3f8ab746d54e7cc9559cbdfc444064748e172023b97"
+    }
+  ],
+  "pairs": [
+    {
+      "cards": [
+        "K01",
+        "K02"
+      ],
+      "family": "translation",
+      "rate": "slow",
+      "qualified": false,
+      "within_pair": true,
+      "both_B2": false,
+      "violations": {}
+    },
+    {
+      "cards": [
+        "K03",
+        "K04"
+      ],
+      "family": "rotation",
+      "rate": "slow",
+      "qualified": false,
+      "within_pair": false,
+      "both_B2": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.0046273348332505565,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.0292287191576438,
+          "limit": 0.01597557170495345
+        },
+        "free_quaternions": {
+          "observed": 0.0033882961977896955,
+          "limit": 0.003328679076811513
+        },
+        "measured_base_m": {
+          "observed": 0.00391628181077684,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.009520235961811082,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "cards": [
+        "K05",
+        "K06"
+      ],
+      "family": "curve",
+      "rate": "slow",
+      "qualified": false,
+      "within_pair": false,
+      "both_B2": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.0037046528339774436,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.026429535950805327,
+          "limit": 0.01597557170495345
+        },
+        "measured_base_m": {
+          "observed": 0.0032876218208853576,
+          "limit": 0.0013156331484268648
+        }
+      }
+    },
+    {
+      "cards": [
+        "K07",
+        "K08"
+      ],
+      "family": "translation",
+      "rate": "fast",
+      "qualified": false,
+      "within_pair": false,
+      "both_B2": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.004635509797007701,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.029283289532083034,
+          "limit": 0.01597557170495345
+        },
+        "free_quaternions": {
+          "observed": 0.0033924655777160004,
+          "limit": 0.003328679076811513
+        },
+        "measured_base_m": {
+          "observed": 0.003926296699415678,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.009531089026233844,
+          "limit": 0.007272162700839245
+        }
+      }
+    },
+    {
+      "cards": [
+        "K09",
+        "K10"
+      ],
+      "family": "rotation",
+      "rate": "fast",
+      "qualified": false,
+      "within_pair": true,
+      "both_B2": false,
+      "violations": {}
+    },
+    {
+      "cards": [
+        "K11",
+        "K12"
+      ],
+      "family": "curve",
+      "rate": "fast",
+      "qualified": false,
+      "within_pair": true,
+      "both_B2": false,
+      "violations": {}
+    }
+  ],
+  "new_model_forwards": 0,
+  "training_updates": 0
+}
