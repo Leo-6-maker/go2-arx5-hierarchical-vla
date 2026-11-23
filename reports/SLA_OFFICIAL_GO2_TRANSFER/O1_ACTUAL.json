@@ -1,0 +1,5657 @@
+{
+  "denominator": 16,
+  "labels": {
+    "DIRECT_OFFICIAL_RAW": {
+      "WELL_FORMED": 16,
+      "FRAME_VALID": 16,
+      "OBS_IN_DOMAIN": 0,
+      "DYNAMICS_PASS": 0,
+      "GRIP_SAFE": 0,
+      "NONTRIVIAL_PROGRESS": 3,
+      "TASK_LEGAL": 0
+    },
+    "OFFICIAL_WITH_CONTINUOUS_REF": {
+      "WELL_FORMED": 16,
+      "FRAME_VALID": 16,
+      "OBS_IN_DOMAIN": 0,
+      "DYNAMICS_PASS": 0,
+      "GRIP_SAFE": 0,
+      "NONTRIVIAL_PROGRESS": 0,
+      "TASK_LEGAL": 0
+    }
+  },
+  "windows": [
+    {
+      "id": "T01",
+      "episode": "CHV1-TRAIN-F2-HOLD-blue-00",
+      "tick": 19953,
+      "phase": "DESCEND",
+      "raw_sha256": "8c51d2588b7b15e0a47cb75662a5fd282a9846f5cde7e19e9eaae20bd1f9b032",
+      "DIRECT_OFFICIAL_RAW": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": false,
+          "TASK_LEGAL": false
+        },
+        "gate": {
+          "H40_G7": false,
+          "H40": false,
+          "accepted_join": true,
+          "issues": [
+            {
+              "check": "nominal/linear_velocity",
+              "observed_peak": 0.15944411059188496,
+              "threshold": 0.05,
+              "indices": [
+                28,
+                29,
+                30,
+                31,
+                32
+              ]
+            },
+            {
+              "check": "nominal/angular_velocity",
+              "observed_peak": 0.5889114393711073,
+              "threshold": 0.25,
+              "indices": [
+                29,
+                30,
+                31,
+                32
+              ]
+            },
+            {
+              "check": "nominal/linear_acceleration",
+              "observed_peak": 1.8581029318809332,
+              "threshold": 0.25,
+              "indices": [
+                0,
+                2,
+                3,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                12,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "nominal/angular_acceleration",
+              "observed_peak": 8.268423589988268,
+              "threshold": 1.0,
+              "indices": [
+                1,
+                2,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                12,
+                14,
+                16,
+                18,
+                20,
+                21,
+                22,
+                23,
+                24,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "reference/linear_velocity",
+              "observed_peak": 0.15944411059188496,
+              "threshold": 0.05,
+              "indices": [
+                28,
+                29,
+                30,
+                31,
+                32
+              ]
+            },
+            {
+              "check": "reference/angular_velocity",
+              "observed_peak": 0.5889114393711071,
+              "threshold": 0.25,
+              "indices": [
+                29,
+                30,
+                31,
+                32
+              ]
+            },
+            {
+              "check": "reference/linear_acceleration",
+              "observed_peak": 1.8581029318810167,
+              "threshold": 0.25,
+              "indices": [
+                0,
+                2,
+                3,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                12,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "reference/angular_acceleration",
+              "observed_peak": 8.268423589988268,
+              "threshold": 1.0,
+              "indices": [
+                1,
+                2,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                12,
+                14,
+                16,
+                18,
+                20,
+                21,
+                22,
+                23,
+                24,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "G7_previous_actual_seam",
+              "observed_m_s": 0.04430446624755849,
+              "threshold_m_s": 0.04,
+              "k": 0
+            }
+          ],
+          "G7": {
+            "first_seam_speed_m_s": 0.04430446624755849,
+            "maximum_speed_m_s": 0.04430446624755849,
+            "training_margin_exceeded": true,
+            "original_execution_speed_exceeded": true,
+            "labels_not_retimed": true,
+            "representation": "DENSE_REFERENCE_G7_V6"
+          }
+        },
+        "progress": {
+          "P10_travel_m": 0.005245883732084029,
+          "P10_source_arc_m": 0.009544658232591952,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.002958570066823904,
+          "projected_m": -0.00028131294248870474,
+          "P10_net_m": [
+            -0.0006177543089424531,
+            -0.00098786974034204,
+            0.001151812682105735
+          ],
+          "teacher_net_m": [
+            -8.909043631250002e-05,
+            -0.0018179659408877058,
+            -0.0023288955106666176
+          ],
+          "motion_pass": false,
+          "events_source": [],
+          "events_compiled": [],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.054139075057036336
+        }
+      },
+      "OFFICIAL_WITH_CONTINUOUS_REF": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": false,
+          "TASK_LEGAL": false
+        },
+        "archived_duration_s": 9.600000000000001,
+        "lead_in_s": 0.8,
+        "lead_in_m": 0.01210523566593825,
+        "lead_in_rad": 0.10249424463989573,
+        "source_frame_count": 50,
+        "rejected_starts_before_source": 6,
+        "rejected_starts_on_source": 30,
+        "world_knot_wire_max_error_m": 0.0001347120186768475,
+        "world_knot_wire_max_error_rad": 0.0005081371248033325,
+        "first_P10_source_progress": {
+          "P10_travel_m": 0.0,
+          "P10_source_arc_m": 0.0,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.002958570066823904,
+          "projected_m": 0.0,
+          "P10_net_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "teacher_net_m": [
+            -8.909043631250002e-05,
+            -0.0018179659408877058,
+            -0.0023288955106666176
+          ],
+          "motion_pass": false,
+          "events_source": [],
+          "events_compiled": [],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.054139075057036336
+        },
+        "wire_P10_travel_m": 0.007456492505279097,
+        "first_preview_events_pass": true,
+        "source_events": [],
+        "emitted_events": [],
+        "full_path_events_pass": true,
+        "source_events_within_first_preview": 0,
+        "grip_seam_m_s": 0.04430446624755849,
+        "max_grip_rate_m_s": 0.04430446624755849,
+        "grip_limit_m_s": 0.04,
+        "boundary_accel": [
+          0.1523365603336247,
+          0.25778981058040135
+        ],
+        "boundary_limits": [
+          0.25,
+          1.0
+        ],
+        "boundary_accel_pass": true,
+        "shadow": {
+          "rejection_evidence_sha256": "dddae99757fd368392e1b51186b7c5df30aadc76b1d79d1c5e131bc009d9033c",
+          "maximum_observed_rejected_values": {
+            "maximum_discrete_translation_acceleration_m_s2": {
+              "observed": 0.5615498689239959,
+              "limit": 0.25
+            },
+            "maximum_discrete_angular_acceleration_rad_s2": {
+              "observed": 4.754606290313392,
+              "limit": 1.0
+            }
+          },
+          "installs": 105,
+          "windows_by_points": {
+            "41": 105,
+            "80": 105
+          },
+          "defined_fields_sha256": "04507a6b14a95a131e7037c469c9f4a53c3834334756c76feb893762a95c64d1",
+          "revisions": 0,
+          "max_pose_translation_field_error_m": 2.9702055370783853e-08,
+          "max_rolling_translation_field_error_m": 4.768371586472142e-08,
+          "original_full40_envelope_rejected_windows": 36,
+          "source_seconds_represented": 1.6333333333333326,
+          "final_phase_complete": true,
+          "HOLD_requests": 1,
+          "native_consumption_receipts": 0
+        }
+      },
+      "OFFICIAL_WITH_FEEDBACK_ELIGIBILITY": {
+        "status": "A1_DYNAMIC_UNQUALIFIED",
+        "evaluated": 1,
+        "native_controller_runs": 0,
+        "contact": false,
+        "time_varying": true
+      },
+      "previous_consumed_grip_m": 0.041999999999999996,
+      "measured_grip_m": 0.0420000412099786,
+      "first_student_proposal_m": 0.03978477668762207,
+      "owner": "HANDOVER_BLOCKED",
+      "held": false,
+      "held_then_open": false
+    },
+    {
+      "id": "T02",
+      "episode": "CHV1-TRAIN-F1-HOLD-red-03",
+      "tick": 19453,
+      "phase": "CLOSE",
+      "raw_sha256": "ddb8b19be4efb02bfac1544b44a48cb0e2d96134d1ecac0bae2c1fa9fada04ad",
+      "DIRECT_OFFICIAL_RAW": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": true,
+          "TASK_LEGAL": false
+        },
+        "gate": {
+          "H40_G7": false,
+          "H40": false,
+          "accepted_join": true,
+          "issues": [
+            {
+              "check": "nominal/linear_velocity",
+              "observed_peak": 0.0912844711060656,
+              "threshold": 0.05,
+              "indices": [
+                30,
+                31,
+                32
+              ]
+            },
+            {
+              "check": "nominal/angular_velocity",
+              "observed_peak": 0.36047350650522963,
+              "threshold": 0.25,
+              "indices": [
+                31,
+                32
+              ]
+            },
+            {
+              "check": "nominal/finger_velocity",
+              "observed_peak": 0.09731879234313984,
+              "threshold": 0.04,
+              "indices": [
+                25,
+                26,
+                27
+              ]
+            },
+            {
+              "check": "nominal/linear_acceleration",
+              "observed_peak": 1.6282923758742682,
+              "threshold": 0.25,
+              "indices": [
+                0,
+                1,
+                3,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                12,
+                14,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "nominal/angular_acceleration",
+              "observed_peak": 7.2094701301045925,
+              "threshold": 1.0,
+              "indices": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                10,
+                12,
+                13,
+                14,
+                16,
+                18,
+                19,
+                20,
+                21,
+                23,
+                24,
+                26,
+                27,
+                28,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "reference/linear_velocity",
+              "observed_peak": 0.09128447110606241,
+              "threshold": 0.05,
+              "indices": [
+                30,
+                31,
+                32
+              ]
+            },
+            {
+              "check": "reference/angular_velocity",
+              "observed_peak": 0.360473506505229,
+              "threshold": 0.25,
+              "indices": [
+                31,
+                32
+              ]
+            },
+            {
+              "check": "reference/finger_velocity",
+              "observed_peak": 0.09731879234313984,
+              "threshold": 0.04,
+              "indices": [
+                25,
+                26,
+                27
+              ]
+            },
+            {
+              "check": "reference/linear_acceleration",
+              "observed_peak": 1.6282923758743029,
+              "threshold": 0.25,
+              "indices": [
+                0,
+                1,
+                3,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                12,
+                14,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "reference/angular_acceleration",
+              "observed_peak": 7.209470130104581,
+              "threshold": 1.0,
+              "indices": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                10,
+                12,
+                13,
+                14,
+                16,
+                18,
+                19,
+                20,
+                21,
+                23,
+                24,
+                26,
+                27,
+                28,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "G7_interior",
+              "observed_m_s": 0.09529957771301278,
+              "threshold_m_s": 0.04,
+              "k": 26
+            },
+            {
+              "check": "G7_interior",
+              "observed_m_s": 0.09731879234313984,
+              "threshold_m_s": 0.04,
+              "k": 27
+            },
+            {
+              "check": "G7_interior",
+              "observed_m_s": 0.04734296798706045,
+              "threshold_m_s": 0.04,
+              "k": 28
+            }
+          ],
+          "G7": {
+            "first_seam_speed_m_s": 0.004163087036132829,
+            "maximum_speed_m_s": 0.09731879234313984,
+            "training_margin_exceeded": true,
+            "original_execution_speed_exceeded": true,
+            "labels_not_retimed": true,
+            "representation": "DENSE_REFERENCE_G7_V6"
+          }
+        },
+        "progress": {
+          "P10_travel_m": 0.005512573759609749,
+          "P10_source_arc_m": 0.011788983688761197,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.0004254118899392033,
+          "projected_m": -0.00035119580996049657,
+          "P10_net_m": [
+            -0.00012256089681028648,
+            -0.0006619954606460338,
+            0.0008626927032574505
+          ],
+          "teacher_net_m": [
+            -0.0003796595719200435,
+            0.0001257688471229257,
+            -0.00012843261712514042
+          ],
+          "motion_pass": true,
+          "events_source": [
+            [
+              "open",
+              0.5972572289095041
+            ]
+          ],
+          "events_compiled": [
+            [
+              "open",
+              0.5952421162236409
+            ]
+          ],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.04177655611487937
+        }
+      },
+      "OFFICIAL_WITH_CONTINUOUS_REF": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": false,
+          "TASK_LEGAL": false
+        },
+        "archived_duration_s": 7.3500000000000005,
+        "lead_in_s": 0.8,
+        "lead_in_m": 0.006494795641284334,
+        "lead_in_rad": 0.1022813410440319,
+        "source_frame_count": 50,
+        "rejected_starts_before_source": 8,
+        "rejected_starts_on_source": 38,
+        "world_knot_wire_max_error_m": 1.1102230246251565e-16,
+        "world_knot_wire_max_error_rad": 2.097436688352422e-16,
+        "first_P10_source_progress": {
+          "P10_travel_m": 0.0,
+          "P10_source_arc_m": 0.0,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.0004254118899392033,
+          "projected_m": 0.0,
+          "P10_net_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "teacher_net_m": [
+            -0.0003796595719200435,
+            0.0001257688471229257,
+            -0.00012843261712514042
+          ],
+          "motion_pass": false,
+          "events_source": [
+            [
+              "open",
+              0.5972572289095041
+            ]
+          ],
+          "events_compiled": [
+            [
+              "open",
+              0.5972572547553318
+            ]
+          ],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.04177655611487937
+        },
+        "wire_P10_travel_m": 0.004000615631038394,
+        "first_preview_events_pass": false,
+        "source_events": [
+          {
+            "type": "open",
+            "source_s": 1.2841085195541382,
+            "expected_execution_s": 6.578487873077393,
+            "wire_error_s": 5.243703444790526e-07
+          }
+        ],
+        "emitted_events": [
+          {
+            "type": "open",
+            "execution_s": 6.578488397447737
+          }
+        ],
+        "full_path_events_pass": true,
+        "source_events_within_first_preview": 0,
+        "grip_seam_m_s": 0.004163087036132829,
+        "max_grip_rate_m_s": 0.02667919794718504,
+        "grip_limit_m_s": 0.04,
+        "boundary_accel": [
+          0.019033862080299623,
+          0.18682508007410994
+        ],
+        "boundary_limits": [
+          0.25,
+          1.0
+        ],
+        "boundary_accel_pass": true,
+        "shadow": {
+          "rejection_evidence_sha256": "0a979eb01bfd8795d176253b9e034bb32f86e1e32a22fb61fec7c70a886681fe",
+          "maximum_observed_rejected_values": {
+            "maximum_discrete_translation_acceleration_m_s2": {
+              "observed": 0.5440066085508652,
+              "limit": 0.25
+            },
+            "maximum_discrete_angular_acceleration_rad_s2": {
+              "observed": 4.744729903793545,
+              "limit": 1.0
+            }
+          },
+          "installs": 83,
+          "windows_by_points": {
+            "41": 83,
+            "80": 83
+          },
+          "defined_fields_sha256": "c925de8c7c87e192da76f179ad86141e74a06f72790618a3cdac60fa93c5b303",
+          "revisions": 0,
+          "max_pose_translation_field_error_m": 2.960338507662641e-08,
+          "max_rolling_translation_field_error_m": 4.768371586472142e-08,
+          "original_full40_envelope_rejected_windows": 46,
+          "source_seconds_represented": 1.6333333333333333,
+          "final_phase_complete": true,
+          "HOLD_requests": 1,
+          "native_consumption_receipts": 0
+        }
+      },
+      "OFFICIAL_WITH_FEEDBACK_ELIGIBILITY": {
+        "status": "A1_DYNAMIC_UNQUALIFIED",
+        "evaluated": 1,
+        "native_controller_runs": 0,
+        "contact": false,
+        "time_varying": true
+      },
+      "previous_consumed_grip_m": 0.02387187734375,
+      "measured_grip_m": 0.024274983854358227,
+      "first_student_proposal_m": 0.02366372299194336,
+      "owner": "HANDOVER_BLOCKED",
+      "held": false,
+      "held_then_open": false
+    },
+    {
+      "id": "T03",
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-07",
+      "tick": 19953,
+      "phase": "LIFT",
+      "raw_sha256": "cc9b4c243f1b6ecd47892c71af7c4af7f3f11ba2668332d6d6de651e9ef09373",
+      "DIRECT_OFFICIAL_RAW": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": true,
+          "TASK_LEGAL": false
+        },
+        "gate": {
+          "H40_G7": false,
+          "H40": false,
+          "accepted_join": true,
+          "issues": [
+            {
+              "check": "nominal/finger_velocity",
+              "observed_peak": 0.07358191013336193,
+              "threshold": 0.04,
+              "indices": [
+                26,
+                27
+              ]
+            },
+            {
+              "check": "nominal/linear_acceleration",
+              "observed_peak": 0.7477432351967271,
+              "threshold": 0.25,
+              "indices": [
+                0,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                13,
+                14,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "nominal/angular_acceleration",
+              "observed_peak": 4.308828932741199,
+              "threshold": 1.0,
+              "indices": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                14,
+                16,
+                17,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                26,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "reference/finger_velocity",
+              "observed_peak": 0.07358191013336193,
+              "threshold": 0.04,
+              "indices": [
+                26,
+                27
+              ]
+            },
+            {
+              "check": "reference/linear_acceleration",
+              "observed_peak": 0.7477432351966878,
+              "threshold": 0.25,
+              "indices": [
+                0,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                13,
+                14,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "reference/angular_acceleration",
+              "observed_peak": 4.308828932741206,
+              "threshold": 1.0,
+              "indices": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                14,
+                16,
+                17,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                26,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "G7_previous_actual_seam",
+              "observed_m_s": 0.23864784951019277,
+              "threshold_m_s": 0.04,
+              "k": 0
+            },
+            {
+              "check": "G7_interior",
+              "observed_m_s": 0.06810054779052749,
+              "threshold_m_s": 0.04,
+              "k": 27
+            },
+            {
+              "check": "G7_interior",
+              "observed_m_s": 0.0735819101333618,
+              "threshold_m_s": 0.04,
+              "k": 28
+            }
+          ],
+          "G7": {
+            "first_seam_speed_m_s": 0.23864784951019277,
+            "maximum_speed_m_s": 0.23864784951019277,
+            "training_margin_exceeded": true,
+            "original_execution_speed_exceeded": true,
+            "labels_not_retimed": true,
+            "representation": "DENSE_REFERENCE_G7_V6"
+          }
+        },
+        "progress": {
+          "P10_travel_m": 0.0061210238187941034,
+          "P10_source_arc_m": 0.011653740643269015,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.0016781037570564993,
+          "projected_m": 0.0003943254111503321,
+          "P10_net_m": [
+            -0.00022997229720139734,
+            -0.001285844540379888,
+            0.0005384133413408598
+          ],
+          "teacher_net_m": [
+            0.0005736828271517558,
+            2.0462678593555217e-05,
+            0.0014064906813990863
+          ],
+          "motion_pass": true,
+          "events_source": [
+            [
+              "open",
+              0.8550798476630923
+            ]
+          ],
+          "events_compiled": [
+            [
+              "open",
+              0.8564660321470066
+            ]
+          ],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.03183526102214079
+        }
+      },
+      "OFFICIAL_WITH_CONTINUOUS_REF": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": false,
+          "TASK_LEGAL": false
+        },
+        "archived_duration_s": 9.25,
+        "lead_in_s": 0.8,
+        "lead_in_m": 0.01203088276365225,
+        "lead_in_rad": 0.1004174338723527,
+        "source_frame_count": 50,
+        "rejected_starts_before_source": 6,
+        "rejected_starts_on_source": 4,
+        "world_knot_wire_max_error_m": 0.0001216201436282326,
+        "world_knot_wire_max_error_rad": 0.0005291531083898678,
+        "first_P10_source_progress": {
+          "P10_travel_m": 0.0,
+          "P10_source_arc_m": 0.0,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.0016781037570564993,
+          "projected_m": 0.0,
+          "P10_net_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "teacher_net_m": [
+            0.0005736828271517558,
+            2.0462678593555217e-05,
+            0.0014064906813990863
+          ],
+          "motion_pass": false,
+          "events_source": [
+            [
+              "open",
+              0.8550798476630923
+            ]
+          ],
+          "events_compiled": [
+            [
+              "open",
+              0.855079868464167
+            ]
+          ],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.03183526102214079
+        },
+        "wire_P10_travel_m": 0.007410693160768894,
+        "first_preview_events_pass": false,
+        "source_events": [
+          {
+            "type": "open",
+            "source_s": 1.4143195152282715,
+            "expected_execution_s": 8.809666633605957,
+            "wire_error_s": 9.674569234618957e-08
+          }
+        ],
+        "emitted_events": [
+          {
+            "type": "open",
+            "execution_s": 8.80966673035165
+          }
+        ],
+        "full_path_events_pass": true,
+        "source_events_within_first_preview": 0,
+        "grip_seam_m_s": 0.23864784951019277,
+        "max_grip_rate_m_s": 0.23864784951019277,
+        "grip_limit_m_s": 0.04,
+        "boundary_accel": [
+          0.047613902477380926,
+          0.08312396786916768
+        ],
+        "boundary_limits": [
+          0.25,
+          1.0
+        ],
+        "boundary_accel_pass": true,
+        "shadow": {
+          "rejection_evidence_sha256": "ae8b6f46e19866d2ca93c1816484482bd51b5ce97dbdbe5e4cce31a94fb8140f",
+          "maximum_observed_rejected_values": {
+            "maximum_discrete_translation_acceleration_m_s2": {
+              "observed": 0.5581007115771284,
+              "limit": 0.25
+            },
+            "maximum_discrete_angular_acceleration_rad_s2": {
+              "observed": 4.65826509989982,
+              "limit": 1.0
+            }
+          },
+          "installs": 102,
+          "windows_by_points": {
+            "41": 102,
+            "80": 102
+          },
+          "defined_fields_sha256": "e8b55bc97168800e3ec7c16efbe4e2918a6c12a763f8d6ee080e368d8922a2b4",
+          "revisions": 0,
+          "max_pose_translation_field_error_m": 2.9614088958851426e-08,
+          "max_rolling_translation_field_error_m": 4.768371586472142e-08,
+          "original_full40_envelope_rejected_windows": 10,
+          "source_seconds_represented": 1.6333333333333333,
+          "final_phase_complete": true,
+          "HOLD_requests": 1,
+          "native_consumption_receipts": 0
+        }
+      },
+      "OFFICIAL_WITH_FEEDBACK_ELIGIBILITY": {
+        "status": "A1_DYNAMIC_UNQUALIFIED",
+        "evaluated": 1,
+        "native_controller_runs": 0,
+        "contact": true,
+        "time_varying": true
+      },
+      "previous_consumed_grip_m": 0.007264728906250004,
+      "measured_grip_m": 0.019290963133199918,
+      "first_student_proposal_m": 0.019197121381759642,
+      "owner": "HANDOVER_BLOCKED",
+      "held": true,
+      "held_then_open": true
+    },
+    {
+      "id": "T04",
+      "episode": "CHV1-TRAIN-F1-HOLD-red-02",
+      "tick": 21953,
+      "phase": "LIFT",
+      "raw_sha256": "220f879fe33466e0ab63406993db747d4c8868efa491d2f3229dcdd2c1f77b26",
+      "DIRECT_OFFICIAL_RAW": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": false,
+          "TASK_LEGAL": false
+        },
+        "gate": {
+          "H40_G7": false,
+          "H40": false,
+          "accepted_join": true,
+          "issues": [
+            {
+              "check": "nominal/finger_velocity",
+              "observed_peak": 0.10850483179092402,
+              "threshold": 0.04,
+              "indices": [
+                24,
+                25,
+                26,
+                27
+              ]
+            },
+            {
+              "check": "nominal/linear_acceleration",
+              "observed_peak": 0.8150413235376367,
+              "threshold": 0.25,
+              "indices": [
+                0,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                14,
+                16,
+                17,
+                18,
+                21,
+                22,
+                23,
+                24,
+                26,
+                27,
+                28,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "nominal/angular_acceleration",
+              "observed_peak": 2.63789040657203,
+              "threshold": 1.0,
+              "indices": [
+                0,
+                1,
+                2,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                12,
+                14,
+                15,
+                16,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                26,
+                27,
+                28,
+                32
+              ]
+            },
+            {
+              "check": "reference/finger_velocity",
+              "observed_peak": 0.10850483179092402,
+              "threshold": 0.04,
+              "indices": [
+                24,
+                25,
+                26,
+                27
+              ]
+            },
+            {
+              "check": "reference/linear_acceleration",
+              "observed_peak": 0.8150413235375756,
+              "threshold": 0.25,
+              "indices": [
+                0,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                14,
+                16,
+                17,
+                18,
+                21,
+                22,
+                23,
+                24,
+                26,
+                27,
+                28,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "reference/angular_acceleration",
+              "observed_peak": 2.6378904065720166,
+              "threshold": 1.0,
+              "indices": [
+                0,
+                1,
+                2,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                12,
+                14,
+                15,
+                16,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                26,
+                27,
+                28,
+                32
+              ]
+            },
+            {
+              "check": "G7_previous_actual_seam",
+              "observed_m_s": 0.34215953350067135,
+              "threshold_m_s": 0.04,
+              "k": 0
+            },
+            {
+              "check": "G7_interior",
+              "observed_m_s": 0.05244690179824818,
+              "threshold_m_s": 0.04,
+              "k": 25
+            },
+            {
+              "check": "G7_interior",
+              "observed_m_s": 0.10850483179092402,
+              "threshold_m_s": 0.04,
+              "k": 26
+            },
+            {
+              "check": "G7_interior",
+              "observed_m_s": 0.10849335193634055,
+              "threshold_m_s": 0.04,
+              "k": 27
+            },
+            {
+              "check": "G7_interior",
+              "observed_m_s": 0.060972714424133295,
+              "threshold_m_s": 0.04,
+              "k": 28
+            }
+          ],
+          "G7": {
+            "first_seam_speed_m_s": 0.34215953350067135,
+            "maximum_speed_m_s": 0.34215953350067135,
+            "training_margin_exceeded": true,
+            "original_execution_speed_exceeded": true,
+            "labels_not_retimed": true,
+            "representation": "DENSE_REFERENCE_G7_V6"
+          }
+        },
+        "progress": {
+          "P10_travel_m": 0.006739597724124271,
+          "P10_source_arc_m": 0.012258382025297233,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.003370658316273185,
+          "projected_m": 0.00011607914396105084,
+          "P10_net_m": [
+            -0.000576495694884327,
+            -0.0016343857143031326,
+            0.00025192649946026435
+          ],
+          "teacher_net_m": [
+            0.001101170743305735,
+            -0.00013738735220315823,
+            0.0031807864694030075
+          ],
+          "motion_pass": false,
+          "events_source": [
+            [
+              "open",
+              0.8085300195227506
+            ]
+          ],
+          "events_compiled": [
+            [
+              "open",
+              0.8085163044335439
+            ]
+          ],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.03163216774493955
+        }
+      },
+      "OFFICIAL_WITH_CONTINUOUS_REF": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": false,
+          "TASK_LEGAL": false
+        },
+        "archived_duration_s": 9.200000000000001,
+        "lead_in_s": 0.75,
+        "lead_in_m": 0.008981912041153192,
+        "lead_in_rad": 0.09287758195367549,
+        "source_frame_count": 50,
+        "rejected_starts_before_source": 7,
+        "rejected_starts_on_source": 15,
+        "world_knot_wire_max_error_m": 0.00014904417268494867,
+        "world_knot_wire_max_error_rad": 0.000572906411937569,
+        "first_P10_source_progress": {
+          "P10_travel_m": 0.0,
+          "P10_source_arc_m": 0.0,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.003370658316273185,
+          "projected_m": 0.0,
+          "P10_net_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "teacher_net_m": [
+            0.001101170743305735,
+            -0.00013738735220315823,
+            0.0031807864694030075
+          ],
+          "motion_pass": false,
+          "events_source": [
+            [
+              "open",
+              0.8085300195227506
+            ]
+          ],
+          "events_compiled": [
+            [
+              "open",
+              0.8085412772811769
+            ]
+          ],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.03163216774493955
+        },
+        "wire_P10_travel_m": 0.0061306938828095256,
+        "first_preview_events_pass": false,
+        "source_events": [
+          {
+            "type": "open",
+            "source_s": 1.299699306488037,
+            "expected_execution_s": 8.070755004882812,
+            "wire_error_s": 0.00016970283141404252
+          }
+        ],
+        "emitted_events": [
+          {
+            "type": "open",
+            "execution_s": 8.070924707714227
+          }
+        ],
+        "full_path_events_pass": true,
+        "source_events_within_first_preview": 0,
+        "grip_seam_m_s": 0.34215953350067135,
+        "max_grip_rate_m_s": 0.34215953350067135,
+        "grip_limit_m_s": 0.04,
+        "boundary_accel": [
+          0.15101949688824876,
+          0.020237004234262914
+        ],
+        "boundary_limits": [
+          0.25,
+          1.0
+        ],
+        "boundary_accel_pass": true,
+        "shadow": {
+          "rejection_evidence_sha256": "dc4eece8199e1f64f8ba53ccd865e870994b195def7a84a0af3c6dc94e5f5b08",
+          "maximum_observed_rejected_values": {
+            "maximum_discrete_translation_acceleration_m_s2": {
+              "observed": 0.4320117835797804,
+              "limit": 0.25
+            },
+            "maximum_discrete_angular_acceleration_rad_s2": {
+              "observed": 4.4672236435342745,
+              "limit": 1.0
+            }
+          },
+          "installs": 101,
+          "windows_by_points": {
+            "41": 101,
+            "80": 101
+          },
+          "defined_fields_sha256": "7d6730373cee2e072401436ce6461ddeb8d0ca328053ac51a8a628cc6fa6f915",
+          "revisions": 0,
+          "max_pose_translation_field_error_m": 2.9534229950556323e-08,
+          "max_rolling_translation_field_error_m": 4.768371586472142e-08,
+          "original_full40_envelope_rejected_windows": 22,
+          "source_seconds_represented": 1.6333333333333333,
+          "final_phase_complete": true,
+          "HOLD_requests": 1,
+          "native_consumption_receipts": 0
+        }
+      },
+      "OFFICIAL_WITH_FEEDBACK_ELIGIBILITY": {
+        "status": "A1_DYNAMIC_UNQUALIFIED",
+        "evaluated": 1,
+        "native_controller_runs": 0,
+        "contact": true,
+        "time_varying": true
+      },
+      "previous_consumed_grip_m": 0.002,
+      "measured_grip_m": 0.019078733154908715,
+      "first_student_proposal_m": 0.01910797667503357,
+      "owner": "HANDOVER_BLOCKED",
+      "held": true,
+      "held_then_open": true
+    },
+    {
+      "id": "T05",
+      "episode": "CHV1-TRAIN-F1-HOLD-red-05",
+      "tick": 22703,
+      "phase": "HOLD",
+      "raw_sha256": "482871dcd34988714912d82ce6b6f0511dae4ba9cb4432468b0a4961c4addb49",
+      "DIRECT_OFFICIAL_RAW": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": false,
+          "TASK_LEGAL": false
+        },
+        "gate": {
+          "H40_G7": false,
+          "H40": false,
+          "accepted_join": true,
+          "issues": [
+            {
+              "check": "nominal/linear_velocity",
+              "observed_peak": 0.08081813333390736,
+              "threshold": 0.05,
+              "indices": [
+                30,
+                31
+              ]
+            },
+            {
+              "check": "nominal/linear_acceleration",
+              "observed_peak": 0.9700333574221991,
+              "threshold": 0.25,
+              "indices": [
+                2,
+                3,
+                4,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                15,
+                16,
+                18,
+                20,
+                21,
+                22,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "nominal/angular_acceleration",
+              "observed_peak": 2.816923206597689,
+              "threshold": 1.0,
+              "indices": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                12,
+                16,
+                20,
+                21,
+                22,
+                23,
+                24,
+                26,
+                27,
+                28,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "reference/linear_velocity",
+              "observed_peak": 0.08081813333390533,
+              "threshold": 0.05,
+              "indices": [
+                30,
+                31
+              ]
+            },
+            {
+              "check": "reference/linear_acceleration",
+              "observed_peak": 0.9700333574222434,
+              "threshold": 0.25,
+              "indices": [
+                2,
+                3,
+                4,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                15,
+                16,
+                18,
+                20,
+                21,
+                22,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "reference/angular_acceleration",
+              "observed_peak": 2.816923206597673,
+              "threshold": 1.0,
+              "indices": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                12,
+                16,
+                20,
+                21,
+                22,
+                23,
+                24,
+                26,
+                27,
+                28,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "G7_previous_actual_seam",
+              "observed_m_s": 0.34028282165527335,
+              "threshold_m_s": 0.04,
+              "k": 0
+            }
+          ],
+          "G7": {
+            "first_seam_speed_m_s": 0.34028282165527335,
+            "maximum_speed_m_s": 0.34028282165527335,
+            "training_margin_exceeded": true,
+            "original_execution_speed_exceeded": true,
+            "labels_not_retimed": true,
+            "representation": "DENSE_REFERENCE_G7_V6"
+          }
+        },
+        "progress": {
+          "P10_travel_m": 0.005491533870223231,
+          "P10_source_arc_m": 0.009583236011223285,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.003228364409528442,
+          "projected_m": -0.00015841224316273184,
+          "P10_net_m": [
+            -0.0006131353185815369,
+            -0.000918500022500407,
+            2.4682531412301145e-05
+          ],
+          "teacher_net_m": [
+            0.0006879200585347967,
+            0.00018187453546429644,
+            0.0031473134623858368
+          ],
+          "motion_pass": false,
+          "events_source": [],
+          "events_compiled": [],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.037825864052782036
+        }
+      },
+      "OFFICIAL_WITH_CONTINUOUS_REF": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": false,
+          "TASK_LEGAL": false
+        },
+        "archived_duration_s": 6.65,
+        "lead_in_s": 0.75,
+        "lead_in_m": 0.006640516022589381,
+        "lead_in_rad": 0.09206693323139195,
+        "source_frame_count": 50,
+        "rejected_starts_before_source": 8,
+        "rejected_starts_on_source": 32,
+        "world_knot_wire_max_error_m": 0.00016793081510671276,
+        "world_knot_wire_max_error_rad": 0.000575528623441586,
+        "first_P10_source_progress": {
+          "P10_travel_m": 0.0,
+          "P10_source_arc_m": 0.0,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.003228364409528442,
+          "projected_m": 0.0,
+          "P10_net_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "teacher_net_m": [
+            0.0006879200585347967,
+            0.00018187453546429644,
+            0.0031473134623858368
+          ],
+          "motion_pass": false,
+          "events_source": [],
+          "events_compiled": [],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.037825864052782036
+        },
+        "wire_P10_travel_m": 0.004532550616378606,
+        "first_preview_events_pass": true,
+        "source_events": [],
+        "emitted_events": [],
+        "full_path_events_pass": true,
+        "source_events_within_first_preview": 0,
+        "grip_seam_m_s": 0.34028282165527335,
+        "max_grip_rate_m_s": 0.34028282165527335,
+        "grip_limit_m_s": 0.04,
+        "boundary_accel": [
+          0.15434614768936103,
+          0.01646248692809091
+        ],
+        "boundary_limits": [
+          0.25,
+          1.0
+        ],
+        "boundary_accel_pass": true,
+        "shadow": {
+          "rejection_evidence_sha256": "66539a56da7be80c5c5eea71ec356ef605c6344c34fbe09452cd37f50bb94afe",
+          "maximum_observed_rejected_values": {
+            "maximum_discrete_translation_acceleration_m_s2": {
+              "observed": 0.4254213989314979,
+              "limit": 0.25
+            },
+            "maximum_discrete_angular_acceleration_rad_s2": {
+              "observed": 4.4282330813059065,
+              "limit": 1.0
+            }
+          },
+          "installs": 75,
+          "windows_by_points": {
+            "41": 75,
+            "80": 75
+          },
+          "defined_fields_sha256": "68236a8c246e432aff5bbf2f4ba450befa564c85b3d04bd9fbb67d8f783c2982",
+          "revisions": 0,
+          "max_pose_translation_field_error_m": 2.9494563347221003e-08,
+          "max_rolling_translation_field_error_m": 4.768371586472142e-08,
+          "original_full40_envelope_rejected_windows": 40,
+          "source_seconds_represented": 1.6333333333333329,
+          "final_phase_complete": true,
+          "HOLD_requests": 1,
+          "native_consumption_receipts": 0
+        }
+      },
+      "OFFICIAL_WITH_FEEDBACK_ELIGIBILITY": {
+        "status": "A1_DYNAMIC_UNQUALIFIED",
+        "evaluated": 1,
+        "native_controller_runs": 0,
+        "contact": true,
+        "time_varying": true
+      },
+      "previous_consumed_grip_m": 0.002,
+      "measured_grip_m": 0.019079984060703888,
+      "first_student_proposal_m": 0.01901414108276367,
+      "owner": "HANDOVER_BLOCKED",
+      "held": true,
+      "held_then_open": true
+    },
+    {
+      "id": "T06",
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-01",
+      "tick": 22203,
+      "phase": "CARRY",
+      "raw_sha256": "f00e119c0545028931d57175ee7be556702762450621f703e5f5ab9bf3ce7780",
+      "DIRECT_OFFICIAL_RAW": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": false,
+          "TASK_LEGAL": false
+        },
+        "gate": {
+          "H40_G7": false,
+          "H40": false,
+          "accepted_join": true,
+          "issues": [
+            {
+              "check": "nominal/finger_velocity",
+              "observed_peak": 0.09306099414825471,
+              "threshold": 0.04,
+              "indices": [
+                25,
+                26,
+                27
+              ]
+            },
+            {
+              "check": "nominal/linear_acceleration",
+              "observed_peak": 0.7567071717477528,
+              "threshold": 0.25,
+              "indices": [
+                0,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                13,
+                14,
+                16,
+                17,
+                18,
+                21,
+                24,
+                25,
+                26,
+                27,
+                30,
+                31,
+                32
+              ]
+            },
+            {
+              "check": "nominal/angular_acceleration",
+              "observed_peak": 2.862322381912124,
+              "threshold": 1.0,
+              "indices": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                12,
+                13,
+                14,
+                15,
+                16,
+                20,
+                21,
+                22,
+                23,
+                24,
+                26,
+                27,
+                28,
+                30,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "reference/finger_velocity",
+              "observed_peak": 0.09306099414825471,
+              "threshold": 0.04,
+              "indices": [
+                25,
+                26,
+                27
+              ]
+            },
+            {
+              "check": "reference/linear_acceleration",
+              "observed_peak": 0.7567071717477485,
+              "threshold": 0.25,
+              "indices": [
+                0,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                13,
+                14,
+                16,
+                17,
+                18,
+                21,
+                24,
+                25,
+                26,
+                27,
+                30,
+                31,
+                32
+              ]
+            },
+            {
+              "check": "reference/angular_acceleration",
+              "observed_peak": 2.8623223819121226,
+              "threshold": 1.0,
+              "indices": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                12,
+                13,
+                14,
+                15,
+                16,
+                20,
+                21,
+                22,
+                23,
+                24,
+                26,
+                27,
+                28,
+                30,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "G7_previous_actual_seam",
+              "observed_m_s": 0.34384858608245844,
+              "threshold_m_s": 0.04,
+              "k": 0
+            },
+            {
+              "check": "G7_interior",
+              "observed_m_s": 0.06747711896896366,
+              "threshold_m_s": 0.04,
+              "k": 26
+            },
+            {
+              "check": "G7_interior",
+              "observed_m_s": 0.0930609941482545,
+              "threshold_m_s": 0.04,
+              "k": 27
+            },
+            {
+              "check": "G7_interior",
+              "observed_m_s": 0.06852653026580807,
+              "threshold_m_s": 0.04,
+              "k": 28
+            }
+          ],
+          "G7": {
+            "first_seam_speed_m_s": 0.34384858608245844,
+            "maximum_speed_m_s": 0.34384858608245844,
+            "training_margin_exceeded": true,
+            "original_execution_speed_exceeded": true,
+            "labels_not_retimed": true,
+            "representation": "DENSE_REFERENCE_G7_V6"
+          }
+        },
+        "progress": {
+          "P10_travel_m": 0.006560191253572746,
+          "P10_source_arc_m": 0.012737596644318337,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.0028337980546069394,
+          "projected_m": 7.031805783862064e-05,
+          "P10_net_m": [
+            -0.00041791720936784627,
+            -0.0010644509185263537,
+            0.0002204066098761004
+          ],
+          "teacher_net_m": [
+            0.0016312774649558937,
+            -0.00039888820806869424,
+            0.0019998060882318036
+          ],
+          "motion_pass": false,
+          "events_source": [
+            [
+              "open",
+              0.8439610118272843
+            ]
+          ],
+          "events_compiled": [
+            [
+              "open",
+              0.844525731492525
+            ]
+          ],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.031059752638866955
+        }
+      },
+      "OFFICIAL_WITH_CONTINUOUS_REF": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": false,
+          "TASK_LEGAL": false
+        },
+        "archived_duration_s": 18.55,
+        "lead_in_s": 0.75,
+        "lead_in_m": 0.00732671424466146,
+        "lead_in_rad": 0.09441564600268627,
+        "source_frame_count": 50,
+        "rejected_starts_before_source": 6,
+        "rejected_starts_on_source": 0,
+        "world_knot_wire_max_error_m": 8.716587508120099e-05,
+        "world_knot_wire_max_error_rad": 0.0002642742280258564,
+        "first_P10_source_progress": {
+          "P10_travel_m": 0.0,
+          "P10_source_arc_m": 0.0,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.0028337980546069394,
+          "projected_m": 0.0,
+          "P10_net_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "teacher_net_m": [
+            0.0016312774649558937,
+            -0.00039888820806869424,
+            0.0019998060882318036
+          ],
+          "motion_pass": false,
+          "events_source": [
+            [
+              "open",
+              0.8439610118272843
+            ]
+          ],
+          "events_compiled": [
+            [
+              "open",
+              0.8439609776504101
+            ]
+          ],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.031059752638866955
+        },
+        "wire_P10_travel_m": 0.005000922074836112,
+        "first_preview_events_pass": false,
+        "source_events": [
+          {
+            "type": "open",
+            "source_s": 1.3290902376174927,
+            "expected_execution_s": 15.844666481018066,
+            "wire_error_s": 8.188486901872238e-07
+          }
+        ],
+        "emitted_events": [
+          {
+            "type": "open",
+            "execution_s": 15.844667299866757
+          }
+        ],
+        "full_path_events_pass": true,
+        "source_events_within_first_preview": 0,
+        "grip_seam_m_s": 0.34384858608245844,
+        "max_grip_rate_m_s": 0.34384858608245844,
+        "grip_limit_m_s": 0.04,
+        "boundary_accel": [
+          0.15459535120462248,
+          0.017346175260893743
+        ],
+        "boundary_limits": [
+          0.25,
+          1.0
+        ],
+        "boundary_accel_pass": true,
+        "shadow": {
+          "rejection_evidence_sha256": "3903b2fe01e3bedf6f1e327d8f16f2deb5d00d17e4e16351b97638a0823992e7",
+          "maximum_observed_rejected_values": {
+            "maximum_discrete_translation_acceleration_m_s2": {
+              "observed": 0.35240012083320515,
+              "limit": 0.25
+            },
+            "maximum_discrete_angular_acceleration_rad_s2": {
+              "observed": 4.541201410186685,
+              "limit": 1.0
+            }
+          },
+          "installs": 194,
+          "windows_by_points": {
+            "41": 194,
+            "80": 194
+          },
+          "defined_fields_sha256": "1314add4587c0e4093d0dbce4b5b6f98e561195a1faed59966474c1d7d09acd7",
+          "revisions": 0,
+          "max_pose_translation_field_error_m": 2.9710453985920537e-08,
+          "max_rolling_translation_field_error_m": 4.768371586472142e-08,
+          "original_full40_envelope_rejected_windows": 6,
+          "source_seconds_represented": 1.633333333333333,
+          "final_phase_complete": true,
+          "HOLD_requests": 1,
+          "native_consumption_receipts": 0
+        }
+      },
+      "OFFICIAL_WITH_FEEDBACK_ELIGIBILITY": {
+        "status": "A1_DYNAMIC_UNQUALIFIED",
+        "evaluated": 1,
+        "native_controller_runs": 0,
+        "contact": true,
+        "time_varying": true
+      },
+      "previous_consumed_grip_m": 0.002,
+      "measured_grip_m": 0.01908037245019656,
+      "first_student_proposal_m": 0.019192429304122925,
+      "owner": "HANDOVER_BLOCKED",
+      "held": true,
+      "held_then_open": true
+    },
+    {
+      "id": "T07",
+      "episode": "CHV1-TRAIN-F2-HOLD-blue-00",
+      "tick": 19703,
+      "phase": "DESCEND",
+      "raw_sha256": "83fec11677b5069775bfd53582029866fa9d9f03ae2edb774e1039a8009f06b0",
+      "DIRECT_OFFICIAL_RAW": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": false,
+          "TASK_LEGAL": false
+        },
+        "gate": {
+          "H40_G7": false,
+          "H40": false,
+          "accepted_join": true,
+          "issues": [
+            {
+              "check": "nominal/linear_velocity",
+              "observed_peak": 0.15043000141196974,
+              "threshold": 0.05,
+              "indices": [
+                28,
+                29,
+                30,
+                31,
+                32
+              ]
+            },
+            {
+              "check": "nominal/angular_velocity",
+              "observed_peak": 0.6161980258107892,
+              "threshold": 0.25,
+              "indices": [
+                28,
+                29,
+                30,
+                31,
+                32
+              ]
+            },
+            {
+              "check": "nominal/linear_acceleration",
+              "observed_peak": 1.6888237330338538,
+              "threshold": 0.25,
+              "indices": [
+                0,
+                1,
+                3,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                15,
+                16,
+                18,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "nominal/angular_acceleration",
+              "observed_peak": 7.930739262107577,
+              "threshold": 1.0,
+              "indices": [
+                1,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                20,
+                21,
+                22,
+                23,
+                24,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "reference/linear_velocity",
+              "observed_peak": 0.15043000141196766,
+              "threshold": 0.05,
+              "indices": [
+                28,
+                29,
+                30,
+                31,
+                32
+              ]
+            },
+            {
+              "check": "reference/angular_velocity",
+              "observed_peak": 0.6161980258107896,
+              "threshold": 0.25,
+              "indices": [
+                28,
+                29,
+                30,
+                31,
+                32
+              ]
+            },
+            {
+              "check": "reference/linear_acceleration",
+              "observed_peak": 1.6888237330339342,
+              "threshold": 0.25,
+              "indices": [
+                0,
+                1,
+                3,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                15,
+                16,
+                18,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "reference/angular_acceleration",
+              "observed_peak": 7.930739262107571,
+              "threshold": 1.0,
+              "indices": [
+                1,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                20,
+                21,
+                22,
+                23,
+                24,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "G7_previous_actual_seam",
+              "observed_m_s": 0.04430446624755849,
+              "threshold_m_s": 0.04,
+              "k": 0
+            }
+          ],
+          "G7": {
+            "first_seam_speed_m_s": 0.04430446624755849,
+            "maximum_speed_m_s": 0.04430446624755849,
+            "training_margin_exceeded": true,
+            "original_execution_speed_exceeded": true,
+            "labels_not_retimed": true,
+            "representation": "DENSE_REFERENCE_G7_V6"
+          }
+        },
+        "progress": {
+          "P10_travel_m": 0.004712353776267576,
+          "P10_source_arc_m": 0.008683288431083663,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.003357711915808064,
+          "projected_m": -0.0005976492102915784,
+          "P10_net_m": [
+            -0.0006890151736327343,
+            -0.0005987154452256893,
+            0.0010821878037357013
+          ],
+          "teacher_net_m": [
+            0.00019327714403161167,
+            -0.0018826320707080596,
+            -0.002772229443858021
+          ],
+          "motion_pass": false,
+          "events_source": [],
+          "events_compiled": [],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.052770586822001794
+        }
+      },
+      "OFFICIAL_WITH_CONTINUOUS_REF": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": false,
+          "TASK_LEGAL": false
+        },
+        "archived_duration_s": 10.700000000000001,
+        "lead_in_s": 0.8,
+        "lead_in_m": 0.010874036607032437,
+        "lead_in_rad": 0.09934155888373884,
+        "source_frame_count": 50,
+        "rejected_starts_before_source": 6,
+        "rejected_starts_on_source": 32,
+        "world_knot_wire_max_error_m": 0.00011699037398333076,
+        "world_knot_wire_max_error_rad": 0.0006043789056080684,
+        "first_P10_source_progress": {
+          "P10_travel_m": 0.0,
+          "P10_source_arc_m": 0.0,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.003357711915808064,
+          "projected_m": 0.0,
+          "P10_net_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "teacher_net_m": [
+            0.00019327714403161167,
+            -0.0018826320707080596,
+            -0.002772229443858021
+          ],
+          "motion_pass": false,
+          "events_source": [],
+          "events_compiled": [],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.052770586822001794
+        },
+        "wire_P10_travel_m": 0.006698107719671842,
+        "first_preview_events_pass": true,
+        "source_events": [],
+        "emitted_events": [],
+        "full_path_events_pass": true,
+        "source_events_within_first_preview": 0,
+        "grip_seam_m_s": 0.04430446624755849,
+        "max_grip_rate_m_s": 0.04430446624755849,
+        "grip_limit_m_s": 0.04,
+        "boundary_accel": [
+          0.1537362737657567,
+          0.32756883524693753
+        ],
+        "boundary_limits": [
+          0.25,
+          1.0
+        ],
+        "boundary_accel_pass": true,
+        "shadow": {
+          "rejection_evidence_sha256": "fbb632e064f0db1a1e75f40a330db2eb3c2c1639d2df0ca5aa83f6db83e9dba7",
+          "maximum_observed_rejected_values": {
+            "maximum_discrete_translation_acceleration_m_s2": {
+              "observed": 0.5044357664622582,
+              "limit": 0.25
+            },
+            "maximum_discrete_angular_acceleration_rad_s2": {
+              "observed": 4.608356326910371,
+              "limit": 1.0
+            }
+          },
+          "installs": 116,
+          "windows_by_points": {
+            "41": 116,
+            "80": 116
+          },
+          "defined_fields_sha256": "95a119a9647d416df4fd6829634faec9ec767a4d018e9bb349f5190998826ef7",
+          "revisions": 0,
+          "max_pose_translation_field_error_m": 2.9800293677162415e-08,
+          "max_rolling_translation_field_error_m": 4.768371586472142e-08,
+          "original_full40_envelope_rejected_windows": 38,
+          "source_seconds_represented": 1.633333333333333,
+          "final_phase_complete": true,
+          "HOLD_requests": 1,
+          "native_consumption_receipts": 0
+        }
+      },
+      "OFFICIAL_WITH_FEEDBACK_ELIGIBILITY": {
+        "status": "A1_DYNAMIC_UNQUALIFIED",
+        "evaluated": 1,
+        "native_controller_runs": 0,
+        "contact": false,
+        "time_varying": true
+      },
+      "previous_consumed_grip_m": 0.041999999999999996,
+      "measured_grip_m": 0.04200004201458915,
+      "first_student_proposal_m": 0.03978477668762207,
+      "owner": "HANDOVER_BLOCKED",
+      "held": false,
+      "held_then_open": false
+    },
+    {
+      "id": "T08",
+      "episode": "CHV1-TRAIN-F1-HOLD-red-03",
+      "tick": 19203,
+      "phase": "CLOSE",
+      "raw_sha256": "17c1bd54785bd9b8b0599d2dfa900bb734ab8155f6e796ddf2f3f1b14e431bdc",
+      "DIRECT_OFFICIAL_RAW": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": true,
+          "TASK_LEGAL": false
+        },
+        "gate": {
+          "H40_G7": false,
+          "H40": false,
+          "accepted_join": true,
+          "issues": [
+            {
+              "check": "nominal/linear_velocity",
+              "observed_peak": 0.0881957553666439,
+              "threshold": 0.05,
+              "indices": [
+                30,
+                31,
+                32
+              ]
+            },
+            {
+              "check": "nominal/angular_velocity",
+              "observed_peak": 0.2826522796917352,
+              "threshold": 0.25,
+              "indices": [
+                32
+              ]
+            },
+            {
+              "check": "nominal/linear_acceleration",
+              "observed_peak": 1.4479237919199135,
+              "threshold": 0.25,
+              "indices": [
+                0,
+                1,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "nominal/angular_acceleration",
+              "observed_peak": 5.653045593834702,
+              "threshold": 1.0,
+              "indices": [
+                0,
+                1,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                13,
+                14,
+                16,
+                18,
+                20,
+                21,
+                22,
+                23,
+                24,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "reference/linear_velocity",
+              "observed_peak": 0.08819575536664387,
+              "threshold": 0.05,
+              "indices": [
+                30,
+                31,
+                32
+              ]
+            },
+            {
+              "check": "reference/angular_velocity",
+              "observed_peak": 0.2826522796917359,
+              "threshold": 0.25,
+              "indices": [
+                32
+              ]
+            },
+            {
+              "check": "reference/linear_acceleration",
+              "observed_peak": 1.4479237919199135,
+              "threshold": 0.25,
+              "indices": [
+                0,
+                1,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "reference/angular_acceleration",
+              "observed_peak": 5.653045593834717,
+              "threshold": 1.0,
+              "indices": [
+                0,
+                1,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                13,
+                14,
+                16,
+                18,
+                20,
+                21,
+                22,
+                23,
+                24,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            }
+          ],
+          "G7": {
+            "first_seam_speed_m_s": 0.0363418700714109,
+            "maximum_speed_m_s": 0.0363418700714109,
+            "training_margin_exceeded": false,
+            "original_execution_speed_exceeded": false,
+            "labels_not_retimed": true,
+            "representation": "DENSE_REFERENCE_G7_V6"
+          }
+        },
+        "progress": {
+          "P10_travel_m": 0.005988681833263737,
+          "P10_source_arc_m": 0.010942347048491861,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.0005087954724571004,
+          "projected_m": -0.001318262419367875,
+          "P10_net_m": [
+            -0.00034132129099023745,
+            -0.000884438471613555,
+            0.0012278219440982063
+          ],
+          "teacher_net_m": [
+            5.469750542275165e-06,
+            5.138831802442567e-05,
+            -0.0004829975967973743
+          ],
+          "motion_pass": true,
+          "events_source": [],
+          "events_compiled": [],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.04362205198997552
+        }
+      },
+      "OFFICIAL_WITH_CONTINUOUS_REF": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": false,
+          "TASK_LEGAL": false
+        },
+        "archived_duration_s": 10.25,
+        "lead_in_s": 0.8,
+        "lead_in_m": 0.007270684801198455,
+        "lead_in_rad": 0.09891585434322464,
+        "source_frame_count": 50,
+        "rejected_starts_before_source": 6,
+        "rejected_starts_on_source": 25,
+        "world_knot_wire_max_error_m": 0.00016213824795417213,
+        "world_knot_wire_max_error_rad": 0.0005014574923814206,
+        "first_P10_source_progress": {
+          "P10_travel_m": 0.0,
+          "P10_source_arc_m": 0.0,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.0005087954724571004,
+          "projected_m": 0.0,
+          "P10_net_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "teacher_net_m": [
+            5.469750542275165e-06,
+            5.138831802442567e-05,
+            -0.0004829975967973743
+          ],
+          "motion_pass": false,
+          "events_source": [],
+          "events_compiled": [],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.04362205198997552
+        },
+        "wire_P10_travel_m": 0.004478542031274101,
+        "first_preview_events_pass": true,
+        "source_events": [],
+        "emitted_events": [],
+        "full_path_events_pass": true,
+        "source_events_within_first_preview": 0,
+        "grip_seam_m_s": 0.0363418700714109,
+        "max_grip_rate_m_s": 0.0363418700714109,
+        "grip_limit_m_s": 0.04,
+        "boundary_accel": [
+          0.04687683163923196,
+          0.18847476908430322
+        ],
+        "boundary_limits": [
+          0.25,
+          1.0
+        ],
+        "boundary_accel_pass": true,
+        "shadow": {
+          "rejection_evidence_sha256": "ad7f4ef4fe3f85b4edba50cfcacc831df547ed82e457753cd456b063b2f69f10",
+          "maximum_observed_rejected_values": {
+            "maximum_discrete_translation_acceleration_m_s2": {
+              "observed": 0.34665292128398956,
+              "limit": 0.25
+            },
+            "maximum_discrete_angular_acceleration_rad_s2": {
+              "observed": 4.58860831575858,
+              "limit": 1.0
+            }
+          },
+          "installs": 112,
+          "windows_by_points": {
+            "41": 112,
+            "80": 112
+          },
+          "defined_fields_sha256": "77d97d7e6f2b43de77ac21b96d2263ec2b4d94551dbc73e6b0d02b373fe8493d",
+          "revisions": 0,
+          "max_pose_translation_field_error_m": 2.9715223948123537e-08,
+          "max_rolling_translation_field_error_m": 4.768371586472142e-08,
+          "original_full40_envelope_rejected_windows": 31,
+          "source_seconds_represented": 1.6333333333333333,
+          "final_phase_complete": true,
+          "HOLD_requests": 1,
+          "native_consumption_receipts": 0
+        }
+      },
+      "OFFICIAL_WITH_FEEDBACK_ELIGIBILITY": {
+        "status": "A1_DYNAMIC_UNQUALIFIED",
+        "evaluated": 1,
+        "native_controller_runs": 0,
+        "contact": false,
+        "time_varying": true
+      },
+      "previous_consumed_grip_m": 0.03884308828124999,
+      "measured_grip_m": 0.0387934191779544,
+      "first_student_proposal_m": 0.03702599477767945,
+      "owner": "HANDOVER_BLOCKED",
+      "held": false,
+      "held_then_open": false
+    },
+    {
+      "id": "T09",
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-07",
+      "tick": 19703,
+      "phase": "CLOSE",
+      "raw_sha256": "b21e6620bca52d89e65c98118ebe70603733b8554acf6c03b0ab90be405bd322",
+      "DIRECT_OFFICIAL_RAW": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": false,
+          "TASK_LEGAL": false
+        },
+        "gate": {
+          "H40_G7": false,
+          "H40": false,
+          "accepted_join": true,
+          "issues": [
+            {
+              "check": "nominal/finger_velocity",
+              "observed_peak": 0.06703686714172367,
+              "threshold": 0.04,
+              "indices": [
+                26,
+                27
+              ]
+            },
+            {
+              "check": "nominal/linear_acceleration",
+              "observed_peak": 1.0433185249828985,
+              "threshold": 0.25,
+              "indices": [
+                0,
+                1,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                14,
+                15,
+                16,
+                17,
+                18,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "nominal/angular_acceleration",
+              "observed_peak": 3.7674971750598725,
+              "threshold": 1.0,
+              "indices": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                11,
+                12,
+                14,
+                15,
+                16,
+                17,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "reference/finger_velocity",
+              "observed_peak": 0.06703686714172367,
+              "threshold": 0.04,
+              "indices": [
+                26,
+                27
+              ]
+            },
+            {
+              "check": "reference/linear_acceleration",
+              "observed_peak": 1.043318524982859,
+              "threshold": 0.25,
+              "indices": [
+                0,
+                1,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                14,
+                15,
+                16,
+                17,
+                18,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "reference/angular_acceleration",
+              "observed_peak": 3.7674971750598836,
+              "threshold": 1.0,
+              "indices": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                11,
+                12,
+                14,
+                15,
+                16,
+                17,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "G7_interior",
+              "observed_m_s": 0.05754399299621599,
+              "threshold_m_s": 0.04,
+              "k": 27
+            },
+            {
+              "check": "G7_interior",
+              "observed_m_s": 0.06703686714172347,
+              "threshold_m_s": 0.04,
+              "k": 28
+            }
+          ],
+          "G7": {
+            "first_seam_speed_m_s": 0.005476773406982438,
+            "maximum_speed_m_s": 0.06703686714172347,
+            "training_margin_exceeded": true,
+            "original_execution_speed_exceeded": true,
+            "labels_not_retimed": true,
+            "representation": "DENSE_REFERENCE_G7_V6"
+          }
+        },
+        "progress": {
+          "P10_travel_m": 0.006163510116040362,
+          "P10_source_arc_m": 0.012318861896787906,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.001641911367021536,
+          "projected_m": -6.66783210223404e-05,
+          "P10_net_m": [
+            4.928090416578268e-05,
+            -0.0010907011407050998,
+            0.001061780465370088
+          ],
+          "teacher_net_m": [
+            0.0015886266242193803,
+            0.0003480426247928631,
+            0.0001810284740323409
+          ],
+          "motion_pass": false,
+          "events_source": [
+            [
+              "open",
+              0.8349940414372896
+            ]
+          ],
+          "events_compiled": [
+            [
+              "open",
+              0.8352567006173349
+            ]
+          ],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.03744649958052436
+        }
+      },
+      "OFFICIAL_WITH_CONTINUOUS_REF": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": false,
+          "TASK_LEGAL": false
+        },
+        "archived_duration_s": 9.9,
+        "lead_in_s": 0.8,
+        "lead_in_m": 0.01233333077370338,
+        "lead_in_rad": 0.10123903117239397,
+        "source_frame_count": 50,
+        "rejected_starts_before_source": 6,
+        "rejected_starts_on_source": 0,
+        "world_knot_wire_max_error_m": 0.00015172276454934316,
+        "world_knot_wire_max_error_rad": 0.00042905111580520154,
+        "first_P10_source_progress": {
+          "P10_travel_m": 0.0,
+          "P10_source_arc_m": 0.0,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.001641911367021536,
+          "projected_m": 0.0,
+          "P10_net_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "teacher_net_m": [
+            0.0015886266242193803,
+            0.0003480426247928631,
+            0.0001810284740323409
+          ],
+          "motion_pass": false,
+          "events_source": [
+            [
+              "open",
+              0.8349940414372896
+            ]
+          ],
+          "events_compiled": [
+            [
+              "open",
+              0.834994004364457
+            ]
+          ],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.03744649958052436
+        },
+        "wire_P10_travel_m": 0.007596992823362691,
+        "first_preview_events_pass": false,
+        "source_events": [
+          {
+            "type": "open",
+            "source_s": 1.3520336151123047,
+            "expected_execution_s": 8.994978904724121,
+            "wire_error_s": 5.091269272838872e-08
+          }
+        ],
+        "emitted_events": [
+          {
+            "type": "open",
+            "execution_s": 8.994978955636814
+          }
+        ],
+        "full_path_events_pass": true,
+        "source_events_within_first_preview": 0,
+        "grip_seam_m_s": 0.005476773406982438,
+        "max_grip_rate_m_s": 0.012988449828793963,
+        "grip_limit_m_s": 0.04,
+        "boundary_accel": [
+          0.06934174013789365,
+          0.11485237697002673
+        ],
+        "boundary_limits": [
+          0.25,
+          1.0
+        ],
+        "boundary_accel_pass": true,
+        "shadow": {
+          "rejection_evidence_sha256": "1bbda47649fe2875f690b68701d15405b4e1bd5d5b52eb0f6abc0d67f975a144",
+          "maximum_observed_rejected_values": {
+            "maximum_discrete_translation_acceleration_m_s2": {
+              "observed": 0.5721309746044191,
+              "limit": 0.25
+            },
+            "maximum_discrete_angular_acceleration_rad_s2": {
+              "observed": 4.696378183269567,
+              "limit": 1.0
+            }
+          },
+          "installs": 108,
+          "windows_by_points": {
+            "41": 108,
+            "80": 108
+          },
+          "defined_fields_sha256": "02ecde55c0060c5d462d09a8643370dba6b02f87fc24b1b7613048c00d5152ed",
+          "revisions": 0,
+          "max_pose_translation_field_error_m": 2.9565190740044045e-08,
+          "max_rolling_translation_field_error_m": 4.768371586472142e-08,
+          "original_full40_envelope_rejected_windows": 6,
+          "source_seconds_represented": 1.6333333333333333,
+          "final_phase_complete": true,
+          "HOLD_requests": 1,
+          "native_consumption_receipts": 0
+        }
+      },
+      "OFFICIAL_WITH_FEEDBACK_ELIGIBILITY": {
+        "status": "A1_DYNAMIC_UNQUALIFIED",
+        "evaluated": 1,
+        "native_controller_runs": 0,
+        "contact": false,
+        "time_varying": true
+      },
+      "previous_consumed_grip_m": 0.02387187734375,
+      "measured_grip_m": 0.024274749619473596,
+      "first_student_proposal_m": 0.02359803867340088,
+      "owner": "HANDOVER_BLOCKED",
+      "held": false,
+      "held_then_open": false
+    },
+    {
+      "id": "T10",
+      "episode": "CHV1-TRAIN-F1-HOLD-red-02",
+      "tick": 21703,
+      "phase": "LIFT",
+      "raw_sha256": "dac9fd33665e36766e63357700936d213a6a10a32a95f05cdff56694db6a2c49",
+      "DIRECT_OFFICIAL_RAW": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": false,
+          "TASK_LEGAL": false
+        },
+        "gate": {
+          "H40_G7": false,
+          "H40": false,
+          "accepted_join": true,
+          "issues": [
+            {
+              "check": "nominal/finger_velocity",
+              "observed_peak": 0.12076611518859894,
+              "threshold": 0.04,
+              "indices": [
+                25,
+                26,
+                27
+              ]
+            },
+            {
+              "check": "nominal/linear_acceleration",
+              "observed_peak": 0.9206208359549795,
+              "threshold": 0.25,
+              "indices": [
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                14,
+                15,
+                16,
+                17,
+                18,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "nominal/angular_acceleration",
+              "observed_peak": 2.8990530783502413,
+              "threshold": 1.0,
+              "indices": [
+                0,
+                1,
+                2,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                12,
+                13,
+                14,
+                16,
+                17,
+                23,
+                24,
+                26,
+                27,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "reference/finger_velocity",
+              "observed_peak": 0.12076611518859894,
+              "threshold": 0.04,
+              "indices": [
+                25,
+                26,
+                27
+              ]
+            },
+            {
+              "check": "reference/linear_acceleration",
+              "observed_peak": 0.9206208359549508,
+              "threshold": 0.25,
+              "indices": [
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                14,
+                15,
+                16,
+                17,
+                18,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "reference/angular_acceleration",
+              "observed_peak": 2.8990530783502386,
+              "threshold": 1.0,
+              "indices": [
+                0,
+                1,
+                2,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                12,
+                13,
+                14,
+                16,
+                17,
+                23,
+                24,
+                26,
+                27,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "G7_previous_actual_seam",
+              "observed_m_s": 0.34197185039520267,
+              "threshold_m_s": 0.04,
+              "k": 0
+            },
+            {
+              "check": "G7_interior",
+              "observed_m_s": 0.0683568596839905,
+              "threshold_m_s": 0.04,
+              "k": 26
+            },
+            {
+              "check": "G7_interior",
+              "observed_m_s": 0.120766115188599,
+              "threshold_m_s": 0.04,
+              "k": 27
+            },
+            {
+              "check": "G7_interior",
+              "observed_m_s": 0.10126361846923823,
+              "threshold_m_s": 0.04,
+              "k": 28
+            }
+          ],
+          "G7": {
+            "first_seam_speed_m_s": 0.34197185039520267,
+            "maximum_speed_m_s": 0.34197185039520267,
+            "training_margin_exceeded": true,
+            "original_execution_speed_exceeded": true,
+            "labels_not_retimed": true,
+            "representation": "DENSE_REFERENCE_G7_V6"
+          }
+        },
+        "progress": {
+          "P10_travel_m": 0.006771573943479863,
+          "P10_source_arc_m": 0.01296809411179315,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.003373417943860996,
+          "projected_m": -0.0003029304906076654,
+          "P10_net_m": [
+            -0.0008346739456444596,
+            -0.0010067942015942188,
+            -0.00012030473364421645
+          ],
+          "teacher_net_m": [
+            0.0008292403724152742,
+            -6.322676034718755e-05,
+            0.0032686629349136798
+          ],
+          "motion_pass": false,
+          "events_source": [
+            [
+              "open",
+              0.8227418224731898
+            ]
+          ],
+          "events_compiled": [
+            [
+              "open",
+              0.8224428646352938
+            ]
+          ],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.032591926469269894
+        }
+      },
+      "OFFICIAL_WITH_CONTINUOUS_REF": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": false,
+          "TASK_LEGAL": false
+        },
+        "archived_duration_s": 9.5,
+        "lead_in_s": 0.75,
+        "lead_in_m": 0.009808752035942272,
+        "lead_in_rad": 0.09630639203261836,
+        "source_frame_count": 50,
+        "rejected_starts_before_source": 7,
+        "rejected_starts_on_source": 15,
+        "world_knot_wire_max_error_m": 0.00011916747143529791,
+        "world_knot_wire_max_error_rad": 0.00043097337809620763,
+        "first_P10_source_progress": {
+          "P10_travel_m": 0.0,
+          "P10_source_arc_m": 0.0,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.003373417943860996,
+          "projected_m": 0.0,
+          "P10_net_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "teacher_net_m": [
+            0.0008292403724152742,
+            -6.322676034718755e-05,
+            0.0032686629349136798
+          ],
+          "motion_pass": false,
+          "events_source": [
+            [
+              "open",
+              0.8227418224731898
+            ]
+          ],
+          "events_compiled": [
+            [
+              "open",
+              0.8227351539350188
+            ]
+          ],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.032591926469269894
+        },
+        "wire_P10_travel_m": 0.006695061789652769,
+        "first_preview_events_pass": false,
+        "source_events": [
+          {
+            "type": "open",
+            "source_s": 1.3394579887390137,
+            "expected_execution_s": 8.540724754333496,
+            "wire_error_s": -6.178863318773153e-05
+          }
+        ],
+        "emitted_events": [
+          {
+            "type": "open",
+            "execution_s": 8.540662965700308
+          }
+        ],
+        "full_path_events_pass": true,
+        "source_events_within_first_preview": 0,
+        "grip_seam_m_s": 0.34197185039520267,
+        "max_grip_rate_m_s": 0.34197185039520267,
+        "grip_limit_m_s": 0.04,
+        "boundary_accel": [
+          0.15040252724179018,
+          0.00911839413021381
+        ],
+        "boundary_limits": [
+          0.25,
+          1.0
+        ],
+        "boundary_accel_pass": true,
+        "shadow": {
+          "rejection_evidence_sha256": "b4085f29d675ea3c2d44ebf5023a0ec101da43a23f827303e357d753f7663fde",
+          "maximum_observed_rejected_values": {
+            "maximum_discrete_translation_acceleration_m_s2": {
+              "observed": 0.4717811132333522,
+              "limit": 0.25
+            },
+            "maximum_discrete_angular_acceleration_rad_s2": {
+              "observed": 4.632142466049298,
+              "limit": 1.0
+            }
+          },
+          "installs": 104,
+          "windows_by_points": {
+            "41": 104,
+            "80": 104
+          },
+          "defined_fields_sha256": "a1b36628c0dc7804b205fd0527ad65adc2fda9b91a107a27ba2afed4ef59206f",
+          "revisions": 0,
+          "max_pose_translation_field_error_m": 2.9626833542018005e-08,
+          "max_rolling_translation_field_error_m": 4.768371586472142e-08,
+          "original_full40_envelope_rejected_windows": 22,
+          "source_seconds_represented": 1.6333333333333333,
+          "final_phase_complete": true,
+          "HOLD_requests": 1,
+          "native_consumption_receipts": 0
+        }
+      },
+      "OFFICIAL_WITH_FEEDBACK_ELIGIBILITY": {
+        "status": "A1_DYNAMIC_UNQUALIFIED",
+        "evaluated": 1,
+        "native_controller_runs": 0,
+        "contact": true,
+        "time_varying": true
+      },
+      "previous_consumed_grip_m": 0.002,
+      "measured_grip_m": 0.019078959418096463,
+      "first_student_proposal_m": 0.019098592519760135,
+      "owner": "HANDOVER_BLOCKED",
+      "held": true,
+      "held_then_open": true
+    },
+    {
+      "id": "T11",
+      "episode": "CHV1-TRAIN-F1-HOLD-red-05",
+      "tick": 22453,
+      "phase": "LIFT",
+      "raw_sha256": "68922167408be5aa9f7df7f7c468bc9c7b001a6d28bbdb6e1cdd3bfadf5529f2",
+      "DIRECT_OFFICIAL_RAW": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": false,
+          "TASK_LEGAL": false
+        },
+        "gate": {
+          "H40_G7": false,
+          "H40": false,
+          "accepted_join": true,
+          "issues": [
+            {
+              "check": "nominal/linear_velocity",
+              "observed_peak": 0.11323308731777101,
+              "threshold": 0.05,
+              "indices": [
+                29,
+                30,
+                31
+              ]
+            },
+            {
+              "check": "nominal/linear_acceleration",
+              "observed_peak": 1.39420810670421,
+              "threshold": 0.25,
+              "indices": [
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                14,
+                15,
+                16,
+                17,
+                18,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "nominal/angular_acceleration",
+              "observed_peak": 2.70093713473582,
+              "threshold": 1.0,
+              "indices": [
+                0,
+                1,
+                2,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                12,
+                14,
+                16,
+                17,
+                20,
+                21,
+                22,
+                23,
+                24,
+                26,
+                28,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "reference/linear_velocity",
+              "observed_peak": 0.11323308731777101,
+              "threshold": 0.05,
+              "indices": [
+                29,
+                30,
+                31
+              ]
+            },
+            {
+              "check": "reference/linear_acceleration",
+              "observed_peak": 1.3942081067042504,
+              "threshold": 0.25,
+              "indices": [
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                14,
+                15,
+                16,
+                17,
+                18,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "reference/angular_acceleration",
+              "observed_peak": 2.7009371347358044,
+              "threshold": 1.0,
+              "indices": [
+                0,
+                1,
+                2,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                12,
+                14,
+                16,
+                17,
+                20,
+                21,
+                22,
+                23,
+                24,
+                26,
+                28,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "G7_previous_actual_seam",
+              "observed_m_s": 0.33915677070617667,
+              "threshold_m_s": 0.04,
+              "k": 0
+            }
+          ],
+          "G7": {
+            "first_seam_speed_m_s": 0.33915677070617667,
+            "maximum_speed_m_s": 0.33915677070617667,
+            "training_margin_exceeded": true,
+            "original_execution_speed_exceeded": true,
+            "labels_not_retimed": true,
+            "representation": "DENSE_REFERENCE_G7_V6"
+          }
+        },
+        "progress": {
+          "P10_travel_m": 0.005889580011861986,
+          "P10_source_arc_m": 0.012651810634172419,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.0033741114432468107,
+          "projected_m": -0.0001236215452077838,
+          "P10_net_m": [
+            -0.000704419816450752,
+            -0.0009078062036908391,
+            2.3211400921652192e-05
+          ],
+          "teacher_net_m": [
+            0.00046886909233190277,
+            0.0001809043807567412,
+            0.003336128725019094
+          ],
+          "motion_pass": false,
+          "events_source": [],
+          "events_compiled": [],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.0510340478307588
+        }
+      },
+      "OFFICIAL_WITH_CONTINUOUS_REF": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": false,
+          "TASK_LEGAL": false
+        },
+        "archived_duration_s": 8.55,
+        "lead_in_s": 0.75,
+        "lead_in_m": 0.00587375570393801,
+        "lead_in_rad": 0.09543128829649428,
+        "source_frame_count": 50,
+        "rejected_starts_before_source": 6,
+        "rejected_starts_on_source": 29,
+        "world_knot_wire_max_error_m": 0.00018797264066786412,
+        "world_knot_wire_max_error_rad": 0.000508203369789639,
+        "first_P10_source_progress": {
+          "P10_travel_m": 0.0,
+          "P10_source_arc_m": 0.0,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.0033741114432468107,
+          "projected_m": 0.0,
+          "P10_net_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "teacher_net_m": [
+            0.00046886909233190277,
+            0.0001809043807567412,
+            0.003336128725019094
+          ],
+          "motion_pass": false,
+          "events_source": [],
+          "events_compiled": [],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.0510340478307588
+        },
+        "wire_P10_travel_m": 0.004009190693279956,
+        "first_preview_events_pass": true,
+        "source_events": [],
+        "emitted_events": [],
+        "full_path_events_pass": true,
+        "source_events_within_first_preview": 0,
+        "grip_seam_m_s": 0.33915677070617667,
+        "max_grip_rate_m_s": 0.33915677070617667,
+        "grip_limit_m_s": 0.04,
+        "boundary_accel": [
+          0.15317763376502197,
+          0.009741109908330813
+        ],
+        "boundary_limits": [
+          0.25,
+          1.0
+        ],
+        "boundary_accel_pass": true,
+        "shadow": {
+          "rejection_evidence_sha256": "129d73a713d6e19bcd5dcd829a4401856e13c4d71938045dfbae0458a0f110f8",
+          "maximum_observed_rejected_values": {
+            "maximum_discrete_translation_acceleration_m_s2": {
+              "observed": 0.4353506830617195,
+              "limit": 0.25
+            },
+            "maximum_discrete_angular_acceleration_rad_s2": {
+              "observed": 4.5900517481566885,
+              "limit": 1.0
+            }
+          },
+          "installs": 94,
+          "windows_by_points": {
+            "41": 94,
+            "80": 94
+          },
+          "defined_fields_sha256": "3d63c79dae20e2b3268cfefc41f5030056aceb99e52ffd971f719e69063e25ff",
+          "revisions": 0,
+          "max_pose_translation_field_error_m": 2.978646507223459e-08,
+          "max_rolling_translation_field_error_m": 4.768371586472142e-08,
+          "original_full40_envelope_rejected_windows": 35,
+          "source_seconds_represented": 1.6333333333333326,
+          "final_phase_complete": true,
+          "HOLD_requests": 1,
+          "native_consumption_receipts": 0
+        }
+      },
+      "OFFICIAL_WITH_FEEDBACK_ELIGIBILITY": {
+        "status": "A1_DYNAMIC_UNQUALIFIED",
+        "evaluated": 1,
+        "native_controller_runs": 0,
+        "contact": true,
+        "time_varying": true
+      },
+      "previous_consumed_grip_m": 0.002,
+      "measured_grip_m": 0.01908021955049575,
+      "first_student_proposal_m": 0.018957838535308837,
+      "owner": "HANDOVER_BLOCKED",
+      "held": true,
+      "held_then_open": true
+    },
+    {
+      "id": "T12",
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-01",
+      "tick": 21953,
+      "phase": "LIFT",
+      "raw_sha256": "70f8775f47c3714ea4d871036e040a060a7e7ecc24b9176e836728c8753f593d",
+      "DIRECT_OFFICIAL_RAW": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": false,
+          "TASK_LEGAL": false
+        },
+        "gate": {
+          "H40_G7": false,
+          "H40": false,
+          "accepted_join": true,
+          "issues": [
+            {
+              "check": "nominal/finger_velocity",
+              "observed_peak": 0.09726016521453891,
+              "threshold": 0.04,
+              "indices": [
+                25,
+                26,
+                27
+              ]
+            },
+            {
+              "check": "nominal/linear_acceleration",
+              "observed_peak": 0.7523049868204481,
+              "threshold": 0.25,
+              "indices": [
+                0,
+                1,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                15,
+                16,
+                17,
+                18,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                30,
+                31,
+                32
+              ]
+            },
+            {
+              "check": "nominal/angular_acceleration",
+              "observed_peak": 3.0209803340770476,
+              "threshold": 1.0,
+              "indices": [
+                0,
+                1,
+                2,
+                4,
+                5,
+                6,
+                7,
+                10,
+                12,
+                16,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                28,
+                30,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "reference/finger_velocity",
+              "observed_peak": 0.09726016521453891,
+              "threshold": 0.04,
+              "indices": [
+                25,
+                26,
+                27
+              ]
+            },
+            {
+              "check": "reference/linear_acceleration",
+              "observed_peak": 0.7523049868204481,
+              "threshold": 0.25,
+              "indices": [
+                0,
+                1,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                15,
+                16,
+                17,
+                18,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                30,
+                31,
+                32
+              ]
+            },
+            {
+              "check": "reference/angular_acceleration",
+              "observed_peak": 3.020980334077032,
+              "threshold": 1.0,
+              "indices": [
+                0,
+                1,
+                2,
+                4,
+                5,
+                6,
+                7,
+                10,
+                12,
+                16,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                28,
+                30,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "G7_previous_actual_seam",
+              "observed_m_s": 0.34319174289703364,
+              "threshold_m_s": 0.04,
+              "k": 0
+            },
+            {
+              "check": "G7_interior",
+              "observed_m_s": 0.056891238689422696,
+              "threshold_m_s": 0.04,
+              "k": 26
+            },
+            {
+              "check": "G7_interior",
+              "observed_m_s": 0.09726016521453884,
+              "threshold_m_s": 0.04,
+              "k": 27
+            },
+            {
+              "check": "G7_interior",
+              "observed_m_s": 0.08351800441741927,
+              "threshold_m_s": 0.04,
+              "k": 28
+            }
+          ],
+          "G7": {
+            "first_seam_speed_m_s": 0.34319174289703364,
+            "maximum_speed_m_s": 0.34319174289703364,
+            "training_margin_exceeded": true,
+            "original_execution_speed_exceeded": true,
+            "labels_not_retimed": true,
+            "representation": "DENSE_REFERENCE_G7_V6"
+          }
+        },
+        "progress": {
+          "P10_travel_m": 0.006469903410728424,
+          "P10_source_arc_m": 0.012506885568131818,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.003373902095047688,
+          "projected_m": 8.325794704222577e-06,
+          "P10_net_m": [
+            -0.00037836689245046573,
+            -0.0012178231070401752,
+            -4.573749793013171e-06
+          ],
+          "teacher_net_m": [
+            0.00032891256255712653,
+            -0.00013785179976830847,
+            0.0033545441341068516
+          ],
+          "motion_pass": false,
+          "events_source": [
+            [
+              "open",
+              0.8675620791356368
+            ]
+          ],
+          "events_compiled": [
+            [
+              "open",
+              0.8674898768120477
+            ]
+          ],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.03091594137198736
+        }
+      },
+      "OFFICIAL_WITH_CONTINUOUS_REF": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": false,
+          "TASK_LEGAL": false
+        },
+        "archived_duration_s": 9.05,
+        "lead_in_s": 0.75,
+        "lead_in_m": 0.006431572195707332,
+        "lead_in_rad": 0.09663437665599996,
+        "source_frame_count": 50,
+        "rejected_starts_before_source": 7,
+        "rejected_starts_on_source": 13,
+        "world_knot_wire_max_error_m": 0.000181279448237424,
+        "world_knot_wire_max_error_rad": 0.00042796762011413367,
+        "first_P10_source_progress": {
+          "P10_travel_m": 0.0,
+          "P10_source_arc_m": 0.0,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.003373902095047688,
+          "projected_m": 0.0,
+          "P10_net_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "teacher_net_m": [
+            0.00032891256255712653,
+            -0.00013785179976830847,
+            0.0033545441341068516
+          ],
+          "motion_pass": false,
+          "events_source": [
+            [
+              "open",
+              0.8675620791356368
+            ]
+          ],
+          "events_compiled": [
+            [
+              "open",
+              0.8675621051557293
+            ]
+          ],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.03091594137198736
+        },
+        "wire_P10_travel_m": 0.004389933917901993,
+        "first_preview_events_pass": false,
+        "source_events": [
+          {
+            "type": "open",
+            "source_s": 1.3474433422088623,
+            "expected_execution_s": 8.215936660766602,
+            "wire_error_s": -2.5498339439877782e-08
+          }
+        ],
+        "emitted_events": [
+          {
+            "type": "open",
+            "execution_s": 8.215936635268262
+          }
+        ],
+        "full_path_events_pass": true,
+        "source_events_within_first_preview": 0,
+        "grip_seam_m_s": 0.34319174289703364,
+        "max_grip_rate_m_s": 0.34319174289703364,
+        "grip_limit_m_s": 0.04,
+        "boundary_accel": [
+          0.15299898557631025,
+          0.010865513077049586
+        ],
+        "boundary_limits": [
+          0.25,
+          1.0
+        ],
+        "boundary_accel_pass": true,
+        "shadow": {
+          "rejection_evidence_sha256": "35c428b2a8bc7aa4a7d91001c0ed3d8c9a2749fc2ee109436ebcb1f1743b9a2a",
+          "maximum_observed_rejected_values": {
+            "maximum_discrete_translation_acceleration_m_s2": {
+              "observed": 0.3093456006648885,
+              "limit": 0.25
+            },
+            "maximum_discrete_angular_acceleration_rad_s2": {
+              "observed": 4.647917862366317,
+              "limit": 1.0
+            }
+          },
+          "installs": 99,
+          "windows_by_points": {
+            "41": 99,
+            "80": 99
+          },
+          "defined_fields_sha256": "58b0338cfdbc4c1a123a171b3431d5acad96d2ba18e85a2c3133b8f7e286c0e5",
+          "revisions": 0,
+          "max_pose_translation_field_error_m": 2.9745744423159692e-08,
+          "max_rolling_translation_field_error_m": 4.768371586472142e-08,
+          "original_full40_envelope_rejected_windows": 20,
+          "source_seconds_represented": 1.6333333333333326,
+          "final_phase_complete": true,
+          "HOLD_requests": 1,
+          "native_consumption_receipts": 0
+        }
+      },
+      "OFFICIAL_WITH_FEEDBACK_ELIGIBILITY": {
+        "status": "A1_DYNAMIC_UNQUALIFIED",
+        "evaluated": 1,
+        "native_controller_runs": 0,
+        "contact": true,
+        "time_varying": true
+      },
+      "previous_consumed_grip_m": 0.002,
+      "measured_grip_m": 0.01908067469193619,
+      "first_student_proposal_m": 0.019159587144851685,
+      "owner": "HANDOVER_BLOCKED",
+      "held": true,
+      "held_then_open": true
+    },
+    {
+      "id": "T13",
+      "episode": "CHV1-TRAIN-F2-HOLD-blue-00",
+      "tick": 19453,
+      "phase": "DESCEND",
+      "raw_sha256": "c6f22c14bec0955aa52f9a8541f13afb4ea29c458e56a66f8fd4d654eef200a3",
+      "DIRECT_OFFICIAL_RAW": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": false,
+          "TASK_LEGAL": false
+        },
+        "gate": {
+          "H40_G7": false,
+          "H40": false,
+          "accepted_join": true,
+          "issues": [
+            {
+              "check": "nominal/linear_velocity",
+              "observed_peak": 0.14674393096874427,
+              "threshold": 0.05,
+              "indices": [
+                28,
+                29,
+                30,
+                31,
+                32
+              ]
+            },
+            {
+              "check": "nominal/angular_velocity",
+              "observed_peak": 0.5863278013773949,
+              "threshold": 0.25,
+              "indices": [
+                29,
+                30,
+                31,
+                32
+              ]
+            },
+            {
+              "check": "nominal/linear_acceleration",
+              "observed_peak": 1.628384986491892,
+              "threshold": 0.25,
+              "indices": [
+                0,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                14,
+                15,
+                16,
+                17,
+                18,
+                20,
+                21,
+                22,
+                24,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "nominal/angular_acceleration",
+              "observed_peak": 7.528617405191052,
+              "threshold": 1.0,
+              "indices": [
+                1,
+                2,
+                4,
+                5,
+                6,
+                7,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "reference/linear_velocity",
+              "observed_peak": 0.14674393096874846,
+              "threshold": 0.05,
+              "indices": [
+                28,
+                29,
+                30,
+                31,
+                32
+              ]
+            },
+            {
+              "check": "reference/angular_velocity",
+              "observed_peak": 0.5863278013773949,
+              "threshold": 0.25,
+              "indices": [
+                29,
+                30,
+                31,
+                32
+              ]
+            },
+            {
+              "check": "reference/linear_acceleration",
+              "observed_peak": 1.628384986491892,
+              "threshold": 0.25,
+              "indices": [
+                0,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                14,
+                15,
+                16,
+                17,
+                18,
+                20,
+                21,
+                22,
+                24,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "reference/angular_acceleration",
+              "observed_peak": 7.528617405191055,
+              "threshold": 1.0,
+              "indices": [
+                1,
+                2,
+                4,
+                5,
+                6,
+                7,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "G7_previous_actual_seam",
+              "observed_m_s": 0.04392910003662098,
+              "threshold_m_s": 0.04,
+              "k": 0
+            }
+          ],
+          "G7": {
+            "first_seam_speed_m_s": 0.04392910003662098,
+            "maximum_speed_m_s": 0.04392910003662098,
+            "training_margin_exceeded": true,
+            "original_execution_speed_exceeded": true,
+            "labels_not_retimed": true,
+            "representation": "DENSE_REFERENCE_G7_V6"
+          }
+        },
+        "progress": {
+          "P10_travel_m": 0.004146948835091304,
+          "P10_source_arc_m": 0.00872863814774682,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.003302230880670106,
+          "projected_m": -0.0006433556609225768,
+          "P10_net_m": [
+            -0.0007111785822407346,
+            -0.0005517486050499454,
+            0.0008910422359302839
+          ],
+          "teacher_net_m": [
+            0.0007781973314717194,
+            -0.0016193521858166443,
+            -0.0027585569940974386
+          ],
+          "motion_pass": false,
+          "events_source": [],
+          "events_compiled": [],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.05376082995971565
+        }
+      },
+      "OFFICIAL_WITH_CONTINUOUS_REF": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": false,
+          "TASK_LEGAL": false
+        },
+        "archived_duration_s": 10.3,
+        "lead_in_s": 0.75,
+        "lead_in_m": 0.010054654708547483,
+        "lead_in_rad": 0.09698996439807223,
+        "source_frame_count": 50,
+        "rejected_starts_before_source": 6,
+        "rejected_starts_on_source": 32,
+        "world_knot_wire_max_error_m": 0.00012770934384638698,
+        "world_knot_wire_max_error_rad": 0.0005299550832705755,
+        "first_P10_source_progress": {
+          "P10_travel_m": 0.0,
+          "P10_source_arc_m": 0.0,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.003302230880670106,
+          "projected_m": 0.0,
+          "P10_net_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "teacher_net_m": [
+            0.0007781973314717194,
+            -0.0016193521858166443,
+            -0.0027585569940974386
+          ],
+          "motion_pass": false,
+          "events_source": [],
+          "events_compiled": [],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.05376082995971565
+        },
+        "wire_P10_travel_m": 0.006862905117866148,
+        "first_preview_events_pass": true,
+        "source_events": [],
+        "emitted_events": [],
+        "full_path_events_pass": true,
+        "source_events_within_first_preview": 0,
+        "grip_seam_m_s": 0.04392910003662098,
+        "max_grip_rate_m_s": 0.04392910003662098,
+        "grip_limit_m_s": 0.04,
+        "boundary_accel": [
+          0.1447978193617157,
+          0.2784083061594865
+        ],
+        "boundary_limits": [
+          0.25,
+          1.0
+        ],
+        "boundary_accel_pass": true,
+        "shadow": {
+          "rejection_evidence_sha256": "b2e4d925001c54209ee9f3acb11c9fb4d496f7ffa387387fdf4a34dd76490eef",
+          "maximum_observed_rejected_values": {
+            "maximum_discrete_translation_acceleration_m_s2": {
+              "observed": 0.48360853390865666,
+              "limit": 0.25
+            },
+            "maximum_discrete_angular_acceleration_rad_s2": {
+              "observed": 4.665020912804561,
+              "limit": 1.0
+            }
+          },
+          "installs": 112,
+          "windows_by_points": {
+            "41": 112,
+            "80": 112
+          },
+          "defined_fields_sha256": "11de08e328c03ad9720d19499ef579336c26c656273e417ac18543d6648fb069",
+          "revisions": 0,
+          "max_pose_translation_field_error_m": 2.9451012295567125e-08,
+          "max_rolling_translation_field_error_m": 4.768371586472142e-08,
+          "original_full40_envelope_rejected_windows": 38,
+          "source_seconds_represented": 1.6333333333333333,
+          "final_phase_complete": true,
+          "HOLD_requests": 1,
+          "native_consumption_receipts": 0
+        }
+      },
+      "OFFICIAL_WITH_FEEDBACK_ELIGIBILITY": {
+        "status": "A1_DYNAMIC_UNQUALIFIED",
+        "evaluated": 1,
+        "native_controller_runs": 0,
+        "contact": false,
+        "time_varying": true
+      },
+      "previous_consumed_grip_m": 0.041999999999999996,
+      "measured_grip_m": 0.042000090166846596,
+      "first_student_proposal_m": 0.03980354499816895,
+      "owner": "HANDOVER_BLOCKED",
+      "held": false,
+      "held_then_open": false
+    },
+    {
+      "id": "T14",
+      "episode": "CHV1-TRAIN-F1-HOLD-red-03",
+      "tick": 18953,
+      "phase": "CLOSE",
+      "raw_sha256": "dff414c10bf8b7e33acf05e0947c9301268faa7f01af71f66be5b111a7ca8408",
+      "DIRECT_OFFICIAL_RAW": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": false,
+          "TASK_LEGAL": false
+        },
+        "gate": {
+          "H40_G7": false,
+          "H40": false,
+          "accepted_join": true,
+          "issues": [
+            {
+              "check": "nominal/linear_velocity",
+              "observed_peak": 0.10196837864348723,
+              "threshold": 0.05,
+              "indices": [
+                29,
+                30,
+                31,
+                32
+              ]
+            },
+            {
+              "check": "nominal/angular_velocity",
+              "observed_peak": 0.2522484272981375,
+              "threshold": 0.25,
+              "indices": [
+                30
+              ]
+            },
+            {
+              "check": "nominal/linear_acceleration",
+              "observed_peak": 1.2133760612830267,
+              "threshold": 0.25,
+              "indices": [
+                0,
+                2,
+                3,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "nominal/angular_acceleration",
+              "observed_peak": 3.8186761527237856,
+              "threshold": 1.0,
+              "indices": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                10,
+                12,
+                14,
+                15,
+                16,
+                20,
+                21,
+                22,
+                23,
+                24,
+                26,
+                27,
+                28,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "reference/linear_velocity",
+              "observed_peak": 0.10196837864348714,
+              "threshold": 0.05,
+              "indices": [
+                29,
+                30,
+                31,
+                32
+              ]
+            },
+            {
+              "check": "reference/angular_velocity",
+              "observed_peak": 0.252248427298137,
+              "threshold": 0.25,
+              "indices": [
+                30
+              ]
+            },
+            {
+              "check": "reference/linear_acceleration",
+              "observed_peak": 1.2133760612830264,
+              "threshold": 0.25,
+              "indices": [
+                0,
+                2,
+                3,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "reference/angular_acceleration",
+              "observed_peak": 3.8186761527237967,
+              "threshold": 1.0,
+              "indices": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                10,
+                12,
+                14,
+                15,
+                16,
+                20,
+                21,
+                22,
+                23,
+                24,
+                26,
+                27,
+                28,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "G7_previous_actual_seam",
+              "observed_m_s": 0.04355378150939934,
+              "threshold_m_s": 0.04,
+              "k": 0
+            }
+          ],
+          "G7": {
+            "first_seam_speed_m_s": 0.04355378150939934,
+            "maximum_speed_m_s": 0.04355378150939934,
+            "training_margin_exceeded": true,
+            "original_execution_speed_exceeded": true,
+            "labels_not_retimed": true,
+            "representation": "DENSE_REFERENCE_G7_V6"
+          }
+        },
+        "progress": {
+          "P10_travel_m": 0.005619590013150203,
+          "P10_source_arc_m": 0.011299844132628002,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.00172800623895364,
+          "projected_m": -0.0012033489675096975,
+          "P10_net_m": [
+            -0.0007573453958300558,
+            -0.0009639728095146988,
+            0.0010308109243388763
+          ],
+          "teacher_net_m": [
+            0.0006472968433538506,
+            -6.3403951576807e-05,
+            -0.0016006275194716535
+          ],
+          "motion_pass": false,
+          "events_source": [],
+          "events_compiled": [],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.046437855626941624
+        }
+      },
+      "OFFICIAL_WITH_CONTINUOUS_REF": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": false,
+          "TASK_LEGAL": false
+        },
+        "archived_duration_s": 9.05,
+        "lead_in_s": 0.8,
+        "lead_in_m": 0.006451533380400198,
+        "lead_in_rad": 0.09920464566717836,
+        "source_frame_count": 50,
+        "rejected_starts_before_source": 6,
+        "rejected_starts_on_source": 27,
+        "world_knot_wire_max_error_m": 0.0002013590605758757,
+        "world_knot_wire_max_error_rad": 0.00044056307155113464,
+        "first_P10_source_progress": {
+          "P10_travel_m": 0.0,
+          "P10_source_arc_m": 0.0,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.00172800623895364,
+          "projected_m": 0.0,
+          "P10_net_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "teacher_net_m": [
+            0.0006472968433538506,
+            -6.3403951576807e-05,
+            -0.0016006275194716535
+          ],
+          "motion_pass": false,
+          "events_source": [],
+          "events_compiled": [],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.046437855626941624
+        },
+        "wire_P10_travel_m": 0.003973967267227338,
+        "first_preview_events_pass": true,
+        "source_events": [],
+        "emitted_events": [],
+        "full_path_events_pass": true,
+        "source_events_within_first_preview": 0,
+        "grip_seam_m_s": 0.04355378150939934,
+        "max_grip_rate_m_s": 0.04355378150939934,
+        "grip_limit_m_s": 0.04,
+        "boundary_accel": [
+          0.11966585634642594,
+          0.13264315322481832
+        ],
+        "boundary_limits": [
+          0.25,
+          1.0
+        ],
+        "boundary_accel_pass": true,
+        "shadow": {
+          "rejection_evidence_sha256": "560968f970b0228fcdf6e046b24114324b50a0bec7deae6b4def68ed4c526e8f",
+          "maximum_observed_rejected_values": {
+            "maximum_discrete_translation_acceleration_m_s2": {
+              "observed": 0.37885173321974325,
+              "limit": 0.25
+            },
+            "maximum_discrete_angular_acceleration_rad_s2": {
+              "observed": 4.602005058671182,
+              "limit": 1.0
+            }
+          },
+          "installs": 100,
+          "windows_by_points": {
+            "41": 100,
+            "80": 100
+          },
+          "defined_fields_sha256": "e2330f62c65a1fa25e654970edd00bed3640ae2ce1b5442f84a6236536728dd4",
+          "revisions": 0,
+          "max_pose_translation_field_error_m": 2.9505120457962164e-08,
+          "max_rolling_translation_field_error_m": 4.768371586472142e-08,
+          "original_full40_envelope_rejected_windows": 33,
+          "source_seconds_represented": 1.6333333333333333,
+          "final_phase_complete": true,
+          "HOLD_requests": 1,
+          "native_consumption_receipts": 0
+        }
+      },
+      "OFFICIAL_WITH_FEEDBACK_ELIGIBILITY": {
+        "status": "A1_DYNAMIC_UNQUALIFIED",
+        "evaluated": 1,
+        "native_controller_runs": 0,
+        "contact": false,
+        "time_varying": true
+      },
+      "previous_consumed_grip_m": 0.041999999999999996,
+      "measured_grip_m": 0.04200005779331175,
+      "first_student_proposal_m": 0.03982231092453003,
+      "owner": "HANDOVER_BLOCKED",
+      "held": false,
+      "held_then_open": false
+    },
+    {
+      "id": "T15",
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-07",
+      "tick": 19453,
+      "phase": "CLOSE",
+      "raw_sha256": "137f8153158e8d0cd28a731646a2c0170a51bc902401080f0064cf37ec9fffd5",
+      "DIRECT_OFFICIAL_RAW": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": false,
+          "TASK_LEGAL": false
+        },
+        "gate": {
+          "H40_G7": false,
+          "H40": false,
+          "accepted_join": true,
+          "issues": [
+            {
+              "check": "nominal/linear_velocity",
+              "observed_peak": 0.11070224862645964,
+              "threshold": 0.05,
+              "indices": [
+                29,
+                30,
+                31,
+                32
+              ]
+            },
+            {
+              "check": "nominal/angular_velocity",
+              "observed_peak": 0.4862517569849598,
+              "threshold": 0.25,
+              "indices": [
+                30,
+                31,
+                32
+              ]
+            },
+            {
+              "check": "nominal/linear_acceleration",
+              "observed_peak": 1.6627876790515357,
+              "threshold": 0.25,
+              "indices": [
+                0,
+                1,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                14,
+                16,
+                18,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "nominal/angular_acceleration",
+              "observed_peak": 9.05817782453012,
+              "threshold": 1.0,
+              "indices": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                12,
+                14,
+                15,
+                16,
+                17,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "reference/linear_velocity",
+              "observed_peak": 0.11070224862645968,
+              "threshold": 0.05,
+              "indices": [
+                29,
+                30,
+                31,
+                32
+              ]
+            },
+            {
+              "check": "reference/angular_velocity",
+              "observed_peak": 0.48625175698496004,
+              "threshold": 0.25,
+              "indices": [
+                30,
+                31,
+                32
+              ]
+            },
+            {
+              "check": "reference/linear_acceleration",
+              "observed_peak": 1.6627876790515357,
+              "threshold": 0.25,
+              "indices": [
+                0,
+                1,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                14,
+                16,
+                18,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "reference/angular_acceleration",
+              "observed_peak": 9.058177824530116,
+              "threshold": 1.0,
+              "indices": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                12,
+                14,
+                15,
+                16,
+                17,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            }
+          ],
+          "G7": {
+            "first_seam_speed_m_s": 0.03671723628234841,
+            "maximum_speed_m_s": 0.03671723628234841,
+            "training_margin_exceeded": false,
+            "original_execution_speed_exceeded": false,
+            "labels_not_retimed": true,
+            "representation": "DENSE_REFERENCE_G7_V6"
+          }
+        },
+        "progress": {
+          "P10_travel_m": 0.004754196162142399,
+          "P10_source_arc_m": 0.009569725573158383,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.0012606041869267462,
+          "projected_m": -0.0007617675781596338,
+          "P10_net_m": [
+            1.0066228734006977e-05,
+            -0.0010421971897208865,
+            0.0014272986461953963
+          ],
+          "teacher_net_m": [
+            0.0004847292186406782,
+            0.0009057217476399343,
+            0.00010670910313148596
+          ],
+          "motion_pass": false,
+          "events_source": [],
+          "events_compiled": [],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.04511806676900858
+        }
+      },
+      "OFFICIAL_WITH_CONTINUOUS_REF": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": false,
+          "TASK_LEGAL": false
+        },
+        "archived_duration_s": 10.600000000000001,
+        "lead_in_s": 0.8,
+        "lead_in_m": 0.013198550669096741,
+        "lead_in_rad": 0.09958851245859694,
+        "source_frame_count": 50,
+        "rejected_starts_before_source": 6,
+        "rejected_starts_on_source": 25,
+        "world_knot_wire_max_error_m": 0.00011594259250785499,
+        "world_knot_wire_max_error_rad": 0.0005572002521903057,
+        "first_P10_source_progress": {
+          "P10_travel_m": 0.0,
+          "P10_source_arc_m": 0.0,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.0012606041869267462,
+          "projected_m": 0.0,
+          "P10_net_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "teacher_net_m": [
+            0.0004847292186406782,
+            0.0009057217476399343,
+            0.00010670910313148596
+          ],
+          "motion_pass": false,
+          "events_source": [],
+          "events_compiled": [],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.04511806676900858
+        },
+        "wire_P10_travel_m": 0.008129944501748627,
+        "first_preview_events_pass": true,
+        "source_events": [],
+        "emitted_events": [],
+        "full_path_events_pass": true,
+        "source_events_within_first_preview": 0,
+        "grip_seam_m_s": 0.03671723628234841,
+        "max_grip_rate_m_s": 0.03671723628234841,
+        "grip_limit_m_s": 0.04,
+        "boundary_accel": [
+          0.07362039592671826,
+          0.13900340952198276
+        ],
+        "boundary_limits": [
+          0.25,
+          1.0
+        ],
+        "boundary_accel_pass": true,
+        "shadow": {
+          "rejection_evidence_sha256": "fd252186bed4c932af6077103229b1aac6da088389fbdb0b07d8cde69a98ddab",
+          "maximum_observed_rejected_values": {
+            "maximum_discrete_translation_acceleration_m_s2": {
+              "observed": 0.6122676668801199,
+              "limit": 0.25
+            },
+            "maximum_discrete_angular_acceleration_rad_s2": {
+              "observed": 4.619812258163522,
+              "limit": 1.0
+            }
+          },
+          "installs": 115,
+          "windows_by_points": {
+            "41": 115,
+            "80": 115
+          },
+          "defined_fields_sha256": "b2cbb891c008c8fb6200fd54ada5506173596ed9719d64d8e10b1f343a8652d8",
+          "revisions": 0,
+          "max_pose_translation_field_error_m": 2.9613022256569366e-08,
+          "max_rolling_translation_field_error_m": 4.768371586472142e-08,
+          "original_full40_envelope_rejected_windows": 31,
+          "source_seconds_represented": 1.6333333333333329,
+          "final_phase_complete": true,
+          "HOLD_requests": 1,
+          "native_consumption_receipts": 0
+        }
+      },
+      "OFFICIAL_WITH_FEEDBACK_ELIGIBILITY": {
+        "status": "A1_DYNAMIC_UNQUALIFIED",
+        "evaluated": 1,
+        "native_controller_runs": 0,
+        "contact": false,
+        "time_varying": true
+      },
+      "previous_consumed_grip_m": 0.03884308828124999,
+      "measured_grip_m": 0.038793630020462905,
+      "first_student_proposal_m": 0.03700722646713257,
+      "owner": "HANDOVER_BLOCKED",
+      "held": false,
+      "held_then_open": false
+    },
+    {
+      "id": "T16",
+      "episode": "CHV1-TRAIN-F1-HOLD-red-02",
+      "tick": 21453,
+      "phase": "LIFT",
+      "raw_sha256": "d3980c338f2541fed43c5eef518dc0e628adaed7696511ace86add6576efdd74",
+      "DIRECT_OFFICIAL_RAW": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": false,
+          "TASK_LEGAL": false
+        },
+        "gate": {
+          "H40_G7": false,
+          "H40": false,
+          "accepted_join": true,
+          "issues": [
+            {
+              "check": "nominal/finger_velocity",
+              "observed_peak": 0.11176193952560441,
+              "threshold": 0.04,
+              "indices": [
+                24,
+                25,
+                26,
+                27
+              ]
+            },
+            {
+              "check": "nominal/linear_acceleration",
+              "observed_peak": 0.8127596722229011,
+              "threshold": 0.25,
+              "indices": [
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                20,
+                21,
+                22,
+                24,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "nominal/angular_acceleration",
+              "observed_peak": 3.2687293881314647,
+              "threshold": 1.0,
+              "indices": [
+                0,
+                1,
+                2,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                12,
+                14,
+                16,
+                17,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                26,
+                27,
+                28,
+                29,
+                30,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "reference/finger_velocity",
+              "observed_peak": 0.11176193952560441,
+              "threshold": 0.04,
+              "indices": [
+                24,
+                25,
+                26,
+                27
+              ]
+            },
+            {
+              "check": "reference/linear_acceleration",
+              "observed_peak": 0.8127596722229011,
+              "threshold": 0.25,
+              "indices": [
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                20,
+                21,
+                22,
+                24,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "reference/angular_acceleration",
+              "observed_peak": 3.2687293881314683,
+              "threshold": 1.0,
+              "indices": [
+                0,
+                1,
+                2,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                12,
+                14,
+                16,
+                17,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                26,
+                27,
+                28,
+                29,
+                30,
+                32,
+                33
+              ]
+            },
+            {
+              "check": "G7_previous_actual_seam",
+              "observed_m_s": 0.3414088487625122,
+              "threshold_m_s": 0.04,
+              "k": 0
+            },
+            {
+              "check": "G7_interior",
+              "observed_m_s": 0.055813300609588445,
+              "threshold_m_s": 0.04,
+              "k": 25
+            },
+            {
+              "check": "G7_interior",
+              "observed_m_s": 0.1117619395256042,
+              "threshold_m_s": 0.04,
+              "k": 26
+            },
+            {
+              "check": "G7_interior",
+              "observed_m_s": 0.10802786350250268,
+              "threshold_m_s": 0.04,
+              "k": 27
+            },
+            {
+              "check": "G7_interior",
+              "observed_m_s": 0.060175061225890975,
+              "threshold_m_s": 0.04,
+              "k": 28
+            }
+          ],
+          "G7": {
+            "first_seam_speed_m_s": 0.3414088487625122,
+            "maximum_speed_m_s": 0.3414088487625122,
+            "training_margin_exceeded": true,
+            "original_execution_speed_exceeded": true,
+            "labels_not_retimed": true,
+            "representation": "DENSE_REFERENCE_G7_V6"
+          }
+        },
+        "progress": {
+          "P10_travel_m": 0.006633741634542709,
+          "P10_source_arc_m": 0.011706374927801766,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.003374006650852615,
+          "projected_m": 0.00017725654699124138,
+          "P10_net_m": [
+            -0.0006662489931190674,
+            -0.0012965027549426966,
+            0.0003024479238391553
+          ],
+          "teacher_net_m": [
+            0.0006438675649919623,
+            -1.9590908072728008e-05,
+            0.0033115599646125204
+          ],
+          "motion_pass": false,
+          "events_source": [
+            [
+              "open",
+              0.8005761103823569
+            ]
+          ],
+          "events_compiled": [
+            [
+              "open",
+              0.8005550754029425
+            ]
+          ],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.03262527204382887
+        }
+      },
+      "OFFICIAL_WITH_CONTINUOUS_REF": {
+        "labels": {
+          "WELL_FORMED": true,
+          "FRAME_VALID": true,
+          "OBS_IN_DOMAIN": false,
+          "DYNAMICS_PASS": false,
+          "GRIP_SAFE": false,
+          "NONTRIVIAL_PROGRESS": false,
+          "TASK_LEGAL": false
+        },
+        "archived_duration_s": 8.9,
+        "lead_in_s": 0.8,
+        "lead_in_m": 0.010332058360606747,
+        "lead_in_rad": 0.09841711812325235,
+        "source_frame_count": 50,
+        "rejected_starts_before_source": 6,
+        "rejected_starts_on_source": 0,
+        "world_knot_wire_max_error_m": 0.0001266456313130959,
+        "world_knot_wire_max_error_rad": 0.0005472059199989154,
+        "first_P10_source_progress": {
+          "P10_travel_m": 0.0,
+          "P10_source_arc_m": 0.0,
+          "P10_min_m": 0.001,
+          "teacher_P10_travel_m": 0.003374006650852615,
+          "projected_m": 0.0,
+          "P10_net_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "teacher_net_m": [
+            0.0006438675649919623,
+            -1.9590908072728008e-05,
+            0.0033115599646125204
+          ],
+          "motion_pass": false,
+          "events_source": [
+            [
+              "open",
+              0.8005761103823569
+            ]
+          ],
+          "events_compiled": [
+            [
+              "open",
+              0.8005871968868923
+            ]
+          ],
+          "event_pass": true,
+          "preview_fraction": 1.0,
+          "full_source_travel_m": 0.03262527204382887
+        },
+        "wire_P10_travel_m": 0.00636426401402068,
+        "first_preview_events_pass": false,
+        "source_events": [
+          {
+            "type": "open",
+            "source_s": 1.2990692853927612,
+            "expected_execution_s": 7.878602027893066,
+            "wire_error_s": 0.00029809147654091817
+          }
+        ],
+        "emitted_events": [
+          {
+            "type": "open",
+            "execution_s": 7.878900119369607
+          }
+        ],
+        "full_path_events_pass": true,
+        "source_events_within_first_preview": 0,
+        "grip_seam_m_s": 0.3414088487625122,
+        "max_grip_rate_m_s": 0.3414088487625122,
+        "grip_limit_m_s": 0.04,
+        "boundary_accel": [
+          0.149904459522801,
+          0.020103221216142084
+        ],
+        "boundary_limits": [
+          0.25,
+          1.0
+        ],
+        "boundary_accel_pass": true,
+        "shadow": {
+          "rejection_evidence_sha256": "173e1c9c89ae31dc4dba9850bca9398c895345dd7b6df5f747b7060290c71356",
+          "maximum_observed_rejected_values": {
+            "maximum_discrete_translation_acceleration_m_s2": {
+              "observed": 0.47929393348692234,
+              "limit": 0.25
+            },
+            "maximum_discrete_angular_acceleration_rad_s2": {
+              "observed": 4.565472437475669,
+              "limit": 1.0
+            }
+          },
+          "installs": 98,
+          "windows_by_points": {
+            "41": 98,
+            "80": 98
+          },
+          "defined_fields_sha256": "07ac6a43833be540971d92c9c09c2d8a7e1467129cd17be5956762ce87447230",
+          "revisions": 0,
+          "max_pose_translation_field_error_m": 2.9542674528926227e-08,
+          "max_rolling_translation_field_error_m": 4.768371586472142e-08,
+          "original_full40_envelope_rejected_windows": 6,
+          "source_seconds_represented": 1.6333333333333333,
+          "final_phase_complete": true,
+          "HOLD_requests": 1,
+          "native_consumption_receipts": 0
+        }
+      },
+      "OFFICIAL_WITH_FEEDBACK_ELIGIBILITY": {
+        "status": "A1_DYNAMIC_UNQUALIFIED",
+        "evaluated": 1,
+        "native_controller_runs": 0,
+        "contact": true,
+        "time_varying": true
+      },
+      "previous_consumed_grip_m": 0.002,
+      "measured_grip_m": 0.019079225349422614,
+      "first_student_proposal_m": 0.019070442438125612,
+      "owner": "HANDOVER_BLOCKED",
+      "held": true,
+      "held_then_open": true
+    }
+  ],
+  "o0_sha256": "fc38db9d1f6e4c238540a78c81d416729732b124e6618c0d31b2a700537d7dea",
+  "new_gpu_forwards": 0,
+  "new_physics_ticks": 0,
+  "training_updates": 0,
+  "gripper_commands_issued": 0,
+  "heldout_episodes": 0
+}

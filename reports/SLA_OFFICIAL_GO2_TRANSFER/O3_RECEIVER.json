@@ -1,0 +1,24 @@
+{
+  "scope": "CPU identity and prior receipt audit",
+  "source_gripper_replay_sha256": "2a8c29c021838a7451d4fa789fa257f2bee7a9d3dae40b2d70d6066a29e373b5",
+  "teacher_receiver": {
+    "source_sha256": "0d64f75138775db6ce5d3223f3bd43b677b7906563241ac734be656793881762",
+    "library_sha256": "1d40b6c8c1060df9010f20cf6fe03bad62ac6ec9e0867e993a95a871108f375e"
+  },
+  "prior_interface_qualification_receiver": {
+    "source_sha256": "490c41c0dea0e28580f2cdae06903d020333d00654e39d11fb5d573e55cd63c5",
+    "library_sha256": "acb7627e986301dad5ffea933ff320ae474c0faeef09750b7ea22be5709dc187"
+  },
+  "identical_read_command_function": true,
+  "historical_teacher_intervals": 6038,
+  "historical_teacher_ticks": 150950,
+  "archived_student_owner_receipts": 0,
+  "blocked_windows": 16,
+  "new_native_runs": 0,
+  "receiver_packet_format": "<8sQddd",
+  "missing": [
+    "student epoch at receiver reset",
+    "gripper-specific owner ACK",
+    "per-step applied gripper command identity"
+  ]
+}
