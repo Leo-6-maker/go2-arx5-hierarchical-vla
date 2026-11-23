@@ -1,0 +1,145 @@
+{
+  "schema": "SLA_MEMORY_V15_D1_4X2_PREREG_PLAN_V1",
+  "status": "PLAN_ONLY_NOT_AUTHORIZED",
+  "source_parent_pr": 433,
+  "source_parent_commit": "cec17aa41b29f6b6b04b2f8d25e17d87e74227e4",
+  "primary_evidence": [
+    "reports/SLA_MEMORY_V14/B2_STATIC_BIAS_ATTRIBUTION.md",
+    "reports/SLA_MEMORY_V14/B2_STATIC_BIAS_ATTRIBUTION.json",
+    "reports/SLA_MEMORY_V14/B2_NATIVE_TECHNICAL_CARDS.md"
+  ],
+  "environment": {
+    "backend": "frozen Corelab OCS2/MPC+MuJoCo, not archived RL-WBC",
+    "physics_dt_s": 0.002,
+    "initialization_ticks": 5703,
+    "test_ticks": 500,
+    "per_card_cap": 6203,
+    "refresh_period_s": 0.1,
+    "target_ttl_s": 0.4,
+    "original_approval_status": "not authorized",
+    "run_owner": null,
+    "lease": null,
+    "expires_at": null,
+    "source_hash_sha256_check_before_run": true,
+    "student_forwards_budget": 0,
+    "optimizer_updates_budget": 0,
+    "hardware_allowed": false
+  },
+  "factors": {
+    "eef_ref": [
+      "old_held_target",
+      "measured_tcp_at_tick5703"
+    ],
+    "base_ref": [
+      "old_held_target",
+      "measured_base_at_tick5703"
+    ]
+  },
+  "cells": [
+    {
+      "id": "D1-OO",
+      "eef": "old_held_target",
+      "base": "old_held_target"
+    },
+    {
+      "id": "D1-MO",
+      "eef": "measured_tcp_at_tick5703",
+      "base": "old_held_target"
+    },
+    {
+      "id": "D1-OM",
+      "eef": "old_held_target",
+      "base": "measured_base_at_tick5703"
+    },
+    {
+      "id": "D1-MM",
+      "eef": "measured_tcp_at_tick5703",
+      "base": "measured_base_at_tick5703"
+    }
+  ],
+  "waves": [
+    {
+      "name": "wave_A",
+      "cells": [
+        "D1-OO",
+        "D1-MO",
+        "D1-OM",
+        "D1-MM"
+      ],
+      "independent_repetition": 1,
+      "new_native_requests_ceiling": 4,
+      "native_ticks_ceiling": 24812
+    },
+    {
+      "name": "wave_B",
+      "cells": [
+        "D1-OO",
+        "D1-MO",
+        "D1-OM",
+        "D1-MM"
+      ],
+      "independent_repetition": 2,
+      "new_native_requests_ceiling": 4,
+      "native_ticks_ceiling": 24812,
+      "unlock": "all_wave_A_technical_safety_and_identity_pass_plus_valid_reauthorization"
+    }
+  ],
+  "total_candidate_new_native_requests": 8,
+  "total_candidate_new_native_ticks": 49624,
+  "initial_state_equivalence_tolerances": "must freeze from existing B2 initialization variability before wave_A, no post-outcome tuning",
+  "off_the_shelf_reference": {
+    "old": "last valid world EEF/base spatial target before tick5703",
+    "measured": "actual measured world EEF/base at tick5703",
+    "all_conditions": "fresh legal 10 Hz messages with same ownership/sequence/TTL; no stale-packet reuse"
+  },
+  "metrics": [
+    "delta_tcp_world_xyz_100ms",
+    "delta_tcp_world_xyz_1000ms",
+    "fk_pd_cmd_delta_100ms",
+    "actual_tcp_minus_pd_fk_xyz",
+    "pd_fk_minus_reference_xyz",
+    "policy_echo_and_selected_id_if_observable",
+    "joint_q_target_actual",
+    "base_only_fk_counterfactual",
+    "reference_ack",
+    "joint_torque_and_ff",
+    "safety_stop",
+    "ticks_after_stop"
+  ],
+  "estimands": {
+    "response": "signed world TCP delta Z 100ms and PD-FK delta Z 100ms",
+    "EEF_main": "0.5*((MO-OO)+(MM-OM))",
+    "base_main": "0.5*((OM-OO)+(MM-MO))",
+    "interaction": "MM-MO-OM+OO"
+  },
+  "sample_limitations": "2 independent engineering repeats; descriptive contrasts only, not claims of significance",
+  "stop_conditions": [
+    "source_or_binary_sha_changed",
+    "no_owner_lease_budget",
+    "unsafe_cross_factor_geometry",
+    "unknown_initial_matching",
+    "invalid_or_missing_native_ack",
+    "physical_stop",
+    "nonzero_after_stop_ticks",
+    "unauthorized_retry_or_extra_step"
+  ],
+  "followon_D3_only_if_separately_authorized": {
+    "candidate_cards": 12,
+    "per_card_tick_cap_if_2s_post_init": 6703,
+    "total_candidate_ticks": 80436,
+    "paths": [
+      "xyz_translation",
+      "pure_SO3_rotation",
+      "coupled_SE3_curvature"
+    ],
+    "modes": [
+      "one_shot_high_level_intent_with_10hz_transport",
+      "P10_future_revision_with_10hz_transport"
+    ],
+    "rates": [
+      "preregistered_slow",
+      "preregistered_faster_feasible"
+    ]
+  },
+  "permissions": "This preregistration template is not authorization and contains no real source arrays, ACK tokens, or permission to launch native or GPU."
+}
