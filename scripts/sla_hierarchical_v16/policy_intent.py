@@ -196,7 +196,23 @@ def main(root, repo):
         )
     if len(rows) != 16:
         raise ValueError("incomplete registered panel")
+    report_dir = repo / "reports/SLA_HIERARCHICAL_V16"
+    vf = report_dir / "V1_DECISION_ACTUAL.json"
+    decision = read(vf)
+    poses = report_dir / "V1_COMPILER_ABLATION_ACTUAL.json"
+    pin(poses, decision["source_sha256"][poses.name])
+    if {w["id"]: w["raw_sha256"] for w in read(poses)["windows"]} != {
+        w["id"]: w["raw_sha256"] for w in rows
+    }:
+        raise ValueError("nonidentical V1/V4 source panel")
+    task_ids = {w["id"] for w in rows if w["phase_proxy_pass"]}
+    conjunction = {
+        m: sorted(task_ids & set(decision["methods"][m]["all_numeric_and_geometry"]))
+        for m in ("C2_EXACT", "C2_BOUNDED")
+    }
     return dict(
+        compiled_and_task_qualified_ids=conjunction,
+        source_v1_decision_sha256=digest(vf),
         windows=rows,
         phase_by_action_signature=counts,
         latency=timing(root, windows),
