@@ -295,16 +295,19 @@ def v2_control(root, repo):
     )
 
 
-def main(root, repo, out):
+def main(
+    root,
+    repo,
+    out,
+    *,
+    archive=None,
+    record_sha256="eaa766bdaf60aac80e00cb36d2c970f81d768a27104b975acf00ee6a1b78be46",
+):
     from noncontact_policy_return import ArchivedPolicy
 
-    archive = root / "v16/continuous-revisions03"
-    record = read(
-        pin(
-            archive / "ACTUAL.json",
-            "eaa766bdaf60aac80e00cb36d2c970f81d768a27104b975acf00ee6a1b78be46",
-        )
-    )["episodes"]
+    if archive is None:
+        archive = root / "v16/continuous-revisions03"
+    record = read(pin(archive / "ACTUAL.json", record_sha256))["episodes"]
     s0 = read(
         pin(
             root / "v13/run01/S0_ACTUAL.json",

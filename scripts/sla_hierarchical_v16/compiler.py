@@ -160,11 +160,70 @@ def size_duration(unit, grip, limits, n):
     return rounded(max(worst))
 
 
+class CruiseClock:
+    """C² scalar phase for a line and shortest slerp, with equal smooth speed ramps."""
+
+    def __init__(self, translation, angle, limits, minimum_duration):
+        if (
+            not np.isfinite([translation, angle, minimum_duration]).all()
+            or min(translation, angle) < 0
+        ):
+            raise ValueError("invalid alignment distances or time")
+        inverse_speed = 0.0
+        inverse_acceleration = 0.0
+        for distance, kind in ((translation, "linear"), (angle, "angular")):
+            velocity = limits[kind + "_velocity"]
+            acceleration = limits[kind + "_acceleration"]
+            if (
+                not np.isfinite([velocity, acceleration]).all()
+                or min(velocity, acceleration) <= 0
+            ):
+                raise ValueError("invalid alignment limits")
+            inverse_speed = max(
+                inverse_speed, distance / (0.9 * min(velocity, acceleration * DT))
+            )
+            inverse_acceleration = max(
+                inverse_acceleration, distance / (0.9 * acceleration)
+            )
+        if inverse_speed == 0:
+            self.duration = rounded(minimum_duration)
+            self.ramp_fraction = 0.5
+            return
+        # Each smoothstep velocity ramp covers half the distance of a cruise at peak speed.
+        inverse_peak = max(inverse_speed, math.sqrt(1.5 * inverse_acceleration))
+        ramp = 1.5 * inverse_acceleration / inverse_peak
+        fastest = inverse_peak + ramp
+        self.duration = rounded(max(fastest, minimum_duration))
+        self.ramp_fraction = min(0.5, ramp / fastest)
+
+    def phase(self, t):
+        u = np.clip(t, 0, 1)
+        r = self.ramp_fraction
+        q = np.minimum(np.minimum(u, 1 - u) / r, 1.0)
+        ramp_distance = r * q**3 * (1 - 0.5 * q) / (1 - r)
+        middle = (u - 0.5 * r) / (1 - r)
+        return np.clip(
+            np.where(
+                u < r, ramp_distance, np.where(u > 1 - r, 1 - ramp_distance, middle)
+            ),
+            0,
+            1,
+        )
+
+
 class Compiler:
     """The alignment has its own clock. No teacher future pose or contact target enters the fit."""
 
     def __init__(
-        self, source, anchor, incoming, limits, *, bounded=False, protect_all=False
+        self,
+        source,
+        anchor,
+        incoming,
+        limits,
+        *,
+        bounded=False,
+        protect_all=False,
+        cruise_from_width_m=None,
     ):
         self.source = source
         self.anchor = np.array(anchor, float)
@@ -181,7 +240,25 @@ class Compiler:
         self.rotation = Slerp(
             [0.0, 1.0], Rotation.from_matrix([self.stopped[:3, :3], self.first[:3, :3]])
         )
-        self.align = size_duration(self.alignment, None, limits, 96)
+        self.cruise_clock = None
+        if cruise_from_width_m is None:
+            self.align = size_duration(self.alignment, None, limits, 96)
+        else:
+            first_width_m = 0.002 + 0.040 * source.arm[0, 7]
+            # The legacy H40 interprets this same fractional change over 44 mm travel.
+            width_time = (
+                1.875
+                * abs(first_width_m - cruise_from_width_m)
+                * (0.044 / 0.040)
+                / (0.9 * 0.040)
+            )
+            self.cruise_clock = CruiseClock(
+                np.linalg.norm(self.first[:3, 3] - self.stopped[:3, 3]),
+                relative_angle(self.first[:3, :3], self.stopped[:3, :3]),
+                limits,
+                width_time - self.brake,
+            )
+            self.align = self.cruise_clock.duration
         self.lead = self.brake + self.align
         self.parts = blocks(source, bounded, protect_all)
         durations = [
@@ -200,7 +277,11 @@ class Compiler:
         )
 
     def alignment(self, t):
-        h = np.clip(ease(t), 0, 1)
+        h = (
+            np.clip(ease(t), 0, 1)
+            if self.cruise_clock is None
+            else self.cruise_clock.phase(t)
+        )
         x = self.stopped[:3, 3] + h[:, None] * (self.first[:3, 3] - self.stopped[:3, 3])
         return matrices(x, self.rotation(h).as_matrix()), np.zeros_like(t)
 

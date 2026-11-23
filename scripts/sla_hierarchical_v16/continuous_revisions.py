@@ -46,7 +46,7 @@ def timeline(calls, single_worker):
     return result
 
 
-def qualify(previous, old, new, sequence, first, scene):
+def qualify(previous, old, new, sequence, first, scene, *, cruise_alignment=False):
     from reachability import check_wire
     from retime import crossing
 
@@ -57,6 +57,7 @@ def qualify(previous, old, new, sequence, first, scene):
         sequence - 1,
         new["curve"],
         new["limits"],
+        cruise_alignment=cruise_alignment,
     )
     pos, g, phase = revised.future.arrays
     local_t = np.arange(len(g)) * DT
@@ -137,7 +138,16 @@ def at_sources(plan, t, root_hash):
 
 
 def episode_replay(
-    folder, queries, schedule, first_plan, first_result, scene, pairs, archive
+    folder,
+    queries,
+    schedule,
+    first_plan,
+    first_result,
+    scene,
+    pairs,
+    archive,
+    *,
+    cruise_alignment=False,
 ):
     from clock_replay import episode, GuardedManager
     from governor import PersistentReference
@@ -204,7 +214,15 @@ def episode_replay(
                 row = rows[nxt["key"]]
                 pair = pairs[active["key"], nxt["key"]]
                 row["standalone_pair_admitted"] = pair["geometric_and_numeric_pass"]
-                candidate, evidence = qualify(mgr.intent, active, nxt, i, first, scene)
+                candidate, evidence = qualify(
+                    mgr.intent,
+                    active,
+                    nxt,
+                    i,
+                    first,
+                    scene,
+                    cruise_alignment=cruise_alignment,
+                )
                 row["revision"] = evidence
                 if candidate is None:
                     row["status"] = "REVISION_REJECTED"
@@ -213,7 +231,11 @@ def episode_replay(
                 mgr.revise(candidate, now, epoch)
                 active = nxt
                 row["status"] = "ADMITTED"
-                if mgr.revision == 1 and pair["geometric_and_numeric_pass"]:
+                if (
+                    archive is not None
+                    and mgr.revision == 1
+                    and pair["geometric_and_numeric_pass"]
+                ):
                     old_file = (
                         archive
                         / (first["key"] + "-" + nxt["key"] + "-FULL-ALIGNED")
@@ -294,6 +316,22 @@ def episode_replay(
                 r["max_scheduled_source_phase_s"] = max(
                     float(p), r["max_scheduled_source_phase_s"] or 0.0
                 )
+                if cruise_alignment and moved:
+                    first_xyz = queries[name]["curve"].knots[0, :3, 3]
+                    r.setdefault("current_motion", []).append(
+                        dict(
+                            age_s=float(start / 10 + elapsed[j] - r["capture_s"]),
+                            callback_sha256=ident,
+                            knot=j,
+                            source_time_s=float(p),
+                            displacement_mm=float(
+                                1000 * np.linalg.norm(values[j, :3] - first_xyz)
+                            ),
+                            wire_displacement_mm=float(
+                                1000 * np.linalg.norm(poses[j, :3, 3] - first_xyz)
+                            ),
+                        )
+                    )
                 if moved and r["first_nonzero_source_motion_s"] is None:
                     r["first_nonzero_source_motion_s"] = float(
                         start / 10 + elapsed[j] - r["capture_s"]
