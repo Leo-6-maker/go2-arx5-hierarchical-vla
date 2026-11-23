@@ -1,0 +1,98 @@
+{
+  "schema": "SLA_OFFICIAL_POSTTRAIN_DIRECT_GO2_REGISTRATION_V1",
+  "date": "2026-11-24",
+  "status": "PLAN_ONLY_NO_NEW_GPU_OR_NATIVE",
+  "upstream": {
+    "repository": "XPolicyLab/XPolicyLab",
+    "source_commit": "c1b205ec42b4ab2cac9c2159c8b4c2f723e5e454",
+    "official_pr": 237,
+    "checkpoint_hf_repo": "haofuly/SLA_benchmark_ckpts",
+    "subdir": "SLA_Memory_robodojo_real_ckpt",
+    "hf_revision": "7f6880569c3be777291e646fad1b4951245e8553",
+    "train_config_name": "train_robodojo_real",
+    "extra_frames_first": false,
+    "action_type": "ee",
+    "action_horizon": 50,
+    "action_width": 16,
+    "native_source_fps_for_arx_x5": 30,
+    "current_images": [
+      "cam_head",
+      "cam_left_wrist",
+      "cam_right_wrist"
+    ],
+    "head_memory_frames": 9,
+    "episode_reset_required": true
+  },
+  "target": {
+    "embodiment": "Go2+ARX5 single right arm",
+    "observed_native_rgb_cameras": 2,
+    "observed_robot_fps": 20,
+    "source_double_arm_required": true,
+    "left_input_status": "VIRTUAL_OOD_MISSING_REAL_SENSOR",
+    "real_executor": "OCS2/MPC+MuJoCo; NOT archived RL-WBC",
+    "wire": {
+      "world_ee_points": 41,
+      "world_base_points": 41,
+      "time_step_s": 0.05,
+      "publish_period_s": 0.1,
+      "ttl_s": 0.4
+    },
+    "gripper": "Separate student-owned control; no teacher takeover without real ACK"
+  },
+  "existing_evidence": {
+    "old_checkpoint_is_posttrained": true,
+    "old_source_forward_exists": true,
+    "old_target_forward_exists": true,
+    "original_H40_G7_pass": "0/16",
+    "v13_retime_task_valid": "0/16",
+    "f2_static_feedback": "4/4 matched known goals; 9.8-10.0 seconds to tolerance",
+    "f2_dynamic_or_contact_qualification": false,
+    "student_gripper_owner": "0/16",
+    "student_task_success_rate": null
+  },
+  "stages": [
+    {
+      "id": "O0",
+      "name": "identity_and_existing_evidence",
+      "resource": "CPU",
+      "status": "EVIDENCE_AVAILABLE_REVALIDATE_LOCAL_SHA"
+    },
+    {
+      "id": "O1",
+      "name": "official_checkpoint_sealed_action_shadow",
+      "resource": "CPU",
+      "status": "NOT_RUN_THIS_SCOPE"
+    },
+    {
+      "id": "O2",
+      "name": "new_source_and_target_model_forwards",
+      "resource": "GPU_ONLY_WHEN_SEPARATELY_AUTHORIZED",
+      "candidate_max_new_forwards": 10,
+      "status": "NOT_AUTHORIZED_NOT_RUN"
+    },
+    {
+      "id": "O3",
+      "name": "student_owned_gripper_qualification",
+      "resource": "NATIVE_ONLY_WHEN_AUTHORIZED",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "O4",
+      "name": "dynamic_A1_and_genuine_student_skill",
+      "resource": "GPU_AND_NATIVE_SEPARATELY_AUTHORIZED",
+      "status": "BLOCKED_PENDING_DYNAMIC_AND_GRIPPER_QUALIFICATION"
+    }
+  ],
+  "invariants": [
+    "no_SLA_weight_change",
+    "no_frozen_OCS2_WBC_PD_change",
+    "source_checkpoint_params_norm_stats_identity",
+    "use_real_go2_observation_timestamps",
+    "no_fake_third_real_camera_claim",
+    "no_double_action_unnormalization",
+    "preserve_previous_consumed_gripper_command",
+    "no_unqualified_contact",
+    "no_legacy_denominator_change",
+    "no_auto_native_or_gpu_from_GitHub_PR"
+  ]
+}
