@@ -18,7 +18,7 @@
 
 ## 1. 资源、身份、实验人口和自治边界
 
-- 指定独立Corelab本地owner，保留已注册source sha、controller sha、solver sha、MuJoCo model、WBC模式、2ms physics、原joint/collision/mobile STOP、42? 不允许“修复”其他后端。**旧模式所有原始文件只读**。不使用真实机器人、不访问DEV/TEST、不训练/优化SLA、不复制私有state/weights到GitHub；不接入Agent。
+- 指定独立Corelab本地owner，保留已注册source sha、controller sha、solver sha、MuJoCo model、WBC模式、2ms physics、原joint/collision/mobile STOP；不允许“修复”其他后端。**旧模式所有原始文件只读**。不使用真实机器人、不访问DEV/TEST、不训练/优化SLA、不复制私有state/weights到GitHub；不接入Agent。
 - 自主执行器可读取原始数据、CPU分析、生成新代码和封存回执；**产生新的MuJoCo请求、修改现场ROS/执行节点、更换二进制、启用GPU前向或新的科学人口均必须验证单独的显式准入**。本文的建议预算不是权限。每个物理阶段有独立 `registration.json`、source/model/optimizer哈希、场景/seed/真实租约、resource owner、deadline、GPU UUID（如果需要）、physical_request_cap、native_tick_cap、唯一run ID与STOP。
 - 候选 **D1首次4卡、确认无异常后追加一次相同2×2重复，共8个新物理请求**。每卡沿用原同一初始化5703 ticks+无接触保持500 ticks=6203 ticks，D1提议总上限 `8×6203=49624 ticks`；属于新的D1科学额度，**不复用已经消耗的B2 12881 tick**。如果任何一组几何/碰撞不安全就挡住那组，报告不完整因子设计，不能编造缺失数据。
 - 后续D3独立科学预算建议 **F1平移/F2纯旋转/F3耦合路径 × ONE_SHOT_INTENT/P10_REVISION × 2个预注册速度档=12卡**，每卡如按5703+1000tick(2s)规划上限6703，总建议上限80436tick，只有D1+D2合格并再次申请后才能进入。具体card tick随现场原native卡和STOP重算，不能凭本建议直接派发；动态条件应先做少量安全smoke，smoke请求计入该12卡分母，不另开免费请求。
