@@ -216,7 +216,56 @@ def score(root, case):
         and r["cancel"]["native_step"] == 6503,
         "clean termination",
     )
+    from d1_readiness import B2_PIN
+
+    old = root / "v14/b2-technical-20261123-01/B2_PUBLIC_READOUT.json"
+    require(sha(old) == B2_PIN, "B2 identity")
+    frozen = read(old)["frozen_sha256"]
+    loaded = read(out / "LOADED_EXECUTOR_00.private.json")
+    require(
+        all(loaded[k]["executable_sha256"] == h for k, h in frozen.items()),
+        "loaded native binary mismatch",
+    )
+    prior = root / "v16/sla-v16-student-gripper-native-01/V2-GRIP-01"
+    prev = read(prior / "RESULT.private.json")
+    prev_out = prior / prev["episode"]
+    require(
+        prev["outcome"] == "TECHNICAL_STOP"
+        and prev["issued"] == 0
+        and read(prior / "control/LEASE.json")["status"] == "CLOSED"
+        and not (prev_out / "PROCESS_COMMANDS.private.json").exists()
+        and not (prev_out / "state.bin.journal").exists()
+        and not (prior / "student/receiver.csv").exists(),
+        "zero-process interruption evidence",
+    )
+    timeline = []
+    for i, c in enumerate(commands):
+        t = c["tick"]
+        timeline.append(
+            dict(
+                sequence=i,
+                source_tick=t,
+                receiver_ack_tick=int(accepted[i][2]),
+                end_tick=t + 25,
+                width_m=c["width_m"],
+                wire_sha256=c["packet_sha256"],
+                applied_native_steps=25,
+                measured_slide_start_mm=(1000 * measured[t - 1]).tolist(),
+                measured_slide_end_mm=(1000 * measured[t + 24]).tolist(),
+            )
+        )
     return dict(
+        full_denominator=dict(
+            registered_requests=2,
+            technical_stops_before_process_start=1,
+            actual_simulator_starts=1,
+            completed_noncontact_cards=1,
+            actual_student_SLA_tasks=0,
+        ),
+        stage_gate="noncontact nominal receiver verified; physical adversarial rejection and moving full-system STOP unmeasured",
+        original_legacy_tick_zero_WBC_gate=False,
+        frozen_native_sha256=frozen,
+        verified_command_intervals=timeline,
         outcome="V2_GRIPPER_QUALIFIED_ONE_CARD"
         if moved
         else "V2_BILATERAL_MOTION_BLOCKED",
