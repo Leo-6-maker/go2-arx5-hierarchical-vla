@@ -1,0 +1,9 @@
+{
+  "population": "All 16 V1 TRAIN curves, both C2 candidates, excluding lead-in and final padded dwell. Only samples on actual 100ms update boundaries.",
+  "question": "Can any emitted A1 reference with its current per-update caps follow the time-varying source at a constant Cartesian offset within a fixed error? Use all update-time pairs and the triangle inequality: epsilon >= max((distance(target_i,target_j) - (j-i)*max_step)/2, 0). SO(3) uses bi-invariant geodesic angle. Report largest lower bound and witness per channel, at unchanged 4 mm / 2 deg as a diagnostic reference.",
+  "caveat": "Necessary reference-shape test. Offset is fixed within each comparison; achieved TCP and time-varying plant error may differ. Passing is not a dynamic qualification.",
+  "resources": {
+    "native": 0,
+    "GPU": 0
+  }
+}

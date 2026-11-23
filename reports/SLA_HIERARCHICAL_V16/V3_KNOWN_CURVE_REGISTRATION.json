@@ -1,0 +1,12 @@
+{
+  "scope": "CPU only. Two fixed original reset witnesses F1-01 and F1-02, first in each verified startup cluster. Known reference only, no model actions.",
+  "cases": [
+    "F1-01/SLOW",
+    "F1-01/SOURCE_SPEED",
+    "F1-02/SLOW",
+    "F1-02/SOURCE_SPEED"
+  ],
+  "path": "Hold original accepted world reference for 1 s. For 4 s trace one X/Z circle using a minimum-jerk angular clock 0..2pi. Rotate about world Y with the sine of this same angle, then park at starting pose for 2 s. Old fixed mount and actually consumed open gripper.",
+  "rates": "SLOW: peak linear 4 mm/s and angular 0.6 deg/s; SOURCE_SPEED: 11.25 mm/s and 0.045 rad/s. Radius and tilt amplitude selected analytically from peak clock speed. Check original H40/G7 at every 100 ms and native-scene kinematic sweeps at 50 ms. Iterate in registered order; preserve all failures.",
+  "limits": "No new physical integration, no claims about WBC control, sensor noise, startup convergence or safety-stop behavior. Native permission and threshold/clearance remain independent."
+}
