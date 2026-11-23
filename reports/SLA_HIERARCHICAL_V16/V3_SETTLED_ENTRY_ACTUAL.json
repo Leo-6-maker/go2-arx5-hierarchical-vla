@@ -1,0 +1,1850 @@
+{
+  "cards": [
+    {
+      "card": "F2-01",
+      "consumed_wire_sha256": "11b571950a61097665adfdf39f88bb1eaa69eee1fd711103681a3f637f5b3575",
+      "end_tick": 11103,
+      "elapsed_to_dwell_start_s": 9.8,
+      "measured_to_goal": {
+        "mm": 3.30874210857659,
+        "deg": 0.12587294371411525
+      },
+      "command_to_goal": {
+        "mm": 34.01174432456505,
+        "deg": 2.144969032788455
+      },
+      "methods": {
+        "RESET_NOMINAL": {
+          "SLOW": {
+            "first_knot_gap": {
+              "mm": 34.01174432456505,
+              "deg": 2.144969032788455
+            },
+            "optimistic_one_tick_seam_rejection": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+            "hypothetical_join_speed_m_s": 0.6802348864913009,
+            "all_previews": 71,
+            "rejected_preview_indices": [],
+            "minimum_pad_clearance_mm": 74.51127135575378,
+            "pair_clearances": [
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 8,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 114.64443411242587,
+                "between_sample_reserve_mm": 0.24523837277815236,
+                "observed_slide_excursion_reserve_mm": 0.018861720583018382,
+                "lever_mm": 56.71412583609603,
+                "net_lower_bound_mm": 114.3803340190647
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 690,
+                "sample_lower_bound_mm": 117.57796334686346,
+                "between_sample_reserve_mm": 0.0045939089369381545,
+                "observed_slide_excursion_reserve_mm": 0.018861720583018382,
+                "lever_mm": 56.71412583609603,
+                "net_lower_bound_mm": 117.5545077173435
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 8,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 76.09247302655645,
+                "between_sample_reserve_mm": 0.24523837277815236,
+                "observed_slide_excursion_reserve_mm": 0.018861720583018382,
+                "lever_mm": 56.71412583609603,
+                "net_lower_bound_mm": 75.82837293319528
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2245,
+                "sample_lower_bound_mm": 79.2021077635157,
+                "between_sample_reserve_mm": 0.0045939089369381545,
+                "observed_slide_excursion_reserve_mm": 0.018861720583018382,
+                "lever_mm": 56.71412583609603,
+                "net_lower_bound_mm": 79.17865213399574
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 8,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 113.15460866159222,
+                "between_sample_reserve_mm": 0.24475531642507936,
+                "observed_slide_excursion_reserve_mm": 0.018477129849543417,
+                "lever_mm": 53.635789437982126,
+                "net_lower_bound_mm": 112.89137621531759
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 686,
+                "sample_lower_bound_mm": 116.07566258772603,
+                "between_sample_reserve_mm": 0.004561672673559512,
+                "observed_slide_excursion_reserve_mm": 0.018477129849543417,
+                "lever_mm": 53.635789437982126,
+                "net_lower_bound_mm": 116.05262378520293
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 8,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 74.7745038020284,
+                "between_sample_reserve_mm": 0.24475531642507936,
+                "observed_slide_excursion_reserve_mm": 0.018477129849543417,
+                "lever_mm": 53.635789437982126,
+                "net_lower_bound_mm": 74.51127135575378
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2245,
+                "sample_lower_bound_mm": 77.87750229872515,
+                "between_sample_reserve_mm": 0.004561672673559512,
+                "observed_slide_excursion_reserve_mm": 0.018477129849543417,
+                "lever_mm": 53.635789437982126,
+                "net_lower_bound_mm": 77.85446349620204
+              }
+            ],
+            "fixed_open_g7_m_s": 0.0
+          },
+          "SOURCE_SPEED": {
+            "first_knot_gap": {
+              "mm": 34.01174432456505,
+              "deg": 2.144969032788455
+            },
+            "optimistic_one_tick_seam_rejection": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+            "hypothetical_join_speed_m_s": 0.6802348864913009,
+            "all_previews": 71,
+            "rejected_preview_indices": [],
+            "minimum_pad_clearance_mm": 74.51127135575378,
+            "pair_clearances": [
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 8,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 114.64443411242587,
+                "between_sample_reserve_mm": 0.24523837277815236,
+                "observed_slide_excursion_reserve_mm": 0.018861720583018382,
+                "lever_mm": 56.71412583609603,
+                "net_lower_bound_mm": 114.3803340190647
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 721,
+                "sample_lower_bound_mm": 117.56975734286387,
+                "between_sample_reserve_mm": 0.01380213566262432,
+                "observed_slide_excursion_reserve_mm": 0.018861720583018382,
+                "lever_mm": 56.71412583609603,
+                "net_lower_bound_mm": 117.53709348661822
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 8,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 76.09247302655645,
+                "between_sample_reserve_mm": 0.24523837277815236,
+                "observed_slide_excursion_reserve_mm": 0.018861720583018382,
+                "lever_mm": 56.71412583609603,
+                "net_lower_bound_mm": 75.82837293319528
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2267,
+                "sample_lower_bound_mm": 79.1964823097936,
+                "between_sample_reserve_mm": 0.01380213566262432,
+                "observed_slide_excursion_reserve_mm": 0.018861720583018382,
+                "lever_mm": 56.71412583609603,
+                "net_lower_bound_mm": 79.16381845354795
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 8,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 113.15460866159222,
+                "between_sample_reserve_mm": 0.24475531642507936,
+                "observed_slide_excursion_reserve_mm": 0.018477129849543417,
+                "lever_mm": 53.635789437982126,
+                "net_lower_bound_mm": 112.89137621531759
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 715,
+                "sample_lower_bound_mm": 116.06850823711976,
+                "between_sample_reserve_mm": 0.013663610524709196,
+                "observed_slide_excursion_reserve_mm": 0.018477129849543417,
+                "lever_mm": 53.635789437982126,
+                "net_lower_bound_mm": 116.03636749674551
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 8,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 74.7745038020284,
+                "between_sample_reserve_mm": 0.24475531642507936,
+                "observed_slide_excursion_reserve_mm": 0.018477129849543417,
+                "lever_mm": 53.635789437982126,
+                "net_lower_bound_mm": 74.51127135575378
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2267,
+                "sample_lower_bound_mm": 77.87189404421802,
+                "between_sample_reserve_mm": 0.013663610524709196,
+                "observed_slide_excursion_reserve_mm": 0.018477129849543417,
+                "lever_mm": 53.635789437982126,
+                "net_lower_bound_mm": 77.83975330384378
+              }
+            ],
+            "fixed_open_g7_m_s": 0.0
+          }
+        },
+        "CONTINUE_CONSUMED_OFFSET": {
+          "SLOW": {
+            "first_knot_gap": {
+              "mm": 0.0,
+              "deg": 0.0
+            },
+            "optimistic_one_tick_seam_rejection": null,
+            "hypothetical_join_speed_m_s": 0.0,
+            "all_previews": 71,
+            "rejected_preview_indices": [],
+            "minimum_pad_clearance_mm": 74.49485026510047,
+            "pair_clearances": [
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 76,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 114.64443411242587,
+                "between_sample_reserve_mm": 0.2618999962845247,
+                "observed_slide_excursion_reserve_mm": 0.018861720583018382,
+                "lever_mm": 56.71412583609603,
+                "net_lower_bound_mm": 114.36367239555832
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 693,
+                "sample_lower_bound_mm": 147.6637943901136,
+                "between_sample_reserve_mm": 0.0045939089369381545,
+                "observed_slide_excursion_reserve_mm": 0.018861720583018382,
+                "lever_mm": 56.71412583609603,
+                "net_lower_bound_mm": 147.64033876059364
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 76,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 76.09247302655645,
+                "between_sample_reserve_mm": 0.2618999962845247,
+                "observed_slide_excursion_reserve_mm": 0.018861720583018382,
+                "lever_mm": 56.71412583609603,
+                "net_lower_bound_mm": 75.8117113096889
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2240,
+                "sample_lower_bound_mm": 110.82658533509108,
+                "between_sample_reserve_mm": 0.0045939089369381545,
+                "observed_slide_excursion_reserve_mm": 0.018861720583018382,
+                "lever_mm": 56.71412583609603,
+                "net_lower_bound_mm": 110.80312970557112
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 76,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 113.15460866159222,
+                "between_sample_reserve_mm": 0.2611764070784016,
+                "observed_slide_excursion_reserve_mm": 0.018477129849543417,
+                "lever_mm": 53.635789437982126,
+                "net_lower_bound_mm": 112.87495512466428
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 688,
+                "sample_lower_bound_mm": 146.7648712228689,
+                "between_sample_reserve_mm": 0.004561672673559512,
+                "observed_slide_excursion_reserve_mm": 0.018477129849543417,
+                "lever_mm": 53.635789437982126,
+                "net_lower_bound_mm": 146.7418324203458
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 76,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 74.7745038020284,
+                "between_sample_reserve_mm": 0.2611764070784016,
+                "observed_slide_excursion_reserve_mm": 0.018477129849543417,
+                "lever_mm": 53.635789437982126,
+                "net_lower_bound_mm": 74.49485026510047
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2240,
+                "sample_lower_bound_mm": 109.9520468072985,
+                "between_sample_reserve_mm": 0.004561672673559512,
+                "observed_slide_excursion_reserve_mm": 0.018477129849543417,
+                "lever_mm": 53.635789437982126,
+                "net_lower_bound_mm": 109.9290080047754
+              }
+            ],
+            "fixed_open_g7_m_s": 0.0
+          },
+          "SOURCE_SPEED": {
+            "first_knot_gap": {
+              "mm": 0.0,
+              "deg": 0.0
+            },
+            "optimistic_one_tick_seam_rejection": null,
+            "hypothetical_join_speed_m_s": 0.0,
+            "all_previews": 71,
+            "rejected_preview_indices": [],
+            "minimum_pad_clearance_mm": 74.49485026510047,
+            "pair_clearances": [
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 76,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 114.64443411242587,
+                "between_sample_reserve_mm": 0.2618999962845247,
+                "observed_slide_excursion_reserve_mm": 0.018861720583018382,
+                "lever_mm": 56.71412583609603,
+                "net_lower_bound_mm": 114.36367239555832
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 724,
+                "sample_lower_bound_mm": 147.65476283335042,
+                "between_sample_reserve_mm": 0.01380213566262432,
+                "observed_slide_excursion_reserve_mm": 0.018861720583018382,
+                "lever_mm": 56.71412583609603,
+                "net_lower_bound_mm": 147.62209897710477
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 76,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 76.09247302655645,
+                "between_sample_reserve_mm": 0.2618999962845247,
+                "observed_slide_excursion_reserve_mm": 0.018861720583018382,
+                "lever_mm": 56.71412583609603,
+                "net_lower_bound_mm": 75.8117113096889
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2241,
+                "sample_lower_bound_mm": 110.81109064418865,
+                "between_sample_reserve_mm": 0.01380213566262432,
+                "observed_slide_excursion_reserve_mm": 0.018861720583018382,
+                "lever_mm": 56.71412583609603,
+                "net_lower_bound_mm": 110.778426787943
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 76,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 113.15460866159222,
+                "between_sample_reserve_mm": 0.2611764070784016,
+                "observed_slide_excursion_reserve_mm": 0.018477129849543417,
+                "lever_mm": 53.635789437982126,
+                "net_lower_bound_mm": 112.87495512466428
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 718,
+                "sample_lower_bound_mm": 146.75724906606916,
+                "between_sample_reserve_mm": 0.013663610524709196,
+                "observed_slide_excursion_reserve_mm": 0.018477129849543417,
+                "lever_mm": 53.635789437982126,
+                "net_lower_bound_mm": 146.72510832569492
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 76,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 74.7745038020284,
+                "between_sample_reserve_mm": 0.2611764070784016,
+                "observed_slide_excursion_reserve_mm": 0.018477129849543417,
+                "lever_mm": 53.635789437982126,
+                "net_lower_bound_mm": 74.49485026510047
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2241,
+                "sample_lower_bound_mm": 109.93657250451382,
+                "between_sample_reserve_mm": 0.013663610524709196,
+                "observed_slide_excursion_reserve_mm": 0.018477129849543417,
+                "lever_mm": 53.635789437982126,
+                "net_lower_bound_mm": 109.90443176413957
+              }
+            ],
+            "fixed_open_g7_m_s": 0.0
+          }
+        }
+      }
+    },
+    {
+      "card": "F2-02",
+      "consumed_wire_sha256": "45d3ec84c59b16a963397d5e3a3eb97527e16352307be25751e7afb33d788573",
+      "end_tick": 11153,
+      "elapsed_to_dwell_start_s": 9.9,
+      "measured_to_goal": {
+        "mm": 3.529651900254849,
+        "deg": 0.12282067150702247
+      },
+      "command_to_goal": {
+        "mm": 34.08821895904019,
+        "deg": 2.1205943995067646
+      },
+      "methods": {
+        "RESET_NOMINAL": {
+          "SLOW": {
+            "first_knot_gap": {
+              "mm": 34.08821895904019,
+              "deg": 2.1205943995067646
+            },
+            "optimistic_one_tick_seam_rejection": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+            "hypothetical_join_speed_m_s": 0.6817643791808038,
+            "all_previews": 71,
+            "rejected_preview_indices": [],
+            "minimum_pad_clearance_mm": 74.45498612884026,
+            "pair_clearances": [
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 9,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 114.50465714352347,
+                "between_sample_reserve_mm": 0.22820165846924445,
+                "observed_slide_excursion_reserve_mm": 0.01897597039847909,
+                "lever_mm": 56.714504247313215,
+                "net_lower_bound_mm": 114.25747951465576
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 690,
+                "sample_lower_bound_mm": 117.62791806976384,
+                "between_sample_reserve_mm": 0.004593912899651154,
+                "observed_slide_excursion_reserve_mm": 0.01897597039847909,
+                "lever_mm": 56.714504247313215,
+                "net_lower_bound_mm": 117.6043481864657
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 9,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 76.0082712827239,
+                "between_sample_reserve_mm": 0.22820165846924445,
+                "observed_slide_excursion_reserve_mm": 0.01897597039847909,
+                "lever_mm": 56.714504247313215,
+                "net_lower_bound_mm": 75.76109365385616
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2243,
+                "sample_lower_bound_mm": 79.3245500237687,
+                "between_sample_reserve_mm": 0.004593912899651154,
+                "observed_slide_excursion_reserve_mm": 0.01897597039847909,
+                "lever_mm": 56.714504247313215,
+                "net_lower_bound_mm": 79.30098014047056
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 9,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 113.02887950019985,
+                "between_sample_reserve_mm": 0.22778914194645034,
+                "observed_slide_excursion_reserve_mm": 0.018824891818148615,
+                "lever_mm": 53.6354843467696,
+                "net_lower_bound_mm": 112.78226546643526
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 686,
+                "sample_lower_bound_mm": 116.13986656706099,
+                "between_sample_reserve_mm": 0.004561669478651806,
+                "observed_slide_excursion_reserve_mm": 0.018824891818148615,
+                "lever_mm": 53.6354843467696,
+                "net_lower_bound_mm": 116.1164800057642
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 9,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 74.70160016260485,
+                "between_sample_reserve_mm": 0.22778914194645034,
+                "observed_slide_excursion_reserve_mm": 0.018824891818148615,
+                "lever_mm": 53.6354843467696,
+                "net_lower_bound_mm": 74.45498612884026
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2243,
+                "sample_lower_bound_mm": 78.01168718781989,
+                "between_sample_reserve_mm": 0.004561669478651806,
+                "observed_slide_excursion_reserve_mm": 0.018824891818148615,
+                "lever_mm": 53.6354843467696,
+                "net_lower_bound_mm": 77.98830062652308
+              }
+            ],
+            "fixed_open_g7_m_s": 0.0
+          },
+          "SOURCE_SPEED": {
+            "first_knot_gap": {
+              "mm": 34.08821895904019,
+              "deg": 2.1205943995067646
+            },
+            "optimistic_one_tick_seam_rejection": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+            "hypothetical_join_speed_m_s": 0.6817643791808038,
+            "all_previews": 71,
+            "rejected_preview_indices": [],
+            "minimum_pad_clearance_mm": 74.45498612884026,
+            "pair_clearances": [
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 9,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 114.50465714352347,
+                "between_sample_reserve_mm": 0.22820165846924445,
+                "observed_slide_excursion_reserve_mm": 0.01897597039847909,
+                "lever_mm": 56.714504247313215,
+                "net_lower_bound_mm": 114.25747951465576
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 721,
+                "sample_lower_bound_mm": 117.61974968230707,
+                "between_sample_reserve_mm": 0.013802152691129095,
+                "observed_slide_excursion_reserve_mm": 0.01897597039847909,
+                "lever_mm": 56.714504247313215,
+                "net_lower_bound_mm": 117.58697155921746
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 9,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 76.0082712827239,
+                "between_sample_reserve_mm": 0.22820165846924445,
+                "observed_slide_excursion_reserve_mm": 0.01897597039847909,
+                "lever_mm": 56.714504247313215,
+                "net_lower_bound_mm": 75.76109365385616
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2264,
+                "sample_lower_bound_mm": 79.31835740501421,
+                "between_sample_reserve_mm": 0.013802152691129095,
+                "observed_slide_excursion_reserve_mm": 0.01897597039847909,
+                "lever_mm": 56.714504247313215,
+                "net_lower_bound_mm": 79.28557928192461
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 9,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 113.02887950019985,
+                "between_sample_reserve_mm": 0.22778914194645034,
+                "observed_slide_excursion_reserve_mm": 0.018824891818148615,
+                "lever_mm": 53.6354843467696,
+                "net_lower_bound_mm": 112.78226546643526
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 715,
+                "sample_lower_bound_mm": 116.13273416277036,
+                "between_sample_reserve_mm": 0.013663596795604633,
+                "observed_slide_excursion_reserve_mm": 0.018824891818148615,
+                "lever_mm": 53.6354843467696,
+                "net_lower_bound_mm": 116.10024567415661
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 9,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 74.70160016260485,
+                "between_sample_reserve_mm": 0.22778914194645034,
+                "observed_slide_excursion_reserve_mm": 0.018824891818148615,
+                "lever_mm": 53.6354843467696,
+                "net_lower_bound_mm": 74.45498612884026
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2264,
+                "sample_lower_bound_mm": 78.00551228571958,
+                "between_sample_reserve_mm": 0.013663596795604633,
+                "observed_slide_excursion_reserve_mm": 0.018824891818148615,
+                "lever_mm": 53.6354843467696,
+                "net_lower_bound_mm": 77.97302379710581
+              }
+            ],
+            "fixed_open_g7_m_s": 0.0
+          }
+        },
+        "CONTINUE_CONSUMED_OFFSET": {
+          "SLOW": {
+            "first_knot_gap": {
+              "mm": 0.0,
+              "deg": 0.0
+            },
+            "optimistic_one_tick_seam_rejection": null,
+            "hypothetical_join_speed_m_s": 0.0,
+            "all_previews": 71,
+            "rejected_preview_indices": [],
+            "minimum_pad_clearance_mm": 74.42321009934597,
+            "pair_clearances": [
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 77,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 114.50465714352347,
+                "between_sample_reserve_mm": 0.2602718500895878,
+                "observed_slide_excursion_reserve_mm": 0.01897597039847909,
+                "lever_mm": 56.714504247313215,
+                "net_lower_bound_mm": 114.2254093230354
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 693,
+                "sample_lower_bound_mm": 147.74349783725305,
+                "between_sample_reserve_mm": 0.004593912899651154,
+                "observed_slide_excursion_reserve_mm": 0.01897597039847909,
+                "lever_mm": 56.714504247313215,
+                "net_lower_bound_mm": 147.7199279539549
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 77,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 76.0082712827239,
+                "between_sample_reserve_mm": 0.2602718500895878,
+                "observed_slide_excursion_reserve_mm": 0.01897597039847909,
+                "lever_mm": 56.714504247313215,
+                "net_lower_bound_mm": 75.72902346223583
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2237,
+                "sample_lower_bound_mm": 111.00981058475351,
+                "between_sample_reserve_mm": 0.004593912899651154,
+                "observed_slide_excursion_reserve_mm": 0.01897597039847909,
+                "lever_mm": 56.714504247313215,
+                "net_lower_bound_mm": 110.98624070145539
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 77,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 113.02887950019985,
+                "between_sample_reserve_mm": 0.2595651714407438,
+                "observed_slide_excursion_reserve_mm": 0.018824891818148615,
+                "lever_mm": 53.6354843467696,
+                "net_lower_bound_mm": 112.75048943694097
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 688,
+                "sample_lower_bound_mm": 146.85897770334603,
+                "between_sample_reserve_mm": 0.004561669478651806,
+                "observed_slide_excursion_reserve_mm": 0.018824891818148615,
+                "lever_mm": 53.6354843467696,
+                "net_lower_bound_mm": 146.83559114204922
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 77,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 74.70160016260485,
+                "between_sample_reserve_mm": 0.2595651714407438,
+                "observed_slide_excursion_reserve_mm": 0.018824891818148615,
+                "lever_mm": 53.6354843467696,
+                "net_lower_bound_mm": 74.42321009934597
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2237,
+                "sample_lower_bound_mm": 110.14695739469795,
+                "between_sample_reserve_mm": 0.004561669478651806,
+                "observed_slide_excursion_reserve_mm": 0.018824891818148615,
+                "lever_mm": 53.6354843467696,
+                "net_lower_bound_mm": 110.12357083340115
+              }
+            ],
+            "fixed_open_g7_m_s": 0.0
+          },
+          "SOURCE_SPEED": {
+            "first_knot_gap": {
+              "mm": 0.0,
+              "deg": 0.0
+            },
+            "optimistic_one_tick_seam_rejection": null,
+            "hypothetical_join_speed_m_s": 0.0,
+            "all_previews": 71,
+            "rejected_preview_indices": [],
+            "minimum_pad_clearance_mm": 74.42321009934597,
+            "pair_clearances": [
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 77,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 114.50465714352347,
+                "between_sample_reserve_mm": 0.2602718500895878,
+                "observed_slide_excursion_reserve_mm": 0.01897597039847909,
+                "lever_mm": 56.714504247313215,
+                "net_lower_bound_mm": 114.2254093230354
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 724,
+                "sample_lower_bound_mm": 147.73451377709415,
+                "between_sample_reserve_mm": 0.013802152691129095,
+                "observed_slide_excursion_reserve_mm": 0.01897597039847909,
+                "lever_mm": 56.714504247313215,
+                "net_lower_bound_mm": 147.70173565400452
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 77,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 76.0082712827239,
+                "between_sample_reserve_mm": 0.2602718500895878,
+                "observed_slide_excursion_reserve_mm": 0.01897597039847909,
+                "lever_mm": 56.714504247313215,
+                "net_lower_bound_mm": 75.72902346223583
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2238,
+                "sample_lower_bound_mm": 110.99335238046629,
+                "between_sample_reserve_mm": 0.013802152691129095,
+                "observed_slide_excursion_reserve_mm": 0.01897597039847909,
+                "lever_mm": 56.714504247313215,
+                "net_lower_bound_mm": 110.96057425737669
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 77,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 113.02887950019985,
+                "between_sample_reserve_mm": 0.2595651714407438,
+                "observed_slide_excursion_reserve_mm": 0.018824891818148615,
+                "lever_mm": 53.6354843467696,
+                "net_lower_bound_mm": 112.75048943694097
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 718,
+                "sample_lower_bound_mm": 146.85138313366264,
+                "between_sample_reserve_mm": 0.013663596795604633,
+                "observed_slide_excursion_reserve_mm": 0.018824891818148615,
+                "lever_mm": 53.6354843467696,
+                "net_lower_bound_mm": 146.81889464504889
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 77,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 74.70160016260485,
+                "between_sample_reserve_mm": 0.2595651714407438,
+                "observed_slide_excursion_reserve_mm": 0.018824891818148615,
+                "lever_mm": 53.6354843467696,
+                "net_lower_bound_mm": 74.42321009934597
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2238,
+                "sample_lower_bound_mm": 110.13051968897302,
+                "between_sample_reserve_mm": 0.013663596795604633,
+                "observed_slide_excursion_reserve_mm": 0.018824891818148615,
+                "lever_mm": 53.6354843467696,
+                "net_lower_bound_mm": 110.09803120035926
+              }
+            ],
+            "fixed_open_g7_m_s": 0.0
+          }
+        }
+      }
+    },
+    {
+      "card": "F2-03",
+      "consumed_wire_sha256": "1f34c99520fbd8b4cd5d47a1887cdef38e4712a0b9fff041f869cedd05d22aab",
+      "end_tick": 11203,
+      "elapsed_to_dwell_start_s": 10.0,
+      "measured_to_goal": {
+        "mm": 3.5599564631211194,
+        "deg": 0.10373116621762529
+      },
+      "command_to_goal": {
+        "mm": 34.1707900153184,
+        "deg": 2.116953185101904
+      },
+      "methods": {
+        "RESET_NOMINAL": {
+          "SLOW": {
+            "first_knot_gap": {
+              "mm": 34.1707900153184,
+              "deg": 2.116953185101904
+            },
+            "optimistic_one_tick_seam_rejection": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+            "hypothetical_join_speed_m_s": 0.6834158003063681,
+            "all_previews": 71,
+            "rejected_preview_indices": [],
+            "minimum_pad_clearance_mm": 74.40379739956082,
+            "pair_clearances": [
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 9,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 114.4491966278268,
+                "between_sample_reserve_mm": 0.2289147374708899,
+                "observed_slide_excursion_reserve_mm": 0.019623165216110294,
+                "lever_mm": 56.714802640250014,
+                "net_lower_bound_mm": 114.20065872513979
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 690,
+                "sample_lower_bound_mm": 117.62784125888662,
+                "between_sample_reserve_mm": 0.004593916024414681,
+                "observed_slide_excursion_reserve_mm": 0.019623165216110294,
+                "lever_mm": 56.714802640250014,
+                "net_lower_bound_mm": 117.60362417764608
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 9,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 75.95876588989472,
+                "between_sample_reserve_mm": 0.2289147374708899,
+                "observed_slide_excursion_reserve_mm": 0.019623165216110294,
+                "lever_mm": 56.714802640250014,
+                "net_lower_bound_mm": 75.71022798720773
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2243,
+                "sample_lower_bound_mm": 79.32446558746597,
+                "between_sample_reserve_mm": 0.004593916024414681,
+                "observed_slide_excursion_reserve_mm": 0.019623165216110294,
+                "lever_mm": 56.714802640250014,
+                "net_lower_bound_mm": 79.30024850622544
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 9,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 112.97333565836784,
+                "between_sample_reserve_mm": 0.22856627745540903,
+                "observed_slide_excursion_reserve_mm": 0.019245810482118486,
+                "lever_mm": 53.63525940261126,
+                "net_lower_bound_mm": 112.72552357043031
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 686,
+                "sample_lower_bound_mm": 116.13977564559252,
+                "between_sample_reserve_mm": 0.004561667123042088,
+                "observed_slide_excursion_reserve_mm": 0.019245810482118486,
+                "lever_mm": 53.63525940261126,
+                "net_lower_bound_mm": 116.11596816798736
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 9,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 74.65160948749835,
+                "between_sample_reserve_mm": 0.22856627745540903,
+                "observed_slide_excursion_reserve_mm": 0.019245810482118486,
+                "lever_mm": 53.63525940261126,
+                "net_lower_bound_mm": 74.40379739956082
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2243,
+                "sample_lower_bound_mm": 78.0115875464927,
+                "between_sample_reserve_mm": 0.004561667123042088,
+                "observed_slide_excursion_reserve_mm": 0.019245810482118486,
+                "lever_mm": 53.63525940261126,
+                "net_lower_bound_mm": 77.98778006888755
+              }
+            ],
+            "fixed_open_g7_m_s": 0.0
+          },
+          "SOURCE_SPEED": {
+            "first_knot_gap": {
+              "mm": 34.1707900153184,
+              "deg": 2.116953185101904
+            },
+            "optimistic_one_tick_seam_rejection": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+            "hypothetical_join_speed_m_s": 0.6834158003063681,
+            "all_previews": 71,
+            "rejected_preview_indices": [],
+            "minimum_pad_clearance_mm": 74.40379739956082,
+            "pair_clearances": [
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 9,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 114.4491966278268,
+                "between_sample_reserve_mm": 0.2289147374708899,
+                "observed_slide_excursion_reserve_mm": 0.019623165216110294,
+                "lever_mm": 56.714802640250014,
+                "net_lower_bound_mm": 114.20065872513979
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 721,
+                "sample_lower_bound_mm": 117.61967289202924,
+                "between_sample_reserve_mm": 0.01380216611881125,
+                "observed_slide_excursion_reserve_mm": 0.019623165216110294,
+                "lever_mm": 56.714802640250014,
+                "net_lower_bound_mm": 117.58624756069432
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 9,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 75.95876588989472,
+                "between_sample_reserve_mm": 0.2289147374708899,
+                "observed_slide_excursion_reserve_mm": 0.019623165216110294,
+                "lever_mm": 56.714802640250014,
+                "net_lower_bound_mm": 75.71022798720773
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2264,
+                "sample_lower_bound_mm": 79.31827298817794,
+                "between_sample_reserve_mm": 0.01380216611881125,
+                "observed_slide_excursion_reserve_mm": 0.019623165216110294,
+                "lever_mm": 56.714802640250014,
+                "net_lower_bound_mm": 79.28484765684303
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 9,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 112.97333565836784,
+                "between_sample_reserve_mm": 0.22856627745540903,
+                "observed_slide_excursion_reserve_mm": 0.019245810482118486,
+                "lever_mm": 53.63525940261126,
+                "net_lower_bound_mm": 112.72552357043031
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 715,
+                "sample_lower_bound_mm": 116.13264321432443,
+                "between_sample_reserve_mm": 0.013663586673117508,
+                "observed_slide_excursion_reserve_mm": 0.019245810482118486,
+                "lever_mm": 53.63525940261126,
+                "net_lower_bound_mm": 116.0997338171692
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 9,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 74.65160948749835,
+                "between_sample_reserve_mm": 0.22856627745540903,
+                "observed_slide_excursion_reserve_mm": 0.019245810482118486,
+                "lever_mm": 53.63525940261126,
+                "net_lower_bound_mm": 74.40379739956082
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2264,
+                "sample_lower_bound_mm": 78.00541266291027,
+                "between_sample_reserve_mm": 0.013663586673117508,
+                "observed_slide_excursion_reserve_mm": 0.019245810482118486,
+                "lever_mm": 53.63525940261126,
+                "net_lower_bound_mm": 77.97250326575504
+              }
+            ],
+            "fixed_open_g7_m_s": 0.0
+          }
+        },
+        "CONTINUE_CONSUMED_OFFSET": {
+          "SLOW": {
+            "first_knot_gap": {
+              "mm": 0.0,
+              "deg": 0.0
+            },
+            "optimistic_one_tick_seam_rejection": null,
+            "hypothetical_join_speed_m_s": 0.0,
+            "all_previews": 71,
+            "rejected_preview_indices": [],
+            "minimum_pad_clearance_mm": 74.37198052357945,
+            "pair_clearances": [
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 77,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 114.4491966278268,
+                "between_sample_reserve_mm": 0.2610952872629381,
+                "observed_slide_excursion_reserve_mm": 0.019623165216110294,
+                "lever_mm": 56.714802640250014,
+                "net_lower_bound_mm": 114.16847817534776
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 693,
+                "sample_lower_bound_mm": 147.82368855891832,
+                "between_sample_reserve_mm": 0.004593916024414681,
+                "observed_slide_excursion_reserve_mm": 0.019623165216110294,
+                "lever_mm": 56.714802640250014,
+                "net_lower_bound_mm": 147.7994714776778
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 77,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 75.95876588989472,
+                "between_sample_reserve_mm": 0.2610952872629381,
+                "observed_slide_excursion_reserve_mm": 0.019623165216110294,
+                "lever_mm": 56.714802640250014,
+                "net_lower_bound_mm": 75.67804743741567
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2237,
+                "sample_lower_bound_mm": 111.09434394266357,
+                "between_sample_reserve_mm": 0.004593916024414681,
+                "observed_slide_excursion_reserve_mm": 0.019623165216110294,
+                "lever_mm": 56.714802640250014,
+                "net_lower_bound_mm": 111.07012686142303
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 77,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 112.97333565836784,
+                "between_sample_reserve_mm": 0.2603831534367707,
+                "observed_slide_excursion_reserve_mm": 0.019245810482118486,
+                "lever_mm": 53.63525940261126,
+                "net_lower_bound_mm": 112.69370669444895
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 688,
+                "sample_lower_bound_mm": 146.93775468710498,
+                "between_sample_reserve_mm": 0.004561667123042088,
+                "observed_slide_excursion_reserve_mm": 0.019245810482118486,
+                "lever_mm": 53.63525940261126,
+                "net_lower_bound_mm": 146.9139472094998
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 77,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 74.65160948749835,
+                "between_sample_reserve_mm": 0.2603831534367707,
+                "observed_slide_excursion_reserve_mm": 0.019245810482118486,
+                "lever_mm": 53.63525940261126,
+                "net_lower_bound_mm": 74.37198052357945
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2237,
+                "sample_lower_bound_mm": 110.2306451621346,
+                "between_sample_reserve_mm": 0.004561667123042088,
+                "observed_slide_excursion_reserve_mm": 0.019245810482118486,
+                "lever_mm": 53.63525940261126,
+                "net_lower_bound_mm": 110.20683768452945
+              }
+            ],
+            "fixed_open_g7_m_s": 0.0
+          },
+          "SOURCE_SPEED": {
+            "first_knot_gap": {
+              "mm": 0.0,
+              "deg": 0.0
+            },
+            "optimistic_one_tick_seam_rejection": null,
+            "hypothetical_join_speed_m_s": 0.0,
+            "all_previews": 71,
+            "rejected_preview_indices": [],
+            "minimum_pad_clearance_mm": 74.37198052357945,
+            "pair_clearances": [
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 77,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 114.4491966278268,
+                "between_sample_reserve_mm": 0.2610952872629381,
+                "observed_slide_excursion_reserve_mm": 0.019623165216110294,
+                "lever_mm": 56.714802640250014,
+                "net_lower_bound_mm": 114.16847817534776
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 724,
+                "sample_lower_bound_mm": 147.81470492917225,
+                "between_sample_reserve_mm": 0.01380216611881125,
+                "observed_slide_excursion_reserve_mm": 0.019623165216110294,
+                "lever_mm": 56.714802640250014,
+                "net_lower_bound_mm": 147.78127959783734
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 77,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 75.95876588989472,
+                "between_sample_reserve_mm": 0.2610952872629381,
+                "observed_slide_excursion_reserve_mm": 0.019623165216110294,
+                "lever_mm": 56.714802640250014,
+                "net_lower_bound_mm": 75.67804743741567
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2238,
+                "sample_lower_bound_mm": 111.07784947850983,
+                "between_sample_reserve_mm": 0.01380216611881125,
+                "observed_slide_excursion_reserve_mm": 0.019623165216110294,
+                "lever_mm": 56.714802640250014,
+                "net_lower_bound_mm": 111.04442414717491
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 77,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 112.97333565836784,
+                "between_sample_reserve_mm": 0.2603831534367707,
+                "observed_slide_excursion_reserve_mm": 0.019245810482118486,
+                "lever_mm": 53.63525940261126,
+                "net_lower_bound_mm": 112.69370669444895
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 718,
+                "sample_lower_bound_mm": 146.93016193187518,
+                "between_sample_reserve_mm": 0.013663586673117508,
+                "observed_slide_excursion_reserve_mm": 0.019245810482118486,
+                "lever_mm": 53.63525940261126,
+                "net_lower_bound_mm": 146.89725253471994
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 77,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 74.65160948749835,
+                "between_sample_reserve_mm": 0.2603831534367707,
+                "observed_slide_excursion_reserve_mm": 0.019245810482118486,
+                "lever_mm": 53.63525940261126,
+                "net_lower_bound_mm": 74.37198052357945
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2238,
+                "sample_lower_bound_mm": 110.21417123222534,
+                "between_sample_reserve_mm": 0.013663586673117508,
+                "observed_slide_excursion_reserve_mm": 0.019245810482118486,
+                "lever_mm": 53.63525940261126,
+                "net_lower_bound_mm": 110.1812618350701
+              }
+            ],
+            "fixed_open_g7_m_s": 0.0
+          }
+        }
+      }
+    },
+    {
+      "card": "F2-06",
+      "consumed_wire_sha256": "815fbfb07a7e3248f42558cf291351f3b08a9ea39799bf1e2e977849f59a89b8",
+      "end_tick": 11153,
+      "elapsed_to_dwell_start_s": 9.9,
+      "measured_to_goal": {
+        "mm": 3.570389445062144,
+        "deg": 0.11326556162430589
+      },
+      "command_to_goal": {
+        "mm": 34.08835998402851,
+        "deg": 2.1203612772420675
+      },
+      "methods": {
+        "RESET_NOMINAL": {
+          "SLOW": {
+            "first_knot_gap": {
+              "mm": 34.08835998402851,
+              "deg": 2.1203612772420675
+            },
+            "optimistic_one_tick_seam_rejection": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+            "hypothetical_join_speed_m_s": 0.6817671996805701,
+            "all_previews": 71,
+            "rejected_preview_indices": [],
+            "minimum_pad_clearance_mm": 74.40309551810145,
+            "pair_clearances": [
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 9,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 114.45163314607579,
+                "between_sample_reserve_mm": 0.23015660136542138,
+                "observed_slide_excursion_reserve_mm": 0.018625760383471857,
+                "lever_mm": 56.71435918189693,
+                "net_lower_bound_mm": 114.2028507843269
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 690,
+                "sample_lower_bound_mm": 117.62863141131521,
+                "between_sample_reserve_mm": 0.004593911380529668,
+                "observed_slide_excursion_reserve_mm": 0.018625760383471857,
+                "lever_mm": 56.71435918189693,
+                "net_lower_bound_mm": 117.60541173955122
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 9,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 75.95765273699345,
+                "between_sample_reserve_mm": 0.23015660136542138,
+                "observed_slide_excursion_reserve_mm": 0.018625760383471857,
+                "lever_mm": 56.71435918189693,
+                "net_lower_bound_mm": 75.70887037524456
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2243,
+                "sample_lower_bound_mm": 79.32537602894946,
+                "between_sample_reserve_mm": 0.004593911380529668,
+                "observed_slide_excursion_reserve_mm": 0.018625760383471857,
+                "lever_mm": 56.71435918189693,
+                "net_lower_bound_mm": 79.30215635718547
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 9,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 112.97659294083599,
+                "between_sample_reserve_mm": 0.2297762059792881,
+                "observed_slide_excursion_reserve_mm": 0.01857783223731957,
+                "lever_mm": 53.635569850470155,
+                "net_lower_bound_mm": 112.72823890261938
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 686,
+                "sample_lower_bound_mm": 116.14051781285137,
+                "between_sample_reserve_mm": 0.004561670374044464,
+                "observed_slide_excursion_reserve_mm": 0.01857783223731957,
+                "lever_mm": 53.635569850470155,
+                "net_lower_bound_mm": 116.11737831024001
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 9,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 74.65144955631807,
+                "between_sample_reserve_mm": 0.2297762059792881,
+                "observed_slide_excursion_reserve_mm": 0.01857783223731957,
+                "lever_mm": 53.635569850470155,
+                "net_lower_bound_mm": 74.40309551810145
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2243,
+                "sample_lower_bound_mm": 78.01252396731631,
+                "between_sample_reserve_mm": 0.004561670374044464,
+                "observed_slide_excursion_reserve_mm": 0.01857783223731957,
+                "lever_mm": 53.635569850470155,
+                "net_lower_bound_mm": 77.98938446470495
+              }
+            ],
+            "fixed_open_g7_m_s": 0.0
+          },
+          "SOURCE_SPEED": {
+            "first_knot_gap": {
+              "mm": 34.08835998402851,
+              "deg": 2.1203612772420675
+            },
+            "optimistic_one_tick_seam_rejection": "MOBILE_ORIGINAL_FULL40_EEF_GATE",
+            "hypothetical_join_speed_m_s": 0.6817671996805701,
+            "all_previews": 71,
+            "rejected_preview_indices": [],
+            "minimum_pad_clearance_mm": 74.40309551810145,
+            "pair_clearances": [
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 9,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 114.45163314607579,
+                "between_sample_reserve_mm": 0.23015660136542138,
+                "observed_slide_excursion_reserve_mm": 0.018625760383471857,
+                "lever_mm": 56.71435918189693,
+                "net_lower_bound_mm": 114.2028507843269
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 721,
+                "sample_lower_bound_mm": 117.62046278285435,
+                "between_sample_reserve_mm": 0.013802146163185364,
+                "observed_slide_excursion_reserve_mm": 0.018625760383471857,
+                "lever_mm": 56.71435918189693,
+                "net_lower_bound_mm": 117.58803487630769
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 9,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 75.95765273699345,
+                "between_sample_reserve_mm": 0.23015660136542138,
+                "observed_slide_excursion_reserve_mm": 0.018625760383471857,
+                "lever_mm": 56.71435918189693,
+                "net_lower_bound_mm": 75.70887037524456
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2264,
+                "sample_lower_bound_mm": 79.31918303523221,
+                "between_sample_reserve_mm": 0.013802146163185364,
+                "observed_slide_excursion_reserve_mm": 0.018625760383471857,
+                "lever_mm": 56.71435918189693,
+                "net_lower_bound_mm": 79.28675512868556
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 9,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 112.97659294083599,
+                "between_sample_reserve_mm": 0.2297762059792881,
+                "observed_slide_excursion_reserve_mm": 0.01857783223731957,
+                "lever_mm": 53.635569850470155,
+                "net_lower_bound_mm": 112.72823890261938
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 715,
+                "sample_lower_bound_mm": 116.13338563032269,
+                "between_sample_reserve_mm": 0.013663600643271157,
+                "observed_slide_excursion_reserve_mm": 0.01857783223731957,
+                "lever_mm": 53.635569850470155,
+                "net_lower_bound_mm": 116.1011441974421
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 9,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 74.65144955631807,
+                "between_sample_reserve_mm": 0.2297762059792881,
+                "observed_slide_excursion_reserve_mm": 0.01857783223731957,
+                "lever_mm": 53.635569850470155,
+                "net_lower_bound_mm": 74.40309551810145
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2264,
+                "sample_lower_bound_mm": 78.00634870090187,
+                "between_sample_reserve_mm": 0.013663600643271157,
+                "observed_slide_excursion_reserve_mm": 0.01857783223731957,
+                "lever_mm": 53.635569850470155,
+                "net_lower_bound_mm": 77.97410726802127
+              }
+            ],
+            "fixed_open_g7_m_s": 0.0
+          }
+        },
+        "CONTINUE_CONSUMED_OFFSET": {
+          "SLOW": {
+            "first_knot_gap": {
+              "mm": 0.0,
+              "deg": 0.0
+            },
+            "optimistic_one_tick_seam_rejection": null,
+            "hypothetical_join_speed_m_s": 0.0,
+            "all_previews": 71,
+            "rejected_preview_indices": [],
+            "minimum_pad_clearance_mm": 74.37298878849464,
+            "pair_clearances": [
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 77,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 114.45163314607579,
+                "between_sample_reserve_mm": 0.26059276734094017,
+                "observed_slide_excursion_reserve_mm": 0.018625760383471857,
+                "lever_mm": 56.71435918189693,
+                "net_lower_bound_mm": 114.17241461835138
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 693,
+                "sample_lower_bound_mm": 147.74411685262444,
+                "between_sample_reserve_mm": 0.004593911380529668,
+                "observed_slide_excursion_reserve_mm": 0.018625760383471857,
+                "lever_mm": 56.71435918189693,
+                "net_lower_bound_mm": 147.72089718086045
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 77,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 75.95765273699345,
+                "between_sample_reserve_mm": 0.26059276734094017,
+                "observed_slide_excursion_reserve_mm": 0.018625760383471857,
+                "lever_mm": 56.71435918189693,
+                "net_lower_bound_mm": 75.67843420926904
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2237,
+                "sample_lower_bound_mm": 111.01136765784337,
+                "between_sample_reserve_mm": 0.004593911380529668,
+                "observed_slide_excursion_reserve_mm": 0.018625760383471857,
+                "lever_mm": 56.71435918189693,
+                "net_lower_bound_mm": 110.98814798607937
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 77,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 112.97659294083599,
+                "between_sample_reserve_mm": 0.2598829355861103,
+                "observed_slide_excursion_reserve_mm": 0.01857783223731957,
+                "lever_mm": 53.635569850470155,
+                "net_lower_bound_mm": 112.69813217301257
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 688,
+                "sample_lower_bound_mm": 146.85887885095235,
+                "between_sample_reserve_mm": 0.004561670374044464,
+                "observed_slide_excursion_reserve_mm": 0.01857783223731957,
+                "lever_mm": 53.635569850470155,
+                "net_lower_bound_mm": 146.83573934834098
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 77,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 74.65144955631807,
+                "between_sample_reserve_mm": 0.2598829355861103,
+                "observed_slide_excursion_reserve_mm": 0.01857783223731957,
+                "lever_mm": 53.635569850470155,
+                "net_lower_bound_mm": 74.37298878849464
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2237,
+                "sample_lower_bound_mm": 110.14813344311378,
+                "between_sample_reserve_mm": 0.004561670374044464,
+                "observed_slide_excursion_reserve_mm": 0.01857783223731957,
+                "lever_mm": 53.635569850470155,
+                "net_lower_bound_mm": 110.1249939405024
+              }
+            ],
+            "fixed_open_g7_m_s": 0.0
+          },
+          "SOURCE_SPEED": {
+            "first_knot_gap": {
+              "mm": 0.0,
+              "deg": 0.0
+            },
+            "optimistic_one_tick_seam_rejection": null,
+            "hypothetical_join_speed_m_s": 0.0,
+            "all_previews": 71,
+            "rejected_preview_indices": [],
+            "minimum_pad_clearance_mm": 74.37298878849464,
+            "pair_clearances": [
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 77,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 114.45163314607579,
+                "between_sample_reserve_mm": 0.26059276734094017,
+                "observed_slide_excursion_reserve_mm": 0.018625760383471857,
+                "lever_mm": 56.71435918189693,
+                "net_lower_bound_mm": 114.17241461835138
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 724,
+                "sample_lower_bound_mm": 147.73513158385353,
+                "between_sample_reserve_mm": 0.013802146163185364,
+                "observed_slide_excursion_reserve_mm": 0.018625760383471857,
+                "lever_mm": 56.71435918189693,
+                "net_lower_bound_mm": 147.70270367730689
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 77,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 75.95765273699345,
+                "between_sample_reserve_mm": 0.26059276734094017,
+                "observed_slide_excursion_reserve_mm": 0.018625760383471857,
+                "lever_mm": 56.71435918189693,
+                "net_lower_bound_mm": 75.67843420926904
+              },
+              {
+                "pad": "task_left_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2238,
+                "sample_lower_bound_mm": 110.99490095539281,
+                "between_sample_reserve_mm": 0.013802146163185364,
+                "observed_slide_excursion_reserve_mm": 0.018625760383471857,
+                "lever_mm": 56.71435918189693,
+                "net_lower_bound_mm": 110.96247304884615
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "join",
+                "samples": 77,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 112.97659294083599,
+                "between_sample_reserve_mm": 0.2598829355861103,
+                "observed_slide_excursion_reserve_mm": 0.01857783223731957,
+                "lever_mm": 53.635569850470155,
+                "net_lower_bound_mm": 112.69813217301257
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_table",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 718,
+                "sample_lower_bound_mm": 146.85128565642043,
+                "between_sample_reserve_mm": 0.013663600643271157,
+                "observed_slide_excursion_reserve_mm": 0.01857783223731957,
+                "lever_mm": 53.635569850470155,
+                "net_lower_bound_mm": 146.81904422353983
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "join",
+                "samples": 77,
+                "minimum_index": 0,
+                "sample_lower_bound_mm": 74.65144955631807,
+                "between_sample_reserve_mm": 0.2598829355861103,
+                "observed_slide_excursion_reserve_mm": 0.01857783223731957,
+                "lever_mm": 53.635569850470155,
+                "net_lower_bound_mm": 74.37298878849464
+              },
+              {
+                "pad": "task_right_pad",
+                "obstacle": "task_cube_geom",
+                "segment": "curve",
+                "samples": 3501,
+                "minimum_index": 2238,
+                "sample_lower_bound_mm": 110.13168729868376,
+                "between_sample_reserve_mm": 0.013663600643271157,
+                "observed_slide_excursion_reserve_mm": 0.01857783223731957,
+                "lever_mm": 53.635569850470155,
+                "net_lower_bound_mm": 110.09944586580318
+              }
+            ],
+            "fixed_open_g7_m_s": 0.0
+          }
+        }
+      }
+    }
+  ],
+  "F2_started": 6,
+  "F2_screened": 2,
+  "settled_other_stratum": 0,
+  "new_native_requests": 0,
+  "new_physics_ticks": 0,
+  "actual_dynamic_trials": 0
+}
