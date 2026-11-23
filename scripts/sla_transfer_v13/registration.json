@@ -1,0 +1,18 @@
+{
+  "schema": "V13_CPU_SE3_HANDOVER_01",
+  "protocol_commit": "1f9ca82d4c7a689b797b39c935f67556fab92aa7",
+  "prior_final_sha256": "5b9f1ef1495cda20e9688eaf73245057f9c96f369660be3b9d4305df21f128e3",
+  "prior_final_md_sha256": "a2b3b588f3c01b03b913c7516f886fff8e24ddad39909f66ecc9179fd7aeb027",
+  "roster": "all 16 previously sealed TRAIN action windows; all six original O0 primaries and corresponding expert labels. No replacement.",
+  "controls": ["C0_RAW_V12", "C1_TIME_ONLY", "C2_GRIP_ONLY", "C3_JOINT"],
+  "geometry": "Reuse V1.2 source link6 linear position and shortest SLERP before rigid target TCP projection. Preserve corner order. No path changes.",
+  "time_candidates": "Uniform diagnostic and primary monotone cubic Hermite phase with initial phase speed determined from consumed reference twist projected onto start tangent. Zero terminal velocity. Search integer 50 ms ticks ascending from ceil(49/30/.05) to 1046; accept earliest full duration feasible within this family. Check full path and actually issued 40-point prefix incl rest endpoints. Classify partial vs full coverage. Uniform is a diagnostic only; never switch based on outcomes.",
+  "boundary": "Rotate the initial tangent to the actual transported reference axes for angular rate. Position transport is translation-only. Use exact prior acknowledged interval start-to-end twist and measured actual start/end separately. Bound change to first movement at native acceleration limits. Also report previous-emitted command to first candidate and its acceleration, never reset history.",
+  "grip": "C1 leaves C0 absolute command schedule unchanged. C2/C3 require durable receiver-acknowledged owner transfer or student-owned reset. No transfer in an expert-only episode implies BLOCKED, even with a small seam. Contact/unknown status blocks automatic opening. Any unloaded transition would require separate real commands and ACK, cannot be counted in shadow.",
+  "progress": "P10 points 0..9. Translational travel floor max(5% of cube half-edge, 25% matched teacher P10 travel), and net motion along teacher direction >=25% teacher displacement if teacher moves >=floor. For LIFT require positive z and >=25% positive teacher rise. HOLD report stability separately, zero travel never counts as newly demonstrated motion. Test requires no additional geometry or teacher input to compiler.",
+  "events": "Retain first close downward .55 and open upward .65, with source vs compiled full-path progress difference <=0.10 of total source TCP translational arc, same event type and order. Events outside preview recorded as deferred, no credit. Additional and missing events fail.",
+  "source_controls": "Source-only intrinsic dynamics for all four arms; source robot has no Go2 consumed command/owner. Uniform and independent source-rest boundary diagnostic are labeled explicitly; G7 and transfer status unavailable.",
+  "resource": "CPU only, new model calls=0, integrations=0, no training/DEV/TEST. Independent forward and physical resources are separate.",
+  "canonical": "Original pinned trajectory module to_canonical on CPU with bridge defaults, check s_ref and sdot_ref, finite monotonicity, geometric distortion and re-sampled original dynamic envelope. Offline canonicalization only. Actual receiver buffer install/TTL/ACK cannot be claimed.",
+  "stopping": "No independent held-out execution unless a genuine C3 transfer, event and progress pass; preserve all rejected windows and unknowns."
+}
