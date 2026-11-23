@@ -1,0 +1,17 @@
+{
+  "question": "Across an uninterrupted episode, which of the archived SLA returns can enter the original reference manager, and how much of each source remains in the active reference before replacement?",
+  "parent": "ffc602e3f97f40b4ce70cf747cae560ba57b2839",
+  "sources": "16 sealed primary frozen-model returns from six teacher TRAIN episodes. Preserve every first, second and third observation; no joining different resets. Use original times/seeds, 30 Hz source, 50 ms reference, 10 Hz publication, original full 2.05 s protection and event-free width alignment. Sixteen single-window decisions and ten historical pair decisions stay distinct comparators.",
+  "schedules": {
+    "fifo": "One worker in query order, 1:1 scenario. Each input captured at its original query boundary, a call starts at max(query, prior completion), use measured duration per call. Deliver on first 10 Hz tick at or after completion.",
+    "overlap": "Independent-call lower-bound comparison, start each call at its query clock using the same original measured durations. These timings are replay assumptions, not a deployment latency measurement."
+  },
+  "admission": "Initial admission from the previously sealed combined H40/G7/boundary/event/static-geometry result. For revisions check previous protected prefix, contact at the adjacent observations, actual programmed boundary width, original two H40 encodings/G7, new-source events, and discrete geometry against the frozen initial scene. On first rejection, terminate this offline episode: retain all later original queries as not reached; no fallback, new reset, or counting later windows as new starts. Only the independent receiver callback may acknowledge a CPU reference; do not infer command consumption.",
+  "attribution": "A third return must preserve the identity and local clock of both preceding sources on every protected knot. Distinguish return, acceptance, alignment, scheduled nonzero source motion at the 50 ms clock, and physical execution. Report effective source phase/duration per accepted return before terminal cancel or end-of-last-curve; count plans that appear in lookahead but contribute no scheduled source motion. Replay all 41-point installations in chronological order, end with cancel/HOLD. Compare whether independently restarting histories at each adjacent pair yields the same admissibility as the uninterrupted origin.",
+  "resources": {
+    "new_forwards": 0,
+    "simulator_starts": 0,
+    "new_native_ticks": 0,
+    "training_updates": 0
+  }
+}
