@@ -1,0 +1,19 @@
+{
+  "id": "V4-H1-MOTION-DECODER-01",
+  "first_readout_sha256": "199faabd5336fdf7114990fefb71c057f226cec163201973747f5770731c5527",
+  "timing": "Follow-up specified after seeing the absolute and aligned H1 errors. Use every original pair; descriptive mechanism check in the same 6 episodes.",
+  "conditions": [
+    "A: old absolute output, original old frame, continuing old source index 15.",
+    "B: restart same old absolute output from source index 0, using old frame and old state.",
+    "C: restart same old output in the new query's world/source frame and TCP transform, keeping old state.",
+    "D: reconstruct old normalized relative action using official encode, replay from index 0 against the newer official input state using the official inverse, and use the new query's frame and tool.",
+    "E: new absolute output at index 0 in the new query's frame. Compare to D for the effect of replacing the action sequence at matched decoder state, frame and source index."
+  ],
+  "controls": "Use normalized actions reconstructed from saved physical actions, padded to the real 32d float32 sampler ABI. Verify physical reconstruction against both original outputs with <0.001mm, <0.001deg and <1e-6 width error for both arms. Input normalization, inverse/DeltaActions and transforms are official pinned packages. No new model sampling. For comparison compute E from the same reconstructed/decoded precision as D.",
+  "scoring": "Use the exact realized world TCP in the first readout, verify clocks and original errors against that published register. Report position and angle RMSE for A,B,C,D,E in every pair, endpoint at query, E minus D, A through E ordered differences, comparison with measured HOLD. Primary 0.5s and secondary 1.1s when complete. Do not interpret component order as unique attribution. Shape or state conditioning does not prove endogenous planning.",
+  "resources": {
+    "new_forwards": 0,
+    "new_integrations": 0,
+    "training": 0
+  }
+}

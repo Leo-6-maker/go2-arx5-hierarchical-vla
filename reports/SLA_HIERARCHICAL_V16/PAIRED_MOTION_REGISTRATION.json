@@ -1,0 +1,18 @@
+{
+  "id": "V4-H1-MOTION-REVISION-01",
+  "analysis": "Prospective scoring of existing forwards on teacher-driven states. Each new window is compared with the last model trajectory at the same absolute query and future native time.",
+  "parent": "a59cf158b16f760de2babf843577e902f017bea3",
+  "pair_roster_sha256": "855860708527c0a2b0d86b5ad710ea94da7201ba89e02bca5c41e08518ca206c",
+  "cohort": "All 10 adjacent 0.5s pairs of 16 queries from 6 TRAIN episodes, common stored [0,0] seed. Repeat returns excluded. Retain all pairs and missing horizons. No pair selection.",
+  "clocks": "O1 registered absolute world TCP at 30Hz. At new query old knot 15 corresponds to new knot 0. Sample k=0..11 at 100ms, old indices 15+3k and new 3k. Compare with native ticks new+50k exactly. No time extrapolation or resampling. One additional model knot lies after the last common 100ms point.",
+  "main": "Primary horizon matches the 0.5s observation interval. Exclude boundary k=0 from future errors. Per pair report Euclidean world TCP position RMSE in mm and geodesic orientation RMSE in degrees across k=1..5, endpoint errors, and differences. Secondary k=1..11 only when complete. No p-values, ties reported separately. Comparisons by pair and episode.",
+  "comparisons": "Use both unmodified absolute proposals, measured-pose HOLD, and the future motions of each proposal aligned to the measured pose at the new query (world-coordinate position increments added to measured TCP; world spatial rotation increments left-multiply measured orientation). These controls use no future measurements. The aligned controls measure shape separately from the absolute starting error. None is a replacement policy. Report future measured displacement, summed path, and object motion.",
+  "direction": "At the newer boundary report old error, new error, the change in predicted location projected onto the old-to-achieved error direction, and the cosine when defined. Report named-object and distractor displacement over the prior observed half-second, actual TCP displacement, and change in TCP/object distance. At the primary endpoint report displacement cosines for model motion vs measured teacher motion when both are nonzero. No direction assigned to a zero vector.",
+  "truth": "Measured world TCP and both object centers from the pinned native 2ms state journal and original scene by forward kinematics only. Verify matching native receipt/clock, dense sensor TCP at query, and frozen world-space action identity. Post-query truth enters scoring only. Task expert controls the plant. Differences cannot isolate image vs proprioception, show recovery, or establish student closed-loop execution.",
+  "resources": {
+    "new_gpu_forwards": 0,
+    "native_starts": 0,
+    "physics_ticks": 0,
+    "training": 0
+  }
+}

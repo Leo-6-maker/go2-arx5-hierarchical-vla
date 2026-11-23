@@ -1,0 +1,2361 @@
+{
+  "pairs": [
+    {
+      "old": "T16",
+      "new": "T10",
+      "episode": "CHV1-TRAIN-F1-HOLD-red-02",
+      "instruction": "HOLD-red",
+      "phases": [
+        "LIFT",
+        "LIFT"
+      ],
+      "query_ticks": [
+        21453,
+        21703
+      ],
+      "raw_sha256": [
+        "d3980c338f2541fed43c5eef518dc0e628adaed7696511ace86add6576efdd74",
+        "dac9fd33665e36766e63357700936d213a6a10a32a95f05cdff56694db6a2c49"
+      ],
+      "scored_through_tick": 22253,
+      "past_tcp_delta_mm": [
+        -0.09840080112288874,
+        0.1347978073215489,
+        2.572806443413511
+      ],
+      "observed_objects": {
+        "red": {
+          "displacement_mm": [
+            -0.11464580794440238,
+            0.13783611408185042,
+            2.563665797379544
+          ],
+          "tcp_distance_change_mm": 0.003660154359520773
+        },
+        "blue": {
+          "displacement_mm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "tcp_distance_change_mm": 1.0140778962278856
+        }
+      },
+      "boundary": {
+        "old_position_error_mm": 2.2609099306279608,
+        "new_position_error_mm": 0.7850298632502976,
+        "revision_mm": [
+          -0.2812025153778319,
+          0.7492419670529077,
+          2.128140409875967
+        ],
+        "old_to_truth_mm": [
+          -0.8775963696330269,
+          0.24214268299890818,
+          2.0695181196329626
+        ],
+        "revision_projection_mm": 2.137383201622752,
+        "revision_cosine": 0.9400727915453662
+      },
+      "primary": {
+        "future_observations": 5,
+        "outcomes": {
+          "old": {
+            "position_rmse_mm": 3.639181466769377,
+            "rotation_rmse_deg": 0.2784554162625845,
+            "endpoint_position_mm": 4.2985963681696475,
+            "endpoint_rotation_deg": 0.4025229126059447,
+            "displacement_cosine": 0.795727853652179
+          },
+          "new": {
+            "position_rmse_mm": 2.0155616689641573,
+            "rotation_rmse_deg": 0.13587696161865795,
+            "endpoint_position_mm": 2.4208770312497854,
+            "endpoint_rotation_deg": 0.06465807236507946,
+            "displacement_cosine": 0.7454328327416063
+          },
+          "old_aligned": {
+            "position_rmse_mm": 1.793429499518895,
+            "rotation_rmse_deg": 0.2592165535431006,
+            "endpoint_position_mm": 2.1951747276948477,
+            "endpoint_rotation_deg": 0.3614791625711534,
+            "displacement_cosine": 0.795727853652179
+          },
+          "new_aligned": {
+            "position_rmse_mm": 2.1130606625778934,
+            "rotation_rmse_deg": 0.17059156360376318,
+            "endpoint_position_mm": 2.47472085714294,
+            "endpoint_rotation_deg": 0.18853790164868617,
+            "displacement_cosine": 0.7454328327416063
+          },
+          "hold": {
+            "position_rmse_mm": 1.9990938266293408,
+            "rotation_rmse_deg": 0.036966481436091936,
+            "endpoint_position_mm": 2.941413338677676,
+            "endpoint_rotation_deg": 0.04541750284159634,
+            "displacement_cosine": null
+          }
+        },
+        "achieved_delta_mm": [
+          0.0035025910068986477,
+          0.1422321836297702,
+          2.9379704162477704
+        ],
+        "achieved_arc_mm": 2.9424168351530335
+      },
+      "secondary": {
+        "future_observations": 11,
+        "outcomes": {
+          "old": {
+            "position_rmse_mm": 4.485767522936531,
+            "rotation_rmse_deg": 0.32517179532790136,
+            "endpoint_position_mm": 5.716595620298965,
+            "endpoint_rotation_deg": 0.3421088239997931,
+            "displacement_cosine": 0.9906278670574633
+          },
+          "new": {
+            "position_rmse_mm": 2.9018125967596604,
+            "rotation_rmse_deg": 0.19742715556414875,
+            "endpoint_position_mm": 4.330546267823735,
+            "endpoint_rotation_deg": 0.2559174534236259,
+            "displacement_cosine": 0.785629266397964
+          },
+          "old_aligned": {
+            "position_rmse_mm": 2.5041442327620396,
+            "rotation_rmse_deg": 0.3177027604932645,
+            "endpoint_position_mm": 3.5584258565853446,
+            "endpoint_rotation_deg": 0.39000988335830566,
+            "displacement_cosine": 0.9906278670574633
+          },
+          "new_aligned": {
+            "position_rmse_mm": 3.0719671458742956,
+            "rotation_rmse_deg": 0.2517688132944444,
+            "endpoint_position_mm": 4.507154409283253,
+            "endpoint_rotation_deg": 0.33363434256041985,
+            "displacement_cosine": 0.785629266397964
+          },
+          "hold": {
+            "position_rmse_mm": 3.536749074628826,
+            "rotation_rmse_deg": 0.03212718137864536,
+            "endpoint_position_mm": 5.72429111643777,
+            "endpoint_rotation_deg": 0.01600747527603004,
+            "displacement_cosine": null
+          }
+        },
+        "achieved_delta_mm": [
+          0.30604097220371385,
+          0.3382657075861051,
+          5.7060865766418445
+        ],
+        "achieved_arc_mm": 5.737588073886023
+      }
+    },
+    {
+      "old": "T10",
+      "new": "T04",
+      "episode": "CHV1-TRAIN-F1-HOLD-red-02",
+      "instruction": "HOLD-red",
+      "phases": [
+        "LIFT",
+        "LIFT"
+      ],
+      "query_ticks": [
+        21703,
+        21953
+      ],
+      "raw_sha256": [
+        "dac9fd33665e36766e63357700936d213a6a10a32a95f05cdff56694db6a2c49",
+        "220f879fe33466e0ab63406993db747d4c8868efa491d2f3229dcdd2c1f77b26"
+      ],
+      "scored_through_tick": 22503,
+      "past_tcp_delta_mm": [
+        0.0035025910068986477,
+        0.1422321836297702,
+        2.9379704162477704
+      ],
+      "observed_objects": {
+        "red": {
+          "displacement_mm": [
+            0.02583180107101901,
+            0.1486107686513305,
+            2.9420650153275663
+          ],
+          "tcp_distance_change_mm": 0.0036158985583234493
+        },
+        "blue": {
+          "displacement_mm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "tcp_distance_change_mm": 1.2189674164421738
+        }
+      },
+      "boundary": {
+        "old_position_error_mm": 2.4208770312497854,
+        "new_position_error_mm": 1.0688808121572375,
+        "revision_mm": [
+          -0.04707679013649102,
+          0.9443949177829342,
+          2.060740048892784
+        ],
+        "old_to_truth_mm": [
+          -0.5817546767081794,
+          0.06490179199093726,
+          2.349041262719176
+        ],
+        "revision_projection_mm": 2.036222165889938,
+        "revision_cosine": 0.8980737921037472
+      },
+      "primary": {
+        "future_observations": 5,
+        "outcomes": {
+          "old": {
+            "position_rmse_mm": 3.272907106200648,
+            "rotation_rmse_deg": 0.23278565799259693,
+            "endpoint_position_mm": 3.910231526912628,
+            "endpoint_rotation_deg": 0.23757452559180797,
+            "displacement_cosine": 0.7671858603062423
+          },
+          "new": {
+            "position_rmse_mm": 1.4799324034366532,
+            "rotation_rmse_deg": 0.09176904135352083,
+            "endpoint_position_mm": 2.0579137846135125,
+            "endpoint_rotation_deg": 0.05452144230788695,
+            "displacement_cosine": 0.35334399491156215
+          },
+          "old_aligned": {
+            "position_rmse_mm": 1.2592224482018155,
+            "rotation_rmse_deg": 0.25314580059182096,
+            "endpoint_position_mm": 1.672499560341328,
+            "endpoint_rotation_deg": 0.2658102074754673,
+            "displacement_cosine": 0.7671858603062423
+          },
+          "new_aligned": {
+            "position_rmse_mm": 1.7088038046922884,
+            "rotation_rmse_deg": 0.21652462942900255,
+            "endpoint_position_mm": 2.110676433611499,
+            "endpoint_rotation_deg": 0.2491128779530615,
+            "displacement_cosine": 0.35334399491156215
+          },
+          "hold": {
+            "position_rmse_mm": 1.3224049494191121,
+            "rotation_rmse_deg": 0.06809108318858353,
+            "endpoint_position_mm": 2.192234283405658,
+            "endpoint_rotation_deg": 0.05484596757282939,
+            "displacement_cosine": null
+          }
+        },
+        "achieved_delta_mm": [
+          0.2411992100979088,
+          0.1694950475132767,
+          2.172322610308086
+        ],
+        "achieved_arc_mm": 2.1956408066721274
+      },
+      "secondary": {
+        "future_observations": 11,
+        "outcomes": {
+          "old": {
+            "position_rmse_mm": 4.315984943462868,
+            "rotation_rmse_deg": 0.28517057342465263,
+            "endpoint_position_mm": 4.650983386406178,
+            "endpoint_rotation_deg": 0.40485429024332215,
+            "displacement_cosine": 0.9592101964081874
+          },
+          "new": {
+            "position_rmse_mm": 2.595193165753613,
+            "rotation_rmse_deg": 0.1918348636372478,
+            "endpoint_position_mm": 3.942110492586777,
+            "endpoint_rotation_deg": 0.31370233126123753,
+            "displacement_cosine": 0.6065587245579189
+          },
+          "old_aligned": {
+            "position_rmse_mm": 2.2471275486021502,
+            "rotation_rmse_deg": 0.3070881127096027,
+            "endpoint_position_mm": 2.543819016196206,
+            "endpoint_rotation_deg": 0.4396572761620373,
+            "displacement_cosine": 0.9592101964081874
+          },
+          "new_aligned": {
+            "position_rmse_mm": 2.7489358185356583,
+            "rotation_rmse_deg": 0.29992057953658585,
+            "endpoint_position_mm": 4.112596416082995,
+            "endpoint_rotation_deg": 0.431480950740904,
+            "displacement_cosine": 0.6065587245579189
+          },
+          "hold": {
+            "position_rmse_mm": 3.122713263895699,
+            "rotation_rmse_deg": 0.054940158366095504,
+            "endpoint_position_mm": 5.086710925277275,
+            "endpoint_rotation_deg": 0.04196723229408657,
+            "displacement_cosine": null
+          }
+        },
+        "achieved_delta_mm": [
+          0.8096889046000921,
+          0.3373955459345934,
+          5.010508573057848
+        ],
+        "achieved_arc_mm": 5.102718592077589
+      }
+    },
+    {
+      "old": "T14",
+      "new": "T08",
+      "episode": "CHV1-TRAIN-F1-HOLD-red-03",
+      "instruction": "HOLD-red",
+      "phases": [
+        "CLOSE",
+        "CLOSE"
+      ],
+      "query_ticks": [
+        18953,
+        19203
+      ],
+      "raw_sha256": [
+        "dff414c10bf8b7e33acf05e0947c9301268faa7f01af71f66be5b111a7ca8408",
+        "17c1bd54785bd9b8b0599d2dfa900bb734ab8155f6e796ddf2f3f1b14e431bdc"
+      ],
+      "scored_through_tick": 19753,
+      "past_tcp_delta_mm": [
+        0.8837428792430879,
+        -0.15631349738949585,
+        -1.1969617872471527
+      ],
+      "observed_objects": {
+        "red": {
+          "displacement_mm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "tcp_distance_change_mm": -1.4230444533036013
+        },
+        "blue": {
+          "displacement_mm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "tcp_distance_change_mm": -0.34670777357864724
+        }
+      },
+      "boundary": {
+        "old_position_error_mm": 2.239822896259574,
+        "new_position_error_mm": 0.6984876126327912,
+        "revision_mm": [
+          0.9308084201813949,
+          0.6008805232492753,
+          -2.0431911613287834
+        ],
+        "old_to_truth_mm": [
+          0.48889576713895266,
+          0.07871296115237458,
+          -2.1843973551597395
+        ],
+        "revision_projection_mm": 2.216919364076639,
+        "revision_cosine": 0.9538254699290094
+      },
+      "primary": {
+        "future_observations": 5,
+        "outcomes": {
+          "old": {
+            "position_rmse_mm": 3.383532491042701,
+            "rotation_rmse_deg": 0.25940927111561096,
+            "endpoint_position_mm": 3.6757020944397687,
+            "endpoint_rotation_deg": 0.3354668588194129,
+            "displacement_cosine": -0.48133679215231834
+          },
+          "new": {
+            "position_rmse_mm": 1.5375494468166033,
+            "rotation_rmse_deg": 0.17185329278358852,
+            "endpoint_position_mm": 2.1170128400351333,
+            "endpoint_rotation_deg": 0.11418956735997965,
+            "displacement_cosine": -0.26017253349629793
+          },
+          "old_aligned": {
+            "position_rmse_mm": 1.4164621432860132,
+            "rotation_rmse_deg": 0.24129253077684204,
+            "endpoint_position_mm": 1.5840184364164818,
+            "endpoint_rotation_deg": 0.3033043653754926,
+            "displacement_cosine": -0.48133679215231834
+          },
+          "new_aligned": {
+            "position_rmse_mm": 1.443916533538781,
+            "rotation_rmse_deg": 0.17727760408544074,
+            "endpoint_position_mm": 2.010322500731411,
+            "endpoint_rotation_deg": 0.2168267226892552,
+            "displacement_cosine": -0.26017253349629793
+          },
+          "hold": {
+            "position_rmse_mm": 0.4432414810387432,
+            "rotation_rmse_deg": 0.07888134553505806,
+            "endpoint_position_mm": 0.5951911602471287,
+            "endpoint_rotation_deg": 0.1177990146641212,
+            "displacement_cosine": null
+          }
+        },
+        "achieved_delta_mm": [
+          0.47173497315888824,
+          -0.10116340748812791,
+          -0.3485464062653598
+        ],
+        "achieved_arc_mm": 0.6367127389405888
+      },
+      "secondary": {
+        "future_observations": 11,
+        "outcomes": {
+          "old": {
+            "position_rmse_mm": 7.2938240174029065,
+            "rotation_rmse_deg": 0.7344195219206597,
+            "endpoint_position_mm": 18.9491731596159,
+            "endpoint_rotation_deg": 2.1710619810413756,
+            "displacement_cosine": -0.7715807058817595
+          },
+          "new": {
+            "position_rmse_mm": 2.2244937955208797,
+            "rotation_rmse_deg": 0.26062556736218934,
+            "endpoint_position_mm": 3.171358933698587,
+            "endpoint_rotation_deg": 0.3952754410744227,
+            "displacement_cosine": -0.2892673841432325
+          },
+          "old_aligned": {
+            "position_rmse_mm": 5.768141491764851,
+            "rotation_rmse_deg": 0.7380632070774422,
+            "endpoint_position_mm": 16.724990666679837,
+            "endpoint_rotation_deg": 2.1931679247363243,
+            "displacement_cosine": -0.7715807058817595
+          },
+          "new_aligned": {
+            "position_rmse_mm": 2.223220040007836,
+            "rotation_rmse_deg": 0.2693724179106148,
+            "endpoint_position_mm": 3.2800054886414154,
+            "endpoint_rotation_deg": 0.42241825898050245,
+            "displacement_cosine": -0.2892673841432325
+          },
+          "hold": {
+            "position_rmse_mm": 0.5635643247331105,
+            "rotation_rmse_deg": 0.14040522711650302,
+            "endpoint_position_mm": 0.6306451232578288,
+            "endpoint_rotation_deg": 0.19029527060167867,
+            "displacement_cosine": null
+          }
+        },
+        "achieved_delta_mm": [
+          0.46235927575688507,
+          -0.23001820964251019,
+          -0.36197899779311093
+        ],
+        "achieved_arc_mm": 0.827446620366813
+      }
+    },
+    {
+      "old": "T08",
+      "new": "T02",
+      "episode": "CHV1-TRAIN-F1-HOLD-red-03",
+      "instruction": "HOLD-red",
+      "phases": [
+        "CLOSE",
+        "CLOSE"
+      ],
+      "query_ticks": [
+        19203,
+        19453
+      ],
+      "raw_sha256": [
+        "17c1bd54785bd9b8b0599d2dfa900bb734ab8155f6e796ddf2f3f1b14e431bdc",
+        "ddb8b19be4efb02bfac1544b44a48cb0e2d96134d1ecac0bae2c1fa9fada04ad"
+      ],
+      "scored_through_tick": 20003,
+      "past_tcp_delta_mm": [
+        0.47173497315888824,
+        -0.10116340748812791,
+        -0.3485464062653598
+      ],
+      "observed_objects": {
+        "red": {
+          "displacement_mm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "tcp_distance_change_mm": -0.48341592653122767
+        },
+        "blue": {
+          "displacement_mm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "tcp_distance_change_mm": -0.06892116170117979
+        }
+      },
+      "boundary": {
+        "old_position_error_mm": 2.117012840035133,
+        "new_position_error_mm": 0.9815597051586047,
+        "revision_mm": [
+          -0.25527985086643,
+          0.4885016398037262,
+          -2.9256147276824906
+        ],
+        "old_to_truth_mm": [
+          -0.4200894900118768,
+          0.02775256034018292,
+          -2.074728411298632
+        ],
+        "revision_projection_mm": 2.924239963291651,
+        "revision_cosine": 0.9822500626429674
+      },
+      "primary": {
+        "future_observations": 5,
+        "outcomes": {
+          "old": {
+            "position_rmse_mm": 2.5516383017990516,
+            "rotation_rmse_deg": 0.2977489225747443,
+            "endpoint_position_mm": 2.9452383321557245,
+            "endpoint_rotation_deg": 0.35471789156034833,
+            "displacement_cosine": 0.24417135136028226
+          },
+          "new": {
+            "position_rmse_mm": 0.5734553471161842,
+            "rotation_rmse_deg": 0.13928816952634923,
+            "endpoint_position_mm": 0.6353848286704561,
+            "endpoint_rotation_deg": 0.17337424319570952,
+            "displacement_cosine": 0.1283450989237436
+          },
+          "old_aligned": {
+            "position_rmse_mm": 0.9227214706347387,
+            "rotation_rmse_deg": 0.2092110540376348,
+            "endpoint_position_mm": 1.048332731974543,
+            "endpoint_rotation_deg": 0.2461402980733775,
+            "displacement_cosine": 0.24417135136028226
+          },
+          "new_aligned": {
+            "position_rmse_mm": 1.0086328516604945,
+            "rotation_rmse_deg": 0.18204666179177736,
+            "endpoint_position_mm": 1.3054275721825939,
+            "endpoint_rotation_deg": 0.20885079700510462,
+            "displacement_cosine": 0.1283450989237436
+          },
+          "hold": {
+            "position_rmse_mm": 0.09155500299496326,
+            "rotation_rmse_deg": 0.05850410203130388,
+            "endpoint_position_mm": 0.1039410247998681,
+            "endpoint_rotation_deg": 0.08415543756943354,
+            "displacement_cosine": null
+          }
+        },
+        "achieved_delta_mm": [
+          0.005184373116584595,
+          -0.09828330250698236,
+          -0.03342531017291872
+        ],
+        "achieved_arc_mm": 0.15141059261384177
+      },
+      "secondary": {
+        "future_observations": 11,
+        "outcomes": {
+          "old": {
+            "position_rmse_mm": 5.0790445599823055,
+            "rotation_rmse_deg": 0.6940993566664742,
+            "endpoint_position_mm": 13.139702985490352,
+            "endpoint_rotation_deg": 1.914403608120869,
+            "displacement_cosine": 0.8221205103266556
+          },
+          "new": {
+            "position_rmse_mm": 0.8473217890956799,
+            "rotation_rmse_deg": 0.2357150742113173,
+            "endpoint_position_mm": 1.4979751804747834,
+            "endpoint_rotation_deg": 0.435839020208083,
+            "displacement_cosine": 0.4066180949540684
+          },
+          "old_aligned": {
+            "position_rmse_mm": 3.8896820326999046,
+            "rotation_rmse_deg": 0.6275438809310598,
+            "endpoint_position_mm": 11.548585410184804,
+            "endpoint_rotation_deg": 1.8294739772923274,
+            "displacement_cosine": 0.8221205103266556
+          },
+          "new_aligned": {
+            "position_rmse_mm": 1.4922462955955103,
+            "rotation_rmse_deg": 0.3040647699515592,
+            "endpoint_position_mm": 2.2764811329081236,
+            "endpoint_rotation_deg": 0.5231292431107147,
+            "displacement_cosine": 0.4066180949540684
+          },
+          "hold": {
+            "position_rmse_mm": 0.25150985561047784,
+            "rotation_rmse_deg": 0.08546396955962389,
+            "endpoint_position_mm": 0.5639331361187121,
+            "endpoint_rotation_deg": 0.19064245284873205,
+            "displacement_cosine": null
+          }
+        },
+        "achieved_delta_mm": [
+          -0.4775045054208893,
+          -0.21902917573993208,
+          0.20502743594486006
+        ],
+        "achieved_arc_mm": 0.7197399324469802
+      }
+    },
+    {
+      "old": "T11",
+      "new": "T05",
+      "episode": "CHV1-TRAIN-F1-HOLD-red-05",
+      "instruction": "HOLD-red",
+      "phases": [
+        "LIFT",
+        "HOLD"
+      ],
+      "query_ticks": [
+        22453,
+        22703
+      ],
+      "raw_sha256": [
+        "68922167408be5aa9f7df7f7c468bc9c7b001a6d28bbdb6e1cdd3bfadf5529f2",
+        "482871dcd34988714912d82ce6b6f0511dae4ba9cb4432468b0a4961c4addb49"
+      ],
+      "scored_through_tick": 23203,
+      "past_tcp_delta_mm": [
+        0.00019475944074143214,
+        0.1255683574991201,
+        2.809943315781549
+      ],
+      "observed_objects": {
+        "red": {
+          "displacement_mm": [
+            0.014483696109512945,
+            0.13031096211994775,
+            2.811626020802316
+          ],
+          "tcp_distance_change_mm": 0.0037179998050793084
+        },
+        "blue": {
+          "displacement_mm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "tcp_distance_change_mm": 1.2266317330654197
+        }
+      },
+      "boundary": {
+        "old_position_error_mm": 2.468500907730612,
+        "new_position_error_mm": 0.8559075117677438,
+        "revision_mm": [
+          -0.24014424296148196,
+          0.702246215291899,
+          2.3310823258536617
+        ],
+        "old_to_truth_mm": [
+          -0.8083568603217128,
+          0.06215883231143471,
+          2.3315643240973127
+        ],
+        "revision_projection_mm": 2.2980916963533926,
+        "revision_cosine": 0.9393854854974752
+      },
+      "primary": {
+        "future_observations": 5,
+        "outcomes": {
+          "old": {
+            "position_rmse_mm": 3.3432884022593514,
+            "rotation_rmse_deg": 0.2602869279902855,
+            "endpoint_position_mm": 3.6187468020672795,
+            "endpoint_rotation_deg": 0.32702759019378813,
+            "displacement_cosine": 0.8707079960405315
+          },
+          "new": {
+            "position_rmse_mm": 1.4888520646087942,
+            "rotation_rmse_deg": 0.11255587738019877,
+            "endpoint_position_mm": 1.6507618578001109,
+            "endpoint_rotation_deg": 0.07418391710173433,
+            "displacement_cosine": 0.6222378897049895
+          },
+          "old_aligned": {
+            "position_rmse_mm": 1.3102590788355502,
+            "rotation_rmse_deg": 0.26349147654171645,
+            "endpoint_position_mm": 1.395894075588894,
+            "endpoint_rotation_deg": 0.33119742195589014,
+            "displacement_cosine": 0.8707079960405315
+          },
+          "new_aligned": {
+            "position_rmse_mm": 1.6583853365808514,
+            "rotation_rmse_deg": 0.18414864893028246,
+            "endpoint_position_mm": 1.7645862363439146,
+            "endpoint_rotation_deg": 0.1860044952433673,
+            "displacement_cosine": 0.6222378897049895
+          },
+          "hold": {
+            "position_rmse_mm": 1.5671328055113336,
+            "rotation_rmse_deg": 0.016079522225451157,
+            "endpoint_position_mm": 2.1294969517313316,
+            "endpoint_rotation_deg": 0.0347840177547251,
+            "displacement_cosine": null
+          }
+        },
+        "achieved_delta_mm": [
+          0.1865241417984831,
+          0.21278332671791078,
+          2.110613481391188
+        ],
+        "achieved_arc_mm": 2.154936712185978
+      },
+      "secondary": null
+    },
+    {
+      "old": "T12",
+      "new": "T06",
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-01",
+      "instruction": "PLACE-red-right",
+      "phases": [
+        "LIFT",
+        "CARRY"
+      ],
+      "query_ticks": [
+        21953,
+        22203
+      ],
+      "raw_sha256": [
+        "70f8775f47c3714ea4d871036e040a060a7e7ecc24b9176e836728c8753f593d",
+        "f00e119c0545028931d57175ee7be556702762450621f703e5f5ab9bf3ce7780"
+      ],
+      "scored_through_tick": 22753,
+      "past_tcp_delta_mm": [
+        -0.10851203457112879,
+        0.0031703068482866192,
+        2.8211203412150665
+      ],
+      "observed_objects": {
+        "red": {
+          "displacement_mm": [
+            -0.09431666495923752,
+            0.006648798160424629,
+            2.8227079588011295
+          ],
+          "tcp_distance_change_mm": 0.0037296014798321453
+        },
+        "blue": {
+          "displacement_mm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "tcp_distance_change_mm": 1.3599197114659844
+        }
+      },
+      "boundary": {
+        "old_position_error_mm": 2.844467773897967,
+        "new_position_error_mm": 0.8451309364248304,
+        "revision_mm": [
+          -0.4796365360432153,
+          0.760667961447678,
+          2.3070261622920585
+        ],
+        "old_to_truth_mm": [
+          -1.0691446254708636,
+          0.24496758715757128,
+          2.6244842479643538
+        ],
+        "revision_projection_mm": 2.374396259429516,
+        "revision_cosine": 0.9589285360390927
+      },
+      "primary": {
+        "future_observations": 5,
+        "outcomes": {
+          "old": {
+            "position_rmse_mm": 3.0194520298101306,
+            "rotation_rmse_deg": 0.166374884998977,
+            "endpoint_position_mm": 2.9803066921593504,
+            "endpoint_rotation_deg": 0.2539788588752647,
+            "displacement_cosine": 0.7458784151061372
+          },
+          "new": {
+            "position_rmse_mm": 1.25168023880609,
+            "rotation_rmse_deg": 0.09589885981193147,
+            "endpoint_position_mm": 1.3739349667080425,
+            "endpoint_rotation_deg": 0.12871681061346615,
+            "displacement_cosine": 0.5938125787508334
+          },
+          "old_aligned": {
+            "position_rmse_mm": 0.9186268928355277,
+            "rotation_rmse_deg": 0.2561863696814875,
+            "endpoint_position_mm": 0.9417996621702583,
+            "endpoint_rotation_deg": 0.3421194449914439,
+            "displacement_cosine": 0.7458784151061372
+          },
+          "new_aligned": {
+            "position_rmse_mm": 1.2635544285268416,
+            "rotation_rmse_deg": 0.15178772604413623,
+            "endpoint_position_mm": 1.122319179799914,
+            "endpoint_rotation_deg": 0.17292783057785763,
+            "displacement_cosine": 0.5938125787508334
+          },
+          "hold": {
+            "position_rmse_mm": 0.979242064510455,
+            "rotation_rmse_deg": 0.01211402570539686,
+            "endpoint_position_mm": 1.3821235232946247,
+            "endpoint_rotation_deg": 0.021097783499009985,
+            "displacement_cosine": null
+          }
+        },
+        "achieved_delta_mm": [
+          0.5016657817537018,
+          0.0036440475500720826,
+          1.2878600847837651
+        ],
+        "achieved_arc_mm": 1.4450151869421084
+      },
+      "secondary": {
+        "future_observations": 11,
+        "outcomes": {
+          "old": {
+            "position_rmse_mm": 3.157943960908193,
+            "rotation_rmse_deg": 0.43134827721791524,
+            "endpoint_position_mm": 4.546623991471562,
+            "endpoint_rotation_deg": 1.241494814560223,
+            "displacement_cosine": 0.24072554436548704
+          },
+          "new": {
+            "position_rmse_mm": 1.2897393136413973,
+            "rotation_rmse_deg": 0.20844074233872814,
+            "endpoint_position_mm": 1.5890297152014978,
+            "endpoint_rotation_deg": 0.36135018746441105,
+            "displacement_cosine": 0.5380708428173652
+          },
+          "old_aligned": {
+            "position_rmse_mm": 1.325916622320886,
+            "rotation_rmse_deg": 0.4491000849226474,
+            "endpoint_position_mm": 2.6287566047416258,
+            "endpoint_rotation_deg": 1.1482882800752319,
+            "displacement_cosine": 0.24072554436548704
+          },
+          "new_aligned": {
+            "position_rmse_mm": 1.6750069926386424,
+            "rotation_rmse_deg": 0.27822147914991396,
+            "endpoint_position_mm": 2.401242429826857,
+            "endpoint_rotation_deg": 0.4521404519928975,
+            "displacement_cosine": 0.5380708428173652
+          },
+          "hold": {
+            "position_rmse_mm": 1.6544916906064515,
+            "rotation_rmse_deg": 0.07304988228972505,
+            "endpoint_position_mm": 2.63697069355472,
+            "endpoint_rotation_deg": 0.142354328837647,
+            "displacement_cosine": null
+          }
+        },
+        "achieved_delta_mm": [
+          2.2830710629077045,
+          -0.05163443639654569,
+          1.3185351134338275
+        ],
+        "achieved_arc_mm": 3.299000875427919
+      }
+    },
+    {
+      "old": "T15",
+      "new": "T09",
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-07",
+      "instruction": "PLACE-red-right",
+      "phases": [
+        "CLOSE",
+        "CLOSE"
+      ],
+      "query_ticks": [
+        19453,
+        19703
+      ],
+      "raw_sha256": [
+        "137f8153158e8d0cd28a731646a2c0170a51bc902401080f0064cf37ec9fffd5",
+        "b21e6620bca52d89e65c98118ebe70603733b8554acf6c03b0ab90be405bd322"
+      ],
+      "scored_through_tick": 20253,
+      "past_tcp_delta_mm": [
+        0.17137678120043853,
+        0.8989174205967648,
+        0.29574860566261574
+      ],
+      "observed_objects": {
+        "red": {
+          "displacement_mm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "tcp_distance_change_mm": 0.13167071167498323
+        },
+        "blue": {
+          "displacement_mm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "tcp_distance_change_mm": -0.7796326589536717
+        }
+      },
+      "boundary": {
+        "old_position_error_mm": 2.3702928744625096,
+        "new_position_error_mm": 1.125950785411343,
+        "revision_mm": [
+          -0.6806751956317525,
+          1.5859728581925914,
+          -2.6542113350492835
+        ],
+        "old_to_truth_mm": [
+          -1.1084408384556266,
+          0.8541265372041251,
+          -1.9131427225419495
+        ],
+        "revision_projection_mm": 3.0321125575662857,
+        "revision_cosine": 0.9577151306228746
+      },
+      "primary": {
+        "future_observations": 5,
+        "outcomes": {
+          "old": {
+            "position_rmse_mm": 2.8931115253811357,
+            "rotation_rmse_deg": 0.46012402534369296,
+            "endpoint_position_mm": 3.3537871379513167,
+            "endpoint_rotation_deg": 0.4999094536122865,
+            "displacement_cosine": -0.01390480921642672
+          },
+          "new": {
+            "position_rmse_mm": 0.8701017560377136,
+            "rotation_rmse_deg": 0.12427652870960389,
+            "endpoint_position_mm": 1.32999512965552,
+            "endpoint_rotation_deg": 0.08581474599590691,
+            "displacement_cosine": 0.4634373554784084
+          },
+          "old_aligned": {
+            "position_rmse_mm": 1.2742912475955173,
+            "rotation_rmse_deg": 0.29689820221798807,
+            "endpoint_position_mm": 1.5389044425828449,
+            "endpoint_rotation_deg": 0.32625695324335285,
+            "displacement_cosine": -0.01390480921642672
+          },
+          "new_aligned": {
+            "position_rmse_mm": 1.6556313837799963,
+            "rotation_rmse_deg": 0.21078583827772757,
+            "endpoint_position_mm": 2.0920055530569956,
+            "endpoint_rotation_deg": 0.1710387771412571,
+            "displacement_cosine": 0.4634373554784084
+          },
+          "hold": {
+            "position_rmse_mm": 0.6022806815105091,
+            "rotation_rmse_deg": 0.07794069095975326,
+            "endpoint_position_mm": 0.9267389101861668,
+            "endpoint_rotation_deg": 0.10984600886897981,
+            "displacement_cosine": null
+          }
+        },
+        "achieved_delta_mm": [
+          0.8819657421060834,
+          0.27273545628876683,
+          0.08122073803695784
+        ],
+        "achieved_arc_mm": 0.9721757649553947
+      },
+      "secondary": {
+        "future_observations": 11,
+        "outcomes": {
+          "old": {
+            "position_rmse_mm": 6.446918363267648,
+            "rotation_rmse_deg": 1.1716178214360082,
+            "endpoint_position_mm": 17.174269758303584,
+            "endpoint_rotation_deg": 3.4592901785549457,
+            "displacement_cosine": -0.7751008247987939
+          },
+          "new": {
+            "position_rmse_mm": 1.6370363576167162,
+            "rotation_rmse_deg": 0.38326438840427635,
+            "endpoint_position_mm": 2.892966435921661,
+            "endpoint_rotation_deg": 0.7021937119409057,
+            "displacement_cosine": 0.0665428606623942
+          },
+          "old_aligned": {
+            "position_rmse_mm": 5.963821803477702,
+            "rotation_rmse_deg": 1.0663541248911748,
+            "endpoint_position_mm": 17.207424596633945,
+            "endpoint_rotation_deg": 3.2932132119673017,
+            "displacement_cosine": -0.7751008247987939
+          },
+          "new_aligned": {
+            "position_rmse_mm": 2.561022790991464,
+            "rotation_rmse_deg": 0.42986356419045324,
+            "endpoint_position_mm": 4.005352940754419,
+            "endpoint_rotation_deg": 0.7606776121304079,
+            "displacement_cosine": 0.0665428606623942
+          },
+          "hold": {
+            "position_rmse_mm": 1.2345535963663188,
+            "rotation_rmse_deg": 0.1717998330557033,
+            "endpoint_position_mm": 2.13632072698032,
+            "endpoint_rotation_deg": 0.3041885230546428,
+            "displacement_cosine": null
+          }
+        },
+        "achieved_delta_mm": [
+          1.7243082053228775,
+          1.2162588503512317,
+          0.3336792929209409
+        ],
+        "achieved_arc_mm": 2.37623434463326
+      }
+    },
+    {
+      "old": "T09",
+      "new": "T03",
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-07",
+      "instruction": "PLACE-red-right",
+      "phases": [
+        "CLOSE",
+        "LIFT"
+      ],
+      "query_ticks": [
+        19703,
+        19953
+      ],
+      "raw_sha256": [
+        "b21e6620bca52d89e65c98118ebe70603733b8554acf6c03b0ab90be405bd322",
+        "cc9b4c243f1b6ecd47892c71af7c4af7f3f11ba2668332d6d6de651e9ef09373"
+      ],
+      "scored_through_tick": 20503,
+      "past_tcp_delta_mm": [
+        0.8819657421060834,
+        0.27273545628876683,
+        0.08122073803695784
+      ],
+      "observed_objects": {
+        "red": {
+          "displacement_mm": [
+            0.6225182540626761,
+            0.16703619299469896,
+            0.06632373446835427
+          ],
+          "tcp_distance_change_mm": -0.09939555955969237
+        },
+        "blue": {
+          "displacement_mm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "tcp_distance_change_mm": -0.35254842558933575
+        }
+      },
+      "boundary": {
+        "old_position_error_mm": 1.32999512965552,
+        "new_position_error_mm": 0.9643113409184677,
+        "revision_mm": [
+          -0.15358017298566784,
+          0.9951081694892644,
+          -1.287594686515181
+        ],
+        "old_to_truth_mm": [
+          -0.7393604090587536,
+          0.25928293112698064,
+          -1.074711864664235
+        ],
+        "revision_projection_mm": 1.319823591704973,
+        "revision_cosine": 0.8074577920461384
+      },
+      "primary": {
+        "future_observations": 5,
+        "outcomes": {
+          "old": {
+            "position_rmse_mm": 1.8614042155899517,
+            "rotation_rmse_deg": 0.45727633189966244,
+            "endpoint_position_mm": 2.4632005121558027,
+            "endpoint_rotation_deg": 0.6230461238724456,
+            "displacement_cosine": -0.28363908752143124
+          },
+          "new": {
+            "position_rmse_mm": 0.7199133353676748,
+            "rotation_rmse_deg": 0.17929925434591298,
+            "endpoint_position_mm": 0.9909161433326364,
+            "endpoint_rotation_deg": 0.2158797840711715,
+            "displacement_cosine": 0.19238330697149508
+          },
+          "old_aligned": {
+            "position_rmse_mm": 1.5645783657342358,
+            "rotation_rmse_deg": 0.4224440541272101,
+            "endpoint_position_mm": 1.8089310852081883,
+            "endpoint_rotation_deg": 0.6011994430434694,
+            "displacement_cosine": -0.28363908752143124
+          },
+          "new_aligned": {
+            "position_rmse_mm": 1.3243987920548665,
+            "rotation_rmse_deg": 0.23601652153446076,
+            "endpoint_position_mm": 1.5773946530666203,
+            "endpoint_rotation_deg": 0.29837719150329606,
+            "displacement_cosine": 0.19238330697149508
+          },
+          "hold": {
+            "position_rmse_mm": 0.5638469728884338,
+            "rotation_rmse_deg": 0.1497039957713116,
+            "endpoint_position_mm": 0.8998579739591066,
+            "endpoint_rotation_deg": 0.2302978948179965,
+            "displacement_cosine": null
+          }
+        },
+        "achieved_delta_mm": [
+          0.722641654310241,
+          0.49525108830547615,
+          0.20557181782965284
+        ],
+        "achieved_arc_mm": 0.9377167416736261
+      },
+      "secondary": {
+        "future_observations": 11,
+        "outcomes": {
+          "old": {
+            "position_rmse_mm": 2.2917266133232936,
+            "rotation_rmse_deg": 0.6649787084468183,
+            "endpoint_position_mm": 2.838084718564435,
+            "endpoint_rotation_deg": 1.4970254711497288,
+            "displacement_cosine": 0.26100328087037117
+          },
+          "new": {
+            "position_rmse_mm": 1.538137005112802,
+            "rotation_rmse_deg": 0.44886122071109563,
+            "endpoint_position_mm": 2.7135754397365144,
+            "endpoint_rotation_deg": 0.6141242435569498,
+            "displacement_cosine": 0.44717949147314234
+          },
+          "old_aligned": {
+            "position_rmse_mm": 2.311378565109491,
+            "rotation_rmse_deg": 0.6410820492971052,
+            "endpoint_position_mm": 3.877447125977784,
+            "endpoint_rotation_deg": 1.472072629607334,
+            "displacement_cosine": 0.26100328087037117
+          },
+          "new_aligned": {
+            "position_rmse_mm": 2.2551911508597207,
+            "rotation_rmse_deg": 0.5076562405247594,
+            "endpoint_position_mm": 3.473891465459603,
+            "endpoint_rotation_deg": 0.6942065463753181,
+            "displacement_cosine": 0.44717949147314234
+          },
+          "hold": {
+            "position_rmse_mm": 1.8399776921685853,
+            "rotation_rmse_deg": 0.2350868741144186,
+            "endpoint_position_mm": 3.537165872308401,
+            "endpoint_rotation_deg": 0.22461012323101548,
+            "displacement_cosine": null
+          }
+        },
+        "achieved_delta_mm": [
+          1.3506886961878184,
+          1.5247723669073454,
+          2.8917558132265375
+        ],
+        "achieved_arc_mm": 4.177404775728949
+      }
+    },
+    {
+      "old": "T13",
+      "new": "T07",
+      "episode": "CHV1-TRAIN-F2-HOLD-blue-00",
+      "instruction": "HOLD-blue",
+      "phases": [
+        "DESCEND",
+        "DESCEND"
+      ],
+      "query_ticks": [
+        19453,
+        19703
+      ],
+      "raw_sha256": [
+        "c6f22c14bec0955aa52f9a8541f13afb4ea29c458e56a66f8fd4d654eef200a3",
+        "83fec11677b5069775bfd53582029866fa9d9f03ae2edb774e1039a8009f06b0"
+      ],
+      "scored_through_tick": 20253,
+      "past_tcp_delta_mm": [
+        0.6802844154334409,
+        -0.6029152544864552,
+        -1.4812298684873104
+      ],
+      "observed_objects": {
+        "red": {
+          "displacement_mm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "tcp_distance_change_mm": -1.058462432899837
+        },
+        "blue": {
+          "displacement_mm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "tcp_distance_change_mm": -1.6670183487581918
+        }
+      },
+      "boundary": {
+        "old_position_error_mm": 2.4034510336017285,
+        "new_position_error_mm": 0.5540232272604614,
+        "revision_mm": [
+          0.7286197611596212,
+          -0.13949814150855666,
+          -2.6525119042033474
+        ],
+        "old_to_truth_mm": [
+          0.25128540429142365,
+          -0.2122154033525614,
+          -2.380839587013628
+        ],
+        "revision_projection_mm": 2.716053050764521,
+        "revision_cosine": 0.9861139005335745
+      },
+      "primary": {
+        "future_observations": 5,
+        "outcomes": {
+          "old": {
+            "position_rmse_mm": 4.193832497592769,
+            "rotation_rmse_deg": 0.17423199237757978,
+            "endpoint_position_mm": 5.025708053102573,
+            "endpoint_rotation_deg": 0.15071656985816875,
+            "displacement_cosine": -0.4421657790453508
+          },
+          "new": {
+            "position_rmse_mm": 1.8466561939489943,
+            "rotation_rmse_deg": 0.10107712348027004,
+            "endpoint_position_mm": 2.8706954216635014,
+            "endpoint_rotation_deg": 0.12684173795573514,
+            "displacement_cosine": -0.74006451574718
+          },
+          "old_aligned": {
+            "position_rmse_mm": 2.0392083334845337,
+            "rotation_rmse_deg": 0.19208226376469104,
+            "endpoint_position_mm": 2.6537444419862912,
+            "endpoint_rotation_deg": 0.14203094434505673,
+            "displacement_cosine": -0.4421657790453508
+          },
+          "new_aligned": {
+            "position_rmse_mm": 2.183066361915505,
+            "rotation_rmse_deg": 0.11991041082554481,
+            "endpoint_position_mm": 3.2109334614146805,
+            "endpoint_rotation_deg": 0.19187608400494433,
+            "displacement_cosine": -0.74006451574718
+          },
+          "hold": {
+            "position_rmse_mm": 1.3716783775856976,
+            "rotation_rmse_deg": 0.11177826193044124,
+            "endpoint_position_mm": 2.0952572475259736,
+            "endpoint_rotation_deg": 0.14999115313748,
+            "displacement_cosine": null
+          }
+        },
+        "achieved_delta_mm": [
+          0.5428233994391185,
+          -0.8888545736452785,
+          -1.8180712959731116
+        ],
+        "achieved_arc_mm": 2.1005685119392874
+      },
+      "secondary": {
+        "future_observations": 11,
+        "outcomes": {
+          "old": {
+            "position_rmse_mm": 11.733094228299763,
+            "rotation_rmse_deg": 1.5038269940919404,
+            "endpoint_position_mm": 31.223553924784074,
+            "endpoint_rotation_deg": 4.705461350046066,
+            "displacement_cosine": -0.9391880470547532
+          },
+          "new": {
+            "position_rmse_mm": 3.860435079935859,
+            "rotation_rmse_deg": 0.19199141213722692,
+            "endpoint_position_mm": 5.893140163373134,
+            "endpoint_rotation_deg": 0.29078026902622167,
+            "displacement_cosine": -0.48303897346044916
+          },
+          "old_aligned": {
+            "position_rmse_mm": 10.131239666993645,
+            "rotation_rmse_deg": 1.5751322625550686,
+            "endpoint_position_mm": 28.834892397381715,
+            "endpoint_rotation_deg": 4.884574295600507,
+            "displacement_cosine": -0.9391880470547532
+          },
+          "new_aligned": {
+            "position_rmse_mm": 4.190028257691007,
+            "rotation_rmse_deg": 0.17196301054177116,
+            "endpoint_position_mm": 6.2599629911451755,
+            "endpoint_rotation_deg": 0.2661360960197642,
+            "displacement_cosine": -0.48303897346044916
+          },
+          "hold": {
+            "position_rmse_mm": 2.8198731514700497,
+            "rotation_rmse_deg": 0.16068534361858772,
+            "endpoint_position_mm": 4.457865323852261,
+            "endpoint_rotation_deg": 0.20687224858045428,
+            "displacement_cosine": null
+          }
+        },
+        "achieved_delta_mm": [
+          0.8601345747781819,
+          -2.028865285017292,
+          -3.8751048262114507
+        ],
+        "achieved_arc_mm": 4.480565510296494
+      }
+    },
+    {
+      "old": "T07",
+      "new": "T01",
+      "episode": "CHV1-TRAIN-F2-HOLD-blue-00",
+      "instruction": "HOLD-blue",
+      "phases": [
+        "DESCEND",
+        "DESCEND"
+      ],
+      "query_ticks": [
+        19703,
+        19953
+      ],
+      "raw_sha256": [
+        "83fec11677b5069775bfd53582029866fa9d9f03ae2edb774e1039a8009f06b0",
+        "8c51d2588b7b15e0a47cb75662a5fd282a9846f5cde7e19e9eaae20bd1f9b032"
+      ],
+      "scored_through_tick": 20503,
+      "past_tcp_delta_mm": [
+        0.5428233994391185,
+        -0.8888545736452785,
+        -1.8180712959731116
+      ],
+      "observed_objects": {
+        "red": {
+          "displacement_mm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "tcp_distance_change_mm": -0.9922744765642061
+        },
+        "blue": {
+          "displacement_mm": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "tcp_distance_change_mm": -1.9209450297832074
+        }
+      },
+      "boundary": {
+        "old_position_error_mm": 2.8706954216635014,
+        "new_position_error_mm": 0.5983616109813007,
+        "revision_mm": [
+          0.741178341938209,
+          -0.27727966830573547,
+          -3.1289529214824086
+        ],
+        "old_to_truth_mm": [
+          0.34396672177039456,
+          -0.571832286162241,
+          -2.792057831560224
+        ],
+        "revision_projection_mm": 3.187281935630577,
+        "revision_cosine": 0.987547498940616
+      },
+      "primary": {
+        "future_observations": 5,
+        "outcomes": {
+          "old": {
+            "position_rmse_mm": 4.736090214343067,
+            "rotation_rmse_deg": 0.23230653730307335,
+            "endpoint_position_mm": 5.586152550392439,
+            "endpoint_rotation_deg": 0.2777126896139737,
+            "displacement_cosine": -0.49600270524356105
+          },
+          "new": {
+            "position_rmse_mm": 1.8998974995184936,
+            "rotation_rmse_deg": 0.14943679438142424,
+            "endpoint_position_mm": 2.7997032233445434,
+            "endpoint_rotation_deg": 0.062018553258988245,
+            "displacement_cosine": -0.5219532573387334
+          },
+          "old_aligned": {
+            "position_rmse_mm": 2.03038379691512,
+            "rotation_rmse_deg": 0.288386336081842,
+            "endpoint_position_mm": 2.71658680369097,
+            "endpoint_rotation_deg": 0.3171103751086086,
+            "displacement_cosine": -0.49600270524356105
+          },
+          "new_aligned": {
+            "position_rmse_mm": 2.241358016890472,
+            "rotation_rmse_deg": 0.13507275758545165,
+            "endpoint_position_mm": 3.1339247481087757,
+            "endpoint_rotation_deg": 0.09828488282627547,
+            "displacement_cosine": -0.5219532573387334
+          },
+          "hold": {
+            "position_rmse_mm": 1.4008540801524039,
+            "rotation_rmse_deg": 0.04841232738491127,
+            "endpoint_position_mm": 2.0837389431301845,
+            "endpoint_rotation_deg": 0.06175196014075397,
+            "displacement_cosine": null
+          }
+        },
+        "achieved_delta_mm": [
+          0.2871465826802533,
+          -0.9702727484588308,
+          -1.8215613129319852
+        ],
+        "achieved_arc_mm": 2.088161353126265
+      },
+      "secondary": {
+        "future_observations": 11,
+        "outcomes": {
+          "old": {
+            "position_rmse_mm": 11.726570797628145,
+            "rotation_rmse_deg": 1.68315136913327,
+            "endpoint_position_mm": 31.082020867733096,
+            "endpoint_rotation_deg": 5.185598656847011,
+            "displacement_cosine": -0.820267225411951
+          },
+          "new": {
+            "position_rmse_mm": 3.5067489083249863,
+            "rotation_rmse_deg": 0.2979805922677267,
+            "endpoint_position_mm": 5.063848871028203,
+            "endpoint_rotation_deg": 0.4472464154742588,
+            "displacement_cosine": -0.45323852043141255
+          },
+          "old_aligned": {
+            "position_rmse_mm": 9.788963694593738,
+            "rotation_rmse_deg": 1.7280369638280813,
+            "endpoint_position_mm": 28.250659519164632,
+            "endpoint_rotation_deg": 5.285015803572342,
+            "displacement_cosine": -0.820267225411951
+          },
+          "new_aligned": {
+            "position_rmse_mm": 3.825028465247873,
+            "rotation_rmse_deg": 0.27782221199516516,
+            "endpoint_position_mm": 5.403942438831746,
+            "endpoint_rotation_deg": 0.43619847304706777,
+            "displacement_cosine": -0.45323852043141255
+          },
+          "hold": {
+            "position_rmse_mm": 2.4070870340601482,
+            "rotation_rmse_deg": 0.07891935161218207,
+            "endpoint_position_mm": 3.479852600300418,
+            "endpoint_rotation_deg": 0.11562239179387132,
+            "displacement_cosine": null
+          }
+        },
+        "achieved_delta_mm": [
+          0.2366461166943834,
+          -1.9758896095284917,
+          -2.8546861449603167
+        ],
+        "achieved_arc_mm": 3.549753418921148
+      }
+    }
+  ],
+  "sources": [
+    {
+      "episode": "CHV1-TRAIN-F1-HOLD-red-02",
+      "teacher_end_tick": 22703,
+      "native_states": 22,
+      "query_tcp_crosschecks": 3,
+      "native_journal_sha256": "431b5325ae8d61ad14c0d4166d5d6689d6203a35f28722e4962c889552f5920a",
+      "scene_sha256": "ba55a65ce2d5a57917ec4f1d49ee38af15c4e495d10a5b8781d06ce6e787f723",
+      "dense_frames_sha256": "8a99916eb27c461908742f5ef9559e6b8467b4b23bb5fab970e11c35cb146483",
+      "consumed_samples_sha256": "d588cb9910625878df4620b9dd7260c26c061abf69b56f06fd513e230b375312"
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-HOLD-red-03",
+      "teacher_end_tick": 22453,
+      "native_states": 22,
+      "query_tcp_crosschecks": 3,
+      "native_journal_sha256": "89152f7c8a26d8615ed7b278cd461c30d9dd74ade7d8bc6c3584fb6b41d8f0e9",
+      "scene_sha256": "30ddc30db168df862036b38e72dc0ec1af8188a47d26aa4e0757679a0f1e2e13",
+      "dense_frames_sha256": "37d4627b1075cb8d5b7072f4f3c57adbdf2f4f78b984a874e78a626cc1c129e2",
+      "consumed_samples_sha256": "7095f5c1fe405c5eb44d4d436a6998d33f960e7480b4a914db3e7b1dc5903b63"
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-HOLD-red-05",
+      "teacher_end_tick": 23203,
+      "native_states": 16,
+      "query_tcp_crosschecks": 2,
+      "native_journal_sha256": "5132216ed79c958b3c5c01608e5a55e793e50da957144a1780f005ae1a03b430",
+      "scene_sha256": "76196c90890b1d1884d7486e5f8595592e2574fa5bbfb5c337575a34f3fbb796",
+      "dense_frames_sha256": "0712b7d7bf338c202de0c9183e4cda4c9fb85ead62723a12dfbad81cb28b5a49",
+      "consumed_samples_sha256": "0cad6d532aadaabe964280cb444b2fe0f766e3375befa47e2dc26ab20d35b2bd"
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-01",
+      "teacher_end_tick": 36953,
+      "native_states": 17,
+      "query_tcp_crosschecks": 2,
+      "native_journal_sha256": "b09cf38ae7bdff807a961fa3736340aba8f30e83858c26f58f0558f180cfa3e5",
+      "scene_sha256": "9ae3232754c5ef287239801fc10230199872f1526c78c099b746f0d7ad088507",
+      "dense_frames_sha256": "fd4a2fc868d4cb401cfa960267ca94010946a8f57fe07484ef5a6b5380aaaee6",
+      "consumed_samples_sha256": "c3d419839b230d0f5c45522f6b8fbd5ff8a668ca557aff53cd0b23524956dc57"
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-07",
+      "teacher_end_tick": 36953,
+      "native_states": 22,
+      "query_tcp_crosschecks": 3,
+      "native_journal_sha256": "f283655aa75a05c3f07e10b69d8ec29c8738717371f61afaba744dd1d8d1e72d",
+      "scene_sha256": "6b1a6736b55341f14ffad2891fc73d1c9dbd4e71e803001624cdc6993efc2f30",
+      "dense_frames_sha256": "0eadc71ce730b177294f806031f64f73b3673c180b6bcf7af7838eb2d28c4027",
+      "consumed_samples_sha256": "6665cf1778866743849569fcfc2eccbe378223aa368f2ac8971cd414d9b1e20b"
+    },
+    {
+      "episode": "CHV1-TRAIN-F2-HOLD-blue-00",
+      "teacher_end_tick": 23703,
+      "native_states": 22,
+      "query_tcp_crosschecks": 3,
+      "native_journal_sha256": "e1b424c71699169eb249c7689986ac6c9f6d87ccc472c4ee5de1103dc7287f07",
+      "scene_sha256": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+      "dense_frames_sha256": "e93a75dce81885f03059480371eb7988d40f4b63c7aa4282081647056e988c29",
+      "consumed_samples_sha256": "6e25128fcc5c386a23e99922d6b3fbb8f4be4ba05ca4a09d787030c8860f6ed9"
+    }
+  ],
+  "summary": {
+    "primary": {
+      "position_rmse_mm": {
+        "new_minus_old": {
+          "n": 10,
+          "lower": 10,
+          "equal": 0,
+          "higher": 0,
+          "median_difference": -1.8502096909383274
+        },
+        "new_aligned_minus_old_aligned": {
+          "n": 10,
+          "lower": 1,
+          "equal": 0,
+          "higher": 9,
+          "median_difference": 0.2653026915171751
+        },
+        "new_minus_hold": {
+          "n": 10,
+          "lower": 1,
+          "equal": 0,
+          "higher": 9,
+          "median_difference": 0.2701296244114197
+        },
+        "new_aligned_minus_hold": {
+          "n": 10,
+          "lower": 0,
+          "equal": 0,
+          "higher": 10,
+          "median_difference": 0.7859699017481201
+        }
+      },
+      "rotation_rmse_deg": {
+        "new_minus_old": {
+          "n": 10,
+          "lower": 10,
+          "equal": 0,
+          "higher": 0,
+          "median_difference": -0.14179753564150133
+        },
+        "new_aligned_minus_old_aligned": {
+          "n": 10,
+          "lower": 10,
+          "equal": 0,
+          "higher": 0,
+          "median_difference": -0.08272759577584725
+        },
+        "new_minus_hold": {
+          "n": 10,
+          "lower": 1,
+          "equal": 0,
+          "higher": 9,
+          "median_difference": 0.08228445080078998
+        },
+        "new_aligned_minus_hold": {
+          "n": 10,
+          "lower": 0,
+          "equal": 0,
+          "higher": 10,
+          "median_difference": 0.1281938535392239
+        }
+      }
+    },
+    "secondary": {
+      "position_rmse_mm": {
+        "new_minus_old": {
+          "n": 9,
+          "lower": 9,
+          "equal": 0,
+          "higher": 0,
+          "median_difference": -4.231722770886625
+        },
+        "new_aligned_minus_old_aligned": {
+          "n": 9,
+          "lower": 6,
+          "equal": 0,
+          "higher": 3,
+          "median_difference": -2.397435737104394
+        },
+        "new_minus_hold": {
+          "n": 9,
+          "lower": 4,
+          "equal": 0,
+          "higher": 5,
+          "median_difference": 0.4024827612503974
+        },
+        "new_aligned_minus_hold": {
+          "n": 9,
+          "lower": 2,
+          "equal": 0,
+          "higher": 7,
+          "median_difference": 1.2407364399850325
+        }
+      },
+      "rotation_rmse_deg": {
+        "new_minus_old": {
+          "n": 9,
+          "lower": 9,
+          "equal": 0,
+          "higher": 0,
+          "median_difference": -0.45838428245515683
+        },
+        "new_aligned_minus_old_aligned": {
+          "n": 9,
+          "lower": 9,
+          "equal": 0,
+          "higher": 0,
+          "median_difference": -0.32347911097950066
+        },
+        "new_minus_hold": {
+          "n": 9,
+          "lower": 0,
+          "equal": 0,
+          "higher": 9,
+          "median_difference": 0.1502511046516934
+        },
+        "new_aligned_minus_hold": {
+          "n": 9,
+          "lower": 0,
+          "equal": 0,
+          "higher": 9,
+          "median_difference": 0.2186008003919353
+        }
+      }
+    }
+  },
+  "by_episode": {
+    "CHV1-TRAIN-F2-HOLD-blue-00": {
+      "primary": {
+        "position_rmse_mm": {
+          "new_minus_old": {
+            "n": 2,
+            "lower": 2,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -2.5916845092341743
+          },
+          "new_aligned_minus_old_aligned": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 0.17741612420316155
+          },
+          "new_minus_hold": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 0.48701061786469324
+          },
+          "new_aligned_minus_hold": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 0.8259459605339378
+          }
+        },
+        "rotation_rmse_deg": {
+          "new_minus_old": {
+            "n": 2,
+            "lower": 2,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -0.07801230590947943
+          },
+          "new_aligned_minus_old_aligned": {
+            "n": 2,
+            "lower": 2,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -0.11274271571776828
+          },
+          "new_minus_hold": {
+            "n": 2,
+            "lower": 1,
+            "equal": 0,
+            "higher": 1,
+            "median_difference": 0.04516166427317088
+          },
+          "new_aligned_minus_hold": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 0.04739628954782197
+          }
+        }
+      },
+      "secondary": {
+        "position_rmse_mm": {
+          "new_minus_old": {
+            "n": 2,
+            "lower": 2,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -8.046240518833532
+          },
+          "new_aligned_minus_old_aligned": {
+            "n": 2,
+            "lower": 2,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -5.952573319324252
+          },
+          "new_minus_hold": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 1.0701119013653237
+          },
+          "new_aligned_minus_hold": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 1.3940482687043412
+          }
+        },
+        "rotation_rmse_deg": {
+          "new_minus_old": {
+            "n": 2,
+            "lower": 2,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -1.3485031794101285
+          },
+          "new_aligned_minus_old_aligned": {
+            "n": 2,
+            "lower": 2,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -1.4266920019231066
+          },
+          "new_minus_hold": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 0.12518365458709194
+          },
+          "new_aligned_minus_hold": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 0.10509026365308327
+          }
+        }
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-03": {
+      "primary": {
+        "position_rmse_mm": {
+          "new_minus_old": {
+            "n": 2,
+            "lower": 2,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -1.9120829994544826
+          },
+          "new_aligned_minus_old_aligned": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 0.05668288563926177
+          },
+          "new_minus_hold": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 0.7881041549495404
+          },
+          "new_aligned_minus_hold": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 0.9588764505827845
+          }
+        },
+        "rotation_rmse_deg": {
+          "new_minus_old": {
+            "n": 2,
+            "lower": 2,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -0.12300836569020875
+          },
+          "new_aligned_minus_old_aligned": {
+            "n": 2,
+            "lower": 2,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -0.04558965946862936
+          },
+          "new_minus_hold": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 0.08687800737178791
+          },
+          "new_aligned_minus_hold": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 0.11096940915542808
+          }
+        }
+      },
+      "secondary": {
+        "position_rmse_mm": {
+          "new_minus_old": {
+            "n": 2,
+            "lower": 2,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -4.650526496384326
+          },
+          "new_aligned_minus_old_aligned": {
+            "n": 2,
+            "lower": 2,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -2.9711785944307048
+          },
+          "new_minus_hold": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 1.1283707021364857
+          },
+          "new_aligned_minus_hold": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 1.450196077629879
+          }
+        },
+        "rotation_rmse_deg": {
+          "new_minus_old": {
+            "n": 2,
+            "lower": 2,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -0.4660891185068136
+          },
+          "new_aligned_minus_old_aligned": {
+            "n": 2,
+            "lower": 2,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -0.396084950073164
+          },
+          "new_minus_hold": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 0.13523572244868987
+          },
+          "new_aligned_minus_hold": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 0.17378399559302354
+          }
+        }
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-red-right-07": {
+      "primary": {
+        "position_rmse_mm": {
+          "new_minus_old": {
+            "n": 2,
+            "lower": 2,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -1.5822503247828494
+          },
+          "new_aligned_minus_old_aligned": {
+            "n": 2,
+            "lower": 1,
+            "equal": 0,
+            "higher": 1,
+            "median_difference": 0.07058028125255489
+          },
+          "new_minus_hold": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 0.21194371850322274
+          },
+          "new_aligned_minus_hold": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 0.90695126071796
+          }
+        },
+        "rotation_rmse_deg": {
+          "new_minus_old": {
+            "n": 2,
+            "lower": 2,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -0.30691228709391927
+          },
+          "new_aligned_minus_old_aligned": {
+            "n": 2,
+            "lower": 2,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -0.1362699482665049
+          },
+          "new_minus_hold": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 0.037965548162226005
+          },
+          "new_aligned_minus_hold": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 0.10957883654056173
+          }
+        }
+      },
+      "secondary": {
+        "position_rmse_mm": {
+          "new_minus_old": {
+            "n": 2,
+            "lower": 2,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -2.781735806930712
+          },
+          "new_aligned_minus_old_aligned": {
+            "n": 2,
+            "lower": 2,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -1.7294932133680045
+          },
+          "new_minus_hold": {
+            "n": 2,
+            "lower": 1,
+            "equal": 0,
+            "higher": 1,
+            "median_difference": 0.050321037097307064
+          },
+          "new_aligned_minus_hold": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 0.8708413266581402
+          }
+        },
+        "rotation_rmse_deg": {
+          "new_minus_old": {
+            "n": 2,
+            "lower": 2,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -0.5022354603837272
+          },
+          "new_aligned_minus_old_aligned": {
+            "n": 2,
+            "lower": 2,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -0.38495818473653365
+          },
+          "new_minus_hold": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 0.21261945097262505
+          },
+          "new_aligned_minus_hold": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 0.2653165487725454
+          }
+        }
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-02": {
+      "primary": {
+        "position_rmse_mm": {
+          "new_minus_old": {
+            "n": 2,
+            "lower": 2,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -1.7082972502846072
+          },
+          "new_aligned_minus_old_aligned": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 0.3846062597747356
+          },
+          "new_minus_hold": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 0.08699764817617883
+          },
+          "new_aligned_minus_hold": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 0.25018284561086446
+          }
+        },
+        "rotation_rmse_deg": {
+          "new_minus_old": {
+            "n": 2,
+            "lower": 2,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -0.14179753564150133
+          },
+          "new_aligned_minus_old_aligned": {
+            "n": 2,
+            "lower": 2,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -0.0626230805510779
+          },
+          "new_minus_hold": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 0.061294219173751656
+          },
+          "new_aligned_minus_hold": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 0.14102931420404513
+          }
+        }
+      },
+      "secondary": {
+        "position_rmse_mm": {
+          "new_minus_old": {
+            "n": 2,
+            "lower": 2,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -1.6523733519430626
+          },
+          "new_aligned_minus_old_aligned": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 0.534815591522882
+          },
+          "new_minus_hold": {
+            "n": 2,
+            "lower": 2,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -0.5812282880056259
+          },
+          "new_aligned_minus_hold": {
+            "n": 2,
+            "lower": 2,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -0.4192796870572857
+          }
+        },
+        "rotation_rmse_deg": {
+          "new_minus_old": {
+            "n": 2,
+            "lower": 2,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -0.11054017477557872
+          },
+          "new_aligned_minus_old_aligned": {
+            "n": 2,
+            "lower": 2,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -0.03655074018591847
+          },
+          "new_minus_hold": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 0.15109733972832784
+          },
+          "new_aligned_minus_hold": {
+            "n": 2,
+            "lower": 0,
+            "equal": 0,
+            "higher": 2,
+            "median_difference": 0.23231102654314467
+          }
+        }
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-05": {
+      "primary": {
+        "position_rmse_mm": {
+          "new_minus_old": {
+            "n": 1,
+            "lower": 1,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -1.8544363376505573
+          },
+          "new_aligned_minus_old_aligned": {
+            "n": 1,
+            "lower": 0,
+            "equal": 0,
+            "higher": 1,
+            "median_difference": 0.34812625774530126
+          },
+          "new_minus_hold": {
+            "n": 1,
+            "lower": 1,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -0.07828074090253945
+          },
+          "new_aligned_minus_hold": {
+            "n": 1,
+            "lower": 0,
+            "equal": 0,
+            "higher": 1,
+            "median_difference": 0.0912525310695178
+          }
+        },
+        "rotation_rmse_deg": {
+          "new_minus_old": {
+            "n": 1,
+            "lower": 1,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -0.14773105061008673
+          },
+          "new_aligned_minus_old_aligned": {
+            "n": 1,
+            "lower": 1,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -0.07934282761143399
+          },
+          "new_minus_hold": {
+            "n": 1,
+            "lower": 0,
+            "equal": 0,
+            "higher": 1,
+            "median_difference": 0.09647635515474762
+          },
+          "new_aligned_minus_hold": {
+            "n": 1,
+            "lower": 0,
+            "equal": 0,
+            "higher": 1,
+            "median_difference": 0.16806912670483132
+          }
+        }
+      },
+      "secondary": {
+        "position_rmse_mm": {
+          "new_minus_old": null,
+          "new_aligned_minus_old_aligned": null,
+          "new_minus_hold": null,
+          "new_aligned_minus_hold": null
+        },
+        "rotation_rmse_deg": {
+          "new_minus_old": null,
+          "new_aligned_minus_old_aligned": null,
+          "new_minus_hold": null,
+          "new_aligned_minus_hold": null
+        }
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-red-right-01": {
+      "primary": {
+        "position_rmse_mm": {
+          "new_minus_old": {
+            "n": 1,
+            "lower": 1,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -1.7677717910040407
+          },
+          "new_aligned_minus_old_aligned": {
+            "n": 1,
+            "lower": 0,
+            "equal": 0,
+            "higher": 1,
+            "median_difference": 0.34492753569131396
+          },
+          "new_minus_hold": {
+            "n": 1,
+            "lower": 0,
+            "equal": 0,
+            "higher": 1,
+            "median_difference": 0.2724381742956349
+          },
+          "new_aligned_minus_hold": {
+            "n": 1,
+            "lower": 0,
+            "equal": 0,
+            "higher": 1,
+            "median_difference": 0.2843123640163866
+          }
+        },
+        "rotation_rmse_deg": {
+          "new_minus_old": {
+            "n": 1,
+            "lower": 1,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -0.07047602518704554
+          },
+          "new_aligned_minus_old_aligned": {
+            "n": 1,
+            "lower": 1,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -0.10439864363735127
+          },
+          "new_minus_hold": {
+            "n": 1,
+            "lower": 0,
+            "equal": 0,
+            "higher": 1,
+            "median_difference": 0.08378483410653462
+          },
+          "new_aligned_minus_hold": {
+            "n": 1,
+            "lower": 0,
+            "equal": 0,
+            "higher": 1,
+            "median_difference": 0.13967370033873938
+          }
+        }
+      },
+      "secondary": {
+        "position_rmse_mm": {
+          "new_minus_old": {
+            "n": 1,
+            "lower": 1,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -1.8682046472667957
+          },
+          "new_aligned_minus_old_aligned": {
+            "n": 1,
+            "lower": 0,
+            "equal": 0,
+            "higher": 1,
+            "median_difference": 0.34909037031775636
+          },
+          "new_minus_hold": {
+            "n": 1,
+            "lower": 1,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -0.36475237696505425
+          },
+          "new_aligned_minus_hold": {
+            "n": 1,
+            "lower": 0,
+            "equal": 0,
+            "higher": 1,
+            "median_difference": 0.020515302032190874
+          }
+        },
+        "rotation_rmse_deg": {
+          "new_minus_old": {
+            "n": 1,
+            "lower": 1,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -0.2229075348791871
+          },
+          "new_aligned_minus_old_aligned": {
+            "n": 1,
+            "lower": 1,
+            "equal": 0,
+            "higher": 0,
+            "median_difference": -0.17087860577273345
+          },
+          "new_minus_hold": {
+            "n": 1,
+            "lower": 0,
+            "equal": 0,
+            "higher": 1,
+            "median_difference": 0.13539086004900308
+          },
+          "new_aligned_minus_hold": {
+            "n": 1,
+            "lower": 0,
+            "equal": 0,
+            "higher": 1,
+            "median_difference": 0.20517159686018893
+          }
+        }
+      }
+    }
+  },
+  "new_forwards": 0,
+  "new_native_starts": 0,
+  "physics_ticks": 0,
+  "student_owned_trajectory_pairs": 0
+}
