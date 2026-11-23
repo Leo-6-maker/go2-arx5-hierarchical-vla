@@ -1,0 +1,138 @@
+{
+  "scope": "frozen target TRAIN, offline CPU",
+  "receivers": {
+    "teacher_receiver": {
+      "library_sha256": "1d40b6c8c1060df9010f20cf6fe03bad62ac6ec9e0867e993a95a871108f375e",
+      "source_sha256": "0d64f75138775db6ce5d3223f3bd43b677b7906563241ac734be656793881762"
+    },
+    "prior_interface_qualification_receiver": {
+      "library_sha256": "acb7627e986301dad5ffea933ff320ae474c0faeef09750b7ea22be5709dc187",
+      "source_sha256": "490c41c0dea0e28580f2cdae06903d020333d00654e39d11fb5d573e55cd63c5"
+    }
+  },
+  "historical_teacher_intervals": 6038,
+  "historical_teacher_ticks": 150950,
+  "windows": [
+    {
+      "id": "T01",
+      "held": false,
+      "owner": false,
+      "seam_m_s": 0.04430446624755849,
+      "limit_m_s": 0.04
+    },
+    {
+      "id": "T02",
+      "held": false,
+      "owner": false,
+      "seam_m_s": 0.004163087036132829,
+      "limit_m_s": 0.04
+    },
+    {
+      "id": "T03",
+      "held": true,
+      "owner": false,
+      "seam_m_s": 0.23864784951019277,
+      "limit_m_s": 0.04
+    },
+    {
+      "id": "T04",
+      "held": true,
+      "owner": false,
+      "seam_m_s": 0.34215953350067135,
+      "limit_m_s": 0.04
+    },
+    {
+      "id": "T05",
+      "held": true,
+      "owner": false,
+      "seam_m_s": 0.34028282165527335,
+      "limit_m_s": 0.04
+    },
+    {
+      "id": "T06",
+      "held": true,
+      "owner": false,
+      "seam_m_s": 0.34384858608245844,
+      "limit_m_s": 0.04
+    },
+    {
+      "id": "T07",
+      "held": false,
+      "owner": false,
+      "seam_m_s": 0.04430446624755849,
+      "limit_m_s": 0.04
+    },
+    {
+      "id": "T08",
+      "held": false,
+      "owner": false,
+      "seam_m_s": 0.0363418700714109,
+      "limit_m_s": 0.04
+    },
+    {
+      "id": "T09",
+      "held": false,
+      "owner": false,
+      "seam_m_s": 0.005476773406982438,
+      "limit_m_s": 0.04
+    },
+    {
+      "id": "T10",
+      "held": true,
+      "owner": false,
+      "seam_m_s": 0.34197185039520267,
+      "limit_m_s": 0.04
+    },
+    {
+      "id": "T11",
+      "held": true,
+      "owner": false,
+      "seam_m_s": 0.33915677070617667,
+      "limit_m_s": 0.04
+    },
+    {
+      "id": "T12",
+      "held": true,
+      "owner": false,
+      "seam_m_s": 0.34319174289703364,
+      "limit_m_s": 0.04
+    },
+    {
+      "id": "T13",
+      "held": false,
+      "owner": false,
+      "seam_m_s": 0.04392910003662098,
+      "limit_m_s": 0.04
+    },
+    {
+      "id": "T14",
+      "held": false,
+      "owner": false,
+      "seam_m_s": 0.04355378150939934,
+      "limit_m_s": 0.04
+    },
+    {
+      "id": "T15",
+      "held": false,
+      "owner": false,
+      "seam_m_s": 0.03671723628234841,
+      "limit_m_s": 0.04
+    },
+    {
+      "id": "T16",
+      "held": true,
+      "owner": false,
+      "seam_m_s": 0.3414088487625122,
+      "limit_m_s": 0.04
+    }
+  ],
+  "actual_student_reset_receipts": 0,
+  "unavailable": [
+    "student epoch at receiver reset",
+    "gripper-specific owner ACK",
+    "per-step applied gripper command identity"
+  ],
+  "new_native_requests": 0,
+  "real_student_task_attempts": 0,
+  "decision": "V2_GRIPPER_BLOCKED"
+}
