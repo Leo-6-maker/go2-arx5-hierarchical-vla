@@ -1,0 +1,13 @@
+{
+  "stage": "V3 dynamic eligibility; CPU replay only",
+  "inputs": "All 18 sealed F1/F2 starts. Common interval ticks 5203..5703 inclusive on both startup strata. On admitted cards additionally include the entire post-5703 evaluation, including original unequal tails. Keep maximum discordance, duplicate transmissions and uncovered ticks; no time interpolation.",
+  "sensor": "Match every observed native-time ROS ee pose to actual state on the original 2 ms tick grid. Report position and sign-invariant orientation errors, per-card coverage, inter-channel maxima and stationary vs moving phases. This is a measurement-system discrepancy, not isolated sensor noise.",
+  "geometry": "Two original V3 reset witnesses and both known curves. Use actual stationary pad/table/cube transforms and box extents. Compute a separating-axis lower bound for each pad vs the table/cube, on the measured-to-old join and the curve sampled at 2ms. Subtract an analytic between-sample motion allowance; retain prior independent whole-body IK/safety gate as separate evidence.",
+  "rule": "Keep 4 mm/2 deg as ceilings. Reserve the larger of the original 1.8 mm and measured translation disagreement. Add measured angular disagreement to the 2 deg working tolerance, use the greater of the frozen 57 mm and measured pad corner lever. Position allowance = floor to 0.1mm of min(4 mm, min(8 mm overlap margin, measured pad clearance lower bound) - reserved translation - rotational sweep). No positive allowance or missing evidence blocks admission. Original F2 stationary 4 mm/2 deg remains an independent baseline. Do not subtract plant motion twice.",
+  "clinical": "Only approve follow-on known-reference registration after exact start posture, candidate clearance, clock validity and fault detection provenance can be supported. Scientific outcomes use actual native votes only.",
+  "resources": {
+    "native_requests": 0,
+    "gpu_forwards": 0,
+    "physics_ticks": 0
+  }
+}
