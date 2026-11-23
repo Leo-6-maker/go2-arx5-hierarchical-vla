@@ -1,0 +1,16 @@
+{
+  "stage": "V4 / H1 offline, two different sealed official predictions",
+  "population": "All 16 registered TRAIN windows in their six actual archived teacher episodes. Pair every temporally adjacent query in the same episode, in tick order, never across resets. Evaluate overlapping pairs independently; no selection by admission, phase, action or outcome.",
+  "source": "Identify each primary completed call by observed tick, input hash, seed, raw file hash and duration against its immutable return journal. Exclude the two explicit repeats. No new inference or physics, and no SLA-own-feedback labels.",
+  "clocks": "Use the measured 2ms observation tick difference. Assume real-time-factor 1 for the timed CPU scheduling scenario; measure the age of the incoming observation and record original 49/30-s source horizon as a comparator, not an expiry policy. A new output can first be considered at the 10Hz transmission boundary at/after its recorded forward duration. Use the last installation strictly before that boundary and keep its entire installed 41-point wire plus one join segment. Preserve old command data and local source phase on that prefix exactly.",
+  "comparison": "Use the existing exact-path C2 compiler for both proposals, previous actual command for the old proposal and the last protected scheduled pose/twist for the new tail. The nominal width at the join is checked against original physical 40 mm/s G7. Keep all invalid paths in shadow only. Report first changed wire knot, predicted source movement past alignment, width events/provenance, time from new observation, full original pose envelopes including across the join, original parent admission, and zero native actuator receipts.",
+  "references": "A proposal carries its own 30fps source clock and immutable identity. Never infer motion by adding two different source clocks. Independently verify old installation receipt prefix and new 10Hz callback serialization. Task/geometry scores from isolated windows are not proof of revised execution.",
+  "decision": "Quantify whether a distinct prediction can replace an uncommitted suffix, its age at effect and whether model-derived motion could begin before the next 0.5s decision. No closed-loop skill or whole-system stop claims from this audit.",
+  "resources": {
+    "additional_gpu_forward": 0,
+    "simulation_starts": 0,
+    "physics_ticks": 0,
+    "training_updates": 0
+  },
+  "clock_origin": "The old query is at t=0. First old installation can occur at the first 10Hz boundary after its own measured forward. Put the old wire clock origin there. If no old installation precedes the new ready boundary, retain the pair as temporally ineligible. The archived calls were independently acquired: queues, pre/postprocessing and wall-to-simulator synchronization are not observed. Distinct proposals were generated on teacher-driven observations."
+}
