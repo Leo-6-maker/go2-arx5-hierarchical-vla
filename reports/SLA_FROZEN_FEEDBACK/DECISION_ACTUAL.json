@@ -1,0 +1,71 @@
+{
+  "scope": "Standing no-contact known target, one pinned TRAIN01 scene, matched B2 startup, fixed working-open gripper",
+  "decision": "FROZEN_WBC_KNOWN_GOAL_DWELL_QUALIFIED",
+  "F1_sha256": "fbb674fdaf2e940b2c46d8951f660e025591c4dd38feac35dfb22550212d53c2",
+  "F2_sha256": "2827c7b163e177cdb62b4cdea7019684d773efe807f7d5701327765ad0550863",
+  "matched_comparisons": [
+    {
+      "card": "F2-01",
+      "control": "F1-02",
+      "ledger_sha256": "3ee4b4524c61dbfaeedf279b8969f11010d01ce370005a1957af2d28e94dedfe",
+      "last_command_minus_desired_xyz_mm": [
+        16.360817984930165,
+        2.2023298965259763,
+        29.736713501838707
+      ],
+      "last_command_minus_desired_norm_mm": 34.01174432456505,
+      "position_error_reduction_at_paired_endpoint_percent": 88.68480721106144,
+      "minimum_checked_joint_margin_rad": 0.46586498039256596
+    },
+    {
+      "card": "F2-02",
+      "control": "F1-03",
+      "ledger_sha256": "e2d49e235a5920874deb9ef678c61e26bdb6ddc03e3bcb3c84f8426892fc91e5",
+      "last_command_minus_desired_xyz_mm": [
+        16.456417150331028,
+        2.148738273957262,
+        29.775424937417583
+      ],
+      "last_command_minus_desired_norm_mm": 34.088218959040184,
+      "position_error_reduction_at_paired_endpoint_percent": 88.07700194317914,
+      "minimum_checked_joint_margin_rad": 0.46547239988219513
+    },
+    {
+      "card": "F2-03",
+      "control": "F1-07",
+      "ledger_sha256": "8070728e0fcfe794ba31d6af004df7f53a0010cf48c339f1d9bbcb04fd5b64f3",
+      "last_command_minus_desired_xyz_mm": [
+        16.487612983300927,
+        2.1002643556447715,
+        29.856161809922565
+      ],
+      "last_command_minus_desired_norm_mm": 34.1707900153184,
+      "position_error_reduction_at_paired_endpoint_percent": 87.8938075489897,
+      "minimum_checked_joint_margin_rad": 0.4654008499579364
+    },
+    {
+      "card": "F2-06",
+      "control": "F1-11",
+      "ledger_sha256": "ee13723266ec892203c734aebddae59fc662097eee078004d12800504f71a866",
+      "last_command_minus_desired_xyz_mm": [
+        16.46184186791777,
+        2.1134613679723335,
+        29.775112590256892
+      ],
+      "last_command_minus_desired_norm_mm": 34.088359984028514,
+      "position_error_reduction_at_paired_endpoint_percent": 87.85799717595425,
+      "minimum_checked_joint_margin_rad": 0.4653365286416383
+    }
+  ],
+  "total_new_requests": 18,
+  "total_new_physics_ticks": 172454,
+  "post_initialization_ticks": 69800,
+  "closed_leases": 18,
+  "physical_stops": 0,
+  "F3_low_level_change_admitted": false,
+  "F4_native_block": "No qualified student gripper ownership or handoff. Offline paired-label diagnostics only.",
+  "native_student_grasps_attempted": 0,
+  "student_grasp_success_rate": null,
+  "training_updates": 0,
+  "SLA_forwards": 0
+}
