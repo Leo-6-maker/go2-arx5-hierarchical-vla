@@ -73,7 +73,7 @@ ReferenceManager负责跨请求持有：current controller mode+owner, last issu
 
 ## 6. 阶段 B3：受控升级接口的两个分支（只在B2事实基础上）
 
-`B3-A H40_FROZEN_BASELINE`：原V1.3原样 replay/同一安全门；结果保持C0学生0/16、C1完整0/16，后续若有新物理与新模型状态需单列，不能改写V1.3分母。
+`B3-A H40_FROZEN_BASELINE`：原V1.3原样 replay/同一安全门；结果保持C0学生完整门0/16；C1位姿动态16/16、完整H40 8/16、H40＋G7 2/16、联合有效进度/事件0/16。后续若有新物理与新模型状态需单列，不能改写V1.3分母。
 
 `B3-B OCS2_LONG_REFERENCE_V2`：将冻结SLA经过官方inverse processor及右臂arm-base→world/TCP转换后的**完整源技能路径**保存为长时域Reference：- 时间：不要求在1.95s H40内走完整段；根据B2测得的真实OCS2能力边界和起始真实速度，为整条路径生成可行 `t_{mathrm{exec}}`，在MPC内2s的前瞻窗口滚动发布；不要每个发布周期重新从`t=0`开始。
 - 几何：优先保留source path的SE(3)形状；若需要平滑或改变姿态接触点，单独标`GEOMETRY_CHANGED`，不能再称纯时间适配。先完成角速度数值一致性与时间重参数化回归。
