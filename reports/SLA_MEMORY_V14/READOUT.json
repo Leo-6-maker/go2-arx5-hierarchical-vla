@@ -1,0 +1,78 @@
+{
+  "protocol_commit": "7707468e7f17932fd146cdc51636e97777f0ba9d",
+  "v13_public_commit": "e4043b2004e730bc4bec0e4538aad46571c2e45d",
+  "stage_status": {
+    "B0": "PASS_SEALED_HISTORICAL_BACKEND",
+    "B1": "CPU_CONFORMANCE_COMPLETE; DIRECT_LONG_OR_P10_ONLY_BLOCKED",
+    "B2": "NOT_RUN_WAIT_FOR_AUTHORIZED_NATIVE",
+    "B3": "NOT_RUN",
+    "B4": "NOT_RUN"
+  },
+  "source_hashes": {
+    "final/B0_BACKEND_IDENTITY_AND_SOURCE_ACTUAL.json": "6e07080b6fe109412614e2e2f83f123c21f81790dd5ccaacb5f0904895532493",
+    "final/b1/B1_OCS2_ABI_WINDOW_AND_REPLACE.json": "8478032348ed825a907cce6e0b2902faa3b43e7f0a3c18c2219b803683aaa95e",
+    "final/angular/B0_ANGULAR_REGRESSION_ACTUAL.json": "b6782ac9475023fc62290bad721fc66584e21b35a280477bdaaf716b4ff85aa4",
+    "final/B4_ACTUAL.json": "7176488ddc1e67596af0fb827a2c41582a3750635f877f4c8666143b36aac618",
+    "final/B2_ACTUAL.json": "6d12743b4c2642048a0b7d7121e6a44c70a41d8bf3fe9f48f42d41e792ee6650",
+    "final/B3_ACTUAL.json": "1cf5d6803dd377d0b2b02c129caf8d6f6da424ee0b2d7274564750bb0312512a"
+  },
+  "source_files_sha256": {
+    "launch.py": "7711fa37e7c31ee0969525204265b4f5c178c0d2645a7bf450a3fccf28ad81e6",
+    "regression.py": "45ff7b7c79491b824201bce2d1226afcfd5a511cae1f6e178f1a78c1cb0baa35",
+    "identity.py": "0869cc81874571c315131612d30958a4cbdeb061deada70cb1d83205dc3d5b9a",
+    "shadow.py": "c8951b433f203dfc64738f854bcbe6db40e5047536ec809fc4796e00ced88dee"
+  },
+  "historical_teacher_cards": 6,
+  "prior_target_windows": 16,
+  "prior_source_controls": 12,
+  "previous_inputs_verified": 139,
+  "teacher_reference_accepts": 1168,
+  "teacher_mobile_intervals": 5270,
+  "observed_historical_WBC_mode_cards": 6,
+  "mpc_solver_horizon_s": 1,
+  "reference_publish_horizon_s": 2,
+  "wire_ttl_s": 0.4,
+  "p10_interval_s": 0.5,
+  "new_fixture": {
+    "intent_duration_s": 10,
+    "transport_period_s": 0.1,
+    "windows_each": 101,
+    "typed_different": 0,
+    "hold_requests_per_arm": [
+      0,
+      0
+    ],
+    "clock_rewind_test": {
+      "bound": 10.0,
+      "first_time": 9.8,
+      "hold": false
+    }
+  },
+  "regression": {
+    "replays": 78,
+    "gate_changes": 0,
+    "residual_exceptions": 0,
+    "issue": 432
+  },
+  "usage": {
+    "native_lease": null,
+    "native_requests": 0,
+    "new_integrations": 0,
+    "new_gpu_forwards": 0,
+    "training_updates": 0,
+    "stop_receipt": "NOT_APPLICABLE",
+    "cpu_processes": {
+      "final/B0_CPU.txt": "12.62 12.18 0.42 0",
+      "final/B1_CPU.txt": "0.52 0.42 0.04 0",
+      "final/REGRESSION_CPU.txt": "1.85 1.56 0.21 0",
+      "run01/B0_ANGULAR_TIME.txt": "2.08 1.76 0.24 0",
+      "run01/B0_SEAL_TIME.txt": "13.25 12.71 0.50 0",
+      "run01/B0_TIME.txt": "13.26 12.65 0.54 0",
+      "run01/B1_COMPARE_TIME.txt": "0.55 0.43 0.05 0",
+      "run01/B1_FIELDS_TIME.txt": "0.55 0.44 0.04 0",
+      "run01/B1_FINAL_TIME.txt": "Command exited with non-zero status 1\n0.55 0.43 0.04 1",
+      "run01/B1_REPLAY_TIME.txt": "0.35 0.25 0.04 0",
+      "run01/B1_TIME.txt": "Command exited with non-zero status 1\n0.39 0.26 0.04 1"
+    }
+  }
+}
