@@ -6,9 +6,13 @@ Can a learned policy guide a quadruped-mounted arm to a block, grasp it and lift
 
 ![Two fixed views of one SHIFT7 trial. The base advances toward the table, then the arm grasps and lifts the red block. The readouts show task time, forward displacement and block rise.](media/sla-shift7-mobile-grasp.gif)
 
-**The base approached first, then the arm lifted the block.** In trial F1/T0 A004, the base finished **10.30 cm forward** of its starting position. The block rose **2.64 cm** and met the grasp-and-lift criterion continuously for **1.30 s**. The frozen student policy issued 70 predictions from body and wrist images, robot state and the previous command. The WBC executed the motion without expert takeover or an explicit base-motion reference. [Watch the MP4](media/sla-shift7-mobile-grasp.mp4) · [Run record and scoring criteria](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/dbf222b41cb666bff4dd5412b864d023aec69399/reports/WM02/sla-sim-only-v51-20261117/FIRST_STUDENT_SUCCESS.md)
+**Yu Liu’s role.** I trained SHIFT7, ran the closed-loop MuJoCo evaluation, analyzed the logs and made this replay from the recorded states. The lab provided the whole-body controller.
+
+**The base approached first, then the arm lifted the block.** In trial F1/T0 A004, the base finished **10.30 cm forward** of its starting position. The block rose **2.64 cm** and met the grasp-and-lift criterion continuously for **1.30 s**. The frozen student policy issued 70 predictions from body and wrist images, robot state and the previous command. The WBC executed the motion without expert takeover or an explicit base-motion reference. [Play mobile grasp (MP4)](https://cdn.jsdelivr.net/gh/Leo-6-maker/go2-arx5-hierarchical-vla@cabb29254d508b69a7cabc0ee829e7ede8a223c5/docs/media/sla-shift7-mobile-grasp.mp4) · [Run record and scoring criteria](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/dbf222b41cb666bff4dd5412b864d023aec69399/reports/WM02/sla-sim-only-v51-20261117/FIRST_STUDENT_SUCCESS.md)
 
 The replay shows archived states from a known layout at 2× simulation speed. The simulator paused for policy inference during the original run.
+
+Across the known layouts, frozen SHIFT7 passed 3 of 7 valid mobile-grasp trials (8 attempts, one technical interruption). All three successes came from layout family F1. The [gripper diagnostic below](#multi-dataset-sla-gripper-diagnosis) uses a separate multi-dataset SLA checkpoint and six fixed trials to investigate what happens after the gripper closes.
 
 ## Experimental progress
 
@@ -25,7 +29,7 @@ The replay shows archived states from a known layout at 2× simulation speed. Th
 
 ![Two views from the same recorded GR00T trial. The standing Go2–ARX5 closes its gripper around the red block and lifts it clear of the table.](media/groot-train01.gif)
 
-The two views replay the recorded robot and block poses at 2× simulation speed. During the full trial, GR00T received 15 live observation updates. The block rose 26.2 mm and met the grasp, lift and hold criteria continuously for 5.95 s. [Watch the MP4](media/groot-train01.mp4) · [Original run record](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/0557c2e762b91f1218f58aeb95e49800f5c68aba/reports/WM02/native-arx5-transfer-20261112/T0_SFT2000_NATIVE_TRAIN4_FINAL_ACTUAL.json)
+The two views replay the recorded robot and block poses at 2× simulation speed. During the full trial, GR00T received 15 live observation updates. The block rose 26.2 mm and met the grasp, lift and hold criteria continuously for 5.95 s. [Play standing grasp (MP4)](https://cdn.jsdelivr.net/gh/Leo-6-maker/go2-arx5-hierarchical-vla@cabb29254d508b69a7cabc0ee829e7ede8a223c5/docs/media/groot-train01.mp4) · [Original run record](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/0557c2e762b91f1218f58aeb95e49800f5c68aba/reports/WM02/native-arx5-transfer-20261112/T0_SFT2000_NATIVE_TRAIN4_FINAL_ACTUAL.json)
 
 Each new observation yields a predicted final pose and gripper width. The decoder generates a 40-point reference trajectory from the current end-effector pose and last executed gripper command.
 
