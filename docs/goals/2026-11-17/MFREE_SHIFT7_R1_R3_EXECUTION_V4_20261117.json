@@ -1,0 +1,264 @@
+{
+  "schema": "MFREE_SHIFT7_R1_R3_EXECUTION_V4_20261117",
+  "date_SGT": "2026-11-17",
+  "status": "GITHUB_EXECUTION_PLAN_NO_JOBS_REGISTERED",
+  "bases": {
+    "PR396": {
+      "sha": "3c576f5fa29afcccc5ca143a4a4ab6d40d67f8d3",
+      "actual_source": "ec71edb0038f3c9d8c6543053d74bd2b6e1054d7",
+      "R0_R2_completed": true,
+      "new_GPU_calls": 0,
+      "cache_replay_pass": "32/32",
+      "mock_atoms": "272/272",
+      "archive_files_verified": 624,
+      "pending_max": 4
+    },
+    "PR395": {
+      "sha": "7930e9a6ccac4d0dff0c2bb402323b22d2ca9100",
+      "old_plus_new_requests": 64,
+      "old_plus_new_generations": 98,
+      "new_scope_requests": 32,
+      "new_scope_generations": 46,
+      "warm_GPU_latency_p95_s": 0.52573,
+      "warm_model_latency_p95_s": 0.354802,
+      "archive_serial_warm_median_s": 0.298725,
+      "continuous_realtime_qualified": false
+    },
+    "PR393": {
+      "sha": "7afbc0bd953c9b87821858bd70738a287ec082fc",
+      "C20_train_episodes": 20,
+      "C20_train_windows": 1376,
+      "C20_parent_updates": 1000,
+      "C20_parent_visits": 32000,
+      "SHIFT7_train96": "96/96",
+      "SHIFT7_CN38_unmeasured": true,
+      "HYBRID_CN38": "180/180",
+      "CN38_extra_episodes": 18,
+      "CN38_F1": 14,
+      "CN38_F2": 4
+    },
+    "safety": {
+      "collision_events": 3,
+      "monitor_falseblocks": 1,
+      "original_expert_successes": 38,
+      "native_STOP_latency_qualified": false,
+      "readmission_granted": false
+    }
+  },
+  "objective": {
+    "capability": "M_FREE F1 F2 mobile pick lift 20mm hold 1sec and base move 8cm separate",
+    "DEV_target": {
+      "success": 24,
+      "total": 32,
+      "F1_min": 12,
+      "F2_min": 12,
+      "hard_safety_stops": 0
+    },
+    "TEST_target": {
+      "success": 32,
+      "total": 40,
+      "F1_min": 16,
+      "F2_min": 16,
+      "hard_safety_stops": 0
+    }
+  },
+  "program": [
+    {
+      "id": "R0_R2",
+      "status": "COMPLETE_DO_NOT_REEXECUTE",
+      "new_model_calls": 0,
+      "new_updates": 0,
+      "new_native_requests": 0
+    },
+    {
+      "id": "R1",
+      "title": "SHIFT7_ONLY_CN38_EPISODE_HELDOUT",
+      "status": "PROPOSED_NOT_AUTHORIZED",
+      "architecture": "SHIFT7_SINGLE",
+      "first_wave": {
+        "episodes": 8,
+        "F1": 4,
+        "F2": 4,
+        "F1_sorted_indices_zero_based": [
+          1,
+          5,
+          8,
+          12
+        ],
+        "anchors_per_EP": 5,
+        "noise_ids": [
+          0,
+          1
+        ],
+        "model_generations": 80,
+        "close_conditions": 16
+      },
+      "stage2_conditional": {
+        "remaining_episodes": 10,
+        "additional_generations": 100,
+        "full_bank_generations": 180,
+        "preconditions": [
+          "first80_all_full_H40_legal",
+          "first16_closing_on_time",
+          "zero_seam_violation",
+          "EEF_position_p95_deterioration_le_0.5mm_vs_same80_hybrid",
+          "EEF_max_deterioration_le_1mm_vs_same80_hybrid"
+        ]
+      },
+      "full_goal": {
+        "all_H40": 180,
+        "F1": 140,
+        "F2": 40,
+        "CLOSE": 36,
+        "close_events_on_time": 36
+      },
+      "training_updates": 0,
+      "native_requests": 0,
+      "output": "EPISODE_FAMILY_STAGE_NOISE_MATRIX",
+      "on_fail": "KEEP_FM_EEF_TIME_GRIP_HYBRID"
+    },
+    {
+      "id": "R3",
+      "title": "CONTINUOUS_NONPHYSICAL_GPU_2HZ",
+      "status": "PROPOSED_NOT_AUTHORIZED",
+      "depends_on": "R1_TERMINAL_OR_BOUNDED_NEGATIVE",
+      "global_architecture_rule": "SHIFT7_IF_R1_FULL_PASS_ELSE_HYBRID",
+      "unified_requests_max": 32,
+      "F1_requests": 16,
+      "F2_requests": 16,
+      "single_model_generations_max": 32,
+      "hybrid_generations_max": 64,
+      "exclusive_one_architecture": true,
+      "new_training_updates": 0,
+      "new_native_requests": 0,
+      "consumer": "NONINTEGRATING_RECEIVER_ORIGINAL_COMPILER",
+      "storage": "PR396_BOUNDED_ASYNC_ARCHIVE_MAX_PENDING_4",
+      "measures": [
+        "cold_JIT_separate",
+        "warm_input_available_to_ACK_p50_p95_p99_max",
+        "real_wall_TTL_max",
+        "500ms_dispatch_period",
+        "archive_queue_backpressure",
+        "dropped_deadline",
+        "model_output_identity"
+      ],
+      "pass_criteria": {
+        "warm_latency_p95_max_ms": 350,
+        "max_valid_latency_strict_under_ms": 400,
+        "period_nominal_ms": 500,
+        "no_lost_qualified_requests": true,
+        "archive_sha_all_true": true,
+        "wrong_installations": 0,
+        "archive_pending_cap": 4,
+        "zero_real_native_integrations": true
+      },
+      "claim_limit": "RECORDED_RGB_STREAM_NOT_LIVE_CAMERA_OR_NATIVE"
+    },
+    {
+      "id": "S0",
+      "title": "INDEPENDENT_SAFETY_REVIEW",
+      "status": "NOT_ADMITTED",
+      "native_requests": 0,
+      "requires_signed_readmission": true,
+      "existing_monitor_falseblock": 1,
+      "existing_success_expert": 38,
+      "collision_events": 3,
+      "prohibited": [
+        "native_hook_install",
+        "relax_original_gates",
+        "waive_shared_quarantine",
+        "WBC_change"
+      ],
+      "can_do": [
+        "passive_saved_trace_reconstruction",
+        "risk_contract_draft",
+        "nonphysical_guard_fixes_and_PR"
+      ]
+    },
+    {
+      "id": "P0_P3",
+      "title": "FUTURE_NATIVE_EVALUATION",
+      "status": "UNAUTHORIZED_CONDITIONAL",
+      "requests_max_total_if_signed": 88,
+      "expert_safety_max": 8,
+      "student_pilot_max": 8,
+      "DEV_max": 32,
+      "TEST_max": 40,
+      "hard_stop_is_quarantine": true
+    },
+    {
+      "id": "L0",
+      "title": "FUTURE_MATCHED_DATA_STEPS_LEARNING_CURVE",
+      "status": "UNAUTHORIZED_CONDITIONAL",
+      "new_training_now": 0,
+      "requires_student_closed_loop_evidence_and_fresh_resource_approval": true,
+      "design": {
+        "datasets": [
+          20,
+          38
+        ],
+        "training_seeds": 2,
+        "updates_per_run": 1000,
+        "batch": 32,
+        "checkpoints_per_run": [
+          500,
+          1000
+        ],
+        "planned_runs": 4,
+        "updates_total_if_approved": 4000,
+        "visits_total_if_approved": 128000,
+        "normalizer": "freeze_C20_train_quantiles_for_isolated_data_effect",
+        "new_DEV_TEST_required_if_C38_trained": true
+      },
+      "no_auto_C60_C100": true
+    }
+  ],
+  "budgets": {
+    "new_training_updates_authorized": 0,
+    "new_optimizer_visits_authorized": 0,
+    "new_GPU_generations_authorized_by_document": 0,
+    "R1_GPU_generations_proposed": 180,
+    "R3_GPU_generations_proposed_max": 64,
+    "total_GPU_generations_proposed_max": 244,
+    "R3_unified_requests_proposed_max": 32,
+    "new_native_requests_authorized": 0,
+    "conditional_native_panel_max_if_independently_signed": 88,
+    "old_core_allocation_deadline_SGT": "2026-11-19T02:51:23.855488+08:00",
+    "do_not_extend_implicitly": true
+  },
+  "safety": {
+    "WBC_MPC_legs_PD_solver_2ms_frozen": true,
+    "H40": 40,
+    "P10": 10,
+    "atom_dt_s": 0.05,
+    "physics_dt_s": 0.002,
+    "gripper_max_speed_m_s": 0.04,
+    "translation_acceleration_max_m_s2": 0.25,
+    "query_s": 0.5,
+    "TTL_wall_s": 0.4,
+    "renewal_target_wall_s": 0.35,
+    "no_hard_gates_relaxed": true,
+    "no_native_without_independent_readmission": true,
+    "old_failures_immutable": true,
+    "no_real_robot": true,
+    "no_RL": true,
+    "do_not_relaunch_CLOSED_jobs": true
+  },
+  "codex": {
+    "engineering_fixes_autonomous": "E0_E1_ONLY",
+    "publish_fix_as_normal_GitHub_PR": true,
+    "original_science_failures_not_retried": true,
+    "UNKNOWN_requires_independent_reconciliation": true,
+    "no_force_push_or_auto_merge": true,
+    "no_hotpatch_existing_capsules": true,
+    "can_update_github_docs": true,
+    "not_background_job_started_by_plan": true
+  },
+  "artifacts": {
+    "detailed": "docs/goals/2026-11-17/MFREE_SHIFT7_R1_R3_EXECUTION_V4_20261117.md",
+    "machine": "docs/goals/2026-11-17/MFREE_SHIFT7_R1_R3_EXECUTION_V4_20261117.json",
+    "startup": "docs/goals/2026-11-17/START_MFREE_SHIFT7_R1_R3_EXECUTION_V4_20261117.txt",
+    "run_source": "PR396 stacked implementation and explicit audited overlays",
+    "output": "actual_state_GitHub_PR_evidence"
+  }
+}
