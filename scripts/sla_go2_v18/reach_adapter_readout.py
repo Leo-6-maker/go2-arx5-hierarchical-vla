@@ -1,6 +1,7 @@
 """Verify the #488 denominator, owner closeout and task scores from real native records."""
 
 import argparse
+from itertools import combinations
 import json
 from pathlib import Path
 
@@ -205,6 +206,24 @@ def readout(panel):
             )
         )
     started = [r["slot"] for r in result if r["status"] != "UNSTARTED"]
+    entry_residuals = {}
+    for layout in ("G00", "G01"):
+        sources = [
+            read(panel / r["slot"] / "REACH_ENTRY.json")
+            for r in result
+            if r["slot"].startswith(layout) and r.get("entry") is not None
+        ]
+        if len(sources) >= 2:
+            entry_residuals[layout] = dict(
+                count=len(sources),
+                maximum_pairwise_actual_TCP_mm=float(
+                    1000
+                    * max(
+                        np.linalg.norm(np.asarray(a["actual_xyz"]) - b["actual_xyz"])
+                        for a, b in combinations(sources, 2)
+                    )
+                ),
+            )
     ticks = sum(r["ticks"] for r in result)
     entered = sum(r["forwards"] for r in result)
     require(
@@ -219,6 +238,7 @@ def readout(panel):
         registration_sha256=sha(panel / "REGISTRATION.json"),
         preflight=qual["proof"],
         starts=len(started),
+        entry_residuals=entry_residuals,
         total_ticks=ticks,
         forwards_entered=entered,
         forwards_returned=sum(r["returned"] for r in result),

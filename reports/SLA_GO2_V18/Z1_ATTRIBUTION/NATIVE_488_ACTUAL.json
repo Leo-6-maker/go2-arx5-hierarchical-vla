@@ -1,0 +1,679 @@
+{
+  "issue": 488,
+  "registration_sha256": "74714e02b0cc9f84e08a47dd9931254b89bbc20313c24f21b6bdc9b0441db8c4",
+  "preflight": {
+    "closed_initial_stop": "198bb6d90b4310e4e72a1a9250c62496b78e472fccec79a8fedeffb083f1a06e",
+    "old": {
+      "slots": [
+        "G00-H0",
+        "G00-A",
+        "G01-H0",
+        "G01-A"
+      ],
+      "qualification_sha256": "198bb6d90b4310e4e72a1a9250c62496b78e472fccec79a8fedeffb083f1a06e",
+      "CPU_sensor_and_decode": [
+        {
+          "slot": "G00-H0",
+          "entry": 6203,
+          "sensor_sha256": "b809197e54402d87261a57cef1667f747f64ebfab9e20eddf9d39413a89b7deb",
+          "scene": "19368138aa85927c9482e2a69f4a9bc7aa35c8a171969d35db7d72a6f1797635",
+          "old_return_only": "640968cca8d803b1982cf28b8b2ea94daee1ab5658a58d9ecd56d200d80d2bb8"
+        },
+        {
+          "slot": "G01-H0",
+          "entry": 6203,
+          "sensor_sha256": "616a1547032bd2e0e519f377efd7da45bb1e67ccc4dc935e2642bb263e1243db",
+          "scene": "9ae3232754c5ef287239801fc10230199872f1526c78c099b746f0d7ad088507",
+          "old_return_only": "640968cca8d803b1982cf28b8b2ea94daee1ab5658a58d9ecd56d200d80d2bb8"
+        }
+      ],
+      "owner_code": {
+        "reach_pair.py": "cd74bc2a0739f56515d91830b71c65135e81bc4a64cea92b21021634c65f577b",
+        "reach_native.py": "7ce4fd36037345ad29e22396f179b6220e77eae6051fdfb6d331eabe16381be3",
+        "standing_reach.py": "21c1ee3044f4ab709b5a3f6595ccb83f61b56118cfff15b77dff752d74f3f024",
+        "reach_forward.py": "5a5f48110b3a57aa1563fcc79d39410cd8f24744edbc36f0b38cad011d80b943",
+        "reach_student.py": "6cd56c0a6e23694d383c6167fbfdad187c3ff830ccda34ba56ef2c92e579f1ab",
+        "reach_policy_input.py": "1c21f1a09f84b5d9ea6d5d7cd22d6301a1aeb6129478c30697b29c47193cc46f"
+      },
+      "gpu_uuid": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad",
+      "frozen_forwards": 0,
+      "native_ticks": 0
+    },
+    "preflight": [
+      {
+        "id": "G00-A-6203",
+        "treatment": "DIRECT",
+        "sweep": {
+          "checked": {
+            "first_H40_and_consumed_seam": true,
+            "first_H40_knots": 41,
+            "whole_selected_source_knots": 16
+          },
+          "rejection": null
+        }
+      },
+      {
+        "id": "G00-A-6203",
+        "treatment": "GEOMETRY",
+        "sweep": {
+          "checked": {
+            "first_H40_and_consumed_seam": true,
+            "first_H40_knots": 41,
+            "whole_selected_source_knots": 16
+          },
+          "rejection": null
+        }
+      },
+      {
+        "id": "G01-A-6203",
+        "treatment": "DIRECT",
+        "sweep": {
+          "checked": {
+            "first_H40_and_consumed_seam": true,
+            "first_H40_knots": 41,
+            "whole_selected_source_knots": 16
+          },
+          "rejection": null
+        }
+      },
+      {
+        "id": "G01-A-6203",
+        "treatment": "GEOMETRY",
+        "sweep": {
+          "checked": {
+            "first_H40_and_consumed_seam": true,
+            "first_H40_knots": 41,
+            "whole_selected_source_knots": 16
+          },
+          "rejection": null
+        }
+      },
+      {
+        "id": "G01-A-8203",
+        "treatment": "DIRECT",
+        "refused": "outside original Reach bounds: transverse 35.379/2.394 mm, rotation 7.221/2.000 deg, advance 0.000/20.000 mm"
+      },
+      {
+        "id": "G01-A-8203",
+        "treatment": "GEOMETRY",
+        "refused": "outside original Reach bounds: transverse 35.379/2.394 mm, rotation 7.221/2.000 deg, advance 0.000/20.000 mm"
+      }
+    ],
+    "code": {
+      "reach_adapter_panel.py": "074773ca89021ee74fea419dfb3c44e8560464322428c72c7db213694a80f1ba",
+      "reach_adapter_student.py": "688ddc485957f24229f99b3ee528e0a72e02dee42da774f30218c2eff0caefee",
+      "reach_forward.py": "5a5f48110b3a57aa1563fcc79d39410cd8f24744edbc36f0b38cad011d80b943",
+      "reach_policy_input.py": "1c21f1a09f84b5d9ea6d5d7cd22d6301a1aeb6129478c30697b29c47193cc46f",
+      "reach_student.py": "6cd56c0a6e23694d383c6167fbfdad187c3ff830ccda34ba56ef2c92e579f1ab",
+      "reach_pair.py": "cd74bc2a0739f56515d91830b71c65135e81bc4a64cea92b21021634c65f577b",
+      "standing_reach.py": "21c1ee3044f4ab709b5a3f6595ccb83f61b56118cfff15b77dff752d74f3f024",
+      "reach_native.py": "7ce4fd36037345ad29e22396f179b6220e77eae6051fdfb6d331eabe16381be3",
+      "task_space_intent.py": "81709fc0fdc0ba1c3f8551e96be739555f9af1f56bc24cbee201fb6e88a7360f",
+      "reach_intent_replay.py": "4ec210dbdcd733bc77155f01a4c12c08557099157bab298497c97a3a3632b529"
+    },
+    "gpu": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad",
+    "static_fit_sha256": "861ec87487f92245d9a2d6281a629a95f0e8354c7848d611778a6b4d939cf74d",
+    "mask_close_sha256": "e9f71e0ab8f792007b3205bf2e552fa9fe8b5892eaeccda445c07b631cd57179",
+    "integration_ticks": 0,
+    "new_forwards": 0
+  },
+  "starts": 6,
+  "entry_residuals": {
+    "G00": {
+      "count": 3,
+      "maximum_pairwise_actual_TCP_mm": 0.06697210480216424
+    },
+    "G01": {
+      "count": 3,
+      "maximum_pairwise_actual_TCP_mm": 0.9882494359853434
+    }
+  },
+  "total_ticks": 64218,
+  "forwards_entered": 8,
+  "forwards_returned": 8,
+  "updates": 0,
+  "rows": [
+    {
+      "slot": "G00-RAW",
+      "status": "A_REACH_FAILED",
+      "ticks": 10703,
+      "forwards": 2,
+      "returned": 2,
+      "closed": true,
+      "no_survivors": true,
+      "exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "task": {
+        "minimum_terminal_projection_mm": -18.557716439549374,
+        "minimum_terminal_pregrasp_progress_mm": -33.213588796753655,
+        "minimum_terminal_object_progress_mm": 4.0953086585777125,
+        "maximum_terminal_endpoint_error_mm": 75.46062315338415,
+        "maximum_cross_track_mm": 64.9302178954506,
+        "maximum_orientation_error_deg": 16.59647358400225,
+        "minimum_clearance_mm": 37.75839372074783,
+        "passed": false
+      },
+      "end_tick": 10703,
+      "entry": 6203,
+      "student": {
+        "accepted_returns": 2,
+        "source_motion": {
+          "start": 7878,
+          "tick": 8203,
+          "actual_projection_mm": 1.1082408878380574,
+          "installed_mm": 1.335563754264185,
+          "consumed": "cc85f3a01c018e35da8346546b6d7b81eef3c7db4709f5ad6b8af1894054f65d"
+        },
+        "post_motion_forward": true,
+        "refusal": null
+      },
+      "query_receipts": [
+        {
+          "tick": 6203,
+          "seed": [
+            0,
+            0
+          ],
+          "input_sha256": "094c6ab1884857a3de15b1790c47e7698f2b290e1fbcfa0f6e005f66ee73f5ab",
+          "entered": 1,
+          "returned": true,
+          "output_sha256": "d13a4a661993e67aedd61a747c5497599705a5cab99e826ac842a822d6862ed8"
+        },
+        {
+          "tick": 8203,
+          "seed": [
+            0,
+            1
+          ],
+          "input_sha256": "80d3a69f6ddd1bb845ec7a576501ad178b75917c32ebdbdbe427414fe4cade02",
+          "entered": 1,
+          "returned": true,
+          "output_sha256": "c41b2e55cb3aa08c43d0b4737d1c0314e79cedf11a026177c27f0420dd3022ce"
+        }
+      ],
+      "refusal": null,
+      "visual_updates": [],
+      "feedback_source": {
+        "query_tick": 8203,
+        "solver_acknowledged_selected_phase": {
+          "intervals": 45,
+          "command_path_mm": 8.783573462837598,
+          "actual_path_mm": 8.79737391545511,
+          "actual_task_advance_mm": -2.181435792419739,
+          "actual_red_progress_mm": -1.6036176243759137
+        }
+      },
+      "last_endpoint": {
+        "last_atom_tick": 10703,
+        "installed_axis_mm": -11.351007305647041,
+        "installed_endpoint_error_mm": 72.35294120528444,
+        "actual_axis_mm": -18.449609240489846,
+        "actual_endpoint_error_mm": 75.46062315338415,
+        "incremental_tracking_error_mm": 7.351094232861707
+      },
+      "result_sha256": "1be8330b07465cb05cc5c97f198b2feca09c4b6127a7cc5d94b9bae30af625b4",
+      "audit_sha256": "8be319ffbfed28c95e00c9cf5c298f841f42fd9836656053325ef2a9e7cc34e8",
+      "technical_summary": ""
+    },
+    {
+      "slot": "G00-DIRECT",
+      "status": "A_REACH_FAILED",
+      "ticks": 10703,
+      "forwards": 2,
+      "returned": 2,
+      "closed": true,
+      "no_survivors": true,
+      "exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "task": {
+        "minimum_terminal_projection_mm": 12.947160917265016,
+        "minimum_terminal_pregrasp_progress_mm": 12.810615785963083,
+        "minimum_terminal_object_progress_mm": 13.232580641166031,
+        "maximum_terminal_endpoint_error_mm": 8.848662653022888,
+        "maximum_cross_track_mm": 5.560410747701315,
+        "maximum_orientation_error_deg": 1.6296431010213657,
+        "minimum_clearance_mm": 35.55483044355982,
+        "passed": false
+      },
+      "end_tick": 10703,
+      "entry": 6203,
+      "student": {
+        "accepted_returns": 2,
+        "source_motion": {
+          "start": 6303,
+          "tick": 6603,
+          "actual_projection_mm": 1.0661386328811302,
+          "installed_mm": 2.0788248136574703,
+          "consumed": "ce58fd7eb2ee136d12cfa84a17b620dc5c53cdbe337addb5b8048c57cc319e41"
+        },
+        "post_motion_forward": true,
+        "refusal": null,
+        "treatment": "DIRECT",
+        "post_motion_geometric_update": false,
+        "visual_replans": 2
+      },
+      "query_receipts": [
+        {
+          "tick": 6203,
+          "seed": [
+            0,
+            0
+          ],
+          "input_sha256": "5470ca961a55bf653d5bcc66420cf1774e1b26e6a27a68a1b2bcaac1b3d86972",
+          "entered": 1,
+          "returned": true,
+          "output_sha256": "5afdf9124907bc010d4dc19a994abc59bd99606956aca0ad93f515aae318f018"
+        },
+        {
+          "tick": 6603,
+          "seed": [
+            0,
+            1
+          ],
+          "input_sha256": "9384cb94309f9c04218b2bd9fc664399768f7a4fa106b4778b36631d0989e803",
+          "entered": 1,
+          "returned": true,
+          "output_sha256": "6e2e21ec426282d5c982a2124be577111d00ed1573bf6a34aa7d9a5c0d7119a0"
+        }
+      ],
+      "refusal": null,
+      "visual_updates": [
+        {
+          "tick": 6203,
+          "phase": 1,
+          "profile": "DIRECT",
+          "input": "5470ca961a55bf653d5bcc66420cf1774e1b26e6a27a68a1b2bcaac1b3d86972",
+          "post_own_motion": false
+        },
+        {
+          "tick": 6603,
+          "phase": 2,
+          "profile": "DIRECT",
+          "input": "9384cb94309f9c04218b2bd9fc664399768f7a4fa106b4778b36631d0989e803",
+          "post_own_motion": true
+        }
+      ],
+      "feedback_source": {
+        "query_tick": 6603,
+        "solver_acknowledged_selected_phase": {
+          "intervals": 81,
+          "command_path_mm": 18.234624836652614,
+          "actual_path_mm": 13.640314106488127,
+          "actual_task_advance_mm": 12.006801258817244,
+          "actual_red_progress_mm": 11.744063459264986
+        }
+      },
+      "last_endpoint": {
+        "last_atom_tick": 10703,
+        "installed_axis_mm": 19.935821937596142,
+        "installed_endpoint_error_mm": 2.083521994642486,
+        "actual_axis_mm": 12.948443710337964,
+        "actual_endpoint_error_mm": 8.843029804936196,
+        "incremental_tracking_error_mm": 7.739368475658281
+      },
+      "result_sha256": "c77e945db5826d3ade8b3b4fc6f91e0112ef5eeebc0ea92cdec5a7ba1fb41942",
+      "audit_sha256": "ecf7f33102c2b0d5902f4e064fe201a1c86a7ee2cf69bef80c8d18d423006217",
+      "technical_summary": ""
+    },
+    {
+      "slot": "G00-GEOMETRY",
+      "status": "A_PASS",
+      "ticks": 10703,
+      "forwards": 0,
+      "returned": 0,
+      "closed": true,
+      "no_survivors": true,
+      "exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "task": {
+        "minimum_terminal_projection_mm": 14.03858356124517,
+        "minimum_terminal_pregrasp_progress_mm": 14.003384788167622,
+        "minimum_terminal_object_progress_mm": 12.499430772392211,
+        "maximum_terminal_endpoint_error_mm": 6.556661795862016,
+        "maximum_cross_track_mm": 3.053325346721553,
+        "maximum_orientation_error_deg": 0.18952383207515214,
+        "minimum_clearance_mm": 73.60044899116329,
+        "passed": true
+      },
+      "end_tick": 10703,
+      "entry": 6203,
+      "student": {
+        "accepted_returns": 0,
+        "source_motion": {
+          "start": 6303,
+          "tick": 6528,
+          "actual_projection_mm": 1.0586116657473177,
+          "installed_mm": 2.3098033746173092,
+          "consumed": "1987c4e1f164d20ff0ea04cccdc6765e9a90d972581a9ae0957e39430e00566e"
+        },
+        "post_motion_forward": false,
+        "refusal": null,
+        "treatment": "GEOMETRY",
+        "post_motion_geometric_update": true,
+        "visual_replans": 2
+      },
+      "query_receipts": [],
+      "refusal": null,
+      "visual_updates": [
+        {
+          "tick": 6203,
+          "phase": 1,
+          "profile": "GEOMETRY",
+          "input": "7dcb51516aeb6200433ec3196b72dc4da101de916339c88ccb34df837a47bd04",
+          "post_own_motion": false
+        },
+        {
+          "tick": 6553,
+          "phase": 2,
+          "profile": "GEOMETRY",
+          "input": "3b0c3eb41bc501cce344c3b9e3583e08165bedc30afe6553aa0d653906f084f7",
+          "post_own_motion": true
+        }
+      ],
+      "feedback_source": {
+        "query_tick": 6553,
+        "solver_acknowledged_selected_phase": {
+          "intervals": 70,
+          "command_path_mm": 17.56262716049381,
+          "actual_path_mm": 12.070673011393003,
+          "actual_task_advance_mm": 11.715613565177545,
+          "actual_red_progress_mm": 10.502966585902994
+        }
+      },
+      "last_endpoint": {
+        "last_atom_tick": 10703,
+        "installed_axis_mm": 19.985605026330997,
+        "installed_endpoint_error_mm": 0.7588141714281054,
+        "actual_axis_mm": 14.041021333561742,
+        "actual_endpoint_error_mm": 6.5547051649453785,
+        "incremental_tracking_error_mm": 6.264528720086673
+      },
+      "result_sha256": "ef46b9d93996df8548077c6f8c036308a97e9a627b6bdee9b546ec9a540b73ff",
+      "audit_sha256": "022dd161cb3f3ebf2b38088eb924ff05c6e5b28c60cdc862d68a27aac5db1e53",
+      "technical_summary": ""
+    },
+    {
+      "slot": "G01-GEOMETRY",
+      "status": "A_PASS",
+      "ticks": 10703,
+      "forwards": 0,
+      "returned": 0,
+      "closed": true,
+      "no_survivors": true,
+      "exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "task": {
+        "minimum_terminal_projection_mm": 13.714760577052925,
+        "minimum_terminal_pregrasp_progress_mm": 13.664185791773974,
+        "minimum_terminal_object_progress_mm": 11.740505865757283,
+        "maximum_terminal_endpoint_error_mm": 6.9319496310602196,
+        "maximum_cross_track_mm": 3.2283440667153687,
+        "maximum_orientation_error_deg": 0.1937776083699446,
+        "minimum_clearance_mm": 59.787812118141204,
+        "passed": true
+      },
+      "end_tick": 10703,
+      "entry": 6203,
+      "student": {
+        "accepted_returns": 0,
+        "source_motion": {
+          "start": 6303,
+          "tick": 6528,
+          "actual_projection_mm": 1.0355711960961111,
+          "installed_mm": 2.3098033746173097,
+          "consumed": "8bdcea31541d5f5d9862c976a7cc7377a2628d4a05d9579ab14a4da69765b6d8"
+        },
+        "post_motion_forward": false,
+        "refusal": null,
+        "treatment": "GEOMETRY",
+        "post_motion_geometric_update": true,
+        "visual_replans": 2
+      },
+      "query_receipts": [],
+      "refusal": null,
+      "visual_updates": [
+        {
+          "tick": 6203,
+          "phase": 1,
+          "profile": "GEOMETRY",
+          "input": "4cf031e8b2795d935fbe824611d255a356f8c4dfc201a2311dab4bdef22918cc",
+          "post_own_motion": false
+        },
+        {
+          "tick": 6553,
+          "phase": 2,
+          "profile": "GEOMETRY",
+          "input": "db9e74808a3caedcf25e56427f22a6416cd38e2a7c88ba5e8bed87ffe239d074",
+          "post_own_motion": true
+        }
+      ],
+      "feedback_source": {
+        "query_tick": 6553,
+        "solver_acknowledged_selected_phase": {
+          "intervals": 70,
+          "command_path_mm": 17.562627160493843,
+          "actual_path_mm": 11.863318703221042,
+          "actual_task_advance_mm": 11.516910260687233,
+          "actual_red_progress_mm": 9.874820536709404
+        }
+      },
+      "last_endpoint": {
+        "last_atom_tick": 10703,
+        "installed_axis_mm": 19.98228485456577,
+        "installed_endpoint_error_mm": 0.8417872756039889,
+        "actual_axis_mm": 13.71514325918753,
+        "actual_endpoint_error_mm": 6.931661048046995,
+        "incremental_tracking_error_mm": 6.605057093457802
+      },
+      "result_sha256": "470d32bee9950260aa102fe8ee90c4e8844f93cb70f78d3527330ebc16c6c484",
+      "audit_sha256": "4cd0c4eb28895c13abc026242739557c162aad54c824254a01e2d6d0dd20bdd1",
+      "technical_summary": ""
+    },
+    {
+      "slot": "G01-DIRECT",
+      "status": "A_REACH_FAILED",
+      "ticks": 10703,
+      "forwards": 2,
+      "returned": 2,
+      "closed": true,
+      "no_survivors": true,
+      "exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "task": {
+        "minimum_terminal_projection_mm": 12.853415393514943,
+        "minimum_terminal_pregrasp_progress_mm": 12.67054514464068,
+        "minimum_terminal_object_progress_mm": 12.86213111403496,
+        "maximum_terminal_endpoint_error_mm": 9.095871199247158,
+        "maximum_cross_track_mm": 5.850262629234672,
+        "maximum_orientation_error_deg": 1.6277446609805843,
+        "minimum_clearance_mm": 57.57862911456748,
+        "passed": false
+      },
+      "end_tick": 10703,
+      "entry": 6203,
+      "student": {
+        "accepted_returns": 2,
+        "source_motion": {
+          "start": 6303,
+          "tick": 6603,
+          "actual_projection_mm": 1.1890364824125383,
+          "installed_mm": 2.0926574190403637,
+          "consumed": "ec9a86b54ae889fe811886db3c9423e14e7fc3630d5d99c40cd7e55e4485aaaa"
+        },
+        "post_motion_forward": true,
+        "refusal": null,
+        "treatment": "DIRECT",
+        "post_motion_geometric_update": false,
+        "visual_replans": 2
+      },
+      "query_receipts": [
+        {
+          "tick": 6203,
+          "seed": [
+            0,
+            0
+          ],
+          "input_sha256": "0cd6b9323c2f9d90de25c8e9bca298af42d92d1b1c32bb1ff3b3cd69fba92ccb",
+          "entered": 1,
+          "returned": true,
+          "output_sha256": "e1425c9c87f8f5c6b5740aa4fde1b10dde889f7af348d305258b51659c3ec0be"
+        },
+        {
+          "tick": 6603,
+          "seed": [
+            0,
+            1
+          ],
+          "input_sha256": "742b6581548de90228c72dacfde4c1177a9ccaae83e8103f5e56f2cb1b80f538",
+          "entered": 1,
+          "returned": true,
+          "output_sha256": "db53dc3caf63c0a3fda44eed22d85f723d5d118cc8bb422dc239c6b79a201047"
+        }
+      ],
+      "refusal": null,
+      "visual_updates": [
+        {
+          "tick": 6203,
+          "phase": 1,
+          "profile": "DIRECT",
+          "input": "0cd6b9323c2f9d90de25c8e9bca298af42d92d1b1c32bb1ff3b3cd69fba92ccb",
+          "post_own_motion": false
+        },
+        {
+          "tick": 6603,
+          "phase": 2,
+          "profile": "DIRECT",
+          "input": "742b6581548de90228c72dacfde4c1177a9ccaae83e8103f5e56f2cb1b80f538",
+          "post_own_motion": true
+        }
+      ],
+      "feedback_source": {
+        "query_tick": 6603,
+        "solver_acknowledged_selected_phase": {
+          "intervals": 82,
+          "command_path_mm": 18.293389414521933,
+          "actual_path_mm": 13.741651186012662,
+          "actual_task_advance_mm": 11.703588053909995,
+          "actual_red_progress_mm": 11.21850123669076
+        }
+      },
+      "last_endpoint": {
+        "last_atom_tick": 10703,
+        "installed_axis_mm": 19.9230934853251,
+        "installed_endpoint_error_mm": 2.465031081994735,
+        "actual_axis_mm": 12.853415393514943,
+        "actual_endpoint_error_mm": 9.058371385146058,
+        "incremental_tracking_error_mm": 7.779651409581474
+      },
+      "result_sha256": "b7d4b597f4d53c65cc263658dd5b4196170e71f686a5ac698e12954f73116d24",
+      "audit_sha256": "252d352c3083848e6cc02fa935e853960cf48dfda05e623c6754dc68930f9f1f",
+      "technical_summary": ""
+    },
+    {
+      "slot": "G01-RAW",
+      "status": "A_REACH_FAILED",
+      "ticks": 10703,
+      "forwards": 2,
+      "returned": 2,
+      "closed": true,
+      "no_survivors": true,
+      "exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "task": {
+        "minimum_terminal_projection_mm": -18.725968426073546,
+        "minimum_terminal_pregrasp_progress_mm": -35.23499311625787,
+        "minimum_terminal_object_progress_mm": 7.1203568562650945,
+        "maximum_terminal_endpoint_error_mm": 74.91931560659873,
+        "maximum_cross_track_mm": 64.15425141948498,
+        "maximum_orientation_error_deg": 16.60493896262959,
+        "minimum_clearance_mm": 28.003914906224676,
+        "passed": false
+      },
+      "end_tick": 10703,
+      "entry": 6203,
+      "student": {
+        "accepted_returns": 2,
+        "source_motion": {
+          "start": 7853,
+          "tick": 8178,
+          "actual_projection_mm": 1.1167871089688064,
+          "installed_mm": 1.3330830430066642,
+          "consumed": "761d1b1c0d6f3ffab5a09b1f533cf08e919957d233e5ce4598781ed536794993"
+        },
+        "post_motion_forward": true,
+        "refusal": null
+      },
+      "query_receipts": [
+        {
+          "tick": 6203,
+          "seed": [
+            0,
+            0
+          ],
+          "input_sha256": "276b389a2b147570617c53bd1ac06c6ac2eb0144e990d0e1e34ef6ce3b29d2dd",
+          "entered": 1,
+          "returned": true,
+          "output_sha256": "f1d78c799bd74396be09c6548b45b50167eaf065f70e34dfd640e0e767918a27"
+        },
+        {
+          "tick": 8203,
+          "seed": [
+            0,
+            1
+          ],
+          "input_sha256": "206add1c288add15abfe40471d626859fa7bf8d17376aae23a48f22731d29e3b",
+          "entered": 1,
+          "returned": true,
+          "output_sha256": "1e74d21a84290e2f433c742e1bbd0ea8ecaffe174e9dd029d96e7cd797548548"
+        }
+      ],
+      "refusal": null,
+      "visual_updates": [],
+      "feedback_source": {
+        "query_tick": 8203,
+        "solver_acknowledged_selected_phase": {
+          "intervals": 45,
+          "command_path_mm": 8.362181094694519,
+          "actual_path_mm": 8.667488466108784,
+          "actual_task_advance_mm": -2.696342638593925,
+          "actual_red_progress_mm": -1.9515409137277475
+        }
+      },
+      "last_endpoint": {
+        "last_atom_tick": 10703,
+        "installed_axis_mm": -11.799060242667688,
+        "installed_endpoint_error_mm": 71.48519204891001,
+        "actual_axis_mm": -18.692840109853087,
+        "actual_endpoint_error_mm": 74.91931560659873,
+        "incremental_tracking_error_mm": 7.210608965470486
+      },
+      "result_sha256": "8090720b67efa31cb128569f125c75cde3b1ff3b9f28b984f6ab273e1deb1d6b",
+      "audit_sha256": "aa6b1a0cb4fbbb320fc8116f812b17c0ece94f8539be3f2d9be70bf6d59a9c3d",
+      "technical_summary": ""
+    }
+  ]
+}
