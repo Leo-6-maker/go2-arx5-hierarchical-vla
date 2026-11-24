@@ -1,0 +1,291 @@
+{
+  "schema": "GR00T_SLA_MFREE_SCIENCE_FIRST_CLOSED_LOOP_GOAL_V5_20261117",
+  "status": "GITHUB_PLAN_NOT_EXECUTED",
+  "date_SGT": "2026-11-17",
+  "top_priority": "REAL_SHIFT7_STUDENT_ON_POLICY_MOBILE_GRASP_WITH_FROZEN_WBC",
+  "model": {
+    "architecture": "SHIFT7_SINGLE",
+    "selected_by_PR398_R1": true,
+    "R1_actual_source_sha": "fa1477b1ad18c3f01f8ef26b4c523e42814b205b",
+    "R3_actual_source_sha": "7a8633b7261b888df836adcec8fb9081b1664375",
+    "evidence_PR": 398,
+    "evidence_commit": "3497840724c6bfcf54ec4317a5ed605290310b14",
+    "package_manifest_sha256": "PENDING_READBACK_FROM_SHIFT7_SINGLE_ARTIFACT_NOT_HYBRID",
+    "must_not_use_old_hybrid_manifest_sha256": "7aacd184941c6980154935833d97a1975e3cba3d1c1dd6c8a4878d38abbbd1ce"
+  },
+  "facts": {
+    "old_expert_native_requests": 41,
+    "old_expert_qualified": 38,
+    "old_expert_F1": 24,
+    "old_expert_F2": 14,
+    "old_native_contact_events": 3,
+    "C20_train_episodes": 20,
+    "C20_train_windows": 1376,
+    "C20_parent_updates": 1000,
+    "C20_parent_visits": 32000,
+    "old_student_native_requests": 13,
+    "old_student_task_successes": 0,
+    "old_student_unstarted": 11,
+    "SHIFT7_extra_training_updates": 500,
+    "SHIFT7_extra_training_visits": 16000,
+    "SHIFT7_TRAIN_H40": "96/96",
+    "SHIFT7_R1_CN38_H40": "180/180",
+    "SHIFT7_R1_CLOSE_timely": "36/36",
+    "R3_offline_H40": "32/32",
+    "R3_install_ACK": "23/32",
+    "R3_full_mock_P10": "11/32",
+    "R3_hot_provider_p95_s": 0.43491965672,
+    "R3_hot_full_p95_s": 0.4843578343,
+    "R3_actual_release_rate_Hz": 1.68994,
+    "R3_realtime_failed": true,
+    "historic_last_contiguous_alarm_ms": {
+      "student_F1": 12,
+      "expert_F1": 20,
+      "expert_F2": 34
+    },
+    "monitor_false_block_success_expert": 1,
+    "monitor_success_experts": 38,
+    "independent_native_readmission": false,
+    "all_recent_services_CLOSED": true,
+    "current_new_native_requests": 0,
+    "R1_R3_complete_generations_consumed": 212
+  },
+  "hard_invariants": {
+    "keep_original_WBC_MPC_legs_armPD_solver_frozen": true,
+    "physics_dt_s": 0.002,
+    "H40_points": 40,
+    "atom_dt_s": 0.05,
+    "P10_points": 10,
+    "query_period_native_s": 0.5,
+    "finger_speed_max_m_s": 0.04,
+    "original_full_envelope_and_collision_guards": true,
+    "M_FREE_only": true,
+    "no_BASE_oracle": true,
+    "model_inputs": [
+      "body_rgb",
+      "wrist_rgb",
+      "available_robot_EEF_state",
+      "language",
+      "fixed_task_frame",
+      "last_actually_emitted_gripper_command_and_native_clock"
+    ],
+    "forbidden_student_inputs": [
+      "expert_stage",
+      "object_truth",
+      "teacher_future_H40",
+      "auto_close",
+      "oracle_BASE",
+      "online_teacher_override"
+    ],
+    "old_failures_immutable": true,
+    "no_hidden_timing_reset": true,
+    "no_real_robot": true,
+    "no_RL_now": true,
+    "no_native_without_signed_independent_readmission": true
+  },
+  "clock_profiles": {
+    "WALL_CLOCK_NATIVE": {
+      "status": "FAILED_IN_R3",
+      "original_TTL_s": 0.4,
+      "renewal_target_s": 0.35,
+      "requires_original_wall_timing": true
+    },
+    "SIM_PAUSED_NATIVE": {
+      "status": "PROPOSED_NOT_ADMITTED",
+      "pause_only_at_sim_query_boundary": true,
+      "freeze_native_physics_tick_while_model_infers": true,
+      "wall_clock_inference_logged": true,
+      "external_STOP_wall_responsive_required": true,
+      "resume_only_after_original_full_H40_and_valid_ACK": true,
+      "never_claims_strict_realtime": true,
+      "requires_independent_native_readmission": true
+    }
+  },
+  "phase_plan": [
+    {
+      "id": "G0",
+      "title": "Freeze and scientific provenance",
+      "default_compute": "READ_ONLY",
+      "native_cap": 0,
+      "neural_cap": 0,
+      "deliverable": "exact_SHIFT7_package_source_scene_wbc_and_legacy_failure_pins"
+    },
+    {
+      "id": "G1",
+      "title": "Prepare paused-clock contract and one safety admission decision",
+      "default_compute": "CPU_AND_SAVED_EVIDENCE",
+      "native_cap": 0,
+      "neural_cap": 0,
+      "engineering_autonomous": true,
+      "deliverables": [
+        "nonphysical_sim_paused_seams",
+        "S0_onepage_safety_decision_request",
+        "STOP_and_selected_reference_gap",
+        "independent_review_status"
+      ],
+      "scientific_go": "ONLY_INDEPENDENT_SIGNED_NATIVE_READMISSION"
+    },
+    {
+      "id": "P0",
+      "title": "Expert safety check",
+      "status": "CONDITIONAL_UNAUTHORIZED",
+      "family_counts": {
+        "F1": 4,
+        "F2": 4
+      },
+      "native_cap_if_admitted": 8,
+      "max_episode_s": 60,
+      "max_native_ticks_if_admitted": 240000,
+      "stop_on_first_hard_safety_event": true,
+      "stage_GO": "approved_expert_safe_full_task_and_zero_hard_stop"
+    },
+    {
+      "id": "P1",
+      "title": "Student on-policy pilot",
+      "status": "CONDITIONAL_UNAUTHORIZED",
+      "family_counts": {
+        "F1": 4,
+        "F2": 4
+      },
+      "native_cap_if_admitted": 8,
+      "max_episode_s": 60,
+      "max_native_ticks_if_admitted": 240000,
+      "max_high_level_queries_if_admitted": 960,
+      "first_two_one_per_family_included_in8": true,
+      "stage_GO": "at_least_one_full_safe_mobile_task_success_per_family_zero_hard_STOP",
+      "on_zero_success": "BOUNDED_SCIENCE_NEGATIVE_WITH_FIRST_FAILURE_ANALYSIS_NO_AUTO_REPLAY"
+    },
+    {
+      "id": "P2",
+      "title": "Developer 32",
+      "status": "CONDITIONAL_UNAUTHORIZED",
+      "family_counts": {
+        "F1": 16,
+        "F2": 16
+      },
+      "native_cap_if_admitted": 32,
+      "success_min": 24,
+      "success_min_each_family": 12,
+      "hard_STOP_max": 0,
+      "requires": "P1_GO"
+    },
+    {
+      "id": "P3",
+      "title": "Independent one-shot test 40",
+      "status": "CONDITIONAL_UNAUTHORIZED",
+      "family_counts": {
+        "F1": 20,
+        "F2": 20
+      },
+      "native_cap_if_admitted": 40,
+      "success_min": 32,
+      "success_min_each_family": 16,
+      "hard_STOP_max": 0,
+      "requires": "P2_GO_AND_FROZEN_CANDIDATE"
+    },
+    {
+      "id": "L0",
+      "title": "Evidence-triggered representation/data learning",
+      "status": "NOT_AUTHORIZED",
+      "new_training_updates_now": 0,
+      "optional_design": {
+        "datasets_EP": [
+          20,
+          38
+        ],
+        "seeds": 2,
+        "extra_updates_per_arm": 1000,
+        "batch32": true,
+        "checkpoints_extra_updates": [
+          500,
+          1000
+        ],
+        "arms": 4,
+        "total_future_updates_if_authorized": 4000,
+        "total_future_training_visits_if_authorized": 128000,
+        "new_DEV_TEST_if_38_used_to_train": true
+      }
+    },
+    {
+      "id": "M1_M4",
+      "title": "Generalization and new skills door/shelf",
+      "status": "FUTURE_SEPARATE_SCIENTIFIC_AND_SAFETY_SCOPES",
+      "skills": [
+        "unseen_layout",
+        "mobile_pick_place",
+        "door_opening",
+        "bookshelf_organization"
+      ]
+    }
+  ],
+  "readmission": {
+    "state": "NOT_SIGNED",
+    "single_decision_scope_if_qualified": "bounded_immutable_profile_model_scene_WBC_and_panel",
+    "variants": [
+      "DENY_WITH_SPECIFIC_GAP",
+      "LIMITED_SAFETY_ONLY",
+      "LIMITED_SCIENCE_READMISSION"
+    ],
+    "independent_reviewer_required": true,
+    "safety_known_issues": [
+      "right_pad_table_3_contacts",
+      "1_of_38_successful_expert_false_stop",
+      "continuous_warning_12_20_34ms",
+      "controller_selected_reference_UNKNOWN",
+      "native_STOP_hook_response_UNMEASURED"
+    ],
+    "template": "docs/goals/2026-11-17/MFREE_SCIENCE_FIRST_READMISSION_DECISION_V5.md",
+    "no_per_engineering_patch_review": true,
+    "no_per_episode_review_within_signed_scope": true
+  },
+  "autonomous_codex_engineering": {
+    "E0_E1_fix_without_per_patch_human_GO": true,
+    "allowed": [
+      "path_and_namespace",
+      "user_space_dep_compatibility",
+      "IPC_serializer_and_clock",
+      "GPU_loader_and_no_semantic_numerical_optimizations",
+      "Journal_owner_crash_restore",
+      "async_archive",
+      "nonphysical_SIM_PAUSED_contract",
+      "evidence_output_and_tests"
+    ],
+    "must_do": [
+      "minimal_reproduction",
+      "small_patch",
+      "targeted_regression",
+      "immutable_source_SHA",
+      "normal_GitHub_feature_PR",
+      "readback_remote_commit",
+      "continue_currently_authorized_stage"
+    ],
+    "forbidden_without_new_material_approval": [
+      "native_dispatch",
+      "turning_off_quarantine",
+      "hook_install",
+      "WBC_MPC_gain_tuning",
+      "changing_original_H40_or_finger_speed_gate",
+      "new_train_episodes_and_weights",
+      "new_GPU_site_grant",
+      "unsafe_trajectory_postprocessing",
+      "arbitrary_retry_of_valid_scientific_failure",
+      "auto_merge_main",
+      "force_push"
+    ],
+    "stale_capsules_must_not_hotpatch": true,
+    "UNKNOWN_must_not_replay": true,
+    "issue_science": 11,
+    "issue_ops": 47
+  },
+  "funding_and_counting": {
+    "this_document_new_training_updates": 0,
+    "this_document_new_model_generations": 0,
+    "this_document_new_native_integrations": 0,
+    "site_GPU_grants_not_implicit": true,
+    "old_core_allocation_deadline_SGT": "2026-11-19T02:51:23.855488+08:00",
+    "conditional_native_episodes_if_signed_max": 88,
+    "conditional_native_ticks_up_to_at60s": 2640000,
+    "extra_safety_only_qualification_requests_are_separate": true
+  },
+  "next_deliverable": "Signed_or_denied_minimal_safety_readmission_or_first_real_SHIFT7_expert_or_student_onpolicy_result"
+}
