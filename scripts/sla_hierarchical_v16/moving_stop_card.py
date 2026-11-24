@@ -115,12 +115,14 @@ def receiver_adapter(
     grant_cap,
     fault_grant=None,
     fault_expiry=None,
+    adapter_type=None,
+    fault_schedule=None,
 ):
     from b2_native import TechnicalAdapter, paused
     from go2arx5_vla.world_model.target_sequential import owned_simulator_pid
     from grip_card import emit
 
-    class Adapter(TechnicalAdapter):
+    class Adapter(adapter_type or TechnicalAdapter):
         def launch(self, argv, name, env):
             if name == "sim":
                 env = dict(
@@ -205,9 +207,7 @@ def receiver_adapter(
                     seq,
                     before["time_s"],
                     opening_m=0.042,
-                    expiry_s=fault_expiry
-                    if ticks == fault_grant
-                    else before["time_s"] + 0.399,
+                    expiry_s=(fault_schedule or {}).get(ticks, fault_expiry if ticks == fault_grant else before["time_s"] + 0.399),
                 )
             result["last_requested_tick"] = ticks
             return super().advance_to(ticks)

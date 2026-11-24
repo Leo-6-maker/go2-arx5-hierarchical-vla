@@ -21,19 +21,19 @@ def lines(path):
             yield json.loads(line)
 
 
-def terminal_evidence(trace, audit, last_grant, installs, exits, absent):
+def terminal_evidence(trace, audit, last_grant, installs, exits, absent, *, stop_tick=6439, grant_end=6453, sequence=157):
     stops = [r for r in trace if r["kind"] == 13]
     require(len(stops) == 1, "expected one whole-system trace STOP")
     stop = stops[0]
     require(
-        stop["token"] == 6439
-        and abs(stop["sim_time_s"] - 12.878) < 1e-8
-        and stop["values"] == [1.0, 157.0],
+        stop["token"] == stop_tick
+        and abs(stop["sim_time_s"] - stop_tick * .002) < 1e-8
+        and stop["values"] == [1.0, float(sequence)],
         "wrong STOP identity",
     )
     steps = [row["token"] for row in trace if row["kind"] == 12]
     require(
-        steps == list(range(1, 6440))
+        steps == list(range(1, stop_tick + 1))
         and not any(
             row["kind"] in (11, 12) and row["ticket"] > stop["ticket"] for row in trace
         ),
@@ -42,7 +42,7 @@ def terminal_evidence(trace, audit, last_grant, installs, exits, absent):
     writer = audit.get("writer") or {}
     require(
         audit["status"] == "RECORDED_TRACE_CHECKS_PASS"
-        and audit["native_step_records"] == 6439
+        and audit["native_step_records"] == stop_tick
         and audit["integrations_after_first_STOP"] == 0
         and writer.get("stop_latched") is True
         and writer.get("dropped") == 0
@@ -52,7 +52,7 @@ def terminal_evidence(trace, audit, last_grant, installs, exits, absent):
     )
     boundary = stop["monotonic_ns"] * 1e-9
     require(
-        last_grant["requested_step"] == 6453 and last_grant["monotonic_s"] < boundary,
+        last_grant["requested_step"] == grant_end and last_grant["monotonic_s"] < boundary,
         "no outstanding moving grant",
     )
     require(
