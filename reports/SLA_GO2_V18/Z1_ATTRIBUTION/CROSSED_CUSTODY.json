@@ -1,0 +1,76 @@
+{
+  "issue": 486,
+  "allocation": {
+    "issue": 486,
+    "status": "APPROVED",
+    "allocated": 2,
+    "approval": "\u7528\u6237\u6279\u51c6 #486 \u4e24\u6b21\u524d\u5411",
+    "scope": "G01 sealed inputs crossed with seed only",
+    "native_starts": 0,
+    "updates": 0
+  },
+  "exit": {
+    "ended": 1795497938.5922174,
+    "entered": 2,
+    "returned": 2,
+    "simulation_ticks": 0,
+    "updates": 0
+  },
+  "owner": [
+    {
+      "event": "SPAWN",
+      "time_s": 1795497890.8456562,
+      "cell": 0,
+      "gpu": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad",
+      "sharing_authorized": true,
+      "board_free_mib": 28192,
+      "measured_board_peak_mib": 8598,
+      "ram_available_kib": 46369676,
+      "measured_peak_rss_kib": 16611016,
+      "graphics_processes": 2,
+      "compute_processes": 1
+    },
+    {
+      "event": "EXIT",
+      "time_s": 1795497914.9046617,
+      "cell": 0,
+      "pid": 1044912,
+      "code": 0
+    },
+    {
+      "event": "SPAWN",
+      "time_s": 1795497915.010764,
+      "cell": 1,
+      "gpu": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad",
+      "sharing_authorized": true,
+      "board_free_mib": 28192,
+      "measured_board_peak_mib": 8598,
+      "ram_available_kib": 45950832,
+      "measured_peak_rss_kib": 16611016,
+      "graphics_processes": 2,
+      "compute_processes": 1
+    },
+    {
+      "event": "EXIT",
+      "time_s": 1795497938.5815153,
+      "cell": 1,
+      "pid": 1045300,
+      "code": 0
+    }
+  ],
+  "verified_workers_absent": true,
+  "lease_reacquired_and_released": true,
+  "members": {
+    "EXIT.json": "51464f5f520eb65e08a3a232a7ca4f15349adadddfd4fbd8e660cf51d2792fe5",
+    "START.json": "10e05fb93210678e72199b9aa047e08723a4c42b6a08ca4cf456cbdeda3bbdb8",
+    "cross-0.npz": "7762a7b98ebbeb21c4fe979d61476d9ff2811772991b761e24cef15396b11902",
+    "cross-1.npz": "ea66e0bd1dd1d0da616e7aef9f3ebc1e916fe62f73b0f718a623de9cbe6d7e34",
+    "entered-0.json": "a15052a21a790f070543d513bea57ae658bba04585763225e1d1f2f4b9b1db2e",
+    "entered-1.json": "b264c35d5b01a0aa5c437a38a9cc04745849d431a89f38e5f0d2e67b4487947e",
+    "owner.jsonl": "0006793b88cefc7ceeea0c27bbc6505403b214abe1d78b1557a2bd6563508d5e",
+    "returned-0.json": "0e674ec14e4f359e493121998ddcfa19d346838620c7177b9e07cd6b51463d79",
+    "returned-1.json": "6a20bf1ae93282a65c764323a38b92fbbf39f76d20fe1190dcd46a73731b8b05",
+    "worker-0.log": "bd9bc722a77137ff1377064f22b292548aad4f893f6b46af355ac1a076cb1686",
+    "worker-1.log": "bd9bc722a77137ff1377064f22b292548aad4f893f6b46af355ac1a076cb1686"
+  }
+}

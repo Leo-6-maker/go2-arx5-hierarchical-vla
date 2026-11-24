@@ -1,0 +1,13 @@
+{
+  "status": "post-R1 exploratory engineering comparison; lock before fit; same 19 sealed inputs",
+  "motivation": "scalar norm cap removes axial signal before target-space projection",
+  "objective": "minimize sum squared error to unscaled relative prefix + sum squared second differences (unit knot weight); initialize at the consumed command. 16 source knots at 30 Hz, then hold. First knot fixed at command. Same RGB approach point, maximum axial travel 20 mm, conservative transverse radius and 2 degree attitude limit. At each knot forward progress cannot exceed the positive part of source axial displacement at that knot. Model cannot trigger an invented forward displacement on zero/reverse inputs.",
+  "solver": "strongly convex quadratic in world translation, projected gradient, fixed step 1/17, terminate at 1e-10 m max update or report failure after 500 iterations. Analytical Euclidean projection onto the per-knot cylinder.",
+  "controls": [
+    "same RGB pure geometry path",
+    "zero relative motion",
+    "reflect all positive axial components backwards; keep original transverse motion"
+  ],
+  "gate": "unchanged C², shared no-contact H40 and 15 mm clearance on standing geometry. Record reference-only endpoint in the initial 9 seconds, plus full selected prefix, with no native advance. Only original native observations can be used to score the physical task.",
+  "selection": "report all 19 without retuning. Even if planned endpoint qualifies, assess geometry-only comparison before a new native allocation."
+}
