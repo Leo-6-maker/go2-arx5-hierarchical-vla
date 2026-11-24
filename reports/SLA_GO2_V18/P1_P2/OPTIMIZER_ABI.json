@@ -1,0 +1,127 @@
+{
+  "batch_count": 2,
+  "examples": [
+    {
+      "episode": "CHV1-TRAIN-F1-HOLD-red-02",
+      "tick": 19203,
+      "phase_for_audit": "CLOSE"
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-01",
+      "tick": 33453,
+      "phase_for_audit": "OPEN"
+    }
+  ],
+  "abstract_loss": [],
+  "abstract_grad_norm": [],
+  "optimizer_config": {
+    "b1": 0.9,
+    "b2": 0.95,
+    "eps": 1e-08,
+    "weight_decay": 1e-10,
+    "clip_gradient_norm": 1.0
+  },
+  "schedule_config": {
+    "warmup_steps": 1000,
+    "peak_lr": 2.5e-05,
+    "decay_steps": 30000,
+    "decay_lr": 2.5e-06
+  },
+  "trainable": {
+    "PaliGemma/llm/layers/attn/attn_vec_einsum_1/lora_a": {
+      "shape": [
+        18,
+        8,
+        256,
+        32
+      ],
+      "dtype": "float32"
+    },
+    "PaliGemma/llm/layers/attn/attn_vec_einsum_1/lora_b": {
+      "shape": [
+        18,
+        8,
+        32,
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "PaliGemma/llm/layers/attn/kv_einsum_1/lora_a": {
+      "shape": [
+        18,
+        2,
+        1,
+        1024,
+        32
+      ],
+      "dtype": "float32"
+    },
+    "PaliGemma/llm/layers/attn/kv_einsum_1/lora_b": {
+      "shape": [
+        18,
+        2,
+        1,
+        32,
+        256
+      ],
+      "dtype": "float32"
+    },
+    "PaliGemma/llm/layers/attn/q_einsum_1/lora_a": {
+      "shape": [
+        18,
+        8,
+        1024,
+        32
+      ],
+      "dtype": "float32"
+    },
+    "PaliGemma/llm/layers/attn/q_einsum_1/lora_b": {
+      "shape": [
+        18,
+        8,
+        32,
+        256
+      ],
+      "dtype": "float32"
+    },
+    "PaliGemma/llm/layers/mlp_1/gating_einsum_lora_a": {
+      "shape": [
+        18,
+        2,
+        1024,
+        32
+      ],
+      "dtype": "float32"
+    },
+    "PaliGemma/llm/layers/mlp_1/gating_einsum_lora_b": {
+      "shape": [
+        18,
+        2,
+        32,
+        4096
+      ],
+      "dtype": "float32"
+    },
+    "PaliGemma/llm/layers/mlp_1/linear_lora_a": {
+      "shape": [
+        18,
+        4096,
+        32
+      ],
+      "dtype": "float32"
+    },
+    "PaliGemma/llm/layers/mlp_1/linear_lora_b": {
+      "shape": [
+        18,
+        32,
+        1024
+      ],
+      "dtype": "float32"
+    }
+  },
+  "frozen_params_updated": 0,
+  "model_forward_executions": 0,
+  "optimizer_updates_executed": 0,
+  "optimizer_state_leaf_count": 22,
+  "policy_checkpoint_exported": false
+}
