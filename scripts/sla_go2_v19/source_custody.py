@@ -61,7 +61,7 @@ def source_motion(h, frame, side, mode):
     )
 
 
-def replay_real_input(h, row, archived):
+def real_source_observation(h, row, archived):
     from XPolicyLab.utils.process_data import decode_image_bit
 
     frame = row["frame"]
@@ -80,9 +80,12 @@ def replay_real_input(h, row, archived):
         and dict(zip(VIEWS, map(array_hash, (head[-1], *wrists)))) == archived["current_rgb_sha256"]
         and np.array_equal(state, np.asarray(archived["state"], dtype=np.float32))
         and prompt == archived["prompt"], "source cadence, RGB, state or prompt differs from O0")
-    obs = dict(images=dict(cam_high=head, cam_left_wrist=wrists[0], cam_right_wrist=wrists[1]),
-               state=state, prompt=prompt)
-    return input_identity(obs)[0]
+    return dict(images=dict(cam_high=head, cam_left_wrist=wrists[0], cam_right_wrist=wrists[1]),
+                state=state, prompt=prompt)
+
+
+def replay_real_input(h, row, archived):
+    return input_identity(real_source_observation(h, row, archived))[0]
 
 
 def freeze_source(root):
