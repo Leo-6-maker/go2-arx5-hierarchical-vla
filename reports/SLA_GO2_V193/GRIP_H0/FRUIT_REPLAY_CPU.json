@@ -1,0 +1,145 @@
+{
+  "cameras": {
+    "CHV1-TRAIN-F1-G00": {
+      "body_xyz_m": [
+        0.25,
+        -0.24,
+        0.45
+      ],
+      "body_fovy_deg": 75.0,
+      "auxiliary_xyz_m": [
+        0.2,
+        0.22,
+        0.42
+      ],
+      "auxiliary_fovy_deg": 75.0,
+      "wrist_mount_unchanged": true
+    },
+    "CHV1-TRAIN-F1-G01": {
+      "body_xyz_m": [
+        0.25,
+        -0.24,
+        0.45
+      ],
+      "body_fovy_deg": 75.0,
+      "auxiliary_xyz_m": [
+        0.2,
+        0.22,
+        0.42
+      ],
+      "auxiliary_fovy_deg": 75.0,
+      "wrist_mount_unchanged": true
+    }
+  },
+  "initial_teacher_open_approach": {
+    "CHV1-TRAIN-F1-G00": {
+      "archive_entry_tick": 6203,
+      "stage": "PREGRASP",
+      "H40_points": 40,
+      "physical_displacement_mm": 12.375038143058848,
+      "gripper_command_fraction": 0.9545454545454545,
+      "overlapping_points_exact": 33,
+      "archived_robot_plus_compiled_static_objects": true
+    },
+    "CHV1-TRAIN-F1-G01": {
+      "archive_entry_tick": 6203,
+      "stage": "PREGRASP",
+      "H40_points": 40,
+      "physical_displacement_mm": 12.375038143058642,
+      "gripper_command_fraction": 0.9545454545454545,
+      "overlapping_points_exact": 33,
+      "archived_robot_plus_compiled_static_objects": true
+    }
+  },
+  "auxiliary_calibration_sha256": "50b38e732d03661892556fd005bcaa83b21d08f67ec07dee0d3aa18fcbcd9f79",
+  "archived_standing_reach": {
+    "journal_sha256": "a3208272ed83bdf4cbc830bed5ab0c6d2729d9575aec9554eedb20ed7c26658f",
+    "schema": "SEA_STATIONARY_HOLD_NATIVE_SCORE",
+    "instruction": "HOLD-red",
+    "task_success": false,
+    "native_step": 8203,
+    "base_directional_motion_m": -0.0009024344405104828,
+    "lift_m": 0.0,
+    "inside_selected_region": null,
+    "target_grasp": false,
+    "wrong_object_grasp_ever": false,
+    "wrong_object_contact_ever": false,
+    "released": true,
+    "gripper_open_fraction": 0.9545474443398063,
+    "TCP_retreat_m": 0.1377624792563734,
+    "stable_release_condition": false,
+    "states": 2001,
+    "missing_native_intervals": 0,
+    "unsafe_states": 0,
+    "ever_target_grasp": false,
+    "ever_target_lift20mm": false,
+    "maximum_lift_m": 0.0,
+    "longest_grasp_lift_hold_s": 0.0,
+    "longest_stable_released_retreat_s": 0.0,
+    "events": {},
+    "task_privileged_truth_in_student_input": false,
+    "clock": "ACTUAL_2MS_NATIVE_STREAM",
+    "first_stance_or_contact_violation": null,
+    "maximum_stance_drift_m": 0.02,
+    "maximum_stance_angle_deg": 5.0,
+    "maximum_foot_drift_m": 0.005
+  },
+  "archived_mobile_hold": {
+    "journal_sha256": "a69fd3648769b76610431ee6c02825086266a15145b120767e8ffdbd6c272a4b",
+    "schema": "SEA_STATIONARY_HOLD_NATIVE_SCORE",
+    "instruction": "HOLD-red",
+    "task_success": false,
+    "native_step": 23453,
+    "base_directional_motion_m": 0.12398228796386629,
+    "lift_m": 0.025152414438089465,
+    "inside_selected_region": null,
+    "target_grasp": true,
+    "wrong_object_grasp_ever": false,
+    "wrong_object_contact_ever": false,
+    "released": false,
+    "gripper_open_fraction": 0.4336660601021445,
+    "TCP_retreat_m": 0.03222490099546261,
+    "stable_release_condition": false,
+    "states": 17751,
+    "missing_native_intervals": 0,
+    "unsafe_states": 17712,
+    "ever_target_grasp": true,
+    "ever_target_lift20mm": true,
+    "maximum_lift_m": 0.025152414438089465,
+    "longest_grasp_lift_hold_s": 1.2140000000014837,
+    "longest_stable_released_retreat_s": 0.0,
+    "events": {
+      "base80mm": {
+        "native_step": 9765,
+        "native_time_s": 19.530000000000054
+      },
+      "target_grasp": {
+        "native_step": 20521,
+        "native_time_s": 41.042000000004194
+      },
+      "target_lift20mm": {
+        "native_step": 22846,
+        "native_time_s": 45.69200000000988
+      }
+    },
+    "task_privileged_truth_in_student_input": false,
+    "clock": "ACTUAL_2MS_NATIVE_STREAM",
+    "first_stance_or_contact_violation": {
+      "tick": 5742,
+      "base_drift_m": 0.0014285617666693706,
+      "base_angle_deg": 0.08913478046759625,
+      "foot_drift_m": 0.004287631039518595,
+      "all_feet_supported": false,
+      "contact_valid": true,
+      "gripper_state_valid": true
+    },
+    "maximum_stance_drift_m": 0.02,
+    "maximum_stance_angle_deg": 5.0,
+    "maximum_foot_drift_m": 0.005
+  },
+  "new_integrations": 0,
+  "new_rendered_frames": 0,
+  "new_model_generations": 0,
+  "new_updates": 0,
+  "native_dispatch_qualified": false
+}
