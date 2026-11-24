@@ -1,0 +1,160 @@
+{
+  "schema": "SLA_GO2_V193_THREE_VIEW_FIRST",
+  "status": "PLAN_ONLY_NO_ALLOCATION",
+  "parent_pr": 499,
+  "parent_sha": "c254844b48a4bd49bfbc4aad44101b5356383441",
+  "user_priority": "Add one deployable auxiliary RGB view, first complete three-view frozen SLA-PT + WBC closed loop; postpone dual-camera work.",
+  "freeze": {
+    "sla_revision": "7f6880569c3be777291e646fad1b4951245e8553",
+    "upstream_sha": "c1b205ec42b4ab2cac9c2159c8b4c2f723e5e454",
+    "source_config": "train_robodojo_real",
+    "extra_frames_first": false,
+    "source_hz": 30,
+    "horizon": 50,
+    "raw_dim": 32,
+    "decoded_dim": 16,
+    "native_dt_s": 0.002,
+    "preview_dt_s": 0.05,
+    "preview_points": 41,
+    "publication_hz": 10,
+    "ttl_s": 0.4,
+    "sla_updates": 0,
+    "adapter_updates": 0,
+    "wbc_updates": 0,
+    "target_training_demos": 0,
+    "agent_calls": 0,
+    "hardware_allowed": false
+  },
+  "profile": {
+    "id": "THREE_VIEW_V1",
+    "body_and_right_wrist_unchanged": true,
+    "aux_physical_camera": "aux_left_rgb",
+    "mount": "Rigid body-fixed side/front mount; exact pose pending geometrical preflight; no target tracking or privileged view.",
+    "official_slot": "cam_left_wrist",
+    "model_slot": "left_wrist_0_rgb",
+    "all_current_masks": true,
+    "head_history_only": 9,
+    "source_real_extrinsics": "UNKNOWN",
+    "physical_provenance_required": true,
+    "model_conditioned_mount_search": false,
+    "candidate_mount_count": 1
+  },
+  "stages": [
+    {
+      "id": "CAMERA",
+      "priority": "P0",
+      "status": "IMPLEMENT_AND_COLD_PREFLIGHT",
+      "cap": {
+        "mount_configs": 1,
+        "evidenced_engineering_repairs": 1
+      }
+    },
+    {
+      "id": "SOURCE_TASK",
+      "priority": "P0",
+      "status": "REUSE_FIXED_499_ROSTER",
+      "cap": {
+        "t0_t1": 16,
+        "tl_separate": 8,
+        "exact_reuse_only": true
+      }
+    },
+    {
+      "id": "GRIP_H0",
+      "priority": "P0",
+      "status": "PARALLEL_CONTACT_PREREQUISITES",
+      "source_pt_contact_blocked_until": "REAL_SOURCE_TOOL_AND_PHYSICAL_GRIPPER_CODEC_AND_CONTACT_PROFILE",
+      "h0_does_not_require_source_codec": true,
+      "layouts": 2,
+      "h0_candidate_cards": 2
+    },
+    {
+      "id": "TARGET_T2_3V",
+      "priority": "P0",
+      "status": "AFTER_H0_CAUSAL_OBSERVATIONS",
+      "cap": {
+        "layouts": 2,
+        "anchors_per_layout": 2,
+        "seeds": 2,
+        "new_sampler_enters": 8,
+        "dual_camera_new_forwards": 0
+      }
+    },
+    {
+      "id": "E2",
+      "priority": "P0",
+      "status": "PARALLEL_BOUNDED_NEW_QUALIFICATION",
+      "cap": {
+        "native_starts": 4,
+        "ticks_per_start": 20000,
+        "total_ticks": 80000,
+        "contact": false,
+        "model_forwards": 0
+      }
+    },
+    {
+      "id": "PICK_HOLD_3V",
+      "priority": "P1",
+      "status": "CONDITIONAL_MATCHED_NATIVE",
+      "requires": [
+        "source_local_skill",
+        "three_view_observation_preflight",
+        "legal_raw_target_intent",
+        "gripper_codec",
+        "contact_owner_and_stop",
+        "matching_h0_pass",
+        "new_allocation"
+      ],
+      "cap": {
+        "layouts": 2,
+        "arms": [
+          "H0",
+          "3V"
+        ],
+        "total_starts": 4,
+        "ticks_per_start": 50000,
+        "total_ticks": 200000,
+        "student_starts": 2,
+        "student_forwards_per_start": 120,
+        "total_student_forwards": 240
+      },
+      "reuse_h0": true,
+      "success": {
+        "object_grasp": true,
+        "lift_mm": 20,
+        "hold_s": 1,
+        "illegal_contact": false,
+        "teacher_takeover": false
+      }
+    },
+    {
+      "id": "NEXT",
+      "priority": "P2",
+      "status": "NEW_REGISTRATION_AFTER_LOCAL_EVIDENCE",
+      "order": [
+        "Independent scene confirmation",
+        "Pick and Place and second skill",
+        "Mobile/Agent independently"
+      ]
+    },
+    {
+      "id": "DUAL_CAMERA_AND_SEA3",
+      "status": "DEFERRED",
+      "condition": "Three-view reference teacher established; if failure, require new decision before any learning."
+    }
+  ],
+  "closed_historical": [
+    "SEA1A",
+    "SEA1B",
+    "494"
+  ],
+  "new_effects_at_publication": {
+    "allocations": 0,
+    "gpu_forwards": 0,
+    "render_jobs": 0,
+    "native_starts": 0,
+    "physics_ticks": 0,
+    "optimizer_updates": 0,
+    "hardware": 0
+  }
+}
