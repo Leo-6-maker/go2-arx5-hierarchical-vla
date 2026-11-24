@@ -98,7 +98,7 @@ def channel(actual, target):
     }
 
 
-def score(case):
+def score(case, *, condition=None):
     import mujoco
     from native_known import tcp
     from scipy.spatial.transform import Rotation, Slerp
@@ -194,7 +194,12 @@ def score(case):
             KnownCurve.support(names, p)
             actual.append(tcp(model, data, tool, p))
     actual = np.array(actual)
-    rate, _ = case.name.rsplit("_", 1)
+    curve_name = case.name if condition is None else condition
+    require(
+        curve_name in CARDS and (condition is None or r["condition"] == condition),
+        "unbound curve name",
+    )
+    rate, _ = curve_name.rsplit("_", 1)
     nominal = trajectory(
         np.array(entry["nominal"]), np.arange(3501) * 0.002, *RATES[rate]
     )
