@@ -117,6 +117,7 @@ def receiver_adapter(
     fault_expiry=None,
     adapter_type=None,
     fault_schedule=None,
+    opening_command=None,
 ):
     from b2_native import TechnicalAdapter, paused
     from go2arx5_vla.world_model.target_sequential import owned_simulator_pid
@@ -206,7 +207,7 @@ def receiver_adapter(
                     epoch,
                     seq,
                     before["time_s"],
-                    opening_m=0.042,
+                    opening_m=0.042 if opening_command is None else opening_command(self, tick),
                     expiry_s=(fault_schedule or {}).get(ticks, fault_expiry if ticks == fault_grant else before["time_s"] + 0.399),
                 )
             result["last_requested_tick"] = ticks
