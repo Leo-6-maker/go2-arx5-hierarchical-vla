@@ -81,7 +81,7 @@ def gait_join(events, cfg, end, ros):
     )
 
 
-def foot_window(scene, journal, start, end, first_gait_tick):
+def foot_window(scene, journal, start, end, first_gait_tick, *, violation_tick=None):
     import mujoco as mj
     from go2arx5_vla.world_model.multitask_state_v6 import packets
     from go2arx5_vla.world_model.native_replay import forbid_integration
@@ -111,7 +111,8 @@ def foot_window(scene, journal, start, end, first_gait_tick):
     shift = np.stack([r["fl"] - initial["fl"] for r in rows])*1000
     speeds = np.linalg.norm(np.diff(shift, axis=0), axis=1)/DT
     before = first_gait_tick-start-1
-    require(int(np.flatnonzero(np.linalg.norm(shift, axis=1) > 5.)[0])+start == end,
+    expected = end if violation_tick is None else violation_tick
+    require(int(np.flatnonzero(np.linalg.norm(shift, axis=1) > 5.)[0])+start == expected,
             "replayed foot stop mismatch")
     tail = [dict(tick=r["tick"], foot_shift_mm=float(np.linalg.norm(shift[r["tick"]-start])),
                  fl_normal_force_N=r["fl_normal_force_N"], fl_tangent_force_N=r["fl_tangent_force_N"],
