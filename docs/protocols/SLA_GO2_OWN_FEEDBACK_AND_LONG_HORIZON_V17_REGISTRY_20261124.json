@@ -1,0 +1,350 @@
+{
+  "schema": "SLA_GO2_OWN_FEEDBACK_LONG_HORIZON_V17",
+  "date": "2026-11-24",
+  "status": "PLAN_ONLY_NO_NEW_EXECUTION_ALLOCATION",
+  "parent_pr": 471,
+  "parent_sha": "029436bd1c97869d1bbee041598d3b5eb7739dcb",
+  "predecessors": {
+    "v16_plan": 440,
+    "alignment": 467,
+    "feedback_and_stop": 470,
+    "dynamic_score": 471,
+    "existing_dynamic_request": 472
+  },
+  "evidence": {
+    "feedback": {
+      "issue": 468,
+      "registered": 6,
+      "entered": 6,
+      "returned": 6,
+      "independent_episodes": 1,
+      "width_only_pairs": 2,
+      "right_grip_rms_mm": [
+        2.355,
+        2.4
+      ],
+      "right_eef_rms_mm": [
+        2.288,
+        2.827
+      ],
+      "source_events": 0,
+      "actual_student_sla_action_episodes": 0
+    },
+    "stop": {
+      "issue": 469,
+      "scientific_slots": 1,
+      "leases": 2,
+      "prelaunch_zero_start_interruptions": 1,
+      "actual_starts": 1,
+      "ticks": 6439,
+      "stop_tick": 6439,
+      "direction_mm": 0.1782,
+      "after_stop_ticks": 0,
+      "after_stop_installs": 0,
+      "scope": "B2/F1 matched known A0 moving noncontact expired gripper command only"
+    },
+    "alignment": {
+      "teacher_episodes": 6,
+      "precontact_source_episodes": 0,
+      "earliest_for_fixed_constraints_s": 2.7,
+      "teacher_contact_s": 2.622,
+      "not_student_success_rate": true
+    },
+    "dynamic": {
+      "slow_historical_parked_pass": 4,
+      "slow_historical_parked_n": 4,
+      "source_speed_center_park_pass": true,
+      "hold_shape_can_be_positive": true,
+      "new_dynamic_cards_started": 0,
+      "qualified": false
+    },
+    "data": {
+      "teacher_success_episodes_verified": 6,
+      "teacher_queries": 527,
+      "source_knots": 26350,
+      "consumed_atoms": 5270,
+      "archived_train_requests": 87,
+      "recorded_in_dataset": 57,
+      "excluded": 30,
+      "visual_queries": 7713,
+      "independent_val_episodes": 0,
+      "independent_test_episodes": 0,
+      "open_grip_q99_exceeded_windows": 361
+    },
+    "student_grasp_success_rate": null,
+    "new_training_updates": 0
+  },
+  "invariants": {
+    "frozen_backend": "OCS2 MPC/MRT + WBC bridge + arm PD + leg policy + original MuJoCo 2ms",
+    "official_model": "haofuly/SLA_benchmark_ckpts/SLA_Memory_robodojo_real_ckpt@7f6880569c3be777291e646fad1b4951245e8553",
+    "source_code": "XPolicyLab/XPolicyLab@c1b205ec42b4ab2cac9c2159c8b4c2f723e5e454",
+    "original_safety_and_denominators": "unchanged",
+    "source_output": "50x32 internal, 14 meaningful preinverse, 50x16 decoded, right8 source arm",
+    "receiver": {
+      "points": 41,
+      "dt_s": 0.05,
+      "publish_period_s": 0.1,
+      "ttl_s": 0.4,
+      "frame": "world",
+      "base": "standing only until separate qualification"
+    },
+    "no_teacher_driven_student_timing": true,
+    "gt_for_scoring_not_student_decision": true,
+    "no_implicit_contact_qualification": true
+  },
+  "stage_graph": [
+    {
+      "id": "D0",
+      "status": "WAIT_EXISTING_472_ALLOCATION",
+      "requires": [
+        "470_STOP_SCOPE",
+        "471_SCORE_PREFLIGHT"
+      ],
+      "resource": "NATIVE_SEPARATE_ALLOCATION",
+      "existing_request": 472,
+      "slots": [
+        "SLOW_A0",
+        "SLOW_A1",
+        "SOURCE_SPEED_A1",
+        "SOURCE_SPEED_A0"
+      ],
+      "cap": {
+        "native_starts": 4,
+        "ticks_per_start": 21203,
+        "total_ticks": 84812,
+        "forwards": 0,
+        "training_updates": 0,
+        "contact": false
+      },
+      "deliverable": "V3_KNOWN_DYNAMIC_ACTUAL"
+    },
+    {
+      "id": "D1",
+      "status": "WAIT_D0",
+      "requires": [
+        "D0_CLOSED"
+      ],
+      "resource": "CPU",
+      "deliverable": "DYNAMIC_DECISION_WITH_HOLD_CONTROLS",
+      "metrics": [
+        "fixed-clock Q and signed gain separately for translation/rotation",
+        "absolute RMS/max/full tube",
+        "nominal-issued-achieved residuals",
+        "actual source motion and safety"
+      ],
+      "decision": [
+        "PROMISING_DYNAMIC -> D2",
+        "ONLY_SLOW_PROMISING -> D2_SLOW_DOMAIN",
+        "HOLD_FALSE_PASS/OFFSET_OR_SERVO_GAP -> D_ALT",
+        "STOP -> SEAL"
+      ]
+    },
+    {
+      "id": "D_ALT",
+      "status": "CONDITIONAL",
+      "requires": [
+        "D1_DIAGNOSED_FAILURE"
+      ],
+      "resource": "CPU_THEN_SEPARATE_NATIVE",
+      "deliverable": "A2_NOMINAL_FEEDFORWARD_BOUNDED_RESIDUAL_COMPARISON",
+      "fallback": "independent low-level WBC research if lawful outer control fails"
+    },
+    {
+      "id": "D2",
+      "status": "CONDITIONAL_PENDING_NEW_REGISTRATION",
+      "requires": [
+        "D1_OR_D_ALT_PROMISING"
+      ],
+      "resource": "NATIVE_SEPARATE_ALLOCATION",
+      "candidate_max_starts": 4,
+      "candidate_tick_per_start_if_same_path": 21203,
+      "deliverable": "DYNAMIC_QUALIFICATION_AND_OPERATING_DOMAIN",
+      "note": "Q>=0.5 and gain 0.5..1.5 are proposed for future registration only, not #472 gates"
+    },
+    {
+      "id": "S0",
+      "status": "READY_CPU",
+      "requires": [
+        "470",
+        "471"
+      ],
+      "resource": "CPU",
+      "deliverable": "STUDENT_TRANSACTION_REPLAY_AND_VISUAL_IDENTITY_PREFLIGHT"
+    },
+    {
+      "id": "P0",
+      "status": "READY_CPU",
+      "requires": [
+        "464",
+        "465"
+      ],
+      "resource": "CPU; new data separately authorized",
+      "deliverable": "EPISODE_GROUPED_DATA_MANIFEST_AND_NEW_VAL_TEST_ROSTER",
+      "candidate_dataset_min_episode_counts": {
+        "train": 30,
+        "val": 8,
+        "test": 12
+      },
+      "not_validated_sample_size": true
+    },
+    {
+      "id": "P1",
+      "status": "CPU_READY_NEW_GPU_REQUIRES_ALLOCATION",
+      "requires": [
+        "P0",
+        "470_FEEDBACK"
+      ],
+      "resource": "CPU_THEN_SEPARATE_GPU",
+      "deliverable": "FROZEN_OFFICIAL_HELDOUT_TASK_INTENT_DIAGNOSTIC"
+    },
+    {
+      "id": "P2",
+      "status": "CONDITIONAL",
+      "requires": [
+        "P0_DATA_QUALIFIED",
+        "P1_POLICY_GAP",
+        "VERIFIED_MASK_AND_LOADER",
+        "NEW_TRAIN_ALLOCATION"
+      ],
+      "resource": "GPU_SEPARATE_ALLOCATION",
+      "candidate_smoke_max_updates": 100,
+      "candidate_first_run_cumulative_updates": 1000,
+      "deliverable": "GO2_PT_VALIDATION_AND_SOURCE_RETENTION",
+      "note": "May run parallel to D; no contact/student native from training alone"
+    },
+    {
+      "id": "S1",
+      "status": "BLOCKED_DYNAMIC",
+      "requires": [
+        "D2_QUALIFIED",
+        "S0_PREFLIGHT",
+        "STUDENT_OWNER",
+        "SCOPE_MATCHED_STOP",
+        "NEW_SCIENTIFIC_ALLOCATION"
+      ],
+      "resource": "GPU_AND_NATIVE_SEPARATE_ALLOCATION",
+      "candidate_slots": {
+        "H0_known": 2,
+        "H1_frozen": 2
+      },
+      "candidate_caps": {
+        "native_starts": 4,
+        "ticks_per_start": 50000,
+        "model_forwards": 8,
+        "training_updates": 0,
+        "contact": false
+      },
+      "deliverable": "FIRST_STUDENT_ORIGINATED_ACTUAL_EEF_PROGRESS"
+    },
+    {
+      "id": "S2",
+      "status": "BLOCKED",
+      "requires": [
+        "S1_REAL_PROGRESS"
+      ],
+      "resource": "GPU_AND_NATIVE_SEPARATE_ALLOCATION",
+      "deliverable": "TWO_OR_MORE_REAL_STUDENT_ACTION_FEEDBACK_QUERIES",
+      "note": "if policy gap choose qualified PT and repeat S1/S2 under new fixed version"
+    },
+    {
+      "id": "C0",
+      "status": "BLOCKED",
+      "requires": [
+        "D2",
+        "S2",
+        "CONTACT_AND_GRIP_SAFETY",
+        "VISUAL_IDENTITY_AND_COMPLETION"
+      ],
+      "resource": "NATIVE_SEPARATE_ALLOCATION",
+      "deliverable": "H0_REAL_KNOWN_GRASP_LIFT_HOLD_PLACE"
+    },
+    {
+      "id": "C1",
+      "status": "BLOCKED",
+      "requires": [
+        "C0_PASS",
+        "S2_MODEL_QUALIFIED"
+      ],
+      "resource": "GPU_AND_NATIVE_SEPARATE_ALLOCATION",
+      "candidate_matched_pairs": 4,
+      "candidate_native_starts": 8,
+      "deliverable": "GENUINE_STUDENT_TASK_ATTEMPTS_AND_HELDOUT_COMPARISON"
+    },
+    {
+      "id": "L0",
+      "status": "READY_CPU_DESIGN",
+      "requires": [
+        "S0_CONTRACT_DESIGN"
+      ],
+      "resource": "CPU",
+      "deliverable": "AGENT_TYPED_SKILL_API_OFFLINE_PLANNING"
+    },
+    {
+      "id": "L1",
+      "status": "BLOCKED",
+      "requires": [
+        "C1_RELIABLE_SKILLS",
+        "L0",
+        "NEW_COMPOSITION_ALLOCATION"
+      ],
+      "resource": "GPU_AND_NATIVE_SEPARATE_ALLOCATION",
+      "deliverable": "SLA_VS_SCRIPTED_VS_AGENT_LONG_HORIZON_HELDOUT"
+    },
+    {
+      "id": "L2",
+      "status": "FUTURE_SEPARATE",
+      "requires": [
+        "L1",
+        "NEW_REACH_CONTACT_AND_BASE_QUALIFICATIONS"
+      ],
+      "resource": "SEPARATE_RESEARCH",
+      "deliverable": "BOOKSHELF_OR_DOOR_SKILLS_NOT_YET_AUTHORIZED"
+    }
+  ],
+  "actual_new_authorized_by_this_plan": {
+    "gpu_forwards": 0,
+    "native_starts": 0,
+    "physics_ticks": 0,
+    "training_updates": 0,
+    "real_hardware_runs": 0,
+    "contact": false
+  },
+  "allocation_rule": "Use #472 existing request only; future candidate budgets are NOT allocations. Independent approval and live exclusive lease; one bounded approved roster can execute in order, no replacement or unapproved expansion.",
+  "stop": [
+    "SAFETY_OR_UNEXPECTED_CONTACT",
+    "AFTER_STOP_TICK_OR_INSTALL",
+    "STALE_OR_REPLAYED_RECEIPT",
+    "OWNER_OR_LEASE_LOST",
+    "IDENTITY_DRIFT",
+    "TIME_OR_RESOURCE_CAP",
+    "SOURCE_AGE_EXCEEDED",
+    "UNKNOWN_OR_FAILED_GATE",
+    "UNREGISTERED_OVERRIDE"
+  ],
+  "mandatory_actual_fields": [
+    "planned",
+    "entered",
+    "admitted",
+    "completed",
+    "screened",
+    "rejected",
+    "technical_failures",
+    "unstarted",
+    "native_starts",
+    "actual_ticks",
+    "stops",
+    "after_stop_ticks",
+    "after_stop_installs",
+    "model_forwards_entered",
+    "model_forwards_returned",
+    "training_updates",
+    "lease_terminal",
+    "student_sla_action_episodes",
+    "task_attempts",
+    "task_successes",
+    "task_success_rate_or_null",
+    "evidence_hashes",
+    "decision",
+    "next_stage"
+  ]
+}
