@@ -1,4 +1,12 @@
-# 当前入口 · 2026-11-11
+# 当前入口 · 2026-11-12
+
+## SLA现役与后继扩展
+
+现役进度以 [PR #378](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/pull/378) 及其后继实际回执为准。2026-11-12核对的HEAD为 `353bcdd1774d5f9fcbbc6d9a581d628428245bc0`：S1固定500更新完成，剩余TRAIN/DEV已进入有限后台等待；S2与共同DEV比较尚未完成。仓库快照不替代现场队列状态。
+
+用户要求的后继方案见 [SLA＋冻结WBC扩展计划V2](docs/protocols/SLA_GO2_ARX5_SCALEUP_V2_20261112.md)、[实验矩阵](docs/protocols/SLA_GO2_ARX5_SCALEUP_V2_20261112.json) 和 [Codex接手prompt](docs/handover/2026-11-12/SLA_SCALEUP_V2_CODEX_START.md)。范围包括A40/H200训练、原生并行采集、动作接口、数据学习曲线与门/书技能。文档发布不启动作业；接手先核对现有队列，保持原S1→S2→G，不重复提交或热改。
+
+以下保留2026-11-11的相机/ARX5入口作为历史衔接；其中尚未执行的状态不能覆盖更新的ACTUAL回执。
 
 ## 先读什么
 
