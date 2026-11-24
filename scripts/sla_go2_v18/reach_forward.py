@@ -5,17 +5,67 @@ import fcntl
 import hashlib
 import json
 import os
+import socket
 import subprocess
 import sys
 import time
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "sla_hierarchical_v16"))
 from demonstrated_grip import read, require
-from feedback_gpu import RECEIVER, UUID, journal, retained_inference, site, verify_files
+from feedback_gpu import (
+    RECEIVER,
+    UUID,
+    field_mib,
+    journal,
+    retained_inference,
+    verify_files,
+)
+from feedback_gpu import site as dedicated_site
 from policy_query import frozen_predictor, input_identity
+
+
+def site(root):
+    if os.environ.get("REACH_SHARED_GPU") != "1":
+        return dedicated_site(root)
+    cfg = read(RECEIVER)
+    require(
+        socket.gethostname().split(".")[0] == "corelab-4080s" and cfg["gpu"] == UUID,
+        "wrong shared GPU site",
+    )
+    gpu = ET.fromstring(
+        subprocess.check_output(["nvidia-smi", "-i", "0", "-q", "-x"], timeout=10)
+    ).find("gpu")
+    require(gpu.findtext("uuid") == UUID, "GPU0 identity")
+    free = field_mib(gpu.findtext("fb_memory_usage/free"))
+    ram = int(
+        next(
+            l.split()[1]
+            for l in Path("/proc/meminfo").read_text().splitlines()
+            if l.startswith("MemAvailable:")
+        )
+    )
+    measured = read(root / "v12/FORWARD_RESOURCES.json")
+    board_min = max(measured[k]["board_peak_mib"] for k in ("O2", "P2_EXTRA"))
+    ram_min = max(measured[k]["resident_peak_kib"] for k in ("O2", "P2_EXTRA"))
+    require(
+        free >= board_min and ram >= ram_min,
+        "shared resource headroom below the measured peak",
+    )
+    processes = gpu.findall("processes/process_info")
+    return Path(cfg["gpu_lock"]).resolve(strict=True), {
+        "gpu": UUID,
+        "sharing_authorized": True,
+        "board_free_mib": free,
+        "measured_board_peak_mib": board_min,
+        "ram_available_kib": ram,
+        "measured_peak_rss_kib": ram_min,
+        "graphics_processes": sum("G" in p.findtext("type", "") for p in processes),
+        "compute_processes": sum("C" in p.findtext("type", "") for p in processes),
+    }
 
 
 def worker(root, case, query, fd):
@@ -152,8 +202,17 @@ def predict(root, case, tick, number, obs, sensor):
     (q / "REQUEST.json").write_text(json.dumps(meta))
     lock, _ = site(root)
     with ExitStack() as stack:
-        lease = stack.enter_context(lock.open("rb"))
-        fcntl.flock(lease, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        inherited = os.environ.get("REACH_CARD_GPU_FD")
+        if inherited is None:
+            lease = stack.enter_context(lock.open("rb"))
+            fcntl.flock(lease, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        else:
+            lease = stack.enter_context(os.fdopen(os.dup(int(inherited)), "rb"))
+            held = os.fstat(lease.fileno())
+            require(
+                (held.st_dev, held.st_ino) == (lock.stat().st_dev, lock.stat().st_ino),
+                "GPU lease inode differs",
+            )
         _, resources = site(root)
         (q / "GPU_START.json").write_text(json.dumps(resources))
         env = dict(

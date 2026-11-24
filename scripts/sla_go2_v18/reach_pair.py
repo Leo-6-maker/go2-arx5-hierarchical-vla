@@ -176,6 +176,53 @@ def preflight(root, rows, reg):
     }
 
 
+def run_slot(root, dest, slot, reg, rows, pins, receiver):
+    from d1_matched_owner import with_case_lease
+    from reach_student import Student
+
+    from scripts.pi0292.durable import OwnerLock
+
+    profile, base = rows[int(slot.startswith("G01"))]
+    os.sched_setaffinity(0, base["cpus"])
+    with closing(OwnerLock(Path(base["mobile_world_lock"]))):
+        check_occupancy(base)
+        require(
+            not any(
+                (p / "STOP.json").exists() for p in (dest, Path(base["campaign_root"]))
+            ),
+            "site stop",
+        )
+        case = dest / slot
+        student = Student(root) if slot.endswith("-A") else None
+        fields = {
+            "scope": "#483_PAIRED_STANDING_REACH",
+            "max_ticks": 20000,
+            "campaign_root": str(dest),
+            "outer_library": str(receiver),
+            "frozen_files": {
+                **base["frozen_files"],
+                str(receiver): sha(receiver),
+            },
+            "native_environment": environment(base, case),
+        }
+        value = with_case_lease(
+            case,
+            base,
+            pins,
+            sha(dest / "REGISTRATION.json"),
+            fields,
+            lambda spec, sp, base=base, profile=profile, student=student: execute(
+                base,
+                sp,
+                spec,
+                profile,
+                student=student,
+                scorer=paired_audit,
+            ),
+        )
+    return value
+
+
 def main(args):
     root = args.root.resolve()
     reg = read(REG)
@@ -189,17 +236,11 @@ def main(args):
     rows = sites(root)
     os.umask(0o077)
     setup(root, rows)
-    from reach_student import Student
-
     proof = preflight(root, rows, reg)
     if args.preflight:
         record(args.preflight, proof)
         return
     require(read(args.execute) == proof, "student preflight drift")
-    from d1_matched_owner import with_case_lease
-
-    from scripts.pi0292.durable import OwnerLock
-
     dest = root / "v18/Z1_REACH_483"
     dest.mkdir(mode=0o700, exist_ok=False)
     record(dest / "REGISTRATION.json", reg)
@@ -218,47 +259,8 @@ def main(args):
                     {"slot": slot, "outcome": "UNSTARTED_MATCHED_H0_FAILED", "ticks": 0}
                 )
                 continue
-            profile, base = rows[int(slot.startswith("G01"))]
-            os.sched_setaffinity(0, base["cpus"])
-            with closing(OwnerLock(Path(base["mobile_world_lock"]))):
-                check_occupancy(base)
-                require(
-                    not any(
-                        (p / "STOP.json").exists()
-                        for p in (dest, Path(base["campaign_root"]))
-                    ),
-                    "site stop",
-                )
-                case = dest / slot
-                student = Student(root) if slot.endswith("-A") else None
-                fields = {
-                    "scope": "#483_PAIRED_STANDING_REACH",
-                    "max_ticks": 20000,
-                    "campaign_root": str(dest),
-                    "outer_library": str(receiver),
-                    "frozen_files": {
-                        **base["frozen_files"],
-                        str(receiver): sha(receiver),
-                    },
-                    "native_environment": environment(base, case),
-                }
-                value = with_case_lease(
-                    case,
-                    base,
-                    pins,
-                    sha(dest / "REGISTRATION.json"),
-                    fields,
-                    lambda spec, sp, base=base, profile=profile, student=student: (
-                        execute(
-                            base,
-                            sp,
-                            spec,
-                            profile,
-                            student=student,
-                            scorer=paired_audit,
-                        )
-                    ),
-                )
+            case = dest / slot
+            value = run_slot(root, dest, slot, reg, rows, pins, receiver)
             require(
                 read(case / "control/LEASE.json")["status"] == "CLOSED", "open lease"
             )
