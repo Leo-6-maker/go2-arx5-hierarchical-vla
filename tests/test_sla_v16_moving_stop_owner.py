@@ -153,9 +153,10 @@ def test_owner_closes_lease_on_interrupt_and_cannot_replace_case(tmp_path, monke
         SimpleNamespace(audit_trace=None),
     )
 
-    def interrupt(root, spec, sp):
+    def interrupt(root, spec, sp, prepared):
+        assert prepared[0] is base
         assert owner.read(sp.parent / "control/LEASE.json")["status"] == "ACTIVE"
-        assert owner.read(registry)["entries"][0]["run_uuid"] == spec["owner"]
+        assert owner.read(registry)["entries"][-1]["run_uuid"] == spec["owner"]
         raise RuntimeError("interrupted before request")
 
     monkeypatch.setattr(owner, "run_case", interrupt)
@@ -167,3 +168,25 @@ def test_owner_closes_lease_on_interrupt_and_cannot_replace_case(tmp_path, monke
     with pytest.raises(FileExistsError):
         owner.run(tmp_path, plan)
     assert len(owner.read(registry)["entries"]) == 1
+    assert (
+        owner.read(case.parent / "OWNER_INTERRUPTION.json")["error"]
+        == "RuntimeError: interrupted before request"
+    )
+    with pytest.raises(ValueError, match="unidentified pre-request interruption"):
+        owner.run(tmp_path, plan, recover_before_request=True)
+
+    write(
+        case.parent / "OWNER_INTERRUPTION.json",
+        {
+            "error": "FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpfixture/planner.jsonl'"
+        },
+    )
+    (case / "logs" / "unexpected").touch()
+    with pytest.raises(ValueError, match="unexpected prior native"):
+        owner.run(tmp_path, plan, recover_before_request=True)
+    (case / "logs" / "unexpected").unlink()
+    second = owner.run(tmp_path, plan, recover_before_request=True)
+    assert second["issued_requests"] == 0
+    assert len(owner.read(registry)["entries"]) == 2
+    with pytest.raises(FileExistsError):
+        owner.run(tmp_path, plan, recover_before_request=True)

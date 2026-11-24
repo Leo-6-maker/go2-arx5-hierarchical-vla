@@ -103,7 +103,7 @@ def groups_alive(group_ids):
     return sorted(found)
 
 
-def run_case(root, spec, sp):
+def run_case(root, spec, sp, prepared):
     """Called by the allocation owner inside its exclusive world lock and active case lease."""
     from b2_native import TechnicalAdapter, paused
     from clock_guard import new_receiver_output
@@ -121,7 +121,7 @@ def run_case(root, spec, sp):
 
     case = sp.parent
     lease = mobile.registered(spec, sp)
-    base, pins, receiver, anchors, limits = inputs(root)
+    base, pins, receiver, anchors, limits = prepared
     require(
         case.name == CARD
         and spec["b2_card"] == CARD

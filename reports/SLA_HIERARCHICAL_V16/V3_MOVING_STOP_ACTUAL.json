@@ -1,0 +1,358 @@
+{
+  "initial_scientific_allocation_sha256": "96199d53b33c6bd9ba9473bed99b44fc6411e3c6a2a4594dec499c6177fd8239",
+  "candidate_sha256": "96fed73c53fc1d1868d8e23655787a98fef635089e05cac2fe37c0062de9aeee",
+  "first_preflight": {
+    "candidate_sha256": "96fed73c53fc1d1868d8e23655787a98fef635089e05cac2fe37c0062de9aeee",
+    "receiver_sha256": "c3874b574d0a1a7843f808d716d3b35f7ae8a1f8c40911646500316b9c3f790c",
+    "anchors": 2,
+    "availability_check_released": true,
+    "new_case_leases": 0,
+    "new_native_starts": 0
+  },
+  "issued_science_cards": 1,
+  "case_leases": 2,
+  "first_lease": {
+    "closed": true,
+    "issued_native_requests": 0,
+    "confirmed_native_starts": 0,
+    "confirmed_native_ticks": 0,
+    "original_unamended_readout": {
+      "card": "V3-STOP-01",
+      "registered_requests": 1,
+      "issued_requests": 0,
+      "simulator_starts": null,
+      "state_prefix_ticks": 0,
+      "actual_ticks": null,
+      "errors": [
+        "no native request receipt"
+      ],
+      "evidence_sha256": {
+        "EXECUTION_SPEC.json": "024d3d53b67ff7b311c8086d76ca584faded6522e1fd954064edd6cdb7e11b5e",
+        "LEASE.json": "73ab7707268dbf45298be459283a49148549892e3ed7070bca41213a8e57de60"
+      },
+      "outcome": "TECHNICAL_STOP",
+      "qualified": false
+    },
+    "forensic_basis": "Specific duplicate dry receiver failure reproduced before the only request write and sim launch. First case contained only the execution spec and closed lease; all four runtime output directories plus tmp were empty.",
+    "dry_failure_log_sha256": "6ac1e0dae1d2afdeebe7c74dc8fdf213ecd7a9b5c754a358a37a79e931a68519"
+  },
+  "final_lease": {
+    "closed": true,
+    "readout": {
+      "card": "V3-STOP-01",
+      "registered_requests": 1,
+      "issued_requests": 1,
+      "simulator_starts": 1,
+      "state_prefix_ticks": 6439,
+      "actual_ticks": 6439,
+      "errors": [],
+      "evidence_sha256": {
+        "EXECUTION_SPEC.json": "449cc4549328f818f9a8d0aa4bff384d256ba3356e825916b383ee38ed111a3a",
+        "LEASE.json": "d80e3532b73e35954a10caa1ad1f7360f8789e7ed16347432527e4982a01de6e",
+        "NATIVE_REQUEST.json": "a63c0f225ccbf419d6cdd50de9bdae5544ee7d0fff3beb243f74cfc7ca93702a",
+        "RESULT.private.json": "39d45ffb54d76c23023a8b2e296e0d06cdd0ddcbdb36079264eee95d40183098",
+        "state.bin.journal": "5109794740146da9c5e93b3a6101033e5b6d4c05555cce8a55a250c3a3c727b4",
+        "init.trace": "b9a4f650705ee7f1640e87dbd2bd00e854adcb253b90d58e1d73d660112ee07f",
+        "PROCESS_COMMANDS.private.json": "1745c9bf53e7badf7449abef7544af66c038304eadbea41196256ca9ad87c646",
+        "LOADED_EXECUTOR_00.private.json": "ea054f8819cde9fa221a10c58940698cf3367df2d6b97c41d666ca8f1759da97"
+      },
+      "sim_wrapper_receipts": 1,
+      "trace_step_records": 6439,
+      "outcome": "QUALIFIED",
+      "qualified": true,
+      "score": {
+        "card": "V3-STOP-01",
+        "attempts": 1,
+        "qualified": true,
+        "terminal": {
+          "stop_tick": 6439,
+          "stop_monotonic_ns": 5252471065930318,
+          "stop_simulation_s": 12.87800000000097,
+          "installs": 158,
+          "last_grant_end": 6453,
+          "after_stop_ticks": 0,
+          "owned_exits": [
+            {
+              "name": "planner",
+              "pid": 978748,
+              "exit_code": 0,
+              "signals": [
+                "SIGINT"
+              ],
+              "display_child_lookup_error": null
+            },
+            {
+              "name": "controller",
+              "pid": 978747,
+              "exit_code": 0,
+              "signals": [
+                "SIGINT"
+              ],
+              "display_child_lookup_error": null
+            },
+            {
+              "name": "solver",
+              "pid": 978746,
+              "exit_code": 0,
+              "signals": [
+                "SIGINT"
+              ],
+              "display_child_lookup_error": null
+            },
+            {
+              "name": "sim",
+              "pid": 978735,
+              "exit_code": 0,
+              "signals": [],
+              "display_child_lookup_error": null
+            }
+          ]
+        },
+        "achieved": {
+          "distance_mm": 0.19238331361241953,
+          "mean_displacement_speed_mm_s": 3.8476662722483903,
+          "last_step_speed_mm_s": 4.247828203046021
+        },
+        "desired": {
+          "distance_mm": 0.38915991783144976,
+          "mean_displacement_speed_mm_s": 7.783198356628995,
+          "last_step_speed_mm_s": 7.880330085752174
+        },
+        "programmed": {
+          "distance_mm": 0.39127758679891045,
+          "mean_displacement_speed_mm_s": 7.825551735978209,
+          "last_step_speed_mm_s": 7.893593863050885
+        },
+        "installed_reference_evidence": {
+          "source_tick": 6403,
+          "first_measured_tick": 6414,
+          "last_measured_tick": 6439,
+          "wire_sha256": "c5f8da74a8cdd2fd68151fc591e151f44d10a0ceed60e7415bc0777f93f7ebc4",
+          "installed_target_sha256": "47a21ca5a2c0308e25e87048016f8fa35337c8514ef5bbc8c16e0944119a9d7f",
+          "solver_echoes": 10,
+          "last_echo": {
+            "received_monotonic_s": 5252470.8718405,
+            "solver_observation_s": 12.856
+          },
+          "final_grant_monotonic_s": 5252471.026292284,
+          "installed_motion": {
+            "distance_mm": 0.38915991783144976,
+            "mean_displacement_speed_mm_s": 7.783198356628995,
+            "last_step_speed_mm_s": 7.880330085752174
+          },
+          "controller_selection": "unobserved"
+        },
+        "distinct_floor_feet_at_motion_samples": [
+          [
+            "FL",
+            "FR",
+            "RL",
+            "RR"
+          ],
+          [
+            "FL",
+            "FR",
+            "RL",
+            "RR"
+          ],
+          [
+            "FL",
+            "FR",
+            "RL",
+            "RR"
+          ],
+          [
+            "FL",
+            "FR",
+            "RL",
+            "RR"
+          ],
+          [
+            "FL",
+            "FR",
+            "RL",
+            "RR"
+          ],
+          [
+            "FL",
+            "FR",
+            "RL",
+            "RR"
+          ],
+          [
+            "FL",
+            "FR",
+            "RL",
+            "RR"
+          ],
+          [
+            "FL",
+            "FR",
+            "RL",
+            "RR"
+          ],
+          [
+            "FL",
+            "FR",
+            "RL",
+            "RR"
+          ],
+          [
+            "FL",
+            "FR",
+            "RL",
+            "RR"
+          ],
+          [
+            "FL",
+            "FR",
+            "RL",
+            "RR"
+          ],
+          [
+            "FL",
+            "FR",
+            "RL",
+            "RR"
+          ],
+          [
+            "FL",
+            "FR",
+            "RL",
+            "RR"
+          ],
+          [
+            "FL",
+            "FR",
+            "RL",
+            "RR"
+          ],
+          [
+            "FL",
+            "FR",
+            "RL",
+            "RR"
+          ],
+          [
+            "FL",
+            "FR",
+            "RL",
+            "RR"
+          ],
+          [
+            "FL",
+            "FR",
+            "RL",
+            "RR"
+          ],
+          [
+            "FL",
+            "FR",
+            "RL",
+            "RR"
+          ],
+          [
+            "FL",
+            "FR",
+            "RL",
+            "RR"
+          ],
+          [
+            "FL",
+            "FR",
+            "RL",
+            "RR"
+          ],
+          [
+            "FL",
+            "FR",
+            "RL",
+            "RR"
+          ],
+          [
+            "FL",
+            "FR",
+            "RL",
+            "RR"
+          ],
+          [
+            "FL",
+            "FR",
+            "RL",
+            "RR"
+          ],
+          [
+            "FL",
+            "FR",
+            "RL",
+            "RR"
+          ],
+          [
+            "FL",
+            "FR",
+            "RL",
+            "RR"
+          ],
+          [
+            "FL",
+            "FR",
+            "RL",
+            "RR"
+          ]
+        ],
+        "acknowledged_commands": 158,
+        "actual_integrations": 6439,
+        "native_sla_attempts": 0,
+        "raw_state_sha256": "5109794740146da9c5e93b3a6101033e5b6d4c05555cce8a55a250c3a3c727b4",
+        "native_trace_sha256": "b9a4f650705ee7f1640e87dbd2bd00e854adcb253b90d58e1d73d660112ee07f"
+      }
+    },
+    "stop_receiver": {
+      "tick": 6439,
+      "sequence": 157,
+      "expiry_s": 12.877
+    },
+    "expected_supervisor_interrupt": true,
+    "installs_after_STOP": 0,
+    "last_install_monotonic_s": 5252470.764192049,
+    "owned_group_survivors": [],
+    "owned_processes_absent": true,
+    "initial_match": {
+      "observed_max": {
+        "qpos_linear_m": 0.0005660238911371161,
+        "qpos_hinge_rad": 0.005543814500195365,
+        "free_quaternions": 0.000971747936562484,
+        "qvel_linear_m_s": 0.00016205890869403983,
+        "qvel_angular_rad_s": 0.03231421205985146,
+        "arm_dq_rad_s": 0.03231421205985146,
+        "arm_pd_gap_rad": 0.0009646541618362203,
+        "gripper_command": 0.0,
+        "old_ee_m": 5.052205216500148e-07,
+        "old_ee_rad": 2.7957056521317034e-07,
+        "old_base_m": 5.179400255837137e-07,
+        "old_base_rad": 2.731427964541825e-07,
+        "measured_ee_m": 0.000490363178704111,
+        "measured_ee_rad": 0.0014060615438515345,
+        "measured_base_m": 0.0004070128918721739,
+        "measured_base_rad": 0.002067605055098412
+      },
+      "violations": {},
+      "matched": true
+    },
+    "trace_writer": {
+      "events": 45594,
+      "written": 45594,
+      "dropped": 0,
+      "stop_latched": true,
+      "sealed_at_explicit_pause": false
+    },
+    "native_state_journal_sha256": "5109794740146da9c5e93b3a6101033e5b6d4c05555cce8a55a250c3a3c727b4",
+    "raw_trace_sha256": "b9a4f650705ee7f1640e87dbd2bd00e854adcb253b90d58e1d73d660112ee07f",
+    "receiver_csv_sha256": "4a8e44c9be5ba6d751fe873cd9a7b406c0b0b2aae5251c22ff265321636fb8c6",
+    "planner_log_sha256": "09a59c1a80a5a5a440f6f1b268efa44ce62de9ce892b9625a40b5f6e54f008e5",
+    "independent_readout_sha256": "5cd01449d52e6049e61f7e0aa3bee1750eed0ddaa78e7d0d796d67eb4ce24bc2"
+  },
+  "new_policy_forwards": 0,
+  "training_updates": 0,
+  "public_tick_ledger_sha256": "3491736f0e2ec78095a8a3227d5b6bd300fe86f7805c3d8ce9ab9e3285700fa6"
+}
