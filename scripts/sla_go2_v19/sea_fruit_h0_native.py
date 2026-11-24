@@ -72,10 +72,15 @@ def fixed_base_install(adapter, action, fixed_base):
 
 
 def verify_fixed_base(events, hold):
-    require(any(len(e["poses"]) == 41 for e in events), "fixed base 50 ms reference not installed")
+    require(events, "fixed base reference not installed")
     for event in events:
         rows = np.array(event["poses"])
-        require(rows.shape in ((41, 14), (80, 14)) and np.isfinite(rows).all()
+        times = np.asarray(event["times"])
+        # The original 41-knot planner interleaves the live clock into its
+        # remaining horizon. The startup and rolled publications can differ in count.
+        require(rows.shape == (len(times), 14) and 41 <= len(times) <= 81 and np.isfinite(rows).all()
+                and times.shape == (len(rows),) and np.isfinite(times).all()
+                and np.all(np.diff(times) > 0) and max(np.diff(times)) <= .05000001
                 and np.allclose(rows[:, 7:10], hold[:3, 3], rtol=0, atol=1e-7)
                 and np.allclose(Rotation.from_quat(rows[:, 10:14]).as_matrix(),
                                 hold[:3, :3], rtol=0, atol=2e-7),

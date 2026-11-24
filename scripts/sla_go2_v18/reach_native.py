@@ -372,6 +372,13 @@ def execute(base, sp, spec, profile, student=None, scorer=None, *, task_driver=N
             r["close_error"] = traceback.format_exc()
         watch.terminate()
         watch.wait(timeout=5)
+        if task_driver is not None and not r.get("sim_child_pid"):
+            try:
+                observed = read(out / "LOADED_EXECUTOR_00.private.json")["sim"]
+                if observed["executable_sha256"] == spec["frozen_files"][spec["native_binary"]]:
+                    r["sim_child_pid"] = observed["pid"]
+            except (OSError, ValueError, KeyError):
+                pass
         r["exits"] = a.exit_records
         r["survivors"] = groups_alive({p.pid for _, p in a.processes})
         r["absent"] = (
