@@ -197,7 +197,10 @@ def audit(case, r, spec):
     from stop_card_evidence import terminal_evidence
 
     out = case / r["episode"]
-    trace_a = audit_trace(out / "init.trace", max_native_ticks=20000)
+    model = mujoco.MjModel.from_binary_path(spec["model_path"])
+    abi = (model.nq, model.nv, model.nu)
+    require(abi == (41, 38, 20), "wrong scene state ABI")
+    trace_a = audit_trace(out / "init.trace", max_native_ticks=20000, state_abi=abi)
     ticks = sum(1 for _ in packets(out / "state.bin.journal"))
     require(
         ticks == trace_a["native_step_records"] <= 20000 and r["absent"],
@@ -267,18 +270,18 @@ def audit(case, r, spec):
         last["tick"] == source and any(x["ref_id"] == last["wire"] for x in installed),
         "no in-flight reference",
     )
-    m = mujoco.MjModel.from_binary_path(spec["model_path"])
-    data = mujoco.MjData(m)
-    poses = []
+    data = mujoco.MjData(model)
+    poses = {}
     for p in packets(out / "state.bin.journal"):
-        if p["step"] >= stop - 25:
+        if p["step"] >= source - 25:
             data.qpos[:] = p["qpos"]
-            mujoco.mj_kinematics(m, data)
-            poses.append(data.site("x5_ee").xpos.copy())
-    actual = float(1000 * np.linalg.norm(poses[-1] - poses[0]))
+            mujoco.mj_kinematics(model, data)
+            poses[p["step"]] = data.site("x5_ee").xpos.copy()
+    actual = float(1000 * np.linalg.norm(poses[source] - poses[source - 25]))
+    terminal_motion = float(1000 * np.linalg.norm(poses[stop] - poses[stop - 25]))
     ref = float(1000 * np.linalg.norm(np.asarray(last["next"]) - last["start"]))
     require(
-        len(poses) == 26 and actual > 0.005 and ref > 0.01,
+        len(poses) == stop - source + 26 and actual > 0.005 and ref > 0.01,
         "no measurable TCP or pending nominal motion",
     )
     return {
@@ -287,6 +290,9 @@ def audit(case, r, spec):
         "terminal": term,
         "source_tick": source,
         "actual_50ms_mm": actual,
+        "terminal_50ms_mm": terminal_motion,
+        "state_abi": list(abi),
+        "trace_writer": trace_a["writer"],
         "next_100ms_reference_mm": ref,
         "after_stop_installs": 0,
     }
@@ -410,6 +416,24 @@ def main(args):
     if args.preflight:
         record(args.preflight, proof)
         return
+    prior = root / "v18/Q_E1_482_d193"
+    prior_case = prior / SLOTS_E1[0]
+    close = read(prior / "PANEL_CLOSE.json")
+    require(
+        close["unstarted"] == list(SLOTS_E1[1:])
+        and len(close["attempts"]) == 1
+        and read(prior_case / "control/LEASE.json")["status"] == "CLOSED"
+        and not any((prior / slot).exists() for slot in SLOTS_E1[1:]),
+        "initial panel not closed with two unused H0 slots",
+    )
+    prior_verdict = audit(
+        prior_case,
+        read(prior_case / "RESULT.private.json"),
+        read(prior_case / "EXECUTION_SPEC.json"),
+    )
+    if args.reaudit_stop:
+        record(args.reaudit_stop, prior_verdict)
+        return
     from d1_matched_owner import with_case_lease
 
     from scripts.pi0292.durable import OwnerLock
@@ -421,7 +445,7 @@ def main(args):
         and allocation["slots"] == list(SLOTS_E1)
         and allocation["max_ticks"] == 60000
         and read(
-            pin(root / "v18/owner-preflight-d193.json", allocation["preflight_sha256"])
+            pin(root / "v18/owner-preflight-h0.json", allocation["preflight_sha256"])
         )
         == proof,
         "allocation or preflight mismatch",
@@ -435,12 +459,19 @@ def main(args):
         and not any(first.glob("*/control/LEASE.json")),
         "existing scientific request or owner",
     )
-    dest = root / "v18/Q_E1_482_d193"
+    require(
+        read(
+            pin(root / "v18/stop-reaudit.json", allocation["closed_stop_audit_sha256"])
+        )
+        == prior_verdict,
+        "STOP regrade differs",
+    )
+    dest = root / "v18/Q_E1_482_H0"
     dest.mkdir(mode=0o700, exist_ok=False)
     record(dest / "REGISTRATION.json", allocation)
-    results = []
+    results = [prior_verdict]
     try:
-        for slot in SLOTS_E1:
+        for slot in SLOTS_E1[1:]:
             profile, base = rows[int(slot.startswith("G01"))]
             os.sched_setaffinity(0, base["cpus"])
             with closing(OwnerLock(Path(base["mobile_world_lock"]))):
@@ -498,4 +529,5 @@ if __name__ == "__main__":
     group = p.add_mutually_exclusive_group(required=True)
     group.add_argument("--execute", type=Path)
     group.add_argument("--preflight", type=Path)
+    group.add_argument("--reaudit-stop", type=Path)
     main(p.parse_args())
