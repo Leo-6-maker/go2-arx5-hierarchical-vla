@@ -1,0 +1,836 @@
+{
+  "issue": 494,
+  "panel": "SEA2-NATIVE-KNOWN-PHYSICAL-01",
+  "order": [
+    "SEA2-HOLD",
+    "SEA2-XYZ",
+    "SEA2-SO3",
+    "SEA2-MIXED"
+  ],
+  "resource_caps": {
+    "native_starts": 4,
+    "ticks_per_start": 20000,
+    "total_ticks": 80000,
+    "contact": false,
+    "real_hardware": false,
+    "model_forwards": 0,
+    "optimizer_updates": 0
+  },
+  "cards": [
+    {
+      "slot": "SEA2-HOLD",
+      "status": "PROFILE_PASS",
+      "native_ticks": 10703,
+      "lease_closed": true,
+      "native_processes_absent": true,
+      "role_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "receiver_terminal_mode": "HOLD",
+      "receiver_terminal_tick": 10703,
+      "seals": {
+        "scientific_audit": "adfed4bddb7a766e84c1ecea064616c845151637fc50a5d34ed526ed57a0742f",
+        "lease": "47b09ca95cc0105a186a1776c1c9d86e82e70c7054542ebc756eec8b0bf36986",
+        "execution": "a90004851ee0c1cd9c5e90c1bc9f5343407462b4b433aae64446a9dc83360d69",
+        "private_receiver_evidence": "e5892c3da7e36e94d7807d392c03f98d293622b7d390d769c53b84d9f1d44edf"
+      },
+      "legacy_driver_outcome": "A_REACH_FAILED",
+      "independently_qualified": true,
+      "evaluations": {
+        "source_samples": 4501,
+        "source_span_s": [
+          0.0,
+          9.0
+        ],
+        "achieved_to_intent": {
+          "count": 4501,
+          "mm_rms_max": [
+            0.8050796131007727,
+            1.050596417568601
+          ],
+          "deg_rms_max": [
+            0.020036426403176794,
+            0.025611748401723103
+          ],
+          "xyz_rms_mm": [
+            0.07344070314826438,
+            0.7988247920871901,
+            0.06810725437451139
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.014898222694263318,
+            0.00680550476059916,
+            0.011540643331960292
+          ],
+          "in_tube": 1.0,
+          "last_mm_deg": [
+            1.0449813731848232,
+            0.02486759788060447
+          ]
+        },
+        "issued_to_intent": {
+          "count": 4501,
+          "mm_rms_max": [
+            27.35634233486708,
+            27.356342334867076
+          ],
+          "deg_rms_max": [
+            2.731202125623557,
+            2.7312021256235584
+          ],
+          "xyz_rms_mm": [
+            12.419396970407055,
+            3.5519729297429135,
+            24.11455023715433
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.41244433676578274,
+            2.6722825109287074,
+            0.3850466229763143
+          ],
+          "in_tube": 0.0,
+          "last_mm_deg": [
+            27.356342334867076,
+            2.7312021256235584
+          ]
+        },
+        "achieved_to_issued": {
+          "count": 4501,
+          "mm_rms_max": [
+            27.35233497694978,
+            27.426085704520077
+          ],
+          "deg_rms_max": [
+            2.721898297807464,
+            2.7448266685958798
+          ],
+          "xyz_rms_mm": [
+            12.487148281062439,
+            2.8150814321450945,
+            24.17222937646468
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.3987823803529006,
+            2.66647481101365,
+            0.37365095872613063
+          ],
+          "in_tube": 0.0,
+          "last_mm_deg": [
+            27.35368194918458,
+            2.7144007202094915
+          ]
+        },
+        "shapes_to_intent": {
+          "xyz": {
+            "x": null,
+            "y": null,
+            "z": null
+          },
+          "rotation_vector": {
+            "x": null,
+            "y": null,
+            "z": null
+          }
+        },
+        "shapes_to_issued": {
+          "xyz": {
+            "x": null,
+            "y": null,
+            "z": null
+          },
+          "rotation_vector": {
+            "x": null,
+            "y": null,
+            "z": null
+          }
+        },
+        "terminal_hold": {
+          "count": 501,
+          "mm_rms_max": [
+            1.0348742888733629,
+            1.050596417568601
+          ],
+          "deg_rms_max": [
+            0.022772498299435097,
+            0.02498950621946864
+          ],
+          "xyz_rms_mm": [
+            0.09341212444882076,
+            1.0252883651987401,
+            0.10498922309076379
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.01909661742604834,
+            0.008568535549823914,
+            0.008971403469487103
+          ],
+          "in_tube": 1.0,
+          "last_mm_deg": [
+            1.0449813731848232,
+            0.02486759788060447
+          ]
+        }
+      },
+      "actual_clearance_mm": 85.69226028398137,
+      "source_motion": null,
+      "independent_motion": {
+        "translation": null,
+        "rotation": null
+      },
+      "selected_MRT_policy_id": null
+    },
+    {
+      "slot": "SEA2-XYZ",
+      "status": "PROFILE_PASS",
+      "native_ticks": 10703,
+      "lease_closed": true,
+      "native_processes_absent": true,
+      "role_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "receiver_terminal_mode": "HOLD",
+      "receiver_terminal_tick": 10703,
+      "seals": {
+        "scientific_audit": "ea09227839816d48bb2e13b55af6832834e5926c4b526b0cb5cf6bc0445c9917",
+        "lease": "ce9f62c81e873823ee30b3c436efff4e784ff6033b389b6f75d75aa435c57cf2",
+        "execution": "0126e1b17222543cffb3d0ec727a8a4e9e21b295cc6d4c8e95908a8b35d2223b",
+        "private_receiver_evidence": "1c86469e1f71768c9de5690315b50af79a981669638761a89a4f4f79b7d98456"
+      },
+      "legacy_driver_outcome": "A_REACH_FAILED",
+      "independently_qualified": true,
+      "evaluations": {
+        "source_samples": 2751,
+        "source_span_s": [
+          0.15,
+          5.65
+        ],
+        "achieved_to_intent": {
+          "count": 2751,
+          "mm_rms_max": [
+            1.3348633939100774,
+            2.7053173672291404
+          ],
+          "deg_rms_max": [
+            0.06838714189901496,
+            0.1418374722935927
+          ],
+          "xyz_rms_mm": [
+            0.7333165092963171,
+            1.049644264738533,
+            0.3772984165035679
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.016133733413285473,
+            0.05498434680111609,
+            0.03732593508700945
+          ],
+          "in_tube": 1.0,
+          "last_mm_deg": [
+            0.7567371556939478,
+            0.011971373330538073
+          ]
+        },
+        "issued_to_intent": {
+          "count": 2751,
+          "mm_rms_max": [
+            27.330855456115955,
+            27.47927893876661
+          ],
+          "deg_rms_max": [
+            2.7265407237805874,
+            2.7265407237805874
+          ],
+          "xyz_rms_mm": [
+            12.416625572767758,
+            3.5557111069967,
+            24.086510495967936
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.4128238985039717,
+            2.6674472899998665,
+            0.3851307600419745
+          ],
+          "in_tube": 0.0,
+          "last_mm_deg": [
+            27.330747143133344,
+            2.7265407237805874
+          ]
+        },
+        "achieved_to_issued": {
+          "count": 2751,
+          "mm_rms_max": [
+            27.355536352285956,
+            28.5137931817266
+          ],
+          "deg_rms_max": [
+            2.7233613226259807,
+            2.859145120772817
+          ],
+          "xyz_rms_mm": [
+            12.465093164907417,
+            3.0259272355981737,
+            24.161758749649888
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.40077816606784983,
+            2.6675948925811612,
+            0.37418076414122825
+          ],
+          "in_tube": 0.0,
+          "last_mm_deg": [
+            27.52050597118282,
+            2.7228005745951496
+          ]
+        },
+        "shapes_to_intent": {
+          "xyz": {
+            "x": {
+              "relative_shape_score": 0.8182087922271277,
+              "signed_gain": 0.6051277434647735
+            },
+            "y": {
+              "relative_shape_score": 0.6084126203446334,
+              "signed_gain": 0.40106620318894975
+            },
+            "z": {
+              "relative_shape_score": 0.8720003977412697,
+              "signed_gain": 0.6738353814079117
+            }
+          },
+          "rotation_vector": {
+            "x": null,
+            "y": null,
+            "z": null
+          }
+        },
+        "shapes_to_issued": {
+          "xyz": {
+            "x": {
+              "relative_shape_score": 0.8123793513791753,
+              "signed_gain": 0.596766261716424
+            },
+            "y": {
+              "relative_shape_score": 0.6025112415635965,
+              "signed_gain": 0.39542413684617117
+            },
+            "z": {
+              "relative_shape_score": 0.8495390061791865,
+              "signed_gain": 0.6369194332004284
+            }
+          },
+          "rotation_vector": {
+            "x": null,
+            "y": null,
+            "z": null
+          }
+        },
+        "terminal_hold": {
+          "count": 501,
+          "mm_rms_max": [
+            1.0642452368889537,
+            1.079764646778528
+          ],
+          "deg_rms_max": [
+            0.02294273562733423,
+            0.02443248182623367
+          ],
+          "xyz_rms_mm": [
+            0.05847676810875931,
+            1.056278007642065,
+            0.11608256718426052
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.02032493935686597,
+            0.004331512501209185,
+            0.009721314605409124
+          ],
+          "in_tube": 1.0,
+          "last_mm_deg": [
+            1.0757936652156623,
+            0.02275526202047115
+          ]
+        }
+      },
+      "actual_clearance_mm": 83.48007961553117,
+      "source_motion": {
+        "start": 6303,
+        "tick": 6803,
+        "consumed": "52850e5ad7221c20e5c76669af69be19fda9a9086d8e677b60cd8edd4b1f023e",
+        "installed_mm": 1.6163294049977142,
+        "actual_projection_mm": 1.1171509075886297,
+        "translation": true,
+        "installed_deg": 0.0,
+        "actual_projection_deg": null,
+        "rotation": false
+      },
+      "independent_motion": {
+        "translation": {
+          "tick": 6803,
+          "installed_mm": 1.6163294049977135,
+          "actual_projection_mm": 1.1171509075886294,
+          "translation": true,
+          "installed_deg": 0.0,
+          "actual_projection_deg": null,
+          "rotation": false
+        },
+        "rotation": null
+      },
+      "selected_MRT_policy_id": null
+    },
+    {
+      "slot": "SEA2-SO3",
+      "status": "PROFILE_PASS",
+      "native_ticks": 10703,
+      "lease_closed": true,
+      "native_processes_absent": true,
+      "role_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "receiver_terminal_mode": "HOLD",
+      "receiver_terminal_tick": 10703,
+      "seals": {
+        "scientific_audit": "2844e284caf41c8446d5b8826c0eca37a2a184f111dfb0f27286341942bad2a0",
+        "lease": "c676f381af4e2263490de0638b9c525cfb3866c78c7b3b4d7957ab709e618b04",
+        "execution": "9e179901f158440c5e420151edd51e9f3332f4c7971b51bde25201670cad34ce",
+        "private_receiver_evidence": "51e2b8db2dc79e1abc71b7144d686cd4664f5baadb04b715b7a3d795026f23e3"
+      },
+      "legacy_driver_outcome": "A_REACH_FAILED",
+      "independently_qualified": true,
+      "evaluations": {
+        "source_samples": 3526,
+        "source_span_s": [
+          0.15,
+          7.2
+        ],
+        "achieved_to_intent": {
+          "count": 3526,
+          "mm_rms_max": [
+            1.098857308668324,
+            1.8014126364911935
+          ],
+          "deg_rms_max": [
+            0.1264798800936605,
+            0.2650774992047115
+          ],
+          "xyz_rms_mm": [
+            0.22049421823533302,
+            0.9792118918306284,
+            0.4472289742805843
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.05433104510457844,
+            0.08748200873697633,
+            0.07343157191354825
+          ],
+          "in_tube": 1.0,
+          "last_mm_deg": [
+            1.171948544027783,
+            0.028953659467438043
+          ]
+        },
+        "issued_to_intent": {
+          "count": 3526,
+          "mm_rms_max": [
+            27.3268985017509,
+            27.3268985017509
+          ],
+          "deg_rms_max": [
+            2.724666189265909,
+            2.773135233411873
+          ],
+          "xyz_rms_mm": [
+            12.42893714863634,
+            3.5524316245000525,
+            24.076152778911016
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.4133944834187357,
+            2.665443316198616,
+            0.38512695587286727
+          ],
+          "in_tube": 0.0,
+          "last_mm_deg": [
+            27.3268985017509,
+            2.7245709823792237
+          ]
+        },
+        "achieved_to_issued": {
+          "count": 3526,
+          "mm_rms_max": [
+            27.362889574158228,
+            28.356639050926674
+          ],
+          "deg_rms_max": [
+            2.7257704713693798,
+            2.8940164162232382
+          ],
+          "xyz_rms_mm": [
+            12.494245038986545,
+            2.9521061491141594,
+            24.164160155852706
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.4030977277876888,
+            2.6691817553780015,
+            0.3778963365777302
+          ],
+          "in_tube": 0.0,
+          "last_mm_deg": [
+            27.30448996070573,
+            2.7166876034358847
+          ]
+        },
+        "shapes_to_intent": {
+          "xyz": {
+            "x": null,
+            "y": null,
+            "z": null
+          },
+          "rotation_vector": {
+            "x": {
+              "relative_shape_score": 0.9882980946448893,
+              "signed_gain": 1.034293125343842
+            },
+            "y": {
+              "relative_shape_score": 0.9231849644867358,
+              "signed_gain": 0.7992341085490433
+            },
+            "z": {
+              "relative_shape_score": 0.9621576375483549,
+              "signed_gain": 0.8263699943572129
+            }
+          }
+        },
+        "shapes_to_issued": {
+          "xyz": {
+            "x": null,
+            "y": null,
+            "z": null
+          },
+          "rotation_vector": {
+            "x": {
+              "relative_shape_score": 0.9894062013926707,
+              "signed_gain": 1.0197640044325522
+            },
+            "y": {
+              "relative_shape_score": 0.9082898344642231,
+              "signed_gain": 0.7565340390608462
+            },
+            "z": {
+              "relative_shape_score": 0.9582160039367364,
+              "signed_gain": 0.8147567379422996
+            }
+          }
+        },
+        "terminal_hold": {
+          "count": 501,
+          "mm_rms_max": [
+            1.0723846156397288,
+            1.087465204195491
+          ],
+          "deg_rms_max": [
+            0.022435468606471526,
+            0.025039798020990073
+          ],
+          "xyz_rms_mm": [
+            0.0735522182172819,
+            1.057501483894575,
+            0.16214020666342463
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.019544780857132567,
+            0.004285744170520898,
+            0.01014811261976728
+          ],
+          "in_tube": 1.0,
+          "last_mm_deg": [
+            1.063595295136917,
+            0.020725369443610697
+          ]
+        }
+      },
+      "actual_clearance_mm": 69.18026779782426,
+      "source_motion": {
+        "start": 6303,
+        "tick": 6828,
+        "consumed": "7d5f6db193310a601ab527d155d9be9542031505ed084324cdd330d8fac3bb34",
+        "installed_mm": 0.0,
+        "actual_projection_mm": null,
+        "translation": false,
+        "installed_deg": 0.2737294723366766,
+        "actual_projection_deg": 0.3044192624170808,
+        "rotation": true
+      },
+      "independent_motion": {
+        "translation": null,
+        "rotation": {
+          "tick": 6828,
+          "installed_mm": 0.0,
+          "actual_projection_mm": null,
+          "translation": false,
+          "installed_deg": 0.2737294723366766,
+          "actual_projection_deg": 0.3044192624170808,
+          "rotation": true
+        }
+      },
+      "selected_MRT_policy_id": null
+    },
+    {
+      "slot": "SEA2-MIXED",
+      "status": "PROFILE_PASS",
+      "native_ticks": 10703,
+      "lease_closed": true,
+      "native_processes_absent": true,
+      "role_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "receiver_terminal_mode": "HOLD",
+      "receiver_terminal_tick": 10703,
+      "seals": {
+        "scientific_audit": "c1a09195f8708eea3a8c684a4c303a34bc3f55f7b7ae3a2d0866e7dfb0a146ae",
+        "lease": "7d2f0f80f091ed64ea224b5b90d0bff8b0669531ba22a9ce53459a0800a7a6e0",
+        "execution": "b140f7ffc2bc488c30cd625f1b8ff7cf60cd33bf5c3ed5f9d90e513d85fe8d13",
+        "private_receiver_evidence": "cf14ad4cda7eb8e8f9bd2ae8a212d658493b85c72a461b21a51614d889591492"
+      },
+      "legacy_driver_outcome": "A_REACH_FAILED",
+      "independently_qualified": true,
+      "evaluations": {
+        "source_samples": 2576,
+        "source_span_s": [
+          0.15,
+          5.3
+        ],
+        "achieved_to_intent": {
+          "count": 2576,
+          "mm_rms_max": [
+            1.0471045510045707,
+            1.5892492632226756
+          ],
+          "deg_rms_max": [
+            0.13570133006649868,
+            0.3189780083854483
+          ],
+          "xyz_rms_mm": [
+            0.556713463282307,
+            0.6417887498639911,
+            0.6120500478577866
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.05640508702857178,
+            0.11364201847018476,
+            0.048154011018172814
+          ],
+          "in_tube": 1.0,
+          "last_mm_deg": [
+            0.8853482150478206,
+            0.019883474980990495
+          ]
+        },
+        "issued_to_intent": {
+          "count": 2576,
+          "mm_rms_max": [
+            27.340484259064585,
+            27.447456416660888
+          ],
+          "deg_rms_max": [
+            2.727457116322234,
+            2.7621715400243394
+          ],
+          "xyz_rms_mm": [
+            12.42547410389543,
+            3.5518839766691213,
+            24.09343879627531
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.41299193760838687,
+            2.668364183452572,
+            0.38508773716485895
+          ],
+          "in_tube": 0.0,
+          "last_mm_deg": [
+            27.34042890820595,
+            2.727408341946023
+          ]
+        },
+        "achieved_to_issued": {
+          "count": 2576,
+          "mm_rms_max": [
+            27.347731658181125,
+            28.54180806763609
+          ],
+          "deg_rms_max": [
+            2.7255687290541744,
+            2.970335131958358
+          ],
+          "xyz_rms_mm": [
+            12.483160622941439,
+            2.9590579725108417,
+            24.151875778602502
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.40539252958935,
+            2.6689876882108168,
+            0.37534852328230467
+          ],
+          "in_tube": 0.0,
+          "last_mm_deg": [
+            27.423149799280026,
+            2.722814797326117
+          ]
+        },
+        "shapes_to_intent": {
+          "xyz": {
+            "x": {
+              "relative_shape_score": 0.7872856526367713,
+              "signed_gain": 0.5627612082858483
+            },
+            "y": {
+              "relative_shape_score": 0.9402896304540799,
+              "signed_gain": 0.9852357458935553
+            },
+            "z": {
+              "relative_shape_score": 0.33451315693845585,
+              "signed_gain": 0.20925356875453527
+            }
+          },
+          "rotation_vector": {
+            "x": {
+              "relative_shape_score": 0.974306543865665,
+              "signed_gain": 1.0172045571720187
+            },
+            "y": {
+              "relative_shape_score": 0.7558409713323206,
+              "signed_gain": 0.5956226904237256
+            },
+            "z": {
+              "relative_shape_score": 0.9733148393204377,
+              "signed_gain": 0.8936621692208535
+            }
+          }
+        },
+        "shapes_to_issued": {
+          "xyz": {
+            "x": {
+              "relative_shape_score": 0.7810755297239578,
+              "signed_gain": 0.5549814508071417
+            },
+            "y": {
+              "relative_shape_score": 0.9409905596677086,
+              "signed_gain": 0.9713482932692774
+            },
+            "z": {
+              "relative_shape_score": 0.3226126896791517,
+              "signed_gain": 0.19878906930354523
+            }
+          },
+          "rotation_vector": {
+            "x": {
+              "relative_shape_score": 0.9753230951560505,
+              "signed_gain": 1.0032030772156304
+            },
+            "y": {
+              "relative_shape_score": 0.7377360238945789,
+              "signed_gain": 0.5642637699365468
+            },
+            "z": {
+              "relative_shape_score": 0.9709958266822036,
+              "signed_gain": 0.8813610499120109
+            }
+          }
+        },
+        "terminal_hold": {
+          "count": 501,
+          "mm_rms_max": [
+            1.048232196629397,
+            1.0589237471901745
+          ],
+          "deg_rms_max": [
+            0.02240102765558196,
+            0.024284098585141245
+          ],
+          "xyz_rms_mm": [
+            0.08226880617147794,
+            1.0387021198386002,
+            0.11454469793233531
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.01946912224727895,
+            0.005862594746943763,
+            0.009401558476112527
+          ],
+          "in_tube": 1.0,
+          "last_mm_deg": [
+            1.0585488542194514,
+            0.021839467193181396
+          ]
+        }
+      },
+      "actual_clearance_mm": 68.59969400794475,
+      "source_motion": {
+        "start": 6303,
+        "tick": 6728,
+        "consumed": "6d108e2d1fb4c2f1bbec48ed4906d0c185276a14aeda6ac231e7e0ef310d8b5b",
+        "installed_mm": 0.9228235559024385,
+        "actual_projection_mm": 0.5231679635184407,
+        "translation": false,
+        "installed_deg": 0.27123381232744853,
+        "actual_projection_deg": 0.2817488746414468,
+        "rotation": true
+      },
+      "independent_motion": {
+        "translation": {
+          "tick": 6878,
+          "installed_mm": 1.7804062494235506,
+          "actual_projection_mm": 1.070006492916983,
+          "translation": true,
+          "installed_deg": 0.5372873446381283,
+          "actual_projection_deg": 0.47715725166692347,
+          "rotation": true
+        },
+        "rotation": {
+          "tick": 6728,
+          "installed_mm": 0.9228235559024385,
+          "actual_projection_mm": 0.5231679635184407,
+          "translation": false,
+          "installed_deg": 0.27123381232744853,
+          "actual_projection_deg": 0.2817488746414468,
+          "rotation": true
+        }
+      },
+      "selected_MRT_policy_id": null
+    }
+  ],
+  "native_requests": 4,
+  "unstarted": [],
+  "unresolved_requested": [],
+  "native_ticks": 42812,
+  "model_forwards": 0,
+  "training_updates": 0,
+  "evidence": {
+    "registration_sha256": "4db8be41b7afe80f4e0691608760f8d3010c6c195f44570c3b8e9b092ca1ef47",
+    "allocation_sha256": "e361e23e767376b7702b70ff949d59a152461091a10a52db8997d2678e9b1b8f",
+    "original_owner_cold_sha256": "90e51eae8a913cf27409a0387527699dfab52cf84f8f75873fd8561dadaafcb4",
+    "panel_close_sha256": "c873bc5b9513d8559acf3db97d60cc42b64bf4eda6de9657358db018782a16a1"
+  },
+  "qualified_cards": [
+    "SEA2-HOLD",
+    "SEA2-XYZ",
+    "SEA2-SO3",
+    "SEA2-MIXED"
+  ],
+  "owner_reuse_policy": "FRESH_EXCLUSIVE_LEASE_PER_NATIVE_CARD",
+  "pre_start_environment_issue": "Launcher re-exec omitted the system SciPy module path; zero native starts before the environment fix",
+  "environment_bootstrap": "Existing owner with registered Python/native environment and system SciPy on its module path"
+}
