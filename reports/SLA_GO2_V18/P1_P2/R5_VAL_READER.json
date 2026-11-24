@@ -1,0 +1,83 @@
+{
+  "scope": "LEGACY_VAL_READER_COMPATIBILITY",
+  "sample_accounting": {
+    "compatibility_episodes": [
+      "CHV1-VAL-F1-PLACE-red-right-00"
+    ],
+    "started": [],
+    "missing_admission": [],
+    "unstarted": []
+  },
+  "examples": [
+    {
+      "slot": "CHV1-VAL-F1-PLACE-red-right-00",
+      "terminal_sha256": "147b7d2aa3f5e7f5bb784e0a55eb36bd844b1af3814fb08986f6460ab1542752",
+      "admission_sha256": "0c84358b9e9a35668323afb54e844ea7b52d2b2ed72647fdff4026a167b67482",
+      "original_scene_sha256": "35bf64daebd9e71a94952babde45f9ed23c1d2dccafe037fd511320313b9ab82",
+      "historical_pixels": 17,
+      "queries": 124,
+      "historical_extra_stereo": 17,
+      "existing_calls_verified": 0,
+      "phases": {
+        "PREGRASP": 30,
+        "DESCEND": 25,
+        "CLOSE": 3,
+        "LIFT": 9,
+        "CARRY": 28,
+        "LOWER": 15,
+        "OPEN": 4,
+        "WITHDRAW": 10
+      },
+      "events": {
+        "in_support": 5,
+        "after_support": 0
+      },
+      "max_gripper_event_delay_s": 0.016666666666666663,
+      "confirmed_native_intervals": 1240,
+      "teacher_pass": true,
+      "nominal_to_installed_mm_p50_p95_max": [
+        11.47124314421598,
+        25.622487315882054,
+        27.791818153889118
+      ],
+      "artifacts": {
+        "episode.json": "480577e8e9a0271b9532ac748d13c2e5a7a1bea8ffe0cc4584dcdb55c4233580",
+        "native_audit.jsonl": "949b32da80b02a6a564890a20865cedc73a2a4d93bde1e7c77828084f6344b61",
+        "sensor_action.npz": "dd78782eb32fa1964f8d8b78c1fc796779554d5c61a636cf916ff07dbd57e536",
+        "task_audit.npz": "ce0a526cd75f17796fb441c239d190e75ee6a86d545f89ef27a5efb3f24e3e70"
+      },
+      "official_rows": 124,
+      "right_axis_below_q01": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "right_axis_above_q99": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3348
+      ],
+      "at_nominal_full_open": 3312,
+      "windows_any_outside": 69,
+      "max_round_trip_mm_deg_width_mm": [
+        8.81070422407092e-06,
+        8.075424752522724e-07,
+        4.440892098500626e-15
+      ]
+    }
+  ],
+  "training_authorized": false,
+  "independent_VAL_episodes": 0,
+  "physics_ticks": 0,
+  "optimizer_updates": 0,
+  "model_forwards": 0,
+  "TEST_episodes": 0
+}

@@ -1,0 +1,1727 @@
+{
+  "scope": "ARCHIVED_TRAIN_REPLAY",
+  "evaluation_minutes_simulated": 0,
+  "P10_command_times_s": [
+    0.0,
+    0.05,
+    0.1,
+    0.15,
+    0.2,
+    0.25,
+    0.3,
+    0.35,
+    0.4,
+    0.45
+  ],
+  "source_support_s": [
+    0.0,
+    1.6333333333333333
+  ],
+  "teacher_and_common_width_m": [
+    0.0,
+    0.044
+  ],
+  "original_A_width_m": [
+    0.002,
+    0.042
+  ],
+  "release_metric_original_teacher_controls": [
+    {
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-01",
+      "tick": 33953,
+      "missed_by_hold": {
+        "open": 1
+      }
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-07",
+      "tick": 33953,
+      "missed_by_hold": {
+        "open": 1
+      }
+    }
+  ],
+  "total": {
+    "episodes": 6,
+    "windows": 16,
+    "P10_episode_macro_mean": {
+      "position_mm": {
+        "A_original_codec": 1.7711694077614786,
+        "A_common_codec": 1.7711694077614786,
+        "hold": 1.509843078467009
+      },
+      "orientation_deg": {
+        "A_original_codec": 0.14667685781637604,
+        "A_common_codec": 0.14667685781637604,
+        "hold": 0.07359406594050161
+      },
+      "gripper_width_mm": {
+        "A_original_codec": 13.442891243217169,
+        "A_common_codec": 13.03528092321051,
+        "hold": 3.958195440481878
+      }
+    },
+    "P10_nontrivial_direction_windows": 14,
+    "P10_negative_direction_windows": 9,
+    "P10_teacher_event_windows": 2,
+    "P10_event_order_matches": {
+      "A_original_codec": 14,
+      "A_common_codec": 14,
+      "hold": 14
+    }
+  },
+  "phases": {
+    "CARRY": {
+      "episodes": 1,
+      "windows": 1,
+      "P10_episode_macro_mean": {
+        "position_mm": {
+          "A_original_codec": 1.6686888111694032,
+          "A_common_codec": 1.6686888111694032,
+          "hold": 1.6183145344513936
+        },
+        "orientation_deg": {
+          "A_original_codec": 0.11726186653435659,
+          "A_common_codec": 0.11726186653435659,
+          "hold": 0.06328378228217799
+        },
+        "gripper_width_mm": {
+          "A_original_codec": 19.176226817313083,
+          "A_common_codec": 18.893851318925805,
+          "hold": 2.0
+        }
+      },
+      "P10_nontrivial_direction_windows": 1,
+      "P10_negative_direction_windows": 0,
+      "P10_teacher_event_windows": 0,
+      "P10_event_order_matches": {
+        "A_original_codec": 1,
+        "A_common_codec": 1,
+        "hold": 1
+      }
+    },
+    "CLOSE": {
+      "episodes": 2,
+      "windows": 5,
+      "P10_episode_macro_mean": {
+        "position_mm": {
+          "A_original_codec": 1.2546494364955287,
+          "A_common_codec": 1.2546494364955287,
+          "hold": 0.68036093410597
+        },
+        "orientation_deg": {
+          "A_original_codec": 0.1816694338920892,
+          "A_common_codec": 0.1816694338920892,
+          "hold": 0.04798824585707592
+        },
+        "gripper_width_mm": {
+          "A_original_codec": 8.249050355799932,
+          "A_common_codec": 8.513173529881406,
+          "hold": 8.536203157347183
+        }
+      },
+      "P10_nontrivial_direction_windows": 3,
+      "P10_negative_direction_windows": 1,
+      "P10_teacher_event_windows": 2,
+      "P10_event_order_matches": {
+        "A_original_codec": 3,
+        "A_common_codec": 3,
+        "hold": 3
+      }
+    },
+    "DESCEND": {
+      "episodes": 1,
+      "windows": 3,
+      "P10_episode_macro_mean": {
+        "position_mm": {
+          "A_original_codec": 2.299108660995748,
+          "A_common_codec": 2.299108660995748,
+          "hold": 1.9138297716227715
+        },
+        "orientation_deg": {
+          "A_original_codec": 0.11587595114119047,
+          "A_common_codec": 0.11587595114119047,
+          "hold": 0.14724196284889798
+        },
+        "gripper_width_mm": {
+          "A_original_codec": 4.338747043383048,
+          "A_common_codec": 2.573054525557111,
+          "hold": 2.0000000000000018
+        }
+      },
+      "P10_nontrivial_direction_windows": 3,
+      "P10_negative_direction_windows": 3,
+      "P10_teacher_event_windows": 0,
+      "P10_event_order_matches": {
+        "A_original_codec": 3,
+        "A_common_codec": 3,
+        "hold": 3
+      }
+    },
+    "HOLD": {
+      "episodes": 1,
+      "windows": 1,
+      "P10_episode_macro_mean": {
+        "position_mm": {
+          "A_original_codec": 1.9142790321780592,
+          "A_common_codec": 1.9142790321780592,
+          "hold": 1.955283551013086
+        },
+        "orientation_deg": {
+          "A_original_codec": 0.1683309096820747,
+          "A_common_codec": 0.1683309096820747,
+          "hold": 0.05990747043057244
+        },
+        "gripper_width_mm": {
+          "A_original_codec": 18.851001296799687,
+          "A_common_codec": 18.53611921999988,
+          "hold": 2.0
+        }
+      },
+      "P10_nontrivial_direction_windows": 1,
+      "P10_negative_direction_windows": 1,
+      "P10_teacher_event_windows": 0,
+      "P10_event_order_matches": {
+        "A_original_codec": 1,
+        "A_common_codec": 1,
+        "hold": 1
+      }
+    },
+    "LIFT": {
+      "episodes": 4,
+      "windows": 6,
+      "P10_episode_macro_mean": {
+        "position_mm": {
+          "A_original_codec": 1.7621627139988394,
+          "A_common_codec": 1.7621627139988394,
+          "hold": 1.6983138599217182
+        },
+        "orientation_deg": {
+          "A_original_codec": 0.13778724683642363,
+          "A_common_codec": 0.13778724683642363,
+          "hold": 0.05682502017735791
+        },
+        "gripper_width_mm": {
+          "A_original_codec": 18.652717833456155,
+          "A_common_codec": 18.353744372197415,
+          "hold": 2.9931840288841665
+        }
+      },
+      "P10_nontrivial_direction_windows": 6,
+      "P10_negative_direction_windows": 4,
+      "P10_teacher_event_windows": 0,
+      "P10_event_order_matches": {
+        "A_original_codec": 6,
+        "A_common_codec": 6,
+        "hold": 6
+      }
+    }
+  },
+  "windows": [
+    {
+      "id": "T01",
+      "episode": "CHV1-TRAIN-F2-HOLD-blue-00",
+      "phase": "DESCEND",
+      "tick": 19953,
+      "raw_sha256": "8c51d2588b7b15e0a47cb75662a5fd282a9846f5cde7e19e9eaae20bd1f9b032",
+      "A_original_codec": {
+        "P10_command_instants": {
+          "position_mm": 2.1906828452614726,
+          "orientation_deg": 0.12794181097636717,
+          "gripper_width_mm": 4.330166436518228
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 9.026576572508198,
+          "orientation_deg": 1.2766943877121881,
+          "gripper_width_mm": 4.555724996442945,
+          "first_15_position_mm": 2.285770460773858
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 2.9557894998922363,
+          "signed_mm": -0.20900769920882656,
+          "lateral_mm": 1.0722565801268076,
+          "cosine": -0.19132244453134364
+        },
+        "P10_nominal_width_max_slew_mm_s": 44.30446624755849
+      },
+      "A_common_codec": {
+        "P10_command_instants": {
+          "position_mm": 2.1906828452614726,
+          "orientation_deg": 0.12794181097636717,
+          "gripper_width_mm": 2.5635368919219013
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 9.026576572508198,
+          "orientation_deg": 1.2766943877121881,
+          "gripper_width_mm": 2.8161041417572643,
+          "first_15_position_mm": 2.285770460773858
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 2.9557894998922363,
+          "signed_mm": -0.20900769920882656,
+          "lateral_mm": 1.0722565801268076,
+          "cosine": -0.19132244453134364
+        },
+        "P10_nominal_width_max_slew_mm_s": 8.73491287231437
+      },
+      "hold": {
+        "P10_command_instants": {
+          "position_mm": 1.8006638305273872,
+          "orientation_deg": 0.10029899262150768,
+          "gripper_width_mm": 2.0000000000000018
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 3.690529399302379,
+          "orientation_deg": 0.19072633123145594,
+          "gripper_width_mm": 2.0000000000000018,
+          "first_15_position_mm": 1.8448528726555415
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 2.9557894998922363,
+          "signed_mm": 0.0,
+          "lateral_mm": 0.0,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 0.0
+      }
+    },
+    {
+      "id": "T02",
+      "episode": "CHV1-TRAIN-F1-HOLD-red-03",
+      "phase": "CLOSE",
+      "tick": 19453,
+      "raw_sha256": "ddb8b19be4efb02bfac1544b44a48cb0e2d96134d1ecac0bae2c1fa9fada04ad",
+      "A_original_codec": {
+        "P10_command_instants": {
+          "position_mm": 0.7082594083720651,
+          "orientation_deg": 0.13178883422697937,
+          "gripper_width_mm": 11.508110717236097
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 3.4031197797684927,
+          "orientation_deg": 0.5762648190768668,
+          "gripper_width_mm": 24.255236954549844,
+          "first_15_position_mm": 0.8120924570891087
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 0.4200644362460996,
+          "signed_mm": null,
+          "lateral_mm": null,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 4.163087036132828
+      },
+      "A_common_codec": {
+        "P10_command_instants": {
+          "position_mm": 0.7082594083720651,
+          "orientation_deg": 0.13178883422697937,
+          "gripper_width_mm": 11.654041283146636
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 3.4031197797684927,
+          "orientation_deg": 0.5762648190768668,
+          "gripper_width_mm": 24.859379547626073,
+          "first_15_position_mm": 0.8120924570891087
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 0.4200644362460996,
+          "signed_mm": null,
+          "lateral_mm": null,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 1.141095161437955
+      },
+      "hold": {
+        "P10_command_instants": {
+          "position_mm": 0.23574556145205738,
+          "orientation_deg": 0.060208506613509696,
+          "gripper_width_mm": 11.719032591659568
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 0.670048758462395,
+          "orientation_deg": 0.09727492496946613,
+          "gripper_width_mm": 20.428971639483397,
+          "first_15_position_mm": 0.24312004984781396
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 0.4200644362460996,
+          "signed_mm": null,
+          "lateral_mm": null,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 0.0
+      }
+    },
+    {
+      "id": "T03",
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-07",
+      "phase": "LIFT",
+      "tick": 19953,
+      "raw_sha256": "cc9b4c243f1b6ecd47892c71af7c4af7f3f11ba2668332d6d6de651e9ef09373",
+      "A_original_codec": {
+        "P10_command_instants": {
+          "position_mm": 0.7440310979465028,
+          "orientation_deg": 0.12285555538977772,
+          "gripper_width_mm": 17.683452502899208
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 3.868844205770351,
+          "orientation_deg": 0.6058246600274928,
+          "gripper_width_mm": 20.85806935468338,
+          "first_15_position_mm": 0.8088952047140987
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 1.5191269677833121,
+          "signed_mm": 0.42835239718020574,
+          "lateral_mm": 0.5929627854304148,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 238.64784951019277
+      },
+      "A_common_codec": {
+        "P10_command_instants": {
+          "position_mm": 0.7440310979465028,
+          "orientation_deg": 0.12285555538977772,
+          "gripper_width_mm": 17.394788413952757
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 3.868844205770351,
+          "orientation_deg": 0.6058246600274928,
+          "gripper_width_mm": 20.828111616400708,
+          "first_15_position_mm": 0.8088952047140987
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 1.5191269677833121,
+          "signed_mm": 0.42835239718020574,
+          "lateral_mm": 0.5929627854304148,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 233.04209227371203
+      },
+      "hold": {
+        "P10_command_instants": {
+          "position_mm": 0.7905294147688965,
+          "orientation_deg": 0.012143236326927034,
+          "gripper_width_mm": 5.972736115536667
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 5.304737361219433,
+          "orientation_deg": 0.0916566019852524,
+          "gripper_width_mm": 6.88492824708154,
+          "first_15_position_mm": 0.8222805550557656
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 1.5191269677833121,
+          "signed_mm": 0.0,
+          "lateral_mm": 0.0,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 0.0
+      }
+    },
+    {
+      "id": "T04",
+      "episode": "CHV1-TRAIN-F1-HOLD-red-02",
+      "phase": "LIFT",
+      "tick": 21953,
+      "raw_sha256": "220f879fe33466e0ab63406993db747d4c8868efa491d2f3229dcdd2c1f77b26",
+      "A_original_codec": {
+        "P10_command_instants": {
+          "position_mm": 2.0562265334564516,
+          "orientation_deg": 0.13616074010512325,
+          "gripper_width_mm": 19.0574425610247
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 4.645279619332072,
+          "orientation_deg": 0.39538576430736333,
+          "gripper_width_mm": 24.047741039256348,
+          "first_15_position_mm": 2.1074738095844854
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 3.3688061467521617,
+          "signed_mm": -0.01722748353147045,
+          "lateral_mm": 0.7567284076453756,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 342.1595335006714
+      },
+      "A_common_codec": {
+        "P10_command_instants": {
+          "position_mm": 2.0562265334564516,
+          "orientation_deg": 0.13616074010512325,
+          "gripper_width_mm": 18.763189463601655
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 4.645279619332072,
+          "orientation_deg": 0.39538576430736333,
+          "gripper_width_mm": 24.36018545858735,
+          "first_15_position_mm": 2.1074738095844854
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 3.3688061467521617,
+          "signed_mm": -0.01722748353147045,
+          "lateral_mm": 0.7567284076453756,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 336.3754868507384
+      },
+      "hold": {
+        "P10_command_instants": {
+          "position_mm": 1.998810208990041,
+          "orientation_deg": 0.06104169496648664,
+          "gripper_width_mm": 2.0
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 5.986151550171243,
+          "orientation_deg": 0.19100608380132209,
+          "gripper_width_mm": 2.0,
+          "first_15_position_mm": 2.053220740511401
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 3.3688061467521617,
+          "signed_mm": 0.0,
+          "lateral_mm": 0.0,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 0.0
+      }
+    },
+    {
+      "id": "T05",
+      "episode": "CHV1-TRAIN-F1-HOLD-red-05",
+      "phase": "HOLD",
+      "tick": 22703,
+      "raw_sha256": "482871dcd34988714912d82ce6b6f0511dae4ba9cb4432468b0a4961c4addb49",
+      "A_original_codec": {
+        "P10_command_instants": {
+          "position_mm": 1.9142790321780592,
+          "orientation_deg": 0.1683309096820747,
+          "gripper_width_mm": 18.851001296799687
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 3.496164825030252,
+          "orientation_deg": 0.45864803479720484,
+          "gripper_width_mm": 18.724547490747074,
+          "first_15_position_mm": 1.9618041752978719
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 3.226746718306225,
+          "signed_mm": -0.0016650618608184341,
+          "lateral_mm": 0.2830451206152949,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 340.2828216552733
+      },
+      "A_common_codec": {
+        "P10_command_instants": {
+          "position_mm": 1.9142790321780592,
+          "orientation_deg": 0.1683309096820747,
+          "gripper_width_mm": 18.53611921999988
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 3.496164825030252,
+          "orientation_deg": 0.45864803479720484,
+          "gripper_width_mm": 18.397089133315596,
+          "first_15_position_mm": 1.9618041752978719
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 3.226746718306225,
+          "signed_mm": -0.0016650618608184341,
+          "lateral_mm": 0.2830451206152949,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 334.3111038208008
+      },
+      "hold": {
+        "P10_command_instants": {
+          "position_mm": 1.955283551013086,
+          "orientation_deg": 0.05990747043057244,
+          "gripper_width_mm": 2.0
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 4.099951944322268,
+          "orientation_deg": 0.17464064841070515,
+          "gripper_width_mm": 2.0,
+          "first_15_position_mm": 2.0040635057088916
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 3.226746718306225,
+          "signed_mm": 0.0,
+          "lateral_mm": 0.0,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 0.0
+      }
+    },
+    {
+      "id": "T06",
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-01",
+      "phase": "CARRY",
+      "tick": 22203,
+      "raw_sha256": "f00e119c0545028931d57175ee7be556702762450621f703e5f5ab9bf3ce7780",
+      "A_original_codec": {
+        "P10_command_instants": {
+          "position_mm": 1.6686888111694032,
+          "orientation_deg": 0.11726186653435659,
+          "gripper_width_mm": 19.176226817313083
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 4.6829199810878315,
+          "orientation_deg": 0.3753602645029632,
+          "gripper_width_mm": 23.185035969112775,
+          "first_15_position_mm": 1.72818707658792
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 2.6113985449827775,
+          "signed_mm": 0.1166877899648671,
+          "lateral_mm": 0.5712911154101813,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 343.8485860824585
+      },
+      "A_common_codec": {
+        "P10_command_instants": {
+          "position_mm": 1.6686888111694032,
+          "orientation_deg": 0.11726186653435659,
+          "gripper_width_mm": 18.893851318925805
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 4.6829199810878315,
+          "orientation_deg": 0.3753602645029632,
+          "gripper_width_mm": 23.37977063605875,
+          "first_15_position_mm": 1.72818707658792
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 2.6113985449827775,
+          "signed_mm": 0.1166877899648671,
+          "lateral_mm": 0.5712911154101813,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 338.23344469070423
+      },
+      "hold": {
+        "P10_command_instants": {
+          "position_mm": 1.6183145344513936,
+          "orientation_deg": 0.06328378228217799,
+          "gripper_width_mm": 2.0
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 5.917716101990438,
+          "orientation_deg": 0.18795182838946287,
+          "gripper_width_mm": 2.0,
+          "first_15_position_mm": 1.6573035751538447
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 2.6113985449827775,
+          "signed_mm": 0.0,
+          "lateral_mm": 0.0,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 0.0
+      }
+    },
+    {
+      "id": "T07",
+      "episode": "CHV1-TRAIN-F2-HOLD-blue-00",
+      "phase": "DESCEND",
+      "tick": 19703,
+      "raw_sha256": "83fec11677b5069775bfd53582029866fa9d9f03ae2edb774e1039a8009f06b0",
+      "A_original_codec": {
+        "P10_command_instants": {
+          "position_mm": 2.3948220901635024,
+          "orientation_deg": 0.09797571862352292,
+          "gripper_width_mm": 4.380228332951072
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 10.434612754423386,
+          "orientation_deg": 1.3658938955074156,
+          "gripper_width_mm": 4.629356544599528,
+          "first_15_position_mm": 2.507682699425428
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 3.3566226563998645,
+          "signed_mm": -0.3865751512382965,
+          "lateral_mm": 0.9104822148086648,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 44.30446624755849
+      },
+      "A_common_codec": {
+        "P10_command_instants": {
+          "position_mm": 2.3948220901635024,
+          "orientation_deg": 0.09797571862352292,
+          "gripper_width_mm": 2.6188203571855095
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 10.434612754423386,
+          "orientation_deg": 1.3658938955074156,
+          "gripper_width_mm": 2.898291370304735,
+          "first_15_position_mm": 2.507682699425428
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 3.3566226563998645,
+          "signed_mm": -0.3865751512382965,
+          "lateral_mm": 0.9104822148086648,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 8.73491287231437
+      },
+      "hold": {
+        "P10_command_instants": {
+          "position_mm": 1.9917841357313502,
+          "orientation_deg": 0.16619722612006385,
+          "gripper_width_mm": 2.0000000000000018
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 5.077895167044178,
+          "orientation_deg": 0.344616681848395,
+          "gripper_width_mm": 2.0000000000000018,
+          "first_15_position_mm": 2.0456372166888506
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 3.3566226563998645,
+          "signed_mm": 0.0,
+          "lateral_mm": 0.0,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 0.0
+      }
+    },
+    {
+      "id": "T08",
+      "episode": "CHV1-TRAIN-F1-HOLD-red-03",
+      "phase": "CLOSE",
+      "tick": 19203,
+      "raw_sha256": "17c1bd54785bd9b8b0599d2dfa900bb734ab8155f6e796ddf2f3f1b14e431bdc",
+      "A_original_codec": {
+        "P10_command_instants": {
+          "position_mm": 1.4611757236608331,
+          "orientation_deg": 0.2026704584679326,
+          "gripper_width_mm": 6.9396930390149585
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 4.514261545745146,
+          "orientation_deg": 0.5154272042040263,
+          "gripper_width_mm": 26.721158016416815,
+          "first_15_position_mm": 1.543094478042843
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [
+            {
+              "kind": "close",
+              "s": 0.45
+            }
+          ],
+          "order_equal": false,
+          "extra": {},
+          "missed": {
+            "close": 1
+          },
+          "paired_error_ms": null
+        },
+        "P10_direction": {
+          "reference_mm": 0.4857544193441921,
+          "signed_mm": null,
+          "lateral_mm": null,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 36.3418700714109
+      },
+      "A_common_codec": {
+        "P10_command_instants": {
+          "position_mm": 1.4611757236608331,
+          "orientation_deg": 0.2026704584679326,
+          "gripper_width_mm": 8.066871040022766
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 4.514261545745146,
+          "orientation_deg": 0.5154272042040263,
+          "gripper_width_mm": 28.047199055694907,
+          "first_15_position_mm": 1.543094478042843
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [
+            {
+              "kind": "close",
+              "s": 0.45
+            }
+          ],
+          "order_equal": false,
+          "extra": {},
+          "missed": {
+            "close": 1
+          },
+          "paired_error_ms": null
+        },
+        "P10_direction": {
+          "reference_mm": 0.4857544193441921,
+          "signed_mm": null,
+          "lateral_mm": null,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 6.289880516052171
+      },
+      "hold": {
+        "P10_command_instants": {
+          "position_mm": 0.32327877831113444,
+          "orientation_deg": 0.08095742259618453,
+          "gripper_width_mm": 8.165841670232385
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 0.5406046276758325,
+          "orientation_deg": 0.19820868374932935,
+          "gripper_width_mm": 28.024900044301706,
+          "first_15_position_mm": 0.329373445746069
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [
+            {
+              "kind": "close",
+              "s": 0.45
+            }
+          ],
+          "order_equal": false,
+          "extra": {},
+          "missed": {
+            "close": 1
+          },
+          "paired_error_ms": null
+        },
+        "P10_direction": {
+          "reference_mm": 0.4857544193441921,
+          "signed_mm": null,
+          "lateral_mm": null,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 0.0
+      }
+    },
+    {
+      "id": "T09",
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-07",
+      "phase": "CLOSE",
+      "tick": 19703,
+      "raw_sha256": "b21e6620bca52d89e65c98118ebe70603733b8554acf6c03b0ab90be405bd322",
+      "A_original_codec": {
+        "P10_command_instants": {
+          "position_mm": 0.8227424728915897,
+          "orientation_deg": 0.14646985728381867,
+          "gripper_width_mm": 11.47496502879163
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 2.22515484171663,
+          "orientation_deg": 0.48649406806814616,
+          "gripper_width_mm": 22.366237797987925,
+          "first_15_position_mm": 0.9155116337397103
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 1.636349451755904,
+          "signed_mm": 0.42228757968065816,
+          "lateral_mm": 0.5299806432717378,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 5.476773406982438
+      },
+      "A_common_codec": {
+        "P10_command_instants": {
+          "position_mm": 0.8227424728915897,
+          "orientation_deg": 0.14646985728381867,
+          "gripper_width_mm": 11.617386654861921
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 2.22515484171663,
+          "orientation_deg": 0.48649406806814616,
+          "gripper_width_mm": 22.75419039721287,
+          "first_15_position_mm": 0.9155116337397103
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 1.636349451755904,
+          "signed_mm": 0.42228757968065816,
+          "lateral_mm": 0.5299806432717378,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 2.2806960601806647
+      },
+      "hold": {
+        "P10_command_instants": {
+          "position_mm": 1.00226486207978,
+          "orientation_deg": 0.02239663722203885,
+          "gripper_width_mm": 11.719032591659568
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 1.973046269395868,
+          "orientation_deg": 0.031335573510274044,
+          "gripper_width_mm": 20.428971639483397,
+          "first_15_position_mm": 1.02636295272546
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 1.636349451755904,
+          "signed_mm": 0.0,
+          "lateral_mm": 0.0,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 0.0
+      }
+    },
+    {
+      "id": "T10",
+      "episode": "CHV1-TRAIN-F1-HOLD-red-02",
+      "phase": "LIFT",
+      "tick": 21703,
+      "raw_sha256": "dac9fd33665e36766e63357700936d213a6a10a32a95f05cdff56694db6a2c49",
+      "A_original_codec": {
+        "P10_command_instants": {
+          "position_mm": 2.0621856408138544,
+          "orientation_deg": 0.14172860239788337,
+          "gripper_width_mm": 19.020131203210326
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 5.478247074193709,
+          "orientation_deg": 0.3837389717327527,
+          "gripper_width_mm": 23.252705990139425,
+          "first_15_position_mm": 2.130422364175548
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 3.372802188173201,
+          "signed_mm": -0.10899438416348976,
+          "lateral_mm": 0.5462575954737547,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 341.97185039520264
+      },
+      "A_common_codec": {
+        "P10_command_instants": {
+          "position_mm": 2.0621856408138544,
+          "orientation_deg": 0.14172860239788337,
+          "gripper_width_mm": 18.7221530953537
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 5.478247074193709,
+          "orientation_deg": 0.3837389717327527,
+          "gripper_width_mm": 23.476860202293118,
+          "first_15_position_mm": 2.130422364175548
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 3.372802188173201,
+          "signed_mm": -0.10899438416348976,
+          "lateral_mm": 0.5462575954737547,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 336.1690354347228
+      },
+      "hold": {
+        "P10_command_instants": {
+          "position_mm": 2.0007940575607486,
+          "orientation_deg": 0.0692674934407075,
+          "gripper_width_mm": 2.0
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 6.836832856942355,
+          "orientation_deg": 0.17048940400326323,
+          "gripper_width_mm": 2.0,
+          "first_15_position_mm": 2.0552920377171224
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 3.372802188173201,
+          "signed_mm": 0.0,
+          "lateral_mm": 0.0,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 0.0
+      }
+    },
+    {
+      "id": "T11",
+      "episode": "CHV1-TRAIN-F1-HOLD-red-05",
+      "phase": "LIFT",
+      "tick": 22453,
+      "raw_sha256": "68922167408be5aa9f7df7f7c468bc9c7b001a6d28bbdb6e1cdd3bfadf5529f2",
+      "A_original_codec": {
+        "P10_command_instants": {
+          "position_mm": 2.0115553860348308,
+          "orientation_deg": 0.16382019172854015,
+          "gripper_width_mm": 18.757506955253568
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 5.141664987965334,
+          "orientation_deg": 0.518869461925674,
+          "gripper_width_mm": 18.55321938004187,
+          "first_15_position_mm": 2.0931270452841058
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 3.373769329788071,
+          "signed_mm": -0.08145872055788259,
+          "lateral_mm": 0.27244931639430636,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 339.15677070617664
+      },
+      "A_common_codec": {
+        "P10_command_instants": {
+          "position_mm": 2.0115553860348308,
+          "orientation_deg": 0.16382019172854015,
+          "gripper_width_mm": 18.43327999794166
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 5.141664987965334,
+          "orientation_deg": 0.518869461925674,
+          "gripper_width_mm": 18.208911546348926,
+          "first_15_position_mm": 2.0931270452841058
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 3.373769329788071,
+          "signed_mm": -0.08145872055788259,
+          "lateral_mm": 0.27244931639430636,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 333.0724477767943
+      },
+      "hold": {
+        "P10_command_instants": {
+          "position_mm": 2.001298374816502,
+          "orientation_deg": 0.07362547587420205,
+          "gripper_width_mm": 2.0
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 5.755938262787401,
+          "orientation_deg": 0.17264289140865663,
+          "gripper_width_mm": 2.0,
+          "first_15_position_mm": 2.0558153753522634
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 3.373769329788071,
+          "signed_mm": 0.0,
+          "lateral_mm": 0.0,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 0.0
+      }
+    },
+    {
+      "id": "T12",
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-01",
+      "phase": "LIFT",
+      "tick": 21953,
+      "raw_sha256": "70f8775f47c3714ea4d871036e040a060a7e7ecc24b9176e836728c8753f593d",
+      "A_original_codec": {
+        "P10_command_instants": {
+          "position_mm": 2.2402929222200236,
+          "orientation_deg": 0.12481699820915773,
+          "gripper_width_mm": 19.13871472591118
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 5.065483396802842,
+          "orientation_deg": 0.4035525805279136,
+          "gripper_width_mm": 22.78480885892938,
+          "first_15_position_mm": 2.302513072967633
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 3.373448226989402,
+          "signed_mm": -0.04506363047582552,
+          "lateral_mm": 0.6195987090589573,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 343.1917428970337
+      },
+      "A_common_codec": {
+        "P10_command_instants": {
+          "position_mm": 2.2402929222200236,
+          "orientation_deg": 0.12481699820915773,
+          "gripper_width_mm": 18.852587100713645
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 5.065483396802842,
+          "orientation_deg": 0.4035525805279136,
+          "gripper_width_mm": 22.937090251345055,
+          "first_15_position_mm": 2.302513072967633
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 3.373448226989402,
+          "signed_mm": -0.04506363047582552,
+          "lateral_mm": 0.6195987090589573,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 337.51091718673695
+      },
+      "hold": {
+        "P10_command_instants": {
+          "position_mm": 2.001151402989208,
+          "orientation_deg": 0.07090221250743135,
+          "gripper_width_mm": 2.0
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 5.80326101880125,
+          "orientation_deg": 0.17796081533498825,
+          "gripper_width_mm": 2.0,
+          "first_15_position_mm": 2.055660759586725
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 3.373448226989402,
+          "signed_mm": 0.0,
+          "lateral_mm": 0.0,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 0.0
+      }
+    },
+    {
+      "id": "T13",
+      "episode": "CHV1-TRAIN-F2-HOLD-blue-00",
+      "phase": "DESCEND",
+      "tick": 19453,
+      "raw_sha256": "c6f22c14bec0955aa52f9a8541f13afb4ea29c458e56a66f8fd4d654eef200a3",
+      "A_original_codec": {
+        "P10_command_instants": {
+          "position_mm": 2.3118210475622694,
+          "orientation_deg": 0.1217103238236813,
+          "gripper_width_mm": 4.305846360679843
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 11.10438067820097,
+          "orientation_deg": 1.2112534259478038,
+          "gripper_width_mm": 4.548518449803661,
+          "first_15_position_mm": 2.408895798249788
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 3.2920402910813142,
+          "signed_mm": -0.3947137692140217,
+          "lateral_mm": 0.7672014128278832,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 43.92910003662099
+      },
+      "A_common_codec": {
+        "P10_command_instants": {
+          "position_mm": 2.3118210475622694,
+          "orientation_deg": 0.1217103238236813,
+          "gripper_width_mm": 2.5368063275639225
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 11.10438067820097,
+          "orientation_deg": 1.2112534259478038,
+          "gripper_width_mm": 2.8095809190435594,
+          "first_15_position_mm": 2.408895798249788
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 3.2920402910813142,
+          "signed_mm": -0.3947137692140217,
+          "lateral_mm": 0.7672014128278832,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 8.3220100402831
+      },
+      "hold": {
+        "P10_command_instants": {
+          "position_mm": 1.9490413486095775,
+          "orientation_deg": 0.17522966980512242,
+          "gripper_width_mm": 2.0000000000000018
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 5.87373076676899,
+          "orientation_deg": 0.4870903504400287,
+          "gripper_width_mm": 2.0000000000000018,
+          "first_15_position_mm": 2.00240422394048
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 3.2920402910813142,
+          "signed_mm": 0.0,
+          "lateral_mm": 0.0,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 0.0
+      }
+    },
+    {
+      "id": "T14",
+      "episode": "CHV1-TRAIN-F1-HOLD-red-03",
+      "phase": "CLOSE",
+      "tick": 18953,
+      "raw_sha256": "dff414c10bf8b7e33acf05e0947c9301268faa7f01af71f66be5b111a7ca8408",
+      "A_original_codec": {
+        "P10_command_instants": {
+          "position_mm": 1.7622326759829479,
+          "orientation_deg": 0.1536665703867263,
+          "gripper_width_mm": 3.444339782136893
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 6.137665506182844,
+          "orientation_deg": 0.6059179398702661,
+          "gripper_width_mm": 18.97584650105339,
+          "first_15_position_mm": 1.8560755930551915
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 1.72772154023193,
+          "signed_mm": -0.7616012570396464,
+          "lateral_mm": 0.35173394137401903,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 43.55378150939934
+      },
+      "A_common_codec": {
+        "P10_command_instants": {
+          "position_mm": 1.7622326759829479,
+          "orientation_deg": 0.1536665703867263,
+          "gripper_width_mm": 1.854152045000129
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 6.137665506182844,
+          "orientation_deg": 0.6059179398702661,
+          "gripper_width_mm": 20.154892931038173,
+          "first_15_position_mm": 1.8560755930551915
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 1.72772154023193,
+          "signed_mm": -0.7616012570396464,
+          "lateral_mm": 0.35173394137401903,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 7.909159660339365
+      },
+      "hold": {
+        "P10_command_instants": {
+          "position_mm": 1.1174128905457854,
+          "orientation_deg": 0.05504966773905076,
+          "gripper_width_mm": 1.5050332893532157
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 1.7995109051340705,
+          "orientation_deg": 0.21435908109129181,
+          "gripper_width_mm": 20.762391278798123,
+          "first_15_position_mm": 1.1402342255899798
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 1.72772154023193,
+          "signed_mm": 0.0,
+          "lateral_mm": 0.0,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 0.0
+      }
+    },
+    {
+      "id": "T15",
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-07",
+      "phase": "CLOSE",
+      "tick": 19453,
+      "raw_sha256": "137f8153158e8d0cd28a731646a2c0170a51bc902401080f0064cf37ec9fffd5",
+      "A_original_codec": {
+        "P10_command_instants": {
+          "position_mm": 1.5747434010799606,
+          "orientation_deg": 0.2547906362301126,
+          "gripper_width_mm": 6.9264740354828
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 5.6078242910040235,
+          "orientation_deg": 0.9389141434489431,
+          "gripper_width_mm": 26.6829550015548,
+          "first_15_position_mm": 1.644847281770373
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [
+            {
+              "kind": "close",
+              "s": 0.45
+            }
+          ],
+          "order_equal": false,
+          "extra": {},
+          "missed": {
+            "close": 1
+          },
+          "paired_error_ms": null
+        },
+        "P10_direction": {
+          "reference_mm": 1.032802562081962,
+          "signed_mm": 0.1299463624612594,
+          "lateral_mm": 1.6879718682316176,
+          "cosine": 0.07675661240627278
+        },
+        "P10_nominal_width_max_slew_mm_s": 36.71723628234841
+      },
+      "A_common_codec": {
+        "P10_command_instants": {
+          "position_mm": 1.5747434010799606,
+          "orientation_deg": 0.2547906362301126,
+          "gripper_width_mm": 8.051931219217353
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 5.6078242910040235,
+          "orientation_deg": 0.9389141434489431,
+          "gripper_width_mm": 28.005159453047103,
+          "first_15_position_mm": 1.644847281770373
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [
+            {
+              "kind": "close",
+              "s": 0.45
+            }
+          ],
+          "order_equal": false,
+          "extra": {},
+          "missed": {
+            "close": 1
+          },
+          "paired_error_ms": null
+        },
+        "P10_direction": {
+          "reference_mm": 1.032802562081962,
+          "signed_mm": 0.1299463624612594,
+          "lateral_mm": 1.6879718682316176,
+          "cosine": 0.07675661240627278
+        },
+        "P10_nominal_width_max_slew_mm_s": 6.7027833480834405
+      },
+      "hold": {
+        "P10_command_instants": {
+          "position_mm": 0.6015540541381154,
+          "orientation_deg": 0.038745948240434834,
+          "gripper_width_mm": 8.165841670232385
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 2.0899932271856945,
+          "orientation_deg": 0.08552872466305747,
+          "gripper_width_mm": 28.024900044301706,
+          "first_15_position_mm": 0.6189692369447233
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [
+            {
+              "kind": "close",
+              "s": 0.45
+            }
+          ],
+          "order_equal": false,
+          "extra": {},
+          "missed": {
+            "close": 1
+          },
+          "paired_error_ms": null
+        },
+        "P10_direction": {
+          "reference_mm": 1.032802562081962,
+          "signed_mm": 0.0,
+          "lateral_mm": 0.0,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 0.0
+      }
+    },
+    {
+      "id": "T16",
+      "episode": "CHV1-TRAIN-F1-HOLD-red-02",
+      "phase": "LIFT",
+      "tick": 21453,
+      "raw_sha256": "d3980c338f2541fed43c5eef518dc0e628adaed7696511ace86add6576efdd74",
+      "A_original_codec": {
+        "P10_command_instants": {
+          "position_mm": 2.0399021751116937,
+          "orientation_deg": 0.14107938355164998,
+          "gripper_width_mm": 19.016017685046982
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 5.659249433689217,
+          "orientation_deg": 0.4169767640972191,
+          "gripper_width_mm": 23.997479031883106,
+          "first_15_position_mm": 2.0804188728160273
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 3.3736298914006957,
+          "signed_mm": 0.05649986178659758,
+          "lateral_mm": 0.5683647514923259,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 341.4088487625122
+      },
+      "A_common_codec": {
+        "P10_command_instants": {
+          "position_mm": 2.0399021751116937,
+          "orientation_deg": 0.14107938355164998,
+          "gripper_width_mm": 18.717623369589443
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 5.659249433689217,
+          "orientation_deg": 0.4169767640972191,
+          "gripper_width_mm": 24.305952064133617,
+          "first_15_position_mm": 2.0804188728160273
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 3.3736298914006957,
+          "signed_mm": 0.05649986178659758,
+          "lateral_mm": 0.5683647514923259,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 335.5497336387633
+      },
+      "hold": {
+        "P10_command_instants": {
+          "position_mm": 2.001224474786008,
+          "orientation_deg": 0.08157827959541943,
+          "gripper_width_mm": 2.0
+        },
+        "source_horizon_diagnostic": {
+          "position_mm": 7.0817106750706245,
+          "orientation_deg": 0.2057774274957605,
+          "gripper_width_mm": 2.0,
+          "first_15_position_mm": 2.0557393450958807
+        },
+        "P10_gripper_events": {
+          "proposed": [],
+          "teacher": [],
+          "order_equal": true,
+          "extra": {},
+          "missed": {},
+          "paired_error_ms": []
+        },
+        "P10_direction": {
+          "reference_mm": 3.3736298914006957,
+          "signed_mm": 0.0,
+          "lateral_mm": 0.0,
+          "cosine": null
+        },
+        "P10_nominal_width_max_slew_mm_s": 0.0
+      }
+    }
+  ],
+  "independent_VAL_windows": 0,
+  "TEST_windows": 0,
+  "C_forwards": 0,
+  "new_model_forwards": 0,
+  "optimizer_updates": 0,
+  "native_starts": 0,
+  "integration_ticks": 0
+}

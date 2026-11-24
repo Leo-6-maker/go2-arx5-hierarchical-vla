@@ -1,4 +1,4 @@
-"""Recover missing pre-query camera history from an admitted TRAIN state journal on CPU."""
+"""Recover missing pre-query camera history from a sealed Teacher journal on CPU."""
 
 import argparse
 import hashlib
@@ -10,7 +10,7 @@ from pathlib import Path
 import numpy as np
 
 
-def replay(case, folder):
+def replay(case, folder, *, split="TRAIN"):
     import mujoco
     from demonstrated_grip import pin, read, require
     from go2arx5_vla.world_model.multitask_camera_v6 import TwoObjectBodyRenderer
@@ -33,7 +33,9 @@ def replay(case, folder):
     ticks = [row["native_step"] for row in queries]
     scene = pin(Path(spec["model_path"]), manifest["frozen_scene_sha256"])
     require(
-        spec["collection_split"] == "TRAIN" and result["detail"]["task_success"],
+        split in ("TRAIN", "VAL")
+        and spec["collection_split"] == split
+        and result["detail"]["task_success"],
         "wrong replay cohort",
     )
     missing = {t for tick in ticks for t in history(tick)} - set(ticks)
@@ -147,5 +149,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("case", type=Path)
     parser.add_argument("folder", type=Path)
+    parser.add_argument("--split", choices=("TRAIN", "VAL"), default="TRAIN")
     args = parser.parse_args()
-    replay(args.case, args.folder)
+    replay(args.case, args.folder, split=args.split)
