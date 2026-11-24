@@ -1,6 +1,7 @@
 """No-step, robot-only SEA-0 flange and visibility probe on immutable captures."""
 
 import argparse
+from contextlib import nullcontext
 import hashlib
 from pathlib import Path
 import sys
@@ -111,7 +112,7 @@ class Arm:
 
 
 class SourceRenderer:
-    def __init__(self, source, assets):
+    def __init__(self, source, assets, *, width=SIZE, height=SIZE):
         model = ET.Element("mujoco")
         ET.SubElement(model, "compiler", angle="radian")
         asset, world = ET.SubElement(model, "asset"), ET.SubElement(model, "worldbody")
@@ -129,36 +130,56 @@ class SourceRenderer:
         self.model = mujoco.MjModel.from_xml_string(ET.tostring(model, encoding="unicode"), assets=files)
         self.data = mujoco.MjData(self.model)
         self.source = source
-        self.draw = mujoco.Renderer(self.model, height=SIZE, width=SIZE)
+        offscreen = self.model.vis.global_
+        offscreen.offwidth = max(offscreen.offwidth, width)
+        offscreen.offheight = max(offscreen.offheight, height)
+        self.draw = mujoco.Renderer(self.model, height=height, width=width)
 
     def image(self, mount, left, right, left_slide, right_slide, camera, fovy):
-        for side, q, slide in (("left", left, left_slide), ("right", right, right_slide)):
+        left_base = mount.copy()
+        left_base[:3, 3] += mount[:3, 1]*SOURCE_SPACING_M
+        self.set_arms(left_base, mount, left, right, left_slide, right_slide)
+        cam = self.set_pose(camera)
+        cam.fovy[0] = fovy
+        mujoco.mj_forward(self.model, self.data)
+        return render_robot(self.draw, self.data, self.model, np.arange(self.model.ngeom))
+
+    def image_calibrated(self, left_base, right_base, left, right, left_slide, right_slide, camera, intrinsics):
+        self.set_arms(left_base, right_base, left, right, left_slide, right_slide)
+        self.set_pose(camera)
+        mujoco.mj_forward(self.model, self.data)
+        return render_robot(self.draw, self.data, self.model, np.arange(self.model.ngeom), intrinsics=intrinsics)
+
+    def set_arms(self, left_base, right_base, left, right, left_slide, right_slide):
+        arms = (("left", left_base, left, left_slide), ("right", right_base, right, right_slide))
+        for side, base, q, slide in arms:
             require(np.all(slide >= self.source.slide_bounds[0]) and np.all(slide <= self.source.slide_bounds[1]),
                     "simulation-only finger range exceeded")
-            base = mount.copy()
-            if side == "left":
-                base[:3, 3] += mount[:3, 1]*SOURCE_SPACING_M
             for name, local in self.source.forward(np.r_[q, slide]).items():
                 body = self.model.body(f"{side}_{name}")
                 idx = int(self.model.body_mocapid[body.id])
                 mat = base @ local
                 self.data.mocap_pos[idx] = mat[:3, 3]
                 self.data.mocap_quat[idx] = quat(mat[:3, :3])
+
+    def set_pose(self, camera):
         cam = self.model.camera(VIEW)
         cam.pos[:] = camera[:3, 3]
         cam.quat[:] = quat(camera[:3, :3])
-        cam.fovy[0] = fovy
-        mujoco.mj_forward(self.model, self.data)
-        return render_robot(self.draw, self.data, self.model, np.arange(self.model.ngeom))
+        return cam
 
 
-def render_robot(renderer, data, model, robot_geoms, option=None, *, view=VIEW):
-    renderer.update_scene(data, camera=view, scene_option=option)
-    rgb = renderer.render().copy()
-    renderer.enable_segmentation_rendering()
-    renderer.update_scene(data, camera=view, scene_option=option)
-    seg = renderer.render().copy()
-    renderer.disable_segmentation_rendering()
+def render_robot(renderer, data, model, robot_geoms, option=None, *, view=VIEW, intrinsics=None):
+    projection = nullcontext() if intrinsics is None else intrinsics.bind(model, view, renderer)
+    with projection:
+        renderer.update_scene(data, camera=view, scene_option=option)
+        rgb = renderer.render().copy()
+        renderer.enable_segmentation_rendering()
+        try:
+            renderer.update_scene(data, camera=view, scene_option=option)
+            seg = renderer.render().copy()
+        finally:
+            renderer.disable_segmentation_rendering()
     mask = (seg[..., 1] == mujoco.mjtObj.mjOBJ_GEOM) & np.isin(seg[..., 0], robot_geoms)
     rgb[~mask] = 24
     return rgb, mask
@@ -229,8 +250,9 @@ class TargetRenderer:
         base = self.data.body("x5_base_link")
         return pose(base.xpos, base.xmat)
 
-    def image(self, view=VIEW):
-        return render_robot(self.draw, self.data, self.model, self.robot_geoms, self.options, view=view)
+    def image(self, view=VIEW, *, intrinsics=None):
+        return render_robot(self.draw, self.data, self.model, self.robot_geoms, self.options,
+                            view=view, intrinsics=intrinsics)
 
 
 def packet(path, tick):
