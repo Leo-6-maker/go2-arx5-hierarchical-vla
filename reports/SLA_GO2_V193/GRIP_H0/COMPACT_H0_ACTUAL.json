@@ -1,0 +1,1163 @@
+{
+  "status": "COMPACT_NATIVE_H0_PANEL_CLOSED",
+  "allocated": 2,
+  "started": 2,
+  "unstarted": [],
+  "qualified": 2,
+  "physical_ticks": 28156,
+  "rows": {
+    "G00-H0": {
+      "outcome": "H0_HOLD_PASS",
+      "qualified": true,
+      "completed": true,
+      "physical_ticks": 13953,
+      "actual_stage_transitions": [
+        {
+          "stage": "PREGRASP",
+          "native_step": 6203,
+          "task_elapsed_s": 0.0
+        },
+        {
+          "stage": "DESCEND",
+          "native_step": 8453,
+          "task_elapsed_s": 4.5
+        },
+        {
+          "stage": "CLOSE",
+          "native_step": 10453,
+          "task_elapsed_s": 8.5
+        },
+        {
+          "stage": "LIFT",
+          "native_step": 11203,
+          "task_elapsed_s": 10.0
+        },
+        {
+          "stage": "HOLD",
+          "native_step": 13453,
+          "task_elapsed_s": 14.5
+        }
+      ],
+      "world": {
+        "score": {
+          "schema": "SEA_STATIONARY_HOLD_NATIVE_SCORE",
+          "instruction": "HOLD-red",
+          "task_success": true,
+          "native_step": 13953,
+          "base_directional_motion_m": 0.003420500929989509,
+          "lift_m": 0.02469497545076127,
+          "inside_selected_region": null,
+          "target_grasp": true,
+          "wrong_object_grasp_ever": false,
+          "wrong_object_contact_ever": false,
+          "released": false,
+          "gripper_open_fraction": 0.4499430066345714,
+          "TCP_retreat_m": 0.01903019804019633,
+          "stable_release_condition": false,
+          "states": 7751,
+          "missing_native_intervals": 0,
+          "unsafe_states": 0,
+          "ever_target_grasp": true,
+          "ever_target_lift20mm": true,
+          "maximum_lift_m": 0.02469497545076127,
+          "longest_grasp_lift_hold_s": 1.0199999999994347,
+          "longest_stable_released_retreat_s": 0.0,
+          "events": {
+            "target_grasp": {
+              "native_step": 11007,
+              "native_time_s": 22.013999999998678
+            },
+            "target_lift20mm": {
+              "native_step": 13443,
+              "native_time_s": 26.885999999995978
+            }
+          },
+          "task_privileged_truth_in_student_input": false,
+          "clock": "ACTUAL_2MS_NATIVE_STREAM",
+          "first_stance_or_contact_violation": null,
+          "maximum_stance_drift_m": 0.02,
+          "maximum_stance_angle_deg": 5.0,
+          "maximum_foot_drift_m": 0.005
+        },
+        "actual_TCP_net_displacement_mm": 24.315019380040845,
+        "consumed_50ms_atoms": 310,
+        "last_stage": "HOLD",
+        "gait_cycles": 0,
+        "maximum_compiled_base_command_norm": 0.04326588892106058
+      },
+      "fixed_world_BASE_publications": 313,
+      "capture": {
+        "manifest_sha256": "7a14ebc7b833d6c9b3b8e14bffeb8a92204b7398bf3e3608851ca3960af4ab1e",
+        "events": {
+          "before_close": {
+            "status": "SEALED",
+            "tick": 10453,
+            "time_s": 20.905999999999292,
+            "history_ticks": [
+              0,
+              6453,
+              6953,
+              7453,
+              7953,
+              8453,
+              8953,
+              9453,
+              9953,
+              10453
+            ],
+            "scene_sha256": "b6921ea3d624e15f5b9153e82d1ca3f6cf68980315bcf82b58845bc2fc59f914",
+            "current_packet_sha256": "3c065ce5b95ed1d552f415ffa65e48e291a3b523b0ac07ebe4680d5ecbdfd22d",
+            "history_frame_sha256": [
+              "7ce94542283d1f4cef675fe9d1e3263afd851514a708a8873209809f04f42878",
+              "1aa79cab7b92472f861a3b9824f4f46be9bbd289da063c8c81d041e5bc2b7941",
+              "4b2074f072c6817bab8a6b55dd6cf00c1f3486285d2342f74e8a7ddc5181c2de",
+              "979311845b414064b0bc876032d7691b1a990b7a82efba5ef73afa2c79c0926b",
+              "119b78598d80a2a8927db6f41e030beb601888e843e3b67c165892fa748d631b",
+              "3debb72347af38e97e011c73bc067bef9edffcf32c1cf8672d9dd77531d445cf",
+              "be95fbc4e539b0d868d060a0b19b20954a8a6f57022b9a3bd2f3afbf658892ff",
+              "7dcb0b758f2cec60b027eddc40aec7dbf9379e76f845c1a92237bb1639d93f72",
+              "9f031b85aaeef435861c6b78000c7eef31fd0f132f8011502adf6ee3251e707c",
+              "c0ec48d9d2d26db90b3f611df9cf2ba0988ececeb35b8a0270021bae8be726e2"
+            ],
+            "wrist_sha256": "ec1025e550739acd08099653d9068f7fc9c0d05eb06ff223cad00487ec879f43",
+            "aux_sha256": "53011f48b2c73137bc027184ee27f72a854b11e50d96afc104adc28b2ebd8eed",
+            "aux_calibration": {
+              "profile": "THREE_VIEW_V1",
+              "physical_camera": "aux_left_rgb",
+              "physical_parent": "base_link",
+              "policy_slot": "cam_left_wrist",
+              "raw_hwc": [
+                480,
+                640,
+                3
+              ],
+              "encoding": "RGB_UINT8",
+              "base_from_camera": [
+                [
+                  -0.7071067811865476,
+                  0.23570226039551576,
+                  -0.6666666666666665,
+                  0.2
+                ],
+                [
+                  -0.7071067811865475,
+                  -0.2357022603955158,
+                  0.6666666666666666,
+                  0.22
+                ],
+                [
+                  0.0,
+                  0.9428090415820631,
+                  0.33333333333333326,
+                  0.42
+                ],
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "camera_wxyz": [
+                -0.3124597141037825,
+                -0.22094238269039448,
+                0.5334020967941769,
+                0.7543444794845715
+              ],
+              "fovy_deg": 75.0,
+              "K": [
+                [
+                  312.77408948188935,
+                  0.0,
+                  320.0
+                ],
+                [
+                  0.0,
+                  312.77408948188935,
+                  240.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "mujoco_axes": "right/up/back",
+              "source_recording_extrinsics": "UNKNOWN"
+            },
+            "body_wrist_calibration": {
+              "body_rgb": {
+                "timestamp_s": 20.905999999999292,
+                "T_world_optical": [
+                  [
+                    0.8755964798708883,
+                    -0.22701824748793706,
+                    0.42637251288658073,
+                    0.16528008702593516
+                  ],
+                  [
+                    -0.4779465122385588,
+                    -0.27928026047630217,
+                    0.8328083018001732,
+                    -0.2607400444020024
+                  ],
+                  [
+                    -0.06998525470918043,
+                    -0.932987272912014,
+                    -0.353039392571844,
+                    0.7615896562178404
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "K": [
+                  [
+                    166.81284772367434,
+                    0,
+                    128
+                  ],
+                  [
+                    0,
+                    166.81284772367434,
+                    128
+                  ],
+                  [
+                    0,
+                    0,
+                    1
+                  ]
+                ]
+              },
+              "wrist_rgb": {
+                "timestamp_s": 20.905999999999292,
+                "T_world_optical": [
+                  [
+                    0.17145320459279229,
+                    -0.9019070508549962,
+                    0.3964435271925972,
+                    0.2608556861525991
+                  ],
+                  [
+                    -0.5022502799774975,
+                    -0.4262015600605346,
+                    -0.7523941031563806,
+                    0.07993721200754282
+                  ],
+                  [
+                    0.8475543964238459,
+                    -0.07011349242486714,
+                    -0.5260566920804264,
+                    0.7349212365227732
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "K": [
+                  [
+                    166.81284772367434,
+                    0,
+                    128
+                  ],
+                  [
+                    0,
+                    166.81284772367434,
+                    128
+                  ],
+                  [
+                    0,
+                    0,
+                    1
+                  ]
+                ]
+              }
+            },
+            "last_consumed": {
+              "query": 16,
+              "atom": 9,
+              "stage": "DESCEND",
+              "witness": {
+                "version": "MOBILE_ACCEPTED_BOUNDARY_050_V1",
+                "native_time_s": 20.905999999999292,
+                "receiver_knot_time_s": 20.906,
+                "receiver_knot_index": 1,
+                "accepted_wire_sha256": "bc001736c94e8a546e8ee36142cec416f9d43613636f7081246bfb2dfaada5ef",
+                "solver_target_identity": "380ad8cdf3a2425e6b38e03fa4efb4535ddc95bd49c348ec83680eea2c7a0012",
+                "receiver_bound_start_s": 20.756,
+                "receiver_observation_time_s": 20.896,
+                "accepted_pose7": [
+                  0.29516786336898804,
+                  -0.02036406472325325,
+                  0.6839473247528076,
+                  0.008237867616117,
+                  0.06561905145645142,
+                  -0.004027277696877718,
+                  0.9978026151657104
+                ],
+                "initial_constant_BASE_hold": true,
+                "exact_receiver_knot": true,
+                "controller_selected_reference": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+              },
+              "gripper": {
+                "native_step": 10453,
+                "sequence": 317,
+                "width_m": 0.041999999999999996,
+                "two_measured_finger_slide_m": [
+                  0.041949261105370374,
+                  0.04205082019334932
+                ]
+              }
+            },
+            "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+            "actual_target_kinematics_only": true,
+            "measured_go2_inner_pad_gap_mm": 85.0480812987197,
+            "artifact_sha256": "8f20a914f2ab609da0fa8ea542766d0f5358730201d81dc028e57823eeb0c101"
+          },
+          "first_query_after_grasp": {
+            "status": "SEALED",
+            "tick": 11203,
+            "time_s": 22.40599999999846,
+            "history_ticks": [
+              0,
+              7203,
+              7703,
+              8203,
+              8703,
+              9203,
+              9703,
+              10203,
+              10703,
+              11203
+            ],
+            "scene_sha256": "b6921ea3d624e15f5b9153e82d1ca3f6cf68980315bcf82b58845bc2fc59f914",
+            "current_packet_sha256": "cd3e2ddb04d19be9d8d698665f8ae600e0b8398024cae8bea4f8f260a8c443fa",
+            "history_frame_sha256": [
+              "7ce94542283d1f4cef675fe9d1e3263afd851514a708a8873209809f04f42878",
+              "a2170a9cd74cce13e5c2e0ffd9c69eb136c01c41a2807ac3273014db9d3a30f8",
+              "9439357d1f2448bae9c5dd6806d2c65747a90e25c278d24f5b0823f047d49bf9",
+              "06793c8d1a25d768054643b28376c221cbf9356012b9293294a7bc9aca8f7c4b",
+              "4c125bce4ef170239f26cbbb8155bb3c25a8538ea241883b2893e3520615063a",
+              "71e43a82c6ff222652c587106f05912b1163b96816acc77f4e556f4a12b8c45c",
+              "f31294245929a8bad3d8e0046a68b82b708d9b5f090bc0d0e0d0b1295b848a9f",
+              "af2b5b68184232347ce7987791998d7c37452a4135bbcb9d23cd1998fd969834",
+              "c16fda22a08a9600e850e77725ddb3ab0f35179bfa799b2de15752091145a434",
+              "a972b19ce4e821453a75845937cb4c93b91f02e4d8608a4aae8763c6caa07fd7"
+            ],
+            "wrist_sha256": "db404ca5dfefa309681a56ffd0567f51df5945f2c365c9e859f9633b276d5ba4",
+            "aux_sha256": "c2037126120642867ef3e9615d708834819a5eff02feea70e5010138c1e7ff4f",
+            "aux_calibration": {
+              "profile": "THREE_VIEW_V1",
+              "physical_camera": "aux_left_rgb",
+              "physical_parent": "base_link",
+              "policy_slot": "cam_left_wrist",
+              "raw_hwc": [
+                480,
+                640,
+                3
+              ],
+              "encoding": "RGB_UINT8",
+              "base_from_camera": [
+                [
+                  -0.7071067811865476,
+                  0.23570226039551576,
+                  -0.6666666666666665,
+                  0.2
+                ],
+                [
+                  -0.7071067811865475,
+                  -0.2357022603955158,
+                  0.6666666666666666,
+                  0.22
+                ],
+                [
+                  0.0,
+                  0.9428090415820631,
+                  0.33333333333333326,
+                  0.42
+                ],
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "camera_wxyz": [
+                -0.3124597141037825,
+                -0.22094238269039448,
+                0.5334020967941769,
+                0.7543444794845715
+              ],
+              "fovy_deg": 75.0,
+              "K": [
+                [
+                  312.77408948188935,
+                  0.0,
+                  320.0
+                ],
+                [
+                  0.0,
+                  312.77408948188935,
+                  240.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "mujoco_axes": "right/up/back",
+              "source_recording_extrinsics": "UNKNOWN"
+            },
+            "body_wrist_calibration": {
+              "body_rgb": {
+                "timestamp_s": 22.40599999999846,
+                "T_world_optical": [
+                  [
+                    0.8755503241111744,
+                    -0.2278533516779737,
+                    0.4260216896801523,
+                    0.16540712688216397
+                  ],
+                  [
+                    -0.4778539167828234,
+                    -0.27849608445813495,
+                    0.8331239794633226,
+                    -0.2611002021572811
+                  ],
+                  [
+                    -0.07118471861384831,
+                    -0.9330181032920005,
+                    -0.3527179535624267,
+                    0.7610852903870267
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "K": [
+                  [
+                    166.81284772367434,
+                    0,
+                    128
+                  ],
+                  [
+                    0,
+                    166.81284772367434,
+                    128
+                  ],
+                  [
+                    0,
+                    0,
+                    1
+                  ]
+                ]
+              },
+              "wrist_rgb": {
+                "timestamp_s": 22.40599999999846,
+                "T_world_optical": [
+                  [
+                    0.1687270748485448,
+                    -0.9018195790782754,
+                    0.3978097799252014,
+                    0.26042811771693986
+                  ],
+                  [
+                    -0.5021344585207245,
+                    -0.42594181188911606,
+                    -0.7526184680505235,
+                    0.07985284519032393
+                  ],
+                  [
+                    0.8481698885124098,
+                    -0.07276688584583174,
+                    -0.5247026019995968,
+                    0.7316306570442704
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "K": [
+                  [
+                    166.81284772367434,
+                    0,
+                    128
+                  ],
+                  [
+                    0,
+                    166.81284772367434,
+                    128
+                  ],
+                  [
+                    0,
+                    0,
+                    1
+                  ]
+                ]
+              }
+            },
+            "last_consumed": {
+              "query": 19,
+              "atom": 9,
+              "stage": "CLOSE",
+              "witness": {
+                "version": "MOBILE_ACCEPTED_BOUNDARY_050_V1",
+                "native_time_s": 22.40599999999846,
+                "receiver_knot_time_s": 22.406,
+                "receiver_knot_index": 1,
+                "accepted_wire_sha256": "6bbe1a3f0e618e758a7eb80871d41d36582ac4b3d485353cadd6c052d8c125ae",
+                "solver_target_identity": "cd2435a725f57f31200083558d6952af002796efecff75ce3292fcb929d8c0c5",
+                "receiver_bound_start_s": 22.256,
+                "receiver_observation_time_s": 22.396,
+                "accepted_pose7": [
+                  0.29451069235801697,
+                  -0.020062793046236038,
+                  0.6787964105606079,
+                  0.00809254590421915,
+                  0.06252620369195938,
+                  -0.0041574761271476746,
+                  0.9980018734931946
+                ],
+                "initial_constant_BASE_hold": true,
+                "exact_receiver_knot": true,
+                "controller_selected_reference": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+              },
+              "gripper": {
+                "native_step": 11203,
+                "sequence": 347,
+                "width_m": 0.007264728906250004,
+                "two_measured_finger_slide_m": [
+                  0.019822371040459166,
+                  0.02000364674511554
+                ]
+              }
+            },
+            "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+            "actual_target_kinematics_only": true,
+            "measured_go2_inner_pad_gap_mm": 40.87401778557471,
+            "artifact_sha256": "37822b43f7d3e9599a60aacc26269402f707f6fd40e0a9a5d5f2edf4c720826f"
+          }
+        }
+      },
+      "stop_observed": false,
+      "terminal_pause": {
+        "step": 13953,
+        "running": false,
+        "clock_paused": true
+      },
+      "controller_cancel": {
+        "kind": "operator_cancel",
+        "native_step": 13953,
+        "mode": "HOLD",
+        "physics_stop": "NOT_IMPLIED_BY_MODE_ACK"
+      },
+      "first_error": null,
+      "lease_closed": true,
+      "processes_absent": true,
+      "evidence_sha256": {
+        "RESULT.private.json": "0a39b9fd4df473355e4e60594e87f5834dea5254145b9010d37e64b0b8d963e1",
+        "AUDIT.json": "23b3711ec64a560d2e870d1815937db0903a8e0e80714341847008d820e288bc",
+        "LEASE.json": "4b222f855a3231f0f63ceeac3ba2bca4a27f324be34ee2e18b8442a24b95a80b",
+        "init.trace": "dbb8ddf8300718d18a61cd76a743de577de91d744a028ee57cd9350364b4ad0b",
+        "state.bin.journal": "8440623ee2cb42ffe9271dc30e1fbf93fe5211113b6252b04d5bb9b5383a74fe",
+        "pause_ack.json": "a13125c234969d830c568c79ad4e5002eaebd6fe940c463eb7f644f0b64670e7",
+        "LOADED_EXECUTOR_00.private.json": "2fe0a53ba2ccde2aec7893d0aa40058542f17b8333f38f0ce5bec9c73d30c741",
+        "planner.jsonl": "99b2d8a176f2caca3a2aa084d888c47f9c8c1b6a32e1aef24a3b66fd1741a87b"
+      }
+    },
+    "G01-H0": {
+      "outcome": "H0_HOLD_PASS",
+      "qualified": true,
+      "completed": true,
+      "physical_ticks": 14203,
+      "actual_stage_transitions": [
+        {
+          "stage": "PREGRASP",
+          "native_step": 6203,
+          "task_elapsed_s": 0.0
+        },
+        {
+          "stage": "DESCEND",
+          "native_step": 8703,
+          "task_elapsed_s": 5.0
+        },
+        {
+          "stage": "CLOSE",
+          "native_step": 10703,
+          "task_elapsed_s": 9.0
+        },
+        {
+          "stage": "LIFT",
+          "native_step": 11453,
+          "task_elapsed_s": 10.5
+        },
+        {
+          "stage": "HOLD",
+          "native_step": 13703,
+          "task_elapsed_s": 15.0
+        }
+      ],
+      "world": {
+        "score": {
+          "schema": "SEA_STATIONARY_HOLD_NATIVE_SCORE",
+          "instruction": "HOLD-red",
+          "task_success": true,
+          "native_step": 14203,
+          "base_directional_motion_m": 0.0033868708190681746,
+          "lift_m": 0.02472632073055203,
+          "inside_selected_region": null,
+          "target_grasp": true,
+          "wrong_object_grasp_ever": false,
+          "wrong_object_contact_ever": false,
+          "released": false,
+          "gripper_open_fraction": 0.44994823041864795,
+          "TCP_retreat_m": 0.01902151476805599,
+          "stable_release_condition": false,
+          "states": 8001,
+          "missing_native_intervals": 0,
+          "unsafe_states": 0,
+          "ever_target_grasp": true,
+          "ever_target_lift20mm": true,
+          "maximum_lift_m": 0.02472632073055203,
+          "longest_grasp_lift_hold_s": 1.0399999999994236,
+          "longest_stable_released_retreat_s": 0.0,
+          "events": {
+            "target_grasp": {
+              "native_step": 11257,
+              "native_time_s": 22.5139999999984
+            },
+            "target_lift20mm": {
+              "native_step": 13683,
+              "native_time_s": 27.36599999999571
+            }
+          },
+          "task_privileged_truth_in_student_input": false,
+          "clock": "ACTUAL_2MS_NATIVE_STREAM",
+          "first_stance_or_contact_violation": null,
+          "maximum_stance_drift_m": 0.02,
+          "maximum_stance_angle_deg": 5.0,
+          "maximum_foot_drift_m": 0.005
+        },
+        "actual_TCP_net_displacement_mm": 26.933101886247183,
+        "consumed_50ms_atoms": 320,
+        "last_stage": "HOLD",
+        "gait_cycles": 0,
+        "maximum_compiled_base_command_norm": 0.03473320512066656
+      },
+      "fixed_world_BASE_publications": 320,
+      "capture": {
+        "manifest_sha256": "acbd30fceeeda7e89a59f3041fd78dfa501c4693a657e477b6229692a0216ecf",
+        "events": {
+          "before_close": {
+            "status": "SEALED",
+            "tick": 10703,
+            "time_s": 21.405999999999015,
+            "history_ticks": [
+              0,
+              6703,
+              7203,
+              7703,
+              8203,
+              8703,
+              9203,
+              9703,
+              10203,
+              10703
+            ],
+            "scene_sha256": "fba127089641f0a854ccc8c23c310e20a155a0c61b76bc826daa165c417eb264",
+            "current_packet_sha256": "bed7bf999ac32e658ecf2a454b4eb88fc5581118a1ae86551b07125c11b350c3",
+            "history_frame_sha256": [
+              "dabf891f32ee54f3e9c001cd3eab7c87cc0a1df263c7de58924baf01cbf45950",
+              "31efb3c7559af08ef010d163c71aedc58eadd38a69abfcac120e60207e9ebb27",
+              "2a071f99cd1e9524fcb1383901f37500be2b3130b31abbf22f455c2f07e29d13",
+              "1c851481cb8ec102ddf99005c5a1a7468322f544c219ad7f3715a3d94587b689",
+              "234dca1d5ecf57686855dd50ef832672343fe3e1e42e94fe7b0a436bcc7cd77f",
+              "da3fcd21da75e251444e3c4514872c762d1e57688808eed9edced6e3387bc357",
+              "9ee20bcc8d997a734e5269b7a1b3aa902598d2ed88fcf98ce23a57b838832be4",
+              "ab88f0a1a9f0faf569fd624ce4a4f376ba2d3df2f3df3515fb1ee771d99ab41b",
+              "5f964f12c98aca4900809dc0a68881c91612e361a422163de61103527e54c0da",
+              "862a73f01a8522fd55246118adacdac75f93dff9c977a60ce8492173bd7fde92"
+            ],
+            "wrist_sha256": "9e949706cb9035228cb121d523684aed4c1c987bec8afc4f7b3b95d15fa3fae6",
+            "aux_sha256": "89c427e08f65436ffe55cf84ecb3290d1ebf9cfcf18062e598019ba4b14d2a77",
+            "aux_calibration": {
+              "profile": "THREE_VIEW_V1",
+              "physical_camera": "aux_left_rgb",
+              "physical_parent": "base_link",
+              "policy_slot": "cam_left_wrist",
+              "raw_hwc": [
+                480,
+                640,
+                3
+              ],
+              "encoding": "RGB_UINT8",
+              "base_from_camera": [
+                [
+                  -0.7071067811865476,
+                  0.23570226039551576,
+                  -0.6666666666666665,
+                  0.2
+                ],
+                [
+                  -0.7071067811865475,
+                  -0.2357022603955158,
+                  0.6666666666666666,
+                  0.22
+                ],
+                [
+                  0.0,
+                  0.9428090415820631,
+                  0.33333333333333326,
+                  0.42
+                ],
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "camera_wxyz": [
+                -0.3124597141037825,
+                -0.22094238269039448,
+                0.5334020967941769,
+                0.7543444794845715
+              ],
+              "fovy_deg": 75.0,
+              "K": [
+                [
+                  312.77408948188935,
+                  0.0,
+                  320.0
+                ],
+                [
+                  0.0,
+                  312.77408948188935,
+                  240.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "mujoco_axes": "right/up/back",
+              "source_recording_extrinsics": "UNKNOWN"
+            },
+            "body_wrist_calibration": {
+              "body_rgb": {
+                "timestamp_s": 21.405999999999015,
+                "T_world_optical": [
+                  [
+                    0.8757657581423155,
+                    -0.23288896813178675,
+                    0.42284402016337524,
+                    0.1682077129309017
+                  ],
+                  [
+                    -0.4782479500436446,
+                    -0.2994033053530509,
+                    0.8256128384556028,
+                    -0.24860208130533412
+                  ],
+                  [
+                    -0.06567522473859433,
+                    -0.9252677392334488,
+                    -0.3735858342996368,
+                    0.7647032767367964
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "K": [
+                  [
+                    166.81284772367434,
+                    0,
+                    128
+                  ],
+                  [
+                    0,
+                    166.81284772367434,
+                    128
+                  ],
+                  [
+                    0,
+                    0,
+                    1
+                  ]
+                ]
+              },
+              "wrist_rgb": {
+                "timestamp_s": 21.405999999999015,
+                "T_world_optical": [
+                  [
+                    0.1714984704368718,
+                    -0.9019066857564779,
+                    0.39642477826893846,
+                    0.26090985261986527
+                  ],
+                  [
+                    -0.5021906949510486,
+                    -0.42621428274715656,
+                    -0.7524266682454228,
+                    0.09795231982465492
+                  ],
+                  [
+                    0.8475805451651153,
+                    -0.07004081217469205,
+                    -0.526024242870529,
+                    0.7341273818856027
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "K": [
+                  [
+                    166.81284772367434,
+                    0,
+                    128
+                  ],
+                  [
+                    0,
+                    166.81284772367434,
+                    128
+                  ],
+                  [
+                    0,
+                    0,
+                    1
+                  ]
+                ]
+              }
+            },
+            "last_consumed": {
+              "query": 17,
+              "atom": 9,
+              "stage": "DESCEND",
+              "witness": {
+                "version": "MOBILE_ACCEPTED_BOUNDARY_050_V1",
+                "native_time_s": 21.405999999999015,
+                "receiver_knot_time_s": 21.406,
+                "receiver_knot_index": 1,
+                "accepted_wire_sha256": "451a1f5a61d40c1beb2c5e18655775d27e2370309c87fbcdcf2eea87804a5367",
+                "solver_target_identity": "1aef6c2bb7af6b49cee7ef36bd7bdabc06b330ce67ed7980d6237dc4cf10140b",
+                "receiver_bound_start_s": 21.256,
+                "receiver_observation_time_s": 21.396,
+                "accepted_pose7": [
+                  0.2925795912742615,
+                  0.006761134602129459,
+                  0.683612048625946,
+                  0.009665175341069698,
+                  0.06516622751951218,
+                  -0.007293402217328548,
+                  0.9978009462356567
+                ],
+                "initial_constant_BASE_hold": true,
+                "exact_receiver_knot": true,
+                "controller_selected_reference": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+              },
+              "gripper": {
+                "native_step": 10703,
+                "sequence": 327,
+                "width_m": 0.041999999999999996,
+                "two_measured_finger_slide_m": [
+                  0.04194904213235021,
+                  0.042051060241878144
+                ]
+              }
+            },
+            "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+            "actual_target_kinematics_only": true,
+            "measured_go2_inner_pad_gap_mm": 85.04810237422836,
+            "artifact_sha256": "60b018428764d4e41e52bc68b131b48192a842a1c6bb2d3851469c53ac85685a"
+          },
+          "first_query_after_grasp": {
+            "status": "SEALED",
+            "tick": 11453,
+            "time_s": 22.905999999998183,
+            "history_ticks": [
+              0,
+              7453,
+              7953,
+              8453,
+              8953,
+              9453,
+              9953,
+              10453,
+              10953,
+              11453
+            ],
+            "scene_sha256": "fba127089641f0a854ccc8c23c310e20a155a0c61b76bc826daa165c417eb264",
+            "current_packet_sha256": "09d350dcffd33cc6909925d00bdd7e2b258efc6524f35d6ac00dafad8cee1a32",
+            "history_frame_sha256": [
+              "dabf891f32ee54f3e9c001cd3eab7c87cc0a1df263c7de58924baf01cbf45950",
+              "3d1442a94502a641e73bc9e18fe0cb5f59502bb49dddaaf59b05200f9e628209",
+              "a3ec22e354ac47764045ea92ad6e38e0fdd47c086710a6efb64692d7d197a61a",
+              "5e879613c13a8fb9b3db4a0a64cad8b07b222bb4263f966a42bbca0d82743a0b",
+              "360d9ea6969dc7776a03c44be2d68cee763dc06aced3bc124d7880f19c16c71a",
+              "6c53920f94a3890f55ebc096df1ecb98cb558fb3920433d4d3f96fae4bb66920",
+              "96199148639d1841983236f5584a7ed0b1e9f949530fd5b1f4388481d312809f",
+              "82cca5bec10f0e8c4d52991f79ba97f1e08a26f0d5f55b805be7abeb83eed2ed",
+              "37b616d125e2f37e5e3d297096bffe69e35741b6f56bc3312536a7653246f068",
+              "612786a2ced1ca617a244793dce96b8f707bd1ca635332ad274583bb6d395e4f"
+            ],
+            "wrist_sha256": "f42b83a2ddd5647801bb05ca391cf8e04c31788a566843cb11dacbccd28c5e5d",
+            "aux_sha256": "905372ea3cabb84bf181de0fa682328716d1a0f3032763834f91a9437cf4960a",
+            "aux_calibration": {
+              "profile": "THREE_VIEW_V1",
+              "physical_camera": "aux_left_rgb",
+              "physical_parent": "base_link",
+              "policy_slot": "cam_left_wrist",
+              "raw_hwc": [
+                480,
+                640,
+                3
+              ],
+              "encoding": "RGB_UINT8",
+              "base_from_camera": [
+                [
+                  -0.7071067811865476,
+                  0.23570226039551576,
+                  -0.6666666666666665,
+                  0.2
+                ],
+                [
+                  -0.7071067811865475,
+                  -0.2357022603955158,
+                  0.6666666666666666,
+                  0.22
+                ],
+                [
+                  0.0,
+                  0.9428090415820631,
+                  0.33333333333333326,
+                  0.42
+                ],
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "camera_wxyz": [
+                -0.3124597141037825,
+                -0.22094238269039448,
+                0.5334020967941769,
+                0.7543444794845715
+              ],
+              "fovy_deg": 75.0,
+              "K": [
+                [
+                  312.77408948188935,
+                  0.0,
+                  320.0
+                ],
+                [
+                  0.0,
+                  312.77408948188935,
+                  240.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "mujoco_axes": "right/up/back",
+              "source_recording_extrinsics": "UNKNOWN"
+            },
+            "body_wrist_calibration": {
+              "body_rgb": {
+                "timestamp_s": 22.905999999998183,
+                "T_world_optical": [
+                  [
+                    0.8757867370109469,
+                    -0.23344143258784444,
+                    0.42249578557312983,
+                    0.1680015396692279
+                  ],
+                  [
+                    -0.4780692214865805,
+                    -0.29855688778191114,
+                    0.8260227625345422,
+                    -0.24907527890826062
+                  ],
+                  [
+                    -0.06668891019454495,
+                    -0.9254020111872012,
+                    -0.3730733265026458,
+                    0.7642419202553228
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "K": [
+                  [
+                    166.81284772367434,
+                    0,
+                    128
+                  ],
+                  [
+                    0,
+                    166.81284772367434,
+                    128
+                  ],
+                  [
+                    0,
+                    0,
+                    1
+                  ]
+                ]
+              },
+              "wrist_rgb": {
+                "timestamp_s": 22.905999999998183,
+                "T_world_optical": [
+                  [
+                    0.16875452915208103,
+                    -0.901740797654473,
+                    0.3979766861716099,
+                    0.2602549680905549
+                  ],
+                  [
+                    -0.502121213782594,
+                    -0.4260964138616484,
+                    -0.7525397881598948,
+                    0.09774095304017708
+                  ],
+                  [
+                    0.8481722676202965,
+                    -0.07283803909853342,
+                    -0.5246888835301607,
+                    0.731515376549768
+                  ],
+                  [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                  ]
+                ],
+                "K": [
+                  [
+                    166.81284772367434,
+                    0,
+                    128
+                  ],
+                  [
+                    0,
+                    166.81284772367434,
+                    128
+                  ],
+                  [
+                    0,
+                    0,
+                    1
+                  ]
+                ]
+              }
+            },
+            "last_consumed": {
+              "query": 20,
+              "atom": 9,
+              "stage": "CLOSE",
+              "witness": {
+                "version": "MOBILE_ACCEPTED_BOUNDARY_050_V1",
+                "native_time_s": 22.905999999998183,
+                "receiver_knot_time_s": 22.906,
+                "receiver_knot_index": 1,
+                "accepted_wire_sha256": "0749ce4ac0b9a56bf907e429cef782d21a38aa50c16d0d6e2a6d3cae5d68820f",
+                "solver_target_identity": "ce25be2b6ce38eade5cffc9438e26e5c9eac75f0e37daf16684731da92ef9d33",
+                "receiver_bound_start_s": 22.756,
+                "receiver_observation_time_s": 22.896,
+                "accepted_pose7": [
+                  0.2919710576534271,
+                  0.006979626137763262,
+                  0.6795544028282166,
+                  0.009569847956299782,
+                  0.062216226011514664,
+                  -0.007425832096487284,
+                  0.9979891777038574
+                ],
+                "initial_constant_BASE_hold": true,
+                "exact_receiver_knot": true,
+                "controller_selected_reference": "DERIVED_ONLY_NO_SELECTED_POLICY_ID_EXPORTED"
+              },
+              "gripper": {
+                "native_step": 11453,
+                "sequence": 357,
+                "width_m": 0.007264728906250004,
+                "two_measured_finger_slide_m": [
+                  0.01983523874866128,
+                  0.01999118147890567
+                ]
+              }
+            },
+            "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+            "actual_target_kinematics_only": true,
+            "measured_go2_inner_pad_gap_mm": 40.87442022756696,
+            "artifact_sha256": "1f4e4569df5e620a98988a2a98dbcc398bfa81fcd95c6643b52682d40b2cda00"
+          }
+        }
+      },
+      "stop_observed": false,
+      "terminal_pause": {
+        "step": 14203,
+        "running": false,
+        "clock_paused": true
+      },
+      "controller_cancel": {
+        "kind": "operator_cancel",
+        "native_step": 14203,
+        "mode": "HOLD",
+        "physics_stop": "NOT_IMPLIED_BY_MODE_ACK"
+      },
+      "first_error": null,
+      "lease_closed": true,
+      "processes_absent": true,
+      "evidence_sha256": {
+        "RESULT.private.json": "8e04248acc647f496914528c38c7c06ae565724b873d605ca29886212f8b54ff",
+        "AUDIT.json": "8e8706a22b478dc541a7bcfef41c47aa0356c15dca8cde43d82ed38f3688819c",
+        "LEASE.json": "67893dbd4465a86ac7c99416beb8ad17079662ffa2d3a1c6ad9c8cb8448b55fa",
+        "init.trace": "3e4f9216b19f02caecdea71c2fc093ab896a0c700d4180d37d92446b4c381496",
+        "state.bin.journal": "425f2aa49dc68907cddc4cba0cf3cd859372f703f79d194d042ad987b227aa44",
+        "pause_ack.json": "4271e89e86a788296b57928741e4586c4dd8574b704d8dc7358bc6d7a4b9bd99",
+        "LOADED_EXECUTOR_00.private.json": "847fc5426de19ce68188c551ef002f5217dc7cd8ee0d5a9409555bf28214e4e1",
+        "planner.jsonl": "3f85e756c86517625919072e34c0dc4725ca3d729de58708826213b1c9f43ddd"
+      }
+    }
+  },
+  "frozen_model_forwards": 0,
+  "training_updates": 0,
+  "campaign_sha256": {
+    "PANEL_CLOSE.json": "ea836f2caeab3cb03e5487a7de94bcac074a7dc6f3aafe6818ae843deeb59394",
+    "BINDING.json": "25b36a2b85e37fc12c797582682114b320cd9e892b6194855fa258452c1d8ff2",
+    "ALLOCATION.json": "9a877bb2169652bff7a3cd00efd77f05b6d634e37d59386f971e6dd8c599fd38"
+  }
+}

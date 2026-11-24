@@ -1,0 +1,195 @@
+{
+  "profile": "FRUIT_COMPACT_STANCE_01",
+  "geometry": {
+    "G00": {
+      "scene_sha256": "f85fb52b0e6b918902121b9d3739d2de9d5dc136a7ca592ee208c954bbf68722",
+      "parent_scene_sha256": "e577e5418c2a4036c01ffccb9f562c86c4477768588880a9f3c8f5f7441ab2b4",
+      "positions_world_m": {
+        "red": [
+          0.282,
+          -0.024,
+          0.672
+        ],
+        "blue": [
+          0.282,
+          0.066,
+          0.672
+        ]
+      },
+      "scoring_geometry": {
+        "version": "MFREE_TWO_OBJECT_HOLD_PLACE_SCENE_V6",
+        "expected_ABI": {
+          "nq": 41,
+          "nv": 38,
+          "nu": 20
+        },
+        "objects": {
+          "red": {
+            "body": "task_cube",
+            "joint": "task_cube_free",
+            "geom": "task_cube_geom"
+          },
+          "blue": {
+            "body": "task_blue_cube",
+            "joint": "task_blue_cube_free",
+            "geom": "task_blue_cube_geom"
+          }
+        },
+        "zones": {
+          "left": {
+            "center_world_XY": [
+              0.4465,
+              0.042499999999999996
+            ],
+            "half_size_XY": [
+              0.035,
+              0.035
+            ]
+          },
+          "right": {
+            "center_world_XY": [
+              0.4465,
+              -0.0775
+            ],
+            "half_size_XY": [
+              0.035,
+              0.035
+            ]
+          }
+        },
+        "table_top_world_z": 0.652,
+        "object_half_sizes": {
+          "red": [
+            0.026,
+            0.021,
+            0.02
+          ],
+          "blue": [
+            0.02,
+            0.02,
+            0.02
+          ]
+        },
+        "direction_world_XY": [
+          1.0,
+          0.0
+        ],
+        "original_robot_XML_unchanged": true,
+        "scene_depends_on_instruction": false,
+        "added_actuators": 0,
+        "added_mocap": 0,
+        "added_equalities": 0,
+        "native_dispatch_qualified": false
+      },
+      "static": {
+        "default_cube_edge_clearance_mm": {
+          "red": 25.999999999999964,
+          "blue": 31.999999999999957
+        },
+        "default_cube_separation_mm": 48.99999999999999
+      }
+    },
+    "G01": {
+      "scene_sha256": "ac610cd4909267ddb06c1729275dbd6beb9ac03adf573a39b944a34b1246b193",
+      "parent_scene_sha256": "ac855b7dc1bd97f0a819ad57cc1873d8316fe918ed3d960de6ea036fcfd257ba",
+      "positions_world_m": {
+        "red": [
+          0.292,
+          0.001,
+          0.672
+        ],
+        "blue": [
+          0.292,
+          0.091,
+          0.672
+        ]
+      },
+      "scoring_geometry": {
+        "version": "MFREE_TWO_OBJECT_HOLD_PLACE_SCENE_V6",
+        "expected_ABI": {
+          "nq": 41,
+          "nv": 38,
+          "nu": 20
+        },
+        "objects": {
+          "red": {
+            "body": "task_cube",
+            "joint": "task_cube_free",
+            "geom": "task_cube_geom"
+          },
+          "blue": {
+            "body": "task_blue_cube",
+            "joint": "task_blue_cube_free",
+            "geom": "task_blue_cube_geom"
+          }
+        },
+        "zones": {
+          "left": {
+            "center_world_XY": [
+              0.4465,
+              0.042499999999999996
+            ],
+            "half_size_XY": [
+              0.035,
+              0.035
+            ]
+          },
+          "right": {
+            "center_world_XY": [
+              0.4465,
+              -0.0775
+            ],
+            "half_size_XY": [
+              0.035,
+              0.035
+            ]
+          }
+        },
+        "table_top_world_z": 0.652,
+        "object_half_sizes": {
+          "red": [
+            0.026,
+            0.021,
+            0.02
+          ],
+          "blue": [
+            0.02,
+            0.02,
+            0.02
+          ]
+        },
+        "direction_world_XY": [
+          1.0,
+          0.0
+        ],
+        "original_robot_XML_unchanged": true,
+        "scene_depends_on_instruction": false,
+        "added_actuators": 0,
+        "added_mocap": 0,
+        "added_equalities": 0,
+        "native_dispatch_qualified": false
+      },
+      "static": {
+        "default_cube_edge_clearance_mm": {
+          "red": 35.99999999999998,
+          "blue": 41.999999999999964
+        },
+        "default_cube_separation_mm": 48.99999999999999
+      }
+    }
+  },
+  "tests": {
+    "G00": {
+      "status": "STATIC_WORKSPACE_REJECTED",
+      "reason": "new scene startup contact tick 83: ('task_left_pad', 'task_blue_cube_geom') -0.0009282879999416545 m"
+    },
+    "G01": {
+      "status": "STATIC_WORKSPACE_REJECTED",
+      "reason": "new scene startup contact tick 109: ('', 'task_cube_geom') -2.6735795949575595e-05 m"
+    }
+  },
+  "native_launch_ready": false,
+  "integrations": 0,
+  "model_forwards": 0,
+  "training_updates": 0
+}
