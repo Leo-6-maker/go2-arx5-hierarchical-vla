@@ -4,6 +4,8 @@ import argparse
 import json
 from pathlib import Path
 
+import numpy as np
+
 from reach_adapter_panel import ORDER, verify_registration
 from reach_native import read, require, sha
 
@@ -12,6 +14,57 @@ def jsonl(path):
     if path.is_file():
         with path.open() as stream:
             yield from map(json.loads, stream)
+
+
+def feedback_readout(case, episode, ledger):
+    events = [r for r in ledger if r["kind"] in ("COMPILED", "VISUAL_REACH")]
+    if len(events) != 2:
+        return None
+    start = events[1]["tick"]
+    entry = read(case / "REACH_ENTRY.json")
+    axis = np.asarray(entry["direction"], float)
+    atoms = {
+        r["native_end_step"]: r
+        for r in jsonl(case / episode / "MOBILE_SAMPLES.private.jsonl")
+    }
+    if start not in atoms:
+        raise ValueError("replan missing native boundary")
+    data = dict(
+        intervals=0,
+        command_path_mm=0.0,
+        actual_path_mm=0.0,
+        actual_task_advance_mm=0.0,
+        actual_red_progress_mm=0.0,
+    )
+    for r in ledger:
+        if r["kind"] not in ("PREVIEW", "ADAPTED_PREVIEW") or r["tick"] < start:
+            continue
+        phases = r.get("source_s", r.get("source_phase_s"))
+        if r["kind"] == "ADAPTED_PREVIEW":
+            # The compiled 50-point array holds the last selected pose after source 0.50 s.
+            phases = np.minimum(phases, 0.50)
+        for k in (0, 1):
+            t = r["tick"] + 25 * k
+            if phases[k + 1] <= phases[k] or t + 25 not in atoms:
+                continue
+            a, b = atoms[t], atoms[t + 25]
+            require(
+                b["solver_exact_installed_targets"],
+                "post-feedback source not solver acknowledged",
+            )
+            x, y = np.asarray([a["actual_TCP"], b["actual_TCP"]])[:, :3, 3]
+            dx = np.asarray(b["target_endpoint_EEF10"][:3]) - np.asarray(
+                a["target_endpoint_EEF10"][:3]
+            )
+            goal_a, goal_b = np.asarray([a["object_pose"], b["object_pose"]])[:, :3, 3]
+            data["intervals"] += 1
+            data["command_path_mm"] += 1000 * np.linalg.norm(dx)
+            data["actual_path_mm"] += 1000 * np.linalg.norm(y - x)
+            data["actual_task_advance_mm"] += 1000 * (y - x) @ axis
+            data["actual_red_progress_mm"] += 1000 * (
+                np.linalg.norm(x - goal_a) - np.linalg.norm(y - goal_b)
+            )
+    return dict(query_tick=start, solver_acknowledged_selected_phase=data)
 
 
 def readout(panel):
@@ -111,6 +164,7 @@ def readout(panel):
                     for v in ledger
                     if v["kind"] == "VISUAL_REACH"
                 ],
+                feedback_source=feedback_readout(case, episode, ledger),
                 result_sha256=sha(case / "RESULT.private.json"),
                 audit_sha256=sha(case / "AUDIT.json"),
                 technical_summary=(
