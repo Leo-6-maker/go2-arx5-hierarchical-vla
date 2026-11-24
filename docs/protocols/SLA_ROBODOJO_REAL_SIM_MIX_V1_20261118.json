@@ -1,0 +1,327 @@
+{
+  "schema": "SLA_ROBODOJO_REAL_SIM_MIX_V1_DESIGN",
+  "date": "2026-11-18",
+  "timezone": "Asia/Singapore",
+  "status": "PLAN_ONLY_NOT_EXECUTED",
+  "publication_effects": {
+    "training_updates": 0,
+    "model_generations": 0,
+    "native_requests": 0,
+    "hardware_commands": 0,
+    "raw_source_episodes_downloaded": 0
+  },
+  "scope": {
+    "current_request": "read-only audit and plan publication",
+    "execution": "companion prompt submitted by user in actually authorized environment",
+    "sim_only": true,
+    "hardware_control": false,
+    "interrupt_healthy_job": false,
+    "automatic_allocation_extension": false,
+    "existing_v52_comparison_unchanged": true
+  },
+  "pins": {
+    "main": "6843163d641eb24a29c3b1557f868765346ba66c",
+    "v52_plan": "90d39196bdc345b977ee54ed64e750cf3561aa72",
+    "reviewed_pr": 405,
+    "reviewed_head": "01b4a11c80f95956742379f73404be8fbdf909e1",
+    "actual_training_source": "8ebdcbb7ab39c0f707c5b2ba94b0b097abc937e5",
+    "actual_native_source": "2797d0c2c458667e241aa0d24d6d0b005f3caf1a",
+    "common_shift7_parent": "ef530bceebcc1691d9af9b5b1ea4ea89731f0c1d5d8f3e2287c3618dff7806eb",
+    "target_manifest": "4bcc5ffcd8920d874599a54cca73792c50a49ea6013d65ca7826817a9f80d7de",
+    "target_statistics": "f28d50e6eeea09b332d4bd159eca4333bbe23b185f95f1d336d45311e364ab3e",
+    "real0_reused_B2": "f95a5bafc2c67cae722c74544fd2c6b6aa1496805f04179dd13c134338081e25",
+    "upstream_sla": "18896e757647ed9c2a68816b35a7100afda6e287",
+    "upstream_memory": "c1b205ec42b4ab2cac9c2159c8b4c2f723e5e454",
+    "HF_dataset": "RoboDojo-Benchmark/RoboDojo",
+    "HF_revision": null,
+    "HF_revision_state": "RESOLVE_AND_SEAL_BEFORE_TRANSFER_NO_FLOATING_MAIN"
+  },
+  "observed_snapshot": {
+    "time_SGT": "2026-11-18T00:38:43.459925+08:00",
+    "not_live_server_probe": true,
+    "B1_updates": 500,
+    "B2_updates": 500,
+    "total_new_visits_in_v52": 32000,
+    "offline_generations": 792,
+    "E2_planned": 24,
+    "E2_started": 9,
+    "E2_terminal": 8,
+    "E2_pending": 1,
+    "E2_unstarted": 15,
+    "E2_successes": 5,
+    "E2_contact_STOP": 1,
+    "E2_H40_rejections": 2,
+    "closed_ticks": 161962,
+    "active_ticks_lower_bound": 15453,
+    "native_generation_completed": 508,
+    "B2_new_interior_rejection_m_s2": 0.261575,
+    "B2_new_interior_rejection_index": 34,
+    "B2_new_interior_rejection_task_s": 27.0,
+    "full_dynamic_pair_identity_established": false,
+    "followup_auto_dispatch": "remaining fixed E2 only",
+    "confirmation_E3_DEV_TEST_started": 0
+  },
+  "source_audit": {
+    "robot": "arx_x5",
+    "first_episode_cap": 12,
+    "total_episode_cap_including_first": 60,
+    "raw_bytes_cap": 34359738368,
+    "all_new_data_bytes_cap": 68719476736,
+    "actual_metadata_before_selection": true,
+    "selection_seed": 2026111801,
+    "nominal_per_available_task": {
+      "TRAIN": 6,
+      "SOURCE_DEV": 2,
+      "SOURCE_TEST": 2
+    },
+    "split_unit": "session/operator/scene clusters then episode; near-duplicate audit",
+    "allow_only_single_arm_independent_subtasks": true,
+    "blind_drop_other_arm": false,
+    "source_native_retained": true,
+    "partial_supervision_in_first_round": false,
+    "fit_statistics": "old C20 only",
+    "timestamp_provenance": [
+      "recorded timestamp if present",
+      "verified nominal frame clock otherwise; no measured-hardware-delay claim"
+    ],
+    "label_kinds": [
+      "SOURCE_RECORDED_ACTION_SEQUENCE",
+      "SOURCE_RESAMPLED_COMMAND_REFERENCE"
+    ],
+    "unknown_consumption_is_executed": false,
+    "future_achieved_fallback_automatic": false,
+    "source_H40_target_gate_is_data_validity_gate": false
+  },
+  "compatibility": {
+    "target_decoder_change": false,
+    "source_inverse_fit_allowed": "same fixed SHIFT7 function family only; all residuals retained",
+    "legacy_fixed_2s_labeler_direct_use": false,
+    "max_equivalent_width_error_m": 0.0002,
+    "rms_equivalent_width_error_m": 0.0001,
+    "crossing_error_s_max": 0.05,
+    "train_episodes_min": 12,
+    "train_tasks_min": 2,
+    "train_distinct_full_H40_windows_min": 256,
+    "close_event_windows_min": 24,
+    "open_event_windows_min": 24,
+    "episodes_per_event_kind_min": 4,
+    "source_dev_episodes_min": 6,
+    "source_dev_tasks_min": 2,
+    "source_dev_distinct_windows_min": 64,
+    "source_test_distinct_windows_min": 64,
+    "no_stationary_only_admission": true,
+    "no_fabricated_native_ticks_or_ACK": true,
+    "insufficient_outcomes": [
+      "BLOCKED_REPRESENTATION",
+      "BLOCKED_LABEL_SEMANTICS",
+      "BLOCKED_DATA_COVERAGE"
+    ],
+    "incompatible_source_native_method_auto_started": false
+  },
+  "training": {
+    "common_parent": "original SHIFT7, not B2",
+    "fresh_Adam_matching": true,
+    "updates_per_arm": 500,
+    "batch": 32,
+    "microbatch": 4,
+    "total_visits_per_arm": 16000,
+    "active_arrays": 28,
+    "active_numel": 52153376,
+    "state_dropout": 0.25,
+    "inference_steps": 10,
+    "route": "cached_actual",
+    "LR": "exact archived B2 500-entry bank, mfree_training_v1.learning_rates()[:500]",
+    "normalizer": "frozen C20 statistics; no refit",
+    "target_objective": "FM32 + 0.1 * endpoint_loss",
+    "source_objective": "FM32 only; same global batch average",
+    "source_ratio_multiplied_twice": false,
+    "arbitrary_checkpoints_for_selection": false,
+    "Memory": false,
+    "Spatial_Forcing": false,
+    "BASE_head": false,
+    "extra_unfreezing": false,
+    "arms": [
+      {
+        "id": "Real0",
+        "ratio": 0,
+        "target_visits": 16000,
+        "source_visits": 0,
+        "new_updates": 0,
+        "reuse": "actual B2 endpoint; require exact recipe and reader equivalence"
+      },
+      {
+        "id": "Real10",
+        "ratio": 0.1,
+        "target_visits": 14400,
+        "source_visits": 1600,
+        "new_updates": 500
+      },
+      {
+        "id": "Real25",
+        "ratio": 0.25,
+        "target_visits": 12000,
+        "source_visits": 4000,
+        "new_updates": 500
+      }
+    ]
+  },
+  "sampler": {
+    "superblock_updates": 10,
+    "superblock_slots": 320,
+    "Real10_replaced_slots": 32,
+    "Real25_replaced_slots": 80,
+    "nested_source_masks": true,
+    "common_identical_target_slots_all_arms": 12000,
+    "common_identical_source_slots_Real10_Real25": 1600,
+    "absolute_cursor_RNG_preserved": true,
+    "target_cursor_not_compacted": true,
+    "task_episode_event_anchor_hierarchy": true,
+    "metadata_in_model_inputs": false,
+    "source_seed": 2026111801
+  },
+  "offline": {
+    "interface_equivalence_generations_max": 32,
+    "new_endpoint_target_bank": 372,
+    "TRAIN96": 96,
+    "CN38": 180,
+    "ROLL96": 96,
+    "source_dev_per_arm": 64,
+    "independent_restore_per_arm": 16,
+    "new_endpoint_generations_per_arm": 452,
+    "reused_Real0_new_generations": 80,
+    "final_source_test_once": 64,
+    "new_generations_total_max": 1080,
+    "diagnostic_backward_max": 2,
+    "diagnostic_windows_max": 8,
+    "diagnostic_optimizer_updates": 0
+  },
+  "evaluation": {
+    "screen": {
+      "arms": 3,
+      "per_arm": 8,
+      "total": 24,
+      "families": [
+        "F1",
+        "F2"
+      ],
+      "layouts": [
+        "T0",
+        "T1",
+        "T2",
+        "T3"
+      ],
+      "new_reset_noise_identity": true,
+      "fixed_counterbalanced_order": true
+    },
+    "screen_gate": {
+      "success_min": 6,
+      "each_family_min": 3,
+      "hard_STOP": 0,
+      "technical_failure": 0,
+      "original_offline_promotion_gates": true,
+      "not_worse_than_Real0_total_or_either_family": true
+    },
+    "tie_break": [
+      "success desc",
+      "weakest family desc",
+      "H40 rejections asc",
+      "successful task median seconds asc",
+      "Real0 then Real10 then Real25"
+    ],
+    "confirmation": {
+      "requests": 8,
+      "success_min": 6,
+      "each_family_min": 3,
+      "hard_STOP": 0,
+      "technical_failure": 0,
+      "one_candidate_once": true
+    },
+    "DEV": {
+      "requests": 32,
+      "layouts_per_family": 8,
+      "seeds_per_layout": 2,
+      "success_min": 24,
+      "each_family_min": 12,
+      "hard_STOP": 0,
+      "technical_failure": 0
+    },
+    "TEST": {
+      "requests": 40,
+      "layouts_per_family": 10,
+      "seeds_per_layout": 2,
+      "success_min": 32,
+      "each_family_min": 16,
+      "hard_STOP": 0,
+      "technical_failure": 0,
+      "one_frozen_candidate_once": true
+    },
+    "split_before_new_training_or_selection": true,
+    "exclude_v52_36_holdout_layouts": true,
+    "insufficient_independent_layouts": "development-only; no renamed seed-only TEST",
+    "test_after_failed_DEV": false,
+    "scientific_failure_replacement": false,
+    "same_seed_claims_full_WBC_state_identity": false
+  },
+  "runtime": {
+    "profile": "SIM_PAUSED_NATIVE",
+    "mode": "M_FREE",
+    "WBC_legs_MPC_solver_armPD_frozen": true,
+    "physics_dt_s": 0.002,
+    "H40_dt_s": 0.05,
+    "H40_points": 40,
+    "P10_points": 10,
+    "TTL_native_s": 0.4,
+    "original_acceleration_limit_m_s2": 0.25,
+    "gripper_speed_limit_m_s": 0.04,
+    "initialization_ticks": 5703,
+    "task_ticks_max": 30000,
+    "episode_ticks_max": 35703,
+    "episode_queries_max": 120,
+    "interface_ticks_max": 5953,
+    "native_worlds_max": 1,
+    "service_hours_max": 12,
+    "campaign_hours_max": 24,
+    "recorded_old_E2_service_deadline_SGT": "2026-11-18T10:12:18.289509+08:00",
+    "recorded_allocation_deadline_SGT": "2026-11-19T02:51:23.855488+08:00",
+    "actual_permission_must_be_rechecked": true,
+    "no_old_service_extension": true,
+    "initial_source_cpu_threads_max": 2,
+    "initial_source_working_memory_bytes_max": 4294967296,
+    "initial_decode_workers_max": 1,
+    "no_compute_on_AMD": true
+  },
+  "budgets": {
+    "new_updates_max": 1000,
+    "new_optimization_visits_max": 32000,
+    "historical_B2_updates_not_recounted": 500,
+    "offline_generations_max": 1080,
+    "native_generations_max": 12480,
+    "total_generations_max": 13560,
+    "scientific_native_requests_max": 104,
+    "interface_native_requests_max": 2,
+    "all_native_requests_max": 106,
+    "native_ticks_max": 3725018,
+    "technical_attempts_use_same_budget": true,
+    "evidenced_technical_continuations_per_stage_max": 2
+  },
+  "failure_policy": {
+    "H40_reject": "no install; episode failed; next fixed condition",
+    "contact_STOP": "end episode; retain cost/partial trace; no retry or promotion from failed panel",
+    "technical": "reconcile effects before bounded new source; only unstarted suffix",
+    "global_STOP": [
+      "integration after STOP",
+      "frozen identity changed",
+      "unknown owner or launch",
+      "isolation failure",
+      "tick overrun"
+    ]
+  },
+  "future_not_in_current_budget": [
+    "new multi-task PICK_PLACE data and training",
+    "source-native/new gripper representation study",
+    "Memory ablation",
+    "sequential source preadaptation",
+    "strict zero-target-data cross-embodiment test",
+    "real Go2 control"
+  ]
+}
