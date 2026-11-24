@@ -1,0 +1,79 @@
+{
+  "status": "CPU_OWNER_BOUND",
+  "binding": {
+    "campaign": "V193-STANDING-FRUIT-H0-ANCHOR-01",
+    "slots": [
+      "G01-H0",
+      "G00-H0"
+    ],
+    "limits": {
+      "native_starts": 2,
+      "ticks_per_start": 50000,
+      "total_ticks": 100000,
+      "mujoco_only": true,
+      "contact": true,
+      "frozen_model_forwards": 0,
+      "training_updates": 0
+    },
+    "receiver_sha256": "739a7a087d0f4762423c044d50df06d634b92a155664fe0a2f9f717762a595e6",
+    "compiled_scene_sha256": [
+      "ac855b7dc1bd97f0a819ad57cc1873d8316fe918ed3d960de6ea036fcfd257ba",
+      "e577e5418c2a4036c01ffccb9f562c86c4477768588880a9f3c8f5f7441ab2b4"
+    ],
+    "source_sha": [
+      "7090e2ad238e76cd6278cf65405f7785604abfdb",
+      "7090e2ad238e76cd6278cf65405f7785604abfdb"
+    ],
+    "runtime": {
+      "native_binary": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+      "solver_binary": "4a5f5aa6e0b9d4bde62f4d1da73135ef97e5268945a0cecf114d9190d3e04fd0",
+      "controller_binary": "9e8ce46837d09bc39ae04d4b49f1ce4dd8c8c2d31bea39eac56c5806d108c1f3",
+      "observer_library": "48b082c21dd61d91dc1ec5a2b18b91646c76a604b1287f77209b92cd67d693a5",
+      "mobile_safety_library": "38635077b1322d08ba798a4197ebc01357e83225205400671ff651d0eb35abf2",
+      "trace_library": "d4734afc5cb82faa9755b1c94222a1ccbace50d43eb6fafb2001779dd46a2f83"
+    },
+    "stop_predecessor": {
+      "issue": 482,
+      "slot": "G00-STOP",
+      "stop_tick": 7214,
+      "after_stop_integrations": 0,
+      "after_stop_installs": 0,
+      "active_motion_mm": 0.305471506374927,
+      "identical_receiver_and_frozen_executables_for": [
+        "G00",
+        "G01"
+      ],
+      "direct_scene_match": [
+        "G00"
+      ],
+      "other_scene": "G01 uses the same binary and 41/38/20 state ABI",
+      "terminal_lease_closed": true,
+      "runtime_identities": {
+        "outer_library": "927f2179793916dff30590a82b0e5ce3d92811e21446459416613da59e9e3878",
+        "native_binary": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+        "solver_binary": "4a5f5aa6e0b9d4bde62f4d1da73135ef97e5268945a0cecf114d9190d3e04fd0",
+        "controller_binary": "9e8ce46837d09bc39ae04d4b49f1ce4dd8c8c2d31bea39eac56c5806d108c1f3"
+      },
+      "sea_profile_executed_in_predecessor": false
+    },
+    "code": {
+      "sea_fruit_h0_owner.py": "6adbd4db7d9bfca24054738a821919f3a7426f34c41f0fdfa6c8cc410f215174",
+      "sea_fruit_h0_native.py": "288a4091e7cd1f221b740bfb4566ae7be185c8b9f98d3c6f24e384467a13d852",
+      "sea_fruit_h0_capture.py": "d0984b001098474d07504676667f2eb83b9ede5cb514ee270ad1abb416084a9b",
+      "sea_fruit_camera.py": "12d629360d73606b2a27c2c7775b2db96170982d6ab9667d92a606d6f67820b9",
+      "sea_fruit_h0_score.py": "5ba0d0a409ef20eac2cae00178e73cfcb40fcdc0b391fda369b9be386b04eedb",
+      "reach_native.py": "4290702a3db96422ac10d65e0acc9c5b3963ebf3fdc7484d5065db798c37aaf5",
+      "moving_stop_card.py": "50c6410ebda1b1ae150c98c11f8a771932bcc460bce01b21315df5628e9ded3e",
+      "sea_stance_anchor.py": "5ba27a116cfd028fcf44c2b802ef983dfbfc144ff0997fd7daed0eb00469a570"
+    },
+    "receiver_proof_sha256": "93d517ac643b59863d961a2035ab338afc9c12d33a26f1ab3eb99ed2f1be5af4",
+    "driver_proof_sha256": "53fa7ea76d595bb32fcaae255647fcb666ae0c1ae29845e20261925239221339",
+    "anchor_profile": "ONE_MEASURED_MPC_BASE_HOLD_BEFORE_TASK",
+    "anchor_proof_sha256": "2922dde65e4677b81e352d8dd2c08490ed505d8bd5599a664aa3830bbc53328f",
+    "cause_proof_sha256": "c1ada7bbde3de13589f5cda115edc4f9b3add610974101dcb3e569be1c72815a",
+    "prior_closed_panel_sha256": "6a1e45d9636e1d9b9b7bcb28e662991344446d7f653028d92a71b2b4a06af4a9"
+  },
+  "new_native_starts": 0,
+  "new_integrations": 0,
+  "model_forwards": 0
+}

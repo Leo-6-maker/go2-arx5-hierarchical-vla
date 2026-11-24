@@ -2,6 +2,7 @@
 
 import argparse
 from contextlib import closing
+from functools import partial
 import hashlib
 import json
 import math
@@ -26,6 +27,7 @@ from sea_fruit_receiver import CAP
 
 REPORT = BASE / "reports/SLA_GO2_V193/GRIP_H0"
 CAMPAIGN = "V193-STANDING-FRUIT-H0-01"
+ANCHOR_CAMPAIGN = "V193-STANDING-FRUIT-H0-ANCHOR-01"
 SLOTS = ("G00-H0", "G01-H0")
 LIMITS = dict(native_starts=2, ticks_per_start=CAP, total_ticks=2*CAP,
               mujoco_only=True, contact=True, frozen_model_forwards=0, training_updates=0)
@@ -33,7 +35,7 @@ RUNTIME = ("native_binary", "solver_binary", "controller_binary", "observer_libr
            "mobile_safety_library", "trace_library")
 
 
-def site_binding(root, fruit, receiver_root):
+def site_binding(root, fruit, receiver_root, *, measured_anchor=False):
     scene_receipt = read(REPORT / "FRUIT_SCENES_CPU.json")
     require(read(pin(fruit / "RESULT.json", sha(REPORT / "FRUIT_SCENES_CPU.json"))) == scene_receipt,
             "scene receipt changed")
@@ -80,6 +82,28 @@ def site_binding(root, fruit, receiver_root):
               BASE / "scripts/sla_hierarchical_v16/moving_stop_card.py")},
         receiver_proof_sha256=sha(receiver_proof), driver_proof_sha256=sha(REPORT / "FRUIT_DRIVER_CPU.json"),
     )
+    if measured_anchor:
+        from sea_stance_anchor import PROFILE, SETTLING_TICKS
+
+        proof = read(REPORT / "STANCE_ANCHOR_CPU.json")
+        attribution = read(REPORT / "G01_STANCE_CAUSE_CPU.json")
+        require(proof["status"] == "STANCE_ANCHOR_STATIC_VALIDATED"
+                and proof["profile"] == PROFILE and proof["minimum_settling_ticks"] == SETTLING_TICKS
+                and proof["new_integrations"] == 0 and set(proof["cases"]) == {"G00", "G01"}
+                and attribution["status"] == "CLOSED_G01_LEG_GAIT_TRANSITION_EXPLAINED"
+                and attribution["new_integrations"] == 0, "missing stance-anchor evidence")
+        rows.reverse()
+        binding.update(
+            campaign=ANCHOR_CAMPAIGN,
+            slots=[r[0] for r in rows],
+            compiled_scene_sha256=[r[3]["scene_sha256"] for r in rows],
+            source_sha=[r[1]["source_sha"] for r in rows],
+            anchor_profile=PROFILE,
+            anchor_proof_sha256=sha(REPORT / "STANCE_ANCHOR_CPU.json"),
+            cause_proof_sha256=sha(REPORT / "G01_STANCE_CAUSE_CPU.json"),
+            prior_closed_panel_sha256=sha(REPORT / "FRUIT_H0_ACTUAL.json"),
+        )
+        binding["code"]["sea_stance_anchor.py"] = sha(Path(__file__).with_name("sea_stance_anchor.py"))
     return binding, rows, receiver, runtime_pins
 
 
@@ -116,7 +140,8 @@ def audit(case, result, spec):
                 no_survivors=True, exits=result["exits"], observation_events=result.get("observation_events"))
 
 
-def run_slot(dest, row, receiver, runtime_pins, valid_until, cohort_hash):
+def run_slot(dest, row, receiver, runtime_pins, valid_until, cohort_hash, *,
+             scope=CAMPAIGN, task_driver=drive):
     from d1_matched_owner import with_case_lease
     from scripts.pi0292.durable import OwnerLock
 
@@ -129,14 +154,14 @@ def run_slot(dest, row, receiver, runtime_pins, valid_until, cohort_hash):
                 and not any((p / "STOP.json").exists() for p in (dest, Path(base["campaign_root"]))),
                 "expired allocation or operator STOP")
         fields = dict(
-            scope=CAMPAIGN, max_ticks=CAP, campaign_root=str(dest), outer_library=str(receiver),
+            scope=scope, max_ticks=CAP, campaign_root=str(dest), outer_library=str(receiver),
             model_path=str(scene), multitask_geometry=compiled["scoring_geometry"],
             native_environment=environment(base, case),
             frozen_files={**base["frozen_files"], str(receiver): sha(receiver),
                           str(scene): compiled["scene_sha256"]},
         )
         return with_case_lease(case, base, runtime_pins, cohort_hash, fields,
-            lambda spec, sp: execute(base, sp, spec, None, scorer=audit, task_driver=drive,
+            lambda spec, sp: execute(base, sp, spec, None, scorer=audit, task_driver=task_driver,
                                      grant_cap=CAP, opening_command=grip_at_grant))
 
 
@@ -184,14 +209,17 @@ def closed_prefix(root):
 
 def launch(root, binding, rows, receiver, runtime_pins, allocation):
     valid_until = allocation["valid_until_epoch"]
-    require(allocation.get("issued") is True and allocation.get("campaign") == CAMPAIGN
+    campaign = binding["campaign"]
+    require(allocation.get("issued") is True and allocation.get("campaign") == campaign
             and isinstance(allocation.get("authorization_id"), str) and allocation["authorization_id"].strip()
             and allocation.get("binding") == binding and type(valid_until) in (int, float)
             and math.isfinite(valid_until) and valid_until > time.time(), "unissued or expired science allocation")
     base = rows[0][1]
-    dest = root / "v19" / CAMPAIGN
+    dest = root / "v19" / campaign
+    task_driver = partial(drive, measured_anchor=True) if campaign == ANCHOR_CAMPAIGN else drive
     prefix = None
     if allocation.get("continue_after") is not None:
+        require(campaign == CAMPAIGN, "closed-card continuation belongs to the old profile")
         prefix = closed_prefix(root)
         require(allocation["continue_after"] == prefix, "continuation does not match closed first card")
         prior = read(dest / "ALLOCATION.json")
@@ -220,7 +248,8 @@ def launch(root, binding, rows, receiver, runtime_pins, allocation):
     done = {}
     try:
         for row in rows:
-            done[row[0]] = run_slot(dest, row, receiver, runtime_pins, valid_until, sha(dest / "BINDING.json"))
+            done[row[0]] = run_slot(dest, row, receiver, runtime_pins, valid_until, sha(dest / "BINDING.json"),
+                                    scope=campaign, task_driver=task_driver)
             require(read(dest / row[0] / "control/LEASE.json")["status"] == "CLOSED", "lease still active")
             if not done[row[0]].get("completed"):
                 break
@@ -252,10 +281,12 @@ if __name__ == "__main__":
     cli.add_argument("--allocation", type=Path)
     cli.add_argument("--allocation-sha256")
     cli.add_argument("--closed-prefix", action="store_true")
+    cli.add_argument("--measured-anchor", action="store_true")
     args = cli.parse_args()
     os.umask(0o077)
     site = args.site.resolve()
-    prepared = site_binding(site, args.fruit.resolve(), args.receiver.resolve())
+    prepared = site_binding(site, args.fruit.resolve(), args.receiver.resolve(),
+                            measured_anchor=args.measured_anchor)
     if args.closed_prefix:
         require(args.allocation is None, "read-only continuation audit")
         print(json.dumps(dict(status="CPU_OWNER_BOUND", binding=prepared[0],

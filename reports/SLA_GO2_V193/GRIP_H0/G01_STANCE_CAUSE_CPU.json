@@ -1,0 +1,172 @@
+{
+  "status": "CLOSED_G01_LEG_GAIT_TRANSITION_EXPLAINED",
+  "gait": {
+    "gait_tokens_after_task_entry": [
+      1158
+    ],
+    "transition_s": 23.14,
+    "norm_before": 0.09998585890676488,
+    "norm_after": 0.10004907154658561,
+    "threshold": 0.1,
+    "frequency_before_Hz": 0.0,
+    "frequency_after_Hz": 2.75,
+    "contributing_base_command": [
+      0.0692412480711937,
+      -0.05322635918855667,
+      -0.04881004989147186
+    ],
+    "exact_base_message_matches": 1,
+    "consumed_ticks": [
+      11571,
+      11572,
+      11573,
+      11574,
+      11575,
+      11576,
+      11577,
+      11578
+    ],
+    "max_target_join_error_rad": 4.470348358154297e-08,
+    "FL_PD_target_before_rad": [
+      0.02348807454109192,
+      0.6447983384132385,
+      -1.3017898797988892
+    ],
+    "FL_PD_target_after_rad": [
+      0.08572847433388234,
+      0.6679849356412888,
+      -1.5455367118120193
+    ]
+  },
+  "left_front": {
+    "max_before_gait_foot_shift_mm": 1.2456754164449266,
+    "peak_pre_gait_FL_speed_mm_s": 0.19558346396134133,
+    "peak_during_gait_FL_speed_mm_s": 443.0950010168469,
+    "terminal_base_component_xyz_mm": [
+      -2.767570925082119,
+      2.5078136951366403,
+      -5.518875389791678
+    ],
+    "terminal_leg_articulation_component_xyz_mm": [
+      7.263862858356381,
+      -0.4839781373850718,
+      7.545389064817442
+    ],
+    "tcp_move_during_applied_gait_mm": 0.3459237575967692,
+    "local_window": [
+      {
+        "tick": 11570,
+        "foot_shift_mm": 1.2456754164449266,
+        "fl_normal_force_N": 53.09028975968512,
+        "fl_tangent_force_N": 16.499580614884103,
+        "FL_effort_Nm": [
+          0.9255462090474985,
+          -2.2814131527111368,
+          7.17607112150754
+        ]
+      },
+      {
+        "tick": 11571,
+        "foot_shift_mm": 1.3338336762443934,
+        "fl_normal_force_N": 2.8235264642593516,
+        "fl_tangent_force_N": 1.120871947488325,
+        "FL_effort_Nm": [
+          3.770901793419815,
+          -0.9186840672247617,
+          6.849507755370989
+        ]
+      },
+      {
+        "tick": 11572,
+        "foot_shift_mm": 1.535990690080371,
+        "fl_normal_force_N": 2.1478231433080195,
+        "fl_tangent_force_N": 0.8528164299110012,
+        "FL_effort_Nm": [
+          3.770901793419815,
+          -0.9186840672247617,
+          6.849507755370989
+        ]
+      },
+      {
+        "tick": 11573,
+        "foot_shift_mm": 1.8818156559059547,
+        "fl_normal_force_N": 1.4733228142158459,
+        "fl_tangent_force_N": 0.5851097735076702,
+        "FL_effort_Nm": [
+          3.770901793419815,
+          -0.9186840672247617,
+          6.849507755370989
+        ]
+      },
+      {
+        "tick": 11574,
+        "foot_shift_mm": 2.3604846480550004,
+        "fl_normal_force_N": 3.2085092230638366,
+        "fl_tangent_force_N": 1.2744927292288557,
+        "FL_effort_Nm": [
+          3.7738925344553653,
+          -0.9984575061452579,
+          7.014309212853651
+        ]
+      },
+      {
+        "tick": 11575,
+        "foot_shift_mm": 2.967607605868124,
+        "fl_normal_force_N": 2.5669878827883577,
+        "fl_tangent_force_N": 1.0198348646871906,
+        "FL_effort_Nm": [
+          3.7738925344553653,
+          -0.9984575061452579,
+          7.014309212853651
+        ]
+      },
+      {
+        "tick": 11576,
+        "foot_shift_mm": 3.669104763898222,
+        "fl_normal_force_N": 4.162348570522506,
+        "fl_tangent_force_N": 1.6540191651937075,
+        "FL_effort_Nm": [
+          3.777523031753682,
+          -1.0854197264691632,
+          7.187836103374917
+        ]
+      },
+      {
+        "tick": 11577,
+        "foot_shift_mm": 4.458276027513398,
+        "fl_normal_force_N": 3.4741210227643475,
+        "fl_tangent_force_N": 1.3807767801305677,
+        "FL_effort_Nm": [
+          3.777523031753682,
+          -1.0854197264691632,
+          7.187836103374917
+        ]
+      },
+      {
+        "tick": 11578,
+        "foot_shift_mm": 5.330976382344349,
+        "fl_normal_force_N": 2.914405487914757,
+        "fl_tangent_force_N": 1.158491316672895,
+        "FL_effort_Nm": [
+          3.777523031753682,
+          -1.0854197264691632,
+          7.187836103374917
+        ]
+      }
+    ]
+  },
+  "last_reference_source_s": 22.906,
+  "last_reference_ttl_s": 0.4,
+  "gait_transition_reference_age_s": 0.23400000000000176,
+  "final_physics_tick": 11578,
+  "evidence_sha256": {
+    "trace": "9ec753e4c7c1c5f05c8b4a1b931319feda1791abe6ae5860f4650a06dfcd4d6f",
+    "journal": "40d943cf45d2f133dfb9fc9f454a94e18f46cc6fce21adc2e4748ae5992984d6",
+    "ros": "be27c6d9e913f53a5cd0ec198013a3d54679b9673dd8adfdec987ca3a5361536",
+    "config": "d39fbb039751f24f7fbae04e4402f803595fc009456e18a10bb7bce992b19855",
+    "planner": "4fdfdedc93f3ce0a0db6b7e2671ea00321aa063bed8a22ca988a21b415aa15c6"
+  },
+  "new_integrations": 0,
+  "new_frozen_policy_forwards": 0,
+  "training_updates": 0
+}
