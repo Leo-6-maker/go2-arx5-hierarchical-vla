@@ -4,6 +4,7 @@ import argparse
 from contextlib import closing
 import json
 import os
+import re
 from pathlib import Path
 
 from moving_stop_card import (
@@ -198,11 +199,47 @@ def classify(root, case, row):
     return row
 
 
-def run(root, allocation):
+def verify_unused_request(root, dest, plan):
+    """Only the diagnosed, pre-dispatch dry check can recover the original slot."""
+    case = dest / CARD
+    prior = closed_report(root, case)
+    require(
+        read(dest / "REGISTRATION.json") == plan
+        and prior == read(dest / "CLOSED_READOUT.json")
+        and prior["outcome"] == "TECHNICAL_STOP"
+        and prior["issued_requests"] == 0
+        and prior["errors"] == ["no native request receipt"],
+        "different registration or native execution evidence",
+    )
+    error = read(dest / "OWNER_INTERRUPTION.json")["error"]
+    require(
+        re.fullmatch(
+            r"FileNotFoundError: \[Errno 2\] No such file or directory: '/tmp/tmp[^/']+/planner\.jsonl'",
+            error,
+        ),
+        "unidentified pre-request interruption",
+    )
+    expected = {
+        "EXECUTION_SPEC.json",
+        "control",
+        "control/LEASE.json",
+        "tmp",
+        "logs",
+        "data",
+        "cache",
+    }
+    require(
+        {str(path.relative_to(case)) for path in case.rglob("*")} == expected,
+        "unexpected prior native or owner artifacts",
+    )
+
+
+def run(root, allocation, *, recover_before_request=False):
     from d1_matched_owner import with_case_lease
     from scripts.pi0292.durable import OwnerLock
 
-    base, pins, receiver, _, _ = inputs(root)
+    prepared = inputs(root)
+    base, pins, receiver, _, _ = prepared
     plan = read(allocation)
     validate_allocation(plan)
     dest = root / "v16" / CAMPAIGN
@@ -213,6 +250,9 @@ def run(root, allocation):
         require(
             not (Path(base["campaign_root"]) / "STOP.json").exists(), "operator STOP"
         )
+        if recover_before_request:
+            verify_unused_request(root, dest, plan)
+            dest = dest / (CAMPAIGN + "-lease02")
         dest.mkdir(mode=0o700, exist_ok=False)
         record(dest / "REGISTRATION.json", plan)
         case = dest / CARD
@@ -228,7 +268,7 @@ def run(root, allocation):
                 pins,
                 sha(dest / "REGISTRATION.json"),
                 fields,
-                lambda spec, sp: run_case(root, spec, sp),
+                lambda spec, sp: run_case(root, spec, sp, prepared),
             )
         except Exception as exc:
             record(
@@ -315,6 +355,9 @@ def main():
     parser.add_argument("root", type=Path)
     group = parser.add_mutually_exclusive_group()
     group.add_argument("--execute", type=Path, metavar="FINAL_SCIENTIFIC_ALLOCATION")
+    group.add_argument(
+        "--recover-before-request", type=Path, metavar="ORIGINAL_SCIENTIFIC_ALLOCATION"
+    )
     group.add_argument("--read-closed", action="store_true")
     group.add_argument("--audit-archives", action="store_true")
     args = parser.parse_args()
@@ -324,8 +367,14 @@ def main():
         result = run(root, args.execute.resolve())
     elif args.audit_archives:
         result = archive_control(root)
+    elif args.recover_before_request:
+        result = run(
+            root, args.recover_before_request.resolve(), recover_before_request=True
+        )
     elif args.read_closed:
-        result = closed_report(root, root / "v16" / CAMPAIGN / CARD)
+        dest = root / "v16" / CAMPAIGN
+        repair = dest / (CAMPAIGN + "-lease02")
+        result = closed_report(root, (repair if repair.exists() else dest) / CARD)
     else:
         from scripts.pi0292.durable import OwnerLock
 
