@@ -7,7 +7,6 @@ import os
 from pathlib import Path
 import sys
 
-import h5py
 import numpy as np
 
 BASE = Path(__file__).resolve().parents[2]
@@ -89,6 +88,8 @@ def replay_real_input(h, row, archived):
 
 
 def freeze_source(root):
+    import h5py
+
     o0 = read(O0)
     inputs = root / "evidence/O0_PANEL_01"
     anchors, candidates, datasets, geometry = [], [], {}, {}
