@@ -1,0 +1,720 @@
+{
+  "panel": "SEA-TASK-T2-193-3V-01",
+  "counts": {
+    "RETURNED": 8,
+    "TECHNICAL_ENTERED": 0,
+    "UNSTARTED": 0
+  },
+  "rows": [
+    {
+      "id": "G00-before_close-seed0",
+      "anchor": "G00-before_close",
+      "condition": "THREE_VIEW_TL",
+      "seed": [
+        0,
+        0
+      ],
+      "input_sha256": "13a25e85c0017058990919d460d2b13aa94e4a393f23f5e7a37886d90ddd68ac",
+      "initial_noise_sha256": "d9c0121c61f1826fee31d72180b38abc02ac4938cf94bccb68e4c2a427eb49a4",
+      "status": "RETURNED",
+      "horizons": {
+        "10": {
+          "predicted_delta_mm": [
+            0.5966126918792725,
+            -0.739815179258585,
+            0.01325458288192749
+          ],
+          "actual_h0_delta_mm": [
+            -0.018545747797457657,
+            -0.08896104114436074,
+            -1.5171399260243135
+          ],
+          "direction_cos": null,
+          "flange_error": {
+            "xyz_rms_mm": 1.405100200437085,
+            "xyz_peak_mm": 1.9817866011198866,
+            "so3_rms_deg": 0.15856042260814762,
+            "so3_peak_deg": 0.248478295997703
+          },
+          "hold_error": {
+            "xyz_rms_mm": 0.9640237079520744,
+            "xyz_peak_mm": 1.5198590614724494,
+            "so3_rms_deg": 0.004557332142907063,
+            "so3_peak_deg": 0.00827818130405123
+          }
+        },
+        "50": {
+          "predicted_delta_mm": [
+            -13.626039028167725,
+            -2.488018712028861,
+            2.6624053716659546
+          ],
+          "actual_h0_delta_mm": [
+            -0.15386754118032475,
+            -0.24248871780140416,
+            -3.5760304468336335
+          ],
+          "direction_cos": -0.13479584211434864,
+          "flange_error": {
+            "xyz_rms_mm": 4.736602837918693,
+            "xyz_peak_mm": 15.015321874382517,
+            "so3_rms_deg": 0.6128093248366231,
+            "so3_peak_deg": 2.914312670533709
+          },
+          "hold_error": {
+            "xyz_rms_mm": 2.8166072795433115,
+            "xyz_peak_mm": 3.6622305496846614,
+            "so3_rms_deg": 0.08824374629826996,
+            "so3_peak_deg": 0.17618205896501135
+          }
+        }
+      },
+      "grip": {
+        "started_closed": false,
+        "first_predicted_closed_row": null,
+        "remains_closed_across_horizon": false,
+        "final_closed": false,
+        "contiguous_closed_forecast_s": 0.0,
+        "contiguous_elevated_closed_forecast_s": 0.0,
+        "max_flange_Z_above_close_mm": null,
+        "reaches_one_second_flange_proxy": false,
+        "threshold_events": []
+      },
+      "orientation_unit_quaternion_valid": true,
+      "max_decoded_quaternion_norm_error": 5.960464477539063e-08,
+      "raw_gripper_fraction_range": [
+        0.9218679070472717,
+        0.941335141658783
+      ],
+      "raw_gripper_fraction_rows_outside_unit_range": 0,
+      "physical_gripper_and_tcp_gate": "UNSCORED_SOURCE_CODEC_UNAVAILABLE",
+      "output_sha256": "86d55fab8014a7e92c55e8a9bda9de618ab848920cb27d0f3d1408bc11586706",
+      "raw_sha256": "80ecf552f29c8db8f1e0e4443c401ff019e5cdcf2309edf28b9ca7af91873ae7",
+      "raw_dtype": "float32",
+      "decoded_sha256": "bc3206aba8d4de26c24b758672536bc8f10b069fb52b5516f2e42d2fdfbbb05c"
+    },
+    {
+      "id": "G00-first_query_after_grasp-seed0",
+      "anchor": "G00-first_query_after_grasp",
+      "condition": "THREE_VIEW_TL",
+      "seed": [
+        0,
+        0
+      ],
+      "input_sha256": "f7912fb607dd3fce5e625035bf37616c1c2f0653873e2b086dd380692c755527",
+      "initial_noise_sha256": "d9c0121c61f1826fee31d72180b38abc02ac4938cf94bccb68e4c2a427eb49a4",
+      "status": "RETURNED",
+      "horizons": {
+        "10": {
+          "predicted_delta_mm": [
+            0.7004812359809875,
+            -0.30084606260061264,
+            -0.1355186104774475
+          ],
+          "actual_h0_delta_mm": [
+            0.02724864537774485,
+            0.007095879870959443,
+            0.2551045272296548
+          ],
+          "direction_cos": null,
+          "flange_error": {
+            "xyz_rms_mm": 0.8040733222788801,
+            "xyz_peak_mm": 1.6162173189883287,
+            "so3_rms_deg": 0.15640883224919622,
+            "so3_peak_deg": 0.22952984950212407
+          },
+          "hold_error": {
+            "xyz_rms_mm": 0.1312650221353737,
+            "xyz_peak_mm": 0.2566537745663034,
+            "so3_rms_deg": 0.03433957829690359,
+            "so3_peak_deg": 0.06719444096579477
+          }
+        },
+        "50": {
+          "predicted_delta_mm": [
+            -5.732424557209015,
+            -1.5003287699073553,
+            6.381787359714508
+          ],
+          "actual_h0_delta_mm": [
+            -0.5490232031666459,
+            0.21579075359233826,
+            5.551449782101092
+          ],
+          "direction_cos": 0.7867913268902328,
+          "flange_error": {
+            "xyz_rms_mm": 2.493339897984848,
+            "xyz_peak_mm": 5.522877538821768,
+            "so3_rms_deg": 0.4123311162459609,
+            "so3_peak_deg": 0.8185119574280175
+          },
+          "hold_error": {
+            "xyz_rms_mm": 2.7906867112905567,
+            "xyz_peak_mm": 5.582704256016217,
+            "so3_rms_deg": 0.1449545610729753,
+            "so3_peak_deg": 0.27157298800532964
+          }
+        }
+      },
+      "grip": {
+        "started_closed": true,
+        "first_predicted_closed_row": 0,
+        "remains_closed_across_horizon": true,
+        "final_closed": true,
+        "contiguous_closed_forecast_s": 1.6333333333333333,
+        "contiguous_elevated_closed_forecast_s": 0.0,
+        "max_flange_Z_above_close_mm": 6.381787359714508,
+        "reaches_one_second_flange_proxy": false,
+        "threshold_events": []
+      },
+      "orientation_unit_quaternion_valid": true,
+      "max_decoded_quaternion_norm_error": 5.960464477539063e-08,
+      "raw_gripper_fraction_range": [
+        0.4403740167617798,
+        0.5839045643806458
+      ],
+      "raw_gripper_fraction_rows_outside_unit_range": 0,
+      "physical_gripper_and_tcp_gate": "UNSCORED_SOURCE_CODEC_UNAVAILABLE",
+      "output_sha256": "b6450e20323224fd61fec1f9ea87ff9a746258dd716638bbfce7fb5ee3f1ed19",
+      "raw_sha256": "75f2f171945f066e91259c0995edce6a51890955922763f6a17faff93207214d",
+      "raw_dtype": "float32",
+      "decoded_sha256": "1b1b186307c63315d3f3b0a6f089e2d4ae92f78b3d370b37552713908af2fc32"
+    },
+    {
+      "id": "G01-before_close-seed0",
+      "anchor": "G01-before_close",
+      "condition": "THREE_VIEW_TL",
+      "seed": [
+        0,
+        0
+      ],
+      "input_sha256": "c50a0137d1f63dfa2ad25cedc1aa2c08eafb0edef0489f5f6450a66cf1ced263",
+      "initial_noise_sha256": "d9c0121c61f1826fee31d72180b38abc02ac4938cf94bccb68e4c2a427eb49a4",
+      "status": "RETURNED",
+      "horizons": {
+        "10": {
+          "predicted_delta_mm": [
+            0.6485506892204285,
+            -0.7398147135972977,
+            0.013262033462524414
+          ],
+          "actual_h0_delta_mm": [
+            -0.12764023698208504,
+            -0.11458318893832822,
+            -1.2919556992748715
+          ],
+          "direction_cos": null,
+          "flange_error": {
+            "xyz_rms_mm": 1.2854093764412151,
+            "xyz_peak_mm": 1.8860442282314154,
+            "so3_rms_deg": 0.15789653432968534,
+            "so3_peak_deg": 0.2565341185125916
+          },
+          "hold_error": {
+            "xyz_rms_mm": 0.8435931939068914,
+            "xyz_peak_mm": 1.303292318005804,
+            "so3_rms_deg": 0.0057485877344873966,
+            "so3_peak_deg": 0.011100026267063065
+          }
+        },
+        "50": {
+          "predicted_delta_mm": [
+            -11.54877245426178,
+            -2.7349423617124557,
+            2.2160857915878296
+          ],
+          "actual_h0_delta_mm": [
+            -0.3709399195863383,
+            -0.3043680269378679,
+            -2.920246405242799
+          ],
+          "direction_cos": -0.03792870971226084,
+          "flange_error": {
+            "xyz_rms_mm": 3.9836020885788104,
+            "xyz_peak_mm": 12.539279891856337,
+            "so3_rms_deg": 0.5520770353689158,
+            "so3_peak_deg": 2.3539963891200295
+          },
+          "hold_error": {
+            "xyz_rms_mm": 2.3540707844143043,
+            "xyz_peak_mm": 3.045289119857363,
+            "so3_rms_deg": 0.09786235778295987,
+            "so3_peak_deg": 0.1810064911233447
+          }
+        }
+      },
+      "grip": {
+        "started_closed": false,
+        "first_predicted_closed_row": null,
+        "remains_closed_across_horizon": false,
+        "final_closed": false,
+        "contiguous_closed_forecast_s": 0.0,
+        "contiguous_elevated_closed_forecast_s": 0.0,
+        "max_flange_Z_above_close_mm": null,
+        "reaches_one_second_flange_proxy": false,
+        "threshold_events": []
+      },
+      "orientation_unit_quaternion_valid": true,
+      "max_decoded_quaternion_norm_error": 5.960464477539063e-08,
+      "raw_gripper_fraction_range": [
+        0.924148678779602,
+        0.9418043494224548
+      ],
+      "raw_gripper_fraction_rows_outside_unit_range": 0,
+      "physical_gripper_and_tcp_gate": "UNSCORED_SOURCE_CODEC_UNAVAILABLE",
+      "output_sha256": "71cc233b637c11ee1b2de9b331dec37d691c078e10eab9113f2073d68b9c767d",
+      "raw_sha256": "63a6efee03d9820fc768de5e5136b2d90f4248c20fb6a75a7002f1915f9c4285",
+      "raw_dtype": "float32",
+      "decoded_sha256": "e20de15e5a472dc2a0b96f3cda276dcd21946921b03dcf89641881658296607c"
+    },
+    {
+      "id": "G01-first_query_after_grasp-seed0",
+      "anchor": "G01-first_query_after_grasp",
+      "condition": "THREE_VIEW_TL",
+      "seed": [
+        0,
+        0
+      ],
+      "input_sha256": "2137dd022fc96e7a8909b6364691fb10ac57e93c1f5d5b4ed8a166c047ba987c",
+      "initial_noise_sha256": "d9c0121c61f1826fee31d72180b38abc02ac4938cf94bccb68e4c2a427eb49a4",
+      "status": "RETURNED",
+      "horizons": {
+        "10": {
+          "predicted_delta_mm": [
+            0.38889795541763306,
+            -0.30084047466516495,
+            -0.1355186104774475
+          ],
+          "actual_h0_delta_mm": [
+            0.024301638029661232,
+            -0.010771834343583503,
+            0.2844181870614859
+          ],
+          "direction_cos": null,
+          "flange_error": {
+            "xyz_rms_mm": 0.6117729516179345,
+            "xyz_peak_mm": 1.1228604661326786,
+            "so3_rms_deg": 0.16588015879013887,
+            "so3_peak_deg": 0.2394650386812005
+          },
+          "hold_error": {
+            "xyz_rms_mm": 0.15053594735224723,
+            "xyz_peak_mm": 0.2856576747741826,
+            "so3_rms_deg": 0.04045746509359825,
+            "so3_peak_deg": 0.07743546779919637
+          }
+        },
+        "50": {
+          "predicted_delta_mm": [
+            -5.524694919586182,
+            -1.8844276200979948,
+            3.5550594329833984
+          ],
+          "actual_h0_delta_mm": [
+            -0.6190962652634358,
+            0.12488826853821605,
+            5.628680489703997
+          ],
+          "direction_cos": 0.5991876255281544,
+          "flange_error": {
+            "xyz_rms_mm": 2.6774322230310568,
+            "xyz_peak_mm": 5.692288888004026,
+            "so3_rms_deg": 0.34274483603503997,
+            "so3_peak_deg": 0.5281348718600496
+          },
+          "hold_error": {
+            "xyz_rms_mm": 2.8398246666371723,
+            "xyz_peak_mm": 5.664002235209307,
+            "so3_rms_deg": 0.14760059834065434,
+            "so3_peak_deg": 0.2843834134613979
+          }
+        }
+      },
+      "grip": {
+        "started_closed": true,
+        "first_predicted_closed_row": 0,
+        "remains_closed_across_horizon": true,
+        "final_closed": true,
+        "contiguous_closed_forecast_s": 1.6333333333333333,
+        "contiguous_elevated_closed_forecast_s": 0.0,
+        "max_flange_Z_above_close_mm": 3.5550594329833984,
+        "reaches_one_second_flange_proxy": false,
+        "threshold_events": []
+      },
+      "orientation_unit_quaternion_valid": true,
+      "max_decoded_quaternion_norm_error": 5.960464477539063e-08,
+      "raw_gripper_fraction_range": [
+        0.44225072860717773,
+        0.6317463517189026
+      ],
+      "raw_gripper_fraction_rows_outside_unit_range": 0,
+      "physical_gripper_and_tcp_gate": "UNSCORED_SOURCE_CODEC_UNAVAILABLE",
+      "output_sha256": "6839c96f0d4fea8ba8da752f6caab541e5424384de1b7243ce97094de80d5899",
+      "raw_sha256": "f38f72b3931ff99ad9fd95853fe281254c55a5a769ceecd7b6e6d5921a277184",
+      "raw_dtype": "float32",
+      "decoded_sha256": "ce5da43c4f57430c406b29137e6f871b29b0245343a38071d76b68d3ece22a77"
+    },
+    {
+      "id": "G00-before_close-seed1",
+      "anchor": "G00-before_close",
+      "condition": "THREE_VIEW_TL",
+      "seed": [
+        0,
+        1
+      ],
+      "input_sha256": "13a25e85c0017058990919d460d2b13aa94e4a393f23f5e7a37886d90ddd68ac",
+      "initial_noise_sha256": "932d7ba19fab5a91f253170fb64e9f58fa5b46e28127d287bc0acc152b428acc",
+      "status": "RETURNED",
+      "horizons": {
+        "10": {
+          "predicted_delta_mm": [
+            0.4602894186973572,
+            -0.35621970891952515,
+            -0.02422928810119629
+          ],
+          "actual_h0_delta_mm": [
+            -0.018545747797457657,
+            -0.08896104114436074,
+            -1.5171399260243135
+          ],
+          "direction_cos": null,
+          "flange_error": {
+            "xyz_rms_mm": 1.2051438622918156,
+            "xyz_peak_mm": 1.5904378280829092,
+            "so3_rms_deg": 0.22484946151171736,
+            "so3_peak_deg": 0.4668194297111869
+          },
+          "hold_error": {
+            "xyz_rms_mm": 0.9640237079520744,
+            "xyz_peak_mm": 1.5198590614724494,
+            "so3_rms_deg": 0.004557332142907063,
+            "so3_peak_deg": 0.00827818130405123
+          }
+        },
+        "50": {
+          "predicted_delta_mm": [
+            -25.179091840982437,
+            -2.3745906073600054,
+            5.272872745990753
+          ],
+          "actual_h0_delta_mm": [
+            -0.15386754118032475,
+            -0.24248871780140416,
+            -3.5760304468336335
+          ],
+          "direction_cos": -0.15543210348899955,
+          "flange_error": {
+            "xyz_rms_mm": 8.218072861714381,
+            "xyz_peak_mm": 26.629134372691187,
+            "so3_rms_deg": 1.8739382858481974,
+            "so3_peak_deg": 7.717891070706657
+          },
+          "hold_error": {
+            "xyz_rms_mm": 2.8166072795433115,
+            "xyz_peak_mm": 3.6622305496846614,
+            "so3_rms_deg": 0.08824374629826996,
+            "so3_peak_deg": 0.17618205896501135
+          }
+        }
+      },
+      "grip": {
+        "started_closed": false,
+        "first_predicted_closed_row": null,
+        "remains_closed_across_horizon": false,
+        "final_closed": false,
+        "contiguous_closed_forecast_s": 0.0,
+        "contiguous_elevated_closed_forecast_s": 0.0,
+        "max_flange_Z_above_close_mm": null,
+        "reaches_one_second_flange_proxy": false,
+        "threshold_events": []
+      },
+      "orientation_unit_quaternion_valid": true,
+      "max_decoded_quaternion_norm_error": 5.960464477539063e-08,
+      "raw_gripper_fraction_range": [
+        0.9177842140197754,
+        0.940446674823761
+      ],
+      "raw_gripper_fraction_rows_outside_unit_range": 0,
+      "physical_gripper_and_tcp_gate": "UNSCORED_SOURCE_CODEC_UNAVAILABLE",
+      "output_sha256": "42ab951656c27821ddde6ab1db6880c1f553b97ac54843e159e06bd798bd7447",
+      "raw_sha256": "6b034cbba3d722c15374d25000f7d936b884a683d26aeb3cbef4175e1dad82bb",
+      "raw_dtype": "float32",
+      "decoded_sha256": "ee3f3ffe57b1a617e266d5a25a2a9ff8549ff8ca6ca426d9851e5b1793a55de6"
+    },
+    {
+      "id": "G00-first_query_after_grasp-seed1",
+      "anchor": "G00-first_query_after_grasp",
+      "condition": "THREE_VIEW_TL",
+      "seed": [
+        0,
+        1
+      ],
+      "input_sha256": "f7912fb607dd3fce5e625035bf37616c1c2f0653873e2b086dd380692c755527",
+      "initial_noise_sha256": "932d7ba19fab5a91f253170fb64e9f58fa5b46e28127d287bc0acc152b428acc",
+      "status": "RETURNED",
+      "horizons": {
+        "10": {
+          "predicted_delta_mm": [
+            0.5641654133796692,
+            -0.026994850486516953,
+            -0.09861588478088379
+          ],
+          "actual_h0_delta_mm": [
+            0.02724864537774485,
+            0.007095879870959443,
+            0.2551045272296548
+          ],
+          "direction_cos": null,
+          "flange_error": {
+            "xyz_rms_mm": 0.5905273026464343,
+            "xyz_peak_mm": 0.8977010981208977,
+            "so3_rms_deg": 0.16826810645187582,
+            "so3_peak_deg": 0.2374836529793822
+          },
+          "hold_error": {
+            "xyz_rms_mm": 0.1312650221353737,
+            "xyz_peak_mm": 0.2566537745663034,
+            "so3_rms_deg": 0.03433957829690359,
+            "so3_peak_deg": 0.06719444096579477
+          }
+        },
+        "50": {
+          "predicted_delta_mm": [
+            -15.831388533115387,
+            3.332098014652729,
+            24.729862809181213
+          ],
+          "actual_h0_delta_mm": [
+            -0.5490232031666459,
+            0.21579075359233826,
+            5.551449782101092
+          ],
+          "direction_cos": 0.8891922809262308,
+          "flange_error": {
+            "xyz_rms_mm": 6.451188363626686,
+            "xyz_peak_mm": 24.71990265475642,
+            "so3_rms_deg": 1.0624096395274112,
+            "so3_peak_deg": 5.286804475302
+          },
+          "hold_error": {
+            "xyz_rms_mm": 2.7906867112905567,
+            "xyz_peak_mm": 5.582704256016217,
+            "so3_rms_deg": 0.1449545610729753,
+            "so3_peak_deg": 0.27157298800532964
+          }
+        }
+      },
+      "grip": {
+        "started_closed": true,
+        "first_predicted_closed_row": 0,
+        "remains_closed_across_horizon": true,
+        "final_closed": true,
+        "contiguous_closed_forecast_s": 1.6333333333333333,
+        "contiguous_elevated_closed_forecast_s": 0.06666666666666667,
+        "max_flange_Z_above_close_mm": 24.729862809181213,
+        "reaches_one_second_flange_proxy": false,
+        "threshold_events": []
+      },
+      "orientation_unit_quaternion_valid": true,
+      "max_decoded_quaternion_norm_error": 5.960464477539063e-08,
+      "raw_gripper_fraction_range": [
+        0.44552284479141235,
+        0.4604491889476776
+      ],
+      "raw_gripper_fraction_rows_outside_unit_range": 0,
+      "physical_gripper_and_tcp_gate": "UNSCORED_SOURCE_CODEC_UNAVAILABLE",
+      "output_sha256": "dee565975497413f3825dd21d9634d37270b50723e357cc5d7ce8c97cc30780a",
+      "raw_sha256": "e1ba695f59628c146fe8bfa102d0e03e2d26c7d55ab2d6c17fa368ad2cd265e8",
+      "raw_dtype": "float32",
+      "decoded_sha256": "340d3669be4f223d725c99e20ddd09c35965927527700dd464e79ee404982b80"
+    },
+    {
+      "id": "G01-before_close-seed1",
+      "anchor": "G01-before_close",
+      "condition": "THREE_VIEW_TL",
+      "seed": [
+        0,
+        1
+      ],
+      "input_sha256": "c50a0137d1f63dfa2ad25cedc1aa2c08eafb0edef0489f5f6450a66cf1ced263",
+      "initial_noise_sha256": "932d7ba19fab5a91f253170fb64e9f58fa5b46e28127d287bc0acc152b428acc",
+      "status": "RETURNED",
+      "horizons": {
+        "10": {
+          "predicted_delta_mm": [
+            0.5122274160385132,
+            -0.35621924325823784,
+            -0.061415135860443115
+          ],
+          "actual_h0_delta_mm": [
+            -0.12764023698208504,
+            -0.11458318893832822,
+            -1.2919556992748715
+          ],
+          "direction_cos": null,
+          "flange_error": {
+            "xyz_rms_mm": 1.104882309824139,
+            "xyz_peak_mm": 1.4078525044683061,
+            "so3_rms_deg": 0.21659628747877158,
+            "so3_peak_deg": 0.4659797039258625
+          },
+          "hold_error": {
+            "xyz_rms_mm": 0.8435931939068914,
+            "xyz_peak_mm": 1.303292318005804,
+            "so3_rms_deg": 0.0057485877344873966,
+            "so3_peak_deg": 0.011100026267063065
+          }
+        },
+        "50": {
+          "predicted_delta_mm": [
+            -23.815881460905075,
+            -2.3745899088680744,
+            5.231037735939026
+          ],
+          "actual_h0_delta_mm": [
+            -0.3709399195863383,
+            -0.3043680269378679,
+            -2.920246405242799
+          ],
+          "direction_cos": -0.07887898663869547,
+          "flange_error": {
+            "xyz_rms_mm": 7.306575119855476,
+            "xyz_peak_mm": 24.907720402850156,
+            "so3_rms_deg": 1.5550511092807082,
+            "so3_peak_deg": 6.196772863059071
+          },
+          "hold_error": {
+            "xyz_rms_mm": 2.3540707844143043,
+            "xyz_peak_mm": 3.045289119857363,
+            "so3_rms_deg": 0.09786235778295987,
+            "so3_peak_deg": 0.1810064911233447
+          }
+        }
+      },
+      "grip": {
+        "started_closed": false,
+        "first_predicted_closed_row": null,
+        "remains_closed_across_horizon": false,
+        "final_closed": false,
+        "contiguous_closed_forecast_s": 0.0,
+        "contiguous_elevated_closed_forecast_s": 0.0,
+        "max_flange_Z_above_close_mm": null,
+        "reaches_one_second_flange_proxy": false,
+        "threshold_events": []
+      },
+      "orientation_unit_quaternion_valid": true,
+      "max_decoded_quaternion_norm_error": 5.960464477539063e-08,
+      "raw_gripper_fraction_range": [
+        0.9201300740242004,
+        0.9409158825874329
+      ],
+      "raw_gripper_fraction_rows_outside_unit_range": 0,
+      "physical_gripper_and_tcp_gate": "UNSCORED_SOURCE_CODEC_UNAVAILABLE",
+      "output_sha256": "59c2a5acc2a7f1280e46b6130f8e3bb8e27ebf91f41ce274daebc924d9fd1240",
+      "raw_sha256": "b364426cc32a5633bcbf3922f7b9875f52e14f8f2d97b604684ba27cdcd33577",
+      "raw_dtype": "float32",
+      "decoded_sha256": "9be049a34ea740a5f7e7fd52b587decb6fbd4917c71200c0d83d9016e99f94c1"
+    },
+    {
+      "id": "G01-first_query_after_grasp-seed1",
+      "anchor": "G01-first_query_after_grasp",
+      "condition": "THREE_VIEW_TL",
+      "seed": [
+        0,
+        1
+      ],
+      "input_sha256": "2137dd022fc96e7a8909b6364691fb10ac57e93c1f5d5b4ed8a166c047ba987c",
+      "initial_noise_sha256": "932d7ba19fab5a91f253170fb64e9f58fa5b46e28127d287bc0acc152b428acc",
+      "status": "RETURNED",
+      "horizons": {
+        "10": {
+          "predicted_delta_mm": [
+            0.35644322633743286,
+            -0.02698926255106926,
+            -0.17298758029937744
+          ],
+          "actual_h0_delta_mm": [
+            0.024301638029661232,
+            -0.010771834343583503,
+            0.2844181870614859
+          ],
+          "direction_cos": null,
+          "flange_error": {
+            "xyz_rms_mm": 0.5746189159893612,
+            "xyz_peak_mm": 0.8726437733786239,
+            "so3_rms_deg": 0.18885345434613893,
+            "so3_peak_deg": 0.3129232528255028
+          },
+          "hold_error": {
+            "xyz_rms_mm": 0.15053594735224723,
+            "xyz_peak_mm": 0.2856576747741826,
+            "so3_rms_deg": 0.04045746509359825,
+            "so3_peak_deg": 0.07743546779919637
+          }
+        },
+        "50": {
+          "predicted_delta_mm": [
+            -14.844685792922974,
+            -1.716127386316657,
+            11.884070932865143
+          ],
+          "actual_h0_delta_mm": [
+            -0.6190962652634358,
+            0.12488826853821605,
+            5.628680489703997
+          ],
+          "direction_cos": 0.7015518926478747,
+          "flange_error": {
+            "xyz_rms_mm": 4.007431774176494,
+            "xyz_peak_mm": 15.648854451597066,
+            "so3_rms_deg": 0.38729642621544247,
+            "so3_peak_deg": 1.243309285302099
+          },
+          "hold_error": {
+            "xyz_rms_mm": 2.8398246666371723,
+            "xyz_peak_mm": 5.664002235209307,
+            "so3_rms_deg": 0.14760059834065434,
+            "so3_peak_deg": 0.2843834134613979
+          }
+        }
+      },
+      "grip": {
+        "started_closed": true,
+        "first_predicted_closed_row": 0,
+        "remains_closed_across_horizon": true,
+        "final_closed": true,
+        "contiguous_closed_forecast_s": 1.6333333333333333,
+        "contiguous_elevated_closed_forecast_s": 0.0,
+        "max_flange_Z_above_close_mm": 11.884070932865143,
+        "reaches_one_second_flange_proxy": false,
+        "threshold_events": []
+      },
+      "orientation_unit_quaternion_valid": true,
+      "max_decoded_quaternion_norm_error": 5.960464477539063e-08,
+      "raw_gripper_fraction_range": [
+        0.44833794236183167,
+        0.46179330348968506
+      ],
+      "raw_gripper_fraction_rows_outside_unit_range": 0,
+      "physical_gripper_and_tcp_gate": "UNSCORED_SOURCE_CODEC_UNAVAILABLE",
+      "output_sha256": "2cf7842b14b6792c89badbb8ca8be963abb477f19e2c1a2d0cc56309c12c7666",
+      "raw_sha256": "60942b1a7677288d41a735739c31dc52f1ca741d7d59366c94bcd656cb536e82",
+      "raw_dtype": "float32",
+      "decoded_sha256": "8cb5c3cef87e0750f5858591f5ff995379403e045167fdb5157191d7cb44f342"
+    }
+  ],
+  "owner": {
+    "exit_code": 0,
+    "project_lock_released": true,
+    "sampled_board_peak_mib": 8756,
+    "lease_wall_s": 16.431311702355742,
+    "entered": 8,
+    "returned": 8,
+    "physics_ticks": 0,
+    "optimizer_updates": 0
+  },
+  "physical_gate": "UNAVAILABLE_MATCHED_SOURCE_TOOL_AND_PAD_GAP",
+  "new_native_starts": 0,
+  "physics_ticks": 0,
+  "optimizer_updates": 0
+}
