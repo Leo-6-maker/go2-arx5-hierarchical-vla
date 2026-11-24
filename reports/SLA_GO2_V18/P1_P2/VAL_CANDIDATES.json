@@ -1,0 +1,259 @@
+{
+  "status": "PROSPECTIVE_GEOMETRY_BOUND_VAL_ONLY",
+  "rows": [
+    {
+      "slot": "V17-VAL-F1-HOLD-red",
+      "split": "VAL",
+      "family": "F1",
+      "task": "HOLD-red",
+      "language": "Grasp the red cube, lift it, and hold it for one second while moving in the task direction.",
+      "mode": "M_FREE",
+      "seed": 669120385,
+      "reset": 1106391811,
+      "geometry_sha256": "c5c73391b13bb9db2bcf5efa11ac9b83cddd8a8388257e286cc4eecac2468962",
+      "prospective_max_ticks": 35703,
+      "historical_positive": {
+        "id": "CHV1-TRAIN-F1-HOLD-red-00",
+        "result_sha256": "3435c1edccdb6429d0d575539df7f7bf33078c2f44615adf1d930bf70cd30623",
+        "stage_budget_s": {
+          "PREGRASP": 20.0,
+          "DESCEND": 20.0,
+          "CLOSE": 6.0,
+          "LIFT": 10.0,
+          "HOLD": 3.0
+        },
+        "grasp_step": 20521,
+        "lift20mm_step": 22846,
+        "hold_s": 1.2140000000014837,
+        "stable_release_s": 0.0
+      },
+      "historical_group_counts": {
+        "TRAIN_closed": 19,
+        "TRAIN_success": 19,
+        "VAL_closed": 2,
+        "VAL_success": 2
+      },
+      "permit_status": "NOT_ALLOCATED"
+    },
+    {
+      "slot": "V17-VAL-F1-HOLD-blue",
+      "split": "VAL",
+      "family": "F1",
+      "task": "HOLD-blue",
+      "language": "Grasp the blue cube, lift it, and hold it for one second while moving in the task direction.",
+      "mode": "M_FREE",
+      "seed": 3280517002,
+      "reset": 3434894798,
+      "geometry_sha256": "780cc1dbc28c9ec046ea7d45fc6a3eee9e19c040b716b3c9fb98f7512e141817",
+      "prospective_max_ticks": 35703,
+      "historical_positive": {
+        "id": "CHV1-TRAIN-F1-HOLD-blue-00",
+        "result_sha256": "bbfcd4b49fbac2bf1f819b3d65a728748ad08cf0f8ec5425225bec74f8d3816f",
+        "stage_budget_s": {
+          "PREGRASP": 20.0,
+          "DESCEND": 20.0,
+          "CLOSE": 6.0,
+          "LIFT": 10.0,
+          "HOLD": 3.0
+        },
+        "grasp_step": 21016,
+        "lift20mm_step": 23389,
+        "hold_s": 1.1280000000013786,
+        "stable_release_s": 0.0
+      },
+      "historical_group_counts": {
+        "TRAIN_closed": 12,
+        "TRAIN_success": 6,
+        "VAL_closed": 2,
+        "VAL_success": 1
+      },
+      "permit_status": "NOT_ALLOCATED"
+    },
+    {
+      "slot": "V17-VAL-F1-PLACE-red-right",
+      "split": "VAL",
+      "family": "F1",
+      "task": "PLACE-red-right",
+      "language": "Grasp the red cube, lift it, carry it to the right region, release it, and move the gripper clear.",
+      "mode": "M_FREE",
+      "seed": 1109437126,
+      "reset": 3147587624,
+      "geometry_sha256": "6eb70096ad2c225a3588f083f39e95952ea8000e3c7ca554b14d683911b16bfe",
+      "prospective_max_ticks": 50703,
+      "historical_positive": {
+        "id": "CHV1-TRAIN-F1-PLACE-red-right-00",
+        "result_sha256": "5e9f7877790cf330dd963858fe8e0a008ab56f5e318df65446a557f4612f8654",
+        "stage_budget_s": {
+          "PREGRASP": 20.0,
+          "DESCEND": 20.0,
+          "CLOSE": 6.0,
+          "LIFT": 10.0,
+          "HOLD": 3.0
+        },
+        "grasp_step": 19521,
+        "lift20mm_step": 21888,
+        "hold_s": 4.308000000005265,
+        "stable_release_s": 1.4939999999965181
+      },
+      "historical_group_counts": {
+        "TRAIN_closed": 18,
+        "TRAIN_success": 18,
+        "VAL_closed": 2,
+        "VAL_success": 2
+      },
+      "permit_status": "NOT_ALLOCATED"
+    },
+    {
+      "slot": "V17-VAL-F2-HOLD-blue",
+      "split": "VAL",
+      "family": "F2",
+      "task": "HOLD-blue",
+      "language": "Grasp the blue cube, lift it, and hold it for one second while moving in the task direction.",
+      "mode": "M_FREE",
+      "seed": 513235622,
+      "reset": 4146307655,
+      "geometry_sha256": "3893743ee3dcd383fc3805381ac2c91485662a6d42af4a41f175a386839c1606",
+      "prospective_max_ticks": 35703,
+      "historical_positive": {
+        "id": "CHV1-TRAIN-F2-HOLD-blue-00",
+        "result_sha256": "79491ddc5937da265852c3807b242f3b4850742e4874328e10ae1c7630db4f4b",
+        "stage_budget_s": {
+          "PREGRASP": 20.0,
+          "DESCEND": 20.0,
+          "CLOSE": 6.0,
+          "LIFT": 10.0,
+          "HOLD": 3.0
+        },
+        "grasp_step": 20767,
+        "lift20mm_step": 23080,
+        "hold_s": 1.2460000000015228,
+        "stable_release_s": 0.0
+      },
+      "historical_group_counts": {
+        "TRAIN_closed": 19,
+        "TRAIN_success": 14,
+        "VAL_closed": 2,
+        "VAL_success": 2
+      },
+      "permit_status": "NOT_ALLOCATED"
+    }
+  ],
+  "remaining_VAL": [
+    "V17-VAL-F1-PLACE-blue-right",
+    "V17-VAL-F2-HOLD-red",
+    "V17-VAL-F2-PLACE-blue-right",
+    "V17-VAL-F2-PLACE-red-right"
+  ],
+  "protected_TEST_count": 12,
+  "historical_hard_STOP_counts": {
+    "ILLEGAL_CONTACT/after=0": 38,
+    "NATIVE_ACTUATOR_EFFORT/after=None": 1
+  },
+  "legacy_named_unreconciled_effort_stop": {
+    "slot": "CHV1-TRAIN-F2-HOLD-blue-18",
+    "verdict": "PRESERVED_HISTORICAL_EFFORT_STOP",
+    "stop_tick": 24016,
+    "last_request_tick": 24028,
+    "last_integrated_tick": 24016,
+    "last_recorded_exact_consumption_tick": 24003,
+    "recorded_frames_after_effort_stop": 0,
+    "original_trace_has_explicit_STOP": false,
+    "original_result_sha256": "6506aad458fead1775cb7dcc43a0ed4ad7ca6fa1fbb530db06d66cd139f8bcd3",
+    "journal_sha256": "28546b7738cda3123bf0d4feed3a1f98036f455a70448289233035a036d10920",
+    "archived_processes_exited_cleanly": true,
+    "actual_effort_timeseries_available": false,
+    "guarded_joint_count": 18,
+    "joint4_limit_nm": 7.0,
+    "final_recorded_command": [
+      {
+        "tick": 24013,
+        "joint4_command_nm": -6.837805762169334,
+        "command_over_limit": []
+      },
+      {
+        "tick": 24014,
+        "joint4_command_nm": -6.987074955880216,
+        "command_over_limit": []
+      },
+      {
+        "tick": 24015,
+        "joint4_command_nm": -6.987074955880216,
+        "command_over_limit": []
+      },
+      {
+        "tick": 24016,
+        "joint4_command_nm": -7.013501112271807,
+        "command_over_limit": [
+          "x5_joint4"
+        ]
+      }
+    ]
+  },
+  "historical_teacher_groups": {
+    "F1/HOLD-blue": {
+      "TRAIN_closed": 12,
+      "TRAIN_success": 6,
+      "VAL_closed": 2,
+      "VAL_success": 1
+    },
+    "F1/HOLD-red": {
+      "TRAIN_closed": 19,
+      "TRAIN_success": 19,
+      "VAL_closed": 2,
+      "VAL_success": 2
+    },
+    "F1/PLACE-blue-left": {
+      "TRAIN_closed": 2,
+      "VAL_closed": 2,
+      "VAL_success": 1
+    },
+    "F1/PLACE-blue-right": {
+      "TRAIN_closed": 4,
+      "VAL_closed": 2
+    },
+    "F1/PLACE-red-left": {
+      "TRAIN_closed": 3,
+      "VAL_closed": 2
+    },
+    "F1/PLACE-red-right": {
+      "TRAIN_closed": 18,
+      "TRAIN_success": 18,
+      "VAL_closed": 2,
+      "VAL_success": 2
+    },
+    "F2/HOLD-blue": {
+      "TRAIN_closed": 19,
+      "TRAIN_success": 14,
+      "VAL_closed": 2,
+      "VAL_success": 2
+    },
+    "F2/HOLD-red": {
+      "TRAIN_closed": 2,
+      "VAL_closed": 2
+    },
+    "F2/PLACE-blue-left": {
+      "TRAIN_closed": 2,
+      "VAL_closed": 2
+    },
+    "F2/PLACE-blue-right": {
+      "TRAIN_closed": 2,
+      "VAL_closed": 2
+    },
+    "F2/PLACE-red-left": {
+      "TRAIN_closed": 2,
+      "VAL_closed": 2
+    },
+    "F2/PLACE-red-right": {
+      "TRAIN_closed": 2,
+      "VAL_closed": 2
+    }
+  },
+  "registered_legacy_authority_reusable": false,
+  "placed_test_rows_into_development": 0,
+  "max_candidate_native_requests": 4,
+  "max_candidate_ticks": 157812,
+  "actual_native_requests": 0,
+  "actual_ticks": 0,
+  "gpu_forwards": 0,
+  "training_updates": 0
+}

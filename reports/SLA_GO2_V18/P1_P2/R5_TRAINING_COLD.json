@@ -1,0 +1,76 @@
+{
+  "scope": "COLD_TRAINING_OWNER_AND_ABSTRACT_LIVE_KERNEL",
+  "status": "AWAITING_SCIENTIFIC_ALLOCATION",
+  "maximum_science_candidate_updates": 100,
+  "actual_optimizer_updates": 0,
+  "model_forward_executions": 0,
+  "native_starts": 0,
+  "integration_ticks": 0,
+  "resource_leases_acquired": 0,
+  "missing_science_rejected": true,
+  "old_science_rejected": true,
+  "isolated_inherited_flock_pass": true,
+  "uncommitted_step_never_replayed": true,
+  "actual_rgb_receipts": [
+    {
+      "episode": "CHV1-TRAIN-F1-HOLD-red-02",
+      "tick": 19203,
+      "phase_for_audit": "CLOSE"
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-PLACE-red-right-01",
+      "tick": 33453,
+      "phase_for_audit": "OPEN"
+    }
+  ],
+  "batch_shape": [
+    2,
+    50,
+    32
+  ],
+  "model_trainable_leaves": 10,
+  "adamw_saved_leaves": 22,
+  "scalar_metrics": {
+    "adapter_norm": "float32",
+    "grad_norm": "float32",
+    "loss": "float32",
+    "lr": "float32"
+  },
+  "frozen_dtype": "bfloat16",
+  "official_manifest_sha256": "2e473d45a29f624f8c0242bf60389214613e3a060446e6845cd1a95322f2610c",
+  "implementation_sha256": {
+    "r5_training_owner.py": "81055301ffefba138bb878d653abaa607e95e32f8b17c1d6155e72f279d1a275",
+    "r5_training_kernel.py": "a623f6f838d1bee4f0cb079b0750b407264bde98a0485a353536071849342986",
+    "r5_checkpoint.py": "67fe196e76b274bb41f36728ddd809df543899cc668f5cc72b82ffd00645169e",
+    "audit_r5_training.py": "a714f76ca03d265acc56288702192b53349594a294b88606a70cdb315a46e921",
+    "r5_optimizer_preflight.py": "5c48e733d41a95641e16d2a3bcebff0e2606f92671cfa6500d9bbb2342549b82"
+  },
+  "source_commit": "051214b240bd41a0c78636ac69f122161027a658",
+  "capsule_sources_sha256": {
+    "reports/SLA_GO2_V17/ARCHIVE_READBACK.json": "0991d2b95fa3a1d557033d3274d5fce15ac5b15d76768cf75a23ac1345b3dadb",
+    "reports/SLA_GO2_V17/RIGHT_ARM_RECIPE_CPU.json": "1334b37292c54f0100b86ea23d3cc672816dc8ba0dd42e53b358054595c28cbc",
+    "reports/SLA_GO2_V17/TRAIN_QUALIFICATION.json": "88be63350565258629005899870caa4026619297f31499753d8e17defb1ade5f",
+    "reports/SLA_GO2_V18/P1_P2/OPTIMIZER_ABI.json": "31b82c5a6dd2a95fa1ace71332b2300aa8b7d1f8f6105b8bf26c40a09b5a4eac",
+    "reports/SLA_GO2_V18/P1_P2/TRAIN_INPUT_ACTUAL.json": "59530069cf832d7279c4c0a68001891680a22e25dec7faea72c004a2f9f14a30",
+    "scripts/pi0292/durable.py": "95bc84c1f44be664f799b92442fcc944724604243477b8453f420b2dbddb1d83",
+    "scripts/sla_go2_v18/audit_r5_training.py": "a714f76ca03d265acc56288702192b53349594a294b88606a70cdb315a46e921",
+    "scripts/sla_go2_v18/r5_checkpoint.py": "67fe196e76b274bb41f36728ddd809df543899cc668f5cc72b82ffd00645169e",
+    "scripts/sla_go2_v18/r5_optimizer_preflight.py": "5c48e733d41a95641e16d2a3bcebff0e2606f92671cfa6500d9bbb2342549b82",
+    "scripts/sla_go2_v18/r5_training_cold_check.py": "d68a45b4191b3eb16af5d729f390386d226c57c6a9c4105bf6604dc60991486c",
+    "scripts/sla_go2_v18/r5_training_kernel.py": "a623f6f838d1bee4f0cb079b0750b407264bde98a0485a353536071849342986",
+    "scripts/sla_go2_v18/r5_training_owner.py": "81055301ffefba138bb878d653abaa607e95e32f8b17c1d6155e72f279d1a275",
+    "scripts/sla_hierarchical_v16/checkpoint_inputs.py": "0418d1d0e02555944c8ccdf7bc5a5774e8fe2f4e7982e67ae4ec05af0bd4f8d7",
+    "scripts/sla_hierarchical_v16/demonstrated_grip.py": "1c2ec0ef33131f664c712c8c5569817d8e177e56b374ab01b2810922f34cb350",
+    "scripts/sla_hierarchical_v16/observation_stream.py": "d9e53d8426368253445e1ac726adf1a64942bef9482f0bbfd0620a060cc23bea",
+    "scripts/sla_hierarchical_v16/right_arm_recipe.py": "1413fe59c03d64d495b754a0636a5243d58dbec78b6681efab9271a317a74e33",
+    "scripts/sla_hierarchical_v16/target_labels.py": "723d319b25f203655f28cd19b868141df529c06b46f670f674d7595e2c5f1a6a",
+    "scripts/sla_hierarchical_v16/train_archive_qualification.py": "aabee5f9b090220382756e73efe7cb6197ccfcea6b8a3c3f8c9428601912f6c9",
+    "scripts/sla_hierarchical_v16/train_visual_progress.py": "012f8f4f22685b7a39fb500dc190194d7c00388a86c6cada389deb7bf87466a1",
+    "scripts/sla_hierarchical_v16/visual_lift_panel.py": "ebae349bf3b02bb9f74d411930212a90c6b2ceb4f42886f59f0c2f8837f44846",
+    "scripts/sla_hierarchical_v16/visual_objects.py": "6cac1d53a2d5aa8fa97cefad7ea4c4a18ab55edf9864088b0176bdd7c1f7f15d"
+  },
+  "exact_draft_bootstrap_denied": true,
+  "real_trial_output_created": false,
+  "scientific_allocation_present": false,
+  "independent_val_present": false
+}

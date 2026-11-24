@@ -1,0 +1,115 @@
+{
+  "status": "COLD_VALIDATED_AWAITING_SCIENTIFIC_ALLOCATION",
+  "source_commit": "9e8219d6edc3dc75ade1994a12455bdbe48c9b84",
+  "source_seal": "238a4db8c1fd3e39ad00932eb4f0727177c5b8e49364f426d816871cb95ab989",
+  "original_source_members": 3700,
+  "source_members": 3703,
+  "overlay_sha256": {
+    "scripts/sla/v18_r5_val_preflight.py": "52d9d36d96e57ded517a73ca5754817fb7158f14a07e251ec16d799e9f982f34",
+    "scripts/sla/v18_r5_val_scope.py": "ee25b41dbc68ae0854954d1307833702bf565105af9d277e075711124d127f26",
+    "scripts/sla/v18_r5_val_teacher.py": "9520cf4ef8ee3e1046aa2fb1c745837e16958b254e0bb5a9ce792cfd41f2906a",
+    "scripts/wm02/v6_bootstrap.py": "b4a8531ad9dde9ec333d138dc2f07091096ca9313452e91f31c96d1a88998187",
+    "src/go2arx5_vla/world_model/multitask_scope_v6.py": "028fbf0471b8aec25e948faae7e475156b14a96c7108e7e05fbf9aa6114711d2"
+  },
+  "frozen_files_checked": 29,
+  "inputs_sha256": {
+    "compiled_population": "e88c3aac0e54e8c81e8645734bb0e4672e42ba4f8152ece9f078b4c33ad4300b",
+    "candidate_roster": "8ac642e4fa69bb73a9fc427a3c56ce895729e17a299cf77bc37fa500436b741e",
+    "guard_preflight": "59190ba5d2ce9233431afc100ebf0e0bf537234e5c82c5452be88c933d023a7f",
+    "legacy_spec": "89f058d5cd3a69cae8f68eb6a63f63a040f20151d07daf0d88e6a0ec5c3f8ffe"
+  },
+  "panel_sha256": "249d6fc5da19d1bb00bbcda9560f3d0db99fc1a98c1a414b31aaf21ef4f5eaa0",
+  "ordered_slots": [
+    {
+      "id": "V17-VAL-F1-HOLD-red",
+      "max_ticks": 35703,
+      "seed": 669120385,
+      "reset": 1106391811,
+      "sha256": "c5c73391b13bb9db2bcf5efa11ac9b83cddd8a8388257e286cc4eecac2468962"
+    },
+    {
+      "id": "V17-VAL-F1-HOLD-blue",
+      "max_ticks": 35703,
+      "seed": 3280517002,
+      "reset": 3434894798,
+      "sha256": "780cc1dbc28c9ec046ea7d45fc6a3eee9e19c040b716b3c9fb98f7512e141817"
+    },
+    {
+      "id": "V17-VAL-F1-PLACE-red-right",
+      "max_ticks": 50703,
+      "seed": 1109437126,
+      "reset": 3147587624,
+      "sha256": "6eb70096ad2c225a3588f083f39e95952ea8000e3c7ca554b14d683911b16bfe"
+    },
+    {
+      "id": "V17-VAL-F2-HOLD-blue",
+      "max_ticks": 35703,
+      "seed": 513235622,
+      "reset": 4146307655,
+      "sha256": "3893743ee3dcd383fc3805381ac2c91485662a6d42af4a41f175a386839c1606"
+    }
+  ],
+  "registered_request_cap": 4,
+  "registered_tick_cap": 157812,
+  "legacy_allocation_rejected": true,
+  "unallocated_bootstrap_rejected": true,
+  "TEST_rejected": true,
+  "STUDENT_rejected": true,
+  "seed_mutation_rejected": true,
+  "isolated_flock_protocol_verified": true,
+  "capacity": {
+    "disk_min_bytes": 62277025792,
+    "ram_min_bytes": 13958643712,
+    "passed": true
+  },
+  "site_allocation_present": false,
+  "site_world_leases": 0,
+  "native_requests": 0,
+  "integration_ticks": 0,
+  "native_dispatch_qualified": false,
+  "model_forwards": 0,
+  "optimizer_updates": 0,
+  "archived_capture_readback": {
+    "verdict": "PASS_HISTORICAL_READ_ONLY",
+    "rows": [
+      {
+        "slot": "V17-VAL-F1-HOLD-red",
+        "archive": "CHV1-TRAIN-F1-HOLD-red-00",
+        "result_sha256": "3435c1edccdb6429d0d575539df7f7bf33078c2f44615adf1d930bf70cd30623",
+        "verified_H40_queries": 71,
+        "verified_P10_atoms": 710,
+        "historical_ticks": 23453
+      },
+      {
+        "slot": "V17-VAL-F1-HOLD-blue",
+        "archive": "CHV1-TRAIN-F1-HOLD-blue-00",
+        "result_sha256": "bbfcd4b49fbac2bf1f819b3d65a728748ad08cf0f8ec5425225bec74f8d3816f",
+        "verified_H40_queries": 73,
+        "verified_P10_atoms": 730,
+        "historical_ticks": 23953
+      },
+      {
+        "slot": "V17-VAL-F1-PLACE-red-right",
+        "archive": "CHV1-TRAIN-F1-PLACE-red-right-00",
+        "result_sha256": "5e9f7877790cf330dd963858fe8e0a008ab56f5e318df65446a557f4612f8654",
+        "verified_H40_queries": 117,
+        "verified_P10_atoms": 1170,
+        "historical_ticks": 34953
+      },
+      {
+        "slot": "V17-VAL-F2-HOLD-blue",
+        "archive": "CHV1-TRAIN-F2-HOLD-blue-00",
+        "result_sha256": "79491ddc5937da265852c3807b242f3b4850742e4874328e10ae1c7630db4f4b",
+        "verified_H40_queries": 72,
+        "verified_P10_atoms": 720,
+        "historical_ticks": 23703
+      }
+    ],
+    "new_integrations": 0,
+    "new_admissions": 0,
+    "both_site_interpreters_imported": true,
+    "verified_H40_queries": 333,
+    "verified_P10_atoms": 3330
+  },
+  "repository_branch": "experiment/v18-val-teacher-runtime"
+}

@@ -1,0 +1,369 @@
+{
+  "status": "REFERENCE_EFFORT_AND_CONTACT_CLASSIFIER_REPLAY_PASS",
+  "slots": [
+    {
+      "slot": "V17-VAL-F1-HOLD-red",
+      "historical_robot_fixture": "CHV1-TRAIN-F1-HOLD-red-00",
+      "fixture_tick": 5703,
+      "scene_sha256": "c5c73391b13bb9db2bcf5efa11ac9b83cddd8a8388257e286cc4eecac2468962",
+      "guard_sha256": "38635077b1322d08ba798a4197ebc01357e83225205400671ff651d0eb35abf2",
+      "outcomes": [
+        {
+          "joint4_command_nm": 1.2837789193419635,
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "joint4_command_nm": 7.0,
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "joint4_command_nm": -7.0,
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "joint4_command_nm": 7.000001,
+          "expected": 6,
+          "actual": 6
+        },
+        {
+          "joint4_command_nm": -7.000001,
+          "expected": 6,
+          "actual": 6
+        },
+        {
+          "joint4_command_nm": -7.013501112271807,
+          "expected": 6,
+          "actual": 6
+        }
+      ],
+      "contact_roles": {
+        "observer_sha256": "48b082c21dd61d91dc1ec5a2b18b91646c76a604b1287f77209b92cd67d693a5",
+        "selected_color": "red",
+        "checks": [
+          {
+            "case": "selected_pad_approach",
+            "native_role": 1,
+            "observer_allowed": true,
+            "preview_allowed": false
+          },
+          {
+            "case": "selected_pad_close",
+            "native_role": 1,
+            "observer_allowed": true,
+            "preview_allowed": true
+          },
+          {
+            "case": "selected_pad_maximum",
+            "native_role": 1,
+            "observer_allowed": true,
+            "preview_allowed": true
+          },
+          {
+            "case": "selected_pad_exceeds_maximum",
+            "native_role": 1,
+            "observer_allowed": false,
+            "preview_allowed": false
+          },
+          {
+            "case": "wrong_object_pad",
+            "native_role": 0,
+            "observer_allowed": false,
+            "preview_allowed": false
+          },
+          {
+            "case": "pad_hits_table",
+            "native_role": 0,
+            "observer_allowed": false,
+            "preview_allowed": false
+          },
+          {
+            "case": "passive_cube_table",
+            "native_role": 1,
+            "observer_allowed": true,
+            "preview_allowed": true
+          }
+        ]
+      },
+      "matched": true,
+      "integration_ticks": 0,
+      "world_starts": 0
+    },
+    {
+      "slot": "V17-VAL-F1-HOLD-blue",
+      "historical_robot_fixture": "CHV1-TRAIN-F1-HOLD-blue-00",
+      "fixture_tick": 5703,
+      "scene_sha256": "780cc1dbc28c9ec046ea7d45fc6a3eee9e19c040b716b3c9fb98f7512e141817",
+      "guard_sha256": "38635077b1322d08ba798a4197ebc01357e83225205400671ff651d0eb35abf2",
+      "outcomes": [
+        {
+          "joint4_command_nm": 1.29456543939974,
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "joint4_command_nm": 7.0,
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "joint4_command_nm": -7.0,
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "joint4_command_nm": 7.000001,
+          "expected": 6,
+          "actual": 6
+        },
+        {
+          "joint4_command_nm": -7.000001,
+          "expected": 6,
+          "actual": 6
+        },
+        {
+          "joint4_command_nm": -7.013501112271807,
+          "expected": 6,
+          "actual": 6
+        }
+      ],
+      "contact_roles": {
+        "observer_sha256": "48b082c21dd61d91dc1ec5a2b18b91646c76a604b1287f77209b92cd67d693a5",
+        "selected_color": "blue",
+        "checks": [
+          {
+            "case": "selected_pad_approach",
+            "native_role": 1,
+            "observer_allowed": true,
+            "preview_allowed": false
+          },
+          {
+            "case": "selected_pad_close",
+            "native_role": 1,
+            "observer_allowed": true,
+            "preview_allowed": true
+          },
+          {
+            "case": "selected_pad_maximum",
+            "native_role": 1,
+            "observer_allowed": true,
+            "preview_allowed": true
+          },
+          {
+            "case": "selected_pad_exceeds_maximum",
+            "native_role": 1,
+            "observer_allowed": false,
+            "preview_allowed": false
+          },
+          {
+            "case": "wrong_object_pad",
+            "native_role": 0,
+            "observer_allowed": false,
+            "preview_allowed": false
+          },
+          {
+            "case": "pad_hits_table",
+            "native_role": 0,
+            "observer_allowed": false,
+            "preview_allowed": false
+          },
+          {
+            "case": "passive_cube_table",
+            "native_role": 1,
+            "observer_allowed": true,
+            "preview_allowed": true
+          }
+        ]
+      },
+      "matched": true,
+      "integration_ticks": 0,
+      "world_starts": 0
+    },
+    {
+      "slot": "V17-VAL-F1-PLACE-red-right",
+      "historical_robot_fixture": "CHV1-TRAIN-F1-PLACE-red-right-00",
+      "fixture_tick": 5703,
+      "scene_sha256": "6eb70096ad2c225a3588f083f39e95952ea8000e3c7ca554b14d683911b16bfe",
+      "guard_sha256": "38635077b1322d08ba798a4197ebc01357e83225205400671ff651d0eb35abf2",
+      "outcomes": [
+        {
+          "joint4_command_nm": 1.2892430402832613,
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "joint4_command_nm": 7.0,
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "joint4_command_nm": -7.0,
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "joint4_command_nm": 7.000001,
+          "expected": 6,
+          "actual": 6
+        },
+        {
+          "joint4_command_nm": -7.000001,
+          "expected": 6,
+          "actual": 6
+        },
+        {
+          "joint4_command_nm": -7.013501112271807,
+          "expected": 6,
+          "actual": 6
+        }
+      ],
+      "contact_roles": {
+        "observer_sha256": "48b082c21dd61d91dc1ec5a2b18b91646c76a604b1287f77209b92cd67d693a5",
+        "selected_color": "red",
+        "checks": [
+          {
+            "case": "selected_pad_approach",
+            "native_role": 1,
+            "observer_allowed": true,
+            "preview_allowed": false
+          },
+          {
+            "case": "selected_pad_close",
+            "native_role": 1,
+            "observer_allowed": true,
+            "preview_allowed": true
+          },
+          {
+            "case": "selected_pad_maximum",
+            "native_role": 1,
+            "observer_allowed": true,
+            "preview_allowed": true
+          },
+          {
+            "case": "selected_pad_exceeds_maximum",
+            "native_role": 1,
+            "observer_allowed": false,
+            "preview_allowed": false
+          },
+          {
+            "case": "wrong_object_pad",
+            "native_role": 0,
+            "observer_allowed": false,
+            "preview_allowed": false
+          },
+          {
+            "case": "pad_hits_table",
+            "native_role": 0,
+            "observer_allowed": false,
+            "preview_allowed": false
+          },
+          {
+            "case": "passive_cube_table",
+            "native_role": 1,
+            "observer_allowed": true,
+            "preview_allowed": true
+          }
+        ]
+      },
+      "matched": true,
+      "integration_ticks": 0,
+      "world_starts": 0
+    },
+    {
+      "slot": "V17-VAL-F2-HOLD-blue",
+      "historical_robot_fixture": "CHV1-TRAIN-F2-HOLD-blue-00",
+      "fixture_tick": 5703,
+      "scene_sha256": "3893743ee3dcd383fc3805381ac2c91485662a6d42af4a41f175a386839c1606",
+      "guard_sha256": "38635077b1322d08ba798a4197ebc01357e83225205400671ff651d0eb35abf2",
+      "outcomes": [
+        {
+          "joint4_command_nm": 1.2873902118657845,
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "joint4_command_nm": 7.0,
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "joint4_command_nm": -7.0,
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "joint4_command_nm": 7.000001,
+          "expected": 6,
+          "actual": 6
+        },
+        {
+          "joint4_command_nm": -7.000001,
+          "expected": 6,
+          "actual": 6
+        },
+        {
+          "joint4_command_nm": -7.013501112271807,
+          "expected": 6,
+          "actual": 6
+        }
+      ],
+      "contact_roles": {
+        "observer_sha256": "48b082c21dd61d91dc1ec5a2b18b91646c76a604b1287f77209b92cd67d693a5",
+        "selected_color": "blue",
+        "checks": [
+          {
+            "case": "selected_pad_approach",
+            "native_role": 1,
+            "observer_allowed": true,
+            "preview_allowed": false
+          },
+          {
+            "case": "selected_pad_close",
+            "native_role": 1,
+            "observer_allowed": true,
+            "preview_allowed": true
+          },
+          {
+            "case": "selected_pad_maximum",
+            "native_role": 1,
+            "observer_allowed": true,
+            "preview_allowed": true
+          },
+          {
+            "case": "selected_pad_exceeds_maximum",
+            "native_role": 1,
+            "observer_allowed": false,
+            "preview_allowed": false
+          },
+          {
+            "case": "wrong_object_pad",
+            "native_role": 0,
+            "observer_allowed": false,
+            "preview_allowed": false
+          },
+          {
+            "case": "pad_hits_table",
+            "native_role": 0,
+            "observer_allowed": false,
+            "preview_allowed": false
+          },
+          {
+            "case": "passive_cube_table",
+            "native_role": 1,
+            "observer_allowed": true,
+            "preview_allowed": true
+          }
+        ]
+      },
+      "matched": true,
+      "integration_ticks": 0,
+      "world_starts": 0
+    }
+  ],
+  "training_updates": 0,
+  "integration_ticks": 0,
+  "new_SLA_forwards": 0,
+  "native_dispatch_qualified": false
+}
