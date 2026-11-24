@@ -25,3 +25,11 @@ def replace_appearance(observed, target_rgb, source_rgb, target_mask, source_mas
     supported = overlap & looks_like_robot
     image = np.where(supported[..., None], source_rgb, observed)
     return PaintResult(image, supported, (target_mask | source_mask) & ~supported)
+
+
+def replace_distorted_appearance(observed, target, source, remap):
+    """Apply the calibrated lens to both Twin layers while preserving measured RGB outside support."""
+    a = remap.robot_layer(*target)
+    b = remap.robot_layer(*source)
+    result = replace_appearance(observed, a.rgb, b.rgb, a.robot, b.robot)
+    return PaintResult(result.image, result.replaced, result.unresolved | ~a.valid | ~b.valid)
