@@ -1,0 +1,33 @@
+{
+  "profile": "BTF1_SOURCE_END_P10_V1",
+  "parent_plan_pr": 513,
+  "basis": "Sealed H00 G00 source prefix coverage must confirm physically upward intent in the unconsumed raw suffix.",
+  "condition": {
+    "id": "H00",
+    "attempt_variant": "SOURCE_END",
+    "layout": "G00",
+    "seed": 0,
+    "task": "HELD_LIFT_HOLD",
+    "independent_native_reset": true,
+    "source_checkpoint_changes": 0,
+    "wbc_changes": 0,
+    "updates": 0
+  },
+  "one_changed_factor": {
+    "old_query_boundary": "P10 with ten positive SOURCE atoms or actual source end",
+    "candidate_query_boundary": "first legal P10 boundary after actual source end for every complete proposal",
+    "after_gate_refusal": "original safe terminal path",
+    "future_reference_selection_by_pose_or_score": false
+  },
+  "caps": {
+    "new_native_starts": 1,
+    "max_native_ticks": 50000,
+    "max_wall_s": 1800,
+    "max_frozen_forwards": 120
+  },
+  "success": "New measured object lift at least 20 mm from actual grasp handoff and at least one second of true continuous grasp, with the original safety checks and a second causally consumed model query.",
+  "predictions": [
+    "Verified positive source phase can proceed beyond the earlier short consumed prefix.",
+    "If late upward intent is usable under the frozen stack, commanded ascent should exceed the baseline consumed ascent before a new query replaces it."
+  ]
+}
