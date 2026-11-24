@@ -1,0 +1,58 @@
+{
+  "scope": "OFFICIAL_C_POLICY_INJECTION_COLD",
+  "frozen_parent_leaves": 51,
+  "loaded_adapter_leaves": 10,
+  "zero_B_leaves": [
+    "PaliGemma/llm/layers/attn/attn_vec_einsum_1/lora_b",
+    "PaliGemma/llm/layers/attn/kv_einsum_1/lora_b",
+    "PaliGemma/llm/layers/attn/q_einsum_1/lora_b",
+    "PaliGemma/llm/layers/mlp_1/gating_einsum_lora_b",
+    "PaliGemma/llm/layers/mlp_1/linear_lora_b"
+  ],
+  "official_model_loads": 2,
+  "common_official_processor_and_decoder": {
+    "processor_sha256": "2aac7c3bf2f365970fa901b6c940401741ae55a071fefee399af39666ce8051a",
+    "decoded_eef_sha256": "0c43c1c0961c3911394ad424d193906e968e7090c08d1f7810b1c3fb5968fc4c",
+    "image_masks": {
+      "base_0_rgb": true,
+      "left_wrist_0_rgb": true,
+      "right_wrist_0_rgb": true
+    },
+    "memory_shape": [
+      9,
+      224,
+      224,
+      3
+    ],
+    "action_shape": [
+      50,
+      16
+    ]
+  },
+  "same_processor_bytes": true,
+  "historical_decoder_output_exact": true,
+  "closed_trained_endpoint_requires_positive_updates": true,
+  "input_receipts_sha256": {
+    "INPUT.npz": "50d497f7b25c7bb12ec3acad221bac15ef310664b86a092903cf49bbb2d0de6e",
+    "OUTPUT.npz": "f278b7a2384f3c0198b4aa598f1b778e1e1e66b1507f3de2d53bb7cf932cb6d8",
+    "REQUEST.json": "43f9f065925d3189382c10cd2fb58a1129a2458cd7373e26616d2364c98775e9"
+  },
+  "observation_sha256": "13b3c4ff40bded949c5af67cacbc50cd3bc4610dc0601987d680818e4951276a",
+  "retained_sampler_seed": [
+    0,
+    0
+  ],
+  "model_sampling_forwards": 0,
+  "actual_optimizer_updates": 0,
+  "resource_leases_acquired": 0,
+  "new_mujoco_ticks": 0,
+  "trained_C_evaluated": false,
+  "all_adapter_bytes_preserved": true,
+  "implementation_sha256": {
+    "r5_policy_endpoint.py": "9e4432a17e93161f888cc526bacca4c14243ad6930cb57b513b56a4cfb53bcf6",
+    "r5_policy_cold_check.py": "41e4f37fbf919d292f4d79319db60791ff86a34d59f31f205236827d7d0ae110",
+    "r5_checkpoint.py": "67fe196e76b274bb41f36728ddd809df543899cc668f5cc72b82ffd00645169e"
+  },
+  "initialized_checkpoint_sha256": "a156bd3e9a7cd7c0adafdcb09c2280cce89a6c3b3100ed7f8de0fd0ce2889a6a",
+  "loaded_adapters_sha256": "b7c15923357a97150af0af957dc6a4ed2db49a75c1195f85c5bdc5e9d0e0179e"
+}
