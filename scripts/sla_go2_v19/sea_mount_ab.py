@@ -19,7 +19,8 @@ from sea_task_193 import device_fields
 from source_custody import SEEDS, digest, pin, read, require, write_new
 from policy_query import input_identity, tensor_sha
 
-PANEL = "SEA193-AUX-V2-PAIRED-01"
+PANEL = "SEA193-AUX-V2-PAIRED-02"
+INITIAL_ATTEMPT = "SEA193-AUX-V2-PAIRED-01"
 ACTUAL_SHA = "243dc623c1f09552a7254f82ebd03ce6e695ca07683a78f86a37a9f99605e637"
 INGRESS_SHA = "249bd4ed05228afe2002bdb7ff1fc8bbfd76f020ff7d08eb256bc4101eb8c56e"
 CONDITIONS = ("GG", "AUX2")
@@ -37,15 +38,33 @@ def binding():
 
 
 def inputs(root, prepare, processor):
+    import jax
+
     old = read(pin(EVIDENCE / "VISUAL_SUPPORT/CAPTURE_INGRESS.json", INGRESS_SHA))
     require(old["capture_sha256"] == ACTUAL_SHA and tuple(old["rows"]) == SLOTS, "unexpected registered RGB custody")
     capture = root / "v19" / CAPTURE
     pin(capture / "CAPTURE_CLOSE.json", ACTUAL_SHA)
-    rows, payloads = paired_payloads(root, capture, prepare, processor)
+    # The ingress receipt uses CPU resize arithmetic. The device seam has a
+    # separate exact comparison for the archived GPU inputs.
+    with jax.default_device(jax.devices("cpu")[0]):
+        rows, payloads = paired_payloads(root, capture, prepare, processor)
     require(rows == old["rows"] and processor == old["processor"], "changed-only V2 readback differs")
     fields = {name[:3]: dict(zip(CONDITIONS, (r["v1_fields"], r["v2_fields"]), strict=True)) for name, r in rows.items()}
     states = {p: float(payloads[p, "GG"]["state"][15]) for p in LAYOUTS}
     return payloads, fields, states
+
+
+def zero_entry_closure(root):
+    folder = root / "v19" / INITIAL_ATTEMPT
+    owner, exit_path = read(folder / "START.json"), folder / "OWNER_EXIT.json"
+    closed = read(exit_path)
+    require(owner["panel"] == INITIAL_ATTEMPT and closed["exit_code"] != 0
+            and closed["project_lock_released"] and closed["entered"] == closed["returned"] == 0
+            and not (Path("/proc") / str(owner["owner_pid"])).exists()
+            and not list(folder.glob("*.entered.json")) and not list(folder.glob("*.returned.json"))
+            and not (folder / "calls.jsonl").exists(),
+            "initial allocation has an unresolved or consumed sampler opportunity")
+    return digest(exit_path)
 
 
 def cells_for(payloads, noises):
@@ -81,6 +100,7 @@ def cold(root, output):
         status="AUX_V2_PAIRED_CPU_INPUT_VERIFIED", panel=PANEL, code=binding(),
         capture_sha256=ACTUAL_SHA, ingress_sha256=INGRESS_SHA, processor=processor,
         cells=cells, fields=fields, query_aperture=states, cpu_reuse_candidates=reuse,
+        initial_zero_entry_exit_sha256=zero_entry_closure(root),
         max_new_forwards=CAP, model_forwards=0, native_starts=0, physics_ticks=0, optimizer_updates=0,
     ))
 
@@ -117,9 +137,12 @@ def execute(root, cold_path, allocation_path, sha):
     require(grant["status"] == "APPROVED" and grant["panel"] == PANEL
             and bool(grant["authorization_id"]) and grant["max_forwards"] == CAP
             and grant["native_starts"] == grant["physics_ticks"] == grant["optimizer_updates"] == 0
-            and grant["cold_sha256"] == digest(cold_path) and time.time() < grant["valid_until_epoch"],
+            and grant["cold_sha256"] == digest(cold_path)
+            and grant["initial_zero_entry_exit_sha256"] == proof["initial_zero_entry_exit_sha256"] == zero_entry_closure(root)
+            and time.time() < grant["valid_until_epoch"],
             "missing independent V2 scientific allocation")
-    run_owner(root, cold_path, grant, sha, PANEL, PLAN_SHA, Path(__file__), captured_aux_sha256=ACTUAL_SHA)
+    run_owner(root, cold_path, grant, sha, PANEL, PLAN_SHA, Path(__file__), captured_aux_sha256=ACTUAL_SHA,
+              initial_zero_entry_exit_sha256=proof["initial_zero_entry_exit_sha256"])
 
 
 if __name__ == "__main__":
