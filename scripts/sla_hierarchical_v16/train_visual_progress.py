@@ -113,7 +113,14 @@ def source(item):
     return path, m, queries
 
 
-def predict(index, out):
+def predict(
+    index,
+    out,
+    *,
+    estimator=estimate_objects,
+    observer_factory=VisualLiftProgress,
+    capture_identity=False,
+):
     pin(
         Path(__file__).with_name("visual_objects.py"),
         "6cac1d53a2d5aa8fa97cefad7ea4c4a18ab55edf9864088b0176bdd7c1f7f15d",
@@ -123,7 +130,7 @@ def predict(index, out):
             preds = []
             if item["archive_status"] == "recorded":
                 path, m, queries = source(item)
-                observer = VisualLiftProgress()
+                observer = observer_factory()
                 for s in m["frame_shards"]:
                     p = Path(s["path"])
                     require(
@@ -152,7 +159,7 @@ def predict(index, out):
                             == q["native_camera_calibration"]["wrist_rgb"],
                             "observation identity",
                         )
-                        obj = estimate_objects(*pair, cal, t, reject_spanning=True)
+                        obj = estimator(*pair, cal, t, reject_spanning=True)
                         prog = observer.observe(t, obj)
                         preds.append(
                             {
@@ -161,6 +168,16 @@ def predict(index, out):
                                     col: {
                                         "status": obj[col]["status"],
                                         "seen": prog[col]["sampled_height20"],
+                                        **(
+                                            {
+                                                "center_world_m": obj[col][
+                                                    "center_world_m"
+                                                ],
+                                                "boxes": obj[col]["boxes"],
+                                            }
+                                            if capture_identity
+                                            else {}
+                                        ),
                                     }
                                     for col in COLORS
                                 },
@@ -271,7 +288,7 @@ def matched_hold_targets(results):
     ]
 
 
-def score(index, predfile, predsha):
+def score(index, predfile, predsha, *, reproduce_original=True):
     old = read(
         Path(__file__).resolve().parents[2]
         / "reports/SLA_HIERARCHICAL_V16/VISUAL_LIFT_BORDER_ACTUAL.json"
@@ -294,7 +311,7 @@ def score(index, predfile, predsha):
             for color in COLORS:
                 role = "target" if color == target else "distractor"
                 item[role] = summarize_color(p["frames"], qs, color)
-                if rec["group"] == "original_six":
+                if reproduce_original and rec["group"] == "original_six":
                     require(
                         item[role]["confusion"] == old[name][role]["confusion"]
                         and item[role]["status"] == old[name][role]["status"],
