@@ -55,6 +55,23 @@ class TargetConfig(pi0_config.Pi0Config):
         return TargetPi0(self, rngs=nnx.Rngs(rng))
 
 
+def initialize_lora(template, seed):
+    weights = {}
+    rng = np.random.default_rng(seed)
+    for key, leaf in sorted(traverse_util.flatten_dict(template).items()):
+        if "lora" not in key[-1]:
+            continue
+        if key[-1].endswith("lora_b"):
+            weights[key] = np.zeros(leaf.shape, dtype=leaf.dtype)
+        elif key[-1].endswith("lora_a"):
+            weights[key] = (
+                0.01 * rng.standard_normal(leaf.shape, dtype=np.float32)
+            ).astype(leaf.dtype)
+        else:
+            raise ValueError(f"unknown adapter initializer {key}")
+    return traverse_util.unflatten_dict(weights)
+
+
 @dataclasses.dataclass(frozen=True)
 class ParentAndAdapters:
     params_path: str
@@ -62,19 +79,7 @@ class ParentAndAdapters:
 
     def load(self, shape_tree):
         flat = traverse_util.flatten_dict(shape_tree)
-        rng = np.random.default_rng(self.seed)
-        for key in sorted(flat):
-            leaf = flat[key]
-            if "lora" not in key[-1]:
-                continue
-            if key[-1].endswith("lora_b"):
-                flat[key] = np.zeros(leaf.shape, dtype=leaf.dtype)
-            elif key[-1].endswith("lora_a"):
-                flat[key] = (
-                    0.01 * rng.standard_normal(leaf.shape, dtype=np.float32)
-                ).astype(leaf.dtype)
-            else:
-                raise ValueError(f"unknown adapter initializer {key}")
+        flat.update(traverse_util.flatten_dict(initialize_lora(shape_tree, self.seed)))
         return CheckpointWeightLoader(self.params_path).load(
             traverse_util.unflatten_dict(flat)
         )

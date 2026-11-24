@@ -1,0 +1,147 @@
+{
+  "scope": "CPU_SERIALIZATION_AND_RGB_RESUME_FIXTURE",
+  "adapter_layout": {
+    "PaliGemma/llm/layers/attn/attn_vec_einsum_1/lora_a": {
+      "shape": [
+        18,
+        8,
+        256,
+        32
+      ],
+      "dtype": "float32"
+    },
+    "PaliGemma/llm/layers/attn/attn_vec_einsum_1/lora_b": {
+      "shape": [
+        18,
+        8,
+        32,
+        1024
+      ],
+      "dtype": "float32"
+    },
+    "PaliGemma/llm/layers/attn/kv_einsum_1/lora_a": {
+      "shape": [
+        18,
+        2,
+        1,
+        1024,
+        32
+      ],
+      "dtype": "float32"
+    },
+    "PaliGemma/llm/layers/attn/kv_einsum_1/lora_b": {
+      "shape": [
+        18,
+        2,
+        1,
+        32,
+        256
+      ],
+      "dtype": "float32"
+    },
+    "PaliGemma/llm/layers/attn/q_einsum_1/lora_a": {
+      "shape": [
+        18,
+        8,
+        1024,
+        32
+      ],
+      "dtype": "float32"
+    },
+    "PaliGemma/llm/layers/attn/q_einsum_1/lora_b": {
+      "shape": [
+        18,
+        8,
+        32,
+        256
+      ],
+      "dtype": "float32"
+    },
+    "PaliGemma/llm/layers/mlp_1/gating_einsum_lora_a": {
+      "shape": [
+        18,
+        2,
+        1024,
+        32
+      ],
+      "dtype": "float32"
+    },
+    "PaliGemma/llm/layers/mlp_1/gating_einsum_lora_b": {
+      "shape": [
+        18,
+        2,
+        32,
+        4096
+      ],
+      "dtype": "float32"
+    },
+    "PaliGemma/llm/layers/mlp_1/linear_lora_a": {
+      "shape": [
+        18,
+        4096,
+        32
+      ],
+      "dtype": "float32"
+    },
+    "PaliGemma/llm/layers/mlp_1/linear_lora_b": {
+      "shape": [
+        18,
+        32,
+        1024
+      ],
+      "dtype": "float32"
+    }
+  },
+  "adapter_parameter_count": 22118400,
+  "adamw_initial_round_trip": true,
+  "optimizer_moments_are_flax_nnx_state": true,
+  "synthetic_step_marker": 37,
+  "synthetic_state_sha256": "6a03097a78a7033fe03f89025316be10b79c73701d09a6dc4e07446b26c72b74",
+  "binding_sha256": "39604059715738053c9e5839940ff89f61b434411db9007ee8705f6bc658ba5d",
+  "binding": {
+    "run_purpose": "CPU_SERIALIZATION_FIXTURE",
+    "parent_revision": "7f6880569c3be777291e646fad1b4951245e8553",
+    "parent_manifest_sha256": "2e473d45a29f624f8c0242bf60389214613e3a060446e6845cd1a95322f2610c",
+    "official_train_seed": 42,
+    "sampler_seed": 1729,
+    "sampler": "post_grasp_reserved",
+    "batch_size": 2,
+    "train_custody_sha256": "0991d2b95fa3a1d557033d3274d5fce15ac5b15d76768cf75a23ac1345b3dadb",
+    "preview_sha256": "59530069cf832d7279c4c0a68001891680a22e25dec7faea72c004a2f9f14a30",
+    "optimizer_abi_sha256": "31b82c5a6dd2a95fa1ace71332b2300aa8b7d1f8f6105b8bf26c40a09b5a4eac",
+    "implementation_sha256": {
+      "scripts/sla_go2_v18/audit_r5_training.py": "a714f76ca03d265acc56288702192b53349594a294b88606a70cdb315a46e921",
+      "scripts/sla_go2_v18/r5_checkpoint.py": "67fe196e76b274bb41f36728ddd809df543899cc668f5cc72b82ffd00645169e",
+      "scripts/sla_hierarchical_v16/right_arm_recipe.py": "1413fe59c03d64d495b754a0636a5243d58dbec78b6681efab9271a317a74e33"
+    },
+    "max_steps": 100
+  },
+  "wrong_sampler_rejected": true,
+  "wrong_counter_rejected": true,
+  "partial_restore_rejected": true,
+  "restart_in_fresh_process": true,
+  "both_sampler_itineraries_verified": 200,
+  "next_batch": {
+    "step": 37,
+    "sample_ids": [
+      [
+        "CHV1-TRAIN-F1-HOLD-blue-03",
+        54
+      ],
+      [
+        "CHV1-TRAIN-F1-HOLD-red-06",
+        27
+      ]
+    ],
+    "actions_sha256": "a314b5babb3a673bc9bf059e4cffd90abe7beb173382d07fed2e5f48a3b7dfaa",
+    "history_sha256": "b19f006b42022494319207208ceef650a12a0357af1e64b5a063b70279ea0287",
+    "tokens_sha256": "9e2c48119fc3215891f4b7743a5cb0b65b711c3139136fb489fcd0f3bc417fdd",
+    "whole_batch_sha256": "6525ffdde52287cf02036ece8b2415d7c47627ab6dd93c8cebbecbd4c6b359d6",
+    "flow_rng_sha256": "7d6658ac5fc925e6080809528f5b261cc74fbc74ecc2444ce8b7864906e4ed43"
+  },
+  "new_gpu_forwards": 0,
+  "model_forward_executions": 0,
+  "optimizer_updates_executed": 0,
+  "native_starts": 0,
+  "integration_ticks": 0
+}

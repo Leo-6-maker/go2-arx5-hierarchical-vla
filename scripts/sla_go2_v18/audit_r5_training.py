@@ -122,12 +122,70 @@ def phase_tick_metrics(folder, record):
     return ticks, phase, diag
 
 
+
+SAMPLER_SEED = 1729
+BATCH_SIZE = 2
+
+
+def addressable_schedule(verified, keys, probability, points):
+    cdf = np.cumsum(probability)
+    cdf[-1] = 1.0
+    event_banks = defaultdict(list)
+    for name in sorted(verified):
+        measured = points[name][2]
+        if measured["has_post_grasp_before_lift"]:
+            event_banks[verified[name][1]["task"]].append(
+                (name, measured["first_post_grasp_query"])
+            )
+    tasks = sorted(event_banks)
+    require(
+        len(tasks) == 3 and sum(map(len, event_banks.values())) == 57,
+        "uncovered post-grasp branch",
+    )
+
+    def draw(step, *, reserve_post_grasp):
+        require(type(step) is int and step >= 0, "nonnegative absolute optimizer step")
+        rng = np.random.Generator(
+            np.random.PCG64(np.random.SeedSequence([SAMPLER_SEED, step]))
+        )
+        batch = [
+            keys[i]
+            for i in np.searchsorted(cdf, rng.random(BATCH_SIZE), side="right")
+        ]
+        if reserve_post_grasp and step % 5 == 0:
+            task = tasks[(step // 5) % len(tasks)]
+            event_rng = np.random.default_rng(
+                np.random.SeedSequence([SAMPLER_SEED, step, 1])
+            )
+            bank = event_banks[task]
+            batch[0] = bank[int(event_rng.integers(len(bank)))]
+        return batch
+
+    return draw
+
+
+def official_batches(verified, data, stats):
+    import jax
+    from openpi.training.data_loader import transform_dataset
+
+    prepared = dataclasses.replace(data, norm_stats=stats)
+
+    @lru_cache(maxsize=4)
+    def dataset(episode):
+        return transform_dataset(TargetExamples(verified[episode][0]), prepared)
+
+    def batch(indices):
+        examples = [dataset(name)[i] for name, i in indices]
+        return jax.tree.map(lambda *xs: np.stack(xs), *examples)
+
+    return batch
+
+
 def run(root):
     import jax
     import jax.numpy as jnp
     from checkpoint_inputs import configured_transforms
     from openpi.models.model import Observation
-    from openpi.training.data_loader import transform_dataset
     from right_arm_recipe import candidate
 
     require(
@@ -153,45 +211,15 @@ def run(root):
     for (name, i), p in zip(keys, probability, strict=True):
         mass[verified[name][1]["task"] + "/" + points[name][1][i]] += float(p)
 
-    # Stable draw by absolute batch index. Restarting at step 37 reproduces the
-    # same choices without retaining a random-generator cursor in the checkpoint.
-    seed = 1729
-    batch_size = 2
+    seed = SAMPLER_SEED
+    batch_size = BATCH_SIZE
     shadow_batches = 100
-    sampler_cdf = np.cumsum(probability)
-    sampler_cdf[-1] = 1.0
-
-    def draw(step):
-        r = np.random.Generator(np.random.PCG64(np.random.SeedSequence([seed, step])))
-        return [
-            keys[i]
-            for i in np.searchsorted(sampler_cdf, r.random(batch_size), side="right")
-        ]
-
-    itinerary = [draw(i) for i in range(shadow_batches)]
-    event_banks = defaultdict(list)
-    for key in sorted(firsts):
-        name, _ = key
-        if points[name][2]["has_post_grasp_before_lift"]:
-            event_banks[verified[name][1]["task"]].append(key)
-    tasks = sorted(event_banks)
+    draw = addressable_schedule(verified, keys, probability, points)
+    itinerary = [draw(i, reserve_post_grasp=False) for i in range(shadow_batches)]
+    event_itinerary = [draw(i, reserve_post_grasp=True) for i in range(shadow_batches)]
     require(
-        len(tasks) == 3 and sum(map(len, event_banks.values())) == 57,
-        "uncovered post-grasp branch",
-    )
-
-    def event_draw(step):
-        batch = draw(step)
-        if step % 5 == 0:
-            task = tasks[(step // 5) % len(tasks)]
-            rng = np.random.default_rng(np.random.SeedSequence([seed, step, 1]))
-            bank = event_banks[task]
-            batch[0] = bank[int(rng.integers(len(bank)))]
-        return batch
-
-    event_itinerary = [event_draw(i) for i in range(shadow_batches)]
-    require(
-        draw(37) == itinerary[37] and event_draw(35) == event_itinerary[35],
+        draw(37, reserve_post_grasp=False) == itinerary[37]
+        and draw(35, reserve_post_grasp=True) == event_itinerary[35],
         "nonreproducible addressable sampler",
     )
     require(
@@ -201,15 +229,7 @@ def run(root):
         ),
         "events changed an unreserved slot",
     )
-    prepared = dataclasses.replace(data, norm_stats=stats)
-
-    @lru_cache(maxsize=4)
-    def dataset(episode):
-        return transform_dataset(TargetExamples(verified[episode][0]), prepared)
-
-    def batch(indices):
-        examples = [dataset(n)[i] for n, i in indices]
-        return jax.tree.map(lambda *xs: np.stack(xs), *examples)
+    batch = official_batches(verified, data, stats)
 
     files = (
         root
