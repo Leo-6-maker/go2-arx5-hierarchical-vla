@@ -4,14 +4,12 @@ import argparse
 import os
 from pathlib import Path
 
-import h5py
 import numpy as np
 from scipy.spatial.transform import Rotation
 
 from source_custody import (
     BASE, O0, SEEDS, digest, pin, read, replay_real_input, require, target_case, target_obs,
 )
-from checkpoint_inputs import configured_transforms
 from demonstrated_grip import events, rows
 from policy_query import input_identity, tensor_sha
 from visual_lift_panel import write_new
@@ -65,6 +63,8 @@ def source_score(pred, expected, measured):
 
 
 def source_rows(root, anchor_rows):
+    import h5py
+
     o0 = {(x["episode"], x["frame"], x["call"]): x for x in read(O0)["source"]}
     path = root / "evidence/O0_PANEL_01"
     results = []
@@ -106,6 +106,7 @@ def source_rows(root, anchor_rows):
 
 
 def processor(root):
+    from checkpoint_inputs import configured_transforms
     from openpi import transforms
 
     cfg, data, stats = configured_transforms(root)
