@@ -1,0 +1,31 @@
+{
+  "id": "V3-KNOWN-DYNAMIC-01",
+  "status": "REQUEST_ONLY_NOT_ALLOCATED_NOT_LAUNCHED",
+  "parents": {
+    "V3_KNOWN_CURVE_REGISTRATION.json": "a0f548ef963b2c7bc39c9f6725e5e008ef9f57810978fda80e27df1d1f63ef6b",
+    "V3_SETTLED_ENTRY_ACTUAL.json": "a2fa52fe986664ff83f0c61b84d03ce42b2cc9f97b9915f7ae1af3c794b4ec5f",
+    "V3_DYNAMIC_MARGIN_ACTUAL.json": "0fd37407cb63be4d39c78901dc221da5293951326d59cc6cede66270aed5e91d",
+    "V3_MOVING_STOP_ACTUAL.json": "914862d5d6b4bd475e9d619313390af6c84a635b184174cdb3cbd3330dd91f7b",
+    "KNOWN_CURVE_CONTROL_ACTUAL.json": "cc2d346b4a646ec6f2aaa07cae52576faba9d46f1ad8d241fbafe02df128b147"
+  },
+  "question": "For the B2/F1-matched startup stratum with common verified stable entry, how well do A0 and the already bounded A1 track the two registered known noncontact X/Z and pitch time profiles? Mechanism pilot; do not extrapolate to the other stratum or autonomous manipulation.",
+  "scientific_slots": [
+    "SLOW_A0",
+    "SLOW_A1",
+    "SOURCE_SPEED_A1",
+    "SOURCE_SPEED_A0"
+  ],
+  "startup": "One independent reset per slot. Same original fixed scene, seed/configuration, B2/F1 eligibility tolerances before control assignment is enacted. Preserve screens, errors and all unstarted slots; no replacement. No adaptive choice of rate, reference, arm or initial state.",
+  "settled_entry": "Common previously verified F2 bounded settling segment up to 12000 post-5703 ticks, require native actual-state dwell in 4 mm / 2 degrees for one second and verified previous consumption. Freeze and inherit last actually consumed reference and width on switching. For A0 maintain entry correction; for A1 continue the same registered capped feedback around the identical nominal goal without double-counting the previous offset. Retain nominal goal, issued command and achieved TCP separately.",
+  "timing": "Maximum 5703 initialization + 12000 common entry + 3500 (=1 s hold, 4 s motion, 2 s park at 2 ms); 21203 ticks/start, 84812 ticks for 4 slots. These maxima are prospective. Cases may stop earlier.",
+  "method": "Two original known_dynamic_curve.trajectory time profiles with fixed world X/Z translation and Y pitch; 4 mm/s and 0.6 deg/s versus 11.25 mm/s and 0.045 rad/s. One active arm, standing base, open 42 mm gripper.",
+  "scores": "Report fixed-clock 2 ms absolute RMS/max and fraction inside the original full-pose tube during each phase, plus world relative translation/rotation shape score and signed gain, per-axis error, endpoint and 1 s dwell. Include score against a constant reference and all four historical measured-hold controls. Primary scores compare achieved vs nominal. Also compare issued vs nominal and achieved vs installed. Never count a hold-only match as dynamic qualification. No success rate, A1 superiority or automatic downstream admission from one card per cell.",
+  "gates": "Separate signed sample allocation and fresh exclusive world lease per card. Before the first launch, exercise the exact common-entry to A0/A1 runtime and native STOP callback in CPU preflight, verify the known command and independent scoring against a positive and parked control, the inherited offset, old H40/G7, original receiver/2 ms STOP, actual four-foot contact and no unintended contact. Stop the panel on any safety violation or unexpected post-STOP integration. Denominator and unstarted slots stay fixed.",
+  "max_native_starts": 4,
+  "max_ticks_per_start": 21203,
+  "max_total_ticks": 84812,
+  "max_model_forwards": 0,
+  "max_training_updates": 0,
+  "contact_manipulation": false,
+  "resources_allocated": false
+}
