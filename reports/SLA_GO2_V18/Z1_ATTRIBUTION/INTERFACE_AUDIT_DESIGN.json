@@ -1,0 +1,18 @@
+{
+  "scope": "I1–I3 separated offline; #485 observations and all 16 sealed historical windows; no new forwards or physics",
+  "world_offset": "Only change: reference position plus original world position difference. Multiply world rotation increment onto reference; preserve action shape and gripper",
+  "prefix": "Choose longest source prefix at most 15 source intervals (0.50 s), fit shared C2 pose spline. Independently compare exactly that prefix's original piecewise timing and new single time law; fixed-grip on both Reach branches. Evaluate same 9 seconds; retain EOS hold distinctly from source phase.",
+  "shape": {
+    "position_mm": 0.5,
+    "rotation_deg": 0.25
+  },
+  "clock_margin": 0.9,
+  "checks": [
+    "preserve full-window denominator",
+    "show alignment and source duration independently",
+    "report geometric direction and keep selected length",
+    "check command seam and finite-difference bounds; no claimed actual feedback"
+  ],
+  "gripper": "Report separate sensor, source action and H40 maps, residual for blindly reinterpreting nominal H40 action as source fraction. No inferred source millimetre map or label mutation.",
+  "missing_wrist": "I4 requires paired frozen real runs, only left wrist attention mask changes; same raw archived observation and seed. No new samples part of I1–I3."
+}
