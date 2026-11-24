@@ -184,7 +184,7 @@ def preflight(root):
     return (prepared[0], prepared[1], path, *prepared[3:]), cfg, panel
 
 
-def execute(root, sp, spec, prepared, cfg):
+def execute(root, sp, spec, prepared, cfg, *, coverage=None):
     from b2_native import paused
     from clock_guard import new_receiver_output
     from go2arx5_vla.world_model.init_trace_reader import audit_trace
@@ -202,7 +202,7 @@ def execute(root, sp, spec, prepared, cfg):
         and Path(spec["outer_library"]) == receiver
         and spec["frozen_files"]
         == {**base["frozen_files"], str(receiver): sha(receiver)}
-        and case.name in CARDS
+        and case.name in (CARDS if coverage is None else coverage.slots)
         and Path(spec["registered_root"]) == case,
         "world binding",
     )
@@ -235,7 +235,9 @@ def execute(root, sp, spec, prepared, cfg):
         a.start()
         parts, sample, seq, receipt, match = eligibility(a, case, anchors, limits, None)
         result.update(eligible=match["matched"], violations=match["violations"])
+        condition = case.name if coverage is None else coverage.assign(case, match)
         if match["matched"]:
+            result["condition"] = condition
             result.update(
                 drive(
                     a,
@@ -246,7 +248,7 @@ def execute(root, sp, spec, prepared, cfg):
                     receipt,
                     parts["old_ee"],
                     cfg,
-                    dynamic=KnownCurve(case.name),
+                    dynamic=KnownCurve(condition),
                 )
             )
         else:
