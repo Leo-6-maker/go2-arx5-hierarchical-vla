@@ -13,6 +13,14 @@
 #include <string>
 
 namespace {
+#ifdef V18_TWO_OBJECT_ARCHIVE
+constexpr int kNq = 41;
+constexpr int kNv = 38;
+#else
+constexpr int kNq = 34;
+constexpr int kNv = 32;
+#endif
+
 volatile std::sig_atomic_t received_interrupts = 0;
 void note_interrupt(int) { ++received_interrupts; }
 }
@@ -57,12 +65,12 @@ int main(int argc,char** argv) {
   route.close();
   if(!route)return 5;
   mjModel* model=mj_loadModel(argv[3],nullptr);
-  if(!model || model->nq!=34 || model->nv!=32)return 6;
+  if(!model || model->nq!=kNq || model->nv!=kNv)return 6;
   mjData* data=mj_makeData(model);
   if(!data)return 7;
   std::ifstream reset(argv[4],std::ios::binary);
-  reset.read(reinterpret_cast<char*>(data->qpos),8*34);
-  reset.read(reinterpret_cast<char*>(data->qvel),8*32);
+  reset.read(reinterpret_cast<char*>(data->qpos),8*kNq);
+  reset.read(reinterpret_cast<char*>(data->qvel),8*kNv);
   if(!reset || reset.peek()!=EOF)return 8;
   mj_forward(model,data);
   std::signal(SIGINT, returning ? note_interrupt : SIG_DFL);
