@@ -67,6 +67,35 @@ def feedback_readout(case, episode, ledger):
     return dict(query_tick=start, solver_acknowledged_selected_phase=data)
 
 
+def endpoint_readout(case, episode):
+    entry_path = case / "REACH_ENTRY.json"
+    if not entry_path.exists():
+        return None
+    entry = read(entry_path)
+    atoms = {
+        r["native_end_step"]: r
+        for r in jsonl(case / episode / "MOBILE_SAMPLES.private.jsonl")
+    }
+    if not atoms or max(atoms) <= entry["tick"]:
+        return None
+    a, b = atoms[entry["tick"]], atoms[max(atoms)]
+    installed = np.asarray(b["target_endpoint_EEF10"][:3]) - np.asarray(
+        a["target_endpoint_EEF10"][:3]
+    )
+    actual = np.asarray(b["actual_TCP"])[:3, 3] - np.asarray(a["actual_TCP"])[:3, 3]
+    axis = np.asarray(entry["direction"])
+    return dict(
+        last_atom_tick=max(atoms),
+        installed_axis_mm=float(1000 * installed @ axis),
+        installed_endpoint_error_mm=float(
+            1000 * np.linalg.norm(installed - 0.02 * axis)
+        ),
+        actual_axis_mm=float(1000 * actual @ axis),
+        actual_endpoint_error_mm=float(1000 * np.linalg.norm(actual - 0.02 * axis)),
+        incremental_tracking_error_mm=float(1000 * np.linalg.norm(actual - installed)),
+    )
+
+
 def readout(panel):
     reg = read(panel / "REGISTRATION.json")
     verify_registration(reg)
@@ -165,6 +194,7 @@ def readout(panel):
                     if v["kind"] == "VISUAL_REACH"
                 ],
                 feedback_source=feedback_readout(case, episode, ledger),
+                last_endpoint=endpoint_readout(case, episode),
                 result_sha256=sha(case / "RESULT.private.json"),
                 audit_sha256=sha(case / "AUDIT.json"),
                 technical_summary=(
