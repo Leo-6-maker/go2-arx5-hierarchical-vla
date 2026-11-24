@@ -1,0 +1,32 @@
+{
+  "issue": 482,
+  "issued": true,
+  "slots": [
+    "G00-STOP",
+    "G00-H0",
+    "G01-H0"
+  ],
+  "max_ticks": 60000,
+  "per_card_cap": 20000,
+  "forwards": 0,
+  "updates": 0,
+  "decision": "User explicitly approved #482 and conditionally #483. This E1 allocation covers only the STOP and the two H0 Reach cards.",
+  "preflight_sha256": "d64e1a86504e498921f24b1ed1248ed631fca256999622d4734e80c470b5e9bf",
+  "receiver_sha256": "927f2179793916dff30590a82b0e5ce3d92811e21446459416613da59e9e3878",
+  "native": {
+    "order": [
+      "G00 moving expiry STOP",
+      "G00 standing H0 Reach",
+      "G01 standing H0 Reach"
+    ],
+    "max_starts": 3,
+    "max_ticks": 60000,
+    "forwards": 0,
+    "requires": "new allocation, fresh world lease per slot, exact receiver and actual owner, prior read-only rehearsal. Q_STOP requires measured motion and an in-flight reference, real trace STOP, zero subsequent integration/installation, clean reset/process exit. Empty/no-motion fault fails. A failed qualification seals E1/Z1. Score starts independently, no replacements.",
+    "fault": "At entry + 1,000 ticks while the reference is moving, inject one last authenticated gripper command with a 21 ms lifetime within the original 400 ms ceiling and suppress its renewal. Issue the normal outstanding 25-tick grant. On the 2 ms grid expect rejection at entry+1,011; inspect every actual native integration and every install afterward. Abort unqualified if source/actual movement or an in-flight reference is absent at injection."
+  },
+  "standing_entry": "Measured four feet, no contact and >=15 mm clearance. Continuous 1s TCP drift <=1mm, attitude drift <=0.5deg and base drift <=2mm, before tick 15500. Record the first admitted entry.",
+  "fault_motion_witness": "Require more than 0.005mm actual in last 50ms and more than 0.01mm pending reference travel over next 100ms, one trace STOP, zero later steps and installs.",
+  "independent_of_477": true,
+  "transport": "ROS local domain 193, fresh exclusive lock and per-card owner; prior domain 198 returned busy before any request. No scientific slot used or replaced."
+}
