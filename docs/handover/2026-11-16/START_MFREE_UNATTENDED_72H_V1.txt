@@ -1,0 +1,11 @@
+用户要关闭电脑：将M_FREE采集—训练放在Corelab服务器后台，允许多环境，无需前台agent或聊天唤醒。
+
+读取 docs/protocols/MFREE_UNATTENDED_72H_V1_20261116.md / .json，并核对PR #388后继及现场unit/PID/lease/数据终态。健康C20和现役FM1000继续原胶囊，不热改，不重复提交。
+
+延用既有Journal/registry/OwnerLock，实现最小后继：从实际挂载起最多72小时，C20→C60→C100嵌套封存，最多200次累计采集attempt（含旧C20），仅原F1/F2 M_FREE与既定±5mm布局、F2专家+8mm。先2个总世界，实测RAM/CPU及隔离支持才4个总世界（含评价），为单卡learner保留容量；旧M_ASSIST隔离、WBC/腿/solver/增益/2ms/真实安全门全冻结。
+
+每个完整快照自动导出、冻结TRAIN统计/FP32验收、同SLA_base独立FM1000/B32，再普通RGB恢复和TRAIN8/DEV16。三快照合计最多3000更新/96000访问，含原C20；旧baseline8只做一次，不把策略负结果当自动重训理由。并行继续下一批数据，不向在途训练追加数据或换统计。
+
+新版本必须去掉当前collector每cell2条和固定两族unit等硬编码，先通过并发领取/预算/隔离/snapshot/恢复接缝测试。未知owner不盲重投，安全事件停止并隔离；技术后继及checkpoint续训限次，不删除SUPERVISOR绕过保护，不自动修科学代码。
+
+在真实服务器使用已允许的systemd用户service或站点batch。核对linger/退出登录存活及无本机tunnel/代理/文件依赖；不擅改系统权限。退出前台后独立确认heartbeat或实际进度继续，返回DETACH_READY回执：hostname、unit/job ID、PID/cgroup、source/spec SHA、期限、数据与模型当前进度、日志及停止入口。不能仅凭nohup/排队/PR发布回复“已挂载”。没有服务器执行通道就明确阻断。

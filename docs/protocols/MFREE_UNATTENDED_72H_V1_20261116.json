@@ -1,0 +1,168 @@
+{
+  "schema": "MFREE_UNATTENDED_72H_V1",
+  "date_SGT": "2026-11-16",
+  "status": "SPECIFICATION_NOT_DEPLOYED",
+  "execution_ready": false,
+  "remote_submission_verified": false,
+  "base_runtime": {
+    "repo": "Leo-6-maker/go2-arx5-hierarchical-vla",
+    "pr": 388,
+    "head": "efae461c548919f9e54956dde9dc31536adfcb3f",
+    "reported_snapshot_SGT": "2026-11-16T00:54:32.458176+08:00",
+    "reported_qualified": 5,
+    "reported_in_flight": 2,
+    "not_a_live_PID_check": true
+  },
+  "limits": {
+    "duration_hours_from_actual_registration": 72,
+    "initial_total_worlds": 2,
+    "max_total_worlds_including_evaluation": 4,
+    "neural_parallel_jobs": 1,
+    "neural_GPU_hours_total_max": 36,
+    "new_data_GiB_max": 512,
+    "collection_attempts_total_including_C20": 200,
+    "native_evaluation_requests_total_including_existing": 80,
+    "max_native_scientific_requests": 280,
+    "optimizer_updates_total_including_C20": 3000,
+    "target_visits_total_including_C20": 96000,
+    "new_optimizer_updates_max": 2000,
+    "new_target_visits_max": 64000
+  },
+  "scope": {
+    "mode": "M_FREE",
+    "families": [
+      "F1",
+      "F2"
+    ],
+    "layouts_per_family": 5,
+    "per_cell_total_attempt_cap": 20,
+    "keep_original_xy_layouts": true,
+    "no_new_table_object_friction_randomization": true,
+    "F2_expert_grasp_raise_m": 0.008,
+    "student_auto_raise_m": 0,
+    "M_ASSIST": "QUARANTINED",
+    "no_new_TEST": true,
+    "seed_state_diversity_must_be_measured": true
+  },
+  "snapshots": [
+    {
+      "id": "C20",
+      "successes": 20,
+      "per_cell_successes": 2,
+      "cumulative_attempt_cap": 40,
+      "new_success_target": 20,
+      "parent_snapshot": null,
+      "updates": 1000,
+      "batch": 32,
+      "visits": 32000,
+      "run": "REUSE_EXISTING_C20_FM1000_EXACT_IDENTITY"
+    },
+    {
+      "id": "C60",
+      "successes": 60,
+      "per_cell_successes": 6,
+      "cumulative_attempt_cap": 120,
+      "new_success_target": 40,
+      "parent_snapshot": "C20",
+      "updates": 1000,
+      "batch": 32,
+      "visits": 32000,
+      "run": "FRESH_SAME_BASE_ADAPTER"
+    },
+    {
+      "id": "C100",
+      "successes": 100,
+      "per_cell_successes": 10,
+      "cumulative_attempt_cap": 200,
+      "new_success_target": 40,
+      "parent_snapshot": "C60",
+      "updates": 1000,
+      "batch": 32,
+      "visits": 32000,
+      "run": "FRESH_SAME_BASE_ADAPTER"
+    }
+  ],
+  "recipe": {
+    "parent": "PINNED_SLA_base_AND_COMMON_ADAPTER_INIT",
+    "loss": "EXISTING_FM32",
+    "microbatch": 8,
+    "accumulation": 4,
+    "matmul": "highest",
+    "warmup": 50,
+    "peak_lr": 5e-05,
+    "final_lr": 1e-05,
+    "schedule": "cosine",
+    "state_token_dropout": 0.25,
+    "EMA": false,
+    "time_step_s": 0.05,
+    "H": 40,
+    "prefix_points": 10,
+    "physics_dt_s": 0.002,
+    "stats": "PER_SNAPSHOT_TRAIN_ONLY_IMMUTABLE",
+    "checkpoint_every_updates": 250,
+    "public_main_endpoint": 1000,
+    "endpoint_selection_by_DEV": false
+  },
+  "evaluation": {
+    "old_baseline_once": 8,
+    "candidates_max": 3,
+    "TRAIN_per_candidate": 8,
+    "DEV_per_candidate": 16,
+    "total": 80,
+    "new_net_beyond_current_C20_pipeline": 48,
+    "repeated_DEV_is_development_not_blind_test": true,
+    "technical_vs_policy_vs_safety_vs_unstarted_separate": true
+  },
+  "orchestration": {
+    "reuse_existing_registry_and_journal": true,
+    "keep_healthy_capsules": true,
+    "requires_server_service_or_batch": true,
+    "no_frontend_agent_dependency": true,
+    "no_local_tunnel_or_proxy_or_storage": true,
+    "user_service_requires_linger_evidence": true,
+    "independent_detach_progress_required": true,
+    "heartbeat_seconds": 60,
+    "resource_wait_seconds_before_optional_world_drain": 1800,
+    "no_healthy_episode_preemption": true,
+    "max_supervisor_restarts_with_reconciliation": 2,
+    "max_training_checkpoint_resumes": 2,
+    "max_technical_successor_per_run": 1,
+    "retry_failed_scientific_condition": false,
+    "UNKNOWN_relaunch": false,
+    "automatic_runtime_code_mutation": false,
+    "atomic_snapshot_manifest": true,
+    "no_hot_training_data_append": true
+  },
+  "freezes": [
+    "native_WBC_binary_and_profile",
+    "MPC_cost_solver_gains",
+    "leg_policy",
+    "arm_PD",
+    "physics_model_dt",
+    "gripper_mapping",
+    "original_native_safety",
+    "teacher_semantics_and_geometry_variant",
+    "prior_negative_results"
+  ],
+  "not_authorized": [
+    "real_robot",
+    "RL",
+    "M_ASSIST_reenable",
+    "deleting_user_data",
+    "admin_privilege_changes",
+    "blind_retries",
+    "new_loss_or_BASE_head",
+    "inplace_running_code_update"
+  ],
+  "files": {
+    "plan": "docs/protocols/MFREE_UNATTENDED_72H_V1_20261116.md",
+    "matrix": "docs/protocols/MFREE_UNATTENDED_72H_V1_20261116.json",
+    "prompt": "docs/handover/2026-11-16/START_MFREE_UNATTENDED_72H_V1.txt"
+  },
+  "publication": {
+    "kind": "PLAN_AND_EXECUTION_HANDOVER",
+    "remote_jobs_started_this_turn": 0,
+    "remote_detach_verified_this_turn": false,
+    "native_GPU_tests_this_turn": "NOT_RUN"
+  }
+}
