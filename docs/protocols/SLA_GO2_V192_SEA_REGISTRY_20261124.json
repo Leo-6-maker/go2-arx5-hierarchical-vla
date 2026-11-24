@@ -1,0 +1,734 @@
+{
+  "schema": "SLA_GO2_V192_SEA_SPATIAL_EMBODIMENT",
+  "date": "2026-11-24",
+  "status": "PLAN_ONLY_NO_NEW_ALLOCATION",
+  "parent_pr": 497,
+  "parent_sha": "470aa1ce40d0a5d75a9f06b394d7324c58e61881",
+  "prior_plan_prs": [
+    492,
+    495
+  ],
+  "protocol": "docs/protocols/SLA_GO2_V192_SEA_SPATIAL_AND_EMBODIMENT_ADAPTATION_20261124.md",
+  "runbook": "docs/protocols/SLA_GO2_V192_SEA_IMPLEMENTATION_RUNBOOK_20261124.md",
+  "evidence": {
+    "sea1a": {
+      "issue": 496,
+      "md_blob_sha": "f26c54d8f098b11ea222bf2430ab6144fd111e84",
+      "json_blob_sha": "3c0bded11edd92a5168a4fd8379853537be05525",
+      "returned": 16,
+      "scored_pairs": 8,
+      "both_seeds_improvement_states": 0,
+      "total_states": 4,
+      "full50_median_improvement_mm": -15.64,
+      "raw_clearance_pass": 2,
+      "crosspaint_clearance_pass": 5,
+      "joint_clearance_time_pass_each": 2,
+      "decision": "INCONCLUSIVE_CONTRADICTORY_SEED_EFFECT_CLOSE_CURRENT_APPEARANCE"
+    },
+    "sea2": {
+      "issue": 494,
+      "md_blob_sha": "08c761d158e639f55cb6ab5f1d603a288d7e7cf9",
+      "json_blob_sha": "01cf7b4369a6e3eed5a1131dd0595a50c15dc20a",
+      "starts": 4,
+      "qualified": 4,
+      "ticks": 42812,
+      "contact": false,
+      "peak_achieved_to_intent_mm": [
+        1.051,
+        2.705,
+        1.801,
+        1.589
+      ],
+      "mixed_z_signed_gain": 0.209,
+      "domain": "small stationary fixed-open noncontact only"
+    },
+    "source_factorial": {
+      "blob_sha": "386719b2bad4c9bd532399d0bce337b05be03082",
+      "episodes": 2,
+      "windows": 6,
+      "median_against_o0_mm": [
+        0,
+        10.75,
+        2.87,
+        12.27
+      ],
+      "median_expert_mm": [
+        9.12,
+        19.55,
+        9.12,
+        19.47
+      ]
+    },
+    "source_roster_blob_sha": "6db84c454c2340918e605528631d95abb6eedb56"
+  },
+  "frozen": {
+    "model_revision": "7f6880569c3be777291e646fad1b4951245e8553",
+    "upstream_commit": "c1b205ec42b4ab2cac9c2159c8b4c2f723e5e454",
+    "effective_config_sha256": "16e86b4a36837e6a7c5c17b41574ab79d0b708135a149470e88f4f98e2815cbe",
+    "norm_sha256": "cf6ddf4f89180e762e5e6210881a763f8e29d3499fb1cc69a440de7aa585d276",
+    "tokenizer_sha256": "8986bb4f423f07f8c7f70d0dbe3526fb2316056c17bae71b1ea975e77a168fc6",
+    "manifest_sha256": "2e473d45a29f624f8c0242bf60389214613e3a060446e6845cd1a95322f2610c",
+    "source_config": "train_robodojo_real",
+    "attention_impl": "xla",
+    "extra_frames_first": false,
+    "source_hz": 30,
+    "source_horizon": 50,
+    "raw_action_dim": 32,
+    "decoded_action_dim": 16,
+    "native_dt_s": 0.002,
+    "preview_dt_s": 0.05,
+    "preview_points": 41,
+    "publication_hz": 10,
+    "ttl_s": 0.4,
+    "limits": {
+      "linear_m_s": 0.05,
+      "angular_rad_s": 0.25,
+      "linear_m_s2": 0.25,
+      "angular_rad_s2": 1,
+      "gripper_per_finger_m_s": 0.04
+    },
+    "backend": "Frozen OCS2/MPC/WBC/PD/leg policy/MuJoCo original guards",
+    "strict_sea": {
+      "sla_updates": 0,
+      "target_task_training_demos": 0,
+      "target_task_action_labels": 0,
+      "target_task_rewards": 0,
+      "agent_calls": 0,
+      "real_hardware": false
+    }
+  },
+  "stages": [
+    {
+      "id": "SEA1B",
+      "priority": "P0",
+      "status": "READY_FOR_INDEPENDENT_REGISTRATION",
+      "anchors": [
+        {
+          "id": "S00",
+          "episode": "episode_0000000.hdf5",
+          "frame": 108,
+          "input_sha256": "665c1eb3edc288d2ac7c0da24b9eec196498bf1da52442b908a7f209f27c104c"
+        },
+        {
+          "id": "S01",
+          "episode": "episode_0000000.hdf5",
+          "frame": 447,
+          "input_sha256": "103c74451982934a1e307a296b3f1803fedf3d0e79ded19c8306567f8dae8018"
+        },
+        {
+          "id": "S02",
+          "episode": "episode_0000001.hdf5",
+          "frame": 90,
+          "input_sha256": "70ae70de2675faaf191584335c6a90991c9e7a3d01463b2af53efed97a3737e4"
+        },
+        {
+          "id": "S03",
+          "episode": "episode_0000001.hdf5",
+          "frame": 276,
+          "input_sha256": "0e6f041c4e92f8ade8febec9e330619ff792aabb8e76ac870e627ac2e684583c"
+        }
+      ],
+      "conditions": [
+        {
+          "id": "S0",
+          "left_wrist_mask": true,
+          "left_arm": "REAL"
+        },
+        {
+          "id": "S1",
+          "left_wrist_mask": false,
+          "left_arm": "REAL"
+        },
+        {
+          "id": "S2",
+          "left_wrist_mask": true,
+          "left_arm": "A1_FIXED_VIRTUAL"
+        },
+        {
+          "id": "S3",
+          "left_wrist_mask": false,
+          "left_arm": "A1_FIXED_VIRTUAL"
+        }
+      ],
+      "seeds": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "cells": [
+        {
+          "id": "SEA1B-S00-S0-seed0",
+          "anchor": "S00",
+          "condition": "S0",
+          "seed": [
+            0,
+            0
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S00-S1-seed0",
+          "anchor": "S00",
+          "condition": "S1",
+          "seed": [
+            0,
+            0
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S00-S2-seed0",
+          "anchor": "S00",
+          "condition": "S2",
+          "seed": [
+            0,
+            0
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S00-S3-seed0",
+          "anchor": "S00",
+          "condition": "S3",
+          "seed": [
+            0,
+            0
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S01-S0-seed0",
+          "anchor": "S01",
+          "condition": "S0",
+          "seed": [
+            0,
+            0
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S01-S1-seed0",
+          "anchor": "S01",
+          "condition": "S1",
+          "seed": [
+            0,
+            0
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S01-S2-seed0",
+          "anchor": "S01",
+          "condition": "S2",
+          "seed": [
+            0,
+            0
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S01-S3-seed0",
+          "anchor": "S01",
+          "condition": "S3",
+          "seed": [
+            0,
+            0
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S02-S0-seed0",
+          "anchor": "S02",
+          "condition": "S0",
+          "seed": [
+            0,
+            0
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S02-S1-seed0",
+          "anchor": "S02",
+          "condition": "S1",
+          "seed": [
+            0,
+            0
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S02-S2-seed0",
+          "anchor": "S02",
+          "condition": "S2",
+          "seed": [
+            0,
+            0
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S02-S3-seed0",
+          "anchor": "S02",
+          "condition": "S3",
+          "seed": [
+            0,
+            0
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S03-S0-seed0",
+          "anchor": "S03",
+          "condition": "S0",
+          "seed": [
+            0,
+            0
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S03-S1-seed0",
+          "anchor": "S03",
+          "condition": "S1",
+          "seed": [
+            0,
+            0
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S03-S2-seed0",
+          "anchor": "S03",
+          "condition": "S2",
+          "seed": [
+            0,
+            0
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S03-S3-seed0",
+          "anchor": "S03",
+          "condition": "S3",
+          "seed": [
+            0,
+            0
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S00-S0-seed1",
+          "anchor": "S00",
+          "condition": "S0",
+          "seed": [
+            0,
+            1
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S00-S1-seed1",
+          "anchor": "S00",
+          "condition": "S1",
+          "seed": [
+            0,
+            1
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S00-S2-seed1",
+          "anchor": "S00",
+          "condition": "S2",
+          "seed": [
+            0,
+            1
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S00-S3-seed1",
+          "anchor": "S00",
+          "condition": "S3",
+          "seed": [
+            0,
+            1
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S01-S0-seed1",
+          "anchor": "S01",
+          "condition": "S0",
+          "seed": [
+            0,
+            1
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S01-S1-seed1",
+          "anchor": "S01",
+          "condition": "S1",
+          "seed": [
+            0,
+            1
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S01-S2-seed1",
+          "anchor": "S01",
+          "condition": "S2",
+          "seed": [
+            0,
+            1
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S01-S3-seed1",
+          "anchor": "S01",
+          "condition": "S3",
+          "seed": [
+            0,
+            1
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S02-S0-seed1",
+          "anchor": "S02",
+          "condition": "S0",
+          "seed": [
+            0,
+            1
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S02-S1-seed1",
+          "anchor": "S02",
+          "condition": "S1",
+          "seed": [
+            0,
+            1
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S02-S2-seed1",
+          "anchor": "S02",
+          "condition": "S2",
+          "seed": [
+            0,
+            1
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S02-S3-seed1",
+          "anchor": "S02",
+          "condition": "S3",
+          "seed": [
+            0,
+            1
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S03-S0-seed1",
+          "anchor": "S03",
+          "condition": "S0",
+          "seed": [
+            0,
+            1
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S03-S1-seed1",
+          "anchor": "S03",
+          "condition": "S1",
+          "seed": [
+            0,
+            1
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S03-S2-seed1",
+          "anchor": "S03",
+          "condition": "S2",
+          "seed": [
+            0,
+            1
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        },
+        {
+          "id": "SEA1B-S03-S3-seed1",
+          "anchor": "S03",
+          "condition": "S3",
+          "seed": [
+            0,
+            1
+          ],
+          "status": "CANDIDATE_UNALLOCATED"
+        }
+      ],
+      "cap": {
+        "candidate_cells": 32,
+        "new_sampler_enters": 32,
+        "physics_ticks": 0,
+        "updates": 0
+      },
+      "reuse": "Only exact input+processor+sampler+actual noise proof; otherwise regenerate fixed slot, not historic retry.",
+      "metrics": {
+        "source_rows": [
+          10,
+          50
+        ],
+        "close_threshold": 0.55,
+        "open_threshold": 0.65,
+        "screen_mm": 2,
+        "consistent_states_min": 3,
+        "seed_repeats": 2
+      }
+    },
+    {
+      "id": "SEA_TASK",
+      "priority": "P0",
+      "status": "SOURCE_AUDIT_FIRST",
+      "cap": {
+        "source_anchors": 4,
+        "source_prompt_conditions": 2,
+        "source_seeds": 2,
+        "source_sampler_enters": 16,
+        "target_anchors": 4,
+        "target_seeds": 2,
+        "target_sampler_enters": 8,
+        "total_new_sampler_enters": 24,
+        "source_sim_separate_sampler_enters": 8,
+        "reach_baseline_new_enters": 0
+      },
+      "requires": [
+        "source_skill_and_arm_eligibility",
+        "frozen_instruction_and_roster",
+        "new_allocation_for_actual_forwards"
+      ]
+    },
+    {
+      "id": "SEA_E2",
+      "priority": "P0",
+      "status": "CPU_ARCHIVE_REPLAY_FIRST",
+      "cap": {
+        "historical_ticks_reuse": 42812,
+        "historical_windows": 19,
+        "new_native_starts_conditional": 4,
+        "ticks_per_start": 20000,
+        "total_ticks": 80000,
+        "model_forwards": 0,
+        "updates": 0,
+        "contact": false
+      },
+      "screen": {
+        "median_valid_requery_duration_reduction_min": 0.2,
+        "nonzero_source_progress": true,
+        "position_tube_mm": 4,
+        "rotation_tube_deg": 2,
+        "after_stop_ticks": 0,
+        "after_stop_installs": 0
+      }
+    },
+    {
+      "id": "SEA_GRIP",
+      "priority": "P0",
+      "status": "CPU_CALIBRATION_AUDIT",
+      "source_physical_gap": "UNKNOWN",
+      "target_gap_mm_formula": "1.048 + left_slide_mm + right_slide_mm",
+      "fixed_open_per_finger_mm": 42,
+      "cap": {
+        "new_training_updates": 0,
+        "unallocated_native_starts": 0
+      }
+    },
+    {
+      "id": "SEA3_A",
+      "priority": "P1",
+      "status": "CONDITIONAL_MUTUALLY_EXCLUSIVE_WITH_B",
+      "requires": [
+        "SOURCE_SKILL_POSITIVE",
+        "OBSERVATION_OR_CONDITION_GAP_EVIDENCE",
+        "NEW_ADAPTER_ALLOCATION"
+      ],
+      "candidate": {
+        "train_source_episodes": [
+          24,
+          48
+        ],
+        "independent_val_episodes": [
+          8,
+          16
+        ],
+        "anchors_per_episode_max": 8,
+        "train_noise_repeats": 1,
+        "val_noise_repeats": 2,
+        "teacher_sampler_enters_max": 640,
+        "trainable_parameters_max": 2000000,
+        "smoke_updates": 100,
+        "cumulative_updates_max": 1000,
+        "target_task_training_demos": 0,
+        "sla_updates": 0
+      }
+    },
+    {
+      "id": "SEA3_B",
+      "priority": "P1",
+      "status": "CONDITIONAL_ALTERNATIVE_ONLY",
+      "requires": [
+        "REAL_PT_SOURCE_SIM_POSITIVE",
+        "VALID_SPATIAL_CORRESPONDENCE",
+        "NEW_RENDER_AND_ADAPTER_ALLOCATION"
+      ],
+      "candidate": {
+        "paired_groups": 1000,
+        "split": [
+          0.8,
+          0.1,
+          0.1
+        ],
+        "trainable_parameters_max": 2000000,
+        "smoke_updates": 100,
+        "cumulative_updates_max": 1000,
+        "target_task_training_demos": 0,
+        "sla_updates": 0
+      }
+    },
+    {
+      "id": "SEA3_CONFIRM",
+      "priority": "P1",
+      "status": "CONDITIONAL",
+      "requires": [
+        "ONE_LOCKED_DEPLOYABLE_ADAPTER_OR_NO_TRAIN_CANDIDATE",
+        "SOURCE_GATE",
+        "NEW_ALLOCATION"
+      ],
+      "cap": {
+        "independent_target_dev_states": 8,
+        "arms": [
+          "RAW",
+          "SEA"
+        ],
+        "seeds": 2,
+        "new_sampler_enters": 32
+      },
+      "screen": {
+        "source_full50_median_error_reduction_min": 0.2,
+        "no_source_expert_error_worsening": true,
+        "no_key_event_regression": true
+      }
+    },
+    {
+      "id": "SEA4_PICK_HOLD",
+      "priority": "P2",
+      "status": "BLOCKED_PENDING_SKILL_GRIPPER_CONTACT_OWNER_H0",
+      "requires": [
+        "SOURCE_SKILL_POSITIVE",
+        "TASK_COMPATIBLE_DEPLOYABLE_OBSERVATION",
+        "GRIPPER_PHYSICAL_CODEC",
+        "CONTACT_PROFILE_AND_STOP",
+        "H0_PASS_PER_LAYOUT",
+        "NEW_ALLOCATION"
+      ],
+      "candidate": {
+        "layouts": 2,
+        "arms": [
+          "H0",
+          "A",
+          "B"
+        ],
+        "starts": 6,
+        "ticks_per_start": 50000,
+        "total_ticks": 300000,
+        "student_forwards_per_start": 120,
+        "total_student_forwards": 480,
+        "lift_mm": 20,
+        "hold_s": 1
+      },
+      "duplicate_no_adapter_arm": "do_not_repeat_identical_A_B"
+    },
+    {
+      "id": "SEA5_CROSS_TASK",
+      "priority": "P3",
+      "status": "FUTURE_CONDITIONAL",
+      "candidate": {
+        "min_skill_types": 2,
+        "independent_conditions": 8
+      },
+      "requires": [
+        "SEA4_LOCAL_SKILL_EVIDENCE",
+        "PLACE_SPECIFIC_QUALIFICATION_IF_NEEDED",
+        "SAME_LOCKED_ADAPTER",
+        "NEW_REGISTRATION_AND_ALLOCATION"
+      ]
+    },
+    {
+      "id": "R5_SUPERVISED",
+      "priority": "P3",
+      "status": "RETAINED_CONDITIONAL_SEPARATE",
+      "prior_pr": 491,
+      "train_episodes": 57,
+      "train_queries": 4898,
+      "val_compiled": 8,
+      "test_compiled": 12,
+      "candidate": {
+        "smoke_updates": 100,
+        "cumulative_updates_max": 1000
+      },
+      "requires": [
+        "SEA_NEGATIVE_OR_INDEPENDENT_COMPARATOR",
+        "TARGET_TASK_DATA_AND_EVAL_QUALIFIED",
+        "NEW_ALLOCATION"
+      ]
+    }
+  ],
+  "adapter_policy": {
+    "max_primary_training_routes": 1,
+    "choose_A_or_B_before_training": true,
+    "no_automatic_budget_extension": true,
+    "full64_source_real_match": "BLOCKED_EXTERNAL_CALIBRATION",
+    "appearance_current_4_states": "CLOSED",
+    "original_494": "CLOSED_EVIDENCE_REUSE_ONLY",
+    "stop_if_no_gain": true
+  },
+  "new_effects_at_publication": {
+    "scientific_allocations": 0,
+    "server_jobs": 0,
+    "new_sampler_enters": 0,
+    "render_pairs": 0,
+    "adapter_updates": 0,
+    "sla_updates": 0,
+    "native_starts": 0,
+    "physics_ticks": 0,
+    "real_hardware": 0
+  },
+  "hard_stop": [
+    "IDENTITY_OR_CLOCK_DRIFT",
+    "GT_OR_TASK_LABEL_LEAK",
+    "UNQUALIFIED_CONTACT_OR_PROFILE",
+    "SAFETY_GATE_REJECT",
+    "ILLEGAL_CONTACT",
+    "AFTER_STOP_TICK_OR_INSTALL",
+    "OWNER_LEASE_DEADLINE",
+    "RESOURCE_CAP",
+    "UNKNOWN_EFFECT_UNRECONCILED",
+    "MISSING_EVIDENCE"
+  ],
+  "accounting": "All entered, failed, technical, unstarted, screened and exact reuse separate; no historical population reassignment; no scientific retry."
+}
