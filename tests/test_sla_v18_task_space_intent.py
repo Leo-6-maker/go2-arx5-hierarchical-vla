@@ -100,3 +100,39 @@ def test_requery_uses_remaining_episode_displacement_and_fails_closed(method):
         episode.plan("entry", halfway, consumed, lost_object, **data)
     with pytest.raises(ValueError, match="missing model"):
         episode.plan("entry", halfway, consumed, rgb, method="DIRECT")
+
+
+def test_world_offset_preserves_world_translation_and_space_rotation():
+    scripts = Path(__file__).resolve().parents[1] / "scripts"
+    sys.path.insert(0, str(scripts / "sla_hierarchical_v16"))
+    from world_intent_clock import world_offset
+
+    actual = np.eye(4)
+    reference = np.eye(4)
+    reference[:3, :3] = Rotation.from_euler("z", 90, degrees=True).as_matrix()
+    reference[:3, 3] = [0, 0, 0.025]
+    proposal = actual.copy()
+    proposal[:3, :3] = Rotation.from_euler("x", 45, degrees=True).as_matrix()
+    proposal[:3, 3] = [0.02, 0, 0]
+    transformed = world_offset(np.stack([actual, proposal]), actual, reference)
+    assert np.allclose(transformed[0], reference)
+    assert np.allclose(transformed[1, :3, 3], [0.02, 0, 0.025])
+    assert np.allclose(transformed[1, :3, :3] @ reference[:3, :3].T, proposal[:3, :3])
+
+
+def test_grip_units_preserve_their_distinct_domains():
+    scripts = Path(__file__).resolve().parents[1] / "scripts"
+    sys.path.insert(0, str(scripts / "sla_hierarchical_v16"))
+    from world_intent_clock import (
+        action_fraction_to_width,
+        command_width_to_action,
+        h40_fraction_to_width,
+        sensed_width_to_state,
+    )
+
+    assert sensed_width_to_state(0.042) == pytest.approx(42 / 44)
+    assert h40_fraction_to_width(42 / 44) == pytest.approx(0.042)
+    assert command_width_to_action(0.042) == pytest.approx(1.0)
+    assert action_fraction_to_width(42 / 44) == pytest.approx(0.040181818)
+    with pytest.raises(ValueError, match="working interval"):
+        command_width_to_action(0.044)

@@ -1,0 +1,78 @@
+{
+  "events": [
+    {
+      "event": "SPAWN",
+      "time_s": 1795500265.4225512,
+      "cell": 0,
+      "gpu": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad",
+      "sharing_authorized": true,
+      "board_free_mib": 28192,
+      "measured_board_peak_mib": 8598,
+      "ram_available_kib": 46372432,
+      "measured_peak_rss_kib": 16611016,
+      "graphics_processes": 2,
+      "compute_processes": 1
+    },
+    {
+      "event": "EXIT",
+      "time_s": 1795500288.49597,
+      "cell": 0,
+      "pid": 1053483,
+      "code": 0
+    },
+    {
+      "event": "SPAWN",
+      "time_s": 1795500288.593094,
+      "cell": 1,
+      "gpu": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad",
+      "sharing_authorized": true,
+      "board_free_mib": 28192,
+      "measured_board_peak_mib": 8598,
+      "ram_available_kib": 45901516,
+      "measured_peak_rss_kib": 16611016,
+      "graphics_processes": 2,
+      "compute_processes": 1
+    },
+    {
+      "event": "EXIT",
+      "time_s": 1795500312.6682534,
+      "cell": 1,
+      "pid": 1053637,
+      "code": 0
+    }
+  ],
+  "leases_closed": true,
+  "workers_absent": true,
+  "allocation": {
+    "issue": 489,
+    "status": "APPROVED",
+    "allocated": 2,
+    "input_mask_preflight_sha256": "c1da0f2d07bede25c2925786b98e57cfc9513f8e6b9985a8d08da6923cd4bd59",
+    "approval": "\u7528\u6237\u6279\u51c6 #489 \u4e24\u6b21\u524d\u5411",
+    "scope": "G01 6203 and 8203, fixed seed 0, left attention mask only",
+    "native_starts": 0,
+    "updates": 0
+  },
+  "close": {
+    "ended": 1795500312.672354,
+    "entered": 2,
+    "returned": 2,
+    "simulation_ticks": 0,
+    "updates": 0
+  },
+  "hashes": {
+    "EXIT.json": "29c4c157ead569be9d40768af35f8364c29c9bb1e4167f8146fe89a1001e158c",
+    "START.json": "d58d25ec52591d6fe1f284682e61fd3fdabc10a48b36ccb348c83ad9636cd0a9",
+    "cross-0.npz": "9bd02d813d9cfd3ef757a5d2116740d39a268b3b818e401585da1253da801de7",
+    "cross-1.npz": "97699d91a5064b0d8624f8c971267d2a6983e81f597176e0b94bd0a6a359a0dc",
+    "entered-0.json": "3eb7339fcfcadfe0293f187dfaffd85d816784085f753bb135c847b37d76decd",
+    "entered-1.json": "9a0847c4437e5548a1c0e328178d5de1e752af2da5fa8f4e519944ff641c7584",
+    "mask-0.json": "eb99d4eac5316842d11e41a898534472076ed572b9c59bf4a0b672df405d4ea9",
+    "mask-1.json": "eb99d4eac5316842d11e41a898534472076ed572b9c59bf4a0b672df405d4ea9",
+    "owner.jsonl": "21d740df2c2f5ebd3f6190ca483ca1a9101dbc36d7cd9480589c7f2d923bb345",
+    "returned-0.json": "a9f3db9206638d8e30cde47ffbb214068687144eee20b49f518353c7be88cf7e",
+    "returned-1.json": "23936610fa94cf0f5921257dd5938d1df22a50b8c1921f19add4c213014618c5",
+    "worker-0.log": "bd9bc722a77137ff1377064f22b292548aad4f893f6b46af355ac1a076cb1686",
+    "worker-1.log": "bd9bc722a77137ff1377064f22b292548aad4f893f6b46af355ac1a076cb1686"
+  }
+}

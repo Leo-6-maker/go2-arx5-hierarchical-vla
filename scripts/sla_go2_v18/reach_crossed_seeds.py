@@ -82,7 +82,7 @@ def case_inputs(root):
     return rows
 
 
-def worker(root, out, i, fd):
+def worker(root, out, i, fd, issue):
     import jax
     import jax.numpy as jnp
     from p0_o0_runner import gpu_identity
@@ -102,7 +102,7 @@ def worker(root, out, i, fd):
 
     def current():
         require(
-            started["issue"] == 486
+            started["issue"] == issue
             and started["owner_pid"] == os.getppid()
             and time.time() < started["deadline"]
             and not any((out / n).exists() for n in ("EXIT.json", "STOP.json")),
@@ -120,7 +120,28 @@ def worker(root, out, i, fd):
     cfg = verify_files(root)
     model = Model(cfg)
     model.reset()
-    seed = [0, 1 - i]
+    seed = [0, 1 - i] if issue == 486 else [0, 0]
+    if issue == 489:
+        from reach_wrist_mask import WRIST, mask_left
+
+        official_transform = model._policy._input_transform
+        model._policy._input_transform = lambda value: mask_left(
+            official_transform, value
+        )
+        original_sample = model._policy._sample_actions
+
+        def sample(key, observation, **kwargs):
+            masks = {
+                k: bool(np.asarray(v)[0]) for k, v in observation.image_masks.items()
+            }
+            require(
+                masks == {"base_0_rgb": True, WRIST: False, "right_wrist_0_rgb": True},
+                "wrist mask not delivered to sampler",
+            )
+            record(out / f"mask-{i}.json", masks)
+            return original_sample(key, observation, **kwargs)
+
+        model._policy._sample_actions = sample
     model._policy._rng = jax.random.wrap_key_data(jnp.asarray(seed, dtype=jnp.uint32))
     capture = {}
     current()
@@ -156,16 +177,28 @@ def worker(root, out, i, fd):
     )
 
 
-def execute(root, out, allocation):
+def execute(root, out, allocation, issue):
     grant = read(allocation)
     require(
-        grant.get("issue") == 486
+        grant.get("issue") == issue
         and grant.get("allocated") == 2
         and grant.get("status") == "APPROVED",
-        "issue 486 scientific allocation",
+        "scientific allocation does not match requested panel",
     )
     require(os.environ.get("REACH_SHARED_GPU") == "1", "shared mode required")
     case_inputs(root)
+    if issue == 489:
+        proof = read(
+            pin(
+                root / "v18/wrist-mask-preflight01.json",
+                grant["input_mask_preflight_sha256"],
+            )
+        )
+        require(
+            len(proof["rows"]) == 2
+            and all(r["identical_pixels_state_tokens"] for r in proof["rows"]),
+            "missing input control",
+        )
     lock, _ = site(root)
     with lock.open("rb") as lease:
         fcntl.flock(lease, fcntl.LOCK_EX | fcntl.LOCK_NB)
@@ -176,7 +209,7 @@ def execute(root, out, allocation):
         record(
             out / "START.json",
             dict(
-                issue=486,
+                issue=issue,
                 owner_pid=os.getpid(),
                 start=now,
                 deadline=deadline,
@@ -214,6 +247,8 @@ def execute(root, out, allocation):
                             str(HERE),
                             str(root),
                             "worker",
+                            "--issue",
+                            str(issue),
                             "--index",
                             str(i),
                             "--fd",
@@ -338,17 +373,19 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("root", type=Path)
     parser.add_argument("mode", choices=("preflight", "execute", "worker", "score"))
+    parser.add_argument("--issue", type=int, choices=(486, 489), default=486)
     parser.add_argument("--index", type=int, choices=(0, 1))
     parser.add_argument("--fd", type=int)
     parser.add_argument("--allocation", type=Path)
     args = parser.parse_args()
     root = args.root.resolve()
-    out = root / "v18/Z1_CROSSED_486"
+    out = root / ("v18/Z1_CROSSED_486" if args.issue == 486 else "v18/Z1_MASK_489")
     if args.mode == "worker":
-        worker(root, out, args.index, args.fd)
+        worker(root, out, args.index, args.fd, args.issue)
     elif args.mode == "execute":
-        execute(root, out, args.allocation)
+        execute(root, out, args.allocation, args.issue)
     else:
+        require(args.issue == 486, "use the wrist-mask-specific readout")
         cells = {(i, i): p for i, (_, p) in enumerate(case_inputs(root))}
         if args.mode == "score":
             require(read(out / "EXIT.json")["returned"] == 2, "incomplete cells")

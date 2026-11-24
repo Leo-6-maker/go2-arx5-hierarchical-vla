@@ -16,7 +16,7 @@ from policy_query import input_identity
 PROMPT = "Reach toward the red cube and stop before touching it."
 
 
-def sensor_input(root, case, native, tick):
+def sensor_input(root, case, native, tick, *, with_visual_goal=False):
     import mujoco
     from go2arx5_vla.world_model.multitask_camera_v6 import TwoObjectBodyRenderer
     from go2arx5_vla.world_model.multitask_state_v6 import packets
@@ -103,8 +103,28 @@ def sensor_input(root, case, native, tick):
                 and obs["state"][15] == np.float32(np.mean(finger) / 0.044),
                 "unbound measured gripper",
             )
+            visual = {}
+            if with_visual_goal:
+                from visual_objects import estimate_objects
+
+                # Current calibrated cameras only. Scene geometry and masks stay out of the proposal.
+                _, _, cameras, _ = writer.render(pkt, audit_masks=False)
+                tip = writer.data.site("x5_ee")
+                tcp = np.eye(4)
+                tcp[:3, :3] = tip.xmat.reshape(3, 3)
+                tcp[:3, 3] = tip.xpos
+                visual["actual_tcp"] = tcp.tolist()
+                images = obs["images"]
+                visual["red_rgb"] = estimate_objects(
+                    images["cam_high"][-1],
+                    images["cam_right_wrist"],
+                    cameras,
+                    pkt["time_s"],
+                    reject_spanning=True,
+                )["red"]
             digest, fields = input_identity(obs)
         return obs, {
+            **visual,
             "tick": tick,
             "head_ticks": wanted,
             "input_sha256": digest,
