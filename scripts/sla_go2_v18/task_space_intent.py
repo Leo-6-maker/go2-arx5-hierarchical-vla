@@ -39,6 +39,10 @@ def shortened(ref, path):
 
 def geometric_control(actual, ref, obj):
     axis, cap, _ = visual_goal(obj, actual)
+    return geometry_line(ref, axis, cap)
+
+
+def geometry_line(ref, axis, cap):
     u = np.linspace(0, 1, PREFIX)
     smooth = u**3 * (10 - 15 * u + 6 * u * u)
     out = np.repeat(ref[None], PREFIX, axis=0)
@@ -80,6 +84,10 @@ def propose(profile, world, actual, ref, obj):
 
 def direct_fit(world, actual, ref, obj):
     axis, cap, radius = visual_goal(obj, actual)
+    return fit_with_bounds(world, actual, ref, axis, cap, radius, MAX_ROTATION)
+
+
+def fit_with_bounds(world, actual, ref, axis, cap, radius, rotation_limit):
     path = ref @ np.linalg.solve(actual, world[:PREFIX])
     proposal = path[:, :3, 3] - ref[:3, 3]
     axial_cap = np.clip(proposal @ axis, 0.0, cap)
@@ -111,7 +119,7 @@ def direct_fit(world, actual, ref, obj):
     out[:, :3, 3] = ref[:3, 3] + x
     rot = Rotation.from_matrix(path[:, :3, :3] @ ref[:3, :3].T).as_rotvec()
     rot *= np.minimum(
-        1.0, MAX_ROTATION / np.maximum(1e-12, np.linalg.norm(rot, axis=1))
+        1.0, rotation_limit / np.maximum(1e-12, np.linalg.norm(rot, axis=1))
     )[:, None]
     rot[0] = 0
     out[:, :3, :3] = Rotation.from_rotvec(rot).as_matrix() @ ref[:3, :3]
@@ -124,3 +132,61 @@ def direct_fit(world, actual, ref, obj):
         proposed_final_axial_mm=float(1000 * proposal[-1] @ axis),
         retained_final_axial_mm=float(1000 * x[-1] @ axis),
     )
+
+
+class ReachEpisode:
+    """Keep the visual entry axis and total excursion fixed across feedback queries."""
+
+    def __init__(self, epoch, actual, ref, obj):
+        self.epoch = epoch
+        self.actual = np.array(actual, copy=True)
+        self.ref = np.array(ref, copy=True)
+        self.center = np.array(obj["center_world_m"], copy=True)
+        self.axis, self.cap, self.radius = visual_goal(obj, actual)
+
+    def plan(self, epoch, actual, ref, obj, *, method, model_world=None):
+        if method not in ("DIRECT", "GEOMETRY") or (model_world is None) != (
+            method == "GEOMETRY"
+        ):
+            raise ValueError("missing model output or wrong Reach treatment")
+        if epoch != self.epoch:
+            raise ValueError("different Reach reset")
+        _, _, now_radius = visual_goal(obj, actual)
+        if (
+            np.linalg.norm(np.asarray(obj["center_world_m"]) - self.center)
+            > 2 * CORRIDOR - self.radius - now_radius
+        ):
+            raise ValueError("visual center inconsistent with fixed Reach target")
+        offsets = np.stack(
+            [actual[:3, 3] - self.actual[:3, 3], ref[:3, 3] - self.ref[:3, 3]]
+        )
+        projections = offsets @ self.axis
+        transverse = np.linalg.norm(offsets - projections[:, None] * self.axis, axis=1)
+        # Keep both physical and reference paths inside the original episode allowance.
+        radius = min(self.radius, now_radius) - max(transverse)
+        rot = Rotation.from_matrix(
+            np.stack(
+                [
+                    actual[:3, :3] @ self.actual[:3, :3].T,
+                    ref[:3, :3] @ self.ref[:3, :3].T,
+                ]
+            )
+        ).magnitude()
+        angular = MAX_ROTATION - max(rot)
+        used = max(0.0, max(projections))
+        if min(radius, angular, self.cap - used) < -1e-9:
+            raise ValueError(
+                f"outside original Reach bounds: transverse {1000 * max(transverse):.3f}/{1000 * min(self.radius, now_radius):.3f} mm, rotation {np.degrees(max(rot)):.3f}/{np.degrees(MAX_ROTATION):.3f} deg, advance {1000 * used:.3f}/{1000 * self.cap:.3f} mm"
+            )
+        remaining = max(0.0, self.cap - used)
+        if remaining <= 1e-9 or method == "GEOMETRY":
+            return geometry_line(ref, self.axis, remaining)
+        return fit_with_bounds(
+            model_world,
+            actual,
+            ref,
+            self.axis,
+            remaining,
+            max(0.0, radius),
+            max(0.0, angular),
+        )[0]

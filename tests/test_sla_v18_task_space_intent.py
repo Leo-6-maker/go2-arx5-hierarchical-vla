@@ -71,3 +71,32 @@ def test_visual_refusal_for_both_planners(status, separation, bbox):
         direct_fit(world, actual, ref, rgb)
     with pytest.raises(ValueError, match="vision"):
         geometric_control(actual, ref, rgb)
+
+
+@pytest.mark.parametrize("method", ["DIRECT", "GEOMETRY"])
+def test_requery_uses_remaining_episode_displacement_and_fails_closed(method):
+    from task_space_intent import ReachEpisode
+
+    actual, ref, rgb, world = scene()
+    episode = ReachEpisode("entry", actual, ref, rgb)
+    halfway = actual.copy()
+    halfway[1, 3] += 0.011
+    consumed = ref.copy()
+    consumed[1, 3] += 0.012
+    raw = world.copy()
+    raw[:, 1, 3] += 0.011
+    data = {"method": method, "model_world": raw if method == "DIRECT" else None}
+    p = episode.plan("entry", halfway, consumed, rgb, **data)
+    assert np.allclose(p[0], consumed)
+    assert p[-1, 1, 3] == pytest.approx(ref[1, 3] + 0.020)
+    with pytest.raises(ValueError, match="reset"):
+        episode.plan("different", halfway, consumed, rgb, **data)
+    off_axis = halfway.copy()
+    off_axis[0, 3] += 0.03
+    with pytest.raises(ValueError, match="outside original"):
+        episode.plan("entry", off_axis, consumed, rgb, **data)
+    lost_object = dict(rgb, center_world_m=[0.03, 0.14, -0.08])
+    with pytest.raises(ValueError, match="inconsistent"):
+        episode.plan("entry", halfway, consumed, lost_object, **data)
+    with pytest.raises(ValueError, match="missing model"):
+        episode.plan("entry", halfway, consumed, rgb, method="DIRECT")
