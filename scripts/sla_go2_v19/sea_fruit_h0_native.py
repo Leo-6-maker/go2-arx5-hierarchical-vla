@@ -103,7 +103,7 @@ def remember_event(events, name, sample, prior):
                             last_consumed=prior)
 
 
-def drive(adapter, case, result):
+def drive(adapter, case, result, *, measured_anchor=False):
     adapter.prepare_dynamic()
     out = adapter.output
     require(read(out / "GUARD_READY.json") == {
@@ -128,7 +128,6 @@ def drive(adapter, case, result):
     samples_path = out / "MOBILE_SAMPLES.private.jsonl"
     parts, _, _ = startup_boundary(out, read_line(samples_path))
     base = np.repeat(parts["old_base"][None], 41, axis=0)
-    hold_base = np.r_[base[0, :3, 3], Rotation.from_matrix(base[0, :3, :3]).as_quat()]
     model = adapter.actual_state.model
     monitor = StateMonitor(model)
     events = {"before_close": None, "first_query_after_grasp": None}
@@ -151,9 +150,11 @@ def drive(adapter, case, result):
             packet = read_journal_packet(journal)
             require(packet is not None and packet["step"] == i, "initial journal gap")
         monitor.observe(packet)
-        while not monitor.stable_now():
-            require(tick < STABLE_DEADLINE, "stationary stable entry deadline")
-            if (sequence - 128) % 7 == 0:
+
+        def settle_atom(refresh):
+            nonlocal tick, sequence, grip, packet
+            require(tick + ATOM_TICKS <= STABLE_DEADLINE, "stationary stable entry deadline")
+            if refresh:
                 fixed_base_install(adapter, action, base)
             width = grip_at_grant(adapter, tick)
             mobile.consume(adapter, action, sequence=sequence)
@@ -165,11 +166,32 @@ def drive(adapter, case, result):
                 monitor.observe(packet)
             tick += ATOM_TICKS
             paused(adapter, tick)
+
+        while not monitor.stable_now():
+            settle_atom((sequence - 128) % 7 == 0)
+        stance_origin = None
+        if measured_anchor:
+            from sea_stance_anchor import SETTLING_TICKS, reference as anchored_reference
+
+            prior_ee, prior = accepted_knot()
+            adapter.wait_source()
+            action, base, anchor = anchored_reference(base[0], prior_ee, mobile.measured_mount(adapter))
+            anchor.update(cutover_tick=tick, prior_accepted_knot=prior)
+            result["stance_anchor"] = anchor
+            record(case / "STATIONARY_ANCHOR.private.json", anchor)
+            monitor.entry = monitor.stable[-1]
+            stance_origin = monitor.entry[2:5]
+            settle_start = tick
+            since = sequence
+            while tick - settle_start < SETTLING_TICKS or not monitor.stable_now():
+                settle_atom((sequence-since) % 7 == 0)
+            anchor["settled_tick"] = tick
+        hold_base = np.r_[base[0, :3, 3], Rotation.from_matrix(base[0, :3, :3]).as_quat()]
         initial = adapter.measured_task_state()
         require(initial["native_step"] == tick and not initial["robot_object_contact"], "stationary entry")
         reference, witness = accepted_knot()
         consumed = dict(witness=witness, gripper=grip)
-        score = StationaryHoldScore(model, geometry)
+        score = StationaryHoldScore(model, geometry, stance_origin=stance_origin)
         score.update_packet(packet)
         stage_clock = StageClock(tick)
         teacher = MultitaskTeacher(initial, {"family": "F1", "mode": "M_ASSIST"}, geometry, "HOLD-red")

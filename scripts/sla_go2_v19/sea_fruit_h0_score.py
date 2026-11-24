@@ -21,7 +21,7 @@ FOOT_TRANSLATION_M = .005
 
 
 class StationaryHoldScore:
-    def __init__(self, model, geometry):
+    def __init__(self, model, geometry, *, stance_origin=None):
         self.state = TwoObjectState(model, "red")
         self.geometry = geometry
         self.names = [model.geom(i).name for i in range(model.ngeom)]
@@ -30,6 +30,7 @@ class StationaryHoldScore:
         self.start = None
         self.last = None
         self.score = None
+        self.initial = stance_origin
         self.success = False
         self.first_violation = None
 
@@ -45,7 +46,8 @@ class StationaryHoldScore:
                 d.geom_xpos[self.feet].copy())
         t = s["native_step"]
         if self.start is None:
-            self.initial = pose
+            if self.initial is None:
+                self.initial = pose
             self.start = t
             self.score = Score("HOLD-red", s, self.geometry)
         origin, orientation, stance = self.initial
