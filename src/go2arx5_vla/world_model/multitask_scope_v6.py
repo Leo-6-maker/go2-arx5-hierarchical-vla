@@ -19,6 +19,9 @@ VERSION = NATIVE_VERSION
 
 
 def scope_identity(spec):
+    if spec.get('scope') == 'SLA_GO2_V18_R5_VAL_TEACHER':
+        from scripts.sla.v18_r5_val_scope import SCOPE as val_scope, PLAN as val_plan, AUTHORITY
+        return val_scope, val_plan, (), AUTHORITY
     if spec.get('scope') == 'SLA_CORE_HOPPER_V1_EXPERT':
         from scripts.sla.core_hopper_expert import SCOPE as ch_scope, PLAN as ch_plan, AUTHORITY
         return ch_scope, ch_plan, (), AUTHORITY
@@ -113,6 +116,9 @@ def validate(spec):
             or env.get('ROS_LOCALHOST_ONLY')!='1' or env.get('ROS_AUTOMATIC_DISCOVERY_RANGE')!='LOCALHOST'
             or spec['ROS_DOMAIN_ID'] not in range(192,200)):
         raise PermissionError('FIXED_V6_MFREE_MULTITASK_MUJOCO_LIMITS')
+    if scope == 'SLA_GO2_V18_R5_VAL_TEACHER':
+        from scripts.sla.v18_r5_val_scope import validate_allocation, validate_member
+        validate_member(spec, validate_allocation(spec))
     authority=read_pin(spec['sim_only_project_authorization'])
     if (authority.get('source')!=authority_source
             or authority.get('plan_commit')!=plan or authority.get('source_sha')!=spec['source_sha']

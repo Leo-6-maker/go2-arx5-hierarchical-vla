@@ -27,7 +27,10 @@ def main():
     core_hopper_expert = (spec['plan_commit'] == '171b5bedb290258954aac140157743e92e3b152e'
                           and spec['scope'] == 'SLA_CORE_HOPPER_V1_EXPERT'
                           and operation in ('--case', '--core-hopper-collection'))
-    if not (d4 or e0 or followup or scale or adaptation or core_hopper_expert) and (spec['plan_commit']!='ae3d3c0dceade437b0104a150cd0402fef650052'or spec['scope']not in('SLA_SOURCE_NATIVE_SHARED_V6','SLA_V6_TARGET_NATIVE','SLA_V6_MULTITASK_NATIVE')):
+    val_teacher = (spec['plan_commit'] == 'c94c6319712b7baa101da1960892efee4e0d94eb'
+                   and spec['scope'] == 'SLA_GO2_V18_R5_VAL_TEACHER'
+                   and operation in ('--case', '--r5-val-teacher'))
+    if not (d4 or e0 or followup or scale or adaptation or core_hopper_expert or val_teacher) and (spec['plan_commit']!='ae3d3c0dceade437b0104a150cd0402fef650052'or spec['scope']not in('SLA_SOURCE_NATIVE_SHARED_V6','SLA_V6_TARGET_NATIVE','SLA_V6_MULTITASK_NATIVE')):
         raise PermissionError('FIXED_V6_PLAN_AND_EXPLICIT_NEW_SCOPE_REQUIRED')
     if Path(__file__).resolve()!=source/'scripts/wm02/v6_bootstrap.py':raise PermissionError('EXACT_NEW_V6_BOOTSTRAP')
     for name,pin in spec['source_files'].items():
@@ -37,8 +40,17 @@ def main():
     import go2arx5_vla.world_model,go2arx5_vla.sla_adapter,scripts.wm02,scripts.sla,scripts.pi0294
     for module,rel in((go2arx5_vla.world_model,'src/go2arx5_vla/world_model'),(go2arx5_vla.sla_adapter,'src/go2arx5_vla/sla_adapter'),(scripts.wm02,'scripts/wm02'),(scripts.sla,'scripts/sla'),(scripts.pi0294,'scripts/pi0294')):
         module.__path__=[str(source/rel),*list(module.__path__)]
+    if val_teacher:
+        from scripts.sla.v18_r5_val_scope import validate_allocation
+        validate_allocation(spec)
     from scripts.wm02.mobile_boundary_runner_v1 import registered
     registered(spec,path)
+    if operation == '--r5-val-teacher' and val_teacher:
+        from scripts.sla.v18_r5_val_teacher import run
+        raise SystemExit(run(spec))
+    if operation == '--case' and val_teacher:
+        from scripts.sla.v18_r5_val_scope import check_world_lease
+        check_world_lease(spec, int(sys.argv[sys.argv.index('--world-lock-fd')+1]))
     if operation == '--core-hopper-collection' and core_hopper_expert:
         from scripts.sla.core_hopper_collection import run
         raise SystemExit(run(spec))
