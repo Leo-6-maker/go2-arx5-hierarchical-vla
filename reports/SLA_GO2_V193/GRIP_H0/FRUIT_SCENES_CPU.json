@@ -1,0 +1,253 @@
+{
+  "status": "TWO_FRUIT_SCENES_COMPILED_COLD_ONLY",
+  "layouts": [
+    {
+      "layout": "CHV1-TRAIN-F1-G00",
+      "development_only": true,
+      "task": "HOLD-red",
+      "positions_world_m": {
+        "red": [
+          0.36550000000000005,
+          -0.0595,
+          0.62
+        ],
+        "blue": [
+          0.36550000000000005,
+          0.030499999999999996,
+          0.62
+        ]
+      },
+      "scoring_geometry": {
+        "version": "MFREE_TWO_OBJECT_HOLD_PLACE_SCENE_V6",
+        "expected_ABI": {
+          "nq": 41,
+          "nv": 38,
+          "nu": 20
+        },
+        "objects": {
+          "red": {
+            "body": "task_cube",
+            "joint": "task_cube_free",
+            "geom": "task_cube_geom"
+          },
+          "blue": {
+            "body": "task_blue_cube",
+            "joint": "task_blue_cube_free",
+            "geom": "task_blue_cube_geom"
+          }
+        },
+        "zones": {
+          "left": {
+            "center_world_XY": [
+              0.4465,
+              0.042499999999999996
+            ],
+            "half_size_XY": [
+              0.035,
+              0.035
+            ]
+          },
+          "right": {
+            "center_world_XY": [
+              0.4465,
+              -0.0775
+            ],
+            "half_size_XY": [
+              0.035,
+              0.035
+            ]
+          }
+        },
+        "table_top_world_z": 0.6,
+        "object_half_sizes": {
+          "red": [
+            0.026,
+            0.021,
+            0.02
+          ],
+          "blue": [
+            0.02,
+            0.02,
+            0.02
+          ]
+        },
+        "direction_world_XY": [
+          1.0,
+          0.0
+        ],
+        "original_robot_XML_unchanged": true,
+        "scene_depends_on_instruction": false,
+        "added_actuators": 0,
+        "added_mocap": 0,
+        "added_equalities": 0,
+        "native_dispatch_qualified": false
+      },
+      "scene_sha256": "e577e5418c2a4036c01ffccb9f562c86c4477768588880a9f3c8f5f7441ab2b4",
+      "scene_bytes": 74470601,
+      "target_mass_kg": 0.05,
+      "static": {
+        "default_cube_edge_clearance_mm": {
+          "red": 109.50000000000004,
+          "blue": 115.50000000000003
+        },
+        "default_cube_separation_mm": 48.99999999999999
+      }
+    },
+    {
+      "layout": "CHV1-TRAIN-F1-G01",
+      "development_only": true,
+      "task": "HOLD-red",
+      "positions_world_m": {
+        "red": [
+          0.34550000000000003,
+          -0.0555,
+          0.62
+        ],
+        "blue": [
+          0.34550000000000003,
+          0.034499999999999996,
+          0.62
+        ]
+      },
+      "scoring_geometry": {
+        "version": "MFREE_TWO_OBJECT_HOLD_PLACE_SCENE_V6",
+        "expected_ABI": {
+          "nq": 41,
+          "nv": 38,
+          "nu": 20
+        },
+        "objects": {
+          "red": {
+            "body": "task_cube",
+            "joint": "task_cube_free",
+            "geom": "task_cube_geom"
+          },
+          "blue": {
+            "body": "task_blue_cube",
+            "joint": "task_blue_cube_free",
+            "geom": "task_blue_cube_geom"
+          }
+        },
+        "zones": {
+          "left": {
+            "center_world_XY": [
+              0.4465,
+              0.042499999999999996
+            ],
+            "half_size_XY": [
+              0.035,
+              0.035
+            ]
+          },
+          "right": {
+            "center_world_XY": [
+              0.4465,
+              -0.0775
+            ],
+            "half_size_XY": [
+              0.035,
+              0.035
+            ]
+          }
+        },
+        "table_top_world_z": 0.6,
+        "object_half_sizes": {
+          "red": [
+            0.026,
+            0.021,
+            0.02
+          ],
+          "blue": [
+            0.02,
+            0.02,
+            0.02
+          ]
+        },
+        "direction_world_XY": [
+          1.0,
+          0.0
+        ],
+        "original_robot_XML_unchanged": true,
+        "scene_depends_on_instruction": false,
+        "added_actuators": 0,
+        "added_mocap": 0,
+        "added_equalities": 0,
+        "native_dispatch_qualified": false
+      },
+      "scene_sha256": "ac855b7dc1bd97f0a819ad57cc1873d8316fe918ed3d960de6ea036fcfd257ba",
+      "scene_bytes": 74470601,
+      "target_mass_kg": 0.05,
+      "static": {
+        "default_cube_edge_clearance_mm": {
+          "red": 89.50000000000003,
+          "blue": 95.50000000000001
+        },
+        "default_cube_separation_mm": 48.99999999999999
+      }
+    }
+  ],
+  "fruit_half_size_m": [
+    0.026,
+    0.021,
+    0.02
+  ],
+  "fruit_shape": "ellipsoid",
+  "fruit_geometry_is_nominal_proxy": true,
+  "robot_fingerprint": "67d4b804c438beabec9790ecf40b60584d2b45ec0c5f1799f377bf784f316bc8",
+  "frozen_contact_roles": {
+    "observer_sha256": "48b082c21dd61d91dc1ec5a2b18b91646c76a604b1287f77209b92cd67d693a5",
+    "selected_color": "red",
+    "checks": [
+      {
+        "case": "selected_pad_approach",
+        "native_role": 1,
+        "observer_allowed": true,
+        "preview_allowed": false
+      },
+      {
+        "case": "selected_pad_close",
+        "native_role": 1,
+        "observer_allowed": true,
+        "preview_allowed": true
+      },
+      {
+        "case": "selected_pad_maximum",
+        "native_role": 1,
+        "observer_allowed": true,
+        "preview_allowed": true
+      },
+      {
+        "case": "selected_pad_exceeds_maximum",
+        "native_role": 1,
+        "observer_allowed": false,
+        "preview_allowed": false
+      },
+      {
+        "case": "wrong_object_pad",
+        "native_role": 0,
+        "observer_allowed": false,
+        "preview_allowed": false
+      },
+      {
+        "case": "pad_hits_table",
+        "native_role": 0,
+        "observer_allowed": false,
+        "preview_allowed": false
+      },
+      {
+        "case": "passive_cube_table",
+        "native_role": 1,
+        "observer_allowed": true,
+        "preview_allowed": true
+      }
+    ]
+  },
+  "source_layout_manifest_sha256": "d92fe34f122637bb6dc29bb93d9f7a3d60464f65c5474b00962432bbc07b4914",
+  "protected_historical_scenes": 291,
+  "native_dispatch_qualified": false,
+  "new_native_requests": 0,
+  "new_integrations": 0,
+  "new_rendered_frames": 0,
+  "new_model_generations": 0,
+  "new_updates": 0
+}

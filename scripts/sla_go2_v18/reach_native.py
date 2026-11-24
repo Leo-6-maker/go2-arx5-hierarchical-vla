@@ -298,7 +298,8 @@ def audit(case, r, spec):
     }
 
 
-def execute(base, sp, spec, profile, student=None, scorer=None):
+def execute(base, sp, spec, profile, student=None, scorer=None, *, task_driver=None,
+            grant_cap=20000, opening_command=None):
     from clock_guard import new_receiver_output
     from scripts.wm02 import mobile_boundary_runner_v1 as mobile
     from standing_reach import drive
@@ -333,9 +334,10 @@ def execute(base, sp, spec, profile, student=None, scorer=None):
         channel,
         epoch,
         r,
-        grant_cap=20000,
+        grant_cap=grant_cap,
         adapter_type=adapter_class(),
         fault_schedule=fault,
+        opening_command=opening_command,
     )
     watch = subprocess.Popen(
         [
@@ -349,10 +351,13 @@ def execute(base, sp, spec, profile, student=None, scorer=None):
     try:
         record(
             case / "NATIVE_REQUEST.json",
-            {"episode": out.name, "max_ticks": 20000, "card": case.name},
+            {"episode": out.name, "max_ticks": grant_cap, "card": case.name},
         )
         a.start()
-        drive(a, case, case.name, profile, fault, r, student=student)
+        if task_driver is None:
+            drive(a, case, case.name, profile, fault, r, student=student)
+        else:
+            task_driver(a, case, r)
     except BaseException:  # noqa: BLE001 - retain interruption and always release this owner.
         r["interrupt"] = traceback.format_exc()
         if student is not None:
@@ -367,6 +372,13 @@ def execute(base, sp, spec, profile, student=None, scorer=None):
             r["close_error"] = traceback.format_exc()
         watch.terminate()
         watch.wait(timeout=5)
+        if task_driver is not None and not r.get("sim_child_pid"):
+            try:
+                observed = read(out / "LOADED_EXECUTOR_00.private.json")["sim"]
+                if observed["executable_sha256"] == spec["frozen_files"][spec["native_binary"]]:
+                    r["sim_child_pid"] = observed["pid"]
+            except (OSError, ValueError, KeyError):
+                pass
         r["exits"] = a.exit_records
         r["survivors"] = groups_alive({p.pid for _, p in a.processes})
         r["absent"] = (

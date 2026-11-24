@@ -1,0 +1,119 @@
+{
+  "status": "CPU_RECEIVER_REPLAY_VERIFIED",
+  "receiver_sha256": "739a7a087d0f4762423c044d50df06d634b92a155664fe0a2f9f717762a595e6",
+  "receiver_source_sha256": "d1c8f4dccbe24790939489937826cb148c15a5e3dce107fb1d6e8ed9a8a2a41f",
+  "card_tick_cap": 50000,
+  "parent_receiver_rebuilt_byte_identical": true,
+  "frozen_observer_sha256": "48b082c21dd61d91dc1ec5a2b18b91646c76a604b1287f77209b92cd67d693a5",
+  "frozen_trace_sha256": "d4734afc5cb82faa9755b1c94222a1ccbace50d43eb6fafb2001779dd46a2f83",
+  "unchanged_treatments": [
+    {
+      "method": "VALID",
+      "process_returncode": 0,
+      "last_replayed_tick": 6453,
+      "last_paused_tick": 6453,
+      "outstanding_grant_tick": 6453,
+      "receiver_stop_tick": null,
+      "delivered_after_receiver_stop": null,
+      "receiver_log_sha256": "8a80c5ce5ba9922639b13988e99104b663da54ca355329287b8049ec6dde4040",
+      "recorded_step_counter_sha256": "a383ea99634eb1c746570abe391f035d600baf10ba17de23e79ee333580cd302",
+      "returning_signals": 0,
+      "post_rejection_call_attempts": 0,
+      "trace": {
+        "stop_events": 0,
+        "writer_events": 0,
+        "stop_sim_s": null,
+        "stop_token": null,
+        "sealed_before_teardown": false
+      }
+    },
+    {
+      "method": "EXPIRY",
+      "process_returncode": 0,
+      "last_replayed_tick": 6439,
+      "last_paused_tick": 6428,
+      "outstanding_grant_tick": 6453,
+      "receiver_stop_tick": 6439,
+      "delivered_after_receiver_stop": 0,
+      "receiver_log_sha256": "6f53363e714e463915e28bac1a9528669cc5eaa48f1c5789a3cefa573338d60b",
+      "recorded_step_counter_sha256": "c3b510995ebd0e8ff34b72403ce740162cfc83b952ab35439ad5fced30f4f236",
+      "returning_signals": 15,
+      "post_rejection_call_attempts": 14,
+      "trace": {
+        "stop_events": 1,
+        "writer_events": 1,
+        "stop_sim_s": 12.87800000000097,
+        "stop_token": 6439,
+        "sealed_before_teardown": false
+      }
+    },
+    {
+      "method": "OVER_RATE",
+      "process_returncode": 0,
+      "last_replayed_tick": 6439,
+      "last_paused_tick": 6428,
+      "outstanding_grant_tick": 6453,
+      "receiver_stop_tick": 6439,
+      "delivered_after_receiver_stop": 0,
+      "receiver_log_sha256": "b3a9e5261050d7ec866bda7d7d6d6121828c5f1e74921aacbc88f145d7102c70",
+      "recorded_step_counter_sha256": "c3b510995ebd0e8ff34b72403ce740162cfc83b952ab35439ad5fced30f4f236",
+      "returning_signals": 15,
+      "post_rejection_call_attempts": 14,
+      "trace": {
+        "stop_events": 1,
+        "writer_events": 1,
+        "stop_sim_s": 12.87800000000097,
+        "stop_token": 6439,
+        "sealed_before_teardown": false
+      }
+    }
+  ],
+  "synthetic_contact_treatments": {
+    "SELECTED_WHILE_CLOSING": {
+      "prohibited": false,
+      "contact_tick": 6439,
+      "last_delivered_tick": 6453,
+      "post_stop_deliveries": null,
+      "returning_interrupts": 0,
+      "receiver_log_sha256": "db2317a3dc50e2fad8a8cb6de83ee1524dfc25898e84926550db65ebb116c93b"
+    },
+    "SELECTED_WHILE_OPEN": {
+      "prohibited": true,
+      "contact_tick": 6439,
+      "last_delivered_tick": 6439,
+      "post_stop_deliveries": 0,
+      "returning_interrupts": 15,
+      "receiver_log_sha256": "fc27ec857cf9929461c6a7b8f36778260e47450628bf4435a553d29ab1a0fb37"
+    },
+    "EXCESS_PENETRATION": {
+      "prohibited": true,
+      "contact_tick": 6439,
+      "last_delivered_tick": 6439,
+      "post_stop_deliveries": 0,
+      "returning_interrupts": 15,
+      "receiver_log_sha256": "1d5bb4d94c6a8590666111c5636b85dbb04d52820024cf7b3eabfd565168d71d"
+    },
+    "WRONG_OBJECT": {
+      "prohibited": true,
+      "contact_tick": 6439,
+      "last_delivered_tick": 6439,
+      "post_stop_deliveries": 0,
+      "returning_interrupts": 15,
+      "receiver_log_sha256": "1d5bb4d94c6a8590666111c5636b85dbb04d52820024cf7b3eabfd565168d71d"
+    },
+    "PAD_TABLE": {
+      "prohibited": true,
+      "contact_tick": 6439,
+      "last_delivered_tick": 6439,
+      "post_stop_deliveries": 0,
+      "returning_interrupts": 15,
+      "receiver_log_sha256": "1d5bb4d94c6a8590666111c5636b85dbb04d52820024cf7b3eabfd565168d71d"
+    }
+  },
+  "contact_fixture_scene_sha256": "e577e5418c2a4036c01ffccb9f562c86c4477768588880a9f3c8f5f7441ab2b4",
+  "new_native_starts": 0,
+  "new_physics_ticks": 0,
+  "new_model_forwards": 0,
+  "new_training_updates": 0,
+  "whole_system_qualified": false
+}

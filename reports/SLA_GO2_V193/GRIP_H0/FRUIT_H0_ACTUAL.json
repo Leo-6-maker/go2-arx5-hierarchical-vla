@@ -1,0 +1,124 @@
+{
+  "campaign": "V193-STANDING-FRUIT-H0-01",
+  "authorized": 2,
+  "started": 2,
+  "qualified": 0,
+  "teacher_grasps": 0,
+  "G00": {
+    "outcome": "TECHNICAL_BEFORE_TEACHER",
+    "prior_panel_sha256": "3d50fd1c4b3aa1186b6c4063aa9bfa357a718908538f899c78cc9f29b5becee0",
+    "prior_result_sha256": "bfec35833cd9ec29c9e2c2d881a17e4b0c675f4e6e2ed33504579ee37435954c",
+    "prior_lease_sha256": "3e3741e33ff4ef16aedb333dcf2c64e586b9bd6b6f3c9543bc13bb324c3ceb39",
+    "prior_trace_sha256": "274a15eddee71cb3f40adf9a0f55057688c4e19f975a1f71b525358e065450f9",
+    "prior_planner_sha256": "5c0392ecf8bafa46782fe9c27db2b39930094e284c4759de1a5b65b6246952f1",
+    "prior_ticks": 2503,
+    "startup_installed_points": 81,
+    "prior_processes_absent": true,
+    "prior_slot": "G00-H0",
+    "remaining_slot": "G01-H0"
+  },
+  "G01": {
+    "outcome": "H0_STANCE_OR_CONTACT_STOP",
+    "qualified": false,
+    "entry_tick": 6203,
+    "terminal_tick": 11578,
+    "consumed_50ms_atoms": 215,
+    "fixed_base_install_publications": 246,
+    "consumed_queries_before_stop": 22,
+    "last_stage": "PREGRASP",
+    "first_violation_tick": 11578,
+    "foot": "FL",
+    "foot_displacement_mm": [
+      5.330976382344349,
+      1.5253032138227216,
+      0.894556397269065,
+      2.9529648348162314
+    ],
+    "foot_displacement_xyz_mm": [
+      [
+        4.496291933274263,
+        2.0238355577515685,
+        2.026513675025765
+      ],
+      [
+        0.36409924669195126,
+        -1.4799415661686521,
+        -0.06127473690317742
+      ],
+      [
+        -0.13592368176823522,
+        0.8821001928863981,
+        0.06045783935401672
+      ],
+      [
+        1.8373753156334938,
+        -2.0590950157710894,
+        1.0508001623470709
+      ]
+    ],
+    "previous_violating_foot_displacement_mm": 4.458276027513398,
+    "actual_TCP_displacement_mm": 54.82585866454808,
+    "TCP_to_teacher_pregrasp_initial_mm": 97.42690043989198,
+    "TCP_to_teacher_pregrasp_terminal_mm": 43.07377442211028,
+    "terminal_pause_confirmed": true,
+    "new_installs_at_or_after_terminal_pause": 0,
+    "processes_absent": true,
+    "lease_closed": true,
+    "score": {
+      "schema": "SEA_STATIONARY_HOLD_NATIVE_SCORE",
+      "instruction": "HOLD-red",
+      "task_success": false,
+      "native_step": 11578,
+      "base_directional_motion_m": 0.010991905952975986,
+      "lift_m": -3.1164843150577326e-08,
+      "inside_selected_region": null,
+      "target_grasp": false,
+      "wrong_object_grasp_ever": false,
+      "wrong_object_contact_ever": false,
+      "released": true,
+      "gripper_open_fraction": 0.954510470339677,
+      "TCP_retreat_m": 0.0911152513168834,
+      "stable_release_condition": false,
+      "states": 5376,
+      "missing_native_intervals": 0,
+      "unsafe_states": 1,
+      "ever_target_grasp": false,
+      "ever_target_lift20mm": false,
+      "maximum_lift_m": 1.3049865954517514e-07,
+      "longest_grasp_lift_hold_s": 0.0,
+      "longest_stable_released_retreat_s": 0.0,
+      "events": {},
+      "task_privileged_truth_in_student_input": false,
+      "clock": "ACTUAL_2MS_NATIVE_STREAM",
+      "first_stance_or_contact_violation": {
+        "tick": 11578,
+        "base_drift_m": 0.008538658144467783,
+        "base_angle_deg": 2.098186025846974,
+        "foot_drift_m": 0.005330976382344349,
+        "all_feet_supported": true,
+        "contact_valid": true,
+        "gripper_state_valid": true
+      },
+      "maximum_stance_drift_m": 0.02,
+      "maximum_stance_angle_deg": 5.0,
+      "maximum_foot_drift_m": 0.005
+    },
+    "sensor_events": {
+      "before_close": null,
+      "first_query_after_grasp": null
+    },
+    "evidence_sha256": {
+      "AUDIT.json": "931848d0c5148fb19b389b28ac7b1ddf908c4e6726d811e75ebcb268c0926781",
+      "RESULT.private.json": "ae1cc2cf9a431358b9762786eef3ee64ea4f84eaf79acde5aee56296917e8de8",
+      "init.trace": "9ec753e4c7c1c5f05c8b4a1b931319feda1791abe6ae5860f4650a06dfcd4d6f",
+      "planner.jsonl": "4fdfdedc93f3ce0a0db6b7e2671ea00321aa063bed8a22ca988a21b415aa15c6",
+      "state.bin.journal": "40d943cf45d2f133dfb9fc9f454a94e18f46cc6fce21adc2e4748ae5992984d6",
+      "HOLD_CONSUMPTION.private.jsonl": "d1bc360012367b0914ea3c60d61b525c0b8ff2cd159415f079a6e565fee5100b",
+      "LEASE.json": "06165eb11dc1f3fd6a0cf6080c3aef842ec9307505d868933b9ec81773389bd7"
+    }
+  },
+  "total_physics_ticks": 14081,
+  "actual_rendered_frames": 0,
+  "frozen_model_forwards": 0,
+  "optimizer_updates": 0
+}
