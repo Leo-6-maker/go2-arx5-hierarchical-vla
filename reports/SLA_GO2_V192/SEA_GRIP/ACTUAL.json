@@ -1,0 +1,43 @@
+{
+  "status": "GO2_GEOMETRY_VERIFIED_SOURCE_REAL_CODEC_BLOCKED",
+  "target": {
+    "site": "x5_ee",
+    "link6_to_tcp_translation_mm": [142.4, 0, 0.1057],
+    "link6_to_tcp_rotation": "identity",
+    "pad_inner_gap_formula_mm": "1.048 + left_slide_mm + right_slide_mm",
+    "fixed_open_per_finger_slide_mm": 42,
+    "fixed_open_total_gap_mm": 85.048,
+    "measured_policy_state": "mean of measured opposing slide travel in mm divided by 44",
+    "legacy_H40_fraction_translation": "per finger travel in mm equals 44 times fraction",
+    "retained_action_fraction_proposal": "per finger travel in mm equals 2 + 40 times fraction",
+    "per_finger_speed_limit_mm_s": 40,
+    "reference_hash": "161750409f09c8dc3c706f738ceaaa0e6e83c19e68209347f0a58e298e251147"
+  },
+  "source_real": {
+    "observed_signals": "one normalized scalar per arm, no timestamped pad-gap observations",
+    "recorded_action_labels": "action[t] equals recorded state[t+1]",
+    "inner_pad_gap_from_signal": null,
+    "link6_to_common_tool": null,
+    "recording_tool_variant": null,
+    "reference_hash": "f6e7e8c41277a07f2595f0e33706d77b21775257d9c6e3351cf6b63e08a47aec"
+  },
+  "public_assets": [
+    {
+      "repository": "ARXroboticsX/X5",
+      "revision": "9a255e38156e3f5a263f341df209ab028d49dad9",
+      "variant_evidence": "vendor distinguishes single-rail 2023 and double-rail 2025 two-finger grippers",
+      "bimanual_urdf_terminal_link": "link6",
+      "recording_match": "UNKNOWN"
+    },
+    {
+      "repository": "real-stanford/arx5-sdk",
+      "revision": "36eabcb618c2668dfdff228b18b30507fde71784",
+      "nominal_fixed_gripper_joint_x_mm": 145,
+      "recording_match": "UNKNOWN"
+    }
+  ],
+  "contact_eligibility": false,
+  "physics_ticks": 0,
+  "model_forwards": 0,
+  "training_updates": 0
+}
