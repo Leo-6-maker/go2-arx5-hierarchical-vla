@@ -1,0 +1,417 @@
+{
+  "schema": "SLA_GO2_V18_DIRECT_OFFICIAL_PT_HISTORICAL_REUSE",
+  "date": "2026-11-24",
+  "status": "PLAN_ONLY_NO_NEW_ALLOCATION",
+  "parent_pr": 476,
+  "parent_sha": "6862fa5957537bcc47e0e35d6022ade5a08e313b",
+  "supersedes_priority_of": {
+    "pr": 473,
+    "sha": "025b833ba9c8a6b7b02304f0eaae34e42af93089",
+    "rule": "Task-specific qualified E->Z path can advance independently of universal D2; preserve original general dynamic/contact/safety gates and historical outcomes. No new execution authorized."
+  },
+  "parallel_evidence": {
+    "data_pr": 474,
+    "stereo_pr": 475,
+    "stereo_sha": "3167816aa475295c3751f074fba756fa7c504b76",
+    "separate_pending_request": 477
+  },
+  "facts": {
+    "official_PT": {
+      "hf_repo": "haofuly/SLA_benchmark_ckpts",
+      "subdir": "SLA_Memory_robodojo_real_ckpt",
+      "revision": "7f6880569c3be777291e646fad1b4951245e8553",
+      "upstream_sha": "c1b205ec42b4ab2cac9c2159c8b4c2f723e5e454",
+      "config": "train_robodojo_real",
+      "extra_frames_first": false,
+      "new_go2_optimizer_updates": 0,
+      "student_autonomous_task_episodes": 0,
+      "task_success_rate": null,
+      "feedback_forwards": 6,
+      "feedback_independent_episodes": 1,
+      "old_future_expert_close_windows": 4,
+      "old_matching_closes": 0
+    },
+    "dynamic_472": {
+      "scientific_starts": 4,
+      "completed_A0": 2,
+      "screened_A1_before_treatment": 2,
+      "native_ticks": 40762,
+      "leases_closed": 4,
+      "unsafe_contacts": 0,
+      "physical_stops": 0,
+      "full_dynamic_tube_pass": 0,
+      "slow_A0": {
+        "translation_Q": 0.792,
+        "signed_gain": 0.603,
+        "peak_mm": 4.675
+      },
+      "source_A0": {
+        "translation_Q": 0.756,
+        "signed_gain": 0.603,
+        "peak_mm": 6.741
+      },
+      "A1_dynamic_performance": null,
+      "A1_total_increment_mm_per_100ms": 0.4,
+      "A1_total_increment_deg_per_100ms": 0.06
+    },
+    "historical": [
+      {
+        "model": "SHIFT7",
+        "pr": 403,
+        "profile": "M_FREE",
+        "success": 3,
+        "attempts": 8,
+        "scientific_valid": 7,
+        "technical": 1,
+        "promoted": false
+      },
+      {
+        "model": "T-B1/T-FM/T-H40",
+        "pr": 409,
+        "profile": "mobile",
+        "success": [
+          5,
+          3,
+          6
+        ],
+        "attempts_per_arm": 8,
+        "promoted": false
+      },
+      {
+        "model": "MAIN0/MAIN2K/MAIN3.8K",
+        "pr": 427,
+        "profile": "F1-G00 fixed six conditions; confirm exact runtime before reuse",
+        "grasp": [
+          0,
+          1,
+          3
+        ],
+        "lift20mm": [
+          0,
+          0,
+          0
+        ],
+        "full_success": [
+          0,
+          0,
+          0
+        ],
+        "attempts_per_arm": 6
+      }
+    ]
+  },
+  "data_candidates": [
+    {
+      "id": "V17_57",
+      "pr": 474,
+      "episodes": 57,
+      "queries": 4898,
+      "unique_layouts": 33,
+      "raw_population": 87,
+      "excluded": 30,
+      "status": "QUALIFIED_OFFICIAL_PROCESSOR_PRIMARY"
+    },
+    {
+      "id": "TRAIN100",
+      "pr": 378,
+      "episodes": 100,
+      "expert_windows": 1450,
+      "excluded_interventions": 50,
+      "status": "OLD_CODEC_QUALIFIED_RECONVERT_MEMORY_AND_DEDUP"
+    },
+    {
+      "id": "C20",
+      "pr": 415,
+      "episodes": 20,
+      "windows": 1376,
+      "status": "OLD_MOBILE_HOLD_RECONVERT_AND_DEDUP"
+    },
+    {
+      "id": "TRAIN-069",
+      "pr": 426,
+      "episodes": 69,
+      "windows": 6081,
+      "hf_revision": "df407ee5adfa0874422d7a21992970415ecc4df1",
+      "status": "SEALED_OLD_BANK_AUDIT_RECONVERT_DEDUP"
+    }
+  ],
+  "data_rules": {
+    "sum_episode_counts_forbidden": true,
+    "unique_episode_key": "native ledger/scene reset lineage/input label hashes",
+    "new_val_reserved": 8,
+    "new_test_reserved": 12,
+    "new_val_collected": 0,
+    "new_test_collected": 0,
+    "missing_memory": "recover and verify from same archived episode; otherwise block or separate declared experiment",
+    "labels": "nominal physical task-space intention not installed compensation or achieved TCP",
+    "official_sampler": "50x32, decoded 50x16, Go2 right internal slots 7..13; validate exact loader",
+    "candidate_trainable_params": 22118400,
+    "model_total_params": 3375552272
+  },
+  "arms": {
+    "H0": "Known teacher/task positive executor control",
+    "A": "Frozen official real PT, no Go2 target updates",
+    "B": "Historical Go2-SLA only if matched task/profile, no conflation of M_FREE with standing",
+    "C": "Official PT plus new Go2 LoRA, same adapter/evaluator as A",
+    "B_incompatible": "BLOCKED_INCOMPARABLE; keep historical results separate; no posthoc replacement"
+  },
+  "stages": [
+    {
+      "id": "Z0",
+      "priority": 0,
+      "status": "READY_CPU",
+      "requires": [],
+      "output": "LEGACY_EXECUTOR_MODEL_CUSTODY_AND_LOCKED_TASK_ROSTER"
+    },
+    {
+      "id": "E0",
+      "priority": 0,
+      "status": "READY_CPU",
+      "requires": [
+        "Z0"
+      ],
+      "output": "EXACT_TASK_PROFILE_SAFETY_AND_ABI_PREFLIGHT"
+    },
+    {
+      "id": "E1",
+      "priority": 1,
+      "status": "WAIT_NEW_TASK_SPECIFIC_ALLOCATION_OR_VERIFIED_EXISTING_QUALIFICATION",
+      "requires": [
+        "E0"
+      ],
+      "output": "H0_TASK_SPECIFIC_REACH_QUALIFICATION"
+    },
+    {
+      "id": "Z1",
+      "priority": 1,
+      "status": "BLOCKED_UNTIL_TASK_REACH_QUALIFIED",
+      "requires": [
+        "E1",
+        "STUDENT_OWNERSHIP",
+        "SCOPE_MATCHED_STOP",
+        "NEW_ALLOCATION"
+      ],
+      "candidate": {
+        "layouts": 2,
+        "arms": [
+          "H0",
+          "A"
+        ],
+        "native_starts": 4,
+        "optional_B_starts": 2,
+        "max_ticks_per_start": 20000,
+        "max_forwards_per_student": 12,
+        "contact": false
+      },
+      "output": "OFFICIAL_PT_REACH_SELF_FEEDBACK_ACTUAL"
+    },
+    {
+      "id": "E2_HOLD",
+      "priority": 2,
+      "status": "BLOCKED",
+      "requires": [
+        "E0",
+        "E1",
+        "ORIGINAL_CONTACT_PROFILE_QUALIFIED",
+        "NEW_CONTACT_ALLOCATION"
+      ],
+      "output": "KNOWN_H0_HOLD_AND_CONTACT_QUALIFICATION"
+    },
+    {
+      "id": "Z2",
+      "priority": 2,
+      "status": "BLOCKED",
+      "requires": [
+        "Z1_LEGAL_SOURCE_EXECUTION",
+        "E2_HOLD",
+        "NEW_STUDENT_CONTACT_ALLOCATION"
+      ],
+      "candidate": {
+        "layouts": 2,
+        "arms": [
+          "H0",
+          "A"
+        ],
+        "native_starts": 4,
+        "optional_B_starts": 2,
+        "max_ticks_per_start": 50000,
+        "max_forwards_per_student": 120,
+        "max_task_s": 60
+      },
+      "output": "OFFICIAL_PT_PICK_HOLD_ACTUAL"
+    },
+    {
+      "id": "E2_PLACE",
+      "priority": 3,
+      "status": "BLOCKED",
+      "requires": [
+        "E2_HOLD",
+        "PLACE_PROFILE_CONTACT_RELEASE_AND_PERCEPTION_QUALIFIED",
+        "NEW_ALLOCATION"
+      ],
+      "output": "KNOWN_H0_PLACE_QUALIFICATION"
+    },
+    {
+      "id": "Z3",
+      "priority": 3,
+      "status": "BLOCKED",
+      "requires": [
+        "Z2_GRASP_QUALIFIED",
+        "E2_PLACE",
+        "NEW_STUDENT_CONTACT_ALLOCATION"
+      ],
+      "candidate": {
+        "layouts": 2,
+        "arms": [
+          "H0",
+          "A"
+        ],
+        "native_starts": 4,
+        "optional_B_starts": 2,
+        "max_ticks_per_start": 75000,
+        "max_forwards_per_student": 180,
+        "max_task_s": 120
+      },
+      "output": "OFFICIAL_PT_PICK_PLACE_ACTUAL"
+    },
+    {
+      "id": "P0_REUSE",
+      "priority": 0,
+      "status": "READY_CPU",
+      "requires": [],
+      "output": "CANONICAL_EPISODE_DATA_MANIFEST_WITH_DEDUP"
+    },
+    {
+      "id": "P1_ALIGN",
+      "priority": 0,
+      "status": "READY_CPU",
+      "requires": [
+        "P0_REUSE"
+      ],
+      "output": "OFFICIAL_PROCESSOR_MEMORY_CLOCK_AND_HELDOUT_DATA_QUALIFICATION"
+    },
+    {
+      "id": "P2_ADAPT",
+      "priority": 2,
+      "status": "CONDITIONAL_NEW_GPU_ALLOCATION",
+      "requires": [
+        "P1_ALIGN",
+        "A_BASELINE_OR_EXPLICIT_EXECUTOR_BLOCK",
+        "REAL_TRAINING_GRADIENT_AND_RESTORE_PREFLIGHT",
+        "INDEPENDENT_VAL_TEST_FOR_PERFORMANCE_CLAIM"
+      ],
+      "candidate": {
+        "smoke_updates": 100,
+        "first_run_cumulative_updates": 1000
+      },
+      "output": "C_OFFICIAL_PT_GO2_LORA_CHECKPOINT_AND_EVALUATION"
+    },
+    {
+      "id": "D1_A1",
+      "priority": 1,
+      "status": "WAIT_EXISTING_477_ALLOCATION",
+      "requires": [],
+      "existing_issue": 477,
+      "cap": {
+        "native_starts": 8,
+        "ticks_per_start": 21203,
+        "ticks_total": 169624,
+        "forwards": 0,
+        "training": 0,
+        "contact": false
+      },
+      "output": "ORIGINAL_A1_COVERAGE_ACTUAL",
+      "not_universal_prerequisite_for_Z": true
+    },
+    {
+      "id": "D_ALT",
+      "priority": 2,
+      "status": "CONDITIONAL",
+      "requires": [
+        "TASK_OR_GENERAL_DYNAMIC_EXECUTOR_FAILURE_DIAGNOSED"
+      ],
+      "output": "INDEPENDENT_NOMINAL_FEEDFORWARD_PLUS_BOUNDED_RESIDUAL_OR_LOWLEVEL_STUDY"
+    },
+    {
+      "id": "MATCHED_EVAL",
+      "priority": 3,
+      "status": "BLOCKED",
+      "requires": [
+        "TASK_SPECIFIC_QUALIFICATION",
+        "A_FIXED_BASELINE",
+        "C_TRAINED_IF_TRIGGERED",
+        "NEW_INDEPENDENT_EVAL_ALLOCATION"
+      ],
+      "output": "A_B_C_COMPARABLE_HELDOUT_TASK_RESULTS"
+    },
+    {
+      "id": "LONG_AGENT",
+      "priority": 4,
+      "status": "BLOCKED",
+      "requires": [
+        "RELIABLE_LOCAL_SKILL",
+        "SEPARATE_COMPOSITION_AND_CONTACT_QUALIFICATION"
+      ],
+      "output": "V17_TYPED_SKILL_API_AND_AGENT_COMPOSITION"
+    }
+  ],
+  "rules": {
+    "Z_no_general_D2_hard_dependency": true,
+    "Z_task_specific_safety_required": true,
+    "freeze_original_WBC_and_H40_G7": true,
+    "no_teacher_fallback_or_online_object_GT_for_student": true,
+    "unchanged_old_results": true,
+    "no_direct_old_LoRA_merge": true,
+    "model_specific_decode_not_pure_weight_claim": true,
+    "baseline_before_large_new_PT": true,
+    "no_infinite_interface_repair": true,
+    "prior_472_not_repeated": true,
+    "prior_477_not_duplicated": true
+  },
+  "new_scientifically_allocated_by_plan": {
+    "gpu_forwards": 0,
+    "native_starts": 0,
+    "physics_ticks": 0,
+    "optimizer_updates": 0,
+    "contact": false,
+    "real_hardware": false
+  },
+  "candidate_budgets_are_not_authorization": true,
+  "stop": [
+    "SAFETY_OR_UNAUTHORIZED_CONTACT",
+    "STOP_AFTER_TICK_OR_INSTALL",
+    "IDENTITY_OR_OWNER_DRIFT",
+    "STALE_OR_MISSING_EVIDENCE",
+    "RESOURCE_OR_TASK_DEADLINE",
+    "UNQUALIFIED_ACTION_DOMAIN",
+    "SCIENCE_SCOPE_EXCEEDED"
+  ],
+  "mandatory_actual": [
+    "registered",
+    "admitted",
+    "screened",
+    "native_starts",
+    "entered_forwards",
+    "returned_forwards",
+    "installed",
+    "consumed",
+    "actual_source_progress",
+    "grasp",
+    "lift20mm",
+    "hold1s",
+    "place",
+    "task_successes",
+    "task_success_rate_or_null",
+    "technical_failures",
+    "rejections",
+    "unstarted",
+    "physics_ticks",
+    "stops",
+    "after_stop_ticks",
+    "after_stop_installs",
+    "updates",
+    "leases_closed",
+    "hashes",
+    "decision"
+  ]
+}
