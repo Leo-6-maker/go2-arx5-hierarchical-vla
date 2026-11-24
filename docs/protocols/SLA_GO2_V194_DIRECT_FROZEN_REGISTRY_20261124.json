@@ -1,0 +1,487 @@
+{
+  "schema": "SLA_GO2_V194_DIRECT_FROZEN_PLAN_V1",
+  "date": "2026-11-24",
+  "timezone": "Asia/Singapore",
+  "status": "PLAN_ONLY_IMPLEMENTATION_PENDING_NOT_RUN",
+  "user_goal": "Integrate the official frozen SLA-PT into the existing VLA+WBC simulation using deterministic interfaces only, then measure actual closed-loop capability before calibration projects or fine-tuning.",
+  "publication": {
+    "repository": "Leo-6-maker/go2-arx5-hierarchical-vla",
+    "base_branch": "main",
+    "base_sha": "a718abb5a18a299e116326af59ead3ccb1db4e9a",
+    "execution_baseline_pr": 510,
+    "execution_baseline_sha": "719882e9fd154ffbe995484e7a766ada3b3ecd02",
+    "merge_execution_stack": false,
+    "deploy_on_publication": false
+  },
+  "scope": {
+    "simulation_only": true,
+    "stationary_whole_body": true,
+    "existing_free_body_quarantine_unchanged": true,
+    "real_hardware": false,
+    "model_updates": 0,
+    "learned_adapter_updates": 0,
+    "wbc_updates": 0,
+    "target_training_episodes": 0,
+    "source_training_episodes": 0,
+    "source_96_panel_prerequisite": false,
+    "source_camera_calibration_prerequisite": false,
+    "source_physical_tool_metrology_prerequisite_for_this_nominal_profile": false,
+    "strict_physical_profile_unchanged": true,
+    "asynchronous_runtime_prerequisite": false,
+    "run_execution_requested_in_this_publication": false
+  },
+  "model": {
+    "repository": "haofuly/SLA_benchmark_ckpts",
+    "checkpoint": "SLA_Memory_robodojo_real_ckpt",
+    "revision": "7f6880569c3be777291e646fad1b4951245e8553",
+    "upstream_repository": "thriving191228/XPolicyLab",
+    "upstream_sha": "c1b205ec42b4ab2cac9c2159c8b4c2f723e5e454",
+    "effective_config_name": "train_robodojo_real",
+    "effective_config_sha256": "16e86b4a36837e6a7c5c17b41574ab79d0b708135a149470e88f4f98e2815cbe",
+    "norm_sha256": "cf6ddf4f89180e762e5e6210881a763f8e29d3499fb1cc69a440de7aa585d276",
+    "tokenizer_sha256": "8986bb4f423f07f8c7f70d0dbe3526fb2316056c17bae71b1ea975e77a168fc6",
+    "manifest_sha256": "2e473d45a29f624f8c0242bf60389214613e3a060446e6845cd1a95322f2610c",
+    "extra_frames_first": false,
+    "attention_impl": "xla",
+    "raw_shape": [
+      50,
+      32
+    ],
+    "decoded_shape": [
+      50,
+      16
+    ],
+    "state_shape": [
+      16
+    ],
+    "state_dtype": "float32",
+    "external_arm_order": [
+      "left",
+      "right"
+    ],
+    "external_per_arm_fields": [
+      "x",
+      "y",
+      "z",
+      "qw",
+      "qx",
+      "qy",
+      "qz",
+      "gripper"
+    ],
+    "action_inverse": "PINNED_OFFICIAL_ONLY",
+    "sampler_settings": "UNCHANGED_PINNED_EFFECTIVE_CONFIGURATION",
+    "source_hz": 30,
+    "last_source_row": 49,
+    "last_source_timestamp_s": "49/30",
+    "load_once_per_batch": true
+  },
+  "interface": {
+    "id": "FLANGE_EQUIVALENT_NOMINAL",
+    "version": 1,
+    "source_tool_metrology_status": "UNKNOWN_NOT_FABRICATED",
+    "source_camera_intrinsics_extrinsics_status": "UNKNOWN",
+    "mapping_claim": "Nominal source/target flange pose and normalized target working-stroke correspondence, not physical contact-center equivalence.",
+    "source_zero_translation_m": [
+      0.09519999999999992,
+      0.001000411398944587,
+      0.15649999265207865
+    ],
+    "source_zero_application_count": 1,
+    "source_origin_formula": "T_WV = T_W_target_armbase * Trans(source_zero_translation_m)",
+    "observation_pose_formula": "inv(T_WV) * T_W_target_TCP * inv(T_target_link6_TCP)",
+    "output_pose_formula": "T_WV * T_V_link6_predicted * T_target_link6_TCP",
+    "pose_basis_bound_to_query": true,
+    "source_target_axis_alignment": "IDENTITY_IN_ARMBASE_COORDINATES_AS_DECLARED_NOMINAL_CONVENTION",
+    "target_link6_tcp_source": "EXISTING_TARGET_INSTALLATION_GEOMETRY",
+    "virtual_left_policy": "FIXED_EXISTING_A1_VECTOR_AND_HASH",
+    "physical_arm": "right",
+    "retain_both_arm_outputs": true,
+    "choose_or_swap_arm_based_on_output": false,
+    "gripper": {
+      "command_g_range": [
+        0,
+        1
+      ],
+      "command_g_roundoff_tolerance": 0.000001,
+      "single_finger_command_m": "0.002 + 0.040*g",
+      "install_range_m": [
+        0.002,
+        0.042
+      ],
+      "mechanical_measured_range_m": [
+        0,
+        0.044
+      ],
+      "measured_range_policy": "REUSE_ORIGINAL_NATIVE_GRIPPER_STATE_VALID_AND_MECHANICAL_GATES",
+      "observed_g": "((w_left_actual+w_right_actual)/2 - 0.002)/0.040",
+      "observed_g_may_exceed_command_range": true,
+      "observed_g_clipping_by_adapter": false,
+      "official_normalizer_unchanged": true,
+      "actual_pad_gap_m": "0.001048 + w_left_actual + w_right_actual",
+      "wire_fraction": "single_finger_command_m/0.044",
+      "eef10_gripper_index": 9,
+      "maximum_single_finger_command_speed_m_s": 0.04,
+      "first_knot_attribution": "MODEL_FIRST_KNOT",
+      "first_knot_start": "LAST_ACKED_AND_CONSUMED_COMMAND_NOT_MEASURED_POSITION",
+      "first_knot_ease": "10*u^3 - 15*u^4 + 6*u^5",
+      "first_knot_peak_speed_formula": "1.875*abs(w0-w_previous)/lead",
+      "contact_false_spoofing_allowed": false,
+      "original_receiver_thresholds_unchanged": true,
+      "automatic_grasp_hold_clamp": false,
+      "source_recorded_max_used_to_renormalize": false
+    },
+    "prohibited_action_aids": [
+      "teacher_decide_or_commit",
+      "teacher_phase_triggered_grasp",
+      "object_ground_truth_in_policy_or_action_generation",
+      "geometry_goal_projection",
+      "task_dependent_pose_offsets",
+      "forced_close_timer",
+      "forced_hold",
+      "output_based_left_right_swap",
+      "success_based_chunk_selection",
+      "success_based_prompt_camera_or_mapping_search"
+    ]
+  },
+  "observation": {
+    "profile": "THREE_VIEW_V1",
+    "current_cameras": [
+      {
+        "physical": "body_rgb",
+        "official_slot": "cam_high",
+        "raw_hwc": [
+          256,
+          256,
+          3
+        ]
+      },
+      {
+        "physical": "wrist_rgb",
+        "official_slot": "cam_right_wrist",
+        "raw_hwc": [
+          256,
+          256,
+          3
+        ]
+      },
+      {
+        "physical": "aux_left_rgb",
+        "official_slot": "cam_left_wrist",
+        "raw_hwc": [
+          480,
+          640,
+          3
+        ]
+      }
+    ],
+    "encoding": "RGB_UINT8",
+    "all_current_masks": true,
+    "same_current_native_packet": true,
+    "source_camera_metadata_as_policy_input": false,
+    "extra_manual_resize": false,
+    "head_frame_count": 10,
+    "historical_head_frame_count": 9,
+    "head_native_tick_formula": "[0, max(0,t-4000), max(0,t-3500), max(0,t-3000), max(0,t-2500), max(0,t-2000), max(0,t-1500), max(0,t-1000), max(0,t-500), t]",
+    "history_source": "ACTUAL_SAME_EPISODE_NATIVE_JOURNAL",
+    "nonintegrating_history_render_allowed": true,
+    "history_on_query_ordinal": false,
+    "missing_history_fabrication": false,
+    "reset_memory_per_episode": true,
+    "freshness_by_actual_consumption_and_tick_not_pixel_hash": true,
+    "auxiliary": {
+      "parent": "base_link",
+      "position_m": [
+        0.2,
+        0.22,
+        0.42
+      ],
+      "fixed_sight_m": [
+        0.42,
+        0,
+        0.31
+      ],
+      "fovy_deg": 75,
+      "source_recording_extrinsics": "UNKNOWN",
+      "search_mounts": 0,
+      "aux_v2_in_primary_batch": false
+    }
+  },
+  "execution": {
+    "mode": "SYNCHRONOUS_PAUSED_SIMULATION",
+    "real_time_claim": false,
+    "native_dt_s": 0.002,
+    "atom_ticks": 25,
+    "atom_dt_s": 0.05,
+    "p10_atoms": 10,
+    "p10_duration_s": 0.5,
+    "preview_points": 41,
+    "preview_dt_s": 0.05,
+    "reissue_atom_indices": [
+      0,
+      7
+    ],
+    "reference_ttl_s": 0.4,
+    "gripper_grant_each_atom": true,
+    "gripper_epoch_sequence": "CONTINUE_ORIGINAL_INITIALIZATION_SEQUENCE",
+    "compiler": "FULL_50_ROW_SOURCECURVE_COMPILER_WITH_NOMINAL_FIRST_KNOT_WRAPPER",
+    "original_wbc_velocity_acceleration_limits_unchanged": true,
+    "temporal_retiming_only_no_task_conditioned_path_edit": true,
+    "stages": [
+      "BRAKE",
+      "ALIGN",
+      "SOURCE",
+      "HOLD"
+    ],
+    "refresh": {
+      "boundaries": "P10_BOUNDARIES_ONLY",
+      "positive_phase_consumed_source_atoms_required": 10,
+      "alternative": "ACTUALLY_CONSUMED_SOURCE_END",
+      "refresh_during_alignment": false,
+      "actual_translation_or_rotation_threshold_required": false,
+      "permits_jaw_only_or_stationary_prediction": true,
+      "discard_unexecuted_old_suffix": true,
+      "count_reissue_as_model_query": false,
+      "source_phase_units": "seconds",
+      "source_index_formula": "30*source_time_s",
+      "count_only_with_verified_eef_and_gripper_consumption": true,
+      "atom_start_at_or_after_lead": true,
+      "minimum_positive_phase_increment_s": 1e-12,
+      "source_end_s": "49/30",
+      "source_end_tolerance_s": 1e-9
+    },
+    "original_native_safety_and_wall_watchdogs_unchanged": true,
+    "first_query": "AFTER_ORIGINAL_STABLE_STANDING_ENTRY_BEFORE_ANY_TEACHER_TASK_ACTION",
+    "start_from_teacher_before_close_or_after_grasp_anchor": false,
+    "compiler_parameters": {
+      "bounded": false,
+      "protect_all": false,
+      "cruise_from_width_m": "LAST_CONSUMED_COMMAND_WIDTH",
+      "anchor": "LAST_CONSUMED_EEF",
+      "incoming": "LAST_TWO_CONSECUTIVE_CONSUMED_EEF_DIFFERENCE_AND_RELATIVE_ROTATION_OVER_0.05_S",
+      "legacy_world_offset_reanchor": false
+    }
+  },
+  "experiment": {
+    "id": "V194-NOMINAL-PT-HOLD-V1",
+    "scene_profile": "FRUIT_COMPACT_STANCE_01",
+    "task": "HOLD-red",
+    "prompt": "Pick up the red fruit, lift it above the table and keep holding it.",
+    "prompt_change_from_old_TL": "Added red before execution to match the frozen two-object HOLD-red scorer; old generic TL results do not validate this exact prompt.",
+    "layouts": [
+      "G00",
+      "G01"
+    ],
+    "seeds": [
+      0,
+      1
+    ],
+    "query_noise": {
+      "implementation": "sea1a_panel.rng_noise",
+      "key_data": "[query_index, episode_seed]",
+      "query_index_start": 0,
+      "query_index_max": 119,
+      "shape": [
+        1,
+        50,
+        32
+      ],
+      "dtype": "float32",
+      "same_query_index_noise_across_layouts": true,
+      "actual_noise_hash_required": true
+    },
+    "cells": [
+      {
+        "order": 0,
+        "id": "C00",
+        "layout": "G00",
+        "episode_seed": 0,
+        "status": "NOT_RUN"
+      },
+      {
+        "order": 1,
+        "id": "C01",
+        "layout": "G00",
+        "episode_seed": 1,
+        "status": "NOT_RUN"
+      },
+      {
+        "order": 2,
+        "id": "C10",
+        "layout": "G01",
+        "episode_seed": 0,
+        "status": "NOT_RUN"
+      },
+      {
+        "order": 3,
+        "id": "C11",
+        "layout": "G01",
+        "episode_seed": 1,
+        "status": "NOT_RUN"
+      }
+    ],
+    "primary_condition_count": 4,
+    "per_attempt": {
+      "max_new_policy_queries": 120,
+      "max_native_ticks_including_initialization": 50000,
+      "max_sim_time_including_initialization_s": 100,
+      "max_wall_time_s": 1800,
+      "stop_on_success": true,
+      "stop_on_original_safety_reject": true,
+      "stop_on_valid_proposal_reject": true,
+      "query_cap_check": "BEFORE_NEXT_NEW_QUERY; CONSUME_LAST_ADMITTED_PROPOSAL_UNTIL_ITS_NEXT_NORMAL_QUERY_BOUNDARY",
+      "native_cap_check": "BEFORE_EACH_GRANT_REQUIRE_CURRENT_TICK_PLUS_25_LE_50000; END_AT_LAST_COMPLETE_ATOM"
+    },
+    "primary_without_retries": {
+      "max_attempts": 4,
+      "max_episode_queries": 480,
+      "max_native_ticks": 200000,
+      "max_sim_s": 400
+    },
+    "technical_retries": {
+      "per_cell": 1,
+      "per_initial_batch": 2,
+      "total_across_this_plan": 2,
+      "same_identity_reset_seed_prompt_camera_required": true,
+      "science_failure_retry": false,
+      "unknown_effect_replay": false,
+      "reset_retry_allowance_per_interface_version": false
+    },
+    "initial_batch_including_technical_retries": {
+      "max_attempts": 6,
+      "max_episode_queries": 720,
+      "max_native_ticks": 300000,
+      "max_sim_s": 600
+    },
+    "qualification": {
+      "max_new_forward_calls_per_interface_version": 2,
+      "new_native_starts_planned": 0,
+      "reuse_matching_h0": true,
+      "source_96_panel": 0,
+      "requires_matching_existing_native_qualification": true
+    },
+    "evidenced_interface_repair_batches": {
+      "max_successor_versions": 2,
+      "max_total_interface_versions": 3,
+      "same_four_cell_panel": true,
+      "merge_scores_across_versions": false,
+      "automatic_retry_without_new_evidence": false
+    },
+    "campaign_envelope": {
+      "max_student_attempts": 14,
+      "max_episode_queries": 1680,
+      "max_qualification_forward_calls": 6,
+      "max_total_model_forward_calls": 1686,
+      "max_native_ticks": 700000,
+      "max_sim_s": 1400
+    },
+    "caps_are_new_human_approval_gates": false,
+    "raw_effects_at_publication": {
+      "model_forward_calls": 0,
+      "native_starts": 0,
+      "physics_ticks": 0,
+      "optimizer_updates": 0,
+      "hardware_actions": 0
+    }
+  },
+  "scoring": {
+    "implementation": "scripts/sla_go2_v19/sea_fruit_h0_score.py::StationaryHoldScore",
+    "source_sha": "719882e9fd154ffbe995484e7a766ada3b3ecd02",
+    "original_predicates_unchanged": true,
+    "selected_object": "red",
+    "native_target_grasp": true,
+    "minimum_object_lift_m": 0.02,
+    "minimum_continuous_hold_s": 1,
+    "maximum_base_translation_m": 0.02,
+    "maximum_base_angle_deg": 5,
+    "maximum_foot_translation_m": 0.005,
+    "all_four_feet_supported": true,
+    "no_wrong_object_or_illegal_contact": true,
+    "no_teacher_takeover": true,
+    "native_scoring_dt_s": 0.002,
+    "primary_summary_denominator": 4,
+    "report_valid_denominator_and_missing_separately": true,
+    "valid_science_failures": [
+      "no_reach_or_close",
+      "early_release",
+      "wrong_object",
+      "insufficient_actual_lift_or_hold",
+      "valid_model_output_out_of_domain_or_unreachable",
+      "original_safety_rejection",
+      "normal_tracking_or_retiming_budget_exhaustion"
+    ],
+    "technical_invalid_requires_independent_evidence": true,
+    "unknown_cause_category": "UNRESOLVED",
+    "budget_failure_label": "BUDGET_LIMITED",
+    "frozen_routing_threshold": "AT_LEAST_ONE_COMPLETE_SUCCESS_IN_EACH_LAYOUT",
+    "threshold_is_statistical_reliability_claim": false
+  },
+  "work_packages": [
+    {
+      "id": "I0",
+      "status": "PENDING_SITE_BINDING",
+      "outcome": "Bind the existing immutable model, robot, runtime and resource identities once"
+    },
+    {
+      "id": "W1",
+      "status": "NOT_IMPLEMENTED",
+      "outcome": "Nominal codec and actual causal three-view observation"
+    },
+    {
+      "id": "W2",
+      "status": "NOT_IMPLEMENTED",
+      "outcome": "Resident frozen worker with exact sampler inputs and outputs"
+    },
+    {
+      "id": "W3",
+      "status": "NOT_IMPLEMENTED",
+      "outcome": "Full-50-row reference, model-attributed jaw seam and actual-consumption refresh"
+    },
+    {
+      "id": "W4",
+      "status": "NOT_IMPLEMENTED",
+      "outcome": "Existing-owner PT driver and four-cell batch without teacher decisions"
+    },
+    {
+      "id": "W5",
+      "status": "NOT_IMPLEMENTED",
+      "outcome": "Affected-interface qualification and complete readout"
+    }
+  ],
+  "runtime_bindings_pending": {
+    "implementation_sha": null,
+    "scene_and_reset_manifest": null,
+    "target_link6_tcp_transform": null,
+    "virtual_left_vector_sha256": null,
+    "robot_wbc_leg_and_dynamics_manifest": null,
+    "qualified_fruit_receiver_sha256": null,
+    "runtime_fusion_trajectory_adapter_sha256": null,
+    "runtime_mobile_boundary_runner_sha256": null,
+    "existing_owner_resource_binding": null,
+    "legal_local_output_paths": null
+  },
+  "conditional_followups": {
+    "auto_launch_by_plan_publication": false,
+    "no_success_and_interface_valid": "REPORT_BOUNDED_NEGATIVE_RESULT_AND_ANALYZE_EXISTING_TRACES",
+    "evidenced_interface_bug": "NEW_VERSION_SAME_FOUR_CELLS_WITHIN_THIS_PLAN_ENVELOPE",
+    "partial_success": "PREPARE_A_FIXED_NEARBY_SCENE_CONFIRMATION_BATCH",
+    "success_in_both_layouts": [
+      "UNEXECUTED_SCENE_CONFIRMATION",
+      "COMPLETE_PICK_AND_PLACE_WITH_SINGLE_INITIAL_INSTRUCTION",
+      "SECOND_SKILL"
+    ],
+    "camera_or_strict_calibration": "ONLY_A_SEPARATE_EVIDENCE_DRIVEN_HYPOTHESIS",
+    "fine_tuning": "SEPARATE_NONZERO_UPDATE_RESEARCH_LINE_NOT_THIS_PLAN"
+  },
+  "evidence": {
+    "pinned_repo_prefix": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/719882e9fd154ffbe995484e7a766ada3b3ecd02/",
+    "source_manifest": "reports/SLA_GO2_V193/SOURCE_TASK/REGISTRATION.json",
+    "source_local_skill": "reports/SLA_GO2_V193/SOURCE_TASK/ACTUAL.md",
+    "target_t2": "reports/SLA_GO2_V193/TARGET_T2/ACTUAL.md",
+    "target_t3": "reports/SLA_GO2_V193/TARGET_T3/ACTUAL.md",
+    "compact_h0": "reports/SLA_GO2_V193/GRIP_H0/COMPACT_H0_ACTUAL.md",
+    "frame_p10": "reports/SLA_GO2_V193/FRAME_P10/ACTUAL.md",
+    "strict_physical_tool": "reports/SLA_GO2_V193/PHYSICAL_TOOL/ACTUAL.md",
+    "publication_is_runtime_evidence": false
+  }
+}
