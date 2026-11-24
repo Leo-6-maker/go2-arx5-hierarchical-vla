@@ -31,7 +31,7 @@ def demand(ok, text):
         raise ValueError(text)
 
 
-def geometry(raw, origin, tool, direction):
+def geometry(raw, origin, tool, direction, red, actual):
     arm = raw[:, 8:]
     T = np.tile(np.eye(4), (len(raw), 1, 1))
     T[:, :3, 3] = arm[:, :3]
@@ -39,19 +39,97 @@ def geometry(raw, origin, tool, direction):
     xyz = (origin @ T @ tool)[:, :3, 3]
     delta = xyz[-1] - xyz[0]
     return {
+        "measured_start_distance_to_red_mm": float(1000 * np.linalg.norm(actual - red)),
+        "first_distance_to_red_mm": float(1000 * np.linalg.norm(xyz[0] - red)),
+        "last_distance_to_red_mm": float(1000 * np.linalg.norm(xyz[-1] - red)),
+        "first_to_last_red_gain_mm": float(
+            1000 * (np.linalg.norm(xyz[0] - red) - np.linalg.norm(xyz[-1] - red))
+        ),
         "first_to_last_mm": float(1000 * np.linalg.norm(delta)),
         "first_to_last_task_projection_mm": float(1000 * (delta @ direction)),
         "source_working_opening_mm": [float(v) for v in 2 + 40 * arm[[0, -1], 7]],
     }
 
 
+def source_only_native(case, native, entry, phases, pregrasp):
+    import mujoco
+    from go2arx5_vla.world_model.multitask_state_v6 import packets
+
+    spec = read(case / "EXECUTION_SPEC.json")
+    model = mujoco.MjModel.from_binary_path(spec["model_path"])
+    data = mujoco.MjData(model)
+    start = np.asarray(entry["actual_xyz"])
+    direction = np.asarray(entry["direction"])
+    cumulative = np.zeros(3)
+    tail = []
+    prev = None
+    count = 0
+    for packet in packets(native / "state.bin.journal"):
+        tick = packet["step"]
+        if tick < entry["tick"]:
+            continue
+        data.qpos[:] = packet["qpos"]
+        mujoco.mj_kinematics(model, data)
+        tcp = data.site("x5_ee").xpos.copy()
+        if prev is None:
+            demand(
+                np.allclose(tcp, start, rtol=0, atol=2e-8),
+                "wrong source accounting start",
+            )
+            red = data.geom("task_cube_geom").xpos.copy()
+        else:
+            begin = entry["tick"] + 25 * ((tick - entry["tick"] - 1) // 25)
+            demand(begin in phases, "missing phase at measured tick")
+            if phases[begin] == "source":
+                cumulative += tcp - prev
+                count += 1
+        prev = tcp
+        virtual = start + cumulative
+        tail.append(
+            [
+                float(1000 * cumulative @ direction),
+                float(
+                    1000 * (np.linalg.norm(start - red) - np.linalg.norm(virtual - red))
+                ),
+                float(
+                    1000
+                    * (
+                        np.linalg.norm(start - pregrasp)
+                        - np.linalg.norm(virtual - pregrasp)
+                    )
+                ),
+            ]
+        )
+        if len(tail) > 251:
+            tail.pop(0)
+    vals = np.asarray(tail)
+    return {
+        "source_native_intervals": count,
+        "final_projection_mm": float(vals[-1, 0]),
+        "final_red_gain_mm": float(vals[-1, 1]),
+        "minimum_last_half_second_projection_mm": float(vals[:, 0].min()),
+        "minimum_last_half_second_red_gain_mm": float(vals[:, 1].min()),
+        "minimum_last_half_second_pregrasp_gain_mm": float(vals[:, 2].min()),
+        "thresholds_met": bool(
+            len(tail) == 251 and np.all(vals.min(axis=0) >= [12, 10, 10])
+        ),
+    }
+
+
 def run(root):
     group = root / "v18/Z1_REACH_483"
+    continuation = root / "v18/Z1_REACH_483_G01"
     panel = read(group / "PANEL_CLOSE.json")
+    continuation_close = read(continuation / "PANEL_CLOSE.json")
+    demand(panel["unstarted"] == ["G01-H0", "G01-A"], "different continuation")
     reg = read(group / "REGISTRATION.json")
     evidence = []
     for slot in reg["slots"]:
-        c = group / slot
+        if slot.startswith("G01"):
+            demand(not (group / slot).exists(), "duplicate native registration")
+            c = continuation / slot
+        else:
+            c = group / slot
         if not (c / "NATIVE_REQUEST.json").exists():
             evidence.append(
                 {
@@ -76,6 +154,8 @@ def run(root):
         entry = (
             read(c / "REACH_ENTRY.json") if (c / "REACH_ENTRY.json").exists() else {}
         )
+        samples = lines(n / "MOBILE_SAMPLES.private.jsonl")
+        by_tick = {x["native_end_step"]: x for x in samples}
         owner = lines(c / "POLICY_OWNER.jsonl")
         forwards = returns = 0
         queries = []
@@ -135,6 +215,8 @@ def run(root):
                                 np.asarray(meta["world_origin"]),
                                 np.asarray(meta["link6_tcp"]),
                                 np.asarray(entry["direction"]),
+                                np.asarray(by_tick[req["tick"]]["object_pose"])[:3, 3],
+                                np.asarray(by_tick[req["tick"]]["actual_TCP"])[:3, 3],
                             ),
                         )
             queries.append(info)
@@ -197,6 +279,53 @@ def run(root):
             row["interruption"] = r["interrupt"].splitlines()[-1]
         if audit.get("readout_error"):
             row["audit_error"] = audit["readout_error"].splitlines()[-1]
+        if slot.endswith("-A") and entry:
+            phases = {}
+            for event in owner:
+                if event["kind"] == "PREVIEW":
+                    for j in range(2):
+                        phase = event["source_s"][j : j + 2]
+                        phases[event["tick"] + 25 * j] = (
+                            "source" if phase[1] > phase[0] else "alignment_or_hold"
+                        )
+            stats = {
+                kind: {
+                    "consumed_intervals": 0,
+                    "actual_gain_to_red_mm": 0.0,
+                    "actual_TCP_path_mm": 0.0,
+                }
+                for kind in ("source", "alignment_or_hold")
+            }
+            for interval in consumed:
+                begin = interval["native_start_step"]
+                require_phase = phases.get(begin)
+                demand(
+                    require_phase is not None and begin in by_tick,
+                    "missing consumed policy phase",
+                )
+                prev = by_tick[begin]
+                ac0 = np.asarray(prev["actual_TCP"])[:3, 3]
+                ac1 = np.asarray(interval["actual_TCP"])[:3, 3]
+                red = np.asarray(interval["object_pose"])[:3, 3]
+                z = stats[require_phase]
+                z["consumed_intervals"] += 1
+                z["actual_gain_to_red_mm"] += float(
+                    1000 * (np.linalg.norm(ac0 - red) - np.linalg.norm(ac1 - red))
+                )
+                z["actual_TCP_path_mm"] += float(1000 * np.linalg.norm(ac0 - ac1))
+            row["phase_accounting"] = stats
+            profiles = read(
+                Path(__file__).resolve().parents[2]
+                / "reports/SLA_GO2_V18/REACH/PROFILE_ACTUAL.json"
+            )["results"]
+            target = np.asarray(
+                profiles[int(slot.startswith("G01"))]["original_teacher_pregrasp"]
+            )
+            row["source_only"] = source_only_native(c, n, entry, phases, target)
+            row["registered_success"] = (
+                r["outcome"] == "A_PASS" and row["source_only"]["thresholds_met"]
+            )
+
         evidence.append(row)
 
     def samplecount(field):
@@ -219,7 +348,7 @@ def run(root):
         "returned": samplecount("returns"),
         "training_updates": 0,
         "cases": evidence,
-        "unstarted_slots": panel["unstarted"],
+        "unstarted_slots": continuation_close["unstarted"],
     }
 
 
