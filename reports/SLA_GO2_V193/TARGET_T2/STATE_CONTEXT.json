@@ -1,0 +1,99 @@
+{
+  "status": "RETAINED_POLICY_INPUT_BASIS_COMPARISON",
+  "cold_sha256": "3f62c6e3ac79e7ef38da130423b92e0d616302c2ffd1db96d5d13f49c4d1e102",
+  "source_tl_receipt_sha256": "ec294a686c0fc95cb2fb89a0cfa9fbbba845703e219dda814502a4b8046eb8a6",
+  "source_scope": "four TL anchors from two recorded episodes",
+  "basis": "RAW_POLICY_INPUT_SLOTS",
+  "source": {
+    "FRUIT00": {
+      "xyz_mm": [
+        213.7947380542755,
+        121.0838034749031,
+        62.10147216916084
+      ],
+      "right_gripper_channel": 0.7650829553604126
+    },
+    "FRUIT01": {
+      "xyz_mm": [
+        216.11186861991882,
+        132.92819261550903,
+        38.93153741955757
+      ],
+      "right_gripper_channel": 0.7287306189537048
+    },
+    "FRUIT02": {
+      "xyz_mm": [
+        266.2591338157654,
+        71.69443368911743,
+        36.900594830513
+      ],
+      "right_gripper_channel": 0.8175920248031616
+    },
+    "FRUIT03": {
+      "xyz_mm": [
+        274.21727776527405,
+        73.30045104026794,
+        13.206169940531254
+      ],
+      "right_gripper_channel": 0.7048320770263672
+    }
+  },
+  "target": {
+    "G00-before_close": {
+      "xyz_mm": [
+        81.07587695121765,
+        -2.3377302568405867,
+        119.21035498380661
+      ],
+      "right_gripper_channel": 0.9545463919639587,
+      "paired_source_refs": {
+        "FRUIT00": {
+          "input_coordinate_difference_mm": 190.02261859453904,
+          "input_quaternion_geodesic_deg": 71.04813432804039
+        },
+        "FRUIT01": {
+          "input_coordinate_difference_mm": 207.3072055814075,
+          "input_quaternion_geodesic_deg": 75.4681082342849
+        },
+        "FRUIT02": {
+          "input_coordinate_difference_mm": 215.7510058794049,
+          "input_quaternion_geodesic_deg": 76.50667899888361
+        },
+        "FRUIT03": {
+          "input_coordinate_difference_mm": 232.9412424304447,
+          "input_quaternion_geodesic_deg": 78.67011263509364
+        }
+      }
+    },
+    "G01-before_close": {
+      "xyz_mm": [
+        78.86381447315216,
+        4.934028256684542,
+        119.94059383869171
+      ],
+      "right_gripper_channel": 0.9545466303825378,
+      "paired_source_refs": {
+        "FRUIT00": {
+          "input_coordinate_difference_mm": 187.19638996839774,
+          "input_quaternion_geodesic_deg": 71.50983389962018
+        },
+        "FRUIT01": {
+          "input_coordinate_difference_mm": 204.40646197932693,
+          "input_quaternion_geodesic_deg": 75.94582194388975
+        },
+        "FRUIT02": {
+          "input_coordinate_difference_mm": 215.5680840947962,
+          "input_quaternion_geodesic_deg": 76.95720166599773
+        },
+        "FRUIT03": {
+          "input_coordinate_difference_mm": 232.8715968711562,
+          "input_quaternion_geodesic_deg": 79.1230640415895
+        }
+      }
+    }
+  },
+  "verified_common_physical_frame": false,
+  "model_forwards": 0,
+  "physics_ticks": 0,
+  "optimizer_updates": 0
+}
