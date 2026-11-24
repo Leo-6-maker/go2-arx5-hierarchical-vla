@@ -1,0 +1,159 @@
+{
+  "schema": "GOAL_SLA_CLOSE_TO_SAFE_MOBILE_V1",
+  "date": "2026-11-16",
+  "status": "PLANNED_NOT_DEPLOYED",
+  "reviewed_head": "65bd544d8ed3bf6a717783f8691fcb95c8d12165",
+  "reviewed_as_of_SGT": "2026-11-16T14:08:45.403754+08:00",
+  "runtime_ancestry": "PR391 reviewed execution sources; main is publication only",
+  "baseline": {
+    "qualified_episodes": 38,
+    "physical_collection_requests": 41,
+    "registered_identities": 42,
+    "confirmed_not_started": 1,
+    "expert_unsafe": 2,
+    "shared_abort": 1,
+    "training_episodes": 20,
+    "training_windows": 1376,
+    "updates": 1000,
+    "optimization_visits": 32000,
+    "student_physical": 13,
+    "student_successes": 0,
+    "unstarted": 11,
+    "queries": 754,
+    "query_envelope_pass": 742,
+    "query_envelope_reject": 12,
+    "CLOSE_pass": 0,
+    "CLOSE_count": 20,
+    "other_phase_pass": 76,
+    "other_phase_count": 76
+  },
+  "goal": {
+    "task": "M_FREE_F1_F2_GRASP_LIFT_HOLD_WITH_BASE_MOTION",
+    "lift_mm": 20,
+    "hold_s": 1,
+    "required_axis_motion_cm": 8,
+    "DEV": {
+      "total": 32,
+      "success_min": 24,
+      "per_family_total": 16,
+      "per_family_success_min": 12
+    },
+    "TEST": {
+      "total": 40,
+      "success_min": 32,
+      "per_family_total": 20,
+      "per_family_success_min": 16
+    },
+    "hard_safety_stops": 0,
+    "industrial_reliability_claim": false
+  },
+  "quarantine": {
+    "F1_expert": "ACTIVE",
+    "F2_expert": "ACTIVE",
+    "students": "ACTIVE_SCOPES_PRESERVED",
+    "M_ASSIST": "ACTIVE",
+    "physical_requests_before_independent_release": 0,
+    "plan_is_release": false
+  },
+  "freeze": [
+    "WBC",
+    "MPC",
+    "leg_policy",
+    "arm_PD",
+    "solver",
+    "native_2ms",
+    "H40_P10_50ms",
+    "40mm_per_s_gripper_gate",
+    "all_original_native_safety",
+    "C20_statistics",
+    "historical_failures"
+  ],
+  "G1": {
+    "updates": 0,
+    "observations": 16,
+    "noises_each": 2,
+    "sampler_paths": [
+      "cached_actual",
+      "cached_highest",
+      "full_actual",
+      "full_highest"
+    ],
+    "Euler_steps": 10,
+    "factorial_generation_cap": 128,
+    "confirmation_generation_cap": 192,
+    "new_complete_generation_cap": 320,
+    "extra_vectorfield_eval_cap": 96,
+    "physics": 0,
+    "per_window_path_selection": false,
+    "bitwise_equality_all_routes_required": false,
+    "numeric_only_candidate_may_skip_G2": true
+  },
+  "G2": {
+    "parent": "C20_1000",
+    "dataset": "original_C20",
+    "stats": "original_frozen_C20",
+    "arms": [
+      "FM_continuation",
+      "FM_plus_one_physical_gripper_temporal_objective"
+    ],
+    "updates_each": 500,
+    "batch": 32,
+    "visits_each": 16000,
+    "first_pair_updates": 1000,
+    "first_pair_visits": 32000,
+    "fresh_optimizers_matched": true,
+    "optional_fallback_pairs_max": 1,
+    "total_new_updates_cap": 2000,
+    "total_new_visits_cap": 64000,
+    "C60_C100_automatic_training": false,
+    "new_SF_EMA_BASE_RL": false
+  },
+  "conditional_physics": {
+    "requires_independent_re_admission": true,
+    "expert_safety_cap": 8,
+    "student_pilot_cap": 8,
+    "DEV_cap": 32,
+    "TEST_cap": 40,
+    "total_cap": 88,
+    "initial_candidate_pilot_is_subset": true,
+    "automatic_submission": false
+  },
+  "data": {
+    "active_training": "C20",
+    "reserve": "CN38_OFFLINE_ONLY",
+    "lineage_annotations_required": 14,
+    "CN38_family_counts": {
+      "F1": 24,
+      "F2": 14
+    },
+    "new_collection": false,
+    "duplicate_C100_descriptor_is_experiment": false
+  },
+  "execution": {
+    "new_jobs_started_here": 0,
+    "old_deadline_SGT": "2026-11-19T02:51:23.855488+08:00",
+    "extend_deadline_automatically": false,
+    "allocation_must_be_verified": true,
+    "neural_jobs_simultaneous": 1,
+    "native_worlds_before_release": 0,
+    "native_after_release_start": 1,
+    "native_after_validation": 2,
+    "four_worlds_automatic": false,
+    "foreground_agent_required": false,
+    "old_closed_units_restarted": false
+  },
+  "deliverables": [
+    "goal_state.json",
+    "NUMERIC_FULL_SAMPLER_PAIRED",
+    "GRIP_TEMPORAL_MATCHED",
+    "SAFETY_RE_ADMISSION_REQUEST",
+    "NATIVE_PILOT_DEV_TEST",
+    "MODEL_CARD_OR_BOUNDED_FAILURE"
+  ],
+  "publication": {
+    "runtime_modified": false,
+    "training_started": false,
+    "physics_started": false,
+    "status": "DOCUMENTATION_ONLY"
+  }
+}
