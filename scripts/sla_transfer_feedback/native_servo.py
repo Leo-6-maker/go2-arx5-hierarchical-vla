@@ -132,7 +132,7 @@ def preflight(root, cfg):
     return outcomes
 
 
-def drive(adapter, folder, parts, sample, seq, receipt, old, config):
+def drive(adapter, folder, parts, sample, seq, receipt, old, config, *, dynamic=None):
     import mujoco
     from b2_native import paused
     from d1_geometry import sweep
@@ -142,14 +142,21 @@ def drive(adapter, folder, parts, sample, seq, receipt, old, config):
 
     from scripts.pi0294.task_contacts import allowed
 
-    pair = read(folder / "INITIAL.private.json")["pair"]
-    root = folder.parent.parent
-    f1 = root / "sla-feedback-f1-a0-20261123-01" / pair
-    result = read(f1 / "RESULT.private.json")
-    curve = f1 / "TRACK.private.npz"
-    pinned(curve, result["curve_sha256"])
-    with np.load(curve, allow_pickle=False) as saved:
-        desired = saved["goal"]
+    if dynamic is None:
+        pair = read(folder / "INITIAL.private.json")["pair"]
+        root = folder.parent.parent
+        f1 = root / "sla-feedback-f1-a0-20261123-01" / pair
+        result = read(f1 / "RESULT.private.json")
+        curve = f1 / "TRACK.private.npz"
+        pinned(curve, result["curve_sha256"])
+        with np.load(curve, allow_pickle=False) as saved:
+            desired = saved["goal"]
+        curve_sha = sha(curve)
+    else:
+        from native_known import target
+
+        desired = target(old, np.arange(12001) * 0.002)
+        curve_sha = None
     require(
         desired.shape == (12001, 4, 4)
         and np.allclose(old, desired[0], rtol=0, atol=1e-9),
@@ -196,6 +203,8 @@ def drive(adapter, folder, parts, sample, seq, receipt, old, config):
             row = packet(stream)
             require(row["step"] == step, "initial journal clock")
         require(np.array_equal(row["qpos"], sample["qpos"]), "initial sample mismatch")
+        if dynamic is not None:
+            dynamic.support(names, row)
         while tick < START + 12000:
             paused(adapter, tick)
             require(
@@ -243,6 +252,8 @@ def drive(adapter, folder, parts, sample, seq, receipt, old, config):
                     + "\n"
                 )
                 break
+            if dynamic is not None:
+                dynamic.admit(knots, receipt, sample)
             prior = wire
             action, wire = install(
                 adapter, knots, parts["old_base"], seq + 1 + installs, tick
@@ -288,6 +299,8 @@ def drive(adapter, folder, parts, sample, seq, receipt, old, config):
                         p["step"] == step and abs(p["time_s"] - 0.002 * step) < 1e-8,
                         "2ms feedback grid",
                     )
+                    if dynamic is not None:
+                        dynamic.support(names, p)
                     T = tcp(model, data, tool, p)
                     if reason is None:
                         for contact in p["contacts"]:
@@ -338,6 +351,27 @@ def drive(adapter, folder, parts, sample, seq, receipt, old, config):
                 )
                 if reason:
                     break
+            if dynamic is not None and reason == "HOLD_COMPLETE":
+                require(
+                    tick == detection == source + 50 and monitor.hold is not None,
+                    "dwell ended away from a consumed command boundary",
+                )
+                manager.consumed(tick, wire, knots, receipt, measure(out, tick, sample))
+                return dynamic.follow(
+                    adapter,
+                    folder,
+                    parts,
+                    sample,
+                    seq,
+                    receipt,
+                    manager,
+                    desired[tick - START],
+                    tick,
+                    atoms,
+                    installs,
+                    stream,
+                    START + monitor.hold // 2,
+                )
             if reason:
                 break
             manager.consumed(tick, wire, knots, receipt, measure(out, tick, sample))
@@ -355,5 +389,5 @@ def drive(adapter, folder, parts, sample, seq, receipt, old, config):
         if monitor.hold is not None
         else None,
         "servo_ledger_sha256": sha(ledger),
-        "paired_F1_curve_sha256": sha(curve),
+        "paired_F1_curve_sha256": curve_sha,
     }

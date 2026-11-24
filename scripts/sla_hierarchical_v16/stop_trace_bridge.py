@@ -15,7 +15,7 @@ def checked(path, digest):
         raise ValueError("unexpected artifact " + path.name)
 
 
-def variant(root, out, spec, command, traced):
+def variant(root, out, spec, command, traced, *, card_cap=6503):
     build = read(
         Path(__file__).resolve().parents[2]
         / "reports/SLA_HIERARCHICAL_V16/V2_RECEIVER_BUILD.json"
@@ -59,6 +59,13 @@ def variant(root, out, spec, command, traced):
      WM02InitEmit(wm02_init::STOP, d->time, steps, source, 2);
    }""",
         )
+    if card_cap != 6503:
+        if card_cap != 21203 or not traced:
+            raise ValueError("unknown card-cap build")
+        # These are the two literal bindings to the former single-card end tick.
+        # The Session header and every reject, TTL and contact path stay identical.
+        for marker in ('std::strcmp(cap,"6503")', 'std::getenv("V16_GRIP_EPOCH"),6503,target'):
+            text = replace_once(text, marker, marker.replace("6503", "21203"))
     local.write_text(text)
     argv = [
         str(local)
