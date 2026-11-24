@@ -1,0 +1,292 @@
+{
+  "profile": "V195-FROZEN-DUAL-STACK-01",
+  "registration_sha256": "c3acab4bdb578dd1aeb45435a01b474f75409cc119bbd7eed61b25637c0e782f",
+  "plan_registry_blob": "8b3593b5d2fe80395a575f7be2582e5447314515",
+  "prior_e1_sha256": "8be258b3f2a109a97028a347954b2f11445cc71e3c502dfa7363383d7c74a64b",
+  "t0_epoch": 1795541865,
+  "night_deadline_epoch": 1795570665,
+  "model_manifest_sha256": "2e473d45a29f624f8c0242bf60389214613e3a060446e6845cd1a95322f2610c",
+  "core_frozen_executables": {
+    "native_binary": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+    "solver_binary": "4a5f5aa6e0b9d4bde62f4d1da73135ef97e5268945a0cecf114d9190d3e04fd0",
+    "controller_binary": "9e8ce46837d09bc39ae04d4b49f1ce4dd8c8c2d31bea39eac56c5806d108c1f3",
+    "outer_library": "739a7a087d0f4762423c044d50df06d634b92a155664fe0a2f9f717762a595e6",
+    "trace_library": "d4734afc5cb82faa9755b1c94222a1ccbace50d43eb6fafb2001779dd46a2f83",
+    "observer_library": "48b082c21dd61d91dc1ec5a2b18b91646c76a604b1287f77209b92cd67d693a5",
+    "mobile_safety_library": "38635077b1322d08ba798a4197ebc01357e83225205400671ff651d0eb35abf2"
+  },
+  "exact_runtime_source_hashes": {
+    "G00": {
+      "scripts/wm02/mobile_boundary_runner_v1.py": "f6cc471a45388a72ad67e35ba236b2d5c7d5892edb6a55b8dd331243334c0fde",
+      "src/go2arx5_vla/world_model/fusion_trajectory_adapter.py": "27db43d18c7b1a80764b930cce1f57247bb3c87af77dd2007c4656489ea2ca26"
+    },
+    "G01": {
+      "scripts/wm02/mobile_boundary_runner_v1.py": "f6cc471a45388a72ad67e35ba236b2d5c7d5892edb6a55b8dd331243334c0fde",
+      "src/go2arx5_vla/world_model/fusion_trajectory_adapter.py": "27db43d18c7b1a80764b930cce1f57247bb3c87af77dd2007c4656489ea2ca26"
+    }
+  },
+  "scene_hashes": {
+    "G00": "b6921ea3d624e15f5b9153e82d1ca3f6cf68980315bcf82b58845bc2fc59f914",
+    "G01": "fba127089641f0a854ccc8c23c310e20a155a0c61b76bc826daa165c417eb264"
+  },
+  "nominal_tool": [
+    [
+      1,
+      0,
+      0,
+      0.1424
+    ],
+    [
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      1,
+      0.0001057
+    ],
+    [
+      0,
+      0,
+      0,
+      1
+    ]
+  ],
+  "virtual_left_sha256": "fed88fa8a186f15f49aa0fc6fe95d2cb8feb39dec8adfd5cd812ce55ea58c4b2",
+  "case_bindings": {
+    "F-G00/F00_BINDING.json": {
+      "card": "F00",
+      "layout": "G00",
+      "profile": "BOUNDED_TRANSLATION_FEEDBACK_V1",
+      "receiver_sha256": "739a7a087d0f4762423c044d50df06d634b92a155664fe0a2f9f717762a595e6",
+      "scene_sha256": "b6921ea3d624e15f5b9153e82d1ca3f6cf68980315bcf82b58845bc2fc59f914",
+      "native_grant_cap": 50000,
+      "code_sha256": {
+        "sea_v195_owner.py": "b2fbebbceb0b7aed1ee44481fb244e43a869e0f190b8df9544d6e3373b3bd86e",
+        "sea_v195_student.py": "d24a21626d3f473be56c82cb5c1e5f237ec32d8a6a1c4d2e0749fbe445ac76f7",
+        "sea_feedback_execution_v195.py": "0e4dec25b2719ff7e546b12eb1a524f05ac8bd68cb50504f8d04b48da0c15c06",
+        "sea_v195_motion.py": "d08463213ae0c5f7e31ded97f9b2a726a868e9f01b70e15213b6ce5d577a4cf4",
+        "sea_pt_nominal_worker.py": "2d859e1d54ed8a0d1b07663d8225b698b8c5fe593b57eee72264d6f9e046384a",
+        "sea_pt_nominal_codec.py": "bf1c27bf19e1b1be6508096ad0a6f465d1aef8316a21de6a73401c4af6d35c23"
+      },
+      "q_sha256": "292b3e2697a1cdaed7f3b1c37a9b07c4d751dc5af1a7411106f4ead1431e14e2",
+      "task": "F",
+      "seed": 0
+    },
+    "F-G01/F10_BINDING.json": {
+      "card": "F10",
+      "layout": "G01",
+      "profile": "BOUNDED_TRANSLATION_FEEDBACK_V1",
+      "receiver_sha256": "739a7a087d0f4762423c044d50df06d634b92a155664fe0a2f9f717762a595e6",
+      "scene_sha256": "fba127089641f0a854ccc8c23c310e20a155a0c61b76bc826daa165c417eb264",
+      "native_grant_cap": 50000,
+      "code_sha256": {
+        "sea_v195_owner.py": "c54f4a01d707b6fa45f9912f4e78dfaf097282304513be36ee6529a6ab259559",
+        "sea_v195_student.py": "8cbe0e7f943bfcad2fa1b0061a7a1cae18f5a2fd52b32b66701b7fbfa3254d5e",
+        "sea_feedback_execution_v195.py": "0e4dec25b2719ff7e546b12eb1a524f05ac8bd68cb50504f8d04b48da0c15c06",
+        "sea_v195_motion.py": "8332ff4cc1905f0cd4ae702ccfc88371895eb29721f18d634d814fd7f0c43894",
+        "sea_v195_handoff.py": "729e59ad40dd1b1cdb33fe18e5cbc6bd89d35bb9b01316cf4afddb569cb9be5d",
+        "sea_compact_teacher.py": "6d6d62d2333de330a54b9b8c1f381502ff3eabe66e0f7a89a9f7663d475e28f9",
+        "sea_pt_nominal_worker.py": "7707accd2bf654eee9fe0769cc70dd0d891496980e19642d27aafe5961ccd4ee",
+        "sea_pt_nominal_codec.py": "f3643ddc21e366b95afd18c9aab834933141dd5a7d99deeb90d50bf716e6de50"
+      },
+      "q_sha256": "856f015256a31c069149ce8afd4c3fb3db8281bfc072bd86aa49c5e4a7e3e095",
+      "task": "F",
+      "seed": 0,
+      "compact_prefix_repairs_attempt": null,
+      "source_end_proof_sha256": null,
+      "query_cadence_profile": "BTF1_P10_V1"
+    },
+    "H-G00/H00_BINDING.json": {
+      "card": "H00",
+      "layout": "G00",
+      "profile": "BOUNDED_TRANSLATION_FEEDBACK_V1",
+      "receiver_sha256": "739a7a087d0f4762423c044d50df06d634b92a155664fe0a2f9f717762a595e6",
+      "scene_sha256": "b6921ea3d624e15f5b9153e82d1ca3f6cf68980315bcf82b58845bc2fc59f914",
+      "native_grant_cap": 50000,
+      "code_sha256": {
+        "sea_v195_owner.py": "f1995f916f3c1d778d590a50a657b7ebd9c799dd888195f814e6f45e7b746ab5",
+        "sea_v195_student.py": "ca8981ba1bc33381153a57864939f46372248a20e4ac3d25c6d410109576b7e4",
+        "sea_feedback_execution_v195.py": "0e4dec25b2719ff7e546b12eb1a524f05ac8bd68cb50504f8d04b48da0c15c06",
+        "sea_v195_motion.py": "8332ff4cc1905f0cd4ae702ccfc88371895eb29721f18d634d814fd7f0c43894",
+        "sea_v195_handoff.py": "729e59ad40dd1b1cdb33fe18e5cbc6bd89d35bb9b01316cf4afddb569cb9be5d",
+        "sea_compact_teacher.py": "6d6d62d2333de330a54b9b8c1f381502ff3eabe66e0f7a89a9f7663d475e28f9",
+        "sea_pt_nominal_worker.py": "7707accd2bf654eee9fe0769cc70dd0d891496980e19642d27aafe5961ccd4ee",
+        "sea_pt_nominal_codec.py": "f3643ddc21e366b95afd18c9aab834933141dd5a7d99deeb90d50bf716e6de50"
+      },
+      "q_sha256": "292b3e2697a1cdaed7f3b1c37a9b07c4d751dc5af1a7411106f4ead1431e14e2",
+      "task": "H",
+      "seed": 0,
+      "compact_prefix_repairs_attempt": null
+    },
+    "H-G00-SOURCE-END/H00_BINDING.json": {
+      "card": "H00",
+      "layout": "G00",
+      "profile": "BOUNDED_TRANSLATION_FEEDBACK_V1",
+      "receiver_sha256": "739a7a087d0f4762423c044d50df06d634b92a155664fe0a2f9f717762a595e6",
+      "scene_sha256": "b6921ea3d624e15f5b9153e82d1ca3f6cf68980315bcf82b58845bc2fc59f914",
+      "native_grant_cap": 50000,
+      "code_sha256": {
+        "sea_v195_owner.py": "c54f4a01d707b6fa45f9912f4e78dfaf097282304513be36ee6529a6ab259559",
+        "sea_v195_student.py": "8cbe0e7f943bfcad2fa1b0061a7a1cae18f5a2fd52b32b66701b7fbfa3254d5e",
+        "sea_feedback_execution_v195.py": "0e4dec25b2719ff7e546b12eb1a524f05ac8bd68cb50504f8d04b48da0c15c06",
+        "sea_v195_motion.py": "8332ff4cc1905f0cd4ae702ccfc88371895eb29721f18d634d814fd7f0c43894",
+        "sea_v195_handoff.py": "729e59ad40dd1b1cdb33fe18e5cbc6bd89d35bb9b01316cf4afddb569cb9be5d",
+        "sea_compact_teacher.py": "6d6d62d2333de330a54b9b8c1f381502ff3eabe66e0f7a89a9f7663d475e28f9",
+        "sea_pt_nominal_worker.py": "7707accd2bf654eee9fe0769cc70dd0d891496980e19642d27aafe5961ccd4ee",
+        "sea_pt_nominal_codec.py": "f3643ddc21e366b95afd18c9aab834933141dd5a7d99deeb90d50bf716e6de50"
+      },
+      "q_sha256": "292b3e2697a1cdaed7f3b1c37a9b07c4d751dc5af1a7411106f4ead1431e14e2",
+      "task": "H",
+      "seed": 0,
+      "compact_prefix_repairs_attempt": null,
+      "source_end_proof_sha256": "8ca133b6d78486dd482fff6008ca2271d812bfa2987824604b2893ecabc3f32e",
+      "query_cadence_profile": "BTF1_SOURCE_END_P10_V1"
+    },
+    "P-G00/P00_BINDING.json": {
+      "card": "P00",
+      "layout": "G00",
+      "profile": "BOUNDED_TRANSLATION_FEEDBACK_V1",
+      "receiver_sha256": "739a7a087d0f4762423c044d50df06d634b92a155664fe0a2f9f717762a595e6",
+      "scene_sha256": "b6921ea3d624e15f5b9153e82d1ca3f6cf68980315bcf82b58845bc2fc59f914",
+      "native_grant_cap": 50000,
+      "code_sha256": {
+        "sea_v195_owner.py": "9a3e75ae9decb412107cc335f40e0c947c57c4cd029ff7663be39f73976eb8b4",
+        "sea_v195_student.py": "ca8981ba1bc33381153a57864939f46372248a20e4ac3d25c6d410109576b7e4",
+        "sea_feedback_execution_v195.py": "0e4dec25b2719ff7e546b12eb1a524f05ac8bd68cb50504f8d04b48da0c15c06",
+        "sea_v195_motion.py": "8332ff4cc1905f0cd4ae702ccfc88371895eb29721f18d634d814fd7f0c43894",
+        "sea_v195_handoff.py": "b7b44ead84494d1deeb96345bf4e1678cf7d3d6ad3dbcafa77d717dbe412a70e",
+        "sea_pt_nominal_worker.py": "7707accd2bf654eee9fe0769cc70dd0d891496980e19642d27aafe5961ccd4ee",
+        "sea_pt_nominal_codec.py": "f3643ddc21e366b95afd18c9aab834933141dd5a7d99deeb90d50bf716e6de50"
+      },
+      "q_sha256": "292b3e2697a1cdaed7f3b1c37a9b07c4d751dc5af1a7411106f4ead1431e14e2",
+      "task": "P",
+      "seed": 0
+    },
+    "P-G00/P01_BINDING.json": {
+      "card": "P01",
+      "layout": "G00",
+      "profile": "BOUNDED_TRANSLATION_FEEDBACK_V1",
+      "receiver_sha256": "739a7a087d0f4762423c044d50df06d634b92a155664fe0a2f9f717762a595e6",
+      "scene_sha256": "b6921ea3d624e15f5b9153e82d1ca3f6cf68980315bcf82b58845bc2fc59f914",
+      "native_grant_cap": 50000,
+      "code_sha256": {
+        "sea_v195_owner.py": "9a3e75ae9decb412107cc335f40e0c947c57c4cd029ff7663be39f73976eb8b4",
+        "sea_v195_student.py": "ca8981ba1bc33381153a57864939f46372248a20e4ac3d25c6d410109576b7e4",
+        "sea_feedback_execution_v195.py": "0e4dec25b2719ff7e546b12eb1a524f05ac8bd68cb50504f8d04b48da0c15c06",
+        "sea_v195_motion.py": "8332ff4cc1905f0cd4ae702ccfc88371895eb29721f18d634d814fd7f0c43894",
+        "sea_v195_handoff.py": "b7b44ead84494d1deeb96345bf4e1678cf7d3d6ad3dbcafa77d717dbe412a70e",
+        "sea_pt_nominal_worker.py": "7707accd2bf654eee9fe0769cc70dd0d891496980e19642d27aafe5961ccd4ee",
+        "sea_pt_nominal_codec.py": "f3643ddc21e366b95afd18c9aab834933141dd5a7d99deeb90d50bf716e6de50"
+      },
+      "q_sha256": "292b3e2697a1cdaed7f3b1c37a9b07c4d751dc5af1a7411106f4ead1431e14e2",
+      "task": "P",
+      "seed": 1
+    },
+    "P-G00-COMPACT-H0/P00_BINDING.json": {
+      "card": "P00",
+      "layout": "G00",
+      "profile": "BOUNDED_TRANSLATION_FEEDBACK_V1",
+      "receiver_sha256": "739a7a087d0f4762423c044d50df06d634b92a155664fe0a2f9f717762a595e6",
+      "scene_sha256": "b6921ea3d624e15f5b9153e82d1ca3f6cf68980315bcf82b58845bc2fc59f914",
+      "native_grant_cap": 50000,
+      "code_sha256": {
+        "sea_v195_owner.py": "f1995f916f3c1d778d590a50a657b7ebd9c799dd888195f814e6f45e7b746ab5",
+        "sea_v195_student.py": "ca8981ba1bc33381153a57864939f46372248a20e4ac3d25c6d410109576b7e4",
+        "sea_feedback_execution_v195.py": "0e4dec25b2719ff7e546b12eb1a524f05ac8bd68cb50504f8d04b48da0c15c06",
+        "sea_v195_motion.py": "8332ff4cc1905f0cd4ae702ccfc88371895eb29721f18d634d814fd7f0c43894",
+        "sea_v195_handoff.py": "729e59ad40dd1b1cdb33fe18e5cbc6bd89d35bb9b01316cf4afddb569cb9be5d",
+        "sea_compact_teacher.py": "6d6d62d2333de330a54b9b8c1f381502ff3eabe66e0f7a89a9f7663d475e28f9",
+        "sea_pt_nominal_worker.py": "7707accd2bf654eee9fe0769cc70dd0d891496980e19642d27aafe5961ccd4ee",
+        "sea_pt_nominal_codec.py": "f3643ddc21e366b95afd18c9aab834933141dd5a7d99deeb90d50bf716e6de50"
+      },
+      "q_sha256": "292b3e2697a1cdaed7f3b1c37a9b07c4d751dc5af1a7411106f4ead1431e14e2",
+      "task": "P",
+      "seed": 0,
+      "compact_prefix_repairs_attempt": "98edccc1522f5571e15fdf43adc3b4d5b96973820c6fe239f11fc073af1191ce"
+    },
+    "Q00_BINDING.json": {
+      "card": "Q00",
+      "layout": "G00",
+      "profile": "BOUNDED_TRANSLATION_FEEDBACK_V1",
+      "receiver_sha256": "739a7a087d0f4762423c044d50df06d634b92a155664fe0a2f9f717762a595e6",
+      "scene_sha256": "b6921ea3d624e15f5b9153e82d1ca3f6cf68980315bcf82b58845bc2fc59f914",
+      "native_grant_cap": 30000,
+      "cold_sha256": "0df29725e8f45d8899b54e51616790f9426240b4c196259286143dcae8e55823",
+      "code_sha256": {
+        "sea_v195_owner.py": "0d37fe2957263583b0aba6f1b75c64da4b396b9e4162fe378144a99a88f3b360",
+        "sea_v195_qualification.py": "9f08ce26f89cf976afb05f47cb52a63f9eecc69d4346fcf313e2aae4add17189",
+        "sea_feedback_execution_v195.py": "0e4dec25b2719ff7e546b12eb1a524f05ac8bd68cb50504f8d04b48da0c15c06",
+        "sea_v195_motion.py": "d08463213ae0c5f7e31ded97f9b2a726a868e9f01b70e15213b6ce5d577a4cf4"
+      }
+    },
+    "Q01_BINDING.json": {
+      "card": "Q01",
+      "layout": "G01",
+      "profile": "BOUNDED_TRANSLATION_FEEDBACK_V1",
+      "receiver_sha256": "739a7a087d0f4762423c044d50df06d634b92a155664fe0a2f9f717762a595e6",
+      "scene_sha256": "fba127089641f0a854ccc8c23c310e20a155a0c61b76bc826daa165c417eb264",
+      "native_grant_cap": 30000,
+      "cold_sha256": "4bfbab0fa8c9b25f350832698f63c17f2cb242e30a70e53c283d20d6e1f6fa8f",
+      "code_sha256": {
+        "sea_v195_owner.py": "0d37fe2957263583b0aba6f1b75c64da4b396b9e4162fe378144a99a88f3b360",
+        "sea_v195_qualification.py": "9f08ce26f89cf976afb05f47cb52a63f9eecc69d4346fcf313e2aae4add17189",
+        "sea_feedback_execution_v195.py": "0e4dec25b2719ff7e546b12eb1a524f05ac8bd68cb50504f8d04b48da0c15c06",
+        "sea_v195_motion.py": "d08463213ae0c5f7e31ded97f9b2a726a868e9f01b70e15213b6ce5d577a4cf4"
+      }
+    },
+    "QH00_BINDING.json": {
+      "card": "QH00",
+      "layout": "G00",
+      "profile": "BOUNDED_TRANSLATION_FEEDBACK_V1",
+      "receiver_sha256": "739a7a087d0f4762423c044d50df06d634b92a155664fe0a2f9f717762a595e6",
+      "scene_sha256": "b6921ea3d624e15f5b9153e82d1ca3f6cf68980315bcf82b58845bc2fc59f914",
+      "native_grant_cap": 50000,
+      "q_sha256": "292b3e2697a1cdaed7f3b1c37a9b07c4d751dc5af1a7411106f4ead1431e14e2",
+      "experiment": "LOADED_XY_KNOWN_PATH_ZERO_MODEL",
+      "axis": "Y"
+    },
+    "QH01_BINDING.json": {
+      "card": "QH01",
+      "layout": "G01",
+      "profile": "BOUNDED_TRANSLATION_FEEDBACK_V1",
+      "receiver_sha256": "739a7a087d0f4762423c044d50df06d634b92a155664fe0a2f9f717762a595e6",
+      "scene_sha256": "fba127089641f0a854ccc8c23c310e20a155a0c61b76bc826daa165c417eb264",
+      "native_grant_cap": 50000,
+      "q_sha256": "856f015256a31c069149ce8afd4c3fb3db8281bfc072bd86aa49c5e4a7e3e095",
+      "experiment": "LOADED_XY_KNOWN_PATH_ZERO_MODEL",
+      "axis": "X"
+    }
+  },
+  "model_worker_evidence": {
+    "F-G00": {
+      "ready_sha256": "ef4668856d83dcb3f18e6112b1736b9cb5bbc9c15ef843f009b4a273190a9b6c",
+      "worker_was_closed": true
+    },
+    "F-G01": {
+      "ready_sha256": "fafeeeab9b31e959fd4ea986e2a541813ac44c523b75c143680abcbf544c0e1d",
+      "worker_was_closed": true
+    },
+    "H-G00": {
+      "ready_sha256": "3c5eb851a4a0d6b2b09a8ed2a7021bdab0f73ec5a41978623b6e75b05a1d4ffe",
+      "worker_was_closed": true
+    },
+    "H-G00-SOURCE-END": {
+      "ready_sha256": "7a21443e5bd2b773dc50c4e6d0fcf7320ff6d0823fdeed7c7fe16163880c9203",
+      "worker_was_closed": true
+    },
+    "P-G00": {
+      "ready_sha256": "bfc1b91abeca33887d73f6257cf1ce665133048d1a2ad9b806b99aedc03d3070",
+      "worker_was_closed": true
+    },
+    "P-G00-COMPACT-H0": {
+      "ready_sha256": "d18935073c911cdd12c0c0287f1ae76c4e5c9424b8fddd40221e9d20f5a107de",
+      "worker_was_closed": true
+    }
+  },
+  "physics_step_s": 0.002,
+  "training_updates": 0
+}
