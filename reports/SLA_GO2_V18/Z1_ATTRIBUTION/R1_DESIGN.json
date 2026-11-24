@@ -1,0 +1,41 @@
+{
+  "status": "exploratory offline controls locked before R1 score",
+  "windows": {
+    "standing": [
+      "G00 first",
+      "G01 first",
+      "G01 second"
+    ],
+    "stress": "all T01..T16 historical mobile HOLD/PLACE windows, never score as standing Reach",
+    "additional_crossed_seed_returns": "R2 only"
+  },
+  "inputs": [
+    "same query measured TCP",
+    "end and start of last consumed reference",
+    "frozen raw action",
+    "named object from instruction",
+    "simultaneous two-view RGB estimate and calibration",
+    "no object truth or teacher vector in proposal"
+  ],
+  "profiles": {
+    "RAW": "unchanged absolute 50 knots",
+    "REANCHOR": "last_consumed @ inv(actual) @ original, all 50",
+    "SHORT": "first 0.50s inclusive, reanchor, one scalar bounds displacement to 20 mm from consumed pose; same scalar on rotation log",
+    "PROJECT": "same prefix and scale. Euclidean projection on capped cylinder about RGB-derived preapproach (object center + 80 mm world vertical). Keep only supported forward component, clamp transverse radius using uncertainty. Limit orientation to 2 degrees. Reject outputs with no positive progress.",
+    "GEOMETRY": "same visual target, uncertainty and constraints; smooth 20 mm line; no SLA input"
+  },
+  "uncertainty": "Development allowance 5 mm (rounded up from pre-existing initial 4.08/3.84 mm), plus half ray separation. Reject if >=8 mm, rejected/missing triangulation or image component touches border, including stress rows. This is a design allowance, not a validated confidence interval.",
+  "corridor_mm": 8,
+  "nominal_max_advance_mm": 20,
+  "preapproach_height_mm": 80,
+  "reach_grip": "registered open only; no synthesized gripper events. Archived non-Reach grip and phase are not tested.",
+  "readouts": [
+    "all source knot positions and rotations relative to previous command",
+    "prefix fraction and difference from matched SLA increments",
+    "size of orientation and lateral correction",
+    "whole candidate versus held-out task axis, actual object distance for 3 standing returns",
+    "frozen H40 including incoming seam and two-object safety sweep on standing preview wherever applicable",
+    "all refusals and technical interruptions"
+  ],
+  "scores": "Offline candidate geometry and gate checks only. A proposal on a subsequent observed state is a local counterfactual, not a trajectory executed by the robot. No selection by best window, no native starts."
+}
