@@ -1,0 +1,10 @@
+目标：直接测试Go2＋ARX5移动底座上的SLA能力边界，冻结现用WBC和两个PD4-500模型。先读根入口 MOBILE_WBC_SLA_START_HERE.md、详细协议与机读矩阵；核对最新Core现场，不以旧PR快照代替当前进度。健康JOIN10不热改、不作移动前置。
+
+1. 绑定实际MuJoCo/OCS2 native WBC、腿策略、臂PD、cost/solver/物理和2ms时钟；冻结PD4 EXECUTED_REF与FINAL_PLAN各自统计/codec、10步采样、H40/P10。首波0训练。
+2. 建独立移动实验：M_FREE为7D EEF-only，真正清除/省略旧BASE hold；M_ASSIST为EEF＋预登记BASE软位姿轨迹。任务frame按episode固定，EEF世界参考每query只绑定一次，保留TTL/ACK/cancel，不使用未来base真值。
+3. 固定root局部IK只做shadow；在任何移动物理请求前验证真实native关节/力矩、碰撞、跌倒、步态安全与模式退出，保留原完整EEF门。未建好独立安全profile时禁止运行，不能直接删除安全门、切换WBC或用于真机。
+4. 直接做M0最多12次小幅平移/转向真实移动试验；对应方向安全可用即滚动进入L1首波：12专家＋24冻结学生任务，加M0最多48次。六任务×三级×两模式×双reset的全探索上限228，含首波，不自动排满。
+5. 固定每次条件/seed、保留首次失败；记录raw H40→参考安装→真实BASE/EEF→夹爪/物体、局部IK shadow和安全事件。分别报告task_success、movement_observed、required_motion_success，不把外部BASE协助称为SLA导航。
+6. 单世界起步，验证资源后2世界、再按合格产出扩4；不抢占健康任务、不重复提交UNKNOWN，monitor只通知。首个交付必须是真实BASE运动和对应SLA闭环结果及冻结hash；据失败归因再决定是否收集MOBILE_TRAIN100并微调。
+
+本prompt仅授权开展按协议限定的新移动仿真研究，不表示已有实现或已启动作业；WBC低层改动、真机、RL和关闭安全保护均不在范围内。
