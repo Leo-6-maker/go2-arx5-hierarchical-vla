@@ -1,0 +1,514 @@
+{
+  "schema": "SLA_GO2_V19_TASK_AGNOSTIC_SEA",
+  "date": "2026-11-24",
+  "status": "PLAN_ONLY_NO_NEW_ALLOCATION",
+  "parent_pr": 491,
+  "parent_sha": "9b73ebc9ae31986e8369f34a4731bfcee5b31035",
+  "priority_update": {
+    "supersedes": "V1.8 #478 priority, not evidence or safety",
+    "mainline": "Frozen SLA-PT + task-agnostic SEA-O/A/E + frozen WBC",
+    "fallback": "R5_TASK_SUPERVISED retained, not mandatory"
+  },
+  "evidence": {
+    "source_pr": 439,
+    "source_main_windows": 6,
+    "source_episodes": 2,
+    "source_position_rms_mm": [
+      4.59,
+      11.01
+    ],
+    "source_hold_rms_mm": [
+      25.61,
+      203.65
+    ],
+    "source_task_completion_proven": false,
+    "source_fk_poses": 7828,
+    "source_positive_axes_difference_deg_lt": 0.001,
+    "source_gripper_physical_gap": "UNKNOWN",
+    "native_488": {
+      "starts": 6,
+      "ticks": 64218,
+      "forwards": 8,
+      "updates": 0,
+      "raw": [
+        0,
+        2
+      ],
+      "direct": [
+        0,
+        2
+      ],
+      "geometry": [
+        2,
+        2
+      ],
+      "direct_cross_mm": [
+        5.56,
+        5.85
+      ],
+      "direct_endpoint_mm": [
+        8.85,
+        9.1
+      ]
+    },
+    "world_reanchor": {
+      "old_initial_s": 3.3,
+      "new_initial_s": 1.7,
+      "offline_prefix_windows": 19,
+      "combined_native_qualified": false
+    },
+    "wrist_mask": {
+      "forwards": 2,
+      "consistent_improvement": false
+    },
+    "r5": {
+      "pr": 491,
+      "train_episodes": 57,
+      "queries": 4898,
+      "train069_contains57": true,
+      "old_train_all_mobile": true,
+      "val_compiled": 8,
+      "test_compiled": 12,
+      "new_val_collected": 0,
+      "new_test_collected": 0,
+      "trainable_lora": 22118400,
+      "lora_tensors": 10,
+      "real_updates": 0
+    }
+  },
+  "frozen": {
+    "official": {
+      "repo": "haofuly/SLA_benchmark_ckpts",
+      "subdir": "SLA_Memory_robodojo_real_ckpt",
+      "revision": "7f6880569c3be777291e646fad1b4951245e8553",
+      "source": "XPolicyLab/XPolicyLab@c1b205ec42b4ab2cac9c2159c8b4c2f723e5e454",
+      "config": "train_robodojo_real",
+      "extra_frames_first": false,
+      "norm_sha256": "cf6ddf4f89180e762e5e6210881a763f8e29d3499fb1cc69a440de7aa585d276"
+    },
+    "backend": "Frozen OCS2/MPC/WBC/arm PD/leg policy/MuJoCo original safety",
+    "native_dt_s": 0.002,
+    "preview_dt_s": 0.05,
+    "preview_points": 41,
+    "publication_hz": 10,
+    "ttl_s": 0.4,
+    "limits": {
+      "linear_m_s": 0.05,
+      "angular_rad_s": 0.25,
+      "linear_m_s2": 0.25,
+      "angular_rad_s2": 1,
+      "gripper_m_s": 0.04
+    },
+    "source_horizon": 50,
+    "source_hz": 30,
+    "internal_action_dim": 32,
+    "decoded_action_dim": 16,
+    "right_internal_slots": [
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
+    ]
+  },
+  "arms": {
+    "A": "Frozen PT raw target observations + shared SEA-A/E",
+    "B": "Frozen PT deployable cross-paint + shared SEA-A/E",
+    "C": "Frozen PT task-agnostic external feature adapter + shared SEA-A/E",
+    "O": "ORACLE_ONLY, never native deployment",
+    "G": "Independent visual geometric planner",
+    "H0": "Known teacher executor control",
+    "D": "Official PT target-task LoRA",
+    "E": "SLA_base matched task LoRA (conditional scientific comparison)",
+    "HYBRID": "Goal-projection/FSM/Agent assistance, separate"
+  },
+  "stages": [
+    {
+      "id": "SEA0_A",
+      "status": "READY_CPU",
+      "requires": [],
+      "out": "SOURCE_ASSET_AND_CAPABILITY_CUSTODY",
+      "cap": {
+        "new_gpu_forwards": 0,
+        "native_starts": 0,
+        "updates": 0
+      }
+    },
+    {
+      "id": "SEA0_B",
+      "status": "READY_CPU_AFTER_SOURCE_ASSETS",
+      "requires": [
+        "SEA0_A"
+      ],
+      "out": "PAIRED_TWIN_INPUT_MANIFEST",
+      "candidate": {
+        "source_anchors": 4,
+        "target_dev_states": 4,
+        "independent_confirm_states": 8
+      },
+      "note": "oracle isolated; fixed scene/pose/history; synthetic vs real fidelity separately"
+    },
+    {
+      "id": "SEA1_PILOT",
+      "status": "WAIT_FIXED_ROSTER_AND_GPU_ALLOCATION",
+      "requires": [
+        "SEA0_B",
+        "SOURCE_FIDELITY_PREFLIGHT",
+        "NEW_GPU_ALLOCATION"
+      ],
+      "out": "CROSSED_TWIN_AND_CROSSPAINT_ACTUAL",
+      "candidate": {
+        "source_states": 4,
+        "target_states": 4,
+        "conditions_per_state": 4,
+        "seeds": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "total_sampler_cells": 64,
+        "new_sampler_cap": 64,
+        "first_seed_cells": 32,
+        "optional_single_factor_followup_separate_cap": 16,
+        "ticks": 0,
+        "sla_updates": 0
+      },
+      "source_conditions": [
+        "SOURCE_REAL",
+        "SOURCE_RENDER",
+        "TARGET_RENDER",
+        "CROSSPAINT_TARGET_RENDER"
+      ],
+      "target_conditions": [
+        "RAW_REAL_GO2",
+        "ORACLE_SOURCE_TWIN",
+        "DEPLOYABLE_CROSSPAINT",
+        "MASK_ONLY"
+      ],
+      "decision": [
+        "SOURCE_RENDER_FAIL->ONE_FIDELITY_REPAIR",
+        "ORACLE_RECOVERS_DEPLOYABLE_FAILS->SEA3",
+        "DEPLOYABLE_IMPROVES->SEA1_CONFIRM",
+        "NO_RECOVERY->ONE_SOURCE_LIKE_SKILL_DIAGNOSTIC_OR_SEA5"
+      ]
+    },
+    {
+      "id": "SEA1_CONFIRM",
+      "status": "CONDITIONAL",
+      "requires": [
+        "SEA1_PILOT_DEPLOYABLE_PROMISING",
+        "NEW_GPU_ALLOCATION"
+      ],
+      "out": "LOCKED_ZERO_TRAIN_ADAPTER_CONFIRMATION",
+      "candidate": {
+        "states": 8,
+        "arms": [
+          "A",
+          "O",
+          "B"
+        ],
+        "seeds": 2,
+        "new_sampler_cap": 48,
+        "ticks": 0,
+        "updates": 0
+      }
+    },
+    {
+      "id": "SEA2_CPU",
+      "status": "READY_CPU",
+      "requires": [],
+      "out": "UNIFIED_WORLD_OFFSET_PREFIX_AND_EVENT_PREFLIGHT",
+      "note": "reuse 19 windows; source fidelity; new native profile not yet qualified"
+    },
+    {
+      "id": "SEA2_NATIVE",
+      "status": "CONDITIONAL_NEW_ALLOCATION",
+      "requires": [
+        "SEA2_CPU",
+        "SCOPE_MATCHED_SAFETY_STOP"
+      ],
+      "out": "TASK_AGNOSTIC_EXECUTOR_OPERATING_DOMAIN",
+      "candidate": {
+        "native_starts": 4,
+        "ticks_per_start": 20000,
+        "total_ticks": 80000,
+        "forwards": 0,
+        "contact": false,
+        "updates": 0
+      },
+      "reuse_qualified_evidence_first": true
+    },
+    {
+      "id": "SEA3_DATA",
+      "status": "CONDITIONAL",
+      "requires": [
+        "SEA0_B",
+        "SEA1_OBSERVATION_GAP_EVIDENCE"
+      ],
+      "out": "TASK_FREE_PAIRED_RENDER_MANIFEST",
+      "candidate": {
+        "initial_pairs": 1000,
+        "max_pairs": 5000,
+        "split": [
+          0.8,
+          0.1,
+          0.1
+        ],
+        "target_task_demonstrations": 0,
+        "physics_ticks": 0
+      },
+      "note": "render/encoding cost separately authorized as applicable; split by scene/asset/history group"
+    },
+    {
+      "id": "SEA3_ALIGN",
+      "status": "CONDITIONAL_NEW_ADAPTER_TRAIN_ALLOCATION",
+      "requires": [
+        "SEA3_DATA",
+        "FROZEN_SOURCE_IDENTITY",
+        "VALID_SPATIAL_CORRESPONDENCE"
+      ],
+      "out": "EXTERNAL_GO2_OBSERVATION_ADAPTER",
+      "candidate": {
+        "max_trainable_params": 2000000,
+        "smoke_updates": 100,
+        "first_run_cumulative_updates": 1000,
+        "conditional_expansion_separate_cap": 2000,
+        "sla_updates": 0,
+        "target_task_demonstrations": 0
+      },
+      "decision": [
+        "ACTION_AND_FEATURE_DEV_IMPROVE->CONFIRM",
+        "ONLY_FEATURE_IMPROVES->SEPARATE_SOURCE_DISTILL_OR_STOP",
+        "NO_GAIN->STOP"
+      ]
+    },
+    {
+      "id": "SEA3_DISTILL",
+      "status": "OPTIONAL_SEPARATE",
+      "requires": [
+        "SEA3_ALIGN_DIAGNOSED_POLICY_MISMATCH",
+        "NEW_ALLOCATION"
+      ],
+      "out": "SOURCE_POLICY_DISTILLATION_SEPARATE_RESULT",
+      "candidate": {
+        "source_states": 32,
+        "seeds": 2,
+        "teacher_sampler_cap": 64,
+        "sla_updates": 0,
+        "target_task_demo": 0
+      },
+      "note": "source teacher outputs and any task language explicitly reported; not strict visual-only"
+    },
+    {
+      "id": "SEA3_CONFIRM",
+      "status": "CONDITIONAL",
+      "requires": [
+        "SEA3_ALIGN_OR_DISTILL_PROMISING",
+        "NEW_GPU_ALLOCATION"
+      ],
+      "out": "FROZEN_ADAPTER_ON_INDEPENDENT_MATCHED_STATES",
+      "candidate": {
+        "states": 8,
+        "arms": [
+          "A",
+          "O",
+          "C"
+        ],
+        "seeds": 2,
+        "forwards": 48,
+        "sla_updates": 0
+      }
+    },
+    {
+      "id": "SEA4_REACH",
+      "status": "BLOCKED_UNTIL_DEPLOYABLE_ADAPTER_AND_TASK_EXECUTOR_QUALIFIED",
+      "requires": [
+        "SEA1_CONFIRM_OR_SEA3_CONFIRM",
+        "SEA2_QUALIFIED_TASK_PROFILE",
+        "STUDENT_OWNER_SCOPE_MATCHED_STOP",
+        "NEW_ALLOCATION"
+      ],
+      "out": "NATIVE_REACH_SHARED_INTERFACE",
+      "candidate": {
+        "layouts": 2,
+        "arms": [
+          "A",
+          "B_OR_C",
+          "G"
+        ],
+        "starts": 6,
+        "optional_H0_starts": 2,
+        "max_total_starts": 8,
+        "ticks_per_start": 20000,
+        "total_ticks": 160000,
+        "student_forwards_per_start": 12,
+        "total_forwards": 48,
+        "contact": false,
+        "sla_updates": 0
+      }
+    },
+    {
+      "id": "SEA4_CONTACT",
+      "status": "BLOCKED",
+      "requires": [
+        "DEPLOYABLE_REACH_OR_SEPARATE_SOURCE_LIKE_REACH_QUALIFIED",
+        "SOURCE_SKILL_EVIDENCE",
+        "GRIPPER_PHYSICAL_CODEC",
+        "CONTACT_OWNER_SAFETY_QUALIFICATION",
+        "H0_KNOWN_GRASP_PASS_BEFORE_STUDENT",
+        "NEW_ALLOCATION"
+      ],
+      "out": "NATIVE_PICK_HOLD_TRANSFER",
+      "candidate": {
+        "layouts": 2,
+        "arms": [
+          "H0",
+          "A",
+          "B_OR_C"
+        ],
+        "starts": 6,
+        "ticks_per_start": 50000,
+        "total_ticks": 300000,
+        "student_forwards_per_start": 120,
+        "total_forwards": 480,
+        "sla_updates": 0
+      }
+    },
+    {
+      "id": "SEA4_PLACE",
+      "status": "BLOCKED",
+      "requires": [
+        "SEA4_CONTACT",
+        "SOURCE_PLACE_EVIDENCE",
+        "PLACE_CONTACT_RELEASE_QUALIFICATION",
+        "NEW_ALLOCATION"
+      ],
+      "out": "NATIVE_PLACE_TRANSFER"
+    },
+    {
+      "id": "SEA4_CROSS_TASK",
+      "status": "BLOCKED",
+      "requires": [
+        "AT_LEAST_TWO_LOCAL_SKILLS_QUALIFIED",
+        "ADAPTER_FROZEN",
+        "INDEPENDENT_TASK_ROSTER",
+        "NEW_ALLOCATION"
+      ],
+      "out": "HELDOUT_TASK_TRANSFER_AND_COST",
+      "candidate": {
+        "independent_conditions": 8,
+        "min_skill_types": 2
+      },
+      "note": "new standing roster, preserve 8/12 M_FREE split"
+    },
+    {
+      "id": "SEA5_R5",
+      "status": "RETAINED_CONDITIONAL_NOT_DEFAULT",
+      "requires": [
+        "SEA_NEGATIVE_OR_INDEPENDENT_SUPERVISED_COMPARATOR",
+        "R5_DATA_AND_VAL_QUALIFIED",
+        "NEW_GPU_ALLOCATION"
+      ],
+      "out": "TASK_SUPERVISED_PT_LORA_BASELINE",
+      "candidate": {
+        "smoke_updates": 100,
+        "first_formal_updates_max": 1000
+      },
+      "note": "not SEA result; old R5 code and data retained"
+    },
+    {
+      "id": "SEA6_MOBILE_AGENT",
+      "status": "FUTURE_BLOCKED",
+      "requires": [
+        "SEA4_CROSS_TASK",
+        "BASE_POLICY_CONTACT_AND_COMPOSITION_QUALIFIED",
+        "NEW_ALLOCATION"
+      ],
+      "out": "MOBILE_MANIPULATION_AND_TYPED_AGENT_COMPOSITION"
+    }
+  ],
+  "new_scientific_allocation_by_plan": {
+    "gpu_sampler_forwards": 0,
+    "gpu_encoding_jobs": 0,
+    "render_pairs": 0,
+    "adapter_optimizer_updates": 0,
+    "sla_optimizer_updates": 0,
+    "native_starts": 0,
+    "physics_ticks": 0,
+    "contact": false,
+    "real_hardware": false
+  },
+  "strict_mainline": {
+    "target_task_demonstrations_for_training": 0,
+    "target_task_action_labels": false,
+    "task_rewards": false,
+    "source_task_distill_separate": true,
+    "oracle_native_forbidden": true,
+    "source_mode_bypass": true,
+    "goal_projection_not_sea": true,
+    "no_left_arm_fabrication": true,
+    "no_base_policy_credit_to_sla": true,
+    "source_teacher_evaluation_only": true,
+    "full_parent_weight_frozen": true,
+    "old_r5_preserved": true
+  },
+  "budget_policy": "Candidate scientific maxima, not authorization. Verify actual allocations and leases; reuse exact historical hashes and qualified evidence, preserve screened/failed/unstarted slots. No duplicate old #486/#488/#489.",
+  "hard_stop": [
+    "GT_OR_TASK_LABEL_LEAK",
+    "ORACLE_DEPLOYMENT",
+    "IDENTITY_OR_CLOCK_DRIFT",
+    "STALE_OBSERVATION",
+    "UNQUALIFIED_PROFILE_OR_CONTACT",
+    "SAFETY_FORCE_COLLISION_STOP",
+    "AFTER_STOP_TICK_OR_INSTALL",
+    "OWNER_LEASE_OR_DEADLINE",
+    "RESOURCE_CAP",
+    "MISSING_EVIDENCE"
+  ],
+  "actual_fields": [
+    "registered",
+    "eligible",
+    "entered",
+    "returned",
+    "reused_exact",
+    "abstained",
+    "rejected",
+    "technical",
+    "unstarted",
+    "paired_state_groups",
+    "source_demo_count",
+    "target_task_training_demo_count",
+    "paired_render_groups",
+    "valid_visible_coverage",
+    "frozen_encoder_calls",
+    "sampler_entered",
+    "sampler_returned",
+    "adapter_updates",
+    "sla_updates",
+    "trainable_parameters",
+    "native_starts",
+    "ticks",
+    "actual_source_progress",
+    "grasp",
+    "lift20mm",
+    "hold1s",
+    "place",
+    "success",
+    "success_rate_or_null",
+    "stops",
+    "after_stop_ticks",
+    "after_stop_installs",
+    "cpu_gpu_hours_by_stage",
+    "peak_memory",
+    "artifact_hashes",
+    "lease_terminal",
+    "decision"
+  ]
+}
