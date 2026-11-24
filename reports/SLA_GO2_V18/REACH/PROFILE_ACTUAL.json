@@ -1,0 +1,365 @@
+{
+  "eligible_teachers": 57,
+  "base80mm_events": 57,
+  "selection": "First two distinct TRAIN F1 HOLD-red qualified geometry identifiers in lexical order, subject to both views localizing red at the first query.",
+  "results": [
+    {
+      "episode": "CHV1-TRAIN-F1-HOLD-red-00",
+      "development_geometry": {
+        "family": "F1",
+        "level": "L1",
+        "mode": "M_FREE",
+        "method": "EXPERT",
+        "axis": "+x",
+        "reset": 4040679645,
+        "layout": "CHV1-TRAIN-F1-G00",
+        "scene_lineage": "MFREE_C20-F1-TRAIN-T0",
+        "collection_episode": "CHV1-TRAIN-F1-HOLD-red-00",
+        "seed": 282559920,
+        "source_reference_episode": "72H-F1-T1-A003"
+      },
+      "source_mode": "M_FREE",
+      "compiled_scene": "19368138aa85927c9482e2a69f4a9bc7aa35c8a171969d35db7d72a6f1797635",
+      "initial_state_sha256": "70812cecc97a90d38cde9ef4df0d4fbe4ae2419125bda851e6c8a732865c4908",
+      "historical_base80mm_tick": 9765,
+      "actual_model_shape": [
+        41,
+        38,
+        23
+      ],
+      "recorded_source_commit": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+      "source_spec_sha256": "a77bb4a1b66b9a8527d98cc0ce7b19e3a2ae383a71c9a4c9dcf117087175901c",
+      "loaded": {
+        "controller": "9e8ce46837d09bc39ae04d4b49f1ce4dd8c8c2d31bea39eac56c5806d108c1f3",
+        "sim": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+        "solver": "4a5f5aa6e0b9d4bde62f4d1da73135ef97e5268945a0cecf114d9190d3e04fd0"
+      },
+      "entry_tick": 5703,
+      "first_consumed_wire": "a246275e64a6dfc42c97d1fc04768e503bc8e7dada731ab8f0fae9d8dc6d3289",
+      "actual_start_world": [
+        [
+          0.9804532941672343,
+          0.009646414774390329,
+          0.19651535471463955,
+          0.25837440962607655
+        ],
+        [
+          -0.004658172336078277,
+          0.9996554996120405,
+          -0.02582989597134705,
+          -0.01330415000164061
+        ],
+        [
+          -0.1966968209888192,
+          0.02440960420415783,
+          0.9801604622894612,
+          0.7084575439819617
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "base_pose_at_entry": [
+        [
+          0.9992181422884153,
+          0.01288983096392397,
+          0.037375879647317534,
+          -0.05617954622044571
+        ],
+        [
+          -0.010918771806279124,
+          0.9985628642986765,
+          -0.052468909516650945,
+          0.0025835013123783187
+        ],
+        [
+          -0.037998480810839036,
+          0.052019787594198875,
+          0.9979228713456384,
+          0.43681721978047655
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "last_consumed_world": [
+        [
+          0.9885498812295018,
+          0.01281408973921452,
+          0.15034936456564457,
+          0.2712068833975533
+        ],
+        [
+          -0.010208917875739097,
+          0.9997843040973887,
+          -0.01808654959649779,
+          -0.010049327678573104
+        ],
+        [
+          -0.15054869749334984,
+          0.016344552139949158,
+          0.9884674730603937,
+          0.7327205439140342
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "original_teacher_pregrasp": [
+        0.36550000000000005,
+        -0.0612,
+        0.6998932559886999
+      ],
+      "instruction_for_student": "Move the gripper toward the red cube and stop before touching it.",
+      "candidate_standing_translation_world_m": [
+        0.018209757741379812,
+        -0.00814158243836288,
+        -0.0014558016347013536
+      ],
+      "entry_tcp_to_cube_centers_mm": {
+        "red": 146.47041263608833,
+        "blue": 145.73375991197543
+      },
+      "gripper_fraction": 0.9545454545454545,
+      "original_open": 0.9545454545454545,
+      "prior_contact_pairs": [
+        [
+          "FL",
+          "floor"
+        ],
+        [
+          "FR",
+          "floor"
+        ],
+        [
+          "RL",
+          "floor"
+        ],
+        [
+          "RR",
+          "floor"
+        ],
+        [
+          "task_blue_cube_geom",
+          "task_table"
+        ],
+        [
+          "task_cube_geom",
+          "task_table"
+        ]
+      ],
+      "frozen_receiver_scene_sha256": "b5b066ea788ff8763f0757747ede61890281213c2637e9f54f757b245d111959",
+      "archived_two_object_kinematic_preview": {
+        "requested_unique_goals": 81,
+        "completed_unique_goals": 81,
+        "swept_poses": 17224,
+        "first_failure": null,
+        "original_two_object_contact_sha256": "677bcafe70b2d92bbda30284e05a6538a9da65c1884a0448953b060d2c104648",
+        "robot_collision_geoms": 30,
+        "minimum_robot_to_either_cube_mm": 81.55224887489241,
+        "minimum_joint_margin_rad": 0.4786380806026239
+      },
+      "original_support_check_error": "DYNAMIC_PROHIBITED_CONTACT",
+      "original_kinematic_sweep_error": "native scene ABI",
+      "full40_plus_consumed_seam_windows": 41,
+      "full40_rejects": [],
+      "committed_teacher_evidence": {
+        "episode.json": "cc2fabd93ff7ddf1209a81f98f730b81ce716c068140bd2d713904a2e455e5ac",
+        "native_audit.jsonl": "ad69a55849c4d651e590bdd1a1e6c5c5b0e29faea812c4ac337843a0272eb40b",
+        "sensor_action.npz": "085714129bb3e47e7c1bd64b482fcd045155835a2f6f567ae9e9175d4433a842",
+        "task_audit.npz": "2d10625c528db4ec06f2320c03d0468937fc1dddc8f12289e337577fa9e5c2a5"
+      },
+      "current_standing_H0_qualification": false
+    },
+    {
+      "episode": "CHV1-TRAIN-F1-HOLD-red-01",
+      "development_geometry": {
+        "family": "F1",
+        "level": "L1",
+        "mode": "M_FREE",
+        "method": "EXPERT",
+        "axis": "+x",
+        "reset": 951014759,
+        "layout": "CHV1-TRAIN-F1-G01",
+        "scene_lineage": "MFREE_C20-F1-TRAIN-T0",
+        "collection_episode": "CHV1-TRAIN-F1-HOLD-red-01",
+        "seed": 3942284822,
+        "source_reference_episode": "72H-F1-T1-A003"
+      },
+      "source_mode": "M_FREE",
+      "compiled_scene": "9ae3232754c5ef287239801fc10230199872f1526c78c099b746f0d7ad088507",
+      "initial_state_sha256": "9747071533fc63d0474a808ef2b9595b4c0119fea222ff2a7663664e3fe8d080",
+      "historical_base80mm_tick": 10097,
+      "actual_model_shape": [
+        41,
+        38,
+        23
+      ],
+      "recorded_source_commit": "7090e2ad238e76cd6278cf65405f7785604abfdb",
+      "source_spec_sha256": "d38c7539f4433e4d9d0cd6ccff6b91c3551e4c8ea8e059b94b8ce178cdc986cc",
+      "loaded": {
+        "controller": "9e8ce46837d09bc39ae04d4b49f1ce4dd8c8c2d31bea39eac56c5806d108c1f3",
+        "sim": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+        "solver": "4a5f5aa6e0b9d4bde62f4d1da73135ef97e5268945a0cecf114d9190d3e04fd0"
+      },
+      "entry_tick": 5703,
+      "first_consumed_wire": "28b03e25daab37e23f8e5e3c926f886a0548d3335e75124ae64c736c4cb714fd",
+      "actual_start_world": [
+        [
+          0.9805093258968629,
+          0.006842635989475953,
+          0.196353355362195,
+          0.2588413001760569
+        ],
+        [
+          -0.0021493267731026054,
+          0.999707109605386,
+          -0.024105505571641424,
+          -0.01401821646215868
+        ],
+        [
+          -0.19646079055042848,
+          0.023213645494784742,
+          0.9802368511942103,
+          0.7086373988403033
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "base_pose_at_entry": [
+        [
+          0.999408726942048,
+          0.0056559762540758455,
+          0.03391469363986188,
+          -0.054904625605222315
+        ],
+        [
+          -0.0040766436077201255,
+          0.9989119527383377,
+          -0.04645741763566111,
+          -0.0011200218726720806
+        ],
+        [
+          -0.034140554901289935,
+          0.04629169049723644,
+          0.99834438041286,
+          0.43690688592807786
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "last_consumed_world": [
+        [
+          0.9885498974541964,
+          0.012819458070845533,
+          0.15034880025483296,
+          0.27120757439777177
+        ],
+        [
+          -0.010214104373411397,
+          0.9997842211573723,
+          -0.018088206008216402,
+          -0.010055790777537486
+        ],
+        [
+          -0.15054823916322266,
+          0.01634541585633266,
+          0.9884675285841903,
+          0.7327211566404223
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "original_teacher_pregrasp": [
+        0.34550000000000003,
+        -0.0572,
+        0.6998932559886999
+      ],
+      "instruction_for_student": "Move the gripper toward the red cube and stop before touching it.",
+      "candidate_standing_translation_world_m": [
+        0.017828162133062705,
+        -0.008883722461466575,
+        -0.0017989191712979645
+      ],
+      "entry_tcp_to_cube_centers_mm": {
+        "red": 130.78987541519564,
+        "blue": 133.1888526653449
+      },
+      "gripper_fraction": 0.9545454545454545,
+      "original_open": 0.9545454545454545,
+      "prior_contact_pairs": [
+        [
+          "FL",
+          "floor"
+        ],
+        [
+          "FR",
+          "floor"
+        ],
+        [
+          "RL",
+          "floor"
+        ],
+        [
+          "RR",
+          "floor"
+        ],
+        [
+          "task_blue_cube_geom",
+          "task_table"
+        ],
+        [
+          "task_cube_geom",
+          "task_table"
+        ]
+      ],
+      "frozen_receiver_scene_sha256": "b5b066ea788ff8763f0757747ede61890281213c2637e9f54f757b245d111959",
+      "archived_two_object_kinematic_preview": {
+        "requested_unique_goals": 81,
+        "completed_unique_goals": 81,
+        "swept_poses": 16923,
+        "first_failure": null,
+        "original_two_object_contact_sha256": "677bcafe70b2d92bbda30284e05a6538a9da65c1884a0448953b060d2c104648",
+        "robot_collision_geoms": 30,
+        "minimum_robot_to_either_cube_mm": 29.068614233421773,
+        "minimum_joint_margin_rad": 0.4735896335105202
+      },
+      "original_support_check_error": "DYNAMIC_PROHIBITED_CONTACT",
+      "original_kinematic_sweep_error": "native scene ABI",
+      "full40_plus_consumed_seam_windows": 41,
+      "full40_rejects": [],
+      "committed_teacher_evidence": {
+        "episode.json": "7d325b2914a6402051987694b7431f1b6d5ce88060ea8d0dd9386606c01e2caf",
+        "native_audit.jsonl": "e10e92e782c31dda6dac4061c61303c2e0ebfe305186cbbd0ac82653612b7cae",
+        "sensor_action.npz": "2e2fe325dbd358d85fd734d4b9b05c1c13ddee246b7c2081f9bfeb4a56e3be19",
+        "task_audit.npz": "e4203eb2b5cd079baaffbc25d285ecf91737095cad15a805db02c6d14149aa32"
+      },
+      "current_standing_H0_qualification": false
+    }
+  ],
+  "native_starts": 0,
+  "physics_ticks": 0,
+  "model_forwards": 0,
+  "optimizer_updates": 0
+}

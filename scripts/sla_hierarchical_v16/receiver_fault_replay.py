@@ -65,7 +65,7 @@ def run(root, out, *, trace_mode=None, card_cap=6503):
     out.mkdir(mode=0o700, parents=True, exist_ok=False)
     writer = None
     if trace_mode is not None:
-        from stop_trace_bridge import variant, score_trace
+        from stop_trace_bridge import variant
 
         if trace_mode not in ("CONTROL", "BRIDGE"):
             raise ValueError("unknown trace treatment")
@@ -126,7 +126,28 @@ def run(root, out, *, trace_mode=None, card_cap=6503):
         demand_mm_s = float(
             np.linalg.norm(z["goal"][i, :3, 3] - z["goal"][i - 1, :3, 3]) * 500000
         )
-    code_hash = sha(code / "receiver_fault_probe.cc")
+    rows = replay_treatments(out, exe, receiver, library, writer, scene, reset_file, journal,
+                             card_cap, code / "receiver_fault_probe.cc", trace_mode)
+    return dict(
+        **({"frozen_trace_sha256": sha(writer)} if writer else {}),
+        treatments=rows,
+        receiver_sha256=sha(receiver),
+        test_step_sha256=sha(library),
+        archived_motion_sha256=sha(track),
+        archived_state_sha256=sha(journal),
+        achieved_archive_speed_mm_s=speed_mm_s,
+        desired_archive_speed_mm_s=demand_mm_s,
+        new_native_simulator_starts=0,
+        new_physics_ticks=0,
+        whole_system_moving_STOP_qualified=False,
+    )
+
+
+def replay_treatments(out, exe, receiver, library, writer, scene, reset_file, journal,
+                      card_cap, probe_source, trace_mode):
+    from stop_trace_bridge import score_trace
+
+    code_hash = sha(probe_source)
     rows = []
     for method in ("VALID", "EXPIRY", "OVER_RATE"):
         d = out / method
@@ -226,19 +247,7 @@ def run(root, out, *, trace_mode=None, card_cap=6503):
                     d / "native.trace", writer, int(stop and trace_mode == "BRIDGE")
                 ),
             )
-    return dict(
-        **({"frozen_trace_sha256": sha(writer)} if writer else {}),
-        treatments=rows,
-        receiver_sha256=sha(receiver),
-        test_step_sha256=sha(library),
-        archived_motion_sha256=sha(track),
-        archived_state_sha256=sha(journal),
-        achieved_archive_speed_mm_s=speed_mm_s,
-        desired_archive_speed_mm_s=demand_mm_s,
-        new_native_simulator_starts=0,
-        new_physics_ticks=0,
-        whole_system_moving_STOP_qualified=False,
-    )
+    return rows
 
 
 if __name__ == "__main__":

@@ -27,6 +27,16 @@ def interpolate(a, b, t):
 
 
 def sweep(model, sample, parts, ee, base, guard):
+    return sweep_profile(model, sample, parts, ee, base, guard, (34, 32, 22), _single_object_approach)
+
+
+def _single_object_approach(names, distance):
+    return contact_permitted(names, distance, "approach") and not (
+        "task_cube_geom" in names and distance < -0.004
+    )
+
+
+def sweep_profile(model, sample, parts, ee, base, guard, scene_dimensions, permitted, witness=None):
     data = mujoco.MjData(model)
     data.qpos[:] = sample["qpos"]
     mujoco.mj_forward(model, data)
@@ -46,7 +56,7 @@ def sweep(model, sample, parts, ee, base, guard):
         "native 18-hinge mapping",
     )
     qa, vd = model.jnt_qposadr[joints], model.jnt_dofadr[joints]
-    check(model.nq == 34 and model.nv == 32 and model.njnt == 22, "native scene ABI")
+    check((model.nq, model.nv, model.njnt) == scene_dimensions, "native scene ABI")
     J = np.zeros((18, model.nv))
     jr = np.zeros((3, model.nv))
     steps = 0
@@ -95,12 +105,13 @@ def sweep(model, sample, parts, ee, base, guard):
         for c in data.contact:
             names = [model.geom(int(g)).name for g in c.geom]
             check(
-                contact_permitted(names, float(c.dist), "approach")
-                and not ("task_cube_geom" in names and c.dist < -0.004),
+                permitted(names, float(c.dist)),
                 "forbidden swept contact " + str(names),
             )
             if floor in c.geom:
                 contacts.update(int(g) for g in c.geom if g != floor)
+        if witness is not None:
+            witness(data)
         check(
             set(feet) <= contacts, "missing standing foot support in kinematic witness"
         )

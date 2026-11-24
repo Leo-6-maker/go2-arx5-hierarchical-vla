@@ -1,0 +1,102 @@
+{
+  "stage": "E1-task-qualification and conditional Z1 paired Reach",
+  "allocation_status": "REQUEST_ONLY",
+  "geometry": [
+    {
+      "slot": "CHV1-TRAIN-F1-HOLD-red-00",
+      "layout": "CHV1-TRAIN-F1-G00",
+      "historical_layout_seed": 282559920,
+      "reset": 4040679645,
+      "scene_sha256": "19368138aa85927c9482e2a69f4a9bc7aa35c8a171969d35db7d72a6f1797635",
+      "vision_entry_error_mm": 4.076278755392546
+    },
+    {
+      "slot": "CHV1-TRAIN-F1-HOLD-red-01",
+      "layout": "CHV1-TRAIN-F1-G01",
+      "historical_layout_seed": 3942284822,
+      "reset": 951014759,
+      "scene_sha256": "9ae3232754c5ef287239801fc10230199872f1526c78c099b746f0d7ad088507",
+      "vision_entry_error_mm": 3.842761415692011
+    }
+  ],
+  "standing_contract": "Use the scene-specific frozen source, fixed base command, student-owned reset and authenticated open gripper. Establish a legal stationary initial receipt and a 1s stable four-foot dwell. Measure start TCP and entry base. Initialize all source and task clocks at that entry. No teacher fallback or privileged object pose for the policy.",
+  "task": "Reach toward the red cube and stop before touching it. H0 reference translates 20 mm over 4s with a minimum jerk scalar, in the direction of the archived pregrasp from the measured stable start. Carry the last consumed reference offset once, keep orientation and base reference constant. Re-run geometric sweep at the actual entry and every issued preview.",
+  "original_rejection": "G7/H40, joint, orientation, speed, acceleration, TTL and consumed seam enforce original bounds. Only four feet/floor and the two stationary cube/table contacts allowed. Require positive clearance from either cube throughout; registration minimum 15 mm from any robot collision geom to either cube. Abort on invalid identity, STOP, resource expiry or forbidden contact.",
+  "success": {
+    "projection_towards_pregrasp_min_mm": 12,
+    "target_distance_reduction_min_mm": 10,
+    "endpoint_to_H0_target_max_mm": 8,
+    "cross_track_max_mm": 8,
+    "orientation_from_entry_max_deg": 2,
+    "stable_terminal_seconds": 0.5,
+    "max_actual_base_translation_mm": 20,
+    "max_actual_base_rotation_deg": 5,
+    "max_foot_drift_mm": 5,
+    "four_feet_required": true,
+    "source_only": true,
+    "student_success_also_requires": "At least one new image/state \u2192 second genuine network forward AFTER actual source motion. No credit for alignment motion."
+  },
+  "calibration": {
+    "largest_observed_stationary_4s_TCP_excursion_mm": 0.2841090813752342,
+    "initial_stereo_errors_mm": [
+      4.076278755392546,
+      3.842761415692011
+    ],
+    "note": "Historical drift and two entry localization errors inform prospective cutoffs. Re-evaluate visibility and clearance before dispatch, preserve failed entries; outside-domain refusal counts."
+  },
+  "timing": {
+    "clock_ms": 2,
+    "reference_knots_ms": 50,
+    "TTL_s": 0.4,
+    "native_cap": 20000,
+    "latest_stable_entry_tick": 15500,
+    "max_post_entry_s": 9,
+    "terminal_on_first_deadline": true
+  },
+  "Q_E1": {
+    "order": [
+      "G00 moving expiry STOP",
+      "G00 standing H0 Reach",
+      "G01 standing H0 Reach"
+    ],
+    "max_starts": 3,
+    "max_ticks": 60000,
+    "forwards": 0,
+    "requires": "new allocation, fresh world lease per slot, exact receiver and actual owner, prior read-only rehearsal. Q_STOP requires measured motion and an in-flight reference, real trace STOP, zero subsequent integration/installation, clean reset/process exit. Empty/no-motion fault fails. A failed qualification seals E1/Z1. Score starts independently, no replacements.",
+    "fault": "At entry + 1,000 ticks while the reference is moving, inject one last authenticated gripper command with a 21 ms lifetime within the original 400 ms ceiling and suppress its renewal. Issue the normal outstanding 25-tick grant. On the 2 ms grid expect rejection at entry+1,011; inspect every actual native integration and every install afterward. Abort unqualified if source/actual movement or an in-flight reference is absent at injection."
+  },
+  "Z1": {
+    "order": [
+      "G00 H0",
+      "G00 A",
+      "G01 H0",
+      "G01 A"
+    ],
+    "max_starts": 4,
+    "max_ticks": 80000,
+    "A_forwards_per_card": 12,
+    "max_total_forwards": 24,
+    "requires": "independent or explicit conditional scientific allocation, both E1 layouts qualified, current GPU and world leases, complete RGB/Memory history and actual-state monitor, clock/owner & no-motion controls. Archive calls, returns, installs, consumed source motion, second actual post-motion query and task outcome on every slot. Paired H0 are additional scored runs."
+  },
+  "receiver_sha256": "927f2179793916dff30590a82b0e5ce3d92811e21446459416613da59e9e3878",
+  "counts": {
+    "new_student_episodes": 0,
+    "new_physics": 0,
+    "new_forwards": 0,
+    "training": 0
+  },
+  "B": "historical mobile or unmatched decoder; no B slot",
+  "failure_policy": "Keep screened, interrupted, failed and unstarted slots separate. No optional B, training, contact or robot hardware under either stage.",
+  "geometry_proof": [
+    {
+      "id": "CHV1-TRAIN-F1-HOLD-red-00",
+      "robot_geoms": 30,
+      "minimum_cpu_clearance_mm": 81.55224887489241
+    },
+    {
+      "id": "CHV1-TRAIN-F1-HOLD-red-01",
+      "robot_geoms": 30,
+      "minimum_cpu_clearance_mm": 29.068614233421773
+    }
+  ]
+}

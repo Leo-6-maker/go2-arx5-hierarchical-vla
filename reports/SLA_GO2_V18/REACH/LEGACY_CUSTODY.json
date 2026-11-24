@@ -1,0 +1,276 @@
+{
+  "historical_terminal_receipts": {
+    "SFT2000": {
+      "pr": 376,
+      "commit": "893db1f49945dda8b318e846a58fd19ed7543940",
+      "path": "reports/WM02/native-arx5-transfer-20261112/T0_SFT2000_NATIVE_TRAIN4_FINAL_ACTUAL.json",
+      "sha256": "47008bbd74647978f988798e1bfad2da8ff14d9f6946d0ef4eef558872b15b13",
+      "profile": "SFT2000 + fixed endpoint basis + unchanged native consumer + body/wrist",
+      "registered": 4,
+      "verified": 4,
+      "successes": 4,
+      "reports": [
+        {
+          "layout": "TRAIN01",
+          "run": "native-body-sft2000-train01-r1",
+          "lift_mm": 26.195065846893684,
+          "hold_s": 5.95,
+          "max_base_mm": 6.693634056121172,
+          "standing": true,
+          "result_sha256": "2684b7583460137e91f23125d01e5e04cb9212b113df9fcf9766736b60be90f8"
+        },
+        {
+          "layout": "TRAIN07",
+          "run": "native-body-sft2000-train07-r1",
+          "lift_mm": 26.447213295742955,
+          "hold_s": 7.95,
+          "max_base_mm": 6.567982657613801,
+          "standing": true,
+          "result_sha256": "158415f63b819bddd300c7457b04fe7f3de3a8eebe54c5725c7a550381e6656d"
+        },
+        {
+          "layout": "TRAIN13",
+          "run": "native-body-sft2000-train13-r1",
+          "lift_mm": 27.313721496097788,
+          "hold_s": 8.0,
+          "max_base_mm": 5.951814597767927,
+          "standing": true,
+          "result_sha256": "2d9aeb4d022361dd344c27b56fdcd526128ab7de79fe456a461fbc55b452e8c4"
+        },
+        {
+          "layout": "TRAIN25",
+          "run": "native-body-sft2000-train25-r1",
+          "lift_mm": 24.85922281516895,
+          "hold_s": 7.8500000000000005,
+          "max_base_mm": 5.9522140447253555,
+          "standing": true,
+          "result_sha256": "e04f658dd1c9a92199441ed70575c4636f62913ac5354def064a2a88bf421425"
+        }
+      ]
+    },
+    "SHIFT7": {
+      "pr": 403,
+      "commit": "dbf222b41cb666bff4dd5412b864d023aec69399",
+      "path": "reports/WM02/sla-sim-only-v51-20261117/FINAL_RESULT.json",
+      "sha256": "1c99d2e9ec1699f0a09aff9f70fa2dd64ee0cfe8265a80320e874567ec4178b6",
+      "mode": "M_FREE",
+      "running_source_sha": "c2b245cb6da251833cfc9cf9813f4e01e9da2d85",
+      "policy_package_sha256": "ef530bceebcc1691d9af9b5b1ea4ea89731f0c1d5d8f3e2287c3618dff7806eb",
+      "statistics_sha256": "f28d50e6eeea09b332d4bd159eca4333bbe23b185f95f1d336d45311e364ab3e",
+      "tokenizer_sha256": "8986bb4f423f07f8c7f70d0dbe3526fb2316056c17bae71b1ea975e77a168fc6",
+      "frozen_binaries": {
+        "native_binary": {
+          "sha256": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+          "expected": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd"
+        },
+        "solver_binary": {
+          "sha256": "4a5f5aa6e0b9d4bde62f4d1da73135ef97e5268945a0cecf114d9190d3e04fd0",
+          "expected": "4a5f5aa6e0b9d4bde62f4d1da73135ef97e5268945a0cecf114d9190d3e04fd0"
+        },
+        "controller_binary": {
+          "sha256": "9e8ce46837d09bc39ae04d4b49f1ce4dd8c8c2d31bea39eac56c5806d108c1f3",
+          "expected": "9e8ce46837d09bc39ae04d4b49f1ce4dd8c8c2d31bea39eac56c5806d108c1f3"
+        }
+      },
+      "student_attempts": 8,
+      "student_successes": 3,
+      "student_technical_failures": 1
+    },
+    "T-series": {
+      "pr": 409,
+      "commit": "c1b351189765ceec4413c7a4e24641684201fca6",
+      "path": "reports/WM02/sla-source-native-shared-v6-20261118/TARGET_SCREEN_ACTUAL.json",
+      "sha256": "6792b4d60e0dfd44301398f5d70ffd2447fb951593dae156a144ebd1c911c6c4",
+      "native_source_sha": "3e20642a042b9047dc6b24c997cd243ebcfe2b33",
+      "spec_sha256": "b9471e583f65c5063459c7424c9217e02308087e692c3174ed2e9c513899b153",
+      "panel_sha256": "61cc513bb8d03c91c180789437be92f0b418c5c377bf48296b7f19c5b8c9164c",
+      "native_processes_started": 24,
+      "native_terminal": 24,
+      "by_arm": {
+        "T-B1": {
+          "attempts": 8,
+          "identity_complete": true,
+          "composite_successes": 5,
+          "by_family": {
+            "F1": 3,
+            "F2": 2
+          },
+          "H40_rejected_episodes": 3,
+          "hard_STOP": 0,
+          "technical_failures": 0,
+          "successful_task_time_median_s": 34.5,
+          "promotion_checks": {
+            "all8": true,
+            "all8_native_completed": true,
+            "zero_technical": true,
+            "zero_hard_STOP": true,
+            "success6": false,
+            "each_family3": false,
+            "TRAIN96_all": true,
+            "CN38_180_all": true,
+            "saved_reject3_all": false,
+            "zero_CLOSE_omissions": true,
+            "CLOSE_within100ms_no_regression": true
+          },
+          "qualified": false
+        },
+        "T-FM": {
+          "attempts": 8,
+          "identity_complete": true,
+          "composite_successes": 3,
+          "by_family": {
+            "F1": 2,
+            "F2": 1
+          },
+          "H40_rejected_episodes": 5,
+          "hard_STOP": 0,
+          "technical_failures": 0,
+          "successful_task_time_median_s": 35.0,
+          "promotion_checks": {
+            "all8": true,
+            "all8_native_completed": true,
+            "zero_technical": true,
+            "zero_hard_STOP": true,
+            "success6": false,
+            "each_family3": false,
+            "TRAIN96_all": true,
+            "CN38_180_all": true,
+            "saved_reject3_all": false,
+            "zero_CLOSE_omissions": true,
+            "CLOSE_within100ms_no_regression": true
+          },
+          "qualified": false
+        },
+        "T-H40": {
+          "attempts": 8,
+          "identity_complete": true,
+          "composite_successes": 6,
+          "by_family": {
+            "F1": 3,
+            "F2": 3
+          },
+          "H40_rejected_episodes": 1,
+          "hard_STOP": 1,
+          "technical_failures": 0,
+          "successful_task_time_median_s": 34.25,
+          "promotion_checks": {
+            "all8": true,
+            "all8_native_completed": false,
+            "zero_technical": true,
+            "zero_hard_STOP": false,
+            "success6": true,
+            "each_family3": true,
+            "TRAIN96_all": true,
+            "CN38_180_all": true,
+            "saved_reject3_all": true,
+            "zero_CLOSE_omissions": true,
+            "CLOSE_within100ms_no_regression": true
+          },
+          "qualified": false
+        }
+      }
+    },
+    "MAIN": {
+      "pr": 427,
+      "commit": "12b28a78765e3a523f752cd2ccdbbba0d1ae58a1",
+      "path": "reports/WM02/sla-main3800-native-diagnostics-20261122/ACTUAL.json",
+      "sha256": "4139d635c1da23e8136a03d20c345ffe365c2c8375a66fb7a4052f5116d5f07c",
+      "native_spec_sha256": "8d37f6d98c2d26fd8579d74d65167570587d3282b5d9c70d67ac54954917bf80",
+      "native_commit": "a3b376871916d1e0c2a1b933ce7014e30e169625",
+      "by_arm": {
+        "MAIN-phase00000": {
+          "n": 6,
+          "grasp": 0,
+          "lift20": 0,
+          "success": 0,
+          "source_results": [
+            "bdabfe33b0ca77e679330aab89a3a8522c5041c5c064679547d7a8bf4b9ee1a6",
+            "1cfaba5a817d9ac15f965d7f757b9723ae0f41aaa3b4205d31feefdd7fcd9da0",
+            "44719db98a1a450b5509e4750cd3a8523a4e2add46eac1efe952d30af33f0fab",
+            "047132a908e59c9959a3f5ec6244522088736100a9d1e098ddf45876cd2d02d4",
+            "061fd288649e2e33429feb20c49828d038f1ee22772e5d78ad10fc00c973e47f",
+            "9a9bc1411ff1223e6321a77bef882291095f32ec13246876259760e55fc1764c"
+          ]
+        },
+        "MAIN-phase02000": {
+          "n": 6,
+          "grasp": 1,
+          "lift20": 0,
+          "success": 0,
+          "source_results": [
+            "c59bb2786f802ebee32edf2876fd0c2e4857063669338a1ad1fbc8cb3fca22c7",
+            "33372c43ecd4a641ac29c5d3cf883598bebc73d92e8b436bdae63af3ec066073",
+            "3d42c6851972468943f8edc7cfc2d55f9235fdc33eb51e0747fc4afaf0ca6056",
+            "02d5b4f733f8ec01ad28f8c979abca030985701d490541638ec983913fb92b29",
+            "20f499ea5ab2fa4fae3f28772ee8700d70a64ccebdf8691feee7cc9646a0c6ad",
+            "f72a4c045623ba2f1a86a15ae961db213403dd5fed26ec2e823242da7270d789"
+          ]
+        },
+        "MAIN-phase03800": {
+          "n": 6,
+          "grasp": 3,
+          "lift20": 0,
+          "success": 0,
+          "source_results": [
+            "c729eefdace54cf8799ca101a4a0fdb9b825b01c22ee6026a72a62917c5bbadb",
+            "4d3af0d91f6af1db0171ae91ce76621a8bea9fb89a28aa2af4b55bc70d322f98",
+            "b57809294a268acf513e25e8c11ce3de668b382441c2fb4a25f8fb3befacb579",
+            "8654fde47b6a479df4618569b22cdc96e37a1d6e77806051cf7380f481acbf72",
+            "9f48b01671093cc813f084187866359a290712b981c1db9f8ecfb8b3b1a51f6d",
+            "e7146e847f5b23ce6bdc9477043f366d816a4636d4176236edf1f68201ec3b9b"
+          ]
+        }
+      }
+    }
+  },
+  "initial_stereo_only": {
+    "CHV1-TRAIN-F1-HOLD-red-00": {
+      "tick": 5703,
+      "two_boxes": [
+        [
+          165.0,
+          132.0,
+          198.0,
+          165.0
+        ],
+        [
+          81.0,
+          76.0,
+          126.0,
+          120.0
+        ]
+      ],
+      "stereo_center_world_m": [
+        0.36850776493741644,
+        -0.059293818939000174,
+        0.6171497385488067
+      ],
+      "readout_only_center_error_mm": 4.076278755392546
+    },
+    "CHV1-TRAIN-F1-HOLD-red-01": {
+      "tick": 5703,
+      "two_boxes": [
+        [
+          155.0,
+          134.0,
+          188.0,
+          169.0
+        ],
+        [
+          73.0,
+          87.0,
+          122.0,
+          131.0
+        ]
+      ],
+      "stereo_center_world_m": [
+        0.3482411702108682,
+        -0.055131535233497994,
+        0.617225478844929
+      ],
+      "readout_only_center_error_mm": 3.842761415692011
+    }
+  },
+  "observer_file_sha256": "69dcf36d77d1397d394c975978b57f73b5684b194c18b5b815f741d4e5465621",
+  "native_B_admitted": false
+}
