@@ -269,6 +269,22 @@ def run(root):
             start = np.asarray(entry["actual_xyz"])
             direction = np.asarray(entry["direction"])
             acts = np.asarray([x["actual_TCP"] for x in consumed])[:, :3, 3]
+            refstart = np.asarray(entry["consumed"])[:3, 3]
+            refs = np.asarray([x["target_endpoint_EEF10"][:3] for x in consumed])
+            dref = refs - refstart
+            proj = dref @ direction
+            row["installed_vs_achieved"] = {
+                "last_installed_projection_mm": float(1000 * proj[-1]),
+                "max_installed_cross_track_mm": float(
+                    1000 * max(np.linalg.norm(dref - proj[:, None] * direction, axis=1))
+                ),
+                "end_relative_tracking_error_mm": float(
+                    1000 * np.linalg.norm((acts[-1] - start) - dref[-1])
+                ),
+                "end_absolute_tracking_error_mm": float(
+                    1000 * np.linalg.norm(acts[-1] - refs[-1])
+                ),
+            }
             row["actual_end_projection_mm"] = float(
                 1000 * ((acts[-1] - start) @ direction)
             )

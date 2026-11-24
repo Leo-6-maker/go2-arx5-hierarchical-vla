@@ -1,0 +1,71 @@
+{
+  "official_output_transform": "CPU, exact own-state reconstruction required before counterfactual",
+  "cases": [
+    {
+      "slot": "G00-A",
+      "exact_native_decodes": 1,
+      "matched_state_control": null,
+      "old_raw_redecoded_on_second_observation": {
+        "right_arm_change_against_original": {
+          "position_rms_mm": 16.859795460852826,
+          "position_max_mm": 16.85980287373523,
+          "angle_rms_deg": 7.448280268634169,
+          "angle_max_deg": 7.448286430650929,
+          "width_rms": 0.0,
+          "width_max_abs": 0.0,
+          "width_rms_mm": 0.0,
+          "width_max_abs_mm": 0.0,
+          "width_signed_mean_mm": 0.0,
+          "width_signed_min_mm": 0.0,
+          "width_signed_max_mm": 0.0,
+          "first_events": [],
+          "second_events": []
+        },
+        "second_observation_has_fresh_forward": false
+      }
+    },
+    {
+      "slot": "G01-A",
+      "exact_native_decodes": 2,
+      "matched_state_control": {
+        "equal_raw": false,
+        "right_arm_same_state": {
+          "position_rms_mm": 21.26327228480589,
+          "position_max_mm": 31.472334586348875,
+          "angle_rms_deg": 8.93553594322611,
+          "angle_max_deg": 11.826064749932177,
+          "width_rms": 0.03819762435572143,
+          "width_max_abs": 0.11508816480636597,
+          "width_rms_mm": 1.5279049742288573,
+          "width_max_abs_mm": 4.603526592254639,
+          "width_signed_mean_mm": 0.8524724006652833,
+          "width_signed_min_mm": -0.09900569915771484,
+          "width_signed_max_mm": 4.603526592254639,
+          "first_events": [],
+          "second_events": []
+        },
+        "sampling_note": "Seeds follow the registered [0,0] then [0,1] sequence. This comparison includes observation and sampling changes."
+      },
+      "old_raw_redecoded_on_second_observation": {
+        "right_arm_change_against_original": {
+          "position_rms_mm": 16.66219791301391,
+          "position_max_mm": 16.662206646065933,
+          "angle_rms_deg": 7.42470105132354,
+          "angle_max_deg": 7.4247068674421035,
+          "width_rms": 0.0,
+          "width_max_abs": 0.0,
+          "width_rms_mm": 0.0,
+          "width_max_abs_mm": 0.0,
+          "width_signed_mean_mm": 0.0,
+          "width_signed_min_mm": 0.0,
+          "width_signed_max_mm": 0.0,
+          "first_events": [],
+          "second_events": []
+        },
+        "second_observation_has_fresh_forward": true
+      }
+    }
+  ],
+  "new_forwards": 0,
+  "new_ticks": 0
+}

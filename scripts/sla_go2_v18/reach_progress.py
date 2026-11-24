@@ -108,7 +108,7 @@ def plot(data, path):
         ax.set_title(layout, loc="left", fontweight="bold")
         ax.set_xlabel("Seconds from stable entry")
         ax.set_xlim(-0.12, 9.15)
-    axes[0].set_ylabel("Reduction in actual TCP–red cube distance (mm)")
+    axes[0].set_ylabel("TCP–red cube distance reduction (mm)")
     handles = [
         Line2D([0], [0], color=styles["H0"], label="Teacher"),
         Line2D([0], [0], color=styles["A"], label="Frozen SLA-PT"),
