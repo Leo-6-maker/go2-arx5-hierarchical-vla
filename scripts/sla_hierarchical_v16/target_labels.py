@@ -137,11 +137,13 @@ class TargetExamples:
         }
 
 
-def prepare_episode(root, dest, bundle, pins, reg, task_index):
+def prepare_episode(
+    root, dest, bundle, pins, reg, task_index, *, dense=None, virtual_left=None
+):
     ep, info, queries, receipt, windows = bundle
     name = info["id"]
     dest.mkdir()
-    dense = root / "v12/DENSE" / name
+    dense = root / "v12/DENSE" / name if dense is None else dense
     keys, images, historic = stereo_bank(ep, info, queries, dense, receipt)
     native = ep.parents[3] / "cases" / name / "native-01"
     atomfile = native / "MOBILE_SAMPLES.private.jsonl"
@@ -151,7 +153,12 @@ def prepare_episode(root, dest, bundle, pins, reg, task_index):
     offset = np.eye(4)
     offset[:3, 3] = reg["source_origin"]
     tool = rigid(reg["T_link6_TCP"])
-    left = np.array(next(iter(windows.values()))["state"][:8])
+    left = np.array(
+        next(iter(windows.values()))["state"][:8]
+        if virtual_left is None
+        else virtual_left
+    )
+    require(left.shape == (8,) and np.isfinite(left).all(), "virtual arm identity")
     states, actions, history_indices, ticks = [], [], [], []
     expected_world, nominal, installed, intervals = [], [], [], []
     phases, ev_count = Counter(), Counter()
