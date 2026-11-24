@@ -1,0 +1,5204 @@
+{
+  "predictions_sha256": "e7fd6abdd8464900c2a2fe49d789a13c3ae8406272bd2f0ffc210cfbd02179c6",
+  "roster_sha256": "b985985bf2d63b313e59831af19abe3fca4ea3e07e1350d0eac5258c1ceb1f93",
+  "matched_F1_HOLD": [
+    {
+      "layout": "CHV1-TRAIN-F1-G00",
+      "scene_sha256": "19368138aa85927c9482e2a69f4a9bc7aa35c8a171969d35db7d72a6f1797635",
+      "reset": 4040679645,
+      "seed": 282559920,
+      "episodes": {
+        "HOLD-blue": "CHV1-TRAIN-F1-HOLD-blue-00",
+        "HOLD-red": "CHV1-TRAIN-F1-HOLD-red-00"
+      }
+    },
+    {
+      "layout": "CHV1-TRAIN-F1-G06",
+      "scene_sha256": "0f591381579875522d97e4ef0815854f43b9b5431911afcd113021111af6cddd",
+      "reset": 3776278188,
+      "seed": 2327933423,
+      "episodes": {
+        "HOLD-blue": "CHV1-TRAIN-F1-HOLD-blue-06",
+        "HOLD-red": "CHV1-TRAIN-F1-HOLD-red-06"
+      }
+    },
+    {
+      "layout": "CHV1-TRAIN-F1-G09",
+      "scene_sha256": "6fcc02551dd6f9fcf891a07cf353c88cf402edfb72bd8f99e9a52569f4a80e3d",
+      "reset": 2784067138,
+      "seed": 378235292,
+      "episodes": {
+        "HOLD-blue": "CHV1-TRAIN-F1-HOLD-blue-09",
+        "HOLD-red": "CHV1-TRAIN-F1-HOLD-red-09"
+      }
+    }
+  ],
+  "strata": {
+    "original_six / F1 / HOLD-red": {
+      "target": {
+        "episodes": 3,
+        "scored": 3,
+        "frames": 205,
+        "confusion": {
+          "tp": 3,
+          "fp": 0,
+          "tn": 153,
+          "fn": 0,
+          "abstain_positive": 3,
+          "abstain_negative": 46
+        },
+        "physically_lifted": 3,
+        "detected_while_lifted": 3,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 0
+      },
+      "distractor": {
+        "episodes": 3,
+        "scored": 3,
+        "frames": 205,
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 18,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 187
+        },
+        "physically_lifted": 0,
+        "detected_while_lifted": 0,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 0
+      }
+    },
+    "original_six / F1 / PLACE-red-right": {
+      "target": {
+        "episodes": 2,
+        "scored": 2,
+        "frames": 250,
+        "confusion": {
+          "tp": 57,
+          "fp": 0,
+          "tn": 147,
+          "fn": 0,
+          "abstain_positive": 9,
+          "abstain_negative": 37
+        },
+        "physically_lifted": 2,
+        "detected_while_lifted": 2,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 0
+      },
+      "distractor": {
+        "episodes": 2,
+        "scored": 2,
+        "frames": 250,
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 7,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 243
+        },
+        "physically_lifted": 0,
+        "detected_while_lifted": 0,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 1
+      }
+    },
+    "original_six / F2 / HOLD-blue": {
+      "target": {
+        "episodes": 1,
+        "scored": 1,
+        "frames": 72,
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 2,
+          "abstain_negative": 70
+        },
+        "physically_lifted": 1,
+        "detected_while_lifted": 0,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 1
+      },
+      "distractor": {
+        "episodes": 1,
+        "scored": 1,
+        "frames": 72,
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 72
+        },
+        "physically_lifted": 0,
+        "detected_while_lifted": 0,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 1
+      }
+    },
+    "other_admitted / F1 / HOLD-blue": {
+      "target": {
+        "episodes": 6,
+        "scored": 6,
+        "frames": 434,
+        "confusion": {
+          "tp": 6,
+          "fp": 0,
+          "tn": 319,
+          "fn": 0,
+          "abstain_positive": 6,
+          "abstain_negative": 103
+        },
+        "physically_lifted": 6,
+        "detected_while_lifted": 6,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 0
+      },
+      "distractor": {
+        "episodes": 6,
+        "scored": 6,
+        "frames": 434,
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 359,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 75
+        },
+        "physically_lifted": 0,
+        "detected_while_lifted": 0,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 0
+      }
+    },
+    "other_admitted / F1 / HOLD-red": {
+      "target": {
+        "episodes": 16,
+        "scored": 16,
+        "frames": 1089,
+        "confusion": {
+          "tp": 12,
+          "fp": 0,
+          "tn": 826,
+          "fn": 0,
+          "abstain_positive": 20,
+          "abstain_negative": 231
+        },
+        "physically_lifted": 16,
+        "detected_while_lifted": 11,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 0
+      },
+      "distractor": {
+        "episodes": 16,
+        "scored": 16,
+        "frames": 1089,
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 100,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 989
+        },
+        "physically_lifted": 0,
+        "detected_while_lifted": 0,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 2
+      }
+    },
+    "other_admitted / F1 / PLACE-red-right": {
+      "target": {
+        "episodes": 16,
+        "scored": 16,
+        "frames": 1932,
+        "confusion": {
+          "tp": 375,
+          "fp": 0,
+          "tn": 1191,
+          "fn": 0,
+          "abstain_positive": 103,
+          "abstain_negative": 263
+        },
+        "physically_lifted": 16,
+        "detected_while_lifted": 16,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 0
+      },
+      "distractor": {
+        "episodes": 16,
+        "scored": 16,
+        "frames": 1932,
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 107,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 1825
+        },
+        "physically_lifted": 0,
+        "detected_while_lifted": 0,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 1
+      }
+    },
+    "other_admitted / F2 / HOLD-blue": {
+      "target": {
+        "episodes": 13,
+        "scored": 13,
+        "frames": 916,
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 26,
+          "abstain_negative": 890
+        },
+        "physically_lifted": 13,
+        "detected_while_lifted": 0,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 13
+      },
+      "distractor": {
+        "episodes": 13,
+        "scored": 13,
+        "frames": 916,
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 916
+        },
+        "physically_lifted": 0,
+        "detected_while_lifted": 0,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 13
+      }
+    },
+    "nonadmitted / F1 / HOLD-blue": {
+      "target": {
+        "episodes": 6,
+        "scored": 6,
+        "frames": 397,
+        "confusion": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 193,
+          "fn": 0,
+          "abstain_positive": 55,
+          "abstain_negative": 148
+        },
+        "physically_lifted": 1,
+        "detected_while_lifted": 1,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 1
+      },
+      "distractor": {
+        "episodes": 6,
+        "scored": 6,
+        "frames": 397,
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 297,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 100
+        },
+        "physically_lifted": 0,
+        "detected_while_lifted": 0,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 0
+      }
+    },
+    "nonadmitted / F1 / PLACE-blue-left": {
+      "target": {
+        "episodes": 2,
+        "scored": 2,
+        "frames": 108,
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 38,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 70
+        },
+        "physically_lifted": 0,
+        "detected_while_lifted": 0,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 1
+      },
+      "distractor": {
+        "episodes": 2,
+        "scored": 2,
+        "frames": 108,
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 97,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 11
+        },
+        "physically_lifted": 0,
+        "detected_while_lifted": 0,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 0
+      }
+    },
+    "nonadmitted / F1 / PLACE-blue-right": {
+      "target": {
+        "episodes": 4,
+        "scored": 4,
+        "frames": 588,
+        "confusion": {
+          "tp": 7,
+          "fp": 0,
+          "tn": 171,
+          "fn": 0,
+          "abstain_positive": 295,
+          "abstain_negative": 115
+        },
+        "physically_lifted": 4,
+        "detected_while_lifted": 3,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 1
+      },
+      "distractor": {
+        "episodes": 4,
+        "scored": 4,
+        "frames": 588,
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 253,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 335
+        },
+        "physically_lifted": 0,
+        "detected_while_lifted": 0,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 0
+      }
+    },
+    "nonadmitted / F1 / PLACE-red-left": {
+      "target": {
+        "episodes": 3,
+        "scored": 3,
+        "frames": 335,
+        "confusion": {
+          "tp": 138,
+          "fp": 0,
+          "tn": 137,
+          "fn": 0,
+          "abstain_positive": 3,
+          "abstain_negative": 57
+        },
+        "physically_lifted": 2,
+        "detected_while_lifted": 2,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 0
+      },
+      "distractor": {
+        "episodes": 3,
+        "scored": 3,
+        "frames": 335,
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 11,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 324
+        },
+        "physically_lifted": 0,
+        "detected_while_lifted": 0,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 1
+      }
+    },
+    "nonadmitted / F2 / HOLD-blue": {
+      "target": {
+        "episodes": 5,
+        "scored": 5,
+        "frames": 488,
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 158,
+          "abstain_negative": 330
+        },
+        "physically_lifted": 3,
+        "detected_while_lifted": 0,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 5
+      },
+      "distractor": {
+        "episodes": 5,
+        "scored": 5,
+        "frames": 488,
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 488
+        },
+        "physically_lifted": 0,
+        "detected_while_lifted": 0,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 5
+      }
+    },
+    "nonadmitted / F2 / HOLD-red": {
+      "target": {
+        "episodes": 2,
+        "scored": 2,
+        "frames": 118,
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 118
+        },
+        "physically_lifted": 0,
+        "detected_while_lifted": 0,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 2
+      },
+      "distractor": {
+        "episodes": 2,
+        "scored": 2,
+        "frames": 118,
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 118
+        },
+        "physically_lifted": 0,
+        "detected_while_lifted": 0,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 2
+      }
+    },
+    "nonadmitted / F2 / PLACE-blue-left": {
+      "target": {
+        "episodes": 2,
+        "scored": 2,
+        "frames": 260,
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 109,
+          "abstain_negative": 151
+        },
+        "physically_lifted": 2,
+        "detected_while_lifted": 0,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 2
+      },
+      "distractor": {
+        "episodes": 2,
+        "scored": 2,
+        "frames": 260,
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 260
+        },
+        "physically_lifted": 0,
+        "detected_while_lifted": 0,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 2
+      }
+    },
+    "nonadmitted / F2 / PLACE-blue-right": {
+      "target": {
+        "episodes": 2,
+        "scored": 2,
+        "frames": 267,
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 132,
+          "abstain_negative": 135
+        },
+        "physically_lifted": 2,
+        "detected_while_lifted": 0,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 2
+      },
+      "distractor": {
+        "episodes": 2,
+        "scored": 2,
+        "frames": 267,
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 267
+        },
+        "physically_lifted": 0,
+        "detected_while_lifted": 0,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 2
+      }
+    },
+    "nonadmitted / F2 / PLACE-red-left": {
+      "target": {
+        "episodes": 2,
+        "scored": 2,
+        "frames": 127,
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 127
+        },
+        "physically_lifted": 0,
+        "detected_while_lifted": 0,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 2
+      },
+      "distractor": {
+        "episodes": 2,
+        "scored": 2,
+        "frames": 127,
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 127
+        },
+        "physically_lifted": 0,
+        "detected_while_lifted": 0,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 2
+      }
+    },
+    "nonadmitted / F2 / PLACE-red-right": {
+      "target": {
+        "episodes": 2,
+        "scored": 2,
+        "frames": 127,
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 127
+        },
+        "physically_lifted": 0,
+        "detected_while_lifted": 0,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 2
+      },
+      "distractor": {
+        "episodes": 2,
+        "scored": 2,
+        "frames": 127,
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 127
+        },
+        "physically_lifted": 0,
+        "detected_while_lifted": 0,
+        "any_false_positive": 0,
+        "first_visual_precedes_lift_or_no_lift": 0,
+        "all_unknown": 2
+      }
+    }
+  },
+  "episodes": {
+    "CHV1-TRAIN-F1-HOLD-blue-00": {
+      "group": "other_admitted",
+      "task": "HOLD-blue",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G00",
+      "reset": 4040679645,
+      "seed": 282559920,
+      "result_sha256": "bbfcd4b49fbac2bf1f819b3d65a728748ad08cf0f8ec5425225bec74f8d3816f",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "624fb46c53b9f71bc302fdb36c0c2419d67e2e21506a61ba1e458a50f930605f",
+      "queries": 73,
+      "scene": "19368138aa85927c9482e2a69f4a9bc7aa35c8a171969d35db7d72a6f1797635",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 62,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 11
+        },
+        "status": {
+          "measured": 63,
+          "missing_or_geometry_rejected": 10
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 56,
+          "fn": 0,
+          "abstain_positive": 1,
+          "abstain_negative": 15
+        },
+        "status": {
+          "measured": 60,
+          "missing_or_geometry_rejected": 13
+        },
+        "first_actual": 23453,
+        "first_visual": 23703,
+        "first_same_tick_true_positive": 23703,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F2-HOLD-red-00": {
+      "group": "nonadmitted",
+      "task": "HOLD-red",
+      "family": "F2",
+      "layout": "CHV1-TRAIN-F2-G00",
+      "reset": 1114246411,
+      "seed": 554368900,
+      "result_sha256": "7cf3c54b92773d696295fc69d8826bb3a4ceb4d54a1d781ad5d370ac9df38a36",
+      "archive_status": "recorded",
+      "producer_capture_link": false,
+      "original_requests": 1,
+      "teacher_success": false,
+      "manifest_sha256": "8aa7affe2640322f1cced2fd17345876b3ee04501e3493d93e8e02b55f8ab720",
+      "queries": 58,
+      "scene": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 58
+        },
+        "status": {
+          "missing_or_geometry_rejected": 46,
+          "measured": 12
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 58
+        },
+        "status": {
+          "missing_or_geometry_rejected": 58
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-red-left-00": {
+      "group": "nonadmitted",
+      "task": "PLACE-red-left",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G00",
+      "reset": 4040679645,
+      "seed": 282559920,
+      "result_sha256": "55fbd83b68b690ff7970bdf7857b5023adbdbd83de06a0000e6e28c9ba966017",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": false,
+      "manifest_sha256": "91b734f5370db2ea024466443d43b92241ebe80533aae817fa2d3d62a63763e7",
+      "queries": 180,
+      "scene": "19368138aa85927c9482e2a69f4a9bc7aa35c8a171969d35db7d72a6f1797635",
+      "target": {
+        "confusion": {
+          "tp": 105,
+          "fp": 0,
+          "tn": 55,
+          "fn": 0,
+          "abstain_positive": 1,
+          "abstain_negative": 19
+        },
+        "status": {
+          "measured": 163,
+          "missing_or_geometry_rejected": 17
+        },
+        "first_actual": 24203,
+        "first_visual": 24453,
+        "first_same_tick_true_positive": 24453,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 6,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 174
+        },
+        "status": {
+          "measured": 7,
+          "missing_or_geometry_rejected": 173
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F2-PLACE-blue-right-00": {
+      "group": "nonadmitted",
+      "task": "PLACE-blue-right",
+      "family": "F2",
+      "layout": "CHV1-TRAIN-F2-G00",
+      "reset": 1114246411,
+      "seed": 554368900,
+      "result_sha256": "edeff403418a23c9ac1bbe42d6301c682d73d7f87125a09f4f2ec219584ad05a",
+      "archive_status": "recorded",
+      "producer_capture_link": false,
+      "original_requests": 1,
+      "teacher_success": false,
+      "manifest_sha256": "b731144c982430a58b0f2ba2378909a3e84ac68c8a0b4eb43d0fe31947b29609",
+      "queries": 140,
+      "scene": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 140
+        },
+        "status": {
+          "missing_or_geometry_rejected": 17,
+          "measured": 123
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 70,
+          "abstain_negative": 70
+        },
+        "status": {
+          "missing_or_geometry_rejected": 110,
+          "measured": 30
+        },
+        "first_actual": 23203,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-blue-right-00": {
+      "group": "nonadmitted",
+      "task": "PLACE-blue-right",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G00",
+      "reset": 4040679645,
+      "seed": 282559920,
+      "result_sha256": "12bfb9c46f8dbd288a0a1b04d3afdafabd8cc5d858ef5ea3fc08c397a91d7fee",
+      "archive_status": "recorded",
+      "producer_capture_link": false,
+      "original_requests": 1,
+      "teacher_success": false,
+      "manifest_sha256": "ba199a4b2c952f2c16c5d3b3ad40f4782ba1ac8b3a22ff75b3e40b8c1d10fb02",
+      "queries": 135,
+      "scene": "19368138aa85927c9482e2a69f4a9bc7aa35c8a171969d35db7d72a6f1797635",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 62,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 73
+        },
+        "status": {
+          "measured": 63,
+          "missing_or_geometry_rejected": 72
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 2,
+          "fp": 0,
+          "tn": 61,
+          "fn": 0,
+          "abstain_positive": 62,
+          "abstain_negative": 10
+        },
+        "status": {
+          "measured": 67,
+          "missing_or_geometry_rejected": 68
+        },
+        "first_actual": 23453,
+        "first_visual": 23953,
+        "first_same_tick_true_positive": 23953,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F2-PLACE-red-left-00": {
+      "group": "nonadmitted",
+      "task": "PLACE-red-left",
+      "family": "F2",
+      "layout": "CHV1-TRAIN-F2-G00",
+      "reset": 1114246411,
+      "seed": 554368900,
+      "result_sha256": "8b545ef8a3a94d57cf619dacedcbadbf589ad5bf5f8708f6b34fe15d5b7e894f",
+      "archive_status": "recorded",
+      "producer_capture_link": false,
+      "original_requests": 1,
+      "teacher_success": false,
+      "manifest_sha256": "db6d7198259944d5b1e0043af9029dc75d9fcdf93c87dcdecab4132c5998a556",
+      "queries": 64,
+      "scene": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 64
+        },
+        "status": {
+          "missing_or_geometry_rejected": 44,
+          "measured": 20
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 64
+        },
+        "status": {
+          "missing_or_geometry_rejected": 64
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-00": {
+      "group": "other_admitted",
+      "task": "HOLD-red",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G00",
+      "reset": 4040679645,
+      "seed": 282559920,
+      "result_sha256": "3435c1edccdb6429d0d575539df7f7bf33078c2f44615adf1d930bf70cd30623",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "6db198755e4b1ba2dd8d4d3b80641c606d55aa4f0eaff7461834ad11ae9e73a2",
+      "queries": 71,
+      "scene": "19368138aa85927c9482e2a69f4a9bc7aa35c8a171969d35db7d72a6f1797635",
+      "target": {
+        "confusion": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 53,
+          "fn": 0,
+          "abstain_positive": 1,
+          "abstain_negative": 16
+        },
+        "status": {
+          "measured": 58,
+          "missing_or_geometry_rejected": 13
+        },
+        "first_actual": 22953,
+        "first_visual": 23203,
+        "first_same_tick_true_positive": 23203,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 6,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 65
+        },
+        "status": {
+          "measured": 7,
+          "missing_or_geometry_rejected": 64
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F2-HOLD-blue-00": {
+      "group": "original_six",
+      "task": "HOLD-blue",
+      "family": "F2",
+      "layout": "CHV1-TRAIN-F2-G00",
+      "reset": 1114246411,
+      "seed": 554368900,
+      "result_sha256": "79491ddc5937da265852c3807b242f3b4850742e4874328e10ae1c7630db4f4b",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "bb3a9e2fb884378dfa3db8475f5b93bb69e44dda2958404053036d5454cde4bd",
+      "queries": 72,
+      "scene": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 72
+        },
+        "status": {
+          "missing_or_geometry_rejected": 18,
+          "measured": 54
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 2,
+          "abstain_negative": 70
+        },
+        "status": {
+          "missing_or_geometry_rejected": 44,
+          "measured": 28
+        },
+        "first_actual": 23203,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-blue-left-00": {
+      "group": "nonadmitted",
+      "task": "PLACE-blue-left",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G00",
+      "reset": 4040679645,
+      "seed": 282559920,
+      "result_sha256": "6c5c9d1b98636d1513c20ebf6155b4c04b39d7b81b802a44bc6a8d5b5220983a",
+      "archive_status": "recorded",
+      "producer_capture_link": false,
+      "original_requests": 1,
+      "teacher_success": false,
+      "manifest_sha256": "5de1a512f2685dd8bf4c81d2cb2c96c02f1a65f8c32746e5cb5096536b0059d1",
+      "queries": 51,
+      "scene": "19368138aa85927c9482e2a69f4a9bc7aa35c8a171969d35db7d72a6f1797635",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 46,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 5
+        },
+        "status": {
+          "measured": 47,
+          "missing_or_geometry_rejected": 4
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 38,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 13
+        },
+        "status": {
+          "measured": 39,
+          "missing_or_geometry_rejected": 12
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F2-PLACE-red-right-00": {
+      "group": "nonadmitted",
+      "task": "PLACE-red-right",
+      "family": "F2",
+      "layout": "CHV1-TRAIN-F2-G00",
+      "reset": 1114246411,
+      "seed": 554368900,
+      "result_sha256": "664d8db4a198b6f461517f98ca726ad5dc28c7bb990fbf6f75cd598bfafa4783",
+      "archive_status": "recorded",
+      "producer_capture_link": false,
+      "original_requests": 1,
+      "teacher_success": false,
+      "manifest_sha256": "f4ba47df8717573335a5dd7493de1ef9ea2d88ef16e3df873408e1b402137fab",
+      "queries": 60,
+      "scene": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 60
+        },
+        "status": {
+          "missing_or_geometry_rejected": 50,
+          "measured": 10
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 60
+        },
+        "status": {
+          "missing_or_geometry_rejected": 60
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-red-right-00": {
+      "group": "other_admitted",
+      "task": "PLACE-red-right",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G00",
+      "reset": 4040679645,
+      "seed": 282559920,
+      "result_sha256": "5e9f7877790cf330dd963858fe8e0a008ab56f5e318df65446a557f4612f8654",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "fae9dc81a6d0f804a91e99f5921603ffda4a605d23862298143fc78e9c834c98",
+      "queries": 117,
+      "scene": "19368138aa85927c9482e2a69f4a9bc7aa35c8a171969d35db7d72a6f1797635",
+      "target": {
+        "confusion": {
+          "tp": 21,
+          "fp": 0,
+          "tn": 74,
+          "fn": 0,
+          "abstain_positive": 5,
+          "abstain_negative": 17
+        },
+        "status": {
+          "measured": 103,
+          "missing_or_geometry_rejected": 14
+        },
+        "first_actual": 21953,
+        "first_visual": 22203,
+        "first_same_tick_true_positive": 22203,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 7,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 110
+        },
+        "status": {
+          "measured": 8,
+          "missing_or_geometry_rejected": 109
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F2-PLACE-blue-left-00": {
+      "group": "nonadmitted",
+      "task": "PLACE-blue-left",
+      "family": "F2",
+      "layout": "CHV1-TRAIN-F2-G00",
+      "reset": 1114246411,
+      "seed": 554368900,
+      "result_sha256": "8cbaa7e19445e32afd6e9979bbfb7e1646da18d90125ca8ede3849727a7a3e5c",
+      "archive_status": "recorded",
+      "producer_capture_link": false,
+      "original_requests": 1,
+      "teacher_success": false,
+      "manifest_sha256": "7da1fe9ec642a306550a6b1914ea09eab889b011ad907ebc931b5050bf54a13e",
+      "queries": 136,
+      "scene": "ccd1854c196ff477692f0dc585324293ca512d88d6e81974fdbbb213f7a0e85c",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 136
+        },
+        "status": {
+          "missing_or_geometry_rejected": 20,
+          "measured": 116
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 69,
+          "abstain_negative": 67
+        },
+        "status": {
+          "missing_or_geometry_rejected": 100,
+          "measured": 36
+        },
+        "first_actual": 22453,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-blue-01": {
+      "group": "nonadmitted",
+      "task": "HOLD-blue",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G01",
+      "reset": 951014759,
+      "seed": 3942284822,
+      "result_sha256": "59ab3285e8ebeb629ade2f0525923baebb3beed7d0dc910f72419b7d383ce172",
+      "archive_status": "recorded",
+      "producer_capture_link": false,
+      "original_requests": 1,
+      "teacher_success": false,
+      "manifest_sha256": "1881831ad2a343e1ee74badc434dbf369f06e27d05b455ea6083fc54e094f7f7",
+      "queries": 57,
+      "scene": "9ae3232754c5ef287239801fc10230199872f1526c78c099b746f0d7ad088507",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 51,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 6
+        },
+        "status": {
+          "measured": 52,
+          "missing_or_geometry_rejected": 5
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 57
+        },
+        "status": {
+          "missing_or_geometry_rejected": 29,
+          "measured": 28
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F2-HOLD-red-01": {
+      "group": "nonadmitted",
+      "task": "HOLD-red",
+      "family": "F2",
+      "layout": "CHV1-TRAIN-F2-G01",
+      "reset": 2627487594,
+      "seed": 1763467013,
+      "result_sha256": "54d7f9796176065882fd9d2350a4454daecf2019ed71d83e522a54dc8065f646",
+      "archive_status": "recorded",
+      "producer_capture_link": false,
+      "original_requests": 1,
+      "teacher_success": false,
+      "manifest_sha256": "3a4374c8f39aaa46b784d0890ce8fd4e8cc8a53d2cf5fba64be076e9ff0bb8e1",
+      "queries": 60,
+      "scene": "0b493698c6d5dd4ce4b585f8f35bc3a8077b24a45a36c9556cb7523401dcf908",
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 60
+        },
+        "status": {
+          "missing_or_geometry_rejected": 48,
+          "measured": 12
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 60
+        },
+        "status": {
+          "missing_or_geometry_rejected": 60
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-red-left-01": {
+      "group": "nonadmitted",
+      "task": "PLACE-red-left",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G01",
+      "reset": 951014759,
+      "seed": 3942284822,
+      "result_sha256": "cc0831ca34547385d1900f4b9dba9dc7ef8f2e8d326cb88885c002e42cffdfd9",
+      "archive_status": "recorded",
+      "producer_capture_link": false,
+      "original_requests": 1,
+      "teacher_success": false,
+      "manifest_sha256": "feb395137e38fd6b58961fbcffa3bfd57c8486cff364e35a569ad03fff8d8af4",
+      "queries": 99,
+      "scene": "9ae3232754c5ef287239801fc10230199872f1526c78c099b746f0d7ad088507",
+      "target": {
+        "confusion": {
+          "tp": 33,
+          "fp": 0,
+          "tn": 46,
+          "fn": 0,
+          "abstain_positive": 2,
+          "abstain_negative": 18
+        },
+        "status": {
+          "measured": 83,
+          "missing_or_geometry_rejected": 16
+        },
+        "first_actual": 21703,
+        "first_visual": 22203,
+        "first_same_tick_true_positive": 22203,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 99
+        },
+        "status": {
+          "missing_or_geometry_rejected": 99
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F2-PLACE-blue-right-01": {
+      "group": "nonadmitted",
+      "task": "PLACE-blue-right",
+      "family": "F2",
+      "layout": "CHV1-TRAIN-F2-G01",
+      "reset": 2627487594,
+      "seed": 1763467013,
+      "result_sha256": "7b2ac47ba3475186323b481d54cd38374da67b9d8b6de1939c3a8ef6f15546d3",
+      "archive_status": "recorded",
+      "producer_capture_link": false,
+      "original_requests": 1,
+      "teacher_success": false,
+      "manifest_sha256": "4949c576a771c2e6c12da64dcc3fc4e66e6f951733d9ad0db2c15d939e2572ba",
+      "queries": 127,
+      "scene": "0b493698c6d5dd4ce4b585f8f35bc3a8077b24a45a36c9556cb7523401dcf908",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 127
+        },
+        "status": {
+          "missing_or_geometry_rejected": 22,
+          "measured": 105
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 62,
+          "abstain_negative": 65
+        },
+        "status": {
+          "missing_or_geometry_rejected": 101,
+          "measured": 26
+        },
+        "first_actual": 21953,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-blue-right-01": {
+      "group": "nonadmitted",
+      "task": "PLACE-blue-right",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G01",
+      "reset": 951014759,
+      "seed": 3942284822,
+      "result_sha256": "2532af8786cb3a8440bd36acbd176661f9f7f94377121e9e590b11805f87e8cc",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": false,
+      "manifest_sha256": "558918b592b2e8d491c243d6222c620ed45090c16ec492b4e186f8fea1b9978d",
+      "queries": 180,
+      "scene": "9ae3232754c5ef287239801fc10230199872f1526c78c099b746f0d7ad088507",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 64,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 116
+        },
+        "status": {
+          "measured": 65,
+          "missing_or_geometry_rejected": 115
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 108,
+          "abstain_negative": 72
+        },
+        "status": {
+          "missing_or_geometry_rejected": 131,
+          "measured": 49
+        },
+        "first_actual": 23703,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F2-PLACE-red-left-01": {
+      "group": "nonadmitted",
+      "task": "PLACE-red-left",
+      "family": "F2",
+      "layout": "CHV1-TRAIN-F2-G01",
+      "reset": 2627487594,
+      "seed": 1763467013,
+      "result_sha256": "59f2763f8910826f7d784c4ab908f75bfca894c0ee487f031f63ad366c01f457",
+      "archive_status": "recorded",
+      "producer_capture_link": false,
+      "original_requests": 1,
+      "teacher_success": false,
+      "manifest_sha256": "19cbd2aad89f9fc35f94f0ca3a4e70e9a41a98c400e6536f703acc530de49472",
+      "queries": 63,
+      "scene": "0b493698c6d5dd4ce4b585f8f35bc3a8077b24a45a36c9556cb7523401dcf908",
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 63
+        },
+        "status": {
+          "missing_or_geometry_rejected": 50,
+          "measured": 13
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 63
+        },
+        "status": {
+          "missing_or_geometry_rejected": 63
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-01": {
+      "group": "other_admitted",
+      "task": "HOLD-red",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G01",
+      "reset": 951014759,
+      "seed": 3942284822,
+      "result_sha256": "9f83dd720de08ea7b779542c960cfad4d1aca847d5981aa7ce1eed052056e4c2",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "5264d1906fcf3c194ecc5ea3c8f0d56e120430bb2174b00adedebc28d95743e8",
+      "queries": 62,
+      "scene": "9ae3232754c5ef287239801fc10230199872f1526c78c099b746f0d7ad088507",
+      "target": {
+        "confusion": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 48,
+          "fn": 0,
+          "abstain_positive": 1,
+          "abstain_negative": 12
+        },
+        "status": {
+          "measured": 53,
+          "missing_or_geometry_rejected": 9
+        },
+        "first_actual": 20703,
+        "first_visual": 20953,
+        "first_same_tick_true_positive": 20953,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 62
+        },
+        "status": {
+          "missing_or_geometry_rejected": 62
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F2-HOLD-blue-01": {
+      "group": "other_admitted",
+      "task": "HOLD-blue",
+      "family": "F2",
+      "layout": "CHV1-TRAIN-F2-G01",
+      "reset": 2627487594,
+      "seed": 1763467013,
+      "result_sha256": "558d61beeabc68aea2c98e66ec412ed6eb2239ec1fa4620d8a5a4bef4bfc1232",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "df3c581c8078f842b82851d33e518c6d51b5c98be770503cbdd0f4ef3805e03f",
+      "queries": 70,
+      "scene": "0b493698c6d5dd4ce4b585f8f35bc3a8077b24a45a36c9556cb7523401dcf908",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 70
+        },
+        "status": {
+          "missing_or_geometry_rejected": 18,
+          "measured": 52
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 2,
+          "abstain_negative": 68
+        },
+        "status": {
+          "missing_or_geometry_rejected": 43,
+          "measured": 27
+        },
+        "first_actual": 22703,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-blue-left-01": {
+      "group": "nonadmitted",
+      "task": "PLACE-blue-left",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G01",
+      "reset": 951014759,
+      "seed": 3942284822,
+      "result_sha256": "6ee84b7ef897ba0b7640e0c71406bef7eae127e3e5d1d14a990a7348a13ca61d",
+      "archive_status": "recorded",
+      "producer_capture_link": false,
+      "original_requests": 1,
+      "teacher_success": false,
+      "manifest_sha256": "3a2b06eced7b67ad87c1e248a7283bcf5e0fbf59f1abfde771418544afd6d5c6",
+      "queries": 57,
+      "scene": "9ae3232754c5ef287239801fc10230199872f1526c78c099b746f0d7ad088507",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 51,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 6
+        },
+        "status": {
+          "measured": 52,
+          "missing_or_geometry_rejected": 5
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 57
+        },
+        "status": {
+          "missing_or_geometry_rejected": 29,
+          "measured": 28
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F2-PLACE-red-right-01": {
+      "group": "nonadmitted",
+      "task": "PLACE-red-right",
+      "family": "F2",
+      "layout": "CHV1-TRAIN-F2-G01",
+      "reset": 2627487594,
+      "seed": 1763467013,
+      "result_sha256": "63e2793c49f0728c4a3824f34f67644778f0cb6169ddb4f112ee334f82be84de",
+      "archive_status": "recorded",
+      "producer_capture_link": false,
+      "original_requests": 1,
+      "teacher_success": false,
+      "manifest_sha256": "f1403e00a83543de91f06ac757668a1c5ef72467e637fe865891cb16501f9aa2",
+      "queries": 67,
+      "scene": "0b493698c6d5dd4ce4b585f8f35bc3a8077b24a45a36c9556cb7523401dcf908",
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 67
+        },
+        "status": {
+          "missing_or_geometry_rejected": 53,
+          "measured": 14
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 67
+        },
+        "status": {
+          "missing_or_geometry_rejected": 67
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-red-right-01": {
+      "group": "original_six",
+      "task": "PLACE-red-right",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G01",
+      "reset": 951014759,
+      "seed": 3942284822,
+      "result_sha256": "9ece5390c263382067023c65b7d585711d5611fe20f09fa5cb971ca97dd9a6ea",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "e61ebd93bbcda8d550ed52ca579b0da4f565ebbfedad965b7d14bbc5f383586e",
+      "queries": 125,
+      "scene": "9ae3232754c5ef287239801fc10230199872f1526c78c099b746f0d7ad088507",
+      "target": {
+        "confusion": {
+          "tp": 27,
+          "fp": 0,
+          "tn": 74,
+          "fn": 0,
+          "abstain_positive": 5,
+          "abstain_negative": 19
+        },
+        "status": {
+          "measured": 110,
+          "missing_or_geometry_rejected": 15
+        },
+        "first_actual": 22203,
+        "first_visual": 22453,
+        "first_same_tick_true_positive": 22453,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 125
+        },
+        "status": {
+          "missing_or_geometry_rejected": 125
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F2-PLACE-blue-left-01": {
+      "group": "nonadmitted",
+      "task": "PLACE-blue-left",
+      "family": "F2",
+      "layout": "CHV1-TRAIN-F2-G01",
+      "reset": 2627487594,
+      "seed": 1763467013,
+      "result_sha256": "91f9c2b54f1d80aa05407aa6c5c4c417473af47f371e73a2ece4e437ec608a9d",
+      "archive_status": "recorded",
+      "producer_capture_link": false,
+      "original_requests": 1,
+      "teacher_success": false,
+      "manifest_sha256": "27d4ab48c16fac1857a1106f72e425dce94f26230b31c02df14eb73235b6c54b",
+      "queries": 124,
+      "scene": "0b493698c6d5dd4ce4b585f8f35bc3a8077b24a45a36c9556cb7523401dcf908",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 124
+        },
+        "status": {
+          "missing_or_geometry_rejected": 41,
+          "measured": 83
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 40,
+          "abstain_negative": 84
+        },
+        "status": {
+          "missing_or_geometry_rejected": 95,
+          "measured": 29
+        },
+        "first_actual": 23203,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-blue-02": {
+      "group": "other_admitted",
+      "task": "HOLD-blue",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G02",
+      "reset": 1135139899,
+      "seed": 2906954883,
+      "result_sha256": "ab2c900a1869caec2bb1e74caeeaa9a27887aaa7f49fcfaa26ad3248e2dfa641",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "7450a28e4be8ec7d17d4cc6e16d595d40533a72650c18ab7364044bbee18ab7b",
+      "queries": 71,
+      "scene": "ba55a65ce2d5a57917ec4f1d49ee38af15c4e495d10a5b8781d06ce6e787f723",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 59,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 12
+        },
+        "status": {
+          "measured": 60,
+          "missing_or_geometry_rejected": 11
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 54,
+          "fn": 0,
+          "abstain_positive": 1,
+          "abstain_negative": 15
+        },
+        "status": {
+          "measured": 58,
+          "missing_or_geometry_rejected": 13
+        },
+        "first_actual": 22953,
+        "first_visual": 23203,
+        "first_same_tick_true_positive": 23203,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-red-left-02": {
+      "group": "nonadmitted",
+      "task": "PLACE-red-left",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G02",
+      "reset": 1135139899,
+      "seed": 2906954883,
+      "result_sha256": "d777eb414e80402ad1675bbd4643fbadba5f3b6183a451f41e5e342f604091b6",
+      "archive_status": "recorded",
+      "producer_capture_link": false,
+      "original_requests": 1,
+      "teacher_success": false,
+      "manifest_sha256": "2b2647c1fbc89c19f5d49ef9081783798e6716f6fbf29ca46c526b71d30e62ff",
+      "queries": 56,
+      "scene": "ba55a65ce2d5a57917ec4f1d49ee38af15c4e495d10a5b8781d06ce6e787f723",
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 36,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 20
+        },
+        "status": {
+          "measured": 37,
+          "missing_or_geometry_rejected": 19
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 5,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 51
+        },
+        "status": {
+          "measured": 6,
+          "missing_or_geometry_rejected": 50
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-blue-right-02": {
+      "group": "nonadmitted",
+      "task": "PLACE-blue-right",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G02",
+      "reset": 1135139899,
+      "seed": 2906954883,
+      "result_sha256": "130f169d5c02b0c805a1ca2d1fc5b8c3e6e5b96085295e69b82c874162186105",
+      "archive_status": "recorded",
+      "producer_capture_link": false,
+      "original_requests": 1,
+      "teacher_success": false,
+      "manifest_sha256": "4e91840ba4b935e9882f86f085114d66ac78a1cd9e2cd7d808806199d0726d13",
+      "queries": 135,
+      "scene": "ba55a65ce2d5a57917ec4f1d49ee38af15c4e495d10a5b8781d06ce6e787f723",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 62,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 73
+        },
+        "status": {
+          "measured": 63,
+          "missing_or_geometry_rejected": 72
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 4,
+          "fp": 0,
+          "tn": 54,
+          "fn": 0,
+          "abstain_positive": 60,
+          "abstain_negative": 17
+        },
+        "status": {
+          "measured": 62,
+          "missing_or_geometry_rejected": 73
+        },
+        "first_actual": 23453,
+        "first_visual": 23703,
+        "first_same_tick_true_positive": 23703,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-02": {
+      "group": "original_six",
+      "task": "HOLD-red",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G02",
+      "reset": 1135139899,
+      "seed": 2906954883,
+      "result_sha256": "c37e49d1713423d386f434cbd80cf099c09d59f32cc5bfdaa69ac3d0ceea4257",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "f098a6976543f5eb1a0cefa65ca4a1be1a03d5931c67b62e4a0bd32ad1385b4c",
+      "queries": 68,
+      "scene": "ba55a65ce2d5a57917ec4f1d49ee38af15c4e495d10a5b8781d06ce6e787f723",
+      "target": {
+        "confusion": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 55,
+          "fn": 0,
+          "abstain_positive": 1,
+          "abstain_negative": 11
+        },
+        "status": {
+          "measured": 60,
+          "missing_or_geometry_rejected": 8
+        },
+        "first_actual": 22203,
+        "first_visual": 22453,
+        "first_same_tick_true_positive": 22453,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 5,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 63
+        },
+        "status": {
+          "measured": 6,
+          "missing_or_geometry_rejected": 62
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F2-HOLD-blue-02": {
+      "group": "other_admitted",
+      "task": "HOLD-blue",
+      "family": "F2",
+      "layout": "CHV1-TRAIN-F2-G02",
+      "reset": 943530236,
+      "seed": 225999308,
+      "result_sha256": "0ceda2d4cf57de1f306e47397ebfe0a75fdf488fe4a23696931b6d763dacbffb",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "ee2c97e7e00cb007775fa1e68db616e7187a3b46ace2afb2dda24323a4d9c029",
+      "queries": 72,
+      "scene": "9bf333de0c825720de884e965781f525bb431bf24ee222341a9af3c58e84ca07",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 72
+        },
+        "status": {
+          "missing_or_geometry_rejected": 19,
+          "measured": 53
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 2,
+          "abstain_negative": 70
+        },
+        "status": {
+          "missing_or_geometry_rejected": 44,
+          "measured": 28
+        },
+        "first_actual": 23203,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-red-right-02": {
+      "group": "other_admitted",
+      "task": "PLACE-red-right",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G02",
+      "reset": 1135139899,
+      "seed": 2906954883,
+      "result_sha256": "db511275bcd165a6e135601cbe06f7f6c841e12d0a54a3ae453b41e0da5cfcc8",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "42c8720f28706dfcb051b568083f6ef21c97c6a86ebdb7b748aa03beaab1b38a",
+      "queries": 120,
+      "scene": "ba55a65ce2d5a57917ec4f1d49ee38af15c4e495d10a5b8781d06ce6e787f723",
+      "target": {
+        "confusion": {
+          "tp": 24,
+          "fp": 0,
+          "tn": 74,
+          "fn": 0,
+          "abstain_positive": 5,
+          "abstain_negative": 17
+        },
+        "status": {
+          "measured": 108,
+          "missing_or_geometry_rejected": 12
+        },
+        "first_actual": 21953,
+        "first_visual": 22203,
+        "first_same_tick_true_positive": 22203,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 5,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 115
+        },
+        "status": {
+          "measured": 6,
+          "missing_or_geometry_rejected": 114
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-blue-03": {
+      "group": "other_admitted",
+      "task": "HOLD-blue",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G03",
+      "reset": 1721046573,
+      "seed": 13883282,
+      "result_sha256": "e241cd5808fe3ef3d851737fff55dc6dc9ad6cf17b5bc3b5a708a44bc9a78252",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "c309f74ab885967cda625bb428218cd30b906d4c19b0916c65d29465556033cb",
+      "queries": 73,
+      "scene": "30ddc30db168df862036b38e72dc0ec1af8188a47d26aa4e0757679a0f1e2e13",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 61,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 12
+        },
+        "status": {
+          "measured": 62,
+          "missing_or_geometry_rejected": 11
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 52,
+          "fn": 0,
+          "abstain_positive": 1,
+          "abstain_negative": 19
+        },
+        "status": {
+          "measured": 56,
+          "missing_or_geometry_rejected": 17
+        },
+        "first_actual": 23453,
+        "first_visual": 23703,
+        "first_same_tick_true_positive": 23703,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-blue-right-03": {
+      "group": "nonadmitted",
+      "task": "PLACE-blue-right",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G03",
+      "reset": 1721046573,
+      "seed": 13883282,
+      "result_sha256": "7b58344de7eb4e9c79ed66f4a10b72bfaac3f68f7824fb4eb5f045a7d2eed3c7",
+      "archive_status": "recorded",
+      "producer_capture_link": false,
+      "original_requests": 1,
+      "teacher_success": false,
+      "manifest_sha256": "641054eac8fc7cd360c73e3e6b1a5edaacf6c8809086d6714b1c10d0f8d7be61",
+      "queries": 138,
+      "scene": "30ddc30db168df862036b38e72dc0ec1af8188a47d26aa4e0757679a0f1e2e13",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 65,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 73
+        },
+        "status": {
+          "measured": 66,
+          "missing_or_geometry_rejected": 72
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 56,
+          "fn": 0,
+          "abstain_positive": 65,
+          "abstain_negative": 16
+        },
+        "status": {
+          "measured": 61,
+          "missing_or_geometry_rejected": 77
+        },
+        "first_actual": 23703,
+        "first_visual": 24203,
+        "first_same_tick_true_positive": 24203,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-03": {
+      "group": "original_six",
+      "task": "HOLD-red",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G03",
+      "reset": 1721046573,
+      "seed": 13883282,
+      "result_sha256": "32eb44978c6c3bb19f79f1e0f7c2eda9b382d76eae4a7f04788fe12646796183",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "7537208a2e65630381bc910beb15163aa1d303e88c02e102d3f4dcb071bc82e0",
+      "queries": 67,
+      "scene": "30ddc30db168df862036b38e72dc0ec1af8188a47d26aa4e0757679a0f1e2e13",
+      "target": {
+        "confusion": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 48,
+          "fn": 0,
+          "abstain_positive": 1,
+          "abstain_negative": 17
+        },
+        "status": {
+          "measured": 53,
+          "missing_or_geometry_rejected": 14
+        },
+        "first_actual": 21953,
+        "first_visual": 22203,
+        "first_same_tick_true_positive": 22203,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 6,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 61
+        },
+        "status": {
+          "measured": 7,
+          "missing_or_geometry_rejected": 60
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F2-HOLD-blue-03": {
+      "group": "other_admitted",
+      "task": "HOLD-blue",
+      "family": "F2",
+      "layout": "CHV1-TRAIN-F2-G03",
+      "reset": 2416628592,
+      "seed": 2973542275,
+      "result_sha256": "b25999a7f6372a6313f89ce74d61f4871c6891b2b3fc097a68f988834f705cb5",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "8742113e90b4e92eb1a67dc973381f04e39eb5f88d7e8a6a2c0d1fdb0197c3f6",
+      "queries": 67,
+      "scene": "8db195d2e47716f7bdecaa5e447672396ce6a5071c1487ab71caf4b7712ff8d3",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 67
+        },
+        "status": {
+          "missing_or_geometry_rejected": 14,
+          "measured": 53
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 2,
+          "abstain_negative": 65
+        },
+        "status": {
+          "missing_or_geometry_rejected": 26,
+          "measured": 41
+        },
+        "first_actual": 21953,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-red-right-03": {
+      "group": "other_admitted",
+      "task": "PLACE-red-right",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G03",
+      "reset": 1721046573,
+      "seed": 13883282,
+      "result_sha256": "b89d9aafedcade38564f7b1944a115c4a8f5524d3c1f2d4182d4a7b9d7f11d5d",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "e6a6f218eb287a4f8561f650536af41fbe5325de5380d15ab1dff65e1d27c0c0",
+      "queries": 116,
+      "scene": "30ddc30db168df862036b38e72dc0ec1af8188a47d26aa4e0757679a0f1e2e13",
+      "target": {
+        "confusion": {
+          "tp": 26,
+          "fp": 0,
+          "tn": 73,
+          "fn": 0,
+          "abstain_positive": 4,
+          "abstain_negative": 13
+        },
+        "status": {
+          "measured": 107,
+          "missing_or_geometry_rejected": 9
+        },
+        "first_actual": 20953,
+        "first_visual": 21203,
+        "first_same_tick_true_positive": 21203,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 7,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 109
+        },
+        "status": {
+          "measured": 8,
+          "missing_or_geometry_rejected": 108
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-blue-04": {
+      "group": "nonadmitted",
+      "task": "HOLD-blue",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G04",
+      "reset": 3995648655,
+      "seed": 4040182828,
+      "result_sha256": "1a26a9e9f5b84ab0e2f2421b085980397ade695237fa07ef51c426f289745efa",
+      "archive_status": "recorded",
+      "producer_capture_link": false,
+      "original_requests": 1,
+      "teacher_success": false,
+      "manifest_sha256": "99473bf63b68c7b9a3f589a2da549933fa74882f60ecfab50610b473d6706fbd",
+      "queries": 55,
+      "scene": "7ecd8a6d5767271ac361d6f392a4cef136b1a380c7581e9ebbd5921c64354a19",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 49,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 6
+        },
+        "status": {
+          "measured": 50,
+          "missing_or_geometry_rejected": 5
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 37,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 18
+        },
+        "status": {
+          "measured": 38,
+          "missing_or_geometry_rejected": 17
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-04": {
+      "group": "other_admitted",
+      "task": "HOLD-red",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G04",
+      "reset": 3995648655,
+      "seed": 4040182828,
+      "result_sha256": "bdcea624024a1da5912264998f8f6ea92f6e86fc6539e6528834e5a43c4f1c17",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "46e0772a57c63baa0184bff831630b37fcaa9890dbdcaf516ba47614b80ba242",
+      "queries": 73,
+      "scene": "7ecd8a6d5767271ac361d6f392a4cef136b1a380c7581e9ebbd5921c64354a19",
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 55,
+          "fn": 0,
+          "abstain_positive": 2,
+          "abstain_negative": 16
+        },
+        "status": {
+          "measured": 60,
+          "missing_or_geometry_rejected": 13
+        },
+        "first_actual": 23453,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 9,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 64
+        },
+        "status": {
+          "measured": 10,
+          "missing_or_geometry_rejected": 63
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F2-HOLD-blue-04": {
+      "group": "nonadmitted",
+      "task": "HOLD-blue",
+      "family": "F2",
+      "layout": "CHV1-TRAIN-F2-G04",
+      "reset": 1981961567,
+      "seed": 3689959990,
+      "result_sha256": "d69e51595f75cc56fa4ef3ea33a9230d2af1126f892a5edf3e7cb732463fd839",
+      "archive_status": "recorded",
+      "producer_capture_link": false,
+      "original_requests": 1,
+      "teacher_success": false,
+      "manifest_sha256": "0db0aaeb47fe45abb88530798f165da3a0ffb00cb3e153ae28228368e900666d",
+      "queries": 54,
+      "scene": "f432f1bdea846fba3c2e5c027087631b26b1b46d2991a9a3d463e13a1fe438ee",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 54
+        },
+        "status": {
+          "missing_or_geometry_rejected": 13,
+          "measured": 41
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 54
+        },
+        "status": {
+          "missing_or_geometry_rejected": 40,
+          "measured": 14
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-red-right-04": {
+      "group": "other_admitted",
+      "task": "PLACE-red-right",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G04",
+      "reset": 3995648655,
+      "seed": 4040182828,
+      "result_sha256": "f342661c48e58c66f167d441505f2e0a9ea0b1c1078b5de3173c2812c8de75dd",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "ae7197f61c6a532798c375d3e1d1baa23b8a120eef63eb83692c409655c5dda4",
+      "queries": 122,
+      "scene": "7ecd8a6d5767271ac361d6f392a4cef136b1a380c7581e9ebbd5921c64354a19",
+      "target": {
+        "confusion": {
+          "tp": 21,
+          "fp": 0,
+          "tn": 80,
+          "fn": 0,
+          "abstain_positive": 7,
+          "abstain_negative": 14
+        },
+        "status": {
+          "measured": 113,
+          "missing_or_geometry_rejected": 9
+        },
+        "first_actual": 23203,
+        "first_visual": 23453,
+        "first_same_tick_true_positive": 23453,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 10,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 112
+        },
+        "status": {
+          "measured": 11,
+          "missing_or_geometry_rejected": 111
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-blue-05": {
+      "group": "other_admitted",
+      "task": "HOLD-blue",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G05",
+      "reset": 2428241427,
+      "seed": 747768449,
+      "result_sha256": "a34073696c4209d00a2380df5f3f7d617476d563c759499c86a0df70a80c1de4",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "1720f5a87c1afa3a0c2a3ee03272f4e96520438bae0575de638df921c4f7c1b3",
+      "queries": 72,
+      "scene": "76196c90890b1d1884d7486e5f8595592e2574fa5bbfb5c337575a34f3fbb796",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 59,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 13
+        },
+        "status": {
+          "measured": 60,
+          "missing_or_geometry_rejected": 12
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 52,
+          "fn": 0,
+          "abstain_positive": 1,
+          "abstain_negative": 18
+        },
+        "status": {
+          "measured": 57,
+          "missing_or_geometry_rejected": 15
+        },
+        "first_actual": 23203,
+        "first_visual": 23453,
+        "first_same_tick_true_positive": 23453,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-05": {
+      "group": "original_six",
+      "task": "HOLD-red",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G05",
+      "reset": 2428241427,
+      "seed": 747768449,
+      "result_sha256": "8ae0cf65501f73138e98ca517e1ccc9c8ec779470cf42696d04b937776a40519",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "835d95d0f3455fd40f1b92c76b67628852ff1821140bb2ee14620bc7f2c7cf38",
+      "queries": 70,
+      "scene": "76196c90890b1d1884d7486e5f8595592e2574fa5bbfb5c337575a34f3fbb796",
+      "target": {
+        "confusion": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 50,
+          "fn": 0,
+          "abstain_positive": 1,
+          "abstain_negative": 18
+        },
+        "status": {
+          "measured": 55,
+          "missing_or_geometry_rejected": 15
+        },
+        "first_actual": 22703,
+        "first_visual": 22953,
+        "first_same_tick_true_positive": 22953,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 7,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 63
+        },
+        "status": {
+          "measured": 8,
+          "missing_or_geometry_rejected": 62
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F2-HOLD-blue-05": {
+      "group": "other_admitted",
+      "task": "HOLD-blue",
+      "family": "F2",
+      "layout": "CHV1-TRAIN-F2-G05",
+      "reset": 3941367900,
+      "seed": 1013678280,
+      "result_sha256": "804aee7dc1b7c1f769d74956c88bc505c50b423c8ecf95018ff612a8078f195d",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "e0b39d759aad32d00ad03722c1dc4af73f6847075b0b98ec75552f7ef7381e7d",
+      "queries": 79,
+      "scene": "897e8ca77229af2289169eced332efbc737012a864556077fab47a683cbf75cf",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 79
+        },
+        "status": {
+          "missing_or_geometry_rejected": 16,
+          "measured": 63
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 2,
+          "abstain_negative": 77
+        },
+        "status": {
+          "missing_or_geometry_rejected": 46,
+          "measured": 33
+        },
+        "first_actual": 24953,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-red-right-05": {
+      "group": "other_admitted",
+      "task": "PLACE-red-right",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G05",
+      "reset": 2428241427,
+      "seed": 747768449,
+      "result_sha256": "9b78ed657006cbec9299181cb71028779216f297d9c641bf4d2fb6286c9bb28c",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "5946d4a5aec3b9baa4b879fdd680cd384f311eb33069ff504bd2505426e36881",
+      "queries": 123,
+      "scene": "76196c90890b1d1884d7486e5f8595592e2574fa5bbfb5c337575a34f3fbb796",
+      "target": {
+        "confusion": {
+          "tp": 27,
+          "fp": 0,
+          "tn": 72,
+          "fn": 0,
+          "abstain_positive": 5,
+          "abstain_negative": 19
+        },
+        "status": {
+          "measured": 108,
+          "missing_or_geometry_rejected": 15
+        },
+        "first_actual": 22203,
+        "first_visual": 22453,
+        "first_same_tick_true_positive": 22453,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 7,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 116
+        },
+        "status": {
+          "measured": 8,
+          "missing_or_geometry_rejected": 115
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-blue-06": {
+      "group": "other_admitted",
+      "task": "HOLD-blue",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G06",
+      "reset": 3776278188,
+      "seed": 2327933423,
+      "result_sha256": "23804436d190529d7f04ff299c89c5be1f5e0ef9f10b9da0c940c54ad536369e",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "83d2be7d29266163d927ebb1fc4eb7aecd88331e13cc8ad3b2c2699366918fbb",
+      "queries": 69,
+      "scene": "0f591381579875522d97e4ef0815854f43b9b5431911afcd113021111af6cddd",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 57,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 12
+        },
+        "status": {
+          "measured": 58,
+          "missing_or_geometry_rejected": 11
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 49,
+          "fn": 0,
+          "abstain_positive": 1,
+          "abstain_negative": 18
+        },
+        "status": {
+          "measured": 53,
+          "missing_or_geometry_rejected": 16
+        },
+        "first_actual": 22453,
+        "first_visual": 22703,
+        "first_same_tick_true_positive": 22703,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-06": {
+      "group": "other_admitted",
+      "task": "HOLD-red",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G06",
+      "reset": 3776278188,
+      "seed": 2327933423,
+      "result_sha256": "9386d85bcc7c3eacfc69dd2d8a794cd0d4354c800d5880de0e9e513f4b8b9f6a",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "8f920af296b28aa358dde5c138bcce60dbdcf1b7d39dfdaab124db798c5f981e",
+      "queries": 68,
+      "scene": "0f591381579875522d97e4ef0815854f43b9b5431911afcd113021111af6cddd",
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 50,
+          "fn": 0,
+          "abstain_positive": 2,
+          "abstain_negative": 16
+        },
+        "status": {
+          "measured": 55,
+          "missing_or_geometry_rejected": 13
+        },
+        "first_actual": 22203,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 9,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 59
+        },
+        "status": {
+          "measured": 10,
+          "missing_or_geometry_rejected": 58
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F2-HOLD-blue-06": {
+      "group": "nonadmitted",
+      "task": "HOLD-blue",
+      "family": "F2",
+      "layout": "CHV1-TRAIN-F2-G06",
+      "reset": 3047788307,
+      "seed": 2848662642,
+      "result_sha256": "bca480c697bdf9977812d2336178b6c668052b8e7560d81295c628dbf3051543",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": false,
+      "manifest_sha256": "ee9c2c206dc1eb8d58122f6a540bd0931eb28154963f6f7025fe3ccd84e8ebeb",
+      "queries": 120,
+      "scene": "7c771964f2e5db535570a7e92f9e754230dba0d94e855f55cdf647231fef6a9d",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 120
+        },
+        "status": {
+          "missing_or_geometry_rejected": 14,
+          "measured": 106
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 43,
+          "abstain_negative": 77
+        },
+        "status": {
+          "missing_or_geometry_rejected": 84,
+          "measured": 36
+        },
+        "first_actual": 24953,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-red-right-06": {
+      "group": "other_admitted",
+      "task": "PLACE-red-right",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G06",
+      "reset": 3776278188,
+      "seed": 2327933423,
+      "result_sha256": "ffb62563742e690a4f7f0ba64a347656a3095b6081c86b5352b5a895cb5eaa9b",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "0da3dcd5e2b12880114909af3aef5493e6500017ff02f62464ec72e861932f38",
+      "queries": 122,
+      "scene": "0f591381579875522d97e4ef0815854f43b9b5431911afcd113021111af6cddd",
+      "target": {
+        "confusion": {
+          "tp": 25,
+          "fp": 0,
+          "tn": 78,
+          "fn": 0,
+          "abstain_positive": 6,
+          "abstain_negative": 13
+        },
+        "status": {
+          "measured": 114,
+          "missing_or_geometry_rejected": 8
+        },
+        "first_actual": 22203,
+        "first_visual": 22453,
+        "first_same_tick_true_positive": 22453,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 9,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 113
+        },
+        "status": {
+          "measured": 10,
+          "missing_or_geometry_rejected": 112
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-blue-07": {
+      "group": "nonadmitted",
+      "task": "HOLD-blue",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G07",
+      "reset": 1488307587,
+      "seed": 1983537888,
+      "result_sha256": "f2e0bde9d927ed012eebd9caf7f9502169685ea40679981ac81f6582381478e0",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": false,
+      "manifest_sha256": "219fca45b59eb0ca247290cb0149beda5c454a7ce00b206c6711863ce42ac889",
+      "queries": 120,
+      "scene": "6b1a6736b55341f14ffad2891fc73d1c9dbd4e71e803001624cdc6993efc2f30",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 52,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 68
+        },
+        "status": {
+          "measured": 53,
+          "missing_or_geometry_rejected": 67
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 42,
+          "fn": 0,
+          "abstain_positive": 55,
+          "abstain_negative": 22
+        },
+        "status": {
+          "measured": 46,
+          "missing_or_geometry_rejected": 74
+        },
+        "first_actual": 21703,
+        "first_visual": 21703,
+        "first_same_tick_true_positive": 21703,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-07": {
+      "group": "other_admitted",
+      "task": "HOLD-red",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G07",
+      "reset": 1488307587,
+      "seed": 1983537888,
+      "result_sha256": "c025093880d854777d2296a27a5c6dd9baaa48df1ee76f9ff5afd1bde37bc3cd",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "c88b42426eae14a20148333ad1ca85b1834e7e9cd569880cb7a7cf08bfbc71a3",
+      "queries": 68,
+      "scene": "6b1a6736b55341f14ffad2891fc73d1c9dbd4e71e803001624cdc6993efc2f30",
+      "target": {
+        "confusion": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 46,
+          "fn": 0,
+          "abstain_positive": 1,
+          "abstain_negative": 20
+        },
+        "status": {
+          "measured": 51,
+          "missing_or_geometry_rejected": 17
+        },
+        "first_actual": 22203,
+        "first_visual": 22453,
+        "first_same_tick_true_positive": 22453,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 7,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 61
+        },
+        "status": {
+          "measured": 8,
+          "missing_or_geometry_rejected": 60
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F2-HOLD-blue-07": {
+      "group": "other_admitted",
+      "task": "HOLD-blue",
+      "family": "F2",
+      "layout": "CHV1-TRAIN-F2-G07",
+      "reset": 1250262048,
+      "seed": 3152399040,
+      "result_sha256": "6b769071b588861031557743881180095f25d7a2bba36c17f5082b3b18d282e8",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "c0f6e32c017db6a961c72f18c80ca40815d955460284be406d7b0a1da1000178",
+      "queries": 61,
+      "scene": "e97ec0d209c77cc63217311a4bbbc5987e358a9196b87720a33c0e00bdefdf89",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 61
+        },
+        "status": {
+          "missing_or_geometry_rejected": 13,
+          "measured": 48
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 2,
+          "abstain_negative": 59
+        },
+        "status": {
+          "missing_or_geometry_rejected": 33,
+          "measured": 28
+        },
+        "first_actual": 20453,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-red-right-07": {
+      "group": "original_six",
+      "task": "PLACE-red-right",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G07",
+      "reset": 1488307587,
+      "seed": 1983537888,
+      "result_sha256": "d9ffbda6456f79f4da29881bbef89e242fa7c78c1e35cb542588a31ee5ab7bb3",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "5eb22e8eac12f21059be8ef294d7884ff1d34ac52bc90faf846cdaac80c13a50",
+      "queries": 125,
+      "scene": "6b1a6736b55341f14ffad2891fc73d1c9dbd4e71e803001624cdc6993efc2f30",
+      "target": {
+        "confusion": {
+          "tp": 30,
+          "fp": 0,
+          "tn": 73,
+          "fn": 0,
+          "abstain_positive": 4,
+          "abstain_negative": 18
+        },
+        "status": {
+          "measured": 112,
+          "missing_or_geometry_rejected": 13
+        },
+        "first_actual": 22203,
+        "first_visual": 22453,
+        "first_same_tick_true_positive": 22453,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 7,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 118
+        },
+        "status": {
+          "measured": 8,
+          "missing_or_geometry_rejected": 117
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-blue-08": {
+      "group": "nonadmitted",
+      "task": "HOLD-blue",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G08",
+      "reset": 3710438280,
+      "seed": 255975161,
+      "result_sha256": "4ca56e5d5adcc892adf8a186f6aaa799bd0bd9c38f7c021ff92c70e5a2f13b24",
+      "archive_status": "recorded",
+      "producer_capture_link": false,
+      "original_requests": 1,
+      "teacher_success": false,
+      "manifest_sha256": "b0ad87208b0d71d53a98b6624888be04569d332e26d14ff1079828ac7b80ccb7",
+      "queries": 54,
+      "scene": "4f22c580878829addc725a9d52a28a56088d313d1039014e12c5bc4a59a3a240",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 48,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 6
+        },
+        "status": {
+          "measured": 49,
+          "missing_or_geometry_rejected": 5
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 41,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 13
+        },
+        "status": {
+          "measured": 42,
+          "missing_or_geometry_rejected": 12
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-08": {
+      "group": "other_admitted",
+      "task": "HOLD-red",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G08",
+      "reset": 3710438280,
+      "seed": 255975161,
+      "result_sha256": "3e103608e48efd46339d0a11c2e6fa95bb9a6f308134b6aab3daecd932ff4dbe",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "1a77b446815ba6eebc15c43b9e3d4f0191c92e0aeeb8df695d52b9666642f3f2",
+      "queries": 67,
+      "scene": "4f22c580878829addc725a9d52a28a56088d313d1039014e12c5bc4a59a3a240",
+      "target": {
+        "confusion": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 52,
+          "fn": 0,
+          "abstain_positive": 1,
+          "abstain_negative": 13
+        },
+        "status": {
+          "measured": 57,
+          "missing_or_geometry_rejected": 10
+        },
+        "first_actual": 21953,
+        "first_visual": 22203,
+        "first_same_tick_true_positive": 22203,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 4,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 63
+        },
+        "status": {
+          "measured": 5,
+          "missing_or_geometry_rejected": 62
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F2-HOLD-blue-08": {
+      "group": "other_admitted",
+      "task": "HOLD-blue",
+      "family": "F2",
+      "layout": "CHV1-TRAIN-F2-G08",
+      "reset": 129392210,
+      "seed": 4248131387,
+      "result_sha256": "aa16daac367b4f58c8648c6d64715282909b08f6a0e3f2f5659a14b17e6ad66b",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "ff5359e9a72ff71bc7a257788171ba68a4a598c624da0ef69ee09c015da28600",
+      "queries": 69,
+      "scene": "32937f815591dd6f846f247a162279366ee37dab623bee18fbb48cdb2d91c482",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 69
+        },
+        "status": {
+          "missing_or_geometry_rejected": 16,
+          "measured": 53
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 2,
+          "abstain_negative": 67
+        },
+        "status": {
+          "missing_or_geometry_rejected": 43,
+          "measured": 26
+        },
+        "first_actual": 22453,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-red-right-08": {
+      "group": "other_admitted",
+      "task": "PLACE-red-right",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G08",
+      "reset": 3710438280,
+      "seed": 255975161,
+      "result_sha256": "40b0ee6ef6f7371ce41831f469aecf26ba40be081842e0aeeecd20f8721c047b",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "96633d31fe09e36fc9a5b3abcf7be045349c63d7a08d746f14d33cdb8da7e546",
+      "queries": 120,
+      "scene": "4f22c580878829addc725a9d52a28a56088d313d1039014e12c5bc4a59a3a240",
+      "target": {
+        "confusion": {
+          "tp": 23,
+          "fp": 0,
+          "tn": 72,
+          "fn": 0,
+          "abstain_positive": 9,
+          "abstain_negative": 16
+        },
+        "status": {
+          "measured": 107,
+          "missing_or_geometry_rejected": 13
+        },
+        "first_actual": 21203,
+        "first_visual": 21703,
+        "first_same_tick_true_positive": 21703,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 4,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 116
+        },
+        "status": {
+          "measured": 5,
+          "missing_or_geometry_rejected": 115
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-blue-09": {
+      "group": "other_admitted",
+      "task": "HOLD-blue",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G09",
+      "reset": 2784067138,
+      "seed": 378235292,
+      "result_sha256": "609f0012574ed79b3c18a9a17a2c547a8e49114f6fa672b4071416c0107b54e3",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "f2d752ba03903ed4b66b78eab7fe1f89cc98c63db610822f27d89b33154e4746",
+      "queries": 76,
+      "scene": "6fcc02551dd6f9fcf891a07cf353c88cf402edfb72bd8f99e9a52569f4a80e3d",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 61,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 15
+        },
+        "status": {
+          "measured": 62,
+          "missing_or_geometry_rejected": 14
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 56,
+          "fn": 0,
+          "abstain_positive": 1,
+          "abstain_negative": 18
+        },
+        "status": {
+          "measured": 60,
+          "missing_or_geometry_rejected": 16
+        },
+        "first_actual": 24203,
+        "first_visual": 24453,
+        "first_same_tick_true_positive": 24453,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-09": {
+      "group": "other_admitted",
+      "task": "HOLD-red",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G09",
+      "reset": 2784067138,
+      "seed": 378235292,
+      "result_sha256": "bf672cdb6ebc735460ac5a7a1d21e45843a65a96d5e0afe3881913b218503cbe",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "581553d5968f6dfe92f7aed578f09718884d08d48042a95b0451d28648d78d0d",
+      "queries": 63,
+      "scene": "6fcc02551dd6f9fcf891a07cf353c88cf402edfb72bd8f99e9a52569f4a80e3d",
+      "target": {
+        "confusion": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 44,
+          "fn": 0,
+          "abstain_positive": 1,
+          "abstain_negative": 17
+        },
+        "status": {
+          "measured": 49,
+          "missing_or_geometry_rejected": 14
+        },
+        "first_actual": 20953,
+        "first_visual": 21203,
+        "first_same_tick_true_positive": 21203,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 60
+        },
+        "status": {
+          "measured": 4,
+          "missing_or_geometry_rejected": 59
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F2-HOLD-blue-09": {
+      "group": "other_admitted",
+      "task": "HOLD-blue",
+      "family": "F2",
+      "layout": "CHV1-TRAIN-F2-G09",
+      "reset": 722333923,
+      "seed": 308788811,
+      "result_sha256": "225b36037f1c167b8fa7396dd4b7792da243c92fc255cc3bc59c2f1c27301155",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "179759b14b3ade1b133afcf093aa2e55cd0cebc564ed1961ccd461cf818ca0c5",
+      "queries": 78,
+      "scene": "194b033a8a160ff0f74651b72aaae01e5f90ee882c6700e04d54c4b09392b4f8",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 78
+        },
+        "status": {
+          "missing_or_geometry_rejected": 21,
+          "measured": 57
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 2,
+          "abstain_negative": 76
+        },
+        "status": {
+          "missing_or_geometry_rejected": 43,
+          "measured": 35
+        },
+        "first_actual": 24703,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-red-right-09": {
+      "group": "other_admitted",
+      "task": "PLACE-red-right",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G09",
+      "reset": 2784067138,
+      "seed": 378235292,
+      "result_sha256": "36a1cd6b79abaa8719335160f895bf5f795737850926a130f01055798b2bcc0b",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "55a1de62173067f6dcddf6e33b9741c493edcb7cfa2e967be3e584eec51e269b",
+      "queries": 123,
+      "scene": "6fcc02551dd6f9fcf891a07cf353c88cf402edfb72bd8f99e9a52569f4a80e3d",
+      "target": {
+        "confusion": {
+          "tp": 24,
+          "fp": 0,
+          "tn": 75,
+          "fn": 0,
+          "abstain_positive": 5,
+          "abstain_negative": 19
+        },
+        "status": {
+          "measured": 108,
+          "missing_or_geometry_rejected": 15
+        },
+        "first_actual": 22453,
+        "first_visual": 22703,
+        "first_same_tick_true_positive": 22703,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 5,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 118
+        },
+        "status": {
+          "measured": 6,
+          "missing_or_geometry_rejected": 117
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-blue-10": {
+      "group": "nonadmitted",
+      "task": "HOLD-blue",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G10",
+      "reset": 4241358977,
+      "seed": 3436795091,
+      "result_sha256": "1935db470d05ce11caa965fe85fd2a72dc4f42a9db740c8e2f90d3c1c5102dd3",
+      "archive_status": "recorded",
+      "producer_capture_link": false,
+      "original_requests": 1,
+      "teacher_success": false,
+      "manifest_sha256": "99bba588a3f35a6f4c0939658795b2091b6f714af11028f71d93e84d970905d1",
+      "queries": 54,
+      "scene": "6d0f40c2832023b3aca3c2f70f69d344509fe39be470c71396643fbd690e347e",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 47,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 7
+        },
+        "status": {
+          "measured": 48,
+          "missing_or_geometry_rejected": 6
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 34,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 20
+        },
+        "status": {
+          "measured": 35,
+          "missing_or_geometry_rejected": 19
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-10": {
+      "group": "other_admitted",
+      "task": "HOLD-red",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G10",
+      "reset": 4241358977,
+      "seed": 3436795091,
+      "result_sha256": "51081e01f7b2c0c3e799adbc232ea8ff1969f0bc901969081ecdb1b2740c44c0",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "24a69e23346dbcda0e68b0b6a6cf76e2051837e3ec7e65ae4e7ca31f8fd72cf1",
+      "queries": 67,
+      "scene": "6d0f40c2832023b3aca3c2f70f69d344509fe39be470c71396643fbd690e347e",
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 52,
+          "fn": 0,
+          "abstain_positive": 2,
+          "abstain_negative": 13
+        },
+        "status": {
+          "measured": 56,
+          "missing_or_geometry_rejected": 11
+        },
+        "first_actual": 21953,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 9,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 58
+        },
+        "status": {
+          "measured": 10,
+          "missing_or_geometry_rejected": 57
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F2-HOLD-blue-10": {
+      "group": "nonadmitted",
+      "task": "HOLD-blue",
+      "family": "F2",
+      "layout": "CHV1-TRAIN-F2-G10",
+      "reset": 2287146998,
+      "seed": 2032973327,
+      "result_sha256": "b52e7138ff5c1e7cee124e8c59f769304a43c533354a6a44f16b781d075ba3e5",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": false,
+      "manifest_sha256": "3c069906ba0715b0c17a5f9f9d0a65ed33d3e49fc3354050ce3e7b031bad78e9",
+      "queries": 120,
+      "scene": "ec0f8207dcb677c7a9ab517fca0d58ea214875ba6103225af6cbb0098444d17f",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 120
+        },
+        "status": {
+          "missing_or_geometry_rejected": 13,
+          "measured": 107
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 58,
+          "abstain_negative": 62
+        },
+        "status": {
+          "missing_or_geometry_rejected": 96,
+          "measured": 24
+        },
+        "first_actual": 21203,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-red-right-10": {
+      "group": "other_admitted",
+      "task": "PLACE-red-right",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G10",
+      "reset": 4241358977,
+      "seed": 3436795091,
+      "result_sha256": "74aaade811733a237b50cb6bc9a591b9cc6537a490b7485a63ecf2ceefb52832",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "737a949af7cd8cdc0d3d43cf3cb948dcf1925d84673a7eac5e5b8434c58cfcd4",
+      "queries": 122,
+      "scene": "6d0f40c2832023b3aca3c2f70f69d344509fe39be470c71396643fbd690e347e",
+      "target": {
+        "confusion": {
+          "tp": 26,
+          "fp": 0,
+          "tn": 79,
+          "fn": 0,
+          "abstain_positive": 5,
+          "abstain_negative": 12
+        },
+        "status": {
+          "measured": 113,
+          "missing_or_geometry_rejected": 9
+        },
+        "first_actual": 22203,
+        "first_visual": 22453,
+        "first_same_tick_true_positive": 22453,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 9,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 113
+        },
+        "status": {
+          "measured": 10,
+          "missing_or_geometry_rejected": 112
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-blue-11": {
+      "group": "nonadmitted",
+      "task": "HOLD-blue",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G11",
+      "reset": 2342833335,
+      "seed": 1710034958,
+      "result_sha256": "957ade06d737085b73c1e272dcc17707369accc2b20c3b41ef53b0d5c67fbd28",
+      "archive_status": "recorded",
+      "producer_capture_link": false,
+      "original_requests": 1,
+      "teacher_success": false,
+      "manifest_sha256": "edea0ed8587d6915c99767455efd5ba31d453decf3de67cb1f4047c388633e77",
+      "queries": 57,
+      "scene": "572f2e6e77152e65a9f36f35623e151f65a1d7b980a2189f02e293ef89a56c37",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 50,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 7
+        },
+        "status": {
+          "measured": 51,
+          "missing_or_geometry_rejected": 6
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 39,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 18
+        },
+        "status": {
+          "measured": 40,
+          "missing_or_geometry_rejected": 17
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-11": {
+      "group": "other_admitted",
+      "task": "HOLD-red",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G11",
+      "reset": 2342833335,
+      "seed": 1710034958,
+      "result_sha256": "8f447bf4471ef5d8fa26951ca1f50c4665d8cf5140b6c4e259ca15c1a00ece22",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "4f976f204cf098aa9854880c00c4405a3ac5063adcbcec14d6096f386bce6b69",
+      "queries": 72,
+      "scene": "572f2e6e77152e65a9f36f35623e151f65a1d7b980a2189f02e293ef89a56c37",
+      "target": {
+        "confusion": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 54,
+          "fn": 0,
+          "abstain_positive": 1,
+          "abstain_negative": 16
+        },
+        "status": {
+          "measured": 58,
+          "missing_or_geometry_rejected": 14
+        },
+        "first_actual": 23203,
+        "first_visual": 23453,
+        "first_same_tick_true_positive": 23453,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 13,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 59
+        },
+        "status": {
+          "measured": 14,
+          "missing_or_geometry_rejected": 58
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F2-HOLD-blue-11": {
+      "group": "other_admitted",
+      "task": "HOLD-blue",
+      "family": "F2",
+      "layout": "CHV1-TRAIN-F2-G11",
+      "reset": 1632130500,
+      "seed": 537607327,
+      "result_sha256": "a0438f3a435f459cc521b4c7c51c8fc70739d9c20e144b6c95b6fdf85640c0d1",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "22f76a6a72108a8cd626c5d90fcf6eccd4c8517e9dd23b1987f90134eebd90f2",
+      "queries": 71,
+      "scene": "bdf45aee5cbfd295a069bdc73de01f5c340ae883133167e815d79c35f9c4626e",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 71
+        },
+        "status": {
+          "missing_or_geometry_rejected": 16,
+          "measured": 55
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 2,
+          "abstain_negative": 69
+        },
+        "status": {
+          "missing_or_geometry_rejected": 38,
+          "measured": 33
+        },
+        "first_actual": 22953,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-red-right-11": {
+      "group": "other_admitted",
+      "task": "PLACE-red-right",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G11",
+      "reset": 2342833335,
+      "seed": 1710034958,
+      "result_sha256": "6abf7a8fb33e6e4333e7c6171ad6c27029c1c90994e63de0d6a75de81bb6268d",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "0dda96c648db5f71768cca7fc20808a6cfefad5134dfd50c02fde2fe22fded99",
+      "queries": 116,
+      "scene": "572f2e6e77152e65a9f36f35623e151f65a1d7b980a2189f02e293ef89a56c37",
+      "target": {
+        "confusion": {
+          "tp": 22,
+          "fp": 0,
+          "tn": 71,
+          "fn": 0,
+          "abstain_positive": 6,
+          "abstain_negative": 17
+        },
+        "status": {
+          "measured": 103,
+          "missing_or_geometry_rejected": 13
+        },
+        "first_actual": 21703,
+        "first_visual": 21953,
+        "first_same_tick_true_positive": 21953,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 10,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 106
+        },
+        "status": {
+          "measured": 11,
+          "missing_or_geometry_rejected": 105
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-12": {
+      "group": "other_admitted",
+      "task": "HOLD-red",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G12",
+      "reset": 1520873026,
+      "seed": 822778302,
+      "result_sha256": "09851fdcbad55913de235fd33c1ccc65a27f8f7a3cfc897caaf3490352441b00",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "c03f9422c4d81c58db2eaa998f7e2dd9930fb27f8aaf442eba932db74ca0760b",
+      "queries": 66,
+      "scene": "dc26671d12b16289de195139e6ad03c4d407b2b9e94fc4ac341a94e8644f3677",
+      "target": {
+        "confusion": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 50,
+          "fn": 0,
+          "abstain_positive": 1,
+          "abstain_negative": 14
+        },
+        "status": {
+          "measured": 55,
+          "missing_or_geometry_rejected": 11
+        },
+        "first_actual": 21703,
+        "first_visual": 21953,
+        "first_same_tick_true_positive": 21953,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 66
+        },
+        "status": {
+          "measured": 1,
+          "missing_or_geometry_rejected": 65
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F2-HOLD-blue-12": {
+      "group": "other_admitted",
+      "task": "HOLD-blue",
+      "family": "F2",
+      "layout": "CHV1-TRAIN-F2-G12",
+      "reset": 977212509,
+      "seed": 314668350,
+      "result_sha256": "012a19c6c7faacd38903091e67e973ff463247b042d108630e94b60bc9299cb5",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "bf34d29f858bac5b92e6f2c6c671be1a166a686f5057eaa257ea1f8686a00602",
+      "queries": 71,
+      "scene": "17f389d37287e00f962752a99ea947a58a05ace0d4903408757fae91bfb07902",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 71
+        },
+        "status": {
+          "missing_or_geometry_rejected": 18,
+          "measured": 53
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 2,
+          "abstain_negative": 69
+        },
+        "status": {
+          "missing_or_geometry_rejected": 44,
+          "measured": 27
+        },
+        "first_actual": 22953,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-red-right-12": {
+      "group": "other_admitted",
+      "task": "PLACE-red-right",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G12",
+      "reset": 1520873026,
+      "seed": 822778302,
+      "result_sha256": "f8e3d2c5117587e19f3da15bd3240d9135933b355019413fc019f130207e8e46",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "c68866a1b2e8b1a3c4b52ed38f7054a54a74537218a585880d3f0aeb9875eacb",
+      "queries": 122,
+      "scene": "dc26671d12b16289de195139e6ad03c4d407b2b9e94fc4ac341a94e8644f3677",
+      "target": {
+        "confusion": {
+          "tp": 29,
+          "fp": 0,
+          "tn": 71,
+          "fn": 0,
+          "abstain_positive": 6,
+          "abstain_negative": 16
+        },
+        "status": {
+          "measured": 109,
+          "missing_or_geometry_rejected": 13
+        },
+        "first_actual": 20703,
+        "first_visual": 20953,
+        "first_same_tick_true_positive": 20953,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 122
+        },
+        "status": {
+          "measured": 1,
+          "missing_or_geometry_rejected": 121
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-13": {
+      "group": "other_admitted",
+      "task": "HOLD-red",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G13",
+      "reset": 4256777434,
+      "seed": 3619523536,
+      "result_sha256": "3ba18c40e583c744aafe577d99cf50173a10d93e21acec31f64d076aadf2bb5f",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "1217f43927cb319647e135d1616d27aa60a76a6ad600cd1bf85f2834320a407c",
+      "queries": 69,
+      "scene": "d8a52d7f2c42ac5d7cee9f12dacea91e1546b523722d61c4cc579bd4cf0efe0c",
+      "target": {
+        "confusion": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 52,
+          "fn": 0,
+          "abstain_positive": 1,
+          "abstain_negative": 15
+        },
+        "status": {
+          "measured": 57,
+          "missing_or_geometry_rejected": 12
+        },
+        "first_actual": 22453,
+        "first_visual": 22703,
+        "first_same_tick_true_positive": 22703,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 7,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 62
+        },
+        "status": {
+          "measured": 8,
+          "missing_or_geometry_rejected": 61
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F2-HOLD-blue-13": {
+      "group": "other_admitted",
+      "task": "HOLD-blue",
+      "family": "F2",
+      "layout": "CHV1-TRAIN-F2-G13",
+      "reset": 2980339239,
+      "seed": 4290001400,
+      "result_sha256": "4630e07f5a31a8f39f615e8fe176b6ffed477b5ffca339c47d1fe788701e6547",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "72c74787dbe4d7cb8d526d0b92130fd5ca700b805d1275776d693673189ea0a7",
+      "queries": 68,
+      "scene": "b7124605deb23d53c134c323f0cc32708f0ab4ad0e737e81c7f76072287cedb4",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 68
+        },
+        "status": {
+          "missing_or_geometry_rejected": 14,
+          "measured": 54
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 2,
+          "abstain_negative": 66
+        },
+        "status": {
+          "missing_or_geometry_rejected": 38,
+          "measured": 30
+        },
+        "first_actual": 22203,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-red-right-13": {
+      "group": "other_admitted",
+      "task": "PLACE-red-right",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G13",
+      "reset": 4256777434,
+      "seed": 3619523536,
+      "result_sha256": "f582310316b0d662a0b8d6bfd37503cb69c9a44fc2b91242bd13d242c5bb6d67",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "33b7d2315ebc980e01cd1f967e47c071405e0d8a6aff2fa9f1abc15ca5f4fc7d",
+      "queries": 118,
+      "scene": "d8a52d7f2c42ac5d7cee9f12dacea91e1546b523722d61c4cc579bd4cf0efe0c",
+      "target": {
+        "confusion": {
+          "tp": 20,
+          "fp": 0,
+          "tn": 73,
+          "fn": 0,
+          "abstain_positive": 7,
+          "abstain_negative": 18
+        },
+        "status": {
+          "measured": 106,
+          "missing_or_geometry_rejected": 12
+        },
+        "first_actual": 21703,
+        "first_visual": 22203,
+        "first_same_tick_true_positive": 22203,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 9,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 109
+        },
+        "status": {
+          "measured": 10,
+          "missing_or_geometry_rejected": 108
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-14": {
+      "group": "other_admitted",
+      "task": "HOLD-red",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G14",
+      "reset": 604166045,
+      "seed": 2027145650,
+      "result_sha256": "b717fc95b97f14bb3aaf8b09332fd32eae4d68bc4c7eda491b7019d907d4b531",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "7d3c92372924abfd52995a3ff5763de690527296aad037f98134b9bb202ed925",
+      "queries": 68,
+      "scene": "4ba28975a3580275bf69c32273d670ed57c43b07251c03c96b771a90523ab382",
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 60,
+          "fn": 0,
+          "abstain_positive": 2,
+          "abstain_negative": 6
+        },
+        "status": {
+          "measured": 64,
+          "missing_or_geometry_rejected": 4
+        },
+        "first_actual": 22203,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 5,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 63
+        },
+        "status": {
+          "measured": 6,
+          "missing_or_geometry_rejected": 62
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F2-HOLD-blue-14": {
+      "group": "other_admitted",
+      "task": "HOLD-blue",
+      "family": "F2",
+      "layout": "CHV1-TRAIN-F2-G14",
+      "reset": 3169622418,
+      "seed": 2613027354,
+      "result_sha256": "3d3982d3d08913898f713e952ce4ed3f3e7440ad32a3a52eff5c24ac2e522a0d",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "a1c1eb46e9f92d9b609b145232bc1b94c6aab6aecacf4fcadeb67587dcfcb735",
+      "queries": 73,
+      "scene": "d309780cc9ff4a256db09a2b206e7efe634fba7e7ed467250460e0ac63346eb2",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 73
+        },
+        "status": {
+          "missing_or_geometry_rejected": 18,
+          "measured": 55
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 2,
+          "abstain_negative": 71
+        },
+        "status": {
+          "missing_or_geometry_rejected": 37,
+          "measured": 36
+        },
+        "first_actual": 23453,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-red-right-14": {
+      "group": "other_admitted",
+      "task": "PLACE-red-right",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G14",
+      "reset": 604166045,
+      "seed": 2027145650,
+      "result_sha256": "8d552fc403ca3dade24e7b561aa232b1ad917660441dcb79e2388273c4564f8e",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "ca3f5e4a195fa018f9caa6a821354b513a017e597d59580d94de9f6080a3bc9e",
+      "queries": 124,
+      "scene": "4ba28975a3580275bf69c32273d670ed57c43b07251c03c96b771a90523ab382",
+      "target": {
+        "confusion": {
+          "tp": 23,
+          "fp": 0,
+          "tn": 72,
+          "fn": 0,
+          "abstain_positive": 11,
+          "abstain_negative": 18
+        },
+        "status": {
+          "measured": 111,
+          "missing_or_geometry_rejected": 13
+        },
+        "first_actual": 21453,
+        "first_visual": 21953,
+        "first_same_tick_true_positive": 21953,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 5,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 119
+        },
+        "status": {
+          "measured": 6,
+          "missing_or_geometry_rejected": 118
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-15": {
+      "group": "other_admitted",
+      "task": "HOLD-red",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G15",
+      "reset": 3556769010,
+      "seed": 4177086856,
+      "result_sha256": "20c4b5df67a1b02622866166d26d99d142a74966fde55d1b7de78cbefcc4402b",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "3da19390794c23227275170a1d43757080c6a3994aa25aba832a6462b48b03f5",
+      "queries": 70,
+      "scene": "57dea50e96c5de4d1b6f3d980394625c26333372c70e00fde9efb0664b4ecc30",
+      "target": {
+        "confusion": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 51,
+          "fn": 0,
+          "abstain_positive": 1,
+          "abstain_negative": 17
+        },
+        "status": {
+          "measured": 56,
+          "missing_or_geometry_rejected": 14
+        },
+        "first_actual": 22703,
+        "first_visual": 22953,
+        "first_same_tick_true_positive": 22953,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 10,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 60
+        },
+        "status": {
+          "measured": 11,
+          "missing_or_geometry_rejected": 59
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F2-HOLD-blue-15": {
+      "group": "other_admitted",
+      "task": "HOLD-blue",
+      "family": "F2",
+      "layout": "CHV1-TRAIN-F2-G15",
+      "reset": 852205140,
+      "seed": 3640170411,
+      "result_sha256": "844bd1934f78bd9ad48dd48890328e31b1935fcb3f65eaef2c74cc0a2104df96",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "3f97856290a79b35acf996f09c971046e2410408696d12c9bbc3492102def9a2",
+      "queries": 68,
+      "scene": "f9f9d20562d3a7d947c357c7c3125ebdea3f3a5342e2b6f2459ba90948a9ccd1",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 68
+        },
+        "status": {
+          "missing_or_geometry_rejected": 13,
+          "measured": 55
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 2,
+          "abstain_negative": 66
+        },
+        "status": {
+          "missing_or_geometry_rejected": 35,
+          "measured": 33
+        },
+        "first_actual": 22203,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-red-right-15": {
+      "group": "other_admitted",
+      "task": "PLACE-red-right",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G15",
+      "reset": 3556769010,
+      "seed": 4177086856,
+      "result_sha256": "784bcf06a28680d0ee92e166abf37b46101b20f93524b3d8e2948ecdc0e12fe6",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "f797866da0032b795628dc5ee7e117bc066c5b1b032a270f3f2d820b5d270772",
+      "queries": 124,
+      "scene": "57dea50e96c5de4d1b6f3d980394625c26333372c70e00fde9efb0664b4ecc30",
+      "target": {
+        "confusion": {
+          "tp": 23,
+          "fp": 0,
+          "tn": 75,
+          "fn": 0,
+          "abstain_positive": 6,
+          "abstain_negative": 20
+        },
+        "status": {
+          "measured": 109,
+          "missing_or_geometry_rejected": 15
+        },
+        "first_actual": 22453,
+        "first_visual": 22703,
+        "first_same_tick_true_positive": 22703,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 10,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 114
+        },
+        "status": {
+          "measured": 11,
+          "missing_or_geometry_rejected": 113
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-16": {
+      "group": "other_admitted",
+      "task": "HOLD-red",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G16",
+      "reset": 2843411373,
+      "seed": 1809915494,
+      "result_sha256": "446589542ff9fb1a39f7e1cce2ea49a04fc3a226867a2c3390a399d97e3742ef",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "ba4734dfca38a45138fa227ef38cbd9b254044c4d4723a2d7dab303b956f8e46",
+      "queries": 68,
+      "scene": "447778ec3e6a38eed924a12961ea0cf18563ecb36ceb6fcfdc5f000a42f9e156",
+      "target": {
+        "confusion": {
+          "tp": 2,
+          "fp": 0,
+          "tn": 56,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 10
+        },
+        "status": {
+          "measured": 61,
+          "missing_or_geometry_rejected": 7
+        },
+        "first_actual": 22203,
+        "first_visual": 22203,
+        "first_same_tick_true_positive": 22203,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 65
+        },
+        "status": {
+          "measured": 4,
+          "missing_or_geometry_rejected": 64
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F2-HOLD-blue-16": {
+      "group": "other_admitted",
+      "task": "HOLD-blue",
+      "family": "F2",
+      "layout": "CHV1-TRAIN-F2-G16",
+      "reset": 1714553593,
+      "seed": 4166443931,
+      "result_sha256": "933708487668ad95a73bd323a33dc4cb8fd261e924abc47fe99f3a5b908d86f2",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "146f3c21ba7cc2476da8c8e5920c84431c11dbc68e1652c33698c76005f70d95",
+      "queries": 69,
+      "scene": "c04d76683ce7dbe2cc16d48bc54f4ec72d782cf7974d6772ef81d73a1afc49ef",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 69
+        },
+        "status": {
+          "missing_or_geometry_rejected": 19,
+          "measured": 50
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 2,
+          "abstain_negative": 67
+        },
+        "status": {
+          "missing_or_geometry_rejected": 40,
+          "measured": 29
+        },
+        "first_actual": 22453,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-red-right-16": {
+      "group": "other_admitted",
+      "task": "PLACE-red-right",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G16",
+      "reset": 2843411373,
+      "seed": 1809915494,
+      "result_sha256": "cbeb7f3b40b1216fee01acbd7a2acbc78522c16d81b70fc05dfb913f7e05f5fb",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "6bd653b95c922d8a74c0e4788db6bd6da26d7ced47fb6f6ca0560506b2a0e492",
+      "queries": 119,
+      "scene": "447778ec3e6a38eed924a12961ea0cf18563ecb36ceb6fcfdc5f000a42f9e156",
+      "target": {
+        "confusion": {
+          "tp": 20,
+          "fp": 0,
+          "tn": 74,
+          "fn": 0,
+          "abstain_positive": 9,
+          "abstain_negative": 16
+        },
+        "status": {
+          "measured": 106,
+          "missing_or_geometry_rejected": 13
+        },
+        "first_actual": 21453,
+        "first_visual": 21953,
+        "first_same_tick_true_positive": 21953,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 3,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 116
+        },
+        "status": {
+          "measured": 4,
+          "missing_or_geometry_rejected": 115
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-17": {
+      "group": "other_admitted",
+      "task": "HOLD-red",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G17",
+      "reset": 3550539740,
+      "seed": 574716337,
+      "result_sha256": "d3713a74ebec50b61e9a9946f0c6df0ee07fc042b9ef63ab472f7491b95cbe52",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "f17b3f76eb1d266297e4cb06f1966b1ed11369136d55282c413bacf5c68d0164",
+      "queries": 70,
+      "scene": "ac848be74e5e82e5e3d73cf4e8f026504f39bea5ea688fe7d9cba1a628ac4948",
+      "target": {
+        "confusion": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 55,
+          "fn": 0,
+          "abstain_positive": 1,
+          "abstain_negative": 13
+        },
+        "status": {
+          "measured": 59,
+          "missing_or_geometry_rejected": 11
+        },
+        "first_actual": 22703,
+        "first_visual": 22953,
+        "first_same_tick_true_positive": 22953,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 6,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 64
+        },
+        "status": {
+          "measured": 7,
+          "missing_or_geometry_rejected": 63
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F2-HOLD-blue-17": {
+      "group": "nonadmitted",
+      "task": "HOLD-blue",
+      "family": "F2",
+      "layout": "CHV1-TRAIN-F2-G17",
+      "reset": 3049353754,
+      "seed": 2989826062,
+      "result_sha256": "fc36911a8a6ef02b3d3501f600a56f535343b9a430f931e1fcae273de9d3878e",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": false,
+      "manifest_sha256": "41ed18df057ccd21b6409446c02d57cb9e873d6d6f5a0bf668be208ce99af52c",
+      "queries": 120,
+      "scene": "e73799772919c71b8d540202c604d58793bde6503951962ecedb37f407f4295e",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 120
+        },
+        "status": {
+          "missing_or_geometry_rejected": 13,
+          "measured": 107
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 57,
+          "abstain_negative": 63
+        },
+        "status": {
+          "missing_or_geometry_rejected": 87,
+          "measured": 33
+        },
+        "first_actual": 21453,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-PLACE-red-right-17": {
+      "group": "other_admitted",
+      "task": "PLACE-red-right",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G17",
+      "reset": 3550539740,
+      "seed": 574716337,
+      "result_sha256": "6e10bd150bd05c339cbdf2ca8508e4a90d8413651e4147b0e24214ff341b1ce5",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "5f0d07f11beecb1024bd53befecd0b8b61c3f2c5c413589c48245922aaa04d12",
+      "queries": 124,
+      "scene": "ac848be74e5e82e5e3d73cf4e8f026504f39bea5ea688fe7d9cba1a628ac4948",
+      "target": {
+        "confusion": {
+          "tp": 21,
+          "fp": 0,
+          "tn": 78,
+          "fn": 0,
+          "abstain_positive": 7,
+          "abstain_negative": 18
+        },
+        "status": {
+          "measured": 110,
+          "missing_or_geometry_rejected": 14
+        },
+        "first_actual": 22703,
+        "first_visual": 22953,
+        "first_same_tick_true_positive": 22953,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 7,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 117
+        },
+        "status": {
+          "measured": 8,
+          "missing_or_geometry_rejected": 116
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F1-HOLD-red-18": {
+      "group": "other_admitted",
+      "task": "HOLD-red",
+      "family": "F1",
+      "layout": "CHV1-TRAIN-F1-G18",
+      "reset": 1509365659,
+      "seed": 606158180,
+      "result_sha256": "7f0dc4e75df009703f10e3e57b48d9a0f65a1720ab7acc38fa88fd4f0e5e18ca",
+      "archive_status": "recorded",
+      "producer_capture_link": true,
+      "original_requests": 1,
+      "teacher_success": true,
+      "manifest_sha256": "15294f8abad21e104b078dc10626fa38911a88f85bf48295130cade91de56b3e",
+      "queries": 67,
+      "scene": "f955e1a714c57db2c92cca85ddcff20c99e55f69cf39a1bcb5b6ecf2bfc4e711",
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 48,
+          "fn": 0,
+          "abstain_positive": 2,
+          "abstain_negative": 17
+        },
+        "status": {
+          "measured": 52,
+          "missing_or_geometry_rejected": 15
+        },
+        "first_actual": 21953,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 9,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 58
+        },
+        "status": {
+          "measured": 10,
+          "missing_or_geometry_rejected": 57
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    },
+    "CHV1-TRAIN-F2-HOLD-blue-18": {
+      "group": "nonadmitted",
+      "task": "HOLD-blue",
+      "family": "F2",
+      "layout": "CHV1-TRAIN-F2-G18",
+      "reset": 2801414931,
+      "seed": 1299822963,
+      "result_sha256": "6506aad458fead1775cb7dcc43a0ed4ad7ca6fa1fbb530db06d66cd139f8bcd3",
+      "archive_status": "recorded",
+      "producer_capture_link": false,
+      "original_requests": 1,
+      "teacher_success": false,
+      "manifest_sha256": "b1722db62a4000bc5803ee8b4efeabefddd0b631f9a3c463c8f02d69bd10108f",
+      "queries": 74,
+      "scene": "3c84c2d692361ef410e7423eb16c0bd8c046dfaae87f32fa0f7e69ec8acd947e",
+      "distractor": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 74
+        },
+        "status": {
+          "missing_or_geometry_rejected": 12,
+          "measured": 62
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      },
+      "target": {
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "abstain_positive": 0,
+          "abstain_negative": 74
+        },
+        "status": {
+          "missing_or_geometry_rejected": 31,
+          "measured": 43
+        },
+        "first_actual": null,
+        "first_visual": null,
+        "first_same_tick_true_positive": null,
+        "false_positive_frames": []
+      }
+    }
+  },
+  "native_integrations": 0,
+  "forwards": 0,
+  "updates": 0
+}
