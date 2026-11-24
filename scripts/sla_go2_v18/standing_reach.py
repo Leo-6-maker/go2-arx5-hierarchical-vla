@@ -174,7 +174,7 @@ def knots(anchor, direction, elapsed):
     return v
 
 
-def drive(a, case, card, profile, fault, result):
+def drive(a, case, card, profile, fault, result, student=None):
     from b2_native import fixed, paused
     from d1_factorial_reference_matrix import boundary
     from d1_geometry import sweep_profile
@@ -224,7 +224,7 @@ def drive(a, case, card, profile, fault, result):
             require(p["step"] == i, "initial clock")
         monitor.observe(p)
         n = 0
-        while entry is None or tick < entry + 2250:
+        while entry is None or tick < entry + (4500 if student else 2250):
             paused(a, tick)
             if entry is None and monitor.stable_now():
                 entry = tick
@@ -246,31 +246,57 @@ def drive(a, case, card, profile, fault, result):
                 if card == "G00-STOP":
                     fault[entry + 1025] = (entry + 1000) * 0.002 + 0.021
             require(entry is not None or tick < 15500, "stable entry deadline")
-            v = (
-                np.repeat(steady[None], 41, axis=0)
-                if entry is None
-                else knots(steady, direction, (tick - entry) * 0.002)
-            )
-            KnownCurve.admit(v, receipt, sample)
-            for pose in np.unique(v.reshape(41, 16), axis=0).reshape(-1, 4, 4):
-
-                def witness(data):
-                    require(
-                        monitor.clearance(data) >= 0.015,
-                        "prospective robot/cube clearance below 15 mm",
-                    )
-
-                sweep_profile(
-                    model,
-                    sample,
-                    dict(parts, old_ee=receipt["end_pose"]),
-                    pose,
-                    parts["old_base"],
-                    guard,
-                    (41, 38, 23),
-                    monitor.permitted,
-                    witness,
+            if entry is None:
+                v = np.repeat(steady[None], 41, axis=0)
+            elif student is None:
+                v = knots(steady, direction, (tick - entry) * 0.002)
+            else:
+                v = student.preview(
+                    a, tick, receipt, sample, monitor, steady, direction
                 )
+            try:
+                KnownCurve.admit(v, receipt, sample)
+                for pose in np.unique(v.reshape(41, 16), axis=0).reshape(-1, 4, 4):
+
+                    def witness(data):
+                        clearance = monitor.clearance(data)
+                        require(
+                            clearance >= 0.015,
+                            f"prospective robot/cube clearance {1000 * clearance:.5f} mm below 15 mm",
+                        )
+
+                    sweep_profile(
+                        model,
+                        sample,
+                        dict(parts, old_ee=receipt["end_pose"]),
+                        pose,
+                        parts["old_base"],
+                        guard,
+                        (41, 38, 23),
+                        monitor.permitted,
+                        witness,
+                    )
+            except (ValueError, RuntimeError, AssertionError) as exc:
+                if student is None or entry is None:
+                    raise
+                student.refusal = {
+                    "kind": "REFERENCE_GATE",
+                    "tick": tick,
+                    "reason": str(exc),
+                }
+                student.log("REFUSED", reason=student.refusal)
+                result["refusal"] = student.refusal
+                result["student"] = student.summary()
+                result["outcome"] = "A_REFERENCE_REFUSED"
+                result["end"] = tick
+                result["cancel"] = a.cancel_reference()
+                require(
+                    result["cancel"]["native_step"] == tick
+                    and result["cancel"]["mode"] == "HOLD",
+                    "refusal terminal hold",
+                )
+                a.seal_trace(tick)
+                return
             action, wire = install(a, v, parts["old_base"], seq + 1 + n, tick)
             source = tick
             ledger.write(
@@ -305,6 +331,8 @@ def drive(a, case, card, profile, fault, result):
                     require(p["step"] == tick + k + 1, "live state/receipt join")
                     monitor.observe(p)
                 tick += 25
+                if student is not None and entry is not None:
+                    student.consumed(tick, receipt, sample)
             n += 1
         require(card != "G00-STOP", "registered fault not observed")
         result["score"] = monitor.score(direction, pregrasp)
@@ -312,6 +340,14 @@ def drive(a, case, card, profile, fault, result):
         result["outcome"] = (
             "H0_PASS" if result["score"]["passed"] else "H0_REACH_FAILED"
         )
+        if student is not None:
+            result["student"] = student.summary()
+            result["outcome"] = (
+                "A_PASS"
+                if result["score"]["passed"]
+                and result["student"]["post_motion_forward"]
+                else "A_REACH_FAILED"
+            )
         result["cancel"] = a.cancel_reference()
         require(
             result["cancel"]["native_step"] == tick
