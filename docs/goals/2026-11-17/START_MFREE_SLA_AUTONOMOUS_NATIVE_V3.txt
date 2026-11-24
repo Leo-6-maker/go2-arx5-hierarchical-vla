@@ -1,0 +1,11 @@
+继续 Leo-6-maker/go2-arx5-hierarchical-vla 的SLA移动底座项目。执行 docs/goals/2026-11-17/MFREE_SLA_AUTONOMOUS_NATIVE_CONSUMER_V3.md 及同名JSON，先读取PR393@7afbc0bd953c9b87821858bd70738a287ec082fc的实测ACTUAL_MATRIX与本仓库AGENTS.md、REPOSITORY_WORKFLOW.md。
+
+事实：FM500 EEF＋TIME500 GRIP和SHIFT7均TRAIN96/96，主组合CN38 180/180；双adapter RGB16逐位、缓存请求64/64；新增真正原生消费/抓持0。F1/F2专家/学生及M_ASSIST仍共同隔离。所有旧服务CLOSED。禁止再做同一TRAIN训练或重跑现有成功/失败。
+
+自治任务：先在隔离worktree复用现有hybrid_request和shared-parent代码，实现真实请求→双adapter→物理H40合并→原完整编译器→非物理receiver/ACK/mock消费的端到端接口；测上一实际发出夹爪命令/50ms时间、TTL/STOP/取消、7点partial P10及原子响应。若有现场有效资源，最多32个统一非物理Core请求（两支合计≤64新生成），量p95/p99全链延迟；旧热态p95=.35531s已超过.35s续期目标。0训练、0真实MuJoCo积分。
+
+遇项目自有工程缺陷自行定位→最小修复→定向测试/回归→建立新不可变source→正常push到GitHub feature PR并回读SHA，不必每个小修复向用户要GO。可独立修依赖/路径/序列化/owner、IPC、时钟、ACK及缓存，但行为变化必须版本化；不强推main、不热改CLOSED或在途胶囊、不重复UNKNOWN/有效失败。项目内代码PR按现役实际分支stacked PR，最终照仓库流程并入main。每次提交写明失败前后证据、测试范围、实际成本、未通过的真实接缝。
+
+并行只读整理3次碰桌与监测误拦1/38、native STOP hook/延迟和controller-selected-reference缺口，形成独立READMISSION申请，不能自己签发。没有审核责任方绑定代码/scene/WBC/profile/有限面板的独立准入，所有新增原生请求仍为0。WBC/MPC/腿/臂/原安全门、H40/P10/50ms、40mm/s均不变；无新训练、SHIFT网格、C60/C100、RL或真机。
+
+按已获准工作持续推进并将工程补丁自主push到GitHub；站点allocation/CPU-GPU和owner必须真实有效。只以新原生事实报告真实抓持/抬升20mm/保持1s/移动8cm。当前会话只是发布计划，不宣称已启动Codex或Core服务。

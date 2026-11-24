@@ -1,0 +1,236 @@
+{
+  "schema": "MFREE_SLA_AUTONOMOUS_NATIVE_CONSUMER_GOAL_V3_20261117",
+  "status": "GITHUB_PLAN_NOT_RUNNING",
+  "date_SGT": "2026-11-17",
+  "goals": {
+    "primary": "DEMONSTRATE_SAFE_M_FREE_MOBILE_GRASP_WITH_FROZEN_WBC",
+    "task_success": "native_grasp AND object_lift_m>=.020 AND contiguous_hold_s>=1.0",
+    "motion_success": "base_movement_along_task_direction_m>=.08",
+    "DEV": {
+      "success_min": 24,
+      "n": 32,
+      "per_family_min": 12,
+      "per_family_n": 16,
+      "hard_stops_max": 0
+    },
+    "TEST": {
+      "success_min": 32,
+      "n": 40,
+      "per_family_min": 16,
+      "per_family_n": 20,
+      "hard_stops_max": 0
+    }
+  },
+  "pins": {
+    "actual_PR": 393,
+    "actual_head": "7afbc0bd953c9b87821858bd70738a287ec082fc",
+    "matrix": "reports/WM02/sla-eef-grip-decoupling-20261117/ACTUAL_MATRIX.md",
+    "matrix_sha_identity": "7afbc0bd_report_commit",
+    "original_goal_PR": 392,
+    "plan_PR": 394,
+    "parent_C20_updates": 1000,
+    "parent_C20_visits": 32000,
+    "CN38_expert_qualified": 38,
+    "CN38_native_expert_requests": 41,
+    "old_student_task_success": 0,
+    "old_student_native_requests": 13,
+    "SHIFT7_updates": 500,
+    "SHIFT7_visits": 16000,
+    "SHIFT7_TRAIN_H40": "96/96",
+    "FM_EEF_TIME_GRIP_TRAIN": "96/96",
+    "FM_EEF_SHIFT7_GRIP_TRAIN": "96/96",
+    "FM_EEF_TIME_GRIP_CN38": "180/180",
+    "dual_adapter_independent_replays": "16/16",
+    "cached_lifecycle_faults": "64/64",
+    "native_admitted": false,
+    "chosen_candidate": "FM500_EEF_PLUS_TIME500_GRIP",
+    "candidate_manifest_sha256": "7aacd184941c6980154935833d97a1975e3cba3d1c1dd6c8a4878d38abbbd1ce",
+    "inference_p95_s": 0.35531,
+    "renewal_target_s": 0.35,
+    "native_ttl_s": 0.4
+  },
+  "stages": [
+    {
+      "id": "A0",
+      "status": "REUSE_PINS",
+      "new_training_updates": 0,
+      "new_neural_generations": 0,
+      "new_native_requests": 0,
+      "deliverables": [
+        "actual_source_lease_owner",
+        "current_registry_and_capsules",
+        "no_old_replay"
+      ]
+    },
+    {
+      "id": "A1",
+      "name": "NONPHYSICAL_REQUEST_TO_FULL_H40_COMPILER",
+      "new_training_updates": 0,
+      "new_neural_generations": 0,
+      "new_native_requests": 0,
+      "deliverables": [
+        "unified_request_atomic_ack",
+        "real_previous_emitted_reference",
+        "50ms_query_clock",
+        "original_full_nominal_reference_envelope",
+        "STOP_TTL_cancel_partialP10_failure_injections",
+        "no_separate_gripper_write"
+      ]
+    },
+    {
+      "id": "A2",
+      "name": "CORE_GPU_NONPHYSICAL_IPC",
+      "conditional_on_valid_allocation": true,
+      "unified_requests_cap": 32,
+      "branches_per_request": 2,
+      "new_neural_generations_cap": 64,
+      "new_training_updates": 0,
+      "new_native_requests": 0,
+      "deliverables": [
+        "live_two_adapter_IPC_proof",
+        "latency_p50_p95_p99_max",
+        "cross_query_continuity",
+        "real_parent_resident_memory",
+        "no_unrecognized_command_install"
+      ],
+      "stop_if": "TTL_OR_STOP_CONTRACT_FAIL"
+    },
+    {
+      "id": "A3",
+      "name": "SAVED_OLD_STUDENT_ONE_STEP_DIAGNOSTICS",
+      "requires_valid_RGB_clock_previous_reference": true,
+      "generation_cap_shared_with_A2": 64,
+      "not_student_closed_loop": true,
+      "new_training_updates": 0,
+      "new_native_requests": 0
+    },
+    {
+      "id": "S0",
+      "name": "INDEPENDENT_CONTACT_READMISSION",
+      "new_training_updates": 0,
+      "new_native_requests": 0,
+      "original_collision_events": 3,
+      "prior_monitor_falseblock": 1,
+      "prior_success_experts": 38,
+      "minimum_passive_warning_lead_ms": 12,
+      "monitor_uninstalled": true,
+      "needs_signed_readmission": true
+    },
+    {
+      "id": "P0",
+      "name": "NEW_EXPERT_SAFETY_VALIDATION",
+      "native_requests_max_if_signed": 8,
+      "otherwise_native_requests": 0
+    },
+    {
+      "id": "P1",
+      "name": "STUDENT_PILOT",
+      "native_requests_max_if_signed": 8,
+      "continue_if": "AT_LEAST_ONE_FULL_MOBILE_TASK_SUCCESS_PER_FAMILY_AND_ZERO_HARD_STOP"
+    },
+    {
+      "id": "P2",
+      "name": "DEV",
+      "native_requests_max_if_signed": 32,
+      "requires_P1": true
+    },
+    {
+      "id": "P3",
+      "name": "ONE_TEST",
+      "native_requests_max_if_signed": 40,
+      "requires_DEV": true
+    },
+    {
+      "id": "L",
+      "name": "CONDITIONAL_NEW_SCIENCE_TRAINING",
+      "allowed_now": false,
+      "new_training_updates": 0,
+      "new_native_requests": 0
+    }
+  ],
+  "autonomous_repair": {
+    "scope": [
+      "E0: user_space_engineering_nonsemantic",
+      "E1: versioned_protocol_and_clock_with_nonphysical_qualification"
+    ],
+    "permitted_activities": [
+      "diagnose",
+      "write_code",
+      "targeted_tests",
+      "record_failure",
+      "commit_in_isolated_branch",
+      "open_github_PR",
+      "continue_pre_authorized_nonphysical_stage"
+    ],
+    "needs_separate_authorization": [
+      "new_model_training",
+      "new_scientific_physical_conditions",
+      "data_or_codec_or_normalizer_change",
+      "new_student_native_evaluation",
+      "safety_readmission",
+      "runtime_WBC_or_threshold_change",
+      "native_hook_installation"
+    ],
+    "git_workflow": {
+      "publication_base": "main",
+      "runtime_reference_branch": "feat/sla-close-safe-mobile-exec-v1-20261116",
+      "runtime_reference_commit": "7afbc0bd953c9b87821858bd70738a287ec082fc",
+      "use_stacked_PR_when_runtime_not_on_main": true,
+      "no_force": true,
+      "no_auto_merge": true,
+      "keep_running_capsules_immutable": true,
+      "remote_commit_readback_required": true
+    },
+    "stop_conditions": [
+      "unknown_physical_job",
+      "hard_safety_stop",
+      "missing_independent_readmission",
+      "expired_allocation",
+      "unresolved_owner_collision",
+      "repeated_identical_technical_failure_without_new_hypothesis"
+    ],
+    "engineering_repair_steps": [
+      "reproduce",
+      "minimal_fix",
+      "targeted_tests",
+      "regression",
+      "new_source_SHA",
+      "GitHub_PR",
+      "terminal_receipt"
+    ]
+  },
+  "invariants": {
+    "WBC_MPC_legs_arm_2ms_frozen": true,
+    "H40_points": 40,
+    "atom_s": 0.05,
+    "P10_points": 10,
+    "query_s": 0.5,
+    "original_finger_max_m_s": 0.04,
+    "original_H40_checks_unchanged": true,
+    "M_FREE_only": true,
+    "no_teacher_phase_or_future_object_truth": true,
+    "no_gate_based_per_query_model_switch": true,
+    "no_clipping_or_posthoc_smoothing": true,
+    "legacy_failures_preserved": true,
+    "real_robot": false,
+    "RL": false,
+    "old_capsules_not_restarted": true,
+    "old_deadline_SGT": "2026-11-19T02:51:23.855488+08:00"
+  },
+  "budget": {
+    "new_training_updates": 0,
+    "new_training_visits": 0,
+    "proposed_nonphysical_unified_requests": 32,
+    "proposed_neural_generation_cap": 64,
+    "new_native_requests_before_readmission": 0,
+    "conditional_native_max_after_independent_readmission": 88,
+    "site_resource_allocation_must_exist": true
+  },
+  "publication": {
+    "this_PR_plan_only": true,
+    "actual_new_GPU_calls": 0,
+    "actual_new_optimization_updates": 0,
+    "actual_new_native_integrations": 0,
+    "Core_job_started": false
+  }
+}
