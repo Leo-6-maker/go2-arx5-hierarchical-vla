@@ -76,3 +76,51 @@ def propose(profile, world, actual, ref, obj):
     )[:, None]
     out[:, :3, :3] = Rotation.from_rotvec(rot).as_matrix() @ ref[:3, :3]
     return out, alpha
+
+
+def direct_fit(world, actual, ref, obj):
+    axis, cap, radius = visual_goal(obj, actual)
+    path = ref @ np.linalg.solve(actual, world[:PREFIX])
+    proposal = path[:, :3, 3] - ref[:3, 3]
+    axial_cap = np.clip(proposal @ axis, 0.0, cap)
+    if axial_cap[1:].max() <= 1e-12:
+        raise ValueError("no forward component in SLA prefix")
+
+    def project(x):
+        axial = x @ axis
+        perp = x - axial[:, None] * axis
+        scale = np.minimum(
+            1.0, radius / np.maximum(1e-12, np.linalg.norm(perp, axis=1))
+        )
+        out = np.clip(axial, 0, axial_cap)[:, None] * axis + perp * scale[:, None]
+        out[0] = 0.0
+        return out
+
+    d2 = np.diff(np.eye(len(path)), n=2, axis=0)
+    hessian = np.eye(len(path)) + d2.T @ d2
+    x = project(proposal)
+    for iterations in range(1, 501):
+        next_x = project(x - (hessian @ x - proposal) / 17.0)
+        residual = float(np.linalg.norm(next_x - x, axis=1).max())
+        x = next_x
+        if residual <= 1e-10:
+            break
+    else:
+        raise ValueError("direct-fit solver failed to converge")
+    out = path.copy()
+    out[:, :3, 3] = ref[:3, 3] + x
+    rot = Rotation.from_matrix(path[:, :3, :3] @ ref[:3, :3].T).as_rotvec()
+    rot *= np.minimum(
+        1.0, MAX_ROTATION / np.maximum(1e-12, np.linalg.norm(rot, axis=1))
+    )[:, None]
+    rot[0] = 0
+    out[:, :3, :3] = Rotation.from_rotvec(rot).as_matrix() @ ref[:3, :3]
+    return out, dict(
+        iterations=iterations,
+        residual_m=residual,
+        rms_translation_edit_mm=float(
+            1000 * np.sqrt(np.mean(np.sum((x - proposal) ** 2, axis=1)))
+        ),
+        proposed_final_axial_mm=float(1000 * proposal[-1] @ axis),
+        retained_final_axial_mm=float(1000 * x[-1] @ axis),
+    )
