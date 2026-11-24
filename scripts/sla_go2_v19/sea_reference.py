@@ -6,6 +6,7 @@ import re
 import sys
 
 import numpy as np
+from scipy.spatial.transform import Rotation
 
 BASE = Path(__file__).resolve().parents[2]
 sys.path[:0] = [str(BASE / "scripts" / name) for name in (
@@ -154,6 +155,30 @@ def admit_intent(intent, receipt, sample, tick, limits):
     return segment
 
 
+def motion_projection(measured_start, command_start, measured, command):
+    """Compare signed increments along the consumed translation and SO(3) axes."""
+    actual_mm = 1000 * (measured[:3, 3] - measured_start[:3, 3])
+    target_mm = 1000 * (command[:3, 3] - command_start[:3, 3])
+    actual_deg = np.rad2deg(
+        Rotation.from_matrix(measured[:3, :3] @ measured_start[:3, :3].T).as_rotvec()
+    )
+    target_deg = np.rad2deg(
+        Rotation.from_matrix(command[:3, :3] @ command_start[:3, :3].T).as_rotvec()
+    )
+
+    def axis(actual, target, threshold):
+        length = float(np.linalg.norm(target))
+        signed = float(actual @ target / length) if length > 1e-12 else None
+        return length, signed, length > threshold and signed >= threshold
+
+    mm, signed_mm, translation = axis(actual_mm, target_mm, 1.0)
+    deg, signed_deg, rotation = axis(actual_deg, target_deg, .25)
+    return dict(
+        installed_mm=mm, actual_projection_mm=signed_mm, translation=translation,
+        installed_deg=deg, actual_projection_deg=signed_deg, rotation=rotation,
+    )
+
+
 class SEAStandingStudent(Student):
     """Reference producer for standing_reach.drive. The drive retains sole install authority."""
 
@@ -162,9 +187,12 @@ class SEAStandingStudent(Student):
         require(type(query_cap) is int and 1 <= query_cap <= 12, "FINITE_QUERY_CAP_REQUIRED")
         self.provider, self.limits, self.query_cap = provider, limits, query_cap
         self.completed_motion = None
+        self.episode = None
 
     def preview(self, adapter, tick, receipt, sample, monitor, anchor, direction):
         require(monitor.last == receipt["end"] == tick, "WRONG_PAUSED_OBSERVATION")
+        require(receipt["episode"] == adapter.output.name
+                and self.episode in (None, adapter.output.name), "CROSS_OWNER_INTENT")
         self.path = adapter.output.parent / "SEA_REFERENCE.jsonl"
         elapsed = None if self.reference_tick is None else (tick-self.reference_tick)*.002
         # A fresh query requires an actually consumed motion from the current
@@ -189,8 +217,10 @@ class SEAStandingStudent(Student):
             self.calls += 1
             self.last_origin = intent.observation_sha256
             self.reference_tick = tick
+            self.episode = intent.episode
             self.compiled = segment
             self.first_source = None
+            self.last_source_tick = None
             self.motion = None
             self.log("RETURN_ADMITTED", tick=tick, input=intent.observation_sha256,
                      predicted_event_metadata=segment.events, gripper_fixed_open=True,
@@ -202,6 +232,33 @@ class SEAStandingStudent(Student):
         # KnownCurve.admit, scene sweep, actual wire and atom_receipt run in
         # the unchanged standing_reach.drive after this returns.
         return commands
+
+    def consumed(self, tick, receipt, sample):
+        if self.compiled is None:
+            return
+        elapsed = (tick - self.reference_tick) * .002
+        times = elapsed + np.array([-DT, 0.])
+        if times[0] < self.compiled.lead - 1e-9:
+            return
+        expected, _, phase = self.compiled.at(times)
+        if phase[1] <= phase[0]:
+            return
+        consumed, actual = verified_seam(self.episode, receipt, sample, tick)
+        require(
+            self.last_origin is not None
+            and np.allclose(expected[0], receipt["start_pose"], atol=2e-7, rtol=0)
+            and np.allclose(expected[1], consumed, atol=2e-7, rtol=0),
+            "SOURCE_PHASE_WITHOUT_EXACT_CONSUMPTION",
+        )
+        if self.first_source is None:
+            self.first_source = (tick, actual.copy(), consumed.copy())
+            return
+        first, actual0, consumed0 = self.first_source
+        values = motion_projection(actual0, consumed0, actual, consumed)
+        if self.motion is None and (values["translation"] or values["rotation"]):
+            self.motion = dict(start=first, tick=tick, consumed=receipt["consumed"], **values)
+            self.log("SOURCE_MOTION", **self.motion)
+        self.last_source_tick = tick
 
     def summary(self):
         result = super().summary()
