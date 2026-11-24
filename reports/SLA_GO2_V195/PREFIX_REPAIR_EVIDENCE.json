@@ -1,0 +1,40 @@
+{
+  "profile": "BOUNDED_TRANSLATION_FEEDBACK_V1",
+  "affected_attempts": {
+    "P00": {
+      "audit_sha256": "98edccc1522f5571e15fdf43adc3b4d5b96973820c6fe239f11fc073af1191ce",
+      "terminal_lease": "CLOSED",
+      "no_process_survivors": true,
+      "ticks": 16953,
+      "model_forwards": 0,
+      "terminal_hold": true,
+      "after_hold": {
+        "install_or_accept": 0,
+        "grant": 0,
+        "ticks": 0
+      },
+      "outcome": "INVALID_HANDOFF",
+      "prefix": 10750,
+      "prefix_error": "PREGRASP_HANDOFF_NOT_OPEN_AND_UNMOVED"
+    },
+    "P01": {
+      "audit_sha256": "872931fce2ecf84ccf6605d8b1e5add56b57c72863f0b2bb8165becfa8a94d4e",
+      "terminal_lease": "CLOSED",
+      "no_process_survivors": true,
+      "ticks": 3803,
+      "model_forwards": 0,
+      "terminal_hold": false,
+      "after_hold": null,
+      "outcome": "TECHNICAL_STOP",
+      "prefix": null,
+      "prefix_error": null
+    }
+  },
+  "scoped_stop": "OWNED_PREFIX_STOP_WRONG_GENERIC_TEACHER_MUST_RESTORE_COMPACT_H0",
+  "worker": {
+    "exit_code": 0,
+    "terminal": true
+  },
+  "generic_teacher_used": true,
+  "previous_qualified_compact_teacher_restored": true
+}
