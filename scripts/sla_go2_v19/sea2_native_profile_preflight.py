@@ -16,6 +16,7 @@ from sea2_preflight import archive_boundary, rolling_h40, sealed_archive, sweep
 from demonstrated_grip import pin, read, require, rows
 from go2arx5_vla.world_model.native_replay import forbid_integration
 from reach_native import audit as audit_receiver
+from standing_reach import ReachProposalRejected
 from visual_lift_panel import write_new
 from world_intent_clock import world_offset
 
@@ -49,15 +50,33 @@ def known_intent(episode, tick, tcp, translation, degrees):
     )
 
 
-def calibration_student(card, limits, query_cap=1):
-    """Build the known-physical provider consumed by the standing receiver."""
-    _, _, translation, rotation = card
+class CalibrationStudent(SEAStandingStudent):
+    """Known physical input while retaining the original standing receiver gates."""
 
-    def provider(adapter, tick):
+    def __init__(self, card, limits, query_cap):
+        self.card = card
+        super().__init__(None, self.physical_input, limits, query_cap)
+
+    def physical_input(self, adapter, tick):
+        _, _, translation, rotation = self.card
         actual = adapter.measured_task_state()["tcp"]
-        return known_intent(adapter.output.name, tick, actual, translation, rotation)
+        intent = known_intent(adapter.output.name, tick, actual, translation, rotation)
+        self.log("KNOWN_PHYSICAL_INPUT", tick=tick, actual_tcp=intent.actual_tcp.tolist(),
+                 input=intent.observation_sha256)
+        return intent
 
-    return SEAStandingStudent(None, provider, limits, query_cap)
+    def preview(self, adapter, tick, receipt, sample, monitor, anchor, direction):
+        self.path = adapter.output.parent / "SEA_REFERENCE.jsonl"
+        if self.compiled is None and tick + round(NATIVE_WINDOW_S/.002) > 20000:
+            raise ReachProposalRejected("REGISTERED_WINDOW_EXCEEDS_HARD_TICK_CAP")
+        commands = super().preview(adapter, tick, receipt, sample, monitor, anchor, direction)
+        if self.compiled.end > NATIVE_WINDOW_S:
+            raise ReachProposalRejected("COMPILED_PREFIX_EXCEEDS_REGISTERED_WINDOW")
+        return commands
+
+
+def calibration_student(card, limits, query_cap=1):
+    return CalibrationStudent(card, limits, query_cap)
 
 
 def archive_sample(root, sealed, layout):

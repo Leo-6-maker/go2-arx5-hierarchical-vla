@@ -1,0 +1,2074 @@
+{
+  "status": "CPU_OWNER_BINDING_VERIFIED",
+  "binding": {
+    "profile": "SEA2-NATIVE-KNOWN-PHYSICAL-01",
+    "candidate_sha256": "4db8be41b7afe80f4e0691608760f8d3010c6c195f44570c3b8e9b092ca1ef47",
+    "cpu_evidence_sha256": "bde4978a0bac136a77f8803e641fc4e5a2318016fd455f734d71f35483409865",
+    "physics_limits": {
+      "native_starts": 4,
+      "ticks_per_start": 20000,
+      "total_ticks": 80000,
+      "contact": false,
+      "real_hardware": false,
+      "model_forwards": 0,
+      "optimizer_updates": 0
+    },
+    "slots": [
+      "SEA2-HOLD",
+      "SEA2-XYZ",
+      "SEA2-SO3",
+      "SEA2-MIXED"
+    ],
+    "receiver_sha256": "927f2179793916dff30590a82b0e5ce3d92811e21446459416613da59e9e3878",
+    "code": {
+      "sea2_native_owner.py": "b4ebe7f8b51799266fb1dd896fcf074a805c33d1720b92d6fbdc460fb27ddd0a",
+      "sea2_native_score.py": "41644bd3f207b957d707bd4ce1437b5970fb8cc6de7b9e33bacf78bbe48c350a",
+      "sea2_native_profile_preflight.py": "d4ec13da4d5bef390a2e5a44eae5be74cd7a6085955eea109293ab727c63d33a",
+      "sea_reference.py": "0c7b8629d26b63b109d84c540b4872a7890dd13ce6ae3092753bfb544b1bc489",
+      "sea2_preflight.py": "fe9ae5f790376f49b952027514e062ca5084157b79bb95e0a272fe307e0fa645",
+      "sea2_owner_cold.py": "111be68b831a6110e7deaf18d3cf756c099aa2cdb71bac5bd413cf4bafb2edbb",
+      "sla_go2_v18/reach_native.py": "7ce4fd36037345ad29e22396f179b6220e77eae6051fdfb6d331eabe16381be3",
+      "sla_go2_v18/standing_reach.py": "21c1ee3044f4ab709b5a3f6595ccb83f61b56118cfff15b77dff752d74f3f024",
+      "sla_go2_v18/reach_pair.py": "cd74bc2a0739f56515d91830b71c65135e81bc4a64cea92b21021634c65f577b",
+      "sla_transfer_v15/d1_matched_owner.py": "d46a2952bb7c375b406ef7850c440baa19ab3bfc5899bab78c01c867432732b2",
+      "sla_transfer_feedback/native_known.py": "f98b36df2de2eabb15f255a235e7cf326a69f806d0c0ab60bd708a0b18c974c0"
+    },
+    "world_domains": {
+      "G00": 193,
+      "G01": 193
+    },
+    "stopped_at": 7214
+  },
+  "archival_readbacks": [
+    {
+      "slot": "G00-H0",
+      "entry_tick": 6203,
+      "end_tick": 8453,
+      "measured_2ms_pose_count": 2251,
+      "consumed_50ms_atoms": 90,
+      "minimum_clearance_mm": 74.12018694923131,
+      "archived_h0_qualification": true,
+      "bad_wire_refused": true,
+      "unverified_atom_refused": true,
+      "new_sea_profile_observed": false
+    },
+    {
+      "slot": "G01-H0",
+      "entry_tick": 6203,
+      "end_tick": 8453,
+      "measured_2ms_pose_count": 2251,
+      "consumed_50ms_atoms": 90,
+      "minimum_clearance_mm": 60.229979577270576,
+      "archived_h0_qualification": true,
+      "bad_wire_refused": true,
+      "unverified_atom_refused": true,
+      "new_sea_profile_observed": false
+    }
+  ],
+  "synthetic_controls": [
+    {
+      "slot": "SEA2-HOLD",
+      "credited_channels": [],
+      "scores": {
+        "same_direction": {
+          "source_samples": 4501,
+          "source_span_s": [
+            0.0,
+            9.0
+          ],
+          "achieved_to_intent": {
+            "count": 4501,
+            "mm_rms_max": [
+              0.0,
+              0.0
+            ],
+            "deg_rms_max": [
+              0.0,
+              0.0
+            ],
+            "xyz_rms_mm": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "in_tube": 1.0,
+            "last_mm_deg": [
+              0.0,
+              0.0
+            ]
+          },
+          "issued_to_intent": {
+            "count": 4501,
+            "mm_rms_max": [
+              27.333135514338554,
+              27.333135514338558
+            ],
+            "deg_rms_max": [
+              2.7262654405981777,
+              2.726265440598178
+            ],
+            "xyz_rms_mm": [
+              12.421394733183428,
+              3.5527536185195503,
+              24.08707519923723
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.41271865627563226,
+              2.667245553504551,
+              0.38469172160612214
+            ],
+            "in_tube": 0.0,
+            "last_mm_deg": [
+              27.333135514338558,
+              2.726265440598178
+            ]
+          },
+          "achieved_to_issued": {
+            "count": 4501,
+            "mm_rms_max": [
+              27.333135514338554,
+              27.333135514338558
+            ],
+            "deg_rms_max": [
+              2.7262654405981777,
+              2.726265440598178
+            ],
+            "xyz_rms_mm": [
+              12.421394733183428,
+              3.5527536185195503,
+              24.08707519923723
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.41271865627563226,
+              2.667245553504551,
+              0.38469172160612214
+            ],
+            "in_tube": 0.0,
+            "last_mm_deg": [
+              27.333135514338558,
+              2.726265440598178
+            ]
+          },
+          "shapes_to_intent": {
+            "xyz": {
+              "x": null,
+              "y": null,
+              "z": null
+            },
+            "rotation_vector": {
+              "x": null,
+              "y": null,
+              "z": null
+            }
+          },
+          "shapes_to_issued": {
+            "xyz": {
+              "x": null,
+              "y": null,
+              "z": null
+            },
+            "rotation_vector": {
+              "x": null,
+              "y": null,
+              "z": null
+            }
+          },
+          "terminal_hold": {
+            "count": 501,
+            "mm_rms_max": [
+              0.0,
+              0.0
+            ],
+            "deg_rms_max": [
+              0.0,
+              0.0
+            ],
+            "xyz_rms_mm": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "in_tube": 1.0,
+            "last_mm_deg": [
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "stationary": {
+          "source_samples": 4501,
+          "source_span_s": [
+            0.0,
+            9.0
+          ],
+          "achieved_to_intent": {
+            "count": 4501,
+            "mm_rms_max": [
+              0.0,
+              0.0
+            ],
+            "deg_rms_max": [
+              0.0,
+              0.0
+            ],
+            "xyz_rms_mm": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "in_tube": 1.0,
+            "last_mm_deg": [
+              0.0,
+              0.0
+            ]
+          },
+          "issued_to_intent": {
+            "count": 4501,
+            "mm_rms_max": [
+              27.333135514338554,
+              27.333135514338558
+            ],
+            "deg_rms_max": [
+              2.7262654405981777,
+              2.726265440598178
+            ],
+            "xyz_rms_mm": [
+              12.421394733183428,
+              3.5527536185195503,
+              24.08707519923723
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.41271865627563226,
+              2.667245553504551,
+              0.38469172160612214
+            ],
+            "in_tube": 0.0,
+            "last_mm_deg": [
+              27.333135514338558,
+              2.726265440598178
+            ]
+          },
+          "achieved_to_issued": {
+            "count": 4501,
+            "mm_rms_max": [
+              27.333135514338554,
+              27.333135514338558
+            ],
+            "deg_rms_max": [
+              2.7262654405981777,
+              2.726265440598178
+            ],
+            "xyz_rms_mm": [
+              12.421394733183428,
+              3.5527536185195503,
+              24.08707519923723
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.41271865627563226,
+              2.667245553504551,
+              0.38469172160612214
+            ],
+            "in_tube": 0.0,
+            "last_mm_deg": [
+              27.333135514338558,
+              2.726265440598178
+            ]
+          },
+          "shapes_to_intent": {
+            "xyz": {
+              "x": null,
+              "y": null,
+              "z": null
+            },
+            "rotation_vector": {
+              "x": null,
+              "y": null,
+              "z": null
+            }
+          },
+          "shapes_to_issued": {
+            "xyz": {
+              "x": null,
+              "y": null,
+              "z": null
+            },
+            "rotation_vector": {
+              "x": null,
+              "y": null,
+              "z": null
+            }
+          },
+          "terminal_hold": {
+            "count": 501,
+            "mm_rms_max": [
+              0.0,
+              0.0
+            ],
+            "deg_rms_max": [
+              0.0,
+              0.0
+            ],
+            "xyz_rms_mm": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "in_tube": 1.0,
+            "last_mm_deg": [
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "opposed": {
+          "source_samples": 4501,
+          "source_span_s": [
+            0.0,
+            9.0
+          ],
+          "achieved_to_intent": {
+            "count": 4501,
+            "mm_rms_max": [
+              0.0,
+              0.0
+            ],
+            "deg_rms_max": [
+              3.4396228389575027e-17,
+              3.4396228389575027e-17
+            ],
+            "xyz_rms_mm": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.0,
+              1.5707840691931456e-17,
+              3.0600069742154096e-17
+            ],
+            "in_tube": 1.0,
+            "last_mm_deg": [
+              0.0,
+              3.4396228389575027e-17
+            ]
+          },
+          "issued_to_intent": {
+            "count": 4501,
+            "mm_rms_max": [
+              27.333135514338554,
+              27.333135514338558
+            ],
+            "deg_rms_max": [
+              2.7262654405981777,
+              2.726265440598178
+            ],
+            "xyz_rms_mm": [
+              12.421394733183428,
+              3.5527536185195503,
+              24.08707519923723
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.41271865627563226,
+              2.667245553504551,
+              0.38469172160612214
+            ],
+            "in_tube": 0.0,
+            "last_mm_deg": [
+              27.333135514338558,
+              2.726265440598178
+            ]
+          },
+          "achieved_to_issued": {
+            "count": 4501,
+            "mm_rms_max": [
+              27.333135514338554,
+              27.333135514338558
+            ],
+            "deg_rms_max": [
+              2.726265440598179,
+              2.726265440598179
+            ],
+            "xyz_rms_mm": [
+              12.421394733183428,
+              3.5527536185195503,
+              24.08707519923723
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.41271865627563226,
+              2.667245553504551,
+              0.38469172160612214
+            ],
+            "in_tube": 0.0,
+            "last_mm_deg": [
+              27.333135514338558,
+              2.726265440598179
+            ]
+          },
+          "shapes_to_intent": {
+            "xyz": {
+              "x": null,
+              "y": null,
+              "z": null
+            },
+            "rotation_vector": {
+              "x": null,
+              "y": null,
+              "z": null
+            }
+          },
+          "shapes_to_issued": {
+            "xyz": {
+              "x": null,
+              "y": null,
+              "z": null
+            },
+            "rotation_vector": {
+              "x": null,
+              "y": null,
+              "z": null
+            }
+          },
+          "terminal_hold": {
+            "count": 501,
+            "mm_rms_max": [
+              0.0,
+              0.0
+            ],
+            "deg_rms_max": [
+              3.4396228389575027e-17,
+              3.4396228389575027e-17
+            ],
+            "xyz_rms_mm": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.0,
+              1.570784069193211e-17,
+              3.060006974215409e-17
+            ],
+            "in_tube": 1.0,
+            "last_mm_deg": [
+              0.0,
+              3.4396228389575027e-17
+            ]
+          }
+        }
+      },
+      "signed_motion": {
+        "same_direction": {
+          "translation": null,
+          "rotation": null
+        },
+        "stationary": {
+          "translation": null,
+          "rotation": null
+        },
+        "opposed": {
+          "translation": null,
+          "rotation": null
+        }
+      },
+      "callback_ideal": {
+        "status": "PROFILE_PASS",
+        "wrong_intent_hash_refused": true
+      },
+      "callback_stationary": {
+        "status": "PROFILE_PASS",
+        "wrong_intent_hash_refused": true
+      }
+    },
+    {
+      "slot": "SEA2-XYZ",
+      "credited_channels": [
+        "translation"
+      ],
+      "scores": {
+        "same_direction": {
+          "source_samples": 2751,
+          "source_span_s": [
+            0.15,
+            5.65
+          ],
+          "achieved_to_intent": {
+            "count": 2751,
+            "mm_rms_max": [
+              0.0,
+              0.0
+            ],
+            "deg_rms_max": [
+              0.0,
+              0.0
+            ],
+            "xyz_rms_mm": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "in_tube": 1.0,
+            "last_mm_deg": [
+              0.0,
+              0.0
+            ]
+          },
+          "issued_to_intent": {
+            "count": 2751,
+            "mm_rms_max": [
+              27.33324381785681,
+              27.48166285174438
+            ],
+            "deg_rms_max": [
+              2.726265440598178,
+              2.726265440598178
+            ],
+            "xyz_rms_mm": [
+              12.421424169022764,
+              3.5528141096461368,
+              24.08717399617322
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.4127186562756377,
+              2.6672455535045505,
+              0.3846917216061153
+            ],
+            "in_tube": 0.0,
+            "last_mm_deg": [
+              27.333135514338558,
+              2.726265440598178
+            ]
+          },
+          "achieved_to_issued": {
+            "count": 2751,
+            "mm_rms_max": [
+              27.33324381785681,
+              27.48166285174438
+            ],
+            "deg_rms_max": [
+              2.726265440598178,
+              2.726265440598178
+            ],
+            "xyz_rms_mm": [
+              12.421424169022764,
+              3.5528141096461368,
+              24.08717399617322
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.4127186562756377,
+              2.6672455535045505,
+              0.3846917216061153
+            ],
+            "in_tube": 0.0,
+            "last_mm_deg": [
+              27.333135514338558,
+              2.726265440598178
+            ]
+          },
+          "shapes_to_intent": {
+            "xyz": {
+              "x": {
+                "relative_shape_score": 1.0,
+                "signed_gain": 1.0
+              },
+              "y": {
+                "relative_shape_score": 1.0,
+                "signed_gain": 1.0
+              },
+              "z": {
+                "relative_shape_score": 1.0,
+                "signed_gain": 1.0
+              }
+            },
+            "rotation_vector": {
+              "x": null,
+              "y": null,
+              "z": null
+            }
+          },
+          "shapes_to_issued": {
+            "xyz": {
+              "x": {
+                "relative_shape_score": 0.9997593649876969,
+                "signed_gain": 0.9859865381363687
+              },
+              "y": {
+                "relative_shape_score": 0.9997593649876969,
+                "signed_gain": 0.9859865381363693
+              },
+              "z": {
+                "relative_shape_score": 0.9960400049811315,
+                "signed_gain": 0.9440219939696534
+              }
+            },
+            "rotation_vector": {
+              "x": null,
+              "y": null,
+              "z": null
+            }
+          },
+          "terminal_hold": {
+            "count": 501,
+            "mm_rms_max": [
+              0.0,
+              0.0
+            ],
+            "deg_rms_max": [
+              0.0,
+              0.0
+            ],
+            "xyz_rms_mm": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "in_tube": 1.0,
+            "last_mm_deg": [
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "stationary": {
+          "source_samples": 2751,
+          "source_span_s": [
+            0.15,
+            5.65
+          ],
+          "achieved_to_intent": {
+            "count": 2751,
+            "mm_rms_max": [
+              2.4006534592738773,
+              3.7778140610227156
+            ],
+            "deg_rms_max": [
+              0.0,
+              0.0
+            ],
+            "xyz_rms_mm": [
+              1.7188584344757831,
+              1.3177914664314316,
+              1.0354170004184755
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "in_tube": 1.0,
+            "last_mm_deg": [
+              0.0,
+              0.0
+            ]
+          },
+          "issued_to_intent": {
+            "count": 2751,
+            "mm_rms_max": [
+              27.33324381785681,
+              27.48166285174438
+            ],
+            "deg_rms_max": [
+              2.726265440598178,
+              2.726265440598178
+            ],
+            "xyz_rms_mm": [
+              12.421424169022764,
+              3.5528141096461368,
+              24.08717399617322
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.4127186562756377,
+              2.6672455535045505,
+              0.3846917216061153
+            ],
+            "in_tube": 0.0,
+            "last_mm_deg": [
+              27.333135514338558,
+              2.726265440598178
+            ]
+          },
+          "achieved_to_issued": {
+            "count": 2751,
+            "mm_rms_max": [
+              27.443165002098937,
+              30.2560367842652
+            ],
+            "deg_rms_max": [
+              2.726265440598178,
+              2.726265440598178
+            ],
+            "xyz_rms_mm": [
+              12.543124076172079,
+              3.795822001821891,
+              24.112011095565315
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.4127186562756377,
+              2.6672455535045505,
+              0.3846917216061153
+            ],
+            "in_tube": 0.0,
+            "last_mm_deg": [
+              27.333135514338558,
+              2.726265440598178
+            ]
+          },
+          "shapes_to_intent": {
+            "xyz": {
+              "x": {
+                "relative_shape_score": 0.0,
+                "signed_gain": 0.0
+              },
+              "y": {
+                "relative_shape_score": 0.0,
+                "signed_gain": 0.0
+              },
+              "z": {
+                "relative_shape_score": 0.0,
+                "signed_gain": 0.0
+              }
+            },
+            "rotation_vector": {
+              "x": null,
+              "y": null,
+              "z": null
+            }
+          },
+          "shapes_to_issued": {
+            "xyz": {
+              "x": {
+                "relative_shape_score": 0.0,
+                "signed_gain": 0.0
+              },
+              "y": {
+                "relative_shape_score": 0.0,
+                "signed_gain": 0.0
+              },
+              "z": {
+                "relative_shape_score": 0.0,
+                "signed_gain": 0.0
+              }
+            },
+            "rotation_vector": {
+              "x": null,
+              "y": null,
+              "z": null
+            }
+          },
+          "terminal_hold": {
+            "count": 501,
+            "mm_rms_max": [
+              0.0,
+              0.0
+            ],
+            "deg_rms_max": [
+              0.0,
+              0.0
+            ],
+            "xyz_rms_mm": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "in_tube": 1.0,
+            "last_mm_deg": [
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "opposed": {
+          "source_samples": 2751,
+          "source_span_s": [
+            0.15,
+            5.65
+          ],
+          "achieved_to_intent": {
+            "count": 2751,
+            "mm_rms_max": [
+              4.801306918547755,
+              7.555628122045431
+            ],
+            "deg_rms_max": [
+              3.4396228389575027e-17,
+              3.4396228389575027e-17
+            ],
+            "xyz_rms_mm": [
+              3.4377168689515663,
+              2.6355829328628633,
+              2.070834000836951
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.0,
+              1.5707840691931752e-17,
+              3.0600069742154096e-17
+            ],
+            "in_tube": 0.4925481643038895,
+            "last_mm_deg": [
+              0.0,
+              3.4396228389575027e-17
+            ]
+          },
+          "issued_to_intent": {
+            "count": 2751,
+            "mm_rms_max": [
+              27.33324381785681,
+              27.48166285174438
+            ],
+            "deg_rms_max": [
+              2.726265440598178,
+              2.726265440598178
+            ],
+            "xyz_rms_mm": [
+              12.421424169022764,
+              3.5528141096461368,
+              24.08717399617322
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.4127186562756377,
+              2.6672455535045505,
+              0.3846917216061153
+            ],
+            "in_tube": 0.0,
+            "last_mm_deg": [
+              27.333135514338558,
+              2.726265440598178
+            ]
+          },
+          "achieved_to_issued": {
+            "count": 2751,
+            "mm_rms_max": [
+              27.76102784699255,
+              33.17321021449029
+            ],
+            "deg_rms_max": [
+              2.726265440598179,
+              2.726265440598179
+            ],
+            "xyz_rms_mm": [
+              12.894847553548288,
+              4.434770562196952,
+              24.181198972609202
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.4127186562756377,
+              2.6672455535045505,
+              0.3846917216061153
+            ],
+            "in_tube": 0.0,
+            "last_mm_deg": [
+              27.333135514338558,
+              2.726265440598179
+            ]
+          },
+          "shapes_to_intent": {
+            "xyz": {
+              "x": {
+                "relative_shape_score": -3.0,
+                "signed_gain": -1.0
+              },
+              "y": {
+                "relative_shape_score": -3.0,
+                "signed_gain": -1.0
+              },
+              "z": {
+                "relative_shape_score": -3.0,
+                "signed_gain": -1.0
+              }
+            },
+            "rotation_vector": {
+              "x": null,
+              "y": null,
+              "z": null
+            }
+          },
+          "shapes_to_issued": {
+            "xyz": {
+              "x": {
+                "relative_shape_score": -2.9441867875577774,
+                "signed_gain": -0.9859865381363687
+              },
+              "y": {
+                "relative_shape_score": -2.9441867875577805,
+                "signed_gain": -0.9859865381363692
+              },
+              "z": {
+                "relative_shape_score": -2.7800479708974817,
+                "signed_gain": -0.9440219939696534
+              }
+            },
+            "rotation_vector": {
+              "x": null,
+              "y": null,
+              "z": null
+            }
+          },
+          "terminal_hold": {
+            "count": 501,
+            "mm_rms_max": [
+              0.0,
+              0.0
+            ],
+            "deg_rms_max": [
+              3.4396228389575027e-17,
+              3.4396228389575027e-17
+            ],
+            "xyz_rms_mm": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.0,
+              1.570784069193211e-17,
+              3.060006974215409e-17
+            ],
+            "in_tube": 1.0,
+            "last_mm_deg": [
+              0.0,
+              3.4396228389575027e-17
+            ]
+          }
+        }
+      },
+      "signed_motion": {
+        "same_direction": {
+          "translation": {
+            "tick": 6728,
+            "installed_mm": 1.1002052886475624,
+            "actual_projection_mm": 1.0309609363394654,
+            "translation": true,
+            "installed_deg": 0.0,
+            "actual_projection_deg": null,
+            "rotation": false
+          },
+          "rotation": null
+        },
+        "stationary": {
+          "translation": null,
+          "rotation": null
+        },
+        "opposed": {
+          "translation": null,
+          "rotation": null
+        }
+      },
+      "callback_ideal": {
+        "status": "PROFILE_PASS",
+        "wrong_intent_hash_refused": true
+      },
+      "callback_stationary": {
+        "status": "PROFILE_FAIL",
+        "wrong_intent_hash_refused": true
+      }
+    },
+    {
+      "slot": "SEA2-SO3",
+      "credited_channels": [
+        "rotation"
+      ],
+      "scores": {
+        "same_direction": {
+          "source_samples": 3526,
+          "source_span_s": [
+            0.15,
+            7.2
+          ],
+          "achieved_to_intent": {
+            "count": 3526,
+            "mm_rms_max": [
+              0.0,
+              0.0
+            ],
+            "deg_rms_max": [
+              0.0,
+              0.0
+            ],
+            "xyz_rms_mm": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "in_tube": 1.0,
+            "last_mm_deg": [
+              0.0,
+              0.0
+            ]
+          },
+          "issued_to_intent": {
+            "count": 3526,
+            "mm_rms_max": [
+              27.339083267757147,
+              27.339083267757147
+            ],
+            "deg_rms_max": [
+              2.7267971442847205,
+              2.775264791755545
+            ],
+            "xyz_rms_mm": [
+              12.43841425168735,
+              3.550898188607881,
+              24.085316001227135
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.41297292373457195,
+              2.667711343013489,
+              0.384957427124854
+            ],
+            "in_tube": 0.0,
+            "last_mm_deg": [
+              27.339083267757147,
+              2.7267020125633703
+            ]
+          },
+          "achieved_to_issued": {
+            "count": 3526,
+            "mm_rms_max": [
+              27.339083267757147,
+              27.339083267757147
+            ],
+            "deg_rms_max": [
+              2.7267971442847205,
+              2.775264791755545
+            ],
+            "xyz_rms_mm": [
+              12.43841425168735,
+              3.550898188607881,
+              24.085316001227135
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.41297292373457195,
+              2.667711343013489,
+              0.384957427124854
+            ],
+            "in_tube": 0.0,
+            "last_mm_deg": [
+              27.339083267757147,
+              2.7267020125633703
+            ]
+          },
+          "shapes_to_intent": {
+            "xyz": {
+              "x": null,
+              "y": null,
+              "z": null
+            },
+            "rotation_vector": {
+              "x": {
+                "relative_shape_score": 1.0,
+                "signed_gain": 1.0
+              },
+              "y": {
+                "relative_shape_score": 1.0,
+                "signed_gain": 1.0
+              },
+              "z": {
+                "relative_shape_score": 1.0,
+                "signed_gain": 1.0
+              }
+            }
+          },
+          "shapes_to_issued": {
+            "xyz": {
+              "x": null,
+              "y": null,
+              "z": null
+            },
+            "rotation_vector": {
+              "x": {
+                "relative_shape_score": 0.9997583812105253,
+                "signed_gain": 0.9859170137538276
+              },
+              "y": {
+                "relative_shape_score": 0.9963862798229547,
+                "signed_gain": 0.9459891139111021
+              },
+              "z": {
+                "relative_shape_score": 0.999758290201056,
+                "signed_gain": 0.9859163793379476
+              }
+            }
+          },
+          "terminal_hold": {
+            "count": 501,
+            "mm_rms_max": [
+              0.0,
+              0.0
+            ],
+            "deg_rms_max": [
+              0.0,
+              0.0
+            ],
+            "xyz_rms_mm": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "in_tube": 1.0,
+            "last_mm_deg": [
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "stationary": {
+          "source_samples": 3526,
+          "source_span_s": [
+            0.15,
+            7.2
+          ],
+          "achieved_to_intent": {
+            "count": 3526,
+            "mm_rms_max": [
+              0.0,
+              0.0
+            ],
+            "deg_rms_max": [
+              0.6899303015620075,
+              1.070487571661494
+            ],
+            "xyz_rms_mm": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.48702513639255124,
+              0.31639431437420734,
+              0.37243116862976744
+            ],
+            "in_tube": 1.0,
+            "last_mm_deg": [
+              0.0,
+              2.5016966929373154e-16
+            ]
+          },
+          "issued_to_intent": {
+            "count": 3526,
+            "mm_rms_max": [
+              27.339083267757147,
+              27.339083267757147
+            ],
+            "deg_rms_max": [
+              2.7267971442847205,
+              2.775264791755545
+            ],
+            "xyz_rms_mm": [
+              12.43841425168735,
+              3.550898188607881,
+              24.085316001227135
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.41297292373457195,
+              2.667711343013489,
+              0.384957427124854
+            ],
+            "in_tube": 0.0,
+            "last_mm_deg": [
+              27.339083267757147,
+              2.7267020125633703
+            ]
+          },
+          "achieved_to_issued": {
+            "count": 3526,
+            "mm_rms_max": [
+              27.339083267757147,
+              27.339083267757147
+            ],
+            "deg_rms_max": [
+              2.815119240206524,
+              3.494100724774556
+            ],
+            "xyz_rms_mm": [
+              12.43841425168735,
+              3.550898188607881,
+              24.085316001227135
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.6500750322919232,
+              2.68699322132031,
+              0.5313814237911724
+            ],
+            "in_tube": 0.0,
+            "last_mm_deg": [
+              27.339083267757147,
+              2.7267020125633703
+            ]
+          },
+          "shapes_to_intent": {
+            "xyz": {
+              "x": null,
+              "y": null,
+              "z": null
+            },
+            "rotation_vector": {
+              "x": {
+                "relative_shape_score": 0.0,
+                "signed_gain": 0.0
+              },
+              "y": {
+                "relative_shape_score": 0.0,
+                "signed_gain": 0.0
+              },
+              "z": {
+                "relative_shape_score": 0.0,
+                "signed_gain": 0.0
+              }
+            }
+          },
+          "shapes_to_issued": {
+            "xyz": {
+              "x": null,
+              "y": null,
+              "z": null
+            },
+            "rotation_vector": {
+              "x": {
+                "relative_shape_score": 0.0,
+                "signed_gain": 0.0
+              },
+              "y": {
+                "relative_shape_score": 0.0,
+                "signed_gain": 0.0
+              },
+              "z": {
+                "relative_shape_score": 0.0,
+                "signed_gain": 0.0
+              }
+            }
+          },
+          "terminal_hold": {
+            "count": 501,
+            "mm_rms_max": [
+              0.0,
+              0.0
+            ],
+            "deg_rms_max": [
+              4.07118413778562e-16,
+              4.0711841377856203e-16
+            ],
+            "xyz_rms_mm": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              1.4154508644830501e-16,
+              3.099661515404563e-16,
+              2.227810051128991e-16
+            ],
+            "in_tube": 1.0,
+            "last_mm_deg": [
+              0.0,
+              4.0711841377856203e-16
+            ]
+          }
+        },
+        "opposed": {
+          "source_samples": 3526,
+          "source_span_s": [
+            0.15,
+            7.2
+          ],
+          "achieved_to_intent": {
+            "count": 3526,
+            "mm_rms_max": [
+              0.0,
+              0.0
+            ],
+            "deg_rms_max": [
+              1.3798606031240153,
+              2.1409751433229878
+            ],
+            "xyz_rms_mm": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.9740502727851027,
+              0.6327886287484147,
+              0.744862337259535
+            ],
+            "in_tube": 0.7682926829268293,
+            "last_mm_deg": [
+              0.0,
+              1.072917415535642e-15
+            ]
+          },
+          "issued_to_intent": {
+            "count": 3526,
+            "mm_rms_max": [
+              27.339083267757147,
+              27.339083267757147
+            ],
+            "deg_rms_max": [
+              2.7267971442847205,
+              2.775264791755545
+            ],
+            "xyz_rms_mm": [
+              12.43841425168735,
+              3.550898188607881,
+              24.085316001227135
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.41297292373457195,
+              2.667711343013489,
+              0.384957427124854
+            ],
+            "in_tube": 0.0,
+            "last_mm_deg": [
+              27.339083267757147,
+              2.7267020125633703
+            ]
+          },
+          "achieved_to_issued": {
+            "count": 3526,
+            "mm_rms_max": [
+              27.339083267757147,
+              27.339083267757147
+            ],
+            "deg_rms_max": [
+              3.060432220764965,
+              4.332928048103807
+            ],
+            "xyz_rms_mm": [
+              12.43841425168735,
+              3.550898188607881,
+              24.085316001227135
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              1.0641871929651825,
+              2.742819886188905,
+              0.8430243579825898
+            ],
+            "in_tube": 0.0,
+            "last_mm_deg": [
+              27.339083267757147,
+              2.72670201256337
+            ]
+          },
+          "shapes_to_intent": {
+            "xyz": {
+              "x": null,
+              "y": null,
+              "z": null
+            },
+            "rotation_vector": {
+              "x": {
+                "relative_shape_score": -3.000000000000001,
+                "signed_gain": -1.0000000000000002
+              },
+              "y": {
+                "relative_shape_score": -3.000000000000001,
+                "signed_gain": -1.0000000000000002
+              },
+              "z": {
+                "relative_shape_score": -3.000000000000001,
+                "signed_gain": -1.0000000000000002
+              }
+            }
+          },
+          "shapes_to_issued": {
+            "xyz": {
+              "x": null,
+              "y": null,
+              "z": null
+            },
+            "rotation_vector": {
+              "x": {
+                "relative_shape_score": -2.943909673804786,
+                "signed_gain": -0.9859170137538278
+              },
+              "y": {
+                "relative_shape_score": -2.7875701758214544,
+                "signed_gain": -0.9459891139111023
+              },
+              "z": {
+                "relative_shape_score": -2.9439072271507354,
+                "signed_gain": -0.9859163793379478
+              }
+            }
+          },
+          "terminal_hold": {
+            "count": 501,
+            "mm_rms_max": [
+              0.0,
+              0.0
+            ],
+            "deg_rms_max": [
+              1.5014170495921666e-15,
+              1.5014170495921666e-15
+            ],
+            "xyz_rms_mm": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              2.8309017289661003e-16,
+              1.3993617856103123e-15,
+              4.646500874732749e-16
+            ],
+            "in_tube": 1.0,
+            "last_mm_deg": [
+              0.0,
+              1.5014170495921666e-15
+            ]
+          }
+        }
+      },
+      "signed_motion": {
+        "same_direction": {
+          "translation": null,
+          "rotation": {
+            "tick": 6828,
+            "installed_mm": 0.0,
+            "actual_projection_mm": null,
+            "translation": false,
+            "installed_deg": 0.2737294723366755,
+            "actual_projection_deg": 0.26521646817990463,
+            "rotation": true
+          }
+        },
+        "stationary": {
+          "translation": null,
+          "rotation": null
+        },
+        "opposed": {
+          "translation": null,
+          "rotation": null
+        }
+      },
+      "callback_ideal": {
+        "status": "PROFILE_PASS",
+        "wrong_intent_hash_refused": true
+      },
+      "callback_stationary": {
+        "status": "PROFILE_FAIL",
+        "wrong_intent_hash_refused": true
+      }
+    },
+    {
+      "slot": "SEA2-MIXED",
+      "credited_channels": [
+        "translation",
+        "rotation"
+      ],
+      "scores": {
+        "same_direction": {
+          "source_samples": 2576,
+          "source_span_s": [
+            0.15,
+            5.3
+          ],
+          "achieved_to_intent": {
+            "count": 2576,
+            "mm_rms_max": [
+              0.0,
+              0.0
+            ],
+            "deg_rms_max": [
+              0.0,
+              0.0
+            ],
+            "xyz_rms_mm": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "in_tube": 1.0,
+            "last_mm_deg": [
+              0.0,
+              0.0
+            ]
+          },
+          "issued_to_intent": {
+            "count": 2576,
+            "mm_rms_max": [
+              27.339138621340144,
+              27.446105101124548
+            ],
+            "deg_rms_max": [
+              2.726750798112327,
+              2.7614648048382566
+            ],
+            "xyz_rms_mm": [
+              12.438428537126114,
+              3.550927236874297,
+              24.085367172664874
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.41263249621213965,
+              2.667744804630537,
+              0.3847622583397632
+            ],
+            "in_tube": 0.0,
+            "last_mm_deg": [
+              27.339083267757122,
+              2.7267020125633765
+            ]
+          },
+          "achieved_to_issued": {
+            "count": 2576,
+            "mm_rms_max": [
+              27.339138621340144,
+              27.446105101124548
+            ],
+            "deg_rms_max": [
+              2.726750798112327,
+              2.7614648048382566
+            ],
+            "xyz_rms_mm": [
+              12.438428537126114,
+              3.550927236874297,
+              24.085367172664874
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.41263249621213965,
+              2.667744804630537,
+              0.3847622583397632
+            ],
+            "in_tube": 0.0,
+            "last_mm_deg": [
+              27.339083267757122,
+              2.7267020125633765
+            ]
+          },
+          "shapes_to_intent": {
+            "xyz": {
+              "x": {
+                "relative_shape_score": 1.0,
+                "signed_gain": 1.0
+              },
+              "y": {
+                "relative_shape_score": 1.0,
+                "signed_gain": 1.0
+              },
+              "z": {
+                "relative_shape_score": 1.0,
+                "signed_gain": 1.0
+              }
+            },
+            "rotation_vector": {
+              "x": {
+                "relative_shape_score": 1.0,
+                "signed_gain": 1.0
+              },
+              "y": {
+                "relative_shape_score": 1.0,
+                "signed_gain": 1.0
+              },
+              "z": {
+                "relative_shape_score": 1.0,
+                "signed_gain": 1.0
+              }
+            }
+          },
+          "shapes_to_issued": {
+            "xyz": {
+              "x": {
+                "relative_shape_score": 0.9997613014478484,
+                "signed_gain": 0.9860598703690152
+              },
+              "y": {
+                "relative_shape_score": 0.9997613014478485,
+                "signed_gain": 0.9860598703690183
+              },
+              "z": {
+                "relative_shape_score": 0.9960657477240902,
+                "signed_gain": 0.9442877627163392
+              }
+            },
+            "rotation_vector": {
+              "x": {
+                "relative_shape_score": 0.9997661321641322,
+                "signed_gain": 0.9861959418304639
+              },
+              "y": {
+                "relative_shape_score": 0.9964951648934738,
+                "signed_gain": 0.947016023278217
+              },
+              "z": {
+                "relative_shape_score": 0.9997661015393677,
+                "signed_gain": 0.9861957252510594
+              }
+            }
+          },
+          "terminal_hold": {
+            "count": 501,
+            "mm_rms_max": [
+              0.0,
+              0.0
+            ],
+            "deg_rms_max": [
+              0.0,
+              0.0
+            ],
+            "xyz_rms_mm": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "in_tube": 1.0,
+            "last_mm_deg": [
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "stationary": {
+          "source_samples": 2576,
+          "source_span_s": [
+            0.15,
+            5.3
+          ],
+          "achieved_to_intent": {
+            "count": 2576,
+            "mm_rms_max": [
+              1.6873681698041674,
+              2.639062977267437
+            ],
+            "deg_rms_max": [
+              0.5031729818869933,
+              0.7813274246804941
+            ],
+            "xyz_rms_mm": [
+              1.2031858592733362,
+              0.9167130356368297,
+              0.7477916413055555
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.3437658303093459,
+              0.23009162411874623,
+              0.28647154854046547
+            ],
+            "in_tube": 1.0,
+            "last_mm_deg": [
+              6.938893903907228e-15,
+              4.818119173692105e-15
+            ]
+          },
+          "issued_to_intent": {
+            "count": 2576,
+            "mm_rms_max": [
+              27.339138621340144,
+              27.446105101124548
+            ],
+            "deg_rms_max": [
+              2.726750798112327,
+              2.7614648048382566
+            ],
+            "xyz_rms_mm": [
+              12.438428537126114,
+              3.550927236874297,
+              24.085367172664874
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.41263249621213965,
+              2.667744804630537,
+              0.3847622583397632
+            ],
+            "in_tube": 0.0,
+            "last_mm_deg": [
+              27.339083267757122,
+              2.7267020125633765
+            ]
+          },
+          "achieved_to_issued": {
+            "count": 2576,
+            "mm_rms_max": [
+              27.393522489511113,
+              29.40312492538776
+            ],
+            "deg_rms_max": [
+              2.7740150702263073,
+              3.2738434389713684
+            ],
+            "xyz_rms_mm": [
+              12.49811819111384,
+              3.6705762506051607,
+              24.098319154098572
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.5441871169813732,
+              2.677912772148251,
+              0.477287310033933
+            ],
+            "in_tube": 0.0,
+            "last_mm_deg": [
+              27.339083267757122,
+              2.726702012563382
+            ]
+          },
+          "shapes_to_intent": {
+            "xyz": {
+              "x": {
+                "relative_shape_score": 0.0,
+                "signed_gain": 0.0
+              },
+              "y": {
+                "relative_shape_score": 0.0,
+                "signed_gain": 0.0
+              },
+              "z": {
+                "relative_shape_score": 0.0,
+                "signed_gain": 0.0
+              }
+            },
+            "rotation_vector": {
+              "x": {
+                "relative_shape_score": 0.0,
+                "signed_gain": 0.0
+              },
+              "y": {
+                "relative_shape_score": 0.0,
+                "signed_gain": 0.0
+              },
+              "z": {
+                "relative_shape_score": 0.0,
+                "signed_gain": 0.0
+              }
+            }
+          },
+          "shapes_to_issued": {
+            "xyz": {
+              "x": {
+                "relative_shape_score": 0.0,
+                "signed_gain": 0.0
+              },
+              "y": {
+                "relative_shape_score": 0.0,
+                "signed_gain": 0.0
+              },
+              "z": {
+                "relative_shape_score": 0.0,
+                "signed_gain": 0.0
+              }
+            },
+            "rotation_vector": {
+              "x": {
+                "relative_shape_score": 0.0,
+                "signed_gain": 0.0
+              },
+              "y": {
+                "relative_shape_score": 0.0,
+                "signed_gain": 0.0
+              },
+              "z": {
+                "relative_shape_score": 0.0,
+                "signed_gain": 0.0
+              }
+            }
+          },
+          "terminal_hold": {
+            "count": 501,
+            "mm_rms_max": [
+              0.0,
+              0.0
+            ],
+            "deg_rms_max": [
+              3.486324881677647e-16,
+              3.4863248816776474e-16
+            ],
+            "xyz_rms_mm": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              1.4154508644830501e-16,
+              3.099661515404563e-16,
+              7.369250441929818e-17
+            ],
+            "in_tube": 1.0,
+            "last_mm_deg": [
+              0.0,
+              3.4863248816776474e-16
+            ]
+          }
+        },
+        "opposed": {
+          "source_samples": 2576,
+          "source_span_s": [
+            0.15,
+            5.3
+          ],
+          "achieved_to_intent": {
+            "count": 2576,
+            "mm_rms_max": [
+              3.3747363396083347,
+              5.278125954534874
+            ],
+            "deg_rms_max": [
+              1.0063459637739867,
+              1.5626548493609884
+            ],
+            "xyz_rms_mm": [
+              2.4063717185466724,
+              1.8334260712736594,
+              1.495583282611111
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.6875316606186918,
+              0.46018324823749246,
+              0.5729430970809309
+            ],
+            "in_tube": 0.6180124223602484,
+            "last_mm_deg": [
+              1.3877787807814457e-14,
+              1.0170181701624777e-14
+            ]
+          },
+          "issued_to_intent": {
+            "count": 2576,
+            "mm_rms_max": [
+              27.339138621340144,
+              27.446105101124548
+            ],
+            "deg_rms_max": [
+              2.726750798112327,
+              2.7614648048382566
+            ],
+            "xyz_rms_mm": [
+              12.438428537126114,
+              3.550927236874297,
+              24.085367172664874
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.41263249621213965,
+              2.667744804630537,
+              0.3847622583397632
+            ],
+            "in_tube": 0.0,
+            "last_mm_deg": [
+              27.339083267757122,
+              2.7267020125633765
+            ]
+          },
+          "achieved_to_issued": {
+            "count": 2576,
+            "mm_rms_max": [
+              27.551335192523545,
+              31.44868895278172
+            ],
+            "deg_rms_max": [
+              2.908856299788746,
+              3.8668096717968328
+            ],
+            "xyz_rms_mm": [
+              12.672281743585822,
+              4.002237044560274,
+              24.134445196463844
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              0.8058452859328809,
+              2.7076363275357838,
+              0.6933713765140278
+            ],
+            "in_tube": 0.0,
+            "last_mm_deg": [
+              27.33908326775712,
+              2.726702012563386
+            ]
+          },
+          "shapes_to_intent": {
+            "xyz": {
+              "x": {
+                "relative_shape_score": -3.0,
+                "signed_gain": -1.0
+              },
+              "y": {
+                "relative_shape_score": -3.0,
+                "signed_gain": -1.0
+              },
+              "z": {
+                "relative_shape_score": -3.0,
+                "signed_gain": -1.0
+              }
+            },
+            "rotation_vector": {
+              "x": {
+                "relative_shape_score": -3.000000000000001,
+                "signed_gain": -1.0000000000000002
+              },
+              "y": {
+                "relative_shape_score": -3.000000000000001,
+                "signed_gain": -1.0000000000000002
+              },
+              "z": {
+                "relative_shape_score": -3.0000000000000018,
+                "signed_gain": -1.0000000000000004
+              }
+            }
+          },
+          "shapes_to_issued": {
+            "xyz": {
+              "x": {
+                "relative_shape_score": -2.9444781800282125,
+                "signed_gain": -0.9860598703690152
+              },
+              "y": {
+                "relative_shape_score": -2.9444781800282245,
+                "signed_gain": -0.9860598703690183
+              },
+              "z": {
+                "relative_shape_score": -2.7810853031412663,
+                "signed_gain": -0.9442877627163392
+              }
+            },
+            "rotation_vector": {
+              "x": {
+                "relative_shape_score": -2.9450176351577233,
+                "signed_gain": -0.986195941830464
+              },
+              "y": {
+                "relative_shape_score": -2.791568928219395,
+                "signed_gain": -0.9470160232782171
+              },
+              "z": {
+                "relative_shape_score": -2.9450167994648715,
+                "signed_gain": -0.9861957252510598
+              }
+            }
+          },
+          "terminal_hold": {
+            "count": 501,
+            "mm_rms_max": [
+              0.0,
+              0.0
+            ],
+            "deg_rms_max": [
+              1.4576024821943523e-15,
+              1.4576024821943523e-15
+            ],
+            "xyz_rms_mm": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "xyz_rotation_vector_rms_deg": [
+              3.8051885821278407e-16,
+              1.3993617856103123e-15,
+              1.4695913587484436e-16
+            ],
+            "in_tube": 1.0,
+            "last_mm_deg": [
+              0.0,
+              1.4576024821943523e-15
+            ]
+          }
+        }
+      },
+      "signed_motion": {
+        "same_direction": {
+          "translation": {
+            "tick": 6753,
+            "installed_mm": 1.055006784695341,
+            "actual_projection_mm": 1.0108472593580013,
+            "translation": true,
+            "installed_deg": 0.3126037705594429,
+            "actual_projection_deg": 0.30434030125651884,
+            "rotation": true
+          },
+          "rotation": {
+            "tick": 6728,
+            "installed_mm": 0.9228235559024378,
+            "actual_projection_mm": 0.873648350436767,
+            "translation": false,
+            "installed_deg": 0.2712338123274463,
+            "actual_projection_deg": 0.263092266133026,
+            "rotation": true
+          }
+        },
+        "stationary": {
+          "translation": null,
+          "rotation": null
+        },
+        "opposed": {
+          "translation": null,
+          "rotation": null
+        }
+      },
+      "callback_ideal": {
+        "status": "PROFILE_PASS",
+        "wrong_intent_hash_refused": true
+      },
+      "callback_stationary": {
+        "status": "PROFILE_FAIL",
+        "wrong_intent_hash_refused": true
+      }
+    }
+  ],
+  "allocation_guard": {
+    "unissued_refused": true,
+    "expired_refused": true,
+    "wrong_roster_refused": true,
+    "main_cli_refused_before_live_callback": true
+  },
+  "late_window_refusal": "REGISTERED_WINDOW_EXCEEDS_HARD_TICK_CAP",
+  "refusal_routing": {
+    "UNVERIFIED_REFERENCE": "TERMINAL_REFUSAL",
+    "WRONG_CLOCK": "TERMINAL_REFUSAL",
+    "CONTACT_OR_STOP": "TERMINAL_REFUSAL",
+    "COMPILED_PREFIX_EXCEEDS_REGISTERED_WINDOW": "REFERENCE_REFUSED"
+  },
+  "new_native_starts": 0,
+  "physics_ticks": 0,
+  "gpu_forwards": 0,
+  "updates": 0
+}
