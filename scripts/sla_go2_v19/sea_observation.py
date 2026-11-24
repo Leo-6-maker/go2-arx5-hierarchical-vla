@@ -11,6 +11,8 @@ LEFT_MASK = "left_wrist_0_rgb"
 CAMERA_KEYS = {"base_0_rgb", LEFT_MASK, "right_wrist_0_rgb"}
 MISSING_LEFT_SIZE = (480, 640, 3)
 MODEL_HISTORY_LENGTH = 10
+THREE_VIEW_V1 = "THREE_VIEW_V1"
+AUXILIARY_CAMERA = "aux_left_rgb"
 
 
 def owned(array):
@@ -45,6 +47,7 @@ class SensorObservation:
     left: Frame | None
     state: np.ndarray
     prompt: str
+    profile: str | None = None
 
     def __post_init__(self):
         require(bool(self.episode) and bool(self.query_id) and type(self.tick) is int and self.tick >= 0,
@@ -53,7 +56,7 @@ class SensorObservation:
                 and isinstance(self.prompt, str), "invalid official state or instruction")
         if self.clock == "ROBODOJO_RECORDED_30HZ":
             expected = source_history(self.tick)
-            require(self.left is not None, "real source left camera missing")
+            require(self.left is not None and self.profile is None, "real source left camera or profile mismatch")
         elif self.clock == "GO2_NATIVE_2MS":
             expected = [0, *(max(0, self.tick - i * 500) for i in range(8, 0, -1)), self.tick]
         else:
@@ -67,7 +70,12 @@ class SensorObservation:
                     "conflicting samples from the same head frame")
         require(all(frame.rgb.shape == frames[-1].rgb.shape for frame in frames), "inconsistent head raster")
         self._verify_frame(self.right, "cam_right_wrist", self.tick)
-        if self.left is not None:
+        require(self.profile in (None, THREE_VIEW_V1), "unsupported sensor profile")
+        if self.profile == THREE_VIEW_V1:
+            require(self.left is not None, "missing actual auxiliary camera")
+            self._verify_frame(self.left, AUXILIARY_CAMERA, self.tick)
+            require(self.left.rgb.shape == MISSING_LEFT_SIZE and self.left.rgb.any(), "invalid or blank auxiliary RGB")
+        elif self.left is not None:
             self._verify_frame(self.left, "cam_left_wrist", self.tick)
         object.__setattr__(self, "head", frames)
         object.__setattr__(self, "state", owned(self.state))
@@ -133,6 +141,8 @@ def prepare_sensor(observation, official_prepare, *, appearance=None, left_mask_
     prepared = official_prepare(payload)
     require(set(prepared["image"]) == set(prepared["image_mask"]) == CAMERA_KEYS,
             "official current camera ABI changed")
+    if observation.profile == THREE_VIEW_V1:
+        require(all(bool(v) for v in prepared["image_mask"].values()), "three-view cameras must be valid")
     if left_mask_only:
         require(all(bool(mask) for mask in prepared["image_mask"].values()), "legacy processor masks changed")
         prepared["image_mask"] = dict(prepared["image_mask"], **{LEFT_MASK: np.bool_(False)})

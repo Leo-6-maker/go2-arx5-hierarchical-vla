@@ -1,0 +1,71 @@
+{
+  "status": "THREE_VIEW_COLD_INGRESS_VERIFIED_SYNTHETIC_AUX_RGB",
+  "mount_sha256": "50b38e732d03661892556fd005bcaa83b21d08f67ec07dee0d3aa18fcbcd9f79",
+  "official_identity": {
+    "model_revision": "7f6880569c3be777291e646fad1b4951245e8553",
+    "source_commit": "c1b205ec42b4ab2cac9c2159c8b4c2f723e5e454",
+    "effective_config_sha256": "16e86b4a36837e6a7c5c17b41574ab79d0b708135a149470e88f4f98e2815cbe",
+    "norm_sha256": "cf6ddf4f89180e762e5e6210881a763f8e29d3499fb1cc69a440de7aa585d276",
+    "tokenizer_sha256": "8986bb4f423f07f8c7f70d0dbe3526fb2316056c17bae71b1ea975e77a168fc6",
+    "manifest_sha256": "2e473d45a29f624f8c0242bf60389214613e3a060446e6845cd1a95322f2610c",
+    "action_horizon": 50,
+    "action_dim": 32,
+    "attention_impl": "xla",
+    "extra_frames_first": false
+  },
+  "unchanged_source_windows": 4,
+  "processed_synthetic_rgb_fields": {
+    "current": {
+      "base_0_rgb": "8524c0c94fc4b73aaba8cc200139b9bc181e4b3f227fd5cb3add877f366e8232",
+      "left_wrist_0_rgb": "447f429c40aea9e7bf2d7a9ab9d152ccf49ee7ef0b95df49e341a67d80e961f3",
+      "right_wrist_0_rgb": "8524c0c94fc4b73aaba8cc200139b9bc181e4b3f227fd5cb3add877f366e8232"
+    },
+    "current_masks": {
+      "base_0_rgb": true,
+      "left_wrist_0_rgb": true,
+      "right_wrist_0_rgb": true
+    },
+    "memory": [
+      "ddefc59a6866b53bea6ddb9965b1a176f39aa62f6df4d91b0e2babb341c6e243",
+      "ddefc59a6866b53bea6ddb9965b1a176f39aa62f6df4d91b0e2babb341c6e243",
+      "ddefc59a6866b53bea6ddb9965b1a176f39aa62f6df4d91b0e2babb341c6e243",
+      "ddefc59a6866b53bea6ddb9965b1a176f39aa62f6df4d91b0e2babb341c6e243",
+      "ddefc59a6866b53bea6ddb9965b1a176f39aa62f6df4d91b0e2babb341c6e243",
+      "ddefc59a6866b53bea6ddb9965b1a176f39aa62f6df4d91b0e2babb341c6e243",
+      "ddefc59a6866b53bea6ddb9965b1a176f39aa62f6df4d91b0e2babb341c6e243",
+      "ddefc59a6866b53bea6ddb9965b1a176f39aa62f6df4d91b0e2babb341c6e243",
+      "ddefc59a6866b53bea6ddb9965b1a176f39aa62f6df4d91b0e2babb341c6e243"
+    ],
+    "token_ids": "6ac172b9aadb49ae04aeaf4b200c2cc75a8b1417d472aed09483dd57c043b0db",
+    "token_mask": "f392e4ae6205898c2334df1265aff71c6041ad354e2e01761b0816e6383ddf5f",
+    "state": "c0ee404e616405a85c8f794abb8c0cad5e7176d62b3ca2e33e8a89e3afd87ed0"
+  },
+  "controls": {
+    "absent": "missing, stale or differently sampled auxiliary camera",
+    "stale": "missing, stale or differently sampled auxiliary camera",
+    "future": "missing, stale or differently sampled auxiliary camera",
+    "foreign": "missing, stale or differently sampled auxiliary camera",
+    "substituted_state": "missing, stale or differently sampled auxiliary camera",
+    "zero": "invalid auxiliary capture",
+    "external_camera": "cross-episode, future, reordered or wrong-camera frame",
+    "wrong_slot": "cross-episode, future, reordered or wrong-camera frame",
+    "mask_off": "left mask control requires a missing left view and unchanged measured input",
+    "incomplete_history": "missing required body observation at tick 1000",
+    "stopped": "episode stopped"
+  },
+  "history_verified": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "state_digest": "daa014c4993127bd54d9f623d7bf4acc2ab8cdfa54eb3e03ce46bd3c77517532",
+  "model_forwards": 0,
+  "physics_ticks": 0,
+  "actual_rendered_images": 0
+}

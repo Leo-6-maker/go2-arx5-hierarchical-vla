@@ -1,0 +1,2757 @@
+{
+  "batch": "T0T1",
+  "run": "SEA-TASK-T0T1-193-01",
+  "plan_sha256": "5161e08283bb2dbb25c13776217c61f17f6e891e422b3e2a59575e4dc900bbbb",
+  "exact_reused": 2,
+  "reuse_proof": {
+    "exact": {
+      "FRUIT03-T0-seed0": {
+        "archived_slot": "SEA1B-S03-S0-seed0",
+        "output_sha256": "9ae1bfc420f47c9bef56b4ae41e65a4f97aebe24f80660469267cc4d5742c222",
+        "noise_sha256": "d9c0121c61f1826fee31d72180b38abc02ac4938cf94bccb68e4c2a427eb49a4"
+      },
+      "FRUIT03-T0-seed1": {
+        "archived_slot": "SEA1B-S03-S0-seed1",
+        "output_sha256": "d0e30de5e440031740c6338e4b0424ac3f28735df7d34e9d000d4177c1a61efb",
+        "noise_sha256": "932d7ba19fab5a91f253170fb64e9f58fa5b46e28127d287bc0acc152b428acc"
+      }
+    },
+    "refused_global": null
+  },
+  "owner_receipt": {
+    "exit_code": 0,
+    "project_lock_released": true,
+    "sampled_board_peak_mib": 12543,
+    "lease_wall_s": 21.193501928821206,
+    "entered": 14,
+    "returned": 14,
+    "physics_ticks": 0,
+    "optimizer_updates": 0
+  },
+  "allocation_sha256": "c034d7c10c709a482c907f7cceb3b608f21de288d48062af5149d8bdf80b22ec",
+  "cold_sha256": "cec8c96830483ccaa16677e3d6e4d0b4754099a72c7bdc0b299bdc2780fb3383",
+  "model_load_and_return_events": [
+    {
+      "event": "LOAD_ENTERED",
+      "time_s": 1795521238.0630484,
+      "batch": "T0T1"
+    },
+    {
+      "event": "LOAD_RETURNED",
+      "time_s": 1795521241.8558686,
+      "jax_version": "0.5.3",
+      "gpu": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad"
+    },
+    {
+      "event": "EXACT_REUSE",
+      "time_s": 1795521245.8201907,
+      "slot": "FRUIT03-T0-seed0",
+      "archived_slot": "SEA1B-S03-S0-seed0",
+      "output_sha256": "9ae1bfc420f47c9bef56b4ae41e65a4f97aebe24f80660469267cc4d5742c222",
+      "noise_sha256": "d9c0121c61f1826fee31d72180b38abc02ac4938cf94bccb68e4c2a427eb49a4"
+    },
+    {
+      "event": "EXACT_REUSE",
+      "time_s": 1795521248.5419443,
+      "slot": "FRUIT03-T0-seed1",
+      "archived_slot": "SEA1B-S03-S0-seed1",
+      "output_sha256": "d0e30de5e440031740c6338e4b0424ac3f28735df7d34e9d000d4177c1a61efb",
+      "noise_sha256": "932d7ba19fab5a91f253170fb64e9f58fa5b46e28127d287bc0acc152b428acc"
+    },
+    {
+      "event": "PANEL_RETURNED",
+      "time_s": 1795521248.9331307,
+      "registered": 16,
+      "samples_excluding_reuse": 14,
+      "peak_rss_kib": 16458152
+    }
+  ],
+  "device_inputs_sha256": "3a1f6ef2c61a1792149250190be63a3b26170742c0e5c03cd905ca0ede2c61cf",
+  "unstarted": 0,
+  "results": [
+    {
+      "anchor": "FRUIT00",
+      "seed": [
+        0,
+        0
+      ],
+      "condition": "T0",
+      "input_sha256": "bfee7f0af8dcbc5486a786e2c2acc196489f5418bab57b65273f9accf249493f",
+      "slot": "FRUIT00-T0-seed0",
+      "status": "RETURNED",
+      "actual_noise_sha256": "d9c0121c61f1826fee31d72180b38abc02ac4938cf94bccb68e4c2a427eb49a4",
+      "frozen_file_sha256": "26f84e437969d917dab78824f420ee1ba48595d9f44139b43f6d9c37bcf67f12",
+      "decoded_sha256": "32adb45539fdce5805c91f3e306a70d225ca44b0b0c1f7eef57897182416b3bd",
+      "raw_sha256": "495471081a23a759a9bce0077bd64254c9739808c4e763d87be61e6d0ae1b487",
+      "raw_dtype": "float32",
+      "sampler_state_sha256": "630cdbe534c3492518868cecad368ea4341bc2beca2e9da0bf3881eb17b6cb31",
+      "phases": {
+        "approach": {
+          "rows": [
+            0,
+            19
+          ],
+          "score": {
+            "xyz_rms_mm": 9.438874828596992,
+            "xyz_peak_mm": 14.923547382086682,
+            "so3_rms_deg": 1.3969417434312192,
+            "so3_peak_deg": 2.3320946572642294
+          },
+          "toward_recorded_end_cos": 0.96831548318026
+        },
+        "lift_before_release": {
+          "rows": [
+            19,
+            50
+          ],
+          "score": {
+            "xyz_rms_mm": 8.324866631450558,
+            "xyz_peak_mm": 18.739311750289772,
+            "so3_rms_deg": 0.8707673060578771,
+            "so3_peak_deg": 1.4556699221826002
+          },
+          "toward_recorded_end_cos": 0.9762321455515554
+        }
+      },
+      "source_close_row": 19,
+      "source_release_row": 84,
+      "P10": {
+        "model": {
+          "xyz_rms_mm": 10.172707226214348,
+          "xyz_peak_mm": 14.923547382086682,
+          "so3_rms_deg": 1.5548564815922732,
+          "so3_peak_deg": 2.3320946572642294
+        },
+        "hold": {
+          "xyz_rms_mm": 9.971720715909674,
+          "xyz_peak_mm": 12.919616824489719,
+          "so3_rms_deg": 1.478019093325508,
+          "so3_peak_deg": 1.8200523926663477
+        },
+        "measured_to_final_direction_cos": 0.8670609809027745,
+        "gripper_rms": 0.0076170472818954515,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": null,
+          "open": null
+        },
+        "first_expert_grip_events_s": {
+          "close": null,
+          "open": null
+        },
+        "model_grip_events": [],
+        "expert_grip_events": [],
+        "first_model_grip_event_rows": {
+          "close": null,
+          "open": null
+        },
+        "first_expert_grip_event_rows": {
+          "close": null,
+          "open": null
+        },
+        "model_first_offset_mm": 2.792827382730693,
+        "row_end_s": 0.3,
+        "successor_frame_end_s": 0.3333333333333333
+      },
+      "FULL50": {
+        "model": {
+          "xyz_rms_mm": 8.764884870827597,
+          "xyz_peak_mm": 18.739311750289772,
+          "so3_rms_deg": 1.100752335419285,
+          "so3_peak_deg": 2.3320946572642294
+        },
+        "hold": {
+          "xyz_rms_mm": 21.374352463542838,
+          "xyz_peak_mm": 26.831716501100058,
+          "so3_rms_deg": 4.232726448698397,
+          "so3_peak_deg": 5.562571928402578
+        },
+        "measured_to_final_direction_cos": 0.3956018342370459,
+        "gripper_rms": 0.042582494294953414,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": 0.5683839152373009,
+          "open": null
+        },
+        "first_expert_grip_events_s": {
+          "close": 0.6333333333333333,
+          "open": null
+        },
+        "model_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.5683839152373009
+          }
+        ],
+        "expert_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.6333333333333333
+          }
+        ],
+        "first_model_grip_event_rows": {
+          "close": 18,
+          "open": null
+        },
+        "first_expert_grip_event_rows": {
+          "close": 19,
+          "open": null
+        },
+        "model_first_offset_mm": 2.792827382730693,
+        "row_end_s": 1.6333333333333333,
+        "successor_frame_end_s": 1.6666666666666667
+      },
+      "holding_intent": {
+        "first_close_zero_based_row": 18,
+        "close_z_source_m": 0.03349141776561737,
+        "max_link6_z_above_close_mm": 47.488950192928314,
+        "contiguous_elevated_closed_forecast_s": 0.13333333333333333,
+        "one_second_forecast": false,
+        "final_closed": true,
+        "final_elevated_closed": true,
+        "recorded_release_inside_horizon": false,
+        "remains_closed_after_recorded_release": null,
+        "action_threshold_events": [
+          {
+            "kind": "close",
+            "s": 0.6333333333333333
+          }
+        ]
+      },
+      "origin": "NEW"
+    },
+    {
+      "anchor": "FRUIT00",
+      "seed": [
+        0,
+        0
+      ],
+      "condition": "T1",
+      "input_sha256": "0ea9ee1b1dfc4054b097567c2ba7986f01cb226a511dd1a4d3fd1997ce607135",
+      "slot": "FRUIT00-T1-seed0",
+      "status": "RETURNED",
+      "actual_noise_sha256": "d9c0121c61f1826fee31d72180b38abc02ac4938cf94bccb68e4c2a427eb49a4",
+      "frozen_file_sha256": "16654a328964564b9439e3c46438fb7904aa208019fbd57967889669ab83fa92",
+      "decoded_sha256": "d7e4ca0b57d7b79c85b5cdde6e20dd28f1b2aa1c7221d8bd113af7f6813a7601",
+      "raw_sha256": "fa401a9f06aca68e68388db0a371106a57c4fcf97cafb24b593cdb5962935f97",
+      "raw_dtype": "float32",
+      "sampler_state_sha256": "630cdbe534c3492518868cecad368ea4341bc2beca2e9da0bf3881eb17b6cb31",
+      "phases": {
+        "approach": {
+          "rows": [
+            0,
+            19
+          ],
+          "score": {
+            "xyz_rms_mm": 12.38335853400803,
+            "xyz_peak_mm": 18.064615257069875,
+            "so3_rms_deg": 1.795411498817504,
+            "so3_peak_deg": 2.864945616901189
+          },
+          "toward_recorded_end_cos": 0.9307182050111689
+        },
+        "lift_before_release": {
+          "rows": [
+            19,
+            50
+          ],
+          "score": {
+            "xyz_rms_mm": 13.90512071654295,
+            "xyz_peak_mm": 36.87182918901884,
+            "so3_rms_deg": 1.899645816641266,
+            "so3_peak_deg": 6.331557609465099
+          },
+          "toward_recorded_end_cos": 0.9718539493486178
+        }
+      },
+      "source_close_row": 19,
+      "source_release_row": 84,
+      "P10": {
+        "model": {
+          "xyz_rms_mm": 12.532340629603443,
+          "xyz_peak_mm": 18.064615257069875,
+          "so3_rms_deg": 2.0000924478903874,
+          "so3_peak_deg": 2.864945616901189
+        },
+        "hold": {
+          "xyz_rms_mm": 9.971720715909674,
+          "xyz_peak_mm": 12.919616824489719,
+          "so3_rms_deg": 1.478019093325508,
+          "so3_peak_deg": 1.8200523926663477
+        },
+        "measured_to_final_direction_cos": 0.813495625465888,
+        "gripper_rms": 0.008316506169465726,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": null,
+          "open": null
+        },
+        "first_expert_grip_events_s": {
+          "close": null,
+          "open": null
+        },
+        "model_grip_events": [],
+        "expert_grip_events": [],
+        "first_model_grip_event_rows": {
+          "close": null,
+          "open": null
+        },
+        "first_expert_grip_event_rows": {
+          "close": null,
+          "open": null
+        },
+        "model_first_offset_mm": 3.6004258919053944,
+        "row_end_s": 0.3,
+        "successor_frame_end_s": 0.3333333333333333
+      },
+      "FULL50": {
+        "model": {
+          "xyz_rms_mm": 13.347305083382631,
+          "xyz_peak_mm": 36.87182918901884,
+          "so3_rms_deg": 1.8607247385940713,
+          "so3_peak_deg": 6.331557609465099
+        },
+        "hold": {
+          "xyz_rms_mm": 21.374352463542838,
+          "xyz_peak_mm": 26.831716501100058,
+          "so3_rms_deg": 4.232726448698397,
+          "so3_peak_deg": 5.562571928402578
+        },
+        "measured_to_final_direction_cos": 0.22322957496743054,
+        "gripper_rms": 0.0922436865041156,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": 0.5295610662618432,
+          "open": null
+        },
+        "first_expert_grip_events_s": {
+          "close": 0.6333333333333333,
+          "open": null
+        },
+        "model_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.5295610662618432
+          }
+        ],
+        "expert_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.6333333333333333
+          }
+        ],
+        "first_model_grip_event_rows": {
+          "close": 16,
+          "open": null
+        },
+        "first_expert_grip_event_rows": {
+          "close": 19,
+          "open": null
+        },
+        "model_first_offset_mm": 3.6004258919053944,
+        "row_end_s": 1.6333333333333333,
+        "successor_frame_end_s": 1.6666666666666667
+      },
+      "holding_intent": {
+        "first_close_zero_based_row": 16,
+        "close_z_source_m": 0.031066710129380226,
+        "max_link6_z_above_close_mm": 68.28738749027252,
+        "contiguous_elevated_closed_forecast_s": 0.2,
+        "one_second_forecast": false,
+        "final_closed": true,
+        "final_elevated_closed": true,
+        "recorded_release_inside_horizon": false,
+        "remains_closed_after_recorded_release": null,
+        "action_threshold_events": [
+          {
+            "kind": "close",
+            "s": 0.5666666666666667
+          }
+        ]
+      },
+      "origin": "NEW"
+    },
+    {
+      "anchor": "FRUIT01",
+      "seed": [
+        0,
+        0
+      ],
+      "condition": "T0",
+      "input_sha256": "e19545dd68aad9cdd5e25e6d8d427d6da444c1588f6621669c5ece43ab773ec8",
+      "slot": "FRUIT01-T0-seed0",
+      "status": "RETURNED",
+      "actual_noise_sha256": "d9c0121c61f1826fee31d72180b38abc02ac4938cf94bccb68e4c2a427eb49a4",
+      "frozen_file_sha256": "17c443d5f790251e2f32ff923455d8126f2e614cf8d773863fefc72e1ece7980",
+      "decoded_sha256": "5c06f65fc448f1f59d22eb8a3a58b12dcf3f200684d1128332da1e41ef5b722e",
+      "raw_sha256": "9f7da663f61f8e83e2639d64fc6e48ef6cac2104d4d5b7767195895af04ad501",
+      "raw_dtype": "float32",
+      "sampler_state_sha256": "9fcb658398f01ba7867698baacc8d561b000a164cb233703db8c048a9759f86b",
+      "phases": {
+        "approach": {
+          "rows": [
+            0,
+            5
+          ],
+          "score": {
+            "xyz_rms_mm": 1.4306716452566397,
+            "xyz_peak_mm": 1.719726674884785,
+            "so3_rms_deg": 0.3757315166717535,
+            "so3_peak_deg": 0.4553175807177332
+          },
+          "toward_recorded_end_cos": 0.6639417826583278
+        },
+        "lift_before_release": {
+          "rows": [
+            5,
+            50
+          ],
+          "score": {
+            "xyz_rms_mm": 9.225546103410672,
+            "xyz_peak_mm": 19.30109539144918,
+            "so3_rms_deg": 2.665342461107437,
+            "so3_peak_deg": 6.7926722043513035
+          },
+          "toward_recorded_end_cos": 0.9944653159562716
+        }
+      },
+      "source_close_row": 5,
+      "source_release_row": 70,
+      "P10": {
+        "model": {
+          "xyz_rms_mm": 2.1039853833491216,
+          "xyz_peak_mm": 2.9587668293476757,
+          "so3_rms_deg": 0.7273415144672439,
+          "so3_peak_deg": 1.0563197862975822
+        },
+        "hold": {
+          "xyz_rms_mm": 1.7929809057147346,
+          "xyz_peak_mm": 2.135173143129374,
+          "so3_rms_deg": 0.4681284107564788,
+          "so3_peak_deg": 0.5884727291760214
+        },
+        "measured_to_final_direction_cos": 0.06372788703283487,
+        "gripper_rms": 0.06539527749641925,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": 0.1189434087121976,
+          "open": null
+        },
+        "first_expert_grip_events_s": {
+          "close": 0.16666666666666666,
+          "open": null
+        },
+        "model_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.1189434087121976
+          }
+        ],
+        "expert_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.16666666666666666
+          }
+        ],
+        "first_model_grip_event_rows": {
+          "close": 4,
+          "open": null
+        },
+        "first_expert_grip_event_rows": {
+          "close": 5,
+          "open": null
+        },
+        "model_first_offset_mm": 0.6735663658936079,
+        "row_end_s": 0.3,
+        "successor_frame_end_s": 0.3333333333333333
+      },
+      "FULL50": {
+        "model": {
+          "xyz_rms_mm": 8.763806989613268,
+          "xyz_peak_mm": 19.30109539144918,
+          "so3_rms_deg": 2.531355922968177,
+          "so3_peak_deg": 6.7926722043513035
+        },
+        "hold": {
+          "xyz_rms_mm": 52.61239189000713,
+          "xyz_peak_mm": 135.64916749520202,
+          "so3_rms_deg": 9.26899809487147,
+          "so3_peak_deg": 28.65823405929421
+        },
+        "measured_to_final_direction_cos": 0.9945175023049174,
+        "gripper_rms": 0.06071817223073383,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": 0.1189434087121976,
+          "open": null
+        },
+        "first_expert_grip_events_s": {
+          "close": 0.16666666666666666,
+          "open": null
+        },
+        "model_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.1189434087121976
+          }
+        ],
+        "expert_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.16666666666666666
+          }
+        ],
+        "first_model_grip_event_rows": {
+          "close": 4,
+          "open": null
+        },
+        "first_expert_grip_event_rows": {
+          "close": 5,
+          "open": null
+        },
+        "model_first_offset_mm": 0.6735663658936079,
+        "row_end_s": 1.6333333333333333,
+        "successor_frame_end_s": 1.6666666666666667
+      },
+      "holding_intent": {
+        "first_close_zero_based_row": 4,
+        "close_z_source_m": 0.03773130103945732,
+        "max_link6_z_above_close_mm": 125.90371072292328,
+        "contiguous_elevated_closed_forecast_s": 0.5666666666666667,
+        "one_second_forecast": false,
+        "final_closed": true,
+        "final_elevated_closed": true,
+        "recorded_release_inside_horizon": false,
+        "remains_closed_after_recorded_release": null,
+        "action_threshold_events": [
+          {
+            "kind": "close",
+            "s": 0.16666666666666666
+          }
+        ]
+      },
+      "origin": "NEW"
+    },
+    {
+      "anchor": "FRUIT01",
+      "seed": [
+        0,
+        0
+      ],
+      "condition": "T1",
+      "input_sha256": "6fd54af33799318dd1ffa97853b838bd00473835c69811c22fb64c5e16cdb4fa",
+      "slot": "FRUIT01-T1-seed0",
+      "status": "RETURNED",
+      "actual_noise_sha256": "d9c0121c61f1826fee31d72180b38abc02ac4938cf94bccb68e4c2a427eb49a4",
+      "frozen_file_sha256": "84b3bc731b6146af7212846b81cc1dfd35474d04ef439746e91d65b7ea2945de",
+      "decoded_sha256": "4eb2321327a1cdf870ed95fcc1a46bf3c5ac8a2a6a601d33b65cf7e72de012b4",
+      "raw_sha256": "02b95da213ed46fa80c5fc9751a20ef12be4b31654c90c291fd61aae3c081835",
+      "raw_dtype": "float32",
+      "sampler_state_sha256": "9fcb658398f01ba7867698baacc8d561b000a164cb233703db8c048a9759f86b",
+      "phases": {
+        "approach": {
+          "rows": [
+            0,
+            5
+          ],
+          "score": {
+            "xyz_rms_mm": 2.7884445610729536,
+            "xyz_peak_mm": 3.43987653459444,
+            "so3_rms_deg": 0.6217043484463366,
+            "so3_peak_deg": 0.8270649806559132
+          },
+          "toward_recorded_end_cos": 0.21202805808391179
+        },
+        "lift_before_release": {
+          "rows": [
+            5,
+            50
+          ],
+          "score": {
+            "xyz_rms_mm": 17.335592112256048,
+            "xyz_peak_mm": 35.31037834840557,
+            "so3_rms_deg": 4.401601629833224,
+            "so3_peak_deg": 10.460817932483753
+          },
+          "toward_recorded_end_cos": 0.9819982557646404
+        }
+      },
+      "source_close_row": 5,
+      "source_release_row": 70,
+      "P10": {
+        "model": {
+          "xyz_rms_mm": 3.812871844512518,
+          "xyz_peak_mm": 5.077856556573943,
+          "so3_rms_deg": 1.1018576963625948,
+          "so3_peak_deg": 1.5764986345224785
+        },
+        "hold": {
+          "xyz_rms_mm": 1.7929809057147346,
+          "xyz_peak_mm": 2.135173143129374,
+          "so3_rms_deg": 0.4681284107564788,
+          "so3_peak_deg": 0.5884727291760214
+        },
+        "measured_to_final_direction_cos": -0.39874335415993195,
+        "gripper_rms": 0.06042199262327268,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": 0.13083992129438962,
+          "open": null
+        },
+        "first_expert_grip_events_s": {
+          "close": 0.16666666666666666,
+          "open": null
+        },
+        "model_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.13083992129438962
+          }
+        ],
+        "expert_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.16666666666666666
+          }
+        ],
+        "first_model_grip_event_rows": {
+          "close": 4,
+          "open": null
+        },
+        "first_expert_grip_event_rows": {
+          "close": 5,
+          "open": null
+        },
+        "model_first_offset_mm": 1.1603347142408236,
+        "row_end_s": 0.3,
+        "successor_frame_end_s": 0.3333333333333333
+      },
+      "FULL50": {
+        "model": {
+          "xyz_rms_mm": 16.469609005719608,
+          "xyz_peak_mm": 35.31037834840557,
+          "so3_rms_deg": 4.180351521901376,
+          "so3_peak_deg": 10.460817932483753
+        },
+        "hold": {
+          "xyz_rms_mm": 52.61239189000713,
+          "xyz_peak_mm": 135.64916749520202,
+          "so3_rms_deg": 9.26899809487147,
+          "so3_peak_deg": 28.65823405929421
+        },
+        "measured_to_final_direction_cos": 0.982170836836263,
+        "gripper_rms": 0.12225909108424882,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": 0.13083992129438962,
+          "open": null
+        },
+        "first_expert_grip_events_s": {
+          "close": 0.16666666666666666,
+          "open": null
+        },
+        "model_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.13083992129438962
+          }
+        ],
+        "expert_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.16666666666666666
+          }
+        ],
+        "first_model_grip_event_rows": {
+          "close": 4,
+          "open": null
+        },
+        "first_expert_grip_event_rows": {
+          "close": 5,
+          "open": null
+        },
+        "model_first_offset_mm": 1.1603347142408236,
+        "row_end_s": 1.6333333333333333,
+        "successor_frame_end_s": 1.6666666666666667
+      },
+      "holding_intent": {
+        "first_close_zero_based_row": 4,
+        "close_z_source_m": 0.035685643553733826,
+        "max_link6_z_above_close_mm": 126.27480924129486,
+        "contiguous_elevated_closed_forecast_s": 0.6,
+        "one_second_forecast": false,
+        "final_closed": true,
+        "final_elevated_closed": true,
+        "recorded_release_inside_horizon": false,
+        "remains_closed_after_recorded_release": null,
+        "action_threshold_events": [
+          {
+            "kind": "close",
+            "s": 0.16666666666666666
+          }
+        ]
+      },
+      "origin": "NEW"
+    },
+    {
+      "anchor": "FRUIT02",
+      "seed": [
+        0,
+        0
+      ],
+      "condition": "T0",
+      "input_sha256": "7eb7ffc00812161c19b8ff8678d6e0cfb47865a7e9854bbc0c47098d4d2c7246",
+      "slot": "FRUIT02-T0-seed0",
+      "status": "RETURNED",
+      "actual_noise_sha256": "d9c0121c61f1826fee31d72180b38abc02ac4938cf94bccb68e4c2a427eb49a4",
+      "frozen_file_sha256": "68dd4911fa5cb911af7dc3d10ab316dc545b974da1cc48399a39a06053aae222",
+      "decoded_sha256": "734a01959794412ba7f96d16f5d06d523e6a32c684f3ae6dd51cd449e51d6ab8",
+      "raw_sha256": "3f5387d5861cc02d77db3433355a64f54151a05d43f0a6e9b08f938d8c6b418a",
+      "raw_dtype": "float32",
+      "sampler_state_sha256": "2e21a3fdb900d18e34bc53a81d1dbfb8bd1243f0069aed08ef289c9affe4e8aa",
+      "phases": {
+        "approach": {
+          "rows": [
+            0,
+            18
+          ],
+          "score": {
+            "xyz_rms_mm": 1.839911039347308,
+            "xyz_peak_mm": 3.008120335045356,
+            "so3_rms_deg": 0.3820791082353765,
+            "so3_peak_deg": 0.5925142091462258
+          },
+          "toward_recorded_end_cos": 0.9975426916558529
+        },
+        "lift_before_release": {
+          "rows": [
+            18,
+            46
+          ],
+          "score": {
+            "xyz_rms_mm": 9.871694980834498,
+            "xyz_peak_mm": 18.632123743369526,
+            "so3_rms_deg": 1.4489242329830352,
+            "so3_peak_deg": 2.6363428099520974
+          },
+          "toward_recorded_end_cos": 0.9979272165614843
+        }
+      },
+      "source_close_row": 18,
+      "source_release_row": 46,
+      "P10": {
+        "model": {
+          "xyz_rms_mm": 1.8483065051327303,
+          "xyz_peak_mm": 3.008120335045356,
+          "so3_rms_deg": 0.44564388660270116,
+          "so3_peak_deg": 0.5925142091462258
+        },
+        "hold": {
+          "xyz_rms_mm": 18.288966894815548,
+          "xyz_peak_mm": 26.557858097479947,
+          "so3_rms_deg": 1.9757081975005732,
+          "so3_peak_deg": 2.6229388205553947
+        },
+        "measured_to_final_direction_cos": 0.9995565849492293,
+        "gripper_rms": 0.007354290890876935,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": null,
+          "open": null
+        },
+        "first_expert_grip_events_s": {
+          "close": null,
+          "open": null
+        },
+        "model_grip_events": [],
+        "expert_grip_events": [],
+        "first_model_grip_event_rows": {
+          "close": null,
+          "open": null
+        },
+        "first_expert_grip_event_rows": {
+          "close": null,
+          "open": null
+        },
+        "model_first_offset_mm": 3.72439003903362,
+        "row_end_s": 0.3,
+        "successor_frame_end_s": 0.3333333333333333
+      },
+      "FULL50": {
+        "model": {
+          "xyz_rms_mm": 7.861779244804888,
+          "xyz_peak_mm": 18.632123743369526,
+          "so3_rms_deg": 1.1848146407102493,
+          "so3_peak_deg": 2.6363428099520974
+        },
+        "hold": {
+          "xyz_rms_mm": 107.38068229646456,
+          "xyz_peak_mm": 161.35994604711058,
+          "so3_rms_deg": 23.022786283407424,
+          "so3_peak_deg": 36.56093971370814
+        },
+        "measured_to_final_direction_cos": 0.9991694504335187,
+        "gripper_rms": 0.01529374169187338,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": 0.5295181137848732,
+          "open": 1.5132164876624907
+        },
+        "first_expert_grip_events_s": {
+          "close": 0.6,
+          "open": 1.5333333333333334
+        },
+        "model_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.5295181137848732
+          },
+          {
+            "kind": "open",
+            "s": 1.5132164876624907
+          }
+        ],
+        "expert_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.6
+          },
+          {
+            "kind": "open",
+            "s": 1.5333333333333334
+          }
+        ],
+        "first_model_grip_event_rows": {
+          "close": 16,
+          "open": 46
+        },
+        "first_expert_grip_event_rows": {
+          "close": 18,
+          "open": 46
+        },
+        "model_first_offset_mm": 3.72439003903362,
+        "row_end_s": 1.6333333333333333,
+        "successor_frame_end_s": 1.6666666666666667
+      },
+      "holding_intent": {
+        "first_close_zero_based_row": 16,
+        "close_z_source_m": 0.016521848738193512,
+        "max_link6_z_above_close_mm": 137.69474625587463,
+        "contiguous_elevated_closed_forecast_s": 0.8333333333333334,
+        "one_second_forecast": false,
+        "final_closed": false,
+        "final_elevated_closed": false,
+        "recorded_release_inside_horizon": true,
+        "remains_closed_after_recorded_release": false,
+        "action_threshold_events": [
+          {
+            "kind": "close",
+            "s": 0.5666666666666667
+          },
+          {
+            "kind": "open",
+            "s": 1.5666666666666667
+          }
+        ]
+      },
+      "origin": "NEW"
+    },
+    {
+      "anchor": "FRUIT02",
+      "seed": [
+        0,
+        0
+      ],
+      "condition": "T1",
+      "input_sha256": "8e230c6d1df0734de62918890bea148c6189618e8943ba8a9c9eb72e47526bbe",
+      "slot": "FRUIT02-T1-seed0",
+      "status": "RETURNED",
+      "actual_noise_sha256": "d9c0121c61f1826fee31d72180b38abc02ac4938cf94bccb68e4c2a427eb49a4",
+      "frozen_file_sha256": "833ede33e5bd8a142065d613f1a12254ee1e78cb8b76b0306c5d18528b2d9fe7",
+      "decoded_sha256": "bf6288ffd4bed0f2d63195fad9dfc3fadc5bd22bb6fc585d420f69bdc9173a26",
+      "raw_sha256": "32982e24a679a52d0f05fdda8ceedbf45313c3c8b336a4533462b4bf9de0d017",
+      "raw_dtype": "float32",
+      "sampler_state_sha256": "2e21a3fdb900d18e34bc53a81d1dbfb8bd1243f0069aed08ef289c9affe4e8aa",
+      "phases": {
+        "approach": {
+          "rows": [
+            0,
+            18
+          ],
+          "score": {
+            "xyz_rms_mm": 2.4264338207695415,
+            "xyz_peak_mm": 3.288967566310229,
+            "so3_rms_deg": 0.635190018425802,
+            "so3_peak_deg": 0.9747359627782755
+          },
+          "toward_recorded_end_cos": 0.9895773564961299
+        },
+        "lift_before_release": {
+          "rows": [
+            18,
+            46
+          ],
+          "score": {
+            "xyz_rms_mm": 16.01754336974033,
+            "xyz_peak_mm": 26.126603820229008,
+            "so3_rms_deg": 3.507581100401502,
+            "so3_peak_deg": 6.471946550388168
+          },
+          "toward_recorded_end_cos": 0.9962857746074715
+        }
+      },
+      "source_close_row": 18,
+      "source_release_row": 46,
+      "P10": {
+        "model": {
+          "xyz_rms_mm": 2.1084268374083504,
+          "xyz_peak_mm": 3.288967566310229,
+          "so3_rms_deg": 0.470279520246947,
+          "so3_peak_deg": 0.6826188533903931
+        },
+        "hold": {
+          "xyz_rms_mm": 18.288966894815548,
+          "xyz_peak_mm": 26.557858097479947,
+          "so3_rms_deg": 1.9757081975005732,
+          "so3_peak_deg": 2.6229388205553947
+        },
+        "measured_to_final_direction_cos": 0.9977350253861336,
+        "gripper_rms": 0.01659689476964065,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": null,
+          "open": null
+        },
+        "first_expert_grip_events_s": {
+          "close": null,
+          "open": null
+        },
+        "model_grip_events": [],
+        "expert_grip_events": [],
+        "first_model_grip_event_rows": {
+          "close": null,
+          "open": null
+        },
+        "first_expert_grip_event_rows": {
+          "close": null,
+          "open": null
+        },
+        "model_first_offset_mm": 3.6761251379368107,
+        "row_end_s": 0.3,
+        "successor_frame_end_s": 0.3333333333333333
+      },
+      "FULL50": {
+        "model": {
+          "xyz_rms_mm": 12.742354578280294,
+          "xyz_peak_mm": 26.126603820229008,
+          "so3_rms_deg": 2.684236073875623,
+          "so3_peak_deg": 6.471946550388168
+        },
+        "hold": {
+          "xyz_rms_mm": 107.38068229646456,
+          "xyz_peak_mm": 161.35994604711058,
+          "so3_rms_deg": 23.022786283407424,
+          "so3_peak_deg": 36.56093971370814
+        },
+        "measured_to_final_direction_cos": 0.9986514347242336,
+        "gripper_rms": 0.0313543965014088,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": 0.536530321152728,
+          "open": 1.5776228601514442
+        },
+        "first_expert_grip_events_s": {
+          "close": 0.6,
+          "open": 1.5333333333333334
+        },
+        "model_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.536530321152728
+          },
+          {
+            "kind": "open",
+            "s": 1.5776228601514442
+          }
+        ],
+        "expert_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.6
+          },
+          {
+            "kind": "open",
+            "s": 1.5333333333333334
+          }
+        ],
+        "first_model_grip_event_rows": {
+          "close": 17,
+          "open": 48
+        },
+        "first_expert_grip_event_rows": {
+          "close": 18,
+          "open": 46
+        },
+        "model_first_offset_mm": 3.6761251379368107,
+        "row_end_s": 1.6333333333333333,
+        "successor_frame_end_s": 1.6666666666666667
+      },
+      "holding_intent": {
+        "first_close_zero_based_row": 17,
+        "close_z_source_m": 0.017390482127666473,
+        "max_link6_z_above_close_mm": 133.748859167099,
+        "contiguous_elevated_closed_forecast_s": 0.9,
+        "one_second_forecast": false,
+        "final_closed": false,
+        "final_elevated_closed": false,
+        "recorded_release_inside_horizon": true,
+        "remains_closed_after_recorded_release": false,
+        "action_threshold_events": [
+          {
+            "kind": "close",
+            "s": 0.6
+          },
+          {
+            "kind": "open",
+            "s": 1.6333333333333333
+          }
+        ]
+      },
+      "origin": "NEW"
+    },
+    {
+      "anchor": "FRUIT03",
+      "seed": [
+        0,
+        0
+      ],
+      "condition": "T0",
+      "input_sha256": "0e6f041c4e92f8ade8febec9e330619ff792aabb8e76ac870e627ac2e684583c",
+      "slot": "FRUIT03-T0-seed0",
+      "status": "RETURNED",
+      "actual_noise_sha256": "d9c0121c61f1826fee31d72180b38abc02ac4938cf94bccb68e4c2a427eb49a4",
+      "frozen_file_sha256": "9ae1bfc420f47c9bef56b4ae41e65a4f97aebe24f80660469267cc4d5742c222",
+      "decoded_sha256": "72bb20f0108e16c3326aef18d75a2bcf6d0c09516a78aaa013e81f3df99bf356",
+      "raw_sha256": "dca31f0262c3c30ee257e38112ce69365c8c2983fccb6622c1e34073fdefc835",
+      "raw_dtype": "float32",
+      "sampler_state_sha256": "e4cb365443fdc201f2da98926e043a2bcf15529375a306f4ced94672f8f84936",
+      "phases": {
+        "approach": {
+          "rows": [
+            0,
+            5
+          ],
+          "score": {
+            "xyz_rms_mm": 0.7618043539505198,
+            "xyz_peak_mm": 1.4033167967792441,
+            "so3_rms_deg": 0.1923501109329383,
+            "so3_peak_deg": 0.2806086990896707
+          },
+          "toward_recorded_end_cos": 0.9977149494107871
+        },
+        "lift_before_release": {
+          "rows": [
+            5,
+            33
+          ],
+          "score": {
+            "xyz_rms_mm": 14.281343986375202,
+            "xyz_peak_mm": 21.216790882322897,
+            "so3_rms_deg": 1.953040756442834,
+            "so3_peak_deg": 3.908001412930903
+          },
+          "toward_recorded_end_cos": 0.998356783185378
+        }
+      },
+      "source_close_row": 5,
+      "source_release_row": 33,
+      "P10": {
+        "model": {
+          "xyz_rms_mm": 4.359435170317139,
+          "xyz_peak_mm": 7.945191235860231,
+          "so3_rms_deg": 0.3875369445916223,
+          "so3_peak_deg": 0.574155178087303
+        },
+        "hold": {
+          "xyz_rms_mm": 26.57776254673013,
+          "xyz_peak_mm": 59.25747459608365,
+          "so3_rms_deg": 3.7327932558575223,
+          "so3_peak_deg": 8.41266603393887
+        },
+        "measured_to_final_direction_cos": 0.9997118572622027,
+        "gripper_rms": 0.019539569265176963,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": 0.1053472715512771,
+          "open": null
+        },
+        "first_expert_grip_events_s": {
+          "close": 0.16666666666666666,
+          "open": null
+        },
+        "model_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.1053472715512771
+          }
+        ],
+        "expert_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.16666666666666666
+          }
+        ],
+        "first_model_grip_event_rows": {
+          "close": 4,
+          "open": null
+        },
+        "first_expert_grip_event_rows": {
+          "close": 5,
+          "open": null
+        },
+        "model_first_offset_mm": 0.5209839215622712,
+        "row_end_s": 0.3,
+        "successor_frame_end_s": 0.3333333333333333
+      },
+      "FULL50": {
+        "model": {
+          "xyz_rms_mm": 13.429847316575076,
+          "xyz_peak_mm": 31.025260202367544,
+          "so3_rms_deg": 2.021057951371356,
+          "so3_peak_deg": 4.595290804396984
+        },
+        "hold": {
+          "xyz_rms_mm": 145.5313101091272,
+          "xyz_peak_mm": 175.34574560505615,
+          "so3_rms_deg": 29.29874486060063,
+          "so3_peak_deg": 37.66671433291523
+        },
+        "measured_to_final_direction_cos": 0.984081995603897,
+        "gripper_rms": 0.014564930675263894,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": 0.1053472715512771,
+          "open": 1.117225974630863
+        },
+        "first_expert_grip_events_s": {
+          "close": 0.16666666666666666,
+          "open": 1.1
+        },
+        "model_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.1053472715512771
+          },
+          {
+            "kind": "open",
+            "s": 1.117225974630863
+          }
+        ],
+        "expert_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.16666666666666666
+          },
+          {
+            "kind": "open",
+            "s": 1.1
+          }
+        ],
+        "first_model_grip_event_rows": {
+          "close": 4,
+          "open": 34
+        },
+        "first_expert_grip_event_rows": {
+          "close": 5,
+          "open": 33
+        },
+        "model_first_offset_mm": 0.5209839215622712,
+        "row_end_s": 1.6333333333333333,
+        "successor_frame_end_s": 1.6666666666666667
+      },
+      "holding_intent": {
+        "first_close_zero_based_row": 4,
+        "close_z_source_m": 0.017622200772166252,
+        "max_link6_z_above_close_mm": 135.01234352588654,
+        "contiguous_elevated_closed_forecast_s": 0.8666666666666667,
+        "one_second_forecast": false,
+        "final_closed": false,
+        "final_elevated_closed": false,
+        "recorded_release_inside_horizon": true,
+        "remains_closed_after_recorded_release": false,
+        "action_threshold_events": [
+          {
+            "kind": "close",
+            "s": 0.16666666666666666
+          },
+          {
+            "kind": "open",
+            "s": 1.1666666666666667
+          }
+        ]
+      },
+      "origin": "EXACT_REUSE"
+    },
+    {
+      "anchor": "FRUIT03",
+      "seed": [
+        0,
+        0
+      ],
+      "condition": "T1",
+      "input_sha256": "7f0bc11f6046f7c22c946fe60466b0c6d29114c5c9389b3d5f5ab818aac9f717",
+      "slot": "FRUIT03-T1-seed0",
+      "status": "RETURNED",
+      "actual_noise_sha256": "d9c0121c61f1826fee31d72180b38abc02ac4938cf94bccb68e4c2a427eb49a4",
+      "frozen_file_sha256": "bf3bfe3a161a1d2152ef0d6f434acf61f4268694eb59f490aa1ddd97d378dd43",
+      "decoded_sha256": "5d5faca39d0da16787cf641789eb65e2bf5bfaa12a87cc4bd69825ccf039d694",
+      "raw_sha256": "3904cc9371595ad82e3890070ae58a188dabb23d5f888ba6184d13b6b4a08dd0",
+      "raw_dtype": "float32",
+      "sampler_state_sha256": "e4cb365443fdc201f2da98926e043a2bcf15529375a306f4ced94672f8f84936",
+      "phases": {
+        "approach": {
+          "rows": [
+            0,
+            5
+          ],
+          "score": {
+            "xyz_rms_mm": 1.4771483316351357,
+            "xyz_peak_mm": 3.071878177272632,
+            "so3_rms_deg": 0.3174244484801652,
+            "so3_peak_deg": 0.5837768965286211
+          },
+          "toward_recorded_end_cos": 0.9886468051251386
+        },
+        "lift_before_release": {
+          "rows": [
+            5,
+            33
+          ],
+          "score": {
+            "xyz_rms_mm": 21.221768920442802,
+            "xyz_peak_mm": 27.380524117596284,
+            "so3_rms_deg": 5.492276475822819,
+            "so3_peak_deg": 9.933183550785921
+          },
+          "toward_recorded_end_cos": 0.9966449372649172
+        }
+      },
+      "source_close_row": 5,
+      "source_release_row": 33,
+      "P10": {
+        "model": {
+          "xyz_rms_mm": 9.103549472302982,
+          "xyz_peak_mm": 16.976169310024993,
+          "so3_rms_deg": 1.3830045483119389,
+          "so3_peak_deg": 2.934787140729361
+        },
+        "hold": {
+          "xyz_rms_mm": 26.57776254673013,
+          "xyz_peak_mm": 59.25747459608365,
+          "so3_rms_deg": 3.7327932558575223,
+          "so3_peak_deg": 8.41266603393887
+        },
+        "measured_to_final_direction_cos": 0.9972745506853725,
+        "gripper_rms": 0.018430656148401378,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": 0.10438451497591673,
+          "open": null
+        },
+        "first_expert_grip_events_s": {
+          "close": 0.16666666666666666,
+          "open": null
+        },
+        "model_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.10438451497591673
+          }
+        ],
+        "expert_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.16666666666666666
+          }
+        ],
+        "first_model_grip_event_rows": {
+          "close": 4,
+          "open": null
+        },
+        "first_expert_grip_event_rows": {
+          "close": 5,
+          "open": null
+        },
+        "model_first_offset_mm": 0.3440335560630928,
+        "row_end_s": 0.3,
+        "successor_frame_end_s": 0.3333333333333333
+      },
+      "FULL50": {
+        "model": {
+          "xyz_rms_mm": 23.408069317318045,
+          "xyz_peak_mm": 68.13115310664446,
+          "so3_rms_deg": 5.185317795393005,
+          "so3_peak_deg": 12.244216710076984
+        },
+        "hold": {
+          "xyz_rms_mm": 145.5313101091272,
+          "xyz_peak_mm": 175.34574560505615,
+          "so3_rms_deg": 29.29874486060063,
+          "so3_peak_deg": 37.66671433291523
+        },
+        "measured_to_final_direction_cos": 0.9313594294468065,
+        "gripper_rms": 0.05300057591781732,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": 0.10438451497591673,
+          "open": 1.1853132463261016
+        },
+        "first_expert_grip_events_s": {
+          "close": 0.16666666666666666,
+          "open": 1.1
+        },
+        "model_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.10438451497591673
+          },
+          {
+            "kind": "open",
+            "s": 1.1853132463261016
+          }
+        ],
+        "expert_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.16666666666666666
+          },
+          {
+            "kind": "open",
+            "s": 1.1
+          }
+        ],
+        "first_model_grip_event_rows": {
+          "close": 4,
+          "open": 36
+        },
+        "first_expert_grip_event_rows": {
+          "close": 5,
+          "open": 33
+        },
+        "model_first_offset_mm": 0.3440335560630928,
+        "row_end_s": 1.6333333333333333,
+        "successor_frame_end_s": 1.6666666666666667
+      },
+      "holding_intent": {
+        "first_close_zero_based_row": 4,
+        "close_z_source_m": 0.01591128669679165,
+        "max_link6_z_above_close_mm": 134.19407606124878,
+        "contiguous_elevated_closed_forecast_s": 0.9,
+        "one_second_forecast": false,
+        "final_closed": false,
+        "final_elevated_closed": false,
+        "recorded_release_inside_horizon": true,
+        "remains_closed_after_recorded_release": false,
+        "action_threshold_events": [
+          {
+            "kind": "close",
+            "s": 0.16666666666666666
+          },
+          {
+            "kind": "open",
+            "s": 1.2333333333333334
+          }
+        ]
+      },
+      "origin": "NEW"
+    },
+    {
+      "anchor": "FRUIT00",
+      "seed": [
+        0,
+        1
+      ],
+      "condition": "T0",
+      "input_sha256": "bfee7f0af8dcbc5486a786e2c2acc196489f5418bab57b65273f9accf249493f",
+      "slot": "FRUIT00-T0-seed1",
+      "status": "RETURNED",
+      "actual_noise_sha256": "932d7ba19fab5a91f253170fb64e9f58fa5b46e28127d287bc0acc152b428acc",
+      "frozen_file_sha256": "168cc486dad964b16f79daeda02a8a8421b0dd15d8c380b273cc26347b1f2382",
+      "decoded_sha256": "bf7ab31468e0854d5382e5fd6519530bc812d73cdf0f543f57e959d906929027",
+      "raw_sha256": "22e905084af33c784d608cad9a8dd4d70c8b7e9c8f3f2457fbac44820dd3c063",
+      "raw_dtype": "float32",
+      "sampler_state_sha256": "630cdbe534c3492518868cecad368ea4341bc2beca2e9da0bf3881eb17b6cb31",
+      "phases": {
+        "approach": {
+          "rows": [
+            0,
+            19
+          ],
+          "score": {
+            "xyz_rms_mm": 8.493536069477281,
+            "xyz_peak_mm": 13.551881048698167,
+            "so3_rms_deg": 1.33226563967987,
+            "so3_peak_deg": 2.2712272045391737
+          },
+          "toward_recorded_end_cos": 0.9784818026378419
+        },
+        "lift_before_release": {
+          "rows": [
+            19,
+            50
+          ],
+          "score": {
+            "xyz_rms_mm": 8.76883909767956,
+            "xyz_peak_mm": 19.016231390930646,
+            "so3_rms_deg": 1.0334485805145748,
+            "so3_peak_deg": 1.5307730157268986
+          },
+          "toward_recorded_end_cos": 0.9783921702354502
+        }
+      },
+      "source_close_row": 19,
+      "source_release_row": 84,
+      "P10": {
+        "model": {
+          "xyz_rms_mm": 8.893106565041567,
+          "xyz_peak_mm": 13.551881048698167,
+          "so3_rms_deg": 1.4249330113670697,
+          "so3_peak_deg": 2.2712272045391737
+        },
+        "hold": {
+          "xyz_rms_mm": 9.971720715909674,
+          "xyz_peak_mm": 12.919616824489719,
+          "so3_rms_deg": 1.478019093325508,
+          "so3_peak_deg": 1.8200523926663477
+        },
+        "measured_to_final_direction_cos": 0.9004024078029327,
+        "gripper_rms": 0.005551764629766227,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": null,
+          "open": null
+        },
+        "first_expert_grip_events_s": {
+          "close": null,
+          "open": null
+        },
+        "model_grip_events": [],
+        "expert_grip_events": [],
+        "first_model_grip_event_rows": {
+          "close": null,
+          "open": null
+        },
+        "first_expert_grip_event_rows": {
+          "close": null,
+          "open": null
+        },
+        "model_first_offset_mm": 2.308440722371801,
+        "row_end_s": 0.3,
+        "successor_frame_end_s": 0.3333333333333333
+      },
+      "FULL50": {
+        "model": {
+          "xyz_rms_mm": 8.66525436101852,
+          "xyz_peak_mm": 19.016231390930646,
+          "so3_rms_deg": 1.156133192883553,
+          "so3_peak_deg": 2.2712272045391737
+        },
+        "hold": {
+          "xyz_rms_mm": 21.374352463542838,
+          "xyz_peak_mm": 26.831716501100058,
+          "so3_rms_deg": 4.232726448698397,
+          "so3_peak_deg": 5.562571928402578
+        },
+        "measured_to_final_direction_cos": 0.43207626305961316,
+        "gripper_rms": 0.03493766918763531,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": 0.5948120560146779,
+          "open": null
+        },
+        "first_expert_grip_events_s": {
+          "close": 0.6333333333333333,
+          "open": null
+        },
+        "model_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.5948120560146779
+          }
+        ],
+        "expert_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.6333333333333333
+          }
+        ],
+        "first_model_grip_event_rows": {
+          "close": 18,
+          "open": null
+        },
+        "first_expert_grip_event_rows": {
+          "close": 19,
+          "open": null
+        },
+        "model_first_offset_mm": 2.308440722371801,
+        "row_end_s": 1.6333333333333333,
+        "successor_frame_end_s": 1.6666666666666667
+      },
+      "holding_intent": {
+        "first_close_zero_based_row": 18,
+        "close_z_source_m": 0.032549694180488586,
+        "max_link6_z_above_close_mm": 48.99083077907562,
+        "contiguous_elevated_closed_forecast_s": 0.13333333333333333,
+        "one_second_forecast": false,
+        "final_closed": true,
+        "final_elevated_closed": true,
+        "recorded_release_inside_horizon": false,
+        "remains_closed_after_recorded_release": null,
+        "action_threshold_events": [
+          {
+            "kind": "close",
+            "s": 0.6333333333333333
+          }
+        ]
+      },
+      "origin": "NEW"
+    },
+    {
+      "anchor": "FRUIT00",
+      "seed": [
+        0,
+        1
+      ],
+      "condition": "T1",
+      "input_sha256": "0ea9ee1b1dfc4054b097567c2ba7986f01cb226a511dd1a4d3fd1997ce607135",
+      "slot": "FRUIT00-T1-seed1",
+      "status": "RETURNED",
+      "actual_noise_sha256": "932d7ba19fab5a91f253170fb64e9f58fa5b46e28127d287bc0acc152b428acc",
+      "frozen_file_sha256": "e7ae49033219c81ea6cc793f76f05ab058165468bdfe7bba72146e1a7170c41f",
+      "decoded_sha256": "e6842b76a0f08bdbf9b843b18dc85b70ed08c73f70f337b391e02f640d7bf442",
+      "raw_sha256": "e796ac5b62036aeb5d4c54eee6093fb9fc005826009eaf6568f1a5832d17de9e",
+      "raw_dtype": "float32",
+      "sampler_state_sha256": "630cdbe534c3492518868cecad368ea4341bc2beca2e9da0bf3881eb17b6cb31",
+      "phases": {
+        "approach": {
+          "rows": [
+            0,
+            19
+          ],
+          "score": {
+            "xyz_rms_mm": 11.863751639470456,
+            "xyz_peak_mm": 17.36348255359637,
+            "so3_rms_deg": 1.6996823380985158,
+            "so3_peak_deg": 2.804959689155123
+          },
+          "toward_recorded_end_cos": 0.940592899677026
+        },
+        "lift_before_release": {
+          "rows": [
+            19,
+            50
+          ],
+          "score": {
+            "xyz_rms_mm": 14.209842306960917,
+            "xyz_peak_mm": 36.568562469122746,
+            "so3_rms_deg": 1.8949220022267412,
+            "so3_peak_deg": 5.98372821053593
+          },
+          "toward_recorded_end_cos": 0.9738068119608629
+        }
+      },
+      "source_close_row": 19,
+      "source_release_row": 84,
+      "P10": {
+        "model": {
+          "xyz_rms_mm": 11.67639591214942,
+          "xyz_peak_mm": 17.36348255359637,
+          "so3_rms_deg": 1.8516175565231525,
+          "so3_peak_deg": 2.804959689155123
+        },
+        "hold": {
+          "xyz_rms_mm": 9.971720715909674,
+          "xyz_peak_mm": 12.919616824489719,
+          "so3_rms_deg": 1.478019093325508,
+          "so3_peak_deg": 1.8200523926663477
+        },
+        "measured_to_final_direction_cos": 0.8288155932333544,
+        "gripper_rms": 0.004707593223052821,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": null,
+          "open": null
+        },
+        "first_expert_grip_events_s": {
+          "close": null,
+          "open": null
+        },
+        "model_grip_events": [],
+        "expert_grip_events": [],
+        "first_model_grip_event_rows": {
+          "close": null,
+          "open": null
+        },
+        "first_expert_grip_event_rows": {
+          "close": null,
+          "open": null
+        },
+        "model_first_offset_mm": 2.70076091927844,
+        "row_end_s": 0.3,
+        "successor_frame_end_s": 0.3333333333333333
+      },
+      "FULL50": {
+        "model": {
+          "xyz_rms_mm": 13.366923076271,
+          "xyz_peak_mm": 36.568562469122746,
+          "so3_rms_deg": 1.8231955034425122,
+          "so3_peak_deg": 5.98372821053593
+        },
+        "hold": {
+          "xyz_rms_mm": 21.374352463542838,
+          "xyz_peak_mm": 26.831716501100058,
+          "so3_rms_deg": 4.232726448698397,
+          "so3_peak_deg": 5.562571928402578
+        },
+        "measured_to_final_direction_cos": 0.24051943147322993,
+        "gripper_rms": 0.09157244322847616,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": 0.5545967434268215,
+          "open": null
+        },
+        "first_expert_grip_events_s": {
+          "close": 0.6333333333333333,
+          "open": null
+        },
+        "model_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.5545967434268215
+          }
+        ],
+        "expert_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.6333333333333333
+          }
+        ],
+        "first_model_grip_event_rows": {
+          "close": 17,
+          "open": null
+        },
+        "first_expert_grip_event_rows": {
+          "close": 19,
+          "open": null
+        },
+        "model_first_offset_mm": 2.70076091927844,
+        "row_end_s": 1.6333333333333333,
+        "successor_frame_end_s": 1.6666666666666667
+      },
+      "holding_intent": {
+        "first_close_zero_based_row": 17,
+        "close_z_source_m": 0.03045160509645939,
+        "max_link6_z_above_close_mm": 68.69785487651825,
+        "contiguous_elevated_closed_forecast_s": 0.2,
+        "one_second_forecast": false,
+        "final_closed": true,
+        "final_elevated_closed": true,
+        "recorded_release_inside_horizon": false,
+        "remains_closed_after_recorded_release": null,
+        "action_threshold_events": [
+          {
+            "kind": "close",
+            "s": 0.6
+          }
+        ]
+      },
+      "origin": "NEW"
+    },
+    {
+      "anchor": "FRUIT01",
+      "seed": [
+        0,
+        1
+      ],
+      "condition": "T0",
+      "input_sha256": "e19545dd68aad9cdd5e25e6d8d427d6da444c1588f6621669c5ece43ab773ec8",
+      "slot": "FRUIT01-T0-seed1",
+      "status": "RETURNED",
+      "actual_noise_sha256": "932d7ba19fab5a91f253170fb64e9f58fa5b46e28127d287bc0acc152b428acc",
+      "frozen_file_sha256": "196c46ae664158eb93532888f8d193b505c7532277dddc52a532f644f3a7fedf",
+      "decoded_sha256": "04730b6ff4ffe555a1ed15f49109c9404d2fb25e444d1a8fbc6d57b33a122035",
+      "raw_sha256": "a1312d51177f5827cf52ec76d35ee903c7a2994b81d891b5a83080a340816f21",
+      "raw_dtype": "float32",
+      "sampler_state_sha256": "9fcb658398f01ba7867698baacc8d561b000a164cb233703db8c048a9759f86b",
+      "phases": {
+        "approach": {
+          "rows": [
+            0,
+            5
+          ],
+          "score": {
+            "xyz_rms_mm": 1.396064125864816,
+            "xyz_peak_mm": 1.5711639649048441,
+            "so3_rms_deg": 0.40298144174347134,
+            "so3_peak_deg": 0.4814415396530187
+          },
+          "toward_recorded_end_cos": 0.7871570743047148
+        },
+        "lift_before_release": {
+          "rows": [
+            5,
+            50
+          ],
+          "score": {
+            "xyz_rms_mm": 4.664670984252667,
+            "xyz_peak_mm": 10.358877307114291,
+            "so3_rms_deg": 1.5432763025512846,
+            "so3_peak_deg": 3.897951809200103
+          },
+          "toward_recorded_end_cos": 0.9993692901702685
+        }
+      },
+      "source_close_row": 5,
+      "source_release_row": 70,
+      "P10": {
+        "model": {
+          "xyz_rms_mm": 2.0577518233463197,
+          "xyz_peak_mm": 2.885069191838636,
+          "so3_rms_deg": 0.7336643779567814,
+          "so3_peak_deg": 1.094465027794416
+        },
+        "hold": {
+          "xyz_rms_mm": 1.7929809057147346,
+          "xyz_peak_mm": 2.135173143129374,
+          "so3_rms_deg": 0.4681284107564788,
+          "so3_peak_deg": 0.5884727291760214
+        },
+        "measured_to_final_direction_cos": 0.300986853923337,
+        "gripper_rms": 0.051226431967782864,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": 0.1315394904858684,
+          "open": null
+        },
+        "first_expert_grip_events_s": {
+          "close": 0.16666666666666666,
+          "open": null
+        },
+        "model_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.1315394904858684
+          }
+        ],
+        "expert_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.16666666666666666
+          }
+        ],
+        "first_model_grip_event_rows": {
+          "close": 4,
+          "open": null
+        },
+        "first_expert_grip_event_rows": {
+          "close": 5,
+          "open": null
+        },
+        "model_first_offset_mm": 0.5612867012903802,
+        "row_end_s": 0.3,
+        "successor_frame_end_s": 0.3333333333333333
+      },
+      "FULL50": {
+        "model": {
+          "xyz_rms_mm": 4.4472620067349915,
+          "xyz_peak_mm": 10.358877307114291,
+          "so3_rms_deg": 1.469615927939573,
+          "so3_peak_deg": 3.897951809200103
+        },
+        "hold": {
+          "xyz_rms_mm": 52.61239189000713,
+          "xyz_peak_mm": 135.64916749520202,
+          "so3_rms_deg": 9.26899809487147,
+          "so3_peak_deg": 28.65823405929421
+        },
+        "measured_to_final_direction_cos": 0.9993737763887011,
+        "gripper_rms": 0.05823724787610685,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": 0.1315394904858684,
+          "open": null
+        },
+        "first_expert_grip_events_s": {
+          "close": 0.16666666666666666,
+          "open": null
+        },
+        "model_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.1315394904858684
+          }
+        ],
+        "expert_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.16666666666666666
+          }
+        ],
+        "first_model_grip_event_rows": {
+          "close": 4,
+          "open": null
+        },
+        "first_expert_grip_event_rows": {
+          "close": 5,
+          "open": null
+        },
+        "model_first_offset_mm": 0.5612867012903802,
+        "row_end_s": 1.6333333333333333,
+        "successor_frame_end_s": 1.6666666666666667
+      },
+      "holding_intent": {
+        "first_close_zero_based_row": 4,
+        "close_z_source_m": 0.038170043379068375,
+        "max_link6_z_above_close_mm": 125.95510482788086,
+        "contiguous_elevated_closed_forecast_s": 0.5,
+        "one_second_forecast": false,
+        "final_closed": true,
+        "final_elevated_closed": true,
+        "recorded_release_inside_horizon": false,
+        "remains_closed_after_recorded_release": null,
+        "action_threshold_events": [
+          {
+            "kind": "close",
+            "s": 0.16666666666666666
+          }
+        ]
+      },
+      "origin": "NEW"
+    },
+    {
+      "anchor": "FRUIT01",
+      "seed": [
+        0,
+        1
+      ],
+      "condition": "T1",
+      "input_sha256": "6fd54af33799318dd1ffa97853b838bd00473835c69811c22fb64c5e16cdb4fa",
+      "slot": "FRUIT01-T1-seed1",
+      "status": "RETURNED",
+      "actual_noise_sha256": "932d7ba19fab5a91f253170fb64e9f58fa5b46e28127d287bc0acc152b428acc",
+      "frozen_file_sha256": "624a236bb97214c639615cf9dff532525a3bb729a20191b6671c75e24cd362ff",
+      "decoded_sha256": "1ad18e386fc24d90febd6a30394f6c5f3e2cc7a32f2e96256b403f414a07d734",
+      "raw_sha256": "95489f29c68cfc7c56b8f2ccc1bd3f5977905e002c038b455f41a621e309f330",
+      "raw_dtype": "float32",
+      "sampler_state_sha256": "9fcb658398f01ba7867698baacc8d561b000a164cb233703db8c048a9759f86b",
+      "phases": {
+        "approach": {
+          "rows": [
+            0,
+            5
+          ],
+          "score": {
+            "xyz_rms_mm": 2.590275713055368,
+            "xyz_peak_mm": 2.913809030315802,
+            "so3_rms_deg": 0.5766021754239123,
+            "so3_peak_deg": 0.7721765786922643
+          },
+          "toward_recorded_end_cos": 0.22762866187502517
+        },
+        "lift_before_release": {
+          "rows": [
+            5,
+            50
+          ],
+          "score": {
+            "xyz_rms_mm": 9.199212769349822,
+            "xyz_peak_mm": 17.53042369638789,
+            "so3_rms_deg": 2.906760319388218,
+            "so3_peak_deg": 7.243199161113018
+          },
+          "toward_recorded_end_cos": 0.9949029411815088
+        }
+      },
+      "source_close_row": 5,
+      "source_release_row": 70,
+      "P10": {
+        "model": {
+          "xyz_rms_mm": 3.4927192029732983,
+          "xyz_peak_mm": 4.639109940801226,
+          "so3_rms_deg": 1.0691952973829917,
+          "so3_peak_deg": 1.5474219339918782
+        },
+        "hold": {
+          "xyz_rms_mm": 1.7929809057147346,
+          "xyz_peak_mm": 2.135173143129374,
+          "so3_rms_deg": 0.4681284107564788,
+          "so3_peak_deg": 0.5884727291760214
+        },
+        "measured_to_final_direction_cos": -0.21013169125980924,
+        "gripper_rms": 0.04355434655195767,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": 0.14474260806410436,
+          "open": null
+        },
+        "first_expert_grip_events_s": {
+          "close": 0.16666666666666666,
+          "open": null
+        },
+        "model_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.14474260806410436
+          }
+        ],
+        "expert_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.16666666666666666
+          }
+        ],
+        "first_model_grip_event_rows": {
+          "close": 5,
+          "open": null
+        },
+        "first_expert_grip_event_rows": {
+          "close": 5,
+          "open": null
+        },
+        "model_first_offset_mm": 1.2378228512159177,
+        "row_end_s": 0.3,
+        "successor_frame_end_s": 0.3333333333333333
+      },
+      "FULL50": {
+        "model": {
+          "xyz_rms_mm": 8.765495812853736,
+          "xyz_peak_mm": 17.53042369638789,
+          "so3_rms_deg": 2.763616653192563,
+          "so3_peak_deg": 7.243199161113018
+        },
+        "hold": {
+          "xyz_rms_mm": 52.61239189000713,
+          "xyz_peak_mm": 135.64916749520202,
+          "so3_rms_deg": 9.26899809487147,
+          "so3_peak_deg": 28.65823405929421
+        },
+        "measured_to_final_direction_cos": 0.994949423929015,
+        "gripper_rms": 0.11933304864231663,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": 0.14474260806410436,
+          "open": null
+        },
+        "first_expert_grip_events_s": {
+          "close": 0.16666666666666666,
+          "open": null
+        },
+        "model_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.14474260806410436
+          }
+        ],
+        "expert_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.16666666666666666
+          }
+        ],
+        "first_model_grip_event_rows": {
+          "close": 5,
+          "open": null
+        },
+        "first_expert_grip_event_rows": {
+          "close": 5,
+          "open": null
+        },
+        "model_first_offset_mm": 1.2378228512159177,
+        "row_end_s": 1.6333333333333333,
+        "successor_frame_end_s": 1.6666666666666667
+      },
+      "holding_intent": {
+        "first_close_zero_based_row": 5,
+        "close_z_source_m": 0.036200933158397675,
+        "max_link6_z_above_close_mm": 127.10288166999817,
+        "contiguous_elevated_closed_forecast_s": 0.5666666666666667,
+        "one_second_forecast": false,
+        "final_closed": true,
+        "final_elevated_closed": true,
+        "recorded_release_inside_horizon": false,
+        "remains_closed_after_recorded_release": null,
+        "action_threshold_events": [
+          {
+            "kind": "close",
+            "s": 0.2
+          }
+        ]
+      },
+      "origin": "NEW"
+    },
+    {
+      "anchor": "FRUIT02",
+      "seed": [
+        0,
+        1
+      ],
+      "condition": "T0",
+      "input_sha256": "7eb7ffc00812161c19b8ff8678d6e0cfb47865a7e9854bbc0c47098d4d2c7246",
+      "slot": "FRUIT02-T0-seed1",
+      "status": "RETURNED",
+      "actual_noise_sha256": "932d7ba19fab5a91f253170fb64e9f58fa5b46e28127d287bc0acc152b428acc",
+      "frozen_file_sha256": "de601586d5063e75f6c6cec7f1a41aa08fd795e879a314b13dfc4a401214d643",
+      "decoded_sha256": "263dd6ab0e7db6c81f6e12c071f839cb5d25c9f794e2902526720c8d531ba9b1",
+      "raw_sha256": "c95192b387720b298edfede8175d40b576644c1439ab1b8aee61116d1381f54d",
+      "raw_dtype": "float32",
+      "sampler_state_sha256": "2e21a3fdb900d18e34bc53a81d1dbfb8bd1243f0069aed08ef289c9affe4e8aa",
+      "phases": {
+        "approach": {
+          "rows": [
+            0,
+            18
+          ],
+          "score": {
+            "xyz_rms_mm": 2.3256224299597963,
+            "xyz_peak_mm": 4.074470809575325,
+            "so3_rms_deg": 0.4139382617722411,
+            "so3_peak_deg": 0.7605188233848327
+          },
+          "toward_recorded_end_cos": 0.9971041090123481
+        },
+        "lift_before_release": {
+          "rows": [
+            18,
+            46
+          ],
+          "score": {
+            "xyz_rms_mm": 12.397228438989169,
+            "xyz_peak_mm": 18.502176679246745,
+            "so3_rms_deg": 2.055917736358906,
+            "so3_peak_deg": 3.2152473232803
+          },
+          "toward_recorded_end_cos": 0.9979966038287377
+        }
+      },
+      "source_close_row": 18,
+      "source_release_row": 46,
+      "P10": {
+        "model": {
+          "xyz_rms_mm": 2.6809954735004964,
+          "xyz_peak_mm": 4.074470809575325,
+          "so3_rms_deg": 0.486968472198582,
+          "so3_peak_deg": 0.7605188233848327
+        },
+        "hold": {
+          "xyz_rms_mm": 18.288966894815548,
+          "xyz_peak_mm": 26.557858097479947,
+          "so3_rms_deg": 1.9757081975005732,
+          "so3_peak_deg": 2.6229388205553947
+        },
+        "measured_to_final_direction_cos": 0.9993452417487649,
+        "gripper_rms": 0.0035399943914636114,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": null,
+          "open": null
+        },
+        "first_expert_grip_events_s": {
+          "close": null,
+          "open": null
+        },
+        "model_grip_events": [],
+        "expert_grip_events": [],
+        "first_model_grip_event_rows": {
+          "close": null,
+          "open": null
+        },
+        "first_expert_grip_event_rows": {
+          "close": null,
+          "open": null
+        },
+        "model_first_offset_mm": 3.1969375295930886,
+        "row_end_s": 0.3,
+        "successor_frame_end_s": 0.3333333333333333
+      },
+      "FULL50": {
+        "model": {
+          "xyz_rms_mm": 9.715061682054856,
+          "xyz_peak_mm": 18.502176679246745,
+          "so3_rms_deg": 1.6268233744313148,
+          "so3_peak_deg": 3.2152473232803
+        },
+        "hold": {
+          "xyz_rms_mm": 107.38068229646456,
+          "xyz_peak_mm": 161.35994604711058,
+          "so3_rms_deg": 23.022786283407424,
+          "so3_peak_deg": 36.56093971370814
+        },
+        "measured_to_final_direction_cos": 0.9995228471618309,
+        "gripper_rms": 0.013587667203252956,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": 0.5529848904788944,
+          "open": 1.5423591953422917
+        },
+        "first_expert_grip_events_s": {
+          "close": 0.6,
+          "open": 1.5333333333333334
+        },
+        "model_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.5529848904788944
+          },
+          {
+            "kind": "open",
+            "s": 1.5423591953422917
+          }
+        ],
+        "expert_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.6
+          },
+          {
+            "kind": "open",
+            "s": 1.5333333333333334
+          }
+        ],
+        "first_model_grip_event_rows": {
+          "close": 17,
+          "open": 47
+        },
+        "first_expert_grip_event_rows": {
+          "close": 18,
+          "open": 46
+        },
+        "model_first_offset_mm": 3.1969375295930886,
+        "row_end_s": 1.6333333333333333,
+        "successor_frame_end_s": 1.6666666666666667
+      },
+      "holding_intent": {
+        "first_close_zero_based_row": 17,
+        "close_z_source_m": 0.017375897616147995,
+        "max_link6_z_above_close_mm": 136.90650463104248,
+        "contiguous_elevated_closed_forecast_s": 0.8666666666666667,
+        "one_second_forecast": false,
+        "final_closed": false,
+        "final_elevated_closed": false,
+        "recorded_release_inside_horizon": true,
+        "remains_closed_after_recorded_release": false,
+        "action_threshold_events": [
+          {
+            "kind": "close",
+            "s": 0.6
+          },
+          {
+            "kind": "open",
+            "s": 1.6
+          }
+        ]
+      },
+      "origin": "NEW"
+    },
+    {
+      "anchor": "FRUIT02",
+      "seed": [
+        0,
+        1
+      ],
+      "condition": "T1",
+      "input_sha256": "8e230c6d1df0734de62918890bea148c6189618e8943ba8a9c9eb72e47526bbe",
+      "slot": "FRUIT02-T1-seed1",
+      "status": "RETURNED",
+      "actual_noise_sha256": "932d7ba19fab5a91f253170fb64e9f58fa5b46e28127d287bc0acc152b428acc",
+      "frozen_file_sha256": "142e3d6476dd53f38b78bd8a3bd04ae3230b216133090cebb83b0ff8dbb92183",
+      "decoded_sha256": "85fe41927ac93264a6a1507db116404181f3a246f7718b4d04fa64ff14af12ae",
+      "raw_sha256": "fb24af5b07d348261572b541e9ddc7b73907b5f6587160bba2a1bed93b69a635",
+      "raw_dtype": "float32",
+      "sampler_state_sha256": "2e21a3fdb900d18e34bc53a81d1dbfb8bd1243f0069aed08ef289c9affe4e8aa",
+      "phases": {
+        "approach": {
+          "rows": [
+            0,
+            18
+          ],
+          "score": {
+            "xyz_rms_mm": 3.0877341787315107,
+            "xyz_peak_mm": 4.171261482662986,
+            "so3_rms_deg": 0.7342346509463673,
+            "so3_peak_deg": 1.140422675309623
+          },
+          "toward_recorded_end_cos": 0.9874521730176776
+        },
+        "lift_before_release": {
+          "rows": [
+            18,
+            46
+          ],
+          "score": {
+            "xyz_rms_mm": 19.845922892392615,
+            "xyz_peak_mm": 26.008054378588287,
+            "so3_rms_deg": 4.495628380796369,
+            "so3_peak_deg": 8.174464276796922
+          },
+          "toward_recorded_end_cos": 0.9962674626821859
+        }
+      },
+      "source_close_row": 18,
+      "source_release_row": 46,
+      "P10": {
+        "model": {
+          "xyz_rms_mm": 2.849679793200866,
+          "xyz_peak_mm": 4.0546313440902635,
+          "so3_rms_deg": 0.5566570722400682,
+          "so3_peak_deg": 0.807852875850928
+        },
+        "hold": {
+          "xyz_rms_mm": 18.288966894815548,
+          "xyz_peak_mm": 26.557858097479947,
+          "so3_rms_deg": 1.9757081975005732,
+          "so3_peak_deg": 2.6229388205553947
+        },
+        "measured_to_final_direction_cos": 0.9962595216692602,
+        "gripper_rms": 0.011052313020530322,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": null,
+          "open": null
+        },
+        "first_expert_grip_events_s": {
+          "close": null,
+          "open": null
+        },
+        "model_grip_events": [],
+        "expert_grip_events": [],
+        "first_model_grip_event_rows": {
+          "close": null,
+          "open": null
+        },
+        "first_expert_grip_event_rows": {
+          "close": null,
+          "open": null
+        },
+        "model_first_offset_mm": 2.7829363449220743,
+        "row_end_s": 0.3,
+        "successor_frame_end_s": 0.3333333333333333
+      },
+      "FULL50": {
+        "model": {
+          "xyz_rms_mm": 15.546304840152686,
+          "xyz_peak_mm": 26.008054378588287,
+          "so3_rms_deg": 3.4139628982585823,
+          "so3_peak_deg": 8.174464276796922
+        },
+        "hold": {
+          "xyz_rms_mm": 107.38068229646456,
+          "xyz_peak_mm": 161.35994604711058,
+          "so3_rms_deg": 23.022786283407424,
+          "so3_peak_deg": 36.56093971370814
+        },
+        "measured_to_final_direction_cos": 0.9989013532112262,
+        "gripper_rms": 0.035367076860578446,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": 0.560485774559553,
+          "open": 1.6034235498206943
+        },
+        "first_expert_grip_events_s": {
+          "close": 0.6,
+          "open": 1.5333333333333334
+        },
+        "model_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.560485774559553
+          },
+          {
+            "kind": "open",
+            "s": 1.6034235498206943
+          }
+        ],
+        "expert_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.6
+          },
+          {
+            "kind": "open",
+            "s": 1.5333333333333334
+          }
+        ],
+        "first_model_grip_event_rows": {
+          "close": 17,
+          "open": 49
+        },
+        "first_expert_grip_event_rows": {
+          "close": 18,
+          "open": 46
+        },
+        "model_first_offset_mm": 2.7829363449220743,
+        "row_end_s": 1.6333333333333333,
+        "successor_frame_end_s": 1.6666666666666667
+      },
+      "holding_intent": {
+        "first_close_zero_based_row": 17,
+        "close_z_source_m": 0.01566498354077339,
+        "max_link6_z_above_close_mm": 136.1425369977951,
+        "contiguous_elevated_closed_forecast_s": 0.9,
+        "one_second_forecast": false,
+        "final_closed": false,
+        "final_elevated_closed": false,
+        "recorded_release_inside_horizon": true,
+        "remains_closed_after_recorded_release": false,
+        "action_threshold_events": [
+          {
+            "kind": "close",
+            "s": 0.6
+          },
+          {
+            "kind": "open",
+            "s": 1.6666666666666667
+          }
+        ]
+      },
+      "origin": "NEW"
+    },
+    {
+      "anchor": "FRUIT03",
+      "seed": [
+        0,
+        1
+      ],
+      "condition": "T0",
+      "input_sha256": "0e6f041c4e92f8ade8febec9e330619ff792aabb8e76ac870e627ac2e684583c",
+      "slot": "FRUIT03-T0-seed1",
+      "status": "RETURNED",
+      "actual_noise_sha256": "932d7ba19fab5a91f253170fb64e9f58fa5b46e28127d287bc0acc152b428acc",
+      "frozen_file_sha256": "d0e30de5e440031740c6338e4b0424ac3f28735df7d34e9d000d4177c1a61efb",
+      "decoded_sha256": "229180be8547129d47ae48084e297d10229c132a1cce17c34c07a3e9f6776b40",
+      "raw_sha256": "371a7b7912a3c616c95631e5cfbb829e9643b29ef6991a7eac43bfde6670d294",
+      "raw_dtype": "float32",
+      "sampler_state_sha256": "e4cb365443fdc201f2da98926e043a2bcf15529375a306f4ced94672f8f84936",
+      "phases": {
+        "approach": {
+          "rows": [
+            0,
+            5
+          ],
+          "score": {
+            "xyz_rms_mm": 0.9984186945070616,
+            "xyz_peak_mm": 1.5154253724202384,
+            "so3_rms_deg": 0.3042135938248208,
+            "so3_peak_deg": 0.48126325747203835
+          },
+          "toward_recorded_end_cos": 0.9973753352178001
+        },
+        "lift_before_release": {
+          "rows": [
+            5,
+            33
+          ],
+          "score": {
+            "xyz_rms_mm": 9.411118330890993,
+            "xyz_peak_mm": 16.699321296573338,
+            "so3_rms_deg": 1.329321187972445,
+            "so3_peak_deg": 2.5320061177331112
+          },
+          "toward_recorded_end_cos": 0.9982944139215337
+        }
+      },
+      "source_close_row": 5,
+      "source_release_row": 33,
+      "P10": {
+        "model": {
+          "xyz_rms_mm": 1.1743683842007875,
+          "xyz_peak_mm": 1.7025475453945464,
+          "so3_rms_deg": 0.6690240234371121,
+          "so3_peak_deg": 1.1221651851003813
+        },
+        "hold": {
+          "xyz_rms_mm": 26.57776254673013,
+          "xyz_peak_mm": 59.25747459608365,
+          "so3_rms_deg": 3.7327932558575223,
+          "so3_peak_deg": 8.41266603393887
+        },
+        "measured_to_final_direction_cos": 0.9996931538946207,
+        "gripper_rms": 0.019514864345561572,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": 0.10069452031723003,
+          "open": null
+        },
+        "first_expert_grip_events_s": {
+          "close": 0.16666666666666666,
+          "open": null
+        },
+        "model_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.10069452031723003
+          }
+        ],
+        "expert_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.16666666666666666
+          }
+        ],
+        "first_model_grip_event_rows": {
+          "close": 4,
+          "open": null
+        },
+        "first_expert_grip_event_rows": {
+          "close": 5,
+          "open": null
+        },
+        "model_first_offset_mm": 0.28682898257562944,
+        "row_end_s": 0.3,
+        "successor_frame_end_s": 0.3333333333333333
+      },
+      "FULL50": {
+        "model": {
+          "xyz_rms_mm": 10.712960447228895,
+          "xyz_peak_mm": 30.124934582835007,
+          "so3_rms_deg": 1.570927584745014,
+          "so3_peak_deg": 4.14247368322234
+        },
+        "hold": {
+          "xyz_rms_mm": 145.5313101091272,
+          "xyz_peak_mm": 175.34574560505615,
+          "so3_rms_deg": 29.29874486060063,
+          "so3_peak_deg": 37.66671433291523
+        },
+        "measured_to_final_direction_cos": 0.98568280779632,
+        "gripper_rms": 0.010143552412515546,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": 0.10069452031723003,
+          "open": 1.1035734331001046
+        },
+        "first_expert_grip_events_s": {
+          "close": 0.16666666666666666,
+          "open": 1.1
+        },
+        "model_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.10069452031723003
+          },
+          {
+            "kind": "open",
+            "s": 1.1035734331001046
+          }
+        ],
+        "expert_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.16666666666666666
+          },
+          {
+            "kind": "open",
+            "s": 1.1
+          }
+        ],
+        "first_model_grip_event_rows": {
+          "close": 4,
+          "open": 34
+        },
+        "first_expert_grip_event_rows": {
+          "close": 5,
+          "open": 33
+        },
+        "model_first_offset_mm": 0.28682898257562944,
+        "row_end_s": 1.6333333333333333,
+        "successor_frame_end_s": 1.6666666666666667
+      },
+      "holding_intent": {
+        "first_close_zero_based_row": 4,
+        "close_z_source_m": 0.01973465457558632,
+        "max_link6_z_above_close_mm": 132.98408687114716,
+        "contiguous_elevated_closed_forecast_s": 0.8666666666666667,
+        "one_second_forecast": false,
+        "final_closed": false,
+        "final_elevated_closed": false,
+        "recorded_release_inside_horizon": true,
+        "remains_closed_after_recorded_release": false,
+        "action_threshold_events": [
+          {
+            "kind": "close",
+            "s": 0.16666666666666666
+          },
+          {
+            "kind": "open",
+            "s": 1.1666666666666667
+          }
+        ]
+      },
+      "origin": "EXACT_REUSE"
+    },
+    {
+      "anchor": "FRUIT03",
+      "seed": [
+        0,
+        1
+      ],
+      "condition": "T1",
+      "input_sha256": "7f0bc11f6046f7c22c946fe60466b0c6d29114c5c9389b3d5f5ab818aac9f717",
+      "slot": "FRUIT03-T1-seed1",
+      "status": "RETURNED",
+      "actual_noise_sha256": "932d7ba19fab5a91f253170fb64e9f58fa5b46e28127d287bc0acc152b428acc",
+      "frozen_file_sha256": "fd6ac822f2312767d873278da0a0da77bcbd79fa384b1c4126b130816e98e2e5",
+      "decoded_sha256": "4e9d2cd39216dbb0eca37989360e8bf733e30a42e7315d33462d1291cebd5bed",
+      "raw_sha256": "fbf25bc7c476aa95ae4b42478e69e8a79cb3c70ae083f687dc3afd05072175dd",
+      "raw_dtype": "float32",
+      "sampler_state_sha256": "e4cb365443fdc201f2da98926e043a2bcf15529375a306f4ced94672f8f84936",
+      "phases": {
+        "approach": {
+          "rows": [
+            0,
+            5
+          ],
+          "score": {
+            "xyz_rms_mm": 0.9235233519532003,
+            "xyz_peak_mm": 1.5530965399147916,
+            "so3_rms_deg": 0.26918350576883454,
+            "so3_peak_deg": 0.4955806168182445
+          },
+          "toward_recorded_end_cos": 0.9827116193650739
+        },
+        "lift_before_release": {
+          "rows": [
+            5,
+            33
+          ],
+          "score": {
+            "xyz_rms_mm": 15.351332091544814,
+            "xyz_peak_mm": 22.952975611566423,
+            "so3_rms_deg": 4.8704210200095925,
+            "so3_peak_deg": 8.359316752977776
+          },
+          "toward_recorded_end_cos": 0.9969828996553767
+        }
+      },
+      "source_close_row": 5,
+      "source_release_row": 33,
+      "P10": {
+        "model": {
+          "xyz_rms_mm": 5.016009504581157,
+          "xyz_peak_mm": 9.36044245555758,
+          "so3_rms_deg": 0.9963113380196562,
+          "so3_peak_deg": 2.2727767440219693
+        },
+        "hold": {
+          "xyz_rms_mm": 26.57776254673013,
+          "xyz_peak_mm": 59.25747459608365,
+          "so3_rms_deg": 3.7327932558575223,
+          "so3_peak_deg": 8.41266603393887
+        },
+        "measured_to_final_direction_cos": 0.9981522513414368,
+        "gripper_rms": 0.021227605723220785,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": 0.09961593857009438,
+          "open": null
+        },
+        "first_expert_grip_events_s": {
+          "close": 0.16666666666666666,
+          "open": null
+        },
+        "model_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.09961593857009438
+          }
+        ],
+        "expert_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.16666666666666666
+          }
+        ],
+        "first_model_grip_event_rows": {
+          "close": 3,
+          "open": null
+        },
+        "first_expert_grip_event_rows": {
+          "close": 5,
+          "open": null
+        },
+        "model_first_offset_mm": 0.42995993547667993,
+        "row_end_s": 0.3,
+        "successor_frame_end_s": 0.3333333333333333
+      },
+      "FULL50": {
+        "model": {
+          "xyz_rms_mm": 19.835099130426897,
+          "xyz_peak_mm": 63.03185989281305,
+          "so3_rms_deg": 4.712347758400981,
+          "so3_peak_deg": 11.057577886720306
+        },
+        "hold": {
+          "xyz_rms_mm": 145.5313101091272,
+          "xyz_peak_mm": 175.34574560505615,
+          "so3_rms_deg": 29.29874486060063,
+          "so3_peak_deg": 37.66671433291523
+        },
+        "measured_to_final_direction_cos": 0.943052011092149,
+        "gripper_rms": 0.05002763391813844,
+        "first_event_errors": [],
+        "first_model_grip_events_s": {
+          "close": 0.09961593857009438,
+          "open": 1.1665421155063738
+        },
+        "first_expert_grip_events_s": {
+          "close": 0.16666666666666666,
+          "open": 1.1
+        },
+        "model_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.09961593857009438
+          },
+          {
+            "kind": "open",
+            "s": 1.1665421155063738
+          }
+        ],
+        "expert_grip_events": [
+          {
+            "kind": "close",
+            "s": 0.16666666666666666
+          },
+          {
+            "kind": "open",
+            "s": 1.1
+          }
+        ],
+        "first_model_grip_event_rows": {
+          "close": 3,
+          "open": 35
+        },
+        "first_expert_grip_event_rows": {
+          "close": 5,
+          "open": 33
+        },
+        "model_first_offset_mm": 0.42995993547667993,
+        "row_end_s": 1.6333333333333333,
+        "successor_frame_end_s": 1.6666666666666667
+      },
+      "holding_intent": {
+        "first_close_zero_based_row": 3,
+        "close_z_source_m": 0.015704141929745674,
+        "max_link6_z_above_close_mm": 132.95745849609375,
+        "contiguous_elevated_closed_forecast_s": 0.9,
+        "one_second_forecast": false,
+        "final_closed": false,
+        "final_elevated_closed": false,
+        "recorded_release_inside_horizon": true,
+        "remains_closed_after_recorded_release": false,
+        "action_threshold_events": [
+          {
+            "kind": "close",
+            "s": 0.13333333333333333
+          },
+          {
+            "kind": "open",
+            "s": 1.2
+          }
+        ]
+      },
+      "origin": "NEW"
+    }
+  ],
+  "pairs": [
+    {
+      "anchor": "FRUIT00",
+      "seed": [
+        0,
+        0
+      ],
+      "xyz_rms_delta_mm": {
+        "P10": 2.359633403389095,
+        "FULL50": 4.582420212555034
+      }
+    },
+    {
+      "anchor": "FRUIT00",
+      "seed": [
+        0,
+        1
+      ],
+      "xyz_rms_delta_mm": {
+        "P10": 2.7832893471078535,
+        "FULL50": 4.701668715252479
+      }
+    },
+    {
+      "anchor": "FRUIT01",
+      "seed": [
+        0,
+        0
+      ],
+      "xyz_rms_delta_mm": {
+        "P10": 1.7088864611633965,
+        "FULL50": 7.70580201610634
+      }
+    },
+    {
+      "anchor": "FRUIT01",
+      "seed": [
+        0,
+        1
+      ],
+      "xyz_rms_delta_mm": {
+        "P10": 1.4349673796269786,
+        "FULL50": 4.318233806118744
+      }
+    },
+    {
+      "anchor": "FRUIT02",
+      "seed": [
+        0,
+        0
+      ],
+      "xyz_rms_delta_mm": {
+        "P10": 0.26012033227562004,
+        "FULL50": 4.880575333475406
+      }
+    },
+    {
+      "anchor": "FRUIT02",
+      "seed": [
+        0,
+        1
+      ],
+      "xyz_rms_delta_mm": {
+        "P10": 0.16868431970036957,
+        "FULL50": 5.831243158097831
+      }
+    },
+    {
+      "anchor": "FRUIT03",
+      "seed": [
+        0,
+        0
+      ],
+      "xyz_rms_delta_mm": {
+        "P10": 4.744114301985843,
+        "FULL50": 9.978222000742969
+      }
+    },
+    {
+      "anchor": "FRUIT03",
+      "seed": [
+        0,
+        1
+      ],
+      "xyz_rms_delta_mm": {
+        "P10": 3.8416411203803693,
+        "FULL50": 9.122138683198003
+      }
+    }
+  ],
+  "physics_ticks": 0,
+  "optimizer_updates": 0
+}
