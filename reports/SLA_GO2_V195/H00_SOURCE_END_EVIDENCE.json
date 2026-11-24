@@ -1,0 +1,254 @@
+{
+  "native_audit": {
+    "status": "VALID",
+    "outcome": "ORIGINAL_STANCE_OR_CONTACT_STOP",
+    "ticks": 25028,
+    "max_ticks": 50000,
+    "processes_absent": true,
+    "stop": null,
+    "terminal_hold": true,
+    "after_hold": {
+      "install_or_accept": 0,
+      "grant": 0,
+      "ticks": 0
+    },
+    "qualification": null,
+    "qualified": false,
+    "student": {
+      "task": "H",
+      "seed": 0,
+      "teacher_prefix_ticks": 5000,
+      "query_submissions": 3,
+      "query_returns": 3,
+      "positive_source_atoms": 505,
+      "model_queries_with_consumed_source": [
+        0,
+        1,
+        2
+      ],
+      "first_task_event_tick": null,
+      "closed_loop_qualified_success": false,
+      "query_refresh": "ACTUAL_SOURCE_END_AT_P10",
+      "initial_anchor": {
+        "tick": 11203,
+        "measured_tcp": [
+          [
+            0.9804974640378255,
+            0.007182578793924111,
+            0.19640044189680958,
+            0.2783342680996907
+          ],
+          [
+            -0.002509372378249168,
+            0.9997080216701753,
+            -0.024032778835824112,
+            -0.01887602044296992
+          ],
+          [
+            -0.196515714551433,
+            0.023071236858335686,
+            0.9802292037907083,
+            0.6696389442759564
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "consumed_tcp": [
+          [
+            0.9921444969534555,
+            0.00930714281942472,
+            0.12475044792510134,
+            0.2945084273815155
+          ],
+          [
+            -0.007283133895468724,
+            0.9998345076258672,
+            -0.01667073247341988,
+            -0.02005782537162304
+          ],
+          [
+            -0.12488495956533463,
+            0.015631201267928593,
+            0.9920480897725101,
+            0.6788056492805481
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "world_position_offset_m": [
+          0.016174159281824807,
+          -0.0011818049286531178,
+          0.009166705004591713
+        ],
+        "right_rotation": [
+          [
+            0.9973552963826801,
+            0.003544896149162834,
+            -0.07259370832729031
+          ],
+          [
+            -0.0030361018360471515,
+            0.999970058049709,
+            0.007117941395005073
+          ],
+          [
+            0.07261676709312523,
+            -0.006878714658511878,
+            0.9973361962856805
+          ]
+        ],
+        "wire_sha256": "2c6eed8b0988a7d39530781add21593c41186e617707e52d2c6507e37f241ca7",
+        "solver_target_identity": "3152348a4cdb51bd572ffeeec3616a23c10cb73c1a8f56bf3ed8d64d6dcc631c"
+      },
+      "score_since_handoff": {
+        "task": "H",
+        "handoff_tick": 11203,
+        "handoff_object_position_m": [
+          0.28997295682385676,
+          -0.01692153290821146,
+          0.6547651790240633
+        ],
+        "post_handoff_success": false,
+        "first_success_tick": null,
+        "post_handoff_new_grasp": false,
+        "maximum_added_lift_m": 0.00014613483630721014,
+        "maximum_progress_m": 0.0,
+        "longest_qualifying_window_s": 0.0,
+        "latest": {
+          "native_grasp": false,
+          "added_lift_m": 3.172550702212895e-05
+        }
+      }
+    },
+    "native_score": {
+      "schema": "SEA_STATIONARY_HOLD_NATIVE_SCORE",
+      "instruction": "HOLD-red",
+      "task_success": false,
+      "native_step": 25006,
+      "base_directional_motion_m": -0.0006929604693240582,
+      "lift_m": 3.8429389481731135e-07,
+      "inside_selected_region": null,
+      "target_grasp": false,
+      "wrong_object_grasp_ever": false,
+      "wrong_object_contact_ever": false,
+      "released": true,
+      "gripper_open_fraction": 0.4799222976866477,
+      "TCP_retreat_m": 0.04063498664623834,
+      "stable_release_condition": false,
+      "states": 18804,
+      "missing_native_intervals": 0,
+      "unsafe_states": 1,
+      "ever_target_grasp": true,
+      "ever_target_lift20mm": false,
+      "maximum_lift_m": 0.0001147936231798985,
+      "longest_grasp_lift_hold_s": 0.0,
+      "longest_stable_released_retreat_s": 0.0,
+      "events": {
+        "target_grasp": {
+          "native_step": 11007,
+          "native_time_s": 22.013999999998678
+        }
+      },
+      "task_privileged_truth_in_student_input": false,
+      "clock": "ACTUAL_2MS_NATIVE_STREAM",
+      "first_stance_or_contact_violation": {
+        "tick": 25006,
+        "base_drift_m": 0.0017129797533543176,
+        "base_angle_deg": 0.7261060826602025,
+        "foot_drift_m": 0.005000194439410914,
+        "all_feet_supported": true,
+        "contact_valid": true,
+        "gripper_state_valid": true
+      },
+      "maximum_stance_drift_m": 0.02,
+      "maximum_stance_angle_deg": 5.0,
+      "maximum_foot_drift_m": 0.005
+    },
+    "interruption": null,
+    "model_forwards": 3,
+    "model_returns": 3,
+    "training_updates": 0,
+    "trace_sha256": "e004569c80515c1d81bb94601bef77bfd639faf0d55caf36e2b720825d9d4f25"
+  },
+  "geometry_and_source": {
+    "card": "H00",
+    "ticks": 25028,
+    "native_audit_sha256": "79c23aedc69a339af9f875eadb82f7407f9e41e50bb6c9b6303ba524590b5f04",
+    "original_stop": null,
+    "after_hold": {
+      "install_or_accept": 0,
+      "grant": 0,
+      "ticks": 0
+    },
+    "raw_model_returns": [
+      {
+        "tick": 11203,
+        "noise_sha256": "d9c0121c61f1826fee31d72180b38abc02ac4938cf94bccb68e4c2a427eb49a4",
+        "decoded_sha256": "1ad7a61565e0fcacd049f14608b25733c99631e33fd8d03237e76b55bf2a9327",
+        "g_min": 0.4403004050254822,
+        "cross_close_threshold": true
+      },
+      {
+        "tick": 16703,
+        "noise_sha256": "02a209ab130163b3744cc82fbe03214a86ef2813b95979cd5aeec88297066eaf",
+        "decoded_sha256": "17c8aa6bcdc0739ede4684829e50536c5a02bd01462107c6703fede73d831915",
+        "g_min": 0.4722082018852234,
+        "cross_close_threshold": true
+      },
+      {
+        "tick": 23203,
+        "noise_sha256": "e21f59a37e329f11daa1d7de28e944638df27584780ec97cb3794681dd781546",
+        "decoded_sha256": "2d432d75b01d1abc68ba953b9015d6f23ed3503fe03262629ef74a3a37ba1f5f",
+        "g_min": 0.47595834732055664,
+        "cross_close_threshold": true
+      }
+    ],
+    "native_contact_sides": {},
+    "pad_clearance_min_mm": [
+      7.254332723480981,
+      6.653857569779025
+    ],
+    "consumed_atoms": 553,
+    "positive_consumed_source_atoms": 506,
+    "query_phase_coverage": [
+      {
+        "query": "native-c52475331482485aae08b96130f47dcf:000:11203",
+        "used_source_seconds": 1.6333333333333333,
+        "highest_consumed_intent_delta_mm": 9.445178507469066,
+        "highest_full_intent_delta_mm": 9.445178507469066
+      },
+      {
+        "query": "native-c52475331482485aae08b96130f47dcf:001:16703",
+        "used_source_seconds": 1.6333333333333333,
+        "highest_consumed_intent_delta_mm": 18.44968471388686,
+        "highest_full_intent_delta_mm": 18.44968471388686
+      },
+      {
+        "query": "native-c52475331482485aae08b96130f47dcf:002:23203",
+        "used_source_seconds": 0.4403292181069959,
+        "highest_consumed_intent_delta_mm": 1.6673956048225413,
+        "highest_full_intent_delta_mm": 1.684001327123208
+      }
+    ],
+    "source_tracking_peak_pos_mm_deg": [
+      8.67809043258245,
+      0.360173845392216
+    ],
+    "source_tracking_rms_pos_mm_deg": [
+      3.463070518104722,
+      0.16401211594046344
+    ],
+    "min_consumed_jaw_mm": 7.264728906250004,
+    "consumed_atoms_currently_grasped": 178,
+    "new_integration_ticks": 0,
+    "new_model_forwards": 0
+  }
+}
