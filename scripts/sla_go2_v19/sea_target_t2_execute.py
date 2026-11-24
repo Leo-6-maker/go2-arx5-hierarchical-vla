@@ -28,10 +28,9 @@ def check_proof(cold, control, cold_path):
             "cold T2 or teacher scoring proof differs")
 
 
-def worker(root, cold_path, descriptor):
+def scoped_context(root, cold_path, descriptor, panel, plan_sha):
     import jax
     from p0_o0_runner import gpu_identity
-    from XPolicyLab.policy.SLA_Memory.model import Model
 
     lock, _ = site(root)
     info, inherited = lock.stat(), os.fstat(descriptor)
@@ -43,40 +42,37 @@ def worker(root, cold_path, descriptor):
             pass
         else:
             raise ValueError("missing active GPU project lock")
-    dest = root / "v19" / PANEL
+    dest = root / "v19" / panel
     start = read(dest / "START.json")
 
     def current():
-        require(start["owner_pid"] == os.getppid() and start["panel"] == PANEL and start["plan_sha256"] == PLAN_SHA
+        require(start["owner_pid"] == os.getppid() and start["panel"] == panel and start["plan_sha256"] == plan_sha
                 and time.time() < start["deadline_epoch"]
                 and not any((dest / f).exists() for f in ("STOP.json", "OWNER_EXIT.json")),
-                "expired, stopped or foreign T2 owner")
+                "expired, stopped or foreign frozen panel owner")
 
     current()
     require(jax.default_backend() == "gpu" and len(jax.local_devices()) == 1 and gpu_identity() == UUID,
             "wrong frozen model device")
-    cold = read(pin(cold_path, start["cold_sha256"]))
-    require(cold["code"] == code_binding(), "T2 execution changed after preflight")
-    frozen, _ = registration()
-    prepare, _, processor = verified_processor(root, frozen)
-    rows, payloads, _ = anchors_and_payloads(root, prepare)
-    noises = exact_noise(root)
-    require(rows == cold["rows"] and cell_list(rows, noises) == cold["cells"]
-            and processor == cold["processor"], "cold input bytes differ at the GPU")
-    fields = device_fields(prepare, payloads, cold["fields"], {CONDITION})
-    write_new(dest / "DEVICE_INPUTS.json", {name: fields[name, CONDITION] for name in rows})
+    return dest, read(pin(cold_path, start["cold_sha256"])), current
+
+
+def run_sampler(root, dest, panel, current, cells, payloads, fields, noises):
+    import jax
+    from XPolicyLab.policy.SLA_Memory.model import Model
+
     for n, (_, key, noise) in noises.items():
         with (dest / f"noise-{n}.npz").open("xb") as out:
             np.savez(out, noise=noise, sample_key=key)
     config = verify_files(root)
     current()
     log = dest / "calls.jsonl"
-    journal(log, "LOAD_ENTERED", panel=PANEL)
+    journal(log, "LOAD_ENTERED", panel=panel)
     model = Model(config)
     journal(log, "LOAD_RETURNED", jax_version=jax.__version__, gpu=UUID)
-    for cell in cold["cells"]:
+    for cell in cells:
         current()
-        name, anchor, seed = cell["id"], cell["anchor"], cell["seed"][1]
+        name, anchor, condition, seed = cell["id"], cell["anchor"], cell["condition"], cell["seed"][1]
         rng, key, noise = noises[seed]
         model.reset()
         capture = {}
@@ -89,15 +85,15 @@ def worker(root, cold_path, descriptor):
             ))
 
         def retained(observation):
-            answer, record = infer(model._policy, observation, fields[anchor, CONDITION], rng, key, noise, entering)
+            answer, record = infer(model._policy, observation, fields[anchor, condition], rng, key, noise, entering)
             capture.update(record)
             return answer
 
-        absolute = frozen_predictor(model, payloads[anchor, CONDITION], infer=retained)
+        absolute = frozen_predictor(model, payloads[anchor, condition], infer=retained)
         current()
         require(absolute.shape == (50, 16) and absolute.dtype == np.float32 and capture["actions"].shape == (50, 32)
                 and all(np.isfinite(x).all() for x in (absolute, capture["actions"], capture["sampler_state"])),
-                "frozen T2 output ABI")
+                "frozen panel output ABI")
         path = dest / f"{name}.npz"
         with path.open("xb") as writer:
             np.savez(writer, absolute=absolute, **capture)
@@ -105,7 +101,21 @@ def worker(root, cold_path, descriptor):
             file_sha256=digest(path), duration_s=time.monotonic() - before,
             raw_sha256=tensor_sha(capture["actions"]), decoded_sha256=tensor_sha(absolute),
         ))
-    journal(log, "PANEL_RETURNED", sampler_enters=len(cold["cells"]))
+    journal(log, "PANEL_RETURNED", sampler_enters=len(cells))
+
+
+def worker(root, cold_path, descriptor):
+    dest, cold, current = scoped_context(root, cold_path, descriptor, PANEL, PLAN_SHA)
+    require(cold["code"] == code_binding(), "T2 execution changed after preflight")
+    frozen, _ = registration()
+    prepare, _, processor = verified_processor(root, frozen)
+    rows, payloads, _ = anchors_and_payloads(root, prepare)
+    noises = exact_noise(root)
+    require(rows == cold["rows"] and cell_list(rows, noises) == cold["cells"]
+            and processor == cold["processor"], "cold input bytes differ at the GPU")
+    fields = device_fields(prepare, payloads, cold["fields"], {CONDITION})
+    write_new(dest / "DEVICE_INPUTS.json", {name: fields[name, CONDITION] for name in rows})
+    run_sampler(root, dest, PANEL, current, cold["cells"], payloads, fields, noises)
 
 
 def execute(root, cold_path, control_path, allocation_path, allocation_sha):
@@ -117,8 +127,13 @@ def execute(root, cold_path, control_path, allocation_path, allocation_sha):
             and allocation["native_starts"] == allocation["physics_ticks"] == allocation["optimizer_updates"] == 0
             and allocation["cold_sha256"] == digest(cold_path) and allocation["teacher_sha256"] == digest(control_path)
             and allocation["valid_until_epoch"] > time.time(), "missing exact T2 scientific allocation")
+    run_owner(root, cold_path, allocation, allocation_sha, PANEL, PLAN_SHA, Path(__file__),
+              teacher_sha256=digest(control_path))
+
+
+def run_owner(root, cold_path, allocation, allocation_sha, panel, plan_sha, entrypoint, **binding):
     require(os.environ.get("REACH_SHARED_GPU") == "1", "approved GPU share mode required")
-    dest = root / "v19" / PANEL
+    dest = root / "v19" / panel
     code, peak, started = None, 0, False
     wall_start = time.monotonic()
     try:
@@ -126,9 +141,9 @@ def execute(root, cold_path, control_path, allocation_path, allocation_sha):
             deadline = min(allocation["valid_until_epoch"], time.time() + 600)
             dest.mkdir(mode=0o700)
             write_new(dest / "START.json", dict(
-                panel=PANEL, plan_sha256=PLAN_SHA, deadline_epoch=deadline, owner_pid=os.getpid(),
+                panel=panel, plan_sha256=plan_sha, deadline_epoch=deadline, owner_pid=os.getpid(),
                 allocation_sha256=allocation_sha, cold_sha256=digest(cold_path),
-                teacher_sha256=digest(control_path), gpu=gpu,
+                gpu=gpu, **binding,
             ))
             started = True
             dependencies = [BASE / "scripts" / n for n in
@@ -141,7 +156,7 @@ def execute(root, cold_path, control_path, allocation_path, allocation_sha):
                 PYTHONPATH=os.pathsep.join(map(str, [root, root / "vendor", *dependencies])),
                 OPENBLAS_NUM_THREADS="1", OMP_NUM_THREADS="1", MKL_NUM_THREADS="1",
             )
-            command = [sys.executable, "-B", str(Path(__file__).resolve()), str(root), "worker",
+            command = [sys.executable, "-B", str(entrypoint.resolve()), str(root), "worker",
                        str(cold_path), str(lock.fileno())]
             with (dest / "worker.log").open("x") as log:
                 process = subprocess.Popen(command, cwd=root, env=env, stdout=log, stderr=subprocess.STDOUT,
@@ -166,7 +181,7 @@ def execute(root, cold_path, control_path, allocation_path, allocation_sha):
                 lease_wall_s=time.monotonic() - wall_start, entered=len(list(dest.glob("*.entered.json"))),
                 returned=len(list(dest.glob("*.returned.json"))), physics_ticks=0, optimizer_updates=0,
             ))
-    require(code == 0, "T2 incomplete, preserve the actual allocation denominator")
+    require(code == 0, "frozen panel incomplete, preserve its actual allocation denominator")
 
 
 if __name__ == "__main__":
