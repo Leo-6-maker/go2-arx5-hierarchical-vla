@@ -1,0 +1,283 @@
+{
+  "status": "GEOMETRY_ONLY_CAMERA_MOUNT_EVALUATED",
+  "mount": {
+    "profile": "THREE_VIEW_V1",
+    "physical_camera": "aux_left_rgb",
+    "physical_parent": "base_link",
+    "policy_slot": "cam_left_wrist",
+    "raw_hwc": [
+      480,
+      640,
+      3
+    ],
+    "encoding": "RGB_UINT8",
+    "base_from_camera": [
+      [
+        -0.7071067811865476,
+        0.23570226039551576,
+        -0.6666666666666665,
+        0.2
+      ],
+      [
+        -0.7071067811865475,
+        -0.2357022603955158,
+        0.6666666666666666,
+        0.22
+      ],
+      [
+        0.0,
+        0.9428090415820631,
+        0.33333333333333326,
+        0.42
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "camera_wxyz": [
+      -0.3124597141037825,
+      -0.22094238269039448,
+      0.5334020967941769,
+      0.7543444794845715
+    ],
+    "fovy_deg": 75.0,
+    "K": [
+      [
+        312.77408948188935,
+        0.0,
+        320.0
+      ],
+      [
+        0.0,
+        312.77408948188935,
+        240.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "mujoco_axes": "right/up/back",
+    "source_recording_extrinsics": "UNKNOWN"
+  },
+  "mount_sha256": "50b38e732d03661892556fd005bcaa83b21d08f67ec07dee0d3aa18fcbcd9f79",
+  "ready_for_one_render_check": true,
+  "old_proxy_scene_rows": [
+    {
+      "id": "G00-00",
+      "tick": 6203,
+      "scene_sha256": "19368138aa85927c9482e2a69f4a9bc7aa35c8a171969d35db7d72a6f1797635",
+      "pose_matches_base_se3": true,
+      "current_tool_in_fov": true,
+      "center_ray_to_proxy_object": true,
+      "lens_min_axis_ray_mm": 184.2917962362843,
+      "proxy_surface": {
+        "samples": 26,
+        "first_hits": 15,
+        "center_first_geometry": "task_cube_geom"
+      },
+      "proxy_targets": {
+        "task_cube_geom": {
+          "pixel": [
+            322.1189284259558,
+            230.48116315747046
+          ],
+          "inside": true,
+          "first_ray_geometry": "task_cube_geom",
+          "hit_before_projection_mm": 30.02151402064329
+        },
+        "task_blue_cube_geom": {
+          "pixel": [
+            263.56313843811705,
+            252.23874112649193
+          ],
+          "inside": true,
+          "first_ray_geometry": "task_blue_cube_geom",
+          "hit_before_projection_mm": 26.44369787787515
+        },
+        "current_tool": {
+          "pixel": [
+            374.45745306873505,
+            177.0033359469317
+          ],
+          "inside": true,
+          "first_ray_geometry": "",
+          "hit_before_projection_mm": 101.45731766937193
+        },
+        "20mm_above_proxy": {
+          "pixel": [
+            322.02872638072137,
+            215.3885556299949
+          ],
+          "inside": true,
+          "first_ray_geometry": "task_cube_geom",
+          "hit_before_projection_mm": -1.1102230246251565e-13
+        }
+      }
+    },
+    {
+      "id": "G00-01",
+      "tick": 8203,
+      "scene_sha256": "19368138aa85927c9482e2a69f4a9bc7aa35c8a171969d35db7d72a6f1797635",
+      "pose_matches_base_se3": true,
+      "current_tool_in_fov": true,
+      "center_ray_to_proxy_object": false,
+      "lens_min_axis_ray_mm": 184.94605315664117,
+      "proxy_surface": {
+        "samples": 26,
+        "first_hits": 4,
+        "center_first_geometry": "task_left_pad"
+      },
+      "proxy_targets": {
+        "task_cube_geom": {
+          "pixel": [
+            321.2623712348135,
+            231.38281548313424
+          ],
+          "inside": true,
+          "first_ray_geometry": "task_left_pad",
+          "hit_before_projection_mm": 152.49920775569365
+        },
+        "task_blue_cube_geom": {
+          "pixel": [
+            262.8152817712727,
+            253.26595117067865
+          ],
+          "inside": true,
+          "first_ray_geometry": "task_blue_cube_geom",
+          "hit_before_projection_mm": 26.366121728313875
+        },
+        "current_tool": {
+          "pixel": [
+            375.4379269812341,
+            218.84872242794938
+          ],
+          "inside": true,
+          "first_ray_geometry": "",
+          "hit_before_projection_mm": 101.59642813654298
+        },
+        "20mm_above_proxy": {
+          "pixel": [
+            321.10057729861614,
+            216.36277445516743
+          ],
+          "inside": true,
+          "first_ray_geometry": "task_left_pad",
+          "hit_before_projection_mm": 149.19254180961943
+        }
+      }
+    },
+    {
+      "id": "G01-00",
+      "tick": 6203,
+      "scene_sha256": "9ae3232754c5ef287239801fc10230199872f1526c78c099b746f0d7ad088507",
+      "pose_matches_base_se3": true,
+      "current_tool_in_fov": true,
+      "center_ray_to_proxy_object": true,
+      "lens_min_axis_ray_mm": 184.29165786512533,
+      "proxy_surface": {
+        "samples": 26,
+        "first_hits": 15,
+        "center_first_geometry": "task_cube_geom"
+      },
+      "proxy_targets": {
+        "task_cube_geom": {
+          "pixel": [
+            331.59875821788387,
+            235.39467404072306
+          ],
+          "inside": true,
+          "first_ray_geometry": "task_cube_geom",
+          "hit_before_projection_mm": 29.286335985121426
+        },
+        "task_blue_cube_geom": {
+          "pixel": [
+            271.92551178212625,
+            259.116451945781
+          ],
+          "inside": true,
+          "first_ray_geometry": "task_blue_cube_geom",
+          "hit_before_projection_mm": 27.238431306778608
+        },
+        "current_tool": {
+          "pixel": [
+            374.45837234824074,
+            176.99426874255823
+          ],
+          "inside": true,
+          "first_ray_geometry": "",
+          "hit_before_projection_mm": 101.45639382345828
+        },
+        "20mm_above_proxy": {
+          "pixel": [
+            331.7019821066394,
+            219.7689738174209
+          ],
+          "inside": true,
+          "first_ray_geometry": "task_cube_geom",
+          "hit_before_projection_mm": 0.0
+        }
+      }
+    },
+    {
+      "id": "G01-01",
+      "tick": 8203,
+      "scene_sha256": "9ae3232754c5ef287239801fc10230199872f1526c78c099b746f0d7ad088507",
+      "pose_matches_base_se3": true,
+      "current_tool_in_fov": true,
+      "center_ray_to_proxy_object": false,
+      "lens_min_axis_ray_mm": 185.0001682558937,
+      "proxy_surface": {
+        "samples": 26,
+        "first_hits": 2,
+        "center_first_geometry": "task_left_pad"
+      },
+      "proxy_targets": {
+        "task_cube_geom": {
+          "pixel": [
+            330.5459646978327,
+            236.36304915985082
+          ],
+          "inside": true,
+          "first_ray_geometry": "task_left_pad",
+          "hit_before_projection_mm": 142.084690324627
+        },
+        "task_blue_cube_geom": {
+          "pixel": [
+            270.9673350613909,
+            260.2245596956659
+          ],
+          "inside": true,
+          "first_ray_geometry": "task_blue_cube_geom",
+          "hit_before_projection_mm": 27.136106292281468
+        },
+        "current_tool": {
+          "pixel": [
+            375.9322353864473,
+            218.52995405448473
+          ],
+          "inside": true,
+          "first_ray_geometry": "",
+          "hit_before_projection_mm": 101.61880068796717
+        },
+        "20mm_above_proxy": {
+          "pixel": [
+            330.5633065201854,
+            220.8183166796091
+          ],
+          "inside": true,
+          "first_ray_geometry": "task_left_pad",
+          "hit_before_projection_mm": 138.76083635041306
+        }
+      }
+    }
+  ],
+  "original_dynamic_model_changed": false,
+  "physics_ticks": 0,
+  "rendered_images": 0,
+  "model_forwards": 0
+}

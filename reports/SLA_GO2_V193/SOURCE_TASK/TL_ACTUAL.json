@@ -1,0 +1,697 @@
+{
+  "batch": "TL",
+  "run": "SEA-TASK-TL-193-01",
+  "plan_sha256": "5161e08283bb2dbb25c13776217c61f17f6e891e422b3e2a59575e4dc900bbbb",
+  "exact_reused": 0,
+  "reuse_proof": {
+    "exact": {},
+    "refused_global": null
+  },
+  "owner_receipt": {
+    "exit_code": 0,
+    "project_lock_released": true,
+    "sampled_board_peak_mib": 12543,
+    "lease_wall_s": 19.09333682898432,
+    "entered": 8,
+    "returned": 8,
+    "physics_ticks": 0,
+    "optimizer_updates": 0
+  },
+  "allocation_sha256": "51d8ea5d2db560c3bbcd39c1b0434af4c28f30964e68d0391c63547ae41fede0",
+  "cold_sha256": "cec8c96830483ccaa16677e3d6e4d0b4754099a72c7bdc0b299bdc2780fb3383",
+  "model_load_and_return_events": [
+    {
+      "event": "LOAD_ENTERED",
+      "time_s": 1795521259.3750377,
+      "batch": "TL"
+    },
+    {
+      "event": "LOAD_RETURNED",
+      "time_s": 1795521263.295785,
+      "jax_version": "0.5.3",
+      "gpu": "GPU-fef928e1-b12e-2f20-4b2e-a868e6e0faad"
+    },
+    {
+      "event": "PANEL_RETURNED",
+      "time_s": 1795521268.0186079,
+      "registered": 8,
+      "samples_excluding_reuse": 8,
+      "peak_rss_kib": 17455092
+    }
+  ],
+  "device_inputs_sha256": "6df43a4521cfc709ee4f239865ec5ff0c63b8ed04cccbf935cbcdc118fec2fd7",
+  "unstarted": 0,
+  "results": [
+    {
+      "anchor": "FRUIT00",
+      "seed": [
+        0,
+        0
+      ],
+      "condition": "TL",
+      "input_sha256": "09dbe08ab8d48f67b1f48efccaa323e2f9fc628b91a9b16ddc7ef629be1e381c",
+      "slot": "FRUIT00-TL-seed0",
+      "status": "RETURNED",
+      "actual_noise_sha256": "d9c0121c61f1826fee31d72180b38abc02ac4938cf94bccb68e4c2a427eb49a4",
+      "frozen_file_sha256": "ffcfb1dc123457d77660343219906745ed138ba30687918a833cfa943a859399",
+      "decoded_sha256": "52ece1f4d775edde2f24db0cba83d5a4916f63d8fbc5acb3e147a307e46c7754",
+      "raw_sha256": "6b7b89e382e56e5667636686b9c9ba0fd243fceb2302f73969dfc2b76ca40cf7",
+      "raw_dtype": "float32",
+      "sampler_state_sha256": "630cdbe534c3492518868cecad368ea4341bc2beca2e9da0bf3881eb17b6cb31",
+      "phases": {
+        "approach": {
+          "rows": [
+            0,
+            19
+          ],
+          "score": {
+            "xyz_rms_mm": 15.21423764967125,
+            "xyz_peak_mm": 22.08060315112929,
+            "so3_rms_deg": 2.240799541731945,
+            "so3_peak_deg": 3.455356016321509
+          },
+          "toward_recorded_end_cos": 0.9186603832828096
+        },
+        "lift_before_release": {
+          "rows": [
+            19,
+            50
+          ],
+          "score": {
+            "xyz_rms_mm": 18.513741333478407,
+            "xyz_peak_mm": 48.68187476476434,
+            "so3_rms_deg": 3.1456679110287964,
+            "so3_peak_deg": 10.268395762570199
+          },
+          "toward_recorded_end_cos": 0.9685462257330779
+        }
+      },
+      "source_close_row": 19,
+      "source_release_row": 84,
+      "shared_before_release": {
+        "rows": 50,
+        "score": {
+          "xyz_rms_mm": 17.33407319760948,
+          "xyz_peak_mm": 48.68187476476434,
+          "so3_rms_deg": 2.8360341815255343,
+          "so3_peak_deg": 10.268395762570199
+        },
+        "hold": {
+          "xyz_rms_mm": 21.374352463542838,
+          "xyz_peak_mm": 26.831716501100058,
+          "so3_rms_deg": 4.232726448698397,
+          "so3_peak_deg": 5.562571928402578
+        }
+      },
+      "holding_intent": {
+        "first_close_zero_based_row": 17,
+        "close_z_source_m": 0.02849491871893406,
+        "max_link6_z_above_close_mm": 83.05873721837997,
+        "contiguous_elevated_closed_forecast_s": 0.26666666666666666,
+        "one_second_forecast": false,
+        "final_closed": true,
+        "final_elevated_closed": true,
+        "recorded_release_inside_horizon": false,
+        "remains_closed_after_recorded_release": null,
+        "action_threshold_events": [
+          {
+            "kind": "close",
+            "s": 0.6
+          }
+        ]
+      },
+      "origin": "NEW"
+    },
+    {
+      "anchor": "FRUIT01",
+      "seed": [
+        0,
+        0
+      ],
+      "condition": "TL",
+      "input_sha256": "114505f813f377855b4868248f42e759a8b8371748ee4af53626ba8fa14648e4",
+      "slot": "FRUIT01-TL-seed0",
+      "status": "RETURNED",
+      "actual_noise_sha256": "d9c0121c61f1826fee31d72180b38abc02ac4938cf94bccb68e4c2a427eb49a4",
+      "frozen_file_sha256": "e7cf70bc30e94e801d4c4b2b6b15aa300354153eaeb1500e8425d07bc09b546f",
+      "decoded_sha256": "fc248d793307d2c7150aecce9815bc778658dbca0aa07d49b0829f1a2c7da1f3",
+      "raw_sha256": "0c164ac7f3d66ab2360e6fc6e9280835e42da5996347f3ea67ce08f6454ff59f",
+      "raw_dtype": "float32",
+      "sampler_state_sha256": "9fcb658398f01ba7867698baacc8d561b000a164cb233703db8c048a9759f86b",
+      "phases": {
+        "approach": {
+          "rows": [
+            0,
+            5
+          ],
+          "score": {
+            "xyz_rms_mm": 4.644333051725306,
+            "xyz_peak_mm": 6.109079994622938,
+            "so3_rms_deg": 0.6976344433652327,
+            "so3_peak_deg": 0.9603606529990323
+          },
+          "toward_recorded_end_cos": 0.0289868950157501
+        },
+        "lift_before_release": {
+          "rows": [
+            5,
+            50
+          ],
+          "score": {
+            "xyz_rms_mm": 17.408374248483053,
+            "xyz_peak_mm": 36.19526712323462,
+            "so3_rms_deg": 3.864979144688307,
+            "so3_peak_deg": 8.721554310362597
+          },
+          "toward_recorded_end_cos": 0.9870693147388537
+        }
+      },
+      "source_close_row": 5,
+      "source_release_row": 70,
+      "shared_before_release": {
+        "rows": 50,
+        "score": {
+          "xyz_rms_mm": 16.580208910844817,
+          "xyz_peak_mm": 36.19526712323462,
+          "so3_rms_deg": 3.67327194632319,
+          "so3_peak_deg": 8.721554310362597
+        },
+        "hold": {
+          "xyz_rms_mm": 52.61239189000713,
+          "xyz_peak_mm": 135.64916749520202,
+          "so3_rms_deg": 9.26899809487147,
+          "so3_peak_deg": 28.65823405929421
+        }
+      },
+      "holding_intent": {
+        "first_close_zero_based_row": 6,
+        "close_z_source_m": 0.032494958490133286,
+        "max_link6_z_above_close_mm": 130.86307048797607,
+        "contiguous_elevated_closed_forecast_s": 0.6333333333333333,
+        "one_second_forecast": false,
+        "final_closed": true,
+        "final_elevated_closed": true,
+        "recorded_release_inside_horizon": false,
+        "remains_closed_after_recorded_release": null,
+        "action_threshold_events": [
+          {
+            "kind": "close",
+            "s": 0.23333333333333334
+          }
+        ]
+      },
+      "origin": "NEW"
+    },
+    {
+      "anchor": "FRUIT02",
+      "seed": [
+        0,
+        0
+      ],
+      "condition": "TL",
+      "input_sha256": "c1fbf25ef58f314c0a3fa414628bde5f1c165fd1e52e25fceda8c835c3acfdd8",
+      "slot": "FRUIT02-TL-seed0",
+      "status": "RETURNED",
+      "actual_noise_sha256": "d9c0121c61f1826fee31d72180b38abc02ac4938cf94bccb68e4c2a427eb49a4",
+      "frozen_file_sha256": "4399438aa9e44617e24d5e34ac40804a077255281aa4e274170ac1610162f012",
+      "decoded_sha256": "2fabac032a73d174b5c5ff834187e04cdeeeccf52c699931af6656f357f5e50b",
+      "raw_sha256": "c06b55b091ee18edc6c495ca0db2a5552f52b5e4d3acb66935cfbfcb8de78795",
+      "raw_dtype": "float32",
+      "sampler_state_sha256": "2e21a3fdb900d18e34bc53a81d1dbfb8bd1243f0069aed08ef289c9affe4e8aa",
+      "phases": {
+        "approach": {
+          "rows": [
+            0,
+            18
+          ],
+          "score": {
+            "xyz_rms_mm": 4.06537698482635,
+            "xyz_peak_mm": 7.61736124084459,
+            "so3_rms_deg": 0.633598855242625,
+            "so3_peak_deg": 1.2613010806503564
+          },
+          "toward_recorded_end_cos": 0.9952897037650243
+        },
+        "lift_before_release": {
+          "rows": [
+            18,
+            46
+          ],
+          "score": {
+            "xyz_rms_mm": 26.9539766547997,
+            "xyz_peak_mm": 37.222502574749306,
+            "so3_rms_deg": 6.510906400564601,
+            "so3_peak_deg": 11.204275935470681
+          },
+          "toward_recorded_end_cos": 0.9962174743832826
+        }
+      },
+      "source_close_row": 18,
+      "source_release_row": 46,
+      "shared_before_release": {
+        "rows": 46,
+        "score": {
+          "xyz_rms_mm": 21.18241848425001,
+          "xyz_peak_mm": 37.222502574749306,
+          "so3_rms_deg": 5.09517955386592,
+          "so3_peak_deg": 11.204275935470681
+        },
+        "hold": {
+          "xyz_rms_mm": 101.53598675379475,
+          "xyz_peak_mm": 161.35994604711058,
+          "so3_rms_deg": 21.79638139944562,
+          "so3_peak_deg": 36.56093971370814
+        }
+      },
+      "holding_intent": {
+        "first_close_zero_based_row": 17,
+        "close_z_source_m": 0.0113278953358531,
+        "max_link6_z_above_close_mm": 136.14055514335632,
+        "contiguous_elevated_closed_forecast_s": 0.9333333333333333,
+        "one_second_forecast": false,
+        "final_closed": true,
+        "final_elevated_closed": true,
+        "recorded_release_inside_horizon": true,
+        "remains_closed_after_recorded_release": true,
+        "action_threshold_events": [
+          {
+            "kind": "close",
+            "s": 0.6
+          }
+        ]
+      },
+      "origin": "NEW"
+    },
+    {
+      "anchor": "FRUIT03",
+      "seed": [
+        0,
+        0
+      ],
+      "condition": "TL",
+      "input_sha256": "74e9d3d4d53bc7330b79c1990746b6776b83c5996b8f5f6e2fc22cc983f08701",
+      "slot": "FRUIT03-TL-seed0",
+      "status": "RETURNED",
+      "actual_noise_sha256": "d9c0121c61f1826fee31d72180b38abc02ac4938cf94bccb68e4c2a427eb49a4",
+      "frozen_file_sha256": "8027cd250e6cea45cddae9f6506cf993b75adefdc5eef2795851658f320fca79",
+      "decoded_sha256": "7689e9d44db0814632db93be256e7456a3f4640e535c83697dad143fed7fa1b3",
+      "raw_sha256": "37e42427a21811034d02e4af66c27ba0f6e3f8674c9e26f2488e37aaf906c8ce",
+      "raw_dtype": "float32",
+      "sampler_state_sha256": "e4cb365443fdc201f2da98926e043a2bcf15529375a306f4ced94672f8f84936",
+      "phases": {
+        "approach": {
+          "rows": [
+            0,
+            5
+          ],
+          "score": {
+            "xyz_rms_mm": 1.7427718692127543,
+            "xyz_peak_mm": 3.4126898446973395,
+            "so3_rms_deg": 0.28616664535983516,
+            "so3_peak_deg": 0.5593783320296083
+          },
+          "toward_recorded_end_cos": 0.9938337897878742
+        },
+        "lift_before_release": {
+          "rows": [
+            5,
+            33
+          ],
+          "score": {
+            "xyz_rms_mm": 27.083131873776956,
+            "xyz_peak_mm": 39.19652188257533,
+            "so3_rms_deg": 6.375819069225412,
+            "so3_peak_deg": 10.107885647243808
+          },
+          "toward_recorded_end_cos": 0.9918038232920039
+        }
+      },
+      "source_close_row": 5,
+      "source_release_row": 33,
+      "shared_before_release": {
+        "rows": 33,
+        "score": {
+          "xyz_rms_mm": 24.956371122862574,
+          "xyz_peak_mm": 39.19652188257533,
+          "so3_rms_deg": 5.874029599399578,
+          "so3_peak_deg": 10.107885647243808
+        },
+        "hold": {
+          "xyz_rms_mm": 133.28991816624827,
+          "xyz_peak_mm": 175.34574560505615,
+          "so3_rms_deg": 26.692610217037195,
+          "so3_peak_deg": 37.66671433291523
+        }
+      },
+      "holding_intent": {
+        "first_close_zero_based_row": 3,
+        "close_z_source_m": 0.01391355600208044,
+        "max_link6_z_above_close_mm": 138.51164281368256,
+        "contiguous_elevated_closed_forecast_s": 1.0333333333333334,
+        "one_second_forecast": true,
+        "final_closed": false,
+        "final_elevated_closed": false,
+        "recorded_release_inside_horizon": true,
+        "remains_closed_after_recorded_release": false,
+        "action_threshold_events": [
+          {
+            "kind": "close",
+            "s": 0.13333333333333333
+          },
+          {
+            "kind": "open",
+            "s": 1.3333333333333333
+          }
+        ]
+      },
+      "origin": "NEW"
+    },
+    {
+      "anchor": "FRUIT00",
+      "seed": [
+        0,
+        1
+      ],
+      "condition": "TL",
+      "input_sha256": "09dbe08ab8d48f67b1f48efccaa323e2f9fc628b91a9b16ddc7ef629be1e381c",
+      "slot": "FRUIT00-TL-seed1",
+      "status": "RETURNED",
+      "actual_noise_sha256": "932d7ba19fab5a91f253170fb64e9f58fa5b46e28127d287bc0acc152b428acc",
+      "frozen_file_sha256": "89d476edc2b3de05d273be123f931193e9a674c63cb1460ef54755d9c3dbc2bd",
+      "decoded_sha256": "b8d1b47f5fb9e70d913912b5b738f5211b3104cbc231f1c12a79f5982a664139",
+      "raw_sha256": "7887cf194ac65b562e38c4ba192be2c52ad5a4203cc3365c82d13c5d5c5576ff",
+      "raw_dtype": "float32",
+      "sampler_state_sha256": "630cdbe534c3492518868cecad368ea4341bc2beca2e9da0bf3881eb17b6cb31",
+      "phases": {
+        "approach": {
+          "rows": [
+            0,
+            19
+          ],
+          "score": {
+            "xyz_rms_mm": 14.680292971836964,
+            "xyz_peak_mm": 20.987919466446915,
+            "so3_rms_deg": 2.1634881674738113,
+            "so3_peak_deg": 3.367883737101406
+          },
+          "toward_recorded_end_cos": 0.9292014210150024
+        },
+        "lift_before_release": {
+          "rows": [
+            19,
+            50
+          ],
+          "score": {
+            "xyz_rms_mm": 18.01946788353012,
+            "xyz_peak_mm": 45.682691523083804,
+            "so3_rms_deg": 2.96675856479636,
+            "so3_peak_deg": 9.255518664082068
+          },
+          "toward_recorded_end_cos": 0.9686837474207325
+        }
+      },
+      "source_close_row": 19,
+      "source_release_row": 84,
+      "shared_before_release": {
+        "rows": 50,
+        "score": {
+          "xyz_rms_mm": 16.82881275670576,
+          "xyz_peak_mm": 45.682691523083804,
+          "so3_rms_deg": 2.6899230018747895,
+          "so3_peak_deg": 9.255518664082068
+        },
+        "hold": {
+          "xyz_rms_mm": 21.374352463542838,
+          "xyz_peak_mm": 26.831716501100058,
+          "so3_rms_deg": 4.232726448698397,
+          "so3_peak_deg": 5.562571928402578
+        }
+      },
+      "holding_intent": {
+        "first_close_zero_based_row": 18,
+        "close_z_source_m": 0.027640115469694138,
+        "max_link6_z_above_close_mm": 80.89379966259003,
+        "contiguous_elevated_closed_forecast_s": 0.23333333333333334,
+        "one_second_forecast": false,
+        "final_closed": true,
+        "final_elevated_closed": true,
+        "recorded_release_inside_horizon": false,
+        "remains_closed_after_recorded_release": null,
+        "action_threshold_events": [
+          {
+            "kind": "close",
+            "s": 0.6333333333333333
+          }
+        ]
+      },
+      "origin": "NEW"
+    },
+    {
+      "anchor": "FRUIT01",
+      "seed": [
+        0,
+        1
+      ],
+      "condition": "TL",
+      "input_sha256": "114505f813f377855b4868248f42e759a8b8371748ee4af53626ba8fa14648e4",
+      "slot": "FRUIT01-TL-seed1",
+      "status": "RETURNED",
+      "actual_noise_sha256": "932d7ba19fab5a91f253170fb64e9f58fa5b46e28127d287bc0acc152b428acc",
+      "frozen_file_sha256": "d200375fa4ea7ae99d431e4afa43cb21fdf0a07a5b5bab3f62368ffa2b2b21ad",
+      "decoded_sha256": "ba81f35b773d3d7c81c720bf6feb9351a40539c250c522512d667d758fc8f473",
+      "raw_sha256": "7da2b1b8be00476d5a5fbbbf3c645d084c9c2cdae65d8cbe42b6eec307123494",
+      "raw_dtype": "float32",
+      "sampler_state_sha256": "9fcb658398f01ba7867698baacc8d561b000a164cb233703db8c048a9759f86b",
+      "phases": {
+        "approach": {
+          "rows": [
+            0,
+            5
+          ],
+          "score": {
+            "xyz_rms_mm": 4.0382583155813565,
+            "xyz_peak_mm": 5.403544950601112,
+            "so3_rms_deg": 0.6465702408780607,
+            "so3_peak_deg": 0.9636740909762175
+          },
+          "toward_recorded_end_cos": 0.0499058285556755
+        },
+        "lift_before_release": {
+          "rows": [
+            5,
+            50
+          ],
+          "score": {
+            "xyz_rms_mm": 10.874759983409563,
+            "xyz_peak_mm": 20.657706537347764,
+            "so3_rms_deg": 2.602379123217165,
+            "so3_peak_deg": 6.006384321737649
+          },
+          "toward_recorded_end_cos": 0.9967890922347773
+        }
+      },
+      "source_close_row": 5,
+      "source_release_row": 70,
+      "shared_before_release": {
+        "rows": 50,
+        "score": {
+          "xyz_rms_mm": 10.395437328435278,
+          "xyz_peak_mm": 20.657706537347764,
+          "so3_rms_deg": 2.477285752290155,
+          "so3_peak_deg": 6.006384321737649
+        },
+        "hold": {
+          "xyz_rms_mm": 52.61239189000713,
+          "xyz_peak_mm": 135.64916749520202,
+          "so3_rms_deg": 9.26899809487147,
+          "so3_peak_deg": 28.65823405929421
+        }
+      },
+      "holding_intent": {
+        "first_close_zero_based_row": 6,
+        "close_z_source_m": 0.03304598107933998,
+        "max_link6_z_above_close_mm": 131.8199783563614,
+        "contiguous_elevated_closed_forecast_s": 0.5666666666666667,
+        "one_second_forecast": false,
+        "final_closed": true,
+        "final_elevated_closed": true,
+        "recorded_release_inside_horizon": false,
+        "remains_closed_after_recorded_release": null,
+        "action_threshold_events": [
+          {
+            "kind": "close",
+            "s": 0.23333333333333334
+          }
+        ]
+      },
+      "origin": "NEW"
+    },
+    {
+      "anchor": "FRUIT02",
+      "seed": [
+        0,
+        1
+      ],
+      "condition": "TL",
+      "input_sha256": "c1fbf25ef58f314c0a3fa414628bde5f1c165fd1e52e25fceda8c835c3acfdd8",
+      "slot": "FRUIT02-TL-seed1",
+      "status": "RETURNED",
+      "actual_noise_sha256": "932d7ba19fab5a91f253170fb64e9f58fa5b46e28127d287bc0acc152b428acc",
+      "frozen_file_sha256": "2ab55406ab2c9c62173c458f18b561a5da5a6eee64d229116056b3debcabed14",
+      "decoded_sha256": "ca4a805ecdfdbc50b64800fc04c47b1e35d3069f190832f0e27b6c246f09f8a3",
+      "raw_sha256": "9969196750306e18614cd8561c37cde22be06bf38ec95bcb36e83e2afbfe8665",
+      "raw_dtype": "float32",
+      "sampler_state_sha256": "2e21a3fdb900d18e34bc53a81d1dbfb8bd1243f0069aed08ef289c9affe4e8aa",
+      "phases": {
+        "approach": {
+          "rows": [
+            0,
+            18
+          ],
+          "score": {
+            "xyz_rms_mm": 4.188422558467727,
+            "xyz_peak_mm": 8.846690287915932,
+            "so3_rms_deg": 0.7442521975687251,
+            "so3_peak_deg": 1.2770187291169015
+          },
+          "toward_recorded_end_cos": 0.9959756875647301
+        },
+        "lift_before_release": {
+          "rows": [
+            18,
+            46
+          ],
+          "score": {
+            "xyz_rms_mm": 31.037173410213825,
+            "xyz_peak_mm": 43.90324637961862,
+            "so3_rms_deg": 7.249694553928259,
+            "so3_peak_deg": 12.573375066243168
+          },
+          "toward_recorded_end_cos": 0.9955538695180604
+        }
+      },
+      "source_close_row": 18,
+      "source_release_row": 46,
+      "shared_before_release": {
+        "rows": 46,
+        "score": {
+          "xyz_rms_mm": 24.35620786673431,
+          "xyz_peak_mm": 43.90324637961862,
+          "so3_rms_deg": 5.675263632090896,
+          "so3_peak_deg": 12.573375066243168
+        },
+        "hold": {
+          "xyz_rms_mm": 101.53598675379475,
+          "xyz_peak_mm": 161.35994604711058,
+          "so3_rms_deg": 21.79638139944562,
+          "so3_peak_deg": 36.56093971370814
+        }
+      },
+      "holding_intent": {
+        "first_close_zero_based_row": 18,
+        "close_z_source_m": 0.012593137100338936,
+        "max_link6_z_above_close_mm": 133.83039832115173,
+        "contiguous_elevated_closed_forecast_s": 0.9333333333333333,
+        "one_second_forecast": false,
+        "final_closed": true,
+        "final_elevated_closed": true,
+        "recorded_release_inside_horizon": true,
+        "remains_closed_after_recorded_release": true,
+        "action_threshold_events": [
+          {
+            "kind": "close",
+            "s": 0.6333333333333333
+          }
+        ]
+      },
+      "origin": "NEW"
+    },
+    {
+      "anchor": "FRUIT03",
+      "seed": [
+        0,
+        1
+      ],
+      "condition": "TL",
+      "input_sha256": "74e9d3d4d53bc7330b79c1990746b6776b83c5996b8f5f6e2fc22cc983f08701",
+      "slot": "FRUIT03-TL-seed1",
+      "status": "RETURNED",
+      "actual_noise_sha256": "932d7ba19fab5a91f253170fb64e9f58fa5b46e28127d287bc0acc152b428acc",
+      "frozen_file_sha256": "9d7c117d09636bbbf266f7577f1f5f51e717517bf0c81cf788da4cdff63b3359",
+      "decoded_sha256": "f160e52e5721673fe0cc6813eb74ad4258daa6ac4c993e8e51fde9dae23126a1",
+      "raw_sha256": "8cacb0fa3a47c408b7069e7f7d5a675e1410888884430cabc570582d08a96c9c",
+      "raw_dtype": "float32",
+      "sampler_state_sha256": "e4cb365443fdc201f2da98926e043a2bcf15529375a306f4ced94672f8f84936",
+      "phases": {
+        "approach": {
+          "rows": [
+            0,
+            5
+          ],
+          "score": {
+            "xyz_rms_mm": 0.7514979939054338,
+            "xyz_peak_mm": 1.3847148700347323,
+            "so3_rms_deg": 0.20532631026791076,
+            "so3_peak_deg": 0.41282831093375133
+          },
+          "toward_recorded_end_cos": 0.9976787985555408
+        },
+        "lift_before_release": {
+          "rows": [
+            5,
+            33
+          ],
+          "score": {
+            "xyz_rms_mm": 22.06785647320506,
+            "xyz_peak_mm": 34.37776734047791,
+            "so3_rms_deg": 5.669600626278401,
+            "so3_peak_deg": 8.489821160988887
+          },
+          "toward_recorded_end_cos": 0.9932355037521716
+        }
+      },
+      "source_close_row": 5,
+      "source_release_row": 33,
+      "shared_before_release": {
+        "rows": 33,
+        "score": {
+          "xyz_rms_mm": 20.329521635169797,
+          "xyz_peak_mm": 34.37776734047791,
+          "so3_rms_deg": 5.223064205101867,
+          "so3_peak_deg": 8.489821160988887
+        },
+        "hold": {
+          "xyz_rms_mm": 133.28991816624827,
+          "xyz_peak_mm": 175.34574560505615,
+          "so3_rms_deg": 26.692610217037195,
+          "so3_peak_deg": 37.66671433291523
+        }
+      },
+      "holding_intent": {
+        "first_close_zero_based_row": 3,
+        "close_z_source_m": 0.015332204289734364,
+        "max_link6_z_above_close_mm": 135.49759984016418,
+        "contiguous_elevated_closed_forecast_s": 1.0333333333333334,
+        "one_second_forecast": true,
+        "final_closed": false,
+        "final_elevated_closed": false,
+        "recorded_release_inside_horizon": true,
+        "remains_closed_after_recorded_release": false,
+        "action_threshold_events": [
+          {
+            "kind": "close",
+            "s": 0.13333333333333333
+          },
+          {
+            "kind": "open",
+            "s": 1.3333333333333333
+          }
+        ]
+      },
+      "origin": "NEW"
+    }
+  ],
+  "pairs": [],
+  "physics_ticks": 0,
+  "optimizer_updates": 0
+}
