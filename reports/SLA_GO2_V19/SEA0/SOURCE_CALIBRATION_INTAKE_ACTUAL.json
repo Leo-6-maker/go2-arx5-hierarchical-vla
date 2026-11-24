@@ -1,0 +1,110 @@
+{
+  "scope": "KNOWN_FIXTURE_GEOMETRY_ON_SEALED_RECORDING_BYTES",
+  "fixture_sha256": "83319cf6df1fda9dc166354797da7843c7078e27f0befbe0d9f79b6a6496bb94",
+  "source_index_clock_hz": 30,
+  "rows": [
+    {
+      "id": "S00",
+      "input_sha256": "665c1eb3edc288d2ac7c0da24b9eec196498bf1da52442b908a7f209f27c104c",
+      "frames": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        18,
+        48,
+        78,
+        108,
+        108,
+        108
+      ],
+      "unique_pose_frames": 5,
+      "uncalibrated_fixture_gap_samples": 5,
+      "independent_transform_max_error": 0.0
+    },
+    {
+      "id": "S01",
+      "input_sha256": "103c74451982934a1e307a296b3f1803fedf3d0e79ded19c8306567f8dae8018",
+      "frames": [
+        0,
+        207,
+        237,
+        267,
+        297,
+        327,
+        357,
+        387,
+        417,
+        447,
+        447,
+        447
+      ],
+      "unique_pose_frames": 10,
+      "uncalibrated_fixture_gap_samples": 10,
+      "independent_transform_max_error": 5.551115123125783e-17
+    },
+    {
+      "id": "S02",
+      "input_sha256": "70ae70de2675faaf191584335c6a90991c9e7a3d01463b2af53efed97a3737e4",
+      "frames": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        30,
+        60,
+        90,
+        90,
+        90
+      ],
+      "unique_pose_frames": 4,
+      "uncalibrated_fixture_gap_samples": 4,
+      "independent_transform_max_error": 0.0
+    },
+    {
+      "id": "S03",
+      "input_sha256": "0e6f041c4e92f8ade8febec9e330619ff792aabb8e76ac870e627ac2e684583c",
+      "frames": [
+        0,
+        36,
+        66,
+        96,
+        126,
+        156,
+        186,
+        216,
+        246,
+        276,
+        276,
+        276
+      ],
+      "unique_pose_frames": 10,
+      "uncalibrated_fixture_gap_samples": 12,
+      "independent_transform_max_error": 5.551115123125783e-17
+    }
+  ],
+  "supported_lens_pixels": {
+    "cam_head": 307200,
+    "cam_left_wrist": 307200,
+    "cam_right_wrist": 307200
+  },
+  "refused": {
+    "wrong_archive": "calibration is for a different recording",
+    "wrong_history": "source calibration history indices differ from O0 cadence",
+    "wrong_raster": "calibration and archived raster differ",
+    "wrong_arm": "camera hand-eye belongs to another arm",
+    "missing_frame": "missing calibrated camera at requested frame",
+    "reflected_world": "invalid measured or calibrated rigid transform"
+  },
+  "absent_tool_kept_unknown": true,
+  "qualified_source_cameras": 0,
+  "qualified_scene_pairs": 0,
+  "sampler_forwards": 0,
+  "native_ticks": 0,
+  "updates": 0
+}

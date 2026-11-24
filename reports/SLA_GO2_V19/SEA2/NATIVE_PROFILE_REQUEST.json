@@ -1,0 +1,132 @@
+{
+  "id": "SEA2-NATIVE-KNOWN-PHYSICAL-01",
+  "status": "CANDIDATE_CPU_PASSED_AWAITING_NATIVE_OWNER_BINDING_AND_INDEPENDENT_ALLOCATION",
+  "scientific_question": "Does the frozen Go2 WBC achieve known, task-independent physical intents published through the same SEA reference adapter required by the frozen SLA-PT?",
+  "cpu_evidence_sha256": "bde4978a0bac136a77f8803e641fc4e5a2318016fd455f734d71f35483409865",
+  "held_fixed": {
+    "native_integrator_step_s": 0.002,
+    "eef_grid_step_s": 0.05,
+    "h40_pose_count": 40,
+    "wire_pose_count": 41,
+    "publish_period_s": 0.1,
+    "command_ttl_s": 0.4,
+    "gripper_open_mm": 42.0,
+    "minimum_robot_cube_clearance_mm": 15.0,
+    "startup": "Reuse standing_reach.StateMonitor, original four-foot and no-contact safety. One independent reset per named slot, same archived layout and startup settings, no replacement.",
+    "scope": "Standing with fixed base reference, original receiver, original scene ABI and original safety gates. Known provider from measured paused TCP, independent of task label or object position.",
+    "runtime_identities": {
+      "outer_library": "927f2179793916dff30590a82b0e5ce3d92811e21446459416613da59e9e3878",
+      "native_binary": "39e5136603f51c092b2f3e595245468dbb0c12dbca79818b0df08da8dd4af7dd",
+      "solver_binary": "4a5f5aa6e0b9d4bde62f4d1da73135ef97e5268945a0cecf114d9190d3e04fd0",
+      "controller_binary": "9e8ce46837d09bc39ae04d4b49f1ce4dd8c8c2d31bea39eac56c5806d108c1f3"
+    }
+  },
+  "source_profile": {
+    "clock_hz": 30,
+    "recorded_rows": 50,
+    "selected_intervals": 15,
+    "position_harmonics": [
+      1,
+      1,
+      2
+    ],
+    "world_xyz_euler_harmonics": [
+      1,
+      2,
+      1
+    ],
+    "mode": "One bound known intent per eligible start, followed by hold until the original 9 s window closes."
+  },
+  "slots": [
+    {
+      "id": "SEA2-HOLD",
+      "layout": "G00",
+      "frozen_scene_sha256": "19368138aa85927c9482e2a69f4a9bc7aa35c8a171969d35db7d72a6f1797635",
+      "xyz_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "xyz_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "id": "SEA2-XYZ",
+      "layout": "G00",
+      "frozen_scene_sha256": "19368138aa85927c9482e2a69f4a9bc7aa35c8a171969d35db7d72a6f1797635",
+      "xyz_m": [
+        0.003,
+        0.0023,
+        0.0018
+      ],
+      "xyz_euler_deg": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "id": "SEA2-SO3",
+      "layout": "G01",
+      "frozen_scene_sha256": "9ae3232754c5ef287239801fc10230199872f1526c78c099b746f0d7ad088507",
+      "xyz_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "xyz_euler_deg": [
+        0.85,
+        0.55,
+        0.65
+      ]
+    },
+    {
+      "id": "SEA2-MIXED",
+      "layout": "G01",
+      "frozen_scene_sha256": "9ae3232754c5ef287239801fc10230199872f1526c78c099b746f0d7ad088507",
+      "xyz_m": [
+        0.0021,
+        0.0016,
+        0.0013
+      ],
+      "xyz_euler_deg": [
+        0.6,
+        0.4,
+        0.5
+      ]
+    }
+  ],
+  "physics_limits": {
+    "native_starts": 4,
+    "ticks_per_start": 20000,
+    "total_ticks": 80000,
+    "contact": false,
+    "real_hardware": false,
+    "model_forwards": 0,
+    "optimizer_updates": 0
+  },
+  "scoring": {
+    "rows": "2 ms source-clock without time-shift fitting; separate raw intent, installed and achieved TCP plus exact occupied reference and source phase.",
+    "metrics": [
+      "world XYZ and SO3 relative shape Q, signed gain",
+      "absolute RMS/peak position and rotation error",
+      "fraction within 4 mm / 2 degrees of intended world pose",
+      "issued-to-achieved RMS/peaks",
+      "minimum actual clearance and terminal hold",
+      "independent stationary negative and opposed CPU controls"
+    ],
+    "phase": "Credit only verified 50 ms source intervals with exact installed endpoints. Signed TCP motion thresholds 1.0 mm and 0.25 deg.",
+    "scope": "Full intended trajectory must stay within the original 4 mm / 2 degree tube over the evaluated motion for a positive qualification. Report per-axis shape independently; zero-variation channels have no shape score."
+  },
+  "preconditions": [
+    "Implement and cold-verify owner and independent dynamic scoring against the identical frozen runtime.",
+    "Bind the signed scientific allocation to the published candidate and acquire a fresh exclusive lease per card.",
+    "Recheck actual binary, scene, open gripper, 2 ms STOP, owner, resource and safety state."
+  ],
+  "terminal": "Stop on unexpected STOP, contact, missed acknowledgement, owner or clock mismatch or any post-STOP installation/integration. Preserve screen, refusal, technical and unstarted denominators.",
+  "allocation": null,
+  "new_started": 0
+}

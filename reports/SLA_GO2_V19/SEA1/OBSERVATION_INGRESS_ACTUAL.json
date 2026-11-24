@@ -1,0 +1,557 @@
+{
+  "scope": "ARCHIVAL_SENSOR_INPUT_CPU_PREFLIGHT",
+  "processor_identity": {
+    "model_revision": "7f6880569c3be777291e646fad1b4951245e8553",
+    "source_commit": "c1b205ec42b4ab2cac9c2159c8b4c2f723e5e454",
+    "effective_config_sha256": "16e86b4a36837e6a7c5c17b41574ab79d0b708135a149470e88f4f98e2815cbe",
+    "norm_sha256": "cf6ddf4f89180e762e5e6210881a763f8e29d3499fb1cc69a440de7aa585d276",
+    "tokenizer_sha256": "8986bb4f423f07f8c7f70d0dbe3526fb2316056c17bae71b1ea975e77a168fc6",
+    "manifest_sha256": "2e473d45a29f624f8c0242bf60389214613e3a060446e6845cd1a95322f2610c",
+    "action_horizon": 50,
+    "action_dim": 32,
+    "attention_impl": "xla",
+    "extra_frames_first": false
+  },
+  "source": [
+    {
+      "id": "S00",
+      "tick": 108,
+      "input_sha256": "665c1eb3edc288d2ac7c0da24b9eec196498bf1da52442b908a7f209f27c104c",
+      "clock": "ROBODOJO_RECORDED_30HZ",
+      "history_ticks": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        18,
+        48,
+        78,
+        108
+      ],
+      "tensors": {
+        "current": {
+          "base_0_rgb": "afa17ddeb1768521ff78648cdaa5eeca0c902cdb7562d8f43ff0a7e4e87f7ddf",
+          "left_wrist_0_rgb": "8171d9f7ddfdcc476661433568d7611f795aea0fae5867adaecb16668e769181",
+          "right_wrist_0_rgb": "2fc55ae8805b8d8daad7454be1b1f968443407970643e67f5bad8b2ef80374d8"
+        },
+        "current_masks": {
+          "base_0_rgb": true,
+          "left_wrist_0_rgb": true,
+          "right_wrist_0_rgb": true
+        },
+        "memory": [
+          "d43df4a480406fff119038c6800fb51a4cc464aa70c88bd45284eacf191887ff",
+          "d43df4a480406fff119038c6800fb51a4cc464aa70c88bd45284eacf191887ff",
+          "d43df4a480406fff119038c6800fb51a4cc464aa70c88bd45284eacf191887ff",
+          "d43df4a480406fff119038c6800fb51a4cc464aa70c88bd45284eacf191887ff",
+          "d43df4a480406fff119038c6800fb51a4cc464aa70c88bd45284eacf191887ff",
+          "d43df4a480406fff119038c6800fb51a4cc464aa70c88bd45284eacf191887ff",
+          "b581fcbf245ebd4960538eb6d27fdf5090486238bb18ff203e208c99ba7d4c49",
+          "f615cccdc312e5829c096753915ed31f46003efc98e8b8009d7041c861948096",
+          "44ea693c373e7679124d7294ebeaab25537c67e5fb901ba481f7c15e86a51342"
+        ],
+        "token_ids": "1420d5fd8330dbe2e8803ef324b48e705dc716adf77fcbe86ca77f8d026ba945",
+        "token_mask": "5d669a5f0f8d53b19b3e0710a7a2248fb155ca6e712e022e185e8e68dcbc0957",
+        "state": "312639d2b13d966d757bb7fe94577b074b2e4e902a048288da98ccf6d78b6a04"
+      },
+      "conflicting_reset_control": "conflicting samples from the same head frame"
+    },
+    {
+      "id": "S01",
+      "tick": 447,
+      "input_sha256": "103c74451982934a1e307a296b3f1803fedf3d0e79ded19c8306567f8dae8018",
+      "clock": "ROBODOJO_RECORDED_30HZ",
+      "history_ticks": [
+        0,
+        207,
+        237,
+        267,
+        297,
+        327,
+        357,
+        387,
+        417,
+        447
+      ],
+      "tensors": {
+        "current": {
+          "base_0_rgb": "8d6bad61174050c2a7668d61e9a08af9785f35c73bce3ae28887d6b5fd0d88ee",
+          "left_wrist_0_rgb": "7e8305afdef35f2d32f59a8c806db6d5f92cb1740d32ad303526b8ff5a1f1701",
+          "right_wrist_0_rgb": "174440bff0cc423c0579b8c9c8015dae43d62842cf2c4ec2275ad67d51cf19b4"
+        },
+        "current_masks": {
+          "base_0_rgb": true,
+          "left_wrist_0_rgb": true,
+          "right_wrist_0_rgb": true
+        },
+        "memory": [
+          "d43df4a480406fff119038c6800fb51a4cc464aa70c88bd45284eacf191887ff",
+          "e0cb254540dd9da9dd1be35d356cb4e2bef8581517446e3b2cc2ce83c67599f1",
+          "4afa784e706d60780c6fc2dac11fce4af1c732dc2b15073057586494b5e9de1b",
+          "213ddaaabef8dc0e86c027f6fd3abc92832bd54a11bae89b46e637f7a50a7c04",
+          "270139b16b015b1de8532aef681374b683cda0f3d11517540bac9beb52f89b52",
+          "98c3b6dfef68abcdf2401939a009f85861ff21ad35d6ee2c2ffdd2352e53fbfb",
+          "309c9cf6c94d515ba5360bc2e7481db4a1ff6796d7939c265b09e5c387cebfdd",
+          "80e2bcd2e398fb25c82c5dc706ce6eeb3be9d476d427a2e46f78b303dca6f640",
+          "38201ffa18c3a1aa8a9c72ab1e62b220b1ba4330b3fb3a9cb34f9038e74bdb00"
+        ],
+        "token_ids": "c3b1348541b006181e646a54a6534d1370c23cc4e38635fb3b9683f0c0401821",
+        "token_mask": "5d669a5f0f8d53b19b3e0710a7a2248fb155ca6e712e022e185e8e68dcbc0957",
+        "state": "767b21c9b9275790bfcafb162ca789974ffe546d56cfa6cd2f9060cb0e25c3b9"
+      },
+      "conflicting_reset_control": null
+    },
+    {
+      "id": "S02",
+      "tick": 90,
+      "input_sha256": "70ae70de2675faaf191584335c6a90991c9e7a3d01463b2af53efed97a3737e4",
+      "clock": "ROBODOJO_RECORDED_30HZ",
+      "history_ticks": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        30,
+        60,
+        90
+      ],
+      "tensors": {
+        "current": {
+          "base_0_rgb": "eaf8fc1f3b84791d7c9392fa59928ac8ac0b2a576e6b9efaa75f81175b4380eb",
+          "left_wrist_0_rgb": "e8ce9d7782d99615705f21061e455186d838daef367880d35af5da0b04868fe6",
+          "right_wrist_0_rgb": "499f898d8d417988766b42ee2171ff47cf59edbc7d5613fa19c0474f43c6d285"
+        },
+        "current_masks": {
+          "base_0_rgb": true,
+          "left_wrist_0_rgb": true,
+          "right_wrist_0_rgb": true
+        },
+        "memory": [
+          "cfea030474cd7a7aee90614012d60734d60bae88abd060100071c95728390243",
+          "cfea030474cd7a7aee90614012d60734d60bae88abd060100071c95728390243",
+          "cfea030474cd7a7aee90614012d60734d60bae88abd060100071c95728390243",
+          "cfea030474cd7a7aee90614012d60734d60bae88abd060100071c95728390243",
+          "cfea030474cd7a7aee90614012d60734d60bae88abd060100071c95728390243",
+          "cfea030474cd7a7aee90614012d60734d60bae88abd060100071c95728390243",
+          "cfea030474cd7a7aee90614012d60734d60bae88abd060100071c95728390243",
+          "3f970a48c8e2ea46761847f1c39fc81e9dcf910dafa7245780ffbcae2645520c",
+          "6e2d7a75bb29dfefc6cca6122d4908b8f45b3294651c5e15e49c67324b07bd18"
+        ],
+        "token_ids": "5f42c643ba08b1911f66e18be91a1d61a44847910c32077fa4787b664fe4926a",
+        "token_mask": "bd593bf5f6971eddd8d0108bd7e9860a87272aae8dab163c97d753d4ca553987",
+        "state": "fec73e279142ca1651528d8f13c620ed08402ceedcd7d3be95268ea0264dc862"
+      },
+      "conflicting_reset_control": "conflicting samples from the same head frame"
+    },
+    {
+      "id": "S03",
+      "tick": 276,
+      "input_sha256": "0e6f041c4e92f8ade8febec9e330619ff792aabb8e76ac870e627ac2e684583c",
+      "clock": "ROBODOJO_RECORDED_30HZ",
+      "history_ticks": [
+        0,
+        36,
+        66,
+        96,
+        126,
+        156,
+        186,
+        216,
+        246,
+        276
+      ],
+      "tensors": {
+        "current": {
+          "base_0_rgb": "8a4b9af90f46a08fae39b52cf37156fe0030c6d651862a895c6f8cdc63da9603",
+          "left_wrist_0_rgb": "88310e446f70396c8e483f6f45f66bc263b0bc1a0cb48352733d1c2bef993b21",
+          "right_wrist_0_rgb": "54c8b42f8ad386592031820962528bb523cc9eeb31ef4c1426acc585706cdced"
+        },
+        "current_masks": {
+          "base_0_rgb": true,
+          "left_wrist_0_rgb": true,
+          "right_wrist_0_rgb": true
+        },
+        "memory": [
+          "cfea030474cd7a7aee90614012d60734d60bae88abd060100071c95728390243",
+          "4a8dc9781f4d9241df0beae18e92a354fd0439980c1cb04e007618be62b279c5",
+          "a5c54525393b962cabc90d59fd95e4c04ff608d70bc27f4643d023e1c570248b",
+          "8f5dfd4b4342aeaf41dbd320262c97820647710740127919c4c1cfc80cea0801",
+          "fd51f79198430455595110667409f99a4d9157a10709a60af8ff64e011c76a52",
+          "4d3213625fb3134ab27750f0fdf5ca2f0e57fce30ad2d6676e3801b4d599c3d5",
+          "277db19e4d975b54b1537c0abbe94fce7fa1b194f3bbedbe760a950aae9f510c",
+          "73cf76c6778eccbcafe46b07e032f8ed827b5df702644d9508c60fb3404bd9d6",
+          "4aa9ba947026a447da06fa7f9063a953e98ff04921f1779bba63cc3a48039ca3"
+        ],
+        "token_ids": "cb888d6fc8900599756340033a7f8f225be040dc4d8d976640f3d5fbf49472c6",
+        "token_mask": "5d669a5f0f8d53b19b3e0710a7a2248fb155ca6e712e022e185e8e68dcbc0957",
+        "state": "57e8b72f6c499927b0e1bc60e269883a54c95aeb5efebb9f2c16d2822955faf3"
+      },
+      "conflicting_reset_control": null
+    }
+  ],
+  "go2": [
+    {
+      "id": "G00-00",
+      "tick": 6203,
+      "clock": "GO2_NATIVE_2MS",
+      "source_left_camera_observed": false,
+      "history_ticks": [
+        0,
+        2203,
+        2703,
+        3203,
+        3703,
+        4203,
+        4703,
+        5203,
+        5703,
+        6203
+      ],
+      "raw_input_sha256": "13b3c4ff40bded949c5af67cacbc50cd3bc4610dc0601987d680818e4951276a",
+      "raw_fields": {
+        "current": {
+          "base_0_rgb": "1ab1bdefd9725bfc8e9639fd83d2ecf19014b86c38c293ef9537981cacd86b9c",
+          "left_wrist_0_rgb": "6b9521518e146d266962a6ef67c31fc1cef61496e422f9da53bbb91f445dc580",
+          "right_wrist_0_rgb": "6102d60d336bdfe4634513193f5fd20a9a376cb4212876283c863cd68404b9bb"
+        },
+        "current_masks": {
+          "base_0_rgb": true,
+          "left_wrist_0_rgb": true,
+          "right_wrist_0_rgb": true
+        },
+        "memory": [
+          "60ba30a25f3f7e1ca6a87189ac0c4c5a971218508febc63f9d6b7d3ee3832fb5",
+          "73c6b0a5882d55796b2f57b76359a101eb63fa2cc15a20f3d1e75e38d34bfaad",
+          "b08772a5d004e048aa3c42859cdfaa094ed5f273bcdb054081c0259a5ddc4300",
+          "fe8d40fd0a8a3aeef8be48fa897f40c7d73c4f073776630ddf7417fe2dd4e7d3",
+          "3eb892c4892ff60fca423a25869e9114746f57d6762cf826e0a200bba0540309",
+          "9922f527c22334947671469fc28b4b426b7fb30fef54a33834b63a26455e9df1",
+          "5926725347bb8c471010874206c7f67ef75bcbf6a1af6bb78c25602740b59c15",
+          "b07e8f25a098250f597e5c8355930b6ed9d212dbc156e0974b92d1110572f49c",
+          "133747183dcb2237a10132a6487673c4f1ce8b386058e6ed1f913539b2e8086d"
+        ],
+        "token_ids": "0570e9ea1fa5a73f0fec95cae373ad7f97057710bfd1cc9da917e691a5ab00af",
+        "token_mask": "26227709b8758d66a89e073c0e0e83489cdeffefa62af40b496d9e726dae6924",
+        "state": "7a4bb0847dd5222567b4239dfacfef3a50f3a2da02c7e575fce0b94d50e6cc9e"
+      },
+      "mask_only": {
+        "base_0_rgb": true,
+        "left_wrist_0_rgb": false,
+        "right_wrist_0_rgb": true
+      },
+      "diagnostic_input_sha256": "5249d04ec78c5d1cfb6b2139769a650e45388780754a82a123c0d1af5e83bb1c",
+      "diagnostic_fields": {
+        "current": {
+          "base_0_rgb": "fcffed9c5e1e6c7e3e1f5b015ee92c2291b6472bf051a3da451a62ad07b645ce",
+          "left_wrist_0_rgb": "6b9521518e146d266962a6ef67c31fc1cef61496e422f9da53bbb91f445dc580",
+          "right_wrist_0_rgb": "6cbc45a903f3af902dce79ec89cf8a4da2278d35037aea754d3e5705604353c1"
+        },
+        "current_masks": {
+          "base_0_rgb": true,
+          "left_wrist_0_rgb": true,
+          "right_wrist_0_rgb": true
+        },
+        "memory": [
+          "0f7684cb52a85d287f2380400d7303a2d6eadf923ee62dadff835ad39e58fbe3",
+          "8d6d321dbcfe88dbe1e50ce7af093c088f45ca4e790c796524326eb2e16c8b3a",
+          "2b4a0fedc52bb2377c84c952413a840017d9c23ff26b9350bdab4e2dda3df1d4",
+          "118327ba397b13cb96d4d1463df53edd1eb35ff6762ed8cbd5eb5c3e26b35b79",
+          "7d1775e9b84f25484dd71089672e98bb20f1fc5e65b022091002a1a04930ea07",
+          "a085a193da5a8d2f9f40ac6608a2069709707a2457d93fb5a9d9dc1c366bff46",
+          "acd814a9ce164fabdb05b3da962f5a2848dc5d770eb6bc68329b8c92de4ee7dc",
+          "695bde390fdc4b18c09c01a6252e6b18e6e37f9da56c14d7bb55f66fbfbb0b23",
+          "afde18faeac53f086dedc1960efe9ae861d29d6985e01a36086c45febf2e24d3"
+        ],
+        "token_ids": "0570e9ea1fa5a73f0fec95cae373ad7f97057710bfd1cc9da917e691a5ab00af",
+        "token_mask": "26227709b8758d66a89e073c0e0e83489cdeffefa62af40b496d9e726dae6924",
+        "state": "7a4bb0847dd5222567b4239dfacfef3a50f3a2da02c7e575fce0b94d50e6cc9e"
+      },
+      "original_sampler_return_present": true
+    },
+    {
+      "id": "G00-01",
+      "tick": 8203,
+      "clock": "GO2_NATIVE_2MS",
+      "source_left_camera_observed": false,
+      "history_ticks": [
+        0,
+        4203,
+        4703,
+        5203,
+        5703,
+        6203,
+        6703,
+        7203,
+        7703,
+        8203
+      ],
+      "raw_input_sha256": "7e059f8eff3f19c5368f847c226edbf33950f2722bb6bd79299ff7ea767ea6c2",
+      "raw_fields": {
+        "current": {
+          "base_0_rgb": "290e3b08c7f8cbc55d62a27d08775fef8ee394320b61a2cb34f27cf7c900411a",
+          "left_wrist_0_rgb": "6b9521518e146d266962a6ef67c31fc1cef61496e422f9da53bbb91f445dc580",
+          "right_wrist_0_rgb": "c3dcd28bc1a2424e4507c78e39b4105b68ab13d517a1996962544465675f3a58"
+        },
+        "current_masks": {
+          "base_0_rgb": true,
+          "left_wrist_0_rgb": true,
+          "right_wrist_0_rgb": true
+        },
+        "memory": [
+          "60ba30a25f3f7e1ca6a87189ac0c4c5a971218508febc63f9d6b7d3ee3832fb5",
+          "9922f527c22334947671469fc28b4b426b7fb30fef54a33834b63a26455e9df1",
+          "5926725347bb8c471010874206c7f67ef75bcbf6a1af6bb78c25602740b59c15",
+          "b07e8f25a098250f597e5c8355930b6ed9d212dbc156e0974b92d1110572f49c",
+          "133747183dcb2237a10132a6487673c4f1ce8b386058e6ed1f913539b2e8086d",
+          "76fbd07f6b1fa3936c1d50448d9edb6df75cb0ad819c0029eca5284fc4127eb0",
+          "497051b7fad3c1e1ffe43bf5bd54048c841137b7d6d9c48e84c3efdb21902241",
+          "193e9d16dea93484f75985927236563b47df1d1d4b53c8338038024d78d72b53",
+          "4a61fad76121ebaf6253a1760cc01841538ab7dddd5fae1791b1ecaf5eabfe97"
+        ],
+        "token_ids": "2b595759abaee01a6bf16650b45ac717f8a46802a21374659da678c8f37248a1",
+        "token_mask": "b066a77209aebdf4e62bc50ee8c7596b1831b8efe9fa8706d1958707a87bb431",
+        "state": "bd4986b7816615d07023d25063ac0573d7353b8db7d3867976e5751f5c63f0ab"
+      },
+      "mask_only": {
+        "base_0_rgb": true,
+        "left_wrist_0_rgb": false,
+        "right_wrist_0_rgb": true
+      },
+      "diagnostic_input_sha256": "1c7d2ba7ae354db7635a871f610d682838f62499fb4613c7adab076e93019e84",
+      "diagnostic_fields": {
+        "current": {
+          "base_0_rgb": "18431f9f1e2715cffe4b60e636cb2a73d86c3751266d5164e72e8d19114564f4",
+          "left_wrist_0_rgb": "6b9521518e146d266962a6ef67c31fc1cef61496e422f9da53bbb91f445dc580",
+          "right_wrist_0_rgb": "ded275dfd78dfff2943478ebc456070aad7ceff78698138e7cc63f2a1abd90a9"
+        },
+        "current_masks": {
+          "base_0_rgb": true,
+          "left_wrist_0_rgb": true,
+          "right_wrist_0_rgb": true
+        },
+        "memory": [
+          "0f7684cb52a85d287f2380400d7303a2d6eadf923ee62dadff835ad39e58fbe3",
+          "a085a193da5a8d2f9f40ac6608a2069709707a2457d93fb5a9d9dc1c366bff46",
+          "acd814a9ce164fabdb05b3da962f5a2848dc5d770eb6bc68329b8c92de4ee7dc",
+          "695bde390fdc4b18c09c01a6252e6b18e6e37f9da56c14d7bb55f66fbfbb0b23",
+          "afde18faeac53f086dedc1960efe9ae861d29d6985e01a36086c45febf2e24d3",
+          "96a42030c21d72e296e24d22d589d0924fb3e327951f47ba05eee879af561eb5",
+          "f191a93825561d5fe0debdbd167bd02b4b5aefe7845708ce1e6a667e22860d3a",
+          "375fe3d0068f1f1d5b270880333731727259d8a75b8ce02a0b78c8effa8a4444",
+          "31a27232ccc68bc8b2a59133c46772b82232cc2516fd6b0ab96064eaafa58324"
+        ],
+        "token_ids": "2b595759abaee01a6bf16650b45ac717f8a46802a21374659da678c8f37248a1",
+        "token_mask": "b066a77209aebdf4e62bc50ee8c7596b1831b8efe9fa8706d1958707a87bb431",
+        "state": "bd4986b7816615d07023d25063ac0573d7353b8db7d3867976e5751f5c63f0ab"
+      },
+      "original_sampler_return_present": false
+    },
+    {
+      "id": "G01-00",
+      "tick": 6203,
+      "clock": "GO2_NATIVE_2MS",
+      "source_left_camera_observed": false,
+      "history_ticks": [
+        0,
+        2203,
+        2703,
+        3203,
+        3703,
+        4203,
+        4703,
+        5203,
+        5703,
+        6203
+      ],
+      "raw_input_sha256": "999b92327bb93242c82651808f2466d967f17acd05b808f65d5b8701de110095",
+      "raw_fields": {
+        "current": {
+          "base_0_rgb": "ffe9f6e62b0f6d26485877f1f5f6649a579020bd68ee5164f108151e550c1891",
+          "left_wrist_0_rgb": "6b9521518e146d266962a6ef67c31fc1cef61496e422f9da53bbb91f445dc580",
+          "right_wrist_0_rgb": "aa5fb10e8b982767fcc30d90658c0c96b070439881ad72bd2fc7832101387a0c"
+        },
+        "current_masks": {
+          "base_0_rgb": true,
+          "left_wrist_0_rgb": true,
+          "right_wrist_0_rgb": true
+        },
+        "memory": [
+          "df2711a0fccbfe1397b7a71d87fa1f503da886b44367642ec50c5b659d3f2317",
+          "8416a711acff9f720260855f266257944bc1024d2d8bae412649f5b6012721ba",
+          "2171f360c8753de49558370baf49529a564906e5b9e70bcd9014c5b132a26753",
+          "1ce1c82ce9a531ea7e24b3bfc11e4103bf1c9fdf2470e6f3c8087611fc3410e5",
+          "1976979a174660c15b15104adf6f4dbd2b2f62a2d235c0219f0059ca3fd3f7dd",
+          "28aeba40b9f6702fe8dd2035e522844986dbe87289e2ae884a883a551be69848",
+          "65c25aad9edce376f4ed0902631abe8b935d16f473276a2a9594d0fab9460945",
+          "c0d9d7b62f87acd5bb749cfc903237f412665f5905be5fb33b5f21a729624fae",
+          "792ee26a68d98e4f5a3185cbc7dd2efbe7df113f07013df859ad82c4a2446961"
+        ],
+        "token_ids": "0570e9ea1fa5a73f0fec95cae373ad7f97057710bfd1cc9da917e691a5ab00af",
+        "token_mask": "26227709b8758d66a89e073c0e0e83489cdeffefa62af40b496d9e726dae6924",
+        "state": "01ede653bb24a1e600b45dd5d1209f6039da15bfb9198e2e7fbbdf6db1573ca2"
+      },
+      "mask_only": {
+        "base_0_rgb": true,
+        "left_wrist_0_rgb": false,
+        "right_wrist_0_rgb": true
+      },
+      "diagnostic_input_sha256": "5342deb9567c0d38bad6095684b5cceef8ce5372debeb863ffcad00852d970a2",
+      "diagnostic_fields": {
+        "current": {
+          "base_0_rgb": "5d57470ab7cde0eda9a829891fa9676f5d21a297d388b6e18f9938c7fcfce7e1",
+          "left_wrist_0_rgb": "6b9521518e146d266962a6ef67c31fc1cef61496e422f9da53bbb91f445dc580",
+          "right_wrist_0_rgb": "d4419cb11630bf5c07b59f0c2e5767c9a847d8af0753f475c72e1d5c7c316e0d"
+        },
+        "current_masks": {
+          "base_0_rgb": true,
+          "left_wrist_0_rgb": true,
+          "right_wrist_0_rgb": true
+        },
+        "memory": [
+          "4aad9a594d9961a3339aba83e4bc787bb5b55adcc432712ca9216d74fe14b209",
+          "f061eda02edb945036f0d96acd2fafa159b60b617f43b0b48a96a7e04349e017",
+          "99a6b38e597a61a79e45b9dc378ccbc7186fcf722162764037474dff173a5c36",
+          "7b8d1cd81373cacb607a5b38484fca27b6424407f78f0dab0bd0c59227759435",
+          "0f168f18653671d3fd2076211e0521dbfecba78bb63d49bdf241d78edad05cf2",
+          "4c537b26878518729301e1f1cd1654e9ccd76651b73f587b7315cf097f47ea4a",
+          "96b5301f40de91122e41606adf9044a62d20315eb7123fd935fe1a97386e2c58",
+          "f93a4fcb51aacab4db9021747f8620f6e3e05ce70480cbbc143be3d879f20345",
+          "b202f1ac18ba815d5da2dec440003d2f66970b1a5ecfedd4c25261a331853971"
+        ],
+        "token_ids": "0570e9ea1fa5a73f0fec95cae373ad7f97057710bfd1cc9da917e691a5ab00af",
+        "token_mask": "26227709b8758d66a89e073c0e0e83489cdeffefa62af40b496d9e726dae6924",
+        "state": "01ede653bb24a1e600b45dd5d1209f6039da15bfb9198e2e7fbbdf6db1573ca2"
+      },
+      "original_sampler_return_present": true
+    },
+    {
+      "id": "G01-01",
+      "tick": 8203,
+      "clock": "GO2_NATIVE_2MS",
+      "source_left_camera_observed": false,
+      "history_ticks": [
+        0,
+        4203,
+        4703,
+        5203,
+        5703,
+        6203,
+        6703,
+        7203,
+        7703,
+        8203
+      ],
+      "raw_input_sha256": "b16e7d7bdb8f4287d296c6565096ebe6995e13e3af9cdd2ed1534cbb7a93013c",
+      "raw_fields": {
+        "current": {
+          "base_0_rgb": "3e9d8c3baaf83ca05d74c019b79c81193b0d2bd542690672f37b728d80010ca1",
+          "left_wrist_0_rgb": "6b9521518e146d266962a6ef67c31fc1cef61496e422f9da53bbb91f445dc580",
+          "right_wrist_0_rgb": "428a0cd4f9997e5c0bc1869b13f3d29c902f6e8801a482e7c53f46de51b82c5d"
+        },
+        "current_masks": {
+          "base_0_rgb": true,
+          "left_wrist_0_rgb": true,
+          "right_wrist_0_rgb": true
+        },
+        "memory": [
+          "df2711a0fccbfe1397b7a71d87fa1f503da886b44367642ec50c5b659d3f2317",
+          "28aeba40b9f6702fe8dd2035e522844986dbe87289e2ae884a883a551be69848",
+          "65c25aad9edce376f4ed0902631abe8b935d16f473276a2a9594d0fab9460945",
+          "c0d9d7b62f87acd5bb749cfc903237f412665f5905be5fb33b5f21a729624fae",
+          "792ee26a68d98e4f5a3185cbc7dd2efbe7df113f07013df859ad82c4a2446961",
+          "9344a2cbb5a0b3d96405f4b653ff60a6c378084c69ba2d49518b547f9c2e95ff",
+          "1034c560924f19f66f3c24e3dcf53e8442eb1cfe30672edb82b697e6e3bee015",
+          "7662cf3e802aa989f24d7ca6f71d62e7f7e4b0b4376c0075fb3e9b0c0942ea30",
+          "925b0e9d4880f3264ca7ad185173543023e904601c232e5b68977341cbaf18fb"
+        ],
+        "token_ids": "2b595759abaee01a6bf16650b45ac717f8a46802a21374659da678c8f37248a1",
+        "token_mask": "b066a77209aebdf4e62bc50ee8c7596b1831b8efe9fa8706d1958707a87bb431",
+        "state": "13a6c34a730f387820eed390c915dea657ebe35bab53d1cac7cead3834e610fd"
+      },
+      "mask_only": {
+        "base_0_rgb": true,
+        "left_wrist_0_rgb": false,
+        "right_wrist_0_rgb": true
+      },
+      "diagnostic_input_sha256": "cf6fbc8f317bcca3d76f3f182ce5cfce0a6a2c67981336bc17da714642d040ce",
+      "diagnostic_fields": {
+        "current": {
+          "base_0_rgb": "79d128e42c1a6c6e7cf73af7ec9345120ba569053d79ad6c53bf24693d884d59",
+          "left_wrist_0_rgb": "6b9521518e146d266962a6ef67c31fc1cef61496e422f9da53bbb91f445dc580",
+          "right_wrist_0_rgb": "fc237e1ce10f1d9f6b3b58567bcf0cd96f500339491c81b6f02a1cd859d35e10"
+        },
+        "current_masks": {
+          "base_0_rgb": true,
+          "left_wrist_0_rgb": true,
+          "right_wrist_0_rgb": true
+        },
+        "memory": [
+          "4aad9a594d9961a3339aba83e4bc787bb5b55adcc432712ca9216d74fe14b209",
+          "4c537b26878518729301e1f1cd1654e9ccd76651b73f587b7315cf097f47ea4a",
+          "96b5301f40de91122e41606adf9044a62d20315eb7123fd935fe1a97386e2c58",
+          "f93a4fcb51aacab4db9021747f8620f6e3e05ce70480cbbc143be3d879f20345",
+          "b202f1ac18ba815d5da2dec440003d2f66970b1a5ecfedd4c25261a331853971",
+          "282f8f454258b7f2158cd53784fd7551d235d8a13e6f7d0133a0f6f7a24b2f92",
+          "41886896f06ee25379cca35f0b3ccdf7fd10bc383ad54cc63f67472f7d99af8f",
+          "f20e17fc0f6e177f31bb126191e8edc6ddc575748ca4e6333f47fe30771afbc2",
+          "d9f6a92dfbda676aea47afc20659a454e58933bb3eedf1b40fd3e7f0ae1facfe"
+        ],
+        "token_ids": "2b595759abaee01a6bf16650b45ac717f8a46802a21374659da678c8f37248a1",
+        "token_mask": "b066a77209aebdf4e62bc50ee8c7596b1831b8efe9fa8706d1958707a87bb431",
+        "state": "13a6c34a730f387820eed390c915dea657ebe35bab53d1cac7cead3834e610fd"
+      },
+      "original_sampler_return_present": true
+    }
+  ],
+  "rejected_ingress_controls": {
+    "G00-00": {
+      "future": "cross-episode, future, reordered or wrong-camera frame",
+      "cross_episode": "cross-episode, future, reordered or wrong-camera frame",
+      "reordered": "cross-episode, future, reordered or wrong-camera frame",
+      "wrong_camera": "cross-episode, future, reordered or wrong-camera frame",
+      "untyped_oracle": "deployable input requires a measured sensor packet",
+      "cross_frame_edit": "appearance edit associated with the wrong frame",
+      "unsupported_edit": "appearance edit outside its observed support",
+      "combined_left_mask_and_appearance": "left mask control requires a missing left view and unchanged measured input"
+    },
+    "G00-01": {
+      "future": "cross-episode, future, reordered or wrong-camera frame",
+      "cross_episode": "cross-episode, future, reordered or wrong-camera frame",
+      "reordered": "cross-episode, future, reordered or wrong-camera frame",
+      "wrong_camera": "cross-episode, future, reordered or wrong-camera frame",
+      "untyped_oracle": "deployable input requires a measured sensor packet",
+      "cross_frame_edit": "appearance edit associated with the wrong frame",
+      "unsupported_edit": "appearance edit outside its observed support",
+      "combined_left_mask_and_appearance": "left mask control requires a missing left view and unchanged measured input"
+    },
+    "G01-00": {
+      "future": "cross-episode, future, reordered or wrong-camera frame",
+      "cross_episode": "cross-episode, future, reordered or wrong-camera frame",
+      "reordered": "cross-episode, future, reordered or wrong-camera frame",
+      "wrong_camera": "cross-episode, future, reordered or wrong-camera frame",
+      "untyped_oracle": "deployable input requires a measured sensor packet",
+      "cross_frame_edit": "appearance edit associated with the wrong frame",
+      "unsupported_edit": "appearance edit outside its observed support",
+      "combined_left_mask_and_appearance": "left mask control requires a missing left view and unchanged measured input"
+    },
+    "G01-01": {
+      "future": "cross-episode, future, reordered or wrong-camera frame",
+      "cross_episode": "cross-episode, future, reordered or wrong-camera frame",
+      "reordered": "cross-episode, future, reordered or wrong-camera frame",
+      "wrong_camera": "cross-episode, future, reordered or wrong-camera frame",
+      "untyped_oracle": "deployable input requires a measured sensor packet",
+      "cross_frame_edit": "appearance edit associated with the wrong frame",
+      "unsupported_edit": "appearance edit outside its observed support",
+      "combined_left_mask_and_appearance": "left mask control requires a missing left view and unchanged measured input"
+    }
+  },
+  "formal_pose_and_camera_pairs_qualified": 0,
+  "model_forwards": 0,
+  "physics_ticks": 0,
+  "updates": 0
+}
