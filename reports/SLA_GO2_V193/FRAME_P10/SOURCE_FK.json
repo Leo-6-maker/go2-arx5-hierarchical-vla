@@ -1,0 +1,200 @@
+{
+  "status": "RECORDED_EEF_DIRECT_LINK6_FK_VERIFIED",
+  "paired_arm_frames": 3914,
+  "equation": "p_recorded = p_base_link6(q) - p_base_link6(0); R_recorded = R_base_link6(q)",
+  "urdf_sha256": "13b4a47a689afb03afd3a5f08577f0afd79559bbf4193b25072b053d0c20737b",
+  "simulation_control_sha256": "7aaa308a1a5b6a213d914db86ba09ddd6252f25cb498ac9a148bfa6c7166a423",
+  "zero_translation_m": [
+    0.09519999999999992,
+    0.001000411398944587,
+    0.15649999265207865
+  ],
+  "historical_target_registration_sha256": "cd393300de20b5355e3723475c3164898603e4f466426df6d724491e525d019f",
+  "zero_translation_matches_existing_go2_observation_bridge": true,
+  "no_fitted_parameters": true,
+  "absolute_tolerance_m_rad": 1e-08,
+  "episodes": [
+    {
+      "episode": "episode_0000000.hdf5",
+      "sha256": "515dcd5a3541ffa4e5563504d2e6746f10732c49aeba866760ba75db7c14c456",
+      "sides": {
+        "left": {
+          "frames": 1002,
+          "joint_excursion_rad": [
+            1.0448617935180664,
+            2.0462350845336914,
+            2.039750099182129,
+            1.5060653686523438,
+            1.301976203918457,
+            1.289006233215332
+          ],
+          "scores": {
+            "recorded_fk_candidate": {
+              "xyz_max_m": 2.633125101432526e-16,
+              "xyz_p95_m": 1.7772239894833365e-16,
+              "angle_max_rad": 1.2136426696102582e-13,
+              "angle_p95_rad": 1.6556187289961925e-15,
+              "passes": true
+            },
+            "public_simulation_control": {
+              "xyz_max_m": 0.003972842456469298,
+              "xyz_p95_m": 0.0038672163068658215,
+              "angle_max_rad": 1.4692820482063922e-05,
+              "angle_p95_rad": 1.4692820413813748e-05,
+              "passes": false
+            },
+            "incorrect_no_zero_subtraction": {
+              "xyz_max_m": 0.18318375616595456,
+              "xyz_p95_m": 0.18318375616595442,
+              "angle_max_rad": 1.2136426696102582e-13,
+              "angle_p95_rad": 1.6556187289961925e-15,
+              "passes": false
+            },
+            "incorrect_one_future_joint_frame": {
+              "xyz_max_m": 0.01855880001560017,
+              "xyz_p95_m": 0.011402265499731137,
+              "angle_max_rad": 0.09687269841863466,
+              "angle_p95_rad": 0.048724741488896536,
+              "passes": false
+            }
+          }
+        },
+        "right": {
+          "frames": 1002,
+          "joint_excursion_rad": [
+            0.8163576126098633,
+            2.2106504440307617,
+            2.260242462158203,
+            1.4663925170898438,
+            0.41313838958740234,
+            0.43183040618896484
+          ],
+          "scores": {
+            "recorded_fk_candidate": {
+              "xyz_max_m": 2.7336071744532853e-16,
+              "xyz_p95_m": 1.6886444467999984e-16,
+              "angle_max_rad": 5.323675646301723e-15,
+              "angle_p95_rad": 1.6045420760021536e-15,
+              "passes": true
+            },
+            "public_simulation_control": {
+              "xyz_max_m": 0.003653875686031858,
+              "xyz_p95_m": 0.0032881200290921678,
+              "angle_max_rad": 1.4692820415053841e-05,
+              "angle_p95_rad": 1.469282041380939e-05,
+              "passes": false
+            },
+            "incorrect_no_zero_subtraction": {
+              "xyz_max_m": 0.1831837561659545,
+              "xyz_p95_m": 0.1831837561659544,
+              "angle_max_rad": 5.323675646301723e-15,
+              "angle_p95_rad": 1.6045420760021536e-15,
+              "passes": false
+            },
+            "incorrect_one_future_joint_frame": {
+              "xyz_max_m": 0.020108657298051377,
+              "xyz_p95_m": 0.014452642482243245,
+              "angle_max_rad": 0.08414931656657744,
+              "angle_p95_rad": 0.049020925441518315,
+              "passes": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "episode": "episode_0000001.hdf5",
+      "sha256": "8b7c9e3784cef53a55bf9f2cfe0b3968036e957a622be50bd76665bc708d45ec",
+      "sides": {
+        "left": {
+          "frames": 955,
+          "joint_excursion_rad": [
+            1.058976173400879,
+            2.096590042114258,
+            1.8886852264404297,
+            1.338597297668457,
+            1.4438848495483398,
+            0.8884563446044922
+          ],
+          "scores": {
+            "recorded_fk_candidate": {
+              "xyz_max_m": 2.5589376332604516e-16,
+              "xyz_p95_m": 1.755418073564523e-16,
+              "angle_max_rad": 1.2797986136604767e-14,
+              "angle_p95_rad": 2.885389238214682e-15,
+              "passes": true
+            },
+            "public_simulation_control": {
+              "xyz_max_m": 0.0042426103192247586,
+              "xyz_p95_m": 0.004027715668211816,
+              "angle_max_rad": 1.4692820426171294e-05,
+              "angle_p95_rad": 1.4692820414146703e-05,
+              "passes": false
+            },
+            "incorrect_no_zero_subtraction": {
+              "xyz_max_m": 0.18318375616595453,
+              "xyz_p95_m": 0.1831837561659544,
+              "angle_max_rad": 1.2797986136604767e-14,
+              "angle_p95_rad": 2.885389238214682e-15,
+              "passes": false
+            },
+            "incorrect_one_future_joint_frame": {
+              "xyz_max_m": 0.017352596934869333,
+              "xyz_p95_m": 0.013110740901512217,
+              "angle_max_rad": 0.11395755892739484,
+              "angle_p95_rad": 0.0477265719810742,
+              "passes": false
+            }
+          }
+        },
+        "right": {
+          "frames": 955,
+          "joint_excursion_rad": [
+            0.9239339828491211,
+            2.1526660919189453,
+            2.0584421157836914,
+            1.4316778182983398,
+            0.41428184509277344,
+            0.2723731994628906
+          ],
+          "scores": {
+            "recorded_fk_candidate": {
+              "xyz_max_m": 2.7894008272968645e-16,
+              "xyz_p95_m": 1.745485439857144e-16,
+              "angle_max_rad": 1.1674330186164016e-14,
+              "angle_p95_rad": 2.5944246631401307e-15,
+              "passes": true
+            },
+            "public_simulation_control": {
+              "xyz_max_m": 0.0038934609265100445,
+              "xyz_p95_m": 0.003764370789161975,
+              "angle_max_rad": 1.4692820419731635e-05,
+              "angle_p95_rad": 1.4692820413973794e-05,
+              "passes": false
+            },
+            "incorrect_no_zero_subtraction": {
+              "xyz_max_m": 0.18318375616595456,
+              "xyz_p95_m": 0.18318375616595442,
+              "angle_max_rad": 1.1674330186164016e-14,
+              "angle_p95_rad": 2.5944246631401307e-15,
+              "passes": false
+            },
+            "incorrect_one_future_joint_frame": {
+              "xyz_max_m": 0.02104644335560788,
+              "xyz_p95_m": 0.015569761889933309,
+              "angle_max_rad": 0.10480221795349949,
+              "angle_p95_rad": 0.056122869780352184,
+              "passes": false
+            }
+          }
+        }
+      }
+    }
+  ],
+  "physical_source_pad_gap": null,
+  "physical_source_flange_to_common_tool": null,
+  "source_world_mount_and_camera_extrinsics": null,
+  "model_forwards": 0,
+  "physics_ticks": 0,
+  "optimizer_updates": 0
+}
