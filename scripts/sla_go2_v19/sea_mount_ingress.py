@@ -14,11 +14,7 @@ from source_custody import digest, pin, read, require, write_new
 from policy_query import input_identity, tensor_sha
 
 
-def run(root, capture, output):
-    import jax
-
-    require(jax.default_backend() == "cpu" and os.environ.get("CUDA_VISIBLE_DEVICES") == "",
-            "CPU processor only")
+def paired_payloads(root, capture, prepare, processor):
     close_path = capture / "CAPTURE_CLOSE.json"
     result = read(close_path)
     require(result["panel"] == PANEL and result["screen_sha256"] == SCREEN_SHA
@@ -27,11 +23,9 @@ def run(root, capture, output):
             and result["new_physics_integrations"] == result["model_forwards"] == result["optimizer_updates"] == 0,
             "incomplete closed two-frame capture")
     old = read(pin(EVIDENCE / "TARGET_T2/COLD.json", T2_SHA))
-    frozen, _ = registration()
-    prepare, _, processor = verified_processor(root, frozen)
     require(processor == old["processor"], "fixed model processor changed")
     anchors, payloads, prior = anchors_and_payloads(root, prepare)
-    rows = {}
+    rows, pairs = {}, {}
     for name in SLOTS:
         rec = result["results"][name]
         path = pin(capture / (name+".aux.private.npy"), rec["rgb_file_sha256"])
@@ -59,8 +53,21 @@ def run(root, capture, output):
         rows[name] = dict(v1_input_sha256=previous_id, v2_input_sha256=candidate_id,
                           v1_fields=old_fields, v2_fields=new_fields,
                           new_aux_rgb_sha256=rec["rgb_sha256"], native_packet_sha256=rec["input_native_state_sha256"])
+        pairs[name[:3], "GG"] = current
+        pairs[name[:3], "AUX2"] = v2
+    return rows, pairs
+
+
+def run(root, capture, output):
+    import jax
+
+    require(jax.default_backend() == "cpu" and os.environ.get("CUDA_VISIBLE_DEVICES") == "",
+            "CPU processor only")
+    frozen, _ = registration()
+    prepare, _, processor = verified_processor(root, frozen)
+    rows, _ = paired_payloads(root, capture, prepare, processor)
     write_new(output, dict(
-        status="V2_TWO_ACTUAL_RGB_OFFICIAL_AUX_ONLY_VERIFIED", panel=PANEL, capture_sha256=digest(close_path),
+        status="V2_TWO_ACTUAL_RGB_OFFICIAL_AUX_ONLY_VERIFIED", panel=PANEL, capture_sha256=digest(capture / "CAPTURE_CLOSE.json"),
         processor=processor, t2_cold_sha256=T2_SHA, rows=rows,
         model_forwards=0, physics_ticks=0, optimizer_updates=0,
     ))
