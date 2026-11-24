@@ -1,0 +1,570 @@
+{
+  "schema": "SLA_LONG_HORIZON_EVIDENCE_V5",
+  "date_SGT": "2026-11-13",
+  "status": "PLANNED_NOT_EXECUTED",
+  "execution_ready": false,
+  "human_plan": "docs/protocols/SLA_LONG_HORIZON_EVIDENCE_V5_20261113.md",
+  "startup_prompt": "docs/handover/2026-11-13/SLA_LONG_HORIZON_V5_START.md",
+  "publication": {
+    "repo": "Leo-6-maker/go2-arx5-hierarchical-vla",
+    "update_existing_pr": 383,
+    "expected_document_head": "080bf9fa3361f493c2012540ad18d7ae0102d6d5",
+    "runtime_pr": 384,
+    "runtime_snapshot": "cb09e71441b2f02307317b60d059ea06c38cb55b",
+    "runtime_receipt_SGT": "2026-11-13T23:35:31.098134+08:00",
+    "runtime_receipt": "reports/WM02/sla-source-target-v4-20261113/CURRENT_STAGE_ACTUAL.json",
+    "runtime_changed": false,
+    "remote_jobs_started": false,
+    "auto_merge": false
+  },
+  "invariants": {
+    "target_first": true,
+    "new_tasks_do_not_wait_for_D1000_or_100_percent_baseline": true,
+    "Corelab_independent_worlds_permission": "inherited_explicit_user_V3",
+    "one_control_owner_per_world": true,
+    "one_writer_per_shared_checkout": true,
+    "valid_H200_allocation_required": true,
+    "no_healthy_capsule_hotpatch": true,
+    "freeze": [
+      "WBC_weights",
+      "leg_policy",
+      "gains",
+      "costs",
+      "solver",
+      "dynamics"
+    ],
+    "physics_dt_s": 0.002,
+    "reference_TTL_s": 0.4,
+    "renewal_period_max_s": 0.35,
+    "online_RL_active": false,
+    "real_robot_active": false,
+    "preserve_old_outcomes_and_splits": true,
+    "no_retraining_base_CPT": true
+  },
+  "observed": {
+    "R1_updates": 500,
+    "R1_visits": 16000,
+    "R1_native_requests": 0,
+    "named_dataset": "T_PICK_HOLD_TRAIN01_P10_2EP_V4_1",
+    "named_episodes": 2,
+    "named_windows": 122,
+    "named_RGB_observation_groups": 642,
+    "named_consumed_commands": 1280,
+    "named_layouts": 1,
+    "named_tasks": 1,
+    "job_id": "716146.hopper-m-02",
+    "candidate_updates_snapshot": 513,
+    "candidate_visits_snapshot": 16416,
+    "candidate_target_updates": 3000,
+    "candidate_target_visits": 96000,
+    "candidate_completion_known": false,
+    "expert_fixed16_successes": 16,
+    "expert_fixed16_conditions": 16,
+    "expert_fixed16_windows": 976,
+    "expert_panel_pure_cadence_ablation": false,
+    "D100_new_admitted": 0,
+    "D300_new_admitted": 0,
+    "PICK_PLACE_admitted": 0,
+    "dense_teacher_targets": 122,
+    "dense_teacher_forwards": 123,
+    "dense_spatial_gradient_qualified": false,
+    "public_five_inventory_episodes_per_task": 50,
+    "public_five_inventory_total": 250,
+    "public_actual_audited_episodes": 20,
+    "public_actual_rows": 3028,
+    "public_frequency_hz_declared": 15,
+    "public_frequency_bound_to_physical_clock": false,
+    "S_cmd_admitted": 0,
+    "original_S1_DEV_terminal": 15,
+    "original_S1_DEV_requested": 16,
+    "original_S1_DEV_successes": 0
+  },
+  "models": {
+    "parent": "haofuly/SLA_base",
+    "parent_revision": "5bbdf3012ab643554aa2eb83ddeae9ace3dce476",
+    "upstream_revision": "405ca8879c032a05f0a778adc7d86f4e221c5eba",
+    "teacher": "frozen_pinned_OmniVGGT",
+    "teacher_deployed": false
+  },
+  "data": {
+    "target_tasks": [
+      "PICK_HOLD",
+      "PICK_PLACE"
+    ],
+    "formal_strata": {
+      "pose": 10,
+      "objects": 5,
+      "tasks": 2,
+      "total": 100
+    },
+    "target_levels": [
+      {
+        "id": "D100_new",
+        "episodes": 100,
+        "per_stratum": 1,
+        "new_successes": 100,
+        "attempt_limit_wave": 200
+      },
+      {
+        "id": "D300_new",
+        "episodes": 300,
+        "per_stratum": 3,
+        "new_successes": 200,
+        "attempt_limit_wave": 400
+      },
+      {
+        "id": "D1000_new",
+        "episodes": 1000,
+        "per_stratum": 10,
+        "new_successes": 700,
+        "attempt_limit_wave": 1400,
+        "conditional": true
+      }
+    ],
+    "small_target_named_first_wave_range": [
+      20,
+      50
+    ],
+    "small_target_must_not_be_relabelled_D100": true,
+    "language_pairs_D300": 50,
+    "language_pair_episodes_included_in_300": 100,
+    "raw_observation_Hz": 10,
+    "anchor_Hz": 2,
+    "command_Hz": 20,
+    "H": 40,
+    "actual_terminal_recording_s": 2,
+    "current_anchor_fixed_per_chunk": true,
+    "synthetic_future_padding": false,
+    "split_before_windowing": true,
+    "source_tasks": [
+      "move_pillbottle_pad",
+      "move_stapler_pad",
+      "place_mouse_pad",
+      "place_empty_cup",
+      "place_object_stand"
+    ],
+    "public_source_repo": "TianxingChen/RoboTwin2.0",
+    "public_data_revision": "3dc3b798668feb99ac61cc9086d84cbcc3d79186",
+    "public_source_status": "S_aux_until_command_clock_tool_and_current_gripper_resolved",
+    "public_after_qualification": {
+      "train_per_task": 40,
+      "dev_per_task": 10,
+      "train_total": 200,
+      "dev_total": 50,
+      "conditional_on_usable_inventory": true
+    },
+    "generated_source": [
+      {
+        "id": "S_GEN_CMD100",
+        "train_per_task": 20,
+        "train_total": 100,
+        "dev_total": 25
+      },
+      {
+        "id": "S_GEN_CMD1000",
+        "train_per_task": 200,
+        "train_total": 1000,
+        "dev_total": 100,
+        "conditional": true
+      }
+    ],
+    "do_not_mix_origin_kind_silently": true,
+    "source_does_not_require_Go2_success": true,
+    "source_N_must_be_in_experiment_identity": true,
+    "source_prep_must_not_block_target": true,
+    "correction_segments_first_wave_max": 200,
+    "correction_TRAIN_rollouts_first_wave_max": 400
+  },
+  "recipe": {
+    "effective_batch": 32,
+    "microbatch": 8,
+    "accumulation": 4,
+    "matmul_precision": "highest",
+    "updates": 3000,
+    "warmup": 150,
+    "peak_lr": 5e-05,
+    "final_lr": 1e-05,
+    "dense_action_expert_peak_lr": 1e-05,
+    "optimizer": {
+      "name": "AdamW",
+      "betas": [
+        0.9,
+        0.95
+      ],
+      "eps": 1e-08,
+      "weight_decay": 1e-05,
+      "clip": 1.0,
+      "EMA": false
+    },
+    "RGB": [
+      224,
+      224
+    ],
+    "action_H": 40,
+    "FM_width": 32,
+    "active_dimensions": 7,
+    "VLM_LoRA_rank": 16,
+    "action_LoRA_rank": 32,
+    "gripper_epsilon": 0.0001,
+    "state_token_dropout": 0.25,
+    "physical_anchor_dropout": false,
+    "spatial_alpha": 0.5,
+    "spatial_student_layer": 12,
+    "adaptive_layers_default": false,
+    "teacher_RGB_only": true,
+    "checkpoints": [
+      0,
+      500,
+      1500,
+      3000
+    ],
+    "comparison_arms_clean_common_parent": true,
+    "normalization": "same TRAIN-only snapshot per matched comparison"
+  },
+  "phases": [
+    {
+      "id": "P0",
+      "entry": "live state reconciliation; reuse existing validated seams",
+      "deliverable": "native candidate results and matched dense spatial path",
+      "must_not_wait_for": [
+        "S1000",
+        "RL"
+      ]
+    },
+    {
+      "id": "P1",
+      "entry": "verified expert and typed target data contract",
+      "deliverable": "usable target snapshots and measured 1/2/4 actor throughput"
+    },
+    {
+      "id": "P2",
+      "entry": "admitted matching target dataset",
+      "deliverable": "FM/SF and conditionality evidence",
+      "depends_on": [
+        "P0",
+        "P1"
+      ]
+    },
+    {
+      "id": "P3",
+      "entry": "typed source command pool with actual N",
+      "deliverable": "T-only/M75 comparison",
+      "depends_on": [
+        "P1"
+      ],
+      "independent_of": [
+        "P5"
+      ]
+    },
+    {
+      "id": "P4",
+      "entry": "executable student for corrections; per-skill expert readiness for new skills",
+      "deliverable": "recovery and one shared four-skill policy"
+    },
+    {
+      "id": "P5",
+      "entry": "actual base/frame/mode capability and executable manipulation",
+      "deliverable": "stance, navigation, transport and frozen-weight executor transfer"
+    },
+    {
+      "id": "R",
+      "entry": "evidenced observation/contact/dynamics gap",
+      "deliverable": "optional causal outcome/auxiliary objective; not default RL",
+      "conditional": true
+    }
+  ],
+  "experiments": [
+    {
+      "id": "DENSE_FM_PILOT_3K",
+      "status": "EXISTING_IN_PROGRESS_AT_SNAPSHOT",
+      "updates_total": 3000,
+      "batch": 32,
+      "visits_total": 96000,
+      "data": "named_2EP",
+      "reuse_live_job": true
+    },
+    {
+      "id": "DENSE_SF_PILOT_3K",
+      "status": "OPTIONAL_MATCHED_FITTING",
+      "updates": 3000,
+      "batch": 32,
+      "visits": 96000,
+      "data": "named_2EP",
+      "skip_if": "D100_ready_and_no_additional_pilot_question; explicitly report not_run"
+    },
+    {
+      "id": "D100_FM_SF",
+      "status": "INHERITED",
+      "runs": 2,
+      "updates_per_run": 3000,
+      "batch": 32,
+      "visits_total": 192000
+    },
+    {
+      "id": "D300_RECIPES",
+      "status": "INHERITED",
+      "runs": 4,
+      "updates_per_run": 3000,
+      "batch": 32,
+      "visits_total": 384000,
+      "order": "LoRA_FM_SF_before_dense_action_pair"
+    },
+    {
+      "id": "T_ONLY_3K",
+      "status": "MATCHED_BASELINE_REUSE_WHEN_EXACT",
+      "updates": 3000,
+      "batch": 32,
+      "T_per_batch": 32,
+      "S_per_batch": 0,
+      "T_visits": 96000,
+      "S_visits": 0
+    },
+    {
+      "id": "M75_3K",
+      "status": "SOURCE_CONDITIONAL",
+      "updates": 3000,
+      "batch": 32,
+      "T_per_batch": 24,
+      "S_per_batch": 8,
+      "T_visits": 72000,
+      "S_visits": 24000
+    },
+    {
+      "id": "RECOVERY",
+      "status": "INHERITED_CONDITIONAL",
+      "runs": 2,
+      "updates_per_run": 1000,
+      "batch": 32,
+      "visits_total": 64000,
+      "ratios": [
+        [
+          1.0,
+          0.0
+        ],
+        [
+          0.8,
+          0.2
+        ]
+      ],
+      "same_new_optimizer": true
+    },
+    {
+      "id": "SF_D0_3K",
+      "status": "OPTIONAL_NEW",
+      "runs": 1,
+      "updates_per_run": 3000,
+      "batch": 32,
+      "visits_total": 96000,
+      "reuse_control": "SF_D25_same_data_recipe"
+    },
+    {
+      "id": "SF_ADAPTIVE_3K",
+      "status": "OPTIONAL_NEW",
+      "runs": 1,
+      "updates_per_run": 3000,
+      "batch": 32,
+      "visits_total": 96000,
+      "reuse_control": "fixed_layer_SF_same_data_recipe"
+    },
+    {
+      "id": "HISTORY_PAIR",
+      "status": "OPTIONAL_NEW",
+      "runs": 2,
+      "updates_per_run": 2000,
+      "batch": 32,
+      "visits_total": 128000,
+      "times_s": [
+        -1.0,
+        -0.5,
+        0.0
+      ],
+      "future_frames": false
+    },
+    {
+      "id": "SHARED4_FIRST",
+      "status": "PLANNED_NEW",
+      "runs": 1,
+      "updates_per_run": 5000,
+      "batch": 32,
+      "visits_total": 160000,
+      "warmup": 250
+    },
+    {
+      "id": "SHARED4_CONFIRM",
+      "status": "CONDITIONAL_CONFIRMATION",
+      "runs": 2,
+      "updates_per_run": 5000,
+      "batch": 32,
+      "visits_total": 320000
+    },
+    {
+      "id": "DYNAMICS_AUX_PAIR",
+      "status": "OPTIONAL_NEW",
+      "runs": 2,
+      "updates_per_run": 2000,
+      "batch": 32,
+      "visits_total": 128000,
+      "entry": "action_outcome_prediction_and_ranking_supported"
+    }
+  ],
+  "mechanism_panel": {
+    "id": "C24_DEV_MECHANISM",
+    "pair_types": {
+      "object_position": 8,
+      "language_target": 8,
+      "actual_EEF_deviation": 8
+    },
+    "pairs": 24,
+    "conditions_per_method": 48,
+    "initial_methods": 2,
+    "initial_conditions_total": 96,
+    "not_formal_TEST": true,
+    "do_not_relabel_as_training": true,
+    "counterfactual_observations_must_be_physically_consistent": true
+  },
+  "collection_performance": {
+    "actors_initial": [
+      1,
+      2,
+      4
+    ],
+    "actors_conditional": [
+      8,
+      16
+    ],
+    "matched_conditions_per_configuration": 16,
+    "marginal_gain_min": 0.15,
+    "metric": "complete_usable_demos_per_wall_hour_including_failures_and_startup",
+    "expert_needs_SLA_load": false,
+    "GPU_model_optimizer_gradient_hotpath_D2H_bytes_target": 0,
+    "immutable_buffers_two_consumers": true,
+    "bounded_writer_and_prefetch": true,
+    "sealed_shards_before_manifest_commit": true
+  },
+  "multi_skill": {
+    "tasks": [
+      "PICK_HOLD",
+      "PICK_PLACE",
+      "OPEN_CABINET_NO_LATCH",
+      "BOOK_FROM_TABLE_TO_SLOT"
+    ],
+    "new_skill_seed_range": [
+      10,
+      30
+    ],
+    "new_skill_next_range": [
+      100,
+      300
+    ],
+    "example_joint_dataset": {
+      "grasp_place": 300,
+      "cabinet": 150,
+      "book": 150,
+      "total": 600
+    },
+    "initial_training_batch": 32,
+    "samples_per_task_per_balanced_batch": 8,
+    "one_weights_and_action_interface": true,
+    "single_task_checkpoints_cannot_count_as_shared_policy": true,
+    "TRAIN_conditions": 16,
+    "DEV_conditions": 96,
+    "TEST_per_seed": 160,
+    "confirmation_seeds": 3,
+    "TEST_total": 480,
+    "TEST_is_new_population": true
+  },
+  "mobile": {
+    "inherit_V4": true,
+    "M0_offline_cases": 16,
+    "M0_native_expert_cases": 24,
+    "M1_stance_train_episodes": 100,
+    "M2_navigation_train_episodes": 100,
+    "M3_seeds": 50,
+    "M3_expand": 300,
+    "real_navigation_not_reset": true,
+    "future_base_truth_at_inference": false,
+    "missing_base_labels": "loss_mask_not_fake_zero",
+    "navigation_oracle_must_be_disclosed": true,
+    "executor_transfer": {
+      "tasks": 2,
+      "conditions_per_task": 20,
+      "executors": 2,
+      "policy_conditions": 80,
+      "expert_conditions": 40
+    },
+    "different_controller_same_robot_is_cross_embodiment": false,
+    "real_time_from_paused_simulation_claim": false,
+    "real_robot_currently_authorized": false
+  },
+  "conditional_dynamics": {
+    "initial_existing_TRAIN_episodes_max": 200,
+    "internal_train": 160,
+    "internal_dev": 40,
+    "future_horizons_s": [
+      0.1,
+      0.5,
+      1.0
+    ],
+    "must_include_action_and_consumed_duration": true,
+    "include_installed_preview_for_WBC_anticipation": true,
+    "teacher_updates_shared_policy_unconditionally": false,
+    "counterfactual_states_max": 32,
+    "actions_per_state": 2,
+    "native_branch_conditions_max": 64,
+    "complete_controller_state_reproducibility_required": true,
+    "ranking_engineering_target": 0.75,
+    "RL_run_budget_now": 0,
+    "force_oracle_not_deployment_sensor": true
+  },
+  "accounting": {
+    "B32_optional_new_groups": [
+      "SF_D0_3K",
+      "SF_ADAPTIVE_3K",
+      "HISTORY_PAIR",
+      "SHARED4_FIRST",
+      "DYNAMICS_AUX_PAIR"
+    ],
+    "B32_optional_new_updates_total": 19000,
+    "B32_optional_new_visits_total": 608000,
+    "excludes": [
+      "existing_and_inherited_runs",
+      "dense_spatial_pilot",
+      "shared_confirmation",
+      "outcome_model_training",
+      "collection",
+      "mobile",
+      "RL"
+    ],
+    "global_automatic_run_queue": false,
+    "actual_manifest_identity_dedup": true,
+    "long_budget_curve": [
+      3000,
+      6000,
+      12000,
+      20000
+    ],
+    "same_selected_steps_and_schedule_across_confirmation_seeds": true
+  },
+  "evaluation": {
+    "TRAIN_per_target_candidate": 8,
+    "DEV_per_target_candidate": 48,
+    "target_TEST_per_seed": 80,
+    "target_methods_confirmed": 2,
+    "target_seeds": 3,
+    "target_TEST_total": 480,
+    "regular_goal_per_task_seed": {
+      "successes": 20,
+      "conditions": 24
+    },
+    "challenge_goal_per_task_seed": {
+      "successes": 10,
+      "conditions": 16
+    },
+    "goals_are_not_guarantees": true,
+    "policy_hard_stop_counts_as_failure": true,
+    "technical_failures_separate": true,
+    "unstarted_not_counted_as_algorithm_failure": true,
+    "cluster_unit": "layout/episode; report seed spread",
+    "no_TEST_driven_selection": true
+  }
+}
