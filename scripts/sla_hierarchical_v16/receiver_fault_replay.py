@@ -23,7 +23,7 @@ def read(p):
     return json.loads(p.read_bytes())
 
 
-def run(root, out, *, trace_mode=None):
+def run(root, out, *, trace_mode=None, card_cap=6503):
     code = Path(__file__).resolve().parent
     reports = code.parents[1] / "reports/SLA_HIERARCHICAL_V16"
     frozen = read(reports / "V0_EVIDENCE_MATRIX_ACTUAL.json")["source_hashes"]
@@ -69,7 +69,9 @@ def run(root, out, *, trace_mode=None):
 
         if trace_mode not in ("CONTROL", "BRIDGE"):
             raise ValueError("unknown trace treatment")
-        receiver, writer = variant(root, out, spec, args, trace_mode == "BRIDGE")
+        receiver, writer = variant(
+            root, out, spec, args, trace_mode == "BRIDGE", card_cap=card_cap
+        )
     library = out / "librecorded_step.so"
     exe = out / "fault_probe"
     subprocess.run(
@@ -146,7 +148,7 @@ def run(root, out, *, trace_mode=None):
             GR00T_TASK_ERROR=str(d / "reject.txt"),
             V16_GRIP_DIR=str(d),
             V16_GRIP_EPOCH=epoch,
-            V16_GRIP_STOP_TICK="6503",
+            V16_GRIP_STOP_TICK=str(card_cap),
             V3_REPLAY_JOURNAL=str(journal),
         )
         if writer:

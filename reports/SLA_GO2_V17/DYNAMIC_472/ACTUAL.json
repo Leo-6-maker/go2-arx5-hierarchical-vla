@@ -1,0 +1,1450 @@
+{
+  "registered": 4,
+  "issued": 4,
+  "case_audits": [
+    {
+      "card": "SLOW_A0",
+      "outcome": "DYNAMIC_COMPLETE",
+      "eligible": true,
+      "violations": {},
+      "exception": null,
+      "audit": {
+        "outcome": "DYNAMIC_COMPLETE",
+        "ticks": 14653,
+        "trace": {
+          "status": "RECORDED_TRACE_CHECKS_PASS",
+          "native_step_records": 14653,
+          "STOP_observed": false,
+          "integrations_after_first_STOP": null
+        },
+        "receiver_stop_observed": false,
+        "owned_exits": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "survivors": [],
+        "child_absent": true,
+        "scene_guard_stop": false,
+        "physics_stops": 0,
+        "clean": true
+      },
+      "lease": "CLOSED",
+      "end": 14653,
+      "sha256": {
+        "EXECUTION_SPEC.json": "80f4426c3a5808da4975552371786bc62a441c0d6a37ca2ed95a06b50b5b62ce",
+        "control/LEASE.json": "7cc7b53a9cd292135d12561cfe4a51173eeed265ded4dbb0cbc3c35ce96d9f07",
+        "RESULT.private.json": "a3cf88b7849715a4ceba2c343adad1f10eb6ee6effd54f4f628031dac73a2265",
+        "AUDIT.json": "ce89541cbdb75c03c290f0a5667fbcb48ef710a97862ab52641d92efbe61cfb8",
+        "NATIVE_REQUEST.json": "2677e98469d50e21dfa6a2321b4a25b1d8bd586ac6ef4790700c13fd469621e3",
+        "INITIAL.private.json": "b4cfd49d8fc8a3d5cb8c7ff88459ce749235cbcbb03bc9977759061d96311b13",
+        "native-738ce1027fee4c7a92c39b2618b6559c/state.bin.journal": "993f2a89bcdb706509b4545c192ffa06a45af21b0d7284750fa5c3628397850f",
+        "native-738ce1027fee4c7a92c39b2618b6559c/physics.jsonl": "5cdcb029f0a8bf091ff794e4092ca314cf4c679212790b60be16e3a41ea5d15e",
+        "native-738ce1027fee4c7a92c39b2618b6559c/init.trace": "d91fb185080b2636883255f6f690aee76f7964068508058de0741d88ccd5b2f1",
+        "native-738ce1027fee4c7a92c39b2618b6559c/planner.jsonl": "880236ec69f35ea0f54d09880e5f1d06f4570ddfc660b1c08f49a207c870daad",
+        "native-738ce1027fee4c7a92c39b2618b6559c/MOBILE_SAMPLES.private.jsonl": "10eff0f2b1a284dae4736c8f245d65dfa9c69e34f73c64670196de9b76c828ab",
+        "student/receiver.csv": "8752fc715e10c52029b2716ee95d4b9253014ae52af4232c64ac308c62857e5e",
+        "student/issuer.jsonl": "acd1b2d39a2f480c3ae3a6fae1a14b65034c9bd1d250d02edd6a162c125ef2a9",
+        "SERVO.private.jsonl": "a653dc747dc815dbf9ac5a1f0b2ae1617b6162fae853db0598fe87ea2c7de09a",
+        "DYNAMIC_ENTRY.json": "1801aa06d00a8921ac7ade6ecf00ee804cca1b3c52e0874100d01475965ea1f7",
+        "DYNAMIC_WIRE.jsonl": "912fd7c32c7212ff8e0960d2d4dddeb9a2aedb067e8399931a39497485cd5bc2",
+        "DYNAMIC_TRACK.npz": "273c8ad6312a7f08a9f9dcedbfa06d347af76ccebe37d08757f9265b60e642fd"
+      },
+      "receiver_steps": 14653,
+      "first_receiver_stop_tick": null,
+      "step_records_after_receiver_stop": 0,
+      "selected_MRT_policy_id": null,
+      "entry_tick": 11153,
+      "primary_nominal_clock": "50 ms knots, linear XYZ and shortest SLERP at 2 ms; no lag adjustment",
+      "dwell_start": 10653,
+      "accepted_installed_wires": 70,
+      "verified_receding_echoes": 70,
+      "confirmed_atoms": 140,
+      "verified_four_foot_samples": 3501,
+      "achieved_to_nominal": {
+        "entry_error_xyz_mm": [
+          -1.5484759847589902,
+          0.27689793303692367,
+          -3.2134002236745562
+        ],
+        "motion_mean_error_xyz_mm": [
+          -1.536824699087732,
+          0.29354868335314604,
+          -3.420942788302194
+        ],
+        "motion_displacement_error_rms_mm_from_entry": 0.6020383916851674,
+        "axis_shapes": {
+          "world_x": {
+            "relative_shape_score": 0.7185190720806105,
+            "signed_gain": 0.4836289834202392
+          },
+          "world_z": {
+            "relative_shape_score": 0.8423918524612894,
+            "signed_gain": 0.6847803905817194
+          },
+          "world_pitch": {
+            "relative_shape_score": 0.8562164535607555,
+            "signed_gain": 0.8727936922026668
+          }
+        },
+        "positive_peak_delay_ms": {
+          "world_x": 8,
+          "world_z": 194,
+          "world_pitch": -202
+        },
+        "opposed_or_stationary_translation_ms": 474,
+        "hold": {
+          "count": 501,
+          "mm_rms_max": [
+            3.532087264019465,
+            3.580539860164024
+          ],
+          "deg_rms_max": [
+            0.1196754027583045,
+            0.12824153680994715
+          ],
+          "xyz_rms_mm": [
+            1.5152935185839704,
+            0.29757898745434413,
+            3.17662914728987
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.009470072103804668,
+            0.1190631967993317,
+            0.007514980215192547
+          ],
+          "in_tube": 1.0,
+          "last_mm_deg": [
+            3.5203189188459985,
+            0.11888529360336168
+          ]
+        },
+        "motion": {
+          "count": 2001,
+          "mm_rms_max": [
+            3.803920852889555,
+            4.674979843089218
+          ],
+          "deg_rms_max": [
+            0.14979845879849546,
+            0.24309497156767912
+          ],
+          "xyz_rms_mm": [
+            1.5927828024883421,
+            0.2937790618147311,
+            3.4418818489286718
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.008028926027119895,
+            0.1495474032874923,
+            0.003269369239425268
+          ],
+          "in_tube": 0.7241379310344828,
+          "last_mm_deg": [
+            3.5550591398307723,
+            0.13135955332465538
+          ]
+        },
+        "park": {
+          "count": 1001,
+          "mm_rms_max": [
+            3.5988357685625516,
+            3.7555419178762626
+          ],
+          "deg_rms_max": [
+            0.12105955261404684,
+            0.13475796731526776
+          ],
+          "xyz_rms_mm": [
+            1.5579574745503542,
+            0.3213871344834468,
+            3.2281725025726864
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.006917904769150631,
+            0.12081650626823826,
+            0.0033060075400518437
+          ],
+          "in_tube": 1.0,
+          "last_mm_deg": [
+            3.5971788640231983,
+            0.12079878812170451
+          ]
+        },
+        "final_one_second": {
+          "count": 501,
+          "mm_rms_max": [
+            3.5890430539447338,
+            3.6749044541174243
+          ],
+          "deg_rms_max": [
+            0.12243932551748084,
+            0.13475796731526776
+          ],
+          "xyz_rms_mm": [
+            1.5357362687834386,
+            0.34477731325691213,
+            3.225503489391294
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.007425058341404834,
+            0.12217338041109055,
+            0.0031499302737233465
+          ],
+          "in_tube": 1.0,
+          "last_mm_deg": [
+            3.5971788640231983,
+            0.12079878812170451
+          ]
+        },
+        "translation": {
+          "relative_shape_score": 0.7920606150441418,
+          "signed_gain": 0.6031930102903833
+        },
+        "rotation": {
+          "relative_shape_score": 0.8554122228060327,
+          "signed_gain": 0.8727936922026669
+        },
+        "motion_excursion_mm": 1.9691141745038012,
+        "motion_excursion_deg": 0.2380168904527626
+      },
+      "issued_to_nominal": {
+        "entry_error_xyz_mm": [
+          16.45355766850787,
+          2.1428252367602356,
+          29.777249681418372
+        ],
+        "motion_mean_error_xyz_mm": [
+          16.453557668508264,
+          2.1428252367601464,
+          29.777249681419484
+        ],
+        "motion_displacement_error_rms_mm_from_entry": 1.191318601127811e-15,
+        "axis_shapes": {
+          "world_x": {
+            "relative_shape_score": 1.0,
+            "signed_gain": 1.0
+          },
+          "world_z": {
+            "relative_shape_score": 1.0,
+            "signed_gain": 1.0
+          },
+          "world_pitch": {
+            "relative_shape_score": 1.0,
+            "signed_gain": 1.000000000000001
+          }
+        },
+        "positive_peak_delay_ms": {
+          "world_x": 0,
+          "world_z": 0,
+          "world_pitch": 0
+        },
+        "opposed_or_stationary_translation_ms": 0,
+        "hold": {
+          "count": 501,
+          "mm_rms_max": [
+            34.08806035162079,
+            34.08806035162079
+          ],
+          "deg_rms_max": [
+            2.1211818156259685,
+            2.1211818156259694
+          ],
+          "xyz_rms_mm": [
+            16.453557668507884,
+            2.1428252367602294,
+            29.77724968141845
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.41021111972800195,
+            2.067365672924353,
+            0.23903620355052202
+          ],
+          "in_tube": 0.0,
+          "last_mm_deg": [
+            34.08806035162079,
+            2.1211818156259694
+          ]
+        },
+        "motion": {
+          "count": 2001,
+          "mm_rms_max": [
+            34.08806035162079,
+            34.08806035162082
+          ],
+          "deg_rms_max": [
+            2.121181815625969,
+            2.121181815625975
+          ],
+          "xyz_rms_mm": [
+            16.453557668508147,
+            2.1428252367602814,
+            29.77724968141862
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.41021054209368013,
+            2.0673656729243546,
+            0.23903719482866256
+          ],
+          "in_tube": 0.0,
+          "last_mm_deg": [
+            34.08806035162079,
+            2.1211818156259707
+          ]
+        },
+        "park": {
+          "count": 1001,
+          "mm_rms_max": [
+            34.08806035162079,
+            34.08806035162079
+          ],
+          "deg_rms_max": [
+            2.1211818156259685,
+            2.1211818156259707
+          ],
+          "xyz_rms_mm": [
+            16.453557668508097,
+            2.1428252367602365,
+            29.777249681418564
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.41021111972800456,
+            2.067365672924354,
+            0.23903620355052224
+          ],
+          "in_tube": 0.0,
+          "last_mm_deg": [
+            34.08806035162079,
+            2.1211818156259685
+          ]
+        },
+        "final_one_second": {
+          "count": 501,
+          "mm_rms_max": [
+            34.08806035162079,
+            34.08806035162079
+          ],
+          "deg_rms_max": [
+            2.1211818156259685,
+            2.1211818156259685
+          ],
+          "xyz_rms_mm": [
+            16.453557668507884,
+            2.1428252367602294,
+            29.77724968141845
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.41021111972800195,
+            2.067365672924353,
+            0.23903620355052202
+          ],
+          "in_tube": 0.0,
+          "last_mm_deg": [
+            34.08806035162079,
+            2.1211818156259685
+          ]
+        },
+        "translation": {
+          "relative_shape_score": 1.0,
+          "signed_gain": 1.0
+        },
+        "rotation": {
+          "relative_shape_score": 1.0,
+          "signed_gain": 1.000000000000001
+        },
+        "motion_excursion_mm": 2.7162443621017163,
+        "motion_excursion_deg": 0.2036221527566614
+      },
+      "achieved_to_issued": {
+        "entry_error_xyz_mm": [
+          -18.002033653266857,
+          -1.865927303723312,
+          -32.99064990509293
+        ],
+        "motion_mean_error_xyz_mm": [
+          -17.9903823675956,
+          -1.8492765534070892,
+          -33.19819246972059
+        ],
+        "motion_displacement_error_rms_mm_from_entry": 0.6020383916851667,
+        "axis_shapes": {
+          "world_x": {
+            "relative_shape_score": 0.7185190720806105,
+            "signed_gain": 0.48362898342023913
+          },
+          "world_z": {
+            "relative_shape_score": 0.8423918524612894,
+            "signed_gain": 0.6847803905817194
+          },
+          "world_pitch": {
+            "relative_shape_score": 0.8562164535607555,
+            "signed_gain": 0.8727936922026657
+          }
+        },
+        "positive_peak_delay_ms": {
+          "world_x": 8,
+          "world_z": 194,
+          "world_pitch": -202
+        },
+        "opposed_or_stationary_translation_ms": 474,
+        "hold": {
+          "count": 501,
+          "mm_rms_max": [
+            37.579655856890774,
+            37.628950045364554
+          ],
+          "deg_rms_max": [
+            2.0026269744918705,
+            2.013606996781861
+          ],
+          "xyz_rms_mm": [
+            17.968727863679064,
+            1.845427622804111,
+            32.95375168584572
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.4006312478463724,
+            1.94840488819029,
+            0.23179256650657143
+          ],
+          "in_tube": 0.0,
+          "last_mm_deg": [
+            37.565830035556324,
+            2.0033964448968877
+          ]
+        },
+        "motion": {
+          "count": 2001,
+          "mm_rms_max": [
+            37.808896149833224,
+            38.712207766404354
+          ],
+          "deg_rms_max": [
+            1.9810884696526354,
+            2.040805951566751
+          ],
+          "xyz_rms_mm": [
+            17.99524894610995,
+            1.8493131369899425,
+            33.20035669021887
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.4021893806249219,
+            1.9252392019385456,
+            0.2375062989105596
+          ],
+          "in_tube": 0.0,
+          "last_mm_deg": [
+            37.611091413928285,
+            1.9926769490446425
+          ]
+        },
+        "park": {
+          "count": 1001,
+          "mm_rms_max": [
+            37.64385113834035,
+            37.79610549731668
+          ],
+          "deg_rms_max": [
+            2.002932087897039,
+            2.033326305906653
+          ],
+          "xyz_rms_mm": [
+            18.011262921551683,
+            1.822887001227509,
+            33.00501506554758
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.40301861931766114,
+            1.946905543568158,
+            0.24263500496519125
+          ],
+          "in_tube": 0.0,
+          "last_mm_deg": [
+            37.63432968552563,
+            2.0027494317863086
+          ]
+        },
+        "final_one_second": {
+          "count": 501,
+          "mm_rms_max": [
+            37.629918096474064,
+            37.7145042086157
+          ],
+          "deg_rms_max": [
+            2.0013801801445124,
+            2.017963122226546
+          ],
+          "xyz_rms_mm": [
+            17.989261120157657,
+            1.7982885588994817,
+            33.00247533984476
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.40249043394732736,
+            1.94543757204181,
+            0.24248036898733769
+          ],
+          "in_tube": 0.0,
+          "last_mm_deg": [
+            37.63432968552563,
+            2.0027494317863086
+          ]
+        },
+        "translation": {
+          "relative_shape_score": 0.7920606150441418,
+          "signed_gain": 0.6031930102903833
+        },
+        "rotation": {
+          "relative_shape_score": 0.8554122228060327,
+          "signed_gain": 0.8727936922026657
+        },
+        "motion_excursion_mm": 1.9691141745038012,
+        "motion_excursion_deg": 0.2380168904527626
+      },
+      "constant_to_nominal": {
+        "entry_error_xyz_mm": [
+          -1.5484759847589902,
+          0.27689793303692367,
+          -3.2134002236745562
+        ],
+        "motion_mean_error_xyz_mm": [
+          -1.548475984758992,
+          0.27689793303693166,
+          -4.016660161452585
+        ],
+        "motion_displacement_error_rms_mm_from_entry": 1.4761947664952495,
+        "axis_shapes": {
+          "world_x": {
+            "relative_shape_score": 0.0,
+            "signed_gain": 0.0
+          },
+          "world_z": {
+            "relative_shape_score": 0.0,
+            "signed_gain": 0.0
+          },
+          "world_pitch": {
+            "relative_shape_score": 0.0,
+            "signed_gain": 0.0
+          }
+        },
+        "positive_peak_delay_ms": {
+          "world_x": null,
+          "world_z": null,
+          "world_pitch": null
+        },
+        "opposed_or_stationary_translation_ms": 4000,
+        "hold": {
+          "count": 501,
+          "mm_rms_max": [
+            3.5777634547587316,
+            3.5777634547587316
+          ],
+          "deg_rms_max": [
+            0.11270542112584522,
+            0.11270542112584553
+          ],
+          "xyz_rms_mm": [
+            1.548475984758997,
+            0.2768979330369253,
+            3.2134002236745554
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.009970768472195501,
+            0.11200758050482146,
+            0.00757612280021097
+          ],
+          "in_tube": 1.0,
+          "last_mm_deg": [
+            3.5777634547587316,
+            0.11270542112584553
+          ]
+        },
+        "motion": {
+          "count": 2001,
+          "mm_rms_max": [
+            4.487976565701351,
+            6.19041099965061
+          ],
+          "deg_rms_max": [
+            0.16340492628055112,
+            0.31587804959236787
+          ],
+          "xyz_rms_mm": [
+            1.737797587411109,
+            0.2768979330369188,
+            4.128597913838604
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.009970768002751203,
+            0.1629243874207234,
+            0.007576127095663876
+          ],
+          "in_tube": 0.5302348825587206,
+          "last_mm_deg": [
+            3.5777634547587316,
+            0.11270542112584804
+          ]
+        },
+        "park": {
+          "count": 1001,
+          "mm_rms_max": [
+            3.5777634547587316,
+            3.5777634547587316
+          ],
+          "deg_rms_max": [
+            0.11270542112584524,
+            0.11270542112584804
+          ],
+          "xyz_rms_mm": [
+            1.54847598475899,
+            0.2768979330369238,
+            3.2134002236745847
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.009970768472195576,
+            0.11200758050482242,
+            0.007576122800211073
+          ],
+          "in_tube": 1.0,
+          "last_mm_deg": [
+            3.5777634547587316,
+            0.11270542112584522
+          ]
+        },
+        "final_one_second": {
+          "count": 501,
+          "mm_rms_max": [
+            3.5777634547587316,
+            3.5777634547587316
+          ],
+          "deg_rms_max": [
+            0.11270542112584522,
+            0.11270542112584522
+          ],
+          "xyz_rms_mm": [
+            1.548475984758997,
+            0.2768979330369253,
+            3.2134002236745554
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.0099707684721955,
+            0.11200758050482146,
+            0.00757612280021097
+          ],
+          "in_tube": 1.0,
+          "last_mm_deg": [
+            3.5777634547587316,
+            0.11270542112584522
+          ]
+        },
+        "translation": {
+          "relative_shape_score": 0.0,
+          "signed_gain": 0.0
+        },
+        "rotation": {
+          "relative_shape_score": 0.0,
+          "signed_gain": 0.0
+        },
+        "motion_excursion_mm": 0.0,
+        "motion_excursion_deg": 0.0
+      }
+    },
+    {
+      "card": "SLOW_A1",
+      "outcome": "SCREENED_OUT",
+      "eligible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.004629780949564198,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.02823401316779528,
+          "limit": 0.01597557170495345
+        },
+        "free_quaternions": {
+          "observed": 0.0035388120133424765,
+          "limit": 0.003328679076811513
+        },
+        "measured_base_m": {
+          "observed": 0.003919010771096673,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.009861583064598408,
+          "limit": 0.007272162700839245
+        }
+      },
+      "exception": null,
+      "audit": {
+        "outcome": "SCREENED_OUT",
+        "ticks": 5703,
+        "trace": {
+          "status": "RECORDED_TRACE_CHECKS_PASS",
+          "native_step_records": 5703,
+          "STOP_observed": false,
+          "integrations_after_first_STOP": null
+        },
+        "receiver_stop_observed": false,
+        "owned_exits": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "survivors": [],
+        "child_absent": true,
+        "scene_guard_stop": false,
+        "physics_stops": 0,
+        "clean": true
+      },
+      "lease": "CLOSED",
+      "end": 5703,
+      "sha256": {
+        "EXECUTION_SPEC.json": "e9a94c0efb81dbfe72aade4c92298fcc79da81c8a0ffa1beff981bcb0104732a",
+        "control/LEASE.json": "480688cd59961447151ef32d94c6a28a9369e20cd53eabf8d2accb22872d9c35",
+        "RESULT.private.json": "575e3f30f8262f44d88afdc05c83530387a34fab660269e2820b54101ca27d6a",
+        "AUDIT.json": "37a89959fa294fcebce22742a3264ee8ea46893c99629b78692e8aca9209afc7",
+        "NATIVE_REQUEST.json": "7e5d435ecd6adb82f46a76ebd06a641114d43b1a747d7aa54fe6ef60b6bb5e73",
+        "INITIAL.private.json": "3484c9edf55163a695882ff2bacb5b71e7c15307663f935ce2295c54c7d85965",
+        "native-8e983bd06a72488fa32d94bf74f2f88c/state.bin.journal": "5a6533258bc952b051bb58030cf6066f034596fc64e56268b99ef17843b009f8",
+        "native-8e983bd06a72488fa32d94bf74f2f88c/physics.jsonl": "f65af11eabe9585e5d446a0d42d0086f6f2c101727d2e6089632b96b21c355f9",
+        "native-8e983bd06a72488fa32d94bf74f2f88c/init.trace": "42090b343aebc9128f2b7de46c26c2a2382e47a81fbeeb6275f7c756dbbc2297",
+        "native-8e983bd06a72488fa32d94bf74f2f88c/planner.jsonl": "44b91fbc8873537322827789c201993f6928c3336eac62a34657e7a8ec8e4626",
+        "native-8e983bd06a72488fa32d94bf74f2f88c/MOBILE_SAMPLES.private.jsonl": "aeaf0ee13b42ae78ab6f0e247fdd7a320ef9ac8bebcb83b560eff50c3939bf00",
+        "student/receiver.csv": "c142c31694e2042dad384ed29c8a45389e16fcb84264df610667821d61880d9b",
+        "student/issuer.jsonl": "589b1b144c8e3e0f8d1f78da41489bf6d2c914e02a709df4cb774eeed56d710b"
+      },
+      "receiver_steps": 5703,
+      "first_receiver_stop_tick": null,
+      "step_records_after_receiver_stop": 0,
+      "selected_MRT_policy_id": null
+    },
+    {
+      "card": "SOURCE_SPEED_A1",
+      "outcome": "SCREENED_OUT",
+      "eligible": false,
+      "violations": {
+        "qpos_linear_m": {
+          "observed": 0.004813264848016157,
+          "limit": 0.0018674502044549526
+        },
+        "qpos_hinge_rad": {
+          "observed": 0.02965873179639522,
+          "limit": 0.01597557170495345
+        },
+        "free_quaternions": {
+          "observed": 0.003493491361255964,
+          "limit": 0.003328679076811513
+        },
+        "measured_base_m": {
+          "observed": 0.0040493509267431095,
+          "limit": 0.0013156331484268648
+        },
+        "measured_base_rad": {
+          "observed": 0.010004149956093082,
+          "limit": 0.007272162700839245
+        }
+      },
+      "exception": null,
+      "audit": {
+        "outcome": "SCREENED_OUT",
+        "ticks": 5703,
+        "trace": {
+          "status": "RECORDED_TRACE_CHECKS_PASS",
+          "native_step_records": 5703,
+          "STOP_observed": false,
+          "integrations_after_first_STOP": null
+        },
+        "receiver_stop_observed": false,
+        "owned_exits": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "survivors": [],
+        "child_absent": true,
+        "scene_guard_stop": false,
+        "physics_stops": 0,
+        "clean": true
+      },
+      "lease": "CLOSED",
+      "end": 5703,
+      "sha256": {
+        "EXECUTION_SPEC.json": "be797f053916107f6846656aa866d8b06abf6d2363e9318f3d008da6f33042a0",
+        "control/LEASE.json": "8b19d76f5c049b16e2e79e1a63bcdc8aba0cf62e4e39f91af79696ce3ca34af1",
+        "RESULT.private.json": "8110a65725627e7ccb20295f635d51bbfc6ea729eee129b654b55e5a552f2e45",
+        "AUDIT.json": "37a89959fa294fcebce22742a3264ee8ea46893c99629b78692e8aca9209afc7",
+        "NATIVE_REQUEST.json": "00683766e2f7a87ab474d62010fb6c1c6e823b8d1d264e9c0e304a7483150b88",
+        "INITIAL.private.json": "b582a16cf1202df8e7602dc76c3c31d206c4f212e5dd15b2b184cdedb88ca342",
+        "native-aaeb65d9579e4e36866f3b31a385ef35/state.bin.journal": "6275957dcbac1921baa1df39e37b361b71ac74891dd82ff575082702ac5defe8",
+        "native-aaeb65d9579e4e36866f3b31a385ef35/physics.jsonl": "624c4e3ccbc8bcaef15872b27b6c0d4d43b0331c648f9cb936130f55eaa6372a",
+        "native-aaeb65d9579e4e36866f3b31a385ef35/init.trace": "6faba703f9cf5aaba75aced295d77180d07bda469eefda5aa13a1f2f6f8199df",
+        "native-aaeb65d9579e4e36866f3b31a385ef35/planner.jsonl": "f9cbaa1eb71b476c01d8ce8dccf96890c909117a43c62f096580edaa1ba45262",
+        "native-aaeb65d9579e4e36866f3b31a385ef35/MOBILE_SAMPLES.private.jsonl": "4f40d65e51c897df518d32e0cf129c8a62553fff92760cbd8611fb5d3b6d8f89",
+        "student/receiver.csv": "ac85ee7b44263babaddb38216c93cff2ed3af6ad4784849666c50606116f3d9f",
+        "student/issuer.jsonl": "589b1b144c8e3e0f8d1f78da41489bf6d2c914e02a709df4cb774eeed56d710b"
+      },
+      "receiver_steps": 5703,
+      "first_receiver_stop_tick": null,
+      "step_records_after_receiver_stop": 0,
+      "selected_MRT_policy_id": null
+    },
+    {
+      "card": "SOURCE_SPEED_A0",
+      "outcome": "DYNAMIC_COMPLETE",
+      "eligible": true,
+      "violations": {},
+      "exception": null,
+      "audit": {
+        "outcome": "DYNAMIC_COMPLETE",
+        "ticks": 14703,
+        "trace": {
+          "status": "RECORDED_TRACE_CHECKS_PASS",
+          "native_step_records": 14703,
+          "STOP_observed": false,
+          "integrations_after_first_STOP": null
+        },
+        "receiver_stop_observed": false,
+        "owned_exits": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "survivors": [],
+        "child_absent": true,
+        "scene_guard_stop": false,
+        "physics_stops": 0,
+        "clean": true
+      },
+      "lease": "CLOSED",
+      "end": 14703,
+      "sha256": {
+        "EXECUTION_SPEC.json": "bd7dc86c31ac50d688fd2e3f63e9ed18c7418419857f9d4cfa10ffa8e0da2630",
+        "control/LEASE.json": "24d17c17efb6077ac25caa657a5345380c26adc9537d56d7d6d84a5a3c24afe1",
+        "RESULT.private.json": "ceedcc3f81ef6cf75f6a21f8f444d0ca017c87f558b5d1868d9c789d8bbc3cb9",
+        "AUDIT.json": "65d8dae43a40f33515ac9b17401670bc5002129bfcfd1b6068f5bff856b447de",
+        "NATIVE_REQUEST.json": "2e3f5d1a285665b620ce0bc4af25798a9e784ff8ddeb3d5ed9fba5633e58b56a",
+        "INITIAL.private.json": "ce38fe3153b36205f7f9370d7293105cbef58d030cddbb64e656dc872c6016ac",
+        "native-e496eefb13a34bc2a4ad8315ad5db020/state.bin.journal": "def9139c8df7e793648737c5bfb01d9e335613d318b06cfa16596e24758b3d84",
+        "native-e496eefb13a34bc2a4ad8315ad5db020/physics.jsonl": "a5ad1b40512122cafee49b263ab42866122a256f0c2b4e8b7bd6d3f4c1221dfe",
+        "native-e496eefb13a34bc2a4ad8315ad5db020/init.trace": "ed247f4bf1dafac49e3794337dd059dc97a1bbe2bcae9790baccc40ca1a76345",
+        "native-e496eefb13a34bc2a4ad8315ad5db020/planner.jsonl": "b0636cca8ebe88e214aca789335cd973a274380add500f2aa8d407f315239339",
+        "native-e496eefb13a34bc2a4ad8315ad5db020/MOBILE_SAMPLES.private.jsonl": "7556ab0eacb2d55ebeb0a2e5ae8c063e9de3d9d7edae9d7fff9237a3899e734f",
+        "student/receiver.csv": "d6094497206b6084d911d5150688f6613f2452cc21d331daad947889dcaa60fd",
+        "student/issuer.jsonl": "3d94ac879bf2f0b5f6412d8f968039df81553d3fbfa671981ef34bdfe491e62a",
+        "SERVO.private.jsonl": "c4086afa0deebe20bc43a048f63abfe2401d5cfd7e2f99427eaaa12471378068",
+        "DYNAMIC_ENTRY.json": "1e9e23d4a6b26cb138559d2eaffad03ff2970865c7c457fdc953c0e6261fc16d",
+        "DYNAMIC_WIRE.jsonl": "330dc42787e98b14b5cda1eeadad515bb1656c48d4d7c2ffa714875b3f421027",
+        "DYNAMIC_TRACK.npz": "6a96386e8c6295808c34aa4fafb88826ae21c6b017dcc5c675bb84b28f09236d"
+      },
+      "receiver_steps": 14703,
+      "first_receiver_stop_tick": null,
+      "step_records_after_receiver_stop": 0,
+      "selected_MRT_policy_id": null,
+      "entry_tick": 11203,
+      "primary_nominal_clock": "50 ms knots, linear XYZ and shortest SLERP at 2 ms; no lag adjustment",
+      "dwell_start": 10703,
+      "accepted_installed_wires": 70,
+      "verified_receding_echoes": 70,
+      "confirmed_atoms": 140,
+      "verified_four_foot_samples": 3501,
+      "achieved_to_nominal": {
+        "entry_error_xyz_mm": [
+          -1.4061234962337021,
+          0.2635441137770703,
+          -2.974555577262339
+        ],
+        "motion_mean_error_xyz_mm": [
+          -1.437596144123044,
+          0.2846278717475599,
+          -3.5799834643654704
+        ],
+        "motion_displacement_error_rms_mm_from_entry": 1.825923530068708,
+        "axis_shapes": {
+          "world_x": {
+            "relative_shape_score": 0.6921596766907574,
+            "signed_gain": 0.46163056578614997
+          },
+          "world_z": {
+            "relative_shape_score": 0.7991927967247856,
+            "signed_gain": 0.699108102486162
+          },
+          "world_pitch": {
+            "relative_shape_score": 0.8921495088898775,
+            "signed_gain": 0.8455633726844158
+          }
+        },
+        "positive_peak_delay_ms": {
+          "world_x": 62,
+          "world_z": 190,
+          "world_pitch": -206
+        },
+        "opposed_or_stationary_translation_ms": 178,
+        "hold": {
+          "count": 501,
+          "mm_rms_max": [
+            3.259776274321936,
+            3.3047044227524847
+          ],
+          "deg_rms_max": [
+            0.11640672603407916,
+            0.12510807957408587
+          ],
+          "xyz_rms_mm": [
+            1.3684376370143285,
+            0.2826636625915249,
+            2.9451011945407206
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.008868985010786713,
+            0.11578359483485223,
+            0.008125646926269072
+          ],
+          "in_tube": 1.0,
+          "last_mm_deg": [
+            3.238236971984256,
+            0.11009203065137876
+          ]
+        },
+        "motion": {
+          "count": 2001,
+          "mm_rms_max": [
+            4.2343826070472526,
+            6.740651708906145
+          ],
+          "deg_rms_max": [
+            0.2498284804057781,
+            0.5574949968179782
+          ],
+          "xyz_rms_mm": [
+            1.8925350804732273,
+            0.2894269221603806,
+            3.77684247603355
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.010254773892266037,
+            0.24952379510697154,
+            0.006854553938293654
+          ],
+          "in_tube": 0.631184407796102,
+          "last_mm_deg": [
+            3.380615329870656,
+            0.12262709574392752
+          ]
+        },
+        "park": {
+          "count": 1001,
+          "mm_rms_max": [
+            3.3426268266291714,
+            3.5171272527241366
+          ],
+          "deg_rms_max": [
+            0.12154760727650868,
+            0.13144444615076112
+          ],
+          "xyz_rms_mm": [
+            1.4679683439939408,
+            0.2569813937747409,
+            2.992019987631482
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.005707220668781,
+            0.121385901438041,
+            0.002590636785895122
+          ],
+          "in_tube": 1.0,
+          "last_mm_deg": [
+            3.2900317963264403,
+            0.12583954849848783
+          ]
+        },
+        "final_one_second": {
+          "count": 501,
+          "mm_rms_max": [
+            3.315994093177529,
+            3.412031350364115
+          ],
+          "deg_rms_max": [
+            0.12352446277820951,
+            0.13144444615076112
+          ],
+          "xyz_rms_mm": [
+            1.4130001002148507,
+            0.2963330565850609,
+            2.985202549636463
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.006702040044169212,
+            0.12333527036864525,
+            0.001336655148043478
+          ],
+          "in_tube": 1.0,
+          "last_mm_deg": [
+            3.2900317963264403,
+            0.12583954849848783
+          ]
+        },
+        "translation": {
+          "relative_shape_score": 0.7555529175859483,
+          "signed_gain": 0.6027867773172083
+        },
+        "rotation": {
+          "relative_shape_score": 0.8919271011082066,
+          "signed_gain": 0.8455633726844158
+        },
+        "motion_excursion_mm": 5.777192470216901,
+        "motion_excursion_deg": 0.8928520712026112
+      },
+      "issued_to_nominal": {
+        "entry_error_xyz_mm": [
+          16.67290970289004,
+          2.02003997494438,
+          30.122143700850646
+        ],
+        "motion_mean_error_xyz_mm": [
+          16.672909702890312,
+          2.020039974944305,
+          30.12214370084997
+        ],
+        "motion_displacement_error_rms_mm_from_entry": 1.8024772479847675e-14,
+        "axis_shapes": {
+          "world_x": {
+            "relative_shape_score": 1.0,
+            "signed_gain": 1.0000000000000007
+          },
+          "world_z": {
+            "relative_shape_score": 1.0,
+            "signed_gain": 1.0000000000000007
+          },
+          "world_pitch": {
+            "relative_shape_score": 1.0,
+            "signed_gain": 1.0000000000000007
+          }
+        },
+        "positive_peak_delay_ms": {
+          "world_x": 0,
+          "world_z": 0,
+          "world_pitch": 0
+        },
+        "opposed_or_stationary_translation_ms": 0,
+        "hold": {
+          "count": 501,
+          "mm_rms_max": [
+            34.48782423690707,
+            34.487824236907066
+          ],
+          "deg_rms_max": [
+            2.1099612097960594,
+            2.1099612097960603
+          ],
+          "xyz_rms_mm": [
+            16.672909702890117,
+            2.020039974944377,
+            30.12214370085052
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.4079409601944506,
+            2.056167800595915,
+            0.24019670195944023
+          ],
+          "in_tube": 0.0,
+          "last_mm_deg": [
+            34.487824236907066,
+            2.1099612097960594
+          ]
+        },
+        "motion": {
+          "count": 2001,
+          "mm_rms_max": [
+            34.48782423690707,
+            34.48782423690719
+          ],
+          "deg_rms_max": [
+            2.1099612097960603,
+            2.109961209796066
+          ],
+          "xyz_rms_mm": [
+            16.672909702889818,
+            2.020039974944433,
+            30.12214370085019
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.40793046772533054,
+            2.0561678005959054,
+            0.24021452108054456
+          ],
+          "in_tube": 0.0,
+          "last_mm_deg": [
+            34.487824236907066,
+            2.1099612097960585
+          ]
+        },
+        "park": {
+          "count": 1001,
+          "mm_rms_max": [
+            34.487824236907066,
+            34.487824236907066
+          ],
+          "deg_rms_max": [
+            2.109961209796059,
+            2.1099612097960594
+          ],
+          "xyz_rms_mm": [
+            16.672909702890106,
+            2.020039974944377,
+            30.122143700850796
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.4079409601944472,
+            2.0561678005959085,
+            0.24019670195944257
+          ],
+          "in_tube": 0.0,
+          "last_mm_deg": [
+            34.487824236907066,
+            2.1099612097960594
+          ]
+        },
+        "final_one_second": {
+          "count": 501,
+          "mm_rms_max": [
+            34.48782423690707,
+            34.487824236907066
+          ],
+          "deg_rms_max": [
+            2.1099612097960594,
+            2.1099612097960594
+          ],
+          "xyz_rms_mm": [
+            16.672909702890117,
+            2.020039974944377,
+            30.12214370085052
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.4079409601944506,
+            2.056167800595915,
+            0.24019670195944023
+          ],
+          "in_tube": 0.0,
+          "last_mm_deg": [
+            34.487824236907066,
+            2.1099612097960594
+          ]
+        },
+        "translation": {
+          "relative_shape_score": 1.0,
+          "signed_gain": 1.0000000000000007
+        },
+        "rotation": {
+          "relative_shape_score": 1.0,
+          "signed_gain": 1.0000000000000007
+        },
+        "motion_excursion_mm": 7.639437268410987,
+        "motion_excursion_deg": 0.8750017476243608
+      },
+      "achieved_to_issued": {
+        "entry_error_xyz_mm": [
+          -18.07903319912374,
+          -1.7564958611673096,
+          -33.096699278112986
+        ],
+        "motion_mean_error_xyz_mm": [
+          -18.110505847013055,
+          -1.7354121031968235,
+          -33.702127165216126
+        ],
+        "motion_displacement_error_rms_mm_from_entry": 1.8259235300687107,
+        "axis_shapes": {
+          "world_x": {
+            "relative_shape_score": 0.6921596766907572,
+            "signed_gain": 0.46163056578614975
+          },
+          "world_z": {
+            "relative_shape_score": 0.7991927967247848,
+            "signed_gain": 0.6991081024861612
+          },
+          "world_pitch": {
+            "relative_shape_score": 0.8921495088898775,
+            "signed_gain": 0.8455633726844152
+          }
+        },
+        "positive_peak_delay_ms": {
+          "world_x": 62,
+          "world_z": 190,
+          "world_pitch": -206
+        },
+        "opposed_or_stationary_translation_ms": 178,
+        "hold": {
+          "count": 501,
+          "mm_rms_max": [
+            37.708680608990846,
+            37.756323125675124
+          ],
+          "deg_rms_max": [
+            1.9946682506876248,
+            2.0074437529874123
+          ],
+          "xyz_rms_mm": [
+            18.041282122218707,
+            1.7374823883575117,
+            33.0671723557903
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.39898120577636376,
+            1.9404982563941457,
+            0.23234014863933491
+          ],
+          "in_tube": 0.0,
+          "last_mm_deg": [
+            37.68791661818468,
+            2.0008222722844304
+          ]
+        },
+        "motion": {
+          "count": 2001,
+          "mm_rms_max": [
+            38.33798992411804,
+            41.19748832785767
+          ],
+          "deg_rms_max": [
+            1.934580943433663,
+            2.1093236883287263
+          ],
+          "xyz_rms_mm": [
+            18.15228438494503,
+            1.7362056576966023,
+            33.72360646407855
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.39918454585557145,
+            1.878178524656161,
+            0.23600964930945434
+          ],
+          "in_tube": 0.0,
+          "last_mm_deg": [
+            37.85017137534119,
+            1.9905892857758019
+          ]
+        },
+        "park": {
+          "count": 1001,
+          "mm_rms_max": [
+            37.79810696977783,
+            37.983245753609964
+          ],
+          "deg_rms_max": [
+            1.991351659759368,
+            2.0200827868581097
+          ],
+          "xyz_rms_mm": [
+            18.13964612593474,
+            1.7684691383162743,
+            33.11378332101982
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.40214948702518455,
+            1.9351476107152712,
+            0.24281875474259745
+          ],
+          "in_tube": 0.0,
+          "last_mm_deg": [
+            37.73368472228058,
+            1.9862979557146263
+          ]
+        },
+        "final_one_second": {
+          "count": 501,
+          "mm_rms_max": [
+            37.76437075905949,
+            37.85187332205034
+          ],
+          "deg_rms_max": [
+            1.9889409217977805,
+            2.009751499112882
+          ],
+          "xyz_rms_mm": [
+            18.085720130386598,
+            1.7245104818456027,
+            33.10710633370184
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.40097572278460025,
+            1.9330423975178348,
+            0.24176755269819294
+          ],
+          "in_tube": 0.0,
+          "last_mm_deg": [
+            37.73368472228058,
+            1.9862979557146263
+          ]
+        },
+        "translation": {
+          "relative_shape_score": 0.7555529175859478,
+          "signed_gain": 0.6027867773172075
+        },
+        "rotation": {
+          "relative_shape_score": 0.8919271011082066,
+          "signed_gain": 0.8455633726844154
+        },
+        "motion_excursion_mm": 5.777192470216901,
+        "motion_excursion_deg": 0.8928520712026112
+      },
+      "constant_to_nominal": {
+        "entry_error_xyz_mm": [
+          -1.4061234962337021,
+          0.2635441137770703,
+          -2.974555577262339
+        ],
+        "motion_mean_error_xyz_mm": [
+          -1.4061234962337053,
+          0.2635441137770708,
+          -5.233724152263012
+        ],
+        "motion_displacement_error_rms_mm_from_entry": 4.151797780767891,
+        "axis_shapes": {
+          "world_x": {
+            "relative_shape_score": 0.0,
+            "signed_gain": 0.0
+          },
+          "world_z": {
+            "relative_shape_score": 0.0,
+            "signed_gain": 0.0
+          },
+          "world_pitch": {
+            "relative_shape_score": 0.0,
+            "signed_gain": 0.0
+          }
+        },
+        "positive_peak_delay_ms": {
+          "world_x": null,
+          "world_z": null,
+          "world_pitch": null
+        },
+        "opposed_or_stationary_translation_ms": 4000,
+        "hold": {
+          "count": 501,
+          "mm_rms_max": [
+            3.300699875600555,
+            3.300699875600555
+          ],
+          "deg_rms_max": [
+            0.11332135485613469,
+            0.11332135485613468
+          ],
+          "xyz_rms_mm": [
+            1.406123496233708,
+            0.26354411377707054,
+            2.9745555772623478
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.009024863483834626,
+            0.11265511097996318,
+            0.00831307858861106
+          ],
+          "in_tube": 1.0,
+          "last_mm_deg": [
+            3.300699875600555,
+            0.11332135485613468
+          ]
+        },
+        "motion": {
+          "count": 2001,
+          "mm_rms_max": [
+            6.447642162113743,
+            10.757215657058294
+          ],
+          "deg_rms_max": [
+            0.5209010924798269,
+            0.9877330726763014
+          ],
+          "xyz_rms_mm": [
+            2.6265160389585693,
+            0.26354411377706893,
+            5.882520501269295
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.009024879741976749,
+            0.5207565570611861,
+            0.008313120358784632
+          ],
+          "in_tube": 0.4387806096951524,
+          "last_mm_deg": [
+            3.300699875600555,
+            0.11332135485613468
+          ]
+        },
+        "park": {
+          "count": 1001,
+          "mm_rms_max": [
+            3.300699875600555,
+            3.300699875600555
+          ],
+          "deg_rms_max": [
+            0.11332135485613469,
+            0.11332135485613468
+          ],
+          "xyz_rms_mm": [
+            1.4061234962336933,
+            0.26354411377706805,
+            2.9745555772623264
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.00902486348383455,
+            0.11265511097996223,
+            0.008313078588611024
+          ],
+          "in_tube": 1.0,
+          "last_mm_deg": [
+            3.300699875600555,
+            0.11332135485613468
+          ]
+        },
+        "final_one_second": {
+          "count": 501,
+          "mm_rms_max": [
+            3.300699875600555,
+            3.300699875600555
+          ],
+          "deg_rms_max": [
+            0.11332135485613469,
+            0.11332135485613468
+          ],
+          "xyz_rms_mm": [
+            1.406123496233708,
+            0.26354411377707054,
+            2.9745555772623478
+          ],
+          "xyz_rotation_vector_rms_deg": [
+            0.009024863483834626,
+            0.11265511097996318,
+            0.00831307858861106
+          ],
+          "in_tube": 1.0,
+          "last_mm_deg": [
+            3.300699875600555,
+            0.11332135485613468
+          ]
+        },
+        "translation": {
+          "relative_shape_score": 0.0,
+          "signed_gain": 0.0
+        },
+        "rotation": {
+          "relative_shape_score": 0.0,
+          "signed_gain": 0.0
+        },
+        "motion_excursion_mm": 0.0,
+        "motion_excursion_deg": 0.0
+      }
+    }
+  ],
+  "unstarted": [],
+  "native_ticks": 40762,
+  "model_forwards": 0,
+  "training_updates": 0
+}

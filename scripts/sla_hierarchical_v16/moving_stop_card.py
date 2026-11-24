@@ -103,78 +103,22 @@ def groups_alive(group_ids):
     return sorted(found)
 
 
-def run_case(root, spec, sp, prepared):
-    """Called by the allocation owner inside its exclusive world lock and active case lease."""
+def receiver_adapter(
+    base,
+    spec,
+    case,
+    out,
+    channel,
+    epoch,
+    result,
+    *,
+    grant_cap,
+    fault_grant=None,
+    fault_expiry=None,
+):
     from b2_native import TechnicalAdapter, paused
-    from clock_guard import new_receiver_output
-    from d3_known_path_preview import sweep_path
-    from go2arx5_vla.world_model.mobile_safety_profile_v1 import binding
     from go2arx5_vla.world_model.target_sequential import owned_simulator_pid
     from grip_card import emit
-    from go2arx5_vla.world_model.mobile_wbc_reference_v1 import full_eef_gate
-    from scripts.pi0291_arx5_data.native_dataset import pose10
-    from feedback import OPEN
-    import numpy as np
-    from native_known import atom_receipt, install, read_line, window
-    from native_owner import eligibility
-    from scripts.wm02 import mobile_boundary_runner_v1 as mobile
-
-    case = sp.parent
-    lease = mobile.registered(spec, sp)
-    base, pins, receiver, anchors, limits = prepared
-    require(
-        case.name == CARD
-        and spec["b2_card"] == CARD
-        and spec["b2_code"] == pins
-        and spec["max_ticks"] == 6503
-        and Path(spec["outer_library"]) == receiver
-        and Path(spec["registered_root"]) == case
-        and spec["frozen_files"].get(str(receiver)) == sha(receiver),
-        "no matching V3 allocation",
-    )
-    for k in (
-        "native_binary",
-        "solver_binary",
-        "controller_binary",
-        "model_path",
-        "mobile_safety_library",
-        "observer_library",
-        "trace_library",
-        "source_sha",
-        "source_root",
-        "ROS_DOMAIN_ID",
-        "physics_dt_s",
-    ):
-        require(spec[k] == base[k], "runtime differs: " + k)
-    require(
-        all(spec["frozen_files"].get(p) == v for p, v in base["frozen_files"].items()),
-        "freeze manifest differs",
-    )
-    require(
-        not (case / "NATIVE_REQUEST.json").exists(), "existing request on this lease"
-    )
-    out = new_receiver_output(case)
-    channel = case / "student"
-    channel.mkdir(mode=0o700)
-    epoch = secrets.token_hex(32)
-    record(
-        channel / "authority.json",
-        dict(
-            epoch=epoch,
-            owner=lease["owner"],
-            episode=out.name,
-            receiver_sha256=sha(receiver),
-            lease_at_start_sha256=sha(case / "control/LEASE.json"),
-        ),
-    )
-    result = dict(
-        card=CARD,
-        episode=out.name,
-        eligible=False,
-        outcome="TECHNICAL_STOP",
-        last_requested_tick=0,
-    )
-    record(case / "NATIVE_REQUEST.json", dict(card=CARD, cap=6503, episode=out.name))
 
     class Adapter(TechnicalAdapter):
         def launch(self, argv, name, env):
@@ -183,14 +127,14 @@ def run_case(root, spec, sp, prepared):
                     env,
                     V16_GRIP_DIR=str(channel),
                     V16_GRIP_EPOCH=epoch,
-                    V16_GRIP_STOP_TICK="6503",
+                    V16_GRIP_STOP_TICK=str(spec["max_ticks"]),
                 )
             super().launch(argv, name, env)
 
         def advance_to(self, ticks):
             if ticks > 2503:
                 require(
-                    result["last_requested_tick"] < ticks <= FAULT_GRANT,
+                    result["last_requested_tick"] < ticks <= grant_cap,
                     "no subsequent native grant",
                 )
                 tick = ticks - 25
@@ -261,14 +205,99 @@ def run_case(root, spec, sp, prepared):
                     seq,
                     before["time_s"],
                     opening_m=0.042,
-                    expiry_s=6438.5 * 0.002
-                    if ticks == FAULT_GRANT
+                    expiry_s=fault_expiry
+                    if ticks == fault_grant
                     else before["time_s"] + 0.399,
                 )
             result["last_requested_tick"] = ticks
             return super().advance_to(ticks)
 
-    a = Adapter(spec, out)
+    return Adapter(spec, out)
+
+
+def run_case(root, spec, sp, prepared):
+    """Called by the allocation owner inside its exclusive world lock and active case lease."""
+    from b2_native import paused
+    from clock_guard import new_receiver_output
+    from d3_known_path_preview import sweep_path
+    from go2arx5_vla.world_model.mobile_safety_profile_v1 import binding
+    from go2arx5_vla.world_model.mobile_wbc_reference_v1 import full_eef_gate
+    from scripts.pi0291_arx5_data.native_dataset import pose10
+    from feedback import OPEN
+    import numpy as np
+    from native_known import atom_receipt, install, read_line, window
+    from native_owner import eligibility
+    from scripts.wm02 import mobile_boundary_runner_v1 as mobile
+
+    case = sp.parent
+    lease = mobile.registered(spec, sp)
+    base, pins, receiver, anchors, limits = prepared
+    require(
+        case.name == CARD
+        and spec["b2_card"] == CARD
+        and spec["b2_code"] == pins
+        and spec["max_ticks"] == 6503
+        and Path(spec["outer_library"]) == receiver
+        and Path(spec["registered_root"]) == case
+        and spec["frozen_files"].get(str(receiver)) == sha(receiver),
+        "no matching V3 allocation",
+    )
+    for k in (
+        "native_binary",
+        "solver_binary",
+        "controller_binary",
+        "model_path",
+        "mobile_safety_library",
+        "observer_library",
+        "trace_library",
+        "source_sha",
+        "source_root",
+        "ROS_DOMAIN_ID",
+        "physics_dt_s",
+    ):
+        require(spec[k] == base[k], "runtime differs: " + k)
+    require(
+        all(spec["frozen_files"].get(p) == v for p, v in base["frozen_files"].items()),
+        "freeze manifest differs",
+    )
+    require(
+        not (case / "NATIVE_REQUEST.json").exists(), "existing request on this lease"
+    )
+    out = new_receiver_output(case)
+    channel = case / "student"
+    channel.mkdir(mode=0o700)
+    epoch = secrets.token_hex(32)
+    record(
+        channel / "authority.json",
+        dict(
+            epoch=epoch,
+            owner=lease["owner"],
+            episode=out.name,
+            receiver_sha256=sha(receiver),
+            lease_at_start_sha256=sha(case / "control/LEASE.json"),
+        ),
+    )
+    result = dict(
+        card=CARD,
+        episode=out.name,
+        eligible=False,
+        outcome="TECHNICAL_STOP",
+        last_requested_tick=0,
+    )
+    record(case / "NATIVE_REQUEST.json", dict(card=CARD, cap=6503, episode=out.name))
+
+    a = receiver_adapter(
+        base,
+        spec,
+        case,
+        out,
+        channel,
+        epoch,
+        result,
+        grant_cap=FAULT_GRANT,
+        fault_grant=FAULT_GRANT,
+        fault_expiry=6438.5 * 0.002,
+    )
     try:
         a.start()
         parts, sample, seq, _, match = eligibility(a, case, anchors, limits, None)

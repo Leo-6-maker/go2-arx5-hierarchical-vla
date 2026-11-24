@@ -1,0 +1,22 @@
+{
+  "A1_total_increment_limit_mm": 0.4,
+  "A1_total_increment_limit_deg": 0.06,
+  "clock_ms": 100,
+  "conditions": {
+    "SLOW": {
+      "movement_intervals": 40,
+      "max_100ms_translation_mm": 0.3978968555897401,
+      "max_100ms_rotation_deg": 0.0590406794765821,
+      "count_exceeding_A1_translation_increment": 0,
+      "count_exceeding_A1_rotation_increment": 0
+    },
+    "SOURCE_SPEED": {
+      "movement_intervals": 40,
+      "max_100ms_translation_mm": 1.1190849063461437,
+      "max_100ms_rotation_deg": 0.2537086315194609,
+      "count_exceeding_A1_translation_increment": 26,
+      "count_exceeding_A1_rotation_increment": 24
+    }
+  },
+  "interpretation": "Exact consecutive nominal endpoints under the existing feedback-only total-increment cap. This is not a lower bound on tube error or an A1 measurement."
+}

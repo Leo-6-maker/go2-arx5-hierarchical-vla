@@ -1,0 +1,31 @@
+{
+  "id": "D1-A1-COVERAGE-01",
+  "status": "REQUEST_ONLY",
+  "question": "Can the original feedback-only A1 execute the two registered moving curves from the qualified standing stratum?",
+  "parent": "#472 closed unchanged with 0 eligible A1 cards. Independent cohort, no replacements or pooled success rate.",
+  "conditions": [
+    "SLOW_A1",
+    "SOURCE_SPEED_A1"
+  ],
+  "reset_slots": [
+    "A1C-01",
+    "A1C-02",
+    "A1C-03",
+    "A1C-04",
+    "A1C-05",
+    "A1C-06",
+    "A1C-07",
+    "A1C-08"
+  ],
+  "assignment": "Lock all eight starts before the first reset. Test original B2 initial tolerances prior to revealing any rate. Assign the next eligible slot SLOW_A1, SOURCE_SPEED_A1, repeating this fixed order. A screened start consumes its own reset slot and advances no rate index. Each eligible start consumes its rate index even on failure. No replacement. Do not stop on a favourable performance result.",
+  "execution": "Same scene, seed, open 42 mm, F2 bounded settling, actual consumed entry, frozen registered A1, 2 ms STOP and 0.4 s TTL. One fresh lease per card. Cap-only receiver SHA 7a0d94a7cd39e468107525e7415936cceeebb931eeef2d70f7d65f067020039d.",
+  "scores": "Identical #471 50 ms nominal knots interpolated at native 2 ms, absolute tube through all phases, Q and gain for both channels, issued-vs-nominal/achieved-vs-issued, historical no-motion controls; no lag optimization. Compare actual eligible A1 to external A0 history descriptively only. No fixed minimum actual enrollments and no downstream student qualification from this mechanism cohort alone.",
+  "stop": "Group stop on unsafe contact, unexpected STOP or post-STOP integration. Preserve faults, screens and remaining unused slots. Preflight must verify eligible-rank assignment before a fresh lease.",
+  "maximum_native_starts": 8,
+  "maximum_ticks_per_start": 21203,
+  "maximum_total_ticks": 169624,
+  "model_forwards": 0,
+  "training_updates": 0,
+  "contact": false,
+  "scientifically_allocated": false
+}
