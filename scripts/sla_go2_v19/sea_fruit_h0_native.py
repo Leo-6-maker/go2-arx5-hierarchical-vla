@@ -103,7 +103,7 @@ def remember_event(events, name, sample, prior):
                             last_consumed=prior)
 
 
-def drive(adapter, case, result, *, measured_anchor=False):
+def drive(adapter, case, result, *, measured_anchor=False, teacher_class=MultitaskTeacher):
     adapter.prepare_dynamic()
     out = adapter.output
     require(read(out / "GUARD_READY.json") == {
@@ -194,7 +194,7 @@ def drive(adapter, case, result, *, measured_anchor=False):
         score = StationaryHoldScore(model, geometry, stance_origin=stance_origin)
         score.update_packet(packet)
         stage_clock = StageClock(tick)
-        teacher = MultitaskTeacher(initial, {"family": "F1", "mode": "M_ASSIST"}, geometry, "HOLD-red")
+        teacher = teacher_class(initial, {"family": "F1", "mode": "M_ASSIST"}, geometry, "HOLD-red")
         result["entry_tick"] = tick
         ended = "H0_BUDGET_EXHAUSTED"
         for query in range(MAX_QUERIES):

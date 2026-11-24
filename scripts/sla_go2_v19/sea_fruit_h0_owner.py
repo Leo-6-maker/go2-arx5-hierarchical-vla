@@ -28,6 +28,7 @@ from sea_fruit_receiver import CAP
 REPORT = BASE / "reports/SLA_GO2_V193/GRIP_H0"
 CAMPAIGN = "V193-STANDING-FRUIT-H0-01"
 ANCHOR_CAMPAIGN = "V193-STANDING-FRUIT-H0-ANCHOR-01"
+COMPACT_CAMPAIGN = "V193-COMPACT-FRUIT-H0-01"
 SLOTS = ("G00-H0", "G01-H0")
 LIMITS = dict(native_starts=2, ticks_per_start=CAP, total_ticks=2*CAP,
               mujoco_only=True, contact=True, frozen_model_forwards=0, training_updates=0)
@@ -35,7 +36,7 @@ RUNTIME = ("native_binary", "solver_binary", "controller_binary", "observer_libr
            "mobile_safety_library", "trace_library")
 
 
-def site_binding(root, fruit, receiver_root, *, measured_anchor=False):
+def site_binding(root, fruit, receiver_root, *, measured_anchor=False, compact=None):
     scene_receipt = read(REPORT / "FRUIT_SCENES_CPU.json")
     require(read(pin(fruit / "RESULT.json", sha(REPORT / "FRUIT_SCENES_CPU.json"))) == scene_receipt,
             "scene receipt changed")
@@ -104,6 +105,30 @@ def site_binding(root, fruit, receiver_root, *, measured_anchor=False):
             prior_closed_panel_sha256=sha(REPORT / "FRUIT_H0_ACTUAL.json"),
         )
         binding["code"]["sea_stance_anchor.py"] = sha(Path(__file__).with_name("sea_stance_anchor.py"))
+    if compact is not None:
+        from sea_compact_workspace import PROFILE
+
+        require(not measured_anchor, "compact case uses the original BASE anchor")
+        proof_path = REPORT / "COMPACT_FINAL_CPU.json"
+        candidate = read(proof_path)
+        screen_path = pin(compact / "SCREEN.json", candidate["screen_sha256"])
+        screen = read(screen_path)
+        require(candidate["status"] == "STATIC_COMPACT_HOLD_AND_OPTICS_VERIFIED"
+                and candidate["profile"] == PROFILE and candidate["new_integrations"] == 0
+                and screen["status"] == "TWO_STATIC_LAYOUTS_SELECTED", "compact proof is missing")
+        new_rows = []
+        for slot, base, _, _ in rows:
+            name = slot[:3]
+            desc = screen["selected"][name]
+            expected = candidate["slots"][name]["scene_sha256"]
+            require(desc["scene_sha256"] == expected, "compact scene and final proof differ")
+            new_rows.append((slot, base, pin(compact / f"{name}.mjb", expected), desc))
+        rows = new_rows
+        binding.update(campaign=COMPACT_CAMPAIGN, compact_profile=PROFILE,
+                       compact_proof_sha256=sha(proof_path), compact_screen_sha256=sha(screen_path),
+                       compiled_scene_sha256=[r[3]["scene_sha256"] for r in rows])
+        for name in ("sea_compact_teacher.py", "sea_compact_workspace.py"):
+            binding["code"][name] = sha(Path(__file__).with_name(name))
     return binding, rows, receiver, runtime_pins
 
 
@@ -217,6 +242,10 @@ def launch(root, binding, rows, receiver, runtime_pins, allocation):
     base = rows[0][1]
     dest = root / "v19" / campaign
     task_driver = partial(drive, measured_anchor=True) if campaign == ANCHOR_CAMPAIGN else drive
+    if campaign == COMPACT_CAMPAIGN:
+        from sea_compact_teacher import CompactWorkspaceTeacher
+
+        task_driver = partial(drive, teacher_class=CompactWorkspaceTeacher)
     prefix = None
     if allocation.get("continue_after") is not None:
         require(campaign == CAMPAIGN, "closed-card continuation belongs to the old profile")
@@ -281,12 +310,14 @@ if __name__ == "__main__":
     cli.add_argument("--allocation", type=Path)
     cli.add_argument("--allocation-sha256")
     cli.add_argument("--closed-prefix", action="store_true")
-    cli.add_argument("--measured-anchor", action="store_true")
+    profile = cli.add_mutually_exclusive_group()
+    profile.add_argument("--measured-anchor", action="store_true")
+    profile.add_argument("--compact", type=Path)
     args = cli.parse_args()
     os.umask(0o077)
     site = args.site.resolve()
     prepared = site_binding(site, args.fruit.resolve(), args.receiver.resolve(),
-                            measured_anchor=args.measured_anchor)
+                            measured_anchor=args.measured_anchor, compact=args.compact)
     if args.closed_prefix:
         require(args.allocation is None, "read-only continuation audit")
         print(json.dumps(dict(status="CPU_OWNER_BOUND", binding=prepared[0],

@@ -1,0 +1,202 @@
+{
+  "status": "STATIC_COMPACT_HOLD_AND_OPTICS_VERIFIED",
+  "profile": "FRUIT_COMPACT_STANCE_01",
+  "screen_sha256": "5def65d2442e893d905c4d4d93fe17965194aa4f1064cd5e66944e7266b0ed18",
+  "slots": {
+    "G00": {
+      "status": "STATIC_WORKSPACE_PASSES",
+      "parent_role_is_fruit": false,
+      "entry_tick": 6203,
+      "source_journal_sha256": "a3208272ed83bdf4cbc830bed5ab0c6d2729d9575aec9554eedb20ed7c26658f",
+      "launch_state_fixture_replayed": {
+        "archived_startup_ticks": 6203,
+        "last_501_min_robot_object_clearance_mm": 28.77468565406366,
+        "forbidden_scene_contacts": 0
+      },
+      "poses_world_m": {
+        "start": [
+          0.2587941142588356,
+          -0.013603748444067322,
+          0.7086139891803985
+        ],
+        "hover": [
+          0.27823396282344304,
+          -0.018671991291337797,
+          0.691357877153738
+        ],
+        "close": [
+          0.27823396282344304,
+          -0.018671991291337797,
+          0.669357877153738
+        ],
+        "lift": [
+          0.27823396282344304,
+          -0.018671991291337797,
+          0.695357877153738
+        ]
+      },
+      "maximum_TCP_excursion_mm": 44.09803997031505,
+      "geometry": {
+        "approach": {
+          "h40_windows": 4,
+          "static_samples": 4004,
+          "maximum_joint_speed_rad_s": 0.0374404705755553,
+          "maximum_joint_acceleration_rad_s2": 0.017506372230493006
+        },
+        "descent": {
+          "h40_windows": 3,
+          "static_samples": 3003,
+          "maximum_joint_speed_rad_s": 0.030230887273071938,
+          "maximum_joint_acceleration_rad_s2": 0.01722539811919166
+        },
+        "lift": {
+          "h40_windows": 4,
+          "static_samples": 4004,
+          "maximum_joint_speed_rad_s": 0.030050882481100633,
+          "maximum_joint_acceleration_rad_s2": 0.020166992233164663
+        },
+        "hold": {
+          "h40_windows": 1,
+          "static_samples": 1001,
+          "maximum_joint_speed_rad_s": 0.000525661212967786,
+          "maximum_joint_acceleration_rad_s2": 0.010513224259516701
+        }
+      },
+      "opposing_contacts_are_geometric_only": true,
+      "close_geometry": {
+        "nominal_per_finger_slide_mm": 26.000000000000004,
+        "pad_signed_distances_mm": [
+          -0.17695224702281298,
+          -1.1349219895145506
+        ]
+      },
+      "scene_sha256": "b6921ea3d624e15f5b9153e82d1ca3f6cf68980315bcf82b58845bc2fc59f914",
+      "camera_frusta": {
+        "body": {
+          "target_center_in_frame": true,
+          "depth_mm": 297.65261792668116,
+          "center_px": [
+            132.8047437207861,
+            133.14337754884895
+          ]
+        },
+        "wrist": {
+          "target_center_in_frame": true,
+          "depth_mm": 157.0732027068429,
+          "center_px": [
+            87.11065155120386,
+            136.09407473232167
+          ]
+        },
+        "auxiliary": {
+          "target_center_in_frame": true,
+          "depth_mm": 304.4199670502486,
+          "center_px": [
+            346.84697252094895,
+            227.24984941136609
+          ]
+        }
+      }
+    },
+    "G01": {
+      "status": "STATIC_WORKSPACE_PASSES",
+      "parent_role_is_fruit": true,
+      "entry_tick": 6203,
+      "source_journal_sha256": "40d943cf45d2f133dfb9fc9f454a94e18f46cc6fce21adc2e4748ae5992984d6",
+      "launch_state_fixture_replayed": {
+        "archived_startup_ticks": 6203,
+        "last_501_min_robot_object_clearance_mm": 25.19125584385956,
+        "forbidden_scene_contacts": 0
+      },
+      "poses_world_m": {
+        "start": [
+          0.2587406990182655,
+          -0.01361802869007567,
+          0.7088294883332543
+        ],
+        "hover": [
+          0.2782327276489129,
+          -0.000671721992584411,
+          0.6913517018879182
+        ],
+        "close": [
+          0.2782327276489129,
+          -0.000671721992584411,
+          0.6693517018879181
+        ],
+        "lift": [
+          0.2782327276489129,
+          -0.000671721992584411,
+          0.6953517018879182
+        ]
+      },
+      "maximum_TCP_excursion_mm": 45.89162951854131,
+      "geometry": {
+        "approach": {
+          "h40_windows": 4,
+          "static_samples": 4004,
+          "maximum_joint_speed_rad_s": 0.03524723637637478,
+          "maximum_joint_acceleration_rad_s2": 0.014979796507657399
+        },
+        "descent": {
+          "h40_windows": 3,
+          "static_samples": 3003,
+          "maximum_joint_speed_rad_s": 0.030284665635720992,
+          "maximum_joint_acceleration_rad_s2": 0.017258332435343693
+        },
+        "lift": {
+          "h40_windows": 4,
+          "static_samples": 4004,
+          "maximum_joint_speed_rad_s": 0.030103223340730706,
+          "maximum_joint_acceleration_rad_s2": 0.02024325384913702
+        },
+        "hold": {
+          "h40_windows": 1,
+          "static_samples": 1001,
+          "maximum_joint_speed_rad_s": 0.0005288217987311529,
+          "maximum_joint_acceleration_rad_s2": 0.010576435974458606
+        }
+      },
+      "opposing_contacts_are_geometric_only": true,
+      "close_geometry": {
+        "nominal_per_finger_slide_mm": 26.000000000000004,
+        "pad_signed_distances_mm": [
+          -0.1774101299829023,
+          -1.1309776922739516
+        ]
+      },
+      "scene_sha256": "fba127089641f0a854ccc8c23c310e20a155a0c61b76bc826daa165c417eb264",
+      "camera_frusta": {
+        "body": {
+          "target_center_in_frame": true,
+          "depth_mm": 312.60495389654113,
+          "center_px": [
+            127.97315176127336,
+            130.15914919413123
+          ]
+        },
+        "wrist": {
+          "target_center_in_frame": true,
+          "depth_mm": 143.64678274238833,
+          "center_px": [
+            72.5607078180245,
+            127.92930693054927
+          ]
+        },
+        "auxiliary": {
+          "target_center_in_frame": true,
+          "depth_mm": 292.6617778656352,
+          "center_px": [
+            334.380090798012,
+            232.12093810944484
+          ]
+        }
+      }
+    }
+  },
+  "new_rendered_frames": 0,
+  "frozen_model_forwards": 0,
+  "new_integrations": 0,
+  "visibility_is_projection_only": true,
+  "native_qualified": false
+}
