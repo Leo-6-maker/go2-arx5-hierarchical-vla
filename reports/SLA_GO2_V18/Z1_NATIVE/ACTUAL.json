@@ -1,0 +1,416 @@
+{
+  "issue": 483,
+  "native_requests": 4,
+  "predecessor_qualification": "198bb6d90b4310e4e72a1a9250c62496b78e472fccec79a8fedeffb083f1a06e",
+  "native_ticks": 35812,
+  "frozen_forwards": 3,
+  "returned": 3,
+  "training_updates": 0,
+  "cases": [
+    {
+      "slot": "G00-H0",
+      "outcome": "H0_PASS",
+      "completed": true,
+      "ticks": 8453,
+      "entry_tick": 6203,
+      "lease_closed": true,
+      "no_survivors": true,
+      "exit_codes": {
+        "planner": 0,
+        "controller": 0,
+        "solver": 0,
+        "sim": 0
+      },
+      "forwards": 0,
+      "returns": 0,
+      "queries": [],
+      "task_reference_installs": 45,
+      "post_entry_intervals": 90,
+      "solver_echoed_all": true,
+      "refusal": null,
+      "student": null,
+      "task": {
+        "minimum_terminal_projection_mm": 13.59894286370318,
+        "minimum_terminal_pregrasp_progress_mm": 13.566918794493816,
+        "minimum_terminal_object_progress_mm": 12.01230805247852,
+        "maximum_terminal_endpoint_error_mm": 6.899868118072647,
+        "maximum_cross_track_mm": 2.585899907688992,
+        "maximum_orientation_error_deg": 0.19440312000988938,
+        "minimum_clearance_mm": 74.12018694923131,
+        "passed": true
+      },
+      "compiled": [],
+      "installed_vs_achieved": {
+        "last_installed_projection_mm": 20.0,
+        "max_installed_cross_track_mm": 5.67203555509132e-14,
+        "end_relative_tracking_error_mm": 6.652206192113889,
+        "end_absolute_tracking_error_mm": 30.34990685350119
+      },
+      "actual_end_projection_mm": 13.844375693018328,
+      "max_actual_excursion_mm": 14.07220220658911
+    },
+    {
+      "slot": "G00-A",
+      "outcome": "TECHNICAL_STOP",
+      "completed": false,
+      "ticks": 8203,
+      "entry_tick": 6203,
+      "lease_closed": true,
+      "no_survivors": true,
+      "exit_codes": {
+        "planner": 0,
+        "controller": 0,
+        "solver": 0,
+        "sim": 0
+      },
+      "forwards": 1,
+      "returns": 1,
+      "queries": [
+        {
+          "number": 0,
+          "tick": 6203,
+          "seed": [
+            0,
+            0
+          ],
+          "input_sha256": "13b3c4ff40bded949c5af67cacbc50cd3bc4610dc0601987d680818e4951276a",
+          "model_entered": 1,
+          "returned": 1,
+          "output_sha256": "f278b7a2384f3c0198b4aa598f1b778e1e1e66b1507f3de2d53bb7cf932cb6d8",
+          "forward_call_seconds": 2.128934860229492,
+          "raw_shape": [
+            50,
+            32
+          ],
+          "absolute_shape": [
+            50,
+            16
+          ],
+          "head_ticks": [
+            0,
+            2203,
+            2703,
+            3203,
+            3703,
+            4203,
+            4703,
+            5203,
+            5703,
+            6203
+          ],
+          "post_motion": false,
+          "same_state_old_output_mean_difference_mm": null,
+          "raw_direction": {
+            "measured_start_distance_to_red_mm": 146.1642242710728,
+            "first_distance_to_red_mm": 137.9186292690411,
+            "last_distance_to_red_mm": 191.86913053114762,
+            "first_to_last_red_gain_mm": -53.95050126210651,
+            "first_to_last_mm": 245.53813594032275,
+            "first_to_last_task_projection_mm": 81.26297012400514,
+            "source_working_opening_mm": [
+              39.61587142944336,
+              37.74607467651367
+            ]
+          }
+        },
+        {
+          "number": 1,
+          "tick": 8203,
+          "seed": [
+            0,
+            1
+          ],
+          "input_sha256": "7e059f8eff3f19c5368f847c226edbf33950f2722bb6bd79299ff7ea767ea6c2",
+          "model_entered": 0,
+          "returned": 0
+        }
+      ],
+      "task_reference_installs": 40,
+      "post_entry_intervals": 80,
+      "solver_echoed_all": true,
+      "refusal": null,
+      "student": {
+        "accepted_returns": 1,
+        "source_motion": {
+          "start": 7878,
+          "tick": 8203,
+          "actual_projection_mm": 1.0601300111782819,
+          "installed_mm": 1.325442157030718,
+          "consumed": "88db86b07711731cedf683d1d65014916cbb98512e6ae5bf05a22dc7c945df86"
+        },
+        "post_motion_forward": false,
+        "refusal": null
+      },
+      "task": null,
+      "compiled": [
+        {
+          "tick": 6203,
+          "lead_s": 3.3000000000000003,
+          "raw_working_width_min_m": 0.03774607610702515,
+          "raw_working_width_max_m": 0.03961587142944336,
+          "open_gripper_m": 0.042
+        }
+      ],
+      "installed_vs_achieved": {
+        "last_installed_projection_mm": -4.139842327058856,
+        "max_installed_cross_track_mm": 35.65350865511725,
+        "end_relative_tracking_error_mm": 3.996872804436751,
+        "end_absolute_tracking_error_mm": 26.195183579762933
+      },
+      "actual_end_projection_mm": -7.279140034174628,
+      "max_actual_excursion_mm": 34.21298424684808,
+      "interruption": "ValueError: GPU0 has additional users",
+      "audit_error": "ValueError: incomplete settled paired outcome",
+      "phase_accounting": {
+        "source": {
+          "consumed_intervals": 14,
+          "actual_gain_to_red_mm": -0.15165146695209075,
+          "actual_TCP_path_mm": 1.7339149285187998
+        },
+        "alignment_or_hold": {
+          "consumed_intervals": 66,
+          "actual_gain_to_red_mm": 8.553396481651514,
+          "actual_TCP_path_mm": 32.682253290601395
+        }
+      },
+      "source_only": {
+        "source_native_intervals": 350,
+        "final_projection_mm": -0.691459870699831,
+        "final_red_gain_mm": 0.20602481814485651,
+        "minimum_last_half_second_projection_mm": -0.691459870699831,
+        "minimum_last_half_second_red_gain_mm": -0.0993246230120981,
+        "minimum_last_half_second_pregrasp_gain_mm": -0.7007874104469763,
+        "thresholds_met": false
+      },
+      "registered_success": false
+    },
+    {
+      "slot": "G01-H0",
+      "outcome": "H0_PASS",
+      "completed": true,
+      "ticks": 8453,
+      "entry_tick": 6203,
+      "lease_closed": true,
+      "no_survivors": true,
+      "exit_codes": {
+        "planner": 0,
+        "controller": 0,
+        "solver": 0,
+        "sim": 0
+      },
+      "forwards": 0,
+      "returns": 0,
+      "queries": [],
+      "task_reference_installs": 45,
+      "post_entry_intervals": 90,
+      "solver_echoed_all": true,
+      "refusal": null,
+      "student": null,
+      "task": {
+        "minimum_terminal_projection_mm": 13.45267696678009,
+        "minimum_terminal_pregrasp_progress_mm": 13.413853136137604,
+        "minimum_terminal_object_progress_mm": 11.294086538791506,
+        "maximum_terminal_endpoint_error_mm": 7.027973809551675,
+        "maximum_cross_track_mm": 2.559776315993834,
+        "maximum_orientation_error_deg": 0.2057643177886111,
+        "minimum_clearance_mm": 60.229979577270576,
+        "passed": true
+      },
+      "compiled": [],
+      "installed_vs_achieved": {
+        "last_installed_projection_mm": 19.999999999999982,
+        "max_installed_cross_track_mm": 5.73546023533868e-14,
+        "end_relative_tracking_error_mm": 6.78688498051786,
+        "end_absolute_tracking_error_mm": 30.23355399803969
+      },
+      "actual_end_projection_mm": 13.690935055348994,
+      "max_actual_excursion_mm": 13.91758635513856
+    },
+    {
+      "slot": "G01-A",
+      "outcome": "A_REACH_FAILED",
+      "completed": true,
+      "ticks": 10703,
+      "entry_tick": 6203,
+      "lease_closed": true,
+      "no_survivors": true,
+      "exit_codes": {
+        "planner": 0,
+        "controller": 0,
+        "solver": 0,
+        "sim": 0
+      },
+      "forwards": 2,
+      "returns": 2,
+      "queries": [
+        {
+          "number": 0,
+          "tick": 6203,
+          "seed": [
+            0,
+            0
+          ],
+          "input_sha256": "999b92327bb93242c82651808f2466d967f17acd05b808f65d5b8701de110095",
+          "model_entered": 1,
+          "returned": 1,
+          "output_sha256": "d172fccb6ef7cba93ebb1de746a4c991acd24bdaa7b7696cc0d63cfb55154287",
+          "forward_call_seconds": 2.262974739074707,
+          "raw_shape": [
+            50,
+            32
+          ],
+          "absolute_shape": [
+            50,
+            16
+          ],
+          "head_ticks": [
+            0,
+            2203,
+            2703,
+            3203,
+            3703,
+            4203,
+            4703,
+            5203,
+            5703,
+            6203
+          ],
+          "post_motion": false,
+          "same_state_old_output_mean_difference_mm": null,
+          "raw_direction": {
+            "measured_start_distance_to_red_mm": 130.93927197630128,
+            "first_distance_to_red_mm": 122.71962668398855,
+            "last_distance_to_red_mm": 222.73344164059773,
+            "first_to_last_red_gain_mm": -100.0138149566092,
+            "first_to_last_mm": 261.5203498041504,
+            "first_to_last_task_projection_mm": 57.73673868832102,
+            "source_working_opening_mm": [
+              39.67217254638672,
+              37.86747741699219
+            ]
+          }
+        },
+        {
+          "number": 1,
+          "tick": 8203,
+          "seed": [
+            0,
+            1
+          ],
+          "input_sha256": "b16e7d7bdb8f4287d296c6565096ebe6995e13e3af9cdd2ed1534cbb7a93013c",
+          "model_entered": 1,
+          "returned": 1,
+          "output_sha256": "f00ad33aa6f80b8191b60654be5679e0efbe4a7eedcda75daee03894ce79b4eb",
+          "forward_call_seconds": 2.1375443935394287,
+          "raw_shape": [
+            50,
+            32
+          ],
+          "absolute_shape": [
+            50,
+            16
+          ],
+          "head_ticks": [
+            0,
+            4203,
+            4703,
+            5203,
+            5703,
+            6203,
+            6703,
+            7203,
+            7703,
+            8203
+          ],
+          "post_motion": true,
+          "same_state_old_output_mean_difference_mm": 29.737682060211636,
+          "raw_direction": {
+            "measured_start_distance_to_red_mm": 120.12496658995396,
+            "first_distance_to_red_mm": 117.16370595601478,
+            "last_distance_to_red_mm": 227.2628416291325,
+            "first_to_last_red_gain_mm": -110.09913567311774,
+            "first_to_last_mm": 256.38462099769595,
+            "first_to_last_task_projection_mm": 79.84821850630313,
+            "source_working_opening_mm": [
+              39.65540313720703,
+              33.26395034790039
+            ]
+          }
+        }
+      ],
+      "task_reference_installs": 90,
+      "post_entry_intervals": 180,
+      "solver_echoed_all": true,
+      "refusal": null,
+      "student": {
+        "accepted_returns": 2,
+        "source_motion": {
+          "start": 7878,
+          "tick": 8203,
+          "actual_projection_mm": 1.0229867744561778,
+          "installed_mm": 1.2342111954742931,
+          "consumed": "d82ea00b33d42f225abccb355bac728a6f18a1b5a8707bfb825a86b55e664ba1"
+        },
+        "post_motion_forward": true,
+        "refusal": null
+      },
+      "task": {
+        "minimum_terminal_projection_mm": -18.60650066392605,
+        "minimum_terminal_pregrasp_progress_mm": -35.055664590301724,
+        "minimum_terminal_object_progress_mm": 7.205699043259836,
+        "maximum_terminal_endpoint_error_mm": 74.74001271315643,
+        "maximum_cross_track_mm": 64.03335463709848,
+        "maximum_orientation_error_deg": 16.454538834386064,
+        "minimum_clearance_mm": 27.863980445468673,
+        "passed": false
+      },
+      "compiled": [
+        {
+          "tick": 6203,
+          "lead_s": 3.3000000000000003,
+          "raw_working_width_min_m": 0.037867476463317874,
+          "raw_working_width_max_m": 0.0396721739768982,
+          "open_gripper_m": 0.042
+        },
+        {
+          "tick": 8203,
+          "lead_s": 2.7500000000000004,
+          "raw_working_width_min_m": 0.033263949871063236,
+          "raw_working_width_max_m": 0.0396554012298584,
+          "open_gripper_m": 0.042
+        }
+      ],
+      "installed_vs_achieved": {
+        "last_installed_projection_mm": -11.887794758047031,
+        "max_installed_cross_track_mm": 64.17586311242329,
+        "end_relative_tracking_error_mm": 7.019964470853664,
+        "end_absolute_tracking_error_mm": 30.715478879154773
+      },
+      "actual_end_projection_mm": -18.53757350330526,
+      "max_actual_excursion_mm": 66.66267424481909,
+      "phase_accounting": {
+        "source": {
+          "consumed_intervals": 59,
+          "actual_gain_to_red_mm": -2.0016227627371186,
+          "actual_TCP_path_mm": 10.658576064350306
+        },
+        "alignment_or_hold": {
+          "consumed_intervals": 121,
+          "actual_gain_to_red_mm": 9.283998540488051,
+          "actual_TCP_path_mm": 58.80217467447097
+        }
+      },
+      "source_only": {
+        "source_native_intervals": 1475,
+        "final_projection_mm": -3.348199897239357,
+        "final_red_gain_mm": 1.3558881063523431,
+        "minimum_last_half_second_projection_mm": -3.4171270578601436,
+        "minimum_last_half_second_red_gain_mm": 0.9676188053515111,
+        "minimum_last_half_second_pregrasp_gain_mm": -3.8126918080686885,
+        "thresholds_met": false
+      },
+      "registered_success": false
+    }
+  ],
+  "unstarted_slots": []
+}

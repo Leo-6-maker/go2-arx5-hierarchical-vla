@@ -1,0 +1,21 @@
+{
+  "issue": 483,
+  "issued": "Conditional grant activated following #482 and owner preflight",
+  "slots": [
+    "G00-H0",
+    "G00-A",
+    "G01-H0",
+    "G01-A"
+  ],
+  "ticks": 80000,
+  "total_forwards": 24,
+  "per_card_ticks": 20000,
+  "per_A_max_forwards": 12,
+  "qualification_sha256": "198bb6d90b4310e4e72a1a9250c62496b78e472fccec79a8fedeffb083f1a06e",
+  "receiver_sha256": "927f2179793916dff30590a82b0e5ce3d92811e21446459416613da59e9e3878",
+  "prompt": "Reach toward the red cube and stop before touching it.",
+  "design": "Matched H0 as in #482; A uses open gripper explicitly permitted by #478 Z1 and retains every raw right-arm pose and opening. Publish the existing deterministic C2 exact phase clock, bounded by the original H40 and consumed-seam gates, scene checks and actual no-contact monitor. Keep all endpoint and direction deviations for scoring. Maximum 9 s after measured stable entry for A.",
+  "feedback": "First query at stable entry. One feedback query at first eligible 100 ms boundary following consumed SOURCE motion with >=1 mm projected actual displacement and >1 mm installed translation, measured between source-only intervals. Same seed schedule across layouts, first [0,0], second [0,1]. Archive raw sampler and final absolute return; compare original output re-bound on the second actual input. Without this second call after motion, no autonomous success.",
+  "negative_control": "For the registered >=12mm actual goal progress, constant achieved TCP yields zero progress. E0 archived physical stationary excursion at most 0.28411 mm. First source motion excludes all alignment and is checked against a 1mm observed displacement floor.",
+  "safety": "Run both registered physical geometry sweeps and the original forward gate against each proposed H40 and measured TCP. Use same 15mm clearance, actual collision/standing limits and receiver as #482. A rejected preview is kept with its native timestamp and reason. No contact task or weight updates."
+}

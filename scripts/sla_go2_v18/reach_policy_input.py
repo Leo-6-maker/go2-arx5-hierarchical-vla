@@ -111,6 +111,8 @@ def sensor_input(root, case, native, tick):
             "fields": fields,
             "image_tick_sha256": observed,
             "actual_finger_mm": (1000 * finger).tolist(),
+            "world_origin": stream._world_origin.tolist(),
+            "link6_tcp": stream.link6_tcp.tolist(),
             "renderer": driver,
             "sim_integrations": 0,
             "scene_sha256": spec["frozen_files"][str(scene)],

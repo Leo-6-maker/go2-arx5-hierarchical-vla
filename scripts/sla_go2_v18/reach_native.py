@@ -298,7 +298,7 @@ def audit(case, r, spec):
     }
 
 
-def execute(base, sp, spec, profile):
+def execute(base, sp, spec, profile, student=None, scorer=None):
     from clock_guard import new_receiver_output
     from scripts.wm02 import mobile_boundary_runner_v1 as mobile
     from standing_reach import drive
@@ -352,9 +352,14 @@ def execute(base, sp, spec, profile):
             {"episode": out.name, "max_ticks": 20000, "card": case.name},
         )
         a.start()
-        drive(a, case, case.name, profile, fault, r)
+        drive(a, case, case.name, profile, fault, r, student=student)
     except BaseException:  # noqa: BLE001 - retain interruption and always release this owner.
         r["interrupt"] = traceback.format_exc()
+        if student is not None:
+            r["student"] = student.summary()
+            if student.refusal is not None:
+                r["outcome"] = "A_REFERENCE_REFUSED"
+                r["refusal"] = student.refusal
     finally:
         try:
             a.close()
@@ -371,7 +376,7 @@ def execute(base, sp, spec, profile):
         )
         record(case / "RESULT.private.json", r)
     try:
-        verdict = audit(case, r, spec)
+        verdict = (scorer or audit)(case, r, spec)
     except Exception:  # noqa: BLE001 - seal incomplete science and stop later slots.
         from go2arx5_vla.world_model.multitask_state_v6 import packets
 
