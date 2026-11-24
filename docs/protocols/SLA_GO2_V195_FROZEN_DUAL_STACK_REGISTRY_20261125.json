@@ -1,0 +1,1021 @@
+{
+  "schema": "SLA_GO2_V195_FROZEN_DUAL_STACK_PLAN_V1",
+  "date": "2026-11-25",
+  "timezone": "Asia/Singapore",
+  "status": "PLAN_ONLY_IMPLEMENTATION_PENDING_NOT_RUN",
+  "user_goal": "今晚在冻结官方SLA-PT、冻结WBC的前提下，通过确定性链接层尽可能取得完整抓取或其他真实任务成功；工程问题自主修复，无需逐项批准。",
+  "publication": {
+    "repository": "Leo-6-maker/go2-arx5-hierarchical-vla",
+    "base_branch": "main",
+    "base_sha": "a718abb5a18a299e116326af59ead3ccb1db4e9a",
+    "prior_plan_prs": [
+      511,
+      512
+    ],
+    "prior_v194c_plan_sha": "bede986be0749eef2094dda9ed5d60dcd94ab03c",
+    "reusable_code_pr": 510,
+    "reusable_code_sha": "719882e9fd154ffbe995484e7a766ada3b3ecd02",
+    "actual_green_and_e1_runtime_sha": null,
+    "merge_execution_stack": false,
+    "deploy_on_publication": false,
+    "publisher_started_runtime": false
+  },
+  "authorization": {
+    "subsequent_simulation_and_link_engineering_authorized": true,
+    "ordinary_engineering_repairs_require_reapproval": false,
+    "declared_behavior_successor_profiles_authorized": true,
+    "cumulative_project_planning_capacity_is_approval_gate": false,
+    "evidenced_new_finite_batches_may_be_registered_autonomously": true,
+    "preserve_all_historical_results": true,
+    "original_safety_and_actual_site_permissions_required": true,
+    "registered_F_P_H_T_C_routes_require_reapproval": false
+  },
+  "scope": {
+    "simulation_only": true,
+    "stationary_whole_body": true,
+    "real_hardware": false,
+    "existing_free_body_quarantine_unchanged": true,
+    "model_updates": 0,
+    "learned_adapter_updates": 0,
+    "wbc_updates": 0,
+    "target_training_episodes": 0,
+    "source_training_episodes": 0,
+    "source_96_panel_prerequisite": false,
+    "full_camera_calibration_prerequisite": false,
+    "asynchronous_real_time_prerequisite": false,
+    "task_independent_robot_feedback_adapter": true
+  },
+  "historical_user_report": {
+    "source": "USER_REPORTED_SITE_RESULTS_NOT_INDEPENDENTLY_READ_BACK_BY_THIS_PUBLICATION",
+    "red": {
+      "valid": 4,
+      "success": 0,
+      "table_stop": 4,
+      "full50_close_hits": 0,
+      "full50_queries": 11,
+      "installed_clearance_mm": [
+        9.29,
+        10.21
+      ],
+      "attempts": 6,
+      "total_forwards": 13,
+      "total_ticks": 51885,
+      "technical_invalid": 2
+    },
+    "green": {
+      "valid": 4,
+      "success": 0,
+      "table_stop": 4,
+      "align_stop": 3,
+      "source_stop": 1,
+      "full50_close_hits": 0,
+      "full50_queries": 10,
+      "ticks": 38381,
+      "installed_clearance_mm": [
+        9.37,
+        10.43
+      ],
+      "actual_tcp_minus_reference_z_mm": [
+        -19.75,
+        -17.62
+      ],
+      "language_new_forwards": 8,
+      "language_exact_reuse": 4,
+      "green_initial_close_hits": 0,
+      "green_initial_queries": 4
+    },
+    "entry_height_difference_approx_mm": 24,
+    "post_stop_new_integrations": 0,
+    "post_stop_new_installs": 0,
+    "optimizer_updates": 0,
+    "v194c_e1": {
+      "status": "FAILED",
+      "e2_status": "NOT_STARTED",
+      "R01": {
+        "fully_executed": true,
+        "no_contact": true,
+        "scoring_windows": 7,
+        "position_peak_mm": [
+          5.68,
+          7.66
+        ],
+        "position_gate_mm": 4,
+        "orientation_peak_max_deg": 0.72,
+        "orientation_gate_deg": 2,
+        "mean_actual_minus_intent_z_mm": [
+          -7.01,
+          -5.43
+        ],
+        "commanded_z_mm": 4,
+        "actual_z_mm": 2.92,
+        "commanded_world_x_deg": 2,
+        "actual_world_x_deg": 1.98,
+        "min_right_pad_clearance_mm": 25.95
+      },
+      "R00": "STARTED_NO_CONSUMPTION_42MM_FLOAT_ENDPOINT_REJECT",
+      "direct_cards": "BOTH_REJECTED_BY_ORIGINAL_JOINT_ACCELERATION_PREFLIGHT",
+      "native_DR_pair_available": false,
+      "total_native_ticks": 21406,
+      "total_model_forwards": 0,
+      "total_training_updates": 0,
+      "post_terminal_new_integrations": 0,
+      "post_terminal_new_installs": 0
+    },
+    "do_not_relabel_old_e1_as_pass": true
+  },
+  "model": {
+    "repository": "haofuly/SLA_benchmark_ckpts",
+    "checkpoint": "SLA_Memory_robodojo_real_ckpt",
+    "revision": "7f6880569c3be777291e646fad1b4951245e8553",
+    "upstream_repository": "thriving191228/XPolicyLab",
+    "upstream_sha": "c1b205ec42b4ab2cac9c2159c8b4c2f723e5e454",
+    "effective_config_name": "train_robodojo_real",
+    "effective_config_sha256": "16e86b4a36837e6a7c5c17b41574ab79d0b708135a149470e88f4f98e2815cbe",
+    "norm_sha256": "cf6ddf4f89180e762e5e6210881a763f8e29d3499fb1cc69a440de7aa585d276",
+    "tokenizer_sha256": "8986bb4f423f07f8c7f70d0dbe3526fb2316056c17bae71b1ea975e77a168fc6",
+    "manifest_sha256": "2e473d45a29f624f8c0242bf60389214613e3a060446e6845cd1a95322f2610c",
+    "extra_frames_first": false,
+    "attention_impl": "xla",
+    "raw_shape": [
+      50,
+      32
+    ],
+    "decoded_shape": [
+      50,
+      16
+    ],
+    "state_shape": [
+      16
+    ],
+    "state_dtype": "float32",
+    "external_arm_order": [
+      "left",
+      "right"
+    ],
+    "external_per_arm_fields": [
+      "x",
+      "y",
+      "z",
+      "qw",
+      "qx",
+      "qy",
+      "qz",
+      "gripper"
+    ],
+    "action_inverse": "PINNED_OFFICIAL_ONLY",
+    "sampler_settings": "UNCHANGED_PINNED_EFFECTIVE_CONFIGURATION",
+    "source_hz": 30,
+    "last_source_row": 49,
+    "last_source_timestamp_s": "49/30",
+    "load_once_per_batch": true
+  },
+  "freeze": {
+    "wbc_weights": true,
+    "wbc_gains": true,
+    "wbc_mpc_costs": true,
+    "wbc_solver": true,
+    "leg_policy": true,
+    "joint_and_torque_limits": true,
+    "robot_geometry_and_dynamics": true,
+    "contact_parameters": true,
+    "native_timestep": true,
+    "original_safety_thresholds": true,
+    "original_fruit_receiver": true,
+    "original_official_processor_and_normalization": true
+  },
+  "nominal_interface": {
+    "id": "FLANGE_EQUIVALENT_NOMINAL",
+    "version": 1,
+    "source_tool_metrology_status": "UNKNOWN_NOT_FABRICATED",
+    "source_camera_intrinsics_extrinsics_status": "UNKNOWN",
+    "mapping_claim": "Nominal source/target flange pose and normalized target working-stroke correspondence, not physical contact-center equivalence.",
+    "source_zero_translation_m": [
+      0.09519999999999992,
+      0.001000411398944587,
+      0.15649999265207865
+    ],
+    "source_zero_application_count": 1,
+    "source_origin_formula": "T_WV = T_W_target_armbase * Trans(source_zero_translation_m)",
+    "observation_pose_formula": "inv(T_WV) * T_W_target_TCP * inv(T_target_link6_TCP)",
+    "output_pose_formula": "T_WV * T_V_link6_predicted * T_target_link6_TCP",
+    "pose_basis_bound_to_query": true,
+    "source_target_axis_alignment": "IDENTITY_IN_ARMBASE_COORDINATES_AS_DECLARED_NOMINAL_CONVENTION",
+    "target_link6_tcp_source": "EXISTING_TARGET_INSTALLATION_GEOMETRY",
+    "virtual_left_policy": "FIXED_EXISTING_A1_VECTOR_AND_HASH",
+    "physical_arm": "right",
+    "retain_both_arm_outputs": true,
+    "choose_or_swap_arm_based_on_output": false,
+    "gripper": {
+      "command_g_range": [
+        0,
+        1
+      ],
+      "command_g_roundoff_tolerance": 1e-06,
+      "single_finger_command_m": "0.002 + 0.040*g",
+      "install_range_m": [
+        0.002,
+        0.042
+      ],
+      "mechanical_measured_range_m": [
+        0,
+        0.044
+      ],
+      "measured_range_policy": "REUSE_ORIGINAL_NATIVE_GRIPPER_STATE_VALID_AND_MECHANICAL_GATES",
+      "observed_g": "((w_left_actual+w_right_actual)/2 - 0.002)/0.040",
+      "observed_g_may_exceed_command_range": true,
+      "observed_g_clipping_by_adapter": false,
+      "official_normalizer_unchanged": true,
+      "actual_pad_gap_m": "0.001048 + w_left_actual + w_right_actual",
+      "wire_fraction": "single_finger_command_m/0.044",
+      "eef10_gripper_index": 9,
+      "maximum_single_finger_command_speed_m_s": 0.04,
+      "first_knot_attribution": "MODEL_FIRST_KNOT",
+      "first_knot_start": "LAST_ACKED_AND_CONSUMED_COMMAND_NOT_MEASURED_POSITION",
+      "first_knot_ease": "10*u^3 - 15*u^4 + 6*u^5",
+      "first_knot_peak_speed_formula": "1.875*abs(w0-w_previous)/lead",
+      "contact_false_spoofing_allowed": false,
+      "original_receiver_thresholds_unchanged": true,
+      "automatic_grasp_hold_clamp": false,
+      "source_recorded_max_used_to_renormalize": false
+    },
+    "prohibited_action_aids": [
+      "teacher_decide_or_commit",
+      "teacher_phase_triggered_grasp",
+      "object_ground_truth_in_policy_or_action_generation",
+      "geometry_goal_projection",
+      "task_dependent_pose_offsets",
+      "forced_close_timer",
+      "forced_hold",
+      "output_based_left_right_swap",
+      "success_based_chunk_selection",
+      "success_based_prompt_camera_or_mapping_search"
+    ]
+  },
+  "observation": {
+    "profile": "THREE_VIEW_V1",
+    "current_cameras": [
+      {
+        "physical": "body_rgb",
+        "official_slot": "cam_high",
+        "raw_hwc": [
+          256,
+          256,
+          3
+        ]
+      },
+      {
+        "physical": "wrist_rgb",
+        "official_slot": "cam_right_wrist",
+        "raw_hwc": [
+          256,
+          256,
+          3
+        ]
+      },
+      {
+        "physical": "aux_left_rgb",
+        "official_slot": "cam_left_wrist",
+        "raw_hwc": [
+          480,
+          640,
+          3
+        ]
+      }
+    ],
+    "encoding": "RGB_UINT8",
+    "all_current_masks": true,
+    "same_current_native_packet": true,
+    "source_camera_metadata_as_policy_input": false,
+    "extra_manual_resize": false,
+    "head_frame_count": 10,
+    "historical_head_frame_count": 9,
+    "head_native_tick_formula": "[0, max(0,t-4000), max(0,t-3500), max(0,t-3000), max(0,t-2500), max(0,t-2000), max(0,t-1500), max(0,t-1000), max(0,t-500), t]",
+    "history_source": "ACTUAL_SAME_EPISODE_NATIVE_JOURNAL",
+    "nonintegrating_history_render_allowed": true,
+    "history_on_query_ordinal": false,
+    "missing_history_fabrication": false,
+    "reset_memory_per_episode": true,
+    "freshness_by_actual_consumption_and_tick_not_pixel_hash": true,
+    "auxiliary": {
+      "parent": "base_link",
+      "position_m": [
+        0.2,
+        0.22,
+        0.42
+      ],
+      "fixed_sight_m": [
+        0.42,
+        0,
+        0.31
+      ],
+      "fovy_deg": 75,
+      "source_recording_extrinsics": "UNKNOWN",
+      "search_mounts": 0,
+      "aux_v2_in_primary_batch": false
+    }
+  },
+  "feedback": {
+    "id": "BOUNDED_TRANSLATION_FEEDBACK_V1",
+    "short_id": "BTF-1",
+    "validation_status": "UNVALIDATED_CANDIDATE",
+    "anchor": {
+      "when": "ONCE_PER_EPISODE_OR_REGISTERED_HANDOFF",
+      "same_native_tick_measured_and_consumed": true,
+      "translation": "b0=p_C0-p_A0",
+      "rotation": "D0=R_A0.T@R_C0",
+      "initial_bias": "b=b0",
+      "reject_if_initial_bias_l2_m_exceeds": 0.04,
+      "hold_b_and_D0_across_queries": true,
+      "per_query_world_offset": false,
+      "reset_b0_per_target": false
+    },
+    "command": {
+      "position": "p_intent(s)+b",
+      "rotation": "R_intent(s)@D0",
+      "gripper": "ORIGINAL_MODEL_g(s)",
+      "original_nominal_intent_immutable": true
+    },
+    "update": {
+      "enabled_dimensions": "WORLD_TRANSLATION_ONLY",
+      "alpha_candidate": 1,
+      "error": "p_intent(s_target)-mean(actual_p_last_0.25_native_s)",
+      "step_rule": "L2_CLIP_TO_0.004_M",
+      "maximum_step_l2_m": 0.004,
+      "maximum_extra_bias_from_b0_l2_m": 0.012,
+      "maximum_absolute_bias_l2_m": 0.04,
+      "if_cumulative_bound_would_be_exceeded": "REJECT_UPDATE_RECORD_BIAS_BOUND_REACHED_NO_HIDDEN_INTEGRAL",
+      "maximum_corrections_per_fixed_target": 3,
+      "after_actual_ramp_complete_dwell_native_s": 0.5,
+      "error_estimation_tail_native_s": 0.25,
+      "already_accepted_window": "ZERO_ADDITIONAL_CORRECTION",
+      "orientation_only_failure": "NO_TRANSLATION_INTEGRAL",
+      "commit_bias_after_actual_ramp_consumed": true,
+      "all_changes_through_original_ramp_and_admission": true
+    },
+    "eligibility": {
+      "no_contact": true,
+      "already_consumed_reference_endpoint": true,
+      "actual_tcp_need_not_have_reached_intent": true,
+      "zero_outgoing_reference_velocity": true,
+      "eligible_locations": [
+        "INITIAL_ALIGN_ENDPOINT",
+        "ACTUALLY_CONSUMED_PROPOSAL_ENDPOINT",
+        "DECLARED_SOURCE_STOP_VIA_EXISTING_ADMITTED_COMPILER_BRAKE"
+      ],
+      "maximum_optional_mid_proposal_stops": 1,
+      "if_compiler_cannot_form_optional_stop": "SKIP_CORRECTION_AND_CONTINUE_QUALIFIED_FIXED_BIAS",
+      "maximum_initial_acquisition_native_s": 6,
+      "first_profile_align_only_requery_rescue": false,
+      "no_source_phase_reversal_or_event_replay": true,
+      "source_and_gripper_retimed_together": true,
+      "dwell_counts_as_positive_source": false
+    },
+    "contact": {
+      "latch_real_native_tick": true,
+      "normal_source_contact": "LOCK_ERROR_UPDATES_CONTINUE_SOURCE_GRIPPER_AND_QUERIES",
+      "initial_held_handoff": "ONE_ACTUAL_CONSUMED_ANCHOR_THEN_LOCK",
+      "pending_uninstalled_updates": "CANCEL",
+      "during_installed_correction_ramp": "ACCOUNT_CONSUMED_SUFFIX_THEN_EXISTING_ADMITTED_BRAKE_AT_LEGAL_BOUNDARY",
+      "hold_source_and_jaw_phase_during_brake": true,
+      "bias_after_actual_brake": "p_C_brake_end-p_intent(s_target)",
+      "bias_after_brake_is_not_command_minus_actual": true,
+      "D0_unchanged": true,
+      "episode_bias_bounds_still_apply": true,
+      "cancel_unavailable": "ADAPTER_CONTACT_CANCEL_UNAVAILABLE_AND_EXISTING_SAFE_TERMINAL_HOLD_PAUSE",
+      "adapter_terminal_is_original_collision_stop": false,
+      "terminal_pause_counts_as_model_hold": false,
+      "release": "NO_QUEUED_ERROR; FRESH_FREE_SPACE_ENDPOINT_RAMP_DWELL_BEFORE_UPDATE",
+      "original_unsafe_contact_stop_unchanged": true
+    },
+    "qualification": {
+      "name": "NEW_SETTLED_WINDOW_QUALIFICATION_NOT_OLD_E1",
+      "position_peak_mm": 4,
+      "orientation_peak_deg": 2,
+      "dwell_native_s": 0.5,
+      "scoring_tail_native_s": 0.25,
+      "every_fixed_target_required": true,
+      "transient_error_and_clearance_still_reported": true,
+      "no_contact": true,
+      "positive_actual_response": true,
+      "no_saturation_or_divergence": true,
+      "original_safety": true,
+      "post_terminal_new_integrations": 0,
+      "post_terminal_new_installs": 0,
+      "layout_unlock_independent": true,
+      "does_not_prove_loaded_contact_tracking": true
+    }
+  },
+  "execution": {
+    "mode": "SYNCHRONOUS_PAUSED_SIMULATION",
+    "real_time_claim": false,
+    "native_dt_s": 0.002,
+    "atom_ticks": 25,
+    "atom_dt_s": 0.05,
+    "p10_atoms": 10,
+    "p10_duration_s": 0.5,
+    "preview_points": 41,
+    "preview_dt_s": 0.05,
+    "reissue_atom_indices": [
+      0,
+      7
+    ],
+    "reference_ttl_s": 0.4,
+    "gripper_grant_each_atom": true,
+    "gripper_epoch_sequence": "CONTINUE_ORIGINAL_INITIALIZATION_SEQUENCE",
+    "compiler": "FULL_50_ROW_SOURCECURVE_COMPILER_WITH_NOMINAL_FIRST_KNOT_WRAPPER",
+    "original_wbc_velocity_acceleration_limits_unchanged": true,
+    "temporal_retiming_only_no_task_conditioned_path_edit": true,
+    "stages": [
+      "BRAKE",
+      "ALIGN",
+      "CORRECT_RAMP",
+      "CORRECT_DWELL",
+      "SOURCE",
+      "HOLD"
+    ],
+    "refresh": {
+      "boundaries": "P10_BOUNDARIES_ONLY",
+      "positive_phase_consumed_source_atoms_required": 10,
+      "alternative": "ACTUALLY_CONSUMED_SOURCE_END",
+      "refresh_during_alignment": false,
+      "actual_translation_or_rotation_threshold_required": false,
+      "permits_jaw_only_or_stationary_prediction": true,
+      "discard_unexecuted_old_suffix": true,
+      "count_reissue_as_model_query": false,
+      "source_phase_units": "seconds",
+      "source_index_formula": "30*source_time_s",
+      "count_only_with_verified_eef_and_gripper_consumption": true,
+      "atom_start_at_or_after_lead": true,
+      "minimum_positive_phase_increment_s": 1e-12,
+      "source_end_s": "49/30",
+      "source_end_tolerance_s": 1e-09
+    },
+    "original_native_safety_and_wall_watchdogs_unchanged": true,
+    "first_query": "F_AFTER_ORIGINAL_STABLE_ENTRY; P_H_OR_T_AFTER_REGISTERED_TEACHER_EXIT",
+    "start_from_teacher_before_close_or_after_grasp_anchor": "ONLY_REGISTERED_P_H_OR_T; F_FALSE",
+    "compiler_parameters": {
+      "bounded": false,
+      "protect_all": false,
+      "cruise_from_width_m": "LAST_CONSUMED_COMMAND_WIDTH",
+      "anchor": "LAST_CONSUMED_EEF",
+      "incoming": "LAST_TWO_CONSECUTIVE_CONSUMED_EEF_DIFFERENCE_AND_RELATIVE_ROTATION_OVER_0.05_S",
+      "legacy_world_offset_reanchor": false
+    },
+    "reference_profile": "BOUNDED_TRANSLATION_FEEDBACK_V1"
+  },
+  "known_intent": {
+    "reference_origin": "ACTUAL_STABLE_ENTRY_p0_R0",
+    "common_z_targets_mm": [
+      4,
+      8,
+      12,
+      20,
+      4,
+      0
+    ],
+    "G01_extra_at_z20": [
+      {
+        "translation_mm": [
+          0,
+          0,
+          20
+        ],
+        "world_x_rotation_deg": 2
+      },
+      {
+        "translation_mm": [
+          0,
+          0,
+          20
+        ],
+        "world_x_rotation_deg": 0
+      },
+      {
+        "translation_mm": [
+          4,
+          0,
+          24
+        ],
+        "world_x_rotation_deg": 2
+      },
+      {
+        "translation_mm": [
+          0,
+          0,
+          20
+        ],
+        "world_x_rotation_deg": 0
+      }
+    ],
+    "gripper": "ORIGINAL_CANONICAL_42MM_OPEN_ENDPOINT",
+    "base": "ORIGINAL_FIXED_BASE",
+    "object_truth_for_target_generation": false,
+    "preflight": "ORIGINAL_FULL_RAMP_RETURN_AND_PAD_CLEARANCE_RULES",
+    "runtime_targets_and_windows_manifest_before_start": true
+  },
+  "task_definitions": {
+    "F": {
+      "name": "FULL_PICK_HOLD",
+      "prompt": "Pick up the green fruit, lift it above the table and keep holding it.",
+      "start": "ORIGINAL_STABLE_ENTRY_NO_TEACHER_TASK_PREFIX",
+      "grasp_by_student_required": true,
+      "new_object_lift_m": 0.02,
+      "lift_baseline": "ORIGINAL_RESET",
+      "qualified_hold_s": 1
+    },
+    "P": {
+      "name": "PREGRASP_PICK_HOLD",
+      "prompt": "Pick up the green fruit, lift it above the table and keep holding it.",
+      "start": "REGISTERED_TEACHER_BEFORE_CLOSE_OPEN_NO_GRASP_NO_OBJECT_DISPLACEMENT",
+      "grasp_by_student_required": true,
+      "new_object_lift_m": 0.02,
+      "lift_baseline": "ACTUAL_HANDOFF_HEIGHT",
+      "qualified_hold_s": 1
+    },
+    "H": {
+      "name": "HELD_LIFT_HOLD",
+      "prompt": "Lift the green fruit higher and keep holding it.",
+      "start": "REGISTERED_ACTUAL_GRASP_HANDOFF_PREFER_BEFORE_TEACHER_LIFT",
+      "grasp_by_student_required": false,
+      "inherited_grasp_disclosed": true,
+      "new_object_lift_m": 0.02,
+      "lift_baseline": "ACTUAL_HANDOFF_HEIGHT_EVEN_IF_TEACHER_ALREADY_LIFTED",
+      "qualified_hold_s": 1,
+      "qualification": "LAYOUT_EXECUTION_QUALIFICATION_PLUS_ACTUAL_HANDOFF_LOAD_AND_ORIGINAL_SAFETY; UNRESOLVED_SHARED_DEFECT_BLOCKS"
+    },
+    "C": {
+      "name": "CONFIRM_FIRST_SUCCESS",
+      "task_selected": "FIRST_SUCCESSFUL_F_P_H_OR_T",
+      "freeze_successful_profile_before_run": true,
+      "seeds": [
+        2,
+        3
+      ],
+      "selected_after_first_success": true,
+      "claim": "DEVELOPMENT_CONFIRMATION_NOT_BLIND_GENERALIZATION"
+    },
+    "T": {
+      "name": "HELD_TRANSFER_HOLD",
+      "prompt": "Move the green fruit toward the blue object and keep holding it.",
+      "task_support_status": "PRE_REGISTERED_EXPLORATORY_NOT_CLAIMED_OFFICIAL_SUPPORTED_SKILL",
+      "start": "H0_ACTUAL_STABLE_HELD_ABOVE_TABLE_THEN_TEACHER_EXITS",
+      "grasp_by_student_required": false,
+      "inherited_grasp_and_lift_disclosed": true,
+      "score_basis": "FIXED_HANDOFF_FRUIT_TO_BLUE_WORLD_XY_DIRECTION_SCORER_ONLY",
+      "minimum_new_horizontal_progress_m": 0.02,
+      "minimum_horizontal_distance_reduction_m": 0.015,
+      "maximum_cross_track_m": 0.01,
+      "all_predicates_continuously_for_s": 1,
+      "actual_grasp_and_above_table_and_original_safety_required": true,
+      "full_model_pose_and_gripper_retained": true,
+      "project_model_to_horizontal_or_lock_z": false,
+      "target_GT_in_action_generation": false,
+      "horizontal_load_qualification": "MATCHING_EXISTING_EVIDENCE_OR_QH_FROM_SHARED_RESERVE",
+      "reset_after_qualification_before_student": true,
+      "QH_candidate": {
+        "cards": [
+          "QH00",
+          "QH01"
+        ],
+        "uses_shared_engineering_reserve": true,
+        "initialize": "ACTUAL_H0_STABLE_GRASP_ABOVE_TABLE",
+        "known_intent": "WORLD_PLUS_Y_20MM_AND_RETURN_FROM_HANDOFF; VERIFY_SCENE_DIRECTION_BEFORE_MODEL_QUERIES",
+        "same_BTF1_contact_lock_and_original_safety": true,
+        "position_tail_peak_mm": 4,
+        "orientation_tail_peak_deg": 2,
+        "dwell_native_s": 0.5,
+        "score_tail_native_s": 0.25,
+        "model_forwards": 0,
+        "native_ticks_per_card_max": 50000,
+        "qualified_motion_not_student_success": true
+      },
+      "minimum_object_height_above_original_reset_m": 0.02
+    }
+  },
+  "shared_task_contract": {
+    "scene": "FRUIT_COMPACT_STANCE_01",
+    "selected_internal_role": "red",
+    "visible_color": "green",
+    "camera": "THREE_VIEW_V1",
+    "original_grasp_and_standing_safety_predicates": true,
+    "max_base_translation_m": 0.02,
+    "max_base_angle_deg": 5,
+    "max_foot_translation_m": 0.005,
+    "all_four_feet_supported": true,
+    "no_wrong_object_or_illegal_contact": true,
+    "teacher_action_after_handoff": false,
+    "teacher_initialization_excluded_from_student_success": true,
+    "teacher_prefix_ticks_counted_in_attempt": true,
+    "real_causal_prefix_history_retained": true,
+    "raw_50_rows_saved": true,
+    "no_offline_close_pass_gate": true,
+    "first_task_event_separate_from_terminal_score": true,
+    "closed_loop_success": {
+      "minimum_model_returns": 2,
+      "second_query_from_first_actual_consumption": true,
+      "second_output_actually_consumed": true,
+      "task_still_satisfied_at_legal_terminal": true,
+      "no_subsequent_original_safety_stop": true,
+      "no_scripted_hold_or_lift": true
+    }
+  },
+  "stages": [
+    {
+      "id": "Q",
+      "task": "KNOWN_INTENT_EXECUTION_QUALIFICATION",
+      "condition_count": 2,
+      "cells": [
+        {
+          "id": "Q00",
+          "layout": "G00",
+          "status": "NOT_RUN"
+        },
+        {
+          "id": "Q01",
+          "layout": "G01",
+          "status": "NOT_RUN"
+        }
+      ],
+      "ticks_per_start": 30000,
+      "queries_per_start": 0,
+      "wall_s_per_start": 1800,
+      "total_ticks": 60000,
+      "total_queries": 0
+    },
+    {
+      "id": "F",
+      "task": "FULL_PICK_HOLD",
+      "condition_count": 4,
+      "cells": [
+        {
+          "id": "F00",
+          "layout": "G00",
+          "seed": 0,
+          "status": "NOT_RUN"
+        },
+        {
+          "id": "F01",
+          "layout": "G00",
+          "seed": 1,
+          "status": "NOT_RUN"
+        },
+        {
+          "id": "F10",
+          "layout": "G01",
+          "seed": 0,
+          "status": "NOT_RUN"
+        },
+        {
+          "id": "F11",
+          "layout": "G01",
+          "seed": 1,
+          "status": "NOT_RUN"
+        }
+      ],
+      "status": "AFTER_LAYOUT_QUALIFICATION",
+      "ticks_per_start": 50000,
+      "queries_per_start": 120,
+      "wall_s_per_start": 1800,
+      "total_ticks": 200000,
+      "total_queries": 480
+    },
+    {
+      "id": "P",
+      "task": "PREGRASP_PICK_HOLD",
+      "condition_count": 4,
+      "cells": [
+        {
+          "id": "P00",
+          "layout": "G00",
+          "seed": 0,
+          "status": "NOT_RUN"
+        },
+        {
+          "id": "P01",
+          "layout": "G00",
+          "seed": 1,
+          "status": "NOT_RUN"
+        },
+        {
+          "id": "P10",
+          "layout": "G01",
+          "seed": 0,
+          "status": "NOT_RUN"
+        },
+        {
+          "id": "P11",
+          "layout": "G01",
+          "seed": 1,
+          "status": "NOT_RUN"
+        }
+      ],
+      "status": "CONDITIONAL_PRE_REGISTERED",
+      "ticks_per_start": 50000,
+      "queries_per_start": 120,
+      "wall_s_per_start": 1800,
+      "total_ticks": 200000,
+      "total_queries": 480
+    },
+    {
+      "id": "H",
+      "task": "HELD_LIFT_HOLD",
+      "condition_count": 4,
+      "cells": [
+        {
+          "id": "H00",
+          "layout": "G00",
+          "seed": 0,
+          "status": "NOT_RUN"
+        },
+        {
+          "id": "H01",
+          "layout": "G00",
+          "seed": 1,
+          "status": "NOT_RUN"
+        },
+        {
+          "id": "H10",
+          "layout": "G01",
+          "seed": 0,
+          "status": "NOT_RUN"
+        },
+        {
+          "id": "H11",
+          "layout": "G01",
+          "seed": 1,
+          "status": "NOT_RUN"
+        }
+      ],
+      "status": "CONDITIONAL_PRE_REGISTERED",
+      "ticks_per_start": 50000,
+      "queries_per_start": 120,
+      "wall_s_per_start": 1800,
+      "total_ticks": 200000,
+      "total_queries": 480
+    },
+    {
+      "id": "T",
+      "task": "HELD_TRANSFER_HOLD",
+      "condition_count": 4,
+      "cells": [
+        {
+          "id": "T00",
+          "layout": "G00",
+          "seed": 0,
+          "status": "NOT_RUN"
+        },
+        {
+          "id": "T01",
+          "layout": "G00",
+          "seed": 1,
+          "status": "NOT_RUN"
+        },
+        {
+          "id": "T10",
+          "layout": "G01",
+          "seed": 0,
+          "status": "NOT_RUN"
+        },
+        {
+          "id": "T11",
+          "layout": "G01",
+          "seed": 1,
+          "status": "NOT_RUN"
+        }
+      ],
+      "status": "CONDITIONAL_PRE_REGISTERED",
+      "ticks_per_start": 50000,
+      "queries_per_start": 120,
+      "wall_s_per_start": 1800,
+      "total_ticks": 200000,
+      "total_queries": 480
+    },
+    {
+      "id": "C",
+      "task": "CONFIRM_FIRST_SUCCESS",
+      "condition_count": 4,
+      "cells": [
+        {
+          "id": "C00",
+          "layout": "G00",
+          "seed": 2,
+          "status": "NOT_RUN"
+        },
+        {
+          "id": "C01",
+          "layout": "G00",
+          "seed": 3,
+          "status": "NOT_RUN"
+        },
+        {
+          "id": "C10",
+          "layout": "G01",
+          "seed": 2,
+          "status": "NOT_RUN"
+        },
+        {
+          "id": "C11",
+          "layout": "G01",
+          "seed": 3,
+          "status": "NOT_RUN"
+        }
+      ],
+      "status": "CONDITIONAL_PRE_REGISTERED",
+      "ticks_per_start": 50000,
+      "queries_per_start": 120,
+      "wall_s_per_start": 1800,
+      "total_ticks": 200000,
+      "total_queries": 480
+    },
+    {
+      "id": "ENGINEERING_RESERVE",
+      "task": "EVIDENCED_REPAIR_OR_MINIMAL_REQUALIFICATION",
+      "planned_attempt_capacity": 4,
+      "status": "CONDITIONAL_NOT_ALLOCATED",
+      "ticks_per_start_max": 50000,
+      "queries_per_start_max": 120,
+      "wall_s_per_start_max": 1800,
+      "total_ticks_max": 200000,
+      "total_queries_max": 480,
+      "shared_across_tasks_and_profiles": true,
+      "exact_roster_before_each_start": true
+    }
+  ],
+  "schedule": {
+    "T0": "ACTUAL_SITE_WORK_START_NOT_PUBLICATION_TIME",
+    "timezone": "Asia/Singapore",
+    "first_window_hours": 8,
+    "T0_actual": null,
+    "deadline_actual": null,
+    "targets_minutes": {
+      "bind_and_minimal_fix": [
+        0,
+        45
+      ],
+      "qualification_and_first_layout_task": [
+        45,
+        120
+      ],
+      "full_task_priority": [
+        120,
+        210
+      ],
+      "conditional_tasks_and_confirmation": [
+        210,
+        390
+      ],
+      "finish_active_cards": [
+        390,
+        420
+      ],
+      "closeout_and_publication": [
+        420,
+        480
+      ]
+    },
+    "if_no_full_success_at_minute": 210,
+    "next_priority": "REGISTERED_P_H_OR_T_AT_NEXT_LEGAL_BOUNDARY_NO_NEED_COMPLETE_OTHER_CONDITIONAL_PANELS",
+    "new_finite_window_requires_new_registration_not_user_reapproval": true,
+    "no_silent_extension_of_sealed_running_job": true
+  },
+  "capacity": {
+    "kind": "PLANNING_ENVELOPE_NOT_ALLOCATED_OR_NEW_APPROVAL_GATE",
+    "main_Q_plus_F": {
+      "starts": 6,
+      "ticks": 260000,
+      "model_forwards": 480
+    },
+    "all_conditional_and_shared_reserve": {
+      "starts": 26,
+      "ticks": 1260000,
+      "sim_s": 2520,
+      "model_forwards": 2880
+    },
+    "known_intent_cap_change_from_prior_discussion": "30000_PER_CARD_FOR_REAL_RAMP_DWELL; OLD_E1_UNCHANGED",
+    "conditional_all_cards_not_promised_within_wall_time": true,
+    "extensions": "REGISTER_NEW_FINITE_EVIDENCED_BATCH_BEFORE_START_KEEP_CUMULATIVE_COSTS",
+    "real_site_permissions_and_capacity_required": true,
+    "all_training_updates": 0
+  },
+  "engineering": {
+    "ordinary_fix_count_cap": null,
+    "planned_behavior_profiles": [
+      "BTF-1",
+      "BTF-2_IF_EVIDENCED",
+      "BTF-3_IF_EVIDENCED"
+    ],
+    "ordinary_fixes_are_not_behavior_profile_trials": true,
+    "no_repeat_same_symptom_without_new_evidence_after": 2,
+    "minimum_loop": [
+      "EVIDENCE",
+      "PREDICTED_OBSERVATION",
+      "MINIMAL_PATCH",
+      "AFFECTED_CHECK",
+      "NATIVE_TASK_INCREMENT"
+    ],
+    "technical_retry_preserves_original_attempt": true,
+    "valid_science_failure_success_shopping": false,
+    "unknown_effect_replay": false,
+    "new_target_dependent_policy_or_force_controller": false
+  },
+  "reporting": {
+    "separate_by": [
+      "TASK",
+      "PROFILE",
+      "LAYOUT",
+      "SEED",
+      "ASSISTED_INITIALIZATION"
+    ],
+    "counts": [
+      "REGISTERED",
+      "STARTED",
+      "VALID_SCIENTIFIC_TERMINAL",
+      "TECHNICAL_INVALID",
+      "CENSORED",
+      "NOT_STARTED"
+    ],
+    "task_endpoint_exhaustion": "TASK_TIMEOUT_VALID_SCIENTIFIC_RESULT",
+    "external_or_night_early_truncation": "CENSORED",
+    "denominators": [
+      "SUCCESS_OVER_REGISTERED_WITH_COVERAGE",
+      "SUCCESS_OVER_VALID",
+      "ALL_ATTEMPTS_AND_COSTS"
+    ],
+    "streams": [
+      "ORIGINAL_SLA_INTENT",
+      "INSTALLED_AND_CONSUMED_COMMAND",
+      "ACTUAL_EXECUTION_AND_OBJECT_EVENTS"
+    ],
+    "full_video_not_only_success_clip": true,
+    "post_terminal_new_installs": 0,
+    "post_terminal_new_integrations": 0
+  },
+  "long_horizon": [
+    {
+      "id": "M0",
+      "window": "TONIGHT",
+      "goal": "FIRST_ATTRIBUTABLE_TASK_SUCCESS_OR_PRECISE_FAILURE_BOUNDARY"
+    },
+    {
+      "id": "M1",
+      "window": "D_PLUS_1_TO_2_AFTER_PRIOR_MILESTONE",
+      "goal": "INDEPENDENT_REPRODUCTION_AND_PIN_LINK_PROFILE"
+    },
+    {
+      "id": "M2",
+      "window": "D_PLUS_2_TO_4_CONDITIONAL",
+      "goal": "COMPLETE_ORIGINAL_START_WITHOUT_TEACHER_SPLICE"
+    },
+    {
+      "id": "M3",
+      "window": "D_PLUS_4_TO_7_CONDITIONAL",
+      "goal": "FIXED_4_LEGAL_LAYOUTS_X_3_NEW_SEEDS",
+      "cards": 12,
+      "roster_before_predictions": true,
+      "no_success_rate_guarantee": true
+    },
+    {
+      "id": "M4",
+      "window": "FOLLOWING_1_TO_2_WEEKS_CONDITIONAL",
+      "goal": "SECOND_FULL_TASK_SUPPORTED_BY_THIS_CHECKPOINT_AND_EXISTING_LEGAL_ASSETS",
+      "assume_push_door_book_skill": false,
+      "relax_original_contact_gate": false
+    },
+    {
+      "id": "M5",
+      "window": "AFTER_PREDECESSORS",
+      "goal": "CONTINUOUS_TASK_FROM_ONE_INITIAL_INSTRUCTION_WITHOUT_TEACHER_OR_HIDDEN_RESET"
+    }
+  ],
+  "runtime_bindings_pending": {
+    "actual_implementation_sha": null,
+    "dirty_diff_hash": null,
+    "scene_reset_manifest": null,
+    "wbc_leg_dynamics_manifest": null,
+    "original_receiver_sha256": null,
+    "actual_fusion_adapter_sha256": null,
+    "actual_mobile_boundary_runner_sha256": null,
+    "virtual_left_A1_hash": null,
+    "original_terminal_and_cancel_capability": null,
+    "existing_owner_and_resource_binding": null,
+    "output_paths": null,
+    "actual_user_report_archive_hashes": null,
+    "qualification_results": null
+  },
+  "evidence": {
+    "source_manifest_url": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/719882e9fd154ffbe995484e7a766ada3b3ecd02/reports/SLA_GO2_V193/SOURCE_TASK/REGISTRATION.json",
+    "h0_report_url": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/719882e9fd154ffbe995484e7a766ada3b3ecd02/reports/SLA_GO2_V193/GRIP_H0/COMPACT_H0_ACTUAL.md",
+    "t2_report_url": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/719882e9fd154ffbe995484e7a766ada3b3ecd02/reports/SLA_GO2_V193/TARGET_T2/ACTUAL.md",
+    "v194c_plan_pr": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/pull/512",
+    "publication_is_execution_evidence": false
+  },
+  "publication_effects": {
+    "model_forwards": 0,
+    "native_starts": 0,
+    "physics_ticks": 0,
+    "training_updates": 0,
+    "render_jobs": 0,
+    "hardware_actions": 0,
+    "scientific_allocations": 0
+  }
+}
