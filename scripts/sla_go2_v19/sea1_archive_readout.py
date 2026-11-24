@@ -194,9 +194,13 @@ def target_context(root, sealed, item, prep, geometry, calibration):
             and all(data["image_mask"].values()) and data["extra_images"].shape == (9,224,224,3)
             and all(v.shape == (224,224,3) for v in data["image"].values())
             and data["state"].shape == (32,), "official effective input contract")
-    image_hash = dict(current={k: tensor_sha(v) for k,v in data["image"].items()},
-                      head_history=[tensor_sha(x) for x in data["extra_images"]],
-                      tokens=tensor_sha(data["tokenized_prompt"]), state=tensor_sha(data["state"]))
+    image_hash = dict(
+        current={k: tensor_sha(v) for k, v in data["image"].items()},
+        head_history=[tensor_sha(x) for x in data["extra_images"]],
+        tokens=tensor_sha(data["tokenized_prompt"]),
+        token_mask=tensor_sha(data["tokenized_prompt_mask"]),
+        state=tensor_sha(data["state"]),
+    )
     episode = read(sealed(case / "NATIVE_REQUEST.json"))["episode"]
     atom = next(r for r in rows(sealed(case / episode / "MOBILE_SAMPLES.private.jsonl"))
                 if r["native_end_step"] == item["tick"])
@@ -223,11 +227,12 @@ def read_cell(root, sealed, cell, item, context, inverse):
         sampled_state = z["sampler_state"].astype(str(z["sampler_state_dtype"]))
         decoded = z["absolute"].copy()
     require(raw.shape == (50, 32) and sampled_state.shape == (32,)
-            and np.isfinite(raw).all() and np.isfinite(decoded).all()
-            and np.array_equal(sampled_state, state.astype(sampled_state.dtype))
-            and np.array_equal(inverse(dict(state=sampled_state.copy(), actions=raw.copy()))["actions"].astype(np.float32),
-                               decoded),
-            "raw sampler or official inverse does not reproduce the returned bytes")
+            and np.isfinite(raw).all() and np.isfinite(decoded).all(), "invalid archived sampler output")
+    state_hash = tensor_sha(sampled_state)
+    decoded_hash = tensor_sha(decoded)
+    restored = inverse(dict(state=sampled_state.copy(), actions=raw.copy()))["actions"].astype(np.float32)
+    require(state_hash == tensor_sha(state.astype(sampled_state.dtype)) and decoded_hash == tensor_sha(restored),
+            "official processor or inverse does not reproduce the returned bytes")
     poses = origin @ pose_rows(decoded[:, 8:]) @ tool
     outcomes = {}
     for label, n in (("P10", P10), ("FULL50", FULL)):
@@ -251,8 +256,8 @@ def read_cell(root, sealed, cell, item, context, inverse):
         id=cell["id"], condition=cell["arm"], seed=cell["seed"], issue=issue,
         input_sha256=cell["input_sha256"], output_sha256=cell["output_sha256"],
         recorded_seed_and_inverse_verified=True,
-        actual_noise_tensor_archived=False, sampler_state_sha256=tensor_sha(sampled_state),
-        raw_actions_sha256=tensor_sha(raw), decoded_absolute_sha256=tensor_sha(decoded),
+        actual_noise_tensor_archived=False, sampler_state_sha256=state_hash,
+        raw_actions_sha256=tensor_sha(raw), decoded_absolute_sha256=decoded_hash,
         reconstructed_processor_fields=fields, image_masks=mask,
         mask_evidence="AT_SAMPLER" if issue == 489 else "FROZEN_DEFAULT_PROCESSOR",
         per_horizon=outcomes, right_gripper_fraction=grip,
