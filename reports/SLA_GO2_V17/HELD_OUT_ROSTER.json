@@ -1,0 +1,675 @@
+{
+  "registry": "V17_TEACHER_HOLDOUT_V2",
+  "status": "reserved_numeric_conditions_only",
+  "population_sources": [
+    "0ab2251f91f91c4d5b76a4e861cef27d3f9b5632a2b66910c5876c1ab61b214a",
+    "16d3f5125deb73e0fec71ac70b7e689d985d700c7de1ab27583e6b4cae09c989",
+    "242c37568579c0b08e4839542cd845ed4c96dc8bc223b3cd7f6c4c88cc8aca39",
+    "297b21cc67baa4b2cbdd78af68d244b550337b4cb9213fd27b26818e3958bec0",
+    "2b9597a45ecfdeb07aee4f2847c5297ba7f87ca09721563838fffe85a7b94781",
+    "4a601d1ed2126e7acf6e522b10da569098bda37be0c206baf7069a47c783b746",
+    "7cfb63e201c35777eab0e3c57d781abee2b9bd86f7083104a588fdb8f5969504",
+    "86ad22180a0e1fd937fdff28302e190fef65928c0d8b724de282b6c8e0eb0c4a",
+    "97a586c492811e212558f8e1c3ff978e2ec205cb9f8d7b90b8ba12c8622e3ec5",
+    "bc2f4bddf256bf957489a096335f2a541ab6d390715289214420c1cfb0631a50",
+    "cdcd114a712739315d06ee923fe8221142d911ab6b60a64f30eac1b619eec2e0",
+    "d92fe34f122637bb6dc29bb93d9f7a3d60464f65c5474b00962432bbc07b4914",
+    "f6a57cfa29e170f1413535caca88e20a50fa3d54ff9b46b8a03cb45a1b9cfad0",
+    "f80d61a58c2ad20e2d2f59ccba645bf0c5a61cfc8a19d3f53862651e5c76d353"
+  ],
+  "C20_geometry_sha256": "798ac175c19930736f5d47d8f8e9f3f360628188c6767dc013f2d660bbc2c137",
+  "V52_geometry_sha256": "b3db2ab95169ab027ec87b143bb1e53a4d6d74d3299c942837effa139809ca72",
+  "historical_geometry_counts": {
+    "F1": 143,
+    "F2": 148
+  },
+  "enrollment": "one teacher attempt per fixed row after allocation; retain every failed or unused row",
+  "test_access": "isolated TEST labels; one frozen version after VAL selection",
+  "initial_opening": "original task initialization only; no opening generalization tested",
+  "roster": [
+    {
+      "episode": "V17-VAL-F1-HOLD-red",
+      "split": "VAL",
+      "layout": "V17-VAL-F1-HOLD-red-layout",
+      "family": "F1",
+      "task": "HOLD-red",
+      "red_blue_offsets_mm": [
+        [
+          -12,
+          -12
+        ],
+        [
+          12,
+          12
+        ]
+      ],
+      "positions_world_m": {
+        "red": [
+          0.3445000000000001,
+          -0.0745,
+          0.62
+        ],
+        "blue": [
+          0.36850000000000005,
+          0.0395,
+          0.62
+        ]
+      },
+      "nearest_previous_relative_vector_mm": 28.84441,
+      "reset": 1106391811,
+      "seed": 669120385
+    },
+    {
+      "episode": "V17-VAL-F1-HOLD-blue",
+      "split": "VAL",
+      "layout": "V17-VAL-F1-HOLD-blue-layout",
+      "family": "F1",
+      "task": "HOLD-blue",
+      "red_blue_offsets_mm": [
+        [
+          -12,
+          12
+        ],
+        [
+          12,
+          -12
+        ]
+      ],
+      "positions_world_m": {
+        "red": [
+          0.3445000000000001,
+          -0.0505,
+          0.62
+        ],
+        "blue": [
+          0.36850000000000005,
+          0.015499999999999996,
+          0.62
+        ]
+      },
+      "nearest_previous_relative_vector_mm": 28.84441,
+      "reset": 3434894798,
+      "seed": 3280517002
+    },
+    {
+      "episode": "V17-VAL-F1-PLACE-red-right",
+      "split": "VAL",
+      "layout": "V17-VAL-F1-PLACE-red-right-layout",
+      "family": "F1",
+      "task": "PLACE-red-right",
+      "red_blue_offsets_mm": [
+        [
+          12,
+          -12
+        ],
+        [
+          -12,
+          12
+        ]
+      ],
+      "positions_world_m": {
+        "red": [
+          0.36850000000000005,
+          -0.0745,
+          0.62
+        ],
+        "blue": [
+          0.3445000000000001,
+          0.0395,
+          0.62
+        ]
+      },
+      "nearest_previous_relative_vector_mm": 28.84441,
+      "reset": 3147587624,
+      "seed": 1109437126
+    },
+    {
+      "episode": "V17-VAL-F1-PLACE-blue-right",
+      "split": "VAL",
+      "layout": "V17-VAL-F1-PLACE-blue-right-layout",
+      "family": "F1",
+      "task": "PLACE-blue-right",
+      "red_blue_offsets_mm": [
+        [
+          12,
+          12
+        ],
+        [
+          -12,
+          -12
+        ]
+      ],
+      "positions_world_m": {
+        "red": [
+          0.36850000000000005,
+          -0.0505,
+          0.62
+        ],
+        "blue": [
+          0.3445000000000001,
+          0.015499999999999996,
+          0.62
+        ]
+      },
+      "nearest_previous_relative_vector_mm": 28.84441,
+      "reset": 3660703501,
+      "seed": 3356853288
+    },
+    {
+      "episode": "V17-VAL-F2-HOLD-red",
+      "split": "VAL",
+      "layout": "V17-VAL-F2-HOLD-red-layout",
+      "family": "F2",
+      "task": "HOLD-red",
+      "red_blue_offsets_mm": [
+        [
+          12,
+          -12
+        ],
+        [
+          -12,
+          12
+        ]
+      ],
+      "positions_world_m": {
+        "red": [
+          0.3985,
+          0.0705,
+          0.62
+        ],
+        "blue": [
+          0.28450000000000003,
+          0.0945,
+          0.62
+        ]
+      },
+      "nearest_previous_relative_vector_mm": 28.84441,
+      "reset": 2687417128,
+      "seed": 1231316087
+    },
+    {
+      "episode": "V17-VAL-F2-HOLD-blue",
+      "split": "VAL",
+      "layout": "V17-VAL-F2-HOLD-blue-layout",
+      "family": "F2",
+      "task": "HOLD-blue",
+      "red_blue_offsets_mm": [
+        [
+          -12,
+          12
+        ],
+        [
+          12,
+          -12
+        ]
+      ],
+      "positions_world_m": {
+        "red": [
+          0.3745,
+          0.0945,
+          0.62
+        ],
+        "blue": [
+          0.30850000000000005,
+          0.0705,
+          0.62
+        ]
+      },
+      "nearest_previous_relative_vector_mm": 28.84441,
+      "reset": 4146307655,
+      "seed": 513235622
+    },
+    {
+      "episode": "V17-VAL-F2-PLACE-red-right",
+      "split": "VAL",
+      "layout": "V17-VAL-F2-PLACE-red-right-layout",
+      "family": "F2",
+      "task": "PLACE-red-right",
+      "red_blue_offsets_mm": [
+        [
+          -12,
+          -12
+        ],
+        [
+          12,
+          12
+        ]
+      ],
+      "positions_world_m": {
+        "red": [
+          0.3745,
+          0.0705,
+          0.62
+        ],
+        "blue": [
+          0.30850000000000005,
+          0.0945,
+          0.62
+        ]
+      },
+      "nearest_previous_relative_vector_mm": 28.84441,
+      "reset": 3814970461,
+      "seed": 3722090633
+    },
+    {
+      "episode": "V17-VAL-F2-PLACE-blue-right",
+      "split": "VAL",
+      "layout": "V17-VAL-F2-PLACE-blue-right-layout",
+      "family": "F2",
+      "task": "PLACE-blue-right",
+      "red_blue_offsets_mm": [
+        [
+          12,
+          12
+        ],
+        [
+          -12,
+          -12
+        ]
+      ],
+      "positions_world_m": {
+        "red": [
+          0.3985,
+          0.0945,
+          0.62
+        ],
+        "blue": [
+          0.28450000000000003,
+          0.0705,
+          0.62
+        ]
+      },
+      "nearest_previous_relative_vector_mm": 28.84441,
+      "reset": 4243795595,
+      "seed": 1056674773
+    },
+    {
+      "episode": "V17-TEST-F1-HOLD-red",
+      "split": "TEST",
+      "layout": "V17-TEST-F1-HOLD-red-layout",
+      "family": "F1",
+      "task": "HOLD-red",
+      "red_blue_offsets_mm": [
+        [
+          -12,
+          0
+        ],
+        [
+          12,
+          0
+        ]
+      ],
+      "positions_world_m": {
+        "red": [
+          0.3445000000000001,
+          -0.0625,
+          0.62
+        ],
+        "blue": [
+          0.36850000000000005,
+          0.027499999999999997,
+          0.62
+        ]
+      },
+      "nearest_previous_relative_vector_mm": 24.0,
+      "reset": 2935570198,
+      "seed": 2389998141
+    },
+    {
+      "episode": "V17-TEST-F1-HOLD-blue",
+      "split": "TEST",
+      "layout": "V17-TEST-F1-HOLD-blue-layout",
+      "family": "F1",
+      "task": "HOLD-blue",
+      "red_blue_offsets_mm": [
+        [
+          12,
+          0
+        ],
+        [
+          -12,
+          0
+        ]
+      ],
+      "positions_world_m": {
+        "red": [
+          0.36850000000000005,
+          -0.0625,
+          0.62
+        ],
+        "blue": [
+          0.3445000000000001,
+          0.027499999999999997,
+          0.62
+        ]
+      },
+      "nearest_previous_relative_vector_mm": 24.0,
+      "reset": 3323354423,
+      "seed": 444009089
+    },
+    {
+      "episode": "V17-TEST-F1-PLACE-red-right",
+      "split": "TEST",
+      "layout": "V17-TEST-F1-PLACE-red-right-layout",
+      "family": "F1",
+      "task": "PLACE-red-right",
+      "red_blue_offsets_mm": [
+        [
+          -2,
+          -12
+        ],
+        [
+          2,
+          12
+        ]
+      ],
+      "positions_world_m": {
+        "red": [
+          0.35450000000000004,
+          -0.0745,
+          0.62
+        ],
+        "blue": [
+          0.35850000000000004,
+          0.0395,
+          0.62
+        ]
+      },
+      "nearest_previous_relative_vector_mm": 16.492423,
+      "reset": 3110418441,
+      "seed": 2973048408
+    },
+    {
+      "episode": "V17-TEST-F1-PLACE-blue-right",
+      "split": "TEST",
+      "layout": "V17-TEST-F1-PLACE-blue-right-layout",
+      "family": "F1",
+      "task": "PLACE-blue-right",
+      "red_blue_offsets_mm": [
+        [
+          -2,
+          12
+        ],
+        [
+          2,
+          -12
+        ]
+      ],
+      "positions_world_m": {
+        "red": [
+          0.35450000000000004,
+          -0.0505,
+          0.62
+        ],
+        "blue": [
+          0.35850000000000004,
+          0.015499999999999996,
+          0.62
+        ]
+      },
+      "nearest_previous_relative_vector_mm": 16.492423,
+      "reset": 3567446856,
+      "seed": 1525869507
+    },
+    {
+      "episode": "V17-TEST-F1-PLACE-red-left",
+      "split": "TEST",
+      "layout": "V17-TEST-F1-PLACE-red-left-layout",
+      "family": "F1",
+      "task": "PLACE-red-left",
+      "red_blue_offsets_mm": [
+        [
+          6,
+          -8
+        ],
+        [
+          -6,
+          8
+        ]
+      ],
+      "positions_world_m": {
+        "red": [
+          0.36250000000000004,
+          -0.0705,
+          0.62
+        ],
+        "blue": [
+          0.35050000000000003,
+          0.0355,
+          0.62
+        ]
+      },
+      "nearest_previous_relative_vector_mm": 14.422205,
+      "reset": 2822951641,
+      "seed": 1459548671
+    },
+    {
+      "episode": "V17-TEST-F1-PLACE-blue-left",
+      "split": "TEST",
+      "layout": "V17-TEST-F1-PLACE-blue-left-layout",
+      "family": "F1",
+      "task": "PLACE-blue-left",
+      "red_blue_offsets_mm": [
+        [
+          -8,
+          6
+        ],
+        [
+          8,
+          -6
+        ]
+      ],
+      "positions_world_m": {
+        "red": [
+          0.34850000000000003,
+          -0.0565,
+          0.62
+        ],
+        "blue": [
+          0.36450000000000005,
+          0.021499999999999995,
+          0.62
+        ]
+      },
+      "nearest_previous_relative_vector_mm": 14.422205,
+      "reset": 2868809068,
+      "seed": 1914539941
+    },
+    {
+      "episode": "V17-TEST-F2-HOLD-red",
+      "split": "TEST",
+      "layout": "V17-TEST-F2-HOLD-red-layout",
+      "family": "F2",
+      "task": "HOLD-red",
+      "red_blue_offsets_mm": [
+        [
+          12,
+          0
+        ],
+        [
+          -12,
+          0
+        ]
+      ],
+      "positions_world_m": {
+        "red": [
+          0.3985,
+          0.0825,
+          0.62
+        ],
+        "blue": [
+          0.28450000000000003,
+          0.0825,
+          0.62
+        ]
+      },
+      "nearest_previous_relative_vector_mm": 24.0,
+      "reset": 803791758,
+      "seed": 856797725
+    },
+    {
+      "episode": "V17-TEST-F2-HOLD-blue",
+      "split": "TEST",
+      "layout": "V17-TEST-F2-HOLD-blue-layout",
+      "family": "F2",
+      "task": "HOLD-blue",
+      "red_blue_offsets_mm": [
+        [
+          -12,
+          0
+        ],
+        [
+          12,
+          0
+        ]
+      ],
+      "positions_world_m": {
+        "red": [
+          0.3745,
+          0.0825,
+          0.62
+        ],
+        "blue": [
+          0.30850000000000005,
+          0.0825,
+          0.62
+        ]
+      },
+      "nearest_previous_relative_vector_mm": 24.0,
+      "reset": 2734150689,
+      "seed": 4086464569
+    },
+    {
+      "episode": "V17-TEST-F2-PLACE-red-right",
+      "split": "TEST",
+      "layout": "V17-TEST-F2-PLACE-red-right-layout",
+      "family": "F2",
+      "task": "PLACE-red-right",
+      "red_blue_offsets_mm": [
+        [
+          2,
+          -12
+        ],
+        [
+          -2,
+          12
+        ]
+      ],
+      "positions_world_m": {
+        "red": [
+          0.3885,
+          0.0705,
+          0.62
+        ],
+        "blue": [
+          0.29450000000000004,
+          0.0945,
+          0.62
+        ]
+      },
+      "nearest_previous_relative_vector_mm": 16.492423,
+      "reset": 865616731,
+      "seed": 742595669
+    },
+    {
+      "episode": "V17-TEST-F2-PLACE-blue-right",
+      "split": "TEST",
+      "layout": "V17-TEST-F2-PLACE-blue-right-layout",
+      "family": "F2",
+      "task": "PLACE-blue-right",
+      "red_blue_offsets_mm": [
+        [
+          -2,
+          12
+        ],
+        [
+          2,
+          -12
+        ]
+      ],
+      "positions_world_m": {
+        "red": [
+          0.3845,
+          0.0945,
+          0.62
+        ],
+        "blue": [
+          0.29850000000000004,
+          0.0705,
+          0.62
+        ]
+      },
+      "nearest_previous_relative_vector_mm": 16.492423,
+      "reset": 1347128706,
+      "seed": 1955007717
+    },
+    {
+      "episode": "V17-TEST-F2-PLACE-red-left",
+      "split": "TEST",
+      "layout": "V17-TEST-F2-PLACE-red-left-layout",
+      "family": "F2",
+      "task": "PLACE-red-left",
+      "red_blue_offsets_mm": [
+        [
+          6,
+          8
+        ],
+        [
+          -6,
+          -8
+        ]
+      ],
+      "positions_world_m": {
+        "red": [
+          0.3925,
+          0.0905,
+          0.62
+        ],
+        "blue": [
+          0.29050000000000004,
+          0.0745,
+          0.62
+        ]
+      },
+      "nearest_previous_relative_vector_mm": 14.422205,
+      "reset": 1539873267,
+      "seed": 2306873298
+    },
+    {
+      "episode": "V17-TEST-F2-PLACE-blue-left",
+      "split": "TEST",
+      "layout": "V17-TEST-F2-PLACE-blue-left-layout",
+      "family": "F2",
+      "task": "PLACE-blue-left",
+      "red_blue_offsets_mm": [
+        [
+          8,
+          -6
+        ],
+        [
+          -8,
+          6
+        ]
+      ],
+      "positions_world_m": {
+        "red": [
+          0.3945,
+          0.0765,
+          0.62
+        ],
+        "blue": [
+          0.28850000000000003,
+          0.0885,
+          0.62
+        ]
+      },
+      "nearest_previous_relative_vector_mm": 14.422205,
+      "reset": 3253064974,
+      "seed": 2922257475
+    }
+  ],
+  "collected_VAL": 0,
+  "collected_TEST": 0,
+  "optimizer_updates": 0,
+  "native_starts": 0
+}
