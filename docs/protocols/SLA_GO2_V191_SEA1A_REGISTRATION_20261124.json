@@ -1,0 +1,554 @@
+{
+  "schema": "SLA_GO2_V191_SEA1A_FIXED_SAME_VIEW_APPEARANCE",
+  "date": "2026-11-24",
+  "status": "CANDIDATE_PLAN_ONLY_NO_ALLOCATION",
+  "parent_pr": 493,
+  "parent_sha": "7ed380d32aea3c24cf6fe4acd3b4a848c1c27de5",
+  "prior_plan_pr": 492,
+  "panel_id": "SEA1A-SAME-VIEW-APPEARANCE-01",
+  "scope": "Archive-only single-factor appearance intervention on actual Go2 simulation observations; no source real-camera calibration claim, no deployment or task success claim.",
+  "processor_identity": {
+    "model_revision": "7f6880569c3be777291e646fad1b4951245e8553",
+    "source_commit": "c1b205ec42b4ab2cac9c2159c8b4c2f723e5e454",
+    "effective_config_sha256": "16e86b4a36837e6a7c5c17b41574ab79d0b708135a149470e88f4f98e2815cbe",
+    "norm_sha256": "cf6ddf4f89180e762e5e6210881a763f8e29d3499fb1cc69a440de7aa585d276",
+    "tokenizer_sha256": "8986bb4f423f07f8c7f70d0dbe3526fb2316056c17bae71b1ea975e77a168fc6",
+    "manifest_sha256": "2e473d45a29f624f8c0242bf60389214613e3a060446e6845cd1a95322f2610c",
+    "action_horizon": 50,
+    "action_dim": 32,
+    "attention_impl": "xla",
+    "extra_frames_first": false
+  },
+  "source_evidence": [
+    {
+      "path": "reports/SLA_GO2_V19/SEA0/SEA0_PAIRED_ROSTER.json",
+      "git_blob_sha": "6db84c454c2340918e605528631d95abb6eedb56"
+    },
+    {
+      "path": "reports/SLA_GO2_V19/SEA1/ARCHIVE_READBACK.json",
+      "git_blob_sha": "774f3448484c2dee9a3790fe46723daa6f21445e"
+    },
+    {
+      "path": "reports/SLA_GO2_V19/SEA1/TARGET_BRIDGE_ACTUAL.json",
+      "git_blob_sha": "fab8cda031dcd56cd5c27ec5e602cf2269d59066"
+    },
+    {
+      "path": "reports/SLA_GO2_V19/SEA1/OBSERVATION_INGRESS_ACTUAL.json",
+      "git_blob_sha": "44152f70a307a570ac0de11b7652975990e29f41"
+    }
+  ],
+  "source_geometry_asset_sha256": "8dd525666399c4e093eb58de6bc7a5278c114fc6bc8c433a5c2bffde33a6603c",
+  "frozen_conditions": {
+    "camera": "archived runtime-patched body and unchanged native wrist",
+    "state": "exact 16D measured/virtual-left input, normalized state unchanged",
+    "prompt": "original Reach language unchanged",
+    "masks": "original RAW all current masks; same black left placeholder and valid mask; no LEFT_MASK_ONLY mixed into this panel",
+    "memory": "first frame + previous eight causal head frames, original history indices",
+    "source_clock_hz": 30,
+    "action_dim": 32,
+    "decoded_action_dim": 16,
+    "action_horizon": 50,
+    "checkpoint_unchanged": true,
+    "noise": "paired explicit sampler noise or verified deterministic identical sampler path and key; preserve noise/hash, raw tensor, decoded output"
+  },
+  "states": [
+    {
+      "id": "G00-00",
+      "layout": "G00",
+      "tick": 6203,
+      "input_sha256": "13b3c4ff40bded949c5af67cacbc50cd3bc4610dc0601987d680818e4951276a",
+      "input_file_sha256": "50d497f7b25c7bb12ec3acad221bac15ef310664b86a092903cf49bbb2d0de6e",
+      "scene_sha256": "19368138aa85927c9482e2a69f4a9bc7aa35c8a171969d35db7d72a6f1797635",
+      "owner_spec_sha256": "d50007dfb5a2e88bc0ffa4d79c909e5f999359bb795125481cba03e3f63cdd71",
+      "history_ticks": [
+        0,
+        2203,
+        2703,
+        3203,
+        3703,
+        4203,
+        4703,
+        5203,
+        5703,
+        6203
+      ],
+      "original_return_present": true,
+      "crosspaint_input_sha256": "5249d04ec78c5d1cfb6b2139769a650e45388780754a82a123c0d1af5e83bb1c",
+      "crosspaint_archive_sha256": "bd7991f298a65e2d96ce3f03aaf3f76e2492a2bdafbac7102eadb8bee8a7135f"
+    },
+    {
+      "id": "G00-01",
+      "layout": "G00",
+      "tick": 8203,
+      "input_sha256": "7e059f8eff3f19c5368f847c226edbf33950f2722bb6bd79299ff7ea767ea6c2",
+      "input_file_sha256": "a6c47683cb6f9a9e39a7675405a65c21798700ae54cbe79dc1fa45abace0f5a5",
+      "scene_sha256": "19368138aa85927c9482e2a69f4a9bc7aa35c8a171969d35db7d72a6f1797635",
+      "owner_spec_sha256": "d50007dfb5a2e88bc0ffa4d79c909e5f999359bb795125481cba03e3f63cdd71",
+      "history_ticks": [
+        0,
+        4203,
+        4703,
+        5203,
+        5703,
+        6203,
+        6703,
+        7203,
+        7703,
+        8203
+      ],
+      "original_return_present": false,
+      "crosspaint_input_sha256": "1c7d2ba7ae354db7635a871f610d682838f62499fb4613c7adab076e93019e84",
+      "crosspaint_archive_sha256": "a9f2d10936eb325527045d4f71f3403c06614692bb97c0acd73ee9c6e0350bae"
+    },
+    {
+      "id": "G01-00",
+      "layout": "G01",
+      "tick": 6203,
+      "input_sha256": "999b92327bb93242c82651808f2466d967f17acd05b808f65d5b8701de110095",
+      "input_file_sha256": "3e1511a09184f64d19805e77f81b96f83ce8f06e2875dbae523ef25dc5145c09",
+      "scene_sha256": "9ae3232754c5ef287239801fc10230199872f1526c78c099b746f0d7ad088507",
+      "owner_spec_sha256": "c8d7fdd3b014ccd68d129e38b6567ee17caa8a9ec017fe4b77b6e1cdf690fab6",
+      "history_ticks": [
+        0,
+        2203,
+        2703,
+        3203,
+        3703,
+        4203,
+        4703,
+        5203,
+        5703,
+        6203
+      ],
+      "original_return_present": true,
+      "crosspaint_input_sha256": "5342deb9567c0d38bad6095684b5cceef8ce5372debeb863ffcad00852d970a2",
+      "crosspaint_archive_sha256": "d07b11e791f06fce58f467721dc82e6cca8516b6c48ac89a62f7b4d9f14e6109"
+    },
+    {
+      "id": "G01-01",
+      "layout": "G01",
+      "tick": 8203,
+      "input_sha256": "b16e7d7bdb8f4287d296c6565096ebe6995e13e3af9cdd2ed1534cbb7a93013c",
+      "input_file_sha256": "cc08c57016abbe98482833fca1ba3fdf8aee0b7012b7a28dc802104b8bb9b5e8",
+      "scene_sha256": "9ae3232754c5ef287239801fc10230199872f1526c78c099b746f0d7ad088507",
+      "owner_spec_sha256": "c8d7fdd3b014ccd68d129e38b6567ee17caa8a9ec017fe4b77b6e1cdf690fab6",
+      "history_ticks": [
+        0,
+        4203,
+        4703,
+        5203,
+        5703,
+        6203,
+        6703,
+        7203,
+        7703,
+        8203
+      ],
+      "original_return_present": true,
+      "crosspaint_input_sha256": "cf6fbc8f317bcca3d76f3f182ce5cfce0a6a2c67981336bc17da714642d040ce",
+      "crosspaint_archive_sha256": "f0bb96331a1d9f53c18ad431a2eae4f7a3c7449f129d7316a38d1974cd3496e8"
+    }
+  ],
+  "cells": [
+    {
+      "slot": "G00-00-0-RAW",
+      "state_id": "G00-00",
+      "tick": 6203,
+      "seed": [
+        0,
+        0
+      ],
+      "arm": "RAW",
+      "input_sha256": "13b3c4ff40bded949c5af67cacbc50cd3bc4610dc0601987d680818e4951276a",
+      "status": "CONDITIONAL_REUSE",
+      "archive_candidate": {
+        "id": "G00-00",
+        "arm": "RAW",
+        "seed": [
+          0,
+          0
+        ],
+        "input_sha256": "13b3c4ff40bded949c5af67cacbc50cd3bc4610dc0601987d680818e4951276a",
+        "output_sha256": "f278b7a2384f3c0198b4aa598f1b778e1e1e66b1507f3de2d53bb7cf932cb6d8",
+        "receipt_sha256": "dfe19903eca412f3aff0d5946aa1934ad2bc607a01a822390bbe6f8deb3af51e",
+        "exact_archive_candidate": true,
+        "raw_actions_sha256": "97da697bbd0c1d56238ce1f5add3efe767791ab003b75f78feeb14b21978bed1",
+        "sampler_state_sha256": "dba3487cfdfddd97f0c451922f6632fad56d43c31182e2d60cad3771edc34907",
+        "actual_noise_tensor_archived": false
+      }
+    },
+    {
+      "slot": "G00-00-0-SAME_VIEW_CROSSPAINT",
+      "state_id": "G00-00",
+      "tick": 6203,
+      "seed": [
+        0,
+        0
+      ],
+      "arm": "SAME_VIEW_CROSSPAINT",
+      "input_sha256": "5249d04ec78c5d1cfb6b2139769a650e45388780754a82a123c0d1af5e83bb1c",
+      "status": "NEW_FORWARD_CANDIDATE",
+      "archive_candidate": null
+    },
+    {
+      "slot": "G00-01-0-RAW",
+      "state_id": "G00-01",
+      "tick": 8203,
+      "seed": [
+        0,
+        0
+      ],
+      "arm": "RAW",
+      "input_sha256": "7e059f8eff3f19c5368f847c226edbf33950f2722bb6bd79299ff7ea767ea6c2",
+      "status": "NEW_FORWARD_CANDIDATE",
+      "archive_candidate": null
+    },
+    {
+      "slot": "G00-01-0-SAME_VIEW_CROSSPAINT",
+      "state_id": "G00-01",
+      "tick": 8203,
+      "seed": [
+        0,
+        0
+      ],
+      "arm": "SAME_VIEW_CROSSPAINT",
+      "input_sha256": "1c7d2ba7ae354db7635a871f610d682838f62499fb4613c7adab076e93019e84",
+      "status": "NEW_FORWARD_CANDIDATE",
+      "archive_candidate": null
+    },
+    {
+      "slot": "G01-00-0-RAW",
+      "state_id": "G01-00",
+      "tick": 6203,
+      "seed": [
+        0,
+        0
+      ],
+      "arm": "RAW",
+      "input_sha256": "999b92327bb93242c82651808f2466d967f17acd05b808f65d5b8701de110095",
+      "status": "CONDITIONAL_REUSE",
+      "archive_candidate": {
+        "id": "G01-00",
+        "arm": "RAW",
+        "seed": [
+          0,
+          0
+        ],
+        "input_sha256": "999b92327bb93242c82651808f2466d967f17acd05b808f65d5b8701de110095",
+        "output_sha256": "d172fccb6ef7cba93ebb1de746a4c991acd24bdaa7b7696cc0d63cfb55154287",
+        "receipt_sha256": "fcd31f9e98d7028a50a91eee0856b70a89c321c0f15f926f0e5efb729b81b99b",
+        "exact_archive_candidate": true,
+        "raw_actions_sha256": "acadbad1a50f2a291bc94423b810dd87fe5ef11993e23cc452f6ccb3aaf27f88",
+        "sampler_state_sha256": "23110c08a876f1ca234114b9754a7a5d90f405778e1d49d2614553c8d0c1a4d2",
+        "actual_noise_tensor_archived": false
+      }
+    },
+    {
+      "slot": "G01-00-0-SAME_VIEW_CROSSPAINT",
+      "state_id": "G01-00",
+      "tick": 6203,
+      "seed": [
+        0,
+        0
+      ],
+      "arm": "SAME_VIEW_CROSSPAINT",
+      "input_sha256": "5342deb9567c0d38bad6095684b5cceef8ce5372debeb863ffcad00852d970a2",
+      "status": "NEW_FORWARD_CANDIDATE",
+      "archive_candidate": null
+    },
+    {
+      "slot": "G01-01-0-RAW",
+      "state_id": "G01-01",
+      "tick": 8203,
+      "seed": [
+        0,
+        0
+      ],
+      "arm": "RAW",
+      "input_sha256": "b16e7d7bdb8f4287d296c6565096ebe6995e13e3af9cdd2ed1534cbb7a93013c",
+      "status": "CONDITIONAL_REUSE",
+      "archive_candidate": {
+        "id": "G01-01",
+        "arm": "RAW",
+        "seed": [
+          0,
+          0
+        ],
+        "input_sha256": "b16e7d7bdb8f4287d296c6565096ebe6995e13e3af9cdd2ed1534cbb7a93013c",
+        "output_sha256": "ea66e0bd1dd1d0da616e7aef9f3ebc1e916fe62f73b0f718a623de9cbe6d7e34",
+        "receipt_sha256": "6a20bf1ae93282a65c764323a38b92fbbf39f76d20fe1190dcd46a73731b8b05",
+        "exact_archive_candidate": true,
+        "raw_actions_sha256": "c198be58f86c0ba6d97f4ffac25ae5fbf7459ab946e71a569b40999896314fe0",
+        "sampler_state_sha256": "ec0c3951fee7403a1b5ff683ef7700ecbb5a9aeed39c3b50062cd6e0d63e4ee9",
+        "actual_noise_tensor_archived": false
+      }
+    },
+    {
+      "slot": "G01-01-0-SAME_VIEW_CROSSPAINT",
+      "state_id": "G01-01",
+      "tick": 8203,
+      "seed": [
+        0,
+        0
+      ],
+      "arm": "SAME_VIEW_CROSSPAINT",
+      "input_sha256": "cf6fbc8f317bcca3d76f3f182ce5cfce0a6a2c67981336bc17da714642d040ce",
+      "status": "NEW_FORWARD_CANDIDATE",
+      "archive_candidate": null
+    },
+    {
+      "slot": "G00-00-1-RAW",
+      "state_id": "G00-00",
+      "tick": 6203,
+      "seed": [
+        0,
+        1
+      ],
+      "arm": "RAW",
+      "input_sha256": "13b3c4ff40bded949c5af67cacbc50cd3bc4610dc0601987d680818e4951276a",
+      "status": "NEW_FORWARD_CANDIDATE",
+      "archive_candidate": null
+    },
+    {
+      "slot": "G00-00-1-SAME_VIEW_CROSSPAINT",
+      "state_id": "G00-00",
+      "tick": 6203,
+      "seed": [
+        0,
+        1
+      ],
+      "arm": "SAME_VIEW_CROSSPAINT",
+      "input_sha256": "5249d04ec78c5d1cfb6b2139769a650e45388780754a82a123c0d1af5e83bb1c",
+      "status": "NEW_FORWARD_CANDIDATE",
+      "archive_candidate": null
+    },
+    {
+      "slot": "G00-01-1-RAW",
+      "state_id": "G00-01",
+      "tick": 8203,
+      "seed": [
+        0,
+        1
+      ],
+      "arm": "RAW",
+      "input_sha256": "7e059f8eff3f19c5368f847c226edbf33950f2722bb6bd79299ff7ea767ea6c2",
+      "status": "NEW_FORWARD_CANDIDATE",
+      "archive_candidate": null
+    },
+    {
+      "slot": "G00-01-1-SAME_VIEW_CROSSPAINT",
+      "state_id": "G00-01",
+      "tick": 8203,
+      "seed": [
+        0,
+        1
+      ],
+      "arm": "SAME_VIEW_CROSSPAINT",
+      "input_sha256": "1c7d2ba7ae354db7635a871f610d682838f62499fb4613c7adab076e93019e84",
+      "status": "NEW_FORWARD_CANDIDATE",
+      "archive_candidate": null
+    },
+    {
+      "slot": "G01-00-1-RAW",
+      "state_id": "G01-00",
+      "tick": 6203,
+      "seed": [
+        0,
+        1
+      ],
+      "arm": "RAW",
+      "input_sha256": "999b92327bb93242c82651808f2466d967f17acd05b808f65d5b8701de110095",
+      "status": "CONDITIONAL_REUSE",
+      "archive_candidate": {
+        "id": "G01-00",
+        "arm": "RAW",
+        "seed": [
+          0,
+          1
+        ],
+        "input_sha256": "999b92327bb93242c82651808f2466d967f17acd05b808f65d5b8701de110095",
+        "output_sha256": "7762a7b98ebbeb21c4fe979d61476d9ff2811772991b761e24cef15396b11902",
+        "receipt_sha256": "0e674ec14e4f359e493121998ddcfa19d346838620c7177b9e07cd6b51463d79",
+        "exact_archive_candidate": true,
+        "raw_actions_sha256": "8c62f914d7dcaada7e060147190da181bbae1d47ff6ad51981da3c2e879c9b90",
+        "sampler_state_sha256": "23110c08a876f1ca234114b9754a7a5d90f405778e1d49d2614553c8d0c1a4d2",
+        "actual_noise_tensor_archived": false
+      }
+    },
+    {
+      "slot": "G01-00-1-SAME_VIEW_CROSSPAINT",
+      "state_id": "G01-00",
+      "tick": 6203,
+      "seed": [
+        0,
+        1
+      ],
+      "arm": "SAME_VIEW_CROSSPAINT",
+      "input_sha256": "5342deb9567c0d38bad6095684b5cceef8ce5372debeb863ffcad00852d970a2",
+      "status": "NEW_FORWARD_CANDIDATE",
+      "archive_candidate": null
+    },
+    {
+      "slot": "G01-01-1-RAW",
+      "state_id": "G01-01",
+      "tick": 8203,
+      "seed": [
+        0,
+        1
+      ],
+      "arm": "RAW",
+      "input_sha256": "b16e7d7bdb8f4287d296c6565096ebe6995e13e3af9cdd2ed1534cbb7a93013c",
+      "status": "CONDITIONAL_REUSE",
+      "archive_candidate": {
+        "id": "G01-01",
+        "arm": "RAW",
+        "seed": [
+          0,
+          1
+        ],
+        "input_sha256": "b16e7d7bdb8f4287d296c6565096ebe6995e13e3af9cdd2ed1534cbb7a93013c",
+        "output_sha256": "f00ad33aa6f80b8191b60654be5679e0efbe4a7eedcda75daee03894ce79b4eb",
+        "receipt_sha256": "722ff7c16486aef012889ac52bfe99366b50725e3d3b60f5dc7a4ebc5e5a8810",
+        "exact_archive_candidate": true,
+        "raw_actions_sha256": "d32e9d08ff66314cfe99814c03b9cb1139a9a2c14176dd2c59ad16b19763c12e",
+        "sampler_state_sha256": "ec0c3951fee7403a1b5ff683ef7700ecbb5a9aeed39c3b50062cd6e0d63e4ee9",
+        "actual_noise_tensor_archived": false
+      }
+    },
+    {
+      "slot": "G01-01-1-SAME_VIEW_CROSSPAINT",
+      "state_id": "G01-01",
+      "tick": 8203,
+      "seed": [
+        0,
+        1
+      ],
+      "arm": "SAME_VIEW_CROSSPAINT",
+      "input_sha256": "cf6fbc8f317bcca3d76f3f182ce5cfce0a6a2c67981336bc17da714642d040ce",
+      "status": "NEW_FORWARD_CANDIDATE",
+      "archive_candidate": null
+    }
+  ],
+  "reuse_rules": {
+    "candidate_count": 5,
+    "exact_only": true,
+    "old_actual_noise_tensor_archived": false,
+    "decision_locked_before_crosspaint_result": true,
+    "if_unverified_run_both_fresh_within_16_cells": true,
+    "never_relabel_G00_old_missing_return": true,
+    "expected_new_if_all_5_reused": 11,
+    "maximum_new_forward_entries": 16,
+    "technical_attempt_counts": true,
+    "no_extra_repeat_or_seed_search": true
+  },
+  "primary_metric": {
+    "horizon": "raw common world TCP action rows 0..9 (30Hz source indices, NOT original H40 P10 20Hz), report 0.300s source row-end and 0.333s successor-state interpretation separately",
+    "definition": "distance(actual TCP at query, fixed archived vision red center) minus distance(predicted TCP at row9, same center), in mm. Pair difference CROSSPAINT minus RAW. Keep predicted first-to-last delta and first point offset separately. Red center and historical axis used ONLY in evaluator after prediction is sealed.",
+    "unit": "state pair; seeds are repeated measures; four states are nested in two episodes",
+    "secondary": [
+      "row0 to row9 signed task-axis displacement and transverse net/peak",
+      "pose angle drift and first-point offset",
+      "FULL50 same metrics, including measured start and predicted start",
+      "normalized grip fraction, 0.55/0.65 threshold crossings including left proposal and uncalibrated physical source width",
+      "fixed raw source-index comparison before retiming; common selected phase if compiling",
+      "same SEA-E first H40, whole selected prefix static clearance>=15mm, remaining budget; 7/7/4/7/3/7 prior diagnostic retained",
+      "edit count and unresolved pixels per view/history, inference latency and GPU cost"
+    ]
+  },
+  "candidate_decision": {
+    "positive": "All 16 evaluable cells. At least 3 of 4 state groups have pair improvement >=2mm in both seeds in primary metric. No systematic FULL50 worsening (median paired full50 distance gain change >=0), no newly proposed unexpected OPEN/CLOSE threshold crossing in no-contact context. Development screen only; 2mm exploratory relevance threshold, not significance or native qualification.",
+    "negative": "Complete panel fails consistent direction/improvement, or worsens substantially. Preserve all results; do not tune render on this panel. No broad claim ruling out all visual embodiment differences.",
+    "inconclusive": "Missing/failed pair, contradictory seed effect, or insufficient visibility. No positive gate; keep denominator, next independent source state/vision diagnostic if justified. No automatic repeat.",
+    "confirm": "If promising, lock one method and register distinct independent states, same two conditions/seeds; no final TEST or old layout reuse as independent. Need SEA-E and task-specific qualification for native; no contact until source tool/grip and H0."
+  },
+  "parallel": {
+    "SEA2": {
+      "existing_issue": 494,
+      "status_at_publication": "OPEN_AWAITING_INDEPENDENT_ALLOCATION",
+      "original_scope_unchanged": true,
+      "starts": 4,
+      "ticks_per_start": 20000,
+      "total_ticks": 80000,
+      "forwards": 0,
+      "updates": 0,
+      "contact": false
+    },
+    "SEA1B_source_state_ablation": {
+      "status": "CONDITIONAL_SEPARATE",
+      "source_states": 4,
+      "conditions": [
+        "REAL_SOURCE",
+        "LEFT_MASK_ONLY",
+        "VIRTUAL_LEFT_STATE_ONLY",
+        "BOTH"
+      ],
+      "seeds": 2,
+      "new_forwards_cap": 32,
+      "reuse_old_P1_if_exact": true,
+      "diagnostic_only": true
+    },
+    "SEA1C_source_assets": {
+      "status": "BLOCKED_EXTERNAL",
+      "original_pilot_cells": 64,
+      "calibration_required": true,
+      "simulation_alternative": "separate REAL_PT sim-source control before matching, never mix real/sim codec/checkpoint"
+    },
+    "SEA2_receding_horizon": {
+      "status": "CONDITIONAL_AFTER_494_AND_CLOCK_EVIDENCE",
+      "original_H40_limits_preserved": true,
+      "new_safety_profile_requires_independent_qualification": true
+    },
+    "SEA3": {
+      "status": "CONDITIONAL_EVIDENCE_DRIVEN",
+      "sla_updates": 0,
+      "task_training_demonstrations": 0
+    },
+    "R5": {
+      "status": "RETAINED_COMPARATOR_NOT_DEFAULT",
+      "pr": 491
+    }
+  },
+  "candidate_caps_not_allocation": true,
+  "new_scientific_allocation": {
+    "gpu_forwards": 0,
+    "native_starts": 0,
+    "physics_ticks": 0,
+    "render_jobs": 0,
+    "adapter_updates": 0,
+    "sla_updates": 0,
+    "contact": false,
+    "real_hardware": false
+  },
+  "mandatory_actual": [
+    "roster_slots",
+    "reused_verified",
+    "entered",
+    "returned",
+    "screened",
+    "technical",
+    "unstarted",
+    "paired_state_groups",
+    "paired_noise_hashes",
+    "raw_and_decoded_hashes",
+    "condition_unchanged_fields",
+    "primary_and_secondary_per_cell",
+    "paired_difference",
+    "static_sweep",
+    "time_budget",
+    "source_clock",
+    "adapter_edit_provenance",
+    "gpu_seconds",
+    "peak_memory",
+    "leases_closed",
+    "next_decision"
+  ],
+  "hard_stop": [
+    "UNREGISTERED_CELL_OR_INPUT",
+    "CHECKPOINT_PROCESSOR_OR_NOISE_MISMATCH",
+    "GT_OR_TASK_LABEL_LEAK",
+    "OFFLINE_SCOPE_VIOLATION",
+    "OWNER_LEASE_DEADLINE_OR_RESOURCE_CAP",
+    "MISSING_EVIDENCE",
+    "AFTER_STOP_ACTIVITY"
+  ]
+}
