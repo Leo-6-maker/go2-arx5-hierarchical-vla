@@ -1,0 +1,926 @@
+{
+  "schema": "SLA_MULTISOURCE_CLOSED_LOOP_GOAL_V2",
+  "date_SGT": "2026-11-20",
+  "timezone": "Asia/Singapore",
+  "status": "PUBLISHED_TASK_SPEC_NOT_SITE_EXECUTION",
+  "protocol": "docs/protocols/SLA_MULTISOURCE_CLOSED_LOOP_GOAL_V2_20261120.md",
+  "startup_prompt": "docs/handover/2026-11-20/START_SLA_MULTISOURCE_CLOSED_LOOP_GOAL_V2.md",
+  "mandate": {
+    "goal": "Run recoverable multisource post-training, independently evaluate all domains, and obtain measured Go2+ARX5 closed-loop grasp/HOLD/PLACE outcomes.",
+    "use_existing_scheduler_owner_and_publisher": true,
+    "routine_user_space_repairs_autonomous": true,
+    "continuous_Codex_monitoring": false,
+    "creates_ChatGPT_automation": false,
+    "campaign_horizon_days_from_actual_deployment": 14,
+    "automatic_extension": false,
+    "campaign_deadline_sealed_once_at_T0": true,
+    "wrapper_effective_deadline": "min(actual_site_deadline,campaign_deadline) with save/close margin",
+    "deadline_action": "Existing site event triggers once-only STOP/finalizer; verify and cancel own unstarted successors; active own segments gracefully seal.",
+    "campaign_horizon_is_site_allocation": false,
+    "actual_finite_site_allocation_required": true,
+    "real_hardware_requests": 0,
+    "may_modify_WBC_or_safety_or_old_TEST": false,
+    "publication_is_authorization_to_bypass_credentials_or_locks": false
+  },
+  "sources": {
+    "previous_plan": "acac286c3b7a78fe24afa3f41539b1a9a8be328c",
+    "public_report": "0ef0abfcc39096666ad8bed6a5842f3ba25cd2b7",
+    "scale_contract": "926226914a0c08ee1ebb143e0edea1434728107b",
+    "adapt_worker": "1432c8dc88c57adf39e8fa363f5438c5e63aa8fd",
+    "adapt_handoff_selector": "f9c8457bbe47c35c54d173abfc619500320b1ad2",
+    "deployment_v2": "71881dcf10d2887b9dbfb31e012b0d1c1ad55c33",
+    "mix_handoff": "2bb3ba25c39868bdc351fb289c757964d38ddfa9",
+    "mix_worker": "31076fc7a64302b0705ae4d7e526c4341209a100",
+    "performance_PR419": "e98f58d51e599384a5eee7652a7e600a7dc77ce0"
+  },
+  "evidence": {
+    "public_observed_SGT": "2026-11-20T12:49:41+08:00",
+    "user_observed_SGT": "2026-11-20T14:08:00+08:00",
+    "live_servers_read_in_publication_turn": false,
+    "private_site_receipts_read_in_publication_turn": false,
+    "public_report_md": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/0ef0abfcc39096666ad8bed6a5842f3ba25cd2b7/reports/WM02/sla-scale20k-20261119/LONGRUN_MIX_RECOVERY_D2_AND_DEPLOY_ACTUAL.md",
+    "public_report_json": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/0ef0abfcc39096666ad8bed6a5842f3ba25cd2b7/reports/WM02/sla-scale20k-20261119/LONGRUN_MIX_RECOVERY_D2_AND_DEPLOY_ACTUAL.json",
+    "public_running_snapshot": {
+      "MIX": 875,
+      "TGT": 4629,
+      "ADAPT": 844
+    },
+    "user_newer_snapshot": {
+      "MIX": {
+        "sealed_step": 1000,
+        "new_recovery_updates": 131,
+        "new_committed_training_H40": 524,
+        "next_segment_registered": false
+      },
+      "TGT": {
+        "accounted_step": 4976,
+        "latest_reported_seal": 3500,
+        "target_visits": 159232
+      },
+      "ADAPT": {
+        "accounted_phase": 953,
+        "latest_reported_seal": 750,
+        "visits": {
+          "target": 60992,
+          "robodojo": 30496,
+          "libero": 30496
+        },
+        "queued_until": 2000,
+        "stage2_submitted": false
+      },
+      "deployment_V2": {
+        "status": "RESOURCE_PREFLIGHT_REJECTED_COMBINED_REASON",
+        "new_generations": 0,
+        "new_native_requests": 0
+      },
+      "expert_collection": {
+        "requests": 15,
+        "ticks": 439744,
+        "admitted_complete_episodes": 3,
+        "PLACE": 1,
+        "HOLD": 2
+      }
+    },
+    "already_done_do_not_repeat": [
+      "MIX869 crash reconciliation",
+      "D2 all139 semantic audit and dual-site representative reader proof",
+      "TGT2000 offline/restore Eval",
+      "ADAPT500 offline/phase/restore Eval"
+    ],
+    "phase_metrics_verified": {
+      "panel_sha256": "3136404c06f890a9dd830b2cf5f40e487ef436ede16e805e14ffc0cb06b5eefd",
+      "ADAPT0": {
+        "ordinary_H40": [
+          96,
+          96
+        ],
+        "ordinary_joint": [
+          92,
+          96
+        ],
+        "phase_H40": [
+          84,
+          88
+        ],
+        "phase_joint": [
+          45,
+          88
+        ],
+        "due_P10": [
+          10,
+          24
+        ],
+        "due_timely": [
+          10,
+          24
+        ],
+        "due_timely_joint": [
+          0,
+          24
+        ]
+      },
+      "ADAPT500": {
+        "ordinary_H40": [
+          94,
+          96
+        ],
+        "ordinary_joint": [
+          89,
+          96
+        ],
+        "phase_H40": [
+          57,
+          88
+        ],
+        "phase_joint": [
+          43,
+          88
+        ],
+        "due_P10": [
+          24,
+          24
+        ],
+        "due_timely": [
+          2,
+          24
+        ],
+        "due_timely_joint": [
+          0,
+          24
+        ]
+      },
+      "signed_error_directions_known_from_aggregate": false,
+      "all_24_rejected_by_guard_proven": false,
+      "independent_episode_denominator": "READ_FROZEN_PANEL_NO_ASSUMPTION"
+    },
+    "historical_unapplied_MIX_cost": {
+      "H40_generations": 4,
+      "gradient_windows": {
+        "target": 32,
+        "robodojo": 48,
+        "libero": 27
+      },
+      "lost_committed_updates": 0,
+      "included_in_new_goal_prospective_budgets": false
+    }
+  },
+  "runtime_routing": {
+    "plan_head_is_complete_runtime": false,
+    "keep_active_ADAPT_worker": "1432c8dc88c57adf39e8fa363f5438c5e63aa8fd",
+    "new_implementations_required": [
+      "performance matched-step full engineering checkpoint/export",
+      "same-node two-GPU training",
+      "CLOCK500 loss and matched branch runner",
+      "resource preflight per-field receipt"
+    ],
+    "existing_ADAPT_binding_allows_runtime_change_at_D2": false,
+    "performance_benchmark_endpoints_eligible_as_scientific_parent": false
+  },
+  "mainline": {
+    "nominal_total_scientific_updates": 30000,
+    "MIX": {
+      "endpoint": 20000,
+      "formal_endpoints": [
+        500,
+        2000,
+        5000,
+        10000,
+        20000
+      ],
+      "batch": {
+        "target": 32,
+        "robodojo": 48,
+        "libero": 48
+      },
+      "next_step_if_user_seal_verified": 1001
+    },
+    "TGT": {
+      "endpoint": 5000,
+      "formal_endpoints": [
+        500,
+        2000,
+        5000
+      ],
+      "batch": {
+        "target": 32,
+        "robodojo": 0,
+        "libero": 0
+      },
+      "existing_train_job": "1593720.stdct-mgmt-02",
+      "existing_eval_job": "1593721.stdct-mgmt-02"
+    },
+    "ADAPT": {
+      "endpoint": 5000,
+      "formal_endpoints": [
+        0,
+        500,
+        2000,
+        5000
+      ],
+      "batch": {
+        "target": 64,
+        "robodojo": 32,
+        "libero": 32
+      },
+      "shared_FM_weights": {
+        "target": 2,
+        "robodojo": 1,
+        "libero": 1
+      },
+      "auxiliary_samples_per_update": 4,
+      "runtime": "1432c8dc88c57adf39e8fa363f5438c5e63aa8fd",
+      "stage2_limits": [
+        2250,
+        2500,
+        2750,
+        3000,
+        3250,
+        3500,
+        3750,
+        4000,
+        4250,
+        4500,
+        4750,
+        5000
+      ],
+      "existing_2k_train_job": "1594214.stdct-mgmt-02",
+      "existing_2k_eval_job": "1594215.stdct-mgmt-02"
+    },
+    "remaining_at_user_snapshot_not_live": {
+      "MIX": 19000,
+      "TGT": 24,
+      "ADAPT": 4047,
+      "total": 23071
+    },
+    "training_waits_for_eval_scores": false,
+    "reset_Adam_RNG_LR_per_segment": false
+  },
+  "scheduler": {
+    "actual_PBS_dependency": "afterany plus independent seal gate",
+    "training_predecessor_exit_codes": [
+      0,
+      75
+    ],
+    "exit75_requires_complete_saved_prefix": true,
+    "formal_eval_requires_exact_endpoint_and_exit0": true,
+    "cross_2000_from_incomplete_prefix": false,
+    "incomplete_2k_action": "Complete exact phase2000 under a unique repaired finite successor, verify seal and dependent identities, then select D2 once.",
+    "job_key": [
+      "lineage",
+      "parent_checkpoint",
+      "segment_start",
+      "segment_end",
+      "source",
+      "site"
+    ],
+    "eval_key": [
+      "lineage",
+      "checkpoint_sha",
+      "panel_sha",
+      "recipe_sha",
+      "noise_sha"
+    ],
+    "unknown_write": "READ_RECONCILE_DO_NOT_RESUBMIT",
+    "expired_auth": "Do not kill healthy running work or cancel valid queues merely because new submission auth fails. Each successor still verifies its predecessor; if its own qstat auth fails, use finite readonly retries then BLOCKED_AUTH. Independent work continues; renew credentials legitimately.",
+    "same_lineage_active_optimizer_owners_max": 1,
+    "same_GPU_training_processes_max": 1,
+    "cross_site_WAN_gradient_sync": false,
+    "legacy_native_worlds": 1,
+    "core_next_ready_cold_block": "ADAPT0 deployment then existing DEV24 first6; otherwise a finite available MIX segment with explicit resource blocker.",
+    "native_ready_starvation_rule": "Do not run two more collection batches or repeated engineering blocks ahead of a ready fixed student block.",
+    "new_infinite_monitor_or_scheduler": false
+  },
+  "deployment": {
+    "resource_rejection_is_model_numeric_failure": false,
+    "public_worker_resource_checks": {
+      "GPU_free_strictly_greater_than": "ceil(total_bytes*JAX_memory_fraction)+2GiB",
+      "host_available_strictly_greater_than_GiB": 30,
+      "pressure_check": "READ_ACTUAL_PRIVATE_WRAPPER_SPEC"
+    },
+    "record_before_any_rejection": [
+      "time",
+      "GPU_uuid",
+      "GPU_total",
+      "GPU_free",
+      "fraction",
+      "reservation",
+      "headroom_threshold",
+      "host_MemAvailable",
+      "cgroup_current_peak_limit",
+      "private_pressure_values_thresholds",
+      "owners",
+      "per_field_pass_fail"
+    ],
+    "precheck_reservation_plus_headroom_less_than_total": true,
+    "relax_original_resource_thresholds": false,
+    "fallback": "Actual qualified CoreGPU0 cold slot; or original-recipe MIX cold migration to an actually allocated A40.",
+    "V2_generations_total": 32,
+    "V2_charge": "existing technical reserve after ledger reconciliation",
+    "V2_original_windows": 16,
+    "V2_independent_restore_windows": 16,
+    "V2_criteria": {
+      "xyz_m": 0.001,
+      "so3_rad": 0.01,
+      "gripper_m": 0.0005,
+      "crossing_s": 0.05,
+      "guard_signatures_equal": true,
+      "crossing_presence_equal": true,
+      "P10_membership_equal": true,
+      "same_Core_restore_bitwise": true
+    },
+    "old_strict_FAIL_retained": true,
+    "retry_same_resource_state": false
+  },
+  "zero_generation_diagnostics": {
+    "new_updates": 0,
+    "new_model_generations": 0,
+    "new_native_requests": 0,
+    "reuse": [
+      "ADAPT0/500 row metrics",
+      "normalized/decoded npz",
+      "original panel and previous-command references"
+    ],
+    "signed_dt_s": "0.05*(predicted_cross_index-expert_cross_index)",
+    "timing_categories": {
+      "early": "dt < -0.1",
+      "timely": "abs(dt) <= 0.1 with P10 crossing",
+      "late": "dt > 0.1",
+      "missing": "separate failure; never error=0"
+    },
+    "reports": [
+      "same-row H40/seam/timely intersections",
+      "P10 versus suffix crossing",
+      "not-due false closure",
+      "HOLD maintenance/reopen",
+      "first rejection and margin",
+      "expert-label feasibility under actual previous command and clock",
+      "independent episode/layout/task denominators",
+      "source per-task/channel errors and persistence/zero baselines"
+    ],
+    "diagnostic_width_threshold_m": 0.022,
+    "width_speed_limit_m_s": 0.04,
+    "action_dt_s": 0.05,
+    "use_original_numeric_tolerances_and_index0_seam": true,
+    "ordinary_TRAIN_or_source_error_is_closed_loop_success": false
+  },
+  "curriculum": {
+    "D1": {
+      "episodes": 24,
+      "windows": 1892
+    },
+    "D2": {
+      "episodes": 26,
+      "windows": 2031,
+      "new_vs_legacy23_episodes": 3,
+      "new_HOLD_windows": 139
+    },
+    "D2_target_slots": {
+      "new": 12,
+      "old": 52
+    },
+    "source_slots": {
+      "robodojo": 32,
+      "libero": 32
+    },
+    "decision_exact_phase": 2000,
+    "first_D2_update": 2001,
+    "decision_count_max": 1,
+    "decision_depends_on_eval_score": false,
+    "independent_Eval2000_registration_required": true,
+    "if_D2_invalid": "seal reason and choose D1 stage2 fallback once",
+    "if_already_past_boundary": "reuse recorded decision, no rollback or late switch",
+    "fixed": [
+      "D1 target-state statistics",
+      "C20 action statistics and codec",
+      "R48 statistics",
+      "LIBERO statistics",
+      "Adam",
+      "RNG",
+      "LR",
+      "worker source"
+    ],
+    "D3_hot_add_to_ADAPT5k": false
+  },
+  "target_data": {
+    "inherited_total_attempt_cap": 240,
+    "user_reported_attempts_already_used": 15,
+    "remaining_must_reconcile": true,
+    "next_batch": {
+      "max_attempts": 12,
+      "HOLD": 4,
+      "PLACE": 6,
+      "recovery": 2,
+      "max_ticks": 608436,
+      "max_expert_queries": 2160
+    },
+    "max_ticks_per_attempt": 50703,
+    "max_expert_queries_per_attempt": 180,
+    "same_cell_producer_same_first_failure_repeat_limit": 2,
+    "target_full_teacher_matrix_is_start_gate": false,
+    "source_native_semantics_preserved": true,
+    "unexecuted_suffix_as_consumed_label": false,
+    "old_DEV_TEST_into_TRAIN": false,
+    "student_privileged_phase_input": false
+  },
+  "existing_evaluation": {
+    "SCALE": {
+      "offline_per_formal_endpoint": 336,
+      "native_roles": [
+        "TGT5000_DEV24",
+        "MIX5000_DEV24",
+        "MIX20000_DEV24",
+        "MIX20000_CONFIRM24"
+      ],
+      "native_total_science_requests": 96,
+      "budget": "inherited SCALE, reconcile actual usage"
+    },
+    "ADAPT": {
+      "per_endpoint": {
+        "ordinary": 288,
+        "phase_TRAIN": 88,
+        "independent_restore": 48
+      },
+      "native_roles": [
+        "A0_DEV24",
+        "A2000_DEV24",
+        "A5000_DEV24",
+        "A5000_CONFIRM24"
+      ],
+      "native_total_science_requests": 96,
+      "population_sha256": "cdcd114a712739315d06ee923fe8221142d911ab6b60a64f30eac1b619eec2e0",
+      "budget": "inherited ADAPT, reconcile actual usage"
+    },
+    "each_native24": {
+      "HOLD": 8,
+      "PLACE": 16,
+      "max_ticks": 1096872,
+      "max_model_generations": 3840
+    },
+    "offline_joint_zero_blocks_native": false,
+    "choose_checkpoint_using_DEV": false,
+    "native_funnel": [
+      "capture",
+      "raw_H40",
+      "H40_and_seam",
+      "dispatch_ACK",
+      "consumed_P10",
+      "correct_contact",
+      "correct_grasp",
+      "lift",
+      "moving_HOLD",
+      "full_PLACE"
+    ],
+    "post_STOP_ticks": 0,
+    "scientific_failure_retry": false
+  },
+  "performance": {
+    "new_budget_not_reopened_old120": true,
+    "old_mb4_FAIL_retained": true,
+    "PR419": {
+      "source": "e98f58d51e599384a5eee7652a7e600a7dc77ce0",
+      "variants": {
+        "serial": 10,
+        "prefetch": 8,
+        "prefetch_deferred": 8
+      },
+      "warmup_per_variant": 3,
+      "timed_per_variant": 5,
+      "serial_extra_profile": 2,
+      "matched_state_step_offset": 8,
+      "state_leaves": 140,
+      "full_matched_checkpoint_export_currently_implemented": false,
+      "extra_output_per_variant_max": 32,
+      "output_panel": {
+        "target_due": 4,
+        "target_NOT_DUE_CLOSE": 4,
+        "robodojo": 4,
+        "libero": 4,
+        "independent_restore_same": 16,
+        "selection": "first original panel ordinals, fixed noise/hash before GPU"
+      },
+      "state_bitwise_required_for_mb1_pipeline_equivalence": true
+    },
+    "batch_and_twoGPU": {
+      "variants": [
+        {
+          "GPU_count": 1,
+          "microbatch": 1
+        },
+        {
+          "GPU_count": 1,
+          "microbatch": 2
+        },
+        {
+          "GPU_count": 1,
+          "microbatch": 4
+        },
+        {
+          "GPU_count": 2,
+          "microbatch": 2
+        }
+      ],
+      "updates_per_variant": 16,
+      "warmup": 4,
+      "timed": 12,
+      "same_frozen_parent_and_sample_noise_bank": true,
+      "outputs_per_variant_max": 96,
+      "output_panel": {
+        "target_due": 24,
+        "target_NOT_DUE_CLOSE": 8,
+        "robodojo": 8,
+        "libero": 8,
+        "independent_restore_same": 48,
+        "selection": "all frozen24 due and first original ordinals per other group; immutable input/noise hash before GPU; no padding/score selection",
+        "is_new_panel_not_old_MIX32": true
+      },
+      "multiGPU_implementation_exists_in_PR419": false,
+      "twoGPU_same_node_required": true,
+      "twoGPU_each_device_batch": {
+        "target": 32,
+        "robodojo": 16,
+        "libero": 16
+      },
+      "twoGPU_each_device_aux": 2,
+      "global_clip_and_Adam_once": true,
+      "strong_scaling_reference": "same-round 1GPU-mb2, identical prefetch/deferred flags, 16-step exposure/noise",
+      "GPU_hours_ratio_interval": "same12 normal timed updates; end-to-end cost reported separately"
+    },
+    "selection_rules_new_not_observed": {
+      "single_GPU_min_net_throughput_ratio": 1.15,
+      "two_GPU_min_net_throughput_ratio": 1.5,
+      "two_GPU_max_GPU_hours_ratio": 1.3333333333333333
+    },
+    "report": [
+      "whole_step_wall",
+      "windows_per_second",
+      "p50",
+      "p90",
+      "GPU_hours",
+      "memory_peak",
+      "save_restore_cost",
+      "full_state_identity",
+      "physical_output_difference",
+      "guard_signature"
+    ],
+    "noncompatible_implementation_may_hot_resume_old_lineage": false,
+    "new_target32_compatibility": {
+      "xyz_m": 0.001,
+      "so3_rad": 0.01,
+      "gripper_m": 0.0005,
+      "crossing_s": 0.05,
+      "guard_and_cross_presence_and_P10_membership_equal": true,
+      "same_environment_restore_bitwise": true,
+      "source_output_differences_reported_separately": true
+    },
+    "CLOCK_arms_must_use_same_qualified_runtime": true
+  },
+  "CLOCK500": {
+    "status": "CONDITIONAL_NEW_SCIENCE_NOT_IMPLEMENTED",
+    "scientific_trigger_all": [
+      "ADAPT2000 fixed24 timely-P10-and-original-gates numerator == 0",
+      "zero-generation audit confirms labels/clock/previous-command/codec and expert feasibility"
+    ],
+    "execution_readiness_all": [
+      "exact ADAPT2000 restored parent",
+      "D2_READY",
+      "qualified branch implementation",
+      "actual finite GPU allocation and legitimate credentials"
+    ],
+    "branch_status_rule": {
+      "joint_nonzero": "NOT_TRIGGERED",
+      "diagnosis_pending_or_semantics_invalid": "BLOCKED_DIAGNOSIS_OR_SEMANTICS",
+      "scientific_trigger_true_readiness_false": "specific BLOCKED_RESOURCE/AUTH/ARTIFACT/IMPLEMENTATION, never NOT_TRIGGERED"
+    },
+    "parent_fixed": "ADAPT2000",
+    "parent_selection_by_DEV": false,
+    "arms": [
+      "CLOCK-A-original-width",
+      "CLOCK-B-event-weighted-width"
+    ],
+    "updates_each": 500,
+    "batch": {
+      "target": 64,
+      "robodojo": 32,
+      "libero": 32
+    },
+    "LR": "original ADAPT indices for updates2001..2500",
+    "inherit_Adam_and_RNG": true,
+    "same_D2_bank_and_runtime": true,
+    "B_loss_change_only": {
+      "replaces": "original width MSE",
+      "classification_source": "1432c8dc/scripts/sla/freeze_adapt5k_panels.py::phase_rows row classification only; not panel sampling/caps/RNG",
+      "classification_precedence": [
+        "contract.due_close(label,consumed_mask,previous) => P10_DUE_CLOSE",
+        "phase in contract.APPROACH => APPROACH",
+        "phase in contract.RELEASE_OR_RECOVERY => RELEASE_OR_RECOVERY",
+        "previous >= .022 and all first10 label_width >= .022 => NOT_DUE_CLOSE",
+        "OTHER"
+      ],
+      "phase_metadata_enters_student_inputs": false,
+      "due_P10_event_neighbourhood_radius_points": 2,
+      "event_index_bounds": [
+        0,
+        39
+      ],
+      "event_neighbourhood_weight": 4,
+      "NOT_DUE_CLOSE_only_first10_weight": 4,
+      "other_weight": 1,
+      "normalized_error": "e=(predicted_width_m-label_width_m)/0.040",
+      "normalization": "per-sample sum(weight*e**2)/sum(weight), then original mean of four auxiliaries",
+      "width_absolute_coefficient": 1.0,
+      "support": "same original full40 points in both arms; no consumed_P10 loss mask; no partial-label admission",
+      "all_weights_one_must_match_original_loss_and_gradient": true,
+      "uses_original_labels": true,
+      "max_penalties_and_absolute_coefficients_unchanged": true,
+      "aux_samples": 4,
+      "full_sampling_steps": 10,
+      "automatic_weight_search": false
+    },
+    "reuse_control_A_from_main_ADAPT2500_only_if": [
+      "exact parent model/Adam/RNG",
+      "same D2 membership and stage bank",
+      "same update/sample/noise/LR indices",
+      "same runtime/backend/precision/hardware",
+      "full checkpoint and true exposure ledger"
+    ],
+    "reused_A_reduces_new_compute_not_creates_new_candidate": true,
+    "offline_each": {
+      "ordinary": 288,
+      "phase": 88,
+      "restore": 48
+    },
+    "Core_package_each": 16,
+    "native": {
+      "fresh_paired_DEV_layouts": 4,
+      "instructions_each_layout": 6,
+      "A_DEV": 24,
+      "B_DEV": 24,
+      "fixed_B_confirmation": 24,
+      "total": 72,
+      "freeze_before_first_branch_training_or_prediction": true,
+      "matched_fields": [
+        "geometry",
+        "reset",
+        "noise_seed",
+        "robot_fingerprint",
+        "WBC",
+        "native_backend",
+        "scoring"
+      ],
+      "A_B_execution_order_frozen_before_prediction": true,
+      "reuses_old96_or_TEST": false,
+      "confirmation_selects_winner_from_DEV": false
+    },
+    "causal_scope": "One-seed matched timing-loss experiment; not pure public-source data contribution."
+  },
+  "new_budget_categories": [
+    {
+      "id": "PR419_GPU",
+      "optimizer_updates": 26,
+      "visits": {
+        "target": 1664,
+        "robodojo": 832,
+        "libero": 832
+      },
+      "committed_training_H40": 104,
+      "offline_generations": 96
+    },
+    {
+      "id": "BATCH_TWO_GPU",
+      "optimizer_updates": 64,
+      "visits": {
+        "target": 4096,
+        "robodojo": 2048,
+        "libero": 2048
+      },
+      "committed_training_H40": 256,
+      "offline_generations": 384
+    },
+    {
+      "id": "CLOCK500_MATCHED",
+      "optimizer_updates": 1000,
+      "visits": {
+        "target": 64000,
+        "robodojo": 32000,
+        "libero": 32000
+      },
+      "committed_training_H40": 4000,
+      "offline_generations": 848,
+      "package_generations": 32,
+      "science_native_requests": 72,
+      "native_ticks": 3290616,
+      "native_generations": 11520
+    },
+    {
+      "id": "TECHNICAL_GENERATION_RESERVE",
+      "optimizer_updates": 0,
+      "visits": {
+        "target": 0,
+        "robodojo": 0,
+        "libero": 0
+      },
+      "generations_any_actual_purpose": 64,
+      "native_requests": 0,
+      "native_ticks": 0
+    },
+    {
+      "id": "CONDITIONAL_INTERFACES",
+      "optimizer_updates": 0,
+      "visits": {
+        "target": 0,
+        "robodojo": 0,
+        "libero": 0
+      },
+      "interface_native_requests": 2,
+      "native_ticks": 11906,
+      "native_generations": 2
+    }
+  ],
+  "new_caps_total_not_actual": {
+    "optimizer_updates": 1090,
+    "visits": {
+      "target": 69760,
+      "robodojo": 34880,
+      "libero": 34880
+    },
+    "total_optimization_visits": 139520,
+    "committed_training_H40": 4360,
+    "ordinary_offline_and_package_generations": 1360,
+    "technical_generations_any_purpose": 64,
+    "native_model_generations": 11522,
+    "all_model_generations": 17306,
+    "science_native_requests": 72,
+    "interface_native_requests": 2,
+    "total_native_requests": 74,
+    "native_ticks": 3302522,
+    "technical_reserve_actual_purpose_must_be_recorded_not_double_counted": true,
+    "failed_unapplied_gradient_inputs_recorded_separately": true
+  },
+  "tasks": [
+    {
+      "id": "G0_RECONCILE",
+      "depends_on": [],
+      "priority": "P0",
+      "done": "Actual identities/seals/costs/current allocations reconciled; already-completed work reused."
+    },
+    {
+      "id": "G1_REGISTER_MAINLINES",
+      "depends_on": [
+        "G0_RECONCILE"
+      ],
+      "priority": "P0",
+      "done": "MIX successor and ADAPT through5k registered with real IDs, or exact external blocker; healthy TGT preserved."
+    },
+    {
+      "id": "G2_DEPLOY_RESOURCE",
+      "depends_on": [
+        "G0_RECONCILE"
+      ],
+      "priority": "P0",
+      "done": "Per-field resource receipt and original V2 numeric proof on a qualified actual device."
+    },
+    {
+      "id": "G3_CLOSURE_SOURCE_AUDIT",
+      "depends_on": [
+        "G0_RECONCILE"
+      ],
+      "priority": "P0_CPU",
+      "done": "Zero-generation paired timing/guard/negative/label-feasibility/source tables."
+    },
+    {
+      "id": "G4_D2_BOUNDARY",
+      "depends_on": [
+        "G0_RECONCILE"
+      ],
+      "priority": "P0_EVENT",
+      "event": "exact ADAPT2000 seal and independent Eval registration",
+      "done": "One recorded D2 or explicit D1 decision; no runtime/stats change."
+    },
+    {
+      "id": "G5_OFFLINE_EVALUATIONS",
+      "depends_on": [
+        "G0_RECONCILE"
+      ],
+      "priority": "P0_EVENT",
+      "event": "each respective full sealed endpoint, own GPU allocation and unique Eval claim; never depends on A0 deployment",
+      "done": "Fixed independent source/target evaluations and restoration outputs."
+    },
+    {
+      "id": "G5_NATIVE_EVALUATIONS",
+      "depends_on": [
+        "G0_RECONCILE"
+      ],
+      "priority": "P0_EVENT",
+      "event": "each endpoint own qualified package/device, actual exclusive world and original runtime safety; A0 failure not a global gate",
+      "done": "Inherited SCALE96 and ADAPT96 real terminal conditions, no scientific retries."
+    },
+    {
+      "id": "G6_PERFORMANCE",
+      "depends_on": [
+        "G0_RECONCILE"
+      ],
+      "priority": "P1_ENGINEERING",
+      "event": "actual spare single/same-node double GPU allocation",
+      "done": "Finite measured throughput and numeric qualification, or explicit resource/technical terminal."
+    },
+    {
+      "id": "G7_CLOCK500",
+      "depends_on": [
+        "G3_CLOSURE_SOURCE_AUDIT"
+      ],
+      "priority": "P1_CONDITIONAL",
+      "event": "fixed trigger after ADAPT2000 Eval",
+      "done": "Matched two-arm500 and new72 native; or predeclared NOT_TRIGGERED, never unbounded new losses."
+    },
+    {
+      "id": "G8_TARGET_COLLECTION",
+      "depends_on": [
+        "G0_RECONCILE"
+      ],
+      "priority": "P1_NATIVE",
+      "event": "available exclusive world after ready-student fairness",
+      "done": "Qualified independent TRAIN additions with explicit mask/label/custody and D3 provenance; no hot addition to5k."
+    },
+    {
+      "id": "G9_FINAL",
+      "depends_on": [],
+      "priority": "ALWAYS_FINALIZE_EVENT",
+      "event": "all G0..G8 terminal including CLOCK decision/scope; or STOP/campaign deadline/unrecoverable blockage with no independent runnable work",
+      "requires_all_success": false,
+      "collects_states_from": [
+        "G0_RECONCILE",
+        "G1_REGISTER_MAINLINES",
+        "G2_DEPLOY_RESOURCE",
+        "G3_CLOSURE_SOURCE_AUDIT",
+        "G4_D2_BOUNDARY",
+        "G5_OFFLINE_EVALUATIONS",
+        "G5_NATIVE_EVALUATIONS",
+        "G6_PERFORMANCE",
+        "G7_CLOCK500",
+        "G8_TARGET_COLLECTION"
+      ],
+      "done": "Persist all effects and missing work; report science/technical/external terminal separately; never claim missing required science complete."
+    }
+  ],
+  "terminal_criteria": {
+    "PIPELINE_COMPLETE": [
+      "MIX20000,TGT5000,ADAPT5000 complete recoverable seals",
+      "fixed source/target evaluations complete",
+      "inherited SCALE96 and ADAPT96 native conditions terminal",
+      "CLOCK scientific decision complete; NOT_TRIGGERED or all triggered scientific scope actually complete; BLOCKED is not complete"
+    ],
+    "HOLD_REPRODUCED": {
+      "outcome_names": [
+        "HOLD_REPRODUCED_ADAPT",
+        "HOLD_REPRODUCED_CLOCK"
+      ],
+      "panel_mapping": {
+        "ADAPT": "original fixed ADAPT5000 confirmation24",
+        "CLOCK": "fixed CLOCK-B confirmation24"
+      },
+      "pool_or_choose_confirmation_after_results": false,
+      "CLOCK_if_not_triggered": "NOT_APPLICABLE",
+      "HOLD_successes_min": 4,
+      "HOLD_denominator": 8,
+      "F1_successes_min": 2,
+      "F2_successes_min": 2,
+      "successful_distinct_layouts_min": 2,
+      "base_motion_m": 0.08,
+      "lift_m": 0.02,
+      "hold_s": 1,
+      "original_correct_object_and_safety_score": true,
+      "new_goal_pilot_criterion_not_historical_gate": true
+    },
+    "PLACE_REPRODUCED": {
+      "outcome_names": [
+        "PLACE_REPRODUCED_ADAPT",
+        "PLACE_REPRODUCED_CLOCK"
+      ],
+      "separate_same_lineage_confirmation_panels": true,
+      "pool_or_choose_after_results": false,
+      "successes_min": 2,
+      "denominator": 16,
+      "left_min": 1,
+      "right_min": 1,
+      "original_full_release_and_retreat_score": true
+    },
+    "other_terminal_states": [
+      "COMPLETED_WITH_SCIENTIFIC_FAILURE",
+      "COMPLETED_WITH_TECHNICAL_BLOCKER",
+      "BLOCKED_EXTERNAL",
+      "STOPPED_BY_USER",
+      "HORIZON_REACHED_INCOMPLETE"
+    ],
+    "scientific_zero_success_is_permission_to_relax_safety": false
+  },
+  "publication_effects": {
+    "site_jobs_submitted": 0,
+    "optimizer_updates": 0,
+    "optimization_visits": 0,
+    "model_generations": 0,
+    "native_requests": 0,
+    "native_ticks": 0,
+    "hardware_requests": 0,
+    "automations_changed": 0
+  }
+}

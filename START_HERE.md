@@ -1,3 +1,9 @@
+# 当前SLA任务 · 2026-11-20
+
+用户最新要求是自主跑通多数据集后训练与Go2+ARX5闭环。先读 [统一入口](SLA_D4_CLOSED_LOOP_NEXT_START.md)、[Goal V2完整协议](docs/protocols/SLA_MULTISOURCE_CLOSED_LOOP_GOAL_V2_20261120.md)、[机读任务](docs/protocols/SLA_MULTISOURCE_CLOSED_LOOP_GOAL_V2_20261120.json) 和 [启动prompt](docs/handover/2026-11-20/START_SLA_MULTISOURCE_CLOSED_LOOP_GOAL_V2.md)。
+
+公开实绩观察到12:49:41 SGT，用户提供14:08更晚摘要；执行时刷新现场。计划head不是完整runtime，现役与后继源码按Goal中的固定映射取用。发布不等于qsub/systemd运行。下面11月11日入口保留作历史，不作为本SLA任务的下一步优先级。
+
 # 当前入口 · 2026-11-11
 
 ## 先读什么
@@ -26,3 +32,4 @@
 - [V2 文档 PR #372](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/pull/372)；[V3/V3.1 文档 PR #373](https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/pull/373)
 
 上述历史用于追溯，不应被当作当前机器状态或本轮已取得的实验结果。
+
