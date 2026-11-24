@@ -166,7 +166,18 @@ def render_robot(renderer, data, model, robot_geoms, option=None, *, view=VIEW):
 
 class TargetRenderer:
     def __init__(self, path):
+        from go2arx5_vla.world_model.native_camera_transfer_v1 import (
+            FOVY, POSITION, camera_rotation,
+        )
+
         self.model = mujoco.MjModel.from_binary_path(str(path))
+        body_camera = self.model.camera(VIEW)
+        require(body_camera.mode[0] == mujoco.mjtCamLight.mjCAMLIGHT_FIXED,
+                "registered body camera must be fixed to the base")
+        self.model.cam_bodyid[body_camera.id] = self.model.body("base_link").id
+        body_camera.pos[:] = POSITION
+        body_camera.quat[:] = quat(camera_rotation())
+        body_camera.fovy[0] = FOVY
         self.data = mujoco.MjData(self.model)
         self.indices = np.array([self.model.joint(f"x5_joint{i}").qposadr[0] for i in range(1, 7)])
         ids = [self.model.joint(f"x5_joint{i}").id for i in range(1, 7)]
@@ -384,7 +395,8 @@ def run(custody, assets, reference, out):
     require(not attempts and len(diagnostics) == len(record["source"])+4,
             "render accounting or integration audit failed")
     write_new(out / "SEA0_ROBOT_GEOMETRY.json", dict(
-        status="APPROX_SOURCE_TWIN_ROBOT_ONLY", shared_view="cloned Go2 simulated body camera",
+        status="APPROX_SOURCE_TWIN_ROBOT_ONLY",
+        shared_view="Go2 runtime-patched native body camera",
         included_views=["body_rgb", "wrist_rgb", "separate_inspection"],
         real_source_camera_matched=False, real_source_tool_matched=False,
         history_rendered=False, renderer_cpu_verified=True, source_assets=official,

@@ -15,7 +15,7 @@
 
 Hugging Face 文件树已逐页回读。在固定 revision 和检查时的 main 上，这个实机水果任务的 ARX X5 目录各有 100 个 HDF5、300 个预览 MP4，缺少独立的标定文件。两份选定 HDF5 的 LFS 指纹在这两个版本均与封存文件相符。XPolicyLab 的几何接口要求 RGB、原分辨率内参和逐帧相机到世界外参来自同次采样，尤其是随臂运动的腕相机。恢复匹配输入仍需要这两份录像的同步标定及共同工具变换。 [固定源目录 API](https://huggingface.co/api/datasets/RoboDojo-Benchmark/RoboDojo/tree/1127bda94f172d757386945af3eb3a6754d1a4e6/data/RoboDojo_real/pack_and_pour_fruit/arx_x5) · [XPolicyLab 观测几何契约](https://github.com/XPolicyLab/XPolicyLab/blob/main/policy/Q0_Preview/docs/OBSERVATION_INTERFACE.md)
 
-四个真实 Go2 开发状态使用原机身相机时均为 0 个虚拟源臂像素，诊断侧视四对均可见。原腕相机每个状态有 9,286–9,288 个共同机器人掩码像素。两者只说明视野和轮廓范围，腕相机未找到可见的公共法兰投影点，真实场景遮挡和实机重投影误差尚无读数。保留机身相机的空掩码，诊断侧视单列。该作法借鉴 Cross-Painting 先分离本体外观的设计。 [几何与可见性统计](SEA0_ROBOT_GEOMETRY.json) · [Mirage 项目](https://robot-mirage.github.io/)
+四个 Go2 开发状态使用冻结 MJB 的默认机身相机时均为 0 个虚拟源臂像素，诊断侧视四对均可见。后续核实原归档采集器对该相机施加了运行时位姿修正。按归档相机重放，四个当前画面均可见源臂，详见 [同视角桥接复核](../SEA1/TARGET_BRIDGE.md)。原腕相机每个状态有 9,286–9,288 个共同机器人掩码像素。两者只说明视野和轮廓范围，腕相机未找到可见的公共法兰投影点，真实场景遮挡和实机重投影误差尚无读数。保留默认机身视点的空掩码，诊断侧视单列。该作法借鉴 Cross-Painting 先分离本体外观的设计。 [几何与可见性统计](SEA0_ROBOT_GEOMETRY.json) · [Mirage 项目](https://robot-mirage.github.io/)
 
 同一两份源录像的机身相机恢复试验已完成。以腕部自然标记作跨录像验证，所有相机候选均超出 2 px／5 px 门限。提前两帧读取状态降低误差但仍超限，原时钟和名册保持冻结。 [标定试验与完整分母](SOURCE_HEAD_CALIBRATION.md)
 
