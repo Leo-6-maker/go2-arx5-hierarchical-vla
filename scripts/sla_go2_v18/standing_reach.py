@@ -7,6 +7,10 @@ from demonstrated_grip import require
 from scipy.spatial.transform import Rotation
 
 
+class ReachProposalRejected(ValueError):
+    """A well-formed proposal failed the Reach-specific geometry gate."""
+
+
 def angle(a, b):
     return float(np.degrees(Rotation.from_matrix(a @ b.T).magnitude()))
 
@@ -248,13 +252,16 @@ def drive(a, case, card, profile, fault, result, student=None):
             require(entry is not None or tick < 15500, "stable entry deadline")
             if entry is None:
                 v = np.repeat(steady[None], 41, axis=0)
-            elif student is None:
-                v = knots(steady, direction, (tick - entry) * 0.002)
-            else:
-                v = student.preview(
-                    a, tick, receipt, sample, monitor, steady, direction
-                )
+            preview_finished = False
             try:
+                if entry is not None:
+                    if student is None:
+                        v = knots(steady, direction, (tick - entry) * 0.002)
+                    else:
+                        v = student.preview(
+                            a, tick, receipt, sample, monitor, steady, direction
+                        )
+                preview_finished = True
                 KnownCurve.admit(v, receipt, sample)
                 for pose in np.unique(v.reshape(41, 16), axis=0).reshape(-1, 4, 4):
 
@@ -277,7 +284,14 @@ def drive(a, case, card, profile, fault, result, student=None):
                         witness,
                     )
             except (ValueError, RuntimeError, AssertionError) as exc:
-                if student is None or entry is None:
+                if (
+                    student is None
+                    or entry is None
+                    or (
+                        not preview_finished
+                        and not isinstance(exc, ReachProposalRejected)
+                    )
+                ):
                     raise
                 student.refusal = {
                     "kind": "REFERENCE_GATE",
@@ -345,7 +359,10 @@ def drive(a, case, card, profile, fault, result, student=None):
             result["outcome"] = (
                 "A_PASS"
                 if result["score"]["passed"]
-                and result["student"]["post_motion_forward"]
+                and (
+                    result["student"]["post_motion_forward"]
+                    or result["student"].get("post_motion_geometric_update", False)
+                )
                 else "A_REACH_FAILED"
             )
         result["cancel"] = a.cancel_reference()

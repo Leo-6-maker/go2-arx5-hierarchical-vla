@@ -99,10 +99,24 @@ def worker(root, case, query, fd):
         )
 
     current()
+    registration = read(case.parent / "REGISTRATION.json")
+    qualification = read(case.parent / "QUALIFICATION.json")
+    issue = registration["issue"]
+    native_483 = issue == 483 and case.name in ("G00-A", "G01-A")
+    if issue == 488:
+        from reach_adapter_panel import verify_registration
+
+        verify_registration(registration)
+    native_488 = (
+        issue == 488
+        and case.name in registration["slots"]
+        and case.name.rsplit("-", 1)[1] in ("RAW", "DIRECT")
+        and qualification.get("ready_for_488") is True
+        and qualification.get("registration_sha256")
+        == hashlib.sha256((case.parent / "REGISTRATION.json").read_bytes()).hexdigest()
+    )
     require(
-        case.name in ("G00-A", "G01-A")
-        and read(case.parent / "REGISTRATION.json")["issue"] == 483
-        and read(case.parent / "QUALIFICATION.json")["qualified_for_Z1"],
+        (native_483 and qualification["qualified_for_Z1"]) or native_488,
         "no paired Reach allocation",
     )
     require(
@@ -118,7 +132,7 @@ def worker(root, case, query, fd):
     prior = read(case / "NATIVE_REQUEST.json")
     require(
         meta["episode"] == prior["episode"]
-        and 0 <= meta["number"] < 12
+        and 0 <= meta["number"] < (2 if issue == 488 else 12)
         and not (query / "RETURN.json").exists(),
         "request binding",
     )
@@ -174,9 +188,13 @@ def worker(root, case, query, fd):
 def predict(root, case, tick, number, obs, sensor):
     from contextlib import ExitStack
 
+    issue = read(case.parent / "REGISTRATION.json")["issue"]
+    require(
+        number < (2 if issue == 488 else 12) and sensor["tick"] == tick,
+        "query limit or stale input",
+    )
     q = case / f"query-{number:02d}"
     q.mkdir(mode=0o700)
-    require(number < 12 and sensor["tick"] == tick, "query limit or stale input")
     key, _ = input_identity(obs)
     require(key == sensor["input_sha256"], "changed sensor input")
     np.savez_compressed(
