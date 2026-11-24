@@ -1,0 +1,65 @@
+{
+  "dataset": "RoboDojo-Benchmark/RoboDojo",
+  "revision": "1127bda94f172d757386945af3eb3a6754d1a4e6",
+  "license": "apache-2.0",
+  "source_files": {
+    "episode_0000000.hdf5": {
+      "sha256": "515dcd5a3541ffa4e5563504d2e6746f10732c49aeba866760ba75db7c14c456",
+      "frames": 1002,
+      "fps": 30,
+      "camera_fields": {
+        "cam_head": [
+          "colors",
+          "shape"
+        ],
+        "cam_left_wrist": [
+          "colors",
+          "shape"
+        ],
+        "cam_right_wrist": [
+          "colors",
+          "shape"
+        ]
+      },
+      "recording_calibration": [
+        "frequency"
+      ]
+    },
+    "episode_0000001.hdf5": {
+      "sha256": "8b7c9e3784cef53a55bf9f2cfe0b3968036e957a622be50bd76665bc708d45ec",
+      "frames": 955,
+      "fps": 30,
+      "camera_fields": {
+        "cam_head": [
+          "colors",
+          "shape"
+        ],
+        "cam_left_wrist": [
+          "colors",
+          "shape"
+        ],
+        "cam_right_wrist": [
+          "colors",
+          "shape"
+        ]
+      },
+      "recording_calibration": [
+        "frequency"
+      ]
+    }
+  },
+  "checkpoint_revision": "7f6880569c3be777291e646fad1b4951245e8553",
+  "left_note": "Local motion screen only. The demonstration instruction can require both arms.",
+  "unknown_source": [
+    "real camera intrinsics and time-aligned extrinsics",
+    "real RGB-D and scene poses",
+    "real finger-gap calibration",
+    "real flange-to-common-tool transform"
+  ],
+  "real_source_pose_render_qualified": false,
+  "target_heldout_used": false,
+  "real_hardware_requests": 0,
+  "new_model_forwards": 0,
+  "optimizer_updates": 0,
+  "integration_ticks": 0
+}

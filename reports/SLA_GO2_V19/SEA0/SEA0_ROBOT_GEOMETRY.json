@@ -1,0 +1,360 @@
+{
+  "status": "APPROX_SOURCE_TWIN_ROBOT_ONLY",
+  "shared_view": "cloned Go2 simulated body camera",
+  "included_views": [
+    "body_rgb",
+    "wrist_rgb",
+    "separate_inspection"
+  ],
+  "real_source_camera_matched": false,
+  "real_source_tool_matched": false,
+  "history_rendered": false,
+  "renderer_cpu_verified": true,
+  "source_assets": {
+    "repository": "RoboDojo-Benchmark/RoboDojo",
+    "revision": "1127bda94f172d757386945af3eb3a6754d1a4e6",
+    "license": "apache-2.0",
+    "scope": "PUBLIC_SIMULATION_X5_VISUAL_ASSETS",
+    "files": {
+      "X5A.urdf": {
+        "sha256": "7aaa308a1a5b6a213d914db86ba09ddd6252f25cb498ac9a148bfa6c7166a423",
+        "bytes": 9218,
+        "git_oid": "24f163e5deafaafe89398592ac4f9405186956bb",
+        "lfs_oid": "7aaa308a1a5b6a213d914db86ba09ddd6252f25cb498ac9a148bfa6c7166a423"
+      },
+      "meshes/base_link.STL": {
+        "sha256": "898dbe3af3a98857358ac5a3d74e085ec9c69946737e767dad139776761cbd92",
+        "bytes": 1611284,
+        "git_oid": "6532aa58efa197ba50c4d252e8299f4c3a0da9af",
+        "lfs_oid": "898dbe3af3a98857358ac5a3d74e085ec9c69946737e767dad139776761cbd92"
+      },
+      "meshes/link1.STL": {
+        "sha256": "04a52b86a5b28c847377a9167e7effab0478fa591052e83b0b32cf8709bb3885",
+        "bytes": 162184,
+        "git_oid": "5e5cf5feff7cd7d8695cee6b5d1ed55de9d59e30",
+        "lfs_oid": "04a52b86a5b28c847377a9167e7effab0478fa591052e83b0b32cf8709bb3885"
+      },
+      "meshes/link2.STL": {
+        "sha256": "2865da6a962c814abaf9251497bcf5f5e3b67610e3b657ddcaa9de8b3d45e83e",
+        "bytes": 4353884,
+        "git_oid": "5a3dc4c31ae213d358d13acc94a3631bf0228247",
+        "lfs_oid": "2865da6a962c814abaf9251497bcf5f5e3b67610e3b657ddcaa9de8b3d45e83e"
+      },
+      "meshes/link3.STL": {
+        "sha256": "3ac2411b0cbffcf4808cae4c215cfeab607f240cd124eeba209ac7986ac047c0",
+        "bytes": 1052684,
+        "git_oid": "cd3831724a6c4cbe0a3d6c86ffb48a558844bed2",
+        "lfs_oid": "3ac2411b0cbffcf4808cae4c215cfeab607f240cd124eeba209ac7986ac047c0"
+      },
+      "meshes/link4.STL": {
+        "sha256": "3447ddef920c22e4607b887e1cc588037dfb51c37825c4cac86a5391425469c4",
+        "bytes": 142784,
+        "git_oid": "7a02de5c1e6acfe96ce6c8687e1c93d4ea14d8fe",
+        "lfs_oid": "3447ddef920c22e4607b887e1cc588037dfb51c37825c4cac86a5391425469c4"
+      },
+      "meshes/link5.STL": {
+        "sha256": "934b3e70ce2987f8de999de29d8ef72c8370dced8e9fdf6f9ddd3e7e24c1e464",
+        "bytes": 679584,
+        "git_oid": "ce3d65cfb78e8065de96e456b0a06e6a71c2e038",
+        "lfs_oid": "934b3e70ce2987f8de999de29d8ef72c8370dced8e9fdf6f9ddd3e7e24c1e464"
+      },
+      "meshes/link6.STL": {
+        "sha256": "32dca4ededcf3215163207b9aea1046114ae59921555d1e068ee46fa6e53915e",
+        "bytes": 643784,
+        "git_oid": "e78a94aa6973f9f01de45176c4f0e17b0d185ed4",
+        "lfs_oid": "32dca4ededcf3215163207b9aea1046114ae59921555d1e068ee46fa6e53915e"
+      },
+      "meshes/link7.STL": {
+        "sha256": "ec3d40b39cccde0075ca3d16603f14f180fce41a46b446473d384def7a1b0be0",
+        "bytes": 65284,
+        "git_oid": "71c00d30d73d785a2bb31b88038aec6e30a1b579",
+        "lfs_oid": "ec3d40b39cccde0075ca3d16603f14f180fce41a46b446473d384def7a1b0be0"
+      },
+      "meshes/link8.STL": {
+        "sha256": "29f7a8379cad81797e82e4ba099455cc275ac6ac5bb9e264ce46719fd7d2bb60",
+        "bytes": 65284,
+        "git_oid": "7acde1c443ed69cd3e54c5c96d0cd91fffd0e262",
+        "lfs_oid": "29f7a8379cad81797e82e4ba099455cc275ac6ac5bb9e264ce46719fd7d2bb60"
+      },
+      "robot_config.yml": {
+        "sha256": "9de4f63b84c0f730623c09af7a2d530d84973981397280b6e4b626b50ba6f1c9",
+        "bytes": 794,
+        "git_oid": "4d23bf5e1da782832bbb815e009db6fde84fdf91",
+        "lfs_oid": "9de4f63b84c0f730623c09af7a2d530d84973981397280b6e4b626b50ba6f1c9"
+      }
+    }
+  },
+  "source_kinematic_ref_sha256": "13b4a47a689afb03afd3a5f08577f0afd79559bbf4193b25072b053d0c20737b",
+  "rows": [
+    {
+      "id": "S00",
+      "pair_archive_sha256": "335370ea052e1ff17ad2348c504fdac3b4dce010a46ee95adc8aeadc0c1fffde",
+      "target_frozen_scene_sha256": "19368138aa85927c9482e2a69f4a9bc7aa35c8a171969d35db7d72a6f1797635",
+      "pose_origin": "real_X5_joint_archive",
+      "source_to_target_flange_mm": 6.938893903907228e-15,
+      "source_to_target_flange_deg": 5.1544803494228514e-14,
+      "target_to_requested_flange_mm": 0.0,
+      "target_to_requested_flange_deg": 6.952550732528974e-14,
+      "diagnostic_flange_match": true,
+      "robot_pixels": [
+        4079,
+        9347
+      ],
+      "body_camera_source_visible": true,
+      "side_view_inspection": null,
+      "original_go2_wrist": null,
+      "projection": {
+        "common_in_frame_flange_landmarks": 1,
+        "median_px": 0.0,
+        "p95_px": 0.0
+      },
+      "working_gripper_slide_known": false,
+      "scientific_observation_pair_qualified": false
+    },
+    {
+      "id": "S01",
+      "pair_archive_sha256": "f00ca61bb71fb24347195460ade49dd8e631416e3876c66f1bb00bfe47febc19",
+      "target_frozen_scene_sha256": "19368138aa85927c9482e2a69f4a9bc7aa35c8a171969d35db7d72a6f1797635",
+      "pose_origin": "real_X5_joint_archive",
+      "source_to_target_flange_mm": 3.554447978966673e-13,
+      "source_to_target_flange_deg": 2.570971717310807e-14,
+      "target_to_requested_flange_mm": 2.435541875787129e-13,
+      "target_to_requested_flange_deg": 2.242468339133795e-14,
+      "diagnostic_flange_match": true,
+      "robot_pixels": [
+        1724,
+        6948
+      ],
+      "body_camera_source_visible": true,
+      "side_view_inspection": null,
+      "original_go2_wrist": null,
+      "projection": {
+        "common_in_frame_flange_landmarks": 1,
+        "median_px": 1.1457157353758233e-13,
+        "p95_px": 1.1457157353758233e-13
+      },
+      "working_gripper_slide_known": false,
+      "scientific_observation_pair_qualified": false
+    },
+    {
+      "id": "S02",
+      "pair_archive_sha256": "851c5fb7f5fc5b9c45cdb3772a61404900b53a4030e5f9598a56d44694fdbc48",
+      "target_frozen_scene_sha256": "19368138aa85927c9482e2a69f4a9bc7aa35c8a171969d35db7d72a6f1797635",
+      "pose_origin": "real_X5_joint_archive",
+      "source_to_target_flange_mm": 1.1631705747361535e-13,
+      "source_to_target_flange_deg": 7.245215427335899e-15,
+      "target_to_requested_flange_mm": 1.389512421408389e-13,
+      "target_to_requested_flange_deg": 2.0808546470515104e-14,
+      "diagnostic_flange_match": true,
+      "robot_pixels": [
+        560,
+        5972
+      ],
+      "body_camera_source_visible": true,
+      "side_view_inspection": null,
+      "original_go2_wrist": null,
+      "projection": {
+        "common_in_frame_flange_landmarks": 0,
+        "median_px": null,
+        "p95_px": null
+      },
+      "working_gripper_slide_known": false,
+      "scientific_observation_pair_qualified": false
+    },
+    {
+      "id": "S03",
+      "pair_archive_sha256": "4d1f19c2e5bc8b1b8e051ad5518d5893137583a323053654ebe1a3890a80ffcd",
+      "target_frozen_scene_sha256": "19368138aa85927c9482e2a69f4a9bc7aa35c8a171969d35db7d72a6f1797635",
+      "pose_origin": "real_X5_joint_archive",
+      "source_to_target_flange_mm": 1.3092278833360674e-13,
+      "source_to_target_flange_deg": 6.830556717958425e-15,
+      "target_to_requested_flange_mm": 6.206335383118183e-14,
+      "target_to_requested_flange_deg": 2.137606555798956e-15,
+      "diagnostic_flange_match": true,
+      "robot_pixels": [
+        5294,
+        10619
+      ],
+      "body_camera_source_visible": true,
+      "side_view_inspection": null,
+      "original_go2_wrist": null,
+      "projection": {
+        "common_in_frame_flange_landmarks": 4,
+        "median_px": 7.004033450736873e-14,
+        "p95_px": 9.858371028825213e-14
+      },
+      "working_gripper_slide_known": false,
+      "scientific_observation_pair_qualified": false
+    },
+    {
+      "id": "G00-00",
+      "pair_archive_sha256": "d5444464db4058c6790b0e6777dcdd58cf042e7ad3977dd4e233f42baa2d74a7",
+      "target_frozen_scene_sha256": "19368138aa85927c9482e2a69f4a9bc7aa35c8a171969d35db7d72a6f1797635",
+      "pose_origin": "real_Go2_paused_sim_packet",
+      "source_to_target_flange_mm": 2.8708650991793704e-09,
+      "source_to_target_flange_deg": 1.6798725988403546e-10,
+      "target_to_requested_flange_mm": 0.0,
+      "target_to_requested_flange_deg": 0.0,
+      "diagnostic_flange_match": true,
+      "robot_pixels": [
+        0,
+        5227
+      ],
+      "body_camera_source_visible": false,
+      "side_view_inspection": {
+        "archive_sha256": "6e3a4b82076d485ead97eafa04162b2499c724f4b39caaf3236f2c0ec05168e8",
+        "source_mask_pixels": 3739,
+        "go2_mask_pixels": 7904,
+        "separate_geometry_diagnostic": true
+      },
+      "original_go2_wrist": {
+        "archive_sha256": "12de18428a1c7616fdb933b42d028da8af3e476087cdb4316c6fdec3877faac8",
+        "source_mask_pixels": 12100,
+        "go2_mask_pixels": 10458,
+        "shared_mask_pixels": 9286,
+        "projection": {
+          "common_in_frame_flange_landmarks": 0,
+          "median_px": null,
+          "p95_px": null
+        }
+      },
+      "projection": {
+        "common_in_frame_flange_landmarks": 0,
+        "median_px": null,
+        "p95_px": null
+      },
+      "working_gripper_slide_known": false,
+      "scientific_observation_pair_qualified": false
+    },
+    {
+      "id": "G00-01",
+      "pair_archive_sha256": "510b16cb2146c39a6aedb7f272dabdc2c63848d40b96e3a7112aecfaf7ce88e9",
+      "target_frozen_scene_sha256": "19368138aa85927c9482e2a69f4a9bc7aa35c8a171969d35db7d72a6f1797635",
+      "pose_origin": "real_Go2_paused_sim_packet",
+      "source_to_target_flange_mm": 2.932205385380761e-09,
+      "source_to_target_flange_deg": 2.801310785044272e-10,
+      "target_to_requested_flange_mm": 0.0,
+      "target_to_requested_flange_deg": 0.0,
+      "diagnostic_flange_match": true,
+      "robot_pixels": [
+        0,
+        5227
+      ],
+      "body_camera_source_visible": false,
+      "side_view_inspection": {
+        "archive_sha256": "e664f11a9d2ef4c460d67602ab47bb01eb48286e704efae294db534fc3905f4e",
+        "source_mask_pixels": 3881,
+        "go2_mask_pixels": 7913,
+        "separate_geometry_diagnostic": true
+      },
+      "original_go2_wrist": {
+        "archive_sha256": "7521a2a7f3b17451b38b0907d131e57ceda2bcdd10aaf2c96ddbaeb0d63d485d",
+        "source_mask_pixels": 12096,
+        "go2_mask_pixels": 10470,
+        "shared_mask_pixels": 9288,
+        "projection": {
+          "common_in_frame_flange_landmarks": 0,
+          "median_px": null,
+          "p95_px": null
+        }
+      },
+      "projection": {
+        "common_in_frame_flange_landmarks": 0,
+        "median_px": null,
+        "p95_px": null
+      },
+      "working_gripper_slide_known": false,
+      "scientific_observation_pair_qualified": false
+    },
+    {
+      "id": "G01-00",
+      "pair_archive_sha256": "206af940303c60c7114dfb31887efe96752dfb2a5cd22e7a46bab776498e91e0",
+      "target_frozen_scene_sha256": "9ae3232754c5ef287239801fc10230199872f1526c78c099b746f0d7ad088507",
+      "pose_origin": "real_Go2_paused_sim_packet",
+      "source_to_target_flange_mm": 2.836851935549071e-09,
+      "source_to_target_flange_deg": 1.6791778167041265e-10,
+      "target_to_requested_flange_mm": 0.0,
+      "target_to_requested_flange_deg": 0.0,
+      "diagnostic_flange_match": true,
+      "robot_pixels": [
+        0,
+        5227
+      ],
+      "body_camera_source_visible": false,
+      "side_view_inspection": {
+        "archive_sha256": "f401b60caab5ca237ddc74332c304df8eff6fac3b5b10013459cfd6e63f02dcd",
+        "source_mask_pixels": 3739,
+        "go2_mask_pixels": 7904,
+        "separate_geometry_diagnostic": true
+      },
+      "original_go2_wrist": {
+        "archive_sha256": "1d0f66cdbe5fd9a254aa6f55564dd5904e211903a74db4b959d4f67a05ef41c1",
+        "source_mask_pixels": 12100,
+        "go2_mask_pixels": 10458,
+        "shared_mask_pixels": 9286,
+        "projection": {
+          "common_in_frame_flange_landmarks": 0,
+          "median_px": null,
+          "p95_px": null
+        }
+      },
+      "projection": {
+        "common_in_frame_flange_landmarks": 0,
+        "median_px": null,
+        "p95_px": null
+      },
+      "working_gripper_slide_known": false,
+      "scientific_observation_pair_qualified": false
+    },
+    {
+      "id": "G01-01",
+      "pair_archive_sha256": "9f86f72dc059e778998471d4d10ead8a4204fecb7cb3667d3a33526b86dbfd47",
+      "target_frozen_scene_sha256": "9ae3232754c5ef287239801fc10230199872f1526c78c099b746f0d7ad088507",
+      "pose_origin": "real_Go2_paused_sim_packet",
+      "source_to_target_flange_mm": 2.920090858199228e-09,
+      "source_to_target_flange_deg": 2.8317239222616834e-10,
+      "target_to_requested_flange_mm": 0.0,
+      "target_to_requested_flange_deg": 0.0,
+      "diagnostic_flange_match": true,
+      "robot_pixels": [
+        0,
+        5227
+      ],
+      "body_camera_source_visible": false,
+      "side_view_inspection": {
+        "archive_sha256": "f8d11a9975f04b974415a2bd102bc8de8ca1c066499343cf861532fb28f420e3",
+        "source_mask_pixels": 3879,
+        "go2_mask_pixels": 7910,
+        "separate_geometry_diagnostic": true
+      },
+      "original_go2_wrist": {
+        "archive_sha256": "f03cf72cac05d28906c18886ff049be0e2d147e4e4af9a065b615d182dde551f",
+        "source_mask_pixels": 12096,
+        "go2_mask_pixels": 10472,
+        "shared_mask_pixels": 9288,
+        "projection": {
+          "common_in_frame_flange_landmarks": 0,
+          "median_px": null,
+          "p95_px": null
+        }
+      },
+      "projection": {
+        "common_in_frame_flange_landmarks": 0,
+        "median_px": null,
+        "p95_px": null
+      },
+      "working_gripper_slide_known": false,
+      "scientific_observation_pair_qualified": false
+    }
+  ],
+  "production_matched_observation_cells": 0,
+  "geometry_only_pairs": 8,
+  "rendered_diagnostic_frames": 32,
+  "body_camera_empty_source_masks": 4,
+  "separate_inspection_frames": 8,
+  "original_go2_wrist_frames": 8,
+  "labelled_training_examples": 0,
+  "new_model_forwards": 0,
+  "integration_ticks": 0,
+  "optimizer_updates": 0
+}
