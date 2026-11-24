@@ -1,0 +1,487 @@
+{
+  "campaign": "V195-FROZEN-DUAL-STACK-01",
+  "trials": [
+    {
+      "location": "F-G00/F00",
+      "slot": "F00",
+      "layout": "G00",
+      "task": "F",
+      "profile": "BOUNDED_TRANSLATION_FEEDBACK_V1",
+      "outcome": "ORIGINAL_STANCE_OR_CONTACT_STOP",
+      "terminal_science": true,
+      "science_pass": false,
+      "model_forwards": 23,
+      "model_returns": 23,
+      "ticks": 25628,
+      "terminal_hold": true,
+      "closed_lease": true,
+      "processes_absent": true,
+      "after_hold": {
+        "install_or_accept": 0,
+        "grant": 0,
+        "ticks": 0
+      },
+      "audit_sha256": "04108ea9320cae8daf70218b1b53eca6e276fad7bdbc5aca46dfbeb48fa60083",
+      "lease_sha256": "0e354486a6748e01a9d84256555861a812e3488c1622df327607fad4157f543d",
+      "binding_sha256": "46119d735f8252b4e48b7e39b2d1c3032644fc5b4e4bfdb690cf2d7820ca64f1",
+      "no_native_start_reuse": true,
+      "teacher_prefix_ticks": 0,
+      "seed": 0,
+      "positive_source_atoms": 308,
+      "student_score": null,
+      "first_stance_violation": {
+        "tick": 25623,
+        "base_drift_m": 0.003293334424241102,
+        "base_angle_deg": 1.1347766253933402,
+        "foot_drift_m": 0.005000253686275544,
+        "all_feet_supported": true,
+        "contact_valid": true,
+        "gripper_state_valid": true
+      }
+    },
+    {
+      "location": "F-G01/F10",
+      "slot": "F10",
+      "layout": "G01",
+      "task": "F",
+      "profile": "BTF1_P10_V1",
+      "outcome": "ORIGINAL_STANCE_OR_CONTACT_STOP",
+      "terminal_science": true,
+      "science_pass": false,
+      "model_forwards": 25,
+      "model_returns": 25,
+      "ticks": 25203,
+      "terminal_hold": true,
+      "closed_lease": true,
+      "processes_absent": true,
+      "after_hold": {
+        "install_or_accept": 0,
+        "grant": 0,
+        "ticks": 0
+      },
+      "audit_sha256": "f18fe46928cfee77c502cc6b1b934dade6b7f4f6661856dd5c04091a5740e2ab",
+      "lease_sha256": "f2169a1f4ed7408241b5cd3bc18c3e3afae000f326a8ea8c7349fad1446c0609",
+      "binding_sha256": "d7b60389c3b1dc4731c77fbaf4aea22e2f1240fa72084154e7cdfb3258b4bccb",
+      "no_native_start_reuse": true,
+      "teacher_prefix_ticks": 0,
+      "seed": 0,
+      "positive_source_atoms": 369,
+      "student_score": null,
+      "first_stance_violation": {
+        "tick": 25196,
+        "base_drift_m": 0.004945380173119561,
+        "base_angle_deg": 1.6958894554670083,
+        "foot_drift_m": 0.005000140489231939,
+        "all_feet_supported": true,
+        "contact_valid": true,
+        "gripper_state_valid": true
+      }
+    },
+    {
+      "location": "H-G00/H00",
+      "slot": "H00",
+      "layout": "G00",
+      "task": "H",
+      "profile": "BOUNDED_TRANSLATION_FEEDBACK_V1",
+      "outcome": "ORIGINAL_STANCE_OR_CONTACT_STOP",
+      "terminal_science": true,
+      "science_pass": false,
+      "model_forwards": 28,
+      "model_returns": 28,
+      "ticks": 25128,
+      "terminal_hold": true,
+      "closed_lease": true,
+      "processes_absent": true,
+      "after_hold": {
+        "install_or_accept": 0,
+        "grant": 0,
+        "ticks": 0
+      },
+      "audit_sha256": "ae609e097a3fbcf7c6556d8b29a34d2cb4abae4e232604d31b1c710d80cf98d6",
+      "lease_sha256": "abfeaf7452d01d5ca40f78a724c39a088ec47de9112e7a501599c955f461ed1b",
+      "binding_sha256": "4e4d5c29dc61617b31017a455ea2d2568170732fd53ef671b7596f502cc9bcdd",
+      "no_native_start_reuse": true,
+      "teacher_prefix_ticks": 5000,
+      "seed": 0,
+      "positive_source_atoms": 386,
+      "student_score": {
+        "task": "H",
+        "handoff_tick": 11203,
+        "handoff_object_position_m": [
+          0.2899733264079766,
+          -0.016921822652936305,
+          0.6547572703814823
+        ],
+        "post_handoff_success": false,
+        "first_success_tick": null,
+        "post_handoff_new_grasp": false,
+        "maximum_added_lift_m": 0.00013119264613692394,
+        "maximum_progress_m": 0.0,
+        "longest_qualifying_window_s": 0.0,
+        "latest": {
+          "native_grasp": false,
+          "added_lift_m": -7.582772082792566e-06
+        }
+      },
+      "first_stance_violation": {
+        "tick": 25108,
+        "base_drift_m": 0.0017752835309657708,
+        "base_angle_deg": 1.2840011845983734,
+        "foot_drift_m": 0.005000005905823947,
+        "all_feet_supported": true,
+        "contact_valid": true,
+        "gripper_state_valid": true
+      }
+    },
+    {
+      "location": "H-G00-SOURCE-END/H00",
+      "slot": "H00",
+      "layout": "G00",
+      "task": "H",
+      "profile": "BTF1_SOURCE_END_P10_V1",
+      "outcome": "ORIGINAL_STANCE_OR_CONTACT_STOP",
+      "terminal_science": true,
+      "science_pass": false,
+      "model_forwards": 3,
+      "model_returns": 3,
+      "ticks": 25028,
+      "terminal_hold": true,
+      "closed_lease": true,
+      "processes_absent": true,
+      "after_hold": {
+        "install_or_accept": 0,
+        "grant": 0,
+        "ticks": 0
+      },
+      "audit_sha256": "79c23aedc69a339af9f875eadb82f7407f9e41e50bb6c9b6303ba524590b5f04",
+      "lease_sha256": "48c42eb12c2b9ffe5e0896aeb0ba9806769649c0eab8e893c961be79ed628c73",
+      "binding_sha256": "89ed4c3dd2ca42b7b8f2bc01296caf1d999e5852bf9c85f6370ce73f8f54b36d",
+      "no_native_start_reuse": true,
+      "teacher_prefix_ticks": 5000,
+      "seed": 0,
+      "positive_source_atoms": 505,
+      "student_score": {
+        "task": "H",
+        "handoff_tick": 11203,
+        "handoff_object_position_m": [
+          0.28997295682385676,
+          -0.01692153290821146,
+          0.6547651790240633
+        ],
+        "post_handoff_success": false,
+        "first_success_tick": null,
+        "post_handoff_new_grasp": false,
+        "maximum_added_lift_m": 0.00014613483630721014,
+        "maximum_progress_m": 0.0,
+        "longest_qualifying_window_s": 0.0,
+        "latest": {
+          "native_grasp": false,
+          "added_lift_m": 3.172550702212895e-05
+        }
+      },
+      "first_stance_violation": {
+        "tick": 25006,
+        "base_drift_m": 0.0017129797533543176,
+        "base_angle_deg": 0.7261060826602025,
+        "foot_drift_m": 0.005000194439410914,
+        "all_feet_supported": true,
+        "contact_valid": true,
+        "gripper_state_valid": true
+      }
+    },
+    {
+      "location": "P-G00/P00",
+      "slot": "P00",
+      "layout": "G00",
+      "task": "P",
+      "profile": "BOUNDED_TRANSLATION_FEEDBACK_V1",
+      "outcome": "INVALID_HANDOFF",
+      "terminal_science": false,
+      "science_pass": false,
+      "model_forwards": 0,
+      "model_returns": 0,
+      "ticks": 16953,
+      "terminal_hold": true,
+      "closed_lease": true,
+      "processes_absent": true,
+      "after_hold": {
+        "install_or_accept": 0,
+        "grant": 0,
+        "ticks": 0
+      },
+      "audit_sha256": "98edccc1522f5571e15fdf43adc3b4d5b96973820c6fe239f11fc073af1191ce",
+      "lease_sha256": "38c72294eece28c9d2815eb2b6726e373b4b2f62e10323a1dbfcc8bba4aac069",
+      "binding_sha256": "33c2eb0a913e7745f2344f812977b906b6d2bdf2b76d12e78106a3b6846f0d21",
+      "no_native_start_reuse": true,
+      "teacher_prefix_ticks": 10750,
+      "seed": 0,
+      "positive_source_atoms": 0,
+      "student_score": null
+    },
+    {
+      "location": "P-G00/P01",
+      "slot": "P01",
+      "layout": "G00",
+      "task": "P",
+      "profile": "BOUNDED_TRANSLATION_FEEDBACK_V1",
+      "outcome": "TECHNICAL_STOP",
+      "terminal_science": false,
+      "science_pass": false,
+      "model_forwards": 0,
+      "model_returns": 0,
+      "ticks": 3803,
+      "terminal_hold": false,
+      "closed_lease": true,
+      "processes_absent": true,
+      "after_hold": null,
+      "audit_sha256": "872931fce2ecf84ccf6605d8b1e5add56b57c72863f0b2bb8165becfa8a94d4e",
+      "lease_sha256": "6c953f845d33123b82ddd875f4455671fee430717b427fe6e7d7b3cc7ef9e1f0",
+      "binding_sha256": "b944bf484cee8ee117e1231a2c96209c43a344c01ca6f037c1adb43f609b77de",
+      "no_native_start_reuse": true
+    },
+    {
+      "location": "P-G00-COMPACT-H0/P00",
+      "slot": "P00",
+      "layout": "G00",
+      "task": "P",
+      "profile": "BOUNDED_TRANSLATION_FEEDBACK_V1",
+      "outcome": "ORIGINAL_STANCE_OR_CONTACT_STOP",
+      "terminal_science": true,
+      "science_pass": false,
+      "model_forwards": 29,
+      "model_returns": 29,
+      "ticks": 25103,
+      "terminal_hold": true,
+      "closed_lease": true,
+      "processes_absent": true,
+      "after_hold": {
+        "install_or_accept": 0,
+        "grant": 0,
+        "ticks": 0
+      },
+      "audit_sha256": "4884bbccb2e5d4e15b551133a1ab180411f02ea9a963f99a82afab81a8372ed5",
+      "lease_sha256": "2f86368b97ef2dcc8a2b172825f26ad2ceec4262d87ce681dd412c4212f5ad83",
+      "binding_sha256": "536882925e9b718fab14dafaadab7b1e82638982acca1ec219d09cfcd0d510d8",
+      "no_native_start_reuse": true,
+      "teacher_prefix_ticks": 4250,
+      "seed": 0,
+      "positive_source_atoms": 399,
+      "student_score": {
+        "task": "P",
+        "handoff_tick": 10453,
+        "handoff_object_position_m": [
+          0.28996735299039683,
+          -0.016972470648483784,
+          0.6547965257206754
+        ],
+        "post_handoff_success": false,
+        "first_success_tick": null,
+        "post_handoff_new_grasp": false,
+        "maximum_added_lift_m": 2.3225249390357305e-08,
+        "maximum_progress_m": 0.0,
+        "longest_qualifying_window_s": 0.0,
+        "latest": {
+          "native_grasp": false,
+          "added_lift_m": 2.2564549007064727e-08
+        }
+      },
+      "first_stance_violation": {
+        "tick": 25089,
+        "base_drift_m": 0.001893835982936376,
+        "base_angle_deg": 1.256878997437174,
+        "foot_drift_m": 0.005000124690870849,
+        "all_feet_supported": true,
+        "contact_valid": true,
+        "gripper_state_valid": true
+      }
+    },
+    {
+      "location": "Q00",
+      "slot": "Q00",
+      "layout": "G00",
+      "task": "Q",
+      "profile": "BOUNDED_TRANSLATION_FEEDBACK_V1",
+      "outcome": "Q_PASS",
+      "terminal_science": true,
+      "science_pass": true,
+      "model_forwards": 0,
+      "model_returns": 0,
+      "ticks": 11953,
+      "terminal_hold": true,
+      "closed_lease": true,
+      "processes_absent": true,
+      "after_hold": {
+        "install_or_accept": 0,
+        "grant": 0,
+        "ticks": 0
+      },
+      "audit_sha256": "292b3e2697a1cdaed7f3b1c37a9b07c4d751dc5af1a7411106f4ead1431e14e2",
+      "lease_sha256": "d64f1610d2de86a5e4037afdd5f01496a975906024f40852167882bc77a6b6ad",
+      "binding_sha256": "a7d831d760755d40fb4c074885bd49ee736b64569bb408956ab068f0b7197728",
+      "no_native_start_reuse": true
+    },
+    {
+      "location": "Q01",
+      "slot": "Q01",
+      "layout": "G01",
+      "task": "Q",
+      "profile": "BOUNDED_TRANSLATION_FEEDBACK_V1",
+      "outcome": "Q_PASS",
+      "terminal_science": true,
+      "science_pass": true,
+      "model_forwards": 0,
+      "model_returns": 0,
+      "ticks": 16453,
+      "terminal_hold": true,
+      "closed_lease": true,
+      "processes_absent": true,
+      "after_hold": {
+        "install_or_accept": 0,
+        "grant": 0,
+        "ticks": 0
+      },
+      "audit_sha256": "856f015256a31c069149ce8afd4c3fb3db8281bfc072bd86aa49c5e4a7e3e095",
+      "lease_sha256": "b08d2cf2bd01291b87e453db6526a47bc4fe329090b22e63b535e913629e4419",
+      "binding_sha256": "dcf99f787c97b819a7809a5c251f3b3ba3768b0c6cf6f2bc4b7b9efd29f61ab5",
+      "no_native_start_reuse": true
+    },
+    {
+      "location": "QH00",
+      "slot": "QH00",
+      "layout": "G00",
+      "task": "QH",
+      "profile": "BOUNDED_TRANSLATION_FEEDBACK_V1",
+      "outcome": "QH_HELD_ENDPOINT_TRACKING_FAIL",
+      "terminal_science": true,
+      "science_pass": false,
+      "model_forwards": 0,
+      "model_returns": 0,
+      "ticks": 15203,
+      "terminal_hold": true,
+      "closed_lease": true,
+      "processes_absent": true,
+      "after_hold": {
+        "install_or_accept": 0,
+        "grant": 0,
+        "ticks": 0
+      },
+      "audit_sha256": "7c0dabd6b79d68b6ee27d4da339e921ef9aefeea4a95f0b11c15c34bef518885",
+      "lease_sha256": "1eb5e61f649dca1eb98f8080189f6d13693b3046f6bb9cd9043006c3a1e28fad",
+      "binding_sha256": "b4f51773097e7b49fa9bd205d96deda037329df37611d34d6a6d2a847606291f",
+      "no_native_start_reuse": true,
+      "axis": "Y",
+      "held_height_m": 0.024681708506053335,
+      "windows": [
+        {
+          "target": "OUT20",
+          "tick": 15203,
+          "position_peak_mm": 8.2630089532012,
+          "orientation_peak_deg": 0.34838434366703097,
+          "contact_lock": true,
+          "measured_mean_xyz_m": [
+            0.2788512783336652,
+            -0.006686113925825504,
+            0.6942994804047957
+          ]
+        }
+      ]
+    },
+    {
+      "location": "QH01",
+      "slot": "QH01",
+      "layout": "G01",
+      "task": "QH",
+      "profile": "BOUNDED_TRANSLATION_FEEDBACK_V1",
+      "outcome": "QH_HELD_ENDPOINT_TRACKING_FAIL",
+      "terminal_science": true,
+      "science_pass": false,
+      "model_forwards": 0,
+      "model_returns": 0,
+      "ticks": 15453,
+      "terminal_hold": true,
+      "closed_lease": true,
+      "processes_absent": true,
+      "after_hold": {
+        "install_or_accept": 0,
+        "grant": 0,
+        "ticks": 0
+      },
+      "audit_sha256": "5992974637968591aeacb076d0118f4db468ef655e66cffd1e65a3836a0f4920",
+      "lease_sha256": "9bf1e0e9ed2beb410df57bed10b3060c946818affb6c17bfc1b554ea4d0713b0",
+      "binding_sha256": "bc452b018802084af04f3eccf97a0e0f38894ea33bd5608fd85e35a8596df875",
+      "no_native_start_reuse": true,
+      "axis": "X",
+      "held_height_m": 0.024655869074095782,
+      "windows": [
+        {
+          "target": "OUT20",
+          "tick": 15453,
+          "position_peak_mm": 5.613110915755587,
+          "orientation_peak_deg": 0.10141375779907413,
+          "contact_lock": true,
+          "measured_mean_xyz_m": [
+            0.2925566579387672,
+            0.00041183591737924114,
+            0.6927097661808267
+          ]
+        }
+      ]
+    }
+  ],
+  "totals": {
+    "starts": 11,
+    "ticks": 205908,
+    "frozen_model_forwards": 108,
+    "frozen_model_returns": 108,
+    "training_updates": 0,
+    "hardware_actions": 0
+  },
+  "workers": {
+    "F-G00": {
+      "terminal": true,
+      "exit_code": 0,
+      "ready_sha256": "ef4668856d83dcb3f18e6112b1736b9cb5bbc9c15ef843f009b4a273190a9b6c"
+    },
+    "F-G01": {
+      "terminal": true,
+      "exit_code": 0,
+      "ready_sha256": "fafeeeab9b31e959fd4ea986e2a541813ac44c523b75c143680abcbf544c0e1d"
+    },
+    "H-G00": {
+      "terminal": true,
+      "exit_code": 0,
+      "ready_sha256": "3c5eb851a4a0d6b2b09a8ed2a7021bdab0f73ec5a41978623b6e75b05a1d4ffe"
+    },
+    "H-G00-SOURCE-END": {
+      "terminal": true,
+      "exit_code": 0,
+      "ready_sha256": "7a21443e5bd2b773dc50c4e6d0fcf7320ff6d0823fdeed7c7fe16163880c9203"
+    },
+    "P-G00": {
+      "terminal": true,
+      "exit_code": 0,
+      "ready_sha256": "bfc1b91abeca33887d73f6257cf1ce665133048d1a2ad9b806b99aedc03d3070"
+    },
+    "P-G00-COMPACT-H0": {
+      "terminal": true,
+      "exit_code": 0,
+      "ready_sha256": "d18935073c911cdd12c0c0287f1ae76c4e5c9424b8fddd40221e9d20f5a107de"
+    }
+  },
+  "preregistered_counts": {
+    "Q": 2,
+    "F": 4,
+    "P": 4,
+    "H": 4,
+    "T": 4,
+    "C": 4,
+    "shared_successors": 4
+  },
+  "replay": {
+    "name": "H00-source-end-body-wrist.mp4",
+    "seconds": 50.15,
+    "frames": 1003,
+    "sha256": "84b9a1e1ba3e5e1553c7e9f319e267af2838a4e55af8438d079a8959218fa350"
+  },
+  "source_plan_pr": 513
+}
