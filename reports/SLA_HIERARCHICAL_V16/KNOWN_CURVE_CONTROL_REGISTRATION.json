@@ -1,0 +1,8 @@
+{
+  "source_commit": "d75d8b55ef53bfa893c3ddae632a6c17a70c5382",
+  "purpose": "Before using the existing 4 mm / 2 degree tube as a dynamic result, check whether the originally declared SLOW/SOURCE_SPEED circles distinguish moving with the reference from parking. No new science sample or fit.",
+  "clock": "Both registered trajectories; use their 50 ms world pose grid with linear translation/shortest slerp on the 2 ms measurement grid; score full active 1..5 s inclusive without optimizing lag. Source origins are actual first measured TCP for deliberately re-anchored archive controls.",
+  "controls": "Exact tracking, parked at start, parked at circle center (unchanged orientation), reversed incremental movement. For native null controls use the final 4 s inclusive of all original admitted F1 A0 runs (12 starts; retain every exclusion). Before use independently verify that every actual target installed covering that interval is stationary. Replay the 4 seconds at original rate, no looping or stretching.",
+  "metrics": "Keep original max and RMS absolute errors. Separately score translation and relative rotation-vector shape in world frame: subtract each trace's constant mean, Q=1-SSE(error)/SSE(reference variation), signed gain=inner product of demeaned reference and achieved / reference energy. Constant output has Q=0, ideal Q=1. Q>0 means better than the best constant shape predictor on that clock, not safety, task success or a new qualification threshold. Publish both channels, no combined score.",
+  "resources": "CPU, sealed historical native holds and published curves only. No GPU model calls, physics integration or new native allocation."
+}
