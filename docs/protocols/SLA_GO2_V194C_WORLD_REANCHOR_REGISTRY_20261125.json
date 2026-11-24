@@ -1,0 +1,303 @@
+{
+  "schema": "SLA_GO2_V194C_WORLD_REANCHOR_V1",
+  "date": "2026-11-25",
+  "status": "PLAN_ONLY_NOT_RUN",
+  "publication": {
+    "base_branch": "main",
+    "base_sha": "a718abb5a18a299e116326af59ead3ccb1db4e9a",
+    "prior_plan_pr": 511,
+    "prior_plan_sha": "98f1e3c297d2c06ad16cf5125da4500b8b986951",
+    "remote_reusable_execution_pr": 510,
+    "remote_reusable_execution_sha": "719882e9fd154ffbe995484e7a766ada3b3ecd02",
+    "green_actual_implementation_sha": null,
+    "green_actual_archive_hashes": null,
+    "green_actual_source": "USER_REPORTED_SITE_RESULTS_NOT_INDEPENDENTLY_READ_BACK",
+    "auto_execute": false
+  },
+  "historical_user_report": {
+    "red": {
+      "valid": 4,
+      "success": 0,
+      "table_stop": 4,
+      "full50_close_hits": 0,
+      "full50_queries": 11,
+      "installed_clearance_mm": [
+        9.29,
+        10.21
+      ],
+      "attempts": 6,
+      "total_forwards": 13,
+      "total_ticks": 51885,
+      "technical_invalid": 2
+    },
+    "green": {
+      "valid": 4,
+      "success": 0,
+      "table_stop": 4,
+      "align_stop": 3,
+      "source_stop": 1,
+      "full50_close_hits": 0,
+      "full50_queries": 10,
+      "ticks": 38381,
+      "installed_clearance_mm": [
+        9.37,
+        10.43
+      ],
+      "actual_tcp_minus_reference_z_mm": [
+        -19.75,
+        -17.62
+      ],
+      "language_new_forwards": 8,
+      "language_exact_reuse": 4,
+      "green_initial_close_hits": 0,
+      "green_initial_queries": 4
+    },
+    "entry_height_difference_approx_mm": 24,
+    "source": "User message; bind native receipts before inference",
+    "post_stop_new_integrations": 0,
+    "post_stop_new_installs": 0,
+    "optimizer_updates": 0
+  },
+  "freeze": {
+    "checkpoint": "haofuly/SLA_benchmark_ckpts/SLA_Memory_robodojo_real_ckpt",
+    "revision": "7f6880569c3be777291e646fad1b4951245e8553",
+    "upstream_sha": "c1b205ec42b4ab2cac9c2159c8b4c2f723e5e454",
+    "config": "train_robodojo_real",
+    "extra_frames_first": false,
+    "attention": "xla",
+    "raw": [
+      50,
+      32
+    ],
+    "decoded": [
+      50,
+      16
+    ],
+    "source_hz": 30,
+    "source_end_s": "49/30",
+    "processor_manifest_sha256": "2e473d45a29f624f8c0242bf60389214613e3a060446e6845cd1a95322f2610c",
+    "camera": "THREE_VIEW_V1",
+    "head_history": 9,
+    "virtual_left": "MATCH_GREEN_A1",
+    "nominal_codec": "FLANGE_EQUIVALENT_NOMINAL",
+    "source_physical_tool": "UNKNOWN",
+    "source_camera_extrinsics": "UNKNOWN",
+    "prompt": "Pick up the green fruit, lift it above the table and keep holding it.",
+    "selected_internal_role": "red",
+    "visible_color": "green",
+    "scene": "FRUIT_COMPACT_STANCE_01",
+    "wbc_unchanged": true,
+    "leg_policy_unchanged": true,
+    "original_safety_unchanged": true,
+    "hardware": false,
+    "sla_updates": 0,
+    "adapter_updates": 0,
+    "wbc_updates": 0,
+    "target_training_demos": 0,
+    "agent_calls": 0
+  },
+  "reference": {
+    "id": "REFERENCE_WORLD_REANCHOR_V1",
+    "code": "scripts/sla_go2_v18/world_intent_clock.py::world_offset",
+    "blob": "0571e09625a8ad071a8d78fb275c7d28cfd44ab1",
+    "translation": "p_C+(p_I-p_A)",
+    "rotation": "R_I @ R_A.T @ R_C",
+    "same_tick_measured_and_consumed": true,
+    "apply_once_per_proposal": true,
+    "accumulate_offset": false,
+    "within_proposal_update": false,
+    "gripper_mapping_unchanged": true,
+    "preserve_full50_and_original_intent": true,
+    "compiler": {
+      "bounded": false,
+      "protect_all": false,
+      "anchor": "LAST_CONSUMED_EEF",
+      "incoming": "LAST_TWO_CONSECUTIVE_CONSUMED_EEF",
+      "jaw": "MODEL_FIRST_KNOT_UNCHANGED"
+    },
+    "no_target_projection": true,
+    "no_fixed_task_height_offset": true,
+    "no_teacher_takeover": true
+  },
+  "clock": {
+    "native_dt_s": 0.002,
+    "atom_ticks": 25,
+    "atom_dt_s": 0.05,
+    "p10_atoms": 10,
+    "reissue_atom_indices": [
+      0,
+      7
+    ],
+    "reference_ttl_s": 0.4,
+    "preview_dt_s": 0.05,
+    "preview_knots": 41,
+    "refresh": "10 VERIFIED_POSITIVE_SOURCE_ATOMS OR ACTUAL_SOURCE_END AT P10_BOUNDARY",
+    "query_cap": "CHECK_BEFORE_NEXT_QUERY",
+    "tick_cap": "CHECK_TICK_PLUS_25_BEFORE_GRANT",
+    "source_index": "30*source_time_s"
+  },
+  "stages": [
+    {
+      "id": "E0",
+      "status": "PENDING_SITE_ARCHIVE_BINDING",
+      "valid_student_episodes": 8,
+      "h0_episodes": 2,
+      "geometry_factorial": 8,
+      "new_forwards": 0,
+      "new_ticks": 0
+    },
+    {
+      "id": "E1",
+      "status": "NOT_RUN",
+      "conditions": [
+        {
+          "id": "D00",
+          "layout": "G00",
+          "arm": "DIRECT"
+        },
+        {
+          "id": "R00",
+          "layout": "G00",
+          "arm": "REANCHOR"
+        },
+        {
+          "id": "D01",
+          "layout": "G01",
+          "arm": "DIRECT"
+        },
+        {
+          "id": "R01",
+          "layout": "G01",
+          "arm": "REANCHOR"
+        }
+      ],
+      "known_intent": {
+        "lift_entry_mm": 20,
+        "z_excursion_mm": 4,
+        "rotation_world_x_deg": 2,
+        "mixed_x_mm": 4,
+        "mixed_z_mm": 4,
+        "dwell_s_min": 1,
+        "qualification": "COLD_GEOMETRY_AND_ORIGINAL_SAFETY_BEFORE_START",
+        "exact_timing": null,
+        "no_contact": true,
+        "gripper_slide_mm": 42
+      },
+      "caps": {
+        "native_starts": 4,
+        "ticks_per_start": 20000,
+        "total_ticks": 80000,
+        "wall_s_per_start": 1800,
+        "model_forwards": 0
+      },
+      "gate": {
+        "required_reanchor_pass_layouts": [
+          "G00",
+          "G01"
+        ],
+        "position_peak_mm": 4,
+        "rotation_peak_deg": 2,
+        "positive_measured_z_and_rotation_response": true,
+        "original_safety": true,
+        "full_consumption": true,
+        "paired_position_rms_noninferior_both_if_direct_complete": true,
+        "at_least_one_relative_rms_improvement": 0.5,
+        "if_direct_already_passes_no_claim_reanchor_needed": true,
+        "if_direct_preflight_reject": "REPORT_MISSING_PAIR; R_QUALIFICATION_ONLY; CHECK_SHARED_DEFECTS",
+        "no_contact_claim_only": true
+      }
+    },
+    {
+      "id": "E2",
+      "status": "CONDITIONAL_E1",
+      "cells": [
+        {
+          "id": "C00",
+          "layout": "G00",
+          "seed": 0
+        },
+        {
+          "id": "C01",
+          "layout": "G00",
+          "seed": 1
+        },
+        {
+          "id": "C10",
+          "layout": "G01",
+          "seed": 0
+        },
+        {
+          "id": "C11",
+          "layout": "G01",
+          "seed": 1
+        }
+      ],
+      "noise": "rng_noise([query_index, episode_seed])",
+      "caps": {
+        "native_starts": 4,
+        "ticks_per_start": 50000,
+        "total_ticks": 200000,
+        "queries_per_start": 120,
+        "total_forwards": 480,
+        "wall_s_per_start": 1800
+      },
+      "success": {
+        "correct_object": true,
+        "lift_mm": 20,
+        "hold_s": 1,
+        "original_safety": true,
+        "base_translation_mm_max": 20,
+        "base_angle_deg_max": 5,
+        "foot_translation_mm_max": 5,
+        "no_teacher_takeover": true
+      },
+      "no_offline_close_gate": true,
+      "science_failure_retry": false
+    },
+    {
+      "id": "E3",
+      "status": "CONDITIONAL_NEW_REGISTRATION_ONLY",
+      "candidate_pregrasp_cards": 4,
+      "layouts": [
+        "G00",
+        "G01"
+      ],
+      "seeds": [
+        0,
+        1
+      ],
+      "teacher_initialization_only": true,
+      "teacher_prefix_not_student_success": true
+    },
+    {
+      "id": "E4",
+      "status": "DEFERRED_NEW_REGISTRATION",
+      "scope": "new scene confirmation, pick-place, second skill"
+    }
+  ],
+  "main_candidate_caps": {
+    "native_starts": 8,
+    "ticks": 280000,
+    "sim_s": 560,
+    "model_forwards": 480,
+    "optimizer_updates": 0,
+    "extra_retry_starts": 0
+  },
+  "historical_evidence": {
+    "sea2_sha": "470aa1ce40d0a5d75a9f06b394d7324c58e61881",
+    "sea2_report_blob": "08c761d158e639f55cb6ab5f1d603a288d7e7cf9",
+    "h0_report_blob": "c2b547318a5a82e96acb72ae356d6dd85b8fbf66",
+    "p10_report_blob": "7f6bd59af0cd3e505f1e011ed0f7ec6e54625c3e",
+    "prior_registry_blob": "98ed5cfed145dd8eee7e607406c493618d8c2785"
+  },
+  "publication_effects": {
+    "allocations": 0,
+    "native_starts": 0,
+    "physics_ticks": 0,
+    "model_forwards": 0,
+    "render_jobs": 0,
+    "optimizer_updates": 0,
+    "hardware_actions": 0,
+    "external_contacts": 0
+  }
+}
