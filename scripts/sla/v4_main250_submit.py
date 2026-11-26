@@ -22,15 +22,42 @@ EARLIER_NAMES = ("slav4m250a", "slav4m250b")
 NAME = "slav4m250c"
 WALL = 6 * 3600
 PLAN = "f72f3d57b470de3e62821cd5e1a33d938a669cb7"
+SUPERSEDED_LONG_PROBE = "slav4longq1"
+LONG_PROBE = "slav4longq2"
+LONG_PROBE_RECOVERY = "slav4longq3"
+LONG_FORMAL = "slav4main1k"
 
 
-def submit(capsule,custody,source,runtime):
+def submit(capsule,custody,source,runtime,*,short_run=None,bank_root=None,completed_probe=None,prior_probe=None):
+    long_run = short_run is not None
+    formal = completed_probe is not None
+    if long_run != (bank_root is not None) or (formal or prior_probe is not None) and not long_run:
+        raise ValueError("Bind both the exact completed short run and the real long data")
+    if formal:
+        name = LONG_FORMAL
+    elif prior_probe is not None:
+        name = LONG_PROBE_RECOVERY
+    else:
+        name = LONG_PROBE if long_run else NAME
+    wall = 2 * 3600 if long_run and not formal else WALL
+    if formal:
+        from v4_long_train import UPDATES, select
+
+        charter = json.loads((capsule / "incoming/FORMAL_BINDING.json").read_bytes())
+        selected = select(completed_probe, charter["performance_sha256"])
+        if charter["updates"] != UPDATES or charter["profile"] != selected["profile"]:
+            raise PermissionError("Formal duration and measured batch must be pinned")
+        needed = UPDATES * selected["p95_s"] + 1800
+        wall = min(WALL, max(3600, math.ceil(needed / 900) * 900))
+        if wall < needed:
+            raise PermissionError("Observed training plus checkpoint reserve requires a segmented job")
+    wall_label = f"{wall//3600:02d}:{wall//60%60:02d}:00"
     with closing(OwnerLock(capsule/"SUBMIT.lock")):
         if (capsule/"INTENT.json").exists():
             raise RuntimeError("Existing submission intent must be reconciled in PBS")
-        if time.time()+WALL>=DEADLINE:
+        if time.time()+wall>=DEADLINE:
             raise PermissionError("Original experiment deadline leaves insufficient time")
-        grant=project_grant(WALL)
+        grant=project_grant(wall)
         required = grant.get("required_units_at_queue_rate_one")
         balance = grant.get("balance_gpu_units")
         if required is None or balance is None:
@@ -60,39 +87,86 @@ def submit(capsule,custody,source,runtime):
                 or previous["gpus"] != 1):
             raise PermissionError("The predecessor was not settled as a zero-update technical attempt")
         prior += previous["reserved_wall_seconds"] * previous["gpus"]
-        if prior+WALL>320*3600:
+        assets=sorted(p for p in (capsule/"incoming").rglob("*") if p.is_file())
+        if long_run:
+            accepted_path = capsule / "COMPLETED_MAIN_READBACK.json"
+            accepted = json.loads(accepted_path.read_bytes())
+            endpoint = json.loads((short_run / "run/TRAIN_TERMINAL.json").read_bytes())
+            if (accepted["job_state"] != "F" or accepted["job_name"] != NAME
+                    or accepted["exit_status"] != 0 or accepted["gpus"] != 1
+                    or not endpoint["formal_endpoint"] or endpoint["completed_updates"] != 250
+                    or accepted["terminal_sha256"] != digest(short_run / "run/TRAIN_TERMINAL.json")):
+                raise PermissionError("Read the completed short learner before admitting the long probe")
+            prior += accepted["reserved_wall_seconds"] * accepted["gpus"]
+            assets.append(accepted_path)
+        if formal:
+            release = json.loads((completed_probe / "RELEASE.json").read_bytes())
+            probe = native(release["job"])
+            if (probe["Job_Name"] not in (LONG_PROBE, LONG_PROBE_RECOVERY) or probe["job_state"] != "F"
+                    or probe["Exit_status"] != 0 or probe["project"] != PROJECT
+                    or probe["Job_Owner"].split("@")[0] != grant["account"]
+                    or int(probe["Resource_List"]["ngpus"]) != 1
+                    or wall_seconds(probe["Resource_List"]["walltime"]) != release["reserved_s"]):
+                raise PermissionError("The measured probe must have an exact terminal scheduler readback")
+            prior += release["reserved_s"]
+            previous_probe = completed_probe / "PREVIOUS_PROBE_READBACK.json"
+            if previous_probe.exists():
+                prior += json.loads(previous_probe.read_bytes())["wall_s"]
+        if prior_probe is not None:
+            release = json.loads((prior_probe / "RELEASE.json").read_bytes())
+            probe = native(release["job"])
+            if (probe["Job_Name"] != LONG_PROBE or probe["job_state"] != "F"
+                    or probe["Exit_status"] == 0 or probe["project"] != PROJECT
+                    or probe["Job_Owner"].split("@")[0] != grant["account"]
+                    or int(probe["Resource_List"]["ngpus"]) != 1):
+                raise PermissionError("Resolve the prior probe before any technical continuation")
+            prior += release["reserved_s"]
+            readback = capsule / "PREVIOUS_PROBE_READBACK.json"
+            write_once(readback, dict(job=release["job"], wall_s=release["reserved_s"],
+                       measured_sha256=digest(prior_probe / "run/PROFILES.json")))
+            assets.append(readback)
+        if prior+wall>320*3600:
             raise PermissionError("Original finite campaign GPU budget exhausted")
 
         existing=[]
-        for name in (*EARLIER_NAMES, NAME):
-            existing.extend(subprocess.check_output([str(PBS/"qselect"),"-u",grant["account"],"-N",name],
-                                                    text=True,timeout=45).split())
+        active = subprocess.check_output([str(PBS/"qselect"),"-u",grant["account"]],
+                                         text=True,timeout=45).split()
+        for job in active:
+            row = native(job)
+            if row["Job_Name"] in (*EARLIER_NAMES, NAME, SUPERSEDED_LONG_PROBE, LONG_PROBE, LONG_PROBE_RECOVERY, LONG_FORMAL) and row["job_state"] != "F":
+                existing.append(job)
         if existing or (capsule/"run").exists():
             raise RuntimeError("An existing MAIN owner must be reconciled")
-        assets=sorted(p for p in (capsule/"incoming").rglob("*") if p.is_file())
         assets.extend((capsule/"LEGACY_SCHEDULER_READBACK.json", previous_path))
         staged=sorted((capsule/"code").glob("*.py"))
         manifests={str(p.relative_to(capsule)):digest(p) for p in assets+staged}
-        if not staged or "incoming/reference/V3_RUN_CONTRACT.json" not in manifests:
+        if not staged or (not long_run and "incoming/reference/V3_RUN_CONTRACT.json" not in manifests):
             raise ValueError("Missing bound original command or learner assets")
         check=capsule/"INPUTS.sha256"
         with check.open("x") as f:
             f.writelines(f"{value}  {name}\n" for name,value in manifests.items())
         paths=":".join(map(str,(capsule/"code",source,source/"src",runtime/"data_dependencies",
                                      runtime/"upstream",runtime/"packages")))
-        command=shlex.join([str(runtime/"interpreter/bin/python3.12"),"-B",
-            str(capsule/"code/v4_main250_hopper.py"),str(capsule),str(custody)])
+        entrypoint = "v4_long_train.py" if formal else "v4_long_probe.py" if long_run else "v4_main250_hopper.py"
+        argv = [runtime/"interpreter/bin/python3.12", "-B", capsule/"code"/entrypoint, capsule, custody]
+        if long_run:
+            argv.extend((short_run, bank_root))
+        if formal:
+            argv.append(completed_probe)
+        if prior_probe is not None:
+            argv.extend(("--prior-probe", prior_probe))
+        command=shlex.join(map(str, argv))
         script=capsule/"job.pbs"
         with script.open("x") as f:
-            f.write("\n".join(["#!/bin/bash -l",f"#PBS -N {NAME}",f"#PBS -P {PROJECT}","#PBS -q auto",
-                "#PBS -l select=1:ngpus=1:gpu_model=H200:ncpus=12:mem=225GB","#PBS -l walltime=06:00:00",
+            f.write("\n".join(["#!/bin/bash -l",f"#PBS -N {name}",f"#PBS -P {PROJECT}","#PBS -q auto",
+                "#PBS -l select=1:ngpus=1:gpu_model=H200:ncpus=12:mem=225GB",f"#PBS -l walltime={wall_label}",
                 "#PBS -m n","#PBS -r n",f"#PBS -o {capsule/'stdout.log'}",f"#PBS -e {capsule/'stderr.log'}",
                 "set -euo pipefail","umask 077",f"cd {shlex.quote(str(capsule))}",
                 "export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1",
                 "export JAX_PLATFORMS=cuda XLA_PYTHON_CLIENT_PREALLOCATE=false",
                 "export PBS_SERVER="+shlex.quote(os.environ["PBS_SERVER"]),
                 f"export PYTHONPATH={shlex.quote(paths)}","sha256sum --status -c INPUTS.sha256","exec "+command,""]))
-        intent=dict(plan=PLAN,name=NAME,project=PROJECT,wall_s=WALL,prior_upper_gpu_s=prior,
+        intent=dict(plan=PLAN,name=name,project=PROJECT,wall_s=wall,prior_upper_gpu_s=prior,
                     grant=grant,batch_sha256=digest(script),inputs_sha256=digest(check))
         write_once(capsule/"INTENT.json",intent)
         journal=Journal(capsule/"journal",capsule.name)
@@ -101,7 +175,7 @@ def submit(capsule,custody,source,runtime):
             job=subprocess.check_output([str(PBS/"qsub"),"-f","-h",str(script)],text=True,timeout=120).strip()
             if not re.fullmatch(r"\d+\.hopper-m-02",job):
                 raise RuntimeError("Unknown submission effect, stop and reconcile")
-            write_once(capsule/"JOB.json",dict(job=job,name=NAME))
+            write_once(capsule/"JOB.json",dict(job=job,name=name))
             return job
 
         job=journal.once("qsub",intent,hold)
@@ -109,13 +183,13 @@ def submit(capsule,custody,source,runtime):
         spec=row["Resource_List"]
         rate=float(spec["queue_charge_rate"])
         charge=required*rate
-        if (row["job_state"]!="H" or row["project"]!=PROJECT or row["Job_Name"]!=NAME
+        if (row["job_state"]!="H" or row["project"]!=PROJECT or row["Job_Name"]!=name
                 or row["Job_Owner"].split("@")[0]!=grant["account"] or int(spec["ngpus"])!=1
                 or spec["select"]!="1:ngpus=1:gpu_model=H200:ncpus=12:mem=225GB"
-                or wall_seconds(spec["walltime"])!=WALL or not math.isfinite(rate) or rate<=0
+                or wall_seconds(spec["walltime"])!=wall or not math.isfinite(rate) or rate<=0
                 or charge>min(balance,grant["balance_su"])):
             raise PermissionError("Held job resources or charge differ from the live grant")
-        admission=dict(job=job,charge_upper=charge,rate=rate,reserved_s=WALL)
+        admission=dict(job=job,charge_upper=charge,rate=rate,reserved_s=wall)
         write_once(capsule/"ADMITTED.json",admission)
 
         def release():
@@ -130,5 +204,9 @@ if __name__=="__main__":
     cli=argparse.ArgumentParser(description=__doc__)
     for arg in ("capsule","custody","source","runtime"):
         cli.add_argument(arg,type=Path)
+    cli.add_argument("--short-run",type=Path)
+    cli.add_argument("--bank-root",type=Path)
+    cli.add_argument("--completed-probe",type=Path)
+    cli.add_argument("--prior-probe",type=Path)
     os.umask(0o077)
     submit(**vars(cli.parse_args()))

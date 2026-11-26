@@ -41,7 +41,7 @@ class LongLearner:
     """Keep one immutable visit plan, one model, and one global Adam clip."""
 
     def __init__(self, *, graphs, parameters, frozen, datasets, tokenizer, banks, auxiliary_slots,
-                 auxiliary, cursors, rates, rng, target_control=False):
+                 auxiliary, cursors, rates, rng, target_control=False, workers=4):
         from go2arx5_vla.sla_adapter import scale20k_training as original
         from go2arx5_vla.sla_adapter.adapt5k_training import OPTIMIZER
         from go2arx5_vla.sla_adapter.scale20k_contract import make_adamw
@@ -59,10 +59,13 @@ class LongLearner:
         self.draws = {d: original.frozen_draws(d, BATCH[d]) for d in self.domains}
         self.aux_add = original.compile_fm_accumulation(
             original.target_auxiliary(graphs["target"], datasets["target"].statistics["actions"]))
-        initialize, self.apply = make_adamw(**OPTIMIZER)
-        self.optimizer = initialize(parameters)
+        self.initialize_optimizer, self.apply = make_adamw(**OPTIMIZER)
+        self.optimizer = self.initialize_optimizer(parameters)
         self.step = 0
-        self.pool = ThreadPoolExecutor(max_workers=4, thread_name_prefix="v4-learner-input")
+        self.active_component = "prepare"
+        self.peak_component = "prepare"
+        self.peak_memory = 0
+        self.pool = ThreadPoolExecutor(max_workers=workers, thread_name_prefix="v4-learner-input")
         self.reader_locks = {domain: Lock() for domain in self.domains}
         self.queued = {}
 
@@ -94,16 +97,27 @@ class LongLearner:
                 self.queued[k] = {d: self.pool.submit(self.prepare, k, d) for d in self.domains}
         return self.queued.pop(step)
 
+    def observe_memory(self):
+        import jax
+
+        stats = jax.local_devices()[0].memory_stats()
+        if stats and stats["peak_bytes_in_use"] > self.peak_memory:
+            self.peak_memory = stats["peak_bytes_in_use"]
+            self.peak_component = self.active_component
+
     def components(self, step, prepared, fm_micro, aux_micro, guard):
         import jax
         import jax.numpy as jnp
         from go2arx5_vla.sla_adapter.batch_v2 import device_batch
         from go2arx5_vla.sla_adapter.adapt5k_contract import joint_gradient
 
-        if fm_micro not in (1, 4, 8, 16) or aux_micro not in (1, 2, 4):
+        if (set(fm_micro) != set(BATCH) or aux_micro not in (1, 2, 4)
+                or any(fm_micro[d] not in (1, 8, 16, 32, 64)
+                       or BATCH[d] % fm_micro[d] for d in BATCH)):
             raise ValueError("Unsupported V4 microbatch")
         fm, metrics = {}, {}
         for domain in self.domains:
+            self.active_component = domain
             guard()
             batch = prepared[domain].result()
             d0 = time.monotonic()
@@ -113,13 +127,14 @@ class LongLearner:
             active = {"shared": self.parameters["shared"], "private": self.parameters[domain]}
             total = jax.tree.map(jnp.zeros_like, active)
             losses = []
-            for start in range(0, len(batch.indices), fm_micro):
+            width = fm_micro[domain]
+            for start in range(0, len(batch.indices), width):
                 guard()
-                part = slice(start, start + fm_micro)
+                part = slice(start, start + width)
                 args = (jax.tree.map(lambda x: x[part], obs), actions[part], noise[part], tau[part])
                 if support is not None:
                     args = (*args, support[part])
-                loss, total = self.gradient[domain](total, fm_micro / len(batch.indices),
+                loss, total = self.gradient[domain](total, width / len(batch.indices),
                                                     active, self.frozen, *args)
                 losses.append(loss)
             fm[domain] = total
@@ -127,8 +142,13 @@ class LongLearner:
                                    visits=len(batch.indices),
                                    visit_sha256=hashlib.sha256(batch.indices.tobytes()).hexdigest(),
                                    seconds=time.monotonic() - d0)
+            if step == 0:
+                self.observe_memory()
             if domain == "target":
+                self.active_component = "auxiliary"
                 aux, metrics["auxiliary"] = self.aux_gradient(step, batch, obs, active, aux_micro, guard)
+                if step == 0:
+                    self.observe_memory()
         if self.domains == ("target",):
             joint = {key: jax.tree.map(lambda fm, a: 2. * fm + a, fm["target"][name], aux[name])
                      for key, name in (("shared", "shared"), ("target", "private"))}
@@ -168,14 +188,24 @@ class LongLearner:
 
     def update(self, stop, fm_micro, aux_micro, guard):
         import jax
+        import optax
 
         start = time.monotonic()
-        joint, _, metrics = self.components(self.step, self.prepared(self.step, stop), fm_micro, aux_micro, guard)
+        joint, components, metrics = self.components(
+            self.step, self.prepared(self.step, stop), fm_micro, aux_micro, guard)
+        for name, gradient in components.items():
+            norm = float(optax.global_norm(gradient))
+            if not np.isfinite(norm) or not np.isfinite(metrics[name]["loss"]):
+                raise FloatingPointError("Nonfinite component before Adam: " + name)
+            metrics[name]["gradient_l2"] = norm
         guard()
+        self.active_component = "optimizer"
         rate = float(self.rates[self.step])
         parameters, optimizer, norm = self.apply(self.parameters, self.optimizer, joint, rate)
         jax.block_until_ready((parameters, optimizer))
         self.parameters, self.optimizer = parameters, optimizer
+        if self.step == 0:
+            self.observe_memory()
         self.step += 1
         return dict(step=self.step, lr=rate, global_gradient_norm=norm, components=metrics,
                     seconds=time.monotonic() - start)
