@@ -21,6 +21,7 @@ from v6_dual_source_worker import STEPS, read, require
 
 NAMES = {"probe": "slav6rdqual", "formal": "slav6rd1k"}
 H200 = "1:ngpus=1:gpu_model=H200:ncpus=12:mem=225GB"
+SERVER = "hopper-m-02"
 
 
 def submit(mode, capsule, root, custody, short, bank, source, runtime, v4_code, corpus,
@@ -67,7 +68,7 @@ def submit(mode, capsule, root, custody, short, bank, source, runtime, v4_code, 
                 require(job["Exit_status"] == 0, "Expected a naturally closed scientific or qualification job")
             prior += release["reserved_s"]
         require(prior + budget <= 320 * 3600, "Original 320 GPU-hour budget exhausted")
-        active = subprocess.check_output([str(PBS / "qselect"), "-u", grant["account"]],
+        active = subprocess.check_output([str(PBS / "qselect"), "-q", f"@{SERVER}", "-u", grant["account"]],
                                          text=True, timeout=45).split()
         for identifier in active:
             row = native(identifier)
@@ -110,7 +111,7 @@ def submit(mode, capsule, root, custody, short, bank, source, runtime, v4_code, 
         journal = Journal(capsule / "journal", capsule.name)
 
         def hold():
-            identifier = subprocess.check_output([str(PBS / "qsub"), "-f", "-h", str(pbs)],
+            identifier = subprocess.check_output([str(PBS / "qsub"), "-f", "-h", "-q", f"auto@{SERVER}", str(pbs)],
                                                 text=True, timeout=120).strip()
             require(re.fullmatch(r"\d+\.hopper-m-02", identifier), "Unknown effect, reconcile PBS")
             write_once(capsule / "JOB.json", dict(job=identifier, name=name))
@@ -130,7 +131,7 @@ def submit(mode, capsule, root, custody, short, bank, source, runtime, v4_code, 
         write_once(capsule / "ADMITTED.json", admission)
 
         def release():
-            subprocess.run([str(PBS / "qrls"), identifier], check=True, timeout=60)
+            subprocess.run([str(PBS / "qrls"), f"{identifier}@{SERVER}"], check=True, timeout=60)
             return admission
 
         write_once(capsule / "RELEASE.json", journal.once("release", admission, release))
