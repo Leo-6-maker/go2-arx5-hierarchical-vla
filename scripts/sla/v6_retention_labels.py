@@ -29,6 +29,9 @@ def compare(archive, consumed, new_manifest, output):
         raise ValueError("Expected the actual fixed 52 training episodes")
     phases = defaultdict(list)
     first_rows = {"fit": [], "check": []}
+    clock_errors = defaultdict(list)
+    clocks = tuple(range(-3, 4))
+    shared_prefix = np.arange(3, 7)
     total = 0
     for episode_index, item in enumerate(used):
         old = trust[item["episode"]]
@@ -48,15 +51,21 @@ def compare(archive, consumed, new_manifest, output):
                 raw = np.pad(target[i], ((0, 0), (0, 25)))
                 real = codec.decode(anchor, raw)[active]
                 plan = nominal[i][active]
-                first_rows["fit" if episode_index % 2 == 0 else "check"].append(
-                    (matrix_from10(plan[:1])[0], matrix_from10(real[:1])[0]))
+                population = "fit" if episode_index % 2 == 0 else "check"
+                p_matrix, r_matrix = matrix_from10(plan), matrix_from10(real)
+                first_rows[population].append((p_matrix[0], r_matrix[0]))
                 xyz = np.linalg.norm(real[:, :3] - plan[:, :3], axis=1) * 1000
-                angle = Rotation.from_matrix(matrix_from10(real)[:, :3, :3]
-                    @ matrix_from10(plan)[:, :3, :3].swapaxes(-1, -2)).magnitude() * 180 / np.pi
+                relative = r_matrix[:, :3, :3] @ p_matrix[:, :3, :3].swapaxes(-1, -2)
+                angle = Rotation.from_matrix(relative).magnitude() * 180 / np.pi
                 jaw = np.abs(real[:, 9] - plan[:, 9]) * 40
                 for ext, sl in (("first", slice(0, 1)), ("consumed_P10", slice(0, 10)),
                                 ("later_queries", slice(10, None))):
                     phases[str(phase[i]), ext].append(np.column_stack((xyz, angle, jaw))[sl])
+                r_pos = r_matrix[shared_prefix, :3, 3]
+                for shift in clocks:
+                    nominal_pos = p_matrix[shared_prefix + shift, :3, 3]
+                    error = 1000 * np.linalg.norm(r_pos - nominal_pos, axis=1)
+                    clock_errors[population, shift].append(error)
                 total += 1
     stats = []
     for (phase, scope), measurements in sorted(phases.items()):
@@ -85,10 +94,17 @@ def compare(archive, consumed, new_manifest, output):
         held_adjusted_position_mm=np.percentile(adjusted, [50, 95]).tolist(),
         held_raw_rotation_deg=np.percentile(np.degrees(raw_rot), [50, 95]).tolist(),
         held_adjusted_rotation_deg=np.percentile(np.degrees(adjusted_rot), [50, 95]).tolist())
+    shifts = [dict(nominal_shift_rows=i, nominal_shift_ms=50*i,
+                   fit_mm=np.percentile(np.concatenate(clock_errors["fit", i]), [50, 95]).tolist(),
+                   held_mm=np.percentile(np.concatenate(clock_errors["check", i]), [50, 95]).tolist())
+              for i in clocks]
+    timing = dict(real_rows_zero_based=shared_prefix.tolist(),
+                  best_fixed_fit_shift=min(shifts, key=lambda r: r["fit_mm"][0])["nominal_shift_rows"],
+                  all_shifts=shifts)
     with output.open("x") as sink:
         json.dump(dict(windows=total, episodes=len(used), original_tasks=dict(previous),
                        core_64_tasks=dict(expanded), percentile_order=[50, 95], numbers=stats,
-                       fixed_transform_hypothesis=check,
+                       fixed_transform_hypothesis=check, fixed_clock_shift_hypothesis=timing,
                        native_integrations=0, model_forwards=0, optimizer_updates=0), sink, indent=2)
         sink.write("\n")
 
