@@ -9,6 +9,28 @@ import numpy as np
 from m38_gpu_preflight_v1 import pin, read, require, sha
 
 
+def composite_members(snapshot, base_sha):
+    path = snapshot / "MANIFEST.json"
+    status = read(snapshot / "READY.json")
+    digest = status["manifest_sha256"]
+    total = status["total"]
+    added = []
+    while total > 64:
+        manifest = read(pin(path, digest))
+        group = manifest["actual_added"]
+        require(manifest["schema"] == f"V5_LEGACY_COMPOSITE_{total}"
+                and manifest["original_manifest_sha256"] == base_sha and 0 < len(group) <= total - 64,
+                "Broken cumulative legacy release")
+        added.extend(group)
+        total -= len(group)
+        digest = manifest.get("previous_composite_sha256")
+        path = snapshot.parent / f"TRAIN-LEGACY-{total:03d}/MANIFEST.json"
+        require((digest is None) == (total == 64), "Missing or extraneous legacy predecessor")
+    require(len({r["episode"]["id"] for r in added}) == len(added)
+            and len({r["result_sha256"] for r in added}) == len(added), "Duplicate prior recovery members")
+    return status, added
+
+
 def prepare(first, recovery, archive, actions, states, out, *, composite=None):
     from openpi_client.image_tools import resize_with_pad
     from go2arx5_vla.sla_adapter.codec_v1 import Quantiles, pad32
@@ -29,17 +51,12 @@ def prepare(first, recovery, archive, actions, states, out, *, composite=None):
     prior_episodes, prior_windows, prior_full = ready["episodes"], ready["windows"], ready["complete_H40"]
     previous = {}
     if composite is not None:
-        previous_manifest = composite / "MANIFEST.json"
-        manifest = read(previous_manifest)
-        status = read(composite / "READY.json")
-        require(manifest["schema"] == "V5_LEGACY_COMPOSITE_67"
-                and manifest["original_manifest_sha256"] == ready["manifest_sha256"]
-                and status["manifest_sha256"] == sha(previous_manifest) and status["total"] == 67,
-                "The predecessor must be the independently read legacy 67")
+        status, prior_added = composite_members(composite, ready["manifest_sha256"])
+        require(status["total"] > 64, "Expected a predecessor with real recovered members")
         prior_episodes, prior_windows, prior_full = status["total"], status["total_windows"], status["full_H40"]
-        known.update(row["episode"]["id"] for row in manifest["actual_added"])
-        old_results.update(row["result_sha256"] for row in manifest["actual_added"])
-        count = Counter(manifest["task_counts"])
+        known.update(row["episode"]["id"] for row in prior_added)
+        old_results.update(row["result_sha256"] for row in prior_added)
+        count = Counter(status["task_counts"])
         previous["previous_composite_sha256"] = status["manifest_sha256"]
     rows = addition["admissions"]
     require(len({row["episode"]["id"] for row in rows}) == len({row["result"] for row in rows})
