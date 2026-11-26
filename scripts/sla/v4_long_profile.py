@@ -2,11 +2,13 @@
 
 import argparse
 from collections import Counter, defaultdict
-from contextlib import closing
+from contextlib import closing, contextmanager
 import gzip
 import json
+import os
 from pathlib import Path
 import statistics
+import subprocess
 import time
 
 import numpy as np
@@ -54,6 +56,7 @@ def inspect_trace(path):
                    if e.get("name") == "thread_name" and e["pid"] in gpu_pids
                    and str(e.get("args", {}).get("name", "")).lower().startswith("stream")}
     kernel_time = Counter()
+    tagged = Counter()
     kernels, copies = [], []
     phases = defaultdict(list)
     steps = []
@@ -71,6 +74,9 @@ def inspect_trace(path):
         elif kernel and not name.lower().startswith(("memset", "memalloc", "memfree")):
             kernels.append(interval)
             kernel_time[name] += event["dur"]
+            label = " ".join(str(args.get(key, "")) for key in ("hlo_op", "tf_op", "deduplicated_name"))
+            if "remat" in (name + " " + label).lower():
+                tagged["explicit_remat_label"] += event["dur"]
         elif event["pid"] not in gpu_pids:
             if name == "v4_train":
                 steps.append(interval)
@@ -94,7 +100,27 @@ def inspect_trace(path):
                     median_gpu_memcpy_overlap_s=statistics.median(overlap(copies,a,b) for a,b in spans))
                     for phase, spans in phases.items()},
                 top_raw_cuda_kernel_seconds=[(name, total / 1e6)
-                                             for name, total in kernel_time.most_common(20)])
+                                             for name, total in kernel_time.most_common(20)],
+                tagged_kernel_duration_s={key: value / 1e6 for key, value in tagged.items()})
+
+
+@contextmanager
+def sample_device(path):
+    """Record low-rate device utilization independently of CUDA activity tracing."""
+    with path.open("xb") as output:
+        sampler = subprocess.Popen(
+            ["nvidia-smi", "-i", os.environ["CUDA_VISIBLE_DEVICES"],
+             "--query-gpu=timestamp,utilization.gpu,utilization.memory,memory.used,power.draw",
+             "--format=csv", "-l", "1"], stdout=output, stderr=subprocess.STDOUT)
+        try:
+            yield
+        finally:
+            sampler.terminate()
+            try:
+                sampler.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                sampler.kill()
+                sampler.wait()
 
 
 def run(capsule, custody, short_run, bank_root, main_run, milestone):
@@ -163,7 +189,7 @@ def run(capsule, custody, short_run, bank_root, main_run, milestone):
 
                 for _ in range(WARM):
                     step()
-                with jax.profiler.trace(result / "xprof"):
+                with sample_device(result / "DEVICE_SAMPLES.csv"), jax.profiler.trace(result / "xprof"):
                     for _ in range(TRACED):
                         with jax.profiler.StepTraceAnnotation("v4_train", step_num=learner.step + 1):
                             step()
@@ -182,6 +208,7 @@ def run(capsule, custody, short_run, bank_root, main_run, milestone):
                       trace_bytes=sum((result / "xprof" / path).stat().st_size for path in files),
                       allocator=jax.local_devices()[0].memory_stats(), matched_visits=True,
                       device_trace_sha256=sha(result / "DEVICE_TRACE.json"),
+                      device_samples_sha256=sha(result / "DEVICE_SAMPLES.csv"),
                       source_main_terminal_sha256=charter["main_terminal_sha256"], physics_ticks=0)
         write(result / "RESULT.json", report)
 
