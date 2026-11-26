@@ -16,6 +16,15 @@ R48 = "57e9836d62bf0775bca7c7b7396ab4251d299a6d23116de66771af0fd3960991"
 SEED = 524250
 
 
+def fingerprint(item, horizon):
+    mask = item.get("support", np.ones(horizon, dtype=np.bool_))
+    hashes = {field: hashlib.sha256(item[field].tobytes()).hexdigest() for field in ("state", "actions")}
+    hashes["support"] = hashlib.sha256(mask.tobytes()).hexdigest()
+    hashes["views"] = {key: hashlib.sha256(value.tobytes()).hexdigest()
+                       for key, value in item["image"].items() if item["image_mask"][key]}
+    return hashes
+
+
 def read_samples(reader, domain, per_episode, horizon, dimensions):
     rows = []
     offset = 0
@@ -32,10 +41,7 @@ def read_samples(reader, domain, per_episode, horizon, dimensions):
                     and mask.shape == (horizon,) and mask.dtype == np.bool_ and mask.all()
                     and np.isfinite(item["actions"]).all() and not np.any(item["actions"][:, dimensions:])
                     and np.isfinite(item["state"]).all(), "An independent source window lost its native support or codec")
-            hashes = {field: hashlib.sha256(item[field].tobytes()).hexdigest() for field in ("state", "actions")}
-            hashes["support"] = hashlib.sha256(mask.tobytes()).hexdigest()
-            hashes["views"] = {key: hashlib.sha256(value.tobytes()).hexdigest()
-                               for key, value in item["image"].items() if item["image_mask"][key]}
+            hashes = fingerprint(item, horizon)
             require(len(hashes["views"]) == (2 if domain == "single" else 3), "A real source view is missing")
             rows.append(dict(episode=episode, anchor=anchor, index=index, task=entry["task"], hashes=hashes,
                              horizon=horizon, dimensions=dimensions, evaluation_noise_seed=SEED + len(rows)))
