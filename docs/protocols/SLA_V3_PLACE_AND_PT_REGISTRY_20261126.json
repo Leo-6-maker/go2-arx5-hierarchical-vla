@@ -1,0 +1,994 @@
+{
+  "schema_version": "3.0",
+  "plan_id": "SLA_V3_PLACE_AND_PT",
+  "date": "2026-11-26",
+  "timezone": "Asia/Singapore",
+  "status": "PLAN_ONLY_WITH_FIXED_SOURCE_CODE_AUDIT",
+  "repository": {
+    "name": "Leo-6-maker/go2-arx5-hierarchical-vla",
+    "base_sha": "a718abb5a18a299e116326af59ead3ccb1db4e9a",
+    "branch": "docs/sla-v3-place-and-pt-adaptation-20261126"
+  },
+  "documents": {
+    "plan": "SLA_V3_PLACE_AND_PT_PLAN_20261126.md",
+    "runbook": "SLA_V3_PLACE_AND_PT_RUNBOOK_20261126.md"
+  },
+  "v2_evidence": {
+    "level": "USER_REPORTED_PENDING_READBACK",
+    "reported_commit": "49a0dfa3",
+    "full_commit": null,
+    "github_readback": "422_NO_COMMIT_FOUND_AT_AUTHORING",
+    "local_report_path_available": false,
+    "relative_directory": "reports/SLA_SUCCESS_EXECUTION_AUDIT_V2",
+    "entry_files": [
+      "NEXT_DECISION.md",
+      "CONFIRM_ACTUAL.json",
+      "RESOURCE_LEDGER.json"
+    ],
+    "hold_development": {
+      "complete_success": 2,
+      "started": 4,
+      "red_success": 1,
+      "blue_success": 1
+    },
+    "hold_confirmation": {
+      "registered": 6,
+      "started": 4,
+      "complete_success": 2,
+      "not_started_qualification_blocked": 2,
+      "successful_distinct_layouts": 1,
+      "successful_layout": "N02",
+      "failed_layout": "N03",
+      "blocked_layout": "N01",
+      "pregrasp_collision_failures": 2
+    },
+    "N02": {
+      "lift_mm": [
+        23.85,
+        25.58
+      ],
+      "continuous_hold_s": [
+        1.036,
+        1.492
+      ],
+      "minimum_original_base_progress_mm": 80,
+      "postgrasp_realtime_feedback_consumed": true,
+      "success_termination_censoring": "NEEDS_SCORER_AND_TICK_READBACK"
+    },
+    "place_development": {
+      "started": 4,
+      "grasp": 4,
+      "lift_hold": 3,
+      "ever_in_region": 2,
+      "stable_release_and_retreat_complete": 0,
+      "nested_events_confirmed": false
+    },
+    "PT_archived_episode": {
+      "complete_predictions": 38,
+      "predictions_crossing_source_close_threshold": 0,
+      "threshold_and_slots_require_readback": true,
+      "autonomous_grasp_positive": false
+    },
+    "resources": {
+      "simulation_starts": 18,
+      "physics_ticks": 471060,
+      "frozen_forwards": 1259,
+      "training_updates": 0,
+      "leases_closed": "USER_REPORTED_RECHECK_SITE_BEFORE_START"
+    },
+    "same_L1_reported": true,
+    "causal_performance_change_claim": false
+  },
+  "current_authoring_effects": {
+    "model_loads": 0,
+    "model_forwards": 0,
+    "native_starts": 0,
+    "physics_ticks": 0,
+    "training_updates": 0,
+    "hardware_actions": 0
+  },
+  "verified_source_findings": [
+    {
+      "id": "PT_NOMINAL_READER",
+      "ref": "15396e863acb15590d76343104f5ce9a0174d931",
+      "path": "scripts/sla_hierarchical_v16/target_labels.py",
+      "finding": "TargetExamples action uses nominal_action; actual consumption evidence stored separately",
+      "is_demonstrated_V2_failure_cause": false
+    },
+    {
+      "id": "PT_DIMENSION_ONLY_MASK",
+      "ref": "15396e863acb15590d76343104f5ce9a0174d931",
+      "path": "scripts/sla_hierarchical_v16/right_arm_recipe.py",
+      "finding": "flow_inputs and loss mask dimensions 7:14 but not time support",
+      "is_demonstrated_V2_failure_cause": false
+    },
+    {
+      "id": "PT_SAMPLER_NOT_READER_FIX",
+      "ref": "15396e863acb15590d76343104f5ce9a0174d931",
+      "path": "scripts/sla_hierarchical_v16/teacher_sampling.py",
+      "finding": "verifies P10 and creates sampling weights; does not replace nominal labels or add temporal mask",
+      "is_demonstrated_V2_failure_cause": false
+    },
+    {
+      "id": "OFFICIAL_LONG_WARMUP",
+      "repository": "XPolicyLab/XPolicyLab",
+      "ref": "c1b205ec42b4ab2cac9c2159c8b4c2f723e5e454",
+      "path": "policy/SLA_Memory/openpi/src/openpi/training/optimizer.py",
+      "finding": "default warmup1000 and decay30000 require explicit short pilot schedule"
+    }
+  ],
+  "invariants": {
+    "frozen_WBC_PD_solver_leg_policy_dynamics": true,
+    "original_task_safety_thresholds": true,
+    "MAIN_mobile_HOLD_base_progress_mm": 80,
+    "MAIN_base_progress_direction_frame_window_hash": null,
+    "PT_standing_foot_drift_mm": 5,
+    "MAIN_and_PT_locomotion_gates_not_unified": true,
+    "no_online_object_GT_or_teacher_phase": true,
+    "no_forced_gripper_events": true,
+    "no_added_endpoint_basis": true,
+    "no_deleted_suffix_to_pass_preview": true,
+    "no_undeclared_query_clock_change": true,
+    "routine_engineering_new_human_GO_required": false,
+    "real_site_permissions_single_owner_and_cold_boundary_required": true,
+    "N01_V2_NOT_STARTED_preserved": true,
+    "N02_N03_used_for_development_not_new_confirmation": true,
+    "plan_publication_is_not_runtime_deployment": true,
+    "PLACE_mobility_predicates": null,
+    "PLACE_mobility_rule": "inherit_PLACE_original_spec_independently_no_automatic_HOLD_80mm_transfer"
+  },
+  "archive_work": [
+    {
+      "id": "BASELINE",
+      "status": "PENDING_SITE_READBACK",
+      "scope": "read_existing_NEXT_DECISION_first_then_bind_actual_L1_mobile_task_and_evidence"
+    },
+    {
+      "id": "PLACE_EVENTS",
+      "status": "PENDING_SITE_READBACK",
+      "population": "all_four_V2_PLACE_runs",
+      "events": [
+        "grasp",
+        "lift_hold",
+        "actual_object_region",
+        "support",
+        "raw_open_retreat",
+        "consumed_open",
+        "physical_release",
+        "stable_support",
+        "safe_retreat"
+      ]
+    },
+    {
+      "id": "PT_CLOSE_AUDIT",
+      "status": "PENDING_SITE_READBACK",
+      "scope": "verify_38_full_H50_threshold_direction_slot_and_decode_stage_without_regeneration"
+    },
+    {
+      "id": "PT_TRAINING_READER",
+      "status": "FIXED_OLD_SOURCE_AUDITED_RUNTIME_SUCCESSOR_UNREAD",
+      "scope": "diff_actual_successor_before_repairing_nominal_labels_and_time_mask"
+    }
+  ],
+  "capacity": {
+    "all_enumerated_native_slots": 47,
+    "model_slots_including_diagnostic_regression": 24,
+    "zero_student_model_slots": 23,
+    "MAIN_near_term_model_slots": 10,
+    "MAIN_conditional_confirmation_model_slots": 6,
+    "PT_paired_development_model_slots": 8,
+    "formal_training_updates_conditional_max": 500,
+    "diagnostic_training_updates_separate": true,
+    "not_an_enabled_denominator_or_approval_gate": true,
+    "extra_N01_qualification_or_PT_independent_confirmation_included": false
+  },
+  "blocks": [
+    {
+      "id": "M_Q",
+      "capacity": 2,
+      "trigger": "same_version_full_PLACE_path_qualification_missing"
+    },
+    {
+      "id": "M_DIAG",
+      "capacity": 4,
+      "trigger": "archive_cannot_resolve_up_to_two_single_factor_mechanisms"
+    },
+    {
+      "id": "M_DEV",
+      "capacity": 4,
+      "trigger": "one_evidence_supported_candidate_and_qualified_original_PLACE_conditions"
+    },
+    {
+      "id": "H_REG",
+      "capacity": 2,
+      "trigger": "candidate_changes_weights_or_shared_execution_codec_clock"
+    },
+    {
+      "id": "M_QC",
+      "capacity": 3,
+      "trigger": "successful_frozen_candidate_and_presealed_new_layouts"
+    },
+    {
+      "id": "M_CONFIRM",
+      "capacity": 6,
+      "trigger": "same_candidate_original_PLACE_task_and_per_layout_full_qualification"
+    },
+    {
+      "id": "PT_DATA",
+      "capacity": 8,
+      "trigger": "compatible_fruit_consumed_command_training_seed_gap"
+    },
+    {
+      "id": "PT_QDEV",
+      "capacity": 2,
+      "trigger": "same_version_PT_DEV_pick_hold_qualification_missing"
+    },
+    {
+      "id": "PT_COMPARE",
+      "capacity": 8,
+      "trigger": "same_COMMAND_codec_CMD0_and_complete_raw_CMD250_ready"
+    },
+    {
+      "id": "MAIN_DATA",
+      "capacity": 8,
+      "trigger": "raw_terminal_behavior_deficit_and_existing_compatible_training_data_insufficient"
+    }
+  ],
+  "conditions": [
+    {
+      "id": "M_Q_P01",
+      "block": "M_Q",
+      "role": "qualification",
+      "model_capacity": false,
+      "status": "NOT_ENABLED",
+      "slot": "P01",
+      "task": "ORIGINAL_PLACE",
+      "mobility_predicates": null
+    },
+    {
+      "id": "M_Q_P02",
+      "block": "M_Q",
+      "role": "qualification",
+      "model_capacity": false,
+      "status": "NOT_ENABLED",
+      "slot": "P02",
+      "task": "ORIGINAL_PLACE",
+      "mobility_predicates": null
+    },
+    {
+      "id": "M_DIAG_1_CONTROL",
+      "block": "M_DIAG",
+      "role": "diagnostic",
+      "model_capacity": true,
+      "status": "NOT_ENABLED",
+      "pair": "M_DIAG_1",
+      "arm": "CONTROL",
+      "mechanism": null
+    },
+    {
+      "id": "M_DIAG_1_CANDIDATE",
+      "block": "M_DIAG",
+      "role": "diagnostic",
+      "model_capacity": true,
+      "status": "NOT_ENABLED",
+      "pair": "M_DIAG_1",
+      "arm": "CANDIDATE",
+      "mechanism": null
+    },
+    {
+      "id": "M_DIAG_2_CONTROL",
+      "block": "M_DIAG",
+      "role": "diagnostic",
+      "model_capacity": true,
+      "status": "NOT_ENABLED",
+      "pair": "M_DIAG_2",
+      "arm": "CONTROL",
+      "mechanism": null
+    },
+    {
+      "id": "M_DIAG_2_CANDIDATE",
+      "block": "M_DIAG",
+      "role": "diagnostic",
+      "model_capacity": true,
+      "status": "NOT_ENABLED",
+      "pair": "M_DIAG_2",
+      "arm": "CANDIDATE",
+      "mechanism": null
+    },
+    {
+      "id": "M_DEV_P01_301",
+      "block": "M_DEV",
+      "role": "development",
+      "model_capacity": true,
+      "status": "NOT_ENABLED",
+      "slot": "P01",
+      "noise_label": 301,
+      "task": "ORIGINAL_PLACE",
+      "candidate": null,
+      "mobility_predicates": null
+    },
+    {
+      "id": "M_DEV_P02_302",
+      "block": "M_DEV",
+      "role": "development",
+      "model_capacity": true,
+      "status": "NOT_ENABLED",
+      "slot": "P02",
+      "noise_label": 302,
+      "task": "ORIGINAL_PLACE",
+      "candidate": null,
+      "mobility_predicates": null
+    },
+    {
+      "id": "M_DEV_P02_301",
+      "block": "M_DEV",
+      "role": "development",
+      "model_capacity": true,
+      "status": "NOT_ENABLED",
+      "slot": "P02",
+      "noise_label": 301,
+      "task": "ORIGINAL_PLACE",
+      "candidate": null,
+      "mobility_predicates": null
+    },
+    {
+      "id": "M_DEV_P01_302",
+      "block": "M_DEV",
+      "role": "development",
+      "model_capacity": true,
+      "status": "NOT_ENABLED",
+      "slot": "P01",
+      "noise_label": 302,
+      "task": "ORIGINAL_PLACE",
+      "candidate": null,
+      "mobility_predicates": null
+    },
+    {
+      "id": "H_REG_N02_A",
+      "block": "H_REG",
+      "role": "regression",
+      "model_capacity": true,
+      "status": "NOT_ENABLED",
+      "slot": "V2_N02",
+      "noise_source": "ARCHIVED_ACTUAL_HASH_TO_BIND",
+      "noise_alias": "N02_A",
+      "task": "ORIGINAL_MOBILE_HOLD"
+    },
+    {
+      "id": "H_REG_N02_B",
+      "block": "H_REG",
+      "role": "regression",
+      "model_capacity": true,
+      "status": "NOT_ENABLED",
+      "slot": "V2_N02",
+      "noise_source": "ARCHIVED_ACTUAL_HASH_TO_BIND",
+      "noise_alias": "N02_B",
+      "task": "ORIGINAL_MOBILE_HOLD"
+    },
+    {
+      "id": "M_QC_C01",
+      "block": "M_QC",
+      "role": "qualification",
+      "model_capacity": false,
+      "status": "NOT_ENABLED",
+      "slot": "C01",
+      "task": "ORIGINAL_PLACE",
+      "mobility_predicates": null
+    },
+    {
+      "id": "M_QC_C02",
+      "block": "M_QC",
+      "role": "qualification",
+      "model_capacity": false,
+      "status": "NOT_ENABLED",
+      "slot": "C02",
+      "task": "ORIGINAL_PLACE",
+      "mobility_predicates": null
+    },
+    {
+      "id": "M_QC_C03",
+      "block": "M_QC",
+      "role": "qualification",
+      "model_capacity": false,
+      "status": "NOT_ENABLED",
+      "slot": "C03",
+      "task": "ORIGINAL_PLACE",
+      "mobility_predicates": null
+    },
+    {
+      "id": "M_CONFIRM_C01_401",
+      "block": "M_CONFIRM",
+      "role": "confirmation_pilot",
+      "model_capacity": true,
+      "status": "NOT_ENABLED",
+      "slot": "C01",
+      "noise_label": 401,
+      "task": "ORIGINAL_PLACE",
+      "candidate": null,
+      "mobility_predicates": null
+    },
+    {
+      "id": "M_CONFIRM_C02_402",
+      "block": "M_CONFIRM",
+      "role": "confirmation_pilot",
+      "model_capacity": true,
+      "status": "NOT_ENABLED",
+      "slot": "C02",
+      "noise_label": 402,
+      "task": "ORIGINAL_PLACE",
+      "candidate": null,
+      "mobility_predicates": null
+    },
+    {
+      "id": "M_CONFIRM_C03_401",
+      "block": "M_CONFIRM",
+      "role": "confirmation_pilot",
+      "model_capacity": true,
+      "status": "NOT_ENABLED",
+      "slot": "C03",
+      "noise_label": 401,
+      "task": "ORIGINAL_PLACE",
+      "candidate": null,
+      "mobility_predicates": null
+    },
+    {
+      "id": "M_CONFIRM_C01_402",
+      "block": "M_CONFIRM",
+      "role": "confirmation_pilot",
+      "model_capacity": true,
+      "status": "NOT_ENABLED",
+      "slot": "C01",
+      "noise_label": 402,
+      "task": "ORIGINAL_PLACE",
+      "candidate": null,
+      "mobility_predicates": null
+    },
+    {
+      "id": "M_CONFIRM_C02_401",
+      "block": "M_CONFIRM",
+      "role": "confirmation_pilot",
+      "model_capacity": true,
+      "status": "NOT_ENABLED",
+      "slot": "C02",
+      "noise_label": 401,
+      "task": "ORIGINAL_PLACE",
+      "candidate": null,
+      "mobility_predicates": null
+    },
+    {
+      "id": "M_CONFIRM_C03_402",
+      "block": "M_CONFIRM",
+      "role": "confirmation_pilot",
+      "model_capacity": true,
+      "status": "NOT_ENABLED",
+      "slot": "C03",
+      "noise_label": 402,
+      "task": "ORIGINAL_PLACE",
+      "candidate": null,
+      "mobility_predicates": null
+    },
+    {
+      "id": "PT_DATA_T01_11",
+      "block": "PT_DATA",
+      "role": "teacher_data",
+      "model_capacity": false,
+      "status": "NOT_ENABLED",
+      "slot": "T01",
+      "reset_label": 11,
+      "task": "FRUIT_STANDING_PICK_HOLD",
+      "student_model_forwards": 0
+    },
+    {
+      "id": "PT_DATA_T01_12",
+      "block": "PT_DATA",
+      "role": "teacher_data",
+      "model_capacity": false,
+      "status": "NOT_ENABLED",
+      "slot": "T01",
+      "reset_label": 12,
+      "task": "FRUIT_STANDING_PICK_HOLD",
+      "student_model_forwards": 0
+    },
+    {
+      "id": "PT_DATA_T02_11",
+      "block": "PT_DATA",
+      "role": "teacher_data",
+      "model_capacity": false,
+      "status": "NOT_ENABLED",
+      "slot": "T02",
+      "reset_label": 11,
+      "task": "FRUIT_STANDING_PICK_HOLD",
+      "student_model_forwards": 0
+    },
+    {
+      "id": "PT_DATA_T02_12",
+      "block": "PT_DATA",
+      "role": "teacher_data",
+      "model_capacity": false,
+      "status": "NOT_ENABLED",
+      "slot": "T02",
+      "reset_label": 12,
+      "task": "FRUIT_STANDING_PICK_HOLD",
+      "student_model_forwards": 0
+    },
+    {
+      "id": "PT_DATA_T03_11",
+      "block": "PT_DATA",
+      "role": "teacher_data",
+      "model_capacity": false,
+      "status": "NOT_ENABLED",
+      "slot": "T03",
+      "reset_label": 11,
+      "task": "FRUIT_STANDING_PICK_HOLD",
+      "student_model_forwards": 0
+    },
+    {
+      "id": "PT_DATA_T03_12",
+      "block": "PT_DATA",
+      "role": "teacher_data",
+      "model_capacity": false,
+      "status": "NOT_ENABLED",
+      "slot": "T03",
+      "reset_label": 12,
+      "task": "FRUIT_STANDING_PICK_HOLD",
+      "student_model_forwards": 0
+    },
+    {
+      "id": "PT_DATA_T04_11",
+      "block": "PT_DATA",
+      "role": "teacher_data",
+      "model_capacity": false,
+      "status": "NOT_ENABLED",
+      "slot": "T04",
+      "reset_label": 11,
+      "task": "FRUIT_STANDING_PICK_HOLD",
+      "student_model_forwards": 0
+    },
+    {
+      "id": "PT_DATA_T04_12",
+      "block": "PT_DATA",
+      "role": "teacher_data",
+      "model_capacity": false,
+      "status": "NOT_ENABLED",
+      "slot": "T04",
+      "reset_label": 12,
+      "task": "FRUIT_STANDING_PICK_HOLD",
+      "student_model_forwards": 0
+    },
+    {
+      "id": "PT_QDEV_D01",
+      "block": "PT_QDEV",
+      "role": "qualification",
+      "model_capacity": false,
+      "status": "NOT_ENABLED",
+      "slot": "D01",
+      "task": "FRUIT_STANDING_PICK_HOLD"
+    },
+    {
+      "id": "PT_QDEV_D02",
+      "block": "PT_QDEV",
+      "role": "qualification",
+      "model_capacity": false,
+      "status": "NOT_ENABLED",
+      "slot": "D02",
+      "task": "FRUIT_STANDING_PICK_HOLD"
+    },
+    {
+      "id": "PT_COMPARE_D01_501_CMD0",
+      "block": "PT_COMPARE",
+      "role": "paired_development",
+      "model_capacity": true,
+      "status": "NOT_ENABLED",
+      "slot": "D01",
+      "noise_label": 501,
+      "pair": "PT_COMPARE_D01_501",
+      "model": "CMD0",
+      "task": "FRUIT_STANDING_PICK_HOLD",
+      "profile": "PT_TARGET_COMMAND_V3"
+    },
+    {
+      "id": "PT_COMPARE_D01_501_CMD250",
+      "block": "PT_COMPARE",
+      "role": "paired_development",
+      "model_capacity": true,
+      "status": "NOT_ENABLED",
+      "slot": "D01",
+      "noise_label": 501,
+      "pair": "PT_COMPARE_D01_501",
+      "model": "CMD250",
+      "task": "FRUIT_STANDING_PICK_HOLD",
+      "profile": "PT_TARGET_COMMAND_V3"
+    },
+    {
+      "id": "PT_COMPARE_D02_502_CMD250",
+      "block": "PT_COMPARE",
+      "role": "paired_development",
+      "model_capacity": true,
+      "status": "NOT_ENABLED",
+      "slot": "D02",
+      "noise_label": 502,
+      "pair": "PT_COMPARE_D02_502",
+      "model": "CMD250",
+      "task": "FRUIT_STANDING_PICK_HOLD",
+      "profile": "PT_TARGET_COMMAND_V3"
+    },
+    {
+      "id": "PT_COMPARE_D02_502_CMD0",
+      "block": "PT_COMPARE",
+      "role": "paired_development",
+      "model_capacity": true,
+      "status": "NOT_ENABLED",
+      "slot": "D02",
+      "noise_label": 502,
+      "pair": "PT_COMPARE_D02_502",
+      "model": "CMD0",
+      "task": "FRUIT_STANDING_PICK_HOLD",
+      "profile": "PT_TARGET_COMMAND_V3"
+    },
+    {
+      "id": "PT_COMPARE_D02_501_CMD0",
+      "block": "PT_COMPARE",
+      "role": "paired_development",
+      "model_capacity": true,
+      "status": "NOT_ENABLED",
+      "slot": "D02",
+      "noise_label": 501,
+      "pair": "PT_COMPARE_D02_501",
+      "model": "CMD0",
+      "task": "FRUIT_STANDING_PICK_HOLD",
+      "profile": "PT_TARGET_COMMAND_V3"
+    },
+    {
+      "id": "PT_COMPARE_D02_501_CMD250",
+      "block": "PT_COMPARE",
+      "role": "paired_development",
+      "model_capacity": true,
+      "status": "NOT_ENABLED",
+      "slot": "D02",
+      "noise_label": 501,
+      "pair": "PT_COMPARE_D02_501",
+      "model": "CMD250",
+      "task": "FRUIT_STANDING_PICK_HOLD",
+      "profile": "PT_TARGET_COMMAND_V3"
+    },
+    {
+      "id": "PT_COMPARE_D01_502_CMD250",
+      "block": "PT_COMPARE",
+      "role": "paired_development",
+      "model_capacity": true,
+      "status": "NOT_ENABLED",
+      "slot": "D01",
+      "noise_label": 502,
+      "pair": "PT_COMPARE_D01_502",
+      "model": "CMD250",
+      "task": "FRUIT_STANDING_PICK_HOLD",
+      "profile": "PT_TARGET_COMMAND_V3"
+    },
+    {
+      "id": "PT_COMPARE_D01_502_CMD0",
+      "block": "PT_COMPARE",
+      "role": "paired_development",
+      "model_capacity": true,
+      "status": "NOT_ENABLED",
+      "slot": "D01",
+      "noise_label": 502,
+      "pair": "PT_COMPARE_D01_502",
+      "model": "CMD0",
+      "task": "FRUIT_STANDING_PICK_HOLD",
+      "profile": "PT_TARGET_COMMAND_V3"
+    },
+    {
+      "id": "MAIN_DATA_MT01_21",
+      "block": "MAIN_DATA",
+      "role": "teacher_data",
+      "model_capacity": false,
+      "status": "NOT_ENABLED",
+      "slot": "MT01",
+      "reset_label": 21,
+      "task": "TRAIN_PLACE_OR_MOBILE_HOLD_AS_BOUND",
+      "student_model_forwards": 0,
+      "mobility_predicates": null
+    },
+    {
+      "id": "MAIN_DATA_MT01_22",
+      "block": "MAIN_DATA",
+      "role": "teacher_data",
+      "model_capacity": false,
+      "status": "NOT_ENABLED",
+      "slot": "MT01",
+      "reset_label": 22,
+      "task": "TRAIN_PLACE_OR_MOBILE_HOLD_AS_BOUND",
+      "student_model_forwards": 0,
+      "mobility_predicates": null
+    },
+    {
+      "id": "MAIN_DATA_MT02_21",
+      "block": "MAIN_DATA",
+      "role": "teacher_data",
+      "model_capacity": false,
+      "status": "NOT_ENABLED",
+      "slot": "MT02",
+      "reset_label": 21,
+      "task": "TRAIN_PLACE_OR_MOBILE_HOLD_AS_BOUND",
+      "student_model_forwards": 0,
+      "mobility_predicates": null
+    },
+    {
+      "id": "MAIN_DATA_MT02_22",
+      "block": "MAIN_DATA",
+      "role": "teacher_data",
+      "model_capacity": false,
+      "status": "NOT_ENABLED",
+      "slot": "MT02",
+      "reset_label": 22,
+      "task": "TRAIN_PLACE_OR_MOBILE_HOLD_AS_BOUND",
+      "student_model_forwards": 0,
+      "mobility_predicates": null
+    },
+    {
+      "id": "MAIN_DATA_MT03_21",
+      "block": "MAIN_DATA",
+      "role": "teacher_data",
+      "model_capacity": false,
+      "status": "NOT_ENABLED",
+      "slot": "MT03",
+      "reset_label": 21,
+      "task": "TRAIN_PLACE_OR_MOBILE_HOLD_AS_BOUND",
+      "student_model_forwards": 0,
+      "mobility_predicates": null
+    },
+    {
+      "id": "MAIN_DATA_MT03_22",
+      "block": "MAIN_DATA",
+      "role": "teacher_data",
+      "model_capacity": false,
+      "status": "NOT_ENABLED",
+      "slot": "MT03",
+      "reset_label": 22,
+      "task": "TRAIN_PLACE_OR_MOBILE_HOLD_AS_BOUND",
+      "student_model_forwards": 0,
+      "mobility_predicates": null
+    },
+    {
+      "id": "MAIN_DATA_MT04_21",
+      "block": "MAIN_DATA",
+      "role": "teacher_data",
+      "model_capacity": false,
+      "status": "NOT_ENABLED",
+      "slot": "MT04",
+      "reset_label": 21,
+      "task": "TRAIN_PLACE_OR_MOBILE_HOLD_AS_BOUND",
+      "student_model_forwards": 0,
+      "mobility_predicates": null
+    },
+    {
+      "id": "MAIN_DATA_MT04_22",
+      "block": "MAIN_DATA",
+      "role": "teacher_data",
+      "model_capacity": false,
+      "status": "NOT_ENABLED",
+      "slot": "MT04",
+      "reset_label": 22,
+      "task": "TRAIN_PLACE_OR_MOBILE_HOLD_AS_BOUND",
+      "student_model_forwards": 0,
+      "mobility_predicates": null
+    }
+  ],
+  "runtime_binding_template": {
+    "run_id": null,
+    "attempt_id": null,
+    "source_condition_id": null,
+    "runtime_sha": null,
+    "dirty_patch_hash": null,
+    "weights_hash": null,
+    "processor_hash": null,
+    "decoder_hash": null,
+    "statistics_hash": null,
+    "camera_history_profile_hash": null,
+    "link_and_clock_hash": null,
+    "wbc_physics_safety_hash": null,
+    "scene_hash": null,
+    "reset_contract_hash": null,
+    "actual_noise_bank_hash": null,
+    "task_spec_hash": null,
+    "scorer_hash": null,
+    "finite_endpoints": null,
+    "source_consumption_identity": null,
+    "actual": null,
+    "mobility_predicates": null
+  },
+  "enabling_rule": "Resolve required runtime fields in the existing manifest before any real effects. These plan slots are not capsules.",
+  "label_contract": {
+    "output": "COMMAND_REFERENCE",
+    "preferred_reconstruction": "A_CONTINUOUS_ACTUALLY_CONSUMED_COMMAND",
+    "fallback": "B_CONSUMED_PREFIX_WITH_TRUE_TEMPORAL_SUPPORT",
+    "actual_command_sources": [
+      "task_audit.npz.installed_reference_H40",
+      "task_audit.npz.confirmed_native_interval_mask",
+      "native_audit.jsonl.confirmed_native"
+    ],
+    "forbidden_executed_label_sources": [
+      "nominal_unconsumed_suffix",
+      "future_achieved_TCP",
+      "rejected_command",
+      "fabricated_terminal_repeat"
+    ],
+    "horizon": 50,
+    "grid_hz": 30,
+    "first_label_offset_s": null,
+    "frame": "current_query_frozen_frame_tool",
+    "future_queries_allowed_as_labels_not_current_inputs": true,
+    "active_internal_dimensions": [
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
+    ],
+    "mask": "consumed_support_time_AND_right_arm_dimension",
+    "mask_before_noisy_action_input": true,
+    "mask_not_model_observation": true,
+    "loss_reduction": "per_example_valid_element_normalized_then_mean_over_nonempty_examples",
+    "no_gap_STOP_reset_interpolation": true,
+    "no_clipping": true,
+    "required_checks": [
+      "valid_row_provenance",
+      "actual_interpolation_time_frame_roundtrip",
+      "masked_label_perturbation_invariance_real_network_gradient",
+      "frozen_leaf_no_update",
+      "zero_B_expected_gradient_behavior",
+      "save_reload_consistency"
+    ],
+    "existing_full_nominal_H50_NOT_implicitly_executed": true
+  },
+  "training": {
+    "PT": {
+      "id": "PT_GO2_COMMAND250_V3",
+      "status": "CONDITIONAL_NOT_STARTED",
+      "parent": "official_checkpoint_plus_zero_B_new_optimizer_RNG",
+      "official_checkpoint_revision": "7f6880569c3be777291e646fad1b4951245e8553",
+      "trainable_adapter_tensors": 10,
+      "trainable_parameters": 22118400,
+      "frozen": [
+        "parent_action",
+        "parent_IO",
+        "vision",
+        "language"
+      ],
+      "formal_updates": 250,
+      "optimizer": {
+        "type": "AdamW",
+        "b1": 0.9,
+        "b2": 0.95,
+        "eps": 1e-08,
+        "weight_decay": 1e-10,
+        "clip_gradient_norm": 1
+      },
+      "lr_schedule": {
+        "type": "warmup_cosine",
+        "warmup_steps": 25,
+        "peak_lr": 2.5e-05,
+        "decay_steps": 250,
+        "decay_lr": 2.5e-06
+      },
+      "effective_batch": 32,
+      "microbatch": null,
+      "gradient_accumulation": null,
+      "EMA": null,
+      "evaluation_checkpoint": "raw_step250_only",
+      "state_dropout": 0,
+      "new_image_augmentation": false,
+      "minimum_complete_TRAIN_episodes": 4,
+      "minimum_TRAIN_geometries": 2,
+      "first_data_attempt_capacity": 8,
+      "stage_weights": {
+        "approach": 0.25,
+        "close": 0.25,
+        "first_postgrasp_feedback": 0.25,
+        "lift_hold": 0.25
+      },
+      "stats": "bound_official_stats_first_no_clipping",
+      "short_recipe_is_new_unvalidated_proposal": true,
+      "diagnostic_updates_not_inherited": true,
+      "automatic_extend_to_500": false,
+      "gross_stack_comparison_to_official_achieved_separate": true,
+      "learning_effect_comparator": "same_target_COMMAND_codec_CMD0_vs_CMD250",
+      "no_default_BTF_GRA_duplicate": true,
+      "training_seed": 42,
+      "adapter_init_seed": 1729
+    },
+    "MAIN": {
+      "id": "MAIN_PLACE250_V3",
+      "status": "CONDITIONAL_NOT_STARTED",
+      "eligibility": "raw_terminal_behavior_deficit_actual_exposure_or_data_gap_and_compatible_consumed_labels",
+      "parent": "bound_MAIN3.8K",
+      "formal_updates": 250,
+      "trainable_parameter_names": null,
+      "scope": "existing_action_expert_and_target_IO_only_as_bound",
+      "frozen": [
+        "vision",
+        "language",
+        "VLM_LoRA",
+        "L1",
+        "WBC"
+      ],
+      "sampling": {
+        "PLACE": 0.7,
+        "HOLD": 0.3,
+        "PLACE_phases": {
+          "approach": 0.2,
+          "close": 0.15,
+          "postgrasp_lift": 0.2,
+          "place_release": 0.3,
+          "retreat": 0.15
+        }
+      },
+      "optimizer_and_short_LR_binding": "from_actual_MAIN_recipe_preseal_250_step_curve",
+      "new_TRAIN_teacher_attempt_capacity_if_needed": 8,
+      "diagnostic_updates_not_inherited": true,
+      "automatic_extend_to_500": false,
+      "no_eval_states_into_TRAIN": true
+    }
+  },
+  "selection": {
+    "MAIN_eligibility": "complete_designated_development_panel_with_at_least_one_original_full_PLACE_success_and_no_unfixed_shared_defect",
+    "ready_priority": [
+      "original_weights_with_proven_minimal_execution_fix",
+      "MAIN_PLACE250_V3"
+    ],
+    "confirmation_task": "ORIGINAL_COMPLETE_PLACE",
+    "new_layouts": 3,
+    "seeds_per_layout": 2,
+    "task_and_layouts_sealed_before_qualification": true,
+    "same_batch_downgrade_to_HOLD": false,
+    "failed_layout_replacement": false,
+    "PT_independent_confirmation": "separately_registered_successor_not_in_47",
+    "no_comparison_of_success_rates_across_unmatched_populations": true
+  },
+  "limits": {
+    "inherit_original_spec_first": true,
+    "matching_arms_identical": true,
+    "original_task_deadline_always_preserved": true,
+    "fallback_native": {
+      "dt_s": 0.002,
+      "max_ticks": 50000,
+      "max_queries_for_student": 160,
+      "max_wall_s": 1800
+    },
+    "teacher_student_forwards": 0,
+    "training_wall_time_proposal_s": 14400,
+    "resumed_total_updates_still_fixed": 250,
+    "no_unknown_job_replay": true
+  },
+  "accounting": {
+    "roles": [
+      "qualification",
+      "diagnostic",
+      "development",
+      "regression",
+      "confirmation_pilot",
+      "teacher_data",
+      "paired_development"
+    ],
+    "statuses": [
+      "NOT_ENABLED",
+      "NOT_STARTED",
+      "RUNNING",
+      "VALID_SUCCESS",
+      "VALID_FAILURE",
+      "TECHNICAL_INTERRUPTION",
+      "BLOCKED_ASSET",
+      "BLOCKED_CONTRACT",
+      "BLOCKED_PHYSICAL_PATH",
+      "UNKNOWN"
+    ],
+    "report_registered_started_valid_technical_not_started_blocked_separately": true,
+    "teacher_data_denominator_separate": true,
+    "resources_not_task_denominator": true,
+    "valid_failures_not_retried_to_pick_success": true,
+    "each_actual_attempt_preserved": true,
+    "source_threshold_not_target_grasp_predicate": true
+  }
+}
