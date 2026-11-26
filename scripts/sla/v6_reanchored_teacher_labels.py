@@ -41,7 +41,7 @@ def bind_dataset(target, package, manifest_sha, original_manifest):
     target.actual = patched
 
 
-def reexpress(spec, queries, recorded):
+def reexpress(spec, queries, recorded, *, record_residual=None):
     from go2arx5_vla.sla_adapter.gripper_v2 import GripLogitCodec
 
     policy = np.asarray(spec["policy_from_world"])
@@ -70,6 +70,8 @@ def reexpress(spec, queries, recorded):
         view = codec.decode(anchor, np.pad(fixed[index], ((0, 0), (0, 25))))
         replayed = transport(world @ matrix_from10(view), actual, previous)
         residual = metric(replayed[mask], original_world[mask])
+        if record_residual is not None:
+            record_residual(index, residual, mask)
         maxima = np.maximum(maxima, residual.max(axis=0))
         p10_maxima = np.maximum(p10_maxima, residual[:10].max(axis=0))
     require(np.array_equal(fixed[..., 6], recorded["action"][..., 6])
