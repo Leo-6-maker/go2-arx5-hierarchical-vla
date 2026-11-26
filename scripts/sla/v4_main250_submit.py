@@ -189,6 +189,13 @@ def submit(capsule,custody,source,runtime,*,short_run=None,bank_root=None,comple
         if prior_probe is not None:
             argv.extend(("--prior-probe", prior_probe))
         command=shlex.join(map(str, argv))
+        profiler_environment = []
+        if profiling:
+            cupti = runtime / "packages/nvidia/cuda_cupti/lib"
+            if not (cupti / "libcupti.so.12").is_file():
+                raise ValueError("The profiled GPU job needs the pinned CUDA CUPTI collector")
+            profiler_environment.append("export LD_LIBRARY_PATH=" + shlex.quote(str(cupti))
+                                        + '${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}')
         script=capsule/"job.pbs"
         with script.open("x") as f:
             f.write("\n".join(["#!/bin/bash -l",f"#PBS -N {name}",f"#PBS -P {PROJECT}","#PBS -q auto",
@@ -198,7 +205,8 @@ def submit(capsule,custody,source,runtime,*,short_run=None,bank_root=None,comple
                 "export PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1",
                 "export JAX_PLATFORMS=cuda XLA_PYTHON_CLIENT_PREALLOCATE=false",
                 "export PBS_SERVER="+shlex.quote(os.environ["PBS_SERVER"]),
-                f"export PYTHONPATH={shlex.quote(paths)}","sha256sum --status -c INPUTS.sha256","exec "+command,""]))
+                f"export PYTHONPATH={shlex.quote(paths)}",*profiler_environment,
+                "sha256sum --status -c INPUTS.sha256","exec "+command,""]))
         intent=dict(plan=PLAN,name=name,project=PROJECT,wall_s=wall,prior_upper_gpu_s=prior,
                     grant=grant,batch_sha256=digest(script),inputs_sha256=digest(check))
         write_once(capsule/"INTENT.json",intent)
