@@ -15,7 +15,7 @@ DEV = frozenset({14, 15})
 HORIZON = 40
 
 
-def seal(root, scan_sha, fk_receipt, fk_sha, output):
+def seal(root, scan_sha, fk_receipt, fk_sha, output, outcome=None, outcome_sha=None):
     import av
     import numpy as np
     import pyarrow.parquet as pq
@@ -30,10 +30,22 @@ def seal(root, scan_sha, fk_receipt, fk_sha, output):
          and scan["revision"] == revision and scan["source_train_added"] == 0, "Source revision changed")
     proof = {x["episode"]: x for x in fk["episodes"] if x["fit_role"] != "FIT"}
     rows = {x["episode"]: x for x in scan["scanned"]}
-    role = {i: "SOURCE_DEV" if i in DEV else "TRAIN" for i in POSITIVE}
-    need(set(rows) == POSITIVE and {i for i in rows if rows[i]["proposed_split"] == "DEV_CANDIDATE"} == DEV
+    if outcome is None:
+        need(outcome_sha is None and set(rows) == POSITIVE, "The original closed cohort changed")
+        positive, dev = POSITIVE, DEV
+    else:
+        need(digest(outcome) == outcome_sha, "The fixed release-outcome review changed")
+        outcome_receipt = read(outcome)
+        need(outcome_receipt["scan_sha256"] == scan_sha and set(outcome_receipt["observed"]) == set(rows),
+             "The source audit must report all decoded episodes")
+        positive = set(outcome_receipt["confirmed_drop_through_tower"])
+        dev = {i for i in positive if rows[i]["proposed_split"] == "DEV_CANDIDATE"}
+        need(positive <= rows.keys() and dev and positive - dev, "Require independent train and validation members")
+        rows = {i: row for i, row in rows.items() if i in positive}
+    role = {i: "SOURCE_DEV" if i in dev else "TRAIN" for i in positive}
+    need(set(rows) == positive and {i for i in rows if rows[i]["proposed_split"] == "DEV_CANDIDATE"} == dev
          and all(i in proof and proof[i]["fit_role"] in ("TRAIN_CANDIDATE", "DEV_CANDIDATE") for i in rows),
-         "Original fixed episode-level outcome population changed")
+         "The fixed episode-level outcome population changed")
     member = {x["path"]: x["sha256"] for x in scan["files"]}
     output.mkdir(mode=0o700)
     episodes = []
@@ -98,7 +110,8 @@ def seal(root, scan_sha, fk_receipt, fk_sha, output):
     write(statfile, dict(**stats, split="TRAIN", schema=SCHEMA))
     manifest = output / "MANIFEST.json"
     write(manifest, dict(schema=SCHEMA, license="Apache-2.0", revision=revision, scan_sha256=scan_sha,
-        fk_check_sha256=fk_sha, native_hz=20, horizon=HORIZON, task="drop the footbag into the cardboard dice tower",
+        fk_check_sha256=fk_sha, outcome_review_sha256=outcome_sha, native_hz=20, horizon=HORIZON,
+        task="drop the footbag into the cardboard dice tower",
         label_kind="FUTURE_LOGGED_STATE_REFERENCE", target_command=False, video_root=str(root),
         camera_mask=dict(base_0_rgb=True, left_wrist_0_rgb=False, right_wrist_0_rgb=True),
         statistics=dict(file=statfile.name, sha256=digest(statfile)), episodes=episodes))
@@ -116,4 +129,6 @@ if __name__ == "__main__":
     parser.add_argument("fk_receipt", type=Path)
     parser.add_argument("fk_sha")
     parser.add_argument("output", type=Path)
+    parser.add_argument("--outcome", type=Path)
+    parser.add_argument("--outcome-sha")
     seal(**vars(parser.parse_args()))

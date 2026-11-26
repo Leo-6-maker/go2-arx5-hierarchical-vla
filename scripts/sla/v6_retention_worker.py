@@ -1,6 +1,7 @@
-"""Run one approved 200-update MAIN3.8K retention contrast on Hopper."""
+"""Run one bound 200-update MAIN3.8K retention contrast on Hopper."""
 
 import argparse
+from collections import Counter
 from contextlib import closing
 import hashlib
 from pathlib import Path
@@ -19,9 +20,30 @@ from v4_long_probe import SEED, snapshot
 from v4_main250_hopper import allocation
 
 
-FACTORS = {"R1_LOW_LR": (.25, False), "R3_TARGET_GRADIENT_ONLY": (1., True)}
+FACTORS = {"R1_LOW_LR": (.25, False), "R2_PHASE_MATCHED_REPLAY": (1., False),
+           "R3_TARGET_GRADIENT_ONLY": (1., True)}
 ENDPOINTS = (100, 200)
 MICRO = dict(target=64, robodojo=32, libero=32)
+
+
+def activate_replay(replay, datasets, banks, slots, original_archive):
+    from v6_retention_replay import ReplayDataset, bind, read_replay
+
+    evidence = read(pin(replay["candidates"]["path"], replay["candidates"]["sha256"]))
+    fixed = read(pin(replay["roster"]["path"], replay["roster"]["sha256"]))
+    host = read(pin(replay["host"]["path"], replay["host"]["sha256"]))
+    require(fixed["replay_candidate_sha256"] == replay["candidates"]["sha256"]
+            and host["fixed_roster_sha256"] == replay["roster"]["sha256"]
+            and host["new_real_replay_windows_read"] == 16 and host["optimizer_updates"] == 0,
+            "The local matched replay must be the one actually read on Corelab")
+    target = datasets["target"]
+    additional = read_replay(Path(replay["legacy_site"]), original_archive, Path(replay["closed_raw"]), target,
+                             evidence, Path(replay["closed_labels"]))
+    datasets["target"] = ReplayDataset(target, additional)
+    banks["target"] = bind(banks["target"], slots, datasets["target"], fixed)
+    digest = hashlib.sha256(banks["target"].tobytes()).hexdigest()
+    require(digest == host["visits_bank_sha256"], "Replay visits differ from the Corelab consumer")
+    return digest
 
 
 def run(capsule, custody, short_run, bank_root):
@@ -33,6 +55,7 @@ def run(capsule, custody, short_run, bank_root):
         binding = read(capsule / "BINDING.json")
         role = binding["role"]
         lr_scale, target_only = FACTORS[role]
+        with_replay = role == "R2_PHASE_MATCHED_REPLAY"
         core = read(pin(binding["core_release"]["path"], binding["core_release"]["sha256"]))
         require(core["role"] == role and core["parent"] == MAIN and core["corelab_diagnosis_complete"]
                 and binding["updates"] == ENDPOINTS[-1] and core["active_fixed_h40_aux"] == 4,
@@ -55,6 +78,10 @@ def run(capsule, custody, short_run, bank_root):
                     exact_lr_factor=lr_scale, peak_lr=float(rates.max()), endpoints=ENDPOINTS,
                     four_cpu_workers=True, prefetch_batches=2, target_matches_original=True,
                     active_auxiliary=4, source_updates_enabled=not target_only)
+        if with_replay:
+            config["target_matches_original"] = False
+            config["target_replay_bank_sha256"] = activate_replay(core["replay"], datasets, banks, slots,
+                custody / "foundation-layout-v2/train-ready/TRAIN-069")
         write(result / "RUN_CONTRACT.json", config)
         stop = False
 
@@ -90,6 +117,12 @@ def run(capsule, custody, short_run, bank_root):
                         observed = {d: value["visits"] for d, value in row["components"].items()}
                         expected = {"target": 64, "auxiliary": 4} if target_only else {**MICRO, "auxiliary": 4}
                         require(observed == expected, "Real updates lost fixed target/control exposure")
+                        if with_replay:
+                            target = datasets["target"]
+                            identities = Counter(target.rows[i][0]["id"] for i in banks["target"][learner.step - 1]
+                                                 if i >= len(target.original))
+                            require(sum(identities.values()) == 8, "Actual replay visits differ from the bound batch")
+                            row["replay_visits"] = dict(identities)
                         ledger.write(json.dumps(row, allow_nan=False) + "\n")
                         if learner.step in ENDPOINTS:
                             sealed = seal()

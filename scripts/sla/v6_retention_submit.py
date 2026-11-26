@@ -18,7 +18,8 @@ from v6_retention_worker import ENDPOINTS, FACTORS, MAIN, read, require
 
 
 BUDGET = 3600
-NAMES = {"R1_LOW_LR": "slav6ret1", "R3_TARGET_GRADIENT_ONLY": "slav6ret3"}
+NAMES = {"R1_LOW_LR": "slav6ret1", "R2_PHASE_MATCHED_REPLAY": "slav6ret2",
+         "R3_TARGET_GRADIENT_ONLY": "slav6ret3"}
 
 
 def submit(role, capsule, custody, short, bank, source, runtime, v4_code, original, r0_first, r0_retry):
@@ -30,6 +31,10 @@ def submit(role, capsule, custody, short, bank, source, runtime, v4_code, origin
         require(evidence["role"] == role and evidence["parent"] == MAIN
                 and evidence["corelab_diagnosis_complete"] and evidence["fixed_endpoint_pairs"] == 120,
                 "Expected the fixed Corelab evidence and matched parent")
+        if role == "R2_PHASE_MATCHED_REPLAY":
+            for key in ("candidates", "roster", "host"):
+                document = evidence["replay"][key]
+                require(digest(Path(document["path"])) == document["sha256"], "Incompatible Corelab replay package")
         require(time.time() + BUDGET < DEADLINE, "Remaining time is too short for a complete job")
         grant = project_grant(BUDGET)
         require(all(isinstance(v, (int, float)) and math.isfinite(v) and v > 0 for v in (
@@ -64,7 +69,7 @@ def submit(role, capsule, custody, short, bank, source, runtime, v4_code, origin
                                  core_release=dict(path=str(receipt), sha256=digest(receipt))))
         worker = capsule / "code/v6_retention_worker.py"
         inputs = capsule / "INPUTS.sha256"
-        files = [receipt, binding, worker] + sorted(v4_code.glob("*.py"))
+        files = [receipt, binding, *sorted(worker.parent.glob("*.py")), *sorted(v4_code.glob("*.py"))]
         with inputs.open("x") as stream:
             stream.writelines(f"{digest(p)}  {p}\n" for p in files)
         paths = (worker.parent, v4_code, source, source / "src", runtime / "data_dependencies",
