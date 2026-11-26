@@ -1,0 +1,321 @@
+{
+  "schema": "SLA_HOPPER_ARX5_SOURCE_EXPANSION_V6_V1",
+  "status": "PLAN_ONLY",
+  "date": "2026-11-26",
+  "publication_base": "a718abb5a18a299e116326af59ead3ccb1db4e9a",
+  "documents": {
+    "plan": "SLA_HOPPER_ARX5_SOURCE_EXPANSION_V6_PLAN_20261126.md",
+    "runbook": "SLA_HOPPER_ARX5_SOURCE_EXPANSION_V6_RUNBOOK_20261126.md"
+  },
+  "references": {
+    "v4": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/f72f3d57b470de3e62821cd5e1a33d938a669cb7/docs/protocols/SLA_HOPPER_AUTONOMOUS_V4_PLAN_20261126.md",
+    "v5": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/2cbce375a4f5a01bedc4f065d5ad6581fe7cbb05/docs/protocols/SLA_CORE_EMBODIMENT_FACTORY_V5_PLAN_20261126.md",
+    "actual": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/d175383b07cabb701492222bc333809d57ca5830/reports/SLA_EXPERIMENT_PROGRESS/V4_HOPPER_HIGH_BATCH_20261126.md",
+    "core": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/d175383b07cabb701492222bc333809d57ca5830/reports/SLA_EXPERIMENT_PROGRESS/V4_STEP100_CONTAINER_20261126.md",
+    "ledger": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/1250f3a70bc591051a19140e9daf089eca85d999/reports/SLA_EXPERIMENT_PROGRESS/SOURCE_EXPOSURE_ACTUAL.json",
+    "tableaudit": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/a21d8ece1748ed4dc1dcbc305a70bbf08c77c12f/docs/reviews/2026-11-12_NATIVE_ARX5_PROGRESS_AND_SOURCE_PROVENANCE.md",
+    "engine": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/b6869988b90851baf0e4ce207df3985fef1d2dc7/scripts/sla/hopper_engine.py",
+    "codec": "https://github.com/Leo-6-maker/go2-arx5-hierarchical-vla/blob/c8642aa602d3e34dd4dcda5a55ff6ae7c7c53ae6/src/go2arx5_vla/sla_adapter/codec_v1.py",
+    "official": "https://github.com/XPolicyLab/XPolicyLab/blob/c1b205ec42b4ab2cac9c2159c8b4c2f723e5e454/policy/SLA_Memory/README.md",
+    "dojo": "https://huggingface.co/datasets/RoboDojo-Benchmark/RoboDojo",
+    "dojo_code": "https://github.com/RoboDojo-Benchmark/RoboDojo",
+    "table": "https://huggingface.co/datasets/RoboChallenge/Table30",
+    "table_old": "https://huggingface.co/datasets/RoboChallenge/Table30/blob/1eda76b8935b5c7a59cd635ca9e3fab882943e11/README.md",
+    "table2": "https://huggingface.co/datasets/RoboChallenge/Table30v2",
+    "neo": "https://huggingface.co/datasets/NeoteAIEmbodied/OpenNeoData",
+    "neo_readme": "https://huggingface.co/datasets/NeoteAIEmbodied/OpenNeoData/blob/main/README.md",
+    "twin": "https://huggingface.co/datasets/Traly/Robotwin2.0-lerobot",
+    "twin_doc": "https://robotwin-platform.github.io/doc/usage/collect-data.html",
+    "ville": "https://huggingface.co/villekuosmanen",
+    "ville_agg": "https://huggingface.co/datasets/pravsels/arx5-robot-dataset",
+    "sla": "https://arxiv.org/abs/2611.08373",
+    "hf_dl": "https://huggingface.co/docs/huggingface_hub/guides/download"
+  },
+  "snapshot": {
+    "report_commit": "d175383b07cabb701492222bc333809d57ca5830",
+    "observed_sgt": "2026-11-26T17:09:00+08:00",
+    "hopper_job": "735204.hopper-m-02",
+    "verified_v4_updates": 564,
+    "warm_p50": 5.087,
+    "warm_p95": 5.106,
+    "v4_complete_1k": null,
+    "v4_2k_job": null,
+    "r0_existing_engineering_updates_planned": 27,
+    "main38_actual_visits": {
+      "target": 243200,
+      "robodojo": 121600,
+      "libero": 121600
+    },
+    "old_train": {
+      "target": 52,
+      "target_candidate": 69,
+      "target_windows": 4450,
+      "target_full_h40": 4294,
+      "robodojo": 200,
+      "libero": 1261
+    }
+  },
+  "sources": [
+    {
+      "id": "ROBODOJO_REAL_ARX5",
+      "group": "dual",
+      "target": 400,
+      "existing_train": 200,
+      "pilot_max": 8,
+      "wave500_target": 300,
+      "access": "public_card_apache_2_0_verify_revision",
+      "semantic": "source nominal future reference per existing audited reader; verify recorded action/state convention, not target consumed command",
+      "repo": "RoboDojo-Benchmark/RoboDojo",
+      "revision": null
+    },
+    {
+      "id": "TABLE30_ARX5",
+      "group": "single",
+      "target": 500,
+      "existing_train": 0,
+      "pilot_max": 8,
+      "wave500_target": null,
+      "access": "dataset_specific_terms_unconfirmed",
+      "semantic": "recorded future EEF reference from states; separate provenance tier; v1 RPY, v2 xyzw; distinct domains if contracts differ",
+      "repo": [
+        "RoboChallenge/Table30",
+        "RoboChallenge/Table30v2"
+      ],
+      "revision": null
+    },
+    {
+      "id": "OPENNEODATA_SINGLE",
+      "group": "single",
+      "target": 500,
+      "existing_train": 0,
+      "pilot_max": 8,
+      "wave500_target": null,
+      "access": "gated_cc_by_nc_sa_4_0_authorization_and_terms_required",
+      "semantic": "documented commanded action.eef_pose; measured observation.eef_pose; validate true alignment",
+      "repo": "NeoteAIEmbodied/OpenNeoData",
+      "subset": "arx5_single",
+      "revision": null
+    },
+    {
+      "id": "ROBOTWIN_ARX5",
+      "group": "dual",
+      "target": 400,
+      "existing_train": 0,
+      "pilot_max": 8,
+      "wave500_target": 100,
+      "access": "community_card_apache_2_0_check_original_and_conversion",
+      "semantic": "community action_ee next-frame achieved pose, not command; dual-arm 16 ext / native horizon",
+      "repo": "Traly/Robotwin2.0-lerobot",
+      "revision": null
+    },
+    {
+      "id": "VILLE_ARX5",
+      "group": "single",
+      "target": 200,
+      "existing_train": 0,
+      "pilot_max": 8,
+      "wave500_target": null,
+      "access": "verify_each_original_dataset_license_and_outcome",
+      "semantic": "original LeRobot joint commands + observations; derive EEF with verified FK if provenance supports; exclude eval/fail, correction separate",
+      "repo": "villekuosmanen/*",
+      "revision": null
+    }
+  ],
+  "admission": {
+    "pilot_max_per_source": 8,
+    "pilot_total_max": 40,
+    "pilot_new_staging_gib_cap": 10,
+    "mix500_initial_new_workspace_gib_cap": 40,
+    "mix500": {
+      "existing_robodojo": 200,
+      "new_robodojo": 100,
+      "new_robotwin": 100,
+      "new_single_any_qualified": 100,
+      "total": 500
+    },
+    "minimum_new_train_to_start": 100,
+    "minimum_task_groups": 3,
+    "minimum_one_new_source_or_actual_new_episode_group": true,
+    "prefer_single": true,
+    "dual_only_allowed_if_explicit": true,
+    "new_arx5_train_goal": 1800,
+    "arx5_total_train_goal": 2000,
+    "libero_train_retained": 1261,
+    "heldout_not_counted": true,
+    "split_proposed": [
+      0.8,
+      0.1,
+      0.1
+    ],
+    "group_split_before_outcome": true,
+    "table30_weak_tier": {
+      "allowed_if_licensed_and_semantic_time_qualified": true,
+      "old_source_rejection_preserved": true,
+      "train_episode_max_first_batch": 100,
+      "max_single_group_sampling_fraction": 0.25,
+      "target_command_supervision": false
+    },
+    "gated_neodata_terms_and_access_required": true,
+    "download_only_allowlist": true,
+    "no_full_repo_clone": true,
+    "actual_revision_and_manifest_required": true,
+    "actual_status_all_new": "NOT_ADMITTED"
+  },
+  "training": {
+    "old_v4_1k_2k_immutable": true,
+    "old_2k_conditional_original_gate": true,
+    "r0_existing_not_repeated": true,
+    "science_parent_priority": [
+      "V4_M2000_IF_COMPLETE_AND_REGRESSION_QUALIFIED",
+      "V4_M1000_IF_COMPLETE_AND_REGRESSION_QUALIFIED",
+      "MAIN38"
+    ],
+    "fresh_optimizer_rng_new_tree": true,
+    "group_batches": {
+      "source_primary": {
+        "target": 16,
+        "single_arx5": 64,
+        "dual_arx5": 32,
+        "libero": 16
+      },
+      "source_dual_fallback": {
+        "target": 16,
+        "single_arx5": 0,
+        "dual_arx5": 96,
+        "libero": 16
+      },
+      "adapt_primary": {
+        "target": 64,
+        "single_arx5": 32,
+        "dual_arx5": 16,
+        "libero": 16
+      },
+      "adapt_dual_fallback": {
+        "target": 64,
+        "single_arx5": 0,
+        "dual_arx5": 48,
+        "libero": 16
+      }
+    },
+    "global_fm": 128,
+    "group_weight_rule": "B_group/128; subdomain weighted by actual B",
+    "target_aux_count": 4,
+    "aux_generation_steps": 10,
+    "aux_effective_weight_rule": "preserve actual old auxiliary-to-target-FM ratio; source 0.25 old lambda if old target normalized 0.5; adapt restore",
+    "worker": 4,
+    "prefetch": 2,
+    "source": {
+      "first_endpoint": 1000,
+      "planned_cumulative": 5000,
+      "conditional_cumulative": 10000,
+      "peak_relative_v4_declared_peak": 0.5,
+      "warmup": 100,
+      "decay_total": 5000,
+      "end_fraction": 0.1,
+      "extension_new_lr_contract": true,
+      "freeze_version_or_explicit_new_cold_boundary": true
+    },
+    "adapt": {
+      "first_endpoint": 1000,
+      "planned_cumulative": 3000,
+      "conditional_cumulative": 5000,
+      "default_peak_relative_source_peak": 0.5,
+      "warmup": 100,
+      "decay_total": 3000,
+      "end_fraction": 0.1,
+      "extension_new_lr_contract": true
+    },
+    "control": {
+      "conditional_updates": 1000,
+      "parent_and_target_exposure_matched": true,
+      "not_equal_compute_claim": true
+    },
+    "engineering": {
+      "new_updates_max": 24,
+      "probes_per_new_domain": 8,
+      "min_real_updates_per_new_domain": 2,
+      "full_recipe_updates": 6,
+      "warm": 2,
+      "timed": 4,
+      "strict_old_equivalence_diagnostic_only": true
+    },
+    "freeze_wbc_and_vision_language_base": true,
+    "train_shared_action_expert_vlm_lora_and_domain_io": true,
+    "old_domain_codec_stats_unchanged": true,
+    "state_dropout": 0.25,
+    "finite_mask_clip_restore_required": true
+  },
+  "scheduler": {
+    "actual_owner": null,
+    "actual_authorization": null,
+    "actual_2k_job_id": null,
+    "actual_source_job_id": null,
+    "actual_adapt_job_id": null,
+    "one_owner": true,
+    "continue_healthy": true,
+    "unknown_reconcile_before_submit": true,
+    "states": [
+      "READBACK",
+      "VERIFY_COMPLETE",
+      "HANDOFF_EVAL",
+      "ELIGIBLE_NEXT",
+      "SUBMIT_ONCE",
+      "RECONCILE_JOB_ID",
+      "ACTIVE",
+      "SEALED"
+    ],
+    "max_capsule_hours": 6,
+    "save_reserve_min": 15,
+    "save_every_updates": 100,
+    "save_every_minutes": 30,
+    "old_deadline_sgt": "2026-12-05T12:41:52+08:00",
+    "old_320_gpu_hours_not_reset": true,
+    "vanda_paused": true
+  },
+  "evaluation": {
+    "native_panel_candidates": [
+      "BOUND_PARENT",
+      "SOURCE1000",
+      "SOURCE5000",
+      "ADAPT1000",
+      "ADAPT3000"
+    ],
+    "per_candidate": {
+      "place": 4,
+      "hold_n02": 2
+    },
+    "max_new_native_slots": 30,
+    "old_v4_v5_panels_reused_not_overwritten": true,
+    "source_dev_windows_each": 16,
+    "no_target_train_leakage": true,
+    "holdout_target": [
+      "DRAWER",
+      "INSERT",
+      "COMPOSITION"
+    ]
+  },
+  "accounting": {
+    "default_new_main_updates": 8000,
+    "conditional_new_main_updates_max": 15000,
+    "optional_control_max": 1000,
+    "new_engineering_max": 24,
+    "existing_r0_27_separate": true,
+    "source_and_adapt_are_not_v4_2k": true,
+    "actual": {
+      "new_download_bytes": 0,
+      "new_admitted_episodes": 0,
+      "new_training_updates": 0,
+      "new_native_requests": 0,
+      "new_pbs_jobs": 0
+    }
+  },
+  "runtime_binding": {
+    "actual_data_revision": null,
+    "actual_ready_manifest": null,
+    "actual_parent": null,
+    "actual_lr": null,
+    "actual_domain_initialization": null,
+    "actual_resource_quota": null,
+    "actual_train_source_counts": null
+  }
+}
