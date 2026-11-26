@@ -9,7 +9,7 @@ import numpy as np
 import pyarrow.parquet as pq
 from scipy.spatial.transform import Rotation
 
-from v62_arx5_new_source_pilot import SC_MODALITY_PIN, SC_REPO, SC_REV
+from v62_arx5_new_source_pilot import SC_MODALITY_PIN, SC_REPO, SC_REV, SC_WAVE1_PIN, SC_WAVE2_PIN
 from v6_robodojo_intake import digest, read
 from v6_ville_pilot import need, write
 from v6_ville_reader import preflight
@@ -19,8 +19,10 @@ SCHEMA = "SLA_V62_SCVLA_ARX5_FUTURE_LOGGED_STATE_15HZ"
 NATIVE_HZ = 15
 HORIZON = 30
 CAMERAS = {"observation.images.image": "base_0_rgb", "observation.images.wrist_image": "right_wrist_0_rgb"}
-WAVE = "932dac5f5f5494e132ffa9c91549419c4be97fc28c6ca2e62b889fab8c6f9a51"
+SC_FOLLOWUP_PIN = "632d2a6a894479ed6b910f2789b68efd4aac703ad38495fc1c75cf9619689c1b"
 TASK = "Pick up the ball and place into the box"
+SOURCE_TASKS = ("Pick up the peg and insert it into the container next to the peg", TASK,
+                "Stack the red cube on the blue cube")
 
 
 def checked(path, sha):
@@ -58,18 +60,24 @@ def video_proof(video, ts, last_anchor, original):
     return {str(i): hashes[str(i)] for i in (0, last_anchor)}
 
 
-def seal(root, modality, review, review_sha, output):
-    scan = read(checked(root / "ACTUAL.json", WAVE))
+def seal(root, modality, review, review_sha, output, *, scan_sha=SC_WAVE1_PIN, task=TASK):
+    fixed_count, allowed_tasks, accepted_status = {
+        SC_WAVE1_PIN: (24, (TASK,), "GRASP_TRANSPORT_RELEASE_CONFIRMED"),
+        SC_WAVE2_PIN: (36, SOURCE_TASKS, "TASK_COMPLETE_CONFIRMED"),
+        SC_FOLLOWUP_PIN: (18, SOURCE_TASKS, "TASK_COMPLETE_CONFIRMED"),
+    }[scan_sha]
+    need(task in allowed_tasks, "Task is outside the admitted source wave")
+    scan = read(checked(root / "ACTUAL.json", scan_sha))
     audit = read(checked(review, review_sha))
     axes = read(checked(modality, SC_MODALITY_PIN))["modalities"]["state"]
     need(axes == dict(position=dict(start=0, end=3), rotation=dict(start=3, end=6, rotation_type="euler_angles_rpy"),
                       gripper=dict(start=6, end=7)), "The pinned logged-state axes changed")
     need((scan["repo"], scan["revision"], scan["license"], scan["native_fps"], scan["training_admitted"])
-         == (SC_REPO, SC_REV, "Apache-2.0", NATIVE_HZ, 0) and audit["scan_sha256"] == WAVE, "Wrong fixed cohort")
+         == (SC_REPO, SC_REV, "Apache-2.0", NATIVE_HZ, 0) and audit["scan_sha256"] == scan_sha, "Wrong fixed cohort")
     roster = read(checked(root / "ROSTER.json", audit["roster_sha256"]))
     outcomes = {r["episode"]: r for r in audit["outcomes"]}
     planned = {r["episode"]: r["split"] for r in roster["registered"]}
-    need(len(outcomes) == len(planned) == len(audit["outcomes"]) == len(scan["results"]) == 24
+    need(len(outcomes) == len(planned) == len(audit["outcomes"]) == len(scan["results"]) == fixed_count
          and set(outcomes) == set(planned) == {r["episode"] for r in scan["results"]}
          and not set(planned).intersection(roster["excluded"]), "Outcome review omits registered or includes pilot episodes")
     members = {x["path"]: x["sha256"] for x in scan["member_hashes"]}
@@ -81,9 +89,9 @@ def seal(root, modality, review, review_sha, output):
         outcome = outcomes[index]
         need(outcome["task"] == row["task"] and planned[index] == row["split"] == outcome["split"],
              "Task or independent split differs from the registered population")
-        if outcome["status"] != "GRASP_TRANSPORT_RELEASE_CONFIRMED":
+        if row["task"] != task or outcome["status"] != accepted_status:
             continue
-        need(row["task"] == TASK and row["unnamed_nonzero"] == 0, "Incorrect task or unverified raw dimensions")
+        need(row["unnamed_nonzero"] == 0, "Unverified raw dimensions")
         layout = dict(episode_index=index, episode_chunk=index // info["chunks_size"])
         numeric = info["data_path"].format(**layout)
         table = pq.read_table(checked(root / numeric, members[numeric]),
@@ -112,7 +120,9 @@ def seal(root, modality, review, review_sha, output):
                              views=views, arrays=dict(file=path.name, sha256=digest(path))))
         if split == "TRAIN":
             train.append(packed)
-    need(len(episodes) == 12 and len(train) == 10, "Reviewed Ball cohort count changed")
+    need(0 < len(train) < len(episodes), "Require admitted TRAIN and independent SOURCE_DEV for this task")
+    if scan_sha == SC_WAVE1_PIN:
+        need(len(episodes) == 12 and len(train) == 10, "Reviewed first Ball cohort count changed")
     need(len({row["raw_numeric_sha256"] for row in episodes}) == len(episodes), "Duplicate numeric source bytes")
     stats = {}
     for name in ("state", "actions"):
@@ -122,8 +132,8 @@ def seal(root, modality, review, review_sha, output):
     statfile = output / "STATISTICS.json"
     write(statfile, dict(**stats, split="TRAIN", schema=SCHEMA))
     manifest = output / "MANIFEST.json"
-    write(manifest, dict(schema=SCHEMA, repo=SC_REPO, revision=SC_REV, license="Apache-2.0", task=TASK,
-                         scan_sha256=WAVE, modality_sha256=SC_MODALITY_PIN, review_sha256=review_sha,
+    write(manifest, dict(schema=SCHEMA, repo=SC_REPO, revision=SC_REV, license="Apache-2.0", task=task,
+                         scan_sha256=scan_sha, modality_sha256=SC_MODALITY_PIN, review_sha256=review_sha,
                          native_hz=NATIVE_HZ, horizon=HORIZON, label_kind="FUTURE_LOGGED_STATE_REFERENCE",
                          target_command=False, video_root=str(root), episodes=episodes,
                          camera_mask=dict(base_0_rgb=True, left_wrist_0_rgb=False, right_wrist_0_rgb=True),
@@ -138,4 +148,6 @@ if __name__ == "__main__":
         parser.add_argument(name, type=Path)
     parser.add_argument("review_sha")
     parser.add_argument("output", type=Path)
+    parser.add_argument("--scan-sha", default=SC_WAVE1_PIN, choices=(SC_WAVE1_PIN, SC_WAVE2_PIN, SC_FOLLOWUP_PIN))
+    parser.add_argument("--task", default=TASK, choices=SOURCE_TASKS)
     seal(**vars(parser.parse_args()))

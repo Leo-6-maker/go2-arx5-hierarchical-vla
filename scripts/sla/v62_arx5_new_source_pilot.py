@@ -18,6 +18,8 @@ SC_REV = "147e96997bc63d8781e5837b7ada9067e3989249"
 SC_CAMERAS = ("observation.images.image", "observation.images.wrist_image")
 SC_PILOT_PIN = "bbbbd7fd314de19775ffefb6aa35ef53be85698adc40040967edfae31d5b29b8"
 SC_MODALITY_PIN = "4f5d4d0e7395f24e73631b4e42dedbcffee3206319e19cf36374e4c8e2e61ef4"
+SC_WAVE1_PIN = "932dac5f5f5494e132ffa9c91549419c4be97fc28c6ca2e62b889fab8c6f9a51"
+SC_WAVE2_PIN = "9ee94696fea1583b10942e5aaa6c213f1951f0fa59fec309416012d0f11ee6be"
 SIM_TASKS = ("push_T", "pack_objects_into_box")
 DOJO_CONVERTED = "data/RoboDojo_ee_lerobot_v30_video"
 DOJO_VIDEO = dict(zip(DOJO_CAMERAS, ("observation.images.cam_high", "observation.images.cam_left_wrist",
@@ -141,13 +143,14 @@ def dojo(out):
                                     training_admitted=0))
 
 
-def sc_vla(out, pilot=None):
+def sc_vla(out, pilot=None, prior_waves=()):
     import av
     import numpy as np
     import pyarrow.parquet as pq
 
     license_is_apache(SC_REPO, SC_REV)
-    budget = 192 * 1024**2
+    need(not prior_waves or pilot is not None, "A successor requires the SC-VLA pilot")
+    budget = (256 if prior_waves else 192) * 1024**2
     files = fetch(out, SC_REPO, SC_REV, ["README.md", "meta/info.json", "meta/tasks.jsonl", "meta/episodes.jsonl"],
                   budget, actual_capacity=True)
     info = read(out / "meta/info.json")
@@ -160,14 +163,22 @@ def sc_vla(out, pilot=None):
         initial = read(verify_receipt(pilot / "ACTUAL.json", SC_PILOT_PIN))
         verify_receipt(pilot / "MODALITY-READBACK.json", SC_MODALITY_PIN)
         already_read = {r["episode"] for r in initial["results"]}
+    need(len(prior_waves) <= 2, "Unknown prior SC-VLA cohorts")
+    for folder, (sha, count) in zip(prior_waves, ((SC_WAVE1_PIN, 24), (SC_WAVE2_PIN, 36))):
+        earlier = read(verify_receipt(folder / "ACTUAL.json", sha))
+        previous_ids = {r["episode"] for r in earlier["results"]}
+        need(len(previous_ids) == count and not (previous_ids & already_read), "Prior source cohorts overlap")
+        already_read.update(previous_ids)
     selected = []
-    for task_id in (1, 3):
+    task_ids = (0, 1, 2) if prior_waves else (1, 3)
+    wave = f"SLA-V62-SC-WAVE{len(prior_waves) + 1}"
+    count = 2 if pilot is None else 6 if len(prior_waves) == 2 else 12
+    for task_id in task_ids:
         available = [ep for ep in episodes if ep["tasks"] == [tasks[task_id]] and ep["episode_index"] not in already_read]
-        count = 2 if pilot is None else 12
         if pilot is not None:
-            available.sort(key=lambda ep: hashlib.sha256(f"SLA-V62-SC-WAVE1/{task_id}/{ep['episode_index']}".encode()).digest())
+            available.sort(key=lambda ep: hashlib.sha256(f"{wave}/{task_id}/{ep['episode_index']}".encode()).digest())
         need(len(available) >= count, "Each fixed skill needs the complete disjoint source cohort")
-        selected.extend((row, task_id, "PILOT" if pilot is None else "TRAIN_CANDIDATE" if i < 10 else "DEV_CANDIDATE")
+        selected.extend((row, task_id, "PILOT" if pilot is None else "TRAIN_CANDIDATE" if i < count - 2 else "DEV_CANDIDATE")
                         for i, row in enumerate(available[:count]))
     write(out / "ROSTER.json", dict(repo=SC_REPO, revision=SC_REV, excluded=sorted(already_read),
          registered=[dict(episode=r["episode_index"], task=task, split=split) for r, task, split in selected]))
@@ -294,12 +305,18 @@ def pair_dojo(out, pilot):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("domain", choices=("dojo", "sc_vla", "dojo_pair", "sc_wave"))
+    parser.add_argument("domain", choices=("dojo", "sc_vla", "dojo_pair", "sc_wave", "sc_wave2", "sc_wave3"))
     parser.add_argument("out", type=Path)
     parser.add_argument("--raw-pilot", type=Path)
+    parser.add_argument("--prior-wave", type=Path, action="append", default=[])
     args = parser.parse_args()
+    need(len(args.prior_wave) == {"sc_wave2": 1, "sc_wave3": 2}.get(args.domain, 0),
+         "Supply every earlier fixed cohort when registering a successor")
     args.out.mkdir(mode=0o700)
-    if args.domain in ("dojo_pair", "sc_wave"):
+    if args.prior_wave:
+        need(args.raw_pilot is not None, "Bind the initial SC-VLA pilot")
+        sc_vla(args.out, args.raw_pilot, args.prior_wave)
+    elif args.domain in ("dojo_pair", "sc_wave"):
         need(args.raw_pilot is not None, "Bind the observed raw and converted input receipts")
         {"dojo_pair": pair_dojo, "sc_wave": sc_vla}[args.domain](args.out, args.raw_pilot)
     else:
