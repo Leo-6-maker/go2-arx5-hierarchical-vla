@@ -88,7 +88,8 @@ def submit(mode, capsule, config, paths, runtime, source, v4_code, original, pri
         "custody", "short", "prepared", "corrected", "extension", "single", "bank", "r4")]
     read_bank(inputs[6])
     budget = int(requirements["budget_seconds"])
-    require(1800 <= budget <= MAX_WALL[mode] and budget % 60 == 0 and time.time() + budget < DEADLINE,
+    max_wall = 10800 if mode == "250" and binding.get("science_plan") == V62 else MAX_WALL[mode]
+    require(1800 <= budget <= max_wall and budget % 60 == 0 and time.time() + budget < DEADLINE,
             "The original Hopper deadline and bounded walltime apply")
     with closing(OwnerLock(capsule / "SUBMIT.lock")):
         require(not any((capsule / name).exists() for name in ("INTENT.json", "JOB.json", "run")),
