@@ -73,45 +73,53 @@ def stage(predecessor, catalog, destination, root, source_sha):
         raise ValueError("Selected case overlaps the signed data or protected scenes")
     original_source = Path(original["source_root"])
     source = destination / "source"
-    public = original["source_files"].copy()
+    member_hashes = original["source_files"].copy()
     scope = "scripts/sla/"
     patches = {
         "core_hopper_expert.py": [
-            ("    elif authority['native_request_cap']!=264", "    elif authority.get('v5_legacy_single'):\n"
-             "        from scripts.sla.v5_legacy_single import rows\n"
-             "        selected = rows(population, authority['v5_legacy_single'])\n"
-             "        if (case.get('v5_legacy_single') != authority['v5_legacy_single']\n"
-             "                or case['panel_entry_id'] != selected[0]['id']\n"
-             "                or authority['native_request_cap'] != 1\n"
-             "                or authority['native_tick_cap'] != selected[0]['native_max_ticks']):\n"
-             "            raise PermissionError('Expected the one V5 legacy Teacher card')\n"
-             "    elif authority['native_request_cap']!=264")],
+            ("    ref = case['compiled_population']", "    ref = case['compiled_population']\n"
+             "    binding = authority.get('v5_legacy_single')\n"
+             "    request_cap, tick_cap = (1, 35703) if binding else (264, 12065592)"),
+            ("authority['native_request_cap'] != 264 or authority['native_tick_cap'] != 12065592",
+             "authority['native_request_cap'] != request_cap or authority['native_tick_cap'] != tick_cap"),
+            ("    row = next(r for r in order(population)", "    selected = order(population)\n"
+             "    if binding:\n        from scripts.sla.v5_legacy_single import rows\n"
+             "        if case.get('v5_legacy_single') != binding:\n"
+             "            raise PermissionError('Original case is missing its V5 registration')\n"
+             "        selected = rows(population, binding)\n"
+             "    row = next(r for r in selected")],
         "core_hopper_register.py": [
             ("def prepare(config):", "def prepare(config, *, execute=True):"),
-            ("    if not repair:\n        lock=OwnerLock", "    if not repair and execute:\n        lock=OwnerLock"),
+            ("    lock=OwnerLock(interface['mobile_world_lock']); lock.close()",
+             "    if execute:\n        lock=OwnerLock(interface['mobile_world_lock']); lock.close()"),
             ("    closure=read_pin(config['source_members'])", "    selection=config.get('v5_legacy_single')\n"
              "    if selection:\n        from scripts.sla.v5_legacy_single import rows as legacy_rows\n"
              "        rows=legacy_rows(pop,selection)\n    closure=read_pin(config['source_members'])"),
-            ("**({'carry_repair':repair} if repair else {})))", "**({'carry_repair':repair} if repair else {}),\n"
+            ("deadline_epoch=end,owner=OWNER,sim_only=True))", "deadline_epoch=end,owner=OWNER,sim_only=True,\n"
              "        **({'v5_legacy_single':selection} if selection else {})))"),
-            ("    if repair:\n        spec['carry_repair']=repair", "    if repair:\n        spec['carry_repair']=repair\n"
-             "    if selection:\n        spec['v5_legacy_single']=selection"),
+            ("    for item,row in zip(panel,rows,strict=True):", "    if selection:\n"
+             "        spec['v5_legacy_single']=selection\n"
+             "        limit=min(end,time.time()+4500)\n"
+             "        spec.update(deadline_epoch=limit,campaign_deadline_epoch=limit)\n"
+             "    for item,row in zip(panel,rows,strict=True):"),
+            ("        validate(case)", "        if selection:\n            case['v5_legacy_single']=selection\n"
+             "        validate(case)"),
             ("    register(spec,[(root,spec)])", "    if not execute:\n        return\n    register(spec,[(root,spec)])")],
         "core_hopper_collection.py": [
-            ("    series=bool(repair", "    selection=spec.get('v5_legacy_single')\n"
-             "    capacity_for_scope=capacity\n    if selection:\n"
-             "        from scripts.sla.v5_legacy_single import capacity as capacity_for_scope\n"
-             "    series=bool(repair"),
-            ("            rows=order(pop)\n", "            rows=order(pop)\n            if selection:\n"
-             "                from scripts.sla.v5_legacy_single import rows as legacy_rows\n"
-             "                rows=legacy_rows(pop,selection)\n"),
+            ("    pending = None\n    def state", "    pending = None\n    selection=spec.get('v5_legacy_single')\n"
+             "    scheduled, capacity_for_scope = order(pop), capacity\n    if selection:\n"
+             "        from scripts.sla.v5_legacy_single import capacity as capacity_for_scope, rows as legacy_rows\n"
+             "        scheduled=legacy_rows(pop,selection)\n    def state"),
+            ("        for row in order(pop):", "        for row in scheduled:"),
+            ("        require_unstarted_cases(case['registry']", "        if selection:\n"
+             "            case['v5_legacy_single']=selection\n        require_unstarted_cases(case['registry']"),
             ("not capacity(root)", "not capacity_for_scope(root)")],
     }
     shutil.copytree(original_source, source, copy_function=os.link, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
     for name, edits in patches.items():
         relative = scope + name
         path = source / relative
-        if digest(path) != public[relative]:
+        if digest(path) != member_hashes[relative]:
             raise ValueError(f"Original source changed in {name}")
         text = path.read_text()
         for before, after in edits:
@@ -121,21 +129,21 @@ def stage(predecessor, catalog, destination, root, source_sha):
         compile(text, str(path), "exec")
         path.unlink()
         path.write_text(text)
-        public[relative] = digest(path)
+        member_hashes[relative] = digest(path)
     addition = source / scope / Path(__file__).name
     shutil.copy2(__file__, addition)
-    public[str(addition.relative_to(source))] = digest(addition)
+    member_hashes[str(addition.relative_to(source))] = digest(addition)
     members = destination / "SOURCE_MEMBERS.json"
     binding = destination / "ROSTER.json"
-    write(members, public)
+    write(members, member_hashes)
     write(binding, dict(plan=PLAN, id=CONDITION, scene_sha256=SCENE, one_world=True,
           native_tick_cap=HOLD_TICKS, generator_calls=0, reserve_gib=58, ram_gib=13))
     source_authority = original["sim_only_project_authorization"]
-    mesh = read(source_authority["path"])
-    if ref(source_authority["path"]) != source_authority or mesh["frozen_producer"] != BASE_SOURCE:
+    grant = read(source_authority["path"])
+    if ref(source_authority["path"]) != source_authority or grant["frozen_producer"] != BASE_SOURCE:
         raise ValueError("Cannot bind the original site authorization window")
     mount = destination / "MOUNT.json"
-    write(mount, dict(plan=mesh["plan_commit"], T0_epoch=mesh["T0_epoch"], deadline_epoch=mesh["deadline_epoch"]))
+    write(mount, dict(plan=grant["plan_commit"], T0_epoch=grant["T0_epoch"], deadline_epoch=grant["deadline_epoch"]))
     config = dict(root=str(root), source_root=str(source), mount=ref(mount), interface=original["interface_predecessor"],
                   population=original["compiled_population"], source_members=ref(members), source_sha=source_sha,
                   admission_python=original["admission_python"], statistics=original["C20_statistics_path"],
