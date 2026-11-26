@@ -127,7 +127,7 @@ class LongLearner:
         from go2arx5_vla.sla_adapter.adapt5k_contract import joint_gradient
 
         if (set(fm_micro) != set(self.batch_by_domain) or aux_micro not in (1, 2, 4)
-                or any(fm_micro[d] not in (1, 8, 16, 32, 64)
+                or any(fm_micro[d] not in (1, 8, 16, 32, 40, 64)
                        or self.batch_by_domain[d] % fm_micro[d] for d in self.batch_by_domain)):
             raise ValueError("Unsupported learner microbatch")
         fm, metrics = {}, {}
