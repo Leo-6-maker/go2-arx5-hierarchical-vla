@@ -15,7 +15,7 @@ def same(path, expected):
     return path
 
 
-def compare(archive, consumed, new_manifest, output):
+def compare(archive, consumed, new_manifest, output, parent_gate=None):
     from go2arx5_vla.sla_adapter.gripper_v2 import GripLogitCodec
     from scripts.pi0291_arx5_data.native_dataset import matrix_from10
     from scipy.spatial.transform import Rotation
@@ -30,6 +30,14 @@ def compare(archive, consumed, new_manifest, output):
     phases = defaultdict(list)
     first_rows = {"fit": [], "check": []}
     clock_errors = defaultdict(list)
+    normalized = defaultdict(list)
+    if parent_gate is not None:
+        from go2arx5_vla.sla_adapter.codec_v1 import Quantiles
+        from v3_main_place_learn import input_contract
+
+        gate = json.loads(parent_gate.read_bytes())["gate"]
+        _, _, stats = input_contract(gate, Path(gate["package"]["path"]))
+        quantiles = Quantiles(np.asarray(stats["actions"]["q01"]), np.asarray(stats["actions"]["q99"]))
     clocks = tuple(range(-3, 4))
     shared_prefix = np.arange(3, 7)
     total = 0
@@ -58,9 +66,18 @@ def compare(archive, consumed, new_manifest, output):
                 relative = r_matrix[:, :3, :3] @ p_matrix[:, :3, :3].swapaxes(-1, -2)
                 angle = Rotation.from_matrix(relative).magnitude() * 180 / np.pi
                 jaw = np.abs(real[:, 9] - plan[:, 9]) * 40
+                if parent_gate is not None:
+                    _, nominal_g7 = codec.encode(anchor, nominal[i])
+                    readings = {"nominal_reencoded": quantiles.normalize(nominal_g7[active]),
+                                "actually_consumed": quantiles.normalize(target[i][active])}
+                    if not all(np.isfinite(value).all() for value in readings.values()):
+                        raise ValueError("Nonfinite normalized labels on real support")
                 for ext, sl in (("first", slice(0, 1)), ("consumed_P10", slice(0, 10)),
                                 ("later_queries", slice(10, None))):
                     phases[str(phase[i]), ext].append(np.column_stack((xyz, angle, jaw))[sl])
+                    if parent_gate is not None:
+                        for label, value in readings.items():
+                            normalized[str(phase[i]), ext, label].append(value[sl])
                 r_pos = r_matrix[shared_prefix, :3, 3]
                 for shift in clocks:
                     nominal_pos = p_matrix[shared_prefix + shift, :3, 3]
@@ -101,10 +118,18 @@ def compare(archive, consumed, new_manifest, output):
     timing = dict(real_rows_zero_based=shared_prefix.tolist(),
                   best_fixed_fit_shift=min(shifts, key=lambda r: r["fit_mm"][0])["nominal_shift_rows"],
                   all_shifts=shifts)
+    support = []
+    for (phase, region, label), rows in sorted(normalized.items()):
+        values = np.abs(np.concatenate(rows))
+        if values.size:
+            support.append(dict(phase=phase, scope=region, label=label, atoms=len(values),
+                                beyond_quantiles=np.mean(values > 1.000001, axis=0).tolist(),
+                                absolute_p95=np.percentile(values, 95, axis=0).tolist()))
     with output.open("x") as sink:
         json.dump(dict(windows=total, episodes=len(used), original_tasks=dict(previous),
                        core_64_tasks=dict(expanded), percentile_order=[50, 95], numbers=stats,
                        fixed_transform_hypothesis=check, fixed_clock_shift_hypothesis=timing,
+                       original_quantile_support=support,
                        native_integrations=0, model_forwards=0, optimizer_updates=0), sink, indent=2)
         sink.write("\n")
 
@@ -113,4 +138,5 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     for arg in ("archive", "consumed", "new_manifest", "output"):
         parser.add_argument(arg, type=Path)
+    parser.add_argument("--parent-gate", type=Path)
     compare(**vars(parser.parse_args()))
