@@ -1,7 +1,9 @@
 """Trace a bounded replay of the original H200 V4 learner after its formal 1K exit."""
 
 import argparse
+from collections import Counter, defaultdict
 from contextlib import closing
+import gzip
 import json
 from pathlib import Path
 import statistics
@@ -22,6 +24,8 @@ from v4_main250_hopper import allocation
 START = 250
 WARM = 3
 TRACED = 24
+PHASES = ("prefetch_wait/", "prepare_gpu/", "flow_matching/", "h40_auxiliary",
+          "join_gradient", "finite_gradient_readback", "adamw_global_clip")
 
 
 def same_step(a, b):
@@ -30,6 +34,67 @@ def same_step(a, b):
             and all(a["components"][d]["visit_sha256"] == b["components"][d]["visit_sha256"]
                     for d in ("target", "robodojo", "libero"))
             and a["components"]["auxiliary"]["slots"] == b["components"]["auxiliary"]["slots"])
+
+
+def union_seconds(intervals):
+    total = 0.
+    end = float("-inf")
+    for start, stop in sorted(intervals):
+        total += max(0., stop - max(start, end))
+        end = max(end, stop)
+    return total / 1e6
+
+
+def inspect_trace(path):
+    with gzip.open(path, "rt") as stream:
+        events = json.load(stream)["traceEvents"]
+    gpu_pids = {e["pid"] for e in events if e.get("name") == "process_name"
+                and "gpu" in str(e.get("args", {}).get("name", "")).lower()}
+    gpu_streams = {(e["pid"], e["tid"]) for e in events
+                   if e.get("name") == "thread_name" and e["pid"] in gpu_pids
+                   and str(e.get("args", {}).get("name", "")).lower().startswith("stream")}
+    kernel_time = Counter()
+    kernels, copies = [], []
+    phases = defaultdict(list)
+    steps = []
+    for event in events:
+        if event.get("ph") != "X" or event.get("dur", 0) <= 0:
+            continue
+        name = event["name"]
+        args = event.get("args", {})
+        interval = event["ts"], event["ts"] + event["dur"]
+        hardware_stream = (event["pid"], event.get("tid")) in gpu_streams
+        copy = "memcpy_details" in args or hardware_stream and name.lower().startswith("memcpy")
+        kernel = "kernel_details" in args or hardware_stream and "correlation_id" in args
+        if copy:
+            copies.append(interval)
+        elif kernel and not name.lower().startswith(("memset", "memalloc", "memfree")):
+            kernels.append(interval)
+            kernel_time[name] += event["dur"]
+        elif event["pid"] not in gpu_pids:
+            if name == "v4_train":
+                steps.append(interval)
+            elif name.startswith(PHASES):
+                phases[name].append(interval)
+
+    def overlap(intervals, start, end):
+        return union_seconds((max(lo, start), min(hi, end)) for lo, hi in intervals
+                             if lo < end and hi > start)
+
+    return dict(step_markers=len(steps), kernel_events=len(kernels), memcpy_events=len(copies),
+                gpu_kernel_union_seconds=union_seconds(kernels),
+                gpu_memcpy_union_seconds=union_seconds(copies),
+                total_step_marker_seconds=union_seconds(steps),
+                kernel_busy_median_s=statistics.median(overlap(kernels, a, b) for a, b in steps) if steps else None,
+                memcpy_busy_median_s=statistics.median(overlap(copies, a, b) for a, b in steps) if steps else None,
+                timestamp_overlap_by_host_phase={phase: dict(markers=len(spans),
+                    host_seconds=union_seconds(spans),
+                    median_host_s=statistics.median((b-a)/1e6 for a,b in spans),
+                    median_gpu_kernel_overlap_s=statistics.median(overlap(kernels,a,b) for a,b in spans),
+                    median_gpu_memcpy_overlap_s=statistics.median(overlap(copies,a,b) for a,b in spans))
+                    for phase, spans in phases.items()},
+                top_raw_cuda_kernel_seconds=[(name, total / 1e6)
+                                             for name, total in kernel_time.most_common(20)])
 
 
 def run(capsule, custody, short_run, bank_root, main_run, milestone):
@@ -105,12 +170,18 @@ def run(capsule, custody, short_run, bank_root, main_run, milestone):
         files = endpoint_files(result / "xprof")
         require(len(rows) == WARM + TRACED and any(k.endswith(".xplane.pb") for k in files),
                 "Expected the complete profiler XPlane artifact")
+        chrome, = (result / "xprof" / k for k in files if k.endswith(".trace.json.gz"))
+        detail = inspect_trace(chrome)
+        write(result / "DEVICE_TRACE.json", detail)
+        require(detail["kernel_events"] > 0 and detail["step_markers"] == TRACED,
+                "A host-only or incomplete trace cannot establish H200 kernel activity")
         report = dict(status="ORIGINAL_H200_PROFILE_CAPTURED", replay_start=START, warmup=WARM, traced=TRACED,
                       file_hashes=files, engineering_updates=len(rows), optimizer_updates_formal=0,
                       trace_wall_p50_s=statistics.median(r["seconds"] for r in rows[WARM:]),
                       original_matched_wall_p50_s=statistics.median(r["seconds"] for r in reference[WARM:]),
                       trace_bytes=sum((result / "xprof" / path).stat().st_size for path in files),
                       allocator=jax.local_devices()[0].memory_stats(), matched_visits=True,
+                      device_trace_sha256=sha(result / "DEVICE_TRACE.json"),
                       source_main_terminal_sha256=charter["main_terminal_sha256"], physics_ticks=0)
         write(result / "RESULT.json", report)
 
