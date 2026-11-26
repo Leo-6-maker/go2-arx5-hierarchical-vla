@@ -13,12 +13,14 @@ def screen(base, root, checkpoint, provider_audit, output):
     step = proof["step"]
     roster = root / "ROSTER24.json"
     _, roster_digest = read(roster)
-    watch(base, base / "V2-M-PLACE-01/worker/EXECUTION_SPEC.json", roster, checkpoint, step,
-          provider_audit, output, execute=True, retained_roster_sha=roster_digest)
-    generated, result_digest = read(output / "RESULT.json")
     original, reference_digest = read(root / "STEP0000_RETENTION/RESULT.json")
     full_course, course_digest = read(root / ("STEP0100_RETENTION" if step == 100 else
                               "STEP0250_RETENTION") / "RESULT.json")
+    if not roster_digest == original["roster"]["sha256"] == full_course["roster"]["sha256"]:
+        raise ValueError("Corelab DEV roster differs from the closed endpoint study")
+    watch(base, base / "V2-M-PLACE-01/worker/EXECUTION_SPEC.json", roster, checkpoint, step,
+          provider_audit, output, execute=True, retained_roster_sha=roster_digest)
+    generated, result_digest = read(output / "RESULT.json")
     parent = {key(row): row for row in original["rows"]}
     intensive = {key(row): row for row in full_course["rows"]}
     rows = generated["rows"]
