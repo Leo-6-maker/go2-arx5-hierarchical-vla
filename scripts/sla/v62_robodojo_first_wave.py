@@ -20,9 +20,12 @@ SECOND_ROSTER = "78eb7f0d979440296d633740d6d205798fdb349a1d8e9981f8a5d077a7b618a
 SECOND_RELEASE = "86531eb99e58c43e8a4505f46ed5da9ab30306601d30efeba2de68ab8825c236"
 THIRD_ROSTER = "c98ed687889ebb1dcec017c87984ee2eea739ab115196fd5d8dd4bbfbd05019f"
 THIRD_RELEASE = "c8b957775dc97ae28bf10cb5566e2420a76ffe206538de915440d060e7422d2b"
-WAVE_SEEDS = (SEED, SECOND_SEED, "SLA-V62-RD-NEXT24-20261127", "SLA-V62-RD-NEXT30-20261127")
-ROSTER_PINS = (FIRST_ROSTER, SECOND_ROSTER, THIRD_ROSTER)
-RELEASE_PINS = (FIRST_RELEASE, SECOND_RELEASE, THIRD_RELEASE)
+FOURTH_ROSTER = "e34caf9123899703369992ba051ccdbfe44df1cc47903f940c198afd86650adc"
+FOURTH_RELEASE = "d072acfce3ec6771a8b1f3d42033a3435eb51de8a951ce52e917f1945d8d1883"
+WAVES = ((2, SEED), (3, SECOND_SEED), (4, "SLA-V62-RD-NEXT24-20261127"),
+         (5, "SLA-V62-RD-NEXT30-20261127"), (14, "SLA-V62-RD-MIX500-BRIDGE84-20261127"))
+ROSTER_PINS = (FIRST_ROSTER, SECOND_ROSTER, THIRD_ROSTER, FOURTH_ROSTER)
+RELEASE_PINS = (FIRST_RELEASE, SECOND_RELEASE, THIRD_RELEASE, FOURTH_RELEASE)
 
 
 def prepare(old_roster, baseline, output, previous_waves=()):
@@ -36,8 +39,7 @@ def prepare(old_roster, baseline, output, previous_waves=()):
         roster = previous / "ROSTER.json"
         need(digest(roster) == expected, "A preceding V6.2 sample allocation changed")
         protected.update(row["sha256"] for row in read(roster)["candidates"])
-    per_task = 2 + len(previous_waves)
-    seed = WAVE_SEEDS[len(previous_waves)]
+    per_task, seed = WAVES[len(previous_waves)]
     need(old["revision"] == REV and old["repo"] == REPO and old["license"] == "Apache-2.0",
          "Official RoboDojo lineage changed")
     with ThreadPoolExecutor(max_workers=3) as pool:
@@ -57,11 +59,11 @@ def prepare(old_roster, baseline, output, previous_waves=()):
 
 
 def run(old_roster, baseline, stats, preceding, output, previous_wave=None, second_wave=None, third_wave=None,
-        expected_roster=None):
+        fourth_wave=None, expected_roster=None):
     need(digest(preceding) == PREVIOUS_EXTENSION, "Expected the sealed 107-episode V6 expansion")
-    need(second_wave is None or previous_wave is not None, "Lock both preceding V6.2 releases in order")
-    need(third_wave is None or second_wave is not None, "The third V6.2 release requires its predecessors")
-    previous_waves = tuple(path for path in (previous_wave, second_wave, third_wave) if path is not None)
+    releases = (previous_wave, second_wave, third_wave, fourth_wave)
+    previous_waves = tuple(path for path in releases if path is not None)
+    need(previous_waves == releases[:len(previous_waves)], "Lock all preceding V6.2 releases in order")
     old_releases = [(preceding, PREVIOUS_EXTENSION)]
     for previous, expected in zip(previous_waves, RELEASE_PINS[:len(previous_waves)], strict=True):
         release = previous / "READY-SOURCE/MANIFEST.private.json"
@@ -91,5 +93,6 @@ if __name__ == "__main__":
     parser.add_argument("--previous-wave", type=Path)
     parser.add_argument("--second-wave", type=Path)
     parser.add_argument("--third-wave", type=Path)
+    parser.add_argument("--fourth-wave", type=Path)
     parser.add_argument("--expected-roster")
     run(**vars(parser.parse_args()))
