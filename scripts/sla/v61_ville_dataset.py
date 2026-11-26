@@ -16,9 +16,12 @@ def build(catalog, output):
     binding = read(catalog)
     need(binding["core_catalog_count"] == 337 and binding["unique_new_single"] == 30,
          "Expected the Core-verified 337-episode source version")
+    return seal_cohorts(binding["single_arm_cohorts"], output, {"TRAIN": 30, "SOURCE_DEV": 6})
+
+
+def seal_cohorts(datasets, output, expected_counts, **reader_contract):
     output.mkdir(mode=0o700)
     raw = output / "raw"
-    datasets = binding["single_arm_cohorts"]
     pooled, seen = [], set()
     fit = {"state": [], "actions": []}
     combined = {}
@@ -54,7 +57,7 @@ def build(catalog, output):
                         fit[name].append(data[name].reshape(-1, 7))
             pooled.append(episode)
     counts = Counter(row["split"] for row in pooled)
-    need(counts == {"TRAIN": 30, "SOURCE_DEV": 6}, "Source split population changed")
+    need(counts == expected_counts, "Source split population changed")
     statistics = dict(split="TRAIN", schema=combined["schema"])
     for key, parts in fit.items():
         values = np.concatenate(parts)
@@ -65,7 +68,7 @@ def build(catalog, output):
     manifest = output / "MANIFEST.json"
     write(manifest, dict(combined, episodes=pooled, video_root="raw", cohort_manifests=datasets,
                          statistics=dict(file=statfile.name, sha256=digest(statfile))))
-    preflight(output, digest(manifest), raw, output / "CORE_READER.json")
+    preflight(output, digest(manifest), raw, output / "CORE_READER.json", **reader_contract)
     print(digest(manifest), digest(output / "CORE_READER.json"))
 
 
