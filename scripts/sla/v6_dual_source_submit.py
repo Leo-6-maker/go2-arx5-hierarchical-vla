@@ -28,6 +28,8 @@ def submit(mode, capsule, root, custody, short, bank, source, runtime, v4_code, 
            original, r0_first, r0_retry, probe):
     budget = 3600 if mode == "probe" else 3 * 3600
     with closing(OwnerLock(capsule / "SUBMIT.lock")):
+        require(not (root / "SITE_POLICY_HOLD.json").exists(),
+                "Use the Core-reviewed retention course and staged Hopper release")
         require(not (capsule / "INTENT.json").exists() and not (capsule / "run").exists(),
                 "Existing owner intent must be reconciled without resubmission")
         require(time.time() + budget < DEADLINE, "Original project deadline leaves insufficient time")

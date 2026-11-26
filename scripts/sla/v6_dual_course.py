@@ -169,11 +169,8 @@ def bind(custody, short_run, old_bank, extension_path, extension_manifest, *, co
     from m38_gpu_preflight_v1 import pin, read, require, sha
     from v4_long_inputs import inputs
     from v4_long_engine import LongLearner
-    from go2arx5_vla.sla_adapter.scale20k_data import RobodojoDataset
     from openpi_client.image_tools import resize_with_pad
-
-    class ExpansionDataset(RobodojoDataset):
-        RECIPE = "SLA_V6_EXISTING_ROBODOJO_CODEC_EXTENSION"
+    from v6_robodojo_reader import ExpansionDataset
 
     if not 1 <= count <= TOTAL:
         raise ValueError("Expected a bounded new course")
@@ -186,9 +183,9 @@ def bind(custody, short_run, old_bank, extension_path, extension_manifest, *, co
         "The source extension requires an independently read Hopper READY version")
     manifest = extension_path / "MANIFEST.private.json"
     require(sha(manifest) == extension_manifest, "The site source manifest changed")
-    expanded = ExpansionDataset(extension_path, dict(path=str(manifest), sha256=extension_manifest),
+    expanded = ExpansionDataset(extension_path, extension_manifest,
         raw_binding=dict(path=str(extension_path / "RAW_BINDING.private.json"), sha256=release["raw_binding_sha256"]),
-        split="TRAIN", resize_with_pad=resize_with_pad)
+        resize_with_pad=resize_with_pad)
     require(len(expanded.episodes) == release["newly_admitted_train"] and len(expanded) == release["windows"],
         "The released source count differs from actual native source windows")
 

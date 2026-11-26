@@ -11,11 +11,8 @@ from v6_ville_pilot import need, write
 
 def receive(root, core_ready_sha):
     import numpy as np
-    from go2arx5_vla.sla_adapter.scale20k_data import RobodojoDataset
     from openpi_client.image_tools import resize_with_pad
-
-    class ExpansionDataset(RobodojoDataset):
-        RECIPE = "SLA_V6_EXISTING_ROBODOJO_CODEC_EXTENSION"
+    from v6_robodojo_reader import ExpansionDataset
 
     core_ready = root / "CORE_READY.json"
     need(digest(core_ready) == core_ready_sha, "Core release bytes changed")
@@ -38,10 +35,13 @@ def receive(root, core_ready_sha):
         raw[ep["id"]] = dict(file=relative, sha256=src)
 
     binding = root / "RAW_BINDING.private.json"
-    write(binding, dict(manifest_sha256=manifest_sha, raw=raw, split="TRAIN"))
-    reader = ExpansionDataset(root, dict(path=str(manifest_path), sha256=manifest_sha),
-        raw_binding=dict(path=str(binding), sha256=digest(binding)), split="TRAIN",
-        resize_with_pad=resize_with_pad)
+    planned = dict(manifest_sha256=manifest_sha, raw=raw, split="TRAIN")
+    if binding.exists():
+        need(read(binding) == planned, "Existing relocated binding differs from the original source")
+    else:
+        write(binding, planned)
+    reader = ExpansionDataset(root, manifest_sha, raw_binding=dict(path=str(binding), sha256=digest(binding)),
+                              resize_with_pad=resize_with_pad)
     checked = []
     offset = 0
     for ep in reader.episodes.values():
