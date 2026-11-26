@@ -10,8 +10,8 @@ from v6_ville_pilot import fetch, need, write
 
 REPO = "RoboDojo-Benchmark/RoboDojo"
 REV = "1127bda94f172d757386945af3eb3a6754d1a4e6"
-PILOT = (("cover_blocks",0),("cover_blocks",2),("insert_tubes",0),("insert_tubes",1))
 CAMERAS = ("cam_head", "cam_left_wrist", "cam_right_wrist")
+SAFE_ROSTER = "476dbe0e03ed309170ba76a333f19ff1b1fc18a7e2ac3bafff4bbff1696ec496"
 
 
 def inspect(path):
@@ -60,13 +60,27 @@ def inspect(path):
                     exact_timestamps_exported="timestamp" in h,role="PUBLIC_SOURCE_SAMPLE")
 
 
-def run(out):
+def run(out, approved_roster):
+    from v6_ville_pilot import read
+
+    need(hashlib.sha256(approved_roster.read_bytes()).hexdigest() == SAFE_ROSTER,
+         "An independently checked train/dev/test exclusion roster is required before reading samples")
+    allowed = read(approved_roster)
+    wanted = []
+    for task in ("cover_blocks", "insert_tubes"):
+        wanted.extend([x for x in allowed["candidates"] if x["task"] == task][:2])
+    protected = {x["sha256"] for x in allowed["protected_test_members"]}
+    need(len(wanted) == 4 and not protected.intersection(x["sha256"] for x in wanted),
+         "Pilot contains a protected member")
     out.mkdir(mode=0o700)
-    names = ["data/RoboDojo_real/"+task+"/arx_x5/data/episode_"+f"{index:07d}"+".hdf5" for task,index in PILOT]
-    write(out/"ROSTER.json",dict(repo=REPO,revision=REV,paths=names,not_in_archived_train200_dev12=True))
+    names = [row["member"] for row in wanted]
+    write(out/"ROSTER.json",dict(repo=REPO,revision=REV,paths=names,
+                                exclusion_roster_sha256=SAFE_ROSTER))
     files = fetch(out,REPO,REV,names,1024**3,member_limit=300*1024**2)
     records = []
-    for (task,index), row in zip(PILOT,files,strict=True):
+    for member, row in zip(wanted,files,strict=True):
+        need(row["sha256"] == member["sha256"], "Raw pilot member hash changed")
+        task, index = member["task"], member["index"]
         record = dict(task=task,index=index,file=row,**inspect(out/row["path"]))
         write(out/f"{task}-{index:07d}.json",record)
         records.append(record)
@@ -78,4 +92,6 @@ def run(out):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("out", type=Path)
-    run(parser.parse_args().out)
+    parser.add_argument("approved_roster", type=Path)
+    args = parser.parse_args()
+    run(args.out, args.approved_roster)

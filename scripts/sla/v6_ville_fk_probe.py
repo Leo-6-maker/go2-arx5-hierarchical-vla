@@ -14,7 +14,7 @@ SDK_XML = f"https://raw.githubusercontent.com/real-stanford/arx5-sdk/{SDK_REVISI
 AUTHOR_PLUGIN_REVISION = "d87b5f1d8bba052abf4182cbd27f20a7cc66f76f"
 
 
-def compare(root, output):
+def compare(root, output, *, numeric_output=None):
     import numpy as np
     import pyarrow.parquet as pq
     from scipy.spatial.transform import Rotation
@@ -46,9 +46,11 @@ def compare(root, output):
 
     episodes = []
     offset = None
+    if numeric_output is not None:
+        numeric_output.mkdir(mode=0o700)
     for index in (0, 1):
         sample = root / f"data/chunk-000/episode_{index:06d}.parquet"
-        values = pq.read_table(sample, columns=["observation.state", "observation.eef_6d_pose", "action"])
+        values = pq.read_table(sample, columns=["observation.state", "observation.eef_6d_pose", "action", "timestamp"])
         state = np.asarray(values["observation.state"].to_pylist())
         observed = np.asarray(values["observation.eef_6d_pose"].to_pylist())
         action = np.asarray(values["action"].to_pylist())
@@ -72,6 +74,29 @@ def compare(root, output):
              angle_max_deg=float(np.degrees(orientation.max())),
              observed_gripper_range=[float(state[:, 6].min()), float(state[:, 6].max())],
              recorded_action_gripper_range=[float(action[:, 6].min()), float(action[:, 6].max())]))
+        if numeric_output is not None:
+            dt = np.asarray(values["timestamp"].to_pylist(), dtype=np.float64)
+            need(np.max(np.abs(dt - np.arange(n) / 20.0)) < 1e-5, "20 Hz recorded clock changed")
+            command_p, command_r = fk(action[:, :6])
+            command_p += command_r @ offset
+            horizon = 40
+            count = n - horizon + 1
+            windows = np.arange(count)[:, None] + np.arange(horizon)[None, :]
+            relative = command_r[windows] @ predicted_rpy[:count, None].swapaxes(-1, -2)
+            rotvec = Rotation.from_matrix(relative.reshape(-1, 3, 3)).as_rotvec().reshape(count, horizon, 3)
+            labels = np.concatenate((command_p[windows] - observed[:count, None, :3],
+                                     rotvec, action[windows, 6:7]), axis=-1).astype(np.float32)
+            state_ee = np.column_stack((observed[:, :3],
+                 Rotation.from_matrix(predicted_rpy).as_rotvec(), state[:, 6])).astype(np.float32)
+            packed = numeric_output / f"episode_{index:06d}.npz"
+            with packed.open("xb") as handle:
+                np.savez(handle, state=state_ee[:count], action=labels, observation_timestamp_s=dt[:count],
+                         label_timestamp_s=dt[windows], support=np.ones((count, horizon), dtype=bool),
+                         raw_action=action, raw_joint_observation=state)
+            episodes[-1].update(preview_label="FK_OF_RECORDED_SETPOINT_CANDIDATE",
+                                preview_windows=count, preview_shape=list(labels.shape),
+                                signed_grip_field_preserved=True,
+                                preview_sha256=hashlib.sha256(packed.read_bytes()).hexdigest())
     write(output, dict(sdk_revision=SDK_REVISION, sdk_urdf_sha256=hashlib.sha256(encoded).hexdigest(),
          author_plugin_revision=AUTHOR_PLUGIN_REVISION, fitted_fixed_tool_offset_m=offset.tolist(),
          calibration_source="TWO_EXISTING_RECORDED_OBSERVATION_STREAMS", episodes=episodes,
@@ -83,5 +108,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("root", type=Path)
     parser.add_argument("output", type=Path)
+    parser.add_argument("--numeric-output", type=Path)
     args = parser.parse_args()
-    compare(args.root, args.output)
+    compare(args.root, args.output, numeric_output=args.numeric_output)
