@@ -24,6 +24,40 @@ H200 = "1:ngpus=1:gpu_model=H200:ncpus=12:mem=225GB"
 SERVER = "hopper-m-02"
 
 
+def admit(capsule, intent, script, name, budget, grant):
+    required = grant["required_units_at_queue_rate_one"]
+    balance = grant["balance_gpu_units"]
+    write_once(capsule / "INTENT.json", intent)
+    journal = Journal(capsule / "journal", capsule.name)
+
+    def hold():
+        identifier = subprocess.check_output([str(PBS / "qsub"), "-f", "-h", "-q", f"auto@{SERVER}", str(script)],
+                                            text=True, timeout=120).strip()
+        require(re.fullmatch(r"\d+\.hopper-m-02", identifier), "Unknown effect, reconcile PBS")
+        write_once(capsule / "JOB.json", dict(job=identifier, name=name))
+        return identifier
+
+    identifier = journal.once("qsub", intent, hold)
+    row = native(identifier)
+    resource = row["Resource_List"]
+    rate = float(resource["queue_charge_rate"])
+    charged = required * rate
+    require(row["job_state"] == "H" and row["project"] == PROJECT and row["Job_Name"] == name
+            and row["Job_Owner"].split("@")[0] == grant["account"] and resource["select"] == H200
+            and int(resource["ngpus"]) == 1 and wall_seconds(resource["walltime"]) == budget
+            and math.isfinite(rate) and rate > 0 and charged <= min(balance, grant["balance_su"]),
+            "Held job resources or cost failed independent readback")
+    admission = dict(job=identifier, charge_upper=charged, rate=rate, reserved_s=budget)
+    write_once(capsule / "ADMITTED.json", admission)
+
+    def release():
+        subprocess.run([str(PBS / "qrls"), f"{identifier}@{SERVER}"], check=True, timeout=60)
+        return admission
+
+    write_once(capsule / "RELEASE.json", journal.once("release", admission, release))
+    return identifier
+
+
 def submit(mode, capsule, root, custody, short, bank, source, runtime, v4_code, corpus,
            original, r0_first, r0_retry, probe):
     budget = 3600 if mode == "probe" else 3 * 3600
@@ -109,35 +143,7 @@ def submit(mode, capsule, root, custody, short, bank, source, runtime, v4_code, 
         intent = dict(name=name, phase=mode, plan="d7c74953109374b69906036a0e2c6f39a32b3aa7",
                     prior_upper_gpu_s=prior, budget_seconds=budget, settings_sha256=digest(root / "PREFLIGHT.json"),
                     program_sha256=digest(pbs), inputs_sha256=digest(inputs))
-        write_once(capsule / "INTENT.json", intent)
-        journal = Journal(capsule / "journal", capsule.name)
-
-        def hold():
-            identifier = subprocess.check_output([str(PBS / "qsub"), "-f", "-h", "-q", f"auto@{SERVER}", str(pbs)],
-                                                text=True, timeout=120).strip()
-            require(re.fullmatch(r"\d+\.hopper-m-02", identifier), "Unknown effect, reconcile PBS")
-            write_once(capsule / "JOB.json", dict(job=identifier, name=name))
-            return identifier
-
-        identifier = journal.once("qsub", intent, hold)
-        row = native(identifier)
-        resource = row["Resource_List"]
-        rate = float(resource["queue_charge_rate"])
-        charged = required * rate
-        require(row["job_state"] == "H" and row["project"] == PROJECT and row["Job_Name"] == name
-                and row["Job_Owner"].split("@")[0] == grant["account"] and resource["select"] == H200
-                and int(resource["ngpus"]) == 1 and wall_seconds(resource["walltime"]) == budget
-                and math.isfinite(rate) and rate > 0 and charged <= min(balance, grant["balance_su"]),
-                "Held job resources or cost failed independent readback")
-        admission = dict(job=identifier, charge_upper=charged, rate=rate, reserved_s=budget)
-        write_once(capsule / "ADMITTED.json", admission)
-
-        def release():
-            subprocess.run([str(PBS / "qrls"), f"{identifier}@{SERVER}"], check=True, timeout=60)
-            return admission
-
-        write_once(capsule / "RELEASE.json", journal.once("release", admission, release))
-        print(identifier)
+        print(admit(capsule, intent, pbs, name, budget, grant))
 
 
 if __name__ == "__main__":

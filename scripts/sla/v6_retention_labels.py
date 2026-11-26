@@ -28,8 +28,9 @@ def compare(archive, consumed, new_manifest, output):
     if len(used) != 52 or data_manifest["signed_original_manifest_sha256"] != seal["manifest_sha256"]:
         raise ValueError("Expected the actual fixed 52 training episodes")
     phases = defaultdict(list)
+    first_rows = {"fit": [], "check": []}
     total = 0
-    for item in used:
+    for episode_index, item in enumerate(used):
         old = trust[item["episode"]]
         nominal_path = same(archive / old["labels"]["file"], old["labels"]["sha256"])
         real_path = same(consumed / item["labels"], item["sha256"])
@@ -47,6 +48,8 @@ def compare(archive, consumed, new_manifest, output):
                 raw = np.pad(target[i], ((0, 0), (0, 25)))
                 real = codec.decode(anchor, raw)[active]
                 plan = nominal[i][active]
+                first_rows["fit" if episode_index % 2 == 0 else "check"].append(
+                    (matrix_from10(plan[:1])[0], matrix_from10(real[:1])[0]))
                 xyz = np.linalg.norm(real[:, :3] - plan[:, :3], axis=1) * 1000
                 angle = Rotation.from_matrix(matrix_from10(real)[:, :3, :3]
                     @ matrix_from10(plan)[:, :3, :3].swapaxes(-1, -2)).magnitude() * 180 / np.pi
@@ -66,9 +69,26 @@ def compare(archive, consumed, new_manifest, output):
     newer = json.loads(new_manifest.read_bytes())
     expanded = Counter(r["task"] for r in newer["episodes"])
     previous = Counter(r["task"] for r in used)
+    fit, test = (np.asarray(first_rows[key]) for key in ("fit", "check"))
+    plan, real = fit[:, 0], fit[:, 1]
+    rotation = Rotation.from_matrix(real[:, :3, :3] @ plan[:, :3, :3].swapaxes(-1, -2)).mean().as_matrix()
+    translation = (real[:, :3, 3] - plan[:, :3, 3] @ rotation.T).mean(axis=0)
+    plan, real = test[:, 0], test[:, 1]
+    raw = np.linalg.norm(real[:, :3, 3] - plan[:, :3, 3], axis=1) * 1000
+    adjusted = np.linalg.norm(real[:, :3, 3] - plan[:, :3, 3] @ rotation.T - translation, axis=1) * 1000
+    raw_rot = Rotation.from_matrix(real[:, :3, :3] @ plan[:, :3, :3].swapaxes(-1, -2)).magnitude()
+    adjusted_rot = Rotation.from_matrix(
+        real[:, :3, :3] @ (rotation @ plan[:, :3, :3]).swapaxes(-1, -2)).magnitude()
+    check = dict(fit_windows=len(fit), held_episode_windows=len(test), transform_translation_mm=(1000*translation).tolist(),
+        transform_angle_deg=float(np.degrees(Rotation.from_matrix(rotation).magnitude())),
+        held_raw_position_mm=np.percentile(raw, [50, 95]).tolist(),
+        held_adjusted_position_mm=np.percentile(adjusted, [50, 95]).tolist(),
+        held_raw_rotation_deg=np.percentile(np.degrees(raw_rot), [50, 95]).tolist(),
+        held_adjusted_rotation_deg=np.percentile(np.degrees(adjusted_rot), [50, 95]).tolist())
     with output.open("x") as sink:
         json.dump(dict(windows=total, episodes=len(used), original_tasks=dict(previous),
                        core_64_tasks=dict(expanded), percentile_order=[50, 95], numbers=stats,
+                       fixed_transform_hypothesis=check,
                        native_integrations=0, model_forwards=0, optimizer_updates=0), sink, indent=2)
         sink.write("\n")
 
