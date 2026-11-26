@@ -19,6 +19,10 @@ RICE_COOKER_EXTENSIONS = (
     ("rice-cooker_step_1_truncated_x", "4ae4cf70b560b31371bc5c2cd52eb5889f9e453a"),
     ("rice-cooker_step_3", "5a221e28b6bc40b7283800adffa60b2b565bd046"),
 )
+NATIVE_20HZ_TCP_CANDIDATES = (
+    ("pick_coffee_prop_20Hz_3", "60a9c2f55cf1963404997e404adc512fff5cb161"),
+    ("pick_coffee_filters", "bfea7ba89f6cd688633819c4fc2d4279a270e050"),
+)
 CAMERAS = ("observation.images.front", "observation.images.wrist")
 EPISODES = (0, 1)
 BYTE_LIMIT = 512 * 1024**2
@@ -44,7 +48,7 @@ def request(url, *, method="GET"):
         "User-Agent": "ARX5-Source-Expansion-pinned-pilot", "Accept-Encoding": "identity"}), timeout=45)
 
 
-def fetch(root, repo, revision, names, budget, *, member_limit=120 * 1024**2):
+def fetch(root, repo, revision, names, budget, *, member_limit=120 * 1024**2, actual_capacity=False):
     base = f"https://huggingface.co/datasets/{repo}/resolve/{revision}/"
     plans = []
     for name in names:
@@ -54,7 +58,8 @@ def fetch(root, repo, revision, names, budget, *, member_limit=120 * 1024**2):
         need(0 < size <= member_limit, "Remote member is unbounded or exceeds the pilot cap")
         plans.append((name, url, size))
     total = sum(size for _, _, size in plans)
-    need(total <= budget and shutil.disk_usage(root).free >= total + 20 * 1024**3, "Pilot capacity unavailable")
+    reserve = 0 if actual_capacity else 20 * 1024**3
+    need(total <= budget and shutil.disk_usage(root).free >= total + reserve, "Pilot capacity unavailable")
     manifests = []
     for name, url, size in plans:
         file = root / name
@@ -127,7 +132,7 @@ def inspect(root, ep, info, task):
                 training_eligible=False)
 
 
-def run(out, sources=SOURCES):
+def run(out, sources=SOURCES, *, actual_capacity=False):
     out.mkdir(mode=0o700)
     results = []
     budget = BYTE_LIMIT
@@ -139,7 +144,8 @@ def run(out, sources=SOURCES):
             card = json.load(response)
         need(card["sha"] == revision and not card["gated"]
              and card["cardData"]["license"] == "apache-2.0", "Unverified public sample license or revision")
-        files = fetch(root, repo, revision, ["README.md", "meta/info.json", "meta/tasks.jsonl", "meta/episodes.jsonl"], budget)
+        files = fetch(root, repo, revision, ["README.md", "meta/info.json", "meta/tasks.jsonl", "meta/episodes.jsonl"],
+                      budget, actual_capacity=actual_capacity)
         budget -= sum(row["bytes"] for row in files)
         info = read(root / "meta/info.json")
         need(info["robot_type"] == "arx5" and info["codebase_version"] == "v2.1"
@@ -153,7 +159,7 @@ def run(out, sources=SOURCES):
             layout = dict(episode_index=index, episode_chunk=index//info["chunks_size"])
             names.append(info["data_path"].format(**layout))
             names.extend(info["video_path"].format(video_key=key, **layout) for key in CAMERAS)
-        picked = fetch(root, repo, revision, names, budget)
+        picked = fetch(root, repo, revision, names, budget, actual_capacity=actual_capacity)
         files.extend(picked)
         budget -= sum(row["bytes"] for row in picked)
         scored = [inspect(root, ep, info, task["task_index"]) for ep in EPISODES]
@@ -170,6 +176,10 @@ def run(out, sources=SOURCES):
 if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("out", type=Path)
-    p.add_argument("--rice-cooker-extensions", action="store_true")
+    group = p.add_mutually_exclusive_group()
+    group.add_argument("--rice-cooker-extensions", action="store_const", const=RICE_COOKER_EXTENSIONS, dest="sources")
+    group.add_argument("--native-20hz-tcp-candidates", action="store_const", const=NATIVE_20HZ_TCP_CANDIDATES, dest="sources")
+    p.set_defaults(sources=SOURCES)
+    p.add_argument("--actual-capacity", action="store_true")
     args = p.parse_args()
-    run(args.out, RICE_COOKER_EXTENSIONS if args.rice_cooker_extensions else SOURCES)
+    run(**vars(args))

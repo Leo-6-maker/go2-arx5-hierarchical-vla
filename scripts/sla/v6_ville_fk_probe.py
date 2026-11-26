@@ -6,7 +6,7 @@ from pathlib import Path
 from urllib.request import urlopen
 from xml.etree import ElementTree
 
-from v6_ville_pilot import need, read, write
+from v6_ville_pilot import NATIVE_20HZ_TCP_CANDIDATES, need, read, write
 
 
 SDK_REVISION = "36eabcb618c2668dfdff228b18b30507fde71784"
@@ -14,7 +14,7 @@ SDK_XML = f"https://raw.githubusercontent.com/real-stanford/arx5-sdk/{SDK_REVISI
 AUTHOR_PLUGIN_REVISION = "d87b5f1d8bba052abf4182cbd27f20a7cc66f76f"
 
 
-def compare(root, output, *, numeric_output=None, extension=None):
+def compare(root, output, *, numeric_output=None, extension=None, candidates=()):
     import numpy as np
     import pyarrow.parquet as pq
     from scipy.spatial.transform import Rotation
@@ -54,6 +54,25 @@ def compare(root, output, *, numeric_output=None, extension=None):
         need(observations["repo"] == "villekuosmanen/drop_footbag_into_dice_tower"
              and observations["source_train_added"] == 0, "Unexpected single-arm validation source")
         population.extend((extension, row["episode"], row["proposed_split"]) for row in observations["scanned"])
+    candidate_sources = {}
+    for candidate in candidates:
+        observations = read(candidate / "ACTUAL.json")
+        expected = {f"villekuosmanen/{name}": revision for name, revision in NATIVE_20HZ_TCP_CANDIDATES}
+        source = observations["repo"]
+        need(observations["revision"] == expected.get(source) and observations["source_train_added"] == 0
+             and observations["license"] == "Apache-2.0", "Unexpected 20 Hz TCP candidate")
+        pilot = "episodes" in observations
+        hashes = {row["path"]: row["sha256"] for row in observations["member_hashes" if pilot else "files"]}
+        for row in observations["episodes" if pilot else "scanned"]:
+            index = row["episode"]
+            member = f"data/chunk-000/episode_{index:06d}.parquet"
+            need(row["fps"] == 20 and row["eef_observation_span"] is not None
+                 and hashlib.sha256((candidate / member).read_bytes()).hexdigest() == hashes[member],
+                 "Candidate timing, observed TCP or numeric member differs")
+            phase = "CANDIDATE_CHECK" if pilot else row["proposed_split"]
+            population.append((candidate, index, phase))
+        candidate_sources[candidate] = source
+    need(not (candidate_sources and numeric_output), "Candidate comparison cannot export overlapping label filenames")
     for folder, index, phase in population:
         sample = folder / f"data/chunk-000/episode_{index:06d}.parquet"
         values = pq.read_table(sample, columns=["observation.state", "observation.eef_6d_pose", "action", "timestamp"])
@@ -80,6 +99,8 @@ def compare(root, output, *, numeric_output=None, extension=None):
              angle_max_deg=float(np.degrees(orientation.max())),
              observed_gripper_range=[float(state[:, 6].min()), float(state[:, 6].max())],
              recorded_action_gripper_range=[float(action[:, 6].min()), float(action[:, 6].max())]))
+        if folder in candidate_sources:
+            episodes[-1]["source"] = candidate_sources[folder]
         if numeric_output is not None:
             dt = np.asarray(values["timestamp"].to_pylist(), dtype=np.float64)
             need(np.max(np.abs(dt - np.arange(n) / 20.0)) < 1e-5, "20 Hz recorded clock changed")
@@ -116,5 +137,5 @@ if __name__ == "__main__":
     parser.add_argument("output", type=Path)
     parser.add_argument("--numeric-output", type=Path)
     parser.add_argument("--extension", type=Path)
-    args = parser.parse_args()
-    compare(args.root, args.output, numeric_output=args.numeric_output, extension=args.extension)
+    parser.add_argument("--candidate", dest="candidates", type=Path, action="append", default=[])
+    compare(**vars(parser.parse_args()))

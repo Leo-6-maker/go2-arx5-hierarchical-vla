@@ -13,13 +13,14 @@ from v62_robodojo_first_wave import FIRST_RELEASE, FOURTH_RELEASE, SECOND_RELEAS
 VILLE_READER = "b643899475ff509419fbc730c87e4922cb003203ac0aaa8cbe3a463cca7bad6b"
 R48_STATS = "c8afc74108b66b497122502e3b9b1d27cfc9565855fec88f4e01c3ebcb34f269"
 BRIDGE = "69385b5cd515d7d63a69a1dd6602dbb2a45ab2b03d4046c3e3832315d7c5e9cf"
+POST500 = "efdac32969f2fdb508920e4f191eb00d97d76c3c6eb8c5e55c41648e48297e6d"
 
 
 def ref(path):
     return dict(path=str(path), sha256=sha(path))
 
 
-def build(legacy, dual_extension, single, expansions, out):
+def build(legacy, dual_extension, single, expansions, out, post500=None):
     from scripts.pi0292.durable import write
 
     require(len(expansions) == 5, "Use the four closed waves and the fixed Mix500 wave")
@@ -54,7 +55,12 @@ def build(legacy, dual_extension, single, expansions, out):
     dual_rows(legacy_blob, legacy, 200)
     pins = (PINS["dual_new"], FIRST_RELEASE, SECOND_RELEASE, THIRD_RELEASE, FOURTH_RELEASE, BRIDGE)
     counts = (107, 12, 18, 24, 30, 84)
-    for path, expected_sha, expected_count in zip((dual_extension, *expansions), pins, counts, strict=True):
+    releases = (dual_extension, *expansions)
+    if post500 is not None:
+        releases += (post500,)
+        pins += (POST500,)
+        counts += (24,)
+    for path, expected_sha, expected_count in zip(releases, pins, counts, strict=True):
         proof_file = path / "READY.json"
         proof = read(proof_file)
         digest = proof["manifest_sha256"]
@@ -83,11 +89,14 @@ def build(legacy, dual_extension, single, expansions, out):
     episodes.extend(dict(domain="ville", episode=r["episode"], task=single_manifest["task"], windows=r["windows"],
                          numeric_sha256=r["raw_numeric_sha256"], version=PINS["single"]) for r in rows)
     require(len({(r["domain"], r["episode"]) for r in episodes}) == len(episodes), "Duplicate dataset episode identity")
-    write(out, dict(plan=V62, kind="ARX5_MIX500_CORE", mix500_achieved=len(episodes) >= 500,
+    registry = dict(plan=V62, kind="ARX5_MIX500_CORE", mix500_achieved=len(episodes) >= 500,
                     train_episodes=len(episodes), train_windows=sum(r["windows"] for r in episodes),
                     episodes_by_domain=dict(Counter(r["domain"] for r in episodes)),
                     episodes_by_task=dict(Counter(r["task"] for r in episodes)), versions=versions, episodes=episodes,
-                    hopper_readback=False, optimizer_visits=0, independent_source_dev_preserved=True))
+                    hopper_readback=False, optimizer_visits=0, independent_source_dev_preserved=True)
+    if post500 is not None:
+        registry.update(kind="ARX5_MIX2K_PROGRESS_CORE", mix2k_achieved=len(episodes) >= 2000)
+    write(out, registry)
     print(sha(out))
 
 
@@ -96,4 +105,5 @@ if __name__ == "__main__":
     for name in ("legacy", "dual_extension", "single", "out"):
         parser.add_argument(name, type=Path)
     parser.add_argument("expansions", type=Path, nargs=5)
+    parser.add_argument("--post500", type=Path)
     build(**vars(parser.parse_args()))

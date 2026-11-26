@@ -6,14 +6,17 @@ import json
 import os
 from pathlib import Path
 
-from v6_ville_pilot import CAMERAS, SOURCES, fetch, inspect, need, read, request, write
+from v6_ville_pilot import CAMERAS, NATIVE_20HZ_TCP_CANDIDATES, SOURCES, fetch, inspect, need, read, request, write
 
 
-def expand(pilot, out, previous=None, recover_from=None, *, earlier=(), only=None):
+def expand(pilot, out, previous=None, recover_from=None, *, earlier=(), only=None,
+           native_20hz_tcp_candidates=False):
+    sources = NATIVE_20HZ_TCP_CANDIDATES if native_20hz_tcp_candidates else SOURCES[:2]
+    need(only is None or any(only == name for name, _ in sources), "Selected task is not in the registered population")
     out.mkdir(mode=0o700)
     budget = 1024**3
     records = []
-    for subset, revision in SOURCES[:2]:
+    for subset, revision in sources:
         if only is not None and subset != only:
             continue
         source = pilot / subset
@@ -28,6 +31,9 @@ def expand(pilot, out, previous=None, recover_from=None, *, earlier=(), only=Non
                     (source / "meta/episodes.jsonl").read_text().splitlines())}
         need(info["fps"] == 20 and info["robot_type"] == "arx5" and len(episodes) == info["total_episodes"],
              "Expected the original single-arm source metadata")
+        if native_20hz_tcp_candidates:
+            need(info["features"]["observation.state"]["shape"] == [7]
+                 and info["features"]["observation.eef_6d_pose"]["shape"] == [6], "Observed TCP source ABI changed")
         excluded = {0, 1}
         for folder in (*earlier, previous):
             if folder is None:
@@ -67,7 +73,8 @@ def expand(pilot, out, previous=None, recover_from=None, *, earlier=(), only=Non
                 files.append(dict(path=name, bytes=count, sha256=hashlib.sha256(raw.read_bytes()).hexdigest(),
                                   reused_sealed_download=True))
         missing = sorted(set(names) - {row["path"] for row in files})
-        files.extend(fetch(root, repo, revision, missing, budget - sum(row["bytes"] for row in files)))
+        files.extend(fetch(root, repo, revision, missing, budget - sum(row["bytes"] for row in files),
+                           actual_capacity=native_20hz_tcp_candidates))
         budget -= sum(row["bytes"] for row in files)
         write(root / "FILE_SET.json", dict(files=files))
         scored, rejected = [], []
@@ -97,6 +104,7 @@ if __name__ == "__main__":
     parser.add_argument("out", type=Path)
     parser.add_argument("--previous", type=Path)
     parser.add_argument("--earlier", action="append", type=Path, default=[])
-    parser.add_argument("--only", choices=[subset for subset, _ in SOURCES[:2]])
+    parser.add_argument("--only", choices=[subset for subset, _ in (*SOURCES[:2], *NATIVE_20HZ_TCP_CANDIDATES)])
+    parser.add_argument("--native-20hz-tcp-candidates", action="store_true")
     parser.add_argument("--recover-from", type=Path)
     expand(**vars(parser.parse_args()))

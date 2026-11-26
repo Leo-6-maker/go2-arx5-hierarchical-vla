@@ -22,10 +22,13 @@ THIRD_ROSTER = "c98ed687889ebb1dcec017c87984ee2eea739ab115196fd5d8dd4bbfbd05019f
 THIRD_RELEASE = "c8b957775dc97ae28bf10cb5566e2420a76ffe206538de915440d060e7422d2b"
 FOURTH_ROSTER = "e34caf9123899703369992ba051ccdbfe44df1cc47903f940c198afd86650adc"
 FOURTH_RELEASE = "d072acfce3ec6771a8b1f3d42033a3435eb51de8a951ce52e917f1945d8d1883"
+MIX500_ROSTER = "7ca71dbed2d145dd1f12c49e9e9f0c3a24287af0b2f3c2e56d15343ab6cfc873"
+MIX500_RELEASE = "69385b5cd515d7d63a69a1dd6602dbb2a45ab2b03d4046c3e3832315d7c5e9cf"
 WAVES = ((2, SEED), (3, SECOND_SEED), (4, "SLA-V62-RD-NEXT24-20261127"),
-         (5, "SLA-V62-RD-NEXT30-20261127"), (14, "SLA-V62-RD-MIX500-BRIDGE84-20261127"))
-ROSTER_PINS = (FIRST_ROSTER, SECOND_ROSTER, THIRD_ROSTER, FOURTH_ROSTER)
-RELEASE_PINS = (FIRST_RELEASE, SECOND_RELEASE, THIRD_RELEASE, FOURTH_RELEASE)
+         (5, "SLA-V62-RD-NEXT30-20261127"), (14, "SLA-V62-RD-MIX500-BRIDGE84-20261127"),
+         (4, "SLA-V62-RD-POST-MIX500-24-20261127"))
+ROSTER_PINS = (FIRST_ROSTER, SECOND_ROSTER, THIRD_ROSTER, FOURTH_ROSTER, MIX500_ROSTER)
+RELEASE_PINS = (FIRST_RELEASE, SECOND_RELEASE, THIRD_RELEASE, FOURTH_RELEASE, MIX500_RELEASE)
 
 
 def prepare(old_roster, baseline, output, previous_waves=()):
@@ -59,9 +62,9 @@ def prepare(old_roster, baseline, output, previous_waves=()):
 
 
 def run(old_roster, baseline, stats, preceding, output, previous_wave=None, second_wave=None, third_wave=None,
-        fourth_wave=None, expected_roster=None):
+        fourth_wave=None, expected_roster=None, mix500_wave=None):
     need(digest(preceding) == PREVIOUS_EXTENSION, "Expected the sealed 107-episode V6 expansion")
-    releases = (previous_wave, second_wave, third_wave, fourth_wave)
+    releases = (previous_wave, second_wave, third_wave, fourth_wave, mix500_wave)
     previous_waves = tuple(path for path in releases if path is not None)
     need(previous_waves == releases[:len(previous_waves)], "Lock all preceding V6.2 releases in order")
     old_releases = [(preceding, PREVIOUS_EXTENSION)]
@@ -94,5 +97,6 @@ if __name__ == "__main__":
     parser.add_argument("--second-wave", type=Path)
     parser.add_argument("--third-wave", type=Path)
     parser.add_argument("--fourth-wave", type=Path)
+    parser.add_argument("--mix500-wave", type=Path)
     parser.add_argument("--expected-roster")
     run(**vars(parser.parse_args()))
