@@ -16,12 +16,12 @@ PARENT = "502d890d3ff314ac42f4c79c360942b9b626bf1fcc4b6fc488fbab15ba508361"
 SINGLE_MANIFEST = "23c2ff26ae17a67d268104c3e3a4d7cb1ff315502d7e5c5b65fd399b7fbdc381"
 
 
-def reduced_fm(fm, auxiliary, *, tree_map):
-    batch = PRIMARY_BATCH if "single" in fm else SOURCE_BATCH
+def reduced_fm(fm, auxiliary, *, tree_map, batch=None, aux_weight=1 / 16):
+    if batch is None:
+        batch = PRIMARY_BATCH if "single" in fm else SOURCE_BATCH
     weights = {domain: size / 128 for domain, size in batch.items()}
     # V4 used an unnormalized FM sum of four. SOURCE retains one quarter
     # of its normalized auxiliary weight relative to the smaller Go2 share.
-    aux_weight = 1 / 16
     shared = tree_map(lambda *leaves: sum(weights[d] * x for d, x in zip(batch, leaves[:-1], strict=True))
         + aux_weight * leaves[-1], *(fm[d]["shared"] for d in batch), auxiliary["shared"])
     result = dict(shared=shared)
@@ -131,7 +131,7 @@ def balanced_source(reader, count, width, rng):
     return output.reshape(count, width)
 
 
-def target_replay(reader, count, rng):
+def target_replay(reader, count, rng, *, distinct_aux=False):
     from v3_main_consumed_data import PHASES
     from v3_main_place_learn import PLACEMENT_COUNTS
 
@@ -159,6 +159,9 @@ def target_replay(reader, count, rng):
             row[j] = rng.choice(episodes[rng.integers(len(episodes))])
         rng.shuffle(row)
         full = np.flatnonzero(support[row])
+        if distinct_aux:
+            _, first = np.unique(row[full], return_index=True)
+            full = full[np.sort(first)]
         if len(full) < 4:
             raise ValueError("A Go2 batch cannot supply four actual H40 auxiliary samples")
         aux[step] = np.sort(rng.choice(full, size=4, replace=False))
