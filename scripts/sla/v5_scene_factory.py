@@ -13,6 +13,8 @@ from m38_gpu_preflight_v1 import pin, read, require, sha
 BASE = "4185a00c6ea6f868394ed8e550c9a720b2a0f3490c0765b8014df3c14c3d5ef9"
 PLAN = "2cbce375a4f5a01bedc4f065d5ad6581fe7cbb05"
 QUAL = "f10b07348ad2746876a3e3ba1399a4b3b950ae5875c965f7c1d909d07b50df39"
+F2_REPLAY = "9d0d116a768cfb00f24b42e57e4cb0df1d7ef1e9cf139479ed3b1b6668c697a1"
+F2_REPAIR_ID = "EF5_Q_MOBILE_F2_RED_R2"
 ROSTER = (
     ("EF5_Q_REACH_01", "F1", "REACH_ORIENT", "red", (-5, 7), (7, -5), 702151),
     ("EF5_Q_REACH_02", "F2", "REACH_ORIENT", "blue", (5, -7), (-7, 5), 702152),
@@ -31,7 +33,7 @@ MOBILE_TRAIN = (
 )
 
 
-def build(source, protected, out, *, qualification=None, protected_population=None):
+def build(source, protected, out, *, qualification=None, protected_population=None, repair=None):
     import mujoco as mj
     from scripts.pi0292.durable import write
     from scripts.wm02.multitask_population_v6 import compile_population
@@ -42,6 +44,7 @@ def build(source, protected, out, *, qualification=None, protected_population=No
     existing = {row["scene_sha256"] for row in catalog["episodes"]}
     existing_reset = {row["reset"] for row in catalog["episodes"]}
     split, roster = "QUAL", ROSTER
+    require(repair is None or qualification is not None, "Protect the original QUAL population before a repair")
     if qualification:
         prior = read(pin(qualification, QUAL))
         require(prior["plan"] == PLAN and
@@ -53,6 +56,17 @@ def build(source, protected, out, *, qualification=None, protected_population=No
             existing.update(row["scene"]["sha256"] for row in population["clusters"])
             existing_reset.update(row["reset"] for row in population["clusters"])
         split, roster = "TRAIN", MOBILE_TRAIN
+    if repair:
+        evidence = read(pin(repair, F2_REPLAY))
+        row, = (r for r in evidence["offsets"] if r["blue_offset_mm"] == [-12, -12])
+        original, = (r for r in prior["clusters"] if r["id"] == "EF5_Q_MOBILE_02")
+        require(evidence["scene_sha256"] == original["scene"]["sha256"] and evidence["native_integrations"] == 0
+                and row["feasible_table_and_red"] and row["minimum_arm_clearance_mm"] > 0,
+                "Unexpected prior F2 collision or cold geometry")
+        # Keep the F2 red target at its exact QUAL position. Only the distractor moves.
+        _, family, skill, target, red, blue, _ = ROSTER[-1]
+        adjusted = tuple(value + offset for value, offset in zip(blue, row["blue_offset_mm"], strict=True))
+        split, roster = "QUAL", ((F2_REPAIR_ID, family, skill, target, red, adjusted, 702401),)
     clusters = []
     conditions = []
     for identity, family, skill, target, red, blue, reset in roster:
@@ -97,6 +111,8 @@ def build(source, protected, out, *, qualification=None, protected_population=No
           native_task_complete=0, renderer_qualified=False, external_assets=[])
     if qualification:
         actual.update(protected_qualification_sha256=QUAL, protected_population_sha256=sha(protected_population))
+    if repair:
+        actual["repair_trace_sha256"] = F2_REPLAY
     write(out / "ACTUAL.json", actual)
 
 
@@ -106,4 +122,5 @@ if __name__ == "__main__":
         parser.add_argument(name, type=Path)
     parser.add_argument("--qualification", type=Path)
     parser.add_argument("--protected-population", type=Path)
+    parser.add_argument("--repair", type=Path)
     build(**vars(parser.parse_args()))
