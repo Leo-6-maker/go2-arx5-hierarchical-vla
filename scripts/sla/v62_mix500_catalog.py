@@ -13,6 +13,8 @@ from v62_robodojo_first_wave import FIRST_RELEASE, FOURTH_RELEASE, SECOND_RELEAS
 VILLE_READER = "b643899475ff509419fbc730c87e4922cb003203ac0aaa8cbe3a463cca7bad6b"
 VILLE_FILTERS = "fddab694e9248fe37530b963ec60d001e004412ac44561fe96b1dec145f135d8"
 VILLE_FILTERS_READER = "acf428c8f0156b16b255aab67c3c30922aa564a45605a677d4382a28c7900a79"
+VILLE_CAPSULES = "99b66bf9186318c2d825ac927e5725fe64782a865650634a7cab51fcbbd3b763"
+VILLE_CAPSULES_READER = "91cb0766c8a71d379be08481d94ea527a0a9a692013700db66b71da685d839b6"
 R48_STATS = "c8afc74108b66b497122502e3b9b1d27cfc9565855fec88f4e01c3ebcb34f269"
 BRIDGE = "69385b5cd515d7d63a69a1dd6602dbb2a45ab2b03d4046c3e3832315d7c5e9cf"
 POST500 = "efdac32969f2fdb508920e4f191eb00d97d76c3c6eb8c5e55c41648e48297e6d"
@@ -22,7 +24,7 @@ def ref(path):
     return dict(path=str(path), sha256=sha(path))
 
 
-def build(legacy, dual_extension, single, expansions, out, post500=None, ville_filters=None):
+def build(legacy, dual_extension, single, expansions, out, post500=None, ville_filters=None, ville_capsules=None):
     from scripts.pi0292.durable import write
 
     require(len(expansions) == 5, "Use the four closed waves and the fixed Mix500 wave")
@@ -101,13 +103,15 @@ def build(legacy, dual_extension, single, expansions, out, post500=None, ville_f
     ville_rows(single, PINS["single"], VILLE_READER, 30)
     if ville_filters is not None:
         ville_rows(ville_filters, VILLE_FILTERS, VILLE_FILTERS_READER, 8, "coffee_filters")
+    if ville_capsules is not None:
+        ville_rows(ville_capsules, VILLE_CAPSULES, VILLE_CAPSULES_READER, 7, "coffee_capsules")
     require(len({(r["domain"], r["episode"]) for r in episodes}) == len(episodes), "Duplicate dataset episode identity")
     registry = dict(plan=V62, kind="ARX5_MIX500_CORE", mix500_achieved=len(episodes) >= 500,
                     train_episodes=len(episodes), train_windows=sum(r["windows"] for r in episodes),
                     episodes_by_domain=dict(Counter(r["domain"] for r in episodes)),
                     episodes_by_task=dict(Counter(r["task"] for r in episodes)), versions=versions, episodes=episodes,
                     hopper_readback=False, optimizer_visits=0, independent_source_dev_preserved=True)
-    if post500 is not None or ville_filters is not None:
+    if any(path is not None for path in (post500, ville_filters, ville_capsules)):
         registry.update(kind="ARX5_MIX2K_PROGRESS_CORE", mix2k_achieved=len(episodes) >= 2000)
     write(out, registry)
     print(sha(out))
@@ -120,4 +124,5 @@ if __name__ == "__main__":
     parser.add_argument("expansions", type=Path, nargs=5)
     parser.add_argument("--post500", type=Path)
     parser.add_argument("--ville-filters", type=Path)
+    parser.add_argument("--ville-capsules", type=Path)
     build(**vars(parser.parse_args()))
