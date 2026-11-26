@@ -114,7 +114,7 @@ def audit(run, receipt_file, custody, bank_root):
                 endpoint=str(path))
 
 
-def export(proof, reference, destination, *, diagnostic=False):
+def export(proof, reference, destination, *, diagnostic=False, schema=SCHEMA, formal_role=None):
     import jax
     import orbax.checkpoint as ocp
     from flax.traverse_util import flatten_dict
@@ -122,7 +122,9 @@ def export(proof, reference, destination, *, diagnostic=False):
 
     require(jax.default_backend() == "cpu", "The read-only exporter must use CPU")
     step = proof["step"]
-    require(diagnostic or (proof["formal"] and step in FORMAL_ROLES), "Only the registered complete endpoint is eligible")
+    if formal_role is None:
+        formal_role = FORMAL_ROLES.get(step)
+    require(diagnostic or (proof["formal"] and formal_role), "Only the registered complete endpoint is eligible")
     original = read(reference / "CHECKPOINT.json")
     require(len(original["arrays"]) == 29 and original["checkpoint_sha256"] == proof["parent_sha256"],
             "Missing the exact native provider template for this parent")
@@ -157,8 +159,8 @@ def export(proof, reference, destination, *, diagnostic=False):
     require(set(values) == seen and any(row["changed"] for row in rows),
             "The complete learned Go2 parameter set must be represented")
     identity = hashlib.sha256(json.dumps([r["sha256"] for r in rows], separators=(",", ":")).encode()).hexdigest()
-    write(staged / "CHECKPOINT.json", dict(original, schema=SCHEMA, phase=step, arrays=rows,
-          role="DIAGNOSTIC" if diagnostic else FORMAL_ROLES[step],
+    write(staged / "CHECKPOINT.json", dict(original, schema=schema, phase=step, arrays=rows,
+          role="DIAGNOSTIC" if diagnostic else formal_role,
           source_codec="DENSE_REFERENCE_G7_V6", checkpoint_sha256=identity,
           previous_checkpoint_sha256=proof["parent_sha256"], frozen_wbc=True, original_l1=True,
           formal_inference_eligible=not diagnostic, training_receipt_sha256=proof["receipt_sha256"],
