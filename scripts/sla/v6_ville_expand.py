@@ -9,11 +9,13 @@ from pathlib import Path
 from v6_ville_pilot import CAMERAS, SOURCES, fetch, inspect, need, read, request, write
 
 
-def expand(pilot, out, previous=None, recover_from=None):
+def expand(pilot, out, previous=None, recover_from=None, *, earlier=(), only=None):
     out.mkdir(mode=0o700)
     budget = 1024**3
     records = []
     for subset, revision in SOURCES[:2]:
+        if only is not None and subset != only:
+            continue
         source = pilot / subset
         repo = f"villekuosmanen/{subset}"
         with request(f"https://huggingface.co/api/datasets/{repo}/revision/{revision}") as response:
@@ -27,8 +29,10 @@ def expand(pilot, out, previous=None, recover_from=None):
         need(info["fps"] == 20 and info["robot_type"] == "arx5" and len(episodes) == info["total_episodes"],
              "Expected the original single-arm source metadata")
         excluded = {0, 1}
-        if previous is not None:
-            prior = read(previous / subset / "ROSTER.json")
+        for folder in (*earlier, previous):
+            if folder is None:
+                continue
+            prior = read(folder / subset / "ROSTER.json")
             need(prior["repo"] == repo and prior["revision"] == revision,
                  "The previous sampled cohort has different provenance")
             excluded.update(r["index"] for r in prior["samples"])
@@ -92,5 +96,7 @@ if __name__ == "__main__":
     parser.add_argument("pilot", type=Path)
     parser.add_argument("out", type=Path)
     parser.add_argument("--previous", type=Path)
+    parser.add_argument("--earlier", action="append", type=Path, default=[])
+    parser.add_argument("--only", choices=[subset for subset, _ in SOURCES[:2]])
     parser.add_argument("--recover-from", type=Path)
     expand(**vars(parser.parse_args()))

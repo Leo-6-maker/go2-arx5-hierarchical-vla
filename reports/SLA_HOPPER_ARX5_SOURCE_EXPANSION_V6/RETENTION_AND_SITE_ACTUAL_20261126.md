@@ -118,3 +118,11 @@ RoboTwin 进一步核对到官方 MIT 数据 revision `3dc3b798668feb99ac61cc908
 复演回执 `bbd4da750339e01b757692cb95f82872ebdeda8556f4e2df6035dddd392d6c31`。R4 独立开发比较登记只绑定原两张 N02 HOLD、噪声 201／202、每卡 35,703 tick 和 120 次前向。父模型既有两卡均已完成抓持、抬升和保持。R4 保存自己的闭环分母，使用原任务、L1、冻结 WBC、2 ms 时钟、原安全门和 STOP。原诊断模型导出的权重文件与标记保持原样，以单独入口核验完整训练端点和共享基础权重。CPU 预检绑定 `56e2d1105237cc7ef6d9d8e4c913eda079e27efe0aa8e9f00b64a2e039956274`，预检比较回执 `ad3b945e6b3036016231e559f17ce0f116b4a93e80c40587a6485f3403e120ee`。
 
 收到优先部署指示后，以实际容量启动这两张有界 Corelab 卡。启动前系统卷约 95 GiB、本地 HDD 约 534 GiB 可用，原匹配两卡归档占约 1.2 GiB。使用新独占 world 租约，GPU0 模型进程实测约 24 GiB。V6 SOURCE／ADAPT 的下一阶段按实测闭环结果决策。
+
+## Corelab 公共单臂数据第三批
+
+按固定哈希顺序从同一 Apache 2.0 固定版本抽取 12 条新的 Ville ARX5 实机 Footbag。排除最初两条试读和此前两组名册，实际只下载 36 个成员，共 **38,900,513 字节**。12 条均通过 20 Hz 数值和双 RGB 对齐。逐条复核抓取、抬升、顶口释放及物体从前出口滚出。沿用同一已固定 SDK 及工具偏移，最大姿态和位置残差为 **0.1113°／3.4735 mm**。
+
+原 reader 实际独立读取新封存的 **10 TRAIN／1,249 个完整 H40** 和 **2 SOURCE_DEV／246 个完整 H40**，验证 **24 组双 RGB 边界**、真实时钟和缺失左腕的 mask。动作保持单臂源域未来实测状态表征。Corelab 已核验可读的 ARX5 TRAIN 总量由 **327** 增至 **337**，其中 **307** 为 RoboDojo，**30** 为 Ville 单臂。当前批停留在 Corelab，未进入 Hopper 优化器。固定 Mix500 仍缺合格 RoboTwin 和更多单臂覆盖。
+
+本批原件扫描 `6f96fa9d34c5ff0d632aacf76ec09c6bc2235b70c44b2b1cc2addd087fee7688`，数据封存 `5fef6594f2b00ce719d9a0fe25065d65bdb6563965568641dd27540b95fe7be7`，独立 reader `6375d70c3a11a174a623f42a129ee0ca7a6a297c2fd81c05362b88c99d6378b5`。[Ville 固定版本](https://huggingface.co/datasets/villekuosmanen/drop_footbag_into_dice_tower/tree/cb6f2fb33737afba63852784d71db35c17076adb)
