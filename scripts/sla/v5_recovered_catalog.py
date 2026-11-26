@@ -9,7 +9,7 @@ import numpy as np
 from m38_gpu_preflight_v1 import pin, read, require, sha
 
 
-def prepare(first, recovery, archive, actions, states, out):
+def prepare(first, recovery, archive, actions, states, out, *, composite=None):
     from openpi_client.image_tools import resize_with_pad
     from go2arx5_vla.sla_adapter.codec_v1 import Quantiles, pad32
     from go2arx5_vla.sla_adapter.multitask_data_v6 import TeacherDataset
@@ -19,14 +19,31 @@ def prepare(first, recovery, archive, actions, states, out):
     ready = read(first / "READY.json")
     addition = read(recovery / "ACTUAL.json")
     require(ready["manifest_sha256"] == sha(first / "MANIFEST.json") and ready["receiver_ready"]
-            and len(old["episodes"]) == ready["episodes"] == 64 and addition["recovered"] == 3
-            and addition["expired_and_processes_absent"] and not addition["new_native_requests"],
-            "Expected the real previous 64 and the independently reconciled closed tranche")
+            and len(old["episodes"]) == ready["episodes"] == 64 and addition["recovered"] > 0
+            and (addition.get("terminal_and_processes_absent") or addition["expired_and_processes_absent"])
+            and not addition["new_native_requests"], "Expected the verified base and a reconciled terminal tranche")
     known = {entry["episode"] for entry in old["episodes"]}
     scenes = set(old["excluded_dev_scenes"])
     old_results = {entry["result"] for entry in old["episodes"]}
+    count = Counter(row["task"].split("-")[0] for row in old["episodes"])
+    prior_episodes, prior_windows, prior_full = ready["episodes"], ready["windows"], ready["complete_H40"]
+    previous = {}
+    if composite is not None:
+        previous_manifest = composite / "MANIFEST.json"
+        manifest = read(previous_manifest)
+        status = read(composite / "READY.json")
+        require(manifest["schema"] == "V5_LEGACY_COMPOSITE_67"
+                and manifest["original_manifest_sha256"] == ready["manifest_sha256"]
+                and status["manifest_sha256"] == sha(previous_manifest) and status["total"] == 67,
+                "The predecessor must be the independently read legacy 67")
+        prior_episodes, prior_windows, prior_full = status["total"], status["total_windows"], status["full_H40"]
+        known.update(row["episode"]["id"] for row in manifest["actual_added"])
+        old_results.update(row["result_sha256"] for row in manifest["actual_added"])
+        count = Counter(manifest["task_counts"])
+        previous["previous_composite_sha256"] = status["manifest_sha256"]
     rows = addition["admissions"]
-    require(len({row["episode"]["id"] for row in rows}) == len({row["result"] for row in rows}) == 3,
+    require(len({row["episode"]["id"] for row in rows}) == len({row["result"] for row in rows})
+            == len(rows) == addition["recovered"],
             "Recovered identities are ambiguous")
     for row in rows:
         ep = row["episode"]
@@ -80,14 +97,14 @@ def prepare(first, recovery, archive, actions, states, out):
             complete_H40=row["complete_H40"]))
     require(offset == len(reader) == addition["recovered_windows"], "Recovery window population changed")
     out.mkdir(mode=0o700)
-    count = Counter(row["task"].split("-")[0] for row in old["episodes"])
     count.update(addition["recovered_tasks"])
     manifest = out / "MANIFEST.json"
-    write(manifest, dict(schema="V5_LEGACY_COMPOSITE_67", original_manifest_sha256=ready["manifest_sha256"],
+    total = prior_episodes + len(rows)
+    write(manifest, dict(schema=f"V5_LEGACY_COMPOSITE_{total}", original_manifest_sha256=ready["manifest_sha256"],
           recovered_archive_receipt_sha256=sha(recovery / "ACTUAL.json"), actual_added=added,
-          allocation="CLOSED_LEGACY_PRODUCER", task_counts=dict(count), new_physics_ticks=0))
-    proof = dict(manifest_sha256=sha(manifest), total=ready["episodes"] + len(rows),
-                 total_windows=ready["windows"] + offset, full_H40=ready["complete_H40"] + addition["complete_H40"],
+          allocation="CLOSED_LEGACY_PRODUCER", task_counts=dict(count), new_physics_ticks=0, **previous))
+    proof = dict(manifest_sha256=sha(manifest), total=total,
+                 total_windows=prior_windows + offset, full_H40=prior_full + addition["complete_H40"],
                  core_new_boundary_reads=2 * len(rows), task_counts=dict(count),
                  hopper_independent_readback=False, new_native_requests=0, optimizer_visits=0)
     write(out / "READY.json", proof)
@@ -98,4 +115,5 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ("first", "recovery", "archive", "actions", "states", "out"):
         parser.add_argument(name, type=Path)
+    parser.add_argument("--composite", type=Path)
     print(prepare(**vars(parser.parse_args())))

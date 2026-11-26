@@ -20,7 +20,7 @@ def recover(campaign, admitted, out):
     spec = read(pin(campaign / "EXECUTION_SPEC.json", campaign_lease["spec_sha256"]))
     ledger = campaign / "RECORDS.private.json"
     attempts = read(ledger)
-    require(campaign_lease["deadline_epoch"] < time.time()
+    require((campaign_lease["status"] == "CLOSED" or campaign_lease["deadline_epoch"] < time.time())
             and len(attempts) == spec["new_physical_requests_budget"]
             and all(not (Path("/proc") / str(entry["pid"])).exists() for entry in (worker, current)),
             "Predecessor is live or lacks a complete paid roster")
@@ -64,7 +64,9 @@ def recover(campaign, admitted, out):
                            label_sha256=sha(target), complete_H40=int(arrays["valid"].all(axis=1).sum()),
                            readmission_origin=package["sha256"], episode=entry))
     summary = dict(campaign_spec_sha256=campaign_lease["spec_sha256"], original_ledger_sha256=sha(ledger),
-                   predecessor_lease_word=campaign_lease["status"], expired_and_processes_absent=True,
+                   predecessor_lease_word=campaign_lease["status"],
+                   expired_and_processes_absent=campaign_lease["deadline_epoch"] < time.time(),
+                   terminal_and_processes_absent=True,
                    attempts=len(raw), actual_previous_ticks=sum(r["native_ticks"] for r in raw), rows=raw,
                    recovered=len(passed), recovered_windows=sum(r["windows"] for r in passed),
                    complete_H40=sum(r["complete_H40"] for r in passed),
