@@ -14,7 +14,7 @@ CAMERAS = ("cam_head", "cam_left_wrist", "cam_right_wrist")
 SAFE_ROSTER = "476dbe0e03ed309170ba76a333f19ff1b1fc18a7e2ac3bafff4bbff1696ec496"
 
 
-def inspect(path):
+def inspect(path, *, expected_fps=30):
     import h5py
     import numpy as np
     from PIL import Image
@@ -29,7 +29,7 @@ def inspect(path):
                 packed[key] = tuple(np.asarray(h[key+name]) for name in
                                     ("_arm_joint_states","_ee_joint_states","_ee_poses"))
         count = len(packed["state/left"][0])
-        need(fps == 30 and count >= 8 and all(
+        need(fps == expected_fps and count >= 8 and all(
             tuple(a.shape for a in arrays) == ((count,6),(count,1),(count,7))
             and all(np.isfinite(x).all() for x in arrays) for arrays in packed.values()), "Unexpected real ARX5 ABI")
         indexes = (0,count//3,2*count//3,count-1)
