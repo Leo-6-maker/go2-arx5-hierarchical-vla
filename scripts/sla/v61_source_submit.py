@@ -8,7 +8,7 @@ import shlex
 import subprocess
 import time
 
-from hopper_pbs import PBS, PROJECT, native, project_grant, wall_seconds
+from hopper_pbs import BalanceLoginExpired, PBS, PROJECT, native, project_grant, wall_seconds
 from m38_gpu_preflight_v1 import pin, read, require, sha
 from scripts.pi0292.durable import OwnerLock
 from scripts.sla.hopper_parent_custody import write_once
@@ -16,6 +16,7 @@ from scripts.sla.hopper_site import DEADLINE
 from v61_source_bank import ENDPOINTS, PLAN
 from v61_source_course import BANK_RECEIPT, R4, read_bank
 from v61_source_worker import MODES, PROBE_STEPS, parent_gate, validated_boundary
+from v62_source_admission import V62, provisional_gate, write_capacity
 from v6_dual_source_submit import H200, SERVER, admit
 
 
@@ -31,7 +32,12 @@ def validated_config(config, mode):
                   end=PROBE_STEPS if mode == "probe" else int(mode),
                   bank_receipt_sha256=BANK_RECEIPT, r4_receipt_sha256=R4,
                   core_parent_release=config["core_parent_release"])
-    parent_gate(result["core_parent_release"])
+    if config.get("science_plan") == V62:
+        result.update(science_plan=V62, provisional=config["provisional"])
+    if result.get("provisional"):
+        provisional_gate(result["core_parent_release"], mode)
+    else:
+        parent_gate(result["core_parent_release"])
     checked = read(pin(config["core_host"]["path"], config["core_host"]["sha256"]))
     require(checked["bank_receipt_sha256"] == BANK_RECEIPT and checked["optimizer_visits"] == 0
             and len(checked["actual_batches"]) == 2, "Corelab must read the exact learner input first")
@@ -87,7 +93,17 @@ def submit(mode, capsule, config, paths, runtime, source, v4_code, original, pri
     with closing(OwnerLock(capsule / "SUBMIT.lock")):
         require(not any((capsule / name).exists() for name in ("INTENT.json", "JOB.json", "run")),
                 "Reconcile the original exact PBS intent instead of submitting twice")
-        grant = project_grant(budget)
+        modern = binding.get("science_plan") == V62
+        try:
+            grant = project_grant(budget)
+        except BalanceLoginExpired:
+            if not modern:
+                raise
+            from hopper_project_admission import project_period
+
+            lineage = Path(requirements["project_lineage"])
+            grant = project_period(requirements["project_basis"], lineage, budget)
+            grant["lineage"] = str(lineage)
         prior_gpu_s = accounted_prior(prior, original, grant)
         require(prior_gpu_s + budget <= 320 * 3600, "The inherited 320 GPU-hour ceiling is exhausted")
         active = subprocess.check_output([str(PBS / "qselect"), "-q", f"@{SERVER}", "-u", grant["account"]],
@@ -98,12 +114,21 @@ def submit(mode, capsule, config, paths, runtime, source, v4_code, original, pri
                     "An existing MAIN or SOURCE owner is still active")
 
         name = "slav61q" if mode == "probe" else "slav61s" + mode
+        if modern:
+            name = "slav62q" if mode == "probe" else "slav62s" + mode
+            capacity = write_capacity(capsule, inputs[7], mode, binding["start"], binding["end"], budget)
+            write_once(capsule / "WRITE_CAPACITY.json", capacity)
+            grant_file = capsule / "GRANT.json"
+            write_once(grant_file, grant)
+            binding.update(budget_seconds=budget, site_grant=dict(path=str(grant_file), sha256=sha(grant_file)))
         code = capsule / "code"
         worker = code / "v61_source_worker.py"
         declaration = capsule / "BINDING.json"
         write_once(declaration, binding)
         authorized = [config, declaration, *sorted(code.glob("*.py")), *sorted(v4_code.glob("*.py"))]
         authorized.extend(Path(x["path"]) for x in (binding["core_parent_release"], requirements["core_host"]))
+        if modern:
+            authorized.append(grant_file)
         list_file = capsule / "INPUTS.sha256"
         with list_file.open("x") as stream:
             stream.writelines(f"{sha(path)}  {path}\n" for path in authorized)
@@ -126,6 +151,8 @@ def submit(mode, capsule, config, paths, runtime, source, v4_code, original, pri
         intent = dict(plan=PLAN, name=name, role=mode, budget_seconds=budget, prior_upper_gpu_s=prior_gpu_s,
                       bank_receipt_sha256=BANK_RECEIPT, parent_release_sha256=binding["core_parent_release"]["sha256"],
                       program_sha256=sha(script), inputs_sha256=sha(list_file))
+        if modern:
+            intent.update(science_plan=V62, provisional=binding["provisional"], binding_sha256=sha(declaration))
         print(admit(capsule, intent, script, name, budget, grant), flush=True)
 
 

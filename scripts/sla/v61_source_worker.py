@@ -17,6 +17,7 @@ from v4_long_probe import UPDATES as PROBE_STEPS, recover, snapshot
 from v4_main250_hopper import allocation
 from v61_source_bank import BATCH, ENDPOINTS, PLAN, SEED
 from v61_source_course import BANK_RECEIPT, MICRO, R4, bind, corrected_parent
+from v62_source_admission import V62, award, provisional_gate, write_capacity
 
 
 GIB = 1024**3
@@ -49,7 +50,7 @@ def resume(learner, previous, proof, contract, start):
 
     terminal = read(pin(previous / "TERMINAL.json", proof["training_terminal_sha256"]))
     point = previous / f"STEP{start:04d}"
-    require(terminal["status"] in ("FORMAL_SOURCE_BOUNDARY", "SAVED_AT_FINITE_BOUNDARY")
+    require(terminal["status"] in ("FORMAL_SOURCE_BOUNDARY", "PROVISIONAL_SOURCE_BOUNDARY", "SAVED_AT_FINITE_BOUNDARY")
             and terminal["updates"] == start
             and terminal["contract_sha256"] == sha(previous / "RUN_CONTRACT.json")
             and terminal["checkpoint"]["files"] == endpoint_files(point)
@@ -77,7 +78,13 @@ def run(mode, capsule, custody, short, prepared, corrected, extension, single, b
             and declared["end"] == goal and declared["bank_receipt_sha256"] == BANK_RECEIPT
             and declared["r4_receipt_sha256"] == R4 and type(start) is int and base <= start < goal
             and (mode != "probe" or start == 0), "The bound SOURCE interval changed")
-    parent_gate(declared["core_parent_release"])
+    provisional = declared.get("provisional", False)
+    is_v62 = declared.get("science_plan") == V62
+    if provisional:
+        require(is_v62, "A provisional parent route requires V6.2")
+        provisional_gate(declared["core_parent_release"], mode)
+    else:
+        parent_gate(declared["core_parent_release"])
     course = dict(plan=PLAN, bank_receipt_sha256=BANK_RECEIPT, initial_r4_receipt_sha256=R4,
                   effective_batch=BATCH, auxiliary=4, micro=MICRO, source_rng_seed=SEED)
     if mode != "probe":
@@ -92,8 +99,12 @@ def run(mode, capsule, custody, short, prepared, corrected, extension, single, b
         site = allocation()
         require(jax.default_backend() == "gpu" and len(jax.local_devices()) == 1
                 and "H200" in jax.local_devices()[0].device_kind, "Expected one admitted H200")
-        require(shutil.disk_usage(capsule).free >= (15 if mode == "probe" else 70) * GIB,
-                "Original checkpoint save reserve is unavailable")
+        if is_v62:
+            site["project_award"] = award(declared, capsule, site)
+            site["write_capacity"] = write_capacity(capsule, r4, mode, start, goal, declared["budget_seconds"])
+        else:
+            require(shutil.disk_usage(capsule).free >= (15 if mode == "probe" else 70) * GIB,
+                    "Original checkpoint save reserve is unavailable")
         result = capsule / "run"
         result.mkdir(mode=0o700)
         write(result / "START.json", site)
@@ -102,7 +113,8 @@ def run(mode, capsule, custody, short, prepared, corrected, extension, single, b
         graphs, parameters, frozen, ancestry = corrected_parent(custody, short, r4)
         clock = jax.random.PRNGKey(SEED)
         contract = dict(course=course, start=start, end=goal, mode=mode, ancestry=ancestry,
-                        input_sha256=admitted["manifest_sha256"], binding_sha256=sha(declared_file))
+                        input_sha256=admitted["manifest_sha256"], binding_sha256=sha(declared_file),
+                        science_plan=declared.get("science_plan", PLAN), provisional=provisional)
         write(result / "RUN_CONTRACT.json", contract)
 
         def factory():
@@ -121,6 +133,8 @@ def run(mode, capsule, custody, short, prepared, corrected, extension, single, b
         def guard():
             if stopped or (capsule / "STOP.json").exists() or time.time() >= site["deadline"] - 900:
                 raise TimeoutError("Original checkpoint save interval or registered STOP")
+            if is_v62 and shutil.disk_usage(capsule).free < 2 * site["write_capacity"]["checkpoint_bytes"]:
+                raise TimeoutError("End the interval while the measured terminal write reserve is available")
 
         def seal(learner):
             path = result / f"STEP{learner.step:04d}"
@@ -170,7 +184,8 @@ def run(mode, capsule, custody, short, prepared, corrected, extension, single, b
                             and memory["peak_bytes_in_use"] < .9 * memory["bytes_limit"],
                             "Qualification requires exact restart and actual H200 reserve")
                     metrics["peak_allocated_bytes"] = memory["peak_bytes_in_use"]
-                status = "QUALIFICATION_PASS" if mode == "probe" else "FORMAL_SOURCE_BOUNDARY"
+                status = "QUALIFICATION_PASS" if mode == "probe" else (
+                    "PROVISIONAL_SOURCE_BOUNDARY" if provisional else "FORMAL_SOURCE_BOUNDARY")
             except TimeoutError:
                 status = "SAVED_AT_FINITE_BOUNDARY"
             finally:
@@ -178,6 +193,7 @@ def run(mode, capsule, custody, short, prepared, corrected, extension, single, b
                     checkpoint = seal(learner)
                 write(result / "TERMINAL.json", dict(status=status, course=course, updates=learner.step,
                       interval_updates=learner.step - start, optimized_source_visits=consumed,
+                      science_plan=declared.get("science_plan", PLAN), provisional=provisional,
                       checkpoint=checkpoint, contract_sha256=sha(result / "RUN_CONTRACT.json"), **metrics))
 
 

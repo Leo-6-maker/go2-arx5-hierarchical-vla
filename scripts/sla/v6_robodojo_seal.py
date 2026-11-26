@@ -21,7 +21,7 @@ def numeric_hash(states, actions):
     return value.hexdigest()
 
 
-def seal(roster_path, roster_sha, baseline_path, stats_path, output, wave_pins):
+def seal(roster_path, roster_sha, baseline_path, stats_path, output, wave_pins, *, preceding=None):
     import numpy as np
     from go2arx5_vla.sla_adapter.source_native_v6 import (
         COORDINATES, HORIZON, SCHEMA, SourceDataset, anchor_strata, load_numeric,
@@ -36,6 +36,14 @@ def seal(roster_path, roster_sha, baseline_path, stats_path, output, wave_pins):
     protected = {row["raw_sha256"] for row in old["episodes"]}
     protected.update(row["sha256"] for row in roster["protected_test_members"])
     known_numeric = {row["numeric_fingerprint"] for row in old["episodes"] if "numeric_fingerprint" in row}
+    if preceding:
+        path, receipt_sha = preceding
+        need(digest(path) == receipt_sha, "Preceding source extension differs")
+        preceding_manifest = read(path)
+        need(preceding_manifest["HF_revision"] == REV and preceding_manifest["original_manifest_sha256"] == R200_CORE_SHA
+             and preceding_manifest["test_labels_read"] is False, "Preceding source lineage differs")
+        protected.update(row["raw_sha256"] for row in preceding_manifest["episodes"])
+        known_numeric.update(row["numeric_fingerprint"] for row in preceding_manifest["episodes"])
     need(len(candidate_map) == len(roster["candidates"]) and not protected.intersection(candidate_map)
          and roster["revision"] == old["HF_revision"] == REV,
          "Additions overlap old train/dev/test or revision")
@@ -70,13 +78,14 @@ def seal(roster_path, roster_sha, baseline_path, stats_path, output, wave_pins):
             records.append((row, states, actions, fingerprint))
 
     need(records and not output.exists(), "Expected an unused, nonempty source seal")
-    need(shutil.disk_usage(output.parent).free > 60 * GIB, "Source seal storage reserve unavailable")
+    expected_bytes = sum(states.nbytes + actions.nbytes for _, states, actions, _ in records)
+    reserve = 2 * expected_bytes + 64 * 1024**2 if preceding else 60 * GIB
+    need(shutil.disk_usage(output.parent).free > reserve, "Source seal storage capacity unavailable")
     stage = output.with_name(output.name + ".staging")
     stage.mkdir(mode=0o700)
     (stage / "numeric").mkdir()
     statistics = read(stats_path)
     iqr = np.asarray(statistics["state"]["IQR"])
-    expected_bytes = sum(states.nbytes + actions.nbytes for _, states, actions, _ in records)
     need(expected_bytes < 2 * GIB, "Dense archive exceeds registered compact storage plan")
     shutil.copyfile(stats_path, stage / "STATISTICS.json")
     need(digest(stage / "STATISTICS.json") == R48_STATS, "Inherited statistics copy corrupted")

@@ -141,7 +141,7 @@ def actual_episode(row, raw_dir):
                 split="CANDIDATE", ready_for_training=False)
 
 
-def wave(roster_path, expected_sha, start, count, output):
+def wave(roster_path, expected_sha, start, count, output, *, actual_capacity=False):
     need(digest(roster_path) == expected_sha, "Roster bytes changed")
     roster_data = read(roster_path)
     need(roster_data["repo"] == REPO and roster_data["revision"] == REV
@@ -156,7 +156,8 @@ def wave(roster_path, expected_sha, start, count, output):
          and not distinct.intersection(x["sha256"] for x in roster_data["protected_test_members"]),
          "Protected or duplicate episode in the wave")
     reserved = sum(x["bytes"] for x in batch)
-    need(shutil.disk_usage(output.parent).free > reserved + 60 * GIB,
+    overhead = 3 * MAX_MEMBER if actual_capacity else 60 * GIB
+    need(shutil.disk_usage(output.parent).free > reserved + overhead,
          "Storage headroom unavailable for this wave")
     output.mkdir(mode=0o700)
     raw_dir = output / "raw"

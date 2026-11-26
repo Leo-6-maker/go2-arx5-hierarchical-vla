@@ -25,8 +25,8 @@ SERVER = "hopper-m-02"
 
 
 def admit(capsule, intent, script, name, budget, grant):
-    required = grant["required_units_at_queue_rate_one"]
-    balance = grant["balance_gpu_units"]
+    site_award_required = grant.get("source") == "SITE_PBS_PROJECT_AWARD_REQUIRED"
+    required = budget * grant["units_per_gpu_hour_at_queue_rate_one"] / 3600
     write_once(capsule / "INTENT.json", intent)
     journal = Journal(capsule / "journal", capsule.name)
 
@@ -45,8 +45,16 @@ def admit(capsule, intent, script, name, budget, grant):
     require(row["job_state"] == "H" and row["project"] == PROJECT and row["Job_Name"] == name
             and row["Job_Owner"].split("@")[0] == grant["account"] and resource["select"] == H200
             and int(resource["ngpus"]) == 1 and wall_seconds(resource["walltime"]) == budget
-            and math.isfinite(rate) and rate > 0 and charged <= min(balance, grant["balance_su"]),
+            and math.isfinite(rate) and rate > 0,
             "Held job resources or cost failed independent readback")
+    if site_award_required:
+        from hopper_project_admission import allocation
+
+        allocation(row, grant["account"], budget, "H")
+        require(time.time() + budget < grant["expiry_epoch"], "Project period cannot cover the job")
+    else:
+        require(charged <= min(grant["balance_gpu_units"], grant["balance_su"]),
+                "The project balance cannot cover the held allocation")
     admission = dict(job=identifier, charge_upper=charged, rate=rate, reserved_s=budget)
     write_once(capsule / "ADMITTED.json", admission)
 
