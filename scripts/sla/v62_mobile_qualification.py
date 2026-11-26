@@ -16,11 +16,14 @@ GEOMETRY = "f10b07348ad2746876a3e3ba1399a4b3b950ae5875c965f7c1d909d07b50df39"
 TRAIN_GEOMETRY = "d36c9da25c6c927134fe578be1a378c60d3a7851ea9fa2b97e099e77eefe38e4"
 F2_GEOMETRY = "0e99e023f4348139b8123d5b1c8b4a7da7f4acf2b48d2312f665dba913eb4621"
 F2_REPLAY = "9d0d116a768cfb00f24b42e57e4cb0df1d7ef1e9cf139479ed3b1b6668c697a1"
+F1_RED_LEGACY = "f0015701b5070b877dce21d2292cefb41b9aa13d17ba1e9fc669f7eaa6648f92"
 TICKS = 35703
 IDS = ("EF5_Q_MOBILE_01", "EF5_Q_MOBILE_02")
 FIRST_TRAIN = ("EF5_T_MOBILE_01", "EF5_T_MOBILE_05")
+F1_RED_TRAIN = ("EF5_T_MOBILE_03", "EF5_T_MOBILE_07")
 SCOPES = {"QUAL": ("QUAL", IDS, GEOMETRY), "TRAIN": ("TRAIN", FIRST_TRAIN, TRAIN_GEOMETRY),
-          "F2_REPAIR": ("QUAL", ("EF5_Q_MOBILE_F2_RED_R2",), F2_GEOMETRY)}
+          "F2_REPAIR": ("QUAL", ("EF5_Q_MOBILE_F2_RED_R2",), F2_GEOMETRY),
+          "F1_RED_TRAIN": ("TRAIN", F1_RED_TRAIN, TRAIN_GEOMETRY)}
 
 
 def digest(path):
@@ -67,12 +70,17 @@ def rows(population, binding):
         raise ValueError("Compiled scenes differ from the qualification allocation")
     if split == "TRAIN":
         confirmation = pinned(roster["qualification"])
-        matches = [r for r in confirmation["records"] if r["condition"] == IDS[0]]
+        expected, instruction = IDS[0], "HOLD-blue"
+        if variant == "F1_RED_TRAIN":
+            if roster["qualification"]["sha256"] != F1_RED_LEGACY or confirmation["paid_requests"] != 1:
+                raise ValueError("The closed F1 red mobile-grasp episode is required")
+            expected, instruction = "CHV1-TRAIN-F1-HOLD-red-19", "HOLD-red"
+        matches = [r for r in confirmation["records"] if r["condition"] == expected]
         if (len(matches) != 1 or not matches[0]["task_and_mobile_success"]
                 or matches[0]["hard_STOP"] or matches[0]["technical_failure"]
                 or matches[0]["post_STOP_ticks"] not in (None, 0)
-                or any((x["family"], x["instruction"]) != ("F1", "HOLD-blue") for x in selected)):
-            raise ValueError("TRAIN requires a closed successful same-family blue mobile-grasp qualification")
+                or any((x["family"], x["instruction"]) != ("F1", instruction) for x in selected)):
+            raise ValueError("TRAIN requires a closed successful same-family, same-target mobile-grasp qualification")
     if variant == "F2_REPAIR":
         proof = pinned(roster["repair"])
         confirmation = pinned(roster["qualification"])
@@ -128,10 +136,13 @@ def patch(anchor, path, expected, edits):
     path.write_text(text)
 
 
-def stage(prior, compiled, original_output, destination, root, revision, qualification=None, repair=None):
+def stage(prior, compiled, original_output, destination, root, revision, qualification=None, repair=None,
+          legacy_red_train=False):
     if repair and not qualification:
         raise ValueError("Read the original F2 terminal before staging a repair")
-    variant = "F2_REPAIR" if repair else "TRAIN" if qualification else "QUAL"
+    if legacy_red_train and (qualification or repair):
+        raise ValueError("F1 red uses only the preserved legacy qualification")
+    variant = "F1_RED_TRAIN" if legacy_red_train else "F2_REPAIR" if repair else "TRAIN" if qualification else "QUAL"
     split, identities, geometry = SCOPES[variant]
     if digest(prior / "CONFIG.json") != PRIOR_CONFIG or digest(compiled) != geometry:
         raise ValueError("The original single world launcher and frozen scene compiler are required")
@@ -193,6 +204,8 @@ def stage(prior, compiled, original_output, destination, root, revision, qualifi
         registered.update(split=split, qualification=ref(result))
     if repair:
         registered.update(variant=variant, repair=ref(repair))
+    if legacy_red_train:
+        registered.update(variant=variant, split=split, qualification=ref(original_output / "RESULT.private.json"))
     write(registry_file, registered)
     write(source_file, symbols)
     use = shutil.disk_usage(root.parent)
@@ -204,7 +217,7 @@ def stage(prior, compiled, original_output, destination, root, revision, qualifi
         os.posix_fallocate(f.fileno(), 0, 64*1024**2)
         os.fsync(f.fileno())
     capacity_file = root.parent / "QUAL-CAPACITY.json"
-    if not qualification:
+    if variant == "QUAL":
         write(capacity_file, dict(free_bytes=use.free, previous_trace_bytes=demonstrated,
               upcoming_writes_bytes=planned, writable_probe_bytes=64*1024**2, device=root.parent.stat().st_dev))
     elif plain(capacity_file)["upcoming_writes_bytes"] != planned:
@@ -227,4 +240,5 @@ if __name__ == "__main__":
     parser.add_argument("revision")
     parser.add_argument("--qualification", type=Path)
     parser.add_argument("--repair", type=Path)
+    parser.add_argument("--legacy-red-train", action="store_true")
     stage(**vars(parser.parse_args()))
