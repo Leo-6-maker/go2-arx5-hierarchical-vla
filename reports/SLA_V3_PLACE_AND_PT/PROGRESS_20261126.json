@@ -1,0 +1,327 @@
+{
+  "schema": "SLA_V3_PROGRESS_SNAPSHOT_V1",
+  "plan_commit": "a0eea81a7c2b7989a3acfac2a3c419cc8cd073bf",
+  "registry_sha256": "2d50556a53631798984933498cc919d86f5f2b99e8ff1eac61a73854c3ebc851",
+  "snapshot_utc": "2026-11-26T05:36:28+00:00",
+  "archived_v2": {
+    "archive_commit": "49a0dfa318862daa547ed28bdab442f8cdc132e9",
+    "hold_development": [
+      2,
+      4
+    ],
+    "hold_confirmation_started": [
+      2,
+      4
+    ],
+    "hold_confirmation_registered": 6,
+    "hold_confirmation_unstarted": [
+      "N01/201",
+      "N01/202"
+    ],
+    "place_full": [
+      0,
+      4
+    ],
+    "place_grasp": 4,
+    "place_lift_and_hold": 3,
+    "place_ever_inside_destination": 2,
+    "matched_place_teachers_success": 2,
+    "n01_stop_tick": 17893,
+    "n01_original_upper_open_m": 0.044,
+    "n01_limit_excess_m": 0.00010529860914206685,
+    "n01_original_immediate_threshold_m": 0.0001,
+    "n03_pd_reference_geometry_gap_mm": [
+      15.61,
+      13.63
+    ]
+  },
+  "main": {
+    "reused_episodes": 52,
+    "reused_place_episodes": 16,
+    "reused_hold_episodes": 36,
+    "command_intervals": 44500,
+    "queries": 4450,
+    "planned_visits": 8000,
+    "planned_stage_visits": {
+      "retreat": 840,
+      "postgrasp_lift": 1120,
+      "place_release": 1680,
+      "hold": 2400,
+      "close": 840,
+      "approach": 1120
+    },
+    "historical_main_updates": 3800,
+    "historical_main_target_visits": 243200,
+    "formal_train_attempts": {
+      "V3-MAIN-PLACE250-01": {
+        "started": true,
+        "recorded_updates": 0,
+        "registered_terminal": true
+      },
+      "V3-MAIN-PLACE250-02": {
+        "started": true,
+        "recorded_updates": 0,
+        "registered_terminal": false
+      },
+      "V3-MAIN-PLACE250-03": {
+        "started": false,
+        "recorded_updates": 0,
+        "registered_terminal": false
+      }
+    },
+    "native_evaluation_registered": false,
+    "presealed_confirmation": [
+      {
+        "slot": "C01",
+        "family": "F1",
+        "scene_sha256": "10adfe5926c595c4ce5f30a5fb6fb120b5e53b6d9bae4558c02494526a528dd7"
+      },
+      {
+        "slot": "C02",
+        "family": "F2",
+        "scene_sha256": "53f5f25e23239df43c619c4370b6fdba85f4e9c236b07420f2112bd6788bb7b3"
+      },
+      {
+        "slot": "C03",
+        "family": "F1",
+        "scene_sha256": "de98a18a10b9ca049249000d181dde36f434a65e7064aa0536a5a8047b8f3bc4"
+      }
+    ]
+  },
+  "official_pt": {
+    "archive_queries": 38,
+    "archive_close_at_source_threshold": 0,
+    "registered_training_teachers": 8,
+    "started_training_teachers": [
+      {
+        "condition": "PT_DATA_T02_11",
+        "ticks": 13953,
+        "lift_m": 0.02472530198265188,
+        "hold_s": 1.015999999999437,
+        "trace_sha256": "7a1146dd1443ac0d497dea69888dc188d1adc71f3c47db150b4826da929035fd"
+      },
+      {
+        "condition": "PT_DATA_T03_11",
+        "ticks": 14203,
+        "lift_m": 0.024652777653244584,
+        "hold_s": 1.015999999999437,
+        "trace_sha256": "5dc46b27057dc62fe1503e26ea4f6a575a9cb18b7526770739e70bf2b2fe3b49"
+      },
+      {
+        "condition": "PT_DATA_T04_11",
+        "ticks": 14228,
+        "lift_m": 0.024734101180683532,
+        "hold_s": 1.0439999999994214,
+        "trace_sha256": "570b739b1da9b6295ab1f2334b9d8102069a2187bc111b863050e9e06009e2dc"
+      },
+      {
+        "condition": "PT_DATA_T02_12",
+        "ticks": 13953,
+        "lift_m": 0.02468523900622399,
+        "hold_s": 1.0239999999994325,
+        "trace_sha256": "e1da616f6248a6a161f5c4cafd6bb9248c1b01c198d344b5f0114a00a09ad86e"
+      }
+    ],
+    "static_blocked_training": [
+      "PT_DATA_T01_11",
+      "PT_DATA_T01_12"
+    ],
+    "stopped_after_data_threshold": [
+      "PT_DATA_T03_12",
+      "PT_DATA_T04_12"
+    ],
+    "dev_teachers": [
+      {
+        "condition": "D01",
+        "ticks": 13953,
+        "lift_m": 0.024712484096370724,
+        "hold_s": 1.015999999999437,
+        "trace_sha256": "bd625595a61a3e0319254e20897515a22c325b97044fef45f447a94f16b877d7"
+      },
+      {
+        "condition": "D02",
+        "ticks": 14178,
+        "lift_m": 0.024737585688916597,
+        "hold_s": 1.0099999999994402,
+        "trace_sha256": "5a10037d06eab2c9f720149e0b7f939e893c6fab526f55622e8c99aaf49566fa"
+      }
+    ],
+    "masked_labels": 6068,
+    "causal_queries": 127,
+    "consumed_seconds": 63.05,
+    "tcp_roundtrip_max_m": 8.820474752743151e-09,
+    "numeric_probe_windows": 8,
+    "numeric_probe_updated_weights": 0,
+    "adapted_parameter_count": 22118400,
+    "numeric_reload_sample_exact": true,
+    "training": {
+      "verified_updates": 159,
+      "formal_updates": 250,
+      "endpoint": null,
+      "verified_visits": 5088,
+      "visits_by_phase": {
+        "LIFT_HOLD": 1272,
+        "AFTER_GRASP": 1272,
+        "APPROACH": 1272,
+        "CLOSE": 1272
+      },
+      "visits_by_case": {
+        "PT_DATA_T02_11": 1305,
+        "PT_DATA_T03_11": 1265,
+        "PT_DATA_T02_12": 1232,
+        "PT_DATA_T04_11": 1286
+      },
+      "contract_sha256": "d01ba4f62ec1f8f177ba1d6b82ddcc1d6532f799532ea74af34576229805a7a3",
+      "elapsed_optimization_s": 7909.81587549299
+    },
+    "trainer_verified_live": true,
+    "student_comparison_registered_at_site": false
+  },
+  "v3_stages": [
+    {
+      "block": "M_Q",
+      "conditional_capacity": 2,
+      "started": 0,
+      "valid": 0,
+      "success": 0,
+      "failure": 0,
+      "technical": 0,
+      "not_started": 2,
+      "blocked": 0,
+      "status": "REUSED_MATCHED_V2_TEACHER_QUALIFICATION"
+    },
+    {
+      "block": "M_DIAG",
+      "conditional_capacity": 4,
+      "started": 0,
+      "valid": 0,
+      "success": 0,
+      "failure": 0,
+      "technical": 0,
+      "not_started": 4,
+      "blocked": 0,
+      "status": "RESOLVED_FROM_ORIGINAL_ARCHIVES"
+    },
+    {
+      "block": "M_DEV",
+      "conditional_capacity": 4,
+      "started": 0,
+      "valid": 0,
+      "success": 0,
+      "failure": 0,
+      "technical": 0,
+      "not_started": 4,
+      "blocked": 0,
+      "status": "WAITING_FOR_ORIGINAL_CANDIDATE_ENDPOINT"
+    },
+    {
+      "block": "H_REG",
+      "conditional_capacity": 2,
+      "started": 0,
+      "valid": 0,
+      "success": 0,
+      "failure": 0,
+      "technical": 0,
+      "not_started": 2,
+      "blocked": 0,
+      "status": "WAITING_FOR_SAME_CANDIDATE"
+    },
+    {
+      "block": "M_QC",
+      "conditional_capacity": 3,
+      "started": 0,
+      "valid": 0,
+      "success": 0,
+      "failure": 0,
+      "technical": 0,
+      "not_started": 3,
+      "blocked": 0,
+      "status": "GEOMETRIES_SEALED_WAITING_FOR_SUCCESSFUL_DEVELOPMENT"
+    },
+    {
+      "block": "M_CONFIRM",
+      "conditional_capacity": 6,
+      "started": 0,
+      "valid": 0,
+      "success": 0,
+      "failure": 0,
+      "technical": 0,
+      "not_started": 6,
+      "blocked": 0,
+      "status": "WAITING_FOR_SUCCESSFUL_DEVELOPMENT_AND_LAYOUT_TEACHERS"
+    },
+    {
+      "block": "PT_DATA",
+      "conditional_capacity": 8,
+      "started": 4,
+      "valid": 4,
+      "success": 4,
+      "failure": 0,
+      "technical": 0,
+      "not_started": 4,
+      "blocked": 2,
+      "status": "FOUR_VALID_CLOSED_TEACHERS"
+    },
+    {
+      "block": "PT_QDEV",
+      "conditional_capacity": 2,
+      "started": 2,
+      "valid": 2,
+      "success": 2,
+      "failure": 0,
+      "technical": 0,
+      "not_started": 0,
+      "blocked": 0,
+      "status": "TWO_VALID_CLOSED_TEACHERS"
+    },
+    {
+      "block": "PT_COMPARE",
+      "conditional_capacity": 8,
+      "started": 0,
+      "valid": 0,
+      "success": 0,
+      "failure": 0,
+      "technical": 0,
+      "not_started": 8,
+      "blocked": 0,
+      "status": "WAITING_FOR_EXACT_RAW_STEP250"
+    },
+    {
+      "block": "MAIN_DATA",
+      "conditional_capacity": 8,
+      "started": 0,
+      "valid": 0,
+      "success": 0,
+      "failure": 0,
+      "technical": 0,
+      "not_started": 8,
+      "blocked": 0,
+      "status": "REUSED_COMPATIBLE_CLOSED_TEACHER_ARCHIVES"
+    }
+  ],
+  "waiting_services": {
+    "pt_comparison": "active",
+    "pt_independent_readout": "active",
+    "main_training_dispatch": "active",
+    "main_evaluation_dispatch": "active"
+  },
+  "resource_summary": {
+    "native_teacher_starts": 6,
+    "native_teacher_ticks": 84468,
+    "native_student_starts": 0,
+    "native_student_model_forwards": 0
+  },
+  "source_receipt_sha256": {
+    "PLACE_EVENTS_ACTUAL": "5e84873ba5f83c891e84bacf8b624c20d4caf3e94397bb3e2260c7c56f67d4d5",
+    "MAIN3800_OPTIMIZER_VISITS_ACTUAL": "983786d98fcc30b94e4f096c982adb15ac3c4bde68575d240fa95e181662cb39",
+    "MAIN_CONSUMED_COMMANDS_ACTUAL": "c23c3ae031bb7d71b90dd1d3c7064123f29e8d1c371a01c955828c294036aad1",
+    "MAIN_RUNTIME_READER_ACTUAL": "592dbb1dc3fed1c892071531441586527e3f1db3b01c687e5162dfc2bcd76d75",
+    "MAIN_CONFIRM_SCENES_ACTUAL": "4f674315c0e9bdad303d24123929226b2f1a9d31f096dad526adb19599694dbd",
+    "PT_DATA_ACTUAL": "ee0ecf478a3907dcadd71dd4c93eb38a808a4955a5594089a2b4edd019e35830",
+    "PT_DEV_QUALIFICATION_ACTUAL": "31fab497faec709ecfb4cfc59c00170a453ab7c97a9495f572ac4482e839da09",
+    "PT_COMMAND_LABELS_ACTUAL": "9bd4f51cd0861dcb4e8b07a3c608fde9c35e7171fd27cf3976e42c866d71d972",
+    "PT_COMMAND_NUMERIC_ACTUAL": "d8b56be70bcf6920c767698becbed8b5dcc804428afddb77d4045a1920515b33",
+    "PT_RAW_CLOSE_READBACK": "052b4e620d9260639c01cd2d3825772826b1176678ad9da33e274025b7a7390c",
+    "PT_FORMAL_CONTRACT_ACTUAL": "b2eb98559fa39a3a964f85b7d0a78a89f7f237c0a4d6704cf81240320f5f3da4"
+  }
+}
