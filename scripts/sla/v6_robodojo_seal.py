@@ -21,7 +21,7 @@ def numeric_hash(states, actions):
     return value.hexdigest()
 
 
-def seal(roster_path, roster_sha, baseline_path, stats_path, output, wave_pins, *, preceding=None):
+def seal(roster_path, roster_sha, baseline_path, stats_path, output, wave_pins, *, preceding=()):
     import numpy as np
     from go2arx5_vla.sla_adapter.source_native_v6 import (
         COORDINATES, HORIZON, SCHEMA, SourceDataset, anchor_strata, load_numeric,
@@ -36,14 +36,17 @@ def seal(roster_path, roster_sha, baseline_path, stats_path, output, wave_pins, 
     protected = {row["raw_sha256"] for row in old["episodes"]}
     protected.update(row["sha256"] for row in roster["protected_test_members"])
     known_numeric = {row["numeric_fingerprint"] for row in old["episodes"] if "numeric_fingerprint" in row}
-    if preceding:
-        path, receipt_sha = preceding
+    for path, receipt_sha in preceding:
         need(digest(path) == receipt_sha, "Preceding source extension differs")
         preceding_manifest = read(path)
         need(preceding_manifest["HF_revision"] == REV and preceding_manifest["original_manifest_sha256"] == R200_CORE_SHA
              and preceding_manifest["test_labels_read"] is False, "Preceding source lineage differs")
-        protected.update(row["raw_sha256"] for row in preceding_manifest["episodes"])
-        known_numeric.update(row["numeric_fingerprint"] for row in preceding_manifest["episodes"])
+        raw = {row["raw_sha256"] for row in preceding_manifest["episodes"]}
+        numeric = {row["numeric_fingerprint"] for row in preceding_manifest["episodes"]}
+        need(not protected.intersection(raw) and not known_numeric.intersection(numeric),
+             "Preceding source releases overlap")
+        protected.update(raw)
+        known_numeric.update(numeric)
     need(len(candidate_map) == len(roster["candidates"]) and not protected.intersection(candidate_map)
          and roster["revision"] == old["HF_revision"] == REV,
          "Additions overlap old train/dev/test or revision")

@@ -1,6 +1,8 @@
 """Bind a sealed Corelab bank to the R4 parent and four native training readers."""
 
 from functools import partial
+import hashlib
+import json
 
 import numpy as np
 
@@ -13,8 +15,19 @@ from v6_dual_course import DualSourcePool, four_domain_adamw, initialize_single,
 MAIN = "502d890d3ff314ac42f4c79c360942b9b626bf1fcc4b6fc488fbab15ba508361"
 R4 = "f1f5a994005a9fc831934a156ca823d7e4b67794ce2533d72e087c2aeb29b9cb"
 BANK_RECEIPT = "1ba0092a0c982c51e785849b86332bfc9c3db636bad6a82cab97548bed027891"
+# The inherited Hopper reader consumes the portable R200 package, while the bank pins its Corelab copy.
+R200_PORTABLE_MANIFEST = "e09f90169d988e8dbe39921aaa10611babf5d7227a7088ddf6d88a5e4b3d558b"
+R200_CONTENT = "8fb693b5c2521587e4807a92a6947efa78be7819299ab8e35a0c379504df5e55"
 MICRO = dict(target=16, single=16, robodojo=40, libero=16)
 SINGLE_CURSOR = 10_000_000
+
+
+def r200_content_sha(manifest):
+    content = {key: value for key, value in manifest.items()
+               if key not in ("data_site_binding", "portable_parent_manifest_sha256")}
+    content["episodes"] = [{key: value for key, value in row.items() if key != "raw_path"}
+                           for row in content["episodes"]]
+    return hashlib.sha256(json.dumps(content, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
 
 def read_bank(root):
@@ -64,7 +77,9 @@ def bind(custody, short, prepared, corrected, extension, single_root, bank_root)
     command_path = pin(short / "incoming/V3-MAIN-CONSUMED-DATA-02/MANIFEST.json", PINS["target_commands"])
     bind_dataset(target, corrected, PINS["target_corrected"], command_path)
     pin(prepared / "native_aux-01/MANIFEST.json", PINS["target_aux"])
-    require(old.manifest_sha == PINS["dual_old"], "The historical source manifest changed")
+    require(old.manifest_sha in (PINS["dual_old"], R200_PORTABLE_MANIFEST)
+            and r200_content_sha(old.manifest) == R200_CONTENT,
+            "The historical RoboDojo source manifest or its admitted contents changed")
     ready = read(extension / "READY.json")
     require(ready["hopper_readback"] and ready["newly_admitted_train"] == 107
             and ready["manifest_sha256"] == PINS["dual_new"], "The fixed RoboDojo input was not admitted")
