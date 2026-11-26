@@ -21,7 +21,7 @@ ROSTER = (
     ("V2-CONFIRM-01/CONFIRM_N02_201", 56, "HOLD_POST_GRASP"),
     ("V2-CONFIRM-01/CONFIRM_N02_202", 58, "HOLD_POST_GRASP"),
 )
-STEPS = (0, 250, 500, 1000)
+STEPS = (0, 100, 250, 500, 1000)
 PARENT = "502d890d3ff314ac42f4c79c360942b9b626bf1fcc4b6fc488fbab15ba508361"
 WALL = 900
 
@@ -121,7 +121,7 @@ def score(raw, packet, previous):
                 p10_tightest_width_mm=float(width[:10].min()), h40_tightest_width_mm=float(width.min()))
 
 
-def watch(root, worker, roster, package, step, audit, out, *, execute):
+def watch(root, worker, roster, package, step, audit, out, *, execute, retained_roster_sha=None, reuse=None):
     from scripts.pi0292.durable import OwnerLock, write
 
     spec = read(worker)
@@ -130,7 +130,13 @@ def watch(root, worker, roster, package, step, audit, out, *, execute):
 
     _, gate, receiver = accepted(spec)
     template = read(pin(Path(gate["package"]["path"]) / "CHECKPOINT.json", gate["package"]["sha256"]))
-    rows = fixed_windows(root)
+    if retained_roster_sha is None:
+        rows = fixed_windows(root)
+    else:
+        retained = read(pin(roster, retained_roster_sha))
+        rows = retained["rows"]
+        require(24 <= len(rows) <= 48 and retained["original_worker"] == ref(worker)
+                and len({row["id"] for row in rows}) == len(rows), "Invalid retained diagnosis roster")
     if not roster.exists():
         require(not execute, "Seal the complete fixed input roster before any model forward")
         write(roster, dict(rows=rows, original_worker=ref(worker), sampler_method="EXACT_ARCHIVED_CUDA_HASH",
@@ -139,6 +145,12 @@ def watch(root, worker, roster, package, step, audit, out, *, execute):
         binding = read(roster)
         require(binding["rows"] == rows and binding["original_worker"] == ref(worker), "Offline roster changed")
     manifest = candidate(package, template, step, audit)
+    returned_before = {}
+    if reuse is not None:
+        before = read(reuse)
+        require(before["checkpoint"] == manifest["checkpoint_sha256"] and before["step"] == step
+                and before["physics_ticks"] == before["training_updates"] == 0, "Archived offline checkpoint differs")
+        returned_before = {row["id"]: row for row in before["rows"]}
     if not execute:
         known_passes = {}
         for row in rows:
@@ -178,19 +190,34 @@ def watch(root, worker, roster, package, step, audit, out, *, execute):
         model = provider_from_manifest(package, manifest, receiver["model"], dataset, receiver["tokenizer"]["path"])
         raw_infer = model.infer
         sampler = []
+        active_row = None
 
         def verify(*args):
             realized = hashlib.sha256(np.asarray(args[-1]).tobytes()).hexdigest()
-            require(realized == rows[len(sampler)]["noise_sha256"], "Actual CUDA sampler differs from the archived input")
+            require(active_row is not None and realized == active_row["noise_sha256"],
+                    "Actual CUDA sampler differs from the archived input")
             sampler.append(realized)
             return raw_infer(*args)
 
         model.infer = verify
         results = []
+        reused = 0
         for row in rows:
             require(time.monotonic() < deadline and not (out / "STOP.json").exists(), "Offline GPU lease ended")
             prefix = out / row["id"]
             write(prefix.with_suffix(".ENTERED.json"), row)
+            previous = returned_before.get(row["id"])
+            if previous is not None:
+                require(all(previous[key] == value for key, value in row.items())
+                        and previous["actual_sampler_sha256"] == row["noise_sha256"],
+                        "An archived model row differs from the retained input")
+                pinned(previous["action"])
+                record = dict(previous, reused_fixed_forward=True)
+                write(prefix.with_suffix(".RETURNED.json"), record)
+                results.append(record)
+                reused += 1
+                continue
+            active_row = row
             request = read(pinned(row["request"]))
             with np.load(pinned(row["input"]), allow_pickle=False) as packet:
                 result = model.predict(packet["state_eef10"], [packet["body_rgb"], packet["wrist_rgb"]],
@@ -207,9 +234,10 @@ def watch(root, worker, roster, package, step, audit, out, *, execute):
             record = dict(row, action=ref(output), actual_sampler_sha256=sampler[-1], metrics=metrics)
             write(prefix.with_suffix(".RETURNED.json"), record)
             results.append(record)
-        require(len(sampler) == len(results) == len(rows), "Missing actual fixed sampler or return")
+        require(len(sampler) + reused == len(results) == len(rows), "Missing actual fixed sampler or return")
         write(out / "RESULT.json", dict(step=step, roster=ref(roster), checkpoint=manifest["checkpoint_sha256"],
-              model_forwards=len(results), physics_ticks=0, training_updates=0, closed_loop=False, rows=results))
+              model_forwards=len(sampler), reused_checked_forwards=reused,
+              physics_ticks=0, training_updates=0, closed_loop=False, rows=results))
 
 
 if __name__ == "__main__":
@@ -218,6 +246,8 @@ if __name__ == "__main__":
         parser.add_argument(name, type=Path)
     parser.add_argument("--step", required=True, type=int, choices=STEPS)
     parser.add_argument("--audit", type=Path)
+    parser.add_argument("--retained-roster-sha")
+    parser.add_argument("--reuse", type=Path)
     parser.add_argument("--execute", action="store_true")
     main = vars(parser.parse_args())
     require((main["step"] == 0) == (main["audit"] is None), "Specify the checkpoint audit for each fixed milestone")
